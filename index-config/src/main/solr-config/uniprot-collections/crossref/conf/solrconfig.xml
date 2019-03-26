@@ -745,7 +745,7 @@
              etagSeed="..." is an option you can change to force the ETag
              header (and validation against If-None-Match requests) to be
              different even if the index has not changed (ie: when making
-             significant changes to your config file)
+             significant changes to your jobs file)
 
              (lastModifiedFrom and etagSeed are both ignored if you use
              the never304="true" option)
@@ -1171,7 +1171,7 @@
     <!--<searchComponent name="elevator" class="solr.QueryElevationComponent" >-->
     <!--&lt;!&ndash; pick a fieldType to analyze queries &ndash;&gt;-->
     <!--<str name="queryFieldType">string</str>-->
-    <!--<str name="config-file">elevate.xml</str>-->
+    <!--<str name="jobs-file">elevate.xml</str>-->
     <!--</searchComponent>-->
 
     <!--&lt;!&ndash; A request handler for demonstrating the elevator component &ndash;&gt;-->
@@ -1428,7 +1428,7 @@
         <processor class="solr.StatelessScriptUpdateProcessorFactory">
           <str name="script">update-script.js</str>
           <lst name="params">
-            <str name="config_param">example config parameter</str>
+            <str name="config_param">example jobs parameter</str>
           </lst>
         </processor>
         <processor class="solr.RunUpdateProcessorFactory" />
@@ -1536,7 +1536,7 @@
        <transformer name="qecBooster" class="org.apache.solr.response.transform.EditorialMarkerFactory" />
       -->
 
-    <!-- Legacy config for the admin interface -->
+    <!-- Legacy jobs for the admin interface -->
     <admin>
         <defaultQuery>*:*</defaultQuery>
     </admin>
