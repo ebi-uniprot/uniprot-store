@@ -5,8 +5,6 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import uk.ac.ebi.uniprot.models.DBXRef;
-import uk.ac.ebi.uniprot.utils.Constants;
-
 import java.io.IOException;
 
 public class DBXRefReaderTest {

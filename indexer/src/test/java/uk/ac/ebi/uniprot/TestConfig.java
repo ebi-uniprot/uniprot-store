@@ -8,23 +8,11 @@
 package uk.ac.ebi.uniprot;
 
 import org.apache.solr.client.solrj.SolrClient;
-import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.client.solrj.embedded.EmbeddedSolrServer;
-import org.apache.solr.client.solrj.impl.HttpSolrClient;
 import org.apache.solr.core.CoreContainer;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
-import org.springframework.core.env.Environment;
-import org.springframework.jdbc.datasource.DriverManagerDataSource;
-import uk.ac.ebi.uniprot.writers.DBXRefWriter;
-
-import javax.sql.DataSource;
 import java.io.File;
-import java.io.IOException;
-import java.util.UUID;
 
 @TestConfiguration
 public class TestConfig {
