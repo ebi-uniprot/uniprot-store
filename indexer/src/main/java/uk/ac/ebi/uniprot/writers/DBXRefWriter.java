@@ -17,6 +17,5 @@ public class DBXRefWriter implements ItemWriter<DBXRef> {
     public void write(List<? extends DBXRef> items) throws Exception {
         this.solrClient.addBeans(items);
         this.solrClient.commit();
-
     }
 }

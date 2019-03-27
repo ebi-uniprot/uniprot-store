@@ -2,7 +2,6 @@ package uk.ac.ebi.uniprot.steps;
 
 
 import org.apache.solr.client.solrj.SolrClient;
-import org.apache.solr.client.solrj.impl.HttpSolrClient;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.StepExecutionListener;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
@@ -23,13 +22,13 @@ import java.io.IOException;
 public class IndexCrossRefStep {
     @Autowired
     private StepBuilderFactory steps;
+    @Autowired
+    private SolrClient solrClient;
 
     @Value(("${ds.import.chunk.size}"))
     private Integer chunkSize;
     @Value(("${indexer.xref.ftp.url}"))
     private String xrefFTP;
-    @Value(("${indexer.xref.solr.url}"))
-    private String solrUrl;
 
     @Bean
     public Step indexCrossRef(StepExecutionListener stepListener, ItemReader<DBXRef> xrefReader, ItemWriter<DBXRef> xrefWriter){
@@ -48,10 +47,6 @@ public class IndexCrossRefStep {
 
     @Bean
     public ItemWriter<DBXRef> xrefWriter(){
-        return new DBXRefWriter(getSolrClient());
-    }
-
-    private SolrClient getSolrClient(){
-        return new HttpSolrClient.Builder(this.solrUrl).build();
+        return new DBXRefWriter(this.solrClient);
     }
 }

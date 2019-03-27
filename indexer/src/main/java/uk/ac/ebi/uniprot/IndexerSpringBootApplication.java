@@ -7,14 +7,27 @@
 
 package uk.ac.ebi.uniprot;
 
+import org.apache.solr.client.solrj.SolrClient;
+import org.apache.solr.client.solrj.impl.HttpSolrClient;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
+@ComponentScan(basePackages = {"uk.ac.ebi.uniprot"})
 public class IndexerSpringBootApplication {
+    @Value(("${indexer.xref.solr.url}"))
+    private String solrUrl;
+
     public static void main(String[] args) {
         SpringApplication.run(IndexerSpringBootApplication.class, args);
+    }
+
+    @Bean
+    public SolrClient solrClient(){
+        return new HttpSolrClient.Builder(this.solrUrl).build();
     }
 
 }

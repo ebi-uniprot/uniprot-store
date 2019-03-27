@@ -17,8 +17,8 @@ import org.springframework.batch.core.launch.support.RunIdIncrementer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import uk.ac.ebi.uniprot.listener.LogJobListener;
-import uk.ac.ebi.uniprot.listener.LogStepListener;
+import uk.ac.ebi.uniprot.listeners.LogJobListener;
+import uk.ac.ebi.uniprot.listeners.LogStepListener;
 import uk.ac.ebi.uniprot.utils.Constants;
 
 @Configuration
