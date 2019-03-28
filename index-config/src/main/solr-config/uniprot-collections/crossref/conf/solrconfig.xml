@@ -87,7 +87,7 @@
   -->
  <!--&lt;!&ndash;&ndash;&gt;   <lib dir="${solr.lib.ujdk.location}/" regex=".*\.jar"/>-->
 
-
+    <dataDir>${solr.data.dir}/${solr.core.name}/data</dataDir>
 
     <!-- an exact 'path' can be used instead of a 'dir' to specify a
          specific jar file.  This will cause a serious error to be logged

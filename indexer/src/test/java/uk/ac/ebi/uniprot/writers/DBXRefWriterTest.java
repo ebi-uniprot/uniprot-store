@@ -12,6 +12,7 @@ import uk.ac.ebi.uniprot.models.DBXRef;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -30,9 +31,19 @@ public class DBXRefWriterTest {
 
     @BeforeAll
     static void setSolrClient() throws IOException, SolrServerException {
+        File temporaryFolder = Files.createTempDirectory("solr_data").toFile();
+        String solrHomePath = new File(SOLR_HOME).getAbsolutePath();
+        System.setProperty("solr.data.dir", temporaryFolder.getAbsolutePath());
+        System.setProperty("solr.home",new File(SOLR_HOME).getAbsolutePath());
+        System.setProperty("solr.core.name",DBXREF_COLLECTION_NAME);
+        System.out.println("solr home "+solrHomePath);
         random = UUID.randomUUID().toString().substring(0, 5);
-        container = new CoreContainer(new File(SOLR_HOME).getAbsolutePath());
-        container.load();
+        try {
+            container = new CoreContainer(solrHomePath);
+            container.load();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
         solrClient = new EmbeddedSolrServer(container, DBXREF_COLLECTION_NAME);
         dbxRefWriter = new DBXRefWriter(solrClient);
         solrClient.deleteByQuery("*:*");
