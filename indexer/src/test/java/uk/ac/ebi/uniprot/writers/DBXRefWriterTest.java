@@ -34,16 +34,11 @@ public class DBXRefWriterTest {
         File temporaryFolder = Files.createTempDirectory("solr_data").toFile();
         String solrHomePath = new File(SOLR_HOME).getAbsolutePath();
         System.setProperty("solr.data.dir", temporaryFolder.getAbsolutePath());
-        System.setProperty("solr.home",new File(SOLR_HOME).getAbsolutePath());
-        System.setProperty("solr.core.name",DBXREF_COLLECTION_NAME);
-        System.out.println("solr home "+solrHomePath);
+        System.setProperty("solr.home", new File(SOLR_HOME).getAbsolutePath());
+        System.setProperty("solr.core.name", DBXREF_COLLECTION_NAME);
         random = UUID.randomUUID().toString().substring(0, 5);
-        try {
-            container = new CoreContainer(solrHomePath);
-            container.load();
-        }catch (Exception e){
-            e.printStackTrace();
-        }
+        container = new CoreContainer(solrHomePath);
+        container.load();
         solrClient = new EmbeddedSolrServer(container, DBXREF_COLLECTION_NAME);
         dbxRefWriter = new DBXRefWriter(solrClient);
         solrClient.deleteByQuery("*:*");
