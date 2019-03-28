@@ -4,6 +4,7 @@ index-config/src/main/solr-config/uniprot-collections/crossref/data
 uniprot-indexer.iml
 # Compiled class file
 *.class
+.DS_Store
 
 # Log file
 *.log

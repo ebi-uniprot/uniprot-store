@@ -8,6 +8,10 @@
 package uk.ac.ebi.uniprot.jobs;
 
 
+import org.apache.solr.client.solrj.SolrClient;
+import org.apache.solr.client.solrj.response.QueryResponse;
+import org.apache.solr.common.params.ModifiableSolrParams;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.batch.core.*;
@@ -17,9 +21,13 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import uk.ac.ebi.uniprot.IndexerSpringBootApplication;
 import uk.ac.ebi.uniprot.TestConfig;
+import uk.ac.ebi.uniprot.models.DBXRef;
 import uk.ac.ebi.uniprot.steps.IndexCrossRefStep;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = {IndexerSpringBootApplication.class, TestConfig.class, IndexerJobConfig.class, IndexCrossRefStep.class})
@@ -28,6 +36,8 @@ public class IndexerJobConfigTest {
     private Job indexSupportingData;
     @Autowired
     private JobLauncher jobLauncher;
+    @Autowired
+    private SolrClient solrClient;
 
     @Test
     void testIndexerJob() throws Exception {
@@ -37,5 +47,16 @@ public class IndexerJobConfigTest {
         JobExecution jobExecution = jobLauncher.run(indexSupportingData, jobParameters);
         BatchStatus status = jobExecution.getStatus();
         assertEquals(status, BatchStatus.COMPLETED);
+
+        // get the data and verify
+        ModifiableSolrParams params = new ModifiableSolrParams();
+        params.set("q", "*:*");
+        QueryResponse response = solrClient.query(params);
+        assertEquals(0, response.getStatus());
+        List<DBXRef> results = response.getBeans(DBXRef.class);
+        assertEquals(10, results.size());
+        assertTrue(response.getResults().getNumFound() >= 171);
+
+        this.solrClient.close();
     }
 }
