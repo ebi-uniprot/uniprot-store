@@ -11,7 +11,7 @@ package uk.ac.ebi.uniprot.jobs;
 import org.apache.solr.client.solrj.SolrClient;
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.common.params.ModifiableSolrParams;
-import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.batch.core.*;
@@ -24,6 +24,9 @@ import uk.ac.ebi.uniprot.TestConfig;
 import uk.ac.ebi.uniprot.models.DBXRef;
 import uk.ac.ebi.uniprot.steps.IndexCrossRefStep;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -32,12 +35,24 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = {IndexerSpringBootApplication.class, TestConfig.class, IndexerJobConfig.class, IndexCrossRefStep.class})
 public class IndexerJobConfigTest {
+    private static final String SOLR_HOME = "target/test-classes/solr-config/uniprot-collections";
+    private static final String DBXREF_COLLECTION_NAME = "crossref";
+
     @Autowired
     private Job indexSupportingData;
     @Autowired
     private JobLauncher jobLauncher;
     @Autowired
     private SolrClient solrClient;
+
+    @BeforeAll
+    static void setUp() throws IOException {
+        File temporaryFolder = Files.createTempDirectory("solr_data").toFile();
+        String solrHomePath = new File(SOLR_HOME).getAbsolutePath();
+        System.setProperty("solr.data.dir", temporaryFolder.getAbsolutePath());
+        System.setProperty("solr.home",new File(SOLR_HOME).getAbsolutePath());
+        System.setProperty("solr.core.name",DBXREF_COLLECTION_NAME);
+    }
 
     @Test
     void testIndexerJob() throws Exception {
