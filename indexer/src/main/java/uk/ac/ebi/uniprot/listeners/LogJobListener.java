@@ -1,4 +1,4 @@
-package uk.ac.ebi.uniprot.listener;
+package uk.ac.ebi.uniprot.listeners;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

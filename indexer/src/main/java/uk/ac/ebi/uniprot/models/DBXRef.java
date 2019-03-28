@@ -27,6 +27,8 @@ public class DBXRef {
     private String category;
     @Field
     private List<String> content;
+    @Field("category_facet")
+    private String categoryFacet;
 
     public static class DBXRefBuilder{
         private String accession;
@@ -110,6 +112,10 @@ public class DBXRef {
         return pubMedId;
     }
 
+    public String getDoiId(){
+        return doiId;
+    }
+
     public String getLinkType() {
         return linkType;
     }
@@ -124,6 +130,10 @@ public class DBXRef {
 
     public String getCategory() {
         return category;
+    }
+
+    public String getCategoryFacet() {
+        return categoryFacet;
     }
 
     @Override
