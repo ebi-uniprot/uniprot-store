@@ -58,33 +58,10 @@
             <plugin>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>2.22.0</version>
-                <configuration>
-                    <!-- Exclude integration tests from unit test run-->
-                    <excludes>
-                        <skipITs>${skipUTs}</skipITs>
-                        <exclude>**/*IT.java</exclude>
-                        <exclude>**/IT*.java</exclude>
-                    </excludes>
-                    <argLine>${jacoco.agent.ut.arg}</argLine>
-                </configuration>
             </plugin>
             <plugin>
                 <artifactId>maven-failsafe-plugin</artifactId>
                 <version>2.22.0</version>
-                <configuration>
-                    <forkCount>1</forkCount>
-                    <reuseForks>false</reuseForks>
-                    <skipITs>${skipITs}</skipITs>
-                    <argLine>${jacoco.agent.it.arg}</argLine>
-                </configuration>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>integration-test</goal>
-                            <goal>verify</goal>
-                        </goals>
-                    </execution>
-                </executions>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -114,81 +91,4 @@
             </plugin>
         </plugins>
     </build>
-
-    <profiles>
-        <profile>
-            <id>jenkins</id>
-            <activation>
-                <property>
-                    <name>env.BUILD_NUMBER</name>
-                </property>
-            </activation>
-            <distributionManagement>
-                <repository>
-                    <id>uniprot-artifactory-deploy-release</id>
-                    <name>Deploy Uniprot Maven Release</name>
-                    <url>${http-uniprot-private-url}/release</url>
-                </repository>
-                <snapshotRepository>
-                    <uniqueVersion>false</uniqueVersion>
-                    <id>uniprot-artifactory-deploy-snapshot</id>
-                    <name>Deploy Uniprot Maven Snapshot</name>
-                    <url>${http-uniprot-private-url}/snapshot</url>
-                </snapshotRepository>
-            </distributionManagement>
-        </profile>
-    </profiles>
-    <repositories>
-        <repository>
-            <id>spring-releases</id>
-            <url>https://repo.spring.io/libs-release</url>
-        </repository>
-        <repository>
-            <id>spring-libs-milestone</id>
-            <name>Spring Milestones</name>
-            <url>https://repo.spring.io/libs-milestone</url>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-        </repository>
-        <repository>
-            <id>uniprot-artifactory-release</id>
-            <name>UniProt Artifactory for Releases</name>
-            <releases>
-                <enabled>true</enabled>
-                <updatePolicy>always</updatePolicy>
-                <checksumPolicy>warn</checksumPolicy>
-            </releases>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-            <url>${http-uniprot-private-url}/release</url>
-        </repository>
-        <repository>
-            <id>uniprot-artifactory-snapshots</id>
-            <name>UniProt Artifactory for Snapshots</name>
-            <releases>
-                <enabled>false</enabled>
-            </releases>
-            <snapshots>
-                <enabled>true</enabled>
-                <checksumPolicy>warn</checksumPolicy>
-            </snapshots>
-            <url>${http-uniprot-private-url}/snapshot</url>
-        </repository>
-    </repositories>
-    <properties>
-        <http-uniprot-private-url>http://wwwdev.ebi.ac.uk/uniprot/artifactory</http-uniprot-private-url>
-        <jacoco.version>0.7.8</jacoco.version>
-        <jacoco.outputDir>${project.build.directory}</jacoco.outputDir>
-        <jacoco.out.ut.file>jacoco-ut.exec</jacoco.out.ut.file>
-        <jacoco.reportPath>${jacoco.outputDir}/${jacoco.out.ut.file}</jacoco.reportPath>
-        <jacoco.out.it.file>jacoco-it.exec</jacoco.out.it.file>
-        <jacoco.itReportPath>${jacoco.outputDir}/${jacoco.out.it.file}</jacoco.itReportPath>
-        <surefire-version>2.22.0</surefire-version>
-        <failsafe-version>2.22.0</failsafe-version>
-        <jacoco.maven.version>0.8.1</jacoco.maven.version>
-        <skipITs>false</skipITs>
-        <skipUTs>false</skipUTs>
-    </properties>
 </project>

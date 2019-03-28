@@ -87,4 +87,28 @@
         <skipITs>false</skipITs>
         <skipUTs>false</skipUTs>
     </properties>
+
+    <profiles>
+        <profile>
+            <id>jenkins</id>
+            <activation>
+                <property>
+                    <name>env.BUILD_NUMBER</name>
+                </property>
+            </activation>
+            <distributionManagement>
+                <repository>
+                    <id>uniprot-artifactory-deploy-release</id>
+                    <name>Deploy Uniprot Maven Release</name>
+                    <url>${http-uniprot-private-url}/release</url>
+                </repository>
+                <snapshotRepository>
+                    <uniqueVersion>false</uniqueVersion>
+                    <id>uniprot-artifactory-deploy-snapshot</id>
+                    <name>Deploy Uniprot Maven Snapshot</name>
+                    <url>${http-uniprot-private-url}/snapshot</url>
+                </snapshotRepository>
+            </distributionManagement>
+        </profile>
+    </profiles>
 </project>
