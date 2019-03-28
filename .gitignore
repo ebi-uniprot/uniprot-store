@@ -1,6 +1,7 @@
 index-config/src/main/solr-config/uniprot-collections/crossref/data
 .idea
 */target/*
+target
 uniprot-indexer.iml
 # Compiled class file
 *.class
