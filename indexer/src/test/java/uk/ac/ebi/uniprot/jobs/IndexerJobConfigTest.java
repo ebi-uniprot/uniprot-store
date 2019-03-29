@@ -21,12 +21,11 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import uk.ac.ebi.uniprot.IndexerSpringBootApplication;
 import uk.ac.ebi.uniprot.TestConfig;
+import uk.ac.ebi.uniprot.api.common.repository.search.SolrDataStoreManager;
 import uk.ac.ebi.uniprot.models.DBXRef;
 import uk.ac.ebi.uniprot.steps.IndexCrossRefStep;
 
-import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -35,8 +34,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = {IndexerSpringBootApplication.class, TestConfig.class, IndexerJobConfig.class, IndexCrossRefStep.class})
 public class IndexerJobConfigTest {
-    private static final String SOLR_HOME = "target/test-classes/solr-config/uniprot-collections";
-    private static final String DBXREF_COLLECTION_NAME = "crossref";
 
     @Autowired
     private Job indexSupportingData;
@@ -47,11 +44,7 @@ public class IndexerJobConfigTest {
 
     @BeforeAll
     static void setUp() throws IOException {
-        File temporaryFolder = Files.createTempDirectory("solr_data").toFile();
-        String solrHomePath = new File(SOLR_HOME).getAbsolutePath();
-        System.setProperty("solr.data.dir", temporaryFolder.getAbsolutePath());
-        System.setProperty("solr.home",new File(SOLR_HOME).getAbsolutePath());
-        System.setProperty("solr.core.name",DBXREF_COLLECTION_NAME);
+        SolrDataStoreManager solrDM = new SolrDataStoreManager();
     }
 
     @Test
@@ -72,6 +65,10 @@ public class IndexerJobConfigTest {
         assertEquals(10, results.size());
         assertTrue(response.getResults().getNumFound() >= 171);
 
-        this.solrClient.close();
+        // clean up
+        solrClient.deleteByQuery("*:*");
+        solrClient.commit();
+
+        solrClient.close();
     }
 }

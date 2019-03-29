@@ -1,18 +1,16 @@
 package uk.ac.ebi.uniprot.writers;
 
-import org.apache.solr.client.solrj.SolrServerException;
-import org.apache.solr.client.solrj.embedded.EmbeddedSolrServer;
 import org.apache.solr.client.solrj.response.QueryResponse;
-import org.apache.solr.common.params.ModifiableSolrParams;
-import org.apache.solr.core.CoreContainer;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import uk.ac.ebi.uniprot.api.common.repository.DataStoreManager;
+import uk.ac.ebi.uniprot.api.common.repository.search.ClosableEmbeddedSolrClient;
+import uk.ac.ebi.uniprot.api.common.repository.search.SolrCollection;
+import uk.ac.ebi.uniprot.api.common.repository.search.SolrDataStoreManager;
 import uk.ac.ebi.uniprot.models.DBXRef;
 
-import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -23,33 +21,23 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class DBXRefWriterTest {
     private static DBXRefWriter dbxRefWriter;
-    private static EmbeddedSolrServer solrClient;
+    private static ClosableEmbeddedSolrClient solrClient;
+    private static DataStoreManager storeManager;
     private static String random;
-    private static CoreContainer container;
-    private static final String DBXREF_COLLECTION_NAME = "crossref";
-    private static final String SOLR_HOME = "target/test-classes/solr-config/uniprot-collections";
 
     @BeforeAll
-    static void setSolrClient() throws IOException, SolrServerException {
-        File temporaryFolder = Files.createTempDirectory("solr_data").toFile();
-        String solrHomePath = new File(SOLR_HOME).getAbsolutePath();
-        System.setProperty("solr.data.dir", temporaryFolder.getAbsolutePath());
-        System.setProperty("solr.home", new File(SOLR_HOME).getAbsolutePath());
-        System.setProperty("solr.core.name", DBXREF_COLLECTION_NAME);
+    static void setSolrClient() throws IOException {
         random = UUID.randomUUID().toString().substring(0, 5);
-        container = new CoreContainer(solrHomePath);
-        container.load();
-        solrClient = new EmbeddedSolrServer(container, DBXREF_COLLECTION_NAME);
+        SolrDataStoreManager solrDM = new SolrDataStoreManager();
+        solrClient = new ClosableEmbeddedSolrClient(SolrCollection.crossref);
         dbxRefWriter = new DBXRefWriter(solrClient);
-        solrClient.deleteByQuery("*:*");
-        solrClient.commit();
+        storeManager = new DataStoreManager(solrDM);
+        storeManager.addSolrClient(DataStoreManager.StoreType.CROSSREF, solrClient);
     }
 
     @AfterAll
-    static void stopSolrClient() throws IOException, SolrServerException {
-        solrClient.deleteByQuery("*:*");
-        solrClient.commit();
-        solrClient.close();
+    static void stopSolrClient() {
+       storeManager.cleanSolr(DataStoreManager.StoreType.CROSSREF);
     }
 
     @Test
@@ -58,9 +46,7 @@ public class DBXRefWriterTest {
         // write the cross refs to the solr
         dbxRefWriter.write(dbxrefList);
         // get the cross refs and verify
-        ModifiableSolrParams params = new ModifiableSolrParams();
-        params.set("q", "*:*");
-        QueryResponse response = solrClient.query(params);
+        QueryResponse response = storeManager.querySolr(DataStoreManager.StoreType.CROSSREF, "*:*");
         assertEquals(0, response.getStatus());
         List<DBXRef> results = response.getBeans(DBXRef.class);
         assertEquals(dbxrefList.size(), results.size());
