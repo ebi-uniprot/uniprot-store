@@ -9,16 +9,17 @@ import uk.ac.ebi.uniprot.indexer.taxonomy.TaxonomyDocument;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 /**
  *
  * @author lgonzales
  */
-public class TaxonomyNamesWriter implements ItemWriter<TaxonomyDocument> {
+public class TaxonomyCountWriter  implements ItemWriter<TaxonomyDocument> {
 
     private final SolrTemplate solrTemplate;
     private final SolrCollection collection;
 
-    public TaxonomyNamesWriter(SolrTemplate solrTemplate, SolrCollection collection){
+    public TaxonomyCountWriter(SolrTemplate solrTemplate, SolrCollection collection){
         this.solrTemplate = solrTemplate;
         this.collection = collection;
     }
@@ -27,12 +28,18 @@ public class TaxonomyNamesWriter implements ItemWriter<TaxonomyDocument> {
     public void write(List<? extends TaxonomyDocument> items){
         for (TaxonomyDocument document: items) {
             SolrInputDocument solrInputDocument = new SolrInputDocument();
-            solrInputDocument.addField("tax_id",document.getTaxId()); //TODO: use search enum that will be created
-            solrInputDocument.addField("id",document.getId()); //TODO: use search enum that will be created
+            if(document.getSwissprotCount() != null){
+                Map<String,Object> fieldModifier = new HashMap<>(1);
+                fieldModifier.put("set",document.getSwissprotCount());
+                solrInputDocument.addField("swissprotCount",fieldModifier);
+            }
+            if(document.getTremblCount() != null){
+                Map<String,Object> fieldModifier = new HashMap<>(1);
+                fieldModifier.put("set",document.getTremblCount());
+                solrInputDocument.addField("tremblCount",fieldModifier);
+            }
 
-            Map<String,Object> fieldModifier = new HashMap<>(1);
-            fieldModifier.put("add",document.getStrain().get(0));
-            solrInputDocument.addField("other_names",fieldModifier); //TODO: use search enum that will be created
+            solrInputDocument.addField("id",document.getId()); //TODO: use search enum that will be created
             this.solrTemplate.saveBean(collection.name(), solrInputDocument);
         }
         this.solrTemplate.softCommit(collection.name());

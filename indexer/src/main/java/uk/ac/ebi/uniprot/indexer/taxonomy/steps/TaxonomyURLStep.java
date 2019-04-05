@@ -15,8 +15,8 @@ import org.springframework.data.solr.core.SolrTemplate;
 import uk.ac.ebi.uniprot.api.common.repository.search.SolrCollection;
 import uk.ac.ebi.uniprot.indexer.common.utils.Constants;
 import uk.ac.ebi.uniprot.indexer.taxonomy.TaxonomyDocument;
-import uk.ac.ebi.uniprot.indexer.taxonomy.readers.TaxonomyNamesReader;
-import uk.ac.ebi.uniprot.indexer.taxonomy.writers.TaxonomyNamesWriter;
+import uk.ac.ebi.uniprot.indexer.taxonomy.readers.TaxonomyURLReader;
+import uk.ac.ebi.uniprot.indexer.taxonomy.writers.TaxonomyURLWriter;
 
 import javax.sql.DataSource;
 import java.sql.SQLException;
@@ -26,17 +26,17 @@ import java.sql.SQLException;
  * @author lgonzales
  */
 @Configuration
-public class TaxonomyNamesStep {
+public class TaxonomyURLStep {
 
     @Value(("${database.chunk.size}"))
     private Integer chunkSize;
 
-    @Bean(name = "TaxonomyNamesStep")
-    public Step importTaxonomyNamesStep(StepBuilderFactory stepBuilders, StepExecutionListener stepListener,
-                                         ChunkListener chunkListener,
-                                         @Qualifier("itemTaxonomyNamesReader") ItemReader<TaxonomyDocument> reader,
-                                         @Qualifier("itemTaxonomyNamesWriter") ItemWriter<TaxonomyDocument> writer){
-        return stepBuilders.get(Constants.TAXONOMY_LOAD_NAMES_STEP_NAME)
+    @Bean(name = "TaxonomyURLStep")
+    public Step importTaxonomyURLStep(StepBuilderFactory stepBuilders, StepExecutionListener stepListener,
+                                            ChunkListener chunkListener,
+                                            @Qualifier("itemTaxonomyURLReader") ItemReader<TaxonomyDocument> reader,
+                                            @Qualifier("itemTaxonomyURLWriter") ItemWriter<TaxonomyDocument> writer){
+        return stepBuilders.get(Constants.TAXONOMY_LOAD_URL_STEP_NAME)
                 .<TaxonomyDocument, TaxonomyDocument>chunk(chunkSize)
                 .reader(reader)
                 .writer(writer)
@@ -45,19 +45,18 @@ public class TaxonomyNamesStep {
                 .build();
     }
 
-    @Bean(name = "itemTaxonomyNamesReader")
-    public ItemReader<TaxonomyDocument> itemTaxonomyNamesReader(@Qualifier("readDataSource") DataSource readDataSource) throws SQLException {
+    @Bean(name = "itemTaxonomyURLReader")
+    public ItemReader<TaxonomyDocument> itemTaxonomyURLReader(@Qualifier("readDataSource") DataSource readDataSource) throws SQLException {
         JdbcCursorItemReader<TaxonomyDocument> itemReader = new JdbcCursorItemReader<>();
         itemReader.setDataSource(readDataSource);
-        itemReader.setSql(""); //TODO add the query to load names
-        itemReader.setRowMapper(new TaxonomyNamesReader());
+        itemReader.setSql("select TAX_ID, URI from TAXONOMY.V_PUBLIC_URI  where tax_id < 11000");
+        itemReader.setRowMapper(new TaxonomyURLReader());
 
         return itemReader;
     }
 
-    @Bean(name = "itemTaxonomyNamesWriter")
+    @Bean(name = "itemTaxonomyURLWriter")
     public ItemWriter<TaxonomyDocument> itemTaxonomyNodeWriter(SolrTemplate solrTemplate) {
-        return new TaxonomyNamesWriter(solrTemplate, SolrCollection.taxonomy);
+        return new TaxonomyURLWriter(solrTemplate, SolrCollection.taxonomy);
     }
-
 }

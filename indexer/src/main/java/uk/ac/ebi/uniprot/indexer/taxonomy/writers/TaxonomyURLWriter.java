@@ -13,12 +13,12 @@ import java.util.Map;
  *
  * @author lgonzales
  */
-public class TaxonomyStrainWriter implements ItemWriter<TaxonomyDocument> {
+public class TaxonomyURLWriter implements ItemWriter<TaxonomyDocument> {
 
     private final SolrTemplate solrTemplate;
     private final SolrCollection collection;
 
-    public TaxonomyStrainWriter(SolrTemplate solrTemplate, SolrCollection collection){
+    public TaxonomyURLWriter(SolrTemplate solrTemplate, SolrCollection collection){
         this.solrTemplate = solrTemplate;
         this.collection = collection;
     }
@@ -26,13 +26,12 @@ public class TaxonomyStrainWriter implements ItemWriter<TaxonomyDocument> {
     @Override
     public void write(List<? extends TaxonomyDocument> items){
         for (TaxonomyDocument document: items) {
-            SolrInputDocument  solrInputDocument = new SolrInputDocument();
-            solrInputDocument.addField("id",document.getId()); //TODO: use search enum that will be created
-
+            SolrInputDocument solrInputDocument = new SolrInputDocument();
             Map<String,Object> fieldModifier = new HashMap<>(1);
-            fieldModifier.put("add",document.getStrain().get(0));
-            solrInputDocument.addField("strain",fieldModifier); //TODO: use search enum that will be created
+            fieldModifier.put("add",document.getUrl().get(0));
 
+            solrInputDocument.addField("url",fieldModifier);//TODO: use search enum that will be created
+            solrInputDocument.addField("id",document.getId()); //TODO: use search enum that will be created
             this.solrTemplate.saveBean(collection.name(), solrInputDocument);
         }
         this.solrTemplate.softCommit(collection.name());

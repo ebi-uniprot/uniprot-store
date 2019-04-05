@@ -30,6 +30,7 @@
     <field name="strain" type="full_ci" indexed="true" stored="true" multiValued="true"/>
     <field name="other_names" type="full_ci" indexed="true" stored="true" multiValued="true"/>
     <field name="host" type="plong" indexed="true" stored="true" multiValued="true"/>
+    <field name="url" type="string" indexed="false" stored="true" multiValued="true"/>
     <field name="lineage" type="plong" indexed="true" stored="true" multiValued="true"/>
     <field name="swissprotCount" type="plong" indexed="false" stored="true"/>
     <field name="tremblCount" type="plong" indexed="false" stored="true"/>

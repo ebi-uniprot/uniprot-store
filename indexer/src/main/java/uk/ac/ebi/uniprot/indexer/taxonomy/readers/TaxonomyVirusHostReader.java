@@ -11,25 +11,17 @@ import java.util.Collections;
  *
  * @author lgonzales
  */
-public class TaxonomyStrainReader implements RowMapper<TaxonomyDocument> {
+public class TaxonomyVirusHostReader implements RowMapper<TaxonomyDocument> {
 
     @Override
     public TaxonomyDocument mapRow(ResultSet resultSet, int i) throws SQLException {
         TaxonomyDocument.TaxonomyDocumentBuilder builder = TaxonomyDocument.builder();
-        Long taxId = resultSet.getLong("TAX_ID");
-        builder.taxId(taxId);
-        builder.id(String.valueOf(taxId));
+        Long virusHost =resultSet.getLong("HOST_ID");
+        builder.host(Collections.singletonList(virusHost));
 
-        String strainName = "";
-        String scientificName =resultSet.getString("scientific_name");
-        if(scientificName != null){
-            strainName += scientificName;
-        }
-        String synonymName =resultSet.getString("synonym_name");
-        if(synonymName != null){
-            strainName += ", "+synonymName;
-        }
-        builder.strain(Collections.singletonList(strainName));
+        Long taxId = resultSet.getLong("TAX_ID");
+        builder.id(String.valueOf(taxId));
+        builder.taxId(taxId);
         return builder.build();
     }
 }

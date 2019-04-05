@@ -1,5 +1,6 @@
 package uk.ac.ebi.uniprot.indexer.taxonomy.steps;
 
+import org.springframework.batch.core.ChunkListener;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.StepExecutionListener;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
@@ -32,6 +33,7 @@ public class TaxonomyStrainStep {
 
     @Bean(name = "TaxonomyStrainStep")
     public Step importTaxonomyStrainStep(StepBuilderFactory stepBuilders, StepExecutionListener stepListener,
+                                         ChunkListener chunkListener,
                                          @Qualifier("itemTaxonomyStrainReader") ItemReader<TaxonomyDocument> reader,
                                          @Qualifier("itemTaxonomyStrainWriter") ItemWriter<TaxonomyDocument> writer){
         return stepBuilders.get(Constants.TAXONOMY_LOAD_STRAIN_STEP_NAME)
@@ -39,6 +41,7 @@ public class TaxonomyStrainStep {
                 .reader(reader)
                 .writer(writer)
                 .listener(stepListener)
+                .listener(chunkListener)
                 .build();
     }
 
@@ -56,7 +59,7 @@ public class TaxonomyStrainStep {
                 "    LEFT JOIN (SELECT STRAIN_ID, NAME from TAXONOMY.SPTR_STRAIN_NAME where NAME_CLASS = 'synonym') syn" +
                 "      ON syn.strain_id = s.strain_id" +
                 "    LEFT JOIN (SELECT STRAIN_ID, NAME from TAXONOMY.SPTR_STRAIN_NAME where NAME_CLASS = 'scientific name') sci" +
-                "      ON sci.strain_id = s.strain_id where p.tax_id < 10000");
+                "      ON sci.strain_id = s.strain_id where p.tax_id < 11000");
         itemReader.setRowMapper(new TaxonomyStrainReader());
 
         return itemReader;

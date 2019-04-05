@@ -7,32 +7,30 @@
 
 package uk.ac.ebi.uniprot.indexer.common.listeners;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.ExitStatus;
 import org.springframework.batch.core.StepExecution;
 import org.springframework.batch.core.StepExecutionListener;
-
+@Slf4j
 public class LogStepListener implements StepExecutionListener {
-    private static final Logger LOGGER = LoggerFactory.getLogger(LogStepListener.class);
 
     @Override
     public void beforeStep(StepExecution stepExecution) {
-        LOGGER.info("Supporting data index STEP '{}' starting.", stepExecution.getStepName());
+        log.info("Supporting data index STEP '{}' starting.", stepExecution.getStepName());
     }
 
     @Override
     public ExitStatus afterStep(StepExecution stepExecution) {
-        LOGGER.info("=====================================================");
-        LOGGER.info("              Supporting data index Step Statistics                 ");
-        LOGGER.info("Step name     : {}", stepExecution.getStepName());
-        LOGGER.info("Exit status   : {}", stepExecution.getExitStatus().getExitCode());
-        LOGGER.info("Read count    : {}", stepExecution.getReadCount());
-        LOGGER.info("Write count   : {}", stepExecution.getWriteCount());
-        LOGGER.info("Skip count    : {} ({} read / {} processing /{} write)", stepExecution.getSkipCount(),
+        log.info("=====================================================");
+        log.info("              Supporting data index Step Statistics                 ");
+        log.info("Step name     : {}", stepExecution.getStepName());
+        log.info("Exit status   : {}", stepExecution.getExitStatus().getExitCode());
+        log.info("Read count    : {}", stepExecution.getReadCount());
+        log.info("Write count   : {}", stepExecution.getWriteCount());
+        log.info("Skip count    : {} ({} read / {} processing /{} write)", stepExecution.getSkipCount(),
                 stepExecution.getReadSkipCount(), stepExecution.getProcessSkipCount(),
                 stepExecution.getWriteSkipCount());
-        LOGGER.info("=====================================================");
+        log.info("=====================================================");
         return stepExecution.getExitStatus();
     }
 }

@@ -7,9 +7,9 @@
 
 package uk.ac.ebi.uniprot.indexer.test.config;
 
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.io.FileUtils;
 import org.apache.solr.client.solrj.SolrClient;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.TestConfiguration;
@@ -22,12 +22,13 @@ import java.io.File;
 import java.nio.file.Files;
 
 @TestConfiguration
+@Slf4j
 public class TestConfig implements DisposableBean {
-    private static final Logger LOGGER = LoggerFactory.getLogger(TestConfig.class);
+
     private final File file;
 
     public TestConfig() throws Exception{
-        file = Files.createTempDirectory("solrhome").toFile();
+        file = Files.createTempDirectory("solr_home").toFile();
     }
 
     @Value(("${solr.home}"))
@@ -51,12 +52,8 @@ public class TestConfig implements DisposableBean {
     @Override
     public void destroy() throws Exception {
         if(file != null) {
-            boolean deleted = file.delete();
-            if(deleted){
-                LOGGER.info("deleted solr home");
-            }else{
-                LOGGER.warn("NOT deleted solr home");
-            }
+            FileUtils.deleteDirectory(file);
+            log.info("deleted solr home");
         }
     }
 }

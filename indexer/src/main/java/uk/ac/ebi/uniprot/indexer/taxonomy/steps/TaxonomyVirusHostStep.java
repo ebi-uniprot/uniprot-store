@@ -15,8 +15,8 @@ import org.springframework.data.solr.core.SolrTemplate;
 import uk.ac.ebi.uniprot.api.common.repository.search.SolrCollection;
 import uk.ac.ebi.uniprot.indexer.common.utils.Constants;
 import uk.ac.ebi.uniprot.indexer.taxonomy.TaxonomyDocument;
-import uk.ac.ebi.uniprot.indexer.taxonomy.readers.TaxonomyNamesReader;
-import uk.ac.ebi.uniprot.indexer.taxonomy.writers.TaxonomyNamesWriter;
+import uk.ac.ebi.uniprot.indexer.taxonomy.readers.TaxonomyVirusHostReader;
+import uk.ac.ebi.uniprot.indexer.taxonomy.writers.TaxonomyVirusHostWriter;
 
 import javax.sql.DataSource;
 import java.sql.SQLException;
@@ -26,17 +26,17 @@ import java.sql.SQLException;
  * @author lgonzales
  */
 @Configuration
-public class TaxonomyNamesStep {
+public class TaxonomyVirusHostStep {
 
     @Value(("${database.chunk.size}"))
     private Integer chunkSize;
 
-    @Bean(name = "TaxonomyNamesStep")
-    public Step importTaxonomyNamesStep(StepBuilderFactory stepBuilders, StepExecutionListener stepListener,
-                                         ChunkListener chunkListener,
-                                         @Qualifier("itemTaxonomyNamesReader") ItemReader<TaxonomyDocument> reader,
-                                         @Qualifier("itemTaxonomyNamesWriter") ItemWriter<TaxonomyDocument> writer){
-        return stepBuilders.get(Constants.TAXONOMY_LOAD_NAMES_STEP_NAME)
+    @Bean(name = "TaxonomyVirusHostStep")
+    public Step importTaxonomyVirusHostStep(StepBuilderFactory stepBuilders, StepExecutionListener stepListener,
+                                            ChunkListener chunkListener,
+                                         @Qualifier("itemTaxonomyVirusHostReader") ItemReader<TaxonomyDocument> reader,
+                                         @Qualifier("itemTaxonomyVirusHostWriter") ItemWriter<TaxonomyDocument> writer){
+        return stepBuilders.get(Constants.TAXONOMY_LOAD_VIRUS_HOST_STEP_NAME)
                 .<TaxonomyDocument, TaxonomyDocument>chunk(chunkSize)
                 .reader(reader)
                 .writer(writer)
@@ -45,19 +45,18 @@ public class TaxonomyNamesStep {
                 .build();
     }
 
-    @Bean(name = "itemTaxonomyNamesReader")
-    public ItemReader<TaxonomyDocument> itemTaxonomyNamesReader(@Qualifier("readDataSource") DataSource readDataSource) throws SQLException {
+    @Bean(name = "itemTaxonomyVirusHostReader")
+    public ItemReader<TaxonomyDocument> itemTaxonomyVirusHostReader(@Qualifier("readDataSource") DataSource readDataSource) throws SQLException {
         JdbcCursorItemReader<TaxonomyDocument> itemReader = new JdbcCursorItemReader<>();
         itemReader.setDataSource(readDataSource);
-        itemReader.setSql(""); //TODO add the query to load names
-        itemReader.setRowMapper(new TaxonomyNamesReader());
+        itemReader.setSql("select TAX_ID, HOST_ID from TAXONOMY.V_PUBLIC_HOST where tax_id < 11000");
+        itemReader.setRowMapper(new TaxonomyVirusHostReader());
 
         return itemReader;
     }
 
-    @Bean(name = "itemTaxonomyNamesWriter")
+    @Bean(name = "itemTaxonomyVirusHostWriter")
     public ItemWriter<TaxonomyDocument> itemTaxonomyNodeWriter(SolrTemplate solrTemplate) {
-        return new TaxonomyNamesWriter(solrTemplate, SolrCollection.taxonomy);
+        return new TaxonomyVirusHostWriter(solrTemplate, SolrCollection.taxonomy);
     }
-
 }
