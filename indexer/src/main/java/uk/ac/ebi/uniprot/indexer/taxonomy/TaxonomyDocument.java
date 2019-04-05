@@ -11,14 +11,13 @@ import java.util.List;
 @Getter
 public class TaxonomyDocument implements Document {
 
+    @Field
     private String id;
-
     @Field("tax_id")
     private Long taxId;
-
     @Field("name_sort")
     private String nameSort;
-
+    @Field
     private Long ancestor;
     @Field
     private String rank;
@@ -31,20 +30,9 @@ public class TaxonomyDocument implements Document {
     @Field
     private String mnemonic;
     @Field
-    private List<String> strain;
-
-    @Field("other_names")
-    private List<String> otherNames;
-
+    private Long swissprotCount;
     @Field
-    private List<Long> host;
-    @Field
-    private List<Long> lineage;
-    @Field
-    private String swissprotCount;
-    @Field
-    private String tremblCount;
-
+    private Long tremblCount;
     @Field
     private boolean hidden;
     @Field
@@ -59,7 +47,16 @@ public class TaxonomyDocument implements Document {
     private boolean active;
     @Field
     private boolean linked;
-
     @Field
     private List<String> content;
+    @Field
+    private List<String> strain;
+    @Field("other_names")
+    private List<String> otherNames;
+    @Field
+    private List<Long> host;
+    @Field
+    private List<Long> lineage;
+    @Field
+    private List<String> url;
 }

@@ -11,25 +11,17 @@ import java.util.Collections;
  *
  * @author lgonzales
  */
-public class TaxonomyStrainReader implements RowMapper<TaxonomyDocument> {
+public class TaxonomyURLReader implements RowMapper<TaxonomyDocument> {
 
     @Override
     public TaxonomyDocument mapRow(ResultSet resultSet, int i) throws SQLException {
         TaxonomyDocument.TaxonomyDocumentBuilder builder = TaxonomyDocument.builder();
         Long taxId = resultSet.getLong("TAX_ID");
-        builder.taxId(taxId);
         builder.id(String.valueOf(taxId));
+        builder.taxId(taxId);
 
-        String strainName = "";
-        String scientificName =resultSet.getString("scientific_name");
-        if(scientificName != null){
-            strainName += scientificName;
-        }
-        String synonymName =resultSet.getString("synonym_name");
-        if(synonymName != null){
-            strainName += ", "+synonymName;
-        }
-        builder.strain(Collections.singletonList(strainName));
+        String url = resultSet.getString("URI");
+        builder.url(Collections.singletonList(url));
         return builder.build();
     }
 }

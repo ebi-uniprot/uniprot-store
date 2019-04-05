@@ -1,7 +1,6 @@
 package uk.ac.ebi.uniprot.indexer.common.config;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,9 +17,8 @@ import javax.sql.DataSource;
  * @author lgonzales
  */
 @Configuration
+@Slf4j
 public class DataSourceConfig {
-
-    private static final Logger logger = LoggerFactory.getLogger(DataSourceConfig.class);
 
     @Value(("${database.url}"))
     private String databaseURL;
@@ -37,7 +35,7 @@ public class DataSourceConfig {
     @Primary
     @Bean(destroyMethod = "shutdown")
     public EmbeddedDatabase dataSourceH2() {
-        logger.info("Initializing embedded H2 database");
+        log.info("Initializing embedded H2 database");
         return new EmbeddedDatabaseBuilder().setType(EmbeddedDatabaseType.H2)
                 .addScript("classpath:org/springframework/batch/core/schema-drop-h2.sql")
                 .addScript("classpath:org/springframework/batch/core/schema-h2.sql").build();
@@ -47,7 +45,7 @@ public class DataSourceConfig {
     public DataSource readDataSource(){
         DriverManagerDataSource ds = new DriverManagerDataSource(databaseURL, databaseUserName, databasePassword);
         ds.setDriverClassName(databaseDriverClassName);
-        logger.info("Initializing readDataSource for "+databaseURL);
+        log.info("Initializing readDataSource for "+databaseURL);
         return ds;
     }
 }

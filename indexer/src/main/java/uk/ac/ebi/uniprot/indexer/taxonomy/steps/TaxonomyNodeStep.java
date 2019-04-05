@@ -1,5 +1,6 @@
 package uk.ac.ebi.uniprot.indexer.taxonomy.steps;
 
+import org.springframework.batch.core.ChunkListener;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.StepExecutionListener;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
@@ -32,6 +33,7 @@ public class TaxonomyNodeStep {
 
     @Bean(name = "TaxonomyNodeStep")
     public Step importTaxonomyNodeStep(StepBuilderFactory stepBuilders,StepExecutionListener stepListener,
+                                       ChunkListener chunkListener,
                                        @Qualifier("itemTaxonomyNodeReader") ItemReader<TaxonomyDocument> reader,
                                        @Qualifier("itemTaxonomyNodeWriter") ItemWriter<TaxonomyDocument> writer){
         return stepBuilders.get(Constants.TAXONOMY_LOAD_NODE_STEP_NAME)
@@ -39,6 +41,7 @@ public class TaxonomyNodeStep {
                 .reader(reader)
                 .writer(writer)
                 .listener(stepListener)
+                .listener(chunkListener)
                 .build();
     }
 
@@ -48,7 +51,7 @@ public class TaxonomyNodeStep {
         itemReader.setDataSource(readDataSource);
         itemReader.setSql("select tax_id,parent_id,hidden,internal,rank,gc_id,mgc_id,ncbi_scientific,ncbi_common," +
                 "sptr_scientific,sptr_common,sptr_synonym,sptr_code,tax_code,sptr_ff,superregnum" +
-                " from taxonomy.v_public_node where tax_id < 10000");
+                " from taxonomy.v_public_node where tax_id < 11000");
         itemReader.setRowMapper(new TaxonomyNodeReader());
 
         return itemReader;

@@ -1,7 +1,6 @@
 package uk.ac.ebi.uniprot.indexer.common.listeners;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.JobExecution;
 import org.springframework.batch.core.JobExecutionListener;
 import org.springframework.batch.core.StepExecution;
@@ -9,17 +8,17 @@ import uk.ac.ebi.uniprot.indexer.common.utils.Constants;
 
 import java.util.concurrent.TimeUnit;
 
+@Slf4j
 public class LogJobListener implements JobExecutionListener {
-    private static final Logger LOGGER = LoggerFactory.getLogger(LogJobListener.class);
 
     @Override
     public void beforeJob(JobExecution jobExecution) {
-        LOGGER.info("Job {} starting ...", Constants.SUPPORTING_DATA_INDEX_JOB);
+        log.info("Job {} starting ...", Constants.SUPPORTING_DATA_INDEX_JOB);
     }
 
     @Override
     public void afterJob(JobExecution jobExecution) {
-        LOGGER.info("Job {} completed.", Constants.SUPPORTING_DATA_INDEX_JOB);
+        log.info("Job {} completed.", Constants.SUPPORTING_DATA_INDEX_JOB);
 
         long durationMillis = jobExecution.getEndTime().getTime() - jobExecution.getStartTime().getTime();
 
@@ -31,12 +30,12 @@ public class LogJobListener implements JobExecutionListener {
                         .toMinutes(durationMillis))
         );
 
-        LOGGER.info("=====================================================");
-        LOGGER.info("              {} Job Statistics                 ", Constants.SUPPORTING_DATA_INDEX_JOB );
-        LOGGER.info("Exit status   : {}", jobExecution.getExitStatus().getExitCode());
-        LOGGER.info("Start time    : {}", jobExecution.getStartTime());
-        LOGGER.info("End time      : {}", jobExecution.getEndTime());
-        LOGGER.info("Duration      : {}", duration);
+        log.info("=====================================================");
+        log.info("              {} Job Statistics                 ", Constants.SUPPORTING_DATA_INDEX_JOB );
+        log.info("Exit status   : {}", jobExecution.getExitStatus().getExitCode());
+        log.info("Start time    : {}", jobExecution.getStartTime());
+        log.info("End time      : {}", jobExecution.getEndTime());
+        log.info("Duration      : {}", duration);
 
         long skipCount = 0L;
         long readSkips = 0L;
@@ -53,8 +52,8 @@ public class LogJobListener implements JobExecutionListener {
             writeCount += stepExecution.getWriteCount();
             skipCount += stepExecution.getSkipCount();
         }
-        LOGGER.info("Read count    : {}", readCount);
-        LOGGER.info("Write count   : {}", writeCount);
-        LOGGER.info("Skip count    : {} ({} read, {} processing and {} write)", skipCount, readSkips, processingSkips, writeSkips);
+        log.info("Read count    : {}", readCount);
+        log.info("Write count   : {}", writeCount);
+        log.info("Skip count    : {} ({} read, {} processing and {} write)", skipCount, readSkips, processingSkips, writeSkips);
     }
 }

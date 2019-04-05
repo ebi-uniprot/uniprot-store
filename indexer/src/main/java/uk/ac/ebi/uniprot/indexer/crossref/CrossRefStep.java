@@ -1,6 +1,7 @@
 package uk.ac.ebi.uniprot.indexer.crossref;
 
 
+import org.springframework.batch.core.ChunkListener;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.StepExecutionListener;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
@@ -34,13 +35,15 @@ public class CrossRefStep {
     private String xrefFTP;
 
     @Bean(name = "IndexCrossRefStep")
-    public Step indexCrossRef(StepExecutionListener stepListener, ItemReader<CrossRefDocument> xrefReader,
+    public Step indexCrossRef(StepExecutionListener stepListener, ChunkListener chunkListener,
+                              ItemReader<CrossRefDocument> xrefReader,
                               @Qualifier("crossRefWriter") ItemWriter<CrossRefDocument> xrefWriter){
         return this.steps.get(Constants.CROSS_REF_INDEX_STEP)
                 .<CrossRefDocument, CrossRefDocument>chunk(this.chunkSize)
                 .reader(xrefReader)
                 .writer(xrefWriter)
                 .listener(stepListener)
+                .listener(chunkListener)
                 .build();
     }
 
