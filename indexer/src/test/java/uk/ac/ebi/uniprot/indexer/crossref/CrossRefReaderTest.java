@@ -10,6 +10,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class CrossRefReaderTest {
 
+    //TODO: add dbxref.txt to test resource to avoid external requests in test cases.
     private static final String DBREF_FTP = "ftp://ftp.uniprot.org/pub/databases/uniprot/knowledgebase/docs/dbxref.txt";
     private static CrossRefReader READER;
 

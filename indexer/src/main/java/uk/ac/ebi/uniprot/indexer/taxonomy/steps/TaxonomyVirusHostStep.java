@@ -49,7 +49,7 @@ public class TaxonomyVirusHostStep {
     public ItemReader<TaxonomyDocument> itemTaxonomyVirusHostReader(@Qualifier("readDataSource") DataSource readDataSource) throws SQLException {
         JdbcCursorItemReader<TaxonomyDocument> itemReader = new JdbcCursorItemReader<>();
         itemReader.setDataSource(readDataSource);
-        itemReader.setSql("select TAX_ID, HOST_ID from TAXONOMY.V_PUBLIC_HOST where tax_id < 11000");
+        itemReader.setSql("select TAX_ID, HOST_ID from TAXONOMY.V_PUBLIC_HOST where tax_id < 11000"); //TODO: REMOVE WHERE < 11000
         itemReader.setRowMapper(new TaxonomyVirusHostReader());
 
         return itemReader;
