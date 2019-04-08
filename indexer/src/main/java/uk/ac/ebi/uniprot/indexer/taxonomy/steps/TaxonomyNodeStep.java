@@ -51,7 +51,7 @@ public class TaxonomyNodeStep {
         itemReader.setDataSource(readDataSource);
         itemReader.setSql("select tax_id,parent_id,hidden,internal,rank,gc_id,mgc_id,ncbi_scientific,ncbi_common," +
                 "sptr_scientific,sptr_common,sptr_synonym,sptr_code,tax_code,sptr_ff,superregnum" +
-                " from taxonomy.v_public_node where tax_id < 11000");
+                " from taxonomy.v_public_node where tax_id < 11000"); //TODO: REMOVE WHERE < 11000
         itemReader.setRowMapper(new TaxonomyNodeReader());
 
         return itemReader;

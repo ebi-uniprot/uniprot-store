@@ -49,7 +49,7 @@ public class TaxonomyURLStep {
     public ItemReader<TaxonomyDocument> itemTaxonomyURLReader(@Qualifier("readDataSource") DataSource readDataSource) throws SQLException {
         JdbcCursorItemReader<TaxonomyDocument> itemReader = new JdbcCursorItemReader<>();
         itemReader.setDataSource(readDataSource);
-        itemReader.setSql("select TAX_ID, URI from TAXONOMY.V_PUBLIC_URI  where tax_id < 11000");
+        itemReader.setSql("select TAX_ID, URI from TAXONOMY.V_PUBLIC_URI  where tax_id < 11000");  //TODO: REMOVE WHERE < 11000
         itemReader.setRowMapper(new TaxonomyURLReader());
 
         return itemReader;

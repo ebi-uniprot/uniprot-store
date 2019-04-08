@@ -59,7 +59,7 @@ public class TaxonomyStrainStep {
                 "    LEFT JOIN (SELECT STRAIN_ID, NAME from TAXONOMY.SPTR_STRAIN_NAME where NAME_CLASS = 'synonym') syn" +
                 "      ON syn.strain_id = s.strain_id" +
                 "    LEFT JOIN (SELECT STRAIN_ID, NAME from TAXONOMY.SPTR_STRAIN_NAME where NAME_CLASS = 'scientific name') sci" +
-                "      ON sci.strain_id = s.strain_id where p.tax_id < 11000");
+                "      ON sci.strain_id = s.strain_id where p.tax_id < 11000");  //TODO: REMOVE WHERE < 11000
         itemReader.setRowMapper(new TaxonomyStrainReader());
 
         return itemReader;

@@ -52,7 +52,7 @@ public class TaxonomyCountStep {
         itemReader.setSql("select tax_id, entry_type, count(1) as protein_count " +
                 "from SPTR.dbentry " +
                 "where entry_type in (0,1) and deleted ='N' and merge_status<>'R' " +
-                "AND TAX_ID < 11000 " +
+                "AND TAX_ID < 11000 " + //TODO: REMOVE WHERE < 11000
                 "group by tax_id, entry_type");
         itemReader.setRowMapper(new TaxonomyCountReader());
 
