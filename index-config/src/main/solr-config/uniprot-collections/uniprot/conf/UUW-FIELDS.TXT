@@ -1,0 +1,64 @@
+# REMOVE THIS WHEN FINISHED IMPLEMENTING ADVANCED SEARCH FOR UUW
+
+# The following lines are taken from UUW's codebase.
+# -UniProtConstants.java
+
+    FIELD_ACCESSION = new StringFieldInfo("accession", UNSTORED_TOKENIZED_POSITIONAL, Tokenize.BASIC, 1.1f);
+	FIELD_OLDMNEMONIC = new StringFieldInfo("oldmnemonic", UNSTORED_TOKENIZED_POSITIONAL, Tokenize.BASIC);
+	FIELD_MNEMONIC = new StringFieldInfo("mnemonic", UNSTORED_TOKENIZED_POSITIONAL, Tokenize.BASIC);
+	FIELD_INTERACTOR = new StringFieldInfo("interactor", STORED_TOKENIZED_POSITIONAL, Tokenize.BASIC);
+	FIELD_GENE_EXACT = new StringFieldInfo("gene_exact", UNSTORED_TOKENIZED_POSITIONAL, Tokenize.BASIC);
+	FIELD_PLASMID = new StringFieldInfo("plasmid", "plasmid", UNSTORED_TOKENIZED_POSITIONAL, Tokenize.BASIC);
+	FIELD_TRANSPOSON = new StringFieldInfo("transposon", "transposon", UNSTORED_TOKENIZED_POSITIONAL, Tokenize.BASIC);
+	FIELD_TOPIC = new StringFieldInfo("topic", null, UNSTORED_TOKENIZED_POSITIONAL, Tokenize.BASIC);
+	FIELD_CITATION = new StringFieldInfo("citation", STORED_TOKENIZED_POSITIONAL, Tokenize.BASIC);
+	FIELD_ANNOTATION = new StringFieldInfo("annotation", UNSTORED_TOKENIZED_POSITIONAL, Tokenize.BASIC);
+	FIELD_PROTEOME_ACC = new StringFieldInfo("proteome", STORED_TOKENIZED_POSITIONAL, Tokenize.BASIC);
+	FIELD_PROTEOME_COMPONENT = new StringFieldInfo("proteomecomponent", STORED_TOKENIZED_POSITIONAL, Tokenize.BASIC);
+
+    FIELD_CHEBI = new StringFieldInfo("chebi", "keyword", UNSTORED_TOKENIZED_POSITIONAL, Tokenize.FULL);
+#    FIELD_TAXONOMY = new StringFieldInfo("taxonomy", "taxonomy", UNSTORED_TOKENIZED_POSITIONAL, Tokenize.FULL, 2.0f);
+#    FIELD_ORGANISM = new StringFieldInfo("organism", "organism", UNSTORED_TOKENIZED_POSITIONAL, Tokenize.FULL);
+    FIELD_STRAIN = new StringFieldInfo("strain", "strain", UNSTORED_TOKENIZED_POSITIONAL, Tokenize.FULL);
+!    FIELD_HOST = new StringFieldInfo("host", "virus host", UNSTORED_TOKENIZED_POSITIONAL, Tokenize.FULL);
+    FIELD_KEYWORD = new StringFieldInfo("keyword", "keyword", UNSTORED_TOKENIZED_POSITIONAL, Tokenize.FULL);
+    FIELD_LOCATION = new StringFieldInfo("location", "location", UNSTORED_TOKENIZED_POSITIONAL, Tokenize.FULL);
+    FIELD_GO = new StringFieldInfo("go", "gene ontology", UNSTORED_TOKENIZED_POSITIONAL, Tokenize.FULL);
+    FIELD_TISSUE = new StringFieldInfo("tissue", "tissue", UNSTORED_TOKENIZED_POSITIONAL, Tokenize.FULL);
+    FIELD_DISEASE = new StringFieldInfo("disease", "disease", UNSTORED_TOKENIZED_POSITIONAL, Tokenize.FULL);
+#    FIELD_NAME = new StringFieldInfo("name", "protein name", UNSTORED_TOKENIZED_POSITIONAL, Tokenize.FULL);
+    FIELD_PROTEIN_GENE = new StringFieldInfo("protgene", null, UNSTORED_TOKENIZED_POSITIONAL, Tokenize.FULL, 2.0f);
+#    FIELD_NAME_FULL = new StringFieldInfo("full", UNSTORED_TOKENIZED_POSITIONAL, Tokenize.FULL);
+#    FIELD_NAME_SHORT = new StringFieldInfo("short", UNSTORED_TOKENIZED_POSITIONAL, Tokenize.FULL);
+    FIELD_NAME_ALLERGEN = new StringFieldInfo("allergen", "allergen name", UNSTORED_TOKENIZED_POSITIONAL, Tokenize.FULL);
+    FIELD_NAME_BIO_TECH = new StringFieldInfo("biotech", "biotech name", UNSTORED_TOKENIZED_POSITIONAL, Tokenize.FULL);
+    FIELD_NAME_CD_ANTIGEN = new StringFieldInfo("cdantigen", "cd antigen", UNSTORED_TOKENIZED_POSITIONAL, Tokenize.FULL);// cd_antigen does not work :(
+    FIELD_NAME_INN = new StringFieldInfo("inn", "international nonproprietary name", UNSTORED_TOKENIZED_POSITIONAL, Tokenize.FULL);
+#    FIELD_GENE = new StringFieldInfo("gene", "gene name", UNSTORED_TOKENIZED_POSITIONAL, Tokenize.FULL);
+    FIELD_ORGANELLE = new StringFieldInfo("organelle", "organelle", UNSTORED_TOKENIZED_POSITIONAL, Tokenize.FULL);
+    FIELD_AUTHOR = new StringFieldInfo("author", "author", UNSTORED_TOKENIZED_POSITIONAL, Tokenize.FULL);
+    FIELD_DATABASE = new StringFieldInfo("database", "database", UNSTORED_TOKENIZED_POSITIONAL, Tokenize.FULL);
+    FIELD_FAMILY = new StringFieldInfo("family", "protein family", UNSTORED_TOKENIZED_POSITIONAL, Tokenize.FULL);
+    FIELD_DOMAIN = new StringFieldInfo("domain", "domain", UNSTORED_TOKENIZED_POSITIONAL, Tokenize.FULL);
+    FIELD_SCOPE = new StringFieldInfo("scope", UNSTORED_TOKENIZED_POSITIONAL, Tokenize.FULL);
+    FIELD_WEB = new StringFieldInfo("web", UNSTORED_TOKENIZED_POSITIONAL, Tokenize.FULL);
+    FIELD_METHOD = new StringFieldInfo("method", "method", UNSTORED_TOKENIZED_POSITIONAL, Tokenize.FULL);
+    FIELD_EXISTENCE = new StringFieldInfo("existence", UNSTORED_TOKENIZED_POSITIONAL, Tokenize.FULL);
+    FIELD_SOURCE = new StringFieldInfo("source", "source", UNSTORED_TOKENIZED_POSITIONAL, Tokenize.FULL);
+    FIELD_ASSIGNED_BY = new StringFieldInfo("assigned_by", UNSTORED_TOKENIZED_POSITIONAL, Tokenize.FULL);
+
+	FIELD_REVIEWED = new BooleanFieldInfo("reviewed", UNSTORED_TOKENIZED_POSITIONAL);
+	FIELD_ACTIVE = new BooleanFieldInfo("active", UNSTORED_TOKENIZED_POSITIONAL);
+	FIELD_FRAGMENT = new BooleanFieldInfo("fragment", UNSTORED_TOKENIZED_POSITIONAL);
+	FIELD_PRECURSOR = new BooleanFieldInfo("precursor", UNSTORED_TOKENIZED_POSITIONAL);
+
+	FIELD_MODIFIED = new DateFieldInfo("modified", UNSTORED_POSITIONAL, Tokenize.NONE);
+	FIELD_SEQUENCE_MODIFIED = new DateFieldInfo("sequence_modified", UNSTORED_POSITIONAL, Tokenize.NONE);
+	FIELD_CREATED = new DateFieldInfo("created", UNSTORED_POSITIONAL, Tokenize.NONE);
+
+	FIELD_ANNOTATION_SCORE = new NumberFieldInfo("annotation_score", STORED_POSITIONAL, Tokenize.NONE, LENGTH_SCORE);
+	FIELD_SEQUENCE_VERSION = new NumberFieldInfo("sequence_version", STORED_POSITIONAL, Tokenize.NONE, LENGTH_LENGTH);
+	FIELD_LENGTH = new NumberFieldInfo("length", STORED_POSITIONAL, Tokenize.NONE, LENGTH_LENGTH);
+	FIELD_MASS = new NumberFieldInfo("mass", STORED_POSITIONAL, Tokenize.NONE, LENGTH_MASS);
+	FIELD_GO_ID = new NumberFieldInfo("go_id", STORED_DOCS, Tokenize.NONE, 7);
+	FIELD_CHEBI_ID = new NumberFieldInfo("chebi_id", UNSTORED_POSITIONAL, Tokenize.NONE, 7);

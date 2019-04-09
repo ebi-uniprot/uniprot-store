@@ -1,0 +1,53 @@
+<assembly xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xmlns="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.3"
+          xsi:schemaLocation="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.3 http://maven.apache.org/xsd/assembly-1.1.3.xsd">
+    <id>create-data-service-all-solr-configurations</id>
+    <formats>
+        <format>tar.gz</format>
+    </formats>
+    <includeBaseDirectory>false</includeBaseDirectory>
+
+    <fileSets>
+        <!-- solr cores' configuration files -->
+        <fileSet>
+            <directory>${project.basedir}/src/main/distros/solr-conf</directory>
+            <outputDirectory>solr-conf</outputDirectory>
+            <fileMode>0664</fileMode>
+            <directoryMode>0775</directoryMode>
+        </fileSet>
+
+    </fileSets>
+
+    <!-- include select dependencies required for running the solr webapp -->
+    <dependencySets>
+        <!-- the wrapped solr webapp -->
+        <dependencySet>
+            <outputDirectory>solr-conf/lib/dist</outputDirectory>
+            <includes>
+                <include>${data-service-webapp-groupId}:${data-service-webapp-artifactId}:war:${data-service-webapp-version}</include>
+                <include>${solr-war-groupId}:${solr-war-artifactId}:war:${solr-war-version}</include>
+            </includes>
+        </dependencySet>
+        <!-- guava : must be on virtual classpath, so solr's guava doesn't override the newer version we use -->
+        <dependencySet>
+            <outputDirectory>solr-conf/lib/virtual-cp</outputDirectory>
+            <includes>
+                <include>com.google.guava:guava</include>
+                <include>org.slf4j:*</include>
+                <include>ch.qos.logback:*</include>
+            </includes>
+        </dependencySet>
+        <!-- ujdk : required ujdk jars. These may need updating server-side, without a need for re-running this assembly -->
+        <dependencySet>
+            <outputDirectory>solr-conf/lib/ujdk</outputDirectory>
+            <includes>
+                <include>${project.groupId}:data-service:jar:${project.version}</include>
+            </includes>
+            <excludes>
+                <exclude>com.sleepycat:je</exclude>
+            </excludes>
+            <useTransitiveDependencies>true</useTransitiveDependencies>
+            <useTransitiveFiltering>true</useTransitiveFiltering>
+        </dependencySet>
+    </dependencySets>
+</assembly>
