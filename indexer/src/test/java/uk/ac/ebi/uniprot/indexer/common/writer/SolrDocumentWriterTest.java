@@ -11,8 +11,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.solr.core.SolrTemplate;
 import org.springframework.data.solr.core.query.SimpleQuery;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import uk.ac.ebi.uniprot.indexer.configure.SolrCollection;
-import uk.ac.ebi.uniprot.indexer.configure.dbxref.CrossRefDocument;
+
+import uk.ac.ebi.uniprot.indexer.document.SolrCollection;
+import uk.ac.ebi.uniprot.indexer.document.dbxref.CrossRefDocument;
 import uk.ac.ebi.uniprot.indexer.test.config.FakeIndexerSpringBootApplication;
 import uk.ac.ebi.uniprot.indexer.test.config.TestConfig;
 

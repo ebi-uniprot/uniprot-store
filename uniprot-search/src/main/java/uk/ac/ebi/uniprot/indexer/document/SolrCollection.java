@@ -1,4 +1,4 @@
-package uk.ac.ebi.uniprot.indexer.configure;
+package uk.ac.ebi.uniprot.indexer.document;
 
 /**
  * List of solr collection available in Solr

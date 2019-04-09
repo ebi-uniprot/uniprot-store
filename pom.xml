@@ -7,10 +7,11 @@
     <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
     <modules>
-        <module>index-config</module>
+         <module>index-config</module>
         <module>indexer</module>
     <module>integration-test</module>
-  </modules>
+    <module>uniprot-search</module>  
+    </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>

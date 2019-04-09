@@ -1,7 +1,8 @@
 package uk.ac.ebi.uniprot.indexer.taxonomy.readers;
 
 import org.springframework.jdbc.core.RowMapper;
-import uk.ac.ebi.uniprot.indexer.configure.taxonomy.TaxonomyDocument;
+
+import uk.ac.ebi.uniprot.indexer.document.taxonomy.TaxonomyDocument;
 import uk.ac.ebi.uniprot.indexer.taxonomy.steps.TaxonomyNodeStep;
 
 import java.sql.ResultSet;

@@ -13,13 +13,34 @@
     
     <properties>
     	<ojdbc.version>11.2.0.4</ojdbc.version>
-    
+    	<uniprot.core.version>0.1-SNAPSHOT</uniprot.core.version>
     </properties>
     
     <dependencies>
+     	 <dependency>
+    		<groupId>uk.ac.ebi.uniprot</groupId>
+    		<artifactId>core-domain</artifactId>
+    		<version>${uniprot.core.version}</version>
+		</dependency>
+		 <dependency>
+    		<groupId>uk.ac.ebi.uniprot</groupId>
+    		 <artifactId>ff-parser</artifactId>
+    		<version>${uniprot.core.version}</version>
+		</dependency>
+		 <dependency>
+    		<groupId>uk.ac.ebi.uniprot</groupId>
+    		 <artifactId>json-parser</artifactId>
+    		<version>${uniprot.core.version}</version>
+		</dependency>
+		<dependency>
+    		<groupId>uk.ac.ebi.uniprot</groupId>
+    		 <artifactId>tools-entry-scorer</artifactId>
+    		<version>${uniprot.core.version}</version>
+		</dependency>
+		
      <dependency>
             <groupId>uk.ac.ebi.uniprot</groupId>
-            <artifactId>uniprot-index-config</artifactId>
+            <artifactId>uniprot-search</artifactId>
             <version>${project.version}</version>
         </dependency>
     
@@ -144,7 +165,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-dependency-plugin</artifactId>
-                <version>${maven-dependency-plugin.version}</version>
+                <version>${maven-dependency-plugin.version}</version><!--$NO-MVN-MAN-VER$-->
                 <executions>
                     <execution>
                         <id>unpack-dependencies</id>
