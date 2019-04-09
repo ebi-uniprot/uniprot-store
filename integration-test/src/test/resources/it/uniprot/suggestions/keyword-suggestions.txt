@@ -1,0 +1,7 @@
+3D-structure. [KW-0002]
+3Fe-4S. [KW-0003]
+4Fe-4S. [KW-0004]
+Abscisic acid biosynthesis. [KW-0937]
+Abscisic acid signaling pathway. [KW-0938]
+abscisic acid. [KW-0938]
+abscisic antacid. [KW-0939]

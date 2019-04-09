@@ -5,9 +5,8 @@ import org.apache.solr.client.solrj.response.QueryResponse;
 import org.junit.BeforeClass;
 import org.junit.ClassRule;
 import org.junit.Test;
-import uk.ac.ebi.kraken.ffwriter.LineType;
-import uk.ac.ebi.uniprot.dataservice.client.uniprot.UniProtQueryBuilder;
-import uk.ac.ebi.uniprot.dataservice.query.Query;
+
+import uk.ac.ebi.uniprot.flatfile.parser.ffwriter.LineType;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -18,7 +17,7 @@ import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.hamcrest.collection.IsEmptyCollection.empty;
 import static org.hamcrest.core.Is.is;
-import static uk.ac.ebi.uniprot.dataservice.it.search.uniprot.TestUtils.convertToUniProtEntry;
+import static uk.ac.ebi.uniprot.indexer.search.uniprot.TestUtils.convertToUniProtEntry;
 
 /**
  * Verifies whether the accession searches are qorking properly
@@ -70,7 +69,8 @@ public class AccessionSearchIT {
 
     @Test
     public void searchAccessionDoesNotMatchAnyDocument() throws Exception {
-        Query query = UniProtQueryBuilder.accession("P12345");
+    	String query  = "accession:P12345";
+     //   Query query = UniProtQueryBuilder.accession("P12345");
 
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -80,8 +80,8 @@ public class AccessionSearchIT {
 
     @Test
     public void upperCaseAccessionFromEntry3MatchesEntry3() throws Exception {
-        Query query = UniProtQueryBuilder.accession(PRIMARY_ACCESSION3);
-
+      //  Query query = UniProtQueryBuilder.accession(PRIMARY_ACCESSION3);
+        String query  = "accession:" +PRIMARY_ACCESSION3;
         QueryResponse response = searchEngine.getQueryResponse(query);
 
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
@@ -90,8 +90,8 @@ public class AccessionSearchIT {
 
     @Test
     public void lowerCaseAccessionFromEntry3MatchesEntry3() throws Exception {
-        Query query = UniProtQueryBuilder.accession(PRIMARY_ACCESSION3.toLowerCase());
-
+   //     Query query = UniProtQueryBuilder.accession(PRIMARY_ACCESSION3.toLowerCase());
+        String query  = "accession:" +PRIMARY_ACCESSION3.toLowerCase();
         QueryResponse response = searchEngine.getQueryResponse(query);
 
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
@@ -100,8 +100,8 @@ public class AccessionSearchIT {
 
     @Test
     public void mixedCaseAccessionFromEntry3MatchesEntry3() throws Exception {
-        Query query = UniProtQueryBuilder.accession(mixCasing(PRIMARY_ACCESSION3));
-
+    //    Query query = UniProtQueryBuilder.accession(mixCasing(PRIMARY_ACCESSION3));
+        String query  = "accession:" +PRIMARY_ACCESSION3;
         QueryResponse response = searchEngine.getQueryResponse(query);
 
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
@@ -111,11 +111,12 @@ public class AccessionSearchIT {
 
     @Test
     public void tooManyClauses() throws Exception {
-
-        Query query = UniProtQueryBuilder.accession(PRIMARY_ACCESSION1);
+    	   String query  = "accession:" +PRIMARY_ACCESSION1;
+     //   Query query = UniProtQueryBuilder.accession(PRIMARY_ACCESSION1);
 
         for (int i = 0; i < 2000; i++) {
-            query = query.and(UniProtQueryBuilder.accession(PRIMARY_ACCESSION1));
+        	query += " AND accession:" + PRIMARY_ACCESSION1;
+         
         }
 
         try {
@@ -128,8 +129,8 @@ public class AccessionSearchIT {
 
     @Test
     public void secondaryAccessionFromEntry1MatchesEntry1() throws Exception {
-        Query query = UniProtQueryBuilder.accession(SECONDARY_ACCESSION1_1);
-
+   //     Query query = UniProtQueryBuilder.accession(SECONDARY_ACCESSION1_1);
+        String query  = "accession:" +SECONDARY_ACCESSION1_1;
         QueryResponse response = searchEngine.getQueryResponse(query);
 
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
@@ -138,9 +139,8 @@ public class AccessionSearchIT {
 
     @Test(expected = IllegalArgumentException.class)
     public void emptyCollectionOfAccessionsMatches0documents() throws Exception {
-        Set<String> searchAccessions = new HashSet<>(Collections.emptyList());
-        Query query = UniProtQueryBuilder.accessions(searchAccessions);
-
+      //  Set<String> searchAccessions = new HashSet<>(Collections.emptyList());
+        String query ="";
         QueryResponse response = searchEngine.getQueryResponse(query);
 
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
@@ -149,9 +149,10 @@ public class AccessionSearchIT {
 
     @Test
     public void searchingAccessionsFromEntry1And2MatchesEntry1And2() throws Exception {
-        Set<String> searchAccessions = new HashSet<>(Arrays.asList(SECONDARY_ACCESSION1_1, PRIMARY_ACCESSION2));
-        Query query = UniProtQueryBuilder.accessions(searchAccessions);
-
+   //     Set<String> searchAccessions = new HashSet<>(Arrays.asList(SECONDARY_ACCESSION1_1, PRIMARY_ACCESSION2));
+    //    Query query = UniProtQueryBuilder.accessions(searchAccessions);
+        String query = "accession:" + SECONDARY_ACCESSION1_1  +" OR " +"accession:" + PRIMARY_ACCESSION2;
+        
         QueryResponse response = searchEngine.getQueryResponse(query);
 
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);

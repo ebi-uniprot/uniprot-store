@@ -85,7 +85,7 @@
   <lib dir="${solr.install.dir:../../../..}/contrib/velocity/lib" regex=".*\.jar" />
   <lib dir="${solr.install.dir:../../../..}/dist/" regex="solr-velocity-\d.*\.jar" />
   -->
-    <lib dir="${solr.lib.ujdk.location}/" regex=".*\.jar"/>
+<!--     <lib dir="${solr.lib.ujdk.location}/" regex=".*\.jar"/> -->
 
 
     <!-- an exact 'path' can be used instead of a 'dir' to specify a
@@ -1642,33 +1642,32 @@
 
     <!-- ========================================== request handlers ========================================== -->
     <!-- main JAPI request handler -->
-    <requestHandler name="/uniquery" class="solr.SearchHandler">
-        <lst name="defaults">
-            <str name="echoParams">explicit</str>
-            <str name="wt">json</str>
-            <str name="indent">true</str>
-            <str name="df">text</str>
-        </lst>
-        <arr name="components">
-            <str>uniprot_pre</str>
-            <str>query</str>
-            <str>debug</str>
-            <!--  <str>uniprot_post</str>  -->
-        </arr>
-    </requestHandler>
+<!--     <requestHandler name="/uniquery" class="solr.SearchHandler"> -->
+<!--         <lst name="defaults"> -->
+<!--             <str name="echoParams">explicit</str> -->
+<!--             <str name="wt">json</str> -->
+<!--             <str name="indent">true</str> -->
+<!--             <str name="df">text</str> -->
+<!--         </lst> -->
+<!--         <arr name="components"> -->
+<!--             <str>uniprot_pre</str> -->
+<!--             <str>query</str> -->
+<!--             <str>debug</str> -->
+<!--         </arr> -->
+<!--     </requestHandler> -->
 
     <!-- ========================================== UniProt search components ========================================== -->
-    <searchComponent name="uniprot_pre"
-                     class="uk.ac.ebi.uniprot.dataservice.solr.translate.UniprotRequestTranslateSearchComponent"/>
+<!--     <searchComponent name="uniprot_pre" -->
+<!--                      class="uk.ac.ebi.uniprot.dataservice.solr.translate.UniprotRequestTranslateSearchComponent"/> -->
 
     <!-- ========================================== writers ========================================== -->
 
     <!-- ========================================== transformers ========================================== -->
-    <transformer name="bdb"
-                 class="uk.ac.ebi.uniprot.dataservice.solr.transform.uniprot.VoldemortUniprotFetcherDocumentTransformerFactory">
-        <str name="voldemort_url">${uniprot.voldemort.url}</str>
-        <str name="voldemort_store">${uniprot.voldemort.store}</str>
-    </transformer>
+<!--     <transformer name="bdb" -->
+<!--                  class="uk.ac.ebi.uniprot.dataservice.solr.transform.uniprot.VoldemortUniprotFetcherDocumentTransformerFactory"> -->
+<!--         <str name="voldemort_url">${uniprot.voldemort.url}</str> -->
+<!--         <str name="voldemort_store">${uniprot.voldemort.store}</str> -->
+<!--     </transformer> -->
 
     <!-- ====================================================================================== -->
 

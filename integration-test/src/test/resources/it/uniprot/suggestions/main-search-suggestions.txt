@@ -1,0 +1,4 @@
+Annotation: sites
+Annotation: act_site
+Database: EMBL
+Database: CCDS

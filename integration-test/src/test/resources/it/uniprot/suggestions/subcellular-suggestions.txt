@@ -1,0 +1,3 @@
+Hemidesmosome [SL-0137]
+Host caveola [SL-0428]
+Host synapse [SL-0435]

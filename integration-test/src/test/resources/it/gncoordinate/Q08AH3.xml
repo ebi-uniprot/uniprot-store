@@ -1,0 +1,4563 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gnEntries>
+    <gnEntry xmlns:ns2="http://www.ebi.ac.uk/proteins/api/doc/xsd/feature">
+        <accession>Q08AH3</accession>
+        <name>ACS2A_HUMAN</name>
+        <taxid>9606</taxid>
+        <sequence>
+            MHWLRKVQGLCTLWGTQMSSRTLYINSRQLVSLQWGHQEVPAKFNFASDVLDHWADMEKAGKRLPSPALWWVNGKGKELMWNFRELSENSQQAANVLSGACGLQRGDRVAVVLPRVPEWWLVILGCIRAGLIFMPGTIQMKSTDILYRLQMSKAKAIVAGDEVIQEVDTVASECPSLRIKLLVSEKSCDGWLNFKKLLNEASTTHHCVETGSQEASAIYFTSGTSGLPKMAEHSYSSLGLKAKMDAGWTGLQASDIMWTISDTGWILNILCSLMEPWALGACTFVHLLPKFDPLVILKTLSSYPIKSMMGAPIVYRMLLQQDLSSYKFPHLQNCVTVGESLLPETLENWRAQTGLDIRESYGQTETGLTCMVSKTMKIKPGYMGTAASCYDVQIIDDKGNVLPPGTEGDIGIRVKPIRPIGIFSGYVDNPDKTAANIRGDFWLLGDRGIKDEDGYFQFMGRANDIINSSGYRIGPSEVENALMEHPAVVETAVISSPDPVRGEVVKAFVVLASQFLSHDPEQLTKELQQHVKSVTAPYKYPRKIEFVLNLPKTVTGKIQRAKLRDKEWKMSGKARAQ
+        </sequence>
+        <protein>
+            <recommendedName>
+                <fullName>Acyl-coenzyme A synthetase ACSM2A, mitochondrial</fullName>
+            </recommendedName>
+            <alternativeName>
+                <fullName>Acyl-CoA synthetase medium-chain family member 2A</fullName>
+            </alternativeName>
+            <alternativeName>
+                <fullName>Middle-chain acyl-CoA synthetase 2A</fullName>
+            </alternativeName>
+            <alternativeName>
+                <fullName>Butyryl-coenzyme A synthetase 2A</fullName>
+            </alternativeName>
+            <alternativeName>
+                <fullName>Butyrate--CoA ligase 2A</fullName>
+            </alternativeName>
+        </protein>
+        <gene type="primary">ACSM2A</gene>
+        <gene type="synonym">ACSM2</gene>
+        <gene type="synonym">MACS2</gene>
+        <gnCoordinate ensembl_gene_id="ENSG00000183747" ensembl_transcript_id="ENST00000573854" ensembl_translation_id="ENSP00000459451">
+            <genomicLocation chromosome="16" start="20460115" end="20486675" reverse_strand="false">
+                <exon id="ENSE00003655320">
+                    <proteinLocation>
+                        <ns2:begin position="1"/>
+                        <ns2:end position="59"/>
+                    </proteinLocation>
+                    <genomeLocation>
+                        <ns2:begin position="20460115"/>
+                        <ns2:end position="20460291"/>
+                    </genomeLocation>
+                </exon>
+                <exon id="ENSE00003508579">
+                    <proteinLocation>
+                        <ns2:begin position="60"/>
+                        <ns2:end position="130"/>
+                    </proteinLocation>
+                    <genomeLocation>
+                        <ns2:begin position="20465517"/>
+                        <ns2:end position="20465727"/>
+                    </genomeLocation>
+                </exon>
+                <exon id="ENSE00003471890">
+                    <proteinLocation>
+                        <ns2:begin position="130"/>
+                        <ns2:end position="199"/>
+                    </proteinLocation>
+                    <genomeLocation>
+                        <ns2:begin position="20469512"/>
+                        <ns2:end position="20469719"/>
+                    </genomeLocation>
+                </exon>
+                <exon id="ENSE00003608514">
+                    <proteinLocation>
+                        <ns2:begin position="199"/>
+                        <ns2:end position="247"/>
+                    </proteinLocation>
+                    <genomeLocation>
+                        <ns2:begin position="20471073"/>
+                        <ns2:end position="20471216"/>
+                    </genomeLocation>
+                </exon>
+                <exon id="ENSE00003570546">
+                    <proteinLocation>
+                        <ns2:begin position="247"/>
+                        <ns2:end position="298"/>
+                    </proteinLocation>
+                    <genomeLocation>
+                        <ns2:begin position="20471536"/>
+                        <ns2:end position="20471689"/>
+                    </genomeLocation>
+                </exon>
+                <exon id="ENSE00003465674">
+                    <proteinLocation>
+                        <ns2:begin position="299"/>
+                        <ns2:end position="325"/>
+                    </proteinLocation>
+                    <genomeLocation>
+                        <ns2:begin position="20475362"/>
+                        <ns2:end position="20475441"/>
+                    </genomeLocation>
+                </exon>
+                <exon id="ENSE00003547786">
+                    <proteinLocation>
+                        <ns2:begin position="325"/>
+                        <ns2:end position="366"/>
+                    </proteinLocation>
+                    <genomeLocation>
+                        <ns2:begin position="20475650"/>
+                        <ns2:end position="20475773"/>
+                    </genomeLocation>
+                </exon>
+                <exon id="ENSE00003492429">
+                    <proteinLocation>
+                        <ns2:begin position="367"/>
+                        <ns2:end position="393"/>
+                    </proteinLocation>
+                    <genomeLocation>
+                        <ns2:begin position="20477369"/>
+                        <ns2:end position="20477449"/>
+                    </genomeLocation>
+                </exon>
+                <exon id="ENSE00003606136">
+                    <proteinLocation>
+                        <ns2:begin position="394"/>
+                        <ns2:end position="427"/>
+                    </proteinLocation>
+                    <genomeLocation>
+                        <ns2:begin position="20478576"/>
+                        <ns2:end position="20478677"/>
+                    </genomeLocation>
+                </exon>
+                <exon id="ENSE00003468285">
+                    <proteinLocation>
+                        <ns2:begin position="428"/>
+                        <ns2:end position="470"/>
+                    </proteinLocation>
+                    <genomeLocation>
+                        <ns2:begin position="20480573"/>
+                        <ns2:end position="20480700"/>
+                    </genomeLocation>
+                </exon>
+                <exon id="ENSE00003491554">
+                    <proteinLocation>
+                        <ns2:begin position="470"/>
+                        <ns2:end position="503"/>
+                    </proteinLocation>
+                    <genomeLocation>
+                        <ns2:begin position="20480822"/>
+                        <ns2:end position="20480921"/>
+                    </genomeLocation>
+                </exon>
+                <exon id="ENSE00003556733">
+                    <proteinLocation>
+                        <ns2:begin position="504"/>
+                        <ns2:end position="543"/>
+                    </proteinLocation>
+                    <genomeLocation>
+                        <ns2:begin position="20483058"/>
+                        <ns2:end position="20483177"/>
+                    </genomeLocation>
+                </exon>
+                <exon id="ENSE00001523880">
+                    <proteinLocation>
+                        <ns2:begin position="544"/>
+                        <ns2:end position="577"/>
+                    </proteinLocation>
+                    <genomeLocation>
+                        <ns2:begin position="20486574"/>
+                        <ns2:end position="20486675"/>
+                    </genomeLocation>
+                </exon>
+            </genomicLocation>
+            <feature type="helix">
+                <ns2:location>
+                    <ns2:begin position="293"/>
+                    <ns2:end position="302"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20471672"/>
+                    <ns2:end position="20475373"/>
+                </genomeLocation>
+            </feature>
+            <feature type="helix">
+                <ns2:location>
+                    <ns2:begin position="462"/>
+                    <ns2:end position="464"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20480675"/>
+                    <ns2:end position="20480683"/>
+                </genomeLocation>
+            </feature>
+            <feature type="turn">
+                <ns2:location>
+                    <ns2:begin position="99"/>
+                    <ns2:end position="101"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20465634"/>
+                    <ns2:end position="20465642"/>
+                </genomeLocation>
+            </feature>
+            <feature type="turn">
+                <ns2:location>
+                    <ns2:begin position="499"/>
+                    <ns2:end position="501"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20480907"/>
+                    <ns2:end position="20480915"/>
+                </genomeLocation>
+            </feature>
+            <feature type="binding site">
+                <ns2:location>
+                    <ns2:position position="472"/>
+                </ns2:location>
+                <ns2:description>Substrate.</ns2:description>
+                <ns2:evidence code="ECO:0000269">
+                    <ns2:dbReference id="19345228" type="PubMed"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20480826"/>
+                    <ns2:end position="20480828"/>
+                </genomeLocation>
+            </feature>
+            <feature type="binding site">
+                <ns2:location>
+                    <ns2:position position="532"/>
+                </ns2:location>
+                <ns2:description>Coenzyme A.</ns2:description>
+                <ns2:evidence code="ECO:0000269">
+                    <ns2:dbReference id="19345228" type="PubMed"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20483142"/>
+                    <ns2:end position="20483144"/>
+                </genomeLocation>
+            </feature>
+            <feature type="strand">
+                <ns2:location>
+                    <ns2:begin position="488"/>
+                    <ns2:end position="498"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20480874"/>
+                    <ns2:end position="20480906"/>
+                </genomeLocation>
+            </feature>
+            <feature type="binding site">
+                <ns2:location>
+                    <ns2:position position="501"/>
+                </ns2:location>
+                <ns2:description>Coenzyme A.</ns2:description>
+                <ns2:evidence code="ECO:0000269">
+                    <ns2:dbReference id="19345228" type="PubMed"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20480913"/>
+                    <ns2:end position="20480915"/>
+                </genomeLocation>
+            </feature>
+            <feature type="binding site">
+                <ns2:location>
+                    <ns2:position position="364"/>
+                </ns2:location>
+                <ns2:description>Substrate.</ns2:description>
+                <ns2:evidence code="ECO:0000269">
+                    <ns2:dbReference id="19345228" type="PubMed"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20475765"/>
+                    <ns2:end position="20475767"/>
+                </genomeLocation>
+            </feature>
+            <feature type="helix">
+                <ns2:location>
+                    <ns2:begin position="171"/>
+                    <ns2:end position="173"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20469634"/>
+                    <ns2:end position="20469642"/>
+                </genomeLocation>
+            </feature>
+            <feature type="sequence variant" id="VAR_035248">
+                <ns2:original>A</ns2:original>
+                <ns2:variation>T</ns2:variation>
+                <ns2:location>
+                    <ns2:position position="561"/>
+                </ns2:location>
+                <ns2:description>in dbSNP:rs1054977.</ns2:description>
+                <genomeLocation>
+                    <ns2:begin position="20486625"/>
+                    <ns2:end position="20486627"/>
+                </genomeLocation>
+            </feature>
+            <feature type="helix">
+                <ns2:location>
+                    <ns2:begin position="430"/>
+                    <ns2:end position="435"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20480579"/>
+                    <ns2:end position="20480596"/>
+                </genomeLocation>
+            </feature>
+            <feature type="strand">
+                <ns2:location>
+                    <ns2:begin position="74"/>
+                    <ns2:end position="76"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20465559"/>
+                    <ns2:end position="20465567"/>
+                </genomeLocation>
+            </feature>
+            <feature type="helix">
+                <ns2:location>
+                    <ns2:begin position="274"/>
+                    <ns2:end position="278"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20471615"/>
+                    <ns2:end position="20471629"/>
+                </genomeLocation>
+            </feature>
+            <feature type="strand">
+                <ns2:location>
+                    <ns2:begin position="367"/>
+                    <ns2:end position="371"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20477369"/>
+                    <ns2:end position="20477383"/>
+                </genomeLocation>
+            </feature>
+            <feature type="strand">
+                <ns2:location>
+                    <ns2:begin position="191"/>
+                    <ns2:end position="193"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20469694"/>
+                    <ns2:end position="20469702"/>
+                </genomeLocation>
+            </feature>
+            <feature type="strand">
+                <ns2:location>
+                    <ns2:begin position="256"/>
+                    <ns2:end position="259"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20471561"/>
+                    <ns2:end position="20471572"/>
+                </genomeLocation>
+            </feature>
+            <feature type="region of interest">
+                <ns2:location>
+                    <ns2:begin position="540"/>
+                    <ns2:end position="542"/>
+                </ns2:location>
+                <ns2:description>Coenzyme A binding.</ns2:description>
+                <ns2:evidence code="ECO:0000269">
+                    <ns2:dbReference id="19345228" type="PubMed"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20483166"/>
+                    <ns2:end position="20483174"/>
+                </genomeLocation>
+            </feature>
+            <feature type="helix">
+                <ns2:location>
+                    <ns2:begin position="164"/>
+                    <ns2:end position="170"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20469613"/>
+                    <ns2:end position="20469633"/>
+                </genomeLocation>
+            </feature>
+            <feature type="region of interest">
+                <ns2:location>
+                    <ns2:begin position="469"/>
+                    <ns2:end position="471"/>
+                </ns2:location>
+                <ns2:description>Coenzyme A binding.</ns2:description>
+                <ns2:evidence code="ECO:0000269">
+                    <ns2:dbReference id="19345228" type="PubMed"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20480696"/>
+                    <ns2:end position="20480825"/>
+                </genomeLocation>
+            </feature>
+            <feature type="strand">
+                <ns2:location>
+                    <ns2:begin position="67"/>
+                    <ns2:end position="72"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20465538"/>
+                    <ns2:end position="20465555"/>
+                </genomeLocation>
+            </feature>
+            <feature type="strand">
+                <ns2:location>
+                    <ns2:begin position="542"/>
+                    <ns2:end position="548"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20483172"/>
+                    <ns2:end position="20486588"/>
+                </genomeLocation>
+            </feature>
+            <feature type="strand">
+                <ns2:location>
+                    <ns2:begin position="307"/>
+                    <ns2:end position="310"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20475386"/>
+                    <ns2:end position="20475397"/>
+                </genomeLocation>
+            </feature>
+            <feature type="modified residue">
+                <ns2:location>
+                    <ns2:position position="513"/>
+                </ns2:location>
+                <ns2:description>Phosphoserine.</ns2:description>
+                <ns2:evidence code="ECO:0000250">
+                    <ns2:dbReference id="Q68CK6" type="UniProtKB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20483085"/>
+                    <ns2:end position="20483087"/>
+                </genomeLocation>
+            </feature>
+            <feature type="strand">
+                <ns2:location>
+                    <ns2:begin position="466"/>
+                    <ns2:end position="468"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20480687"/>
+                    <ns2:end position="20480695"/>
+                </genomeLocation>
+            </feature>
+            <feature type="turn">
+                <ns2:location>
+                    <ns2:begin position="161"/>
+                    <ns2:end position="163"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20469604"/>
+                    <ns2:end position="20469612"/>
+                </genomeLocation>
+            </feature>
+            <feature type="helix">
+                <ns2:location>
+                    <ns2:begin position="51"/>
+                    <ns2:end position="59"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20460265"/>
+                    <ns2:end position="20460291"/>
+                </genomeLocation>
+            </feature>
+            <feature type="strand">
+                <ns2:location>
+                    <ns2:begin position="408"/>
+                    <ns2:end position="413"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20478618"/>
+                    <ns2:end position="20478635"/>
+                </genomeLocation>
+            </feature>
+            <feature type="binding site">
+                <ns2:location>
+                    <ns2:position position="557"/>
+                </ns2:location>
+                <ns2:description>ATP.</ns2:description>
+                <ns2:evidence code="ECO:0000269"/>
+                <ns2:evidence code="ECO:0000269">
+                    <ns2:dbReference id="19345228" type="PubMed"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20486613"/>
+                    <ns2:end position="20486615"/>
+                </genomeLocation>
+            </feature>
+            <feature type="helix">
+                <ns2:location>
+                    <ns2:begin position="46"/>
+                    <ns2:end position="49"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20460250"/>
+                    <ns2:end position="20460261"/>
+                </genomeLocation>
+            </feature>
+            <feature type="strand">
+                <ns2:location>
+                    <ns2:begin position="179"/>
+                    <ns2:end position="186"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20469658"/>
+                    <ns2:end position="20469681"/>
+                </genomeLocation>
+            </feature>
+            <feature type="chain" id="PRO_0000306093">
+                <ns2:location>
+                    <ns2:begin position="47"/>
+                    <ns2:end position="577"/>
+                </ns2:location>
+                <ns2:description>Acyl-coenzyme A synthetase ACSM2A, mitochondrial.</ns2:description>
+                <genomeLocation>
+                    <ns2:begin position="20460253"/>
+                    <ns2:end position="20486675"/>
+                </genomeLocation>
+            </feature>
+            <feature type="sequence variant" id="VAR_035247">
+                <ns2:original>S</ns2:original>
+                <ns2:variation>L</ns2:variation>
+                <ns2:location>
+                    <ns2:position position="513"/>
+                </ns2:location>
+                <ns2:description>in dbSNP:rs1133607.</ns2:description>
+                <ns2:evidence code="ECO:0000269">
+                    <ns2:dbReference id="16521160" type="PubMed"/>
+                </ns2:evidence>
+                <ns2:evidence code="ECO:0000269">
+                    <ns2:dbReference id="12654705" type="PubMed"/>
+                </ns2:evidence>
+                <ns2:evidence code="ECO:0000269">
+                    <ns2:dbReference id="10493829" type="PubMed"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20483085"/>
+                    <ns2:end position="20483087"/>
+                </genomeLocation>
+            </feature>
+            <feature type="helix">
+                <ns2:location>
+                    <ns2:begin position="537"/>
+                    <ns2:end position="539"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20483157"/>
+                    <ns2:end position="20483165"/>
+                </genomeLocation>
+            </feature>
+            <feature type="sequence variant" id="VAR_058692">
+                <ns2:original>V</ns2:original>
+                <ns2:variation>L</ns2:variation>
+                <ns2:location>
+                    <ns2:position position="335"/>
+                </ns2:location>
+                <ns2:description>in dbSNP:rs4643305.</ns2:description>
+                <genomeLocation>
+                    <ns2:begin position="20475678"/>
+                    <ns2:end position="20475680"/>
+                </genomeLocation>
+            </feature>
+            <feature type="helix">
+                <ns2:location>
+                    <ns2:begin position="235"/>
+                    <ns2:end position="245"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20471179"/>
+                    <ns2:end position="20471211"/>
+                </genomeLocation>
+            </feature>
+            <feature type="strand">
+                <ns2:location>
+                    <ns2:begin position="392"/>
+                    <ns2:end position="395"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20477444"/>
+                    <ns2:end position="20478581"/>
+                </genomeLocation>
+            </feature>
+            <feature type="strand">
+                <ns2:location>
+                    <ns2:begin position="333"/>
+                    <ns2:end position="339"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20475672"/>
+                    <ns2:end position="20475692"/>
+                </genomeLocation>
+            </feature>
+            <feature type="helix">
+                <ns2:location>
+                    <ns2:begin position="312"/>
+                    <ns2:end position="319"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20475401"/>
+                    <ns2:end position="20475424"/>
+                </genomeLocation>
+            </feature>
+            <feature type="nucleotide phosphate-binding region">
+                <ns2:location>
+                    <ns2:begin position="359"/>
+                    <ns2:end position="364"/>
+                </ns2:location>
+                <ns2:description>ATP.</ns2:description>
+                <ns2:evidence code="ECO:0000269"/>
+                <ns2:evidence code="ECO:0000269">
+                    <ns2:dbReference id="19345228" type="PubMed"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20475750"/>
+                    <ns2:end position="20475767"/>
+                </genomeLocation>
+            </feature>
+            <feature type="turn">
+                <ns2:location>
+                    <ns2:begin position="323"/>
+                    <ns2:end position="325"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20475434"/>
+                    <ns2:end position="20475650"/>
+                </genomeLocation>
+            </feature>
+            <feature type="helix">
+                <ns2:location>
+                    <ns2:begin position="475"/>
+                    <ns2:end position="483"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20480835"/>
+                    <ns2:end position="20480861"/>
+                </genomeLocation>
+            </feature>
+            <feature type="helix">
+                <ns2:location>
+                    <ns2:begin position="513"/>
+                    <ns2:end position="515"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20483085"/>
+                    <ns2:end position="20483093"/>
+                </genomeLocation>
+            </feature>
+            <feature type="transit peptide">
+                <ns2:location>
+                    <ns2:begin position="1"/>
+                    <ns2:end position="46"/>
+                </ns2:location>
+                <ns2:description>Mitochondrion.</ns2:description>
+                <ns2:evidence code="ECO:0000255"/>
+                <genomeLocation>
+                    <ns2:begin position="20460115"/>
+                    <ns2:end position="20460252"/>
+                </genomeLocation>
+            </feature>
+            <feature type="helix">
+                <ns2:location>
+                    <ns2:begin position="117"/>
+                    <ns2:end position="129"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20465688"/>
+                    <ns2:end position="20465726"/>
+                </genomeLocation>
+            </feature>
+            <feature type="turn">
+                <ns2:location>
+                    <ns2:begin position="246"/>
+                    <ns2:end position="249"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20471212"/>
+                    <ns2:end position="20471542"/>
+                </genomeLocation>
+            </feature>
+            <feature type="strand">
+                <ns2:location>
+                    <ns2:begin position="471"/>
+                    <ns2:end position="473"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20480823"/>
+                    <ns2:end position="20480831"/>
+                </genomeLocation>
+            </feature>
+            <feature type="strand">
+                <ns2:location>
+                    <ns2:begin position="441"/>
+                    <ns2:end position="450"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20480612"/>
+                    <ns2:end position="20480641"/>
+                </genomeLocation>
+            </feature>
+            <feature type="strand">
+                <ns2:location>
+                    <ns2:begin position="358"/>
+                    <ns2:end position="363"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20475747"/>
+                    <ns2:end position="20475764"/>
+                </genomeLocation>
+            </feature>
+            <feature type="modified residue">
+                <ns2:location>
+                    <ns2:position position="327"/>
+                </ns2:location>
+                <ns2:description>N6-acetyllysine.</ns2:description>
+                <ns2:evidence code="ECO:0000250">
+                    <ns2:dbReference id="Q8BGA8" type="UniProtKB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20475654"/>
+                    <ns2:end position="20475656"/>
+                </genomeLocation>
+            </feature>
+            <feature type="strand">
+                <ns2:location>
+                    <ns2:begin position="108"/>
+                    <ns2:end position="112"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20465661"/>
+                    <ns2:end position="20465675"/>
+                </genomeLocation>
+            </feature>
+            <feature type="helix">
+                <ns2:location>
+                    <ns2:begin position="142"/>
+                    <ns2:end position="152"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20469547"/>
+                    <ns2:end position="20469579"/>
+                </genomeLocation>
+            </feature>
+            <feature type="strand">
+                <ns2:location>
+                    <ns2:begin position="230"/>
+                    <ns2:end position="234"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20471164"/>
+                    <ns2:end position="20471178"/>
+                </genomeLocation>
+            </feature>
+            <feature type="binding site">
+                <ns2:location>
+                    <ns2:position position="461"/>
+                </ns2:location>
+                <ns2:description>ATP.</ns2:description>
+                <ns2:evidence code="ECO:0000269">
+                    <ns2:dbReference id="19345228" type="PubMed"/>
+                </ns2:evidence>
+                <ns2:evidence code="ECO:0000269"/>
+                <genomeLocation>
+                    <ns2:begin position="20480672"/>
+                    <ns2:end position="20480674"/>
+                </genomeLocation>
+            </feature>
+            <feature type="strand">
+                <ns2:location>
+                    <ns2:begin position="224"/>
+                    <ns2:end position="227"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20471146"/>
+                    <ns2:end position="20471157"/>
+                </genomeLocation>
+            </feature>
+            <feature type="helix">
+                <ns2:location>
+                    <ns2:begin position="194"/>
+                    <ns2:end position="200"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20469703"/>
+                    <ns2:end position="20471076"/>
+                </genomeLocation>
+            </feature>
+            <feature type="strand">
+                <ns2:location>
+                    <ns2:begin position="282"/>
+                    <ns2:end position="286"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20471639"/>
+                    <ns2:end position="20471653"/>
+                </genomeLocation>
+            </feature>
+            <feature type="helix">
+                <ns2:location>
+                    <ns2:begin position="520"/>
+                    <ns2:end position="534"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20483106"/>
+                    <ns2:end position="20483150"/>
+                </genomeLocation>
+            </feature>
+            <feature type="strand">
+                <ns2:location>
+                    <ns2:begin position="456"/>
+                    <ns2:end position="461"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20480657"/>
+                    <ns2:end position="20480674"/>
+                </genomeLocation>
+            </feature>
+            <feature type="strand">
+                <ns2:location>
+                    <ns2:begin position="155"/>
+                    <ns2:end position="160"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20469586"/>
+                    <ns2:end position="20469603"/>
+                </genomeLocation>
+            </feature>
+            <feature type="strand">
+                <ns2:location>
+                    <ns2:begin position="132"/>
+                    <ns2:end position="135"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20469517"/>
+                    <ns2:end position="20469528"/>
+                </genomeLocation>
+            </feature>
+            <feature type="helix">
+                <ns2:location>
+                    <ns2:begin position="83"/>
+                    <ns2:end position="98"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20465586"/>
+                    <ns2:end position="20465633"/>
+                </genomeLocation>
+            </feature>
+            <feature type="sequence conflict">
+                <ns2:original>N</ns2:original>
+                <ns2:variation>D</ns2:variation>
+                <ns2:location>
+                    <ns2:position position="463"/>
+                </ns2:location>
+                <ns2:description/>
+                <ns2:evidence code="ECO:0000305"/>
+                <genomeLocation>
+                    <ns2:begin position="20480678"/>
+                    <ns2:end position="20480680"/>
+                </genomeLocation>
+            </feature>
+            <feature type="turn">
+                <ns2:location>
+                    <ns2:begin position="364"/>
+                    <ns2:end position="366"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20475765"/>
+                    <ns2:end position="20475773"/>
+                </genomeLocation>
+            </feature>
+            <feature type="helix">
+                <ns2:location>
+                    <ns2:begin position="560"/>
+                    <ns2:end position="567"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20486622"/>
+                    <ns2:end position="20486645"/>
+                </genomeLocation>
+            </feature>
+            <feature type="turn">
+                <ns2:location>
+                    <ns2:begin position="34"/>
+                    <ns2:end position="36"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3B7W" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20460214"/>
+                    <ns2:end position="20460222"/>
+                </genomeLocation>
+            </feature>
+            <feature type="binding site">
+                <ns2:location>
+                    <ns2:position position="446"/>
+                </ns2:location>
+                <ns2:description>ATP.</ns2:description>
+                <ns2:evidence code="ECO:0000269"/>
+                <ns2:evidence code="ECO:0000269">
+                    <ns2:dbReference id="19345228" type="PubMed"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20480627"/>
+                    <ns2:end position="20480629"/>
+                </genomeLocation>
+            </feature>
+            <feature type="helix">
+                <ns2:location>
+                    <ns2:begin position="343"/>
+                    <ns2:end position="353"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20475702"/>
+                    <ns2:end position="20475734"/>
+                </genomeLocation>
+            </feature>
+            <feature type="binding site">
+                <ns2:location>
+                    <ns2:position position="139"/>
+                </ns2:location>
+                <ns2:description>Coenzyme A.</ns2:description>
+                <ns2:evidence code="ECO:0000269">
+                    <ns2:dbReference id="19345228" type="PubMed"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20469538"/>
+                    <ns2:end position="20469540"/>
+                </genomeLocation>
+            </feature>
+            <feature type="strand">
+                <ns2:location>
+                    <ns2:begin position="502"/>
+                    <ns2:end position="511"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20480916"/>
+                    <ns2:end position="20483081"/>
+                </genomeLocation>
+            </feature>
+            <feature type="strand">
+                <ns2:location>
+                    <ns2:begin position="415"/>
+                    <ns2:end position="417"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20478639"/>
+                    <ns2:end position="20478647"/>
+                </genomeLocation>
+            </feature>
+            <feature type="nucleotide phosphate-binding region">
+                <ns2:location>
+                    <ns2:begin position="221"/>
+                    <ns2:end position="229"/>
+                </ns2:location>
+                <ns2:description>ATP.</ns2:description>
+                <ns2:evidence code="ECO:0000269">
+                    <ns2:dbReference id="19345228" type="PubMed"/>
+                </ns2:evidence>
+                <ns2:evidence code="ECO:0000269"/>
+                <genomeLocation>
+                    <ns2:begin position="20471137"/>
+                    <ns2:end position="20471163"/>
+                </genomeLocation>
+            </feature>
+            <feature type="helix">
+                <ns2:location>
+                    <ns2:begin position="266"/>
+                    <ns2:end position="271"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20471591"/>
+                    <ns2:end position="20471608"/>
+                </genomeLocation>
+            </feature>
+            <feature type="strand">
+                <ns2:location>
+                    <ns2:begin position="78"/>
+                    <ns2:end position="82"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20465571"/>
+                    <ns2:end position="20465585"/>
+                </genomeLocation>
+            </feature>
+            <feature type="strand">
+                <ns2:location>
+                    <ns2:begin position="214"/>
+                    <ns2:end position="220"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20471116"/>
+                    <ns2:end position="20471136"/>
+                </genomeLocation>
+            </feature>
+            <feature type="sequence variant" id="VAR_058694">
+                <ns2:original>V</ns2:original>
+                <ns2:variation>G</ns2:variation>
+                <ns2:location>
+                    <ns2:position position="337"/>
+                </ns2:location>
+                <ns2:description>in dbSNP:rs4586421.</ns2:description>
+                <genomeLocation>
+                    <ns2:begin position="20475684"/>
+                    <ns2:end position="20475686"/>
+                </genomeLocation>
+            </feature>
+        </gnCoordinate>
+        <gnCoordinate ensembl_gene_id="ENSG00000183747" ensembl_transcript_id="ENST00000219054" ensembl_translation_id="ENSP00000219054">
+            <genomicLocation chromosome="16" start="20460115" end="20486675" reverse_strand="false">
+                <exon id="ENSE00003655320">
+                    <proteinLocation>
+                        <ns2:begin position="1"/>
+                        <ns2:end position="59"/>
+                    </proteinLocation>
+                    <genomeLocation>
+                        <ns2:begin position="20460115"/>
+                        <ns2:end position="20460291"/>
+                    </genomeLocation>
+                </exon>
+                <exon id="ENSE00003508579">
+                    <proteinLocation>
+                        <ns2:begin position="60"/>
+                        <ns2:end position="130"/>
+                    </proteinLocation>
+                    <genomeLocation>
+                        <ns2:begin position="20465517"/>
+                        <ns2:end position="20465727"/>
+                    </genomeLocation>
+                </exon>
+                <exon id="ENSE00003471890">
+                    <proteinLocation>
+                        <ns2:begin position="130"/>
+                        <ns2:end position="199"/>
+                    </proteinLocation>
+                    <genomeLocation>
+                        <ns2:begin position="20469512"/>
+                        <ns2:end position="20469719"/>
+                    </genomeLocation>
+                </exon>
+                <exon id="ENSE00003608514">
+                    <proteinLocation>
+                        <ns2:begin position="199"/>
+                        <ns2:end position="247"/>
+                    </proteinLocation>
+                    <genomeLocation>
+                        <ns2:begin position="20471073"/>
+                        <ns2:end position="20471216"/>
+                    </genomeLocation>
+                </exon>
+                <exon id="ENSE00003570546">
+                    <proteinLocation>
+                        <ns2:begin position="247"/>
+                        <ns2:end position="298"/>
+                    </proteinLocation>
+                    <genomeLocation>
+                        <ns2:begin position="20471536"/>
+                        <ns2:end position="20471689"/>
+                    </genomeLocation>
+                </exon>
+                <exon id="ENSE00003465674">
+                    <proteinLocation>
+                        <ns2:begin position="299"/>
+                        <ns2:end position="325"/>
+                    </proteinLocation>
+                    <genomeLocation>
+                        <ns2:begin position="20475362"/>
+                        <ns2:end position="20475441"/>
+                    </genomeLocation>
+                </exon>
+                <exon id="ENSE00003547786">
+                    <proteinLocation>
+                        <ns2:begin position="325"/>
+                        <ns2:end position="366"/>
+                    </proteinLocation>
+                    <genomeLocation>
+                        <ns2:begin position="20475650"/>
+                        <ns2:end position="20475773"/>
+                    </genomeLocation>
+                </exon>
+                <exon id="ENSE00003492429">
+                    <proteinLocation>
+                        <ns2:begin position="367"/>
+                        <ns2:end position="393"/>
+                    </proteinLocation>
+                    <genomeLocation>
+                        <ns2:begin position="20477369"/>
+                        <ns2:end position="20477449"/>
+                    </genomeLocation>
+                </exon>
+                <exon id="ENSE00003606136">
+                    <proteinLocation>
+                        <ns2:begin position="394"/>
+                        <ns2:end position="427"/>
+                    </proteinLocation>
+                    <genomeLocation>
+                        <ns2:begin position="20478576"/>
+                        <ns2:end position="20478677"/>
+                    </genomeLocation>
+                </exon>
+                <exon id="ENSE00003468285">
+                    <proteinLocation>
+                        <ns2:begin position="428"/>
+                        <ns2:end position="470"/>
+                    </proteinLocation>
+                    <genomeLocation>
+                        <ns2:begin position="20480573"/>
+                        <ns2:end position="20480700"/>
+                    </genomeLocation>
+                </exon>
+                <exon id="ENSE00003491554">
+                    <proteinLocation>
+                        <ns2:begin position="470"/>
+                        <ns2:end position="503"/>
+                    </proteinLocation>
+                    <genomeLocation>
+                        <ns2:begin position="20480822"/>
+                        <ns2:end position="20480921"/>
+                    </genomeLocation>
+                </exon>
+                <exon id="ENSE00003556733">
+                    <proteinLocation>
+                        <ns2:begin position="504"/>
+                        <ns2:end position="543"/>
+                    </proteinLocation>
+                    <genomeLocation>
+                        <ns2:begin position="20483058"/>
+                        <ns2:end position="20483177"/>
+                    </genomeLocation>
+                </exon>
+                <exon id="ENSE00002650960">
+                    <proteinLocation>
+                        <ns2:begin position="544"/>
+                        <ns2:end position="577"/>
+                    </proteinLocation>
+                    <genomeLocation>
+                        <ns2:begin position="20486574"/>
+                        <ns2:end position="20486675"/>
+                    </genomeLocation>
+                </exon>
+            </genomicLocation>
+            <feature type="helix">
+                <ns2:location>
+                    <ns2:begin position="293"/>
+                    <ns2:end position="302"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20471672"/>
+                    <ns2:end position="20475373"/>
+                </genomeLocation>
+            </feature>
+            <feature type="helix">
+                <ns2:location>
+                    <ns2:begin position="462"/>
+                    <ns2:end position="464"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20480675"/>
+                    <ns2:end position="20480683"/>
+                </genomeLocation>
+            </feature>
+            <feature type="turn">
+                <ns2:location>
+                    <ns2:begin position="99"/>
+                    <ns2:end position="101"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20465634"/>
+                    <ns2:end position="20465642"/>
+                </genomeLocation>
+            </feature>
+            <feature type="turn">
+                <ns2:location>
+                    <ns2:begin position="499"/>
+                    <ns2:end position="501"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20480907"/>
+                    <ns2:end position="20480915"/>
+                </genomeLocation>
+            </feature>
+            <feature type="binding site">
+                <ns2:location>
+                    <ns2:position position="472"/>
+                </ns2:location>
+                <ns2:description>Substrate.</ns2:description>
+                <ns2:evidence code="ECO:0000269">
+                    <ns2:dbReference id="19345228" type="PubMed"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20480826"/>
+                    <ns2:end position="20480828"/>
+                </genomeLocation>
+            </feature>
+            <feature type="binding site">
+                <ns2:location>
+                    <ns2:position position="532"/>
+                </ns2:location>
+                <ns2:description>Coenzyme A.</ns2:description>
+                <ns2:evidence code="ECO:0000269">
+                    <ns2:dbReference id="19345228" type="PubMed"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20483142"/>
+                    <ns2:end position="20483144"/>
+                </genomeLocation>
+            </feature>
+            <feature type="strand">
+                <ns2:location>
+                    <ns2:begin position="488"/>
+                    <ns2:end position="498"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20480874"/>
+                    <ns2:end position="20480906"/>
+                </genomeLocation>
+            </feature>
+            <feature type="binding site">
+                <ns2:location>
+                    <ns2:position position="501"/>
+                </ns2:location>
+                <ns2:description>Coenzyme A.</ns2:description>
+                <ns2:evidence code="ECO:0000269">
+                    <ns2:dbReference id="19345228" type="PubMed"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20480913"/>
+                    <ns2:end position="20480915"/>
+                </genomeLocation>
+            </feature>
+            <feature type="binding site">
+                <ns2:location>
+                    <ns2:position position="364"/>
+                </ns2:location>
+                <ns2:description>Substrate.</ns2:description>
+                <ns2:evidence code="ECO:0000269">
+                    <ns2:dbReference id="19345228" type="PubMed"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20475765"/>
+                    <ns2:end position="20475767"/>
+                </genomeLocation>
+            </feature>
+            <feature type="helix">
+                <ns2:location>
+                    <ns2:begin position="171"/>
+                    <ns2:end position="173"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20469634"/>
+                    <ns2:end position="20469642"/>
+                </genomeLocation>
+            </feature>
+            <feature type="sequence variant" id="VAR_035248">
+                <ns2:original>A</ns2:original>
+                <ns2:variation>T</ns2:variation>
+                <ns2:location>
+                    <ns2:position position="561"/>
+                </ns2:location>
+                <ns2:description>in dbSNP:rs1054977.</ns2:description>
+                <genomeLocation>
+                    <ns2:begin position="20486625"/>
+                    <ns2:end position="20486627"/>
+                </genomeLocation>
+            </feature>
+            <feature type="helix">
+                <ns2:location>
+                    <ns2:begin position="430"/>
+                    <ns2:end position="435"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20480579"/>
+                    <ns2:end position="20480596"/>
+                </genomeLocation>
+            </feature>
+            <feature type="strand">
+                <ns2:location>
+                    <ns2:begin position="74"/>
+                    <ns2:end position="76"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20465559"/>
+                    <ns2:end position="20465567"/>
+                </genomeLocation>
+            </feature>
+            <feature type="helix">
+                <ns2:location>
+                    <ns2:begin position="274"/>
+                    <ns2:end position="278"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20471615"/>
+                    <ns2:end position="20471629"/>
+                </genomeLocation>
+            </feature>
+            <feature type="strand">
+                <ns2:location>
+                    <ns2:begin position="367"/>
+                    <ns2:end position="371"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20477369"/>
+                    <ns2:end position="20477383"/>
+                </genomeLocation>
+            </feature>
+            <feature type="strand">
+                <ns2:location>
+                    <ns2:begin position="191"/>
+                    <ns2:end position="193"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20469694"/>
+                    <ns2:end position="20469702"/>
+                </genomeLocation>
+            </feature>
+            <feature type="strand">
+                <ns2:location>
+                    <ns2:begin position="256"/>
+                    <ns2:end position="259"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20471561"/>
+                    <ns2:end position="20471572"/>
+                </genomeLocation>
+            </feature>
+            <feature type="region of interest">
+                <ns2:location>
+                    <ns2:begin position="540"/>
+                    <ns2:end position="542"/>
+                </ns2:location>
+                <ns2:description>Coenzyme A binding.</ns2:description>
+                <ns2:evidence code="ECO:0000269">
+                    <ns2:dbReference id="19345228" type="PubMed"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20483166"/>
+                    <ns2:end position="20483174"/>
+                </genomeLocation>
+            </feature>
+            <feature type="helix">
+                <ns2:location>
+                    <ns2:begin position="164"/>
+                    <ns2:end position="170"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20469613"/>
+                    <ns2:end position="20469633"/>
+                </genomeLocation>
+            </feature>
+            <feature type="region of interest">
+                <ns2:location>
+                    <ns2:begin position="469"/>
+                    <ns2:end position="471"/>
+                </ns2:location>
+                <ns2:description>Coenzyme A binding.</ns2:description>
+                <ns2:evidence code="ECO:0000269">
+                    <ns2:dbReference id="19345228" type="PubMed"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20480696"/>
+                    <ns2:end position="20480825"/>
+                </genomeLocation>
+            </feature>
+            <feature type="strand">
+                <ns2:location>
+                    <ns2:begin position="67"/>
+                    <ns2:end position="72"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20465538"/>
+                    <ns2:end position="20465555"/>
+                </genomeLocation>
+            </feature>
+            <feature type="strand">
+                <ns2:location>
+                    <ns2:begin position="542"/>
+                    <ns2:end position="548"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20483172"/>
+                    <ns2:end position="20486588"/>
+                </genomeLocation>
+            </feature>
+            <feature type="strand">
+                <ns2:location>
+                    <ns2:begin position="307"/>
+                    <ns2:end position="310"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20475386"/>
+                    <ns2:end position="20475397"/>
+                </genomeLocation>
+            </feature>
+            <feature type="modified residue">
+                <ns2:location>
+                    <ns2:position position="513"/>
+                </ns2:location>
+                <ns2:description>Phosphoserine.</ns2:description>
+                <ns2:evidence code="ECO:0000250">
+                    <ns2:dbReference id="Q68CK6" type="UniProtKB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20483085"/>
+                    <ns2:end position="20483087"/>
+                </genomeLocation>
+            </feature>
+            <feature type="strand">
+                <ns2:location>
+                    <ns2:begin position="466"/>
+                    <ns2:end position="468"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20480687"/>
+                    <ns2:end position="20480695"/>
+                </genomeLocation>
+            </feature>
+            <feature type="turn">
+                <ns2:location>
+                    <ns2:begin position="161"/>
+                    <ns2:end position="163"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20469604"/>
+                    <ns2:end position="20469612"/>
+                </genomeLocation>
+            </feature>
+            <feature type="helix">
+                <ns2:location>
+                    <ns2:begin position="51"/>
+                    <ns2:end position="59"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20460265"/>
+                    <ns2:end position="20460291"/>
+                </genomeLocation>
+            </feature>
+            <feature type="strand">
+                <ns2:location>
+                    <ns2:begin position="408"/>
+                    <ns2:end position="413"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20478618"/>
+                    <ns2:end position="20478635"/>
+                </genomeLocation>
+            </feature>
+            <feature type="binding site">
+                <ns2:location>
+                    <ns2:position position="557"/>
+                </ns2:location>
+                <ns2:description>ATP.</ns2:description>
+                <ns2:evidence code="ECO:0000269"/>
+                <ns2:evidence code="ECO:0000269">
+                    <ns2:dbReference id="19345228" type="PubMed"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20486613"/>
+                    <ns2:end position="20486615"/>
+                </genomeLocation>
+            </feature>
+            <feature type="helix">
+                <ns2:location>
+                    <ns2:begin position="46"/>
+                    <ns2:end position="49"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20460250"/>
+                    <ns2:end position="20460261"/>
+                </genomeLocation>
+            </feature>
+            <feature type="strand">
+                <ns2:location>
+                    <ns2:begin position="179"/>
+                    <ns2:end position="186"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20469658"/>
+                    <ns2:end position="20469681"/>
+                </genomeLocation>
+            </feature>
+            <feature type="chain" id="PRO_0000306093">
+                <ns2:location>
+                    <ns2:begin position="47"/>
+                    <ns2:end position="577"/>
+                </ns2:location>
+                <ns2:description>Acyl-coenzyme A synthetase ACSM2A, mitochondrial.</ns2:description>
+                <genomeLocation>
+                    <ns2:begin position="20460253"/>
+                    <ns2:end position="20486675"/>
+                </genomeLocation>
+            </feature>
+            <feature type="sequence variant" id="VAR_035247">
+                <ns2:original>S</ns2:original>
+                <ns2:variation>L</ns2:variation>
+                <ns2:location>
+                    <ns2:position position="513"/>
+                </ns2:location>
+                <ns2:description>in dbSNP:rs1133607.</ns2:description>
+                <ns2:evidence code="ECO:0000269">
+                    <ns2:dbReference id="16521160" type="PubMed"/>
+                </ns2:evidence>
+                <ns2:evidence code="ECO:0000269">
+                    <ns2:dbReference id="12654705" type="PubMed"/>
+                </ns2:evidence>
+                <ns2:evidence code="ECO:0000269">
+                    <ns2:dbReference id="10493829" type="PubMed"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20483085"/>
+                    <ns2:end position="20483087"/>
+                </genomeLocation>
+            </feature>
+            <feature type="helix">
+                <ns2:location>
+                    <ns2:begin position="537"/>
+                    <ns2:end position="539"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20483157"/>
+                    <ns2:end position="20483165"/>
+                </genomeLocation>
+            </feature>
+            <feature type="sequence variant" id="VAR_058692">
+                <ns2:original>V</ns2:original>
+                <ns2:variation>L</ns2:variation>
+                <ns2:location>
+                    <ns2:position position="335"/>
+                </ns2:location>
+                <ns2:description>in dbSNP:rs4643305.</ns2:description>
+                <genomeLocation>
+                    <ns2:begin position="20475678"/>
+                    <ns2:end position="20475680"/>
+                </genomeLocation>
+            </feature>
+            <feature type="helix">
+                <ns2:location>
+                    <ns2:begin position="235"/>
+                    <ns2:end position="245"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20471179"/>
+                    <ns2:end position="20471211"/>
+                </genomeLocation>
+            </feature>
+            <feature type="strand">
+                <ns2:location>
+                    <ns2:begin position="392"/>
+                    <ns2:end position="395"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20477444"/>
+                    <ns2:end position="20478581"/>
+                </genomeLocation>
+            </feature>
+            <feature type="strand">
+                <ns2:location>
+                    <ns2:begin position="333"/>
+                    <ns2:end position="339"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20475672"/>
+                    <ns2:end position="20475692"/>
+                </genomeLocation>
+            </feature>
+            <feature type="helix">
+                <ns2:location>
+                    <ns2:begin position="312"/>
+                    <ns2:end position="319"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20475401"/>
+                    <ns2:end position="20475424"/>
+                </genomeLocation>
+            </feature>
+            <feature type="nucleotide phosphate-binding region">
+                <ns2:location>
+                    <ns2:begin position="359"/>
+                    <ns2:end position="364"/>
+                </ns2:location>
+                <ns2:description>ATP.</ns2:description>
+                <ns2:evidence code="ECO:0000269"/>
+                <ns2:evidence code="ECO:0000269">
+                    <ns2:dbReference id="19345228" type="PubMed"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20475750"/>
+                    <ns2:end position="20475767"/>
+                </genomeLocation>
+            </feature>
+            <feature type="turn">
+                <ns2:location>
+                    <ns2:begin position="323"/>
+                    <ns2:end position="325"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20475434"/>
+                    <ns2:end position="20475650"/>
+                </genomeLocation>
+            </feature>
+            <feature type="helix">
+                <ns2:location>
+                    <ns2:begin position="475"/>
+                    <ns2:end position="483"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20480835"/>
+                    <ns2:end position="20480861"/>
+                </genomeLocation>
+            </feature>
+            <feature type="helix">
+                <ns2:location>
+                    <ns2:begin position="513"/>
+                    <ns2:end position="515"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20483085"/>
+                    <ns2:end position="20483093"/>
+                </genomeLocation>
+            </feature>
+            <feature type="transit peptide">
+                <ns2:location>
+                    <ns2:begin position="1"/>
+                    <ns2:end position="46"/>
+                </ns2:location>
+                <ns2:description>Mitochondrion.</ns2:description>
+                <ns2:evidence code="ECO:0000255"/>
+                <genomeLocation>
+                    <ns2:begin position="20460115"/>
+                    <ns2:end position="20460252"/>
+                </genomeLocation>
+            </feature>
+            <feature type="helix">
+                <ns2:location>
+                    <ns2:begin position="117"/>
+                    <ns2:end position="129"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20465688"/>
+                    <ns2:end position="20465726"/>
+                </genomeLocation>
+            </feature>
+            <feature type="turn">
+                <ns2:location>
+                    <ns2:begin position="246"/>
+                    <ns2:end position="249"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20471212"/>
+                    <ns2:end position="20471542"/>
+                </genomeLocation>
+            </feature>
+            <feature type="strand">
+                <ns2:location>
+                    <ns2:begin position="471"/>
+                    <ns2:end position="473"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20480823"/>
+                    <ns2:end position="20480831"/>
+                </genomeLocation>
+            </feature>
+            <feature type="strand">
+                <ns2:location>
+                    <ns2:begin position="441"/>
+                    <ns2:end position="450"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20480612"/>
+                    <ns2:end position="20480641"/>
+                </genomeLocation>
+            </feature>
+            <feature type="strand">
+                <ns2:location>
+                    <ns2:begin position="358"/>
+                    <ns2:end position="363"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20475747"/>
+                    <ns2:end position="20475764"/>
+                </genomeLocation>
+            </feature>
+            <feature type="modified residue">
+                <ns2:location>
+                    <ns2:position position="327"/>
+                </ns2:location>
+                <ns2:description>N6-acetyllysine.</ns2:description>
+                <ns2:evidence code="ECO:0000250">
+                    <ns2:dbReference id="Q8BGA8" type="UniProtKB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20475654"/>
+                    <ns2:end position="20475656"/>
+                </genomeLocation>
+            </feature>
+            <feature type="strand">
+                <ns2:location>
+                    <ns2:begin position="108"/>
+                    <ns2:end position="112"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20465661"/>
+                    <ns2:end position="20465675"/>
+                </genomeLocation>
+            </feature>
+            <feature type="helix">
+                <ns2:location>
+                    <ns2:begin position="142"/>
+                    <ns2:end position="152"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20469547"/>
+                    <ns2:end position="20469579"/>
+                </genomeLocation>
+            </feature>
+            <feature type="strand">
+                <ns2:location>
+                    <ns2:begin position="230"/>
+                    <ns2:end position="234"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20471164"/>
+                    <ns2:end position="20471178"/>
+                </genomeLocation>
+            </feature>
+            <feature type="binding site">
+                <ns2:location>
+                    <ns2:position position="461"/>
+                </ns2:location>
+                <ns2:description>ATP.</ns2:description>
+                <ns2:evidence code="ECO:0000269">
+                    <ns2:dbReference id="19345228" type="PubMed"/>
+                </ns2:evidence>
+                <ns2:evidence code="ECO:0000269"/>
+                <genomeLocation>
+                    <ns2:begin position="20480672"/>
+                    <ns2:end position="20480674"/>
+                </genomeLocation>
+            </feature>
+            <feature type="strand">
+                <ns2:location>
+                    <ns2:begin position="224"/>
+                    <ns2:end position="227"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20471146"/>
+                    <ns2:end position="20471157"/>
+                </genomeLocation>
+            </feature>
+            <feature type="helix">
+                <ns2:location>
+                    <ns2:begin position="194"/>
+                    <ns2:end position="200"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20469703"/>
+                    <ns2:end position="20471076"/>
+                </genomeLocation>
+            </feature>
+            <feature type="strand">
+                <ns2:location>
+                    <ns2:begin position="282"/>
+                    <ns2:end position="286"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20471639"/>
+                    <ns2:end position="20471653"/>
+                </genomeLocation>
+            </feature>
+            <feature type="helix">
+                <ns2:location>
+                    <ns2:begin position="520"/>
+                    <ns2:end position="534"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20483106"/>
+                    <ns2:end position="20483150"/>
+                </genomeLocation>
+            </feature>
+            <feature type="strand">
+                <ns2:location>
+                    <ns2:begin position="456"/>
+                    <ns2:end position="461"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20480657"/>
+                    <ns2:end position="20480674"/>
+                </genomeLocation>
+            </feature>
+            <feature type="strand">
+                <ns2:location>
+                    <ns2:begin position="155"/>
+                    <ns2:end position="160"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20469586"/>
+                    <ns2:end position="20469603"/>
+                </genomeLocation>
+            </feature>
+            <feature type="strand">
+                <ns2:location>
+                    <ns2:begin position="132"/>
+                    <ns2:end position="135"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20469517"/>
+                    <ns2:end position="20469528"/>
+                </genomeLocation>
+            </feature>
+            <feature type="helix">
+                <ns2:location>
+                    <ns2:begin position="83"/>
+                    <ns2:end position="98"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20465586"/>
+                    <ns2:end position="20465633"/>
+                </genomeLocation>
+            </feature>
+            <feature type="sequence conflict">
+                <ns2:original>N</ns2:original>
+                <ns2:variation>D</ns2:variation>
+                <ns2:location>
+                    <ns2:position position="463"/>
+                </ns2:location>
+                <ns2:description/>
+                <ns2:evidence code="ECO:0000305"/>
+                <genomeLocation>
+                    <ns2:begin position="20480678"/>
+                    <ns2:end position="20480680"/>
+                </genomeLocation>
+            </feature>
+            <feature type="turn">
+                <ns2:location>
+                    <ns2:begin position="364"/>
+                    <ns2:end position="366"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20475765"/>
+                    <ns2:end position="20475773"/>
+                </genomeLocation>
+            </feature>
+            <feature type="helix">
+                <ns2:location>
+                    <ns2:begin position="560"/>
+                    <ns2:end position="567"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20486622"/>
+                    <ns2:end position="20486645"/>
+                </genomeLocation>
+            </feature>
+            <feature type="turn">
+                <ns2:location>
+                    <ns2:begin position="34"/>
+                    <ns2:end position="36"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3B7W" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20460214"/>
+                    <ns2:end position="20460222"/>
+                </genomeLocation>
+            </feature>
+            <feature type="binding site">
+                <ns2:location>
+                    <ns2:position position="446"/>
+                </ns2:location>
+                <ns2:description>ATP.</ns2:description>
+                <ns2:evidence code="ECO:0000269"/>
+                <ns2:evidence code="ECO:0000269">
+                    <ns2:dbReference id="19345228" type="PubMed"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20480627"/>
+                    <ns2:end position="20480629"/>
+                </genomeLocation>
+            </feature>
+            <feature type="helix">
+                <ns2:location>
+                    <ns2:begin position="343"/>
+                    <ns2:end position="353"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20475702"/>
+                    <ns2:end position="20475734"/>
+                </genomeLocation>
+            </feature>
+            <feature type="binding site">
+                <ns2:location>
+                    <ns2:position position="139"/>
+                </ns2:location>
+                <ns2:description>Coenzyme A.</ns2:description>
+                <ns2:evidence code="ECO:0000269">
+                    <ns2:dbReference id="19345228" type="PubMed"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20469538"/>
+                    <ns2:end position="20469540"/>
+                </genomeLocation>
+            </feature>
+            <feature type="strand">
+                <ns2:location>
+                    <ns2:begin position="502"/>
+                    <ns2:end position="511"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20480916"/>
+                    <ns2:end position="20483081"/>
+                </genomeLocation>
+            </feature>
+            <feature type="strand">
+                <ns2:location>
+                    <ns2:begin position="415"/>
+                    <ns2:end position="417"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20478639"/>
+                    <ns2:end position="20478647"/>
+                </genomeLocation>
+            </feature>
+            <feature type="nucleotide phosphate-binding region">
+                <ns2:location>
+                    <ns2:begin position="221"/>
+                    <ns2:end position="229"/>
+                </ns2:location>
+                <ns2:description>ATP.</ns2:description>
+                <ns2:evidence code="ECO:0000269">
+                    <ns2:dbReference id="19345228" type="PubMed"/>
+                </ns2:evidence>
+                <ns2:evidence code="ECO:0000269"/>
+                <genomeLocation>
+                    <ns2:begin position="20471137"/>
+                    <ns2:end position="20471163"/>
+                </genomeLocation>
+            </feature>
+            <feature type="helix">
+                <ns2:location>
+                    <ns2:begin position="266"/>
+                    <ns2:end position="271"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20471591"/>
+                    <ns2:end position="20471608"/>
+                </genomeLocation>
+            </feature>
+            <feature type="strand">
+                <ns2:location>
+                    <ns2:begin position="78"/>
+                    <ns2:end position="82"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20465571"/>
+                    <ns2:end position="20465585"/>
+                </genomeLocation>
+            </feature>
+            <feature type="strand">
+                <ns2:location>
+                    <ns2:begin position="214"/>
+                    <ns2:end position="220"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20471116"/>
+                    <ns2:end position="20471136"/>
+                </genomeLocation>
+            </feature>
+            <feature type="sequence variant" id="VAR_058694">
+                <ns2:original>V</ns2:original>
+                <ns2:variation>G</ns2:variation>
+                <ns2:location>
+                    <ns2:position position="337"/>
+                </ns2:location>
+                <ns2:description>in dbSNP:rs4586421.</ns2:description>
+                <genomeLocation>
+                    <ns2:begin position="20475684"/>
+                    <ns2:end position="20475686"/>
+                </genomeLocation>
+            </feature>
+        </gnCoordinate>
+        <gnCoordinate ensembl_gene_id="ENSG00000183747" ensembl_transcript_id="ENST00000575690" ensembl_translation_id="ENSP00000460349">
+            <genomicLocation chromosome="16" start="20460115" end="20486675" reverse_strand="false">
+                <exon id="ENSE00003655320">
+                    <proteinLocation>
+                        <ns2:begin position="1"/>
+                        <ns2:end position="59"/>
+                    </proteinLocation>
+                    <genomeLocation>
+                        <ns2:begin position="20460115"/>
+                        <ns2:end position="20460291"/>
+                    </genomeLocation>
+                </exon>
+                <exon id="ENSE00003508579">
+                    <proteinLocation>
+                        <ns2:begin position="60"/>
+                        <ns2:end position="130"/>
+                    </proteinLocation>
+                    <genomeLocation>
+                        <ns2:begin position="20465517"/>
+                        <ns2:end position="20465727"/>
+                    </genomeLocation>
+                </exon>
+                <exon id="ENSE00003471890">
+                    <proteinLocation>
+                        <ns2:begin position="130"/>
+                        <ns2:end position="199"/>
+                    </proteinLocation>
+                    <genomeLocation>
+                        <ns2:begin position="20469512"/>
+                        <ns2:end position="20469719"/>
+                    </genomeLocation>
+                </exon>
+                <exon id="ENSE00003608514">
+                    <proteinLocation>
+                        <ns2:begin position="199"/>
+                        <ns2:end position="247"/>
+                    </proteinLocation>
+                    <genomeLocation>
+                        <ns2:begin position="20471073"/>
+                        <ns2:end position="20471216"/>
+                    </genomeLocation>
+                </exon>
+                <exon id="ENSE00003570546">
+                    <proteinLocation>
+                        <ns2:begin position="247"/>
+                        <ns2:end position="298"/>
+                    </proteinLocation>
+                    <genomeLocation>
+                        <ns2:begin position="20471536"/>
+                        <ns2:end position="20471689"/>
+                    </genomeLocation>
+                </exon>
+                <exon id="ENSE00003465674">
+                    <proteinLocation>
+                        <ns2:begin position="299"/>
+                        <ns2:end position="325"/>
+                    </proteinLocation>
+                    <genomeLocation>
+                        <ns2:begin position="20475362"/>
+                        <ns2:end position="20475441"/>
+                    </genomeLocation>
+                </exon>
+                <exon id="ENSE00003547786">
+                    <proteinLocation>
+                        <ns2:begin position="325"/>
+                        <ns2:end position="366"/>
+                    </proteinLocation>
+                    <genomeLocation>
+                        <ns2:begin position="20475650"/>
+                        <ns2:end position="20475773"/>
+                    </genomeLocation>
+                </exon>
+                <exon id="ENSE00003492429">
+                    <proteinLocation>
+                        <ns2:begin position="367"/>
+                        <ns2:end position="393"/>
+                    </proteinLocation>
+                    <genomeLocation>
+                        <ns2:begin position="20477369"/>
+                        <ns2:end position="20477449"/>
+                    </genomeLocation>
+                </exon>
+                <exon id="ENSE00003606136">
+                    <proteinLocation>
+                        <ns2:begin position="394"/>
+                        <ns2:end position="427"/>
+                    </proteinLocation>
+                    <genomeLocation>
+                        <ns2:begin position="20478576"/>
+                        <ns2:end position="20478677"/>
+                    </genomeLocation>
+                </exon>
+                <exon id="ENSE00003468285">
+                    <proteinLocation>
+                        <ns2:begin position="428"/>
+                        <ns2:end position="470"/>
+                    </proteinLocation>
+                    <genomeLocation>
+                        <ns2:begin position="20480573"/>
+                        <ns2:end position="20480700"/>
+                    </genomeLocation>
+                </exon>
+                <exon id="ENSE00003491554">
+                    <proteinLocation>
+                        <ns2:begin position="470"/>
+                        <ns2:end position="503"/>
+                    </proteinLocation>
+                    <genomeLocation>
+                        <ns2:begin position="20480822"/>
+                        <ns2:end position="20480921"/>
+                    </genomeLocation>
+                </exon>
+                <exon id="ENSE00003556733">
+                    <proteinLocation>
+                        <ns2:begin position="504"/>
+                        <ns2:end position="543"/>
+                    </proteinLocation>
+                    <genomeLocation>
+                        <ns2:begin position="20483058"/>
+                        <ns2:end position="20483177"/>
+                    </genomeLocation>
+                </exon>
+                <exon id="ENSE00002649765">
+                    <proteinLocation>
+                        <ns2:begin position="544"/>
+                        <ns2:end position="577"/>
+                    </proteinLocation>
+                    <genomeLocation>
+                        <ns2:begin position="20486574"/>
+                        <ns2:end position="20486675"/>
+                    </genomeLocation>
+                </exon>
+            </genomicLocation>
+            <feature type="helix">
+                <ns2:location>
+                    <ns2:begin position="293"/>
+                    <ns2:end position="302"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20471672"/>
+                    <ns2:end position="20475373"/>
+                </genomeLocation>
+            </feature>
+            <feature type="helix">
+                <ns2:location>
+                    <ns2:begin position="462"/>
+                    <ns2:end position="464"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20480675"/>
+                    <ns2:end position="20480683"/>
+                </genomeLocation>
+            </feature>
+            <feature type="turn">
+                <ns2:location>
+                    <ns2:begin position="99"/>
+                    <ns2:end position="101"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20465634"/>
+                    <ns2:end position="20465642"/>
+                </genomeLocation>
+            </feature>
+            <feature type="turn">
+                <ns2:location>
+                    <ns2:begin position="499"/>
+                    <ns2:end position="501"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20480907"/>
+                    <ns2:end position="20480915"/>
+                </genomeLocation>
+            </feature>
+            <feature type="binding site">
+                <ns2:location>
+                    <ns2:position position="472"/>
+                </ns2:location>
+                <ns2:description>Substrate.</ns2:description>
+                <ns2:evidence code="ECO:0000269">
+                    <ns2:dbReference id="19345228" type="PubMed"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20480826"/>
+                    <ns2:end position="20480828"/>
+                </genomeLocation>
+            </feature>
+            <feature type="binding site">
+                <ns2:location>
+                    <ns2:position position="532"/>
+                </ns2:location>
+                <ns2:description>Coenzyme A.</ns2:description>
+                <ns2:evidence code="ECO:0000269">
+                    <ns2:dbReference id="19345228" type="PubMed"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20483142"/>
+                    <ns2:end position="20483144"/>
+                </genomeLocation>
+            </feature>
+            <feature type="strand">
+                <ns2:location>
+                    <ns2:begin position="488"/>
+                    <ns2:end position="498"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20480874"/>
+                    <ns2:end position="20480906"/>
+                </genomeLocation>
+            </feature>
+            <feature type="binding site">
+                <ns2:location>
+                    <ns2:position position="501"/>
+                </ns2:location>
+                <ns2:description>Coenzyme A.</ns2:description>
+                <ns2:evidence code="ECO:0000269">
+                    <ns2:dbReference id="19345228" type="PubMed"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20480913"/>
+                    <ns2:end position="20480915"/>
+                </genomeLocation>
+            </feature>
+            <feature type="binding site">
+                <ns2:location>
+                    <ns2:position position="364"/>
+                </ns2:location>
+                <ns2:description>Substrate.</ns2:description>
+                <ns2:evidence code="ECO:0000269">
+                    <ns2:dbReference id="19345228" type="PubMed"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20475765"/>
+                    <ns2:end position="20475767"/>
+                </genomeLocation>
+            </feature>
+            <feature type="helix">
+                <ns2:location>
+                    <ns2:begin position="171"/>
+                    <ns2:end position="173"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20469634"/>
+                    <ns2:end position="20469642"/>
+                </genomeLocation>
+            </feature>
+            <feature type="sequence variant" id="VAR_035248">
+                <ns2:original>A</ns2:original>
+                <ns2:variation>T</ns2:variation>
+                <ns2:location>
+                    <ns2:position position="561"/>
+                </ns2:location>
+                <ns2:description>in dbSNP:rs1054977.</ns2:description>
+                <genomeLocation>
+                    <ns2:begin position="20486625"/>
+                    <ns2:end position="20486627"/>
+                </genomeLocation>
+            </feature>
+            <feature type="helix">
+                <ns2:location>
+                    <ns2:begin position="430"/>
+                    <ns2:end position="435"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20480579"/>
+                    <ns2:end position="20480596"/>
+                </genomeLocation>
+            </feature>
+            <feature type="strand">
+                <ns2:location>
+                    <ns2:begin position="74"/>
+                    <ns2:end position="76"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20465559"/>
+                    <ns2:end position="20465567"/>
+                </genomeLocation>
+            </feature>
+            <feature type="helix">
+                <ns2:location>
+                    <ns2:begin position="274"/>
+                    <ns2:end position="278"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20471615"/>
+                    <ns2:end position="20471629"/>
+                </genomeLocation>
+            </feature>
+            <feature type="strand">
+                <ns2:location>
+                    <ns2:begin position="367"/>
+                    <ns2:end position="371"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20477369"/>
+                    <ns2:end position="20477383"/>
+                </genomeLocation>
+            </feature>
+            <feature type="strand">
+                <ns2:location>
+                    <ns2:begin position="191"/>
+                    <ns2:end position="193"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20469694"/>
+                    <ns2:end position="20469702"/>
+                </genomeLocation>
+            </feature>
+            <feature type="strand">
+                <ns2:location>
+                    <ns2:begin position="256"/>
+                    <ns2:end position="259"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20471561"/>
+                    <ns2:end position="20471572"/>
+                </genomeLocation>
+            </feature>
+            <feature type="region of interest">
+                <ns2:location>
+                    <ns2:begin position="540"/>
+                    <ns2:end position="542"/>
+                </ns2:location>
+                <ns2:description>Coenzyme A binding.</ns2:description>
+                <ns2:evidence code="ECO:0000269">
+                    <ns2:dbReference id="19345228" type="PubMed"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20483166"/>
+                    <ns2:end position="20483174"/>
+                </genomeLocation>
+            </feature>
+            <feature type="helix">
+                <ns2:location>
+                    <ns2:begin position="164"/>
+                    <ns2:end position="170"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20469613"/>
+                    <ns2:end position="20469633"/>
+                </genomeLocation>
+            </feature>
+            <feature type="region of interest">
+                <ns2:location>
+                    <ns2:begin position="469"/>
+                    <ns2:end position="471"/>
+                </ns2:location>
+                <ns2:description>Coenzyme A binding.</ns2:description>
+                <ns2:evidence code="ECO:0000269">
+                    <ns2:dbReference id="19345228" type="PubMed"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20480696"/>
+                    <ns2:end position="20480825"/>
+                </genomeLocation>
+            </feature>
+            <feature type="strand">
+                <ns2:location>
+                    <ns2:begin position="67"/>
+                    <ns2:end position="72"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20465538"/>
+                    <ns2:end position="20465555"/>
+                </genomeLocation>
+            </feature>
+            <feature type="strand">
+                <ns2:location>
+                    <ns2:begin position="542"/>
+                    <ns2:end position="548"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20483172"/>
+                    <ns2:end position="20486588"/>
+                </genomeLocation>
+            </feature>
+            <feature type="strand">
+                <ns2:location>
+                    <ns2:begin position="307"/>
+                    <ns2:end position="310"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20475386"/>
+                    <ns2:end position="20475397"/>
+                </genomeLocation>
+            </feature>
+            <feature type="modified residue">
+                <ns2:location>
+                    <ns2:position position="513"/>
+                </ns2:location>
+                <ns2:description>Phosphoserine.</ns2:description>
+                <ns2:evidence code="ECO:0000250">
+                    <ns2:dbReference id="Q68CK6" type="UniProtKB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20483085"/>
+                    <ns2:end position="20483087"/>
+                </genomeLocation>
+            </feature>
+            <feature type="strand">
+                <ns2:location>
+                    <ns2:begin position="466"/>
+                    <ns2:end position="468"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20480687"/>
+                    <ns2:end position="20480695"/>
+                </genomeLocation>
+            </feature>
+            <feature type="turn">
+                <ns2:location>
+                    <ns2:begin position="161"/>
+                    <ns2:end position="163"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20469604"/>
+                    <ns2:end position="20469612"/>
+                </genomeLocation>
+            </feature>
+            <feature type="helix">
+                <ns2:location>
+                    <ns2:begin position="51"/>
+                    <ns2:end position="59"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20460265"/>
+                    <ns2:end position="20460291"/>
+                </genomeLocation>
+            </feature>
+            <feature type="strand">
+                <ns2:location>
+                    <ns2:begin position="408"/>
+                    <ns2:end position="413"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20478618"/>
+                    <ns2:end position="20478635"/>
+                </genomeLocation>
+            </feature>
+            <feature type="binding site">
+                <ns2:location>
+                    <ns2:position position="557"/>
+                </ns2:location>
+                <ns2:description>ATP.</ns2:description>
+                <ns2:evidence code="ECO:0000269"/>
+                <ns2:evidence code="ECO:0000269">
+                    <ns2:dbReference id="19345228" type="PubMed"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20486613"/>
+                    <ns2:end position="20486615"/>
+                </genomeLocation>
+            </feature>
+            <feature type="helix">
+                <ns2:location>
+                    <ns2:begin position="46"/>
+                    <ns2:end position="49"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20460250"/>
+                    <ns2:end position="20460261"/>
+                </genomeLocation>
+            </feature>
+            <feature type="strand">
+                <ns2:location>
+                    <ns2:begin position="179"/>
+                    <ns2:end position="186"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20469658"/>
+                    <ns2:end position="20469681"/>
+                </genomeLocation>
+            </feature>
+            <feature type="chain" id="PRO_0000306093">
+                <ns2:location>
+                    <ns2:begin position="47"/>
+                    <ns2:end position="577"/>
+                </ns2:location>
+                <ns2:description>Acyl-coenzyme A synthetase ACSM2A, mitochondrial.</ns2:description>
+                <genomeLocation>
+                    <ns2:begin position="20460253"/>
+                    <ns2:end position="20486675"/>
+                </genomeLocation>
+            </feature>
+            <feature type="sequence variant" id="VAR_035247">
+                <ns2:original>S</ns2:original>
+                <ns2:variation>L</ns2:variation>
+                <ns2:location>
+                    <ns2:position position="513"/>
+                </ns2:location>
+                <ns2:description>in dbSNP:rs1133607.</ns2:description>
+                <ns2:evidence code="ECO:0000269">
+                    <ns2:dbReference id="16521160" type="PubMed"/>
+                </ns2:evidence>
+                <ns2:evidence code="ECO:0000269">
+                    <ns2:dbReference id="12654705" type="PubMed"/>
+                </ns2:evidence>
+                <ns2:evidence code="ECO:0000269">
+                    <ns2:dbReference id="10493829" type="PubMed"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20483085"/>
+                    <ns2:end position="20483087"/>
+                </genomeLocation>
+            </feature>
+            <feature type="helix">
+                <ns2:location>
+                    <ns2:begin position="537"/>
+                    <ns2:end position="539"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20483157"/>
+                    <ns2:end position="20483165"/>
+                </genomeLocation>
+            </feature>
+            <feature type="sequence variant" id="VAR_058692">
+                <ns2:original>V</ns2:original>
+                <ns2:variation>L</ns2:variation>
+                <ns2:location>
+                    <ns2:position position="335"/>
+                </ns2:location>
+                <ns2:description>in dbSNP:rs4643305.</ns2:description>
+                <genomeLocation>
+                    <ns2:begin position="20475678"/>
+                    <ns2:end position="20475680"/>
+                </genomeLocation>
+            </feature>
+            <feature type="helix">
+                <ns2:location>
+                    <ns2:begin position="235"/>
+                    <ns2:end position="245"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20471179"/>
+                    <ns2:end position="20471211"/>
+                </genomeLocation>
+            </feature>
+            <feature type="strand">
+                <ns2:location>
+                    <ns2:begin position="392"/>
+                    <ns2:end position="395"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20477444"/>
+                    <ns2:end position="20478581"/>
+                </genomeLocation>
+            </feature>
+            <feature type="strand">
+                <ns2:location>
+                    <ns2:begin position="333"/>
+                    <ns2:end position="339"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20475672"/>
+                    <ns2:end position="20475692"/>
+                </genomeLocation>
+            </feature>
+            <feature type="helix">
+                <ns2:location>
+                    <ns2:begin position="312"/>
+                    <ns2:end position="319"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20475401"/>
+                    <ns2:end position="20475424"/>
+                </genomeLocation>
+            </feature>
+            <feature type="nucleotide phosphate-binding region">
+                <ns2:location>
+                    <ns2:begin position="359"/>
+                    <ns2:end position="364"/>
+                </ns2:location>
+                <ns2:description>ATP.</ns2:description>
+                <ns2:evidence code="ECO:0000269"/>
+                <ns2:evidence code="ECO:0000269">
+                    <ns2:dbReference id="19345228" type="PubMed"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20475750"/>
+                    <ns2:end position="20475767"/>
+                </genomeLocation>
+            </feature>
+            <feature type="turn">
+                <ns2:location>
+                    <ns2:begin position="323"/>
+                    <ns2:end position="325"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20475434"/>
+                    <ns2:end position="20475650"/>
+                </genomeLocation>
+            </feature>
+            <feature type="helix">
+                <ns2:location>
+                    <ns2:begin position="475"/>
+                    <ns2:end position="483"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20480835"/>
+                    <ns2:end position="20480861"/>
+                </genomeLocation>
+            </feature>
+            <feature type="helix">
+                <ns2:location>
+                    <ns2:begin position="513"/>
+                    <ns2:end position="515"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20483085"/>
+                    <ns2:end position="20483093"/>
+                </genomeLocation>
+            </feature>
+            <feature type="transit peptide">
+                <ns2:location>
+                    <ns2:begin position="1"/>
+                    <ns2:end position="46"/>
+                </ns2:location>
+                <ns2:description>Mitochondrion.</ns2:description>
+                <ns2:evidence code="ECO:0000255"/>
+                <genomeLocation>
+                    <ns2:begin position="20460115"/>
+                    <ns2:end position="20460252"/>
+                </genomeLocation>
+            </feature>
+            <feature type="helix">
+                <ns2:location>
+                    <ns2:begin position="117"/>
+                    <ns2:end position="129"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20465688"/>
+                    <ns2:end position="20465726"/>
+                </genomeLocation>
+            </feature>
+            <feature type="turn">
+                <ns2:location>
+                    <ns2:begin position="246"/>
+                    <ns2:end position="249"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20471212"/>
+                    <ns2:end position="20471542"/>
+                </genomeLocation>
+            </feature>
+            <feature type="strand">
+                <ns2:location>
+                    <ns2:begin position="471"/>
+                    <ns2:end position="473"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20480823"/>
+                    <ns2:end position="20480831"/>
+                </genomeLocation>
+            </feature>
+            <feature type="strand">
+                <ns2:location>
+                    <ns2:begin position="441"/>
+                    <ns2:end position="450"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20480612"/>
+                    <ns2:end position="20480641"/>
+                </genomeLocation>
+            </feature>
+            <feature type="strand">
+                <ns2:location>
+                    <ns2:begin position="358"/>
+                    <ns2:end position="363"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20475747"/>
+                    <ns2:end position="20475764"/>
+                </genomeLocation>
+            </feature>
+            <feature type="modified residue">
+                <ns2:location>
+                    <ns2:position position="327"/>
+                </ns2:location>
+                <ns2:description>N6-acetyllysine.</ns2:description>
+                <ns2:evidence code="ECO:0000250">
+                    <ns2:dbReference id="Q8BGA8" type="UniProtKB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20475654"/>
+                    <ns2:end position="20475656"/>
+                </genomeLocation>
+            </feature>
+            <feature type="strand">
+                <ns2:location>
+                    <ns2:begin position="108"/>
+                    <ns2:end position="112"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20465661"/>
+                    <ns2:end position="20465675"/>
+                </genomeLocation>
+            </feature>
+            <feature type="helix">
+                <ns2:location>
+                    <ns2:begin position="142"/>
+                    <ns2:end position="152"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20469547"/>
+                    <ns2:end position="20469579"/>
+                </genomeLocation>
+            </feature>
+            <feature type="strand">
+                <ns2:location>
+                    <ns2:begin position="230"/>
+                    <ns2:end position="234"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20471164"/>
+                    <ns2:end position="20471178"/>
+                </genomeLocation>
+            </feature>
+            <feature type="binding site">
+                <ns2:location>
+                    <ns2:position position="461"/>
+                </ns2:location>
+                <ns2:description>ATP.</ns2:description>
+                <ns2:evidence code="ECO:0000269">
+                    <ns2:dbReference id="19345228" type="PubMed"/>
+                </ns2:evidence>
+                <ns2:evidence code="ECO:0000269"/>
+                <genomeLocation>
+                    <ns2:begin position="20480672"/>
+                    <ns2:end position="20480674"/>
+                </genomeLocation>
+            </feature>
+            <feature type="strand">
+                <ns2:location>
+                    <ns2:begin position="224"/>
+                    <ns2:end position="227"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20471146"/>
+                    <ns2:end position="20471157"/>
+                </genomeLocation>
+            </feature>
+            <feature type="helix">
+                <ns2:location>
+                    <ns2:begin position="194"/>
+                    <ns2:end position="200"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20469703"/>
+                    <ns2:end position="20471076"/>
+                </genomeLocation>
+            </feature>
+            <feature type="strand">
+                <ns2:location>
+                    <ns2:begin position="282"/>
+                    <ns2:end position="286"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20471639"/>
+                    <ns2:end position="20471653"/>
+                </genomeLocation>
+            </feature>
+            <feature type="helix">
+                <ns2:location>
+                    <ns2:begin position="520"/>
+                    <ns2:end position="534"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20483106"/>
+                    <ns2:end position="20483150"/>
+                </genomeLocation>
+            </feature>
+            <feature type="strand">
+                <ns2:location>
+                    <ns2:begin position="456"/>
+                    <ns2:end position="461"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20480657"/>
+                    <ns2:end position="20480674"/>
+                </genomeLocation>
+            </feature>
+            <feature type="strand">
+                <ns2:location>
+                    <ns2:begin position="155"/>
+                    <ns2:end position="160"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20469586"/>
+                    <ns2:end position="20469603"/>
+                </genomeLocation>
+            </feature>
+            <feature type="strand">
+                <ns2:location>
+                    <ns2:begin position="132"/>
+                    <ns2:end position="135"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20469517"/>
+                    <ns2:end position="20469528"/>
+                </genomeLocation>
+            </feature>
+            <feature type="helix">
+                <ns2:location>
+                    <ns2:begin position="83"/>
+                    <ns2:end position="98"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20465586"/>
+                    <ns2:end position="20465633"/>
+                </genomeLocation>
+            </feature>
+            <feature type="sequence conflict">
+                <ns2:original>N</ns2:original>
+                <ns2:variation>D</ns2:variation>
+                <ns2:location>
+                    <ns2:position position="463"/>
+                </ns2:location>
+                <ns2:description/>
+                <ns2:evidence code="ECO:0000305"/>
+                <genomeLocation>
+                    <ns2:begin position="20480678"/>
+                    <ns2:end position="20480680"/>
+                </genomeLocation>
+            </feature>
+            <feature type="turn">
+                <ns2:location>
+                    <ns2:begin position="364"/>
+                    <ns2:end position="366"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20475765"/>
+                    <ns2:end position="20475773"/>
+                </genomeLocation>
+            </feature>
+            <feature type="helix">
+                <ns2:location>
+                    <ns2:begin position="560"/>
+                    <ns2:end position="567"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20486622"/>
+                    <ns2:end position="20486645"/>
+                </genomeLocation>
+            </feature>
+            <feature type="turn">
+                <ns2:location>
+                    <ns2:begin position="34"/>
+                    <ns2:end position="36"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3B7W" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20460214"/>
+                    <ns2:end position="20460222"/>
+                </genomeLocation>
+            </feature>
+            <feature type="binding site">
+                <ns2:location>
+                    <ns2:position position="446"/>
+                </ns2:location>
+                <ns2:description>ATP.</ns2:description>
+                <ns2:evidence code="ECO:0000269"/>
+                <ns2:evidence code="ECO:0000269">
+                    <ns2:dbReference id="19345228" type="PubMed"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20480627"/>
+                    <ns2:end position="20480629"/>
+                </genomeLocation>
+            </feature>
+            <feature type="helix">
+                <ns2:location>
+                    <ns2:begin position="343"/>
+                    <ns2:end position="353"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20475702"/>
+                    <ns2:end position="20475734"/>
+                </genomeLocation>
+            </feature>
+            <feature type="binding site">
+                <ns2:location>
+                    <ns2:position position="139"/>
+                </ns2:location>
+                <ns2:description>Coenzyme A.</ns2:description>
+                <ns2:evidence code="ECO:0000269">
+                    <ns2:dbReference id="19345228" type="PubMed"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20469538"/>
+                    <ns2:end position="20469540"/>
+                </genomeLocation>
+            </feature>
+            <feature type="strand">
+                <ns2:location>
+                    <ns2:begin position="502"/>
+                    <ns2:end position="511"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20480916"/>
+                    <ns2:end position="20483081"/>
+                </genomeLocation>
+            </feature>
+            <feature type="strand">
+                <ns2:location>
+                    <ns2:begin position="415"/>
+                    <ns2:end position="417"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20478639"/>
+                    <ns2:end position="20478647"/>
+                </genomeLocation>
+            </feature>
+            <feature type="nucleotide phosphate-binding region">
+                <ns2:location>
+                    <ns2:begin position="221"/>
+                    <ns2:end position="229"/>
+                </ns2:location>
+                <ns2:description>ATP.</ns2:description>
+                <ns2:evidence code="ECO:0000269">
+                    <ns2:dbReference id="19345228" type="PubMed"/>
+                </ns2:evidence>
+                <ns2:evidence code="ECO:0000269"/>
+                <genomeLocation>
+                    <ns2:begin position="20471137"/>
+                    <ns2:end position="20471163"/>
+                </genomeLocation>
+            </feature>
+            <feature type="helix">
+                <ns2:location>
+                    <ns2:begin position="266"/>
+                    <ns2:end position="271"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20471591"/>
+                    <ns2:end position="20471608"/>
+                </genomeLocation>
+            </feature>
+            <feature type="strand">
+                <ns2:location>
+                    <ns2:begin position="78"/>
+                    <ns2:end position="82"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20465571"/>
+                    <ns2:end position="20465585"/>
+                </genomeLocation>
+            </feature>
+            <feature type="strand">
+                <ns2:location>
+                    <ns2:begin position="214"/>
+                    <ns2:end position="220"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20471116"/>
+                    <ns2:end position="20471136"/>
+                </genomeLocation>
+            </feature>
+            <feature type="sequence variant" id="VAR_058694">
+                <ns2:original>V</ns2:original>
+                <ns2:variation>G</ns2:variation>
+                <ns2:location>
+                    <ns2:position position="337"/>
+                </ns2:location>
+                <ns2:description>in dbSNP:rs4586421.</ns2:description>
+                <genomeLocation>
+                    <ns2:begin position="20475684"/>
+                    <ns2:end position="20475686"/>
+                </genomeLocation>
+            </feature>
+        </gnCoordinate>
+        <gnCoordinate ensembl_gene_id="ENSG00000183747" ensembl_transcript_id="ENST00000396104" ensembl_translation_id="ENSP00000379411">
+            <genomicLocation chromosome="16" start="20460115" end="20486675" reverse_strand="false">
+                <exon id="ENSE00001773140">
+                    <proteinLocation>
+                        <ns2:begin position="1"/>
+                        <ns2:end position="59"/>
+                    </proteinLocation>
+                    <genomeLocation>
+                        <ns2:begin position="20460115"/>
+                        <ns2:end position="20460291"/>
+                    </genomeLocation>
+                </exon>
+                <exon id="ENSE00003508579">
+                    <proteinLocation>
+                        <ns2:begin position="60"/>
+                        <ns2:end position="130"/>
+                    </proteinLocation>
+                    <genomeLocation>
+                        <ns2:begin position="20465517"/>
+                        <ns2:end position="20465727"/>
+                    </genomeLocation>
+                </exon>
+                <exon id="ENSE00003471890">
+                    <proteinLocation>
+                        <ns2:begin position="130"/>
+                        <ns2:end position="199"/>
+                    </proteinLocation>
+                    <genomeLocation>
+                        <ns2:begin position="20469512"/>
+                        <ns2:end position="20469719"/>
+                    </genomeLocation>
+                </exon>
+                <exon id="ENSE00003608514">
+                    <proteinLocation>
+                        <ns2:begin position="199"/>
+                        <ns2:end position="247"/>
+                    </proteinLocation>
+                    <genomeLocation>
+                        <ns2:begin position="20471073"/>
+                        <ns2:end position="20471216"/>
+                    </genomeLocation>
+                </exon>
+                <exon id="ENSE00003570546">
+                    <proteinLocation>
+                        <ns2:begin position="247"/>
+                        <ns2:end position="298"/>
+                    </proteinLocation>
+                    <genomeLocation>
+                        <ns2:begin position="20471536"/>
+                        <ns2:end position="20471689"/>
+                    </genomeLocation>
+                </exon>
+                <exon id="ENSE00003465674">
+                    <proteinLocation>
+                        <ns2:begin position="299"/>
+                        <ns2:end position="325"/>
+                    </proteinLocation>
+                    <genomeLocation>
+                        <ns2:begin position="20475362"/>
+                        <ns2:end position="20475441"/>
+                    </genomeLocation>
+                </exon>
+                <exon id="ENSE00003547786">
+                    <proteinLocation>
+                        <ns2:begin position="325"/>
+                        <ns2:end position="366"/>
+                    </proteinLocation>
+                    <genomeLocation>
+                        <ns2:begin position="20475650"/>
+                        <ns2:end position="20475773"/>
+                    </genomeLocation>
+                </exon>
+                <exon id="ENSE00003492429">
+                    <proteinLocation>
+                        <ns2:begin position="367"/>
+                        <ns2:end position="393"/>
+                    </proteinLocation>
+                    <genomeLocation>
+                        <ns2:begin position="20477369"/>
+                        <ns2:end position="20477449"/>
+                    </genomeLocation>
+                </exon>
+                <exon id="ENSE00003606136">
+                    <proteinLocation>
+                        <ns2:begin position="394"/>
+                        <ns2:end position="427"/>
+                    </proteinLocation>
+                    <genomeLocation>
+                        <ns2:begin position="20478576"/>
+                        <ns2:end position="20478677"/>
+                    </genomeLocation>
+                </exon>
+                <exon id="ENSE00003468285">
+                    <proteinLocation>
+                        <ns2:begin position="428"/>
+                        <ns2:end position="470"/>
+                    </proteinLocation>
+                    <genomeLocation>
+                        <ns2:begin position="20480573"/>
+                        <ns2:end position="20480700"/>
+                    </genomeLocation>
+                </exon>
+                <exon id="ENSE00003491554">
+                    <proteinLocation>
+                        <ns2:begin position="470"/>
+                        <ns2:end position="503"/>
+                    </proteinLocation>
+                    <genomeLocation>
+                        <ns2:begin position="20480822"/>
+                        <ns2:end position="20480921"/>
+                    </genomeLocation>
+                </exon>
+                <exon id="ENSE00003556733">
+                    <proteinLocation>
+                        <ns2:begin position="504"/>
+                        <ns2:end position="543"/>
+                    </proteinLocation>
+                    <genomeLocation>
+                        <ns2:begin position="20483058"/>
+                        <ns2:end position="20483177"/>
+                    </genomeLocation>
+                </exon>
+                <exon id="ENSE00001523880">
+                    <proteinLocation>
+                        <ns2:begin position="544"/>
+                        <ns2:end position="577"/>
+                    </proteinLocation>
+                    <genomeLocation>
+                        <ns2:begin position="20486574"/>
+                        <ns2:end position="20486675"/>
+                    </genomeLocation>
+                </exon>
+            </genomicLocation>
+            <feature type="helix">
+                <ns2:location>
+                    <ns2:begin position="293"/>
+                    <ns2:end position="302"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20471672"/>
+                    <ns2:end position="20475373"/>
+                </genomeLocation>
+            </feature>
+            <feature type="helix">
+                <ns2:location>
+                    <ns2:begin position="462"/>
+                    <ns2:end position="464"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20480675"/>
+                    <ns2:end position="20480683"/>
+                </genomeLocation>
+            </feature>
+            <feature type="turn">
+                <ns2:location>
+                    <ns2:begin position="99"/>
+                    <ns2:end position="101"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20465634"/>
+                    <ns2:end position="20465642"/>
+                </genomeLocation>
+            </feature>
+            <feature type="turn">
+                <ns2:location>
+                    <ns2:begin position="499"/>
+                    <ns2:end position="501"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20480907"/>
+                    <ns2:end position="20480915"/>
+                </genomeLocation>
+            </feature>
+            <feature type="binding site">
+                <ns2:location>
+                    <ns2:position position="472"/>
+                </ns2:location>
+                <ns2:description>Substrate.</ns2:description>
+                <ns2:evidence code="ECO:0000269">
+                    <ns2:dbReference id="19345228" type="PubMed"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20480826"/>
+                    <ns2:end position="20480828"/>
+                </genomeLocation>
+            </feature>
+            <feature type="binding site">
+                <ns2:location>
+                    <ns2:position position="532"/>
+                </ns2:location>
+                <ns2:description>Coenzyme A.</ns2:description>
+                <ns2:evidence code="ECO:0000269">
+                    <ns2:dbReference id="19345228" type="PubMed"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20483142"/>
+                    <ns2:end position="20483144"/>
+                </genomeLocation>
+            </feature>
+            <feature type="strand">
+                <ns2:location>
+                    <ns2:begin position="488"/>
+                    <ns2:end position="498"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20480874"/>
+                    <ns2:end position="20480906"/>
+                </genomeLocation>
+            </feature>
+            <feature type="binding site">
+                <ns2:location>
+                    <ns2:position position="501"/>
+                </ns2:location>
+                <ns2:description>Coenzyme A.</ns2:description>
+                <ns2:evidence code="ECO:0000269">
+                    <ns2:dbReference id="19345228" type="PubMed"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20480913"/>
+                    <ns2:end position="20480915"/>
+                </genomeLocation>
+            </feature>
+            <feature type="binding site">
+                <ns2:location>
+                    <ns2:position position="364"/>
+                </ns2:location>
+                <ns2:description>Substrate.</ns2:description>
+                <ns2:evidence code="ECO:0000269">
+                    <ns2:dbReference id="19345228" type="PubMed"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20475765"/>
+                    <ns2:end position="20475767"/>
+                </genomeLocation>
+            </feature>
+            <feature type="helix">
+                <ns2:location>
+                    <ns2:begin position="171"/>
+                    <ns2:end position="173"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20469634"/>
+                    <ns2:end position="20469642"/>
+                </genomeLocation>
+            </feature>
+            <feature type="sequence variant" id="VAR_035248">
+                <ns2:original>A</ns2:original>
+                <ns2:variation>T</ns2:variation>
+                <ns2:location>
+                    <ns2:position position="561"/>
+                </ns2:location>
+                <ns2:description>in dbSNP:rs1054977.</ns2:description>
+                <genomeLocation>
+                    <ns2:begin position="20486625"/>
+                    <ns2:end position="20486627"/>
+                </genomeLocation>
+            </feature>
+            <feature type="helix">
+                <ns2:location>
+                    <ns2:begin position="430"/>
+                    <ns2:end position="435"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20480579"/>
+                    <ns2:end position="20480596"/>
+                </genomeLocation>
+            </feature>
+            <feature type="strand">
+                <ns2:location>
+                    <ns2:begin position="74"/>
+                    <ns2:end position="76"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20465559"/>
+                    <ns2:end position="20465567"/>
+                </genomeLocation>
+            </feature>
+            <feature type="helix">
+                <ns2:location>
+                    <ns2:begin position="274"/>
+                    <ns2:end position="278"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20471615"/>
+                    <ns2:end position="20471629"/>
+                </genomeLocation>
+            </feature>
+            <feature type="strand">
+                <ns2:location>
+                    <ns2:begin position="367"/>
+                    <ns2:end position="371"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20477369"/>
+                    <ns2:end position="20477383"/>
+                </genomeLocation>
+            </feature>
+            <feature type="strand">
+                <ns2:location>
+                    <ns2:begin position="191"/>
+                    <ns2:end position="193"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20469694"/>
+                    <ns2:end position="20469702"/>
+                </genomeLocation>
+            </feature>
+            <feature type="strand">
+                <ns2:location>
+                    <ns2:begin position="256"/>
+                    <ns2:end position="259"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20471561"/>
+                    <ns2:end position="20471572"/>
+                </genomeLocation>
+            </feature>
+            <feature type="region of interest">
+                <ns2:location>
+                    <ns2:begin position="540"/>
+                    <ns2:end position="542"/>
+                </ns2:location>
+                <ns2:description>Coenzyme A binding.</ns2:description>
+                <ns2:evidence code="ECO:0000269">
+                    <ns2:dbReference id="19345228" type="PubMed"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20483166"/>
+                    <ns2:end position="20483174"/>
+                </genomeLocation>
+            </feature>
+            <feature type="helix">
+                <ns2:location>
+                    <ns2:begin position="164"/>
+                    <ns2:end position="170"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20469613"/>
+                    <ns2:end position="20469633"/>
+                </genomeLocation>
+            </feature>
+            <feature type="region of interest">
+                <ns2:location>
+                    <ns2:begin position="469"/>
+                    <ns2:end position="471"/>
+                </ns2:location>
+                <ns2:description>Coenzyme A binding.</ns2:description>
+                <ns2:evidence code="ECO:0000269">
+                    <ns2:dbReference id="19345228" type="PubMed"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20480696"/>
+                    <ns2:end position="20480825"/>
+                </genomeLocation>
+            </feature>
+            <feature type="strand">
+                <ns2:location>
+                    <ns2:begin position="67"/>
+                    <ns2:end position="72"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20465538"/>
+                    <ns2:end position="20465555"/>
+                </genomeLocation>
+            </feature>
+            <feature type="strand">
+                <ns2:location>
+                    <ns2:begin position="542"/>
+                    <ns2:end position="548"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20483172"/>
+                    <ns2:end position="20486588"/>
+                </genomeLocation>
+            </feature>
+            <feature type="strand">
+                <ns2:location>
+                    <ns2:begin position="307"/>
+                    <ns2:end position="310"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20475386"/>
+                    <ns2:end position="20475397"/>
+                </genomeLocation>
+            </feature>
+            <feature type="modified residue">
+                <ns2:location>
+                    <ns2:position position="513"/>
+                </ns2:location>
+                <ns2:description>Phosphoserine.</ns2:description>
+                <ns2:evidence code="ECO:0000250">
+                    <ns2:dbReference id="Q68CK6" type="UniProtKB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20483085"/>
+                    <ns2:end position="20483087"/>
+                </genomeLocation>
+            </feature>
+            <feature type="strand">
+                <ns2:location>
+                    <ns2:begin position="466"/>
+                    <ns2:end position="468"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20480687"/>
+                    <ns2:end position="20480695"/>
+                </genomeLocation>
+            </feature>
+            <feature type="turn">
+                <ns2:location>
+                    <ns2:begin position="161"/>
+                    <ns2:end position="163"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20469604"/>
+                    <ns2:end position="20469612"/>
+                </genomeLocation>
+            </feature>
+            <feature type="helix">
+                <ns2:location>
+                    <ns2:begin position="51"/>
+                    <ns2:end position="59"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20460265"/>
+                    <ns2:end position="20460291"/>
+                </genomeLocation>
+            </feature>
+            <feature type="strand">
+                <ns2:location>
+                    <ns2:begin position="408"/>
+                    <ns2:end position="413"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20478618"/>
+                    <ns2:end position="20478635"/>
+                </genomeLocation>
+            </feature>
+            <feature type="binding site">
+                <ns2:location>
+                    <ns2:position position="557"/>
+                </ns2:location>
+                <ns2:description>ATP.</ns2:description>
+                <ns2:evidence code="ECO:0000269"/>
+                <ns2:evidence code="ECO:0000269">
+                    <ns2:dbReference id="19345228" type="PubMed"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20486613"/>
+                    <ns2:end position="20486615"/>
+                </genomeLocation>
+            </feature>
+            <feature type="helix">
+                <ns2:location>
+                    <ns2:begin position="46"/>
+                    <ns2:end position="49"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20460250"/>
+                    <ns2:end position="20460261"/>
+                </genomeLocation>
+            </feature>
+            <feature type="strand">
+                <ns2:location>
+                    <ns2:begin position="179"/>
+                    <ns2:end position="186"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20469658"/>
+                    <ns2:end position="20469681"/>
+                </genomeLocation>
+            </feature>
+            <feature type="chain" id="PRO_0000306093">
+                <ns2:location>
+                    <ns2:begin position="47"/>
+                    <ns2:end position="577"/>
+                </ns2:location>
+                <ns2:description>Acyl-coenzyme A synthetase ACSM2A, mitochondrial.</ns2:description>
+                <genomeLocation>
+                    <ns2:begin position="20460253"/>
+                    <ns2:end position="20486675"/>
+                </genomeLocation>
+            </feature>
+            <feature type="sequence variant" id="VAR_035247">
+                <ns2:original>S</ns2:original>
+                <ns2:variation>L</ns2:variation>
+                <ns2:location>
+                    <ns2:position position="513"/>
+                </ns2:location>
+                <ns2:description>in dbSNP:rs1133607.</ns2:description>
+                <ns2:evidence code="ECO:0000269">
+                    <ns2:dbReference id="16521160" type="PubMed"/>
+                </ns2:evidence>
+                <ns2:evidence code="ECO:0000269">
+                    <ns2:dbReference id="12654705" type="PubMed"/>
+                </ns2:evidence>
+                <ns2:evidence code="ECO:0000269">
+                    <ns2:dbReference id="10493829" type="PubMed"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20483085"/>
+                    <ns2:end position="20483087"/>
+                </genomeLocation>
+            </feature>
+            <feature type="helix">
+                <ns2:location>
+                    <ns2:begin position="537"/>
+                    <ns2:end position="539"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20483157"/>
+                    <ns2:end position="20483165"/>
+                </genomeLocation>
+            </feature>
+            <feature type="sequence variant" id="VAR_058692">
+                <ns2:original>V</ns2:original>
+                <ns2:variation>L</ns2:variation>
+                <ns2:location>
+                    <ns2:position position="335"/>
+                </ns2:location>
+                <ns2:description>in dbSNP:rs4643305.</ns2:description>
+                <genomeLocation>
+                    <ns2:begin position="20475678"/>
+                    <ns2:end position="20475680"/>
+                </genomeLocation>
+            </feature>
+            <feature type="helix">
+                <ns2:location>
+                    <ns2:begin position="235"/>
+                    <ns2:end position="245"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20471179"/>
+                    <ns2:end position="20471211"/>
+                </genomeLocation>
+            </feature>
+            <feature type="strand">
+                <ns2:location>
+                    <ns2:begin position="392"/>
+                    <ns2:end position="395"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20477444"/>
+                    <ns2:end position="20478581"/>
+                </genomeLocation>
+            </feature>
+            <feature type="strand">
+                <ns2:location>
+                    <ns2:begin position="333"/>
+                    <ns2:end position="339"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20475672"/>
+                    <ns2:end position="20475692"/>
+                </genomeLocation>
+            </feature>
+            <feature type="helix">
+                <ns2:location>
+                    <ns2:begin position="312"/>
+                    <ns2:end position="319"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20475401"/>
+                    <ns2:end position="20475424"/>
+                </genomeLocation>
+            </feature>
+            <feature type="nucleotide phosphate-binding region">
+                <ns2:location>
+                    <ns2:begin position="359"/>
+                    <ns2:end position="364"/>
+                </ns2:location>
+                <ns2:description>ATP.</ns2:description>
+                <ns2:evidence code="ECO:0000269"/>
+                <ns2:evidence code="ECO:0000269">
+                    <ns2:dbReference id="19345228" type="PubMed"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20475750"/>
+                    <ns2:end position="20475767"/>
+                </genomeLocation>
+            </feature>
+            <feature type="turn">
+                <ns2:location>
+                    <ns2:begin position="323"/>
+                    <ns2:end position="325"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20475434"/>
+                    <ns2:end position="20475650"/>
+                </genomeLocation>
+            </feature>
+            <feature type="helix">
+                <ns2:location>
+                    <ns2:begin position="475"/>
+                    <ns2:end position="483"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20480835"/>
+                    <ns2:end position="20480861"/>
+                </genomeLocation>
+            </feature>
+            <feature type="helix">
+                <ns2:location>
+                    <ns2:begin position="513"/>
+                    <ns2:end position="515"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20483085"/>
+                    <ns2:end position="20483093"/>
+                </genomeLocation>
+            </feature>
+            <feature type="transit peptide">
+                <ns2:location>
+                    <ns2:begin position="1"/>
+                    <ns2:end position="46"/>
+                </ns2:location>
+                <ns2:description>Mitochondrion.</ns2:description>
+                <ns2:evidence code="ECO:0000255"/>
+                <genomeLocation>
+                    <ns2:begin position="20460115"/>
+                    <ns2:end position="20460252"/>
+                </genomeLocation>
+            </feature>
+            <feature type="helix">
+                <ns2:location>
+                    <ns2:begin position="117"/>
+                    <ns2:end position="129"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20465688"/>
+                    <ns2:end position="20465726"/>
+                </genomeLocation>
+            </feature>
+            <feature type="turn">
+                <ns2:location>
+                    <ns2:begin position="246"/>
+                    <ns2:end position="249"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20471212"/>
+                    <ns2:end position="20471542"/>
+                </genomeLocation>
+            </feature>
+            <feature type="strand">
+                <ns2:location>
+                    <ns2:begin position="471"/>
+                    <ns2:end position="473"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20480823"/>
+                    <ns2:end position="20480831"/>
+                </genomeLocation>
+            </feature>
+            <feature type="strand">
+                <ns2:location>
+                    <ns2:begin position="441"/>
+                    <ns2:end position="450"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20480612"/>
+                    <ns2:end position="20480641"/>
+                </genomeLocation>
+            </feature>
+            <feature type="strand">
+                <ns2:location>
+                    <ns2:begin position="358"/>
+                    <ns2:end position="363"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20475747"/>
+                    <ns2:end position="20475764"/>
+                </genomeLocation>
+            </feature>
+            <feature type="modified residue">
+                <ns2:location>
+                    <ns2:position position="327"/>
+                </ns2:location>
+                <ns2:description>N6-acetyllysine.</ns2:description>
+                <ns2:evidence code="ECO:0000250">
+                    <ns2:dbReference id="Q8BGA8" type="UniProtKB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20475654"/>
+                    <ns2:end position="20475656"/>
+                </genomeLocation>
+            </feature>
+            <feature type="strand">
+                <ns2:location>
+                    <ns2:begin position="108"/>
+                    <ns2:end position="112"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20465661"/>
+                    <ns2:end position="20465675"/>
+                </genomeLocation>
+            </feature>
+            <feature type="helix">
+                <ns2:location>
+                    <ns2:begin position="142"/>
+                    <ns2:end position="152"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20469547"/>
+                    <ns2:end position="20469579"/>
+                </genomeLocation>
+            </feature>
+            <feature type="strand">
+                <ns2:location>
+                    <ns2:begin position="230"/>
+                    <ns2:end position="234"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20471164"/>
+                    <ns2:end position="20471178"/>
+                </genomeLocation>
+            </feature>
+            <feature type="binding site">
+                <ns2:location>
+                    <ns2:position position="461"/>
+                </ns2:location>
+                <ns2:description>ATP.</ns2:description>
+                <ns2:evidence code="ECO:0000269">
+                    <ns2:dbReference id="19345228" type="PubMed"/>
+                </ns2:evidence>
+                <ns2:evidence code="ECO:0000269"/>
+                <genomeLocation>
+                    <ns2:begin position="20480672"/>
+                    <ns2:end position="20480674"/>
+                </genomeLocation>
+            </feature>
+            <feature type="strand">
+                <ns2:location>
+                    <ns2:begin position="224"/>
+                    <ns2:end position="227"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20471146"/>
+                    <ns2:end position="20471157"/>
+                </genomeLocation>
+            </feature>
+            <feature type="helix">
+                <ns2:location>
+                    <ns2:begin position="194"/>
+                    <ns2:end position="200"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20469703"/>
+                    <ns2:end position="20471076"/>
+                </genomeLocation>
+            </feature>
+            <feature type="strand">
+                <ns2:location>
+                    <ns2:begin position="282"/>
+                    <ns2:end position="286"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20471639"/>
+                    <ns2:end position="20471653"/>
+                </genomeLocation>
+            </feature>
+            <feature type="helix">
+                <ns2:location>
+                    <ns2:begin position="520"/>
+                    <ns2:end position="534"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20483106"/>
+                    <ns2:end position="20483150"/>
+                </genomeLocation>
+            </feature>
+            <feature type="strand">
+                <ns2:location>
+                    <ns2:begin position="456"/>
+                    <ns2:end position="461"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20480657"/>
+                    <ns2:end position="20480674"/>
+                </genomeLocation>
+            </feature>
+            <feature type="strand">
+                <ns2:location>
+                    <ns2:begin position="155"/>
+                    <ns2:end position="160"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20469586"/>
+                    <ns2:end position="20469603"/>
+                </genomeLocation>
+            </feature>
+            <feature type="strand">
+                <ns2:location>
+                    <ns2:begin position="132"/>
+                    <ns2:end position="135"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20469517"/>
+                    <ns2:end position="20469528"/>
+                </genomeLocation>
+            </feature>
+            <feature type="helix">
+                <ns2:location>
+                    <ns2:begin position="83"/>
+                    <ns2:end position="98"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20465586"/>
+                    <ns2:end position="20465633"/>
+                </genomeLocation>
+            </feature>
+            <feature type="sequence conflict">
+                <ns2:original>N</ns2:original>
+                <ns2:variation>D</ns2:variation>
+                <ns2:location>
+                    <ns2:position position="463"/>
+                </ns2:location>
+                <ns2:description/>
+                <ns2:evidence code="ECO:0000305"/>
+                <genomeLocation>
+                    <ns2:begin position="20480678"/>
+                    <ns2:end position="20480680"/>
+                </genomeLocation>
+            </feature>
+            <feature type="turn">
+                <ns2:location>
+                    <ns2:begin position="364"/>
+                    <ns2:end position="366"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20475765"/>
+                    <ns2:end position="20475773"/>
+                </genomeLocation>
+            </feature>
+            <feature type="helix">
+                <ns2:location>
+                    <ns2:begin position="560"/>
+                    <ns2:end position="567"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20486622"/>
+                    <ns2:end position="20486645"/>
+                </genomeLocation>
+            </feature>
+            <feature type="turn">
+                <ns2:location>
+                    <ns2:begin position="34"/>
+                    <ns2:end position="36"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3B7W" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20460214"/>
+                    <ns2:end position="20460222"/>
+                </genomeLocation>
+            </feature>
+            <feature type="binding site">
+                <ns2:location>
+                    <ns2:position position="446"/>
+                </ns2:location>
+                <ns2:description>ATP.</ns2:description>
+                <ns2:evidence code="ECO:0000269"/>
+                <ns2:evidence code="ECO:0000269">
+                    <ns2:dbReference id="19345228" type="PubMed"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20480627"/>
+                    <ns2:end position="20480629"/>
+                </genomeLocation>
+            </feature>
+            <feature type="helix">
+                <ns2:location>
+                    <ns2:begin position="343"/>
+                    <ns2:end position="353"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20475702"/>
+                    <ns2:end position="20475734"/>
+                </genomeLocation>
+            </feature>
+            <feature type="binding site">
+                <ns2:location>
+                    <ns2:position position="139"/>
+                </ns2:location>
+                <ns2:description>Coenzyme A.</ns2:description>
+                <ns2:evidence code="ECO:0000269">
+                    <ns2:dbReference id="19345228" type="PubMed"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20469538"/>
+                    <ns2:end position="20469540"/>
+                </genomeLocation>
+            </feature>
+            <feature type="strand">
+                <ns2:location>
+                    <ns2:begin position="502"/>
+                    <ns2:end position="511"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20480916"/>
+                    <ns2:end position="20483081"/>
+                </genomeLocation>
+            </feature>
+            <feature type="strand">
+                <ns2:location>
+                    <ns2:begin position="415"/>
+                    <ns2:end position="417"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20478639"/>
+                    <ns2:end position="20478647"/>
+                </genomeLocation>
+            </feature>
+            <feature type="nucleotide phosphate-binding region">
+                <ns2:location>
+                    <ns2:begin position="221"/>
+                    <ns2:end position="229"/>
+                </ns2:location>
+                <ns2:description>ATP.</ns2:description>
+                <ns2:evidence code="ECO:0000269">
+                    <ns2:dbReference id="19345228" type="PubMed"/>
+                </ns2:evidence>
+                <ns2:evidence code="ECO:0000269"/>
+                <genomeLocation>
+                    <ns2:begin position="20471137"/>
+                    <ns2:end position="20471163"/>
+                </genomeLocation>
+            </feature>
+            <feature type="helix">
+                <ns2:location>
+                    <ns2:begin position="266"/>
+                    <ns2:end position="271"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20471591"/>
+                    <ns2:end position="20471608"/>
+                </genomeLocation>
+            </feature>
+            <feature type="strand">
+                <ns2:location>
+                    <ns2:begin position="78"/>
+                    <ns2:end position="82"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20465571"/>
+                    <ns2:end position="20465585"/>
+                </genomeLocation>
+            </feature>
+            <feature type="strand">
+                <ns2:location>
+                    <ns2:begin position="214"/>
+                    <ns2:end position="220"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000244">
+                    <ns2:dbReference id="3C5E" type="PDB"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="20471116"/>
+                    <ns2:end position="20471136"/>
+                </genomeLocation>
+            </feature>
+            <feature type="sequence variant" id="VAR_058694">
+                <ns2:original>V</ns2:original>
+                <ns2:variation>G</ns2:variation>
+                <ns2:location>
+                    <ns2:position position="337"/>
+                </ns2:location>
+                <ns2:description>in dbSNP:rs4586421.</ns2:description>
+                <genomeLocation>
+                    <ns2:begin position="20475684"/>
+                    <ns2:end position="20475686"/>
+                </genomeLocation>
+            </feature>
+        </gnCoordinate>
+    </gnEntry>
+</gnEntries>

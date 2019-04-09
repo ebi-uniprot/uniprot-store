@@ -1,0 +1,30 @@
+A0A023T6R1	11	12p13.2	12:g.10613501T>C	missense	11	Y	C	0.0	probably damaging	1.0	deleterious	0.02	1	-	-	-	cosmic COSM213190 ECO:0000313	0	0	cosmic_study COSU:384 ECO:0000269,pubmed 22495314 ECO:0000269
+A0A023T6R1	14	12p13.2	12:g.10613492C>A	missense	14	G	V	0.0	probably damaging	0.998	deleterious	0.0	1	-	-	-	cosmic COSM1510815 ECO:0000313	0	0	cosmic_study COSU:417 ECO:0000269
+A0A023T6R1	27	12p13.2	12:g.10613454C>T	missense	27	E	K	0.0	probably damaging	0.9705	deleterious	0.0	1	-	-	-	cosmic COSM1257176 ECO:0000313	0	0	cosmic_study COSU:464 ECO:0000269,pubmed 23525077 ECO:0000269
+A0A023T6R1	29	12p13.2	12:g.10613448G>A	missense	29	R	W	0.0	possibly damaging	0.641	deleterious	0.0	1	-	-	-	cosmic COSM3455546 ECO:0000313	0	0	-
+A0A023T6R1	87	12p13.2	12:g.10609835C>T	missense	87	R	Q	0.0	benign	0.023	tolerated	0.06	1	-	-	-	cosmic COSM4038312 ECO:0000313	0	0	-
+A0A023T6R1	108	12p13.2	12:g.10607878G>T	missense	108	S	Y	0.0	probably damaging	0.99950004	deleterious	0.015	1	-	-	-	cosmic COSM1214279 ECO:0000313	0	0	cosmic_study COSU:414 ECO:0000269,cosmic_study COSU:452 ECO:0000269,pubmed 22895193 ECO:0000269
+A0A023T6R1	112	12p13.2	12:g.10607866A>G	missense	112	V	A	0.0	probably damaging	0.97800004	deleterious	0.03	1	-	-	-	cosmic COSM934488 ECO:0000313	0	0	cosmic_study COSU:419 ECO:0000269
+A0A023T6R1	119	12p13.2	12:g.10606366T>C	missense	119	E	G	0.0	possibly damaging	0.87950003	deleterious	0.024999999	1	-	-	-	cosmic COSM1358468 ECO:0000313	0	0	cosmic_study COSU:376 ECO:0000269
+A0A023T6R1	119	12p13.2	12:g.10606367C>T	missense	119	E	K	0.0	possibly damaging	0.832	tolerated	0.060000002	1	-	-	-	cosmic COSM32642 ECO:0000313	0	0	cosmic_study COSU:376 ECO:0000269,pubmed 16959974 ECO:0000269
+A0A023T6R1	119	12p13.2	12:g.10606366T>A	missense	119	E	V	0.0	possibly damaging	0.872	deleterious	0.015	1	-	-	-	cosmic COSM1358467 ECO:0000313	0	0	cosmic_study COSU:376 ECO:0000269
+A0A023T6R1	122	12p13.2	12:g.10606357C>T	missense	122	R	Q	0.0	benign	0.036	tolerated	0.17	1	-	-	-	cosmic COSM261895 ECO:0000313	0	0	cosmic_study COSU:375 ECO:0000269,cosmic_study COSU:452 ECO:0000269,pubmed 22810696 ECO:0000269,pubmed 22895193 ECO:0000269
+A0A023T787	3	1q21.1	1:g.145927419T>C	missense	3	D	G	0.0	possibly damaging	0.907	deleterious	0.0	1	-	-	-	cosmic COSM1600711 ECO:0000313	0	0	-
+A0A023T787	6	1q21.1	1:g.145927411C>T	missense	6	D	N	0.0	possibly damaging	0.859	deleterious	0.0	1	-	-	-	cosmic COSM423692 ECO:0000313	0	0	-
+A0A023T787	7	1q21.1	1:g.145927407A>T	missense	7	L	H	0.0	possibly damaging	0.73	deleterious	0.0	1	-	-	-	cosmic COSM1223394 ECO:0000313	0	0	-
+A0A023T787	8	1q21.1	1:g.145927405G>A	missense	8	H	Y	0.0	benign	0.004	tolerated	0.28	1	-	-	-	cosmic COSM1498202 ECO:0000313	0	0	-
+A0A023T787	12	1q21.1	1:g.145927392C>G	missense	12	G	A	0.0	benign	0.001	tolerated	0.61	1	-	-	-	cosmic COSM358196 ECO:0000313	0	0	-
+A0A023T787	14	1q21.1	1:g.145927387C>G	missense	14	D	H	0.0	probably damaging	0.945	deleterious	0.0	1	-	-	-	cosmic COSM1263930 ECO:0000313	0	0	-
+A0A023T787	26	1q21.1	1:g.145927069G>A	missense	26	H	Y	0.0	benign	0.268	deleterious	0.04	1	-	-	-	cosmic COSM3801641 ECO:0000313	0	0	-
+A0A023T787	60	1q21.1	1:g.145926836C>G	missense	60	D	H	0.0	possibly damaging	0.85	deleterious	0.03	1	-	-	-	cosmic COSM674810 ECO:0000313	0	0	-
+A0A023T787	65	1q21.1	1:g.145926820C>A	missense	65	G	V	0.0	probably damaging	0.972	deleterious	0.0	1	-	-	-	cosmic COSM423693 ECO:0000313	0	0	-
+A0A023T787	99	1q21.1	1:g.145926529T>G	missense	99	I	L	0.0	probably damaging	0.971	deleterious	0.03	1	-	-	-	cosmic COSM462851 ECO:0000313	0	0	-
+A0A023T787	145	1q21.1	1:g.145926086C>T	missense	145	S	N	0.0	benign	0.058	tolerated	0.42	1	-	-	-	cosmic COSM1747701 ECO:0000313	0	0	-
+A0A023T787	148	1q21.1	1:g.145926076C>G	missense	148	W	C	0.0	probably damaging	0.992	deleterious	0.0	1	-	-	-	cosmic COSM1560020 ECO:0000313	0	0	-
+A0A023T787	152	1q21.1	1:g.145926066G>A	missense	152	R	W	0.0	unknown	0.0	tolerated	0.09	1	-	-	-	cosmic COSM895180 ECO:0000313	0	0	-
+A0A023T787	156	1q21.1	1:g.145926053T>G	missense	156	K	T	0.0	unknown	0.0	tolerated	0.16	1	-	-	-	cosmic COSM205579 ECO:0000313	0	0	-
+A0A023T787	163	1q21.1	1:g.145925919C>T	missense	163	R	Q	0.0	unknown	0.0	tolerated	0.12	1	-	-	-	cosmic COSM3801642 ECO:0000313	0	0	-
+A0A023T787	164	1q21.1	1:g.145925916C>A	missense	164	R	I	0.0	unknown	0.0	deleterious	0.03	1	-	-	-	cosmic COSM462852 ECO:0000313	0	0	-
+A0A023T787	171	1q21.1	1:g.145925896G>A	missense	171	R	W	0.0	unknown	0.0	tolerated	0.15	1	-	-	-	cosmic COSM125796 ECO:0000313	0	0	-
+A0A023T787	173	1q21.1	1:g.145925889C>A	missense	173	R	L	0.0	unknown	0.0	deleterious - low confidence	0.03	1	-	-	-	cosmic COSM674809 ECO:0000313	0	0	-
+A0A023T787	174	1q21.1	1:g.145925886C>T	missense	174	R	H	0.0	unknown	0.0	deleterious - low confidence	0.01	1	-	-	-	cosmic COSM895181 ECO:0000313	0	0	-

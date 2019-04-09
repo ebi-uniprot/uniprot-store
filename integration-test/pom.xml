@@ -34,6 +34,7 @@
     		<groupId>uk.ac.ebi.uniprot</groupId>
     		<artifactId>uniprot-indexer</artifactId>
     		<version>${uniprot.indexer.version}</version>
+    		
 		</dependency>
   	<dependency>
     		<groupId>commons-io</groupId>
@@ -51,18 +52,23 @@
             <artifactId>hamcrest-all</artifactId>
             <version>1.3</version>
         </dependency>
-
+<dependency>
+   <groupId>io.dropwizard.metrics</groupId>
+   <artifactId>metrics-core</artifactId>
+   <version>3.2.2</version>
+</dependency>
         <dependency>
             <groupId>org.apache.solr</groupId>
             <artifactId>solr-solrj</artifactId>
+             <version>7.2.0</version>
         </dependency>
 
         <dependency>
             <groupId>org.apache.solr</groupId>
             <artifactId>solr-core</artifactId>
+            <version>7.2.0</version>
             <scope>test</scope>
         </dependency>
-
         <dependency>
             <groupId>org.powermock</groupId>
             <artifactId>powermock-module-junit4</artifactId>

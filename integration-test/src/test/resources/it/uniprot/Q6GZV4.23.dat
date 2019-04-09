@@ -1,0 +1,40 @@
+ID   021L_FRG3G              Reviewed;         219 AA.
+AC   Q6GZV4;
+DT   28-JUN-2011, integrated into UniProtKB/Swiss-Prot.
+DT   19-JUL-2004, sequence version 1.
+DT   07-JAN-2015, entry version 23.
+DE   RecName: Full=Uncharacterized protein 021L;
+GN   ORFNames=FV3-021L;
+OS   Frog virus 3 (isolate Goorha) (FV-3).
+OC   Viruses; dsDNA viruses, no RNA stage; Iridoviridae; Ranavirus.
+OX   NCBI_TaxID=654924;
+OH   NCBI_TaxID=8295; Ambystoma (mole salamanders).
+OH   NCBI_TaxID=30343; Hyla versicolor (chameleon treefrog).
+OH   NCBI_TaxID=8404; Lithobates pipiens (Northern leopard frog) (Rana pipiens).
+OH   NCBI_TaxID=8316; Notophthalmus viridescens (Eastern newt) (Triturus viridescens).
+OH   NCBI_TaxID=45438; Rana sylvatica (Wood frog).
+RN   [1]
+RP   NUCLEOTIDE SEQUENCE [LARGE SCALE GENOMIC DNA].
+RX   PubMed=15165820; DOI=10.1016/j.virol.2004.02.019;
+RA   Tan W.G., Barkman T.J., Gregory Chinchar V., Essani K.;
+RT   "Comparative genomic analyses of frog virus 3, type species of the
+RT   genus Ranavirus (family Iridoviridae).";
+RL   Virology 323:70-84(2004).
+CC   -----------------------------------------------------------------------
+CC   Copyrighted by the UniProt Consortium, see https://www.uniprot.org/terms
+CC   Distributed under the Creative Commons Attribution-NoDerivs License
+CC   -----------------------------------------------------------------------
+DR   EMBL; AY548484; AAT09680.1; -; Genomic_DNA.
+DR   RefSeq; YP_031599.1; NC_005946.1.
+DR   GeneID; 2947741; -.
+DR   Proteomes; UP000008770; Genome.
+PE   4: Predicted;
+KW   Complete proteome; Reference proteome.
+FT   CHAIN         1    219       Uncharacterized protein 021L.
+FT                                /FTId=PRO_0000410539.
+SQ   SEQUENCE   219 AA;  25445 MW;  8C499E933074FF36 CRC64;
+     METIVLVPRQ DQETFSDSRP VLDGDLMLEF LENKIRHPVR RRQPRVVPVT SSDPEVVDDE
+     DDEDQSDDSD EERQRLYFQY MVLKRMYPTE VIPEMTTYSN VAIMREKYKL LTRRLSLDKH
+     INEWKKYIIV GMCIMELVMT KLNFDASGFA RYQIKSLGAY DQLLAEMADK YYEATPQSSV
+     EMRLMTTMGM NMAVFMLGKL LGGQMDFLGL LENAFGSSS
+//

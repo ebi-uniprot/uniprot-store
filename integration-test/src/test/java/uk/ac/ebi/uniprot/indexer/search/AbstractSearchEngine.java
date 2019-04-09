@@ -33,7 +33,7 @@ import java.util.List;
  * The class defines methods to insert/delete/query data from the data source.
  */
 public abstract class AbstractSearchEngine<T> extends ExternalResource {
-    private static final String SOLR_CONFIG_DIR = "../data-service-deployments/src/main/distros/solr-conf";
+    private static final String SOLR_CONFIG_DIR = "../index-config/src/main/solr-config/uniprot-collections";
     private static final Logger logger = LoggerFactory.getLogger(AbstractSearchEngine.class);
 
     private static final int DEFAULT_RETRIEVABLE_ROWS = 1000;
@@ -163,14 +163,15 @@ public abstract class AbstractSearchEngine<T> extends ExternalResource {
         System.setProperty("solr.data.dir", indexHome.getAbsolutePath() + "/solr/data");
         System.setProperty("solr.core.name", "uniprot");
         System.setProperty("solr.ulog.dir", indexHome.getAbsolutePath() + "/tlog");
-        System.setProperty("solr.lib.ujdk.location", ".");
-        System.setProperty("uniprot.voldemort.url", "inMemoryStore");
-        System.setProperty("uniprot.voldemort.store", "avro-uniprot");
-        System.setProperty("uniparc.voldemort.url", "inMemoryStore");
-        System.setProperty("uniparc.voldemort.store", "avro-uniparc");
+     //   System.setProperty("solr.lib.ujdk.location", ".");
+//        System.setProperty("uniprot.voldemort.url", "inMemoryStore");
+//        System.setProperty("uniprot.voldemort.store", "avro-uniprot");
+//        System.setProperty("uniparc.voldemort.url", "inMemoryStore");
+//        System.setProperty("uniparc.voldemort.store", "avro-uniparc");
 
-        File solrConfigDir = new File(SOLR_CONFIG_DIR + "/homes/uniprot-cores");
+        File solrConfigDir = new File(SOLR_CONFIG_DIR);
 
+        System.out.println(solrConfigDir.getAbsolutePath());
         CoreContainer container = new CoreContainer(solrConfigDir.getAbsolutePath());
 
         container.load();

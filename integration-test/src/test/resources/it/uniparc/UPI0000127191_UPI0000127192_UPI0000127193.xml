@@ -1,0 +1,201 @@
+<uniparc xmlns="http://uniprot.org/uniparc" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://uniprot.org/uniparc http://www.uniprot.org/docs/uniparc.xsd" version="2014_10">
+    <entry dataset="uniparc">
+        <accession>UPI0000127191</accession>
+        <dbReference type="EMBL" id="AAA27261" version_i="1" active="Y" version="1" created="2003-03-12"
+                     last="2014-09-01">
+            <property type="NCBI_GI" value="154429"/>
+            <property type="NCBI_taxonomy_id" value="90371"/>
+        </dbReference>
+        <dbReference type="UniProtKB/TrEMBL" id="A0A038DI27" version_i="1" active="Y" version="1" created="2014-07-09"
+                     last="2014-10-29">
+            <property type="NCBI_taxonomy_id" value="1387339"/>
+        </dbReference>
+        <dbReference type="UniProtKB/TrEMBL" id="A0A038DND5" version_i="1" active="Y" version="1" created="2014-07-09"
+                     last="2014-10-29">
+            <property type="NCBI_taxonomy_id" value="1387331"/>
+        </dbReference>
+        <dbReference type="EMBLWGS" id="KFT92747" version_i="1" active="Y" version="1" created="2014-09-29"
+                     last="2014-09-29">
+            <property type="NCBI_taxonomy_id" value="1173434"/>
+        </dbReference>
+        <dbReference type="EMBLWGS" id="KFU20332" version_i="1" active="Y" version="1" created="2014-09-29"
+                     last="2014-09-29">
+            <property type="NCBI_taxonomy_id" value="1173429"/>
+        </dbReference>
+        <dbReference type="REFSEQ" id="WP_001001975" version_i="1" active="Y" version="1" created="2013-07-19"
+                     last="2014-09-08">
+            <property type="NCBI_GI" value="446924719"/>
+            <property type="NCBI_taxonomy_id" value="28901"/>
+            <property type="NCBI_taxonomy_id" value="85569"/>
+            <property type="NCBI_taxonomy_id" value="99287"/>
+        </dbReference>
+        <dbReference type="REFSEQ" id="YP_005181896" version_i="1" active="Y" version="1" created="2012-02-28"
+                     last="2014-09-08">
+            <property type="NCBI_GI" value="378699939"/>
+            <property type="NCBI_taxonomy_id" value="216597"/>
+        </dbReference>
+        <dbReference type="REFSEQ" id="YP_005233094" version_i="1" active="Y" version="1" created="2012-02-25"
+                     last="2014-09-08">
+            <property type="NCBI_GI" value="378445462"/>
+            <property type="NCBI_taxonomy_id" value="568708"/>
+        </dbReference>
+        <dbReference type="EnsemblBacteria" id="ETC11569" version_i="1" active="Y" created="2014-07-18"
+                     last="2014-07-18">
+            <property type="NCBI_taxonomy_id" value="1410937"/>
+        </dbReference>
+        <dbReference type="SEED" id="fig|1218145.3.peg.2041" version_i="1" active="Y" created="2013-03-19"
+                     last="2013-03-19">
+            <property type="NCBI_taxonomy_id" value="1218145"/>
+        </dbReference>
+        <dbReference type="SEED" id="fig|99287.1.peg.1951" version_i="1" active="Y" created="2013-03-19"
+                     last="2013-03-19">
+            <property type="NCBI_taxonomy_id" value="99287"/>
+        </dbReference>
+        <dbReference type="SEED" id="fig|99287.12.peg.2148" version_i="1" active="Y" created="2013-03-19"
+                     last="2013-03-19">
+            <property type="NCBI_taxonomy_id" value="99287"/>
+        </dbReference>
+        <sequence length="263" checksum="79E8A4FC5967031C">
+            MNEGDVLVVGGTSDARALCRQLDAANVAYTLSVATPAGKALAGDIKGQVRCGRLEYGQMV
+            AWLKENRTRWVIDASHPYAEMVSHNLLRACETAGVLLSRYQRPEQLSNLTHPLLYTARSI
+            ADACEIARRFGPRVLLTTGSKDLAVWRAGLAEKTLLARVLPVAEVIQRCSELGFGVGEIF
+            ALCGPFSADFNAAFYHQCRADVVITKASGAEGGYQEKVQPCLDAGIPCIVIARPTPLVTG DELLESQAAFAQRLSRWLAAAKE
+        </sequence>
+    </entry>
+
+    <entry dataset="uniparc">
+        <accession>UPI0000127192</accession>
+        <dbReference type="EMBL" id="AAA27261" version_i="1" active="Y" version="1" created="2003-03-12"
+                     last="2014-09-01">
+            <property type="NCBI_GI" value="154429"/>
+            <property type="NCBI_taxonomy_id" value="90371"/>
+        </dbReference>
+        <sequence length="263" checksum="79E8A4FC5967031C">
+            MNEGDVLVVGGTSDARALCRQLDAANVAYTLSVATPAGKALAGDIKGQVRCGRLEYGQMV
+            AWLKENRTRWVIDASHPYAEMVSHNLLRACETAGVLLSRYQRPEQLSNLTHPLLYTARSI
+            ADACEIARRFGPRVLLTTGSKDLAVWRAGLAEKTLLARVLPVAEVIQRCSELGFGVGEIF
+            ALCGPFSADFNAAFYHQCRADVVITKASGAEGGYQEKVQPCLDAGIPCIVIARPTPLVTG DELLESQAAFAQRLSRWLAAAKE
+        </sequence>
+    </entry>
+
+    <entry dataset="uniparc">
+        <accession>UPI0000127193</accession>
+        <dbReference type="EMBL" id="AAA27261" version_i="1" active="Y" version="1" created="2003-03-12"
+                     last="2014-09-01">
+            <property type="NCBI_GI" value="154429"/>
+            <property type="NCBI_taxonomy_id" value="90371"/>
+        </dbReference>
+        <dbReference type="EMBL" id="AAL20930" version_i="1" active="N" version="1" created="2003-03-12"
+                     last="2011-12-21">
+            <property type="NCBI_GI" value="16420555"/>
+            <property type="NCBI_taxonomy_id" value="99287"/>
+        </dbReference>
+        <dbReference type="UniProtKB/TrEMBL" id="A0A038DI27" version_i="1" active="Y" version="1" created="2014-07-09"
+                     last="2014-10-29">
+            <property type="NCBI_taxonomy_id" value="1387339"/>
+        </dbReference>
+        <dbReference type="UniProtKB/TrEMBL" id="A0A038DND5" version_i="1" active="Y" version="1" created="2014-07-09"
+                     last="2014-10-29">
+            <property type="NCBI_taxonomy_id" value="1387331"/>
+        </dbReference>
+        <dbReference type="EMBLWGS" id="KFT92747" version_i="1" active="Y" version="1" created="2014-09-29"
+                     last="2014-09-29">
+            <property type="NCBI_taxonomy_id" value="1173434"/>
+        </dbReference>
+        <dbReference type="EMBLWGS" id="KFU20332" version_i="1" active="Y" version="1" created="2014-09-29"
+                     last="2014-09-29">
+            <property type="NCBI_taxonomy_id" value="1173429"/>
+        </dbReference>
+        <dbReference type="REFSEQ" id="WP_001001975" version_i="1" active="Y" version="1" created="2013-07-19"
+                     last="2014-09-08">
+            <property type="NCBI_GI" value="446924719"/>
+            <property type="NCBI_taxonomy_id" value="28901"/>
+            <property type="NCBI_taxonomy_id" value="85569"/>
+            <property type="NCBI_taxonomy_id" value="99287"/>
+        </dbReference>
+        <dbReference type="REFSEQ" id="YP_005181896" version_i="1" active="Y" version="1" created="2012-02-28"
+                     last="2014-09-08">
+            <property type="NCBI_GI" value="378699939"/>
+            <property type="NCBI_taxonomy_id" value="216597"/>
+        </dbReference>
+        <dbReference type="REFSEQ" id="YP_005233094" version_i="1" active="Y" version="1" created="2012-02-25"
+                     last="2014-09-08">
+            <property type="NCBI_GI" value="378445462"/>
+            <property type="NCBI_taxonomy_id" value="568708"/>
+        </dbReference>
+        <dbReference type="REFSEQ" id="ZP_03165448" version_i="1" active="N" version="1" created="2008-09-03"
+                     last="2013-07-18">
+            <property type="NCBI_GI" value="197265374"/>
+            <property type="NCBI_taxonomy_id" value="439846"/>
+        </dbReference>
+        <dbReference type="REFSEQ" id="ZP_09722381" version_i="1" active="N" version="1" created="2012-03-07"
+                     last="2013-07-18">
+            <property type="NCBI_GI" value="374981051"/>
+            <property type="NCBI_taxonomy_id" value="946034"/>
+        </dbReference>
+        <dbReference type="REFSEQ" id="ZP_16377491" version_i="1" active="N" version="1" created="2013-01-08"
+                     last="2013-07-18">
+            <property type="NCBI_GI" value="422031321"/>
+            <property type="NCBI_taxonomy_id" value="1218144"/>
+        </dbReference>
+        <dbReference type="REFSEQ" id="ZP_18927994" version_i="1" active="N" version="1" created="2013-01-08"
+                     last="2013-07-18">
+            <property type="NCBI_GI" value="427550701"/>
+            <property type="NCBI_taxonomy_id" value="1218148"/>
+        </dbReference>
+        <dbReference type="REFSEQ" id="ZP_18932709" version_i="1" active="N" version="1" created="2013-01-08"
+                     last="2013-07-18">
+            <property type="NCBI_GI" value="427567004"/>
+            <property type="NCBI_taxonomy_id" value="1218149"/>
+        </dbReference>
+        <dbReference type="REFSEQ" id="ZP_18937501" version_i="1" active="N" version="1" created="2013-01-08"
+                     last="2013-07-18">
+            <property type="NCBI_GI" value="427587403"/>
+            <property type="NCBI_taxonomy_id" value="1218145"/>
+        </dbReference>
+        <dbReference type="REFSEQ" id="ZP_18942366" version_i="1" active="N" version="1" created="2013-01-08"
+                     last="2013-07-18">
+            <property type="NCBI_GI" value="427610937"/>
+            <property type="NCBI_taxonomy_id" value="1218146"/>
+        </dbReference>
+        <dbReference type="REFSEQ" id="ZP_18947258" version_i="1" active="N" version="1" created="2013-01-08"
+                     last="2013-07-18">
+            <property type="NCBI_GI" value="427634448"/>
+            <property type="NCBI_taxonomy_id" value="1218147"/>
+        </dbReference>
+        <dbReference type="REFSEQ" id="ZP_18952025" version_i="1" active="N" version="1" created="2013-01-08"
+                     last="2013-07-18">
+            <property type="NCBI_GI" value="427656331"/>
+            <property type="NCBI_taxonomy_id" value="1218150"/>
+        </dbReference>
+        <dbReference type="REFSEQ" id="ZP_18956936" version_i="1" active="N" version="1" created="2013-01-08"
+                     last="2013-07-18">
+            <property type="NCBI_GI" value="427661478"/>
+            <property type="NCBI_taxonomy_id" value="1218151"/>
+        </dbReference>
+        <dbReference type="EnsemblBacteria" id="ETC11569" version_i="1" active="Y" created="2014-07-18"
+                     last="2014-07-18">
+            <property type="NCBI_taxonomy_id" value="1410937"/>
+        </dbReference>
+        <dbReference type="SEED" id="fig|1218145.3.peg.2041" version_i="1" active="Y" created="2013-03-19"
+                     last="2013-03-19">
+            <property type="NCBI_taxonomy_id" value="1218145"/>
+        </dbReference>
+        <dbReference type="SEED" id="fig|99287.1.peg.1951" version_i="1" active="Y" created="2013-03-19"
+                     last="2013-03-19">
+            <property type="NCBI_taxonomy_id" value="99287"/>
+        </dbReference>
+        <dbReference type="SEED" id="fig|99287.12.peg.2148" version_i="1" active="Y" created="2013-03-19"
+                     last="2013-03-19">
+            <property type="NCBI_taxonomy_id" value="99287"/>
+        </dbReference>
+        <sequence length="263" checksum="79E8A4FC5967031C">
+            MNEGDVLVVGGTSDARALCRQLDAANVAYTLSVATPAGKALAGDIKGQVRCGRLEYGQMV
+            AWLKENRTRWVIDASHPYAEMVSHNLLRACETAGVLLSRYQRPEQLSNLTHPLLYTARSI
+            ADACEIARRFGPRVLLTTGSKDLAVWRAGLAEKTLLARVLPVAEVIQRCSELGFGVGEIF
+            ALCGPFSADFNAAFYHQCRADVVITKASGAEGGYQEKVQPCLDAGIPCIVIARPTPLVTG DELLESQAAFAQRLSRWLAAAKE
+        </sequence>
+    </entry>
+    <copyright>UniProt Consortium 2002-2014</copyright>
+</uniparc>

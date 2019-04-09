@@ -1,0 +1,3 @@
+Add FF entries into this directory.
+They can be loaded into the solr test server before integration test start by the BeforeTestLoading Method.
+

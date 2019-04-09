@@ -1,0 +1,474 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<entryFeatureCollection xmlns="http://www.ebi.ac.uk/proteins/api/doc/xsd/feature">
+    <entryFeature>
+        <name>G3N2F0_BOVIN</name>
+        <accession>G3N2F0</accession>
+        <sequence checksum="B698C5DABEDB5995">MGKEKTHMNIVIGHVDSGKSTPTGHLIYKCGGIDKRTIEKFEKEAAEMGKGSFKYAWVLDKLKAERERGITIDISLWKFETSKYYVTIIDAPGHRDFIKNMITGTSQADCALLIVAAGVGEFEASICKNEQTHEHAHLAYTLGVQQLILGVNKMDSTEPPYSQKRYEEIVKEVSTYIKKIGYNPDTVAFVPISGWNGDDMLEPSANMPWFKGRKVTRKDGNASGTTLLEALDCILPPTRPTDKPLRLSLQDVYKIGGIGTVPVGRVETGVLKPGMVVTFAPVNVITEVKSVEMHHEALSEALPGDNVGFNVKNVSVKDVRHGNVAGDSKNDPPMEAAGFTAQVIVLNHPGQISAGHAPVLDCHTAHIACKFAELKKIDHRSGKKLEDGPKFLKSGDTAIVDMVPGKPMCVESISDYPPLGHFAVCDMRQTVAVGVIKAVDKKEAGAGKVTKSAQKAQKAK</sequence>
+        <taxid>9913</taxid>
+        <feature>
+            <location>
+                <begin position="255"/>
+                <end position="265"/>
+            </location>
+            <evidence code="ECO:0000213">
+                <dbReference id="G3N2F0" type="PeptideAtlas"/>
+            </evidence>
+            <xrefs id="UP000009136" type="Proteomes"/>
+            <peptide unique="false">
+                <peptideSequence>IGGIGTVPVGR</peptideSequence>
+            </peptide>
+        </feature>
+        <feature>
+            <location>
+                <begin position="429"/>
+                <end position="437"/>
+            </location>
+            <evidence code="ECO:0000213">
+                <dbReference id="G3N2F0" type="PeptideAtlas"/>
+            </evidence>
+            <xrefs id="UP000009136" type="Proteomes"/>
+            <peptide unique="false">
+                <peptideSequence>QTVAVGVIK</peptideSequence>
+            </peptide>
+        </feature>
+        <feature>
+            <location>
+                <begin position="84"/>
+                <end position="95"/>
+            </location>
+            <evidence code="ECO:0000213">
+                <dbReference id="G3N2F0" type="PeptideAtlas"/>
+            </evidence>
+            <xrefs id="UP000009136" type="Proteomes"/>
+            <peptide unique="false">
+                <peptideSequence>YYVTIIDAPGHR</peptideSequence>
+            </peptide>
+        </feature>
+        <feature>
+            <location>
+                <begin position="429"/>
+                <end position="442"/>
+            </location>
+            <evidence code="ECO:0000213">
+                <dbReference id="G3N2F0" type="PeptideAtlas"/>
+            </evidence>
+            <xrefs id="UP000009136" type="Proteomes"/>
+            <peptide unique="false">
+                <peptideSequence>QTVAVGVIKAVDKK</peptideSequence>
+            </peptide>
+        </feature>
+        <feature>
+            <location>
+                <begin position="219"/>
+                <end position="246"/>
+            </location>
+            <evidence code="ECO:0000213">
+                <dbReference id="G3N2F0" type="PeptideAtlas"/>
+            </evidence>
+            <xrefs id="UP000009136" type="Proteomes"/>
+            <peptide unique="false">
+                <peptideSequence>DGNASGTTLLEALDCILPPTRPTDKPLR</peptideSequence>
+            </peptide>
+        </feature>
+    </entryFeature>
+    <entryFeature>
+        <name>G3MZ71_BOVIN</name>
+        <accession>G3MZ71</accession>
+        <sequence checksum="8A0908654B17884F">MSCQISYQSRGRGGGGGGFRGFSSGSAVVPGRSRLSGTSFSCLSRHGGGGGGFGGGGFGGGGFSSRSLVNLGGSRSTSISVAGGGGSFGSYGGFGGRGGGFGGGLGVGGGSFGGGRFGGGGGFGGLGGPGGFGGPGGFGPGGFPGGGIHEVSINQSLLQPLNVKVDPEIQNVKSQEREQIKALNNKFATFIDKVRFLEQQNQVLQTKWELLQQINVGTRTTNLEPLFQGYISQLQSHLDKLYSERMLQESELNNMQDLVEDFKKKYEDEVNKRTAAENEFVTLKKDVDHAYTNKVELQAKVDLLRQDVEFTKMLFDAVSRLLLNGPLLPTLPLKSMDNNRSLDLDSIITEVRAQYEEIAQRSKAEAEAVYHSKYEELRITAGKHGDSLKEVKMEISELNRMIQRLQGEIAQVKKQCKNVQDSIADAEQRGENALKDAQSKLNDLEEALQKAREDLARLLRDYQDLMNTKLSLDVEIATYRKLLEGEECRMSGDLSSNVTVSVTSSSISSGVASRAGFGGYGSGGRGSSYGGGFSSGSRSYSSGGRRSGSRSGGGGSYGSGGGSRGGSSSGGGYSSGGKHSSGGGARGGSSSGGGGYGSERGGSGSCEGGSSSVTFSFR</sequence>
+        <taxid>9913</taxid>
+        <feature>
+            <location>
+                <begin position="21"/>
+                <end position="32"/>
+            </location>
+            <evidence code="ECO:0000213">
+                <dbReference id="G3MZ71" type="PeptideAtlas"/>
+            </evidence>
+            <xrefs id="UP000009136" type="Proteomes"/>
+            <peptide unique="true">
+                <peptideSequence>GFSSGSAVVPGR</peptideSequence>
+            </peptide>
+        </feature>
+        <feature>
+            <location>
+                <begin position="46"/>
+                <end position="66"/>
+            </location>
+            <evidence code="ECO:0000213">
+                <dbReference id="G3MZ71" type="PeptideAtlas"/>
+            </evidence>
+            <xrefs id="UP000009136" type="Proteomes"/>
+            <peptide unique="true">
+                <peptideSequence>HGGGGGGFGGGGFGGGGFSSR</peptideSequence>
+            </peptide>
+        </feature>
+        <feature>
+            <location>
+                <begin position="246"/>
+                <end position="264"/>
+            </location>
+            <evidence code="ECO:0000213">
+                <dbReference id="G3MZ71" type="PeptideAtlas"/>
+            </evidence>
+            <xrefs id="UP000009136" type="Proteomes"/>
+            <peptide unique="true">
+                <peptideSequence>MLQESELNNMQDLVEDFKK</peptideSequence>
+            </peptide>
+        </feature>
+        <feature>
+            <location>
+                <begin position="418"/>
+                <end position="429"/>
+            </location>
+            <evidence code="ECO:0000213">
+                <dbReference id="G3MZ71" type="PeptideAtlas"/>
+            </evidence>
+            <xrefs id="UP000009136" type="Proteomes"/>
+            <peptide unique="true">
+                <peptideSequence>NVQDSIADAEQR</peptideSequence>
+            </peptide>
+        </feature>
+        <feature>
+            <location>
+                <begin position="341"/>
+                <end position="352"/>
+            </location>
+            <evidence code="ECO:0000213">
+                <dbReference id="G3MZ71" type="PeptideAtlas"/>
+            </evidence>
+            <xrefs id="UP000009136" type="Proteomes"/>
+            <peptide unique="true">
+                <peptideSequence>SLDLDSIITEVR</peptideSequence>
+            </peptide>
+        </feature>
+        <feature>
+            <location>
+                <begin position="220"/>
+                <end position="240"/>
+            </location>
+            <evidence code="ECO:0000213">
+                <dbReference id="G3MZ71" type="PeptideAtlas"/>
+            </evidence>
+            <xrefs id="UP000009136" type="Proteomes"/>
+            <peptide unique="true">
+                <peptideSequence>TTNLEPLFQGYISQLQSHLDK</peptideSequence>
+            </peptide>
+        </feature>
+        <feature>
+            <location>
+                <begin position="196"/>
+                <end position="207"/>
+            </location>
+            <evidence code="ECO:0000213">
+                <dbReference id="G3MZ71" type="PeptideAtlas"/>
+            </evidence>
+            <xrefs id="UP000009136" type="Proteomes"/>
+            <peptide unique="false">
+                <peptideSequence>FLEQQNQVLQTK</peptideSequence>
+            </peptide>
+        </feature>
+    </entryFeature>
+    <entryFeature>
+        <name>G3MYV4_BOVIN</name>
+        <accession>G3MYV4</accession>
+        <sequence checksum="4466901CE31284BC">MPEPAKSAPAPKKGSKKAVTKAQKKDSKKRKRSHKESYTVYVYKVLKQVHPDTGISSKAMGIMNSCVSDIFERISGEASRLAHYNKSSTIISREIQTAMRLLLPGELAKHAVSEGTKAVTKYTSSK</sequence>
+        <taxid>9913</taxid>
+        <feature>
+            <location>
+                <begin position="101"/>
+                <end position="109"/>
+            </location>
+            <evidence code="ECO:0000213">
+                <dbReference id="G3MYV4" type="PeptideAtlas"/>
+            </evidence>
+            <xrefs id="UP000009136" type="Proteomes"/>
+            <peptide unique="false">
+                <peptideSequence>LLLPGELAK</peptideSequence>
+            </peptide>
+        </feature>
+        <feature>
+            <location>
+                <begin position="48"/>
+                <end position="58"/>
+            </location>
+            <evidence code="ECO:0000213">
+                <dbReference id="G3MYV4" type="PeptideAtlas"/>
+            </evidence>
+            <xrefs id="UP000009136" type="Proteomes"/>
+            <peptide unique="false">
+                <peptideSequence>QVHPDTGISSK</peptideSequence>
+            </peptide>
+        </feature>
+    </entryFeature>
+    <entryFeature>
+        <name>G3X7R8_BOVIN</name>
+        <accession>G3X7R8</accession>
+        <sequence checksum="C28D0B2E9DFDAC36">GQTGAGNNWAKGHYTEGAELVDSVLDVVRKECEHCDCLQGFQLTHSLGGGTGSGMGTLLISKIREEYPDRIMNTFSVMPSPKVSDTVVEPYNATLSVHQLVENTDETYCIDNEALYDICFRTLKLTTPTYGDLNHLVSATMSGVTTSLRFPGQLNADLRKLAVNMVPFPRLHFFMPGFAPLTARGSQQYRALTVPELTQQMFDAKNMMAACDPRHGRYLTVAAVFRGPMSMKEVDEQMLAIQNKNSSYFVEWIPNNVKVAVCDIPPRGLKMSATFIGNSTAIQELFKRISEQFSAMFRRKAFLHWFTGEGMDEMEFTEAESNMNDLVSEYQQYQDATADEGEEAFEDDEEEVNE</sequence>
+        <taxid>9913</taxid>
+        <feature>
+            <location>
+                <begin position="245"/>
+                <end position="258"/>
+            </location>
+            <evidence code="ECO:0000213">
+                <dbReference id="G3X7R8" type="PeptideAtlas"/>
+            </evidence>
+            <xrefs id="UP000009136" type="Proteomes"/>
+            <peptide unique="false">
+                <peptideSequence>NSSYFVEWIPNNVK</peptideSequence>
+            </peptide>
+        </feature>
+        <feature>
+            <location>
+                <begin position="206"/>
+                <end position="214"/>
+            </location>
+            <evidence code="ECO:0000213">
+                <dbReference id="G3X7R8" type="PeptideAtlas"/>
+            </evidence>
+            <xrefs id="UP000009136" type="Proteomes"/>
+            <peptide unique="false">
+                <peptideSequence>NMMAACDPR</peptideSequence>
+            </peptide>
+        </feature>
+        <feature>
+            <location>
+                <begin position="150"/>
+                <end position="159"/>
+            </location>
+            <evidence code="ECO:0000213">
+                <dbReference id="G3X7R8" type="PeptideAtlas"/>
+            </evidence>
+            <xrefs id="UP000009136" type="Proteomes"/>
+            <peptide unique="false">
+                <peptideSequence>FPGQLNADLR</peptideSequence>
+            </peptide>
+        </feature>
+        <feature>
+            <location>
+                <begin position="12"/>
+                <end position="29"/>
+            </location>
+            <evidence code="ECO:0000213">
+                <dbReference id="G3X7R8" type="PeptideAtlas"/>
+            </evidence>
+            <xrefs id="UP000009136" type="Proteomes"/>
+            <peptide unique="false">
+                <peptideSequence>GHYTEGAELVDSVLDVVR</peptideSequence>
+            </peptide>
+        </feature>
+        <feature>
+            <location>
+                <begin position="191"/>
+                <end position="205"/>
+            </location>
+            <evidence code="ECO:0000213">
+                <dbReference id="G3X7R8" type="PeptideAtlas"/>
+            </evidence>
+            <xrefs id="UP000009136" type="Proteomes"/>
+            <peptide unique="false">
+                <peptideSequence>ALTVPELTQQMFDAK</peptideSequence>
+            </peptide>
+        </feature>
+        <feature>
+            <location>
+                <begin position="160"/>
+                <end position="170"/>
+            </location>
+            <evidence code="ECO:0000213">
+                <dbReference id="G3X7R8" type="PeptideAtlas"/>
+            </evidence>
+            <xrefs id="UP000009136" type="Proteomes"/>
+            <peptide unique="false">
+                <peptideSequence>KLAVNMVPFPR</peptideSequence>
+            </peptide>
+        </feature>
+        <feature>
+            <location>
+                <begin position="12"/>
+                <end position="30"/>
+            </location>
+            <evidence code="ECO:0000213">
+                <dbReference id="G3X7R8" type="PeptideAtlas"/>
+            </evidence>
+            <xrefs id="UP000009136" type="Proteomes"/>
+            <peptide unique="false">
+                <peptideSequence>GHYTEGAELVDSVLDVVRK</peptideSequence>
+            </peptide>
+        </feature>
+    </entryFeature>
+    <entryFeature>
+        <name>PIMT_BOVIN</name>
+        <accession>P15246</accession>
+        <sequence checksum="8566921A7B7AFE37">MAWKSGGASHSELIHNLRKNGIIKTDKVFEVMLATDRSHYAKCNPYMDSPQSIGFQATISAPHMHAYALELLFDQLNEGAKALDVGSGSGILTACFARMVGPSGKVIGIDHIKELVDDSINNVRKDDPMLLSSGRVQLVVGDGRMGYAAEAPYDAIHVGAAAPVVPQALIDQLKPGGRLILPVGPAGGNQMLEQYDKLQDGSVKMKPLMGVIYVPLTDKEKQWSRWK</sequence>
+        <taxid>9913</taxid>
+        <feature>
+            <location>
+                <begin position="145"/>
+                <end position="178"/>
+            </location>
+            <evidence code="ECO:0000213">
+                <dbReference id="P15246" type="PeptideAtlas"/>
+            </evidence>
+            <xrefs id="UP000009136" type="Proteomes"/>
+            <peptide unique="true">
+                <peptideSequence>MGYAAEAPYDAIHVGAAAPVVPQALIDQLKPGGR</peptideSequence>
+            </peptide>
+        </feature>
+        <feature>
+            <location>
+                <begin position="5"/>
+                <end position="18"/>
+            </location>
+            <evidence code="ECO:0000213">
+                <dbReference id="P15246" type="PeptideAtlas"/>
+            </evidence>
+            <xrefs id="UP000009136" type="Proteomes"/>
+            <peptide unique="true">
+                <peptideSequence>SGGASHSELIHNLR</peptideSequence>
+            </peptide>
+        </feature>
+    </entryFeature>
+    <entryFeature>
+        <name>G3X7R7_BOVIN</name>
+        <accession>G3X7R7</accession>
+        <sequence checksum="9624E6371E208183">MREIVHIQAGQCGNQIGAKFWEVISDEHGIDPTGSYHGDSDLQLERINVYYNEAAGNKYVPRAILVDLEPGTMDSVRSGPFGQIFRPDNFVFGQSGAGNNWAKGHYTEGAELVDSVLDVVRKESESCDCLQGFQLTHSLGGGTGSGMGTLLISKIREEYPDRIMNTFSVMPSPKVSDTVVEPYNATLSVHQLVENTDETYSIDNEALYDICFRTLKLTTPTYGDLNHLVSATMSGVTTCLRFPGQLNADLRKLAVNMVPFPRLHFFMPGFAPLTSRGSQQYRALTVPELTQQIYFAESNMNDLVSEYQQYQDATADEQGEFEEEEGEDEA</sequence>
+        <taxid>9913</taxid>
+        <feature>
+            <location>
+                <begin position="47"/>
+                <end position="58"/>
+            </location>
+            <evidence code="ECO:0000213">
+                <dbReference id="G3X7R7" type="PeptideAtlas"/>
+            </evidence>
+            <xrefs id="UP000009136" type="Proteomes"/>
+            <peptide unique="true">
+                <peptideSequence>INVYYNEAAGNK</peptideSequence>
+            </peptide>
+        </feature>
+        <feature>
+            <location>
+                <begin position="78"/>
+                <end position="103"/>
+            </location>
+            <evidence code="ECO:0000213">
+                <dbReference id="G3X7R7" type="PeptideAtlas"/>
+            </evidence>
+            <xrefs id="UP000009136" type="Proteomes"/>
+            <peptide unique="false">
+                <peptideSequence>SGPFGQIFRPDNFVFGQSGAGNNWAK</peptideSequence>
+            </peptide>
+        </feature>
+        <feature>
+            <location>
+                <begin position="63"/>
+                <end position="77"/>
+            </location>
+            <evidence code="ECO:0000213">
+                <dbReference id="G3X7R7" type="PeptideAtlas"/>
+            </evidence>
+            <xrefs id="UP000009136" type="Proteomes"/>
+            <peptide unique="false">
+                <peptideSequence>AILVDLEPGTMDSVR</peptideSequence>
+            </peptide>
+        </feature>
+        <feature>
+            <location>
+                <begin position="263"/>
+                <end position="276"/>
+            </location>
+            <evidence code="ECO:0000213">
+                <dbReference id="G3X7R7" type="PeptideAtlas"/>
+            </evidence>
+            <xrefs id="UP000009136" type="Proteomes"/>
+            <peptide unique="false">
+                <peptideSequence>LHFFMPGFAPLTSR</peptideSequence>
+            </peptide>
+        </feature>
+        <feature>
+            <location>
+                <begin position="217"/>
+                <end position="241"/>
+            </location>
+            <evidence code="ECO:0000213">
+                <dbReference id="G3X7R7" type="PeptideAtlas"/>
+            </evidence>
+            <xrefs id="UP000009136" type="Proteomes"/>
+            <peptide unique="false">
+                <peptideSequence>LTTPTYGDLNHLVSATMSGVTTCLR</peptideSequence>
+            </peptide>
+        </feature>
+        <feature>
+            <location>
+                <begin position="242"/>
+                <end position="251"/>
+            </location>
+            <evidence code="ECO:0000213">
+                <dbReference id="G3X7R7" type="PeptideAtlas"/>
+            </evidence>
+            <xrefs id="UP000009136" type="Proteomes"/>
+            <peptide unique="false">
+                <peptideSequence>FPGQLNADLR</peptideSequence>
+            </peptide>
+        </feature>
+        <feature>
+            <location>
+                <begin position="104"/>
+                <end position="121"/>
+            </location>
+            <evidence code="ECO:0000213">
+                <dbReference id="G3X7R7" type="PeptideAtlas"/>
+            </evidence>
+            <xrefs id="UP000009136" type="Proteomes"/>
+            <peptide unique="false">
+                <peptideSequence>GHYTEGAELVDSVLDVVR</peptideSequence>
+            </peptide>
+        </feature>
+        <feature>
+            <location>
+                <begin position="252"/>
+                <end position="262"/>
+            </location>
+            <evidence code="ECO:0000213">
+                <dbReference id="G3X7R7" type="PeptideAtlas"/>
+            </evidence>
+            <xrefs id="UP000009136" type="Proteomes"/>
+            <peptide unique="false">
+                <peptideSequence>KLAVNMVPFPR</peptideSequence>
+            </peptide>
+        </feature>
+        <feature>
+            <location>
+                <begin position="104"/>
+                <end position="122"/>
+            </location>
+            <evidence code="ECO:0000213">
+                <dbReference id="G3X7R7" type="PeptideAtlas"/>
+            </evidence>
+            <xrefs id="UP000009136" type="Proteomes"/>
+            <peptide unique="false">
+                <peptideSequence>GHYTEGAELVDSVLDVVRK</peptideSequence>
+            </peptide>
+        </feature>
+    </entryFeature>
+    <entryFeature>
+        <name>E1BPK0_BOVIN</name>
+        <accession>E1BPK0</accession>
+        <sequence checksum="449B087D38B68F0D">MPELAKSAPAPKKGSKKSCDQGPEEGGKKRKCSHKESYSMYVYKVLKQVHPDTGISSKAMGIMNSFINDIFERITDKASHLEHYNKCSTITSREIQTAMCLLLHGELAKHTLSKGTNAVTKYTSSK</sequence>
+        <taxid>9913</taxid>
+        <feature>
+            <location>
+                <begin position="48"/>
+                <end position="58"/>
+            </location>
+            <evidence code="ECO:0000213">
+                <dbReference id="E1BPK0" type="MaxQB"/>
+            </evidence>
+            <xrefs id="UP000009136" type="Proteomes"/>
+            <peptide unique="false">
+                <peptideSequence>QVHPDTGISSK</peptideSequence>
+            </peptide>
+        </feature>
+    </entryFeature>
+</entryFeatureCollection>

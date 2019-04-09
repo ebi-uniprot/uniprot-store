@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<entryFeatureCollection
+	xmlns="http://www.ebi.ac.uk/proteins/api/doc/xsd/feature">
+	<entryFeature>
+		<name>MKS1_HUMAN</name>
+		<accession>Q9NXB0</accession>
+		<sequence checksum="4489736825762460573">MAETVWSTDTGEAVYRSRDPVRNLRLRVHLQRITSSNFLHYQPAAELGKDLIDLATFRPQPTASGHRPEEDEEEEIVIGWQEKLFSQFEVDLYQNETACQSPLDYQYRQEILKLENSGGKKNRRIFTYTDSDRYTN
+			LEEHCQRMTTAASEVPSFLVERMANVRRRRQDRRGMEGGILKSRIVTWEPSEEFVRNNHVINTPLQTMHIMADLGPYKKLGYKKYEHVLCTLKVDSNGVITVKPDFTGLKGPYRIETEGEKQELWKYTIDNVSPHAQPEEEERERRVFKDLYGRHKEYLSSLVGTDFEMTVPGALRLFVNGEVVS
+			AQGYEYDNLYVHFFVELPTAHWSSPAFQQLSGVTQTCTTKSLAMDKVAHFSYPFTFEAFFLHEDESSDALPEWPVLYCEVLSLDFWQRYRVEGYGAVVLPATPGSHTLTVSTWRPVELGTVAELRRFFIGGSLELEDLSYVRIPGSFKGERLSRFGLRTETTGTVTFRLHCLQQSRAFMESSSLQ
+			KRMRSVLDRLEGFSQQSSIHNVLEAFRRARRRMQEARESLPQDLVSPSGTLVS
+		</sequence>
+		<taxid>9606</taxid>
+		<feature>
+			<location>
+				<begin position="150" />
+				<end position="251" />
+			</location>
+			<description>100%</description>
+			<evidence code="ECO:0000213">
+				<dbReference id="HPA021372" type="HPA" />
+			</evidence>
+			<xrefs id="ENSG00000011143" type="ENSG" />
+			<xrefs id="ENST00000393119" type="ENST" />
+			<xrefs id="ENSP00000376827" type="ENSP" />
+			<peptide unique="false">
+				<peptideSequence>EVPSFLVERMANVRRRRQDRRGMEGGILKSRIVTWEPSEEFVRNNHVINTPLQTMHIMADLGPYKKLGYKKYEHVLCTLKVDSNGVITVKPDFTGLKGPYRI
+				</peptideSequence>
+			</peptide>
+		</feature>
+		<feature>
+			<location>
+				<begin position="357" />
+				<end position="443" />
+			</location>
+			<description>100%</description>
+			<evidence code="ECO:0000213">
+				<dbReference id="HPA021812" type="HPA" />
+			</evidence>
+			<xrefs id="ENSG00000011143" type="ENSG" />
+			<xrefs id="ENST00000393119" type="ENST" />
+			<xrefs id="ENSP00000376827" type="ENSP" />
+			<peptide unique="false">
+				<peptideSequence>TCTTKSLAMDKVAHFSYPFTFEAFFLHEDESSDALPEWPVLYCEVLSLDFWQRYRVEGYGAVVLPATPGSHTLTVSTWRPVELGTVA
+				</peptideSequence>
+			</peptide>
+		</feature>
+	</entryFeature>
+
+	<entryFeature>
+		<name>BCL7B_HUMAN</name>
+		<accession>Q9BQE9</accession>
+		<sequence checksum="180204537752068359">MSGRSVRAETRSRAKDDIKKVMAAIEKVRKWEKKWVTVGDTSLRIFKWVPVTDSKEKEKSKSNSSAAREPNGFPSDASANSSLLLEFQDENSNQSSVSDVYQLKVDSSTNSSPSPQQSESLSPAHTSDFRTDDSQPP
+			TLGQEILEEPSLPSSEVADEPPTLTKEEPVPLETQVVEEEEDSGAPPLKRFCVDQPTVPQTASES
+		</sequence>
+		<taxid>9606</taxid>
+		<feature>
+			<location>
+				<begin position="161" />
+				<end position="202" />
+			</location>
+			<description>100%</description>
+			<evidence code="ECO:0000213">
+				<dbReference id="HPA049943" type="HPA" />
+			</evidence>
+			<xrefs id="ENSG00000106635" type="ENSG" />
+			<xrefs id="ENST00000223368" type="ENST" />
+			<xrefs id="ENSP00000223368" type="ENSP" />
+			<peptide unique="false">
+				<peptideSequence>LTKEEPVPLETQVVEEEEDSGAPPLKRFCVDQPTVPQTASES
+				</peptideSequence>
+			</peptide>
+		</feature>
+		<feature>
+			<location>
+				<begin position="161" />
+				<end position="202" />
+			</location>
+			<description>100%</description>
+			<evidence code="ECO:0000213">
+				<dbReference id="HPA058069" type="HPA" />
+			</evidence>
+			<xrefs id="ENSG00000106635" type="ENSG" />
+			<xrefs id="ENST00000223368" type="ENST" />
+			<xrefs id="ENSP00000223368" type="ENSP" />
+			<peptide unique="false">
+				<peptideSequence>LTKEEPVPLETQVVEEEEDSGAPPLKRFCVDQPTVPQTASES
+				</peptideSequence>
+			</peptide>
+		</feature>
+	</entryFeature>
+    <entryFeature>
+        <name>DAZ1_HUMAN</name>
+        <accession>Q9NQZ3</accession>
+        <sequence checksum="3755071485719541591">MSAANPETPNSTISREASTQSSSAAASQGWVLPEGKIVPNTVFVGGIDARMDETEIGSCFGRYGSVKEVKIITNRTGVSKGYGFVSFVNDVDVQKIVGSQIHFHGKKLKLGPAIRKQKLCARHVQPRPLVVNPPPPPQFQNVWRNPNTETYLQPQITPNPVTQHVQSAANPETPNSTISREASTQSSSAAASQGWVLPEGKIVPNTVFVGGIDARMDETEIGSCFGRYGSVKEVKIITNRTGVSKGYGFVSFVNDVDVQKIVGSQIHFHGKKLKLGPAIRKQKLCARHVQPRPLVVNPPPPPQFQNVWRNPNTETYLQPQITPNPVTQHVQSAANPETPNSTISREASTQSSSAAASQGWVLPEGKIVPNTVFVGGIDARMDETEIGSCFGRYGSVKEVKIITNRTGVSKGYGFVSFVNDVDVQKIVGSQIHFHGKKLKLGPAIRKQKLCARHVQPRPLVVNPPPPPQFQNVWRNPNTETYLQPQITPNPVTQHVQAYSAYPHSPGQVITGCQLLVYNYQEYPTYPDSAFQVTTGYQLPVYNYQPFPAYPRSPFQVTAGYQLPVYNYQAFPAYPNSPFQVATGYQFPVYNYQPFPAYPSSPFQVTAGYQLPVYNYQAFPAYPNSPFQVATGYQFPVYNYQAFPAYPNSPVQVTTGYQLPVYNYQAFPAYPSSPFQVTTGYQLPVYNYQAFPAYPNSAVQVTTGYQFHVYNYQMPPQCPVGEQRRNLWTEAYKWWYLVCLIQRRD</sequence>
+        <taxid>9606</taxid>
+        <feature>
+            <location>
+                <begin position="89"/>
+                <end position="117"/>
+            </location>
+            <description>100%</description>
+            <evidence code="ECO:0000213">
+                <dbReference id="HPA047113" type="HPA"/>
+            </evidence>
+            <xrefs id="ENSG00000188120" type="ENSG"/>
+            <xrefs id="ENST00000405239" type="ENST"/>
+            <xrefs id="ENSP00000384573" type="ENSP"/>
+            <peptide unique="false">
+                <peptideSequence>NDVDVQKIVGSQIHFHGKKLKLGPAIRKQ</peptideSequence>
+            </peptide>
+        </feature>
+        <feature>
+            <location>
+                <begin position="254"/>
+                <end position="282"/>
+            </location>
+            <description>99%</description>
+            <evidence code="ECO:0000213">
+                <dbReference id="HPA047113" type="HPA"/>
+            </evidence>
+            <xrefs id="ENSG00000188120" type="ENSG"/>
+            <xrefs id="ENST00000405239" type="ENST"/>
+            <xrefs id="ENSP00000384573" type="ENSP"/>
+            <peptide unique="false">
+                <peptideSequence>NDVDVQKIVGSQIHFHGKKLKLGPAIRKQ</peptideSequence>
+            </peptide>
+        </feature>
+        <feature>
+            <location>
+                <begin position="419"/>
+                <end position="447"/>
+            </location>
+            <description>100%</description>
+            <evidence code="ECO:0000213">
+                <dbReference id="HPA047113" type="HPA"/>
+            </evidence>
+            <xrefs id="ENSG00000188120" type="ENSG"/>
+            <xrefs id="ENST00000405239" type="ENST"/>
+            <xrefs id="ENSP00000384573" type="ENSP"/>
+            <peptide unique="false">
+                <peptideSequence>NDVDVQKIVGSQIHFHGKKLKLGPAIRKQ</peptideSequence>
+            </peptide>
+        </feature>
+    </entryFeature>
+      <entryFeature>
+        <name>P3H1-1_HUMAN</name>
+        <accession>Q32P28-1</accession>
+        <sequence checksum="16868524335653873758">MAVRALKLLTTLLAVVAAASQAEVESEAGWGMVTPDLLFAEGTAAYARGDWPGVVLSMERALRSRAALRALRLRCRTQCAADFPWELDPDWSPSPAQASGAAALRDLSFFGGLLRRAACLRRCLGPPAAHSLSEEMELEFRKRSPYNYLQVAYFKINKLEKAVAAAHTFFVGNPEHMEMQQNLDYYQTMSGVKEADFKDLETQPHMQEFRLGVRLYSEEQPQEAVPHLEAALQEYFVAYEECRALCEGPYDYDGYNYLEYNADLFQAITDHYIQVLNCKQNCVTELASHPSREKPFEDFLPSHYNYLQFAYYNIGNYTQAVECAKTYLLFFPNDEVMNQNLAYYAAMLGEEHTRSIGPRESAKEYRQRSLLEKELLFFAYDVFGIPFVDPDSWTPEEVIPKRLQEKQKSERETAVRISQEIGNLMKEIETLVEEKTKESLDVSRLTREGGPLLYEGISLTMNSKLLNGSQRVVMDGVISDHECQELQRLTNVAATSGDGYRGQTSPHTPNEKFYGVTVFKALKLGQEGKVPLQSAHLYYNVTEKVRRIMESYFRLDTPLYFSYSHLVCRTAIEEVQAERKDDSHPVHVDNCILNAETLVCVKEPPAYTFRDYSAILYLNGDFDGGNFYFTELDAKTVTAEVQPQCGRAVGFSSGTENPHGVKAVTRGQRCAIALWFTLDPRHSERDRVQADDLVKMLFSPEEMDLSQEQPLDAQQGPPEPAQESLSGSESKPKDEL</sequence>
+        <taxid>9606</taxid>
+        <feature>
+            <location>
+                <begin position="320"/>
+                <end position="446"/>
+            </location>
+            <description>100%</description>
+            <evidence code="ECO:0000213">
+                <dbReference id="HPA012113" type="HPA"/>
+            </evidence>
+            <xrefs id="ENSG00000117385" type="ENSG"/>
+            <xrefs id="ENST00000296388" type="ENST"/>
+            <xrefs id="ENSP00000296388" type="ENSP"/>
+            <peptide unique="false">
+                <peptideSequence>AVECAKTYLLFFPNDEVMNQNLAYYAAMLGEEHTRSIGPRESAKEYRQRSLLEKELLFFAYDVFGIPFVDPDSWTPEEVIPKRLQEKQKSERETAVRISQEIGNLMKEIETLVEEKTKESLDVSRLT</peptideSequence>
+            </peptide>
+        </feature>
+        <feature>
+            <location>
+                <begin position="156"/>
+                <end position="290"/>
+            </location>
+            <description>96%</description>
+            <evidence code="ECO:0000213">
+                <dbReference id="HPA016980" type="HPA"/>
+            </evidence>
+            <xrefs id="ENSG00000117385" type="ENSG"/>
+            <xrefs id="ENST00000296388" type="ENST"/>
+            <xrefs id="ENSP00000296388" type="ENSP"/>
+            <peptide unique="false">
+                <peptideSequence>INKLEKAVAAAHTFFVGNPEHMEMQQNLDYYQTMSGVKEADFKDLETQPHMQEFRLGVRLYSEEQPQEAVPHLEAALQEYFVAYEECRALCEGPYDYDGYNYLEYNADLFQAITDHYIQVLNCKQNCVTELASHP</peptideSequence>
+            </peptide>
+        </feature>
+    </entryFeature>
+</entryFeatureCollection> 
+    

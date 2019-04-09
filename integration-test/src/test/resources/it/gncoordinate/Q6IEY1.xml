@@ -1,0 +1,707 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gnEntries>
+    <gnEntry xmlns:ns2="http://www.ebi.ac.uk/proteins/api/doc/xsd/feature">
+        <accession>Q6IEY1</accession>
+        <name>OR4F3_HUMAN</name>
+        <taxid>9606</taxid>
+        <sequence>
+            MDGENHSVVSEFLFLGLTHSWEIQLLLLVFSSVLYVASITGNILIVFSVTTDPHLHSPMYFLLASLSFIDLGACSVTSPKMIYDLFRKRKVISFGGCIAQIFFIHVVGGVEMVLLIAMAFDRYVALCKPLHYLTIMSPRMCLSFLAVAWTLGVSHSLFQLAFLVNLAFCGPNVLDSFYCDLPRLLRLACTDTYRLQFMVTVNSGFICVGTFFILLISYVFILFTVWKHSSGGSSKALSTLSAHSTVVLLFFGPPMFVYTRPHPNSQMDKFLAIFDAVLTPFLNPVVYTFRNKEMKAAIKRVCKQLVIYKRIS
+        </sequence>
+        <protein>
+            <recommendedName>
+                <fullName>Olfactory receptor 4F3/4F16/4F29</fullName>
+            </recommendedName>
+            <alternativeName>
+                <fullName>Olfactory receptor OR1-1</fullName>
+            </alternativeName>
+        </protein>
+        <gene type="primary">OR4F3</gene>
+        <gnCoordinate ensembl_gene_id="ENSG00000284733" ensembl_transcript_id="ENST00000426406" ensembl_translation_id="ENSP00000409316">
+            <genomicLocation chromosome="1" start="450743" end="451678" reverse_strand="true">
+                <exon id="ENSE00002316283">
+                    <proteinLocation>
+                        <ns2:begin position="1"/>
+                        <ns2:end position="312"/>
+                    </proteinLocation>
+                    <genomeLocation>
+                        <ns2:begin position="450743"/>
+                        <ns2:end position="451678"/>
+                    </genomeLocation>
+                </exon>
+            </genomicLocation>
+            <feature type="transmembrane region">
+                <ns2:location>
+                    <ns2:begin position="196"/>
+                    <ns2:end position="219"/>
+                </ns2:location>
+                <ns2:description>Helical; Name=5.</ns2:description>
+                <ns2:evidence code="ECO:0000255"/>
+                <genomeLocation>
+                    <ns2:begin position="451022"/>
+                    <ns2:end position="451093"/>
+                </genomeLocation>
+            </feature>
+            <feature type="transmembrane region">
+                <ns2:location>
+                    <ns2:begin position="101"/>
+                    <ns2:end position="120"/>
+                </ns2:location>
+                <ns2:description>Helical; Name=3.</ns2:description>
+                <ns2:evidence code="ECO:0000255"/>
+                <genomeLocation>
+                    <ns2:begin position="451319"/>
+                    <ns2:end position="451378"/>
+                </genomeLocation>
+            </feature>
+            <feature type="topological domain">
+                <ns2:location>
+                    <ns2:begin position="80"/>
+                    <ns2:end position="100"/>
+                </ns2:location>
+                <ns2:description>Extracellular.</ns2:description>
+                <ns2:evidence code="ECO:0000255"/>
+                <genomeLocation>
+                    <ns2:begin position="451379"/>
+                    <ns2:end position="451441"/>
+                </genomeLocation>
+            </feature>
+            <feature type="transmembrane region">
+                <ns2:location>
+                    <ns2:begin position="270"/>
+                    <ns2:end position="289"/>
+                </ns2:location>
+                <ns2:description>Helical; Name=7.</ns2:description>
+                <ns2:evidence code="ECO:0000255"/>
+                <genomeLocation>
+                    <ns2:begin position="450812"/>
+                    <ns2:end position="450871"/>
+                </genomeLocation>
+            </feature>
+            <feature type="topological domain">
+                <ns2:location>
+                    <ns2:begin position="290"/>
+                    <ns2:end position="312"/>
+                </ns2:location>
+                <ns2:description>Cytoplasmic.</ns2:description>
+                <ns2:evidence code="ECO:0000255"/>
+                <genomeLocation>
+                    <ns2:begin position="450743"/>
+                    <ns2:end position="450811"/>
+                </genomeLocation>
+            </feature>
+            <feature type="topological domain">
+                <ns2:location>
+                    <ns2:begin position="220"/>
+                    <ns2:end position="235"/>
+                </ns2:location>
+                <ns2:description>Cytoplasmic.</ns2:description>
+                <ns2:evidence code="ECO:0000255"/>
+                <genomeLocation>
+                    <ns2:begin position="450974"/>
+                    <ns2:end position="451021"/>
+                </genomeLocation>
+            </feature>
+            <feature type="transmembrane region">
+                <ns2:location>
+                    <ns2:begin position="140"/>
+                    <ns2:end position="158"/>
+                </ns2:location>
+                <ns2:description>Helical; Name=4.</ns2:description>
+                <ns2:evidence code="ECO:0000255"/>
+                <genomeLocation>
+                    <ns2:begin position="451205"/>
+                    <ns2:end position="451261"/>
+                </genomeLocation>
+            </feature>
+            <feature type="transmembrane region">
+                <ns2:location>
+                    <ns2:begin position="236"/>
+                    <ns2:end position="258"/>
+                </ns2:location>
+                <ns2:description>Helical; Name=6.</ns2:description>
+                <ns2:evidence code="ECO:0000255"/>
+                <genomeLocation>
+                    <ns2:begin position="450905"/>
+                    <ns2:end position="450973"/>
+                </genomeLocation>
+            </feature>
+            <feature type="topological domain">
+                <ns2:location>
+                    <ns2:begin position="1"/>
+                    <ns2:end position="25"/>
+                </ns2:location>
+                <ns2:description>Extracellular.</ns2:description>
+                <ns2:evidence code="ECO:0000255"/>
+                <genomeLocation>
+                    <ns2:begin position="451604"/>
+                    <ns2:end position="451678"/>
+                </genomeLocation>
+            </feature>
+            <feature type="topological domain">
+                <ns2:location>
+                    <ns2:begin position="259"/>
+                    <ns2:end position="269"/>
+                </ns2:location>
+                <ns2:description>Extracellular.</ns2:description>
+                <ns2:evidence code="ECO:0000255"/>
+                <genomeLocation>
+                    <ns2:begin position="450872"/>
+                    <ns2:end position="450904"/>
+                </genomeLocation>
+            </feature>
+            <feature type="transmembrane region">
+                <ns2:location>
+                    <ns2:begin position="26"/>
+                    <ns2:end position="49"/>
+                </ns2:location>
+                <ns2:description>Helical; Name=1.</ns2:description>
+                <ns2:evidence code="ECO:0000255"/>
+                <genomeLocation>
+                    <ns2:begin position="451532"/>
+                    <ns2:end position="451603"/>
+                </genomeLocation>
+            </feature>
+            <feature type="glycosylation site">
+                <ns2:location>
+                    <ns2:position position="5"/>
+                </ns2:location>
+                <ns2:description>N-linked (GlcNAc...) asparagine.</ns2:description>
+                <ns2:evidence code="ECO:0000255"/>
+                <genomeLocation>
+                    <ns2:begin position="451664"/>
+                    <ns2:end position="451666"/>
+                </genomeLocation>
+            </feature>
+            <feature type="chain" id="PRO_0000150551">
+                <ns2:location>
+                    <ns2:begin position="1"/>
+                    <ns2:end position="312"/>
+                </ns2:location>
+                <ns2:description>Olfactory receptor 4F3/4F16/4F29.</ns2:description>
+                <genomeLocation>
+                    <ns2:begin position="450743"/>
+                    <ns2:end position="451678"/>
+                </genomeLocation>
+            </feature>
+            <feature type="topological domain">
+                <ns2:location>
+                    <ns2:begin position="121"/>
+                    <ns2:end position="139"/>
+                </ns2:location>
+                <ns2:description>Cytoplasmic.</ns2:description>
+                <ns2:evidence code="ECO:0000255"/>
+                <genomeLocation>
+                    <ns2:begin position="451262"/>
+                    <ns2:end position="451318"/>
+                </genomeLocation>
+            </feature>
+            <feature type="topological domain">
+                <ns2:location>
+                    <ns2:begin position="50"/>
+                    <ns2:end position="57"/>
+                </ns2:location>
+                <ns2:description>Cytoplasmic.</ns2:description>
+                <ns2:evidence code="ECO:0000255"/>
+                <genomeLocation>
+                    <ns2:begin position="451508"/>
+                    <ns2:end position="451531"/>
+                </genomeLocation>
+            </feature>
+            <feature type="transmembrane region">
+                <ns2:location>
+                    <ns2:begin position="58"/>
+                    <ns2:end position="79"/>
+                </ns2:location>
+                <ns2:description>Helical; Name=2.</ns2:description>
+                <ns2:evidence code="ECO:0000255"/>
+                <genomeLocation>
+                    <ns2:begin position="451442"/>
+                    <ns2:end position="451507"/>
+                </genomeLocation>
+            </feature>
+            <feature type="topological domain">
+                <ns2:location>
+                    <ns2:begin position="159"/>
+                    <ns2:end position="195"/>
+                </ns2:location>
+                <ns2:description>Extracellular.</ns2:description>
+                <ns2:evidence code="ECO:0000255"/>
+                <genomeLocation>
+                    <ns2:begin position="451094"/>
+                    <ns2:end position="451204"/>
+                </genomeLocation>
+            </feature>
+            <feature type="disulfide bond">
+                <ns2:location>
+                    <ns2:begin position="97"/>
+                    <ns2:end position="189"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000255">
+                    <ns2:dbReference id="PRU00521" type="PROSITE-ProRule"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="451112"/>
+                    <ns2:end position="451390"/>
+                </genomeLocation>
+            </feature>
+        </gnCoordinate>
+        <gnCoordinate ensembl_gene_id="ENSG00000284662" ensembl_transcript_id="ENST00000332831" ensembl_translation_id="ENSP00000329982">
+            <genomicLocation chromosome="1" start="685719" end="686654" reverse_strand="true">
+                <exon id="ENSE00002324228">
+                    <proteinLocation>
+                        <ns2:begin position="1"/>
+                        <ns2:end position="312"/>
+                    </proteinLocation>
+                    <genomeLocation>
+                        <ns2:begin position="685719"/>
+                        <ns2:end position="686654"/>
+                    </genomeLocation>
+                </exon>
+            </genomicLocation>
+            <feature type="transmembrane region">
+                <ns2:location>
+                    <ns2:begin position="196"/>
+                    <ns2:end position="219"/>
+                </ns2:location>
+                <ns2:description>Helical; Name=5.</ns2:description>
+                <ns2:evidence code="ECO:0000255"/>
+                <genomeLocation>
+                    <ns2:begin position="685998"/>
+                    <ns2:end position="686069"/>
+                </genomeLocation>
+            </feature>
+            <feature type="transmembrane region">
+                <ns2:location>
+                    <ns2:begin position="101"/>
+                    <ns2:end position="120"/>
+                </ns2:location>
+                <ns2:description>Helical; Name=3.</ns2:description>
+                <ns2:evidence code="ECO:0000255"/>
+                <genomeLocation>
+                    <ns2:begin position="686295"/>
+                    <ns2:end position="686354"/>
+                </genomeLocation>
+            </feature>
+            <feature type="topological domain">
+                <ns2:location>
+                    <ns2:begin position="80"/>
+                    <ns2:end position="100"/>
+                </ns2:location>
+                <ns2:description>Extracellular.</ns2:description>
+                <ns2:evidence code="ECO:0000255"/>
+                <genomeLocation>
+                    <ns2:begin position="686355"/>
+                    <ns2:end position="686417"/>
+                </genomeLocation>
+            </feature>
+            <feature type="transmembrane region">
+                <ns2:location>
+                    <ns2:begin position="270"/>
+                    <ns2:end position="289"/>
+                </ns2:location>
+                <ns2:description>Helical; Name=7.</ns2:description>
+                <ns2:evidence code="ECO:0000255"/>
+                <genomeLocation>
+                    <ns2:begin position="685788"/>
+                    <ns2:end position="685847"/>
+                </genomeLocation>
+            </feature>
+            <feature type="topological domain">
+                <ns2:location>
+                    <ns2:begin position="290"/>
+                    <ns2:end position="312"/>
+                </ns2:location>
+                <ns2:description>Cytoplasmic.</ns2:description>
+                <ns2:evidence code="ECO:0000255"/>
+                <genomeLocation>
+                    <ns2:begin position="685719"/>
+                    <ns2:end position="685787"/>
+                </genomeLocation>
+            </feature>
+            <feature type="topological domain">
+                <ns2:location>
+                    <ns2:begin position="220"/>
+                    <ns2:end position="235"/>
+                </ns2:location>
+                <ns2:description>Cytoplasmic.</ns2:description>
+                <ns2:evidence code="ECO:0000255"/>
+                <genomeLocation>
+                    <ns2:begin position="685950"/>
+                    <ns2:end position="685997"/>
+                </genomeLocation>
+            </feature>
+            <feature type="transmembrane region">
+                <ns2:location>
+                    <ns2:begin position="140"/>
+                    <ns2:end position="158"/>
+                </ns2:location>
+                <ns2:description>Helical; Name=4.</ns2:description>
+                <ns2:evidence code="ECO:0000255"/>
+                <genomeLocation>
+                    <ns2:begin position="686181"/>
+                    <ns2:end position="686237"/>
+                </genomeLocation>
+            </feature>
+            <feature type="transmembrane region">
+                <ns2:location>
+                    <ns2:begin position="236"/>
+                    <ns2:end position="258"/>
+                </ns2:location>
+                <ns2:description>Helical; Name=6.</ns2:description>
+                <ns2:evidence code="ECO:0000255"/>
+                <genomeLocation>
+                    <ns2:begin position="685881"/>
+                    <ns2:end position="685949"/>
+                </genomeLocation>
+            </feature>
+            <feature type="topological domain">
+                <ns2:location>
+                    <ns2:begin position="1"/>
+                    <ns2:end position="25"/>
+                </ns2:location>
+                <ns2:description>Extracellular.</ns2:description>
+                <ns2:evidence code="ECO:0000255"/>
+                <genomeLocation>
+                    <ns2:begin position="686580"/>
+                    <ns2:end position="686654"/>
+                </genomeLocation>
+            </feature>
+            <feature type="topological domain">
+                <ns2:location>
+                    <ns2:begin position="259"/>
+                    <ns2:end position="269"/>
+                </ns2:location>
+                <ns2:description>Extracellular.</ns2:description>
+                <ns2:evidence code="ECO:0000255"/>
+                <genomeLocation>
+                    <ns2:begin position="685848"/>
+                    <ns2:end position="685880"/>
+                </genomeLocation>
+            </feature>
+            <feature type="transmembrane region">
+                <ns2:location>
+                    <ns2:begin position="26"/>
+                    <ns2:end position="49"/>
+                </ns2:location>
+                <ns2:description>Helical; Name=1.</ns2:description>
+                <ns2:evidence code="ECO:0000255"/>
+                <genomeLocation>
+                    <ns2:begin position="686508"/>
+                    <ns2:end position="686579"/>
+                </genomeLocation>
+            </feature>
+            <feature type="glycosylation site">
+                <ns2:location>
+                    <ns2:position position="5"/>
+                </ns2:location>
+                <ns2:description>N-linked (GlcNAc...) asparagine.</ns2:description>
+                <ns2:evidence code="ECO:0000255"/>
+                <genomeLocation>
+                    <ns2:begin position="686640"/>
+                    <ns2:end position="686642"/>
+                </genomeLocation>
+            </feature>
+            <feature type="chain" id="PRO_0000150551">
+                <ns2:location>
+                    <ns2:begin position="1"/>
+                    <ns2:end position="312"/>
+                </ns2:location>
+                <ns2:description>Olfactory receptor 4F3/4F16/4F29.</ns2:description>
+                <genomeLocation>
+                    <ns2:begin position="685719"/>
+                    <ns2:end position="686654"/>
+                </genomeLocation>
+            </feature>
+            <feature type="topological domain">
+                <ns2:location>
+                    <ns2:begin position="121"/>
+                    <ns2:end position="139"/>
+                </ns2:location>
+                <ns2:description>Cytoplasmic.</ns2:description>
+                <ns2:evidence code="ECO:0000255"/>
+                <genomeLocation>
+                    <ns2:begin position="686238"/>
+                    <ns2:end position="686294"/>
+                </genomeLocation>
+            </feature>
+            <feature type="topological domain">
+                <ns2:location>
+                    <ns2:begin position="50"/>
+                    <ns2:end position="57"/>
+                </ns2:location>
+                <ns2:description>Cytoplasmic.</ns2:description>
+                <ns2:evidence code="ECO:0000255"/>
+                <genomeLocation>
+                    <ns2:begin position="686484"/>
+                    <ns2:end position="686507"/>
+                </genomeLocation>
+            </feature>
+            <feature type="transmembrane region">
+                <ns2:location>
+                    <ns2:begin position="58"/>
+                    <ns2:end position="79"/>
+                </ns2:location>
+                <ns2:description>Helical; Name=2.</ns2:description>
+                <ns2:evidence code="ECO:0000255"/>
+                <genomeLocation>
+                    <ns2:begin position="686418"/>
+                    <ns2:end position="686483"/>
+                </genomeLocation>
+            </feature>
+            <feature type="topological domain">
+                <ns2:location>
+                    <ns2:begin position="159"/>
+                    <ns2:end position="195"/>
+                </ns2:location>
+                <ns2:description>Extracellular.</ns2:description>
+                <ns2:evidence code="ECO:0000255"/>
+                <genomeLocation>
+                    <ns2:begin position="686070"/>
+                    <ns2:end position="686180"/>
+                </genomeLocation>
+            </feature>
+            <feature type="disulfide bond">
+                <ns2:location>
+                    <ns2:begin position="97"/>
+                    <ns2:end position="189"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000255">
+                    <ns2:dbReference id="PRU00521" type="PROSITE-ProRule"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="686088"/>
+                    <ns2:end position="686366"/>
+                </genomeLocation>
+            </feature>
+        </gnCoordinate>
+        <gnCoordinate ensembl_gene_id="ENSG00000230178" ensembl_transcript_id="ENST00000456475" ensembl_translation_id="ENSP00000394282">
+            <genomicLocation chromosome="5" start="181367287" end="181368222" reverse_strand="false">
+                <exon id="ENSE00002321347">
+                    <proteinLocation>
+                        <ns2:begin position="1"/>
+                        <ns2:end position="312"/>
+                    </proteinLocation>
+                    <genomeLocation>
+                        <ns2:begin position="181367287"/>
+                        <ns2:end position="181368222"/>
+                    </genomeLocation>
+                </exon>
+            </genomicLocation>
+            <feature type="transmembrane region">
+                <ns2:location>
+                    <ns2:begin position="196"/>
+                    <ns2:end position="219"/>
+                </ns2:location>
+                <ns2:description>Helical; Name=5.</ns2:description>
+                <ns2:evidence code="ECO:0000255"/>
+                <genomeLocation>
+                    <ns2:begin position="181367872"/>
+                    <ns2:end position="181367943"/>
+                </genomeLocation>
+            </feature>
+            <feature type="transmembrane region">
+                <ns2:location>
+                    <ns2:begin position="101"/>
+                    <ns2:end position="120"/>
+                </ns2:location>
+                <ns2:description>Helical; Name=3.</ns2:description>
+                <ns2:evidence code="ECO:0000255"/>
+                <genomeLocation>
+                    <ns2:begin position="181367587"/>
+                    <ns2:end position="181367646"/>
+                </genomeLocation>
+            </feature>
+            <feature type="topological domain">
+                <ns2:location>
+                    <ns2:begin position="80"/>
+                    <ns2:end position="100"/>
+                </ns2:location>
+                <ns2:description>Extracellular.</ns2:description>
+                <ns2:evidence code="ECO:0000255"/>
+                <genomeLocation>
+                    <ns2:begin position="181367524"/>
+                    <ns2:end position="181367586"/>
+                </genomeLocation>
+            </feature>
+            <feature type="transmembrane region">
+                <ns2:location>
+                    <ns2:begin position="270"/>
+                    <ns2:end position="289"/>
+                </ns2:location>
+                <ns2:description>Helical; Name=7.</ns2:description>
+                <ns2:evidence code="ECO:0000255"/>
+                <genomeLocation>
+                    <ns2:begin position="181368094"/>
+                    <ns2:end position="181368153"/>
+                </genomeLocation>
+            </feature>
+            <feature type="topological domain">
+                <ns2:location>
+                    <ns2:begin position="290"/>
+                    <ns2:end position="312"/>
+                </ns2:location>
+                <ns2:description>Cytoplasmic.</ns2:description>
+                <ns2:evidence code="ECO:0000255"/>
+                <genomeLocation>
+                    <ns2:begin position="181368154"/>
+                    <ns2:end position="181368222"/>
+                </genomeLocation>
+            </feature>
+            <feature type="topological domain">
+                <ns2:location>
+                    <ns2:begin position="220"/>
+                    <ns2:end position="235"/>
+                </ns2:location>
+                <ns2:description>Cytoplasmic.</ns2:description>
+                <ns2:evidence code="ECO:0000255"/>
+                <genomeLocation>
+                    <ns2:begin position="181367944"/>
+                    <ns2:end position="181367991"/>
+                </genomeLocation>
+            </feature>
+            <feature type="transmembrane region">
+                <ns2:location>
+                    <ns2:begin position="140"/>
+                    <ns2:end position="158"/>
+                </ns2:location>
+                <ns2:description>Helical; Name=4.</ns2:description>
+                <ns2:evidence code="ECO:0000255"/>
+                <genomeLocation>
+                    <ns2:begin position="181367704"/>
+                    <ns2:end position="181367760"/>
+                </genomeLocation>
+            </feature>
+            <feature type="transmembrane region">
+                <ns2:location>
+                    <ns2:begin position="236"/>
+                    <ns2:end position="258"/>
+                </ns2:location>
+                <ns2:description>Helical; Name=6.</ns2:description>
+                <ns2:evidence code="ECO:0000255"/>
+                <genomeLocation>
+                    <ns2:begin position="181367992"/>
+                    <ns2:end position="181368060"/>
+                </genomeLocation>
+            </feature>
+            <feature type="topological domain">
+                <ns2:location>
+                    <ns2:begin position="1"/>
+                    <ns2:end position="25"/>
+                </ns2:location>
+                <ns2:description>Extracellular.</ns2:description>
+                <ns2:evidence code="ECO:0000255"/>
+                <genomeLocation>
+                    <ns2:begin position="181367287"/>
+                    <ns2:end position="181367361"/>
+                </genomeLocation>
+            </feature>
+            <feature type="topological domain">
+                <ns2:location>
+                    <ns2:begin position="259"/>
+                    <ns2:end position="269"/>
+                </ns2:location>
+                <ns2:description>Extracellular.</ns2:description>
+                <ns2:evidence code="ECO:0000255"/>
+                <genomeLocation>
+                    <ns2:begin position="181368061"/>
+                    <ns2:end position="181368093"/>
+                </genomeLocation>
+            </feature>
+            <feature type="transmembrane region">
+                <ns2:location>
+                    <ns2:begin position="26"/>
+                    <ns2:end position="49"/>
+                </ns2:location>
+                <ns2:description>Helical; Name=1.</ns2:description>
+                <ns2:evidence code="ECO:0000255"/>
+                <genomeLocation>
+                    <ns2:begin position="181367362"/>
+                    <ns2:end position="181367433"/>
+                </genomeLocation>
+            </feature>
+            <feature type="glycosylation site">
+                <ns2:location>
+                    <ns2:position position="5"/>
+                </ns2:location>
+                <ns2:description>N-linked (GlcNAc...) asparagine.</ns2:description>
+                <ns2:evidence code="ECO:0000255"/>
+                <genomeLocation>
+                    <ns2:begin position="181367299"/>
+                    <ns2:end position="181367301"/>
+                </genomeLocation>
+            </feature>
+            <feature type="chain" id="PRO_0000150551">
+                <ns2:location>
+                    <ns2:begin position="1"/>
+                    <ns2:end position="312"/>
+                </ns2:location>
+                <ns2:description>Olfactory receptor 4F3/4F16/4F29.</ns2:description>
+                <genomeLocation>
+                    <ns2:begin position="181367287"/>
+                    <ns2:end position="181368222"/>
+                </genomeLocation>
+            </feature>
+            <feature type="topological domain">
+                <ns2:location>
+                    <ns2:begin position="121"/>
+                    <ns2:end position="139"/>
+                </ns2:location>
+                <ns2:description>Cytoplasmic.</ns2:description>
+                <ns2:evidence code="ECO:0000255"/>
+                <genomeLocation>
+                    <ns2:begin position="181367647"/>
+                    <ns2:end position="181367703"/>
+                </genomeLocation>
+            </feature>
+            <feature type="topological domain">
+                <ns2:location>
+                    <ns2:begin position="50"/>
+                    <ns2:end position="57"/>
+                </ns2:location>
+                <ns2:description>Cytoplasmic.</ns2:description>
+                <ns2:evidence code="ECO:0000255"/>
+                <genomeLocation>
+                    <ns2:begin position="181367434"/>
+                    <ns2:end position="181367457"/>
+                </genomeLocation>
+            </feature>
+            <feature type="transmembrane region">
+                <ns2:location>
+                    <ns2:begin position="58"/>
+                    <ns2:end position="79"/>
+                </ns2:location>
+                <ns2:description>Helical; Name=2.</ns2:description>
+                <ns2:evidence code="ECO:0000255"/>
+                <genomeLocation>
+                    <ns2:begin position="181367458"/>
+                    <ns2:end position="181367523"/>
+                </genomeLocation>
+            </feature>
+            <feature type="topological domain">
+                <ns2:location>
+                    <ns2:begin position="159"/>
+                    <ns2:end position="195"/>
+                </ns2:location>
+                <ns2:description>Extracellular.</ns2:description>
+                <ns2:evidence code="ECO:0000255"/>
+                <genomeLocation>
+                    <ns2:begin position="181367761"/>
+                    <ns2:end position="181367871"/>
+                </genomeLocation>
+            </feature>
+            <feature type="disulfide bond">
+                <ns2:location>
+                    <ns2:begin position="97"/>
+                    <ns2:end position="189"/>
+                </ns2:location>
+                <ns2:evidence code="ECO:0000255">
+                    <ns2:dbReference id="PRU00521" type="PROSITE-ProRule"/>
+                </ns2:evidence>
+                <genomeLocation>
+                    <ns2:begin position="181367575"/>
+                    <ns2:end position="181367853"/>
+                </genomeLocation>
+            </feature>
+        </gnCoordinate>
+    </gnEntry>
+</gnEntries>
