@@ -10,8 +10,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.solr.core.SolrTemplate;
 import org.springframework.data.solr.core.query.SimpleQuery;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import uk.ac.ebi.uniprot.api.common.repository.DataStoreManager;
 import uk.ac.ebi.uniprot.indexer.common.listeners.ListenerConfig;
+import uk.ac.ebi.uniprot.indexer.configure.SolrCollection;
+import uk.ac.ebi.uniprot.indexer.configure.dbxref.CrossRefDocument;
 import uk.ac.ebi.uniprot.indexer.test.config.FakeIndexerSpringBootApplication;
 import uk.ac.ebi.uniprot.indexer.test.config.TestConfig;
 
@@ -37,13 +38,13 @@ class CrossRefJobTest {
         BatchStatus status = jobExecution.getStatus();
         assertEquals(status, BatchStatus.COMPLETED);
 
-        Page<CrossRefDocument> response = template.query(DataStoreManager.StoreType.CROSSREF.name().toLowerCase(), new SimpleQuery("*:*"),CrossRefDocument.class);
+        Page<CrossRefDocument> response = template.query(SolrCollection.crossref.name(), new SimpleQuery("*:*"),CrossRefDocument.class);
         assertNotNull(response);
         assertTrue(response.getTotalElements() >= 171);
 
         // clean up
-        template.delete(DataStoreManager.StoreType.CROSSREF.name().toLowerCase(), new SimpleQuery("*:*"));
-        template.commit(DataStoreManager.StoreType.CROSSREF.name().toLowerCase());
+        template.delete(SolrCollection.crossref.name(), new SimpleQuery("*:*"));
+        template.commit(SolrCollection.crossref.name());
 
     }
 }

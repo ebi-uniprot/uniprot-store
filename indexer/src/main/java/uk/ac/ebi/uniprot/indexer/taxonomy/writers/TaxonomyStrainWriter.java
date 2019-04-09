@@ -3,8 +3,8 @@ package uk.ac.ebi.uniprot.indexer.taxonomy.writers;
 import org.apache.solr.common.SolrInputDocument;
 import org.springframework.batch.item.ItemWriter;
 import org.springframework.data.solr.core.SolrTemplate;
-import uk.ac.ebi.uniprot.api.common.repository.search.SolrCollection;
-import uk.ac.ebi.uniprot.indexer.taxonomy.TaxonomyDocument;
+import uk.ac.ebi.uniprot.indexer.configure.SolrCollection;
+import uk.ac.ebi.uniprot.indexer.configure.taxonomy.TaxonomyDocument;
 
 import java.util.HashMap;
 import java.util.List;

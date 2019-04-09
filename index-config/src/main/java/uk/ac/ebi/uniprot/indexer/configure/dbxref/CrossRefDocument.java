@@ -1,7 +1,8 @@
-package uk.ac.ebi.uniprot.indexer.crossref;
+package uk.ac.ebi.uniprot.indexer.configure.dbxref;
 
 import org.apache.solr.client.solrj.beans.Field;
-import uk.ac.ebi.uniprot.indexer.common.model.Document;
+
+import uk.ac.ebi.uniprot.indexer.configure.Document;
 
 import java.util.ArrayList;
 import java.util.Arrays;

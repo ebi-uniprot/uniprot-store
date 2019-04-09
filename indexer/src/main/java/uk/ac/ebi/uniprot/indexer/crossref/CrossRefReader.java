@@ -2,6 +2,8 @@ package uk.ac.ebi.uniprot.indexer.crossref;
 
 import org.springframework.batch.item.ItemReader;
 
+import uk.ac.ebi.uniprot.indexer.configure.dbxref.CrossRefDocument;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;

@@ -11,9 +11,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.solr.core.SolrTemplate;
 import org.springframework.data.solr.core.query.SimpleQuery;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import uk.ac.ebi.uniprot.api.common.repository.DataStoreManager;
-import uk.ac.ebi.uniprot.api.common.repository.search.SolrCollection;
-import uk.ac.ebi.uniprot.indexer.crossref.CrossRefDocument;
+import uk.ac.ebi.uniprot.indexer.configure.SolrCollection;
+import uk.ac.ebi.uniprot.indexer.configure.dbxref.CrossRefDocument;
 import uk.ac.ebi.uniprot.indexer.test.config.FakeIndexerSpringBootApplication;
 import uk.ac.ebi.uniprot.indexer.test.config.TestConfig;
 
@@ -49,8 +48,8 @@ class SolrDocumentWriterTest{
 
     @AfterEach
     void stopSolrClient() {
-        template.delete(DataStoreManager.StoreType.CROSSREF.name().toLowerCase(),new SimpleQuery("*:*"));
-        template.commit(DataStoreManager.StoreType.CROSSREF.name().toLowerCase());
+        template.delete(SolrCollection.crossref.name(),new SimpleQuery("*:*"));
+        template.commit(SolrCollection.crossref.name());
     }
 
     @Test
@@ -59,7 +58,7 @@ class SolrDocumentWriterTest{
         // write the cross refs to the solr
         solrDocumentWriter.write(dbxrefList);
         // get the cross refs and verify
-        Page<CrossRefDocument> response = template.query(DataStoreManager.StoreType.CROSSREF.name().toLowerCase(), new SimpleQuery("*:*"),CrossRefDocument.class);
+        Page<CrossRefDocument> response = template.query(SolrCollection.crossref.name(), new SimpleQuery("*:*"),CrossRefDocument.class);
         assertNotNull(response);
         assertEquals(10, response.getTotalElements());
         List<CrossRefDocument> results = response.getContent();

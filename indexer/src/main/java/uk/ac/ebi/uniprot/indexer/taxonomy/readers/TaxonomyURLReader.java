@@ -1,7 +1,7 @@
 package uk.ac.ebi.uniprot.indexer.taxonomy.readers;
 
 import org.springframework.jdbc.core.RowMapper;
-import uk.ac.ebi.uniprot.indexer.taxonomy.TaxonomyDocument;
+import uk.ac.ebi.uniprot.indexer.configure.taxonomy.TaxonomyDocument;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;

@@ -1,4 +1,4 @@
-package uk.ac.ebi.uniprot.indexer.common.model;
+package uk.ac.ebi.uniprot.indexer.configure;
 /**
  *
  * @author lgonzales
