@@ -15,11 +15,8 @@ import org.springframework.context.annotation.ComponentScan;
 @SpringBootApplication
 @EnableBatchProcessing
 @ComponentScan("uk.ac.ebi.uniprot.indexer.*")
-public class IndexerSpringBootApplication{
-
-
+public class IndexerSpringBootApplication {
     public static void main(String[] args) {
-        SpringApplication.run(IndexerSpringBootApplication.class,args);
+        SpringApplication.run(IndexerSpringBootApplication.class, args);
     }
-
 }
