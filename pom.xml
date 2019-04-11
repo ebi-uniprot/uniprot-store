@@ -71,6 +71,17 @@
             </snapshots>
             <url>${http-uniprot-private-url}/snapshot</url>
         </repository>
+        <repository>
+            <id>uniprot-artifactory-private-thirdparty</id>
+            <name>UniProt Artifactory for Private Third-Party Dependencies</name>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+            <url>${http-uniprot-private-url}/private-thirdparty</url>
+        </repository>
     </repositories>
 
     <profiles>
