@@ -49,7 +49,7 @@ public class UniProtSearchEngine extends AbstractSearchEngine<UniProtEntry> {
         System.setProperty("uniprot.bdb.base.location", indexHome.getAbsolutePath() + "/bdb/uniprot/data");
         System.setProperty("uniprot.bdb.test.base.location", indexHome.getAbsolutePath() + "/bdb/it_uniprot/data");
         System.setProperty("solr.allow.unsafe.resourceloading", "true");
-        System.setProperty("uniprot.suggester.dir", "/Users/jluo/projects/github/uniprot-indexer/integration-test/src/test/resources/it/uniprot/suggestions/");
+   //     System.setProperty("uniprot.suggester.dir", "/Users/jluo/projects/github/uniprot-indexer/integration-test/src/test/resources/it/uniprot/suggestions/");
     }
 
     @Override

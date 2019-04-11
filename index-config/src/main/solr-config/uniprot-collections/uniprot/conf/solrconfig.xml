@@ -1144,7 +1144,7 @@
     <searchComponent name="suggest.component" class="solr.SuggestComponent">
         <lst name="suggester">
             <str name="name">keywordSuggester</str>
-            <str name="sourceLocation">${uniprot.suggester.dir:}keyword-suggestions.txt</str>
+            <str name="sourceLocation">keyword-suggestions.txt</str>
             <str name="lookupImpl">BlendedInfixLookupFactory</str>
             <str name="dictionaryImpl">FileDictionaryFactory</str>
             <str name="suggestAnalyzerFieldType">full_ci</str>
@@ -1154,7 +1154,7 @@
         </lst>
         <lst name="suggester">
             <str name="name">taxonSuggester</str>
-            <str name="sourceLocation">${uniprot.suggester.dir:}taxon-suggestions.txt</str>
+            <str name="sourceLocation">taxon-suggestions.txt</str>
             <str name="lookupImpl">BlendedInfixLookupFactory</str>
             <str name="dictionaryImpl">FileDictionaryFactory</str>
             <str name="suggestAnalyzerFieldType">full_ci</str>
@@ -1164,7 +1164,7 @@
         </lst>
         <lst name="suggester">
             <str name="name">goSuggester</str>
-            <str name="sourceLocation">${uniprot.suggester.dir:}go-suggestions.txt</str>
+            <str name="sourceLocation">go-suggestions.txt</str>
             <str name="lookupImpl">BlendedInfixLookupFactory</str>
             <str name="dictionaryImpl">FileDictionaryFactory</str>
             <str name="suggestAnalyzerFieldType">full_ci</str>
@@ -1174,7 +1174,7 @@
         </lst>
         <lst name="suggester">
             <str name="name">ecSuggester</str>
-            <str name="sourceLocation">${uniprot.suggester.dir:}ec-suggestions.txt</str>
+            <str name="sourceLocation">ec-suggestions.txt</str>
             <str name="lookupImpl">BlendedInfixLookupFactory</str>
             <str name="dictionaryImpl">FileDictionaryFactory</str>
             <str name="suggestAnalyzerFieldType">full_ci</str>
@@ -1185,7 +1185,7 @@
             <!-- includes Database and Annotation suggestions -->
         <lst name="suggester">
             <str name="name">chebiSuggester</str>
-            <str name="sourceLocation">${uniprot.suggester.dir:}chebi-suggestions.txt</str>
+            <str name="sourceLocation">chebi-suggestions.txt</str>
             <str name="lookupImpl">BlendedInfixLookupFactory</str>
             <str name="dictionaryImpl">FileDictionaryFactory</str>
             <str name="suggestAnalyzerFieldType">full_ci</str>
@@ -1195,7 +1195,7 @@
         </lst>
         <lst name="suggester">
             <str name="name">subcellularSuggester</str>
-            <str name="sourceLocation">${uniprot.suggester.dir:}subcellular-suggestions.txt</str>
+            <str name="sourceLocation">subcellular-suggestions.txt</str>
             <str name="lookupImpl">BlendedInfixLookupFactory</str>
             <str name="dictionaryImpl">FileDictionaryFactory</str>
             <str name="suggestAnalyzerFieldType">full_ci</str>
@@ -1205,7 +1205,7 @@
         </lst>
         <lst name="suggester">
             <str name="name">mainSearchSuggester</str>
-            <str name="sourceLocation">${uniprot.suggester.dir:}main-search-suggestions.txt</str>
+            <str name="sourceLocation">main-search-suggestions.txt</str>
             <str name="lookupImpl">BlendedInfixLookupFactory</str>
             <str name="dictionaryImpl">FileDictionaryFactory</str>
             <str name="suggestAnalyzerFieldType">full_ci</str>

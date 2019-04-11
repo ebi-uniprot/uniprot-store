@@ -1,9 +1,13 @@
 package uk.ac.ebi.uniprot.indexer.search.uniprot;
 
 import uk.ac.ebi.uniprot.domain.uniprot.UniProtEntry;
+import uk.ac.ebi.uniprot.domain.uniprot.comment.CommentType;
+import uk.ac.ebi.uniprot.domain.uniprot.feature.FeatureType;
 import uk.ac.ebi.uniprot.flatfile.parser.SupportingDataMap;
 import uk.ac.ebi.uniprot.flatfile.parser.impl.SupportingDataMapImpl;
 import uk.ac.ebi.uniprot.flatfile.parser.impl.entry.EntryObjectConverter;
+import uk.ac.ebi.uniprot.indexer.document.field.QueryBuilder;
+import uk.ac.ebi.uniprot.indexer.document.field.UniProtField;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -76,4 +80,33 @@ final class TestUtils {
 
         return line.toString();
     }
+    private static final String COMMENT_DYNAMIC_PREFIX = "cc_";
+	private static final String CC_EVIDENCE_DYNAMIC_PREFIX = "ccev_";
+	
+    public static String query(UniProtField.Search field, String fieldValue) {
+		return QueryBuilder.query(field.name(), fieldValue);
+	}
+    public static String comments(CommentType commentType, String value) {
+		String field = COMMENT_DYNAMIC_PREFIX + commentType.name().toLowerCase().replaceAll(" ", "_");
+		return QueryBuilder.query(field, value);
+	}
+    public static String commentEvidence(CommentType commentType, String evidence) {
+		String field = CC_EVIDENCE_DYNAMIC_PREFIX + commentType.name().toLowerCase().replaceAll(" ", "_");
+		return QueryBuilder.query(field, evidence);
+	}
+    private static final String FEATURE_DYNAMIC_PREFIX = "ft_";
+    private static final String FT_EV_DYNAMIC_PREFIX = "ftev_";
+    private static final String FT_LENGTH_DYNAMIC_PREFIX = "ftlen_";
+    public static String features(FeatureType featureType, String value) {
+    	String field = FEATURE_DYNAMIC_PREFIX +featureType.getName().toLowerCase().replaceAll(" ", "_");
+    	return QueryBuilder.query(field, value, true, false);
+    }
+    public static String featureLength(FeatureType featureType, int start, int end) {
+    	  String field = FT_LENGTH_DYNAMIC_PREFIX + featureType.getName().toLowerCase().replaceAll(" ", "_");
+    	  return QueryBuilder.rangeQuery(field, start, end);
+    }
+    public static String featureEvidence(FeatureType featureType, String value) {
+  	  String field = FT_EV_DYNAMIC_PREFIX +featureType.getName().toLowerCase().replaceAll(" ", "_");
+  	  return QueryBuilder.query(field, value);
+  }
 }
