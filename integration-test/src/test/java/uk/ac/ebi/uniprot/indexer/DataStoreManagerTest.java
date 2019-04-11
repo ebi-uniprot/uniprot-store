@@ -5,6 +5,7 @@ import org.apache.solr.client.solrj.response.QueryResponse;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import uk.ac.ebi.uniprot.search.document.SolrCollection;
@@ -79,7 +80,7 @@ class DataStoreManagerTest {
                 .collect(Collectors.toList());
         assertThat(results, Matchers.contains(P12345));
     }
-
+    @Disabled
     @Test
     void canAddAndFetchEntriesInSolr() throws IOException, SolrServerException {
         UniProtEntry entry = UniProtEntryMocker.create(UniProtEntryMocker.Type.SP);

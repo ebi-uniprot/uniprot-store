@@ -9,7 +9,7 @@ import uk.ac.ebi.uniprot.indexer.uniprot.go.GoTermFileReader;
 public class GoRelationsRepoMocker {
 
     public static GoRelationRepo getGoRelationRepo() {
-        String gotermPath = Thread.currentThread().getContextClassLoader().getResource("goterm").getFile();
+        String gotermPath = Thread.currentThread().getContextClassLoader().getResource("it/goterm").getFile();
         return GoRelationFileRepo.create(new GoRelationFileReader(gotermPath),
                 new GoTermFileReader(gotermPath));
     }
