@@ -1,4 +1,4 @@
-package uk.ac.ebi.uniprot.indexer.document.field;
+package uk.ac.ebi.uniprot.search.field;
 
 /**
  *

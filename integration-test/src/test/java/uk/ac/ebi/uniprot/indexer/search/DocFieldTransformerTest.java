@@ -4,7 +4,7 @@ import org.apache.solr.client.solrj.beans.Field;
 import org.junit.Before;
 import org.junit.Test;
 
-import uk.ac.ebi.uniprot.indexer.document.Document;
+import uk.ac.ebi.uniprot.search.document.Document;
 
 import java.util.ArrayList;
 import java.util.List;

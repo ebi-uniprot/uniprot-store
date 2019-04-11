@@ -1,4 +1,4 @@
-package uk.ac.ebi.uniprot.indexer.document;
+package uk.ac.ebi.uniprot.search.document;
 
 /**
  * Define what is the type of the expected query search.

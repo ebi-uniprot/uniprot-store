@@ -4,6 +4,8 @@ package uk.ac.ebi.uniprot.indexer.document;
 
 import java.util.List;
 
+import uk.ac.ebi.uniprot.search.document.Document;
+
 /**
  * Convert from the source object to ONE type of the Document.
  * <p/>

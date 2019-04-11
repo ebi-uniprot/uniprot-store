@@ -11,10 +11,10 @@ import org.springframework.data.solr.core.SolrTemplate;
 import org.springframework.data.solr.core.query.SimpleQuery;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import uk.ac.ebi.uniprot.indexer.common.listeners.ListenerConfig;
-import uk.ac.ebi.uniprot.indexer.document.SolrCollection;
-import uk.ac.ebi.uniprot.indexer.document.dbxref.CrossRefDocument;
 import uk.ac.ebi.uniprot.indexer.test.config.FakeIndexerSpringBootApplication;
 import uk.ac.ebi.uniprot.indexer.test.config.TestConfig;
+import uk.ac.ebi.uniprot.search.document.SolrCollection;
+import uk.ac.ebi.uniprot.search.document.dbxref.CrossRefDocument;
 
 import static org.junit.jupiter.api.Assertions.*;
 @ExtendWith(SpringExtension.class)

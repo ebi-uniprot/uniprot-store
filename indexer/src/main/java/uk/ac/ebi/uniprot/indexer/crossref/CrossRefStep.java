@@ -15,8 +15,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.data.solr.core.SolrTemplate;
 import uk.ac.ebi.uniprot.indexer.common.utils.Constants;
 import uk.ac.ebi.uniprot.indexer.common.writer.SolrDocumentWriter;
-import uk.ac.ebi.uniprot.indexer.document.SolrCollection;
-import uk.ac.ebi.uniprot.indexer.document.dbxref.CrossRefDocument;
+import uk.ac.ebi.uniprot.search.document.SolrCollection;
+import uk.ac.ebi.uniprot.search.document.dbxref.CrossRefDocument;
 
 import java.io.IOException;
 

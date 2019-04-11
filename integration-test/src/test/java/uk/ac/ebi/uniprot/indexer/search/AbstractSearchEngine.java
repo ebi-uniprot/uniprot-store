@@ -3,8 +3,8 @@ package uk.ac.ebi.uniprot.indexer.search;
 import com.google.common.base.Preconditions;
 import com.google.common.io.Files;
 
-import uk.ac.ebi.uniprot.indexer.document.Document;
 import uk.ac.ebi.uniprot.indexer.document.DocumentProducer;
+import uk.ac.ebi.uniprot.search.document.Document;
 
 import org.apache.solr.client.solrj.SolrClient;
 import org.apache.solr.client.solrj.SolrQuery;

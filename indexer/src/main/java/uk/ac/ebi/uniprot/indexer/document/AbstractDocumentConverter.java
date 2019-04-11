@@ -1,5 +1,6 @@
 package uk.ac.ebi.uniprot.indexer.document;
 
+import uk.ac.ebi.uniprot.search.document.Document;
 
 /**
  * @author wudong

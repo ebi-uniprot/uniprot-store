@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import uk.ac.ebi.uniprot.indexer.IndexationException;
+import uk.ac.ebi.uniprot.search.document.Document;
 
 /**
  * @author wudong

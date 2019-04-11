@@ -1,4 +1,4 @@
-package uk.ac.ebi.uniprot.indexer.document.field.validator;
+package uk.ac.ebi.uniprot.search.field.validator;
 
 /**
  * This class is responsible to have search field value validation Predicates

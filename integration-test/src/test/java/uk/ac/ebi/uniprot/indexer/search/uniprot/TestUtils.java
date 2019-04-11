@@ -6,8 +6,8 @@ import uk.ac.ebi.uniprot.domain.uniprot.feature.FeatureType;
 import uk.ac.ebi.uniprot.flatfile.parser.SupportingDataMap;
 import uk.ac.ebi.uniprot.flatfile.parser.impl.SupportingDataMapImpl;
 import uk.ac.ebi.uniprot.flatfile.parser.impl.entry.EntryObjectConverter;
-import uk.ac.ebi.uniprot.indexer.document.field.QueryBuilder;
-import uk.ac.ebi.uniprot.indexer.document.field.UniProtField;
+import uk.ac.ebi.uniprot.search.field.QueryBuilder;
+import uk.ac.ebi.uniprot.search.field.UniProtField;
 
 import java.io.BufferedReader;
 import java.io.IOException;

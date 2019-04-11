@@ -4,7 +4,7 @@ package uk.ac.ebi.uniprot.indexer.search;
 import java.lang.reflect.Field;
 import java.util.function.Consumer;
 
-import uk.ac.ebi.uniprot.indexer.document.Document;
+import uk.ac.ebi.uniprot.search.document.Document;
 
 
 /**

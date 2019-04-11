@@ -1,11 +1,12 @@
-package uk.ac.ebi.uniprot.indexer.document.field;
+package uk.ac.ebi.uniprot.search.field;
 
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
-import  uk.ac.ebi.uniprot.indexer.document.field.validator.FieldValueValidator;
+
+import uk.ac.ebi.uniprot.search.field.validator.FieldValueValidator;
 
 public class UniProtField {
 

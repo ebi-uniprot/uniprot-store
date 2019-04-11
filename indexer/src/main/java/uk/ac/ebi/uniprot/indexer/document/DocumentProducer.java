@@ -2,6 +2,8 @@ package uk.ac.ebi.uniprot.indexer.document;
 
 import java.util.List;
 
+import uk.ac.ebi.uniprot.search.document.Document;
+
 
 /**
  * It represent a conversion (production) from a given source object to the the list of documents it supported.

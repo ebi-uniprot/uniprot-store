@@ -19,7 +19,7 @@ import org.junit.Test;
 
 import uk.ac.ebi.uniprot.domain.uniprot.feature.FeatureType;
 import uk.ac.ebi.uniprot.flatfile.parser.ffwriter.LineType;
-import uk.ac.ebi.uniprot.indexer.document.field.QueryBuilder;
+import uk.ac.ebi.uniprot.search.field.QueryBuilder;
 
 
 public class FTFamilyDomainSearchIT {

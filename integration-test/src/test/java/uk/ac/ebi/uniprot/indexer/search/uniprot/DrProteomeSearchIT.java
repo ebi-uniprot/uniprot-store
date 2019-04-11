@@ -18,7 +18,7 @@ import org.junit.ClassRule;
 import org.junit.Test;
 
 import uk.ac.ebi.uniprot.flatfile.parser.ffwriter.LineType;
-import uk.ac.ebi.uniprot.indexer.document.field.UniProtField;
+import uk.ac.ebi.uniprot.search.field.UniProtField;
 
 public class DrProteomeSearchIT {
 	public static final String Q6GZX4 = "Q6GZX4";

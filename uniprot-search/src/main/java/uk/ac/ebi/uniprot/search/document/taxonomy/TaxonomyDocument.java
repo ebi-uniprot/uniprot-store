@@ -1,8 +1,8 @@
-package uk.ac.ebi.uniprot.indexer.document.taxonomy;
+package uk.ac.ebi.uniprot.search.document.taxonomy;
 
 import lombok.Builder;
 import lombok.Getter;
-import uk.ac.ebi.uniprot.indexer.document.Document;
+import uk.ac.ebi.uniprot.search.document.Document;
 
 import org.apache.solr.client.solrj.beans.Field;
 

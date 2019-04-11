@@ -6,8 +6,8 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 
 import uk.ac.ebi.uniprot.flatfile.parser.ffwriter.LineType;
-import uk.ac.ebi.uniprot.indexer.document.field.QueryBuilder;
 import uk.ac.ebi.uniprot.indexer.search.DocFieldTransformer;
+import uk.ac.ebi.uniprot.search.field.QueryBuilder;
 
 import java.io.IOException;
 import java.io.InputStream;

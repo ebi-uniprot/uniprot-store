@@ -14,9 +14,10 @@ import java.util.*;
 import java.util.function.Function;
 
 import uk.ac.ebi.uniprot.flatfile.parser.ffwriter.LineType;
-import uk.ac.ebi.uniprot.indexer.document.field.QueryBuilder;
-import uk.ac.ebi.uniprot.indexer.document.field.UniProtField;
 import uk.ac.ebi.uniprot.indexer.search.DocFieldTransformer;
+import uk.ac.ebi.uniprot.search.field.QueryBuilder;
+import uk.ac.ebi.uniprot.search.field.UniProtField;
+
 import static uk.ac.ebi.uniprot.indexer.search.DocFieldTransformer.fieldTransformer;
 
 import static java.util.Arrays.asList;

@@ -34,7 +34,6 @@ import uk.ac.ebi.uniprot.flatfile.parser.impl.ra.RALineBuilder;
 import uk.ac.ebi.uniprot.flatfile.parser.impl.rg.RGLineBuilder;
 import uk.ac.ebi.uniprot.indexer.document.AbstractDocumentConverter;
 import uk.ac.ebi.uniprot.indexer.document.DocumentConversionException;
-import uk.ac.ebi.uniprot.indexer.document.uniprot.UniProtDocument;
 import uk.ac.ebi.uniprot.indexer.uniprot.go.GoRelationRepo;
 import uk.ac.ebi.uniprot.indexer.uniprot.go.GoTerm;
 import uk.ac.ebi.uniprot.indexer.uniprot.keyword.KeywordRepo;
@@ -43,6 +42,7 @@ import uk.ac.ebi.uniprot.indexer.uniprot.taxonomy.TaxonomicNode;
 import uk.ac.ebi.uniprot.indexer.uniprot.taxonomy.TaxonomyRepo;
 import uk.ac.ebi.uniprot.indexer.util.DateUtils;
 import uk.ac.ebi.uniprot.json.parser.uniprot.UniprotJsonConfig;
+import uk.ac.ebi.uniprot.search.document.uniprot.UniProtDocument;
 import uk.ebi.uniprot.scorer.uniprotkb.UniProtEntryScored;
 
 import java.text.ParseException;

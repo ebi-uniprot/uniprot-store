@@ -7,7 +7,7 @@ import org.junit.Test;
 
 import uk.ac.ebi.uniprot.domain.uniprot.description.FlagType;
 import uk.ac.ebi.uniprot.flatfile.parser.ffwriter.LineType;
-import uk.ac.ebi.uniprot.indexer.document.field.UniProtField;
+import uk.ac.ebi.uniprot.search.field.UniProtField;
 
 import java.io.IOException;
 import java.io.InputStream;

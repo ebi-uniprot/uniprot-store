@@ -3,7 +3,6 @@ package uk.ac.ebi.uniprot.indexer.search.uniprot;
 
 import uk.ac.ebi.uniprot.domain.uniprot.UniProtEntry;
 import uk.ac.ebi.uniprot.indexer.document.DocumentProducer;
-import uk.ac.ebi.uniprot.indexer.document.field.UniProtField;
 import uk.ac.ebi.uniprot.indexer.search.AbstractSearchEngine;
 import uk.ac.ebi.uniprot.indexer.uniprot.go.GoRelationFileReader;
 import uk.ac.ebi.uniprot.indexer.uniprot.go.GoRelationFileRepo;
@@ -16,6 +15,7 @@ import uk.ac.ebi.uniprot.indexer.uniprot.pathway.PathwayRepo;
 import uk.ac.ebi.uniprot.indexer.uniprot.taxonomy.FileNodeIterable;
 import uk.ac.ebi.uniprot.indexer.uniprot.taxonomy.TaxonomyMapRepo;
 import uk.ac.ebi.uniprot.indexer.uniprot.taxonomy.TaxonomyRepo;
+import uk.ac.ebi.uniprot.search.field.UniProtField;
 import uk.ac.ebi.uniprot.indexer.document.impl.UniprotEntryConverter;
 import uk.ac.ebi.uniprot.indexer.document.impl.UniprotEntryDocumentProducer;
 

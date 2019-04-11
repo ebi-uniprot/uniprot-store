@@ -5,11 +5,11 @@ import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.hamcrest.collection.IsEmptyCollection.empty;
 import static org.hamcrest.collection.IsIterableContainingInOrder.contains;
 import static org.hamcrest.core.Is.is;
-import static uk.ac.ebi.uniprot.indexer.document.field.QueryBuilder.after;
-import static uk.ac.ebi.uniprot.indexer.document.field.QueryBuilder.before;
-import static uk.ac.ebi.uniprot.indexer.document.field.QueryBuilder.rangeQuery;
 import static uk.ac.ebi.uniprot.indexer.search.uniprot.IdentifierSearchIT.ACC_LINE;
 import static uk.ac.ebi.uniprot.indexer.search.uniprot.TestUtils.convertToUniProtEntry;
+import static uk.ac.ebi.uniprot.search.field.QueryBuilder.after;
+import static uk.ac.ebi.uniprot.search.field.QueryBuilder.before;
+import static uk.ac.ebi.uniprot.search.field.QueryBuilder.rangeQuery;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -23,7 +23,7 @@ import org.junit.Ignore;
 import org.junit.Test;
 
 import uk.ac.ebi.uniprot.flatfile.parser.ffwriter.LineType;
-import uk.ac.ebi.uniprot.indexer.document.field.UniProtField;
+import uk.ac.ebi.uniprot.search.field.UniProtField;
 
 /**
  * Verifies if the creation and modification dates within the UniProt entry are indexed properly
