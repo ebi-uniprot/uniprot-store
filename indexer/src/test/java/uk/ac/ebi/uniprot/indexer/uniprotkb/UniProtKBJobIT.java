@@ -17,10 +17,8 @@ import uk.ac.ebi.uniprot.indexer.test.config.FakeIndexerSpringBootApplication;
 import uk.ac.ebi.uniprot.indexer.test.config.TestConfig;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.greaterThanOrEqualTo;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
-import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Created 11/04/19
@@ -50,7 +48,7 @@ class UniProtKBJobIT {
         Page<UniProtDocument> response = template
                 .query(SolrCollection.uniprot.name(), new SimpleQuery("*:*"), UniProtDocument.class);
         assertThat(response, is(notNullValue()));
-        assertThat(response.getTotalElements(), is(greaterThanOrEqualTo(171L)));
+        assertThat(response.getTotalElements(), is(2L));
 
         // clean up
         template.delete(SolrCollection.uniprot.name(), new SimpleQuery("*:*"));
