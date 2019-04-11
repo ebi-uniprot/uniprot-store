@@ -1,4 +1,4 @@
-package uk.ac.ebi.uniprot.indexer;
+package uk.ac.ebi.uniprot.indexer.common;
 
 /**
  * A generic exception which can be thrown during the process of indexing data into one of the UniProt data sources.
@@ -9,12 +9,12 @@ package uk.ac.ebi.uniprot.indexer;
  *
  * @author Ricardo Antunes
  */
-public class IndexationException extends RuntimeException {
-    public IndexationException(String message) {
+public class IndexingException extends RuntimeException {
+    public IndexingException(String message) {
         super(message);
     }
 
-    public IndexationException(String message, Throwable cause) {
+    public IndexingException(String message, Throwable cause) {
         super(message, cause);
     }
 }

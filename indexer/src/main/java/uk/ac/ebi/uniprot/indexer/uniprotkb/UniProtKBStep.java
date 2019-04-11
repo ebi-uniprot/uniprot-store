@@ -16,10 +16,11 @@ import org.springframework.context.annotation.Import;
 import org.springframework.data.solr.UncategorizedSolrException;
 import org.springframework.data.solr.core.SolrTemplate;
 import uk.ac.ebi.uniprot.domain.uniprot.UniProtEntry;
-import uk.ac.ebi.uniprot.indexer.common.utils.Constants;
 import uk.ac.ebi.uniprot.indexer.common.writer.SolrDocumentWriter;
 import uk.ac.ebi.uniprot.indexer.document.SolrCollection;
 import uk.ac.ebi.uniprot.indexer.document.uniprot.UniProtDocument;
+
+import static uk.ac.ebi.uniprot.indexer.common.utils.Constants.UNIPROTKB_INDEX_STEP;
 
 /**
  * Created 10/04/19
@@ -36,19 +37,19 @@ public class UniProtKBStep {
     @Autowired
     public UniProtKBStep(StepBuilderFactory stepBuilderFactory,
                          SolrTemplate solrTemplate,
-                         UniProtKBIndexingProperties uniProtKBIndexingProperties) {
+                         UniProtKBIndexingProperties indexingProperties) {
         this.stepBuilderFactory = stepBuilderFactory;
         this.solrTemplate = solrTemplate;
-        this.uniProtKBIndexingProperties = uniProtKBIndexingProperties;
+        this.uniProtKBIndexingProperties = indexingProperties;
     }
 
-    @Bean(name = "IndexUniProtKBStep")
-    public Step indexCrossRef(StepExecutionListener stepListener,
+    @Bean
+    public Step uniProtIndexingMainFFStep(StepExecutionListener stepListener,
                               ChunkListener chunkListener,
-                              ItemReader<UniProtEntry> uniProtEntryItemReader,
-                              ItemProcessor<UniProtEntry, UniProtDocument> uniProtItemProcessor,
+                              ItemReader<UniProtEntry> entryItemReader,
+                              ItemProcessor<UniProtEntry, UniProtDocument> uniProtDocumentItemProcessor,
                               ItemWriter<UniProtDocument> uniProtDocumentItemWriter) {
-        return this.stepBuilderFactory.get(Constants.UNIPROTKB_INDEX_STEP)
+        return this.stepBuilderFactory.get(UNIPROTKB_INDEX_STEP)
                 .<UniProtEntry, UniProtDocument>chunk(uniProtKBIndexingProperties.getChunkSize())
                 .faultTolerant()
                 .skipLimit(uniProtKBIndexingProperties.getSkipLimit())
@@ -56,8 +57,8 @@ public class UniProtKBStep {
                 .retry(UncategorizedSolrException.class)
                 .retry(SolrServerException.class)
                 .retryLimit(uniProtKBIndexingProperties.getRetryLimit())
-                .reader(uniProtEntryItemReader)
-                .processor(uniProtItemProcessor)
+                .reader(entryItemReader)
+                .processor(uniProtDocumentItemProcessor)
                 .writer(uniProtDocumentItemWriter)
                 .listener(stepListener)
                 .listener(chunkListener)
