@@ -59,8 +59,8 @@ public class UniProtKBConfig {
 
     private GoRelationRepo createGoRelationRepo() {
         return new GoRelationFileRepo(
-                new GoRelationFileReader(uniProtKBIndexingProperties.getGoRelationsFile()),
-                new GoTermFileReader(uniProtKBIndexingProperties.getGoFile()));
+                new GoRelationFileReader(uniProtKBIndexingProperties.getGoDir()),
+                new GoTermFileReader(uniProtKBIndexingProperties.getGoDir()));
     }
 
     private TaxonomyRepo createTaxonomyRepo() {

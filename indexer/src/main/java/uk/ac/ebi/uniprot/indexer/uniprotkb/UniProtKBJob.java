@@ -4,6 +4,8 @@ import org.springframework.batch.core.Job;
 import org.springframework.batch.core.JobExecutionListener;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
 import static uk.ac.ebi.uniprot.indexer.common.utils.Constants.UNIPROTKB_INDEX_JOB;
 
@@ -12,6 +14,7 @@ import static uk.ac.ebi.uniprot.indexer.common.utils.Constants.UNIPROTKB_INDEX_J
  *
  * @author Edd
  */
+@Configuration
 public class UniProtKBJob {
     private final JobBuilderFactory jobBuilderFactory;
 
@@ -19,6 +22,7 @@ public class UniProtKBJob {
         this.jobBuilderFactory = jobBuilderFactory;
     }
 
+    @Bean
     public Job uniProtKBIndexingJob(Step uniProtKBIndexingMainFFStep, JobExecutionListener jobListener) {
         return this.jobBuilderFactory.get(UNIPROTKB_INDEX_JOB)
                 .start(uniProtKBIndexingMainFFStep)

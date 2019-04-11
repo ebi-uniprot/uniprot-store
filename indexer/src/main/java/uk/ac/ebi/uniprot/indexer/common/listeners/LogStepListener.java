@@ -16,13 +16,13 @@ public class LogStepListener implements StepExecutionListener {
 
     @Override
     public void beforeStep(StepExecution stepExecution) {
-        log.info("Supporting data index STEP '{}' starting.", stepExecution.getStepName());
+        log.info("Step '{}' starting.", stepExecution.getStepName());
     }
 
     @Override
     public ExitStatus afterStep(StepExecution stepExecution) {
         log.info("=====================================================");
-        log.info("              Supporting data index Step Statistics                 ");
+        log.info("                   Step Statistics                   ");
         log.info("Step name     : {}", stepExecution.getStepName());
         log.info("Exit status   : {}", stepExecution.getExitStatus().getExitCode());
         log.info("Read count    : {}", stepExecution.getReadCount());

@@ -17,8 +17,7 @@ public class UniProtKBIndexingProperties {
     private int entryIteratorFFQueueSize = 5000;
     private String subcellularLocationFile;
     private String accessionGoPubmedFile;
-    private String goFile;
-    private String goRelationsFile;
+    private String goDir;
     private String uniProtEntryFile;
     private String diseaseFile;
     private String keywordFile;
@@ -129,19 +128,11 @@ public class UniProtKBIndexingProperties {
         this.taxonomyFile = taxonomyFile;
     }
 
-    public String getGoRelationsFile() {
-        return goRelationsFile;
+    public String getGoDir() {
+        return goDir;
     }
 
-    public void setGoRelationsFile(String goRelationsFile) {
-        this.goRelationsFile = goRelationsFile;
-    }
-
-    public String getGoFile() {
-        return goFile;
-    }
-
-    public void setGoFile(String goFile) {
-        this.goFile = goFile;
+    public void setGoDir(String goDir) {
+        this.goDir = goDir;
     }
 }
