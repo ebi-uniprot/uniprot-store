@@ -24,12 +24,12 @@ import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest(classes = {FakeIndexerSpringBootApplication.class, TestConfig.class, CrossRefJob.class, CrossRefStep.class, ListenerConfig.class})
 class CrossRefJobTest {
 
+    /*@Autowired
+    //private Job indexCrossRefJob;
     @Autowired
-    private Job indexCrossRefJob;
+    //private JobLauncher jobLauncher;
     @Autowired
-    private JobLauncher jobLauncher;
-    @Autowired
-    private SolrTemplate template;
+    //private SolrTemplate template;
 
     @Disabled
     @Test
@@ -37,9 +37,9 @@ class CrossRefJobTest {
         JobParameters jobParameters = new JobParametersBuilder()
                 .addLong("time",System.currentTimeMillis()).toJobParameters();
 
-        JobExecution jobExecution = jobLauncher.run(indexCrossRefJob, jobParameters);
-        BatchStatus status = jobExecution.getStatus();
-        assertEquals(status, BatchStatus.COMPLETED);
+      //  JobExecution jobExecution = jobLauncher.run(indexCrossRefJob, jobParameters);
+        //BatchStatus status = jobExecution.getStatus();
+        //assertEquals(status, BatchStatus.COMPLETED);
 
         Page<CrossRefDocument> response = template.query(SolrCollection.crossref.name(), new SimpleQuery("*:*"),CrossRefDocument.class);
         assertNotNull(response);
@@ -49,5 +49,5 @@ class CrossRefJobTest {
         template.delete(SolrCollection.crossref.name(), new SimpleQuery("*:*"));
         template.commit(SolrCollection.crossref.name());
 
-    }
+    }*/
 }
