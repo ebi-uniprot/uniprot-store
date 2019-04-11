@@ -1,5 +1,11 @@
-package uk.ac.ebi.uniprot.indexer.crossref;
+package uk.ac.ebi.uniprot.indexer.crossref.readers;
 
+import org.apache.commons.lang3.tuple.ImmutablePair;
+import org.apache.commons.lang3.tuple.Pair;
+import org.springframework.batch.core.JobExecution;
+import org.springframework.batch.core.StepExecution;
+import org.springframework.batch.core.annotation.BeforeStep;
+import org.springframework.batch.item.ExecutionContext;
 import org.springframework.batch.item.ItemReader;
 
 import uk.ac.ebi.uniprot.search.document.dbxref.CrossRefDocument;
@@ -9,6 +15,9 @@ import java.io.InputStream;
 import java.net.URL;
 import java.net.URLConnection;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 
@@ -36,6 +45,9 @@ public class CrossRefReader implements ItemReader<CrossRefDocument> {
 
     private Scanner reader;
     private boolean dataRegionStarted;
+
+    private StepExecution stepExecution;
+
     public CrossRefReader(String xrefFTPUrl) throws IOException {
         URL url = new URL(xrefFTPUrl);
         URLConnection conn = url.openConnection();
@@ -60,7 +72,35 @@ public class CrossRefReader implements ItemReader<CrossRefDocument> {
         if (!lines.contains(COPYRIGHT_SEP)) {
             dbxRef = convertToDBXRef(lines);
         }
+
+        if(dbxRef != null) { // update the pair of accession and abbreviation of cross ref for new step in the step execution context
+            updateAccessionAbbrPair(dbxRef.getAccession(), dbxRef.getAbbrev());
+        }
+
         return dbxRef;
+    }
+
+    private void updateAccessionAbbrPair(String accession, String abbrev) {
+        if(this.stepExecution != null) { // null if being called from unit test
+            JobExecution jobExecution = this.stepExecution.getJobExecution();
+            ExecutionContext executionContext = jobExecution.getExecutionContext();
+            Pair<String, String> accAbbr = new ImmutablePair<>(accession, abbrev);
+            List<Pair<String, String>> accAbbrPairs;
+            if (executionContext.get("CROSS_REF_KEY") == null) { // create a list
+                accAbbrPairs = new ArrayList<>();
+                accAbbrPairs.add(accAbbr);
+            } else { // update the existing list
+                accAbbrPairs = (List<Pair<String, String>>) executionContext.get("CROSS_REF_KEY");
+                accAbbrPairs.add(accAbbr);
+            }
+
+            executionContext.put("CROSS_REF_KEY", accAbbrPairs);
+        }
+    }
+
+    @BeforeStep
+    public void setStepExecution(final StepExecution stepExecution){
+        this.stepExecution = stepExecution;
     }
 
     private CrossRefDocument convertToDBXRef(String linesStr) {
@@ -102,11 +142,11 @@ public class CrossRefReader implements ItemReader<CrossRefDocument> {
             }
         }
 
-        CrossRefDocument.CrossRefDocumentBuilder builder = new CrossRefDocument.CrossRefDocumentBuilder();
-        builder.accession(acc).abbr(abbr).name(name);
+        CrossRefDocument.CrossRefDocumentBuilder builder = CrossRefDocument.builder();
+        builder.accession(acc).abbrev(abbr).name(name);
         builder.pubMedId(pubMedId).doiId(doiId).linkType(lType).server(server);
         builder.dbUrl(url).category(cat);
-
+        builder.content(Arrays.asList(acc, abbr, name, pubMedId, doiId, lType, cat, url, server));
         return builder.build();
     }
 }

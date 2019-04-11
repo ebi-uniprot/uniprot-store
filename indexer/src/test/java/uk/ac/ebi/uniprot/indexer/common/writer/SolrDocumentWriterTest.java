@@ -91,8 +91,8 @@ class SolrDocumentWriterTest{
         String du = random + "-DU-" + suffix;
         String ct = random + "-CT-" + suffix;
 
-        CrossRefDocument.CrossRefDocumentBuilder builder = new CrossRefDocument.CrossRefDocumentBuilder();
-        builder.abbr(ab).accession(ac).category(ct).dbUrl(du);
+        CrossRefDocument.CrossRefDocumentBuilder builder = CrossRefDocument.builder();
+        builder.abbrev(ab).accession(ac).category(ct).dbUrl(du);
         builder.doiId(di).linkType(lt).name(nm).pubMedId(pb).server(sr);
         return builder.build();
     }

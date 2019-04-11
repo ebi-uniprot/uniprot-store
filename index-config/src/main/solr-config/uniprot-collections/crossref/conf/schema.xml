@@ -19,16 +19,17 @@
     <!-- =============================== cross references fields  =============================== -->
     <field name="id" type="string" indexed="true" stored="false" required="true" multiValued="false"/>
     <field name="accession" type="string" indexed="true" stored="true" required="true" multiValued="false" docValues="true"/>
-    <field name="abbrev" type="basic_ci" indexed="true" stored="true" required="true" multiValued="false"/>
-    <field name="name" type="full_ci" indexed="true" stored="true" required="true" multiValued="false"/>
-    <field name="doi_id" type="basic_ci" indexed="true" stored="true" required="false" multiValued="false"/>
-    <field name="pubmed_id" type="basic_ci" indexed="true" stored="true" required="false" multiValued="false"/>
-    <field name="link_type" type="string" indexed="true" stored="true" required="true" multiValued="false" docValues="true"/>
-    <field name="server" type="string" indexed="false" stored="true" required="true" multiValued="false"/>
-    <field name="db_url" type="string" indexed="false" stored="true" required="true" multiValued="false"/>
-    <field name="category_str" type="full_ci" indexed="true" stored="false" required="true" multiValued="false"/>
-    <field name="category_facet" type="string" indexed="true" stored="true" required="true" multiValued="false" docValues="true"/>
-    <field name="content" type="full_ci" indexed="true" stored="false" required="true" multiValued="true"/>
+    <field name="abbrev" type="basic_ci" indexed="true" stored="true" multiValued="false"/>
+    <field name="name" type="full_ci" indexed="true" stored="true" multiValued="false"/>
+    <field name="doi_id" type="basic_ci" indexed="true" stored="true" multiValued="false"/>
+    <field name="pubmed_id" type="basic_ci" indexed="true" stored="true" multiValued="false"/>
+    <field name="link_type" type="string" indexed="true" stored="true" multiValued="false" docValues="true"/>
+    <field name="server" type="string" indexed="false" stored="true" multiValued="false"/>
+    <field name="db_url" type="string" indexed="false" stored="true" multiValued="false"/>
+    <field name="category_str" type="full_ci" indexed="true" stored="false" multiValued="false"/>
+    <field name="category_facet" type="string" indexed="true" stored="true" multiValued="false" docValues="true"/>
+    <field name="content" type="full_ci" indexed="true" stored="false" multiValued="true"/>
+    <field name="uniprot_entry_count" type="plong" indexed="false" stored="true"/>
     <!-- Field constraints -->
     <copyField source="category_str" dest="category_facet"/>
     <copyField source="accession" dest="id"/>

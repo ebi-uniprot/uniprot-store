@@ -3,6 +3,7 @@ package uk.ac.ebi.uniprot.indexer.crossref;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
+import uk.ac.ebi.uniprot.indexer.crossref.readers.CrossRefReader;
 import uk.ac.ebi.uniprot.search.document.dbxref.CrossRefDocument;
 
 import java.io.IOException;
