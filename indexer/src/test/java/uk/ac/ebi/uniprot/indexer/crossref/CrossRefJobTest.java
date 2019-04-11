@@ -14,7 +14,6 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import uk.ac.ebi.uniprot.indexer.common.config.DataSourceConfig;
 import uk.ac.ebi.uniprot.indexer.common.listeners.ListenerConfig;
 import uk.ac.ebi.uniprot.indexer.crossref.steps.CrossRefStep;
-import uk.ac.ebi.uniprot.indexer.crossref.steps.CrossRefUniProtCountStep;
 import uk.ac.ebi.uniprot.indexer.test.config.FakeIndexerSpringBootApplication;
 import uk.ac.ebi.uniprot.indexer.test.config.TestConfig;
 import uk.ac.ebi.uniprot.search.document.SolrCollection;
@@ -22,8 +21,7 @@ import uk.ac.ebi.uniprot.search.document.dbxref.CrossRefDocument;
 
 import static org.junit.jupiter.api.Assertions.*;
 @ExtendWith(SpringExtension.class)
-@SpringBootTest(classes = {FakeIndexerSpringBootApplication.class, DataSourceConfig.class,
-        TestConfig.class, CrossRefJob.class, CrossRefStep.class, CrossRefUniProtCountStep.class, ListenerConfig.class})
+@SpringBootTest(classes = {FakeIndexerSpringBootApplication.class, TestConfig.class, CrossRefJob.class, CrossRefStep.class, ListenerConfig.class})
 class CrossRefJobTest {
 
     @Autowired
