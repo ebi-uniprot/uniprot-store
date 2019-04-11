@@ -13,8 +13,8 @@ public class UniProtKBIndexingProperties {
     private int skipLimit = 0;
     private int retryLimit = 10000;
     private int entryIteratorThreads = 2;
-    private int entryIteratorQueueSize = 0;
-    private int entryIteratorFFQueueSize = 0;
+    private int entryIteratorQueueSize = 50;
+    private int entryIteratorFFQueueSize = 5000;
     private String subcellularLocationFile;
     private String accessionGoPubmedFile;
     private String goFile;

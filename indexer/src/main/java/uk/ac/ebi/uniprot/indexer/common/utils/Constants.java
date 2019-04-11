@@ -4,8 +4,8 @@ package uk.ac.ebi.uniprot.indexer.common.utils;
 public class Constants {
     public static final String SUPPORTING_DATA_INDEX_JOB = "Supporting data indexing job";
 
-    public static final String UNIPROTKB_INDEX_JOB = "UniProtKB indexing job";
-    public static final String UNIPROTKB_INDEX_STEP = "UniProtKB indexing step";
+    public static final String UNIPROTKB_INDEX_JOB = "UniProtKB_Indexing_Job";
+    public static final String UNIPROTKB_INDEX_STEP = "UniProtKB_Indexing_Step";
 
     public static final String CROSS_REF_INDEX_STEP = "Cross ref indexing step";
 
