@@ -943,6 +943,7 @@ public class UniProtEntryProcessor implements ItemProcessor<ConvertableEntry, Co
                                                               .map(Property::getValue)
                                                               .collect(Collectors.toSet()));
                     }
+                    break;
                 default:
                     break;
             }
