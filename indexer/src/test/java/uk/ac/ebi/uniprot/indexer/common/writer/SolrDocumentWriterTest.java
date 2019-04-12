@@ -18,6 +18,7 @@ import uk.ac.ebi.uniprot.search.document.SolrCollection;
 import uk.ac.ebi.uniprot.search.document.dbxref.CrossRefDocument;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -90,10 +91,14 @@ class SolrDocumentWriterTest{
         String sr = random + "-SR-" + suffix;
         String du = random + "-DU-" + suffix;
         String ct = random + "-CT-" + suffix;
+        String co = random + "-CO-" + suffix;
+        List<String> contents = new ArrayList<>();
+        contents.add(co);
 
         CrossRefDocument.CrossRefDocumentBuilder builder = CrossRefDocument.builder();
         builder.abbrev(ab).accession(ac).category(ct).dbUrl(du);
-        builder.doiId(di).linkType(lt).name(nm).pubMedId(pb).server(sr);
+        builder.doiId(di).linkType(lt).name(nm).pubMedId(pb).server(sr)
+        .content(contents);
         return builder.build();
     }
 }

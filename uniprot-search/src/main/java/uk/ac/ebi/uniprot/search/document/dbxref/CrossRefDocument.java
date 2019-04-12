@@ -31,8 +31,8 @@ public class CrossRefDocument implements Document {
     private String dbUrl;
     @Field("category_str")
     private String category;
-    @Field
-    private List<String> content;
+    @Field("content")
+    private List<String> content =new ArrayList<>();
     @Field("category_facet")
     private String categoryFacet;
     @Field("uniprotkb_entry_count")
