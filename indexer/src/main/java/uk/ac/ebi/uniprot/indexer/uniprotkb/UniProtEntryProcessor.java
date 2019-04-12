@@ -125,7 +125,7 @@ public class UniProtEntryProcessor implements ItemProcessor<UniProtEntry, UniPro
     }
 
     @Override
-    public UniProtDocument process(UniProtEntry uniProtEntry) throws Exception {
+    public UniProtDocument process(UniProtEntry uniProtEntry) {
         try {
             UniProtDocument doc = new UniProtDocument();
 
@@ -255,7 +255,7 @@ public class UniProtEntryProcessor implements ItemProcessor<UniProtEntry, UniPro
         //go Terms --> see convertGoTerms method
     }
 
-    private boolean isCanonicalIsoform(UniProtEntry uniProtEntry) {
+    boolean isCanonicalIsoform(UniProtEntry uniProtEntry) {
         return uniProtEntry.getCommentByType(CommentType.ALTERNATIVE_PRODUCTS)
                 .stream()
                 .map(comment -> (AlternativeProductsComment) comment)

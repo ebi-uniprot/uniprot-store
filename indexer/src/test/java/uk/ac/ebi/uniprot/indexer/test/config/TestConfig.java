@@ -10,6 +10,7 @@ package uk.ac.ebi.uniprot.indexer.test.config;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
 import org.apache.solr.client.solrj.SolrClient;
+import org.springframework.batch.test.JobLauncherTestUtils;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.TestConfiguration;
@@ -27,7 +28,7 @@ public class TestConfig implements DisposableBean {
 
     private final File file;
 
-    public TestConfig() throws Exception{
+    public TestConfig() throws Exception {
         file = Files.createTempDirectory("solr_home").toFile();
     }
 
@@ -49,9 +50,14 @@ public class TestConfig implements DisposableBean {
         return new SolrTemplate(solrClient);
     }
 
+    @Bean
+    public JobLauncherTestUtils utils() {
+        return new JobLauncherTestUtils();
+    }
+
     @Override
     public void destroy() throws Exception {
-        if(file != null) {
+        if (file != null) {
             FileUtils.deleteDirectory(file);
             log.info("deleted solr home");
         }
