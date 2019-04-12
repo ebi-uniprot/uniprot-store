@@ -24,7 +24,6 @@ import uk.ac.ebi.uniprot.indexer.uniprot.taxonomy.TaxonomicNode;
 import uk.ac.ebi.uniprot.indexer.uniprot.taxonomy.TaxonomyRepo;
 
 import java.io.InputStream;
-import java.net.URL;
 import java.nio.charset.Charset;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -46,21 +45,32 @@ import static uk.ac.ebi.uniprot.indexer.uniprotkb.UniProtEntryProcessor.*;
  * @author Edd
  */
 public class UniProtEntryProcessorTest {
+    private static final String CC_ALTERNATIVE_PRODUCTS_FIELD = "cc_alternative_products";
+    private static final String CCEV_ALTERNATIVE_PRODUCTS_FIELD = "ccev_alternative_products";
+    private static final String CC_COFACTOR_FIELD = "cc_cofactor";
+    private static final String CCEV_COFACTOR_FIELD = "ccev_cofactor";
+    private static final String CC_BIOPHYSICOCHEMICAL_PROPERTIES_FIELD = "cc_biophysicochemical_properties";
+    private static final String CCEV_BIOPHYSICOCHEMICAL_PROPERTIES_FIELD = "ccev_biophysicochemical_properties";
+    private static final String CC_SEQUENCE_CAUTION_FIELD = "cc_sequence_caution";
+    private static final String CCEV_SEQUENCE_CAUTION_FIELD = "ccev_sequence_caution";
+    private static final String CC_SUBCELLULAR_LOCATION_FIELD = "cc_subcellular_location";
+    private static final String CCEV_SUBCELLULAR_LOCATION_FIELD = "ccev_subcellular_location";
+    private static final String CC_SIMILARITY_FIELD = "cc_similarity";
+    private static final String CCEV_SIMILARITY_FIELD = "ccev_similarity";
+    private static final String FT_CONFLICT_FIELD = "ft_conflict";
+    private static final String FTEV_CONFLICT_FIELD = "ftev_conflict";
+    private static final String FTLEN_CHAIN_FIELD = "ftlen_chain";
     private DateFormat dateFormat;
     private UniProtEntryProcessor entryProcessor;
 
     private TaxonomyRepo repoMock;
     private GoRelationRepo goRelationRepoMock;
-    private KeywordRepo keywordRepoMock;
-    private PathwayRepo pathwayRepoMock;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         repoMock = mock(TaxonomyRepo.class);
         goRelationRepoMock = mock(GoRelationRepo.class);
-        keywordRepoMock = mock(KeywordRepo.class);
-        pathwayRepoMock = mock(PathwayRepo.class);
-        entryProcessor = new UniProtEntryProcessor(repoMock, goRelationRepoMock, keywordRepoMock, pathwayRepoMock);
+        entryProcessor = new UniProtEntryProcessor(repoMock, goRelationRepoMock, mock(KeywordRepo.class), mock(PathwayRepo.class));
         dateFormat = new SimpleDateFormat("dd-MMM-yyyy");
     }
 
@@ -70,7 +80,7 @@ public class UniProtEntryProcessorTest {
                 .thenReturn(getTaxonomyNode(172543, "Cichlasoma festae", null, null, null));
         when(goRelationRepoMock.getIsA("GO:0016021")).thenReturn(getMockParentGoTerm());
         when(goRelationRepoMock.getPartOf("GO:0016021")).thenReturn(getMockPartOfGoTerm());
-        String file = "uniprotkb/A0PHU1.txl";
+        String file = "A0PHU1.txl";
         UniProtEntry entry = parse(file);
         assertNotNull(entry);
         UniProtDocument doc = convertEntry(entry);
@@ -139,14 +149,14 @@ public class UniProtEntryProcessorTest {
         assertTrue(doc.referenceJournals.contains("Mol. Phylogenet. Evol."));
 
         assertEquals(3, doc.commentMap.keySet().size());
-        assertTrue(doc.commentMap.containsKey("cc_similarity"));
-        assertTrue(doc.commentMap.get("cc_similarity").
+        assertTrue(doc.commentMap.containsKey(CC_SIMILARITY_FIELD));
+        assertTrue(doc.commentMap.get(CC_SIMILARITY_FIELD).
                 contains("SIMILARITY: Belongs to the cytochrome b family. {ECO:0000256|RuleBase:RU000300}."));
 
         assertEquals(3, doc.commentEvMap.size());
-        assertTrue(doc.commentEvMap.containsKey("ccev_similarity"));
-        assertTrue(doc.commentEvMap.get("ccev_similarity").contains("ECO_0000256"));
-        assertTrue(doc.commentEvMap.get("ccev_similarity").contains("automatic"));
+        assertTrue(doc.commentEvMap.containsKey(CCEV_SIMILARITY_FIELD));
+        assertTrue(doc.commentEvMap.get(CCEV_SIMILARITY_FIELD).contains("ECO_0000256"));
+        assertTrue(doc.commentEvMap.get(CCEV_SIMILARITY_FIELD).contains("automatic"));
 
         assertEquals("HOMOLOGY", doc.proteinExistence);
         assertFalse(doc.fragment);
@@ -155,8 +165,8 @@ public class UniProtEntryProcessorTest {
         assertFalse(doc.d3structure);
 
         assertEquals(3, doc.commentMap.keySet().size());
-        assertTrue(doc.commentMap.containsKey("cc_similarity"));
-        assertTrue(doc.commentMap.get("cc_similarity").
+        assertTrue(doc.commentMap.containsKey(CC_SIMILARITY_FIELD));
+        assertTrue(doc.commentMap.get(CC_SIMILARITY_FIELD).
                 contains("SIMILARITY: Belongs to the cytochrome b family. {ECO:0000256|RuleBase:RU000300}."));
 
         assertEquals(2, doc.cofactorChebi.size());
@@ -279,32 +289,32 @@ public class UniProtEntryProcessorTest {
         assertTrue(doc.referenceJournals.contains("Genome Res."));
 
         assertEquals(9, doc.commentMap.keySet().size());
-        assertTrue(doc.commentMap.containsKey("cc_similarity"));
-        assertTrue(doc.commentMap.get("cc_similarity").
+        assertTrue(doc.commentMap.containsKey(CC_SIMILARITY_FIELD));
+        assertTrue(doc.commentMap.get(CC_SIMILARITY_FIELD).
                 contains("SIMILARITY: Belongs to the NSMF family. {ECO:0000305}."));
 
-        assertTrue(doc.commentMap.containsKey("cc_similarity"));
-        assertTrue(doc.commentMap.get("cc_similarity").
+        assertTrue(doc.commentMap.containsKey(CC_SIMILARITY_FIELD));
+        assertTrue(doc.commentMap.get(CC_SIMILARITY_FIELD).
                 contains("SIMILARITY: Belongs to the NSMF family. {ECO:0000305}."));
 
         assertEquals(9, doc.commentEvMap.size());
-        assertTrue(doc.commentEvMap.containsKey("ccev_similarity"));
-        assertTrue(doc.commentEvMap.get("ccev_similarity").contains("ECO_0000305"));
-        assertTrue(doc.commentEvMap.get("ccev_similarity").contains("manual"));
+        assertTrue(doc.commentEvMap.containsKey(CCEV_SIMILARITY_FIELD));
+        assertTrue(doc.commentEvMap.get(CCEV_SIMILARITY_FIELD).contains("ECO_0000305"));
+        assertTrue(doc.commentEvMap.get(CCEV_SIMILARITY_FIELD).contains("manual"));
 
         assertEquals(8, doc.featuresMap.size());
-        assertTrue(doc.featuresMap.containsKey("ft_conflict"));
-        assertTrue(doc.featuresMap.get("ft_conflict").
+        assertTrue(doc.featuresMap.containsKey(FT_CONFLICT_FIELD));
+        assertTrue(doc.featuresMap.get(FT_CONFLICT_FIELD).
                 contains("CONFLICT 174 174 K -> Q (in Ref. 3; AAH87719). {ECO:0000305}."));
 
         assertEquals(8, doc.featureEvidenceMap.size());
-        assertTrue(doc.featureEvidenceMap.containsKey("ftev_conflict"));
-        assertTrue(doc.featureEvidenceMap.get("ftev_conflict").contains("ECO_0000305"));
-        assertTrue(doc.featureEvidenceMap.get("ftev_conflict").contains("manual"));
+        assertTrue(doc.featureEvidenceMap.containsKey(FTEV_CONFLICT_FIELD));
+        assertTrue(doc.featureEvidenceMap.get(FTEV_CONFLICT_FIELD).contains("ECO_0000305"));
+        assertTrue(doc.featureEvidenceMap.get(FTEV_CONFLICT_FIELD).contains("manual"));
 
         assertEquals(8, doc.featureLengthMap.size());
-        assertTrue(doc.featureLengthMap.containsKey("ftlen_chain"));
-        assertTrue(doc.featureLengthMap.get("ftlen_chain").contains(531));
+        assertTrue(doc.featureLengthMap.containsKey(FTLEN_CHAIN_FIELD));
+        assertTrue(doc.featureLengthMap.get(FTLEN_CHAIN_FIELD).contains(531));
 
         assertEquals("PROTEIN_LEVEL", doc.proteinExistence);
         assertFalse(doc.fragment);
@@ -445,7 +455,7 @@ public class UniProtEntryProcessorTest {
 
         assertEquals(1, doc.commentMap.keySet().size());
         assertEquals(1, doc.commentMap.size());
-        assertTrue(doc.commentMap.containsKey("cc_alternative_products"));
+        assertTrue(doc.commentMap.containsKey(CC_ALTERNATIVE_PRODUCTS_FIELD));
 
         assertEquals(1, doc.commentEvMap.size());
         assertTrue(doc.commentEvMap.containsKey("ccev_alternative_products"));
@@ -591,13 +601,13 @@ public class UniProtEntryProcessorTest {
         UniProtDocument doc = convertEntry(entry);
         assertNotNull(doc);
 
-        assertTrue(doc.commentMap.containsKey("cc_alternative_products"));
-        assertTrue(doc.commentMap.get("cc_alternative_products").
+        assertTrue(doc.commentMap.containsKey(CC_ALTERNATIVE_PRODUCTS_FIELD));
+        assertTrue(doc.commentMap.get(CC_ALTERNATIVE_PRODUCTS_FIELD).
                 contains(alternativeProductsLine));
 
         assertEquals(1, doc.commentEvMap.size());
-        assertTrue(doc.commentEvMap.containsKey("ccev_alternative_products"));
-        assertEquals(0, doc.commentEvMap.get("ccev_alternative_products").size());
+        assertTrue(doc.commentEvMap.containsKey(CCEV_ALTERNATIVE_PRODUCTS_FIELD));
+        assertEquals(0, doc.commentEvMap.get(CCEV_ALTERNATIVE_PRODUCTS_FIELD).size());
 
         assertEquals(2, doc.ap.size());
         assertTrue(doc.ap.contains("Alternative promoter usage"));
@@ -626,11 +636,11 @@ public class UniProtEntryProcessorTest {
 
         assertEquals(1, doc.commentMap.keySet().size());
 
-        assertTrue(doc.commentMap.containsKey("cc_cofactor"));
-        assertTrue(doc.commentMap.get("cc_cofactor").contains(cofactorLineValue));
+        assertTrue(doc.commentMap.containsKey(CC_COFACTOR_FIELD));
+        assertTrue(doc.commentMap.get(CC_COFACTOR_FIELD).contains(cofactorLineValue));
         assertEquals(1, doc.commentEvMap.size());
-        assertTrue(doc.commentEvMap.containsKey("ccev_cofactor"));
-        assertEquals(0, doc.commentEvMap.get("ccev_cofactor").size());
+        assertTrue(doc.commentEvMap.containsKey(CCEV_COFACTOR_FIELD));
+        assertEquals(0, doc.commentEvMap.get(CCEV_COFACTOR_FIELD).size());
 
         assertEquals(2, doc.cofactorChebi.size());
         assertTrue(doc.cofactorChebi.contains("Mg(2+)"));
@@ -686,14 +696,14 @@ public class UniProtEntryProcessorTest {
         UniProtEntry entry = createUniProtEntryFromCommentLine(bpcpLine);
         UniProtDocument doc = convertEntry(entry);
         assertNotNull(doc);
-        assertEquals(3, doc.commentMap.keySet().size());
+        assertEquals(3, doc.commentMap.get(CC_BIOPHYSICOCHEMICAL_PROPERTIES_FIELD).size());
 
-        assertTrue(doc.commentMap.containsKey("cc_biophysicochemical_properties"));
-        assertTrue(doc.commentMap.get("cc_biophysicochemical_properties").contains(phdependenceLineValue));
+        assertTrue(doc.commentMap.containsKey(CC_BIOPHYSICOCHEMICAL_PROPERTIES_FIELD));
+        assertTrue(doc.commentMap.get(CC_BIOPHYSICOCHEMICAL_PROPERTIES_FIELD).contains(phdependenceLineValue));
 
         assertEquals(1, doc.commentEvMap.size());
-        assertTrue(doc.commentEvMap.containsKey("ccev_biophysicochemical_properties"));
-        assertEquals(0, doc.commentEvMap.get("ccev_biophysicochemical_properties").size());
+        assertTrue(doc.commentEvMap.containsKey(CCEV_BIOPHYSICOCHEMICAL_PROPERTIES_FIELD));
+        assertEquals(0, doc.commentEvMap.get(CCEV_BIOPHYSICOCHEMICAL_PROPERTIES_FIELD).size());
 
         assertEquals(12, doc.bpcp.size());
         assertTrue(doc.bpcp.contains("550"));
@@ -742,13 +752,13 @@ public class UniProtEntryProcessorTest {
         UniProtEntry entry = createUniProtEntryFromCommentLine(sequenceCautionLine);
         UniProtDocument doc = convertEntry(entry);
         assertNotNull(doc);
-        assertEquals(6, doc.commentMap.keySet().size());
+        assertEquals(6, doc.commentMap.get(CC_SEQUENCE_CAUTION_FIELD).size());
 
-        assertTrue(doc.commentMap.containsKey("cc_sequence_caution"));
-        assertTrue(doc.commentMap.get("cc_sequence_caution").contains(sequenceCautionLineValue));
+        assertTrue(doc.commentMap.containsKey(CC_SEQUENCE_CAUTION_FIELD));
+        assertTrue(doc.commentMap.get(CC_SEQUENCE_CAUTION_FIELD).contains(sequenceCautionLineValue));
         assertEquals(1, doc.commentEvMap.size());
-        assertTrue(doc.commentEvMap.containsKey("ccev_sequence_caution"));
-        assertEquals(0, doc.commentEvMap.get("ccev_sequence_caution").size());
+        assertTrue(doc.commentEvMap.containsKey(CCEV_SEQUENCE_CAUTION_FIELD));
+        assertEquals(0, doc.commentEvMap.get(CCEV_SEQUENCE_CAUTION_FIELD).size());
 
 
         assertEquals(6, doc.seqCaution.size());
@@ -793,13 +803,13 @@ public class UniProtEntryProcessorTest {
         UniProtEntry entry = createUniProtEntryFromCommentLine(subcellularLocationLine);
         UniProtDocument doc = convertEntry(entry);
         assertNotNull(doc);
-        assertEquals(2, doc.commentMap.keySet().size());
+        assertEquals(2, doc.commentMap.get(CC_SUBCELLULAR_LOCATION_FIELD).size());
 
-        assertTrue(doc.commentMap.containsKey("cc_subcellular_location"));
-        assertTrue(doc.commentMap.get("cc_subcellular_location").contains(subcellularLocationLineValue));
+        assertTrue(doc.commentMap.containsKey(CC_SUBCELLULAR_LOCATION_FIELD));
+        assertTrue(doc.commentMap.get(CC_SUBCELLULAR_LOCATION_FIELD).contains(subcellularLocationLineValue));
         assertEquals(1, doc.commentEvMap.size());
-        assertTrue(doc.commentEvMap.containsKey("ccev_subcellular_location"));
-        assertEquals(0, doc.commentEvMap.get("ccev_subcellular_location").size());
+        assertTrue(doc.commentEvMap.containsKey(CCEV_SUBCELLULAR_LOCATION_FIELD));
+        assertEquals(0, doc.commentEvMap.get(CCEV_SUBCELLULAR_LOCATION_FIELD).size());
 
 
         assertEquals(5, doc.subcellLocationTerm.size());
@@ -816,18 +826,12 @@ public class UniProtEntryProcessorTest {
     }
 
     private UniProtEntry parse(String file) throws Exception {
-        InputStream is = UniProtEntryProcessor.class.getClassLoader().getResourceAsStream(file);
+        InputStream is = UniProtEntryProcessor.class.getClassLoader().getResourceAsStream("uniprotkb/" + file);
         assertNotNull(is);
-        URL keywordFile = UniProtEntryProcessor.class.getResource("/uniprotkb/keywlist.txt");
-        assertNotNull(keywordFile);
-        URL humdisease = UniProtEntryProcessor.class.getResource("/uniprot/humdisease.txt");
-        assertNotNull(humdisease);
-        URL PMID_GO = UniProtEntryProcessor.class.getResource("/uniprot/PMID.GO.dr_ext.txt");
-        assertNotNull(PMID_GO);
-        SupportingDataMap supportingDataMap = new SupportingDataMapImpl("/uniprotkb/keywlist.txt",
-                                                                        "/uniprotkb/humdisease.txt",
-                                                                        "/uniprotkb/PMID.GO.dr_ext.txt",
-                                                                        "");
+        SupportingDataMap supportingDataMap = new SupportingDataMapImpl("uniprotkb/keywlist.txt",
+                                                                        "uniprotkb/humdisease.txt",
+                                                                        "uniprotkb/PMID.GO.dr_ext.txt",
+                                                                        "uniprotkb/subcell.txt");
         DefaultUniProtParser parser = new DefaultUniProtParser(supportingDataMap, false);
         return parser.parse(IOUtils.toString(is, Charset.defaultCharset()));
     }
@@ -864,7 +868,6 @@ public class UniProtEntryProcessorTest {
                 new GoTermFileReader.GoTermImpl("GO:125", "Go term 5"),
                 new GoTermFileReader.GoTermImpl("GO:126", "Go term 6")
         );
-
     }
 
     private Optional<TaxonomicNode> getTaxonomyNode(int id, String scientificName, String commonName, String synonym, String mnemonic) {
@@ -905,5 +908,4 @@ public class UniProtEntryProcessorTest {
             }
         });
     }
-
 }

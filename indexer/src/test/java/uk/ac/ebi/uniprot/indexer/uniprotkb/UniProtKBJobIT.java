@@ -28,7 +28,7 @@ import static uk.ac.ebi.uniprot.indexer.common.utils.Constants.UNIPROTKB_INDEX_S
  *
  * @author Edd
  */
-// TODO: 12/04/19 Check UniRefMap was created
+// TODO: 12/04/19 Incorporate UniRef Map data when Guoying is back
 // TODO: 12/04/19 Check failed entry is written to error file
 //                  Need to think about this: there can be many paths that lead to error
 //                  1. bad FF format -- does the FF iterator write failed entries to an error file?
