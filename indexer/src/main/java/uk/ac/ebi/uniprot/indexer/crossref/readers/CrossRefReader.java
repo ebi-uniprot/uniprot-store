@@ -8,6 +8,7 @@ import org.springframework.batch.core.annotation.BeforeStep;
 import org.springframework.batch.item.ExecutionContext;
 import org.springframework.batch.item.ItemReader;
 
+import uk.ac.ebi.uniprot.indexer.common.utils.Constants;
 import uk.ac.ebi.uniprot.search.document.dbxref.CrossRefDocument;
 
 import java.io.IOException;
@@ -80,27 +81,27 @@ public class CrossRefReader implements ItemReader<CrossRefDocument> {
         return dbxRef;
     }
 
+    @BeforeStep
+    public void setStepExecution(final StepExecution stepExecution){
+        this.stepExecution = stepExecution;
+    }
+
     private void updateAccessionAbbrPair(String accession, String abbrev) {
         if(this.stepExecution != null) { // null if being called from unit test
             JobExecution jobExecution = this.stepExecution.getJobExecution();
             ExecutionContext executionContext = jobExecution.getExecutionContext();
             Pair<String, String> accAbbr = new ImmutablePair<>(accession, abbrev);
             List<Pair<String, String>> accAbbrPairs;
-            if (executionContext.get("CROSS_REF_KEY") == null) { // create a list
+            if (executionContext.get(Constants.CROSS_REF_KEY_STR) == null) { // create a list
                 accAbbrPairs = new ArrayList<>();
                 accAbbrPairs.add(accAbbr);
             } else { // update the existing list
-                accAbbrPairs = (List<Pair<String, String>>) executionContext.get("CROSS_REF_KEY");
+                accAbbrPairs = (List<Pair<String, String>>) executionContext.get(Constants.CROSS_REF_KEY_STR);
                 accAbbrPairs.add(accAbbr);
             }
 
-            executionContext.put("CROSS_REF_KEY", accAbbrPairs);
+            executionContext.put(Constants.CROSS_REF_KEY_STR, accAbbrPairs);
         }
-    }
-
-    @BeforeStep
-    public void setStepExecution(final StepExecution stepExecution){
-        this.stepExecution = stepExecution;
     }
 
     private CrossRefDocument convertToDBXRef(String linesStr) {

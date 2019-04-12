@@ -16,7 +16,7 @@ import java.util.Map;
  */
 public class CrossRefUniProtCountWriter implements ItemWriter<CrossRefDocument> {
     private static final String ACCESSION_STR = "accession";
-    private static final String UNIPROT_ENTRY_COUNT_STR = "uniprot_entry_count";
+    private static final String UNIPROT_ENTRY_COUNT_STR = "uniprotkb_entry_count";
 
     private final SolrTemplate solrTemplate;
     private final SolrCollection collection;

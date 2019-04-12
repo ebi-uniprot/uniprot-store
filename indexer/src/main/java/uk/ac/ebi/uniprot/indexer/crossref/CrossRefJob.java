@@ -25,7 +25,7 @@ public class CrossRefJob {
 
     @Bean("indexCrossRefJob")
     public Job indexSupportingData(@Qualifier("IndexCrossRefStep") Step indexCrossRef,
-                                   @Qualifier("UniProtCountStep") Step indexUniProtCount,
+                                   @Qualifier("CrossRefUniProtKBCountStep") Step indexUniProtCount,
                                    JobExecutionListener jobListener) {
         return this.jobs.get(Constants.SUPPORTING_DATA_INDEX_JOB)
                 .start(indexCrossRef)//index the cross references

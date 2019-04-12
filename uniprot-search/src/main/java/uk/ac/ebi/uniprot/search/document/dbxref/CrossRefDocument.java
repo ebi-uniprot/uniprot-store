@@ -35,6 +35,6 @@ public class CrossRefDocument implements Document {
     private List<String> content;
     @Field("category_facet")
     private String categoryFacet;
-    @Field("uniprot_entry_count")
+    @Field("uniprotkb_entry_count")
     private Long uniprotCount;
 }

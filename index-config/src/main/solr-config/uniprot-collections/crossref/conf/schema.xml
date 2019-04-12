@@ -29,7 +29,7 @@
     <field name="category_str" type="full_ci" indexed="true" stored="false" multiValued="false"/>
     <field name="category_facet" type="string" indexed="true" stored="true" multiValued="false" docValues="true"/>
     <field name="content" type="full_ci" indexed="true" stored="false" multiValued="true"/>
-    <field name="uniprot_entry_count" type="plong" indexed="false" stored="true"/>
+    <field name="uniprotkb_entry_count" type="plong" indexed="false" stored="true"/>
     <!-- Field constraints -->
     <copyField source="category_str" dest="category_facet"/>
     <copyField source="accession" dest="id"/>

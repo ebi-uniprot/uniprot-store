@@ -25,12 +25,12 @@ import java.sql.SQLException;
 public class CrossRefUniProtCountStep {
     private Integer chunkSize = 5; // keeping it small because the read query is very slow
 
-    @Bean(name = "UniProtCountStep")
+    @Bean(name = "CrossRefUniProtKBCountStep")
     public Step importUniProtCountStep(StepBuilderFactory stepBuilders, StepExecutionListener stepListener,
                                        ChunkListener chunkListener,
                                        @Qualifier("UniProtCountReader") ItemReader<CrossRefDocument> reader,
                                        @Qualifier("UniProtCountWriter") ItemWriter<CrossRefDocument> writer){
-        return stepBuilders.get(Constants.UNIPROT_COUNT_STEP_NAME)
+        return stepBuilders.get(Constants.CROSS_REF_UNIPROT_COUNT_STEP_NAME)
                 .<CrossRefDocument, CrossRefDocument>chunk(chunkSize)
                 .reader(reader)
                 .writer(writer)
