@@ -18,12 +18,19 @@
     <guava.version>24.1.1-jre</guava.version>
     <uniprot.core.version>0.1-SNAPSHOT</uniprot.core.version>
     <uniprot.indexer.version>1.0-SNAPSHOT</uniprot.indexer.version>
+    <solr.version>7.5.0</solr.version>
   </properties>
   <dependencies>
  	 <dependency>
     		<groupId>uk.ac.ebi.uniprot</groupId>
     		<artifactId>core-domain</artifactId>
     		<version>${uniprot.core.version}</version>
+    		<exclusions>
+    			<exclusion>
+    				<groupId>org.slf4j</groupId>
+    				<artifactId>*</artifactId>
+    			</exclusion>
+    		</exclusions>
 		</dependency>
 		 <dependency>
     		<groupId>uk.ac.ebi.uniprot</groupId>
@@ -63,17 +70,61 @@
    <artifactId>metrics-core</artifactId>
    <version>3.2.2</version>
 </dependency>
-        <dependency>
-            <groupId>org.apache.solr</groupId>
-            <artifactId>solr-solrj</artifactId>
-             <version>7.2.0</version>
-        </dependency>
-
-        <dependency>
+         <dependency>
             <groupId>org.apache.solr</groupId>
             <artifactId>solr-core</artifactId>
-            <version>7.2.0</version>
+             <version>${solr.version}</version>
+                        <exclusions>
+                <exclusion>
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>slf4j-api</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>commons-logging</groupId>
+                    <artifactId>commons-logging</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>jcl-over-slf4j</artifactId>
+                </exclusion>
+                <exclusion>
+                	<groupId>org.apache.logging.log4j</groupId>
+                  <artifactId>log4j-1.2-api</artifactId>
+                </exclusion>
+               <exclusion>
+                	<groupId>org.apache.logging.log4j</groupId>
+                  <artifactId>log4j-api</artifactId>
+                </exclusion>
+                <exclusion>
+                	<groupId>org.apache.logging.log4j</groupId>
+                  <artifactId>log4j-core</artifactId>
+                </exclusion>
+                
+            </exclusions>
         </dependency>
+       <dependency>
+            <groupId>org.apache.solr</groupId>
+            <artifactId>solr-solrj</artifactId>
+            <version>${solr.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>slf4j-api</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>commons-logging</groupId>
+                    <artifactId>commons-logging</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>jcl-over-slf4j</artifactId>
+                </exclusion>
+                <exclusion>
+                	<groupId>org.apache.logging.log4j</groupId>
+                  <artifactId>log4j-1.2-api</artifactId>
+                </exclusion>
+            </exclusions>
+            </dependency>
         <dependency>
             <groupId>org.powermock</groupId>
             <artifactId>powermock-module-junit4</artifactId>
