@@ -14,8 +14,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.data.solr.UncategorizedSolrException;
-import org.springframework.data.solr.core.SolrTemplate;
-import uk.ac.ebi.uniprot.indexer.document.SolrCollection;
 
 import static uk.ac.ebi.uniprot.indexer.common.utils.Constants.UNIPROTKB_INDEX_STEP;
 
@@ -28,15 +26,12 @@ import static uk.ac.ebi.uniprot.indexer.common.utils.Constants.UNIPROTKB_INDEX_S
 @Import({UniProtKBConfig.class})
 public class UniProtKBStep {
     private final StepBuilderFactory stepBuilderFactory;
-    private final SolrTemplate solrTemplate;
     private final UniProtKBIndexingProperties uniProtKBIndexingProperties;
 
     @Autowired
     public UniProtKBStep(StepBuilderFactory stepBuilderFactory,
-                         SolrTemplate solrTemplate,
                          UniProtKBIndexingProperties indexingProperties) {
         this.stepBuilderFactory = stepBuilderFactory;
-        this.solrTemplate = solrTemplate;
         this.uniProtKBIndexingProperties = indexingProperties;
     }
 
@@ -59,12 +54,7 @@ public class UniProtKBStep {
                 .writer(uniProtDocumentItemWriter)
                 .listener(stepListener)
                 .listener(chunkListener)
-                .listener(new EntryWriteListener())
+                .listener(new EntrySkipWriteListener())
                 .build();
-    }
-
-    @Bean
-    public ItemWriter<ConvertableEntry> uniProtDocumentItemWriter() {
-        return new ConvertableEntryWriter(this.solrTemplate, SolrCollection.uniprot);
     }
 }

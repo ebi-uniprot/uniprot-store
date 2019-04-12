@@ -1,5 +1,6 @@
 package uk.ac.ebi.uniprot.indexer.uniprotkb;
 
+import org.hamcrest.CoreMatchers;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.batch.core.*;
@@ -21,6 +22,7 @@ import java.util.stream.Collectors;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
+import static uk.ac.ebi.uniprot.indexer.common.utils.Constants.UNIPROTKB_INDEX_JOB;
 import static uk.ac.ebi.uniprot.indexer.common.utils.Constants.UNIPROTKB_INDEX_STEP;
 
 /**
@@ -50,22 +52,25 @@ class UniProtKBJobIT {
     @Test
     void testUniProtKBIndexingJob() throws Exception {
         JobExecution jobExecution = jobLauncher.launchJob();
+        assertThat(jobExecution.getJobInstance().getJobName(), CoreMatchers.is(UNIPROTKB_INDEX_JOB));
+
         BatchStatus status = jobExecution.getStatus();
         assertThat(status, is(BatchStatus.COMPLETED));
 
         Page<UniProtDocument> response = template
                 .query(SolrCollection.uniprot.name(), new SimpleQuery("*:*"), UniProtDocument.class);
         assertThat(response, is(notNullValue()));
-        assertThat(response.getTotalElements(), is(2L));
+        assertThat(response.getTotalElements(), is(5L));
 
         StepExecution indexingStep = jobExecution.getStepExecutions().stream()
                 .filter(step -> step.getStepName().equals(UNIPROTKB_INDEX_STEP))
                 .collect(Collectors.toList()).get(0);
 
-        assertThat(indexingStep.getReadCount(), is(2));
+        assertThat(indexingStep.getReadCount(), is(5));
         assertThat(indexingStep.getReadSkipCount(), is(0));
         assertThat(indexingStep.getProcessSkipCount(), is(0));
         assertThat(indexingStep.getWriteSkipCount(), is(0));
-        assertThat(indexingStep.getWriteCount(), is(2));
+        assertThat(indexingStep.getWriteCount(), is(5));
+        assertThat(indexingStep.getCommitCount(), is(3));
     }
 }

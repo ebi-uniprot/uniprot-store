@@ -2,9 +2,13 @@ package uk.ac.ebi.uniprot.indexer.uniprotkb;
 
 import org.springframework.batch.item.ItemProcessor;
 import org.springframework.batch.item.ItemReader;
+import org.springframework.batch.item.ItemWriter;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
+import org.springframework.data.solr.core.SolrTemplate;
+import uk.ac.ebi.uniprot.indexer.document.SolrCollection;
 import uk.ac.ebi.uniprot.indexer.uniprot.go.GoRelationFileReader;
 import uk.ac.ebi.uniprot.indexer.uniprot.go.GoRelationFileRepo;
 import uk.ac.ebi.uniprot.indexer.uniprot.go.GoRelationRepo;
@@ -27,6 +31,12 @@ import java.io.File;
 @Configuration
 @EnableConfigurationProperties({UniProtKBIndexingProperties.class})
 public class UniProtKBConfig {
+    private final SolrTemplate solrTemplate;
+
+    public UniProtKBConfig(SolrTemplate solrTemplate) {
+        this.solrTemplate = solrTemplate;
+    }
+
     private UniProtKBIndexingProperties uniProtKBIndexingProperties = new UniProtKBIndexingProperties();
 
     @Bean
@@ -40,6 +50,12 @@ public class UniProtKBConfig {
                                          createGoRelationRepo(),
                                          createKeywordRepo(),
                                          createPathwayRepo());
+    }
+
+    @Bean
+    @Profile("online")     // TODO: 13/04/19 make fault tolerance tests work without this
+    public ItemWriter<ConvertableEntry> uniProtDocumentItemWriter() {
+        return new ConvertableEntryWriter(this.solrTemplate, SolrCollection.uniprot);
     }
 
     @Bean
