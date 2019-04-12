@@ -16,8 +16,10 @@ import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.slf4j.Logger;
 
+import uk.ac.ebi.uniprot.datastore.voldemort.VoldemortClient;
 import uk.ac.ebi.uniprot.indexer.document.DocumentConverter;
 import uk.ac.ebi.uniprot.search.document.Document;
+import voldemort.versioning.ObsoleteVersionException;
 
 /**
  * Created 19/09/18
@@ -32,7 +34,7 @@ public class DataStoreManager {
     private static final Logger LOGGER = getLogger(DataStoreManager.class);
     private final SolrDataStoreManager solrDataStoreManager;
     private final Map<StoreType, SolrClient> solrClientMap = new HashMap<>();
- //   private final Map<StoreType, VoldemortClient> voldemortMap = new HashMap<>();
+    private final Map<StoreType, VoldemortClient> voldemortMap = new HashMap<>();
     private final Map<StoreType, DocumentConverter> docConverterMap = new HashMap<>();
 
     public DataStoreManager(SolrDataStoreManager solrDataStoreManager) {
@@ -64,29 +66,29 @@ public class DataStoreManager {
         solrClientMap.put(storeType, client);
     }
 
-//    public void addVoldemort(StoreType storeType, VoldemortClient voldemortClient) {
-//        voldemortMap.put(storeType, voldemortClient);
-//    }
+    public void addVoldemort(StoreType storeType, VoldemortClient voldemortClient) {
+        voldemortMap.put(storeType, voldemortClient);
+    }
 
     public void addDocConverter(StoreType storeType, DocumentConverter converter) {
         docConverterMap.put(storeType, converter);
     }
 
     @SuppressWarnings("unchecked")
-//    public <T> void saveToVoldemort(StoreType storeType, List<T> entries) {
-//        VoldemortClient voldemort = getVoldemort(storeType);
-//        int count = 0;
-//        for (Object o : entries) {
-//            try {
-//                voldemort.saveEntry(o);
-//                count++;
-//            } catch (ObsoleteVersionException e) {
-//                LOGGER.debug("Trying to add entry {} to voldemort again but it already exists -- skipping", o.toString());
-//            }
-//        }
-//
-//        LOGGER.debug("Added {} entries to voldemort", count);
-//    }
+    public <T> void saveToVoldemort(StoreType storeType, List<T> entries) {
+        VoldemortClient voldemort = getVoldemort(storeType);
+        int count = 0;
+        for (Object o : entries) {
+            try {
+                voldemort.saveEntry(o);
+                count++;
+            } catch (ObsoleteVersionException e) {
+                LOGGER.debug("Trying to add entry {} to voldemort again but it already exists -- skipping", o.toString());
+            }
+        }
+
+        LOGGER.debug("Added {} entries to voldemort", count);
+    }
 
     public <T> void saveToVoldemort(StoreType storeType, T... entries) {
         saveToVoldemort(storeType, asList(entries));
@@ -135,17 +137,17 @@ public class DataStoreManager {
         saveEntriesInSolr(storeType, asList(entries));
     }
 
-//    private VoldemortClient getVoldemort(StoreType storeType) {
-//        return voldemortMap.get(storeType);
-//    }
+    private VoldemortClient getVoldemort(StoreType storeType) {
+        return voldemortMap.get(storeType);
+    }
 
-//    public <T> List<T> getVoldemortEntries(StoreType storeType, String... entries) {
-//        return getVoldemortEntries(storeType, asList(entries));
-//    }
+    public <T> List<T> getVoldemortEntries(StoreType storeType, String... entries) {
+        return getVoldemortEntries(storeType, asList(entries));
+    }
 
-//    public <S, T> List<T> getVoldemortEntries(StoreType storeType, List<String> entries) {
-//        return getVoldemort(storeType).getEntries(entries);
-//    }
+    public <S, T> List<T> getVoldemortEntries(StoreType storeType, List<String> entries) {
+        return getVoldemort(storeType).getEntries(entries);
+    }
 
     public void cleanSolr(StoreType storeType) {
         try {

@@ -36,6 +36,12 @@
     		<version>${uniprot.indexer.version}</version>
     		
 		</dependency>
+		 <dependency>
+    		<groupId>uk.ac.ebi.uniprot</groupId>
+    		<artifactId>uniprot-datastore</artifactId>
+    		<version>${uniprot.indexer.version}</version>
+    		
+		</dependency>
   	<dependency>
     		<groupId>commons-io</groupId>
     		<artifactId>commons-io</artifactId>
