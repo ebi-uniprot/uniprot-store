@@ -4,9 +4,8 @@ import org.junit.jupiter.api.Test;
 
 
 import uk.ac.ebi.uniprot.search.DefaultSearchHandler;
-import uk.ac.ebi.uniprot.search.document.SearchFieldType;
 import uk.ac.ebi.uniprot.search.field.SearchField;
-
+import uk.ac.ebi.uniprot.search.field.SearchFieldType;
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.Predicate;

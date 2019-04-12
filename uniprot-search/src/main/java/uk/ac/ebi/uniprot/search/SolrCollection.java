@@ -1,4 +1,4 @@
-package uk.ac.ebi.uniprot.search.document;
+package uk.ac.ebi.uniprot.search;
 
 /**
  * List of solr collection available in Solr

@@ -16,7 +16,7 @@ import org.springframework.data.solr.core.SolrTemplate;
 import uk.ac.ebi.uniprot.indexer.common.utils.Constants;
 import uk.ac.ebi.uniprot.indexer.taxonomy.readers.TaxonomyStrainReader;
 import uk.ac.ebi.uniprot.indexer.taxonomy.writers.TaxonomyStrainWriter;
-import uk.ac.ebi.uniprot.search.document.SolrCollection;
+import uk.ac.ebi.uniprot.search.SolrCollection;
 import uk.ac.ebi.uniprot.search.document.taxonomy.TaxonomyDocument;
 
 import javax.sql.DataSource;

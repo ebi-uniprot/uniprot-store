@@ -7,7 +7,7 @@ import org.apache.solr.client.solrj.embedded.EmbeddedSolrServer;
 import org.apache.solr.common.util.NamedList;
 import org.apache.solr.core.CoreContainer;
 
-import uk.ac.ebi.uniprot.search.document.SolrCollection;
+import uk.ac.ebi.uniprot.search.SolrCollection;
 
 import java.io.File;
 import java.io.IOException;

@@ -11,7 +11,7 @@ import org.springframework.data.solr.core.SolrTemplate;
 import uk.ac.ebi.uniprot.indexer.common.utils.Constants;
 import uk.ac.ebi.uniprot.indexer.crossref.writers.CrossRefUniProtCountWriter;
 import uk.ac.ebi.uniprot.indexer.crossref.readers.CrossRefUniProtCountReader;
-import uk.ac.ebi.uniprot.search.document.SolrCollection;
+import uk.ac.ebi.uniprot.search.SolrCollection;
 import uk.ac.ebi.uniprot.search.document.dbxref.CrossRefDocument;
 
 import javax.sql.DataSource;
