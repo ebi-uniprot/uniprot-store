@@ -4,6 +4,7 @@
 
     <groupId>uk.ac.ebi.uniprot</groupId>
     <artifactId>uniprot-indexer-parent</artifactId>
+    <name>uniprot-indexer-parent</name>
     <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
     <modules>
@@ -12,6 +13,7 @@
     <module>integration-test</module>
     <module>uniprot-search</module>
     <module>uniprot-datastore</module>
+    <module>uniprot-suggester</module>
   </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>
