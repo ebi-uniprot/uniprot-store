@@ -47,7 +47,7 @@ import static uk.ac.ebi.uniprot.indexer.uniprotkb.UniProtEntryProcessor.*;
  */
 public class UniProtEntryProcessorTest {
     private DateFormat dateFormat;
-    private UniProtEntryProcessor converter;
+    private UniProtEntryProcessor entryProcessor;
 
     private TaxonomyRepo repoMock;
     private GoRelationRepo goRelationRepoMock;
@@ -60,7 +60,7 @@ public class UniProtEntryProcessorTest {
         goRelationRepoMock = mock(GoRelationRepo.class);
         keywordRepoMock = mock(KeywordRepo.class);
         pathwayRepoMock = mock(PathwayRepo.class);
-        converter = new UniProtEntryProcessor(repoMock, goRelationRepoMock, keywordRepoMock, pathwayRepoMock);
+        entryProcessor = new UniProtEntryProcessor(repoMock, goRelationRepoMock, keywordRepoMock, pathwayRepoMock);
         dateFormat = new SimpleDateFormat("dd-MMM-yyyy");
     }
 
@@ -73,7 +73,7 @@ public class UniProtEntryProcessorTest {
         String file = "uniprotkb/A0PHU1.txl";
         UniProtEntry entry = parse(file);
         assertNotNull(entry);
-        UniProtDocument doc = converter.process(entry);
+        UniProtDocument doc = convertEntry(entry);
         assertNotNull(doc);
         assertEquals("A0PHU1", doc.accession);
         assertEquals("A0PHU1_9CICH", doc.id);
@@ -195,23 +195,6 @@ public class UniProtEntryProcessorTest {
         assertFalse(doc.isIsoform);
     }
 
-    private UniProtEntry parse(String file) throws Exception {
-        InputStream is = UniProtEntryProcessor.class.getClassLoader().getResourceAsStream(file);
-        assertNotNull(is);
-        URL keywordFile = UniProtEntryProcessor.class.getResource("/uniprotkb/keywlist.txt");
-        assertNotNull(keywordFile);
-        URL humdisease = UniProtEntryProcessor.class.getResource("/uniprot/humdisease.txt");
-        assertNotNull(humdisease);
-        URL PMID_GO = UniProtEntryProcessor.class.getResource("/uniprot/PMID.GO.dr_ext.txt");
-        assertNotNull(PMID_GO);
-        SupportingDataMap supportingDataMap = new SupportingDataMapImpl("/uniprotkb/keywlist.txt",
-                                                                        "/uniprotkb/humdisease.txt",
-                                                                        "/uniprotkb/PMID.GO.dr_ext.txt",
-                                                                        "");
-        DefaultUniProtParser parser = new DefaultUniProtParser(supportingDataMap, false);
-        return parser.parse(IOUtils.toString(is, Charset.defaultCharset()));
-    }
-
     @Test
     public void testConvertFullQ9EPI6Entry() throws Exception {
         when(repoMock.retrieveNodeUsingTaxID(anyInt()))
@@ -220,7 +203,7 @@ public class UniProtEntryProcessorTest {
         String file = "Q9EPI6.sp";
         UniProtEntry entry = parse(file);
         assertNotNull(entry);
-        UniProtDocument doc = converter.process(entry);
+        UniProtDocument doc = convertEntry(entry);
         assertNotNull(doc);
 
         assertEquals("Q9EPI6", doc.accession);
@@ -383,7 +366,7 @@ public class UniProtEntryProcessorTest {
         String file = "Q9EPI6-2.sp";
         UniProtEntry entry = parse(file);
         assertNotNull(entry);
-        UniProtDocument doc = converter.process(entry);
+        UniProtDocument doc = convertEntry(entry);
         assertNotNull(doc);
 
         assertEquals("Q9EPI6-2", doc.accession);
@@ -525,13 +508,13 @@ public class UniProtEntryProcessorTest {
         String file = "Q9EPI6-1.sp";
         UniProtEntry entry = parse(file);
         assertNotNull(entry);
-        UniProtDocument doc = converter.process(entry);
+        UniProtDocument doc = convertEntry(entry);
         assertNotNull(doc);
 
         assertEquals("Q9EPI6-1", doc.accession);
         assertNull(doc.isIsoform);
 
-        assertTrue(converter.isCanonicalIsoform(entry));
+        assertTrue(entryProcessor.isCanonicalIsoform(entry));
 
         assertNull(doc.id);
         assertNull(doc.firstCreated);
@@ -605,7 +588,7 @@ public class UniProtEntryProcessorTest {
                 "IsoId=Q672I0-1; Sequence=External;\n" +
                 "Note=Produced by alternative initiation from the subgenomic RNA.;";
         UniProtEntry entry = createUniProtEntryFromCommentLine(alternativeLine);
-        UniProtDocument doc = converter.process(entry);
+        UniProtDocument doc = convertEntry(entry);
         assertNotNull(doc);
 
         assertTrue(doc.commentMap.containsKey("cc_alternative_products"));
@@ -638,7 +621,7 @@ public class UniProtEntryProcessorTest {
                 "Note=Requires the presence of 3CDpro or 3CPro. {ECO:0000250|UniProtKB:P03313};";
 
         UniProtEntry entry = createUniProtEntryFromCommentLine(cofactorLine);
-        UniProtDocument doc = converter.process(entry);
+        UniProtDocument doc = convertEntry(entry);
         assertNotNull(doc);
 
         assertEquals(1, doc.commentMap.keySet().size());
@@ -701,7 +684,7 @@ public class UniProtEntryProcessorTest {
                 "Optimum pH is 5.0 for protease activity. {ECO:0000269|PubMed:16603535};";
 
         UniProtEntry entry = createUniProtEntryFromCommentLine(bpcpLine);
-        UniProtDocument doc = converter.process(entry);
+        UniProtDocument doc = convertEntry(entry);
         assertNotNull(doc);
         assertEquals(3, doc.commentMap.keySet().size());
 
@@ -757,7 +740,7 @@ public class UniProtEntryProcessorTest {
         String sequenceCautionLineValue = "SEQUENCE CAUTION:\n" +
                 "Sequence=CAB59730.1; Type=Frameshift; Positions=76, 138; Evidence={ECO:0000305};";
         UniProtEntry entry = createUniProtEntryFromCommentLine(sequenceCautionLine);
-        UniProtDocument doc = converter.process(entry);
+        UniProtDocument doc = convertEntry(entry);
         assertNotNull(doc);
         assertEquals(6, doc.commentMap.keySet().size());
 
@@ -796,7 +779,6 @@ public class UniProtEntryProcessorTest {
         assertTrue(doc.seqCautionMiscEv.contains("manual"));
     }
 
-
     @Test
     public void testSubcellularLocationCommentConvertProperlyToDocument() throws Exception {
         String subcellularLocationLine = "CC   -!- SUBCELLULAR LOCATION: Capsid protein: Virion. Host cytoplasm.\n" +
@@ -809,7 +791,7 @@ public class UniProtEntryProcessorTest {
 
         String subcellularLocationLineValue = "SUBCELLULAR LOCATION: Capsid protein: Virion. Host cytoplasm.";
         UniProtEntry entry = createUniProtEntryFromCommentLine(subcellularLocationLine);
-        UniProtDocument doc = converter.process(entry);
+        UniProtDocument doc = convertEntry(entry);
         assertNotNull(doc);
         assertEquals(2, doc.commentMap.keySet().size());
 
@@ -833,6 +815,28 @@ public class UniProtEntryProcessorTest {
         assertTrue(doc.subcellLocationNoteEv.contains("ECO_0000250"));
     }
 
+    private UniProtEntry parse(String file) throws Exception {
+        InputStream is = UniProtEntryProcessor.class.getClassLoader().getResourceAsStream(file);
+        assertNotNull(is);
+        URL keywordFile = UniProtEntryProcessor.class.getResource("/uniprotkb/keywlist.txt");
+        assertNotNull(keywordFile);
+        URL humdisease = UniProtEntryProcessor.class.getResource("/uniprot/humdisease.txt");
+        assertNotNull(humdisease);
+        URL PMID_GO = UniProtEntryProcessor.class.getResource("/uniprot/PMID.GO.dr_ext.txt");
+        assertNotNull(PMID_GO);
+        SupportingDataMap supportingDataMap = new SupportingDataMapImpl("/uniprotkb/keywlist.txt",
+                                                                        "/uniprotkb/humdisease.txt",
+                                                                        "/uniprotkb/PMID.GO.dr_ext.txt",
+                                                                        "");
+        DefaultUniProtParser parser = new DefaultUniProtParser(supportingDataMap, false);
+        return parser.parse(IOUtils.toString(is, Charset.defaultCharset()));
+    }
+
+    private UniProtDocument convertEntry(UniProtEntry entry) {
+        ConvertableEntry convertableEntry = ConvertableEntry.createConvertableEntry(entry);
+        entryProcessor.process(convertableEntry);
+        return convertableEntry.getDocument();
+    }
 
     private UniProtEntry createUniProtEntryFromCommentLine(String commentLine) {
         List<Comment> comments = new CcLineTransformer("", "").transformNoHeader(commentLine);

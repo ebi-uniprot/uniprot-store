@@ -5,8 +5,6 @@ import org.springframework.batch.item.ItemReader;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import uk.ac.ebi.uniprot.domain.uniprot.UniProtEntry;
-import uk.ac.ebi.uniprot.indexer.document.uniprot.UniProtDocument;
 import uk.ac.ebi.uniprot.indexer.uniprot.go.GoRelationFileReader;
 import uk.ac.ebi.uniprot.indexer.uniprot.go.GoRelationFileRepo;
 import uk.ac.ebi.uniprot.indexer.uniprot.go.GoRelationRepo;
@@ -32,12 +30,12 @@ public class UniProtKBConfig {
     private UniProtKBIndexingProperties uniProtKBIndexingProperties = new UniProtKBIndexingProperties();
 
     @Bean
-    ItemReader<UniProtEntry> entryItemReader() {
+    ItemReader<ConvertableEntry> entryItemReader() {
         return new UniProtEntryItemReader(uniProtKBIndexingProperties);
     }
 
     @Bean
-    ItemProcessor<UniProtEntry, UniProtDocument> uniProtDocumentItemProcessor() {
+    ItemProcessor<ConvertableEntry, ConvertableEntry> uniProtDocumentItemProcessor() {
         return new UniProtEntryProcessor(createTaxonomyRepo(),
                                          createGoRelationRepo(),
                                          createKeywordRepo(),

@@ -15,10 +15,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.data.solr.UncategorizedSolrException;
 import org.springframework.data.solr.core.SolrTemplate;
-import uk.ac.ebi.uniprot.domain.uniprot.UniProtEntry;
-import uk.ac.ebi.uniprot.indexer.common.writer.SolrDocumentWriter;
 import uk.ac.ebi.uniprot.indexer.document.SolrCollection;
-import uk.ac.ebi.uniprot.indexer.document.uniprot.UniProtDocument;
 
 import static uk.ac.ebi.uniprot.indexer.common.utils.Constants.UNIPROTKB_INDEX_STEP;
 
@@ -44,13 +41,13 @@ public class UniProtKBStep {
     }
 
     @Bean
-    public Step uniProtIndexingMainFFStep(StepExecutionListener stepListener,
+    public Step uniProtKBIndexingMainFFStep(StepExecutionListener stepListener,
                               ChunkListener chunkListener,
-                              ItemReader<UniProtEntry> entryItemReader,
-                              ItemProcessor<UniProtEntry, UniProtDocument> uniProtDocumentItemProcessor,
-                              ItemWriter<UniProtDocument> uniProtDocumentItemWriter) {
+                              ItemReader<ConvertableEntry> entryItemReader,
+                              ItemProcessor<ConvertableEntry, ConvertableEntry> uniProtDocumentItemProcessor,
+                              ItemWriter<ConvertableEntry> uniProtDocumentItemWriter) {
         return this.stepBuilderFactory.get(UNIPROTKB_INDEX_STEP)
-                .<UniProtEntry, UniProtDocument>chunk(uniProtKBIndexingProperties.getChunkSize())
+                .<ConvertableEntry, ConvertableEntry>chunk(uniProtKBIndexingProperties.getChunkSize())
                 .faultTolerant()
                 .skipLimit(uniProtKBIndexingProperties.getSkipLimit())
                 .retry(HttpSolrClient.RemoteSolrException.class)
@@ -62,11 +59,12 @@ public class UniProtKBStep {
                 .writer(uniProtDocumentItemWriter)
                 .listener(stepListener)
                 .listener(chunkListener)
+                .listener(new EntryWriteListener())
                 .build();
     }
 
     @Bean
-    public ItemWriter<UniProtDocument> uniProtDocumentItemWriter() {
-        return new SolrDocumentWriter<>(this.solrTemplate, SolrCollection.uniprot);
+    public ItemWriter<ConvertableEntry> uniProtDocumentItemWriter() {
+        return new ConvertableEntryWriter(this.solrTemplate, SolrCollection.uniprot);
     }
 }

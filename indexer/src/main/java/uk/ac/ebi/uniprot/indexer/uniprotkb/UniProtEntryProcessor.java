@@ -3,6 +3,8 @@ package uk.ac.ebi.uniprot.indexer.uniprotkb;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.google.common.base.Strings;
 import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.batch.item.ItemProcessor;
 import uk.ac.ebi.uniprot.common.PublicationDateFormatter;
 import uk.ac.ebi.uniprot.cv.keyword.KeywordDetail;
@@ -26,6 +28,7 @@ import uk.ac.ebi.uniprot.domain.uniprot.evidence.Evidence;
 import uk.ac.ebi.uniprot.domain.uniprot.feature.Feature;
 import uk.ac.ebi.uniprot.domain.uniprot.xdb.UniProtDBCrossReference;
 import uk.ac.ebi.uniprot.flatfile.parser.ffwriter.FFLineBuilder;
+import uk.ac.ebi.uniprot.flatfile.parser.ffwriter.impl.UniProtFlatfileWriter;
 import uk.ac.ebi.uniprot.flatfile.parser.impl.cc.CCLineBuilderFactory;
 import uk.ac.ebi.uniprot.flatfile.parser.impl.ft.FeatureLineBuilderFactory;
 import uk.ac.ebi.uniprot.flatfile.parser.impl.ra.RALineBuilder;
@@ -57,7 +60,8 @@ import static java.util.Collections.singletonList;
  * @author Edd
  */
 @Slf4j
-public class UniProtEntryProcessor implements ItemProcessor<UniProtEntry, UniProtDocument> {
+public class UniProtEntryProcessor implements ItemProcessor<ConvertableEntry, ConvertableEntry> {
+    private static final Logger INDEXING_FAILED_LOGGER = LoggerFactory.getLogger("indexing-doc-conversion-failed-entries");
     static final int SORT_FIELD_MAX_LENGTH = 30;
     static final int MAX_STORED_FIELD_LENGTH = 32766;
 
@@ -125,16 +129,18 @@ public class UniProtEntryProcessor implements ItemProcessor<UniProtEntry, UniPro
     }
 
     @Override
-    public UniProtDocument process(UniProtEntry uniProtEntry) {
+    public ConvertableEntry process(ConvertableEntry convertableEntry) {
+        UniProtEntry uniProtEntry = convertableEntry.getEntry();
         try {
             UniProtDocument doc = new UniProtDocument();
+            convertableEntry.convertsTo(doc);
 
             doc.accession = uniProtEntry.getPrimaryAccession().getValue();
             if (doc.accession.contains(DASH)) {
                 if (isCanonicalIsoform(uniProtEntry)) {
                     doc.reviewed = null;
                     doc.isIsoform = null;
-                    return doc;
+                    return convertableEntry;
                 }
                 doc.isIsoform = true;
                 // We are adding the canonical accession to the isoform entry as a secondary accession.
@@ -169,12 +175,17 @@ public class UniProtEntryProcessor implements ItemProcessor<UniProtEntry, UniPro
             setScore(uniProtEntry, doc);
             setAvroDefaultEntry(uniProtEntry, doc);
             setDefaultSearchContent(doc);
-            return doc;
+            return convertableEntry;
         } catch (IllegalArgumentException | NullPointerException e) {
+            writeFailedEntryToFile(uniProtEntry);
             String acc = uniProtEntry.getPrimaryAccession().getValue();
-            log.error("Could not index: {}", acc);
             throw new DocumentConversionException("Error occurred whilst trying to convert UniProt entry: " + acc, e);
         }
+    }
+
+    private void writeFailedEntryToFile(UniProtEntry uniProtEntry) {
+        String entryFF = UniProtFlatfileWriter.write(uniProtEntry);
+        INDEXING_FAILED_LOGGER.error(entryFF);
     }
 
     static String truncatedSortValue(String value) {

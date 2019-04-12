@@ -1,7 +1,6 @@
 package uk.ac.ebi.uniprot.indexer.uniprotkb;
 
 import org.springframework.batch.item.ItemReader;
-import uk.ac.ebi.uniprot.domain.uniprot.UniProtEntry;
 import uk.ac.ebi.uniprot.flatfile.parser.impl.DefaultUniProtEntryIterator;
 
 /**
@@ -9,7 +8,7 @@ import uk.ac.ebi.uniprot.flatfile.parser.impl.DefaultUniProtEntryIterator;
  *
  * @author Edd
  */
-public class UniProtEntryItemReader implements ItemReader<UniProtEntry> {
+public class UniProtEntryItemReader implements ItemReader<ConvertableEntry> {
     private final DefaultUniProtEntryIterator entryIterator;
     public UniProtEntryItemReader(UniProtKBIndexingProperties indexingProperties) {
         DefaultUniProtEntryIterator uniProtEntryIterator =
@@ -25,9 +24,9 @@ public class UniProtEntryItemReader implements ItemReader<UniProtEntry> {
     }
 
     @Override
-    public UniProtEntry read() {
+    public ConvertableEntry read() {
         if (entryIterator.hasNext()) {
-            return entryIterator.next();
+            return ConvertableEntry.createConvertableEntry(entryIterator.next());
         } else {
             return null;
         }

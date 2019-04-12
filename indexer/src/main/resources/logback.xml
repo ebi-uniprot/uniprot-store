@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<configuration>
+    <appender name="DOC-CONVERSION-FAILED-ENTRIES-FILE" class="ch.qos.logback.core.FileAppender">
+        <file>indexing-doc-conversion-failed-entries.error</file>
+        <!-- overwrite previous log -->
+        <append>false</append>
+        <encoder>
+            <pattern>%msg%n</pattern>
+        </encoder>
+    </appender>
+    <!-- additivity=false ensures doc conversion data only goes to the doc conversion log -->
+    <logger name="indexing-doc-conversion-failed-entries" level="DEBUG" additivity="false">
+        <appender-ref ref="DOC-CONVERSION-FAILED-ENTRIES-FILE"/>
+    </logger>
+    <appender name="DOC-WRITE-FAILED-ENTRIES-FILE" class="ch.qos.logback.core.FileAppender">
+        <file>indexing-doc-write-failed-entries.error</file>
+        <!-- overwrite previous log -->
+        <append>false</append>
+        <encoder>
+            <pattern>%msg%n</pattern>
+        </encoder>
+    </appender>
+    <!-- additivity=false ensures doc write data only goes to the doc write log -->
+    <logger name="indexing-doc-write-failed-entries" level="DEBUG" additivity="false">
+        <appender-ref ref="DOC-WRITE-FAILED-ENTRIES-FILE"/>
+    </logger>
+</configuration>

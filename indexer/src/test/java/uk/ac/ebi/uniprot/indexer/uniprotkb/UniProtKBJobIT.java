@@ -28,12 +28,20 @@ import static uk.ac.ebi.uniprot.indexer.common.utils.Constants.UNIPROTKB_INDEX_S
  *
  * @author Edd
  */
+// TODO: 12/04/19 Check UniRefMap was created
+// TODO: 12/04/19 Check failed entry is written to error file
+//                  Need to think about this: there can be many paths that lead to error
+//                  1. bad FF format -- does the FF iterator write failed entries to an error file?
+//                     Unlikely, since the file will be a RELEASE file where lots of checks were done
+//                  2. entry->document conversion
+//                  3. writing to solr, e.g., due to network issue
+//                     Could catch Error class after writing to solr,
+//                     Done. Needs testing.
+// TODO: 12/04/19 Check failures in presence of fault tolerant step will continue up to certain limit
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = {FakeIndexerSpringBootApplication.class, TestConfig.class, UniProtKBJob.class,
                            UniProtKBStep.class, ListenerConfig.class})
 class UniProtKBJobIT {
-    @Autowired
-    private Job uniProtKBIndexingJob;
     @Autowired
     private JobLauncherTestUtils jobLauncher;
     @Autowired
@@ -42,10 +50,6 @@ class UniProtKBJobIT {
     @Test
     void testUniProtKBIndexingJob() throws Exception {
         JobExecution jobExecution = jobLauncher.launchJob();
-        JobParameters jobParameters = new JobParametersBuilder()
-                .addLong("time", System.currentTimeMillis()).toJobParameters();
-
-//        JobExecution jobExecution = jobLauncher.run(uniProtKBIndexingJob, jobParameters);
         BatchStatus status = jobExecution.getStatus();
         assertThat(status, is(BatchStatus.COMPLETED));
 
