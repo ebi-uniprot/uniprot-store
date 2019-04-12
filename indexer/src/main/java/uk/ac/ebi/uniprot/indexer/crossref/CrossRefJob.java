@@ -24,9 +24,12 @@ public class CrossRefJob {
     private JobBuilderFactory jobs;
 
     @Bean("indexCrossRefJob")
-    public Job indexSupportingData(@Qualifier("IndexCrossRefStep") Step indexCrossRef,JobExecutionListener jobListener) {
+    public Job indexSupportingData(@Qualifier("IndexCrossRefStep") Step indexCrossRef,
+                                   @Qualifier("UniProtCountStep") Step indexUniProtCount,
+                                   JobExecutionListener jobListener) {
         return this.jobs.get(Constants.SUPPORTING_DATA_INDEX_JOB)
                 .start(indexCrossRef)//index the cross references
+                .next(indexUniProtCount)// update the uniprot count for each cross ref
                 .listener(jobListener)
                 .build();
     }
