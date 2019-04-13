@@ -39,13 +39,13 @@ import static uk.ac.ebi.uniprot.indexer.common.utils.Constants.UNIPROTKB_INDEX_S
  *
  * @author Edd
  */
-@ActiveProfiles(profiles = {"notTooManySolrRemoteHostErrors", "offline"})
+@ActiveProfiles(profiles = {"tooManySolrRemoteHostErrors, offline"})
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = {FakeIndexerSpringBootApplication.class,
-                           UniProtKBJobWithSolrWriteRetriesThenSuccessTest.RetryConfig.class,
+                           UniProtKBJobWithSolrWriteRetriesThenFailureIT.RetryConfig.class,
                            TestConfig.class, UniProtKBJob.class,
                            UniProtKBStep.class, ListenerConfig.class})
-class UniProtKBJobWithSolrWriteRetriesThenSuccessTest {
+class UniProtKBJobWithSolrWriteRetriesThenFailureIT {
     @Autowired
     private JobLauncherTestUtils jobLauncherTestUtils;
 
@@ -61,10 +61,12 @@ class UniProtKBJobWithSolrWriteRetriesThenSuccessTest {
                                             // read second chunk (size 2; read total 4)
             SolrResponse.REMOTE_EXCEPTION,  // .. then error when writing (write total 2)
             SolrResponse.OK,                // .. then success when writing (write total 4)
-            SolrResponse.OK);               // all written
+                                            // read remainder (size 1; read total 5)
+            SolrResponse.REMOTE_EXCEPTION,  // .. then error when writing (write total 2)
+            SolrResponse.REMOTE_EXCEPTION); // too many errors -- indexing fails
 
     @Test
-    void notTooManyRetriesAndSuccessfulIndexingJob() throws Exception {
+    void tooManyRetriesAndFailedIndexingJob() throws Exception {
         JobExecution jobExecution = jobLauncherTestUtils.launchJob();
         assertThat(jobExecution.getJobInstance().getJobName(), is(UNIPROTKB_INDEX_JOB));
 
@@ -80,24 +82,24 @@ class UniProtKBJobWithSolrWriteRetriesThenSuccessTest {
         assertThat(indexingStep.getReadSkipCount(), is(0));
         assertThat(indexingStep.getProcessSkipCount(), is(0));
         assertThat(indexingStep.getWriteSkipCount(), is(0));
-        assertThat(indexingStep.getWriteCount(), is(5));
-        assertThat(indexingStep.getCommitCount(), is(3));
+        assertThat(indexingStep.getWriteCount(), is(4));
+        assertThat(indexingStep.getCommitCount(), is(2));
 
-        verify(uniProtDocumentItemWriter, times(4)).write(argumentCaptor.capture());
+        verify(uniProtDocumentItemWriter, times(5)).write(argumentCaptor.capture());
         List<List<ConvertableEntry>> docsSentToBeWritten = argumentCaptor.getAllValues();
         validateWriteAttempts(SOLR_RESPONSES, docsSentToBeWritten, d -> d.getDocument().accession);
 
         BatchStatus status = jobExecution.getStatus();
-        assertThat(status, is(BatchStatus.COMPLETED));
+        assertThat(status, is(BatchStatus.FAILED));
     }
 
-    @Profile("notTooManySolrRemoteHostErrors")
+    @Profile("tooManySolrRemoteHostErrors")
     @TestConfiguration
     static class RetryConfig {
         @Bean
         @Primary
         @SuppressWarnings(value = "unchecked")
-        ItemWriter<ConvertableEntry> uniProtDocumentItemWriter() throws Exception {
+        ItemWriter<ConvertableEntry> uniProtDocumentItemWriterMock() throws Exception {
             ItemWriter<ConvertableEntry> mockItemWriter = mock(ItemWriter.class);
 
             stubSolrWriteResponses(SOLR_RESPONSES)

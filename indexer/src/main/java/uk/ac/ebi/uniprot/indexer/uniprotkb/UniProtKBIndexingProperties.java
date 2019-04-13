@@ -1,5 +1,6 @@
 package uk.ac.ebi.uniprot.indexer.uniprotkb;
 
+import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**
@@ -7,6 +8,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  *
  * @author Edd
  */
+@Data
 @ConfigurationProperties(prefix = "uniprotkb.indexing")
 public class UniProtKBIndexingProperties {
     private int chunkSize = 1000;
@@ -23,116 +25,4 @@ public class UniProtKBIndexingProperties {
     private String keywordFile;
     private String pathwayFile;
     private String taxonomyFile;
-
-    public int getChunkSize() {
-        return chunkSize;
-    }
-
-    public void setChunkSize(int chunkSize) {
-        this.chunkSize = chunkSize;
-    }
-
-    public int getSkipLimit() {
-        return skipLimit;
-    }
-
-    public void setSkipLimit(int skipLimit) {
-        this.skipLimit = skipLimit;
-    }
-
-    public int getRetryLimit() {
-        return retryLimit;
-    }
-
-    public void setRetryLimit(int retryLimit) {
-        this.retryLimit = retryLimit;
-    }
-
-    public int getEntryIteratorThreads() {
-        return entryIteratorThreads;
-    }
-
-    public int getEntryIteratorQueueSize() {
-        return entryIteratorQueueSize;
-    }
-
-    public int getEntryIteratorFFQueueSize() {
-        return entryIteratorFFQueueSize;
-    }
-
-    public String getUniProtEntryFile() {
-        return uniProtEntryFile;
-    }
-
-    public String getKeywordFile() {
-        return keywordFile;
-    }
-
-    public String getDiseaseFile() {
-        return diseaseFile;
-    }
-
-    public String getAccessionGoPubmedFile() {
-        return accessionGoPubmedFile;
-    }
-
-    public String getSubcellularLocationFile() {
-        return subcellularLocationFile;
-    }
-
-    public void setEntryIteratorThreads(int entryIteratorThreads) {
-        this.entryIteratorThreads = entryIteratorThreads;
-    }
-
-    public void setEntryIteratorQueueSize(int entryIteratorQueueSize) {
-        this.entryIteratorQueueSize = entryIteratorQueueSize;
-    }
-
-    public void setEntryIteratorFFQueueSize(int entryIteratorFFQueueSize) {
-        this.entryIteratorFFQueueSize = entryIteratorFFQueueSize;
-    }
-
-    public void setSubcellularLocationFile(String subcellularLocationFile) {
-        this.subcellularLocationFile = subcellularLocationFile;
-    }
-
-    public void setAccessionGoPubmedFile(String accessionGoPubmedFile) {
-        this.accessionGoPubmedFile = accessionGoPubmedFile;
-    }
-
-    public void setUniProtEntryFile(String uniProtEntryFile) {
-        this.uniProtEntryFile = uniProtEntryFile;
-    }
-
-    public void setDiseaseFile(String diseaseFile) {
-        this.diseaseFile = diseaseFile;
-    }
-
-    public void setKeywordFile(String keywordFile) {
-        this.keywordFile = keywordFile;
-    }
-
-    public String getPathwayFile() {
-        return pathwayFile;
-    }
-
-    public void setPathwayFile(String pathwayFile) {
-        this.pathwayFile = pathwayFile;
-    }
-
-    public String getTaxonomyFile() {
-        return taxonomyFile;
-    }
-
-    public void setTaxonomyFile(String taxonomyFile) {
-        this.taxonomyFile = taxonomyFile;
-    }
-
-    public String getGoDir() {
-        return goDir;
-    }
-
-    public void setGoDir(String goDir) {
-        this.goDir = goDir;
-    }
 }

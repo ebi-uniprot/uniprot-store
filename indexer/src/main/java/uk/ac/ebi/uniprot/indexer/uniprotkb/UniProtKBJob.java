@@ -39,8 +39,8 @@ public class UniProtKBJob {
                         // no-op
                     }
 
-                    // Hard commit contents of repository once job has finished
-                    // delegate all other commits to 'autoCommit' element of solrconfig.xml
+                    // Hard commit contents of repository once job has finished.
+                    // Delegate all other commits to 'autoCommit' element of solrconfig.xml
                     @Override public void afterJob(JobExecution jobExecution) {
                         solrTemplate.commit(SolrCollection.uniprot.name());
                     }

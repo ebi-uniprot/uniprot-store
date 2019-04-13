@@ -6,7 +6,6 @@ import org.springframework.batch.item.ItemWriter;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Profile;
 import org.springframework.data.solr.core.SolrTemplate;
 import uk.ac.ebi.uniprot.indexer.document.SolrCollection;
 import uk.ac.ebi.uniprot.indexer.uniprot.go.GoRelationFileReader;
@@ -53,7 +52,6 @@ public class UniProtKBConfig {
     }
 
     @Bean
-    @Profile("online")     // TODO: 13/04/19 make fault tolerance tests work without this
     public ItemWriter<ConvertableEntry> uniProtDocumentItemWriter() {
         return new ConvertableEntryWriter(this.solrTemplate, SolrCollection.uniprot);
     }
