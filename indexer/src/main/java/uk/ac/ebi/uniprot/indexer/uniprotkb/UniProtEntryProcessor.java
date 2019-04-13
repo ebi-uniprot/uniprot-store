@@ -177,7 +177,6 @@ public class UniProtEntryProcessor implements ItemProcessor<ConvertableEntry, Co
             setDefaultSearchContent(doc);
             return convertableEntry;
         } catch (IllegalArgumentException | NullPointerException e) {
-            // TODO: 13/04/19 test this branch
             writeFailedEntryToFile(uniProtEntry);
             String acc = uniProtEntry.getPrimaryAccession().getValue();
             throw new DocumentConversionException("Error occurred whilst trying to convert UniProt entry: " + acc, e);

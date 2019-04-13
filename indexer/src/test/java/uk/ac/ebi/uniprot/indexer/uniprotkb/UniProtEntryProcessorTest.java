@@ -1,8 +1,9 @@
 package uk.ac.ebi.uniprot.indexer.uniprotkb;
 
 import org.apache.commons.io.IOUtils;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import uk.ac.ebi.uniprot.domain.builder.SequenceBuilder;
 import uk.ac.ebi.uniprot.domain.uniprot.UniProtEntry;
 import uk.ac.ebi.uniprot.domain.uniprot.UniProtEntryType;
@@ -14,6 +15,7 @@ import uk.ac.ebi.uniprot.flatfile.parser.SupportingDataMap;
 import uk.ac.ebi.uniprot.flatfile.parser.impl.DefaultUniProtParser;
 import uk.ac.ebi.uniprot.flatfile.parser.impl.SupportingDataMapImpl;
 import uk.ac.ebi.uniprot.flatfile.parser.impl.cc.CcLineTransformer;
+import uk.ac.ebi.uniprot.indexer.common.DocumentConversionException;
 import uk.ac.ebi.uniprot.indexer.document.uniprot.UniProtDocument;
 import uk.ac.ebi.uniprot.indexer.uniprot.go.GoRelationRepo;
 import uk.ac.ebi.uniprot.indexer.uniprot.go.GoTerm;
@@ -24,19 +26,26 @@ import uk.ac.ebi.uniprot.indexer.uniprot.taxonomy.TaxonomicNode;
 import uk.ac.ebi.uniprot.indexer.uniprot.taxonomy.TaxonomyRepo;
 
 import java.io.InputStream;
+import java.io.PrintWriter;
 import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static java.util.Arrays.asList;
+import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
 import static org.junit.Assert.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Matchers.anyInt;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 import static uk.ac.ebi.uniprot.indexer.uniprotkb.UniProtEntryProcessor.*;
 
 /**
@@ -44,7 +53,8 @@ import static uk.ac.ebi.uniprot.indexer.uniprotkb.UniProtEntryProcessor.*;
  *
  * @author Edd
  */
-public class UniProtEntryProcessorTest {
+class UniProtEntryProcessorTest {
+    private static final String INDEXING_DOC_CONVERSION_FAILED_ENTRIES_LOG = "indexing-doc-conversion-failed-entries.error";
     private static final String CC_ALTERNATIVE_PRODUCTS_FIELD = "cc_alternative_products";
     private static final String CCEV_ALTERNATIVE_PRODUCTS_FIELD = "ccev_alternative_products";
     private static final String CC_COFACTOR_FIELD = "cc_cofactor";
@@ -66,8 +76,8 @@ public class UniProtEntryProcessorTest {
     private TaxonomyRepo repoMock;
     private GoRelationRepo goRelationRepoMock;
 
-    @Before
-    public void setUp() {
+    @BeforeEach
+    void setUp() {
         repoMock = mock(TaxonomyRepo.class);
         goRelationRepoMock = mock(GoRelationRepo.class);
         entryProcessor = new UniProtEntryProcessor(repoMock, goRelationRepoMock, mock(KeywordRepo.class), mock(PathwayRepo.class));
@@ -75,7 +85,7 @@ public class UniProtEntryProcessorTest {
     }
 
     @Test
-    public void testConvertFullA0PHU1Entry() throws Exception {
+    void testConvertFullA0PHU1Entry() throws Exception {
         when(repoMock.retrieveNodeUsingTaxID(anyInt()))
                 .thenReturn(getTaxonomyNode(172543, "Cichlasoma festae", null, null, null));
         when(goRelationRepoMock.getIsA("GO:0016021")).thenReturn(getMockParentGoTerm());
@@ -206,7 +216,7 @@ public class UniProtEntryProcessorTest {
     }
 
     @Test
-    public void testConvertFullQ9EPI6Entry() throws Exception {
+    void testConvertFullQ9EPI6Entry() throws Exception {
         when(repoMock.retrieveNodeUsingTaxID(anyInt()))
                 .thenReturn(getTaxonomyNode(10116, "Rattus norvegicus", "Rat", null, null));
 
@@ -369,7 +379,7 @@ public class UniProtEntryProcessorTest {
     }
 
     @Test
-    public void testConvertIsoformEntry() throws Exception {
+    void testConvertIsoformEntry() throws Exception {
         when(repoMock.retrieveNodeUsingTaxID(anyInt()))
                 .thenReturn(getTaxonomyNode(10116, "Rattus norvegicus", "Rat", null, null));
 
@@ -512,7 +522,7 @@ public class UniProtEntryProcessorTest {
     }
 
     @Test
-    public void testConvertIsoformCanonical() throws Exception {
+    void testConvertIsoformCanonical() throws Exception {
         when(repoMock.retrieveNodeUsingTaxID(anyInt())).thenReturn(Optional.<TaxonomicNode>empty());
 
         String file = "Q9EPI6-1.sp";
@@ -532,7 +542,7 @@ public class UniProtEntryProcessorTest {
     }
 
     @Test
-    public void givenTooLongFieldValue_whenTruncatedSortFieldValueGenerated_thenEnsureItHasCorrectSize() {
+    void givenTooLongFieldValue_whenTruncatedSortFieldValueGenerated_thenEnsureItHasCorrectSize() {
         char[] sortValueArr = new char[SORT_FIELD_MAX_LENGTH + 10];
         Arrays.fill(sortValueArr, 'X');
         String sortValue = new String(sortValueArr);
@@ -542,7 +552,7 @@ public class UniProtEntryProcessorTest {
     }
 
     @Test
-    public void givenSmallFieldValue_whenTruncatedSortFieldValueGenerated_thenEnsureItHasCorrectSize() {
+    void givenSmallFieldValue_whenTruncatedSortFieldValueGenerated_thenEnsureItHasCorrectSize() {
         String sortValue = "hello world";
 
         String truncatedSortValue = truncatedSortValue(sortValue);
@@ -551,7 +561,7 @@ public class UniProtEntryProcessorTest {
     }
 
     @Test
-    public void givenSmallAvroDefaultField_whenTruncated_thenDefaultIsSet() {
+    void givenSmallAvroDefaultField_whenTruncated_thenDefaultIsSet() {
         String fakeBase64String = "hello world";
 
         String defaultBinaryValue = getDefaultBinaryValue(fakeBase64String);
@@ -560,7 +570,7 @@ public class UniProtEntryProcessorTest {
     }
 
     @Test
-    public void givenLargeAvroDefaultField_whenTruncated_thenDefaultIsNotSet() {
+    void givenLargeAvroDefaultField_whenTruncated_thenDefaultIsNotSet() {
         char[] fakeSortValueArr = new char[MAX_STORED_FIELD_LENGTH + 10];
         Arrays.fill(fakeSortValueArr, 'X');
         String fakeBase64String = new String(fakeSortValueArr);
@@ -571,7 +581,7 @@ public class UniProtEntryProcessorTest {
     }
 
     @Test
-    public void testAlternativeProductsCommentConvertProperlyToDocument() {
+    void testAlternativeProductsCommentConvertProperlyToDocument() {
         String alternativeLine = "CC   -!- ALTERNATIVE PRODUCTS:\n" +
                 "CC       Event=Alternative promoter usage, Alternative initiation; Named isoforms=3;\n" +
                 "CC       Name=Genome polyprotein;\n" +
@@ -620,7 +630,7 @@ public class UniProtEntryProcessorTest {
     }
 
     @Test
-    public void testCofactorCommentConvertProperlyToDocument() {
+    void testCofactorCommentConvertProperlyToDocument() {
         String cofactorLine = "CC   -!- COFACTOR: RNA-directed RNA polymerase:\n" +
                 "CC       Name=Mg(2+); Xref=ChEBI:CHEBI:18420;\n" +
                 "CC         Evidence={ECO:0000250|UniProtKB:P03313};\n" +
@@ -654,7 +664,7 @@ public class UniProtEntryProcessorTest {
     }
 
     @Test
-    public void testBPCPCommentConvertProperlyToDocument() {
+    void testBPCPCommentConvertProperlyToDocument() {
         String bpcpLine = "CC   -!- BIOPHYSICOCHEMICAL PROPERTIES:\n" +
                 "CC       pH dependence:\n" +
                 "CC         Optimum pH is 5.0 for protease activity.\n" +
@@ -733,7 +743,7 @@ public class UniProtEntryProcessorTest {
     }
 
     @Test
-    public void testSequenceCautionCommentConvertProperlyToDocument() throws Exception {
+    void testSequenceCautionCommentConvertProperlyToDocument() throws Exception {
         String sequenceCautionLine = "CC   -!- SEQUENCE CAUTION:\n" +
                 "CC       Sequence=CAB59730.1; Type=Frameshift; Positions=76, 138; Evidence={ECO:0000305};\n" +
                 "CC   -!- SEQUENCE CAUTION:\n" +
@@ -790,7 +800,7 @@ public class UniProtEntryProcessorTest {
     }
 
     @Test
-    public void testSubcellularLocationCommentConvertProperlyToDocument() throws Exception {
+    void testSubcellularLocationCommentConvertProperlyToDocument() throws Exception {
         String subcellularLocationLine = "CC   -!- SUBCELLULAR LOCATION: Capsid protein: Virion. Host cytoplasm.\n" +
                 "CC   -!- SUBCELLULAR LOCATION: Small envelope protein M: Virion membrane\n" +
                 "CC       {ECO:0000250|UniProtKB:P03314}; Multi-pass membrane protein\n" +
@@ -823,6 +833,48 @@ public class UniProtEntryProcessorTest {
 
         assertEquals(2, doc.subcellLocationNoteEv.size());
         assertTrue(doc.subcellLocationNoteEv.contains("ECO_0000250"));
+    }
+
+    @Test
+    void onConversionErrorWriteFailedEntryToFile() throws Exception {
+        // GIVEN --------------------------------
+        String logFileNameForErrors = INDEXING_DOC_CONVERSION_FAILED_ENTRIES_LOG;
+        Path logFileForErrors = Paths.get(logFileNameForErrors);
+        // truncate any previous log file used to store document conversion errors ...
+        // so that we can check for new content later
+        if (Files.exists(logFileForErrors)) {
+            PrintWriter fileWriter = new PrintWriter(logFileNameForErrors);
+            fileWriter.print("");
+            fileWriter.close();
+        }
+
+        String accession = "Q9EPI6";
+        String file = accession + ".sp";
+        UniProtEntry entry = parse(file);
+        assertNotNull(entry);
+
+        ConvertableEntry convertableEntryMock = mock(ConvertableEntry.class);
+        doThrow(NullPointerException.class).when(convertableEntryMock).convertsTo(any());
+        when(convertableEntryMock.getEntry()).thenReturn(entry);
+
+        // WHEN --------------------------------
+        // ensure an exception is thrown when being processed
+        Assertions.assertThrows(DocumentConversionException.class, () -> {
+            entryProcessor.process(convertableEntryMock);
+        });
+
+        // wait for the file to be written
+        Thread.sleep(500);
+
+        // THEN --------------------------------
+        // ensure this entry is written to the error log
+        assertTrue(Files.exists(logFileForErrors));
+
+        // sanity check: ensure the error log contains the correct accession
+        Stream<String> lines = Files.lines(logFileForErrors);
+        List<String> acLinesForAccession = lines.filter(l -> l.startsWith("AC   " + accession))
+                .collect(Collectors.toList());
+        assertThat(acLinesForAccession, hasSize(1));
     }
 
     private UniProtEntry parse(String file) throws Exception {
