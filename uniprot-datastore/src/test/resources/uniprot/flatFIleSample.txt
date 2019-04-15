@@ -1,0 +1,1029 @@
+ID   A0A021WW32_DROME        Unreviewed;       633 AA.
+AC   A0A021WW32;
+DT   11-JUN-2014, integrated into UniProtKB/TrEMBL.
+DT   11-JUN-2014, sequence version 1.
+DT   05-JUL-2017, entry version 30.
+DE   SubName: Full=Verthandi, isoform B {ECO:0000313|EMBL:EYR77328.1};
+GN   Name=vtd {ECO:0000313|EMBL:EYR77328.1,
+GN   ECO:0000313|FlyBase:FBgn0260987};
+GN   Synonyms=80Fh {ECO:0000313|EMBL:EYR77328.1},
+GN   Dmel\CG17436 {ECO:0000313|EMBL:EYR77328.1},
+GN   DmRAD21 {ECO:0000313|EMBL:EYR77328.1},
+GN   DRAD21 {ECO:0000313|EMBL:EYR77328.1},
+GN   DRad21 {ECO:0000313|EMBL:EYR77328.1},
+GN   Drad21 {ECO:0000313|EMBL:EYR77328.1},
+GN   dRad21 {ECO:0000313|EMBL:EYR77328.1},
+GN   drad21 {ECO:0000313|EMBL:EYR77328.1},
+GN   l(3)80Fh {ECO:0000313|EMBL:EYR77328.1},
+GN   l(3)Lh3 {ECO:0000313|EMBL:EYR77328.1},
+GN   l3 {ECO:0000313|EMBL:EYR77328.1},
+GN   lethal 3 {ECO:0000313|EMBL:EYR77328.1},
+GN   RAD21 {ECO:0000313|EMBL:EYR77328.1},
+GN   Rad21 {ECO:0000313|EMBL:EYR77328.1},
+GN   rad21 {ECO:0000313|EMBL:EYR77328.1},
+GN   Scc1 {ECO:0000313|EMBL:EYR77328.1},
+GN   scc1 {ECO:0000313|EMBL:EYR77328.1}, VTD {ECO:0000313|EMBL:EYR77328.1};
+GN   ORFNames=CG17436 {ECO:0000313|EMBL:EYR77328.1,
+GN   ECO:0000313|FlyBase:FBgn0260987},
+GN   CG40222 {ECO:0000313|EMBL:EYR77328.1},
+GN   Dmel_CG17436 {ECO:0000313|EMBL:EYR77328.1};
+OS   Drosophila melanogaster (Fruit fly).
+OC   Eukaryota; Metazoa; Ecdysozoa; Arthropoda; Hexapoda; Insecta;
+OC   Pterygota; Neoptera; Holometabola; Diptera; Brachycera; Muscomorpha;
+OC   Ephydroidea; Drosophilidae; Drosophila; Sophophora.
+OX   NCBI_TaxID=7227 {ECO:0000313|EMBL:EYR77328.1, ECO:0000313|Proteomes:UP000000803};
+RN   [1] {ECO:0000313|EMBL:EYR77328.1, ECO:0000313|Proteomes:UP000000803}
+RP   NUCLEOTIDE SEQUENCE [LARGE SCALE GENOMIC DNA].
+RC   STRAIN=Berkeley {ECO:0000313|Proteomes:UP000000803};
+RX   PubMed=10731132; DOI=10.1126/science.287.5461.2185;
+RA   Adams M.D., Celniker S.E., Holt R.A., Evans C.A., Gocayne J.D.,
+RA   Amanatides P.G., Scherer S.E., Li P.W., Hoskins R.A., Galle R.F.,
+RA   George R.A., Lewis S.E., Richards S., Ashburner M., Henderson S.N.,
+RA   Sutton G.G., Wortman J.R., Yandell M.D., Zhang Q., Chen L.X.,
+RA   Brandon R.C., Rogers Y.H., Blazej R.G., Champe M., Pfeiffer B.D.,
+RA   Wan K.H., Doyle C., Baxter E.G., Helt G., Nelson C.R., Gabor G.L.,
+RA   Abril J.F., Agbayani A., An H.J., Andrews-Pfannkoch C., Baldwin D.,
+RA   Ballew R.M., Basu A., Baxendale J., Bayraktaroglu L., Beasley E.M.,
+RA   Beeson K.Y., Benos P.V., Berman B.P., Bhandari D., Bolshakov S.,
+RA   Borkova D., Botchan M.R., Bouck J., Brokstein P., Brottier P.,
+RA   Burtis K.C., Busam D.A., Butler H., Cadieu E., Center A., Chandra I.,
+RA   Cherry J.M., Cawley S., Dahlke C., Davenport L.B., Davies P.,
+RA   de Pablos B., Delcher A., Deng Z., Mays A.D., Dew I., Dietz S.M.,
+RA   Dodson K., Doup L.E., Downes M., Dugan-Rocha S., Dunkov B.C., Dunn P.,
+RA   Durbin K.J., Evangelista C.C., Ferraz C., Ferriera S., Fleischmann W.,
+RA   Fosler C., Gabrielian A.E., Garg N.S., Gelbart W.M., Glasser K.,
+RA   Glodek A., Gong F., Gorrell J.H., Gu Z., Guan P., Harris M.,
+RA   Harris N.L., Harvey D., Heiman T.J., Hernandez J.R., Houck J.,
+RA   Hostin D., Houston K.A., Howland T.J., Wei M.H., Ibegwam C.,
+RA   Jalali M., Kalush F., Karpen G.H., Ke Z., Kennison J.A., Ketchum K.A.,
+RA   Kimmel B.E., Kodira C.D., Kraft C., Kravitz S., Kulp D., Lai Z.,
+RA   Lasko P., Lei Y., Levitsky A.A., Li J., Li Z., Liang Y., Lin X.,
+RA   Liu X., Mattei B., McIntosh T.C., McLeod M.P., McPherson D.,
+RA   Merkulov G., Milshina N.V., Mobarry C., Morris J., Moshrefi A.,
+RA   Mount S.M., Moy M., Murphy B., Murphy L., Muzny D.M., Nelson D.L.,
+RA   Nelson D.R., Nelson K.A., Nixon K., Nusskern D.R., Pacleb J.M.,
+RA   Palazzolo M., Pittman G.S., Pan S., Pollard J., Puri V., Reese M.G.,
+RA   Reinert K., Remington K., Saunders R.D., Scheeler F., Shen H.,
+RA   Shue B.C., Siden-Kiamos I., Simpson M., Skupski M.P., Smith T.,
+RA   Spier E., Spradling A.C., Stapleton M., Strong R., Sun E.,
+RA   Svirskas R., Tector C., Turner R., Venter E., Wang A.H., Wang X.,
+RA   Wang Z.Y., Wassarman D.A., Weinstock G.M., Weissenbach J.,
+RA   Williams S.M., WoodageT, Worley K.C., Wu D., Yang S., Yao Q.A., Ye J.,
+RA   Yeh R.F., Zaveri J.S., Zhan M., Zhang G., Zhao Q., Zheng L.,
+RA   Zheng X.H., Zhong F.N., Zhong W., Zhou X., Zhu S., Zhu X., Smith H.O.,
+RA   Gibbs R.A., Myers E.W., Rubin G.M., Venter J.C.;
+RT   "The genome sequence of Drosophila melanogaster.";
+RL   Science 287:2185-2195(2000).
+RN   [2] {ECO:0000313|EMBL:EYR77328.1, ECO:0000313|Proteomes:UP000000803}
+RP   NUCLEOTIDE SEQUENCE [LARGE SCALE GENOMIC DNA].
+RC   STRAIN=Berkeley {ECO:0000313|Proteomes:UP000000803};
+RX   PubMed=12537568;
+RA   Celniker S.E., Wheeler D.A., Kronmiller B., Carlson J.W., Halpern A.,
+RA   Patel S., Adams M., Champe M., Dugan S.P., Frise E., Hodgson A.,
+RA   George R.A., Hoskins R.A., Laverty T., Muzny D.M., Nelson C.R.,
+RA   Pacleb J.M., Park S., Pfeiffer B.D., Richards S., Sodergren E.J.,
+RA   Svirskas R., Tabor P.E., Wan K., Stapleton M., Sutton G.G., Venter C.,
+RA   Weinstock G., Scherer S.E., Myers E.W., Gibbs R.A., Rubin G.M.;
+RT   "Finishing a whole-genome shotgun: release 3 of the Drosophila
+RT   melanogaster euchromatic genome sequence.";
+RL   Genome Biol. 3:RESEARCH0079-RESEARCH0079(2002).
+RN   [3] {ECO:0000313|EMBL:EYR77328.1, ECO:0000313|Proteomes:UP000000803}
+RP   GENOME REANNOTATION.
+RC   STRAIN=Berkeley {ECO:0000313|Proteomes:UP000000803};
+RX   PubMed=12537572; DOI=10.1186/gb-2002-3-12-research0083;
+RA   Misra S., Crosby M.A., Mungall C.J., Matthews B.B., Campbell K.S.,
+RA   Hradecky P., Huang Y., Kaminker J.S., Millburn G.H., Prochnik S.E.,
+RA   Smith C.D., Tupy J.L., Whitfied E.J., Bayraktaroglu L., Berman B.P.,
+RA   Bettencourt B.R., Celniker S.E., de Grey A.D., Drysdale R.A.,
+RA   Harris N.L., Richter J., Russo S., Schroeder A.J., Shu S.Q.,
+RA   Stapleton M., Yamada C., Ashburner M., Gelbart W.M., Rubin G.M.,
+RA   Lewis S.E.;
+RT   "Annotation of the Drosophila melanogaster euchromatic genome: a
+RT   systematic review.";
+RL   Genome Biol. 3:RESEARCH0083.1-RESEARCH0083.22(2002).
+RN   [4] {ECO:0000313|EMBL:EYR77328.1, ECO:0000313|Proteomes:UP000000803}
+RP   NUCLEOTIDE SEQUENCE [LARGE SCALE GENOMIC DNA].
+RC   STRAIN=Berkeley {ECO:0000313|Proteomes:UP000000803};
+RX   PubMed=12537573;
+RA   Kaminker J.S., Bergman C.M., Kronmiller B., Carlson J., Svirskas R.,
+RA   Patel S., Frise E., Wheeler D.A., Lewis S.E., Rubin G.M.,
+RA   Ashburner M., Celniker S.E.;
+RT   "The transposable elements of the Drosophila melanogaster euchromatin:
+RT   a genomics perspective.";
+RL   Genome Biol. 3:RESEARCH0084-RESEARCH0084(2002).
+RN   [5] {ECO:0000313|EMBL:EYR77328.1, ECO:0000313|Proteomes:UP000000803}
+RP   NUCLEOTIDE SEQUENCE [LARGE SCALE GENOMIC DNA].
+RC   STRAIN=Berkeley {ECO:0000313|Proteomes:UP000000803};
+RX   PubMed=12537574;
+RA   Hoskins R.A., Smith C.D., Carlson J.W., Carvalho A.B., Halpern A.,
+RA   Kaminker J.S., Kennedy C., Mungall C.J., Sullivan B.A., Sutton G.G.,
+RA   Yasuhara J.C., Wakimoto B.T., Myers E.W., Celniker S.E., Rubin G.M.,
+RA   Karpen G.H.;
+RT   "Heterochromatic sequences in a Drosophila whole-genome shotgun
+RT   assembly.";
+RL   Genome Biol. 3:RESEARCH0085-RESEARCH0085(2002).
+RN   [6] {ECO:0000313|EMBL:EYR77328.1, ECO:0000313|Proteomes:UP000000803}
+RP   NUCLEOTIDE SEQUENCE [LARGE SCALE GENOMIC DNA].
+RC   STRAIN=Berkeley {ECO:0000313|Proteomes:UP000000803};
+RX   PubMed=16110336; DOI=10.1371/journal.pcbi.0010022;
+RA   Quesneville H., Bergman C.M., Andrieu O., Autard D., Nouaud D.,
+RA   Ashburner M., Anxolabehere D.;
+RT   "Combined evidence annotation of transposable elements in genome
+RT   sequences.";
+RL   PLoS Comput. Biol. 1:166-175(2005).
+RN   [7] {ECO:0000313|EMBL:EYR77328.1, ECO:0000313|Proteomes:UP000000803}
+RP   NUCLEOTIDE SEQUENCE [LARGE SCALE GENOMIC DNA].
+RC   STRAIN=Berkeley {ECO:0000313|Proteomes:UP000000803};
+RX   PubMed=17569856; DOI=10.1126/science.1139815;
+RA   Smith C.D., Shu S., Mungall C.J., Karpen G.H.;
+RT   "The Release 5.1 annotation of Drosophila melanogaster
+RT   heterochromatin.";
+RL   Science 316:1586-1591(2007).
+RN   [8] {ECO:0000313|EMBL:EYR77328.1, ECO:0000313|Proteomes:UP000000803}
+RP   NUCLEOTIDE SEQUENCE [LARGE SCALE GENOMIC DNA].
+RC   STRAIN=Berkeley {ECO:0000313|Proteomes:UP000000803};
+RX   PubMed=17569867; DOI=10.1126/science.1139816;
+RA   Hoskins R.A., Carlson J.W., Kennedy C., Acevedo D., Evans-Holm M.,
+RA   Frise E., Wan K.H., Park S., Mendez-Lago M., Rossi F., Villasante A.,
+RA   Dimitri P., Karpen G.H., Celniker S.E.;
+RT   "Sequence finishing and mapping of Drosophila melanogaster
+RT   heterochromatin.";
+RL   Science 316:1625-1628(2007).
+CC   -----------------------------------------------------------------------
+CC   Copyrighted by the UniProt Consortium, see https://www.uniprot.org/terms
+CC   Distributed under the Creative Commons Attribution-NoDerivs License
+CC   -----------------------------------------------------------------------
+DR   EMBL; AE014296; EYR77328.1; -; Genomic_DNA.
+DR   RefSeq; NP_001287640.1; NM_001300711.1.
+DR   UniGene; Dm.3062; -.
+DR   SMR; A0A021WW32; -.
+DR   PaxDb; A0A021WW32; -.
+DR   EnsemblMetazoa; FBtr0344093; FBpp0310518; FBgn0260987.
+DR   GeneID; 3354896; -.
+DR   CTD; 3354896; -.
+DR   FlyBase; FBgn0260987; vtd.
+DR   eggNOG; KOG1213; Eukaryota.
+DR   eggNOG; ENOG410XRB4; LUCA.
+DR   GeneTree; ENSGT00390000011606; -.
+DR   OrthoDB; EOG091G03QW; -.
+DR   Reactome; R-DME-2468052; Establishment of Sister Chromatid Cohesion.
+DR   Reactome; R-DME-2470946; Cohesin Loading onto Chromatin.
+DR   Reactome; R-DME-2500257; Resolution of Sister Chromatid Cohesion.
+DR   GenomeRNAi; 3354896; -.
+DR   Proteomes; UP000000803; Chromosome 3L.
+DR   ExpressionAtlas; A0A021WW32; differential.
+DR   GO; GO:0000775; C:chromosome, centromeric region; NAS:FlyBase.
+DR   GO; GO:0008278; C:cohesin complex; IDA:FlyBase.
+DR   GO; GO:0005634; C:nucleus; IDA:FlyBase.
+DR   GO; GO:0005721; C:pericentric heterochromatin; IDA:FlyBase.
+DR   GO; GO:0005705; C:polytene chromosome interband; IDA:FlyBase.
+DR   GO; GO:0000795; C:synaptonemal complex; IDA:FlyBase.
+DR   GO; GO:0003682; F:chromatin binding; ISS:FlyBase.
+DR   GO; GO:0000278; P:mitotic cell cycle; IMP:FlyBase.
+DR   GO; GO:0007064; P:mitotic sister chromatid cohesion; IMP:FlyBase.
+DR   GO; GO:0016322; P:neuron remodeling; IMP:FlyBase.
+DR   GO; GO:0010628; P:positive regulation of gene expression; IGI:FlyBase.
+DR   GO; GO:0070193; P:synaptonemal complex organization; IMP:FlyBase.
+DR   InterPro; IPR006910; Rad21_Rec8_N.
+DR   Pfam; PF04825; Rad21_Rec8_N; 1.
+PE   1: Evidence at protein level;
+KW   Complete proteome {ECO:0000313|Proteomes:UP000000803};
+KW   Proteomics identification {ECO:0000213|PeptideAtlas:A0A021WW32};
+KW   Reference proteome {ECO:0000313|Proteomes:UP000000803}.
+FT   DOMAIN        1    102       Rad21_Rec8_N. {ECO:0000259|Pfam:PF04825}.
+SQ   SEQUENCE   633 AA;  70585 MW;  B0CE497A95A449A3 CRC64;
+     MFYEHIILAK KGPLARIWLA AHWDKKITKA HVFETNIEKS VEGILQPKVK LALRTSGHLL
+     LGVVRIYSRK AKYLLADCNE AFVKIKMAFR PGMVDLPEGH REANVNAITL PEVFHDFDTA
+     LPELNDIDIE AQFSINQSRA DEITMREDYG SLSLSLQDDG FGDIGFEAET PEIIRCSIPS
+     NINDKIFDND VLENIESLDP HSLDAHADMP GSRLDGDGFG DSFGQPALFE DDLFGDPSQP
+     VEQITKESTT VLNADDSDED AIDNIHNVPS PATSLVNSIE DEKEENNLNG HASVSENVPM
+     NEITLVQNED EGFALAPLDV SMYKGVTKAK RKRKLIIDEI KNISGEEMKA QLADTSDILT
+     TLDLAPPTKR LMYWKETGGV EKLFSLPSRS IPARALFGNY NRQLFSHSTF FEDFSSVVPM
+     EILALEFYTK ENENALIIFN KKGRKRKNDN MSNLFLDHVP DSVVQSLEAP EVLRANHKSL
+     GVSTVSVEIV SKEQESISCQ NELTFFDNMR SPDLLSLNEM EQFSSINELP LTPRNMNHEM
+     GDDFNQGDST PAGLDHGHAT PQHGNIGEMD HDSVIPTKKT AVILNESVGT SVLSDNGVSK
+     RTNNILKGWD NYEIPSFVGQ GIRHAGHCYQ QYH
+//
+ID   A0A023GRW4_DROME        Unreviewed;      3989 AA.
+AC   A0A023GRW4;
+DT   11-JUN-2014, integrated into UniProtKB/TrEMBL.
+DT   11-JUN-2014, sequence version 1.
+DT   05-JUL-2017, entry version 34.
+DE   SubName: Full=Terribly reduced optic lobes, isoform AZ {ECO:0000313|EMBL:ABW09330.3};
+GN   Name=trol {ECO:0000313|EMBL:ABW09330.3,
+GN   ECO:0000313|FlyBase:FBgn0284408};
+GN   ORFNames=CG33950 {ECO:0000313|FlyBase:FBgn0284408},
+GN   Dmel_CG33950 {ECO:0000313|EMBL:ABW09330.3};
+OS   Drosophila melanogaster (Fruit fly).
+OC   Eukaryota; Metazoa; Ecdysozoa; Arthropoda; Hexapoda; Insecta;
+OC   Pterygota; Neoptera; Holometabola; Diptera; Brachycera; Muscomorpha;
+OC   Ephydroidea; Drosophilidae; Drosophila; Sophophora.
+OX   NCBI_TaxID=7227 {ECO:0000313|EMBL:ABW09330.3, ECO:0000313|Proteomes:UP000000803};
+RN   [1] {ECO:0000313|EMBL:ABW09330.3, ECO:0000313|Proteomes:UP000000803}
+RP   NUCLEOTIDE SEQUENCE [LARGE SCALE GENOMIC DNA].
+RC   STRAIN=Berkeley {ECO:0000313|Proteomes:UP000000803};
+RX   PubMed=10731132; DOI=10.1126/science.287.5461.2185;
+RA   Adams M.D., Celniker S.E., Holt R.A., Evans C.A., Gocayne J.D.,
+RA   Amanatides P.G., Scherer S.E., Li P.W., Hoskins R.A., Galle R.F.,
+RA   George R.A., Lewis S.E., Richards S., Ashburner M., Henderson S.N.,
+RA   Sutton G.G., Wortman J.R., Yandell M.D., Zhang Q., Chen L.X.,
+RA   Brandon R.C., Rogers Y.H., Blazej R.G., Champe M., Pfeiffer B.D.,
+RA   Wan K.H., Doyle C., Baxter E.G., Helt G., Nelson C.R., Gabor G.L.,
+RA   Abril J.F., Agbayani A., An H.J., Andrews-Pfannkoch C., Baldwin D.,
+RA   Ballew R.M., Basu A., Baxendale J., Bayraktaroglu L., Beasley E.M.,
+RA   Beeson K.Y., Benos P.V., Berman B.P., Bhandari D., Bolshakov S.,
+RA   Borkova D., Botchan M.R., Bouck J., Brokstein P., Brottier P.,
+RA   Burtis K.C., Busam D.A., Butler H., Cadieu E., Center A., Chandra I.,
+RA   Cherry J.M., Cawley S., Dahlke C., Davenport L.B., Davies P.,
+RA   de Pablos B., Delcher A., Deng Z., Mays A.D., Dew I., Dietz S.M.,
+RA   Dodson K., Doup L.E., Downes M., Dugan-Rocha S., Dunkov B.C., Dunn P.,
+RA   Durbin K.J., Evangelista C.C., Ferraz C., Ferriera S., Fleischmann W.,
+RA   Fosler C., Gabrielian A.E., Garg N.S., Gelbart W.M., Glasser K.,
+RA   Glodek A., Gong F., Gorrell J.H., Gu Z., Guan P., Harris M.,
+RA   Harris N.L., Harvey D., Heiman T.J., Hernandez J.R., Houck J.,
+RA   Hostin D., Houston K.A., Howland T.J., Wei M.H., Ibegwam C.,
+RA   Jalali M., Kalush F., Karpen G.H., Ke Z., Kennison J.A., Ketchum K.A.,
+RA   Kimmel B.E., Kodira C.D., Kraft C., Kravitz S., Kulp D., Lai Z.,
+RA   Lasko P., Lei Y., Levitsky A.A., Li J., Li Z., Liang Y., Lin X.,
+RA   Liu X., Mattei B., McIntosh T.C., McLeod M.P., McPherson D.,
+RA   Merkulov G., Milshina N.V., Mobarry C., Morris J., Moshrefi A.,
+RA   Mount S.M., Moy M., Murphy B., Murphy L., Muzny D.M., Nelson D.L.,
+RA   Nelson D.R., Nelson K.A., Nixon K., Nusskern D.R., Pacleb J.M.,
+RA   Palazzolo M., Pittman G.S., Pan S., Pollard J., Puri V., Reese M.G.,
+RA   Reinert K., Remington K., Saunders R.D., Scheeler F., Shen H.,
+RA   Shue B.C., Siden-Kiamos I., Simpson M., Skupski M.P., Smith T.,
+RA   Spier E., Spradling A.C., Stapleton M., Strong R., Sun E.,
+RA   Svirskas R., Tector C., Turner R., Venter E., Wang A.H., Wang X.,
+RA   Wang Z.Y., Wassarman D.A., Weinstock G.M., Weissenbach J.,
+RA   Williams S.M., WoodageT, Worley K.C., Wu D., Yang S., Yao Q.A., Ye J.,
+RA   Yeh R.F., Zaveri J.S., Zhan M., Zhang G., Zhao Q., Zheng L.,
+RA   Zheng X.H., Zhong F.N., Zhong W., Zhou X., Zhu S., Zhu X., Smith H.O.,
+RA   Gibbs R.A., Myers E.W., Rubin G.M., Venter J.C.;
+RT   "The genome sequence of Drosophila melanogaster.";
+RL   Science 287:2185-2195(2000).
+RN   [2] {ECO:0000313|EMBL:ABW09330.3, ECO:0000313|Proteomes:UP000000803}
+RP   NUCLEOTIDE SEQUENCE [LARGE SCALE GENOMIC DNA].
+RC   STRAIN=Berkeley {ECO:0000313|Proteomes:UP000000803};
+RX   PubMed=12537568;
+RA   Celniker S.E., Wheeler D.A., Kronmiller B., Carlson J.W., Halpern A.,
+RA   Patel S., Adams M., Champe M., Dugan S.P., Frise E., Hodgson A.,
+RA   George R.A., Hoskins R.A., Laverty T., Muzny D.M., Nelson C.R.,
+RA   Pacleb J.M., Park S., Pfeiffer B.D., Richards S., Sodergren E.J.,
+RA   Svirskas R., Tabor P.E., Wan K., Stapleton M., Sutton G.G., Venter C.,
+RA   Weinstock G., Scherer S.E., Myers E.W., Gibbs R.A., Rubin G.M.;
+RT   "Finishing a whole-genome shotgun: release 3 of the Drosophila
+RT   melanogaster euchromatic genome sequence.";
+RL   Genome Biol. 3:RESEARCH0079-RESEARCH0079(2002).
+RN   [3] {ECO:0000313|EMBL:ABW09330.3, ECO:0000313|Proteomes:UP000000803}
+RP   GENOME REANNOTATION.
+RC   STRAIN=Berkeley {ECO:0000313|Proteomes:UP000000803};
+RX   PubMed=12537572; DOI=10.1186/gb-2002-3-12-research0083;
+RA   Misra S., Crosby M.A., Mungall C.J., Matthews B.B., Campbell K.S.,
+RA   Hradecky P., Huang Y., Kaminker J.S., Millburn G.H., Prochnik S.E.,
+RA   Smith C.D., Tupy J.L., Whitfied E.J., Bayraktaroglu L., Berman B.P.,
+RA   Bettencourt B.R., Celniker S.E., de Grey A.D., Drysdale R.A.,
+RA   Harris N.L., Richter J., Russo S., Schroeder A.J., Shu S.Q.,
+RA   Stapleton M., Yamada C., Ashburner M., Gelbart W.M., Rubin G.M.,
+RA   Lewis S.E.;
+RT   "Annotation of the Drosophila melanogaster euchromatic genome: a
+RT   systematic review.";
+RL   Genome Biol. 3:RESEARCH0083.1-RESEARCH0083.22(2002).
+RN   [4] {ECO:0000313|EMBL:ABW09330.3, ECO:0000313|Proteomes:UP000000803}
+RP   NUCLEOTIDE SEQUENCE [LARGE SCALE GENOMIC DNA].
+RC   STRAIN=Berkeley {ECO:0000313|Proteomes:UP000000803};
+RX   PubMed=12537573;
+RA   Kaminker J.S., Bergman C.M., Kronmiller B., Carlson J., Svirskas R.,
+RA   Patel S., Frise E., Wheeler D.A., Lewis S.E., Rubin G.M.,
+RA   Ashburner M., Celniker S.E.;
+RT   "The transposable elements of the Drosophila melanogaster euchromatin:
+RT   a genomics perspective.";
+RL   Genome Biol. 3:RESEARCH0084-RESEARCH0084(2002).
+RN   [5] {ECO:0000313|EMBL:ABW09330.3, ECO:0000313|Proteomes:UP000000803}
+RP   NUCLEOTIDE SEQUENCE [LARGE SCALE GENOMIC DNA].
+RC   STRAIN=Berkeley {ECO:0000313|Proteomes:UP000000803};
+RX   PubMed=12537574;
+RA   Hoskins R.A., Smith C.D., Carlson J.W., Carvalho A.B., Halpern A.,
+RA   Kaminker J.S., Kennedy C., Mungall C.J., Sullivan B.A., Sutton G.G.,
+RA   Yasuhara J.C., Wakimoto B.T., Myers E.W., Celniker S.E., Rubin G.M.,
+RA   Karpen G.H.;
+RT   "Heterochromatic sequences in a Drosophila whole-genome shotgun
+RT   assembly.";
+RL   Genome Biol. 3:RESEARCH0085-RESEARCH0085(2002).
+RN   [6] {ECO:0000313|EMBL:ABW09330.3, ECO:0000313|Proteomes:UP000000803}
+RP   NUCLEOTIDE SEQUENCE [LARGE SCALE GENOMIC DNA].
+RC   STRAIN=Berkeley {ECO:0000313|Proteomes:UP000000803};
+RX   PubMed=16110336; DOI=10.1371/journal.pcbi.0010022;
+RA   Quesneville H., Bergman C.M., Andrieu O., Autard D., Nouaud D.,
+RA   Ashburner M., Anxolabehere D.;
+RT   "Combined evidence annotation of transposable elements in genome
+RT   sequences.";
+RL   PLoS Comput. Biol. 1:166-175(2005).
+RN   [7] {ECO:0000313|EMBL:ABW09330.3, ECO:0000313|Proteomes:UP000000803}
+RP   NUCLEOTIDE SEQUENCE [LARGE SCALE GENOMIC DNA].
+RC   STRAIN=Berkeley {ECO:0000313|Proteomes:UP000000803};
+RX   PubMed=17569856; DOI=10.1126/science.1139815;
+RA   Smith C.D., Shu S., Mungall C.J., Karpen G.H.;
+RT   "The Release 5.1 annotation of Drosophila melanogaster
+RT   heterochromatin.";
+RL   Science 316:1586-1591(2007).
+RN   [8] {ECO:0000313|EMBL:ABW09330.3, ECO:0000313|Proteomes:UP000000803}
+RP   NUCLEOTIDE SEQUENCE [LARGE SCALE GENOMIC DNA].
+RC   STRAIN=Berkeley {ECO:0000313|Proteomes:UP000000803};
+RX   PubMed=17569867; DOI=10.1126/science.1139816;
+RA   Hoskins R.A., Carlson J.W., Kennedy C., Acevedo D., Evans-Holm M.,
+RA   Frise E., Wan K.H., Park S., Mendez-Lago M., Rossi F., Villasante A.,
+RA   Dimitri P., Karpen G.H., Celniker S.E.;
+RT   "Sequence finishing and mapping of Drosophila melanogaster
+RT   heterochromatin.";
+RL   Science 316:1625-1628(2007).
+CC   -!- CAUTION: Lacks conserved residue(s) required for the propagation
+CC       of feature annotation. {ECO:0000256|PROSITE-ProRule:PRU00460}.
+CC   -----------------------------------------------------------------------
+CC   Copyrighted by the UniProt Consortium, see https://www.uniprot.org/terms
+CC   Distributed under the Creative Commons Attribution-NoDerivs License
+CC   -----------------------------------------------------------------------
+DR   EMBL; AE014298; ABW09330.3; -; Genomic_DNA.
+DR   RefSeq; NP_001096869.3; NM_001103399.3.
+DR   UniGene; Dm.14114; -.
+DR   SMR; A0A023GRW4; -.
+DR   EnsemblMetazoa; FBtr0342825; FBpp0309661; FBgn0261451.
+DR   GeneID; 45320; -.
+DR   CTD; 45320; -.
+DR   FlyBase; FBgn0284408; trol.
+DR   GeneTree; ENSGT00860000133679; -.
+DR   OrthoDB; EOG091G048M; -.
+DR   GenomeRNAi; 45320; -.
+DR   Proteomes; UP000000803; Chromosome X.
+DR   ExpressionAtlas; A0A023GRW4; differential.
+DR   GO; GO:0007415; P:defasciculation of motor neuron axon; IMP:FlyBase.
+DR   GO; GO:0045199; P:maintenance of epithelial cell apical/basal polarity; IMP:FlyBase.
+DR   GO; GO:0008045; P:motor neuron axon guidance; IMP:FlyBase.
+DR   GO; GO:2001262; P:positive regulation of semaphorin-plexin signaling pathway; IGI:FlyBase.
+DR   GO; GO:0072347; P:response to anesthetic; IMP:FlyBase.
+DR   Gene3D; 2.60.40.10; -; 13.
+DR   InterPro; IPR013320; ConA-like_dom.
+DR   InterPro; IPR013032; EGF-like_CS.
+DR   InterPro; IPR000742; EGF-like_dom.
+DR   InterPro; IPR007110; Ig-like_dom.
+DR   InterPro; IPR013783; Ig-like_fold.
+DR   InterPro; IPR013098; Ig_I-set.
+DR   InterPro; IPR003599; Ig_sub.
+DR   InterPro; IPR003598; Ig_sub2.
+DR   InterPro; IPR013151; Immunoglobulin.
+DR   InterPro; IPR002049; Laminin_EGF.
+DR   InterPro; IPR001791; Laminin_G.
+DR   InterPro; IPR000034; Laminin_IV.
+DR   InterPro; IPR023415; LDLR_class-A_CS.
+DR   InterPro; IPR002172; LDrepeatLR_classA_rpt.
+DR   Pfam; PF00008; EGF; 1.
+DR   Pfam; PF07679; I-set; 2.
+DR   Pfam; PF00047; ig; 2.
+DR   Pfam; PF13895; Ig_2; 1.
+DR   Pfam; PF00052; Laminin_B; 3.
+DR   Pfam; PF00053; Laminin_EGF; 7.
+DR   Pfam; PF00054; Laminin_G_1; 1.
+DR   Pfam; PF02210; Laminin_G_2; 2.
+DR   Pfam; PF00057; Ldl_recept_a; 8.
+DR   PRINTS; PR00261; LDLRECEPTOR.
+DR   SMART; SM00181; EGF; 8.
+DR   SMART; SM00180; EGF_Lam; 6.
+DR   SMART; SM00409; IG; 13.
+DR   SMART; SM00408; IGc2; 13.
+DR   SMART; SM00281; LamB; 3.
+DR   SMART; SM00282; LamG; 3.
+DR   SMART; SM00192; LDLa; 11.
+DR   SUPFAM; SSF48726; SSF48726; 13.
+DR   SUPFAM; SSF49899; SSF49899; 3.
+DR   SUPFAM; SSF57424; SSF57424; 10.
+DR   PROSITE; PS00022; EGF_1; 4.
+DR   PROSITE; PS01186; EGF_2; 2.
+DR   PROSITE; PS50026; EGF_3; 4.
+DR   PROSITE; PS01248; EGF_LAM_1; 4.
+DR   PROSITE; PS50027; EGF_LAM_2; 5.
+DR   PROSITE; PS50835; IG_LIKE; 12.
+DR   PROSITE; PS50025; LAM_G_DOMAIN; 3.
+DR   PROSITE; PS51115; LAMININ_IVA; 3.
+DR   PROSITE; PS01209; LDLRA_1; 5.
+DR   PROSITE; PS50068; LDLRA_2; 11.
+PE   1: Evidence at protein level;
+KW   Complete proteome {ECO:0000313|Proteomes:UP000000803};
+KW   Disulfide bond {ECO:0000256|PROSITE-ProRule:PRU00460,
+KW   ECO:0000256|SAAS:SAAS00497469};
+KW   EGF-like domain {ECO:0000256|PROSITE-ProRule:PRU00076};
+KW   Immunoglobulin domain {ECO:0000256|SAAS:SAAS00442402};
+KW   Laminin EGF-like domain {ECO:0000256|PROSITE-ProRule:PRU00460,
+KW   ECO:0000256|SAAS:SAAS00580772};
+KW   Proteomics identification {ECO:0000213|PeptideAtlas:A0A023GRW4};
+KW   Reference proteome {ECO:0000313|Proteomes:UP000000803};
+KW   Repeat {ECO:0000256|SAAS:SAAS00814929}.
+FT   DOMAIN      873    960       Ig-like (immunoglobulin-like).
+FT                                {ECO:0000259|PROSITE:PS50835}.
+FT   DOMAIN     1097   1186       Ig-like (immunoglobulin-like).
+FT                                {ECO:0000259|PROSITE:PS50835}.
+FT   DOMAIN     1239   1417       Laminin IV type A.
+FT                                {ECO:0000259|PROSITE:PS51115}.
+FT   DOMAIN     1473   1528       Laminin EGF-like.
+FT                                {ECO:0000259|PROSITE:PS50027}.
+FT   DOMAIN     1474   1509       EGF-like. {ECO:0000259|PROSITE:PS50026}.
+FT   DOMAIN     1533   1579       Laminin EGF-like.
+FT                                {ECO:0000259|PROSITE:PS50027}.
+FT   DOMAIN     1607   1788       Laminin IV type A.
+FT                                {ECO:0000259|PROSITE:PS51115}.
+FT   DOMAIN     1777   1822       Laminin EGF-like.
+FT                                {ECO:0000259|PROSITE:PS50027}.
+FT   DOMAIN     1823   1872       Laminin EGF-like.
+FT                                {ECO:0000259|PROSITE:PS50027}.
+FT   DOMAIN     1894   1939       Laminin EGF-like.
+FT                                {ECO:0000259|PROSITE:PS50027}.
+FT   DOMAIN     1963   2138       Laminin IV type A.
+FT                                {ECO:0000259|PROSITE:PS51115}.
+FT   DOMAIN     2215   2306       Ig-like (immunoglobulin-like).
+FT                                {ECO:0000259|PROSITE:PS50835}.
+FT   DOMAIN     2317   2399       Ig-like (immunoglobulin-like).
+FT                                {ECO:0000259|PROSITE:PS50835}.
+FT   DOMAIN     2411   2502       Ig-like (immunoglobulin-like).
+FT                                {ECO:0000259|PROSITE:PS50835}.
+FT   DOMAIN     2515   2597       Ig-like (immunoglobulin-like).
+FT                                {ECO:0000259|PROSITE:PS50835}.
+FT   DOMAIN     2604   2691       Ig-like (immunoglobulin-like).
+FT                                {ECO:0000259|PROSITE:PS50835}.
+FT   DOMAIN     2693   2780       Ig-like (immunoglobulin-like).
+FT                                {ECO:0000259|PROSITE:PS50835}.
+FT   DOMAIN     2900   2984       Ig-like (immunoglobulin-like).
+FT                                {ECO:0000259|PROSITE:PS50835}.
+FT   DOMAIN     2995   3081       Ig-like (immunoglobulin-like).
+FT                                {ECO:0000259|PROSITE:PS50835}.
+FT   DOMAIN     3099   3192       Ig-like (immunoglobulin-like).
+FT                                {ECO:0000259|PROSITE:PS50835}.
+FT   DOMAIN     3197   3279       Ig-like (immunoglobulin-like).
+FT                                {ECO:0000259|PROSITE:PS50835}.
+FT   DOMAIN     3285   3462       LAM_G_DOMAIN.
+FT                                {ECO:0000259|PROSITE:PS50025}.
+FT   DOMAIN     3458   3496       EGF-like. {ECO:0000259|PROSITE:PS50026}.
+FT   DOMAIN     3498   3533       EGF-like. {ECO:0000259|PROSITE:PS50026}.
+FT   DOMAIN     3542   3716       LAM_G_DOMAIN.
+FT                                {ECO:0000259|PROSITE:PS50025}.
+FT   DOMAIN     3750   3786       EGF-like. {ECO:0000259|PROSITE:PS50026}.
+FT   DOMAIN     3792   3974       LAM_G_DOMAIN.
+FT                                {ECO:0000259|PROSITE:PS50025}.
+FT   DISULFID    413    428       {ECO:0000256|PROSITE-ProRule:PRU00124}.
+FT   DISULFID    452    467       {ECO:0000256|PROSITE-ProRule:PRU00124}.
+FT   DISULFID    519    531       {ECO:0000256|PROSITE-ProRule:PRU00124}.
+FT   DISULFID    526    544       {ECO:0000256|PROSITE-ProRule:PRU00124}.
+FT   DISULFID    628    643       {ECO:0000256|PROSITE-ProRule:PRU00124}.
+FT   DISULFID    738    753       {ECO:0000256|PROSITE-ProRule:PRU00124}.
+FT   DISULFID    762    780       {ECO:0000256|PROSITE-ProRule:PRU00124}.
+FT   DISULFID    774    789       {ECO:0000256|PROSITE-ProRule:PRU00124}.
+FT   DISULFID    790    802       {ECO:0000256|PROSITE-ProRule:PRU00124}.
+FT   DISULFID    797    815       {ECO:0000256|PROSITE-ProRule:PRU00124}.
+FT   DISULFID    809    824       {ECO:0000256|PROSITE-ProRule:PRU00124}.
+FT   DISULFID    830    842       {ECO:0000256|PROSITE-ProRule:PRU00124}.
+FT   DISULFID    837    855       {ECO:0000256|PROSITE-ProRule:PRU00124}.
+FT   DISULFID    849    864       {ECO:0000256|PROSITE-ProRule:PRU00124}.
+FT   DISULFID    977    989       {ECO:0000256|PROSITE-ProRule:PRU00124}.
+FT   DISULFID    984   1002       {ECO:0000256|PROSITE-ProRule:PRU00124}.
+FT   DISULFID    996   1011       {ECO:0000256|PROSITE-ProRule:PRU00124}.
+FT   DISULFID   1017   1029       {ECO:0000256|PROSITE-ProRule:PRU00124}.
+FT   DISULFID   1024   1042       {ECO:0000256|PROSITE-ProRule:PRU00124}.
+FT   DISULFID   1036   1051       {ECO:0000256|PROSITE-ProRule:PRU00124}.
+FT   DISULFID   1060   1072       {ECO:0000256|PROSITE-ProRule:PRU00124}.
+FT   DISULFID   1067   1085       {ECO:0000256|PROSITE-ProRule:PRU00124}.
+FT   DISULFID   1079   1094       {ECO:0000256|PROSITE-ProRule:PRU00124}.
+FT   DISULFID   1480   1497       {ECO:0000256|PROSITE-ProRule:PRU00076}.
+FT   DISULFID   1499   1508       {ECO:0000256|PROSITE-ProRule:PRU00460}.
+FT   DISULFID   1550   1559       {ECO:0000256|PROSITE-ProRule:PRU00460}.
+FT   DISULFID   1791   1800       {ECO:0000256|PROSITE-ProRule:PRU00460}.
+FT   DISULFID   1842   1851       {ECO:0000256|PROSITE-ProRule:PRU00460}.
+FT   DISULFID   1910   1919       {ECO:0000256|PROSITE-ProRule:PRU00460}.
+FT   DISULFID   3467   3484       {ECO:0000256|PROSITE-ProRule:PRU00076}.
+FT   DISULFID   3486   3495       {ECO:0000256|PROSITE-ProRule:PRU00076}.
+FT   DISULFID   3502   3512       {ECO:0000256|PROSITE-ProRule:PRU00076}.
+FT   DISULFID   3523   3532       {ECO:0000256|PROSITE-ProRule:PRU00076}.
+FT   DISULFID   3776   3785       {ECO:0000256|PROSITE-ProRule:PRU00076}.
+FT   DISULFID   3947   3974       {ECO:0000256|PROSITE-ProRule:PRU00122}.
+SQ   SEQUENCE   3989 AA;  442194 MW;  E8C3B340D69B23C4 CRC64;
+     MMGSPGSQAS AIATSVGIRS GRRGQAGGSL LLRLLAVTFV LAACHAPLLT NAKQISNLGD
+     DQDFMLADDE SLQGINDSEW QLMGDDIDDG LLDDVDETLK PMETKSEEED LPTGNWFSQS
+     VHRVRRSINR LFGSDDNQER GRRQQRERSQ RNRDAINRQK ELRRRQKEDH NRWKQMRMER
+     QLEKQRLVKR TNHVVFNRAT DPRKRASDLY DENEASGYHE EDTTLYRTYF VVNEPYDNEY
+     RDRESVQFQN LQKLLDDDLR NFFHSNYEGN DDEEQEIRST LERVEIELPT SVNDFGSKLQ
+     QQLNVYNRIE NLSAATDGVF SFTESSVTEE SVRHLDVGFV EPHITLFHEQ NTGYDDFDRK
+     PTTETQDIEE EAIDVTLPQE EVEGSGSDDS SCRGDATFTC PRSGKTICDE MRCDREIQCP
+     DGEDEEYCNY PNVCTEDQFK CDDKCLELKK RCDGSIDCLD QTDEAGCINA PEPEPEPEPE
+     PEPEPESEPE AEPEPEPEPE PESEPEQEPE PQVPEANECQ ANEFRCNNGD CIDARKRCNN
+     VSDCSEGEDE NEECLEGEEE DRVGIPIGHQ PWRPASKHDD WLHEMDTSEY QVYQPSNVYE
+     KANSQNPCAS NQFRCTTSNV CIPLHLRCDG FYHCNDMSDE KSCEQYQRHT TTRRPLTLAT
+     PTSRITTQGP GLLERRNTTT ATEASRWPWA TKTTTIATTT SNPITTVGVA TTTRLKPSDC
+     SPEQFYCDES CYNRSVRCNG HVDCSDGSDE VGCSLPCPQH QCPSGRCYTE SERCDRHRHC
+     EDGSDEANCC YANQFRCNNG DCVSGSAPCN GYSECSDHSD ELNCGGTQEC LPNQFRCNSG
+     QCVSSSVRCN GRTDCQDSSD EQNCAADSND RRPNQLNLKT YPDSQIIKES REVIFRCRDE
+     GPARAKVKWS RPGGRPLPPG FTDRNGRLEI PNIRVEDAGT YVCEAVGYAS YIPGQQVTVN
+     LNVERYNDVG SRPESACTEY QATCMNGECI DKSSICDGNP DCSDASDEQS CSLGLKCQPN
+     QFMCSNSKCV DRTWRCDGEN DCGDNSDETS CDPEPSGAPC RYNEFQCRSG HCIPKSFQCD
+     NVPDCTDGTD EVGCMAPLPI RPPPQSVSLL EYEVLELTCV ATGTPTPTIV WRLNWGHVPD
+     KCESKSYGGT GTLRCPDMRP QDSGAYSCEI INTRGTHFVN PDTIVTVRPV RTDVCEAGFF
+     NMLARKAEEC VQCFCFGVAK ACDSANLFTY AIHPPILSHR VVSVELSPLR QIVINEAAPG
+     QDLLTLLHGV QFRATNVHFS GRETPYLALP ADYMGNQLKS YGGNLRYEVN YRGSGRPVNG
+     PDVIITGNRF TLTYRVRTQP GQNNRVSIPF VPGGWQKPDG RKASREEIMM ILANVDNILI
+     RLGYLDSTAR EVDLINIALD SAGTADKGLG SASLVEKCQC PPGYVGDSCE SCASGYVRQP
+     GGPWLGHCVP FIPDSCPSGT YGDPRRGVPC KECPCPLTGS NNFASGCQQS PDGDVVCRCN
+     EGYTGRRCEQ CAAGYQGNPL AAGGICRRIP DTSCNVDGTY SVHSNGTCQC KDSVIGEQCD
+     TCKSKSFHLN SFTYTGCIEC FCSGVGLDCD SSTWYRDQVT STFGRSRVDH GFVLVTNYMQ
+     PTPDTVPVSM AAEPNALSFI GSADQSGNTL YWSLPAAFLG NKLSSYGGKL TYTLSYSPLP
+     NGIMSRNSAP DVVIKSGEDL RLIHYRKSQV VPSVANTYSV EIKESAWQRG DEVVANREHV
+     LMALSDITAI YIKATYTTST KEASLRQVTL DVATPTNLGT PRAVEVEQCR CPEGYLGLSC
+     EQCAPGYARD PEGGIYLGLC RPCECNGHSK YCNSDTGDCE ECSDNTEGPS CERCAAGYVG
+     DATRGTIYDC QPDEGYPIPS PPAPGNQTLE CTAYCQIEGI YDCRGNECLC KRNVIGDQCD
+     QCRPGTYGLS AQNQDGCKEC YCSGLASQCR SAALYRQLIP VDFILNAPLI TDESGAVQDT
+     ENLIPDISRN MYTYTHTSYL PKYWSLRGSV LGNQLFSYGG RLSYSLIVES YGNYERGHDI
+     VLIGNGLKLI WSRPDGNENQ EEYNVRLHED EQWTRQDRES ARPASRSDFM TVLSDLQHIL
+     IRATPRVPTQ STSIGNVILE SAVTTRTPGA THASDIELCQ CPSGYVGTSC ESCAPLHYRD
+     ASGSCSLCPC DVSNTESCDL VSGGYVECRC KARWKGDRCR EIDTNDPTDI GTEDPVLTQI
+     IVSIQKPEIT IVPVGGSMTL SCSGRMRWSN SPVIVNWYKE NSRLPENVEV QGGNLYLYDL
+     QVSDSGVYIC QAVNNETASV FKDTVSITIT KKDQLSPAEI VNLPSHVTFE EYVNNEIICE
+     VLGNPAPRVT WARVDGHADA QSTRTYDNRL IFDSPRKSDE GRYRCQAEND QNRDEKYVIV
+     YVQSNPPQPP PQQDRLYITP EEINGLAGES FQLNCQFTSV ASLRYDWSHN GRSLSSSPAR
+     NVEIRGNTLE VRDASESDSG VYTCVAYDVR TRRNFTESAR VNIDRREEQP FGNKPIIESL
+     EQNILIIQGE DYSITCEASG SPYPSIKWAK VHDFMPENVH ISGNVLTIYG ARFENRGVYS
+     CVAENDHGSD LSSTSIDIEP RERPSVKIVS APLQTFSVGA PASLYCTVEG IPDPTVEWVR
+     VDGQPLSPRH KIQSPGYMVI DDIQLEDSGD YECRAKNIVG EATGVATITV QEPTLVQIIP
+     DNRDLRLTEG DELSLTCVGS GVPNPEVEWV NEMALKRDLY SPPSNTAILK IYRVTKADAG
+     IYTCHGKNEA GSDEAHVRVE VQERRGDIGG VDDDSDRDPI NYNPPQQQNP GIHQPGSNQL
+     LATDIGDNVT LTCDMFQPLN TRWERVDGAP LPRNAYTIKN RLEIVRVEQQ NLGQYRCNGI
+     GRDGNVKTYF VKELVLMPLP RIRFYPNIPL TVEAGQNLDV HCQVENVRPE DVHWSTDNNR
+     PLPSSVRIVG SVLRFVSITQ AAAGEYRCSA FNQYGNRSQI ARVAVKKPAD FHQVPQSQLQ
+     RHREGENIQL QCTVTDQYGV RAQDNVEFNW FRDDRRPLPN NARTDSQILV LTNLRPEDAG
+     RYICNSYDVD RGQQLPEVSI DLQVLTATPP PNSPIYLPPQ LPAKSRDYSL KLDDQSSNLR
+     AGESTDVECY SSDDTYTDVV WERSDGAPLS NNVRQVGNRL VISNVSPSDA GNYVCKCKTD
+     EGDLYTTSYK LEVEDQPHEL KSSKIVYAKV GANADLQCGA DESRQPTYRW SRQYGQLQAG
+     RSLMNEKLSL DSVQANDAGT YICTAQYADG ETADFPNILV VTGAIPQFRQ EPRSYMSFPT
+     LPNSSFKFNF ELTFRPENGD GLLLFNGQTR GSGDYIALSL KDRYAEFRFD FGGKPMLVRA
+     EEPLALNEWH TVRVSRFKRD GYIQVDEQHP VAFPTLQQIP QLDLIEDLYI GGVPNWELLP
+     ADAVSQQVGF VGCISRLTLQ GRTVELIREA KYKEGITDCR PCAQGPCQNK GVCLESQTEQ
+     AYTCICQPGW TGRDCAIEGT QCTPGVCGAG RCENTENDME CLCPLNRSGD RCQYNEILNE
+     HSLNFKGNSF AAYGTPKVTK VNITLSVRPA SLEDSVILYT AESTLPSGDY LALVLRGGHA
+     ELLINTAARL DPVVVRSAEP LPLNRWTRIE IRRRLGEGIL RVGDGPERKA KAPGSDRILS
+     LKTHLYVGGY DRSTVKVNRD VNITKGFDGC ISRLYNFQKP VNLLADIKDA ANIQSCGETN
+     MIGGDEDSDN EPPVPPPTPD VHENELQPYA MAPCASDPCE NGGSCSEQED VAVCSCPFGF
+     SGKHCQEHLQ LGFNASFRGD GYVELNRSHF QPALEQSYTS MGIVFTTNKP NGLLFWWGQE
+     AGEEYTGQDF IAAAVVDGYV EYSMRLDGEE AVIRNSDIRV DNGERHIVIA KRDENTAILE
+     VDRMLHSGET RPTSKKSMKL PGNVFVGGAP DLEVFTGFRY KHNLNGCIVV VEGETVGQIN
+     LSSAAVNGVN ANVCPANDDP LGGTEPPVV
+//
+ID   A0A024A2C9_HAEIF        Unreviewed;       280 AA.
+AC   A0A024A2C9;
+DT   09-JUL-2014, integrated into UniProtKB/TrEMBL.
+DT   09-JUL-2014, sequence version 1.
+DT   07-JUN-2017, entry version 21.
+DE   SubName: Full=Lipoprotein binding FH {ECO:0000313|EMBL:AHY88488.1};
+DE   SubName: Full=Transferrin-binding protein 2 {ECO:0000313|EMBL:CWW89957.1};
+GN   Name=lph {ECO:0000313|EMBL:AHY88488.1};
+GN   Synonyms=tbp2 {ECO:0000313|EMBL:CWW89957.1};
+GN   ORFNames=ERS515279_00376 {ECO:0000313|EMBL:CWW89957.1};
+OS   Haemophilus influenzae.
+OC   Bacteria; Proteobacteria; Gammaproteobacteria; Pasteurellales;
+OC   Pasteurellaceae; Haemophilus.
+OX   NCBI_TaxID=727 {ECO:0000313|EMBL:AHY88488.1};
+RN   [1] {ECO:0000313|EMBL:AHY88488.1}
+RP   NUCLEOTIDE SEQUENCE.
+RC   STRAIN=Hif M10 {ECO:0000313|EMBL:AHY88488.1};
+RA   Fleury C., Su Y.-C., Hallstrom T., Zipfel P., Riesbeck K.;
+RT   "Identification of a Haemophilus influenzae Factor H-binding
+RT   lipoprotein involved in serum resistance.";
+RL   Submitted (DEC-2013) to the EMBL/GenBank/DDBJ databases.
+RN   [2] {ECO:0000313|EMBL:CWW89957.1, ECO:0000313|Proteomes:UP000070891}
+RP   NUCLEOTIDE SEQUENCE [LARGE SCALE GENOMIC DNA].
+RC   STRAIN=2842STDY5882075 {ECO:0000313|EMBL:CWW89957.1,
+RC   ECO:0000313|Proteomes:UP000070891};
+RG   Pathogen Informatics;
+RL   Submitted (FEB-2016) to the EMBL/GenBank/DDBJ databases.
+CC   -!- INTERACTION:
+CC       P08603:CFH (xeno); NbExp=6; IntAct=EBI-12498321, EBI-1223708;
+CC       P04004:VTN (xeno); NbExp=7; IntAct=EBI-12498321, EBI-1036653;
+CC   -----------------------------------------------------------------------
+CC   Copyrighted by the UniProt Consortium, see https://www.uniprot.org/terms
+CC   Distributed under the Creative Commons Attribution-NoDerivs License
+CC   -----------------------------------------------------------------------
+DR   EMBL; KF993351; AHY88488.1; -; Genomic_DNA.
+DR   EMBL; FFIN01000001; CWW89957.1; -; Genomic_DNA.
+DR   RefSeq; WP_021034796.1; NZ_LHSO01000003.1.
+DR   IntAct; A0A024A2C9; 2.
+DR   EnsemblBacteria; CWW89957; CWW89957; ERS515279_00376.
+DR   PATRIC; fig|727.569.peg.409; -.
+DR   Proteomes; UP000070891; Unassembled WGS sequence.
+DR   GO; GO:0009986; C:cell surface; IDA:AgBase.
+DR   GO; GO:0016021; C:integral component of membrane; IEA:InterPro.
+DR   GO; GO:0050840; F:extracellular matrix binding; IDA:AgBase.
+DR   GO; GO:0052562; P:negative regulation by symbiont of host immune response; IMP:AgBase.
+DR   GO; GO:0001971; P:negative regulation of activation of membrane attack complex; IMP:AgBase.
+DR   GO; GO:1903827; P:regulation of cellular protein localization; IMP:AgBase.
+DR   GO; GO:1903659; P:regulation of complement-dependent cytotoxicity; IDA:AgBase.
+DR   InterPro; IPR011250; OMP/PagP_b-brl.
+DR   InterPro; IPR001677; TbpB_B_D.
+DR   Pfam; PF01298; TbpB_B_D; 1.
+DR   SUPFAM; SSF56925; SSF56925; 1.
+PE   1: Evidence at protein level;
+KW   Complete proteome {ECO:0000313|Proteomes:UP000070891};
+KW   Lipoprotein {ECO:0000313|EMBL:AHY88488.1};
+KW   Signal {ECO:0000256|SAM:SignalP}.
+FT   SIGNAL        1     29       {ECO:0000256|SAM:SignalP}.
+FT   CHAIN        30    280       {ECO:0000256|SAM:SignalP}.
+FT                                /FTId=PRO_5010010496.
+FT   DOMAIN      160    278       TbpB_B_D. {ECO:0000259|Pfam:PF01298}.
+SQ   SEQUENCE   280 AA;  29824 MW;  78C3AE0668651BB4 CRC64;
+     MNINLKKFSL TILAALTLTA CGSGSGASAS NAPTAQPSTP ATQPSEQAVL EMPKRSPTNT
+     GLVFSIKTES EEDSVGQINT INNEQELSNR TLTSIDVDGK QIPIAFTENW NEAKYIEQPL
+     NGVPHICCNK YTAMRFGAIA SNEAGQNDIL FYNGIPTEKL PDSGEVTYEG ESIMTSKESV
+     IPDDYMKGSS KFIVNFGDKK LSGSLIIDTT KSTSSSQKVK IDIEKAKITG NTFSGTAQSD
+     SFKSQGIAEG KFYGDGAKEL GGMVKAKDNS WAGAYGAKAQ
+//
+ID   Q8VS35_CHLTH            Unreviewed;       310 AA.
+AC   Q8VS35;
+DT   01-MAR-2002, integrated into UniProtKB/TrEMBL.
+DT   01-MAR-2002, sequence version 1.
+DT   05-JUL-2017, entry version 36.
+DE   RecName: Full=Major outer membrane porin {ECO:0000256|RuleBase:RU361231};
+DE            Short=MOMP {ECO:0000256|RuleBase:RU361231};
+DE   Flags: Fragment;
+GN   Name=omp1 {ECO:0000313|EMBL:AAL61624.1};
+GN   Synonyms=ompA {ECO:0000256|RuleBase:RU361231};
+OS   Chlamydia trachomatis.
+OC   Bacteria; Chlamydiae; Chlamydiales; Chlamydiaceae;
+OC   Chlamydia/Chlamydophila group; Chlamydia.
+OX   NCBI_TaxID=813 {ECO:0000313|EMBL:AAL61624.1};
+RN   [1] {ECO:0000313|EMBL:AAL61624.1}
+RP   NUCLEOTIDE SEQUENCE.
+RC   STRAIN=IS5643 {ECO:0000313|EMBL:AAL61624.1};
+RA   Jonsdottir K., Kristjansson M., Steingrimsson O., Olafsson J.H.;
+RT   "The molecular epidemiology of genital Chlamydia trachomatis
+RT   infections in Reykavik, Iceland.";
+RL   Submitted (AUG-2001) to the EMBL/GenBank/DDBJ databases.
+CC   -!- FUNCTION: In elementary bodies (EBs, the infectious stage, which
+CC       is able to survive outside the host cell) provides the structural
+CC       integrity of the outer envelope through disulfide cross-links with
+CC       the small cysteine-rich protein and the large cysteine-rich
+CC       periplasmic protein. It has been described in publications as the
+CC       Sarkosyl-insoluble COMC (Chlamydia outer membrane complex), and
+CC       serves as the functional equivalent of peptidoglycan.
+CC       {ECO:0000256|RuleBase:RU361231}.
+CC   -!- FUNCTION: Permits diffusion of specific solutes through the outer
+CC       membrane. {ECO:0000256|RuleBase:RU361231}.
+CC   -!- SUBUNIT: Part of a disulfide cross-linked outer membrane complex
+CC       (COMC) composed of the major outer membrane porin (MOMP), the
+CC       small cysteine-rich protein (OmcA) and the large cysteine-rich
+CC       periplasmic protein (OmcB). {ECO:0000256|RuleBase:RU361231}.
+CC   -!- SUBCELLULAR LOCATION: Nucleus membrane
+CC       {ECO:0000256|RuleBase:RU361231}; Nucleus matrix
+CC       {ECO:0000256|RuleBase:RU361231}.
+CC   -!- SIMILARITY: Belongs to the chlamydial porin (CP) (TC 1.B.2)
+CC       family. {ECO:0000256|RuleBase:RU361231}.
+CC   -----------------------------------------------------------------------
+CC   Copyrighted by the UniProt Consortium, see https://www.uniprot.org/terms
+CC   Distributed under the Creative Commons Attribution-NoDerivs License
+CC   -----------------------------------------------------------------------
+DR   EMBL; AF414949; AAL61624.1; -; Genomic_DNA.
+DR   eggNOG; ENOG41077ZS; Bacteria.
+DR   eggNOG; ENOG410Z5RE; LUCA.
+DR   GO; GO:0009279; C:cell outer membrane; IEA:UniProtKB-SubCell.
+DR   GO; GO:0046930; C:pore complex; IEA:UniProtKB-KW.
+DR   GO; GO:0015288; F:porin activity; IEA:UniProtKB-KW.
+DR   GO; GO:0005198; F:structural molecule activity; IEA:InterPro.
+DR   GO; GO:0006811; P:ion transport; IEA:UniProtKB-KW.
+DR   Gene3D; 2.40.160.20; -; 2.
+DR   InterPro; IPR000604; Major_OMP_Chlamydia.
+DR   InterPro; IPR011250; OMP/PagP_b-brl.
+DR   PRINTS; PR01334; CHLAMIDIAOMP.
+PE   3: Inferred from homology;
+KW   Cell outer membrane {ECO:0000256|RuleBase:RU361231};
+KW   Ion transport {ECO:0000256|RuleBase:RU361231};
+KW   Membrane {ECO:0000256|RuleBase:RU361231};
+KW   Porin {ECO:0000256|RuleBase:RU361231};
+KW   Transmembrane {ECO:0000256|RuleBase:RU361231};
+KW   Transport {ECO:0000256|RuleBase:RU361231}.
+FT   NON_TER       1      1       {ECO:0000313|EMBL:AAL61624.1}.
+FT   NON_TER     310    310       {ECO:0000313|EMBL:AAL61624.1}.
+SQ   SEQUENCE   310 AA;  33580 MW;  E7BAC7377CD992D7 CRC64;
+     EGFGGDPCDP CTTWCDAISM RMGYYGDFVF DRVLETDVNK EFHMGAKPTT DTGNSAAPST
+     LTARENPAYG RHMQDAEMFT NAACMALNIW DRFDVFCTLG ATSGYLKGNS ASFNLVGLFG
+     DNENQKTVKA ESVPNMSFDQ SVVELYTDTT FAWSVGARAA LWECGCATLG ASFQYAQSKP
+     KVEELNVLCN AAEFTINKPK GYVGKEFPLD LTAGTDAATG TKDASIDYHE WQASLALSYR
+     LNMFTPYIGV KWSRASFDAD TIRIAQPKSA TAIFDTTTLN PTIAGAGDVK TGAEGQLGDT
+     MQIVSLQLNK
+//
+ID   14310_ARATH             Reviewed;         254 AA.
+AC   P48347; Q9LME5;
+DT   01-FEB-1996, integrated into UniProtKB/Swiss-Prot.
+DT   01-FEB-1996, sequence version 1.
+DT   30-AUG-2017, entry version 128.
+DE   RecName: Full=14-3-3-like protein GF14 epsilon;
+DE   AltName: Full=General regulatory factor 10;
+GN   Name=GRF10; OrderedLocusNames=At1g22300; ORFNames=T16E15.8;
+OS   Arabidopsis thaliana (Mouse-ear cress).
+OC   Eukaryota; Viridiplantae; Streptophyta; Embryophyta; Tracheophyta;
+OC   Spermatophyta; Magnoliophyta; eudicotyledons; Gunneridae;
+OC   Pentapetalae; rosids; malvids; Brassicales; Brassicaceae; Camelineae;
+OC   Arabidopsis.
+OX   NCBI_TaxID=3702;
+RN   [1]
+RP   NUCLEOTIDE SEQUENCE [MRNA] (ISOFORM 1).
+RC   STRAIN=cv. Columbia;
+RX   PubMed=9276953; DOI=10.1104/pp.114.4.1421;
+RA   Wu K., Rooney M.F., Ferl R.J.;
+RT   "The Arabidopsis 14-3-3 multigene family.";
+RL   Plant Physiol. 114:1421-1431(1997).
+RN   [2]
+RP   NUCLEOTIDE SEQUENCE [GENOMIC DNA].
+RC   STRAIN=cv. Columbia;
+RA   Chung H.-J., Shanker S., Ferl R.J.;
+RT   "Sequences of five Arabidopsis general regulatory factor (GRF) genes
+RT   encoding 14-3-3 proteins.";
+RL   (er) Plant Gene Register PGR99-114(1999).
+RN   [3]
+RP   NUCLEOTIDE SEQUENCE [LARGE SCALE GENOMIC DNA].
+RC   STRAIN=cv. Columbia;
+RX   PubMed=11130712; DOI=10.1038/35048500;
+RA   Theologis A., Ecker J.R., Palm C.J., Federspiel N.A., Kaul S.,
+RA   White O., Alonso J., Altafi H., Araujo R., Bowman C.L., Brooks S.Y.,
+RA   Buehler E., Chan A., Chao Q., Chen H., Cheuk R.F., Chin C.W.,
+RA   Chung M.K., Conn L., Conway A.B., Conway A.R., Creasy T.H., Dewar K.,
+RA   Dunn P., Etgu P., Feldblyum T.V., Feng J.-D., Fong B., Fujii C.Y.,
+RA   Gill J.E., Goldsmith A.D., Haas B., Hansen N.F., Hughes B., Huizar L.,
+RA   Hunter J.L., Jenkins J., Johnson-Hopson C., Khan S., Khaykin E.,
+RA   Kim C.J., Koo H.L., Kremenetskaia I., Kurtz D.B., Kwan A., Lam B.,
+RA   Langin-Hooper S., Lee A., Lee J.M., Lenz C.A., Li J.H., Li Y.-P.,
+RA   Lin X., Liu S.X., Liu Z.A., Luros J.S., Maiti R., Marziali A.,
+RA   Militscher J., Miranda M., Nguyen M., Nierman W.C., Osborne B.I.,
+RA   Pai G., Peterson J., Pham P.K., Rizzo M., Rooney T., Rowley D.,
+RA   Sakano H., Salzberg S.L., Schwartz J.R., Shinn P., Southwick A.M.,
+RA   Sun H., Tallon L.J., Tambunga G., Toriumi M.J., Town C.D.,
+RA   Utterback T., Van Aken S., Vaysberg M., Vysotskaia V.S., Walker M.,
+RA   Wu D., Yu G., Fraser C.M., Venter J.C., Davis R.W.;
+RT   "Sequence and analysis of chromosome 1 of the plant Arabidopsis
+RT   thaliana.";
+RL   Nature 408:816-820(2000).
+RN   [4]
+RP   GENOME REANNOTATION.
+RC   STRAIN=cv. Columbia;
+RG   The Arabidopsis Information Portal (Araport);
+RL   Submitted (MAY-2016) to the EMBL/GenBank/DDBJ databases.
+RN   [5]
+RP   NUCLEOTIDE SEQUENCE [LARGE SCALE MRNA] (ISOFORMS 1 AND 2).
+RC   STRAIN=cv. Columbia;
+RX   PubMed=14593172; DOI=10.1126/science.1088305;
+RA   Yamada K., Lim J., Dale J.M., Chen H., Shinn P., Palm C.J.,
+RA   Southwick A.M., Wu H.C., Kim C.J., Nguyen M., Pham P.K., Cheuk R.F.,
+RA   Karlin-Newmann G., Liu S.X., Lam B., Sakano H., Wu T., Yu G.,
+RA   Miranda M., Quach H.L., Tripp M., Chang C.H., Lee J.M., Toriumi M.J.,
+RA   Chan M.M., Tang C.C., Onodera C.S., Deng J.M., Akiyama K., Ansari Y.,
+RA   Arakawa T., Banh J., Banno F., Bowser L., Brooks S.Y., Carninci P.,
+RA   Chao Q., Choy N., Enju A., Goldsmith A.D., Gurjal M., Hansen N.F.,
+RA   Hayashizaki Y., Johnson-Hopson C., Hsuan V.W., Iida K., Karnes M.,
+RA   Khan S., Koesema E., Ishida J., Jiang P.X., Jones T., Kawai J.,
+RA   Kamiya A., Meyers C., Nakajima M., Narusaka M., Seki M., Sakurai T.,
+RA   Satou M., Tamse R., Vaysberg M., Wallender E.K., Wong C., Yamamura Y.,
+RA   Yuan S., Shinozaki K., Davis R.W., Theologis A., Ecker J.R.;
+RT   "Empirical analysis of transcriptional activity in the Arabidopsis
+RT   genome.";
+RL   Science 302:842-846(2003).
+RN   [6]
+RP   NUCLEOTIDE SEQUENCE [LARGE SCALE MRNA] (ISOFORM 1).
+RA   Brover V.V., Troukhan M.E., Alexandrov N.A., Lu Y.-P., Flavell R.B.,
+RA   Feldmann K.A.;
+RT   "Full-length cDNA from Arabidopsis thaliana.";
+RL   Submitted (MAR-2002) to the EMBL/GenBank/DDBJ databases.
+RN   [7]
+RP   INTERACTION WITH DREB1A AND DREB1B.
+RC   STRAIN=cv. Columbia;
+RX   PubMed=28344081; DOI=10.1016/j.molcel.2017.02.016;
+RA   Liu Z., Jia Y., Ding Y., Shi Y., Li Z., Guo Y., Gong Z., Yang S.;
+RT   "Plasma membrane CRPK1-mediated phosphorylation of 14-3-3 proteins
+RT   induces their nuclear import to fine-tune CBF signaling during cold
+RT   response.";
+RL   Mol. Cell 66:117-128(2017).
+CC   -!- FUNCTION: Is associated with a DNA binding complex that binds to
+CC       the G box, a well-characterized cis-acting DNA regulatory element
+CC       found in plant genes.
+CC   -!- SUBUNIT: Interacts with DREB1A and DREB1B in the nucleus.
+CC       {ECO:0000269|PubMed:28344081}.
+CC   -!- INTERACTION:
+CC       Q41009:TOC34 (xeno); NbExp=2; IntAct=EBI-1803304, EBI-638506;
+CC   -!- SUBCELLULAR LOCATION: Nucleus {ECO:0000250|UniProtKB:P48349}.
+CC       Cytoplasm, cell cortex {ECO:0000250|UniProtKB:P48349}. Note=Translocates from
+CC       the cytosol to the nucleus when phosphorylated.
+CC       {ECO:0000250|UniProtKB:P48349}.
+CC   -!- ALTERNATIVE PRODUCTS:
+CC       Event=Alternative splicing; Named isoforms=2;
+CC       Name=1;
+CC         IsoId=P48347-1; Sequence=Displayed;
+CC       Name=2;
+CC         IsoId=P48347-2; Sequence=VSP_008972;
+CC   -!- SIMILARITY: Belongs to the 14-3-3 family. {ECO:0000305}.
+CC   -----------------------------------------------------------------------
+CC   Copyrighted by the UniProt Consortium, see https://www.uniprot.org/terms
+CC   Distributed under the Creative Commons Attribution-NoDerivs License
+CC   -----------------------------------------------------------------------
+DR   EMBL; U36446; AAA79699.1; -; mRNA.
+DR   EMBL; AF145302; AAD51785.1; -; Genomic_DNA.
+DR   EMBL; AC068562; AAF87261.1; -; Genomic_DNA.
+DR   EMBL; CP002684; AEE30225.1; -; Genomic_DNA.
+DR   EMBL; CP002684; AEE30226.1; -; Genomic_DNA.
+DR   EMBL; AF334382; AAG50088.1; -; mRNA.
+DR   EMBL; AY054505; AAK96696.1; -; mRNA.
+DR   EMBL; AY058834; AAL24222.1; -; mRNA.
+DR   EMBL; AY062838; AAL32916.1; -; mRNA.
+DR   EMBL; AY081674; AAM10236.1; -; mRNA.
+DR   EMBL; AY087580; AAM65122.1; -; mRNA.
+DR   PIR; H86355; H86355.
+DR   RefSeq; NP_564167.1; NM_102081.4. [P48347-1]
+DR   RefSeq; NP_849698.1; NM_179367.2. [P48347-2]
+DR   UniGene; At.24553; -.
+DR   UniGene; At.67728; -.
+DR   ProteinModelPortal; P48347; -.
+DR   SMR; P48347; -.
+DR   BioGrid; 24076; 80.
+DR   IntAct; P48347; 4.
+DR   MINT; MINT-2584273; -.
+DR   STRING; 3702.AT1G22300.1; -.
+DR   iPTMnet; P48347; -.
+DR   PaxDb; P48347; -.
+DR   PRIDE; P48347; -.
+DR   EnsemblPlants; AT1G22300.1; AT1G22300.1; AT1G22300. [P48347-1]
+DR   EnsemblPlants; AT1G22300.2; AT1G22300.2; AT1G22300. [P48347-2]
+DR   GeneID; 838837; -.
+DR   Gramene; AT1G22300.1; AT1G22300.1; AT1G22300.
+DR   Gramene; AT1G22300.2; AT1G22300.2; AT1G22300.
+DR   KEGG; ath:AT1G22300; -.
+DR   Araport; AT1G22300; -.
+DR   TAIR; locus:2196506; AT1G22300.
+DR   eggNOG; KOG0841; Eukaryota.
+DR   eggNOG; COG5040; LUCA.
+DR   HOGENOM; HOG000240379; -.
+DR   InParanoid; P48347; -.
+DR   KO; K06630; -.
+DR   OMA; ESKGHEQ; -.
+DR   PhylomeDB; P48347; -.
+DR   Reactome; R-ATH-1445148; Translocation of GLUT4 to the plasma membrane.
+DR   Reactome; R-ATH-3371453; Regulation of HSF1-mediated heat shock response.
+DR   Reactome; R-ATH-3371511; HSF1 activation.
+DR   PRO; PR:P48347; -.
+DR   Proteomes; UP000006548; Chromosome 1.
+DR   ExpressionAtlas; P48347; baseline and differential.
+DR   Genevisible; P48347; AT.
+DR   GO; GO:0005829; C:cytosol; IDA:TAIR.
+DR   GO; GO:0005739; C:mitochondrion; IDA:TAIR.
+DR   GO; GO:0005634; C:nucleus; IEA:UniProtKB-SubCell.
+DR   GO; GO:0005886; C:plasma membrane; IDA:TAIR.
+DR   GO; GO:0009506; C:plasmodesma; IDA:TAIR.
+DR   GO; GO:0005524; F:ATP binding; IDA:TAIR.
+DR   GO; GO:0019904; F:protein domain specific binding; IEA:InterPro.
+DR   GO; GO:0009742; P:brassinosteroid mediated signaling pathway; IPI:TAIR.
+DR   GO; GO:0009737; P:response to abscisic acid; IDA:TAIR.
+DR   Gene3D; 1.20.190.20; -; 1.
+DR   InterPro; IPR000308; 14-3-3.
+DR   InterPro; IPR023409; 14-3-3_CS.
+DR   InterPro; IPR023410; 14-3-3_domain.
+DR   PANTHER; PTHR18860; PTHR18860; 1.
+DR   Pfam; PF00244; 14-3-3; 1.
+DR   PIRSF; PIRSF000868; 14-3-3; 1.
+DR   PRINTS; PR00305; 1433ZETA.
+DR   SMART; SM00101; 14_3_3; 1.
+DR   SUPFAM; SSF48445; SSF48445; 1.
+DR   PROSITE; PS00796; 1433_1; 1.
+DR   PROSITE; PS00797; 1433_2; 1.
+PE   1: Evidence at protein level;
+KW   Alternative splicing; Complete proteome; Cytoplasm; Nucleus;
+KW   Phosphoprotein; Reference proteome.
+FT   CHAIN         1    254       14-3-3-like protein GF14 epsilon.
+FT                                /FTId=PRO_0000058672.
+FT   MOD_RES      65     65       Phosphoserine.
+FT                                {ECO:0000250|UniProtKB:P48349}.
+FT   MOD_RES     188    188       Phosphoserine.
+FT                                {ECO:0000250|UniProtKB:P48349}.
+FT   VAR_SEQ     254    254       N -> V (in isoform 2).
+FT                                {ECO:0000303|PubMed:14593172}.
+FT                                /FTId=VSP_008972.
+SQ   SEQUENCE   254 AA;  28915 MW;  037405C341845C25 CRC64;
+     MENEREKQVY LAKLSEQTER YDEMVEAMKK VAQLDVELTV EERNLVSVGY KNVIGARRAS
+     WRILSSIEQK EESKGNDENV KRLKNYRKRV EDELAKVCND ILSVIDKHLI PSSNAVESTV
+     FFYKMKGDYY RYLAEFSSGA ERKEAADQSL EAYKAAVAAA ENGLAPTHPV RLGLALNFSV
+     FYYEILNSPE SACQLAKQAF DDAIAELDSL NEESYKDSTL IMQLLRDNLT LWTSDLNEEG
+     DERTKGADEP QDEN
+//
+ID   14310-1_ARATH           Reviewed;         254 AA.
+AC   P48347-1;
+DT   01-FEB-1996, integrated into UniProtKB/Swiss-Prot.
+DT   01-FEB-1996, sequence version 1.
+DT   25-OCT-2017, entry version 129.
+DE   RecName: Full=Isoform 1 of 14-3-3-like protein GF14 epsilon;
+DE   AltName: Full=General regulatory factor 10;
+GN   Name=GRF10; OrderedLocusNames=At1g22300; ORFNames=T16E15.8;
+OS   Arabidopsis thaliana (Mouse-ear cress).
+OC   Eukaryota; Viridiplantae; Streptophyta; Embryophyta; Tracheophyta;
+OC   Spermatophyta; Magnoliophyta; eudicotyledons; Gunneridae;
+OC   Pentapetalae; rosids; malvids; Brassicales; Brassicaceae; Camelineae;
+OC   Arabidopsis.
+OX   NCBI_TaxID=3702;
+RN   [1]
+RP   NUCLEOTIDE SEQUENCE [MRNA] (ISOFORM 1).
+RC   STRAIN=cv. Columbia;
+RX   PubMed=9276953; DOI=10.1104/pp.114.4.1421;
+RA   Wu K., Rooney M.F., Ferl R.J.;
+RT   "The Arabidopsis 14-3-3 multigene family.";
+RL   Plant Physiol. 114:1421-1431(1997).
+RN   [2]
+RP   NUCLEOTIDE SEQUENCE [GENOMIC DNA].
+RC   STRAIN=cv. Columbia;
+RA   Chung H.-J., Shanker S., Ferl R.J.;
+RT   "Sequences of five Arabidopsis general regulatory factor (GRF) genes
+RT   encoding 14-3-3 proteins.";
+RL   (er) Plant Gene Register PGR99-114(1999).
+RN   [3]
+RP   NUCLEOTIDE SEQUENCE [LARGE SCALE GENOMIC DNA].
+RC   STRAIN=cv. Columbia;
+RX   PubMed=11130712; DOI=10.1038/35048500;
+RA   Theologis A., Ecker J.R., Palm C.J., Federspiel N.A., Kaul S.,
+RA   White O., Alonso J., Altafi H., Araujo R., Bowman C.L., Brooks S.Y.,
+RA   Buehler E., Chan A., Chao Q., Chen H., Cheuk R.F., Chin C.W.,
+RA   Chung M.K., Conn L., Conway A.B., Conway A.R., Creasy T.H., Dewar K.,
+RA   Dunn P., Etgu P., Feldblyum T.V., Feng J.-D., Fong B., Fujii C.Y.,
+RA   Gill J.E., Goldsmith A.D., Haas B., Hansen N.F., Hughes B., Huizar L.,
+RA   Hunter J.L., Jenkins J., Johnson-Hopson C., Khan S., Khaykin E.,
+RA   Kim C.J., Koo H.L., Kremenetskaia I., Kurtz D.B., Kwan A., Lam B.,
+RA   Langin-Hooper S., Lee A., Lee J.M., Lenz C.A., Li J.H., Li Y.-P.,
+RA   Lin X., Liu S.X., Liu Z.A., Luros J.S., Maiti R., Marziali A.,
+RA   Militscher J., Miranda M., Nguyen M., Nierman W.C., Osborne B.I.,
+RA   Pai G., Peterson J., Pham P.K., Rizzo M., Rooney T., Rowley D.,
+RA   Sakano H., Salzberg S.L., Schwartz J.R., Shinn P., Southwick A.M.,
+RA   Sun H., Tallon L.J., Tambunga G., Toriumi M.J., Town C.D.,
+RA   Utterback T., Van Aken S., Vaysberg M., Vysotskaia V.S., Walker M.,
+RA   Wu D., Yu G., Fraser C.M., Venter J.C., Davis R.W.;
+RT   "Sequence and analysis of chromosome 1 of the plant Arabidopsis
+RT   thaliana.";
+RL   Nature 408:816-820(2000).
+RN   [4]
+RP   GENOME REANNOTATION.
+RC   STRAIN=cv. Columbia;
+RG   The Arabidopsis Information Portal (Araport);
+RL   Submitted (MAY-2016) to the EMBL/GenBank/DDBJ databases.
+RN   [5]
+RP   NUCLEOTIDE SEQUENCE [LARGE SCALE MRNA] (ISOFORMS 1 AND 2).
+RC   STRAIN=cv. Columbia;
+RX   PubMed=14593172; DOI=10.1126/science.1088305;
+RA   Yamada K., Lim J., Dale J.M., Chen H., Shinn P., Palm C.J.,
+RA   Southwick A.M., Wu H.C., Kim C.J., Nguyen M., Pham P.K., Cheuk R.F.,
+RA   Karlin-Newmann G., Liu S.X., Lam B., Sakano H., Wu T., Yu G.,
+RA   Miranda M., Quach H.L., Tripp M., Chang C.H., Lee J.M., Toriumi M.J.,
+RA   Chan M.M., Tang C.C., Onodera C.S., Deng J.M., Akiyama K., Ansari Y.,
+RA   Arakawa T., Banh J., Banno F., Bowser L., Brooks S.Y., Carninci P.,
+RA   Chao Q., Choy N., Enju A., Goldsmith A.D., Gurjal M., Hansen N.F.,
+RA   Hayashizaki Y., Johnson-Hopson C., Hsuan V.W., Iida K., Karnes M.,
+RA   Khan S., Koesema E., Ishida J., Jiang P.X., Jones T., Kawai J.,
+RA   Kamiya A., Meyers C., Nakajima M., Narusaka M., Seki M., Sakurai T.,
+RA   Satou M., Tamse R., Vaysberg M., Wallender E.K., Wong C., Yamamura Y.,
+RA   Yuan S., Shinozaki K., Davis R.W., Theologis A., Ecker J.R.;
+RT   "Empirical analysis of transcriptional activity in the Arabidopsis
+RT   genome.";
+RL   Science 302:842-846(2003).
+RN   [6]
+RP   NUCLEOTIDE SEQUENCE [LARGE SCALE MRNA] (ISOFORM 1).
+RA   Brover V.V., Troukhan M.E., Alexandrov N.A., Lu Y.-P., Flavell R.B.,
+RA   Feldmann K.A.;
+RT   "Full-length cDNA from Arabidopsis thaliana.";
+RL   Submitted (MAR-2002) to the EMBL/GenBank/DDBJ databases.
+RN   [7]
+RP   INTERACTION WITH DREB1A AND DREB1B.
+RC   STRAIN=cv. Columbia;
+RX   PubMed=28344081; DOI=10.1016/j.molcel.2017.02.016;
+RA   Liu Z., Jia Y., Ding Y., Shi Y., Li Z., Guo Y., Gong Z., Yang S.;
+RT   "Plasma membrane CRPK1-mediated phosphorylation of 14-3-3 proteins
+RT   induces their nuclear import to fine-tune CBF signaling during cold
+RT   response.";
+RL   Mol. Cell 66:117-128(2017).
+CC   -!- ALTERNATIVE PRODUCTS:
+CC       Event=Alternative splicing; Named isoforms=2;
+CC       Name=1;
+CC         IsoId=P48347-1; Sequence=Displayed;
+CC       Name=2;
+CC         IsoId=P48347-2; Sequence=VSP_008972;
+CC   -----------------------------------------------------------------------
+CC   Copyrighted by the UniProt Consortium, see https://www.uniprot.org/terms
+CC   Distributed under the Creative Commons Attribution-NoDerivs License
+CC   -----------------------------------------------------------------------
+DR   EMBL; U36446; AAA79699.1; -; mRNA. [P48347-1]
+DR   EMBL; AY081674; AAM10236.1; -; mRNA. [P48347-1]
+DR   EMBL; AY058834; AAL24222.1; -; mRNA. [P48347-1]
+DR   EMBL; AF145302; AAD51785.1; -; Genomic_DNA. [P48347-1]
+DR   EMBL; CP002684; AEE30225.1; -; Genomic_DNA. [P48347-1]
+DR   EMBL; AY054505; AAK96696.1; -; mRNA. [P48347-1]
+DR   EMBL; AY087580; AAM65122.1; -; mRNA. [P48347-1]
+DR   EMBL; AY062838; AAL32916.1; -; mRNA. [P48347-1]
+DR   RefSeq; NP_564167.1; NM_102081.4. [P48347-1]
+DR   EnsemblPlants; AT1G22300.1; AT1G22300.1; AT1G22300. [P48347-1]
+PE   1: Evidence at protein level;
+SQ   SEQUENCE   254 AA;  28915 MW;  037405C341845C25 CRC64;
+     MENEREKQVY LAKLSEQTER YDEMVEAMKK VAQLDVELTV EERNLVSVGY KNVIGARRAS
+     WRILSSIEQK EESKGNDENV KRLKNYRKRV EDELAKVCND ILSVIDKHLI PSSNAVESTV
+     FFYKMKGDYY RYLAEFSSGA ERKEAADQSL EAYKAAVAAA ENGLAPTHPV RLGLALNFSV
+     FYYEILNSPE SACQLAKQAF DDAIAELDSL NEESYKDSTL IMQLLRDNLT LWTSDLNEEG
+     DERTKGADEP QDEN
+//
