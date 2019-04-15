@@ -60,7 +60,7 @@ import static java.util.Collections.singletonList;
  * @author Edd
  */
 @Slf4j
-public class UniProtEntryProcessor implements ItemProcessor<ConvertableEntry, ConvertableEntry> {
+public class UniProtEntryProcessor implements ItemProcessor<ConvertibleEntry, ConvertibleEntry> {
     private static final Logger INDEXING_FAILED_LOGGER = LoggerFactory.getLogger("indexing-doc-conversion-failed-entries");
     static final int SORT_FIELD_MAX_LENGTH = 30;
     static final int MAX_STORED_FIELD_LENGTH = 32766;
@@ -129,18 +129,18 @@ public class UniProtEntryProcessor implements ItemProcessor<ConvertableEntry, Co
     }
 
     @Override
-    public ConvertableEntry process(ConvertableEntry convertableEntry) {
-        UniProtEntry uniProtEntry = convertableEntry.getEntry();
+    public ConvertibleEntry process(ConvertibleEntry convertibleEntry) {
+        UniProtEntry uniProtEntry = convertibleEntry.getEntry();
         try {
             UniProtDocument doc = new UniProtDocument();
-            convertableEntry.convertsTo(doc);
+            convertibleEntry.convertsTo(doc);
 
             doc.accession = uniProtEntry.getPrimaryAccession().getValue();
             if (doc.accession.contains(DASH)) {
                 if (isCanonicalIsoform(uniProtEntry)) {
                     doc.reviewed = null;
                     doc.isIsoform = null;
-                    return convertableEntry;
+                    return convertibleEntry;
                 }
                 doc.isIsoform = true;
                 // We are adding the canonical accession to the isoform entry as a secondary accession.
@@ -175,7 +175,7 @@ public class UniProtEntryProcessor implements ItemProcessor<ConvertableEntry, Co
             setScore(uniProtEntry, doc);
             setAvroDefaultEntry(uniProtEntry, doc);
             setDefaultSearchContent(doc);
-            return convertableEntry;
+            return convertibleEntry;
         } catch (IllegalArgumentException | NullPointerException e) {
             writeFailedEntryToFile(uniProtEntry);
             String acc = uniProtEntry.getPrimaryAccession().getValue();

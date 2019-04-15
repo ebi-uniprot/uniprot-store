@@ -16,4 +16,5 @@ public class Constants {
     public static final String TAXONOMY_LOAD_VIRUS_HOST_STEP_NAME = "TAXONOMY_LOAD_VIRUS_HOST";
     public static final String TAXONOMY_LOAD_URL_STEP_NAME = "TAXONOMY_LOAD_URL";
     public static final String TAXONOMY_LOAD_COUNT_STEP_NAME = "TAXONOMY_LOAD_COUNT";
+    public static final String UNIPROTKB_INDEX_FAILED_ENTRIES_CHUNK_KEY = "UNIPROTKB_INDEX_FAILED_ENTRIES_CHUNK_KEY";
 }

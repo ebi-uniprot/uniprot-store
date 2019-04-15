@@ -1,6 +1,7 @@
 package uk.ac.ebi.uniprot.indexer;
 
 import org.apache.solr.client.solrj.impl.HttpSolrClient;
+import org.apache.solr.client.solrj.response.UpdateResponse;
 import org.mockito.stubbing.Stubber;
 import org.springframework.batch.item.ItemWriter;
 
@@ -12,8 +13,7 @@ import java.util.stream.Collectors;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.*;
 
 /**
  * Utility methods to help testing the retry logic associated with writing
@@ -44,7 +44,7 @@ public class DocumentWriteRetryHelper {
         for (SolrResponse response : responses) {
             switch (response) {
                 case OK:
-                    stubber = (stubber == null) ? doNothing() : stubber.doNothing();
+                    stubber = (stubber == null) ? doReturn(new UpdateResponse()) : stubber.doReturn(new UpdateResponse());
                     break;
                 case REMOTE_EXCEPTION:
                     stubber = (stubber == null) ? doThrow(new HttpSolrClient.RemoteSolrException(HOST, CODE, MESSAGE, null))

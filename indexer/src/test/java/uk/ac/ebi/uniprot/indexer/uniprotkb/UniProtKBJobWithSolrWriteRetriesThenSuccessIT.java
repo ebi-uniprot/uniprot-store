@@ -50,10 +50,10 @@ class UniProtKBJobWithSolrWriteRetriesThenSuccessIT {
     private JobLauncherTestUtils jobLauncherTestUtils;
 
     @Autowired
-    private ItemWriter<ConvertableEntry> uniProtDocumentItemWriter;
+    private ItemWriter<ConvertibleEntry> uniProtDocumentItemWriter;
 
     @Captor
-    private ArgumentCaptor<List<ConvertableEntry>> argumentCaptor;
+    private ArgumentCaptor<List<ConvertibleEntry>> argumentCaptor;
 
     private static final List<SolrResponse> SOLR_RESPONSES = asList(
                                             // read first chunk (size 2; read total 2)
@@ -84,7 +84,7 @@ class UniProtKBJobWithSolrWriteRetriesThenSuccessIT {
         assertThat(indexingStep.getCommitCount(), is(3));
 
         verify(uniProtDocumentItemWriter, times(4)).write(argumentCaptor.capture());
-        List<List<ConvertableEntry>> docsSentToBeWritten = argumentCaptor.getAllValues();
+        List<List<ConvertibleEntry>> docsSentToBeWritten = argumentCaptor.getAllValues();
         validateWriteAttempts(SOLR_RESPONSES, docsSentToBeWritten, d -> d.getDocument().accession);
 
         BatchStatus status = jobExecution.getStatus();
@@ -97,8 +97,8 @@ class UniProtKBJobWithSolrWriteRetriesThenSuccessIT {
         @Bean
         @Primary
         @SuppressWarnings(value = "unchecked")
-        ItemWriter<ConvertableEntry> uniProtDocumentItemWriterIT() throws Exception {
-            ItemWriter<ConvertableEntry> mockItemWriter = mock(ItemWriter.class);
+        ItemWriter<ConvertibleEntry> uniProtDocumentItemWriterIT() throws Exception {
+            ItemWriter<ConvertibleEntry> mockItemWriter = mock(ItemWriter.class);
 
             stubSolrWriteResponses(SOLR_RESPONSES)
                     .when(mockItemWriter).write(any());

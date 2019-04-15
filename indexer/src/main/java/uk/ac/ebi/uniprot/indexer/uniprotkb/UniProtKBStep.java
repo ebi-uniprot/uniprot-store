@@ -2,10 +2,10 @@ package uk.ac.ebi.uniprot.indexer.uniprotkb;
 
 import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.client.solrj.impl.HttpSolrClient;
-import org.springframework.batch.core.ChunkListener;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.StepExecutionListener;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
+import org.springframework.batch.core.listener.ExecutionContextPromotionListener;
 import org.springframework.batch.item.ItemProcessor;
 import org.springframework.batch.item.ItemReader;
 import org.springframework.batch.item.ItemWriter;
@@ -37,12 +37,15 @@ public class UniProtKBStep {
 
     @Bean
     public Step uniProtKBIndexingMainFFStep(StepExecutionListener stepListener,
-                              ChunkListener chunkListener,
-                              ItemReader<ConvertableEntry> entryItemReader,
-                              ItemProcessor<ConvertableEntry, ConvertableEntry> uniProtDocumentItemProcessor,
-                              ItemWriter<ConvertableEntry> uniProtDocumentItemWriter) {
+                                            ConvertibleEntryChunkListener convertibleEntryChunkListener,
+                                            ItemReader<ConvertibleEntry> entryItemReader,
+                                            ItemProcessor<ConvertibleEntry, ConvertibleEntry> uniProtDocumentItemProcessor,
+                                            ItemWriter<ConvertibleEntry> uniProtDocumentItemWriter,
+                                            ExecutionContextPromotionListener promotionListener) {
         return this.stepBuilderFactory.get(UNIPROTKB_INDEX_STEP)
-                .<ConvertableEntry, ConvertableEntry>chunk(uniProtKBIndexingProperties.getChunkSize())
+                .listener(promotionListener)
+                .listener(convertibleEntryChunkListener)
+                .<ConvertibleEntry, ConvertibleEntry>chunk(uniProtKBIndexingProperties.getChunkSize())
                 .faultTolerant()
                 .skipLimit(uniProtKBIndexingProperties.getSkipLimit())
                 .retry(HttpSolrClient.RemoteSolrException.class)
@@ -52,9 +55,9 @@ public class UniProtKBStep {
                 .reader(entryItemReader)
                 .processor(uniProtDocumentItemProcessor)
                 .writer(uniProtDocumentItemWriter)
+//                .listener(promotionListener)
                 .listener(stepListener)
-                .listener(chunkListener)
-                .listener(new EntrySkipWriteListener())
+//                .listener(convertibleEntryChunkListener)
                 .build();
     }
 }

@@ -853,14 +853,14 @@ class UniProtEntryProcessorTest {
         UniProtEntry entry = parse(file);
         assertNotNull(entry);
 
-        ConvertableEntry convertableEntryMock = mock(ConvertableEntry.class);
-        doThrow(NullPointerException.class).when(convertableEntryMock).convertsTo(any());
-        when(convertableEntryMock.getEntry()).thenReturn(entry);
+        ConvertibleEntry convertibleEntryMock = mock(ConvertibleEntry.class);
+        doThrow(NullPointerException.class).when(convertibleEntryMock).convertsTo(any());
+        when(convertibleEntryMock.getEntry()).thenReturn(entry);
 
         // WHEN --------------------------------
         // ensure an exception is thrown when being processed
         Assertions.assertThrows(DocumentConversionException.class, () -> {
-            entryProcessor.process(convertableEntryMock);
+            entryProcessor.process(convertibleEntryMock);
         });
 
         // wait for the file to be written
@@ -889,9 +889,9 @@ class UniProtEntryProcessorTest {
     }
 
     private UniProtDocument convertEntry(UniProtEntry entry) {
-        ConvertableEntry convertableEntry = ConvertableEntry.createConvertableEntry(entry);
-        entryProcessor.process(convertableEntry);
-        return convertableEntry.getDocument();
+        ConvertibleEntry convertibleEntry = ConvertibleEntry.createConvertableEntry(entry);
+        entryProcessor.process(convertibleEntry);
+        return convertibleEntry.getDocument();
     }
 
     private UniProtEntry createUniProtEntryFromCommentLine(String commentLine) {

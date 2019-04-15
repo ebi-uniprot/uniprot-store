@@ -8,7 +8,7 @@ import uk.ac.ebi.uniprot.flatfile.parser.impl.DefaultUniProtEntryIterator;
  *
  * @author Edd
  */
-public class UniProtEntryItemReader implements ItemReader<ConvertableEntry> {
+public class UniProtEntryItemReader implements ItemReader<ConvertibleEntry> {
     private final DefaultUniProtEntryIterator entryIterator;
     public UniProtEntryItemReader(UniProtKBIndexingProperties indexingProperties) {
         DefaultUniProtEntryIterator uniProtEntryIterator =
@@ -24,9 +24,9 @@ public class UniProtEntryItemReader implements ItemReader<ConvertableEntry> {
     }
 
     @Override
-    public ConvertableEntry read() {
+    public ConvertibleEntry read() {
         if (entryIterator.hasNext()) {
-            return ConvertableEntry.createConvertableEntry(entryIterator.next());
+            return ConvertibleEntry.createConvertableEntry(entryIterator.next());
         } else {
             return null;
         }

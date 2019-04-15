@@ -1,5 +1,6 @@
 package uk.ac.ebi.uniprot.indexer.uniprotkb;
 
+import org.springframework.batch.core.listener.ExecutionContextPromotionListener;
 import org.springframework.batch.item.ItemProcessor;
 import org.springframework.batch.item.ItemReader;
 import org.springframework.batch.item.ItemWriter;
@@ -7,6 +8,7 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.solr.core.SolrTemplate;
+import uk.ac.ebi.uniprot.indexer.common.utils.Constants;
 import uk.ac.ebi.uniprot.indexer.document.SolrCollection;
 import uk.ac.ebi.uniprot.indexer.uniprot.go.GoRelationFileReader;
 import uk.ac.ebi.uniprot.indexer.uniprot.go.GoRelationFileRepo;
@@ -39,12 +41,12 @@ public class UniProtKBConfig {
     private UniProtKBIndexingProperties uniProtKBIndexingProperties = new UniProtKBIndexingProperties();
 
     @Bean
-    ItemReader<ConvertableEntry> entryItemReader() {
+    ItemReader<ConvertibleEntry> entryItemReader() {
         return new UniProtEntryItemReader(uniProtKBIndexingProperties);
     }
 
     @Bean
-    ItemProcessor<ConvertableEntry, ConvertableEntry> uniProtDocumentItemProcessor() {
+    ItemProcessor<ConvertibleEntry, ConvertibleEntry> uniProtDocumentItemProcessor() {
         return new UniProtEntryProcessor(createTaxonomyRepo(),
                                          createGoRelationRepo(),
                                          createKeywordRepo(),
@@ -52,13 +54,25 @@ public class UniProtKBConfig {
     }
 
     @Bean
-    public ItemWriter<ConvertableEntry> uniProtDocumentItemWriter() {
-        return new ConvertableEntryWriter(this.solrTemplate, SolrCollection.uniprot);
+    public ItemWriter<ConvertibleEntry> uniProtDocumentItemWriter() {
+        return new ConvertibleEntryWriter(this.solrTemplate, SolrCollection.uniprot);
     }
 
     @Bean
     UniProtKBIndexingProperties indexingProperties() {
         return uniProtKBIndexingProperties;
+    }
+
+    @Bean
+    ConvertibleEntryChunkListener convertibleEntryChunkListener() {
+        return new ConvertibleEntryChunkListener();
+    }
+
+    @Bean
+    public ExecutionContextPromotionListener promotionListener() {
+        ExecutionContextPromotionListener executionContextPromotionListener = new ExecutionContextPromotionListener();
+        executionContextPromotionListener.setKeys(new String[]{Constants.UNIPROTKB_INDEX_FAILED_ENTRIES_CHUNK_KEY});
+        return executionContextPromotionListener;
     }
 
     private PathwayRepo createPathwayRepo() {

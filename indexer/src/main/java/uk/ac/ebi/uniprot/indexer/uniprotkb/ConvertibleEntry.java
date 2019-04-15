@@ -10,16 +10,16 @@ import java.util.Objects;
  *
  * @author Edd
  */
-public class ConvertableEntry {
+public class ConvertibleEntry {
     private final UniProtEntry entry;
     private UniProtDocument document;
 
-    private ConvertableEntry(UniProtEntry entry) {
+    private ConvertibleEntry(UniProtEntry entry) {
         this.entry = entry;
     }
 
-    public static ConvertableEntry createConvertableEntry(UniProtEntry entry) {
-        return new ConvertableEntry(entry);
+    public static ConvertibleEntry createConvertableEntry(UniProtEntry entry) {
+        return new ConvertibleEntry(entry);
     }
 
     public void convertsTo(UniProtDocument document) {
@@ -38,7 +38,7 @@ public class ConvertableEntry {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        ConvertableEntry that = (ConvertableEntry) o;
+        ConvertibleEntry that = (ConvertibleEntry) o;
         return Objects.equals(entry, that.entry) &&
                 Objects.equals(document, that.document);
     }
