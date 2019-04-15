@@ -19,6 +19,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasSize;
 import static org.junit.jupiter.api.Assertions.fail;
 
+import uk.ac.ebi.uniprot.datastore.voldemort.uniprot.VoldemortInMemoryUniprotEntryStore;
 import uk.ac.ebi.uniprot.domain.uniprot.UniProtEntry;
 import uk.ac.ebi.uniprot.indexer.document.impl.UniprotEntryConverter;
 import uk.ac.ebi.uniprot.indexer.uniprot.mockers.GoRelationsRepoMocker;
@@ -39,9 +40,9 @@ class DataStoreManagerTest {
             storeManager = new DataStoreManager(solrStoreManager);
             storeManager.addSolrClient(DataStoreManager.StoreType.UNIPROT,solrClient);
 
-//            UUWStoreClient storeClient = new FakeStoreClient(VoldemortInMemoryUniprotEntryStore
-//                    .getInstance("avro-uniprot"));
-//            storeManager.addVoldemort(DataStoreManager.StoreType.UNIPROT, storeClient);
+        //    UUWStoreClient storeClient = new FakeStoreClient(VoldemortInMemoryUniprotEntryStore
+       //             .getInstance("avro-uniprot"));
+       //     storeManager.addVoldemort(DataStoreManager.StoreType.UNIPROT, storeClient);
 
             storeManager.addDocConverter(DataStoreManager.StoreType.UNIPROT, new UniprotEntryConverter(TaxonomyRepoMocker.getTaxonomyRepo(),
             		GoRelationsRepoMocker.getGoRelationRepo(),  KeywordRepoMocker.getKeywordRepo(),
