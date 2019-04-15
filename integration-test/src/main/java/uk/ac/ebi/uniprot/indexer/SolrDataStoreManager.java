@@ -36,6 +36,7 @@ public class SolrDataStoreManager {
         properties.load(propertiesStream);
 
         for (String property : properties.stringPropertyNames()) {
+        	System.out.println(property +"\t" + properties.getProperty(property));
             System.setProperty(property, properties.getProperty(property));
         }
     }

@@ -11,7 +11,7 @@ import uk.ac.ebi.uniprot.indexer.uniprot.taxonomy.TaxonomyRepo;
 public class TaxonomyRepoMocker {
 
     public static TaxonomyRepo getTaxonomyRepo() {
-        String filePath= Thread.currentThread().getContextClassLoader().getResource("it/taxonomy/taxonomy.dat").getFile();
+        String filePath= Thread.currentThread().getContextClassLoader().getResource("taxonomy/taxonomy.dat").getFile();
         File taxonomicFile = new File(filePath);
 
         FileNodeIterable taxonomicNodeIterable = new FileNodeIterable(taxonomicFile);

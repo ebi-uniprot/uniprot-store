@@ -28,7 +28,7 @@ import java.net.URL;
  */
 public class UniProtSearchEngine extends AbstractSearchEngine<UniProtEntry> {
     private static final String SEARCH_ENGINE_NAME = "uniprot";
-    private static final String TAXONOMY_FILE_NAME = "it/taxonomy/taxonomy.dat";
+    private static final String TAXONOMY_FILE_NAME = "taxonomy/taxonomy.dat";
 
     public UniProtSearchEngine() {
         super(SEARCH_ENGINE_NAME, TestDocumentProducer.createDefault());
