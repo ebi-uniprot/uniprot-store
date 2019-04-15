@@ -13,7 +13,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 public class UniProtKBIndexingProperties {
     private int chunkSize = 1000;
     private int skipLimit = 0;
-    private int retryLimit = 10000;
+    private int retryLimit = 100;
     private int entryIteratorThreads = 2;
     private int entryIteratorQueueSize = 50;
     private int entryIteratorFFQueueSize = 5000;

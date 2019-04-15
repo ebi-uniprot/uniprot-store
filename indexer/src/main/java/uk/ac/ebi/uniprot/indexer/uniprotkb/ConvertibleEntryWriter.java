@@ -10,6 +10,7 @@ import uk.ac.ebi.uniprot.indexer.document.SolrCollection;
 import uk.ac.ebi.uniprot.indexer.document.uniprot.UniProtDocument;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
@@ -30,10 +31,11 @@ public class ConvertibleEntryWriter implements ItemWriter<ConvertibleEntry> {
     @Override
     public void write(List<? extends ConvertibleEntry> convertibleEntries) {
         // record entries we are going to try to write, in case of failure
-        if (stepExecution != null) {
+        if (Objects.nonNull(stepExecution)) {
             recordEntries(convertibleEntries);
         }
 
+        // try to write entries to Solr
         List<UniProtDocument> uniProtDocuments = convertibleEntries.stream()
                 .map(ConvertibleEntry::getDocument)
                 .collect(Collectors.toList());
@@ -41,15 +43,12 @@ public class ConvertibleEntryWriter implements ItemWriter<ConvertibleEntry> {
     }
 
     private void recordEntries(List<? extends ConvertibleEntry> convertibleEntries) {
-        // TODO: 15/04/19 find way to ensure failed entries are not written twice
         ExecutionContext executionContext = stepExecution.getJobExecution().getExecutionContext();
         executionContext.put(Constants.UNIPROTKB_INDEX_FAILED_ENTRIES_CHUNK_KEY, convertibleEntries);
-
-//        Map<String, UniProtEntry> map
     }
 
     @BeforeStep
-    public void setStepExecution(final StepExecution stepExecution){
+    public void setStepExecution(final StepExecution stepExecution) {
         this.stepExecution = stepExecution;
     }
 }

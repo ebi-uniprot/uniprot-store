@@ -47,11 +47,41 @@ public class UniProtKBStep {
                 .listener(convertibleEntryChunkListener)
                 .<ConvertibleEntry, ConvertibleEntry>chunk(uniProtKBIndexingProperties.getChunkSize())
                 .faultTolerant()
-                .skipLimit(uniProtKBIndexingProperties.getSkipLimit())
+//                .skipLimit(uniProtKBIndexingProperties.getSkipLimit())
+                .retryLimit(uniProtKBIndexingProperties.getRetryLimit())
                 .retry(HttpSolrClient.RemoteSolrException.class)
                 .retry(UncategorizedSolrException.class)
                 .retry(SolrServerException.class)
-                .retryLimit(uniProtKBIndexingProperties.getRetryLimit())
+                .skip(HttpSolrClient.RemoteSolrException.class)
+                .skip(UncategorizedSolrException.class)
+                .skip(SolrServerException.class)
+//                .retryPolicy(new RetryPolicy() {
+//                    @Override
+//                    public boolean canRetry(RetryContext retryContext) {
+//                        return true;
+//                    }
+//
+//                    @Override
+//                    public RetryContext open(RetryContext retryContext) {
+//                        return null;
+//                    }
+//
+//                    @Override
+//                    public void close(RetryContext retryContext) {
+//
+//                    }
+//
+//                    @Override
+//                    public void registerThrowable(RetryContext retryContext, Throwable throwable) {
+//
+//                    }
+//                })
+//                .skipPolicy(new SkipPolicy() {
+//                    @Override
+//                    public boolean shouldSkip(Throwable throwable, int i) throws SkipLimitExceededException {
+//                        return true;
+//                    }
+//                })
                 .reader(entryItemReader)
                 .processor(uniProtDocumentItemProcessor)
                 .writer(uniProtDocumentItemWriter)

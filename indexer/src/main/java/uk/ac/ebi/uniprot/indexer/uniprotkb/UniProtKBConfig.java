@@ -64,8 +64,8 @@ public class UniProtKBConfig {
     }
 
     @Bean
-    ConvertibleEntryChunkListener convertibleEntryChunkListener() {
-        return new ConvertibleEntryChunkListener();
+    ConvertibleEntryChunkListener convertibleEntryChunkListener(UniProtKBIndexingProperties indexingProperties) {
+        return new ConvertibleEntryChunkListener(indexingProperties);
     }
 
     @Bean

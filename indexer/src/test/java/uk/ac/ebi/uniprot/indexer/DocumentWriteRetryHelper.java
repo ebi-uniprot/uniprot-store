@@ -30,7 +30,7 @@ public class DocumentWriteRetryHelper {
     private static final int CODE = 1;
 
     /**
-     * Stubs successive Solrmethod call actions based on a given list of {@link SolrResponse}
+     * Stubs successive ItemWriter write to Solr actions, based on a given list of {@link SolrResponse}
      * values. {@link SolrResponse#OK} simulates that Solr was able to write the documents it
      * received; {@link SolrResponse#REMOTE_EXCEPTION} simulates Solr being busy and responding
      * with a {@link HttpSolrClient.RemoteSolrException}, meaning the documents could not be
@@ -39,6 +39,24 @@ public class DocumentWriteRetryHelper {
      * @param responses represents a list of behavioural responses from Solr
      * @return a {@link Stubber} which can be associated with a method call
      */
+    public static Stubber stubItemWriterWriteResponses(List<SolrResponse> responses) {
+        Stubber stubber = null;
+        for (SolrResponse response : responses) {
+            switch (response) {
+                case OK:
+                    stubber = (stubber == null) ?  doNothing() : stubber.doNothing();
+                    break;
+                case REMOTE_EXCEPTION:
+                    stubber = (stubber == null) ? doThrow(new HttpSolrClient.RemoteSolrException(HOST, CODE, MESSAGE, null))
+                            : stubber.doThrow(new HttpSolrClient.RemoteSolrException(HOST, CODE, MESSAGE, null));
+                    break;
+                default:
+                    throw new IllegalStateException("Unknown SolrResponse");
+            }
+        }
+        return stubber;
+    }
+
     public static Stubber stubSolrWriteResponses(List<SolrResponse> responses) {
         Stubber stubber = null;
         for (SolrResponse response : responses) {
