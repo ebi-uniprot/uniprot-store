@@ -1,5 +1,6 @@
 package uk.ac.ebi.uniprot.indexer.uniprotkb;
 
+import net.jodah.failsafe.RetryPolicy;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.batch.core.BatchStatus;
@@ -21,6 +22,7 @@ import uk.ac.ebi.uniprot.indexer.document.SolrCollection;
 import uk.ac.ebi.uniprot.indexer.test.config.FakeIndexerSpringBootApplication;
 import uk.ac.ebi.uniprot.indexer.test.config.TestConfig;
 
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -52,25 +54,13 @@ class UniProtKBJobWithSolrWriteRetriesWritesToLogFileIT {
     private JobLauncherTestUtils jobLauncherTestUtils;
 
     private static final List<SolrResponse> SOLR_RESPONSES = asList(
-//            // read first chunk (size 2; read total 2)
-//            SolrResponse.OK,                // .. then, write first chunk (write total 2)
-//            // read second chunk (size 2; read total 4)
-//            SolrResponse.REMOTE_EXCEPTION,  // .. then error when writing (write total 2)
-//            SolrResponse.OK,                // .. then success when writing (write total 4)
-//            // read remainder (size 1; read total 5)
-//            SolrResponse.REMOTE_EXCEPTION,  // .. then error when writing (write total 4)
-//            SolrResponse.REMOTE_EXCEPTION); // too many errors -- indexing fails
-            // read first chunk (size 2; read total 2)
-//            SolrResponse.OK,                // .. then, write first chunk (write total 2)
-            // read second chunk (size 2; read total 4)
-            SolrResponse.REMOTE_EXCEPTION,  // .. then error when writing (write total 2)
-            SolrResponse.REMOTE_EXCEPTION,  // .. then error when writing (write total 2)
-            SolrResponse.REMOTE_EXCEPTION,  // .. then error when writing (write total 2)
-            SolrResponse.REMOTE_EXCEPTION,  // .. then error when writing (write total 2)
-//            SolrResponse.OK,                // .. then success when writing (write total 4)
-            // read remainder (size 1; read total 5)
-            SolrResponse.REMOTE_EXCEPTION,  // .. then error when writing (write total 4)
-            SolrResponse.REMOTE_EXCEPTION);
+            SolrResponse.REMOTE_EXCEPTION,  // .. chunk 1 failed to write
+            SolrResponse.REMOTE_EXCEPTION,  // .. chunk 1 failed to write
+            SolrResponse.REMOTE_EXCEPTION,  // .. chunk 2 failed to write
+            SolrResponse.REMOTE_EXCEPTION,  // .. chunk 2 failed to write
+//            SolrResponse.OK,                // .. chunk 2 written
+            SolrResponse.REMOTE_EXCEPTION,  // .. chunk 3 failed to write
+            SolrResponse.REMOTE_EXCEPTION); // .. chunk 3 failed to write
 
     @Test
     void tooManyRetriesCausesAFailedIndexingJob() throws Exception {
@@ -85,14 +75,7 @@ class UniProtKBJobWithSolrWriteRetriesWritesToLogFileIT {
 
         StepExecution indexingStep = jobsSingleStepAsList.get(0);
 
-        assertThat(indexingStep.getReadCount(), is(5));
-        assertThat(indexingStep.getWriteCount(), is(4));
-
-        // TODO: 15/04/19 check that the file was just created and contains the failed entries
-        assertThat(indexingStep.getReadSkipCount(), is(0));
-        assertThat(indexingStep.getProcessSkipCount(), is(0));
-        assertThat(indexingStep.getWriteSkipCount(), is(0));
-        assertThat(indexingStep.getCommitCount(), is(2));
+        assertThat(indexingStep.getReadCount(), is(5));  // ensure everything was read
 
         BatchStatus status = jobExecution.getStatus();
         assertThat(status, is(BatchStatus.FAILED));
@@ -108,7 +91,12 @@ class UniProtKBJobWithSolrWriteRetriesWritesToLogFileIT {
             SolrTemplate mockSolrTemplate = mock(SolrTemplate.class);
             stubSolrWriteResponses(SOLR_RESPONSES).when(mockSolrTemplate)
                     .saveBeans(eq(SolrCollection.uniprot.name()), any());
-            return new ConvertibleEntryWriter(mockSolrTemplate, SolrCollection.uniprot);
+
+            return new ConvertibleEntryWriter(mockSolrTemplate,
+                                              SolrCollection.uniprot,
+                                              new RetryPolicy<>()
+                                                      .withMaxRetries(2)
+                                                      .withBackoff(1, 2, ChronoUnit.SECONDS));
         }
     }
 }

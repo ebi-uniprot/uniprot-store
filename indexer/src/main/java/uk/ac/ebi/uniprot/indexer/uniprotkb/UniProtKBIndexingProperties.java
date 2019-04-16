@@ -12,8 +12,9 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @ConfigurationProperties(prefix = "uniprotkb.indexing")
 public class UniProtKBIndexingProperties {
     private int chunkSize = 1000;
-    private int skipLimit = 0;
-    private int retryLimit = 100;
+    private int writeRetryLimit = 100;
+    private int writeRetryBackOffFromSec = 2;
+    private int writeRetryBackOffToSec = 15;
     private int entryIteratorThreads = 2;
     private int entryIteratorQueueSize = 50;
     private int entryIteratorFFQueueSize = 5000;

@@ -1,11 +1,9 @@
 package uk.ac.ebi.uniprot.indexer.uniprotkb;
 
-import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.client.solrj.impl.HttpSolrClient;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.StepExecutionListener;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
-import org.springframework.batch.core.listener.ExecutionContextPromotionListener;
 import org.springframework.batch.item.ItemProcessor;
 import org.springframework.batch.item.ItemReader;
 import org.springframework.batch.item.ItemWriter;
@@ -13,7 +11,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
-import org.springframework.data.solr.UncategorizedSolrException;
+import org.springframework.retry.RetryPolicy;
+import org.springframework.retry.policy.SimpleRetryPolicy;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import static uk.ac.ebi.uniprot.indexer.common.utils.Constants.UNIPROTKB_INDEX_STEP;
 
@@ -35,57 +37,33 @@ public class UniProtKBStep {
         this.uniProtKBIndexingProperties = indexingProperties;
     }
 
+    private RetryPolicy retryPolicy() {
+        Map<Class<? extends Throwable>, Boolean> throwables = new HashMap<>();
+        throwables.put(HttpSolrClient.RemoteSolrException.class, true);
+        return new SimpleRetryPolicy(1, throwables);
+    }
+
     @Bean
     public Step uniProtKBIndexingMainFFStep(StepExecutionListener stepListener,
-                                            ConvertibleEntryChunkListener convertibleEntryChunkListener,
                                             ItemReader<ConvertibleEntry> entryItemReader,
                                             ItemProcessor<ConvertibleEntry, ConvertibleEntry> uniProtDocumentItemProcessor,
-                                            ItemWriter<ConvertibleEntry> uniProtDocumentItemWriter,
-                                            ExecutionContextPromotionListener promotionListener) {
+                                            ItemWriter<ConvertibleEntry> uniProtDocumentItemWriter) {
         return this.stepBuilderFactory.get(UNIPROTKB_INDEX_STEP)
-                .listener(promotionListener)
-                .listener(convertibleEntryChunkListener)
                 .<ConvertibleEntry, ConvertibleEntry>chunk(uniProtKBIndexingProperties.getChunkSize())
-                .faultTolerant()
-//                .skipLimit(uniProtKBIndexingProperties.getSkipLimit())
-                .retryLimit(uniProtKBIndexingProperties.getRetryLimit())
-                .retry(HttpSolrClient.RemoteSolrException.class)
-                .retry(UncategorizedSolrException.class)
-                .retry(SolrServerException.class)
-                .skip(HttpSolrClient.RemoteSolrException.class)
-                .skip(UncategorizedSolrException.class)
-                .skip(SolrServerException.class)
-//                .retryPolicy(new RetryPolicy() {
-//                    @Override
-//                    public boolean canRetry(RetryContext retryContext) {
-//                        return true;
-//                    }
-//
-//                    @Override
-//                    public RetryContext open(RetryContext retryContext) {
-//                        return null;
-//                    }
-//
-//                    @Override
-//                    public void close(RetryContext retryContext) {
-//
-//                    }
-//
-//                    @Override
-//                    public void registerThrowable(RetryContext retryContext, Throwable throwable) {
-//
-//                    }
-//                })
-//                .skipPolicy(new SkipPolicy() {
-//                    @Override
-//                    public boolean shouldSkip(Throwable throwable, int i) throws SkipLimitExceededException {
-//                        return true;
-//                    }
-//                })
                 .reader(entryItemReader)
                 .processor(uniProtDocumentItemProcessor)
                 .writer(uniProtDocumentItemWriter)
-//                .listener(promotionListener)
+//                .faultTolerant()
+//                .skipLimit(uniProtKBIndexingProperties.getSkipLimit())
+//                .skip(HttpSolrClient.RemoteSolrException.class)
+//                .skip(UncategorizedSolrException.class)
+//                .skip(SolrServerException.class)
+//                .retry(HttpSolrClient.RemoteSolrException.class)
+//                .retry(UncategorizedSolrException.class)
+//                .retry(SolrServerException.class)
+//                .retryLimit(uniProtKBIndexingProperties.getRetryLimit())
+//                .retryPolicy(retryPolicy())
+//                .skipPolicy((throwable, i) -> true)
                 .listener(stepListener)
 //                .listener(convertibleEntryChunkListener)
                 .build();

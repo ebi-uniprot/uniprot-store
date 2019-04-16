@@ -1,6 +1,7 @@
 package uk.ac.ebi.uniprot.indexer.uniprotkb;
 
-import org.springframework.batch.core.listener.ExecutionContextPromotionListener;
+import net.jodah.failsafe.RetryPolicy;
+import org.apache.solr.client.solrj.impl.HttpSolrClient;
 import org.springframework.batch.item.ItemProcessor;
 import org.springframework.batch.item.ItemReader;
 import org.springframework.batch.item.ItemWriter;
@@ -8,7 +9,6 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.solr.core.SolrTemplate;
-import uk.ac.ebi.uniprot.indexer.common.utils.Constants;
 import uk.ac.ebi.uniprot.indexer.document.SolrCollection;
 import uk.ac.ebi.uniprot.indexer.uniprot.go.GoRelationFileReader;
 import uk.ac.ebi.uniprot.indexer.uniprot.go.GoRelationFileRepo;
@@ -23,6 +23,9 @@ import uk.ac.ebi.uniprot.indexer.uniprot.taxonomy.TaxonomyMapRepo;
 import uk.ac.ebi.uniprot.indexer.uniprot.taxonomy.TaxonomyRepo;
 
 import java.io.File;
+import java.time.temporal.ChronoUnit;
+
+import static java.util.Arrays.asList;
 
 /**
  * Created 10/04/19
@@ -54,8 +57,8 @@ public class UniProtKBConfig {
     }
 
     @Bean
-    public ItemWriter<ConvertibleEntry> uniProtDocumentItemWriter() {
-        return new ConvertibleEntryWriter(this.solrTemplate, SolrCollection.uniprot);
+    public ItemWriter<ConvertibleEntry> uniProtDocumentItemWriter(RetryPolicy<Object> writeRetryPolicy) {
+        return new ConvertibleEntryWriter(this.solrTemplate, SolrCollection.uniprot, writeRetryPolicy);
     }
 
     @Bean
@@ -64,15 +67,13 @@ public class UniProtKBConfig {
     }
 
     @Bean
-    ConvertibleEntryChunkListener convertibleEntryChunkListener(UniProtKBIndexingProperties indexingProperties) {
-        return new ConvertibleEntryChunkListener(indexingProperties);
-    }
-
-    @Bean
-    public ExecutionContextPromotionListener promotionListener() {
-        ExecutionContextPromotionListener executionContextPromotionListener = new ExecutionContextPromotionListener();
-        executionContextPromotionListener.setKeys(new String[]{Constants.UNIPROTKB_INDEX_FAILED_ENTRIES_CHUNK_KEY});
-        return executionContextPromotionListener;
+    public RetryPolicy<Object> writeRetryPolicy() {
+        return new RetryPolicy<>()
+                .handle(asList(Error.class, Exception.class, HttpSolrClient.RemoteSolrException.class))
+                .withMaxRetries(uniProtKBIndexingProperties.getWriteRetryLimit())
+                .withBackoff(uniProtKBIndexingProperties.getWriteRetryBackOffFromSec(),
+                             uniProtKBIndexingProperties.getWriteRetryBackOffToSec(),
+                             ChronoUnit.SECONDS);
     }
 
     private PathwayRepo createPathwayRepo() {

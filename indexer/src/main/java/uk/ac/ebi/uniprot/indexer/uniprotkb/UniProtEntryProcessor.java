@@ -33,7 +33,6 @@ import uk.ac.ebi.uniprot.flatfile.parser.impl.cc.CCLineBuilderFactory;
 import uk.ac.ebi.uniprot.flatfile.parser.impl.ft.FeatureLineBuilderFactory;
 import uk.ac.ebi.uniprot.flatfile.parser.impl.ra.RALineBuilder;
 import uk.ac.ebi.uniprot.flatfile.parser.impl.rg.RGLineBuilder;
-import uk.ac.ebi.uniprot.indexer.common.DocumentConversionException;
 import uk.ac.ebi.uniprot.indexer.document.uniprot.UniProtDocument;
 import uk.ac.ebi.uniprot.indexer.uniprot.go.GoRelationRepo;
 import uk.ac.ebi.uniprot.indexer.uniprot.go.GoTerm;
@@ -178,8 +177,7 @@ public class UniProtEntryProcessor implements ItemProcessor<ConvertibleEntry, Co
             return convertibleEntry;
         } catch (IllegalArgumentException | NullPointerException e) {
             writeFailedEntryToFile(uniProtEntry);
-            String acc = uniProtEntry.getPrimaryAccession().getValue();
-            throw new DocumentConversionException("Error occurred whilst trying to convert UniProt entry: " + acc, e);
+            return null; // => the item should not be written https://docs.spring.io/spring-batch/trunk/reference/html/domain.html#domainItemProcessor
         }
     }
 

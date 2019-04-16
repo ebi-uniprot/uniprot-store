@@ -1,17 +1,18 @@
 package uk.ac.ebi.uniprot.indexer.uniprotkb;
 
-import org.springframework.batch.core.StepExecution;
-import org.springframework.batch.core.annotation.BeforeStep;
-import org.springframework.batch.item.ExecutionContext;
+import net.jodah.failsafe.Failsafe;
+import net.jodah.failsafe.RetryPolicy;
+import org.slf4j.Logger;
 import org.springframework.batch.item.ItemWriter;
 import org.springframework.data.solr.core.SolrTemplate;
-import uk.ac.ebi.uniprot.indexer.common.utils.Constants;
+import uk.ac.ebi.uniprot.flatfile.parser.ffwriter.impl.UniProtFlatfileWriter;
 import uk.ac.ebi.uniprot.indexer.document.SolrCollection;
 import uk.ac.ebi.uniprot.indexer.document.uniprot.UniProtDocument;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
+
+import static org.slf4j.LoggerFactory.getLogger;
 
 /**
  * Created 12/04/19
@@ -19,36 +20,36 @@ import java.util.stream.Collectors;
  * @author Edd
  */
 public class ConvertibleEntryWriter implements ItemWriter<ConvertibleEntry> {
+    private static final Logger INDEXING_FAILED_LOGGER = getLogger("indexing-doc-write-failed-entries");
     private final SolrTemplate solrTemplate;
     private final SolrCollection collection;
-    private StepExecution stepExecution;
+    private final RetryPolicy<Object> retryPolicy;
 
-    public ConvertibleEntryWriter(SolrTemplate solrTemplate, SolrCollection collection) {
+    public ConvertibleEntryWriter(SolrTemplate solrTemplate, SolrCollection collection, RetryPolicy<Object> retryPolicy) {
         this.solrTemplate = solrTemplate;
         this.collection = collection;
+        this.retryPolicy = retryPolicy;
     }
 
     @Override
     public void write(List<? extends ConvertibleEntry> convertibleEntries) {
-        // record entries we are going to try to write, in case of failure
-        if (Objects.nonNull(stepExecution)) {
-            recordEntries(convertibleEntries);
-        }
-
-        // try to write entries to Solr
         List<UniProtDocument> uniProtDocuments = convertibleEntries.stream()
                 .map(ConvertibleEntry::getDocument)
                 .collect(Collectors.toList());
-        solrTemplate.saveBeans(collection.name(), uniProtDocuments);
+
+        try {
+            Failsafe.with(retryPolicy)
+                    .onFailure(throwable -> logFailedEntriesToFile(convertibleEntries))
+                    .run(() -> solrTemplate.saveBeans(collection.name(), uniProtDocuments));
+        } catch(Throwable error){
+            System.out.println("thing");
+        }
     }
 
-    private void recordEntries(List<? extends ConvertibleEntry> convertibleEntries) {
-        ExecutionContext executionContext = stepExecution.getJobExecution().getExecutionContext();
-        executionContext.put(Constants.UNIPROTKB_INDEX_FAILED_ENTRIES_CHUNK_KEY, convertibleEntries);
-    }
-
-    @BeforeStep
-    public void setStepExecution(final StepExecution stepExecution) {
-        this.stepExecution = stepExecution;
+    private void logFailedEntriesToFile(List<? extends ConvertibleEntry> convertibleEntries) {
+        for (ConvertibleEntry convertibleEntry : convertibleEntries) {
+            String entryFF = UniProtFlatfileWriter.write(convertibleEntry.getEntry());
+            INDEXING_FAILED_LOGGER.error(entryFF);
+        }
     }
 }
