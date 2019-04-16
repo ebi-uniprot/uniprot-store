@@ -57,8 +57,8 @@ class UniProtKBJobWithSolrWriteRetriesWritesToLogFileIT {
             SolrResponse.REMOTE_EXCEPTION,  // .. chunk 1 failed to write
             SolrResponse.REMOTE_EXCEPTION,  // .. chunk 1 failed to write
             SolrResponse.REMOTE_EXCEPTION,  // .. chunk 2 failed to write
-            SolrResponse.REMOTE_EXCEPTION,  // .. chunk 2 failed to write
-//            SolrResponse.OK,                // .. chunk 2 written
+//            SolrResponse.REMOTE_EXCEPTION,  // .. chunk 2 failed to write
+            SolrResponse.OK,                // .. chunk 2 written
             SolrResponse.REMOTE_EXCEPTION,  // .. chunk 3 failed to write
             SolrResponse.REMOTE_EXCEPTION); // .. chunk 3 failed to write
 
@@ -76,6 +76,8 @@ class UniProtKBJobWithSolrWriteRetriesWritesToLogFileIT {
         StepExecution indexingStep = jobsSingleStepAsList.get(0);
 
         assertThat(indexingStep.getReadCount(), is(5));  // ensure everything was read
+
+        // TODO: 16/04/19 check that the log file was created and contains the correct accessions in it
 
         BatchStatus status = jobExecution.getStatus();
         assertThat(status, is(BatchStatus.FAILED));

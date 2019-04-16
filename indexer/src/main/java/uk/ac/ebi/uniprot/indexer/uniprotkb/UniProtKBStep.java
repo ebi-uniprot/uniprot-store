@@ -4,6 +4,7 @@ import org.apache.solr.client.solrj.impl.HttpSolrClient;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.StepExecutionListener;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
+import org.springframework.batch.core.listener.ExecutionContextPromotionListener;
 import org.springframework.batch.item.ItemProcessor;
 import org.springframework.batch.item.ItemReader;
 import org.springframework.batch.item.ItemWriter;
@@ -44,11 +45,13 @@ public class UniProtKBStep {
     }
 
     @Bean
-    public Step uniProtKBIndexingMainFFStep(StepExecutionListener stepListener,
+    public Step uniProtKBIndexingMainFFStep(StepExecutionListener uniProtKBStepListener,
                                             ItemReader<ConvertibleEntry> entryItemReader,
                                             ItemProcessor<ConvertibleEntry, ConvertibleEntry> uniProtDocumentItemProcessor,
-                                            ItemWriter<ConvertibleEntry> uniProtDocumentItemWriter) {
+                                            ItemWriter<ConvertibleEntry> uniProtDocumentItemWriter,
+                                            ExecutionContextPromotionListener promotionListener) {
         return this.stepBuilderFactory.get(UNIPROTKB_INDEX_STEP)
+                .listener(promotionListener)
                 .<ConvertibleEntry, ConvertibleEntry>chunk(uniProtKBIndexingProperties.getChunkSize())
                 .reader(entryItemReader)
                 .processor(uniProtDocumentItemProcessor)
@@ -64,7 +67,7 @@ public class UniProtKBStep {
 //                .retryLimit(uniProtKBIndexingProperties.getRetryLimit())
 //                .retryPolicy(retryPolicy())
 //                .skipPolicy((throwable, i) -> true)
-                .listener(stepListener)
+                .listener(uniProtKBStepListener)
 //                .listener(convertibleEntryChunkListener)
                 .build();
     }

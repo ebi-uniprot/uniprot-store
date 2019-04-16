@@ -2,6 +2,9 @@ package uk.ac.ebi.uniprot.indexer.uniprotkb;
 
 import net.jodah.failsafe.RetryPolicy;
 import org.apache.solr.client.solrj.impl.HttpSolrClient;
+import org.springframework.batch.core.JobExecutionListener;
+import org.springframework.batch.core.StepExecutionListener;
+import org.springframework.batch.core.listener.ExecutionContextPromotionListener;
 import org.springframework.batch.item.ItemProcessor;
 import org.springframework.batch.item.ItemReader;
 import org.springframework.batch.item.ItemWriter;
@@ -9,6 +12,7 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.solr.core.SolrTemplate;
+import uk.ac.ebi.uniprot.indexer.common.utils.Constants;
 import uk.ac.ebi.uniprot.indexer.document.SolrCollection;
 import uk.ac.ebi.uniprot.indexer.uniprot.go.GoRelationFileReader;
 import uk.ac.ebi.uniprot.indexer.uniprot.go.GoRelationFileRepo;
@@ -74,6 +78,24 @@ public class UniProtKBConfig {
                 .withBackoff(uniProtKBIndexingProperties.getWriteRetryBackOffFromSec(),
                              uniProtKBIndexingProperties.getWriteRetryBackOffToSec(),
                              ChronoUnit.SECONDS);
+    }
+
+    @Bean
+    public ExecutionContextPromotionListener promotionListener() {
+        ExecutionContextPromotionListener executionContextPromotionListener = new ExecutionContextPromotionListener();
+        executionContextPromotionListener.setKeys(new String[]{Constants.UNIPROTKB_INDEX_FAILED_ENTRIES_COUNT_KEY,
+                                                               Constants.UNIPROTKB_INDEX_WRITTEN_ENTRIES_COUNT_KEY});
+        return executionContextPromotionListener;
+    }
+
+    @Bean
+    public StepExecutionListener uniProtKBStepListener() {
+        return new UniProtKBLogStepListener();
+    }
+
+    @Bean
+    public JobExecutionListener uniProtKBLogJobListener() {
+        return new UniProtKBLogJobListener();
     }
 
     private PathwayRepo createPathwayRepo() {

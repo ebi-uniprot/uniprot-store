@@ -1,5 +1,13 @@
 <?xml version="1.0"?>
 <configuration>
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <!-- encoders are assigned the type
+             ch.qos.logback.classic.encoder.PatternLayoutEncoder by default -->
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
     <appender name="DOC-CONVERSION-FAILED-ENTRIES-FILE" class="ch.qos.logback.core.FileAppender">
         <file>indexing-doc-conversion-failed-entries.error</file>
         <!-- overwrite previous log -->
@@ -24,4 +32,8 @@
     <logger name="indexing-doc-write-failed-entries" level="DEBUG" additivity="false">
         <appender-ref ref="DOC-WRITE-FAILED-ENTRIES-FILE"/>
     </logger>
+
+    <root level="info">
+        <appender-ref ref="STDOUT" />
+    </root>
 </configuration>

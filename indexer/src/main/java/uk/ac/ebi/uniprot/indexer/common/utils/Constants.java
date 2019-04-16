@@ -6,6 +6,8 @@ public class Constants {
 
     public static final String UNIPROTKB_INDEX_JOB = "UniProtKB_Indexing_Job";
     public static final String UNIPROTKB_INDEX_STEP = "UniProtKB_Indexing_Step";
+    public static final String UNIPROTKB_INDEX_FAILED_ENTRIES_COUNT_KEY = "UNIPROTKB_INDEX_FAILED_ENTRIES_COUNT_KEY";
+    public static final String UNIPROTKB_INDEX_WRITTEN_ENTRIES_COUNT_KEY = "UNIPROTKB_INDEX_WRITTEN_ENTRIES_COUNT_KEY";
 
     public static final String CROSS_REF_INDEX_STEP = "Cross ref indexing step";
 
@@ -16,6 +18,4 @@ public class Constants {
     public static final String TAXONOMY_LOAD_VIRUS_HOST_STEP_NAME = "TAXONOMY_LOAD_VIRUS_HOST";
     public static final String TAXONOMY_LOAD_URL_STEP_NAME = "TAXONOMY_LOAD_URL";
     public static final String TAXONOMY_LOAD_COUNT_STEP_NAME = "TAXONOMY_LOAD_COUNT";
-    public static final String UNIPROTKB_INDEX_FAILED_ENTRIES_CHUNK_KEY = "UNIPROTKB_INDEX_FAILED_ENTRIES_CHUNK_KEY";
-    public static final String UNIPROTKB_INDEX_FAILED_ENTRIES_WRITTEN_TO_FILE_KEY = "UNIPROTKB_INDEX_FAILED_ENTRIES_WRITTEN_TO_FILE_KEY";
 }

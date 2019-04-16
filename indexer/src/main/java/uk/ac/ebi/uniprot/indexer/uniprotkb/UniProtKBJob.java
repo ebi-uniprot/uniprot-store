@@ -30,10 +30,10 @@ public class UniProtKBJob {
     }
 
     @Bean
-    public Job uniProtKBIndexingJob(Step uniProtKBIndexingMainFFStep, JobExecutionListener jobListener) {
+    public Job uniProtKBIndexingJob(Step uniProtKBIndexingMainFFStep, JobExecutionListener uniProtKBLogJobListener) {
         return this.jobBuilderFactory.get(UNIPROTKB_INDEX_JOB)
                 .start(uniProtKBIndexingMainFFStep)
-                .listener(jobListener)
+                .listener(uniProtKBLogJobListener)
                 .listener(new JobExecutionListener() {
                     @Override public void beforeJob(JobExecution jobExecution) {
                         // no-op
