@@ -17,7 +17,7 @@ public class CrossRefDocument implements Document {
     private String accession;
     @Field
     private String abbrev;
-    @Field
+    @Field("name_only")
     private String name;
     @Field("pubmed_id")
     private String pubMedId;
@@ -30,11 +30,9 @@ public class CrossRefDocument implements Document {
     @Field("db_url")
     private String dbUrl;
     @Field("category_str")
-    private String category;
-    @Field("content")
-    private List<String> content =new ArrayList<>();
+    private String categoryStr;
     @Field("category_facet")
-    private String categoryFacet;
+    private String category;
     @Field("uniprotkb_entry_count")
     private Long uniprotCount;
 }

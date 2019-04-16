@@ -43,7 +43,7 @@ class CrossRefReaderTest {
         assertNotNull(dbxRef.getLinkType(), "Link Type is null");
         assertNotNull(dbxRef.getServer(), "Server is null");
         assertNotNull(dbxRef.getDbUrl(), "DB URL is null");
-        assertNotNull(dbxRef.getCategory(), "Category is null");
+        assertNotNull(dbxRef.getCategoryStr(), "Category is null");
     }
 
 }
