@@ -12,11 +12,13 @@ import org.springframework.data.solr.core.SolrTemplate;
 import org.springframework.data.solr.core.query.SimpleQuery;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import uk.ac.ebi.uniprot.indexer.common.listeners.ListenerConfig;
+import uk.ac.ebi.uniprot.indexer.common.utils.Constants;
 import uk.ac.ebi.uniprot.indexer.document.SolrCollection;
 import uk.ac.ebi.uniprot.indexer.document.uniprot.UniProtDocument;
 import uk.ac.ebi.uniprot.indexer.test.config.FakeIndexerSpringBootApplication;
 import uk.ac.ebi.uniprot.indexer.test.config.TestConfig;
 
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -30,16 +32,6 @@ import static uk.ac.ebi.uniprot.indexer.common.utils.Constants.UNIPROTKB_INDEX_S
  *
  * @author Edd
  */
-// TODO: 12/04/19 Incorporate UniRef Map data when Guoying is back
-// TODO: 12/04/19 Check failed entry is written to error file
-//                  Need to think about this: there can be many paths that lead to error
-//                  1. bad FF format -- does the FF iterator write failed entries to an error file?
-//                     Unlikely, since the file will be a RELEASE file where lots of checks were done
-//                  2. entry->document conversion
-//                  3. writing to solr, e.g., due to network issue
-//                     Could catch Error class after writing to solr,
-//                     Done. Needs testing.
-// TODO: 12/04/19 Check failures in presence of fault tolerant step will continue up to certain limit
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = {FakeIndexerSpringBootApplication.class, TestConfig.class, UniProtKBJob.class,
                            UniProtKBStep.class, ListenerConfig.class})
@@ -67,10 +59,14 @@ class UniProtKBJobIT {
                 .collect(Collectors.toList()).get(0);
 
         assertThat(indexingStep.getReadCount(), is(5));
-        assertThat(indexingStep.getReadSkipCount(), is(0));
-        assertThat(indexingStep.getProcessSkipCount(), is(0));
-        assertThat(indexingStep.getWriteSkipCount(), is(0));
-        assertThat(indexingStep.getWriteCount(), is(5));
-        assertThat(indexingStep.getCommitCount(), is(3));
+        checkWriteCount(jobExecution, Constants.UNIPROTKB_INDEX_FAILED_ENTRIES_COUNT_KEY, 0);
+        checkWriteCount(jobExecution, Constants.UNIPROTKB_INDEX_WRITTEN_ENTRIES_COUNT_KEY, 5);
+    }
+
+    private void checkWriteCount(JobExecution jobExecution, String uniprotkbIndexFailedEntriesCountKey, int i) {
+        AtomicInteger failedCountAI = (AtomicInteger) jobExecution.getExecutionContext()
+                .get(uniprotkbIndexFailedEntriesCountKey);
+        assertThat(failedCountAI, CoreMatchers.is(CoreMatchers.notNullValue()));
+        assertThat(failedCountAI.get(), CoreMatchers.is(i));
     }
 }

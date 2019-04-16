@@ -1,7 +1,6 @@
 package uk.ac.ebi.uniprot.indexer.uniprotkb;
 
 import org.apache.commons.io.IOUtils;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import uk.ac.ebi.uniprot.domain.builder.SequenceBuilder;
@@ -15,7 +14,6 @@ import uk.ac.ebi.uniprot.flatfile.parser.SupportingDataMap;
 import uk.ac.ebi.uniprot.flatfile.parser.impl.DefaultUniProtParser;
 import uk.ac.ebi.uniprot.flatfile.parser.impl.SupportingDataMapImpl;
 import uk.ac.ebi.uniprot.flatfile.parser.impl.cc.CcLineTransformer;
-import uk.ac.ebi.uniprot.indexer.common.DocumentConversionException;
 import uk.ac.ebi.uniprot.indexer.document.uniprot.UniProtDocument;
 import uk.ac.ebi.uniprot.indexer.uniprot.go.GoRelationRepo;
 import uk.ac.ebi.uniprot.indexer.uniprot.go.GoTerm;
@@ -859,9 +857,7 @@ class UniProtEntryProcessorTest {
 
         // WHEN --------------------------------
         // ensure an exception is thrown when being processed
-        Assertions.assertThrows(DocumentConversionException.class, () -> {
-            entryProcessor.process(convertibleEntryMock);
-        });
+        entryProcessor.process(convertibleEntryMock);
 
         // wait for the file to be written
         Thread.sleep(500);

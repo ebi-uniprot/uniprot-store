@@ -36,6 +36,7 @@ public class UniProtKBLogStepListener implements StepExecutionListener {
             failedCount = failedCountAtomicInteger.get();
             if (failedCount > 0) {
                 stepExecution.setExitStatus(ExitStatus.FAILED);
+                stepExecution.setStatus(BatchStatus.FAILED);
                 stepExecution.getJobExecution().setStatus(BatchStatus.FAILED);
                 stepExecution.getJobExecution().setExitStatus(ExitStatus.FAILED);
             }

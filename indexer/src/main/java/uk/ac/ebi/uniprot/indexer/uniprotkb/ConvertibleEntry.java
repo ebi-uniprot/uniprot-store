@@ -1,15 +1,15 @@
 package uk.ac.ebi.uniprot.indexer.uniprotkb;
 
+import lombok.EqualsAndHashCode;
 import uk.ac.ebi.uniprot.domain.uniprot.UniProtEntry;
 import uk.ac.ebi.uniprot.indexer.document.uniprot.UniProtDocument;
-
-import java.util.Objects;
 
 /**
  * Created 12/04/19
  *
  * @author Edd
  */
+@EqualsAndHashCode
 public class ConvertibleEntry {
     private final UniProtEntry entry;
     private UniProtDocument document;
@@ -32,19 +32,5 @@ public class ConvertibleEntry {
 
     public UniProtDocument getDocument() {
         return document;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        ConvertibleEntry that = (ConvertibleEntry) o;
-        return Objects.equals(entry, that.entry) &&
-                Objects.equals(document, that.document);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(entry, document);
     }
 }
