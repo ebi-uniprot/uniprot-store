@@ -89,7 +89,7 @@ public class UniProtSearchEngine extends AbstractSearchEngine<UniProtEntry> {
         }
 
         GoRelationRepo createGoRelationRepo() {
-            String gotermPath = ClassLoader.getSystemClassLoader().getResource("it/goterm").getFile();
+            String gotermPath = ClassLoader.getSystemClassLoader().getResource("goterm").getFile();
             return GoRelationFileRepo.create(new GoRelationFileReader(gotermPath),
                                              new GoTermFileReader(gotermPath));
         }
