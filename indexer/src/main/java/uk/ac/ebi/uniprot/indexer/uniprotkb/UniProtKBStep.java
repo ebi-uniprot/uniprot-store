@@ -1,6 +1,5 @@
 package uk.ac.ebi.uniprot.indexer.uniprotkb;
 
-import org.apache.solr.client.solrj.impl.HttpSolrClient;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.StepExecutionListener;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
@@ -12,15 +11,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
-import org.springframework.retry.RetryPolicy;
-import org.springframework.retry.policy.SimpleRetryPolicy;
-
-import java.util.HashMap;
-import java.util.Map;
 
 import static uk.ac.ebi.uniprot.indexer.common.utils.Constants.UNIPROTKB_INDEX_STEP;
 
 /**
+ * The main UniProtKB indexing step.
+ *
  * Created 10/04/19
  *
  * @author Edd
@@ -38,12 +34,6 @@ public class UniProtKBStep {
         this.uniProtKBIndexingProperties = indexingProperties;
     }
 
-    private RetryPolicy retryPolicy() {
-        Map<Class<? extends Throwable>, Boolean> throwables = new HashMap<>();
-        throwables.put(HttpSolrClient.RemoteSolrException.class, true);
-        return new SimpleRetryPolicy(1, throwables);
-    }
-
     @Bean
     public Step uniProtKBIndexingMainFFStep(StepExecutionListener uniProtKBStepListener,
                                             ItemReader<ConvertibleEntry> entryItemReader,
@@ -56,19 +46,7 @@ public class UniProtKBStep {
                 .reader(entryItemReader)
                 .processor(uniProtDocumentItemProcessor)
                 .writer(uniProtDocumentItemWriter)
-//                .faultTolerant()
-//                .skipLimit(uniProtKBIndexingProperties.getSkipLimit())
-//                .skip(HttpSolrClient.RemoteSolrException.class)
-//                .skip(UncategorizedSolrException.class)
-//                .skip(SolrServerException.class)
-//                .retry(HttpSolrClient.RemoteSolrException.class)
-//                .retry(UncategorizedSolrException.class)
-//                .retry(SolrServerException.class)
-//                .retryLimit(uniProtKBIndexingProperties.getRetryLimit())
-//                .retryPolicy(retryPolicy())
-//                .skipPolicy((throwable, i) -> true)
                 .listener(uniProtKBStepListener)
-//                .listener(convertibleEntryChunkListener)
                 .build();
     }
 }

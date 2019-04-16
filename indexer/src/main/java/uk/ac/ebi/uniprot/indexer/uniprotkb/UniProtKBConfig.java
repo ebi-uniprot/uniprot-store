@@ -1,7 +1,6 @@
 package uk.ac.ebi.uniprot.indexer.uniprotkb;
 
 import net.jodah.failsafe.RetryPolicy;
-import org.apache.solr.client.solrj.impl.HttpSolrClient;
 import org.springframework.batch.core.JobExecutionListener;
 import org.springframework.batch.core.StepExecutionListener;
 import org.springframework.batch.core.listener.ExecutionContextPromotionListener;
@@ -25,11 +24,16 @@ import uk.ac.ebi.uniprot.indexer.uniprot.pathway.PathwayRepo;
 import uk.ac.ebi.uniprot.indexer.uniprot.taxonomy.FileNodeIterable;
 import uk.ac.ebi.uniprot.indexer.uniprot.taxonomy.TaxonomyMapRepo;
 import uk.ac.ebi.uniprot.indexer.uniprot.taxonomy.TaxonomyRepo;
+import uk.ac.ebi.uniprot.indexer.uniprotkb.listener.UniProtKBLogJobListener;
+import uk.ac.ebi.uniprot.indexer.uniprotkb.listener.UniProtKBLogStepListener;
+import uk.ac.ebi.uniprot.indexer.uniprotkb.processor.UniProtEntryProcessor;
+import uk.ac.ebi.uniprot.indexer.uniprotkb.reader.UniProtEntryItemReader;
+import uk.ac.ebi.uniprot.indexer.uniprotkb.writer.ConvertibleEntryWriter;
 
 import java.io.File;
 import java.time.temporal.ChronoUnit;
 
-import static java.util.Arrays.asList;
+import static java.util.Collections.singletonList;
 
 /**
  * Created 10/04/19
@@ -73,11 +77,11 @@ public class UniProtKBConfig {
     @Bean
     public RetryPolicy<Object> writeRetryPolicy() {
         return new RetryPolicy<>()
-                .handle(asList(Error.class, Exception.class, HttpSolrClient.RemoteSolrException.class))
+                .handle(singletonList(Exception.class))
                 .withMaxRetries(uniProtKBIndexingProperties.getWriteRetryLimit())
-                .withBackoff(uniProtKBIndexingProperties.getWriteRetryBackOffFromSec(),
-                             uniProtKBIndexingProperties.getWriteRetryBackOffToSec(),
-                             ChronoUnit.SECONDS);
+                .withBackoff(uniProtKBIndexingProperties.getWriteRetryBackOffFromMillis(),
+                             uniProtKBIndexingProperties.getWriteRetryBackOffToMillis(),
+                             ChronoUnit.MILLIS);
     }
 
     @Bean

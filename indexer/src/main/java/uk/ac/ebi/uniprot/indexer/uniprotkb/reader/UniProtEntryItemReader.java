@@ -1,7 +1,9 @@
-package uk.ac.ebi.uniprot.indexer.uniprotkb;
+package uk.ac.ebi.uniprot.indexer.uniprotkb.reader;
 
 import org.springframework.batch.item.ItemReader;
 import uk.ac.ebi.uniprot.flatfile.parser.impl.DefaultUniProtEntryIterator;
+import uk.ac.ebi.uniprot.indexer.uniprotkb.ConvertibleEntry;
+import uk.ac.ebi.uniprot.indexer.uniprotkb.UniProtKBIndexingProperties;
 
 /**
  * Created 10/04/19

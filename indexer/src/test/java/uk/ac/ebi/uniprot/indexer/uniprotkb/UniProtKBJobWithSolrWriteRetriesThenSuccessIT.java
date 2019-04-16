@@ -23,6 +23,7 @@ import uk.ac.ebi.uniprot.indexer.common.utils.Constants;
 import uk.ac.ebi.uniprot.indexer.document.SolrCollection;
 import uk.ac.ebi.uniprot.indexer.test.config.FakeIndexerSpringBootApplication;
 import uk.ac.ebi.uniprot.indexer.test.config.TestConfig;
+import uk.ac.ebi.uniprot.indexer.uniprotkb.writer.ConvertibleEntryWriter;
 
 import java.time.temporal.ChronoUnit;
 import java.util.List;
@@ -66,7 +67,7 @@ class UniProtKBJobWithSolrWriteRetriesThenSuccessIT {
             SolrResponse.OK);               // all written
 
     @Test
-    void notTooManyRetriesCausesASuccessfulIndexingJob() throws Exception {
+    void notTooManyRetriesCauseASuccessfulIndexingJob() throws Exception {
         JobExecution jobExecution = jobLauncherTestUtils.launchJob();
         assertThat(jobExecution.getJobInstance().getJobName(), is(UNIPROTKB_INDEX_JOB));
 

@@ -1,4 +1,4 @@
-package uk.ac.ebi.uniprot.indexer.uniprotkb;
+package uk.ac.ebi.uniprot.indexer.uniprotkb.writer;
 
 import net.jodah.failsafe.Failsafe;
 import net.jodah.failsafe.RetryPolicy;
@@ -12,6 +12,7 @@ import uk.ac.ebi.uniprot.flatfile.parser.ffwriter.impl.UniProtFlatfileWriter;
 import uk.ac.ebi.uniprot.indexer.common.utils.Constants;
 import uk.ac.ebi.uniprot.indexer.document.SolrCollection;
 import uk.ac.ebi.uniprot.indexer.document.uniprot.UniProtDocument;
+import uk.ac.ebi.uniprot.indexer.uniprotkb.ConvertibleEntry;
 
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -48,7 +49,7 @@ public class ConvertibleEntryWriter implements ItemWriter<ConvertibleEntry> {
             Failsafe.with(retryPolicy)
                     .onFailure(throwable -> logFailedEntriesToFile(convertibleEntries))
                     .run(() -> writeEntriesToSolr(uniProtDocuments));
-        } catch(Throwable error){
+        } catch(Exception error){
             // do nothing because we have logged the entries that could not be written already
         }
     }

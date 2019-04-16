@@ -1,4 +1,4 @@
-package uk.ac.ebi.uniprot.indexer.uniprotkb;
+package uk.ac.ebi.uniprot.indexer.uniprotkb.processor;
 
 import org.apache.commons.io.IOUtils;
 import org.junit.jupiter.api.BeforeEach;
@@ -22,6 +22,7 @@ import uk.ac.ebi.uniprot.indexer.uniprot.keyword.KeywordRepo;
 import uk.ac.ebi.uniprot.indexer.uniprot.pathway.PathwayRepo;
 import uk.ac.ebi.uniprot.indexer.uniprot.taxonomy.TaxonomicNode;
 import uk.ac.ebi.uniprot.indexer.uniprot.taxonomy.TaxonomyRepo;
+import uk.ac.ebi.uniprot.indexer.uniprotkb.ConvertibleEntry;
 
 import java.io.InputStream;
 import java.io.PrintWriter;
@@ -44,7 +45,7 @@ import static org.junit.Assert.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Mockito.*;
-import static uk.ac.ebi.uniprot.indexer.uniprotkb.UniProtEntryProcessor.*;
+import static uk.ac.ebi.uniprot.indexer.uniprotkb.processor.UniProtEntryProcessor.*;
 
 /**
  * Created 12/04/19

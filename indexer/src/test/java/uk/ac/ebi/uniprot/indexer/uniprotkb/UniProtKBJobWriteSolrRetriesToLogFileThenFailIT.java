@@ -23,6 +23,7 @@ import uk.ac.ebi.uniprot.indexer.common.utils.Constants;
 import uk.ac.ebi.uniprot.indexer.document.SolrCollection;
 import uk.ac.ebi.uniprot.indexer.test.config.FakeIndexerSpringBootApplication;
 import uk.ac.ebi.uniprot.indexer.test.config.TestConfig;
+import uk.ac.ebi.uniprot.indexer.uniprotkb.writer.ConvertibleEntryWriter;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -76,7 +77,7 @@ class UniProtKBJobWriteSolrRetriesToLogFileThenFailIT {
             SolrResponse.REMOTE_EXCEPTION); // .. chunk 3 failed to write
 
     @Test
-    void tooManyRetriesCausesAFailedIndexingJob() throws Exception {
+    void tooManyRetriesCauseAFailedIndexingJob() throws Exception {
         Path logFileForErrors = truncateErrorLogFileBeforeTest();
 
         JobExecution jobExecution = jobLauncherTestUtils.launchJob();

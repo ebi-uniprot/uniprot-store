@@ -14,6 +14,8 @@ import uk.ac.ebi.uniprot.indexer.document.SolrCollection;
 import static uk.ac.ebi.uniprot.indexer.common.utils.Constants.UNIPROTKB_INDEX_JOB;
 
 /**
+ * The main UniProtKB indexing job.
+ *
  * Created 10/04/19
  *
  * @author Edd

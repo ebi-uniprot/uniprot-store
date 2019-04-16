@@ -1,4 +1,4 @@
-package uk.ac.ebi.uniprot.indexer.uniprotkb;
+package uk.ac.ebi.uniprot.indexer.uniprotkb.processor;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.google.common.base.Strings;
@@ -40,6 +40,7 @@ import uk.ac.ebi.uniprot.indexer.uniprot.keyword.KeywordRepo;
 import uk.ac.ebi.uniprot.indexer.uniprot.pathway.PathwayRepo;
 import uk.ac.ebi.uniprot.indexer.uniprot.taxonomy.TaxonomicNode;
 import uk.ac.ebi.uniprot.indexer.uniprot.taxonomy.TaxonomyRepo;
+import uk.ac.ebi.uniprot.indexer.uniprotkb.ConvertibleEntry;
 import uk.ac.ebi.uniprot.indexer.util.DateUtils;
 import uk.ac.ebi.uniprot.json.parser.uniprot.UniprotJsonConfig;
 import uk.ebi.uniprot.scorer.uniprotkb.UniProtEntryScored;
