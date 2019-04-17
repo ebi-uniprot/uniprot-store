@@ -13,6 +13,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import uk.ac.ebi.uniprot.indexer.uniprotkb.config.UniProtKBConfig;
 import uk.ac.ebi.uniprot.indexer.uniprotkb.config.UniProtKBIndexingProperties;
+import uk.ac.ebi.uniprot.indexer.uniprotkb.listener.UniProtKBLogWriteRateListener;
 import uk.ac.ebi.uniprot.indexer.uniprotkb.model.UniProtEntryDocumentPair;
 
 import static uk.ac.ebi.uniprot.indexer.common.utils.Constants.UNIPROTKB_INDEX_STEP;
@@ -50,6 +51,7 @@ public class UniProtKBStep {
                 .processor(uniProtDocumentItemProcessor)
                 .writer(uniProtDocumentItemWriter)
                 .listener(uniProtKBStepListener)
+                .listener(new UniProtKBLogWriteRateListener<UniProtEntryDocumentPair>())
                 .build();
     }
 }
