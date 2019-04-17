@@ -3,7 +3,9 @@ package uk.ac.ebi.uniprot.search.document.proteome;
 
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.solr.client.solrj.beans.Field;
 
@@ -16,7 +18,7 @@ public class ProteomeDocument  implements Document {
     public String upid;
 
     @Field("organism_name")
-    public String organismName;
+    public List<String> organismName = new ArrayList<>();
     
     @Field("organism_id")
     public int organismTaxId;
@@ -30,21 +32,30 @@ public class ProteomeDocument  implements Document {
     @Field("reference")
     public boolean isReferenceProteome;
     
-    @Field("is_redundant")
+    @Field("redundant")
     public boolean isRedundant;
     
+    @Field("superkingdom")
+    public String superkingdom;
+    
     @Field("genome_accession")
-    public List<String> genomeId;
+    public List<String> genomeAccession = new ArrayList<>();
     
     @Field("genome_assembly")
-    public List<String> genomeAssemblyId;
+    public List<String> genomeAssembly = new ArrayList<>();
 
     @Field("accession")
-    public List<String> accession;
+    public List<String> accession = new ArrayList<>();
 
     @Field("gene")
-    public List<String> gene;
+    public List<String> gene = new ArrayList<>();
+    
+    //DEFAULT SEARCH FIELD
+    @Field("content")
+    public Set<String> content = new HashSet<>();
 
     @Field("proteome_stored")
     public byte[] proteomeStored;
+    
+    
 }

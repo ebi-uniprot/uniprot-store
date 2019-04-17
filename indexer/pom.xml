@@ -50,6 +50,21 @@
 		</dependency>
 		 <dependency>
     		<groupId>uk.ac.ebi.uniprot</groupId>
+    		 <artifactId>xml-parser</artifactId>
+    		<version>${uniprot.core.version}</version>
+    		<exclusions>
+    			<exclusion>
+    				<groupId>org.slf4j</groupId>
+    				<artifactId>*</artifactId>
+    			</exclusion>
+    			<exclusion>
+    				<groupId>ch.qos.logback</groupId>
+    				<artifactId>*</artifactId>
+    			</exclusion>
+    		</exclusions>
+		</dependency>
+		 <dependency>
+    		<groupId>uk.ac.ebi.uniprot</groupId>
     		 <artifactId>json-parser</artifactId>
     		<version>${uniprot.core.version}</version>
 		</dependency>
@@ -221,6 +236,9 @@
                     <target>8</target>
                 </configuration>
             </plugin>
+            
+            
+            
             <plugin>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>2.22.0</version>
@@ -229,6 +247,7 @@
                 <artifactId>maven-failsafe-plugin</artifactId>
                 <version>2.22.0</version>
             </plugin>
+          
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-dependency-plugin</artifactId>
