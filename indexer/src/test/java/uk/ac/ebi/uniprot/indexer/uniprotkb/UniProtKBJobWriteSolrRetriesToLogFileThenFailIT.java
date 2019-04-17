@@ -23,7 +23,9 @@ import uk.ac.ebi.uniprot.indexer.common.utils.Constants;
 import uk.ac.ebi.uniprot.indexer.document.SolrCollection;
 import uk.ac.ebi.uniprot.indexer.test.config.FakeIndexerSpringBootApplication;
 import uk.ac.ebi.uniprot.indexer.test.config.TestConfig;
-import uk.ac.ebi.uniprot.indexer.uniprotkb.writer.ConvertibleEntryWriter;
+import uk.ac.ebi.uniprot.indexer.uniprotkb.model.UniProtEntryDocumentPair;
+import uk.ac.ebi.uniprot.indexer.uniprotkb.step.UniProtKBStep;
+import uk.ac.ebi.uniprot.indexer.uniprotkb.writer.UniProtEntryDocumentPairWriter;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -147,14 +149,14 @@ class UniProtKBJobWriteSolrRetriesToLogFileThenFailIT {
         @Bean
         @Primary
         @SuppressWarnings(value = "unchecked")
-        ItemWriter<ConvertibleEntry> uniProtDocumentItemWriterMock() {
+        ItemWriter<UniProtEntryDocumentPair> uniProtDocumentItemWriterMock() {
             SolrTemplate mockSolrTemplate = mock(SolrTemplate.class);
             stubSolrWriteResponses(SOLR_RESPONSES).when(mockSolrTemplate)
                     .saveBeans(eq(SolrCollection.uniprot.name()), any());
 
-            return new ConvertibleEntryWriter(mockSolrTemplate,
-                                              SolrCollection.uniprot,
-                                              new RetryPolicy<>()
+            return new UniProtEntryDocumentPairWriter(mockSolrTemplate,
+                                                      SolrCollection.uniprot,
+                                                      new RetryPolicy<>()
                                                       .withMaxRetries(2)
                                                       .withBackoff(1, 2, ChronoUnit.SECONDS));
         }

@@ -1,4 +1,4 @@
-package uk.ac.ebi.uniprot.indexer.uniprotkb;
+package uk.ac.ebi.uniprot.indexer.uniprotkb.config;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;

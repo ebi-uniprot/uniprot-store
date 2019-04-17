@@ -1,4 +1,4 @@
-package uk.ac.ebi.uniprot.indexer.uniprotkb;
+package uk.ac.ebi.uniprot.indexer.uniprotkb.step;
 
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.StepExecutionListener;
@@ -11,6 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
+import uk.ac.ebi.uniprot.indexer.uniprotkb.config.UniProtKBConfig;
+import uk.ac.ebi.uniprot.indexer.uniprotkb.config.UniProtKBIndexingProperties;
+import uk.ac.ebi.uniprot.indexer.uniprotkb.model.UniProtEntryDocumentPair;
 
 import static uk.ac.ebi.uniprot.indexer.common.utils.Constants.UNIPROTKB_INDEX_STEP;
 
@@ -36,13 +39,13 @@ public class UniProtKBStep {
 
     @Bean
     public Step uniProtKBIndexingMainFFStep(StepExecutionListener uniProtKBStepListener,
-                                            ItemReader<ConvertibleEntry> entryItemReader,
-                                            ItemProcessor<ConvertibleEntry, ConvertibleEntry> uniProtDocumentItemProcessor,
-                                            ItemWriter<ConvertibleEntry> uniProtDocumentItemWriter,
+                                            ItemReader<UniProtEntryDocumentPair> entryItemReader,
+                                            ItemProcessor<UniProtEntryDocumentPair, UniProtEntryDocumentPair> uniProtDocumentItemProcessor,
+                                            ItemWriter<UniProtEntryDocumentPair> uniProtDocumentItemWriter,
                                             ExecutionContextPromotionListener promotionListener) {
         return this.stepBuilderFactory.get(UNIPROTKB_INDEX_STEP)
                 .listener(promotionListener)
-                .<ConvertibleEntry, ConvertibleEntry>chunk(uniProtKBIndexingProperties.getChunkSize())
+                .<UniProtEntryDocumentPair, UniProtEntryDocumentPair>chunk(uniProtKBIndexingProperties.getChunkSize())
                 .reader(entryItemReader)
                 .processor(uniProtDocumentItemProcessor)
                 .writer(uniProtDocumentItemWriter)

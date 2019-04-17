@@ -22,7 +22,7 @@ import uk.ac.ebi.uniprot.indexer.uniprot.keyword.KeywordRepo;
 import uk.ac.ebi.uniprot.indexer.uniprot.pathway.PathwayRepo;
 import uk.ac.ebi.uniprot.indexer.uniprot.taxonomy.TaxonomicNode;
 import uk.ac.ebi.uniprot.indexer.uniprot.taxonomy.TaxonomyRepo;
-import uk.ac.ebi.uniprot.indexer.uniprotkb.ConvertibleEntry;
+import uk.ac.ebi.uniprot.indexer.uniprotkb.model.UniProtEntryDocumentPair;
 
 import java.io.InputStream;
 import java.io.PrintWriter;
@@ -852,13 +852,13 @@ class UniProtEntryProcessorTest {
         UniProtEntry entry = parse(file);
         assertNotNull(entry);
 
-        ConvertibleEntry convertibleEntryMock = mock(ConvertibleEntry.class);
-        doThrow(NullPointerException.class).when(convertibleEntryMock).convertsTo(any());
-        when(convertibleEntryMock.getEntry()).thenReturn(entry);
+        UniProtEntryDocumentPair uniProtEntryDocumentPairMock = mock(UniProtEntryDocumentPair.class);
+        doThrow(NullPointerException.class).when(uniProtEntryDocumentPairMock).setDocument(any());
+        when(uniProtEntryDocumentPairMock.getEntry()).thenReturn(entry);
 
         // WHEN --------------------------------
         // ensure an exception is thrown when being processed
-        entryProcessor.process(convertibleEntryMock);
+        entryProcessor.process(uniProtEntryDocumentPairMock);
 
         // wait for the file to be written
         Thread.sleep(500);
@@ -886,9 +886,9 @@ class UniProtEntryProcessorTest {
     }
 
     private UniProtDocument convertEntry(UniProtEntry entry) {
-        ConvertibleEntry convertibleEntry = ConvertibleEntry.createConvertableEntry(entry);
-        entryProcessor.process(convertibleEntry);
-        return convertibleEntry.getDocument();
+        UniProtEntryDocumentPair uniProtEntryDocumentPair = UniProtEntryDocumentPair.createConvertableEntry(entry);
+        entryProcessor.process(uniProtEntryDocumentPair);
+        return uniProtEntryDocumentPair.getDocument();
     }
 
     private UniProtEntry createUniProtEntryFromCommentLine(String commentLine) {

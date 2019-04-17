@@ -40,7 +40,7 @@ import uk.ac.ebi.uniprot.indexer.uniprot.keyword.KeywordRepo;
 import uk.ac.ebi.uniprot.indexer.uniprot.pathway.PathwayRepo;
 import uk.ac.ebi.uniprot.indexer.uniprot.taxonomy.TaxonomicNode;
 import uk.ac.ebi.uniprot.indexer.uniprot.taxonomy.TaxonomyRepo;
-import uk.ac.ebi.uniprot.indexer.uniprotkb.ConvertibleEntry;
+import uk.ac.ebi.uniprot.indexer.uniprotkb.model.UniProtEntryDocumentPair;
 import uk.ac.ebi.uniprot.indexer.util.DateUtils;
 import uk.ac.ebi.uniprot.json.parser.uniprot.UniprotJsonConfig;
 import uk.ebi.uniprot.scorer.uniprotkb.UniProtEntryScored;
@@ -60,7 +60,7 @@ import static java.util.Collections.singletonList;
  * @author Edd
  */
 @Slf4j
-public class UniProtEntryProcessor implements ItemProcessor<ConvertibleEntry, ConvertibleEntry> {
+public class UniProtEntryProcessor implements ItemProcessor<UniProtEntryDocumentPair, UniProtEntryDocumentPair> {
     private static final Logger INDEXING_FAILED_LOGGER = LoggerFactory.getLogger("indexing-doc-conversion-failed-entries");
     static final int SORT_FIELD_MAX_LENGTH = 30;
     static final int MAX_STORED_FIELD_LENGTH = 32766;
@@ -129,18 +129,18 @@ public class UniProtEntryProcessor implements ItemProcessor<ConvertibleEntry, Co
     }
 
     @Override
-    public ConvertibleEntry process(ConvertibleEntry convertibleEntry) {
-        UniProtEntry uniProtEntry = convertibleEntry.getEntry();
+    public UniProtEntryDocumentPair process(UniProtEntryDocumentPair uniProtEntryDocumentPair) {
+        UniProtEntry uniProtEntry = uniProtEntryDocumentPair.getEntry();
         try {
             UniProtDocument doc = new UniProtDocument();
-            convertibleEntry.convertsTo(doc);
+            uniProtEntryDocumentPair.setDocument(doc);
 
             doc.accession = uniProtEntry.getPrimaryAccession().getValue();
             if (doc.accession.contains(DASH)) {
                 if (isCanonicalIsoform(uniProtEntry)) {
                     doc.reviewed = null;
                     doc.isIsoform = null;
-                    return convertibleEntry;
+                    return uniProtEntryDocumentPair;
                 }
                 doc.isIsoform = true;
                 // We are adding the canonical accession to the isoform entry as a secondary accession.
@@ -175,9 +175,10 @@ public class UniProtEntryProcessor implements ItemProcessor<ConvertibleEntry, Co
             setScore(uniProtEntry, doc);
             setAvroDefaultEntry(uniProtEntry, doc);
             setDefaultSearchContent(doc);
-            return convertibleEntry;
+            return uniProtEntryDocumentPair;
         } catch (IllegalArgumentException | NullPointerException e) {
             writeFailedEntryToFile(uniProtEntry);
+            log.error("Error converting entry: "+uniProtEntry.getPrimaryAccession().getValue(), e);
             return null; // => the item should not be written https://docs.spring.io/spring-batch/trunk/reference/html/domain.html#domainItemProcessor
         }
     }

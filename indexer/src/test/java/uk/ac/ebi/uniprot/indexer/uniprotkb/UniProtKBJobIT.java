@@ -17,6 +17,7 @@ import uk.ac.ebi.uniprot.indexer.document.SolrCollection;
 import uk.ac.ebi.uniprot.indexer.document.uniprot.UniProtDocument;
 import uk.ac.ebi.uniprot.indexer.test.config.FakeIndexerSpringBootApplication;
 import uk.ac.ebi.uniprot.indexer.test.config.TestConfig;
+import uk.ac.ebi.uniprot.indexer.uniprotkb.step.UniProtKBStep;
 
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;

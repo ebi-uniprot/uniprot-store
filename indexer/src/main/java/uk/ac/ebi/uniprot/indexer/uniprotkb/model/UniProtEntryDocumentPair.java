@@ -1,4 +1,4 @@
-package uk.ac.ebi.uniprot.indexer.uniprotkb;
+package uk.ac.ebi.uniprot.indexer.uniprotkb.model;
 
 import lombok.EqualsAndHashCode;
 import uk.ac.ebi.uniprot.domain.uniprot.UniProtEntry;
@@ -16,19 +16,19 @@ import uk.ac.ebi.uniprot.indexer.document.uniprot.UniProtDocument;
  * @author Edd
  */
 @EqualsAndHashCode
-public class ConvertibleEntry {
+public class UniProtEntryDocumentPair {
     private final UniProtEntry entry;
     private UniProtDocument document;
 
-    private ConvertibleEntry(UniProtEntry entry) {
+    private UniProtEntryDocumentPair(UniProtEntry entry) {
         this.entry = entry;
     }
 
-    public static ConvertibleEntry createConvertableEntry(UniProtEntry entry) {
-        return new ConvertibleEntry(entry);
+    public static UniProtEntryDocumentPair createConvertableEntry(UniProtEntry entry) {
+        return new UniProtEntryDocumentPair(entry);
     }
 
-    public void convertsTo(UniProtDocument document) {
+    public void setDocument(UniProtDocument document) {
         this.document = document;
     }
 

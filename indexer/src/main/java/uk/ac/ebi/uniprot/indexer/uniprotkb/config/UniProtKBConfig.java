@@ -1,4 +1,4 @@
-package uk.ac.ebi.uniprot.indexer.uniprotkb;
+package uk.ac.ebi.uniprot.indexer.uniprotkb.config;
 
 import net.jodah.failsafe.RetryPolicy;
 import org.springframework.batch.core.JobExecutionListener;
@@ -26,9 +26,10 @@ import uk.ac.ebi.uniprot.indexer.uniprot.taxonomy.TaxonomyMapRepo;
 import uk.ac.ebi.uniprot.indexer.uniprot.taxonomy.TaxonomyRepo;
 import uk.ac.ebi.uniprot.indexer.uniprotkb.listener.UniProtKBLogJobListener;
 import uk.ac.ebi.uniprot.indexer.uniprotkb.listener.UniProtKBLogStepListener;
+import uk.ac.ebi.uniprot.indexer.uniprotkb.model.UniProtEntryDocumentPair;
 import uk.ac.ebi.uniprot.indexer.uniprotkb.processor.UniProtEntryProcessor;
 import uk.ac.ebi.uniprot.indexer.uniprotkb.reader.UniProtEntryItemReader;
-import uk.ac.ebi.uniprot.indexer.uniprotkb.writer.ConvertibleEntryWriter;
+import uk.ac.ebi.uniprot.indexer.uniprotkb.writer.UniProtEntryDocumentPairWriter;
 
 import java.io.File;
 import java.time.temporal.ChronoUnit;
@@ -44,34 +45,15 @@ import static java.util.Collections.singletonList;
 @EnableConfigurationProperties({UniProtKBIndexingProperties.class})
 public class UniProtKBConfig {
     private final SolrTemplate solrTemplate;
+    private UniProtKBIndexingProperties uniProtKBIndexingProperties = new UniProtKBIndexingProperties();
 
     public UniProtKBConfig(SolrTemplate solrTemplate) {
         this.solrTemplate = solrTemplate;
     }
 
-    private UniProtKBIndexingProperties uniProtKBIndexingProperties = new UniProtKBIndexingProperties();
-
     @Bean
-    ItemReader<ConvertibleEntry> entryItemReader() {
-        return new UniProtEntryItemReader(uniProtKBIndexingProperties);
-    }
-
-    @Bean
-    ItemProcessor<ConvertibleEntry, ConvertibleEntry> uniProtDocumentItemProcessor() {
-        return new UniProtEntryProcessor(createTaxonomyRepo(),
-                                         createGoRelationRepo(),
-                                         createKeywordRepo(),
-                                         createPathwayRepo());
-    }
-
-    @Bean
-    public ItemWriter<ConvertibleEntry> uniProtDocumentItemWriter(RetryPolicy<Object> writeRetryPolicy) {
-        return new ConvertibleEntryWriter(this.solrTemplate, SolrCollection.uniprot, writeRetryPolicy);
-    }
-
-    @Bean
-    UniProtKBIndexingProperties indexingProperties() {
-        return uniProtKBIndexingProperties;
+    public ItemWriter<UniProtEntryDocumentPair> uniProtDocumentItemWriter(RetryPolicy<Object> writeRetryPolicy) {
+        return new UniProtEntryDocumentPairWriter(this.solrTemplate, SolrCollection.uniprot, writeRetryPolicy);
     }
 
     @Bean
@@ -100,6 +82,24 @@ public class UniProtKBConfig {
     @Bean
     public JobExecutionListener uniProtKBLogJobListener() {
         return new UniProtKBLogJobListener();
+    }
+
+    @Bean
+    ItemReader<UniProtEntryDocumentPair> entryItemReader() {
+        return new UniProtEntryItemReader(uniProtKBIndexingProperties);
+    }
+
+    @Bean
+    ItemProcessor<UniProtEntryDocumentPair, UniProtEntryDocumentPair> uniProtDocumentItemProcessor() {
+        return new UniProtEntryProcessor(createTaxonomyRepo(),
+                                         createGoRelationRepo(),
+                                         createKeywordRepo(),
+                                         createPathwayRepo());
+    }
+
+    @Bean
+    UniProtKBIndexingProperties indexingProperties() {
+        return uniProtKBIndexingProperties;
     }
 
     private PathwayRepo createPathwayRepo() {

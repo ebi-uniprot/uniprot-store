@@ -2,15 +2,15 @@ package uk.ac.ebi.uniprot.indexer.uniprotkb.reader;
 
 import org.springframework.batch.item.ItemReader;
 import uk.ac.ebi.uniprot.flatfile.parser.impl.DefaultUniProtEntryIterator;
-import uk.ac.ebi.uniprot.indexer.uniprotkb.ConvertibleEntry;
-import uk.ac.ebi.uniprot.indexer.uniprotkb.UniProtKBIndexingProperties;
+import uk.ac.ebi.uniprot.indexer.uniprotkb.model.UniProtEntryDocumentPair;
+import uk.ac.ebi.uniprot.indexer.uniprotkb.config.UniProtKBIndexingProperties;
 
 /**
  * Created 10/04/19
  *
  * @author Edd
  */
-public class UniProtEntryItemReader implements ItemReader<ConvertibleEntry> {
+public class UniProtEntryItemReader implements ItemReader<UniProtEntryDocumentPair> {
     private final DefaultUniProtEntryIterator entryIterator;
     public UniProtEntryItemReader(UniProtKBIndexingProperties indexingProperties) {
         DefaultUniProtEntryIterator uniProtEntryIterator =
@@ -26,9 +26,9 @@ public class UniProtEntryItemReader implements ItemReader<ConvertibleEntry> {
     }
 
     @Override
-    public ConvertibleEntry read() {
+    public UniProtEntryDocumentPair read() {
         if (entryIterator.hasNext()) {
-            return ConvertibleEntry.createConvertableEntry(entryIterator.next());
+            return UniProtEntryDocumentPair.createConvertableEntry(entryIterator.next());
         } else {
             return null;
         }
