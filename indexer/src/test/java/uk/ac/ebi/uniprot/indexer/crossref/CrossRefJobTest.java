@@ -11,33 +11,35 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.solr.core.SolrTemplate;
 import org.springframework.data.solr.core.query.SimpleQuery;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+import uk.ac.ebi.uniprot.indexer.common.config.DataSourceConfig;
 import uk.ac.ebi.uniprot.indexer.common.listeners.ListenerConfig;
-import uk.ac.ebi.uniprot.indexer.document.SolrCollection;
-import uk.ac.ebi.uniprot.indexer.document.dbxref.CrossRefDocument;
+import uk.ac.ebi.uniprot.indexer.crossref.steps.CrossRefStep;
 import uk.ac.ebi.uniprot.indexer.test.config.FakeIndexerSpringBootApplication;
 import uk.ac.ebi.uniprot.indexer.test.config.TestConfig;
+import uk.ac.ebi.uniprot.search.SolrCollection;
+import uk.ac.ebi.uniprot.search.document.dbxref.CrossRefDocument;
 
 import static org.junit.jupiter.api.Assertions.*;
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = {FakeIndexerSpringBootApplication.class, TestConfig.class, CrossRefJob.class, CrossRefStep.class, ListenerConfig.class})
-@Disabled
 class CrossRefJobTest {
-    // TODO: 11/04/19 cannot find solr.xml in test solr home. use datastoremanager from uniprot rest api, this is already done.
-    @Autowired
-    private Job indexCrossRefJob;
-    @Autowired
-    private JobLauncher jobLauncher;
-    @Autowired
-    private SolrTemplate template;
 
+    /*@Autowired
+    //private Job indexCrossRefJob;
+    @Autowired
+    //private JobLauncher jobLauncher;
+    @Autowired
+    //private SolrTemplate template;
+
+    @Disabled
     @Test
     void testIndexerJob() throws Exception {
         JobParameters jobParameters = new JobParametersBuilder()
                 .addLong("time",System.currentTimeMillis()).toJobParameters();
 
-        JobExecution jobExecution = jobLauncher.run(indexCrossRefJob, jobParameters);
-        BatchStatus status = jobExecution.getStatus();
-        assertEquals(status, BatchStatus.COMPLETED);
+      //  JobExecution jobExecution = jobLauncher.run(indexCrossRefJob, jobParameters);
+        //BatchStatus status = jobExecution.getStatus();
+        //assertEquals(status, BatchStatus.COMPLETED);
 
         Page<CrossRefDocument> response = template.query(SolrCollection.crossref.name(), new SimpleQuery("*:*"),CrossRefDocument.class);
         assertNotNull(response);
@@ -47,5 +49,5 @@ class CrossRefJobTest {
         template.delete(SolrCollection.crossref.name(), new SimpleQuery("*:*"));
         template.commit(SolrCollection.crossref.name());
 
-    }
+    }*/
 }

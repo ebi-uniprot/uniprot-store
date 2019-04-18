@@ -12,12 +12,13 @@ import org.springframework.data.solr.core.SolrTemplate;
 import org.springframework.data.solr.core.query.SimpleQuery;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import uk.ac.ebi.uniprot.indexer.document.SolrCollection;
-import uk.ac.ebi.uniprot.indexer.document.dbxref.CrossRefDocument;
 import uk.ac.ebi.uniprot.indexer.test.config.FakeIndexerSpringBootApplication;
 import uk.ac.ebi.uniprot.indexer.test.config.TestConfig;
+import uk.ac.ebi.uniprot.search.SolrCollection;
+import uk.ac.ebi.uniprot.search.document.dbxref.CrossRefDocument;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -77,7 +78,7 @@ class SolrDocumentWriterTest{
         assertNotNull(dbxRef.getLinkType(), "Link Type is null");
         assertNotNull(dbxRef.getServer(), "Server is null");
         assertNotNull(dbxRef.getDbUrl(), "DB URL is null");
-        assertNotNull(dbxRef.getCategoryFacet(), "Category is null");
+        assertNotNull(dbxRef.getCategory(), "Category is null");
     }
 
     private CrossRefDocument createDBXRef(int suffix){
@@ -90,9 +91,12 @@ class SolrDocumentWriterTest{
         String sr = random + "-SR-" + suffix;
         String du = random + "-DU-" + suffix;
         String ct = random + "-CT-" + suffix;
+        String co = random + "-CO-" + suffix;
+        List<String> contents = new ArrayList<>();
+        contents.add(co);
 
-        CrossRefDocument.CrossRefDocumentBuilder builder = new CrossRefDocument.CrossRefDocumentBuilder();
-        builder.abbr(ab).accession(ac).category(ct).dbUrl(du);
+        CrossRefDocument.CrossRefDocumentBuilder builder = CrossRefDocument.builder();
+        builder.abbrev(ab).accession(ac).categoryStr(ct).dbUrl(du);
         builder.doiId(di).linkType(lt).name(nm).pubMedId(pb).server(sr);
         return builder.build();
     }

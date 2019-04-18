@@ -3,7 +3,8 @@ package uk.ac.ebi.uniprot.indexer.crossref;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-import uk.ac.ebi.uniprot.indexer.document.dbxref.CrossRefDocument;
+import uk.ac.ebi.uniprot.indexer.crossref.readers.CrossRefReader;
+import uk.ac.ebi.uniprot.search.document.dbxref.CrossRefDocument;
 
 import java.io.IOException;
 
@@ -42,7 +43,7 @@ class CrossRefReaderTest {
         assertNotNull(dbxRef.getLinkType(), "Link Type is null");
         assertNotNull(dbxRef.getServer(), "Server is null");
         assertNotNull(dbxRef.getDbUrl(), "DB URL is null");
-        assertNotNull(dbxRef.getCategory(), "Category is null");
+        assertNotNull(dbxRef.getCategoryStr(), "Category is null");
     }
 
 }

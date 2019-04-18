@@ -3,8 +3,8 @@ package uk.ac.ebi.uniprot.indexer.common.writer;
 import org.springframework.batch.item.ItemWriter;
 import org.springframework.data.solr.core.SolrTemplate;
 
-import uk.ac.ebi.uniprot.indexer.document.Document;
-import uk.ac.ebi.uniprot.indexer.document.SolrCollection;
+import uk.ac.ebi.uniprot.search.SolrCollection;
+import uk.ac.ebi.uniprot.search.document.Document;
 
 import java.util.List;
 

@@ -3,7 +3,6 @@ package uk.ac.ebi.uniprot.indexer.search.uniprot;
 
 import uk.ac.ebi.uniprot.domain.uniprot.UniProtEntry;
 import uk.ac.ebi.uniprot.indexer.document.DocumentProducer;
-import uk.ac.ebi.uniprot.indexer.document.field.UniProtField;
 import uk.ac.ebi.uniprot.indexer.search.AbstractSearchEngine;
 import uk.ac.ebi.uniprot.indexer.uniprot.go.GoRelationFileReader;
 import uk.ac.ebi.uniprot.indexer.uniprot.go.GoRelationFileRepo;
@@ -16,6 +15,7 @@ import uk.ac.ebi.uniprot.indexer.uniprot.pathway.PathwayRepo;
 import uk.ac.ebi.uniprot.indexer.uniprot.taxonomy.FileNodeIterable;
 import uk.ac.ebi.uniprot.indexer.uniprot.taxonomy.TaxonomyMapRepo;
 import uk.ac.ebi.uniprot.indexer.uniprot.taxonomy.TaxonomyRepo;
+import uk.ac.ebi.uniprot.search.field.UniProtField;
 import uk.ac.ebi.uniprot.indexer.document.impl.UniprotEntryConverter;
 import uk.ac.ebi.uniprot.indexer.document.impl.UniprotEntryDocumentProducer;
 
@@ -28,7 +28,7 @@ import java.net.URL;
  */
 public class UniProtSearchEngine extends AbstractSearchEngine<UniProtEntry> {
     private static final String SEARCH_ENGINE_NAME = "uniprot";
-    private static final String TAXONOMY_FILE_NAME = "it/taxonomy/taxonomy.dat";
+    private static final String TAXONOMY_FILE_NAME = "taxonomy/taxonomy.dat";
 
     public UniProtSearchEngine() {
         super(SEARCH_ENGINE_NAME, TestDocumentProducer.createDefault());
@@ -49,7 +49,7 @@ public class UniProtSearchEngine extends AbstractSearchEngine<UniProtEntry> {
         System.setProperty("uniprot.bdb.base.location", indexHome.getAbsolutePath() + "/bdb/uniprot/data");
         System.setProperty("uniprot.bdb.test.base.location", indexHome.getAbsolutePath() + "/bdb/it_uniprot/data");
         System.setProperty("solr.allow.unsafe.resourceloading", "true");
-        System.setProperty("uniprot.suggester.dir", "/Users/jluo/projects/github/uniprot-indexer/integration-test/src/test/resources/it/uniprot/suggestions/");
+   //     System.setProperty("uniprot.suggester.dir", "/Users/jluo/projects/github/uniprot-indexer/integration-test/src/test/resources/it/uniprot/suggestions/");
     }
 
     @Override
@@ -89,7 +89,7 @@ public class UniProtSearchEngine extends AbstractSearchEngine<UniProtEntry> {
         }
 
         GoRelationRepo createGoRelationRepo() {
-            String gotermPath = ClassLoader.getSystemClassLoader().getResource("it/goterm").getFile();
+            String gotermPath = ClassLoader.getSystemClassLoader().getResource("goterm").getFile();
             return GoRelationFileRepo.create(new GoRelationFileReader(gotermPath),
                                              new GoTermFileReader(gotermPath));
         }
