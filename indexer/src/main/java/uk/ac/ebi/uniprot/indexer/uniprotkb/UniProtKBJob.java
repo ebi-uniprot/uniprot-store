@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.solr.core.SolrTemplate;
+import uk.ac.ebi.uniprot.indexer.common.listener.WriteRetrierLogJobListener;
 import uk.ac.ebi.uniprot.search.SolrCollection;
 
 import static uk.ac.ebi.uniprot.indexer.common.utils.Constants.UNIPROTKB_INDEX_JOB;
@@ -32,10 +33,10 @@ public class UniProtKBJob {
     }
 
     @Bean
-    public Job uniProtKBIndexingJob(Step uniProtKBIndexingMainFFStep, JobExecutionListener uniProtKBLogJobListener) {
+    public Job uniProtKBIndexingJob(Step uniProtKBIndexingMainFFStep, WriteRetrierLogJobListener writeRetrierLogJobListener) {
         return this.jobBuilderFactory.get(UNIPROTKB_INDEX_JOB)
                 .start(uniProtKBIndexingMainFFStep)
-                .listener(uniProtKBLogJobListener)
+                .listener(writeRetrierLogJobListener)
                 .listener(new JobExecutionListener() {
                     @Override public void beforeJob(JobExecution jobExecution) {
                         // no-op

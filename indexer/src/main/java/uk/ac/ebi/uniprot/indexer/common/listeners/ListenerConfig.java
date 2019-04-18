@@ -5,6 +5,9 @@ import org.springframework.batch.core.JobExecutionListener;
 import org.springframework.batch.core.StepExecutionListener;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import uk.ac.ebi.uniprot.indexer.common.listener.WriteRetrierLogJobListener;
+import uk.ac.ebi.uniprot.indexer.common.listener.WriteRetrierLogRateListener;
+import uk.ac.ebi.uniprot.indexer.common.listener.WriteRetrierLogStepListener;
 
 /**
  * @author lgonzales
@@ -24,5 +27,20 @@ public class ListenerConfig {
     @Bean
     public ChunkListener chunkListener() {
         return new LogChunkListener();
+    }
+
+    @Bean
+    public WriteRetrierLogJobListener writeRetrierLogJobListener() {
+        return new WriteRetrierLogJobListener();
+    }
+
+    @Bean
+    public WriteRetrierLogRateListener writeRetrierLogRateListener() {
+        return new WriteRetrierLogRateListener();
+    }
+
+    @Bean
+    public WriteRetrierLogStepListener writeRetrierLogStepListener() {
+        return new WriteRetrierLogStepListener();
     }
 }

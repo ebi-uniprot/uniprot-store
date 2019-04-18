@@ -1,8 +1,6 @@
 package uk.ac.ebi.uniprot.indexer.uniprotkb.config;
 
 import net.jodah.failsafe.RetryPolicy;
-import org.springframework.batch.core.JobExecutionListener;
-import org.springframework.batch.core.StepExecutionListener;
 import org.springframework.batch.core.listener.ExecutionContextPromotionListener;
 import org.springframework.batch.item.ItemProcessor;
 import org.springframework.batch.item.ItemReader;
@@ -10,8 +8,10 @@ import org.springframework.batch.item.ItemWriter;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 import org.springframework.data.solr.core.SolrTemplate;
 import uk.ac.ebi.uniprot.domain.uniprot.UniProtEntry;
+import uk.ac.ebi.uniprot.indexer.common.listeners.ListenerConfig;
 import uk.ac.ebi.uniprot.indexer.common.model.EntryDocumentPair;
 import uk.ac.ebi.uniprot.indexer.common.utils.Constants;
 import uk.ac.ebi.uniprot.indexer.uniprot.go.GoRelationFileReader;
@@ -25,8 +25,6 @@ import uk.ac.ebi.uniprot.indexer.uniprot.pathway.PathwayRepo;
 import uk.ac.ebi.uniprot.indexer.uniprot.taxonomy.FileNodeIterable;
 import uk.ac.ebi.uniprot.indexer.uniprot.taxonomy.TaxonomyMapRepo;
 import uk.ac.ebi.uniprot.indexer.uniprot.taxonomy.TaxonomyRepo;
-import uk.ac.ebi.uniprot.indexer.common.listener.WriteRetrierLogJobListener;
-import uk.ac.ebi.uniprot.indexer.common.listener.WriteRetrierLogStepListener;
 import uk.ac.ebi.uniprot.indexer.uniprotkb.model.UniProtEntryDocumentPair;
 import uk.ac.ebi.uniprot.indexer.uniprotkb.processor.UniProtEntryProcessor;
 import uk.ac.ebi.uniprot.indexer.uniprotkb.reader.UniProtEntryItemReader;
@@ -45,6 +43,7 @@ import static java.util.Collections.singletonList;
  * @author Edd
  */
 @Configuration
+@Import({ListenerConfig.class})
 @EnableConfigurationProperties({UniProtKBIndexingProperties.class})
 public class UniProtKBConfig {
     private final SolrTemplate solrTemplate;
@@ -75,16 +74,6 @@ public class UniProtKBConfig {
         executionContextPromotionListener.setKeys(new String[]{Constants.INDEX_FAILED_ENTRIES_COUNT_KEY,
                                                                Constants.INDEX_WRITTEN_ENTRIES_COUNT_KEY});
         return executionContextPromotionListener;
-    }
-
-    @Bean
-    public StepExecutionListener uniProtKBStepListener() {
-        return new WriteRetrierLogStepListener();
-    }
-
-    @Bean
-    public JobExecutionListener uniProtKBLogJobListener() {
-        return new WriteRetrierLogJobListener();
     }
 
     @Bean
