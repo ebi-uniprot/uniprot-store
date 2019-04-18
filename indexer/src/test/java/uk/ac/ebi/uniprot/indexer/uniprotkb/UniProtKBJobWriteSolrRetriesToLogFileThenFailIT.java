@@ -97,8 +97,8 @@ class UniProtKBJobWriteSolrRetriesToLogFileThenFailIT {
 
         assertThat(indexingStep.getReadCount(), is(5));  // ensure everything was read
 
-        checkWriteCount(jobExecution, Constants.UNIPROTKB_INDEX_FAILED_ENTRIES_COUNT_KEY, 3);
-        checkWriteCount(jobExecution, Constants.UNIPROTKB_INDEX_WRITTEN_ENTRIES_COUNT_KEY, 2);
+        checkWriteCount(jobExecution, Constants.INDEX_FAILED_ENTRIES_COUNT_KEY, 3);
+        checkWriteCount(jobExecution, Constants.INDEX_WRITTEN_ENTRIES_COUNT_KEY, 2);
 
         assertThat(indexingStep.getExitStatus(), is(ExitStatus.FAILED));
         assertThat(indexingStep.getStatus(), is(BatchStatus.FAILED));

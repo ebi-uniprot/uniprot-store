@@ -64,9 +64,9 @@ public abstract class EntryDocumentPairWriter<E, D> implements ItemWriter<EntryD
         this.writtenEntriesCount = new AtomicInteger(0);
 
         executionContext
-                .put(Constants.UNIPROTKB_INDEX_FAILED_ENTRIES_COUNT_KEY, this.failedWritingEntriesCount);
+                .put(Constants.INDEX_FAILED_ENTRIES_COUNT_KEY, this.failedWritingEntriesCount);
         executionContext
-                .put(Constants.UNIPROTKB_INDEX_WRITTEN_ENTRIES_COUNT_KEY, this.writtenEntriesCount);
+                .put(Constants.INDEX_WRITTEN_ENTRIES_COUNT_KEY, this.writtenEntriesCount);
     }
 
     public abstract String extractDocumentId(D document);

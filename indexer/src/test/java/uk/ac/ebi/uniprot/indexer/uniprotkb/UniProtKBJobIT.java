@@ -62,8 +62,8 @@ class UniProtKBJobIT {
                 .collect(Collectors.toList()).get(0);
 
         assertThat(indexingStep.getReadCount(), is(5));
-        checkWriteCount(jobExecution, Constants.UNIPROTKB_INDEX_FAILED_ENTRIES_COUNT_KEY, 0);
-        checkWriteCount(jobExecution, Constants.UNIPROTKB_INDEX_WRITTEN_ENTRIES_COUNT_KEY, 5);
+        checkWriteCount(jobExecution, Constants.INDEX_FAILED_ENTRIES_COUNT_KEY, 0);
+        checkWriteCount(jobExecution, Constants.INDEX_WRITTEN_ENTRIES_COUNT_KEY, 5);
     }
 
     private void checkWriteCount(JobExecution jobExecution, String uniprotkbIndexFailedEntriesCountKey, int i) {

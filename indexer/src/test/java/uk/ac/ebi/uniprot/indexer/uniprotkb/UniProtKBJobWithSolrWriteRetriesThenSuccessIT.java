@@ -85,8 +85,8 @@ class UniProtKBJobWithSolrWriteRetriesThenSuccessIT {
 
         assertThat(indexingStep.getReadCount(), is(5));  // ensure everything was read
 
-        checkWriteCount(jobExecution, Constants.UNIPROTKB_INDEX_FAILED_ENTRIES_COUNT_KEY, 0);
-        checkWriteCount(jobExecution, Constants.UNIPROTKB_INDEX_WRITTEN_ENTRIES_COUNT_KEY, 5);
+        checkWriteCount(jobExecution, Constants.INDEX_FAILED_ENTRIES_COUNT_KEY, 0);
+        checkWriteCount(jobExecution, Constants.INDEX_WRITTEN_ENTRIES_COUNT_KEY, 5);
 
         assertThat(indexingStep.getExitStatus(), is(ExitStatus.COMPLETED));
         assertThat(indexingStep.getStatus(), is(BatchStatus.COMPLETED));

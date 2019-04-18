@@ -30,7 +30,7 @@ public class UniProtKBLogStepListener implements StepExecutionListener {
         ExecutionContext executionContext = stepExecution.getJobExecution().getExecutionContext();
 
         AtomicInteger failedCountAtomicInteger = (AtomicInteger) executionContext
-                .get(Constants.UNIPROTKB_INDEX_FAILED_ENTRIES_COUNT_KEY);
+                .get(Constants.INDEX_FAILED_ENTRIES_COUNT_KEY);
         int failedCount = -1;
         if (failedCountAtomicInteger != null) {
             failedCount = failedCountAtomicInteger.get();
@@ -43,7 +43,7 @@ public class UniProtKBLogStepListener implements StepExecutionListener {
         }
 
         AtomicInteger writtenCountAtomicInteger = (AtomicInteger) executionContext
-                .get(Constants.UNIPROTKB_INDEX_WRITTEN_ENTRIES_COUNT_KEY);
+                .get(Constants.INDEX_WRITTEN_ENTRIES_COUNT_KEY);
         int writtenCount = -1;
         if (writtenCountAtomicInteger != null) {
             writtenCount = writtenCountAtomicInteger.get();
