@@ -1,4 +1,4 @@
-package uk.ac.ebi.uniprot.indexer.uniprotkb.listener;
+package uk.ac.ebi.uniprot.indexer.common.listener;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.ItemWriteListener;
@@ -17,7 +17,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  * @author Edd
  */
 @Slf4j
-public class UniProtKBLogWriteRateListener<O> implements ItemWriteListener<O> {
+public class WriteRetrierLogRateListener<O> implements ItemWriteListener<O> {
     static final int WRITE_RATE_DOCUMENT_INTERVAL = 100000;
     private int writeRateDocumentInterval;
     private final Instant startOfWriting;
@@ -25,11 +25,11 @@ public class UniProtKBLogWriteRateListener<O> implements ItemWriteListener<O> {
     private AtomicInteger deltaWriteCount = new AtomicInteger(0);
     private Instant startOfDelta;
 
-    public UniProtKBLogWriteRateListener() {
+    public WriteRetrierLogRateListener() {
         this(Instant.now());
     }
 
-    UniProtKBLogWriteRateListener(Instant now) {
+    WriteRetrierLogRateListener(Instant now) {
         startOfWriting = startOfDelta = now;
         writeRateDocumentInterval = WRITE_RATE_DOCUMENT_INTERVAL;
     }

@@ -25,8 +25,8 @@ import uk.ac.ebi.uniprot.indexer.uniprot.pathway.PathwayRepo;
 import uk.ac.ebi.uniprot.indexer.uniprot.taxonomy.FileNodeIterable;
 import uk.ac.ebi.uniprot.indexer.uniprot.taxonomy.TaxonomyMapRepo;
 import uk.ac.ebi.uniprot.indexer.uniprot.taxonomy.TaxonomyRepo;
-import uk.ac.ebi.uniprot.indexer.uniprotkb.listener.UniProtKBLogJobListener;
-import uk.ac.ebi.uniprot.indexer.uniprotkb.listener.UniProtKBLogStepListener;
+import uk.ac.ebi.uniprot.indexer.common.listener.WriteRetrierLogJobListener;
+import uk.ac.ebi.uniprot.indexer.common.listener.WriteRetrierLogStepListener;
 import uk.ac.ebi.uniprot.indexer.uniprotkb.model.UniProtEntryDocumentPair;
 import uk.ac.ebi.uniprot.indexer.uniprotkb.processor.UniProtEntryProcessor;
 import uk.ac.ebi.uniprot.indexer.uniprotkb.reader.UniProtEntryItemReader;
@@ -79,12 +79,12 @@ public class UniProtKBConfig {
 
     @Bean
     public StepExecutionListener uniProtKBStepListener() {
-        return new UniProtKBLogStepListener();
+        return new WriteRetrierLogStepListener();
     }
 
     @Bean
     public JobExecutionListener uniProtKBLogJobListener() {
-        return new UniProtKBLogJobListener();
+        return new WriteRetrierLogJobListener();
     }
 
     @Bean

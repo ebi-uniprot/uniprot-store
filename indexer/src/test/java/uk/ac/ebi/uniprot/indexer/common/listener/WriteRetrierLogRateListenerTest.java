@@ -1,4 +1,4 @@
-package uk.ac.ebi.uniprot.indexer.uniprotkb.listener;
+package uk.ac.ebi.uniprot.indexer.common.listener;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -10,16 +10,16 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
-import static uk.ac.ebi.uniprot.indexer.uniprotkb.listener.UniProtKBLogWriteRateListener.WRITE_RATE_DOCUMENT_INTERVAL;
+import static uk.ac.ebi.uniprot.indexer.common.listener.WriteRetrierLogRateListener.WRITE_RATE_DOCUMENT_INTERVAL;
 
 /**
  * Created 17/04/19
  *
  * @author Edd
  */
-class UniProtKBLogWriteRateListenerTest {
+class WriteRetrierLogRateListenerTest {
     private Instant start;
-    private UniProtKBLogWriteRateListener<Object> itemRateWriterListener;
+    private WriteRetrierLogRateListener<Object> itemRateWriterListener;
 
     private List<Object> mockedWrittenDocList;
 
@@ -28,7 +28,7 @@ class UniProtKBLogWriteRateListenerTest {
     void setUp() {
         mockedWrittenDocList = (List<Object>)mock(List.class);
         start = Instant.now();
-        itemRateWriterListener = new UniProtKBLogWriteRateListener<>(start);
+        itemRateWriterListener = new WriteRetrierLogRateListener<>(start);
     }
 
     @Test
@@ -39,7 +39,7 @@ class UniProtKBLogWriteRateListenerTest {
         when(mockedWrittenDocList.size()).thenReturn(numDocs);
 
         itemRateWriterListener.afterWrite(mockedWrittenDocList);
-        UniProtKBLogWriteRateListener.StatsInfo statsInfo = itemRateWriterListener.computeWriteRateStats(fiveSecsAfterStart);
+        WriteRetrierLogRateListener.StatsInfo statsInfo = itemRateWriterListener.computeWriteRateStats(fiveSecsAfterStart);
 
         System.out.println(statsInfo.toString());
         assertThat(statsInfo.totalSeconds, is(5L));
@@ -62,7 +62,7 @@ class UniProtKBLogWriteRateListenerTest {
         when(mockedWrittenDocList.size()).thenReturn(tenDocs);
         itemRateWriterListener.afterWrite(mockedWrittenDocList);
 
-        UniProtKBLogWriteRateListener.StatsInfo statsInfo = itemRateWriterListener.computeWriteRateStats(twoSecsAfterStart);
+        WriteRetrierLogRateListener.StatsInfo statsInfo = itemRateWriterListener.computeWriteRateStats(twoSecsAfterStart);
 
         System.out.println(statsInfo);
         assertThat(statsInfo.deltaWriteCount, is(tenDocs));

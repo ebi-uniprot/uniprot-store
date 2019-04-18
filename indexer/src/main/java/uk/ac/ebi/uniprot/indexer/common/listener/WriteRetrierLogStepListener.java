@@ -5,7 +5,7 @@
  *
  */
 
-package uk.ac.ebi.uniprot.indexer.uniprotkb.listener;
+package uk.ac.ebi.uniprot.indexer.common.listener;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.BatchStatus;
@@ -18,7 +18,7 @@ import uk.ac.ebi.uniprot.indexer.common.utils.Constants;
 import java.util.concurrent.atomic.AtomicInteger;
 
 @Slf4j
-public class UniProtKBLogStepListener implements StepExecutionListener {
+public class WriteRetrierLogStepListener implements StepExecutionListener {
 
     @Override
     public void beforeStep(StepExecution stepExecution) {

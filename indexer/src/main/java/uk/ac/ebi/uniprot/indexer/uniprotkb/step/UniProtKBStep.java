@@ -15,7 +15,7 @@ import uk.ac.ebi.uniprot.domain.uniprot.UniProtEntry;
 import uk.ac.ebi.uniprot.indexer.common.model.EntryDocumentPair;
 import uk.ac.ebi.uniprot.indexer.uniprotkb.config.UniProtKBConfig;
 import uk.ac.ebi.uniprot.indexer.uniprotkb.config.UniProtKBIndexingProperties;
-import uk.ac.ebi.uniprot.indexer.uniprotkb.listener.UniProtKBLogWriteRateListener;
+import uk.ac.ebi.uniprot.indexer.common.listener.WriteRetrierLogRateListener;
 import uk.ac.ebi.uniprot.indexer.uniprotkb.model.UniProtEntryDocumentPair;
 import uk.ac.ebi.uniprot.search.document.uniprot.UniProtDocument;
 
@@ -54,7 +54,7 @@ public class UniProtKBStep {
                 .processor(uniProtDocumentItemProcessor)
                 .writer(uniProtDocumentItemWriter)
                 .listener(uniProtKBStepListener)
-                .listener(new UniProtKBLogWriteRateListener<UniProtEntryDocumentPair>())
+                .listener(new WriteRetrierLogRateListener<UniProtEntryDocumentPair>())
                 .build();
     }
 }
