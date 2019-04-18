@@ -28,7 +28,7 @@ public class UniProtEntryItemReader implements ItemReader<UniProtEntryDocumentPa
     @Override
     public UniProtEntryDocumentPair read() {
         if (entryIterator.hasNext()) {
-            return UniProtEntryDocumentPair.createConvertableEntry(entryIterator.next());
+            return new UniProtEntryDocumentPair(entryIterator.next());
         } else {
             return null;
         }

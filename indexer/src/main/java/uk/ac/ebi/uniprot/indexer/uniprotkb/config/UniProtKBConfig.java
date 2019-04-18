@@ -11,8 +11,9 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.solr.core.SolrTemplate;
+import uk.ac.ebi.uniprot.domain.uniprot.UniProtEntry;
+import uk.ac.ebi.uniprot.indexer.common.model.EntryDocumentPair;
 import uk.ac.ebi.uniprot.indexer.common.utils.Constants;
-import uk.ac.ebi.uniprot.indexer.document.SolrCollection;
 import uk.ac.ebi.uniprot.indexer.uniprot.go.GoRelationFileReader;
 import uk.ac.ebi.uniprot.indexer.uniprot.go.GoRelationFileRepo;
 import uk.ac.ebi.uniprot.indexer.uniprot.go.GoRelationRepo;
@@ -30,6 +31,8 @@ import uk.ac.ebi.uniprot.indexer.uniprotkb.model.UniProtEntryDocumentPair;
 import uk.ac.ebi.uniprot.indexer.uniprotkb.processor.UniProtEntryProcessor;
 import uk.ac.ebi.uniprot.indexer.uniprotkb.reader.UniProtEntryItemReader;
 import uk.ac.ebi.uniprot.indexer.uniprotkb.writer.UniProtEntryDocumentPairWriter;
+import uk.ac.ebi.uniprot.search.SolrCollection;
+import uk.ac.ebi.uniprot.search.document.uniprot.UniProtDocument;
 
 import java.io.File;
 import java.time.temporal.ChronoUnit;
@@ -52,7 +55,7 @@ public class UniProtKBConfig {
     }
 
     @Bean
-    public ItemWriter<UniProtEntryDocumentPair> uniProtDocumentItemWriter(RetryPolicy<Object> writeRetryPolicy) {
+    public ItemWriter<EntryDocumentPair<UniProtEntry, UniProtDocument>> uniProtDocumentItemWriter(RetryPolicy<Object> writeRetryPolicy) {
         return new UniProtEntryDocumentPairWriter(this.solrTemplate, SolrCollection.uniprot, writeRetryPolicy);
     }
 
