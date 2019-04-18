@@ -5,7 +5,7 @@ import net.jodah.failsafe.RetryPolicy;
 import org.springframework.data.solr.core.SolrTemplate;
 import uk.ac.ebi.uniprot.domain.uniprot.UniProtEntry;
 import uk.ac.ebi.uniprot.flatfile.parser.ffwriter.impl.UniProtFlatfileWriter;
-import uk.ac.ebi.uniprot.indexer.common.writer.EntryDocumentPairWriter;
+import uk.ac.ebi.uniprot.indexer.common.writer.EntryDocumentPairRetryWriter;
 import uk.ac.ebi.uniprot.search.SolrCollection;
 import uk.ac.ebi.uniprot.search.document.uniprot.UniProtDocument;
 
@@ -17,7 +17,7 @@ import uk.ac.ebi.uniprot.search.document.uniprot.UniProtDocument;
  * @author Edd
  */
 @Slf4j
-public class UniProtEntryDocumentPairWriter extends EntryDocumentPairWriter<UniProtEntry, UniProtDocument> {
+public class UniProtEntryDocumentPairWriter extends EntryDocumentPairRetryWriter<UniProtEntry, UniProtDocument> {
     public UniProtEntryDocumentPairWriter(SolrTemplate solrTemplate, SolrCollection collection, RetryPolicy<Object> retryPolicy) {
         super(solrTemplate, collection, retryPolicy);
     }

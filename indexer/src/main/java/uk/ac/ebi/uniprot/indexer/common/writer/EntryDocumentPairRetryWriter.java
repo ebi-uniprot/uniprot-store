@@ -21,20 +21,26 @@ import java.util.stream.Collectors;
 import static org.slf4j.LoggerFactory.getLogger;
 
 /**
+ * This abstract class is responsible for writing documents from a list of {@link EntryDocumentPair}s to Solr.
+ * Writes to Solr are retried as configured in a {@link RetryPolicy} instance.
+ * <p>
+ * 
+ *
  * Created 12/04/19
  *
  * @author Edd
  */
 @Slf4j
-public abstract class EntryDocumentPairWriter<E, D> implements ItemWriter<EntryDocumentPair<E, D>> {
+public abstract class EntryDocumentPairRetryWriter<E, D> implements ItemWriter<EntryDocumentPair<E, D>> {
     private static final Logger INDEXING_FAILED_LOGGER = getLogger("indexing-doc-write-failed-entries");
+    private static final String ERROR_WRITING_ENTRIES_TO_SOLR = "Error writing entries to Solr: ";
     private final SolrTemplate solrTemplate;
     private final SolrCollection collection;
     private final RetryPolicy<Object> retryPolicy;
     private AtomicInteger failedWritingEntriesCount;
     private AtomicInteger writtenEntriesCount;
 
-    public EntryDocumentPairWriter(SolrTemplate solrTemplate, SolrCollection collection, RetryPolicy<Object> retryPolicy) {
+    public EntryDocumentPairRetryWriter(SolrTemplate solrTemplate, SolrCollection collection, RetryPolicy<Object> retryPolicy) {
         this.solrTemplate = solrTemplate;
         this.collection = collection;
         this.retryPolicy = retryPolicy;
@@ -52,7 +58,7 @@ public abstract class EntryDocumentPairWriter<E, D> implements ItemWriter<EntryD
                     .run(() -> writeEntriesToSolr(documents));
         } catch (Exception e) {
             List<String> accessions = documents.stream().map(this::extractDocumentId).collect(Collectors.toList());
-            log.error("Error converting entry chunk: " + accessions, e);
+            log.error(ERROR_WRITING_ENTRIES_TO_SOLR + accessions, e);
         }
     }
 
@@ -86,7 +92,7 @@ public abstract class EntryDocumentPairWriter<E, D> implements ItemWriter<EntryD
             INDEXING_FAILED_LOGGER.error(entryFF);
         }
 
-        log.error("Error converting entry chunk: " + accessions, throwable);
+        log.error(ERROR_WRITING_ENTRIES_TO_SOLR + accessions, throwable);
         failedWritingEntriesCount.addAndGet(entryDocumentPairs.size());
     }
 }
