@@ -4,11 +4,14 @@ import lombok.extern.slf4j.Slf4j;
 import net.jodah.failsafe.Failsafe;
 import net.jodah.failsafe.RetryPolicy;
 import org.slf4j.Logger;
+import org.springframework.batch.core.Job;
 import org.springframework.batch.core.StepExecution;
 import org.springframework.batch.core.annotation.BeforeStep;
 import org.springframework.batch.item.ExecutionContext;
 import org.springframework.batch.item.ItemWriter;
 import org.springframework.data.solr.core.SolrTemplate;
+import uk.ac.ebi.uniprot.indexer.common.listener.WriteRetrierLogJobListener;
+import uk.ac.ebi.uniprot.indexer.common.listener.WriteRetrierLogStepListener;
 import uk.ac.ebi.uniprot.indexer.common.model.EntryDocumentPair;
 import uk.ac.ebi.uniprot.indexer.common.utils.Constants;
 import uk.ac.ebi.uniprot.search.SolrCollection;
@@ -21,11 +24,23 @@ import java.util.stream.Collectors;
 import static org.slf4j.LoggerFactory.getLogger;
 
 /**
- * This abstract class is responsible for writing documents from a list of {@link EntryDocumentPair}s to Solr.
- * Writes to Solr are retried as configured in a {@link RetryPolicy} instance.
- * <p>
- * 
+ * <p>This abstract class is responsible for writing documents from a list of {@link EntryDocumentPair}s to Solr.
+ * Writes to Solr are retried as configured in a {@link RetryPolicy} instance.</p>
  *
+ * <p>Given the list of {@link EntryDocumentPair}s, if the constituent documents (obtained via {@link EntryDocumentPair#getDocument()})
+ * cause an {@link Exception} when writing to Solr even after all attempted retries, then a dedicated log file is generated.
+ * The log file is created as follows: for every entry in the list of {@link EntryDocumentPair}s (obtained via {@link EntryDocumentPair#getEntry()}
+ * the method {@link #entryToString(Object)} is called. Concrete implementations of this class must override this method
+ * to define how to write each entry in the log file.</p>
+ *
+ * <p>NOTE: this class catches failures via a simple retry framework ({@link RetryPolicy}) during writes. Therefore Spring
+ * Batch records false statistics of numbers of skips, writes, etc. For this reason, when using this class in a {@link org.springframework.batch.core.Step},
+ * there are the following recommendations:
+ * <ul>
+ *     <li>When using this class, do not use Spring Batch's fault tolerance {@link Job} features.</li>
+ *     <li>Use {@link WriteRetrierLogStepListener}, {@link WriteRetrierLogJobListener} to capture write statistics.</li>
+ * </ul>
+ * </p>
  * Created 12/04/19
  *
  * @author Edd
@@ -76,6 +91,7 @@ public abstract class EntryDocumentPairRetryWriter<E, D> implements ItemWriter<E
     }
 
     public abstract String extractDocumentId(D document);
+
     public abstract String entryToString(E entry);
 
     private void writeEntriesToSolr(List<D> documents) {

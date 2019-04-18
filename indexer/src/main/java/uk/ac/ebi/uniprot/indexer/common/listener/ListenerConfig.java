@@ -32,8 +32,8 @@ public class ListenerConfig {
     }
 
     @Bean
-    public WriteRetrierLogRateListener writeRetrierLogRateListener() {
-        return new WriteRetrierLogRateListener();
+    public LogRateListener writeRetrierLogRateListener() {
+        return new LogRateListener();
     }
 
     @Bean

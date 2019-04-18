@@ -9,8 +9,6 @@ import uk.ac.ebi.uniprot.indexer.common.writer.EntryDocumentPairRetryWriter;
 import uk.ac.ebi.uniprot.search.SolrCollection;
 import uk.ac.ebi.uniprot.search.document.uniprot.UniProtDocument;
 
-
-
 /**
  * Created 12/04/19
  *

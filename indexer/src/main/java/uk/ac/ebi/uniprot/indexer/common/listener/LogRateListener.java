@@ -17,7 +17,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  * @author Edd
  */
 @Slf4j
-public class WriteRetrierLogRateListener<O> implements ItemWriteListener<O> {
+public class LogRateListener<O> implements ItemWriteListener<O> {
     static final int WRITE_RATE_DOCUMENT_INTERVAL = 100000;
     private int writeRateDocumentInterval;
     private final Instant startOfWriting;
@@ -25,11 +25,11 @@ public class WriteRetrierLogRateListener<O> implements ItemWriteListener<O> {
     private AtomicInteger deltaWriteCount = new AtomicInteger(0);
     private Instant startOfDelta;
 
-    public WriteRetrierLogRateListener() {
+    public LogRateListener() {
         this(Instant.now());
     }
 
-    WriteRetrierLogRateListener(Instant now) {
+    LogRateListener(Instant now) {
         startOfWriting = startOfDelta = now;
         writeRateDocumentInterval = WRITE_RATE_DOCUMENT_INTERVAL;
     }

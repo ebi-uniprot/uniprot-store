@@ -10,16 +10,16 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
-import static uk.ac.ebi.uniprot.indexer.common.listener.WriteRetrierLogRateListener.WRITE_RATE_DOCUMENT_INTERVAL;
+import static uk.ac.ebi.uniprot.indexer.common.listener.LogRateListener.WRITE_RATE_DOCUMENT_INTERVAL;
 
 /**
  * Created 17/04/19
  *
  * @author Edd
  */
-class WriteRetrierLogRateListenerTest {
+class LogRateListenerTest {
     private Instant start;
-    private WriteRetrierLogRateListener<Object> itemRateWriterListener;
+    private LogRateListener<Object> itemRateWriterListener;
 
     private List<Object> mockedWrittenDocList;
 
@@ -28,7 +28,7 @@ class WriteRetrierLogRateListenerTest {
     void setUp() {
         mockedWrittenDocList = (List<Object>)mock(List.class);
         start = Instant.now();
-        itemRateWriterListener = new WriteRetrierLogRateListener<>(start);
+        itemRateWriterListener = new LogRateListener<>(start);
     }
 
     @Test
@@ -39,7 +39,7 @@ class WriteRetrierLogRateListenerTest {
         when(mockedWrittenDocList.size()).thenReturn(numDocs);
 
         itemRateWriterListener.afterWrite(mockedWrittenDocList);
-        WriteRetrierLogRateListener.StatsInfo statsInfo = itemRateWriterListener.computeWriteRateStats(fiveSecsAfterStart);
+        LogRateListener.StatsInfo statsInfo = itemRateWriterListener.computeWriteRateStats(fiveSecsAfterStart);
 
         System.out.println(statsInfo.toString());
         assertThat(statsInfo.totalSeconds, is(5L));
@@ -62,7 +62,7 @@ class WriteRetrierLogRateListenerTest {
         when(mockedWrittenDocList.size()).thenReturn(tenDocs);
         itemRateWriterListener.afterWrite(mockedWrittenDocList);
 
-        WriteRetrierLogRateListener.StatsInfo statsInfo = itemRateWriterListener.computeWriteRateStats(twoSecsAfterStart);
+        LogRateListener.StatsInfo statsInfo = itemRateWriterListener.computeWriteRateStats(twoSecsAfterStart);
 
         System.out.println(statsInfo);
         assertThat(statsInfo.deltaWriteCount, is(tenDocs));
