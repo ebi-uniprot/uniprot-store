@@ -14,7 +14,6 @@ import uk.ac.ebi.uniprot.flatfile.parser.SupportingDataMap;
 import uk.ac.ebi.uniprot.flatfile.parser.impl.DefaultUniProtParser;
 import uk.ac.ebi.uniprot.flatfile.parser.impl.SupportingDataMapImpl;
 import uk.ac.ebi.uniprot.flatfile.parser.impl.cc.CcLineTransformer;
-import uk.ac.ebi.uniprot.indexer.document.uniprot.UniProtDocument;
 import uk.ac.ebi.uniprot.indexer.uniprot.go.GoRelationRepo;
 import uk.ac.ebi.uniprot.indexer.uniprot.go.GoTerm;
 import uk.ac.ebi.uniprot.indexer.uniprot.go.GoTermFileReader;
@@ -23,6 +22,7 @@ import uk.ac.ebi.uniprot.indexer.uniprot.pathway.PathwayRepo;
 import uk.ac.ebi.uniprot.indexer.uniprot.taxonomy.TaxonomicNode;
 import uk.ac.ebi.uniprot.indexer.uniprot.taxonomy.TaxonomyRepo;
 import uk.ac.ebi.uniprot.indexer.uniprotkb.model.UniProtEntryDocumentPair;
+import uk.ac.ebi.uniprot.search.document.uniprot.UniProtDocument;
 
 import java.io.InputStream;
 import java.io.PrintWriter;
@@ -886,7 +886,7 @@ class UniProtEntryProcessorTest {
     }
 
     private UniProtDocument convertEntry(UniProtEntry entry) {
-        UniProtEntryDocumentPair uniProtEntryDocumentPair = UniProtEntryDocumentPair.createConvertableEntry(entry);
+        UniProtEntryDocumentPair uniProtEntryDocumentPair = new UniProtEntryDocumentPair(entry);
         entryProcessor.process(uniProtEntryDocumentPair);
         return uniProtEntryDocumentPair.getDocument();
     }

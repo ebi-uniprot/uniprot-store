@@ -18,14 +18,16 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.data.solr.core.SolrTemplate;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+import uk.ac.ebi.uniprot.domain.uniprot.UniProtEntry;
 import uk.ac.ebi.uniprot.indexer.common.listeners.ListenerConfig;
+import uk.ac.ebi.uniprot.indexer.common.model.EntryDocumentPair;
 import uk.ac.ebi.uniprot.indexer.common.utils.Constants;
-import uk.ac.ebi.uniprot.indexer.document.SolrCollection;
 import uk.ac.ebi.uniprot.indexer.test.config.FakeIndexerSpringBootApplication;
 import uk.ac.ebi.uniprot.indexer.test.config.TestConfig;
-import uk.ac.ebi.uniprot.indexer.uniprotkb.model.UniProtEntryDocumentPair;
 import uk.ac.ebi.uniprot.indexer.uniprotkb.step.UniProtKBStep;
 import uk.ac.ebi.uniprot.indexer.uniprotkb.writer.UniProtEntryDocumentPairWriter;
+import uk.ac.ebi.uniprot.search.SolrCollection;
+import uk.ac.ebi.uniprot.search.document.uniprot.UniProtDocument;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -146,10 +148,11 @@ class UniProtKBJobWriteSolrRetriesToLogFileThenFailIT {
     @Profile("manySolrRemoteHostErrors")
     @TestConfiguration
     static class RetryConfig {
+
         @Bean
         @Primary
         @SuppressWarnings(value = "unchecked")
-        ItemWriter<UniProtEntryDocumentPair> uniProtDocumentItemWriterMock() {
+        ItemWriter<EntryDocumentPair<UniProtEntry, UniProtDocument>> uniProtDocumentItemWriterMock() {
             SolrTemplate mockSolrTemplate = mock(SolrTemplate.class);
             stubSolrWriteResponses(SOLR_RESPONSES).when(mockSolrTemplate)
                     .saveBeans(eq(SolrCollection.uniprot.name()), any());
