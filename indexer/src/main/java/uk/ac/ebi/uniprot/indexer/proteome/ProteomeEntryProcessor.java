@@ -6,6 +6,8 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import org.springframework.batch.item.ItemProcessor;
+
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Strings;
@@ -13,31 +15,32 @@ import com.google.common.base.Strings;
 import uk.ac.ebi.uniprot.domain.proteome.builder.ProteomeBuilder;
 import uk.ac.ebi.uniprot.domain.taxonomy.Taxonomy;
 import uk.ac.ebi.uniprot.domain.taxonomy.builder.TaxonomyBuilder;
-import uk.ac.ebi.uniprot.indexer.document.AbstractDocumentConverter;
 import uk.ac.ebi.uniprot.indexer.uniprot.taxonomy.TaxonomicNode;
 import uk.ac.ebi.uniprot.indexer.uniprot.taxonomy.TaxonomyRepo;
-import uk.ac.ebi.uniprot.xml.jaxb.proteome.GeneType;
-import uk.ac.ebi.uniprot.xml.jaxb.proteome.Proteome;
 import uk.ac.ebi.uniprot.json.parser.proteome.ProteomeJsonConfig;
 import uk.ac.ebi.uniprot.search.document.proteome.ProteomeDocument;
+import uk.ac.ebi.uniprot.xml.jaxb.proteome.GeneType;
+import uk.ac.ebi.uniprot.xml.jaxb.proteome.Proteome;
 import uk.ac.ebi.uniprot.xml.proteome.ProteomeConverter;
-
-public class ProteomeXmlConverter extends AbstractDocumentConverter<Proteome, ProteomeDocument> {
+/**
+ * 
+ * @author jluo
+ *
+ */
+public class ProteomeEntryProcessor implements ItemProcessor<Proteome, ProteomeDocument> {
 	private static final String GC_SET_ACC = "GCSetAcc";
-	// private final AvroProteomeConverter avroConverter = new
-	// AvroProteomeConverter();
 	private final TaxonomyRepo taxonomyRepo;
 	private final ProteomeConverter proteomeConverter;
 	private final ObjectMapper objectMapper;
-	public ProteomeXmlConverter(TaxonomyRepo taxonomyRepo) {
+	
+	
+	public ProteomeEntryProcessor(TaxonomyRepo taxonomyRepo) {
 		this.taxonomyRepo = taxonomyRepo;
 		proteomeConverter = new ProteomeConverter();
 		this.objectMapper = ProteomeJsonConfig.getInstance().getObjectMapper();
 	}
-
 	@Override
-	public List<ProteomeDocument> convert(Proteome source) {
-		List<ProteomeDocument> documents = new ArrayList<>();
+	public ProteomeDocument process(Proteome source) throws Exception {
 		ProteomeDocument document = new ProteomeDocument();
 		document.upid = source.getUpid();
 		setOrganism(source.getTaxonomy().intValue(), document);
@@ -55,11 +58,9 @@ public class ProteomeXmlConverter extends AbstractDocumentConverter<Proteome, Pr
 		document.taxLineageIds.forEach(val -> document.content.add(val.toString()));
 	
 		document.proteomeStored = getBinaryObject(source);
-		documents.add(document);
-		return documents;
+		
+		return document;
 	}
-	
-	
 
 	private void setOrganism(int taxonomyId, ProteomeDocument document) {
 		document.organismTaxId = taxonomyId;
