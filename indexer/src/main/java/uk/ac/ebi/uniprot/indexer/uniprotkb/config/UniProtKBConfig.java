@@ -26,6 +26,7 @@ import uk.ac.ebi.uniprot.indexer.uniprot.taxonomy.FileNodeIterable;
 import uk.ac.ebi.uniprot.indexer.uniprot.taxonomy.TaxonomyMapRepo;
 import uk.ac.ebi.uniprot.indexer.uniprot.taxonomy.TaxonomyRepo;
 import uk.ac.ebi.uniprot.indexer.uniprotkb.model.UniProtEntryDocumentPair;
+import uk.ac.ebi.uniprot.indexer.uniprotkb.processor.UniProtEntryConverter;
 import uk.ac.ebi.uniprot.indexer.uniprotkb.processor.UniProtEntryProcessor;
 import uk.ac.ebi.uniprot.indexer.uniprotkb.reader.UniProtEntryItemReader;
 import uk.ac.ebi.uniprot.indexer.uniprotkb.writer.UniProtEntryDocumentPairWriter;
@@ -83,10 +84,12 @@ public class UniProtKBConfig {
 
     @Bean
     ItemProcessor<UniProtEntryDocumentPair, UniProtEntryDocumentPair> uniProtDocumentItemProcessor() {
-        return new UniProtEntryProcessor(createTaxonomyRepo(),
-                                         createGoRelationRepo(),
-                                         createKeywordRepo(),
-                                         createPathwayRepo());
+        return new UniProtEntryProcessor(
+                new UniProtEntryConverter(
+                        createTaxonomyRepo(),
+                        createGoRelationRepo(),
+                        createKeywordRepo(),
+                        createPathwayRepo()));
     }
 
     @Bean

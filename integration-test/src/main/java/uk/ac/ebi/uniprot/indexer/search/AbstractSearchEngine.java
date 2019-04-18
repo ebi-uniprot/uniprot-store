@@ -2,10 +2,6 @@ package uk.ac.ebi.uniprot.indexer.search;
 
 import com.google.common.base.Preconditions;
 import com.google.common.io.Files;
-
-import uk.ac.ebi.uniprot.indexer.document.DocumentProducer;
-import uk.ac.ebi.uniprot.search.document.Document;
-
 import org.apache.solr.client.solrj.SolrClient;
 import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.SolrServerException;
@@ -17,7 +13,8 @@ import org.apache.solr.core.CoreContainer;
 import org.junit.rules.ExternalResource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
+import uk.ac.ebi.uniprot.indexer.converter.DocumentConverter;
+import uk.ac.ebi.uniprot.search.document.Document;
 
 import java.io.File;
 import java.io.IOException;
@@ -32,7 +29,7 @@ import java.util.List;
  * <p>
  * The class defines methods to insert/delete/query data from the data source.
  */
-public abstract class AbstractSearchEngine<T> extends ExternalResource {
+public abstract class AbstractSearchEngine<E> extends ExternalResource {
     private static final String SOLR_CONFIG_DIR = "../index-config/src/main/solr-config/uniprot-collections";
     private static final Logger logger = LoggerFactory.getLogger(AbstractSearchEngine.class);
 
@@ -40,11 +37,11 @@ public abstract class AbstractSearchEngine<T> extends ExternalResource {
     protected final File indexHome;
     private final String searchEngineName;
     private SolrClient server;
-    private DocumentProducer<T> documentProducer;
+    private DocumentConverter<E, ?> documentProducer;
 
     private int retrievableRows;
 
-    public AbstractSearchEngine(String searchEngineName, DocumentProducer<T> documentProducer) {
+    public AbstractSearchEngine(String searchEngineName, DocumentConverter<E, ?> documentProducer) {
         this.documentProducer = documentProducer;
         this.searchEngineName = searchEngineName;
 
@@ -53,31 +50,31 @@ public abstract class AbstractSearchEngine<T> extends ExternalResource {
         this.indexHome = Files.createTempDir();
     }
 
-    public void indexEntry(T entry) {
+    public void indexEntry(E entry) {
         if (entry == null) {
             throw new IllegalArgumentException("Entry is null");
         }
 
-        List<Document> documents = documentProducer.produce(entry);
+        Document document = documentProducer.convert(entry);
 
         try {
-            server.addBeans(documents);
+            server.addBean(document);
             server.commit();
         } catch (SolrServerException | IOException e) {
             throw new IllegalStateException("Problem indexing document.", e);
         }
     }
 
-    public void indexEntry(T entry, DocFieldTransformer docTransformer) {
+    public void indexEntry(E entry, DocFieldTransformer docTransformer) {
         if (entry == null) {
             throw new IllegalArgumentException("Entry is null");
         }
 
-        List<Document> documents = documentProducer.produce(entry);
-        documents.forEach(docTransformer);
+        Document document = documentProducer.convert(entry);
+        docTransformer.accept(document);
 
         try {
-            server.addBeans(documents);
+            server.addBean(document);
             server.commit();
         } catch (SolrServerException | IOException e) {
             throw new IllegalStateException("Problem indexing document.", e);
@@ -99,7 +96,7 @@ public abstract class AbstractSearchEngine<T> extends ExternalResource {
 
     public QueryResponse getQueryResponse(String query) {
         SolrQuery solrQuery = new SolrQuery(query);
-       
+
         return getQueryResponse(solrQuery);
     }
 
@@ -163,7 +160,7 @@ public abstract class AbstractSearchEngine<T> extends ExternalResource {
         System.setProperty("solr.data.dir", indexHome.getAbsolutePath() + "/solr/data");
         System.setProperty("solr.core.name", "uniprot");
         System.setProperty("solr.ulog.dir", indexHome.getAbsolutePath() + "/tlog");
-     //   System.setProperty("solr.lib.ujdk.location", ".");
+        //   System.setProperty("solr.lib.ujdk.location", ".");
 //        System.setProperty("uniprot.voldemort.url", "inMemoryStore");
 //        System.setProperty("uniprot.voldemort.store", "avro-uniprot");
 //        System.setProperty("uniparc.voldemort.url", "inMemoryStore");
