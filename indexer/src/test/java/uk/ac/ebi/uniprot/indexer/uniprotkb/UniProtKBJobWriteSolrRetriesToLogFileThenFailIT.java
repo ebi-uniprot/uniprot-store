@@ -60,7 +60,7 @@ import static uk.ac.ebi.uniprot.indexer.common.utils.Constants.UNIPROTKB_INDEX_S
  *
  * @author Edd
  */
-@ActiveProfiles(profiles = {"manySolrRemoteHostErrors, offline"})
+@ActiveProfiles(profiles = {"manySolrRemoteHostErrors, offline", "job"})
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = {FakeIndexerSpringBootApplication.class,
                            UniProtKBJobWriteSolrRetriesToLogFileThenFailIT.RetryConfig.class,

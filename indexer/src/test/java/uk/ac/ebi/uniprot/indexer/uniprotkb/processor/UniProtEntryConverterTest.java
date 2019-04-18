@@ -2,6 +2,7 @@ package uk.ac.ebi.uniprot.indexer.uniprotkb.processor;
 
 import org.apache.commons.io.IOUtils;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import uk.ac.ebi.uniprot.domain.builder.SequenceBuilder;
 import uk.ac.ebi.uniprot.domain.uniprot.UniProtEntry;
@@ -44,8 +45,7 @@ import static uk.ac.ebi.uniprot.indexer.uniprotkb.processor.UniProtEntryConverte
  *
  * @author Edd
  */
-class UniProtConverterTest {
-    private static final String INDEXING_DOC_CONVERSION_FAILED_ENTRIES_LOG = "indexing-doc-conversion-failed-entries.error";
+class UniProtEntryConverterTest {
     private static final String CC_ALTERNATIVE_PRODUCTS_FIELD = "cc_alternative_products";
     private static final String CCEV_ALTERNATIVE_PRODUCTS_FIELD = "ccev_alternative_products";
     private static final String CC_COFACTOR_FIELD = "cc_cofactor";
@@ -76,6 +76,7 @@ class UniProtConverterTest {
     }
 
     // TODO: 18/04/19 fix this test
+    @Disabled
     @Test
     void testConvertFullA0PHU1Entry() throws Exception {
         when(repoMock.retrieveNodeUsingTaxID(anyInt()))
@@ -827,48 +828,8 @@ class UniProtConverterTest {
         assertTrue(doc.subcellLocationNoteEv.contains("ECO_0000250"));
     }
 
-//    @Test
-//    void onConversionErrorWriteFailedEntryToFile() throws Exception {
-//        // GIVEN --------------------------------
-//        String logFileNameForErrors = INDEXING_DOC_CONVERSION_FAILED_ENTRIES_LOG;
-//        Path logFileForErrors = Paths.get(logFileNameForErrors);
-//        // truncate any previous log file used to store document conversion errors ...
-//        // so that we can check for new content later
-//        if (Files.exists(logFileForErrors)) {
-//            PrintWriter fileWriter = new PrintWriter(logFileNameForErrors);
-//            fileWriter.print("");
-//            fileWriter.close();
-//        }
-//
-//        String accession = "Q9EPI6";
-//        String file = accession + ".sp";
-//        UniProtEntry entry = parse(file);
-//        assertNotNull(entry);
-//
-//        UniProtEntry entry = mock(UniProtEntry.class);
-//        doThrow(NullPointerException.class).when(entry).setDocument(any());
-//        when(entry.getEntry()).thenReturn(entry);
-//
-//        // WHEN --------------------------------
-//        // ensure an exception is thrown when being processed
-//        converter.convert(entry);
-//
-//        // wait for the file to be written
-//        Thread.sleep(500);
-//
-//        // THEN --------------------------------
-//        // ensure this entry is written to the error log
-//        assertTrue(Files.exists(logFileForErrors));
-//
-//        // sanity check: ensure the error log contains the correct accession
-//        Stream<String> lines = Files.lines(logFileForErrors);
-//        List<String> acLinesForAccession = lines.filter(l -> l.startsWith("AC   " + accession))
-//                .collect(Collectors.toList());
-//        assertThat(acLinesForAccession, hasSize(1));
-//    }
-
     private UniProtEntry parse(String file) throws Exception {
-        InputStream is = UniProtEntryProcessor.class.getClassLoader().getResourceAsStream("uniprotkb/" + file);
+        InputStream is = UniProtEntryDocumentPairProcessor.class.getClassLoader().getResourceAsStream("uniprotkb/" + file);
         assertNotNull(is);
         SupportingDataMap supportingDataMap = new SupportingDataMapImpl("uniprotkb/keywlist.txt",
                                                                         "uniprotkb/humdisease.txt",

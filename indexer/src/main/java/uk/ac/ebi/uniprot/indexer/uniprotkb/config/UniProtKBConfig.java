@@ -27,7 +27,7 @@ import uk.ac.ebi.uniprot.indexer.uniprot.taxonomy.TaxonomyMapRepo;
 import uk.ac.ebi.uniprot.indexer.uniprot.taxonomy.TaxonomyRepo;
 import uk.ac.ebi.uniprot.indexer.uniprotkb.model.UniProtEntryDocumentPair;
 import uk.ac.ebi.uniprot.indexer.uniprotkb.processor.UniProtEntryConverter;
-import uk.ac.ebi.uniprot.indexer.uniprotkb.processor.UniProtEntryProcessor;
+import uk.ac.ebi.uniprot.indexer.uniprotkb.processor.UniProtEntryDocumentPairProcessor;
 import uk.ac.ebi.uniprot.indexer.uniprotkb.reader.UniProtEntryItemReader;
 import uk.ac.ebi.uniprot.indexer.uniprotkb.writer.UniProtEntryDocumentPairWriter;
 import uk.ac.ebi.uniprot.search.SolrCollection;
@@ -84,7 +84,7 @@ public class UniProtKBConfig {
 
     @Bean
     ItemProcessor<UniProtEntryDocumentPair, UniProtEntryDocumentPair> uniProtDocumentItemProcessor() {
-        return new UniProtEntryProcessor(
+        return new UniProtEntryDocumentPairProcessor(
                 new UniProtEntryConverter(
                         createTaxonomyRepo(),
                         createGoRelationRepo(),

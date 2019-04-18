@@ -51,6 +51,7 @@ public class TestConfig implements DisposableBean {
     }
 
     @Bean
+    @Profile("job")
     public JobLauncherTestUtils utils() {
         return new JobLauncherTestUtils();
     }

@@ -5,6 +5,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.batch.core.JobExecution;
 import org.springframework.batch.core.StepExecution;
+import org.springframework.batch.item.ExecutionContext;
 import org.springframework.data.solr.core.SolrTemplate;
 import uk.ac.ebi.uniprot.indexer.common.model.AbstractEntryDocumentPair;
 import uk.ac.ebi.uniprot.search.SolrCollection;
@@ -31,7 +32,9 @@ class EntryDocumentPairRetryWriterTest {
         this.retryPolicy = new RetryPolicy<>().withMaxRetries(2);
         this.solrTemplateMock = mock(SolrTemplate.class);
         this.writer = new WriterUnderTest(this.solrTemplateMock, uniprot, this.retryPolicy);
-        this.writer.setStepExecution(new StepExecution("fake step", mock(JobExecution.class)));
+        JobExecution mockJobExecution = mock(JobExecution.class);
+        when(mockJobExecution.getExecutionContext()).thenReturn(mock(ExecutionContext.class));
+        this.writer.setStepExecution(new StepExecution("fake step", mockJobExecution));
     }
 
     @Test
