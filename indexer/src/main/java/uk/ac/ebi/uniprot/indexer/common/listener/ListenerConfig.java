@@ -1,13 +1,10 @@
-package uk.ac.ebi.uniprot.indexer.common.listeners;
+package uk.ac.ebi.uniprot.indexer.common.listener;
 
 import org.springframework.batch.core.ChunkListener;
 import org.springframework.batch.core.JobExecutionListener;
 import org.springframework.batch.core.StepExecutionListener;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import uk.ac.ebi.uniprot.indexer.common.listener.WriteRetrierLogJobListener;
-import uk.ac.ebi.uniprot.indexer.common.listener.WriteRetrierLogRateListener;
-import uk.ac.ebi.uniprot.indexer.common.listener.WriteRetrierLogStepListener;
 
 /**
  * @author lgonzales

@@ -15,7 +15,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import uk.ac.ebi.uniprot.indexer.common.config.DataSourceConfig;
-import uk.ac.ebi.uniprot.indexer.common.listeners.LogJobListener;
+import uk.ac.ebi.uniprot.indexer.common.listener.LogJobListener;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
