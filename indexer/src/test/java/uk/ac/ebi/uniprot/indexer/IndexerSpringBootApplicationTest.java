@@ -1,7 +1,6 @@
 package uk.ac.ebi.uniprot.indexer;
 
 import org.apache.solr.client.solrj.impl.HttpSolrClient;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
@@ -40,7 +39,7 @@ class IndexerSpringBootApplicationTest {
                 is(SUCCESS_EXIT_CODE));
     }
 
-    @Disabled
+//    @Disabled
     // TODO: 18/04/19 fix this.
     @Test
     void failedSpringBootApplicationHasCorrectExitStatus() {
