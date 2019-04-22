@@ -39,8 +39,6 @@ class IndexerSpringBootApplicationTest {
                 is(SUCCESS_EXIT_CODE));
     }
 
-//    @Disabled
-    // TODO: 18/04/19 fix this.
     @Test
     void failedSpringBootApplicationHasCorrectExitStatus() {
         assertThat(
