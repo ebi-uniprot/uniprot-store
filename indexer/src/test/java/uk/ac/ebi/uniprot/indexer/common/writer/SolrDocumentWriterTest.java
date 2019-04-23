@@ -11,7 +11,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.solr.core.SolrTemplate;
 import org.springframework.data.solr.core.query.SimpleQuery;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-
 import uk.ac.ebi.uniprot.indexer.test.config.FakeIndexerSpringBootApplication;
 import uk.ac.ebi.uniprot.indexer.test.config.TestConfig;
 import uk.ac.ebi.uniprot.search.SolrCollection;
@@ -28,13 +27,14 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @ExtendWith(SpringExtension.class)
-@SpringBootTest(classes = {FakeIndexerSpringBootApplication.class,TestConfig.class})
-class SolrDocumentWriterTest{
+@SpringBootTest(classes = {FakeIndexerSpringBootApplication.class, TestConfig.class})
+class SolrDocumentWriterTest {
 
     private SolrDocumentWriter solrDocumentWriter;
 
     @Autowired
     private SolrTemplate template;
+
 
     private static String random;
 
@@ -44,23 +44,25 @@ class SolrDocumentWriterTest{
     }
 
     @BeforeEach
-    void initDocumentWriter(){
-        solrDocumentWriter = new SolrDocumentWriter(template,SolrCollection.crossref);
+    void initDocumentWriter() {
+        solrDocumentWriter = new SolrDocumentWriter(template, SolrCollection.crossref);
     }
 
     @AfterEach
     void stopSolrClient() {
-        template.delete(SolrCollection.crossref.name(),new SimpleQuery("*:*"));
+        template.delete(SolrCollection.crossref.name(), new SimpleQuery("*:*"));
         template.commit(SolrCollection.crossref.name());
     }
 
     @Test
     void testWriteCrossRefs() throws Exception {
-        List<CrossRefDocument> dbxrefList = IntStream.range(0, 10).mapToObj(i -> createDBXRef(i)).collect(Collectors.toList());
+        List<CrossRefDocument> dbxrefList = IntStream.range(0, 10).mapToObj(i -> createDBXRef(i))
+                .collect(Collectors.toList());
         // write the cross refs to the solr
         solrDocumentWriter.write(dbxrefList);
         // get the cross refs and verify
-        Page<CrossRefDocument> response = template.query(SolrCollection.crossref.name(), new SimpleQuery("*:*"),CrossRefDocument.class);
+        Page<CrossRefDocument> response = template
+                .query(SolrCollection.crossref.name(), new SimpleQuery("*:*"), CrossRefDocument.class);
         assertNotNull(response);
         assertEquals(10, response.getTotalElements());
         List<CrossRefDocument> results = response.getContent();
@@ -78,10 +80,10 @@ class SolrDocumentWriterTest{
         assertNotNull(dbxRef.getLinkType(), "Link Type is null");
         assertNotNull(dbxRef.getServer(), "Server is null");
         assertNotNull(dbxRef.getDbUrl(), "DB URL is null");
-        assertNotNull(dbxRef.getCategoryFacet(), "Category is null");
+        assertNotNull(dbxRef.getCategory(), "Category is null");
     }
 
-    private CrossRefDocument createDBXRef(int suffix){
+    private CrossRefDocument createDBXRef(int suffix) {
         String ac = random + "-AC-" + suffix;
         String ab = random + "-AB-" + suffix;
         String nm = random + "-NM-" + suffix;
@@ -96,9 +98,8 @@ class SolrDocumentWriterTest{
         contents.add(co);
 
         CrossRefDocument.CrossRefDocumentBuilder builder = CrossRefDocument.builder();
-        builder.abbrev(ab).accession(ac).category(ct).dbUrl(du);
-        builder.doiId(di).linkType(lt).name(nm).pubMedId(pb).server(sr)
-        .content(contents);
+        builder.abbrev(ab).accession(ac).categoryStr(ct).dbUrl(du);
+        builder.doiId(di).linkType(lt).name(nm).pubMedId(pb).server(sr);
         return builder.build();
     }
 }

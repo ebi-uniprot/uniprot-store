@@ -17,9 +17,7 @@ import org.springframework.context.annotation.Import;
 @SpringBootApplication
 @Import(TestConfig.class)
 public class FakeIndexerSpringBootApplication {
-
     public static void main(String[] args) {
-        SpringApplication.run(FakeIndexerSpringBootApplication.class,args);
+        SpringApplication.run(FakeIndexerSpringBootApplication.class, args);
     }
-
 }

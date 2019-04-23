@@ -1,25 +1,23 @@
 package uk.ac.ebi.uniprot.indexer;
 
-import static java.util.Arrays.asList;
-import static org.slf4j.LoggerFactory.getLogger;
-
-import java.io.IOException;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
-
 import org.apache.solr.client.solrj.SolrClient;
 import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.slf4j.Logger;
-
 import uk.ac.ebi.uniprot.datastore.voldemort.VoldemortClient;
-import uk.ac.ebi.uniprot.indexer.document.DocumentConverter;
+import uk.ac.ebi.uniprot.indexer.converter.DocumentConverter;
 import uk.ac.ebi.uniprot.search.document.Document;
 import voldemort.versioning.ObsoleteVersionException;
+
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
+import static java.util.Arrays.asList;
+import static org.slf4j.LoggerFactory.getLogger;
 
 /**
  * Created 19/09/18
@@ -123,7 +121,7 @@ public class DataStoreManager {
     public <T, D extends Document> void saveEntriesInSolr(StoreType storeType, List<T> entries) {
         DocumentConverter<T, D> documentConverter = docConverterMap.get(storeType);
         SolrClient client = solrClientMap.get(storeType);
-        List<D> docs = entries.stream().map(documentConverter::convert).flatMap(Collection::stream)
+        List<D> docs = entries.stream().map(documentConverter::convert)
                 .collect(Collectors.toList());
         try {
             client.addBeans(docs);

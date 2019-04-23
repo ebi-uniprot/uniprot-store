@@ -146,8 +146,7 @@ public class CrossRefReader implements ItemReader<CrossRefDocument> {
         CrossRefDocument.CrossRefDocumentBuilder builder = CrossRefDocument.builder();
         builder.accession(acc).abbrev(abbr).name(name);
         builder.pubMedId(pubMedId).doiId(doiId).linkType(lType).server(server);
-        builder.dbUrl(url).category(cat);
-        builder.content(Arrays.asList(acc, abbr, name, pubMedId, doiId, lType, cat, url, server));
+        builder.dbUrl(url).categoryStr(cat);
         return builder.build();
     }
 }

@@ -2,7 +2,7 @@ package uk.ac.ebi.uniprot.indexer.search.uniprot;
 
 
 import uk.ac.ebi.uniprot.domain.uniprot.UniProtEntry;
-import uk.ac.ebi.uniprot.indexer.document.DocumentProducer;
+import uk.ac.ebi.uniprot.indexer.converter.DocumentConverter;
 import uk.ac.ebi.uniprot.indexer.search.AbstractSearchEngine;
 import uk.ac.ebi.uniprot.indexer.uniprot.go.GoRelationFileReader;
 import uk.ac.ebi.uniprot.indexer.uniprot.go.GoRelationFileRepo;
@@ -15,9 +15,8 @@ import uk.ac.ebi.uniprot.indexer.uniprot.pathway.PathwayRepo;
 import uk.ac.ebi.uniprot.indexer.uniprot.taxonomy.FileNodeIterable;
 import uk.ac.ebi.uniprot.indexer.uniprot.taxonomy.TaxonomyMapRepo;
 import uk.ac.ebi.uniprot.indexer.uniprot.taxonomy.TaxonomyRepo;
+import uk.ac.ebi.uniprot.indexer.uniprotkb.processor.UniProtEntryConverter;
 import uk.ac.ebi.uniprot.search.field.UniProtField;
-import uk.ac.ebi.uniprot.indexer.document.impl.UniprotEntryConverter;
-import uk.ac.ebi.uniprot.indexer.document.impl.UniprotEntryDocumentProducer;
 
 import java.io.File;
 import java.net.URISyntaxException;
@@ -34,7 +33,7 @@ public class UniProtSearchEngine extends AbstractSearchEngine<UniProtEntry> {
         super(SEARCH_ENGINE_NAME, TestDocumentProducer.createDefault());
     }
 
-    public UniProtSearchEngine(DocumentProducer<UniProtEntry> documentProducer) {
+    public UniProtSearchEngine(DocumentConverter<UniProtEntry, ?> documentProducer) {
         super(SEARCH_ENGINE_NAME, documentProducer);
     }
 
@@ -49,12 +48,12 @@ public class UniProtSearchEngine extends AbstractSearchEngine<UniProtEntry> {
         System.setProperty("uniprot.bdb.base.location", indexHome.getAbsolutePath() + "/bdb/uniprot/data");
         System.setProperty("uniprot.bdb.test.base.location", indexHome.getAbsolutePath() + "/bdb/it_uniprot/data");
         System.setProperty("solr.allow.unsafe.resourceloading", "true");
-   //     System.setProperty("uniprot.suggester.dir", "/Users/jluo/projects/github/uniprot-indexer/integration-test/src/test/resources/it/uniprot/suggestions/");
+        //     System.setProperty("uniprot.suggester.dir", "/Users/jluo/projects/github/uniprot-indexer/integration-test/src/test/resources/it/uniprot/suggestions/");
     }
 
     @Override
     protected String identifierQuery(String entryId) {
-        return "accession_id:" +entryId;
+        return "accession_id:" + entryId;
     }
 
     @Override
@@ -63,19 +62,19 @@ public class UniProtSearchEngine extends AbstractSearchEngine<UniProtEntry> {
     }
 
     static class TestDocumentProducer {
-        static DocumentProducer<UniProtEntry> createDefault() {
+        static DocumentConverter<UniProtEntry, ?> createDefault() {
             return new TestDocumentProducer().create();
         }
 
-        DocumentProducer<UniProtEntry> create() {
+        DocumentConverter<UniProtEntry, ?> create() {
             try {
                 TaxonomyRepo taxRepo = createTaxRepo();
                 GoRelationRepo goRelation = createGoRelationRepo();
-             //   UniProtUniRefMap uniProtUniRefMapDir = createUniProtUniRefMap();
+                //   UniProtUniRefMap uniProtUniRefMapDir = createUniProtUniRefMap();
 
-                return new UniprotEntryDocumentProducer(new UniprotEntryConverter(taxRepo, goRelation, createKeywordRepo(),
-                		createPathwayRepo()
-                		));
+                return new UniProtEntryConverter(taxRepo, goRelation, createKeywordRepo(),
+                                                 createPathwayRepo()
+                );
             } catch (URISyntaxException e) {
                 throw new IllegalStateException("Unable to access the taxonomy file location");
             }
@@ -102,13 +101,13 @@ public class UniProtSearchEngine extends AbstractSearchEngine<UniProtEntry> {
 //                    .build();
 //
 //        }
-        
+
         KeywordRepo createKeywordRepo() {
-        	return new KeywordFileRepo("keywlist.txt");
+            return new KeywordFileRepo("keywlist.txt");
         }
-        
+
         PathwayRepo createPathwayRepo() {
-        	return new PathwayFileRepo("unipathway.txt");
+            return new PathwayFileRepo("unipathway.txt");
         }
 //        private ChronicleMap<String, String> createMap() {
 //            return ChronicleMap

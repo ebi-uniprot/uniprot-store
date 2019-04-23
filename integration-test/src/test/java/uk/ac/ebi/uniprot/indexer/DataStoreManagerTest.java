@@ -7,7 +7,9 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
-
+import uk.ac.ebi.uniprot.domain.uniprot.UniProtEntry;
+import uk.ac.ebi.uniprot.indexer.uniprot.mockers.*;
+import uk.ac.ebi.uniprot.indexer.uniprotkb.processor.UniProtEntryConverter;
 import uk.ac.ebi.uniprot.search.SolrCollection;
 import uk.ac.ebi.uniprot.search.document.uniprot.UniProtDocument;
 
@@ -16,18 +18,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.hasSize;
 import static org.junit.jupiter.api.Assertions.fail;
-
-import uk.ac.ebi.uniprot.datastore.voldemort.uniprot.VoldemortInMemoryUniprotEntryStore;
-import uk.ac.ebi.uniprot.domain.uniprot.UniProtEntry;
-import uk.ac.ebi.uniprot.indexer.document.impl.UniprotEntryConverter;
-import uk.ac.ebi.uniprot.indexer.uniprot.mockers.GoRelationsRepoMocker;
-import uk.ac.ebi.uniprot.indexer.uniprot.mockers.KeywordRepoMocker;
-import uk.ac.ebi.uniprot.indexer.uniprot.mockers.PathwayRepoMocker;
-import uk.ac.ebi.uniprot.indexer.uniprot.mockers.TaxonomyRepoMocker;
-import uk.ac.ebi.uniprot.indexer.uniprot.mockers.UniProtDocMocker;
-import uk.ac.ebi.uniprot.indexer.uniprot.mockers.UniProtEntryMocker;
 class DataStoreManagerTest {
     private static final String P12345 = "P12345";
     private static DataStoreManager storeManager;
@@ -44,9 +35,9 @@ class DataStoreManagerTest {
        //             .getInstance("avro-uniprot"));
        //     storeManager.addVoldemort(DataStoreManager.StoreType.UNIPROT, storeClient);
 
-            storeManager.addDocConverter(DataStoreManager.StoreType.UNIPROT, new UniprotEntryConverter(TaxonomyRepoMocker.getTaxonomyRepo(),
-            		GoRelationsRepoMocker.getGoRelationRepo(),  KeywordRepoMocker.getKeywordRepo(),
-            		PathwayRepoMocker.getPathwayRepo()));
+            storeManager.addDocConverter(DataStoreManager.StoreType.UNIPROT, new UniProtEntryConverter(TaxonomyRepoMocker.getTaxonomyRepo(),
+                                                                                                       GoRelationsRepoMocker.getGoRelationRepo(), KeywordRepoMocker.getKeywordRepo(),
+                                                                                                       PathwayRepoMocker.getPathwayRepo()));
         } catch (Exception e) {
             fail("Error to setup DataStoreManagerTest",e);
         }
