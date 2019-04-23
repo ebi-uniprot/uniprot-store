@@ -9,5 +9,6 @@ public enum SolrCollection {
     uniprot,
     uniparc,
     crossref,
-    taxonomy
+    taxonomy,
+    proteome
 }

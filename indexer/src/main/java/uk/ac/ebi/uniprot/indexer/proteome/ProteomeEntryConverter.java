@@ -6,8 +6,6 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import org.springframework.batch.item.ItemProcessor;
-
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Strings;
@@ -15,6 +13,7 @@ import com.google.common.base.Strings;
 import uk.ac.ebi.uniprot.domain.proteome.builder.ProteomeBuilder;
 import uk.ac.ebi.uniprot.domain.taxonomy.Taxonomy;
 import uk.ac.ebi.uniprot.domain.taxonomy.builder.TaxonomyBuilder;
+import uk.ac.ebi.uniprot.indexer.converter.DocumentConverter;
 import uk.ac.ebi.uniprot.indexer.uniprot.taxonomy.TaxonomicNode;
 import uk.ac.ebi.uniprot.indexer.uniprot.taxonomy.TaxonomyRepo;
 import uk.ac.ebi.uniprot.json.parser.proteome.ProteomeJsonConfig;
@@ -22,25 +21,28 @@ import uk.ac.ebi.uniprot.search.document.proteome.ProteomeDocument;
 import uk.ac.ebi.uniprot.xml.jaxb.proteome.GeneType;
 import uk.ac.ebi.uniprot.xml.jaxb.proteome.Proteome;
 import uk.ac.ebi.uniprot.xml.proteome.ProteomeConverter;
+
 /**
- * 
- * @author jluo
  *
- */
-public class ProteomeEntryProcessor implements ItemProcessor<Proteome, ProteomeDocument> {
+ * @author jluo
+ * @date: 23 Apr 2019
+ *
+*/
+
+public class ProteomeEntryConverter implements DocumentConverter<Proteome, ProteomeDocument>{
 	private static final String GC_SET_ACC = "GCSetAcc";
 	private final TaxonomyRepo taxonomyRepo;
 	private final ProteomeConverter proteomeConverter;
 	private final ObjectMapper objectMapper;
 	
 	
-	public ProteomeEntryProcessor(TaxonomyRepo taxonomyRepo) {
+	public ProteomeEntryConverter(TaxonomyRepo taxonomyRepo) {
 		this.taxonomyRepo = taxonomyRepo;
 		proteomeConverter = new ProteomeConverter();
 		this.objectMapper = ProteomeJsonConfig.getInstance().getObjectMapper();
 	}
 	@Override
-	public ProteomeDocument process(Proteome source) throws Exception {
+	public ProteomeDocument convert(Proteome source) {
 		ProteomeDocument document = new ProteomeDocument();
 		document.upid = source.getUpid();
 		setOrganism(source.getTaxonomy().intValue(), document);
@@ -64,11 +66,13 @@ public class ProteomeEntryProcessor implements ItemProcessor<Proteome, ProteomeD
 
 	private void setOrganism(int taxonomyId, ProteomeDocument document) {
 		document.organismTaxId = taxonomyId;
+		document.taxLineageIds.add(taxonomyId);
 		Optional<TaxonomicNode> taxonomicNode = taxonomyRepo.retrieveNodeUsingTaxID(taxonomyId);
 		if (taxonomicNode.isPresent()) {
 			TaxonomicNode node = taxonomicNode.get();
 			List<String> extractedTaxoNode = extractTaxonode(node);
 			document.organismName.addAll(extractedTaxoNode);
+			 document.organismTaxon.addAll(extractedTaxoNode);
 		}
 
 	}
@@ -182,4 +186,6 @@ public class ProteomeEntryProcessor implements ItemProcessor<Proteome, ProteomeD
 		return source.getComponent().stream().map(val -> val.getGenomeAccession()).flatMap(val -> val.stream())
 				.collect(Collectors.toList());
 	}
+	
 }
+
