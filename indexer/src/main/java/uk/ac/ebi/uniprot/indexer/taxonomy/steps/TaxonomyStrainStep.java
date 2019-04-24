@@ -7,12 +7,10 @@ import org.springframework.batch.core.configuration.annotation.StepBuilderFactor
 import org.springframework.batch.item.ItemReader;
 import org.springframework.batch.item.ItemWriter;
 import org.springframework.batch.item.database.JdbcCursorItemReader;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.solr.core.SolrTemplate;
-
 import uk.ac.ebi.uniprot.indexer.common.utils.Constants;
 import uk.ac.ebi.uniprot.indexer.taxonomy.readers.TaxonomyStrainReader;
 import uk.ac.ebi.uniprot.indexer.taxonomy.writers.TaxonomyStrainWriter;
@@ -32,22 +30,22 @@ public class TaxonomyStrainStep {
     @Value(("${database.chunk.size}"))
     private Integer chunkSize;
 
-    @Bean(name = "TaxonomyStrainStep")
-    public Step importTaxonomyStrainStep(StepBuilderFactory stepBuilders, StepExecutionListener stepListener,
+    @Bean(name = "taxonomyStrain")
+    public Step taxonomyStrain(StepBuilderFactory stepBuilders, StepExecutionListener stepListener,
                                          ChunkListener chunkListener,
-                                         @Qualifier("itemTaxonomyStrainReader") ItemReader<TaxonomyDocument> reader,
-                                         @Qualifier("itemTaxonomyStrainWriter") ItemWriter<TaxonomyDocument> writer){
+                                         ItemReader<TaxonomyDocument> itemTaxonomyStrainReader,
+                                         ItemWriter<TaxonomyDocument> itemTaxonomyStrainWriter){
         return stepBuilders.get(Constants.TAXONOMY_LOAD_STRAIN_STEP_NAME)
                 .<TaxonomyDocument, TaxonomyDocument>chunk(chunkSize)
-                .reader(reader)
-                .writer(writer)
+                .reader(itemTaxonomyStrainReader)
+                .writer(itemTaxonomyStrainWriter)
                 .listener(stepListener)
                 .listener(chunkListener)
                 .build();
     }
 
     @Bean(name = "itemTaxonomyStrainReader")
-    public ItemReader<TaxonomyDocument> itemTaxonomyStrainReader(@Qualifier("readDataSource") DataSource readDataSource) throws SQLException {
+    public ItemReader<TaxonomyDocument> itemTaxonomyStrainReader(DataSource readDataSource) throws SQLException {
         JdbcCursorItemReader<TaxonomyDocument> itemReader = new JdbcCursorItemReader<>();
         itemReader.setDataSource(readDataSource);
         itemReader.setSql("SELECT s.tax_id," +

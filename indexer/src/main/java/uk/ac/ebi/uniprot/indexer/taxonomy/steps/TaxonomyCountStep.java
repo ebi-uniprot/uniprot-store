@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.solr.core.SolrTemplate;
-
 import uk.ac.ebi.uniprot.indexer.common.utils.Constants;
 import uk.ac.ebi.uniprot.indexer.taxonomy.readers.TaxonomyCountReader;
 import uk.ac.ebi.uniprot.indexer.taxonomy.writers.TaxonomyCountWriter;
@@ -32,15 +31,15 @@ public class TaxonomyCountStep {
     @Value(("${database.chunk.size}"))
     private Integer chunkSize;
 
-    @Bean(name = "TaxonomyCountStep")
-    public Step importTaxonomyCountStep(StepBuilderFactory stepBuilders, StepExecutionListener stepListener,
+    @Bean(name = "taxonomyCount")
+    public Step taxonomyCount(StepBuilderFactory stepBuilders, StepExecutionListener stepListener,
                                        ChunkListener chunkListener,
-                                       @Qualifier("itemTaxonomyCountReader") ItemReader<TaxonomyDocument> reader,
-                                       @Qualifier("itemTaxonomyCountWriter") ItemWriter<TaxonomyDocument> writer){
+                                       ItemReader<TaxonomyDocument> itemTaxonomyCountReader,
+                                       ItemWriter<TaxonomyDocument> itemTaxonomyCountWriter){
         return stepBuilders.get(Constants.TAXONOMY_LOAD_COUNT_STEP_NAME)
                 .<TaxonomyDocument, TaxonomyDocument>chunk(chunkSize)
-                .reader(reader)
-                .writer(writer)
+                .reader(itemTaxonomyCountReader)
+                .writer(itemTaxonomyCountWriter)
                 .listener(stepListener)
                 .listener(chunkListener)
                 .build();

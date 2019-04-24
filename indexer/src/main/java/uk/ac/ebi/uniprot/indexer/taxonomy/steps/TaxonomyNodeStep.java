@@ -7,12 +7,10 @@ import org.springframework.batch.core.configuration.annotation.StepBuilderFactor
 import org.springframework.batch.item.ItemReader;
 import org.springframework.batch.item.ItemWriter;
 import org.springframework.batch.item.database.JdbcCursorItemReader;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.solr.core.SolrTemplate;
-
 import uk.ac.ebi.uniprot.indexer.common.utils.Constants;
 import uk.ac.ebi.uniprot.indexer.common.writer.SolrDocumentWriter;
 import uk.ac.ebi.uniprot.indexer.taxonomy.readers.TaxonomyNodeReader;
@@ -32,22 +30,22 @@ public class TaxonomyNodeStep {
     @Value(("${database.chunk.size}"))
     private Integer chunkSize;
 
-    @Bean(name = "TaxonomyNodeStep")
-    public Step importTaxonomyNodeStep(StepBuilderFactory stepBuilders,StepExecutionListener stepListener,
+    @Bean(name = "taxonomyNode")
+    public Step taxonomyNode(StepBuilderFactory stepBuilders,StepExecutionListener stepListener,
                                        ChunkListener chunkListener,
-                                       @Qualifier("itemTaxonomyNodeReader") ItemReader<TaxonomyDocument> reader,
-                                       @Qualifier("itemTaxonomyNodeWriter") ItemWriter<TaxonomyDocument> writer){
+                                       ItemReader<TaxonomyDocument> itemTaxonomyNodeReader,
+                                       ItemWriter<TaxonomyDocument> itemTaxonomyNodeWriter){
         return stepBuilders.get(Constants.TAXONOMY_LOAD_NODE_STEP_NAME)
                 .<TaxonomyDocument, TaxonomyDocument>chunk(chunkSize)
-                .reader(reader)
-                .writer(writer)
+                .reader(itemTaxonomyNodeReader)
+                .writer(itemTaxonomyNodeWriter)
                 .listener(stepListener)
                 .listener(chunkListener)
                 .build();
     }
 
     @Bean(name = "itemTaxonomyNodeReader")
-    public ItemReader<TaxonomyDocument> itemTaxonomyNodeReader(@Qualifier("readDataSource") DataSource readDataSource) throws SQLException {
+    public ItemReader<TaxonomyDocument> itemTaxonomyNodeReader(DataSource readDataSource) throws SQLException {
         JdbcCursorItemReader<TaxonomyDocument> itemReader = new JdbcCursorItemReader<>();
         itemReader.setDataSource(readDataSource);
         itemReader.setSql("select tax_id,parent_id,hidden,internal,rank,gc_id,mgc_id,ncbi_scientific,ncbi_common," +

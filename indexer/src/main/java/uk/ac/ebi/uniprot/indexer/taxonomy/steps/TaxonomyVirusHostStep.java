@@ -7,12 +7,10 @@ import org.springframework.batch.core.configuration.annotation.StepBuilderFactor
 import org.springframework.batch.item.ItemReader;
 import org.springframework.batch.item.ItemWriter;
 import org.springframework.batch.item.database.JdbcCursorItemReader;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.solr.core.SolrTemplate;
-
 import uk.ac.ebi.uniprot.indexer.common.utils.Constants;
 import uk.ac.ebi.uniprot.indexer.taxonomy.readers.TaxonomyVirusHostReader;
 import uk.ac.ebi.uniprot.indexer.taxonomy.writers.TaxonomyVirusHostWriter;
@@ -32,22 +30,22 @@ public class TaxonomyVirusHostStep {
     @Value(("${database.chunk.size}"))
     private Integer chunkSize;
 
-    @Bean(name = "TaxonomyVirusHostStep")
-    public Step importTaxonomyVirusHostStep(StepBuilderFactory stepBuilders, StepExecutionListener stepListener,
+    @Bean(name = "taxonomyVirusHost")
+    public Step taxonomyVirusHost(StepBuilderFactory stepBuilders, StepExecutionListener stepListener,
                                             ChunkListener chunkListener,
-                                         @Qualifier("itemTaxonomyVirusHostReader") ItemReader<TaxonomyDocument> reader,
-                                         @Qualifier("itemTaxonomyVirusHostWriter") ItemWriter<TaxonomyDocument> writer){
+                                            ItemReader<TaxonomyDocument> itemTaxonomyVirusHostReader,
+                                            ItemWriter<TaxonomyDocument> itemTaxonomyVirusHostWriter){
         return stepBuilders.get(Constants.TAXONOMY_LOAD_VIRUS_HOST_STEP_NAME)
                 .<TaxonomyDocument, TaxonomyDocument>chunk(chunkSize)
-                .reader(reader)
-                .writer(writer)
+                .reader(itemTaxonomyVirusHostReader)
+                .writer(itemTaxonomyVirusHostWriter)
                 .listener(stepListener)
                 .listener(chunkListener)
                 .build();
     }
 
     @Bean(name = "itemTaxonomyVirusHostReader")
-    public ItemReader<TaxonomyDocument> itemTaxonomyVirusHostReader(@Qualifier("readDataSource") DataSource readDataSource) throws SQLException {
+    public ItemReader<TaxonomyDocument> itemTaxonomyVirusHostReader(DataSource readDataSource) throws SQLException {
         JdbcCursorItemReader<TaxonomyDocument> itemReader = new JdbcCursorItemReader<>();
         itemReader.setDataSource(readDataSource);
         itemReader.setSql("select TAX_ID, HOST_ID from TAXONOMY.V_PUBLIC_HOST where tax_id < 11000"); //TODO: REMOVE WHERE < 11000
