@@ -32,7 +32,7 @@ import static org.hamcrest.Matchers.notNullValue;
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = {FakeIndexerSpringBootApplication.class, TestConfig.class, FakeReadDatabaseConfig.class,
         ListenerConfig.class, DiseaseLoadStep.class, DiseaseLoadJob.class})
-public class DiseaseLoadJobTest {
+public class DiseaseLoadJobIT {
     @Autowired
     private JobLauncherTestUtils jobLauncher;
 
