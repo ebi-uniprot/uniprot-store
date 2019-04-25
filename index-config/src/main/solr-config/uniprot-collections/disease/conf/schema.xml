@@ -33,6 +33,7 @@
     <field name="_version_" type="plong" indexed="true" stored="true"/>
 
     <!-- =============================== field types  =============================== -->
+    <fieldType name="binary" class="solr.BinaryField"/>
     <fieldType name="plong" class="solr.LongPointField" docValues="true"/>
     <fieldType name="string" class="solr.StrField" sortMissingLast="true"/>
 

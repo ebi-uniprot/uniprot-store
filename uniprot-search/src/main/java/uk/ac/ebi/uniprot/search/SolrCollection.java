@@ -10,5 +10,6 @@ public enum SolrCollection {
     uniparc,
     crossref,
     taxonomy,
-    proteome
+    proteome,
+    disease
 }

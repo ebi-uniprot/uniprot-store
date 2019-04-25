@@ -20,6 +20,7 @@ public class Constants {
     public static final String TAXONOMY_LOAD_COUNT_STEP_NAME = "TAXONOMY_LOAD_COUNT";
     public static final String CROSS_REF_UNIPROT_COUNT_STEP_NAME = "CROSS_REF_UNIPROT_COUNT_STEP_NAME";
     public static final String CROSS_REF_KEY_STR = "CROSS_REF_KEY";
-    
     public static final String PROTEOME_INDEX_JOB = "Proteome_Indexing_Job";
+    public static final String DISEASE_LOAD_JOB_NAME = "Disease indexing job";
+    public static final String DISEASE_INDEX_STEP = "Disease indexing step";
 }
