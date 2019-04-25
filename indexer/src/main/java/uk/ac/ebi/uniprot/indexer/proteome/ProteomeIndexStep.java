@@ -33,18 +33,17 @@ public class ProteomeIndexStep {
 	        this.stepBuilderFactory = stepBuilderFactory;
 	    }
 	    @Bean(name = "ProteomeIndexStep")
-	    public Step proteomeIndexViaXmlStep(WriteRetrierLogStepListener writeRetrierLogStepListener,
+	    public Step proteomeIndexViaXmlStep(
 	    		 @Qualifier("proteomeXmlReader")  ItemReader<Proteome> itemReader,
 	    		 @Qualifier("ProteomeDocumentProcessor")  ItemProcessor<Proteome, ProteomeDocument> itemProcessor,
-	    		 @Qualifier("proteomeItemWriter") ItemWriter<ProteomeDocument> itemWriter,
-	                                            ExecutionContextPromotionListener promotionListener) {
+	    		 @Qualifier("proteomeItemWriter") ItemWriter<ProteomeDocument> itemWriter) {
 	        return this.stepBuilderFactory.get("Proteome_Index_Step")
-	                .listener(promotionListener)
+
 	                .<Proteome, ProteomeDocument>chunk(chunkSize)
 	                .reader(itemReader)
 	                .processor(itemProcessor)
 	                .writer(itemWriter)
-	                .listener(writeRetrierLogStepListener)
+	        //        .listener(writeRetrierLogStepListener)
 	                .listener(new LogRateListener<ProteomeDocument>())
 	                .build();
 	    }

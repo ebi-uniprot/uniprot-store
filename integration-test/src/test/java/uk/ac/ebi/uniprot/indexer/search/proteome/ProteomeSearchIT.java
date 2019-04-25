@@ -71,6 +71,18 @@ public class ProteomeSearchIT {
         Assert.assertTrue(results.get(0).containsValue(upid)); 
     }
     
+    @Test
+    public void searchAllUPid(){
+        String upid = "*";
+        String query = upid(upid);
+        QueryResponse queryResponse =
+                searchEngine.getQueryResponse(query);
+
+        SolrDocumentList results =
+                queryResponse.getResults();
+        Assert.assertEquals(10, results.size());
+    }
+    
     
     @Test
     public void searchListUPid() {
