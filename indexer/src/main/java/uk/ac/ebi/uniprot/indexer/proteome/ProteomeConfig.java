@@ -6,10 +6,15 @@ import java.io.IOException;
 import org.springframework.batch.item.ItemProcessor;
 import org.springframework.batch.item.ItemReader;
 import org.springframework.batch.item.ItemWriter;
+import org.springframework.batch.item.xml.StaxEventItemReader;
+import org.springframework.batch.item.xml.builder.StaxEventItemReaderBuilder;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.io.FileSystemResource;
 import org.springframework.data.solr.core.SolrTemplate;
+import org.springframework.oxm.Unmarshaller;
+import org.springframework.oxm.jaxb.Jaxb2Marshaller;
 
 import lombok.Data;
 import uk.ac.ebi.uniprot.indexer.common.writer.SolrDocumentWriter;
@@ -41,6 +46,23 @@ public class ProteomeConfig {
 		return new ProteomeXmlEntryReader(proteomeXmlFilename);
 	}
 
+	@Bean(name = "proteomeXmlReader2")
+	public StaxEventItemReader<Proteome> proteomeReader2() throws IOException {
+		return new StaxEventItemReaderBuilder<Proteome>()
+				.name("proteomeXmlReader2")
+				 .resource(new FileSystemResource(proteomeXmlFilename))
+				 .addFragmentRootElements("proteome")
+				 .unmarshaller(proteomeMarshaller())
+				.build();
+		
+	}
+	@Bean
+	public Unmarshaller proteomeMarshaller() {
+		Jaxb2Marshaller marshaller = new Jaxb2Marshaller();
+		marshaller.setMappedClass(Proteome.class);
+		return marshaller;
+	}
+	
 	@Bean("ProteomeDocumentProcessor")
 	public ItemProcessor<Proteome, ProteomeDocument> proteomeEntryProcessor() {
 		return new ProteomeDocumentProcessor(proteomeEntryConverter());

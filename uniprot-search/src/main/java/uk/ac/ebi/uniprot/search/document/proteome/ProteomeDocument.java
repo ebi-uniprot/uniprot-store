@@ -2,6 +2,7 @@ package uk.ac.ebi.uniprot.search.document.proteome;
 
 
 
+import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -55,7 +56,7 @@ public class ProteomeDocument  implements Document {
     public Set<String> content = new HashSet<>();
 
     @Field("proteome_stored")
-    public byte[] proteomeStored;
+    public ByteBuffer proteomeStored;
     
     
 }

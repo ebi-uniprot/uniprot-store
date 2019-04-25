@@ -1,5 +1,6 @@
 package uk.ac.ebi.uniprot.indexer.proteome;
 
+import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -59,7 +60,7 @@ public class ProteomeEntryConverter implements DocumentConverter<Proteome, Prote
 		document.content.addAll(document.organismTaxon);
 		document.taxLineageIds.forEach(val -> document.content.add(val.toString()));
 	
-		document.proteomeStored = getBinaryObject(source);
+		document.proteomeStored =ByteBuffer.wrap(getBinaryObject(source));
 		
 		return document;
 	}
