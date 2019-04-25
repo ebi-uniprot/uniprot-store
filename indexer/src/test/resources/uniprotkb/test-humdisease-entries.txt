@@ -1,0 +1,105 @@
+---------------------------------------------------------------------------
+        UniProt Knowledgebase
+        SIB Swiss Institute of Bioinformatics; Geneva, Switzerland
+        European Bioinformatics Institute (EBI); Hinxton, United Kingdom
+        Protein Information Resource (PIR); Washington DC, USA
+---------------------------------------------------------------------------
+
+Description: Controlled vocabulary of human diseases
+Name:        humdisease.txt
+Release:     2019_03 of 10-Apr-2019
+
+---------------------------------------------------------------------------
+
+  This document lists the controlled vocabulary that is used for the
+  annotation of human diseases in UniProtKB/Swiss-Prot.
+
+  It follows the format below:
+
+  ---------  ---------------------------     ------------------------------
+  Line code  Content                         Occurrence in an entry
+  ---------  ---------------------------     ------------------------------
+  ID         Identifier                      Once; starts an entry
+  AC         Accession (DI-xxxxx)            Once
+  AR         Acronym                         Once
+  DE         Definition                      Once or more
+  SY         Alternative name(s)             Optional; once or more
+  DR         Cross-reference(s)              Once or more
+  KW         Associated keyword (accession)  Optional; Once or more
+  //         Terminator                      Once; ends an entry
+
+  Sources: OMIM, Scientific articles, Dorland's Medical Dictionary,
+  Orphanet.
+
+___________________________________________________________________________
+
+ID   Rheumatoid arthritis.
+AC   DI-02692
+AR   RA.
+DE   An inflammatory disease with autoimmune features and a complex genetic
+DE   component. It primarily affects the joints and is characterized by
+DE   inflammatory changes in the synovial membranes and articular
+DE   structures, widespread fibrinoid degeneration of the collagen fibers
+DE   in mesenchymal tissues, and by atrophy and rarefaction of bony
+DE   structures.
+DR   MIM; 180300; phenotype.
+DR   MedGen; C0003873.
+DR   MeSH; D001172.
+//
+ID   Zimmermann-Laband syndrome 1.
+AC   DI-04477
+AR   ZLS1.
+DE   A disorder characterized by gingival fibromatosis, dysplastic or
+DE   absent nails, finger abnormalities, hepatosplenomegaly, and
+DE   abnormalities of the cartilage of the nose and/or ears.
+SY   Fibromatosis, gingival, with abnormal fingers, fingernails, nose, and ears, and splenomegaly.
+SY   Gingival fibromatosis, abnormal fingers, fingernails, nose and ears and splenomegaly.
+SY   Laband syndrome.
+SY   Zimmermann Laband syndrome.
+DR   MIM; 135500; phenotype.
+DR   MedGen; C0796013.
+DR   MeSH; D000015.
+//
+ID   Zimmermann-Laband syndrome 2.
+AC   DI-04478
+AR   ZLS2.
+DE   A disorder characterized by gingival fibromatosis, dysplastic or
+DE   absent nails, finger abnormalities, hepatosplenomegaly, and
+DE   abnormalities of the cartilage of the nose and/or ears.
+DR   MIM; 616455; phenotype.
+DR   MedGen; CN231441.
+DR   MeSH; D000015.
+//
+ID   Zinc deficiency, transient neonatal.
+AC   DI-03641
+AR   TNZD.
+DE   A disorder occurring in breast-fed infants as a consequence of low
+DE   milk zinc concentration in their nursing mothers, which cannot be
+DE   corrected by maternal zinc supplementation. A large amount of zinc, an
+DE   essential trace mineral, is required for normal growth particularly in
+DE   infants, and breast milk normally contains adequate zinc to meet the
+DE   requirement for infants up to 4 to 6 months of age. Zinc deficiency
+DE   can lead to dermatitis, alopecia, decreased growth, and impaired
+DE   immune function. The disorder shows autosomal dominant inheritance
+DE   with incomplete penetrance.
+SY   Neonatal zinc deficiency due to low breast milk zinc.
+DR   MIM; 608118; phenotype.
+DR   MedGen; C1842485.
+DR   MedGen; C1842486.
+DR   MeSH; D008664.
+//
+ID   ZTTK syndrome.
+AC   DI-04860
+AR   ZTTKS.
+DE   An autosomal dominant syndrome characterized by intellectual
+DE   disability, developmental delay, malformations of the cerebral cortex,
+DE   epilepsy, vision problems, musculo-skeletal abnormalities, and
+DE   congenital malformations.
+SY   Zhu-Tokita-Takenouchi-Kim syndrome.
+SY   ZTTK multiple congenital anomalies-mental retardation syndrome.
+DR   MIM; 617140; phenotype.
+DR   MedGen; CN238690.
+DR   MeSH; D000015.
+DR   MeSH; D008607.
+KW   KW-0991:Mental retardation.
+//
