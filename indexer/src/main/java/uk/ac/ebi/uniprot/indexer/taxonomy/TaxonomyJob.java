@@ -17,13 +17,14 @@ public class TaxonomyJob {
 
     @Bean("indexTaxonomyJob")
     public Job indexTaxonomy(Step taxonomyNode, Step taxonomyStrain, Step taxonomyVirusHost, Step taxonomyNames,
-                             Step taxonomyURL, Step taxonomyCount, JobExecutionListener jobListener) {
+                             Step taxonomyURL, Step taxonomyCount, Step taxonomyLineage, JobExecutionListener jobListener) {
         return this.jobs.get(Constants.TAXONOMY_LOAD_JOB_NAME)
                 .start(taxonomyNode)
                 .next(taxonomyStrain)
                 .next(taxonomyVirusHost)
                 .next(taxonomyURL)
                 .next(taxonomyNames)
+                .next(taxonomyLineage)
                 .next(taxonomyCount)
                 .listener(jobListener)
                 .build();

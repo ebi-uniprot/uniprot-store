@@ -38,6 +38,7 @@ public class TestConfig implements DisposableBean {
     @Bean
     @Profile("offline")
     public SolrClient solrClient() throws Exception {
+        log.info("########################################################################## solrClient #############################################");
         System.setProperty("solr.data.dir", file.getAbsolutePath());
         EmbeddedSolrServerFactory factory = new EmbeddedSolrServerFactory(solrHome);
         SolrClient solrClient = factory.getSolrClient();

@@ -7,7 +7,6 @@ import org.springframework.batch.core.configuration.annotation.StepBuilderFactor
 import org.springframework.batch.item.ItemReader;
 import org.springframework.batch.item.ItemWriter;
 import org.springframework.batch.item.database.JdbcCursorItemReader;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -46,7 +45,7 @@ public class TaxonomyCountStep {
     }
 
     @Bean(name = "itemTaxonomyCountReader")
-    public ItemReader<TaxonomyDocument> itemTaxonomyCountReader(@Qualifier("readDataSource") DataSource readDataSource) throws SQLException {
+    public ItemReader<TaxonomyDocument> itemTaxonomyCountReader(DataSource readDataSource) throws SQLException {
         JdbcCursorItemReader<TaxonomyDocument> itemReader = new JdbcCursorItemReader<>();
         itemReader.setDataSource(readDataSource);
         itemReader.setSql("select tax_id, entry_type, count(1) as protein_count " +

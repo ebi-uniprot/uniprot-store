@@ -1,7 +1,7 @@
 package uk.ac.ebi.uniprot.indexer.taxonomy.readers;
 
 import org.springframework.jdbc.core.RowMapper;
-
+import uk.ac.ebi.uniprot.common.Utils;
 import uk.ac.ebi.uniprot.search.document.taxonomy.TaxonomyDocument;
 
 import java.sql.ResultSet;
@@ -23,11 +23,11 @@ public class TaxonomyStrainReader implements RowMapper<TaxonomyDocument> {
 
         String strainName = "";
         String scientificName =resultSet.getString("scientific_name");
-        if(scientificName != null){
+        if(Utils.notEmpty(scientificName)){
             strainName += scientificName;
         }
         String synonymName =resultSet.getString("synonym_name");
-        if(synonymName != null){
+        if(Utils.notEmpty(synonymName)){
             strainName += ", "+synonymName;
         }
         builder.strain(Collections.singletonList(strainName));

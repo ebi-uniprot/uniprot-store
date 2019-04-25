@@ -48,7 +48,7 @@ public class TaxonomyNamesStep {
     public ItemReader<TaxonomyDocument> itemTaxonomyNamesReader(DataSource readDataSource) throws SQLException {
         JdbcCursorItemReader<TaxonomyDocument> itemReader = new JdbcCursorItemReader<>();
         itemReader.setDataSource(readDataSource);
-        itemReader.setSql("select * from taxonomy.V_PUBLIC_NAME nm inner join TAXONOMY.V_PUBLIC_NODE nd  on nm.TAX_ID = nd.TAX_ID" +
+        itemReader.setSql("select nm.TAX_ID, nm.NAME from taxonomy.V_PUBLIC_NAME nm inner join TAXONOMY.V_PUBLIC_NODE nd  on nm.TAX_ID = nd.TAX_ID" +
                 " where nm.PRIORITY > 0 AND" +
                 " (UPPER(nm.NAME) <> UPPER(nd.SPTR_COMMON) OR nd.SPTR_COMMON is null) AND" +
                 " (UPPER(nm.NAME) <> UPPER(nd.SPTR_SCIENTIFIC) OR nd.SPTR_SCIENTIFIC is null) AND" +

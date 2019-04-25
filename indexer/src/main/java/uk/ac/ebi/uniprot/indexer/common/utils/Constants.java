@@ -18,6 +18,7 @@ public class Constants {
     public static final String TAXONOMY_LOAD_VIRUS_HOST_STEP_NAME = "TAXONOMY_LOAD_VIRUS_HOST";
     public static final String TAXONOMY_LOAD_URL_STEP_NAME = "TAXONOMY_LOAD_URL";
     public static final String TAXONOMY_LOAD_COUNT_STEP_NAME = "TAXONOMY_LOAD_COUNT";
+    public static final String TAXONOMY_LOAD_LINEAGE_STEP_NAME = "TAXONOMY_LOAD_LINEAGE";
     public static final String CROSS_REF_UNIPROT_COUNT_STEP_NAME = "CROSS_REF_UNIPROT_COUNT_STEP_NAME";
     public static final String CROSS_REF_KEY_STR = "CROSS_REF_KEY";
 }

@@ -9,30 +9,28 @@ import uk.ac.ebi.uniprot.search.document.taxonomy.TaxonomyDocument;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-/**
- *
- * @author lgonzales
- */
-public class TaxonomyNamesWriter implements ItemWriter<TaxonomyDocument> {
+
+public class TaxonomyLineageWriter implements ItemWriter<TaxonomyDocument> {
 
     private final SolrTemplate solrTemplate;
     private final SolrCollection collection;
 
-    public TaxonomyNamesWriter(SolrTemplate solrTemplate, SolrCollection collection){
+    public TaxonomyLineageWriter(SolrTemplate solrTemplate, SolrCollection collection){
         this.solrTemplate = solrTemplate;
         this.collection = collection;
     }
 
     @Override
-    public void write(List<? extends TaxonomyDocument> items){
+    public void write(List<? extends TaxonomyDocument> items) throws Exception {
         for (TaxonomyDocument document: items) {
             SolrInputDocument solrInputDocument = new SolrInputDocument();
             solrInputDocument.addField("id",document.getId()); //TODO: use search enum that will be created
             Map<String,Object> fieldModifier = new HashMap<>(1);
-            fieldModifier.put("add",document.getOtherNames().get(0));
-            solrInputDocument.addField("other_names",fieldModifier); //TODO: use search enum that will be created
+            fieldModifier.put("set",document.getLineage());
+            solrInputDocument.addField("lineage",fieldModifier); //TODO: use search enum that will be created
             this.solrTemplate.saveBean(collection.name(), solrInputDocument);
         }
         this.solrTemplate.softCommit(collection.name());
     }
+
 }

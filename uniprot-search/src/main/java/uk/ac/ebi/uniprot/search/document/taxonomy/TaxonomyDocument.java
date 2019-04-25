@@ -2,9 +2,8 @@ package uk.ac.ebi.uniprot.search.document.taxonomy;
 
 import lombok.Builder;
 import lombok.Getter;
-import uk.ac.ebi.uniprot.search.document.Document;
-
 import org.apache.solr.client.solrj.beans.Field;
+import uk.ac.ebi.uniprot.search.document.Document;
 
 import java.util.List;
 
@@ -16,8 +15,6 @@ public class TaxonomyDocument implements Document {
     private String id;
     @Field("tax_id")
     private Long taxId;
-    @Field("name_sort")
-    private String nameSort;
     @Field
     private Long ancestor;
     @Field
