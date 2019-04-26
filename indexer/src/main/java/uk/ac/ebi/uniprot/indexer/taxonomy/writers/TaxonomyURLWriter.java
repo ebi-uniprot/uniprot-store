@@ -3,7 +3,6 @@ package uk.ac.ebi.uniprot.indexer.taxonomy.writers;
 import org.apache.solr.common.SolrInputDocument;
 import org.springframework.batch.item.ItemWriter;
 import org.springframework.data.solr.core.SolrTemplate;
-
 import uk.ac.ebi.uniprot.search.SolrCollection;
 import uk.ac.ebi.uniprot.search.document.taxonomy.TaxonomyDocument;
 
@@ -30,9 +29,13 @@ public class TaxonomyURLWriter implements ItemWriter<TaxonomyDocument> {
             SolrInputDocument solrInputDocument = new SolrInputDocument();
             Map<String,Object> fieldModifier = new HashMap<>(1);
             fieldModifier.put("add",document.getUrl().get(0));
-
             solrInputDocument.addField("url",fieldModifier);//TODO: use search enum that will be created
             solrInputDocument.addField("id",document.getId()); //TODO: use search enum that will be created
+
+            fieldModifier = new HashMap<>(1);
+            fieldModifier.put("set",true);
+            solrInputDocument.addField("linked",fieldModifier); //TODO: use search enum that will be created
+
             this.solrTemplate.saveBean(collection.name(), solrInputDocument);
         }
         this.solrTemplate.softCommit(collection.name());

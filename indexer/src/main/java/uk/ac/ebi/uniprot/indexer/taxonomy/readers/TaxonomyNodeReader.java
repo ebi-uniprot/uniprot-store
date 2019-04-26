@@ -1,7 +1,6 @@
 package uk.ac.ebi.uniprot.indexer.taxonomy.readers;
 
 import org.springframework.jdbc.core.RowMapper;
-
 import uk.ac.ebi.uniprot.indexer.taxonomy.steps.TaxonomyNodeStep;
 import uk.ac.ebi.uniprot.search.document.taxonomy.TaxonomyDocument;
 
@@ -39,6 +38,7 @@ public class TaxonomyNodeReader implements RowMapper<TaxonomyDocument> {
         builder.synonym(resultSet.getString("SPTR_SYNONYM"));
         //builder.(resultSet.getString("SUPERREGNUM"));
         builder.hidden(resultSet.getBoolean("HIDDEN"));
+        builder.active(true);
         return builder.build();
     }
 }

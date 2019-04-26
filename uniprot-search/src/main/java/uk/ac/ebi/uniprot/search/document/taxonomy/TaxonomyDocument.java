@@ -28,10 +28,6 @@ public class TaxonomyDocument implements Document {
     @Field
     private String mnemonic;
     @Field
-    private Long swissprotCount;
-    @Field
-    private Long tremblCount;
-    @Field
     private boolean hidden;
     @Field
     private boolean complete;
@@ -57,4 +53,8 @@ public class TaxonomyDocument implements Document {
     private List<Long> lineage;
     @Field
     private List<String> url;
+    @Field
+    private Long swissprotCount;
+    @Field
+    private Long tremblCount;
 }

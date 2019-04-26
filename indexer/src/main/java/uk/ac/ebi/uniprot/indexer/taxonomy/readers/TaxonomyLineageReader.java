@@ -16,7 +16,7 @@ public class TaxonomyLineageReader implements RowMapper<TaxonomyDocument> {
         TaxonomyDocument.TaxonomyDocumentBuilder builder = TaxonomyDocument.builder();
         String lineageIds = resultSet.getString("lineage_id");
         if(Utils.notEmpty(lineageIds)) {
-            String[] lineageArray = lineageIds.substring(1).split("|");
+            String[] lineageArray = lineageIds.substring(1).split("\\|");
             String taxId = lineageArray[0];
             List<Long> lineageList = new ArrayList<>();
             for(int i=1;i<lineageArray.length-1;i++){

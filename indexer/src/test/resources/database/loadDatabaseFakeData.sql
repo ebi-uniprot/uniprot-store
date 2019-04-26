@@ -25,8 +25,8 @@ insert into taxonomy.tax_public (tax_id) values (3);
 insert into taxonomy.tax_public (tax_id) values (4);
 insert into taxonomy.tax_public (tax_id) values (5);
 
-insert into taxonomy.SPTR_STRAIN (STRAIN_ID,tax_id) values (1,1);
-insert into taxonomy.SPTR_STRAIN (STRAIN_ID,tax_id) values (2,2);
+insert into taxonomy.SPTR_STRAIN (STRAIN_ID,tax_id) values (1,4);
+insert into taxonomy.SPTR_STRAIN (STRAIN_ID,tax_id) values (2,5);
 
 insert into taxonomy.SPTR_STRAIN_NAME (STRAIN_ID,NAME_ID, NAME, NAME_CLASS) values (1,1,'strain 1','synonym');
 insert into taxonomy.SPTR_STRAIN_NAME (STRAIN_ID,NAME_ID, NAME, NAME_CLASS) values (1,2,'strain 2','scientific name');
@@ -38,17 +38,17 @@ insert into taxonomy.V_PUBLIC_HOST (tax_id, host_id) values (4,5);
 insert into taxonomy.V_PUBLIC_HOST (tax_id, host_id) values (5,4);
 insert into taxonomy.V_PUBLIC_HOST (tax_id, host_id) values (5,5);
 
-insert into TAXONOMY.V_PUBLIC_URI (tax_id, URI) values (4,'uri 1');
-insert into TAXONOMY.V_PUBLIC_URI (tax_id, URI) values (4,'uri 2');
-insert into TAXONOMY.V_PUBLIC_URI (tax_id, URI) values (5,'uri 3');
-insert into TAXONOMY.V_PUBLIC_URI (tax_id, URI) values (5,'uri 4');
+insert into TAXONOMY.V_PUBLIC_URI (tax_id, URI) values (5,'uri 1');
+insert into TAXONOMY.V_PUBLIC_URI (tax_id, URI) values (5,'uri 2');
+insert into TAXONOMY.V_PUBLIC_URI (tax_id, URI) values (4,'uri 3');
+insert into TAXONOMY.V_PUBLIC_URI (tax_id, URI) values (4,'uri 4');
 
 insert into TAXONOMY.V_PUBLIC_NAME (TAX_ID,PRIORITY,NAME) values (5,-1,'not valid');
 insert into TAXONOMY.V_PUBLIC_NAME (TAX_ID,PRIORITY,NAME) values (5,1,'first name');
 insert into TAXONOMY.V_PUBLIC_NAME (TAX_ID,PRIORITY,NAME) values (5,2,'second name');
-insert into TAXONOMY.V_PUBLIC_NAME (TAX_ID,PRIORITY,NAME) values (5,3,'sptr_scientific_1');
-insert into TAXONOMY.V_PUBLIC_NAME (TAX_ID,PRIORITY,NAME) values (5,4,'sptr_common_1');
-insert into TAXONOMY.V_PUBLIC_NAME (TAX_ID,PRIORITY,NAME) values (5,5,'tax_Code_1');
+insert into TAXONOMY.V_PUBLIC_NAME (TAX_ID,PRIORITY,NAME) values (5,3,'sptr_scientific_5');
+insert into TAXONOMY.V_PUBLIC_NAME (TAX_ID,PRIORITY,NAME) values (5,4,'sptr_common_5');
+insert into TAXONOMY.V_PUBLIC_NAME (TAX_ID,PRIORITY,NAME) values (5,5,'tax_Code_5');
 
 insert into sptr.dbentry (TAX_ID,entry_type,deleted,merge_status) values (5,0,'N','A');
 insert into sptr.dbentry (TAX_ID,entry_type,deleted,merge_status) values (5,1,'N','A');

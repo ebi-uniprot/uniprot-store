@@ -47,7 +47,7 @@ public class TaxonomyLineageStep {
         itemReader.setSql("select SYS_CONNECT_BY_PATH(TAX_ID, '|') AS lineage_id," +
                 "       SYS_CONNECT_BY_PATH(SPTR_SCIENTIFIC, '|') AS lineage_name," +
                 "       SYS_CONNECT_BY_PATH(RANK, '|') AS lineage_rank," +
-                "       SYS_CONNECT_BY_PATH(HIDDEN, '|') AS lineage_rank" +
+                "       SYS_CONNECT_BY_PATH(HIDDEN, '|') AS lineage_hidden" +
                 " from taxonomy.V_PUBLIC_NODE" +
                 " WHERE TAX_ID = 1" +
                 " START WITH TAX_ID < 11000" + //REMOVE WHERE < 11000
