@@ -2,6 +2,9 @@ package uk.ac.ebi.uniprot.indexer.disease;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.commons.lang3.tuple.ImmutablePair;
+import org.apache.commons.lang3.tuple.Pair;
+import org.apache.commons.math3.util.MathUtils;
 import org.springframework.batch.item.ItemProcessor;
 import uk.ac.ebi.uniprot.cv.disease.Disease;
 import uk.ac.ebi.uniprot.domain.builder.DiseaseBuilder;
@@ -19,10 +22,10 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class DiseaseProcessor implements ItemProcessor<Disease, DiseaseDocument> {
-    private static final String QUERY_TO_GET_COUNT_PER_DISEASE = "SELECT COUNT(ACCESSION)" +
+    private static final String QUERY_TO_GET_COUNT_PER_DISEASE = "SELECT ENTRY_TYPE, COUNT(ACCESSION)" +
             "  FROM" +
             "  (   " +
-            "    SELECT DISTINCT db.ACCESSION, TRIM(SUBSTR(css.TEXT, 0, INSTR(css.TEXT, ' (') )) DISEASE_IDENTIFIER" +
+            "    SELECT DISTINCT db.ACCESSION, db.ENTRY_TYPE, TRIM(SUBSTR(css.TEXT, 0, INSTR(css.TEXT, ' (') )) DISEASE_IDENTIFIER" +
             "    FROM" +
             "      SPTR.DBENTRY db " +
             "      JOIN SPTR.COMMENT_BLOCK cb ON db.DBENTRY_ID = cb.DBENTRY_ID" +
@@ -37,7 +40,7 @@ public class DiseaseProcessor implements ItemProcessor<Disease, DiseaseDocument>
             "      AND db.MERGE_STATUS <> 'R'" +
             "  )" +
             "  WHERE DISEASE_IDENTIFIER = ?" +
-            "  GROUP BY DISEASE_IDENTIFIER";
+            "  GROUP BY DISEASE_IDENTIFIER, ENTRY_TYPE";
 
     private ObjectMapper diseaseObjectMapper;
     private DataSource readDataSource;
@@ -45,7 +48,7 @@ public class DiseaseProcessor implements ItemProcessor<Disease, DiseaseDocument>
     private PreparedStatement preparedStatement;
 
     public DiseaseProcessor(DataSource readDataSource) throws SQLException {
-        this.diseaseObjectMapper = DiseaseJsonConfig.getInstance().getObjectMapper();
+        this.diseaseObjectMapper = DiseaseJsonConfig.getInstance().getFullObjectMapper();
         this.readDataSource = readDataSource;
         this.dbConnxn = this.readDataSource.getConnection();
         this.preparedStatement = this.dbConnxn.prepareStatement(QUERY_TO_GET_COUNT_PER_DISEASE);
@@ -83,10 +86,11 @@ public class DiseaseProcessor implements ItemProcessor<Disease, DiseaseDocument>
     private byte[] getDiseaseObjectBinary(Disease disease) {
         try {
 
-            Long proteinCount = getProteinCount(disease.getId());
+            Pair<Long, Long> revUnrevCountPair = getProteinCount(disease.getId());
 
             DiseaseBuilder diseaseBuilder = DiseaseBuilder.newInstance().from(disease);
-            diseaseBuilder.proteinCount(proteinCount);
+            diseaseBuilder.reviewedProteinCount(revUnrevCountPair.getLeft());
+            diseaseBuilder.unreviewedProteinCount(revUnrevCountPair.getRight());
 
             return this.diseaseObjectMapper.writeValueAsBytes(diseaseBuilder.build());
 
@@ -97,15 +101,22 @@ public class DiseaseProcessor implements ItemProcessor<Disease, DiseaseDocument>
         }
     }
 
-    private Long getProteinCount(String identifier) throws SQLException {
+    private Pair<Long, Long> getProteinCount(String identifier) throws SQLException {
         this.preparedStatement.setString(1, identifier);
-
+        Long revCount = 0L;
+        Long unrevCount = 0L;
         try(ResultSet resultSet = this.preparedStatement.executeQuery()){
             while(resultSet.next()){
-                return resultSet.getLong(1);
+                 if(Long.valueOf(0).equals(resultSet.getLong(1))){ // 0 == reviewed, 1 == unreviewed
+                     revCount = resultSet.getLong(2);
+                 } else if(Long.valueOf(1).equals(resultSet.getLong(1))){
+                     unrevCount = resultSet.getLong(2);
+                 }
+
             }
         }
+        Pair<Long, Long> revUnrevCountPair = new ImmutablePair<>(revCount, unrevCount);
 
-        return null;
+        return revUnrevCountPair;
     }
 }

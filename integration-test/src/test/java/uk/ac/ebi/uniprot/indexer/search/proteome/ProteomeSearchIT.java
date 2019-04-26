@@ -215,7 +215,7 @@ public class ProteomeSearchIT {
     
     uk.ac.ebi.uniprot.domain.proteome.Proteome toProteome(ProteomeDocument proteomeDoc){
     	try {
-    	ObjectMapper objectMapper =  ProteomeJsonConfig.getInstance().getObjectMapper();
+    	ObjectMapper objectMapper =  ProteomeJsonConfig.getInstance().getFullObjectMapper();
     	return objectMapper.readValue(proteomeDoc.proteomeStored.array(),  uk.ac.ebi.uniprot.domain.proteome.Proteome.class);
     	}catch(Exception e) {
     		throw new RuntimeException (e);

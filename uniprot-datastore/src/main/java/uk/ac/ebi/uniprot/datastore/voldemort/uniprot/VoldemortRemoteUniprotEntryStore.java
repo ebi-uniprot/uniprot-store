@@ -37,7 +37,7 @@ public class VoldemortRemoteUniprotEntryStore extends VoldemortRemoteJsonBinaryS
 
     @Override
     public ObjectMapper getStoreObjectMapper() {
-        return UniprotJsonConfig.getInstance().getObjectMapper();
+        return UniprotJsonConfig.getInstance().getFullObjectMapper();
     }
 
     @Override

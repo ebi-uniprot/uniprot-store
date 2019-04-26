@@ -27,7 +27,7 @@ public class DiseaseLoadJob {
     public Job indexSupportingData(@Qualifier("IndexDiseaseStep") Step indexDisease,
                                    JobExecutionListener jobListener) {
         return this.jobs.get(Constants.DISEASE_LOAD_JOB_NAME)
-                .start(indexDisease)//index the cross references
+                .start(indexDisease)//index the disease
                 .listener(jobListener)
                 .build();
     }
