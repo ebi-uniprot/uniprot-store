@@ -12,8 +12,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Strings;
 
 import uk.ac.ebi.uniprot.domain.proteome.builder.ProteomeBuilder;
-import uk.ac.ebi.uniprot.domain.taxonomy.Taxonomy;
-import uk.ac.ebi.uniprot.domain.taxonomy.builder.TaxonomyBuilder;
+import uk.ac.ebi.uniprot.domain.uniprot.taxonomy.Taxonomy;
+import uk.ac.ebi.uniprot.domain.uniprot.taxonomy.builder.TaxonomyBuilder;
 import uk.ac.ebi.uniprot.indexer.converter.DocumentConverter;
 import uk.ac.ebi.uniprot.indexer.uniprot.taxonomy.TaxonomicNode;
 import uk.ac.ebi.uniprot.indexer.uniprot.taxonomy.TaxonomyRepo;
