@@ -42,9 +42,12 @@ DE   inflammatory changes in the synovial membranes and articular
 DE   structures, widespread fibrinoid degeneration of the collagen fibers
 DE   in mesenchymal tissues, and by atrophy and rarefaction of bony
 DE   structures.
+SY   Zhu-Tokita-Takenouchi-Kim syndrome.
+SY   ZTTK multiple congenital anomalies-mental retardation syndrome.
 DR   MIM; 180300; phenotype.
 DR   MedGen; C0003873.
 DR   MeSH; D001172.
+KW   KW-0991:Mental retardation.
 //
 ID   Zimmermann-Laband syndrome 1.
 AC   DI-04477
