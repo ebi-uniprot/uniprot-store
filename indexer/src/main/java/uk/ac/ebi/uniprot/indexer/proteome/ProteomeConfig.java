@@ -45,23 +45,23 @@ public class ProteomeConfig {
 	public ItemReader<Proteome> proteomeReader() throws IOException {
 		return new ProteomeXmlEntryReader(proteomeXmlFilename);
 	}
-//
-//	@Bean(name = "proteomeXmlReader2")
-//	public StaxEventItemReader<Proteome> proteomeReader2() throws IOException {
-//		return new StaxEventItemReaderBuilder<Proteome>()
-//				.name("proteomeXmlReader2")
-//				 .resource(new FileSystemResource(proteomeXmlFilename))
-//				 .addFragmentRootElements("proteome")
-//				 .unmarshaller(proteomeMarshaller())
-//				.build();
-//		
-//	}
-//	@Bean
-//	public Unmarshaller proteomeMarshaller() {
-//		Jaxb2Marshaller marshaller = new Jaxb2Marshaller();
-//		marshaller.setMappedClass(Proteome.class);
-//		return marshaller;
-//	}
+
+	@Bean(name = "proteomeXmlReader2")
+	public StaxEventItemReader<Proteome> proteomeReader2() throws IOException {
+		return new StaxEventItemReaderBuilder<Proteome>()
+				.name("proteomeXmlReader2")
+				 .resource(new FileSystemResource(proteomeXmlFilename))
+				 .addFragmentRootElements("proteome")
+				 .unmarshaller(proteomeMarshaller())
+				.build();
+		
+	}
+	@Bean
+	public Unmarshaller proteomeMarshaller() {
+		Jaxb2Marshaller marshaller = new Jaxb2Marshaller();
+		marshaller.setClassesToBeBound(Proteome.class);
+		return marshaller;
+	}
 	
 	@Bean("ProteomeDocumentProcessor")
 	public ItemProcessor<Proteome, ProteomeDocument> proteomeEntryProcessor() {
