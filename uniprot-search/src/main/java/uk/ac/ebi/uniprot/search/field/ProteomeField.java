@@ -32,6 +32,8 @@ public interface ProteomeField {
 	    }
 	public static enum Search implements SearchField {
 		upid(SearchFieldType.TERM,FieldValueValidator::isUpidValid, null),            // proteome upid
+	    reference(SearchFieldType.TERM,FieldValueValidator::isBooleanValue, null),             // reference or not reference
+	    redundant(SearchFieldType.TERM,FieldValueValidator::isBooleanValue, null),             // redundant or not redudant
 		 annotation_score(SearchFieldType.TERM),
 		 proteome_type(SearchFieldType.TERM),
 		organism_name(SearchFieldType.TERM, null, 2.0f),

@@ -24,7 +24,6 @@ import org.junit.Test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import uk.ac.ebi.uniprot.indexer.proteome.ProteomeXmlEntryReader;
 import uk.ac.ebi.uniprot.json.parser.proteome.ProteomeJsonConfig;
 import uk.ac.ebi.uniprot.search.document.proteome.ProteomeDocument;
 import uk.ac.ebi.uniprot.search.field.ProteomeField;
@@ -33,6 +32,7 @@ import uk.ac.ebi.uniprot.xml.XmlChainIterator;
 import uk.ac.ebi.uniprot.xml.jaxb.proteome.Proteome;
 
 public class ProteomeSearchIT {
+	 static final String PROTEOME_ROOT_ELEMENT = "proteome";
     @ClassRule
     public static ProteomeSearchEngine searchEngine = new ProteomeSearchEngine();
 
@@ -45,11 +45,11 @@ public class ProteomeSearchIT {
 
         XmlChainIterator<Proteome, Proteome>  chainingIterators =
         		new XmlChainIterator<>(new XmlChainIterator.FileInputStreamIterator(files),
-                        Proteome.class, ProteomeXmlEntryReader.PROTEOME_ROOT_ELEMENT, Function.identity() );
+                        Proteome.class, PROTEOME_ROOT_ELEMENT, Function.identity() );
         		
                 new XmlChainIterator<>(new XmlChainIterator.FileInputStreamIterator(files),
                         Proteome.class,
-                        ProteomeXmlEntryReader.PROTEOME_ROOT_ELEMENT, Function.identity() );
+                        PROTEOME_ROOT_ELEMENT, Function.identity() );
 
         while (chainingIterators.hasNext()) {
             Proteome next =
@@ -152,7 +152,25 @@ public class ProteomeSearchIT {
     //    UP000066929
      //   UP000036221
     }
+    @Test
+    public void searchNotIsRedundant(){
+      
+        String query =isRedudant(false);
+        
+        QueryResponse queryResponse =
+                searchEngine.getQueryResponse(query);
 
+        SolrDocumentList results =
+                queryResponse.getResults();
+        Assert.assertEquals(3, results.size());
+       
+        Assert.assertTrue(results.get(0).containsValue("UP000036221")
+                ||results.get(1).containsValue("UP000036221")
+               || results.get(2).containsValue("UP000036221")); 
+     //   UP000000802
+    //    UP000066929
+     //   UP000036221
+    }
     @Test
     public void searchByGeneAccession(){
         String query =accession("Q9Y8V6");
@@ -207,16 +225,16 @@ public class ProteomeSearchIT {
         Assert.assertTrue(results.get(0).containsValue("UP000000798")); 
         DocumentObjectBinder binder = new DocumentObjectBinder();
         ProteomeDocument proteomeDoc = binder.getBean(ProteomeDocument.class, results.get(0));
-        uk.ac.ebi.uniprot.domain.proteome.Proteome proteome = toProteome(proteomeDoc);
+        uk.ac.ebi.uniprot.domain.proteome.ProteomeEntry proteome = toProteome(proteomeDoc);
         assertNotNull(proteome);
         assertEquals("UP000000798", proteome.getId().getValue());
         
     }
     
-    uk.ac.ebi.uniprot.domain.proteome.Proteome toProteome(ProteomeDocument proteomeDoc){
+    uk.ac.ebi.uniprot.domain.proteome.ProteomeEntry toProteome(ProteomeDocument proteomeDoc){
     	try {
     	ObjectMapper objectMapper =  ProteomeJsonConfig.getInstance().getFullObjectMapper();
-    	return objectMapper.readValue(proteomeDoc.proteomeStored.array(),  uk.ac.ebi.uniprot.domain.proteome.Proteome.class);
+    	return objectMapper.readValue(proteomeDoc.proteomeStored.array(),  uk.ac.ebi.uniprot.domain.proteome.ProteomeEntry.class);
     	}catch(Exception e) {
     		throw new RuntimeException (e);
     	}
@@ -235,7 +253,9 @@ public class ProteomeSearchIT {
     	return QueryBuilder.query(ProteomeField.Search.gene.name(), gene);
     }
     private String isRedudant(Boolean b) {
-    	return QueryBuilder.query(ProteomeField.Search.redundant.name(), b.toString());
+
+    		return QueryBuilder.query(ProteomeField.Search.redundant.name(), b.toString());
+    
     }
 }
 

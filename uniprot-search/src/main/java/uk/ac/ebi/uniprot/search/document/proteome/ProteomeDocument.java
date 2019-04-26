@@ -32,11 +32,11 @@ public class ProteomeDocument  implements Document {
     @Field("taxonomy_id")
     public List<Integer> taxLineageIds = new ArrayList<>();
     
-//    @Field("reference")
-//    public boolean isReferenceProteome;
-//    
-//    @Field("redundant")
-//    public boolean isRedundant;
+    @Field("reference")
+    public boolean isReferenceProteome;
+    
+    @Field("redundant")
+    public boolean isRedundant;
     
     @Field("superkingdom")
     public String superkingdom;
