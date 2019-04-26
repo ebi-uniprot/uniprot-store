@@ -40,7 +40,7 @@ public class ProteomeEntryConverter implements DocumentConverter<Proteome, Prote
 	public ProteomeEntryConverter(TaxonomyRepo taxonomyRepo) {
 		this.taxonomyRepo = taxonomyRepo;
 		proteomeConverter = new ProteomeConverter();
-		this.objectMapper = ProteomeJsonConfig.getInstance().getFullObjectMapper();
+		this.objectMapper = ProteomeJsonConfig.getInstance().getDefaultFullObjectMapper();
 	}
 	@Override
 	public ProteomeDocument convert(Proteome source) {
@@ -48,8 +48,7 @@ public class ProteomeEntryConverter implements DocumentConverter<Proteome, Prote
 		document.upid = source.getUpid();
 		setOrganism(source.getTaxonomy().intValue(), document);
 		setLineageTaxon(source.getTaxonomy().intValue(), document);
-		document.isReferenceProteome = source.isIsReferenceProteome() || source.isIsRepresentativeProteome();
-		document.isRedundant = (source.getRedundantTo() != null) && (!source.getRedundantTo().isEmpty());
+		updateProteomeType(document, source);
 		document.genomeAccession = fetchGenomeAccessions(source);
 		document.superkingdom = source.getSuperregnum().name();
 		document.genomeAssembly =fetchGenomeAssemblyId(source);
@@ -64,7 +63,16 @@ public class ProteomeEntryConverter implements DocumentConverter<Proteome, Prote
 		
 		return document;
 	}
-
+	private void updateProteomeType(ProteomeDocument document, Proteome source) {
+		if(source.isIsReferenceProteome()) {
+			document.proteomeType =1;
+		}else if  (source.isIsRepresentativeProteome()) {
+			document.proteomeType =2;
+		}else if ((source.getRedundantTo() != null) && (!source.getRedundantTo().isEmpty())){
+			document.proteomeType =4;
+		}else
+			document.proteomeType=3;
+	}
 	private void setOrganism(int taxonomyId, ProteomeDocument document) {
 		document.organismTaxId = taxonomyId;
 		document.taxLineageIds.add(taxonomyId);

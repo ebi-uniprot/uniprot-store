@@ -280,7 +280,7 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtEntry, Un
                     .sequence(new SequenceImpl(source.getSequence().getValue()))
                     .build();
 
-            byte[] avroByteArray = UniprotJsonConfig.getInstance().getFullObjectMapper().writeValueAsBytes(defaultObject);
+            byte[] avroByteArray = UniprotJsonConfig.getInstance().getDefaultFullObjectMapper().writeValueAsBytes(defaultObject);
             // can only store if it's size is small enough:
             // https://lucene.apache.org/core/7_5_0/core/org/apache/lucene/index/DocValuesType.html
             japiDocument.avro_binary = getDefaultBinaryValue(Base64.getEncoder().encodeToString(avroByteArray));
