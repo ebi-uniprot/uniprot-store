@@ -67,7 +67,7 @@ class ProteomeIndexIT {
     }
     private void verifyProteome(ProteomeDocument doc) {
     	String upid = doc.upid;
-    	ObjectMapper objectMapper = ProteomeJsonConfig.getInstance().getObjectMapper();
+    	ObjectMapper objectMapper = ProteomeJsonConfig.getInstance().getFullObjectMapper();
     	byte [] obj =doc.proteomeStored.array();
     	try {
     	Proteome proteome = objectMapper.readValue(obj, Proteome.class);
