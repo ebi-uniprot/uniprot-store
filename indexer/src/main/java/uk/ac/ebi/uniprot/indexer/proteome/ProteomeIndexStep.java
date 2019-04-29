@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 
+import org.springframework.context.annotation.Configuration;
 import uk.ac.ebi.uniprot.indexer.common.listener.LogRateListener;
 import uk.ac.ebi.uniprot.search.document.proteome.ProteomeDocument;
 import uk.ac.ebi.uniprot.xml.jaxb.proteome.Proteome;
@@ -22,7 +23,7 @@ import uk.ac.ebi.uniprot.xml.jaxb.proteome.Proteome;
  * @date: 23 Apr 2019
  *
 */
-
+@Configuration
 public class ProteomeIndexStep {
 	  private final StepBuilderFactory stepBuilderFactory;
 	  @Value(("${solr.indexing.chunkSize}"))
@@ -32,7 +33,8 @@ public class ProteomeIndexStep {
 	    public ProteomeIndexStep(StepBuilderFactory stepBuilderFactory) {
 	        this.stepBuilderFactory = stepBuilderFactory;
 	    }
-	    @Bean(name = "ProteomeIndexStep")
+
+	    @Bean("ProteomeIndexStep")
 	    public Step proteomeIndexViaXmlStep(
 	    		 StepExecutionListener stepListener,
                  ChunkListener chunkListener,

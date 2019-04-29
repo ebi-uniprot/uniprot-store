@@ -11,13 +11,14 @@ import org.springframework.batch.item.ItemReader;
 import uk.ac.ebi.uniprot.indexer.common.utils.Constants;
 import uk.ac.ebi.uniprot.search.document.dbxref.CrossRefDocument;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.net.URLConnection;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 import java.util.regex.Pattern;
@@ -43,16 +44,28 @@ public class CrossRefReader implements ItemReader<CrossRefDocument> {
     private static final String KEY_VAL_SEPARATOR = ": ";
     private static final String REF_SEPARATOR = " ";
     private static final Pattern NEWLINE_PATTERN =  Pattern.compile("^\\s*$", Pattern.MULTILINE);
+    private static final String FTP_PREFIX = "ftp://";
 
     private Scanner reader;
     private boolean dataRegionStarted;
 
     private StepExecution stepExecution;
 
-    public CrossRefReader(String xrefFTPUrl) throws IOException {
-        URL url = new URL(xrefFTPUrl);
-        URLConnection conn = url.openConnection();
-        InputStream inputStream = conn.getInputStream();
+    public CrossRefReader(String filePath) throws IOException {
+        InputStream inputStream;
+
+        if(filePath.startsWith(FTP_PREFIX)) {
+            URL url = new URL(filePath);
+            URLConnection conn = url.openConnection();
+            inputStream = conn.getInputStream();
+        } else {
+            inputStream = this.getClass().getClassLoader().getResourceAsStream(filePath);
+
+            if(inputStream == null){
+                inputStream = new FileInputStream(new File(filePath));
+            }
+        }
+
         this.reader = new Scanner(inputStream, StandardCharsets.UTF_8.name());
         this.dataRegionStarted = false;
     }

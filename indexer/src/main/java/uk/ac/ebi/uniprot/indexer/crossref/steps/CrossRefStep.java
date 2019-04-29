@@ -34,8 +34,8 @@ public class CrossRefStep {
     @Value(("${ds.import.chunk.size}"))
     private Integer chunkSize;
 
-    @Value(("${indexer.xref.ftp.url}"))
-    private String xrefFTP;
+    @Value(("${indexer.xref.file.path}"))
+    private String filePath;
 
     @Bean(name = "IndexCrossRefStep")
     public Step indexCrossRef(StepExecutionListener stepListener, ChunkListener chunkListener,
@@ -54,7 +54,7 @@ public class CrossRefStep {
 
     @Bean(name = "crossRefReader")
     public ItemReader<CrossRefDocument> xrefReader() throws IOException {
-        return new CrossRefReader(this.xrefFTP);
+        return new CrossRefReader(this.filePath);
     }
 
     @Bean(name = "crossRefWriter")

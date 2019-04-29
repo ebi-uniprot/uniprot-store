@@ -12,30 +12,36 @@ import java.util.List;
 import java.util.Map;
 
 /**
- *
  * @author sahmad
  */
 public class CrossRefUniProtCountWriter implements ItemWriter<CrossRefDocument> {
     private static final String ACCESSION_STR = "accession";
-    private static final String UNIPROT_ENTRY_COUNT_STR = "uniprotkb_entry_count";
+    private static final String REVIEWED_PROTEIN_COUNT_STR = "reviewed_protein_count";
+    private static final String UNREVIEWED_PROTEIN_COUNT_STR = "unreviewed_protein_count";
 
     private final SolrTemplate solrTemplate;
     private final SolrCollection collection;
 
-    public CrossRefUniProtCountWriter(SolrTemplate solrTemplate, SolrCollection collection){
+    public CrossRefUniProtCountWriter(SolrTemplate solrTemplate, SolrCollection collection) {
         this.solrTemplate = solrTemplate;
         this.collection = collection;
     }
 
     @Override
-    public void write(List<? extends CrossRefDocument> items){
-        for (CrossRefDocument document: items) {
+    public void write(List<? extends CrossRefDocument> items) {
+        for (CrossRefDocument document : items) {
             SolrInputDocument solrInputDocument = new SolrInputDocument();
-            if(document.getUniprotCount() != null){
-                Map<String,Object> fieldModifier = new HashMap<>(1);
-                fieldModifier.put("set", document.getUniprotCount());
-                solrInputDocument.addField(UNIPROT_ENTRY_COUNT_STR, fieldModifier);
-            }
+
+            // reviewed protein count
+            Map<String, Object> revProtField = new HashMap<>(1);
+            revProtField.put("set", document.getReviewedProteinCount());
+            solrInputDocument.addField(REVIEWED_PROTEIN_COUNT_STR, revProtField);
+
+            // unreviewed protein count
+            Map<String, Object> unrevProtField = new HashMap<>(1);
+            unrevProtField.put("set", document.getUnreviewedProteinCount());
+            solrInputDocument.addField(UNREVIEWED_PROTEIN_COUNT_STR, unrevProtField);
+
             solrInputDocument.addField(ACCESSION_STR, document.getAccession());
             this.solrTemplate.saveBean(collection.name(), solrInputDocument);
         }

@@ -33,7 +33,7 @@ public class ProteomeIndexJob {
 	        this.solrTemplate = solrTemplate;
 	    }
 	    @Bean
-	    public Job uniProtKBIndexingJob(
+	    public Job ProteomeIndexingJob(
 	    		@Qualifier("ProteomeIndexStep") Step proteomeIndexStep,
 	    		
 	    		WriteRetrierLogJobListener writeRetrierLogJobListener) {

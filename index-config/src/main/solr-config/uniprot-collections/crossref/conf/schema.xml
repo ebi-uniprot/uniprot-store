@@ -30,7 +30,8 @@
     <field name="category_str" type="full_ci" indexed="true" stored="false" multiValued="false"/>
     <field name="category_facet" type="string" indexed="true" stored="true" multiValued="false" docValues="true"/>
     <field name="content" type="full_ci" indexed="true" stored="false" multiValued="true"/>
-    <field name="uniprotkb_entry_count" type="plong" indexed="false" stored="true"/>
+    <field name="reviewed_protein_count" type="plong" indexed="false" stored="true"/>
+    <field name="unreviewed_protein_count" type="plong" indexed="false" stored="true"/>
 
     <!-- Field constraints -->
     <uniqueKey>accession</uniqueKey>

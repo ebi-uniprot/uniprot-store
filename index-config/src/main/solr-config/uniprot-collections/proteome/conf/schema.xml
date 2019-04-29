@@ -297,6 +297,7 @@
     <!-- =============================== proteome configurations =============================== -->
     <!-- ====================================================================================== -->
     <field name="upid" type="string" indexed="true" stored="true" required="true" multiValued="false"/>
+      <field name="organism_sort" type="string" indexed="true" stored="false" required="false" multiValued="false" docValues="true"/>
     <field name="organism_name" type="full_ci" indexed="true" stored="false" required="false" multiValued="true"/>
     <field name="organism_id" type="int" indexed="true" stored="false" required="false" multiValued="false"/>
     <field name="taxonomy_name" type="full_ci" indexed="true" stored="false" required="false" multiValued="true"/>
@@ -311,6 +312,9 @@
     <field name="proteome_stored" type="binary" indexed="false" stored="true" required="true" multiValued="false"/>
         <!-- Default field -->
     <field name="content" type="full_ci" indexed="true" stored="false" required="false" multiValued="true"/>
+    
+    <field name="annotation_score" type="int" indexed="true" stored="true" required="false" multiValued="false" docValues="true"/>
+    <field name="proteome_type" type="int" indexed="true" stored="true" required="false" multiValued="false" docValues="true"/>
  
   
 </schema>

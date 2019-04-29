@@ -20,6 +20,8 @@ public class ProteomeDocument  implements Document {
 
     @Field("organism_name")
     public List<String> organismName = new ArrayList<>();
+    @Field("organism_sort")
+    public String organismSort;
     
     @Field("organism_id")
     public int organismTaxId;
@@ -58,5 +60,9 @@ public class ProteomeDocument  implements Document {
     @Field("proteome_stored")
     public ByteBuffer proteomeStored;
     
+    @Field("annotation_score")
+    public int score;
+    @Field("proteome_type")
+    public int proteomeType;  //reference=1, representative =2, complete=3, redundant=4
     
 }

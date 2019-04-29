@@ -10,10 +10,32 @@ public interface ProteomeField {
 	        proteome_stored;
 	    };
 	 
+	    public enum Sort{
+	    	 proteome_type("proteome_type"),
+	    	 annotation_score("annotation_score"),
+	        organism("organism_sort");
+
+	        private String solrFieldName;
+
+	        Sort(String solrFieldName){
+	            this.solrFieldName = solrFieldName;
+	        }
+
+	        public String getSolrFieldName() {
+	            return solrFieldName;
+	        }
+
+	        @Override
+	        public String toString() {
+	            return this.solrFieldName;
+	        }
+	    }
 	public static enum Search implements SearchField {
 		upid(SearchFieldType.TERM,FieldValueValidator::isUpidValid, null),            // proteome upid
-		reference(SearchFieldType.TERM, FieldValueValidator::isBooleanValue, null), // reference or not reference proteome
-		redundant(SearchFieldType.TERM, FieldValueValidator::isBooleanValue, null), // redundant or not redundant proteome
+	    reference(SearchFieldType.TERM,FieldValueValidator::isBooleanValue, null),             // reference or not reference
+	    redundant(SearchFieldType.TERM,FieldValueValidator::isBooleanValue, null),             // redundant or not redudant
+		 annotation_score(SearchFieldType.TERM),
+		 proteome_type(SearchFieldType.TERM),
 		organism_name(SearchFieldType.TERM, null, 2.0f),
 		organism_id(SearchFieldType.TERM,FieldValueValidator::isNumberValue, 2.0f),
 		taxonomy_name(SearchFieldType.TERM, null,null),

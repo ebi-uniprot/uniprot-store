@@ -23,7 +23,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import uk.ac.ebi.uniprot.domain.proteome.Proteome;
+import uk.ac.ebi.uniprot.domain.proteome.ProteomeEntry;
 import uk.ac.ebi.uniprot.indexer.common.listener.ListenerConfig;
 import uk.ac.ebi.uniprot.indexer.test.config.FakeIndexerSpringBootApplication;
 import uk.ac.ebi.uniprot.indexer.test.config.TestConfig;
@@ -70,7 +70,7 @@ class ProteomeIndexIT {
     	ObjectMapper objectMapper = ProteomeJsonConfig.getInstance().getFullObjectMapper();
     	byte [] obj =doc.proteomeStored.array();
     	try {
-    	Proteome proteome = objectMapper.readValue(obj, Proteome.class);
+    	ProteomeEntry proteome = objectMapper.readValue(obj, ProteomeEntry.class);
     	assertEquals(upid,proteome.getId().getValue());
     	}catch(Exception e) {
     		fail(e.getMessage());
