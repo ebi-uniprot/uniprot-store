@@ -27,7 +27,7 @@ public class CrossRefJob {
     public Job indexSupportingData(@Qualifier("IndexCrossRefStep") Step indexCrossRef,
                                    @Qualifier("CrossRefUniProtKBCountStep") Step indexUniProtCount,
                                    JobExecutionListener jobListener) {
-        return this.jobs.get(Constants.SUPPORTING_DATA_INDEX_JOB)
+        return this.jobs.get(Constants.CROSS_REF_LOAD_JOB)
                 .start(indexCrossRef)//index the cross references
                 .next(indexUniProtCount)// update the uniprot count for each cross ref
                 .listener(jobListener)

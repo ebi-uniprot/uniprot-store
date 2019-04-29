@@ -2,20 +2,16 @@ package uk.ac.ebi.uniprot.indexer.disease;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
-import org.apache.commons.math3.util.MathUtils;
 import org.springframework.batch.item.ItemProcessor;
 import uk.ac.ebi.uniprot.cv.disease.Disease;
 import uk.ac.ebi.uniprot.domain.builder.DiseaseBuilder;
+import uk.ac.ebi.uniprot.indexer.common.utils.DatabaseUtils;
 import uk.ac.ebi.uniprot.json.parser.disease.DiseaseJsonConfig;
 import uk.ac.ebi.uniprot.search.document.disease.DiseaseDocument;
 
 import javax.sql.DataSource;
 import java.nio.ByteBuffer;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -43,15 +39,11 @@ public class DiseaseProcessor implements ItemProcessor<Disease, DiseaseDocument>
             "  GROUP BY DISEASE_IDENTIFIER, ENTRY_TYPE";
 
     private ObjectMapper diseaseObjectMapper;
-    private DataSource readDataSource;
-    private Connection dbConnxn;
-    private PreparedStatement preparedStatement;
+    private DatabaseUtils databaseUtils;
 
     public DiseaseProcessor(DataSource readDataSource) throws SQLException {
+        this.databaseUtils = new DatabaseUtils(readDataSource, QUERY_TO_GET_COUNT_PER_DISEASE);
         this.diseaseObjectMapper = DiseaseJsonConfig.getInstance().getFullObjectMapper();
-        this.readDataSource = readDataSource;
-        this.dbConnxn = this.readDataSource.getConnection();
-        this.preparedStatement = this.dbConnxn.prepareStatement(QUERY_TO_GET_COUNT_PER_DISEASE);
     }
 
     @Override
@@ -85,8 +77,8 @@ public class DiseaseProcessor implements ItemProcessor<Disease, DiseaseDocument>
 
     private byte[] getDiseaseObjectBinary(Disease disease) {
         try {
-
-            Pair<Long, Long> revUnrevCountPair = getProteinCount(disease.getId());
+            // get the protein count, reviewed and unreviewed
+            Pair<Long, Long> revUnrevCountPair = this.databaseUtils.getProteinCount(disease.getId());
 
             DiseaseBuilder diseaseBuilder = DiseaseBuilder.newInstance().from(disease);
             diseaseBuilder.reviewedProteinCount(revUnrevCountPair.getLeft());
@@ -101,22 +93,4 @@ public class DiseaseProcessor implements ItemProcessor<Disease, DiseaseDocument>
         }
     }
 
-    private Pair<Long, Long> getProteinCount(String identifier) throws SQLException {
-        this.preparedStatement.setString(1, identifier);
-        Long revCount = 0L;
-        Long unrevCount = 0L;
-        try(ResultSet resultSet = this.preparedStatement.executeQuery()){
-            while(resultSet.next()){
-                 if(Long.valueOf(0).equals(resultSet.getLong(1))){ // 0 == reviewed, 1 == unreviewed
-                     revCount = resultSet.getLong(2);
-                 } else if(Long.valueOf(1).equals(resultSet.getLong(1))){
-                     unrevCount = resultSet.getLong(2);
-                 }
-
-            }
-        }
-        Pair<Long, Long> revUnrevCountPair = new ImmutablePair<>(revCount, unrevCount);
-
-        return revUnrevCountPair;
-    }
 }
