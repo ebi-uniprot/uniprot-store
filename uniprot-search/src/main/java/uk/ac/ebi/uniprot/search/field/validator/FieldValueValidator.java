@@ -9,7 +9,7 @@ package uk.ac.ebi.uniprot.search.field.validator;
 public class FieldValueValidator {
 
     public static final String ACCESSION_REGEX = "([O,P,Q][0-9][A-Z|0-9]{3}[0-9]|[A-N,R-Z]([0-9][A-Z][A-Z|0-9]{2}){1,2}[0-9])(-\\d+)*";
-    private static final String PROTEOME_ID_REX ="UP[0-9]{9}";
+    public static final String PROTEOME_ID_REX ="UP[0-9]{9}";
     /**
      *  This method is responsible to validate any accession value
      *
