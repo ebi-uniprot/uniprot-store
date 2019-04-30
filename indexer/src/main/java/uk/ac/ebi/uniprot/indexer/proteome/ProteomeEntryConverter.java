@@ -10,6 +10,7 @@ import java.util.stream.Collectors;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Strings;
+import com.google.common.collect.Lists;
 
 import uk.ac.ebi.uniprot.domain.proteome.ProteomeEntry;
 import uk.ac.ebi.uniprot.domain.proteome.builder.ProteomeEntryBuilder;
@@ -181,16 +182,21 @@ public class ProteomeEntryConverter implements DocumentConverter<Proteome, Prote
 		
 	}
 
-	private List<String> getLineage(int taxId){
-		List<String> lineage = new ArrayList<>();
+	private List<Taxonomy> getLineage(int taxId){
+		List<Taxonomy> lineage = new ArrayList<>();
 		 Optional<TaxonomicNode> taxonomicNode = getParentTaxon(taxId);
 
          while (taxonomicNode.isPresent()) {
              TaxonomicNode node = taxonomicNode.get();
-             lineage.add(node.scientificName());
+             lineage.add(
+            		 new TaxonomyBuilder()
+            		 .taxonId(node.id())
+            		 .scientificName(node.scientificName())
+            		 .build()
+            		 );
              taxonomicNode = getParentTaxon(node.id());
          }
-         return lineage;
+         return Lists.reverse(lineage); 
 	}
 	private List<String> fetchGenomeAccessions(Proteome source) {
 		return source.getComponent().stream().map(val -> val.getGenomeAccession()).flatMap(val -> val.stream())
