@@ -11,14 +11,14 @@ import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 @Slf4j
 public class FakeReadDatabaseConfig {
 
-    @Bean(name = "readDataSource",destroyMethod = "shutdown")
+    @Bean(name = "readDataSource", destroyMethod = "shutdown")
     public EmbeddedDatabase readDataSource(){
         log.info("Initializing EmbeddedDatabase Database with necessary table and fake data for tests");
         return new EmbeddedDatabaseBuilder().setType(EmbeddedDatabaseType.H2)
                 .addScript("classpath:org/springframework/batch/core/schema-drop-h2.sql")
                 .addScript("classpath:org/springframework/batch/core/schema-h2.sql")
-                .addScript("classpath:database/createDatabaseSchema.sql")
-                .addScript("classpath:database/loadDatabaseFakeData.sql")
+                .addScript("classpath:database/Schema.sql")
+                .addScript("classpath:database/TestData.sql")
                 .build();
     }
 

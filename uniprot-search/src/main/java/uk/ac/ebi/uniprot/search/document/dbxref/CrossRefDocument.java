@@ -33,6 +33,8 @@ public class CrossRefDocument implements Document {
     private String categoryStr;
     @Field("category_facet")
     private String category;
-    @Field("uniprotkb_entry_count")
-    private Long uniprotCount;
+    @Field("reviewed_protein_count")
+    private Long reviewedProteinCount;
+    @Field("unreviewed_protein_count")
+    private Long unreviewedProteinCount;
 }

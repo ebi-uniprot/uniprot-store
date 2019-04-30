@@ -1,15 +1,13 @@
 package uk.ac.ebi.uniprot.search;
 
 import org.junit.jupiter.api.Test;
-
-
-import uk.ac.ebi.uniprot.search.DefaultSearchHandler;
 import uk.ac.ebi.uniprot.search.field.SearchField;
 import uk.ac.ebi.uniprot.search.field.SearchFieldType;
+import uk.ac.ebi.uniprot.search.field.validator.FieldValueValidator;
+
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.Predicate;
-import uk.ac.ebi.uniprot.search.field.validator.FieldValueValidator;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -59,7 +57,7 @@ class DefaultSearchHandlerTest {
         String defaultQuery = "P53 9606";
         String result = defaultSearchHandler.optimiseDefaultSearch(defaultQuery);
         assertNotNull(result);
-        String expectedResult = "+(content:p53 (taxonomy_name:p53)^2.0 (gene:p53)^2.0) " +
+        String expectedResult = "+(content:P53 (taxonomy_name:P53)^2.0 (gene:P53)^2.0) " +
                 "+(content:9606 (taxonomy_name:9606)^2.0 (taxonomy_id:9606)^2.0 (gene:9606)^2.0)";
         assertEquals(expectedResult,result);
     }
@@ -69,7 +67,7 @@ class DefaultSearchHandlerTest {
         String defaultQuery = "P21802";
         String result = defaultSearchHandler.optimiseDefaultSearch(defaultQuery);
         assertNotNull(result);
-        String expectedResult = "accession:p21802";
+        String expectedResult = "accession:P21802";
         assertEquals(expectedResult,result);
     }
 
@@ -83,10 +81,10 @@ class DefaultSearchHandlerTest {
 
     @Test
     void rewriteDefaultSearchPharseQuery() {
-        String defaultQuery = "\"homo sapiens\"";
+        String defaultQuery = "\"Homo Sapiens\"";
         String result = defaultSearchHandler.optimiseDefaultSearch(defaultQuery);
         assertNotNull(result);
-        String expectedResult = "content:\"homo sapiens\" (taxonomy_name:\"homo sapiens\")^2.0 (gene:\"homo sapiens\")^2.0";
+        String expectedResult = "content:\"Homo Sapiens\" (taxonomy_name:\"Homo Sapiens\")^2.0 (gene:\"Homo Sapiens\")^2.0";
         assertEquals(expectedResult,result);
     }
 

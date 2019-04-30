@@ -1,10 +1,9 @@
 package uk.ac.ebi.uniprot.search;
 
-import org.apache.lucene.analysis.standard.StandardAnalyzer;
+import org.apache.lucene.analysis.core.WhitespaceAnalyzer;
 import org.apache.lucene.index.Term;
 import org.apache.lucene.queryparser.classic.QueryParser;
 import org.apache.lucene.search.*;
-
 import uk.ac.ebi.uniprot.search.field.SearchField;
 
 import java.util.Arrays;
@@ -38,7 +37,7 @@ public class DefaultSearchHandler {
     public boolean hasDefaultSearch(String inputQuery) {
         boolean isValid = false;
         try {
-            QueryParser qp = new QueryParser(defaultField.getName(), new StandardAnalyzer());
+            QueryParser qp = new QueryParser(defaultField.getName(), new WhitespaceAnalyzer());
             Query query = qp.parse(inputQuery);
             isValid = SolrQueryUtil.hasFieldTerms(query, defaultField.getName());
         } catch (Exception e) {
@@ -49,7 +48,7 @@ public class DefaultSearchHandler {
 
     public String optimiseDefaultSearch(String inputQuery){
         try {
-            QueryParser qp = new QueryParser(defaultField.getName(), new StandardAnalyzer());
+            QueryParser qp = new QueryParser(defaultField.getName(), new WhitespaceAnalyzer());
             qp.setDefaultOperator(QueryParser.Operator.AND); // the same that we have in the solrschema
             Query query = qp.parse(inputQuery);
             return optimiseDefaultSearch(query).toString();

@@ -9,7 +9,7 @@ package uk.ac.ebi.uniprot.search.field.validator;
 public class FieldValueValidator {
 
     public static final String ACCESSION_REGEX = "([O,P,Q][0-9][A-Z|0-9]{3}[0-9]|[A-N,R-Z]([0-9][A-Z][A-Z|0-9]{2}){1,2}[0-9])(-\\d+)*";
-
+    public static final String PROTEOME_ID_REX ="UP[0-9]{9}";
     /**
      *  This method is responsible to validate any accession value
      *
@@ -20,6 +20,14 @@ public class FieldValueValidator {
         boolean result = false;
         if(value != null) {
             result = value.toUpperCase().matches(ACCESSION_REGEX);
+        }
+        return result;
+    }
+
+    public static boolean isUpidValid(String value){
+        boolean result = false;
+        if(value != null) {
+            result = value.toUpperCase().matches(PROTEOME_ID_REX);
         }
         return result;
     }

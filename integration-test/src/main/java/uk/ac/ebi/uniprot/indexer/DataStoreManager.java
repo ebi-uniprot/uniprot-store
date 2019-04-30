@@ -26,7 +26,7 @@ import static org.slf4j.LoggerFactory.getLogger;
  */
 public class DataStoreManager {
     public enum StoreType {
-        UNIPROT, INACTIVE_UNIPROT,UNIPARC, UNIREF,CROSSREF
+        UNIPROT, INACTIVE_UNIPROT,UNIPARC, UNIREF,CROSSREF, PROTEOME
     }
 
     private static final Logger LOGGER = getLogger(DataStoreManager.class);
@@ -75,6 +75,8 @@ public class DataStoreManager {
     @SuppressWarnings("unchecked")
     public <T> void saveToVoldemort(StoreType storeType, List<T> entries) {
         VoldemortClient voldemort = getVoldemort(storeType);
+        if(voldemort ==null)
+        	return;
         int count = 0;
         for (Object o : entries) {
             try {
