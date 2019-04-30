@@ -152,25 +152,7 @@ public class ProteomeSearchIT {
     //    UP000066929
      //   UP000036221
     }
-    @Test
-    public void searchNotIsRedundant(){
-      
-        String query =isRedudant(false);
-        
-        QueryResponse queryResponse =
-                searchEngine.getQueryResponse(query);
-
-        SolrDocumentList results =
-                queryResponse.getResults();
-        Assert.assertEquals(3, results.size());
-       
-        Assert.assertTrue(results.get(0).containsValue("UP000036221")
-                ||results.get(1).containsValue("UP000036221")
-               || results.get(2).containsValue("UP000036221")); 
-     //   UP000000802
-    //    UP000066929
-     //   UP000036221
-    }
+ 
     @Test
     public void searchByGeneAccession(){
         String query =accession("Q9Y8V6");
@@ -233,7 +215,7 @@ public class ProteomeSearchIT {
     
     uk.ac.ebi.uniprot.domain.proteome.ProteomeEntry toProteome(ProteomeDocument proteomeDoc){
     	try {
-    	ObjectMapper objectMapper =  ProteomeJsonConfig.getInstance().getDefaultSimpleObjectMapper();
+    	ObjectMapper objectMapper =  ProteomeJsonConfig.getInstance().getFullObjectMapper();
     	return objectMapper.readValue(proteomeDoc.proteomeStored.array(),  uk.ac.ebi.uniprot.domain.proteome.ProteomeEntry.class);
     	}catch(Exception e) {
     		throw new RuntimeException (e);

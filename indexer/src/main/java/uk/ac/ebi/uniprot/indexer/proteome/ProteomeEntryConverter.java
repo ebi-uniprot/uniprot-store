@@ -68,10 +68,13 @@ public class ProteomeEntryConverter implements DocumentConverter<Proteome, Prote
 	private void updateProteomeType(ProteomeDocument document, Proteome source) {
 		if(source.isIsReferenceProteome()) {
 			document.proteomeType =1;
+			document.isReferenceProteome= true;
 		}else if  (source.isIsRepresentativeProteome()) {
 			document.proteomeType =2;
+			document.isReferenceProteome= true;
 		}else if ((source.getRedundantTo() != null) && (!source.getRedundantTo().isEmpty())){
 			document.proteomeType =4;
+			document.isRedundant =true;
 		}else
 			document.proteomeType=3;
 	}
