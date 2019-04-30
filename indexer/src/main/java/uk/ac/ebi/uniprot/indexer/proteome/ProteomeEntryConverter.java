@@ -42,7 +42,7 @@ public class ProteomeEntryConverter implements DocumentConverter<Proteome, Prote
 	public ProteomeEntryConverter(TaxonomyRepo taxonomyRepo) {
 		this.taxonomyRepo = taxonomyRepo;
 		proteomeConverter = new ProteomeConverter();
-		this.objectMapper = ProteomeJsonConfig.getInstance().getDefaultFullObjectMapper();
+		this.objectMapper = ProteomeJsonConfig.getInstance().getFullObjectMapper();
 	}
 	@Override
 	public ProteomeDocument convert(Proteome source) {
