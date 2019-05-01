@@ -61,7 +61,7 @@ public class ProteomeDocument  implements Document {
     public ByteBuffer proteomeStored;
     
     @Field("annotation_score")
-    public int score;
+    public int score=0;
     @Field("proteome_type")
     public int proteomeType;  //reference=1, representative =2, complete=3, redundant=4
     
