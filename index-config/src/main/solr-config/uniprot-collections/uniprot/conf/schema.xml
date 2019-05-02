@@ -731,6 +731,11 @@
     <field name="uniref_cluster_50" type="string" indexed="true" stored="false" required="false" multiValued="false" docValues="true"/>
     <field name="uniref_cluster_90" type="string" indexed="true" stored="false" required="false" multiValued="false" docValues="true" />
     <field name="uniref_cluster_100" type="string" indexed="true" stored="false" required="false" multiValued="false" docValues="true"/>
+    
+    
+    <!--  Proteome collection fields -->
+        <field name="genome_accession" type="basic_ci" indexed="true" stored="false" required="false" multiValued="true"/>
+    <field name="genome_assembly" type="basic_ci" indexed="true" stored="false" required="false" multiValued="false"/>
 
     <field name="text" type="text_general" indexed="true" stored="false" multiValued="true"/>
      <!-- catchall text field that indexes tokens both normally and in reverse for efficient

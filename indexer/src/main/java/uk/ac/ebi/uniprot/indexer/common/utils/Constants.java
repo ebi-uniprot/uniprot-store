@@ -5,6 +5,7 @@ public class Constants {
     public static final String SUPPORTING_DATA_INDEX_JOB = "Supporting data indexing job";
 
     public static final String UNIPROTKB_INDEX_JOB = "UniProtKB_Indexing_Job";
+    public static final String UNIPROTKB_PROTEOME_INDEX_JOB = "UniProtKB_Proteome_Indexing_Job";
     public static final String UNIPROTKB_INDEX_STEP = "UniProtKB_Indexing_Step";
     public static final String INDEX_FAILED_ENTRIES_COUNT_KEY = "INDEX_FAILED_ENTRIES_COUNT_KEY";
     public static final String INDEX_WRITTEN_ENTRIES_COUNT_KEY = "INDEX_WRITTEN_ENTRIES_COUNT_KEY";

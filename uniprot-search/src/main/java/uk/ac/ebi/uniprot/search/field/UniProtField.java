@@ -341,6 +341,7 @@ public class UniProtField {
         proteome(SearchFieldType.TERM,FieldValueValidator::isProteomeIdValue, null),
         proteomecomponent(SearchFieldType.TERM),
         annotation_score(SearchFieldType.TERM),
+        
 
         go(SearchFieldType.TERM),
         go_ida(SearchFieldType.TERM),
@@ -369,7 +370,11 @@ public class UniProtField {
         go_hgi(SearchFieldType.TERM),
         go_hep(SearchFieldType.TERM),
         go_htp(SearchFieldType.TERM),
-        go_unknown(SearchFieldType.TERM);
+        go_unknown(SearchFieldType.TERM),
+        
+        //proteome related fields
+    	genome_accession(SearchFieldType.TERM),
+		genome_assembly(SearchFieldType.TERM);
 
         private final Predicate<String> fieldValueValidator;
         private final SearchFieldType searchFieldType;

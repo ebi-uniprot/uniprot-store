@@ -6,12 +6,14 @@ import org.springframework.batch.core.JobExecutionListener;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.solr.core.SolrTemplate;
 import uk.ac.ebi.uniprot.indexer.common.listener.WriteRetrierLogJobListener;
 import uk.ac.ebi.uniprot.search.SolrCollection;
 
+import static uk.ac.ebi.uniprot.indexer.common.utils.Constants.UNIPROTKB_PROTEOME_INDEX_JOB;
 import static uk.ac.ebi.uniprot.indexer.common.utils.Constants.UNIPROTKB_INDEX_JOB;
 
 /**
@@ -33,9 +35,12 @@ public class UniProtKBJob {
     }
 
     @Bean
-    public Job uniProtKBIndexingJob(Step uniProtKBIndexingMainFFStep, WriteRetrierLogJobListener writeRetrierLogJobListener) {
+    public Job uniProtKBIndexingJob(@Qualifier("UniProtKBIndexStep")Step uniProtKBIndexingMainFFStep,
+    		@Qualifier("UniProtKBProteomeIndexStep") Step uniProtKBProteomeIndexStep,
+    		WriteRetrierLogJobListener writeRetrierLogJobListener) {
         return this.jobBuilderFactory.get(UNIPROTKB_INDEX_JOB)
                 .start(uniProtKBIndexingMainFFStep)
+                .next(uniProtKBProteomeIndexStep)
                 .listener(writeRetrierLogJobListener)
                 .listener(new JobExecutionListener() {
                     @Override public void beforeJob(JobExecution jobExecution) {
@@ -50,4 +55,7 @@ public class UniProtKBJob {
                 })
                 .build();
     }
+    
+    
+    
 }

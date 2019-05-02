@@ -21,35 +21,32 @@ import uk.ac.ebi.uniprot.search.SolrCollection;
  * @author jluo
  * @date: 18 Apr 2019
  *
-*/
+ */
 @Configuration
 public class ProteomeIndexJob {
-	 private final JobBuilderFactory jobBuilderFactory;
-	    private final SolrTemplate solrTemplate;
+	private final JobBuilderFactory jobBuilderFactory;
+	private final SolrTemplate solrTemplate;
 
-	    @Autowired
-	    public ProteomeIndexJob(JobBuilderFactory jobBuilderFactory, SolrTemplate solrTemplate) {
-	        this.jobBuilderFactory = jobBuilderFactory;
-	        this.solrTemplate = solrTemplate;
-	    }
-	    @Bean
-	    public Job ProteomeIndexingJob(
-	    		@Qualifier("ProteomeIndexStep") Step proteomeIndexStep,
-	    		
-	    		WriteRetrierLogJobListener writeRetrierLogJobListener) {
-	        return this.jobBuilderFactory.get(PROTEOME_INDEX_JOB)
-	                .start(proteomeIndexStep)
-	                .listener(writeRetrierLogJobListener)
-	                .listener(new JobExecutionListener() {
-	                    @Override public void beforeJob(JobExecution jobExecution) {
-	                        // no-op
-	                    }
+	@Autowired
+	public ProteomeIndexJob(JobBuilderFactory jobBuilderFactory, SolrTemplate solrTemplate) {
+		this.jobBuilderFactory = jobBuilderFactory;
+		this.solrTemplate = solrTemplate;
+	}
 
-	                    @Override public void afterJob(JobExecution jobExecution) {
-	                        solrTemplate.commit(SolrCollection.proteome.name());
-	                    }
-	                })
-	                .build();
-	    }
+	@Bean
+	public Job proteomeIndexingJob(@Qualifier("ProteomeIndexStep") Step proteomeIndexStep,
+			WriteRetrierLogJobListener writeRetrierLogJobListener) {
+		return this.jobBuilderFactory.get(PROTEOME_INDEX_JOB).start(proteomeIndexStep)
+				.listener(writeRetrierLogJobListener).listener(new JobExecutionListener() {
+					@Override
+					public void beforeJob(JobExecution jobExecution) {
+						// no-op
+					}
+
+					@Override
+					public void afterJob(JobExecution jobExecution) {
+						solrTemplate.commit(SolrCollection.proteome.name());
+					}
+				}).build();
+	}
 }
-

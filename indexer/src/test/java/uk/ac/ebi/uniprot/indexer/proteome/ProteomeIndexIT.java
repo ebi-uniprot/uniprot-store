@@ -60,7 +60,7 @@ class ProteomeIndexIT {
         Page<ProteomeDocument> response = template
                 .query(SolrCollection.proteome.name(), new SimpleQuery("*:*"), ProteomeDocument.class);
         assertThat(response, is(notNullValue()));
-        assertThat(response.getTotalElements(), is(16l));
+        assertThat(response.getTotalElements(), is(2l));
         
         response.forEach(val -> verifyProteome(val));
 
