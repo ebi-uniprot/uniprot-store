@@ -45,7 +45,7 @@ public class ProteomeDocument  implements Document {
     public List<String> genomeAccession = new ArrayList<>();
     
     @Field("genome_assembly")
-    public List<String> genomeAssembly = new ArrayList<>();
+    public String genomeAssembly ;
 
     @Field("accession")
     public List<String> accession = new ArrayList<>();

@@ -150,11 +150,12 @@ public class ProteomeEntryConverter implements DocumentConverter<Proteome, Prote
 		return new ArrayList<>(geneNames);
 	}
 
-	private List<String> fetchGenomeAssemblyId(Proteome source) {
+	private String fetchGenomeAssemblyId(Proteome source) {
 		return source.getDbReference().stream()
 				.filter(val -> val.getType().equals(GC_SET_ACC))				
 				.map(val ->val.getId())
-				.collect(Collectors.toList());
+				.findFirst().orElse("");
+			//	.collect(Collectors.toList());
 	}
 	private byte[] getBinaryObject(Proteome source) {
 		ProteomeEntry proteome = this.proteomeConverter.fromXml(source);
