@@ -373,6 +373,7 @@ public class UniProtField {
         go_unknown(SearchFieldType.TERM),
         
         //proteome related fields
+        proteome_content(SearchFieldType.TERM),
     	genome_accession(SearchFieldType.TERM),
 		genome_assembly(SearchFieldType.TERM);
 

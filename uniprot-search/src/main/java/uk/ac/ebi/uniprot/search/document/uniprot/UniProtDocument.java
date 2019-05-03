@@ -340,5 +340,8 @@ public class UniProtDocument implements Document {
     
     @Field("genome_assembly")
     public String genomeAssembly ;
+    
+    @Field("proteome_content")
+    public List<String> proteomeContent = new ArrayList<>();
 
 }

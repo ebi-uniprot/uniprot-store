@@ -51,7 +51,6 @@ public class ProteomeEntryConverter implements DocumentConverter<Proteome, Prote
 		ProteomeDocument document = new ProteomeDocument();
 		document.upid = source.getUpid();
 		setOrganism(source.getTaxonomy().intValue(), document);
-		setLineageTaxon(source.getTaxonomy().intValue(), document);
 		updateProteomeType(document, source);
 		document.genomeAccession = fetchGenomeAccessions(source);
 		document.superkingdom = source.getSuperregnum().name();
@@ -91,22 +90,19 @@ public class ProteomeEntryConverter implements DocumentConverter<Proteome, Prote
 			TaxonomicNode node = taxonomicNode.get();
 			List<String> extractedTaxoNode = extractTaxonode(node);
 			document.organismName.addAll(extractedTaxoNode);
-			 document.organismTaxon.addAll(extractedTaxoNode);
+			document.organismTaxon.addAll(extractedTaxoNode);
+			taxonomicNode = getParentTaxon(node.id());
+			 while (taxonomicNode.isPresent()) {
+	                TaxonomicNode parent = taxonomicNode.get();
+	                document.taxLineageIds.add(parent.id());
+	                document.organismTaxon.addAll(extractTaxonode(parent));
+	                taxonomicNode = getParentTaxon(parent.id());
+	            }
+			
 		}
 
 	}
-	 private void setLineageTaxon(int taxId, ProteomeDocument document) {
-	        if (taxId > 0) {
-	            Optional<TaxonomicNode> taxonomicNode = taxonomyRepo.retrieveNodeUsingTaxID(taxId);
 
-	            while (taxonomicNode.isPresent()) {
-	                TaxonomicNode node = taxonomicNode.get();
-	                document.taxLineageIds.add(node.id());
-	                document.organismTaxon.addAll(extractTaxonode(node));
-	                taxonomicNode = getParentTaxon(node.id());
-	            }
-	        }
-	    }
 	 private Optional<TaxonomicNode> getParentTaxon(int taxId) {
 	        Optional<TaxonomicNode> optionalNode = taxonomyRepo.retrieveNodeUsingTaxID(taxId);
 	        return optionalNode.filter(TaxonomicNode::hasParent).map(TaxonomicNode::parent);

@@ -736,6 +736,7 @@
     <!--  Proteome collection fields -->
         <field name="genome_accession" type="basic_ci" indexed="true" stored="false" required="false" multiValued="true"/>
     <field name="genome_assembly" type="basic_ci" indexed="true" stored="false" required="false" multiValued="false"/>
+    <field name="proteome_content" type="full_ci" indexed="true" stored="false" required="false" multiValued="true"/>
 
     <field name="text" type="text_general" indexed="true" stored="false" multiValued="true"/>
      <!-- catchall text field that indexes tokens both normally and in reverse for efficient

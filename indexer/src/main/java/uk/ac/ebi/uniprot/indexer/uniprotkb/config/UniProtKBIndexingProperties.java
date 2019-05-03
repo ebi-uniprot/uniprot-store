@@ -2,6 +2,7 @@ package uk.ac.ebi.uniprot.indexer.uniprotkb.config;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.stereotype.Component;
 
 /**
  * Represents configuration properties required for the indexing of UniProtKB data.
@@ -10,6 +11,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  *
  * @author Edd
  */
+@Component
 @Data
 @ConfigurationProperties(prefix = "uniprotkb.indexing")
 public class UniProtKBIndexingProperties {

@@ -1,5 +1,6 @@
 package uk.ac.ebi.uniprot.indexer.uniprotkb.proteome;
 
+import java.io.File;
 import java.io.IOException;
 
 import org.springframework.batch.core.ChunkListener;
@@ -21,6 +22,10 @@ import org.springframework.oxm.Unmarshaller;
 import org.springframework.oxm.jaxb.Jaxb2Marshaller;
 
 import uk.ac.ebi.uniprot.indexer.common.listener.LogRateListener;
+import uk.ac.ebi.uniprot.indexer.uniprot.taxonomy.FileNodeIterable;
+import uk.ac.ebi.uniprot.indexer.uniprot.taxonomy.TaxonomyMapRepo;
+import uk.ac.ebi.uniprot.indexer.uniprot.taxonomy.TaxonomyRepo;
+import uk.ac.ebi.uniprot.indexer.uniprotkb.config.UniProtKBIndexingProperties;
 import uk.ac.ebi.uniprot.search.SolrCollection;
 import uk.ac.ebi.uniprot.search.document.proteome.ProteomeDocument;
 import uk.ac.ebi.uniprot.xml.jaxb.proteome.Proteome;
@@ -36,22 +41,21 @@ public class UniProtKBProteomeIndexStep {
 	
 	
 	 private final StepBuilderFactory stepBuilderFactory;
+	 private final UniProtKBIndexingProperties properties;
 	 
 	 @Value(("${proteome.indexing.xml.file}"))
 		private String proteomeXmlFilename;
-
 	 
-	  @Value(("${solr.indexing.chunkSize}"))
-	  private int chunkSize=100;
 
 	    @Autowired
-	    public UniProtKBProteomeIndexStep(StepBuilderFactory stepBuilderFactory) {
+	    public UniProtKBProteomeIndexStep(StepBuilderFactory stepBuilderFactory, UniProtKBIndexingProperties properties) {
 	        this.stepBuilderFactory = stepBuilderFactory;
+	        this.properties = properties;
 	    }
 	    	    
 		@Bean(name = "uniProtKBProteomeItemWriter")
 		public ItemWriter<Proteome> itemProteomeWriter(SolrTemplate solrTemplate) {
-			return new UniProtKBProteomeWriter(solrTemplate, SolrCollection.uniprot);
+			return new UniProtKBProteomeWriter(solrTemplate, SolrCollection.uniprot, createTaxonomyRepo());
 		}
 
 	    @Bean("UniProtKBProteomeIndexStep")
@@ -62,13 +66,17 @@ public class UniProtKBProteomeIndexStep {
 	    		 @Qualifier("uniProtKBProteomeItemWriter") ItemWriter<Proteome> itemWriter) {
 	        return this.stepBuilderFactory.get("UniProtKB_Proteome_Index_Step")
 
-	                .<Proteome, Proteome>chunk(chunkSize)
+	                .<Proteome, Proteome>chunk(properties.getChunkSize())
 	                .reader(itemReader)
 	                .writer(itemWriter)
 	                .listener(stepListener)
 	                .listener(chunkListener)
 	                .listener(new LogRateListener<ProteomeDocument>())
 	                .build();
+	    }
+	    
+	    private TaxonomyRepo createTaxonomyRepo() {
+	        return new TaxonomyMapRepo(new FileNodeIterable(new File(properties.getTaxonomyFile())));
 	    }
 }
 
