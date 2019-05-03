@@ -7,9 +7,10 @@ import java.util.Map;
 import java.util.Optional;
 
 import org.apache.solr.common.SolrInputDocument;
-import org.assertj.core.util.Strings;
 import org.springframework.batch.item.ItemWriter;
 import org.springframework.data.solr.core.SolrTemplate;
+
+import com.google.common.base.Strings;
 
 import uk.ac.ebi.uniprot.indexer.uniprot.taxonomy.TaxonomicNode;
 import uk.ac.ebi.uniprot.indexer.uniprot.taxonomy.TaxonomyRepo;
