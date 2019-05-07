@@ -14,6 +14,8 @@ import com.google.common.collect.Lists;
 
 import uk.ac.ebi.uniprot.domain.proteome.ProteomeEntry;
 import uk.ac.ebi.uniprot.domain.proteome.builder.ProteomeEntryBuilder;
+import uk.ac.ebi.uniprot.domain.taxonomy.TaxonomyLineage;
+import uk.ac.ebi.uniprot.domain.taxonomy.builder.TaxonomyLineageBuilder;
 import uk.ac.ebi.uniprot.domain.uniprot.taxonomy.Taxonomy;
 import uk.ac.ebi.uniprot.domain.uniprot.taxonomy.builder.TaxonomyBuilder;
 import uk.ac.ebi.uniprot.indexer.converter.DocumentConverter;
@@ -62,8 +64,11 @@ public class ProteomeEntryConverter implements DocumentConverter<Proteome, Prote
 		document.taxLineageIds.forEach(val -> document.content.add(val.toString()));
 	
 		document.proteomeStored =ByteBuffer.wrap(getBinaryObject(source));
-		
+		updateAnnotationScore(document, source);
 		return document;
+	}
+	private void updateAnnotationScore(ProteomeDocument document, Proteome source) {
+		document.score=1;
 	}
 	private void updateProteomeType(ProteomeDocument document, Proteome source) {
 		if(source.isIsReferenceProteome()) {
@@ -185,16 +190,17 @@ public class ProteomeEntryConverter implements DocumentConverter<Proteome, Prote
 		
 	}
 
-	private List<Taxonomy> getLineage(int taxId){
-		List<Taxonomy> lineage = new ArrayList<>();
+	private List<TaxonomyLineage> getLineage(int taxId){
+		List<TaxonomyLineage> lineage = new ArrayList<>();
 		 Optional<TaxonomicNode> taxonomicNode = getParentTaxon(taxId);
 
          while (taxonomicNode.isPresent()) {
              TaxonomicNode node = taxonomicNode.get();
              lineage.add(
-            		 new TaxonomyBuilder()
+            		 new TaxonomyLineageBuilder()
             		 .taxonId(node.id())
             		 .scientificName(node.scientificName())
+            		 
             		 .build()
             		 );
              taxonomicNode = getParentTaxon(node.id());

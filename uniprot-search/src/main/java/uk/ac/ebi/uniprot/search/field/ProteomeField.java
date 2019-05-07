@@ -11,6 +11,7 @@ public interface ProteomeField {
 	    };
 	 
 	    public enum Sort{
+	    	upid("upid"),
 	    	 proteome_type("proteome_type"),
 	    	 annotation_score("annotation_score"),
 	        organism("organism_sort");
