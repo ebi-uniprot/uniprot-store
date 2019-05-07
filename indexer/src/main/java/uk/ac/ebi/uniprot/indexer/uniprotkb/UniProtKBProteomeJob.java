@@ -1,6 +1,6 @@
 package uk.ac.ebi.uniprot.indexer.uniprotkb;
 
-import static uk.ac.ebi.uniprot.indexer.common.utils.Constants.UNIPROTKB_INDEX_JOB;
+import static uk.ac.ebi.uniprot.indexer.common.utils.Constants.UNIPROTKB_PROTEOME_INDEX_JOB;
 
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.JobExecution;
@@ -17,28 +17,28 @@ import uk.ac.ebi.uniprot.indexer.common.listener.WriteRetrierLogJobListener;
 import uk.ac.ebi.uniprot.search.SolrCollection;
 
 /**
- * The main UniProtKB indexing job.
  *
- * Created 10/04/19
+ * @author jluo
+ * @date: 3 May 2019
  *
- * @author Edd
- */
+*/
 @Configuration
-public class UniProtKBJob {
+public class UniProtKBProteomeJob {
     private final JobBuilderFactory jobBuilderFactory;
     private final SolrTemplate solrTemplate;
 
     @Autowired
-    public UniProtKBJob(JobBuilderFactory jobBuilderFactory, SolrTemplate solrTemplate) {
+    public UniProtKBProteomeJob(JobBuilderFactory jobBuilderFactory, SolrTemplate solrTemplate) {
         this.jobBuilderFactory = jobBuilderFactory;
         this.solrTemplate = solrTemplate;
     }
-
-    @Bean
-    public Job uniProtKBIndexingJob(@Qualifier("UniProtKBIndexStep")Step uniProtKBIndexingMainFFStep,
+    
+    @Bean(UNIPROTKB_PROTEOME_INDEX_JOB)
+    public Job uniProtKBProteomeIndexingJob(
+    		@Qualifier("UniProtKBProteomeIndexStep") Step uniProtKBProteomeIndexStep,
     		WriteRetrierLogJobListener writeRetrierLogJobListener) {
-        return this.jobBuilderFactory.get(UNIPROTKB_INDEX_JOB)
-                .start(uniProtKBIndexingMainFFStep)
+        return this.jobBuilderFactory.get(UNIPROTKB_PROTEOME_INDEX_JOB)
+                .start(uniProtKBProteomeIndexStep)
                 .listener(writeRetrierLogJobListener)
                 .listener(new JobExecutionListener() {
                     @Override public void beforeJob(JobExecution jobExecution) {
@@ -54,6 +54,5 @@ public class UniProtKBJob {
                 .build();
     }
     
-    
-    
 }
+

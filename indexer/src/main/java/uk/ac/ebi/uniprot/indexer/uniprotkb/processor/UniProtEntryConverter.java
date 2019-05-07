@@ -25,6 +25,7 @@ import uk.ac.ebi.uniprot.domain.uniprot.comment.*;
 import uk.ac.ebi.uniprot.domain.uniprot.description.*;
 import uk.ac.ebi.uniprot.domain.uniprot.evidence.Evidence;
 import uk.ac.ebi.uniprot.domain.uniprot.feature.Feature;
+import uk.ac.ebi.uniprot.domain.uniprot.taxonomy.Organism;
 import uk.ac.ebi.uniprot.domain.uniprot.taxonomy.OrganismHost;
 import uk.ac.ebi.uniprot.domain.uniprot.xdb.UniProtDBCrossReference;
 import uk.ac.ebi.uniprot.flatfile.parser.ffwriter.FFLineBuilder;
@@ -280,7 +281,7 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtEntry, Un
                     .sequence(new SequenceImpl(source.getSequence().getValue()))
                     .build();
 
-            byte[] avroByteArray = UniprotJsonConfig.getInstance().getDefaultFullObjectMapper().writeValueAsBytes(defaultObject);
+            byte[] avroByteArray = UniprotJsonConfig.getInstance().getFullObjectMapper().writeValueAsBytes(defaultObject);
             // can only store if it's size is small enough:
             // https://lucene.apache.org/core/7_5_0/core/org/apache/lucene/index/DocValuesType.html
             japiDocument.avro_binary = getDefaultBinaryValue(Base64.getEncoder().encodeToString(avroByteArray));
@@ -375,10 +376,33 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtEntry, Un
                         japiDocument.otherOrganism = node.scientificName();
                     }
                 }
+            }else {
+            	   List<String> extractedTaxoNode = extractTaxoNode(source.getOrganism());
+                   japiDocument.organismName.addAll(extractedTaxoNode);
+                   japiDocument.organismSort = truncatedSortValue(String.join(" ", extractedTaxoNode));
+                   String popularOrgamism = POPULAR_ORGANIMS_TAX_NAME.get(taxonomyId);
+                   if (popularOrgamism != null) {
+                       japiDocument.popularOrganism = popularOrgamism;
+                   } else {
+                	   if(!Strings.isNullOrEmpty(source.getOrganism().getCommonName())) {
+                		   japiDocument.otherOrganism =source.getOrganism().getCommonName();
+                	   }else {
+                		   japiDocument.otherOrganism =source.getOrganism().getScientificName();
+                	   }
+                   }
             }
         }
     }
-
+    private List<String> extractTaxoNode(Organism organism){
+    	List<String> results= new ArrayList<>();
+    	results.add(organism.getScientificName());
+    	if(!Strings.isNullOrEmpty(organism.getCommonName())) {
+    		results.add(organism.getCommonName());
+    	}
+    	results.addAll(organism.getSynonyms());
+    	return results;
+    	
+    }
     private void setLineageTaxons(UniProtEntry source, UniProtDocument japiDocument) {
         if (source.hasOrganism()) {
             int taxId = Math.toIntExact(source.getOrganism().getTaxonId());

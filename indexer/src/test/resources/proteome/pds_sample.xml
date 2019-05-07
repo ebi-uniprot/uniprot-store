@@ -15,7 +15,6 @@
             <protein accession="A0A2Z5SLI2" entryType="TrEMBL"/>
             <protein accession="A0A2Z5SLI3" entryType="TrEMBL"/>
             <protein accession="A0A2Z5SLI4" entryType="TrEMBL"/>
-            <protein accession="A0A2Z5SLI5" entryType="TrEMBL"/>
       </component>
             <reference date="2018">
             <journal name="Genome Announc" volume="6" first="e00352" last="18">

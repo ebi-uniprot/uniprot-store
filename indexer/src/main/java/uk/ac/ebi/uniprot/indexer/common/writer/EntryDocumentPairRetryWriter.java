@@ -71,6 +71,7 @@ public abstract class EntryDocumentPairRetryWriter<E, D> implements ItemWriter<E
             Failsafe.with(retryPolicy)
                     .onFailure(failure -> logFailedEntriesToFile(entryDocumentPairs, failure.getFailure()))
                     .run(() -> writeEntriesToSolr(documents));
+            solrTemplate.commit(collection.name());
         } catch (Exception e) {
             List<String> accessions = documents.stream().map(this::extractDocumentId).collect(Collectors.toList());
             log.error(ERROR_WRITING_ENTRIES_TO_SOLR + accessions, e);
