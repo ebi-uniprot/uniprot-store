@@ -5,6 +5,7 @@ import lombok.Getter;
 import org.apache.solr.client.solrj.beans.Field;
 import uk.ac.ebi.uniprot.search.document.Document;
 
+import java.nio.ByteBuffer;
 import java.util.List;
 
 @Builder
@@ -30,14 +31,6 @@ public class TaxonomyDocument implements Document {
     @Field
     private boolean hidden;
     @Field
-    private boolean complete;
-    @Field
-    private boolean reference;
-    @Field
-    private boolean reviewed;
-    @Field
-    private boolean annotated;
-    @Field
     private boolean active;
     @Field
     private boolean linked;
@@ -45,16 +38,12 @@ public class TaxonomyDocument implements Document {
     private List<String> content;
     @Field
     private List<String> strain;
-    @Field("other_names")
-    private List<String> otherNames;
     @Field
     private List<Long> host;
     @Field
     private List<Long> lineage;
-    @Field
-    private List<String> url;
-    @Field
-    private Long swissprotCount;
-    @Field
-    private Long tremblCount;
+
+    @Field("taxonomy_obj")
+    private ByteBuffer taxonomyObj;
+
 }
