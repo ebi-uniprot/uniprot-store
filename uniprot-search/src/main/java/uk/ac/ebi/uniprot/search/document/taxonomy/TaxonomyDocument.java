@@ -2,10 +2,10 @@ package uk.ac.ebi.uniprot.search.document.taxonomy;
 
 import lombok.Builder;
 import lombok.Getter;
+import org.apache.solr.client.solrj.beans.Field;
 import uk.ac.ebi.uniprot.search.document.Document;
 
-import org.apache.solr.client.solrj.beans.Field;
-
+import java.nio.ByteBuffer;
 import java.util.List;
 
 @Builder
@@ -16,8 +16,6 @@ public class TaxonomyDocument implements Document {
     private String id;
     @Field("tax_id")
     private Long taxId;
-    @Field("name_sort")
-    private String nameSort;
     @Field
     private Long ancestor;
     @Field
@@ -31,19 +29,7 @@ public class TaxonomyDocument implements Document {
     @Field
     private String mnemonic;
     @Field
-    private Long swissprotCount;
-    @Field
-    private Long tremblCount;
-    @Field
     private boolean hidden;
-    @Field
-    private boolean complete;
-    @Field
-    private boolean reference;
-    @Field
-    private boolean reviewed;
-    @Field
-    private boolean annotated;
     @Field
     private boolean active;
     @Field
@@ -52,12 +38,12 @@ public class TaxonomyDocument implements Document {
     private List<String> content;
     @Field
     private List<String> strain;
-    @Field("other_names")
-    private List<String> otherNames;
     @Field
     private List<Long> host;
     @Field
     private List<Long> lineage;
-    @Field
-    private List<String> url;
+
+    @Field("taxonomy_obj")
+    private ByteBuffer taxonomyObj;
+
 }

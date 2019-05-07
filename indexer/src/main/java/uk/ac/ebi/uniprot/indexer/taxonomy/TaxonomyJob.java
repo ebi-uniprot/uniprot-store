@@ -17,18 +17,12 @@ public class TaxonomyJob {
     private JobBuilderFactory jobs;
 
     @Bean("indexTaxonomyJob")
-    public Job indexTaxonomy(@Qualifier("TaxonomyNodeStep") Step taxonomyNode,
-                             @Qualifier("TaxonomyStrainStep") Step taxonomyStrain,
-                             @Qualifier("TaxonomyVirusHostStep") Step taxonomyVirusHost,
-                             @Qualifier("TaxonomyURLStep") Step taxonomyURL,
-                             @Qualifier("TaxonomyCountStep") Step taxonomyCount,
+    public Job indexTaxonomy(@Qualifier("taxonomyNode") Step taxonomyNode,
+                             @Qualifier("taxonomyStatistics")Step taxonomyStatistics,
                              JobExecutionListener jobListener) {
         return this.jobs.get(Constants.TAXONOMY_LOAD_JOB_NAME)
-                .start(taxonomyNode)//index taxonomy node
-                .next(taxonomyStrain)
-                .next(taxonomyVirusHost)
-                .next(taxonomyURL)
-                .next(taxonomyCount)
+                .start(taxonomyNode)
+                .next(taxonomyStatistics)
                 .listener(jobListener)
                 .build();
     }

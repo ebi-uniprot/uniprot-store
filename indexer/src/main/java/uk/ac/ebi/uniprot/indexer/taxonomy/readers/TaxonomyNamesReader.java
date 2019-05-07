@@ -2,18 +2,17 @@ package uk.ac.ebi.uniprot.indexer.taxonomy.readers;
 
 import org.springframework.jdbc.core.RowMapper;
 
-import uk.ac.ebi.uniprot.search.document.taxonomy.TaxonomyDocument;
-
 import java.sql.ResultSet;
 import java.sql.SQLException;
+
 /**
  *
  * @author lgonzales
  */
-public class TaxonomyNamesReader implements RowMapper<TaxonomyDocument> {
+public class TaxonomyNamesReader implements RowMapper<String> {
 
     @Override
-    public TaxonomyDocument mapRow(ResultSet resultSet, int i) throws SQLException {
-        return null;
+    public String mapRow(ResultSet resultSet, int rowIndex) throws SQLException {
+        return resultSet.getString("NAME");
     }
 }

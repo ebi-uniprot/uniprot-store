@@ -22,28 +22,22 @@
     <field name="ancestor" type="plong" indexed="true" stored="true" required="false" multiValued="false" docValues="true"/>
     <field name="name_sort" type="string" indexed="true" docValues="true"/>
 
-    <field name="rank" type="basic_ci" indexed="true" stored="true"/>
-    <field name="scientific" type="full_ci" indexed="true" stored="true"/>
-    <field name="common" type="full_ci" indexed="true" stored="true"/>
-    <field name="synonym" type="full_ci" indexed="true" stored="true"/>
-    <field name="mnemonic" type="basic_ci" indexed="true" stored="true"/>
-    <field name="strain" type="full_ci" indexed="true" stored="true" multiValued="true"/>
-    <field name="other_names" type="full_ci" indexed="true" stored="true" multiValued="true"/>
-    <field name="host" type="plong" indexed="true" stored="true" multiValued="true"/>
-    <field name="url" type="string" indexed="false" stored="true" multiValued="true"/>
-    <field name="lineage" type="plong" indexed="true" stored="true" multiValued="true"/>
-    <field name="swissprotCount" type="plong" indexed="false" stored="true"/>
-    <field name="tremblCount" type="plong" indexed="false" stored="true"/>
+    <field name="rank" type="basic_ci" indexed="true"/>
+    <field name="scientific" type="full_ci" indexed="true"/>
+    <field name="common" type="full_ci" indexed="true"/>
+    <field name="synonym" type="full_ci" indexed="true"/>
+    <field name="mnemonic" type="basic_ci" indexed="true"/>
+    <field name="strain" type="full_ci" indexed="true" multiValued="true"/>
+    <field name="host" type="plong" indexed="true" multiValued="true"/>
+    <field name="lineage" type="plong" indexed="true" multiValued="true"/>
 
-    <field name="hidden" type="boolean" indexed="true" stored="true" docValues="true"/>
-    <field name="complete" type="boolean" indexed="true" stored="true"  docValues="true"/>
-    <field name="reference" type="boolean" indexed="true" stored="true"  docValues="true"/>
-    <field name="reviewed" type="boolean" indexed="true" stored="true"  docValues="true"/>
-    <field name="annotated" type="boolean" indexed="true" stored="true"  docValues="true"/>
-    <field name="active" type="boolean" indexed="true" stored="true"  docValues="true"/>
-    <field name="linked" type="boolean" indexed="true" stored="true"  docValues="true"/>
+    <field name="hidden" type="boolean" indexed="true" docValues="true"/>
+    <field name="active" type="boolean" indexed="true" docValues="true"/>
+    <field name="linked" type="boolean" indexed="true" docValues="true"/>
 
     <field name="content" type="full_ci" indexed="true" stored="false" multiValued="true"/>
+    <!-- the whole taxonomy object as binary -->
+    <field name="taxonomy_obj" type="binary" indexed="false" stored="true" required="true" multiValued="false"/>
     <!-- @lgonzales: replaces field was in the old website, but we have not find usage,
                     so I will keep commented out for now, it get values from tax_update tables.
     <field name="replaces"/>   -->
@@ -60,6 +54,7 @@
     <fieldType name="plong" class="solr.LongPointField" docValues="true"/>
     <fieldType name="string" class="solr.StrField" sortMissingLast="true"/>
     <fieldType name="boolean" class="solr.BoolField" sortMissingLast="true"/>
+    <fieldType name="binary" class="solr.BinaryField"/>
 
     <fieldType name="basic_ci" class="solr.TextField" sortMissingLast="true" omitNorms="true" positionIncrementGap="100">
         <analyzer type="index">
