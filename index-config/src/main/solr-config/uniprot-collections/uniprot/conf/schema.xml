@@ -520,7 +520,7 @@
 
     <!-- Taxonomy -->
     <field name="organism_sort" type="string" indexed="true" stored="false" required="false" multiValued="false" docValues="true"/>
-    <field name="organism_name" type="full_ci" indexed="true" stored="false" required="false" multiValued="true"/>
+    <field name="organism_name" type="full_ci" indexed="true" stored="true" required="false" multiValued="true"/>
     <field name="organism_id" type="int" indexed="true" stored="false" required="false" multiValued="false"/>
     <field name="taxonomy_name" type="full_ci" indexed="true" stored="false" required="false" multiValued="true"/>
     <field name="taxonomy_id" type="int" indexed="true" stored="false" required="false" multiValued="true"/>
