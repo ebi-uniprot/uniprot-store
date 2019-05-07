@@ -75,7 +75,7 @@ public class TaxonomyProcessor implements ItemProcessor<TaxonomyEntryBuilder, Ta
 
     private List<String> buildStrainList(List<TaxonomyStrain> strainList){
         return strainList.stream().map(strain ->{
-                    return strain.getName() + " ; "+ String.join(" , ",strain.getSynonyms());
+                    return strain.getName() + " ; "+ String.join(" , ", strain.getSynonyms());
                 }).collect(Collectors.toList());
     }
 
@@ -88,20 +88,20 @@ public class TaxonomyProcessor implements ItemProcessor<TaxonomyEntryBuilder, Ta
     }
 
     private List<String> loadLinks(long taxonId) {
-        return jdbcTemplate.query(SELECT_TAXONOMY_LINKS_SQL,new TaxonomyURLReader(),taxonId);
+        return jdbcTemplate.query(SELECT_TAXONOMY_LINKS_SQL, new TaxonomyURLReader(), taxonId);
     }
 
     private List<String> loadOtherNames(long taxonId) {
-        return jdbcTemplate.query(SELECT_TAXONOMY_OTHER_NAMES_SQL,new TaxonomyNamesReader(),taxonId);
+        return jdbcTemplate.query(SELECT_TAXONOMY_OTHER_NAMES_SQL, new TaxonomyNamesReader(), taxonId);
     }
 
 
     private List<Taxonomy> loadVirusHosts(long taxonId){
-        return jdbcTemplate.query(SELECT_TAXONOMY_HOSTS_SQL,new TaxonomyVirusHostReader(),taxonId);
+        return jdbcTemplate.query(SELECT_TAXONOMY_HOSTS_SQL, new TaxonomyVirusHostReader(), taxonId);
     }
 
     private List<TaxonomyLineage> loadLineage(long taxonId) {
-        List<List<TaxonomyLineage>> result =  jdbcTemplate.query(getTaxonomyLineageSQL(),new TaxonomyLineageReader(),taxonId);
+        List<List<TaxonomyLineage>> result =  jdbcTemplate.query(getTaxonomyLineageSQL(), new TaxonomyLineageReader(), taxonId);
         if(Utils.notEmpty(result)){
             return result.get(0);
         }
@@ -110,7 +110,7 @@ public class TaxonomyProcessor implements ItemProcessor<TaxonomyEntryBuilder, Ta
 
     private List<TaxonomyStrain> loadStrains(long taxonId) {
         List<TaxonomyStrain> result = new ArrayList<>();
-        List<TaxonomyStrainReader.Strain> strains =  jdbcTemplate.query(SELECT_TAXONOMY_STRAINS_SQL,new TaxonomyStrainReader(),taxonId);
+        List<TaxonomyStrainReader.Strain> strains =  jdbcTemplate.query(SELECT_TAXONOMY_STRAINS_SQL, new TaxonomyStrainReader(), taxonId);
 
         strains.stream().collect(Collectors.groupingBy(TaxonomyStrainReader.Strain::getId)).values()
             .forEach((strainList) -> {

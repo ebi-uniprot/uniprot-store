@@ -20,7 +20,7 @@ import java.sql.SQLException;
 public class TaxonomyNodeReader implements RowMapper<TaxonomyEntryBuilder> {
 
     @Override
-    public TaxonomyEntryBuilder mapRow(ResultSet resultSet, int i) throws SQLException {
+    public TaxonomyEntryBuilder mapRow(ResultSet resultSet, int rowIndex) throws SQLException {
         TaxonomyEntryBuilder builder = new TaxonomyEntryBuilder();
         builder.taxonId(resultSet.getLong("TAX_ID"));
         String common = resultSet.getString("SPTR_COMMON");

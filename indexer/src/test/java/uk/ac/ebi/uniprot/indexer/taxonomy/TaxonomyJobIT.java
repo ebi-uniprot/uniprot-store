@@ -179,7 +179,7 @@ class TaxonomyJobIT {
 
         @Override
         protected String getStatisticsSQL(){
-            return TaxonomySQLConstants.COUNT_PROTEINS_SQL.replaceAll("full join","inner join");
+            return TaxonomySQLConstants.COUNT_PROTEINS_SQL.replaceAll("FULL JOIN","INNER JOIN");
         }
 
     }
@@ -192,11 +192,11 @@ class TaxonomyJobIT {
 
         @Override
         protected String getTaxonomyLineageSQL(){
-            return "select '|5|4|1' as lineage_id," +
+            return "SELECT '|5|4|1' as lineage_id," +
                     "      '|name5|name4|name1' AS lineage_name," +
                     "      '|rank5|KINGDOM|rank1' AS lineage_rank," +
                     "      '|0|1|0' AS lineage_hidden" +
-                    " from taxonomy.V_PUBLIC_NODE" +
+                    " FROM taxonomy.V_PUBLIC_NODE" +
                     " WHERE TAX_ID = ?";
         }
     }

@@ -35,7 +35,7 @@ public class TaxonomyStatisticsProcessor implements ItemProcessor<TaxonomyStatis
     public TaxonomyEntry process(TaxonomyStatisticsReader.TaxonomyCount taxonomyCount) throws Exception {
         TaxonomyEntry entry = null;
         Query query = new SimpleQuery().addCriteria(Criteria.where("id").is(taxonomyCount.getTaxId()));
-        Optional<TaxonomyDocument> optionalDocument = solrTemplate.queryForObject(SolrCollection.taxonomy.name(),query,TaxonomyDocument.class);
+        Optional<TaxonomyDocument> optionalDocument = solrTemplate.queryForObject(SolrCollection.taxonomy.name(), query, TaxonomyDocument.class);
         if(optionalDocument.isPresent()) {
             TaxonomyDocument document = optionalDocument.get();
 

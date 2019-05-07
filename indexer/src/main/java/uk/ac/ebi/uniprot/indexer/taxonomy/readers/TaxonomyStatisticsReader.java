@@ -13,7 +13,7 @@ import java.sql.SQLException;
 public class TaxonomyStatisticsReader implements RowMapper<TaxonomyStatisticsReader.TaxonomyCount> {
 
     @Override
-    public TaxonomyCount mapRow(ResultSet resultSet, int i) throws SQLException {
+    public TaxonomyCount mapRow(ResultSet resultSet, int rowIndex) throws SQLException {
         long taxId =resultSet.getLong("tax_id");
         long reviewedProteinCount = resultSet.getLong("reviewedProteinCount");
         long unreviewedProteinCount = resultSet.getLong("unreviewedProteinCount");

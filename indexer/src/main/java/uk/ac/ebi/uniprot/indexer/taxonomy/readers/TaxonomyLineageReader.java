@@ -17,7 +17,7 @@ import java.util.List;
 public class TaxonomyLineageReader implements RowMapper<List<TaxonomyLineage>> {
 
     @Override
-    public List<TaxonomyLineage> mapRow(ResultSet resultSet, int index) throws SQLException {
+    public List<TaxonomyLineage> mapRow(ResultSet resultSet, int rowIndex) throws SQLException {
         List<TaxonomyLineage> lineageList = new ArrayList<>();
         String lineageIds = resultSet.getString("lineage_id");
         String lineageName = resultSet.getString("lineage_name");

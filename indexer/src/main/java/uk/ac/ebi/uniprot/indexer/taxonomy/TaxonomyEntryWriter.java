@@ -36,10 +36,10 @@ public class TaxonomyEntryWriter implements ItemWriter<TaxonomyEntry> {
             ByteBuffer taxonomyObj = getTaxonomyBinary(entry);
             SolrInputDocument solrInputDocument = new SolrInputDocument();
             Map<String,Object> fieldModifier = new HashMap<>(1);
-            fieldModifier.put("set",taxonomyObj);
-            solrInputDocument.addField("taxonomy_obj",fieldModifier);
+            fieldModifier.put("set", taxonomyObj);
+            solrInputDocument.addField("taxonomy_obj", fieldModifier);
 
-            solrInputDocument.addField("id",entry.getTaxonId()); //TODO: use search enum that will be created
+            solrInputDocument.addField("id", entry.getTaxonId());
             this.solrTemplate.saveBean(collection.name(), solrInputDocument);
         }
         this.solrTemplate.softCommit(collection.name());

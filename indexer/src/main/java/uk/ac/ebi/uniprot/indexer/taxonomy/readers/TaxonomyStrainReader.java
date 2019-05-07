@@ -15,7 +15,7 @@ import java.sql.SQLException;
 public class TaxonomyStrainReader implements RowMapper<TaxonomyStrainReader.Strain> {
 
     @Override
-    public Strain mapRow(ResultSet resultSet, int i) throws SQLException {
+    public Strain mapRow(ResultSet resultSet, int rowIndex) throws SQLException {
         TaxonomyStrainBuilder builder = new TaxonomyStrainBuilder();
 
         long id =resultSet.getLong("strain_id");

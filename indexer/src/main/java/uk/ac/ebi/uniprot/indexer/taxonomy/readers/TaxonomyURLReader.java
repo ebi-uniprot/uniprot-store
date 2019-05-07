@@ -12,7 +12,7 @@ import java.sql.SQLException;
 public class TaxonomyURLReader implements RowMapper<String> {
 
     @Override
-    public String mapRow(ResultSet resultSet, int i) throws SQLException {
+    public String mapRow(ResultSet resultSet, int rowIndex) throws SQLException {
         return resultSet.getString("URI");
     }
 }

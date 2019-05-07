@@ -14,7 +14,7 @@ import java.sql.SQLException;
 public class TaxonomyVirusHostReader implements RowMapper<Taxonomy> {
 
     @Override
-    public Taxonomy mapRow(ResultSet resultSet, int i) throws SQLException {
+    public Taxonomy mapRow(ResultSet resultSet, int rowIndex) throws SQLException {
         TaxonomyBuilder builder = new TaxonomyBuilder();
         builder.taxonId(resultSet.getLong("TAX_ID"));
         String scientificName = resultSet.getString("SPTR_SCIENTIFIC");
