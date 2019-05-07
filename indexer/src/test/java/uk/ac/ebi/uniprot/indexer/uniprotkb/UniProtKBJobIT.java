@@ -76,6 +76,7 @@ class UniProtKBJobIT {
         SolrDocumentList docList =
         		solrResponse.getResults();
         System.out.println("Number of entries=" +docList.size());
+        assertThat(docList.size(), is(4));    
         
         response = template
                 .query(SolrCollection.uniprot.name(), new SimpleQuery("keyword:complete proteome"), UniProtDocument.class);
@@ -98,8 +99,28 @@ class UniProtKBJobIT {
         assertThat(response, is(notNullValue()));
         assertThat(response.getTotalElements(), is(5L));    
         
+        response = template
+                .query(SolrCollection.uniprot.name(), new SimpleQuery("content:*"), UniProtDocument.class);
+         results= response.getContent();
+       results.stream().forEach(val -> System.out.println(val.accession));
+        assertThat(response, is(notNullValue()));
+        assertThat(response.getTotalElements(), is(5L));    
 
-
+        response = template
+                .query(SolrCollection.uniprot.name(), new SimpleQuery("keyword_id:KW-0181"), UniProtDocument.class);
+   results= response.getContent();
+   System.out.println("keyword:*");
+   results.stream().forEach(val -> System.out.println(val.accession));
+    assertThat(response, is(notNullValue()));
+    assertThat(response.getTotalElements(), is(4L));    
+    
+    response = template
+            .query(SolrCollection.uniprot.name(), new SimpleQuery("existence:predicted"), UniProtDocument.class);
+results= response.getContent();
+System.out.println("keyword:*");
+results.stream().forEach(val -> System.out.println(val.accession));
+assertThat(response, is(notNullValue()));
+assertThat(response.getTotalElements(), is(3L));   
 
 //        StepExecution indexingStep = jobExecution.getStepExecutions().stream()
 //                .filter(step -> step.getStepName().equals(UNIPROTKB_INDEX_STEP))

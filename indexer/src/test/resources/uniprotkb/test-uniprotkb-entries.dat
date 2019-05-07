@@ -68,7 +68,7 @@ DR   InterPro; IPR023346; Lysozyme-like_dom_sf.
 DR   InterPro; IPR008258; Transglycosylase_SLT_dom_1.
 DR   Pfam; PF01464; SLT; 1.
 DR   SUPFAM; SSF53955; SSF53955; 1.
-PE   4: Predicted;
+PE   1: Evidence at protein level;
 KW   Complete proteome {ECO:0000313|Proteomes:UP000262260};
 KW   Acetylation {ECO:0000313|Proteomes:UP000262260}.
 FT   DOMAIN       96    158       SLT. {ECO:0000259|Pfam:PF01464}.
@@ -187,7 +187,7 @@ DR   InterPro; IPR023346; Lysozyme-like_dom_sf.
 DR   InterPro; IPR008258; Transglycosylase_SLT_dom_1.
 DR   Pfam; PF01464; SLT; 1.
 DR   SUPFAM; SSF53955; SSF53955; 1.
-PE   4: Predicted;
+PE   1: Evidence at protein level;
 KW   Acetylation {ECO:0000313|Proteomes:UP000262260}.
 FT   DOMAIN       96    158       SLT. {ECO:0000259|Pfam:PF01464}.
 SQ   SEQUENCE   204 AA;  22858 MW;  5AC17E07135F6066 CRC64;

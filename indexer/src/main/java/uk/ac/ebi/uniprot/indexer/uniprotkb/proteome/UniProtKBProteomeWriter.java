@@ -57,10 +57,11 @@ public class UniProtKBProteomeWriter implements ItemWriter<Proteome> {
 		for (ComponentType component : components) {
 			List<String> genomeAccessions = component.getGenomeAccession();
 			List<ProteinType> proteins = component.getProtein();
-			List<SolrInputDocument> documents =
-			proteins.stream().map(protein -> convert(protein, genomeAssemblyId, genomeAccessions, content))
-					.collect(Collectors.toList());
-			this.solrClient.add(collection.name(), documents);
+		//	List<SolrInputDocument> documents =
+			proteins.stream().forEach(protein -> addToSolr(protein, genomeAssemblyId, genomeAccessions, content));
+		//	.forEach(action);
+			//		.collect(Collectors.toList());
+		//	this.solrClient.add(collection.name(), documents);
 		}
 	//	this.solrTemplate.softCommit(collection.name());
 	}
@@ -75,18 +76,22 @@ public class UniProtKBProteomeWriter implements ItemWriter<Proteome> {
 			fieldModifier.put("set", genomeAssemblyId.get());
 			solrInputDocument.addField("genome_assembly", fieldModifier);
 		}
-//		if (!genomeAccessions.isEmpty()) {
-//			Map<String, Object> fieldModifier = new HashMap<>(1);
-//			fieldModifier.put("set", genomeAccessions);
-//			solrInputDocument.addField("genome_accession", fieldModifier);
-//		}
-//		if(!content.isEmpty()) {
-//			Map<String, Object> fieldModifier = new HashMap<>(1);
-//			fieldModifier.put("set", content);
-//			solrInputDocument.addField("proteome_content", fieldModifier);
-//		}
-		
-	//	this.solrClient.add(collection.name(), Arrays.asList(solrInputDocument));
+		if (!genomeAccessions.isEmpty()) {
+			Map<String, Object> fieldModifier = new HashMap<>(1);
+			fieldModifier.put("set", genomeAccessions);
+			solrInputDocument.addField("genome_accession", fieldModifier);
+		}
+		if(!content.isEmpty()) {
+			Map<String, Object> fieldModifier = new HashMap<>(1);
+			fieldModifier.put("set", content);
+			solrInputDocument.addField("proteome_content", fieldModifier);
+		}
+		try {
+		this.solrClient.add(collection.name(), Arrays.asList(solrInputDocument));
+		this.solrClient.commit(collection.name());
+		}catch(Exception e) {
+			
+		}
 	}
 
 	

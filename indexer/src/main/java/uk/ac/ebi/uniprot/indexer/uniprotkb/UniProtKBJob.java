@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.data.solr.core.SolrTemplate;
 
 import uk.ac.ebi.uniprot.indexer.common.listener.WriteRetrierLogJobListener;
@@ -33,7 +34,7 @@ public class UniProtKBJob {
         this.jobBuilderFactory = jobBuilderFactory;
         this.solrTemplate = solrTemplate;
     }
-
+    @Primary
     @Bean
     public Job uniProtKBIndexingJob(@Qualifier("UniProtKBIndexStep")Step uniProtKBIndexingMainFFStep,
     		WriteRetrierLogJobListener writeRetrierLogJobListener) {

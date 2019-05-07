@@ -335,13 +335,13 @@ public class UniProtDocument implements Document {
     public long obj_location;
 
     //extra proteomes fields
-    @Field("genome_accession")
-    public List<String> genomeAccession = new ArrayList<>();
-    
-    @Field("genome_assembly")
-    public String genomeAssembly ;
-    
-    @Field("proteome_content")
-    public List<String> proteomeContent = new ArrayList<>();
+//    @Field("genome_accession")
+//    public List<String> genomeAccession = new ArrayList<>();
+//    
+//    @Field("genome_assembly")
+//    public String genomeAssembly ;
+//    
+//    @Field("proteome_content")
+//    public List<String> proteomeContent = new ArrayList<>();
 
 }

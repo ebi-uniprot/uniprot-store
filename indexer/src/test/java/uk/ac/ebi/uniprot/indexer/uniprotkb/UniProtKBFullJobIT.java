@@ -42,7 +42,8 @@ import uk.ac.ebi.uniprot.search.document.uniprot.UniProtDocument;
 */
 @ActiveProfiles(profiles = {"job", "offline"})
 @ExtendWith(SpringExtension.class)
-@SpringBootTest(classes = {FakeIndexerSpringBootApplication.class, TestConfig.class, UniProtKBFullJob.class,
+@SpringBootTest(classes = {FakeIndexerSpringBootApplication.class, TestConfig.class, UniProtKBJob.class,
+		UniProtKBProteomeJob.class,
                            UniProtKBStep.class, UniProtKBProteomeIndexStep.class, ProteomeConfig.class, ListenerConfig.class})
 public class UniProtKBFullJobIT {
 	 @Autowired
@@ -50,10 +51,11 @@ public class UniProtKBFullJobIT {
 	    @Autowired
 	    private SolrTemplate template;
 
+	    
 	    @Test
 	    void testUniProtKBIndexingJob() throws Exception {
-	        JobExecution jobExecution = jobLauncher.launchJob();
-	        assertThat(jobExecution.getJobInstance().getJobName(), CoreMatchers.is(UNIPROTKB_FULL_INDEX_JOB));
+	    	  JobExecution jobExecution = jobLauncher.launchJob();
+	   //     assertThat(jobExecution.getJobInstance().getJobName(), CoreMatchers.is(UNIPROTKB_FULL_INDEX_JOB));
 
 	        BatchStatus status = jobExecution.getStatus();
 	        assertThat(status, is(BatchStatus.COMPLETED));
@@ -90,12 +92,27 @@ public class UniProtKBFullJobIT {
 		        assertThat(response, is(notNullValue()));
 		        assertThat(response.getTotalElements(), is(5L));    
 		    
+
+		        
+		        response = template
+		                .query(SolrCollection.uniprot.name(), new SimpleQuery("organism_name:*"), UniProtDocument.class);
+		         results= response.getContent();
+		       results.stream().forEach(val -> System.out.println(val.accession));
+		        assertThat(response, is(notNullValue()));
+		        assertThat(response.getTotalElements(), is(5L));    		       
 			       
 			       
-			       
-	        response = template
-	                .query(SolrCollection.uniprot.name(), new SimpleQuery("name:*"), UniProtDocument.class);
+		        response = template
+		                .query(SolrCollection.uniprot.name(), new SimpleQuery("existence:PREDICTED"), UniProtDocument.class);
 	       results= response.getContent();
+	       System.out.println("keyword:*");
+	       results.stream().forEach(val -> System.out.println(val.accession));
+	        assertThat(response, is(notNullValue()));
+	        assertThat(response.getTotalElements(), is(4L));    
+	        
+	        response = template
+	                .query(SolrCollection.uniprot.name(), new SimpleQuery("gene:*"), UniProtDocument.class);
+	         results= response.getContent();
 	       results.stream().forEach(val -> System.out.println(val.accession));
 	        assertThat(response, is(notNullValue()));
 	        assertThat(response.getTotalElements(), is(5L));    
