@@ -8,6 +8,7 @@ import org.springframework.data.solr.core.SolrTemplate;
 import uk.ac.ebi.uniprot.domain.taxonomy.TaxonomyEntry;
 import uk.ac.ebi.uniprot.json.parser.taxonomy.TaxonomyJsonConfig;
 import uk.ac.ebi.uniprot.search.SolrCollection;
+import uk.ac.ebi.uniprot.search.field.TaxonomyField;
 
 import java.nio.ByteBuffer;
 import java.util.HashMap;
@@ -37,9 +38,9 @@ public class TaxonomyEntryWriter implements ItemWriter<TaxonomyEntry> {
             SolrInputDocument solrInputDocument = new SolrInputDocument();
             Map<String,Object> fieldModifier = new HashMap<>(1);
             fieldModifier.put("set", taxonomyObj);
-            solrInputDocument.addField("taxonomy_obj", fieldModifier);
+            solrInputDocument.addField(TaxonomyField.Return.taxonomy_obj.name(), fieldModifier);
 
-            solrInputDocument.addField("id", entry.getTaxonId());
+            solrInputDocument.addField(TaxonomyField.Search.id.toString(), entry.getTaxonId());
             this.solrTemplate.saveBean(collection.name(), solrInputDocument);
         }
         this.solrTemplate.softCommit(collection.name());
