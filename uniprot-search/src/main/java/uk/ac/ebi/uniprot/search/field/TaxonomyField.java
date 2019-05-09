@@ -76,6 +76,10 @@ public interface TaxonomyField {
         }
     }
 
+    enum ResultFields{
+        id,name,other_names,lineage,strain,host,link,statistic
+    }
+
     enum Return {
         id,taxonomy_obj
     }
