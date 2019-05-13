@@ -8,7 +8,6 @@
     <version>1.0-SNAPSHOT</version>
   </parent>
   
-  <groupId>uk.ac.ebi.uniprot</groupId>
   <artifactId>uniprot-suggester</artifactId>
   <version>1.0-SNAPSHOT</version>
 
@@ -21,7 +20,6 @@
         <jcommander.version>1.71</jcommander.version>
         <streamex.version>0.6.7</streamex.version>
         <start-class>uk.ac.ebi.uniprot.api.suggester.SuggesterManager</start-class>
-        <maven-shade-plugin.version>3.2.0</maven-shade-plugin.version>
         <core.version>0.1-SNAPSHOT</core.version>
     </properties>
      
@@ -41,12 +39,6 @@
             <groupId>${project.groupId}</groupId>
             <artifactId>controlled-vocabulary</artifactId>
             <version>${core.version}</version>
-            <!--<exclusions>-->
-                <!--<exclusion>-->
-                    <!--<groupId>org.slf4j</groupId>-->
-                    <!--<artifactId>slf4j-simple</artifactId>-->
-                <!--</exclusion>-->
-            <!--</exclusions>-->
         </dependency>
 
         <dependency>
@@ -59,10 +51,7 @@
             <artifactId>streamex</artifactId>
             <version>${streamex.version}</version>
         </dependency>
-<!--                 <dependency> -->
-<!--             <groupId>org.springframework.boot</groupId> -->
-<!--             <artifactId>spring-boot-starter</artifactId> -->
-<!--         </dependency> -->
+
         <dependency>
             <groupId>com.beust</groupId>
             <artifactId>jcommander</artifactId>
@@ -150,23 +139,23 @@
         	<scope>test</scope>      
         </dependency>
     </dependencies>
-<!--      <build> -->
-<!--         <plugins> -->
-<!--             <plugin> -->
-<!--                 <groupId>org.springframework.boot</groupId> -->
-<!--                 <artifactId>spring-boot-maven-plugin</artifactId> -->
-<!--                 <executions> -->
-<!--                     <execution> -->
-<!--                         <goals> -->
-<!--                             <goal>repackage</goal> -->
-<!--                             <goal>build-info</goal> -->
-<!--                         </goals> -->
-<!--                         <configuration> -->
-<!--                             <classifier>exec</classifier> -->
-<!--                         </configuration> -->
-<!--                     </execution> -->
-<!--                 </executions> -->
-<!--             </plugin> -->
-<!--         </plugins> -->
-<!--     </build> -->
+          <build>
+             <plugins>
+                 <plugin>
+                     <groupId>org.springframework.boot</groupId>
+                     <artifactId>spring-boot-maven-plugin</artifactId>
+                     <executions>
+                         <execution>
+                             <goals>
+                                 <goal>repackage</goal>
+                                 <goal>build-info</goal>
+                             </goals>
+                             <configuration>
+                                 <classifier>exec</classifier>
+                             </configuration>
+                         </execution>
+                     </executions>
+                 </plugin>
+             </plugins>
+         </build> 
 </project>
