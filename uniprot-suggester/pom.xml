@@ -19,7 +19,7 @@
   
         <jcommander.version>1.71</jcommander.version>
         <streamex.version>0.6.7</streamex.version>
-        <start-class>uk.ac.ebi.uniprot.api.suggester.SuggesterManager</start-class>
+        <start-class>uk.ac.ebi.uniprot.suggester.SuggesterManager</start-class>
         <core.version>0.1-SNAPSHOT</core.version>
     </properties>
      
