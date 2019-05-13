@@ -11,5 +11,6 @@ public enum SolrCollection {
     crossref,
     taxonomy,
     proteome,
-    disease
+    disease,
+    suggest
 }

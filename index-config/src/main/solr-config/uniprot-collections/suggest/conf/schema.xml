@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+ Licensed to the Apache Software Foundation (ASF) under one or more
+ contributor license agreements.  See the NOTICE file distributed with
+ this work for additional information regarding copyright ownership.
+ The ASF licenses this file to You under the Apache License, Version 2.0
+ (the "License"); you may not use this file except in compliance with
+ the License.  You may obtain a copy of the License at
+
+     http://www.apache.org/licenses/LICENSE-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<schema name="suggest" version="1.6">
+    <!-- =============================== suggestion fields  =============================== -->
+    <field name="id" type="string" indexed="false" stored="true" required="true" multiValued="false" docValues="true"/>
+    <field name="value" type="string" indexed="false" stored="true" multiValued="false"/>
+    <field name="alt_value" type="string" indexed="false" stored="true" multiValued="false"/>
+    <field name="content" type="suggester_ci" indexed="true" stored="false" multiValued="true"/>
+
+    <!-- Field constraints -->
+    <uniqueKey>_version_</uniqueKey>
+
+    <!-- Meta fields -->
+    <!-- If you remove this field, you must _also_ disable the update log in solrconfig.xml
+      or Solr won't start. _version_ and update log are required for SolrCloud
+   -->
+    <field name="_version_" type="plong" indexed="true" stored="true"/>
+
+    <!-- =============================== field types  =============================== -->
+    <fieldType name="binary" class="solr.BinaryField"/>
+    <fieldType name="plong" class="solr.LongPointField" docValues="true"/>
+    <fieldType name="string" class="solr.StrField" sortMissingLast="true"/>
+
+    <fieldType name="basic_ci" class="solr.TextField" sortMissingLast="true" omitNorms="true" positionIncrementGap="100">
+        <analyzer type="index">
+            <tokenizer class="solr.WhitespaceTokenizerFactory"/>
+            <filter class="solr.LowerCaseFilterFactory"/>
+        </analyzer>
+        <analyzer type="query">
+            <tokenizer class="solr.WhitespaceTokenizerFactory"/>
+            <filter class="solr.LowerCaseFilterFactory"/>
+        </analyzer>
+    </fieldType>
+    <fieldType name="full_ci" class="solr.TextField" sortMissingLast="true" omitNorms="true" positionIncrementGap="100">
+        <analyzer type="index">
+            <tokenizer class="solr.WhitespaceTokenizerFactory"/>
+            <filter class="solr.ASCIIFoldingFilterFactory" preserveOriginal="false"/>
+            <filter class="solr.WordDelimiterGraphFilterFactory"
+                    generateWordParts="1"
+                    generateNumberParts="1"
+                    catenateWords="1"
+                    catenateNumbers="1"
+                    catenateAll="1"
+                    splitOnCaseChange="1"
+                    preserveOriginal="1"
+                    splitOnNumerics="1"
+                    stemEnglishPossessive="1"
+            />
+            <filter class="solr.FlattenGraphFilterFactory"/>
+            <filter class="solr.LowerCaseFilterFactory"/>
+        </analyzer>
+        <fieldType name="suggester_ci" class="solr.TextField"
+                   sortMissingLast="true" omitNorms="true" positionIncrementGap="100">
+            <!-- defined for index and query time -->
+            <analyzer type="index">
+                <charFilter class="solr.PatternReplaceCharFilterFactory" pattern="(/|-)" replacement=" "/>
+                <charFilter class="solr.PatternReplaceCharFilterFactory" pattern="(')" replacement=""/>
+                <charFilter class="solr.PatternReplaceCharFilterFactory" pattern="^([A-Za-z0-9_]+)\.([0-9]+)$"
+                            replacement="$1.$2 $1"/>
+                <tokenizer class="solr.ClassicTokenizerFactory"/>
+                <filter class="solr.LowerCaseFilterFactory"/>
+                <filter class="solr.SynonymGraphFilterFactory" synonyms="synonyms.txt" ignoreCase="true" expand="false"/>
+                <filter class="solr.StopFilterFactory" words="stopwords.txt" ignoreCase="true"/>
+                <filter class="solr.PorterStemFilterFactory"/>
+                <filter class="solr.RemoveDuplicatesTokenFilterFactory"/>
+                <filter class="solr.FlattenGraphFilterFactory"/>
+            </analyzer>
+            <analyzer type="query">
+                <charFilter class="solr.PatternReplaceCharFilterFactory" pattern="(/|-)" replacement=" "/>
+                <charFilter class="solr.PatternReplaceCharFilterFactory" pattern="(')" replacement=""/>
+                <tokenizer class="solr.ClassicTokenizerFactory"/>
+                <filter class="solr.LowerCaseFilterFactory"/>
+                <filter class="solr.SynonymGraphFilterFactory" synonyms="synonyms.txt" ignoreCase="true" expand="false"/>
+                <filter class="solr.StopFilterFactory" words="stopwords.txt" ignoreCase="true"/>
+                <filter class="solr.PorterStemFilterFactory"/>
+                <filter class="solr.RemoveDuplicatesTokenFilterFactory"/>
+            </analyzer>
+        </fieldType>
+
+    </fieldType>
+</schema>
