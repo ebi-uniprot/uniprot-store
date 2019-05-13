@@ -1,0 +1,35 @@
+#! /usr/bin/env bash
+
+#BSUB -J Create-All-Suggestion-Sources
+#BSUB -M 10000
+#BSUB -R "rusage[mem=10000]"
+
+JAR=../target/uniprot-suggester-1.0-SNAPSHOT-exec.jar
+
+################ GO #################
+GO_DAT=/ebi/uniprot/production/xrefs/prod/2019_04/home_made/GO/GO.dat
+GO_IDS=go-ids.txt
+# create ID file first
+cat $GO_DAT | awk 'BEGIN{FS=";"}{ if ($2 in ids){} else { ids[$2]=$3}}END{ for (x in ids) {print x, ids[x]}}' > $GO_IDS
+
+# ... then run the job
+java -jar $JAR -t go --go-file $GO_IDS
+rm $GO_IDS
+
+################ EC #################
+java -jar $JAR -t ec
+
+################ SUBCELL #################
+SUBCELL_DAT=/ebi/ftp/private/uniprot/current_release/knowledgebase/complete/docs/subcell.txt
+java -jar $JAR -t subcell --subcell-file $SUBCELL_DAT
+
+################ TAXONOMY #################
+java -jar $JAR -t taxonomy -c swpread_tax
+
+################ KEYWORD #################
+KEYWORD_DAT=/ebi/ftp/private/uniprot/current_release/knowledgebase/complete/docs/keywlist.txt
+java -jar $JAR -t keyword --keyword-list-file $KEYWORD_DAT
+
+################ MAIN #################
+java -jar $JAR -t main
+
