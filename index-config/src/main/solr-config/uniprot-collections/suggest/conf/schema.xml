@@ -17,10 +17,15 @@
 -->
 <schema name="suggest" version="1.6">
     <!-- =============================== suggestion fields  =============================== -->
-    <field name="id" type="string" indexed="false" stored="true" required="true" multiValued="false" docValues="true"/>
+    <field name="id" type="string" indexed="true" stored="true" required="true" multiValued="false"/>
     <field name="value" type="string" indexed="false" stored="true" multiValued="false"/>
     <field name="alt_value" type="string" indexed="false" stored="true" multiValued="false"/>
+    <field name="dict" type="string" indexed="true" stored="false" required="true" multiValued="false"/>
     <field name="content" type="suggester_ci" indexed="true" stored="false" multiValued="true"/>
+
+    <copyField source="id" dest="content"/>
+    <copyField source="value" dest="content"/>
+    <copyField source="alt_value" dest="content"/>
 
     <!-- Field constraints -->
     <uniqueKey>_version_</uniqueKey>

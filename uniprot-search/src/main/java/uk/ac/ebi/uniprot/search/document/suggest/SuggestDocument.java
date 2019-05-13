@@ -14,4 +14,7 @@ public class SuggestDocument implements Document {
     
     @Field("alt_value")
     public String altValue;
+
+    @Field("dict")
+    public String dictionary;
 }
