@@ -58,7 +58,7 @@ public class SuggestSearchIT {
     }
 
     @Test
-    public void prefixMatchWillHit() {
+    public void leftPrefixMatchWillHit() {
         String id = "1234";
         String value = "value";
         String altValue = "altValue";
@@ -77,6 +77,33 @@ public class SuggestSearchIT {
                                         .build());
 
         QueryResponse queryResponse = getResponse(query(dict, id.substring(0, id.length() - 1)));
+
+        SolrDocumentList results = queryResponse.getResults();
+        assertThat(results, hasSize(1));
+        checkResultsContains(results, 0, id, value, altValue);
+    }
+
+    @Test
+    public void leadingZerosAreIgnored() {
+        String nonZeroIdPart = "1234";
+        String id = "00000" + nonZeroIdPart;
+        String value = "value";
+        String altValue = "altValue";
+        String dict = "randomDictionary";
+        searchEngine.indexEntry(SuggestDocument.builder()
+                                        .id(id)
+                                        .dictionary(dict)
+                                        .value(value)
+                                        .altValue(altValue)
+                                        .build());
+        searchEngine.indexEntry(SuggestDocument.builder()
+                                        .id(id)
+                                        .dictionary("anotherDictionary")
+                                        .value(value)
+                                        .altValue(altValue)
+                                        .build());
+
+        QueryResponse queryResponse = getResponse(query(dict, nonZeroIdPart));
 
         SolrDocumentList results = queryResponse.getResults();
         assertThat(results, hasSize(1));
