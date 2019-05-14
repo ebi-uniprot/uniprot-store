@@ -1,238 +1,251 @@
 package uk.ac.ebi.uniprot.indexer.search.suggest;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.apache.solr.client.solrj.beans.DocumentObjectBinder;
 import org.apache.solr.client.solrj.response.QueryResponse;
+import org.apache.solr.common.SolrDocument;
 import org.apache.solr.common.SolrDocumentList;
-import org.junit.Assert;
-import org.junit.BeforeClass;
+import org.junit.After;
 import org.junit.ClassRule;
 import org.junit.Test;
-import uk.ac.ebi.uniprot.json.parser.proteome.ProteomeJsonConfig;
-import uk.ac.ebi.uniprot.search.document.proteome.ProteomeDocument;
-import uk.ac.ebi.uniprot.search.field.ProteomeField;
+import uk.ac.ebi.uniprot.search.document.suggest.SuggestDocument;
 import uk.ac.ebi.uniprot.search.field.QueryBuilder;
-import uk.ac.ebi.uniprot.xml.XmlChainIterator;
-import uk.ac.ebi.uniprot.xml.jaxb.proteome.Proteome;
+import uk.ac.ebi.uniprot.search.field.SuggestField;
 
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Spliterator;
-import java.util.Spliterators;
-import java.util.function.Function;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
+import java.util.Collection;
 
-import static org.junit.Assert.*;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.not;
+import static org.hamcrest.core.Is.is;
+import static org.mockito.ArgumentMatchers.contains;
 
 public class SuggestSearchIT {
-	 static final String PROTEOME_ROOT_ELEMENT = "proteome";
     @ClassRule
     public static SuggestSearchEngine searchEngine = new SuggestSearchEngine();
+    private static final String REQUEST_HANDLER = "/search";
 
-    @BeforeClass
-    public static void populateIndexWithTestData() throws IOException {
-        List<String> files = Arrays.asList(
-                "it/proteome/pds_sample.xml"
-               
-        );
+    @After
+    public void cleanup() {
+        QueryResponse queryResponse = getResponse("*:*");
 
-        XmlChainIterator<Proteome, Proteome>  chainingIterators =
-        		new XmlChainIterator<>(new XmlChainIterator.FileInputStreamIterator(files),
-                        Proteome.class, PROTEOME_ROOT_ELEMENT, Function.identity() );
-        		
-                new XmlChainIterator<>(new XmlChainIterator.FileInputStreamIterator(files),
-                        Proteome.class,
-                        PROTEOME_ROOT_ELEMENT, Function.identity() );
+        queryResponse.getResults()
+                .forEach(doc -> searchEngine.removeEntry(doc.getFieldValue(SuggestField.Stored.id.name()).toString()));
+    }
 
-        while (chainingIterators.hasNext()) {
-            Proteome next =
-                    chainingIterators.next();
-            searchEngine.indexEntry(next);
+    @Test
+    public void exactMatch() {
+        String id = "1234";
+        String value = "value";
+        String altValue = "altValue";
+        String dict = "randomDictionary";
+        searchEngine.indexEntry(SuggestDocument.builder()
+                                        .id(id)
+                                        .dictionary(dict)
+                                        .value(value)
+                                        .altValue(altValue)
+                                        .build());
+        searchEngine.indexEntry(SuggestDocument.builder()
+                                        .id(id)
+                                        .dictionary("anotherDictionary")
+                                        .value(value)
+                                        .altValue(altValue)
+                                        .build());
+
+        QueryResponse queryResponse = getResponse(query(dict, id));
+
+        SolrDocumentList results = queryResponse.getResults();
+        assertThat(results, hasSize(1));
+        checkResultsContains(results, 0, id, value, altValue);
+    }
+
+    @Test
+    public void prefixMatchWillHit() {
+        String id = "1234";
+        String value = "value";
+        String altValue = "altValue";
+        String dict = "randomDictionary";
+        searchEngine.indexEntry(SuggestDocument.builder()
+                                        .id(id)
+                                        .dictionary(dict)
+                                        .value(value)
+                                        .altValue(altValue)
+                                        .build());
+        searchEngine.indexEntry(SuggestDocument.builder()
+                                        .id(id)
+                                        .dictionary("anotherDictionary")
+                                        .value(value)
+                                        .altValue(altValue)
+                                        .build());
+
+        QueryResponse queryResponse = getResponse(query(dict, id.substring(0, id.length() - 1)));
+
+        SolrDocumentList results = queryResponse.getResults();
+        assertThat(results, hasSize(1));
+        checkResultsContains(results, 0, id, value, altValue);
+    }
+
+    @Test
+    public void exactMatchComesFirst() {
+        String id = "1234";
+        String value = "value";
+        String altValue = "altValue";
+        String dict = "randomDictionary";
+        String idLonger = id + "567";
+        searchEngine.indexEntry(SuggestDocument.builder()
+                                        .id(idLonger)
+                                        .dictionary(dict)
+                                        .value(value)
+                                        .altValue(altValue)
+                                        .build());
+        searchEngine.indexEntry(SuggestDocument.builder()
+                                        .id(id)
+                                        .dictionary(dict)
+                                        .value(value)
+                                        .altValue(altValue)
+                                        .build());
+
+        QueryResponse queryResponse = getResponse(query(dict, id));
+
+        SolrDocumentList results = queryResponse.getResults();
+        assertThat(results, hasSize(2));
+        checkResultsContains(results, 0, id, value, altValue);
+        checkResultsContains(results, 1, idLonger, value, altValue);
+    }
+
+    @Test
+    public void exactMatchOfSecondWord() {
+        String id = "1234";
+        String value = "one two three four";
+        String altValue = "altValue";
+        String dict = "randomDictionary";
+        String idLonger = id + "567";
+        searchEngine.indexEntry(SuggestDocument.builder()
+                                        .id(idLonger)
+                                        .dictionary(dict)
+                                        .value(value)
+                                        .altValue(altValue)
+                                        .build());
+        searchEngine.indexEntry(SuggestDocument.builder()
+                                        .id(id)
+                                        .dictionary(dict)
+                                        .value("another value")
+                                        .altValue(altValue)
+                                        .build());
+
+        QueryResponse queryResponse = getResponse(query(dict, "two"));
+
+        SolrDocumentList results = queryResponse.getResults();
+        assertThat(results, hasSize(1));
+        checkResultsContains(results, 0, idLonger, value, altValue);
+    }
+
+    @Test
+    public void prefixMatchOfSecondWord() {
+        String id = "1234";
+        String value = "one twoooo three four";
+        String altValue = "altValue";
+        String dict = "randomDictionary";
+        String idLonger = id + "567";
+        searchEngine.indexEntry(SuggestDocument.builder()
+                                        .id(idLonger)
+                                        .dictionary(dict)
+                                        .value(value)
+                                        .altValue(altValue)
+                                        .build());
+        searchEngine.indexEntry(SuggestDocument.builder()
+                                        .id(id)
+                                        .dictionary(dict)
+                                        .value("another value")
+                                        .altValue(altValue)
+                                        .build());
+
+        QueryResponse queryResponse = getResponse(query(dict, "two"));
+
+        SolrDocumentList results = queryResponse.getResults();
+        assertThat(results, hasSize(1));
+        checkResultsContains(results, 0, idLonger, value, altValue);
+    }
+
+    @Test
+    public void idHasPrecedenceOverValue() {
+        String id = "12345678";
+        String altValue = "altValue";
+        String dict = "randomDictionary";
+        String someId = "some id";
+        String someValue = "some value";
+        searchEngine.indexEntry(SuggestDocument.builder()
+                                        .id(someId)
+                                        .dictionary(dict)
+                                        .value(id)
+                                        .altValue(altValue)
+                                        .build());
+        searchEngine.indexEntry(SuggestDocument.builder()
+                                        .id(id)
+                                        .dictionary(dict)
+                                        .value(someValue)
+                                        .altValue(altValue)
+                                        .build());
+
+        QueryResponse queryResponse = getResponse(query(dict, id));
+
+        SolrDocumentList results = queryResponse.getResults();
+        assertThat(results, hasSize(2));
+        checkResultsContains(results, 0, id, someValue, altValue);
+        checkResultsContains(results, 1, someId, id, altValue);
+    }
+
+    @Test
+    public void multiWordIdHasPrecedenceOverValue() {
+        String id = "1234 5678";
+        String altValue = "altValue";
+        String dict = "randomDictionary";
+        String someId = "some id";
+        String someValue = "some value";
+        searchEngine.indexEntry(SuggestDocument.builder()
+                                        .id(someId)
+                                        .dictionary(dict)
+                                        .value(id)
+                                        .altValue(altValue)
+                                        .build());
+        searchEngine.indexEntry(SuggestDocument.builder()
+                                        .id(id)
+                                        .dictionary(dict)
+                                        .value(someValue)
+                                        .altValue(altValue)
+                                        .build());
+
+        QueryResponse queryResponse = getResponse(query(dict, id));
+
+        SolrDocumentList results = queryResponse.getResults();
+        assertThat(results, hasSize(2));
+        checkResultsContains(results, 0, id, someValue, altValue);
+        checkResultsContains(results, 1, someId, id, altValue);
+    }
+
+    private QueryResponse getResponse(String query) {
+        return searchEngine.getQueryResponse(REQUEST_HANDLER, query);
+    }
+
+    private void checkResultsContains(SolrDocumentList results, int position, String id, String value, String altValue) {
+        SolrDocument document = results.get(position);
+        checkFieldForDocument(document, SuggestField.Stored.id, id);
+        checkFieldForDocument(document, SuggestField.Stored.value, value);
+        checkFieldForDocument(document, SuggestField.Stored.altValue, altValue);
+    }
+
+    private void checkFieldForDocument(SolrDocument document, SuggestField.Stored valueEnum, String value) {
+        Collection<String> fieldNames = document.getFieldNames();
+
+        if (value == null) {
+            assertThat(fieldNames, not(contains(valueEnum.name())));
+        } else {
+            assertThat(document.getFieldValue(valueEnum.name()), is(value));
         }
     }
-    
-    @Test
-    public void searchUPid(){
-        String upid = "UP000002199";
-        String query = upid(upid);
-        QueryResponse queryResponse =
-                searchEngine.getQueryResponse(query);
 
-        SolrDocumentList results =
-                queryResponse.getResults();
-        Assert.assertEquals(1, results.size());
-        Assert.assertTrue(results.get(0).containsValue(upid)); 
-    }
-    
-    @Test
-    public void searchAllUPid(){
-        String upid = "*";
-        String query = upid(upid);
-        QueryResponse queryResponse =
-                searchEngine.getQueryResponse(query);
-
-        SolrDocumentList results =
-                queryResponse.getResults();
-        Assert.assertEquals(10, results.size());
-    }
-    
-    
-    @Test
-    public void searchListUPid() {
-        List<String> upids = Arrays.asList("UP000000798", "UP000001258", "UP000036222" ,"UP000036221");
-
-     
-        String query = upid(upids.get(0));
-        for (int i = 1; i < upids.size(); i++) {
-        	query = QueryBuilder.or(query,  upid(upids.get(i)));
-        }
-        
-        QueryResponse queryResponse =
-                searchEngine.getQueryResponse(query);
-
-        SolrDocumentList results =
-                queryResponse.getResults();
-        Assert.assertEquals(3, results.size());
-        List<String> foundUpids=
-        StreamSupport.
-        stream( Spliterators.spliteratorUnknownSize(
-                results.listIterator(),
-                Spliterator.ORDERED
-            ),
-                 false).map(val->val.getFieldValue("upid"))
-                 .map(val -> (String) val)
-                 .collect(Collectors.toList());
-        
-        assertTrue(foundUpids.contains("UP000000798"));
-        
-        assertTrue(foundUpids.contains("UP000001258"));
-        
-        assertTrue(foundUpids.contains("UP000036221")); 
-        assertFalse(foundUpids.contains("UP000036222")); 
-    }
-    
-  
-    @Test
-    public void searchTaxId(){
-        int taxId=272557;
-        String query =taxonomy(taxId);
-        
-        QueryResponse queryResponse =
-                searchEngine.getQueryResponse(query);
-
-        SolrDocumentList results =
-                queryResponse.getResults();
-        Assert.assertEquals(1, results.size());
-        Assert.assertTrue(results.get(0).containsValue("UP000002518")); 
-    }
-    
-    @Test
-    public void searchIsRedundant(){
-      
-        String query =isRedudant(true);
-        
-        QueryResponse queryResponse =
-                searchEngine.getQueryResponse(query);
-
-        SolrDocumentList results =
-                queryResponse.getResults();
-        Assert.assertEquals(3, results.size());
-       
-        Assert.assertTrue(results.get(0).containsValue("UP000036221")
-                ||results.get(1).containsValue("UP000036221")
-               || results.get(2).containsValue("UP000036221")); 
-     //   UP000000802
-    //    UP000066929
-     //   UP000036221
-    }
- 
-    @Test
-    public void searchByGeneAccession(){
-        String query =accession("Q9Y8V6");
-        QueryResponse queryResponse = searchEngine.getQueryResponse(query);
-        SolrDocumentList results = queryResponse.getResults();
-
-        Assert.assertEquals(1, results.size());
-        Assert.assertTrue(results.get(0).containsValue("UP000002518"));
-    }
-
-    @Test
-    public void searchByRelatedGeneAccession(){
-        String query =accession("Q9YCC8");
-        QueryResponse queryResponse = searchEngine.getQueryResponse(query);
-        SolrDocumentList results = queryResponse.getResults();
-
-        Assert.assertEquals(1, results.size());
-        Assert.assertTrue(results.get(0).containsValue("UP000002518"));
-    }
-
-    @Test
-    public void searchByGeneName(){
-        String query =gene("CELE_F29G6.3");
-        QueryResponse queryResponse = searchEngine.getQueryResponse(query);
-        SolrDocumentList results = queryResponse.getResults();
-
-        Assert.assertEquals(1, results.size());
-        Assert.assertTrue(results.get(0).containsValue("UP000001940"));
-    }
-
-    @Test
-    public void searchByRelatedGeneName(){
-        String query =gene("T06F4.2");
-        QueryResponse queryResponse = searchEngine.getQueryResponse(query);
-        SolrDocumentList results = queryResponse.getResults();
-
-        Assert.assertEquals(2, results.size());
-        Assert.assertTrue(results.get(0).containsValue("UP000001940"));
-    }
-    
-    @Test
-    public void fetchAvroObject(){
-    	String upid = "UP000000798";
-        String query =upid(upid);
-        
-        QueryResponse queryResponse =
-                searchEngine.getQueryResponse(query);
-
-        SolrDocumentList results =
-                queryResponse.getResults();
-        Assert.assertEquals(1, results.size());
-        Assert.assertTrue(results.get(0).containsValue("UP000000798")); 
-        DocumentObjectBinder binder = new DocumentObjectBinder();
-        ProteomeDocument proteomeDoc = binder.getBean(ProteomeDocument.class, results.get(0));
-        uk.ac.ebi.uniprot.domain.proteome.ProteomeEntry proteome = toProteome(proteomeDoc);
-        assertNotNull(proteome);
-        assertEquals("UP000000798", proteome.getId().getValue());
-        
-    }
-    
-    uk.ac.ebi.uniprot.domain.proteome.ProteomeEntry toProteome(ProteomeDocument proteomeDoc){
-    	try {
-    	ObjectMapper objectMapper =  ProteomeJsonConfig.getInstance().getFullObjectMapper();
-    	return objectMapper.readValue(proteomeDoc.proteomeStored.array(),  uk.ac.ebi.uniprot.domain.proteome.ProteomeEntry.class);
-    	}catch(Exception e) {
-    		throw new RuntimeException (e);
-    	}
-    	
-    }
-    private String upid(String upid) {
-    	return QueryBuilder.query(ProteomeField.Search.upid.name(),upid);
-    }
-    private String taxonomy(int taxId) {
-    	return QueryBuilder.query(ProteomeField.Search.taxonomy_id.name(), ""+taxId);
-    }
-    private String accession(String accession) {
-    	return QueryBuilder.query(ProteomeField.Search.accession.name(), accession);
-    }
-    private String gene(String gene) {
-    	return QueryBuilder.query(ProteomeField.Search.gene.name(), gene);
-    }
-    private String isRedudant(Boolean b) {
-
-    		return QueryBuilder.query(ProteomeField.Search.redundant.name(), b.toString());
-    
+    private String query(String dict, String content) {
+        String query = "\"" + content + "\"" + " +" + QueryBuilder.query(SuggestField.Search.dict.name(), dict);
+        System.out.println(query);
+        return query;
     }
 }
 

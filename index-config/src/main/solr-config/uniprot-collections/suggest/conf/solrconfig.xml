@@ -777,6 +777,40 @@
          not be initialized until the first request that uses it.
 
       -->
+
+    <requestHandler name="/search" class="solr.SearchHandler">
+        <lst name="defaults">
+            <str name="echoParams">explicit</str>
+
+            <!-- Query settings -->
+            <str name="defType">edismax</str>
+            <str name="q.op">AND</str>
+            <str name="q.alt">*:*</str>
+            <str name="rows">25</str>
+
+            <!-- Search in order of importance:
+                    - identifier
+                    - value
+                    - alternative value
+                    The scoring has been customized to:
+                     - Provide the identifier with the highest result
+                     - allow the name to be of higher importance than the synonym (by boosting)
+                     - prefer search terms that are exact matches to a partial match (these are boosted to
+                     appear over all other results)
+                     - increase scoring of documents that match, with 0 slop, to search queries with more than one search
+                     term. Again exact matches have higher boosting to make use these come first.
+            -->
+            <str name="qf">
+                id^20 value^4 altValue^2 content
+            </str>
+            <str name="pf">
+                id^20 value^4 altValue^2 content
+            </str>
+            <int name="ps">0</int>
+        </lst>
+    </requestHandler>
+
+    
     <!-- SearchHandler
 
          http://wiki.apache.org/solr/SearchHandler

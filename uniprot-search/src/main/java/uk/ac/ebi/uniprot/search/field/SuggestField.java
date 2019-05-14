@@ -7,7 +7,7 @@ package uk.ac.ebi.uniprot.search.field;
  */
 public class SuggestField {
     public enum Search {
-        content, id
+        content, id, dict
     }
 
     public enum Stored {

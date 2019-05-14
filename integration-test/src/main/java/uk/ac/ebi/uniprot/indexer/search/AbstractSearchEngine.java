@@ -37,12 +37,12 @@ public abstract class AbstractSearchEngine<E> extends ExternalResource {
     protected final File indexHome;
     private final String searchEngineName;
     private SolrClient server;
-    private DocumentConverter<E, ?> documentProducer;
+    private DocumentConverter<E, ?> documentConverter;
 
     private int retrievableRows;
 
-    public AbstractSearchEngine(String searchEngineName, DocumentConverter<E, ?> documentProducer) {
-        this.documentProducer = documentProducer;
+    public AbstractSearchEngine(String searchEngineName, DocumentConverter<E, ?> documentConverter) {
+        this.documentConverter = documentConverter;
         this.searchEngineName = searchEngineName;
 
         this.retrievableRows = DEFAULT_RETRIEVABLE_ROWS;
@@ -55,7 +55,7 @@ public abstract class AbstractSearchEngine<E> extends ExternalResource {
             throw new IllegalArgumentException("Entry is null");
         }
 
-        Document document = documentProducer.convert(entry);
+        Document document = documentConverter.convert(entry);
 
         try {
             server.addBean(document);
@@ -70,7 +70,7 @@ public abstract class AbstractSearchEngine<E> extends ExternalResource {
             throw new IllegalArgumentException("Entry is null");
         }
 
-        Document document = documentProducer.convert(entry);
+        Document document = documentConverter.convert(entry);
         docTransformer.accept(document);
 
         try {
@@ -88,6 +88,7 @@ public abstract class AbstractSearchEngine<E> extends ExternalResource {
         if (queryResponse.getResults() != null && !queryResponse.getResults().isEmpty()) {
             try {
                 server.deleteByQuery(idQuery);
+                server.commit();
             } catch (SolrServerException | IOException e) {
                 throw new IllegalStateException("Failed to remove entry with id: " + entryId + " from index.", e);
             }
@@ -96,6 +97,13 @@ public abstract class AbstractSearchEngine<E> extends ExternalResource {
 
     public QueryResponse getQueryResponse(String query) {
         SolrQuery solrQuery = new SolrQuery(query);
+
+        return getQueryResponse(solrQuery);
+    }
+
+    public QueryResponse getQueryResponse(String requestHandler, String query) {
+        SolrQuery solrQuery = new SolrQuery(query);
+        solrQuery.setRequestHandler(requestHandler);
 
         return getQueryResponse(solrQuery);
     }
