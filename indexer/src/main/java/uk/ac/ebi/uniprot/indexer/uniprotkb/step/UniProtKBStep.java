@@ -31,6 +31,7 @@ import static uk.ac.ebi.uniprot.indexer.common.utils.Constants.UNIPROTKB_INDEX_S
 @Configuration
 @Import({UniProtKBConfig.class})
 public class UniProtKBStep {
+    // TODO: 14/05/19 add a next step to 1.) load default taxon synonyms into suggestion set, 2.) write suggestion set to suggest collection
     private final StepBuilderFactory stepBuilderFactory;
     private final UniProtKBIndexingProperties uniProtKBIndexingProperties;
 

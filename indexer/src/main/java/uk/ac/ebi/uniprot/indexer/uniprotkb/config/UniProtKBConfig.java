@@ -90,6 +90,7 @@ public class UniProtKBConfig {
                         createGoRelationRepo(),
                         createKeywordRepo(),
                         createPathwayRepo()));
+        // TODO: 14/05/19 could pass in promotionlistener's suggestionSet
     }
 
     @Bean
