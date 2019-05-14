@@ -221,6 +221,55 @@ public class SuggestSearchIT {
         checkResultsContains(results, 1, someId, id, altValue);
     }
 
+    @Test
+    public void findsECTypeId() {
+        String id = "1.2.3.1";
+        String someValue = "some value";
+        String altValue = "altValue";
+        String dict = "randomDictionary";
+        String someId = "some id";
+        searchEngine.indexEntry(SuggestDocument.builder()
+                                        .id(id)
+                                        .dictionary(dict)
+                                        .value(someValue)
+                                        .altValue(altValue)
+                                        .build());
+
+        QueryResponse queryResponse = getResponse(query(dict, id));
+
+        SolrDocumentList results = queryResponse.getResults();
+        assertThat(results, hasSize(1));
+        checkResultsContains(results, 0, id, someValue, altValue);
+    }
+
+    @Test
+    public void findsPrefixECTypeId() {
+        String prefixId = "1.2";
+        String id = prefixId + "3.1";
+        String someValue = "some value";
+        String altValue = "altValue";
+        String dict = "randomDictionary";
+        String someId = "some id";
+        searchEngine.indexEntry(SuggestDocument.builder()
+                                        .id(id)
+                                        .dictionary(dict)
+                                        .value(someValue)
+                                        .altValue(altValue)
+                                        .build());
+        searchEngine.indexEntry(SuggestDocument.builder()
+                                        .id(someId)
+                                        .dictionary(dict)
+                                        .value(someValue)
+                                        .altValue(altValue)
+                                        .build());
+
+        QueryResponse queryResponse = getResponse(query(dict, prefixId));
+
+        SolrDocumentList results = queryResponse.getResults();
+        assertThat(results, hasSize(1));
+        checkResultsContains(results, 0, id, someValue, altValue);
+    }
+
     private QueryResponse getResponse(String query) {
         return searchEngine.getQueryResponse(REQUEST_HANDLER, query);
     }
