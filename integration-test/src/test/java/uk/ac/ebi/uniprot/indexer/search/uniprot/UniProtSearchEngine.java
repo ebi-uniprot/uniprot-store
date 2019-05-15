@@ -73,8 +73,8 @@ public class UniProtSearchEngine extends AbstractSearchEngine<UniProtEntry> {
                 //   UniProtUniRefMap uniProtUniRefMapDir = createUniProtUniRefMap();
 
                 return new UniProtEntryConverter(taxRepo, goRelation, createKeywordRepo(),
-                                                 createPathwayRepo()
-                );
+                                                 createPathwayRepo(),
+                                                 suggestDocuments);
             } catch (URISyntaxException e) {
                 throw new IllegalStateException("Unable to access the taxonomy file location");
             }

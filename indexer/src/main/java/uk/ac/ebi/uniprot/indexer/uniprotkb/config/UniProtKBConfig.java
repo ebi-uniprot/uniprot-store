@@ -31,10 +31,13 @@ import uk.ac.ebi.uniprot.indexer.uniprotkb.processor.UniProtEntryDocumentPairPro
 import uk.ac.ebi.uniprot.indexer.uniprotkb.reader.UniProtEntryItemReader;
 import uk.ac.ebi.uniprot.indexer.uniprotkb.writer.UniProtEntryDocumentPairWriter;
 import uk.ac.ebi.uniprot.search.SolrCollection;
+import uk.ac.ebi.uniprot.search.document.suggest.SuggestDocument;
 import uk.ac.ebi.uniprot.search.document.uniprot.UniProtDocument;
 
 import java.io.File;
 import java.time.temporal.ChronoUnit;
+import java.util.HashSet;
+import java.util.Set;
 
 import static java.util.Collections.singletonList;
 
@@ -82,6 +85,13 @@ public class UniProtKBConfig {
         return new UniProtEntryItemReader(uniProtKBIndexingProperties);
     }
 
+    Set<SuggestDocument> suggestDocuments() {
+        // TODO: 15/05/19 make this an offheap in memory set, and populate it with taxonomy synonyms?
+        Set<SuggestDocument> set = new HashSet<>();
+        set.add(SuggestDocument.builder().id("1").build());
+        return set;
+    }
+
     @Bean
     ItemProcessor<UniProtEntryDocumentPair, UniProtEntryDocumentPair> uniProtDocumentItemProcessor() {
         return new UniProtEntryDocumentPairProcessor(
@@ -89,8 +99,8 @@ public class UniProtKBConfig {
                         createTaxonomyRepo(),
                         createGoRelationRepo(),
                         createKeywordRepo(),
-                        createPathwayRepo()));
-        // TODO: 14/05/19 could pass in promotionlistener's suggestionSet
+                        createPathwayRepo(),
+                        suggestDocuments()));
     }
 
     @Bean

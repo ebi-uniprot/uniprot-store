@@ -6,6 +6,7 @@ import org.springframework.batch.core.JobExecutionListener;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.solr.core.SolrTemplate;
@@ -33,9 +34,12 @@ public class UniProtKBJob {
     }
 
     @Bean
-    public Job uniProtKBIndexingJob(Step uniProtKBIndexingMainFFStep, WriteRetrierLogJobListener writeRetrierLogJobListener) {
+    public Job uniProtKBIndexingJob(@Qualifier("xxxx") Step uniProtKBIndexingMainFFStep,
+                                    @Qualifier("yyyy") Step suggestionStep,
+                                    WriteRetrierLogJobListener writeRetrierLogJobListener) {
         return this.jobBuilderFactory.get(UNIPROTKB_INDEX_JOB)
                 .start(uniProtKBIndexingMainFFStep)
+                .next(suggestionStep)
                 .listener(writeRetrierLogJobListener)
                 .listener(new JobExecutionListener() {
                     @Override public void beforeJob(JobExecution jobExecution) {

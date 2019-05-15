@@ -42,6 +42,7 @@ import uk.ac.ebi.uniprot.indexer.uniprot.taxonomy.TaxonomicNode;
 import uk.ac.ebi.uniprot.indexer.uniprot.taxonomy.TaxonomyRepo;
 import uk.ac.ebi.uniprot.indexer.util.DateUtils;
 import uk.ac.ebi.uniprot.json.parser.uniprot.UniprotJsonConfig;
+import uk.ac.ebi.uniprot.search.document.suggest.SuggestDocument;
 import uk.ac.ebi.uniprot.search.document.uniprot.UniProtDocument;
 import uk.ebi.uniprot.scorer.uniprotkb.UniProtEntryScored;
 
@@ -110,22 +111,41 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtEntry, Un
     private final GoRelationRepo goRelationRepo;
     private final KeywordRepo keywordRepo;
     private final PathwayRepo pathwayRepo;
+    private Set<SuggestDocument> suggestions;
     //  private final UniProtUniRefMap uniprotUniRefMap;
 
 
     public UniProtEntryConverter(TaxonomyRepo taxonomyRepo, GoRelationRepo goRelationRepo,
 
                                  //	UniProtUniRefMap uniProtUniRefMap,
-                                 KeywordRepo keywordRepo, PathwayRepo pathwayRepo
-    ) {
+                                 KeywordRepo keywordRepo, PathwayRepo pathwayRepo,
+                                 Set<SuggestDocument> suggestDocuments) {
         this.taxonomyRepo = taxonomyRepo;
         this.goRelationRepo = goRelationRepo;
         this.keywordRepo = keywordRepo;
         this.pathwayRepo = pathwayRepo;
+        // TODO: 15/05/19 populate suggestions
+        this.suggestions = suggestDocuments;
         //   this.uniprotUniRefMap = uniProtUniRefMap;
 
         raLineBuilder = new RALineBuilder();
         rgLineBuilder = new RGLineBuilder();
+    }
+
+    static String truncatedSortValue(String value) {
+        if (value.length() > SORT_FIELD_MAX_LENGTH) {
+            return value.substring(0, SORT_FIELD_MAX_LENGTH);
+        } else {
+            return value;
+        }
+    }
+
+    static String getDefaultBinaryValue(String base64Value) {
+        if (base64Value.length() <= MAX_STORED_FIELD_LENGTH) {
+            return base64Value;
+        } else {
+            return null;
+        }
     }
 
     @Override
@@ -192,6 +212,35 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtEntry, Un
         }
     }
 
+    public boolean isCanonicalIsoform(UniProtEntry uniProtEntry) {
+        return uniProtEntry.getCommentByType(CommentType.ALTERNATIVE_PRODUCTS)
+                .stream()
+                .map(comment -> (AlternativeProductsComment) comment)
+                .flatMap(comment -> comment.getIsoforms().stream())
+                .filter(isoform -> isoform.getIsoformSequenceStatus() == IsoformSequenceStatus.DISPLAYED)
+                .flatMap(isoform -> isoform.getIsoformIds().stream())
+                .filter(isoformId -> isoformId.getValue().equals(uniProtEntry.getPrimaryAccession().getValue()))
+                .count() == 1L;
+    }
+
+    Set<SuggestDocument> getSuggestions() {
+        return suggestions;
+    }
+
+    private static void addValueListToStringList(Collection<String> list, List<? extends Value> values) {
+        if (values != null) {
+            for (Value v : values) {
+                addValueToStringList(list, v);
+            }
+        }
+    }
+
+    private static void addValueToStringList(Collection<String> list, Value value) {
+        if ((value != null) && (!value.getValue().isEmpty())) {
+            list.add(value.getValue());
+        }
+    }
+
     private void setDefaultSearchContent(UniProtDocument japiDocument) {
         japiDocument.content.add(japiDocument.accession);
         japiDocument.content.addAll(japiDocument.secacc);
@@ -226,43 +275,10 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtEntry, Un
         //go Terms --> see convertGoTerms method
     }
 
-    public boolean isCanonicalIsoform(UniProtEntry uniProtEntry) {
-        return uniProtEntry.getCommentByType(CommentType.ALTERNATIVE_PRODUCTS)
-                .stream()
-                .map(comment -> (AlternativeProductsComment) comment)
-                .flatMap(comment -> comment.getIsoforms().stream())
-                .filter(isoform -> isoform.getIsoformSequenceStatus() == IsoformSequenceStatus.DISPLAYED)
-                .flatMap(isoform -> isoform.getIsoformIds().stream())
-                .filter(isoformId -> isoformId.getValue().equals(uniProtEntry.getPrimaryAccession().getValue()))
-                .count() == 1L;
-    }
-
-    static String truncatedSortValue(String value) {
-        if (value.length() > SORT_FIELD_MAX_LENGTH) {
-            return value.substring(0, SORT_FIELD_MAX_LENGTH);
-        } else {
-            return value;
-        }
-    }
-
     private void setUniRefClusters(String accession, UniProtDocument japiDocument) {
         //     japiDocument.unirefCluster50 = uniprotUniRefMap.getMappings50(accession);
         //      japiDocument.unirefCluster90 = uniprotUniRefMap.getMappings90(accession);
         //      japiDocument.unirefCluster100 = uniprotUniRefMap.getMappings100(accession);
-    }
-
-    private static void addValueListToStringList(Collection<String> list, List<? extends Value> values) {
-        if (values != null) {
-            for (Value v : values) {
-                addValueToStringList(list, v);
-            }
-        }
-    }
-
-    private static void addValueToStringList(Collection<String> list, Value value) {
-        if ((value != null) && (!value.getValue().isEmpty())) {
-            list.add(value.getValue());
-        }
     }
 
     private void setAvroDefaultEntry(UniProtEntry source, UniProtDocument japiDocument) {
@@ -287,14 +303,6 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtEntry, Un
         }catch (JsonProcessingException exception){
             String accession = source.getPrimaryAccession().getValue();
             LOGGER.warn("Error saving default uniprot object in avro_binary for accession: "+accession,exception);
-        }
-    }
-
-    static String getDefaultBinaryValue(String base64Value) {
-        if (base64Value.length() <= MAX_STORED_FIELD_LENGTH) {
-            return base64Value;
-        } else {
-            return null;
         }
     }
 

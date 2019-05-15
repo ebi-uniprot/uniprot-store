@@ -1,10 +1,13 @@
 package uk.ac.ebi.uniprot.indexer.uniprotkb.processor;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.batch.core.StepExecution;
+import org.springframework.batch.core.annotation.BeforeStep;
+import org.springframework.batch.item.ExecutionContext;
 import uk.ac.ebi.uniprot.domain.uniprot.UniProtEntry;
 import uk.ac.ebi.uniprot.flatfile.parser.ffwriter.impl.UniProtFlatfileWriter;
 import uk.ac.ebi.uniprot.indexer.common.processor.EntryDocumentPairProcessor;
-import uk.ac.ebi.uniprot.indexer.converter.DocumentConverter;
+import uk.ac.ebi.uniprot.indexer.common.utils.Constants;
 import uk.ac.ebi.uniprot.indexer.uniprotkb.model.UniProtEntryDocumentPair;
 import uk.ac.ebi.uniprot.search.document.uniprot.UniProtDocument;
 
@@ -15,8 +18,17 @@ import uk.ac.ebi.uniprot.search.document.uniprot.UniProtDocument;
  */
 @Slf4j
 public class UniProtEntryDocumentPairProcessor extends EntryDocumentPairProcessor<UniProtEntry, UniProtDocument, UniProtEntryDocumentPair> {
-    public UniProtEntryDocumentPairProcessor(DocumentConverter<UniProtEntry, UniProtDocument> converter) {
+    private final UniProtEntryConverter converter;
+
+    public UniProtEntryDocumentPairProcessor(UniProtEntryConverter converter) {
         super(converter);
+        this.converter = converter;
+    }
+
+    @BeforeStep
+    public void setStepExecution(final StepExecution stepExecution) {
+        ExecutionContext executionContext = stepExecution.getJobExecution().getExecutionContext();
+        executionContext.put(Constants.SUGGESTIONS_SET, converter.getSuggestions());
     }
 
     @Override

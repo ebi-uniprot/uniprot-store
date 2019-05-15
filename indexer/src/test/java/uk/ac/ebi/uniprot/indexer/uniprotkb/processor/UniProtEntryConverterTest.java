@@ -71,7 +71,7 @@ class UniProtEntryConverterTest {
     void setUp() {
         repoMock = mock(TaxonomyRepo.class);
         goRelationRepoMock = mock(GoRelationRepo.class);
-        converter = new UniProtEntryConverter(repoMock, goRelationRepoMock, mock(KeywordRepo.class), mock(PathwayRepo.class));
+        converter = new UniProtEntryConverter(repoMock, goRelationRepoMock, mock(KeywordRepo.class), mock(PathwayRepo.class), null);
         dateFormat = new SimpleDateFormat("dd-MMM-yyyy");
     }
 

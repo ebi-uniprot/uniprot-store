@@ -37,7 +37,7 @@ class DataStoreManagerTest {
 
             storeManager.addDocConverter(DataStoreManager.StoreType.UNIPROT, new UniProtEntryConverter(TaxonomyRepoMocker.getTaxonomyRepo(),
                                                                                                        GoRelationsRepoMocker.getGoRelationRepo(), KeywordRepoMocker.getKeywordRepo(),
-                                                                                                       PathwayRepoMocker.getPathwayRepo()));
+                                                                                                       PathwayRepoMocker.getPathwayRepo(), suggestDocuments));
         } catch (Exception e) {
             fail("Error to setup DataStoreManagerTest",e);
         }
