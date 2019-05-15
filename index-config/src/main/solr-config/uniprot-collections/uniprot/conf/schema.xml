@@ -106,23 +106,6 @@
         RESTRICTION: the glob-like pattern in the name attribute must have
         a "*" only at the start or the end.  -->
 
-<!--     <dynamicField name="*_i"  type="pint"    indexed="true"  stored="true"/> -->
-<!--     <dynamicField name="*_is" type="pint"    indexed="true"  stored="true"  multiValued="true"/> -->
-<!--     <dynamicField name="*_s"  type="string"  indexed="true"  stored="true" /> -->
-<!--     <dynamicField name="*_s_ns"  type="string"  indexed="true"  stored="false" /> -->
-<!--     <dynamicField name="*_ss" type="string"  indexed="true"  stored="true" multiValued="true"/> -->
-<!--     <dynamicField name="*_l"  type="plong"   indexed="true"  stored="true"/> -->
-<!--     <dynamicField name="*_l_ns"  type="plong"   indexed="true"  stored="false"/> -->
-<!--     <dynamicField name="*_ls" type="plong"   indexed="true"  stored="true"  multiValued="true"/> -->
-<!--     <dynamicField name="*_t"  type="text_general"    indexed="true"  stored="true"/> -->
-<!--     <dynamicField name="*_txt" type="text_general"   indexed="true"  stored="true" multiValued="true"/> -->
-<!--     <dynamicField name="*_en"  type="text_en"    indexed="true"  stored="true" multiValued="true"/> -->
-<!--     <dynamicField name="*_b"  type="boolean" indexed="true" stored="true"/> -->
-<!--     <dynamicField name="*_bs" type="boolean" indexed="true" stored="true"  multiValued="true"/> -->
-<!--     <dynamicField name="*_f"  type="pfloat"  indexed="true"  stored="true"/> -->
-<!--     <dynamicField name="*_fs" type="pfloat"  indexed="true"  stored="true"  multiValued="true"/> -->
-<!--     <dynamicField name="*_d"  type="pdouble" indexed="true"  stored="true"/> -->
-<!--     <dynamicField name="*_ds" type="pdouble" indexed="true"  stored="true"  multiValued="true"/> -->
 
 <!--     <dynamicField name="ignored_*" type="ignored" multiValued="true"/> -->
 <!--     <dynamicField name="attr_*" type="text_general" indexed="true" stored="true" multiValued="true"/> -->
@@ -488,7 +471,7 @@
     <!-- Uniprot Entry Fields optional-->
     <field name="sec_acc" type="basic_ci" indexed="true" stored="false" required="false" multiValued="true"/>
 
-    <field name="accession" type="basic_ci" indexed="true" stored="true" required="true" multiValued="true"/>
+    <field name="accession" type="basic_ci" indexed="true" stored="false" required="true" multiValued="true"/>
     <copyField source="sec_acc" dest="accession"/>
     <copyField source="accession_id" dest="accession"/>
 
@@ -500,7 +483,7 @@
 	
 	<dynamicField name="go_*" type="lowercase" indexed="true" required="false" stored="false" multiValued="true"/>
 
-    <field name="keyword" type="basic_ci" indexed="true" stored="true" required="false" multiValued="true"/>
+    <field name="keyword" type="basic_ci" indexed="true" stored="false" required="false" multiValued="true"/>
     <field name="keyword_id" type="string" indexed="true" stored="false" required="false" multiValued="true"/>
     
     <field name="ec" type="ec" indexed="true" stored="false" required="false" multiValued="true"/>
@@ -520,7 +503,7 @@
 
     <!-- Taxonomy -->
     <field name="organism_sort" type="string" indexed="true" stored="false" required="false" multiValued="false" docValues="true"/>
-    <field name="organism_name" type="full_ci" indexed="true" stored="true" required="false" multiValued="true"/>
+    <field name="organism_name" type="full_ci" indexed="true" stored="false" required="false" multiValued="true"/>
     <field name="organism_id" type="int" indexed="true" stored="false" required="false" multiValued="false"/>
     <field name="taxonomy_name" type="full_ci" indexed="true" stored="false" required="false" multiValued="true"/>
     <field name="taxonomy_id" type="int" indexed="true" stored="false" required="false" multiValued="true"/>
