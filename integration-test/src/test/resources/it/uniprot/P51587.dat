@@ -879,7 +879,6 @@ DR   EMBL; Z73359; CAA97728.1; -; Genomic_DNA.
 DR   CCDS; CCDS9344.1; -.
 DR   PIR; G02334; G02334.
 DR   RefSeq; NP_000050.2; NM_000059.3.
-DR   UniGene; Hs.34012; -.
 DR   PDB; 1N0W; X-ray; 1.70 A; B=1517-1551.
 DR   PDB; 3EU7; X-ray; 2.20 A; X=21-39.
 DR   PDBsum; 1N0W; -.

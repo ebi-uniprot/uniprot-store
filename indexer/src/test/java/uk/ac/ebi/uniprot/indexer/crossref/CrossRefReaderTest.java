@@ -2,7 +2,6 @@ package uk.ac.ebi.uniprot.indexer.crossref;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-
 import uk.ac.ebi.uniprot.indexer.crossref.readers.CrossRefReader;
 import uk.ac.ebi.uniprot.search.document.dbxref.CrossRefDocument;
 
@@ -31,7 +30,7 @@ class CrossRefReaderTest {
             count++;
         }
 
-        assertTrue(count >= 171, "The count doesn't match");
+        assertTrue(count >= 160, "The count doesn't match");
     }
 
     private void verifyDBXRef(CrossRefDocument dbxRef) {

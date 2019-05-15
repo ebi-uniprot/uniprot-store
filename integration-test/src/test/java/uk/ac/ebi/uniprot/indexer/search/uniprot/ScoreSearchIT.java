@@ -4,7 +4,6 @@ import org.apache.solr.client.solrj.response.QueryResponse;
 import org.junit.BeforeClass;
 import org.junit.ClassRule;
 import org.junit.Test;
-
 import uk.ac.ebi.uniprot.flatfile.parser.ffwriter.LineType;
 import uk.ac.ebi.uniprot.search.field.UniProtField;
 
@@ -16,7 +15,8 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.hasItems;
 import static uk.ac.ebi.uniprot.indexer.search.uniprot.IdentifierSearchIT.ACC_LINE;
-import static uk.ac.ebi.uniprot.indexer.search.uniprot.TestUtils.*;
+import static uk.ac.ebi.uniprot.indexer.search.uniprot.TestUtils.convertToUniProtEntry;
+import static uk.ac.ebi.uniprot.indexer.search.uniprot.TestUtils.query;
 
 public class ScoreSearchIT {
 	 public static final String Q6GZX4 = "Q6GZX4";
@@ -160,7 +160,7 @@ public class ScoreSearchIT {
     		QueryResponse response = searchEngine.getQueryResponse(query);
 
             List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
-            assertThat(retrievedAccessions, hasItems(Q196W5, Q6V4H0, P48347, Q12345));
+            assertThat(retrievedAccessions, hasItems(Q6V4H0, Q12345));
 	    }
 	    @Test
 	    public void score4() {

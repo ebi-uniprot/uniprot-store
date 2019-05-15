@@ -155,7 +155,6 @@ CC   Distributed under the Creative Commons Attribution-NoDerivs License
 CC   -----------------------------------------------------------------------
 DR   EMBL; AE014296; EYR77328.1; -; Genomic_DNA.
 DR   RefSeq; NP_001287640.1; NM_001300711.1.
-DR   UniGene; Dm.3062; -.
 DR   SMR; A0A021WW32; -.
 DR   PaxDb; A0A021WW32; -.
 DR   EnsemblMetazoa; FBtr0344093; FBpp0310518; FBgn0260987.
@@ -344,7 +343,6 @@ CC   Distributed under the Creative Commons Attribution-NoDerivs License
 CC   -----------------------------------------------------------------------
 DR   EMBL; AE014298; ABW09330.3; -; Genomic_DNA.
 DR   RefSeq; NP_001096869.3; NM_001103399.3.
-DR   UniGene; Dm.14114; -.
 DR   SMR; A0A023GRW4; -.
 DR   EnsemblMetazoa; FBtr0342825; FBpp0309661; FBgn0261451.
 DR   GeneID; 45320; -.
@@ -836,9 +834,6 @@ DR   EMBL; AY087580; AAM65122.1; -; mRNA.
 DR   PIR; H86355; H86355.
 DR   RefSeq; NP_564167.1; NM_102081.4. [P48347-1]
 DR   RefSeq; NP_849698.1; NM_179367.2. [P48347-2]
-DR   UniGene; At.24553; -.
-DR   UniGene; At.67728; -.
-DR   ProteinModelPortal; P48347; -.
 DR   SMR; P48347; -.
 DR   BioGrid; 24076; 80.
 DR   IntAct; P48347; 4.
