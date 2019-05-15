@@ -50,7 +50,7 @@ public class ProteomeEntryConverter implements DocumentConverter<Proteome, Prote
 	public ProteomeDocument convert(Proteome source) {
 		ProteomeDocument document = new ProteomeDocument();
 		document.upid = source.getUpid();
-		setOrganism(source.getTaxonomy().intValue(), document);
+		setOrganism(source, document);
 		setLineageTaxon(source.getTaxonomy().intValue(), document);
 		updateProteomeType(document, source);
 		document.genomeAccession = fetchGenomeAccessions(source);
@@ -83,7 +83,8 @@ public class ProteomeEntryConverter implements DocumentConverter<Proteome, Prote
 		}else
 			document.proteomeType=3;
 	}
-	private void setOrganism(int taxonomyId, ProteomeDocument document) {
+	private void setOrganism(Proteome source, ProteomeDocument document) {
+		int taxonomyId= source.getTaxonomy().intValue();
 		document.organismTaxId = taxonomyId;
 		document.taxLineageIds.add(taxonomyId);
 		Optional<TaxonomicNode> taxonomicNode = taxonomyRepo.retrieveNodeUsingTaxID(taxonomyId);
@@ -92,6 +93,9 @@ public class ProteomeEntryConverter implements DocumentConverter<Proteome, Prote
 			List<String> extractedTaxoNode = extractTaxonode(node);
 			document.organismName.addAll(extractedTaxoNode);
 			 document.organismTaxon.addAll(extractedTaxoNode);
+		}else {
+			document.organismName.add(source.getName());
+			 document.organismTaxon.add(source.getName());
 		}
 
 	}
