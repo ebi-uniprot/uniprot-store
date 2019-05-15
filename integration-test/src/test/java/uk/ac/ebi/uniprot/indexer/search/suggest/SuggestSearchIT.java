@@ -83,7 +83,7 @@ public class SuggestSearchIT {
         checkResultsContains(results, 0, id, value, altValue);
     }
 
-    @Test
+    @Test                                  
     public void leadingZerosAreIgnored() {
         String nonZeroIdPart = "1234";
         String id = "00000" + nonZeroIdPart;
@@ -97,8 +97,8 @@ public class SuggestSearchIT {
                                         .altValue(altValue)
                                         .build());
         searchEngine.indexEntry(SuggestDocument.builder()
-                                        .id(id)
-                                        .dictionary("anotherDictionary")
+                                        .id("234")
+                                        .dictionary(dict)
                                         .value(value)
                                         .altValue(altValue)
                                         .build());
