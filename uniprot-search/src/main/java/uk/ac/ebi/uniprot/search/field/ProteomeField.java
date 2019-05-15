@@ -1,8 +1,8 @@
 package uk.ac.ebi.uniprot.search.field;
 
-import java.util.function.Predicate;
-
 import uk.ac.ebi.uniprot.search.field.validator.FieldValueValidator;
+
+import java.util.function.Predicate;
 
 public interface ProteomeField {
 	 public enum Return {
@@ -75,6 +75,11 @@ public interface ProteomeField {
 		@Override
 		public Float getBoostValue() {
 			return this.boostValue;
+		}
+
+		@Override
+		public boolean hasBoostValue() {
+			return boostValue != null;
 		}
 
 		@Override

@@ -18,7 +18,7 @@
 <schema name="keyword" version="1.6">
     <!-- =============================== cross references fields  =============================== -->
     <field name="id" type="string" indexed="true" stored="false" required="true" multiValued="false"/>
-    <field name="accession" type="full_ci" indexed="true" stored="true" required="true" multiValued="false" docValues="true"/>
+    <field name="accession" type="full_ci" indexed="true" stored="true" required="true" multiValued="false" /> <!-- @lgonzales: full_ci can not have docValues="true" -->
     <field name="keyword_identifier" type="basic_ci" indexed="true" stored="true" multiValued="false"/>
     <field name="category_identifier" type="basic_ci" indexed="true" stored="true" multiValued="false"/>
     <field name="definition" type="full_ci" indexed="true" stored="true" multiValued="false"/>

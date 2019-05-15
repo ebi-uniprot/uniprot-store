@@ -105,6 +105,11 @@ class EntryDocumentPairProcessorTest {
         BasicDocument(String value) {
             this.value = value;
         }
+
+        @Override
+        public String getDocumentId() {
+            return value;
+        }
     }
 
     @Getter
