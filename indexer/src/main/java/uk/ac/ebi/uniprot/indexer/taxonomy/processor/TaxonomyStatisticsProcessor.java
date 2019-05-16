@@ -45,7 +45,7 @@ public class TaxonomyStatisticsProcessor implements ItemProcessor<TaxonomyStatis
             TaxonomyStatisticsBuilder statisticsBuilder = new TaxonomyStatisticsBuilder().from(entry.getStatistics());
             statisticsBuilder.reviewedProteinCount(taxonomyCount.getReviewedProteinCount());
             statisticsBuilder.unreviewedProteinCount(taxonomyCount.getUnreviewedProteinCount());
-            statisticsBuilder.proteomeCount(taxonomyCount.getProteomeCount());
+//            statisticsBuilder.proteomeCount(taxonomyCount.getProteomeCount());
 
             TaxonomyEntryBuilder builder = new TaxonomyEntryBuilder().from(entry);
             builder.statistics(statisticsBuilder.build());

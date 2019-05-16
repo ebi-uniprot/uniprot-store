@@ -74,7 +74,7 @@ public class UniProtSearchEngine extends AbstractSearchEngine<UniProtEntry> {
 
                 return new UniProtEntryConverter(taxRepo, goRelation, createKeywordRepo(),
                                                  createPathwayRepo(),
-                                                 suggestDocuments);
+                                                 null);
             } catch (URISyntaxException e) {
                 throw new IllegalStateException("Unable to access the taxonomy file location");
             }

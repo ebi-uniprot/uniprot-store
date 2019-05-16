@@ -11,7 +11,9 @@ import uk.ac.ebi.uniprot.search.field.QueryBuilder;
 import uk.ac.ebi.uniprot.search.field.SuggestField;
 
 import java.util.Collection;
+import java.util.List;
 
+import static java.util.Collections.singletonList;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.not;
@@ -35,7 +37,7 @@ public class SuggestSearchIT {
     public void exactMatch() {
         String id = "1234";
         String value = "value";
-        String altValue = "altValue";
+        List<String> altValue = singletonList("altValue");
         String dict = "randomDictionary";
         searchEngine.indexEntry(SuggestDocument.builder()
                                         .id(id)
@@ -61,7 +63,7 @@ public class SuggestSearchIT {
     public void leftPrefixMatchWillHit() {
         String id = "1234";
         String value = "value";
-        String altValue = "altValue";
+        List<String> altValue = singletonList("altValue");
         String dict = "randomDictionary";
         searchEngine.indexEntry(SuggestDocument.builder()
                                         .id(id)
@@ -88,7 +90,7 @@ public class SuggestSearchIT {
         String nonZeroIdPart = "1234";
         String id = "00000" + nonZeroIdPart;
         String value = "value";
-        String altValue = "altValue";
+        List<String> altValue = singletonList("altValue");
         String dict = "randomDictionary";
         searchEngine.indexEntry(SuggestDocument.builder()
                                         .id(id)
@@ -114,7 +116,7 @@ public class SuggestSearchIT {
     public void exactMatchComesFirst() {
         String id = "1234";
         String value = "value";
-        String altValue = "altValue";
+        List<String> altValue = singletonList("altValue");
         String dict = "randomDictionary";
         String idLonger = id + "567";
         searchEngine.indexEntry(SuggestDocument.builder()
@@ -142,7 +144,7 @@ public class SuggestSearchIT {
     public void exactMatchOfSecondWord() {
         String id = "1234";
         String value = "one two three four";
-        String altValue = "altValue";
+        List<String> altValue = singletonList("altValue");
         String dict = "randomDictionary";
         String idLonger = id + "567";
         searchEngine.indexEntry(SuggestDocument.builder()
@@ -169,7 +171,7 @@ public class SuggestSearchIT {
     public void prefixMatchOfSecondWord() {
         String id = "1234";
         String value = "one twoooo three four";
-        String altValue = "altValue";
+        List<String> altValue = singletonList("altValue");
         String dict = "randomDictionary";
         String idLonger = id + "567";
         searchEngine.indexEntry(SuggestDocument.builder()
@@ -195,7 +197,7 @@ public class SuggestSearchIT {
     @Test
     public void idHasPrecedenceOverValue() {
         String id = "12345678";
-        String altValue = "altValue";
+        List<String> altValue = singletonList("altValue");
         String dict = "randomDictionary";
         String someId = "some id";
         String someValue = "some value";
@@ -223,7 +225,7 @@ public class SuggestSearchIT {
     @Test
     public void multiWordIdHasPrecedenceOverValue() {
         String id = "1234 5678";
-        String altValue = "altValue";
+        List<String> altValue = singletonList("altValue");
         String dict = "randomDictionary";
         String someId = "some id";
         String someValue = "some value";
@@ -252,9 +254,8 @@ public class SuggestSearchIT {
     public void findsECTypeId() {
         String id = "1.2.3.1";
         String someValue = "some value";
-        String altValue = "altValue";
+        List<String> altValue = singletonList("altValue");
         String dict = "randomDictionary";
-        String someId = "some id";
         searchEngine.indexEntry(SuggestDocument.builder()
                                         .id(id)
                                         .dictionary(dict)
@@ -274,7 +275,7 @@ public class SuggestSearchIT {
         String prefixId = "1.2";
         String id = prefixId + "3.1";
         String someValue = "some value";
-        String altValue = "altValue";
+        List<String> altValue = singletonList("altValue");
         String dict = "randomDictionary";
         String someId = "some id";
         searchEngine.indexEntry(SuggestDocument.builder()
@@ -301,11 +302,11 @@ public class SuggestSearchIT {
         return searchEngine.getQueryResponse(REQUEST_HANDLER, query);
     }
 
-    private void checkResultsContains(SolrDocumentList results, int position, String id, String value, String altValue) {
+    private void checkResultsContains(SolrDocumentList results, int position, String id, String value, List<String> altValues) {
         SolrDocument document = results.get(position);
         checkFieldForDocument(document, SuggestField.Stored.id, id);
         checkFieldForDocument(document, SuggestField.Stored.value, value);
-        checkFieldForDocument(document, SuggestField.Stored.altValue, altValue);
+        checkFieldForDocument(document, SuggestField.Stored.altValue, altValues);
     }
 
     private void checkFieldForDocument(SolrDocument document, SuggestField.Stored valueEnum, String value) {
@@ -315,6 +316,16 @@ public class SuggestSearchIT {
             assertThat(fieldNames, not(contains(valueEnum.name())));
         } else {
             assertThat(document.getFieldValue(valueEnum.name()), is(value));
+        }
+    }
+
+    private void checkFieldForDocument(SolrDocument document, SuggestField.Stored valueEnum, List<String> values) {
+        Collection<String> fieldNames = document.getFieldNames();
+
+        if (values == null) {
+            assertThat(fieldNames, not(contains(valueEnum.name())));
+        } else {
+            assertThat(document.getFieldValue(valueEnum.name()), is(values));
         }
     }
 

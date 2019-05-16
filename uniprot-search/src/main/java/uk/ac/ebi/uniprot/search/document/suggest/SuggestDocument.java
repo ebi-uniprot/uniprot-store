@@ -8,6 +8,8 @@ import lombok.NoArgsConstructor;
 import org.apache.solr.client.solrj.beans.Field;
 import uk.ac.ebi.uniprot.search.document.Document;
 
+import java.util.List;
+
 
 @EqualsAndHashCode
 @Builder
@@ -21,7 +23,7 @@ public class SuggestDocument implements Document {
     public String value;
 
     @Field("altValue")
-    public String altValue;
+    public List<String> altValue;
 
     @Field("dict")
     public String dictionary;

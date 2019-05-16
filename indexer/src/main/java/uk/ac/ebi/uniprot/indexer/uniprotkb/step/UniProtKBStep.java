@@ -1,5 +1,6 @@
 package uk.ac.ebi.uniprot.indexer.uniprotkb.step;
 
+import net.jodah.failsafe.RetryPolicy;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
 import org.springframework.batch.core.listener.ExecutionContextPromotionListener;
@@ -10,14 +11,35 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
+import org.springframework.data.solr.core.SolrTemplate;
 import uk.ac.ebi.uniprot.domain.uniprot.UniProtEntry;
 import uk.ac.ebi.uniprot.indexer.common.listener.LogRateListener;
 import uk.ac.ebi.uniprot.indexer.common.listener.WriteRetrierLogStepListener;
 import uk.ac.ebi.uniprot.indexer.common.model.EntryDocumentPair;
+import uk.ac.ebi.uniprot.indexer.uniprot.go.GoRelationFileReader;
+import uk.ac.ebi.uniprot.indexer.uniprot.go.GoRelationFileRepo;
+import uk.ac.ebi.uniprot.indexer.uniprot.go.GoRelationRepo;
+import uk.ac.ebi.uniprot.indexer.uniprot.go.GoTermFileReader;
+import uk.ac.ebi.uniprot.indexer.uniprot.keyword.KeywordFileRepo;
+import uk.ac.ebi.uniprot.indexer.uniprot.keyword.KeywordRepo;
+import uk.ac.ebi.uniprot.indexer.uniprot.pathway.PathwayFileRepo;
+import uk.ac.ebi.uniprot.indexer.uniprot.pathway.PathwayRepo;
+import uk.ac.ebi.uniprot.indexer.uniprot.taxonomy.FileNodeIterable;
+import uk.ac.ebi.uniprot.indexer.uniprot.taxonomy.TaxonomyMapRepo;
+import uk.ac.ebi.uniprot.indexer.uniprot.taxonomy.TaxonomyRepo;
 import uk.ac.ebi.uniprot.indexer.uniprotkb.config.UniProtKBConfig;
 import uk.ac.ebi.uniprot.indexer.uniprotkb.config.UniProtKBIndexingProperties;
 import uk.ac.ebi.uniprot.indexer.uniprotkb.model.UniProtEntryDocumentPair;
+import uk.ac.ebi.uniprot.indexer.uniprotkb.processor.UniProtEntryConverter;
+import uk.ac.ebi.uniprot.indexer.uniprotkb.processor.UniProtEntryDocumentPairProcessor;
+import uk.ac.ebi.uniprot.indexer.uniprotkb.reader.UniProtEntryItemReader;
+import uk.ac.ebi.uniprot.indexer.uniprotkb.writer.UniProtEntryDocumentPairWriter;
+import uk.ac.ebi.uniprot.search.SolrCollection;
+import uk.ac.ebi.uniprot.search.document.suggest.SuggestDocument;
 import uk.ac.ebi.uniprot.search.document.uniprot.UniProtDocument;
+
+import java.io.File;
+import java.util.Set;
 
 import static uk.ac.ebi.uniprot.indexer.common.utils.Constants.UNIPROTKB_INDEX_STEP;
 
@@ -29,15 +51,18 @@ import static uk.ac.ebi.uniprot.indexer.common.utils.Constants.UNIPROTKB_INDEX_S
  * @author Edd
  */
 @Configuration
-@Import({UniProtKBConfig.class})
+@Import({UniProtKBConfig.class, SuggestionStep.class})
 public class UniProtKBStep {
     private final StepBuilderFactory stepBuilderFactory;
     private final UniProtKBIndexingProperties uniProtKBIndexingProperties;
+    private final SolrTemplate solrTemplate;
 
     @Autowired
     public UniProtKBStep(StepBuilderFactory stepBuilderFactory,
+                         SolrTemplate solrTemplate,
                          UniProtKBIndexingProperties indexingProperties) {
         this.stepBuilderFactory = stepBuilderFactory;
+        this.solrTemplate = solrTemplate;
         this.uniProtKBIndexingProperties = indexingProperties;
     }
 
@@ -56,5 +81,49 @@ public class UniProtKBStep {
                 .listener(writeRetrierLogStepListener)
                 .listener(new LogRateListener<UniProtEntryDocumentPair>())
                 .build();
+    }
+
+    @Bean
+    public ItemWriter<EntryDocumentPair<UniProtEntry, UniProtDocument>> uniProtDocumentItemWriter(RetryPolicy<Object> writeRetryPolicy) {
+        return new UniProtEntryDocumentPairWriter(this.solrTemplate, SolrCollection.uniprot, writeRetryPolicy);
+    }
+
+    @Bean
+    ItemReader<UniProtEntryDocumentPair> entryItemReader() {
+        return new UniProtEntryItemReader(uniProtKBIndexingProperties);
+    }
+
+    @Bean
+    ItemProcessor<UniProtEntryDocumentPair, UniProtEntryDocumentPair> uniProtDocumentItemProcessor(Set<SuggestDocument> suggestDocuments) {
+        return new UniProtEntryDocumentPairProcessor(
+                new UniProtEntryConverter(
+                        createTaxonomyRepo(),
+                        createGoRelationRepo(),
+                        createKeywordRepo(),
+                        createPathwayRepo(),
+                        suggestDocuments));
+    }
+
+    @Bean
+    UniProtKBIndexingProperties indexingProperties() {
+        return uniProtKBIndexingProperties;
+    }
+
+    private PathwayRepo createPathwayRepo() {
+        return new PathwayFileRepo(uniProtKBIndexingProperties.getPathwayFile());
+    }
+
+    private KeywordRepo createKeywordRepo() {
+        return new KeywordFileRepo(uniProtKBIndexingProperties.getKeywordFile());
+    }
+
+    private GoRelationRepo createGoRelationRepo() {
+        return new GoRelationFileRepo(
+                new GoRelationFileReader(uniProtKBIndexingProperties.getGoDir()),
+                new GoTermFileReader(uniProtKBIndexingProperties.getGoDir()));
+    }
+
+    private TaxonomyRepo createTaxonomyRepo() {
+        return new TaxonomyMapRepo(new FileNodeIterable(new File(uniProtKBIndexingProperties.getTaxonomyFile())));
     }
 }

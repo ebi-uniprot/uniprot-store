@@ -19,7 +19,7 @@
     <!-- =============================== suggestion fields  =============================== -->
     <field name="id" type="string" indexed="true" stored="true" required="true" multiValued="false"/>
     <field name="value" type="string" indexed="true" stored="true" multiValued="false"/>
-    <field name="altValue" type="string" indexed="true" stored="true" multiValued="false"/>
+    <field name="altValue" type="string" indexed="true" stored="true" multiValued="true"/>
     <field name="dict" type="string" indexed="true" stored="false" required="true" multiValued="false"/>
     <field name="content" type="suggester_ci" indexed="true" stored="false" multiValued="true"/>
 

@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import uk.ac.ebi.uniprot.indexer.common.listener.LogRateListener;
+import uk.ac.ebi.uniprot.indexer.uniprotkb.config.SuggestionConfig;
 import uk.ac.ebi.uniprot.indexer.uniprotkb.config.UniProtKBConfig;
 import uk.ac.ebi.uniprot.indexer.uniprotkb.config.UniProtKBIndexingProperties;
 import uk.ac.ebi.uniprot.indexer.uniprotkb.reader.SuggestionItemReader;
@@ -22,7 +23,7 @@ import static uk.ac.ebi.uniprot.indexer.common.utils.Constants.SUGGESTIONS_INDEX
  * @author Edd
  */
 @Configuration
-@Import({UniProtKBConfig.class})
+@Import({SuggestionConfig.class, UniProtKBConfig.class})
 public class SuggestionStep {
     private final StepBuilderFactory stepBuilderFactory;
     private final UniProtKBIndexingProperties indexingProperties;
@@ -44,7 +45,6 @@ public class SuggestionStep {
                 //.writer(uniProtDocumentItemWriter)
                 //.listener(writeRetrierLogStepListener)
                 .reader(suggestionItemReader)
-                // TODO: 15/05/19 may need another section to populate default suggestions, but could do this at initialisation of map
                 .writer(new SuggestionWriter())
                 .listener(new LogRateListener<>())
                 .build();
