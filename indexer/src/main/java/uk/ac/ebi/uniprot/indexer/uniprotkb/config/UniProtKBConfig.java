@@ -39,7 +39,7 @@ public class UniProtKBConfig {
         ExecutionContextPromotionListener executionContextPromotionListener = new ExecutionContextPromotionListener();
         executionContextPromotionListener.setKeys(new String[]{Constants.INDEX_FAILED_ENTRIES_COUNT_KEY,
                                                                Constants.INDEX_WRITTEN_ENTRIES_COUNT_KEY,
-                                                               Constants.SUGGESTIONS_SET});
+                                                               Constants.SUGGESTIONS_MAP});
         return executionContextPromotionListener;
     }
 }

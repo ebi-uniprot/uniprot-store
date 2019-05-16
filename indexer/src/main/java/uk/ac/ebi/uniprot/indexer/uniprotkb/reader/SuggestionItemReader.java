@@ -8,7 +8,7 @@ import uk.ac.ebi.uniprot.indexer.common.utils.Constants;
 import uk.ac.ebi.uniprot.search.document.suggest.SuggestDocument;
 
 import java.util.Iterator;
-import java.util.Set;
+import java.util.Map;
 
 import static java.util.Objects.nonNull;
 
@@ -34,9 +34,9 @@ public class SuggestionItemReader implements ItemReader<SuggestDocument> {
     public void setStepExecution(final StepExecution stepExecution) {
         ExecutionContext executionContext = stepExecution.getJobExecution().getExecutionContext();
 
-        Set<SuggestDocument> suggestDocuments = (Set<SuggestDocument>) executionContext.get(Constants.SUGGESTIONS_SET);
+        Map<String, SuggestDocument> suggestDocuments = (Map<String, SuggestDocument>) executionContext.get(Constants.SUGGESTIONS_MAP);
         if (nonNull(suggestDocuments)) {
-            this.suggestDocumentIterator = suggestDocuments.iterator();
+            this.suggestDocumentIterator = suggestDocuments.values().iterator();
         }
     }
 }

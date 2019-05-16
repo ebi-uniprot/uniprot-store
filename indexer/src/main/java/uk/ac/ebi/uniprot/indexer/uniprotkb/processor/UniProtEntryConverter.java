@@ -53,8 +53,6 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 /**
- * // TODO: 18/04/19 can be moved to a different package?
- *
  * Created 18/04/19
  *
  * @author Edd
@@ -111,7 +109,7 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtEntry, Un
     private final GoRelationRepo goRelationRepo;
     private final KeywordRepo keywordRepo;
     private final PathwayRepo pathwayRepo;
-    private Set<SuggestDocument> suggestions;
+    private Map<String, SuggestDocument> suggestions;
     //  private final UniProtUniRefMap uniprotUniRefMap;
 
 
@@ -119,7 +117,7 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtEntry, Un
 
                                  //	UniProtUniRefMap uniProtUniRefMap,
                                  KeywordRepo keywordRepo, PathwayRepo pathwayRepo,
-                                 Set<SuggestDocument> suggestDocuments) {
+                                 Map<String, SuggestDocument> suggestDocuments) {
         this.taxonomyRepo = taxonomyRepo;
         this.goRelationRepo = goRelationRepo;
         this.keywordRepo = keywordRepo;
@@ -182,14 +180,14 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtEntry, Un
             }
             setProteinNames(source, japiDocument);
             setECNumbers(source, japiDocument);
-            setKeywords(source,japiDocument);
+            setKeywords(source, japiDocument);
             setOrganism(source, japiDocument);
             setLineageTaxons(source, japiDocument);
             setOrganismHosts(source, japiDocument);
             convertGeneNames(source, japiDocument);
             if (!japiDocument.geneNamesExact.isEmpty()) {
                 japiDocument.geneNames.addAll(japiDocument.geneNamesExact);
-                japiDocument.geneNamesSort = truncatedSortValue(String.join(" ",japiDocument.geneNames));
+                japiDocument.geneNamesSort = truncatedSortValue(String.join(" ", japiDocument.geneNames));
             }
             convertGoTerms(source, japiDocument);
             convertReferences(source, japiDocument);
@@ -223,7 +221,7 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtEntry, Un
                 .count() == 1L;
     }
 
-    Set<SuggestDocument> getSuggestions() {
+    Map<String, SuggestDocument> getSuggestions() {
         return suggestions;
     }
 
@@ -253,7 +251,8 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtEntry, Un
         japiDocument.content.add(String.valueOf(japiDocument.organismTaxId));
         japiDocument.content.addAll(japiDocument.organismName);
         japiDocument.content.addAll(japiDocument.organismHostNames);
-        japiDocument.content.addAll(japiDocument.organismHostIds.stream().map(String::valueOf).collect(Collectors.toList()));
+        japiDocument.content
+                .addAll(japiDocument.organismHostIds.stream().map(String::valueOf).collect(Collectors.toList()));
 
         japiDocument.content.addAll(japiDocument.organelles);
 
@@ -296,13 +295,14 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtEntry, Un
                     .sequence(new SequenceImpl(source.getSequence().getValue()))
                     .build();
 
-            byte[] avroByteArray = UniprotJsonConfig.getInstance().getDefaultFullObjectMapper().writeValueAsBytes(defaultObject);
+            byte[] avroByteArray = UniprotJsonConfig.getInstance().getDefaultFullObjectMapper()
+                    .writeValueAsBytes(defaultObject);
             // can only store if it's size is small enough:
             // https://lucene.apache.org/core/7_5_0/core/org/apache/lucene/index/DocValuesType.html
             japiDocument.avro_binary = getDefaultBinaryValue(Base64.getEncoder().encodeToString(avroByteArray));
-        }catch (JsonProcessingException exception){
+        } catch (JsonProcessingException exception) {
             String accession = source.getPrimaryAccession().getValue();
-            LOGGER.warn("Error saving default uniprot object in avro_binary for accession: "+accession,exception);
+            LOGGER.warn("Error saving default uniprot object in avro_binary for accession: " + accession, exception);
         }
     }
 
@@ -320,7 +320,7 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtEntry, Un
     }
 
     private void setProteinNames(UniProtEntry source, UniProtDocument japiDocument) {
-        if(source.hasProteinDescription()) {
+        if (source.hasProteinDescription()) {
             ProteinDescription proteinDescription = source.getProteinDescription();
             List<String> names = extractProteinDescriptionValues(proteinDescription);
             japiDocument.proteinNames.addAll(names);
@@ -329,15 +329,15 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtEntry, Un
     }
 
     private void setECNumbers(UniProtEntry source, UniProtDocument japiDocument) {
-        if(source.hasProteinDescription()) {
+        if (source.hasProteinDescription()) {
             ProteinDescription proteinDescription = source.getProteinDescription();
             japiDocument.ecNumbers = extractProteinDescriptionEcs(proteinDescription);
             japiDocument.ecNumbersExact = japiDocument.ecNumbers;
         }
     }
 
-    private void setKeywords(UniProtEntry source,UniProtDocument japiDocument){
-        if(source.hasKeywords()) {
+    private void setKeywords(UniProtEntry source, UniProtDocument japiDocument) {
+        if (source.hasKeywords()) {
             source.getKeywords().forEach(keyword -> {
                 updateKeyword(keyword, japiDocument);
             });
@@ -349,14 +349,32 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtEntry, Un
         japiDocument.keywords.add(keyword.getId());
         addValueToStringList(japiDocument.keywords, keyword);
         Optional<KeywordDetail> kwOp = keywordRepo.getKeyword(keyword.getId());
-        if(kwOp.isPresent()) {
-            if((kwOp.get().getCategory() !=null) &&
-                    !japiDocument.keywordIds.contains(kwOp.get().getCategory().getKeyword().getAccession())){
-                japiDocument.keywordIds.add(kwOp.get().getCategory().getKeyword().getAccession());
-                japiDocument.keywords.add(kwOp.get().getCategory().getKeyword().getAccession());
-                japiDocument.keywords.add(kwOp.get().getCategory().getKeyword().getId());
-            }
-        }
+//        if(kwOp.isPresent()) {
+//            if((kwOp.get().getCategory() !=null) &&
+//                    !japiDocument.keywordIds.contains(kwOp.get().getCategory().getKeyword().getAccession())){
+//                japiDocument.keywordIds.add(kwOp.get().getCategory().getKeyword().getAccession());
+//                japiDocument.keywords.add(kwOp.get().getCategory().getKeyword().getAccession());
+//                japiDocument.keywords.add(kwOp.get().getCategory().getKeyword().getId());
+//
+////                suggestions.putIfAbsent()
+//            }
+//        }
+
+        kwOp.ifPresent(
+                kw -> {
+                    String accession = kw.getCategory().getKeyword().getAccession();
+                    String description = kw.getCategory().getKeyword().getId();
+                    if ((kw.getCategory() != null) && !japiDocument.keywordIds.contains(accession)) {
+
+                        japiDocument.keywordIds.add(accession);
+                        japiDocument.keywords.add(accession);
+                        japiDocument.keywords.add(description);
+
+                        suggestions.putIfAbsent(accession,
+                                                SuggestDocument.builder().id(accession).value(description).build());
+                    }
+                }
+        );
     }
 
     private void setOrganism(UniProtEntry source, UniProtDocument japiDocument) {
@@ -455,17 +473,17 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtEntry, Un
 
     private void addGoterm(String evType, String goId, String term, UniProtDocument japiDocument) {
         String key = GO + evType;
-        Collection<String> values = japiDocument.goWithEvidenceMaps.get(key);
-        if (values == null) {
-            values = new HashSet<>();
-            japiDocument.goWithEvidenceMaps.put(key, values);
-        }
-        values.add(goId.substring(3));
+        Collection<String> values = japiDocument.goWithEvidenceMaps.computeIfAbsent(key, k -> new HashSet<>());
+        String idOnly = goId.substring(3);
+        values.add(idOnly);
         values.add(term);
 
-        japiDocument.goes.add(goId.substring(3));
+        japiDocument.goes.add(idOnly);
         japiDocument.goes.add(term);
-        japiDocument.goIds.add(goId.substring(3));
+        japiDocument.goIds.add(idOnly);
+
+        suggestions.putIfAbsent(idOnly,
+                                SuggestDocument.builder().id(idOnly).value(term).build());
     }
 
     private void convertRcs(List<ReferenceComment> referenceComments, UniProtDocument japiDocument) {
@@ -490,7 +508,7 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtEntry, Un
     }
 
     private void convertRp(UniProtReference uniProtReference, UniProtDocument japiDocument) {
-        if(uniProtReference.hasReferencePositions()){
+        if (uniProtReference.hasReferencePositions()) {
             japiDocument.scopes.addAll(uniProtReference.getReferencePositions());
         }
     }
@@ -498,7 +516,7 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtEntry, Un
     private void convertReferences(UniProtEntry source, UniProtDocument japiDocument) {
         for (UniProtReference reference : source.getReferences()) {
             Citation citation = reference.getCitation();
-            if(reference.hasReferenceComments()) {
+            if (reference.hasReferenceComments()) {
                 convertRcs(reference.getReferenceComments(), japiDocument);
             }
             convertRp(reference, japiDocument);
@@ -535,7 +553,8 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtEntry, Un
                 }
             }
             if (citation.getCitationXrefsByType(CitationXrefType.PUBMED).isPresent()) {
-                DBCrossReference<CitationXrefType> pubmed = citation.getCitationXrefsByType(CitationXrefType.PUBMED).get();
+                DBCrossReference<CitationXrefType> pubmed = citation.getCitationXrefsByType(CitationXrefType.PUBMED)
+                        .get();
                 japiDocument.referencePubmeds.add(pubmed.getId());
             }
             if (citation instanceof JournalArticle) {
@@ -606,10 +625,10 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtEntry, Un
         switch (type) {
             case DISEASE:
                 DiseaseComment diseaseComment = (DiseaseComment) comment;
-                if(diseaseComment.hasDefinedDisease()) {
+                if (diseaseComment.hasDefinedDisease()) {
                     evidences.addAll(extractEvidence(
                             diseaseComment.getDisease().getEvidences()));
-                    if(diseaseComment.hasNote() && diseaseComment.getNote().hasTexts()) {
+                    if (diseaseComment.hasNote() && diseaseComment.getNote().hasTexts()) {
                         evidences.addAll(extractEvidence(diseaseComment.getNote().getTexts().stream()
                                                                  .flatMap(val -> val.getEvidences().stream())
                                                                  .collect(Collectors.toList())));
@@ -618,12 +637,12 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtEntry, Un
                 break;
             case RNA_EDITING:
                 RnaEditingComment reComment = (RnaEditingComment) comment;
-                if(reComment.hasPositions()) {
+                if (reComment.hasPositions()) {
                     evidences.addAll(extractEvidence(reComment.getPositions().stream()
                                                              .flatMap(val -> val.getEvidences().stream())
                                                              .collect(Collectors.toList())));
                 }
-                if(reComment.hasNote()) {
+                if (reComment.hasNote()) {
                     evidences.addAll(extractEvidence(reComment.getNote().getTexts().stream()
                                                              .flatMap(val -> val.getEvidences().stream())
                                                              .collect(Collectors.toList())));
@@ -639,13 +658,13 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtEntry, Un
 
     private void convertCommentInteraction(InteractionComment comment, UniProtDocument japiDocument) {
         comment.getInteractions().forEach(interaction -> {
-            if(interaction.hasFirstInteractor()) {
+            if (interaction.hasFirstInteractor()) {
                 japiDocument.interactors.add(interaction.getFirstInteractor().getValue());
             }
-            if(interaction.hasSecondInteractor()) {
+            if (interaction.hasSecondInteractor()) {
                 japiDocument.interactors.add(interaction.getSecondInteractor().getValue());
             }
-            if(interaction.hasUniProtAccession()) {
+            if (interaction.hasUniProtAccession()) {
                 japiDocument.interactors.add(interaction.getUniProtAccession().getValue());
             }
         });
@@ -662,12 +681,14 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtEntry, Un
                 .map(Value::getValue)
                 .forEach(val -> updatePathway(val, japiDocument));
     }
+
     private void updatePathway(String val, UniProtDocument japiDocument) {
         UniPathway unipathway = pathwayRepo.getFromName(val);
-        if(unipathway !=null) {
+        if (unipathway != null) {
             japiDocument.pathway.add(unipathway.getAccession());
         }
     }
+
     private void updateFamily(String val, UniProtDocument japiDocument) {
         if (!val.endsWith(".")) {
             val += ".";
@@ -804,7 +825,7 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtEntry, Un
     }
 
     private void convertCommentSL(SubcellularLocationComment comment, UniProtDocument japiDocument) {
-        if(comment.hasSubcellularLocations()){
+        if (comment.hasSubcellularLocations()) {
             comment.getSubcellularLocations().forEach(subcellularLocation -> {
                 if (subcellularLocation.hasLocation()) {
                     japiDocument.subcellLocationTerm.add(subcellularLocation.getLocation().getValue());
@@ -827,7 +848,7 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtEntry, Un
                 }
             });
         }
-        if(comment.hasNote()) {
+        if (comment.hasNote()) {
             comment.getNote().getTexts().stream().map(Value::getValue)
                     .forEach(japiDocument.subcellLocationNote::add);
             Set<String> noteEv = extractEvidence(comment.getNote().getTexts().stream()
@@ -853,8 +874,8 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtEntry, Un
 
     private void convertCommentAP(AlternativeProductsComment comment, UniProtDocument japiDocument) {
         List<String> values = new ArrayList<>();
-        Set<String> evidence =  new HashSet<>();
-        if(comment.hasNote()) {
+        Set<String> evidence = new HashSet<>();
+        if (comment.hasNote()) {
             comment.getNote().getTexts().stream().map(Value::getValue)
                     .forEach(values::add);
 
@@ -864,7 +885,7 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtEntry, Un
         }
 
         List<String> events = new ArrayList<>();
-        if(comment.hasEvents()) {
+        if (comment.hasEvents()) {
             comment.getEvents().stream().map(APEventType::getName).forEach(events::add);
             values.addAll(events);
         }
@@ -893,7 +914,7 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtEntry, Un
     }
 
     private void convertFactor(CofactorComment comment, UniProtDocument japiDocument) {
-        if(comment.hasCofactors()) {
+        if (comment.hasCofactors()) {
             comment.getCofactors().forEach(val -> {
                 japiDocument.cofactorChebi.add(val.getName());
                 if (val.getCofactorReference().getDatabaseType() == CofactorReferenceType.CHEBI) {
@@ -923,12 +944,12 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtEntry, Un
             String dbname = xref.getDatabaseType().getName().toLowerCase();
             japiDocument.databases.add(dbname);
             String id = xref.getId();
-            if (!dbname.equalsIgnoreCase("PIR")){
+            if (!dbname.equalsIgnoreCase("PIR")) {
                 addXrefId(id, dbname, japiDocument.xrefs);
             }
             switch (dbname.toLowerCase()) {
                 case "embl":
-                    if(xref.hasProperties()) {
+                    if (xref.hasProperties()) {
                         Optional<String> proteinId = xref.getProperties().stream()
                                 .filter(property -> property.getKey().equalsIgnoreCase("ProteinId"))
                                 .filter(property -> !property.getValue().equalsIgnoreCase("-"))
@@ -941,7 +962,7 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtEntry, Un
                 case "pir":
                 case "unipathway":
                 case "ensembl":
-                    if(xref.hasProperties()) {
+                    if (xref.hasProperties()) {
                         List<String> properties = xref.getProperties().stream()
                                 .filter(property -> !property.getValue().equalsIgnoreCase("-"))
                                 .map(Property::getValue)
@@ -951,7 +972,7 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtEntry, Un
                     break;
                 case "proteomes":
                     japiDocument.proteomes.add(xref.getId());
-                    if(xref.hasProperties()) {
+                    if (xref.hasProperties()) {
                         japiDocument.proteomeComponents.addAll(xref.getProperties().stream()
                                                                        .map(Property::getValue)
                                                                        .collect(Collectors.toSet()));
@@ -999,7 +1020,8 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtEntry, Un
             String field = getFeatureField(feature, FEATURE);
             String evField = getFeatureField(feature, FT_EV);
             String lengthField = getFeatureField(feature, FT_LENGTH);
-            Collection<String> featuresOfTypeList = japiDocument.featuresMap.computeIfAbsent(field, k -> new HashSet<>());
+            Collection<String> featuresOfTypeList = japiDocument.featuresMap
+                    .computeIfAbsent(field, k -> new HashSet<>());
             String featureText = fbuilder.buildStringWithEvidence(feature);
             featuresOfTypeList.add(featureText);
             japiDocument.content.add(featureText);
@@ -1007,10 +1029,12 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtEntry, Un
             // start and end of location
             int length = feature.getLocation().getEnd().getValue() - feature.getLocation().getStart().getValue() + 1;
             Set<String> evidences = extractEvidence(feature.getEvidences());
-            Collection<Integer> lengthList = japiDocument.featureLengthMap.computeIfAbsent(lengthField, k -> new HashSet<>());
+            Collection<Integer> lengthList = japiDocument.featureLengthMap
+                    .computeIfAbsent(lengthField, k -> new HashSet<>());
             lengthList.add(length);
 
-            Collection<String> evidenceList = japiDocument.featureEvidenceMap.computeIfAbsent(evField, k -> new HashSet<>());
+            Collection<String> evidenceList = japiDocument.featureEvidenceMap
+                    .computeIfAbsent(evField, k -> new HashSet<>());
             evidenceList.addAll(evidences);
         }
     }
@@ -1021,7 +1045,7 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtEntry, Un
         boolean isPrecursor = false;
         if (source.hasProteinDescription() && description.hasFlag()) {
             Flag flag = description.getFlag();
-            switch (flag.getType()){
+            switch (flag.getType()) {
                 case FRAGMENT:
                 case FRAGMENTS:
                     isFragment = true;
@@ -1049,27 +1073,27 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtEntry, Un
 
     private List<String> extractProteinDescriptionEcs(ProteinDescription proteinDescription) {
         List<String> ecs = new ArrayList<>();
-        if(proteinDescription.hasRecommendedName() && proteinDescription.getRecommendedName().hasEcNumbers()){
+        if (proteinDescription.hasRecommendedName() && proteinDescription.getRecommendedName().hasEcNumbers()) {
             ecs.addAll(getEcs(proteinDescription.getRecommendedName().getEcNumbers()));
         }
-        if(proteinDescription.hasSubmissionNames()){
+        if (proteinDescription.hasSubmissionNames()) {
             proteinDescription.getSubmissionNames().stream()
                     .filter(ProteinSubName::hasEcNumbers)
                     .flatMap(proteinSubName -> getEcs(proteinSubName.getEcNumbers()).stream())
                     .forEach(ecs::add);
         }
-        if(proteinDescription.hasAlternativeNames()){
+        if (proteinDescription.hasAlternativeNames()) {
             proteinDescription.getAlternativeNames().stream()
                     .filter(ProteinAltName::hasEcNumbers)
                     .flatMap(proteinAltName -> getEcs(proteinAltName.getEcNumbers()).stream())
                     .forEach(ecs::add);
         }
-        if(proteinDescription.hasContains()){
+        if (proteinDescription.hasContains()) {
             proteinDescription.getContains().stream()
                     .flatMap(proteinSection -> getProteinSectionEcs(proteinSection).stream())
                     .forEach(ecs::add);
         }
-        if(proteinDescription.hasIncludes()){
+        if (proteinDescription.hasIncludes()) {
             proteinDescription.getIncludes().stream()
                     .flatMap(proteinSection -> getProteinSectionEcs(proteinSection).stream())
                     .forEach(ecs::add);
@@ -1077,12 +1101,12 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtEntry, Un
         return ecs;
     }
 
-    private List<String> getProteinSectionEcs(ProteinSection proteinSection){
+    private List<String> getProteinSectionEcs(ProteinSection proteinSection) {
         List<String> ecs = new ArrayList<>();
-        if(proteinSection.hasRecommendedName() && proteinSection.getRecommendedName().hasEcNumbers()){
+        if (proteinSection.hasRecommendedName() && proteinSection.getRecommendedName().hasEcNumbers()) {
             ecs.addAll(getEcs(proteinSection.getRecommendedName().getEcNumbers()));
         }
-        if(proteinSection.hasAlternativeNames()){
+        if (proteinSection.hasAlternativeNames()) {
             proteinSection.getAlternativeNames().stream()
                     .filter(ProteinAltName::hasEcNumbers)
                     .flatMap(proteinAltName -> getEcs(proteinAltName.getEcNumbers()).stream())
@@ -1091,49 +1115,49 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtEntry, Un
         return ecs;
     }
 
-    private List<String> getEcs(List<EC> ecs){
+    private List<String> getEcs(List<EC> ecs) {
         return ecs.stream()
                 .map(EC::getValue)
                 .collect(Collectors.toList());
     }
 
-    private List<String> extractProteinDescriptionValues(ProteinDescription description){
+    private List<String> extractProteinDescriptionValues(ProteinDescription description) {
         List<String> values = new ArrayList<>();
-        if(description.hasRecommendedName()){
+        if (description.hasRecommendedName()) {
             values.addAll(getProteinRecNameNames(description.getRecommendedName()));
         }
-        if(description.hasSubmissionNames()){
+        if (description.hasSubmissionNames()) {
             description.getSubmissionNames().stream()
                     .map(this::getProteinSubNameNames)
                     .forEach(values::addAll);
         }
-        if(description.hasAlternativeNames()){
+        if (description.hasAlternativeNames()) {
             description.getAlternativeNames().stream()
                     .map(this::getProteinAltNameNames)
                     .forEach(values::addAll);
         }
-        if(description.hasContains()){
+        if (description.hasContains()) {
             description.getContains().stream()
                     .map(this::getProteinSectionValues)
                     .forEach(values::addAll);
         }
-        if(description.hasIncludes()){
+        if (description.hasIncludes()) {
             description.getIncludes().stream()
                     .map(this::getProteinSectionValues)
                     .forEach(values::addAll);
         }
-        if(description.hasAllergenName()){
+        if (description.hasAllergenName()) {
             values.add(description.getAllergenName().getValue());
         }
-        if(description.hasBiotechName()){
+        if (description.hasBiotechName()) {
             values.add(description.getBiotechName().getValue());
         }
-        if(description.hasCdAntigenNames()){
+        if (description.hasCdAntigenNames()) {
             description.getCdAntigenNames().stream()
                     .map(Value::getValue)
                     .forEach(values::add);
         }
-        if(description.hasInnNames()){
+        if (description.hasInnNames()) {
             description.getInnNames().stream()
                     .map(Value::getValue)
                     .forEach(values::add);
@@ -1141,41 +1165,41 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtEntry, Un
         return values;
     }
 
-    private List<String> getProteinSectionValues(ProteinSection proteinSection){
+    private List<String> getProteinSectionValues(ProteinSection proteinSection) {
         List<String> names = new ArrayList<>();
-        if(proteinSection.hasRecommendedName()){
+        if (proteinSection.hasRecommendedName()) {
             names.addAll(getProteinRecNameNames(proteinSection.getRecommendedName()));
         }
-        if(proteinSection.hasAlternativeNames()){
+        if (proteinSection.hasAlternativeNames()) {
             proteinSection.getAlternativeNames().stream()
                     .map(this::getProteinAltNameNames)
                     .forEach(names::addAll);
         }
-        if(proteinSection.hasCdAntigenNames()){
+        if (proteinSection.hasCdAntigenNames()) {
             proteinSection.getCdAntigenNames().stream()
                     .map(Value::getValue)
                     .forEach(names::add);
         }
-        if(proteinSection.hasAllergenName()){
+        if (proteinSection.hasAllergenName()) {
             names.add(proteinSection.getAllergenName().getValue());
         }
-        if(proteinSection.hasInnNames()){
+        if (proteinSection.hasInnNames()) {
             proteinSection.getInnNames().stream()
                     .map(Value::getValue)
                     .forEach(names::add);
         }
-        if(proteinSection.hasBiotechName()){
+        if (proteinSection.hasBiotechName()) {
             names.add(proteinSection.getBiotechName().getValue());
         }
         return names;
     }
 
-    private List<String> getProteinRecNameNames(ProteinRecName proteinRecName){
+    private List<String> getProteinRecNameNames(ProteinRecName proteinRecName) {
         List<String> names = new ArrayList<>();
-        if(proteinRecName.hasFullName()){
+        if (proteinRecName.hasFullName()) {
             names.add(proteinRecName.getFullName().getValue());
         }
-        if(proteinRecName.hasShortNames()){
+        if (proteinRecName.hasShortNames()) {
             proteinRecName.getShortNames()
                     .stream()
                     .map(Name::getValue)
@@ -1184,23 +1208,23 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtEntry, Un
         return names;
     }
 
-    private List<String> getProteinAltNameNames(ProteinAltName proteinAltName){
+    private List<String> getProteinAltNameNames(ProteinAltName proteinAltName) {
         List<String> names = new ArrayList<>();
-        if(proteinAltName.hasShortNames()){
+        if (proteinAltName.hasShortNames()) {
             proteinAltName.getShortNames()
                     .stream()
                     .map(Name::getValue)
                     .forEach(names::add);
         }
-        if(proteinAltName.hasFullName()){
+        if (proteinAltName.hasFullName()) {
             names.add(proteinAltName.getFullName().getValue());
         }
         return names;
     }
 
-    private List<String> getProteinSubNameNames(ProteinSubName proteinAltName){
+    private List<String> getProteinSubNameNames(ProteinSubName proteinAltName) {
         List<String> names = new ArrayList<>();
-        if(proteinAltName.hasFullName()){
+        if (proteinAltName.hasFullName()) {
             names.add(proteinAltName.getFullName().getValue());
         }
         return names;

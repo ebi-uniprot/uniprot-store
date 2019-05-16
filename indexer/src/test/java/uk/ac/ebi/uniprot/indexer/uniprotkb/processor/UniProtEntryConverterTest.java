@@ -1,5 +1,6 @@
 package uk.ac.ebi.uniprot.indexer.uniprotkb.processor;
 
+import net.openhft.chronicle.map.ChronicleMap;
 import org.apache.commons.io.IOUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
@@ -22,16 +23,14 @@ import uk.ac.ebi.uniprot.indexer.uniprot.keyword.KeywordRepo;
 import uk.ac.ebi.uniprot.indexer.uniprot.pathway.PathwayRepo;
 import uk.ac.ebi.uniprot.indexer.uniprot.taxonomy.TaxonomicNode;
 import uk.ac.ebi.uniprot.indexer.uniprot.taxonomy.TaxonomyRepo;
+import uk.ac.ebi.uniprot.search.document.suggest.SuggestDocument;
 import uk.ac.ebi.uniprot.search.document.uniprot.UniProtDocument;
 
 import java.io.InputStream;
 import java.nio.charset.Charset;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 import static java.util.Arrays.asList;
 import static org.junit.Assert.*;
@@ -66,12 +65,28 @@ class UniProtEntryConverterTest {
 
     private TaxonomyRepo repoMock;
     private GoRelationRepo goRelationRepoMock;
+    private HashMap<String, SuggestDocument> suggestions;
+
+    //    @Test
+    void createSuggestionMapOffHeap() {
+        ChronicleMap<String, SuggestDocumentSpec> map = ChronicleMap
+                .of(String.class, SuggestDocumentSpec.class)
+                .name("something")
+                .entries(100)
+                .averageKey("xxxxxxxxxx")
+                .create();
+
+        SuggestDoc doc = new SuggestDoc();
+        doc.setId("2");
+        map.put("1", doc);
+    }
 
     @BeforeEach
     void setUp() {
         repoMock = mock(TaxonomyRepo.class);
         goRelationRepoMock = mock(GoRelationRepo.class);
-        converter = new UniProtEntryConverter(repoMock, goRelationRepoMock, mock(KeywordRepo.class), mock(PathwayRepo.class), null);
+        suggestions = new HashMap<>();
+        converter = new UniProtEntryConverter(repoMock, goRelationRepoMock, mock(KeywordRepo.class), mock(PathwayRepo.class), suggestions);
         dateFormat = new SimpleDateFormat("dd-MMM-yyyy");
     }
 
@@ -833,7 +848,7 @@ class UniProtEntryConverterTest {
         assertNotNull(is);
         SupportingDataMap supportingDataMap = new SupportingDataMapImpl("uniprotkb/keywlist.txt",
                                                                         "uniprotkb/humdisease.txt",
-                                                                        "uniprotkb/PMID.GO.dr_ext.txt",
+                                                                        "target/test-classes/uniprotkb/PMID.GO.dr_ext.txt",
                                                                         "uniprotkb/subcell.txt");
         DefaultUniProtParser parser = new DefaultUniProtParser(supportingDataMap, false);
         return parser.parse(IOUtils.toString(is, Charset.defaultCharset()));

@@ -23,5 +23,5 @@ public class Constants {
     public static final String DISEASE_INDEX_STEP = "Disease indexing step";
 
     public static final String SUGGESTIONS_INDEX_STEP = "Suggestion_Indexing_Step";
-    public static final String SUGGESTIONS_SET = "Suggestions_Set";
+    public static final String SUGGESTIONS_MAP = "Suggestions_Set";
 }

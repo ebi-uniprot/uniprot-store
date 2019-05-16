@@ -28,7 +28,7 @@ public class UniProtEntryDocumentPairProcessor extends EntryDocumentPairProcesso
     @BeforeStep
     public void setStepExecution(final StepExecution stepExecution) {
         ExecutionContext executionContext = stepExecution.getJobExecution().getExecutionContext();
-        executionContext.put(Constants.SUGGESTIONS_SET, converter.getSuggestions());
+        executionContext.put(Constants.SUGGESTIONS_MAP, converter.getSuggestions());
     }
 
     @Override

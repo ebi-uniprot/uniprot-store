@@ -39,7 +39,7 @@ import uk.ac.ebi.uniprot.search.document.suggest.SuggestDocument;
 import uk.ac.ebi.uniprot.search.document.uniprot.UniProtDocument;
 
 import java.io.File;
-import java.util.Set;
+import java.util.Map;
 
 import static uk.ac.ebi.uniprot.indexer.common.utils.Constants.UNIPROTKB_INDEX_STEP;
 
@@ -94,7 +94,7 @@ public class UniProtKBStep {
     }
 
     @Bean
-    ItemProcessor<UniProtEntryDocumentPair, UniProtEntryDocumentPair> uniProtDocumentItemProcessor(Set<SuggestDocument> suggestDocuments) {
+    ItemProcessor<UniProtEntryDocumentPair, UniProtEntryDocumentPair> uniProtDocumentItemProcessor(Map<String, SuggestDocument> suggestDocuments) {
         return new UniProtEntryDocumentPairProcessor(
                 new UniProtEntryConverter(
                         createTaxonomyRepo(),
