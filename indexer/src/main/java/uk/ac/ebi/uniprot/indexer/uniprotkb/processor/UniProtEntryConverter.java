@@ -904,7 +904,7 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtEntry, Un
 
     private void addSubcellSuggestion(SubcellularLocationValue location) {
         suggestions
-                .putIfAbsent(location.getId(),
+                .putIfAbsent(createSuggestionMapKey(SuggestDictionary.SUBCELL, location.getId()),
                              SuggestDocument.builder()
                                      .id(location.getId())
                                      .value(location.getValue())

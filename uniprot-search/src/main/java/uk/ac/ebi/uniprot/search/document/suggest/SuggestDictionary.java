@@ -6,5 +6,5 @@ package uk.ac.ebi.uniprot.search.document.suggest;
  * @author Edd
  */
 public enum SuggestDictionary {
-    KEYWORD, SUBCELL, MAIN, TAXONOMY, GO, EC
+    KEYWORD, SUBCELL, MAIN, TAXONOMY, GO, EC;
 }

@@ -2,14 +2,18 @@ package uk.ac.ebi.uniprot.indexer.uniprotkb.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import uk.ac.ebi.uniprot.cv.xdb.UniProtXDbTypes;
+import uk.ac.ebi.uniprot.domain.uniprot.comment.CommentType;
+import uk.ac.ebi.uniprot.domain.uniprot.feature.FeatureCategory;
+import uk.ac.ebi.uniprot.search.document.suggest.SuggestDictionary;
 import uk.ac.ebi.uniprot.search.document.suggest.SuggestDocument;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
+import java.util.function.Consumer;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -27,21 +31,29 @@ public class SuggestionConfig {
     public Map<String, SuggestDocument> suggestDocuments() {
         // TODO: 15/05/19 make this an offheap in memory set, and populate it with taxonomy synonyms?
         Map<String, SuggestDocument> suggestionMap = new HashMap<>();
-        loadDefaultSynonyms(suggestionMap);
+        loadDefaultTaxonSynonymSuggestions(suggestionMap);
+        loadDefaultMainSuggestions(suggestionMap);
         return suggestionMap;
     }
 
-    private Map<String, SuggestDocument> loadDefaultSynonyms(Map<String, SuggestDocument> suggestionMap) {
+    private void loadDefaultMainSuggestions(Map<String, SuggestDocument> suggestionMap) {
+        Consumer<SuggestDocument> suggestionMapUpdater = suggestion -> suggestionMap.put(suggestion.id, suggestion);
+
+        enumToSuggestions(new FeatureCategoryToSuggestion(), suggestionMapUpdater);
+        enumToSuggestions(new CommentTypeToSuggestion(), suggestionMapUpdater);
+        databaseSuggestions(suggestionMapUpdater);
+    }
+
+    private void loadDefaultTaxonSynonymSuggestions(Map<String, SuggestDocument> suggestionMap) {
         InputStream inputStream = SuggestionConfig.class.getClassLoader()
                 .getResourceAsStream(DEFAULT_TAXON_SYNONYMS_FILE);
         if (inputStream != null) {
             try (Stream<String> lines = new BufferedReader(new InputStreamReader(inputStream)).lines()) {
                 lines.map(this::createDefaultSuggestion)
                         .filter(Objects::nonNull)
-                        .forEach(suggestion -> suggestionMap.put(suggestion.id, suggestion));
+                        .forEach(suggestion -> suggestionMap.put(SuggestDictionary.TAXONOMY.name() + ":" + suggestion.id, suggestion));
             }
         }
-        return suggestionMap;
     }
 
     private SuggestDocument createDefaultSuggestion(String csvLine) {
@@ -51,9 +63,77 @@ public class SuggestionConfig {
                     .value(lineParts[0])
                     .altValues(Stream.of(lineParts[2].split(",")).collect(Collectors.toList()))
                     .id(lineParts[1])
+                    .dictionary(SuggestDictionary.TAXONOMY.name())
                     .build();
         } else {
             return null;
+        }
+    }
+
+    private static void databaseSuggestions(Consumer<SuggestDocument> suggestionMapUpdater) {
+        UniProtXDbTypes.INSTANCE.getAllDBXRefTypes().stream()
+                .map(type -> {
+                    String name = removeTerminalSemiColon(type.getDisplayName());
+                    return SuggestDocument.builder()
+                            .id("Database: " + name)
+                            .dictionary(SuggestDictionary.MAIN.name())
+                            .build();
+                })
+                .forEach(suggestionMapUpdater);
+    }
+
+    private static String removeTerminalSemiColon(String displayName) {
+        int charIndex = displayName.indexOf(';');
+        if (charIndex < 0) {
+            return displayName;
+        } else {
+            return displayName.substring(0, charIndex);
+        }
+    }
+
+    private <T extends Enum<T>> void enumToSuggestions(EnumSuggestionFunction<T> typeToSuggestion, Consumer<SuggestDocument> handler) {
+        Stream.of(typeToSuggestion.getEnumType().getEnumConstants())
+                .map(typeToSuggestion)
+                .filter(Optional::isPresent)
+                .map(Optional::get)
+                .forEach(handler);
+    }
+
+    interface EnumSuggestionFunction<T> extends Function<T, Optional<SuggestDocument>> {
+        Class<T> getEnumType();
+    }
+
+    static class FeatureCategoryToSuggestion implements EnumSuggestionFunction<FeatureCategory> {
+        @Override
+        public Optional<SuggestDocument> apply(FeatureCategory value) {
+            String name = value.name();
+            return Optional.of(SuggestDocument.builder()
+                                       .id("Feature Category: " + name)
+                                       .dictionary(SuggestDictionary.MAIN.name())
+                                       .build());
+        }
+
+        @Override
+        public Class<FeatureCategory> getEnumType() {
+            return FeatureCategory.class;
+        }
+    }
+
+    static class CommentTypeToSuggestion implements EnumSuggestionFunction<CommentType> {
+        @Override
+        public Optional<SuggestDocument> apply(CommentType value) {
+            String name = value.toXmlDisplayName();
+            return value == CommentType.UNKNOWN ?
+                    Optional.empty() :
+                    Optional.of(SuggestDocument.builder()
+                                        .id("Comment type: " + name)
+                                        .dictionary(SuggestDictionary.MAIN.name())
+                                        .build());
+        }
+
+        @Override
+        public Class<CommentType> getEnumType() {
+            return CommentType.class;
         }
     }
 }
