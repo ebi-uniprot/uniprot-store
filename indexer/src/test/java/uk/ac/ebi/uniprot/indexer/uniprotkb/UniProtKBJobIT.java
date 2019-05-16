@@ -57,6 +57,8 @@ class UniProtKBJobIT {
         BatchStatus status = jobExecution.getStatus();
         assertThat(status, is(BatchStatus.COMPLETED));
 
+        // TODO: 16/05/19 fix the fact that the test doesn't load all cores (only 3 of them?! crossref, taxonomy and uniprot)
+
         Page<UniProtDocument> response = template
                 .query(SolrCollection.uniprot.name(), new SimpleQuery("*:*"), UniProtDocument.class);
         assertThat(response, is(notNullValue()));

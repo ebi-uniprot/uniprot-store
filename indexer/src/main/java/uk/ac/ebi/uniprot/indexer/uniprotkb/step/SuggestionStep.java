@@ -7,12 +7,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
+import org.springframework.data.solr.core.SolrTemplate;
 import uk.ac.ebi.uniprot.indexer.common.listener.LogRateListener;
+import uk.ac.ebi.uniprot.indexer.common.writer.SolrDocumentWriter;
 import uk.ac.ebi.uniprot.indexer.uniprotkb.config.SuggestionConfig;
 import uk.ac.ebi.uniprot.indexer.uniprotkb.config.UniProtKBConfig;
 import uk.ac.ebi.uniprot.indexer.uniprotkb.config.UniProtKBIndexingProperties;
 import uk.ac.ebi.uniprot.indexer.uniprotkb.reader.SuggestionItemReader;
-import uk.ac.ebi.uniprot.indexer.uniprotkb.writer.SuggestionWriter;
+import uk.ac.ebi.uniprot.search.SolrCollection;
 import uk.ac.ebi.uniprot.search.document.suggest.SuggestDocument;
 
 import static uk.ac.ebi.uniprot.indexer.common.utils.Constants.SUGGESTIONS_INDEX_STEP;
@@ -27,12 +29,15 @@ import static uk.ac.ebi.uniprot.indexer.common.utils.Constants.SUGGESTIONS_INDEX
 public class SuggestionStep {
     private final StepBuilderFactory stepBuilderFactory;
     private final UniProtKBIndexingProperties indexingProperties;
+    private final SolrTemplate solrTemplate;
 
     @Autowired
     public SuggestionStep(StepBuilderFactory stepBuilderFactory,
-                          UniProtKBIndexingProperties indexingProperties) {
+                          UniProtKBIndexingProperties indexingProperties,
+                          SolrTemplate solrTemplate) {
         this.stepBuilderFactory = stepBuilderFactory;
         this.indexingProperties = indexingProperties;
+        this.solrTemplate = solrTemplate;
     }
 
     @Bean(name = "yyyy")
@@ -41,11 +46,8 @@ public class SuggestionStep {
         return this.stepBuilderFactory.get(SUGGESTIONS_INDEX_STEP)
                 .listener(promotionListener)
                 .<SuggestDocument, SuggestDocument>chunk(indexingProperties.getChunkSize())
-                //.processor(uniProtDocumentItemProcessor)
-                //.writer(uniProtDocumentItemWriter)
-                //.listener(writeRetrierLogStepListener)
                 .reader(suggestionItemReader)
-                .writer(new SuggestionWriter())
+                .writer(new SolrDocumentWriter<>(solrTemplate, SolrCollection.suggest))
                 .listener(new LogRateListener<>())
                 .build();
     }
