@@ -2,7 +2,6 @@ package uk.ac.ebi.uniprot.indexer.uniprotkb.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import uk.ac.ebi.uniprot.indexer.suggest.reader.TaxonomySuggestionItemReader;
 import uk.ac.ebi.uniprot.search.document.suggest.SuggestDocument;
 
 import java.io.BufferedReader;
@@ -33,7 +32,7 @@ public class SuggestionConfig {
     }
 
     private Map<String, SuggestDocument> loadDefaultSynonyms(Map<String, SuggestDocument> suggestionMap) {
-        InputStream inputStream = TaxonomySuggestionItemReader.class.getClassLoader()
+        InputStream inputStream = SuggestionConfig.class.getClassLoader()
                 .getResourceAsStream(DEFAULT_TAXON_SYNONYMS_FILE);
         if (inputStream != null) {
             try (Stream<String> lines = new BufferedReader(new InputStreamReader(inputStream)).lines()) {
@@ -50,7 +49,7 @@ public class SuggestionConfig {
         if (!csvLine.startsWith(COMMENT_LINE_PREFIX) && lineParts.length == 3) {
             return SuggestDocument.builder()
                     .value(lineParts[0])
-                    .altValue(Stream.of(lineParts[2].split(",")).collect(Collectors.toList()))
+                    .altValues(Stream.of(lineParts[2].split(",")).collect(Collectors.toList()))
                     .id(lineParts[1])
                     .build();
         } else {

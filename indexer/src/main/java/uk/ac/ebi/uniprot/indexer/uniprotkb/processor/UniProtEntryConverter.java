@@ -9,6 +9,7 @@ import uk.ac.ebi.uniprot.common.PublicationDateFormatter;
 import uk.ac.ebi.uniprot.cv.ec.ECCache;
 import uk.ac.ebi.uniprot.cv.keyword.KeywordDetail;
 import uk.ac.ebi.uniprot.cv.pathway.UniPathway;
+import uk.ac.ebi.uniprot.cv.subcell.SubcellularLocationCache;
 import uk.ac.ebi.uniprot.domain.DBCrossReference;
 import uk.ac.ebi.uniprot.domain.Property;
 import uk.ac.ebi.uniprot.domain.Sequence;
@@ -132,14 +133,22 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtEntry, Un
         rgLineBuilder = new RGLineBuilder();
 
         this.ecMap = new HashMap<>();
+        this.subcellMap = new HashMap<>();
         populateECMap();
+        populateSubcellMap();
     }
 
     private final Map<String, String> ecMap;
+    private final Map<String, String> subcellMap;
 
     private void populateECMap() {
         ECCache.INSTANCE.get()
                 .forEach(ec -> ecMap.put(ec.id(), ec.label()));
+    }
+
+    private void populateSubcellMap() {
+        SubcellularLocationCache.INSTANCE.get(null)
+                .forEach(subcell -> subcellMap.put(subcell.getId(), subcell.getAccession()));
     }
 
     static String truncatedSortValue(String value) {
@@ -377,16 +386,6 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtEntry, Un
         japiDocument.keywords.add(keyword.getId());
         addValueToStringList(japiDocument.keywords, keyword);
         Optional<KeywordDetail> kwOp = keywordRepo.getKeyword(keyword.getId());
-//        if(kwOp.isPresent()) {
-//            if((kwOp.get().getCategory() !=null) &&
-//                    !japiDocument.keywordIds.contains(kwOp.get().getCategory().getKeyword().getAccession())){
-//                japiDocument.keywordIds.add(kwOp.get().getCategory().getKeyword().getAccession());
-//                japiDocument.keywords.add(kwOp.get().getCategory().getKeyword().getAccession());
-//                japiDocument.keywords.add(kwOp.get().getCategory().getKeyword().getId());
-//
-////                suggestions.putIfAbsent()
-//            }
-//        }
 
         kwOp.ifPresent(
                 kw -> {
@@ -860,27 +859,36 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtEntry, Un
         }
     }
 
+
     private void convertCommentSL(SubcellularLocationComment comment, UniProtDocument japiDocument) {
         if (comment.hasSubcellularLocations()) {
             comment.getSubcellularLocations().forEach(subcellularLocation -> {
                 if (subcellularLocation.hasLocation()) {
-                    japiDocument.subcellLocationTerm.add(subcellularLocation.getLocation().getValue());
+                    SubcellularLocationValue location = subcellularLocation.getLocation();
+                    japiDocument.subcellLocationTerm.add(location.getValue());
 
-                    Set<String> locationEv = extractEvidence(subcellularLocation.getLocation().getEvidences());
+                    Set<String> locationEv = extractEvidence(location.getEvidences());
                     japiDocument.subcellLocationTermEv.addAll(locationEv);
 
+                    addSubcellSuggestion(location);
                 }
                 if (subcellularLocation.hasOrientation()) {
-                    japiDocument.subcellLocationTerm.add(subcellularLocation.getOrientation().getValue());
+                    SubcellularLocationValue orientation = subcellularLocation.getOrientation();
+                    japiDocument.subcellLocationTerm.add(orientation.getValue());
 
-                    Set<String> orientationEv = extractEvidence(subcellularLocation.getOrientation().getEvidences());
+                    Set<String> orientationEv = extractEvidence(orientation.getEvidences());
                     japiDocument.subcellLocationTermEv.addAll(orientationEv);
+
+                    addSubcellSuggestion(orientation);
                 }
                 if (subcellularLocation.hasTopology()) {
-                    japiDocument.subcellLocationTerm.add(subcellularLocation.getTopology().getValue());
+                    SubcellularLocationValue topology = subcellularLocation.getTopology();
+                    japiDocument.subcellLocationTerm.add(topology.getValue());
 
-                    Set<String> topologyEv = extractEvidence(subcellularLocation.getTopology().getEvidences());
+                    Set<String> topologyEv = extractEvidence(topology.getEvidences());
                     japiDocument.subcellLocationTermEv.addAll(topologyEv);
+
+                    addSubcellSuggestion(topology);
                 }
             });
         }
@@ -892,6 +900,16 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtEntry, Un
                                                          .collect(Collectors.toList()));
             japiDocument.subcellLocationNoteEv.addAll(noteEv);
         }
+    }
+
+    private void addSubcellSuggestion(SubcellularLocationValue location) {
+        suggestions
+                .putIfAbsent(location.getId(),
+                             SuggestDocument.builder()
+                                     .id(location.getId())
+                                     .value(location.getValue())
+                                     .dictionary(SuggestDictionary.SUBCELL.name())
+                                     .build());
     }
 
     private Set<String> extractEvidence(List<Evidence> evidences) {
@@ -1272,27 +1290,29 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtEntry, Un
 
             while (taxonomicNode.isPresent()) {
                 TaxonomicNode node = taxonomicNode.get();
-                japiDocument.taxLineageIds.add(node.id());
+                int id = node.id();
+                japiDocument.taxLineageIds.add(id);
                 List<String> taxons = extractTaxonFromNode(node);
                 japiDocument.organismTaxon.addAll(taxons);
-                addTaxonSuggestions(taxons);
-                taxonomicNode = getParentTaxon(node.id());
+                addTaxonSuggestions(id, taxons);
+                taxonomicNode = getParentTaxon(id);
             }
         }
     }
 
-    // TODO: 16/05/19 need to split taxons into defacto one, and alternatives. think how to index ones with no scientic names.
-    private void addTaxonSuggestions(List<String> taxons) {
+    private void addTaxonSuggestions(int id, List<String> taxons) {
+        boolean first = true;
+        String idStr = Integer.toString(id);
+        SuggestDocument.SuggestDocumentBuilder suggestionBuilder = SuggestDocument.builder().id(idStr);
         for (String taxon : taxons) {
-            suggestions.computeIfPresent(
-                    createSuggestionMapKey(SuggestDictionary.TAXONOMY, taxon),
-                    (taxId, suggestionDoc) -> {
-                        if (suggestionDoc.altValue.contains(taxon)) {
-                            suggestionDoc.altValue.add(taxId);
-                        }
-                        return suggestionDoc;
-                    });
+            if (first) {
+                suggestionBuilder.value(taxon);
+                first = false;
+            } else {
+                suggestionBuilder.altValue(taxon);
+            }
         }
+        suggestions.putIfAbsent(createSuggestionMapKey(SuggestDictionary.TAXONOMY, idStr), suggestionBuilder.build());
     }
 
     private List<String> extractTaxonFromNode(TaxonomicNode node) {

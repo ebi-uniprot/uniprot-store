@@ -1,6 +1,5 @@
 package uk.ac.ebi.uniprot.indexer.uniprotkb.processor;
 
-import net.openhft.chronicle.map.ChronicleMap;
 import org.apache.commons.io.IOUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
@@ -67,19 +66,19 @@ class UniProtEntryConverterTest {
     private GoRelationRepo goRelationRepoMock;
     private HashMap<String, SuggestDocument> suggestions;
 
-    //    @Test
-    void createSuggestionMapOffHeap() {
-        ChronicleMap<String, SuggestDocumentSpec> map = ChronicleMap
-                .of(String.class, SuggestDocumentSpec.class)
-                .name("something")
-                .entries(100)
-                .averageKey("xxxxxxxxxx")
-                .create();
-
-        SuggestDoc doc = new SuggestDoc();
-        doc.setId("2");
-        map.put("1", doc);
-    }
+//    //    @Test
+//    void createSuggestionMapOffHeap() {
+//        ChronicleMap<String, SuggestDocumentSpec> map = ChronicleMap
+//                .of(String.class, SuggestDocumentSpec.class)
+//                .name("something")
+//                .entries(100)
+//                .averageKey("xxxxxxxxxx")
+//                .create();
+//
+//        SuggestDoc doc = new SuggestDoc();
+//        doc.setId("2");
+//        map.put("1", doc);
+//    }
 
     @BeforeEach
     void setUp() {
