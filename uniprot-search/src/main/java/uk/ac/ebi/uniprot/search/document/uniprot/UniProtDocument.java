@@ -1,7 +1,6 @@
 package uk.ac.ebi.uniprot.search.document.uniprot;
 
 import org.apache.solr.client.solrj.beans.Field;
-
 import uk.ac.ebi.uniprot.search.document.Document;
 
 import java.util.*;
@@ -333,6 +332,11 @@ public class UniProtDocument implements Document {
     public String file_path;
     public long obj_offset;
     public long obj_location;
+
+    @Override
+    public String getDocumentId() {
+        return accession;
+    }
 
     @Override
     public boolean equals(Object o) {

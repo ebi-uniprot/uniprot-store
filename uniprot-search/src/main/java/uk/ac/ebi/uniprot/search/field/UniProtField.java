@@ -1,16 +1,13 @@
 package uk.ac.ebi.uniprot.search.field;
 
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.function.Predicate;
-import java.util.stream.Collectors;
-
 import uk.ac.ebi.uniprot.search.field.validator.FieldValueValidator;
 
-public class UniProtField {
+import java.util.function.Predicate;
 
-    public enum Sort{
+public interface UniProtField {
+
+    enum Sort{
         accession("accession_id"),
         mnemonic("mnemonic_sort"),
         name("name_sort"),
@@ -36,7 +33,7 @@ public class UniProtField {
         }
     }
 
-    public enum Search implements SearchField{
+    enum Search implements SearchField{
         accession_id(SearchFieldType.TERM, FieldValueValidator::isAccessionValid, 1.1f),            // uniprot entry accession
         accession(SearchFieldType.TERM,FieldValueValidator::isAccessionValid, null),            // uniprot entry accession
         mnemonic(SearchFieldType.TERM),
@@ -400,7 +397,8 @@ public class UniProtField {
             return this.boostValue;
         }
 
-        private boolean hasBoostValue(){
+        @Override
+        public boolean hasBoostValue(){
             return this.boostValue != null;
         }
 
@@ -416,12 +414,7 @@ public class UniProtField {
 
     }
 
-    public static List<SearchField> getBoostFields() {
-        return Arrays.stream(Search.values())
-                .filter(Search::hasBoostValue)
-                .collect(Collectors.toList());
-    }
-    public enum Return {
+    enum Return {
         accession
 
     }

@@ -1,16 +1,14 @@
 package uk.ac.ebi.uniprot.search.document.proteome;
 
 
+import org.apache.solr.client.solrj.beans.Field;
+import uk.ac.ebi.uniprot.search.document.Document;
 
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
-import org.apache.solr.client.solrj.beans.Field;
-
-import uk.ac.ebi.uniprot.search.document.Document;
 
 
 public class ProteomeDocument  implements Document {
@@ -64,5 +62,10 @@ public class ProteomeDocument  implements Document {
     public int score=0;
     @Field("proteome_type")
     public int proteomeType;  //reference=1, representative =2, complete=3, redundant=4
+
+    @Override
+    public String getDocumentId() {
+        return upid;
+    }
     
 }

@@ -278,13 +278,13 @@ class UniProtEntryConverterTest {
         assertEquals(0, doc.organismHostNames.size());
         assertEquals(0, doc.organismHostIds.size());
 
-        assertEquals(159, doc.xrefs.size());
+        assertEquals(153, doc.xrefs.size());
         assertTrue(doc.xrefs.contains("refseq-NM_001270626.1"));
         assertTrue(doc.xrefs.contains("refseq-NM_001270626"));
         assertTrue(doc.xrefs.contains("NM_001270626.1"));
         assertTrue(doc.xrefs.contains("NM_001270626"));
 
-        assertEquals(23, doc.databases.size());
+        assertEquals(21, doc.databases.size());
         assertTrue(doc.databases.contains("refseq"));
         assertTrue(doc.databases.contains("ensembl"));
 

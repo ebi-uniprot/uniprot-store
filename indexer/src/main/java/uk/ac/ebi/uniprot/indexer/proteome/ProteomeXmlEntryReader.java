@@ -35,7 +35,9 @@ public class ProteomeXmlEntryReader implements ItemReader<Proteome> {
             collect.add(filepath);
             
         }else if (file.isDirectory()) {
-            String[] list = file.list((dir, name) -> name.endsWith(".xml"));
+        	
+            String[] list = file.list((dir, name) -> name.endsWith(".xml")
+            		|| name.endsWith(".xml.gz") || name.endsWith(".xml.gzip") );
 
             if (list.length == 0) {
                 throw new RuntimeException("No proteome xml exists in the specified directory");

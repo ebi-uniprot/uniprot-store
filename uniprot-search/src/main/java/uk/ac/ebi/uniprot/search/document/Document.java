@@ -1,9 +1,13 @@
 package uk.ac.ebi.uniprot.search.document;
+
+import org.springframework.data.solr.core.mapping.SolrDocument;
 /**
  *
  * @author lgonzales
  */
-@org.springframework.data.solr.core.mapping.SolrDocument
+@SolrDocument
 public interface Document {
+
+ String getDocumentId();
 
 }

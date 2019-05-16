@@ -134,6 +134,11 @@ class DefaultSearchHandlerTest {
         public Float getBoostValue() {
             return this.boostValue;
         }
+
+        @Override
+        public boolean hasBoostValue() {
+            return boostValue != null;
+        }
     }
 
 

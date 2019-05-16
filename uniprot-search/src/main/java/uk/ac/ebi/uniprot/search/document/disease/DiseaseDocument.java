@@ -18,4 +18,9 @@ public class DiseaseDocument implements Document {
     private List<String> content; // default search field
     @Field("disease_obj")
     private ByteBuffer diseaseObj;
+
+    @Override
+    public String getDocumentId() {
+        return accession;
+    }
 }

@@ -1,12 +1,11 @@
 package uk.ac.ebi.uniprot.search.document.uniparc;
 
 
+import org.apache.solr.client.solrj.beans.Field;
+import uk.ac.ebi.uniprot.search.document.Document;
 
 import java.util.HashSet;
 import java.util.Set;
-import org.apache.solr.client.solrj.beans.Field;
-
-import uk.ac.ebi.uniprot.search.document.Document;
 
 
 public class UniParcDocument implements Document {
@@ -65,6 +64,11 @@ public class UniParcDocument implements Document {
     
     @Field("avro_binary")
     public byte[] avroEntry;
+
+	@Override
+	public String getDocumentId() {
+		return upi;
+	}
 
 	@Override
 	public boolean equals(Object o) {

@@ -117,6 +117,10 @@ class TaxonomyJobIT {
         assertThat(taxonomyDocument.isLinked(),is(true));
         assertThat(taxonomyDocument.getLineage(),contains(4L));
         assertThat(taxonomyDocument.isHidden(),is(true));
+        assertThat(taxonomyDocument.isReviewed(),is(true));
+        assertThat(taxonomyDocument.isAnnotated(),is(true));
+        assertThat(taxonomyDocument.isReference(),is(true));
+        assertThat(taxonomyDocument.isComplete(),is(true));
     }
 
     private void validateTaxonomyEntry(TaxonomyEntry entry) {
@@ -160,7 +164,8 @@ class TaxonomyJobIT {
         TaxonomyStatistics statistics = entry.getStatistics();
         assertThat(statistics.getReviewedProteinCount(),is(6L));
         assertThat(statistics.getUnreviewedProteinCount(),is(2L));
-//        assertThat(statistics.getProteomeCount(),is(1L));
+        assertThat(statistics.getReferenceProteomeCount(),is(2L));
+        assertThat(statistics.getCompleteProteomeCount(),is(1L));
 
     }
 
