@@ -57,15 +57,15 @@ public class UniProtKBProteomeIndexStep {
 	    }
 	    	    
 		@Bean(name = "uniProtKBProteomeItemWriter")
-		public ItemWriter<Proteome> itemProteomeWriter(SolrClient solrClient) {
-			return new UniProtKBProteomeWriter(solrClient, SolrCollection.uniprot, createTaxonomyRepo());
+		public ItemWriter<Proteome> itemProteomeWriter(SolrTemplate solrTemplate) {
+			return new UniProtKBProteomeWriter(solrTemplate, SolrCollection.uniprot, createTaxonomyRepo());
 		}
 
 	    @Bean("UniProtKBProteomeIndexStep")
 	    public Step uniProtKBProteomeIndexViaXmlStep(
 	    		 StepExecutionListener stepListener,
                 ChunkListener chunkListener,
-	    		 @Qualifier("proteomeXmlReader2")  ItemReader<Proteome> itemReader,
+	    		 @Qualifier("proteomeXmlReader")  ItemReader<Proteome> itemReader,
 	    		 @Qualifier("uniProtKBProteomeItemWriter") ItemWriter<Proteome> itemWriter) {
 	        return this.stepBuilderFactory.get("UniProtKB_Proteome_Index_Step")
 

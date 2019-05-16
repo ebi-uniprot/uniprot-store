@@ -1,5 +1,7 @@
 package uk.ac.ebi.uniprot.indexer.uniprotkb.proteome;
 
+import static org.assertj.core.api.Assertions.filter;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -20,6 +22,7 @@ import uk.ac.ebi.uniprot.indexer.uniprot.taxonomy.TaxonomicNode;
 import uk.ac.ebi.uniprot.indexer.uniprot.taxonomy.TaxonomyRepo;
 import uk.ac.ebi.uniprot.search.SolrCollection;
 import uk.ac.ebi.uniprot.xml.jaxb.proteome.ComponentType;
+import uk.ac.ebi.uniprot.xml.jaxb.proteome.EntryType;
 import uk.ac.ebi.uniprot.xml.jaxb.proteome.ProteinType;
 import uk.ac.ebi.uniprot.xml.jaxb.proteome.Proteome;
 
@@ -32,12 +35,12 @@ import uk.ac.ebi.uniprot.xml.jaxb.proteome.Proteome;
 
 public class UniProtKBProteomeWriter implements ItemWriter<Proteome> {
 	private static final String GC_SET_ACC = "GCSetAcc";
-	private final SolrClient solrClient;
+	private final SolrTemplate solrTemplate;
 	private final SolrCollection collection;
 	private final TaxonomyRepo taxonomyRepo;
 
-	public UniProtKBProteomeWriter(SolrClient solrClient, SolrCollection collection, TaxonomyRepo taxonomyRepo) {
-		this.solrClient = solrClient;
+	public UniProtKBProteomeWriter(SolrTemplate solrTemplate, SolrCollection collection, TaxonomyRepo taxonomyRepo) {
+		this.solrTemplate = solrTemplate;
 		this.collection = collection;
 		this.taxonomyRepo = taxonomyRepo;
 	}
@@ -47,7 +50,6 @@ public class UniProtKBProteomeWriter implements ItemWriter<Proteome> {
 		for (Proteome item : items) {
 			write(item);
 		}
-		this.solrClient.commit(collection.name());
 	}
 
 	private void write(Proteome item) throws Exception {
@@ -58,15 +60,47 @@ public class UniProtKBProteomeWriter implements ItemWriter<Proteome> {
 			List<String> genomeAccessions = component.getGenomeAccession();
 			List<ProteinType> proteins = component.getProtein();
 		//	List<SolrInputDocument> documents =
-			proteins.stream().forEach(protein -> addToSolr(protein, genomeAssemblyId, genomeAccessions, content));
-		//	.forEach(action);
-			//		.collect(Collectors.toList());
-		//	this.solrClient.add(collection.name(), documents);
+			proteins.stream().
+			filter(protein -> protein.getEntryType()==EntryType.SWISS_PROT)
+			.forEach(protein -> addToSolr(protein, genomeAssemblyId, genomeAccessions, content));
+		//	.forEach(document ->this.solrTemplate.saveBeans(collection.name(), document) );
+	 //       ;
+	        
+		
 		}
-	//	this.solrTemplate.softCommit(collection.name());
+		this.solrTemplate.softCommit(collection.name());
 	}
+//
+//	private  void addToSolr(ProteinType protein, Optional<String> genomeAssemblyId, List<String> genomeAccessions, List<String> content) {
+//		SolrInputDocument solrInputDocument = new SolrInputDocument();
+//		solrInputDocument.addField("accession_id", protein.getAccession());
+//	
+//		
+//		if (genomeAssemblyId.isPresent()) {
+//			Map<String, Object> fieldModifier = new HashMap<>(1);
+//			fieldModifier.put("set", genomeAssemblyId.get());
+//			solrInputDocument.addField("genome_assembly", fieldModifier);
+//		}
+//		if (!genomeAccessions.isEmpty()) {
+//			Map<String, Object> fieldModifier = new HashMap<>(1);
+//			fieldModifier.put("set", genomeAccessions);
+//			solrInputDocument.addField("genome_accession", fieldModifier);
+//		}
+//		if(!content.isEmpty()) {
+//			Map<String, Object> fieldModifier = new HashMap<>(1);
+//			fieldModifier.put("set", content);
+//			solrInputDocument.addField("proteome_content", fieldModifier);
+//		}
+//		try {
+//		this.solrClient.add(collection.name(), Arrays.asList(solrInputDocument));
+//		this.solrClient.commit(collection.name());
+//		}catch(Exception e) {
+//			
+//		}
+//	}
 
-	private  void addToSolr(ProteinType protein, Optional<String> genomeAssemblyId, List<String> genomeAccessions, List<String> content) {
+	
+	private void   addToSolr(ProteinType protein, Optional<String> genomeAssemblyId, List<String> genomeAccessions, List<String> content) {
 		SolrInputDocument solrInputDocument = new SolrInputDocument();
 		solrInputDocument.addField("accession_id", protein.getAccession());
 	
@@ -86,37 +120,9 @@ public class UniProtKBProteomeWriter implements ItemWriter<Proteome> {
 			fieldModifier.put("set", content);
 			solrInputDocument.addField("proteome_content", fieldModifier);
 		}
-		try {
-		this.solrClient.add(collection.name(), Arrays.asList(solrInputDocument));
-		this.solrClient.commit(collection.name());
-		}catch(Exception e) {
-			
-		}
-	}
-
 	
-	private SolrInputDocument  convert(ProteinType protein, Optional<String> genomeAssemblyId, List<String> genomeAccessions, List<String> content) {
-		SolrInputDocument solrInputDocument = new SolrInputDocument();
-		solrInputDocument.addField("accession_id", protein.getAccession());
+		this.solrTemplate.saveBean(collection.name(), solrInputDocument) ;
 	
-		
-		if (genomeAssemblyId.isPresent()) {
-			Map<String, Object> fieldModifier = new HashMap<>(1);
-			fieldModifier.put("set", genomeAssemblyId.get());
-			solrInputDocument.addField("genome_assembly", fieldModifier);
-		}
-//		if (!genomeAccessions.isEmpty()) {
-//			Map<String, Object> fieldModifier = new HashMap<>(1);
-//			fieldModifier.put("set", genomeAccessions);
-//			solrInputDocument.addField("genome_accession", fieldModifier);
-//		}
-//		if(!content.isEmpty()) {
-//			Map<String, Object> fieldModifier = new HashMap<>(1);
-//			fieldModifier.put("set", content);
-//			solrInputDocument.addField("proteome_content", fieldModifier);
-//		}
-		return solrInputDocument;
-	//	this.solrClient.add(collection.name(), Arrays.asList(solrInputDocument));
 	}
 
 	private Optional<String> fetchGenomeAssemblyId(Proteome source) {
