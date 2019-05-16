@@ -27,4 +27,9 @@ public class SuggestDocument implements Document {
 
     @Field("dict")
     public String dictionary;
+
+    @Override
+    public String getDocumentId() {
+        return id;
+    }
 }

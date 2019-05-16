@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import uk.ac.ebi.uniprot.common.PublicationDateFormatter;
+import uk.ac.ebi.uniprot.cv.ec.ECCache;
 import uk.ac.ebi.uniprot.cv.keyword.KeywordDetail;
 import uk.ac.ebi.uniprot.cv.pathway.UniPathway;
 import uk.ac.ebi.uniprot.domain.DBCrossReference;
@@ -42,6 +43,7 @@ import uk.ac.ebi.uniprot.indexer.uniprot.taxonomy.TaxonomicNode;
 import uk.ac.ebi.uniprot.indexer.uniprot.taxonomy.TaxonomyRepo;
 import uk.ac.ebi.uniprot.indexer.util.DateUtils;
 import uk.ac.ebi.uniprot.json.parser.uniprot.UniprotJsonConfig;
+import uk.ac.ebi.uniprot.search.document.suggest.SuggestDictionary;
 import uk.ac.ebi.uniprot.search.document.suggest.SuggestDocument;
 import uk.ac.ebi.uniprot.search.document.uniprot.UniProtDocument;
 import uk.ebi.uniprot.scorer.uniprotkb.UniProtEntryScored;
@@ -128,6 +130,16 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtEntry, Un
 
         raLineBuilder = new RALineBuilder();
         rgLineBuilder = new RGLineBuilder();
+
+        this.ecMap = new HashMap<>();
+        populateECMap();
+    }
+
+    private final Map<String, String> ecMap;
+
+    private void populateECMap() {
+        ECCache.INSTANCE.get()
+                .forEach(ec -> ecMap.put(ec.id(), ec.label()));
     }
 
     static String truncatedSortValue(String value) {
@@ -328,12 +340,28 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtEntry, Un
         }
     }
 
-    private void setECNumbers(UniProtEntry source, UniProtDocument japiDocument) {
+    private void setECNumbers(UniProtEntry source, UniProtDocument doc) {
         if (source.hasProteinDescription()) {
             ProteinDescription proteinDescription = source.getProteinDescription();
-            japiDocument.ecNumbers = extractProteinDescriptionEcs(proteinDescription);
-            japiDocument.ecNumbersExact = japiDocument.ecNumbers;
+            List<String> ecNumbers = extractProteinDescriptionEcs(proteinDescription);
+            doc.ecNumbers = ecNumbers;
+            doc.ecNumbersExact = doc.ecNumbers;
+
+            for (String ec : ecNumbers) {
+                if (ecMap.containsKey(ec)) {
+                    suggestions.putIfAbsent(createSuggestionMapKey(SuggestDictionary.EC, ec),
+                                            SuggestDocument.builder()
+                                                    .id(ec)
+                                                    .value(ecMap.get(ec))
+                                                    .dictionary(SuggestDictionary.EC.name())
+                                                    .build());
+                }
+            }
         }
+    }
+
+    private String createSuggestionMapKey(SuggestDictionary dict, String id) {
+        return dict.name() + ":" + id;
     }
 
     private void setKeywords(UniProtEntry source, UniProtDocument japiDocument) {
@@ -370,8 +398,12 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtEntry, Un
                         japiDocument.keywords.add(accession);
                         japiDocument.keywords.add(description);
 
-                        suggestions.putIfAbsent(accession,
-                                                SuggestDocument.builder().id(accession).value(description).build());
+                        suggestions.putIfAbsent(createSuggestionMapKey(SuggestDictionary.KEYWORD, accession),
+                                                SuggestDocument.builder()
+                                                        .id(accession)
+                                                        .value(description)
+                                                        .dictionary(SuggestDictionary.KEYWORD.name())
+                                                        .build());
                     }
                 }
         );
@@ -385,7 +417,7 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtEntry, Un
             Optional<TaxonomicNode> taxonomicNode = taxonomyRepo.retrieveNodeUsingTaxID(taxonomyId);
             if (taxonomicNode.isPresent()) {
                 TaxonomicNode node = taxonomicNode.get();
-                List<String> extractedTaxoNode = extractTaxonode(node);
+                List<String> extractedTaxoNode = extractTaxonFromNode(node);
                 japiDocument.organismName.addAll(extractedTaxoNode);
                 japiDocument.organismSort = truncatedSortValue(String.join(" ", extractedTaxoNode));
 
@@ -482,8 +514,12 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtEntry, Un
         japiDocument.goes.add(term);
         japiDocument.goIds.add(idOnly);
 
-        suggestions.putIfAbsent(idOnly,
-                                SuggestDocument.builder().id(idOnly).value(term).build());
+        suggestions.putIfAbsent(createSuggestionMapKey(SuggestDictionary.GO, idOnly),
+                                SuggestDocument.builder()
+                                        .id(idOnly)
+                                        .value(term)
+                                        .dictionary(SuggestDictionary.GO.name())
+                                        .build());
     }
 
     private void convertRcs(List<ReferenceComment> referenceComments, UniProtDocument japiDocument) {
@@ -1237,13 +1273,29 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtEntry, Un
             while (taxonomicNode.isPresent()) {
                 TaxonomicNode node = taxonomicNode.get();
                 japiDocument.taxLineageIds.add(node.id());
-                japiDocument.organismTaxon.addAll(extractTaxonode(node));
+                List<String> taxons = extractTaxonFromNode(node);
+                japiDocument.organismTaxon.addAll(taxons);
+                addTaxonSuggestions(taxons);
                 taxonomicNode = getParentTaxon(node.id());
             }
         }
     }
 
-    private List<String> extractTaxonode(TaxonomicNode node) {
+    // TODO: 16/05/19 need to split taxons into defacto one, and alternatives. think how to index ones with no scientic names.
+    private void addTaxonSuggestions(List<String> taxons) {
+        for (String taxon : taxons) {
+            suggestions.computeIfPresent(
+                    createSuggestionMapKey(SuggestDictionary.TAXONOMY, taxon),
+                    (taxId, suggestionDoc) -> {
+                        if (suggestionDoc.altValue.contains(taxon)) {
+                            suggestionDoc.altValue.add(taxId);
+                        }
+                        return suggestionDoc;
+                    });
+        }
+    }
+
+    private List<String> extractTaxonFromNode(TaxonomicNode node) {
         List<String> taxonmyItems = new ArrayList<>();
         if (node.scientificName() != null && !node.scientificName().isEmpty()) {
             taxonmyItems.add(node.scientificName());
@@ -1270,7 +1322,7 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtEntry, Un
         return hosts.stream()
                 .map(ncbiId -> taxonomyRepo.retrieveNodeUsingTaxID(Math.toIntExact(ncbiId.getTaxonId())))
                 .filter(Optional::isPresent)
-                .flatMap(node -> extractTaxonode(node.get()).stream())
+                .flatMap(node -> extractTaxonFromNode(node.get()).stream())
                 .collect(Collectors.toList());
     }
 

@@ -248,8 +248,8 @@ class UniProtEntryConverterTest {
         assertTrue(doc.proteinNames.contains("Nasal embryonic LHRH factor"));
         assertEquals("NMDA receptor synaptonuclear s", doc.proteinsNamesSort);
 
-        assertEquals(0, doc.ecNumbers.size());
-        assertEquals(0, doc.ecNumbersExact.size());
+        assertEquals(1, doc.ecNumbers.size());
+        assertEquals(1, doc.ecNumbersExact.size());
 
         assertEquals("29-OCT-2014", dateFormat.format(doc.lastModified).toUpperCase());
         assertEquals("19-JUL-2005", dateFormat.format(doc.firstCreated).toUpperCase());
@@ -526,7 +526,6 @@ class UniProtEntryConverterTest {
 
         assertEquals(5, doc.score);
         assertNotNull(doc.avro_binary);
-
     }
 
     @Test
