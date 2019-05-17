@@ -43,13 +43,13 @@ public class SuggestSearchIT {
                                         .id(id)
                                         .dictionary(dict)
                                         .value(value)
-                                        .altValue(altValue)
+                                        .altValues(altValue)
                                         .build());
         searchEngine.indexEntry(SuggestDocument.builder()
                                         .id(id)
                                         .dictionary("anotherDictionary")
                                         .value(value)
-                                        .altValue(altValue)
+                                        .altValues(altValue)
                                         .build());
 
         QueryResponse queryResponse = getResponse(query(dict, id));
@@ -69,13 +69,13 @@ public class SuggestSearchIT {
                                         .id(id)
                                         .dictionary(dict)
                                         .value(value)
-                                        .altValue(altValue)
+                                        .altValues(altValue)
                                         .build());
         searchEngine.indexEntry(SuggestDocument.builder()
                                         .id(id)
                                         .dictionary("anotherDictionary")
                                         .value(value)
-                                        .altValue(altValue)
+                                        .altValues(altValue)
                                         .build());
 
         QueryResponse queryResponse = getResponse(query(dict, id.substring(0, id.length() - 1)));
@@ -96,13 +96,13 @@ public class SuggestSearchIT {
                                         .id(id)
                                         .dictionary(dict)
                                         .value(value)
-                                        .altValue(altValue)
+                                        .altValues(altValue)
                                         .build());
         searchEngine.indexEntry(SuggestDocument.builder()
                                         .id("234")
                                         .dictionary(dict)
                                         .value(value)
-                                        .altValue(altValue)
+                                        .altValues(altValue)
                                         .build());
 
         QueryResponse queryResponse = getResponse(query(dict, nonZeroIdPart));
@@ -123,13 +123,13 @@ public class SuggestSearchIT {
                                         .id(idLonger)
                                         .dictionary(dict)
                                         .value(value)
-                                        .altValue(altValue)
+                                        .altValues(altValue)
                                         .build());
         searchEngine.indexEntry(SuggestDocument.builder()
                                         .id(id)
                                         .dictionary(dict)
                                         .value(value)
-                                        .altValue(altValue)
+                                        .altValues(altValue)
                                         .build());
 
         QueryResponse queryResponse = getResponse(query(dict, id));
@@ -151,13 +151,13 @@ public class SuggestSearchIT {
                                         .id(idLonger)
                                         .dictionary(dict)
                                         .value(value)
-                                        .altValue(altValue)
+                                        .altValues(altValue)
                                         .build());
         searchEngine.indexEntry(SuggestDocument.builder()
                                         .id(id)
                                         .dictionary(dict)
                                         .value("another value")
-                                        .altValue(altValue)
+                                        .altValues(altValue)
                                         .build());
 
         QueryResponse queryResponse = getResponse(query(dict, "two"));
@@ -178,13 +178,13 @@ public class SuggestSearchIT {
                                         .id(idLonger)
                                         .dictionary(dict)
                                         .value(value)
-                                        .altValue(altValue)
+                                        .altValues(altValue)
                                         .build());
         searchEngine.indexEntry(SuggestDocument.builder()
                                         .id(id)
                                         .dictionary(dict)
                                         .value("another value")
-                                        .altValue(altValue)
+                                        .altValues(altValue)
                                         .build());
 
         QueryResponse queryResponse = getResponse(query(dict, "two"));
@@ -205,13 +205,13 @@ public class SuggestSearchIT {
                                         .id(someId)
                                         .dictionary(dict)
                                         .value(id)
-                                        .altValue(altValue)
+                                        .altValues(altValue)
                                         .build());
         searchEngine.indexEntry(SuggestDocument.builder()
                                         .id(id)
                                         .dictionary(dict)
                                         .value(someValue)
-                                        .altValue(altValue)
+                                        .altValues(altValue)
                                         .build());
 
         QueryResponse queryResponse = getResponse(query(dict, id));
@@ -233,13 +233,13 @@ public class SuggestSearchIT {
                                         .id(someId)
                                         .dictionary(dict)
                                         .value(id)
-                                        .altValue(altValue)
+                                        .altValues(altValue)
                                         .build());
         searchEngine.indexEntry(SuggestDocument.builder()
                                         .id(id)
                                         .dictionary(dict)
                                         .value(someValue)
-                                        .altValue(altValue)
+                                        .altValues(altValue)
                                         .build());
 
         QueryResponse queryResponse = getResponse(query(dict, id));
@@ -260,7 +260,7 @@ public class SuggestSearchIT {
                                         .id(id)
                                         .dictionary(dict)
                                         .value(someValue)
-                                        .altValue(altValue)
+                                        .altValues(altValue)
                                         .build());
 
         QueryResponse queryResponse = getResponse(query(dict, id));
@@ -282,13 +282,13 @@ public class SuggestSearchIT {
                                         .id(id)
                                         .dictionary(dict)
                                         .value(someValue)
-                                        .altValue(altValue)
+                                        .altValues(altValue)
                                         .build());
         searchEngine.indexEntry(SuggestDocument.builder()
                                         .id(someId)
                                         .dictionary(dict)
                                         .value(someValue)
-                                        .altValue(altValue)
+                                        .altValues(altValue)
                                         .build());
 
         QueryResponse queryResponse = getResponse(query(dict, prefixId));
