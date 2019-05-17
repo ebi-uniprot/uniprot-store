@@ -153,45 +153,45 @@ public class ProteomeSearchIT {
      //   UP000036221
     }
  
-    @Test
-    public void searchByGeneAccession(){
-        String query =accession("Q9Y8V6");
-        QueryResponse queryResponse = searchEngine.getQueryResponse(query);
-        SolrDocumentList results = queryResponse.getResults();
-
-        Assert.assertEquals(1, results.size());
-        Assert.assertTrue(results.get(0).containsValue("UP000002518"));
-    }
-
-    @Test
-    public void searchByRelatedGeneAccession(){
-        String query =accession("Q9YCC8");
-        QueryResponse queryResponse = searchEngine.getQueryResponse(query);
-        SolrDocumentList results = queryResponse.getResults();
-
-        Assert.assertEquals(1, results.size());
-        Assert.assertTrue(results.get(0).containsValue("UP000002518"));
-    }
-
-    @Test
-    public void searchByGeneName(){
-        String query =gene("CELE_F29G6.3");
-        QueryResponse queryResponse = searchEngine.getQueryResponse(query);
-        SolrDocumentList results = queryResponse.getResults();
-
-        Assert.assertEquals(1, results.size());
-        Assert.assertTrue(results.get(0).containsValue("UP000001940"));
-    }
-
-    @Test
-    public void searchByRelatedGeneName(){
-        String query =gene("T06F4.2");
-        QueryResponse queryResponse = searchEngine.getQueryResponse(query);
-        SolrDocumentList results = queryResponse.getResults();
-
-        Assert.assertEquals(2, results.size());
-        Assert.assertTrue(results.get(0).containsValue("UP000001940"));
-    }
+//    @Test
+//    public void searchByGeneAccession(){
+//        String query =accession("Q9Y8V6");
+//        QueryResponse queryResponse = searchEngine.getQueryResponse(query);
+//        SolrDocumentList results = queryResponse.getResults();
+//
+//        Assert.assertEquals(1, results.size());
+//        Assert.assertTrue(results.get(0).containsValue("UP000002518"));
+//    }
+//
+//    @Test
+//    public void searchByRelatedGeneAccession(){
+//        String query =accession("Q9YCC8");
+//        QueryResponse queryResponse = searchEngine.getQueryResponse(query);
+//        SolrDocumentList results = queryResponse.getResults();
+//
+//        Assert.assertEquals(1, results.size());
+//        Assert.assertTrue(results.get(0).containsValue("UP000002518"));
+//    }
+//
+//    @Test
+//    public void searchByGeneName(){
+//        String query =gene("CELE_F29G6.3");
+//        QueryResponse queryResponse = searchEngine.getQueryResponse(query);
+//        SolrDocumentList results = queryResponse.getResults();
+//
+//        Assert.assertEquals(1, results.size());
+//        Assert.assertTrue(results.get(0).containsValue("UP000001940"));
+//    }
+//
+//    @Test
+//    public void searchByRelatedGeneName(){
+//        String query =gene("T06F4.2");
+//        QueryResponse queryResponse = searchEngine.getQueryResponse(query);
+//        SolrDocumentList results = queryResponse.getResults();
+//
+//        Assert.assertEquals(2, results.size());
+//        Assert.assertTrue(results.get(0).containsValue("UP000001940"));
+//    }
     
     @Test
     public void fetchAvroObject(){
