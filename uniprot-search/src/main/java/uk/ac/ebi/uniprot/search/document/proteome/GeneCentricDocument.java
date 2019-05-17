@@ -40,5 +40,10 @@ public class GeneCentricDocument  implements Document {
     
     @Field("genecentric_stored")
     public ByteBuffer geneCentricStored;
+
+	@Override
+	public String getDocumentId() {
+		return accession;
+	}
 }
 
