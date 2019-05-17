@@ -33,10 +33,13 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 import static java.util.Arrays.asList;
+import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.hasSize;
 import static org.junit.Assert.*;
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Mockito.mock;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.contains;
 import static org.mockito.Mockito.when;
 import static uk.ac.ebi.uniprot.indexer.uniprotkb.processor.UniProtEntryConverter.*;
 
@@ -747,7 +750,6 @@ class UniProtEntryConverterTest {
         assertEquals(1, doc.bpcpTempDependence.size());
         assertEquals(3, doc.bpcpTempDependenceEv.size());
         assertTrue(doc.bpcpTempDependenceEv.contains("manual"));
-
     }
 
     @Test
@@ -858,11 +860,39 @@ class UniProtEntryConverterTest {
     }
 
     @Test
+    void taxonSuggestionNameOverwritesDefaultNameIfDifferent() {
+        String id = "9606";
+        String homoSapiensFromDefaults = "Homo sapiens FROM OUR DEFAULTS TEXTFILE";
+        String homoSapiensFromDBFile = "Homo sapiens FROM DB FILE";
+
+        String key = converter.createSuggestionMapKey(SuggestDictionary.TAXONOMY, id);
+        suggestions.put(key,
+                        SuggestDocument.builder()
+                                .id(id)
+                                .value(homoSapiensFromDefaults)
+                                .build());
+
+        TaxonomicNode taxonomicNode = mock(TaxonomicNode.class);
+        when(taxonomicNode.id()).thenReturn(9606);
+        when(taxonomicNode.scientificName()).thenReturn(homoSapiensFromDBFile);
+        when(repoMock.retrieveNodeUsingTaxID(anyInt())).thenReturn(Optional.of(taxonomicNode));
+
+        assertThat(suggestions.entrySet(), hasSize(1));
+        SuggestDocument doc = suggestions.get(key);
+        assertThat(doc.altValues, is(empty()));
+        converter.setLineageTaxon(9606, new UniProtDocument());
+
+        assertThat(suggestions.entrySet(), hasSize(1));
+        assertThat(doc.altValues, is(empty()));
+        assertThat(doc.value, is(homoSapiensFromDBFile));
+    }
+    @Test
     void taxonSuggestionAddedWhenAlreadyExistBefore() {
         String id = "9606";
         String homoSapiens = "Homo sapiens";
 
-        suggestions.put(converter.createSuggestionMapKey(SuggestDictionary.TAXONOMY, id),
+        String key = converter.createSuggestionMapKey(SuggestDictionary.TAXONOMY, id);
+        suggestions.put(key,
                         SuggestDocument.builder()
                                 .id(id)
                                 .value(homoSapiens)
@@ -875,9 +905,13 @@ class UniProtEntryConverterTest {
         when(taxonomicNode.commonName()).thenReturn(synonym);
         when(repoMock.retrieveNodeUsingTaxID(anyInt())).thenReturn(Optional.of(taxonomicNode));
 
+        assertThat(suggestions.entrySet(), hasSize(1));
+        SuggestDocument doc = suggestions.get(key);
+        assertThat(doc.altValues, is(empty()));
         converter.setLineageTaxon(9606, new UniProtDocument());
 
         assertThat(suggestions.entrySet(), hasSize(1));
+        assertThat(doc.altValues, contains(synonym));
     }
 
     private UniProtEntry parse(String file) throws Exception {

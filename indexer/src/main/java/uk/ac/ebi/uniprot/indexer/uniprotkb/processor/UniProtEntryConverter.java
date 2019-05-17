@@ -1300,24 +1300,38 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtEntry, Un
     }
 
     private void addTaxonSuggestions(int id, List<String> taxons) {
-        // TODO: 17/05/19  
-        boolean first = true;
-        String idStr = Integer.toString(id);
-        SuggestDocument.SuggestDocumentBuilder suggestionBuilder = SuggestDocument.builder().id(idStr);
-        for (String taxon : taxons) {
-            if (first) {
-                suggestionBuilder.value(taxon);
-                first = false;
+        Iterator<String> taxonIterator = taxons.iterator();
+        if (taxonIterator.hasNext()) {
+            String idStr = Integer.toString(id);
+            String key = createSuggestionMapKey(SuggestDictionary.TAXONOMY, idStr);
+            SuggestDocument doc;
+            if (suggestions.containsKey(key)) {
+                doc = suggestions.get(key);
             } else {
-                suggestionBuilder.altValue(taxon);
+                SuggestDocument.SuggestDocumentBuilder documentBuilder = SuggestDocument
+                        .builder()
+                        .id(idStr)
+                        .value(taxonIterator.next());
+                while (taxonIterator.hasNext()) {
+                    documentBuilder.altValue(taxonIterator.next());
+                }
+                suggestions.put(key, documentBuilder.build());
+                return;
             }
-        }
-        String key = createSuggestionMapKey(SuggestDictionary.TAXONOMY, idStr);
-        if (suggestions.containsKey(key)) {
-            SuggestDocument document = suggestions.get(key);
-            document.altValues.
-        } else {
-            suggestions.put(key, suggestionBuilder.build());
+
+            String mainName = taxonIterator.next();
+            if (doc.value != null && !doc.value.equals(mainName)) {
+                doc.value = mainName;
+            }
+
+            List<String> currentSynonyms = new ArrayList<>(doc.altValues);
+            while (taxonIterator.hasNext()) {
+                String synonym = taxonIterator.next();
+                if (!doc.altValues.contains(synonym)) {
+                    currentSynonyms.add(synonym);
+                }
+            }
+            doc.altValues = currentSynonyms;
         }
     }
 
