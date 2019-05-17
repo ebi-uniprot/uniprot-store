@@ -85,6 +85,32 @@ public class SuggestSearchIT {
         checkResultsContains(results, 0, id, value, altValue);
     }
 
+    @Test
+    public void leftPrefixAltValueDMelanogasterMatchWillHit() {
+        String id = "1234";
+        String value = "value";
+        List<String> altValue = singletonList("D. melanogaster");
+        String dict = "randomDictionary";
+        searchEngine.indexEntry(SuggestDocument.builder()
+                                        .id(id)
+                                        .dictionary(dict)
+                                        .value(value)
+                                        .altValues(altValue)
+                                        .build());
+        searchEngine.indexEntry(SuggestDocument.builder()
+                                        .id(id)
+                                        .dictionary("anotherDictionary")
+                                        .value(value)
+                                        .altValues(altValue)
+                                        .build());
+
+        QueryResponse queryResponse = getResponse(query(dict, "mel"));
+
+        SolrDocumentList results = queryResponse.getResults();
+        assertThat(results, hasSize(1));
+        checkResultsContains(results, 0, id, value, altValue);
+    }
+
     @Test                                  
     public void leadingZerosAreIgnored() {
         String nonZeroIdPart = "1234";
