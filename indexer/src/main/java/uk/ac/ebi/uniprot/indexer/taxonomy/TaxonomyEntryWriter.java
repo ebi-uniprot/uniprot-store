@@ -6,6 +6,7 @@ import org.apache.solr.common.SolrInputDocument;
 import org.springframework.batch.item.ItemWriter;
 import org.springframework.data.solr.core.SolrTemplate;
 import uk.ac.ebi.uniprot.domain.taxonomy.TaxonomyEntry;
+import uk.ac.ebi.uniprot.domain.taxonomy.TaxonomyStatistics;
 import uk.ac.ebi.uniprot.json.parser.taxonomy.TaxonomyJsonConfig;
 import uk.ac.ebi.uniprot.search.SolrCollection;
 import uk.ac.ebi.uniprot.search.field.TaxonomyField;
@@ -39,6 +40,26 @@ public class TaxonomyEntryWriter implements ItemWriter<TaxonomyEntry> {
             Map<String,Object> fieldModifier = new HashMap<>(1);
             fieldModifier.put("set", taxonomyObj);
             solrInputDocument.addField(TaxonomyField.Return.taxonomy_obj.name(), fieldModifier);
+
+            if(entry.hasStatistics()){
+                TaxonomyStatistics statistics = entry.getStatistics();
+
+                Map<String,Object> booleanModifier = new HashMap<>(1);
+                booleanModifier.put("set", true);
+                if(statistics.hasReviewedProteinCount()){
+                    solrInputDocument.addField(TaxonomyField.Search.reviewed.name(), booleanModifier);
+                }
+                if(statistics.hasUnreviewedProteinCount()){
+                    solrInputDocument.addField(TaxonomyField.Search.annotated.name(), booleanModifier);
+                }
+                if(statistics.hasReferenceProteomeCount()){
+                    solrInputDocument.addField(TaxonomyField.Search.reference.name(), booleanModifier);
+                }
+                if(statistics.hasCompleteProteomeCount()){
+                    solrInputDocument.addField(TaxonomyField.Search.complete.name(), booleanModifier);
+                }
+
+            }
 
             solrInputDocument.addField(TaxonomyField.Search.id.toString(), entry.getTaxonId());
             this.solrTemplate.saveBean(collection.name(), solrInputDocument);

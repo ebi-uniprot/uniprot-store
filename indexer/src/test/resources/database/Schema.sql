@@ -111,5 +111,7 @@ create table SPTR.PROTEOME
 (
   PROTEOME_ID             NUMBER(10),
   PROTEOME_TAXID          NUMBER(10),
-  PUBLISH                 NUMBER(1)
+  PUBLISH                 NUMBER(1),
+  IS_COMPLETE             NUMBER(1),
+  IS_REFERENCE            NUMBER(1)
 );

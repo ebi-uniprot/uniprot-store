@@ -3,7 +3,6 @@ package uk.ac.ebi.uniprot.indexer.search;
 import org.apache.solr.client.solrj.beans.Field;
 import org.junit.Before;
 import org.junit.Test;
-
 import uk.ac.ebi.uniprot.search.document.Document;
 
 import java.util.ArrayList;
@@ -84,6 +83,11 @@ public class DocFieldTransformerTest {
 
         @Field("age")
         int ageField;
+
+        @Override
+        public String getDocumentId() {
+            return nameField;
+        }
     }
 
 }

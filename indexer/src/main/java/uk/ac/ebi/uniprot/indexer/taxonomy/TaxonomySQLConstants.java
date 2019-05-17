@@ -6,7 +6,7 @@ public class TaxonomySQLConstants {
             "ncbi_scientific,ncbi_common,sptr_scientific,sptr_common,sptr_synonym,sptr_code,tax_code,sptr_ff,superregnum" +
             " FROM taxonomy.v_public_node";
 
-    public static final String COUNT_PROTEINS_SQL = "SELECT COALESCE(r.TAX_ID,u.TAX_ID) as TAX_ID, r.reviewedProteinCount, u.unreviewedProteinCount, p.proteomeCount" +
+    public static final String COUNT_PROTEINS_SQL = "SELECT COALESCE(r.TAX_ID,u.TAX_ID) as TAX_ID, r.reviewedProteinCount, u.unreviewedProteinCount, pr.referenceProteomeCount, pc.completeProteomeCount" +
             " FROM (SELECT tax_id, count(1) as reviewedProteinCount" +
             "               FROM SPTR.dbentry" +
             "               WHERE entry_type = 0 and deleted ='N' and merge_status<>'R'" +
@@ -14,11 +14,15 @@ public class TaxonomySQLConstants {
             " FULL JOIN (SELECT tax_id, count(1) as unreviewedProteinCount" +
             "                 FROM SPTR.dbentry" +
             "                 WHERE entry_type = 1 and deleted ='N' and merge_status<>'R'" +
-            "                 GROUP BY tax_id) u on r.TAX_ID = u.TAX_ID" +
-            " LEFT JOIN (SELECT proteome_Taxid, count(1) as proteomeCount " +
-            "                 FROM SPTR.proteome " +
-            "                 WHERE publish=1" +
-            "                 GROUP BY proteome_Taxid) p on p.proteome_Taxid = u.TAX_ID";
+            "                 GROUP BY tax_id) u ON r.TAX_ID = u.TAX_ID" +
+            " LEFT JOIN (SELECT proteome_Taxid, count(*) as referenceProteomeCount" +
+            "                 FROM SPTR.proteome" +
+            "                 WHERE publish=1 and IS_REFERENCE = 1" +
+            "                 GROUP BY proteome_Taxid) pr ON pr.proteome_Taxid = u.TAX_ID" +
+            " LEFT JOIN (SELECT proteome_Taxid, count(*) as completeProteomeCount" +
+            "                 FROM SPTR.proteome" +
+            "                 WHERE publish=1 and IS_COMPLETE = 1" +
+            "                 GROUP BY proteome_Taxid) pc ON pc.proteome_Taxid = u.TAX_ID";
 
     public static final String SELECT_TAXONOMY_STRAINS_SQL = "SELECT STRAIN_ID, NAME, NAME_CLASS" +
             " FROM TAXONOMY.v_public_strain " +

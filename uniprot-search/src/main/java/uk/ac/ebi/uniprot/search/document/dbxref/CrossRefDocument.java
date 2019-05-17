@@ -3,12 +3,7 @@ package uk.ac.ebi.uniprot.search.document.dbxref;
 import lombok.Builder;
 import lombok.Getter;
 import org.apache.solr.client.solrj.beans.Field;
-
 import uk.ac.ebi.uniprot.search.document.Document;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 @Builder
 @Getter
@@ -37,4 +32,9 @@ public class CrossRefDocument implements Document {
     private Long reviewedProteinCount;
     @Field("unreviewed_protein_count")
     private Long unreviewedProteinCount;
+
+    @Override
+    public String getDocumentId() {
+        return accession;
+    }
 }

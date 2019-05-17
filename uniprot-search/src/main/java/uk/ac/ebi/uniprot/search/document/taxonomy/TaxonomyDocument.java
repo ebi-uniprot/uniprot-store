@@ -35,6 +35,14 @@ public class TaxonomyDocument implements Document {
     @Field
     private boolean linked;
     @Field
+    private boolean complete;
+    @Field
+    private boolean reference;
+    @Field
+    private boolean reviewed;
+    @Field
+    private boolean annotated;
+    @Field
     private List<String> content;
     @Field
     private List<String> strain;
@@ -45,5 +53,10 @@ public class TaxonomyDocument implements Document {
 
     @Field("taxonomy_obj")
     private ByteBuffer taxonomyObj;
+
+    @Override
+    public String getDocumentId() {
+        return id;
+    }
 
 }
