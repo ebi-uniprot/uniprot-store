@@ -29,6 +29,7 @@ import uk.ac.ebi.uniprot.indexer.test.config.FakeIndexerSpringBootApplication;
 import uk.ac.ebi.uniprot.indexer.test.config.TestConfig;
 import uk.ac.ebi.uniprot.json.parser.proteome.ProteomeJsonConfig;
 import uk.ac.ebi.uniprot.search.SolrCollection;
+import uk.ac.ebi.uniprot.search.document.proteome.GeneCentricDocument;
 import uk.ac.ebi.uniprot.search.document.proteome.ProteomeDocument;
 
 /**
@@ -63,6 +64,11 @@ class ProteomeIndexIT {
         assertThat(response.getTotalElements(), is(16l));
         
         response.forEach(val -> verifyProteome(val));
+        
+        Page<GeneCentricDocument> response2 = template
+                .query(SolrCollection.genecentric.name(), new SimpleQuery("*:*"), GeneCentricDocument.class);
+        assertThat(response2, is(notNullValue()));
+        assertThat(response2.getTotalElements(), is(16l));
 
     }
     private void verifyProteome(ProteomeDocument doc) {
