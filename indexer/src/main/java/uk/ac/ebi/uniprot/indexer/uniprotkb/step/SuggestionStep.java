@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.data.solr.core.SolrTemplate;
 import uk.ac.ebi.uniprot.indexer.common.listener.LogRateListener;
+import uk.ac.ebi.uniprot.indexer.common.listener.LogStepListener;
 import uk.ac.ebi.uniprot.indexer.common.writer.SolrDocumentWriter;
 import uk.ac.ebi.uniprot.indexer.uniprotkb.config.SuggestionConfig;
 import uk.ac.ebi.uniprot.indexer.uniprotkb.config.UniProtKBConfig;
@@ -27,6 +28,7 @@ import static uk.ac.ebi.uniprot.indexer.common.utils.Constants.SUGGESTIONS_INDEX
 @Configuration
 @Import({SuggestionConfig.class, UniProtKBConfig.class})
 public class SuggestionStep {
+    private static final int WRITE_RATE_DOCUMENT_INTERVAL = 10000;
     private final StepBuilderFactory stepBuilderFactory;
     private final UniProtKBIndexingProperties indexingProperties;
     private final SolrTemplate solrTemplate;
@@ -48,7 +50,8 @@ public class SuggestionStep {
                 .<SuggestDocument, SuggestDocument>chunk(indexingProperties.getChunkSize())
                 .reader(suggestionItemReader)
                 .writer(new SolrDocumentWriter<>(solrTemplate, SolrCollection.suggest))
-                .listener(new LogRateListener<>())
+                .listener(new LogRateListener<>(WRITE_RATE_DOCUMENT_INTERVAL))
+                .listener(new LogStepListener())
                 .build();
     }
 

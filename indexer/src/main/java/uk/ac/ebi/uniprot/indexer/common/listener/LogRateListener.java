@@ -27,11 +27,16 @@ public class LogRateListener<O> implements ItemWriteListener<O> {
 
     public LogRateListener() {
         this(Instant.now());
+        writeRateDocumentInterval = WRITE_RATE_DOCUMENT_INTERVAL;
+    }
+
+    public LogRateListener(int writeRateDocumentInterval) {
+        this(Instant.now());
+        this.writeRateDocumentInterval = writeRateDocumentInterval;
     }
 
     LogRateListener(Instant now) {
         startOfWriting = startOfDelta = now;
-        writeRateDocumentInterval = WRITE_RATE_DOCUMENT_INTERVAL;
     }
 
     @Override

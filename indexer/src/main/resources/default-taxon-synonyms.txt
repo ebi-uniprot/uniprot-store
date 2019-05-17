@@ -1,4 +1,4 @@
-Homo sapiens	9606   Human,Man
+Homo sapiens	9606	Human,Man
 
 Caenorhabditis elegans	6239	Roundworm,C. elegans
 

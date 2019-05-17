@@ -22,16 +22,16 @@ import uk.ac.ebi.uniprot.indexer.test.config.TestConfig;
 import uk.ac.ebi.uniprot.indexer.uniprotkb.step.SuggestionStep;
 import uk.ac.ebi.uniprot.indexer.uniprotkb.step.UniProtKBStep;
 import uk.ac.ebi.uniprot.search.SolrCollection;
+import uk.ac.ebi.uniprot.search.document.suggest.SuggestDocument;
 import uk.ac.ebi.uniprot.search.document.uniprot.UniProtDocument;
 
+import java.util.Collection;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.notNullValue;
-import static uk.ac.ebi.uniprot.indexer.common.utils.Constants.UNIPROTKB_INDEX_JOB;
-import static uk.ac.ebi.uniprot.indexer.common.utils.Constants.UNIPROTKB_INDEX_STEP;
+import static org.hamcrest.Matchers.*;
+import static uk.ac.ebi.uniprot.indexer.common.utils.Constants.*;
 
 /**
  * Created 11/04/19
@@ -57,20 +57,46 @@ class UniProtKBJobIT {
         BatchStatus status = jobExecution.getStatus();
         assertThat(status, is(BatchStatus.COMPLETED));
 
-        // TODO: 16/05/19 fix the fact that the test doesn't load all cores (only 3 of them?! crossref, taxonomy and uniprot)
+        Collection<StepExecution> stepExecutions = jobExecution.getStepExecutions();
+        assertThat(stepExecutions, hasSize(2));
+
+        checkUniProtKBIndexingStep(jobExecution, stepExecutions);
+        checkSuggestionIndexingStep(stepExecutions);
+    }
+
+    private void checkSuggestionIndexingStep(Collection<StepExecution> stepExecutions) {
+        StepExecution suggestionIndexingStep = stepExecutions.stream()
+                .filter(step -> step.getStepName().equals(SUGGESTIONS_INDEX_STEP))
+                .collect(Collectors.toList()).get(0);
+
+        assertThat(suggestionIndexingStep.getReadCount(), is(greaterThan(0)));
+
+        int reportedWriteCount = suggestionIndexingStep.getWriteCount();
+        assertThat(reportedWriteCount, is(greaterThan(0)));
+        assertThat(suggestionIndexingStep.getSkipCount(), is(0));
+        assertThat(suggestionIndexingStep.getFailureExceptions(), hasSize(0));
+
+
+        Page<SuggestDocument> response = template
+                .query(SolrCollection.suggest.name(), new SimpleQuery("*:*"), SuggestDocument.class);
+        assertThat(response, is(notNullValue()));
+        assertThat(response.getTotalElements(), is((long)reportedWriteCount));
+    }
+
+    private void checkUniProtKBIndexingStep(JobExecution jobExecution, Collection<StepExecution> stepExecutions) {
+        StepExecution kbIndexingStep = stepExecutions.stream()
+                .filter(step -> step.getStepName().equals(UNIPROTKB_INDEX_STEP))
+                .collect(Collectors.toList()).get(0);
+
+        assertThat(kbIndexingStep.getReadCount(), is(5));
+        checkWriteCount(jobExecution, Constants.INDEX_FAILED_ENTRIES_COUNT_KEY, 0);
+        checkWriteCount(jobExecution, Constants.INDEX_WRITTEN_ENTRIES_COUNT_KEY, 5);
 
         Page<UniProtDocument> response = template
                 .query(SolrCollection.uniprot.name(), new SimpleQuery("*:*"), UniProtDocument.class);
         assertThat(response, is(notNullValue()));
         assertThat(response.getTotalElements(), is(5L));
 
-        StepExecution indexingStep = jobExecution.getStepExecutions().stream()
-                .filter(step -> step.getStepName().equals(UNIPROTKB_INDEX_STEP))
-                .collect(Collectors.toList()).get(0);
-
-        assertThat(indexingStep.getReadCount(), is(5));
-        checkWriteCount(jobExecution, Constants.INDEX_FAILED_ENTRIES_COUNT_KEY, 0);
-        checkWriteCount(jobExecution, Constants.INDEX_WRITTEN_ENTRIES_COUNT_KEY, 5);
     }
 
     private void checkWriteCount(JobExecution jobExecution, String uniprotkbIndexFailedEntriesCountKey, int i) {
