@@ -384,6 +384,15 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtEntry, Un
         japiDocument.keywordIds.add(keyword.getId());
         japiDocument.keywords.add(keyword.getId());
         addValueToStringList(japiDocument.keywords, keyword);
+
+        suggestions.putIfAbsent(createSuggestionMapKey(SuggestDictionary.KEYWORD, keyword.getId()),
+                                SuggestDocument.builder()
+                                        .id(keyword.getId())
+                                        .value(keyword.getValue())
+                                        .dictionary(SuggestDictionary.KEYWORD.name())
+                                        .build());
+
+
         Optional<KeywordDetail> kwOp = keywordRepo.getKeyword(keyword.getId());
 
         kwOp.ifPresent(

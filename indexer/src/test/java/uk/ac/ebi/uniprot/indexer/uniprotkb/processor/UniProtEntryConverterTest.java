@@ -31,15 +31,14 @@ import java.nio.charset.Charset;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static java.util.Arrays.asList;
-import static org.hamcrest.Matchers.empty;
-import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.CoreMatchers.nullValue;
+import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.*;
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Mockito.mock;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.contains;
 import static org.mockito.Mockito.when;
 import static uk.ac.ebi.uniprot.indexer.uniprotkb.processor.UniProtEntryConverter.*;
 
@@ -254,6 +253,7 @@ class UniProtEntryConverterTest {
 
         assertEquals(1, doc.ecNumbers.size());
         assertEquals(1, doc.ecNumbersExact.size());
+        checkSuggestionsContain(SuggestDictionary.EC, doc.ecNumbersExact, false);
 
         assertEquals("29-OCT-2014", dateFormat.format(doc.lastModified).toUpperCase());
         assertEquals("19-JUL-2005", dateFormat.format(doc.firstCreated).toUpperCase());
@@ -262,6 +262,7 @@ class UniProtEntryConverterTest {
         assertEquals(30, doc.keywords.size());
         assertEquals("KW-0025", doc.keywords.get(0));
         assertEquals("Alternative splicing", doc.keywords.get(1));
+        checkSuggestionsContain(SuggestDictionary.KEYWORD, doc.keywordIds, false);
 
         assertEquals(3, doc.geneNames.size());
         assertEquals("Nsmf", doc.geneNames.get(0));
@@ -277,6 +278,10 @@ class UniProtEntryConverterTest {
         assertEquals(2, doc.organismTaxon.size());
         assertEquals(1, doc.taxLineageIds.size());
         assertEquals(10116L, doc.taxLineageIds.get(0).longValue());
+        checkSuggestionsContain(SuggestDictionary.TAXONOMY,
+                                doc.taxLineageIds.stream()
+                                        .map(Object::toString)
+                                        .collect(Collectors.toList()), false);
 
         assertEquals(0, doc.organelles.size());
         assertEquals(0, doc.organismHostNames.size());
@@ -351,6 +356,7 @@ class UniProtEntryConverterTest {
         assertEquals(2, doc.subcellLocationNoteEv.size());
         assertTrue(doc.subcellLocationNoteEv.contains("ECO_0000250"));
         assertTrue(doc.subcellLocationNoteEv.contains("manual"));
+        checkSuggestionsContain(SuggestDictionary.SUBCELL, doc.subcellLocationTerm, true);
 
         assertEquals(2, doc.ap.size());
         assertTrue(doc.ap.contains("Alternative splicing"));
@@ -377,6 +383,7 @@ class UniProtEntryConverterTest {
 
         assertEquals(50, doc.goes.size());
         assertTrue(doc.goes.contains("0030863"));
+        checkSuggestionsContain(SuggestDictionary.GO, doc.goIds, false);
 
 //        assertEquals(50, doc.defaultGo.size());
 //        assertTrue(doc.defaultGo.contains("membrane"));
@@ -388,6 +395,24 @@ class UniProtEntryConverterTest {
         assertNotNull(doc.avro_binary);
 
         assertFalse(doc.isIsoform);
+    }
+
+    private void checkSuggestionsContain(SuggestDictionary dict, Collection<String> values, boolean sizeOnly) {
+        // the number of suggestions for this dictionary is the same size as values
+        List<String> foundSuggestions = this.suggestions.keySet().stream()
+                .filter(key -> key.startsWith(dict.name()))
+                .collect(Collectors.toList());
+        assertThat(values, hasSize(foundSuggestions.size()));
+
+        if (!sizeOnly) {
+            // values are a subset of the suggestions for this dictionary
+            for (String value : values) {
+                String key = converter.createSuggestionMapKey(dict, value);
+                assertTrue(this.suggestions.containsKey(key));
+                SuggestDocument document = this.suggestions.get(key);
+                assertThat(document.value, is(not(nullValue())));
+            }
+        }
     }
 
     @Test
@@ -886,6 +911,7 @@ class UniProtEntryConverterTest {
         assertThat(doc.altValues, is(empty()));
         assertThat(doc.value, is(homoSapiensFromDBFile));
     }
+
     @Test
     void taxonSuggestionAddedWhenAlreadyExistBefore() {
         String id = "9606";
