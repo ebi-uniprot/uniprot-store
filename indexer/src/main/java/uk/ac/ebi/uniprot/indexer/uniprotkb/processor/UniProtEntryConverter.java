@@ -125,7 +125,6 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtEntry, Un
         this.goRelationRepo = goRelationRepo;
         this.keywordRepo = keywordRepo;
         this.pathwayRepo = pathwayRepo;
-        // TODO: 15/05/19 populate suggestions
         this.suggestions = suggestDocuments;
         //   this.uniprotUniRefMap = uniProtUniRefMap;
 
@@ -369,7 +368,7 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtEntry, Un
         }
     }
 
-    private String createSuggestionMapKey(SuggestDictionary dict, String id) {
+    String createSuggestionMapKey(SuggestDictionary dict, String id) {
         return dict.name() + ":" + id;
     }
 
@@ -1284,16 +1283,16 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtEntry, Un
         return names;
     }
 
-    private void setLineageTaxon(int taxId, UniProtDocument japiDocument) {
+    void setLineageTaxon(int taxId, UniProtDocument document) {
         if (taxId > 0) {
             Optional<TaxonomicNode> taxonomicNode = taxonomyRepo.retrieveNodeUsingTaxID(taxId);
 
             while (taxonomicNode.isPresent()) {
                 TaxonomicNode node = taxonomicNode.get();
                 int id = node.id();
-                japiDocument.taxLineageIds.add(id);
+                document.taxLineageIds.add(id);
                 List<String> taxons = extractTaxonFromNode(node);
-                japiDocument.organismTaxon.addAll(taxons);
+                document.organismTaxon.addAll(taxons);
                 addTaxonSuggestions(id, taxons);
                 taxonomicNode = getParentTaxon(id);
             }
@@ -1301,6 +1300,7 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtEntry, Un
     }
 
     private void addTaxonSuggestions(int id, List<String> taxons) {
+        // TODO: 17/05/19  
         boolean first = true;
         String idStr = Integer.toString(id);
         SuggestDocument.SuggestDocumentBuilder suggestionBuilder = SuggestDocument.builder().id(idStr);
@@ -1312,7 +1312,13 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtEntry, Un
                 suggestionBuilder.altValue(taxon);
             }
         }
-        suggestions.putIfAbsent(createSuggestionMapKey(SuggestDictionary.TAXONOMY, idStr), suggestionBuilder.build());
+        String key = createSuggestionMapKey(SuggestDictionary.TAXONOMY, idStr);
+        if (suggestions.containsKey(key)) {
+            SuggestDocument document = suggestions.get(key);
+            document.altValues.
+        } else {
+            suggestions.put(key, suggestionBuilder.build());
+        }
     }
 
     private List<String> extractTaxonFromNode(TaxonomicNode node) {

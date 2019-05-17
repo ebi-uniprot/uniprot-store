@@ -22,6 +22,7 @@ import uk.ac.ebi.uniprot.indexer.uniprot.keyword.KeywordRepo;
 import uk.ac.ebi.uniprot.indexer.uniprot.pathway.PathwayRepo;
 import uk.ac.ebi.uniprot.indexer.uniprot.taxonomy.TaxonomicNode;
 import uk.ac.ebi.uniprot.indexer.uniprot.taxonomy.TaxonomyRepo;
+import uk.ac.ebi.uniprot.search.document.suggest.SuggestDictionary;
 import uk.ac.ebi.uniprot.search.document.suggest.SuggestDocument;
 import uk.ac.ebi.uniprot.search.document.uniprot.UniProtDocument;
 
@@ -32,6 +33,7 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 import static java.util.Arrays.asList;
+import static org.hamcrest.Matchers.hasSize;
 import static org.junit.Assert.*;
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Mockito.mock;
@@ -841,8 +843,46 @@ class UniProtEntryConverterTest {
         assertTrue(doc.subcellLocationNoteEv.contains("ECO_0000250"));
     }
 
+    @Test
+    void taxonSuggestionAddedWhenDidntExistBefore() {
+        TaxonomicNode taxonomicNode = mock(TaxonomicNode.class);
+        when(taxonomicNode.id()).thenReturn(9606);
+        when(taxonomicNode.scientificName()).thenReturn("Homo sapiens");
+        String synonym = "some synonym for homo sapiens";
+        when(taxonomicNode.commonName()).thenReturn(synonym);
+        when(repoMock.retrieveNodeUsingTaxID(anyInt())).thenReturn(Optional.of(taxonomicNode));
+
+        converter.setLineageTaxon(9606, new UniProtDocument());
+
+        assertThat(suggestions.entrySet(), hasSize(1));
+    }
+
+    @Test
+    void taxonSuggestionAddedWhenAlreadyExistBefore() {
+        String id = "9606";
+        String homoSapiens = "Homo sapiens";
+
+        suggestions.put(converter.createSuggestionMapKey(SuggestDictionary.TAXONOMY, id),
+                        SuggestDocument.builder()
+                                .id(id)
+                                .value(homoSapiens)
+                                .build());
+
+        TaxonomicNode taxonomicNode = mock(TaxonomicNode.class);
+        when(taxonomicNode.id()).thenReturn(9606);
+        when(taxonomicNode.scientificName()).thenReturn(homoSapiens);
+        String synonym = "some synonym for homo sapiens";
+        when(taxonomicNode.commonName()).thenReturn(synonym);
+        when(repoMock.retrieveNodeUsingTaxID(anyInt())).thenReturn(Optional.of(taxonomicNode));
+
+        converter.setLineageTaxon(9606, new UniProtDocument());
+
+        assertThat(suggestions.entrySet(), hasSize(1));
+    }
+
     private UniProtEntry parse(String file) throws Exception {
-        InputStream is = UniProtEntryDocumentPairProcessor.class.getClassLoader().getResourceAsStream("uniprotkb/" + file);
+        InputStream is = UniProtEntryDocumentPairProcessor.class.getClassLoader()
+                .getResourceAsStream("uniprotkb/" + file);
         assertNotNull(is);
         SupportingDataMap supportingDataMap = new SupportingDataMapImpl("uniprotkb/keywlist.txt",
                                                                         "uniprotkb/humdisease.txt",
