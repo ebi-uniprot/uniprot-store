@@ -2,9 +2,9 @@ package uk.ac.ebi.uniprot.indexer.proteome;
 
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -23,7 +23,6 @@ import uk.ac.ebi.uniprot.indexer.uniprot.taxonomy.TaxonomicNode;
 import uk.ac.ebi.uniprot.indexer.uniprot.taxonomy.TaxonomyRepo;
 import uk.ac.ebi.uniprot.json.parser.proteome.ProteomeJsonConfig;
 import uk.ac.ebi.uniprot.search.document.proteome.ProteomeDocument;
-import uk.ac.ebi.uniprot.xml.jaxb.proteome.GeneType;
 import uk.ac.ebi.uniprot.xml.jaxb.proteome.Proteome;
 import uk.ac.ebi.uniprot.xml.proteome.ProteomeConverter;
 
@@ -56,8 +55,6 @@ public class ProteomeEntryConverter implements DocumentConverter<Proteome, Prote
 		document.genomeAccession = fetchGenomeAccessions(source);
 		document.superkingdom = source.getSuperregnum().name();
 		document.genomeAssembly =fetchGenomeAssemblyId(source);
-		document.accession = fetchGeneAccessions(source);
-		document.gene = fetchGeneNames(source);
 		document.content.add(document.upid);
 		document.content.add(source.getDescription());
 		document.content.addAll(document.organismTaxon);
@@ -132,28 +129,6 @@ public class ProteomeEntryConverter implements DocumentConverter<Proteome, Prote
 		return taxonmyItems;
 	}
 
-
-
-	private List<String> fetchGeneAccessions(Proteome source) {
-		Set<String> accessions = source.getCanonicalGene().stream().flatMap(geneType -> {
-			Set<String> accessionSet = geneType.getRelatedGene().stream().map(GeneType::getAccession)
-					.collect(Collectors.toSet());
-			accessionSet.add(geneType.getGene().getAccession());
-			return accessionSet.stream();
-		}).collect(Collectors.toSet());
-		return new ArrayList<>(accessions);
-	}
-
-	private List<String> fetchGeneNames(Proteome source) {
-		Set<String> geneNames = source.getCanonicalGene().stream().flatMap(geneType -> {
-			Set<String> accessionSet = geneType.getRelatedGene().stream().map(GeneType::getGeneName)
-					.collect(Collectors.toSet());
-			accessionSet.add(geneType.getGene().getGeneName());
-			return accessionSet.stream();
-		}).collect(Collectors.toSet());
-		return new ArrayList<>(geneNames);
-	}
-
 	private List<String> fetchGenomeAssemblyId(Proteome source) {
 		return source.getDbReference().stream()
 				.filter(val -> val.getType().equals(GC_SET_ACC))				
@@ -162,10 +137,9 @@ public class ProteomeEntryConverter implements DocumentConverter<Proteome, Prote
 	}
 	private byte[] getBinaryObject(Proteome source) {
 		ProteomeEntry proteome = this.proteomeConverter.fromXml(source);
-		
-		
-		ProteomeEntryBuilder builder = ProteomeEntryBuilder.newInstance().from(proteome);
-				Optional<TaxonomicNode> taxonomicNode = taxonomyRepo.retrieveNodeUsingTaxID((int)proteome.getTaxonomy().getTaxonId());
+		ProteomeEntryBuilder builder = ProteomeEntryBuilder.newInstance().from(proteome);	
+		builder.canonicalProteins(Collections.emptyList());
+		Optional<TaxonomicNode> taxonomicNode = taxonomyRepo.retrieveNodeUsingTaxID((int)proteome.getTaxonomy().getTaxonId());
 		if(taxonomicNode.isPresent()) {
 			builder.taxonomy(getTaxonomy(taxonomicNode.get(), proteome.getTaxonomy().getTaxonId()));
 			builder.taxonLineage(getLineage(taxonomicNode.get().id()));

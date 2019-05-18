@@ -44,12 +44,6 @@ public class ProteomeDocument  implements Document {
     
     @Field("genome_assembly")
     public List<String> genomeAssembly = new ArrayList<>();
-
-    @Field("accession")
-    public List<String> accession = new ArrayList<>();
-
-    @Field("gene")
-    public List<String> gene = new ArrayList<>();
     
     //DEFAULT SEARCH FIELD
     @Field("content")

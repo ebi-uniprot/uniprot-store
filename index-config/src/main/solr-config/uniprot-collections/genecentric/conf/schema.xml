@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-<schema name="proteome" version="1.6">
+<schema name="genecentric" version="1.6">
     <!-- attribute "name" is the name of this schema and is only used for display purposes.
      version="x.y" is Solr's version number for the schema syntax and
      semantics.  It should not normally be changed by applications.
@@ -77,22 +77,7 @@
         RESTRICTION: the glob-like pattern in the name attribute must have
         a "*" only at the start or the end.  -->
 
-    <dynamicField name="*_i"  type="pint"    indexed="true"  stored="true"/>
-    <dynamicField name="*_is" type="pint"    indexed="true"  stored="true"  multiValued="true"/>
-    <dynamicField name="*_s"  type="string"  indexed="true"  stored="true" />
-    <dynamicField name="*_s_ns"  type="string"  indexed="true"  stored="false" />
-    <dynamicField name="*_ss" type="string"  indexed="true"  stored="true" multiValued="true"/>
-    <dynamicField name="*_l"  type="plong"   indexed="true"  stored="true"/>
-    <dynamicField name="*_l_ns"  type="plong"   indexed="true"  stored="false"/>
-    <dynamicField name="*_ls" type="plong"   indexed="true"  stored="true"  multiValued="true"/>
-    <dynamicField name="*_t"  type="text_general"    indexed="true"  stored="true"/>
-    <dynamicField name="*_txt" type="text_general"   indexed="true"  stored="true" multiValued="true"/>
-    <dynamicField name="*_b"  type="boolean" indexed="true" stored="true"/>
-    <dynamicField name="*_bs" type="boolean" indexed="true" stored="true"  multiValued="true"/>
-    <dynamicField name="*_f"  type="pfloat"  indexed="true"  stored="true"/>
-    <dynamicField name="*_fs" type="pfloat"  indexed="true"  stored="true"  multiValued="true"/>
-    <dynamicField name="*_d"  type="pdouble" indexed="true"  stored="true"/>
-    <dynamicField name="*_ds" type="pdouble" indexed="true"  stored="true"  multiValued="true"/>
+
 
     <dynamicField name="ignored_*" type="ignored" multiValued="true"/>
     <dynamicField name="attr_*" type="text_general" indexed="true" stored="true" multiValued="true"/>
@@ -130,7 +115,7 @@
     <!-- Field to use to determine and enforce document uniqueness.
          Unless this field is marked with required="false", it will be a required field
       -->
-    <uniqueKey>upid</uniqueKey>
+    <uniqueKey>accession_id</uniqueKey>
 
     <!-- copyField commands copy one field to another at the time a document
           is added to the index.  It's used either to index the same field differently,
@@ -157,6 +142,25 @@
 
     <!-- boolean type: "true" or "false" -->
     <fieldType name="boolean" class="solr.BoolField" sortMissingLast="true"/>
+    
+     <fieldType name="int" class="solr.IntPointField" docValues="true"/>
+    <fieldType name="float" class="solr.FloatPointField" docValues="true"/>
+    <fieldType name="long" class="solr.LongPointField" docValues="true"/>
+    <fieldType name="double" class="solr.DoublePointField" docValues="true"/>
+
+    <fieldType name="pint" class="solr.IntPointField" docValues="true"/>
+    <fieldType name="pfloat" class="solr.FloatPointField" docValues="true"/>
+    <fieldType name="plong" class="solr.LongPointField" docValues="true"/>
+    <fieldType name="pdouble" class="solr.DoublePointField" docValues="true"/>
+
+    <fieldType name="pints" class="solr.IntPointField" docValues="true" multiValued="true"/>
+    <fieldType name="pfloats" class="solr.FloatPointField" docValues="true" multiValued="true"/>
+    <fieldType name="plongs" class="solr.LongPointField" docValues="true" multiValued="true"/>
+    <fieldType name="pdoubles" class="solr.DoublePointField" docValues="true" multiValued="true"/>
+
+    <fieldType name="pdate" class="solr.DatePointField" docValues="true"/>
+    <fieldType name="pdates" class="solr.DatePointField" docValues="true" multiValued="true"/>
+    <fieldType name="date" class="solr.DatePointField" docValues="true"/>
 
     <!-- sortMissingLast and sortMissingFirst attributes are optional attributes are
          currently supported on types that are sorted internally as strings
@@ -180,24 +184,6 @@
       These fields support doc values, but they require the field to be
       single-valued and either be required or have a default value.
     -->
-    <fieldType name="int" class="solr.IntPointField" docValues="true"/>
-    <fieldType name="float" class="solr.FloatPointField" docValues="true"/>
-    <fieldType name="long" class="solr.LongPointField" docValues="true"/>
-    <fieldType name="double" class="solr.DoublePointField" docValues="true"/>
-
-    <fieldType name="pint" class="solr.IntPointField" docValues="true"/>
-    <fieldType name="pfloat" class="solr.FloatPointField" docValues="true"/>
-    <fieldType name="plong" class="solr.LongPointField" docValues="true"/>
-    <fieldType name="pdouble" class="solr.DoublePointField" docValues="true"/>
-
-    <fieldType name="pints" class="solr.IntPointField" docValues="true" multiValued="true"/>
-    <fieldType name="pfloats" class="solr.FloatPointField" docValues="true" multiValued="true"/>
-    <fieldType name="plongs" class="solr.LongPointField" docValues="true" multiValued="true"/>
-    <fieldType name="pdoubles" class="solr.DoublePointField" docValues="true" multiValued="true"/>
-
-    <fieldType name="pdate" class="solr.DatePointField" docValues="true"/>
-    <fieldType name="pdates" class="solr.DatePointField" docValues="true" multiValued="true"/>
-    <fieldType name="date" class="solr.DatePointField" docValues="true"/>
 
     <!--Binary data type. The data should be sent/retrieved in as Base64 encoded Strings -->
     <fieldType name="binary" class="solr.BinaryField"/>
@@ -294,25 +280,14 @@
     </fieldType>
 
     <!-- ====================================================================================== -->
-    <!-- =============================== proteome configurations =============================== -->
+    <!-- =============================== genecentric configurations =============================== -->
     <!-- ====================================================================================== -->
-    <field name="upid" type="string" indexed="true" stored="true" required="true" multiValued="false"/>
-      <field name="organism_sort" type="string" indexed="true" stored="false" required="false" multiValued="false" docValues="true"/>
-    <field name="organism_name" type="full_ci" indexed="true" stored="false" required="false" multiValued="true"/>
+    <field name="accession_id" type="string" indexed="true" stored="true" required="true" multiValued="false"/>
+    <field name="accession" type="basic_ci" indexed="true" stored="false" required="true" multiValued="true"/>
+    <field name="upid" type="basic_ci" indexed="true" stored="false" required="true" multiValued="false"/>
+    <field name="reviewed" type="boolean" indexed="true" stored="false" required="false" multiValued="false"/>
     <field name="organism_id" type="int" indexed="true" stored="false" required="false" multiValued="false"/>
-    <field name="taxonomy_name" type="full_ci" indexed="true" stored="false" required="false" multiValued="true"/>
-    <field name="taxonomy_id" type="int" indexed="true" stored="false" required="false" multiValued="true"/>
-    <field name="superkingdom" type="string" indexed="true" stored="false" required="false" multiValued="false" docValues="true"/>
-    <field name="reference" type="boolean" indexed="true" stored="false" required="true" multiValued="false"/>
-    <field name="redundant" type="boolean" indexed="true" stored="false" required="true" multiValued="false"/>
-    <field name="genome_accession" type="basic_ci" indexed="true" stored="false" required="false" multiValued="true"/>
-    <field name="genome_assembly" type="basic_ci" indexed="true" stored="false" required="false" multiValued="true"/>
-     <field name="proteome_stored" type="binary" indexed="false" stored="true" required="true" multiValued="false"/>
-        <!-- Default field -->
-    <field name="content" type="full_ci" indexed="true" stored="false" required="false" multiValued="true"/>
-    
-    <field name="annotation_score" type="int" indexed="true" stored="true" required="false" multiValued="false" docValues="true"/>
-    <field name="proteome_type" type="int" indexed="true" stored="true" required="false" multiValued="false" docValues="true"/>
- 
-  
+    <field name="gene" type="full_ci" indexed="true" stored="false" required="false" multiValued="true"/>
+    <field name="genecentric_stored" type="binary" indexed="false" stored="true" required="true" multiValued="false"/>
+   
 </schema>
