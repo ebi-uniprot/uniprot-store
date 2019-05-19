@@ -75,7 +75,7 @@ public class SuggestionConfig {
                 .map(type -> {
                     String name = removeTerminalSemiColon(type.getDisplayName());
                     return SuggestDocument.builder()
-                            .id("Database: " + name)
+                            .value("Database: " + name)
                             .dictionary(SuggestDictionary.MAIN.name())
                             .build();
                 })
@@ -108,7 +108,7 @@ public class SuggestionConfig {
         public Optional<SuggestDocument> apply(FeatureCategory value) {
             String name = value.name();
             return Optional.of(SuggestDocument.builder()
-                                       .id("Feature Category: " + name)
+                                       .value("Feature Category: " + name)
                                        .dictionary(SuggestDictionary.MAIN.name())
                                        .build());
         }
@@ -126,7 +126,7 @@ public class SuggestionConfig {
             return value == CommentType.UNKNOWN ?
                     Optional.empty() :
                     Optional.of(SuggestDocument.builder()
-                                        .id("Comment type: " + name)
+                                        .value("Comment type: " + name)
                                         .dictionary(SuggestDictionary.MAIN.name())
                                         .build());
         }
