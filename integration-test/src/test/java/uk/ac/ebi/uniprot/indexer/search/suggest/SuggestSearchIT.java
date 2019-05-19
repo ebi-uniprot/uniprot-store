@@ -138,6 +138,34 @@ public class SuggestSearchIT {
         checkResultsContains(results, 0, id, value, altValue);
     }
 
+    // TODO: 19/05/19 fix this. and if works, then change analyser to split all id types e.g., SL-XXXX into 2 tokens
+    @Test
+    public void leadingZerosAreIgnoredWithinId() {
+        String nonZeroIdPart = "1234";
+        String id = "GO:00000" + nonZeroIdPart;
+        String value = "value";
+        List<String> altValue = singletonList("altValue");
+        String dict = "randomDictionary";
+        searchEngine.indexEntry(SuggestDocument.builder()
+                                        .id(id)
+                                        .dictionary(dict)
+                                        .value(value)
+                                        .altValues(altValue)
+                                        .build());
+        searchEngine.indexEntry(SuggestDocument.builder()
+                                        .id("234")
+                                        .dictionary(dict)
+                                        .value(value)
+                                        .altValues(altValue)
+                                        .build());
+
+        QueryResponse queryResponse = getResponse(query(dict, nonZeroIdPart));
+
+        SolrDocumentList results = queryResponse.getResults();
+        assertThat(results, hasSize(1));
+        checkResultsContains(results, 0, id, value, altValue);
+    }
+
     @Test
     public void exactMatchComesFirst() {
         String id = "1234";
