@@ -38,14 +38,12 @@ public interface ProteomeField {
 		 annotation_score(SearchFieldType.TERM),
 		 proteome_type(SearchFieldType.TERM),
 		organism_name(SearchFieldType.TERM, null, 2.0f),
-		organism_id(SearchFieldType.TERM,FieldValueValidator::isNumberValue, 2.0f),
+		organism_id(SearchFieldType.TERM, FieldValueValidator::isNumberValue, 2.0f),
 		taxonomy_name(SearchFieldType.TERM, null,null),
 		taxonomy_id(SearchFieldType.TERM, FieldValueValidator::isNumberValue, null),
 		superkingdom(SearchFieldType.TERM),
 		genome_accession(SearchFieldType.TERM),
 		genome_assembly(SearchFieldType.TERM),
-		accession(SearchFieldType.TERM),
-		gene(SearchFieldType.TERM),
 		content(SearchFieldType.TERM); //used in the default search
 
 		private final Predicate<String> fieldValueValidator;
