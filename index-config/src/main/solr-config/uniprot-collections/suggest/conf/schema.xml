@@ -17,7 +17,7 @@
 -->
 <schema name="suggest" version="1.6">
     <!-- =============================== suggestion fields  =============================== -->
-    <field name="id" type="string" indexed="true" stored="true" required="true" multiValued="false"/>
+    <field name="id" type="string" indexed="true" stored="true" multiValued="false"/>
     <field name="value" type="string" indexed="true" stored="true" multiValued="false"/>
     <field name="altValue" type="string" indexed="true" stored="true" multiValued="true"/>
     <field name="dict" type="string" indexed="true" stored="false" required="true" multiValued="false"/>

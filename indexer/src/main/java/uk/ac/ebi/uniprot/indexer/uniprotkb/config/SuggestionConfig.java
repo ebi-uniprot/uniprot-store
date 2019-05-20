@@ -37,7 +37,7 @@ public class SuggestionConfig {
     }
 
     private void loadDefaultMainSuggestions(Map<String, SuggestDocument> suggestionMap) {
-        Consumer<SuggestDocument> suggestionMapUpdater = suggestion -> suggestionMap.put(suggestion.id, suggestion);
+        Consumer<SuggestDocument> suggestionMapUpdater = suggestion -> suggestionMap.put(suggestion.value, suggestion);
 
         enumToSuggestions(new FeatureCategoryToSuggestion(), suggestionMapUpdater);
         enumToSuggestions(new CommentTypeToSuggestion(), suggestionMapUpdater);
