@@ -85,14 +85,14 @@
                sortMissingLast="true" omitNorms="true" positionIncrementGap="100">
         <!-- defined for index and query time -->
         <analyzer type="index">
-            <charFilter class="solr.PatternReplaceCharFilterFactory" pattern="(/|-)" replacement=" "/>
+            <charFilter class="solr.PatternReplaceCharFilterFactory" pattern="0+" replacement=""/>
+            <charFilter class="solr.PatternReplaceCharFilterFactory" pattern="(/|-|:)" replacement=" "/>
             <charFilter class="solr.PatternReplaceCharFilterFactory" pattern="(')" replacement=""/>
             <charFilter class="solr.PatternReplaceCharFilterFactory" pattern="^([A-Za-z0-9_]+)\.([0-9]+)$"
                         replacement="$1.$2 $1"/>
-            <charFilter class="solr.PatternReplaceCharFilterFactory" pattern="^([A-Za-z]+)\:(.*)" replacement="$1 $2"/>
+            <!--<charFilter class="solr.PatternReplaceCharFilterFactory" pattern="^([A-Za-z]+)\:(.*)" replacement="$1 $2"/>-->
             <!--<tokenizer class="solr.ClassicTokenizerFactory"/>-->
             <tokenizer class="solr.WhitespaceTokenizerFactory"/>
-            <charFilter class="solr.PatternReplaceCharFilterFactory" pattern="^0+" replacement=""/>
             <filter class="solr.LowerCaseFilterFactory"/>
             <filter class="solr.PorterStemFilterFactory"/>
             <filter class="solr.RemoveDuplicatesTokenFilterFactory"/>
@@ -100,12 +100,12 @@
             <filter class="solr.FlattenGraphFilterFactory"/>
         </analyzer>
         <analyzer type="query">
-            <charFilter class="solr.PatternReplaceCharFilterFactory" pattern="(/|-)" replacement=" "/>
+            <charFilter class="solr.PatternReplaceCharFilterFactory" pattern="0+" replacement=""/>
+            <charFilter class="solr.PatternReplaceCharFilterFactory" pattern="(/|-|:)" replacement=" "/>
             <charFilter class="solr.PatternReplaceCharFilterFactory" pattern="(')" replacement=""/>
-            <charFilter class="solr.PatternReplaceCharFilterFactory" pattern="^([A-Za-z]+)\:(.*)" replacement="$1 $2"/>
+            <!--<charFilter class="solr.PatternReplaceCharFilterFactory" pattern="^([A-Za-z]+)\:(.*)" replacement="$1 $2"/>-->
             <!--<tokenizer class="solr.ClassicTokenizerFactory"/>-->
             <tokenizer class="solr.WhitespaceTokenizerFactory"/>
-            <charFilter class="solr.PatternReplaceCharFilterFactory" pattern="^0+" replacement=""/>
             <filter class="solr.LowerCaseFilterFactory"/>
             <filter class="solr.PorterStemFilterFactory"/>
             <filter class="solr.RemoveDuplicatesTokenFilterFactory"/>

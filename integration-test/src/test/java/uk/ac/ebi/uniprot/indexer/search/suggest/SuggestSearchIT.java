@@ -138,7 +138,6 @@ public class SuggestSearchIT {
         checkResultsContains(results, 0, id, value, altValue);
     }
 
-    // TODO: 19/05/19 fix this. and if works, then change analyser to split all id types e.g., SL-XXXX into 2 tokens
     @Test
     public void leadingZerosAreIgnoredWithinId() {
         String nonZeroIdPart = "1234";
