@@ -13,6 +13,7 @@ import uk.ac.ebi.uniprot.search.field.SuggestField;
 import java.util.Collection;
 import java.util.List;
 
+import static java.util.Arrays.asList;
 import static java.util.Collections.singletonList;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasSize;
@@ -111,37 +112,10 @@ public class SuggestSearchIT {
         checkResultsContains(results, 0, id, value, altValue);
     }
 
-    @Test                                  
+    @Test
     public void leadingZerosAreIgnored() {
         String nonZeroIdPart = "1234";
         String id = "00000" + nonZeroIdPart;
-        String value = "value";
-        List<String> altValue = singletonList("altValue");
-        String dict = "randomDictionary";
-        searchEngine.indexEntry(SuggestDocument.builder()
-                                        .id(id)
-                                        .dictionary(dict)
-                                        .value(value)
-                                        .altValues(altValue)
-                                        .build());
-        searchEngine.indexEntry(SuggestDocument.builder()
-                                        .id("234")
-                                        .dictionary(dict)
-                                        .value(value)
-                                        .altValues(altValue)
-                                        .build());
-
-        QueryResponse queryResponse = getResponse(query(dict, nonZeroIdPart));
-
-        SolrDocumentList results = queryResponse.getResults();
-        assertThat(results, hasSize(1));
-        checkResultsContains(results, 0, id, value, altValue);
-    }
-
-    @Test
-    public void leadingZerosAreIgnoredWithinId() {
-        String nonZeroIdPart = "1234";
-        String id = "GO:00000" + nonZeroIdPart;
         String value = "value";
         List<String> altValue = singletonList("altValue");
         String dict = "randomDictionary";
@@ -301,6 +275,40 @@ public class SuggestSearchIT {
         assertThat(results, hasSize(2));
         checkResultsContains(results, 0, id, someValue, altValue);
         checkResultsContains(results, 1, someId, id, altValue);
+    }
+
+    @Test
+    public void exactAltValueHasPrecedenceOverAnother() {
+        String dict = "randomDictionary";
+        String id = "id";
+        String someValue = "someValue";
+        String man = "Man";
+        List<String> altValues = asList(man, "Human", "another", "yetAnother");
+
+        String otherId = "otherId";
+        List<String> otherAltValues = asList("Human", man + " another", "yetAnother");
+
+        searchEngine.indexEntry(SuggestDocument.builder()
+                                        .id(otherId)
+                                        .dictionary(dict)
+                                        .importance("high")
+                                        .value(someValue)
+                                        .altValues(otherAltValues)
+                                        .build());
+        searchEngine.indexEntry(SuggestDocument.builder()
+                                        .id(id)
+                                        .dictionary(dict)
+                                        .importance("medium")
+                                        .value(someValue)
+                                        .altValues(altValues)
+                                        .build());
+
+        QueryResponse queryResponse = getResponse(query(dict, man.toLowerCase()));
+
+        SolrDocumentList results = queryResponse.getResults();
+        assertThat(results, hasSize(2));
+        checkResultsContains(results, 0, id, someValue, altValues);
+        checkResultsContains(results, 1, otherId, someValue, otherAltValues);
     }
 
     @Test

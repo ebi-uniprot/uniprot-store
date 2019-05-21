@@ -18,7 +18,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 @Slf4j
 public class LogRateListener<O> implements ItemWriteListener<O> {
-    static final int WRITE_RATE_DOCUMENT_INTERVAL = 100000;
+    static final int WRITE_RATE_DOCUMENT_INTERVAL = 10000;
     private int writeRateDocumentInterval;
     private final Instant startOfWriting;
     private AtomicInteger totalWriteCount = new AtomicInteger(0);

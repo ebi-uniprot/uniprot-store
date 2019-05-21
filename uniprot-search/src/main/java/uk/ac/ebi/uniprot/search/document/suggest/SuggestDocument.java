@@ -18,7 +18,10 @@ public class SuggestDocument implements Document {
 
     @Field("value")
     public String value;
-    
+
+    @Field("importance")
+    public String importance = "medium";
+
     @Singular
     @Field("altValue")
     public List<String> altValues;
@@ -29,5 +32,9 @@ public class SuggestDocument implements Document {
     @Override
     public String getDocumentId() {
         return id;
+    }
+
+    public static class SuggestDocumentBuilder {
+        private String importance = "medium";
     }
 }

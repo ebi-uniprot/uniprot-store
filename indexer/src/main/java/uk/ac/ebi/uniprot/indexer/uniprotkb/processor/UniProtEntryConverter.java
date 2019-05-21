@@ -1320,6 +1320,7 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtEntry, Un
                 SuggestDocument.SuggestDocumentBuilder documentBuilder = SuggestDocument
                         .builder()
                         .id(idStr)
+                        .dictionary(SuggestDictionary.TAXONOMY.name())
                         .value(taxonIterator.next());
                 while (taxonIterator.hasNext()) {
                     documentBuilder.altValue(taxonIterator.next());
