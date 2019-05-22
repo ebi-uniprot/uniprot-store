@@ -8,6 +8,7 @@ import org.springframework.batch.item.ItemProcessor;
 import org.springframework.batch.item.ItemReader;
 import org.springframework.batch.item.ItemWriter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
@@ -68,6 +69,7 @@ public class UniProtKBStep {
 
     @Bean(name = "xxxx")
     public Step uniProtKBIndexingMainFFStep(WriteRetrierLogStepListener writeRetrierLogStepListener,
+                                            @Qualifier("uniProtKB") LogRateListener<UniProtEntryDocumentPair> uniProtKBLogRateListener,
                                             ItemReader<UniProtEntryDocumentPair> entryItemReader,
                                             ItemProcessor<UniProtEntryDocumentPair, UniProtEntryDocumentPair> uniProtDocumentItemProcessor,
                                             ItemWriter<EntryDocumentPair<UniProtEntry, UniProtDocument>> uniProtDocumentItemWriter,
@@ -79,8 +81,13 @@ public class UniProtKBStep {
                 .processor(uniProtDocumentItemProcessor)
                 .writer(uniProtDocumentItemWriter)
                 .listener(writeRetrierLogStepListener)
-                .listener(new LogRateListener<UniProtEntryDocumentPair>())
+                .listener(uniProtKBLogRateListener)
                 .build();
+    }
+
+    @Bean(name = "uniProtKB")
+    public LogRateListener<UniProtEntryDocumentPair> uniProtKBLogRateListener() {
+        return new LogRateListener<>(uniProtKBIndexingProperties.getUniProtKBLogRateInterval());
     }
 
     @Bean

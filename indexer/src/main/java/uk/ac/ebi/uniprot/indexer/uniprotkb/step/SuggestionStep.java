@@ -4,6 +4,7 @@ import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
 import org.springframework.batch.core.listener.ExecutionContextPromotionListener;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
@@ -28,7 +29,6 @@ import static uk.ac.ebi.uniprot.indexer.common.utils.Constants.SUGGESTIONS_INDEX
 @Configuration
 @Import({SuggestionConfig.class, UniProtKBConfig.class})
 public class SuggestionStep {
-    private static final int WRITE_RATE_DOCUMENT_INTERVAL = 10000;
     private final StepBuilderFactory stepBuilderFactory;
     private final UniProtKBIndexingProperties indexingProperties;
     private final SolrTemplate solrTemplate;
@@ -44,19 +44,25 @@ public class SuggestionStep {
 
     @Bean(name = "yyyy")
     public Step suggestionStep(SuggestionItemReader suggestionItemReader,
-                               ExecutionContextPromotionListener promotionListener) {
+                               ExecutionContextPromotionListener promotionListener,
+                               @Qualifier("suggestion") LogRateListener<SuggestDocument> suggestionLogRateListener) {
         return this.stepBuilderFactory.get(SUGGESTIONS_INDEX_STEP)
                 .listener(promotionListener)
                 .<SuggestDocument, SuggestDocument>chunk(indexingProperties.getChunkSize())
                 .reader(suggestionItemReader)
                 .writer(new SolrDocumentWriter<>(solrTemplate, SolrCollection.suggest))
-                .listener(new LogRateListener<>(WRITE_RATE_DOCUMENT_INTERVAL))
                 .listener(new LogStepListener())
+                .listener(suggestionLogRateListener)
                 .build();
     }
 
+    @Bean(name = "suggestion")
+    public LogRateListener<SuggestDocument> suggestionLogRateListener() {
+        return new LogRateListener<>(indexingProperties.getSuggestionLogRateInterval());
+    }
+
     @Bean
-    SuggestionItemReader suggestionItemReader() {
+    public SuggestionItemReader suggestionItemReader() {
         return new SuggestionItemReader();
     }
 }
