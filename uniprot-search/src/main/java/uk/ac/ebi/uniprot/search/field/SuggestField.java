@@ -13,4 +13,8 @@ public class SuggestField {
     public enum Stored {
         id, value, altValue
     }
+
+    public enum Importance {
+        highest, high, medium, low
+    }
 }

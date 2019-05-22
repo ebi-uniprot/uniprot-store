@@ -14,6 +14,7 @@ import java.util.Collection;
 import java.util.List;
 
 import static java.util.Arrays.asList;
+import static uk.ac.ebi.uniprot.search.field.SuggestField.Importance.*;
 import static java.util.Collections.singletonList;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasSize;
@@ -291,14 +292,14 @@ public class SuggestSearchIT {
         searchEngine.indexEntry(SuggestDocument.builder()
                                         .id(otherId)
                                         .dictionary(dict)
-                                        .importance("medium")
+                                        .importance(medium.name())
                                         .value(someValue)
                                         .altValues(otherAltValues)
                                         .build());
         searchEngine.indexEntry(SuggestDocument.builder()
                                         .id(id)
                                         .dictionary(dict)
-                                        .importance("high")
+                                        .importance(high.name())
                                         .value(someValue)
                                         .altValues(altValues)
                                         .build());
