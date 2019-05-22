@@ -787,7 +787,7 @@
             <str name="q.op">AND</str>
             <str name="q.alt">*:*</str>
 
-            <str name="sort">importance desc, score desc</str>
+            <str name="sort">importance asc, score desc</str>
             <str name="rows">25</str>
 
             <!-- Search in order of importance:

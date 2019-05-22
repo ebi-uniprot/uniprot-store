@@ -1,7 +1,9 @@
 <?xml version="1.0" ?>
 <enumsConfig>
     <enum name="importance">
+        <value>highest</value>
         <value>high</value>
         <value>medium</value>
+        <value>low</value>
     </enum>
 </enumsConfig>

@@ -29,7 +29,6 @@ public class SuggestionConfig {
 
     @Bean
     public Map<String, SuggestDocument> suggestDocuments() {
-        // TODO: 15/05/19 make this an offheap in memory set, and populate it with taxonomy synonyms?
         Map<String, SuggestDocument> suggestionMap = new HashMap<>();
         loadDefaultTaxonSynonymSuggestions(suggestionMap);
         loadDefaultMainSuggestions(suggestionMap);
@@ -49,20 +48,21 @@ public class SuggestionConfig {
                 .getResourceAsStream(DEFAULT_TAXON_SYNONYMS_FILE);
         if (inputStream != null) {
             try (Stream<String> lines = new BufferedReader(new InputStreamReader(inputStream)).lines()) {
-                lines.map(this::createDefaultSuggestion)
+                lines.map(this::createDefaultTaxonomySuggestion)
                         .filter(Objects::nonNull)
                         .forEach(suggestion -> suggestionMap.put(SuggestDictionary.TAXONOMY.name() + ":" + suggestion.id, suggestion));
             }
         }
     }
 
-    private SuggestDocument createDefaultSuggestion(String csvLine) {
+    private SuggestDocument createDefaultTaxonomySuggestion(String csvLine) {
         String[] lineParts = csvLine.split("\t");
-        if (!csvLine.startsWith(COMMENT_LINE_PREFIX) && lineParts.length == 3) {
+        if (!csvLine.startsWith(COMMENT_LINE_PREFIX) && lineParts.length == 4) {
             return SuggestDocument.builder()
                     .value(lineParts[0])
                     .altValues(Stream.of(lineParts[2].split(",")).collect(Collectors.toList()))
                     .id(lineParts[1])
+                    .importance(lineParts[3])
                     .dictionary(SuggestDictionary.TAXONOMY.name())
                     .build();
         } else {

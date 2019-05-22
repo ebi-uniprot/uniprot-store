@@ -291,14 +291,14 @@ public class SuggestSearchIT {
         searchEngine.indexEntry(SuggestDocument.builder()
                                         .id(otherId)
                                         .dictionary(dict)
-                                        .importance("high")
+                                        .importance("medium")
                                         .value(someValue)
                                         .altValues(otherAltValues)
                                         .build());
         searchEngine.indexEntry(SuggestDocument.builder()
                                         .id(id)
                                         .dictionary(dict)
-                                        .importance("medium")
+                                        .importance("high")
                                         .value(someValue)
                                         .altValues(altValues)
                                         .build());
