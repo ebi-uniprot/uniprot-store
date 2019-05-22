@@ -1,5 +1,5 @@
 Homo sapiens	9606	Man	highest
-Human immunodeficiency virus 1	11676	AIDS virus,HIV	high	high
+Human immunodeficiency virus 1	11676	AIDS virus,HIV	high
 Caenorhabditis elegans	6239	Roundworm,C. elegans	high
 Caenorhabditis briggsae	6238	C. briggsae	high
 Drosophila melanogaster	7227	Fruit fly,D. melanogaster	high
