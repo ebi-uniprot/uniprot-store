@@ -32,4 +32,4 @@ Ovis aries	9940	Sheep,Lamb,O. aries	high
 Ambystoma mexicanum	8296	Axolotl,A. mexicanum	high
 Heterocephalus glaber	10181	Naked mole rat,H. glaber	high
 Macaca mulatta	9544	Rhesus monkey,Rhesus macaque,M. mulatta	high
-Dictyostelium discoideum	44689	Slime mold,D. discoideum    high
+Dictyostelium discoideum	44689	Slime mold,D. discoideum	high
