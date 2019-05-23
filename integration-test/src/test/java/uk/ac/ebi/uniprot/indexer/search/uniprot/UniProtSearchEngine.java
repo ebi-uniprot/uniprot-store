@@ -21,6 +21,7 @@ import uk.ac.ebi.uniprot.search.field.UniProtField;
 import java.io.File;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.util.HashMap;
 
 /**
  * Concrete implementation of the UniProt search engine
@@ -41,14 +42,12 @@ public class UniProtSearchEngine extends AbstractSearchEngine<UniProtEntry> {
     protected void before() throws Throwable {
         setRequiredProperties();
         super.before();
-
     }
 
     private void setRequiredProperties() {
         System.setProperty("uniprot.bdb.base.location", indexHome.getAbsolutePath() + "/bdb/uniprot/data");
         System.setProperty("uniprot.bdb.test.base.location", indexHome.getAbsolutePath() + "/bdb/it_uniprot/data");
         System.setProperty("solr.allow.unsafe.resourceloading", "true");
-        //     System.setProperty("uniprot.suggester.dir", "/Users/jluo/projects/github/uniprot-indexer/integration-test/src/test/resources/it/uniprot/suggestions/");
     }
 
     @Override
@@ -70,11 +69,10 @@ public class UniProtSearchEngine extends AbstractSearchEngine<UniProtEntry> {
             try {
                 TaxonomyRepo taxRepo = createTaxRepo();
                 GoRelationRepo goRelation = createGoRelationRepo();
-                //   UniProtUniRefMap uniProtUniRefMapDir = createUniProtUniRefMap();
 
                 return new UniProtEntryConverter(taxRepo, goRelation, createKeywordRepo(),
                                                  createPathwayRepo(),
-                                                 null);
+                                                 new HashMap<>());
             } catch (URISyntaxException e) {
                 throw new IllegalStateException("Unable to access the taxonomy file location");
             }
@@ -93,15 +91,6 @@ public class UniProtSearchEngine extends AbstractSearchEngine<UniProtEntry> {
                                              new GoTermFileReader(gotermPath));
         }
 
-//        UniProtUniRefMap createUniProtUniRefMap() {
-//            return UniProtUniRefMap.builder(false)
-//                    .withUniRef50(createMap())
-//                    .withUniRef90(createMap())
-//                    .withUniRef100(createMap())
-//                    .build();
-//
-//        }
-
         KeywordRepo createKeywordRepo() {
             return new KeywordFileRepo("keywlist.txt");
         }
@@ -109,13 +98,5 @@ public class UniProtSearchEngine extends AbstractSearchEngine<UniProtEntry> {
         PathwayRepo createPathwayRepo() {
             return new PathwayFileRepo("unipathway.txt");
         }
-//        private ChronicleMap<String, String> createMap() {
-//            return ChronicleMap
-//                    .of(String.class, String.class)
-//                    .averageKey("AVERAGE_KEY")
-//                    .averageValue("AVERAGE_VALUE")
-//                    .entries(10)
-//                    .create();
-//        }
     }
 }
