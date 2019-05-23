@@ -34,8 +34,8 @@ public class UniProtKBJob {
     }
 
     @Bean
-    public Job uniProtKBIndexingJob(@Qualifier("xxxx") Step uniProtKBIndexingMainFFStep,
-                                    @Qualifier("yyyy") Step suggestionStep,
+    public Job uniProtKBIndexingJob(@Qualifier("uniProtKBIndexingMainStep") Step uniProtKBIndexingMainFFStep,
+                                    @Qualifier("suggestionIndexingStep") Step suggestionStep,
                                     WriteRetrierLogJobListener writeRetrierLogJobListener) {
         return this.jobBuilderFactory.get(UNIPROTKB_INDEX_JOB)
                 .start(uniProtKBIndexingMainFFStep)

@@ -67,7 +67,7 @@ public class UniProtKBStep {
         this.uniProtKBIndexingProperties = indexingProperties;
     }
 
-    @Bean(name = "xxxx")
+    @Bean(name = "uniProtKBIndexingMainStep")
     public Step uniProtKBIndexingMainFFStep(WriteRetrierLogStepListener writeRetrierLogStepListener,
                                             @Qualifier("uniProtKB") LogRateListener<UniProtEntryDocumentPair> uniProtKBLogRateListener,
                                             ItemReader<UniProtEntryDocumentPair> entryItemReader,

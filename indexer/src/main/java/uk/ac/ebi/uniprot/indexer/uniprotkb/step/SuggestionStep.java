@@ -42,7 +42,7 @@ public class SuggestionStep {
         this.solrTemplate = solrTemplate;
     }
 
-    @Bean(name = "yyyy")
+    @Bean(name = "suggestionIndexingStep")
     public Step suggestionStep(SuggestionItemReader suggestionItemReader,
                                ExecutionContextPromotionListener promotionListener,
                                @Qualifier("suggestion") LogRateListener<SuggestDocument> suggestionLogRateListener) {
