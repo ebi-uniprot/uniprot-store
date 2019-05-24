@@ -19,13 +19,18 @@ import uk.ac.ebi.uniprot.indexer.common.listener.ListenerConfig;
 import uk.ac.ebi.uniprot.indexer.common.utils.Constants;
 import uk.ac.ebi.uniprot.indexer.test.config.FakeIndexerSpringBootApplication;
 import uk.ac.ebi.uniprot.indexer.test.config.TestConfig;
+import uk.ac.ebi.uniprot.indexer.uniprotkb.config.UniProtKBIndexingProperties;
 import uk.ac.ebi.uniprot.indexer.uniprotkb.step.SuggestionStep;
 import uk.ac.ebi.uniprot.indexer.uniprotkb.step.UniProtKBStep;
 import uk.ac.ebi.uniprot.search.SolrCollection;
 import uk.ac.ebi.uniprot.search.document.suggest.SuggestDocument;
 import uk.ac.ebi.uniprot.search.document.uniprot.UniProtDocument;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Collection;
+import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
@@ -48,6 +53,8 @@ class UniProtKBJobIT {
     private JobLauncherTestUtils jobLauncher;
     @Autowired
     private SolrTemplate template;
+    @Autowired
+    private UniProtKBIndexingProperties indexingProperties;
 
     @Test
     void testUniProtKBIndexingJob() throws Exception {
@@ -62,6 +69,30 @@ class UniProtKBJobIT {
 
         checkUniProtKBIndexingStep(jobExecution, stepExecutions);
         checkSuggestionIndexingStep(stepExecutions);
+    }
+
+    private void checkUniProtKBIndexingStep(JobExecution jobExecution, Collection<StepExecution> stepExecutions)
+            throws IOException {
+        StepExecution kbIndexingStep = stepExecutions.stream()
+                .filter(step -> step.getStepName().equals(UNIPROTKB_INDEX_STEP))
+                .collect(Collectors.toList()).get(0);
+
+        assertThat(kbIndexingStep.getReadCount(), is(5));
+        checkWriteCount(jobExecution, Constants.INDEX_FAILED_ENTRIES_COUNT_KEY, 0);
+        checkWriteCount(jobExecution, Constants.INDEX_WRITTEN_ENTRIES_COUNT_KEY, 5);
+
+        // check that the accessions in the source file, are the ones that were written to Solr
+        Set<String> sourceAccessions = readSourceAccessions();
+        assertThat(sourceAccessions, hasSize(5));
+
+        Page<UniProtDocument> response = template
+                .query(SolrCollection.uniprot.name(), new SimpleQuery("*:*"), UniProtDocument.class);
+
+        assertThat(response, is(notNullValue()));
+        assertThat(response.getTotalElements(), is(5L));
+
+        assertThat(response.stream().map(doc -> doc.accession).collect(Collectors.toSet()),
+                   is(sourceAccessions));
     }
 
     private void checkSuggestionIndexingStep(Collection<StepExecution> stepExecutions) {
@@ -80,23 +111,14 @@ class UniProtKBJobIT {
         Page<SuggestDocument> response = template
                 .query(SolrCollection.suggest.name(), new SimpleQuery("*:*"), SuggestDocument.class);
         assertThat(response, is(notNullValue()));
-        assertThat(response.getTotalElements(), is((long)reportedWriteCount));
+        assertThat(response.getTotalElements(), is((long) reportedWriteCount));
     }
 
-    private void checkUniProtKBIndexingStep(JobExecution jobExecution, Collection<StepExecution> stepExecutions) {
-        StepExecution kbIndexingStep = stepExecutions.stream()
-                .filter(step -> step.getStepName().equals(UNIPROTKB_INDEX_STEP))
-                .collect(Collectors.toList()).get(0);
-
-        assertThat(kbIndexingStep.getReadCount(), is(5));
-        checkWriteCount(jobExecution, Constants.INDEX_FAILED_ENTRIES_COUNT_KEY, 0);
-        checkWriteCount(jobExecution, Constants.INDEX_WRITTEN_ENTRIES_COUNT_KEY, 5);
-
-        Page<UniProtDocument> response = template
-                .query(SolrCollection.uniprot.name(), new SimpleQuery("*:*"), UniProtDocument.class);
-        assertThat(response, is(notNullValue()));
-        assertThat(response.getTotalElements(), is(5L));
-
+    private Set<String> readSourceAccessions() throws IOException {
+        return Files.lines(Paths.get(indexingProperties.getUniProtEntryFile()))
+                .filter(line -> line.startsWith("AC"))
+                .map(line -> line.substring(5, line.length() - 1))
+                .collect(Collectors.toSet());
     }
 
     private void checkWriteCount(JobExecution jobExecution, String uniprotkbIndexFailedEntriesCountKey, int i) {
