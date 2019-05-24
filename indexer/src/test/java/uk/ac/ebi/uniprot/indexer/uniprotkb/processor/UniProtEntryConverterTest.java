@@ -69,21 +69,7 @@ class UniProtEntryConverterTest {
     private TaxonomyRepo repoMock;
     private GoRelationRepo goRelationRepoMock;
     private HashMap<String, SuggestDocument> suggestions;
-
-//    //    @Test
-//    void createSuggestionMapOffHeap() {
-//        ChronicleMap<String, SuggestDocumentSpec> map = ChronicleMap
-//                .of(String.class, SuggestDocumentSpec.class)
-//                .name("something")
-//                .entries(100)
-//                .averageKey("xxxxxxxxxx")
-//                .create();
-//
-//        SuggestDoc doc = new SuggestDoc();
-//        doc.setId("2");
-//        map.put("1", doc);
-//    }
-
+    
     @BeforeEach
     void setUp() {
         repoMock = mock(TaxonomyRepo.class);
