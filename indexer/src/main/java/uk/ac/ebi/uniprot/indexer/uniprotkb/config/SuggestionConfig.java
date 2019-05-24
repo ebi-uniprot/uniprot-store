@@ -12,7 +12,6 @@ import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.*;
-import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -30,29 +29,37 @@ public class SuggestionConfig {
     @Bean
     public Map<String, SuggestDocument> suggestDocuments() {
         Map<String, SuggestDocument> suggestionMap = new HashMap<>();
-        loadDefaultTaxonSynonymSuggestions(suggestionMap);
-        loadDefaultMainSuggestions(suggestionMap);
+
+        loadDefaultMainSuggestions().forEach(suggestion -> suggestionMap.put(suggestion.value, suggestion));
+        loadDefaultTaxonSynonymSuggestions().forEach(suggestion -> suggestionMap
+                .put(SuggestDictionary.TAXONOMY.name() + ":" + suggestion.id, suggestion));
+
         return suggestionMap;
     }
 
-    private void loadDefaultMainSuggestions(Map<String, SuggestDocument> suggestionMap) {
-        Consumer<SuggestDocument> suggestionMapUpdater = suggestion -> suggestionMap.put(suggestion.value, suggestion);
+    private List<SuggestDocument> loadDefaultMainSuggestions() {
+        List<SuggestDocument> defaultSuggestions = new ArrayList<>();
 
-        enumToSuggestions(new FeatureCategoryToSuggestion(), suggestionMapUpdater);
-        enumToSuggestions(new CommentTypeToSuggestion(), suggestionMapUpdater);
-        databaseSuggestions(suggestionMapUpdater);
+        defaultSuggestions.addAll(enumToSuggestions(new FeatureCategoryToSuggestion()));
+        defaultSuggestions.addAll(enumToSuggestions(new CommentTypeToSuggestion()));
+        defaultSuggestions.addAll(databaseSuggestions());
+
+        return defaultSuggestions;
     }
 
-    private void loadDefaultTaxonSynonymSuggestions(Map<String, SuggestDocument> suggestionMap) {
+    private List<SuggestDocument> loadDefaultTaxonSynonymSuggestions() {
+        List<SuggestDocument> taxonSuggestions = new ArrayList<>();
         InputStream inputStream = SuggestionConfig.class.getClassLoader()
                 .getResourceAsStream(DEFAULT_TAXON_SYNONYMS_FILE);
         if (inputStream != null) {
             try (Stream<String> lines = new BufferedReader(new InputStreamReader(inputStream)).lines()) {
                 lines.map(this::createDefaultTaxonomySuggestion)
                         .filter(Objects::nonNull)
-                        .forEach(suggestion -> suggestionMap.put(SuggestDictionary.TAXONOMY.name() + ":" + suggestion.id, suggestion));
+                        .forEach(taxonSuggestions::add);
             }
         }
+
+        return taxonSuggestions;
     }
 
     private SuggestDocument createDefaultTaxonomySuggestion(String csvLine) {
@@ -70,8 +77,8 @@ public class SuggestionConfig {
         }
     }
 
-    private static void databaseSuggestions(Consumer<SuggestDocument> suggestionMapUpdater) {
-        UniProtXDbTypes.INSTANCE.getAllDBXRefTypes().stream()
+    private static List<SuggestDocument> databaseSuggestions() {
+        return UniProtXDbTypes.INSTANCE.getAllDBXRefTypes().stream()
                 .map(type -> {
                     String name = removeTerminalSemiColon(type.getDisplayName());
                     return SuggestDocument.builder()
@@ -79,7 +86,7 @@ public class SuggestionConfig {
                             .dictionary(SuggestDictionary.MAIN.name())
                             .build();
                 })
-                .forEach(suggestionMapUpdater);
+                .collect(Collectors.toList());
     }
 
     private static String removeTerminalSemiColon(String displayName) {
@@ -91,12 +98,12 @@ public class SuggestionConfig {
         }
     }
 
-    private <T extends Enum<T>> void enumToSuggestions(EnumSuggestionFunction<T> typeToSuggestion, Consumer<SuggestDocument> handler) {
-        Stream.of(typeToSuggestion.getEnumType().getEnumConstants())
+    private <T extends Enum<T>> List<SuggestDocument> enumToSuggestions(EnumSuggestionFunction<T> typeToSuggestion) {
+        return Stream.of(typeToSuggestion.getEnumType().getEnumConstants())
                 .map(typeToSuggestion)
                 .filter(Optional::isPresent)
                 .map(Optional::get)
-                .forEach(handler);
+                .collect(Collectors.toList());
     }
 
     interface EnumSuggestionFunction<T> extends Function<T, Optional<SuggestDocument>> {
