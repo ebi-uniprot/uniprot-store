@@ -228,12 +228,7 @@ public class ProteomeSearchIT {
     private String taxonomy(int taxId) {
     	return QueryBuilder.query(ProteomeField.Search.taxonomy_id.name(), ""+taxId);
     }
-    private String accession(String accession) {
-    	return QueryBuilder.query(ProteomeField.Search.accession.name(), accession);
-    }
-    private String gene(String gene) {
-    	return QueryBuilder.query(ProteomeField.Search.gene.name(), gene);
-    }
+   
     private String isRedudant(Boolean b) {
 
     		return QueryBuilder.query(ProteomeField.Search.redundant.name(), b.toString());
