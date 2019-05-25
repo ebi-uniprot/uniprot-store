@@ -26,7 +26,7 @@ import java.nio.file.Files;
 @Slf4j
 public class SolrTestConfig implements DisposableBean {
     private static final String SOLR_DATA_DIR = "solr.data.dir";
-    private static final String TEMP_DIR_PREFIX = "solr_home";
+    private static final String TEMP_DIR_PREFIX = "test-solr-data-dir";
     private final File file;
 
     @Value(("${solr.home}"))
