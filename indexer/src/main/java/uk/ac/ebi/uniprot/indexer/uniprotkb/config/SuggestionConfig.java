@@ -25,6 +25,9 @@ import java.util.stream.Stream;
 public class SuggestionConfig {
     private static final String DEFAULT_TAXON_SYNONYMS_FILE = "default-taxon-synonyms.txt";
     private static final String COMMENT_LINE_PREFIX = "#";
+    static final String DATABASE_PREFIX = "Database: ";
+    static final String FEATURE_CATEGORY_PREFIX = "Feature Category: ";
+    static final String COMMENT_TYPE_PREFIX = "Comment type: ";
 
     @Bean
     public Map<String, SuggestDocument> suggestDocuments() {
@@ -82,14 +85,14 @@ public class SuggestionConfig {
                 .map(type -> {
                     String name = removeTerminalSemiColon(type.getDisplayName());
                     return SuggestDocument.builder()
-                            .value("Database: " + name)
+                            .value(DATABASE_PREFIX + name)
                             .dictionary(SuggestDictionary.MAIN.name())
                             .build();
                 })
                 .collect(Collectors.toList());
     }
 
-    private static String removeTerminalSemiColon(String displayName) {
+    static String removeTerminalSemiColon(String displayName) {
         int charIndex = displayName.indexOf(';');
         if (charIndex < 0) {
             return displayName;
@@ -115,7 +118,7 @@ public class SuggestionConfig {
         public Optional<SuggestDocument> apply(FeatureCategory value) {
             String name = value.name();
             return Optional.of(SuggestDocument.builder()
-                                       .value("Feature Category: " + name)
+                                       .value(FEATURE_CATEGORY_PREFIX + name)
                                        .dictionary(SuggestDictionary.MAIN.name())
                                        .build());
         }
@@ -133,7 +136,7 @@ public class SuggestionConfig {
             return value == CommentType.UNKNOWN ?
                     Optional.empty() :
                     Optional.of(SuggestDocument.builder()
-                                        .value("Comment type: " + name)
+                                        .value(COMMENT_TYPE_PREFIX + name)
                                         .dictionary(SuggestDictionary.MAIN.name())
                                         .build());
         }
