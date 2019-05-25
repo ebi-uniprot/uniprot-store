@@ -23,7 +23,7 @@ import uk.ac.ebi.uniprot.indexer.common.listener.ListenerConfig;
 import uk.ac.ebi.uniprot.indexer.common.utils.Constants;
 import uk.ac.ebi.uniprot.indexer.test.config.FakeIndexerSpringBootApplication;
 import uk.ac.ebi.uniprot.indexer.test.config.FakeReadDatabaseConfig;
-import uk.ac.ebi.uniprot.indexer.test.config.TestConfig;
+import uk.ac.ebi.uniprot.indexer.test.config.SolrTestConfig;
 import uk.ac.ebi.uniprot.json.parser.disease.DiseaseJsonConfig;
 import uk.ac.ebi.uniprot.search.SolrCollection;
 import uk.ac.ebi.uniprot.search.document.disease.DiseaseDocument;
@@ -37,8 +37,8 @@ import static org.hamcrest.Matchers.notNullValue;
 
 @ActiveProfiles(profiles = {"job", "offline"})
 @ExtendWith(SpringExtension.class)
-@SpringBootTest(classes = {FakeIndexerSpringBootApplication.class, TestConfig.class, FakeReadDatabaseConfig.class,
-        ListenerConfig.class, DiseaseLoadStep.class, DiseaseLoadJob.class})
+@SpringBootTest(classes = {FakeIndexerSpringBootApplication.class, SolrTestConfig.class, FakeReadDatabaseConfig.class,
+                           ListenerConfig.class, DiseaseLoadStep.class, DiseaseLoadJob.class})
 public class DiseaseLoadJobIT {
 
     private ObjectMapper diseaseObjectMapper = DiseaseJsonConfig.getInstance().getFullObjectMapper();

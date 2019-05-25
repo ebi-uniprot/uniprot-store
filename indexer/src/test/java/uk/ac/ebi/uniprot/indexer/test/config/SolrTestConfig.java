@@ -24,12 +24,13 @@ import java.nio.file.Files;
 
 @TestConfiguration
 @Slf4j
-public class TestConfig implements DisposableBean {
-
+public class SolrTestConfig implements DisposableBean {
+    private static final String SOLR_DATA_DIR = "solr.data.dir";
+    private static final String TEMP_DIR_PREFIX = "solr_home";
     private final File file;
 
-    public TestConfig() throws Exception {
-        file = Files.createTempDirectory("solr_home").toFile();
+    public SolrTestConfig() throws Exception {
+        file = Files.createTempDirectory(TEMP_DIR_PREFIX).toFile();
     }
 
     @Value(("${solr.home}"))
@@ -38,10 +39,9 @@ public class TestConfig implements DisposableBean {
     @Bean
     @Profile("offline")
     public SolrClient solrClient() throws Exception {
-        System.setProperty("solr.data.dir", file.getAbsolutePath());
+        System.setProperty(SOLR_DATA_DIR, file.getAbsolutePath());
         EmbeddedSolrServerFactory factory = new EmbeddedSolrServerFactory(solrHome);
-        SolrClient solrClient = factory.getSolrClient();
-        return solrClient;
+        return factory.getSolrClient();
     }
 
     @Bean
@@ -60,7 +60,7 @@ public class TestConfig implements DisposableBean {
     public void destroy() throws Exception {
         if (file != null) {
             FileUtils.deleteDirectory(file);
-            log.info("deleted solr home");
+            log.info("Deleted solr home");
         }
     }
 }

@@ -26,7 +26,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import uk.ac.ebi.uniprot.domain.proteome.ProteomeEntry;
 import uk.ac.ebi.uniprot.indexer.common.listener.ListenerConfig;
 import uk.ac.ebi.uniprot.indexer.test.config.FakeIndexerSpringBootApplication;
-import uk.ac.ebi.uniprot.indexer.test.config.TestConfig;
+import uk.ac.ebi.uniprot.indexer.test.config.SolrTestConfig;
 import uk.ac.ebi.uniprot.json.parser.proteome.ProteomeJsonConfig;
 import uk.ac.ebi.uniprot.search.SolrCollection;
 import uk.ac.ebi.uniprot.search.document.proteome.GeneCentricDocument;
@@ -41,8 +41,8 @@ import uk.ac.ebi.uniprot.search.document.proteome.ProteomeDocument;
 
 @ActiveProfiles(profiles = {"job", "offline"})
 @ExtendWith(SpringExtension.class)
-@SpringBootTest(classes = {FakeIndexerSpringBootApplication.class, TestConfig.class, ProteomeIndexJob.class,
-                           ProteomeIndexStep.class,ProteomeConfig.class,
+@SpringBootTest(classes = {FakeIndexerSpringBootApplication.class, SolrTestConfig.class, ProteomeIndexJob.class,
+                           ProteomeIndexStep.class, ProteomeConfig.class,
                            ListenerConfig.class})
 class ProteomeIndexIT {
     @Autowired

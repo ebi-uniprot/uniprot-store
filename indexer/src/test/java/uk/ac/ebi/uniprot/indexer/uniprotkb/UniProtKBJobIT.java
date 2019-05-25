@@ -18,7 +18,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import uk.ac.ebi.uniprot.indexer.common.listener.ListenerConfig;
 import uk.ac.ebi.uniprot.indexer.common.utils.Constants;
 import uk.ac.ebi.uniprot.indexer.test.config.FakeIndexerSpringBootApplication;
-import uk.ac.ebi.uniprot.indexer.test.config.TestConfig;
+import uk.ac.ebi.uniprot.indexer.test.config.SolrTestConfig;
 import uk.ac.ebi.uniprot.indexer.uniprotkb.config.UniProtKBIndexingProperties;
 import uk.ac.ebi.uniprot.indexer.uniprotkb.step.SuggestionStep;
 import uk.ac.ebi.uniprot.indexer.uniprotkb.step.UniProtKBStep;
@@ -45,7 +45,7 @@ import static uk.ac.ebi.uniprot.indexer.common.utils.Constants.*;
  */
 @ActiveProfiles(profiles = {"job", "offline"})
 @ExtendWith(SpringExtension.class)
-@SpringBootTest(classes = {FakeIndexerSpringBootApplication.class, TestConfig.class, UniProtKBJob.class,
+@SpringBootTest(classes = {FakeIndexerSpringBootApplication.class, SolrTestConfig.class, UniProtKBJob.class,
                            UniProtKBStep.class, SuggestionStep.class, ListenerConfig.class})
 @TestPropertySource(properties = "spring.batch.job.enabled=false")
 class UniProtKBJobIT {

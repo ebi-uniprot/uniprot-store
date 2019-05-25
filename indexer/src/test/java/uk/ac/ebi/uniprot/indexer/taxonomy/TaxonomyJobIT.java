@@ -31,7 +31,7 @@ import uk.ac.ebi.uniprot.indexer.taxonomy.steps.TaxonomyNodeStep;
 import uk.ac.ebi.uniprot.indexer.taxonomy.steps.TaxonomyStatisticsStep;
 import uk.ac.ebi.uniprot.indexer.test.config.FakeIndexerSpringBootApplication;
 import uk.ac.ebi.uniprot.indexer.test.config.FakeReadDatabaseConfig;
-import uk.ac.ebi.uniprot.indexer.test.config.TestConfig;
+import uk.ac.ebi.uniprot.indexer.test.config.SolrTestConfig;
 import uk.ac.ebi.uniprot.json.parser.taxonomy.TaxonomyJsonConfig;
 import uk.ac.ebi.uniprot.search.SolrCollection;
 import uk.ac.ebi.uniprot.search.document.taxonomy.TaxonomyDocument;
@@ -46,9 +46,9 @@ import static org.hamcrest.Matchers.*;
 
 @ActiveProfiles(profiles = {"job", "offline"})
 @ExtendWith(SpringExtension.class)
-@SpringBootTest(classes = {FakeIndexerSpringBootApplication.class, TestConfig.class, FakeReadDatabaseConfig.class,
-        ListenerConfig.class, TaxonomyJobIT.TaxonomyNodeStepFake.class, TaxonomyJobIT.TaxonomyStatisticsStepFake.class,
-        TaxonomyJob.class})
+@SpringBootTest(classes = {FakeIndexerSpringBootApplication.class, SolrTestConfig.class, FakeReadDatabaseConfig.class,
+                           ListenerConfig.class, TaxonomyJobIT.TaxonomyNodeStepFake.class, TaxonomyJobIT.TaxonomyStatisticsStepFake.class,
+                           TaxonomyJob.class})
 class TaxonomyJobIT {
 
     @Autowired

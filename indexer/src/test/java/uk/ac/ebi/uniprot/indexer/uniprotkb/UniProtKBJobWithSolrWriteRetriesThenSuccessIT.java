@@ -24,7 +24,7 @@ import uk.ac.ebi.uniprot.indexer.common.listener.ListenerConfig;
 import uk.ac.ebi.uniprot.indexer.common.model.EntryDocumentPair;
 import uk.ac.ebi.uniprot.indexer.common.utils.Constants;
 import uk.ac.ebi.uniprot.indexer.test.config.FakeIndexerSpringBootApplication;
-import uk.ac.ebi.uniprot.indexer.test.config.TestConfig;
+import uk.ac.ebi.uniprot.indexer.test.config.SolrTestConfig;
 import uk.ac.ebi.uniprot.indexer.uniprotkb.step.SuggestionStep;
 import uk.ac.ebi.uniprot.indexer.uniprotkb.step.UniProtKBStep;
 import uk.ac.ebi.uniprot.indexer.uniprotkb.writer.UniProtEntryDocumentPairWriter;
@@ -58,7 +58,7 @@ import static uk.ac.ebi.uniprot.indexer.common.utils.Constants.UNIPROTKB_INDEX_S
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = {FakeIndexerSpringBootApplication.class,
                            UniProtKBJobWithSolrWriteRetriesThenSuccessIT.RetryConfig.class,
-                           TestConfig.class, UniProtKBJob.class,
+                           SolrTestConfig.class, UniProtKBJob.class,
                            UniProtKBStep.class, SuggestionStep.class, ListenerConfig.class})
 @TestPropertySource(properties = "spring.batch.job.enabled=false")
 class UniProtKBJobWithSolrWriteRetriesThenSuccessIT {
