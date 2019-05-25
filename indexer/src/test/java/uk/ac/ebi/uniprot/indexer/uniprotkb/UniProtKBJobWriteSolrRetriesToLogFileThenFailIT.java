@@ -17,6 +17,7 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.Profile;
 import org.springframework.data.solr.core.SolrTemplate;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import uk.ac.ebi.uniprot.domain.uniprot.UniProtEntry;
 import uk.ac.ebi.uniprot.indexer.common.listener.ListenerConfig;
@@ -24,6 +25,7 @@ import uk.ac.ebi.uniprot.indexer.common.model.EntryDocumentPair;
 import uk.ac.ebi.uniprot.indexer.common.utils.Constants;
 import uk.ac.ebi.uniprot.indexer.test.config.FakeIndexerSpringBootApplication;
 import uk.ac.ebi.uniprot.indexer.test.config.TestConfig;
+import uk.ac.ebi.uniprot.indexer.uniprotkb.step.SuggestionStep;
 import uk.ac.ebi.uniprot.indexer.uniprotkb.step.UniProtKBStep;
 import uk.ac.ebi.uniprot.indexer.uniprotkb.writer.UniProtEntryDocumentPairWriter;
 import uk.ac.ebi.uniprot.search.SolrCollection;
@@ -65,7 +67,8 @@ import static uk.ac.ebi.uniprot.indexer.common.utils.Constants.UNIPROTKB_INDEX_S
 @SpringBootTest(classes = {FakeIndexerSpringBootApplication.class,
                            UniProtKBJobWriteSolrRetriesToLogFileThenFailIT.RetryConfig.class,
                            TestConfig.class, UniProtKBJob.class,
-                           UniProtKBStep.class, ListenerConfig.class})
+                           UniProtKBStep.class, SuggestionStep.class, ListenerConfig.class})
+@TestPropertySource(properties = "spring.batch.job.enabled=false")
 class UniProtKBJobWriteSolrRetriesToLogFileThenFailIT {
     private static final String INDEXING_DOC_WRITE_FAILED_ENTRIES_LOG = "indexing-doc-write-failed-entries.error";
 
