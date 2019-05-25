@@ -9,10 +9,12 @@ import java.util.List;
 
 
 @EqualsAndHashCode
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
+@Builder(builderClassName = "SuggestDocumentBuilder")
+//@NoArgsConstructor
+//@AllArgsConstructor
 public class SuggestDocument implements Document {
+    static final String DEFAULT_IMPORTANCE = "medium";
+
     @Field("id")
     public String id;
 
@@ -20,7 +22,7 @@ public class SuggestDocument implements Document {
     public String value;
 
     @Field("importance")
-    public String importance = "medium";
+    public String importance = DEFAULT_IMPORTANCE;
 
     @Singular
     @Field("altValue")
@@ -34,7 +36,9 @@ public class SuggestDocument implements Document {
         return id;
     }
 
+    // setting default field values in a builder following instructions here:
+    // https://www.baeldung.com/lombok-builder-default-value
     public static class SuggestDocumentBuilder {
-        private String importance = "medium";
+        private String importance = DEFAULT_IMPORTANCE;
     }
 }
