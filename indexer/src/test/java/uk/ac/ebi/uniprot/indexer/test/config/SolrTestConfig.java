@@ -29,12 +29,12 @@ public class SolrTestConfig implements DisposableBean {
     private static final String TEMP_DIR_PREFIX = "solr_home";
     private final File file;
 
+    @Value(("${solr.home}"))
+    private String solrHome;
+
     public SolrTestConfig() throws Exception {
         file = Files.createTempDirectory(TEMP_DIR_PREFIX).toFile();
     }
-
-    @Value(("${solr.home}"))
-    private String solrHome;
 
     @Bean
     @Profile("offline")
