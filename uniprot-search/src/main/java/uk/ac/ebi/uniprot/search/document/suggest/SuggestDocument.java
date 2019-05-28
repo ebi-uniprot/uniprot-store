@@ -10,8 +10,6 @@ import java.util.List;
 
 @EqualsAndHashCode
 @Builder(builderClassName = "SuggestDocumentBuilder")
-//@NoArgsConstructor
-//@AllArgsConstructor
 public class SuggestDocument implements Document {
     static final String DEFAULT_IMPORTANCE = "medium";
 
