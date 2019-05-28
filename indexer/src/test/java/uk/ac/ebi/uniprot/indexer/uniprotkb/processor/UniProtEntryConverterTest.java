@@ -4,6 +4,9 @@ import org.apache.commons.io.IOUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
+
+import uk.ac.ebi.uniprot.cv.taxonomy.TaxonomicNode;
+import uk.ac.ebi.uniprot.cv.taxonomy.TaxonomyRepo;
 import uk.ac.ebi.uniprot.domain.builder.SequenceBuilder;
 import uk.ac.ebi.uniprot.domain.uniprot.UniProtEntry;
 import uk.ac.ebi.uniprot.domain.uniprot.UniProtEntryType;
@@ -18,24 +21,21 @@ import uk.ac.ebi.uniprot.flatfile.parser.impl.cc.CcLineTransformer;
 import uk.ac.ebi.uniprot.indexer.uniprot.go.GoRelationRepo;
 import uk.ac.ebi.uniprot.indexer.uniprot.go.GoTerm;
 import uk.ac.ebi.uniprot.indexer.uniprot.go.GoTermFileReader;
-import uk.ac.ebi.uniprot.indexer.uniprot.keyword.KeywordRepo;
 import uk.ac.ebi.uniprot.indexer.uniprot.pathway.PathwayRepo;
-import uk.ac.ebi.uniprot.indexer.uniprot.taxonomy.TaxonomicNode;
-import uk.ac.ebi.uniprot.indexer.uniprot.taxonomy.TaxonomyRepo;
+import uk.ac.ebi.uniprot.search.document.uniprot.UniProtDocument;
 import uk.ac.ebi.uniprot.search.document.suggest.SuggestDictionary;
 import uk.ac.ebi.uniprot.search.document.suggest.SuggestDocument;
-import uk.ac.ebi.uniprot.search.document.uniprot.UniProtDocument;
 
 import java.io.InputStream;
 import java.nio.charset.Charset;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.List;
+import java.util.Optional;
 
 import static java.util.Arrays.asList;
-import static org.hamcrest.CoreMatchers.nullValue;
-import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.*;
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Mockito.mock;
@@ -68,14 +68,12 @@ class UniProtEntryConverterTest {
 
     private TaxonomyRepo repoMock;
     private GoRelationRepo goRelationRepoMock;
-    private HashMap<String, SuggestDocument> suggestions;
-    
+
     @BeforeEach
     void setUp() {
         repoMock = mock(TaxonomyRepo.class);
         goRelationRepoMock = mock(GoRelationRepo.class);
-        suggestions = new HashMap<>();
-        converter = new UniProtEntryConverter(repoMock, goRelationRepoMock, mock(KeywordRepo.class), mock(PathwayRepo.class), suggestions);
+        converter = new UniProtEntryConverter(repoMock, goRelationRepoMock, mock(KeywordRepo.class), mock(PathwayRepo.class));
         dateFormat = new SimpleDateFormat("dd-MMM-yyyy");
     }
 

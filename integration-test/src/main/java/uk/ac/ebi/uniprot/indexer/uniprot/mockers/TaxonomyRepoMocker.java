@@ -4,9 +4,9 @@ package uk.ac.ebi.uniprot.indexer.uniprot.mockers;
 
 import java.io.File;
 
-import uk.ac.ebi.uniprot.indexer.uniprot.taxonomy.FileNodeIterable;
-import uk.ac.ebi.uniprot.indexer.uniprot.taxonomy.TaxonomyMapRepo;
-import uk.ac.ebi.uniprot.indexer.uniprot.taxonomy.TaxonomyRepo;
+import uk.ac.ebi.uniprot.cv.taxonomy.TaxonomyRepo;
+import uk.ac.ebi.uniprot.cv.taxonomy.FileNodeIterable;
+import uk.ac.ebi.uniprot.cv.taxonomy.TaxonomyMapRepo;
 
 public class TaxonomyRepoMocker {
 

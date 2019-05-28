@@ -6,10 +6,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import uk.ac.ebi.uniprot.common.PublicationDateFormatter;
-import uk.ac.ebi.uniprot.cv.ec.ECCache;
+import uk.ac.ebi.uniprot.cv.keyword.KeywordCategory;
 import uk.ac.ebi.uniprot.cv.keyword.KeywordDetail;
 import uk.ac.ebi.uniprot.cv.pathway.UniPathway;
-import uk.ac.ebi.uniprot.cv.subcell.SubcellularLocationCache;
 import uk.ac.ebi.uniprot.domain.DBCrossReference;
 import uk.ac.ebi.uniprot.domain.Property;
 import uk.ac.ebi.uniprot.domain.Sequence;
@@ -56,6 +55,8 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 /**
+ * // TODO: 18/04/19 can be moved to a different package?
+ *
  * Created 18/04/19
  *
  * @author Edd
@@ -110,20 +111,18 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtEntry, Un
     private final RALineBuilder raLineBuilder;
     private final RGLineBuilder rgLineBuilder;
     private final GoRelationRepo goRelationRepo;
-    private final KeywordRepo keywordRepo;
     private final PathwayRepo pathwayRepo;
     private Map<String, SuggestDocument> suggestions;
     //  private final UniProtUniRefMap uniprotUniRefMap;
 
 
-    public UniProtEntryConverter(TaxonomyRepo taxonomyRepo, GoRelationRepo goRelationRepo,
-
-                                 //	UniProtUniRefMap uniProtUniRefMap,
-                                 KeywordRepo keywordRepo, PathwayRepo pathwayRepo,
+    public UniProtEntryConverter(TaxonomyRepo taxonomyRepo,
+                                 GoRelationRepo goRelationRepo,
+                                 KeywordRepo keywordRepo,
+                                 PathwayRepo pathwayRepo,
                                  Map<String, SuggestDocument> suggestDocuments) {
         this.taxonomyRepo = taxonomyRepo;
         this.goRelationRepo = goRelationRepo;
-        this.keywordRepo = keywordRepo;
         this.pathwayRepo = pathwayRepo;
         this.suggestions = suggestDocuments;
         //   this.uniprotUniRefMap = uniProtUniRefMap;
@@ -372,8 +371,8 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtEntry, Un
         return dict.name() + ":" + id;
     }
 
-    private void setKeywords(UniProtEntry source, UniProtDocument japiDocument) {
-        if (source.hasKeywords()) {
+    private void setKeywords(UniProtEntry source,UniProtDocument japiDocument){
+        if(source.hasKeywords()) {
             source.getKeywords().forEach(keyword -> {
                 updateKeyword(keyword, japiDocument);
             });
@@ -384,7 +383,12 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtEntry, Un
         japiDocument.keywordIds.add(keyword.getId());
         japiDocument.keywords.add(keyword.getId());
         addValueToStringList(japiDocument.keywords, keyword);
+        KeywordCategory kc =keyword.getCategory();
+        japiDocument.keywordIds.add(kc.getAccession());
+        japiDocument.keywords.add(kc.getAccession());
+        japiDocument.keywords.add(kc.getName());
 
+        //todo
         suggestions.putIfAbsent(createSuggestionMapKey(SuggestDictionary.KEYWORD, keyword.getId()),
                                 SuggestDocument.builder()
                                         .id(keyword.getId())
@@ -867,7 +871,6 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtEntry, Un
         }
     }
 
-
     private void convertCommentSL(SubcellularLocationComment comment, UniProtDocument japiDocument) {
         if (comment.hasSubcellularLocations()) {
             comment.getSubcellularLocations().forEach(subcellularLocation -> {
@@ -1232,36 +1235,36 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtEntry, Un
         if (proteinSection.hasRecommendedName()) {
             names.addAll(getProteinRecNameNames(proteinSection.getRecommendedName()));
         }
-        if (proteinSection.hasAlternativeNames()) {
+        if(proteinSection.hasAlternativeNames()){
             proteinSection.getAlternativeNames().stream()
                     .map(this::getProteinAltNameNames)
                     .forEach(names::addAll);
         }
-        if (proteinSection.hasCdAntigenNames()) {
+        if(proteinSection.hasCdAntigenNames()){
             proteinSection.getCdAntigenNames().stream()
                     .map(Value::getValue)
                     .forEach(names::add);
         }
-        if (proteinSection.hasAllergenName()) {
+        if(proteinSection.hasAllergenName()){
             names.add(proteinSection.getAllergenName().getValue());
         }
-        if (proteinSection.hasInnNames()) {
+        if(proteinSection.hasInnNames()){
             proteinSection.getInnNames().stream()
                     .map(Value::getValue)
                     .forEach(names::add);
         }
-        if (proteinSection.hasBiotechName()) {
+        if(proteinSection.hasBiotechName()){
             names.add(proteinSection.getBiotechName().getValue());
         }
         return names;
     }
 
-    private List<String> getProteinRecNameNames(ProteinRecName proteinRecName) {
+    private List<String> getProteinRecNameNames(ProteinRecName proteinRecName){
         List<String> names = new ArrayList<>();
-        if (proteinRecName.hasFullName()) {
+        if(proteinRecName.hasFullName()){
             names.add(proteinRecName.getFullName().getValue());
         }
-        if (proteinRecName.hasShortNames()) {
+        if(proteinRecName.hasShortNames()){
             proteinRecName.getShortNames()
                     .stream()
                     .map(Name::getValue)
@@ -1270,23 +1273,23 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtEntry, Un
         return names;
     }
 
-    private List<String> getProteinAltNameNames(ProteinAltName proteinAltName) {
+    private List<String> getProteinAltNameNames(ProteinAltName proteinAltName){
         List<String> names = new ArrayList<>();
-        if (proteinAltName.hasShortNames()) {
+        if(proteinAltName.hasShortNames()){
             proteinAltName.getShortNames()
                     .stream()
                     .map(Name::getValue)
                     .forEach(names::add);
         }
-        if (proteinAltName.hasFullName()) {
+        if(proteinAltName.hasFullName()){
             names.add(proteinAltName.getFullName().getValue());
         }
         return names;
     }
 
-    private List<String> getProteinSubNameNames(ProteinSubName proteinAltName) {
+    private List<String> getProteinSubNameNames(ProteinSubName proteinAltName){
         List<String> names = new ArrayList<>();
-        if (proteinAltName.hasFullName()) {
+        if(proteinAltName.hasFullName()){
             names.add(proteinAltName.getFullName().getValue());
         }
         return names;
@@ -1345,7 +1348,7 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtEntry, Un
         }
     }
 
-    private List<String> extractTaxonFromNode(TaxonomicNode node) {
+    private List<String> extractTaxonode(TaxonomicNode node) {
         List<String> taxonmyItems = new ArrayList<>();
         if (node.scientificName() != null && !node.scientificName().isEmpty()) {
             taxonmyItems.add(node.scientificName());
@@ -1372,7 +1375,7 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtEntry, Un
         return hosts.stream()
                 .map(ncbiId -> taxonomyRepo.retrieveNodeUsingTaxID(Math.toIntExact(ncbiId.getTaxonId())))
                 .filter(Optional::isPresent)
-                .flatMap(node -> extractTaxonFromNode(node.get()).stream())
+                .flatMap(node -> extractTaxonode(node.get()).stream())
                 .collect(Collectors.toList());
     }
 
