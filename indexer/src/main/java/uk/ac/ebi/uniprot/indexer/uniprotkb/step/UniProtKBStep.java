@@ -13,6 +13,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.data.solr.core.SolrTemplate;
+import uk.ac.ebi.uniprot.cv.taxonomy.FileNodeIterable;
+import uk.ac.ebi.uniprot.cv.taxonomy.TaxonomyMapRepo;
+import uk.ac.ebi.uniprot.cv.taxonomy.TaxonomyRepo;
 import uk.ac.ebi.uniprot.domain.uniprot.UniProtEntry;
 import uk.ac.ebi.uniprot.indexer.common.listener.LogRateListener;
 import uk.ac.ebi.uniprot.indexer.common.listener.WriteRetrierLogStepListener;
@@ -21,13 +24,8 @@ import uk.ac.ebi.uniprot.indexer.uniprot.go.GoRelationFileReader;
 import uk.ac.ebi.uniprot.indexer.uniprot.go.GoRelationFileRepo;
 import uk.ac.ebi.uniprot.indexer.uniprot.go.GoRelationRepo;
 import uk.ac.ebi.uniprot.indexer.uniprot.go.GoTermFileReader;
-import uk.ac.ebi.uniprot.indexer.uniprot.keyword.KeywordFileRepo;
-import uk.ac.ebi.uniprot.indexer.uniprot.keyword.KeywordRepo;
 import uk.ac.ebi.uniprot.indexer.uniprot.pathway.PathwayFileRepo;
 import uk.ac.ebi.uniprot.indexer.uniprot.pathway.PathwayRepo;
-import uk.ac.ebi.uniprot.indexer.uniprot.taxonomy.FileNodeIterable;
-import uk.ac.ebi.uniprot.indexer.uniprot.taxonomy.TaxonomyMapRepo;
-import uk.ac.ebi.uniprot.indexer.uniprot.taxonomy.TaxonomyRepo;
 import uk.ac.ebi.uniprot.indexer.uniprotkb.config.UniProtKBConfig;
 import uk.ac.ebi.uniprot.indexer.uniprotkb.config.UniProtKBIndexingProperties;
 import uk.ac.ebi.uniprot.indexer.uniprotkb.model.UniProtEntryDocumentPair;
@@ -106,7 +104,6 @@ public class UniProtKBStep {
                 new UniProtEntryConverter(
                         createTaxonomyRepo(),
                         createGoRelationRepo(),
-                        createKeywordRepo(),
                         createPathwayRepo(),
                         suggestDocuments));
     }
@@ -119,11 +116,7 @@ public class UniProtKBStep {
     private PathwayRepo createPathwayRepo() {
         return new PathwayFileRepo(uniProtKBIndexingProperties.getPathwayFile());
     }
-
-    private KeywordRepo createKeywordRepo() {
-        return new KeywordFileRepo(uniProtKBIndexingProperties.getKeywordFile());
-    }
-
+    
     private GoRelationRepo createGoRelationRepo() {
         return new GoRelationFileRepo(
                 new GoRelationFileReader(uniProtKBIndexingProperties.getGoDir()),
