@@ -8,13 +8,12 @@ import uk.ac.ebi.uniprot.indexer.uniprot.go.GoRelationFileReader;
 import uk.ac.ebi.uniprot.indexer.uniprot.go.GoRelationFileRepo;
 import uk.ac.ebi.uniprot.indexer.uniprot.go.GoRelationRepo;
 import uk.ac.ebi.uniprot.indexer.uniprot.go.GoTermFileReader;
-import uk.ac.ebi.uniprot.indexer.uniprot.keyword.KeywordFileRepo;
-import uk.ac.ebi.uniprot.indexer.uniprot.keyword.KeywordRepo;
+
 import uk.ac.ebi.uniprot.indexer.uniprot.pathway.PathwayFileRepo;
 import uk.ac.ebi.uniprot.indexer.uniprot.pathway.PathwayRepo;
-import uk.ac.ebi.uniprot.indexer.uniprot.taxonomy.FileNodeIterable;
-import uk.ac.ebi.uniprot.indexer.uniprot.taxonomy.TaxonomyMapRepo;
-import uk.ac.ebi.uniprot.indexer.uniprot.taxonomy.TaxonomyRepo;
+import uk.ac.ebi.uniprot.cv.taxonomy.TaxonomyRepo;
+import uk.ac.ebi.uniprot.cv.taxonomy.FileNodeIterable;
+import uk.ac.ebi.uniprot.cv.taxonomy.TaxonomyMapRepo;
 import uk.ac.ebi.uniprot.indexer.uniprotkb.processor.UniProtEntryConverter;
 import uk.ac.ebi.uniprot.search.field.UniProtField;
 
@@ -72,7 +71,7 @@ public class UniProtSearchEngine extends AbstractSearchEngine<UniProtEntry> {
                 GoRelationRepo goRelation = createGoRelationRepo();
                 //   UniProtUniRefMap uniProtUniRefMapDir = createUniProtUniRefMap();
 
-                return new UniProtEntryConverter(taxRepo, goRelation, createKeywordRepo(),
+                return new UniProtEntryConverter(taxRepo, goRelation, 
                                                  createPathwayRepo()
                 );
             } catch (URISyntaxException e) {
@@ -102,9 +101,6 @@ public class UniProtSearchEngine extends AbstractSearchEngine<UniProtEntry> {
 //
 //        }
 
-        KeywordRepo createKeywordRepo() {
-            return new KeywordFileRepo("keywlist.txt");
-        }
 
         PathwayRepo createPathwayRepo() {
             return new PathwayFileRepo("unipathway.txt");

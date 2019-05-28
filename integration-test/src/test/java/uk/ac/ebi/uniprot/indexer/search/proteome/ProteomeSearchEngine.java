@@ -7,9 +7,9 @@ import java.net.URL;
 import uk.ac.ebi.uniprot.indexer.converter.DocumentConverter;
 import uk.ac.ebi.uniprot.indexer.proteome.ProteomeEntryConverter;
 import uk.ac.ebi.uniprot.indexer.search.AbstractSearchEngine;
-import uk.ac.ebi.uniprot.indexer.uniprot.taxonomy.FileNodeIterable;
-import uk.ac.ebi.uniprot.indexer.uniprot.taxonomy.TaxonomyMapRepo;
-import uk.ac.ebi.uniprot.indexer.uniprot.taxonomy.TaxonomyRepo;
+import uk.ac.ebi.uniprot.cv.taxonomy.TaxonomyRepo;
+import uk.ac.ebi.uniprot.cv.taxonomy.FileNodeIterable;
+import uk.ac.ebi.uniprot.cv.taxonomy.TaxonomyMapRepo;
 import uk.ac.ebi.uniprot.search.field.ProteomeField;
 import uk.ac.ebi.uniprot.xml.jaxb.proteome.Proteome;
 

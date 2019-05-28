@@ -1,13 +1,34 @@
 package uk.ac.ebi.uniprot.indexer.uniprotkb.processor;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.google.common.base.Strings;
-import lombok.extern.slf4j.Slf4j;
+import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Base64;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.EnumSet;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.google.common.base.Strings;
+
+import lombok.extern.slf4j.Slf4j;
 import uk.ac.ebi.uniprot.common.PublicationDateFormatter;
-import uk.ac.ebi.uniprot.cv.keyword.KeywordDetail;
+import uk.ac.ebi.uniprot.cv.keyword.KeywordCategory;
 import uk.ac.ebi.uniprot.cv.pathway.UniPathway;
+import uk.ac.ebi.uniprot.cv.taxonomy.TaxonomicNode;
+import uk.ac.ebi.uniprot.cv.taxonomy.TaxonomyRepo;
 import uk.ac.ebi.uniprot.domain.DBCrossReference;
 import uk.ac.ebi.uniprot.domain.Property;
 import uk.ac.ebi.uniprot.domain.Sequence;
@@ -17,12 +38,47 @@ import uk.ac.ebi.uniprot.domain.citation.CitationXrefType;
 import uk.ac.ebi.uniprot.domain.citation.JournalArticle;
 import uk.ac.ebi.uniprot.domain.gene.Gene;
 import uk.ac.ebi.uniprot.domain.impl.SequenceImpl;
-import uk.ac.ebi.uniprot.domain.uniprot.*;
+import uk.ac.ebi.uniprot.domain.uniprot.EntryAudit;
+import uk.ac.ebi.uniprot.domain.uniprot.GeneEncodingType;
+import uk.ac.ebi.uniprot.domain.uniprot.GeneLocation;
+import uk.ac.ebi.uniprot.domain.uniprot.Keyword;
+import uk.ac.ebi.uniprot.domain.uniprot.ProteinExistence;
+import uk.ac.ebi.uniprot.domain.uniprot.ReferenceComment;
+import uk.ac.ebi.uniprot.domain.uniprot.UniProtAccession;
+import uk.ac.ebi.uniprot.domain.uniprot.UniProtEntry;
+import uk.ac.ebi.uniprot.domain.uniprot.UniProtEntryType;
+import uk.ac.ebi.uniprot.domain.uniprot.UniProtId;
+import uk.ac.ebi.uniprot.domain.uniprot.UniProtReference;
 import uk.ac.ebi.uniprot.domain.uniprot.builder.UniProtAccessionBuilder;
 import uk.ac.ebi.uniprot.domain.uniprot.builder.UniProtEntryBuilder;
 import uk.ac.ebi.uniprot.domain.uniprot.builder.UniProtIdBuilder;
-import uk.ac.ebi.uniprot.domain.uniprot.comment.*;
-import uk.ac.ebi.uniprot.domain.uniprot.description.*;
+import uk.ac.ebi.uniprot.domain.uniprot.comment.APEventType;
+import uk.ac.ebi.uniprot.domain.uniprot.comment.Absorption;
+import uk.ac.ebi.uniprot.domain.uniprot.comment.AlternativeProductsComment;
+import uk.ac.ebi.uniprot.domain.uniprot.comment.BPCPComment;
+import uk.ac.ebi.uniprot.domain.uniprot.comment.CofactorComment;
+import uk.ac.ebi.uniprot.domain.uniprot.comment.CofactorReferenceType;
+import uk.ac.ebi.uniprot.domain.uniprot.comment.Comment;
+import uk.ac.ebi.uniprot.domain.uniprot.comment.CommentType;
+import uk.ac.ebi.uniprot.domain.uniprot.comment.DiseaseComment;
+import uk.ac.ebi.uniprot.domain.uniprot.comment.FreeTextComment;
+import uk.ac.ebi.uniprot.domain.uniprot.comment.InteractionComment;
+import uk.ac.ebi.uniprot.domain.uniprot.comment.IsoformSequenceStatus;
+import uk.ac.ebi.uniprot.domain.uniprot.comment.KineticParameters;
+import uk.ac.ebi.uniprot.domain.uniprot.comment.MassSpectrometryComment;
+import uk.ac.ebi.uniprot.domain.uniprot.comment.MaximumVelocity;
+import uk.ac.ebi.uniprot.domain.uniprot.comment.MichaelisConstant;
+import uk.ac.ebi.uniprot.domain.uniprot.comment.RnaEditingComment;
+import uk.ac.ebi.uniprot.domain.uniprot.comment.SequenceCautionComment;
+import uk.ac.ebi.uniprot.domain.uniprot.comment.SubcellularLocationComment;
+import uk.ac.ebi.uniprot.domain.uniprot.description.EC;
+import uk.ac.ebi.uniprot.domain.uniprot.description.Flag;
+import uk.ac.ebi.uniprot.domain.uniprot.description.Name;
+import uk.ac.ebi.uniprot.domain.uniprot.description.ProteinAltName;
+import uk.ac.ebi.uniprot.domain.uniprot.description.ProteinDescription;
+import uk.ac.ebi.uniprot.domain.uniprot.description.ProteinRecName;
+import uk.ac.ebi.uniprot.domain.uniprot.description.ProteinSection;
+import uk.ac.ebi.uniprot.domain.uniprot.description.ProteinSubName;
 import uk.ac.ebi.uniprot.domain.uniprot.evidence.Evidence;
 import uk.ac.ebi.uniprot.domain.uniprot.feature.Feature;
 import uk.ac.ebi.uniprot.domain.uniprot.taxonomy.OrganismHost;
@@ -36,20 +92,11 @@ import uk.ac.ebi.uniprot.indexer.common.DocumentConversionException;
 import uk.ac.ebi.uniprot.indexer.converter.DocumentConverter;
 import uk.ac.ebi.uniprot.indexer.uniprot.go.GoRelationRepo;
 import uk.ac.ebi.uniprot.indexer.uniprot.go.GoTerm;
-import uk.ac.ebi.uniprot.indexer.uniprot.keyword.KeywordRepo;
 import uk.ac.ebi.uniprot.indexer.uniprot.pathway.PathwayRepo;
-import uk.ac.ebi.uniprot.indexer.uniprot.taxonomy.TaxonomicNode;
-import uk.ac.ebi.uniprot.indexer.uniprot.taxonomy.TaxonomyRepo;
 import uk.ac.ebi.uniprot.indexer.util.DateUtils;
 import uk.ac.ebi.uniprot.json.parser.uniprot.UniprotJsonConfig;
 import uk.ac.ebi.uniprot.search.document.uniprot.UniProtDocument;
 import uk.ebi.uniprot.scorer.uniprotkb.UniProtEntryScored;
-
-import java.text.ParseException;
-import java.util.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 
 /**
  * // TODO: 18/04/19 can be moved to a different package?
@@ -108,19 +155,15 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtEntry, Un
     private final RALineBuilder raLineBuilder;
     private final RGLineBuilder rgLineBuilder;
     private final GoRelationRepo goRelationRepo;
-    private final KeywordRepo keywordRepo;
     private final PathwayRepo pathwayRepo;
     //  private final UniProtUniRefMap uniprotUniRefMap;
 
 
-    public UniProtEntryConverter(TaxonomyRepo taxonomyRepo, GoRelationRepo goRelationRepo,
-
-                                 //	UniProtUniRefMap uniProtUniRefMap,
-                                 KeywordRepo keywordRepo, PathwayRepo pathwayRepo
+    public UniProtEntryConverter(TaxonomyRepo taxonomyRepo, GoRelationRepo goRelationRepo, PathwayRepo pathwayRepo
     ) {
         this.taxonomyRepo = taxonomyRepo;
         this.goRelationRepo = goRelationRepo;
-        this.keywordRepo = keywordRepo;
+     //   this.keywordRepo = keywordRepo;
         this.pathwayRepo = pathwayRepo;
         //   this.uniprotUniRefMap = uniProtUniRefMap;
 
@@ -340,15 +383,10 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtEntry, Un
         japiDocument.keywordIds.add(keyword.getId());
         japiDocument.keywords.add(keyword.getId());
         addValueToStringList(japiDocument.keywords, keyword);
-        Optional<KeywordDetail> kwOp = keywordRepo.getKeyword(keyword.getId());
-        if(kwOp.isPresent()) {
-            if((kwOp.get().getCategory() !=null) &&
-                    !japiDocument.keywordIds.contains(kwOp.get().getCategory().getKeyword().getAccession())){
-                japiDocument.keywordIds.add(kwOp.get().getCategory().getKeyword().getAccession());
-                japiDocument.keywords.add(kwOp.get().getCategory().getKeyword().getAccession());
-                japiDocument.keywords.add(kwOp.get().getCategory().getKeyword().getId());
-            }
-        }
+        KeywordCategory kc =keyword.getCategory();
+        japiDocument.keywordIds.add(kc.getAccession());
+        japiDocument.keywords.add(kc.getAccession());
+        japiDocument.keywords.add(kc.getName());
     }
 
     private void setOrganism(UniProtEntry source, UniProtDocument japiDocument) {

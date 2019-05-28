@@ -36,7 +36,7 @@ class DataStoreManagerTest {
        //     storeManager.addVoldemort(DataStoreManager.StoreType.UNIPROT, storeClient);
 
             storeManager.addDocConverter(DataStoreManager.StoreType.UNIPROT, new UniProtEntryConverter(TaxonomyRepoMocker.getTaxonomyRepo(),
-                                                                                                       GoRelationsRepoMocker.getGoRelationRepo(), KeywordRepoMocker.getKeywordRepo(),
+                                                                                                       GoRelationsRepoMocker.getGoRelationRepo(),
                                                                                                        PathwayRepoMocker.getPathwayRepo()));
         } catch (Exception e) {
             fail("Error to setup DataStoreManagerTest",e);

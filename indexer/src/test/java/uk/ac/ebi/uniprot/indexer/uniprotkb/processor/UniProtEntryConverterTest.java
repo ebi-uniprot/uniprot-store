@@ -1,9 +1,35 @@
 package uk.ac.ebi.uniprot.indexer.uniprotkb.processor;
 
+import static java.util.Arrays.asList;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+import static uk.ac.ebi.uniprot.indexer.uniprotkb.processor.UniProtEntryConverter.MAX_STORED_FIELD_LENGTH;
+import static uk.ac.ebi.uniprot.indexer.uniprotkb.processor.UniProtEntryConverter.SORT_FIELD_MAX_LENGTH;
+import static uk.ac.ebi.uniprot.indexer.uniprotkb.processor.UniProtEntryConverter.getDefaultBinaryValue;
+import static uk.ac.ebi.uniprot.indexer.uniprotkb.processor.UniProtEntryConverter.truncatedSortValue;
+
+import java.io.InputStream;
+import java.nio.charset.Charset;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.List;
+import java.util.Optional;
+
 import org.apache.commons.io.IOUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
+
+import uk.ac.ebi.uniprot.cv.taxonomy.TaxonomicNode;
+import uk.ac.ebi.uniprot.cv.taxonomy.TaxonomyRepo;
 import uk.ac.ebi.uniprot.domain.builder.SequenceBuilder;
 import uk.ac.ebi.uniprot.domain.uniprot.UniProtEntry;
 import uk.ac.ebi.uniprot.domain.uniprot.UniProtEntryType;
@@ -18,27 +44,8 @@ import uk.ac.ebi.uniprot.flatfile.parser.impl.cc.CcLineTransformer;
 import uk.ac.ebi.uniprot.indexer.uniprot.go.GoRelationRepo;
 import uk.ac.ebi.uniprot.indexer.uniprot.go.GoTerm;
 import uk.ac.ebi.uniprot.indexer.uniprot.go.GoTermFileReader;
-import uk.ac.ebi.uniprot.indexer.uniprot.keyword.KeywordRepo;
 import uk.ac.ebi.uniprot.indexer.uniprot.pathway.PathwayRepo;
-import uk.ac.ebi.uniprot.indexer.uniprot.taxonomy.TaxonomicNode;
-import uk.ac.ebi.uniprot.indexer.uniprot.taxonomy.TaxonomyRepo;
 import uk.ac.ebi.uniprot.search.document.uniprot.UniProtDocument;
-
-import java.io.InputStream;
-import java.nio.charset.Charset;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
-
-import static java.util.Arrays.asList;
-import static org.junit.Assert.*;
-import static org.mockito.Matchers.anyInt;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
-import static uk.ac.ebi.uniprot.indexer.uniprotkb.processor.UniProtEntryConverter.*;
 
 /**
  * Created 12/04/19
@@ -71,7 +78,7 @@ class UniProtEntryConverterTest {
     void setUp() {
         repoMock = mock(TaxonomyRepo.class);
         goRelationRepoMock = mock(GoRelationRepo.class);
-        converter = new UniProtEntryConverter(repoMock, goRelationRepoMock, mock(KeywordRepo.class), mock(PathwayRepo.class));
+        converter = new UniProtEntryConverter(repoMock, goRelationRepoMock, mock(PathwayRepo.class));
         dateFormat = new SimpleDateFormat("dd-MMM-yyyy");
     }
 
