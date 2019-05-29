@@ -9,8 +9,8 @@ import org.springframework.context.annotation.Configuration;
  *
  * @author Edd
  */
+@ConditionalOnProperty(prefix = "uniprot.job", name = "name", havingValue = "genecentric")
+@ComponentScan(basePackages = {"uk.ac.ebi.uniprot.indexer.genecentric"})
 @Configuration
-@ConditionalOnProperty(prefix = "uniprot.job", name = "name", havingValue = "uniprotkb")
-@ComponentScan(basePackages = "uk.ac.ebi.uniprot.indexer.uniprotkb")
-public @interface UniProtKBIndexingJob {
+public class GeneCentricIndexingJobConfig {
 }

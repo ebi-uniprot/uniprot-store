@@ -11,11 +11,11 @@ import org.springframework.batch.core.configuration.annotation.EnableBatchProces
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.context.annotation.ComponentScan;
+import uk.ac.ebi.uniprot.indexer.app.UniProtIndexingJob;
 
-@SpringBootApplication
 @EnableBatchProcessing
-@ComponentScan("uk.ac.ebi.uniprot.indexer.*")
+@UniProtIndexingJob
+@SpringBootApplication
 public class IndexerSpringBootApplication {
     /**
      * To run a specific Spring Batch Job:
@@ -39,3 +39,5 @@ public class IndexerSpringBootApplication {
         System.exit(IndexerSpringBootApplication.run(IndexerSpringBootApplication.class, args));
     }
 }
+
+

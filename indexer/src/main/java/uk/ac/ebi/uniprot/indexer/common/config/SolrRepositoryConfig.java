@@ -9,6 +9,7 @@ import org.apache.solr.common.params.ModifiableSolrParams;
 import org.springframework.beans.factory.BeanCreationException;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 import org.springframework.data.solr.core.SolrTemplate;
 
 import java.util.Optional;
@@ -22,9 +23,8 @@ import static java.util.Arrays.asList;
  * //TODO: REUSE COMMON SOLR CONFIG..... (DUPLICATED CODE FOR PoC ONLY)
  */
 @Configuration
+@Import(RepositoryConfigProperties.class)
 public class SolrRepositoryConfig{
-
-
     @Bean
     public HttpClient httpClient(RepositoryConfigProperties config) {
         // I am creating HttpClient exactly in the same way it is created inside CloudSolrClient.Builder,

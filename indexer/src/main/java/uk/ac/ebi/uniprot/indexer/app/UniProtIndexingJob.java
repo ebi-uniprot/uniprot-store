@@ -15,7 +15,7 @@ import java.lang.annotation.Target;
  */
 @Target({ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
-@ComponentScan
+@ComponentScan(basePackages = "uk.ac.ebi.uniprot.indexer.app")
 @Configuration
 public @interface UniProtIndexingJob {
 }
