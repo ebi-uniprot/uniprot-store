@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+ Licensed to the Apache Software Foundation (ASF) under one or more
+ contributor license agreements.  See the NOTICE file distributed with
+ this work for additional information regarding copyright ownership.
+ The ASF licenses this file to You under the Apache License, Version 2.0
+ (the "License"); you may not use this file except in compliance with
+ the License.  You may obtain a copy of the License at
+
+     http://www.apache.org/licenses/LICENSE-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<schema name="suggest" version="1.6">
+    <!-- =============================== suggestion fields  =============================== -->
+    <field name="id" type="basic_ci" indexed="true" stored="true" multiValued="false"/>
+    <!--<field name="important" type="pint" indexed="true" stored="false" multiValued="false"/>-->
+    <field name="importance" type="importanceLevel" indexed="true" stored="false" multiValued="false"/>
+    <field name="value" type="basic_ci" indexed="true" stored="true" multiValued="false"/>
+    <field name="altValue" type="basic_ci" indexed="true" stored="true" multiValued="true"/>
+    <field name="dict" type="string" indexed="true" stored="false" required="true" multiValued="false"/>
+    <field name="basic_content" type="basic_ci" indexed="true" stored="false" multiValued="true"/>
+    <field name="content" type="suggester_ci" indexed="true" stored="false" multiValued="true"/>
+
+    <copyField source="id" dest="content"/>
+    <copyField source="value" dest="content"/>
+    <copyField source="altValue" dest="content"/>
+
+    <!--<copyField source="id" dest="basic_content"/>-->
+    <!--<copyField source="value" dest="basic_content"/>-->
+    <!--<copyField source="altValue" dest="basic_content"/>-->
+
+    <!-- Meta fields -->
+    <!-- If you remove this field, you must _also_ disable the update log in solrconfig.xml
+      or Solr won't start. _version_ and update log are required for SolrCloud
+   -->
+    <field name="_version_" type="plong" indexed="true" stored="true"/>
+    <fieldType name="pint" class="solr.IntPointField" docValues="true"/>
+    <fieldType name="importanceLevel" class="solr.EnumField" enumsConfig="enumsConfig.xml" enumName="importance"/>
+
+    <!-- =============================== field types  =============================== -->
+    <fieldType name="binary" class="solr.BinaryField"/>
+    <fieldType name="plong" class="solr.LongPointField" docValues="true"/>
+    <fieldType name="string" class="solr.StrField" sortMissingLast="true"/>
+
+    <fieldType name="basic_ci" class="solr.TextField" sortMissingLast="true" omitNorms="false" omitPositions="false" positionIncrementGap="100">
+        <analyzer type="index">
+            <tokenizer class="solr.WhitespaceTokenizerFactory"/>
+            <filter class="solr.LowerCaseFilterFactory"/>
+        </analyzer>
+        <analyzer type="query">
+            <tokenizer class="solr.WhitespaceTokenizerFactory"/>
+            <filter class="solr.LowerCaseFilterFactory"/>
+        </analyzer>
+    </fieldType>
+
+    <fieldType name="suggester_ci" class="solr.TextField"
+               sortMissingLast="true" omitNorms="false" omitPositions="false" positionIncrementGap="100">
+        <analyzer type="index">
+            <charFilter class="solr.PatternReplaceCharFilterFactory" pattern="^0+" replacement=""/>
+            <charFilter class="solr.PatternReplaceCharFilterFactory" pattern="(/|-|:)" replacement=" "/>
+            <charFilter class="solr.PatternReplaceCharFilterFactory" pattern="(')" replacement=""/>
+            <charFilter class="solr.PatternReplaceCharFilterFactory" pattern="^([A-Za-z0-9_]+)\.([0-9]+)$"
+                        replacement="$1.$2 $1"/>
+            <tokenizer class="solr.WhitespaceTokenizerFactory"/>
+            <filter class="solr.LowerCaseFilterFactory"/>
+            <filter class="solr.PorterStemFilterFactory"/>
+            <filter class="solr.RemoveDuplicatesTokenFilterFactory"/>
+            <filter class="solr.EdgeNGramFilterFactory" minGramSize="3" maxGramSize="10"/>
+            <filter class="solr.FlattenGraphFilterFactory"/>
+        </analyzer>
+        <analyzer type="query">
+            <charFilter class="solr.PatternReplaceCharFilterFactory" pattern="(/|-|:)" replacement=" "/>
+            <charFilter class="solr.PatternReplaceCharFilterFactory" pattern="(')" replacement=""/>
+            <tokenizer class="solr.WhitespaceTokenizerFactory"/>
+            <filter class="solr.LowerCaseFilterFactory"/>
+            <filter class="solr.PorterStemFilterFactory"/>
+            <filter class="solr.RemoveDuplicatesTokenFilterFactory"/>
+        </analyzer>
+    </fieldType>
+</schema>

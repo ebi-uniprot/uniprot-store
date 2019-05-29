@@ -4,6 +4,8 @@ import org.apache.commons.io.IOUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
+import uk.ac.ebi.uniprot.cv.taxonomy.TaxonomicNode;
+import uk.ac.ebi.uniprot.cv.taxonomy.TaxonomyRepo;
 import uk.ac.ebi.uniprot.domain.builder.SequenceBuilder;
 import uk.ac.ebi.uniprot.domain.uniprot.UniProtEntry;
 import uk.ac.ebi.uniprot.domain.uniprot.UniProtEntryType;
@@ -18,24 +20,24 @@ import uk.ac.ebi.uniprot.flatfile.parser.impl.cc.CcLineTransformer;
 import uk.ac.ebi.uniprot.indexer.uniprot.go.GoRelationRepo;
 import uk.ac.ebi.uniprot.indexer.uniprot.go.GoTerm;
 import uk.ac.ebi.uniprot.indexer.uniprot.go.GoTermFileReader;
-import uk.ac.ebi.uniprot.indexer.uniprot.keyword.KeywordRepo;
 import uk.ac.ebi.uniprot.indexer.uniprot.pathway.PathwayRepo;
-import uk.ac.ebi.uniprot.indexer.uniprot.taxonomy.TaxonomicNode;
-import uk.ac.ebi.uniprot.indexer.uniprot.taxonomy.TaxonomyRepo;
+import uk.ac.ebi.uniprot.search.document.suggest.SuggestDictionary;
+import uk.ac.ebi.uniprot.search.document.suggest.SuggestDocument;
 import uk.ac.ebi.uniprot.search.document.uniprot.UniProtDocument;
 
 import java.io.InputStream;
 import java.nio.charset.Charset;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
 
 import static java.util.Arrays.asList;
+import static org.hamcrest.Matchers.*;
+import static org.hamcrest.core.Is.is;
+import static org.hamcrest.core.IsNot.not;
 import static org.junit.Assert.*;
-import static org.mockito.Matchers.anyInt;
+import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static uk.ac.ebi.uniprot.indexer.uniprotkb.processor.UniProtEntryConverter.*;
@@ -66,12 +68,14 @@ class UniProtEntryConverterTest {
 
     private TaxonomyRepo repoMock;
     private GoRelationRepo goRelationRepoMock;
+    private HashMap<String, SuggestDocument> suggestions;
 
     @BeforeEach
     void setUp() {
         repoMock = mock(TaxonomyRepo.class);
         goRelationRepoMock = mock(GoRelationRepo.class);
-        converter = new UniProtEntryConverter(repoMock, goRelationRepoMock, mock(KeywordRepo.class), mock(PathwayRepo.class));
+        suggestions = new HashMap<>();
+        converter = new UniProtEntryConverter(repoMock, goRelationRepoMock, mock(PathwayRepo.class), suggestions);
         dateFormat = new SimpleDateFormat("dd-MMM-yyyy");
     }
 
@@ -208,6 +212,7 @@ class UniProtEntryConverterTest {
         assertFalse(doc.isIsoform);
     }
 
+
     @Test
     void testConvertFullQ9EPI6Entry() throws Exception {
         when(repoMock.retrieveNodeUsingTaxID(anyInt()))
@@ -233,8 +238,9 @@ class UniProtEntryConverterTest {
         assertTrue(doc.proteinNames.contains("Nasal embryonic LHRH factor"));
         assertEquals("NMDA receptor synaptonuclear s", doc.proteinsNamesSort);
 
-        assertEquals(0, doc.ecNumbers.size());
-        assertEquals(0, doc.ecNumbersExact.size());
+        assertEquals(1, doc.ecNumbers.size());
+        assertEquals(1, doc.ecNumbersExact.size());
+        checkSuggestionsContain(SuggestDictionary.EC, doc.ecNumbersExact, false);
 
         assertEquals("29-OCT-2014", dateFormat.format(doc.lastModified).toUpperCase());
         assertEquals("19-JUL-2005", dateFormat.format(doc.firstCreated).toUpperCase());
@@ -243,6 +249,7 @@ class UniProtEntryConverterTest {
         assertEquals(30, doc.keywords.size());
         assertEquals("KW-0025", doc.keywords.get(0));
         assertEquals("Alternative splicing", doc.keywords.get(1));
+        checkSuggestionsContain(SuggestDictionary.KEYWORD, doc.keywordIds, false);
 
         assertEquals(3, doc.geneNames.size());
         assertEquals("Nsmf", doc.geneNames.get(0));
@@ -258,6 +265,10 @@ class UniProtEntryConverterTest {
         assertEquals(2, doc.organismTaxon.size());
         assertEquals(1, doc.taxLineageIds.size());
         assertEquals(10116L, doc.taxLineageIds.get(0).longValue());
+        checkSuggestionsContain(SuggestDictionary.TAXONOMY,
+                                doc.taxLineageIds.stream()
+                                        .map(Object::toString)
+                                        .collect(Collectors.toList()), false);
 
         assertEquals(0, doc.organelles.size());
         assertEquals(0, doc.organismHostNames.size());
@@ -332,6 +343,7 @@ class UniProtEntryConverterTest {
         assertEquals(2, doc.subcellLocationNoteEv.size());
         assertTrue(doc.subcellLocationNoteEv.contains("ECO_0000250"));
         assertTrue(doc.subcellLocationNoteEv.contains("manual"));
+        checkSuggestionsContain(SuggestDictionary.SUBCELL, doc.subcellLocationTerm, true);
 
         assertEquals(2, doc.ap.size());
         assertTrue(doc.ap.contains("Alternative splicing"));
@@ -358,6 +370,7 @@ class UniProtEntryConverterTest {
 
         assertEquals(50, doc.goes.size());
         assertTrue(doc.goes.contains("0030863"));
+        checkSuggestionsContain(SuggestDictionary.GO, doc.goIds, false);
 
 //        assertEquals(50, doc.defaultGo.size());
 //        assertTrue(doc.defaultGo.contains("membrane"));
@@ -369,6 +382,24 @@ class UniProtEntryConverterTest {
         assertNotNull(doc.avro_binary);
 
         assertFalse(doc.isIsoform);
+    }
+
+    private void checkSuggestionsContain(SuggestDictionary dict, Collection<String> values, boolean sizeOnly) {
+        // the number of suggestions for this dictionary is the same size as values
+        List<String> foundSuggestions = this.suggestions.keySet().stream()
+                .filter(key -> key.startsWith(dict.name()))
+                .collect(Collectors.toList());
+        assertThat(values, hasSize(foundSuggestions.size()));
+
+        if (!sizeOnly) {
+            // values are a subset of the suggestions for this dictionary
+            for (String value : values) {
+                String key = converter.createSuggestionMapKey(dict, value);
+                assertTrue(this.suggestions.containsKey(key));
+                SuggestDocument document = this.suggestions.get(key);
+                assertThat(document.value, is(not(nullValue())));
+            }
+        }
     }
 
     @Test
@@ -511,7 +542,6 @@ class UniProtEntryConverterTest {
 
         assertEquals(5, doc.score);
         assertNotNull(doc.avro_binary);
-
     }
 
     @Test
@@ -732,7 +762,6 @@ class UniProtEntryConverterTest {
         assertEquals(1, doc.bpcpTempDependence.size());
         assertEquals(3, doc.bpcpTempDependenceEv.size());
         assertTrue(doc.bpcpTempDependenceEv.contains("manual"));
-
     }
 
     @Test
@@ -828,12 +857,83 @@ class UniProtEntryConverterTest {
         assertTrue(doc.subcellLocationNoteEv.contains("ECO_0000250"));
     }
 
+    @Test
+    void taxonSuggestionAddedWhenDidntExistBefore() {
+        TaxonomicNode taxonomicNode = mock(TaxonomicNode.class);
+        when(taxonomicNode.id()).thenReturn(9606);
+        when(taxonomicNode.scientificName()).thenReturn("Homo sapiens");
+        String synonym = "some synonym for homo sapiens";
+        when(taxonomicNode.commonName()).thenReturn(synonym);
+        when(repoMock.retrieveNodeUsingTaxID(anyInt())).thenReturn(Optional.of(taxonomicNode));
+
+        converter.setLineageTaxon(9606, new UniProtDocument());
+
+        assertThat(suggestions.entrySet(), hasSize(1));
+    }
+
+    @Test
+    void taxonSuggestionNameOverwritesDefaultNameIfDifferent() {
+        String id = "9606";
+        String homoSapiensFromDefaults = "Homo sapiens FROM OUR DEFAULTS TEXTFILE";
+        String homoSapiensFromDBFile = "Homo sapiens FROM DB FILE";
+
+        String key = converter.createSuggestionMapKey(SuggestDictionary.TAXONOMY, id);
+        suggestions.put(key,
+                        SuggestDocument.builder()
+                                .id(id)
+                                .value(homoSapiensFromDefaults)
+                                .build());
+
+        TaxonomicNode taxonomicNode = mock(TaxonomicNode.class);
+        when(taxonomicNode.id()).thenReturn(9606);
+        when(taxonomicNode.scientificName()).thenReturn(homoSapiensFromDBFile);
+        when(repoMock.retrieveNodeUsingTaxID(anyInt())).thenReturn(Optional.of(taxonomicNode));
+
+        assertThat(suggestions.entrySet(), hasSize(1));
+        SuggestDocument doc = suggestions.get(key);
+        assertThat(doc.altValues, is(empty()));
+        converter.setLineageTaxon(9606, new UniProtDocument());
+
+        assertThat(suggestions.entrySet(), hasSize(1));
+        assertThat(doc.altValues, is(empty()));
+        assertThat(doc.value, is(homoSapiensFromDBFile));
+    }
+
+    @Test
+    void taxonSuggestionAddedWhenAlreadyExistBefore() {
+        String id = "9606";
+        String homoSapiens = "Homo sapiens";
+
+        String key = converter.createSuggestionMapKey(SuggestDictionary.TAXONOMY, id);
+        suggestions.put(key,
+                        SuggestDocument.builder()
+                                .id(id)
+                                .value(homoSapiens)
+                                .build());
+
+        TaxonomicNode taxonomicNode = mock(TaxonomicNode.class);
+        when(taxonomicNode.id()).thenReturn(9606);
+        when(taxonomicNode.scientificName()).thenReturn(homoSapiens);
+        String synonym = "some synonym for homo sapiens";
+        when(taxonomicNode.commonName()).thenReturn(synonym);
+        when(repoMock.retrieveNodeUsingTaxID(anyInt())).thenReturn(Optional.of(taxonomicNode));
+
+        assertThat(suggestions.entrySet(), hasSize(1));
+        SuggestDocument doc = suggestions.get(key);
+        assertThat(doc.altValues, is(empty()));
+        converter.setLineageTaxon(9606, new UniProtDocument());
+
+        assertThat(suggestions.entrySet(), hasSize(1));
+        assertThat(doc.altValues, contains(synonym));
+    }
+
     private UniProtEntry parse(String file) throws Exception {
-        InputStream is = UniProtEntryDocumentPairProcessor.class.getClassLoader().getResourceAsStream("uniprotkb/" + file);
+        InputStream is = UniProtEntryDocumentPairProcessor.class.getClassLoader()
+                .getResourceAsStream("uniprotkb/" + file);
         assertNotNull(is);
         SupportingDataMap supportingDataMap = new SupportingDataMapImpl("uniprotkb/keywlist.txt",
                                                                         "uniprotkb/humdisease.txt",
-                                                                        "uniprotkb/PMID.GO.dr_ext.txt",
+                                                                        "target/test-classes/uniprotkb/PMID.GO.dr_ext.txt",
                                                                         "uniprotkb/subcell.txt");
         DefaultUniProtParser parser = new DefaultUniProtParser(supportingDataMap, false);
         return parser.parse(IOUtils.toString(is, Charset.defaultCharset()));

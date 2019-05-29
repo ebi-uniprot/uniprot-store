@@ -17,7 +17,7 @@ import org.springframework.context.annotation.Import;
 import org.springframework.test.context.ActiveProfiles;
 import uk.ac.ebi.uniprot.indexer.common.config.DataSourceConfig;
 import uk.ac.ebi.uniprot.indexer.common.listener.LogJobListener;
-import uk.ac.ebi.uniprot.indexer.test.config.TestConfig;
+import uk.ac.ebi.uniprot.indexer.test.config.SolrTestConfig;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
@@ -50,7 +50,7 @@ class IndexerSpringBootApplicationTest {
     @Configuration
     @EnableAutoConfiguration
     @EnableBatchProcessing
-    @Import({DataSourceConfig.class, TestConfig.class})
+    @Import({DataSourceConfig.class, SolrTestConfig.class})
     abstract static class TestApp {
         static final int ITEM_COUNT = 10;
         int itemCount = 0;

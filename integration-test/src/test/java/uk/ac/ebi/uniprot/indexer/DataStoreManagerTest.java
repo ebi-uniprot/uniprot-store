@@ -19,32 +19,38 @@ import java.util.stream.Collectors;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.fail;
+
 class DataStoreManagerTest {
     private static final String P12345 = "P12345";
     private static DataStoreManager storeManager;
 
     @BeforeAll
     static void setUp() {
-        try{
+        try {
             SolrDataStoreManager solrStoreManager = new SolrDataStoreManager();
             ClosableEmbeddedSolrClient solrClient = new ClosableEmbeddedSolrClient(SolrCollection.uniprot);
             storeManager = new DataStoreManager(solrStoreManager);
-            storeManager.addSolrClient(DataStoreManager.StoreType.UNIPROT,solrClient);
+            storeManager.addSolrClient(DataStoreManager.StoreType.UNIPROT, solrClient);
 
-        //    UUWStoreClient storeClient = new FakeStoreClient(VoldemortInMemoryUniprotEntryStore
-       //             .getInstance("avro-uniprot"));
-       //     storeManager.addVoldemort(DataStoreManager.StoreType.UNIPROT, storeClient);
+            //    UUWStoreClient storeClient = new FakeStoreClient(VoldemortInMemoryUniprotEntryStore
+            //             .getInstance("avro-uniprot"));
+            //     storeManager.addVoldemort(DataStoreManager.StoreType.UNIPROT, storeClient);
 
-            storeManager.addDocConverter(DataStoreManager.StoreType.UNIPROT, new UniProtEntryConverter(TaxonomyRepoMocker.getTaxonomyRepo(),
-                                                                                                       GoRelationsRepoMocker.getGoRelationRepo(), KeywordRepoMocker.getKeywordRepo(),
-                                                                                                       PathwayRepoMocker.getPathwayRepo()));
+            storeManager
+                    .addDocConverter(DataStoreManager.StoreType.UNIPROT, new UniProtEntryConverter(TaxonomyRepoMocker
+                                                                                                           .getTaxonomyRepo(),
+                                                                                                   GoRelationsRepoMocker
+                                                                                                           .getGoRelationRepo(),
+                                                                                                   PathwayRepoMocker
+                                                                                                           .getPathwayRepo(),
+                                                                                                   null));
         } catch (Exception e) {
-            fail("Error to setup DataStoreManagerTest",e);
+            fail("Error to setup DataStoreManagerTest", e);
         }
     }
 
-    
-//    private static UniProtUniRefMap uniprotUniRefMap() {
+
+    //    private static UniProtUniRefMap uniprotUniRefMap() {
 //    	return  UniProtUniRefMap.builder(true).build();
 //
 //    }
@@ -72,6 +78,7 @@ class DataStoreManagerTest {
                 .collect(Collectors.toList());
         assertThat(results, Matchers.contains(P12345));
     }
+
     @Disabled
     @Test
     void canAddAndFetchEntriesInSolr() throws IOException, SolrServerException {

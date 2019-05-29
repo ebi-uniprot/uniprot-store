@@ -12,5 +12,6 @@ public enum SolrCollection {
     taxonomy,
     proteome,
     disease,
+    suggest,
     genecentric
 }

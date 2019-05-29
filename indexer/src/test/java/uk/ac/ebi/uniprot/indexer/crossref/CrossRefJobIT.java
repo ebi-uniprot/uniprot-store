@@ -20,9 +20,10 @@ import uk.ac.ebi.uniprot.indexer.crossref.steps.CrossRefStep;
 import uk.ac.ebi.uniprot.indexer.crossref.steps.CrossRefUniProtCountStep;
 import uk.ac.ebi.uniprot.indexer.test.config.FakeIndexerSpringBootApplication;
 import uk.ac.ebi.uniprot.indexer.test.config.FakeReadDatabaseConfig;
-import uk.ac.ebi.uniprot.indexer.test.config.TestConfig;
+import uk.ac.ebi.uniprot.indexer.test.config.SolrTestConfig;
 import uk.ac.ebi.uniprot.search.SolrCollection;
 import uk.ac.ebi.uniprot.search.document.dbxref.CrossRefDocument;
+
 import java.util.stream.Collectors;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -31,8 +32,8 @@ import static org.hamcrest.Matchers.notNullValue;
 
 @ActiveProfiles(profiles = {"job", "offline"})
 @ExtendWith(SpringExtension.class)
-@SpringBootTest(classes = {FakeIndexerSpringBootApplication.class, TestConfig.class, FakeReadDatabaseConfig.class,
-        ListenerConfig.class, CrossRefStep.class, CrossRefUniProtCountStep.class, CrossRefJob.class})
+@SpringBootTest(classes = {FakeIndexerSpringBootApplication.class, SolrTestConfig.class, FakeReadDatabaseConfig.class,
+                           ListenerConfig.class, CrossRefStep.class, CrossRefUniProtCountStep.class, CrossRefJob.class})
 public class CrossRefJobIT {
 
     @Autowired

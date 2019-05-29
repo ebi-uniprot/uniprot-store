@@ -4,6 +4,7 @@ DT   19-JUL-2005, integrated into UniProtKB/Swiss-Prot.
 DT   01-MAR-2001, sequence version 1.
 DT   29-OCT-2014, entry version 74.
 DE   RecName: Full=NMDA receptor synaptonuclear signaling and neuronal migration factor;
+DE            EC=2.7.10.2;
 DE   AltName: Full=Juxtasynaptic attractor of caldendrin on dendritic boutons protein;
 DE            Short=Jacob protein;
 DE   AltName: Full=Nasal embryonic luteinizing hormone-releasing hormone factor;

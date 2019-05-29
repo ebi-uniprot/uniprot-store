@@ -66,6 +66,7 @@ public abstract class EntryDocumentPairRetryWriter<E, D> implements ItemWriter<E
         List<D> documents = entryDocumentPairs.stream()
                 .map(EntryDocumentPair::getDocument)
                 .collect(Collectors.toList());
+        System.out.println("***************** writing");
 
         try {
             Failsafe.with(retryPolicy)

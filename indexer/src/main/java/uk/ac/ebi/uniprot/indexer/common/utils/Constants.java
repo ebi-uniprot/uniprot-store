@@ -23,4 +23,7 @@ public class Constants {
     public static final String PROTEOME_INDEX_JOB = "Proteome_Indexing_Job";
     public static final String DISEASE_LOAD_JOB_NAME = "Disease indexing job";
     public static final String DISEASE_INDEX_STEP = "Disease indexing step";
+
+    public static final String SUGGESTIONS_INDEX_STEP = "Suggestion_Indexing_Step";
+    public static final String SUGGESTIONS_MAP = "Suggestions_Set";
 }

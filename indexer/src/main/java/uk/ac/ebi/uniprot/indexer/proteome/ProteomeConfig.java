@@ -1,10 +1,6 @@
 package uk.ac.ebi.uniprot.indexer.proteome;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
+import lombok.Data;
 import org.springframework.batch.item.ItemProcessor;
 import org.springframework.batch.item.ItemReader;
 import org.springframework.batch.item.ItemWriter;
@@ -18,15 +14,18 @@ import org.springframework.core.io.FileSystemResource;
 import org.springframework.data.solr.core.SolrTemplate;
 import org.springframework.oxm.Unmarshaller;
 import org.springframework.oxm.jaxb.Jaxb2Marshaller;
-
-import lombok.Data;
+import uk.ac.ebi.uniprot.cv.taxonomy.FileNodeIterable;
+import uk.ac.ebi.uniprot.cv.taxonomy.TaxonomyMapRepo;
+import uk.ac.ebi.uniprot.cv.taxonomy.TaxonomyRepo;
 import uk.ac.ebi.uniprot.indexer.converter.DocumentConverter;
 import uk.ac.ebi.uniprot.indexer.genecentric.GeneCentricDocumentWriter;
-import uk.ac.ebi.uniprot.indexer.uniprot.taxonomy.FileNodeIterable;
-import uk.ac.ebi.uniprot.indexer.uniprot.taxonomy.TaxonomyMapRepo;
-import uk.ac.ebi.uniprot.indexer.uniprot.taxonomy.TaxonomyRepo;
 import uk.ac.ebi.uniprot.search.document.proteome.ProteomeDocument;
 import uk.ac.ebi.uniprot.xml.jaxb.proteome.Proteome;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *

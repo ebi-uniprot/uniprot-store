@@ -2,6 +2,8 @@ package uk.ac.ebi.uniprot.indexer.common.listener;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.ItemWriteListener;
+import org.springframework.batch.core.StepExecution;
+import org.springframework.batch.core.annotation.BeforeStep;
 
 import java.time.Duration;
 import java.time.Instant;
@@ -20,18 +22,27 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class LogRateListener<O> implements ItemWriteListener<O> {
     static final int WRITE_RATE_DOCUMENT_INTERVAL = 100000;
     private int writeRateDocumentInterval;
-    private final Instant startOfWriting;
+    private Instant startOfWriting;
     private AtomicInteger totalWriteCount = new AtomicInteger(0);
     private AtomicInteger deltaWriteCount = new AtomicInteger(0);
     private Instant startOfDelta;
 
     public LogRateListener() {
-        this(Instant.now());
+        this.writeRateDocumentInterval = WRITE_RATE_DOCUMENT_INTERVAL;
+    }
+
+    public LogRateListener(int writeRateDocumentInterval) {
+        this.writeRateDocumentInterval = writeRateDocumentInterval;
     }
 
     LogRateListener(Instant now) {
-        startOfWriting = startOfDelta = now;
-        writeRateDocumentInterval = WRITE_RATE_DOCUMENT_INTERVAL;
+        this.startOfWriting = this.startOfDelta = now;
+        this.writeRateDocumentInterval = WRITE_RATE_DOCUMENT_INTERVAL;
+    }
+
+    @BeforeStep
+    public void setStepExecution(final StepExecution stepExecution) {
+        this.startOfWriting = this.startOfDelta = Instant.now();
     }
 
     @Override

@@ -15,7 +15,7 @@ import org.springframework.context.annotation.Import;
 
 @EnableBatchProcessing
 @SpringBootApplication
-@Import(TestConfig.class)
+@Import(SolrTestConfig.class)
 public class FakeIndexerSpringBootApplication {
     public static void main(String[] args) {
         SpringApplication.run(FakeIndexerSpringBootApplication.class, args);

@@ -20,6 +20,8 @@ public class UniProtKBIndexingProperties {
     private int entryIteratorThreads = 2;
     private int entryIteratorQueueSize = 50;
     private int entryIteratorFFQueueSize = 5000;
+    private int uniProtKBLogRateInterval = 100000;
+    private int suggestionLogRateInterval = 5000;
     private String subcellularLocationFile;
     private String accessionGoPubmedFile;
     private String goDir;
