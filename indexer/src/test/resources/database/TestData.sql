@@ -48,6 +48,12 @@ insert into TAXONOMY.V_PUBLIC_NAME (TAX_ID,PRIORITY,NAME) values (5,3,'sptr_scie
 insert into TAXONOMY.V_PUBLIC_NAME (TAX_ID,PRIORITY,NAME) values (5,4,'sptr_common_5');
 insert into TAXONOMY.V_PUBLIC_NAME (TAX_ID,PRIORITY,NAME) values (5,5,'tax_Code_5');
 
+insert into TAXONOMY.V_PUBLIC_MERGED(OLD_TAX_ID,NEW_TAX_ID) values (50,5);
+insert into TAXONOMY.V_PUBLIC_MERGED(OLD_TAX_ID,NEW_TAX_ID) values (40,5);
+
+insert into TAXONOMY.V_PUBLIC_DELETED(TAX_ID) values (500);
+insert into TAXONOMY.V_PUBLIC_DELETED(TAX_ID) values (400);
+
 INSERT INTO SPTR.COMMENT_SUBSTRUCTURE
 (COMMENT_STRUCTURE_ID, TEXT)
 VALUES(16612935520, 'Rheumatoid arthritis (RA) [MIM:180300]: An inflammatory disease with autoimmune features and a complex genetic component. It primarily affects the joints and is characterized by inflammatory changes in the synovial membranes and articular structures, widespread fibrinoid degeneration of the collagen fibers in mesenchymal tissues, and by atrophy and rarefaction of bony structures.');

@@ -89,7 +89,7 @@ public interface TaxonomyField {
             return this.name();
         }
 
-        public static List<SearchField> getBoostFields(){
+        public List<SearchField> getBoostFields(){
             return Arrays.stream(Search.values())
                     .filter(Search::hasBoostValue)
                     .collect(Collectors.toList());

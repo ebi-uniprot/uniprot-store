@@ -13,13 +13,13 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.solr.core.SolrTemplate;
-import uk.ac.ebi.uniprot.domain.taxonomy.TaxonomyEntry;
 import uk.ac.ebi.uniprot.indexer.common.utils.Constants;
-import uk.ac.ebi.uniprot.indexer.taxonomy.TaxonomyEntryWriter;
+import uk.ac.ebi.uniprot.indexer.common.writer.SolrDocumentWriter;
 import uk.ac.ebi.uniprot.indexer.taxonomy.TaxonomySQLConstants;
 import uk.ac.ebi.uniprot.indexer.taxonomy.processor.TaxonomyStatisticsProcessor;
 import uk.ac.ebi.uniprot.indexer.taxonomy.readers.TaxonomyStatisticsReader;
 import uk.ac.ebi.uniprot.search.SolrCollection;
+import uk.ac.ebi.uniprot.search.document.taxonomy.TaxonomyDocument;
 
 import javax.sql.DataSource;
 import java.sql.SQLException;
@@ -38,10 +38,10 @@ public class TaxonomyStatisticsStep {
     public Step taxonomyStatistics(StepBuilderFactory stepBuilders, StepExecutionListener stepListener,
                                        ChunkListener chunkListener,
                                        ItemReader<TaxonomyStatisticsReader.TaxonomyCount> itemTaxonomyStatisticsReader,
-                                       ItemProcessor<TaxonomyStatisticsReader.TaxonomyCount,TaxonomyEntry> itemTaxonomyStatisticsProcessor,
-                                       ItemWriter<TaxonomyEntry> itemTaxonomyStatisticsWriter){
+                                       ItemProcessor<TaxonomyStatisticsReader.TaxonomyCount,TaxonomyDocument> itemTaxonomyStatisticsProcessor,
+                                       ItemWriter<TaxonomyDocument> itemTaxonomyStatisticsWriter){
         return stepBuilders.get(Constants.TAXONOMY_LOAD_STATISTICS_STEP_NAME)
-                .<TaxonomyStatisticsReader.TaxonomyCount, TaxonomyEntry>chunk(chunkSize)
+                .<TaxonomyStatisticsReader.TaxonomyCount, TaxonomyDocument>chunk(chunkSize)
                 .reader(itemTaxonomyStatisticsReader)
                 .processor(itemTaxonomyStatisticsProcessor)
                 .writer(itemTaxonomyStatisticsWriter)
@@ -61,13 +61,13 @@ public class TaxonomyStatisticsStep {
     }
 
     @Bean(name = "itemTaxonomyStatisticsProcessor")
-    public ItemProcessor<TaxonomyStatisticsReader.TaxonomyCount,TaxonomyEntry> itemTaxonomyStatisticsProcessor(SolrTemplate solrTemplate) {
-        return new TaxonomyStatisticsProcessor(solrTemplate);
+    public ItemProcessor<TaxonomyStatisticsReader.TaxonomyCount, TaxonomyDocument> itemTaxonomyStatisticsProcessor() {
+        return new TaxonomyStatisticsProcessor();
     }
 
     @Bean(name = "itemTaxonomyStatisticsWriter")
-    public ItemWriter<TaxonomyEntry> itemTaxonomyStatisticsWriter(SolrTemplate solrTemplate) {
-        return new TaxonomyEntryWriter(solrTemplate, SolrCollection.taxonomy);
+    public ItemWriter<TaxonomyDocument> itemTaxonomyStatisticsWriter(SolrTemplate solrTemplate) {
+        return new SolrDocumentWriter<>(solrTemplate, SolrCollection.taxonomy);
     }
 
     protected String getStatisticsSQL(){
