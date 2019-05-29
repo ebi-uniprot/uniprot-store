@@ -15,7 +15,15 @@ import java.lang.annotation.Target;
  */
 @Target({ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
-@ComponentScan(basePackages = "uk.ac.ebi.uniprot.indexer.app")
+// Add extra packages below if all beans in it are required for all jobs
+@ComponentScan(basePackages = {
+        // job/step listeners that are useful for all jobs
+        "uk.ac.ebi.uniprot.indexer.common.listener",
+
+        // this package defines all job configs, but only 1 is enabled
+        // via @ConditionalOnProperty annotation
+        "uk.ac.ebi.uniprot.indexer.app"
+})
 @Configuration
 public @interface UniProtIndexingJob {
 }
