@@ -3,12 +3,14 @@ package uk.ac.ebi.uniprot.indexer.test.config;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Profile;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabase;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 
 @TestConfiguration
 @Slf4j
+@Profile("offline")
 public class FakeReadDatabaseConfig {
 
     @Bean(name = "readDataSource", destroyMethod = "shutdown")

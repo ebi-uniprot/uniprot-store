@@ -13,6 +13,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.solr.core.SolrTemplate;
 import org.springframework.data.solr.core.query.SimpleQuery;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import uk.ac.ebi.uniprot.indexer.common.listener.ListenerConfig;
 import uk.ac.ebi.uniprot.indexer.common.utils.Constants;
@@ -33,6 +34,7 @@ import static org.hamcrest.Matchers.notNullValue;
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = {FakeIndexerSpringBootApplication.class, SolrTestConfig.class, FakeReadDatabaseConfig.class,
                            ListenerConfig.class, CrossRefStep.class, CrossRefUniProtCountStep.class, CrossRefJob.class})
+@TestPropertySource(properties = "spring.batch.job.enabled=true")
 public class CrossRefJobIT {
 
     @Autowired
