@@ -105,6 +105,7 @@ public interface TaxonomyField {
         synonym("Synonym"),
         other_names("Other Names"),
         rank("Rank"),
+        reviewed("Reviewed"),
         lineage("Lineage"),
         strain("Strain"),
         host("Virus hosts"),
