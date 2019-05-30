@@ -17,7 +17,6 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.Profile;
 import org.springframework.data.solr.core.SolrTemplate;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import uk.ac.ebi.uniprot.domain.uniprot.UniProtEntry;
 import uk.ac.ebi.uniprot.indexer.common.listener.ListenerConfig;
@@ -60,7 +59,6 @@ import static uk.ac.ebi.uniprot.indexer.common.utils.Constants.UNIPROTKB_INDEX_S
                            UniProtKBJobWithSolrWriteRetriesThenSuccessIT.RetryConfig.class,
                            SolrTestConfig.class, UniProtKBJob.class,
                            UniProtKBStep.class, SuggestionStep.class, ListenerConfig.class})
-@TestPropertySource(properties = "spring.batch.job.enabled=false")
 class UniProtKBJobWithSolrWriteRetriesThenSuccessIT {
     @Autowired
     private JobLauncherTestUtils jobLauncherTestUtils;

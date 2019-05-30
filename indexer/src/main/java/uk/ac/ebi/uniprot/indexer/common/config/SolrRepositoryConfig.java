@@ -10,6 +10,7 @@ import org.springframework.beans.factory.BeanCreationException;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
+import org.springframework.context.annotation.Profile;
 import org.springframework.data.solr.core.SolrTemplate;
 
 import java.util.Optional;
@@ -23,6 +24,7 @@ import static java.util.Arrays.asList;
  * //TODO: REUSE COMMON SOLR CONFIG..... (DUPLICATED CODE FOR PoC ONLY)
  */
 @Configuration
+@Profile("online")
 @Import(RepositoryConfigProperties.class)
 public class SolrRepositoryConfig{
     @Bean

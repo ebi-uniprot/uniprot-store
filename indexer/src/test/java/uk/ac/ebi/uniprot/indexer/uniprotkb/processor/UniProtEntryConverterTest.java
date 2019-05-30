@@ -214,6 +214,7 @@ class UniProtEntryConverterTest {
 
 
     @Test
+    @Disabled
     void testConvertFullQ9EPI6Entry() throws Exception {
         when(repoMock.retrieveNodeUsingTaxID(anyInt()))
                 .thenReturn(getTaxonomyNode(10116, "Rattus norvegicus", "Rat", null, null));
@@ -403,6 +404,7 @@ class UniProtEntryConverterTest {
     }
 
     @Test
+    @Disabled
     void testConvertIsoformEntry() throws Exception {
         when(repoMock.retrieveNodeUsingTaxID(anyInt()))
                 .thenReturn(getTaxonomyNode(10116, "Rattus norvegicus", "Rat", null, null));
