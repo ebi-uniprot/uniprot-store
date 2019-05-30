@@ -89,7 +89,7 @@ public interface TaxonomyField {
             return this.name();
         }
 
-        public List<SearchField> getBoostFields(){
+        public static List<SearchField> getBoostFields(){
             return Arrays.stream(Search.values())
                     .filter(Search::hasBoostValue)
                     .collect(Collectors.toList());
@@ -97,7 +97,31 @@ public interface TaxonomyField {
     }
 
     enum ResultFields{
-        id,name,other_names,lineage,strain,host,link,statistic
+        id("Taxon"),
+        parent("Parent"),
+        mnemonic("Mnemonic"),
+        scientific_name("Scientific name"),
+        common_name("Common name"),
+        synonym("Synonym"),
+        other_names("Other Names"),
+        rank("Rank"),
+        lineage("Lineage"),
+        strain("Strain"),
+        host("Virus hosts"),
+        link("Link");
+
+        private String label;
+
+        private ResultFields(String label){
+            this.label = label;
+        }
+
+        public String getLabel(){
+            return this.label;
+        }
+
+
+
     }
 
     enum Return {
