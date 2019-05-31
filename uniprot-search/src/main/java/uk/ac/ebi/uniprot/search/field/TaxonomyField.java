@@ -97,7 +97,32 @@ public interface TaxonomyField {
     }
 
     enum ResultFields{
-        id,name,other_names,lineage,strain,host,link,statistic
+        id("Taxon"),
+        parent("Parent"),
+        mnemonic("Mnemonic"),
+        scientific_name("Scientific name"),
+        common_name("Common name"),
+        synonym("Synonym"),
+        other_names("Other Names"),
+        rank("Rank"),
+        reviewed("Reviewed"),
+        lineage("Lineage"),
+        strain("Strain"),
+        host("Virus hosts"),
+        link("Link");
+
+        private String label;
+
+        private ResultFields(String label){
+            this.label = label;
+        }
+
+        public String getLabel(){
+            return this.label;
+        }
+
+
+
     }
 
     enum Return {

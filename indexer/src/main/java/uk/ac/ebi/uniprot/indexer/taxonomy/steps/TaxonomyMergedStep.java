@@ -17,12 +17,13 @@ import uk.ac.ebi.uniprot.domain.taxonomy.TaxonomyEntry;
 import uk.ac.ebi.uniprot.indexer.common.utils.Constants;
 import uk.ac.ebi.uniprot.indexer.common.writer.SolrDocumentWriter;
 import uk.ac.ebi.uniprot.indexer.taxonomy.TaxonomySQLConstants;
-import uk.ac.ebi.uniprot.indexer.taxonomy.processor.TaxonomyProcessor;
-import uk.ac.ebi.uniprot.indexer.taxonomy.readers.TaxonomyNodeReader;
+import uk.ac.ebi.uniprot.indexer.taxonomy.processor.TaxonomyMergedDeletedProcessor;
+import uk.ac.ebi.uniprot.indexer.taxonomy.readers.TaxonomyMergeReader;
 import uk.ac.ebi.uniprot.search.SolrCollection;
 import uk.ac.ebi.uniprot.search.document.taxonomy.TaxonomyDocument;
 
 import javax.sql.DataSource;
+import java.io.IOException;
 import java.sql.SQLException;
 
 /**
@@ -30,44 +31,46 @@ import java.sql.SQLException;
  * @author lgonzales
  */
 @Configuration
-public class TaxonomyNodeStep {
+public class TaxonomyMergedStep {
 
     @Value(("${database.chunk.size}"))
     private Integer chunkSize;
 
-    @Bean(name = "taxonomyNode")
-    public Step taxonomyNode(StepBuilderFactory stepBuilders,StepExecutionListener stepListener,
-                                       ChunkListener chunkListener,
-                                       ItemReader<TaxonomyEntry> itemTaxonomyNodeReader,
-                                       ItemProcessor<TaxonomyEntry,TaxonomyDocument> itemTaxonomyNodeProcessor,
-                                       ItemWriter<TaxonomyDocument> itemTaxonomyNodeWriter){
-        return stepBuilders.get(Constants.TAXONOMY_LOAD_NODE_STEP_NAME)
-                .<TaxonomyEntry, TaxonomyDocument>chunk(chunkSize)
-                .reader(itemTaxonomyNodeReader)
-                .processor(itemTaxonomyNodeProcessor)
-                .writer(itemTaxonomyNodeWriter)
+    @Bean(name = "taxonomyMerged")
+    public Step taxonomyMerged(StepBuilderFactory stepBuilders, StepExecutionListener stepListener,
+                                         ChunkListener chunkListener,
+                                         ItemReader<TaxonomyEntry> itemTaxonomyMergedReader,
+                                         ItemProcessor<TaxonomyEntry,TaxonomyDocument> itemTaxonomyMergedProcessor,
+                                         ItemWriter<TaxonomyDocument> itemTaxonomyMergedWriter) throws SQLException, IOException {
+        return stepBuilders.get(Constants.TAXONOMY_LOAD_MERGED_STEP_NAME)
+                .<TaxonomyEntry,TaxonomyDocument>chunk(chunkSize)
+                .reader(itemTaxonomyMergedReader)
+                .processor(itemTaxonomyMergedProcessor)
+                .writer(itemTaxonomyMergedWriter)
                 .listener(stepListener)
                 .listener(chunkListener)
                 .build();
     }
 
-    @Bean(name = "itemTaxonomyNodeReader")
-    public ItemReader<TaxonomyEntry> itemTaxonomyNodeReader(@Qualifier("readDataSource") DataSource readDataSource) throws SQLException {
+
+    @Bean(name = "itemTaxonomyMergedReader")
+    public ItemReader<TaxonomyEntry> itemTaxonomyMergedReader(@Qualifier("readDataSource") DataSource readDataSource) throws SQLException {
         JdbcCursorItemReader<TaxonomyEntry> itemReader = new JdbcCursorItemReader<>();
         itemReader.setDataSource(readDataSource);
-        itemReader.setSql(TaxonomySQLConstants.SELECT_TAXONOMY_NODE_SQL);
-        itemReader.setRowMapper(new TaxonomyNodeReader());
+        itemReader.setSql(TaxonomySQLConstants.SELECT_TAXONOMY_MERGED_SQL);
+        itemReader.setRowMapper(new TaxonomyMergeReader());
 
         return itemReader;
     }
 
-    @Bean(name = "itemTaxonomyNodeProcessor")
-    public ItemProcessor<TaxonomyEntry,TaxonomyDocument> itemTaxonomyNodeProcessor(@Qualifier("readDataSource") DataSource readDataSource,SolrTemplate solrTemplate){
-        return new TaxonomyProcessor(readDataSource,solrTemplate);
+    @Bean(name = "itemTaxonomyMergedProcessor")
+    public ItemProcessor<TaxonomyEntry, TaxonomyDocument> itemTaxonomyMergedProcessor(){
+        return new TaxonomyMergedDeletedProcessor();
     }
 
-    @Bean(name = "itemTaxonomyNodeWriter")
-    public ItemWriter<TaxonomyDocument> itemTaxonomyNodeWriter(SolrTemplate solrTemplate) {
+    @Bean(name = "itemTaxonomyMergedWriter")
+    public ItemWriter<TaxonomyDocument> itemTaxonomyMergedWriter(SolrTemplate solrTemplate) {
         return new SolrDocumentWriter<>(solrTemplate, SolrCollection.taxonomy);
     }
+
 }

@@ -2,6 +2,7 @@ package uk.ac.ebi.uniprot.indexer.taxonomy.readers;
 
 import org.springframework.jdbc.core.RowMapper;
 import uk.ac.ebi.uniprot.common.Utils;
+import uk.ac.ebi.uniprot.domain.taxonomy.TaxonomyEntry;
 import uk.ac.ebi.uniprot.domain.taxonomy.TaxonomyRank;
 import uk.ac.ebi.uniprot.domain.taxonomy.builder.TaxonomyEntryBuilder;
 import uk.ac.ebi.uniprot.indexer.taxonomy.steps.TaxonomyNodeStep;
@@ -17,10 +18,10 @@ import java.sql.SQLException;
  *
  * @author lgonzales
  */
-public class TaxonomyNodeReader implements RowMapper<TaxonomyEntryBuilder> {
+public class TaxonomyNodeReader implements RowMapper<TaxonomyEntry> {
 
     @Override
-    public TaxonomyEntryBuilder mapRow(ResultSet resultSet, int rowIndex) throws SQLException {
+    public TaxonomyEntry mapRow(ResultSet resultSet, int rowIndex) throws SQLException {
         TaxonomyEntryBuilder builder = new TaxonomyEntryBuilder();
         builder.taxonId(resultSet.getLong("TAX_ID"));
         String common = resultSet.getString("SPTR_COMMON");
@@ -47,6 +48,6 @@ public class TaxonomyNodeReader implements RowMapper<TaxonomyEntryBuilder> {
         builder.addSynonyms(resultSet.getString("SPTR_SYNONYM"));
         builder.hidden(resultSet.getBoolean("HIDDEN"));
         builder.active(true);
-        return builder;
+        return builder.build();
     }
 }

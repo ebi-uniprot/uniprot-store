@@ -1,7 +1,9 @@
 package uk.ac.ebi.uniprot.search.document.suggest;
 
 
-import lombok.*;
+import lombok.Builder;
+import lombok.EqualsAndHashCode;
+import lombok.Singular;
 import org.apache.solr.client.solrj.beans.Field;
 import uk.ac.ebi.uniprot.search.document.Document;
 

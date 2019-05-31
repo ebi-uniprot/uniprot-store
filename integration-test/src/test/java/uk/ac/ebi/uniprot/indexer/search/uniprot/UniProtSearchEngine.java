@@ -1,6 +1,9 @@
 package uk.ac.ebi.uniprot.indexer.search.uniprot;
 
 
+import uk.ac.ebi.uniprot.cv.taxonomy.FileNodeIterable;
+import uk.ac.ebi.uniprot.cv.taxonomy.TaxonomyMapRepo;
+import uk.ac.ebi.uniprot.cv.taxonomy.TaxonomyRepo;
 import uk.ac.ebi.uniprot.domain.uniprot.UniProtEntry;
 import uk.ac.ebi.uniprot.indexer.converter.DocumentConverter;
 import uk.ac.ebi.uniprot.indexer.search.AbstractSearchEngine;
@@ -8,12 +11,8 @@ import uk.ac.ebi.uniprot.indexer.uniprot.go.GoRelationFileReader;
 import uk.ac.ebi.uniprot.indexer.uniprot.go.GoRelationFileRepo;
 import uk.ac.ebi.uniprot.indexer.uniprot.go.GoRelationRepo;
 import uk.ac.ebi.uniprot.indexer.uniprot.go.GoTermFileReader;
-
 import uk.ac.ebi.uniprot.indexer.uniprot.pathway.PathwayFileRepo;
 import uk.ac.ebi.uniprot.indexer.uniprot.pathway.PathwayRepo;
-import uk.ac.ebi.uniprot.cv.taxonomy.TaxonomyRepo;
-import uk.ac.ebi.uniprot.cv.taxonomy.FileNodeIterable;
-import uk.ac.ebi.uniprot.cv.taxonomy.TaxonomyMapRepo;
 import uk.ac.ebi.uniprot.indexer.uniprotkb.processor.UniProtEntryConverter;
 import uk.ac.ebi.uniprot.search.field.UniProtField;
 

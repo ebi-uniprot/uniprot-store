@@ -23,10 +23,14 @@ public class TaxonomyJob {
     @Bean("indexTaxonomyJob")
     public Job indexTaxonomy(@Qualifier("taxonomyNode") Step taxonomyNode,
                              @Qualifier("taxonomyStatistics") Step taxonomyStatistics,
+                             @Qualifier("taxonomyMerged") Step taxonomyMerged,
+                             @Qualifier("taxonomyDeleted") Step taxonomyDeleted,
                              JobExecutionListener jobListener) {
         return this.jobs.get(Constants.TAXONOMY_LOAD_JOB_NAME)
-                .start(taxonomyNode)
+                .start(taxonomyDeleted)
+                .next(taxonomyMerged)
                 .next(taxonomyStatistics)
+                .next(taxonomyNode)
                 .listener(jobListener)
                 .build();
     }

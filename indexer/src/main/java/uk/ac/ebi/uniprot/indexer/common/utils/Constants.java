@@ -17,6 +17,8 @@ public class Constants {
     public static final String TAXONOMY_LOAD_JOB_NAME = "TAXONOMY_LOAD_JOB_NAME";
     public static final String TAXONOMY_LOAD_NODE_STEP_NAME = "TAXONOMY_LOAD_NODE";
     public static final String TAXONOMY_LOAD_STATISTICS_STEP_NAME = "TAXONOMY_LOAD_STATISTICS";
+    public static final String TAXONOMY_LOAD_MERGED_STEP_NAME = "TAXONOMY_LOAD_MERGED";
+    public static final String TAXONOMY_LOAD_DELETED_STEP_NAME = "TAXONOMY_LOAD_DELETED";
 
     public static final String PROTEOME_INDEX_JOB = "Proteome_Indexing_Job";
     public static final String DISEASE_LOAD_JOB_NAME = "Disease indexing job";

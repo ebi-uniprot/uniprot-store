@@ -1,12 +1,6 @@
 package uk.ac.ebi.uniprot.indexer.proteome;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.notNullValue;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
-import static uk.ac.ebi.uniprot.indexer.common.utils.Constants.PROTEOME_INDEX_JOB;
-
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.hamcrest.CoreMatchers;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -20,9 +14,6 @@ import org.springframework.data.solr.core.SolrTemplate;
 import org.springframework.data.solr.core.query.SimpleQuery;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 import uk.ac.ebi.uniprot.domain.proteome.ProteomeEntry;
 import uk.ac.ebi.uniprot.indexer.common.listener.ListenerConfig;
 import uk.ac.ebi.uniprot.indexer.test.config.FakeIndexerSpringBootApplication;
@@ -31,6 +22,13 @@ import uk.ac.ebi.uniprot.json.parser.proteome.ProteomeJsonConfig;
 import uk.ac.ebi.uniprot.search.SolrCollection;
 import uk.ac.ebi.uniprot.search.document.proteome.GeneCentricDocument;
 import uk.ac.ebi.uniprot.search.document.proteome.ProteomeDocument;
+
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.notNullValue;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
+import static uk.ac.ebi.uniprot.indexer.common.utils.Constants.PROTEOME_INDEX_JOB;
 
 /**
  *

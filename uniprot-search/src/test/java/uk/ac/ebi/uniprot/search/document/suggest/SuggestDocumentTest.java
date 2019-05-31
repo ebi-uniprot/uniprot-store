@@ -4,7 +4,6 @@ import org.junit.jupiter.api.Test;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
-import static org.junit.jupiter.api.Assertions.*;
 import static uk.ac.ebi.uniprot.search.document.suggest.SuggestDocument.DEFAULT_IMPORTANCE;
 
 /**

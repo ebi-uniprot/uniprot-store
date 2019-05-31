@@ -14,13 +14,14 @@ import java.util.Collection;
 import java.util.List;
 
 import static java.util.Arrays.asList;
-import static uk.ac.ebi.uniprot.search.field.SuggestField.Importance.*;
 import static java.util.Collections.singletonList;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.not;
 import static org.hamcrest.core.Is.is;
 import static org.mockito.ArgumentMatchers.contains;
+import static uk.ac.ebi.uniprot.search.field.SuggestField.Importance.high;
+import static uk.ac.ebi.uniprot.search.field.SuggestField.Importance.medium;
 
 public class SuggestSearchIT {
     @ClassRule

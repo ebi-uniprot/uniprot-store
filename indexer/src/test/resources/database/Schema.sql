@@ -51,6 +51,17 @@ create table TAXONOMY.V_PUBLIC_NAME
      NAME       VARCHAR2(64)
 );
 
+create table TAXONOMY.V_PUBLIC_MERGED
+(
+     OLD_TAX_ID     INTEGER,
+     NEW_TAX_ID     INTEGER
+);
+
+create table TAXONOMY.V_PUBLIC_DELETED
+(
+     TAX_ID     INTEGER
+);
+
 CREATE SCHEMA SPTR;
 
 create table SPTR.DBENTRY

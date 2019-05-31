@@ -55,4 +55,8 @@ public class TaxonomySQLConstants {
     public static final String SELECT_TAXONOMY_LINKS_SQL = "SELECT URI " +
             " FROM TAXONOMY.V_PUBLIC_URI" +
             " WHERE tax_id = ?";
+
+    public static final String SELECT_TAXONOMY_MERGED_SQL = "select old_tax_id,new_tax_id from taxonomy.v_public_merged";
+
+    public static final String SELECT_TAXONOMY_DELETED_SQL = "select tax_id from taxonomy.v_public_deleted";
 }

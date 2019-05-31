@@ -21,12 +21,13 @@ import org.springframework.data.solr.core.query.SimpleQuery;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import uk.ac.ebi.uniprot.domain.taxonomy.*;
-import uk.ac.ebi.uniprot.domain.taxonomy.builder.TaxonomyEntryBuilder;
 import uk.ac.ebi.uniprot.domain.taxonomy.impl.TaxonomyEntryImpl;
 import uk.ac.ebi.uniprot.domain.uniprot.taxonomy.Taxonomy;
 import uk.ac.ebi.uniprot.indexer.common.listener.ListenerConfig;
 import uk.ac.ebi.uniprot.indexer.common.utils.Constants;
 import uk.ac.ebi.uniprot.indexer.taxonomy.processor.TaxonomyProcessor;
+import uk.ac.ebi.uniprot.indexer.taxonomy.steps.TaxonomyDeletedStep;
+import uk.ac.ebi.uniprot.indexer.taxonomy.steps.TaxonomyMergedStep;
 import uk.ac.ebi.uniprot.indexer.taxonomy.steps.TaxonomyNodeStep;
 import uk.ac.ebi.uniprot.indexer.taxonomy.steps.TaxonomyStatisticsStep;
 import uk.ac.ebi.uniprot.indexer.test.config.FakeIndexerSpringBootApplication;
@@ -47,8 +48,8 @@ import static org.hamcrest.Matchers.*;
 @ActiveProfiles(profiles = {"job", "offline"})
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = {FakeIndexerSpringBootApplication.class, SolrTestConfig.class, FakeReadDatabaseConfig.class,
-                           ListenerConfig.class, TaxonomyJobIT.TaxonomyNodeStepFake.class, TaxonomyJobIT.TaxonomyStatisticsStepFake.class,
-                           TaxonomyJob.class})
+        ListenerConfig.class, TaxonomyJobIT.TaxonomyNodeStepFake.class, TaxonomyJobIT.TaxonomyStatisticsStepFake.class,
+        TaxonomyMergedStep.class,TaxonomyDeletedStep.class,TaxonomyJob.class})
 class TaxonomyJobIT {
 
     @Autowired
@@ -87,9 +88,9 @@ class TaxonomyJobIT {
         Page<TaxonomyDocument> response = template
                 .query(SolrCollection.taxonomy.name(),solrQuery , TaxonomyDocument.class);
         assertThat(response, is(notNullValue()));
-        assertThat(response.getTotalElements(), is(5L));
+        assertThat(response.getTotalElements(), is(9L));
 
-        TaxonomyDocument taxonomyDocument = response.getContent().get(4);
+        TaxonomyDocument taxonomyDocument = response.getContent().get(6);
         validateTaxonomyDocument(taxonomyDocument);
 
         assertThat(taxonomyDocument.getTaxonomyObj(),is(notNullValue()));
@@ -98,6 +99,33 @@ class TaxonomyJobIT {
         ObjectMapper jsonMapper = TaxonomyJsonConfig.getInstance().getFullObjectMapper();
         TaxonomyEntry entry =  jsonMapper.readValue(byteBuffer.array(), TaxonomyEntryImpl.class);
         validateTaxonomyEntry(entry);
+
+
+        solrQuery = new SimpleQuery("active:false");
+        response = template
+                .query(SolrCollection.taxonomy.name(),solrQuery , TaxonomyDocument.class);
+        assertThat(response, is(notNullValue()));
+        assertThat(response.getTotalElements(), is(4L));
+
+        //verify deleted
+        taxonomyDocument = response.getContent().get(0);
+        byteBuffer = taxonomyDocument.getTaxonomyObj();
+        entry =  jsonMapper.readValue(byteBuffer.array(), TaxonomyEntryImpl.class);
+        assertThat(entry.hasInactiveReason(),is(true));
+        assertThat(entry.getInactiveReason().hasInactiveReasonType(),is(true));
+        assertThat(entry.getInactiveReason().getInactiveReasonType(),is(TaxonomyInactiveReasonType.DELETED));
+        assertThat(entry.getInactiveReason().hasMergedTo(),is(false));
+
+        //verify merged
+        taxonomyDocument = response.getContent().get(2);
+        byteBuffer = taxonomyDocument.getTaxonomyObj();
+        entry =  jsonMapper.readValue(byteBuffer.array(), TaxonomyEntryImpl.class);
+        assertThat(entry.hasInactiveReason(),is(true));
+        assertThat(entry.getInactiveReason().hasInactiveReasonType(),is(true));
+        assertThat(entry.getInactiveReason().getInactiveReasonType(),is(TaxonomyInactiveReasonType.MERGED));
+        assertThat(entry.getInactiveReason().hasMergedTo(),is(true));
+        assertThat(entry.getInactiveReason().getMergedTo(),is(5L));
+
     }
 
     private void validateTaxonomyDocument(TaxonomyDocument taxonomyDocument) {
@@ -174,8 +202,8 @@ class TaxonomyJobIT {
 
         @Override
         @Bean(name = "itemTaxonomyNodeProcessor")
-        public ItemProcessor<TaxonomyEntryBuilder,TaxonomyDocument> itemTaxonomyNodeProcessor(@Qualifier("readDataSource") DataSource readDataSource){
-            return new TaxonomyProcessorFake(readDataSource);
+        public ItemProcessor<TaxonomyEntry,TaxonomyDocument> itemTaxonomyNodeProcessor(@Qualifier("readDataSource") DataSource readDataSource,SolrTemplate solrTemplate){
+            return new TaxonomyProcessorFake(readDataSource,solrTemplate);
         }
     }
 
@@ -191,8 +219,8 @@ class TaxonomyJobIT {
 
     private static class TaxonomyProcessorFake extends TaxonomyProcessor {
 
-        public TaxonomyProcessorFake(DataSource readDataSource){
-            super(readDataSource);
+        public TaxonomyProcessorFake(DataSource readDataSource, SolrTemplate solrTemplate){
+            super(readDataSource, solrTemplate);
         }
 
         @Override
