@@ -11,42 +11,39 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-
 import uk.ac.ebi.uniprot.indexer.common.listener.LogRateListener;
 import uk.ac.ebi.uniprot.search.document.proteome.ProteomeDocument;
 import uk.ac.ebi.uniprot.xml.jaxb.proteome.Proteome;
 
 /**
- *
  * @author jluo
  * @date: 23 Apr 2019
- *
-*/
+ */
 @Configuration
 public class ProteomeIndexStep {
-	  private final StepBuilderFactory stepBuilderFactory;
-	  @Value(("${solr.indexing.chunkSize}"))
-	  private int chunkSize=100;
+    private final StepBuilderFactory stepBuilderFactory;
+    @Value(("${solr.indexing.chunkSize}"))
+    private int chunkSize = 100;
 
-	    @Autowired
-	    public ProteomeIndexStep(StepBuilderFactory stepBuilderFactory) {
-	        this.stepBuilderFactory = stepBuilderFactory;
-	    }
+    @Autowired
+    public ProteomeIndexStep(StepBuilderFactory stepBuilderFactory) {
+        this.stepBuilderFactory = stepBuilderFactory;
+    }
 
-	    @Bean("ProteomeIndexStep")
-	    public Step proteomeIndexViaXmlStep(
-	    		 StepExecutionListener stepListener,
-                 ChunkListener chunkListener,
-	    		 @Qualifier("proteomeXmlReader")  ItemReader<Proteome> itemReader,
-	    		 @Qualifier("proteomeGeneCentricItemWriter") CompositeItemWriter<Proteome>itemWriter) {
-	        return this.stepBuilderFactory.get("Proteome_Index_Step")
-	                .<Proteome, Proteome>chunk(chunkSize)
-	                .reader(itemReader)
-	                .writer(itemWriter)
-	                .listener(stepListener)
-	                .listener(chunkListener)
-	                .listener(new LogRateListener<ProteomeDocument>())
-	                .build();
-	    }
+    @Bean("ProteomeIndexStep")
+    public Step proteomeIndexViaXmlStep(
+            StepExecutionListener stepListener,
+            ChunkListener chunkListener,
+            @Qualifier("proteomeXmlReader") ItemReader<Proteome> itemReader,
+            @Qualifier("proteomeGeneCentricItemWriter") CompositeItemWriter<Proteome> itemWriter) {
+        return this.stepBuilderFactory.get("Proteome_Index_Step")
+                .<Proteome, Proteome>chunk(chunkSize)
+                .reader(itemReader)
+                .writer(itemWriter)
+                .listener(stepListener)
+                .listener(chunkListener)
+                .listener(new LogRateListener<ProteomeDocument>())
+                .build();
+    }
 }
 

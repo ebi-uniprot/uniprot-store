@@ -1,6 +1,8 @@
 package uk.ac.ebi.uniprot.indexer.crossref.steps;
 
-import org.springframework.batch.core.*;
+import org.springframework.batch.core.ChunkListener;
+import org.springframework.batch.core.Step;
+import org.springframework.batch.core.StepExecutionListener;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
 import org.springframework.batch.item.ItemReader;
 import org.springframework.batch.item.ItemWriter;
@@ -9,8 +11,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.solr.core.SolrTemplate;
 import uk.ac.ebi.uniprot.indexer.common.utils.Constants;
-import uk.ac.ebi.uniprot.indexer.crossref.writers.CrossRefUniProtCountWriter;
 import uk.ac.ebi.uniprot.indexer.crossref.readers.CrossRefUniProtCountReader;
+import uk.ac.ebi.uniprot.indexer.crossref.writers.CrossRefUniProtCountWriter;
 import uk.ac.ebi.uniprot.search.SolrCollection;
 import uk.ac.ebi.uniprot.search.document.dbxref.CrossRefDocument;
 
@@ -18,7 +20,6 @@ import javax.sql.DataSource;
 import java.sql.SQLException;
 
 /**
- *
  * @author sahmad
  */
 @Configuration
@@ -29,7 +30,7 @@ public class CrossRefUniProtCountStep {
     public Step importUniProtCountStep(StepBuilderFactory stepBuilders, StepExecutionListener stepListener,
                                        ChunkListener chunkListener,
                                        @Qualifier("UniProtCountReader") ItemReader<CrossRefDocument> reader,
-                                       @Qualifier("UniProtCountWriter") ItemWriter<CrossRefDocument> writer){
+                                       @Qualifier("UniProtCountWriter") ItemWriter<CrossRefDocument> writer) {
         return stepBuilders.get(Constants.CROSS_REF_UNIPROT_COUNT_STEP_NAME)
                 .<CrossRefDocument, CrossRefDocument>chunk(chunkSize)
                 .reader(reader)

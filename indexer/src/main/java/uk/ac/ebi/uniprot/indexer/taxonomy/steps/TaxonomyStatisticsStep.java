@@ -25,7 +25,6 @@ import javax.sql.DataSource;
 import java.sql.SQLException;
 
 /**
- *
  * @author lgonzales
  */
 @Configuration
@@ -36,10 +35,10 @@ public class TaxonomyStatisticsStep {
 
     @Bean(name = "taxonomyStatistics")
     public Step taxonomyStatistics(StepBuilderFactory stepBuilders, StepExecutionListener stepListener,
-                                       ChunkListener chunkListener,
-                                       ItemReader<TaxonomyStatisticsReader.TaxonomyCount> itemTaxonomyStatisticsReader,
-                                       ItemProcessor<TaxonomyStatisticsReader.TaxonomyCount,TaxonomyEntry> itemTaxonomyStatisticsProcessor,
-                                       ItemWriter<TaxonomyEntry> itemTaxonomyStatisticsWriter){
+                                   ChunkListener chunkListener,
+                                   ItemReader<TaxonomyStatisticsReader.TaxonomyCount> itemTaxonomyStatisticsReader,
+                                   ItemProcessor<TaxonomyStatisticsReader.TaxonomyCount, TaxonomyEntry> itemTaxonomyStatisticsProcessor,
+                                   ItemWriter<TaxonomyEntry> itemTaxonomyStatisticsWriter) {
         return stepBuilders.get(Constants.TAXONOMY_LOAD_STATISTICS_STEP_NAME)
                 .<TaxonomyStatisticsReader.TaxonomyCount, TaxonomyEntry>chunk(chunkSize)
                 .reader(itemTaxonomyStatisticsReader)
@@ -61,7 +60,7 @@ public class TaxonomyStatisticsStep {
     }
 
     @Bean(name = "itemTaxonomyStatisticsProcessor")
-    public ItemProcessor<TaxonomyStatisticsReader.TaxonomyCount,TaxonomyEntry> itemTaxonomyStatisticsProcessor(SolrTemplate solrTemplate) {
+    public ItemProcessor<TaxonomyStatisticsReader.TaxonomyCount, TaxonomyEntry> itemTaxonomyStatisticsProcessor(SolrTemplate solrTemplate) {
         return new TaxonomyStatisticsProcessor(solrTemplate);
     }
 
@@ -70,7 +69,7 @@ public class TaxonomyStatisticsStep {
         return new TaxonomyEntryWriter(solrTemplate, SolrCollection.taxonomy);
     }
 
-    protected String getStatisticsSQL(){
+    protected String getStatisticsSQL() {
         return TaxonomySQLConstants.COUNT_PROTEINS_SQL;
     }
 }

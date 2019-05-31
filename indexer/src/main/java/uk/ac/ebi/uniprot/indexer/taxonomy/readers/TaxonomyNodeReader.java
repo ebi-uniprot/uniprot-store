@@ -12,10 +12,10 @@ import java.sql.SQLException;
 
 /**
  * This class is mapping {@link ResultSet} returned by SQL executed in
- *  {@link TaxonomyNodeStep}
- *  to {@link TaxonomyDocument} object that will be used to save Taxonomy Nodes
+ * {@link TaxonomyNodeStep}
+ * to {@link TaxonomyDocument} object that will be used to save Taxonomy Nodes
  *
- *  @author lgonzales
+ * @author lgonzales
  */
 public class TaxonomyNodeReader implements RowMapper<TaxonomyEntryBuilder> {
 
@@ -24,12 +24,12 @@ public class TaxonomyNodeReader implements RowMapper<TaxonomyEntryBuilder> {
         TaxonomyEntryBuilder builder = new TaxonomyEntryBuilder();
         builder.taxonId(resultSet.getLong("TAX_ID"));
         String common = resultSet.getString("SPTR_COMMON");
-        if(common == null){
+        if (common == null) {
             common = resultSet.getString("NCBI_COMMON");
         }
         builder.commonName(common);
         String scientificName = resultSet.getString("SPTR_SCIENTIFIC");
-        if(scientificName == null){
+        if (scientificName == null) {
             scientificName = resultSet.getString("NCBI_SCIENTIFIC");
         }
         builder.scientificName(scientificName);
@@ -37,10 +37,10 @@ public class TaxonomyNodeReader implements RowMapper<TaxonomyEntryBuilder> {
         builder.mnemonic(resultSet.getString("TAX_CODE"));
         builder.parentId(resultSet.getLong("PARENT_ID"));
         String rank = resultSet.getString("RANK");
-        if(Utils.notEmpty(rank)) {
+        if (Utils.notEmpty(rank)) {
             try {
                 builder.rank(TaxonomyRank.valueOf(rank));
-            }catch (IllegalArgumentException iae){
+            } catch (IllegalArgumentException iae) {
                 builder.rank(TaxonomyRank.NO_RANK);
             }
         }

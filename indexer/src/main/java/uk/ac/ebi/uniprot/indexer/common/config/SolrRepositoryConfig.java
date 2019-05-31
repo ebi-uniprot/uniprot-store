@@ -18,21 +18,21 @@ import java.util.Optional;
 import static java.util.Arrays.asList;
 
 /**
- *
  * @author lgonzales
- *
+ * <p>
  * //TODO: REUSE COMMON SOLR CONFIG..... (DUPLICATED CODE FOR PoC ONLY)
  */
 @Configuration
 @Profile("online")
 @Import(RepositoryConfigProperties.class)
-public class SolrRepositoryConfig{
+public class SolrRepositoryConfig {
     @Bean
     public HttpClient httpClient(RepositoryConfigProperties config) {
         // I am creating HttpClient exactly in the same way it is created inside CloudSolrClient.Builder,
         // but here I am just adding Credentials
         ModifiableSolrParams param = null;
-        if (config.getUsername() != null && !config.getUsername().isEmpty() && config.getPassword() != null && !config.getPassword().isEmpty()) {
+        if (config.getUsername() != null && !config.getUsername().isEmpty() && config.getPassword() != null && !config
+                .getPassword().isEmpty()) {
             param = new ModifiableSolrParams();
             param.add(HttpClientUtil.PROP_BASIC_AUTH_USER, config.getUsername());
             param.add(HttpClientUtil.PROP_BASIC_AUTH_PASS, config.getPassword());

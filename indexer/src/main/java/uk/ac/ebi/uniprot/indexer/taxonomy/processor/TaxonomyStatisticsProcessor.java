@@ -18,7 +18,6 @@ import uk.ac.ebi.uniprot.search.document.taxonomy.TaxonomyDocument;
 import java.util.Optional;
 
 /**
- *
  * @author lgonzales
  */
 public class TaxonomyStatisticsProcessor implements ItemProcessor<TaxonomyStatisticsReader.TaxonomyCount, TaxonomyEntry> {
@@ -26,7 +25,7 @@ public class TaxonomyStatisticsProcessor implements ItemProcessor<TaxonomyStatis
     private final SolrTemplate solrTemplate;
     private final ObjectMapper jsonMapper;
 
-    public TaxonomyStatisticsProcessor(SolrTemplate solrTemplate){
+    public TaxonomyStatisticsProcessor(SolrTemplate solrTemplate) {
         this.solrTemplate = solrTemplate;
         jsonMapper = TaxonomyJsonConfig.getInstance().getFullObjectMapper();
     }
@@ -35,8 +34,9 @@ public class TaxonomyStatisticsProcessor implements ItemProcessor<TaxonomyStatis
     public TaxonomyEntry process(TaxonomyStatisticsReader.TaxonomyCount taxonomyCount) throws Exception {
         TaxonomyEntry entry = null;
         Query query = new SimpleQuery().addCriteria(Criteria.where("id").is(taxonomyCount.getTaxId()));
-        Optional<TaxonomyDocument> optionalDocument = solrTemplate.queryForObject(SolrCollection.taxonomy.name(), query, TaxonomyDocument.class);
-        if(optionalDocument.isPresent()) {
+        Optional<TaxonomyDocument> optionalDocument = solrTemplate
+                .queryForObject(SolrCollection.taxonomy.name(), query, TaxonomyDocument.class);
+        if (optionalDocument.isPresent()) {
             TaxonomyDocument document = optionalDocument.get();
 
             byte[] taxonomyObj = document.getTaxonomyObj().array();

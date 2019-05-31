@@ -34,7 +34,8 @@ public class SuggestionItemReader implements ItemReader<SuggestDocument> {
     public void setStepExecution(final StepExecution stepExecution) {
         ExecutionContext executionContext = stepExecution.getJobExecution().getExecutionContext();
 
-        Map<String, SuggestDocument> suggestDocuments = (Map<String, SuggestDocument>) executionContext.get(Constants.SUGGESTIONS_MAP);
+        Map<String, SuggestDocument> suggestDocuments = (Map<String, SuggestDocument>) executionContext
+                .get(Constants.SUGGESTIONS_MAP);
         if (nonNull(suggestDocuments)) {
             this.suggestDocumentIterator = suggestDocuments.values().iterator();
         }

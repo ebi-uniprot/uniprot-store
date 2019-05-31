@@ -18,7 +18,7 @@ public interface DocumentConverter<S, T extends Document> {
      * @param source the source object
      * @return the list of document that is generated from the source object.
      * @throws DocumentConversionException is thrown when a mapping error occurs between the source being converted,
-     * and the document
+     *                                     and the document
      */
     T convert(S source);
 }

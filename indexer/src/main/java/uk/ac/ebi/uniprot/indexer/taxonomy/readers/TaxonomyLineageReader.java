@@ -10,8 +10,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+
 /**
- *
  * @author lgonzales
  */
 public class TaxonomyLineageReader implements RowMapper<List<TaxonomyLineage>> {
@@ -23,13 +23,13 @@ public class TaxonomyLineageReader implements RowMapper<List<TaxonomyLineage>> {
         String lineageName = resultSet.getString("lineage_name");
         String lineageRank = resultSet.getString("lineage_rank");
         String lineageHidden = resultSet.getString("lineage_hidden");
-        if(Utils.notEmpty(lineageIds)) {
+        if (Utils.notEmpty(lineageIds)) {
             String[] lineageIdArray = lineageIds.substring(1).split("\\|");
             String[] lineageNameArray = lineageName.substring(1).split("\\|");
             String[] lineageRankArray = lineageRank.substring(1).split("\\|");
             String[] lineageHiddenArray = lineageHidden.substring(1).split("\\|");
             String taxId = lineageIdArray[0];
-            for(int i=1;i<lineageIdArray.length-1;i++){
+            for (int i = 1; i < lineageIdArray.length - 1; i++) {
                 TaxonomyLineageBuilder builder = new TaxonomyLineageBuilder();
                 builder.taxonId(Long.parseLong(lineageIdArray[i]));
                 builder.scientificName(lineageNameArray[i]);

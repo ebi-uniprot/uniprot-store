@@ -5,7 +5,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**
  * Represents configuration properties required for the indexing of UniProtKB data.
- *
+ * <p>
  * Created 10/04/19
  *
  * @author Edd

@@ -22,7 +22,7 @@ public class TaxonomyJob {
 
     @Bean("indexTaxonomyJob")
     public Job indexTaxonomy(@Qualifier("taxonomyNode") Step taxonomyNode,
-                             @Qualifier("taxonomyStatistics")Step taxonomyStatistics,
+                             @Qualifier("taxonomyStatistics") Step taxonomyStatistics,
                              JobExecutionListener jobListener) {
         return this.jobs.get(Constants.TAXONOMY_LOAD_JOB_NAME)
                 .start(taxonomyNode)

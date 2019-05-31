@@ -23,7 +23,6 @@ import uk.ac.ebi.uniprot.indexer.common.utils.Constants;
 @Configuration
 @Import({DataSourceConfig.class, SolrRepositoryConfig.class})
 public class DiseaseLoadJob {
-
     @Autowired
     private JobBuilderFactory jobs;
 
@@ -35,5 +34,4 @@ public class DiseaseLoadJob {
                 .listener(jobListener)
                 .build();
     }
-
 }

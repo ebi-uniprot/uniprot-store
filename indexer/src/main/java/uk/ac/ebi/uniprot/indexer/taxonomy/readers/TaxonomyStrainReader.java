@@ -9,7 +9,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 /**
- *
  * @author lgonzales
  */
 public class TaxonomyStrainReader implements RowMapper<TaxonomyStrainReader.Strain> {
@@ -18,21 +17,21 @@ public class TaxonomyStrainReader implements RowMapper<TaxonomyStrainReader.Stra
     public Strain mapRow(ResultSet resultSet, int rowIndex) throws SQLException {
         TaxonomyStrainBuilder builder = new TaxonomyStrainBuilder();
 
-        long id =resultSet.getLong("strain_id");
+        long id = resultSet.getLong("strain_id");
         String name = resultSet.getString("name");
         StrainNameClass nameClass = StrainNameClass.fromQuery(resultSet.getString("name_class"));
 
-        return new Strain(id,name,nameClass);
+        return new Strain(id, name, nameClass);
     }
 
-    public enum StrainNameClass{
-        scientific_name,synonym;
+    public enum StrainNameClass {
+        scientific_name, synonym;
 
-        static StrainNameClass fromQuery(String value){
-            if(Utils.notEmpty(value)) {
+        static StrainNameClass fromQuery(String value) {
+            if (Utils.notEmpty(value)) {
                 if (value.equals("scientific name")) {
                     return StrainNameClass.scientific_name;
-                }else if(value.equals("synonym")){
+                } else if (value.equals("synonym")) {
                     return StrainNameClass.synonym;
                 }
             }
@@ -41,12 +40,12 @@ public class TaxonomyStrainReader implements RowMapper<TaxonomyStrainReader.Stra
     }
 
     @Getter
-    public static class Strain{
+    public static class Strain {
         private final long id;
         private final String name;
         private final StrainNameClass nameClass;
 
-        public Strain(long id, String name, StrainNameClass nameClass){
+        public Strain(long id, String name, StrainNameClass nameClass) {
             this.id = id;
             this.name = name;
             this.nameClass = nameClass;

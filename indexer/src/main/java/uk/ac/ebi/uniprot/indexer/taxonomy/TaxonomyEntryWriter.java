@@ -17,7 +17,6 @@ import java.util.List;
 import java.util.Map;
 
 /**
- *
  * @author lgonzales
  */
 public class TaxonomyEntryWriter implements ItemWriter<TaxonomyEntry> {
@@ -26,36 +25,36 @@ public class TaxonomyEntryWriter implements ItemWriter<TaxonomyEntry> {
     private final SolrCollection collection;
     private final ObjectMapper jsonMapper;
 
-    public TaxonomyEntryWriter(SolrTemplate solrTemplate, SolrCollection collection){
+    public TaxonomyEntryWriter(SolrTemplate solrTemplate, SolrCollection collection) {
         this.solrTemplate = solrTemplate;
         this.collection = collection;
         jsonMapper = TaxonomyJsonConfig.getInstance().getFullObjectMapper();
     }
 
     @Override
-    public void write(List<? extends TaxonomyEntry> items){
-        for (TaxonomyEntry entry: items) {
+    public void write(List<? extends TaxonomyEntry> items) {
+        for (TaxonomyEntry entry : items) {
             ByteBuffer taxonomyObj = getTaxonomyBinary(entry);
             SolrInputDocument solrInputDocument = new SolrInputDocument();
-            Map<String,Object> fieldModifier = new HashMap<>(1);
+            Map<String, Object> fieldModifier = new HashMap<>(1);
             fieldModifier.put("set", taxonomyObj);
             solrInputDocument.addField(TaxonomyField.Return.taxonomy_obj.name(), fieldModifier);
 
-            if(entry.hasStatistics()){
+            if (entry.hasStatistics()) {
                 TaxonomyStatistics statistics = entry.getStatistics();
 
-                Map<String,Object> booleanModifier = new HashMap<>(1);
+                Map<String, Object> booleanModifier = new HashMap<>(1);
                 booleanModifier.put("set", true);
-                if(statistics.hasReviewedProteinCount()){
+                if (statistics.hasReviewedProteinCount()) {
                     solrInputDocument.addField(TaxonomyField.Search.reviewed.name(), booleanModifier);
                 }
-                if(statistics.hasUnreviewedProteinCount()){
+                if (statistics.hasUnreviewedProteinCount()) {
                     solrInputDocument.addField(TaxonomyField.Search.annotated.name(), booleanModifier);
                 }
-                if(statistics.hasReferenceProteomeCount()){
+                if (statistics.hasReferenceProteomeCount()) {
                     solrInputDocument.addField(TaxonomyField.Search.reference.name(), booleanModifier);
                 }
-                if(statistics.hasCompleteProteomeCount()){
+                if (statistics.hasCompleteProteomeCount()) {
                     solrInputDocument.addField(TaxonomyField.Search.complete.name(), booleanModifier);
                 }
 

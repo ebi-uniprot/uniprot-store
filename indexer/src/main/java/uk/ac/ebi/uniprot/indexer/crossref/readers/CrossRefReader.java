@@ -7,7 +7,6 @@ import org.springframework.batch.core.StepExecution;
 import org.springframework.batch.core.annotation.BeforeStep;
 import org.springframework.batch.item.ExecutionContext;
 import org.springframework.batch.item.ItemReader;
-
 import uk.ac.ebi.uniprot.indexer.common.utils.Constants;
 import uk.ac.ebi.uniprot.search.document.dbxref.CrossRefDocument;
 
@@ -43,7 +42,7 @@ public class CrossRefReader implements ItemReader<CrossRefDocument> {
 
     private static final String KEY_VAL_SEPARATOR = ": ";
     private static final String REF_SEPARATOR = " ";
-    private static final Pattern NEWLINE_PATTERN =  Pattern.compile("^\\s*$", Pattern.MULTILINE);
+    private static final Pattern NEWLINE_PATTERN = Pattern.compile("^\\s*$", Pattern.MULTILINE);
     private static final String FTP_PREFIX = "ftp://";
 
     private Scanner reader;
@@ -54,14 +53,14 @@ public class CrossRefReader implements ItemReader<CrossRefDocument> {
     public CrossRefReader(String filePath) throws IOException {
         InputStream inputStream;
 
-        if(filePath.startsWith(FTP_PREFIX)) {
+        if (filePath.startsWith(FTP_PREFIX)) {
             URL url = new URL(filePath);
             URLConnection conn = url.openConnection();
             inputStream = conn.getInputStream();
         } else {
             inputStream = this.getClass().getClassLoader().getResourceAsStream(filePath);
 
-            if(inputStream == null){
+            if (inputStream == null) {
                 inputStream = new FileInputStream(new File(filePath));
             }
         }
@@ -71,7 +70,7 @@ public class CrossRefReader implements ItemReader<CrossRefDocument> {
     }
 
     @Override
-    public CrossRefDocument read(){
+    public CrossRefDocument read() {
         // skip the un-needed lines
         while (this.reader.hasNext() && !this.dataRegionStarted) {
             String lines = reader.next();
@@ -87,7 +86,7 @@ public class CrossRefReader implements ItemReader<CrossRefDocument> {
             dbxRef = convertToDBXRef(lines);
         }
 
-        if(dbxRef != null) { // update the pair of accession and abbreviation of cross ref for new step in the step execution context
+        if (dbxRef != null) { // update the pair of accession and abbreviation of cross ref for new step in the step execution context
             updateAccessionAbbrPair(dbxRef.getAccession(), dbxRef.getAbbrev());
         }
 
@@ -95,12 +94,12 @@ public class CrossRefReader implements ItemReader<CrossRefDocument> {
     }
 
     @BeforeStep
-    public void setStepExecution(final StepExecution stepExecution){
+    public void setStepExecution(final StepExecution stepExecution) {
         this.stepExecution = stepExecution;
     }
 
     private void updateAccessionAbbrPair(String accession, String abbrev) {
-        if(this.stepExecution != null) { // null if being called from unit test
+        if (this.stepExecution != null) { // null if being called from unit test
             JobExecution jobExecution = this.stepExecution.getJobExecution();
             ExecutionContext executionContext = jobExecution.getExecutionContext();
             Pair<String, String> accAbbr = new ImmutablePair<>(accession, abbrev);
@@ -122,34 +121,34 @@ public class CrossRefReader implements ItemReader<CrossRefDocument> {
         String acc = null, abbr = null, name = null, pubMedId = null, doiId = null;
         String lType = null, server = null, url = null, cat = null;
 
-        for(String line : lines){
+        for (String line : lines) {
             String[] keyVal = line.split(KEY_VAL_SEPARATOR);
-            switch (keyVal[0].trim()){
-                case AC_STR :
+            switch (keyVal[0].trim()) {
+                case AC_STR:
                     acc = keyVal[1].trim();
                     break;
-                case ABBREV_STR :
+                case ABBREV_STR:
                     abbr = keyVal[1].trim();
                     break;
-                case NAME_STR :
+                case NAME_STR:
                     name = keyVal[1].trim();
                     break;
-                case REF_STR :
+                case REF_STR:
                     String[] refIdPairs = keyVal[1].trim().split(REF_SEPARATOR);
                     assert refIdPairs.length == 2;
                     pubMedId = refIdPairs[0].split(EQUAL_CHAR)[1].replace(SEMI_COLON, EMPTY_CHAR).trim();
                     doiId = refIdPairs[1].split(EQUAL_CHAR)[1].replace(SEMI_COLON, EMPTY_CHAR).trim();
                     break;
-                case LINK_TP_STR :
+                case LINK_TP_STR:
                     lType = keyVal[1].trim();
                     break;
-                case SERVER_STR :
+                case SERVER_STR:
                     server = keyVal[1].trim();
                     break;
                 case DB_URL_STR:
                     url = keyVal[1].trim();
                     break;
-                case CAT_STR :
+                case CAT_STR:
                     cat = keyVal[1].trim();
                     break;
                 default://do nothing

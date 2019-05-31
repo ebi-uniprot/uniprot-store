@@ -26,7 +26,6 @@ import javax.sql.DataSource;
 import java.sql.SQLException;
 
 /**
- *
  * @author lgonzales
  */
 @Configuration
@@ -36,12 +35,12 @@ public class TaxonomyNodeStep {
     private Integer chunkSize;
 
     @Bean(name = "taxonomyNode")
-    public Step taxonomyNode(StepBuilderFactory stepBuilders,StepExecutionListener stepListener,
-                                       ChunkListener chunkListener,
-                                       ItemReader<TaxonomyEntryBuilder> itemTaxonomyNodeReader,
-                                       ItemProcessor<TaxonomyEntryBuilder,TaxonomyDocument> itemTaxonomyNodeProcessor,
-                                       ItemWriter<TaxonomyDocument> itemTaxonomyNodeWriter,
-                                       SolrTemplate solrTemplate){
+    public Step taxonomyNode(StepBuilderFactory stepBuilders, StepExecutionListener stepListener,
+                             ChunkListener chunkListener,
+                             ItemReader<TaxonomyEntryBuilder> itemTaxonomyNodeReader,
+                             ItemProcessor<TaxonomyEntryBuilder, TaxonomyDocument> itemTaxonomyNodeProcessor,
+                             ItemWriter<TaxonomyDocument> itemTaxonomyNodeWriter,
+                             SolrTemplate solrTemplate) {
         return stepBuilders.get(Constants.TAXONOMY_LOAD_NODE_STEP_NAME)
                 .<TaxonomyEntryBuilder, TaxonomyDocument>chunk(chunkSize)
                 .reader(itemTaxonomyNodeReader)
@@ -63,7 +62,7 @@ public class TaxonomyNodeStep {
     }
 
     @Bean(name = "itemTaxonomyNodeProcessor")
-    public ItemProcessor<TaxonomyEntryBuilder,TaxonomyDocument> itemTaxonomyNodeProcessor(@Qualifier("readDataSource") DataSource readDataSource){
+    public ItemProcessor<TaxonomyEntryBuilder, TaxonomyDocument> itemTaxonomyNodeProcessor(@Qualifier("readDataSource") DataSource readDataSource) {
         return new TaxonomyProcessor(readDataSource);
     }
 

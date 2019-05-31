@@ -25,7 +25,7 @@ public class RetryOperation<T> {
      * Creates an instance with a predefined maximum number of run attempts, and the ammount of seconds to wait
      * between retries
      *
-     * @param maxAttempts number of run attempts
+     * @param maxAttempts   number of run attempts
      * @param secondsToWait the number of seconds to wait before retying the operation execution
      */
     public RetryOperation(int maxAttempts, int secondsToWait) {
@@ -81,7 +81,7 @@ public class RetryOperation<T> {
         }
 
         throw new RetryException("Max number of retries: " + maxAttempts + ", reached without success. " +
-                "Giving up on operation.");
+                                         "Giving up on operation.");
     }
 
     int getNumberOfRetries() {

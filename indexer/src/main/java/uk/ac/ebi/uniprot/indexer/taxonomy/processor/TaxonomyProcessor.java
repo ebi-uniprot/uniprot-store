@@ -28,7 +28,7 @@ public class TaxonomyProcessor implements ItemProcessor<TaxonomyEntryBuilder, Ta
     private final JdbcTemplate jdbcTemplate;
     private final ObjectMapper jsonMapper;
 
-    public TaxonomyProcessor(DataSource readDataSource){
+    public TaxonomyProcessor(DataSource readDataSource) {
         this.jdbcTemplate = new JdbcTemplate(readDataSource);
         jsonMapper = TaxonomyJsonConfig.getInstance().getFullObjectMapper();
     }
@@ -45,7 +45,7 @@ public class TaxonomyProcessor implements ItemProcessor<TaxonomyEntryBuilder, Ta
         return buildTaxonomyDocument(entryBuilder.build());
     }
 
-    protected String getTaxonomyLineageSQL(){
+    protected String getTaxonomyLineageSQL() {
         return SELECT_TAXONOMY_LINEAGE_SQL;
     }
 
@@ -66,17 +66,18 @@ public class TaxonomyProcessor implements ItemProcessor<TaxonomyEntryBuilder, Ta
         documentBuilder.linked(entry.getLinks().size() > 0);
 
         documentBuilder.host(entry.getHosts().stream().map(Taxonomy::getTaxonId).collect(Collectors.toList()));
-        documentBuilder.lineage(entry.getLineage().stream().map(TaxonomyLineage::getTaxonId).collect(Collectors.toList()));
+        documentBuilder
+                .lineage(entry.getLineage().stream().map(TaxonomyLineage::getTaxonId).collect(Collectors.toList()));
         documentBuilder.strain(buildStrainList(entry.getStrains()));
         documentBuilder.taxonomyObj(getTaxonomyBinary(entry));
 
         return documentBuilder.build();
     }
 
-    private List<String> buildStrainList(List<TaxonomyStrain> strainList){
-        return strainList.stream().map(strain ->{
-                    return strain.getName() + " ; "+ String.join(" , ", strain.getSynonyms());
-                }).collect(Collectors.toList());
+    private List<String> buildStrainList(List<TaxonomyStrain> strainList) {
+        return strainList.stream().map(strain -> {
+            return strain.getName() + " ; " + String.join(" , ", strain.getSynonyms());
+        }).collect(Collectors.toList());
     }
 
     private ByteBuffer getTaxonomyBinary(TaxonomyEntry entry) {
@@ -96,13 +97,14 @@ public class TaxonomyProcessor implements ItemProcessor<TaxonomyEntryBuilder, Ta
     }
 
 
-    private List<Taxonomy> loadVirusHosts(long taxonId){
+    private List<Taxonomy> loadVirusHosts(long taxonId) {
         return jdbcTemplate.query(SELECT_TAXONOMY_HOSTS_SQL, new TaxonomyVirusHostReader(), taxonId);
     }
 
     private List<TaxonomyLineage> loadLineage(long taxonId) {
-        List<List<TaxonomyLineage>> result =  jdbcTemplate.query(getTaxonomyLineageSQL(), new TaxonomyLineageReader(), taxonId);
-        if(Utils.notEmpty(result)){
+        List<List<TaxonomyLineage>> result = jdbcTemplate
+                .query(getTaxonomyLineageSQL(), new TaxonomyLineageReader(), taxonId);
+        if (Utils.notEmpty(result)) {
             return result.get(0);
         }
         return null;
@@ -110,20 +112,21 @@ public class TaxonomyProcessor implements ItemProcessor<TaxonomyEntryBuilder, Ta
 
     private List<TaxonomyStrain> loadStrains(long taxonId) {
         List<TaxonomyStrain> result = new ArrayList<>();
-        List<TaxonomyStrainReader.Strain> strains =  jdbcTemplate.query(SELECT_TAXONOMY_STRAINS_SQL, new TaxonomyStrainReader(), taxonId);
+        List<TaxonomyStrainReader.Strain> strains = jdbcTemplate
+                .query(SELECT_TAXONOMY_STRAINS_SQL, new TaxonomyStrainReader(), taxonId);
 
         strains.stream().collect(Collectors.groupingBy(TaxonomyStrainReader.Strain::getId)).values()
-            .forEach((strainList) -> {
-                TaxonomyStrainBuilder builder = new TaxonomyStrainBuilder();
-                for (TaxonomyStrainReader.Strain strain:strainList) {
-                    if(strain.getNameClass().equals(TaxonomyStrainReader.StrainNameClass.scientific_name)){
-                        builder.name(strain.getName());
-                    }else {
-                        builder.addSynonym(strain.getName());
+                .forEach((strainList) -> {
+                    TaxonomyStrainBuilder builder = new TaxonomyStrainBuilder();
+                    for (TaxonomyStrainReader.Strain strain : strainList) {
+                        if (strain.getNameClass().equals(TaxonomyStrainReader.StrainNameClass.scientific_name)) {
+                            builder.name(strain.getName());
+                        } else {
+                            builder.addSynonym(strain.getName());
+                        }
                     }
-                }
-                result.add(builder.build());
-            });
+                    result.add(builder.build());
+                });
         return result;
     }
 

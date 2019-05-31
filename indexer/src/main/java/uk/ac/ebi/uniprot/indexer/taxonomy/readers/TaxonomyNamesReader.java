@@ -6,7 +6,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 /**
- *
  * @author lgonzales
  */
 public class TaxonomyNamesReader implements RowMapper<String> {

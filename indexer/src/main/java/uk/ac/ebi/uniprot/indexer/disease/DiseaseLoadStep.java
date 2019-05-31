@@ -17,8 +17,6 @@ import org.springframework.data.solr.core.SolrTemplate;
 import uk.ac.ebi.uniprot.cv.disease.Disease;
 import uk.ac.ebi.uniprot.indexer.common.utils.Constants;
 import uk.ac.ebi.uniprot.indexer.common.writer.SolrDocumentWriter;
-import uk.ac.ebi.uniprot.indexer.disease.DiseaseProcessor;
-import uk.ac.ebi.uniprot.indexer.disease.DiseaseItemReader;
 import uk.ac.ebi.uniprot.search.SolrCollection;
 import uk.ac.ebi.uniprot.search.document.disease.DiseaseDocument;
 
@@ -28,7 +26,7 @@ import java.sql.SQLException;
 
 @Configuration
 public class DiseaseLoadStep {
-    
+
     @Autowired
     private StepBuilderFactory steps;
 
@@ -43,9 +41,9 @@ public class DiseaseLoadStep {
 
     @Bean(name = "IndexDiseaseStep")
     public Step indexDisease(StepExecutionListener stepListener, ChunkListener chunkListener,
-                              @Qualifier("DiseaseReader") ItemReader<Disease> diseaseReader,
-                              @Qualifier("DiseaseProcessor") ItemProcessor<Disease, DiseaseDocument> diseaseProcessor,
-                              @Qualifier("DiseaseWriter") ItemWriter<DiseaseDocument> diseaseWriter){
+                             @Qualifier("DiseaseReader") ItemReader<Disease> diseaseReader,
+                             @Qualifier("DiseaseProcessor") ItemProcessor<Disease, DiseaseDocument> diseaseProcessor,
+                             @Qualifier("DiseaseWriter") ItemWriter<DiseaseDocument> diseaseWriter) {
         return this.steps.get(Constants.DISEASE_INDEX_STEP)
                 .<Disease, DiseaseDocument>chunk(this.chunkSize)
                 .reader(diseaseReader)
@@ -62,7 +60,7 @@ public class DiseaseLoadStep {
     }
 
     @Bean(name = "DiseaseWriter")
-    public ItemWriter<DiseaseDocument> diseaseWriter(){
+    public ItemWriter<DiseaseDocument> diseaseWriter() {
         return new SolrDocumentWriter<>(this.solrTemplate, SolrCollection.disease);
     }
 
