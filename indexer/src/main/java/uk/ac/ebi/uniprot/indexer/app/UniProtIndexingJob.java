@@ -9,6 +9,11 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
+ * This annotation should be used on a Spring Boot app to denote that
+ * the application is the main entry point to a UniProt indexing job.
+ * <p>
+ * This annotation subsequently scans required packages in this codebase
+ * to pick up required beans used by the indexing job.
  * Created 28/05/19
  *
  * @author Edd
