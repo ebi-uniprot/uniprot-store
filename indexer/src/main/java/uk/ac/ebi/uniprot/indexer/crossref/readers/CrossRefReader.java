@@ -71,26 +71,30 @@ public class CrossRefReader implements ItemReader<CrossRefDocument> {
 
     @Override
     public CrossRefDocument read() {
-        // skip the un-needed lines
-        while (this.reader.hasNext() && !this.dataRegionStarted) {
-            String lines = reader.next();
-            if (DATA_REGION_SEP.equals(lines)) {
-                this.dataRegionStarted = true;
-                this.reader.useDelimiter(NEWLINE_PATTERN);
+        if (this.reader.hasNext()) {
+            // skip the un-needed lines
+            while (this.reader.hasNext() && !this.dataRegionStarted) {
+                String lines = reader.next();
+                if (DATA_REGION_SEP.equals(lines)) {
+                    this.dataRegionStarted = true;
+                    this.reader.useDelimiter(NEWLINE_PATTERN);
+                }
             }
-        }
 
-        CrossRefDocument dbxRef = null;
-        String lines = this.reader.next();
-        if (!lines.contains(COPYRIGHT_SEP)) {
-            dbxRef = convertToDBXRef(lines);
-        }
+            CrossRefDocument dbxRef = null;
+            String lines = this.reader.next();
+            if (!lines.contains(COPYRIGHT_SEP)) {
+                dbxRef = convertToDBXRef(lines);
+            }
 
-        if (dbxRef != null) { // update the pair of accession and abbreviation of cross ref for new step in the step execution context
-            updateAccessionAbbrPair(dbxRef.getAccession(), dbxRef.getAbbrev());
-        }
+            if (dbxRef != null) { // update the pair of accession and abbreviation of cross ref for new step in the step execution context
+                updateAccessionAbbrPair(dbxRef.getAccession(), dbxRef.getAbbrev());
+            }
 
-        return dbxRef;
+            return dbxRef;
+        } else {
+            return null;
+        }
     }
 
     @BeforeStep
