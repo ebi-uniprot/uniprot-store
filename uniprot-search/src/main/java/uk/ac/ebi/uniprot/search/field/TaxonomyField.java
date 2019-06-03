@@ -109,7 +109,8 @@ public interface TaxonomyField {
         lineage("Lineage"),
         strain("Strain"),
         host("Virus hosts"),
-        link("Link");
+        link("Link"),
+        statistics("Statistics");
 
         private String label;
 
@@ -120,9 +121,6 @@ public interface TaxonomyField {
         public String getLabel(){
             return this.label;
         }
-
-
-
     }
 
     enum Return {

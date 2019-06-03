@@ -46,6 +46,13 @@
                     so I will keep commented out for now, it get values from tax_update tables.
     <field name="replaces"/>   -->
 
+    <copyField source="scientific" dest="name_sort"/>
+    <copyField source="tax_id" dest="content"/>
+    <copyField source="scientific" dest="content"/>
+    <copyField source="common" dest="content"/>
+    <copyField source="mnemonic" dest="content"/>
+    <copyField source="strain" dest="content"/>
+
     <uniqueKey>id</uniqueKey>
 
     <!-- Meta fields -->
