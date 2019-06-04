@@ -13,11 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Import;
 import org.springframework.test.context.ActiveProfiles;
-import uk.ac.ebi.uniprot.indexer.common.config.DataSourceConfig;
 import uk.ac.ebi.uniprot.indexer.common.listener.LogJobListener;
-import uk.ac.ebi.uniprot.indexer.test.config.SolrTestConfig;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
@@ -30,6 +27,13 @@ import static org.hamcrest.Matchers.not;
  */
 class IndexerSpringBootApplicationTest {
     private static final int SUCCESS_EXIT_CODE = 0;
+
+    static {
+        // ensure default auto-configuration for spring batch, where a runner is created
+        // for all jobs in the context. NB. This is disabled for other tests by default
+        // because we do not want accidental scanning to cause all jobs found to startup
+        System.setProperty("spring.batch.job.enabled", "true");
+    }
 
     @Test
     void successfulSpringBootApplicationHasCorrectExitStatus() {
@@ -50,7 +54,6 @@ class IndexerSpringBootApplicationTest {
     @Configuration
     @EnableAutoConfiguration
     @EnableBatchProcessing
-    @Import({DataSourceConfig.class, SolrTestConfig.class})
     abstract static class TestApp {
         static final int ITEM_COUNT = 10;
         int itemCount = 0;

@@ -7,19 +7,18 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 /**
- *
  * @author lgonzales
  */
 public class TaxonomyStatisticsReader implements RowMapper<TaxonomyStatisticsReader.TaxonomyCount> {
 
     @Override
     public TaxonomyCount mapRow(ResultSet resultSet, int rowIndex) throws SQLException {
-        long taxId =resultSet.getLong("tax_id");
+        long taxId = resultSet.getLong("tax_id");
         long reviewedProteinCount = resultSet.getLong("reviewedProteinCount");
         long unreviewedProteinCount = resultSet.getLong("unreviewedProteinCount");
         long referenceProteomeCount = resultSet.getLong("referenceProteomeCount");
         long completeProteomeCount = resultSet.getLong("completeProteomeCount");
-        return new TaxonomyCount(taxId, reviewedProteinCount,unreviewedProteinCount,referenceProteomeCount, completeProteomeCount);
+        return new TaxonomyCount(taxId, reviewedProteinCount, unreviewedProteinCount, referenceProteomeCount, completeProteomeCount);
     }
 
     @Getter
@@ -31,8 +30,8 @@ public class TaxonomyStatisticsReader implements RowMapper<TaxonomyStatisticsRea
         private final long taxId;
 
 
-        public TaxonomyCount(long taxId, long reviewedProteinCount,long unreviewedProteinCount,
-                             long referenceProteomeCount, long completeProteomeCount){
+        public TaxonomyCount(long taxId, long reviewedProteinCount, long unreviewedProteinCount,
+                             long referenceProteomeCount, long completeProteomeCount) {
             this.taxId = taxId;
             this.reviewedProteinCount = reviewedProteinCount;
             this.unreviewedProteinCount = unreviewedProteinCount;

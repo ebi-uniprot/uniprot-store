@@ -37,8 +37,8 @@ import static org.slf4j.LoggerFactory.getLogger;
  * Batch records false statistics of numbers of skips, writes, etc. For this reason, when using this class in a {@link org.springframework.batch.core.Step},
  * there are the following recommendations:
  * <ul>
- *     <li>When using this class, do not use Spring Batch's fault tolerance {@link Job} features.</li>
- *     <li>Use {@link WriteRetrierLogStepListener}, {@link WriteRetrierLogJobListener} to capture write statistics.</li>
+ * <li>When using this class, do not use Spring Batch's fault tolerance {@link Job} features.</li>
+ * <li>Use {@link WriteRetrierLogStepListener}, {@link WriteRetrierLogJobListener} to capture write statistics.</li>
  * </ul>
  * </p>
  * Created 12/04/19
@@ -66,7 +66,6 @@ public abstract class EntryDocumentPairRetryWriter<E, D> implements ItemWriter<E
         List<D> documents = entryDocumentPairs.stream()
                 .map(EntryDocumentPair::getDocument)
                 .collect(Collectors.toList());
-        System.out.println("***************** writing");
 
         try {
             Failsafe.with(retryPolicy)

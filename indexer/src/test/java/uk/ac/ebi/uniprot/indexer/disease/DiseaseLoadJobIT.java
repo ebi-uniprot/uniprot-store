@@ -39,7 +39,7 @@ import static org.hamcrest.Matchers.notNullValue;
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = {FakeIndexerSpringBootApplication.class, SolrTestConfig.class, FakeReadDatabaseConfig.class,
                            ListenerConfig.class, DiseaseLoadStep.class, DiseaseLoadJob.class})
-public class DiseaseLoadJobIT {
+class DiseaseLoadJobIT {
 
     private ObjectMapper diseaseObjectMapper = DiseaseJsonConfig.getInstance().getFullObjectMapper();
 

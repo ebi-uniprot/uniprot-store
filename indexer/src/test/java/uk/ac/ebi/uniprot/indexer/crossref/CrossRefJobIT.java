@@ -34,8 +34,7 @@ import static org.hamcrest.Matchers.notNullValue;
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = {FakeIndexerSpringBootApplication.class, SolrTestConfig.class, FakeReadDatabaseConfig.class,
                            ListenerConfig.class, CrossRefStep.class, CrossRefUniProtCountStep.class, CrossRefJob.class})
-public class CrossRefJobIT {
-
+class CrossRefJobIT {
     @Autowired
     private JobLauncherTestUtils jobLauncher;
 
@@ -81,9 +80,9 @@ public class CrossRefJobIT {
         assertThat(xrefDoc.getLinkType(), is("Explicit"));
         assertThat(xrefDoc.getServer(), is("http://www.allergome.org/"));
         assertThat(xrefDoc.getDbUrl(), is("http://www.allergome.org/script/dettaglio.php?id_molecule=%s"));
-        //assertThat(xrefDoc.getCategory(), is("Protein family/group databases")); TODO FIXME
-        assertThat(xrefDoc.getReviewedProteinCount(), is(8L));
-        assertThat(xrefDoc.getUnreviewedProteinCount(), is(2L));
+        assertThat(xrefDoc.getCategory(), is("Protein family/group databases"));
+        assertThat(xrefDoc.getReviewedProteinCount(), is(7L));
+        assertThat(xrefDoc.getUnreviewedProteinCount(), is(3L));
 
         // clean up
         this.template.delete(SolrCollection.disease.name(), new SimpleQuery("*:*"));

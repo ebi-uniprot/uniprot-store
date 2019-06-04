@@ -52,7 +52,7 @@ public class LogJobListener implements JobExecutionListener {
             writeCount += stepExecution.getWriteCount();
             skipCount += stepExecution.getSkipCount();
         }
-        
+
         log.info("Read count    : {}", readCount);
         log.info("Write count   : {}", writeCount);
         log.info("Skip count    : {} ({} read, {} processing and {} write)", skipCount, readSkips, processingSkips, writeSkips);

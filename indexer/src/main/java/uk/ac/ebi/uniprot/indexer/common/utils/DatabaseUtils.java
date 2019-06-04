@@ -22,11 +22,11 @@ public class DatabaseUtils {
         this.preparedStatement.setString(1, identifier);
         Long revCount = 0L;
         Long unrevCount = 0L;
-        try(ResultSet resultSet = this.preparedStatement.executeQuery()){
-            while(resultSet.next()){
-                if(Long.valueOf(0).equals(resultSet.getLong(1))){ // 0 == reviewed, 1 == unreviewed
+        try (ResultSet resultSet = this.preparedStatement.executeQuery()) {
+            while (resultSet.next()) {
+                if (Long.valueOf(0).equals(resultSet.getLong(1))) { // 0 == reviewed, 1 == unreviewed
                     revCount = resultSet.getLong(2);
-                } else if(Long.valueOf(1).equals(resultSet.getLong(1))){
+                } else if (Long.valueOf(1).equals(resultSet.getLong(1))) {
                     unrevCount = resultSet.getLong(2);
                 }
 

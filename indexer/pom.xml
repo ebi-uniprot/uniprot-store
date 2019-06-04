@@ -266,14 +266,13 @@
                 </configuration>
             </plugin>
 
-
             <plugin>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>2.22.0</version>
+                <groupId>org.apache.maven.plugins</groupId>
             </plugin>
             <plugin>
                 <artifactId>maven-failsafe-plugin</artifactId>
-                <version>2.22.0</version>
+                <groupId>org.apache.maven.plugins</groupId>
             </plugin>
 
             <plugin>

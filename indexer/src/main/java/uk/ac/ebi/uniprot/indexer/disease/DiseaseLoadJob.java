@@ -15,11 +15,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
+import uk.ac.ebi.uniprot.indexer.common.config.DataSourceConfig;
+import uk.ac.ebi.uniprot.indexer.common.config.SolrRepositoryConfig;
 import uk.ac.ebi.uniprot.indexer.common.utils.Constants;
 
 @Configuration
+@Import({DataSourceConfig.class, SolrRepositoryConfig.class})
 public class DiseaseLoadJob {
-
     @Autowired
     private JobBuilderFactory jobs;
 
@@ -31,5 +34,4 @@ public class DiseaseLoadJob {
                 .listener(jobListener)
                 .build();
     }
-
 }

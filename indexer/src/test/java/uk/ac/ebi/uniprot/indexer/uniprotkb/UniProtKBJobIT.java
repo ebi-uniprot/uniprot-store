@@ -13,7 +13,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.solr.core.SolrTemplate;
 import org.springframework.data.solr.core.query.SimpleQuery;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import uk.ac.ebi.uniprot.indexer.common.listener.ListenerConfig;
 import uk.ac.ebi.uniprot.indexer.common.utils.Constants;
@@ -45,9 +44,8 @@ import static uk.ac.ebi.uniprot.indexer.common.utils.Constants.*;
  */
 @ActiveProfiles(profiles = {"job", "offline"})
 @ExtendWith(SpringExtension.class)
-@SpringBootTest(classes = {FakeIndexerSpringBootApplication.class, SolrTestConfig.class, UniProtKBJob.class,
+@SpringBootTest(classes = {SolrTestConfig.class, FakeIndexerSpringBootApplication.class, UniProtKBJob.class,
                            UniProtKBStep.class, SuggestionStep.class, ListenerConfig.class})
-@TestPropertySource(properties = "spring.batch.job.enabled=false")
 class UniProtKBJobIT {
     @Autowired
     private JobLauncherTestUtils jobLauncher;

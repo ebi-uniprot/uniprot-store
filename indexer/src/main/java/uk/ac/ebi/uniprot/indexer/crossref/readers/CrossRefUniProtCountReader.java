@@ -18,7 +18,7 @@ import java.util.List;
 public class CrossRefUniProtCountReader implements ItemReader<CrossRefDocument> {
     private static final String QUERY_TO_GET_COUNT_PER_ABBR =
             " SELECT cref.entry_type, COUNT(DISTINCT cref.ACCESSION) FROM " +
-                " (" +
+                    " (" +
                     " SELECT db.* FROM SPTR.DBENTRY db" +
                     " JOIN " +
                     " (" +
@@ -26,12 +26,12 @@ public class CrossRefUniProtCountReader implements ItemReader<CrossRefDocument> 
                     "   JOIN SPTR.DATABASE_NAME dn ON d2d.DATABASE_ID = dn.DATABASE_ID" +
                     "   WHERE dn.ABBREVIATION = ?" +
                     "  ) tmp ON db.DBENTRY_ID = tmp.DBENTRY_ID" +
-                " ) cref" +
-                " WHERE" +
-                " cref.entry_type in (0,1)" +
-                " AND cref.deleted ='N'" +
-                " AND cref.merge_status <>'R'" +
-                " GROUP BY cref.entry_type";
+                    " ) cref" +
+                    " WHERE" +
+                    " cref.entry_type in (0,1)" +
+                    " AND cref.deleted ='N'" +
+                    " AND cref.merge_status <>'R'" +
+                    " GROUP BY cref.entry_type";
 
     private List<Pair<String, String>> accAbbrPairs;
     private DatabaseUtils databaseUtils;
@@ -46,13 +46,15 @@ public class CrossRefUniProtCountReader implements ItemReader<CrossRefDocument> 
     public CrossRefDocument read() throws SQLException {
         CrossRefDocument crossRef = null;
 
-        if(this.accAbbrPairs != null && !this.accAbbrPairs.isEmpty()) {
+        if (this.accAbbrPairs != null && !this.accAbbrPairs.isEmpty()) {
             Pair<String, String> accAbbr = this.accAbbrPairs.get(0);
             // get the protein count, reviewed and unreviewed
             Pair<Long, Long> revUnrevProtCount = this.databaseUtils.getProteinCount(accAbbr.getRight());
 
-            log.info("The reviewed uniprot count for cross ref {} is {}", accAbbr.getRight(), revUnrevProtCount.getLeft());
-            log.info("The unreviewed uniprot count for cross ref {} is {}", accAbbr.getRight(), revUnrevProtCount.getRight());
+            log.info("The reviewed uniprot count for cross ref {} is {}", accAbbr.getRight(), revUnrevProtCount
+                    .getLeft());
+            log.info("The unreviewed uniprot count for cross ref {} is {}", accAbbr.getRight(), revUnrevProtCount
+                    .getRight());
             CrossRefDocument.CrossRefDocumentBuilder bldr = CrossRefDocument.builder();
             bldr.accession(accAbbr.getLeft());
             bldr.reviewedProteinCount(revUnrevProtCount.getLeft());
@@ -66,7 +68,7 @@ public class CrossRefUniProtCountReader implements ItemReader<CrossRefDocument> 
     }
 
     @BeforeStep
-    public void getStepExecution(final StepExecution stepExecution){
+    public void getStepExecution(final StepExecution stepExecution) {
 
         this.accAbbrPairs = (List<Pair<String, String>>) stepExecution.getJobExecution()
                 .getExecutionContext().get(Constants.CROSS_REF_KEY_STR);

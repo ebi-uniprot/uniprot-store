@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
+import org.springframework.context.annotation.Profile;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabase;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
@@ -13,13 +14,12 @@ import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 import javax.sql.DataSource;
 
 /**
- *
  * @author lgonzales
  */
 @Configuration
 @Slf4j
+@Profile("online")
 public class DataSourceConfig {
-
     @Value(("${database.url}"))
     private String databaseURL;
 
@@ -42,10 +42,10 @@ public class DataSourceConfig {
     }
 
     @Bean(name = "readDataSource")
-    public DataSource readDataSource(){
+    public DataSource readDataSource() {
         DriverManagerDataSource ds = new DriverManagerDataSource(databaseURL, databaseUserName, databasePassword);
         ds.setDriverClassName(databaseDriverClassName);
-        log.info("Initializing readDataSource for "+databaseURL);
+        log.info("Initializing readDataSource for " + databaseURL);
         return ds;
     }
 }

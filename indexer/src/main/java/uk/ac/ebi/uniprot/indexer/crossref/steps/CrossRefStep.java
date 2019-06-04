@@ -24,7 +24,7 @@ import java.io.IOException;
 
 @Configuration
 public class CrossRefStep {
-    
+
     @Autowired
     private StepBuilderFactory steps;
 
@@ -41,7 +41,7 @@ public class CrossRefStep {
     public Step indexCrossRef(StepExecutionListener stepListener, ChunkListener chunkListener,
                               @Qualifier("crossRefReader") ItemReader<CrossRefDocument> xrefReader,
                               @Qualifier("crossRefWriter") ItemWriter<CrossRefDocument> xrefWriter,
-                              @Qualifier("crossRefPromotionListener") ExecutionContextPromotionListener promotionListener){
+                              @Qualifier("crossRefPromotionListener") ExecutionContextPromotionListener promotionListener) {
         return this.steps.get(Constants.CROSS_REF_INDEX_STEP)
                 .<CrossRefDocument, CrossRefDocument>chunk(this.chunkSize)
                 .reader(xrefReader)
@@ -58,14 +58,14 @@ public class CrossRefStep {
     }
 
     @Bean(name = "crossRefWriter")
-    public ItemWriter<CrossRefDocument> xrefWriter(){
+    public ItemWriter<CrossRefDocument> xrefWriter() {
         return new SolrDocumentWriter<>(this.solrTemplate, SolrCollection.crossref);
     }
 
     @Bean(name = "crossRefPromotionListener")
     public ExecutionContextPromotionListener promotionListener() {
         ExecutionContextPromotionListener executionContextPromotionListener = new ExecutionContextPromotionListener();
-        executionContextPromotionListener.setKeys(new String[] {Constants.CROSS_REF_KEY_STR});
+        executionContextPromotionListener.setKeys(new String[]{Constants.CROSS_REF_KEY_STR});
         return executionContextPromotionListener;
     }
 }

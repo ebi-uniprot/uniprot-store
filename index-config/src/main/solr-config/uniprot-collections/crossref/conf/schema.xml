@@ -27,7 +27,7 @@
     <field name="link_type" type="string" indexed="false" stored="true" multiValued="false" docValues="true"/>
     <field name="server" type="string" indexed="false" stored="true" multiValued="false"/>
     <field name="db_url" type="string" indexed="false" stored="true" multiValued="false"/>
-    <field name="category_str" type="full_ci" indexed="true" stored="false" multiValued="false"/>
+    <field name="category_str" type="full_ci" indexed="true" stored="true" multiValued="false"/>
     <field name="category_facet" type="string" indexed="true" stored="true" multiValued="false" docValues="true"/>
     <field name="content" type="full_ci" indexed="true" stored="false" multiValued="true"/>
     <field name="reviewed_protein_count" type="plong" indexed="false" stored="true"/>

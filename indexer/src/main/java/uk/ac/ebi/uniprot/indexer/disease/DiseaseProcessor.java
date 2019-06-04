@@ -47,9 +47,9 @@ public class DiseaseProcessor implements ItemProcessor<Disease, DiseaseDocument>
     }
 
     @Override
-    public DiseaseDocument process(Disease disease){
+    public DiseaseDocument process(Disease disease) {
         List<String> kwIds = new ArrayList<>();
-        if(disease.getKeywords() != null){
+        if (disease.getKeywords() != null) {
             kwIds = disease.getKeywords().stream().map(kw -> kw.getId()).collect(Collectors.toList());
         }
         // name is a combination of id, acronym, definition, synonyms, keywords

@@ -7,8 +7,6 @@ import org.springframework.batch.core.scope.context.ChunkContext;
 import java.util.List;
 
 /**
- *
- *
  * @author lgonzales
  */
 @Slf4j
@@ -32,8 +30,8 @@ public class LogChunkListener implements ChunkListener {
         String status = chunkContext.getStepContext().getStepExecution().getStatus().name();
         log.warn("Failed to Executed chunk for step: {} and with status: {}", stepName, status);
         List<Throwable> errors = chunkContext.getStepContext().getStepExecution().getFailureExceptions();
-        errors.forEach(throwable ->{
-            log.error("Chunk Error: ",throwable);
+        errors.forEach(throwable -> {
+            log.error("Chunk Error: ", throwable);
         });
     }
 

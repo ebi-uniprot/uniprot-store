@@ -44,7 +44,7 @@ import static uk.ac.ebi.uniprot.indexer.common.utils.Constants.UNIPROTKB_INDEX_S
 
 /**
  * The main UniProtKB indexing step.
- *
+ * <p>
  * Created 10/04/19
  *
  * @author Edd
@@ -116,7 +116,7 @@ public class UniProtKBStep {
     private PathwayRepo createPathwayRepo() {
         return new PathwayFileRepo(uniProtKBIndexingProperties.getPathwayFile());
     }
-    
+
     private GoRelationRepo createGoRelationRepo() {
         return new GoRelationFileRepo(
                 new GoRelationFileReader(uniProtKBIndexingProperties.getGoDir()),

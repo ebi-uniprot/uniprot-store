@@ -14,7 +14,7 @@ import uk.ac.ebi.uniprot.search.document.Document;
  * a {@link DocumentConverter} instance. If processing these pairs causes a {@link DocumentConversionException}
  * (thrown by the converter), the entry is written to a log file, and the id of the entry is written to the standard
  * log.
- *
+ * <p>
  * Created 18/04/19
  *
  * @author Edd

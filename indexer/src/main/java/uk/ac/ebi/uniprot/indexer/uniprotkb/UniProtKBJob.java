@@ -9,7 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 import org.springframework.data.solr.core.SolrTemplate;
+import uk.ac.ebi.uniprot.indexer.common.config.SolrRepositoryConfig;
 import uk.ac.ebi.uniprot.indexer.common.listener.WriteRetrierLogJobListener;
 import uk.ac.ebi.uniprot.search.SolrCollection;
 
@@ -17,12 +19,13 @@ import static uk.ac.ebi.uniprot.indexer.common.utils.Constants.UNIPROTKB_INDEX_J
 
 /**
  * The main UniProtKB indexing job.
- *
+ * <p>
  * Created 10/04/19
  *
  * @author Edd
  */
 @Configuration
+@Import(SolrRepositoryConfig.class)
 public class UniProtKBJob {
     private final JobBuilderFactory jobBuilderFactory;
     private final SolrTemplate solrTemplate;
@@ -42,13 +45,15 @@ public class UniProtKBJob {
                 .next(suggestionStep)
                 .listener(writeRetrierLogJobListener)
                 .listener(new JobExecutionListener() {
-                    @Override public void beforeJob(JobExecution jobExecution) {
+                    @Override
+                    public void beforeJob(JobExecution jobExecution) {
                         // no-op
                     }
 
                     // Hard commit contents of repository once job has finished.
                     // Delegate all other commits to 'autoCommit' element of solrconfig.xml
-                    @Override public void afterJob(JobExecution jobExecution) {
+                    @Override
+                    public void afterJob(JobExecution jobExecution) {
                         solrTemplate.commit(SolrCollection.uniprot.name());
                     }
                 })

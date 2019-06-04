@@ -6,8 +6,9 @@ import org.springframework.context.annotation.Configuration;
 
 /**
  * Solr properties bean that will be injected with values from application.properties.
- *
+ * <p>
  * //TODO: REUSE COMMON SOLR CONFIG..... (DUPLICATED CODE FOR PoC ONLY)
+ *
  * @author lgonzales
  */
 @Data
