@@ -214,7 +214,6 @@ class UniProtEntryConverterTest {
 
 
     @Test
-    @Disabled
     void testConvertFullQ9EPI6Entry() throws Exception {
         when(repoMock.retrieveNodeUsingTaxID(anyInt()))
                 .thenReturn(getTaxonomyNode(10116, "Rattus norvegicus", "Rat", null, null));
@@ -247,7 +246,7 @@ class UniProtEntryConverterTest {
         assertEquals("19-JUL-2005", dateFormat.format(doc.firstCreated).toUpperCase());
         assertEquals("01-MAR-2001", dateFormat.format(doc.sequenceUpdated).toUpperCase());
 
-        assertEquals(30, doc.keywords.size());
+        assertEquals(38, doc.keywords.size());
         assertEquals("KW-0025", doc.keywords.get(0));
         assertEquals("Alternative splicing", doc.keywords.get(1));
         checkSuggestionsContain(SuggestDictionary.KEYWORD, doc.keywordIds, false);
@@ -404,7 +403,6 @@ class UniProtEntryConverterTest {
     }
 
     @Test
-    @Disabled
     void testConvertIsoformEntry() throws Exception {
         when(repoMock.retrieveNodeUsingTaxID(anyInt()))
                 .thenReturn(getTaxonomyNode(10116, "Rattus norvegicus", "Rat", null, null));
@@ -438,7 +436,7 @@ class UniProtEntryConverterTest {
         assertEquals("19-JUL-2005", dateFormat.format(doc.firstCreated).toUpperCase());
         assertEquals("01-MAR-2001", dateFormat.format(doc.sequenceUpdated).toUpperCase());
 
-        assertEquals(30, doc.keywords.size());
+        assertEquals(38, doc.keywords.size());
         assertEquals("KW-0025", doc.keywords.get(0));
         assertEquals("Alternative splicing", doc.keywords.get(1));
 
