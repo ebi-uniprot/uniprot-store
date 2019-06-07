@@ -6,7 +6,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import uk.ac.ebi.uniprot.common.PublicationDateFormatter;
-import uk.ac.ebi.uniprot.common.Utils;
 import uk.ac.ebi.uniprot.cv.chebi.Chebi;
 import uk.ac.ebi.uniprot.cv.chebi.ChebiRepo;
 import uk.ac.ebi.uniprot.cv.ec.ECCache;
@@ -56,6 +55,9 @@ import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
+
+import static uk.ac.ebi.uniprot.common.Utils.nonNull;
+import static uk.ac.ebi.uniprot.common.Utils.nullOrEmpty;
 
 /**
  * // TODO: 18/04/19 can be moved to a different package?
@@ -372,7 +374,7 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtEntry, Un
         }
     }
 
-    String createSuggestionMapKey(SuggestDictionary dict, String id) {
+    static String createSuggestionMapKey(SuggestDictionary dict, String id) {
         return dict.name() + ":" + id;
     }
 
@@ -603,6 +605,20 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtEntry, Un
 
     private void convertComment(UniProtEntry source, UniProtDocument doc) {
         for (Comment comment : source.getComments()) {
+            FFLineBuilder<Comment> fbuilder = CCLineBuilderFactory.create(comment);
+            String field = getCommentField(comment);
+            String evField = getCommentEvField(comment);
+            Collection<String> value = doc.commentMap.computeIfAbsent(field, k -> new ArrayList<>());
+
+            // todo @lgonzales doubt: can we change to without evidence??? because we already have the evidence map
+            String commentVal = fbuilder.buildStringWithEvidence(comment);
+            value.add(commentVal);
+            doc.content.add(commentVal);
+
+            Collection<String> evValue = doc.commentEvMap.computeIfAbsent(evField, k -> new HashSet<>());
+            Set<String> evidences = fetchEvidences(comment);
+            evValue.addAll(evidences);
+
             if (comment.getCommentType() == CommentType.COFACTOR) {
                 convertFactor((CofactorComment) comment, doc);
             } else if (comment.getCommentType() == CommentType.BIOPHYSICOCHEMICAL_PROPERTIES) {
@@ -620,53 +636,41 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtEntry, Un
             } else if (comment.getCommentType() == CommentType.PATHWAY) {
                 convertPathway((FreeTextComment) comment, doc);
             } else if (comment.getCommentType() == CommentType.CATALYTIC_ACTIVITY) {
-                convertCatalyticActivity((CatalyticActivityComment) comment, doc);
+                convertCatalyticActivity((CatalyticActivityComment) comment, doc, field);
             }
-
-            FFLineBuilder<Comment> fbuilder = CCLineBuilderFactory.create(comment);
-            String field = getCommentField(comment);
-            String evField = getCommentEvField(comment);
-            Collection<String> value = doc.commentMap.computeIfAbsent(field, k -> new ArrayList<>());
-
-
-            //@lgonzales doubt: can we change to without evidence??? because we already have the evidence map
-            String commentVal = fbuilder.buildStringWithEvidence(comment);
-            value.add(commentVal);
-            doc.content.add(commentVal);
-
-            Collection<String> evValue = doc.commentEvMap.computeIfAbsent(evField, k -> new HashSet<>());
-            Set<String> evidences = fetchEvidences(comment);
-            evValue.addAll(evidences);
         }
     }
 
-    private void convertCatalyticActivity(CatalyticActivityComment comment, UniProtDocument doc) {
-        // TODO: 07/06/19 index searchable catalytic info, e.g., chebi id/rhea id/inchikey info
-        // TODO: 07/06/19 for each chebi id, retrieve chebi name and inchikey if available, and store in suggestions
+    private void convertCatalyticActivity(CatalyticActivityComment comment, UniProtDocument doc, String field) {
         Reaction reaction = comment.getReaction();
         if (reaction.hasReactionReferences()) {
             List<DBCrossReference<ReactionReferenceType>> reactionReferences = reaction.getReactionReferences();
             reactionReferences.stream()
-                    .filter(r -> r.getDatabaseType() == ReactionReferenceType.CHEBI)
-                    .forEach(r -> addCatalyticSuggestions(r));
+                    .filter(ref -> ref.getDatabaseType() == ReactionReferenceType.CHEBI)
+                    .forEach(ref -> addCatalyticSuggestions(ref, doc, field));
         }
     }
 
-    private void addCatalyticSuggestions(DBCrossReference<ReactionReferenceType> reactionReference) {
-        String referenceId = reactionReference.getId();
-        int firstColon = referenceId.indexOf(':');
-        String fullId = referenceId.substring(firstColon + 1);
-        Chebi chebi = chebiRepo.getById(fullId);
-        if (Objects.nonNull(chebi)) { // TODO: 07/06/19 change to utils.nonnull
-            SuggestDocument.SuggestDocumentBuilder suggestionBuilder = SuggestDocument.builder()
-                    .id(referenceId)
-                    .dictionary(SuggestDictionary.CATALYTIC_ACTIVITY.name())
-                    .value(chebi.name());
-            if (!Utils.nullOrEmpty(chebi.inchiKey())) {
-                suggestionBuilder.altValue(chebi.inchiKey());
+    private void addCatalyticSuggestions(DBCrossReference<ReactionReferenceType> reactionReference, UniProtDocument document, String field) {
+        if (reactionReference.getDatabaseType() == ReactionReferenceType.CHEBI) {
+            String referenceId = reactionReference.getId();
+            int firstColon = referenceId.indexOf(':');
+            String fullId = referenceId.substring(firstColon + 1);
+            Chebi chebi = chebiRepo.getById(fullId);
+            if (nonNull(chebi)) {
+                SuggestDocument.SuggestDocumentBuilder suggestionBuilder = SuggestDocument.builder()
+                        .id(referenceId)
+                        .dictionary(SuggestDictionary.CATALYTIC_ACTIVITY.name())
+                        .value(chebi.name());
+                Collection<String> catalyticComments = document.commentMap.get(field);
+                catalyticComments.add(chebi.name());
+                if (!nullOrEmpty(chebi.inchiKey())) {
+                    suggestionBuilder.altValue(chebi.inchiKey());
+                    catalyticComments.add(chebi.inchiKey());
+                }
+                suggestions.putIfAbsent(createSuggestionMapKey(SuggestDictionary.CATALYTIC_ACTIVITY, referenceId),
+                                        suggestionBuilder.build());
             }
-            suggestions.putIfAbsent(createSuggestionMapKey(SuggestDictionary.CATALYTIC_ACTIVITY, fullId),
-                                    suggestionBuilder.build());
         }
     }
 
@@ -939,8 +943,8 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtEntry, Un
             extracted.add(MANUAL_EVIDENCE);
         }
         if (extracted.stream().anyMatch(AUTOMATIC_EVIDENCE_MAP::contains)) {
+            extracted.add(AUTOMATIC_EVIDENCE);
         }
-        extracted.add(AUTOMATIC_EVIDENCE);
         if (extracted.stream().anyMatch(EXPERIMENTAL_EVIDENCE_MAP::contains)) {
             extracted.add(EXPERIMENTAL_EVIDENCE);
         }
