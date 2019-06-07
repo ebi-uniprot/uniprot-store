@@ -4,6 +4,8 @@ import org.apache.commons.io.IOUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
+import uk.ac.ebi.uniprot.cv.chebi.ChebiRepo;
+import uk.ac.ebi.uniprot.cv.chebi.impl.ChebiImpl;
 import uk.ac.ebi.uniprot.cv.taxonomy.TaxonomicNode;
 import uk.ac.ebi.uniprot.cv.taxonomy.TaxonomyRepo;
 import uk.ac.ebi.uniprot.domain.builder.SequenceBuilder;
@@ -68,14 +70,16 @@ class UniProtEntryConverterTest {
 
     private TaxonomyRepo repoMock;
     private GoRelationRepo goRelationRepoMock;
+    private ChebiRepo chebiRepoMock;
     private HashMap<String, SuggestDocument> suggestions;
 
     @BeforeEach
     void setUp() {
         repoMock = mock(TaxonomyRepo.class);
         goRelationRepoMock = mock(GoRelationRepo.class);
+        chebiRepoMock = mock(ChebiRepo.class);
         suggestions = new HashMap<>();
-        converter = new UniProtEntryConverter(repoMock, goRelationRepoMock, mock(PathwayRepo.class), suggestions);
+        converter = new UniProtEntryConverter(repoMock, goRelationRepoMock, mock(PathwayRepo.class), chebiRepoMock, suggestions);
         dateFormat = new SimpleDateFormat("dd-MMM-yyyy");
     }
 
@@ -217,6 +221,10 @@ class UniProtEntryConverterTest {
     void testConvertFullQ9EPI6Entry() throws Exception {
         when(repoMock.retrieveNodeUsingTaxID(anyInt()))
                 .thenReturn(getTaxonomyNode(10116, "Rattus norvegicus", "Rat", null, null));
+        when(chebiRepoMock.getById("15379")).thenReturn(
+                new ChebiImpl.Builder().id("15379").name("Chebi Name 15379").inchiKey("inchikey 15379").build());
+        when(chebiRepoMock.getById("16526")).thenReturn(
+                new ChebiImpl.Builder().id("16526").name("Chebi Name 16526").inchiKey("inchikey 16526").build());
 
         String file = "Q9EPI6.sp";
         UniProtEntry entry = parse(file);

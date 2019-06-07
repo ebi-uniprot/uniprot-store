@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import uk.ac.ebi.uniprot.common.PublicationDateFormatter;
+import uk.ac.ebi.uniprot.cv.chebi.ChebiRepo;
 import uk.ac.ebi.uniprot.cv.ec.ECCache;
 import uk.ac.ebi.uniprot.cv.keyword.KeywordCategory;
 import uk.ac.ebi.uniprot.cv.pathway.UniPathway;
@@ -112,6 +113,7 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtEntry, Un
     private final RGLineBuilder rgLineBuilder;
     private final GoRelationRepo goRelationRepo;
     private final PathwayRepo pathwayRepo;
+    private final ChebiRepo chebiRepo;
     private Map<String, SuggestDocument> suggestions;
     //  private final UniProtUniRefMap uniprotUniRefMap;
 
@@ -119,10 +121,12 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtEntry, Un
     public UniProtEntryConverter(TaxonomyRepo taxonomyRepo,
                                  GoRelationRepo goRelationRepo,
                                  PathwayRepo pathwayRepo,
+                                 ChebiRepo chebiRepo,
                                  Map<String, SuggestDocument> suggestDocuments) {
         this.taxonomyRepo = taxonomyRepo;
         this.goRelationRepo = goRelationRepo;
         this.pathwayRepo = pathwayRepo;
+        this.chebiRepo = chebiRepo;
         this.suggestions = suggestDocuments;
         //   this.uniprotUniRefMap = uniProtUniRefMap;
 
@@ -595,37 +599,26 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtEntry, Un
         }
     }
 
-    private void convertComment(UniProtEntry source, UniProtDocument japiDocument) {
+    private void convertComment(UniProtEntry source, UniProtDocument doc) {
         for (Comment comment : source.getComments()) {
             if (comment.getCommentType() == CommentType.COFACTOR) {
-                convertFactor((CofactorComment) comment, japiDocument);
-
-            }
-            if (comment.getCommentType() == CommentType.BIOPHYSICOCHEMICAL_PROPERTIES) {
-                convertCommentBPCP((BPCPComment) comment, japiDocument);
-
-            }
-            if (comment.getCommentType() == CommentType.SUBCELLULAR_LOCATION) {
-                convertCommentSL((SubcellularLocationComment) comment, japiDocument);
-
-            }
-            if (comment.getCommentType() == CommentType.ALTERNATIVE_PRODUCTS) {
-                convertCommentAP((AlternativeProductsComment) comment, japiDocument);
-
-            }
-            if (comment.getCommentType() == CommentType.SEQUENCE_CAUTION) {
-                convertCommentSC((SequenceCautionComment) comment, japiDocument);
-            }
-            if (comment.getCommentType() == CommentType.INTERACTION) {
-                convertCommentInteraction((InteractionComment) comment, japiDocument);
-            }
-
-            if (comment.getCommentType() == CommentType.SIMILARITY) {
-                convertCommentFamily((FreeTextComment) comment, japiDocument);
-            }
-
-            if (comment.getCommentType() == CommentType.PATHWAY) {
-                convertPathway((FreeTextComment) comment, japiDocument);
+                convertFactor((CofactorComment) comment, doc);
+            } else if (comment.getCommentType() == CommentType.BIOPHYSICOCHEMICAL_PROPERTIES) {
+                convertCommentBPCP((BPCPComment) comment, doc);
+            } else if (comment.getCommentType() == CommentType.SUBCELLULAR_LOCATION) {
+                convertCommentSL((SubcellularLocationComment) comment, doc);
+            } else if (comment.getCommentType() == CommentType.ALTERNATIVE_PRODUCTS) {
+                convertCommentAP((AlternativeProductsComment) comment, doc);
+            } else if (comment.getCommentType() == CommentType.SEQUENCE_CAUTION) {
+                convertCommentSC((SequenceCautionComment) comment, doc);
+            } else if (comment.getCommentType() == CommentType.INTERACTION) {
+                convertCommentInteraction((InteractionComment) comment, doc);
+            } else if (comment.getCommentType() == CommentType.SIMILARITY) {
+                convertCommentFamily((FreeTextComment) comment, doc);
+            } else if (comment.getCommentType() == CommentType.PATHWAY) {
+                convertPathway((FreeTextComment) comment, doc);
+            } else if (comment.getCommentType() == CommentType.CATALYTIC_ACTIVITY) {
+                convertCatalyticActivity((CatalyticActivityComment) comment, doc);
             }
 
             FFLineBuilder<Comment> fbuilder = CCLineBuilderFactory.create(comment);
@@ -644,6 +637,39 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtEntry, Un
             evValue.addAll(evidences);
         }
     }
+
+    private void convertCatalyticActivity(CatalyticActivityComment comment, UniProtDocument doc) {
+        // TODO: 07/06/19 index searchable catalytic info, e.g., chebi id/rhea id/inchikey info
+        // TODO: 07/06/19 for each chebi id, retrieve chebi name and inchikey if available, and store in suggestions
+        Reaction reaction = comment.getReaction();
+        if (reaction.hasReactionReferences()) {
+            List<DBCrossReference<ReactionReferenceType>> reactionReferences = reaction.getReactionReferences();
+            reactionReferences.stream()
+                    .filter(r -> r.getDatabaseType() == ReactionReferenceType.CHEBI)
+                    .forEach(r -> addCatalyticSuggestions(r));
+        }
+    }
+
+    private void addCatalyticSuggestions(DBCrossReference<ReactionReferenceType> reactionReference) {
+        String key = createSuggestionMapKey(SuggestDictionary.CATALYTIC_ACTIVITY, idStr);
+        SuggestDocument doc;
+        if (suggestions.containsKey(key)) {
+            doc = suggestions.get(key);
+        } else {
+            SuggestDocument.SuggestDocumentBuilder documentBuilder = SuggestDocument
+                    .builder()
+                    .id(idStr)
+                    .dictionary(SuggestDictionary.TAXONOMY.name())
+                    .value(taxonIterator.next());
+            while (taxonIterator.hasNext()) {
+                documentBuilder.altValue(taxonIterator.next());
+            }
+            suggestions.put(key, documentBuilder.build());
+            return;
+        }
+    }
+
+
 
     private Set<String> fetchEvidences(Comment comment) {
         Set<String> evidences = new HashSet<>();
