@@ -348,8 +348,7 @@ class UniProtEntryConverterTest {
 
         assertTrue(doc.commentMap.containsKey(CC_CATALYTIC_ACTIVITY));
         assertThat(doc.commentMap.get(CC_CATALYTIC_ACTIVITY), hasItems(
-                containsString(chebiId1.id()), containsString(chebiId1.name()), containsString(chebiId1.inchiKey()),
-                containsString(chebiId2.id()), containsString(chebiId2.name())));
+                containsString(chebiId1.id()), containsString(chebiId2.id())));
         checkCatalyticChebiSuggestions(asList(chebiId1, chebiId2));
 
         assertEquals(13, doc.subcellLocationTerm.size());

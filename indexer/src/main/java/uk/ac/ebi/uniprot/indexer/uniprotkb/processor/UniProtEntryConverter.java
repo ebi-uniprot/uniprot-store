@@ -636,22 +636,22 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtEntry, Un
             } else if (comment.getCommentType() == CommentType.PATHWAY) {
                 convertPathway((FreeTextComment) comment, doc);
             } else if (comment.getCommentType() == CommentType.CATALYTIC_ACTIVITY) {
-                convertCatalyticActivity((CatalyticActivityComment) comment, doc, field);
+                convertCatalyticActivity((CatalyticActivityComment) comment);
             }
         }
     }
 
-    private void convertCatalyticActivity(CatalyticActivityComment comment, UniProtDocument doc, String field) {
+    private void convertCatalyticActivity(CatalyticActivityComment comment) {
         Reaction reaction = comment.getReaction();
         if (reaction.hasReactionReferences()) {
             List<DBCrossReference<ReactionReferenceType>> reactionReferences = reaction.getReactionReferences();
             reactionReferences.stream()
                     .filter(ref -> ref.getDatabaseType() == ReactionReferenceType.CHEBI)
-                    .forEach(ref -> addCatalyticSuggestions(ref, doc, field));
+                    .forEach(this::addCatalyticSuggestions);
         }
     }
 
-    private void addCatalyticSuggestions(DBCrossReference<ReactionReferenceType> reactionReference, UniProtDocument document, String field) {
+    private void addCatalyticSuggestions(DBCrossReference<ReactionReferenceType> reactionReference) {
         if (reactionReference.getDatabaseType() == ReactionReferenceType.CHEBI) {
             String referenceId = reactionReference.getId();
             int firstColon = referenceId.indexOf(':');
@@ -662,11 +662,8 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtEntry, Un
                         .id(referenceId)
                         .dictionary(SuggestDictionary.CATALYTIC_ACTIVITY.name())
                         .value(chebi.name());
-                Collection<String> catalyticComments = document.commentMap.get(field);
-                catalyticComments.add(chebi.name());
                 if (!nullOrEmpty(chebi.inchiKey())) {
                     suggestionBuilder.altValue(chebi.inchiKey());
-                    catalyticComments.add(chebi.inchiKey());
                 }
                 suggestions.putIfAbsent(createSuggestionMapKey(SuggestDictionary.CATALYTIC_ACTIVITY, referenceId),
                                         suggestionBuilder.build());
