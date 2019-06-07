@@ -6,6 +6,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import uk.ac.ebi.uniprot.common.PublicationDateFormatter;
+import uk.ac.ebi.uniprot.common.Utils;
+import uk.ac.ebi.uniprot.cv.chebi.Chebi;
 import uk.ac.ebi.uniprot.cv.chebi.ChebiRepo;
 import uk.ac.ebi.uniprot.cv.ec.ECCache;
 import uk.ac.ebi.uniprot.cv.keyword.KeywordCategory;
@@ -651,24 +653,22 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtEntry, Un
     }
 
     private void addCatalyticSuggestions(DBCrossReference<ReactionReferenceType> reactionReference) {
-        String key = createSuggestionMapKey(SuggestDictionary.CATALYTIC_ACTIVITY, idStr);
-        SuggestDocument doc;
-        if (suggestions.containsKey(key)) {
-            doc = suggestions.get(key);
-        } else {
-            SuggestDocument.SuggestDocumentBuilder documentBuilder = SuggestDocument
-                    .builder()
-                    .id(idStr)
-                    .dictionary(SuggestDictionary.TAXONOMY.name())
-                    .value(taxonIterator.next());
-            while (taxonIterator.hasNext()) {
-                documentBuilder.altValue(taxonIterator.next());
+        String referenceId = reactionReference.getId();
+        int firstColon = referenceId.indexOf(':');
+        String fullId = referenceId.substring(firstColon + 1);
+        Chebi chebi = chebiRepo.getById(fullId);
+        if (Objects.nonNull(chebi)) { // TODO: 07/06/19 change to utils.nonnull
+            SuggestDocument.SuggestDocumentBuilder suggestionBuilder = SuggestDocument.builder()
+                    .id(referenceId)
+                    .dictionary(SuggestDictionary.CATALYTIC_ACTIVITY.name())
+                    .value(chebi.name());
+            if (!Utils.nullOrEmpty(chebi.inchiKey())) {
+                suggestionBuilder.altValue(chebi.inchiKey());
             }
-            suggestions.put(key, documentBuilder.build());
-            return;
+            suggestions.putIfAbsent(createSuggestionMapKey(SuggestDictionary.CATALYTIC_ACTIVITY, fullId),
+                                    suggestionBuilder.build());
         }
     }
-
 
 
     private Set<String> fetchEvidences(Comment comment) {
