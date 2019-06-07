@@ -631,15 +631,15 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtEntry, Un
             FFLineBuilder<Comment> fbuilder = CCLineBuilderFactory.create(comment);
             String field = getCommentField(comment);
             String evField = getCommentEvField(comment);
-            Collection<String> value = japiDocument.commentMap.computeIfAbsent(field, k -> new ArrayList<>());
+            Collection<String> value = doc.commentMap.computeIfAbsent(field, k -> new ArrayList<>());
 
 
             //@lgonzales doubt: can we change to without evidence??? because we already have the evidence map
             String commentVal = fbuilder.buildStringWithEvidence(comment);
             value.add(commentVal);
-            japiDocument.content.add(commentVal);
+            doc.content.add(commentVal);
 
-            Collection<String> evValue = japiDocument.commentEvMap.computeIfAbsent(evField, k -> new HashSet<>());
+            Collection<String> evValue = doc.commentEvMap.computeIfAbsent(evField, k -> new HashSet<>());
             Set<String> evidences = fetchEvidences(comment);
             evValue.addAll(evidences);
         }
@@ -909,13 +909,13 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtEntry, Un
 
     private Set<String> extractEvidence(List<Evidence> evidences) {
         Set<String> extracted = evidences.stream().map(ev -> ev.getEvidenceCode().name()).collect(Collectors.toSet());
-        if (extracted.stream().anyMatch(val -> MANUAL_EVIDENCE_MAP.contains(val))) {
+        if (extracted.stream().anyMatch(MANUAL_EVIDENCE_MAP::contains)) {
             extracted.add(MANUAL_EVIDENCE);
         }
-        if (extracted.stream().anyMatch(val -> AUTOMATIC_EVIDENCE_MAP.contains(val))) {
-            extracted.add(AUTOMATIC_EVIDENCE);
+        if (extracted.stream().anyMatch(AUTOMATIC_EVIDENCE_MAP::contains)) {
         }
-        if (extracted.stream().anyMatch(val -> EXPERIMENTAL_EVIDENCE_MAP.contains(val))) {
+        extracted.add(AUTOMATIC_EVIDENCE);
+        if (extracted.stream().anyMatch(EXPERIMENTAL_EVIDENCE_MAP::contains)) {
             extracted.add(EXPERIMENTAL_EVIDENCE);
         }
         return extracted;
