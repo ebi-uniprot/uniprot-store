@@ -106,7 +106,7 @@ public class UniProtKBStep {
                         createTaxonomyRepo(),
                         createGoRelationRepo(),
                         createPathwayRepo(),
-                        ChebiRepoFactory.get(null), // TODO: 07/06/19 load file
+                        ChebiRepoFactory.get(uniProtKBIndexingProperties.getChebiFile()),
                         suggestDocuments));
     }
 

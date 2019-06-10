@@ -30,4 +30,5 @@ public class UniProtKBIndexingProperties {
     private String keywordFile;
     private String pathwayFile;
     private String taxonomyFile;
+    private String chebiFile;
 }
