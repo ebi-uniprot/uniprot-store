@@ -62,7 +62,6 @@ public interface UniProtField {
         sequence_modified(SearchFieldType.RANGE), //sequence last updated
         lit_pubdate(SearchFieldType.RANGE),
 
-        features(SearchFieldType.TERM),
         ft_sites(SearchFieldType.TERM),
         ftev_sites(SearchFieldType.TERM),
         ftlen_sites(SearchFieldType.RANGE),
@@ -276,8 +275,8 @@ public interface UniProtField {
         ccev_catalytic_activity(SearchFieldType.TERM),
         cc_cofactor(SearchFieldType.TERM),
         ccev_cofactor(SearchFieldType.TERM),
-        cc_enzyme_regulation(SearchFieldType.TERM),
-        ccev_enzyme_regulation(SearchFieldType.TERM),
+        cc_activity_regulation(SearchFieldType.TERM),
+        ccev_activity_regulation(SearchFieldType.TERM),
         cc_biophysicochemical_properties(SearchFieldType.TERM),
         ccev_biophysicochemical_properties(SearchFieldType.TERM),
         cc_pathway(SearchFieldType.TERM),
@@ -328,8 +327,6 @@ public interface UniProtField {
         ccev_sequence_caution(SearchFieldType.TERM),
         cc_webresource(SearchFieldType.TERM),
         ccev_webresource(SearchFieldType.TERM),
-        cc_page(SearchFieldType.TERM),
-        ccev_page(SearchFieldType.TERM),
         cc_unknown(SearchFieldType.TERM),
         ccev_unknown(SearchFieldType.TERM),
 
