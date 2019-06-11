@@ -39,7 +39,7 @@ public class ProteomeSearchIT {
     @BeforeClass
     public static void populateIndexWithTestData() throws IOException {
         List<String> files = Arrays.asList(
-                "it/proteome/pds_sample.xml"
+                "it/proteome/proteome_example.xml"
                
         );
 
@@ -60,7 +60,7 @@ public class ProteomeSearchIT {
     
     @Test
     public void searchUPid(){
-        String upid = "UP000002199";
+        String upid = "UP000029775";
         String query = upid(upid);
         QueryResponse queryResponse =
                 searchEngine.getQueryResponse(query);
@@ -80,13 +80,13 @@ public class ProteomeSearchIT {
 
         SolrDocumentList results =
                 queryResponse.getResults();
-        Assert.assertEquals(10, results.size());
+        Assert.assertEquals(6, results.size());
     }
     
     
     @Test
     public void searchListUPid() {
-        List<String> upids = Arrays.asList("UP000000798", "UP000001258", "UP000036222" ,"UP000036221");
+        List<String> upids = Arrays.asList("UP000029775", "UP000029766", "UP000000718" );
 
      
         String query = upid(upids.get(0));
@@ -110,18 +110,17 @@ public class ProteomeSearchIT {
                  .map(val -> (String) val)
                  .collect(Collectors.toList());
         
-        assertTrue(foundUpids.contains("UP000000798"));
+        assertTrue(foundUpids.contains("UP000000718"));
         
-        assertTrue(foundUpids.contains("UP000001258"));
+        assertTrue(foundUpids.contains("UP000029766"));
         
-        assertTrue(foundUpids.contains("UP000036221")); 
-        assertFalse(foundUpids.contains("UP000036222")); 
+        assertTrue(foundUpids.contains("UP000029775")); 
     }
     
   
     @Test
     public void searchTaxId(){
-        int taxId=272557;
+        int taxId=60714;
         String query =taxonomy(taxId);
         
         QueryResponse queryResponse =
@@ -130,72 +129,28 @@ public class ProteomeSearchIT {
         SolrDocumentList results =
                 queryResponse.getResults();
         Assert.assertEquals(1, results.size());
-        Assert.assertTrue(results.get(0).containsValue("UP000002518")); 
+        Assert.assertTrue(results.get(0).containsValue("UP000029766")); 
     }
     
     @Test
     public void searchIsRedundant(){
       
-        String query =isRedudant(true);
+        String query =isRedudant(false);
         
         QueryResponse queryResponse =
                 searchEngine.getQueryResponse(query);
 
         SolrDocumentList results =
                 queryResponse.getResults();
-        Assert.assertEquals(3, results.size());
+        Assert.assertEquals(6, results.size());
        
-        Assert.assertTrue(results.get(0).containsValue("UP000036221")
-                ||results.get(1).containsValue("UP000036221")
-               || results.get(2).containsValue("UP000036221")); 
-     //   UP000000802
-    //    UP000066929
-     //   UP000036221
+
     }
  
-//    @Test
-//    public void searchByGeneAccession(){
-//        String query =accession("Q9Y8V6");
-//        QueryResponse queryResponse = searchEngine.getQueryResponse(query);
-//        SolrDocumentList results = queryResponse.getResults();
-//
-//        Assert.assertEquals(1, results.size());
-//        Assert.assertTrue(results.get(0).containsValue("UP000002518"));
-//    }
-//
-//    @Test
-//    public void searchByRelatedGeneAccession(){
-//        String query =accession("Q9YCC8");
-//        QueryResponse queryResponse = searchEngine.getQueryResponse(query);
-//        SolrDocumentList results = queryResponse.getResults();
-//
-//        Assert.assertEquals(1, results.size());
-//        Assert.assertTrue(results.get(0).containsValue("UP000002518"));
-//    }
-//
-//    @Test
-//    public void searchByGeneName(){
-//        String query =gene("CELE_F29G6.3");
-//        QueryResponse queryResponse = searchEngine.getQueryResponse(query);
-//        SolrDocumentList results = queryResponse.getResults();
-//
-//        Assert.assertEquals(1, results.size());
-//        Assert.assertTrue(results.get(0).containsValue("UP000001940"));
-//    }
-//
-//    @Test
-//    public void searchByRelatedGeneName(){
-//        String query =gene("T06F4.2");
-//        QueryResponse queryResponse = searchEngine.getQueryResponse(query);
-//        SolrDocumentList results = queryResponse.getResults();
-//
-//        Assert.assertEquals(2, results.size());
-//        Assert.assertTrue(results.get(0).containsValue("UP000001940"));
-//    }
-    
+
     @Test
     public void fetchAvroObject(){
-    	String upid = "UP000000798";
+    	String upid = "UP000000718";
         String query =upid(upid);
         
         QueryResponse queryResponse =
@@ -204,12 +159,12 @@ public class ProteomeSearchIT {
         SolrDocumentList results =
                 queryResponse.getResults();
         Assert.assertEquals(1, results.size());
-        Assert.assertTrue(results.get(0).containsValue("UP000000798")); 
+        Assert.assertTrue(results.get(0).containsValue("UP000000718")); 
         DocumentObjectBinder binder = new DocumentObjectBinder();
         ProteomeDocument proteomeDoc = binder.getBean(ProteomeDocument.class, results.get(0));
         uk.ac.ebi.uniprot.domain.proteome.ProteomeEntry proteome = toProteome(proteomeDoc);
         assertNotNull(proteome);
-        assertEquals("UP000000798", proteome.getId().getValue());
+        assertEquals("UP000000718", proteome.getId().getValue());
         
     }
     
