@@ -619,24 +619,36 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtEntry, Un
             Set<String> evidences = fetchEvidences(comment);
             evValue.addAll(evidences);
 
-            if (comment.getCommentType() == CommentType.COFACTOR) {
-                convertFactor((CofactorComment) comment, doc);
-            } else if (comment.getCommentType() == CommentType.BIOPHYSICOCHEMICAL_PROPERTIES) {
-                convertCommentBPCP((BPCPComment) comment, doc);
-            } else if (comment.getCommentType() == CommentType.SUBCELLULAR_LOCATION) {
-                convertCommentSL((SubcellularLocationComment) comment, doc);
-            } else if (comment.getCommentType() == CommentType.ALTERNATIVE_PRODUCTS) {
-                convertCommentAP((AlternativeProductsComment) comment, doc);
-            } else if (comment.getCommentType() == CommentType.SEQUENCE_CAUTION) {
-                convertCommentSC((SequenceCautionComment) comment, doc);
-            } else if (comment.getCommentType() == CommentType.INTERACTION) {
-                convertCommentInteraction((InteractionComment) comment, doc);
-            } else if (comment.getCommentType() == CommentType.SIMILARITY) {
-                convertCommentFamily((FreeTextComment) comment, doc);
-            } else if (comment.getCommentType() == CommentType.PATHWAY) {
-                convertPathway((FreeTextComment) comment, doc);
-            } else if (comment.getCommentType() == CommentType.CATALYTIC_ACTIVITY) {
-                convertCatalyticActivity((CatalyticActivityComment) comment);
+            switch (comment.getCommentType()) {
+                case CATALYTIC_ACTIVITY:
+                    convertCatalyticActivity((CatalyticActivityComment) comment);
+                    break;
+                case COFACTOR:
+                    convertFactor((CofactorComment) comment, doc);
+                    break;
+                case BIOPHYSICOCHEMICAL_PROPERTIES:
+                    convertCommentBPCP((BPCPComment) comment, doc);
+                    break;
+                case PATHWAY:
+                    convertPathway((FreeTextComment) comment, doc);
+                    break;
+                case INTERACTION:
+                    convertCommentInteraction((InteractionComment) comment, doc);
+                    break;
+                case SUBCELLULAR_LOCATION:
+                    convertCommentSL((SubcellularLocationComment) comment, doc);
+                    break;
+                case ALTERNATIVE_PRODUCTS:
+                    convertCommentAP((AlternativeProductsComment) comment, doc);
+                    break;
+                case SIMILARITY:
+                    convertCommentFamily((FreeTextComment) comment, doc);
+                    break;
+                case SEQUENCE_CAUTION:
+                    convertCommentSC((SequenceCautionComment) comment, doc);
+                    break;
+                default:
+                    break;
             }
         }
     }
@@ -661,9 +673,9 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtEntry, Un
                 SuggestDocument.SuggestDocumentBuilder suggestionBuilder = SuggestDocument.builder()
                         .id(referenceId)
                         .dictionary(SuggestDictionary.CATALYTIC_ACTIVITY.name())
-                        .value(chebi.name());
-                if (!nullOrEmpty(chebi.inchiKey())) {
-                    suggestionBuilder.altValue(chebi.inchiKey());
+                        .value(chebi.getName());
+                if (!nullOrEmpty(chebi.getInchiKey())) {
+                    suggestionBuilder.altValue(chebi.getInchiKey());
                 }
                 suggestions.putIfAbsent(createSuggestionMapKey(SuggestDictionary.CATALYTIC_ACTIVITY, referenceId),
                                         suggestionBuilder.build());

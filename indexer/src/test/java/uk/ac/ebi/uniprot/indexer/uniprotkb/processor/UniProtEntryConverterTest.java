@@ -348,7 +348,7 @@ class UniProtEntryConverterTest {
 
         assertTrue(doc.commentMap.containsKey(CC_CATALYTIC_ACTIVITY));
         assertThat(doc.commentMap.get(CC_CATALYTIC_ACTIVITY), hasItems(
-                containsString(chebiId1.id()), containsString(chebiId2.id())));
+                containsString(chebiId1.getId()), containsString(chebiId2.getId())));
         checkCatalyticChebiSuggestions(asList(chebiId1, chebiId2));
 
         assertEquals(13, doc.subcellLocationTerm.size());
@@ -401,13 +401,13 @@ class UniProtEntryConverterTest {
 
     private void checkCatalyticChebiSuggestions(List<Chebi> chebiList) {
         for (Chebi chebi : chebiList) {
-            String id = "CHEBI:" + chebi.id();
+            String id = "CHEBI:" + chebi.getId();
             SuggestDocument chebiDoc = suggestions
                     .get(createSuggestionMapKey(SuggestDictionary.CATALYTIC_ACTIVITY, id));
             assertThat(chebiDoc.id, is(id));
-            assertThat(chebiDoc.value, is(chebi.name()));
-            if (nonNull(chebi.inchiKey())) {
-                assertThat(chebiDoc.altValues, contains(chebi.inchiKey()));
+            assertThat(chebiDoc.value, is(chebi.getName()));
+            if (nonNull(chebi.getInchiKey())) {
+                assertThat(chebiDoc.altValues, contains(chebi.getInchiKey()));
             }
         }
     }
