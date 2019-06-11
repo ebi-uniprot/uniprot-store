@@ -4,8 +4,6 @@ package uk.ac.ebi.uniprot.indexer.uniprotkb.config;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-import com.sun.istack.internal.NotNull;
-
 import uk.ac.ebi.uniprot.cv.xdb.UniProtXDbTypeDetail;
 import uk.ac.ebi.uniprot.cv.xdb.UniProtXDbTypes;
 import uk.ac.ebi.uniprot.domain.uniprot.comment.CommentType;
@@ -17,6 +15,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+
+import javax.validation.constraints.NotNull;
 
 import static java.util.Arrays.asList;
 import static org.hamcrest.MatcherAssert.assertThat;

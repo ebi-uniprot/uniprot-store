@@ -59,14 +59,14 @@ class ProteomeIndexIT {
         Page<ProteomeDocument> response = template
                 .query(SolrCollection.proteome.name(), new SimpleQuery("*:*"), ProteomeDocument.class);
         assertThat(response, is(notNullValue()));
-        assertThat(response.getTotalElements(), is(16l));
+        assertThat(response.getTotalElements(), is(6l));
         
         response.forEach(val -> verifyProteome(val));
         
         Page<GeneCentricDocument> response2 = template
                 .query(SolrCollection.genecentric.name(), new SimpleQuery("*:*"), GeneCentricDocument.class);
         assertThat(response2, is(notNullValue()));
-        assertThat(response2.getTotalElements(), is(38262L));
+        assertThat(response2.getTotalElements(), is(2192L));
 
     }
     private void verifyProteome(ProteomeDocument doc) {
