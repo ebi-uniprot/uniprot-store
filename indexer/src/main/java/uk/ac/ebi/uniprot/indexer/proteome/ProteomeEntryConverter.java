@@ -15,7 +15,7 @@ import uk.ac.ebi.uniprot.domain.uniprot.taxonomy.builder.TaxonomyBuilder;
 import uk.ac.ebi.uniprot.indexer.converter.DocumentConverter;
 import uk.ac.ebi.uniprot.json.parser.proteome.ProteomeJsonConfig;
 import uk.ac.ebi.uniprot.search.document.proteome.ProteomeDocument;
-import uk.ac.ebi.uniprot.xml.jaxb.proteome.Proteome;
+import uk.ac.ebi.uniprot.xml.jaxb.proteome.ProteomeType;
 import uk.ac.ebi.uniprot.xml.proteome.ProteomeConverter;
 
 import java.nio.ByteBuffer;
@@ -30,7 +30,7 @@ import java.util.stream.Collectors;
  * @date: 23 Apr 2019
  */
 
-public class ProteomeEntryConverter implements DocumentConverter<Proteome, ProteomeDocument> {
+public class ProteomeEntryConverter implements DocumentConverter<ProteomeType, ProteomeDocument> {
     private static final String GC_SET_ACC = "GCSetAcc";
     private final TaxonomyRepo taxonomyRepo;
     private final ProteomeConverter proteomeConverter;
@@ -44,7 +44,7 @@ public class ProteomeEntryConverter implements DocumentConverter<Proteome, Prote
     }
 
     @Override
-    public ProteomeDocument convert(Proteome source) {
+    public ProteomeDocument convert(ProteomeType source) {
         ProteomeDocument document = new ProteomeDocument();
         document.upid = source.getUpid();
         setOrganism(source, document);
@@ -63,11 +63,11 @@ public class ProteomeEntryConverter implements DocumentConverter<Proteome, Prote
         return document;
     }
 
-    private void updateAnnotationScore(ProteomeDocument document, Proteome source) {
-        document.score = 1;
+    private void updateAnnotationScore(ProteomeDocument document, ProteomeType source) {
+        document.score = source.getAnnotationScore().getNormalizedAnnotationScore();
     }
 
-    private void updateProteomeType(ProteomeDocument document, Proteome source) {
+    private void updateProteomeType(ProteomeDocument document, ProteomeType source) {
         if (source.isIsReferenceProteome()) {
             document.proteomeType = 1;
             document.isReferenceProteome = true;
@@ -81,7 +81,7 @@ public class ProteomeEntryConverter implements DocumentConverter<Proteome, Prote
             document.proteomeType = 3;
     }
 
-    private void setOrganism(Proteome source, ProteomeDocument document) {
+    private void setOrganism(ProteomeType source, ProteomeDocument document) {
         int taxonomyId = source.getTaxonomy().intValue();
         document.organismTaxId = taxonomyId;
         document.taxLineageIds.add(taxonomyId);
@@ -133,14 +133,14 @@ public class ProteomeEntryConverter implements DocumentConverter<Proteome, Prote
         return taxonmyItems;
     }
 
-    private List<String> fetchGenomeAssemblyId(Proteome source) {
+    private List<String> fetchGenomeAssemblyId(ProteomeType source) {
         return source.getDbReference().stream()
                 .filter(val -> val.getType().equals(GC_SET_ACC))
                 .map(val -> val.getId())
                 .collect(Collectors.toList());
     }
 
-    private byte[] getBinaryObject(Proteome source) {
+    private byte[] getBinaryObject(ProteomeType source) {
         ProteomeEntry proteome = this.proteomeConverter.fromXml(source);
         ProteomeEntryBuilder builder = ProteomeEntryBuilder.newInstance().from(proteome);
         builder.canonicalProteins(Collections.emptyList());
@@ -193,7 +193,7 @@ public class ProteomeEntryConverter implements DocumentConverter<Proteome, Prote
         return Lists.reverse(lineage);
     }
 
-    private List<String> fetchGenomeAccessions(Proteome source) {
+    private List<String> fetchGenomeAccessions(ProteomeType source) {
         return source.getComponent().stream().map(val -> val.getGenomeAccession()).flatMap(val -> val.stream())
                 .collect(Collectors.toList());
     }

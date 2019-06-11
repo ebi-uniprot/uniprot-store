@@ -5,7 +5,7 @@ import org.springframework.batch.item.NonTransientResourceException;
 import org.springframework.batch.item.ParseException;
 import org.springframework.batch.item.UnexpectedInputException;
 import uk.ac.ebi.uniprot.xml.XmlChainIterator;
-import uk.ac.ebi.uniprot.xml.jaxb.proteome.Proteome;
+import uk.ac.ebi.uniprot.xml.jaxb.proteome.ProteomeType;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -17,9 +17,9 @@ import java.util.stream.Collectors;
 /**
  * @author jluo
  */
-public class ProteomeXmlEntryReader implements ItemReader<Proteome> {
+public class ProteomeXmlEntryReader implements ItemReader<ProteomeType> {
     public static final String PROTEOME_ROOT_ELEMENT = "proteome";
-    private XmlChainIterator<Proteome, Proteome> entryIterator;
+    private XmlChainIterator<ProteomeType, ProteomeType> entryIterator;
 
     public ProteomeXmlEntryReader(String filepath) {
         init(filepath);
@@ -49,12 +49,12 @@ public class ProteomeXmlEntryReader implements ItemReader<Proteome> {
             throw new RuntimeException("Please specify the directory that contains the proteome xml files");
         }
         entryIterator = new XmlChainIterator<>(new XmlChainIterator.FileInputStreamIterator(collect),
-                                               Proteome.class, PROTEOME_ROOT_ELEMENT, Function.identity());
+        		ProteomeType.class, PROTEOME_ROOT_ELEMENT, Function.identity());
     }
 
 
     @Override
-    public Proteome read() throws Exception, UnexpectedInputException, ParseException, NonTransientResourceException {
+    public ProteomeType read() throws Exception, UnexpectedInputException, ParseException, NonTransientResourceException {
         if (entryIterator.hasNext())
             return entryIterator.next();
         else

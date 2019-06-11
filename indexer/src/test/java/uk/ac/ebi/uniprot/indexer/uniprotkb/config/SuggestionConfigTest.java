@@ -1,8 +1,11 @@
 package uk.ac.ebi.uniprot.indexer.uniprotkb.config;
 
-import org.jetbrains.annotations.NotNull;
+//import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+
+import com.sun.istack.internal.NotNull;
+
 import uk.ac.ebi.uniprot.cv.xdb.UniProtXDbTypeDetail;
 import uk.ac.ebi.uniprot.cv.xdb.UniProtXDbTypes;
 import uk.ac.ebi.uniprot.domain.uniprot.comment.CommentType;

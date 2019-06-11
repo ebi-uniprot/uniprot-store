@@ -29,7 +29,7 @@ import uk.ac.ebi.uniprot.search.document.proteome.ProteomeDocument;
 import uk.ac.ebi.uniprot.search.field.ProteomeField;
 import uk.ac.ebi.uniprot.search.field.QueryBuilder;
 import uk.ac.ebi.uniprot.xml.XmlChainIterator;
-import uk.ac.ebi.uniprot.xml.jaxb.proteome.Proteome;
+import uk.ac.ebi.uniprot.xml.jaxb.proteome.ProteomeType;
 
 public class ProteomeSearchIT {
 	 static final String PROTEOME_ROOT_ELEMENT = "proteome";
@@ -43,16 +43,16 @@ public class ProteomeSearchIT {
                
         );
 
-        XmlChainIterator<Proteome, Proteome>  chainingIterators =
+        XmlChainIterator<ProteomeType, ProteomeType>  chainingIterators =
         		new XmlChainIterator<>(new XmlChainIterator.FileInputStreamIterator(files),
-                        Proteome.class, PROTEOME_ROOT_ELEMENT, Function.identity() );
+        				ProteomeType.class, PROTEOME_ROOT_ELEMENT, Function.identity() );
         		
                 new XmlChainIterator<>(new XmlChainIterator.FileInputStreamIterator(files),
-                        Proteome.class,
+                		ProteomeType.class,
                         PROTEOME_ROOT_ELEMENT, Function.identity() );
 
         while (chainingIterators.hasNext()) {
-            Proteome next =
+        	ProteomeType next =
                     chainingIterators.next();
             searchEngine.indexEntry(next);
         }
