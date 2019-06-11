@@ -4,6 +4,9 @@ import org.apache.commons.io.IOUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
+import uk.ac.ebi.uniprot.cv.chebi.Chebi;
+import uk.ac.ebi.uniprot.cv.chebi.ChebiBuilder;
+import uk.ac.ebi.uniprot.cv.chebi.ChebiRepo;
 import uk.ac.ebi.uniprot.cv.taxonomy.TaxonomicNode;
 import uk.ac.ebi.uniprot.cv.taxonomy.TaxonomyRepo;
 import uk.ac.ebi.uniprot.domain.builder.SequenceBuilder;
@@ -40,6 +43,7 @@ import static org.junit.Assert.*;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
+import static uk.ac.ebi.uniprot.common.Utils.nonNull;
 import static uk.ac.ebi.uniprot.indexer.uniprotkb.processor.UniProtEntryConverter.*;
 
 /**
@@ -48,6 +52,7 @@ import static uk.ac.ebi.uniprot.indexer.uniprotkb.processor.UniProtEntryConverte
  * @author Edd
  */
 class UniProtEntryConverterTest {
+    private static final String CC_CATALYTIC_ACTIVITY = "cc_catalytic_activity";
     private static final String CC_ALTERNATIVE_PRODUCTS_FIELD = "cc_alternative_products";
     private static final String CCEV_ALTERNATIVE_PRODUCTS_FIELD = "ccev_alternative_products";
     private static final String CC_COFACTOR_FIELD = "cc_cofactor";
@@ -68,14 +73,16 @@ class UniProtEntryConverterTest {
 
     private TaxonomyRepo repoMock;
     private GoRelationRepo goRelationRepoMock;
+    private ChebiRepo chebiRepoMock;
     private HashMap<String, SuggestDocument> suggestions;
 
     @BeforeEach
     void setUp() {
         repoMock = mock(TaxonomyRepo.class);
         goRelationRepoMock = mock(GoRelationRepo.class);
+        chebiRepoMock = mock(ChebiRepo.class);
         suggestions = new HashMap<>();
-        converter = new UniProtEntryConverter(repoMock, goRelationRepoMock, mock(PathwayRepo.class), suggestions);
+        converter = new UniProtEntryConverter(repoMock, goRelationRepoMock, mock(PathwayRepo.class), chebiRepoMock, suggestions);
         dateFormat = new SimpleDateFormat("dd-MMM-yyyy");
     }
 
@@ -212,11 +219,14 @@ class UniProtEntryConverterTest {
         assertFalse(doc.isIsoform);
     }
 
-
     @Test
     void testConvertFullQ9EPI6Entry() throws Exception {
         when(repoMock.retrieveNodeUsingTaxID(anyInt()))
                 .thenReturn(getTaxonomyNode(10116, "Rattus norvegicus", "Rat", null, null));
+        Chebi chebiId1 = new ChebiBuilder().id("15379").name("Chebi Name 15379").inchiKey("inchikey 15379").build();
+        Chebi chebiId2 = new ChebiBuilder().id("16526").name("Chebi Name 16526").build();
+        when(chebiRepoMock.getById("15379")).thenReturn(chebiId1);
+        when(chebiRepoMock.getById("16526")).thenReturn(chebiId2);
 
         String file = "Q9EPI6.sp";
         UniProtEntry entry = parse(file);
@@ -302,7 +312,7 @@ class UniProtEntryConverterTest {
         assertEquals(5, doc.referenceJournals.size());
         assertTrue(doc.referenceJournals.contains("Genome Res."));
 
-        assertEquals(9, doc.commentMap.keySet().size());
+        assertEquals(10, doc.commentMap.keySet().size());
         assertTrue(doc.commentMap.containsKey(CC_SIMILARITY_FIELD));
         assertTrue(doc.commentMap.get(CC_SIMILARITY_FIELD).
                 contains("SIMILARITY: Belongs to the NSMF family. {ECO:0000305}."));
@@ -311,7 +321,7 @@ class UniProtEntryConverterTest {
         assertTrue(doc.commentMap.get(CC_SIMILARITY_FIELD).
                 contains("SIMILARITY: Belongs to the NSMF family. {ECO:0000305}."));
 
-        assertEquals(9, doc.commentEvMap.size());
+        assertEquals(10, doc.commentEvMap.size());
         assertTrue(doc.commentEvMap.containsKey(CCEV_SIMILARITY_FIELD));
         assertTrue(doc.commentEvMap.get(CCEV_SIMILARITY_FIELD).contains("ECO_0000305"));
         assertTrue(doc.commentEvMap.get(CCEV_SIMILARITY_FIELD).contains("manual"));
@@ -335,6 +345,11 @@ class UniProtEntryConverterTest {
         assertFalse(doc.precursor);
         assertTrue(doc.active);
         assertFalse(doc.d3structure);
+
+        assertTrue(doc.commentMap.containsKey(CC_CATALYTIC_ACTIVITY));
+        assertThat(doc.commentMap.get(CC_CATALYTIC_ACTIVITY), hasItems(
+                containsString(chebiId1.getId()), containsString(chebiId2.getId())));
+        checkCatalyticChebiSuggestions(asList(chebiId1, chebiId2));
 
         assertEquals(13, doc.subcellLocationTerm.size());
         assertTrue(doc.subcellLocationTerm.contains("Nucleus envelope"));
@@ -382,6 +397,19 @@ class UniProtEntryConverterTest {
         assertNotNull(doc.avro_binary);
 
         assertFalse(doc.isIsoform);
+    }
+
+    private void checkCatalyticChebiSuggestions(List<Chebi> chebiList) {
+        for (Chebi chebi : chebiList) {
+            String id = "CHEBI:" + chebi.getId();
+            SuggestDocument chebiDoc = suggestions
+                    .get(createSuggestionMapKey(SuggestDictionary.CATALYTIC_ACTIVITY, id));
+            assertThat(chebiDoc.id, is(id));
+            assertThat(chebiDoc.value, is(chebi.getName()));
+            if (nonNull(chebi.getInchiKey())) {
+                assertThat(chebiDoc.altValues, contains(chebi.getInchiKey()));
+            }
+        }
     }
 
     private void checkSuggestionsContain(SuggestDictionary dict, Collection<String> values, boolean sizeOnly) {

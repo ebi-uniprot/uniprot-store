@@ -83,6 +83,11 @@ CC       signaling pathway. Stimulates outgrowth of olfactory axons and
 CC       migration of gonadotropin-releasing hormone (GnRH) and
 CC       luteinizing-hormone-releasing hormone (LHRH) neuronal cells.
 CC       {ECO:0000269|PubMed:18303947}.
+CC   -!- CATALYTIC ACTIVITY:
+CC       Reaction=ATP + firefly D-luciferin + O2 = AMP + CO2 + diphosphate
+CC         + firefly oxyluciferin + hnu; Xref=Rhea:RHEA:10732,
+CC         ChEBI:CHEBI:15379, ChEBI:CHEBI:16526; EC=1.13.12.7;
+CC         Evidence={ECO:0000269|PubMed:2801227};
 CC   -!- SUBUNIT: Interacts with KPNA1; the interaction occurs in a
 CC       calcium-independent manner after synaptic NMDA receptor
 CC       stimulation and is required for nuclear import of NSMF but is
