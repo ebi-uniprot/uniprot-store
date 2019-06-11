@@ -7,6 +7,8 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
+
+import uk.ac.ebi.uniprot.cv.chebi.ChebiRepo;
 import uk.ac.ebi.uniprot.domain.uniprot.UniProtEntry;
 import uk.ac.ebi.uniprot.indexer.uniprot.mockers.*;
 import uk.ac.ebi.uniprot.indexer.uniprotkb.processor.UniProtEntryConverter;
@@ -14,11 +16,13 @@ import uk.ac.ebi.uniprot.search.SolrCollection;
 import uk.ac.ebi.uniprot.search.document.uniprot.UniProtDocument;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.fail;
+import static org.mockito.Mockito.mock;
 
 class DataStoreManagerTest {
     private static final String P12345 = "P12345";
@@ -35,7 +39,7 @@ class DataStoreManagerTest {
             //    UUWStoreClient storeClient = new FakeStoreClient(VoldemortInMemoryUniprotEntryStore
             //             .getInstance("avro-uniprot"));
             //     storeManager.addVoldemort(DataStoreManager.StoreType.UNIPROT, storeClient);
-
+            ChebiRepo chebiRepoMock =mock(ChebiRepo.class);
             storeManager
                     .addDocConverter(DataStoreManager.StoreType.UNIPROT, new UniProtEntryConverter(TaxonomyRepoMocker
                                                                                                            .getTaxonomyRepo(),
@@ -43,7 +47,8 @@ class DataStoreManagerTest {
                                                                                                            .getGoRelationRepo(),
                                                                                                    PathwayRepoMocker
                                                                                                            .getPathwayRepo(),
-                                                                                                   null));
+                                                                                                           chebiRepoMock,
+                                                                                                   new HashMap<>()));
         } catch (Exception e) {
             fail("Error to setup DataStoreManagerTest", e);
         }

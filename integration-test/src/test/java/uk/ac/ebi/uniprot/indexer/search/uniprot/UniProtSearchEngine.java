@@ -1,6 +1,7 @@
 package uk.ac.ebi.uniprot.indexer.search.uniprot;
 
 
+import uk.ac.ebi.uniprot.cv.chebi.ChebiRepo;
 import uk.ac.ebi.uniprot.cv.taxonomy.FileNodeIterable;
 import uk.ac.ebi.uniprot.cv.taxonomy.TaxonomyMapRepo;
 import uk.ac.ebi.uniprot.cv.taxonomy.TaxonomyRepo;
@@ -14,7 +15,10 @@ import uk.ac.ebi.uniprot.indexer.uniprot.go.GoTermFileReader;
 import uk.ac.ebi.uniprot.indexer.uniprot.pathway.PathwayFileRepo;
 import uk.ac.ebi.uniprot.indexer.uniprot.pathway.PathwayRepo;
 import uk.ac.ebi.uniprot.indexer.uniprotkb.processor.UniProtEntryConverter;
+import uk.ac.ebi.uniprot.search.document.suggest.SuggestDocument;
 import uk.ac.ebi.uniprot.search.field.UniProtField;
+
+import static org.mockito.Mockito.mock;
 
 import java.io.File;
 import java.net.URISyntaxException;
@@ -67,9 +71,11 @@ public class UniProtSearchEngine extends AbstractSearchEngine<UniProtEntry> {
             try {
                 TaxonomyRepo taxRepo = createTaxRepo();
                 GoRelationRepo goRelation = createGoRelationRepo();
-
+                 ChebiRepo chebiRepoMock =mock(ChebiRepo.class);
+              
                 return new UniProtEntryConverter(taxRepo, goRelation,
                                                  createPathwayRepo(),
+                                                 chebiRepoMock,
                                                  new HashMap<>());
             } catch (URISyntaxException e) {
                 throw new IllegalStateException("Unable to access the taxonomy file location");
