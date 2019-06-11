@@ -6,6 +6,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import uk.ac.ebi.uniprot.common.PublicationDateFormatter;
+import uk.ac.ebi.uniprot.cv.chebi.Chebi;
+import uk.ac.ebi.uniprot.cv.chebi.ChebiRepo;
 import uk.ac.ebi.uniprot.cv.ec.ECCache;
 import uk.ac.ebi.uniprot.cv.keyword.KeywordCategory;
 import uk.ac.ebi.uniprot.cv.pathway.UniPathway;
@@ -53,6 +55,9 @@ import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
+
+import static uk.ac.ebi.uniprot.common.Utils.nonNull;
+import static uk.ac.ebi.uniprot.common.Utils.nullOrEmpty;
 
 /**
  * // TODO: 18/04/19 can be moved to a different package?
@@ -112,6 +117,7 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtEntry, Un
     private final RGLineBuilder rgLineBuilder;
     private final GoRelationRepo goRelationRepo;
     private final PathwayRepo pathwayRepo;
+    private final ChebiRepo chebiRepo;
     private Map<String, SuggestDocument> suggestions;
     //  private final UniProtUniRefMap uniprotUniRefMap;
 
@@ -119,10 +125,12 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtEntry, Un
     public UniProtEntryConverter(TaxonomyRepo taxonomyRepo,
                                  GoRelationRepo goRelationRepo,
                                  PathwayRepo pathwayRepo,
+                                 ChebiRepo chebiRepo,
                                  Map<String, SuggestDocument> suggestDocuments) {
         this.taxonomyRepo = taxonomyRepo;
         this.goRelationRepo = goRelationRepo;
         this.pathwayRepo = pathwayRepo;
+        this.chebiRepo = chebiRepo;
         this.suggestions = suggestDocuments;
         //   this.uniprotUniRefMap = uniProtUniRefMap;
 
@@ -366,7 +374,7 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtEntry, Un
         }
     }
 
-    String createSuggestionMapKey(SuggestDictionary dict, String id) {
+    static String createSuggestionMapKey(SuggestDictionary dict, String id) {
         return dict.name() + ":" + id;
     }
 
@@ -595,46 +603,14 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtEntry, Un
         }
     }
 
-    private void convertComment(UniProtEntry source, UniProtDocument japiDocument) {
+    private void convertComment(UniProtEntry source, UniProtDocument doc) {
         for (Comment comment : source.getComments()) {
-            if (comment.getCommentType() == CommentType.COFACTOR) {
-                convertFactor((CofactorComment) comment, japiDocument);
-
-            }
-            if (comment.getCommentType() == CommentType.BIOPHYSICOCHEMICAL_PROPERTIES) {
-                convertCommentBPCP((BPCPComment) comment, japiDocument);
-
-            }
-            if (comment.getCommentType() == CommentType.SUBCELLULAR_LOCATION) {
-                convertCommentSL((SubcellularLocationComment) comment, japiDocument);
-
-            }
-            if (comment.getCommentType() == CommentType.ALTERNATIVE_PRODUCTS) {
-                convertCommentAP((AlternativeProductsComment) comment, japiDocument);
-
-            }
-            if (comment.getCommentType() == CommentType.SEQUENCE_CAUTION) {
-                convertCommentSC((SequenceCautionComment) comment, japiDocument);
-            }
-            if (comment.getCommentType() == CommentType.INTERACTION) {
-                convertCommentInteraction((InteractionComment) comment, japiDocument);
-            }
-
-            if (comment.getCommentType() == CommentType.SIMILARITY) {
-                convertCommentFamily((FreeTextComment) comment, japiDocument);
-            }
-
-            if (comment.getCommentType() == CommentType.PATHWAY) {
-                convertPathway((FreeTextComment) comment, japiDocument);
-            }
-
             FFLineBuilder<Comment> fbuilder = CCLineBuilderFactory.create(comment);
             String field = getCommentField(comment);
             String evField = getCommentEvField(comment);
             Collection<String> value = doc.commentMap.computeIfAbsent(field, k -> new ArrayList<>());
 
-
-            //@lgonzales doubt: can we change to without evidence??? because we already have the evidence map
+            // todo @lgonzales doubt: can we change to without evidence??? because we already have the evidence map
             String commentVal = fbuilder.buildStringWithEvidence(comment);
             value.add(commentVal);
             doc.content.add(commentVal);
@@ -642,8 +618,71 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtEntry, Un
             Collection<String> evValue = doc.commentEvMap.computeIfAbsent(evField, k -> new HashSet<>());
             Set<String> evidences = fetchEvidences(comment);
             evValue.addAll(evidences);
+
+            switch (comment.getCommentType()) {
+                case CATALYTIC_ACTIVITY:
+                    convertCatalyticActivity((CatalyticActivityComment) comment);
+                    break;
+                case COFACTOR:
+                    convertFactor((CofactorComment) comment, doc);
+                    break;
+                case BIOPHYSICOCHEMICAL_PROPERTIES:
+                    convertCommentBPCP((BPCPComment) comment, doc);
+                    break;
+                case PATHWAY:
+                    convertPathway((FreeTextComment) comment, doc);
+                    break;
+                case INTERACTION:
+                    convertCommentInteraction((InteractionComment) comment, doc);
+                    break;
+                case SUBCELLULAR_LOCATION:
+                    convertCommentSL((SubcellularLocationComment) comment, doc);
+                    break;
+                case ALTERNATIVE_PRODUCTS:
+                    convertCommentAP((AlternativeProductsComment) comment, doc);
+                    break;
+                case SIMILARITY:
+                    convertCommentFamily((FreeTextComment) comment, doc);
+                    break;
+                case SEQUENCE_CAUTION:
+                    convertCommentSC((SequenceCautionComment) comment, doc);
+                    break;
+                default:
+                    break;
+            }
         }
     }
+
+    private void convertCatalyticActivity(CatalyticActivityComment comment) {
+        Reaction reaction = comment.getReaction();
+        if (reaction.hasReactionReferences()) {
+            List<DBCrossReference<ReactionReferenceType>> reactionReferences = reaction.getReactionReferences();
+            reactionReferences.stream()
+                    .filter(ref -> ref.getDatabaseType() == ReactionReferenceType.CHEBI)
+                    .forEach(this::addCatalyticSuggestions);
+        }
+    }
+
+    private void addCatalyticSuggestions(DBCrossReference<ReactionReferenceType> reactionReference) {
+        if (reactionReference.getDatabaseType() == ReactionReferenceType.CHEBI) {
+            String referenceId = reactionReference.getId();
+            int firstColon = referenceId.indexOf(':');
+            String fullId = referenceId.substring(firstColon + 1);
+            Chebi chebi = chebiRepo.getById(fullId);
+            if (nonNull(chebi)) {
+                SuggestDocument.SuggestDocumentBuilder suggestionBuilder = SuggestDocument.builder()
+                        .id(referenceId)
+                        .dictionary(SuggestDictionary.CATALYTIC_ACTIVITY.name())
+                        .value(chebi.getName());
+                if (!nullOrEmpty(chebi.getInchiKey())) {
+                    suggestionBuilder.altValue(chebi.getInchiKey());
+                }
+                suggestions.putIfAbsent(createSuggestionMapKey(SuggestDictionary.CATALYTIC_ACTIVITY, referenceId),
+                                        suggestionBuilder.build());
+            }
+        }
+    }
+
 
     private Set<String> fetchEvidences(Comment comment) {
         Set<String> evidences = new HashSet<>();
@@ -913,8 +952,8 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtEntry, Un
             extracted.add(MANUAL_EVIDENCE);
         }
         if (extracted.stream().anyMatch(AUTOMATIC_EVIDENCE_MAP::contains)) {
+            extracted.add(AUTOMATIC_EVIDENCE);
         }
-        extracted.add(AUTOMATIC_EVIDENCE);
         if (extracted.stream().anyMatch(EXPERIMENTAL_EVIDENCE_MAP::contains)) {
             extracted.add(EXPERIMENTAL_EVIDENCE);
         }
