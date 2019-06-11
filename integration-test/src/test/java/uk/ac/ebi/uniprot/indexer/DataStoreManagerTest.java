@@ -7,7 +7,6 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
-
 import uk.ac.ebi.uniprot.cv.chebi.ChebiRepo;
 import uk.ac.ebi.uniprot.domain.uniprot.UniProtEntry;
 import uk.ac.ebi.uniprot.indexer.uniprot.mockers.*;
@@ -49,6 +48,7 @@ class DataStoreManagerTest {
                                                                                                            .getPathwayRepo(),
                                                                                                            chebiRepoMock,
                                                                                                    new HashMap<>()));
+
         } catch (Exception e) {
             fail("Error to setup DataStoreManagerTest", e);
         }
