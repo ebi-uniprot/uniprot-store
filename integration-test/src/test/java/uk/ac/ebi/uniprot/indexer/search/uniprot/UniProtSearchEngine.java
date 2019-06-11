@@ -1,6 +1,8 @@
 package uk.ac.ebi.uniprot.indexer.search.uniprot;
 
 
+import uk.ac.ebi.uniprot.cv.chebi.ChebiRepo;
+import uk.ac.ebi.uniprot.cv.chebi.ChebiRepoFactory;
 import uk.ac.ebi.uniprot.cv.taxonomy.FileNodeIterable;
 import uk.ac.ebi.uniprot.cv.taxonomy.TaxonomyMapRepo;
 import uk.ac.ebi.uniprot.cv.taxonomy.TaxonomyRepo;
@@ -70,10 +72,15 @@ public class UniProtSearchEngine extends AbstractSearchEngine<UniProtEntry> {
 
                 return new UniProtEntryConverter(taxRepo, goRelation,
                                                  createPathwayRepo(),
+                                                 createChebiRepo(),
                                                  new HashMap<>());
             } catch (URISyntaxException e) {
                 throw new IllegalStateException("Unable to access the taxonomy file location");
             }
+        }
+
+        private ChebiRepo createChebiRepo() {
+            return ChebiRepoFactory.get("chebi.obo");
         }
 
         TaxonomyRepo createTaxRepo() throws URISyntaxException {
