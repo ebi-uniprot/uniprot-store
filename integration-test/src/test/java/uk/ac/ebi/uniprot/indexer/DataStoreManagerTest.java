@@ -7,6 +7,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
+import uk.ac.ebi.uniprot.cv.chebi.ChebiRepo;
 import uk.ac.ebi.uniprot.domain.uniprot.UniProtEntry;
 import uk.ac.ebi.uniprot.indexer.uniprot.mockers.*;
 import uk.ac.ebi.uniprot.indexer.uniprotkb.processor.UniProtEntryConverter;
@@ -19,6 +20,7 @@ import java.util.stream.Collectors;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.fail;
+import static org.mockito.Mockito.mock;
 
 class DataStoreManagerTest {
     private static final String P12345 = "P12345";
@@ -43,6 +45,7 @@ class DataStoreManagerTest {
                                                                                                            .getGoRelationRepo(),
                                                                                                    PathwayRepoMocker
                                                                                                            .getPathwayRepo(),
+                                                                                                   mock(ChebiRepo.class),
                                                                                                    null));
         } catch (Exception e) {
             fail("Error to setup DataStoreManagerTest", e);
