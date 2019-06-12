@@ -1,8 +1,11 @@
 package uk.ac.ebi.uniprot.search.field;
 
-import uk.ac.ebi.uniprot.search.field.validator.FieldValueValidator;
-
+import java.util.Arrays;
+import java.util.List;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
+
+import uk.ac.ebi.uniprot.search.field.validator.FieldValueValidator;
 
 public interface ProteomeField {
 	 public enum Return {
@@ -89,7 +92,11 @@ public interface ProteomeField {
 		public String getName() {
 			return this.name();
 		}
-
+		 public static List<SearchField> getBoostFields(){
+	            return Arrays.stream(Search.values())
+	                    .filter(Search::hasBoostValue)
+	                    .collect(Collectors.toList());
+	        }
 	}
 
 }
