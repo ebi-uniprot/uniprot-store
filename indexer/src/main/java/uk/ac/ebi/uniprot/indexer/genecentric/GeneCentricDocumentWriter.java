@@ -10,7 +10,7 @@ import uk.ac.ebi.uniprot.json.parser.proteome.ProteomeJsonConfig;
 import uk.ac.ebi.uniprot.search.SolrCollection;
 import uk.ac.ebi.uniprot.search.document.proteome.GeneCentricDocument;
 import uk.ac.ebi.uniprot.search.document.proteome.GeneCentricDocument.GeneCentricDocumentBuilder;
-import uk.ac.ebi.uniprot.xml.jaxb.proteome.ProteomeType;
+import uk.ac.ebi.uniprot.xml.jaxb.proteome.Proteome;
 import uk.ac.ebi.uniprot.xml.proteome.ProteomeConverter;
 
 import java.nio.ByteBuffer;
@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
  * @date: 16 May 2019
  */
 
-public class GeneCentricDocumentWriter implements ItemWriter<ProteomeType> {
+public class GeneCentricDocumentWriter implements ItemWriter<Proteome> {
     private final SolrTemplate solrTemplate;
     private final SolrCollection collection;
     private final ProteomeConverter proteomeConverter;
@@ -37,8 +37,8 @@ public class GeneCentricDocumentWriter implements ItemWriter<ProteomeType> {
     }
 
     @Override
-    public void write(List<? extends ProteomeType> items) throws Exception {
-        for (ProteomeType proteome : items) {
+    public void write(List<? extends Proteome> items) throws Exception {
+        for (Proteome proteome : items) {
             List<CanonicalProtein> results = convert(proteome);
             List<GeneCentricDocument> documents = results.stream()
                     .map(val -> convert(val, proteome.getUpid(), proteome.getTaxonomy().intValue()))
@@ -74,7 +74,7 @@ public class GeneCentricDocumentWriter implements ItemWriter<ProteomeType> {
         return builder.build();
     }
 
-    private List<CanonicalProtein> convert(ProteomeType proteome) {
+    private List<CanonicalProtein> convert(Proteome proteome) {
         return this.proteomeConverter.fromXml(proteome).getCanonicalProteins();
     }
 

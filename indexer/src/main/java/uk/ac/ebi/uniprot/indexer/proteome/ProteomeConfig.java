@@ -20,7 +20,7 @@ import uk.ac.ebi.uniprot.cv.taxonomy.TaxonomyRepo;
 import uk.ac.ebi.uniprot.indexer.converter.DocumentConverter;
 import uk.ac.ebi.uniprot.indexer.genecentric.GeneCentricDocumentWriter;
 import uk.ac.ebi.uniprot.search.document.proteome.ProteomeDocument;
-import uk.ac.ebi.uniprot.xml.jaxb.proteome.ProteomeType;
+import uk.ac.ebi.uniprot.xml.jaxb.proteome.Proteome;
 
 import java.io.File;
 import java.io.IOException;
@@ -41,13 +41,13 @@ public class ProteomeConfig {
     private String taxonomyFile;
 
     @Bean(name = "proteomeXmlReader")
-    public ItemReader<ProteomeType> proteomeReader() throws IOException {
+    public ItemReader<Proteome> proteomeReader() throws IOException {
         return new ProteomeXmlEntryReader(proteomeXmlFilename);
     }
 
     @Bean(name = "proteomeXmlReader2")
-    public StaxEventItemReader<ProteomeType> proteomeReader2() throws IOException {
-        return new StaxEventItemReaderBuilder<ProteomeType>()
+    public StaxEventItemReader<Proteome> proteomeReader2() throws IOException {
+        return new StaxEventItemReaderBuilder<Proteome>()
                 .name("proteomeXmlReader2")
                 .resource(new FileSystemResource(proteomeXmlFilename))
                 .addFragmentRootElements("proteome")
@@ -59,26 +59,26 @@ public class ProteomeConfig {
     @Bean
     public Unmarshaller proteomeMarshaller() {
         Jaxb2Marshaller marshaller = new Jaxb2Marshaller();
-        marshaller.setClassesToBeBound(ProteomeType.class);
+        marshaller.setClassesToBeBound(Proteome.class);
         return marshaller;
     }
 
     @Bean("ProteomeDocumentProcessor")
-    public ItemProcessor<ProteomeType, ProteomeDocument> proteomeEntryProcessor() {
+    public ItemProcessor<Proteome, ProteomeDocument> proteomeEntryProcessor() {
         return new ProteomeDocumentProcessor(proteomeEntryConverter());
     }
 
     @Bean(name = "proteomeItemWriter")
-    public ItemWriter<ProteomeType> proteomeItemWriter(SolrTemplate solrTemplate) {
+    public ItemWriter<Proteome> proteomeItemWriter(SolrTemplate solrTemplate) {
         return new ProteomeDocumentWriter(proteomeEntryProcessor(), solrTemplate);
     }
 
     @Bean(name = "geneCentricItemWriter")
-    public ItemWriter<ProteomeType> geneCentricItemWriter(SolrTemplate solrTemplate) {
+    public ItemWriter<Proteome> geneCentricItemWriter(SolrTemplate solrTemplate) {
         return new GeneCentricDocumentWriter(solrTemplate);
     }
 
-    private DocumentConverter<ProteomeType, ProteomeDocument> proteomeEntryConverter() {
+    private DocumentConverter<Proteome, ProteomeDocument> proteomeEntryConverter() {
         return new ProteomeEntryConverter(createTaxonomyRepo());
     }
 
@@ -87,11 +87,11 @@ public class ProteomeConfig {
     }
 
     @Bean(name = "proteomeGeneCentricItemWriter")
-    public CompositeItemWriter<ProteomeType> proteomeCompositeWriter(SolrTemplate solrTemplate) {
-        CompositeItemWriter<ProteomeType> compositeWriter = new CompositeItemWriter<>();
-        ItemWriter<ProteomeType> proteomeWriter = proteomeItemWriter(solrTemplate);
-        ItemWriter<ProteomeType> geneCentricWriter = geneCentricItemWriter(solrTemplate);
-        List<ItemWriter<? super ProteomeType>> writers = new ArrayList<>();
+    public CompositeItemWriter<Proteome> proteomeCompositeWriter(SolrTemplate solrTemplate) {
+        CompositeItemWriter<Proteome> compositeWriter = new CompositeItemWriter<>();
+        ItemWriter<Proteome> proteomeWriter = proteomeItemWriter(solrTemplate);
+        ItemWriter<Proteome> geneCentricWriter = geneCentricItemWriter(solrTemplate);
+        List<ItemWriter<? super Proteome>> writers = new ArrayList<>();
         writers.add(proteomeWriter);
         writers.add(geneCentricWriter);
         compositeWriter.setDelegates(writers);
