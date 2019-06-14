@@ -2,7 +2,9 @@ package uk.ac.ebi.uniprot.search.document.proteome;
 
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.solr.client.solrj.beans.Field;
 
@@ -31,6 +33,9 @@ public class GeneCentricDocument  implements Document {
     @Field("gene")
     private List<String> geneNames = new ArrayList<>();
     
+    //DEFAULT SEARCH FIELD
+    @Field("content")
+    public Set<String> content = new HashSet<>();
     
     @Field("upid")
     private String upid;

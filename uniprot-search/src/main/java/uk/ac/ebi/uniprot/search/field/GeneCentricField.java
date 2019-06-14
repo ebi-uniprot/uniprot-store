@@ -44,7 +44,8 @@ public interface GeneCentricField {
 		upid(SearchFieldType.TERM, FieldValueValidator::isUpidValid, null), // proteome upid
 		organism_id(SearchFieldType.TERM, FieldValueValidator::isNumberValue, 2.0f),
 		gene(SearchFieldType.TERM), 
-		reviewed(SearchFieldType.TERM, FieldValueValidator::isBooleanValue, null);
+		reviewed(SearchFieldType.TERM, FieldValueValidator::isBooleanValue, null),
+		content(SearchFieldType.TERM); //used in the default search
 																												
 
 		private final Predicate<String> fieldValueValidator;
