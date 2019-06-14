@@ -16,23 +16,20 @@
  limitations under the License.
 -->
 <schema name="keyword" version="1.6">
-    <!-- =============================== cross references fields  =============================== -->
-    <field name="id" type="string" indexed="true" stored="false" required="true" multiValued="false"/>
-    <field name="accession" type="full_ci" indexed="true" stored="true" required="true" multiValued="false" /> <!-- @lgonzales: full_ci can not have docValues="true" -->
-    <field name="keyword_identifier" type="basic_ci" indexed="true" stored="true" multiValued="false"/>
-    <field name="category_identifier" type="basic_ci" indexed="true" stored="true" multiValued="false"/>
-    <field name="definition" type="full_ci" indexed="true" stored="true" multiValued="false"/>
-    <field name="synonyms" type="full_ci" indexed="true" stored="true" multiValued="true"/>
-    <field name="go" type="full_ci" indexed="true" stored="true" multiValued="false"/>
-    <field name="hierarchy" type="full_ci" indexed="true" stored="true" multiValued="true"/>
-    <field name="relevant_website" type="string" indexed="false" stored="true" multiValued="false"/>
-    <field name="category" type="full_ci" indexed="true" stored="true" multiValued="false"/>
+    <!-- =============================== keyword fields  =============================== -->
+    <field name="id" type="string" indexed="true" stored="true" required="true" docValues="true"/>
+    <field name="keyword_id" type="basic_ci" indexed="true" stored="false" required="true"/>
+    <field name="name" type="full_ci" indexed="true" stored="false"/>
+    <field name="name_sort" type="string" indexed="true" stored="false" docValues="true"/>
+    <field name="ancestor" type="full_ci" indexed="true" stored="false" multiValued="true"/> <!-- many levels -->
+    <field name="parent" type="full_ci" indexed="true" stored="false" multiValued="true"/> <!-- one level only -->
     <field name="content" type="full_ci" indexed="true" stored="false" multiValued="true"/> <!-- For search on any field -->
-    <field name="reviewed_uniprotkb_entry_count" type="plong" indexed="false" stored="true"/>
-    <field name="unreviewed_uniprotkb_entry_count" type="plong" indexed="false" stored="true"/>
+    <!-- the whole taxonomy object as binary -->
+    <field name="keyword_obj" type="binary" indexed="false" stored="true" required="true"/>
     <!-- Field constraints -->
-    <copyField source="accession" dest="id"/>
-    <uniqueKey>accession</uniqueKey>
+    <copyField source="id" dest="keyword_id"/>
+    <copyField source="name" dest="name_sort"/>
+    <uniqueKey>id</uniqueKey>
 
     <!-- Meta fields -->
     <!-- If you remove this field, you must _also_ disable the update log in solrconfig.xml
@@ -43,6 +40,8 @@
     <!-- =============================== field types  =============================== -->
     <fieldType name="plong" class="solr.LongPointField" docValues="true"/>
     <fieldType name="string" class="solr.StrField" sortMissingLast="true"/>
+    <fieldType name="boolean" class="solr.BoolField" sortMissingLast="true"/>
+    <fieldType name="binary" class="solr.BinaryField"/>
 
     <fieldType name="basic_ci" class="solr.TextField" sortMissingLast="true" omitNorms="true" positionIncrementGap="100">
         <analyzer type="index">

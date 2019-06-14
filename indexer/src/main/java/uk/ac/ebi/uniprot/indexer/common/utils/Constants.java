@@ -24,6 +24,10 @@ public class Constants {
     public static final String DISEASE_LOAD_JOB_NAME = "Disease indexing job";
     public static final String DISEASE_INDEX_STEP = "Disease indexing step";
 
+    public static final String KEYWORD_LOAD_JOB_NAME = "KEYWORD_LOAD_JOB_NAME";
+    public static final String KEYWORD_INDEX_STEP = "KEYWORD_INDEX_STEP";
+    public static final String KEYWORD_LOAD_STATISTICS_STEP_NAME = "KEYWORD_LOAD_STATISTICS";
+
     public static final String SUGGESTIONS_INDEX_STEP = "Suggestion_Indexing_Step";
     public static final String SUGGESTIONS_MAP = "Suggestions_Set";
 }
