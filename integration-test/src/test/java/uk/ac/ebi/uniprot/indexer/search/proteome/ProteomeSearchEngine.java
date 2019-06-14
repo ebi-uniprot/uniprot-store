@@ -7,23 +7,23 @@ import uk.ac.ebi.uniprot.indexer.converter.DocumentConverter;
 import uk.ac.ebi.uniprot.indexer.proteome.ProteomeEntryConverter;
 import uk.ac.ebi.uniprot.indexer.search.AbstractSearchEngine;
 import uk.ac.ebi.uniprot.search.field.ProteomeField;
-import uk.ac.ebi.uniprot.xml.jaxb.proteome.ProteomeType;
+import uk.ac.ebi.uniprot.xml.jaxb.proteome.Proteome;
 
 import java.io.File;
 import java.net.URISyntaxException;
 import java.net.URL;
 
-public class ProteomeSearchEngine extends AbstractSearchEngine<ProteomeType> {
+public class ProteomeSearchEngine extends AbstractSearchEngine<Proteome> {
 
     private static final String SEARCH_ENGINE_NAME = "proteome";
     private static final String TAXONOMY_FILE_NAME = "taxonomy/taxonomy.dat";
-    private static final DocumentConverter<ProteomeType, ?> DOCUMENT_PRODUCER = createDocumentProducer();
+    private static final DocumentConverter<Proteome, ?> DOCUMENT_PRODUCER = createDocumentProducer();
 
     public ProteomeSearchEngine() {
         super(SEARCH_ENGINE_NAME, DOCUMENT_PRODUCER);
     }
    
-    private static DocumentConverter<ProteomeType, ?> createDocumentProducer() {
+    private static DocumentConverter<Proteome, ?> createDocumentProducer() {
     	TaxonomyRepo taxRepo = createTaxRepo();
         return new ProteomeEntryConverter(taxRepo);
     }

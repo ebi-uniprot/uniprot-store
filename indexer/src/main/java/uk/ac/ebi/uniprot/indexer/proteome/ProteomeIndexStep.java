@@ -13,7 +13,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import uk.ac.ebi.uniprot.indexer.common.listener.LogRateListener;
 import uk.ac.ebi.uniprot.search.document.proteome.ProteomeDocument;
-import uk.ac.ebi.uniprot.xml.jaxb.proteome.ProteomeType;
+import uk.ac.ebi.uniprot.xml.jaxb.proteome.Proteome;
 
 /**
  * @author jluo
@@ -34,10 +34,10 @@ public class ProteomeIndexStep {
     public Step proteomeIndexViaXmlStep(
             StepExecutionListener stepListener,
             ChunkListener chunkListener,
-            @Qualifier("proteomeXmlReader") ItemReader<ProteomeType> itemReader,
-            @Qualifier("proteomeGeneCentricItemWriter") CompositeItemWriter<ProteomeType> itemWriter) {
+            @Qualifier("proteomeXmlReader") ItemReader<Proteome> itemReader,
+            @Qualifier("proteomeGeneCentricItemWriter") CompositeItemWriter<Proteome> itemWriter) {
         return this.stepBuilderFactory.get("Proteome_Index_Step")
-                .<ProteomeType, ProteomeType>chunk(chunkSize)
+                .<Proteome, Proteome>chunk(chunkSize)
                 .reader(itemReader)
                 .writer(itemWriter)
                 .listener(stepListener)
