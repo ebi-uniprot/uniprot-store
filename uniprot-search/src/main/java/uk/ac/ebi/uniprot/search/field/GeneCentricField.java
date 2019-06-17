@@ -18,6 +18,22 @@ public interface GeneCentricField {
 	public enum Return {
 		accession_id, genecentric_stored;
 	};
+	  enum ResultFields{
+	        accession_id("canonical protein"),
+	        gene("canonical gene"),
+	        entry_type("entry type"),
+	        related_accession("related proteins");
+
+	        private String label;
+
+	        private ResultFields(String label){
+	            this.label = label;
+	        }
+
+	        public String getLabel(){
+	            return this.label;
+	        }
+	    };
 
 	public enum Sort {
 		accession_id("accession_id");
