@@ -6,10 +6,8 @@ import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.client.solrj.embedded.EmbeddedSolrServer;
 import org.apache.solr.common.util.NamedList;
 import org.apache.solr.core.CoreContainer;
-
 import uk.ac.ebi.uniprot.search.SolrCollection;
 
-import java.io.File;
 import java.io.IOException;
 
 /**
@@ -18,12 +16,10 @@ import java.io.IOException;
  * @author Edd
  */
 public class ClosableEmbeddedSolrClient extends SolrClient {
-    private static final String SOLR_HOME = "solr.home";
+    public static final String SOLR_HOME = "solr.home";
     private final EmbeddedSolrServer server;
 
-    public ClosableEmbeddedSolrClient(SolrCollection collection) {
-        CoreContainer container = new CoreContainer(new File(System.getProperty(SOLR_HOME)).getAbsolutePath());
-        container.load();
+    public ClosableEmbeddedSolrClient(CoreContainer container, SolrCollection collection) {
         this.server = new EmbeddedSolrServer(container, collection.name());
     }
 
