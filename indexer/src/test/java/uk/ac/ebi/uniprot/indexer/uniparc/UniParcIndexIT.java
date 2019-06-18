@@ -3,6 +3,8 @@ package uk.ac.ebi.uniprot.indexer.uniparc;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 import static uk.ac.ebi.uniprot.indexer.common.utils.Constants.UNIPARC_INDEX_JOB;
 
 import org.hamcrest.CoreMatchers;
@@ -19,10 +21,17 @@ import org.springframework.data.solr.core.query.SimpleQuery;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import uk.ac.ebi.uniprot.domain.proteome.ProteomeEntry;
+import uk.ac.ebi.uniprot.domain.uniparc.UniParcEntry;
 import uk.ac.ebi.uniprot.indexer.common.listener.ListenerConfig;
 import uk.ac.ebi.uniprot.indexer.test.config.FakeIndexerSpringBootApplication;
 import uk.ac.ebi.uniprot.indexer.test.config.SolrTestConfig;
+import uk.ac.ebi.uniprot.json.parser.proteome.ProteomeJsonConfig;
+import uk.ac.ebi.uniprot.json.parser.uniparc.UniParcJsonConfig;
 import uk.ac.ebi.uniprot.search.SolrCollection;
+import uk.ac.ebi.uniprot.search.document.proteome.ProteomeDocument;
 import uk.ac.ebi.uniprot.search.document.uniparc.UniParcDocument;
 
 /**
@@ -52,10 +61,21 @@ public class UniParcIndexIT {
 	        Page<UniParcDocument> response = template
 	                .query(SolrCollection.uniparc.name(), new SimpleQuery("*:*"), UniParcDocument.class);
 	        assertThat(response, is(notNullValue()));
-	        assertThat(response.getTotalElements(), is(6l));
-	        
+	        assertThat(response.getTotalElements(), is(3l));
+	        response.forEach(val -> verifyEntry(val));
 	       
 	    }
-	
+	    private void verifyEntry(UniParcDocument doc) {
+	    	String upi = doc.getDocumentId();
+	    	ObjectMapper objectMapper = UniParcJsonConfig.getInstance().getFullObjectMapper();
+	    	byte [] obj =doc.getEntryStored().array();
+	    	try {
+	    		UniParcEntry uniparc = objectMapper.readValue(obj, UniParcEntry.class);
+	    	assertEquals(upi, uniparc.getUniParcId().getValue());
+	    	}catch(Exception e) {
+	    		fail(e.getMessage());
+	    	}
+	    }
+	    	
 }
 
