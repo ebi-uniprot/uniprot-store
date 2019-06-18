@@ -1,4 +1,6 @@
-package uk.ac.ebi.uniprot.indexer.proteome;
+package uk.ac.ebi.uniprot.indexer.uniparc;
+
+import static uk.ac.ebi.uniprot.indexer.common.utils.Constants.UNIPARC_INDEX_JOB;
 
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.JobExecution;
@@ -11,34 +13,36 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.data.solr.core.SolrTemplate;
+
 import uk.ac.ebi.uniprot.indexer.common.config.SolrRepositoryConfig;
 import uk.ac.ebi.uniprot.indexer.common.listener.WriteRetrierLogJobListener;
 import uk.ac.ebi.uniprot.search.SolrCollection;
 
-import static uk.ac.ebi.uniprot.indexer.common.utils.Constants.PROTEOME_INDEX_JOB;
-
 /**
+ *
  * @author jluo
- * @date: 18 Apr 2019
- */
+ * @date: 18 Jun 2019
+ *
+*/
+
 @Configuration
 @Import({SolrRepositoryConfig.class})
-public class ProteomeIndexJob {
+public class UniParcIndexJob {
     private final JobBuilderFactory jobBuilderFactory;
     private final SolrTemplate solrTemplate;
 
     @Autowired
-    public ProteomeIndexJob(JobBuilderFactory jobBuilderFactory, SolrTemplate solrTemplate) {
+    public UniParcIndexJob(JobBuilderFactory jobBuilderFactory, SolrTemplate solrTemplate) {
         this.jobBuilderFactory = jobBuilderFactory;
         this.solrTemplate = solrTemplate;
     }
 
     @Bean
-    public Job proteomeIndexingJob(
-            @Qualifier("ProteomeIndexStep") Step proteomeIndexStep,
+    public Job uniparcIndexingJob(
+            @Qualifier("UniParcIndexStep") Step proteomeIndexStep,
 
             WriteRetrierLogJobListener writeRetrierLogJobListener) {
-        return this.jobBuilderFactory.get(PROTEOME_INDEX_JOB)
+        return this.jobBuilderFactory.get(UNIPARC_INDEX_JOB)
                 .start(proteomeIndexStep)
                 .listener(writeRetrierLogJobListener)
                 .listener(new JobExecutionListener() {
@@ -49,10 +53,9 @@ public class ProteomeIndexJob {
 
                     @Override
                     public void afterJob(JobExecution jobExecution) {
-                        solrTemplate.commit(SolrCollection.proteome.name());
+                        solrTemplate.commit(SolrCollection.uniparc.name());
                     }
                 })
                 .build();
     }
 }
-
