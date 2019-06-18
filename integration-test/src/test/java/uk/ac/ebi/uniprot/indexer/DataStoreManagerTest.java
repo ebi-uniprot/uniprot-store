@@ -2,6 +2,7 @@ package uk.ac.ebi.uniprot.indexer;
 
 import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.client.solrj.response.QueryResponse;
+import org.apache.solr.core.CoreContainer;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
@@ -14,7 +15,9 @@ import uk.ac.ebi.uniprot.indexer.uniprotkb.processor.UniProtEntryConverter;
 import uk.ac.ebi.uniprot.search.SolrCollection;
 import uk.ac.ebi.uniprot.search.document.uniprot.UniProtDocument;
 
+import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -30,8 +33,13 @@ class DataStoreManagerTest {
     @BeforeAll
     static void setUp() {
         try {
+            File file = Files.createTempDirectory("test_solr_data").toFile();
+            System.setProperty("solr.data.dir", file.getAbsolutePath());
+            File solrHome = new File("../index-config/src/main/solr-config/uniprot-collections");
+            CoreContainer container = new CoreContainer(solrHome.getAbsolutePath());
+            container.load();
+            ClosableEmbeddedSolrClient solrClient = new ClosableEmbeddedSolrClient(container, SolrCollection.uniprot);
             SolrDataStoreManager solrStoreManager = new SolrDataStoreManager();
-            ClosableEmbeddedSolrClient solrClient = new ClosableEmbeddedSolrClient(SolrCollection.uniprot);
             storeManager = new DataStoreManager(solrStoreManager);
             storeManager.addSolrClient(DataStoreManager.StoreType.UNIPROT, solrClient);
 
@@ -50,6 +58,7 @@ class DataStoreManagerTest {
                                                                                                    new HashMap<>()));
 
         } catch (Exception e) {
+            e.printStackTrace();
             fail("Error to setup DataStoreManagerTest", e);
         }
     }
