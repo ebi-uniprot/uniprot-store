@@ -1543,8 +1543,13 @@
 
 
     <!-- ====================================================================================== -->
-    <!-- =============================== Variation configurations =============================== -->
+    <!-- =============================== Keyword configurations =============================== -->
     <!-- ====================================================================================== -->
     <slowQueryThresholdMillis>${slow.query.time.millis:15000}</slowQueryThresholdMillis>
-
+    <!-- ========================================== request initial parameters ================================ -->
+    <initParams path="/query,/select">
+        <lst name="defaults">
+            <str name="df">content</str>
+        </lst>
+    </initParams>
 </config>
