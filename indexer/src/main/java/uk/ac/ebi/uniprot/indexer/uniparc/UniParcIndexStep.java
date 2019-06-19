@@ -21,9 +21,12 @@ import uk.ac.ebi.uniprot.cv.taxonomy.TaxonomyMapRepo;
 import uk.ac.ebi.uniprot.cv.taxonomy.TaxonomyRepo;
 import uk.ac.ebi.uniprot.indexer.common.listener.LogRateListener;
 import uk.ac.ebi.uniprot.indexer.common.writer.SolrDocumentWriter;
+import uk.ac.ebi.uniprot.indexer.converter.DocumentConverter;
+import uk.ac.ebi.uniprot.indexer.proteome.ProteomeEntryConverter;
 import uk.ac.ebi.uniprot.search.SolrCollection;
 import uk.ac.ebi.uniprot.search.document.proteome.ProteomeDocument;
 import uk.ac.ebi.uniprot.search.document.uniparc.UniParcDocument;
+import uk.ac.ebi.uniprot.xml.jaxb.proteome.Proteome;
 import uk.ac.ebi.uniprot.xml.jaxb.uniparc.Entry;
 
 /**
@@ -67,9 +70,14 @@ public class UniParcIndexStep {
 
 	@Bean
 	public ItemProcessor<Entry, UniParcDocument> uniparcEntryProcessor() {
-		return new UniParcEntryProcessor(createTaxonomyRepo());
+		return new UniParcEntryProcessor(uniparcEntryConverter());
 	}
 
+    private DocumentConverter<Entry, UniParcDocument> uniparcEntryConverter() {
+        return new UniParcDocumentConverter(createTaxonomyRepo());
+    }
+	
+	
 	@Bean
 	public ItemWriter<UniParcDocument> geneCentricItemWriter(SolrTemplate solrTemplate) {
 		return new SolrDocumentWriter<>(solrTemplate, SolrCollection.uniparc);

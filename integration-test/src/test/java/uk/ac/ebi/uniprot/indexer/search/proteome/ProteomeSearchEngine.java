@@ -46,7 +46,7 @@ public class ProteomeSearchEngine extends AbstractSearchEngine<Proteome> {
 
 	@Override
 	protected String identifierQuery(String entryId) {
-		 return ProteomeField.Search.upid.name() + entryId;
+		 return ProteomeField.Search.upid.name() + ":" + entryId;
 	}
 
 }
