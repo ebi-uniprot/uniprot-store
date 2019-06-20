@@ -8,10 +8,9 @@ import org.slf4j.LoggerFactory;
 import uk.ac.ebi.uniprot.common.PublicationDateFormatter;
 import uk.ac.ebi.uniprot.cv.chebi.Chebi;
 import uk.ac.ebi.uniprot.cv.chebi.ChebiRepo;
-import uk.ac.ebi.uniprot.cv.ec.ECCache;
+import uk.ac.ebi.uniprot.cv.ec.ECRepo;
 import uk.ac.ebi.uniprot.cv.keyword.KeywordCategory;
 import uk.ac.ebi.uniprot.cv.pathway.UniPathway;
-import uk.ac.ebi.uniprot.cv.subcell.SubcellularLocationCache;
 import uk.ac.ebi.uniprot.cv.taxonomy.TaxonomicNode;
 import uk.ac.ebi.uniprot.cv.taxonomy.TaxonomyRepo;
 import uk.ac.ebi.uniprot.domain.DBCrossReference;
@@ -118,42 +117,26 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtEntry, Un
     private final GoRelationRepo goRelationRepo;
     private final PathwayRepo pathwayRepo;
     private final ChebiRepo chebiRepo;
+    private final ECRepo ecRepo;
     private Map<String, SuggestDocument> suggestions;
     //  private final UniProtUniRefMap uniprotUniRefMap;
-
 
     public UniProtEntryConverter(TaxonomyRepo taxonomyRepo,
                                  GoRelationRepo goRelationRepo,
                                  PathwayRepo pathwayRepo,
                                  ChebiRepo chebiRepo,
+                                 ECRepo ecRepo,
                                  Map<String, SuggestDocument> suggestDocuments) {
         this.taxonomyRepo = taxonomyRepo;
         this.goRelationRepo = goRelationRepo;
         this.pathwayRepo = pathwayRepo;
         this.chebiRepo = chebiRepo;
+        this.ecRepo = ecRepo;
         this.suggestions = suggestDocuments;
         //   this.uniprotUniRefMap = uniProtUniRefMap;
 
         raLineBuilder = new RALineBuilder();
         rgLineBuilder = new RGLineBuilder();
-
-        this.ecMap = new HashMap<>();
-        this.subcellMap = new HashMap<>();
-        populateECMap();
-        populateSubcellMap();
-    }
-
-    private final Map<String, String> ecMap;
-    private final Map<String, String> subcellMap;
-
-    private void populateECMap() {
-        ECCache.INSTANCE.get()
-                .forEach(ec -> ecMap.put(ec.id(), ec.label()));
-    }
-
-    private void populateSubcellMap() {
-        SubcellularLocationCache.INSTANCE.get(null)
-                .forEach(subcell -> subcellMap.put(subcell.getId(), subcell.getAccession()));
     }
 
     static String truncatedSortValue(String value) {
@@ -361,15 +344,15 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtEntry, Un
             doc.ecNumbers = ecNumbers;
             doc.ecNumbersExact = doc.ecNumbers;
 
-            for (String ec : ecNumbers) {
-                if (ecMap.containsKey(ec)) {
-                    suggestions.putIfAbsent(createSuggestionMapKey(SuggestDictionary.EC, ec),
-                                            SuggestDocument.builder()
-                                                    .id(ec)
-                                                    .value(ecMap.get(ec))
-                                                    .dictionary(SuggestDictionary.EC.name())
-                                                    .build());
-                }
+            for (String ecNumber : ecNumbers) {
+                ecRepo.getEC(ecNumber).ifPresent(
+                        ec -> suggestions.putIfAbsent(
+                                createSuggestionMapKey(SuggestDictionary.EC, ecNumber),
+                                SuggestDocument.builder()
+                                        .id(ecNumber)
+                                        .value(ec.label())
+                                        .dictionary(SuggestDictionary.EC.name())
+                                        .build()));
             }
         }
     }

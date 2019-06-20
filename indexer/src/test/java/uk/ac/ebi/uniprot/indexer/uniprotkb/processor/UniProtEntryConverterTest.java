@@ -7,6 +7,8 @@ import org.junit.jupiter.api.Test;
 import uk.ac.ebi.uniprot.cv.chebi.Chebi;
 import uk.ac.ebi.uniprot.cv.chebi.ChebiBuilder;
 import uk.ac.ebi.uniprot.cv.chebi.ChebiRepo;
+import uk.ac.ebi.uniprot.cv.ec.ECBuilder;
+import uk.ac.ebi.uniprot.cv.ec.ECRepo;
 import uk.ac.ebi.uniprot.cv.taxonomy.TaxonomicNode;
 import uk.ac.ebi.uniprot.cv.taxonomy.TaxonomyRepo;
 import uk.ac.ebi.uniprot.domain.builder.SequenceBuilder;
@@ -75,14 +77,17 @@ class UniProtEntryConverterTest {
     private GoRelationRepo goRelationRepoMock;
     private ChebiRepo chebiRepoMock;
     private HashMap<String, SuggestDocument> suggestions;
+    private ECRepo ecRepoMock;
 
     @BeforeEach
     void setUp() {
         repoMock = mock(TaxonomyRepo.class);
         goRelationRepoMock = mock(GoRelationRepo.class);
         chebiRepoMock = mock(ChebiRepo.class);
+        ecRepoMock = mock(ECRepo.class);
         suggestions = new HashMap<>();
-        converter = new UniProtEntryConverter(repoMock, goRelationRepoMock, mock(PathwayRepo.class), chebiRepoMock, suggestions);
+        converter = new UniProtEntryConverter(repoMock, goRelationRepoMock, mock(PathwayRepo.class), chebiRepoMock,
+                                              ecRepoMock, suggestions);
         dateFormat = new SimpleDateFormat("dd-MMM-yyyy");
     }
 
@@ -227,6 +232,8 @@ class UniProtEntryConverterTest {
         Chebi chebiId2 = new ChebiBuilder().id("16526").name("Chebi Name 16526").build();
         when(chebiRepoMock.getById("15379")).thenReturn(chebiId1);
         when(chebiRepoMock.getById("16526")).thenReturn(chebiId2);
+        when(ecRepoMock.getEC("2.7.10.2"))
+                .thenReturn(Optional.of(new ECBuilder().id("2.7.10.2").label("EC 1").build()));
 
         String file = "Q9EPI6.sp";
         UniProtEntry entry = parse(file);
