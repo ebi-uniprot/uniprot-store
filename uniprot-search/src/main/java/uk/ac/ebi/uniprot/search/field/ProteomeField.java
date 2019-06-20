@@ -17,7 +17,7 @@ public interface ProteomeField {
 	    	upid("upid"),
 	    	 proteome_type("proteome_type"),
 	    	 annotation_score("annotation_score"),
-	        organism("organism_sort");
+	        organism_sort("organism_sort");
 
 	        private String solrFieldName;
 

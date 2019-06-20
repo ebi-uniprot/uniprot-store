@@ -18,6 +18,22 @@ public interface GeneCentricField {
 	public enum Return {
 		accession_id, genecentric_stored;
 	};
+	  enum ResultFields{
+	        accession_id("canonical protein"),
+	        gene("canonical gene"),
+	        entry_type("entry type"),
+	        related_accession("related proteins");
+
+	        private String label;
+
+	        private ResultFields(String label){
+	            this.label = label;
+	        }
+
+	        public String getLabel(){
+	            return this.label;
+	        }
+	    };
 
 	public enum Sort {
 		accession_id("accession_id");
@@ -44,7 +60,8 @@ public interface GeneCentricField {
 		upid(SearchFieldType.TERM, FieldValueValidator::isUpidValid, null), // proteome upid
 		organism_id(SearchFieldType.TERM, FieldValueValidator::isNumberValue, 2.0f),
 		gene(SearchFieldType.TERM), 
-		reviewed(SearchFieldType.TERM, FieldValueValidator::isBooleanValue, null);
+		reviewed(SearchFieldType.TERM, FieldValueValidator::isBooleanValue, null),
+		content(SearchFieldType.TERM); //used in the default search
 																												
 
 		private final Predicate<String> fieldValueValidator;

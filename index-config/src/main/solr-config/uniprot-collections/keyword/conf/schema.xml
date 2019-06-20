@@ -24,7 +24,7 @@
     <field name="ancestor" type="full_ci" indexed="true" stored="false" multiValued="true"/> <!-- many levels -->
     <field name="parent" type="full_ci" indexed="true" stored="false" multiValued="true"/> <!-- one level only -->
     <field name="content" type="full_ci" indexed="true" stored="false" multiValued="true"/> <!-- For search on any field -->
-    <!-- the whole taxonomy object as binary -->
+    <!-- the whole keyword object as binary -->
     <field name="keyword_obj" type="binary" indexed="false" stored="true" required="true"/>
     <!-- Field constraints -->
     <copyField source="id" dest="keyword_id"/>

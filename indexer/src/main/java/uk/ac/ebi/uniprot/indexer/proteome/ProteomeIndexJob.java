@@ -34,7 +34,7 @@ public class ProteomeIndexJob {
     }
 
     @Bean
-    public Job ProteomeIndexingJob(
+    public Job proteomeIndexingJob(
             @Qualifier("ProteomeIndexStep") Step proteomeIndexStep,
 
             WriteRetrierLogJobListener writeRetrierLogJobListener) {

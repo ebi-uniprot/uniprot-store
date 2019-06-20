@@ -31,4 +31,5 @@ public class UniProtKBIndexingProperties {
     private String pathwayFile;
     private String taxonomyFile;
     private String chebiFile;
+    private String ecDir;
 }

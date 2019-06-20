@@ -289,5 +289,9 @@
     <field name="organism_id" type="int" indexed="true" stored="false" required="false" multiValued="false"/>
     <field name="gene" type="full_ci" indexed="true" stored="false" required="false" multiValued="true"/>
     <field name="genecentric_stored" type="binary" indexed="false" stored="true" required="true" multiValued="false"/>
-   
+    <field name="content" type="full_ci" indexed="true" stored="false" multiValued="true"/>
+     <copyField source="accession" dest="content"/>
+    <copyField source="upid" dest="content"/>
+    <copyField source="organism_id" dest="content"/>
+    <copyField source="gene" dest="content"/>
 </schema>
