@@ -131,6 +131,16 @@ class DefaultSearchHandlerTest {
         }
 
         @Override
+        public SearchFieldType getSearchFieldType() {
+            return searchFieldType;
+        }
+
+        @Override
+        public Predicate<String> getFieldValueValidator() {
+            return fieldValueValidator;
+        }
+
+        @Override
         public Float getBoostValue() {
             return this.boostValue;
         }

@@ -1,11 +1,11 @@
 package uk.ac.ebi.uniprot.search.field;
 
+import uk.ac.ebi.uniprot.search.field.validator.FieldValueValidator;
+
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
-
-import uk.ac.ebi.uniprot.search.field.validator.FieldValueValidator;
 
 public interface ProteomeField {
 	 public enum Return {
@@ -65,10 +65,12 @@ public interface ProteomeField {
 			this.boostValue = boostValue;
 		}
 
+		@Override
 		public Predicate<String> getFieldValueValidator() {
 			return this.fieldValueValidator;
 		}
 
+		@Override
 		public SearchFieldType getSearchFieldType() {
 			return this.searchFieldType;
 		}
@@ -76,16 +78,6 @@ public interface ProteomeField {
 		@Override
 		public Float getBoostValue() {
 			return this.boostValue;
-		}
-
-		@Override
-		public boolean hasBoostValue() {
-			return boostValue != null;
-		}
-
-		@Override
-		public boolean hasValidValue(String value) {
-			return this.fieldValueValidator == null || this.fieldValueValidator.test(value);
 		}
 
 		@Override
