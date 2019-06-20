@@ -8,6 +8,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import uk.ac.ebi.uniprot.cv.chebi.ChebiRepo;
+import uk.ac.ebi.uniprot.cv.ec.ECRepo;
 import uk.ac.ebi.uniprot.domain.uniprot.UniProtEntry;
 import uk.ac.ebi.uniprot.indexer.uniprot.mockers.*;
 import uk.ac.ebi.uniprot.indexer.uniprotkb.processor.UniProtEntryConverter;
@@ -38,7 +39,7 @@ class DataStoreManagerTest {
             //    UUWStoreClient storeClient = new FakeStoreClient(VoldemortInMemoryUniprotEntryStore
             //             .getInstance("avro-uniprot"));
             //     storeManager.addVoldemort(DataStoreManager.StoreType.UNIPROT, storeClient);
-            ChebiRepo chebiRepoMock =mock(ChebiRepo.class);
+            ChebiRepo chebiRepoMock = mock(ChebiRepo.class);
             storeManager
                     .addDocConverter(DataStoreManager.StoreType.UNIPROT, new UniProtEntryConverter(TaxonomyRepoMocker
                                                                                                            .getTaxonomyRepo(),
@@ -46,7 +47,8 @@ class DataStoreManagerTest {
                                                                                                            .getGoRelationRepo(),
                                                                                                    PathwayRepoMocker
                                                                                                            .getPathwayRepo(),
-                                                                                                           chebiRepoMock,
+                                                                                                   chebiRepoMock,
+                                                                                                   mock(ECRepo.class),
                                                                                                    new HashMap<>()));
 
         } catch (Exception e) {
