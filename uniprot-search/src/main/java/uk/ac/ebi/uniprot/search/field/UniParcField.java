@@ -20,7 +20,8 @@ public interface UniParcField {
 	};
 	
 	public enum Sort {
-		upi("upi");
+		upi("upi"),
+		length("length");
 
 		private String solrFieldName;
 
