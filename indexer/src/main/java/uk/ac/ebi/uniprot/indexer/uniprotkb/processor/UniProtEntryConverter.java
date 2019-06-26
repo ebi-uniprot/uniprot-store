@@ -155,6 +155,10 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtEntry, Un
         }
     }
 
+    static String createSuggestionMapKey(SuggestDictionary dict, String id) {
+        return dict.name() + ":" + id;
+    }
+
     @Override
     public UniProtDocument convert(UniProtEntry source) {
         try {
@@ -176,10 +180,10 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtEntry, Un
             } else {
                 japiDocument.isIsoform = false;
             }
-            japiDocument.id = source.getUniProtId().getValue();
-            addValueListToStringList(japiDocument.secacc, source.getSecondaryAccessions());
-
             japiDocument.reviewed = (source.getEntryType() == UniProtEntryType.SWISSPROT);
+
+            setId(source, japiDocument);
+            addValueListToStringList(japiDocument.secacc, source.getSecondaryAccessions());
 
             EntryAudit entryAudit = source.getEntryAudit();
             if (entryAudit != null) {
@@ -230,8 +234,40 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtEntry, Un
                 .count() == 1L;
     }
 
+    void setId(UniProtEntry source, UniProtDocument japiDocument) {
+        japiDocument.id = source.getUniProtId().getValue();
+        String[] idParts = japiDocument.id.split("_");
+        if (idParts.length == 2) {
+            if (japiDocument.reviewed) {
+                // first component of swiss-prot id is gene, which we want searchable in the mnemonic
+                japiDocument.idDefault.add(idParts[0]);
+            }
+            // don't add first component for trembl entries, since this is the accession, and
+            // we do not want false boosting for default searches that match a substring of the accession
+
+            // always add species component
+            japiDocument.idDefault.add(idParts[1]);
+        }
+    }
+
     Map<String, SuggestDocument> getSuggestions() {
         return suggestions;
+    }
+
+    void setLineageTaxon(int taxId, UniProtDocument document) {
+        if (taxId > 0) {
+            Optional<TaxonomicNode> taxonomicNode = taxonomyRepo.retrieveNodeUsingTaxID(taxId);
+
+            while (taxonomicNode.isPresent()) {
+                TaxonomicNode node = taxonomicNode.get();
+                int id = node.id();
+                document.taxLineageIds.add(id);
+                List<String> taxons = extractTaxonFromNode(node);
+                document.organismTaxon.addAll(taxons);
+                addTaxonSuggestions(id, taxons);
+                taxonomicNode = getParentTaxon(id);
+            }
+        }
     }
 
     private static void addValueListToStringList(Collection<String> list, List<? extends Value> values) {
@@ -251,8 +287,7 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtEntry, Un
     private void setDefaultSearchContent(UniProtDocument japiDocument) {
         japiDocument.content.add(japiDocument.accession);
         japiDocument.content.addAll(japiDocument.secacc);
-        japiDocument.content.add(japiDocument.id); //mnemonic  // TODO: 26/06/19 update here to index A_B components (only B for TrEMBL)
-
+        japiDocument.content.add(japiDocument.id); //mnemonic
         japiDocument.content.addAll(japiDocument.proteinNames);
         japiDocument.content.addAll(japiDocument.keywords);
         japiDocument.content.addAll(japiDocument.geneNames);
@@ -355,10 +390,6 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtEntry, Un
                                         .build()));
             }
         }
-    }
-
-    static String createSuggestionMapKey(SuggestDictionary dict, String id) {
-        return dict.name() + ":" + id;
     }
 
     private void setKeywords(UniProtEntry source, UniProtDocument japiDocument) {
@@ -665,7 +696,6 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtEntry, Un
             }
         }
     }
-
 
     private Set<String> fetchEvidences(Comment comment) {
         Set<String> evidences = new HashSet<>();
@@ -1299,22 +1329,6 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtEntry, Un
             names.add(proteinAltName.getFullName().getValue());
         }
         return names;
-    }
-
-    void setLineageTaxon(int taxId, UniProtDocument document) {
-        if (taxId > 0) {
-            Optional<TaxonomicNode> taxonomicNode = taxonomyRepo.retrieveNodeUsingTaxID(taxId);
-
-            while (taxonomicNode.isPresent()) {
-                TaxonomicNode node = taxonomicNode.get();
-                int id = node.id();
-                document.taxLineageIds.add(id);
-                List<String> taxons = extractTaxonFromNode(node);
-                document.organismTaxon.addAll(taxons);
-                addTaxonSuggestions(id, taxons);
-                taxonomicNode = getParentTaxon(id);
-            }
-        }
     }
 
     private void addTaxonSuggestions(int id, List<String> taxons) {

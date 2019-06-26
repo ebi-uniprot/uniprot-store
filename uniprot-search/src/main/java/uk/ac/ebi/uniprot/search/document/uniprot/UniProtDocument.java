@@ -20,6 +20,9 @@ public class UniProtDocument implements Document {
     @Field("mnemonic")
     public String id;
 
+    @Field("mnemonic_default")
+    public List<String> idDefault = new ArrayList<>();
+
     @Field("reviewed")
     public Boolean reviewed;
     
