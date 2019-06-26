@@ -251,7 +251,7 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtEntry, Un
     private void setDefaultSearchContent(UniProtDocument japiDocument) {
         japiDocument.content.add(japiDocument.accession);
         japiDocument.content.addAll(japiDocument.secacc);
-        japiDocument.content.add(japiDocument.id); //mnemonic
+        japiDocument.content.add(japiDocument.id); //mnemonic  // TODO: 26/06/19 update here to index A_B components (only B for TrEMBL)
 
         japiDocument.content.addAll(japiDocument.proteinNames);
         japiDocument.content.addAll(japiDocument.keywords);
