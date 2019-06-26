@@ -45,7 +45,8 @@ public interface UniProtField {
         keyword(SearchFieldType.TERM),
         ec(SearchFieldType.TERM, null, 1.1f),                   // EC number
         ec_exact(SearchFieldType.TERM),
-        gene(SearchFieldType.TERM, null, 2.0f),                 // gene name
+        protgene_default(SearchFieldType.TERM, null, 2.0f),                 // protein or gene name
+        gene(SearchFieldType.TERM),                 // gene name
         gene_exact(SearchFieldType.TERM),                 // exact gene name
         organism_name(SearchFieldType.TERM, null, 2.0f),
         organism_id(SearchFieldType.TERM, FieldValueValidator::isNumberValue, 2.0f),
