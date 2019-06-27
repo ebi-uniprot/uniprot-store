@@ -47,7 +47,7 @@ public interface TaxonomyField {
 
         private final Predicate<String> fieldValueValidator;
         private final SearchFieldType searchFieldType;
-        private final Float boostValue;
+        private final BoostValue boostValue;
 
         Search(SearchFieldType searchFieldType) {
             this.searchFieldType = searchFieldType;
@@ -55,7 +55,7 @@ public interface TaxonomyField {
             this.boostValue = null;
         }
 
-        Search(SearchFieldType searchFieldType, Predicate<String> fieldValueValidator, Float boostValue) {
+        Search(SearchFieldType searchFieldType, Predicate<String> fieldValueValidator, BoostValue boostValue) {
             this.searchFieldType = searchFieldType;
             this.fieldValueValidator = fieldValueValidator;
             this.boostValue = boostValue;
@@ -70,7 +70,7 @@ public interface TaxonomyField {
         }
 
         @Override
-        public Float getBoostValue() {
+        public BoostValue getBoostValue() {
             return this.boostValue;
         }
 

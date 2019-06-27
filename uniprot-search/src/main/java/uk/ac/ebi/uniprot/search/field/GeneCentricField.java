@@ -1,11 +1,13 @@
 package uk.ac.ebi.uniprot.search.field;
 
+import uk.ac.ebi.uniprot.search.field.validator.FieldValueValidator;
+
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-import uk.ac.ebi.uniprot.search.field.validator.FieldValueValidator;
+import static uk.ac.ebi.uniprot.search.field.BoostValue.boostValue;
 
 /**
  *
@@ -58,7 +60,7 @@ public interface GeneCentricField {
 		accession_id(SearchFieldType.TERM, FieldValueValidator::isAccessionValid, null), // uniprot entry accession
 		accession(SearchFieldType.TERM, FieldValueValidator::isAccessionValid, null), // uniprot entry accession
 		upid(SearchFieldType.TERM, FieldValueValidator::isUpidValid, null), // proteome upid
-		organism_id(SearchFieldType.TERM, FieldValueValidator::isNumberValue, 2.0f),
+		organism_id(SearchFieldType.TERM, FieldValueValidator::isNumberValue, boostValue(2.0f)),
 		gene(SearchFieldType.TERM), 
 		reviewed(SearchFieldType.TERM, FieldValueValidator::isBooleanValue, null),
 		content(SearchFieldType.TERM); //used in the default search
@@ -66,7 +68,7 @@ public interface GeneCentricField {
 
 		private final Predicate<String> fieldValueValidator;
 		private final SearchFieldType searchFieldType;
-		private final Float boostValue;
+		private final BoostValue boostValue;
 
 		Search(SearchFieldType searchFieldType) {
 			this.searchFieldType = searchFieldType;
@@ -74,7 +76,7 @@ public interface GeneCentricField {
 			this.boostValue = null;
 		}
 
-		Search(SearchFieldType searchFieldType, Predicate<String> fieldValueValidator, Float boostValue) {
+		Search(SearchFieldType searchFieldType, Predicate<String> fieldValueValidator, BoostValue boostValue) {
 			this.searchFieldType = searchFieldType;
 			this.fieldValueValidator = fieldValueValidator;
 			this.boostValue = boostValue;
@@ -89,7 +91,7 @@ public interface GeneCentricField {
 		}
 
 		@Override
-		public Float getBoostValue() {
+		public BoostValue getBoostValue() {
 			return this.boostValue;
 		}
 

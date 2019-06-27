@@ -1,7 +1,7 @@
 package uk.ac.ebi.uniprot.search;
 
 import org.junit.jupiter.api.Test;
-import uk.ac.ebi.uniprot.search.expr.BoostExpression;
+import uk.ac.ebi.uniprot.search.field.BoostValue;
 import uk.ac.ebi.uniprot.search.field.SearchField;
 import uk.ac.ebi.uniprot.search.field.SearchFieldType;
 import uk.ac.ebi.uniprot.search.field.validator.FieldValueValidator;
@@ -11,15 +11,24 @@ import java.util.function.Predicate;
 
 import static java.util.Arrays.asList;
 import static java.util.Collections.singletonList;
-import static org.hamcrest.CoreMatchers.endsWith;
-import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
+import static uk.ac.ebi.uniprot.search.field.BoostValue.boostValue;
 
 class DefaultSearchHandlerTest {
     private final DefaultSearchHandler defaultSearchHandler =
             new DefaultSearchHandler(FakeSearchField.content,
                                      FakeSearchField.accession,
                                      FakeSearchField.getBoostFields());
+
+    private final DefaultSearchHandler singleValueBoostSearchHandler =
+            new DefaultSearchHandler(FakeSearchField.content,
+                                     FakeSearchField.accession,
+                                     FakeSearchField.getSingleValueBoostFields());
+
+    private final DefaultSearchHandler multiValueBoostSearchHandler =
+            new DefaultSearchHandler(FakeSearchField.content,
+                                     FakeSearchField.accession,
+                                     FakeSearchField.getMultipleBoostFields());
 
     @Test
     void hasDefaultSearchSimpleTermReturnTrue() {
@@ -53,6 +62,7 @@ class DefaultSearchHandlerTest {
     void rewriteDefaultSearchTermQuery() {
         String defaultQuery = "human";
         String result = defaultSearchHandler.optimiseDefaultSearch(defaultQuery);
+        System.out.println(result);
         assertNotNull(result);
         assertEquals("content:human (taxonomy_name:human)^2.0 (gene:human)^2.0", result);
     }
@@ -85,7 +95,7 @@ class DefaultSearchHandlerTest {
     }
 
     @Test
-    void rewriteDefaultSearchPharseQuery() {
+    void rewriteDefaultSearchPhraseQuery() {
         String defaultQuery = "\"Homo Sapiens\"";
         String result = defaultSearchHandler.optimiseDefaultSearch(defaultQuery);
         assertNotNull(result);
@@ -94,7 +104,7 @@ class DefaultSearchHandlerTest {
     }
 
     @Test
-    void rewriteDefaultSearchPharseQueryAndOthersTerms() {
+    void rewriteDefaultSearchPhraseQueryAndOthersTerms() {
         String defaultQuery = "organism:9606 \"homo sapiens\"";
         String result = defaultSearchHandler.optimiseDefaultSearch(defaultQuery);
         assertNotNull(result);
@@ -104,61 +114,53 @@ class DefaultSearchHandlerTest {
     }
 
     @Test
-    void appendSingleBoostExpression() {
-        String expression = "myExpression:true";
-        DefaultSearchHandler handler = new DefaultSearchHandler(
-                FakeSearchField.content,
-                FakeSearchField.accession,
-                FakeSearchField.getBoostFields(),
-                () -> singletonList(BoostExpression.builder()
-                                             .expression(expression)
-                                             .boost(4.5F)
-                                             .build()));
-
-        String optimisedSearch = handler.optimiseDefaultSearch("my query");
-        assertThat(optimisedSearch, endsWith("+((" + expression + ")^4.5)"));
+    void convertSingleValueBoostField() {
+        String defaultQuery = "human";
+        String result = singleValueBoostSearchHandler.optimiseDefaultSearch(defaultQuery);
+        assertNotNull(result);
+        String expectedResult = "content:human (reviewed:true)^8.0";
+        assertEquals(expectedResult, result);
     }
 
     @Test
-    void appendMultipleBoostExpression() {
-        String expr1 = "myExpression:true";
-        String expr2 = "myOtherExpression:[6 TO *]";
-        DefaultSearchHandler handler = new DefaultSearchHandler(
-                FakeSearchField.content,
-                FakeSearchField.accession,
-                FakeSearchField.getBoostFields(),
-                () -> asList(BoostExpression.builder()
-                                     .expression(expr1)
-                                     .boost(4.5F)
-                                     .build(),
-                             BoostExpression.builder()
-                                     .expression(expr2)
-                                     .boost(10F)
-                                     .build()));
-
-        String optimisedSearch = handler.optimiseDefaultSearch("my query");
-        assertThat(optimisedSearch, endsWith("+((" + expr1 + ")^4.5 (" + expr2 + ")^10.0)"));
+    void convertMultiValueBoostField() {
+        String defaultQuery = "human";
+        String result = multiValueBoostSearchHandler.optimiseDefaultSearch(defaultQuery);
+        assertNotNull(result);
+        String expectedResult = "content:human (name:\"two words\")^10.0";
+        assertEquals(expectedResult, result);
     }
 
     private enum FakeSearchField implements SearchField {
         content(SearchFieldType.TERM, null, null),
         accession(SearchFieldType.TERM, FieldValueValidator::isAccessionValid, null),
-        taxonomy_name(SearchFieldType.TERM, null, 2.0f),
-        taxonomy_id(SearchFieldType.TERM, FieldValueValidator::isNumberValue, 2.0f),
-        gene(SearchFieldType.TERM, null, 2.0f);
+        taxonomy_name(SearchFieldType.TERM, null, boostValue(2.0f)),
+        taxonomy_id(SearchFieldType.TERM, FieldValueValidator::isNumberValue, boostValue(2.0f)),
+        reviewed(SearchFieldType.TERM, FieldValueValidator::isBooleanValue, boostValue("true", 8.0f)),
+        name(SearchFieldType.TERM, null, boostValue("two words", 10.0f)),
+        gene(SearchFieldType.TERM, null, boostValue(2.0f));
 
         private final Predicate<String> fieldValueValidator;
         private final SearchFieldType searchFieldType;
-        private final Float boostValue;
+        private final BoostValue boostValue;
 
-        FakeSearchField(SearchFieldType searchFieldType, Predicate<String> fieldValueValidator, Float boostValue) {
+        FakeSearchField(SearchFieldType searchFieldType, Predicate<String> fieldValueValidator, BoostValue boostValue) {
             this.searchFieldType = searchFieldType;
             this.fieldValueValidator = fieldValueValidator;
             this.boostValue = boostValue;
         }
 
         private static List<SearchField> getBoostFields() {
-            return asList(FakeSearchField.taxonomy_name, FakeSearchField.taxonomy_id, FakeSearchField.gene);
+            return asList(FakeSearchField.taxonomy_name, FakeSearchField.taxonomy_id,
+                          FakeSearchField.gene);
+        }
+
+        private static List<SearchField> getSingleValueBoostFields() {
+            return singletonList(FakeSearchField.reviewed);
+        }
+
+        private static List<SearchField> getMultipleBoostFields() {
+            return singletonList(FakeSearchField.name);
         }
 
         @Override
@@ -172,7 +174,7 @@ class DefaultSearchHandlerTest {
         }
 
         @Override
-        public Float getBoostValue() {
+        public BoostValue getBoostValue() {
             return this.boostValue;
         }
 

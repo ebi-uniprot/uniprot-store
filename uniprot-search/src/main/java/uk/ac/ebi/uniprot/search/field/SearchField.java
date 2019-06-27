@@ -6,7 +6,7 @@ package uk.ac.ebi.uniprot.search.field;
  */
 public interface SearchField {
 
-    Float getBoostValue();
+    BoostValue getBoostValue();
 
     boolean hasBoostValue();
 

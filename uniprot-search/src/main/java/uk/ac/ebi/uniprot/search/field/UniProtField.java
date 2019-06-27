@@ -5,6 +5,8 @@ import uk.ac.ebi.uniprot.search.field.validator.FieldValueValidator;
 
 import java.util.function.Predicate;
 
+import static uk.ac.ebi.uniprot.search.field.BoostValue.boostValue;
+
 public interface UniProtField {
 
     enum Sort {
@@ -34,22 +36,22 @@ public interface UniProtField {
     }
 
     enum Search implements SearchField {
-        accession_id(SearchFieldType.TERM, FieldValueValidator::isAccessionValid, 1.1f),            // uniprot entry accession
+        accession_id(SearchFieldType.TERM, FieldValueValidator::isAccessionValid, boostValue(1.1f)),            // uniprot entry accession
         accession(SearchFieldType.TERM, FieldValueValidator::isAccessionValid, null),            // uniprot entry accession
         mnemonic(SearchFieldType.TERM),
-        mnemonic_default(SearchFieldType.TERM, null, 10.0f),  // uniprot entry name
-        reviewed(SearchFieldType.TERM, FieldValueValidator::isBooleanValue, null),             // reviewed or not reviewed
+        mnemonic_default(SearchFieldType.TERM, null, boostValue(10.0f)),  // uniprot entry name
+        reviewed(SearchFieldType.TERM, FieldValueValidator::isBooleanValue, boostValue("true", 8.0f)),  // reviewed or not reviewed
         name(SearchFieldType.TERM),              // protein name
         sec_acc(SearchFieldType.TERM),              // secondary accessions, other accessions
         content(SearchFieldType.TERM), //used in the default search
         keyword(SearchFieldType.TERM),
-        ec(SearchFieldType.TERM, null, 1.1f),                   // EC number
+        ec(SearchFieldType.TERM, null, boostValue(1.1f)),                   // EC number
         ec_exact(SearchFieldType.TERM),
-        protgene_default(SearchFieldType.TERM, null, 2.0f),                 // protein or gene name
+        protgene_default(SearchFieldType.TERM, null, boostValue(2.0f)),                 // protein or gene name
         gene(SearchFieldType.TERM),                 // gene name
         gene_exact(SearchFieldType.TERM),                 // exact gene name
-        organism_name(SearchFieldType.TERM, null, 2.0f),
-        organism_id(SearchFieldType.TERM, FieldValueValidator::isNumberValue, 2.0f),
+        organism_name(SearchFieldType.TERM, null, boostValue(2.0f)),
+        organism_id(SearchFieldType.TERM, FieldValueValidator::isNumberValue, boostValue(2.0f)),
         host_name(SearchFieldType.TERM),
         host_id(SearchFieldType.TERM, FieldValueValidator::isNumberValue, null),
         taxonomy_name(SearchFieldType.TERM, null, null),
@@ -367,7 +369,7 @@ public interface UniProtField {
 
         private final Predicate<String> fieldValueValidator;
         private final SearchFieldType searchFieldType;
-        private final Float boostValue;
+        private final BoostValue boostValue;
 
         Search(SearchFieldType searchFieldType) {
             this.searchFieldType = searchFieldType;
@@ -375,7 +377,7 @@ public interface UniProtField {
             this.boostValue = null;
         }
 
-        Search(SearchFieldType searchFieldType, Predicate<String> fieldValueValidator, Float boostValue) {
+        Search(SearchFieldType searchFieldType, Predicate<String> fieldValueValidator, BoostValue boostValue) {
             this.searchFieldType = searchFieldType;
             this.fieldValueValidator = fieldValueValidator;
             this.boostValue = boostValue;
@@ -390,7 +392,7 @@ public interface UniProtField {
         }
 
         @Override
-        public Float getBoostValue() {
+        public BoostValue getBoostValue() {
             return this.boostValue;
         }
 
