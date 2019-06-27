@@ -381,10 +381,12 @@ public interface UniProtField {
             this.boostValue = boostValue;
         }
 
+        @Override
         public Predicate<String> getFieldValueValidator(){
             return this.fieldValueValidator;
         }
 
+        @Override
         public SearchFieldType getSearchFieldType(){
             return this.searchFieldType;
         }
@@ -392,16 +394,6 @@ public interface UniProtField {
         @Override
         public Float getBoostValue(){
             return this.boostValue;
-        }
-
-        @Override
-        public boolean hasBoostValue(){
-            return this.boostValue != null;
-        }
-
-        @Override
-        public boolean hasValidValue(String value) {
-            return this.fieldValueValidator == null || this.fieldValueValidator.test(value);
         }
 
         @Override
