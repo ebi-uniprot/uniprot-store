@@ -67,10 +67,12 @@ public interface ProteomeField {
 			this.boostValue = boostValue;
 		}
 
+		@Override
 		public Predicate<String> getFieldValueValidator() {
 			return this.fieldValueValidator;
 		}
 
+		@Override
 		public SearchFieldType getSearchFieldType() {
 			return this.searchFieldType;
 		}
@@ -78,16 +80,6 @@ public interface ProteomeField {
 		@Override
 		public BoostValue getBoostValue() {
 			return this.boostValue;
-		}
-
-		@Override
-		public boolean hasBoostValue() {
-			return boostValue != null;
-		}
-
-		@Override
-		public boolean hasValidValue(String value) {
-			return this.fieldValueValidator == null || this.fieldValueValidator.test(value);
 		}
 
 		@Override

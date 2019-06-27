@@ -1,11 +1,11 @@
 package uk.ac.ebi.uniprot.search.field;
 
-import uk.ac.ebi.uniprot.search.field.validator.FieldValueValidator;
-
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
+
+import uk.ac.ebi.uniprot.search.field.validator.FieldValueValidator;
 
 import static uk.ac.ebi.uniprot.search.field.BoostValue.boostValue;
 
@@ -20,7 +20,7 @@ public interface GeneCentricField {
 	public enum Return {
 		accession_id, genecentric_stored;
 	};
-	  enum ResultFields{
+	  enum ResultFields implements ReturnField{
 	        accession_id("canonical protein"),
 	        gene("canonical gene"),
 	        entry_type("entry type"),
@@ -32,10 +32,15 @@ public interface GeneCentricField {
 	            this.label = label;
 	        }
 
-	        public String getLabel(){
-	            return this.label;
-	        }
-	    };
+
+        @Override
+        public boolean hasReturnField(String fieldName) {
+            return Arrays.stream(ResultFields.values())
+                    .anyMatch(returnItem -> returnItem.name().equalsIgnoreCase(fieldName));
+        }
+    }
+
+    ;
 
 	public enum Sort {
 		accession_id("accession_id");
@@ -95,25 +100,16 @@ public interface GeneCentricField {
 			return this.boostValue;
 		}
 
-		@Override
-		public boolean hasBoostValue() {
-			return boostValue != null;
-		}
+        @Override
+        public String getName() {
+            return this.name();
+        }
 
-		@Override
-		public boolean hasValidValue(String value) {
-			return this.fieldValueValidator == null || this.fieldValueValidator.test(value);
-		}
-
-		@Override
-		public String getName() {
-			return this.name();
-		}
-		 public static List<SearchField> getBoostFields(){
-	            return Arrays.stream(Search.values())
-	                    .filter(Search::hasBoostValue)
-	                    .collect(Collectors.toList());
-	        }
-	}
+        public static List<SearchField> getBoostFields() {
+            return Arrays.stream(Search.values())
+                    .filter(Search::hasBoostValue)
+                    .collect(Collectors.toList());
+        }
+    }
 
 }

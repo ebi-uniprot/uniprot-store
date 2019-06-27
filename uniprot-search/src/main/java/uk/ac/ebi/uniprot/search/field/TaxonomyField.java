@@ -75,16 +75,6 @@ public interface TaxonomyField {
         }
 
         @Override
-        public boolean hasBoostValue() {
-            return boostValue != null;
-        }
-
-        @Override
-        public boolean hasValidValue(String value) {
-            return this.fieldValueValidator == null || this.fieldValueValidator.test(value);
-        }
-
-        @Override
         public String getName() {
             return this.name();
         }
@@ -96,7 +86,7 @@ public interface TaxonomyField {
         }
     }
 
-    enum ResultFields{
+    enum ResultFields implements ReturnField {
         id("Taxon"),
         parent("Parent"),
         mnemonic("Mnemonic"),
@@ -118,8 +108,14 @@ public interface TaxonomyField {
             this.label = label;
         }
 
-        public String getLabel(){
+        public String getLabel() {
             return this.label;
+        }
+
+        @Override
+        public boolean hasReturnField(String fieldName) {
+            return Arrays.stream(ResultFields.values())
+                    .anyMatch(returnItem -> returnItem.name().equalsIgnoreCase(fieldName));
         }
     }
 

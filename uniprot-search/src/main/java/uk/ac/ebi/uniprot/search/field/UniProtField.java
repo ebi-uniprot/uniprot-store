@@ -383,27 +383,19 @@ public interface UniProtField {
             this.boostValue = boostValue;
         }
 
-        public Predicate<String> getFieldValueValidator() {
+        @Override
+        public Predicate<String> getFieldValueValidator(){
             return this.fieldValueValidator;
         }
 
-        public SearchFieldType getSearchFieldType() {
+        @Override
+        public SearchFieldType getSearchFieldType(){
             return this.searchFieldType;
         }
 
         @Override
         public BoostValue getBoostValue() {
             return this.boostValue;
-        }
-
-        @Override
-        public boolean hasBoostValue() {
-            return this.boostValue != null;
-        }
-
-        @Override
-        public boolean hasValidValue(String value) {
-            return this.fieldValueValidator == null || this.fieldValueValidator.test(value);
         }
 
         @Override

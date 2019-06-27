@@ -73,10 +73,12 @@ public interface UniParcField {
 			this.boostValue = boostValue;
 		}
 
+		@Override
 		public Predicate<String> getFieldValueValidator() {
 			return this.fieldValueValidator;
 		}
 
+		@Override
 		public SearchFieldType getSearchFieldType() {
 			return this.searchFieldType;
 		}
@@ -100,11 +102,12 @@ public interface UniParcField {
 		public String getName() {
 			return this.name();
 		}
-		 public static List<SearchField> getBoostFields(){
-	            return Arrays.stream(Search.values())
-	                    .filter(Search::hasBoostValue)
-	                    .collect(Collectors.toList());
-	        }
+
+		public static List<SearchField> getBoostFields() {
+			return Arrays.stream(Search.values())
+					.filter(Search::hasBoostValue)
+					.collect(Collectors.toList());
+		}
 	}
 }
 

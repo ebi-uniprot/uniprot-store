@@ -62,7 +62,6 @@ class DefaultSearchHandlerTest {
     void rewriteDefaultSearchTermQuery() {
         String defaultQuery = "human";
         String result = defaultSearchHandler.optimiseDefaultSearch(defaultQuery);
-        System.out.println(result);
         assertNotNull(result);
         assertEquals("content:human (taxonomy_name:human)^2.0 (gene:human)^2.0", result);
     }
@@ -171,6 +170,16 @@ class DefaultSearchHandlerTest {
         @Override
         public String getName() {
             return this.name();
+        }
+
+        @Override
+        public SearchFieldType getSearchFieldType() {
+            return searchFieldType;
+        }
+
+        @Override
+        public Predicate<String> getFieldValueValidator() {
+            return fieldValueValidator;
         }
 
         @Override

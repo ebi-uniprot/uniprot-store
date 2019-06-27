@@ -1,5 +1,7 @@
 package uk.ac.ebi.uniprot.search.field;
 
+import java.util.function.Predicate;
+
 /**
  *
  * @author lgonzales
@@ -8,10 +10,18 @@ public interface SearchField {
 
     BoostValue getBoostValue();
 
-    boolean hasBoostValue();
+    default boolean hasBoostValue() {
+        return getBoostValue() != null;
+    }
 
-    boolean hasValidValue(String value);
+    default boolean hasValidValue(String value) {
+        return getFieldValueValidator() == null || getFieldValueValidator().test(value);
+    }
 
     String getName();
+
+    SearchFieldType getSearchFieldType();
+
+    Predicate<String> getFieldValueValidator();
 
 }
