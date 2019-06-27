@@ -1,11 +1,11 @@
 package uk.ac.ebi.uniprot.search.field;
 
-import uk.ac.ebi.uniprot.search.field.validator.FieldValueValidator;
-
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
+
+import uk.ac.ebi.uniprot.search.field.validator.FieldValueValidator;
 
 public interface KeywordField {
 
@@ -88,7 +88,7 @@ public interface KeywordField {
 
     }
 
-    enum ResultFields {
+    public enum ResultFields implements ReturnField{
         id("Keyword ID"),
         name("Name"),
         description("Description"),
@@ -109,6 +109,12 @@ public interface KeywordField {
         public String getLabel() {
             return this.label;
         }
+
+		@Override
+		public boolean hasReturnField(String fieldName) {
+			 return Arrays.stream(ResultFields.values())
+	                    .anyMatch(returnItem -> returnItem.name().equalsIgnoreCase(fieldName));
+		}
     }
 
     enum Return {
