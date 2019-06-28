@@ -9,16 +9,18 @@ import uk.ac.ebi.uniprot.search.field.SearchField;
 import java.util.Arrays;
 import java.util.List;
 
+import static uk.ac.ebi.uniprot.common.Utils.nonNull;
+
 /**
  * This class helps to improve default solr query search to get a better score and results.
- *
+ * <p>
  * 1. to get a better score, we add boost OR queries based on SearchField configuration ENUM.
- *  for example: P53 query will be converted to: +(content:p53 (taxonomy_name:p53)^2.0 (gene:p53)^2.0)
- *  See test class for more examples.
- *
+ * for example: P53 query will be converted to: +(content:p53 (taxonomy_name:p53)^2.0 (gene:p53)^2.0)
+ * See test class for more examples.
+ * <p>
  * 2. to get a more accurate result we check if the term value is a valid id value and replace it to an id query
- *  for example: P21802 query will be converted to accession:P21802
- *  See test class for more examples.
+ * for example: P21802 query will be converted to accession:P21802
+ * See test class for more examples.
  *
  * @author lgonzales
  */
@@ -28,7 +30,7 @@ public class DefaultSearchHandler {
     private final SearchField idField;
     private final List<SearchField> boostFields;
 
-    public DefaultSearchHandler(SearchField defaultField,SearchField idField, List<SearchField> boostFields){
+    public DefaultSearchHandler(SearchField defaultField, SearchField idField, List<SearchField> boostFields) {
         this.defaultField = defaultField;
         this.idField = idField;
         this.boostFields = boostFields;
@@ -46,33 +48,36 @@ public class DefaultSearchHandler {
         return isValid;
     }
 
-    public String optimiseDefaultSearch(String inputQuery){
+    public String optimiseDefaultSearch(String inputQuery) {
         try {
             QueryParser qp = new QueryParser(defaultField.getName(), new WhitespaceAnalyzer());
-            qp.setDefaultOperator(QueryParser.Operator.AND); // the same that we have in the solrschema
+            // Default operator AND (same as in solrconfig). Note that this has no effect
+            // on query since we use .toString(). We add this just for safety.
+            qp.setDefaultOperator(QueryParser.Operator.AND);
             Query query = qp.parse(inputQuery);
-            return optimiseDefaultSearch(query).toString();
+            Query optimisedQuery = optimiseDefaultSearch(query);
+            return optimisedQuery.toString();
         } catch (Exception e) {
             //Syntax error is validated by ValidSolrQuerySyntax
         }
         return null;
     }
 
-    private Query optimiseDefaultSearch(Query query){
+    private Query optimiseDefaultSearch(Query query) {
         if (query instanceof TermQuery) {
             TermQuery termQuery = (TermQuery) query;
             String fieldName = termQuery.getTerm().field();
-            if(isDefaultSearchTerm(fieldName)){
+            if (isDefaultSearchTerm(fieldName)) {
                 return rewriteDefaultTermQuery(termQuery);
-            }else {
+            } else {
                 return query;
             }
         } else if (query instanceof PhraseQuery) {
             PhraseQuery phraseQuery = (PhraseQuery) query;
             String fieldName = phraseQuery.getTerms()[0].field();
-            if(isDefaultSearchTerm(fieldName)){
-                return rewriteDefaultPhraseQuery((PhraseQuery)query);
-            }else {
+            if (isDefaultSearchTerm(fieldName)) {
+                return rewriteDefaultPhraseQuery((PhraseQuery) query);
+            } else {
                 return query;
             }
         } else if (query instanceof BooleanQuery) {
@@ -80,7 +85,7 @@ public class DefaultSearchHandler {
             BooleanQuery booleanQuery = (BooleanQuery) query;
             for (BooleanClause clause : booleanQuery.clauses()) {
                 Query rewritedQuery = optimiseDefaultSearch(clause.getQuery());
-                builder.add(new BooleanClause(rewritedQuery,clause.getOccur()));
+                builder.add(new BooleanClause(rewritedQuery, clause.getOccur()));
             }
             return builder.build();
         } else {
@@ -92,36 +97,80 @@ public class DefaultSearchHandler {
         return fieldName.equalsIgnoreCase(defaultField.getName());
     }
 
-    private Query rewriteDefaultPhraseQuery(PhraseQuery query) {
+    private Query rewriteDefaultPhraseQuery(PhraseQuery phraseQuery) {
         BooleanQuery.Builder builder = new BooleanQuery.Builder();
-        builder.add(new BooleanClause(query, BooleanClause.Occur.SHOULD));
-        String[] values = Arrays.stream(query.getTerms()).map(Term::text).toArray(String[]::new);
+        builder.add(new BooleanClause(phraseQuery, BooleanClause.Occur.SHOULD));
+        String[] values = Arrays.stream(phraseQuery.getTerms()).map(Term::text).toArray(String[]::new);
         boostFields.stream()
-                .filter(searchField -> searchField.hasValidValue(String.join(" ",values)))
-                .forEach((field) ->{
-                    BoostQuery boostQuery = new BoostQuery(new PhraseQuery(field.getName(),values),field.getBoostValue());
+                .filter(searchField -> hasValidValue(phraseQuery, searchField))
+                .forEach(field -> {
+                    BoostQuery boostQuery = getBoostQuery(QueryType.PHRASE,
+                                                          field,
+                                                          values);
                     builder.add(new BooleanClause(boostQuery, BooleanClause.Occur.SHOULD));
                 });
+
         return builder.build();
     }
 
     private Query rewriteDefaultTermQuery(TermQuery query) {
-        if(idField.hasValidValue(query.getTerm().text())){
+        if (idField.hasValidValue(query.getTerm().text())) {
             // if it is a valid id (accession) value for example... we search directly in id (accession) field...
-            return new TermQuery(new Term(idField.getName(),query.getTerm().bytes()));
+            return new TermQuery(new Term(idField.getName(), query.getTerm().bytes()));
         } else {
             // we need to add all boosted fields to the query to return a better scored result.
             BooleanQuery.Builder builder = new BooleanQuery.Builder();
             builder.add(new BooleanClause(query, BooleanClause.Occur.SHOULD));
             boostFields.stream()
-                    .filter(searchField -> searchField.hasValidValue(query.getTerm().text()))
-                    .forEach((field) -> {
-                        Term term = new Term(field.getName(), query.getTerm().bytes());
-                        BoostQuery boostQuery = new BoostQuery(new TermQuery(term), field.getBoostValue());
+                    .filter(searchField -> hasValidValue(query, searchField))
+                    .forEach(field -> {
+                        BoostQuery boostQuery = getBoostQuery(QueryType.TERM,
+                                                              field,
+                                                              query.getTerm().text());
                         builder.add(new BooleanClause(boostQuery, BooleanClause.Occur.SHOULD));
                     });
+
             return builder.build();
         }
     }
 
+    private BoostQuery getBoostQuery(QueryType queryType, SearchField field, String... values) {
+        Query boostQuery;
+        if (nonNull(field.getBoostValue().getValue())) {
+            String boostValue = field.getBoostValue().getValue();
+            if (boostValue.contains(" ")) {
+                boostQuery = new PhraseQuery(field.getName(), boostValue);
+            } else {
+                boostQuery = new TermQuery(new Term(field.getName(), boostValue));
+            }
+        } else {
+            if (queryType == QueryType.PHRASE) {
+                boostQuery = new PhraseQuery(field.getName(), values);
+            } else {
+                boostQuery = new TermQuery(new Term(field.getName(), values[0]));
+            }
+        }
+        return new BoostQuery(boostQuery, field.getBoostValue().getBoost());
+    }
+
+    private boolean hasValidValue(TermQuery query, SearchField searchField) {
+        if (nonNull(searchField.getBoostValue().getValue())) {
+            return searchField.hasValidValue(searchField.getBoostValue().getValue());
+        } else {
+            return searchField.hasValidValue(query.getTerm().text());
+        }
+    }
+
+    private boolean hasValidValue(PhraseQuery query, SearchField searchField) {
+        if (nonNull(searchField.getBoostValue().getValue())) {
+            return searchField.hasValidValue(searchField.getBoostValue().getValue());
+        } else {
+            String[] values = Arrays.stream(query.getTerms()).map(Term::text).toArray(String[]::new);
+            return searchField.hasValidValue(String.join(" ", values));
+        }
+    }
+
+    private enum QueryType {
+        TERM, PHRASE
+    }
 }

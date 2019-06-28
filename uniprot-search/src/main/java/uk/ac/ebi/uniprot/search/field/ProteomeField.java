@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
+import static uk.ac.ebi.uniprot.search.field.BoostValue.boostValue;
+
 public interface ProteomeField {
 	 public enum Return {
 	        upid,
@@ -40,8 +42,8 @@ public interface ProteomeField {
 	    redundant(SearchFieldType.TERM,FieldValueValidator::isBooleanValue, null),             // redundant or not redudant
 		 annotation_score(SearchFieldType.TERM),
 		 proteome_type(SearchFieldType.TERM),
-		organism_name(SearchFieldType.TERM, null, 2.0f),
-		organism_id(SearchFieldType.TERM, FieldValueValidator::isNumberValue, 2.0f),
+		organism_name(SearchFieldType.TERM, null, boostValue(2.0f)),
+		organism_id(SearchFieldType.TERM, FieldValueValidator::isNumberValue, boostValue(2.0f)),
 		taxonomy_name(SearchFieldType.TERM, null,null),
 		taxonomy_id(SearchFieldType.TERM, FieldValueValidator::isNumberValue, null),
 		superkingdom(SearchFieldType.TERM),
@@ -51,7 +53,7 @@ public interface ProteomeField {
 
 		private final Predicate<String> fieldValueValidator;
 		private final SearchFieldType searchFieldType;
-		private final Float boostValue;
+		private final BoostValue boostValue;
 
 		Search(SearchFieldType searchFieldType) {
 			this.searchFieldType = searchFieldType;
@@ -59,7 +61,7 @@ public interface ProteomeField {
 			this.boostValue = null;
 		}
 
-		Search(SearchFieldType searchFieldType, Predicate<String> fieldValueValidator, Float boostValue) {
+		Search(SearchFieldType searchFieldType, Predicate<String> fieldValueValidator, BoostValue boostValue) {
 			this.searchFieldType = searchFieldType;
 			this.fieldValueValidator = fieldValueValidator;
 			this.boostValue = boostValue;
@@ -76,7 +78,7 @@ public interface ProteomeField {
 		}
 
 		@Override
-		public Float getBoostValue() {
+		public BoostValue getBoostValue() {
 			return this.boostValue;
 		}
 

@@ -8,7 +8,7 @@ import java.util.function.Predicate;
  */
 public interface SearchField {
 
-    Float getBoostValue();
+    BoostValue getBoostValue();
 
     default boolean hasBoostValue() {
         return getBoostValue() != null;

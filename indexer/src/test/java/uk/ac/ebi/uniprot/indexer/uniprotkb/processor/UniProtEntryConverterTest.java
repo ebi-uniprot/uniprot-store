@@ -14,6 +14,7 @@ import uk.ac.ebi.uniprot.cv.taxonomy.TaxonomyRepo;
 import uk.ac.ebi.uniprot.domain.builder.SequenceBuilder;
 import uk.ac.ebi.uniprot.domain.uniprot.UniProtEntry;
 import uk.ac.ebi.uniprot.domain.uniprot.UniProtEntryType;
+import uk.ac.ebi.uniprot.domain.uniprot.UniProtId;
 import uk.ac.ebi.uniprot.domain.uniprot.builder.UniProtAccessionBuilder;
 import uk.ac.ebi.uniprot.domain.uniprot.builder.UniProtEntryBuilder;
 import uk.ac.ebi.uniprot.domain.uniprot.builder.UniProtIdBuilder;
@@ -404,6 +405,45 @@ class UniProtEntryConverterTest {
         assertNotNull(doc.avro_binary);
 
         assertFalse(doc.isIsoform);
+    }
+
+    @Test
+    void idDefaultForTrEMBLIncludesSpeciesButNotAccession() {
+        // given
+        UniProtEntry mockEntry = mock(UniProtEntry.class);
+        UniProtId mockId = mock(UniProtId.class);
+        when(mockEntry.getUniProtId()).thenReturn(mockId);
+        String species = "SPECIES";
+        when(mockId.getValue()).thenReturn("ACCESSION_" + species);
+
+        UniProtDocument document = new UniProtDocument();
+        document.reviewed = false;
+
+        // when
+        converter.setId(mockEntry, document);
+
+        // then
+        assertThat(document.idDefault, contains(species));
+    }
+
+    @Test
+    void idDefaultForSwissProtIncludesGeneAndSpecies() {
+        // given
+        UniProtEntry mockEntry = mock(UniProtEntry.class);
+        UniProtId mockId = mock(UniProtId.class);
+        when(mockEntry.getUniProtId()).thenReturn(mockId);
+        String gene = "GENE";
+        String species = "SPECIES";
+        when(mockId.getValue()).thenReturn(gene + "_" + species);
+
+        UniProtDocument document = new UniProtDocument();
+        document.reviewed = true;
+
+        // when
+        converter.setId(mockEntry, document);
+
+        // then
+        assertThat(document.idDefault, contains(gene, species));
     }
 
     private void checkCatalyticChebiSuggestions(List<Chebi> chebiList) {

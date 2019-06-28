@@ -5,9 +5,11 @@ import uk.ac.ebi.uniprot.search.field.validator.FieldValueValidator;
 
 import java.util.function.Predicate;
 
+import static uk.ac.ebi.uniprot.search.field.BoostValue.boostValue;
+
 public interface UniProtField {
 
-    enum Sort{
+    enum Sort {
         accession("accession_id"),
         mnemonic("mnemonic_sort"),
         name("name_sort"),
@@ -19,7 +21,7 @@ public interface UniProtField {
 
         private String solrFieldName;
 
-        Sort(String solrFieldName){
+        Sort(String solrFieldName) {
             this.solrFieldName = solrFieldName;
         }
 
@@ -33,26 +35,27 @@ public interface UniProtField {
         }
     }
 
-    enum Search implements SearchField{
-        accession_id(SearchFieldType.TERM, FieldValueValidator::isAccessionValid, 1.1f),            // uniprot entry accession
-        accession(SearchFieldType.TERM,FieldValueValidator::isAccessionValid, null),            // uniprot entry accession
+    enum Search implements SearchField {
+        accession_id(SearchFieldType.TERM, FieldValueValidator::isAccessionValid, boostValue(1.1f)),            // uniprot entry accession
+        accession(SearchFieldType.TERM, FieldValueValidator::isAccessionValid, null),            // uniprot entry accession
         mnemonic(SearchFieldType.TERM),
-        mnemonic_default(SearchFieldType.TERM,null,10.0f),  // uniprot entry name
-        reviewed(SearchFieldType.TERM,FieldValueValidator::isBooleanValue, null),             // reviewed or not reviewed
+        mnemonic_default(SearchFieldType.TERM, null, boostValue(10.0f)),  // uniprot entry name
+        reviewed(SearchFieldType.TERM, FieldValueValidator::isBooleanValue, boostValue("true", 8.0f)),  // reviewed or not reviewed
         name(SearchFieldType.TERM),              // protein name
         sec_acc(SearchFieldType.TERM),              // secondary accessions, other accessions
         content(SearchFieldType.TERM), //used in the default search
         keyword(SearchFieldType.TERM),
-        ec(SearchFieldType.TERM,null,1.1f),                   // EC number
+        ec(SearchFieldType.TERM, null, boostValue(1.1f)),                   // EC number
         ec_exact(SearchFieldType.TERM),
-        gene(SearchFieldType.TERM,null,2.0f),                 // gene name
+        protgene_default(SearchFieldType.TERM, null, boostValue(2.0f)),                 // protein or gene name
+        gene(SearchFieldType.TERM),                 // gene name
         gene_exact(SearchFieldType.TERM),                 // exact gene name
-        organism_name(SearchFieldType.TERM,null,2.0f),
-        organism_id(SearchFieldType.TERM,FieldValueValidator::isNumberValue, 2.0f),
+        organism_name(SearchFieldType.TERM, null, boostValue(2.0f)),
+        organism_id(SearchFieldType.TERM, FieldValueValidator::isNumberValue, boostValue(2.0f)),
         host_name(SearchFieldType.TERM),
-        host_id(SearchFieldType.TERM,FieldValueValidator::isNumberValue, null),
-        taxonomy_name(SearchFieldType.TERM,null, null),
-        taxonomy_id(SearchFieldType.TERM,FieldValueValidator::isNumberValue, null),
+        host_id(SearchFieldType.TERM, FieldValueValidator::isNumberValue, null),
+        taxonomy_name(SearchFieldType.TERM, null, null),
+        taxonomy_id(SearchFieldType.TERM, FieldValueValidator::isNumberValue, null),
         popular_organism(SearchFieldType.TERM),
         other_organism(SearchFieldType.TERM),
         organelle(SearchFieldType.TERM),
@@ -197,7 +200,6 @@ public interface UniProtField {
         ftlen_intramem(SearchFieldType.RANGE),
 
 
-
         xref(SearchFieldType.TERM),    //database cross references
         database(SearchFieldType.TERM),
         lit_author(SearchFieldType.TERM),  //reference author
@@ -206,13 +208,13 @@ public interface UniProtField {
         lit_pubmed(SearchFieldType.TERM), //reference pubmed id
         lit_journal(SearchFieldType.TERM),
         fragment(SearchFieldType.TERM),           // indicates whether the protein has non-terminal endings
-        existence (SearchFieldType.TERM),
-        is_isoform(SearchFieldType.TERM,FieldValueValidator::isBooleanValue, null),
+        existence(SearchFieldType.TERM),
+        is_isoform(SearchFieldType.TERM, FieldValueValidator::isBooleanValue, null),
         length(SearchFieldType.RANGE),
         mass(SearchFieldType.RANGE),
         precursor(SearchFieldType.TERM),
-        active(SearchFieldType.TERM,FieldValueValidator::isBooleanValue, null),
-        d3structure(SearchFieldType.TERM,FieldValueValidator::isBooleanValue, null),
+        active(SearchFieldType.TERM, FieldValueValidator::isBooleanValue, null),
+        d3structure(SearchFieldType.TERM, FieldValueValidator::isBooleanValue, null),
 
         tissue(SearchFieldType.TERM),  //rc line
         strain(SearchFieldType.TERM), //rc line
@@ -332,7 +334,7 @@ public interface UniProtField {
 
         interactor(SearchFieldType.TERM),
         family(SearchFieldType.TERM),
-        proteome(SearchFieldType.TERM,FieldValueValidator::isProteomeIdValue, null),
+        proteome(SearchFieldType.TERM, FieldValueValidator::isProteomeIdValue, null),
         proteomecomponent(SearchFieldType.TERM),
         annotation_score(SearchFieldType.TERM),
 
@@ -367,17 +369,17 @@ public interface UniProtField {
 
         private final Predicate<String> fieldValueValidator;
         private final SearchFieldType searchFieldType;
-        private final Float boostValue;
+        private final BoostValue boostValue;
 
-        Search(SearchFieldType searchFieldType){
+        Search(SearchFieldType searchFieldType) {
             this.searchFieldType = searchFieldType;
             this.fieldValueValidator = null;
             this.boostValue = null;
         }
 
-        Search(SearchFieldType searchFieldType,Predicate<String> fieldValueValidator,Float boostValue){
+        Search(SearchFieldType searchFieldType, Predicate<String> fieldValueValidator, BoostValue boostValue) {
             this.searchFieldType = searchFieldType;
-            this.fieldValueValidator  = fieldValueValidator;
+            this.fieldValueValidator = fieldValueValidator;
             this.boostValue = boostValue;
         }
 
@@ -392,12 +394,12 @@ public interface UniProtField {
         }
 
         @Override
-        public Float getBoostValue(){
+        public BoostValue getBoostValue() {
             return this.boostValue;
         }
 
         @Override
-        public String getName(){
+        public String getName() {
             return this.name();
         }
 

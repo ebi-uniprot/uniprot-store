@@ -464,9 +464,8 @@
 
     <field name="mnemonic" type="basic_ci" indexed="true" stored="true" required="false" multiValued="false"/>
     <field name="mnemonic_sort" type="string" indexed="true" stored="false" required="false" multiValued="false" docValues="true"/>
-    <field name="mnemonic_default" type="full_ci" indexed="true" stored="false" required="false" multiValued="false"/>
+    <field name="mnemonic_default" type="basic_ci" indexed="true" stored="false" required="false" multiValued="true"/>
     <copyField source="mnemonic" dest="mnemonic_sort"/>
-    <copyField source="mnemonic" dest="mnemonic_default"/>
 
     <field name="active" type="boolean" indexed="true" stored="true" required="false" multiValued="false"/>
 
@@ -475,7 +474,6 @@
     <field name="modified" type="rdates" indexed="true" stored="false" required="false"/>
     <field name="created" type="rdates" indexed="true" stored="false" required="false"/>
     <field name="sequence_modified" type="rdates" indexed="true" stored="false" required="false"/>
-
 
     <!-- Protein name section -->
     <field name="name" type="full_ci" indexed="true" stored="false" required="false" multiValued="true"/>
@@ -510,13 +508,18 @@
 
     <field name="organelle" type="basic_ci" indexed="true" stored="false" required="false" multiValued="true"/>
 
-    <!-- Default field -->
-    <field name="content" type="full_ci" indexed="true" stored="false" required="false" multiValued="true" omitNorms="false"/>
-
     <!-- Gene -->
     <field name="gene" type="full_ci" indexed="true" stored="false" required="false" multiValued="true"/>
     <field name="gene_exact" type="basic_ci" indexed="true" stored="false" required="false" multiValued="true"/>
     <field name="gene_sort" type="string" indexed="true" stored="false" required="false" multiValued="false" docValues="true"/>
+
+    <!-- Default field -->
+    <field name="content" type="full_ci" indexed="true" stored="false" required="false" multiValued="true" omitNorms="false"/>
+
+    <!-- Field to aid default search -->
+    <field name="protgene_default" type="full_ci" indexed="true" stored="false" required="false" multiValued="true"/>
+    <copyField source="gene" dest="protgene_default"/>
+    <copyField source="name" dest="protgene_default"/>
 
     <!-- Taxonomy -->
     <field name="organism_sort" type="string" indexed="true" stored="false" required="false" multiValued="false" docValues="true"/>
