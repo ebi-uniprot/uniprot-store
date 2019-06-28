@@ -240,13 +240,12 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtEntry, Un
         if (idParts.length == 2) {
             if (japiDocument.reviewed) {
                 // first component of swiss-prot id is gene, which we want searchable in the mnemonic
-                japiDocument.idDefault.add(idParts[0]);
+                japiDocument.idDefault = japiDocument.id;
+            } else {
+                // don't add first component for trembl entries, since this is the accession, and
+                // we do not want false boosting for default searches that match a substring of the accession
+                japiDocument.idDefault = idParts[1];
             }
-            // don't add first component for trembl entries, since this is the accession, and
-            // we do not want false boosting for default searches that match a substring of the accession
-
-            // always add species component
-            japiDocument.idDefault.add(idParts[1]);
         }
     }
 

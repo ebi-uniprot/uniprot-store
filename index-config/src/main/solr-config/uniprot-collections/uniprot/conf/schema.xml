@@ -464,7 +464,7 @@
 
     <field name="mnemonic" type="basic_ci" indexed="true" stored="true" required="false" multiValued="false"/>
     <field name="mnemonic_sort" type="string" indexed="true" stored="false" required="false" multiValued="false" docValues="true"/>
-    <field name="mnemonic_default" type="basic_ci" indexed="true" stored="false" required="false" multiValued="true"/>
+    <field name="mnemonic_default" type="full_ci" indexed="true" stored="false" required="false" multiValued="false"/>
     <copyField source="mnemonic" dest="mnemonic_sort"/>
 
     <field name="active" type="boolean" indexed="true" stored="true" required="false" multiValued="false"/>

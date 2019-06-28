@@ -423,7 +423,7 @@ class UniProtEntryConverterTest {
         converter.setId(mockEntry, document);
 
         // then
-        assertThat(document.idDefault, contains(species));
+        assertThat(document.idDefault, is(species));
     }
 
     @Test
@@ -432,9 +432,8 @@ class UniProtEntryConverterTest {
         UniProtEntry mockEntry = mock(UniProtEntry.class);
         UniProtId mockId = mock(UniProtId.class);
         when(mockEntry.getUniProtId()).thenReturn(mockId);
-        String gene = "GENE";
-        String species = "SPECIES";
-        when(mockId.getValue()).thenReturn(gene + "_" + species);
+        String id = "GENE_SPECIES";
+        when(mockId.getValue()).thenReturn(id);
 
         UniProtDocument document = new UniProtDocument();
         document.reviewed = true;
@@ -443,7 +442,7 @@ class UniProtEntryConverterTest {
         converter.setId(mockEntry, document);
 
         // then
-        assertThat(document.idDefault, contains(gene, species));
+        assertThat(document.idDefault, is(id));
     }
 
     private void checkCatalyticChebiSuggestions(List<Chebi> chebiList) {
