@@ -26,6 +26,7 @@ public class UniProtEntryDocumentPairProcessor extends EntryDocumentPairProcesso
     }
 
     @BeforeStep
+    // TODO: 03/07/19 no longer triggered with async
     public void setStepExecution(final StepExecution stepExecution) {
         ExecutionContext executionContext = stepExecution.getJobExecution().getExecutionContext();
         executionContext.put(Constants.SUGGESTIONS_MAP, converter.getSuggestions());
