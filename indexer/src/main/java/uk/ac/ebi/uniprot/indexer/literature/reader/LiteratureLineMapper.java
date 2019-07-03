@@ -88,7 +88,7 @@ public class LiteratureLineMapper extends DefaultLineMapper<LiteratureEntry> {
         String[] rxLineArray = rxLine.split(ID_SEPARATOR);
         builder = builder.pubmedId(rxLineArray[0].substring(rxLineArray[0].indexOf('=') + 1));
         if (rxLineArray.length > 1) {
-            builder = builder.doiId(rxLineArray[1].trim());
+            builder = builder.doiId(rxLineArray[1].substring(rxLineArray[1].indexOf('=') + 1));
         }
         return builder;
     }

@@ -105,7 +105,7 @@ class LiteratureJobIT {
         assertThat(entry.getPubmedId(), is("11203701"));
 
         assertThat(entry.hasDoiId(), is(true));
-        assertThat(entry.getDoiId(), is("DOI=10.1006/dbio.2000.9955"));
+        assertThat(entry.getDoiId(), is("10.1006/dbio.2000.9955"));
 
         assertThat(entry.hasTitle(), is(true));
         assertThat(entry.getTitle(), is("TNF signaling via the ligand-receptor pair ectodysplasin " +
@@ -146,7 +146,7 @@ class LiteratureJobIT {
         assertThat(literatureDocument, is(notNullValue()));
         assertThat(literatureDocument.getId(), is(notNullValue()));
         assertThat(literatureDocument.getId(), is("11203701"));
-        assertThat(literatureDocument.getDoi(), is("DOI=10.1006/dbio.2000.9955"));
+        assertThat(literatureDocument.getDoi(), is("10.1006/dbio.2000.9955"));
         assertThat(literatureDocument.isCitedin(), is(true));
         assertThat(literatureDocument.isMappedin(), is(true));
         assertThat(literatureDocument.getLiteratureObj(), is(notNullValue()));
