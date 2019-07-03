@@ -15,15 +15,15 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.data.solr.core.SolrTemplate;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import uk.ac.ebi.uniprot.cv.chebi.ChebiRepoFactory;
 import uk.ac.ebi.uniprot.cv.ec.ECRepoFactory;
 import uk.ac.ebi.uniprot.cv.taxonomy.FileNodeIterable;
 import uk.ac.ebi.uniprot.cv.taxonomy.TaxonomyMapRepo;
 import uk.ac.ebi.uniprot.cv.taxonomy.TaxonomyRepo;
-import uk.ac.ebi.uniprot.domain.uniprot.UniProtEntry;
+import uk.ac.ebi.uniprot.indexer.common.concurrency.TaskExecutorProperties;
 import uk.ac.ebi.uniprot.indexer.common.listener.LogRateListener;
 import uk.ac.ebi.uniprot.indexer.common.listener.WriteRetrierLogStepListener;
-import uk.ac.ebi.uniprot.indexer.common.model.EntryDocumentPair;
 import uk.ac.ebi.uniprot.indexer.uniprot.go.GoRelationFileReader;
 import uk.ac.ebi.uniprot.indexer.uniprot.go.GoRelationFileRepo;
 import uk.ac.ebi.uniprot.indexer.uniprot.go.GoRelationRepo;
@@ -39,11 +39,11 @@ import uk.ac.ebi.uniprot.indexer.uniprotkb.reader.UniProtEntryItemReader;
 import uk.ac.ebi.uniprot.indexer.uniprotkb.writer.UniProtEntryDocumentPairWriter;
 import uk.ac.ebi.uniprot.search.SolrCollection;
 import uk.ac.ebi.uniprot.search.document.suggest.SuggestDocument;
-import uk.ac.ebi.uniprot.search.document.uniprot.UniProtDocument;
 
 import java.io.File;
 import java.util.Map;
 import java.util.concurrent.Future;
+import java.util.concurrent.ThreadPoolExecutor;
 
 import static uk.ac.ebi.uniprot.indexer.common.utils.Constants.UNIPROTKB_INDEX_STEP;
 
@@ -74,15 +74,16 @@ public class UniProtKBStep {
     public Step uniProtKBIndexingMainFFStep(WriteRetrierLogStepListener writeRetrierLogStepListener,
                                             @Qualifier("uniProtKB") LogRateListener<UniProtEntryDocumentPair> uniProtKBLogRateListener,
                                             ItemReader<UniProtEntryDocumentPair> entryItemReader,
-                                            ItemProcessor<UniProtEntryDocumentPair, Future<UniProtEntryDocumentPair>> uniProtDocumentItemProcessor,
-                                            ItemWriter<Future<UniProtEntryDocumentPair>> uniProtDocumentItemWriter,
+                                            ItemProcessor<UniProtEntryDocumentPair, UniProtEntryDocumentPair> uniProtDocumentItemProcessor,
+                                            ItemWriter<UniProtEntryDocumentPair> uniProtDocumentItemWriter,
                                             ExecutionContextPromotionListener promotionListener) {
         return this.stepBuilderFactory.get(UNIPROTKB_INDEX_STEP)
                 .listener(promotionListener)
-                .<UniProtEntryDocumentPair, Future<UniProtEntryDocumentPair>>chunk(uniProtKBIndexingProperties.getChunkSize())
+                .<UniProtEntryDocumentPair, Future<UniProtEntryDocumentPair>>
+                        chunk(uniProtKBIndexingProperties.getChunkSize())
                 .reader(entryItemReader)
-                .processor(uniProtDocumentItemProcessor)
-                .writer(uniProtDocumentItemWriter)
+                .processor(asyncProcessor(uniProtDocumentItemProcessor))
+                .writer(asyncWriter(uniProtDocumentItemWriter))
                 .listener(writeRetrierLogStepListener)
                 .listener(uniProtKBLogRateListener)
                 .build();
@@ -94,13 +95,20 @@ public class UniProtKBStep {
     }
 
     @Bean
-    public ItemWriter<Future<UniProtEntryDocumentPair>> uniProtDocumentItemWriter(RetryPolicy<Object> writeRetryPolicy) {
-        UniProtEntryDocumentPairWriter writer = new UniProtEntryDocumentPairWriter(this.solrTemplate, SolrCollection.uniprot, writeRetryPolicy);
+    public ItemWriter<UniProtEntryDocumentPair> uniProtDocumentItemWriter(RetryPolicy<Object> writeRetryPolicy) {
+        return new UniProtEntryDocumentPairWriter(this.solrTemplate, SolrCollection.uniprot, writeRetryPolicy);
+    }
 
-        AsyncItemWriter<EntryDocumentPair<UniProtEntry, UniProtDocument>> asyncItemWriter = new AsyncItemWriter<>();
-        asyncItemWriter.setDelegate(writer);
-
-        return (ItemWriter<Future<UniProtEntryDocumentPair>>)asyncItemWriter;
+    @Bean
+    ItemProcessor<UniProtEntryDocumentPair, UniProtEntryDocumentPair> uniProtDocumentItemProcessor(Map<String, SuggestDocument> suggestDocuments) {
+        return new UniProtEntryDocumentPairProcessor(
+                new UniProtEntryConverter(
+                        createTaxonomyRepo(),
+                        createGoRelationRepo(),
+                        createPathwayRepo(),
+                        ChebiRepoFactory.get(uniProtKBIndexingProperties.getChebiFile()),
+                        ECRepoFactory.get(uniProtKBIndexingProperties.getEcDir()),
+                        suggestDocuments));
     }
 
     @Bean
@@ -109,26 +117,23 @@ public class UniProtKBStep {
     }
 
     @Bean
-    ItemProcessor<UniProtEntryDocumentPair, Future<UniProtEntryDocumentPair>> uniProtDocumentItemProcessor(Map<String, SuggestDocument> suggestDocuments) {
-        ItemProcessor<UniProtEntryDocumentPair, UniProtEntryDocumentPair> documentPairProcessor
-                = new UniProtEntryDocumentPairProcessor(
-                new UniProtEntryConverter(
-                        createTaxonomyRepo(),
-                        createGoRelationRepo(),
-                        createPathwayRepo(),
-                        ChebiRepoFactory.get(uniProtKBIndexingProperties.getChebiFile()),
-                        ECRepoFactory.get(uniProtKBIndexingProperties.getEcDir()),
-                        suggestDocuments));
-
-        AsyncItemProcessor<UniProtEntryDocumentPair, UniProtEntryDocumentPair> itemProcessor = new AsyncItemProcessor<>();
-        itemProcessor.setDelegate(documentPairProcessor);
-
-        return itemProcessor;
-    }
-
-    @Bean
     UniProtKBIndexingProperties indexingProperties() {
         return uniProtKBIndexingProperties;
+    }
+
+    private ItemWriter<Future<UniProtEntryDocumentPair>> asyncWriter(ItemWriter<UniProtEntryDocumentPair> writer) {
+        AsyncItemWriter<UniProtEntryDocumentPair> asyncItemWriter = new AsyncItemWriter<>();
+        asyncItemWriter.setDelegate(writer);
+
+        return asyncItemWriter;
+    }
+
+    private ItemProcessor<UniProtEntryDocumentPair, Future<UniProtEntryDocumentPair>> asyncProcessor(ItemProcessor<UniProtEntryDocumentPair, UniProtEntryDocumentPair> itemProcessor) {
+        AsyncItemProcessor<UniProtEntryDocumentPair, UniProtEntryDocumentPair> asyncProcessor = new AsyncItemProcessor<>();
+        asyncProcessor.setDelegate(itemProcessor);
+        asyncProcessor.setTaskExecutor(createItemProcessorTaskExecutor());
+
+        return asyncProcessor;
     }
 
     private PathwayRepo createPathwayRepo() {
@@ -143,5 +148,20 @@ public class UniProtKBStep {
 
     private TaxonomyRepo createTaxonomyRepo() {
         return new TaxonomyMapRepo(new FileNodeIterable(new File(uniProtKBIndexingProperties.getTaxonomyFile())));
+    }
+
+    private ThreadPoolTaskExecutor createItemProcessorTaskExecutor() {
+        TaskExecutorProperties taskExecutorProperties = uniProtKBIndexingProperties
+                .getItemProcessorTaskExecutorProperties();
+        ThreadPoolTaskExecutor taskExecutor = new ThreadPoolTaskExecutor();
+        taskExecutor.setCorePoolSize(taskExecutorProperties.getCorePoolSize());
+        taskExecutor.setMaxPoolSize(taskExecutorProperties.getMaxPoolSize());
+        taskExecutor.setQueueCapacity(taskExecutorProperties.getQueueCapacity());
+        taskExecutor.setKeepAliveSeconds(taskExecutorProperties.getKeepAliveSeconds());
+        taskExecutor.setAllowCoreThreadTimeOut(taskExecutorProperties.isAllowCoreThreadTimeout());
+        taskExecutor.setWaitForTasksToCompleteOnShutdown(taskExecutorProperties.isWaitForTasksToCompleteOnShutdown());
+        taskExecutor.setRejectedExecutionHandler(new ThreadPoolExecutor.CallerRunsPolicy());
+        taskExecutor.initialize();
+        return taskExecutor;
     }
 }

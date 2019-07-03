@@ -2,6 +2,7 @@ package uk.ac.ebi.uniprot.indexer.uniprotkb.config;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import uk.ac.ebi.uniprot.indexer.common.concurrency.TaskExecutorProperties;
 
 /**
  * Represents configuration properties required for the indexing of UniProtKB data.
@@ -32,4 +33,5 @@ public class UniProtKBIndexingProperties {
     private String taxonomyFile;
     private String chebiFile;
     private String ecDir;
+    private TaskExecutorProperties itemProcessorTaskExecutorProperties = new TaskExecutorProperties();
 }

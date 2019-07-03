@@ -46,7 +46,7 @@ import static org.slf4j.LoggerFactory.getLogger;
  * @author Edd
  */
 @Slf4j
-public abstract class EntryDocumentPairRetryWriter<E, D> implements ItemWriter<EntryDocumentPair<E, D>> {
+public abstract class EntryDocumentPairRetryWriter<E, D, T extends EntryDocumentPair<E, D>> implements ItemWriter<T> {
     private static final Logger INDEXING_FAILED_LOGGER = getLogger("indexing-doc-write-failed-entries");
     private static final String ERROR_WRITING_ENTRIES_TO_SOLR = "Error writing entries to Solr: ";
     private final SolrTemplate solrTemplate;
@@ -62,7 +62,7 @@ public abstract class EntryDocumentPairRetryWriter<E, D> implements ItemWriter<E
     }
 
     @Override
-    public void write(List<? extends EntryDocumentPair<E, D>> entryDocumentPairs) {
+    public void write(List<? extends T> entryDocumentPairs) {
         List<D> documents = entryDocumentPairs.stream()
                 .map(EntryDocumentPair::getDocument)
                 .collect(Collectors.toList());

@@ -25,7 +25,7 @@ import static uk.ac.ebi.uniprot.search.SolrCollection.uniprot;
 class EntryDocumentPairRetryWriterTest {
     private RetryPolicy<Object> retryPolicy;
     private SolrTemplate solrTemplateMock;
-    private EntryDocumentPairRetryWriter<FakeEntry, FakeDoc> writer;
+    private EntryDocumentPairRetryWriter<FakeEntry, FakeDoc, FakeEntryDocPair> writer;
 
     @BeforeEach
     void beforeEach() {
@@ -54,7 +54,7 @@ class EntryDocumentPairRetryWriterTest {
         return pairs;
     }
 
-    private static class WriterUnderTest extends EntryDocumentPairRetryWriter<FakeEntry, FakeDoc> {
+    private static class WriterUnderTest extends EntryDocumentPairRetryWriter<FakeEntry, FakeDoc, FakeEntryDocPair> {
         private WriterUnderTest(SolrTemplate solrTemplate, SolrCollection collection, RetryPolicy<Object> retryPolicy) {
             super(solrTemplate, collection, retryPolicy);
         }
