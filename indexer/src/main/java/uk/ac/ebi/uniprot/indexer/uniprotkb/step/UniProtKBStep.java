@@ -3,6 +3,7 @@ package uk.ac.ebi.uniprot.indexer.uniprotkb.step;
 import net.jodah.failsafe.RetryPolicy;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
+import org.springframework.batch.core.configuration.annotation.StepScope;
 import org.springframework.batch.core.listener.ExecutionContextPromotionListener;
 import org.springframework.batch.integration.async.AsyncItemProcessor;
 import org.springframework.batch.integration.async.AsyncItemWriter;
@@ -95,11 +96,13 @@ public class UniProtKBStep {
     }
 
     @Bean
+    @StepScope
     public ItemWriter<UniProtEntryDocumentPair> uniProtDocumentItemWriter(RetryPolicy<Object> writeRetryPolicy) {
         return new UniProtEntryDocumentPairWriter(this.solrTemplate, SolrCollection.uniprot, writeRetryPolicy);
     }
 
     @Bean
+    @StepScope // TODO: 03/07/19 should we expose the async bean for ? I'd rather not!
     ItemProcessor<UniProtEntryDocumentPair, UniProtEntryDocumentPair> uniProtDocumentItemProcessor(Map<String, SuggestDocument> suggestDocuments) {
         return new UniProtEntryDocumentPairProcessor(
                 new UniProtEntryConverter(
@@ -112,6 +115,7 @@ public class UniProtKBStep {
     }
 
     @Bean
+    @StepScope
     ItemReader<UniProtEntryDocumentPair> entryItemReader() {
         return new UniProtEntryItemReader(uniProtKBIndexingProperties);
     }
