@@ -29,6 +29,11 @@ public class Constants {
     public static final String KEYWORD_INDEX_STEP = "KEYWORD_INDEX_STEP";
     public static final String KEYWORD_LOAD_STATISTICS_STEP_NAME = "KEYWORD_LOAD_STATISTICS";
 
+    public static final String LITERATURE_LOAD_JOB_NAME = "LITERATURE_LOAD_JOB_NAME";
+    public static final String LITERATURE_INDEX_STEP = "LITERATURE_INDEX_STEP";
+    public static final String LITERATURE_MAPPING_INDEX_STEP = "LITERATURE_MAPPING_INDEX_STEP";
+    public static final String LITERATURE_LOAD_STATISTICS_STEP_NAME = "LITERATURE_LOAD_STATISTICS";
+
     public static final String SUGGESTIONS_INDEX_STEP = "Suggestion_Indexing_Step";
     public static final String SUGGESTIONS_MAP = "Suggestions_Set";
 }
