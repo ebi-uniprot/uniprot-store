@@ -4,6 +4,8 @@ import net.jodah.failsafe.RetryPolicy;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
 import org.springframework.batch.core.listener.ExecutionContextPromotionListener;
+import org.springframework.batch.integration.async.AsyncItemProcessor;
+import org.springframework.batch.integration.async.AsyncItemWriter;
 import org.springframework.batch.item.ItemProcessor;
 import org.springframework.batch.item.ItemReader;
 import org.springframework.batch.item.ItemWriter;
@@ -41,6 +43,7 @@ import uk.ac.ebi.uniprot.search.document.uniprot.UniProtDocument;
 
 import java.io.File;
 import java.util.Map;
+import java.util.concurrent.Future;
 
 import static uk.ac.ebi.uniprot.indexer.common.utils.Constants.UNIPROTKB_INDEX_STEP;
 
@@ -71,12 +74,12 @@ public class UniProtKBStep {
     public Step uniProtKBIndexingMainFFStep(WriteRetrierLogStepListener writeRetrierLogStepListener,
                                             @Qualifier("uniProtKB") LogRateListener<UniProtEntryDocumentPair> uniProtKBLogRateListener,
                                             ItemReader<UniProtEntryDocumentPair> entryItemReader,
-                                            ItemProcessor<UniProtEntryDocumentPair, UniProtEntryDocumentPair> uniProtDocumentItemProcessor,
-                                            ItemWriter<EntryDocumentPair<UniProtEntry, UniProtDocument>> uniProtDocumentItemWriter,
+                                            ItemProcessor<UniProtEntryDocumentPair, Future<UniProtEntryDocumentPair>> uniProtDocumentItemProcessor,
+                                            ItemWriter<Future<UniProtEntryDocumentPair>> uniProtDocumentItemWriter,
                                             ExecutionContextPromotionListener promotionListener) {
         return this.stepBuilderFactory.get(UNIPROTKB_INDEX_STEP)
                 .listener(promotionListener)
-                .<UniProtEntryDocumentPair, UniProtEntryDocumentPair>chunk(uniProtKBIndexingProperties.getChunkSize())
+                .<UniProtEntryDocumentPair, Future<UniProtEntryDocumentPair>>chunk(uniProtKBIndexingProperties.getChunkSize())
                 .reader(entryItemReader)
                 .processor(uniProtDocumentItemProcessor)
                 .writer(uniProtDocumentItemWriter)
@@ -91,8 +94,13 @@ public class UniProtKBStep {
     }
 
     @Bean
-    public ItemWriter<EntryDocumentPair<UniProtEntry, UniProtDocument>> uniProtDocumentItemWriter(RetryPolicy<Object> writeRetryPolicy) {
-        return new UniProtEntryDocumentPairWriter(this.solrTemplate, SolrCollection.uniprot, writeRetryPolicy);
+    public ItemWriter<Future<UniProtEntryDocumentPair>> uniProtDocumentItemWriter(RetryPolicy<Object> writeRetryPolicy) {
+        UniProtEntryDocumentPairWriter writer = new UniProtEntryDocumentPairWriter(this.solrTemplate, SolrCollection.uniprot, writeRetryPolicy);
+
+        AsyncItemWriter<EntryDocumentPair<UniProtEntry, UniProtDocument>> asyncItemWriter = new AsyncItemWriter<>();
+        asyncItemWriter.setDelegate(writer);
+
+        return (ItemWriter<Future<UniProtEntryDocumentPair>>)asyncItemWriter;
     }
 
     @Bean
@@ -101,8 +109,9 @@ public class UniProtKBStep {
     }
 
     @Bean
-    ItemProcessor<UniProtEntryDocumentPair, UniProtEntryDocumentPair> uniProtDocumentItemProcessor(Map<String, SuggestDocument> suggestDocuments) {
-        return new UniProtEntryDocumentPairProcessor(
+    ItemProcessor<UniProtEntryDocumentPair, Future<UniProtEntryDocumentPair>> uniProtDocumentItemProcessor(Map<String, SuggestDocument> suggestDocuments) {
+        ItemProcessor<UniProtEntryDocumentPair, UniProtEntryDocumentPair> documentPairProcessor
+                = new UniProtEntryDocumentPairProcessor(
                 new UniProtEntryConverter(
                         createTaxonomyRepo(),
                         createGoRelationRepo(),
@@ -110,6 +119,11 @@ public class UniProtKBStep {
                         ChebiRepoFactory.get(uniProtKBIndexingProperties.getChebiFile()),
                         ECRepoFactory.get(uniProtKBIndexingProperties.getEcDir()),
                         suggestDocuments));
+
+        AsyncItemProcessor<UniProtEntryDocumentPair, UniProtEntryDocumentPair> itemProcessor = new AsyncItemProcessor<>();
+        itemProcessor.setDelegate(documentPairProcessor);
+
+        return itemProcessor;
     }
 
     @Bean
