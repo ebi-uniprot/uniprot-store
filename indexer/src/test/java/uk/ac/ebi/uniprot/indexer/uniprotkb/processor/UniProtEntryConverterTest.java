@@ -1030,19 +1030,19 @@ class UniProtEntryConverterTest {
     }
 
 
-    private List<GoTerm> getMockParentGoTerm() {
-        return asList(
+    private Set<GoTerm> getMockParentGoTerm() {
+        return new HashSet<>(asList(
                 new GoTermFileReader.GoTermImpl("GO:123", "Go term 3"),
                 new GoTermFileReader.GoTermImpl("GO:124", "Go term 4")
-        );
+        ));
 
     }
 
-    private List<GoTerm> getMockPartOfGoTerm() {
-        return asList(
+    private Set<GoTerm> getMockPartOfGoTerm() {
+        return new HashSet<>(asList(
                 new GoTermFileReader.GoTermImpl("GO:125", "Go term 5"),
                 new GoTermFileReader.GoTermImpl("GO:126", "Go term 6")
-        );
+        ));
     }
 
     private Optional<TaxonomicNode> getTaxonomyNode(int id, String scientificName, String commonName, String synonym, String mnemonic) {
