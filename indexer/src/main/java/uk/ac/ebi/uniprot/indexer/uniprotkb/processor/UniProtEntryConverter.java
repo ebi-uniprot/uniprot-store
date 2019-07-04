@@ -501,14 +501,14 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtEntry, Un
     }
 
     private void addParents(String evType, String goId, UniProtDocument japiDocument) {
-        List<GoTerm> parents = goRelationRepo.getIsA(goId);
+        Set<GoTerm> parents = goRelationRepo.getIsA(goId);
         if (parents.isEmpty())
             return;
         parents.forEach(term -> processGoterm(evType, term, japiDocument));
     }
 
     private void addPartOf(String evType, String goId, UniProtDocument japiDocument) {
-        List<GoTerm> partOf = goRelationRepo.getPartOf(goId);
+        Set<GoTerm> partOf = goRelationRepo.getPartOf(goId);
         if (partOf.isEmpty())
             return;
         partOf.forEach(term -> processGoterm(evType, term, japiDocument));

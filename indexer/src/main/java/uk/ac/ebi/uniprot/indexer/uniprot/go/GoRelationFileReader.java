@@ -7,19 +7,17 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Stream;
 
+// TODO: 04/07/19 test this class
 public class GoRelationFileReader {
     private static final String COMMENT_PREFIX = "!";
     private static final String SEPARATOR = "\t";
     private static final String PART_OF = "part_of";
     private static final String IS_A = "is_a";
-    private Map<String, List<String>> isAMap = new HashMap<>();
-    private Map<String, List<String>> isPartMap = new HashMap<>();
+    private Map<String, Set<String>> isAMap = new HashMap<>();
+    private Map<String, Set<String>> isPartMap = new HashMap<>();
     private final String goRelationFPath;
 
     private static final String FILENAME = "GO.relations";
@@ -30,11 +28,11 @@ public class GoRelationFileReader {
         this.goRelationFPath = goRelationFPath;
     }
 
-    public Map<String, List<String>> getIsAMap() {
+    public Map<String, Set<String>> getIsAMap() {
         return isAMap;
     }
 
-    public Map<String, List<String>> getIsPartMap() {
+    public Map<String, Set<String>> getIsPartMap() {
         return isPartMap;
     }
 
@@ -62,12 +60,8 @@ public class GoRelationFileReader {
         }
     }
 
-    private void add2Map(Map<String, List<String>> map, String key, String value) {
-        List<String> values = map.get(key);
-        if (values == null) {
-            values = new ArrayList<>();
-            map.put(key, values);
-        }
+    private void add2Map(Map<String, Set<String>> map, String key, String value) {
+        Set<String> values = map.computeIfAbsent(key, k -> new HashSet<>());
         values.add(value);
     }
 }

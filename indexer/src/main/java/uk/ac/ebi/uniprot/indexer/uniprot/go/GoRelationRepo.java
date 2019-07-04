@@ -1,9 +1,9 @@
 package uk.ac.ebi.uniprot.indexer.uniprot.go;
 
-import java.util.List;
+import java.util.Set;
 
 public interface GoRelationRepo {
-    List<GoTerm> getIsA(String goId);
+    Set<GoTerm> getIsA(String goId);
 
-    List<GoTerm> getPartOf(String goId);
+    Set<GoTerm> getPartOf(String goId);
 }
