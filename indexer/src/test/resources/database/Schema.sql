@@ -145,6 +145,19 @@ create table SPTR.KEYWORD_HIERARCHY
   KEYWORD_ID NUMBER(6)
 );
 
+create table SPTR.PUBLICATION_2_DATABASE
+(
+  PUBLICATION_ID NUMBER(15) not null,
+  DATABASE_ID    VARCHAR2(5) not null,
+  PRIMARY_ID     VARCHAR2(200) not null
+);
+
+create table SPTR.DBENTRY_2_PUBLICATION
+(
+  PUBLICATION_ID NUMBER(15) not null,
+  DBENTRY_ID     NUMBER(15) not null
+);
+
 
 
 
