@@ -75,8 +75,8 @@ public class UniProtKBStep {
     public Step uniProtKBIndexingMainFFStep(WriteRetrierLogStepListener writeRetrierLogStepListener,
                                             @Qualifier("uniProtKB") LogRateListener<UniProtEntryDocumentPair> uniProtKBLogRateListener,
                                             ItemReader<UniProtEntryDocumentPair> entryItemReader,
-                                            ItemProcessor<UniProtEntryDocumentPair, UniProtEntryDocumentPair> uniProtDocumentItemProcessor,
-                                            ItemWriter<UniProtEntryDocumentPair> uniProtDocumentItemWriter,
+                                            UniProtEntryDocumentPairProcessor uniProtDocumentItemProcessor,
+                                            UniProtEntryDocumentPairWriter uniProtDocumentItemWriter,
                                             ExecutionContextPromotionListener promotionListener) {
         return this.stepBuilderFactory.get(UNIPROTKB_INDEX_STEP)
                 .listener(promotionListener)
@@ -87,6 +87,8 @@ public class UniProtKBStep {
                 .writer(asyncWriter(uniProtDocumentItemWriter))
                 .listener(writeRetrierLogStepListener)
                 .listener(uniProtKBLogRateListener)
+                .listener(uniProtDocumentItemProcessor)
+                .listener(uniProtDocumentItemWriter)
                 .build();
     }
 
@@ -97,13 +99,13 @@ public class UniProtKBStep {
 
     @Bean
     @StepScope
-    public ItemWriter<UniProtEntryDocumentPair> uniProtDocumentItemWriter(RetryPolicy<Object> writeRetryPolicy) {
+    public UniProtEntryDocumentPairWriter uniProtDocumentItemWriter(RetryPolicy<Object> writeRetryPolicy) {
         return new UniProtEntryDocumentPairWriter(this.solrTemplate, SolrCollection.uniprot, writeRetryPolicy);
     }
 
     @Bean
-    @StepScope // TODO: 03/07/19 should we expose the async bean for ? I'd rather not!
-    ItemProcessor<UniProtEntryDocumentPair, UniProtEntryDocumentPair> uniProtDocumentItemProcessor(Map<String, SuggestDocument> suggestDocuments) {
+    @StepScope
+    UniProtEntryDocumentPairProcessor uniProtDocumentItemProcessor(Map<String, SuggestDocument> suggestDocuments) {
         return new UniProtEntryDocumentPairProcessor(
                 new UniProtEntryConverter(
                         createTaxonomyRepo(),

@@ -78,7 +78,6 @@ public abstract class EntryDocumentPairRetryWriter<E, D, T extends EntryDocument
     }
 
     @BeforeStep
-    // TODO: 03/07/19 this is not being fired after adding async writing with spring batch integration
     public void setStepExecution(final StepExecution stepExecution) {
         ExecutionContext executionContext = stepExecution.getJobExecution().getExecutionContext();
 
