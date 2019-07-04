@@ -95,7 +95,8 @@ public abstract class EntryDocumentPairRetryWriter<E, D, T extends EntryDocument
     public abstract String entryToString(E entry);
 
     private void writeEntriesToSolr(List<D> documents) {
-        solrTemplate.saveBeans(collection.name(), documents);
+        // TODO: 04/07/19 commented out for testing
+//        solrTemplate.saveBeans(collection.name(), documents);
         writtenEntriesCount.addAndGet(documents.size());
     }
 

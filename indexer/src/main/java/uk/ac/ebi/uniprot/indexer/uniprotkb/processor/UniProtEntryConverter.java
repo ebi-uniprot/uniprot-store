@@ -212,7 +212,8 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtEntry, Un
             setProteinExistence(source, japiDocument);
             setSequence(source, japiDocument);
             setScore(source, japiDocument);
-            setAvroDefaultEntry(source, japiDocument);
+            // TODO: 04/07/19 commented out for testing
+//            setAvroDefaultEntry(source, japiDocument);
             setDefaultSearchContent(japiDocument);
             setUniRefClusters(japiDocument.accession, japiDocument);
             return japiDocument;

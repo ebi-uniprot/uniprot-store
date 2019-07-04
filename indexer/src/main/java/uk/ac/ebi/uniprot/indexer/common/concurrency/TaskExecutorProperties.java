@@ -16,6 +16,7 @@ public class TaskExecutorProperties {
     static final int KEEP_ALIVE_SECONDS = 20 * 60;
     static final boolean ALLOW_CORE_THREAD_TIMEOUT = false;
     static final boolean WAIT_FOR_TASKS_TO_COMPLETE_ON_SHUTDOWN = true;
+    private static final String THREAD_NAME_PREFIX = "async";
 
     private int corePoolSize = DEFAULT_CORE_POOL_SIZE;
     private int maxPoolSize = MAX_POOL_SIZE;
@@ -23,4 +24,5 @@ public class TaskExecutorProperties {
     private int keepAliveSeconds = KEEP_ALIVE_SECONDS;
     private boolean allowCoreThreadTimeout = ALLOW_CORE_THREAD_TIMEOUT;
     private boolean waitForTasksToCompleteOnShutdown = WAIT_FOR_TASKS_TO_COMPLETE_ON_SHUTDOWN;
+    private String threadNamePrefix = THREAD_NAME_PREFIX;
 }

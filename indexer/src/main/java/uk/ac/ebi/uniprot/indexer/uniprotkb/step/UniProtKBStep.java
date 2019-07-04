@@ -1,5 +1,6 @@
 package uk.ac.ebi.uniprot.indexer.uniprotkb.step;
 
+import lombok.extern.slf4j.Slf4j;
 import net.jodah.failsafe.RetryPolicy;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
@@ -57,6 +58,7 @@ import static uk.ac.ebi.uniprot.indexer.common.utils.Constants.UNIPROTKB_INDEX_S
  */
 @Configuration
 @Import({UniProtKBConfig.class, SuggestionStep.class})
+@Slf4j
 public class UniProtKBStep {
     private final StepBuilderFactory stepBuilderFactory;
     private final UniProtKBIndexingProperties uniProtKBIndexingProperties;
@@ -168,6 +170,8 @@ public class UniProtKBStep {
         taskExecutor.setWaitForTasksToCompleteOnShutdown(taskExecutorProperties.isWaitForTasksToCompleteOnShutdown());
         taskExecutor.setRejectedExecutionHandler(new ThreadPoolExecutor.CallerRunsPolicy());
         taskExecutor.initialize();
+        taskExecutor.setThreadNamePrefix(taskExecutorProperties.getThreadNamePrefix());
+        log.info("Using Item Processor/Writer task executor: {}", taskExecutorProperties);
         return taskExecutor;
     }
 }
