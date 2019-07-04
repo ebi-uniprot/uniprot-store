@@ -27,10 +27,12 @@ public class DiseaseLoadJob {
     private JobBuilderFactory jobs;
 
     @Bean("DiseaseLoadJob")
-    public Job indexSupportingData(@Qualifier("IndexDiseaseStep") Step indexDisease,
+    public Job indexSupportingData(@Qualifier("DiseaseProteinCountStep") Step diseaseProteinCountStep,
+            @Qualifier("IndexDiseaseStep") Step indexDisease,
                                    JobExecutionListener jobListener) {
         return this.jobs.get(Constants.DISEASE_LOAD_JOB_NAME)
-                .start(indexDisease)//index the disease
+                .start(diseaseProteinCountStep)// get the protein count of the diseases and cache them for next step
+                .next(indexDisease)//index the disease
                 .listener(jobListener)
                 .build();
     }
