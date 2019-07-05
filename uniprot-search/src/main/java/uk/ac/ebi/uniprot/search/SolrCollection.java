@@ -13,6 +13,7 @@ public enum SolrCollection {
     proteome,
     disease,
     keyword,
+    literature,
     suggest,
     genecentric
 }

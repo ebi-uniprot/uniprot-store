@@ -1,0 +1,81 @@
+package uk.ac.ebi.uniprot.indexer.literature.processor;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.batch.item.ItemProcessor;
+import org.springframework.data.solr.core.SolrTemplate;
+import org.springframework.data.solr.core.query.Criteria;
+import org.springframework.data.solr.core.query.Query;
+import org.springframework.data.solr.core.query.SimpleQuery;
+import uk.ac.ebi.uniprot.domain.literature.LiteratureEntry;
+import uk.ac.ebi.uniprot.domain.literature.builder.LiteratureEntryBuilder;
+import uk.ac.ebi.uniprot.domain.literature.builder.LiteratureStatisticsBuilder;
+import uk.ac.ebi.uniprot.domain.literature.impl.LiteratureEntryImpl;
+import uk.ac.ebi.uniprot.json.parser.literature.LiteratureJsonConfig;
+import uk.ac.ebi.uniprot.search.SolrCollection;
+import uk.ac.ebi.uniprot.search.document.literature.LiteratureDocument;
+
+import java.nio.ByteBuffer;
+import java.util.Optional;
+
+/**
+ * @author lgonzales
+ */
+@Slf4j
+public class LiteratureMappingProcessor implements ItemProcessor<LiteratureEntry, LiteratureDocument> {
+
+    private final SolrTemplate solrTemplate;
+    private final ObjectMapper literatureObjectMapper;
+
+    public LiteratureMappingProcessor(SolrTemplate solrTemplate) {
+        this.solrTemplate = solrTemplate;
+        this.literatureObjectMapper = LiteratureJsonConfig.getInstance().getFullObjectMapper();
+    }
+
+    @Override
+    public LiteratureDocument process(LiteratureEntry mappedEntry) throws Exception {
+        Query query = new SimpleQuery().addCriteria(Criteria.where("id").is(mappedEntry.getPubmedId()));
+        Optional<LiteratureDocument> optionalDocument = solrTemplate.queryForObject(SolrCollection.literature.name(), query, LiteratureDocument.class);
+        LiteratureStatisticsBuilder statisticsBuilder = new LiteratureStatisticsBuilder();
+        if (optionalDocument.isPresent()) {
+            LiteratureDocument document = optionalDocument.get();
+
+            //Get statistics from previous step and copy it to builder
+            byte[] literatureObj = document.getLiteratureObj().array();
+            LiteratureEntry statisticsEntry = literatureObjectMapper.readValue(literatureObj, LiteratureEntryImpl.class);
+            statisticsBuilder = statisticsBuilder.from(statisticsEntry.getStatistics());
+
+            solrTemplate.delete(SolrCollection.literature.name(), query);
+            solrTemplate.softCommit(SolrCollection.literature.name());
+        }
+        //update mappedProteinCount in the statistic builder
+        statisticsBuilder.mappedProteinCount(mappedEntry.getLiteratureMappedReferences().size());
+
+        //Set updated statistics to the mappedEntry
+        LiteratureEntryBuilder mappedEntryBuilder = new LiteratureEntryBuilder().from(mappedEntry);
+        mappedEntryBuilder.statistics(statisticsBuilder.build());
+        mappedEntry = mappedEntryBuilder.build();
+
+        return createLiteratureDocument(mappedEntry);
+    }
+
+    private LiteratureDocument createLiteratureDocument(LiteratureEntry mappedEntry) {
+        LiteratureDocument.LiteratureDocumentBuilder builder = LiteratureDocument.builder();
+        byte[] literatureByte = getLiteratureObjectBinary(mappedEntry);
+        builder.literatureObj(ByteBuffer.wrap(literatureByte));
+        builder.id(mappedEntry.getPubmedId());
+
+        log.debug("LiteratureStatisticsProcessor entry: " + mappedEntry);
+        return builder.build();
+    }
+
+    private byte[] getLiteratureObjectBinary(LiteratureEntry literature) {
+        try {
+            return this.literatureObjectMapper.writeValueAsBytes(literature);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException("Unable to parse Literature to binary json: ", e);
+        }
+    }
+
+}
