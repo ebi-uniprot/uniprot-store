@@ -28,7 +28,6 @@ import uk.ac.ebi.uniprot.indexer.common.listener.LogRateListener;
 import uk.ac.ebi.uniprot.indexer.common.listener.WriteRetrierLogStepListener;
 import uk.ac.ebi.uniprot.indexer.uniprot.go.GoRelationFileReader;
 import uk.ac.ebi.uniprot.indexer.uniprot.go.GoRelationFileRepo;
-import uk.ac.ebi.uniprot.indexer.uniprot.go.GoRelationRepo;
 import uk.ac.ebi.uniprot.indexer.uniprot.go.GoTermFileReader;
 import uk.ac.ebi.uniprot.indexer.uniprot.pathway.PathwayFileRepo;
 import uk.ac.ebi.uniprot.indexer.uniprot.pathway.PathwayRepo;
@@ -105,13 +104,26 @@ public class UniProtKBStep {
         return new UniProtEntryDocumentPairWriter(this.solrTemplate, SolrCollection.uniprot, writeRetryPolicy);
     }
 
+    /**
+     * Needs to be a bean since it contains a @Cacheable annotation within, and Spring
+     * will only scan for these annotations inside beans.
+     * @return the GoRelationFileRepo
+     */
     @Bean
     @StepScope
-    UniProtEntryDocumentPairProcessor uniProtDocumentItemProcessor(Map<String, SuggestDocument> suggestDocuments) {
+    public GoRelationFileRepo goRelationFileRepo() {
+        return new GoRelationFileRepo(
+                new GoRelationFileReader(uniProtKBIndexingProperties.getGoDir()),
+                new GoTermFileReader(uniProtKBIndexingProperties.getGoDir()));
+    }
+
+    @Bean
+    @StepScope
+    UniProtEntryDocumentPairProcessor uniProtDocumentItemProcessor(Map<String, SuggestDocument> suggestDocuments, GoRelationFileRepo goRelationFileRepo) {
         return new UniProtEntryDocumentPairProcessor(
                 new UniProtEntryConverter(
                         createTaxonomyRepo(),
-                        createGoRelationRepo(),
+                        goRelationFileRepo,
                         createPathwayRepo(),
                         ChebiRepoFactory.get(uniProtKBIndexingProperties.getChebiFile()),
                         ECRepoFactory.get(uniProtKBIndexingProperties.getEcDir()),
@@ -146,12 +158,6 @@ public class UniProtKBStep {
 
     private PathwayRepo createPathwayRepo() {
         return new PathwayFileRepo(uniProtKBIndexingProperties.getPathwayFile());
-    }
-
-    private GoRelationRepo createGoRelationRepo() {
-        return new GoRelationFileRepo(
-                new GoRelationFileReader(uniProtKBIndexingProperties.getGoDir()),
-                new GoTermFileReader(uniProtKBIndexingProperties.getGoDir()));
     }
 
     private TaxonomyRepo createTaxonomyRepo() {

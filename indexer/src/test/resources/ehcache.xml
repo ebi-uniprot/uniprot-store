@@ -9,8 +9,8 @@
         </expiry>
 
         <resources>
-            <heap unit="MB">500</heap>
-            <offheap unit="MB">5000</offheap>
+            <heap unit="MB">50</heap>
+            <offheap unit="MB">1000</offheap>
         </resources>
     </cache>
 </config>
