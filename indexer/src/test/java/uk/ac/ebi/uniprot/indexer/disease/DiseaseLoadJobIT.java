@@ -32,8 +32,7 @@ import java.nio.ByteBuffer;
 import java.util.stream.Collectors;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.notNullValue;
+import static org.hamcrest.Matchers.*;
 
 @ActiveProfiles(profiles = {"job", "offline"})
 @ExtendWith(SpringExtension.class)
@@ -82,7 +81,7 @@ class DiseaseLoadJobIT {
         assertThat(disease.getAccession(), is("DI-02692"));
         assertThat(disease.getAcronym(), is("RA"));
         assertThat(disease.getReviewedProteinCount(), is(8L));
-        assertThat(disease.getUnreviewedProteinCount(), is(0L));
+        assertThat(disease.getUnreviewedProteinCount(), is(nullValue()));
         assertThat(disease.getCrossReferences().size(), is(3));
         assertThat(disease.getAlternativeNames().size(), is(2));
         assertThat(disease.getKeywords().size(), is(1));

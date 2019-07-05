@@ -29,8 +29,7 @@ import java.sql.SQLException;
  */
 @Configuration
 public class DiseaseProteinCountStep {
-    private static final String QUERY_TO_GET_COUNT_PER_DISEASE = "SELECT DISEASE_IDENTIFIER as diseaseId, ENTRY_TYPE as entryType, " +
-            "COUNT(ACCESSION) as proteinCount" +
+    private static final String QUERY_TO_GET_COUNT_PER_DISEASE = "SELECT DISEASE_IDENTIFIER as diseaseId, COUNT(ACCESSION) as proteinCount" +
             "  FROM" +
             "  (   " +
             "    SELECT DISTINCT db.ACCESSION, db.ENTRY_TYPE, TRIM(SUBSTR(css.TEXT, 0, INSTR(css.TEXT, ' (') )) DISEASE_IDENTIFIER" +
@@ -43,11 +42,11 @@ public class DiseaseProteinCountStep {
             "      JOIN SPTR.COMMENT_SUBSTRUCTURE css ON cs.COMMENT_STRUCTURE_ID = css.COMMENT_STRUCTURE_ID" +
             "    WHERE ct.TOPIC = 'DISEASE'" +
             "      AND cst.\"TYPE\" = 'DISEASE'" +
-            "      AND db.ENTRY_TYPE IN (0,1)" +
+            "      AND db.ENTRY_TYPE = 0 " +
             "      AND db.DELETED = 'N'" +
             "      AND db.MERGE_STATUS <> 'R'" +
             "  )" +
-            "  GROUP BY DISEASE_IDENTIFIER, ENTRY_TYPE";
+            "  GROUP BY DISEASE_IDENTIFIER";
 
     @Value(("${database.chunk.size}"))
     private Integer chunkSize;
