@@ -1,11 +1,4 @@
-/*
- * Created by sahmad on 29/01/19 11:28
- * UniProt Consortium.
- * Copyright (c) 2002-2019.
- *
- */
-
-package uk.ac.ebi.uniprot.indexer.disease;
+package uk.ac.ebi.uniprot.indexer.literature;
 
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.JobExecutionListener;
@@ -20,19 +13,24 @@ import uk.ac.ebi.uniprot.indexer.common.config.DataSourceConfig;
 import uk.ac.ebi.uniprot.indexer.common.config.SolrRepositoryConfig;
 import uk.ac.ebi.uniprot.indexer.common.utils.Constants;
 
+/**
+ * @author lgonzales
+ */
 @Configuration
 @Import({DataSourceConfig.class, SolrRepositoryConfig.class})
-public class DiseaseLoadJob {
+public class LiteratureJob {
     @Autowired
     private JobBuilderFactory jobs;
 
-    @Bean("DiseaseLoadJob")
-    public Job indexSupportingData(@Qualifier("DiseaseProteinCountStep") Step diseaseProteinCountStep,
-            @Qualifier("IndexDiseaseStep") Step indexDisease,
-                                   JobExecutionListener jobListener) {
-        return this.jobs.get(Constants.DISEASE_LOAD_JOB_NAME)
-                .start(diseaseProteinCountStep)// get the protein count of the diseases and cache them for next step
-                .next(indexDisease)//index the disease
+    @Bean("LiteratureLoadJob")
+    public Job indexLiteratureSupportingData(@Qualifier("IndexLiteratureStep") Step indexLiterature,
+                                             @Qualifier("LiteratureMappingStep") Step literatureMappingStep,
+                                             @Qualifier("LiteratureStatistics") Step literatureStatistics,
+                                             JobExecutionListener jobListener) {
+        return this.jobs.get(Constants.LITERATURE_LOAD_JOB_NAME)
+                .start(literatureStatistics) // index all protein counts for literature
+                .next(literatureMappingStep) // update all pir mappings
+                .next(indexLiterature) // index literature entry
                 .listener(jobListener)
                 .build();
     }

@@ -38,7 +38,7 @@ import static org.hamcrest.Matchers.notNullValue;
 @ActiveProfiles(profiles = {"job", "offline"})
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = {FakeIndexerSpringBootApplication.class, SolrTestConfig.class, FakeReadDatabaseConfig.class,
-                           ListenerConfig.class, DiseaseLoadStep.class, DiseaseLoadJob.class})
+                           ListenerConfig.class, DiseaseLoadStep.class, DiseaseProteinCountStep.class, DiseaseLoadJob.class})
 class DiseaseLoadJobIT {
 
     private ObjectMapper diseaseObjectMapper = DiseaseJsonConfig.getInstance().getFullObjectMapper();
