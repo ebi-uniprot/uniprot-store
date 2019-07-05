@@ -45,7 +45,7 @@ public interface LiteratureField {
 
         private final Predicate<String> fieldValueValidator;
         private final SearchFieldType searchFieldType;
-        private final Float boostValue;
+        private final BoostValue boostValue;
 
         Search(SearchFieldType searchFieldType) {
             this.searchFieldType = searchFieldType;
@@ -53,14 +53,14 @@ public interface LiteratureField {
             this.boostValue = null;
         }
 
-        Search(SearchFieldType searchFieldType, Predicate<String> fieldValueValidator, Float boostValue) {
+        Search(SearchFieldType searchFieldType, Predicate<String> fieldValueValidator, BoostValue boostValue) {
             this.searchFieldType = searchFieldType;
             this.fieldValueValidator = fieldValueValidator;
             this.boostValue = boostValue;
         }
 
         @Override
-        public Float getBoostValue() {
+        public BoostValue getBoostValue() {
             return this.boostValue;
         }
 
@@ -95,7 +95,7 @@ public interface LiteratureField {
 
     }
 
-    enum ResultFields {
+    enum ResultFields implements ReturnField {
         id("PubMed ID"),
         doi("Doi"),
         title("Title"),
@@ -106,6 +106,7 @@ public interface LiteratureField {
         publication("Publication"),
         reference("Reference"),
         lit_abstract("Abstract/Summary"),
+        mapped_references("Mapped Referebces"),
         statistics("Statistics");
 
         private String label;
@@ -116,6 +117,12 @@ public interface LiteratureField {
 
         public String getLabel() {
             return this.label;
+        }
+
+        @Override
+        public boolean hasReturnField(String fieldName) {
+            return Arrays.stream(ResultFields.values())
+                    .anyMatch(returnItem -> returnItem.name().equalsIgnoreCase(fieldName));
         }
     }
 
