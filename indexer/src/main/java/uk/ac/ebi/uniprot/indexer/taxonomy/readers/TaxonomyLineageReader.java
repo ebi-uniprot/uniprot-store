@@ -28,12 +28,17 @@ public class TaxonomyLineageReader implements RowMapper<List<TaxonomyLineage>> {
             String[] lineageNameArray = lineageName.substring(1).split("\\|");
             String[] lineageRankArray = lineageRank.substring(1).split("\\|");
             String[] lineageHiddenArray = lineageHidden.substring(1).split("\\|");
-            String taxId = lineageIdArray[0];
             for (int i = 1; i < lineageIdArray.length - 1; i++) {
                 TaxonomyLineageBuilder builder = new TaxonomyLineageBuilder();
                 builder.taxonId(Long.parseLong(lineageIdArray[i]));
                 builder.scientificName(lineageNameArray[i]);
-                builder.rank(TaxonomyRank.valueOf(lineageRankArray[i]));
+                if (Utils.notEmpty(lineageRankArray[i])) {
+                    try {
+                        builder.rank(TaxonomyRank.valueOf(lineageRankArray[i].toUpperCase()));
+                    } catch (IllegalArgumentException iae) {
+                        builder.rank(TaxonomyRank.NO_RANK);
+                    }
+                }
                 builder.hidden(lineageHiddenArray[i].equals("1"));
                 lineageList.add(builder.build());
             }
