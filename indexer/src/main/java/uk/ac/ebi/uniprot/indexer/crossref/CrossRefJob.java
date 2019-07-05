@@ -32,8 +32,8 @@ public class CrossRefJob {
                                    @Qualifier("CrossRefUniProtKBCountStep") Step indexUniProtCount,
                                    JobExecutionListener jobListener) {
         return this.jobs.get(Constants.CROSS_REF_LOAD_JOB)
-                .start(indexCrossRef)//index the cross references
-                .next(indexUniProtCount)// update the uniprot count for each cross ref
+                .start(indexUniProtCount)// get the cross refs protein count and cache them in a map and use in next step
+                .next(indexCrossRef)// index the cross references
                 .listener(jobListener)
                 .build();
     }

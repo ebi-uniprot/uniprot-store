@@ -1,11 +1,8 @@
 package uk.ac.ebi.uniprot.indexer.crossref.readers;
 
-import org.apache.commons.lang3.tuple.ImmutablePair;
-import org.apache.commons.lang3.tuple.Pair;
-import org.springframework.batch.core.JobExecution;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.StepExecution;
 import org.springframework.batch.core.annotation.BeforeStep;
-import org.springframework.batch.item.ExecutionContext;
 import org.springframework.batch.item.ItemReader;
 import uk.ac.ebi.uniprot.indexer.common.utils.Constants;
 import uk.ac.ebi.uniprot.search.document.dbxref.CrossRefDocument;
@@ -17,11 +14,11 @@ import java.io.InputStream;
 import java.net.URL;
 import java.net.URLConnection;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 
+@Slf4j
 public class CrossRefReader implements ItemReader<CrossRefDocument> {
     private static final String DATA_REGION_SEP = "___________________________________________________________________________";
     private static final String COPYRIGHT_SEP = "-----------------------------------------------------------------------";
@@ -44,11 +41,14 @@ public class CrossRefReader implements ItemReader<CrossRefDocument> {
     private static final String REF_SEPARATOR = " ";
     private static final Pattern NEWLINE_PATTERN = Pattern.compile("^\\s*$", Pattern.MULTILINE);
     private static final String FTP_PREFIX = "ftp://";
+    private static final String UNDER_ZERO = "_0";
+    private static final String UNDER_ONE = "_1";
 
     private Scanner reader;
     private boolean dataRegionStarted;
 
-    private StepExecution stepExecution;
+    // cache to be loaded from context of previous step, see method getStepExecution below
+    private Map<String, CrossRefUniProtCountReader.CrossRefProteinCount> crossRefProteinCountMap;
 
     public CrossRefReader(String filePath) throws IOException {
         InputStream inputStream;
@@ -87,10 +87,6 @@ public class CrossRefReader implements ItemReader<CrossRefDocument> {
                 dbxRef = convertToDBXRef(lines);
             }
 
-            if (dbxRef != null) { // update the pair of accession and abbreviation of cross ref for new step in the step execution context
-                updateAccessionAbbrPair(dbxRef.getAccession(), dbxRef.getAbbrev());
-            }
-
             return dbxRef;
         } else {
             return null;
@@ -98,26 +94,10 @@ public class CrossRefReader implements ItemReader<CrossRefDocument> {
     }
 
     @BeforeStep
-    public void setStepExecution(final StepExecution stepExecution) {
-        this.stepExecution = stepExecution;
-    }
+    public void getCrossRefProteinCountMap(final StepExecution stepExecution) {// get the cached data from previous step
 
-    private void updateAccessionAbbrPair(String accession, String abbrev) {
-        if (this.stepExecution != null) { // null if being called from unit test
-            JobExecution jobExecution = this.stepExecution.getJobExecution();
-            ExecutionContext executionContext = jobExecution.getExecutionContext();
-            Pair<String, String> accAbbr = new ImmutablePair<>(accession, abbrev);
-            List<Pair<String, String>> accAbbrPairs;
-            if (executionContext.get(Constants.CROSS_REF_KEY_STR) == null) { // create a list
-                accAbbrPairs = new ArrayList<>();
-                accAbbrPairs.add(accAbbr);
-            } else { // update the existing list
-                accAbbrPairs = (List<Pair<String, String>>) executionContext.get(Constants.CROSS_REF_KEY_STR);
-                accAbbrPairs.add(accAbbr);
-            }
-
-            executionContext.put(Constants.CROSS_REF_KEY_STR, accAbbrPairs);
-        }
+        this.crossRefProteinCountMap = (Map<String, CrossRefUniProtCountReader.CrossRefProteinCount>) stepExecution.getJobExecution()
+                .getExecutionContext().get(Constants.CROSS_REF_PROTEIN_COUNT_KEY);
     }
 
     private CrossRefDocument convertToDBXRef(String linesStr) {
@@ -163,6 +143,22 @@ public class CrossRefReader implements ItemReader<CrossRefDocument> {
         builder.accession(acc).abbrev(abbr).name(name);
         builder.pubMedId(pubMedId).doiId(doiId).linkType(lType).server(server);
         builder.dbUrl(url).categoryStr(cat);
+
+        // update the reviewed and unreviewed protein count
+        CrossRefUniProtCountReader.CrossRefProteinCount reviewedProtCount = this.crossRefProteinCountMap.get(abbr + UNDER_ZERO);
+        CrossRefUniProtCountReader.CrossRefProteinCount unreviewedProtCount = this.crossRefProteinCountMap.get(abbr + UNDER_ONE);
+
+        if(reviewedProtCount != null){
+            builder.reviewedProteinCount(reviewedProtCount.getProteinCount());
+        } else {
+            log.warn("Cross ref with abbreviation {} not in the uniprot db reviewed", abbr);
+        }
+
+        if(unreviewedProtCount != null){
+            builder.unreviewedProteinCount(unreviewedProtCount.getProteinCount());
+        } else {
+            log.warn("Cross ref with abbreviation {} not in the uniprot db unreviewed", abbr);
+        }
         return builder.build();
     }
 }
