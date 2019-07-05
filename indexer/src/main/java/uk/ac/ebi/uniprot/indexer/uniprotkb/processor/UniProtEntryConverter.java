@@ -55,8 +55,11 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
+import static java.util.Arrays.asList;
 import static uk.ac.ebi.uniprot.common.Utils.nonNull;
 import static uk.ac.ebi.uniprot.common.Utils.nullOrEmpty;
+import static uk.ac.ebi.uniprot.indexer.uniprot.go.GoRelationFileRepo.Relationship.IS_A;
+import static uk.ac.ebi.uniprot.indexer.uniprot.go.GoRelationFileRepo.Relationship.PART_OF;
 
 /**
  * // TODO: 18/04/19 can be moved to a different package?
@@ -104,10 +107,10 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtEntry, Un
                                                                               GeneEncodingType.CHLOROPLAST_PLASTID, GeneEncodingType.CYANELLE_PLASTID,
                                                                               GeneEncodingType.NON_PHOTOSYNTHETIC_PLASTID, GeneEncodingType.CHROMATOPHORE_PLASTID);
     private static final String MANUAL_EVIDENCE = "manual";
-    private static final List<String> MANUAL_EVIDENCE_MAP = Arrays.asList("ECO_0000269", "ECO_0000303", "ECO_0000305",
+    private static final List<String> MANUAL_EVIDENCE_MAP = asList("ECO_0000269", "ECO_0000303", "ECO_0000305",
                                                                           "ECO_0000250", "ECO_0000255", "ECO_0000244", "ECO_0000312");
     private static final String AUTOMATIC_EVIDENCE = "automatic";
-    private static final List<String> AUTOMATIC_EVIDENCE_MAP = Arrays.asList("ECO_0000256", "ECO_0000213",
+    private static final List<String> AUTOMATIC_EVIDENCE_MAP = asList("ECO_0000256", "ECO_0000213",
                                                                              "ECO_0000313", "ECO_0000259");
     private static final String EXPERIMENTAL_EVIDENCE = "experimental";
     private static final List<String> EXPERIMENTAL_EVIDENCE_MAP = Collections.singletonList("ECO_0000269");
@@ -491,33 +494,19 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtEntry, Un
                         .filter(property -> property.getKey().equalsIgnoreCase("GoEvidenceType"))
                         .map(property -> property.getValue().split(":")[0].toLowerCase())
                         .collect(Collectors.joining());
+
                 addGoterm(evType, go.getId(), goTerm, japiDocument);
-                addParents(evType, go.getId(), japiDocument);
-                addPartOf(evType, go.getId(), japiDocument);
+                addAncestors(evType, go.getId(), japiDocument);
+
                 japiDocument.content.add(go.getId().substring(3));// id
                 japiDocument.content.add(goTerm); // term
             }
         }
     }
 
-    private void addParents(String evType, String goId, UniProtDocument japiDocument) {
-        Set<GoTerm> parents = goRelationRepo.getIsA(goId);
-        if (parents.isEmpty())
-            return;
-        parents.forEach(term -> processGoterm(evType, term, japiDocument));
-    }
-
-    private void addPartOf(String evType, String goId, UniProtDocument japiDocument) {
-        Set<GoTerm> partOf = goRelationRepo.getPartOf(goId);
-        if (partOf.isEmpty())
-            return;
-        partOf.forEach(term -> processGoterm(evType, term, japiDocument));
-    }
-
-    private void processGoterm(String evType, GoTerm term, UniProtDocument japiDocument) {
-        addGoterm(evType, term.getId(), term.getName(), japiDocument);
-        addParents(evType, term.getId(), japiDocument);
-        addPartOf(evType, term.getId(), japiDocument);
+    private void addAncestors(String evType, String goTerm, UniProtDocument doc) {
+        Set<GoTerm> ancestors = goRelationRepo.getAncestors(goTerm, asList(IS_A, PART_OF));
+        ancestors.forEach(ancestor -> addGoterm(evType, ancestor.getId(), ancestor.getName(), doc));
     }
 
     private void addGoterm(String evType, String goId, String term, UniProtDocument japiDocument) {

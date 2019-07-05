@@ -7,14 +7,19 @@ import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.cache.CacheManager;
+import org.springframework.cache.concurrent.ConcurrentMapCache;
+import org.springframework.cache.support.SimpleCacheManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.data.solr.core.SolrTemplate;
+import uk.ac.ebi.uniprot.indexer.common.config.CacheConfig;
 import uk.ac.ebi.uniprot.indexer.common.config.SolrRepositoryConfig;
 import uk.ac.ebi.uniprot.indexer.common.listener.WriteRetrierLogJobListener;
 import uk.ac.ebi.uniprot.search.SolrCollection;
 
+import static java.util.Collections.singletonList;
 import static uk.ac.ebi.uniprot.indexer.common.utils.Constants.UNIPROTKB_INDEX_JOB;
 
 /**
@@ -25,8 +30,9 @@ import static uk.ac.ebi.uniprot.indexer.common.utils.Constants.UNIPROTKB_INDEX_J
  * @author Edd
  */
 @Configuration
-@Import(SolrRepositoryConfig.class)
+@Import({SolrRepositoryConfig.class, CacheConfig.class})
 public class UniProtKBJob {
+    public static final String GO_ANCESTORS_CACHE = "goAncestorsCache";
     private final JobBuilderFactory jobBuilderFactory;
     private final SolrTemplate solrTemplate;
 
@@ -58,5 +64,14 @@ public class UniProtKBJob {
                     }
                 })
                 .build();
+    }
+
+    @Bean
+    // TODO: 05/07/19 need?
+    public CacheManager cacheManager() {
+        // configure and return an implementation of Spring's CacheManager SPI
+        SimpleCacheManager cacheManager = new SimpleCacheManager();
+        cacheManager.setCaches(singletonList(new ConcurrentMapCache(GO_ANCESTORS_CACHE)));
+        return cacheManager;
     }
 }

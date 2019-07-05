@@ -1,6 +1,8 @@
 package uk.ac.ebi.uniprot.indexer.uniprot.go;
 
+import org.springframework.cache.annotation.Cacheable;
 import uk.ac.ebi.uniprot.common.Utils;
+import uk.ac.ebi.uniprot.indexer.uniprotkb.UniProtKBJob;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -11,8 +13,7 @@ import static uk.ac.ebi.uniprot.indexer.uniprot.go.GoRelationFileRepo.Relationsh
 
 // TODO: 04/07/19 https://www.baeldung.com/spring-boot-ehcache 
 // TODO: 04/07/19 http://www.ehcache.org/documentation/3.6/expiry.html
-// // TODO: 04/07/19 test this class
-public final class GoRelationFileRepo implements GoRelationRepo {
+public class GoRelationFileRepo implements GoRelationRepo {
     private final Map<String, Set<GoTerm>> isAMap;
     private final Map<String, Set<GoTerm>> partOfMap;
 
@@ -41,27 +42,38 @@ public final class GoRelationFileRepo implements GoRelationRepo {
         return partOfMap.getOrDefault(goId, Collections.emptySet());
     }
 
-    public Set<GoTerm> getAncestors(GoTerm fromGoTerm, List<Relationship> relationships) {
+    @Cacheable(value = UniProtKBJob.GO_ANCESTORS_CACHE)
+    public Set<GoTerm> getAncestors(String fromGoTerm, List<Relationship> relationships) {
         List<Relationship> relationshipsToUse = relationships;
-        if (relationships.isEmpty()) {
+        if (!Utils.notEmpty(relationshipsToUse)) {
             relationshipsToUse = singletonList(IS_A);
         }
 
-        Set<GoTerm> ancestorsFound = new HashSet<>();
-        addAncestors(singleton(fromGoTerm), ancestorsFound, relationshipsToUse);
-        return ancestorsFound;
+        if (Utils.nonNull(fromGoTerm)) {
+            Set<GoTerm> ancestorsFound = new HashSet<>();
+            addAncestors(singleton(fromGoTerm), ancestorsFound, relationshipsToUse);
+            return ancestorsFound;
+        } else {
+            return emptySet();
+        }
     }
 
-    private void addAncestors(Set<GoTerm> baseGoIds, Set<GoTerm> ancestors, List<Relationship> relationships) {
-        for (GoTerm base : baseGoIds) {
-            Set<GoTerm> parents = emptySet();
+    private void addAncestors(Set<String> baseGoIds, Set<GoTerm> ancestors, List<Relationship> relationships) {
+        for (String base : baseGoIds) {
+            Set<GoTerm> parents = new HashSet<>();
             if (relationships.contains(IS_A)) {
-                parents = getIsA(base.getId());
-            } else if (relationships.contains(PART_OF)) {
-                parents = getPartOf(base.getId());
+                parents.addAll(getIsA(base));
             }
+
+            if (relationships.contains(PART_OF)) {
+                parents.addAll(getPartOf(base));
+            }
+
             ancestors.addAll(parents);
-            addAncestors(parents, ancestors, relationships);
+            addAncestors(parents.stream()
+                                 .map(GoTerm::getId)
+                                 .collect(Collectors.toSet()),
+                         ancestors, relationships);
         }
     }
 
