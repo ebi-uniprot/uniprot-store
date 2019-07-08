@@ -11,8 +11,6 @@ import static java.util.Collections.*;
 import static uk.ac.ebi.uniprot.indexer.uniprot.go.GoRelationFileRepo.Relationship.IS_A;
 import static uk.ac.ebi.uniprot.indexer.uniprot.go.GoRelationFileRepo.Relationship.PART_OF;
 
-// TODO: 04/07/19 https://www.baeldung.com/spring-boot-ehcache 
-// TODO: 04/07/19 http://www.ehcache.org/documentation/3.6/expiry.html
 public class GoRelationFileRepo implements GoRelationRepo {
     private final Map<String, Set<GoTerm>> isAMap;
     private final Map<String, Set<GoTerm>> partOfMap;
