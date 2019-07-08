@@ -5,12 +5,11 @@
     <cache alias="goAncestorsCache">
         <expiry>
             <!-- entries in cache should expire if not accessed for this time -->
-            <ttl unit="seconds">2</ttl>
+            <tti unit="seconds">1200</tti>
         </expiry>
 
         <resources>
-            <heap unit="MB">50</heap>
-            <offheap unit="MB">1000</offheap>
+            <heap unit="MB">10</heap>
         </resources>
     </cache>
 </config>
