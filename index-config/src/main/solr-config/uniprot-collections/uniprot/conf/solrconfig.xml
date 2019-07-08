@@ -359,7 +359,8 @@
 
         <!-- auto commits lower heap size so indexing process finishes -->
         <autoCommit>
-            <maxTime>${auto.commit.time.millis:30000}</maxTime>
+            <maxDocs>${auto.commit.num.docs:1000000}</maxDocs>
+            <maxTime>${auto.commit.time.millis:300000}</maxTime>
             <openSearcher>false</openSearcher>
         </autoCommit>
 
