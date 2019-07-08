@@ -206,17 +206,17 @@
             <artifactId>h2</artifactId>
             <scope>runtime</scope>
         </dependency>
-<!--         <dependency> -->
-<!--             <groupId>net.openhft</groupId> -->
-<!--             <artifactId>chronicle-map</artifactId> -->
-<!--             <version>${chronicle-map.version}</version> -->
-<!--             <exclusions> -->
-<!--             	<exclusion> -->
-            	
-            	
-<!--             	</exclusion> -->
-<!--             </exclusions> -->
-<!--         </dependency> -->
+        <!--         <dependency> -->
+        <!--             <groupId>net.openhft</groupId> -->
+        <!--             <artifactId>chronicle-map</artifactId> -->
+        <!--             <version>${chronicle-map.version}</version> -->
+        <!--             <exclusions> -->
+        <!--             	<exclusion> -->
+
+
+        <!--             	</exclusion> -->
+        <!--             </exclusions> -->
+        <!--         </dependency> -->
 
         <dependency>
             <groupId>net.jodah</groupId>
@@ -272,6 +272,7 @@
             </exclusions>
         </dependency>
 
+        <!-- caching -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-cache</artifactId>
