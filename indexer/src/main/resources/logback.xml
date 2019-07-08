@@ -33,7 +33,7 @@
         <appender-ref ref="DOC-WRITE-FAILED-ENTRIES-FILE"/>
     </logger>
 
-    <root level="debug">
+    <root level="info">
         <appender-ref ref="STDOUT" />
     </root>
 </configuration>
