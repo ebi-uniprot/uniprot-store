@@ -38,7 +38,7 @@ public class LiteratureStatisticsProcessor implements ItemProcessor<LiteratureSt
                 .build();
 
         LiteratureDocument.LiteratureDocumentBuilder builder = LiteratureDocument.builder();
-        builder.id(literatureCount.getPubmedId());
+        builder.id(String.valueOf(literatureCount.getPubmedId()));
 
         byte[] literatureByte = getLiteratureObjectBinary(literatureEntry);
         builder.literatureObj(ByteBuffer.wrap(literatureByte));

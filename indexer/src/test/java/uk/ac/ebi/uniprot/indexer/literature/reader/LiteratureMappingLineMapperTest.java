@@ -20,7 +20,7 @@ class LiteratureMappingLineMapperTest {
         LiteratureEntry entry = mapper.mapLine(entryText, 1);
 
         assertTrue(entry.hasPubmedId());
-        assertEquals(entry.getPubmedId(), "1358782");
+        assertEquals(entry.getPubmedId(), 1358782L);
 
         assertTrue(entry.hasLiteratureMappedReferences());
         assertEquals(entry.getLiteratureMappedReferences().size(), 1);
@@ -51,7 +51,7 @@ class LiteratureMappingLineMapperTest {
         LiteratureEntry entry = mapper.mapLine(entryText, 1);
 
         assertTrue(entry.hasPubmedId());
-        assertEquals(entry.getPubmedId(), "1358782");
+        assertEquals(entry.getPubmedId(), 1358782L);
 
         assertTrue(entry.hasLiteratureMappedReferences());
         assertEquals(entry.getLiteratureMappedReferences().size(), 1);
@@ -79,7 +79,7 @@ class LiteratureMappingLineMapperTest {
         LiteratureEntry entry = mapper.mapLine(entryText, 1);
 
         assertTrue(entry.hasPubmedId());
-        assertEquals(entry.getPubmedId(), "1358782");
+        assertEquals(entry.getPubmedId(), 1358782L);
 
         assertTrue(entry.hasLiteratureMappedReferences());
         assertEquals(entry.getLiteratureMappedReferences().size(), 1);

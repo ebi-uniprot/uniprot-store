@@ -62,8 +62,8 @@ public class LiteratureLoadProcessor implements ItemProcessor<LiteratureEntry, L
     private LiteratureDocument createLiteratureDocument(LiteratureEntry entry) {
         LiteratureDocument.LiteratureDocumentBuilder builder = LiteratureDocument.builder();
         Set<String> content = new HashSet<>();
-        builder.id(entry.getPubmedId());
-        content.add(entry.getPubmedId());
+        builder.id(String.valueOf(entry.getPubmedId()));
+        content.add(String.valueOf(entry.getPubmedId()));
 
         builder.doi(entry.getDoiId());
         content.add(entry.getDoiId());

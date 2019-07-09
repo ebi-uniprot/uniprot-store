@@ -34,7 +34,7 @@ class LiteratureLineMapperTest {
         LiteratureEntry entry = mapper.mapLine(entryText, 10);
 
         assertTrue(entry.hasPubmedId());
-        assertEquals(entry.getPubmedId(), "1");
+        assertEquals(entry.getPubmedId(), 1L);
 
         assertTrue(entry.hasDoiId());
         assertEquals(entry.getDoiId(), "10.1016/0006-2944(75)90147-7");
@@ -86,7 +86,7 @@ class LiteratureLineMapperTest {
         LiteratureEntry entry = mapper.mapLine(entryText, 10);
 
         assertTrue(entry.hasPubmedId());
-        assertEquals(entry.getPubmedId(), "1");
+        assertEquals(entry.getPubmedId(), 1L);
 
         assertTrue(entry.hasAuthors());
         MatcherAssert.assertThat(entry.getAuthors(), Matchers.contains(new AuthorImpl("Makar A.B.")));
