@@ -49,7 +49,6 @@ import uk.ac.ebi.uniprot.search.document.suggest.SuggestDocument;
 import uk.ac.ebi.uniprot.search.document.uniprot.UniProtDocument;
 import uk.ebi.uniprot.scorer.uniprotkb.UniProtEntryScored;
 
-import java.text.ParseException;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -108,10 +107,10 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtEntry, Un
                                                                               GeneEncodingType.NON_PHOTOSYNTHETIC_PLASTID, GeneEncodingType.CHROMATOPHORE_PLASTID);
     private static final String MANUAL_EVIDENCE = "manual";
     private static final List<String> MANUAL_EVIDENCE_MAP = asList("ECO_0000269", "ECO_0000303", "ECO_0000305",
-                                                                          "ECO_0000250", "ECO_0000255", "ECO_0000244", "ECO_0000312");
+                                                                   "ECO_0000250", "ECO_0000255", "ECO_0000244", "ECO_0000312");
     private static final String AUTOMATIC_EVIDENCE = "automatic";
     private static final List<String> AUTOMATIC_EVIDENCE_MAP = asList("ECO_0000256", "ECO_0000213",
-                                                                             "ECO_0000313", "ECO_0000259");
+                                                                      "ECO_0000313", "ECO_0000259");
     private static final String EXPERIMENTAL_EVIDENCE = "experimental";
     private static final List<String> EXPERIMENTAL_EVIDENCE_MAP = Collections.singletonList("ECO_0000269");
     private final TaxonomyRepo taxonomyRepo;
@@ -574,26 +573,23 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtEntry, Un
             }
             if (citation.hasPublicationDate()) {
                 String pubDate = citation.getPublicationDate().getValue();
-                try {
-                    PublicationDateFormatter dateFormatter = null;
-                    if (PublicationDateFormatter.DAY_DIGITMONTH_YEAR.isValidDate(pubDate)) {
-                        dateFormatter = PublicationDateFormatter.DAY_DIGITMONTH_YEAR;
-                    } else if (PublicationDateFormatter.DAY_THREE_LETTER_MONTH_YEAR.isValidDate(pubDate)) {
-                        dateFormatter = PublicationDateFormatter.DAY_THREE_LETTER_MONTH_YEAR;
-                    } else if (PublicationDateFormatter.YEAR_DIGIT_MONTH.isValidDate(pubDate)) {
-                        dateFormatter = PublicationDateFormatter.YEAR_DIGIT_MONTH;
-                    } else if (PublicationDateFormatter.THREE_LETTER_MONTH_YEAR.isValidDate(pubDate)) {
-                        dateFormatter = PublicationDateFormatter.THREE_LETTER_MONTH_YEAR;
-                    } else if (PublicationDateFormatter.YEAR.isValidDate(pubDate)) {
-                        dateFormatter = PublicationDateFormatter.YEAR;
-                    }
-                    if (dateFormatter != null) {
-                        japiDocument.referenceDates.add(dateFormatter.convertStringToDate(pubDate));
-                    }
-                } catch (ParseException e) {
-                    LOGGER.warn("There was a problem converting entry dates during indexing:", e);
+                PublicationDateFormatter dateFormatter = null;
+                if (PublicationDateFormatter.DAY_DIGITMONTH_YEAR.isValidDate(pubDate)) {
+                    dateFormatter = PublicationDateFormatter.DAY_DIGITMONTH_YEAR;
+                } else if (PublicationDateFormatter.DAY_THREE_LETTER_MONTH_YEAR.isValidDate(pubDate)) {
+                    dateFormatter = PublicationDateFormatter.DAY_THREE_LETTER_MONTH_YEAR;
+                } else if (PublicationDateFormatter.YEAR_DIGIT_MONTH.isValidDate(pubDate)) {
+                    dateFormatter = PublicationDateFormatter.YEAR_DIGIT_MONTH;
+                } else if (PublicationDateFormatter.THREE_LETTER_MONTH_YEAR.isValidDate(pubDate)) {
+                    dateFormatter = PublicationDateFormatter.THREE_LETTER_MONTH_YEAR;
+                } else if (PublicationDateFormatter.YEAR.isValidDate(pubDate)) {
+                    dateFormatter = PublicationDateFormatter.YEAR;
+                }
+                if (dateFormatter != null) {
+                    japiDocument.referenceDates.add(dateFormatter.convertStringToDate(pubDate));
                 }
             }
+
             if (citation.getCitationXrefsByType(CitationXrefType.PUBMED).isPresent()) {
                 DBCrossReference<CitationXrefType> pubmed = citation.getCitationXrefsByType(CitationXrefType.PUBMED)
                         .get();
