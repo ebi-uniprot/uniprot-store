@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.batch.core.JobExecution;
 import org.springframework.batch.core.StepExecution;
 import org.springframework.batch.item.ExecutionContext;
-import org.springframework.data.solr.core.SolrOperations;
+import uk.ac.ebi.uniprot.indexer.common.config.UniProtSolrOperations;
 import uk.ac.ebi.uniprot.indexer.common.model.AbstractEntryDocumentPair;
 import uk.ac.ebi.uniprot.search.SolrCollection;
 
@@ -24,13 +24,13 @@ import static uk.ac.ebi.uniprot.search.SolrCollection.uniprot;
  */
 class EntryDocumentPairRetryWriterTest {
     private RetryPolicy<Object> retryPolicy;
-    private SolrOperations solrOperationsMock;
+    private UniProtSolrOperations solrOperationsMock;
     private EntryDocumentPairRetryWriter<FakeEntry, FakeDoc, FakeEntryDocPair> writer;
 
     @BeforeEach
     void beforeEach() {
         this.retryPolicy = new RetryPolicy<>().withMaxRetries(2);
-        this.solrOperationsMock = mock(SolrOperations.class);
+        this.solrOperationsMock = mock(UniProtSolrOperations.class);
         this.writer = new WriterUnderTest(this.solrOperationsMock, uniprot, this.retryPolicy);
         JobExecution mockJobExecution = mock(JobExecution.class);
         when(mockJobExecution.getExecutionContext()).thenReturn(mock(ExecutionContext.class));
@@ -55,7 +55,7 @@ class EntryDocumentPairRetryWriterTest {
     }
 
     private static class WriterUnderTest extends EntryDocumentPairRetryWriter<FakeEntry, FakeDoc, FakeEntryDocPair> {
-        private WriterUnderTest(SolrOperations solrOperations, SolrCollection collection, RetryPolicy<Object> retryPolicy) {
+        private WriterUnderTest(UniProtSolrOperations solrOperations, SolrCollection collection, RetryPolicy<Object> retryPolicy) {
             super(solrOperations, collection, retryPolicy);
         }
 

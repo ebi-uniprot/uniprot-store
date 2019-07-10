@@ -12,8 +12,8 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.solr.core.SolrOperations;
 import uk.ac.ebi.uniprot.domain.taxonomy.TaxonomyEntry;
+import uk.ac.ebi.uniprot.indexer.common.config.UniProtSolrOperations;
 import uk.ac.ebi.uniprot.indexer.common.utils.Constants;
 import uk.ac.ebi.uniprot.indexer.common.writer.SolrDocumentWriter;
 import uk.ac.ebi.uniprot.indexer.taxonomy.TaxonomySQLConstants;
@@ -68,7 +68,7 @@ public class TaxonomyDeletedStep {
     }
 
     @Bean(name = "itemTaxonomyDeletedWriter")
-    public ItemWriter<TaxonomyDocument> itemTaxonomyDeletedWriter(SolrOperations solrOperations) {
+    public ItemWriter<TaxonomyDocument> itemTaxonomyDeletedWriter(UniProtSolrOperations solrOperations) {
         return new SolrDocumentWriter<>(solrOperations, SolrCollection.taxonomy);
     }
 

@@ -13,12 +13,12 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
-import org.springframework.data.solr.core.SolrOperations;
 import org.springframework.data.solr.core.query.SimpleQuery;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import uk.ac.ebi.uniprot.cv.keyword.KeywordEntry;
 import uk.ac.ebi.uniprot.cv.keyword.impl.KeywordEntryImpl;
+import uk.ac.ebi.uniprot.indexer.common.config.UniProtSolrOperations;
 import uk.ac.ebi.uniprot.indexer.common.listener.ListenerConfig;
 import uk.ac.ebi.uniprot.indexer.common.utils.Constants;
 import uk.ac.ebi.uniprot.indexer.test.config.FakeIndexerSpringBootApplication;
@@ -49,7 +49,7 @@ class KeywordJobIT {
     private JobLauncherTestUtils jobLauncher;
 
     @Autowired
-    private SolrOperations solrOperations;
+    private UniProtSolrOperations solrOperations;
 
     @Test
     void testKeywordIndexingJob() throws Exception {

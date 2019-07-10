@@ -3,7 +3,6 @@ package uk.ac.ebi.uniprot.indexer.keyword;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.batch.item.ItemProcessor;
-import org.springframework.data.solr.core.SolrOperations;
 import org.springframework.data.solr.core.query.Criteria;
 import org.springframework.data.solr.core.query.Query;
 import org.springframework.data.solr.core.query.SimpleQuery;
@@ -11,6 +10,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import uk.ac.ebi.uniprot.common.Utils;
 import uk.ac.ebi.uniprot.cv.keyword.KeywordEntry;
 import uk.ac.ebi.uniprot.cv.keyword.impl.KeywordEntryImpl;
+import uk.ac.ebi.uniprot.indexer.common.config.UniProtSolrOperations;
 import uk.ac.ebi.uniprot.json.parser.keyword.KeywordJsonConfig;
 import uk.ac.ebi.uniprot.search.SolrCollection;
 import uk.ac.ebi.uniprot.search.document.keyword.KeywordDocument;
@@ -31,9 +31,9 @@ public class KeywordLoadProcessor implements ItemProcessor<KeywordEntry, Keyword
 
     private final ObjectMapper keywordObjectMapper;
     private final JdbcTemplate jdbcTemplate;
-    private final SolrOperations solrOperations;
+    private final UniProtSolrOperations solrOperations;
 
-    public KeywordLoadProcessor(DataSource readDataSource, SolrOperations solrOperations) throws SQLException {
+    public KeywordLoadProcessor(DataSource readDataSource, UniProtSolrOperations solrOperations) throws SQLException {
         this.jdbcTemplate = new JdbcTemplate(readDataSource);
         this.solrOperations = solrOperations;
         this.keywordObjectMapper = KeywordJsonConfig.getInstance().getFullObjectMapper();

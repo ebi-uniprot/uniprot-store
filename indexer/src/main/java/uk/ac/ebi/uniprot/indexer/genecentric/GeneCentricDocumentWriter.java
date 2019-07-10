@@ -3,9 +3,9 @@ package uk.ac.ebi.uniprot.indexer.genecentric;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.batch.item.ItemWriter;
-import org.springframework.data.solr.core.SolrOperations;
 import uk.ac.ebi.uniprot.domain.proteome.CanonicalProtein;
 import uk.ac.ebi.uniprot.domain.uniprot.UniProtEntryType;
+import uk.ac.ebi.uniprot.indexer.common.config.UniProtSolrOperations;
 import uk.ac.ebi.uniprot.json.parser.proteome.ProteomeJsonConfig;
 import uk.ac.ebi.uniprot.search.SolrCollection;
 import uk.ac.ebi.uniprot.search.document.proteome.GeneCentricDocument;
@@ -24,12 +24,12 @@ import java.util.stream.Collectors;
  */
 
 public class GeneCentricDocumentWriter implements ItemWriter<Proteome> {
-    private final SolrOperations solrOperations;
+    private final UniProtSolrOperations solrOperations;
     private final SolrCollection collection;
     private final ProteomeConverter proteomeConverter;
     private final ObjectMapper objectMapper;
 
-    public GeneCentricDocumentWriter(SolrOperations solrOperations) {
+    public GeneCentricDocumentWriter(UniProtSolrOperations solrOperations) {
         this.solrOperations = solrOperations;
         this.collection = SolrCollection.genecentric;
         this.proteomeConverter = new ProteomeConverter();

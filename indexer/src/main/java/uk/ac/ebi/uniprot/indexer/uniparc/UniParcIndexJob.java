@@ -10,8 +10,8 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
-import org.springframework.data.solr.core.SolrOperations;
 import uk.ac.ebi.uniprot.indexer.common.config.SolrRepositoryConfig;
+import uk.ac.ebi.uniprot.indexer.common.config.UniProtSolrOperations;
 import uk.ac.ebi.uniprot.indexer.common.listener.WriteRetrierLogJobListener;
 import uk.ac.ebi.uniprot.search.SolrCollection;
 
@@ -28,10 +28,10 @@ import static uk.ac.ebi.uniprot.indexer.common.utils.Constants.UNIPARC_INDEX_JOB
 @Import({SolrRepositoryConfig.class})
 public class UniParcIndexJob {
     private final JobBuilderFactory jobBuilderFactory;
-    private final SolrOperations solrOperations;
+    private final UniProtSolrOperations solrOperations;
 
     @Autowired
-    public UniParcIndexJob(JobBuilderFactory jobBuilderFactory, SolrOperations solrOperations) {
+    public UniParcIndexJob(JobBuilderFactory jobBuilderFactory, UniProtSolrOperations solrOperations) {
         this.jobBuilderFactory = jobBuilderFactory;
         this.solrOperations = solrOperations;
     }

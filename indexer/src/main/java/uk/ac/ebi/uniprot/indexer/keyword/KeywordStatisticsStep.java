@@ -12,7 +12,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.solr.core.SolrOperations;
+import uk.ac.ebi.uniprot.indexer.common.config.UniProtSolrOperations;
 import uk.ac.ebi.uniprot.indexer.common.utils.Constants;
 import uk.ac.ebi.uniprot.indexer.common.writer.SolrDocumentWriter;
 import uk.ac.ebi.uniprot.search.SolrCollection;
@@ -62,7 +62,7 @@ public class KeywordStatisticsStep {
     }
 
     @Bean(name = "itemKeywordStatisticsWriter")
-    public ItemWriter<KeywordDocument> itemKeywordStatisticsWriter(SolrOperations solrOperations) {
+    public ItemWriter<KeywordDocument> itemKeywordStatisticsWriter(UniProtSolrOperations solrOperations) {
         return new SolrDocumentWriter<>(solrOperations, SolrCollection.keyword);
     }
 

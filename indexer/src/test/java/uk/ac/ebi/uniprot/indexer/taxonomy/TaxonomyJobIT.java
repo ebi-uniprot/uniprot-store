@@ -16,13 +16,13 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
-import org.springframework.data.solr.core.SolrOperations;
 import org.springframework.data.solr.core.query.SimpleQuery;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import uk.ac.ebi.uniprot.domain.taxonomy.*;
 import uk.ac.ebi.uniprot.domain.taxonomy.impl.TaxonomyEntryImpl;
 import uk.ac.ebi.uniprot.domain.uniprot.taxonomy.Taxonomy;
+import uk.ac.ebi.uniprot.indexer.common.config.UniProtSolrOperations;
 import uk.ac.ebi.uniprot.indexer.common.listener.ListenerConfig;
 import uk.ac.ebi.uniprot.indexer.common.utils.Constants;
 import uk.ac.ebi.uniprot.indexer.taxonomy.processor.TaxonomyProcessor;
@@ -57,7 +57,7 @@ class TaxonomyJobIT {
     private JobLauncherTestUtils jobLauncher;
 
     @Autowired
-    private SolrOperations solrOperations;
+    private UniProtSolrOperations solrOperations;
 
     @Test
     void testTaxonomyIndexingJob() throws Exception {
@@ -204,7 +204,7 @@ class TaxonomyJobIT {
 
         @Override
         @Bean(name = "itemTaxonomyNodeProcessor")
-        public ItemProcessor<TaxonomyEntry, TaxonomyDocument> itemTaxonomyNodeProcessor(@Qualifier("readDataSource") DataSource readDataSource, SolrOperations solrOperations) {
+        public ItemProcessor<TaxonomyEntry, TaxonomyDocument> itemTaxonomyNodeProcessor(@Qualifier("readDataSource") DataSource readDataSource, UniProtSolrOperations solrOperations) {
             return new TaxonomyProcessorFake(readDataSource, solrOperations);
         }
     }
@@ -221,7 +221,7 @@ class TaxonomyJobIT {
 
     private static class TaxonomyProcessorFake extends TaxonomyProcessor {
 
-        public TaxonomyProcessorFake(DataSource readDataSource, SolrOperations solrOperations) {
+        public TaxonomyProcessorFake(DataSource readDataSource, UniProtSolrOperations solrOperations) {
             super(readDataSource, solrOperations);
         }
 

@@ -10,10 +10,10 @@ import org.springframework.batch.test.JobLauncherTestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
-import org.springframework.data.solr.core.SolrOperations;
 import org.springframework.data.solr.core.query.SimpleQuery;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+import uk.ac.ebi.uniprot.indexer.common.config.UniProtSolrOperations;
 import uk.ac.ebi.uniprot.indexer.common.listener.ListenerConfig;
 import uk.ac.ebi.uniprot.indexer.common.utils.Constants;
 import uk.ac.ebi.uniprot.indexer.test.config.FakeIndexerSpringBootApplication;
@@ -50,7 +50,7 @@ class UniProtKBJobIT {
     @Autowired
     private JobLauncherTestUtils jobLauncher;
     @Autowired
-    private SolrOperations solrOperations;
+    private UniProtSolrOperations solrOperations;
     @Autowired
     private UniProtKBIndexingProperties indexingProperties;
 

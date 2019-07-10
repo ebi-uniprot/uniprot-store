@@ -16,7 +16,6 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
-import org.springframework.data.solr.core.SolrOperations;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import uk.ac.ebi.uniprot.cv.chebi.ChebiRepoFactory;
 import uk.ac.ebi.uniprot.cv.ec.ECRepoFactory;
@@ -24,6 +23,7 @@ import uk.ac.ebi.uniprot.cv.taxonomy.FileNodeIterable;
 import uk.ac.ebi.uniprot.cv.taxonomy.TaxonomyMapRepo;
 import uk.ac.ebi.uniprot.cv.taxonomy.TaxonomyRepo;
 import uk.ac.ebi.uniprot.indexer.common.concurrency.TaskExecutorProperties;
+import uk.ac.ebi.uniprot.indexer.common.config.UniProtSolrOperations;
 import uk.ac.ebi.uniprot.indexer.common.listener.LogRateListener;
 import uk.ac.ebi.uniprot.indexer.common.listener.WriteRetrierLogStepListener;
 import uk.ac.ebi.uniprot.indexer.uniprot.go.GoRelationFileReader;
@@ -61,11 +61,11 @@ import static uk.ac.ebi.uniprot.indexer.common.utils.Constants.UNIPROTKB_INDEX_S
 public class UniProtKBStep {
     private final StepBuilderFactory stepBuilderFactory;
     private final UniProtKBIndexingProperties uniProtKBIndexingProperties;
-    private final SolrOperations solrOperations;
+    private final UniProtSolrOperations solrOperations;
 
     @Autowired
     public UniProtKBStep(StepBuilderFactory stepBuilderFactory,
-                         SolrOperations solrOperations,
+                         UniProtSolrOperations solrOperations,
                          UniProtKBIndexingProperties indexingProperties) {
         this.stepBuilderFactory = stepBuilderFactory;
         this.solrOperations = solrOperations;

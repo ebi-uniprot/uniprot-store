@@ -13,7 +13,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.solr.core.SolrOperations;
+import uk.ac.ebi.uniprot.indexer.common.config.UniProtSolrOperations;
 import uk.ac.ebi.uniprot.indexer.common.utils.Constants;
 import uk.ac.ebi.uniprot.indexer.common.writer.SolrDocumentWriter;
 import uk.ac.ebi.uniprot.indexer.crossref.readers.CrossRefReader;
@@ -29,7 +29,7 @@ public class CrossRefStep {
     private StepBuilderFactory steps;
 
     @Autowired
-    private SolrOperations solrOperations;
+    private UniProtSolrOperations solrOperations;
 
     @Value(("${ds.import.chunk.size}"))
     private Integer chunkSize;

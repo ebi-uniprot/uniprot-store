@@ -17,9 +17,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Profile;
-import org.springframework.data.solr.core.SolrOperations;
 import org.springframework.data.solr.core.SolrTemplate;
 import org.springframework.data.solr.server.support.EmbeddedSolrServerFactory;
+import uk.ac.ebi.uniprot.indexer.common.config.UniProtSolrOperations;
 
 import java.io.File;
 import java.nio.file.Files;
@@ -56,8 +56,8 @@ public class SolrTestConfig implements DisposableBean {
 
     @Bean
     @Profile("offline")
-    public SolrOperations solrOperations(SolrClient solrClient) {
-        return new SolrTemplate(solrClient);
+    public UniProtSolrOperations solrOperations(SolrClient solrClient) {
+        return new UniProtSolrOperations(new SolrTemplate(solrClient));
     }
 
     @Bean

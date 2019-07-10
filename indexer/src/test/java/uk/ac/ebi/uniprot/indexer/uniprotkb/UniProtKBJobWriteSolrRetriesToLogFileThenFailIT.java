@@ -15,9 +15,9 @@ import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.Profile;
-import org.springframework.data.solr.core.SolrTemplate;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+import uk.ac.ebi.uniprot.indexer.common.config.UniProtSolrOperations;
 import uk.ac.ebi.uniprot.indexer.common.listener.ListenerConfig;
 import uk.ac.ebi.uniprot.indexer.common.utils.Constants;
 import uk.ac.ebi.uniprot.indexer.test.config.FakeIndexerSpringBootApplication;
@@ -152,7 +152,7 @@ class UniProtKBJobWriteSolrRetriesToLogFileThenFailIT {
         @Primary
         @SuppressWarnings(value = "unchecked")
         ItemWriter<UniProtEntryDocumentPair> uniProtDocumentItemWriterMock() {
-            SolrTemplate mockSolrTemplate = mock(SolrTemplate.class);
+            UniProtSolrOperations mockSolrTemplate = mock(UniProtSolrOperations.class);
             stubSolrWriteResponses(SOLR_RESPONSES).when(mockSolrTemplate)
                     .saveBeans(eq(SolrCollection.uniprot.name()), any());
 

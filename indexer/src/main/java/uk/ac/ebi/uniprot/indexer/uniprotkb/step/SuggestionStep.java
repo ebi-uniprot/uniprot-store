@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
-import org.springframework.data.solr.core.SolrOperations;
+import uk.ac.ebi.uniprot.indexer.common.config.UniProtSolrOperations;
 import uk.ac.ebi.uniprot.indexer.common.listener.LogRateListener;
 import uk.ac.ebi.uniprot.indexer.common.listener.LogStepListener;
 import uk.ac.ebi.uniprot.indexer.common.writer.SolrDocumentWriter;
@@ -31,12 +31,12 @@ import static uk.ac.ebi.uniprot.indexer.common.utils.Constants.SUGGESTIONS_INDEX
 public class SuggestionStep {
     private final StepBuilderFactory stepBuilderFactory;
     private final UniProtKBIndexingProperties indexingProperties;
-    private final SolrOperations solrOperations;
+    private final UniProtSolrOperations solrOperations;
 
     @Autowired
     public SuggestionStep(StepBuilderFactory stepBuilderFactory,
                           UniProtKBIndexingProperties indexingProperties,
-                          SolrOperations solrOperations) {
+                          UniProtSolrOperations solrOperations) {
         this.stepBuilderFactory = stepBuilderFactory;
         this.indexingProperties = indexingProperties;
         this.solrOperations = solrOperations;

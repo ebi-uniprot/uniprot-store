@@ -11,12 +11,12 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.FileSystemResource;
-import org.springframework.data.solr.core.SolrOperations;
 import org.springframework.oxm.Unmarshaller;
 import org.springframework.oxm.jaxb.Jaxb2Marshaller;
 import uk.ac.ebi.uniprot.cv.taxonomy.FileNodeIterable;
 import uk.ac.ebi.uniprot.cv.taxonomy.TaxonomyMapRepo;
 import uk.ac.ebi.uniprot.cv.taxonomy.TaxonomyRepo;
+import uk.ac.ebi.uniprot.indexer.common.config.UniProtSolrOperations;
 import uk.ac.ebi.uniprot.indexer.converter.DocumentConverter;
 import uk.ac.ebi.uniprot.indexer.genecentric.GeneCentricDocumentWriter;
 import uk.ac.ebi.uniprot.search.document.proteome.ProteomeDocument;
@@ -69,12 +69,12 @@ public class ProteomeConfig {
     }
 
     @Bean(name = "proteomeItemWriter")
-    public ItemWriter<Proteome> proteomeItemWriter(SolrOperations solrOperations) {
+    public ItemWriter<Proteome> proteomeItemWriter(UniProtSolrOperations solrOperations) {
         return new ProteomeDocumentWriter(proteomeEntryProcessor(), solrOperations);
     }
 
     @Bean(name = "geneCentricItemWriter")
-    public ItemWriter<Proteome> geneCentricItemWriter(SolrOperations solrOperations) {
+    public ItemWriter<Proteome> geneCentricItemWriter(UniProtSolrOperations solrOperations) {
         return new GeneCentricDocumentWriter(solrOperations);
     }
 
@@ -87,7 +87,7 @@ public class ProteomeConfig {
     }
 
     @Bean(name = "proteomeGeneCentricItemWriter")
-    public CompositeItemWriter<Proteome> proteomeCompositeWriter(SolrOperations solrOperations) {
+    public CompositeItemWriter<Proteome> proteomeCompositeWriter(UniProtSolrOperations solrOperations) {
         CompositeItemWriter<Proteome> compositeWriter = new CompositeItemWriter<>();
         ItemWriter<Proteome> proteomeWriter = proteomeItemWriter(solrOperations);
         ItemWriter<Proteome> geneCentricWriter = geneCentricItemWriter(solrOperations);

@@ -2,7 +2,7 @@ package uk.ac.ebi.uniprot.indexer.proteome;
 
 import org.springframework.batch.item.ItemProcessor;
 import org.springframework.batch.item.ItemWriter;
-import org.springframework.data.solr.core.SolrOperations;
+import uk.ac.ebi.uniprot.indexer.common.config.UniProtSolrOperations;
 import uk.ac.ebi.uniprot.search.SolrCollection;
 import uk.ac.ebi.uniprot.search.document.proteome.ProteomeDocument;
 import uk.ac.ebi.uniprot.xml.jaxb.proteome.Proteome;
@@ -17,10 +17,10 @@ import java.util.List;
 
 public class ProteomeDocumentWriter implements ItemWriter<Proteome> {
     private final ItemProcessor<Proteome, ProteomeDocument> itemProcessor;
-    private final SolrOperations solrOperations;
+    private final UniProtSolrOperations solrOperations;
     private final SolrCollection collection;
 
-    public ProteomeDocumentWriter(ItemProcessor<Proteome, ProteomeDocument> itemProcessor, SolrOperations solrOperations) {
+    public ProteomeDocumentWriter(ItemProcessor<Proteome, ProteomeDocument> itemProcessor, UniProtSolrOperations solrOperations) {
         this.itemProcessor = itemProcessor;
         this.solrOperations = solrOperations;
         this.collection = SolrCollection.proteome;

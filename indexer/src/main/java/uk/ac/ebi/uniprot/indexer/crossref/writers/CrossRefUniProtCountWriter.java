@@ -2,7 +2,7 @@ package uk.ac.ebi.uniprot.indexer.crossref.writers;
 
 import org.apache.solr.common.SolrInputDocument;
 import org.springframework.batch.item.ItemWriter;
-import org.springframework.data.solr.core.SolrOperations;
+import uk.ac.ebi.uniprot.indexer.common.config.UniProtSolrOperations;
 import uk.ac.ebi.uniprot.search.SolrCollection;
 import uk.ac.ebi.uniprot.search.document.dbxref.CrossRefDocument;
 
@@ -18,10 +18,10 @@ public class CrossRefUniProtCountWriter implements ItemWriter<CrossRefDocument> 
     private static final String REVIEWED_PROTEIN_COUNT_STR = "reviewed_protein_count";
     private static final String UNREVIEWED_PROTEIN_COUNT_STR = "unreviewed_protein_count";
 
-    private final SolrOperations solrOperations;
+    private final UniProtSolrOperations solrOperations;
     private final SolrCollection collection;
 
-    public CrossRefUniProtCountWriter(SolrOperations solrOperations, SolrCollection collection) {
+    public CrossRefUniProtCountWriter(UniProtSolrOperations solrOperations, SolrCollection collection) {
         this.solrOperations = solrOperations;
         this.collection = collection;
     }

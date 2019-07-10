@@ -3,7 +3,6 @@ package uk.ac.ebi.uniprot.indexer.taxonomy.processor;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.batch.item.ItemProcessor;
-import org.springframework.data.solr.core.SolrOperations;
 import org.springframework.data.solr.core.query.Criteria;
 import org.springframework.data.solr.core.query.Query;
 import org.springframework.data.solr.core.query.SimpleQuery;
@@ -17,6 +16,7 @@ import uk.ac.ebi.uniprot.domain.taxonomy.builder.TaxonomyEntryBuilder;
 import uk.ac.ebi.uniprot.domain.taxonomy.builder.TaxonomyStrainBuilder;
 import uk.ac.ebi.uniprot.domain.taxonomy.impl.TaxonomyEntryImpl;
 import uk.ac.ebi.uniprot.domain.uniprot.taxonomy.Taxonomy;
+import uk.ac.ebi.uniprot.indexer.common.config.UniProtSolrOperations;
 import uk.ac.ebi.uniprot.indexer.taxonomy.readers.*;
 import uk.ac.ebi.uniprot.json.parser.taxonomy.TaxonomyJsonConfig;
 import uk.ac.ebi.uniprot.search.SolrCollection;
@@ -35,9 +35,9 @@ public class TaxonomyProcessor implements ItemProcessor<TaxonomyEntry, TaxonomyD
 
     private final JdbcTemplate jdbcTemplate;
     private final ObjectMapper jsonMapper;
-    private final SolrOperations solrOperations;
+    private final UniProtSolrOperations solrOperations;
 
-    public TaxonomyProcessor(DataSource readDataSource, SolrOperations solrOperations) {
+    public TaxonomyProcessor(DataSource readDataSource, UniProtSolrOperations solrOperations) {
         this.jdbcTemplate = new JdbcTemplate(readDataSource);
         this.solrOperations = solrOperations;
         jsonMapper = TaxonomyJsonConfig.getInstance().getFullObjectMapper();

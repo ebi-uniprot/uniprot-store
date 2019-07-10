@@ -11,10 +11,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.solr.core.SolrOperations;
 import uk.ac.ebi.uniprot.cv.taxonomy.FileNodeIterable;
 import uk.ac.ebi.uniprot.cv.taxonomy.TaxonomyMapRepo;
 import uk.ac.ebi.uniprot.cv.taxonomy.TaxonomyRepo;
+import uk.ac.ebi.uniprot.indexer.common.config.UniProtSolrOperations;
 import uk.ac.ebi.uniprot.indexer.common.listener.LogRateListener;
 import uk.ac.ebi.uniprot.indexer.common.writer.SolrDocumentWriter;
 import uk.ac.ebi.uniprot.indexer.converter.DocumentConverter;
@@ -76,7 +76,7 @@ public class UniParcIndexStep {
 	
 	
 	@Bean
-	public ItemWriter<UniParcDocument> geneCentricItemWriter(SolrOperations solrOperations) {
+	public ItemWriter<UniParcDocument> geneCentricItemWriter(UniProtSolrOperations solrOperations) {
 		return new SolrDocumentWriter<>(solrOperations, SolrCollection.uniparc);
 	}
 

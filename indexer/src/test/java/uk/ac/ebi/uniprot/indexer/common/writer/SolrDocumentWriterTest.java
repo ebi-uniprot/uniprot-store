@@ -8,9 +8,9 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
-import org.springframework.data.solr.core.SolrOperations;
 import org.springframework.data.solr.core.query.SimpleQuery;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+import uk.ac.ebi.uniprot.indexer.common.config.UniProtSolrOperations;
 import uk.ac.ebi.uniprot.indexer.test.config.FakeIndexerSpringBootApplication;
 import uk.ac.ebi.uniprot.indexer.test.config.SolrTestConfig;
 import uk.ac.ebi.uniprot.search.SolrCollection;
@@ -33,7 +33,7 @@ class SolrDocumentWriterTest {
     private SolrDocumentWriter solrDocumentWriter;
 
     @Autowired
-    private SolrOperations solrOperations;
+    private UniProtSolrOperations solrOperations;
 
 
     private static String random;

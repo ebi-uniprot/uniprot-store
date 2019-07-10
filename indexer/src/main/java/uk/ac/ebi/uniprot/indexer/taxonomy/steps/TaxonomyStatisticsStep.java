@@ -12,7 +12,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.solr.core.SolrOperations;
+import uk.ac.ebi.uniprot.indexer.common.config.UniProtSolrOperations;
 import uk.ac.ebi.uniprot.indexer.common.utils.Constants;
 import uk.ac.ebi.uniprot.indexer.common.writer.SolrDocumentWriter;
 import uk.ac.ebi.uniprot.indexer.taxonomy.TaxonomySQLConstants;
@@ -66,7 +66,7 @@ public class TaxonomyStatisticsStep {
     }
 
     @Bean(name = "itemTaxonomyStatisticsWriter")
-    public ItemWriter<TaxonomyDocument> itemTaxonomyStatisticsWriter(SolrOperations solrOperations) {
+    public ItemWriter<TaxonomyDocument> itemTaxonomyStatisticsWriter(UniProtSolrOperations solrOperations) {
         return new SolrDocumentWriter<>(solrOperations, SolrCollection.taxonomy);
     }
 
