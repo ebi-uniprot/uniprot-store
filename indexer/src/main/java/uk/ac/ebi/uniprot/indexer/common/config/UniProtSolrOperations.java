@@ -24,7 +24,6 @@ import static java.util.Arrays.asList;
  *
  * @author Edd
  */
-// TODO: 10/07/19 InitializingBean, ApplicationContextAware so that afterProperies can be set?
 public class UniProtSolrOperations {
     private final ThreadLocal<SolrOperations> threadLocalSolrOperations;
     private final RepositoryConfigProperties config;
@@ -36,6 +35,9 @@ public class UniProtSolrOperations {
 
     public UniProtSolrOperations(SolrOperations solrOperations) {
         this.config = null;
+        if (solrOperations instanceof SolrTemplate) {
+            ((SolrTemplate) solrOperations).afterPropertiesSet();
+        }
         this.threadLocalSolrOperations = ThreadLocal.withInitial(() -> solrOperations);
     }
 
@@ -68,7 +70,9 @@ public class UniProtSolrOperations {
     }
 
     private SolrOperations createSolrOperations() {
-        return new SolrTemplate(uniProtSolrClient());
+        SolrTemplate solrTemplate = new SolrTemplate(uniProtSolrClient());
+        solrTemplate.afterPropertiesSet();
+        return solrTemplate;
     }
 
     private SolrClient uniProtSolrClient() {
