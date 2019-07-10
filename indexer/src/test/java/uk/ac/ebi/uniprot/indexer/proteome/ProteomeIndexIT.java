@@ -10,7 +10,7 @@ import org.springframework.batch.test.JobLauncherTestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
-import org.springframework.data.solr.core.SolrTemplate;
+import org.springframework.data.solr.core.SolrOperations;
 import org.springframework.data.solr.core.query.SimpleQuery;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -46,7 +46,7 @@ class ProteomeIndexIT {
     @Autowired
     private JobLauncherTestUtils jobLauncher;
     @Autowired
-    private SolrTemplate template;
+    private SolrOperations solrOperations;
 
     @Test
     void testIndexJob() throws Exception {
@@ -56,14 +56,14 @@ class ProteomeIndexIT {
         BatchStatus status = jobExecution.getStatus();
         assertThat(status, is(BatchStatus.COMPLETED));
 
-        Page<ProteomeDocument> response = template
+        Page<ProteomeDocument> response = solrOperations
                 .query(SolrCollection.proteome.name(), new SimpleQuery("*:*"), ProteomeDocument.class);
         assertThat(response, is(notNullValue()));
         assertThat(response.getTotalElements(), is(6l));
         
         response.forEach(val -> verifyProteome(val));
         
-        Page<GeneCentricDocument> response2 = template
+        Page<GeneCentricDocument> response2 = solrOperations
                 .query(SolrCollection.genecentric.name(), new SimpleQuery("*:*"), GeneCentricDocument.class);
         assertThat(response2, is(notNullValue()));
         assertThat(response2.getTotalElements(), is(2192L));

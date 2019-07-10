@@ -12,7 +12,7 @@ import org.springframework.batch.test.JobLauncherTestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
-import org.springframework.data.solr.core.SolrTemplate;
+import org.springframework.data.solr.core.SolrOperations;
 import org.springframework.data.solr.core.query.SimpleQuery;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -47,7 +47,7 @@ class DiseaseLoadJobIT {
     private JobLauncherTestUtils jobLauncher;
 
     @Autowired
-    private SolrTemplate template;
+    private SolrOperations solrOperations;
 
     @Test
     void testDiseaseLoadJob() throws Exception {
@@ -65,7 +65,8 @@ class DiseaseLoadJobIT {
        assertThat(indexingStep.getWriteCount(), is(5));
 
 
-        Page<DiseaseDocument> response = template.query(SolrCollection.disease.name(), new SimpleQuery("*:*"), DiseaseDocument.class);
+        Page<DiseaseDocument> response = solrOperations
+                .query(SolrCollection.disease.name(), new SimpleQuery("*:*"), DiseaseDocument.class);
         assertThat(response, is(notNullValue()));
         assertThat(response.getTotalElements(), is(5L));
 
@@ -91,8 +92,8 @@ class DiseaseLoadJobIT {
         disease.getKeywords().forEach(kw -> verifyKeyword(kw));
         disease.getAlternativeNames().forEach(nm -> assertThat(nm, notNullValue()));
         // clean up
-        template.delete(SolrCollection.disease.name(), new SimpleQuery("*:*"));
-        template.commit(SolrCollection.disease.name());
+        solrOperations.delete(SolrCollection.disease.name(), new SimpleQuery("*:*"));
+        solrOperations.commit(SolrCollection.disease.name());
     }
 
     private void verifyCrossRef(CrossReference xref){

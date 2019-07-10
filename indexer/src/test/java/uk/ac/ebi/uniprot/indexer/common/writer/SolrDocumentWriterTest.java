@@ -8,7 +8,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
-import org.springframework.data.solr.core.SolrTemplate;
+import org.springframework.data.solr.core.SolrOperations;
 import org.springframework.data.solr.core.query.SimpleQuery;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import uk.ac.ebi.uniprot.indexer.test.config.FakeIndexerSpringBootApplication;
@@ -33,7 +33,7 @@ class SolrDocumentWriterTest {
     private SolrDocumentWriter solrDocumentWriter;
 
     @Autowired
-    private SolrTemplate template;
+    private SolrOperations solrOperations;
 
 
     private static String random;
@@ -45,13 +45,13 @@ class SolrDocumentWriterTest {
 
     @BeforeEach
     void initDocumentWriter() {
-        solrDocumentWriter = new SolrDocumentWriter(template, SolrCollection.crossref);
+        solrDocumentWriter = new SolrDocumentWriter(solrOperations, SolrCollection.crossref);
     }
 
     @AfterEach
     void stopSolrClient() {
-        template.delete(SolrCollection.crossref.name(), new SimpleQuery("*:*"));
-        template.commit(SolrCollection.crossref.name());
+        solrOperations.delete(SolrCollection.crossref.name(), new SimpleQuery("*:*"));
+        solrOperations.commit(SolrCollection.crossref.name());
     }
 
     @Test
@@ -61,7 +61,7 @@ class SolrDocumentWriterTest {
         // write the cross refs to the solr
         solrDocumentWriter.write(dbxrefList);
         // get the cross refs and verify
-        Page<CrossRefDocument> response = template
+        Page<CrossRefDocument> response = solrOperations
                 .query(SolrCollection.crossref.name(), new SimpleQuery("*:*"), CrossRefDocument.class);
         assertNotNull(response);
         assertEquals(10, response.getTotalElements());

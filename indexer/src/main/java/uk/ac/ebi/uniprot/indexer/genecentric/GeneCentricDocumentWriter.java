@@ -3,7 +3,7 @@ package uk.ac.ebi.uniprot.indexer.genecentric;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.batch.item.ItemWriter;
-import org.springframework.data.solr.core.SolrTemplate;
+import org.springframework.data.solr.core.SolrOperations;
 import uk.ac.ebi.uniprot.domain.proteome.CanonicalProtein;
 import uk.ac.ebi.uniprot.domain.uniprot.UniProtEntryType;
 import uk.ac.ebi.uniprot.json.parser.proteome.ProteomeJsonConfig;
@@ -24,13 +24,13 @@ import java.util.stream.Collectors;
  */
 
 public class GeneCentricDocumentWriter implements ItemWriter<Proteome> {
-    private final SolrTemplate solrTemplate;
+    private final SolrOperations solrOperations;
     private final SolrCollection collection;
     private final ProteomeConverter proteomeConverter;
     private final ObjectMapper objectMapper;
 
-    public GeneCentricDocumentWriter(SolrTemplate solrTemplate) {
-        this.solrTemplate = solrTemplate;
+    public GeneCentricDocumentWriter(SolrOperations solrOperations) {
+        this.solrOperations = solrOperations;
         this.collection = SolrCollection.genecentric;
         this.proteomeConverter = new ProteomeConverter();
         this.objectMapper = ProteomeJsonConfig.getInstance().getFullObjectMapper();
@@ -44,9 +44,9 @@ public class GeneCentricDocumentWriter implements ItemWriter<Proteome> {
                     .map(val -> convert(val, proteome.getUpid(), proteome.getTaxonomy().intValue()))
                     .collect(Collectors.toList());
             if (!documents.isEmpty())
-                this.solrTemplate.saveBeans(collection.name(), documents);
+                this.solrOperations.saveBeans(collection.name(), documents);
         }
-        this.solrTemplate.softCommit(collection.name());
+        this.solrOperations.softCommit(collection.name());
 
     }
 

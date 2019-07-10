@@ -2,7 +2,7 @@ package uk.ac.ebi.uniprot.indexer.crossref.writers;
 
 import org.apache.solr.common.SolrInputDocument;
 import org.springframework.batch.item.ItemWriter;
-import org.springframework.data.solr.core.SolrTemplate;
+import org.springframework.data.solr.core.SolrOperations;
 import uk.ac.ebi.uniprot.search.SolrCollection;
 import uk.ac.ebi.uniprot.search.document.dbxref.CrossRefDocument;
 
@@ -18,11 +18,11 @@ public class CrossRefUniProtCountWriter implements ItemWriter<CrossRefDocument> 
     private static final String REVIEWED_PROTEIN_COUNT_STR = "reviewed_protein_count";
     private static final String UNREVIEWED_PROTEIN_COUNT_STR = "unreviewed_protein_count";
 
-    private final SolrTemplate solrTemplate;
+    private final SolrOperations solrOperations;
     private final SolrCollection collection;
 
-    public CrossRefUniProtCountWriter(SolrTemplate solrTemplate, SolrCollection collection) {
-        this.solrTemplate = solrTemplate;
+    public CrossRefUniProtCountWriter(SolrOperations solrOperations, SolrCollection collection) {
+        this.solrOperations = solrOperations;
         this.collection = collection;
     }
 
@@ -42,9 +42,9 @@ public class CrossRefUniProtCountWriter implements ItemWriter<CrossRefDocument> 
             solrInputDocument.addField(UNREVIEWED_PROTEIN_COUNT_STR, unrevProtField);
 
             solrInputDocument.addField(ACCESSION_STR, document.getAccession());
-            this.solrTemplate.saveBean(collection.name(), solrInputDocument);
+            this.solrOperations.saveBean(collection.name(), solrInputDocument);
         }
 
-        this.solrTemplate.softCommit(collection.name());
+        this.solrOperations.softCommit(collection.name());
     }
 }

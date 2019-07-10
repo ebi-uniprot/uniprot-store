@@ -13,7 +13,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
-import org.springframework.data.solr.core.SolrTemplate;
+import org.springframework.data.solr.core.SolrOperations;
 import org.springframework.data.solr.core.query.SimpleQuery;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -49,7 +49,7 @@ class KeywordJobIT {
     private JobLauncherTestUtils jobLauncher;
 
     @Autowired
-    private SolrTemplate template;
+    private SolrOperations solrOperations;
 
     @Test
     void testKeywordIndexingJob() throws Exception {
@@ -73,7 +73,7 @@ class KeywordJobIT {
         //Validating if solr document was written correctly
         SimpleQuery solrQuery = new SimpleQuery("*:*");
         solrQuery.addSort(new Sort(Sort.Direction.ASC, "id"));
-        Page<KeywordDocument> response = template
+        Page<KeywordDocument> response = solrOperations
                 .query(SolrCollection.keyword.name(), solrQuery, KeywordDocument.class);
         assertThat(response, is(notNullValue()));
         assertThat(response.getTotalElements(), is(1199L));
@@ -81,7 +81,7 @@ class KeywordJobIT {
 
         //validating if can search one single entry
         solrQuery = new SimpleQuery("id:KW-0540");
-        response = template
+        response = solrOperations
                 .query(SolrCollection.keyword.name(), solrQuery, KeywordDocument.class);
         assertThat(response, is(notNullValue()));
         assertThat(response.getTotalElements(), is(1L));
@@ -96,7 +96,7 @@ class KeywordJobIT {
 
         //validating if can search one category entry
         solrQuery = new SimpleQuery("id:KW-9993");
-        response = template
+        response = solrOperations
                 .query(SolrCollection.keyword.name(), solrQuery, KeywordDocument.class);
         assertThat(response, is(notNullValue()));
         assertThat(response.getTotalElements(), is(1L));

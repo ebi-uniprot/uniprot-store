@@ -3,12 +3,13 @@ package uk.ac.ebi.uniprot.indexer;
 import org.apache.solr.client.solrj.impl.HttpSolrClient;
 import org.apache.solr.client.solrj.response.UpdateResponse;
 import org.mockito.stubbing.Stubber;
-import org.springframework.data.solr.core.SolrTemplate;
+import org.springframework.data.solr.core.SolrOperations;
 
 import java.util.Collection;
 import java.util.List;
 
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.doThrow;
 
 /**
  * Utility methods to help testing the retry logic associated with writing
@@ -25,7 +26,7 @@ public class DocumentWriteRetryHelper {
     private static final int CODE = 1;
 
     /**
-     * Stubs successive {@link SolrTemplate#saveBeans(String, Collection)} calls, based on a given list of
+     * Stubs successive {@link SolrOperations#saveBeans(String, Collection)} calls, based on a given list of
      * {@link SolrResponse} values. {@link SolrResponse#OK} simulates that Solr was able to write the documents it
      * received; {@link SolrResponse#REMOTE_EXCEPTION} simulates Solr being busy and responding
      * with a {@link HttpSolrClient.RemoteSolrException}, meaning the documents could not be

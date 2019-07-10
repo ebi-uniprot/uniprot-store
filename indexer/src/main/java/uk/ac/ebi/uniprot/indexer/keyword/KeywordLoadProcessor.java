@@ -3,7 +3,7 @@ package uk.ac.ebi.uniprot.indexer.keyword;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.batch.item.ItemProcessor;
-import org.springframework.data.solr.core.SolrTemplate;
+import org.springframework.data.solr.core.SolrOperations;
 import org.springframework.data.solr.core.query.Criteria;
 import org.springframework.data.solr.core.query.Query;
 import org.springframework.data.solr.core.query.SimpleQuery;
@@ -31,11 +31,11 @@ public class KeywordLoadProcessor implements ItemProcessor<KeywordEntry, Keyword
 
     private final ObjectMapper keywordObjectMapper;
     private final JdbcTemplate jdbcTemplate;
-    private final SolrTemplate solrTemplate;
+    private final SolrOperations solrOperations;
 
-    public KeywordLoadProcessor(DataSource readDataSource, SolrTemplate solrTemplate) throws SQLException {
+    public KeywordLoadProcessor(DataSource readDataSource, SolrOperations solrOperations) throws SQLException {
         this.jdbcTemplate = new JdbcTemplate(readDataSource);
-        this.solrTemplate = solrTemplate;
+        this.solrOperations = solrOperations;
         this.keywordObjectMapper = KeywordJsonConfig.getInstance().getFullObjectMapper();
     }
 
@@ -44,7 +44,8 @@ public class KeywordLoadProcessor implements ItemProcessor<KeywordEntry, Keyword
         KeywordEntryImpl keywordEntry = (KeywordEntryImpl) entry;
 
         Query query = new SimpleQuery().addCriteria(Criteria.where("id").is(keywordEntry.getKeyword().getAccession()));
-        Optional<KeywordDocument> optionalDocument = solrTemplate.queryForObject(SolrCollection.keyword.name(), query, KeywordDocument.class);
+        Optional<KeywordDocument> optionalDocument = solrOperations
+                .queryForObject(SolrCollection.keyword.name(), query, KeywordDocument.class);
         if (optionalDocument.isPresent()) {
             KeywordDocument document = optionalDocument.get();
 
@@ -52,8 +53,8 @@ public class KeywordLoadProcessor implements ItemProcessor<KeywordEntry, Keyword
             KeywordEntry statisticsEntry = keywordObjectMapper.readValue(keywordObj, KeywordEntryImpl.class);
             keywordEntry.setStatistics(statisticsEntry.getStatistics());
 
-            solrTemplate.delete(SolrCollection.keyword.name(), query);
-            solrTemplate.softCommit(SolrCollection.keyword.name());
+            solrOperations.delete(SolrCollection.keyword.name(), query);
+            solrOperations.softCommit(SolrCollection.keyword.name());
         }
         return createKeywordDocument(keywordEntry);
 

@@ -1,7 +1,5 @@
 package uk.ac.ebi.uniprot.indexer.uniparc;
 
-import static uk.ac.ebi.uniprot.indexer.common.utils.Constants.UNIPARC_INDEX_JOB;
-
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.JobExecution;
 import org.springframework.batch.core.JobExecutionListener;
@@ -12,11 +10,12 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
-import org.springframework.data.solr.core.SolrTemplate;
-
+import org.springframework.data.solr.core.SolrOperations;
 import uk.ac.ebi.uniprot.indexer.common.config.SolrRepositoryConfig;
 import uk.ac.ebi.uniprot.indexer.common.listener.WriteRetrierLogJobListener;
 import uk.ac.ebi.uniprot.search.SolrCollection;
+
+import static uk.ac.ebi.uniprot.indexer.common.utils.Constants.UNIPARC_INDEX_JOB;
 
 /**
  *
@@ -29,12 +28,12 @@ import uk.ac.ebi.uniprot.search.SolrCollection;
 @Import({SolrRepositoryConfig.class})
 public class UniParcIndexJob {
     private final JobBuilderFactory jobBuilderFactory;
-    private final SolrTemplate solrTemplate;
+    private final SolrOperations solrOperations;
 
     @Autowired
-    public UniParcIndexJob(JobBuilderFactory jobBuilderFactory, SolrTemplate solrTemplate) {
+    public UniParcIndexJob(JobBuilderFactory jobBuilderFactory, SolrOperations solrOperations) {
         this.jobBuilderFactory = jobBuilderFactory;
-        this.solrTemplate = solrTemplate;
+        this.solrOperations = solrOperations;
     }
 
     @Bean
@@ -53,7 +52,7 @@ public class UniParcIndexJob {
 
                     @Override
                     public void afterJob(JobExecution jobExecution) {
-                        solrTemplate.commit(SolrCollection.uniparc.name());
+                        solrOperations.commit(SolrCollection.uniparc.name());
                     }
                 })
                 .build();

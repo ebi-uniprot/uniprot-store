@@ -11,7 +11,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.FileSystemResource;
-import org.springframework.data.solr.core.SolrTemplate;
+import org.springframework.data.solr.core.SolrOperations;
 import org.springframework.oxm.Unmarshaller;
 import org.springframework.oxm.jaxb.Jaxb2Marshaller;
 import uk.ac.ebi.uniprot.cv.taxonomy.FileNodeIterable;
@@ -69,13 +69,13 @@ public class ProteomeConfig {
     }
 
     @Bean(name = "proteomeItemWriter")
-    public ItemWriter<Proteome> proteomeItemWriter(SolrTemplate solrTemplate) {
-        return new ProteomeDocumentWriter(proteomeEntryProcessor(), solrTemplate);
+    public ItemWriter<Proteome> proteomeItemWriter(SolrOperations solrOperations) {
+        return new ProteomeDocumentWriter(proteomeEntryProcessor(), solrOperations);
     }
 
     @Bean(name = "geneCentricItemWriter")
-    public ItemWriter<Proteome> geneCentricItemWriter(SolrTemplate solrTemplate) {
-        return new GeneCentricDocumentWriter(solrTemplate);
+    public ItemWriter<Proteome> geneCentricItemWriter(SolrOperations solrOperations) {
+        return new GeneCentricDocumentWriter(solrOperations);
     }
 
     private DocumentConverter<Proteome, ProteomeDocument> proteomeEntryConverter() {
@@ -87,10 +87,10 @@ public class ProteomeConfig {
     }
 
     @Bean(name = "proteomeGeneCentricItemWriter")
-    public CompositeItemWriter<Proteome> proteomeCompositeWriter(SolrTemplate solrTemplate) {
+    public CompositeItemWriter<Proteome> proteomeCompositeWriter(SolrOperations solrOperations) {
         CompositeItemWriter<Proteome> compositeWriter = new CompositeItemWriter<>();
-        ItemWriter<Proteome> proteomeWriter = proteomeItemWriter(solrTemplate);
-        ItemWriter<Proteome> geneCentricWriter = geneCentricItemWriter(solrTemplate);
+        ItemWriter<Proteome> proteomeWriter = proteomeItemWriter(solrOperations);
+        ItemWriter<Proteome> geneCentricWriter = geneCentricItemWriter(solrOperations);
         List<ItemWriter<? super Proteome>> writers = new ArrayList<>();
         writers.add(proteomeWriter);
         writers.add(geneCentricWriter);

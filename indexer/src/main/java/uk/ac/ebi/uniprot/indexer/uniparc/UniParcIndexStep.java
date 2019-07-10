@@ -1,8 +1,5 @@
 package uk.ac.ebi.uniprot.indexer.uniparc;
 
-import java.io.File;
-import java.io.IOException;
-
 import org.springframework.batch.core.ChunkListener;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.StepExecutionListener;
@@ -14,20 +11,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.solr.core.SolrTemplate;
-
+import org.springframework.data.solr.core.SolrOperations;
 import uk.ac.ebi.uniprot.cv.taxonomy.FileNodeIterable;
 import uk.ac.ebi.uniprot.cv.taxonomy.TaxonomyMapRepo;
 import uk.ac.ebi.uniprot.cv.taxonomy.TaxonomyRepo;
 import uk.ac.ebi.uniprot.indexer.common.listener.LogRateListener;
 import uk.ac.ebi.uniprot.indexer.common.writer.SolrDocumentWriter;
 import uk.ac.ebi.uniprot.indexer.converter.DocumentConverter;
-import uk.ac.ebi.uniprot.indexer.proteome.ProteomeEntryConverter;
 import uk.ac.ebi.uniprot.search.SolrCollection;
 import uk.ac.ebi.uniprot.search.document.proteome.ProteomeDocument;
 import uk.ac.ebi.uniprot.search.document.uniparc.UniParcDocument;
-import uk.ac.ebi.uniprot.xml.jaxb.proteome.Proteome;
 import uk.ac.ebi.uniprot.xml.jaxb.uniparc.Entry;
+
+import java.io.File;
+import java.io.IOException;
 
 /**
  *
@@ -79,8 +76,8 @@ public class UniParcIndexStep {
 	
 	
 	@Bean
-	public ItemWriter<UniParcDocument> geneCentricItemWriter(SolrTemplate solrTemplate) {
-		return new SolrDocumentWriter<>(solrTemplate, SolrCollection.uniparc);
+	public ItemWriter<UniParcDocument> geneCentricItemWriter(SolrOperations solrOperations) {
+		return new SolrDocumentWriter<>(solrOperations, SolrCollection.uniparc);
 	}
 
 	private TaxonomyRepo createTaxonomyRepo() {

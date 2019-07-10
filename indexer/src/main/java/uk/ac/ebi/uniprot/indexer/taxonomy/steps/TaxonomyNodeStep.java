@@ -12,7 +12,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.solr.core.SolrTemplate;
+import org.springframework.data.solr.core.SolrOperations;
 import uk.ac.ebi.uniprot.domain.taxonomy.TaxonomyEntry;
 import uk.ac.ebi.uniprot.indexer.common.utils.Constants;
 import uk.ac.ebi.uniprot.indexer.common.writer.SolrDocumentWriter;
@@ -26,7 +26,6 @@ import javax.sql.DataSource;
 import java.sql.SQLException;
 
 /**
- *
  * @author lgonzales
  */
 @Configuration
@@ -36,11 +35,11 @@ public class TaxonomyNodeStep {
     private Integer chunkSize;
 
     @Bean(name = "taxonomyNode")
-    public Step taxonomyNode(StepBuilderFactory stepBuilders,StepExecutionListener stepListener,
-                                       ChunkListener chunkListener,
-                                       ItemReader<TaxonomyEntry> itemTaxonomyNodeReader,
-                                       ItemProcessor<TaxonomyEntry,TaxonomyDocument> itemTaxonomyNodeProcessor,
-                                       ItemWriter<TaxonomyDocument> itemTaxonomyNodeWriter){
+    public Step taxonomyNode(StepBuilderFactory stepBuilders, StepExecutionListener stepListener,
+                             ChunkListener chunkListener,
+                             ItemReader<TaxonomyEntry> itemTaxonomyNodeReader,
+                             ItemProcessor<TaxonomyEntry, TaxonomyDocument> itemTaxonomyNodeProcessor,
+                             ItemWriter<TaxonomyDocument> itemTaxonomyNodeWriter) {
         return stepBuilders.get(Constants.TAXONOMY_LOAD_NODE_STEP_NAME)
                 .<TaxonomyEntry, TaxonomyDocument>chunk(chunkSize)
                 .reader(itemTaxonomyNodeReader)
@@ -62,12 +61,12 @@ public class TaxonomyNodeStep {
     }
 
     @Bean(name = "itemTaxonomyNodeProcessor")
-    public ItemProcessor<TaxonomyEntry,TaxonomyDocument> itemTaxonomyNodeProcessor(@Qualifier("readDataSource") DataSource readDataSource,SolrTemplate solrTemplate){
-        return new TaxonomyProcessor(readDataSource,solrTemplate);
+    public ItemProcessor<TaxonomyEntry, TaxonomyDocument> itemTaxonomyNodeProcessor(@Qualifier("readDataSource") DataSource readDataSource, SolrOperations solrOperations) {
+        return new TaxonomyProcessor(readDataSource, solrOperations);
     }
 
     @Bean(name = "itemTaxonomyNodeWriter")
-    public ItemWriter<TaxonomyDocument> itemTaxonomyNodeWriter(SolrTemplate solrTemplate) {
-        return new SolrDocumentWriter<>(solrTemplate, SolrCollection.taxonomy);
+    public ItemWriter<TaxonomyDocument> itemTaxonomyNodeWriter(SolrOperations solrOperations) {
+        return new SolrDocumentWriter<>(solrOperations, SolrCollection.taxonomy);
     }
 }

@@ -1,12 +1,6 @@
 package uk.ac.ebi.uniprot.indexer.uniparc;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.notNullValue;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
-import static uk.ac.ebi.uniprot.indexer.common.utils.Constants.UNIPARC_INDEX_JOB;
-
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.hamcrest.CoreMatchers;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -16,13 +10,10 @@ import org.springframework.batch.test.JobLauncherTestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
-import org.springframework.data.solr.core.SolrTemplate;
+import org.springframework.data.solr.core.SolrOperations;
 import org.springframework.data.solr.core.query.SimpleQuery;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 import uk.ac.ebi.uniprot.domain.uniparc.UniParcEntry;
 import uk.ac.ebi.uniprot.indexer.common.listener.ListenerConfig;
 import uk.ac.ebi.uniprot.indexer.test.config.FakeIndexerSpringBootApplication;
@@ -30,6 +21,13 @@ import uk.ac.ebi.uniprot.indexer.test.config.SolrTestConfig;
 import uk.ac.ebi.uniprot.json.parser.uniparc.UniParcJsonConfig;
 import uk.ac.ebi.uniprot.search.SolrCollection;
 import uk.ac.ebi.uniprot.search.document.uniparc.UniParcDocument;
+
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.notNullValue;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
+import static uk.ac.ebi.uniprot.indexer.common.utils.Constants.UNIPARC_INDEX_JOB;
 
 /**
  *
@@ -45,7 +43,7 @@ public class UniParcIndexIT {
 	 @Autowired
 	    private JobLauncherTestUtils jobLauncher;
 	    @Autowired
-	    private SolrTemplate template;
+	    private SolrOperations solrOperations;
 
 	    @Test
 	    void testIndexJob() throws Exception {
@@ -55,7 +53,7 @@ public class UniParcIndexIT {
 	        BatchStatus status = jobExecution.getStatus();
 	        assertThat(status, is(BatchStatus.COMPLETED));
 
-	        Page<UniParcDocument> response = template
+	        Page<UniParcDocument> response = solrOperations
 	                .query(SolrCollection.uniparc.name(), new SimpleQuery("*:*"), UniParcDocument.class);
 	        assertThat(response, is(notNullValue()));
 	        assertThat(response.getTotalElements(), is(3l));

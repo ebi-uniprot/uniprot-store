@@ -13,7 +13,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.solr.core.SolrTemplate;
+import org.springframework.data.solr.core.SolrOperations;
 import uk.ac.ebi.uniprot.cv.disease.Disease;
 import uk.ac.ebi.uniprot.indexer.common.utils.Constants;
 import uk.ac.ebi.uniprot.indexer.common.writer.SolrDocumentWriter;
@@ -31,7 +31,7 @@ public class DiseaseLoadStep {
     private StepBuilderFactory steps;
 
     @Autowired
-    private SolrTemplate solrTemplate;
+    private SolrOperations solrOperations;
 
     @Value(("${ds.import.chunk.size}"))
     private Integer chunkSize;
@@ -61,7 +61,7 @@ public class DiseaseLoadStep {
 
     @Bean(name = "DiseaseWriter")
     public ItemWriter<DiseaseDocument> diseaseWriter() {
-        return new SolrDocumentWriter<>(this.solrTemplate, SolrCollection.disease);
+        return new SolrDocumentWriter<>(this.solrOperations, SolrCollection.disease);
     }
 
     @Bean(name = "DiseaseProcessor")

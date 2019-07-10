@@ -9,7 +9,7 @@ import org.springframework.batch.core.StepExecution;
 import org.springframework.batch.core.annotation.BeforeStep;
 import org.springframework.batch.item.ExecutionContext;
 import org.springframework.batch.item.ItemWriter;
-import org.springframework.data.solr.core.SolrTemplate;
+import org.springframework.data.solr.core.SolrOperations;
 import uk.ac.ebi.uniprot.indexer.common.listener.WriteRetrierLogJobListener;
 import uk.ac.ebi.uniprot.indexer.common.listener.WriteRetrierLogStepListener;
 import uk.ac.ebi.uniprot.indexer.common.model.EntryDocumentPair;
@@ -49,14 +49,14 @@ import static org.slf4j.LoggerFactory.getLogger;
 public abstract class EntryDocumentPairRetryWriter<E, D, T extends EntryDocumentPair<E, D>> implements ItemWriter<T> {
     private static final Logger INDEXING_FAILED_LOGGER = getLogger("indexing-doc-write-failed-entries");
     private static final String ERROR_WRITING_ENTRIES_TO_SOLR = "Error writing entries to Solr: ";
-    private final SolrTemplate solrTemplate;
+    private final SolrOperations solrOperations;
     private final SolrCollection collection;
     private final RetryPolicy<Object> retryPolicy;
     private AtomicInteger failedWritingEntriesCount;
     private AtomicInteger writtenEntriesCount;
 
-    public EntryDocumentPairRetryWriter(SolrTemplate solrTemplate, SolrCollection collection, RetryPolicy<Object> retryPolicy) {
-        this.solrTemplate = solrTemplate;
+    public EntryDocumentPairRetryWriter(SolrOperations solrOperations, SolrCollection collection, RetryPolicy<Object> retryPolicy) {
+        this.solrOperations = solrOperations;
         this.collection = collection;
         this.retryPolicy = retryPolicy;
     }
@@ -96,7 +96,7 @@ public abstract class EntryDocumentPairRetryWriter<E, D, T extends EntryDocument
 
     private void writeEntriesToSolr(List<D> documents) {
         // TODO: 04/07/19 commented out for testing
-//        solrTemplate.saveBeans(collection.name(), documents);
+        solrOperations.saveBeans(collection.name(), documents);
         writtenEntriesCount.addAndGet(documents.size());
     }
 

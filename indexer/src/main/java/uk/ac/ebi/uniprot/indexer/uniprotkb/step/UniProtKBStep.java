@@ -16,7 +16,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
-import org.springframework.data.solr.core.SolrTemplate;
+import org.springframework.data.solr.core.SolrOperations;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import uk.ac.ebi.uniprot.cv.chebi.ChebiRepoFactory;
 import uk.ac.ebi.uniprot.cv.ec.ECRepoFactory;
@@ -61,14 +61,14 @@ import static uk.ac.ebi.uniprot.indexer.common.utils.Constants.UNIPROTKB_INDEX_S
 public class UniProtKBStep {
     private final StepBuilderFactory stepBuilderFactory;
     private final UniProtKBIndexingProperties uniProtKBIndexingProperties;
-    private final SolrTemplate solrTemplate;
+    private final SolrOperations solrOperations;
 
     @Autowired
     public UniProtKBStep(StepBuilderFactory stepBuilderFactory,
-                         SolrTemplate solrTemplate,
+                         SolrOperations solrOperations,
                          UniProtKBIndexingProperties indexingProperties) {
         this.stepBuilderFactory = stepBuilderFactory;
-        this.solrTemplate = solrTemplate;
+        this.solrOperations = solrOperations;
         this.uniProtKBIndexingProperties = indexingProperties;
     }
 
@@ -101,7 +101,7 @@ public class UniProtKBStep {
     @Bean
     @StepScope
     public UniProtEntryDocumentPairWriter uniProtDocumentItemWriter(RetryPolicy<Object> writeRetryPolicy) {
-        return new UniProtEntryDocumentPairWriter(this.solrTemplate, SolrCollection.uniprot, writeRetryPolicy);
+        return new UniProtEntryDocumentPairWriter(this.solrOperations, SolrCollection.uniprot, writeRetryPolicy);
     }
 
     /**

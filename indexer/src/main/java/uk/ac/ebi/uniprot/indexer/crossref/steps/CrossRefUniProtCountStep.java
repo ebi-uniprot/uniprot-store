@@ -9,7 +9,7 @@ import org.springframework.batch.item.ItemWriter;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.solr.core.SolrTemplate;
+import org.springframework.data.solr.core.SolrOperations;
 import uk.ac.ebi.uniprot.indexer.common.utils.Constants;
 import uk.ac.ebi.uniprot.indexer.crossref.readers.CrossRefUniProtCountReader;
 import uk.ac.ebi.uniprot.indexer.crossref.writers.CrossRefUniProtCountWriter;
@@ -47,8 +47,8 @@ public class CrossRefUniProtCountStep {
     }
 
     @Bean(name = "UniProtCountWriter")
-    public ItemWriter<CrossRefDocument> writer(SolrTemplate solrTemplate) {
-        return new CrossRefUniProtCountWriter(solrTemplate, SolrCollection.crossref);
+    public ItemWriter<CrossRefDocument> writer(SolrOperations solrOperations) {
+        return new CrossRefUniProtCountWriter(solrOperations, SolrCollection.crossref);
     }
 }
 

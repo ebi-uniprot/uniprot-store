@@ -12,7 +12,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.solr.core.SolrTemplate;
+import org.springframework.data.solr.core.SolrOperations;
 import uk.ac.ebi.uniprot.domain.taxonomy.TaxonomyEntry;
 import uk.ac.ebi.uniprot.indexer.common.utils.Constants;
 import uk.ac.ebi.uniprot.indexer.common.writer.SolrDocumentWriter;
@@ -69,8 +69,8 @@ public class TaxonomyMergedStep {
     }
 
     @Bean(name = "itemTaxonomyMergedWriter")
-    public ItemWriter<TaxonomyDocument> itemTaxonomyMergedWriter(SolrTemplate solrTemplate) {
-        return new SolrDocumentWriter<>(solrTemplate, SolrCollection.taxonomy);
+    public ItemWriter<TaxonomyDocument> itemTaxonomyMergedWriter(SolrOperations solrOperations) {
+        return new SolrDocumentWriter<>(solrOperations, SolrCollection.taxonomy);
     }
 
 }

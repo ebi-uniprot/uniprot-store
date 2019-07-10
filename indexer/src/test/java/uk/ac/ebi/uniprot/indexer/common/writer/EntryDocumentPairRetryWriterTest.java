@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.batch.core.JobExecution;
 import org.springframework.batch.core.StepExecution;
 import org.springframework.batch.item.ExecutionContext;
-import org.springframework.data.solr.core.SolrTemplate;
+import org.springframework.data.solr.core.SolrOperations;
 import uk.ac.ebi.uniprot.indexer.common.model.AbstractEntryDocumentPair;
 import uk.ac.ebi.uniprot.search.SolrCollection;
 
@@ -24,14 +24,14 @@ import static uk.ac.ebi.uniprot.search.SolrCollection.uniprot;
  */
 class EntryDocumentPairRetryWriterTest {
     private RetryPolicy<Object> retryPolicy;
-    private SolrTemplate solrTemplateMock;
+    private SolrOperations solrOperationsMock;
     private EntryDocumentPairRetryWriter<FakeEntry, FakeDoc, FakeEntryDocPair> writer;
 
     @BeforeEach
     void beforeEach() {
         this.retryPolicy = new RetryPolicy<>().withMaxRetries(2);
-        this.solrTemplateMock = mock(SolrTemplate.class);
-        this.writer = new WriterUnderTest(this.solrTemplateMock, uniprot, this.retryPolicy);
+        this.solrOperationsMock = mock(SolrOperations.class);
+        this.writer = new WriterUnderTest(this.solrOperationsMock, uniprot, this.retryPolicy);
         JobExecution mockJobExecution = mock(JobExecution.class);
         when(mockJobExecution.getExecutionContext()).thenReturn(mock(ExecutionContext.class));
         this.writer.setStepExecution(new StepExecution("fake step", mockJobExecution));
@@ -41,7 +41,7 @@ class EntryDocumentPairRetryWriterTest {
     void whenWriteItemsSolrIsCalled() {
         List<FakeEntryDocPair> chunk = createFakePairs(4);
         this.writer.write(chunk);
-        verify(solrTemplateMock, times(1))
+        verify(solrOperationsMock, times(1))
                 .saveBeans(uniprot.name(), chunk.stream()
                         .map(AbstractEntryDocumentPair::getDocument).collect(Collectors.toList()));
     }
@@ -55,8 +55,8 @@ class EntryDocumentPairRetryWriterTest {
     }
 
     private static class WriterUnderTest extends EntryDocumentPairRetryWriter<FakeEntry, FakeDoc, FakeEntryDocPair> {
-        private WriterUnderTest(SolrTemplate solrTemplate, SolrCollection collection, RetryPolicy<Object> retryPolicy) {
-            super(solrTemplate, collection, retryPolicy);
+        private WriterUnderTest(SolrOperations solrOperations, SolrCollection collection, RetryPolicy<Object> retryPolicy) {
+            super(solrOperations, collection, retryPolicy);
         }
 
         @Override

@@ -10,7 +10,7 @@ import org.springframework.batch.test.JobLauncherTestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
-import org.springframework.data.solr.core.SolrTemplate;
+import org.springframework.data.solr.core.SolrOperations;
 import org.springframework.data.solr.core.query.SimpleQuery;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -50,7 +50,7 @@ class UniProtKBJobIT {
     @Autowired
     private JobLauncherTestUtils jobLauncher;
     @Autowired
-    private SolrTemplate template;
+    private SolrOperations solrOperations;
     @Autowired
     private UniProtKBIndexingProperties indexingProperties;
 
@@ -83,7 +83,7 @@ class UniProtKBJobIT {
         Set<String> sourceAccessions = readSourceAccessions();
         assertThat(sourceAccessions, hasSize(5));
 
-        Page<UniProtDocument> response = template
+        Page<UniProtDocument> response = solrOperations
                 .query(SolrCollection.uniprot.name(), new SimpleQuery("*:*"), UniProtDocument.class);
 
         assertThat(response, is(notNullValue()));
@@ -106,7 +106,7 @@ class UniProtKBJobIT {
         assertThat(suggestionIndexingStep.getFailureExceptions(), hasSize(0));
 
 
-        Page<SuggestDocument> response = template
+        Page<SuggestDocument> response = solrOperations
                 .query(SolrCollection.suggest.name(), new SimpleQuery("*:*"), SuggestDocument.class);
         assertThat(response, is(notNullValue()));
         assertThat(response.getTotalElements(), is((long) reportedWriteCount));

@@ -13,7 +13,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.solr.core.SolrTemplate;
+import org.springframework.data.solr.core.SolrOperations;
 import uk.ac.ebi.uniprot.cv.keyword.KeywordEntry;
 import uk.ac.ebi.uniprot.indexer.common.utils.Constants;
 import uk.ac.ebi.uniprot.indexer.common.writer.SolrDocumentWriter;
@@ -34,7 +34,7 @@ public class KeywordLoadStep {
     private StepBuilderFactory steps;
 
     @Autowired
-    private SolrTemplate solrTemplate;
+    private SolrOperations solrOperations;
 
     @Value(("${ds.import.chunk.size}"))
     private Integer chunkSize;
@@ -64,13 +64,13 @@ public class KeywordLoadStep {
 
     @Bean(name = "KeywordWriter")
     public ItemWriter<KeywordDocument> keywordWriter() {
-        return new SolrDocumentWriter<>(this.solrTemplate, SolrCollection.keyword);
+        return new SolrDocumentWriter<>(this.solrOperations, SolrCollection.keyword);
     }
 
     @Bean(name = "KeywordProcessor")
     public ItemProcessor<KeywordEntry, KeywordDocument> keywordProcessor(@Qualifier("readDataSource") DataSource readDataSource,
-                                                                         SolrTemplate solrTemplate) throws SQLException {
-        return new KeywordLoadProcessor(readDataSource, solrTemplate);
+                                                                         SolrOperations solrOperations) throws SQLException {
+        return new KeywordLoadProcessor(readDataSource, solrOperations);
     }
 
 }

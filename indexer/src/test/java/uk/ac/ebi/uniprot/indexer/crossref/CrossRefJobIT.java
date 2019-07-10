@@ -10,7 +10,7 @@ import org.springframework.batch.test.JobLauncherTestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
-import org.springframework.data.solr.core.SolrTemplate;
+import org.springframework.data.solr.core.SolrOperations;
 import org.springframework.data.solr.core.query.SimpleQuery;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -39,7 +39,7 @@ class CrossRefJobIT {
     private JobLauncherTestUtils jobLauncher;
 
     @Autowired
-    private SolrTemplate template;
+    private SolrOperations solrOperations;
 
     @Test
     void testDiseaseLoadJob() throws Exception {
@@ -64,8 +64,8 @@ class CrossRefJobIT {
         assertThat(countStep.getWriteCount(), is(5));
 
         // get all the index docs
-        Page<CrossRefDocument> response = this.template.query(SolrCollection.crossref.name(),
-                new SimpleQuery("*:*"), CrossRefDocument.class);
+        Page<CrossRefDocument> response = this.solrOperations.query(SolrCollection.crossref.name(),
+                                                                    new SimpleQuery("*:*"), CrossRefDocument.class);
 
         assertThat(response, is(notNullValue()));
         assertThat(response.getTotalElements(), is(5L));
@@ -85,8 +85,8 @@ class CrossRefJobIT {
         assertThat(xrefDoc.getUnreviewedProteinCount(), is(3L));
 
         // clean up
-        this.template.delete(SolrCollection.disease.name(), new SimpleQuery("*:*"));
-        this.template.commit(SolrCollection.disease.name());
+        this.solrOperations.delete(SolrCollection.disease.name(), new SimpleQuery("*:*"));
+        this.solrOperations.commit(SolrCollection.disease.name());
     }
 }
 
