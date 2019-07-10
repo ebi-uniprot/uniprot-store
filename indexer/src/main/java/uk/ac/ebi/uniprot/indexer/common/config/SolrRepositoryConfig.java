@@ -6,8 +6,6 @@ import org.apache.solr.client.solrj.impl.CloudSolrClient;
 import org.apache.solr.client.solrj.impl.HttpClientUtil;
 import org.apache.solr.client.solrj.impl.HttpSolrClient;
 import org.apache.solr.common.params.ModifiableSolrParams;
-import org.springframework.aop.framework.ProxyFactoryBean;
-import org.springframework.aop.target.ThreadLocalTargetSource;
 import org.springframework.beans.factory.BeanCreationException;
 import org.springframework.context.annotation.*;
 import org.springframework.data.solr.core.SolrOperations;
@@ -64,23 +62,7 @@ public class SolrRepositoryConfig {
     }
 
     @Bean
-    @Scope(scopeName = "prototype")
     public SolrOperations solrOperations(SolrClient uniProtSolrClient) {
         return new SolrTemplate(uniProtSolrClient);
-    }
-
-    @Bean(destroyMethod = "destroy")
-    public ThreadLocalTargetSource threadLocalSolrOperations() {
-        ThreadLocalTargetSource result = new ThreadLocalTargetSource();
-        result.setTargetBeanName("solrOperations");
-        return result;
-    }
-
-    @Primary
-    @Bean(name = "proxiedThreadLocalTargetSource")
-    public ProxyFactoryBean proxiedThreadLocalTargetSource(ThreadLocalTargetSource threadLocalSolrOperations) {
-        ProxyFactoryBean result = new ProxyFactoryBean();
-        result.setTargetSource(threadLocalSolrOperations);
-        return result;
     }
 }
