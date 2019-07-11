@@ -49,7 +49,6 @@ import uk.ac.ebi.uniprot.search.document.suggest.SuggestDocument;
 import uk.ac.ebi.uniprot.search.document.uniprot.UniProtDocument;
 import uk.ebi.uniprot.scorer.uniprotkb.UniProtEntryScored;
 
-import java.text.ParseException;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -600,7 +599,7 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtEntry, Un
                     if (dateFormatter != null) {
                         japiDocument.referenceDates.add(dateFormatter.convertStringToDate(pubDate));
                     }
-                } catch (ParseException e) {
+                } catch (Exception e) {
                     LOGGER.warn("There was a problem converting entry dates during indexing:", e);
                 }
             }
