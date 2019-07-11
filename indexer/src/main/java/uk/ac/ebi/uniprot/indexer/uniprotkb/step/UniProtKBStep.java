@@ -16,14 +16,12 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
-import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import uk.ac.ebi.uniprot.cv.chebi.ChebiRepoFactory;
 import uk.ac.ebi.uniprot.cv.ec.ECRepoFactory;
 import uk.ac.ebi.uniprot.cv.taxonomy.FileNodeIterable;
 import uk.ac.ebi.uniprot.cv.taxonomy.TaxonomyMapRepo;
 import uk.ac.ebi.uniprot.cv.taxonomy.TaxonomyRepo;
-import uk.ac.ebi.uniprot.indexer.common.concurrency.TaskExecutorProperties;
 import uk.ac.ebi.uniprot.indexer.common.config.UniProtSolrOperations;
 import uk.ac.ebi.uniprot.indexer.common.listener.LogRateListener;
 import uk.ac.ebi.uniprot.indexer.common.listener.WriteRetrierLogStepListener;
@@ -32,6 +30,7 @@ import uk.ac.ebi.uniprot.indexer.uniprot.go.GoRelationFileRepo;
 import uk.ac.ebi.uniprot.indexer.uniprot.go.GoTermFileReader;
 import uk.ac.ebi.uniprot.indexer.uniprot.pathway.PathwayFileRepo;
 import uk.ac.ebi.uniprot.indexer.uniprot.pathway.PathwayRepo;
+import uk.ac.ebi.uniprot.indexer.uniprotkb.config.AsyncConfig;
 import uk.ac.ebi.uniprot.indexer.uniprotkb.config.UniProtKBConfig;
 import uk.ac.ebi.uniprot.indexer.uniprotkb.config.UniProtKBIndexingProperties;
 import uk.ac.ebi.uniprot.indexer.uniprotkb.model.UniProtEntryDocumentPair;
@@ -45,7 +44,6 @@ import uk.ac.ebi.uniprot.search.document.suggest.SuggestDocument;
 import java.io.File;
 import java.util.Map;
 import java.util.concurrent.Future;
-import java.util.concurrent.ThreadPoolExecutor;
 
 import static uk.ac.ebi.uniprot.indexer.common.utils.Constants.UNIPROTKB_INDEX_STEP;
 
@@ -57,9 +55,8 @@ import static uk.ac.ebi.uniprot.indexer.common.utils.Constants.UNIPROTKB_INDEX_S
  * @author Edd
  */
 @Configuration
-@Import({UniProtKBConfig.class, SuggestionStep.class})
+@Import({UniProtKBConfig.class, AsyncConfig.class, SuggestionStep.class})
 @Slf4j
-@EnableAsync
 public class UniProtKBStep {
     private final StepBuilderFactory stepBuilderFactory;
     private final UniProtKBIndexingProperties uniProtKBIndexingProperties;
@@ -78,16 +75,17 @@ public class UniProtKBStep {
     public Step uniProtKBIndexingMainFFStep(WriteRetrierLogStepListener writeRetrierLogStepListener,
                                             @Qualifier("uniProtKB") LogRateListener<UniProtEntryDocumentPair> uniProtKBLogRateListener,
                                             ItemReader<UniProtEntryDocumentPair> entryItemReader,
+                                            @Qualifier("uniprotkbAsyncProcessor") ItemProcessor<UniProtEntryDocumentPair, Future<UniProtEntryDocumentPair>> asyncProcessor,
+                                            @Qualifier("uniprotkbAsyncWriter") ItemWriter<Future<UniProtEntryDocumentPair>> asyncWriter,
                                             UniProtEntryDocumentPairProcessor uniProtDocumentItemProcessor,
                                             UniProtEntryDocumentPairWriter uniProtDocumentItemWriter,
-                                            @Qualifier("uniProtKBAsync") ItemWriter<Future<UniProtEntryDocumentPair>> asyncWriter,
                                             ExecutionContextPromotionListener promotionListener) {
         return this.stepBuilderFactory.get(UNIPROTKB_INDEX_STEP)
                 .listener(promotionListener)
                 .<UniProtEntryDocumentPair, Future<UniProtEntryDocumentPair>>
                         chunk(uniProtKBIndexingProperties.getChunkSize())
                 .reader(entryItemReader)
-                .processor(asyncProcessor(uniProtDocumentItemProcessor))
+                .processor(asyncProcessor)
                 .writer(asyncWriter)
                 .listener(writeRetrierLogStepListener)
                 .listener(uniProtKBLogRateListener)
@@ -139,12 +137,7 @@ public class UniProtKBStep {
         return new UniProtEntryItemReader(uniProtKBIndexingProperties);
     }
 
-    @Bean
-    UniProtKBIndexingProperties indexingProperties() {
-        return uniProtKBIndexingProperties;
-    }
-
-    @Bean("uniProtKBAsync")
+    @Bean("uniprotkbAsyncWriter")
     public ItemWriter<Future<UniProtEntryDocumentPair>> asyncWriter(ItemWriter<UniProtEntryDocumentPair> writer) {
         AsyncItemWriter<UniProtEntryDocumentPair> asyncItemWriter = new AsyncItemWriter<>();
         asyncItemWriter.setDelegate(writer);
@@ -152,12 +145,20 @@ public class UniProtKBStep {
         return asyncItemWriter;
     }
 
-    private ItemProcessor<UniProtEntryDocumentPair, Future<UniProtEntryDocumentPair>> asyncProcessor(ItemProcessor<UniProtEntryDocumentPair, UniProtEntryDocumentPair> itemProcessor) {
+    @Bean("uniprotkbAsyncProcessor")
+    public ItemProcessor<UniProtEntryDocumentPair, Future<UniProtEntryDocumentPair>> asyncProcessor(
+            ItemProcessor<UniProtEntryDocumentPair, UniProtEntryDocumentPair> itemProcessor,
+            @Qualifier("itemProcessorTaskExecutor") ThreadPoolTaskExecutor itemProcessorTaskExecutor) {
         AsyncItemProcessor<UniProtEntryDocumentPair, UniProtEntryDocumentPair> asyncProcessor = new AsyncItemProcessor<>();
         asyncProcessor.setDelegate(itemProcessor);
-        asyncProcessor.setTaskExecutor(createItemProcessorTaskExecutor());
+        asyncProcessor.setTaskExecutor(itemProcessorTaskExecutor);
 
         return asyncProcessor;
+    }
+
+    @Bean
+    UniProtKBIndexingProperties indexingProperties() {
+        return uniProtKBIndexingProperties;
     }
 
     private PathwayRepo createPathwayRepo() {
@@ -166,22 +167,5 @@ public class UniProtKBStep {
 
     private TaxonomyRepo createTaxonomyRepo() {
         return new TaxonomyMapRepo(new FileNodeIterable(new File(uniProtKBIndexingProperties.getTaxonomyFile())));
-    }
-
-    private ThreadPoolTaskExecutor createItemProcessorTaskExecutor() {
-        TaskExecutorProperties taskExecutorProperties = uniProtKBIndexingProperties
-                .getItemProcessorTaskExecutorProperties();
-        ThreadPoolTaskExecutor taskExecutor = new ThreadPoolTaskExecutor();
-        taskExecutor.setCorePoolSize(taskExecutorProperties.getCorePoolSize());
-        taskExecutor.setMaxPoolSize(taskExecutorProperties.getMaxPoolSize());
-        taskExecutor.setQueueCapacity(taskExecutorProperties.getQueueCapacity());
-        taskExecutor.setKeepAliveSeconds(taskExecutorProperties.getKeepAliveSeconds());
-        taskExecutor.setAllowCoreThreadTimeOut(taskExecutorProperties.isAllowCoreThreadTimeout());
-        taskExecutor.setWaitForTasksToCompleteOnShutdown(taskExecutorProperties.isWaitForTasksToCompleteOnShutdown());
-        taskExecutor.setRejectedExecutionHandler(new ThreadPoolExecutor.CallerRunsPolicy());
-        taskExecutor.initialize();
-        taskExecutor.setThreadNamePrefix(taskExecutorProperties.getThreadNamePrefix());
-        log.info("Using Item Processor/Writer task executor: {}", taskExecutorProperties);
-        return taskExecutor;
     }
 }

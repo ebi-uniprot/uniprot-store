@@ -63,7 +63,7 @@ public abstract class EntryDocumentPairRetryWriter<E, D, T extends EntryDocument
     }
 
     @Override
-    @Async
+    @Async("itemWriterTaskExecutor")
     public void write(List<? extends T> entryDocumentPairs) {
         List<D> documents = entryDocumentPairs.stream()
                 .map(EntryDocumentPair::getDocument)
