@@ -2,21 +2,29 @@ package uk.ac.ebi.uniprot.indexer.crossref;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.springframework.batch.core.JobExecution;
+import org.springframework.batch.core.StepExecution;
+import uk.ac.ebi.uniprot.indexer.common.utils.Constants;
 import uk.ac.ebi.uniprot.indexer.crossref.readers.CrossRefReader;
 import uk.ac.ebi.uniprot.search.document.dbxref.CrossRefDocument;
 
 import java.io.IOException;
+import java.util.HashMap;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 class CrossRefReaderTest {
-    private static final String DBXREF_PATH = "target/test-classes/crossref/test-dbxref.txt";
+    private static final String DBXREF_PATH = "crossref/test-dbxref.txt";
     private static CrossRefReader reader;
 
     @BeforeAll
     static void setReader() throws IOException {
+        JobExecution jobExecution = new JobExecution(1L);
+        jobExecution.getExecutionContext().put(Constants.CROSS_REF_PROTEIN_COUNT_KEY, new HashMap<>());
+        StepExecution stepExecution = new StepExecution("cross-ref-reader", jobExecution);
         reader = new CrossRefReader(DBXREF_PATH);
+        reader.getCrossRefProteinCountMap(stepExecution);
     }
 
     @Test
