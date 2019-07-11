@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
+import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import uk.ac.ebi.uniprot.cv.chebi.ChebiRepoFactory;
 import uk.ac.ebi.uniprot.cv.ec.ECRepoFactory;
@@ -58,6 +59,7 @@ import static uk.ac.ebi.uniprot.indexer.common.utils.Constants.UNIPROTKB_INDEX_S
 @Configuration
 @Import({UniProtKBConfig.class, SuggestionStep.class})
 @Slf4j
+@EnableAsync
 public class UniProtKBStep {
     private final StepBuilderFactory stepBuilderFactory;
     private final UniProtKBIndexingProperties uniProtKBIndexingProperties;
@@ -78,6 +80,7 @@ public class UniProtKBStep {
                                             ItemReader<UniProtEntryDocumentPair> entryItemReader,
                                             UniProtEntryDocumentPairProcessor uniProtDocumentItemProcessor,
                                             UniProtEntryDocumentPairWriter uniProtDocumentItemWriter,
+                                            @Qualifier("uniProtKBAsync") ItemWriter<Future<UniProtEntryDocumentPair>> asyncWriter,
                                             ExecutionContextPromotionListener promotionListener) {
         return this.stepBuilderFactory.get(UNIPROTKB_INDEX_STEP)
                 .listener(promotionListener)
@@ -85,7 +88,7 @@ public class UniProtKBStep {
                         chunk(uniProtKBIndexingProperties.getChunkSize())
                 .reader(entryItemReader)
                 .processor(asyncProcessor(uniProtDocumentItemProcessor))
-                .writer(asyncWriter(uniProtDocumentItemWriter))
+                .writer(asyncWriter)
                 .listener(writeRetrierLogStepListener)
                 .listener(uniProtKBLogRateListener)
                 .listener(uniProtDocumentItemProcessor)
@@ -141,7 +144,8 @@ public class UniProtKBStep {
         return uniProtKBIndexingProperties;
     }
 
-    private ItemWriter<Future<UniProtEntryDocumentPair>> asyncWriter(ItemWriter<UniProtEntryDocumentPair> writer) {
+    @Bean("uniProtKBAsync")
+    public ItemWriter<Future<UniProtEntryDocumentPair>> asyncWriter(ItemWriter<UniProtEntryDocumentPair> writer) {
         AsyncItemWriter<UniProtEntryDocumentPair> asyncItemWriter = new AsyncItemWriter<>();
         asyncItemWriter.setDelegate(writer);
 

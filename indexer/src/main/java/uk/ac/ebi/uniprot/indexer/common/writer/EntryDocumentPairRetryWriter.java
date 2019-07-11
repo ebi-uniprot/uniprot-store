@@ -9,6 +9,7 @@ import org.springframework.batch.core.StepExecution;
 import org.springframework.batch.core.annotation.BeforeStep;
 import org.springframework.batch.item.ExecutionContext;
 import org.springframework.batch.item.ItemWriter;
+import org.springframework.scheduling.annotation.Async;
 import uk.ac.ebi.uniprot.indexer.common.config.UniProtSolrOperations;
 import uk.ac.ebi.uniprot.indexer.common.listener.WriteRetrierLogJobListener;
 import uk.ac.ebi.uniprot.indexer.common.listener.WriteRetrierLogStepListener;
@@ -62,6 +63,7 @@ public abstract class EntryDocumentPairRetryWriter<E, D, T extends EntryDocument
     }
 
     @Override
+    @Async
     public void write(List<? extends T> entryDocumentPairs) {
         List<D> documents = entryDocumentPairs.stream()
                 .map(EntryDocumentPair::getDocument)
