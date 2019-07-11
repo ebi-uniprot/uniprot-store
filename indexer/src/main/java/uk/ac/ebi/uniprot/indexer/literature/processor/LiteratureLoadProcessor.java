@@ -4,7 +4,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.item.ItemProcessor;
-import org.springframework.data.solr.core.SolrTemplate;
 import org.springframework.data.solr.core.query.Criteria;
 import org.springframework.data.solr.core.query.Query;
 import org.springframework.data.solr.core.query.SimpleQuery;
@@ -15,6 +14,7 @@ import uk.ac.ebi.uniprot.domain.literature.LiteratureStatistics;
 import uk.ac.ebi.uniprot.domain.literature.builder.LiteratureEntryBuilder;
 import uk.ac.ebi.uniprot.domain.literature.impl.LiteratureEntryImpl;
 import uk.ac.ebi.uniprot.domain.uniprot.UniProtAccession;
+import uk.ac.ebi.uniprot.indexer.common.config.UniProtSolrOperations;
 import uk.ac.ebi.uniprot.json.parser.literature.LiteratureJsonConfig;
 import uk.ac.ebi.uniprot.search.SolrCollection;
 import uk.ac.ebi.uniprot.search.document.literature.LiteratureDocument;
@@ -31,11 +31,11 @@ import java.util.stream.Collectors;
 @Slf4j
 public class LiteratureLoadProcessor implements ItemProcessor<LiteratureEntry, LiteratureDocument> {
 
-    private final SolrTemplate solrTemplate;
+    private final UniProtSolrOperations solrOperations;
     private final ObjectMapper literatureObjectMapper;
 
-    public LiteratureLoadProcessor(SolrTemplate solrTemplate) {
-        this.solrTemplate = solrTemplate;
+    public LiteratureLoadProcessor(UniProtSolrOperations solrOperations) {
+        this.solrOperations = solrOperations;
         this.literatureObjectMapper = LiteratureJsonConfig.getInstance().getFullObjectMapper();
     }
 
@@ -43,7 +43,7 @@ public class LiteratureLoadProcessor implements ItemProcessor<LiteratureEntry, L
     public LiteratureDocument process(LiteratureEntry entry) throws Exception {
         LiteratureEntryBuilder entryBuilder = new LiteratureEntryBuilder().from(entry);
         Query query = new SimpleQuery().addCriteria(Criteria.where("id").is(entry.getPubmedId()));
-        Optional<LiteratureDocument> optionalDocument = solrTemplate.queryForObject(SolrCollection.literature.name(), query, LiteratureDocument.class);
+        Optional<LiteratureDocument> optionalDocument = solrOperations.queryForObject(SolrCollection.literature.name(), query, LiteratureDocument.class);
         if (optionalDocument.isPresent()) {
             LiteratureDocument document = optionalDocument.get();
 
@@ -53,8 +53,8 @@ public class LiteratureLoadProcessor implements ItemProcessor<LiteratureEntry, L
             entryBuilder.statistics(statisticsEntry.getStatistics());
             entryBuilder.literatureMappedReference(statisticsEntry.getLiteratureMappedReferences());
 
-            solrTemplate.delete(SolrCollection.literature.name(), query);
-            solrTemplate.softCommit(SolrCollection.literature.name());
+            solrOperations.delete(SolrCollection.literature.name(), query);
+            solrOperations.softCommit(SolrCollection.literature.name());
         }
         return createLiteratureDocument(entryBuilder.build());
     }

@@ -17,6 +17,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.Resource;
 import org.springframework.data.solr.core.SolrTemplate;
 import uk.ac.ebi.uniprot.domain.literature.LiteratureEntry;
+import uk.ac.ebi.uniprot.indexer.common.config.UniProtSolrOperations;
 import uk.ac.ebi.uniprot.indexer.common.utils.Constants;
 import uk.ac.ebi.uniprot.indexer.common.writer.SolrDocumentWriter;
 import uk.ac.ebi.uniprot.indexer.literature.processor.LiteratureLoadProcessor;
@@ -38,7 +39,7 @@ public class LiteratureLoadStep {
     private StepBuilderFactory steps;
 
     @Autowired
-    private SolrTemplate solrTemplate;
+    private UniProtSolrOperations solrOperations;
 
     @Value(("${ds.import.chunk.size}"))
     private Integer chunkSize;
@@ -74,12 +75,12 @@ public class LiteratureLoadStep {
 
     @Bean(name = "LiteratureWriter")
     public ItemWriter<LiteratureDocument> literatureWriter() {
-        return new SolrDocumentWriter<>(this.solrTemplate, SolrCollection.literature);
+        return new SolrDocumentWriter<>(this.solrOperations, SolrCollection.literature);
     }
 
     @Bean(name = "LiteratureProcessor")
     public ItemProcessor<LiteratureEntry, LiteratureDocument> literatureProcessor() throws SQLException {
-        return new LiteratureLoadProcessor(solrTemplate);
+        return new LiteratureLoadProcessor(solrOperations);
     }
 
     private LiteratureRecordSeparatorPolicy getLiteratureRecordSeparatorPolice() {

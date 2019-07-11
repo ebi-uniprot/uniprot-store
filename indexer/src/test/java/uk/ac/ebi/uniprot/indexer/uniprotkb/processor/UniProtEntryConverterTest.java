@@ -402,7 +402,7 @@ class UniProtEntryConverterTest {
         assertTrue(doc.goWithEvidenceMaps.containsKey("go_ida"));
 
         assertEquals(5, doc.score);
-        assertNotNull(doc.avro_binary);
+//        assertNotNull(doc.avro_binary);
 
         assertFalse(doc.isIsoform);
     }
@@ -615,7 +615,7 @@ class UniProtEntryConverterTest {
         assertTrue(doc.goWithEvidenceMaps.containsKey("go_ida"));
 
         assertEquals(5, doc.score);
-        assertNotNull(doc.avro_binary);
+//        assertNotNull(doc.avro_binary);
     }
 
     @Test

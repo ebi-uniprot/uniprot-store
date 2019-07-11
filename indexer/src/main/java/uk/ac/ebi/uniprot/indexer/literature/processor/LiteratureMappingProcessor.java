@@ -4,7 +4,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.item.ItemProcessor;
-import org.springframework.data.solr.core.SolrTemplate;
 import org.springframework.data.solr.core.query.Criteria;
 import org.springframework.data.solr.core.query.Query;
 import org.springframework.data.solr.core.query.SimpleQuery;
@@ -12,6 +11,7 @@ import uk.ac.ebi.uniprot.domain.literature.LiteratureEntry;
 import uk.ac.ebi.uniprot.domain.literature.builder.LiteratureEntryBuilder;
 import uk.ac.ebi.uniprot.domain.literature.builder.LiteratureStatisticsBuilder;
 import uk.ac.ebi.uniprot.domain.literature.impl.LiteratureEntryImpl;
+import uk.ac.ebi.uniprot.indexer.common.config.UniProtSolrOperations;
 import uk.ac.ebi.uniprot.json.parser.literature.LiteratureJsonConfig;
 import uk.ac.ebi.uniprot.search.SolrCollection;
 import uk.ac.ebi.uniprot.search.document.literature.LiteratureDocument;
@@ -25,18 +25,18 @@ import java.util.Optional;
 @Slf4j
 public class LiteratureMappingProcessor implements ItemProcessor<LiteratureEntry, LiteratureDocument> {
 
-    private final SolrTemplate solrTemplate;
+    private final UniProtSolrOperations solrOperations;
     private final ObjectMapper literatureObjectMapper;
 
-    public LiteratureMappingProcessor(SolrTemplate solrTemplate) {
-        this.solrTemplate = solrTemplate;
+    public LiteratureMappingProcessor(UniProtSolrOperations solrOperations) {
+        this.solrOperations = solrOperations;
         this.literatureObjectMapper = LiteratureJsonConfig.getInstance().getFullObjectMapper();
     }
 
     @Override
     public LiteratureDocument process(LiteratureEntry mappedEntry) throws Exception {
         Query query = new SimpleQuery().addCriteria(Criteria.where("id").is(mappedEntry.getPubmedId()));
-        Optional<LiteratureDocument> optionalDocument = solrTemplate.queryForObject(SolrCollection.literature.name(), query, LiteratureDocument.class);
+        Optional<LiteratureDocument> optionalDocument = solrOperations.queryForObject(SolrCollection.literature.name(), query, LiteratureDocument.class);
         LiteratureStatisticsBuilder statisticsBuilder = new LiteratureStatisticsBuilder();
         if (optionalDocument.isPresent()) {
             LiteratureDocument document = optionalDocument.get();
@@ -46,8 +46,8 @@ public class LiteratureMappingProcessor implements ItemProcessor<LiteratureEntry
             LiteratureEntry statisticsEntry = literatureObjectMapper.readValue(literatureObj, LiteratureEntryImpl.class);
             statisticsBuilder = statisticsBuilder.from(statisticsEntry.getStatistics());
 
-            solrTemplate.delete(SolrCollection.literature.name(), query);
-            solrTemplate.softCommit(SolrCollection.literature.name());
+            solrOperations.delete(SolrCollection.literature.name(), query);
+            solrOperations.softCommit(SolrCollection.literature.name());
         }
         //update mappedProteinCount in the statistic builder
         statisticsBuilder.mappedProteinCount(mappedEntry.getLiteratureMappedReferences().size());
