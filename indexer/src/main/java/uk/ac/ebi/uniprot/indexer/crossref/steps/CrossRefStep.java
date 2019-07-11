@@ -5,7 +5,6 @@ import org.springframework.batch.core.ChunkListener;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.StepExecutionListener;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
-import org.springframework.batch.core.listener.ExecutionContextPromotionListener;
 import org.springframework.batch.item.ItemReader;
 import org.springframework.batch.item.ItemWriter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,15 +39,13 @@ public class CrossRefStep {
     @Bean(name = "IndexCrossRefStep")
     public Step indexCrossRef(StepExecutionListener stepListener, ChunkListener chunkListener,
                               @Qualifier("crossRefReader") ItemReader<CrossRefDocument> xrefReader,
-                              @Qualifier("crossRefWriter") ItemWriter<CrossRefDocument> xrefWriter,
-                              @Qualifier("crossRefPromotionListener") ExecutionContextPromotionListener promotionListener) {
+                              @Qualifier("crossRefWriter") ItemWriter<CrossRefDocument> xrefWriter) {
         return this.steps.get(Constants.CROSS_REF_INDEX_STEP)
                 .<CrossRefDocument, CrossRefDocument>chunk(this.chunkSize)
                 .reader(xrefReader)
                 .writer(xrefWriter)
                 .listener(stepListener)
                 .listener(chunkListener)
-                .listener(promotionListener)
                 .build();
     }
 
@@ -60,12 +57,5 @@ public class CrossRefStep {
     @Bean(name = "crossRefWriter")
     public ItemWriter<CrossRefDocument> xrefWriter() {
         return new SolrDocumentWriter<>(this.solrOperations, SolrCollection.crossref);
-    }
-
-    @Bean(name = "crossRefPromotionListener")
-    public ExecutionContextPromotionListener promotionListener() {
-        ExecutionContextPromotionListener executionContextPromotionListener = new ExecutionContextPromotionListener();
-        executionContextPromotionListener.setKeys(new String[]{Constants.CROSS_REF_KEY_STR});
-        return executionContextPromotionListener;
     }
 }

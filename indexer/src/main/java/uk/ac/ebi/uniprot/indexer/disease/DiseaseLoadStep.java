@@ -20,9 +20,7 @@ import uk.ac.ebi.uniprot.indexer.common.writer.SolrDocumentWriter;
 import uk.ac.ebi.uniprot.search.SolrCollection;
 import uk.ac.ebi.uniprot.search.document.disease.DiseaseDocument;
 
-import javax.sql.DataSource;
 import java.io.IOException;
-import java.sql.SQLException;
 
 @Configuration
 public class DiseaseLoadStep {
@@ -65,10 +63,9 @@ public class DiseaseLoadStep {
     }
 
     @Bean(name = "DiseaseProcessor")
-    public ItemProcessor<Disease, DiseaseDocument> diseaseProcessor(@Qualifier("readDataSource") DataSource readDataSource)
-            throws SQLException {
+    public ItemProcessor<Disease, DiseaseDocument> diseaseProcessor() {
 
-        return new DiseaseProcessor(readDataSource);
+        return new DiseaseProcessor();
 
     }
 

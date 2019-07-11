@@ -32,13 +32,12 @@ import java.nio.ByteBuffer;
 import java.util.stream.Collectors;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.notNullValue;
+import static org.hamcrest.Matchers.*;
 
 @ActiveProfiles(profiles = {"job", "offline"})
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = {FakeIndexerSpringBootApplication.class, SolrTestConfig.class, FakeReadDatabaseConfig.class,
-                           ListenerConfig.class, DiseaseLoadStep.class, DiseaseLoadJob.class})
+                           ListenerConfig.class, DiseaseLoadStep.class, DiseaseProteinCountStep.class, DiseaseLoadJob.class})
 class DiseaseLoadJobIT {
 
     private ObjectMapper diseaseObjectMapper = DiseaseJsonConfig.getInstance().getFullObjectMapper();
@@ -83,7 +82,7 @@ class DiseaseLoadJobIT {
         assertThat(disease.getAccession(), is("DI-02692"));
         assertThat(disease.getAcronym(), is("RA"));
         assertThat(disease.getReviewedProteinCount(), is(8L));
-        assertThat(disease.getUnreviewedProteinCount(), is(0L));
+        assertThat(disease.getUnreviewedProteinCount(), is(nullValue()));
         assertThat(disease.getCrossReferences().size(), is(3));
         assertThat(disease.getAlternativeNames().size(), is(2));
         assertThat(disease.getKeywords().size(), is(1));

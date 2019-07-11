@@ -573,23 +573,26 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtEntry, Un
             }
             if (citation.hasPublicationDate()) {
                 String pubDate = citation.getPublicationDate().getValue();
-                PublicationDateFormatter dateFormatter = null;
-                if (PublicationDateFormatter.DAY_DIGITMONTH_YEAR.isValidDate(pubDate)) {
-                    dateFormatter = PublicationDateFormatter.DAY_DIGITMONTH_YEAR;
-                } else if (PublicationDateFormatter.DAY_THREE_LETTER_MONTH_YEAR.isValidDate(pubDate)) {
-                    dateFormatter = PublicationDateFormatter.DAY_THREE_LETTER_MONTH_YEAR;
-                } else if (PublicationDateFormatter.YEAR_DIGIT_MONTH.isValidDate(pubDate)) {
-                    dateFormatter = PublicationDateFormatter.YEAR_DIGIT_MONTH;
-                } else if (PublicationDateFormatter.THREE_LETTER_MONTH_YEAR.isValidDate(pubDate)) {
-                    dateFormatter = PublicationDateFormatter.THREE_LETTER_MONTH_YEAR;
-                } else if (PublicationDateFormatter.YEAR.isValidDate(pubDate)) {
-                    dateFormatter = PublicationDateFormatter.YEAR;
-                }
-                if (dateFormatter != null) {
-                    japiDocument.referenceDates.add(dateFormatter.convertStringToDate(pubDate));
+                try {
+                    PublicationDateFormatter dateFormatter = null;
+                    if (PublicationDateFormatter.DAY_DIGITMONTH_YEAR.isValidDate(pubDate)) {
+                        dateFormatter = PublicationDateFormatter.DAY_DIGITMONTH_YEAR;
+                    } else if (PublicationDateFormatter.DAY_THREE_LETTER_MONTH_YEAR.isValidDate(pubDate)) {
+                        dateFormatter = PublicationDateFormatter.DAY_THREE_LETTER_MONTH_YEAR;
+                    } else if (PublicationDateFormatter.YEAR_DIGIT_MONTH.isValidDate(pubDate)) {
+                        dateFormatter = PublicationDateFormatter.YEAR_DIGIT_MONTH;
+                    } else if (PublicationDateFormatter.THREE_LETTER_MONTH_YEAR.isValidDate(pubDate)) {
+                        dateFormatter = PublicationDateFormatter.THREE_LETTER_MONTH_YEAR;
+                    } else if (PublicationDateFormatter.YEAR.isValidDate(pubDate)) {
+                        dateFormatter = PublicationDateFormatter.YEAR;
+                    }
+                    if (dateFormatter != null) {
+                        japiDocument.referenceDates.add(dateFormatter.convertStringToDate(pubDate));
+                    }
+                } catch (Exception e) {
+                    LOGGER.warn("There was a problem converting entry dates during indexing:", e);
                 }
             }
-
             if (citation.getCitationXrefsByType(CitationXrefType.PUBMED).isPresent()) {
                 DBCrossReference<CitationXrefType> pubmed = citation.getCitationXrefsByType(CitationXrefType.PUBMED)
                         .get();

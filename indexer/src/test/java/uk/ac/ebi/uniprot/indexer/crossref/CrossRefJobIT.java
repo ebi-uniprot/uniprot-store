@@ -60,8 +60,8 @@ class CrossRefJobIT {
                 .filter(step -> step.getStepName().equals(Constants.CROSS_REF_UNIPROT_COUNT_STEP_NAME))
                 .collect(Collectors.toList()).get(0);
 
-        assertThat(countStep.getReadCount(), is(5));
-        assertThat(countStep.getWriteCount(), is(5));
+        assertThat(countStep.getReadCount(), is(2));
+        assertThat(countStep.getWriteCount(), is(2));
 
         // get all the index docs
         Page<CrossRefDocument> response = this.solrOperations.query(SolrCollection.crossref.name(),

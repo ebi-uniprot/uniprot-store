@@ -40,7 +40,7 @@ public class TaxonomyNodeReader implements RowMapper<TaxonomyEntry> {
         String rank = resultSet.getString("RANK");
         if (Utils.notEmpty(rank)) {
             try {
-                builder.rank(TaxonomyRank.valueOf(rank));
+                builder.rank(TaxonomyRank.valueOf(rank.toUpperCase()));
             } catch (IllegalArgumentException iae) {
                 builder.rank(TaxonomyRank.NO_RANK);
             }
