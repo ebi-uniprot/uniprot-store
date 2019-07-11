@@ -1,5 +1,6 @@
 package uk.ac.ebi.uniprot.indexer.common.config;
 
+import lombok.extern.slf4j.Slf4j;
 import org.apache.http.client.HttpClient;
 import org.apache.solr.client.solrj.SolrClient;
 import org.apache.solr.client.solrj.impl.CloudSolrClient;
@@ -7,7 +8,6 @@ import org.apache.solr.client.solrj.impl.HttpClientUtil;
 import org.apache.solr.client.solrj.impl.HttpSolrClient;
 import org.apache.solr.client.solrj.response.UpdateResponse;
 import org.apache.solr.common.params.ModifiableSolrParams;
-import org.springframework.beans.factory.BeanCreationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.solr.core.SolrOperations;
 import org.springframework.data.solr.core.SolrTemplate;
@@ -20,10 +20,15 @@ import java.util.Optional;
 import static java.util.Arrays.asList;
 
 /**
+ * A wrapper of {@link SolrOperations} which creates a {@link SolrOperations} instance for each thread that it is
+ * used on. The purpose of this is to ensure that multi-threaded applications have multiple instances that can
+ * access Solr, e.g., improving writing throughput.
+ *
  * Created 10/07/19
  *
  * @author Edd
  */
+@Slf4j
 public class UniProtSolrOperations {
     private final ThreadLocal<SolrOperations> threadLocalSolrOperations;
     private final RepositoryConfigProperties config;
@@ -70,6 +75,7 @@ public class UniProtSolrOperations {
     }
 
     private SolrOperations createSolrOperations() {
+        log.info("Created thread local SolrOperations");
         SolrTemplate solrTemplate = new SolrTemplate(uniProtSolrClient());
         solrTemplate.afterPropertiesSet();
         return solrTemplate;
@@ -91,12 +97,12 @@ public class UniProtSolrOperations {
             return new HttpSolrClient.Builder().withHttpClient(httpClient()).withBaseSolrUrl(config.getHttphost())
                     .build();
         } else {
-            throw new BeanCreationException("make sure your application.properties has eight solr zookeeperhost or httphost properties");
+            throw new IllegalStateException("make sure your application.properties has eight solr zookeeperhost or httphost properties");
         }
     }
 
     private HttpClient httpClient() {
-        // I am creating HttpClient exactly in the same way it is created inside CloudSolrClient.Builder,
+        // Leo: I am creating HttpClient exactly in the same way it is created inside CloudSolrClient.Builder,
         // but here I am just adding Credentials
         ModifiableSolrParams param = null;
         if (config.getUsername() != null && !config.getUsername().isEmpty() && config
