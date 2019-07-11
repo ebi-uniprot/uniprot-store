@@ -2,35 +2,42 @@ package uk.ac.ebi.uniprot.indexer.crossref;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.springframework.batch.core.JobExecution;
+import org.springframework.batch.core.StepExecution;
+import uk.ac.ebi.uniprot.indexer.common.utils.Constants;
 import uk.ac.ebi.uniprot.indexer.crossref.readers.CrossRefReader;
 import uk.ac.ebi.uniprot.search.document.dbxref.CrossRefDocument;
 
 import java.io.IOException;
+import java.util.HashMap;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class CrossRefReaderTest {
-
-    //TODO: add dbxref.txt to test resource to avoid external requests in test cases.
-    private static final String DBREF_FTP = "ftp://ftp.uniprot.org/pub/databases/uniprot/knowledgebase/docs/dbxref.txt";
-    private static CrossRefReader READER;
+    private static final String DBXREF_PATH = "crossref/test-dbxref.txt";
+    private static CrossRefReader reader;
 
     @BeforeAll
     static void setReader() throws IOException {
-        READER = new CrossRefReader(DBREF_FTP);
+        JobExecution jobExecution = new JobExecution(1L);
+        jobExecution.getExecutionContext().put(Constants.CROSS_REF_PROTEIN_COUNT_KEY, new HashMap<>());
+        StepExecution stepExecution = new StepExecution("cross-ref-reader", jobExecution);
+        reader = new CrossRefReader(DBXREF_PATH);
+        reader.getCrossRefProteinCountMap(stepExecution);
     }
+
     @Test
     void testReadFile() {
-        CrossRefDocument dbxRef = READER.read();
+        CrossRefDocument dbxRef = reader.read();
         assertNotNull(dbxRef, "Unable to read the dbxref file");
         verifyDBXRef(dbxRef);
         int count = 1;
-        while(READER.read() != null){
+        while (reader.read() != null) {
             count++;
         }
 
-        assertTrue(count >= 160, "The count doesn't match");
+        assertEquals(count, 5);
     }
 
     private void verifyDBXRef(CrossRefDocument dbxRef) {
@@ -44,5 +51,4 @@ class CrossRefReaderTest {
         assertNotNull(dbxRef.getDbUrl(), "DB URL is null");
         assertNotNull(dbxRef.getCategoryStr(), "Category is null");
     }
-
 }
