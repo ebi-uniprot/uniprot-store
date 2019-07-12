@@ -4,7 +4,6 @@ import lombok.extern.slf4j.Slf4j;
 import net.jodah.failsafe.RetryPolicy;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
-import org.springframework.batch.core.configuration.annotation.StepScope;
 import org.springframework.batch.core.listener.ExecutionContextPromotionListener;
 import org.springframework.batch.integration.async.AsyncItemProcessor;
 import org.springframework.batch.integration.async.AsyncItemWriter;
@@ -78,7 +77,7 @@ public class UniProtKBStep {
                                             @Qualifier("uniprotkbAsyncProcessor") ItemProcessor<UniProtEntryDocumentPair, Future<UniProtEntryDocumentPair>> asyncProcessor,
                                             @Qualifier("uniprotkbAsyncWriter") ItemWriter<Future<UniProtEntryDocumentPair>> asyncWriter,
                                             UniProtEntryDocumentPairProcessor uniProtDocumentItemProcessor,
-                                            UniProtEntryDocumentPairWriter uniProtDocumentItemWriter,
+//                                            UniProtEntryDocumentPairWriter uniProtDocumentItemWriter,
                                             ExecutionContextPromotionListener promotionListener) {
         return this.stepBuilderFactory.get(UNIPROTKB_INDEX_STEP)
                 .listener(promotionListener)
@@ -90,36 +89,22 @@ public class UniProtKBStep {
                 .listener(writeRetrierLogStepListener)
                 .listener(uniProtKBLogRateListener)
                 .listener(uniProtDocumentItemProcessor)
-                .listener(uniProtDocumentItemWriter)
+//                .listener(uniProtDocumentItemWriter)
                 .build();
     }
 
-    @Bean(name = "uniProtKB")
-    public LogRateListener<UniProtEntryDocumentPair> uniProtKBLogRateListener() {
-        return new LogRateListener<>(uniProtKBIndexingProperties.getUniProtKBLogRateInterval());
-    }
+
+    // ---------------------- Readers ----------------------
 
     @Bean
-    @StepScope
-    public UniProtEntryDocumentPairWriter uniProtDocumentItemWriter(RetryPolicy<Object> writeRetryPolicy) {
-        return new UniProtEntryDocumentPairWriter(this.solrOperations, SolrCollection.uniprot, writeRetryPolicy);
+//    @StepScope
+    ItemReader<UniProtEntryDocumentPair> entryItemReader() {
+        return new UniProtEntryItemReader(uniProtKBIndexingProperties);
     }
 
-    /**
-     * Needs to be a bean since it contains a @Cacheable annotation within, and Spring
-     * will only scan for these annotations inside beans.
-     * @return the GoRelationFileRepo
-     */
+    // ---------------------- Processors ----------------------
     @Bean
-    @StepScope
-    public GoRelationFileRepo goRelationFileRepo() {
-        return new GoRelationFileRepo(
-                new GoRelationFileReader(uniProtKBIndexingProperties.getGoDir()),
-                new GoTermFileReader(uniProtKBIndexingProperties.getGoDir()));
-    }
-
-    @Bean
-    @StepScope
+//    @StepScope
     UniProtEntryDocumentPairProcessor uniProtDocumentItemProcessor(Map<String, SuggestDocument> suggestDocuments, GoRelationFileRepo goRelationFileRepo) {
         return new UniProtEntryDocumentPairProcessor(
                 new UniProtEntryConverter(
@@ -130,30 +115,52 @@ public class UniProtKBStep {
                         ECRepoFactory.get(uniProtKBIndexingProperties.getEcDir()),
                         suggestDocuments));
     }
+    @Bean("uniprotkbAsyncProcessor")
+    public ItemProcessor<UniProtEntryDocumentPair, Future<UniProtEntryDocumentPair>> asyncProcessor(
+            UniProtEntryDocumentPairProcessor uniProtDocumentItemProcessor,
+            @Qualifier("itemProcessorTaskExecutor") ThreadPoolTaskExecutor itemProcessorTaskExecutor) {
+        AsyncItemProcessor<UniProtEntryDocumentPair, UniProtEntryDocumentPair> asyncProcessor = new AsyncItemProcessor<>();
+        asyncProcessor.setDelegate(uniProtDocumentItemProcessor);
+        asyncProcessor.setTaskExecutor(itemProcessorTaskExecutor);
 
-    @Bean
-    @StepScope
-    ItemReader<UniProtEntryDocumentPair> entryItemReader() {
-        return new UniProtEntryItemReader(uniProtKBIndexingProperties);
+        return asyncProcessor;
     }
 
+    // ---------------------- Writers ----------------------
+    @Bean
+//    @StepScope
+    public ItemWriter<UniProtEntryDocumentPair> uniProtDocumentItemWriter(RetryPolicy<Object> writeRetryPolicy) {
+        UniProtEntryDocumentPairWriter writer = new UniProtEntryDocumentPairWriter(this.solrOperations, SolrCollection.uniprot, writeRetryPolicy);
+        // TODO: 12/07/19 why is @BeforeStep in uk.ac.ebi.uniprot.indexer.common.writer.EntryDocumentPairRetryWriter.setStepExecution not being triggered?
+        this.stepBuilderFactory.get(UNIPROTKB_INDEX_STEP).listener(writer);
+        return writer;
+    }
     @Bean("uniprotkbAsyncWriter")
-    public ItemWriter<Future<UniProtEntryDocumentPair>> asyncWriter(ItemWriter<UniProtEntryDocumentPair> writer) {
+    public ItemWriter<Future<UniProtEntryDocumentPair>> asyncWriter(ItemWriter<UniProtEntryDocumentPair> uniProtDocumentItemWriter) {
         AsyncItemWriter<UniProtEntryDocumentPair> asyncItemWriter = new AsyncItemWriter<>();
-        asyncItemWriter.setDelegate(writer);
+        asyncItemWriter.setDelegate(uniProtDocumentItemWriter);
 
         return asyncItemWriter;
     }
 
-    @Bean("uniprotkbAsyncProcessor")
-    public ItemProcessor<UniProtEntryDocumentPair, Future<UniProtEntryDocumentPair>> asyncProcessor(
-            ItemProcessor<UniProtEntryDocumentPair, UniProtEntryDocumentPair> itemProcessor,
-            @Qualifier("itemProcessorTaskExecutor") ThreadPoolTaskExecutor itemProcessorTaskExecutor) {
-        AsyncItemProcessor<UniProtEntryDocumentPair, UniProtEntryDocumentPair> asyncProcessor = new AsyncItemProcessor<>();
-        asyncProcessor.setDelegate(itemProcessor);
-        asyncProcessor.setTaskExecutor(itemProcessorTaskExecutor);
+    // ---------------------- Listeners ----------------------
+    @Bean(name = "uniProtKB")
+    public LogRateListener<UniProtEntryDocumentPair> uniProtKBLogRateListener() {
+        return new LogRateListener<>(uniProtKBIndexingProperties.getUniProtKBLogRateInterval());
+    }
 
-        return asyncProcessor;
+    /**
+     * Needs to be a bean since it contains a @Cacheable annotation within, and Spring
+     * will only scan for these annotations inside beans.
+     *
+     * @return the GoRelationFileRepo
+     */
+    @Bean
+//    @StepScope
+    public GoRelationFileRepo goRelationFileRepo() {
+        return new GoRelationFileRepo(
+                new GoRelationFileReader(uniProtKBIndexingProperties.getGoDir()),
+                new GoTermFileReader(uniProtKBIndexingProperties.getGoDir()));
     }
 
     @Bean

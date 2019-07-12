@@ -48,6 +48,7 @@ import static org.slf4j.LoggerFactory.getLogger;
  */
 @Slf4j
 public abstract class EntryDocumentPairRetryWriter<E, D, T extends EntryDocumentPair<E, D>> implements ItemWriter<T> {
+    public static final String ITEM_WRITER_TASK_EXECUTOR = "itemWriterTaskExecutor";
     private static final Logger INDEXING_FAILED_LOGGER = getLogger("indexing-doc-write-failed-entries");
     private static final String ERROR_WRITING_ENTRIES_TO_SOLR = "Error writing entries to Solr: ";
     private final UniProtSolrOperations solrOperations;
@@ -63,7 +64,7 @@ public abstract class EntryDocumentPairRetryWriter<E, D, T extends EntryDocument
     }
 
     @Override
-    @Async("itemWriterTaskExecutor")
+    @Async(ITEM_WRITER_TASK_EXECUTOR)
     public void write(List<? extends T> entryDocumentPairs) {
         List<D> documents = entryDocumentPairs.stream()
                 .map(EntryDocumentPair::getDocument)
@@ -97,7 +98,6 @@ public abstract class EntryDocumentPairRetryWriter<E, D, T extends EntryDocument
     public abstract String entryToString(E entry);
 
     private void writeEntriesToSolr(List<D> documents) {
-        // TODO: 04/07/19 commented out for testing
         solrOperations.saveBeans(collection.name(), documents);
         writtenEntriesCount.addAndGet(documents.size());
     }

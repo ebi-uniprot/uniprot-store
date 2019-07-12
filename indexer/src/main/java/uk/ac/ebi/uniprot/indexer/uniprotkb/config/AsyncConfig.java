@@ -43,7 +43,7 @@ public class AsyncConfig {
      * Used by {@link EntryDocumentPairRetryWriter#write(List)}.
      * @return the task executor used when writing items
      */
-    @Bean("itemWriterTaskExecutor")
+    @Bean(EntryDocumentPairRetryWriter.ITEM_WRITER_TASK_EXECUTOR)
     public ThreadPoolTaskExecutor itemWriterTaskExecutor() {
         TaskExecutorProperties taskExecutorProperties = uniProtKBIndexingProperties
                 .getItemWriterTaskExecutor();
