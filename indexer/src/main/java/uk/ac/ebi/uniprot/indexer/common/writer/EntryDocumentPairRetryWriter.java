@@ -1,5 +1,6 @@
 package uk.ac.ebi.uniprot.indexer.common.writer;
 
+import lombok.Synchronized;
 import lombok.extern.slf4j.Slf4j;
 import net.jodah.failsafe.Failsafe;
 import net.jodah.failsafe.RetryPolicy;
@@ -63,6 +64,13 @@ public abstract class EntryDocumentPairRetryWriter<E, D, T extends EntryDocument
         this.retryPolicy = retryPolicy;
     }
 
+    // TODO: 12/07/19 need to find way to ensure all entries in the chunks (in different async threads) have been written.
+    //    * try creating an atomic counter
+    //         * increment whenever entry is read
+    //         * decrement whenever document is written/failed to be written
+    //         * then wait for this counter to be zero in the listener's afterstep method.
+
+
     @Override
     @Async(ITEM_WRITER_TASK_EXECUTOR)
     public void write(List<? extends T> entryDocumentPairs) {
@@ -75,8 +83,7 @@ public abstract class EntryDocumentPairRetryWriter<E, D, T extends EntryDocument
                     .onFailure(failure -> logFailedEntriesToFile(entryDocumentPairs, failure.getFailure()))
                     .run(() -> writeEntriesToSolr(documents));
         } catch (Exception e) {
-            List<String> accessions = documents.stream().map(this::extractDocumentId).collect(Collectors.toList());
-            log.error(ERROR_WRITING_ENTRIES_TO_SOLR + accessions, e);
+            // already logged error
         }
     }
 

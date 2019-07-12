@@ -40,7 +40,7 @@ public class DocumentWriteRetryHelper {
         for (SolrResponse response : responses) {
             switch (response) {
                 case OK:
-                    stubber = (stubber == null) ? doReturn(new UpdateResponse()) : stubber.doReturn(new UpdateResponse());
+                    stubber = (stubber == null) ? doReturn(getOKResponse()) : stubber.doReturn(getOKResponse());
                     break;
                 case REMOTE_EXCEPTION:
                     stubber = (stubber == null) ? doThrow(new HttpSolrClient.RemoteSolrException(HOST, CODE, MESSAGE, null))
@@ -51,6 +51,15 @@ public class DocumentWriteRetryHelper {
             }
         }
         return stubber;
+    }
+
+    private static UpdateResponse getOKResponse() {
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            // do nothing
+        }
+        return new UpdateResponse();
     }
 
     /**

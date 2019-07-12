@@ -13,12 +13,23 @@ import org.springframework.batch.core.ExitStatus;
 import org.springframework.batch.core.StepExecution;
 import org.springframework.batch.core.StepExecutionListener;
 import org.springframework.batch.item.ExecutionContext;
+import uk.ac.ebi.uniprot.common.Utils;
 import uk.ac.ebi.uniprot.indexer.common.utils.Constants;
 
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
 @Slf4j
 public class WriteRetrierLogStepListener implements StepExecutionListener {
+    private ExecutorService executorService = null;
+
+    public WriteRetrierLogStepListener() {
+    }
+
+    public WriteRetrierLogStepListener(ExecutorService executorService) {
+        this.executorService = executorService;
+    }
 
     @Override
     public void beforeStep(StepExecution stepExecution) {
@@ -27,6 +38,19 @@ public class WriteRetrierLogStepListener implements StepExecutionListener {
 
     @Override
     public ExitStatus afterStep(StepExecution stepExecution) {
+        if (Utils.nonNull(executorService)) {
+            try {
+                this.executorService.awaitTermination(1, TimeUnit.MINUTES);
+            } catch (InterruptedException e) {
+                // do nothing
+            }
+        }
+//        try {
+//            Thread.sleep(10000);
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        }
+
         ExecutionContext executionContext = stepExecution.getJobExecution().getExecutionContext();
 
         AtomicInteger failedCountAtomicInteger = (AtomicInteger) executionContext

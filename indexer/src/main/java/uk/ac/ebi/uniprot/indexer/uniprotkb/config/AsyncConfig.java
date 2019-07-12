@@ -52,7 +52,6 @@ public class AsyncConfig {
         return taskExecutor;
     }
 
-
     private ThreadPoolTaskExecutor createTaskExecutor(TaskExecutorProperties taskExecutorProperties) {
         ThreadPoolTaskExecutor taskExecutor = new ThreadPoolTaskExecutor();
         taskExecutor.setCorePoolSize(taskExecutorProperties.getCorePoolSize());
