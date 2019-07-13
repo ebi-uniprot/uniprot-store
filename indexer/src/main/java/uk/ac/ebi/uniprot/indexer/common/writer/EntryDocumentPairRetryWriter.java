@@ -67,13 +67,6 @@ public abstract class EntryDocumentPairRetryWriter<E, D, T extends EntryDocument
         this.retryPolicy = retryPolicy;
     }
 
-    // TODO: 12/07/19 need to find way to ensure all entries in the chunks (in different async threads) have been written.
-    //    * try creating an atomic counter
-    //         * increment whenever entry is read
-    //         * decrement whenever document is written/failed to be written
-    //         * then wait for this counter to be zero in the listener's afterstep method.
-
-
     @Override
     @Async(ITEM_WRITER_TASK_EXECUTOR)
     public void write(List<? extends T> entryDocumentPairs) {
