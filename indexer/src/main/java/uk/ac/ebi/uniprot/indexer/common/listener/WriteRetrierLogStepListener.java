@@ -38,16 +38,19 @@ public class WriteRetrierLogStepListener implements StepExecutionListener {
     public ExitStatus afterStep(StepExecution stepExecution) {
         ExecutionContext executionContext = stepExecution.getJobExecution().getExecutionContext();
         // TODO: 13/07/19 get to write counter and wait if not zero
-        AtomicInteger entriesToWriteCounter = (AtomicInteger) executionContext.get(Constants.ENTRIES_TO_WRITE_COUNTER);
-        System.out.println("**** " + entriesToWriteCounter.get());
+        if (executionContext.containsKey(Constants.ENTRIES_TO_WRITE_COUNTER)) {
+            AtomicInteger entriesToWriteCounter = (AtomicInteger) executionContext
+                    .get(Constants.ENTRIES_TO_WRITE_COUNTER);
+            System.out.println("**** " + entriesToWriteCounter.get());
 
-        int timeoutCounter = 0;
-        int timeoutMax = 2;
-        while (entriesToWriteCounter.get() != 0 && timeoutCounter++ != timeoutMax) {
-            try {
-                Thread.sleep(5000);
-            } catch (InterruptedException e) {
-                // do nothing
+            int timeoutCounter = 0;
+            int timeoutMax = 2;
+            while (entriesToWriteCounter.get() != 0 && timeoutCounter++ != timeoutMax) {
+                try {
+                    Thread.sleep(5000);
+                } catch (InterruptedException e) {
+                    // do nothing
+                }
             }
         }
 
