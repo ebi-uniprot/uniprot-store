@@ -13,6 +13,8 @@ import org.springframework.batch.core.ExitStatus;
 import org.springframework.batch.core.StepExecution;
 import org.springframework.batch.core.StepExecutionListener;
 import org.springframework.batch.item.ExecutionContext;
+import uk.ac.ebi.uniprot.common.Utils;
+import uk.ac.ebi.uniprot.indexer.common.concurrency.OnZeroCountSleeper;
 import uk.ac.ebi.uniprot.indexer.common.utils.Constants;
 
 import java.util.concurrent.ExecutorService;
@@ -37,28 +39,13 @@ public class WriteRetrierLogStepListener implements StepExecutionListener {
     @Override
     public ExitStatus afterStep(StepExecution stepExecution) {
         ExecutionContext executionContext = stepExecution.getJobExecution().getExecutionContext();
-        // TODO: 13/07/19 get to write counter and wait if not zero
         if (executionContext.containsKey(Constants.ENTRIES_TO_WRITE_COUNTER)) {
-            AtomicInteger entriesToWriteCounter = (AtomicInteger) executionContext
+            OnZeroCountSleeper sleeper = (OnZeroCountSleeper) executionContext
                     .get(Constants.ENTRIES_TO_WRITE_COUNTER);
-            System.out.println("**** " + entriesToWriteCounter.get());
-
-            int timeoutCounter = 0;
-            int timeoutMax = 2;
-            while (entriesToWriteCounter.get() != 0 && timeoutCounter++ != timeoutMax) {
-                try {
-                    Thread.sleep(5000);
-                } catch (InterruptedException e) {
-                    // do nothing
-                }
+            if (Utils.nonNull(sleeper)) {
+                sleeper.sleepUntilZero();
             }
         }
-
-//        try {
-//            Thread.sleep(10000);
-//        } catch (InterruptedException e) {
-//            e.printStackTrace();
-//        }
 
 
         AtomicInteger failedCountAtomicInteger = (AtomicInteger) executionContext

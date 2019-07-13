@@ -6,8 +6,10 @@ import org.junit.jupiter.api.Test;
 import org.springframework.batch.core.JobExecution;
 import org.springframework.batch.core.StepExecution;
 import org.springframework.batch.item.ExecutionContext;
+import uk.ac.ebi.uniprot.indexer.common.concurrency.OnZeroCountSleeper;
 import uk.ac.ebi.uniprot.indexer.common.config.UniProtSolrOperations;
 import uk.ac.ebi.uniprot.indexer.common.model.AbstractEntryDocumentPair;
+import uk.ac.ebi.uniprot.indexer.common.utils.Constants;
 import uk.ac.ebi.uniprot.search.SolrCollection;
 
 import java.util.ArrayList;
@@ -32,8 +34,10 @@ class EntryDocumentPairRetryWriterTest {
         this.retryPolicy = new RetryPolicy<>().withMaxRetries(2);
         this.solrOperationsMock = mock(UniProtSolrOperations.class);
         this.writer = new WriterUnderTest(this.solrOperationsMock, uniprot, this.retryPolicy);
-        JobExecution mockJobExecution = mock(JobExecution.class);
-        when(mockJobExecution.getExecutionContext()).thenReturn(mock(ExecutionContext.class));
+        JobExecution mockJobExecution = new JobExecution(1L);
+        ExecutionContext executionContext = new ExecutionContext();
+        executionContext.put(Constants.ENTRIES_TO_WRITE_COUNTER, new OnZeroCountSleeper());
+        mockJobExecution.setExecutionContext(executionContext);
         this.writer.setStepExecution(new StepExecution("fake step", mockJobExecution));
     }
 

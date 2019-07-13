@@ -10,6 +10,8 @@ import org.springframework.batch.core.annotation.BeforeStep;
 import org.springframework.batch.item.ExecutionContext;
 import org.springframework.batch.item.ItemWriter;
 import org.springframework.scheduling.annotation.Async;
+import uk.ac.ebi.uniprot.common.Utils;
+import uk.ac.ebi.uniprot.indexer.common.concurrency.OnZeroCountSleeper;
 import uk.ac.ebi.uniprot.indexer.common.config.UniProtSolrOperations;
 import uk.ac.ebi.uniprot.indexer.common.listener.WriteRetrierLogJobListener;
 import uk.ac.ebi.uniprot.indexer.common.listener.WriteRetrierLogStepListener;
@@ -56,7 +58,8 @@ public abstract class EntryDocumentPairRetryWriter<E, D, T extends EntryDocument
     private final RetryPolicy<Object> retryPolicy;
     private AtomicInteger failedWritingEntriesCount;
     private AtomicInteger writtenEntriesCount;
-    private AtomicInteger entriesToWriteCount;
+    private OnZeroCountSleeper sleeper;
+    private ExecutionContext executionContext;
 
     public EntryDocumentPairRetryWriter(UniProtSolrOperations solrOperations, SolrCollection collection, RetryPolicy<Object> retryPolicy) {
         this.solrOperations = solrOperations;
@@ -82,17 +85,21 @@ public abstract class EntryDocumentPairRetryWriter<E, D, T extends EntryDocument
             Failsafe.with(retryPolicy)
                     .onFailure(failure -> logFailedEntriesToFile(entryDocumentPairs, failure.getFailure()))
                     .run(() -> writeEntriesToSolr(documents));
-
-            // regardless of success or failure of writing, record that they have been processed
-            entriesToWriteCount.addAndGet(-entryDocumentPairs.size());
         } catch (Exception e) {
             // already logged error
         }
     }
 
+    private void recordItemsWereProcessed(int numberOfItemsProcessed) {
+        if (!Utils.nonNull(sleeper)) {
+            this.sleeper = (OnZeroCountSleeper) executionContext.get(Constants.ENTRIES_TO_WRITE_COUNTER);
+        }
+        sleeper.minus(numberOfItemsProcessed);
+    }
+
     @BeforeStep
     public void setStepExecution(final StepExecution stepExecution) {
-        ExecutionContext executionContext = stepExecution.getJobExecution().getExecutionContext();
+        this.executionContext = stepExecution.getJobExecution().getExecutionContext();
 
         this.failedWritingEntriesCount = new AtomicInteger(0);
         this.writtenEntriesCount = new AtomicInteger(0);
@@ -102,7 +109,6 @@ public abstract class EntryDocumentPairRetryWriter<E, D, T extends EntryDocument
         executionContext
                 .put(Constants.INDEX_WRITTEN_ENTRIES_COUNT_KEY, this.writtenEntriesCount);
 
-        this.entriesToWriteCount = (AtomicInteger) executionContext.get(Constants.ENTRIES_TO_WRITE_COUNTER);
     }
 
     public abstract String extractDocumentId(D document);
@@ -112,6 +118,7 @@ public abstract class EntryDocumentPairRetryWriter<E, D, T extends EntryDocument
     private void writeEntriesToSolr(List<D> documents) {
         solrOperations.saveBeans(collection.name(), documents);
         writtenEntriesCount.addAndGet(documents.size());
+        recordItemsWereProcessed(documents.size());
     }
 
     private void logFailedEntriesToFile(List<? extends EntryDocumentPair<E, D>> entryDocumentPairs,
@@ -125,5 +132,6 @@ public abstract class EntryDocumentPairRetryWriter<E, D, T extends EntryDocument
 
         log.error(ERROR_WRITING_ENTRIES_TO_SOLR + accessions, throwable);
         failedWritingEntriesCount.addAndGet(entryDocumentPairs.size());
+        recordItemsWereProcessed(entryDocumentPairs.size());
     }
 }
