@@ -38,4 +38,6 @@ public class Constants {
 
     public static final String SUGGESTIONS_INDEX_STEP = "Suggestion_Indexing_Step";
     public static final String SUGGESTIONS_MAP = "Suggestions_Set";
+
+    public static final String ENTRIES_TO_WRITE_COUNTER = "Entries_to_write_counter";
 }

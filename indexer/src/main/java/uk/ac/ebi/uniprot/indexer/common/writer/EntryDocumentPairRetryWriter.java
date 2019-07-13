@@ -1,6 +1,5 @@
 package uk.ac.ebi.uniprot.indexer.common.writer;
 
-import lombok.Synchronized;
 import lombok.extern.slf4j.Slf4j;
 import net.jodah.failsafe.Failsafe;
 import net.jodah.failsafe.RetryPolicy;
@@ -57,6 +56,7 @@ public abstract class EntryDocumentPairRetryWriter<E, D, T extends EntryDocument
     private final RetryPolicy<Object> retryPolicy;
     private AtomicInteger failedWritingEntriesCount;
     private AtomicInteger writtenEntriesCount;
+    private AtomicInteger entriesToWriteCount;
 
     public EntryDocumentPairRetryWriter(UniProtSolrOperations solrOperations, SolrCollection collection, RetryPolicy<Object> retryPolicy) {
         this.solrOperations = solrOperations;
@@ -82,6 +82,9 @@ public abstract class EntryDocumentPairRetryWriter<E, D, T extends EntryDocument
             Failsafe.with(retryPolicy)
                     .onFailure(failure -> logFailedEntriesToFile(entryDocumentPairs, failure.getFailure()))
                     .run(() -> writeEntriesToSolr(documents));
+
+            // regardless of success or failure of writing, record that they have been processed
+            entriesToWriteCount.addAndGet(-entryDocumentPairs.size());
         } catch (Exception e) {
             // already logged error
         }
@@ -98,6 +101,8 @@ public abstract class EntryDocumentPairRetryWriter<E, D, T extends EntryDocument
                 .put(Constants.INDEX_FAILED_ENTRIES_COUNT_KEY, this.failedWritingEntriesCount);
         executionContext
                 .put(Constants.INDEX_WRITTEN_ENTRIES_COUNT_KEY, this.writtenEntriesCount);
+
+        this.entriesToWriteCount = (AtomicInteger) executionContext.get(Constants.ENTRIES_TO_WRITE_COUNTER);
     }
 
     public abstract String extractDocumentId(D document);
