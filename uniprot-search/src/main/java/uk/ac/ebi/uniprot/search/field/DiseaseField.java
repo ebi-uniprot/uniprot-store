@@ -67,30 +67,58 @@ public interface DiseaseField {
     }
 
     enum ResultFields implements ReturnField {
-        id("Name"),
-        accession("Disease ID"),
-        acronym("Mnemonic"),
-        definition("Description"),
-        alternative_names("Alternative Names"),
-        cross_references("Cross Reference"),
-        keywords("Keywords"),
-        reviewed_protein_count("Reviewed Protein Count"),
-        unreviewed_protein_count("Unreviewed Protein Count");
+        id("Name", "id", true),
+        accession("Disease ID", "accession", true),
+        acronym("Mnemonic", "acronym", true),
+        definition("Description", "definition", true),
+        alternative_names("Alternative Names", "alternativeNames"),
+        cross_references("Cross Reference", "crossReferences"),
+        keywords("Keywords", "keywords"),
+        reviewed_protein_count("Reviewed Protein Count", "reviewedProteinCount"),
+        unreviewed_protein_count("Unreviewed Protein Count", "unreviewedProteinCount");
 
         private String label;
+        private String fieldName;
+        private boolean isDefault;
 
-        ResultFields(String label){
+        ResultFields(String label, String fieldName){
+            this(label, fieldName, false);
+        }
+
+        ResultFields(String label, String fieldName, boolean isDefault){
             this.label = label;
+            this.fieldName = fieldName;
+            this.isDefault = isDefault;
         }
 
         public String getLabel() {
             return this.label;
         }
 
+        public String getFieldName(){
+            return this.fieldName;
+        }
+
+        public boolean isDefault() {
+            return this.isDefault;
+        }
+
+        public static String getDefaultFields(){
+            return Arrays.stream(ResultFields.values())
+                    .filter(f -> f.isDefault)
+                    .map(f -> f.name())
+                    .collect(Collectors.joining(","));
+        }
+
         @Override
         public boolean hasReturnField(String fieldName) {
             return Arrays.stream(ResultFields.values())
                     .anyMatch(returnItem -> returnItem.name().equalsIgnoreCase(fieldName));
+        }
+
+        @Override
+        public String getJavaFieldName() {
+            return this.fieldName;
         }
     }
 }
