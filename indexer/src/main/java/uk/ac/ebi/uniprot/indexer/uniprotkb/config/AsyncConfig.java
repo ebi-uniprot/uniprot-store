@@ -23,7 +23,7 @@ import java.util.concurrent.ThreadPoolExecutor;
 @Import(UniProtKBConfig.class)
 @Slf4j
 public class AsyncConfig {
-    private UniProtKBIndexingProperties uniProtKBIndexingProperties = new UniProtKBIndexingProperties();
+    private final UniProtKBIndexingProperties uniProtKBIndexingProperties;
 
     @Autowired
     public AsyncConfig(UniProtKBIndexingProperties indexingProperties) {
