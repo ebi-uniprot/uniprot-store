@@ -17,6 +17,7 @@ import org.springframework.data.solr.core.SolrTemplate;
 import org.springframework.data.solr.core.query.SimpleQuery;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+import uk.ac.ebi.uniprot.cv.subcell.SubcellLocationCategory;
 import uk.ac.ebi.uniprot.cv.subcell.SubcellularLocationEntry;
 import uk.ac.ebi.uniprot.cv.subcell.impl.SubcellularLocationEntryImpl;
 import uk.ac.ebi.uniprot.indexer.common.listener.ListenerConfig;
@@ -33,8 +34,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.notNullValue;
+import static org.hamcrest.Matchers.*;
 
 /**
  * @author lgonzales
@@ -103,6 +103,21 @@ class SubcellularLocationJobIT {
 
     private void validateSubcellularLocationEntry(SubcellularLocationEntry entry) {
         assertThat(entry, is(notNullValue()));
+        assertThat(entry.getId(), is("Nucleolus"));
+        assertThat(entry.getCategory(), is(SubcellLocationCategory.LOCATION));
+        assertThat(entry.getAccession(), is("SL-0188"));
+        assertThat(entry.getContent(), is("Nucleus, nucleolus"));
+        assertThat(entry.getDefinition(), startsWith("The nucleolus is a non-membrane bound nuclear"));
+
+        assertThat(entry.getGeneOntologies(), is(notNullValue()));
+        assertThat(entry.getGeneOntologies().size(), is(1));
+
+        assertThat(entry.getSynonyms(), is(notNullValue()));
+        assertThat(entry.getSynonyms().size(), is(1));
+
+        assertThat(entry.getStatistics(), is(notNullValue()));
+        assertThat(entry.getStatistics().getReviewedProteinCount(), is(5L));
+        assertThat(entry.getStatistics().getUnreviewedProteinCount(), is(6L));
     }
 
     private void validateSubcellularLocationDocument(SubcellularLocationDocument subcellularLocationDocument) {
