@@ -147,7 +147,6 @@ public class UniProtKBStep {
     }
 
     // ---------------------- Source Data Access beans and helpers ----------------------
-
     /**
      * Needs to be a bean since it contains a @Cacheable annotation within, and Spring
      * will only scan for these annotations inside beans.
