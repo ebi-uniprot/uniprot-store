@@ -7,7 +7,6 @@ import org.springframework.data.solr.core.SolrTemplate;
 import org.springframework.data.solr.core.query.Criteria;
 import org.springframework.data.solr.core.query.Query;
 import org.springframework.data.solr.core.query.SimpleQuery;
-import org.springframework.jdbc.core.JdbcTemplate;
 import uk.ac.ebi.uniprot.common.Utils;
 import uk.ac.ebi.uniprot.cv.keyword.KeywordEntry;
 import uk.ac.ebi.uniprot.cv.keyword.impl.KeywordEntryImpl;
@@ -15,7 +14,6 @@ import uk.ac.ebi.uniprot.json.parser.keyword.KeywordJsonConfig;
 import uk.ac.ebi.uniprot.search.SolrCollection;
 import uk.ac.ebi.uniprot.search.document.keyword.KeywordDocument;
 
-import javax.sql.DataSource;
 import java.nio.ByteBuffer;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -30,11 +28,9 @@ import java.util.stream.Stream;
 public class KeywordLoadProcessor implements ItemProcessor<KeywordEntry, KeywordDocument> {
 
     private final ObjectMapper keywordObjectMapper;
-    private final JdbcTemplate jdbcTemplate;
     private final SolrTemplate solrTemplate;
 
-    public KeywordLoadProcessor(DataSource readDataSource, SolrTemplate solrTemplate) throws SQLException {
-        this.jdbcTemplate = new JdbcTemplate(readDataSource);
+    public KeywordLoadProcessor(SolrTemplate solrTemplate) throws SQLException {
         this.solrTemplate = solrTemplate;
         this.keywordObjectMapper = KeywordJsonConfig.getInstance().getFullObjectMapper();
     }

@@ -2,21 +2,21 @@ package uk.ac.ebi.uniprot.indexer.subcell;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.batch.core.StepExecution;
+import org.springframework.batch.core.annotation.BeforeStep;
 import org.springframework.batch.item.ItemProcessor;
-import org.springframework.data.solr.core.SolrTemplate;
-import org.springframework.data.solr.core.query.Criteria;
-import org.springframework.data.solr.core.query.Query;
-import org.springframework.data.solr.core.query.SimpleQuery;
 import uk.ac.ebi.uniprot.cv.subcell.SubcellularLocationEntry;
+import uk.ac.ebi.uniprot.cv.subcell.SubcellularLocationStatistics;
 import uk.ac.ebi.uniprot.cv.subcell.impl.SubcellularLocationEntryImpl;
+import uk.ac.ebi.uniprot.cv.subcell.impl.SubcellularLocationStatisticsImpl;
+import uk.ac.ebi.uniprot.indexer.common.utils.Constants;
 import uk.ac.ebi.uniprot.json.parser.subcell.SubcellularLocationJsonConfig;
-import uk.ac.ebi.uniprot.search.SolrCollection;
 import uk.ac.ebi.uniprot.search.document.subcell.SubcellularLocationDocument;
 
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
+import java.util.Map;
 
 /**
  * @author lgonzales
@@ -25,28 +25,20 @@ import java.util.Optional;
 public class SubcellularLocationLoadProcessor implements ItemProcessor<SubcellularLocationEntry, SubcellularLocationDocument> {
 
     private final ObjectMapper subcellularLocationObjectMapper;
-    private final SolrTemplate solrTemplate;
+    // cache to be loaded from context of previous step, see method getStepExecution below
+    private Map<String, SubcellularLocationStatisticsReader.SubcellularLocationCount> subcellProteinCountMap;
 
-    public SubcellularLocationLoadProcessor(SolrTemplate solrTemplate) {
-        this.solrTemplate = solrTemplate;
+    public SubcellularLocationLoadProcessor() {
         this.subcellularLocationObjectMapper = SubcellularLocationJsonConfig.getInstance().getFullObjectMapper();
     }
 
     @Override
     public SubcellularLocationDocument process(SubcellularLocationEntry entry) throws Exception {
         SubcellularLocationEntryImpl subcellularLocationEntry = (SubcellularLocationEntryImpl) entry;
-
-        Query query = new SimpleQuery().addCriteria(Criteria.where("id").is(subcellularLocationEntry.getAccession()));
-        Optional<SubcellularLocationDocument> optionalDocument = solrTemplate.queryForObject(SolrCollection.subcellularlocation.name(), query, SubcellularLocationDocument.class);
-        if (optionalDocument.isPresent()) {
-            SubcellularLocationDocument document = optionalDocument.get();
-
-            byte[] subcellularLocationObj = document.getSubcellularlocationObj().array();
-            SubcellularLocationEntry statisticsEntry = subcellularLocationObjectMapper.readValue(subcellularLocationObj, SubcellularLocationEntryImpl.class);
-            subcellularLocationEntry.setStatistics(statisticsEntry.getStatistics());
-
-            solrTemplate.delete(SolrCollection.subcellularlocation.name(), query);
-            solrTemplate.softCommit(SolrCollection.subcellularlocation.name());
+        if (subcellProteinCountMap.containsKey(entry.getId())) {
+            SubcellularLocationStatisticsReader.SubcellularLocationCount count = subcellProteinCountMap.get(entry.getId());
+            SubcellularLocationStatistics statistics = new SubcellularLocationStatisticsImpl(count.getReviewedProteinCount(), count.getUnreviewedProteinCount());
+            subcellularLocationEntry.setStatistics(statistics);
         }
         return createSubcellularLocationDocument(subcellularLocationEntry);
     }
@@ -82,4 +74,12 @@ public class SubcellularLocationLoadProcessor implements ItemProcessor<Subcellul
             throw new RuntimeException("Unable to parse SubcellularLocation to binary json: ", e);
         }
     }
+
+    @BeforeStep
+    public void getCrossRefProteinCountMap(final StepExecution stepExecution) {// get the cached data from previous step
+
+        this.subcellProteinCountMap = (Map<String, SubcellularLocationStatisticsReader.SubcellularLocationCount>) stepExecution.getJobExecution()
+                .getExecutionContext().get(Constants.SUBCELLULAR_LOCATION_LOAD_STATISTICS_KEY);
+    }
+
 }

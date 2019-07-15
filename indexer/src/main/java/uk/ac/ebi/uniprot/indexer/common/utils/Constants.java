@@ -39,6 +39,7 @@ public class Constants {
     public static final String SUBCELLULAR_LOCATION_LOAD_JOB_NAME = "SUBCELLULAR_LOCATION_LOAD_JOB_NAME";
     public static final String SUBCELLULAR_LOCATION_INDEX_STEP = "SUBCELLULAR_LOCATION_INDEX_STEP";
     public static final String SUBCELLULAR_LOCATION_LOAD_STATISTICS_STEP_NAME = "SUBCELLULAR_LOCATION_LOAD_STATISTICS";
+    public static final String SUBCELLULAR_LOCATION_LOAD_STATISTICS_KEY = "SUBCELLULAR_LOCATION_LOAD_STATISTICS_KEY";
 
     public static final String SUGGESTIONS_INDEX_STEP = "Suggestion_Indexing_Step";
     public static final String SUGGESTIONS_MAP = "Suggestions_Set";
