@@ -118,8 +118,4 @@ public interface TaxonomyField {
                     .anyMatch(returnItem -> returnItem.name().equalsIgnoreCase(fieldName));
         }
     }
-
-    enum Return {
-        id,taxonomy_obj
-    }
 }
