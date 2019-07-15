@@ -61,18 +61,15 @@ import static uk.ac.ebi.uniprot.indexer.common.utils.Constants.UNIPROTKB_INDEX_S
 public class UniProtKBStep {
     private final StepBuilderFactory stepBuilderFactory;
     private final UniProtKBIndexingProperties uniProtKBIndexingProperties;
-    private final RetryPolicy<Object> writeRetryPolicy;
     private final UniProtSolrOperations solrOperations;
 
     @Autowired
     public UniProtKBStep(StepBuilderFactory stepBuilderFactory,
                          UniProtSolrOperations solrOperations,
-                         UniProtKBIndexingProperties indexingProperties,
-                         RetryPolicy<Object> writeRetryPolicy) {
+                         UniProtKBIndexingProperties indexingProperties) {
         this.stepBuilderFactory = stepBuilderFactory;
         this.solrOperations = solrOperations;
         this.uniProtKBIndexingProperties = indexingProperties;
-        this.writeRetryPolicy = writeRetryPolicy;
     }
 
     @Bean(name = "uniProtKBIndexingMainStep")
@@ -93,7 +90,7 @@ public class UniProtKBStep {
                 .reader(entryItemReader)
                 .processor(asyncProcessor)
                 .writer(asyncWriter)
-                .listener(new WriteRetrierLogStepListener(itemWriterTaskExecutor.getThreadPoolExecutor()))
+                .listener(writeRetrierLogStepListener)
                 .listener(uniProtKBLogRateListener)
                 .listener(uniProtDocumentItemProcessor)
                 .listener(unwrapProxy(uniProtDocumentItemWriter))
@@ -106,7 +103,7 @@ public class UniProtKBStep {
      * @return The unwrapped object that was proxied, else the object
      * @throws Exception
      */
-    public final Object unwrapProxy(Object bean) throws Exception {
+    private Object unwrapProxy(Object bean) throws Exception {
         if (AopUtils.isAopProxy(bean) && bean instanceof Advised) {
             Advised advised = (Advised) bean;
             bean = advised.getTargetSource().getTarget();
@@ -116,15 +113,13 @@ public class UniProtKBStep {
 
     // ---------------------- Readers ----------------------
     @Bean
-//    @StepScope
-    ItemReader<UniProtEntryDocumentPair> entryItemReader() {
+    public ItemReader<UniProtEntryDocumentPair> entryItemReader() {
         return new UniProtEntryItemReader(uniProtKBIndexingProperties);
     }
 
     // ---------------------- Processors ----------------------
     @Bean
-//    @StepScope
-    UniProtEntryDocumentPairProcessor uniProtDocumentItemProcessor(Map<String, SuggestDocument> suggestDocuments, GoRelationFileRepo goRelationFileRepo) {
+    public UniProtEntryDocumentPairProcessor uniProtDocumentItemProcessor(Map<String, SuggestDocument> suggestDocuments, GoRelationFileRepo goRelationFileRepo) {
         return new UniProtEntryDocumentPairProcessor(
                 new UniProtEntryConverter(
                         createTaxonomyRepo(),
@@ -148,12 +143,8 @@ public class UniProtKBStep {
 
     // ---------------------- Writers ----------------------
     @Bean
-//    @StepScope
     public ItemWriter<UniProtEntryDocumentPair> uniProtDocumentItemWriter(RetryPolicy<Object> writeRetryPolicy) {
-        UniProtEntryDocumentPairWriter writer = new UniProtEntryDocumentPairWriter(this.solrOperations, SolrCollection.uniprot, writeRetryPolicy);
-        // TODO: 12/07/19 why is @BeforeStep in uk.ac.ebi.uniprot.indexer.common.writer.EntryDocumentPairRetryWriter.setStepExecution not being triggered?
-//        this.stepBuilderFactory.get(UNIPROTKB_INDEX_STEP).listener(writer);
-        return writer;
+        return new UniProtEntryDocumentPairWriter(this.solrOperations, SolrCollection.uniprot, writeRetryPolicy);
     }
 
     @Bean("uniprotkbAsyncWriter")

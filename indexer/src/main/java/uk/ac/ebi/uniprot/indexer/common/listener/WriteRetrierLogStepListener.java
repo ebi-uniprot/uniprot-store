@@ -17,20 +17,10 @@ import uk.ac.ebi.uniprot.common.Utils;
 import uk.ac.ebi.uniprot.indexer.common.concurrency.OnZeroCountSleeper;
 import uk.ac.ebi.uniprot.indexer.common.utils.Constants;
 
-import java.util.concurrent.ExecutorService;
 import java.util.concurrent.atomic.AtomicInteger;
 
 @Slf4j
 public class WriteRetrierLogStepListener implements StepExecutionListener {
-    private ExecutorService executorService = null;
-
-    public WriteRetrierLogStepListener() {
-    }
-
-    public WriteRetrierLogStepListener(ExecutorService executorService) {
-        this.executorService = executorService;
-    }
-
     @Override
     public void beforeStep(StepExecution stepExecution) {
         log.info("Step '{}' starting.", stepExecution.getStepName());
