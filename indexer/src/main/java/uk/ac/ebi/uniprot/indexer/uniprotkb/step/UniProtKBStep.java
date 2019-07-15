@@ -95,20 +95,6 @@ public class UniProtKBStep {
                 .listener(unwrapProxy(uniProtDocumentItemWriter))
                 .build();
     }
-    /**
-     * Checks if the given object is a proxy, and unwraps it if it is.
-     *
-     * @param bean The object to check
-     * @return The unwrapped object that was proxied, else the object
-     * @throws Exception
-     */
-    private Object unwrapProxy(Object bean) throws Exception {
-        if (AopUtils.isAopProxy(bean) && bean instanceof Advised) {
-            Advised advised = (Advised) bean;
-            bean = advised.getTargetSource().getTarget();
-        }
-        return bean;
-    }
 
     // ---------------------- Readers ----------------------
     @Bean
@@ -128,7 +114,7 @@ public class UniProtKBStep {
                         ECRepoFactory.get(uniProtKBIndexingProperties.getEcDir()),
                         suggestDocuments));
     }
-    
+
     @Bean("uniprotkbAsyncProcessor")
     public ItemProcessor<UniProtEntryDocumentPair, Future<UniProtEntryDocumentPair>> asyncProcessor(
             UniProtEntryDocumentPairProcessor uniProtDocumentItemProcessor,
@@ -160,6 +146,8 @@ public class UniProtKBStep {
         return new LogRateListener<>(uniProtKBIndexingProperties.getUniProtKBLogRateInterval());
     }
 
+    // ---------------------- Source Data Access beans and helpers ----------------------
+
     /**
      * Needs to be a bean since it contains a @Cacheable annotation within, and Spring
      * will only scan for these annotations inside beans.
@@ -167,7 +155,6 @@ public class UniProtKBStep {
      * @return the GoRelationFileRepo
      */
     @Bean
-//    @StepScope
     public GoRelationFileRepo goRelationFileRepo() {
         return new GoRelationFileRepo(
                 new GoRelationFileReader(uniProtKBIndexingProperties.getGoDir()),
@@ -185,5 +172,20 @@ public class UniProtKBStep {
 
     private TaxonomyRepo createTaxonomyRepo() {
         return new TaxonomyMapRepo(new FileNodeIterable(new File(uniProtKBIndexingProperties.getTaxonomyFile())));
+    }
+
+    /**
+     * Checks if the given object is a proxy, and unwraps it if it is.
+     *
+     * @param bean The object to check
+     * @return The unwrapped object that was proxied, else the object
+     * @throws Exception any exception caused during unwrapping
+     */
+    private Object unwrapProxy(Object bean) throws Exception {
+        if (AopUtils.isAopProxy(bean) && bean instanceof Advised) {
+            Advised advised = (Advised) bean;
+            bean = advised.getTargetSource().getTarget();
+        }
+        return bean;
     }
 }
