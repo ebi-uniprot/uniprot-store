@@ -80,8 +80,7 @@ public class UniProtKBStep {
                                             @Qualifier("uniprotkbAsyncWriter") ItemWriter<Future<UniProtEntryDocumentPair>> asyncWriter,
                                             UniProtEntryDocumentPairProcessor uniProtDocumentItemProcessor,
                                             ItemWriter<UniProtEntryDocumentPair> uniProtDocumentItemWriter,
-                                            ExecutionContextPromotionListener promotionListener,
-                                            ThreadPoolTaskExecutor itemWriterTaskExecutor) throws Exception {
+                                            ExecutionContextPromotionListener promotionListener) throws Exception {
 
         return this.stepBuilderFactory.get(UNIPROTKB_INDEX_STEP)
                 .listener(promotionListener)
