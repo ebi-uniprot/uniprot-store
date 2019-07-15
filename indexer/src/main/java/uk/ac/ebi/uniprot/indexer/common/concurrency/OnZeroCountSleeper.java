@@ -2,9 +2,23 @@ package uk.ac.ebi.uniprot.indexer.common.concurrency;
 
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
+ * This class represents an instance that behaves similarly to a {@link CountDownLatch}, which is used to
+ * coordinate the completion of tasks on worker threads. Completion occurs when an internal counter reaches zero,
+ * or some timeout is exceeded. The difference to {@link CountDownLatch} is that counting up is also allowed. The
+ * difference is that this representation uses {@link Thread#sleep(long)} to wait until the zero is reached.
+ * <p>
+ * Usage:
+ * <ol>
+ *  <li>Create instance</li>
+ *  <li>Create worker threads which call either {@link #add(int)} or {@link #increment()}, and cause the value of the internal counter to be inreased</li>
+ *  <li>Worker threads then call {@link #minus(int)} or {@link #decrement()} to reduce the value of the internal counter</li>
+ *  <li>Meanwhile, on a main thread, someone can call {@link #sleepUntilZero()}, which will cause the thread to sleep until the internal counter has reached zero, or some timeout has expired.</li>
+ * </ol>
+ * <p>
  * Created 13/07/19
  *
  * @author Edd
@@ -18,7 +32,7 @@ public class OnZeroCountSleeper {
 
     public OnZeroCountSleeper() {
         this.counter = new AtomicInteger(0);
-        this.timeoutMillisMax =  TIMEOUT_MILLIS_MAX;
+        this.timeoutMillisMax = TIMEOUT_MILLIS_MAX;
     }
 
     public OnZeroCountSleeper(int initialCount, int timeoutMillisMax) {
