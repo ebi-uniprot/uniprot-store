@@ -83,7 +83,7 @@ class OnZeroCountSleeperTest {
         List<Thread> decrementers = Stream
                 .generate(() -> new Thread(() -> {
                     try {
-                        Thread.sleep((long) (Math.random() * 100));
+                        Thread.sleep((long) (Math.random() * 10000));
                     } catch (InterruptedException e) {
                         // do nothing
                     }

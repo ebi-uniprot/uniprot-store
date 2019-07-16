@@ -63,8 +63,9 @@ public class OnZeroCountSleeper {
     public void sleepUntilZero() {
         int timeoutMillisCounter = 0;
 
-        while (counter.get() > 0) {
-            log.info("Waiting {} ms for counter to reach 0", SLEEP_MILLIS);
+        int currentCount;
+        while ((currentCount = counter.get()) > 0) {
+            log.info("Waiting {} ms for counter (currently {}), to reach 0", SLEEP_MILLIS, currentCount);
             if (timeoutMillisCounter > timeoutMillisMax) {
                 log.info("Sleeping stopped after timeout reached {} ms", timeoutMillisMax);
                 break;
