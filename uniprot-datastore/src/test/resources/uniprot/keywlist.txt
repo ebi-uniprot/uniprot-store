@@ -9,7 +9,7 @@
 
 Description: Controlled vocabulary of keywords
 Name:        keywlist.txt
-Release:     2019_01 of 16-Jan-2019
+Release:     2019_03 of 10-Apr-2019
 
 ---------------------------------------------------------------------------
 
@@ -10914,7 +10914,7 @@ DE   The resulting free energy is used for the formation of ATP and NAD. In
 DE   anaerobic respiration analogous reactions take place with an inorganic
 DE   compound other than oxygen as ultimate electron acceptor.
 SY   Electron transport chain; Respiration chain.
-GO   GO:0070469; respiratory chain
+GO   GO:0070469; respirasome
 HI   Biological process: Transport; Electron transport; Respiratory chain.
 CA   Biological process.
 //

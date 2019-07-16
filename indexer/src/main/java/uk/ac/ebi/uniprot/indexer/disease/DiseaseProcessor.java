@@ -64,8 +64,7 @@ public class DiseaseProcessor implements ItemProcessor<Disease, DiseaseDocument>
 
             if(diseaseProteinCount != null) {
                 diseaseBuilder.reviewedProteinCount(diseaseProteinCount.getReviewedProteinCount());
-                diseaseBuilder.unreviewedProteinCount(diseaseProteinCount.getUnreviewedProteinCount());
-            } 
+            }
 
             return this.diseaseObjectMapper.writeValueAsBytes(diseaseBuilder.build());
 

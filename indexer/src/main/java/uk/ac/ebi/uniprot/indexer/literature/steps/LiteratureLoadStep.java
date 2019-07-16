@@ -14,7 +14,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
 import org.springframework.data.solr.core.SolrTemplate;
 import uk.ac.ebi.uniprot.domain.literature.LiteratureEntry;
 import uk.ac.ebi.uniprot.indexer.common.utils.Constants;
@@ -25,6 +25,7 @@ import uk.ac.ebi.uniprot.indexer.literature.reader.LiteratureRecordSeparatorPoli
 import uk.ac.ebi.uniprot.search.SolrCollection;
 import uk.ac.ebi.uniprot.search.document.literature.LiteratureDocument;
 
+import java.io.IOException;
 import java.sql.SQLException;
 
 /**
@@ -43,7 +44,7 @@ public class LiteratureLoadStep {
     private Integer chunkSize;
 
     @Value(("${indexer.literature.file.path}"))
-    private String filePath;
+    private Resource literatureFile;
 
     @Bean(name = "IndexLiteratureStep")
     public Step indexLiterature(StepExecutionListener stepListener, ChunkListener chunkListener,
@@ -61,9 +62,9 @@ public class LiteratureLoadStep {
     }
 
     @Bean(name = "LiteratureReader")
-    public FlatFileItemReader<LiteratureEntry> literatureReader() {
+    public FlatFileItemReader<LiteratureEntry> literatureReader() throws IOException {
         FlatFileItemReader<LiteratureEntry> reader = new FlatFileItemReader<>();
-        reader.setResource(new ClassPathResource(filePath));
+        reader.setResource(literatureFile);
         reader.setLinesToSkip(1);
         reader.setLineMapper(getLiteratureLineMapper());
         reader.setRecordSeparatorPolicy(getLiteratureRecordSeparatorPolice());

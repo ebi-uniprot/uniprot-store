@@ -13,7 +13,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
 import org.springframework.data.solr.core.SolrTemplate;
 import uk.ac.ebi.uniprot.domain.literature.LiteratureEntry;
 import uk.ac.ebi.uniprot.indexer.common.utils.Constants;
@@ -23,6 +23,8 @@ import uk.ac.ebi.uniprot.indexer.literature.reader.LiteratureMappingItemReader;
 import uk.ac.ebi.uniprot.indexer.literature.reader.LiteratureMappingLineMapper;
 import uk.ac.ebi.uniprot.search.SolrCollection;
 import uk.ac.ebi.uniprot.search.document.literature.LiteratureDocument;
+
+import java.io.IOException;
 
 /**
  * IMPORTANT: literature mapping file must be sorted by pubmed id, before start the index proccess
@@ -45,7 +47,7 @@ public class LiteratureMappingStep {
     private Integer chunkSize;
 
     @Value(("${indexer.literature.mapping.file.path}"))
-    private String filePath;
+    private Resource literatureMappingFile;
 
     @Bean(name = "LiteratureMappingStep")
     public Step indexLiteratureMapping(StepExecutionListener stepListener, ChunkListener chunkListener,
@@ -63,9 +65,9 @@ public class LiteratureMappingStep {
     }
 
     @Bean(name = "LiteratureMappingReader")
-    public ItemReader<LiteratureEntry> literatureMappingReader() {
+    public ItemReader<LiteratureEntry> literatureMappingReader() throws IOException {
         FlatFileItemReader<LiteratureEntry> flatFileItemReader = new FlatFileItemReader<>();
-        flatFileItemReader.setResource(new ClassPathResource(filePath));
+        flatFileItemReader.setResource(literatureMappingFile);
         flatFileItemReader.setLineMapper(new LiteratureMappingLineMapper());
 
         LiteratureMappingItemReader reader = new LiteratureMappingItemReader();
