@@ -100,4 +100,14 @@ public class FieldValueValidator {
         }
         return result;
     }
+
+
+    public static boolean isDiseaseIdValue(String value) {
+        boolean result = false;
+        String numberRegex = "^DI-[0-9]{5}$";
+        if (value != null) {
+            result = value.toUpperCase().matches(numberRegex);
+        }
+        return result;
+    }
 }

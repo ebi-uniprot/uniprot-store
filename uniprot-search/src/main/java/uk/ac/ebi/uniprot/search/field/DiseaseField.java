@@ -1,5 +1,7 @@
 package uk.ac.ebi.uniprot.search.field;
 
+import uk.ac.ebi.uniprot.search.field.validator.FieldValueValidator;
+
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.Predicate;
@@ -27,13 +29,19 @@ public interface DiseaseField {
     }
 
     enum Search implements SearchField {
-        accession(SearchFieldType.TERM),
+        accession(SearchFieldType.TERM, FieldValueValidator::isDiseaseIdValue, null),
         name(SearchFieldType.TERM),
         content(SearchFieldType.TERM);
 
         private final Predicate<String> fieldValueValidator;
         private final SearchFieldType searchFieldType;
         private final BoostValue boostValue;
+
+        Search(SearchFieldType searchFieldType, Predicate<String> fieldValueValidator, BoostValue boostValue) {
+            this.searchFieldType = searchFieldType;
+            this.fieldValueValidator = fieldValueValidator;
+            this.boostValue = boostValue;
+        }
 
         Search(SearchFieldType searchFieldType) {
             this.searchFieldType = searchFieldType;
@@ -78,25 +86,21 @@ public interface DiseaseField {
         unreviewed_protein_count("Unreviewed Protein Count", "unreviewedProteinCount");
 
         private String label;
-        private String fieldName;
+        private String javaFieldName;
         private boolean isDefault;
 
-        ResultFields(String label, String fieldName){
-            this(label, fieldName, false);
+        ResultFields(String label, String javaFieldName){
+            this(label, javaFieldName, false);
         }
 
-        ResultFields(String label, String fieldName, boolean isDefault){
+        ResultFields(String label, String javaFieldName, boolean isDefault){
             this.label = label;
-            this.fieldName = fieldName;
+            this.javaFieldName = javaFieldName;
             this.isDefault = isDefault;
         }
 
         public String getLabel() {
             return this.label;
-        }
-
-        public String getFieldName(){
-            return this.fieldName;
         }
 
         public boolean isDefault() {
@@ -118,7 +122,7 @@ public interface DiseaseField {
 
         @Override
         public String getJavaFieldName() {
-            return this.fieldName;
+            return this.javaFieldName;
         }
     }
 }
