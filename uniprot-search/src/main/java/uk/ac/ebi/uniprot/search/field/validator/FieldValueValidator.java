@@ -110,4 +110,13 @@ public class FieldValueValidator {
         }
         return result;
     }
+
+    public static boolean isCrossRefIdValue(String value) {
+        boolean result = false;
+        String numberRegex = "^DB-[0-9]{4}$";
+        if (value != null) {
+            result = value.toUpperCase().matches(numberRegex);
+        }
+        return result;
+    }
 }

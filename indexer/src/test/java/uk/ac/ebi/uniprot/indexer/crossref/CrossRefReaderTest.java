@@ -4,9 +4,9 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.batch.core.JobExecution;
 import org.springframework.batch.core.StepExecution;
+import uk.ac.ebi.uniprot.domain.crossref.CrossRefEntry;
 import uk.ac.ebi.uniprot.indexer.common.utils.Constants;
 import uk.ac.ebi.uniprot.indexer.crossref.readers.CrossRefReader;
-import uk.ac.ebi.uniprot.search.document.dbxref.CrossRefDocument;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -29,7 +29,7 @@ class CrossRefReaderTest {
 
     @Test
     void testReadFile() {
-        CrossRefDocument dbxRef = reader.read();
+        CrossRefEntry dbxRef = reader.read();
         assertNotNull(dbxRef, "Unable to read the dbxref file");
         verifyDBXRef(dbxRef);
         int count = 1;
@@ -40,7 +40,7 @@ class CrossRefReaderTest {
         assertEquals(count, 5);
     }
 
-    private void verifyDBXRef(CrossRefDocument dbxRef) {
+    private void verifyDBXRef(CrossRefEntry dbxRef) {
         assertNotNull(dbxRef.getAccession(), "Accession is null");
         assertNotNull(dbxRef.getAbbrev(), "Abbrev is null");
         assertNotNull(dbxRef.getName(), "Name is null");
@@ -49,6 +49,6 @@ class CrossRefReaderTest {
         assertNotNull(dbxRef.getLinkType(), "Link Type is null");
         assertNotNull(dbxRef.getServer(), "Server is null");
         assertNotNull(dbxRef.getDbUrl(), "DB URL is null");
-        assertNotNull(dbxRef.getCategoryStr(), "Category is null");
+        assertNotNull(dbxRef.getCategory(), "Category is null");
     }
 }
