@@ -622,14 +622,15 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtEntry, Un
             String evField = getCommentEvField(comment);
             Collection<String> value = doc.commentMap.computeIfAbsent(field, k -> new ArrayList<>());
 
-            // todo @lgonzales doubt: can we change to without evidence??? because we already have the evidence map
-            String commentVal = fbuilder.buildStringWithEvidence(comment);
+            String commentVal = fbuilder.buildString(comment);
             value.add(commentVal);
             doc.content.add(commentVal);
 
             Collection<String> evValue = doc.commentEvMap.computeIfAbsent(evField, k -> new HashSet<>());
             Set<String> evidences = fetchEvidences(comment);
             evValue.addAll(evidences);
+
+            doc.proteinsWith.add(comment.getCommentType().name().toLowerCase());
 
             switch (comment.getCommentType()) {
                 case CATALYTIC_ACTIVITY:
@@ -1121,9 +1122,10 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtEntry, Un
             String lengthField = getFeatureField(feature, FT_LENGTH);
             Collection<String> featuresOfTypeList = japiDocument.featuresMap
                     .computeIfAbsent(field, k -> new HashSet<>());
-            String featureText = fbuilder.buildStringWithEvidence(feature);
+            String featureText = fbuilder.buildString(feature);
             featuresOfTypeList.add(featureText);
             japiDocument.content.add(featureText);
+            japiDocument.proteinsWith.add(feature.getType().name().toLowerCase());
 
             // start and end of location
             int length = feature.getLocation().getEnd().getValue() - feature.getLocation().getStart().getValue() + 1;
