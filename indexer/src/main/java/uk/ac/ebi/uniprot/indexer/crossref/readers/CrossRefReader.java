@@ -4,8 +4,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.StepExecution;
 import org.springframework.batch.core.annotation.BeforeStep;
 import org.springframework.batch.item.ItemReader;
+import uk.ac.ebi.uniprot.domain.crossref.CrossRefEntry;
+import uk.ac.ebi.uniprot.domain.crossref.CrossRefEntryBuilder;
 import uk.ac.ebi.uniprot.indexer.common.utils.Constants;
-import uk.ac.ebi.uniprot.search.document.dbxref.CrossRefDocument;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -19,7 +20,7 @@ import java.util.Scanner;
 import java.util.regex.Pattern;
 
 @Slf4j
-public class CrossRefReader implements ItemReader<CrossRefDocument> {
+public class CrossRefReader implements ItemReader<CrossRefEntry> {
     private static final String DATA_REGION_SEP = "___________________________________________________________________________";
     private static final String COPYRIGHT_SEP = "-----------------------------------------------------------------------";
     private static final String LINE_SEP = "\n";
@@ -70,7 +71,7 @@ public class CrossRefReader implements ItemReader<CrossRefDocument> {
     }
 
     @Override
-    public CrossRefDocument read() {
+    public CrossRefEntry read() {
         if (this.reader.hasNext()) {
             // skip the un-needed lines
             while (this.reader.hasNext() && !this.dataRegionStarted) {
@@ -81,7 +82,7 @@ public class CrossRefReader implements ItemReader<CrossRefDocument> {
                 }
             }
 
-            CrossRefDocument dbxRef = null;
+            CrossRefEntry dbxRef = null;
             String lines = this.reader.next();
             if (!lines.contains(COPYRIGHT_SEP)) {
                 dbxRef = convertToDBXRef(lines);
@@ -100,7 +101,7 @@ public class CrossRefReader implements ItemReader<CrossRefDocument> {
                 .getExecutionContext().get(Constants.CROSS_REF_PROTEIN_COUNT_KEY);
     }
 
-    private CrossRefDocument convertToDBXRef(String linesStr) {
+    private CrossRefEntry convertToDBXRef(String linesStr) {
         String[] lines = linesStr.split(LINE_SEP);
         String acc = null, abbr = null, name = null, pubMedId = null, doiId = null;
         String lType = null, server = null, url = null, cat = null;
@@ -139,10 +140,10 @@ public class CrossRefReader implements ItemReader<CrossRefDocument> {
             }
         }
 
-        CrossRefDocument.CrossRefDocumentBuilder builder = CrossRefDocument.builder();
+        CrossRefEntryBuilder builder = new CrossRefEntryBuilder();
         builder.accession(acc).abbrev(abbr).name(name);
         builder.pubMedId(pubMedId).doiId(doiId).linkType(lType).server(server);
-        builder.dbUrl(url).categoryStr(cat);
+        builder.dbUrl(url).category(cat);
 
         // update the reviewed and unreviewed protein count
         CrossRefUniProtCountReader.CrossRefProteinCount reviewedProtCount = this.crossRefProteinCountMap.get(abbr + UNDER_ZERO);

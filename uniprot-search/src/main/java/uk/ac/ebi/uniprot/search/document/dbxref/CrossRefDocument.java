@@ -5,6 +5,8 @@ import lombok.Getter;
 import org.apache.solr.client.solrj.beans.Field;
 import uk.ac.ebi.uniprot.search.document.Document;
 
+import java.io.Serializable;
+
 @Builder
 @Getter
 public class CrossRefDocument implements Document {
