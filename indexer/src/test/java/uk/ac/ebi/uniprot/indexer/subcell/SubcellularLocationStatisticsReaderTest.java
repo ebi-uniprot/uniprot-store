@@ -27,7 +27,6 @@ class SubcellularLocationStatisticsReaderTest {
         SubcellularLocationStatisticsReader reader = new SubcellularLocationStatisticsReader();
         SubcellularLocationStatisticsReader.SubcellularLocationCount count = reader.mapRow(result, 1);
 
-        //
         assertNotNull(count);
         assertEquals("SL-0001", count.getSubcellularLocationId());
         assertEquals(10L, count.getReviewedProteinCount());
