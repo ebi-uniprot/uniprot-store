@@ -317,6 +317,9 @@ class UniProtEntryConverterTest {
         assertEquals(5, doc.referenceJournals.size());
         assertTrue(doc.referenceJournals.contains("Genome Res."));
 
+        assertEquals(18, doc.proteinsWith.size());
+        assertTrue(doc.proteinsWith.contains("chain"));
+
         assertEquals(10, doc.commentMap.keySet().size());
         assertTrue(doc.commentMap.containsKey(CC_SIMILARITY_FIELD));
         assertTrue(doc.commentMap.get(CC_SIMILARITY_FIELD).
@@ -558,6 +561,9 @@ class UniProtEntryConverterTest {
         assertEquals(6, doc.referenceJournals.size());
         assertTrue(doc.referenceJournals.contains("Genome Res."));
 
+        assertEquals(1, doc.proteinsWith.size());
+        assertTrue(doc.proteinsWith.contains("alternative_products"));
+
         assertEquals(1, doc.commentMap.keySet().size());
         assertEquals(1, doc.commentMap.size());
         assertTrue(doc.commentMap.containsKey(CC_ALTERNATIVE_PRODUCTS_FIELD));
@@ -705,6 +711,9 @@ class UniProtEntryConverterTest {
         UniProtDocument doc = convertEntry(entry);
         assertNotNull(doc);
 
+        assertEquals(1, doc.proteinsWith.size());
+        assertTrue(doc.proteinsWith.contains("alternative_products"));
+
         assertTrue(doc.commentMap.containsKey(CC_ALTERNATIVE_PRODUCTS_FIELD));
         assertTrue(doc.commentMap.get(CC_ALTERNATIVE_PRODUCTS_FIELD).
                 contains(alternativeProductsLine));
@@ -737,6 +746,9 @@ class UniProtEntryConverterTest {
         UniProtEntry entry = createUniProtEntryFromCommentLine(cofactorLine);
         UniProtDocument doc = convertEntry(entry);
         assertNotNull(doc);
+
+        assertEquals(1, doc.proteinsWith.size());
+        assertTrue(doc.proteinsWith.contains("cofactor"));
 
         assertEquals(1, doc.commentMap.keySet().size());
 
@@ -802,6 +814,9 @@ class UniProtEntryConverterTest {
         assertNotNull(doc);
         assertEquals(3, doc.commentMap.get(CC_BIOPHYSICOCHEMICAL_PROPERTIES_FIELD).size());
 
+        assertEquals(1, doc.proteinsWith.size());
+        assertTrue(doc.proteinsWith.contains("biophysicochemical_properties"));
+
         assertTrue(doc.commentMap.containsKey(CC_BIOPHYSICOCHEMICAL_PROPERTIES_FIELD));
         assertTrue(doc.commentMap.get(CC_BIOPHYSICOCHEMICAL_PROPERTIES_FIELD).contains(phdependenceLineValue));
 
@@ -857,6 +872,9 @@ class UniProtEntryConverterTest {
         assertNotNull(doc);
         assertEquals(6, doc.commentMap.get(CC_SEQUENCE_CAUTION_FIELD).size());
 
+        assertEquals(1, doc.proteinsWith.size());
+        assertTrue(doc.proteinsWith.contains("sequence_caution"));
+
         assertTrue(doc.commentMap.containsKey(CC_SEQUENCE_CAUTION_FIELD));
         assertTrue(doc.commentMap.get(CC_SEQUENCE_CAUTION_FIELD).contains(sequenceCautionLineValue));
         assertEquals(1, doc.commentEvMap.size());
@@ -907,6 +925,9 @@ class UniProtEntryConverterTest {
         UniProtDocument doc = convertEntry(entry);
         assertNotNull(doc);
         assertEquals(2, doc.commentMap.get(CC_SUBCELLULAR_LOCATION_FIELD).size());
+
+        assertEquals(1, doc.proteinsWith.size());
+        assertTrue(doc.proteinsWith.contains("subcellular_location"));
 
         assertTrue(doc.commentMap.containsKey(CC_SUBCELLULAR_LOCATION_FIELD));
         assertTrue(doc.commentMap.get(CC_SUBCELLULAR_LOCATION_FIELD).contains(subcellularLocationLineValue));
