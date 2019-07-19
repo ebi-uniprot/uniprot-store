@@ -16,7 +16,8 @@ class LiteratureLineMapperTest {
 
     @Test
     void mapLineWithAllAttributes() throws Exception {
-        String entryText = "RX   PubMed=1; DOI=10.1016/0006-2944(75)90147-7;\n" +
+        String entryText = "RX   PubMed=1;\n" +
+                "RX   DOI=10.1016/0006-2944(75)90147-7;\n" +
                 "RA   Makar A.B., McMartin K.E.;\n" +
                 "RG   DIAbetes Genetics Replication And Meta-analysis (DIAGRAM) Consortium;\n" +
                 "RT   \"Formate assay in body fluids: application in methanol poisoning.\";\n" +
