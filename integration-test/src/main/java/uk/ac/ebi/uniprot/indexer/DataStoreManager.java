@@ -26,7 +26,8 @@ import static org.slf4j.LoggerFactory.getLogger;
  */
 public class DataStoreManager {
     public enum StoreType {
-        UNIPROT, INACTIVE_UNIPROT,UNIPARC, UNIREF,CROSSREF, PROTEOME, DISEASE, TAXONOMY, GENECENTRIC, KEYWORD
+        UNIPROT, INACTIVE_UNIPROT, UNIPARC, UNIREF, CROSSREF, PROTEOME, DISEASE, TAXONOMY, GENECENTRIC,
+        KEYWORD, LITERATURE
     }
 
     private static final Logger LOGGER = getLogger(DataStoreManager.class);

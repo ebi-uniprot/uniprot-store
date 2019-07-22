@@ -20,7 +20,6 @@ import uk.ac.ebi.uniprot.indexer.common.writer.SolrDocumentWriter;
 import uk.ac.ebi.uniprot.search.SolrCollection;
 import uk.ac.ebi.uniprot.search.document.keyword.KeywordDocument;
 
-import javax.sql.DataSource;
 import java.io.IOException;
 import java.sql.SQLException;
 
@@ -68,9 +67,8 @@ public class KeywordLoadStep {
     }
 
     @Bean(name = "KeywordProcessor")
-    public ItemProcessor<KeywordEntry, KeywordDocument> keywordProcessor(@Qualifier("readDataSource") DataSource readDataSource,
-                                                                         UniProtSolrOperations solrOperations) throws SQLException {
-        return new KeywordLoadProcessor(readDataSource, solrOperations);
+    public ItemProcessor<KeywordEntry, KeywordDocument> keywordProcessor() throws SQLException {
+        return new KeywordLoadProcessor(this.solrOperations);
     }
 
 }

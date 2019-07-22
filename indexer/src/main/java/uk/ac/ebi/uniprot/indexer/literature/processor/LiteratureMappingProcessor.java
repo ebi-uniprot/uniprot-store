@@ -64,7 +64,7 @@ public class LiteratureMappingProcessor implements ItemProcessor<LiteratureEntry
         LiteratureDocument.LiteratureDocumentBuilder builder = LiteratureDocument.builder();
         byte[] literatureByte = getLiteratureObjectBinary(mappedEntry);
         builder.literatureObj(ByteBuffer.wrap(literatureByte));
-        builder.id(mappedEntry.getPubmedId());
+        builder.id(String.valueOf(mappedEntry.getPubmedId()));
 
         log.debug("LiteratureStatisticsProcessor entry: " + mappedEntry);
         return builder.build();

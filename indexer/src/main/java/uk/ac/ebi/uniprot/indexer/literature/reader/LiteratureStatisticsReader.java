@@ -13,7 +13,7 @@ public class LiteratureStatisticsReader implements RowMapper<LiteratureStatistic
 
     @Override
     public LiteratureCount mapRow(ResultSet resultSet, int rowIndex) throws SQLException {
-        String pubmedId = resultSet.getString("pubmed_id");
+        long pubmedId = resultSet.getLong("pubmed_id");
         long reviewedProteinCount = resultSet.getLong("reviewedProteinCount");
         long unreviewedProteinCount = resultSet.getLong("unreviewedProteinCount");
         return new LiteratureCount(pubmedId, reviewedProteinCount, unreviewedProteinCount);
@@ -23,10 +23,10 @@ public class LiteratureStatisticsReader implements RowMapper<LiteratureStatistic
     public static class LiteratureCount {
         private final long reviewedProteinCount;
         private final long unreviewedProteinCount;
-        private final String pubmedId;
+        private final long pubmedId;
 
 
-        public LiteratureCount(String pubmedId, long reviewedProteinCount, long unreviewedProteinCount) {
+        public LiteratureCount(long pubmedId, long reviewedProteinCount, long unreviewedProteinCount) {
             this.pubmedId = pubmedId;
             this.reviewedProteinCount = reviewedProteinCount;
             this.unreviewedProteinCount = unreviewedProteinCount;

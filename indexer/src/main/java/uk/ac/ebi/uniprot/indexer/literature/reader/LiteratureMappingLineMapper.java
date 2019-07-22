@@ -51,7 +51,7 @@ public class LiteratureMappingLineMapper extends DefaultLineMapper<LiteratureEnt
                     .sourceCategory(categories)
                     .build();
 
-            return entryBuilder.pubmedId(lineFields[2]).addLiteratureMappedReference(mappedReference).build();
+            return entryBuilder.pubmedId(Long.valueOf(lineFields[2])).addLiteratureMappedReference(mappedReference).build();
         } else {
             log.warn("Unable to parse correctly line number [" + lineNumber + "] with value: " + entryString);
             return null;

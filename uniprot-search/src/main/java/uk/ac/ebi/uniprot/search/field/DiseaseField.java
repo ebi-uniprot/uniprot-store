@@ -7,10 +7,10 @@ import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-public interface TaxonomyField {
+public interface DiseaseField {
 
     enum Sort{
-        name("name_sort");
+        accession("accession");
 
         private String solrFieldName;
 
@@ -29,36 +29,24 @@ public interface TaxonomyField {
     }
 
     enum Search implements SearchField {
-        id(SearchFieldType.TERM, FieldValueValidator::isNumberValue, null),
-        tax_id(SearchFieldType.TERM, FieldValueValidator::isNumberValue, null),
-        scientific(SearchFieldType.TERM),
-        common(SearchFieldType.TERM),
-        mnemonic(SearchFieldType.TERM),
-        rank(SearchFieldType.TERM),
-        strain(SearchFieldType.TERM),
-        host(SearchFieldType.TERM, FieldValueValidator::isNumberValue, null),
-        linked(SearchFieldType.TERM,FieldValueValidator::isBooleanValue, null),
-        active(SearchFieldType.TERM,FieldValueValidator::isBooleanValue, null),
-        complete(SearchFieldType.TERM,FieldValueValidator::isBooleanValue, null),
-        reference(SearchFieldType.TERM,FieldValueValidator::isBooleanValue, null),
-        reviewed(SearchFieldType.TERM,FieldValueValidator::isBooleanValue, null),
-        annotated(SearchFieldType.TERM,FieldValueValidator::isBooleanValue, null),
+        accession(SearchFieldType.TERM, FieldValueValidator::isDiseaseIdValue, null),
+        name(SearchFieldType.TERM),
         content(SearchFieldType.TERM);
 
         private final Predicate<String> fieldValueValidator;
         private final SearchFieldType searchFieldType;
         private final BoostValue boostValue;
 
-        Search(SearchFieldType searchFieldType) {
-            this.searchFieldType = searchFieldType;
-            this.fieldValueValidator = null;
-            this.boostValue = null;
-        }
-
         Search(SearchFieldType searchFieldType, Predicate<String> fieldValueValidator, BoostValue boostValue) {
             this.searchFieldType = searchFieldType;
             this.fieldValueValidator = fieldValueValidator;
             this.boostValue = boostValue;
+        }
+
+        Search(SearchFieldType searchFieldType) {
+            this.searchFieldType = searchFieldType;
+            this.fieldValueValidator = null;
+            this.boostValue = null;
         }
 
         public Predicate<String> getFieldValueValidator() {
@@ -87,35 +75,54 @@ public interface TaxonomyField {
     }
 
     enum ResultFields implements ReturnField {
-        id("Taxon"),
-        parent("Parent"),
-        mnemonic("Mnemonic"),
-        scientific_name("Scientific name"),
-        common_name("Common name"),
-        synonym("Synonym"),
-        other_names("Other Names"),
-        rank("Rank"),
-        reviewed("Reviewed"),
-        lineage("Lineage"),
-        strain("Strain"),
-        host("Virus hosts"),
-        link("Link"),
-        statistics("Statistics");
+        id("Name", "id", true),
+        accession("Disease ID", "accession", true),
+        acronym("Mnemonic", "acronym", true),
+        definition("Description", "definition", true),
+        alternative_names("Alternative Names", "alternativeNames"),
+        cross_references("Cross Reference", "crossReferences"),
+        keywords("Keywords", "keywords"),
+        reviewed_protein_count("Reviewed Protein Count", "reviewedProteinCount"),
+        unreviewed_protein_count("Unreviewed Protein Count", "unreviewedProteinCount");
 
         private String label;
+        private String javaFieldName;
+        private boolean isDefault;
 
-        private ResultFields(String label){
+        ResultFields(String label, String javaFieldName){
+            this(label, javaFieldName, false);
+        }
+
+        ResultFields(String label, String javaFieldName, boolean isDefault){
             this.label = label;
+            this.javaFieldName = javaFieldName;
+            this.isDefault = isDefault;
         }
 
         public String getLabel() {
             return this.label;
         }
 
+        public boolean isDefault() {
+            return this.isDefault;
+        }
+
+        public static String getDefaultFields(){
+            return Arrays.stream(ResultFields.values())
+                    .filter(f -> f.isDefault)
+                    .map(f -> f.name())
+                    .collect(Collectors.joining(","));
+        }
+
         @Override
         public boolean hasReturnField(String fieldName) {
             return Arrays.stream(ResultFields.values())
                     .anyMatch(returnItem -> returnItem.name().equalsIgnoreCase(fieldName));
+        }
+
+        @Override
+        public String getJavaFieldName() {
+            return this.javaFieldName;
         }
     }
 }

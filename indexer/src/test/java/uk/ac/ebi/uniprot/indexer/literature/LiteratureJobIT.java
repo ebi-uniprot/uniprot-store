@@ -102,7 +102,7 @@ class LiteratureJobIT {
     private void validateLiteratureEntry(LiteratureEntry entry) {
         assertThat(entry, is(notNullValue()));
         assertThat(entry.hasPubmedId(), is(true));
-        assertThat(entry.getPubmedId(), is("11203701"));
+        assertThat(entry.getPubmedId(), is(11203701L));
 
         assertThat(entry.hasDoiId(), is(true));
         assertThat(entry.getDoiId(), is("10.1006/dbio.2000.9955"));
@@ -131,7 +131,8 @@ class LiteratureJobIT {
         assertThat(entry.hasLastPage(), is(true));
         assertThat(entry.getLastPage(), is("455"));
 
-        assertThat(entry.hasVolume(), is(false));
+        assertThat(entry.hasVolume(), is(true));
+        assertThat(entry.getVolume(), is("229"));
 
         assertThat(entry.hasLiteratureMappedReferences(), is(true));
         assertThat(entry.getLiteratureMappedReferences().size(), is(19));

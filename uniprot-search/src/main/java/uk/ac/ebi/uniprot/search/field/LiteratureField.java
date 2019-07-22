@@ -106,8 +106,11 @@ public interface LiteratureField {
         publication("Publication"),
         reference("Reference"),
         lit_abstract("Abstract/Summary"),
-        mapped_references("Mapped Referebces"),
-        statistics("Statistics");
+        mapped_references("Mapped references"),
+        statistics("Statistics"),
+        first_page("First page"),
+        last_page("Last page"),
+        volume("Volume");
 
         private String label;
 

@@ -43,7 +43,7 @@ public class LiteratureLineMapper extends DefaultLineMapper<LiteratureEntry> {
             String[] tokens = line.split(SPLIT_SPACES);
             switch (tokens[0]) {
                 case RX_LINE:
-                    fileEntry.rxLine = tokens[1];
+                    fileEntry.rxLines.add(tokens[1]);
                     break;
                 case RA_LINE:
                     fileEntry.raLines.add(tokens[1]);
@@ -74,7 +74,7 @@ public class LiteratureLineMapper extends DefaultLineMapper<LiteratureEntry> {
 
     private LiteratureEntry buildLiteratureEntry(LiteratureFileEntry fileEntry) {
         LiteratureEntryBuilder builder = new LiteratureEntryBuilder();
-        builder = parseRXLine(builder, fileEntry.rxLine);
+        builder = parseRXLine(builder, fileEntry.rxLines);
         builder = parseRALine(builder, fileEntry.raLines);
         builder = parseRTLine(builder, fileEntry.rtLines);
         builder = parseRGLine(builder, fileEntry.rgLines);
@@ -84,9 +84,10 @@ public class LiteratureLineMapper extends DefaultLineMapper<LiteratureEntry> {
         return builder.build();
     }
 
-    private LiteratureEntryBuilder parseRXLine(LiteratureEntryBuilder builder, String rxLine) {
+    private LiteratureEntryBuilder parseRXLine(LiteratureEntryBuilder builder, List<String> rxLines) {
+        String rxLine = String.join("", rxLines);
         String[] rxLineArray = rxLine.split(ID_SEPARATOR);
-        builder = builder.pubmedId(rxLineArray[0].substring(rxLineArray[0].indexOf('=') + 1));
+        builder = builder.pubmedId(Long.valueOf(rxLineArray[0].substring(rxLineArray[0].indexOf('=') + 1)));
         if (rxLineArray.length > 1) {
             builder = builder.doiId(rxLineArray[1].substring(rxLineArray[1].indexOf('=') + 1));
         }
@@ -157,7 +158,7 @@ public class LiteratureLineMapper extends DefaultLineMapper<LiteratureEntry> {
     }
 
     private class LiteratureFileEntry {
-        String rxLine;
+        List<String> rxLines;
         List<String> raLines;
         List<String> rlLines;
         List<String> rgLines;
@@ -166,6 +167,7 @@ public class LiteratureLineMapper extends DefaultLineMapper<LiteratureEntry> {
         boolean completeAuthorList;
 
         LiteratureFileEntry() {
+            rxLines = new ArrayList<>();
             raLines = new ArrayList<>();
             rlLines = new ArrayList<>();
             rgLines = new ArrayList<>();
