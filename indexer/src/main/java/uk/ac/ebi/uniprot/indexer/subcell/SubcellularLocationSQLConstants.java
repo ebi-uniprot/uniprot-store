@@ -6,7 +6,7 @@ package uk.ac.ebi.uniprot.indexer.subcell;
  */
 public class SubcellularLocationSQLConstants {
 
-    public static final String SUBCELLULAR_LOCATION_STATISTICS_URL =
+    public static final String SUBCELLULAR_LOCATION_STATISTICS_QUERY =
             "SELECT COALESCE(r.identifier,u.identifier) as identifier, r.reviewedProteinCount, u.unreviewedProteinCount " +
                     "  FROM " +
                     "    (SELECT text identifier, count(1) as reviewedProteinCount " +
@@ -52,6 +52,7 @@ public class SubcellularLocationSQLConstants {
                     "         FROM temp t, " +
                     "              table(cast(multiset(SELECT level FROM dual connect by level <= length (regexp_replace(t.text, '[^.;,]+')) + 1) as sys.OdciNumberList)) levels " +
                     "     ) " +
-                    "GROUP BY text) u ON r.identifier = u.identifier";
+                    "GROUP BY text) u ON r.identifier = u.identifier " +
+                    "WHERE COALESCE(r.identifier,u.identifier) is not null";
 
 }
