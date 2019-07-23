@@ -30,6 +30,7 @@ import uk.ac.ebi.uniprot.domain.uniprot.comment.*;
 import uk.ac.ebi.uniprot.domain.uniprot.description.*;
 import uk.ac.ebi.uniprot.domain.uniprot.evidence.Evidence;
 import uk.ac.ebi.uniprot.domain.uniprot.feature.Feature;
+import uk.ac.ebi.uniprot.domain.uniprot.feature.FeatureType;
 import uk.ac.ebi.uniprot.domain.uniprot.taxonomy.OrganismHost;
 import uk.ac.ebi.uniprot.domain.uniprot.xdb.UniProtDBCrossReference;
 import uk.ac.ebi.uniprot.flatfile.parser.ffwriter.FFLineBuilder;
@@ -664,6 +665,17 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtEntry, Un
                     break;
             }
         }
+
+        doc.proteinsWith.removeIf(this::filterUnnecessaryProteinsWithCommentTypes);
+    }
+
+    private boolean filterUnnecessaryProteinsWithCommentTypes(String commentType) {
+        return commentType.equalsIgnoreCase(CommentType.MISCELLANEOUS.toString()) ||
+                commentType.equalsIgnoreCase(CommentType.SIMILARITY.toString()) ||
+                commentType.equalsIgnoreCase(CommentType.CAUTION.toString()) ||
+                commentType.equalsIgnoreCase(CommentType.SEQUENCE_CAUTION.toString()) ||
+                commentType.equalsIgnoreCase(CommentType.WEBRESOURCE.toString()) ||
+                commentType.equalsIgnoreCase(CommentType.UNKNOWN.toString());
     }
 
     private void convertCatalyticActivity(CatalyticActivityComment comment) {
@@ -1083,6 +1095,9 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtEntry, Un
 
         }
         japiDocument.d3structure = d3structure;
+        if (d3structure) {
+            japiDocument.proteinsWith.add("3dstructure");
+        }
     }
 
     private void addXrefId(String id, String dbname, Collection<String> values) {
@@ -1138,6 +1153,15 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtEntry, Un
                     .computeIfAbsent(evField, k -> new HashSet<>());
             evidenceList.addAll(evidences);
         }
+        japiDocument.proteinsWith.removeIf(this::filterUnnecessaryProteinsWithFeatureTypes);
+    }
+
+    private boolean filterUnnecessaryProteinsWithFeatureTypes(String featureType) {
+        return featureType.equalsIgnoreCase(FeatureType.SITE.toString()) ||
+                featureType.equalsIgnoreCase(FeatureType.UNSURE.toString()) ||
+                featureType.equalsIgnoreCase(FeatureType.CONFLICT.toString()) ||
+                featureType.equalsIgnoreCase(FeatureType.NON_CONS.toString()) ||
+                featureType.equalsIgnoreCase(FeatureType.NON_TER.toString());
     }
 
     private void setFragmentNPrecursor(UniProtEntry source, UniProtDocument japiDocument) {

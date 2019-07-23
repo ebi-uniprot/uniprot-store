@@ -317,8 +317,10 @@ class UniProtEntryConverterTest {
         assertEquals(5, doc.referenceJournals.size());
         assertTrue(doc.referenceJournals.contains("Genome Res."));
 
-        assertEquals(18, doc.proteinsWith.size());
+        assertEquals(15, doc.proteinsWith.size());
         assertTrue(doc.proteinsWith.contains("chain"));
+        assertFalse(doc.proteinsWith.contains("similarity")); //filtered out
+        assertFalse(doc.proteinsWith.contains("conflict")); //filtered out
 
         assertEquals(10, doc.commentMap.keySet().size());
         assertTrue(doc.commentMap.containsKey(CC_SIMILARITY_FIELD));
