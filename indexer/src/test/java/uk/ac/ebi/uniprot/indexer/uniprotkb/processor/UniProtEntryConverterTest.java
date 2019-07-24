@@ -874,8 +874,7 @@ class UniProtEntryConverterTest {
         assertNotNull(doc);
         assertEquals(6, doc.commentMap.get(CC_SEQUENCE_CAUTION_FIELD).size());
 
-        assertEquals(1, doc.proteinsWith.size());
-        assertTrue(doc.proteinsWith.contains("sequence_caution"));
+        assertEquals(0, doc.proteinsWith.size());
 
         assertTrue(doc.commentMap.containsKey(CC_SEQUENCE_CAUTION_FIELD));
         assertTrue(doc.commentMap.get(CC_SEQUENCE_CAUTION_FIELD).contains(sequenceCautionLineValue));
