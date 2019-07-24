@@ -14,7 +14,7 @@ import org.springframework.batch.core.StepExecution;
 import org.springframework.batch.core.StepExecutionListener;
 import org.springframework.batch.item.ExecutionContext;
 import uk.ac.ebi.uniprot.common.Utils;
-import uk.ac.ebi.uniprot.indexer.common.concurrency.OnZeroCountSleeper;
+import uk.ac.ebi.uniprot.common.concurrency.OnZeroCountSleeper;
 import uk.ac.ebi.uniprot.indexer.common.utils.Constants;
 
 import java.util.concurrent.atomic.AtomicInteger;

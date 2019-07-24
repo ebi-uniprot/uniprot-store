@@ -2,7 +2,7 @@ package uk.ac.ebi.uniprot.indexer.uniprotkb.config;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import uk.ac.ebi.uniprot.indexer.common.concurrency.TaskExecutorProperties;
+import uk.ac.ebi.uniprot.common.concurrency.TaskExecutorProperties;
 
 /**
  * Represents configuration properties required for the indexing of UniProtKB data.

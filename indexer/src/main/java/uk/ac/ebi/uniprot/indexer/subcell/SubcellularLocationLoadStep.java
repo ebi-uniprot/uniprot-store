@@ -12,8 +12,8 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.solr.core.SolrTemplate;
 import uk.ac.ebi.uniprot.cv.subcell.SubcellularLocationEntry;
+import uk.ac.ebi.uniprot.indexer.common.config.UniProtSolrOperations;
 import uk.ac.ebi.uniprot.indexer.common.utils.Constants;
 import uk.ac.ebi.uniprot.indexer.common.writer.SolrDocumentWriter;
 import uk.ac.ebi.uniprot.search.SolrCollection;
@@ -32,7 +32,7 @@ public class SubcellularLocationLoadStep {
     private StepBuilderFactory steps;
 
     @Autowired
-    private SolrTemplate solrTemplate;
+    private UniProtSolrOperations solrOperations;
 
     @Value(("${ds.import.chunk.size}"))
     private Integer chunkSize;
@@ -62,7 +62,7 @@ public class SubcellularLocationLoadStep {
 
     @Bean(name = "SubcellularLocationWriter")
     public ItemWriter<SubcellularLocationDocument> subcellularLocationWriter() {
-        return new SolrDocumentWriter<>(this.solrTemplate, SolrCollection.subcellularlocation);
+        return new SolrDocumentWriter<>(this.solrOperations, SolrCollection.subcellularlocation);
     }
 
     @Bean(name = "SubcellularLocationProcessor")

@@ -11,7 +11,7 @@ import org.springframework.batch.item.ExecutionContext;
 import org.springframework.batch.item.ItemWriter;
 import org.springframework.scheduling.annotation.Async;
 import uk.ac.ebi.uniprot.common.Utils;
-import uk.ac.ebi.uniprot.indexer.common.concurrency.OnZeroCountSleeper;
+import uk.ac.ebi.uniprot.common.concurrency.OnZeroCountSleeper;
 import uk.ac.ebi.uniprot.indexer.common.config.UniProtSolrOperations;
 import uk.ac.ebi.uniprot.indexer.common.listener.WriteRetrierLogJobListener;
 import uk.ac.ebi.uniprot.indexer.common.listener.WriteRetrierLogStepListener;

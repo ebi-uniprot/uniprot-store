@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.batch.core.JobExecution;
 import org.springframework.batch.core.StepExecution;
 import org.springframework.batch.item.ExecutionContext;
-import uk.ac.ebi.uniprot.indexer.common.concurrency.OnZeroCountSleeper;
+import uk.ac.ebi.uniprot.common.concurrency.OnZeroCountSleeper;
 import uk.ac.ebi.uniprot.indexer.common.config.UniProtSolrOperations;
 import uk.ac.ebi.uniprot.indexer.common.model.AbstractEntryDocumentPair;
 import uk.ac.ebi.uniprot.indexer.common.utils.Constants;

@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
-import uk.ac.ebi.uniprot.indexer.common.concurrency.TaskExecutorProperties;
+import uk.ac.ebi.uniprot.common.concurrency.TaskExecutorProperties;
 import uk.ac.ebi.uniprot.indexer.common.writer.EntryDocumentPairRetryWriter;
 
 import java.util.List;
