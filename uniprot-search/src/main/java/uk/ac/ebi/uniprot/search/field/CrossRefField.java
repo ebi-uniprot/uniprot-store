@@ -93,10 +93,6 @@ public interface CrossRefField {
         private String fieldName;
         private boolean isDefault;
 
-        ResultFields(String label, String fieldName) {
-            this(label, fieldName, false);
-        }
-
         ResultFields(String label, String fieldName, boolean isDefault) {
             this.label = label;
             this.fieldName = fieldName;
@@ -113,13 +109,6 @@ public interface CrossRefField {
 
         public boolean isDefault() {
             return this.isDefault;
-        }
-
-        public static String getDefaultFields() {
-            return Arrays.stream(ResultFields.values())
-                    .filter(f -> f.isDefault)
-                    .map(f -> f.name())
-                    .collect(Collectors.joining(","));
         }
 
         @Override
