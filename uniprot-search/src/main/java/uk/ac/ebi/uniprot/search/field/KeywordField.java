@@ -88,22 +88,37 @@ public interface KeywordField {
 
     }
 
-    public enum ResultFields implements ReturnField{
+    enum ResultFields implements ReturnField {
+
         id("Keyword ID"),
+        keyword("Keyword", "keyword", true),
         name("Name"),
-        description("Description"),
-        category("Category"),
-        synonym("Synonyms"),
-        gene_ontology("Gene Ontology"),
-        sites("Sites"),
-        children("Children"),
-        parent("Parents"),
-        statistics("Statistics");
+        description("Description", "definition"),
+        category("Category", "category"),
+        synonym("Synonyms", "synonyms"),
+        gene_ontology("Gene Ontology", "geneOntologies"),
+        sites("Sites", "sites"),
+        children("Children", "children"),
+        parent("Parents", "parents"),
+        statistics("Statistics", "statistics");
 
         private String label;
+        private String javaFieldName;
+        private boolean isMandatoryJsonField; // flag to indicate field which will always be present in
+                                              // Json response no matter what 'fields' are pass in request
 
-        private ResultFields(String label) {
+        ResultFields(String label){
+            this(label, null);
+        }
+
+        ResultFields(String label, String javaFieldName) {
+            this(label, javaFieldName, false);
+        }
+
+        ResultFields(String label, String javaFieldName, boolean isMandatoryJsonField) {
             this.label = label;
+            this.javaFieldName = javaFieldName;
+            this.isMandatoryJsonField = isMandatoryJsonField;
         }
 
         public String getLabel() {
@@ -115,6 +130,16 @@ public interface KeywordField {
 			 return Arrays.stream(ResultFields.values())
 	                    .anyMatch(returnItem -> returnItem.name().equalsIgnoreCase(fieldName));
 		}
+
+		@Override
+        public String getJavaFieldName(){
+            return this.javaFieldName;
+        }
+
+        @Override
+        public boolean isMandatoryJsonField(){
+            return this.isMandatoryJsonField;
+        }
     }
 
     enum Return {

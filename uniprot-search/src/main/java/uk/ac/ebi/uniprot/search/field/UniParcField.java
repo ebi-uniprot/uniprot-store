@@ -15,11 +15,11 @@ import java.util.stream.Collectors;
 */
 
 public interface UniParcField {
-	public enum Return {
+	enum Return {
 		upi, entry_stored;
-	};
+	}
 	
-	public enum Sort {
+	 enum Sort {
 		upi("upi"),
 		length("length");
 
@@ -39,7 +39,7 @@ public interface UniParcField {
 		}
 	}
 	
-	public static enum Search implements SearchField {
+	enum Search implements SearchField {
 		upi(SearchFieldType.TERM, FieldValueValidator::isUpiValid, null), // uniprot entry accession
 		accession(SearchFieldType.TERM, FieldValueValidator::isAccessionValid, null), // uniprot entry accession
 		isoform(SearchFieldType.TERM, FieldValueValidator::isAccessionValid, null), // uniprot entry accession
@@ -107,6 +107,29 @@ public interface UniParcField {
 			return Arrays.stream(Search.values())
 					.filter(Search::hasBoostValue)
 					.collect(Collectors.toList());
+		}
+	}
+	enum ResultFields implements ReturnField{
+		uniParcId,
+		databaseCrossReferences,
+		sequence,
+		uniprotExclusionReason,
+		sequenceFeatures,
+		taxonomies;
+
+		@Override
+		public boolean hasReturnField(String fieldName) {
+			return false;
+		}
+
+		@Override
+		public String getJavaFieldName() {
+			return this.name();
+		}
+
+		@Override
+		public boolean isMandatoryJsonField() {
+			return false;
 		}
 	}
 }
