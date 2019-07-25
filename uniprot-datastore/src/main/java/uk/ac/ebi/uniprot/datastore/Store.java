@@ -9,5 +9,5 @@ import java.util.Collection;
  */
 @FunctionalInterface
 public interface Store {
-    <T> void save(Collection<T> items);
+    void save(Collection<?> items);
 }

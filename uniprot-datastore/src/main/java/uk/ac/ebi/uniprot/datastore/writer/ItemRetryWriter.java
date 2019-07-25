@@ -13,12 +13,10 @@ import org.springframework.scheduling.annotation.Async;
 import uk.ac.ebi.uniprot.common.Utils;
 import uk.ac.ebi.uniprot.common.concurrency.OnZeroCountSleeper;
 import uk.ac.ebi.uniprot.datastore.Store;
+import uk.ac.ebi.uniprot.datastore.listener.WriteRetrierLogJobListener;
+import uk.ac.ebi.uniprot.datastore.listener.WriteRetrierLogStepListener;
 import uk.ac.ebi.uniprot.datastore.model.EntryDocumentPair;
-import uk.ac.ebi.uniprot.indexer.common.config.UniProtSolrOperations;
-import uk.ac.ebi.uniprot.indexer.common.listener.WriteRetrierLogJobListener;
-import uk.ac.ebi.uniprot.indexer.common.listener.WriteRetrierLogStepListener;
-import uk.ac.ebi.uniprot.indexer.common.utils.Constants;
-import uk.ac.ebi.uniprot.search.SolrCollection;
+import uk.ac.ebi.uniprot.datastore.utils.Constants;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,7 +48,7 @@ import static org.slf4j.LoggerFactory.getLogger;
  * @author Edd
  */
 @Slf4j
-public abstract class ItemRetryWriter<T> implements ItemWriter<T> {
+public abstract class ItemRetryWriter<E> implements ItemWriter<E> {
     public static final String ITEM_WRITER_TASK_EXECUTOR = "itemWriterTaskExecutor";
     private static final Logger INDEXING_FAILED_LOGGER = getLogger("indexing-doc-write-failed-entries");
     private static final String ERROR_WRITING_ENTRIES_TO_SOLR = "Error writing entries to Solr: ";
@@ -68,7 +66,7 @@ public abstract class ItemRetryWriter<T> implements ItemWriter<T> {
 
     @Override
     @Async(ITEM_WRITER_TASK_EXECUTOR)
-    public void write(List<? extends T> items) {
+    public void write(List<? extends E> items) {
         try {
             Failsafe.with(retryPolicy)
                     .onFailure(failure -> logFailedEntriesToFile(items, failure.getFailure()))
@@ -99,17 +97,14 @@ public abstract class ItemRetryWriter<T> implements ItemWriter<T> {
 
     }
 
-    public abstract <I> String extractItemId(I item);
+    public abstract String extractItemId(E item);
 
-    public abstract <E> String entryToString(E entry);
+    public abstract String entryToString(E entry);
 
-    public Object itemToEntry(Object item) {
-        return item;
-    }
+    public abstract <D> D itemToEntry(E item);
 
-
-    private void writeEntriesToStore(List<? extends T> items) {
-        List<Object> convertedItems = items.stream()
+    private void writeEntriesToStore(List<? extends E> items) {
+        List<?> convertedItems = items.stream()
                 .map(this::itemToEntry)
                 .collect(Collectors.toList());
         store.save(convertedItems);
@@ -117,17 +112,17 @@ public abstract class ItemRetryWriter<T> implements ItemWriter<T> {
         recordItemsWereProcessed(convertedItems.size());
     }
 
-    private void logFailedEntriesToFile(List<? extends EntryDocumentPair<E, D>> entryDocumentPairs,
+    private void logFailedEntriesToFile(List<? extends E> items,
                                         Throwable throwable) {
         List<String> accessions = new ArrayList<>();
-        for (EntryDocumentPair<E, D> entryDocumentPair : entryDocumentPairs) {
-            String entryFF = entryToString(entryDocumentPair.getEntry());
-            accessions.add(extractItemId(entryDocumentPair.getDocument()));
+        for (E item : items) {
+            String entryFF = entryToString(item);
+            accessions.add(extractItemId(item));
             INDEXING_FAILED_LOGGER.error(entryFF);
         }
 
         log.error(ERROR_WRITING_ENTRIES_TO_SOLR + accessions, throwable);
-        failedWritingEntriesCount.addAndGet(entryDocumentPairs.size());
-        recordItemsWereProcessed(entryDocumentPairs.size());
+        failedWritingEntriesCount.addAndGet(items.size());
+        recordItemsWereProcessed(items.size());
     }
 }
