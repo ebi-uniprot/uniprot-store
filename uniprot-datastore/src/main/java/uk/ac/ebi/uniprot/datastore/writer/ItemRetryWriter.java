@@ -54,7 +54,7 @@ public abstract class ItemRetryWriter<T> implements ItemWriter<T> {
     public static final String ITEM_WRITER_TASK_EXECUTOR = "itemWriterTaskExecutor";
     private static final Logger INDEXING_FAILED_LOGGER = getLogger("indexing-doc-write-failed-entries");
     private static final String ERROR_WRITING_ENTRIES_TO_SOLR = "Error writing entries to Solr: ";
-    private final Store solrOperations;
+    private final Store store;
     private final RetryPolicy<Object> retryPolicy;
     private AtomicInteger failedWritingEntriesCount;
     private AtomicInteger writtenEntriesCount;
@@ -62,21 +62,17 @@ public abstract class ItemRetryWriter<T> implements ItemWriter<T> {
     private ExecutionContext executionContext;
 
     public ItemRetryWriter(Store store, RetryPolicy<Object> retryPolicy) {
-        this.solrOperations = store;
+        this.store = store;
         this.retryPolicy = retryPolicy;
     }
 
     @Override
     @Async(ITEM_WRITER_TASK_EXECUTOR)
-    public void write(List<? extends T> entryDocumentPairs) {
-        List<D> documents = entryDocumentPairs.stream()
-                .map(EntryDocumentPair::getDocument)
-                .collect(Collectors.toList());
-
+    public void write(List<? extends T> items) {
         try {
             Failsafe.with(retryPolicy)
-                    .onFailure(failure -> logFailedEntriesToFile(entryDocumentPairs, failure.getFailure()))
-                    .run(() -> writeEntriesToSolr(documents));
+                    .onFailure(failure -> logFailedEntriesToFile(items, failure.getFailure()))
+                    .run(() -> writeEntriesToStore(items));
         } catch (Exception e) {
             // already logged error
         }
@@ -103,14 +99,22 @@ public abstract class ItemRetryWriter<T> implements ItemWriter<T> {
 
     }
 
-    public abstract String extractItemId(D document);
+    public abstract <I> String extractItemId(I item);
 
-    public abstract String entryToString(E entry);
+    public abstract <E> String entryToString(E entry);
 
-    private void writeEntriesToSolr(List<D> items) {
-        solrOperations.save(items);
-        writtenEntriesCount.addAndGet(items.size());
-        recordItemsWereProcessed(items.size());
+    public Object itemToEntry(Object item) {
+        return item;
+    }
+
+
+    private void writeEntriesToStore(List<? extends T> items) {
+        List<Object> convertedItems = items.stream()
+                .map(this::itemToEntry)
+                .collect(Collectors.toList());
+        store.save(convertedItems);
+        writtenEntriesCount.addAndGet(convertedItems.size());
+        recordItemsWereProcessed(convertedItems.size());
     }
 
     private void logFailedEntriesToFile(List<? extends EntryDocumentPair<E, D>> entryDocumentPairs,
