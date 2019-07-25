@@ -17,8 +17,8 @@ import voldemort.versioning.Version;
 import voldemort.versioning.Versioned;
 
 import java.io.IOException;
+import java.time.Duration;
 import java.util.*;
-import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 /**
@@ -31,10 +31,10 @@ public abstract class VoldemortRemoteJsonBinaryStore<T> implements VoldemortClie
 
     private final StoreClient<String, byte[]> client;
 
-    private static final Logger logger = LoggerFactory.getLogger(VoldemortRemoteEntryStore.class);
+    private static final Logger logger = LoggerFactory.getLogger(VoldemortRemoteJsonBinaryStore.class);
     private static final int DEFAULT_MAX_CONNECTION = 20;
     private final StoreClientFactory factory;
-    private final RetryPolicy retryPolicy;
+    private final RetryPolicy<Object> retryPolicy;
     private final String storeName;
 
     public VoldemortRemoteJsonBinaryStore(String storeName, String... voldemortUrl) {
@@ -69,9 +69,9 @@ public abstract class VoldemortRemoteJsonBinaryStore<T> implements VoldemortClie
         }
         this.storeName = storeName;
         this.client = factory.getStoreClient(storeName);
-        retryPolicy = new RetryPolicy()
-                .retryOn(VoldemortException.class)
-                .withDelay(1, TimeUnit.MILLISECONDS)
+        retryPolicy = new RetryPolicy<>()
+                .handle(VoldemortException.class)
+                .withDelay(Duration.ofMillis(1))
                 .withMaxRetries(3);
     }
 

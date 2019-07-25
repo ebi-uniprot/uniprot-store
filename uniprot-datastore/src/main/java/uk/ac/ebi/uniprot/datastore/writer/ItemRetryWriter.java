@@ -91,9 +91,9 @@ public abstract class ItemRetryWriter<E> implements ItemWriter<E> {
         this.writtenEntriesCount = new AtomicInteger(0);
 
         executionContext
-                .put(Constants.INDEX_FAILED_ENTRIES_COUNT_KEY, this.failedWritingEntriesCount);
+                .put(Constants.DATASTORE_FAILED_ENTRIES_COUNT_KEY, this.failedWritingEntriesCount);
         executionContext
-                .put(Constants.INDEX_WRITTEN_ENTRIES_COUNT_KEY, this.writtenEntriesCount);
+                .put(Constants.DATASTORE_WRITTEN_ENTRIES_COUNT_KEY, this.writtenEntriesCount);
 
     }
 
@@ -101,7 +101,7 @@ public abstract class ItemRetryWriter<E> implements ItemWriter<E> {
 
     public abstract String entryToString(E entry);
 
-    public abstract <D> D itemToEntry(E item);
+    public abstract Object itemToEntry(E item);
 
     private void writeEntriesToStore(List<? extends E> items) {
         List<?> convertedItems = items.stream()

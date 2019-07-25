@@ -6,33 +6,31 @@ import net.jodah.failsafe.Failsafe;
 import net.jodah.failsafe.RetryPolicy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import uk.ac.ebi.uniprot.common.Utils;
 import voldemort.VoldemortException;
 import voldemort.client.ClientConfig;
 import voldemort.client.SocketStoreClientFactory;
 import voldemort.client.StoreClient;
 import voldemort.client.StoreClientFactory;
-import voldemort.versioning.Version;
 import voldemort.versioning.Versioned;
 
+import java.time.Duration;
 import java.util.*;
-import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 /**
  * Created 18/04/2016
- *
+ * <p>
  * This class contains common methods to save a voldemort entry remotely.
  *
  * @author wudong
  */
 public abstract class VoldemortRemoteEntryStore<T> implements VoldemortClient<T> {
-
-    protected final StoreClient<String, T> client;
-
     private static final Logger logger = LoggerFactory.getLogger(VoldemortRemoteEntryStore.class);
     private static final int DEFAULT_MAX_CONNECTION = 20;
+    protected final StoreClient<String, T> client;
     private final StoreClientFactory factory;
-    private final RetryPolicy retryPolicy;
+    private final RetryPolicy<Object> retryPolicy;
     private final String storeName;
 
     public VoldemortRemoteEntryStore(String storeName, String... voldemortUrl) {
@@ -41,23 +39,7 @@ public abstract class VoldemortRemoteEntryStore<T> implements VoldemortClient<T>
 
     @Inject
     public VoldemortRemoteEntryStore(int maxConnection, String storeName, String... voldemortUrl) {
-
-        Properties properties = new Properties();
-        String TIME_OUT_MS = "60000";
-
-        properties.setProperty(ClientConfig.CONNECTION_TIMEOUT_MS_PROPERTY, TIME_OUT_MS);
-        properties.setProperty(ClientConfig.SOCKET_TIMEOUT_MS_PROPERTY, TIME_OUT_MS);
-        properties.setProperty(ClientConfig.ROUTING_TIMEOUT_MS_PROPERTY, TIME_OUT_MS);
-        properties.setProperty(ClientConfig.MAX_CONNECTIONS_PER_NODE_PROPERTY, Integer.toString(maxConnection));
-        properties.setProperty(ClientConfig.SYS_CONNECTION_TIMEOUT_MS, TIME_OUT_MS);
-        properties.setProperty(ClientConfig.SYS_ROUTING_TIMEOUT_MS, TIME_OUT_MS);
-        properties.setProperty(ClientConfig.SYS_SOCKET_TIMEOUT_MS, TIME_OUT_MS);
-
-        ClientConfig clientConfig = new ClientConfig(properties);
-
-        clientConfig.setSocketBufferSize(1024 * 1204);
-        clientConfig.setBootstrapUrls(voldemortUrl);
-        factory = new SocketStoreClientFactory(clientConfig);
+        factory = new SocketStoreClientFactory(getClientConfig(maxConnection, voldemortUrl));
         try {
             if (factory.getFailureDetector().getAvailableNodeCount() == 0) {
                 throw new RuntimeException("Voldemort server is not available");
@@ -67,9 +49,9 @@ public abstract class VoldemortRemoteEntryStore<T> implements VoldemortClient<T>
         }
         this.storeName = storeName;
         this.client = factory.getStoreClient(storeName);
-        retryPolicy = new RetryPolicy()
-                .retryOn(VoldemortException.class)
-                .withDelay(1, TimeUnit.MILLISECONDS)
+        retryPolicy = new RetryPolicy<>()
+                .handle(VoldemortException.class)
+                .withDelay(Duration.ofMillis(2))
                 .withMaxRetries(3);
     }
 
@@ -77,7 +59,7 @@ public abstract class VoldemortRemoteEntryStore<T> implements VoldemortClient<T>
     public void saveEntry(T entry) {
         Timer.Context time = MetricsUtil.getMetricRegistryInstance().timer("voldemort-save-entry-time").time();
         String acc = getStoreId(entry);
-        Version put = client.put(acc, entry);
+        client.put(acc, entry);
         time.stop();
     }
 
@@ -85,17 +67,15 @@ public abstract class VoldemortRemoteEntryStore<T> implements VoldemortClient<T>
 
     public Optional<T> getEntry(String acc) {
         try {
-            Versioned<T> entryObjectVersioned =
-                    Failsafe.with(retryPolicy).get(() -> client.get(acc));
+            Versioned<T> entryObjectVersioned = Failsafe.with(retryPolicy).get(() -> client.get(acc));
 
-            if (entryObjectVersioned != null) {
+            if (Utils.nonNull(entryObjectVersioned)) {
                 return Optional.of(entryObjectVersioned.getValue());
             } else {
                 return Optional.empty();
             }
         } catch (Exception e) {
             logger.warn("Error getting entry from BDB store.", e);
-            // return Optional.empty();
             throw new RuntimeException("Error getting entry from BDB store", e);
         }
     }
@@ -117,7 +97,7 @@ public abstract class VoldemortRemoteEntryStore<T> implements VoldemortClient<T>
         HashMap<String, T> stringEntryObjectHashMap = new HashMap<>();
 
         all.forEach((key, value) ->
-                stringEntryObjectHashMap.put(key, value.getValue()));
+                            stringEntryObjectHashMap.put(key, value.getValue()));
 
         return stringEntryObjectHashMap;
     }
@@ -128,5 +108,24 @@ public abstract class VoldemortRemoteEntryStore<T> implements VoldemortClient<T>
 
     public void close() {
         this.factory.close();
+    }
+
+    private ClientConfig getClientConfig(int maxConnection, String[] voldemortUrl) {
+        Properties properties = new Properties();
+        String TIME_OUT_MS = "60000";
+
+        properties.setProperty(ClientConfig.CONNECTION_TIMEOUT_MS_PROPERTY, TIME_OUT_MS);
+        properties.setProperty(ClientConfig.SOCKET_TIMEOUT_MS_PROPERTY, TIME_OUT_MS);
+        properties.setProperty(ClientConfig.ROUTING_TIMEOUT_MS_PROPERTY, TIME_OUT_MS);
+        properties.setProperty(ClientConfig.MAX_CONNECTIONS_PER_NODE_PROPERTY, Integer.toString(maxConnection));
+        properties.setProperty(ClientConfig.SYS_CONNECTION_TIMEOUT_MS, TIME_OUT_MS);
+        properties.setProperty(ClientConfig.SYS_ROUTING_TIMEOUT_MS, TIME_OUT_MS);
+        properties.setProperty(ClientConfig.SYS_SOCKET_TIMEOUT_MS, TIME_OUT_MS);
+
+        ClientConfig clientConfig = new ClientConfig(properties);
+
+        clientConfig.setSocketBufferSize(1024 * 1204);
+        clientConfig.setBootstrapUrls(voldemortUrl);
+        return clientConfig;
     }
 }

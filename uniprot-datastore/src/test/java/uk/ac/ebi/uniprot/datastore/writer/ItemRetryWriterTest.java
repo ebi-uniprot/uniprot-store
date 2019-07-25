@@ -80,7 +80,7 @@ class ItemRetryWriterTest {
         }
 
         @Override
-        public <D> D itemToEntry(FakeEntry item) {
+        public Object itemToEntry(FakeEntry item) {
             return null;
         }
     }

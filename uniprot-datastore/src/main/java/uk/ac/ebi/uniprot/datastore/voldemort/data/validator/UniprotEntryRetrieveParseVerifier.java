@@ -7,7 +7,7 @@ import org.slf4j.LoggerFactory;
 import uk.ac.ebi.uniprot.datastore.voldemort.MetricsUtil;
 import uk.ac.ebi.uniprot.datastore.voldemort.VoldemortClient;
 import uk.ac.ebi.uniprot.datastore.voldemort.VoldemortEntryStoreBuilder;
-import uk.ac.ebi.uniprot.datastore.voldemort.uniprot.VoldemortRemoteUniprotEntryStore;
+import uk.ac.ebi.uniprot.datastore.voldemort.uniprot.VoldemortRemoteUniProtKBEntryStore;
 import uk.ac.ebi.uniprot.datastore.voldemort.uniprot.VoldemortUniprotStoreBuilderCommandParameters;
 import uk.ac.ebi.uniprot.domain.uniprot.UniProtEntry;
 import uk.ac.ebi.uniprot.domain.uniprot.UniProtEntryType;
@@ -137,7 +137,7 @@ public class UniprotEntryRetrieveParseVerifier {
 
         logger.info("Loading from file: {}", uniprotFFPath);
         logger.info("voldemort server: {}", voldemortUrl);
-        VoldemortClient<UniProtEntry> store = new VoldemortRemoteUniprotEntryStore("avro-uniprot",voldemortUrl);
+        VoldemortClient<UniProtEntry> store = new VoldemortRemoteUniProtKBEntryStore("avro-uniprot", voldemortUrl);
         UniprotEntryRetrieveParseVerifier dataVerification = new UniprotEntryRetrieveParseVerifier(store);
         dataVerification.executeVerification(uniprotFFPath);
 

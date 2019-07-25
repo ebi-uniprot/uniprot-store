@@ -4,7 +4,7 @@ import com.google.inject.name.Named;
 import uk.ac.ebi.uniprot.datastore.voldemort.VoldemortClient;
 import uk.ac.ebi.uniprot.datastore.voldemort.client.ClientFactory;
 import uk.ac.ebi.uniprot.datastore.voldemort.client.UniProtClient;
-import uk.ac.ebi.uniprot.datastore.voldemort.uniprot.VoldemortRemoteUniprotEntryStore;
+import uk.ac.ebi.uniprot.datastore.voldemort.uniprot.VoldemortRemoteUniProtKBEntryStore;
 import uk.ac.ebi.uniprot.domain.uniprot.UniProtEntry;
 
 public class DefaultClientFactory implements ClientFactory {
@@ -25,7 +25,7 @@ public class DefaultClientFactory implements ClientFactory {
     public DefaultClientFactory(String voldemortUrl, int numberOfConn, String storeName) {
         VoldemortClient<UniProtEntry> store =null;
        try{
-            store = new VoldemortRemoteUniprotEntryStore(numberOfConn, storeName, voldemortUrl);
+            store = new VoldemortRemoteUniProtKBEntryStore(numberOfConn, storeName, voldemortUrl);
        }catch(RuntimeException e){
            e.printStackTrace();
           

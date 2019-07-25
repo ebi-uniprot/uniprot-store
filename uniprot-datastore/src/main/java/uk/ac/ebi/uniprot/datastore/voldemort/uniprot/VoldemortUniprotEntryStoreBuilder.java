@@ -247,7 +247,7 @@ public class VoldemortUniprotEntryStoreBuilder extends VoldemortEntryStoreBuilde
 
         logger.info("Loading from file: {}", uniprotFFPath);
         logger.info("voldemort server: {}", voldemortUrl);
-        VoldemortRemoteUniprotEntryStore voldemortRemoteEntryStore = new VoldemortRemoteUniprotEntryStore("avro-uniprot",voldemortUrl);
+        VoldemortRemoteUniProtKBEntryStore voldemortRemoteEntryStore = new VoldemortRemoteUniProtKBEntryStore("avro-uniprot", voldemortUrl);
 
         VoldemortUniprotEntryStoreBuilder.setFilePaths(diseaseFilePath,keywordFilePath,goTermFilePath,subcellularLocationFilePath);
         VoldemortUniprotEntryStoreBuilder voldemortEntryStoreBuiler = new VoldemortUniprotEntryStoreBuilder(voldemortRemoteEntryStore, "uniprot");

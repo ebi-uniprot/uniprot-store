@@ -4,8 +4,7 @@ public class RetrievalException extends RuntimeException {
     public RetrievalException(){
         super();
     }
-    
-   
+
     public RetrievalException(String message) {
         super(message);
     }
@@ -17,5 +16,4 @@ public class RetrievalException extends RuntimeException {
     public RetrievalException(Throwable cause) {
         super(cause);
     }
-
 }

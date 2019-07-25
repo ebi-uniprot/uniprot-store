@@ -13,7 +13,6 @@
         <module>indexer</module>
         <module>integration-test</module>
         <module>uniprot-datastore</module>
-        <module>common-batch</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>

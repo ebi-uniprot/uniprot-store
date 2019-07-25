@@ -23,16 +23,16 @@ import java.util.concurrent.ThreadPoolExecutor;
 @Import(UniProtKBConfig.class)
 @Slf4j
 public class AsyncConfig {
-    private final UniProtKBDataStoreProperties uniProtKBDataStoreProperties;
+    private final UniProtKBStoreProperties uniProtKBStoreProperties;
 
     @Autowired
-    public AsyncConfig(UniProtKBDataStoreProperties indexingProperties) {
-        this.uniProtKBDataStoreProperties = indexingProperties;
+    public AsyncConfig(UniProtKBStoreProperties indexingProperties) {
+        this.uniProtKBStoreProperties = indexingProperties;
     }
 
     @Bean("itemProcessorTaskExecutor")
     public ThreadPoolTaskExecutor itemProcessorTaskExecutor() {
-        TaskExecutorProperties taskExecutorProperties = uniProtKBDataStoreProperties
+        TaskExecutorProperties taskExecutorProperties = uniProtKBStoreProperties
                 .getItemProcessorTaskExecutor();
         ThreadPoolTaskExecutor taskExecutor = createTaskExecutor(taskExecutorProperties);
         log.info("Using Item Processor task executor: {}", taskExecutorProperties);
@@ -45,7 +45,7 @@ public class AsyncConfig {
      */
     @Bean(ItemRetryWriter.ITEM_WRITER_TASK_EXECUTOR)
     public ThreadPoolTaskExecutor itemWriterTaskExecutor() {
-        TaskExecutorProperties taskExecutorProperties = uniProtKBDataStoreProperties
+        TaskExecutorProperties taskExecutorProperties = uniProtKBStoreProperties
                 .getItemWriterTaskExecutor();
         ThreadPoolTaskExecutor taskExecutor = createTaskExecutor(taskExecutorProperties);
         log.info("Using Item Writer task executor: {}", taskExecutorProperties);

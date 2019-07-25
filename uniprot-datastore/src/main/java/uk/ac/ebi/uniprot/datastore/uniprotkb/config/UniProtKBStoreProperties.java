@@ -12,8 +12,8 @@ import uk.ac.ebi.uniprot.common.concurrency.TaskExecutorProperties;
  * @author Edd
  */
 @Data
-@ConfigurationProperties(prefix = "uniprotkb.datastore")
-public class UniProtKBDataStoreProperties {
+@ConfigurationProperties(prefix = "uniprotkb.store")
+public class UniProtKBStoreProperties {
     private int chunkSize = 1000;
     private int writeRetryLimit = 100;
     private int writeRetryBackOffFromMillis = 50;
