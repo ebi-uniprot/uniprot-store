@@ -384,12 +384,12 @@ public interface UniProtField {
         }
 
         @Override
-        public Predicate<String> getFieldValueValidator(){
+        public Predicate<String> getFieldValueValidator() {
             return this.fieldValueValidator;
         }
 
         @Override
-        public SearchFieldType getSearchFieldType(){
+        public SearchFieldType getSearchFieldType() {
             return this.searchFieldType;
         }
 
@@ -406,7 +406,7 @@ public interface UniProtField {
     }
 
     // All the fields for uniprotkb entry object. For filtering using jsonresponse projector.please see class UniProtResultFields
-    enum ResultFields implements ReturnField{
+    enum ResultFields implements ReturnField {
         entryType("entryType", true),
         primaryAccession("primaryAccession", true),
         secondary_accession("secondaryAccessions"),
@@ -426,16 +426,23 @@ public interface UniProtField {
         xref("databaseCrossReferences"),
         sequence("sequence"),
         internalSection_internal("internalSection", true),
-        inactiveReason_internal("inactiveReason", true);
+        inactiveReason_internal("inactiveReason", true),
+        length,
+        mass;
+
 
         private String javaFieldName;
         private boolean isMandatoryJsonField;
 
-        ResultFields(String javaFieldName){
+        ResultFields(){
+            this(null);
+        }
+
+        ResultFields(String javaFieldName) {
             this(javaFieldName, false);
         }
 
-        ResultFields(String javaFieldName, boolean isMandatoryJsonField){
+        ResultFields(String javaFieldName, boolean isMandatoryJsonField) {
             this.javaFieldName = javaFieldName;
             this.isMandatoryJsonField = isMandatoryJsonField;
         }
