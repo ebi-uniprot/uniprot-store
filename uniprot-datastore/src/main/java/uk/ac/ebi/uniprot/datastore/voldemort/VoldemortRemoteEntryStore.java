@@ -25,6 +25,7 @@ import java.util.stream.Collectors;
  *
  * @author wudong
  */
+// TODO: 26/07/19 can be deleted since it's not used
 public abstract class VoldemortRemoteEntryStore<T> implements VoldemortClient<T> {
     private static final Logger logger = LoggerFactory.getLogger(VoldemortRemoteEntryStore.class);
     private static final int DEFAULT_MAX_CONNECTION = 20;
