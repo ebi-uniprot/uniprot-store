@@ -5,10 +5,9 @@ import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.slf4j.Logger;
-import uk.ac.ebi.uniprot.datastore.voldemort.VoldemortClient;
+import uk.ac.ebi.uniprot.datastore.UniProtStoreClient;
 import uk.ac.ebi.uniprot.indexer.converter.DocumentConverter;
 import uk.ac.ebi.uniprot.search.document.Document;
-import voldemort.versioning.ObsoleteVersionException;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -33,7 +32,7 @@ public class DataStoreManager {
     private static final Logger LOGGER = getLogger(DataStoreManager.class);
     private final SolrDataStoreManager solrDataStoreManager;
     private final Map<StoreType, SolrClient> solrClientMap = new HashMap<>();
-    private final Map<StoreType, VoldemortClient> voldemortMap = new HashMap<>();
+    private final Map<StoreType, UniProtStoreClient> storeMap = new HashMap<>();
     private final Map<StoreType, DocumentConverter> docConverterMap = new HashMap<>();
 
     public DataStoreManager(SolrDataStoreManager solrDataStoreManager) {
@@ -52,12 +51,12 @@ public class DataStoreManager {
     }
 
     public <T> void save(StoreType storeType, List<T> entries) {
-        saveToVoldemort(storeType, entries);
+        saveToStore(storeType, entries);
         saveEntriesInSolr(storeType, entries);
     }
 
     public <T> void save(StoreType storeType, T... entries) {
-        saveToVoldemort(storeType, asList(entries));
+        saveToStore(storeType, asList(entries));
         saveEntriesInSolr(storeType, asList(entries));
     }
 
@@ -65,8 +64,8 @@ public class DataStoreManager {
         solrClientMap.put(storeType, client);
     }
 
-    public void addVoldemort(StoreType storeType, VoldemortClient voldemortClient) {
-        voldemortMap.put(storeType, voldemortClient);
+    public void addStore(StoreType storeType, UniProtStoreClient storeClient) {
+        storeMap.put(storeType, storeClient);
     }
 
     public void addDocConverter(StoreType storeType, DocumentConverter converter) {
@@ -74,25 +73,26 @@ public class DataStoreManager {
     }
 
     @SuppressWarnings("unchecked")
-    public <T> void saveToVoldemort(StoreType storeType, List<T> entries) {
-        VoldemortClient voldemort = getVoldemort(storeType);
-        if(voldemort ==null)
-        	return;
+    public <T> void saveToStore(StoreType storeType, List<T> entries) {
+        UniProtStoreClient storeClient = getStore(storeType);
+        if (storeClient == null) {
+            return;
+        }
         int count = 0;
         for (Object o : entries) {
             try {
-                voldemort.saveEntry(o);
+                storeClient.saveEntry(o);
                 count++;
-            } catch (ObsoleteVersionException e) {
-                LOGGER.debug("Trying to add entry {} to voldemort again but it already exists -- skipping", o.toString());
+            } catch (Exception e) {
+                LOGGER.debug("Trying to add entry {} to data store again but a problem was encountered -- skipping", o);
             }
         }
 
-        LOGGER.debug("Added {} entries to voldemort", count);
+        LOGGER.debug("Added {} entries to data store", count);
     }
 
-    public <T> void saveToVoldemort(StoreType storeType, T... entries) {
-        saveToVoldemort(storeType, asList(entries));
+    public <T> void saveToStore(StoreType storeType, T... entries) {
+        saveToStore(storeType, asList(entries));
     }
 
     public SolrClient getSolrClient(StoreType storeType) {
@@ -138,16 +138,16 @@ public class DataStoreManager {
         saveEntriesInSolr(storeType, asList(entries));
     }
 
-    private VoldemortClient getVoldemort(StoreType storeType) {
-        return voldemortMap.get(storeType);
+    private UniProtStoreClient getStore(StoreType storeType) {
+        return storeMap.get(storeType);
     }
 
-    public <T> List<T> getVoldemortEntries(StoreType storeType, String... entries) {
-        return getVoldemortEntries(storeType, asList(entries));
+    public <T> List<T> getStoreEntries(StoreType storeType, String... entries) {
+        return getStoreEntries(storeType, asList(entries));
     }
 
-    public <S, T> List<T> getVoldemortEntries(StoreType storeType, List<String> entries) {
-        return getVoldemort(storeType).getEntries(entries);
+    public <S, T> List<T> getStoreEntries(StoreType storeType, List<String> entries) {
+        return getStore(storeType).getEntries(entries);
     }
 
     public void cleanSolr(StoreType storeType) {
