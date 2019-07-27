@@ -1,4 +1,4 @@
-package uk.ac.ebi.uniprot.datastore.writer;
+package uk.ac.ebi.uniprot.datastore.common.writer;
 
 import lombok.extern.slf4j.Slf4j;
 import net.jodah.failsafe.RetryPolicy;
@@ -9,7 +9,7 @@ import org.springframework.batch.core.StepExecution;
 import org.springframework.batch.item.ExecutionContext;
 import uk.ac.ebi.uniprot.common.concurrency.OnZeroCountSleeper;
 import uk.ac.ebi.uniprot.datastore.Store;
-import uk.ac.ebi.uniprot.datastore.model.AbstractEntryDocumentPair;
+import uk.ac.ebi.uniprot.datastore.common.model.AbstractEntryDocumentPair;
 import uk.ac.ebi.uniprot.datastore.utils.Constants;
 
 import java.util.ArrayList;
@@ -27,7 +27,7 @@ import static org.mockito.Mockito.*;
 class ItemRetryWriterTest {
     private RetryPolicy<Object> retryPolicy;
     private FakeStore fakeStoreMock;
-    private ItemRetryWriter<FakeEntry> writer;
+    private ItemRetryWriter<FakeEntry, FakeEntry> writer;
 
     @BeforeEach
     void beforeEach() {
@@ -64,7 +64,7 @@ class ItemRetryWriterTest {
         return pairs;
     }
 
-    private static class WriterUnderTest extends ItemRetryWriter<FakeEntry> {
+    private static class WriterUnderTest extends ItemRetryWriter<FakeEntry, FakeEntry> {
         private WriterUnderTest(Store store, RetryPolicy<Object> retryPolicy) {
             super(store, retryPolicy);
         }
@@ -80,7 +80,7 @@ class ItemRetryWriterTest {
         }
 
         @Override
-        public Object itemToEntry(FakeEntry item) {
+        public FakeEntry itemToEntry(FakeEntry item) {
             return null;
         }
     }
