@@ -1,4 +1,4 @@
-package uk.ac.ebi.uniprot.datastore.listener;
+package uk.ac.ebi.uniprot.datastore.common.listener;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

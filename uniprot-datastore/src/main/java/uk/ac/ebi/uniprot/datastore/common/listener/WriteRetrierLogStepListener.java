@@ -5,7 +5,7 @@
  *
  */
 
-package uk.ac.ebi.uniprot.datastore.listener;
+package uk.ac.ebi.uniprot.datastore.common.listener;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.BatchStatus;
@@ -15,7 +15,7 @@ import org.springframework.batch.core.StepExecutionListener;
 import org.springframework.batch.item.ExecutionContext;
 import uk.ac.ebi.uniprot.common.Utils;
 import uk.ac.ebi.uniprot.common.concurrency.OnZeroCountSleeper;
-import uk.ac.ebi.uniprot.indexer.common.utils.Constants;
+import uk.ac.ebi.uniprot.datastore.utils.Constants;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -39,7 +39,7 @@ public class WriteRetrierLogStepListener implements StepExecutionListener {
 
 
         AtomicInteger failedCountAtomicInteger = (AtomicInteger) executionContext
-                .get(Constants.INDEX_FAILED_ENTRIES_COUNT_KEY);
+                .get(Constants.STORE_FAILED_ENTRIES_COUNT_KEY);
         int failedCount = -1;
         if (failedCountAtomicInteger != null) {
             failedCount = failedCountAtomicInteger.get();
@@ -52,7 +52,7 @@ public class WriteRetrierLogStepListener implements StepExecutionListener {
         }
 
         AtomicInteger writtenCountAtomicInteger = (AtomicInteger) executionContext
-                .get(Constants.INDEX_WRITTEN_ENTRIES_COUNT_KEY);
+                .get(Constants.STORE_WRITTEN_ENTRIES_COUNT_KEY);
         int writtenCount = -1;
         if (writtenCountAtomicInteger != null) {
             writtenCount = writtenCountAtomicInteger.get();

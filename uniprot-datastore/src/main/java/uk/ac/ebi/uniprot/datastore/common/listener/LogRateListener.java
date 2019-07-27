@@ -1,4 +1,4 @@
-package uk.ac.ebi.uniprot.datastore.listener;
+package uk.ac.ebi.uniprot.datastore.common.listener;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.ItemWriteListener;
