@@ -9,7 +9,6 @@ import org.springframework.batch.core.configuration.annotation.StepBuilderFactor
 import org.springframework.batch.core.listener.ExecutionContextPromotionListener;
 import org.springframework.batch.item.ItemProcessor;
 import org.springframework.batch.item.ItemReader;
-import org.springframework.batch.item.ItemWriter;
 import org.springframework.batch.item.support.PassThroughItemProcessor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -19,9 +18,10 @@ import org.springframework.context.annotation.Import;
 import uk.ac.ebi.uniprot.cv.taxonomy.FileNodeIterable;
 import uk.ac.ebi.uniprot.cv.taxonomy.TaxonomyMapRepo;
 import uk.ac.ebi.uniprot.cv.taxonomy.TaxonomyRepo;
-import uk.ac.ebi.uniprot.datastore.Store;
-import uk.ac.ebi.uniprot.datastore.listener.LogRateListener;
-import uk.ac.ebi.uniprot.datastore.listener.WriteRetrierLogStepListener;
+import uk.ac.ebi.uniprot.datastore.UniProtStoreClient;
+import uk.ac.ebi.uniprot.datastore.common.config.StoreConfig;
+import uk.ac.ebi.uniprot.datastore.common.listener.LogRateListener;
+import uk.ac.ebi.uniprot.datastore.common.listener.WriteRetrierLogStepListener;
 import uk.ac.ebi.uniprot.datastore.uniprotkb.config.AsyncConfig;
 import uk.ac.ebi.uniprot.datastore.uniprotkb.config.UniProtKBConfig;
 import uk.ac.ebi.uniprot.datastore.uniprotkb.config.UniProtKBStoreProperties;
@@ -36,7 +36,7 @@ import uk.ac.ebi.uniprot.indexer.uniprot.pathway.PathwayRepo;
 
 import java.io.File;
 
-import static uk.ac.ebi.uniprot.datastore.utils.Constants.UNIPROTKB_DATASTORE_STEP;
+import static uk.ac.ebi.uniprot.datastore.utils.Constants.UNIPROTKB_STORE_STEP;
 
 
 /**
@@ -47,20 +47,17 @@ import static uk.ac.ebi.uniprot.datastore.utils.Constants.UNIPROTKB_DATASTORE_ST
  * @author Edd
  */
 @Configuration
-@Import({UniProtKBConfig.class, AsyncConfig.class})
+@Import({UniProtKBConfig.class, StoreConfig.class, AsyncConfig.class})
 @Slf4j
 public class UniProtKBStep {
     private final StepBuilderFactory stepBuilderFactory;
     private final UniProtKBStoreProperties uniProtKBStoreProperties;
-    private final Store voldemortStore;
 
     @Autowired
     public UniProtKBStep(StepBuilderFactory stepBuilderFactory,
-                         Store voldemortStore,
-                         UniProtKBStoreProperties indexingProperties) {
+                         UniProtKBStoreProperties uniProtKBStoreProperties) {
         this.stepBuilderFactory = stepBuilderFactory;
-        this.voldemortStore = voldemortStore;
-        this.uniProtKBStoreProperties = indexingProperties;
+        this.uniProtKBStoreProperties = uniProtKBStoreProperties;
     }
 
     @Bean(name = "uniProtKBDataStoreMainStep")
@@ -68,13 +65,12 @@ public class UniProtKBStep {
                                             @Qualifier("uniProtKB") LogRateListener<UniProtEntry> uniProtKBLogRateListener,
                                             ItemReader<UniProtEntry> entryItemReader,
                                             ItemProcessor<UniProtEntry, UniProtEntry> uniProtEntryPassThroughProcessor,
-                                            ItemWriter<UniProtEntry> uniProtEntryWriter,
+                                            UniProtEntryRetryWriter uniProtEntryWriter,
                                             ExecutionContextPromotionListener promotionListener) throws Exception {
 
-        return this.stepBuilderFactory.get(UNIPROTKB_DATASTORE_STEP)
+        return this.stepBuilderFactory.get(UNIPROTKB_STORE_STEP)
                 .listener(promotionListener)
-                .<UniProtEntry, UniProtEntry>
-                        chunk(uniProtKBStoreProperties.getChunkSize())
+                .<UniProtEntry, UniProtEntry>chunk(uniProtKBStoreProperties.getChunkSize())
                 .reader(entryItemReader)
                 .processor(uniProtEntryPassThroughProcessor)
                 .writer(uniProtEntryWriter)
@@ -98,8 +94,10 @@ public class UniProtKBStep {
 
     // ---------------------- Writers ----------------------
     @Bean
-    public ItemWriter<UniProtEntry> uniProtDocumentItemWriter(Store voldemortStore, RetryPolicy<Object> writeRetryPolicy) {
-        return new UniProtEntryRetryWriter(voldemortStore, writeRetryPolicy);
+    public UniProtEntryRetryWriter uniProtDocumentItemWriter(UniProtStoreClient<UniProtEntry> uniProtStoreClient,
+                                                             RetryPolicy<Object> writeRetryPolicy) {
+        return new UniProtEntryRetryWriter(entries -> entries
+                .forEach(uniProtStoreClient::saveEntry), writeRetryPolicy);
     }
 
     // ---------------------- Listeners ----------------------
@@ -109,7 +107,6 @@ public class UniProtKBStep {
     }
 
     // ---------------------- Source Data Access beans and helpers ----------------------
-
     /**
      * Needs to be a bean since it contains a @Cacheable annotation within, and Spring
      * will only scan for these annotations inside beans.
