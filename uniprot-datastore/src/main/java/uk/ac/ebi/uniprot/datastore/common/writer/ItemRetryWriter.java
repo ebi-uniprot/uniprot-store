@@ -1,4 +1,4 @@
-package uk.ac.ebi.uniprot.datastore.writer;
+package uk.ac.ebi.uniprot.datastore.common.writer;
 
 import lombok.extern.slf4j.Slf4j;
 import net.jodah.failsafe.Failsafe;
@@ -13,9 +13,9 @@ import org.springframework.scheduling.annotation.Async;
 import uk.ac.ebi.uniprot.common.Utils;
 import uk.ac.ebi.uniprot.common.concurrency.OnZeroCountSleeper;
 import uk.ac.ebi.uniprot.datastore.Store;
-import uk.ac.ebi.uniprot.datastore.listener.WriteRetrierLogJobListener;
-import uk.ac.ebi.uniprot.datastore.listener.WriteRetrierLogStepListener;
-import uk.ac.ebi.uniprot.datastore.model.EntryDocumentPair;
+import uk.ac.ebi.uniprot.datastore.common.listener.WriteRetrierLogJobListener;
+import uk.ac.ebi.uniprot.datastore.common.listener.WriteRetrierLogStepListener;
+import uk.ac.ebi.uniprot.datastore.common.model.EntryDocumentPair;
 import uk.ac.ebi.uniprot.datastore.utils.Constants;
 
 import java.util.ArrayList;
@@ -48,18 +48,18 @@ import static org.slf4j.LoggerFactory.getLogger;
  * @author Edd
  */
 @Slf4j
-public abstract class ItemRetryWriter<E> implements ItemWriter<E> {
+public abstract class ItemRetryWriter<E, S> implements ItemWriter<E> {
     public static final String ITEM_WRITER_TASK_EXECUTOR = "itemWriterTaskExecutor";
     private static final Logger INDEXING_FAILED_LOGGER = getLogger("indexing-doc-write-failed-entries");
     private static final String ERROR_WRITING_ENTRIES_TO_SOLR = "Error writing entries to Solr: ";
-    private final Store store;
+    private final Store<S> store;
     private final RetryPolicy<Object> retryPolicy;
     private AtomicInteger failedWritingEntriesCount;
     private AtomicInteger writtenEntriesCount;
     private OnZeroCountSleeper sleeper;
     private ExecutionContext executionContext;
 
-    public ItemRetryWriter(Store store, RetryPolicy<Object> retryPolicy) {
+    public ItemRetryWriter(Store<S> store, RetryPolicy<Object> retryPolicy) {
         this.store = store;
         this.retryPolicy = retryPolicy;
     }
@@ -91,9 +91,9 @@ public abstract class ItemRetryWriter<E> implements ItemWriter<E> {
         this.writtenEntriesCount = new AtomicInteger(0);
 
         executionContext
-                .put(Constants.DATASTORE_FAILED_ENTRIES_COUNT_KEY, this.failedWritingEntriesCount);
+                .put(Constants.STORE_FAILED_ENTRIES_COUNT_KEY, this.failedWritingEntriesCount);
         executionContext
-                .put(Constants.DATASTORE_WRITTEN_ENTRIES_COUNT_KEY, this.writtenEntriesCount);
+                .put(Constants.STORE_WRITTEN_ENTRIES_COUNT_KEY, this.writtenEntriesCount);
 
     }
 
@@ -101,10 +101,10 @@ public abstract class ItemRetryWriter<E> implements ItemWriter<E> {
 
     public abstract String entryToString(E entry);
 
-    public abstract Object itemToEntry(E item);
+    public abstract S itemToEntry(E item);
 
     private void writeEntriesToStore(List<? extends E> items) {
-        List<?> convertedItems = items.stream()
+        List<S> convertedItems = items.stream()
                 .map(this::itemToEntry)
                 .collect(Collectors.toList());
         store.save(convertedItems);
