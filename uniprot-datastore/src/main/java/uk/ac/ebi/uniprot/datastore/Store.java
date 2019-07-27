@@ -8,6 +8,6 @@ import java.util.Collection;
  * @author Edd
  */
 @FunctionalInterface
-public interface Store {
-    void save(Collection<?> items);
+public interface Store<S> {
+    void save(Collection<? extends S> items);
 }
