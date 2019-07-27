@@ -6,7 +6,7 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
-import uk.ac.ebi.uniprot.datastore.listener.ListenerConfig;
+import uk.ac.ebi.uniprot.datastore.common.listener.ListenerConfig;
 import uk.ac.ebi.uniprot.datastore.utils.Constants;
 
 import java.time.temporal.ChronoUnit;
@@ -37,8 +37,8 @@ public class UniProtKBConfig {
     @Bean
     public ExecutionContextPromotionListener promotionListener() {
         ExecutionContextPromotionListener executionContextPromotionListener = new ExecutionContextPromotionListener();
-        executionContextPromotionListener.setKeys(new String[]{Constants.DATASTORE_FAILED_ENTRIES_COUNT_KEY,
-                                                               Constants.DATASTORE_WRITTEN_ENTRIES_COUNT_KEY});
+        executionContextPromotionListener.setKeys(new String[]{Constants.STORE_FAILED_ENTRIES_COUNT_KEY,
+                                                               Constants.STORE_WRITTEN_ENTRIES_COUNT_KEY});
         return executionContextPromotionListener;
     }
 }
