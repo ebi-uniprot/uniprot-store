@@ -1,4 +1,4 @@
-package uk.ac.ebi.uniprot.datastore.model;
+package uk.ac.ebi.uniprot.datastore.common.model;
 
 import uk.ac.ebi.uniprot.domain.uniprot.UniProtEntry;
 

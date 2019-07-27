@@ -1,4 +1,4 @@
-package uk.ac.ebi.uniprot.datastore.model;
+package uk.ac.ebi.uniprot.datastore.common.model;
 
 /**
  * Created 18/04/19
