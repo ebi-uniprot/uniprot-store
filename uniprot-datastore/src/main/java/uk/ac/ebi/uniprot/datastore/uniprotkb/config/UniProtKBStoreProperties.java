@@ -35,4 +35,9 @@ public class UniProtKBStoreProperties {
     private String ecDir;
     private TaskExecutorProperties itemProcessorTaskExecutor = new TaskExecutorProperties();
     private TaskExecutorProperties itemWriterTaskExecutor = new TaskExecutorProperties();
+
+    // key-value store properties
+    private String host;
+    private int numberOfConnections;
+    private String storeName;
 }
