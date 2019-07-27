@@ -4,6 +4,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+/**
+ * Represents a client of the Voldemort key / value data-store.
+ * @param <T> the entity type being stored in Voldemort.
+ */
 public interface VoldemortClient<T> {
     String getStoreName();
 
