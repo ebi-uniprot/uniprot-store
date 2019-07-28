@@ -4,7 +4,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.JobExecution;
 import org.springframework.batch.core.JobExecutionListener;
 import org.springframework.batch.core.StepExecution;
-import uk.ac.ebi.uniprot.indexer.common.utils.Constants;
 
 import java.util.concurrent.TimeUnit;
 
@@ -12,12 +11,12 @@ import java.util.concurrent.TimeUnit;
 public class LogJobListener implements JobExecutionListener {
     @Override
     public void beforeJob(JobExecution jobExecution) {
-        log.info("Job {} starting ...", Constants.SUPPORTING_DATA_INDEX_JOB);
+        log.info("Job {} starting ...", jobExecution.getJobInstance().getJobName());
     }
 
     @Override
     public void afterJob(JobExecution jobExecution) {
-        log.info("Job {} completed.", Constants.SUPPORTING_DATA_INDEX_JOB);
+        log.info("Job {} completed.", jobExecution.getJobInstance().getJobName());
 
         long durationMillis = jobExecution.getEndTime().getTime() - jobExecution.getStartTime().getTime();
 

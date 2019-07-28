@@ -13,7 +13,7 @@ import org.springframework.scheduling.annotation.Async;
 import uk.ac.ebi.uniprot.common.Utils;
 import uk.ac.ebi.uniprot.common.concurrency.OnZeroCountSleeper;
 import uk.ac.ebi.uniprot.job.common.store.Store;
-import uk.ac.ebi.uniprot.job.common.util.Constants;
+import uk.ac.ebi.uniprot.job.common.util.CommonConstants;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -73,13 +73,6 @@ public abstract class ItemRetryWriter<E, S> implements ItemWriter<E> {
         }
     }
 
-    private void recordItemsWereProcessed(int numberOfItemsProcessed) {
-        if (!Utils.nonNull(sleeper)) {
-            this.sleeper = (OnZeroCountSleeper) executionContext.get(Constants.ENTRIES_TO_WRITE_COUNTER);
-        }
-        sleeper.minus(numberOfItemsProcessed);
-    }
-
     @BeforeStep
     public void setStepExecution(final StepExecution stepExecution) {
         this.executionContext = stepExecution.getJobExecution().getExecutionContext();
@@ -88,9 +81,16 @@ public abstract class ItemRetryWriter<E, S> implements ItemWriter<E> {
         this.writtenEntriesCount = new AtomicInteger(0);
 
         executionContext
-                .put(Constants.FAILED_ENTRIES_COUNT_KEY, this.failedWritingEntriesCount);
+                .put(CommonConstants.FAILED_ENTRIES_COUNT_KEY, this.failedWritingEntriesCount);
         executionContext
-                .put(Constants.WRITTEN_ENTRIES_COUNT_KEY, this.writtenEntriesCount);
+                .put(CommonConstants.WRITTEN_ENTRIES_COUNT_KEY, this.writtenEntriesCount);
+    }
+
+    private void recordItemsWereProcessed(int numberOfItemsProcessed) {
+        if (!Utils.nonNull(sleeper)) {
+            this.sleeper = (OnZeroCountSleeper) executionContext.get(CommonConstants.ENTRIES_TO_WRITE_COUNTER);
+        }
+        sleeper.minus(numberOfItemsProcessed);
     }
 
     public abstract String extractItemId(E item);

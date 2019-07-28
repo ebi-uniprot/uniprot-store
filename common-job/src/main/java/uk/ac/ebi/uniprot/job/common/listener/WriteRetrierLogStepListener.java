@@ -15,7 +15,7 @@ import org.springframework.batch.core.StepExecutionListener;
 import org.springframework.batch.item.ExecutionContext;
 import uk.ac.ebi.uniprot.common.Utils;
 import uk.ac.ebi.uniprot.common.concurrency.OnZeroCountSleeper;
-import uk.ac.ebi.uniprot.datastore.utils.Constants;
+import uk.ac.ebi.uniprot.job.common.util.CommonConstants;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -29,17 +29,16 @@ public class WriteRetrierLogStepListener implements StepExecutionListener {
     @Override
     public ExitStatus afterStep(StepExecution stepExecution) {
         ExecutionContext executionContext = stepExecution.getJobExecution().getExecutionContext();
-        if (executionContext.containsKey(Constants.ENTRIES_TO_WRITE_COUNTER)) {
+        if (executionContext.containsKey(CommonConstants.ENTRIES_TO_WRITE_COUNTER)) {
             OnZeroCountSleeper sleeper = (OnZeroCountSleeper) executionContext
-                    .get(Constants.ENTRIES_TO_WRITE_COUNTER);
+                    .get(CommonConstants.ENTRIES_TO_WRITE_COUNTER);
             if (Utils.nonNull(sleeper)) {
                 sleeper.sleepUntilZero();
             }
         }
 
-
         AtomicInteger failedCountAtomicInteger = (AtomicInteger) executionContext
-                .get(Constants.STORE_FAILED_ENTRIES_COUNT_KEY);
+                .get(CommonConstants.FAILED_ENTRIES_COUNT_KEY);
         int failedCount = -1;
         if (failedCountAtomicInteger != null) {
             failedCount = failedCountAtomicInteger.get();
@@ -52,7 +51,7 @@ public class WriteRetrierLogStepListener implements StepExecutionListener {
         }
 
         AtomicInteger writtenCountAtomicInteger = (AtomicInteger) executionContext
-                .get(Constants.STORE_WRITTEN_ENTRIES_COUNT_KEY);
+                .get(CommonConstants.WRITTEN_ENTRIES_COUNT_KEY);
         int writtenCount = -1;
         if (writtenCountAtomicInteger != null) {
             writtenCount = writtenCountAtomicInteger.get();
