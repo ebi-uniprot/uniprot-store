@@ -15,26 +15,16 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
-import uk.ac.ebi.uniprot.cv.taxonomy.FileNodeIterable;
-import uk.ac.ebi.uniprot.cv.taxonomy.TaxonomyMapRepo;
-import uk.ac.ebi.uniprot.cv.taxonomy.TaxonomyRepo;
 import uk.ac.ebi.uniprot.datastore.UniProtStoreClient;
 import uk.ac.ebi.uniprot.datastore.common.config.StoreConfig;
-import uk.ac.ebi.uniprot.datastore.common.listener.LogRateListener;
-import uk.ac.ebi.uniprot.datastore.common.listener.WriteRetrierLogStepListener;
 import uk.ac.ebi.uniprot.datastore.uniprotkb.config.AsyncConfig;
 import uk.ac.ebi.uniprot.datastore.uniprotkb.config.UniProtKBConfig;
 import uk.ac.ebi.uniprot.datastore.uniprotkb.config.UniProtKBStoreProperties;
 import uk.ac.ebi.uniprot.datastore.uniprotkb.reader.UniProtEntryItemReader;
 import uk.ac.ebi.uniprot.datastore.uniprotkb.writer.UniProtEntryRetryWriter;
 import uk.ac.ebi.uniprot.domain.uniprot.UniProtEntry;
-import uk.ac.ebi.uniprot.indexer.uniprot.go.GoRelationFileReader;
-import uk.ac.ebi.uniprot.indexer.uniprot.go.GoRelationFileRepo;
-import uk.ac.ebi.uniprot.indexer.uniprot.go.GoTermFileReader;
-import uk.ac.ebi.uniprot.indexer.uniprot.pathway.PathwayFileRepo;
-import uk.ac.ebi.uniprot.indexer.uniprot.pathway.PathwayRepo;
-
-import java.io.File;
+import uk.ac.ebi.uniprot.job.common.listener.LogRateListener;
+import uk.ac.ebi.uniprot.job.common.listener.WriteRetrierLogStepListener;
 
 import static uk.ac.ebi.uniprot.datastore.utils.Constants.UNIPROTKB_STORE_STEP;
 
@@ -60,7 +50,7 @@ public class UniProtKBStep {
         this.uniProtKBStoreProperties = uniProtKBStoreProperties;
     }
 
-    @Bean(name = "uniProtKBDataStoreMainStep")
+    @Bean(name = "uniProtKBStoreMainStep")
     public Step uniProtKBIndexingMainFFStep(WriteRetrierLogStepListener writeRetrierLogStepListener,
                                             @Qualifier("uniProtKB") LogRateListener<UniProtEntry> uniProtKBLogRateListener,
                                             ItemReader<UniProtEntry> entryItemReader,
@@ -107,26 +97,6 @@ public class UniProtKBStep {
     }
 
     // ---------------------- Source Data Access beans and helpers ----------------------
-    /**
-     * Needs to be a bean since it contains a @Cacheable annotation within, and Spring
-     * will only scan for these annotations inside beans.
-     *
-     * @return the GoRelationFileRepo
-     */
-    @Bean
-    public GoRelationFileRepo goRelationFileRepo() {
-        return new GoRelationFileRepo(
-                new GoRelationFileReader(uniProtKBStoreProperties.getGoDir()),
-                new GoTermFileReader(uniProtKBStoreProperties.getGoDir()));
-    }
-
-    private PathwayRepo createPathwayRepo() {
-        return new PathwayFileRepo(uniProtKBStoreProperties.getPathwayFile());
-    }
-
-    private TaxonomyRepo createTaxonomyRepo() {
-        return new TaxonomyMapRepo(new FileNodeIterable(new File(uniProtKBStoreProperties.getTaxonomyFile())));
-    }
 
     /**
      * Checks if the given object is a proxy, and unwraps it if it is.
