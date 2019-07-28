@@ -9,8 +9,8 @@ import org.springframework.batch.core.StepExecution;
 import org.springframework.batch.item.ExecutionContext;
 import uk.ac.ebi.uniprot.common.concurrency.OnZeroCountSleeper;
 import uk.ac.ebi.uniprot.datastore.common.model.AbstractEntryDocumentPair;
-import uk.ac.ebi.uniprot.datastore.utils.Constants;
 import uk.ac.ebi.uniprot.job.common.store.Store;
+import uk.ac.ebi.uniprot.job.common.util.CommonConstants;
 import uk.ac.ebi.uniprot.job.common.writer.ItemRetryWriter;
 
 import java.util.ArrayList;
@@ -37,7 +37,7 @@ class ItemRetryWriterTest {
         this.writer = new WriterUnderTest(items -> fakeStoreMock.saveToStore(items), this.retryPolicy);
         JobExecution mockJobExecution = new JobExecution(1L);
         ExecutionContext executionContext = new ExecutionContext();
-        executionContext.put(Constants.ENTRIES_TO_WRITE_COUNTER, new OnZeroCountSleeper());
+        executionContext.put(CommonConstants.ENTRIES_TO_WRITE_COUNTER, new OnZeroCountSleeper());
         mockJobExecution.setExecutionContext(executionContext);
         this.writer.setStepExecution(new StepExecution("fake step", mockJobExecution));
     }
@@ -66,7 +66,7 @@ class ItemRetryWriterTest {
     }
 
     private static class WriterUnderTest extends ItemRetryWriter<FakeEntry, FakeEntry> {
-        private WriterUnderTest(Store store, RetryPolicy<Object> retryPolicy) {
+        private WriterUnderTest(Store<FakeEntry> store, RetryPolicy<Object> retryPolicy) {
             super(store, retryPolicy);
         }
 
@@ -82,10 +82,9 @@ class ItemRetryWriterTest {
 
         @Override
         public FakeEntry itemToEntry(FakeEntry item) {
-            return null;
+            return item;
         }
     }
-
 
     private static class FakeEntry {
         FakeEntry(String entryId) {
@@ -110,7 +109,7 @@ class ItemRetryWriterTest {
     }
 
     private static class FakeStore {
-        public void saveToStore(Collection<?> items) {
+        void saveToStore(Collection<?> items) {
             log.info("Pretending to save items: {}", items);
         }
     }
