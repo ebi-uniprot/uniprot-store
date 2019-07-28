@@ -10,7 +10,7 @@ import org.springframework.batch.item.ExecutionContext;
 import uk.ac.ebi.uniprot.common.concurrency.OnZeroCountSleeper;
 import uk.ac.ebi.uniprot.job.common.model.AbstractEntryDocumentPair;
 import uk.ac.ebi.uniprot.job.common.store.Store;
-import uk.ac.ebi.uniprot.job.common.util.Constants;
+import uk.ac.ebi.uniprot.job.common.util.CommonConstants;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -36,7 +36,7 @@ class ItemRetryWriterTest {
         this.writer = new WriterUnderTest(items -> fakeStoreMock.saveToStore(items), this.retryPolicy);
         JobExecution mockJobExecution = new JobExecution(1L);
         ExecutionContext executionContext = new ExecutionContext();
-        executionContext.put(Constants.ENTRIES_TO_WRITE_COUNTER, new OnZeroCountSleeper());
+        executionContext.put(CommonConstants.ENTRIES_TO_WRITE_COUNTER, new OnZeroCountSleeper());
         mockJobExecution.setExecutionContext(executionContext);
         this.writer.setStepExecution(new StepExecution("fake step", mockJobExecution));
     }
@@ -81,7 +81,7 @@ class ItemRetryWriterTest {
 
         @Override
         public FakeEntry itemToEntry(FakeEntry item) {
-            return null;
+            return item;
         }
     }
 
