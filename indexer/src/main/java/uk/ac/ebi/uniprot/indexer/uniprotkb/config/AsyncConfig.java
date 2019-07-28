@@ -11,7 +11,8 @@ import uk.ac.ebi.uniprot.common.concurrency.TaskExecutorProperties;
 import uk.ac.ebi.uniprot.indexer.common.writer.EntryDocumentPairRetryWriter;
 
 import java.util.List;
-import java.util.concurrent.ThreadPoolExecutor;
+
+import static uk.ac.ebi.uniprot.job.common.concurrent.TaskExecutorPropertiesConverter.createThreadPoolTaskExecutor;
 
 /**
  * Created 11/07/19
@@ -34,7 +35,7 @@ public class AsyncConfig {
     public ThreadPoolTaskExecutor itemProcessorTaskExecutor() {
         TaskExecutorProperties taskExecutorProperties = uniProtKBIndexingProperties
                 .getItemProcessorTaskExecutor();
-        ThreadPoolTaskExecutor taskExecutor = createTaskExecutor(taskExecutorProperties);
+        ThreadPoolTaskExecutor taskExecutor = createThreadPoolTaskExecutor(taskExecutorProperties);
         log.info("Using Item Processor task executor: {}", taskExecutorProperties);
         return taskExecutor;
     }
@@ -47,22 +48,8 @@ public class AsyncConfig {
     public ThreadPoolTaskExecutor itemWriterTaskExecutor() {
         TaskExecutorProperties taskExecutorProperties = uniProtKBIndexingProperties
                 .getItemWriterTaskExecutor();
-        ThreadPoolTaskExecutor taskExecutor = createTaskExecutor(taskExecutorProperties);
+        ThreadPoolTaskExecutor taskExecutor = createThreadPoolTaskExecutor(taskExecutorProperties);
         log.info("Using Item Writer task executor: {}", taskExecutorProperties);
-        return taskExecutor;
-    }
-
-    private ThreadPoolTaskExecutor createTaskExecutor(TaskExecutorProperties taskExecutorProperties) {
-        ThreadPoolTaskExecutor taskExecutor = new ThreadPoolTaskExecutor();
-        taskExecutor.setCorePoolSize(taskExecutorProperties.getCorePoolSize());
-        taskExecutor.setMaxPoolSize(taskExecutorProperties.getMaxPoolSize());
-        taskExecutor.setQueueCapacity(taskExecutorProperties.getQueueCapacity());
-        taskExecutor.setKeepAliveSeconds(taskExecutorProperties.getKeepAliveSeconds());
-        taskExecutor.setAllowCoreThreadTimeOut(taskExecutorProperties.isAllowCoreThreadTimeout());
-        taskExecutor.setWaitForTasksToCompleteOnShutdown(taskExecutorProperties.isWaitForTasksToCompleteOnShutdown());
-        taskExecutor.setRejectedExecutionHandler(new ThreadPoolExecutor.CallerRunsPolicy());
-        taskExecutor.initialize();
-        taskExecutor.setThreadNamePrefix(taskExecutorProperties.getThreadNamePrefix());
         return taskExecutor;
     }
 }
