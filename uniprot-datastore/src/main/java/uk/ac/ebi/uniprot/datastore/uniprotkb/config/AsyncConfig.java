@@ -8,10 +8,11 @@ import org.springframework.context.annotation.Import;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import uk.ac.ebi.uniprot.common.concurrency.TaskExecutorProperties;
-import uk.ac.ebi.uniprot.datastore.common.writer.ItemRetryWriter;
+import uk.ac.ebi.uniprot.job.common.writer.ItemRetryWriter;
 
 import java.util.List;
-import java.util.concurrent.ThreadPoolExecutor;
+
+import static uk.ac.ebi.uniprot.job.common.concurrent.TaskExecutorPropertiesConverter.createThreadPoolTaskExecutor;
 
 /**
  * Created 11/07/19
@@ -30,15 +31,6 @@ public class AsyncConfig {
         this.uniProtKBStoreProperties = indexingProperties;
     }
 
-    @Bean("itemProcessorTaskExecutor")
-    public ThreadPoolTaskExecutor itemProcessorTaskExecutor() {
-        TaskExecutorProperties taskExecutorProperties = uniProtKBStoreProperties
-                .getItemProcessorTaskExecutor();
-        ThreadPoolTaskExecutor taskExecutor = createTaskExecutor(taskExecutorProperties);
-        log.info("Using Item Processor task executor: {}", taskExecutorProperties);
-        return taskExecutor;
-    }
-
     /**
      * Used by {@link ItemRetryWriter#write(List)}.
      * @return the task executor used when writing items
@@ -47,22 +39,8 @@ public class AsyncConfig {
     public ThreadPoolTaskExecutor itemWriterTaskExecutor() {
         TaskExecutorProperties taskExecutorProperties = uniProtKBStoreProperties
                 .getItemWriterTaskExecutor();
-        ThreadPoolTaskExecutor taskExecutor = createTaskExecutor(taskExecutorProperties);
+        ThreadPoolTaskExecutor taskExecutor = createThreadPoolTaskExecutor(taskExecutorProperties);
         log.info("Using Item Writer task executor: {}", taskExecutorProperties);
-        return taskExecutor;
-    }
-
-    private ThreadPoolTaskExecutor createTaskExecutor(TaskExecutorProperties taskExecutorProperties) {
-        ThreadPoolTaskExecutor taskExecutor = new ThreadPoolTaskExecutor();
-        taskExecutor.setCorePoolSize(taskExecutorProperties.getCorePoolSize());
-        taskExecutor.setMaxPoolSize(taskExecutorProperties.getMaxPoolSize());
-        taskExecutor.setQueueCapacity(taskExecutorProperties.getQueueCapacity());
-        taskExecutor.setKeepAliveSeconds(taskExecutorProperties.getKeepAliveSeconds());
-        taskExecutor.setAllowCoreThreadTimeOut(taskExecutorProperties.isAllowCoreThreadTimeout());
-        taskExecutor.setWaitForTasksToCompleteOnShutdown(taskExecutorProperties.isWaitForTasksToCompleteOnShutdown());
-        taskExecutor.setRejectedExecutionHandler(new ThreadPoolExecutor.CallerRunsPolicy());
-        taskExecutor.initialize();
-        taskExecutor.setThreadNamePrefix(taskExecutorProperties.getThreadNamePrefix());
         return taskExecutor;
     }
 }
