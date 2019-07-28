@@ -8,9 +8,10 @@ import org.springframework.batch.core.JobExecution;
 import org.springframework.batch.core.StepExecution;
 import org.springframework.batch.item.ExecutionContext;
 import uk.ac.ebi.uniprot.common.concurrency.OnZeroCountSleeper;
-import uk.ac.ebi.uniprot.datastore.Store;
 import uk.ac.ebi.uniprot.datastore.common.model.AbstractEntryDocumentPair;
 import uk.ac.ebi.uniprot.datastore.utils.Constants;
+import uk.ac.ebi.uniprot.job.common.store.Store;
+import uk.ac.ebi.uniprot.job.common.writer.ItemRetryWriter;
 
 import java.util.ArrayList;
 import java.util.Collection;
