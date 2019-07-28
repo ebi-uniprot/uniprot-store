@@ -6,8 +6,8 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
-import uk.ac.ebi.uniprot.datastore.common.listener.ListenerConfig;
 import uk.ac.ebi.uniprot.datastore.utils.Constants;
+import uk.ac.ebi.uniprot.job.common.listener.ListenerConfig;
 
 import java.time.temporal.ChronoUnit;
 
