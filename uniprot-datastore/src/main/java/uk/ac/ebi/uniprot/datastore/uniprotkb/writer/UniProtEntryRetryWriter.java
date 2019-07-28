@@ -2,11 +2,11 @@ package uk.ac.ebi.uniprot.datastore.uniprotkb.writer;
 
 import net.jodah.failsafe.RetryPolicy;
 import org.springframework.scheduling.annotation.Async;
-import uk.ac.ebi.uniprot.datastore.Store;
-import uk.ac.ebi.uniprot.datastore.common.writer.ItemRetryWriter;
 import uk.ac.ebi.uniprot.domain.uniprot.UniProtEntry;
 import uk.ac.ebi.uniprot.domain.uniprot.builder.UniProtEntryBuilder;
 import uk.ac.ebi.uniprot.flatfile.parser.ffwriter.impl.UniProtFlatfileWriter;
+import uk.ac.ebi.uniprot.job.common.store.Store;
+import uk.ac.ebi.uniprot.job.common.writer.ItemRetryWriter;
 import uk.ebi.uniprot.scorer.uniprotkb.UniProtEntryScored;
 
 import java.util.List;

@@ -7,11 +7,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import uk.ac.ebi.uniprot.datastore.common.listener.WriteRetrierLogJobListener;
+import uk.ac.ebi.uniprot.job.common.listener.WriteRetrierLogJobListener;
 
 import static uk.ac.ebi.uniprot.datastore.utils.Constants.UNIPROTKB_STORE_JOB;
 
-// TODO: 25/07/19 refactor *repos into common module
+// TODO: 25/07/19 refactor *repos into common module NO NEED
 // TODO: 25/07/19 refactor UUWstoreclient here, and call it uniprotstoreclient DONE
 // TODO: 25/07/19 rename uniprot -> uniprotkb, for this DONE
 // TODO: 25/07/19 rename datastore -> store DONE
@@ -35,7 +35,7 @@ public class UniProtKBJob {
     }
 
     @Bean
-    public Job uniProtKBIndexingJob(@Qualifier("uniProtKBDataStoreMainStep") Step uniProtKBDataStoreMainStep,
+    public Job uniProtKBIndexingJob(@Qualifier("uniProtKBStoreMainStep") Step uniProtKBDataStoreMainStep,
                                     WriteRetrierLogJobListener writeRetrierLogJobListener) {
         return this.jobBuilderFactory.get(UNIPROTKB_STORE_JOB)
                 .start(uniProtKBDataStoreMainStep)
