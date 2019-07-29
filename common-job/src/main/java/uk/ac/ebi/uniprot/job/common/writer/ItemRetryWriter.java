@@ -9,7 +9,6 @@ import org.springframework.batch.core.StepExecution;
 import org.springframework.batch.core.annotation.BeforeStep;
 import org.springframework.batch.item.ExecutionContext;
 import org.springframework.batch.item.ItemWriter;
-import org.springframework.scheduling.annotation.Async;
 import uk.ac.ebi.uniprot.common.Utils;
 import uk.ac.ebi.uniprot.common.concurrency.OnZeroCountSleeper;
 import uk.ac.ebi.uniprot.job.common.store.Store;
@@ -48,7 +47,7 @@ import static org.slf4j.LoggerFactory.getLogger;
 public abstract class ItemRetryWriter<E, S> implements ItemWriter<E> {
     public static final String ITEM_WRITER_TASK_EXECUTOR = "itemWriterTaskExecutor";
     private static final Logger INDEXING_FAILED_LOGGER = getLogger("indexing-doc-write-failed-entries");
-    private static final String ERROR_WRITING_ENTRIES_TO_SOLR = "Error writing entries to Solr: ";
+    private static final String ERROR_WRITING_ENTRIES_TO_STORE = "Error writing entries to Store: ";
     private final Store<S> store;
     private final RetryPolicy<Object> retryPolicy;
     private AtomicInteger failedWritingEntriesCount;
@@ -62,7 +61,7 @@ public abstract class ItemRetryWriter<E, S> implements ItemWriter<E> {
     }
 
     @Override
-    @Async(ITEM_WRITER_TASK_EXECUTOR)
+//    @Async(ITEM_WRITER_TASK_EXECUTOR)
     public void write(List<? extends E> items) {
         try {
             Failsafe.with(retryPolicy)
@@ -117,7 +116,7 @@ public abstract class ItemRetryWriter<E, S> implements ItemWriter<E> {
             INDEXING_FAILED_LOGGER.error(entryFF);
         }
 
-        log.error(ERROR_WRITING_ENTRIES_TO_SOLR + accessions, throwable);
+        log.error(ERROR_WRITING_ENTRIES_TO_STORE + accessions, throwable);
         failedWritingEntriesCount.addAndGet(items.size());
         recordItemsWereProcessed(items.size());
     }

@@ -9,6 +9,7 @@ import org.springframework.batch.core.configuration.annotation.StepBuilderFactor
 import org.springframework.batch.core.listener.ExecutionContextPromotionListener;
 import org.springframework.batch.item.ItemProcessor;
 import org.springframework.batch.item.ItemReader;
+import org.springframework.batch.item.ItemWriter;
 import org.springframework.batch.item.support.PassThroughItemProcessor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -16,8 +17,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import uk.ac.ebi.uniprot.datastore.UniProtStoreClient;
-import uk.ac.ebi.uniprot.datastore.common.config.StoreConfig;
 import uk.ac.ebi.uniprot.datastore.uniprotkb.config.AsyncConfig;
+import uk.ac.ebi.uniprot.datastore.uniprotkb.config.StoreConfig;
 import uk.ac.ebi.uniprot.datastore.uniprotkb.config.UniProtKBConfig;
 import uk.ac.ebi.uniprot.datastore.uniprotkb.config.UniProtKBStoreProperties;
 import uk.ac.ebi.uniprot.datastore.uniprotkb.reader.UniProtEntryItemReader;
@@ -30,7 +31,7 @@ import static uk.ac.ebi.uniprot.datastore.utils.Constants.UNIPROTKB_STORE_STEP;
 
 
 /**
- * The main UniProtKB indexing step.
+ * The main UniProtKB store step.
  * <p>
  * Created 10/04/19
  *
@@ -51,22 +52,22 @@ public class UniProtKBStep {
     }
 
     @Bean(name = "uniProtKBStoreMainStep")
-    public Step uniProtKBIndexingMainFFStep(WriteRetrierLogStepListener writeRetrierLogStepListener,
-                                            @Qualifier("uniProtKB") LogRateListener<UniProtEntry> uniProtKBLogRateListener,
-                                            ItemReader<UniProtEntry> entryItemReader,
-                                            ItemProcessor<UniProtEntry, UniProtEntry> uniProtEntryPassThroughProcessor,
-                                            UniProtEntryRetryWriter uniProtEntryWriter,
-                                            ExecutionContextPromotionListener promotionListener) throws Exception {
+    public Step uniProtKBStoreMainStep(WriteRetrierLogStepListener writeRetrierLogStepListener,
+                                       @Qualifier("uniProtKB") LogRateListener<UniProtEntry> uniProtKBLogRateListener,
+                                       ItemReader<UniProtEntry> entryItemReader,
+                                       ItemProcessor<UniProtEntry, UniProtEntry> uniProtEntryPassThroughProcessor,
+                                       ItemWriter<UniProtEntry> uniProtEntryItemWriter,
+                                       ExecutionContextPromotionListener promotionListener) throws Exception {
 
         return this.stepBuilderFactory.get(UNIPROTKB_STORE_STEP)
                 .listener(promotionListener)
                 .<UniProtEntry, UniProtEntry>chunk(uniProtKBStoreProperties.getChunkSize())
                 .reader(entryItemReader)
                 .processor(uniProtEntryPassThroughProcessor)
-                .writer(uniProtEntryWriter)
+                .writer(uniProtEntryItemWriter)
                 .listener(writeRetrierLogStepListener)
                 .listener(uniProtKBLogRateListener)
-                .listener(unwrapProxy(uniProtEntryWriter))
+                .listener(unwrapProxy(uniProtEntryItemWriter))
                 .build();
     }
 
@@ -84,10 +85,10 @@ public class UniProtKBStep {
 
     // ---------------------- Writers ----------------------
     @Bean
-    public UniProtEntryRetryWriter uniProtDocumentItemWriter(UniProtStoreClient<UniProtEntry> uniProtStoreClient,
-                                                             RetryPolicy<Object> writeRetryPolicy) {
-        return new UniProtEntryRetryWriter(entries -> entries
-                .forEach(uniProtStoreClient::saveEntry), writeRetryPolicy);
+    public ItemWriter<UniProtEntry> uniProtEntryItemWriter(UniProtStoreClient<UniProtEntry> uniProtKBStoreClient,
+                                                           RetryPolicy<Object> writeRetryPolicy) {
+        return new UniProtEntryRetryWriter(entries -> entries.forEach(uniProtKBStoreClient::saveEntry),
+                                           writeRetryPolicy);
     }
 
     // ---------------------- Listeners ----------------------

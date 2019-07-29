@@ -96,6 +96,16 @@
             <groupId>uk.ac.ebi.uniprot</groupId>
             <artifactId>common-job</artifactId>
             <version>1.0-SNAPSHOT</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework.data</groupId>
+                    <artifactId>spring-data-solr</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.apache.solr</groupId>
+                    <artifactId>solr-core</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <dependency>
@@ -118,6 +128,14 @@
         <dependency>
             <groupId>org.springframework.batch</groupId>
             <artifactId>spring-batch-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>uk.ac.ebi.uniprot</groupId>
+            <artifactId>common-job</artifactId>
+            <version>1.0-SNAPSHOT</version>
+            <type>test-jar</type>
             <scope>test</scope>
         </dependency>
 

@@ -42,7 +42,7 @@ class ItemRetryWriterTest {
     }
 
     @Test
-    void whenWriteItemsSolrIsCalled() {
+    void whenWriteItemsStoreIsCalled() {
         List<FakeEntry> chunk = createFakeEntries(4);
         this.writer.write(chunk);
         verify(fakeStoreMock, times(1)).saveToStore(chunk);

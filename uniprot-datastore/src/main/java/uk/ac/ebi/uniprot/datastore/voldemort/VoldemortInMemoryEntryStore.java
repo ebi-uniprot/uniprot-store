@@ -39,8 +39,14 @@ public abstract class VoldemortInMemoryEntryStore<T> implements VoldemortClient<
         logger.info("Saving entry: {}", id);
 
         Store<String, T,String> store = this.getStore();
+        try {
+            Thread.sleep(2L);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         Versioned<T> versionedEntry = new Versioned<>(entry);
         store.put(id,versionedEntry,this.storeName);
+
     }
 
     public void updateEntry(T entry) {

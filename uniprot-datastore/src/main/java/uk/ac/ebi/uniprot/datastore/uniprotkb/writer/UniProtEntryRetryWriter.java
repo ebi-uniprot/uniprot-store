@@ -1,7 +1,6 @@
 package uk.ac.ebi.uniprot.datastore.uniprotkb.writer;
 
 import net.jodah.failsafe.RetryPolicy;
-import org.springframework.scheduling.annotation.Async;
 import uk.ac.ebi.uniprot.domain.uniprot.UniProtEntry;
 import uk.ac.ebi.uniprot.domain.uniprot.builder.UniProtEntryBuilder;
 import uk.ac.ebi.uniprot.flatfile.parser.ffwriter.impl.UniProtFlatfileWriter;
@@ -38,8 +37,9 @@ public class UniProtEntryRetryWriter extends ItemRetryWriter<UniProtEntry, UniPr
     }
 
     @Override
-    @Async(ITEM_WRITER_TASK_EXECUTOR)
+//    @Async(ITEM_WRITER_TASK_EXECUTOR)
     public void write(List<? extends UniProtEntry> items) {
+        System.out.println("*** + "+ items.stream().map(e -> ((UniProtEntry) e).getPrimaryAccession().getValue()).collect(Collectors.toList()));
         super.write(items.stream().map(this::addAnnotationScore).collect(Collectors.toList()));
     }
 

@@ -2,6 +2,7 @@ package uk.ac.ebi.uniprot.datastore.uniprotkb.config;
 
 import net.jodah.failsafe.RetryPolicy;
 import org.springframework.batch.core.listener.ExecutionContextPromotionListener;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -22,7 +23,12 @@ import static java.util.Collections.singletonList;
 @Import({ListenerConfig.class})
 @EnableConfigurationProperties({UniProtKBStoreProperties.class})
 public class UniProtKBConfig {
-    private UniProtKBStoreProperties uniProtKBStoreProperties = new UniProtKBStoreProperties();
+    private UniProtKBStoreProperties uniProtKBStoreProperties;
+
+    @Autowired
+    public UniProtKBConfig(UniProtKBStoreProperties uniProtKBStoreProperties) {
+        this.uniProtKBStoreProperties = uniProtKBStoreProperties;
+    }
 
     @Bean
     public RetryPolicy<Object> writeRetryPolicy() {
