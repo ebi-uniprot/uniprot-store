@@ -9,6 +9,7 @@ import org.springframework.batch.core.StepExecution;
 import org.springframework.batch.core.annotation.BeforeStep;
 import org.springframework.batch.item.ExecutionContext;
 import org.springframework.batch.item.ItemWriter;
+import org.springframework.scheduling.annotation.Async;
 import uk.ac.ebi.uniprot.common.Utils;
 import uk.ac.ebi.uniprot.common.concurrency.OnZeroCountSleeper;
 import uk.ac.ebi.uniprot.job.common.store.Store;
@@ -61,7 +62,7 @@ public abstract class ItemRetryWriter<E, S> implements ItemWriter<E> {
     }
 
     @Override
-//    @Async(ITEM_WRITER_TASK_EXECUTOR)
+    @Async(ITEM_WRITER_TASK_EXECUTOR)
     public void write(List<? extends E> items) {
         try {
             Failsafe.with(retryPolicy)
