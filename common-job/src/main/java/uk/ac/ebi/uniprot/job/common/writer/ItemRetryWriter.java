@@ -47,7 +47,7 @@ import static org.slf4j.LoggerFactory.getLogger;
 @Slf4j
 public abstract class ItemRetryWriter<E, S> implements ItemWriter<E> {
     public static final String ITEM_WRITER_TASK_EXECUTOR = "itemWriterTaskExecutor";
-    private static final Logger INDEXING_FAILED_LOGGER = getLogger("indexing-doc-write-failed-entries");
+    private static final Logger STORE_FAILED_LOGGER = getLogger("storing-write-failed-entries");
     private static final String ERROR_WRITING_ENTRIES_TO_STORE = "Error writing entries to Store: ";
     private final Store<S> store;
     private final RetryPolicy<Object> retryPolicy;
@@ -114,7 +114,7 @@ public abstract class ItemRetryWriter<E, S> implements ItemWriter<E> {
         for (E item : items) {
             String entryFF = entryToString(item);
             accessions.add(extractItemId(item));
-            INDEXING_FAILED_LOGGER.error(entryFF);
+            STORE_FAILED_LOGGER.error(entryFF);
         }
 
         log.error(ERROR_WRITING_ENTRIES_TO_STORE + accessions, throwable);

@@ -11,13 +11,6 @@ import uk.ac.ebi.uniprot.job.common.listener.WriteRetrierLogJobListener;
 
 import static uk.ac.ebi.uniprot.datastore.utils.Constants.UNIPROTKB_STORE_JOB;
 
-// TODO: 25/07/19 refactor *repos into common module NO NEED
-// TODO: 25/07/19 refactor UUWstoreclient here, and call it uniprotstoreclient DONE
-// TODO: 25/07/19 rename uniprot -> uniprotkb, for this DONE
-// TODO: 25/07/19 rename datastore -> store DONE
-// TODO: 27/07/19 added datastore configs DONE
-// TODO: 27/07/19 datastore configs for test
-
 /**
  * The main UniProtKB data storing job.
  * <p>
