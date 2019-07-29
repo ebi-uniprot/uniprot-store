@@ -16,10 +16,10 @@ import uk.ac.ebi.uniprot.datastore.test.FakeStoreSpringBootApplication;
 import uk.ac.ebi.uniprot.datastore.uniprotkb.config.StoreTestConfig;
 import uk.ac.ebi.uniprot.datastore.uniprotkb.config.UniProtKBStoreProperties;
 import uk.ac.ebi.uniprot.datastore.uniprotkb.step.UniProtKBStep;
-import uk.ac.ebi.uniprot.datastore.utils.Constants;
 import uk.ac.ebi.uniprot.domain.uniprot.UniProtEntry;
 import uk.ac.ebi.uniprot.job.common.TestUtils;
 import uk.ac.ebi.uniprot.job.common.listener.ListenerConfig;
+import uk.ac.ebi.uniprot.job.common.util.CommonConstants;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -46,8 +46,10 @@ import static uk.ac.ebi.uniprot.datastore.utils.Constants.UNIPROTKB_STORE_STEP;
 class UniProtKBJobIT {
     @Autowired
     private JobLauncherTestUtils jobLauncher;
+
     @Autowired
     private UniProtKBStoreProperties uniProtKBStoreProperties;
+
     @Autowired
     private UniProtStoreClient<UniProtEntry> uniProtKBStoreClient;
 
@@ -72,8 +74,8 @@ class UniProtKBJobIT {
                 .collect(Collectors.toList()).get(0);
 
         assertThat(kbStep.getReadCount(), is(5));
-        checkWriteCount(jobExecution, Constants.STORE_FAILED_ENTRIES_COUNT_KEY, 0);
-        checkWriteCount(jobExecution, Constants.STORE_WRITTEN_ENTRIES_COUNT_KEY, 5);
+        checkWriteCount(jobExecution, CommonConstants.FAILED_ENTRIES_COUNT_KEY, 0);
+        checkWriteCount(jobExecution, CommonConstants.WRITTEN_ENTRIES_COUNT_KEY, 5);
 
         // check that the accessions in the source file, are the ones that were written to Solr
         Set<String> sourceAccessions = readSourceAccessions();
