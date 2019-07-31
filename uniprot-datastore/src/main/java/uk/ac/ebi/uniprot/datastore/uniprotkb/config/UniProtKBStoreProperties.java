@@ -33,7 +33,6 @@ public class UniProtKBStoreProperties {
     private String taxonomyFile;
     private String chebiFile;
     private String ecDir;
-    private TaskExecutorProperties itemProcessorTaskExecutor = new TaskExecutorProperties();
     private TaskExecutorProperties itemWriterTaskExecutor = new TaskExecutorProperties();
 
     // key-value store properties
