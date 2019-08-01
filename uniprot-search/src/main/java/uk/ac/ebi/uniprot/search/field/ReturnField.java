@@ -7,6 +7,11 @@ public interface ReturnField {
 
     boolean hasReturnField(String fieldName);
     default String getJavaFieldName(){
-        return null;
+        return "";
+    }
+
+    // will the field to be returned in Json response in all cases?
+    default boolean isMandatoryJsonField(){
+        return false;
     }
 }

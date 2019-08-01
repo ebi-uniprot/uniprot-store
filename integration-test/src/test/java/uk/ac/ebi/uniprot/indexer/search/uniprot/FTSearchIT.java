@@ -4,7 +4,6 @@ import org.apache.solr.client.solrj.response.QueryResponse;
 import org.junit.BeforeClass;
 import org.junit.ClassRule;
 import org.junit.Test;
-
 import uk.ac.ebi.uniprot.domain.uniprot.feature.FeatureType;
 import uk.ac.ebi.uniprot.flatfile.parser.ffwriter.LineType;
 import uk.ac.ebi.uniprot.search.field.QueryBuilder;
@@ -57,7 +56,7 @@ public class FTSearchIT {
 
     @Test
     public void coiledFindEntrysWithEcoExactFF() {
-        String query = features(FeatureType.COILED, "{ECO:0000255}");
+        String query = featureEvidence(FeatureType.COILED, "ECO_0000255");
 
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -67,7 +66,7 @@ public class FTSearchIT {
 
     @Test
     public void coiledFindEntrysWithEcoInExact() {
-        String query = features(FeatureType.COILED, "ECO:0000255");
+        String query = featureEvidence(FeatureType.COILED, "ECO_0000255");
 
         QueryResponse response = searchEngine.getQueryResponse(query);
 

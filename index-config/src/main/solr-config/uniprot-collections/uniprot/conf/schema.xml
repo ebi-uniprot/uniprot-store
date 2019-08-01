@@ -482,6 +482,8 @@
     <field name="fragment" type="boolean" indexed="true" stored="false" required="false" multiValued="false"/>
     <field name="precursor" type="boolean" indexed="true" stored="false" required="false" multiValued="false"/>
     <field name="d3structure" type="boolean" indexed="true" stored="false" required="false" multiValued="false"/>
+    <field name="proteins_with" type="string" indexed="true" stored="false" required="false" multiValued="true"
+           docValues="true"/>
 
     <!-- Uniprot Entry Fields optional-->
     <field name="sec_acc" type="basic_ci" indexed="true" stored="false" required="false" multiValued="true"/>

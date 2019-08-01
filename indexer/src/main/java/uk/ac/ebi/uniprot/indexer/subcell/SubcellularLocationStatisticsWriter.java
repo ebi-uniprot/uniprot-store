@@ -1,5 +1,6 @@
 package uk.ac.ebi.uniprot.indexer.subcell;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.JobExecution;
 import org.springframework.batch.core.StepExecution;
 import org.springframework.batch.core.annotation.BeforeStep;
@@ -16,6 +17,7 @@ import java.util.stream.Collectors;
  * @author lgonzales
  * @since 2019-07-15
  */
+@Slf4j
 public class SubcellularLocationStatisticsWriter implements ItemWriter<SubcellularLocationStatisticsReader.SubcellularLocationCount> {
 
     private StepExecution stepExecution;
@@ -39,11 +41,14 @@ public class SubcellularLocationStatisticsWriter implements ItemWriter<Subcellul
                             xrefProtCount -> xrefProtCount)));
 
             executionContext.put(Constants.SUBCELLULAR_LOCATION_LOAD_STATISTICS_KEY, statisticsMap);
+        } else {
+            log.warn("IMPORTANT: SubcellularLocationStatisticsWriter.stepExecution is null, unable to write statistics");
         }
     }
 
     @BeforeStep
     public void setStepExecution(final StepExecution stepExecution) {
+        log.info("setStepExecution before step execution");
         this.stepExecution = stepExecution;
     }
 

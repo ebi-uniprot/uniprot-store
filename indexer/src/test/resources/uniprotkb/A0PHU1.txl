@@ -38,7 +38,6 @@ CC   -!- SIMILARITY: Belongs to the cytochrome b family.
 CC       {ECO:0000256|RuleBase:RU000300}.
 DR   EMBL; AY843351; AAY21540.1; -; Genomic_DNA.
 DR   EMBL; AY843352; AAY21541.1; -; Genomic_DNA.
-DR   ProteinModelPortal; A0PHU1; -.
 DR   SMR; A0PHU1; 3-378.
 DR   GO; GO:0016021; C:integral component of membrane; IDA:UniProtKB-KW.
 DR   GO; GO:0005739; C:mitochondrion; IEA:UniProtKB-KW.

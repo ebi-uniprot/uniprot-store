@@ -134,7 +134,7 @@ class SubcellularLocationJobIT {
         protected String getStatisticsSQL() {
             return "SELECT 'Acidocalcisome lumen' as identifier, 10 as reviewedProteinCount, 20  as unreviewedProteinCount from SPTR.DBENTRY where DBENTRY_ID=221555878" +
                     "UNION ALL SELECT 'Nucleolus' as identifier, 5 as reviewedProteinCount, 6  as unreviewedProteinCount  from SPTR.DBENTRY where DBENTRY_ID=221555878 " +
-                    "UNION ALL SELECT 'Nucleus lamina' as identifier, 6 as reviewedProteinCount, 7  as unreviewedProteinCount  from SPTR.DBENTRY where DBENTRY_ID=221555878 " +
+                    "UNION ALL SELECT 'Nucleus lamina' as identifier, 6 as reviewedProteinCount, null  as unreviewedProteinCount  from SPTR.DBENTRY where DBENTRY_ID=221555878 " +
                     "UNION ALL SELECT 'Nucleus matrix' as identifier, 7 as reviewedProteinCount, 8  as unreviewedProteinCount  from SPTR.DBENTRY where DBENTRY_ID=221555878 " +
                     "UNION ALL SELECT 'Perinuclear region' as identifier, 8 as reviewedProteinCount, 9  as unreviewedProteinCount  from SPTR.DBENTRY where DBENTRY_ID=221555878 " +
                     "UNION ALL SELECT 'Nucleoplasm' as identifier, 9 as reviewedProteinCount, 10  as unreviewedProteinCount  from SPTR.DBENTRY where DBENTRY_ID=221555878 ";

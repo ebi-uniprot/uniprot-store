@@ -1,8 +1,10 @@
 package uk.ac.ebi.uniprot.indexer.subcell;
 
 import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.jdbc.core.RowMapper;
 
+import java.io.Serializable;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -10,6 +12,7 @@ import java.sql.SQLException;
  * @author lgonzales
  * @since 2019-07-12
  */
+@Slf4j
 public class SubcellularLocationStatisticsReader implements RowMapper<SubcellularLocationStatisticsReader.SubcellularLocationCount> {
 
     @Override
@@ -21,7 +24,9 @@ public class SubcellularLocationStatisticsReader implements RowMapper<Subcellula
     }
 
     @Getter
-    public static class SubcellularLocationCount {
+    public static class SubcellularLocationCount implements Serializable {
+
+        private static final long serialVersionUID = 542822089533820233L;
         private final long reviewedProteinCount;
         private final long unreviewedProteinCount;
         private final String subcellularLocationId;
