@@ -30,6 +30,7 @@ import uk.ac.ebi.uniprot.domain.uniprot.comment.*;
 import uk.ac.ebi.uniprot.domain.uniprot.description.*;
 import uk.ac.ebi.uniprot.domain.uniprot.evidence.Evidence;
 import uk.ac.ebi.uniprot.domain.uniprot.feature.Feature;
+import uk.ac.ebi.uniprot.domain.uniprot.feature.FeatureType;
 import uk.ac.ebi.uniprot.domain.uniprot.taxonomy.OrganismHost;
 import uk.ac.ebi.uniprot.domain.uniprot.xdb.UniProtDBCrossReference;
 import uk.ac.ebi.uniprot.flatfile.parser.ffwriter.FFLineBuilder;
@@ -612,14 +613,15 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtEntry, Un
             String evField = getCommentEvField(comment);
             Collection<String> value = doc.commentMap.computeIfAbsent(field, k -> new ArrayList<>());
 
-            // todo @lgonzales doubt: can we change to without evidence??? because we already have the evidence map
-            String commentVal = fbuilder.buildStringWithEvidence(comment);
+            String commentVal = fbuilder.buildString(comment);
             value.add(commentVal);
             doc.content.add(commentVal);
 
             Collection<String> evValue = doc.commentEvMap.computeIfAbsent(evField, k -> new HashSet<>());
             Set<String> evidences = fetchEvidences(comment);
             evValue.addAll(evidences);
+
+            doc.proteinsWith.add(comment.getCommentType().name().toLowerCase());
 
             switch (comment.getCommentType()) {
                 case CATALYTIC_ACTIVITY:
@@ -653,6 +655,17 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtEntry, Un
                     break;
             }
         }
+
+        doc.proteinsWith.removeIf(this::filterUnnecessaryProteinsWithCommentTypes);
+    }
+
+    private boolean filterUnnecessaryProteinsWithCommentTypes(String commentType) {
+        return commentType.equalsIgnoreCase(CommentType.MISCELLANEOUS.toString()) ||
+                commentType.equalsIgnoreCase(CommentType.SIMILARITY.toString()) ||
+                commentType.equalsIgnoreCase(CommentType.CAUTION.toString()) ||
+                commentType.equalsIgnoreCase(CommentType.SEQUENCE_CAUTION.toString()) ||
+                commentType.equalsIgnoreCase(CommentType.WEBRESOURCE.toString()) ||
+                commentType.equalsIgnoreCase(CommentType.UNKNOWN.toString());
     }
 
     private void convertCatalyticActivity(CatalyticActivityComment comment) {
@@ -1072,6 +1085,9 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtEntry, Un
 
         }
         japiDocument.d3structure = d3structure;
+        if (d3structure) {
+            japiDocument.proteinsWith.add("3dstructure");
+        }
     }
 
     private void addXrefId(String id, String dbname, Collection<String> values) {
@@ -1111,9 +1127,10 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtEntry, Un
             String lengthField = getFeatureField(feature, FT_LENGTH);
             Collection<String> featuresOfTypeList = japiDocument.featuresMap
                     .computeIfAbsent(field, k -> new HashSet<>());
-            String featureText = fbuilder.buildStringWithEvidence(feature);
+            String featureText = fbuilder.buildString(feature);
             featuresOfTypeList.add(featureText);
             japiDocument.content.add(featureText);
+            japiDocument.proteinsWith.add(feature.getType().name().toLowerCase());
 
             // start and end of location
             int length = feature.getLocation().getEnd().getValue() - feature.getLocation().getStart().getValue() + 1;
@@ -1126,6 +1143,15 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtEntry, Un
                     .computeIfAbsent(evField, k -> new HashSet<>());
             evidenceList.addAll(evidences);
         }
+        japiDocument.proteinsWith.removeIf(this::filterUnnecessaryProteinsWithFeatureTypes);
+    }
+
+    private boolean filterUnnecessaryProteinsWithFeatureTypes(String featureType) {
+        return featureType.equalsIgnoreCase(FeatureType.SITE.toString()) ||
+                featureType.equalsIgnoreCase(FeatureType.UNSURE.toString()) ||
+                featureType.equalsIgnoreCase(FeatureType.CONFLICT.toString()) ||
+                featureType.equalsIgnoreCase(FeatureType.NON_CONS.toString()) ||
+                featureType.equalsIgnoreCase(FeatureType.NON_TER.toString());
     }
 
     private void setFragmentNPrecursor(UniProtEntry source, UniProtDocument japiDocument) {

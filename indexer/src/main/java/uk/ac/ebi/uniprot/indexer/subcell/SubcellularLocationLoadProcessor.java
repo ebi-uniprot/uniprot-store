@@ -2,6 +2,7 @@ package uk.ac.ebi.uniprot.indexer.subcell;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.StepExecution;
 import org.springframework.batch.core.annotation.BeforeStep;
 import org.springframework.batch.item.ItemProcessor;
@@ -22,6 +23,7 @@ import java.util.Map;
  * @author lgonzales
  * @since 2019-07-11
  */
+@Slf4j
 public class SubcellularLocationLoadProcessor implements ItemProcessor<SubcellularLocationEntry, SubcellularLocationDocument> {
 
     private final ObjectMapper subcellularLocationObjectMapper;
@@ -77,9 +79,12 @@ public class SubcellularLocationLoadProcessor implements ItemProcessor<Subcellul
 
     @BeforeStep
     public void getCrossRefProteinCountMap(final StepExecution stepExecution) {// get the cached data from previous step
-
+        log.info("Loading StepExecution Statistics Map SubcellularLocationLoadProcessor.subcellProteinCountMap");
         this.subcellProteinCountMap = (Map<String, SubcellularLocationStatisticsReader.SubcellularLocationCount>) stepExecution.getJobExecution()
                 .getExecutionContext().get(Constants.SUBCELLULAR_LOCATION_LOAD_STATISTICS_KEY);
+        if (this.subcellProteinCountMap == null) {
+            log.error("StepExecution Statistics Map is null");
+        }
     }
 
 }

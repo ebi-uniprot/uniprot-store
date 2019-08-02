@@ -56,7 +56,7 @@ public class SubcellularLocationStatisticsStep {
     }
 
     protected String getStatisticsSQL() {
-        return SubcellularLocationSQLConstants.SUBCELLULAR_LOCATION_STATISTICS_URL;
+        return SubcellularLocationSQLConstants.SUBCELLULAR_LOCATION_STATISTICS_QUERY;
     }
 
 }

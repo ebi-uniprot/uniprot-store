@@ -2,7 +2,6 @@ package uk.ac.ebi.uniprot.indexer.uniprotkb.processor;
 
 import org.apache.commons.io.IOUtils;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import uk.ac.ebi.uniprot.cv.chebi.Chebi;
 import uk.ac.ebi.uniprot.cv.chebi.ChebiBuilder;
@@ -92,8 +91,6 @@ class UniProtEntryConverterTest {
         dateFormat = new SimpleDateFormat("dd-MMM-yyyy");
     }
 
-    // TODO: 18/04/19 fix this test
-    @Disabled
     @Test
     void testConvertFullA0PHU1Entry() throws Exception {
         when(repoMock.retrieveNodeUsingTaxID(anyInt()))
@@ -116,7 +113,7 @@ class UniProtEntryConverterTest {
         assertEquals("09-JAN-2007", dateFormat.format(doc.firstCreated).toUpperCase());
         assertEquals("07-JAN-2015", dateFormat.format(doc.lastModified).toUpperCase());
 
-        assertEquals(16, doc.keywords.size());
+        assertEquals(24, doc.keywords.size());
         assertEquals("KW-0249", doc.keywords.get(0));
         assertEquals("Electron transport", doc.keywords.get(1));
 
@@ -142,13 +139,13 @@ class UniProtEntryConverterTest {
         assertEquals(1, doc.organismHostNames.size());
         assertEquals("Cichlasoma festae", doc.organismHostNames.get(0));
 
-        assertEquals(55, doc.xrefs.size());
+        assertEquals(52, doc.xrefs.size());
         assertTrue(doc.xrefs.contains("embl-AAY21541.1"));
         assertTrue(doc.xrefs.contains("embl-AAY21541"));
         assertTrue(doc.xrefs.contains("AAY21541.1"));
         assertTrue(doc.xrefs.contains("AAY21541"));
 
-        assertEquals(10, doc.databases.size());
+        assertEquals(8, doc.databases.size());
         assertTrue(doc.databases.contains("go"));
         assertTrue(doc.databases.contains("interpro"));
 
@@ -171,7 +168,7 @@ class UniProtEntryConverterTest {
         assertEquals(3, doc.commentMap.keySet().size());
         assertTrue(doc.commentMap.containsKey(CC_SIMILARITY_FIELD));
         assertTrue(doc.commentMap.get(CC_SIMILARITY_FIELD).
-                contains("SIMILARITY: Belongs to the cytochrome b family. {ECO:0000256|RuleBase:RU000300}."));
+                contains("SIMILARITY: Belongs to the cytochrome b family."));
 
         assertEquals(3, doc.commentEvMap.size());
         assertTrue(doc.commentEvMap.containsKey(CCEV_SIMILARITY_FIELD));
@@ -187,7 +184,7 @@ class UniProtEntryConverterTest {
         assertEquals(3, doc.commentMap.keySet().size());
         assertTrue(doc.commentMap.containsKey(CC_SIMILARITY_FIELD));
         assertTrue(doc.commentMap.get(CC_SIMILARITY_FIELD).
-                contains("SIMILARITY: Belongs to the cytochrome b family. {ECO:0000256|RuleBase:RU000300}."));
+                contains("SIMILARITY: Belongs to the cytochrome b family."));
 
         assertEquals(2, doc.cofactorChebi.size());
         assertTrue(doc.cofactorChebi.contains("heme"));
@@ -219,7 +216,7 @@ class UniProtEntryConverterTest {
         assertEquals(2, doc.goWithEvidenceMaps.size());
         assertTrue(doc.goWithEvidenceMaps.containsKey("go_ida"));
 
-        assertEquals(5, doc.score);
+        assertEquals(2, doc.score);
         assertNotNull(doc.avro_binary);
 
         assertFalse(doc.isIsoform);
@@ -320,14 +317,19 @@ class UniProtEntryConverterTest {
         assertEquals(5, doc.referenceJournals.size());
         assertTrue(doc.referenceJournals.contains("Genome Res."));
 
+        assertEquals(15, doc.proteinsWith.size());
+        assertTrue(doc.proteinsWith.contains("chain"));
+        assertFalse(doc.proteinsWith.contains("similarity")); //filtered out
+        assertFalse(doc.proteinsWith.contains("conflict")); //filtered out
+
         assertEquals(10, doc.commentMap.keySet().size());
         assertTrue(doc.commentMap.containsKey(CC_SIMILARITY_FIELD));
         assertTrue(doc.commentMap.get(CC_SIMILARITY_FIELD).
-                contains("SIMILARITY: Belongs to the NSMF family. {ECO:0000305}."));
+                contains("SIMILARITY: Belongs to the NSMF family."));
 
         assertTrue(doc.commentMap.containsKey(CC_SIMILARITY_FIELD));
         assertTrue(doc.commentMap.get(CC_SIMILARITY_FIELD).
-                contains("SIMILARITY: Belongs to the NSMF family. {ECO:0000305}."));
+                contains("SIMILARITY: Belongs to the NSMF family."));
 
         assertEquals(10, doc.commentEvMap.size());
         assertTrue(doc.commentEvMap.containsKey(CCEV_SIMILARITY_FIELD));
@@ -337,7 +339,7 @@ class UniProtEntryConverterTest {
         assertEquals(8, doc.featuresMap.size());
         assertTrue(doc.featuresMap.containsKey(FT_CONFLICT_FIELD));
         assertTrue(doc.featuresMap.get(FT_CONFLICT_FIELD).
-                contains("CONFLICT 174 174 K -> Q (in Ref. 3; AAH87719). {ECO:0000305}."));
+                contains("CONFLICT 174 174 K -> Q (in Ref. 3; AAH87719)."));
 
         assertEquals(8, doc.featureEvidenceMap.size());
         assertTrue(doc.featureEvidenceMap.containsKey(FTEV_CONFLICT_FIELD));
@@ -561,6 +563,9 @@ class UniProtEntryConverterTest {
         assertEquals(6, doc.referenceJournals.size());
         assertTrue(doc.referenceJournals.contains("Genome Res."));
 
+        assertEquals(1, doc.proteinsWith.size());
+        assertTrue(doc.proteinsWith.contains("alternative_products"));
+
         assertEquals(1, doc.commentMap.keySet().size());
         assertEquals(1, doc.commentMap.size());
         assertTrue(doc.commentMap.containsKey(CC_ALTERNATIVE_PRODUCTS_FIELD));
@@ -708,6 +713,9 @@ class UniProtEntryConverterTest {
         UniProtDocument doc = convertEntry(entry);
         assertNotNull(doc);
 
+        assertEquals(1, doc.proteinsWith.size());
+        assertTrue(doc.proteinsWith.contains("alternative_products"));
+
         assertTrue(doc.commentMap.containsKey(CC_ALTERNATIVE_PRODUCTS_FIELD));
         assertTrue(doc.commentMap.get(CC_ALTERNATIVE_PRODUCTS_FIELD).
                 contains(alternativeProductsLine));
@@ -734,12 +742,15 @@ class UniProtEntryConverterTest {
                 "CC       Note=Requires the presence of 3CDpro or 3CPro.\n" +
                 "CC       {ECO:0000250|UniProtKB:P03313};";
         String cofactorLineValue = "COFACTOR: RNA-directed RNA polymerase:\n" +
-                "Name=Mg(2+); Xref=ChEBI:CHEBI:18420; Evidence={ECO:0000250|UniProtKB:P03313};\n" +
-                "Note=Requires the presence of 3CDpro or 3CPro. {ECO:0000250|UniProtKB:P03313};";
+                "Name=Mg(2+); Xref=ChEBI:CHEBI:18420;\n" +
+                "Note=Requires the presence of 3CDpro or 3CPro.;";
 
         UniProtEntry entry = createUniProtEntryFromCommentLine(cofactorLine);
         UniProtDocument doc = convertEntry(entry);
         assertNotNull(doc);
+
+        assertEquals(1, doc.proteinsWith.size());
+        assertTrue(doc.proteinsWith.contains("cofactor"));
 
         assertEquals(1, doc.commentMap.keySet().size());
 
@@ -798,12 +809,15 @@ class UniProtEntryConverterTest {
 
         String phdependenceLineValue = "BIOPHYSICOCHEMICAL PROPERTIES:\n" +
                 "pH dependence:\n" +
-                "Optimum pH is 5.0 for protease activity. {ECO:0000269|PubMed:16603535};";
+                "Optimum pH is 5.0 for protease activity.;";
 
         UniProtEntry entry = createUniProtEntryFromCommentLine(bpcpLine);
         UniProtDocument doc = convertEntry(entry);
         assertNotNull(doc);
         assertEquals(3, doc.commentMap.get(CC_BIOPHYSICOCHEMICAL_PROPERTIES_FIELD).size());
+
+        assertEquals(1, doc.proteinsWith.size());
+        assertTrue(doc.proteinsWith.contains("biophysicochemical_properties"));
 
         assertTrue(doc.commentMap.containsKey(CC_BIOPHYSICOCHEMICAL_PROPERTIES_FIELD));
         assertTrue(doc.commentMap.get(CC_BIOPHYSICOCHEMICAL_PROPERTIES_FIELD).contains(phdependenceLineValue));
@@ -854,11 +868,13 @@ class UniProtEntryConverterTest {
                 "CC       Sequence=CAH10679.1; Type=Erroneous termination; Positions=431; Note=Translated as Trp.; Evidence={ECO:0000305};";
 
         String sequenceCautionLineValue = "SEQUENCE CAUTION:\n" +
-                "Sequence=CAB59730.1; Type=Frameshift; Positions=76, 138; Evidence={ECO:0000305};";
+                "Sequence=CAB59730.1; Type=Frameshift; Positions=76, 138;";
         UniProtEntry entry = createUniProtEntryFromCommentLine(sequenceCautionLine);
         UniProtDocument doc = convertEntry(entry);
         assertNotNull(doc);
         assertEquals(6, doc.commentMap.get(CC_SEQUENCE_CAUTION_FIELD).size());
+
+        assertEquals(0, doc.proteinsWith.size());
 
         assertTrue(doc.commentMap.containsKey(CC_SEQUENCE_CAUTION_FIELD));
         assertTrue(doc.commentMap.get(CC_SEQUENCE_CAUTION_FIELD).contains(sequenceCautionLineValue));
@@ -910,6 +926,9 @@ class UniProtEntryConverterTest {
         UniProtDocument doc = convertEntry(entry);
         assertNotNull(doc);
         assertEquals(2, doc.commentMap.get(CC_SUBCELLULAR_LOCATION_FIELD).size());
+
+        assertEquals(1, doc.proteinsWith.size());
+        assertTrue(doc.proteinsWith.contains("subcellular_location"));
 
         assertTrue(doc.commentMap.containsKey(CC_SUBCELLULAR_LOCATION_FIELD));
         assertTrue(doc.commentMap.get(CC_SUBCELLULAR_LOCATION_FIELD).contains(subcellularLocationLineValue));
