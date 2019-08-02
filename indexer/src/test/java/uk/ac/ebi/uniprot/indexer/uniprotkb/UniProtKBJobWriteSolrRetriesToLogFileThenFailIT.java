@@ -16,6 +16,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.Profile;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import uk.ac.ebi.uniprot.indexer.common.config.UniProtSolrOperations;
 import uk.ac.ebi.uniprot.indexer.common.listener.ListenerConfig;
@@ -65,6 +66,11 @@ import static uk.ac.ebi.uniprot.indexer.common.utils.Constants.UNIPROTKB_INDEX_S
                            UniProtKBJobWriteSolrRetriesToLogFileThenFailIT.RetryConfig.class,
                            SolrTestConfig.class, UniProtKBJob.class,
                            UniProtKBStep.class, SuggestionStep.class, ListenerConfig.class})
+@TestPropertySource(properties = {"uniprotkb.indexing.itemProcessorTaskExecutor.corePoolSize=1",
+                                  "uniprotkb.indexing.itemProcessorTaskExecutor.maxPoolSize=1",
+                                  "uniprotkb.indexing.itemWriterTaskExecutor.corePoolSize=1",
+                                  "uniprotkb.indexing.itemWriterTaskExecutor.maxPoolSize=1"}
+)
 class UniProtKBJobWriteSolrRetriesToLogFileThenFailIT {
     private static final String INDEXING_DOC_WRITE_FAILED_ENTRIES_LOG = "indexing-doc-write-failed-entries.error";
 
@@ -80,6 +86,7 @@ class UniProtKBJobWriteSolrRetriesToLogFileThenFailIT {
             SolrResponse.REMOTE_EXCEPTION); // .. chunk 3 failed to write
 
     @Test
+//    @Disabled
     void tooManyRetriesCauseAFailedIndexingJob() throws Exception {
         Path logFileForErrors = truncateErrorLogFileBeforeTest();
 
@@ -159,8 +166,8 @@ class UniProtKBJobWriteSolrRetriesToLogFileThenFailIT {
             return new UniProtEntryDocumentPairWriter(mockSolrTemplate,
                                                       SolrCollection.uniprot,
                                                       new RetryPolicy<>()
-                                                      .withMaxRetries(2)
-                                                      .withBackoff(1, 2, ChronoUnit.SECONDS));
+                                                              .withMaxRetries(2)
+                                                              .withBackoff(1, 2, ChronoUnit.SECONDS));
         }
     }
 }
