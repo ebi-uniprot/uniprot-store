@@ -97,12 +97,10 @@ class UniProtEntryConverterTest {
     void testConvertFullA0PHU1Entry() throws Exception {
         when(repoMock.retrieveNodeUsingTaxID(anyInt()))
                 .thenReturn(getTaxonomyNode(172543, "Cichlasoma festae", null, null, null));
-        Set<GoTerm> ancestors = new HashSet<>();
+       Set<GoTerm> ancestors = new HashSet<>();
         ancestors.addAll(getMockParentGoTerm());
         ancestors.addAll(getMockPartOfGoTerm());
         when(goRelationRepoMock.getAncestors("GO:0016021", asList(IS_A, PART_OF))).thenReturn(ancestors);
-
-
         String file = "A0PHU1.txl";
         UniProtEntry entry = parse(file);
         assertNotNull(entry);
