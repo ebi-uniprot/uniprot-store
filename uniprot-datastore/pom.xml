@@ -15,7 +15,6 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <start-class>uk.ac.ebi.uniprot.datastore.voldemort.uniprot.VoldemortUniprotEntryStoreBuilder</start-class>
         <failsafe.version>2.0.1</failsafe.version>
     </properties>
     
