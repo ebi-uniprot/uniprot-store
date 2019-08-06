@@ -4,7 +4,7 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>uk.ac.ebi.uniprot</groupId>
+        <groupId>org.uniprot</groupId>
         <artifactId>uniprot-indexer-parent</artifactId>
         <version>1.0-SNAPSHOT</version>
     </parent>
@@ -92,7 +92,7 @@
             <version>0.1-SNAPSHOT</version>
         </dependency>
         <dependency>
-            <groupId>uk.ac.ebi.uniprot</groupId>
+            <groupId>org.uniprot</groupId>
             <artifactId>common-job</artifactId>
             <version>1.0-SNAPSHOT</version>
             <exclusions>
@@ -131,7 +131,7 @@
         </dependency>
 
         <dependency>
-            <groupId>uk.ac.ebi.uniprot</groupId>
+            <groupId>org.uniprot</groupId>
             <artifactId>common-job</artifactId>
             <version>1.0-SNAPSHOT</version>
             <type>test-jar</type>

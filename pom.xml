@@ -2,7 +2,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>uk.ac.ebi.uniprot</groupId>
+    <groupId>org.uniprot</groupId>
     <artifactId>uniprot-indexer-parent</artifactId>
     <name>uniprot-indexer-parent</name>
     <packaging>pom</packaging>
@@ -198,7 +198,6 @@
         <jacoco.out.it.file>jacoco-it.exec</jacoco.out.it.file>
         <jacoco.itReportPath>${jacoco.outputDir}/${jacoco.out.it.file}</jacoco.itReportPath>
         <surefire-version>2.22.0</surefire-version>
-        <failsafe-version>2.22.0</failsafe-version>
         <jacoco.maven.version>0.8.1</jacoco.maven.version>
         <skipITs>false</skipITs>
         <skipUTs>false</skipUTs>

@@ -5,11 +5,11 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
-		<groupId>uk.ac.ebi.uniprot</groupId>
+		<groupId>org.uniprot</groupId>
 		<artifactId>uniprot-indexer-parent</artifactId>
 		<version>1.0-SNAPSHOT</version>
 	</parent>
-	<groupId>uk.ac.ebi.uniprot</groupId>
+	<groupId>org.uniprot</groupId>
 	<artifactId>uniprot-search</artifactId>
 	<version>1.0-SNAPSHOT</version>
 	<name>uniprot-search</name>
@@ -20,7 +20,7 @@
 	</properties>
 	<dependencies>
 		<dependency>
-			<groupId>uk.ac.ebi.uniprot</groupId>
+			<groupId>org.uniprot</groupId>
 			<artifactId>core-common</artifactId>
 			<version>0.1-SNAPSHOT</version>
 		</dependency>
