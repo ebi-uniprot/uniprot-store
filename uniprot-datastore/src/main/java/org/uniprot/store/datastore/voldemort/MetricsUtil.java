@@ -1,7 +1,8 @@
 package org.uniprot.store.datastore.voldemort;
 
-import com.codahale.metrics.JmxReporter;
+
 import com.codahale.metrics.MetricRegistry;
+import com.codahale.metrics.jmx.JmxReporter;
 
 /**
  * Created 24/05/2016
