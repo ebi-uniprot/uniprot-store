@@ -19,6 +19,18 @@
 		<solr.version>7.5.0</solr.version>
 	</properties>
 	<dependencies>
+	   <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>controlled-vocabulary</artifactId>
+            <version>0.1-SNAPSHOT</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>slf4j-simple</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+	
 		<dependency>
 			<groupId>org.uniprot</groupId>
 			<artifactId>core-common</artifactId>
