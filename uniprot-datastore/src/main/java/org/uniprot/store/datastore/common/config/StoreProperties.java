@@ -9,7 +9,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  * @author Edd
  */
 @Data
-@ConfigurationProperties(prefix = "store")
+//@ConfigurationProperties(prefix = "store")
 public class StoreProperties {
     private String host;
     private int numberOfConnections;

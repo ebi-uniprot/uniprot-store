@@ -1,6 +1,7 @@
 package org.uniprot.store.datastore.uniprotkb.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -21,6 +22,7 @@ import org.uniprot.store.datastore.voldemort.uniprot.VoldemortRemoteUniProtKBEnt
 @Profile("online")
 public class StoreConfig {
 //    private final StoreProperties storeProperties = new StoreProperties();
+	
     private final StoreProperties storeProperties;
 
     @Autowired
@@ -29,6 +31,7 @@ public class StoreConfig {
     }
 
     @Bean
+    @ConfigurationProperties(prefix = "store.uniprotkb")
     public UniProtStoreClient<UniProtEntry> uniProtKBStoreClient() {
         VoldemortClient<UniProtEntry> client = new VoldemortRemoteUniProtKBEntryStore(
                 storeProperties.getNumberOfConnections(),

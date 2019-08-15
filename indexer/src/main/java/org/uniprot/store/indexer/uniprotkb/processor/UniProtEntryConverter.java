@@ -46,6 +46,7 @@ import org.uniprot.store.indexer.uniprot.go.GoRelationRepo;
 import org.uniprot.store.indexer.uniprot.go.GoTerm;
 import org.uniprot.store.indexer.uniprot.pathway.PathwayRepo;
 import org.uniprot.store.indexer.util.DateUtils;
+import org.uniprot.store.indexer.util.TaxonomyRepoUtil;
 import org.uniprot.store.search.document.suggest.SuggestDictionary;
 import org.uniprot.store.search.document.suggest.SuggestDocument;
 import org.uniprot.store.search.document.uniprot.UniProtDocument;
@@ -259,17 +260,14 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtEntry, Un
 
     void setLineageTaxon(int taxId, UniProtDocument document) {
         if (taxId > 0) {
-            Optional<TaxonomicNode> taxonomicNode = taxonomyRepo.retrieveNodeUsingTaxID(taxId);
-
-            while (taxonomicNode.isPresent()) {
-                TaxonomicNode node = taxonomicNode.get();
-                int id = node.id();
-                document.taxLineageIds.add(id);
-                List<String> taxons = extractTaxonFromNode(node);
-                document.organismTaxon.addAll(taxons);
-                addTaxonSuggestions(id, taxons);
-                taxonomicNode = getParentTaxon(id);
-            }
+        	List<TaxonomicNode> nodes = TaxonomyRepoUtil.getTaxonomyLineage(taxonomyRepo, taxId);
+    		nodes.forEach(node -> {
+    			int id = node.id();
+    			document.taxLineageIds.add(id);
+    			List<String> taxons = TaxonomyRepoUtil.extractTaxonFromNode(node);
+    			 document.organismTaxon.addAll(taxons);
+    			 addTaxonSuggestions(id, taxons);
+    		});
         }
     }
 
@@ -437,7 +435,7 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtEntry, Un
             Optional<TaxonomicNode> taxonomicNode = taxonomyRepo.retrieveNodeUsingTaxID(taxonomyId);
             if (taxonomicNode.isPresent()) {
                 TaxonomicNode node = taxonomicNode.get();
-                List<String> extractedTaxoNode = extractTaxonFromNode(node);
+                List<String> extractedTaxoNode = TaxonomyRepoUtil.extractTaxonFromNode(node);
                 japiDocument.organismName.addAll(extractedTaxoNode);
                 japiDocument.organismSort = truncatedSortValue(String.join(" ", extractedTaxoNode));
 
@@ -1382,22 +1380,6 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtEntry, Un
         }
     }
 
-    private List<String> extractTaxonFromNode(TaxonomicNode node) {
-        List<String> taxonmyItems = new ArrayList<>();
-        if (node.scientificName() != null && !node.scientificName().isEmpty()) {
-            taxonmyItems.add(node.scientificName());
-        }
-        if (node.commonName() != null && !node.commonName().isEmpty()) {
-            taxonmyItems.add(node.commonName());
-        }
-        if (node.synonymName() != null && !node.synonymName().isEmpty()) {
-            taxonmyItems.add(node.synonymName());
-        }
-        if (node.mnemonic() != null && !node.mnemonic().isEmpty()) {
-            taxonmyItems.add(node.mnemonic());
-        }
-        return taxonmyItems;
-    }
 
     private List<Integer> extractOrganismHostsIds(Collection<OrganismHost> hosts) {
         return hosts.stream()
@@ -1409,7 +1391,7 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtEntry, Un
         return hosts.stream()
                 .map(ncbiId -> taxonomyRepo.retrieveNodeUsingTaxID(Math.toIntExact(ncbiId.getTaxonId())))
                 .filter(Optional::isPresent)
-                .flatMap(node -> extractTaxonFromNode(node.get()).stream())
+                .flatMap(node -> TaxonomyRepoUtil.extractTaxonFromNode(node.get()).stream())
                 .collect(Collectors.toList());
     }
 
@@ -1428,8 +1410,4 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtEntry, Un
         return field.replaceAll(" ", "_");
     }
 
-    private Optional<TaxonomicNode> getParentTaxon(int taxId) {
-        Optional<TaxonomicNode> optionalNode = taxonomyRepo.retrieveNodeUsingTaxID(taxId);
-        return optionalNode.filter(TaxonomicNode::hasParent).map(TaxonomicNode::parent);
-    }
 }

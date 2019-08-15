@@ -1,12 +1,6 @@
 package org.uniprot.store.indexer.proteome;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.common.base.Strings;
-import com.google.common.collect.Lists;
-
 import java.nio.ByteBuffer;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -24,7 +18,13 @@ import org.uniprot.core.uniprot.taxonomy.builder.TaxonomyBuilder;
 import org.uniprot.core.xml.jaxb.proteome.Proteome;
 import org.uniprot.core.xml.proteome.ProteomeConverter;
 import org.uniprot.store.indexer.converter.DocumentConverter;
+import org.uniprot.store.indexer.util.TaxonomyRepoUtil;
 import org.uniprot.store.search.document.proteome.ProteomeDocument;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.base.Strings;
+import com.google.common.collect.Lists;
 
 /**
  * @author jluo
@@ -89,7 +89,7 @@ public class ProteomeEntryConverter implements DocumentConverter<Proteome, Prote
         Optional<TaxonomicNode> taxonomicNode = taxonomyRepo.retrieveNodeUsingTaxID(taxonomyId);
         if (taxonomicNode.isPresent()) {
             TaxonomicNode node = taxonomicNode.get();
-            List<String> extractedTaxoNode = extractTaxonode(node);
+            List<String> extractedTaxoNode = TaxonomyRepoUtil.extractTaxonFromNode(node);
             document.organismName.addAll(extractedTaxoNode);
             document.organismTaxon.addAll(extractedTaxoNode);
         } else {
@@ -100,38 +100,15 @@ public class ProteomeEntryConverter implements DocumentConverter<Proteome, Prote
     }
 
     private void setLineageTaxon(int taxId, ProteomeDocument document) {
-        if (taxId > 0) {
-            Optional<TaxonomicNode> taxonomicNode = taxonomyRepo.retrieveNodeUsingTaxID(taxId);
-
-            while (taxonomicNode.isPresent()) {
-                TaxonomicNode node = taxonomicNode.get();
-                document.taxLineageIds.add(node.id());
-                document.organismTaxon.addAll(extractTaxonode(node));
-                taxonomicNode = getParentTaxon(node.id());
-            }
+    	if (taxId > 0) {
+        	List<TaxonomicNode> nodes = TaxonomyRepoUtil.getTaxonomyLineage(taxonomyRepo, taxId);
+    		nodes.forEach(node -> {
+    			int id = node.id();
+    			document.taxLineageIds.add(id);
+    			List<String> taxons = TaxonomyRepoUtil.extractTaxonFromNode(node);
+    			 document.organismTaxon.addAll(taxons);
+    		});
         }
-    }
-
-    private Optional<TaxonomicNode> getParentTaxon(int taxId) {
-        Optional<TaxonomicNode> optionalNode = taxonomyRepo.retrieveNodeUsingTaxID(taxId);
-        return optionalNode.filter(TaxonomicNode::hasParent).map(TaxonomicNode::parent);
-    }
-
-    private List<String> extractTaxonode(TaxonomicNode node) {
-        List<String> taxonmyItems = new ArrayList<>();
-        if (node.scientificName() != null && !node.scientificName().isEmpty()) {
-            taxonmyItems.add(node.scientificName());
-        }
-        if (node.commonName() != null && !node.commonName().isEmpty()) {
-            taxonmyItems.add(node.commonName());
-        }
-        if (node.synonymName() != null && !node.synonymName().isEmpty()) {
-            taxonmyItems.add(node.synonymName());
-        }
-        if (node.mnemonic() != null && !node.mnemonic().isEmpty()) {
-            taxonmyItems.add(node.mnemonic());
-        }
-        return taxonmyItems;
     }
 
     private List<String> fetchGenomeAssemblyId(Proteome source) {
@@ -177,20 +154,14 @@ public class ProteomeEntryConverter implements DocumentConverter<Proteome, Prote
     }
 
     private List<TaxonomyLineage> getLineage(int taxId) {
-        List<TaxonomyLineage> lineage = new ArrayList<>();
-        Optional<TaxonomicNode> taxonomicNode = getParentTaxon(taxId);
-
-        while (taxonomicNode.isPresent()) {
-            TaxonomicNode node = taxonomicNode.get();
-            lineage.add(
-                    new TaxonomyLineageBuilder()
-                            .taxonId(node.id())
-                            .scientificName(node.scientificName())
-
-                            .build()
-            );
-            taxonomicNode = getParentTaxon(node.id());
-        }
+    	List<TaxonomicNode> nodes = TaxonomyRepoUtil.getTaxonomyLineage(taxonomyRepo, taxId);
+    	List<TaxonomyLineage> lineage = 
+    	nodes.stream().skip(1).map(node ->
+    		  new TaxonomyLineageBuilder()
+             .taxonId(node.id())
+             .scientificName(node.scientificName())
+             .build() 		
+    	).collect(Collectors.toList());
         return Lists.reverse(lineage);
     }
 

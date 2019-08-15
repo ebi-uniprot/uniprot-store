@@ -1,9 +1,7 @@
 package org.uniprot.store.indexer.uniparc;
 
 import java.nio.ByteBuffer;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import org.uniprot.core.cv.taxonomy.TaxonomicNode;
 import org.uniprot.core.cv.taxonomy.TaxonomyRepo;
@@ -15,6 +13,7 @@ import org.uniprot.core.uniprot.taxonomy.Taxonomy;
 import org.uniprot.core.xml.jaxb.uniparc.Entry;
 import org.uniprot.core.xml.uniparc.UniParcEntryConverter;
 import org.uniprot.store.indexer.converter.DocumentConverter;
+import org.uniprot.store.indexer.util.TaxonomyRepoUtil;
 import org.uniprot.store.search.document.uniparc.UniParcDocument;
 import org.uniprot.store.search.document.uniparc.UniParcDocument.UniParcDocumentBuilder;
 
@@ -74,56 +73,19 @@ public class UniParcDocumentConverter implements DocumentConverter<Entry, UniPar
 				.map(val -> val.getValue()).forEach(val -> builder.geneName(val));
 
 	}
-
+	
 	private void processTaxonomy(Taxonomy taxon, UniParcDocumentBuilder builder) {
+		
 		builder.taxLineageId((int) taxon.getTaxonId());
 		builder.organismTaxon(taxon.getScientificName());
-		if (taxon.hasCommonName()) {
-			builder.organismTaxon(taxon.getCommonName());
-		}
-		if (taxon.hasMnemonic()) {
-			builder.organismTaxon(taxon.getMnemonic());
-		}
-		if (taxon.hasSynonyms()) {
-			builder.organismTaxons(taxon.getSynonyms());
-		}
-		setLineageTaxon((int) taxon.getTaxonId(), builder);
+		List<TaxonomicNode> nodes = TaxonomyRepoUtil.getTaxonomyLineage(taxonomyRepo, (int) taxon.getTaxonId());
+		nodes.forEach(node -> {
+			builder.taxLineageId(node.id());
+			List<String> names = TaxonomyRepoUtil.extractTaxonFromNode(node);
+			names.forEach(val -> builder.organismTaxon(val));
+		});
 	}
 
-	private void setLineageTaxon(int taxId, UniParcDocumentBuilder builder) {
-		if (taxId > 0) {
-			Optional<TaxonomicNode> taxonomicNode = taxonomyRepo.retrieveNodeUsingTaxID(taxId);
-
-			while (taxonomicNode.isPresent()) {
-				TaxonomicNode node = taxonomicNode.get();
-				builder.taxLineageId(node.id());
-				builder.organismTaxons(extractTaxonode(node));
-				taxonomicNode = getParentTaxon(node.id());
-			}
-		}
-	}
-
-	private Optional<TaxonomicNode> getParentTaxon(int taxId) {
-		Optional<TaxonomicNode> optionalNode = taxonomyRepo.retrieveNodeUsingTaxID(taxId);
-		return optionalNode.filter(TaxonomicNode::hasParent).map(TaxonomicNode::parent);
-	}
-
-	private List<String> extractTaxonode(TaxonomicNode node) {
-		List<String> taxonmyItems = new ArrayList<>();
-		if (node.scientificName() != null && !node.scientificName().isEmpty()) {
-			taxonmyItems.add(node.scientificName());
-		}
-		if (node.commonName() != null && !node.commonName().isEmpty()) {
-			taxonmyItems.add(node.commonName());
-		}
-		if (node.synonymName() != null && !node.synonymName().isEmpty()) {
-			taxonmyItems.add(node.synonymName());
-		}
-		if (node.mnemonic() != null && !node.mnemonic().isEmpty()) {
-			taxonmyItems.add(node.mnemonic());
-		}
-		return taxonmyItems;
-	}
 
 	private byte[] getBinaryObject(UniParcEntry uniparcEntry) {
 		byte[] binaryEntry;

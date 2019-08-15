@@ -1,7 +1,7 @@
 package org.uniprot.store.indexer.proteome;
 
 import org.uniprot.core.xml.jaxb.proteome.Proteome;
-import org.uniprot.store.indexer.common.XmlItemReader;
+import org.uniprot.store.job.common.reader.XmlItemReader;
 
 /**
  * @author jluo

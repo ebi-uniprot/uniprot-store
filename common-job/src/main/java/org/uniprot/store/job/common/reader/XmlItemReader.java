@@ -1,4 +1,4 @@
-package org.uniprot.store.indexer.common;
+package org.uniprot.store.job.common.reader;
 
 import java.io.File;
 import java.util.ArrayList;

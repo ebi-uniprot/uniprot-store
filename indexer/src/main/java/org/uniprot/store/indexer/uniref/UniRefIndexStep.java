@@ -1,4 +1,7 @@
-package org.uniprot.store.indexer.uniparc;
+package org.uniprot.store.indexer.uniref;
+
+import java.io.File;
+import java.io.IOException;
 
 import org.springframework.batch.core.ChunkListener;
 import org.springframework.batch.core.Step;
@@ -14,32 +17,26 @@ import org.springframework.context.annotation.Configuration;
 import org.uniprot.core.cv.taxonomy.FileNodeIterable;
 import org.uniprot.core.cv.taxonomy.TaxonomyMapRepo;
 import org.uniprot.core.cv.taxonomy.TaxonomyRepo;
-import org.uniprot.core.xml.jaxb.uniparc.Entry;
+import org.uniprot.core.xml.jaxb.uniref.Entry;
 import org.uniprot.store.indexer.common.config.UniProtSolrOperations;
 import org.uniprot.store.indexer.common.listener.LogRateListener;
 import org.uniprot.store.indexer.common.writer.SolrDocumentWriter;
 import org.uniprot.store.indexer.converter.DocumentConverter;
 import org.uniprot.store.search.SolrCollection;
-import org.uniprot.store.search.document.proteome.ProteomeDocument;
-import org.uniprot.store.search.document.uniparc.UniParcDocument;
-
-import java.io.File;
-import java.io.IOException;
+import org.uniprot.store.search.document.uniref.UniRefDocument;
 
 /**
  *
  * @author jluo
- * @date: 18 Jun 2019
+ * @date: 14 Aug 2019
  *
- */
-
+*/
 @Configuration
-public class UniParcIndexStep {
-	
-	@Value(("${solr.indexing.chunkSize}"))
-	private int chunkSize = 100;
-	@Value(("${uniparc.indexing.xml.file}"))
-	private String uniparcXmlFilename;
+public class UniRefIndexStep {
+	@Value(("${uniref.indexing.chunkSize}"))
+	private int chunkSize = 50;
+	@Value(("${uniref.indexing.xml.file}"))
+	private String unirefXmlFilename;
 
 	@Value(("${uniprotkb.indexing.taxonomyFile}"))
 	private String taxonomyFile;
@@ -47,40 +44,41 @@ public class UniParcIndexStep {
 	private final StepBuilderFactory stepBuilderFactory;
 	
 	@Autowired
-	public UniParcIndexStep(StepBuilderFactory stepBuilderFactory) {
+	public UniRefIndexStep(StepBuilderFactory stepBuilderFactory) {
 		this.stepBuilderFactory = stepBuilderFactory;
 	}
 
-	@Bean("UniParcIndexStep")
-	public Step uniparcIndexViaXmlStep(StepExecutionListener stepListener, ChunkListener chunkListener,
-			ItemReader<Entry> itemReader, ItemProcessor<Entry, UniParcDocument> itemProcessor,
-			ItemWriter<UniParcDocument> itemWriter) {
-		return this.stepBuilderFactory.get("UniParc_Index_Step").<Entry, UniParcDocument>chunk(chunkSize)
+	@Bean("UniRefIndexStep")
+	public Step unirefIndexViaXmlStep(StepExecutionListener stepListener, ChunkListener chunkListener,
+			ItemReader<Entry> itemReader, ItemProcessor<Entry, UniRefDocument> itemProcessor,
+			ItemWriter<UniRefDocument> itemWriter) {
+		return this.stepBuilderFactory.get("UniRef_Index_Step").<Entry, UniRefDocument>chunk(chunkSize)
 				.reader(itemReader).processor(itemProcessor).writer(itemWriter).listener(stepListener)
-				.listener(chunkListener).listener(new LogRateListener<UniParcDocument>()).build();
+				.listener(chunkListener).listener(new LogRateListener<UniRefDocument>()).build();
 	}
 
 	@Bean
-	public ItemReader<Entry> uniparcReader() throws IOException {
-		return new UniParcXmlEntryReader(uniparcXmlFilename);
+	public ItemReader<Entry> unirefReader() throws IOException {
+		return new UniRefXmlEntryReader(unirefXmlFilename);
 	}
 
 	@Bean
-	public ItemProcessor<Entry, UniParcDocument> uniparcEntryProcessor() {
-		return new UniParcEntryProcessor(uniparcEntryConverter());
+	public ItemProcessor<Entry, UniRefDocument> unirefEntryProcessor() {
+		return new UniRefEntryProcessor(unirefEntryConverter());
 	}
 
-    private DocumentConverter<Entry, UniParcDocument> uniparcEntryConverter() {
-        return new UniParcDocumentConverter(createTaxonomyRepo());
+    private DocumentConverter<Entry, UniRefDocument> unirefEntryConverter() {
+        return new UniRefDocumentConverter(createTaxonomyRepo());
     }
 	
 	
 	@Bean
-	public ItemWriter<UniParcDocument> uniparcItemWriter(UniProtSolrOperations solrOperations) {
-		return new SolrDocumentWriter<>(solrOperations, SolrCollection.uniparc);
+	public ItemWriter<UniRefDocument> unirefItemWriter(UniProtSolrOperations solrOperations) {
+		return new SolrDocumentWriter<>(solrOperations, SolrCollection.uniref);
 	}
 
 	private TaxonomyRepo createTaxonomyRepo() {
 		return new TaxonomyMapRepo(new FileNodeIterable(new File(taxonomyFile)));
 	}
 }
+

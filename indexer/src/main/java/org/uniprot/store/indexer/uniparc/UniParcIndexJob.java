@@ -38,11 +38,11 @@ public class UniParcIndexJob {
 
     @Bean
     public Job uniparcIndexingJob(
-            @Qualifier("UniParcIndexStep") Step proteomeIndexStep,
+            @Qualifier("UniParcIndexStep") Step uniparcIndexStep,
 
             WriteRetrierLogJobListener writeRetrierLogJobListener) {
         return this.jobBuilderFactory.get(UNIPARC_INDEX_JOB)
-                .start(proteomeIndexStep)
+                .start(uniparcIndexStep)
                 .listener(writeRetrierLogJobListener)
                 .listener(new JobExecutionListener() {
                     @Override

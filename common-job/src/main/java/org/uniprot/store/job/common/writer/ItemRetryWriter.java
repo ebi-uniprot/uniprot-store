@@ -13,6 +13,8 @@ import org.springframework.scheduling.annotation.Async;
 import org.uniprot.store.job.common.store.Store;
 import org.uniprot.store.job.common.util.CommonConstants;
 
+import com.google.common.base.Strings;
+
 import org.uniprot.core.util.Utils;
 import org.uniprot.core.util.concurrency.OnZeroCountSleeper;
 
@@ -94,9 +96,17 @@ public abstract class ItemRetryWriter<E, S> implements ItemWriter<E> {
         sleeper.minus(numberOfItemsProcessed);
     }
 
-    public abstract String extractItemId(E item);
+    protected abstract String extractItemId(E item);
 
-    public abstract String entryToString(E entry);
+    protected abstract String entryToString(E entry);
+    
+    protected String getHeader() {
+    	return "";
+    }
+
+    protected String getFooter() {
+    	return "";
+    }
 
     public abstract S itemToEntry(E item);
 
@@ -112,12 +122,15 @@ public abstract class ItemRetryWriter<E, S> implements ItemWriter<E> {
     private void logFailedEntriesToFile(List<? extends E> items,
                                         Throwable throwable) {
         List<String> accessions = new ArrayList<>();
+        if(!Strings.isNullOrEmpty(getHeader()))
+        	STORE_FAILED_LOGGER.error(getHeader());
         for (E item : items) {
             String entryFF = entryToString(item);
             accessions.add(extractItemId(item));
             STORE_FAILED_LOGGER.error(entryFF);
         }
-
+        if(!Strings.isNullOrEmpty(getFooter()))
+        	STORE_FAILED_LOGGER.error(getFooter());
         log.error(ERROR_WRITING_ENTRIES_TO_STORE + accessions, throwable);
         failedWritingEntriesCount.addAndGet(items.size());
         recordItemsWereProcessed(items.size());

@@ -8,6 +8,7 @@ package org.uniprot.store.search;
 public enum SolrCollection {
     uniprot,
     uniparc,
+    uniref,
     crossref,
     taxonomy,
     proteome,

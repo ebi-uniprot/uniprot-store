@@ -1,7 +1,7 @@
 package org.uniprot.store.indexer.uniparc;
 
 import org.uniprot.core.xml.jaxb.uniparc.Entry;
-import org.uniprot.store.indexer.common.XmlItemReader;
+import org.uniprot.store.job.common.reader.XmlItemReader;
 
 /**
  *
