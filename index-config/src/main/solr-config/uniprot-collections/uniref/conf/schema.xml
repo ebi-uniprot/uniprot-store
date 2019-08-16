@@ -198,6 +198,7 @@
     <fieldType name="pdate" class="solr.DatePointField" docValues="true"/>
     <fieldType name="pdates" class="solr.DatePointField" docValues="true" multiValued="true"/>
     <fieldType name="date" class="solr.DatePointField" docValues="true"/>
+     <fieldType name="rdates" class="solr.DateRangeField" multiValued="true"/>
 
     <!--Binary data type. The data should be sent/retrieved in as Base64 encoded Strings -->
     <fieldType name="binary" class="solr.BinaryField"/>
