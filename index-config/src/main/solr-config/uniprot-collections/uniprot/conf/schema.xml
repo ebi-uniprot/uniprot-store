@@ -471,9 +471,9 @@
 
     <field name="is_isoform" type="boolean" indexed="true" stored="false" required="false" multiValued="false"/>
     <field name="reviewed" type="boolean" indexed="true" stored="false" required="false" multiValued="false"/>
-    <field name="modified" type="rdates" indexed="true" stored="false" required="false"/>
-    <field name="created" type="rdates" indexed="true" stored="false" required="false"/>
-    <field name="sequence_modified" type="rdates" indexed="true" stored="false" required="false"/>
+    <field name="modified" type="date" indexed="true" stored="false" required="false"/>
+    <field name="created" type="date" indexed="true" stored="false" required="false"/>
+    <field name="sequence_modified" type="date" indexed="true" stored="false" required="false"/>
 
     <!-- Protein name section -->
     <field name="name" type="full_ci" indexed="true" stored="false" required="false" multiValued="true"/>
@@ -598,7 +598,7 @@
     <field name="lit_organisation" type="full_ci" indexed="true" stored="false" required="false" multiValued="true"/>
 
     <field name="lit_title" type="full_ci" indexed="true" stored="false" required="false" multiValued="true"/>
-    <field name="lit_pubdate" type="rdates" indexed="true" stored="false" required="false" multiValued="true"/>
+    <field name="lit_pubdate" type="date" indexed="true" stored="false" required="false" multiValued="true"/>
 
     <field name="lit_pubmed" type="string" indexed="true" stored="false" required="false" multiValued="true"/>
     <field name="lit_journal" type="basic_ci" indexed="true" stored="false" required="false" multiValued="true"/>
