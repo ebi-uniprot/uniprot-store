@@ -3,8 +3,6 @@ package org.uniprot.store.indexer.uniref;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
 import static org.uniprot.store.indexer.common.utils.Constants.UNIREF_INDEX_JOB;
 
 import org.hamcrest.CoreMatchers;
@@ -19,17 +17,12 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.solr.core.query.SimpleQuery;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.uniprot.core.json.parser.uniparc.UniParcJsonConfig;
-import org.uniprot.core.uniparc.UniParcEntry;
 import org.uniprot.store.indexer.common.config.UniProtSolrOperations;
 import org.uniprot.store.indexer.common.listener.ListenerConfig;
 import org.uniprot.store.indexer.test.config.FakeIndexerSpringBootApplication;
 import org.uniprot.store.indexer.test.config.SolrTestConfig;
 import org.uniprot.store.search.SolrCollection;
-import org.uniprot.store.search.document.uniparc.UniParcDocument;
 import org.uniprot.store.search.document.uniref.UniRefDocument;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
  *

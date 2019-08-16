@@ -1,7 +1,6 @@
 package org.uniprot.store.datastore.common.config;
 
 import lombok.Data;
-import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**
  * Created 27/07/19

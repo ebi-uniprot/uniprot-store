@@ -78,7 +78,7 @@ public class UniRefDocumentConverter implements DocumentConverter<Entry, UniRefD
 	
 	private List<String> getUniProtIds(UniRefMember member){
 		List<String> result = new ArrayList<>();
-		if(member.getMemberIdType() ==UniRefMemberIdType.UNIPROT) {
+		if(member.getMemberIdType() ==UniRefMemberIdType.UNIPROTKB) {
 			result.add(member.getMemberId());
 		}
 		if(member.getUniProtAccession() !=null) {
