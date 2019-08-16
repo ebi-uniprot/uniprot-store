@@ -27,8 +27,8 @@ public class AsyncConfig {
     private final UniProtKBStoreProperties uniProtKBStoreProperties;
 
     @Autowired
-    public AsyncConfig(UniProtKBStoreProperties indexingProperties) {
-        this.uniProtKBStoreProperties = indexingProperties;
+    public AsyncConfig(UniProtKBStoreProperties uniProtKBStoreProperties) {
+        this.uniProtKBStoreProperties = uniProtKBStoreProperties;
     }
 
     /**

@@ -21,7 +21,7 @@ import net.jodah.failsafe.RetryPolicy;
  *
  */
 @Slf4j
-public class UniRefEntryRetryWriter extends ItemRetryWriter<Entry, UniRefEntry> {
+public class UniRefEntryRetryWriter extends ItemRetryWriter<UniRefEntry, UniRefEntry> {
 	private static final String HEADER = "<UniRef xmlns=\"http://uniprot.org/uniref\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" "
 			+ "xsi:schemaLocation=\"http://uniprot.org/uniref http://www.uniprot.org/docs/uniref.xsd\">";
 	private static final String FOOTER = "</UniRef>";
@@ -47,17 +47,18 @@ public class UniRefEntryRetryWriter extends ItemRetryWriter<Entry, UniRefEntry> 
 	}
 
 	@Override
-	protected String extractItemId(Entry item) {
-		return item.getId();
+	protected String extractItemId(UniRefEntry item) {
+		return item.getId().getValue();
 	}
 
 	@Override
-	protected String entryToString(Entry entry) {
+	protected String entryToString(UniRefEntry entry) {
 		if (this.marshaller == null)
 			return "";
+		Entry xmlEntry = converter.toXml(entry);
 		StringWriter writer = new StringWriter();
 		try {
-			this.marshaller.marshal(entry, writer);
+			this.marshaller.marshal(xmlEntry, writer);
 			writer.write("\n");
 			return writer.toString();
 		} catch (Exception e) {
@@ -68,8 +69,8 @@ public class UniRefEntryRetryWriter extends ItemRetryWriter<Entry, UniRefEntry> 
 	}
 
 	@Override
-	public UniRefEntry itemToEntry(Entry item) {
-		return converter.fromXml(item);
+	public UniRefEntry itemToEntry(UniRefEntry item) {
+		return item;
 	}
 
 	@Override

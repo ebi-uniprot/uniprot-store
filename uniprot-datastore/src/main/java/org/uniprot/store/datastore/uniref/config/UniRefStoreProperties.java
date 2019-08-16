@@ -1,6 +1,7 @@
 package org.uniprot.store.datastore.uniref.config;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.uniprot.core.util.concurrency.TaskExecutorProperties;
 
 import lombok.Data;
 
@@ -20,5 +21,7 @@ public class UniRefStoreProperties {
     private int writeRetryBackOffToMillis = 3000;
     private int logRateInterval=10000;
     private String xmlFilePath;
+    private TaskExecutorProperties itemWriterTaskExecutor = new TaskExecutorProperties();
+
 }
 

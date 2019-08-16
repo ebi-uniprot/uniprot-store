@@ -10,4 +10,7 @@ public class Constants {
     public static final String STORE_WRITTEN_ENTRIES_COUNT_KEY = "STORE_WRITTEN_ENTRIES_COUNT_KEY";
 
     public static final String ENTRIES_TO_WRITE_COUNTER = "Entries_to_write_counter";
+    
+    
+    public static final String UNIREF_STORE_JOB = "UniRef_Store_Job";
 }
