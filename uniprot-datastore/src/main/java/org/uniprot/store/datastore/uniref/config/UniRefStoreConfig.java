@@ -5,6 +5,7 @@ import static java.util.Collections.singletonList;
 import java.time.temporal.ChronoUnit;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -24,24 +25,29 @@ import net.jodah.failsafe.RetryPolicy;
  *
 */
 @Configuration
-@EnableConfigurationProperties({UniRefStoreProperties.class, StoreProperties.class })
+@EnableConfigurationProperties({UniRefStoreProperties.class })
 @Profile("online")
 public class UniRefStoreConfig {
-	 private final StoreProperties storeProperties;
+
 	 private final UniRefStoreProperties unirefStoreProperties;
 
 	    @Autowired
-	    public UniRefStoreConfig(StoreProperties storeProperties, UniRefStoreProperties unirefStoreProperties) {
-	        this.storeProperties = storeProperties;
+	    public UniRefStoreConfig(UniRefStoreProperties unirefStoreProperties) {
 	        this.unirefStoreProperties = unirefStoreProperties;
+	    }
+	    
+	    @Bean
+	    @ConfigurationProperties(prefix = "store.uniref")
+	    public StoreProperties unirefStoreProperties() {
+	        return new StoreProperties();
 	    }
 
 	    @Bean
 	    public UniProtStoreClient<UniRefEntry> unirefStoreClient() {
 	        VoldemortClient<UniRefEntry> client = new VoldemortRemoteUniRefEntryStore(
-	                storeProperties.getNumberOfConnections(),
-	                unirefStoreProperties.getStoreName(),
-	                storeProperties.getHost());
+	        		unirefStoreProperties().getNumberOfConnections(),
+	        		unirefStoreProperties().getStoreName(),
+	        		unirefStoreProperties().getHost());
 	        return new UniProtStoreClient<>(client);
 	    }
 	    
@@ -54,5 +60,7 @@ public class UniRefStoreConfig {
 	                		unirefStoreProperties.getWriteRetryBackOffToMillis(),
 	                             ChronoUnit.MILLIS);
 	    }
+	    
+	  
 }
 

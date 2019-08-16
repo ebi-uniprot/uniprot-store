@@ -18,25 +18,21 @@ import org.uniprot.store.datastore.voldemort.uniprot.VoldemortRemoteUniProtKBEnt
  * @author Edd
  */
 @Configuration
-@EnableConfigurationProperties({StoreProperties.class})
 @Profile("online")
 public class StoreConfig {
-//    private final StoreProperties storeProperties = new StoreProperties();
-	
-    private final StoreProperties storeProperties;
-
-    @Autowired
-    public StoreConfig(StoreProperties storeProperties) {
-        this.storeProperties = storeProperties;
+    @Bean
+    @ConfigurationProperties(prefix = "store.uniprotkb")
+    public StoreProperties uniprotKBStoreProperties() {
+        return new StoreProperties();
     }
 
     @Bean
-    @ConfigurationProperties(prefix = "store.uniprotkb")
-    public UniProtStoreClient<UniProtEntry> uniProtKBStoreClient() {
+    public UniProtStoreClient<UniProtEntry> uniProtKBStoreClient(StoreProperties uniprotKBStoreProperties) {
         VoldemortClient<UniProtEntry> client = new VoldemortRemoteUniProtKBEntryStore(
-                storeProperties.getNumberOfConnections(),
-                storeProperties.getStoreName(),
-                storeProperties.getHost());
+                uniprotKBStoreProperties.getNumberOfConnections(),
+                uniprotKBStoreProperties.getStoreName(),
+                uniprotKBStoreProperties.getHost());
         return new UniProtStoreClient<>(client);
     }
 }
+
