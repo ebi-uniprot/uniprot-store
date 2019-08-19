@@ -1,6 +1,7 @@
 package org.uniprot.store.search.document.uniref;
 
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 
 import org.apache.solr.client.solrj.beans.Field;
@@ -36,7 +37,7 @@ public class UniRefDocument implements Document {
 	private int length;
 
 	@Field("created")
-	private LocalDate created;
+	private Date created;
 	@Singular
 	@Field("uniprotid")
 	private List<String> uniprotIds;

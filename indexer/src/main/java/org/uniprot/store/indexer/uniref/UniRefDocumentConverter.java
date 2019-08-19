@@ -11,6 +11,7 @@ import org.uniprot.core.uniref.UniRefMemberIdType;
 import org.uniprot.core.xml.jaxb.uniref.Entry;
 import org.uniprot.core.xml.uniref.UniRefEntryConverter;
 import org.uniprot.store.indexer.converter.DocumentConverter;
+import org.uniprot.store.indexer.util.DateUtils;
 import org.uniprot.store.indexer.util.TaxonomyRepoUtil;
 import org.uniprot.store.search.document.uniref.UniRefDocument;
 import org.uniprot.store.search.document.uniref.UniRefDocument.UniRefDocumentBuilder;
@@ -40,8 +41,8 @@ public class UniRefDocumentConverter implements DocumentConverter<Entry, UniRefD
 		.identity(entry.getEntryType().getIdentity())
 		.name(entry.getName())
 		.count(entry.getMembers().size()+1)
-		.length(entry.getRepresentativeMember().getSequenceLength())
-		.created(entry.getUpdated())
+		.length(entry.getRepresentativeMember().getSequence().getLength())
+		.created(DateUtils.convertLocalDateToDate(entry.getUpdated()))
 		.uniprotIds(getUniProtIds(entry))
 		.upis(getUniParcIds(entry))	
 		;
@@ -53,7 +54,7 @@ public class UniRefDocumentConverter implements DocumentConverter<Entry, UniRefD
 	private List<String> getUniParcIds(UniRefEntry entry){
 		List<String> result = new ArrayList<>();
 		result.addAll(getUniParcIds(entry.getRepresentativeMember()));
-		entry.getMembers().forEach(val ->result.addAll(getUniProtIds(val)));
+		entry.getMembers().forEach(val ->result.addAll(getUniParcIds(val)));
 		
 		return result;
 	}

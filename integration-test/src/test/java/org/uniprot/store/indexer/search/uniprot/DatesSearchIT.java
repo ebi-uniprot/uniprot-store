@@ -516,5 +516,6 @@ public class DatesSearchIT {
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
         assertThat(retrievedAccessions, containsInAnyOrder(ACCESSION_BST, ACCESSION_BST_DUBIOUS));
     }
+    
 
 }
