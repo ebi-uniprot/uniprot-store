@@ -16,6 +16,35 @@ import org.uniprot.store.search.field.validator.FieldValueValidator;
 */
 
 public interface UniRefField {
+	enum Return {
+		id;
+	}
+	
+	 enum Sort {
+			id("id"),
+			count("count"),
+			
+			created("created"),
+			organism("organism_sort"),
+			length("length")
+			;
+
+			private String solrFieldName;
+
+			Sort(String solrFieldName) {
+				this.solrFieldName = solrFieldName;
+			}
+
+			public String getSolrFieldName() {
+				return solrFieldName;
+			}
+
+			@Override
+			public String toString() {
+				return this.solrFieldName;
+			}
+		}
+	
 	enum Search  implements SearchField {
 		
 		id(SearchFieldType.TERM, FieldValueValidator::isUniRefIdValid, null), // uniparc upid

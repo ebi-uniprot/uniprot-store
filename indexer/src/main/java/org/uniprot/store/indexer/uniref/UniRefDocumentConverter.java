@@ -2,6 +2,7 @@ package org.uniprot.store.indexer.uniref;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.uniprot.core.cv.taxonomy.TaxonomicNode;
 import org.uniprot.core.cv.taxonomy.TaxonomyRepo;
@@ -15,6 +16,8 @@ import org.uniprot.store.indexer.util.DateUtils;
 import org.uniprot.store.indexer.util.TaxonomyRepoUtil;
 import org.uniprot.store.search.document.uniref.UniRefDocument;
 import org.uniprot.store.search.document.uniref.UniRefDocument.UniRefDocumentBuilder;
+
+import lombok.val;
 
 /**
  *
@@ -45,12 +48,21 @@ public class UniRefDocumentConverter implements DocumentConverter<Entry, UniRefD
 		.created(DateUtils.convertLocalDateToDate(entry.getUpdated()))
 		.uniprotIds(getUniProtIds(entry))
 		.upis(getUniParcIds(entry))	
+		.organismSort(getOrganismNameForSort(entry))
 		;
 		processTaxonomy(entry.getRepresentativeMember().getOrganismName(), entry.getRepresentativeMember().getOrganismTaxId(), builder);
 		return builder.build();
 	}
 	
-	
+	private String getOrganismNameForSort(UniRefEntry entry){
+		List<String> result = new ArrayList<>();
+		result.add(entry.getRepresentativeMember().getOrganismName());
+		entry.getMembers().stream()
+		.map(val -> val.getOrganismName())
+		.distinct().limit(5)
+		.forEach(val -> result.add(val));
+		return result.stream().collect(Collectors.joining(" "));
+	}
 	private List<String> getUniParcIds(UniRefEntry entry){
 		List<String> result = new ArrayList<>();
 		result.addAll(getUniParcIds(entry.getRepresentativeMember()));

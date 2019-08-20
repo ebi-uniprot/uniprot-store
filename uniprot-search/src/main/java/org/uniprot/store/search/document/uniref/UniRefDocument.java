@@ -42,6 +42,9 @@ public class UniRefDocument implements Document {
 	@Field("uniprotid")
 	private List<String> uniprotIds;
 	
+    @Field("organism_sort")
+    public String organismSort;
+	
 	@Field("upi")
 	private List<String> upis;
 	
