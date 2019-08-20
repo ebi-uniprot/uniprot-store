@@ -22,12 +22,15 @@ import org.springframework.batch.core.JobExecution;
 import org.springframework.batch.core.StepExecution;
 import org.springframework.batch.test.JobLauncherTestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.uniprot.core.uniref.UniRefEntry;
 import org.uniprot.store.datastore.UniProtStoreClient;
 import org.uniprot.store.datastore.test.FakeStoreSpringBootApplication;
+import org.uniprot.store.datastore.uniprotkb.config.UniProtKBStoreProperties;
+import org.uniprot.store.datastore.uniref.config.UniRefStoreProperties;
 import org.uniprot.store.job.common.TestUtils;
 import org.uniprot.store.job.common.listener.ListenerConfig;
 import org.uniprot.store.job.common.util.CommonConstants;
@@ -42,10 +45,14 @@ import org.uniprot.store.job.common.util.CommonConstants;
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = {UniRefStoreTestConfig.class, TestUtils.class, FakeStoreSpringBootApplication.class, UniRefStoreJob.class,
 		UniRefStoreStep.class, ListenerConfig.class})
+@EnableConfigurationProperties({UniRefStoreProperties.class })
 public class UniRefStoreJobIT {
 	@Autowired
     private JobLauncherTestUtils jobLauncher;
 
+    @Autowired
+    private UniRefStoreProperties unirefStoreProperties;
+    
     @Autowired
     private UniProtStoreClient<UniRefEntry> unirefStoreClient;
 

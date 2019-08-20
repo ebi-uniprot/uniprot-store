@@ -15,11 +15,11 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
-import org.uniprot.core.uniprot.UniProtEntry;
 import org.uniprot.core.uniref.UniRefEntry;
 import org.uniprot.core.xml.jaxb.uniref.Entry;
 import org.uniprot.store.datastore.UniProtStoreClient;
 import org.uniprot.store.datastore.uniref.config.UniRefAsnycConfig;
+import org.uniprot.store.datastore.uniref.config.UniRefConfig;
 import org.uniprot.store.datastore.uniref.config.UniRefStoreConfig;
 import org.uniprot.store.datastore.uniref.config.UniRefStoreProperties;
 import org.uniprot.store.job.common.listener.LogRateListener;
@@ -35,7 +35,7 @@ import net.jodah.failsafe.RetryPolicy;
  *
 */
 @Configuration
-@Import({UniRefStoreConfig.class, UniRefAsnycConfig.class})
+@Import({UniRefStoreConfig.class, UniRefConfig.class, UniRefAsnycConfig.class})
 public class UniRefStoreStep {
 	private final StepBuilderFactory stepBuilderFactory;
     private final UniRefStoreProperties unirefStoreProperties;
@@ -49,8 +49,8 @@ public class UniRefStoreStep {
     
     
     @Bean(name = "unirefStoreMainStep")
-    public Step uniProtKBStoreMainStep(WriteRetrierLogStepListener writeRetrierLogStepListener,
-                                       @Qualifier("uniref") LogRateListener<UniRefEntry> unirefLogRateListener,
+    public Step unirefMainStep(WriteRetrierLogStepListener writeRetrierLogStepListener,
+                                       @Qualifier("unirefLogRateListener") LogRateListener<UniRefEntry> unirefLogRateListener,
                                        ItemReader<Entry> entryItemReader,
                                        ItemProcessor<Entry, UniRefEntry> unirefEntryProcessor,
                                        ItemWriter<UniRefEntry> unirefEntryItemWriter,
@@ -82,15 +82,15 @@ public class UniRefStoreStep {
     
     // ---------------------- Writers ----------------------
     @Bean
-    public ItemRetryWriter<UniRefEntry, UniRefEntry> unirefEntryItemWriter(UniProtStoreClient<UniRefEntry> unirefStoreClient,
-                                                           RetryPolicy<Object> writeRetryPolicy) {
+    public ItemRetryWriter<UniRefEntry, UniRefEntry> unirefEntryItemWriter(UniProtStoreClient<UniRefEntry> unirefStoreClient,    		
+    		 RetryPolicy<Object> writeRetryPolicy) {
         return new UniRefEntryRetryWriter(entries -> entries.forEach(unirefStoreClient::saveEntry),
                                            writeRetryPolicy);
     }
     
     // ---------------------- Listeners ----------------------
-    @Bean(name = "uniref")
-    public LogRateListener<UniProtEntry> uniProtKBLogRateListener() {
+    @Bean(name = "unirefLogRateListener")
+    public LogRateListener<UniRefEntry> unirefLogRateListener() {
         return new LogRateListener<>(unirefStoreProperties.getLogRateInterval());
     }
     //g
