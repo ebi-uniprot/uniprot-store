@@ -1,6 +1,6 @@
 package org.uniprot.store.datastore.uniref;
 
-import static org.uniprot.store.datastore.utils.Constants.UNIPROTKB_STORE_STEP;
+import static org.uniprot.store.datastore.utils.Constants.UNIREF_STORE_STEP;
 
 import org.springframework.aop.framework.Advised;
 import org.springframework.aop.support.AopUtils;
@@ -56,7 +56,7 @@ public class UniRefStoreStep {
                                        ItemWriter<UniRefEntry> unirefEntryItemWriter,
                                        ExecutionContextPromotionListener promotionListener) throws Exception {
 
-        return this.stepBuilderFactory.get(UNIPROTKB_STORE_STEP)
+        return this.stepBuilderFactory.get(UNIREF_STORE_STEP)
                 .listener(promotionListener)
                 .<Entry, UniRefEntry>chunk(unirefStoreProperties.getChunkSize())
                 .reader(entryItemReader)

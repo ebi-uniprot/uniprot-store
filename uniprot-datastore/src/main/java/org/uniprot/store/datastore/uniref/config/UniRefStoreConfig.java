@@ -43,11 +43,11 @@ public class UniRefStoreConfig {
 	    }
 
 	    @Bean
-	    public UniProtStoreClient<UniRefEntry> unirefStoreClient() {
+	    public UniProtStoreClient<UniRefEntry> unirefStoreClient(StoreProperties storeProperties) {
 	        VoldemortClient<UniRefEntry> client = new VoldemortRemoteUniRefEntryStore(
-	        		unirefStoreProperties().getNumberOfConnections(),
-	        		unirefStoreProperties().getStoreName(),
-	        		unirefStoreProperties().getHost());
+	        		storeProperties.getNumberOfConnections(),
+	        		storeProperties.getStoreName(),
+	        		storeProperties.getHost());
 	        return new UniProtStoreClient<>(client);
 	    }
 	    
