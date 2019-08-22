@@ -9,6 +9,7 @@ import org.uniprot.core.cv.taxonomy.TaxonomyRepo;
 import org.uniprot.core.uniref.UniRefEntry;
 import org.uniprot.core.uniref.UniRefMember;
 import org.uniprot.core.uniref.UniRefMemberIdType;
+import org.uniprot.core.util.Utils;
 import org.uniprot.core.xml.jaxb.uniref.Entry;
 import org.uniprot.core.xml.uniref.UniRefEntryConverter;
 import org.uniprot.store.indexer.converter.DocumentConverter;
@@ -16,8 +17,6 @@ import org.uniprot.store.indexer.util.DateUtils;
 import org.uniprot.store.indexer.util.TaxonomyRepoUtil;
 import org.uniprot.store.search.document.uniref.UniRefDocument;
 import org.uniprot.store.search.document.uniref.UniRefDocument.UniRefDocumentBuilder;
-
-import lombok.val;
 
 /**
  *
@@ -76,7 +75,7 @@ public class UniRefDocumentConverter implements DocumentConverter<Entry, UniRefD
 		if(member.getMemberIdType() ==UniRefMemberIdType.UNIPARC) {
 			result.add(member.getMemberId());
 		}
-		if(member.getUniParcId() !=null) {
+		if(Utils.nonNull(member.getUniParcId())){
 			result.add(member.getUniParcId().getValue());
 		}
 		return result;
@@ -94,7 +93,7 @@ public class UniRefDocumentConverter implements DocumentConverter<Entry, UniRefD
 		if(member.getMemberIdType() ==UniRefMemberIdType.UNIPROTKB) {
 			result.add(member.getMemberId());
 		}
-		if(member.getUniProtAccession() !=null) {
+		if(Utils.nonNull(member.getUniProtAccession())){
 			result.add(member.getUniProtAccession().getValue());
 		}
 		return result;

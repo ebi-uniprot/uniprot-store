@@ -1,5 +1,7 @@
 package org.uniprot.store.indexer.uniref;
 
+
+import static org.uniprot.store.indexer.common.utils.Constants.UNIREF_INDEX_STEP;
 import java.io.File;
 import java.io.IOException;
 
@@ -52,7 +54,7 @@ public class UniRefIndexStep {
 	public Step unirefIndexViaXmlStep(StepExecutionListener stepListener, ChunkListener chunkListener,
 			ItemReader<Entry> itemReader, ItemProcessor<Entry, UniRefDocument> itemProcessor,
 			ItemWriter<UniRefDocument> itemWriter) {
-		return this.stepBuilderFactory.get("UniRef_Index_Step").<Entry, UniRefDocument>chunk(chunkSize)
+		return this.stepBuilderFactory.get(UNIREF_INDEX_STEP).<Entry, UniRefDocument>chunk(chunkSize)
 				.reader(itemReader).processor(itemProcessor).writer(itemWriter).listener(stepListener)
 				.listener(chunkListener).listener(new LogRateListener<UniRefDocument>()).build();
 	}

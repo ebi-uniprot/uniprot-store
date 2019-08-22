@@ -303,7 +303,7 @@
     <field name="count" type="int" indexed="true" stored="false" required="false" multiValued="false"/>
     <field name="length" type="int" indexed="true" stored="false" required="false" multiValued="false"/>
     <field name="created" type="date" indexed="true" stored="false" required="false" docValues="true"/>
-    <field name="uniprotid" type="basic_ci" indexed="true" stored="true" required="false" multiValued="true"/>
+    <field name="uniprot_id" type="basic_ci" indexed="true" stored="true" required="false" multiValued="true"/>
     <field name="upi" type="basic_ci" indexed="true" stored="true" required="false" multiValued="true"/>
     <field name="taxonomy_name" type="full_ci" indexed="true" stored="false" required="false" multiValued="true"/>
     <field name="taxonomy_id" type="int" indexed="true" stored="false" required="false" multiValued="true"/>

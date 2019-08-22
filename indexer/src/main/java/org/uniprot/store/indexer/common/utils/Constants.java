@@ -47,4 +47,5 @@ public class Constants {
     public static final String ENTRIES_TO_WRITE_COUNTER = "Entries_to_write_counter";
     
     public static final String UNIREF_INDEX_JOB = "UniRef_Indexing_Job";
+    public static final String UNIREF_INDEX_STEP = "UniRef_Index_Step";
 }
