@@ -1,0 +1,73 @@
+[
+	{
+		"groupName": "Names & Taxonomy",
+		"fields": [
+			{
+				"label": "Cluster Name",
+				"name": "name"
+			},
+			{
+				"label": "Common taxon",
+				"name": "common_taxon"
+			},
+			{
+				"label": "Common taxon ID",
+				"name": "common_taxonid"
+			},
+			{
+				"label": "Organism IDs",
+				"name": "organism_id"
+			},
+			
+			{
+				"label": "Organisms",
+				"name": "organism"
+			}
+		]
+	},
+	{
+		"groupName": "Sequences",
+		"fields": [
+			{
+				"label": "Identity",
+				"name": "identity"
+			},
+			{
+				"label": "Length",
+				"name": "length"
+			},
+			
+			{
+				"label": "Reference sequence",
+				"name": "sequence"
+			}
+		]
+	},
+	{
+		"groupName": "Miscellaneous",
+		"fields": [
+			{
+				"label": "Matched text",
+				"name": "matched"
+			},
+			{
+				"label": "Cluster members",
+				"name": "member"
+			},
+			{
+				"label": "Size",
+				"name": "count"
+			}
+		]
+	},
+	{
+		"groupName": "Date of",
+		"fields": [
+			{
+				"label": "Date of creation",
+				"name": "created"
+			}
+		]
+	}
+	
+]

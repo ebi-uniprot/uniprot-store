@@ -235,7 +235,7 @@ public class UniProtIdUPICountSearchIT {
 	          assertThat(retrievedAccessions, containsInAnyOrder(ID_4, ID_5, ID_6));
 	    }
 	    private String uniprotIdQuery(String  uniprotId) {
-	    	return QueryBuilder.query(UniRefField.Search.uniprotid.name(), uniprotId);
+	    	return QueryBuilder.query(UniRefField.Search.uniprot_id.name(), uniprotId);
 	    }
 	    
 	    private String upiQuery(String  upi) {
