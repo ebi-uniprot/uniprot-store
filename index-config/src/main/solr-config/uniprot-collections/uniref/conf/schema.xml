@@ -314,7 +314,7 @@
      <copyField source="id" dest="content"/>
       <copyField source="name" dest="content"/>
       <copyField source="identity" dest="content"/>
-     <copyField source="uniprotid" dest="content"/>
+     <copyField source="uniprot_id" dest="content"/>
     <copyField source="upi" dest="content"/>  
     <copyField source="taxonomy_name" dest="content"/>
     <copyField source="taxonomy_id" dest="content"/>
