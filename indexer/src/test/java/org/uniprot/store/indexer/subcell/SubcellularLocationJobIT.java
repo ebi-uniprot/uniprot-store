@@ -21,16 +21,11 @@ import org.uniprot.core.cv.subcell.SubcellLocationCategory;
 import org.uniprot.core.cv.subcell.SubcellularLocationEntry;
 import org.uniprot.core.cv.subcell.impl.SubcellularLocationEntryImpl;
 import org.uniprot.core.json.parser.subcell.SubcellularLocationJsonConfig;
-import org.uniprot.store.indexer.common.listener.ListenerConfig;
 import org.uniprot.store.indexer.common.utils.Constants;
-import org.uniprot.store.indexer.subcell.SubcellularLocationJob;
-import org.uniprot.store.indexer.subcell.SubcellularLocationLoadProcessor;
-import org.uniprot.store.indexer.subcell.SubcellularLocationLoadStep;
-import org.uniprot.store.indexer.subcell.SubcellularLocationStatisticsStep;
-import org.uniprot.store.indexer.subcell.SubcellularLocationStatisticsWriter;
 import org.uniprot.store.indexer.test.config.FakeIndexerSpringBootApplication;
 import org.uniprot.store.indexer.test.config.FakeReadDatabaseConfig;
 import org.uniprot.store.indexer.test.config.SolrTestConfig;
+import org.uniprot.store.job.common.listener.ListenerConfig;
 import org.uniprot.store.search.SolrCollection;
 import org.uniprot.store.search.document.subcell.SubcellularLocationDocument;
 
@@ -48,9 +43,9 @@ import static org.hamcrest.Matchers.*;
 @ActiveProfiles(profiles = {"job", "offline"})
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = {FakeIndexerSpringBootApplication.class, SolrTestConfig.class, FakeReadDatabaseConfig.class,
-        ListenerConfig.class, SubcellularLocationJob.class, SubcellularLocationLoadStep.class,
-        SubcellularLocationJobIT.SubcellularLocationStatisticsStepFake.class,
-        SubcellularLocationStatisticsWriter.class, SubcellularLocationLoadProcessor.class})
+                           ListenerConfig.class, SubcellularLocationJob.class, SubcellularLocationLoadStep.class,
+                           SubcellularLocationJobIT.SubcellularLocationStatisticsStepFake.class,
+                           SubcellularLocationStatisticsWriter.class, SubcellularLocationLoadProcessor.class})
         // to inject job execution...
 class SubcellularLocationJobIT {
 

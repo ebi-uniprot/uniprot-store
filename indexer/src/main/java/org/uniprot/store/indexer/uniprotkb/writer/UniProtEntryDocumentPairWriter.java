@@ -1,15 +1,13 @@
 package org.uniprot.store.indexer.uniprotkb.writer;
 
-import org.uniprot.core.flatfile.writer.impl.UniProtFlatfileWriter;
-import org.uniprot.core.uniprot.UniProtEntry;
-import org.uniprot.store.indexer.common.config.UniProtSolrOperations;
-import org.uniprot.store.indexer.common.writer.EntryDocumentPairRetryWriter;
-import org.uniprot.store.indexer.uniprotkb.model.UniProtEntryDocumentPair;
-import org.uniprot.store.search.SolrCollection;
-import org.uniprot.store.search.document.uniprot.UniProtDocument;
-
 import lombok.extern.slf4j.Slf4j;
 import net.jodah.failsafe.RetryPolicy;
+import org.uniprot.core.flatfile.writer.impl.UniProtFlatfileWriter;
+import org.uniprot.store.indexer.common.config.UniProtSolrOperations;
+import org.uniprot.store.indexer.uniprotkb.model.UniProtEntryDocumentPair;
+import org.uniprot.store.job.common.writer.ItemRetryWriter;
+import org.uniprot.store.search.SolrCollection;
+import org.uniprot.store.search.document.uniprot.UniProtDocument;
 
 /**
  * Created 12/04/19
@@ -17,18 +15,23 @@ import net.jodah.failsafe.RetryPolicy;
  * @author Edd
  */
 @Slf4j
-public class UniProtEntryDocumentPairWriter extends EntryDocumentPairRetryWriter<UniProtEntry, UniProtDocument, UniProtEntryDocumentPair> {
+public class UniProtEntryDocumentPairWriter extends ItemRetryWriter<UniProtEntryDocumentPair, UniProtDocument> {
     public UniProtEntryDocumentPairWriter(UniProtSolrOperations solrOperations, SolrCollection collection, RetryPolicy<Object> retryPolicy) {
-        super(solrOperations, collection, retryPolicy);
+        super(items -> solrOperations.saveBeans(collection.name(), items), retryPolicy);
     }
 
     @Override
-    public String extractDocumentId(UniProtDocument document) {
-        return document.accession;
+    protected String extractItemId(UniProtEntryDocumentPair item) {
+        return item.getDocument().accession;
     }
 
     @Override
-    public String entryToString(UniProtEntry entry) {
-        return UniProtFlatfileWriter.write(entry);
+    protected String entryToString(UniProtEntryDocumentPair entry) {
+        return UniProtFlatfileWriter.write(entry.getEntry());
+    }
+
+    @Override
+    public UniProtDocument itemToEntry(UniProtEntryDocumentPair item) {
+        return item.getDocument();
     }
 }

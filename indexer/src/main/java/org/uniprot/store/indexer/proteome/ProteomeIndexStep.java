@@ -12,7 +12,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.uniprot.core.xml.jaxb.proteome.Proteome;
-import org.uniprot.store.indexer.common.listener.LogRateListener;
+import org.uniprot.store.job.common.listener.LogRateListener;
 import org.uniprot.store.search.document.proteome.ProteomeDocument;
 
 /**

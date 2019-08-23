@@ -12,16 +12,16 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.solr.core.query.SimpleQuery;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.uniprot.store.indexer.common.config.UniProtSolrOperations;
-import org.uniprot.store.indexer.common.listener.ListenerConfig;
-import org.uniprot.store.indexer.common.utils.Constants;
 import org.uniprot.store.indexer.test.config.FakeIndexerSpringBootApplication;
 import org.uniprot.store.indexer.test.config.SolrTestConfig;
-import org.uniprot.store.indexer.uniprotkb.UniProtKBJob;
 import org.uniprot.store.indexer.uniprotkb.config.UniProtKBIndexingProperties;
 import org.uniprot.store.indexer.uniprotkb.step.SuggestionStep;
 import org.uniprot.store.indexer.uniprotkb.step.UniProtKBStep;
+import org.uniprot.store.job.common.listener.ListenerConfig;
+import org.uniprot.store.job.common.util.CommonConstants;
 import org.uniprot.store.search.SolrCollection;
 import org.uniprot.store.search.document.suggest.SuggestDocument;
 import org.uniprot.store.search.document.uniprot.UniProtDocument;
@@ -34,8 +34,11 @@ import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.greaterThan;
+import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
 import static org.uniprot.store.indexer.common.utils.Constants.*;
 
 /**
@@ -47,6 +50,10 @@ import static org.uniprot.store.indexer.common.utils.Constants.*;
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = {SolrTestConfig.class, FakeIndexerSpringBootApplication.class, UniProtKBJob.class,
                            UniProtKBStep.class, SuggestionStep.class, ListenerConfig.class})
+@TestPropertySource(properties = {"uniprotkb.indexing.itemProcessorTaskExecutor.corePoolSize=1",
+                                  "uniprotkb.indexing.itemProcessorTaskExecutor.maxPoolSize=1",
+                                  "uniprotkb.indexing.itemWriterTaskExecutor.corePoolSize=1",
+                                  "uniprotkb.indexing.itemWriterTaskExecutor.maxPoolSize=1"})
 class UniProtKBJobIT {
     @Autowired
     private JobLauncherTestUtils jobLauncher;
@@ -59,6 +66,8 @@ class UniProtKBJobIT {
     void testUniProtKBIndexingJob() throws Exception {
         JobExecution jobExecution = jobLauncher.launchJob();
         assertThat(jobExecution.getJobInstance().getJobName(), CoreMatchers.is(UNIPROTKB_INDEX_JOB));
+
+//        Thread.sleep(10000);
 
         BatchStatus status = jobExecution.getStatus();
         assertThat(status, is(BatchStatus.COMPLETED));
@@ -77,8 +86,8 @@ class UniProtKBJobIT {
                 .collect(Collectors.toList()).get(0);
 
         assertThat(kbIndexingStep.getReadCount(), is(5));
-        checkWriteCount(jobExecution, Constants.INDEX_FAILED_ENTRIES_COUNT_KEY, 0);
-        checkWriteCount(jobExecution, Constants.INDEX_WRITTEN_ENTRIES_COUNT_KEY, 5);
+        checkWriteCount(jobExecution, CommonConstants.FAILED_ENTRIES_COUNT_KEY, 0);
+        checkWriteCount(jobExecution, CommonConstants.WRITTEN_ENTRIES_COUNT_KEY, 5);
 
         // check that the accessions in the source file, are the ones that were written to Solr
         Set<String> sourceAccessions = readSourceAccessions();
@@ -123,7 +132,7 @@ class UniProtKBJobIT {
     private void checkWriteCount(JobExecution jobExecution, String uniprotkbIndexFailedEntriesCountKey, int i) {
         AtomicInteger failedCountAI = (AtomicInteger) jobExecution.getExecutionContext()
                 .get(uniprotkbIndexFailedEntriesCountKey);
-        assertThat(failedCountAI, CoreMatchers.is(CoreMatchers.notNullValue()));
+        assertThat(failedCountAI, CoreMatchers.is(notNullValue()));
         assertThat(failedCountAI.get(), CoreMatchers.is(i));
     }
 }

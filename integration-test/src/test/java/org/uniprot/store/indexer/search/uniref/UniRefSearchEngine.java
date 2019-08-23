@@ -8,7 +8,7 @@ import org.uniprot.core.cv.taxonomy.FileNodeIterable;
 import org.uniprot.core.cv.taxonomy.TaxonomyMapRepo;
 import org.uniprot.core.cv.taxonomy.TaxonomyRepo;
 import org.uniprot.core.xml.jaxb.uniref.Entry;
-import org.uniprot.store.indexer.converter.DocumentConverter;
+import org.uniprot.store.job.common.converter.DocumentConverter;
 import org.uniprot.store.indexer.search.AbstractSearchEngine;
 import org.uniprot.store.indexer.uniref.UniRefDocumentConverter;
 import org.uniprot.store.search.field.UniRefField;

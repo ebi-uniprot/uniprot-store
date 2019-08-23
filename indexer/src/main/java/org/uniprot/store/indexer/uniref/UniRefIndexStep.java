@@ -1,8 +1,5 @@
 package org.uniprot.store.indexer.uniref;
 
-import java.io.File;
-import java.io.IOException;
-
 import org.springframework.batch.core.ChunkListener;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.StepExecutionListener;
@@ -19,11 +16,14 @@ import org.uniprot.core.cv.taxonomy.TaxonomyMapRepo;
 import org.uniprot.core.cv.taxonomy.TaxonomyRepo;
 import org.uniprot.core.xml.jaxb.uniref.Entry;
 import org.uniprot.store.indexer.common.config.UniProtSolrOperations;
-import org.uniprot.store.indexer.common.listener.LogRateListener;
 import org.uniprot.store.indexer.common.writer.SolrDocumentWriter;
-import org.uniprot.store.indexer.converter.DocumentConverter;
+import org.uniprot.store.job.common.converter.DocumentConverter;
+import org.uniprot.store.job.common.listener.LogRateListener;
 import org.uniprot.store.search.SolrCollection;
 import org.uniprot.store.search.document.uniref.UniRefDocument;
+
+import java.io.File;
+import java.io.IOException;
 
 /**
  *

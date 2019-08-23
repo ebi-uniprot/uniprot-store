@@ -6,7 +6,7 @@ import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.slf4j.Logger;
 import org.uniprot.store.datastore.UniProtStoreClient;
-import org.uniprot.store.indexer.converter.DocumentConverter;
+import org.uniprot.store.job.common.converter.DocumentConverter;
 import org.uniprot.store.search.document.Document;
 
 import java.io.IOException;

@@ -2,7 +2,7 @@ package org.uniprot.store.indexer.uniref;
 
 import org.springframework.batch.item.ItemProcessor;
 import org.uniprot.core.xml.jaxb.uniref.Entry;
-import org.uniprot.store.indexer.converter.DocumentConverter;
+import org.uniprot.store.job.common.converter.DocumentConverter;
 import org.uniprot.store.search.document.uniref.UniRefDocument;
 
 /**

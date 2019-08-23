@@ -20,14 +20,11 @@ import org.uniprot.core.cv.disease.Disease;
 import org.uniprot.core.cv.keyword.Keyword;
 import org.uniprot.core.json.parser.disease.DiseaseJsonConfig;
 import org.uniprot.store.indexer.common.config.UniProtSolrOperations;
-import org.uniprot.store.indexer.common.listener.ListenerConfig;
 import org.uniprot.store.indexer.common.utils.Constants;
-import org.uniprot.store.indexer.disease.DiseaseLoadJob;
-import org.uniprot.store.indexer.disease.DiseaseLoadStep;
-import org.uniprot.store.indexer.disease.DiseaseProteinCountStep;
 import org.uniprot.store.indexer.test.config.FakeIndexerSpringBootApplication;
 import org.uniprot.store.indexer.test.config.FakeReadDatabaseConfig;
 import org.uniprot.store.indexer.test.config.SolrTestConfig;
+import org.uniprot.store.job.common.listener.ListenerConfig;
 import org.uniprot.store.search.SolrCollection;
 import org.uniprot.store.search.document.disease.DiseaseDocument;
 

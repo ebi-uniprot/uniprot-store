@@ -6,8 +6,9 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
-import org.uniprot.store.indexer.common.listener.ListenerConfig;
 import org.uniprot.store.indexer.common.utils.Constants;
+import org.uniprot.store.job.common.listener.ListenerConfig;
+import org.uniprot.store.job.common.util.CommonConstants;
 
 import java.time.temporal.ChronoUnit;
 
@@ -37,8 +38,8 @@ public class UniProtKBConfig {
     @Bean
     public ExecutionContextPromotionListener promotionListener() {
         ExecutionContextPromotionListener executionContextPromotionListener = new ExecutionContextPromotionListener();
-        executionContextPromotionListener.setKeys(new String[]{Constants.INDEX_FAILED_ENTRIES_COUNT_KEY,
-                                                               Constants.INDEX_WRITTEN_ENTRIES_COUNT_KEY,
+        executionContextPromotionListener.setKeys(new String[]{CommonConstants.FAILED_ENTRIES_COUNT_KEY,
+                                                               CommonConstants.WRITTEN_ENTRIES_COUNT_KEY,
                                                                Constants.SUGGESTIONS_MAP});
         return executionContextPromotionListener;
     }

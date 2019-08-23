@@ -19,15 +19,14 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.uniprot.store.indexer.common.config.UniProtSolrOperations;
-import org.uniprot.store.indexer.common.listener.ListenerConfig;
-import org.uniprot.store.indexer.common.utils.Constants;
 import org.uniprot.store.indexer.test.config.FakeIndexerSpringBootApplication;
 import org.uniprot.store.indexer.test.config.SolrTestConfig;
-import org.uniprot.store.indexer.uniprotkb.UniProtKBJob;
 import org.uniprot.store.indexer.uniprotkb.model.UniProtEntryDocumentPair;
 import org.uniprot.store.indexer.uniprotkb.step.SuggestionStep;
 import org.uniprot.store.indexer.uniprotkb.step.UniProtKBStep;
 import org.uniprot.store.indexer.uniprotkb.writer.UniProtEntryDocumentPairWriter;
+import org.uniprot.store.job.common.listener.ListenerConfig;
+import org.uniprot.store.job.common.util.CommonConstants;
 import org.uniprot.store.search.SolrCollection;
 
 import java.io.FileNotFoundException;
@@ -104,8 +103,8 @@ class UniProtKBJobWriteSolrRetriesToLogFileThenFailIT {
 
         assertThat(indexingStep.getReadCount(), is(5));  // ensure everything was read
 
-        checkWriteCount(jobExecution, Constants.INDEX_FAILED_ENTRIES_COUNT_KEY, 3);
-        checkWriteCount(jobExecution, Constants.INDEX_WRITTEN_ENTRIES_COUNT_KEY, 2);
+        checkWriteCount(jobExecution, CommonConstants.FAILED_ENTRIES_COUNT_KEY, 3);
+        checkWriteCount(jobExecution, CommonConstants.WRITTEN_ENTRIES_COUNT_KEY, 2);
 
         assertThat(indexingStep.getExitStatus(), is(ExitStatus.FAILED));
         assertThat(indexingStep.getStatus(), is(BatchStatus.FAILED));

@@ -18,7 +18,7 @@ import org.uniprot.core.cv.taxonomy.TaxonomyMapRepo;
 import org.uniprot.core.cv.taxonomy.TaxonomyRepo;
 import org.uniprot.core.xml.jaxb.proteome.Proteome;
 import org.uniprot.store.indexer.common.config.UniProtSolrOperations;
-import org.uniprot.store.indexer.converter.DocumentConverter;
+import org.uniprot.store.job.common.converter.DocumentConverter;
 import org.uniprot.store.indexer.genecentric.GeneCentricDocumentWriter;
 import org.uniprot.store.search.document.proteome.ProteomeDocument;
 

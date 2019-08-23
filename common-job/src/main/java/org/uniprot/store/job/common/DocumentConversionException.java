@@ -1,9 +1,9 @@
-package org.uniprot.store.indexer.common;
+package org.uniprot.store.job.common;
 
 /**
  * Use this exception when an error occurs whilst converting an entity into an indexable documents.
  */
-public class DocumentConversionException extends IndexingException {
+public class DocumentConversionException extends StoringException {
     public DocumentConversionException(String message) {
         super(message);
     }

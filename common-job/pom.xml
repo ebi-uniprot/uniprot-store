@@ -54,7 +54,7 @@
             <artifactId>json-parser</artifactId>
             <version>${uniprot.core.version}</version>
         </dependency>
-          <dependency>
+        <dependency>
             <groupId>org.uniprot</groupId>
             <artifactId>xml-parser</artifactId>
             <version>${uniprot.core.version}</version>

@@ -20,16 +20,14 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.uniprot.core.json.parser.literature.LiteratureJsonConfig;
 import org.uniprot.core.literature.LiteratureEntry;
 import org.uniprot.core.literature.impl.LiteratureEntryImpl;
-import org.uniprot.store.indexer.common.listener.ListenerConfig;
 import org.uniprot.store.indexer.common.utils.Constants;
-import org.uniprot.store.indexer.literature.LiteratureJob;
-import org.uniprot.store.indexer.literature.LiteratureSQLConstants;
 import org.uniprot.store.indexer.literature.steps.LiteratureLoadStep;
 import org.uniprot.store.indexer.literature.steps.LiteratureMappingStep;
 import org.uniprot.store.indexer.literature.steps.LiteratureStatisticsStep;
 import org.uniprot.store.indexer.test.config.FakeIndexerSpringBootApplication;
 import org.uniprot.store.indexer.test.config.FakeReadDatabaseConfig;
 import org.uniprot.store.indexer.test.config.SolrTestConfig;
+import org.uniprot.store.job.common.listener.ListenerConfig;
 import org.uniprot.store.search.SolrCollection;
 import org.uniprot.store.search.document.literature.LiteratureDocument;
 

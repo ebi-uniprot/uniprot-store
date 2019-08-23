@@ -24,8 +24,6 @@ import org.uniprot.core.cv.taxonomy.FileNodeIterable;
 import org.uniprot.core.cv.taxonomy.TaxonomyMapRepo;
 import org.uniprot.core.cv.taxonomy.TaxonomyRepo;
 import org.uniprot.store.indexer.common.config.UniProtSolrOperations;
-import org.uniprot.store.indexer.common.listener.LogRateListener;
-import org.uniprot.store.indexer.common.listener.WriteRetrierLogStepListener;
 import org.uniprot.store.indexer.uniprot.go.GoRelationFileReader;
 import org.uniprot.store.indexer.uniprot.go.GoRelationFileRepo;
 import org.uniprot.store.indexer.uniprot.go.GoTermFileReader;
@@ -39,14 +37,16 @@ import org.uniprot.store.indexer.uniprotkb.processor.UniProtEntryConverter;
 import org.uniprot.store.indexer.uniprotkb.processor.UniProtEntryDocumentPairProcessor;
 import org.uniprot.store.indexer.uniprotkb.reader.UniProtEntryItemReader;
 import org.uniprot.store.indexer.uniprotkb.writer.UniProtEntryDocumentPairWriter;
+import org.uniprot.store.job.common.listener.LogRateListener;
+import org.uniprot.store.job.common.listener.WriteRetrierLogStepListener;
 import org.uniprot.store.search.SolrCollection;
 import org.uniprot.store.search.document.suggest.SuggestDocument;
-
-import static org.uniprot.store.indexer.common.utils.Constants.UNIPROTKB_INDEX_STEP;
 
 import java.io.File;
 import java.util.Map;
 import java.util.concurrent.Future;
+
+import static org.uniprot.store.indexer.common.utils.Constants.UNIPROTKB_INDEX_STEP;
 
 /**
  * The main UniProtKB indexing step.

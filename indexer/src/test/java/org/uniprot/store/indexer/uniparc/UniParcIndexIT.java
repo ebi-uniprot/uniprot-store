@@ -16,11 +16,9 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.uniprot.core.json.parser.uniparc.UniParcJsonConfig;
 import org.uniprot.core.uniparc.UniParcEntry;
 import org.uniprot.store.indexer.common.config.UniProtSolrOperations;
-import org.uniprot.store.indexer.common.listener.ListenerConfig;
 import org.uniprot.store.indexer.test.config.FakeIndexerSpringBootApplication;
 import org.uniprot.store.indexer.test.config.SolrTestConfig;
-import org.uniprot.store.indexer.uniparc.UniParcIndexJob;
-import org.uniprot.store.indexer.uniparc.UniParcIndexStep;
+import org.uniprot.store.job.common.listener.ListenerConfig;
 import org.uniprot.store.search.SolrCollection;
 import org.uniprot.store.search.document.uniparc.UniParcDocument;
 

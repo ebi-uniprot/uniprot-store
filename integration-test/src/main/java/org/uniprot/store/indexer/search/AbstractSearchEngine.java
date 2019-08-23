@@ -13,7 +13,7 @@ import org.apache.solr.core.CoreContainer;
 import org.junit.rules.ExternalResource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.uniprot.store.indexer.converter.DocumentConverter;
+import org.uniprot.store.job.common.converter.DocumentConverter;
 import org.uniprot.store.search.document.Document;
 
 import java.io.File;

@@ -24,7 +24,7 @@ import org.uniprot.core.taxonomy.*;
 import org.uniprot.core.taxonomy.impl.TaxonomyEntryImpl;
 import org.uniprot.core.uniprot.taxonomy.Taxonomy;
 import org.uniprot.store.indexer.common.config.UniProtSolrOperations;
-import org.uniprot.store.indexer.common.listener.ListenerConfig;
+import org.uniprot.store.job.common.listener.ListenerConfig;
 import org.uniprot.store.indexer.common.utils.Constants;
 import org.uniprot.store.indexer.taxonomy.TaxonomyJob;
 import org.uniprot.store.indexer.taxonomy.TaxonomySQLConstants;
