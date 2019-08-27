@@ -6,9 +6,9 @@ import org.springframework.batch.item.ExecutionContext;
 import org.springframework.batch.item.ItemReader;
 import org.uniprot.core.flatfile.parser.impl.DefaultUniProtEntryIterator;
 import org.uniprot.core.util.concurrency.OnZeroCountSleeper;
-import org.uniprot.store.indexer.common.utils.Constants;
 import org.uniprot.store.indexer.uniprotkb.config.UniProtKBIndexingProperties;
 import org.uniprot.store.indexer.uniprotkb.model.UniProtEntryDocumentPair;
+import org.uniprot.store.job.common.util.CommonConstants;
 
 /**
  * Created 10/04/19
@@ -46,6 +46,6 @@ public class UniProtEntryItemReader implements ItemReader<UniProtEntryDocumentPa
     @BeforeStep
     public void setStepExecution(final StepExecution stepExecution) {
         ExecutionContext executionContext = stepExecution.getJobExecution().getExecutionContext();
-        executionContext.put(Constants.ENTRIES_TO_WRITE_COUNTER, sleeper);
+        executionContext.put(CommonConstants.ENTRIES_TO_WRITE_COUNTER, sleeper);
     }
 }

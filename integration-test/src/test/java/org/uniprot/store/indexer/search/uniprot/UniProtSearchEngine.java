@@ -14,7 +14,7 @@ import org.uniprot.core.cv.taxonomy.FileNodeIterable;
 import org.uniprot.core.cv.taxonomy.TaxonomyMapRepo;
 import org.uniprot.core.cv.taxonomy.TaxonomyRepo;
 import org.uniprot.core.uniprot.UniProtEntry;
-import org.uniprot.store.indexer.converter.DocumentConverter;
+import org.uniprot.store.job.common.converter.DocumentConverter;
 import org.uniprot.store.indexer.search.AbstractSearchEngine;
 import org.uniprot.store.indexer.uniprot.go.GoRelationFileReader;
 import org.uniprot.store.indexer.uniprot.go.GoRelationFileRepo;

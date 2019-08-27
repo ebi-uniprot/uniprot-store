@@ -7,12 +7,10 @@ import org.junit.jupiter.api.Test;
 import org.springframework.batch.core.JobExecution;
 import org.springframework.batch.core.StepExecution;
 import org.springframework.batch.item.ExecutionContext;
+import org.uniprot.core.util.concurrency.OnZeroCountSleeper;
 import org.uniprot.store.job.common.model.AbstractEntryDocumentPair;
 import org.uniprot.store.job.common.store.Store;
 import org.uniprot.store.job.common.util.CommonConstants;
-import org.uniprot.store.job.common.writer.ItemRetryWriter;
-
-import org.uniprot.core.util.concurrency.OnZeroCountSleeper;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -111,7 +109,7 @@ class ItemRetryWriterTest {
     }
 
     private static class FakeStore {
-        public void saveToStore(Collection<?> items) {
+        void saveToStore(Collection<?> items) {
             log.info("Pretending to save items: {}", items);
         }
     }

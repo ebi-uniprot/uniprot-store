@@ -1,12 +1,12 @@
-package org.uniprot.store.indexer.common.processor;
+package org.uniprot.store.job.common.processor;
 
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.batch.item.ItemProcessor;
-import org.uniprot.store.indexer.common.DocumentConversionException;
-import org.uniprot.store.indexer.common.model.EntryDocumentPair;
-import org.uniprot.store.indexer.converter.DocumentConverter;
+import org.uniprot.store.job.common.DocumentConversionException;
+import org.uniprot.store.job.common.converter.DocumentConverter;
+import org.uniprot.store.job.common.model.EntryDocumentPair;
 import org.uniprot.store.search.document.Document;
 
 /**

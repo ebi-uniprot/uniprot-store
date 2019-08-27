@@ -1,7 +1,5 @@
 package org.uniprot.store.indexer.uniprotkb.step;
 
-import static org.uniprot.store.indexer.common.utils.Constants.SUGGESTIONS_INDEX_STEP;
-
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
 import org.springframework.batch.core.listener.ExecutionContextPromotionListener;
@@ -11,15 +9,17 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.uniprot.store.indexer.common.config.UniProtSolrOperations;
-import org.uniprot.store.indexer.common.listener.LogRateListener;
-import org.uniprot.store.indexer.common.listener.LogStepListener;
 import org.uniprot.store.indexer.common.writer.SolrDocumentWriter;
 import org.uniprot.store.indexer.uniprotkb.config.SuggestionConfig;
 import org.uniprot.store.indexer.uniprotkb.config.UniProtKBConfig;
 import org.uniprot.store.indexer.uniprotkb.config.UniProtKBIndexingProperties;
 import org.uniprot.store.indexer.uniprotkb.reader.SuggestionItemReader;
+import org.uniprot.store.job.common.listener.LogRateListener;
+import org.uniprot.store.job.common.listener.LogStepListener;
 import org.uniprot.store.search.SolrCollection;
 import org.uniprot.store.search.document.suggest.SuggestDocument;
+
+import static org.uniprot.store.indexer.common.utils.Constants.SUGGESTIONS_INDEX_STEP;
 
 /**
  * Created 15/05/19

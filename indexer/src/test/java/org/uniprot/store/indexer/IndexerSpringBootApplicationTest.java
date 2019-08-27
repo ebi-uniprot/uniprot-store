@@ -14,8 +14,7 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.test.context.ActiveProfiles;
-import org.uniprot.store.indexer.IndexerSpringBootApplication;
-import org.uniprot.store.indexer.common.listener.LogJobListener;
+import org.uniprot.store.job.common.listener.LogJobListener;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;

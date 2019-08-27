@@ -1,7 +1,5 @@
 package org.uniprot.store.indexer.uniparc;
 
-import static org.uniprot.store.indexer.common.utils.Constants.UNIPARC_INDEX_JOB;
-
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.JobExecution;
 import org.springframework.batch.core.JobExecutionListener;
@@ -14,8 +12,10 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.uniprot.store.indexer.common.config.SolrRepositoryConfig;
 import org.uniprot.store.indexer.common.config.UniProtSolrOperations;
-import org.uniprot.store.indexer.common.listener.WriteRetrierLogJobListener;
+import org.uniprot.store.job.common.listener.WriteRetrierLogJobListener;
 import org.uniprot.store.search.SolrCollection;
+
+import static org.uniprot.store.indexer.common.utils.Constants.UNIPARC_INDEX_JOB;
 
 /**
  *

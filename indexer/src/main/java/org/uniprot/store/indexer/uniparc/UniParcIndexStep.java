@@ -16,11 +16,10 @@ import org.uniprot.core.cv.taxonomy.TaxonomyMapRepo;
 import org.uniprot.core.cv.taxonomy.TaxonomyRepo;
 import org.uniprot.core.xml.jaxb.uniparc.Entry;
 import org.uniprot.store.indexer.common.config.UniProtSolrOperations;
-import org.uniprot.store.indexer.common.listener.LogRateListener;
 import org.uniprot.store.indexer.common.writer.SolrDocumentWriter;
-import org.uniprot.store.indexer.converter.DocumentConverter;
+import org.uniprot.store.job.common.converter.DocumentConverter;
+import org.uniprot.store.job.common.listener.LogRateListener;
 import org.uniprot.store.search.SolrCollection;
-import org.uniprot.store.search.document.proteome.ProteomeDocument;
 import org.uniprot.store.search.document.uniparc.UniParcDocument;
 
 import java.io.File;

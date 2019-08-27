@@ -12,7 +12,7 @@ import org.uniprot.core.uniref.UniRefMemberIdType;
 import org.uniprot.core.util.Utils;
 import org.uniprot.core.xml.jaxb.uniref.Entry;
 import org.uniprot.core.xml.uniref.UniRefEntryConverter;
-import org.uniprot.store.indexer.converter.DocumentConverter;
+import org.uniprot.store.job.common.converter.DocumentConverter;
 import org.uniprot.store.indexer.util.DateUtils;
 import org.uniprot.store.indexer.util.TaxonomyRepoUtil;
 import org.uniprot.store.search.document.uniref.UniRefDocument;

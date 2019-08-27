@@ -40,8 +40,8 @@ import org.uniprot.core.uniprot.feature.FeatureType;
 import org.uniprot.core.uniprot.taxonomy.OrganismHost;
 import org.uniprot.core.uniprot.xdb.UniProtDBCrossReference;
 import org.uniprot.core.util.PublicationDateFormatter;
-import org.uniprot.store.indexer.common.DocumentConversionException;
-import org.uniprot.store.indexer.converter.DocumentConverter;
+import org.uniprot.store.job.common.DocumentConversionException;
+import org.uniprot.store.job.common.converter.DocumentConverter;
 import org.uniprot.store.indexer.uniprot.go.GoRelationRepo;
 import org.uniprot.store.indexer.uniprot.go.GoTerm;
 import org.uniprot.store.indexer.uniprot.pathway.PathwayRepo;
@@ -63,8 +63,6 @@ import static org.uniprot.store.indexer.uniprot.go.GoRelationFileRepo.Relationsh
 import static org.uniprot.store.indexer.uniprot.go.GoRelationFileRepo.Relationship.PART_OF;
 
 /**
- * // TODO: 18/04/19 can be moved to a different package?
- * <p>
  * Created 18/04/19
  *
  * @author Edd

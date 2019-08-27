@@ -6,8 +6,6 @@ public class Constants {
 
     public static final String UNIPROTKB_INDEX_JOB = "UniProtKB_Indexing_Job";
     public static final String UNIPROTKB_INDEX_STEP = "UniProtKB_Indexing_Step";
-    public static final String INDEX_FAILED_ENTRIES_COUNT_KEY = "INDEX_FAILED_ENTRIES_COUNT_KEY";
-    public static final String INDEX_WRITTEN_ENTRIES_COUNT_KEY = "INDEX_WRITTEN_ENTRIES_COUNT_KEY";
 
     public static final String CROSS_REF_LOAD_JOB = "Cross ref load job";
     public static final String CROSS_REF_INDEX_STEP = "Cross ref indexing step";
@@ -44,8 +42,6 @@ public class Constants {
     public static final String SUGGESTIONS_INDEX_STEP = "Suggestion_Indexing_Step";
     public static final String SUGGESTIONS_MAP = "Suggestions_Set";
 
-    public static final String ENTRIES_TO_WRITE_COUNTER = "Entries_to_write_counter";
-    
     public static final String UNIREF_INDEX_JOB = "UniRef_Indexing_Job";
     public static final String UNIREF_INDEX_STEP = "UniRef_Index_Step";
 }

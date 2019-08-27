@@ -12,7 +12,7 @@ import org.uniprot.core.uniparc.UniParcEntry;
 import org.uniprot.core.uniprot.taxonomy.Taxonomy;
 import org.uniprot.core.xml.jaxb.uniparc.Entry;
 import org.uniprot.core.xml.uniparc.UniParcEntryConverter;
-import org.uniprot.store.indexer.converter.DocumentConverter;
+import org.uniprot.store.job.common.converter.DocumentConverter;
 import org.uniprot.store.indexer.util.TaxonomyRepoUtil;
 import org.uniprot.store.search.document.uniparc.UniParcDocument;
 import org.uniprot.store.search.document.uniparc.UniParcDocument.UniParcDocumentBuilder;

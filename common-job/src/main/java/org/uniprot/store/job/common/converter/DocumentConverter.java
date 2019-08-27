@@ -1,6 +1,6 @@
-package org.uniprot.store.indexer.converter;
+package org.uniprot.store.job.common.converter;
 
-import org.uniprot.store.indexer.common.DocumentConversionException;
+import org.uniprot.store.job.common.DocumentConversionException;
 import org.uniprot.store.search.document.Document;
 
 /**

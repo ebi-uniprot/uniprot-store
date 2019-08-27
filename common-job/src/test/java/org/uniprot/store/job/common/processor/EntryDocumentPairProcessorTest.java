@@ -1,12 +1,14 @@
-package org.uniprot.store.indexer.common.processor;
+package org.uniprot.store.job.common.processor;
 
 import lombok.Getter;
+import org.hamcrest.MatcherAssert;
+import org.hamcrest.Matchers;
+import org.hamcrest.collection.IsIterableContainingInOrder;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.uniprot.store.indexer.common.DocumentConversionException;
-import org.uniprot.store.indexer.common.model.AbstractEntryDocumentPair;
-import org.uniprot.store.indexer.common.processor.EntryDocumentPairProcessor;
-import org.uniprot.store.indexer.converter.DocumentConverter;
+import org.uniprot.store.job.common.DocumentConversionException;
+import org.uniprot.store.job.common.converter.DocumentConverter;
+import org.uniprot.store.job.common.model.AbstractEntryDocumentPair;
 import org.uniprot.store.search.document.Document;
 
 import java.io.PrintWriter;
@@ -16,13 +18,8 @@ import java.nio.file.Paths;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.hasSize;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.collection.IsIterableContainingInOrder.contains;
-
 /**
- * Created 18/04/19
+ * Created 22/08/19
  *
  * @author Edd
  */
@@ -61,13 +58,13 @@ class EntryDocumentPairProcessorTest {
 
         // THEN --------------------------------
         // ensure this entry is written to the error log
-        assertThat(Files.exists(logFileForErrors), is(true));
+        MatcherAssert.assertThat(Files.exists(logFileForErrors), Matchers.is(true));
 
         // sanity check: ensure the error log contains the correct accession
         List<String> lines = Files.lines(logFileForErrors)
                 .collect(Collectors.toList());
-        assertThat(lines, hasSize(1));
-        assertThat(lines, contains(entryContents));
+        MatcherAssert.assertThat(lines, Matchers.hasSize(1));
+        MatcherAssert.assertThat(lines, IsIterableContainingInOrder.contains(entryContents));
     }
 
     private static class BasicDocumentPairProcessor extends EntryDocumentPairProcessor<BasicEntry, BasicDocument, BasicEntryDocumentPair> {

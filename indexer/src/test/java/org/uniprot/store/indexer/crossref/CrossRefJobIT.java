@@ -14,14 +14,13 @@ import org.springframework.data.solr.core.query.SimpleQuery;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.uniprot.store.indexer.common.config.UniProtSolrOperations;
-import org.uniprot.store.indexer.common.listener.ListenerConfig;
 import org.uniprot.store.indexer.common.utils.Constants;
-import org.uniprot.store.indexer.crossref.CrossRefJob;
 import org.uniprot.store.indexer.crossref.steps.CrossRefStep;
 import org.uniprot.store.indexer.crossref.steps.CrossRefUniProtCountStep;
 import org.uniprot.store.indexer.test.config.FakeIndexerSpringBootApplication;
 import org.uniprot.store.indexer.test.config.FakeReadDatabaseConfig;
 import org.uniprot.store.indexer.test.config.SolrTestConfig;
+import org.uniprot.store.job.common.listener.ListenerConfig;
 import org.uniprot.store.search.SolrCollection;
 import org.uniprot.store.search.document.dbxref.CrossRefDocument;
 
