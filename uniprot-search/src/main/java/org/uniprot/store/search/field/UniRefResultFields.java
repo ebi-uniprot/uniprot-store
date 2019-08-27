@@ -43,7 +43,7 @@ public enum UniRefResultFields implements ReturnField {
 					});
 			this.resultFields.addAll(fields);
 			
-			this.fieldMap.put("upi", new FieldImpl("Entry", "upi"));		
+			this.fieldMap.put("id", new FieldImpl("Cluster ID", "id"));		
 			this.resultFields.stream().flatMap(val -> val.getFields().stream())
 					.forEach(field -> this.fieldMap.put(field.getName(), field));
 		} catch (Exception e) {

@@ -53,7 +53,7 @@ public interface UniParcField {
 		database(SearchFieldType.TERM), 
 		active(SearchFieldType.TERM), 
 		checksum(SearchFieldType.TERM), 
-		length(SearchFieldType.TERM, FieldValueValidator::isNumberValue, null),
+		length(SearchFieldType.RANGE),
 		content(SearchFieldType.TERM); //used in the default search
 																												
 

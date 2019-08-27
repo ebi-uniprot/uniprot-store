@@ -46,7 +46,7 @@ public class FieldValueValidator {
     public static boolean isUniRefIdValid(String value){
         boolean result = false;
         if(value != null) {
-            result = value.toUpperCase().matches(UNIREF_CLUSTER_ID_REX);
+            result = value.matches(UNIREF_CLUSTER_ID_REX);
         }
         return result;
     }

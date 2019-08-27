@@ -25,7 +25,7 @@ public interface UniRefField {
 			count("count"),
 			
 			created("created"),
-			organism("organism_sort"),
+			organism_sort("organism_sort"),
 			length("length")
 			;
 
