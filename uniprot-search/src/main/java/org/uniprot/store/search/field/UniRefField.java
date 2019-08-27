@@ -16,6 +16,35 @@ import org.uniprot.store.search.field.validator.FieldValueValidator;
 */
 
 public interface UniRefField {
+	enum Return {
+		id;
+	}
+	
+	 enum Sort {
+			id("id"),
+			count("count"),
+			
+			created("created"),
+			organism("organism_sort"),
+			length("length")
+			;
+
+			private String solrFieldName;
+
+			Sort(String solrFieldName) {
+				this.solrFieldName = solrFieldName;
+			}
+
+			public String getSolrFieldName() {
+				return solrFieldName;
+			}
+
+			@Override
+			public String toString() {
+				return this.solrFieldName;
+			}
+		}
+	
 	enum Search  implements SearchField {
 		
 		id(SearchFieldType.TERM, FieldValueValidator::isUniRefIdValid, null), // uniparc upid
@@ -24,7 +53,7 @@ public interface UniRefField {
 		count(SearchFieldType.RANGE),
 		length(SearchFieldType.RANGE),
 		created(SearchFieldType.RANGE),
-		uniprotid(SearchFieldType.TERM),
+		uniprot_id(SearchFieldType.TERM),
 		upi(SearchFieldType.TERM, FieldValueValidator::isUpiValid, null), // uniparc upid
 		taxonomy_id(SearchFieldType.TERM, FieldValueValidator::isNumberValue, null),
 		taxonomy_name(SearchFieldType.TERM, null,null),
@@ -82,6 +111,52 @@ public interface UniRefField {
 					.filter(Search::hasBoostValue)
 					.collect(Collectors.toList());
 		}
+	}
+	enum ResultFields implements ReturnField{
+		id,
+		name,
+		commonTaxon,
+		commonTaxonId,
+		count,
+		organismId,
+		organism,
+		identity,
+		length,
+		sequence,
+		member,
+		created
+		;
+
+		 private String javaFieldName;
+	        private boolean isMandatoryJsonField;
+
+	        ResultFields(){
+	            this(null);
+	        }
+
+	        ResultFields(String javaFieldName) {
+	            this(javaFieldName, false);
+	        }
+
+	        ResultFields(String javaFieldName, boolean isMandatoryJsonField) {
+	            this.javaFieldName = javaFieldName;
+	            this.isMandatoryJsonField = isMandatoryJsonField;
+	        }
+		
+	        @Override
+	        public boolean hasReturnField(String fieldName) {
+	            return false;
+	        }
+
+	        @Override
+	        public String getJavaFieldName() {
+	            return this.javaFieldName;
+	        }
+
+	        @Override
+	        public boolean isMandatoryJsonField() {
+	            return this.isMandatoryJsonField;
+	        }
 	}
 }
 

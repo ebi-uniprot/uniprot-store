@@ -39,8 +39,11 @@ public class UniRefDocument implements Document {
 	@Field("created")
 	private Date created;
 	@Singular
-	@Field("uniprotid")
+	@Field("uniprot_id")
 	private List<String> uniprotIds;
+	
+    @Field("organism_sort")
+    public String organismSort;
 	
 	@Field("upi")
 	private List<String> upis;

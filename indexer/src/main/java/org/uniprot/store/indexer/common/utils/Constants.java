@@ -43,4 +43,5 @@ public class Constants {
     public static final String SUGGESTIONS_MAP = "Suggestions_Set";
 
     public static final String UNIREF_INDEX_JOB = "UniRef_Indexing_Job";
+    public static final String UNIREF_INDEX_STEP = "UniRef_Index_Step";
 }
