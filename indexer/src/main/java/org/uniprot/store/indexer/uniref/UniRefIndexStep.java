@@ -4,7 +4,6 @@ package org.uniprot.store.indexer.uniref;
 import static org.uniprot.store.indexer.common.utils.Constants.UNIREF_INDEX_STEP;
 import java.io.File;
 import java.io.IOException;
-
 import org.springframework.batch.core.ChunkListener;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.StepExecutionListener;

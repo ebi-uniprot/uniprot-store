@@ -72,7 +72,7 @@ import static org.uniprot.store.indexer.common.utils.Constants.UNIPROTKB_INDEX_S
                                   "uniprotkb.indexing.itemWriterTaskExecutor.maxPoolSize=1"}
 )
 class UniProtKBJobWriteSolrRetriesToLogFileThenFailIT {
-    private static final String INDEXING_DOC_WRITE_FAILED_ENTRIES_LOG = "indexing-doc-write-failed-entries.error";
+    private static final String INDEXING_DOC_WRITE_FAILED_ENTRIES_LOG = "store-write-failed-entries.error";
 
     @Autowired
     private JobLauncherTestUtils jobLauncherTestUtils;
