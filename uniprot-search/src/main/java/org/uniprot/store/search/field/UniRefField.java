@@ -113,18 +113,19 @@ public interface UniRefField {
 		}
 	}
 	enum ResultFields implements ReturnField{
-		id,
-		name,
-		commonTaxon,
-		commonTaxonId,
-		count,
-		organismId,
-		organism,
-		identity,
-		length,
-		sequence,
-		member,
-		created
+		id("id"),
+		name("name"),
+		common_taxon("commonTaxon"),
+		common_taxonid("commonTaxonId"),
+		count("memberCount"),
+		organism_id("members"),
+		organism("members"),
+		identity("entryType"),
+		length ("representativeMember"),
+		sequence("representativeMember"),
+		member("members"),
+		created ("updated"),
+		go("goTerms")
 		;
 
 		 private String javaFieldName;
@@ -157,6 +158,7 @@ public interface UniRefField {
 	        public boolean isMandatoryJsonField() {
 	            return this.isMandatoryJsonField;
 	        }
+	        
 	}
 }
 
