@@ -80,7 +80,9 @@ DRSearchIT {
 
         // EMBL refs
         entryProxy.updateEntryObject(LineType.AC, String.format(ACC_LINE, EMBL_1));
-        entryProxy.updateEntryObject(LineType.DR, "DR   EMBL; AY548484; AAT09661.1; -; Genomic_DNA.");
+        entryProxy.updateEntryObject(LineType.DR, "DR   EMBL; AY548484; AAT09661.1; -; Genomic_DNA.\n"
+        		+ "DR   EMBL; AY548489; AAT09662.1; -; Genomic_DNA.");
+        
         searchEngine.indexEntry(convertToUniProtEntry(entryProxy));
 
         entryProxy.updateEntryObject(LineType.AC, String.format(ACC_LINE, EMBL_2));
@@ -321,7 +323,36 @@ DRSearchIT {
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
         assertThat(retrievedAccessions, contains(EMBL_1, EMBL_2, EMBL_3));
     }
+    
+    @Test 
+    public void emblCount() {
+    	String query =QueryBuilder.rangeQuery("xref_count_embl", 1, 2);
+    	 QueryResponse response = searchEngine.getQueryResponse(query);
 
+         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
+         System.out.println(retrievedAccessions);
+         assertThat(retrievedAccessions, contains(EMBL_1, EMBL_2, EMBL_3));
+    }
+    @Test 
+    public void emblCount2() {
+    	String query =QueryBuilder.rangeQuery("xref_count_embl", 1, 1);
+    	 QueryResponse response = searchEngine.getQueryResponse(query);
+
+         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
+         System.out.println(retrievedAccessions);
+         assertThat(retrievedAccessions, contains(EMBL_2, EMBL_3));
+    }
+    
+    @Test 
+    public void emblCount3() {
+    	String query =QueryBuilder.rangeQuery("xref_count_embl", 2, 3);
+    	 QueryResponse response = searchEngine.getQueryResponse(query);
+
+         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
+         System.out.println(retrievedAccessions);
+         assertThat(retrievedAccessions, contains(EMBL_1));
+    }
+    
     @Test
     public void emblFindProteinIDWithoutVersion() {
         String query = xref("EMBL", "BAT09661");
@@ -487,6 +518,8 @@ DRSearchIT {
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
         assertThat(retrievedAccessions, containsInAnyOrder(TCDB_2));
     }
+    
+    
     @Ignore
     @Test
     public void tcdbFindSingleThisIsAOccurrence() {

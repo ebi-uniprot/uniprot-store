@@ -102,9 +102,6 @@ public class UniProtDocument implements Document {
     @Field("database")
     public Set<String> databases = new HashSet<>();
 
-    @Field("xref_*")
-    public Map<String, Collection<String>> xrefMap = new HashMap<>();
-
     @Field("lit_title")
     public List<String> referenceTitles = new ArrayList<>();
 
@@ -326,6 +323,12 @@ public class UniProtDocument implements Document {
     @Field("is_isoform")
     public Boolean isIsoform =false;
     
+    @Field("xref_count_*")
+    public Map<String, Long> xrefCountMap = new HashMap<>();
+    
+    @Field("source")
+    public List<String> sources =new ArrayList<>();
+    
     @Field("uniref_cluster_50")
     public String unirefCluster50;
     
@@ -338,6 +341,10 @@ public class UniProtDocument implements Document {
     public String file_path;
     public long obj_offset;
     public long obj_location;
+    
+    
+    
+    
 
     @Override
     public String getDocumentId() {
@@ -390,8 +397,6 @@ public class UniProtDocument implements Document {
         if (secacc != null ? !secacc.equals(that.secacc) : that.secacc != null) return false;
         if (taxLineageIds != null ? !taxLineageIds.equals(that.taxLineageIds) : that.taxLineageIds != null)
             return false;
-        if (xrefMap != null ? !xrefMap.equals(that.xrefMap) : that.xrefMap != null) return false;
-
         return true;
     }
 
@@ -415,7 +420,6 @@ public class UniProtDocument implements Document {
         result = 31 * result + (organelles != null ? organelles.hashCode() : 0);
         result = 31 * result + (organismHostNames != null ? organismHostNames.hashCode() : 0);
         result = 31 * result + (organismHostIds != null ? organismHostIds.hashCode() : 0);
-        result = 31 * result + (xrefMap != null ? xrefMap.hashCode() : 0);
         result = 31 * result + (referenceTitles != null ? referenceTitles.hashCode() : 0);
         result = 31 * result + (referenceAuthors != null ? referenceAuthors.hashCode() : 0);
         result = 31 * result + (referencePubmeds != null ? referencePubmeds.hashCode() : 0);
@@ -450,7 +454,6 @@ public class UniProtDocument implements Document {
                 ", organelles=" + organelles +
                 ", organismHostNames=" + organismHostNames +
                 ", organismHostIds=" + organismHostIds +
-                ", xrefMap=" + xrefMap +
                 ", referenceTitles=" + referenceTitles +
                 ", referenceAuthors=" + referenceAuthors +
                 ", referencePubmeds=" + referencePubmeds +

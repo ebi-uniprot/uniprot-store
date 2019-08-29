@@ -474,7 +474,9 @@
     <field name="modified" type="date" indexed="true" stored="false" required="false"/>
     <field name="created" type="date" indexed="true" stored="false" required="false"/>
     <field name="sequence_modified" type="date" indexed="true" stored="false" required="false"/>
-
+    
+    <field name="source" type="lowercase" indexed="true" stored="false" required="false" multiValued="true"/>
+    
     <!-- Protein name section -->
     <field name="name" type="full_ci" indexed="true" stored="false" required="false" multiValued="true"/>
     <field name="name_sort" type="string" indexed="true" stored="false" required="false" multiValued="false" docValues="true"/>
@@ -482,8 +484,7 @@
     <field name="fragment" type="boolean" indexed="true" stored="false" required="false" multiValued="false"/>
     <field name="precursor" type="boolean" indexed="true" stored="false" required="false" multiValued="false"/>
     <field name="d3structure" type="boolean" indexed="true" stored="false" required="false" multiValued="false"/>
-    <field name="proteins_with" type="string" indexed="true" stored="false" required="false" multiValued="true"
-           docValues="true"/>
+    <field name="proteins_with" type="string" indexed="true" stored="false" required="false" multiValued="true"/>
 
     <!-- Uniprot Entry Fields optional-->
     <field name="sec_acc" type="basic_ci" indexed="true" stored="false" required="false" multiValued="true"/>
@@ -531,8 +532,8 @@
     <field name="taxonomy_id" type="int" indexed="true" stored="false" required="false" multiValued="true"/>
     <field name="host_name" type="full_ci" indexed="true" stored="false" required="false" multiValued="true"/>
     <field name="host_id" type="int" indexed="true" stored="false" required="false" multiValued="true"/>
-    <field name="popular_organism" type="string" indexed="true" stored="false" required="false" multiValued="false" docValues="true"/>
-    <field name="other_organism" type="string" indexed="true" stored="false" required="false" multiValued="false" docValues="true"/>
+    <field name="popular_organism" type="string" indexed="true" stored="false" required="false" multiValued="false" />
+    <field name="other_organism" type="string" indexed="true" stored="false" required="false" multiValued="false" />
 
     <!-- Comments -->
     <dynamicField name="cc_*" type="full_ci" indexed="true" required="false" stored="false" multiValued="true"/>
@@ -592,6 +593,7 @@
     <!-- Cross-references -->
     <field name="xref" type="lowercase" indexed="true" stored="false" required="false" multiValued="true"/>
     <field name="database" type="lowercase" indexed="true" stored="false" required="false"  multiValued="true"/>
+    <dynamicField name="xref_count_*" type="int" indexed="true" required="false" stored="false" multiValued="false"/>
 
     <!-- Citations -->
     <field name="lit_author" type="full_ci" indexed="true" stored="false" required="false" multiValued="true"/>

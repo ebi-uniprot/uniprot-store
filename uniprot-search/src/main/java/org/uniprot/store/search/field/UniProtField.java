@@ -65,6 +65,8 @@ public interface UniProtField {
         sequence_modified(SearchFieldType.RANGE), //sequence last updated
         lit_pubdate(SearchFieldType.RANGE),
 
+        source(SearchFieldType.TERM),
+        
         ft_sites(SearchFieldType.TERM),
         ftev_sites(SearchFieldType.TERM),
         ftlen_sites(SearchFieldType.RANGE),

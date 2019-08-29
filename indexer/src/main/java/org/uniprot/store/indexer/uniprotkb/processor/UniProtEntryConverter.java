@@ -35,6 +35,7 @@ import org.uniprot.core.uniprot.builder.UniProtIdBuilder;
 import org.uniprot.core.uniprot.comment.*;
 import org.uniprot.core.uniprot.description.*;
 import org.uniprot.core.uniprot.evidence.Evidence;
+import org.uniprot.core.uniprot.evidence.EvidenceTypeCategory;
 import org.uniprot.core.uniprot.feature.Feature;
 import org.uniprot.core.uniprot.feature.FeatureType;
 import org.uniprot.core.uniprot.taxonomy.OrganismHost;
@@ -52,6 +53,7 @@ import org.uniprot.store.search.document.suggest.SuggestDocument;
 import org.uniprot.store.search.document.uniprot.UniProtDocument;
 
 import java.util.*;
+import java.util.function.Function;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -73,7 +75,6 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtEntry, Un
     static final int MAX_STORED_FIELD_LENGTH = 32766;
     private static final Logger LOGGER = LoggerFactory.getLogger(UniProtEntryConverter.class);
 
-    private static final String XREF = "xref_";
     private static final String COMMENT = "cc_";
     private static final String CC_EV = "ccev_";
     private static final String FEATURE = "ft_";
@@ -81,6 +82,7 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtEntry, Un
     private static final String FT_LENGTH = "ftlen_";
     private static final String DASH = "-";
     private static final String GO = "go_";
+    private static final String XREF_COUNT = "xref_count_";
     private static final Map<Integer, String> POPULAR_ORGANIMS_TAX_NAME
             = Collections.unmodifiableMap(new HashMap<Integer, String>() {{
         put(9606, "Human");
@@ -214,10 +216,13 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtEntry, Un
             setProteinExistence(source, japiDocument);
             setSequence(source, japiDocument);
             setScore(source, japiDocument);
+            japiDocument.xrefCountMap =getXrefCount(source);
+            japiDocument.sources = getEvidences(source);
             // TODO: 04/07/19 commented out for testing
 //            setAvroDefaultEntry(source, japiDocument);
             setDefaultSearchContent(japiDocument);
             setUniRefClusters(japiDocument.accession, japiDocument);
+            
             return japiDocument;
         } catch (IllegalArgumentException | NullPointerException e) {
             String message = "Error converting UniProt entry: " + source.getPrimaryAccession().getValue();
@@ -226,6 +231,31 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtEntry, Un
         }
     }
 
+    private List<String> getEvidences(UniProtEntry uniProtEntry){
+    	List<Evidence> evidences =uniProtEntry.gatherEvidences();
+    	 return evidences.stream().map(val -> val.getSource())
+    	.filter(val -> val!=null)
+    	.map(val -> val.getDatabaseType()) 	 
+    	.filter (val-> ( val !=null) && val.getDetail().getCategory() == EvidenceTypeCategory.A)    	
+    	.map(val -> {
+    		String data = val.getName();
+    		if(data.equalsIgnoreCase("HAMAP-rule"))
+    				data = "HAMAP";
+    		return data;
+    	})
+    	.filter(val -> val !=null)
+    	.map(val -> val.toLowerCase())
+    	.collect(Collectors.toList());
+    	
+
+    }
+    private Map<String, Long> getXrefCount(UniProtEntry uniProtEntry){
+    	return uniProtEntry.getDatabaseCrossReferences()
+    	.stream().map(val-> XREF_COUNT +val.getDatabaseType().getName().toLowerCase())
+    	.collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
+    	
+    	
+    }
     public boolean isCanonicalIsoform(UniProtEntry uniProtEntry) {
         return uniProtEntry.getCommentByType(CommentType.ALTERNATIVE_PRODUCTS)
                 .stream()
