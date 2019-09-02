@@ -63,16 +63,16 @@ class DatabasesTest {
 	@Test
 	void testGroup() {
 		List<DatabaseGroup> groups = instance.getDatabases();
-		assertTrue(groups.stream().anyMatch(val -> val.getGroupName().equals("SEQ")));
-		assertTrue(groups.stream().anyMatch(val -> val.getGroupName().equals("GMA")));
-		assertFalse(groups.stream().anyMatch(val -> val.getGroupName().equals("Proteomic database")));
+		assertTrue(groups.stream().anyMatch(val -> val.getGroupName().equals(DatabaseCategory.typeOf("SEQ").getDisplayName())));
+		assertFalse(groups.stream().anyMatch(val -> val.getGroupName().equals("GMA")));
+		assertTrue(groups.stream().anyMatch(val -> val.getGroupName().equals("Proteomic databases")));
 
 	}
 	@Test
 	void testDatabase() {
 		List<DatabaseGroup> groups = instance.getDatabases();
 		Optional<DatabaseGroup> ppGroup = groups.stream()
-				.filter(val -> val.getGroupName().equals("PFAM")).findFirst();
+				.filter(val -> val.getGroupName().equals(DatabaseCategory.typeOf("PFAM").getDisplayName())).findFirst();
 
 		assertTrue(ppGroup.isPresent());
 		assertEquals(12, ppGroup.get().getItems().size());
