@@ -518,7 +518,8 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtEntry, Un
 
 	private void addAncestors(String evType, String goTerm, UniProtDocument doc) {
 		Set<GoTerm> ancestors = goRelationRepo.getAncestors(goTerm, asList(IS_A, PART_OF));
-		ancestors.forEach(ancestor -> addGoterm(evType, ancestor.getId(), ancestor.getName(), doc));
+		if(ancestors !=null)
+			ancestors.forEach(ancestor -> addGoterm(evType, ancestor.getId(), ancestor.getName(), doc));
 	}
 
 	private void addGoterm(String evType, String goId, String term, UniProtDocument japiDocument) {
