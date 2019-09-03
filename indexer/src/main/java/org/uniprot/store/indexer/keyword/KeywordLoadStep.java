@@ -15,6 +15,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.uniprot.core.cv.keyword.KeywordEntry;
 import org.uniprot.store.indexer.common.config.UniProtSolrOperations;
+import org.uniprot.store.indexer.common.listener.SolrCommitStepListener;
 import org.uniprot.store.indexer.common.utils.Constants;
 import org.uniprot.store.indexer.common.writer.SolrDocumentWriter;
 import org.uniprot.store.search.SolrCollection;
@@ -45,7 +46,8 @@ public class KeywordLoadStep {
     public Step indexKeyword(StepExecutionListener stepListener, ChunkListener chunkListener,
                              @Qualifier("KeywordReader") ItemReader<KeywordEntry> keywordReader,
                              @Qualifier("KeywordProcessor") ItemProcessor<KeywordEntry, KeywordDocument> keywordProcessor,
-                             @Qualifier("KeywordWriter") ItemWriter<KeywordDocument> keywordWriter) {
+                             @Qualifier("KeywordWriter") ItemWriter<KeywordDocument> keywordWriter,
+                             UniProtSolrOperations solrOperations) {
         return this.steps.get(Constants.KEYWORD_INDEX_STEP)
                 .<KeywordEntry, KeywordDocument>chunk(this.chunkSize)
                 .reader(keywordReader)
@@ -53,6 +55,7 @@ public class KeywordLoadStep {
                 .writer(keywordWriter)
                 .listener(stepListener)
                 .listener(chunkListener)
+                .listener(new SolrCommitStepListener(solrOperations))
                 .build();
     }
 

@@ -16,6 +16,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.Resource;
 import org.uniprot.core.literature.LiteratureEntry;
 import org.uniprot.store.indexer.common.config.UniProtSolrOperations;
+import org.uniprot.store.indexer.common.listener.SolrCommitStepListener;
 import org.uniprot.store.indexer.common.utils.Constants;
 import org.uniprot.store.indexer.common.writer.SolrDocumentWriter;
 import org.uniprot.store.indexer.literature.processor.LiteratureMappingProcessor;
@@ -53,7 +54,8 @@ public class LiteratureMappingStep {
     public Step indexLiteratureMapping(StepExecutionListener stepListener, ChunkListener chunkListener,
                                        @Qualifier("LiteratureMappingReader") ItemReader<LiteratureEntry> literatureMappingReader,
                                        @Qualifier("LiteratureMappingProcessor") ItemProcessor<LiteratureEntry, LiteratureDocument> literatureMappingProcessor,
-                                       @Qualifier("LiteratureMappingWriter") ItemWriter<LiteratureDocument> literatureMappingWriter) {
+                                       @Qualifier("LiteratureMappingWriter") ItemWriter<LiteratureDocument> literatureMappingWriter,
+                                       UniProtSolrOperations solrOperations) {
         return this.steps.get(Constants.LITERATURE_MAPPING_INDEX_STEP)
                 .<LiteratureEntry, LiteratureDocument>chunk(chunkSize)
                 .reader(literatureMappingReader)
@@ -61,6 +63,7 @@ public class LiteratureMappingStep {
                 .writer(literatureMappingWriter)
                 .listener(stepListener)
                 .listener(chunkListener)
+                .listener(new SolrCommitStepListener(solrOperations))
                 .build();
     }
 

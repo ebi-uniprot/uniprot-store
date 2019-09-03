@@ -48,9 +48,6 @@ public class KeywordLoadProcessor implements ItemProcessor<KeywordEntry, Keyword
             byte[] keywordObj = document.getKeywordObj().array();
             KeywordEntry statisticsEntry = keywordObjectMapper.readValue(keywordObj, KeywordEntryImpl.class);
             keywordEntry.setStatistics(statisticsEntry.getStatistics());
-
-            solrOperations.delete(SolrCollection.keyword.name(), query);
-            solrOperations.softCommit(SolrCollection.keyword.name());
         }
         return createKeywordDocument(keywordEntry);
 

@@ -52,9 +52,6 @@ public class LiteratureLoadProcessor implements ItemProcessor<LiteratureEntry, L
             LiteratureEntry statisticsEntry = literatureObjectMapper.readValue(literatureObj, LiteratureEntryImpl.class);
             entryBuilder.statistics(statisticsEntry.getStatistics());
             entryBuilder.literatureMappedReference(statisticsEntry.getLiteratureMappedReferences());
-
-            solrOperations.delete(SolrCollection.literature.name(), query);
-            solrOperations.softCommit(SolrCollection.literature.name());
         }
         return createLiteratureDocument(entryBuilder.build());
     }

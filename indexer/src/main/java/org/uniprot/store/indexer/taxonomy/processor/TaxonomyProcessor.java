@@ -23,14 +23,13 @@ import org.uniprot.store.search.SolrCollection;
 import org.uniprot.store.search.document.taxonomy.TaxonomyDocument;
 
 import javax.sql.DataSource;
-
-import static org.uniprot.store.indexer.taxonomy.TaxonomySQLConstants.*;
-
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+
+import static org.uniprot.store.indexer.taxonomy.TaxonomySQLConstants.*;
 
 public class TaxonomyProcessor implements ItemProcessor<TaxonomyEntry, TaxonomyDocument> {
 
@@ -57,9 +56,6 @@ public class TaxonomyProcessor implements ItemProcessor<TaxonomyEntry, TaxonomyD
             byte[] taxonomyObj = document.getTaxonomyObj().array();
             TaxonomyEntry statisticsEntry = jsonMapper.readValue(taxonomyObj, TaxonomyEntryImpl.class);
             entryBuilder.statistics(statisticsEntry.getStatistics());
-
-            solrOperations.delete(SolrCollection.taxonomy.name(), query);
-            solrOperations.softCommit(SolrCollection.taxonomy.name());
         }
         entryBuilder.hosts(loadVirusHosts(taxonId));
         entryBuilder.otherNames(loadOtherNames(taxonId));

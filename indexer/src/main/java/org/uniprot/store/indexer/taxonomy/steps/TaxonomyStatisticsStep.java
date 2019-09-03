@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.uniprot.store.indexer.common.config.UniProtSolrOperations;
+import org.uniprot.store.indexer.common.listener.SolrCommitStepListener;
 import org.uniprot.store.indexer.common.utils.Constants;
 import org.uniprot.store.indexer.common.writer.SolrDocumentWriter;
 import org.uniprot.store.indexer.taxonomy.TaxonomySQLConstants;
@@ -39,7 +40,8 @@ public class TaxonomyStatisticsStep {
                                        ChunkListener chunkListener,
                                        ItemReader<TaxonomyStatisticsReader.TaxonomyCount> itemTaxonomyStatisticsReader,
                                        ItemProcessor<TaxonomyStatisticsReader.TaxonomyCount,TaxonomyDocument> itemTaxonomyStatisticsProcessor,
-                                       ItemWriter<TaxonomyDocument> itemTaxonomyStatisticsWriter){
+                                       ItemWriter<TaxonomyDocument> itemTaxonomyStatisticsWriter,
+                                       UniProtSolrOperations solrOperations){
         return stepBuilders.get(Constants.TAXONOMY_LOAD_STATISTICS_STEP_NAME)
                 .<TaxonomyStatisticsReader.TaxonomyCount, TaxonomyDocument>chunk(chunkSize)
                 .reader(itemTaxonomyStatisticsReader)
@@ -47,6 +49,7 @@ public class TaxonomyStatisticsStep {
                 .writer(itemTaxonomyStatisticsWriter)
                 .listener(stepListener)
                 .listener(chunkListener)
+                .listener(new SolrCommitStepListener(solrOperations))
                 .build();
     }
 
