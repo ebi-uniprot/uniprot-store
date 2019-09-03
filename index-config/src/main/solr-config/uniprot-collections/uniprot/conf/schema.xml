@@ -502,7 +502,6 @@
 	<dynamicField name="go_*" type="lowercase" indexed="true" required="false" stored="false" multiValued="true"/>
 
     <field name="keyword" type="basic_ci" indexed="true" stored="false" required="false" multiValued="true"/>
-    <field name="keyword_id" type="string" indexed="true" stored="false" required="false" multiValued="true"/>
     
     <field name="ec" type="ec" indexed="true" stored="false" required="false" multiValued="true"/>
     <field name="ec_exact" type="lowercase" indexed="true" stored="false" required="false" multiValued="true"/>
@@ -536,14 +535,15 @@
     <field name="other_organism" type="string" indexed="true" stored="false" required="false" multiValued="false" />
 
     <!-- Comments -->
-    <dynamicField name="cc_*" type="full_ci" indexed="true" required="false" stored="false" multiValued="true"/>
+    <dynamicField name="cc_*" type="basic_ci" indexed="true" required="false" stored="false" multiValued="true"/>
     <dynamicField name="ccev_*" type="lowercase" indexed="true" required="false" stored="false" multiValued="true"/>
 
     <field name="cc_scl_term" type="basic_ci" indexed="true" stored="false" required="false" multiValued="true"/>
     <field name="cc_scl_note" type="basic_ci" indexed="true" stored="false" required="false" multiValued="true"/>
+    <field name="cc_scl_term_id" type="string" indexed="true" stored="false" required="false" multiValued="true"/>
 
-    <field name="ccev_scl_term" type="lowercase" indexed="true" stored="false" required="false" multiValued="true"/>
-    <field name="ccev_scl_note" type="lowercase" indexed="true" stored="false" required="false" multiValued="true"/>
+    <field name="ccev_scl_term" type="basic_ci" indexed="true" stored="false" required="false" multiValued="true"/>
+    <field name="ccev_scl_note" type="full_ci" indexed="true" stored="false" required="false" multiValued="true"/>
 
     <field name="cc_ap" type="full_ci" indexed="true" stored="false" required="false" multiValued="true"/>
     <field name="cc_ap_apu" type="full_ci" indexed="true" stored="false" required="false" multiValued="true"/>
@@ -571,11 +571,11 @@
     <field name="ccev_bpcp_redox_potential" type="lowercase" indexed="true" stored="false" required="false" multiValued="true"/>
     <field name="ccev_bpcp_temp_dependence" type="lowercase" indexed="true" stored="false" required="false" multiValued="true"/>
 
-    <field name="cc_cofactor_chebi" type="full_ci" indexed="true" stored="false" required="false" multiValued="true"/>
+    <field name="cc_cofactor_chebi" type="basic_ci" indexed="true" stored="false" required="false" multiValued="true"/>
     <field name="cc_cofactor_note" type="full_ci" indexed="true" stored="false" required="false" multiValued="true"/>
     <field name="cc_cofactor_chebi_ev" type="lowercase" indexed="true" stored="false" required="false" multiValued="true"/>
     <field name="cc_cofactor_note_ev" type="lowercase" indexed="true" stored="false" required="false" multiValued="true"/>
-
+  
     <field name="cc_sc" type="full_ci" indexed="true" stored="false" required="false" multiValued="true"/>
     <field name="cc_sc_framesh" type="full_ci" indexed="true" stored="false" required="false" multiValued="true"/>
     <field name="cc_sc_einit" type="full_ci" indexed="true" stored="false" required="false" multiValued="true"/>
