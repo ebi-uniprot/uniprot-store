@@ -23,7 +23,7 @@ import java.lang.annotation.Target;
 // Add extra packages below if all beans in it are required for all jobs
 @ComponentScan(basePackages = {
         // job/step listeners that are useful for all jobs
-        "org.uniprot.store.indexer.common.listener",
+        "org.uniprot.store.job.common.listener",
 
         // this package defines all job configs, but only 1 is enabled
         // via @ConditionalOnProperty annotation
