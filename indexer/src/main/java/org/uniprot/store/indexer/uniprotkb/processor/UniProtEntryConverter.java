@@ -41,13 +41,13 @@ import org.uniprot.core.uniprot.feature.FeatureType;
 import org.uniprot.core.uniprot.taxonomy.OrganismHost;
 import org.uniprot.core.uniprot.xdb.UniProtDBCrossReference;
 import org.uniprot.core.util.PublicationDateFormatter;
-import org.uniprot.store.job.common.DocumentConversionException;
-import org.uniprot.store.job.common.converter.DocumentConverter;
 import org.uniprot.store.indexer.uniprot.go.GoRelationRepo;
 import org.uniprot.store.indexer.uniprot.go.GoTerm;
 import org.uniprot.store.indexer.uniprot.pathway.PathwayRepo;
 import org.uniprot.store.indexer.util.DateUtils;
 import org.uniprot.store.indexer.util.TaxonomyRepoUtil;
+import org.uniprot.store.job.common.DocumentConversionException;
+import org.uniprot.store.job.common.converter.DocumentConverter;
 import org.uniprot.store.search.document.suggest.SuggestDictionary;
 import org.uniprot.store.search.document.suggest.SuggestDocument;
 import org.uniprot.store.search.document.uniprot.UniProtDocument;
@@ -216,13 +216,13 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtEntry, Un
             setProteinExistence(source, japiDocument);
             setSequence(source, japiDocument);
             setScore(source, japiDocument);
-            japiDocument.xrefCountMap =getXrefCount(source);
+            japiDocument.xrefCountMap = getXrefCount(source);
             japiDocument.sources = getEvidences(source);
             // TODO: 04/07/19 commented out for testing
 //            setAvroDefaultEntry(source, japiDocument);
             setDefaultSearchContent(japiDocument);
             setUniRefClusters(japiDocument.accession, japiDocument);
-            
+
             return japiDocument;
         } catch (IllegalArgumentException | NullPointerException e) {
             String message = "Error converting UniProt entry: " + source.getPrimaryAccession().getValue();
@@ -231,31 +231,33 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtEntry, Un
         }
     }
 
-    private List<String> getEvidences(UniProtEntry uniProtEntry){
-    	List<Evidence> evidences =uniProtEntry.gatherEvidences();
-    	 return evidences.stream().map(val -> val.getSource())
-    	.filter(val -> val!=null)
-    	.map(val -> val.getDatabaseType()) 	 
-    	.filter (val-> ( val !=null) && val.getDetail().getCategory() == EvidenceTypeCategory.A)    	
-    	.map(val -> {
-    		String data = val.getName();
-    		if(data.equalsIgnoreCase("HAMAP-rule"))
-    				data = "HAMAP";
-    		return data;
-    	})
-    	.filter(val -> val !=null)
-    	.map(val -> val.toLowerCase())
-    	.collect(Collectors.toList());
-    	
+    private List<String> getEvidences(UniProtEntry uniProtEntry) {
+        List<Evidence> evidences = uniProtEntry.gatherEvidences();
+        return evidences.stream().map(Evidence::getSource)
+                .filter(Objects::nonNull)
+                .map(DBCrossReference::getDatabaseType)
+                .filter(val -> (val != null) && val.getDetail().getCategory() == EvidenceTypeCategory.A)
+                .map(val -> {
+                    String data = val.getName();
+                    if (data.equalsIgnoreCase("HAMAP-rule"))
+                        data = "HAMAP";
+                    return data;
+                })
+                .filter(Objects::nonNull)
+                .map(String::toLowerCase)
+                .collect(Collectors.toList());
+
 
     }
-    private Map<String, Long> getXrefCount(UniProtEntry uniProtEntry){
-    	return uniProtEntry.getDatabaseCrossReferences()
-    	.stream().map(val-> XREF_COUNT +val.getDatabaseType().getName().toLowerCase())
-    	.collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
-    	
-    	
+
+    private Map<String, Long> getXrefCount(UniProtEntry uniProtEntry) {
+        return uniProtEntry.getDatabaseCrossReferences()
+                .stream().map(val -> XREF_COUNT + val.getDatabaseType().getName().toLowerCase())
+                .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
+
+
     }
+
     public boolean isCanonicalIsoform(UniProtEntry uniProtEntry) {
         return uniProtEntry.getCommentByType(CommentType.ALTERNATIVE_PRODUCTS)
                 .stream()
@@ -288,14 +290,14 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtEntry, Un
 
     void setLineageTaxon(int taxId, UniProtDocument document) {
         if (taxId > 0) {
-        	List<TaxonomicNode> nodes = TaxonomyRepoUtil.getTaxonomyLineage(taxonomyRepo, taxId);
-    		nodes.forEach(node -> {
-    			int id = node.id();
-    			document.taxLineageIds.add(id);
-    			List<String> taxons = TaxonomyRepoUtil.extractTaxonFromNode(node);
-    			 document.organismTaxon.addAll(taxons);
-    			 addTaxonSuggestions(id, taxons);
-    		});
+            List<TaxonomicNode> nodes = TaxonomyRepoUtil.getTaxonomyLineage(taxonomyRepo, taxId);
+            nodes.forEach(node -> {
+                int id = node.id();
+                document.taxLineageIds.add(id);
+                List<String> taxons = TaxonomyRepoUtil.extractTaxonFromNode(node);
+                document.organismTaxon.addAll(taxons);
+                addTaxonSuggestions(id, taxons);
+            });
         }
     }
 
@@ -321,8 +323,9 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtEntry, Un
         japiDocument.content.addAll(japiDocument.keywords);
         japiDocument.content.addAll(japiDocument.geneNames);
 
-        japiDocument.content.add(String.valueOf(japiDocument.organismTaxId));
-        japiDocument.content.addAll(japiDocument.organismName);
+        japiDocument.content
+                .addAll(japiDocument.taxLineageIds.stream().map(String::valueOf).collect(Collectors.toList()));
+        japiDocument.content.addAll(japiDocument.organismTaxon);
         japiDocument.content.addAll(japiDocument.organismHostNames);
         japiDocument.content
                 .addAll(japiDocument.organismHostIds.stream().map(String::valueOf).collect(Collectors.toList()));
@@ -577,7 +580,9 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtEntry, Un
 
     private void convertRp(UniProtReference uniProtReference, UniProtDocument japiDocument) {
         if (uniProtReference.hasReferencePositions()) {
-            japiDocument.scopes.addAll(uniProtReference.getReferencePositions());
+            List<String> positions = uniProtReference.getReferencePositions();
+            japiDocument.scopes.addAll(positions);
+            japiDocument.content.addAll(positions);
         }
     }
 
