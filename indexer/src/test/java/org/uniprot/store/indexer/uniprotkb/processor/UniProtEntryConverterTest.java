@@ -377,7 +377,10 @@ class UniProtEntryConverterTest {
         assertEquals(2, doc.subcellLocationNoteEv.size());
         assertTrue(doc.subcellLocationNoteEv.contains("ECO_0000250"));
         assertTrue(doc.subcellLocationNoteEv.contains("manual"));
-    //    checkSuggestionsContain(SuggestDictionary.SUBCELL, doc.subcellLocationTerm, true);
+        List<String> subcellTerm=
+        doc.subcellLocationTerm.stream().filter(val-> !val.startsWith("SL-"))
+        .collect(Collectors.toList());
+        checkSuggestionsContain(SuggestDictionary.SUBCELL, subcellTerm, true);
 
         assertEquals(2, doc.ap.size());
         assertTrue(doc.ap.contains("Alternative splicing"));
