@@ -129,4 +129,19 @@ public class FieldValueValidator {
         }
         return result;
     }
+
+    /**
+     * This method is responsible to validate subcellular location id value
+     *
+     * @param value field value
+     * @return true if it is a valid value, otherwise returns false.
+     */
+    public static boolean isSubcellularLocationIdValue(String value) {
+        boolean result = false;
+        String numberRegex = "^SL-[0-9]{4}$";
+        if (value != null) {
+            result = value.toUpperCase().matches(numberRegex);
+        }
+        return result;
+    }
 }
