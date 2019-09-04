@@ -479,7 +479,7 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtEntry, Un
 				TaxonomicNode node = taxonomicNode.get();
 				List<String> extractedTaxoNode = TaxonomyRepoUtil.extractTaxonFromNode(node);
 				japiDocument.organismHostNames.addAll(extractedTaxoNode);
-				addTaxonSuggestions(SuggestDictionary.VIRUS_HOST, taxonomyId, extractedTaxoNode);
+				addTaxonSuggestions(SuggestDictionary.HOST, taxonomyId, extractedTaxoNode);
 			}
 		});
 

@@ -540,7 +540,6 @@
 
     <field name="cc_scl_term" type="basic_ci" indexed="true" stored="false" required="false" multiValued="true"/>
     <field name="cc_scl_note" type="basic_ci" indexed="true" stored="false" required="false" multiValued="true"/>
-    <field name="cc_scl_term_id" type="string" indexed="true" stored="false" required="false" multiValued="true"/>
 
     <field name="ccev_scl_term" type="basic_ci" indexed="true" stored="false" required="false" multiValued="true"/>
     <field name="ccev_scl_note" type="full_ci" indexed="true" stored="false" required="false" multiValued="true"/>
