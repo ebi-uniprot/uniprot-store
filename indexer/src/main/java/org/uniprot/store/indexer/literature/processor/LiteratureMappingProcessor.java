@@ -45,9 +45,6 @@ public class LiteratureMappingProcessor implements ItemProcessor<LiteratureEntry
             byte[] literatureObj = document.getLiteratureObj().array();
             LiteratureEntry statisticsEntry = literatureObjectMapper.readValue(literatureObj, LiteratureEntryImpl.class);
             statisticsBuilder = statisticsBuilder.from(statisticsEntry.getStatistics());
-
-            solrOperations.delete(SolrCollection.literature.name(), query);
-            solrOperations.softCommit(SolrCollection.literature.name());
         }
         //update mappedProteinCount in the statistic builder
         statisticsBuilder.mappedProteinCount(mappedEntry.getLiteratureMappedReferences().size());

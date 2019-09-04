@@ -83,6 +83,30 @@ class LiteratureJobIT {
         assertThat(response.getTotalElements(), is(18L));
 
 
+        //Validating if solr document was written correctly
+        solrQuery = new SimpleQuery("author:Hendrickson W.A.");
+        solrQuery.addSort(new Sort(Sort.Direction.ASC, "id"));
+        response = template
+                .query(SolrCollection.literature.name(), solrQuery, LiteratureDocument.class);
+        assertThat(response, is(notNullValue()));
+        assertThat(response.getTotalElements(), is(1L));
+
+
+        //Validating if solr document was written correctly
+        solrQuery = new SimpleQuery("title:Glutamine synthetase in newborn mice homozygous for lethal albino alleles");
+        solrQuery.addSort(new Sort(Sort.Direction.ASC, "id"));
+        response = template
+                .query(SolrCollection.literature.name(), solrQuery, LiteratureDocument.class);
+        assertThat(response, is(notNullValue()));
+        assertThat(response.getTotalElements(), is(1L));
+
+        //Validating if solr document was written correctly
+        solrQuery = new SimpleQuery("mapped_protein:Q15423");
+        response = template
+                .query(SolrCollection.literature.name(), solrQuery, LiteratureDocument.class);
+        assertThat(response, is(notNullValue()));
+        assertThat(response.getTotalElements(), is(1L));
+
         //validating if can search one single entry with mapped and cited items
         solrQuery = new SimpleQuery("id:11203701");
         response = template

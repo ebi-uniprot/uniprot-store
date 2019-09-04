@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.uniprot.store.indexer.common.config.UniProtSolrOperations;
+import org.uniprot.store.indexer.common.listener.SolrCommitStepListener;
 import org.uniprot.store.indexer.common.utils.Constants;
 import org.uniprot.store.indexer.common.writer.SolrDocumentWriter;
 import org.uniprot.store.indexer.literature.LiteratureSQLConstants;
@@ -38,7 +39,8 @@ public class LiteratureStatisticsStep {
                                      ChunkListener chunkListener,
                                      ItemReader<LiteratureStatisticsReader.LiteratureCount> itemLiteratureStatisticsReader,
                                      ItemProcessor<LiteratureStatisticsReader.LiteratureCount, LiteratureDocument> itemLiteratureStatisticsProcessor,
-                                     ItemWriter<LiteratureDocument> itemLiteratureStatisticsWriter) {
+                                     ItemWriter<LiteratureDocument> itemLiteratureStatisticsWriter,
+                                     UniProtSolrOperations solrOperations) {
         return stepBuilders.get(Constants.LITERATURE_LOAD_STATISTICS_STEP_NAME)
                 .<LiteratureStatisticsReader.LiteratureCount, LiteratureDocument>chunk(chunkSize)
                 .reader(itemLiteratureStatisticsReader)
@@ -46,6 +48,7 @@ public class LiteratureStatisticsStep {
                 .writer(itemLiteratureStatisticsWriter)
                 .listener(stepListener)
                 .listener(chunkListener)
+                .listener(new SolrCommitStepListener(solrOperations))
                 .build();
     }
 

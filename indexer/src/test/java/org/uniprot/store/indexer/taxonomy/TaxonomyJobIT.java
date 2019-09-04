@@ -24,10 +24,7 @@ import org.uniprot.core.taxonomy.*;
 import org.uniprot.core.taxonomy.impl.TaxonomyEntryImpl;
 import org.uniprot.core.uniprot.taxonomy.Taxonomy;
 import org.uniprot.store.indexer.common.config.UniProtSolrOperations;
-import org.uniprot.store.job.common.listener.ListenerConfig;
 import org.uniprot.store.indexer.common.utils.Constants;
-import org.uniprot.store.indexer.taxonomy.TaxonomyJob;
-import org.uniprot.store.indexer.taxonomy.TaxonomySQLConstants;
 import org.uniprot.store.indexer.taxonomy.processor.TaxonomyProcessor;
 import org.uniprot.store.indexer.taxonomy.steps.TaxonomyDeletedStep;
 import org.uniprot.store.indexer.taxonomy.steps.TaxonomyMergedStep;
@@ -36,6 +33,7 @@ import org.uniprot.store.indexer.taxonomy.steps.TaxonomyStatisticsStep;
 import org.uniprot.store.indexer.test.config.FakeIndexerSpringBootApplication;
 import org.uniprot.store.indexer.test.config.FakeReadDatabaseConfig;
 import org.uniprot.store.indexer.test.config.SolrTestConfig;
+import org.uniprot.store.job.common.listener.ListenerConfig;
 import org.uniprot.store.search.SolrCollection;
 import org.uniprot.store.search.document.taxonomy.TaxonomyDocument;
 
@@ -102,6 +100,27 @@ class TaxonomyJobIT {
         ObjectMapper jsonMapper = TaxonomyJsonConfig.getInstance().getFullObjectMapper();
         TaxonomyEntry entry = jsonMapper.readValue(byteBuffer.array(), TaxonomyEntryImpl.class);
         validateTaxonomyEntry(entry);
+
+
+        solrQuery = new SimpleQuery("reviewed:true");
+        response = solrOperations
+                .query(SolrCollection.taxonomy.name(), solrQuery, TaxonomyDocument.class);
+        assertThat(response, is(notNullValue()));
+        assertThat(response.getTotalElements(), is(2L));
+
+
+        solrQuery = new SimpleQuery("host:4");
+        response = solrOperations
+                .query(SolrCollection.taxonomy.name(), solrQuery, TaxonomyDocument.class);
+        assertThat(response, is(notNullValue()));
+        assertThat(response.getTotalElements(), is(2L));
+
+
+        solrQuery = new SimpleQuery("content:Sptr_Scientific_5");
+        response = solrOperations
+                .query(SolrCollection.taxonomy.name(), solrQuery, TaxonomyDocument.class);
+        assertThat(response, is(notNullValue()));
+        assertThat(response.getTotalElements(), is(1L));
 
 
         solrQuery = new SimpleQuery("active:false");

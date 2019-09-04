@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.uniprot.store.indexer.common.config.UniProtSolrOperations;
+import org.uniprot.store.indexer.common.listener.SolrCommitStepListener;
 import org.uniprot.store.indexer.common.utils.Constants;
 import org.uniprot.store.indexer.common.writer.SolrDocumentWriter;
 import org.uniprot.store.search.SolrCollection;
@@ -35,7 +36,8 @@ public class KeywordStatisticsStep {
                                   ChunkListener chunkListener,
                                   ItemReader<KeywordStatisticsReader.KeywordCount> itemKeywordStatisticsReader,
                                   ItemProcessor<KeywordStatisticsReader.KeywordCount, KeywordDocument> itemKeywordStatisticsProcessor,
-                                  ItemWriter<KeywordDocument> itemKeywordStatisticsWriter) {
+                                  ItemWriter<KeywordDocument> itemKeywordStatisticsWriter,
+                                  UniProtSolrOperations solrOperations) {
         return stepBuilders.get(Constants.KEYWORD_LOAD_STATISTICS_STEP_NAME)
                 .<KeywordStatisticsReader.KeywordCount, KeywordDocument>chunk(chunkSize)
                 .reader(itemKeywordStatisticsReader)
@@ -43,6 +45,7 @@ public class KeywordStatisticsStep {
                 .writer(itemKeywordStatisticsWriter)
                 .listener(stepListener)
                 .listener(chunkListener)
+                .listener(new SolrCommitStepListener(solrOperations))
                 .build();
     }
 

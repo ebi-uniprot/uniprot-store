@@ -20,15 +20,11 @@ import org.uniprot.core.cv.keyword.KeywordEntry;
 import org.uniprot.core.cv.keyword.impl.KeywordEntryImpl;
 import org.uniprot.core.json.parser.keyword.KeywordJsonConfig;
 import org.uniprot.store.indexer.common.config.UniProtSolrOperations;
-import org.uniprot.store.job.common.listener.ListenerConfig;
 import org.uniprot.store.indexer.common.utils.Constants;
-import org.uniprot.store.indexer.keyword.KeywordJob;
-import org.uniprot.store.indexer.keyword.KeywordLoadStep;
-import org.uniprot.store.indexer.keyword.KeywordSQLConstants;
-import org.uniprot.store.indexer.keyword.KeywordStatisticsStep;
 import org.uniprot.store.indexer.test.config.FakeIndexerSpringBootApplication;
 import org.uniprot.store.indexer.test.config.FakeReadDatabaseConfig;
 import org.uniprot.store.indexer.test.config.SolrTestConfig;
+import org.uniprot.store.job.common.listener.ListenerConfig;
 import org.uniprot.store.search.SolrCollection;
 import org.uniprot.store.search.document.keyword.KeywordDocument;
 
@@ -82,6 +78,19 @@ class KeywordJobIT {
         assertThat(response, is(notNullValue()));
         assertThat(response.getTotalElements(), is(1199L));
 
+        //validating if can search one single entry
+        solrQuery = new SimpleQuery("name:2Fe-2S");
+        response = solrOperations
+                .query(SolrCollection.keyword.name(), solrQuery, KeywordDocument.class);
+        assertThat(response, is(notNullValue()));
+        assertThat(response.getTotalElements(), is(1L));
+
+        //validating if can search one single entry
+        solrQuery = new SimpleQuery("content:2Fe-2S");
+        response = solrOperations
+                .query(SolrCollection.keyword.name(), solrQuery, KeywordDocument.class);
+        assertThat(response, is(notNullValue()));
+        assertThat(response.getTotalElements(), is(2L));
 
         //validating if can search one single entry
         solrQuery = new SimpleQuery("id:KW-0540");

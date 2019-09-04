@@ -14,6 +14,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.uniprot.core.taxonomy.TaxonomyEntry;
 import org.uniprot.store.indexer.common.config.UniProtSolrOperations;
+import org.uniprot.store.indexer.common.listener.SolrCommitStepListener;
 import org.uniprot.store.indexer.common.utils.Constants;
 import org.uniprot.store.indexer.common.writer.SolrDocumentWriter;
 import org.uniprot.store.indexer.taxonomy.TaxonomySQLConstants;
@@ -41,7 +42,8 @@ public class TaxonomyDeletedStep {
                                           ChunkListener chunkListener,
                                           ItemReader<TaxonomyEntry> itemTaxonomyDeletedReader,
                                           ItemProcessor<TaxonomyEntry,TaxonomyDocument> itemTaxonomyDeletedProcessor,
-                                          ItemWriter<TaxonomyDocument> itemTaxonomyDeletedWriter) throws SQLException, IOException {
+                                          ItemWriter<TaxonomyDocument> itemTaxonomyDeletedWriter,
+                                          UniProtSolrOperations solrOperations) throws SQLException, IOException {
         return stepBuilders.get(Constants.TAXONOMY_LOAD_DELETED_STEP_NAME)
                 .<TaxonomyEntry,TaxonomyDocument>chunk(chunkSize)
                 .reader(itemTaxonomyDeletedReader)
@@ -49,6 +51,7 @@ public class TaxonomyDeletedStep {
                 .writer(itemTaxonomyDeletedWriter)
                 .listener(stepListener)
                 .listener(chunkListener)
+                .listener(new SolrCommitStepListener(solrOperations))
                 .build();
     }
 
