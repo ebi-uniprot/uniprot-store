@@ -49,9 +49,6 @@ public class UniProtDocument implements Document {
 
     @Field("keyword")
     public List<String> keywords = new ArrayList<>();
-    
-    @Field("keyword_id")
-    public List<String> keywordIds = new ArrayList<>();
 
     @Field("gene")
     public List<String> geneNames = new ArrayList<>();

@@ -270,7 +270,10 @@ class UniProtEntryConverterTest {
         assertEquals(38, doc.keywords.size());
         assertEquals("KW-0025", doc.keywords.get(0));
         assertEquals("Alternative splicing", doc.keywords.get(1));
-        checkSuggestionsContain(SuggestDictionary.KEYWORD, doc.keywordIds, false);
+        List<String> keywordIds=
+        doc.keywords.stream().filter(val ->val.startsWith("KW-"))
+        .collect(Collectors.toList());
+        checkSuggestionsContain(SuggestDictionary.KEYWORD, keywordIds, false);
 
         assertEquals(3, doc.geneNames.size());
         assertEquals("Nsmf", doc.geneNames.get(0));
@@ -367,14 +370,17 @@ class UniProtEntryConverterTest {
                 containsString(chebiId1.getId()), containsString(chebiId2.getId())));
         checkCatalyticChebiSuggestions(asList(chebiId1, chebiId2));
 
-        assertEquals(13, doc.subcellLocationTerm.size());
+        assertEquals(26, doc.subcellLocationTerm.size());
         assertTrue(doc.subcellLocationTerm.contains("Nucleus envelope"));
         assertEquals(0, doc.subcellLocationTermEv.size());
         assertEquals(1, doc.subcellLocationNote.size());
         assertEquals(2, doc.subcellLocationNoteEv.size());
         assertTrue(doc.subcellLocationNoteEv.contains("ECO_0000250"));
         assertTrue(doc.subcellLocationNoteEv.contains("manual"));
-        checkSuggestionsContain(SuggestDictionary.SUBCELL, doc.subcellLocationTerm, true);
+        List<String> subcellTerm=
+        doc.subcellLocationTerm.stream().filter(val-> !val.startsWith("SL-"))
+        .collect(Collectors.toList());
+        checkSuggestionsContain(SuggestDictionary.SUBCELL, subcellTerm, true);
 
         assertEquals(2, doc.ap.size());
         assertTrue(doc.ap.contains("Alternative splicing"));
@@ -943,7 +949,7 @@ class UniProtEntryConverterTest {
         assertEquals(0, doc.commentEvMap.get(CCEV_SUBCELLULAR_LOCATION_FIELD).size());
 
 
-        assertEquals(5, doc.subcellLocationTerm.size());
+        assertEquals(6, doc.subcellLocationTerm.size());
         assertTrue(doc.subcellLocationTerm.contains("Host cytoplasm"));
 
         assertEquals(3, doc.subcellLocationTermEv.size());
