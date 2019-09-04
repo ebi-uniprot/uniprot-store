@@ -43,7 +43,7 @@ public class CCCofactorSearchIT {
 	        entryProxy.updateEntryObject(LineType.AC, String.format(ACC_LINE, Q6GZX3));
 	        entryProxy.updateEntryObject(LineType.CC,
 	                "CC   -!- COFACTOR:\n" + 
-	                "CC       Name=pyridoxal 5'-phosphate; Xref=ChEBI:CHEBI:597326;\n" + 
+	                "CC       Name=pyridoxal 5' phosphate; Xref=ChEBI:CHEBI:597326;\n" + 
 	                "CC         Evidence={ECO:0000250};");
 	        searchEngine.indexEntry(convertToUniProtEntry(entryProxy));
 
@@ -51,7 +51,7 @@ public class CCCofactorSearchIT {
 	        entryProxy.updateEntryObject(LineType.AC, String.format(ACC_LINE, Q6GZY3));
 	        entryProxy.updateEntryObject(LineType.CC,
 	                "CC   -!- COFACTOR:\n" + 
-	                "CC       Name=pantetheine 4'-phosphate; Xref=ChEBI:CHEBI:47942;\n" + 
+	                "CC       Name=pantetheine 4' phosphate; Xref=ChEBI:CHEBI:47942;\n" + 
 	                "CC         Evidence={ECO:0000256|PIRSR:PIRSR001111-50};\n" + 
 	                "CC       Note=Binds 1 phosphopantetheine covalently.\n" + 
 	                "CC       {ECO:0000256|PIRSR:PIRSR001111-50};");
@@ -120,6 +120,7 @@ public class CCCofactorSearchIT {
 	    		QueryResponse response = searchEngine.getQueryResponse(query);
 
 	            List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
+	            System.out.println(retrievedAccessions);
 	            assertThat(retrievedAccessions, hasItems( Q6GZY3));
 	    		assertThat(retrievedAccessions, not(hasItem(Q6GZX3)));
 	    }
