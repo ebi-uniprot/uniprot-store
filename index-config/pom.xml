@@ -5,10 +5,11 @@
     <parent>
         <artifactId>uniprot-store-parent</artifactId>
         <groupId>org.uniprot</groupId>
-        <version>1.0-SNAPSHOT</version>
+        <version>0.11-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <artifactId>uniprot-index-config</artifactId>
+    <version>${project.parent.version}</version>
     <profiles>
         <profile>
             <id>assemble-only-solr-collections-conf-archive</id>

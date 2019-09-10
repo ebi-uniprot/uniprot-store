@@ -5,15 +5,15 @@
     <parent>
         <artifactId>uniprot-store-parent</artifactId>
         <groupId>org.uniprot</groupId>
-        <version>1.0-SNAPSHOT</version>
+        <version>0.11-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>uniprot-indexer</artifactId>
+    <version>${project.parent.version}</version>
 
     <properties>
         <ojdbc.version>11.2.0.4</ojdbc.version>
-        <uniprot.core.version>0.1-SNAPSHOT</uniprot.core.version>
         <failsafe.version>2.0.1</failsafe.version>
         <solr.version>7.5.0</solr.version>
         <chronicle-map.version>3.17.2</chronicle-map.version>
@@ -25,12 +25,12 @@
         <dependency>
             <groupId>org.uniprot</groupId>
             <artifactId>common-job</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>${project.parent.version}</version>
         </dependency>
         <dependency>
             <groupId>org.uniprot</groupId>
             <artifactId>core-domain</artifactId>
-            <version>${uniprot.core.version}</version>
+            <version>${project.parent.version}</version>
             <exclusions>
                 <exclusion>
                     <groupId>org.slf4j</groupId>
@@ -45,7 +45,7 @@
         <dependency>
             <groupId>org.uniprot</groupId>
             <artifactId>controlled-vocabulary</artifactId>
-            <version>${uniprot.core.version}</version>
+            <version>${project.parent.version}</version>
             <exclusions>
                 <exclusion>
                     <groupId>org.slf4j</groupId>
@@ -61,7 +61,7 @@
         <dependency>
             <groupId>org.uniprot</groupId>
             <artifactId>ff-parser</artifactId>
-            <version>${uniprot.core.version}</version>
+            <version>${project.parent.version}</version>
             <exclusions>
                 <exclusion>
                     <groupId>org.slf4j</groupId>
@@ -76,7 +76,7 @@
         <dependency>
             <groupId>org.uniprot</groupId>
             <artifactId>xml-parser</artifactId>
-            <version>${uniprot.core.version}</version>
+            <version>${project.parent.version}</version>
             <exclusions>
                 <exclusion>
                     <groupId>org.slf4j</groupId>
@@ -91,12 +91,12 @@
         <dependency>
             <groupId>org.uniprot</groupId>
             <artifactId>json-parser</artifactId>
-            <version>${uniprot.core.version}</version>
+            <version>${project.parent.version}</version>
         </dependency>
         <dependency>
             <groupId>org.uniprot</groupId>
             <artifactId>tools-entry-scorer</artifactId>
-            <version>${uniprot.core.version}</version>
+            <version>${project.parent.version}</version>
             <exclusions>
                 <exclusion>
                     <groupId>org.slf4j</groupId>
@@ -112,7 +112,7 @@
         <dependency>
             <groupId>org.uniprot</groupId>
             <artifactId>uniprot-search</artifactId>
-            <version>${project.version}</version>
+            <version>${project.parent.version}</version>
         </dependency>
 
         <dependency>
@@ -294,7 +294,7 @@
                                 <artifactItem>
                                     <groupId>org.uniprot</groupId>
                                     <artifactId>uniprot-index-config</artifactId>
-                                    <version>1.0-SNAPSHOT</version>
+                                    <version>${project.parent.version}</version>
                                     <type>tar.gz</type>
                                     <overWrite>true</overWrite>
                                     <outputDirectory>${project.build.directory}/test-classes</outputDirectory>

@@ -6,10 +6,10 @@
     <parent>
         <groupId>org.uniprot</groupId>
         <artifactId>uniprot-store-parent</artifactId>
-        <version>1.0-SNAPSHOT</version>
+        <version>0.11-SNAPSHOT</version>
     </parent>
     <artifactId>uniprot-datastore</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>${project.parent.version}</version>
     <name>uniprot-datastore</name>
     <url>http://maven.apache.org</url>
 
@@ -70,32 +70,32 @@
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>core-domain</artifactId>
-            <version>0.1-SNAPSHOT</version>
+            <version>${project.parent.version}</version>
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>core-common</artifactId>
-            <version>0.1-SNAPSHOT</version>
+            <version>${project.parent.version}</version>
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>tools-entry-scorer</artifactId>
-            <version>0.1-SNAPSHOT</version>
+            <version>${project.parent.version}</version>
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>ff-parser</artifactId>
-            <version>0.1-SNAPSHOT</version>
+            <version>${project.parent.version}</version>
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>json-parser</artifactId>
-            <version>0.1-SNAPSHOT</version>
+            <version>${project.parent.version}</version>
         </dependency>
         <dependency>
             <groupId>org.uniprot</groupId>
             <artifactId>common-job</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>${project.parent.version}</version>
             <exclusions>
                 <exclusion>
                     <groupId>org.springframework.data</groupId>
@@ -134,7 +134,7 @@
         <dependency>
             <groupId>org.uniprot</groupId>
             <artifactId>common-job</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>${project.parent.version}</version>
             <type>test-jar</type>
             <scope>test</scope>
         </dependency>
