@@ -26,6 +26,7 @@ import org.springframework.batch.test.JobLauncherTestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.solr.core.query.SimpleQuery;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.TestPropertySource;
@@ -93,17 +94,19 @@ public class InactiveEntryIndexJobIT {
         Set<String> sourceAccessions = readSourceAccessions();
         assertThat(sourceAccessions, hasSize(22));
 
+        SimpleQuery query = new SimpleQuery("*:*");
+   
+        query.setPageRequest( PageRequest.of(0, 30));
         Page<UniProtDocument> response = solrOperations
-                .query(SolrCollection.uniprot.name(), new SimpleQuery("*:*"), UniProtDocument.class);
-
+                .query(SolrCollection.uniprot.name(), query, UniProtDocument.class);
+        
         assertThat(response, is(notNullValue()));
         assertThat(response.getTotalElements(), is(22L));
         Set<String> results = response.stream().map(doc -> doc.accession).collect(Collectors.toSet());
         results.forEach(accession -> assertThat(sourceAccessions, hasItem(accession)) );
        
-      
-//        assertThat(response.stream().map(doc -> doc.accession).collect(Collectors.toSet()),
-//                   is(sourceAccessions));
+        assertThat(response.stream().map(doc -> doc.accession).collect(Collectors.toSet()),
+                   is(sourceAccessions));
     }
 
 
