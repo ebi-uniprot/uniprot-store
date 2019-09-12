@@ -12,6 +12,7 @@ import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -31,7 +32,7 @@ public class SuggestionConfig {
 
     @Bean
     public Map<String, SuggestDocument> suggestDocuments() {
-        Map<String, SuggestDocument> suggestionMap = new HashMap<>();
+        Map<String, SuggestDocument> suggestionMap = new ConcurrentHashMap<>();
 
         loadDefaultMainSuggestions().forEach(suggestion -> suggestionMap.put(suggestion.value, suggestion));
         loadDefaultTaxonSynonymSuggestions().forEach(suggestion -> suggestionMap
