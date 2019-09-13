@@ -20,7 +20,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
-import org.uniprot.core.util.concurrency.OnZeroCountSleeper;
 import org.uniprot.store.indexer.common.config.UniProtSolrOperations;
 import org.uniprot.store.indexer.uniprot.inactiveentry.FFInactiveUniProtEntryIterator;
 import org.uniprot.store.indexer.uniprot.inactiveentry.InactiveEntryIterator;
@@ -64,11 +63,11 @@ public class InactiveEntryStep {
 	 @Bean(name = "inactiveEntryIndexingMainStep")
 	    public Step inactiveEntryIndexingMainFFStep(WriteRetrierLogStepListener writeRetrierLogStepListener,
 	                                            @Qualifier("inactiveEntry") LogRateListener<InactiveEntryDocumentPair> uniProtKBLogRateListener,
-	                                            ItemReader<InactiveEntryDocumentPair> entryItemReader,
+	                                            @Qualifier("inactiveEntryReader")ItemReader<InactiveEntryDocumentPair> entryItemReader,
 	                                            @Qualifier("inactiveEntryAsyncProcessor") ItemProcessor<InactiveEntryDocumentPair, Future<InactiveEntryDocumentPair>> asyncProcessor,
 	                                            @Qualifier("inactiveEntryAsyncWriter") ItemWriter<Future<InactiveEntryDocumentPair>> asyncWriter,
 	                                            InactiveEntryDocumentPairProcessor inactiveEntryDocumentItemProcessor,
-	                                            ItemWriter<InactiveEntryDocumentPair> inactiveEntryDocumentItemWriter,
+	                                            @Qualifier("inactiveEntryWriter")  ItemWriter<InactiveEntryDocumentPair> inactiveEntryDocumentItemWriter,
 	                                            ExecutionContextPromotionListener promotionListener) throws Exception {
 
 	        return this.stepBuilderFactory.get(INACTIVEENTRY_INDEX_STEP)
@@ -87,17 +86,17 @@ public class InactiveEntryStep {
 
 
     // ---------------------- Readers ----------------------
-	@Bean
+	 @Bean("inactiveEntryReader")
 	public ItemReader<InactiveEntryDocumentPair> entryItemReader() {
 		return new InactiveUniProtEntryItemReader(inactiveEntryIterator());
 	}
 
-	@Bean
+	 @Bean("inactiveEntryIterator")
 	public InactiveEntryIterator inactiveEntryIterator() {
 		return new FFInactiveUniProtEntryIterator(uniProtKBIndexingProperties.getInactiveEntryFile());
 	}
 	 // ---------------------- Processors ----------------------
-    @Bean
+    @Bean("inactiveItemProcessor")
     public InactiveEntryDocumentPairProcessor uniProtDocumentItemProcessor() {
         return new InactiveEntryDocumentPairProcessor(
                 new InactiveEntryConverter());
@@ -113,7 +112,7 @@ public class InactiveEntryStep {
         return asyncProcessor;
     }
     // ---------------------- Writers ----------------------
-    @Bean
+    @Bean("inactiveEntryWriter")
     public ItemWriter<InactiveEntryDocumentPair> uniProtDocumentItemWriter(RetryPolicy<Object> writeRetryPolicy) {
         return new InactiveEntryDocumentPairWriter(this.solrOperations, SolrCollection.uniprot, writeRetryPolicy);
     }

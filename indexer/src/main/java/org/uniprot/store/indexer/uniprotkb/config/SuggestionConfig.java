@@ -35,14 +35,16 @@ public class SuggestionConfig {
         Map<String, SuggestDocument> suggestionMap = new HashMap<>();
 
         loadDefaultMainSuggestions().forEach(suggestion -> suggestionMap.put(suggestion.value, suggestion));        
-        loadDefaultTaxonSynonymSuggestions().forEach(suggestion -> {
-        	suggestionMap.put(SuggestDictionary.TAXONOMY.name() + ":" + suggestion.id, suggestion);
-        	suggestionMap.put(SuggestDictionary.ORGANISM.name() + ":" + suggestion.id, suggestion) ;     
-        });  
+      
         
-        loadDefaultHostSynonymSuggestions().forEach(suggestion -> 
-        	suggestionMap.put(SuggestDictionary.HOST.name() + ":" + suggestion.id, suggestion)      
-        );  
+        loadDefaultTaxonSynonymSuggestions(SuggestDictionary.TAXONOMY, DEFAULT_TAXON_SYNONYMS_FILE ).forEach(suggestion -> 
+        	suggestionMap.put(SuggestDictionary.TAXONOMY.name() + ":" + suggestion.id, suggestion));  
+        
+        loadDefaultTaxonSynonymSuggestions(SuggestDictionary.ORGANISM, DEFAULT_TAXON_SYNONYMS_FILE ).forEach(suggestion -> 
+    	suggestionMap.put(SuggestDictionary.ORGANISM.name() + ":" + suggestion.id, suggestion));  
+        
+        loadDefaultTaxonSynonymSuggestions(SuggestDictionary.HOST, DEFAULT_HOST_SYNONYMS_FILE ).forEach(suggestion -> 
+    	suggestionMap.put(SuggestDictionary.HOST.name() + ":" + suggestion.id, suggestion));   
         return suggestionMap;
     }
 
@@ -55,38 +57,25 @@ public class SuggestionConfig {
 
         return defaultSuggestions;
     }
-
-    private List<SuggestDocument> loadDefaultTaxonSynonymSuggestions() {
-        List<SuggestDocument> taxonSuggestions = new ArrayList<>();
-        InputStream inputStream = SuggestionConfig.class.getClassLoader()
-                .getResourceAsStream(DEFAULT_TAXON_SYNONYMS_FILE);
-        if (inputStream != null) {
-            try (Stream<String> lines = new BufferedReader(new InputStreamReader(inputStream)).lines()) {
-                lines.map(this::createDefaultTaxonomySuggestion)
-                        .filter(Objects::nonNull)
-                        .forEach(taxonSuggestions::add);
-            }
-        }
-
-        return taxonSuggestions;
-    }
-
-    private List<SuggestDocument> loadDefaultHostSynonymSuggestions() {
-        List<SuggestDocument> taxonSuggestions = new ArrayList<>();
-        InputStream inputStream = SuggestionConfig.class.getClassLoader()
-                .getResourceAsStream(DEFAULT_HOST_SYNONYMS_FILE);
-        if (inputStream != null) {
-            try (Stream<String> lines = new BufferedReader(new InputStreamReader(inputStream)).lines()) {
-                lines.map(this::createDefaultTaxonomySuggestion)
-                        .filter(Objects::nonNull)
-                        .forEach(taxonSuggestions::add);
-            }
-        }
-
-        return taxonSuggestions;
-    }
     
-    private SuggestDocument createDefaultTaxonomySuggestion(String csvLine) {
+    private List<SuggestDocument> loadDefaultTaxonSynonymSuggestions(SuggestDictionary dict, String taxonSynonymFile) {
+        List<SuggestDocument> taxonSuggestions = new ArrayList<>();
+        InputStream inputStream = SuggestionConfig.class.getClassLoader()
+                .getResourceAsStream(taxonSynonymFile);
+        if (inputStream != null) {
+            try (Stream<String> lines = new BufferedReader(new InputStreamReader(inputStream)).lines()) {
+                lines.map(val->createDefaultTaxonomySuggestion(val, dict))
+                        .filter(Objects::nonNull)
+                        .forEach(taxonSuggestions::add);
+            }
+        }
+
+        return taxonSuggestions;
+    }
+
+  
+    
+    private SuggestDocument createDefaultTaxonomySuggestion(String csvLine, SuggestDictionary dict ) {
         String[] lineParts = csvLine.split("\t");
         if (!csvLine.startsWith(COMMENT_LINE_PREFIX) && lineParts.length == 4) {
             return SuggestDocument.builder()
@@ -94,7 +83,7 @@ public class SuggestionConfig {
                     .altValues(Stream.of(lineParts[2].split(",")).collect(Collectors.toList()))
                     .id(lineParts[1])
                     .importance(lineParts[3])
-                    .dictionary(SuggestDictionary.TAXONOMY.name())
+                    .dictionary(dict.name())
                     .build();
         } else {
             return null;
