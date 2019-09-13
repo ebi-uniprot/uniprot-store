@@ -24,6 +24,7 @@ import java.util.stream.Stream;
 @Configuration
 public class SuggestionConfig {
     private static final String DEFAULT_TAXON_SYNONYMS_FILE = "default-taxon-synonyms.txt";
+    private static final String DEFAULT_HOST_SYNONYMS_FILE = "default-host-synonyms.txt";
     private static final String COMMENT_LINE_PREFIX = "#";
     static final String DATABASE_PREFIX = "Database: ";
     static final String FEATURE_CATEGORY_PREFIX = "Feature Category: ";
@@ -33,10 +34,15 @@ public class SuggestionConfig {
     public Map<String, SuggestDocument> suggestDocuments() {
         Map<String, SuggestDocument> suggestionMap = new HashMap<>();
 
-        loadDefaultMainSuggestions().forEach(suggestion -> suggestionMap.put(suggestion.value, suggestion));
-        loadDefaultTaxonSynonymSuggestions().forEach(suggestion -> suggestionMap
-                .put(SuggestDictionary.TAXONOMY.name() + ":" + suggestion.id, suggestion));
-
+        loadDefaultMainSuggestions().forEach(suggestion -> suggestionMap.put(suggestion.value, suggestion));        
+        loadDefaultTaxonSynonymSuggestions().forEach(suggestion -> {
+        	suggestionMap.put(SuggestDictionary.TAXONOMY.name() + ":" + suggestion.id, suggestion);
+        	suggestionMap.put(SuggestDictionary.ORGANISM.name() + ":" + suggestion.id, suggestion) ;     
+        });  
+        
+        loadDefaultHostSynonymSuggestions().forEach(suggestion -> 
+        	suggestionMap.put(SuggestDictionary.HOST.name() + ":" + suggestion.id, suggestion)      
+        );  
         return suggestionMap;
     }
 
@@ -65,6 +71,21 @@ public class SuggestionConfig {
         return taxonSuggestions;
     }
 
+    private List<SuggestDocument> loadDefaultHostSynonymSuggestions() {
+        List<SuggestDocument> taxonSuggestions = new ArrayList<>();
+        InputStream inputStream = SuggestionConfig.class.getClassLoader()
+                .getResourceAsStream(DEFAULT_HOST_SYNONYMS_FILE);
+        if (inputStream != null) {
+            try (Stream<String> lines = new BufferedReader(new InputStreamReader(inputStream)).lines()) {
+                lines.map(this::createDefaultTaxonomySuggestion)
+                        .filter(Objects::nonNull)
+                        .forEach(taxonSuggestions::add);
+            }
+        }
+
+        return taxonSuggestions;
+    }
+    
     private SuggestDocument createDefaultTaxonomySuggestion(String csvLine) {
         String[] lineParts = csvLine.split("\t");
         if (!csvLine.startsWith(COMMENT_LINE_PREFIX) && lineParts.length == 4) {
