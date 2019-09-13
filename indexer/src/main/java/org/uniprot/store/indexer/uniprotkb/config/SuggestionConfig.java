@@ -25,6 +25,7 @@ import java.util.stream.Stream;
 @Configuration
 public class SuggestionConfig {
     private static final String DEFAULT_TAXON_SYNONYMS_FILE = "default-taxon-synonyms.txt";
+    private static final String DEFAULT_HOST_SYNONYMS_FILE = "default-host-synonyms.txt";
     private static final String COMMENT_LINE_PREFIX = "#";
     static final String DATABASE_PREFIX = "Database: ";
     static final String FEATURE_CATEGORY_PREFIX = "Feature Category: ";
@@ -34,10 +35,17 @@ public class SuggestionConfig {
     public Map<String, SuggestDocument> suggestDocuments() {
         Map<String, SuggestDocument> suggestionMap = new ConcurrentHashMap<>();
 
-        loadDefaultMainSuggestions().forEach(suggestion -> suggestionMap.put(suggestion.value, suggestion));
-        loadDefaultTaxonSynonymSuggestions().forEach(suggestion -> suggestionMap
-                .put(SuggestDictionary.TAXONOMY.name() + ":" + suggestion.id, suggestion));
-
+        loadDefaultMainSuggestions().forEach(suggestion -> suggestionMap.put(suggestion.value, suggestion));        
+      
+        
+        loadDefaultTaxonSynonymSuggestions(SuggestDictionary.TAXONOMY, DEFAULT_TAXON_SYNONYMS_FILE ).forEach(suggestion -> 
+        	suggestionMap.put(SuggestDictionary.TAXONOMY.name() + ":" + suggestion.id, suggestion));  
+        
+        loadDefaultTaxonSynonymSuggestions(SuggestDictionary.ORGANISM, DEFAULT_TAXON_SYNONYMS_FILE ).forEach(suggestion -> 
+    	suggestionMap.put(SuggestDictionary.ORGANISM.name() + ":" + suggestion.id, suggestion));  
+        
+        loadDefaultTaxonSynonymSuggestions(SuggestDictionary.HOST, DEFAULT_HOST_SYNONYMS_FILE ).forEach(suggestion -> 
+    	suggestionMap.put(SuggestDictionary.HOST.name() + ":" + suggestion.id, suggestion));   
         return suggestionMap;
     }
 
@@ -50,14 +58,14 @@ public class SuggestionConfig {
 
         return defaultSuggestions;
     }
-
-    private List<SuggestDocument> loadDefaultTaxonSynonymSuggestions() {
+    
+    private List<SuggestDocument> loadDefaultTaxonSynonymSuggestions(SuggestDictionary dict, String taxonSynonymFile) {
         List<SuggestDocument> taxonSuggestions = new ArrayList<>();
         InputStream inputStream = SuggestionConfig.class.getClassLoader()
-                .getResourceAsStream(DEFAULT_TAXON_SYNONYMS_FILE);
+                .getResourceAsStream(taxonSynonymFile);
         if (inputStream != null) {
             try (Stream<String> lines = new BufferedReader(new InputStreamReader(inputStream)).lines()) {
-                lines.map(this::createDefaultTaxonomySuggestion)
+                lines.map(val->createDefaultTaxonomySuggestion(val, dict))
                         .filter(Objects::nonNull)
                         .forEach(taxonSuggestions::add);
             }
@@ -66,7 +74,9 @@ public class SuggestionConfig {
         return taxonSuggestions;
     }
 
-    private SuggestDocument createDefaultTaxonomySuggestion(String csvLine) {
+  
+    
+    private SuggestDocument createDefaultTaxonomySuggestion(String csvLine, SuggestDictionary dict ) {
         String[] lineParts = csvLine.split("\t");
         if (!csvLine.startsWith(COMMENT_LINE_PREFIX) && lineParts.length == 4) {
             return SuggestDocument.builder()
@@ -74,7 +84,7 @@ public class SuggestionConfig {
                     .altValues(Stream.of(lineParts[2].split(",")).collect(Collectors.toList()))
                     .id(lineParts[1])
                     .importance(lineParts[3])
-                    .dictionary(SuggestDictionary.TAXONOMY.name())
+                    .dictionary(dict.name())
                     .build();
         } else {
             return null;

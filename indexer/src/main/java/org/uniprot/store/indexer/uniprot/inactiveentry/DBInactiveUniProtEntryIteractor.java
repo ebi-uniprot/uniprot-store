@@ -5,7 +5,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
-public class DBInactiveUniProtEntryIteractor extends AbstractInactiveUniProtEntryIterator implements AutoCloseable {
+public class DBInactiveUniProtEntryIteractor extends AbstractInactiveUniProtEntryIterator {
     private final DataSource dataSource;
     private ResultSet resultSet;
     private Statement stmt;
