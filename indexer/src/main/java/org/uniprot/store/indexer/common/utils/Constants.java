@@ -6,6 +6,9 @@ public class Constants {
 
     public static final String UNIPROTKB_INDEX_JOB = "UniProtKB_Indexing_Job";
     public static final String UNIPROTKB_INDEX_STEP = "UniProtKB_Indexing_Step";
+    
+    public static final String INACTIVEENTRY_INDEX_JOB = "InactiveEntry_Indexing_Job";
+    public static final String INACTIVEENTRY_INDEX_STEP = "InactiveEntry_Indexing_Step";
 
     public static final String CROSS_REF_LOAD_JOB = "Cross ref load job";
     public static final String CROSS_REF_INDEX_STEP = "Cross ref indexing step";

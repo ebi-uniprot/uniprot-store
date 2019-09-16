@@ -5,7 +5,7 @@ import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import java.util.zip.GZIPInputStream;
 
-public class FFInactiveUniProtEntryIterator extends AbstractInactiveUniProtEntryIterator implements AutoCloseable {
+public class FFInactiveUniProtEntryIterator extends AbstractInactiveUniProtEntryIterator  {
     private final String filename;
     private BufferedReader reader;
 

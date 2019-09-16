@@ -50,9 +50,9 @@ public class InactiveUniProtEntry {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append(accession).append("\t")
-                .append(id).append("\t")
-                .append(reason).append("\t")
+        sb.append(accession).append(",")
+                .append(id).append(",")
+                .append(reason).append(",")
                 .append(mergedOrDemergedAccessions);
 
         return sb.toString();

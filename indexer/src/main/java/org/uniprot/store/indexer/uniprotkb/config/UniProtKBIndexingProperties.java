@@ -33,6 +33,7 @@ public class UniProtKBIndexingProperties {
     private String taxonomyFile;
     private String chebiFile;
     private String ecDir;
+    private String inactiveEntryFile;
     private TaskExecutorProperties itemProcessorTaskExecutor = new TaskExecutorProperties();
     private TaskExecutorProperties itemWriterTaskExecutor = new TaskExecutorProperties();
 }
