@@ -22,7 +22,7 @@ import static org.uniprot.store.indexer.search.uniprot.TestUtils.*;
 /**
  * Tests if the protein names of an entry are indexed correctly
  */
-public class DESearchIT {
+class DESearchIT {
     private static final String UNIPROT_FLAT_FILE_ENTRY_PATH = "/it/uniprot/P0A377.43.dat";
 
     private static final String ACCESSION1 = "Q197F4";
@@ -70,11 +70,11 @@ public class DESearchIT {
             "DE   AltName: Full=Collectin kidney protein 1;\n" +
             "DE            Short=CL-K1;";
     @RegisterExtension
-    public static UniProtSearchEngine searchEngine = new UniProtSearchEngine();
+    static UniProtSearchEngine searchEngine = new UniProtSearchEngine();
     private static int accessionId = 0;
 
     @BeforeAll
-    public static void populateIndexWithTestData() throws IOException {
+    static void populateIndexWithTestData() throws IOException {
         // a test entry object that can be modified and added to index
         InputStream resourceAsStream = TestUtils.getResourceAsStream(UNIPROT_FLAT_FILE_ENTRY_PATH);
         UniProtEntryObjectProxy entryProxy = UniProtEntryObjectProxy.createEntryFromInputStream(resourceAsStream);
@@ -128,7 +128,7 @@ public class DESearchIT {
     }
 
     @Test
-    public void nonExistentProteinNameMatchesNoDocuments() {
+    void nonExistentProteinNameMatchesNoDocuments() {
         String query = proteinName("Unknown");
 
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -138,7 +138,7 @@ public class DESearchIT {
     }
 
     @Test
-    public void fullRecommendedNameInMainInEntry1HitsEntry1() {
+    void fullRecommendedNameInMainInEntry1HitsEntry1() {
         String query = proteinName("Aspartate aminotransferase, mitochondrial");
 
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -148,7 +148,7 @@ public class DESearchIT {
     }
 
     @Test
-    public void partialFullRecommendedNameInMainInEntry1HitsEntry1() {
+    void partialFullRecommendedNameInMainInEntry1HitsEntry1() {
         String query = proteinName("Aspartate aminotransferase");
 
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -158,7 +158,7 @@ public class DESearchIT {
     }
 
     @Test
-    public void shortRecommendedNameInMainInEntry1HitsEntry1() {
+    void shortRecommendedNameInMainInEntry1HitsEntry1() {
         String query = proteinName("mAspAT");
 
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -168,7 +168,7 @@ public class DESearchIT {
     }
 
     @Test
-    public void fullAlternativeNameInMainInEntry1HitsEntry1() {
+    void fullAlternativeNameInMainInEntry1HitsEntry1() {
         String query = proteinName("Glutamate oxaloacetate transaminase 2");
 
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -178,7 +178,7 @@ public class DESearchIT {
     }
 
     @Test
-    public void partialFullAlternativeNameInMainInEntry1HitsEntry1() {
+    void partialFullAlternativeNameInMainInEntry1HitsEntry1() {
         String query = proteinName("Glutamate oxaloacetate");
 
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -188,7 +188,7 @@ public class DESearchIT {
     }
 
     @Test
-    public void shortAlternativeNameInMainInEntry1HitsEntry1() {
+    void shortAlternativeNameInMainInEntry1HitsEntry1() {
         String query = proteinName("FABP");
 
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -198,7 +198,7 @@ public class DESearchIT {
     }
 
     @Test
-    public void cdAntigenInMainInEntry1HitsEntry1() {
+    void cdAntigenInMainInEntry1HitsEntry1() {
         String query = proteinName("CD1b");
 
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -208,7 +208,7 @@ public class DESearchIT {
     }
 
     @Test
-    public void allergenInMainInEntry1HitsEntry1() {
+    void allergenInMainInEntry1HitsEntry1() {
         String query = proteinName("Act d 3");
 
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -218,7 +218,7 @@ public class DESearchIT {
     }
 
     @Test
-    public void INNInMainInEntry1HitsEntry1() {
+    void INNInMainInEntry1HitsEntry1() {
         String query = proteinName("substrate");
 
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -228,7 +228,7 @@ public class DESearchIT {
     }
 
     @Test
-    public void biotechInMainInEntry1HitsEntry1() {
+    void biotechInMainInEntry1HitsEntry1() {
         String query = proteinName("bio technical context");
 
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -238,7 +238,7 @@ public class DESearchIT {
     }
 
     @Test
-    public void fullRecommendedNameInContainsInEntry1HitsEntry1() {
+    void fullRecommendedNameInContainsInEntry1HitsEntry1() {
         String query = proteinName("Megakaryocyte-potentiating factor");
 
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -248,7 +248,7 @@ public class DESearchIT {
     }
 
     @Test
-    public void shortRecommendedNameInContainsInEntry1HitsEntry1() {
+    void shortRecommendedNameInContainsInEntry1HitsEntry1() {
         String query = proteinName("MPF");
 
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -258,7 +258,7 @@ public class DESearchIT {
     }
 
     @Test
-    public void fullAlternativeNameInContainsInEntry1HitsEntry1() {
+    void fullAlternativeNameInContainsInEntry1HitsEntry1() {
         String query = proteinName("Adipolin cleaved form");
 
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -268,7 +268,7 @@ public class DESearchIT {
     }
 
     @Test
-    public void fullRecommendedNameInIncludesInEntry1HitsEntry1() {
+    void fullRecommendedNameInIncludesInEntry1HitsEntry1() {
         String query = proteinName("Aspartate carbamoyltransferase");
 
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -278,7 +278,7 @@ public class DESearchIT {
     }
 
     @Test
-    public void shortRecommendedNameInIncludesInEntry1HitsEntry1() {
+    void shortRecommendedNameInIncludesInEntry1HitsEntry1() {
         String query = proteinName("AspCar");
 
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -288,7 +288,7 @@ public class DESearchIT {
     }
 
     @Test
-    public void fullAlternativeNameInIncludesInEntry1HitsEntry1() {
+    void fullAlternativeNameInIncludesInEntry1HitsEntry1() {
         String query = proteinName("Dihydroorotase");
 
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -298,7 +298,7 @@ public class DESearchIT {
     }
 
     @Test
-    public void searchForHyphenatedNameUsingExactMatch() {
+    void searchForHyphenatedNameUsingExactMatch() {
         String query = proteinName("KCIP-1");
 
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -308,7 +308,7 @@ public class DESearchIT {
     }
 
     @Test
-    public void noMatchForHyphenatedNameUsingExtraNonExistentCharacter() {
+    void noMatchForHyphenatedNameUsingExtraNonExistentCharacter() {
         String query = proteinName("KCIPE-1");
 
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -318,7 +318,7 @@ public class DESearchIT {
     }
 
     @Test
-    public void searchForHyphenatedNameUsingTermsWithSpaces() {
+    void searchForHyphenatedNameUsingTermsWithSpaces() {
         String query = proteinName("KCIP 1");
 
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -328,7 +328,7 @@ public class DESearchIT {
     }
 
     @Test
-    public void searchForHyphenatedNameUsingSingleTerm() {
+    void searchForHyphenatedNameUsingSingleTerm() {
         String query = proteinName("KCIP");
 
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -338,7 +338,7 @@ public class DESearchIT {
     }
 
     @Test
-    public void noMatchForHyphenatedNameUsingSubstringOfLetterPart() {
+    void noMatchForHyphenatedNameUsingSubstringOfLetterPart() {
         String query = proteinName("KCI");
 
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -348,7 +348,7 @@ public class DESearchIT {
     }
 
     @Test
-    public void searchForHyphenatedAndNumberedNameUsingExactMatch() {
+    void searchForHyphenatedAndNumberedNameUsingExactMatch() {
         String query = proteinName("14-3-3");
 
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -358,7 +358,7 @@ public class DESearchIT {
     }
 
     @Test
-    public void searchForHyphenatedAndNumberedNameUsingPartialNameWithHyphen() {
+    void searchForHyphenatedAndNumberedNameUsingPartialNameWithHyphen() {
         String query = proteinName("14-3");
 
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -368,7 +368,7 @@ public class DESearchIT {
     }
 
     @Test
-    public void searchForHyphenatedAndNumberedNameUsingPartialNameWithoutHyphen() {
+    void searchForHyphenatedAndNumberedNameUsingPartialNameWithoutHyphen() {
         String query = proteinName("14 3");
 
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -378,7 +378,7 @@ public class DESearchIT {
     }
 
     @Test
-    public void noMatchForHyphenatedAndNumberedNameUsingPartialNameAndNonMatchingNumber() {
+    void noMatchForHyphenatedAndNumberedNameUsingPartialNameAndNonMatchingNumber() {
         String query = proteinName("14 1");
         System.out.println(query);
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -388,7 +388,7 @@ public class DESearchIT {
     }
 
     @Test
-    public void searchForNameWithParenthesisAndAsteriskUsingExactMatch() {
+    void searchForNameWithParenthesisAndAsteriskUsingExactMatch() {
         String query =
                 proteinName("HLA class I histocompatibility antigen, A-1 alpha chain (MHC class I antigen A\\*1)");
 
@@ -399,7 +399,7 @@ public class DESearchIT {
     }
 
     @Test
-    public void searchForNameWithParenthesisAndAsteriskUsingSubPartWithAsterisk() {
+    void searchForNameWithParenthesisAndAsteriskUsingSubPartWithAsterisk() {
         String query = proteinName("A*1");
 
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -409,7 +409,7 @@ public class DESearchIT {
     }
 
     @Test
-    public void searchForNameWithParenthesisAndAsteriskUsingSubPartWithParenthesis() {
+    void searchForNameWithParenthesisAndAsteriskUsingSubPartWithParenthesis() {
         String query = proteinName("(MHC class I antigen A\\*1)");
 
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -419,7 +419,7 @@ public class DESearchIT {
     }
 
     @Test
-    public void searchForNameWithSingleQuoteUsingExactMatch() {
+    void searchForNameWithSingleQuoteUsingExactMatch() {
         String query = proteinName("PP2A B subunit isoform B'-delta");
 
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -429,7 +429,7 @@ public class DESearchIT {
     }
 
     @Test
-    public void searchForNameWithSingleQuoteUsingPartialWithoutQuote() {
+    void searchForNameWithSingleQuoteUsingPartialWithoutQuote() {
         String query = proteinName("B-delta");
 
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -439,7 +439,7 @@ public class DESearchIT {
     }
 
     @Test
-    public void searchForNameWithForwardSlashUsingExactMatch() {
+    void searchForNameWithForwardSlashUsingExactMatch() {
         String query = proteinName("Q06JG5 CLAVATA3/ESR (CLE)-related protein 16D10");
 
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -449,7 +449,7 @@ public class DESearchIT {
     }
 
     @Test
-    public void searchForNameWithForwardSlashUsingPartialWordLeftOfForwardSlash() {
+    void searchForNameWithForwardSlashUsingPartialWordLeftOfForwardSlash() {
         String query = proteinName("CLAVATA3");
 
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -459,7 +459,7 @@ public class DESearchIT {
     }
 
     @Test
-    public void searchForNameWithChemicalSymbolUsingExactMatch() {
+    void searchForNameWithChemicalSymbolUsingExactMatch() {
         String query = proteinName("(+)-car-3-ene synthase");
 
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -469,7 +469,7 @@ public class DESearchIT {
     }
 
     @Test
-    public void searchForNameWithChemicalSymbolUsingSubstringOfChemicalSymbol() {
+    void searchForNameWithChemicalSymbolUsingSubstringOfChemicalSymbol() {
         String query = proteinName("3-ene synthase");
 
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -479,7 +479,7 @@ public class DESearchIT {
     }
 
     @Test
-    public void searchForNameWithTwoSingleQuoatesUsingExactMatch() {
+    void searchForNameWithTwoSingleQuoatesUsingExactMatch() {
         String query = proteinName("Cardiotoxin 7''");
 
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -489,7 +489,7 @@ public class DESearchIT {
     }
 
     @Test
-    public void searchForNameWithTwoSingleQuotesUsingFirstWord() {
+    void searchForNameWithTwoSingleQuotesUsingFirstWord() {
         String query = proteinName("Cardiotoxin");
 
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -499,7 +499,7 @@ public class DESearchIT {
     }
 
     @Test
-    public void queryForClsProteinNameDoesNotHitEntryThatHasOnlyCLInTheName() {
+    void queryForClsProteinNameDoesNotHitEntryThatHasOnlyCLInTheName() {
         String query = proteinName("cls");
 
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -509,7 +509,7 @@ public class DESearchIT {
     }
 
     @Test
-    public void canFindRecNameWhenQueryOmitsSeparators() {
+    void canFindRecNameWhenQueryOmitsSeparators() {
         String accession = newAccession();
 
         index(accession, "7-cyano-7-deazaguanine tRNA-ribosyltransferase");
@@ -522,7 +522,7 @@ public class DESearchIT {
     }
 
     @Test
-    public void canFindRecNameWithNestedBraces() {
+    void canFindRecNameWithNestedBraces() {
         String accession = newAccession();
 
         String deRecName = "Methylenetetrahydrofolate-tRNA(uracil(54)-C(5))-methyltransferase(FADH(2)-oxidizig)";
@@ -536,7 +536,7 @@ public class DESearchIT {
     }
 
     @Test
-    public void canFindRecNameContainingComma() {
+    void canFindRecNameContainingComma() {
         String accession = newAccession();
 
         String deRecName = "Endo-1,5-beta-xylanase";
@@ -550,7 +550,7 @@ public class DESearchIT {
     }
 
     @Test
-    public void canFindRecNameContainingSlashes() {
+    void canFindRecNameContainingSlashes() {
         String accession = newAccession();
 
         String deRecName = "Cys-tRNA(Pro)/cys-tRNA(Cys) deacylae";
@@ -564,7 +564,7 @@ public class DESearchIT {
     }
 
     @Test
-    public void canFindRecNameContainingSquareBrackets() {
+    void canFindRecNameContainingSquareBrackets() {
         String accession = newAccession();
 
         String deRecName = "Ornithine-acyl[acyl carrier protein] N-acyltransferase";

@@ -18,20 +18,20 @@ import static org.hamcrest.Matchers.hasItems;
 import static org.uniprot.store.indexer.search.uniprot.IdentifierSearchIT.ACC_LINE;
 import static org.uniprot.store.indexer.search.uniprot.TestUtils.*;
 
-public class CCSubCellLocationSearchIT {
-	  public static final String Q6GZX4 = "Q6GZX4";
-	    public static final String Q6GZX3 = "Q6GZX3";
-	    public static final String Q6GZY3 = "Q6GZY3";
-	    public static final String Q197B6 = "Q197B6";
+class CCSubCellLocationSearchIT {
+	  private static final String Q6GZX4 = "Q6GZX4";
+	    private static final String Q6GZX3 = "Q6GZX3";
+	    private static final String Q6GZY3 = "Q6GZY3";
+	    private static final String Q197B6 = "Q197B6";
 	    private static final String UNIPROT_FLAT_FILE_ENTRY_PATH = "/it/uniprot/P0A377.43.dat";
 
 
 
 	    @RegisterExtension
-	    public static UniProtSearchEngine searchEngine = new UniProtSearchEngine();
+	    static UniProtSearchEngine searchEngine = new UniProtSearchEngine();
 
 	    @BeforeAll
-	    public static void populateIndexWithTestData() throws IOException {
+	    static void populateIndexWithTestData() throws IOException {
 	        // a test entry object that can be modified and added to index
 	        InputStream resourceAsStream = TestUtils.getResourceAsStream(UNIPROT_FLAT_FILE_ENTRY_PATH);
 	        UniProtEntryObjectProxy entryProxy = UniProtEntryObjectProxy.createEntryFromInputStream(resourceAsStream);
@@ -74,7 +74,7 @@ public class CCSubCellLocationSearchIT {
 	        searchEngine.printIndexContents();
 	    }
 	    @Test
-	    public void termThree() {
+	    void termThree() {
 	    	String value = "membrane";
 	    	String query =query(UniProtField.Search.cc_scl_term, value);
 	    	
@@ -84,7 +84,7 @@ public class CCSubCellLocationSearchIT {
 	        assertThat(retrievedAccessions, hasItems(Q197B6, Q6GZX3, Q6GZY3));
 	    }
 	    @Test
-	    public void termEvidenceOne() {
+	    void termEvidenceOne() {
 	    	String value = "membrane";
 	    	String evidence ="ECO_0000269";
 	    	String query =query(UniProtField.Search.cc_scl_term, value);
@@ -95,7 +95,7 @@ public class CCSubCellLocationSearchIT {
 	        assertThat(retrievedAccessions, hasItems( Q197B6 ));
 	    }
 	    @Test
-	    public void termEvidenceNone() {
+	    void termEvidenceNone() {
 			String value = "membrane";
 			String evidence = "ECO_0000250";
 			String query = query(UniProtField.Search.cc_scl_term, value);
@@ -108,7 +108,7 @@ public class CCSubCellLocationSearchIT {
 	    }
 	    
 	    @Test
-	    public void termTopologyThree() {
+	    void termTopologyThree() {
 	    	String value = "protein";
 	    	String query =query(UniProtField.Search.cc_scl_term, value);
 	    	
@@ -119,7 +119,7 @@ public class CCSubCellLocationSearchIT {
 	    }
 	    
 	    @Test
-	    public void termTopologyEvidenceOne() {
+	    void termTopologyEvidenceOne() {
 	    	String value = "protein";
 	    	String evidence ="ECO_0000269";
 	    	String query =query(UniProtField.Search.cc_scl_term, value);
@@ -132,7 +132,7 @@ public class CCSubCellLocationSearchIT {
 	    }
 	    
 	    @Test
-	    public void termTopologyManualEvidenceOne() {
+	    void termTopologyManualEvidenceOne() {
 	    	String value = "protein";
 	    	String evidence ="manual";
 	    	String query =query(UniProtField.Search.cc_scl_term, value);
@@ -144,7 +144,7 @@ public class CCSubCellLocationSearchIT {
 	        assertThat(retrievedAccessions, hasItems( Q197B6));
 	    }
 	    @Test
-	    public void termTopologyExperimentalEvidenceOne() {
+	    void termTopologyExperimentalEvidenceOne() {
 	    	String value = "protein";
 	    	String evidence ="experimental";
 	    	String query =query(UniProtField.Search.cc_scl_term, value);
@@ -157,7 +157,7 @@ public class CCSubCellLocationSearchIT {
 	    }
 	    
 	    @Test
-	    public void termOrientationOne() {
+	    void termOrientationOne() {
 	    	String value = "top";
 	    	String query =query(UniProtField.Search.cc_scl_term, value);
 	    	
@@ -168,7 +168,7 @@ public class CCSubCellLocationSearchIT {
 	    }
 	    
 	    @Test
-	    public void termOrientationEvidenceOne() {
+	    void termOrientationEvidenceOne() {
 	    	String value = "top";
 	    	String evidence ="ECO_0000313";
 	    	String query =query(UniProtField.Search.cc_scl_term, value);
@@ -180,7 +180,7 @@ public class CCSubCellLocationSearchIT {
 	        assertThat(retrievedAccessions, hasItems( Q197B6));
 	    }
 	    @Test
-	    public void termOrientationEvidenceNone() {
+	    void termOrientationEvidenceNone() {
 	    	String value = "top";
 	    	String evidence ="ECO_0000305";
 	    	String query =query(UniProtField.Search.cc_scl_term, value);
@@ -194,7 +194,7 @@ public class CCSubCellLocationSearchIT {
 	    
 	    
 	    @Test
-	    public void noteTwo() {
+	    void noteTwo() {
 	    	String value = "endoplasmic";
 	    	String query =query(UniProtField.Search.cc_scl_note, value);
 	    	
@@ -204,7 +204,7 @@ public class CCSubCellLocationSearchIT {
 	        assertThat(retrievedAccessions, hasItems(Q197B6, Q6GZY3));
 	    }
 	    @Test
-	    public void noteEvidenceOne() {
+	    void noteEvidenceOne() {
 	    	String value = "endoplasmic";
 	    	String evidence ="ECO_0000256";
 	    	String query =query(UniProtField.Search.cc_scl_note, value);
@@ -215,7 +215,7 @@ public class CCSubCellLocationSearchIT {
 	        assertThat(retrievedAccessions, hasItems( Q197B6 ));
 	    }
 	    @Test
-	    public void noteEvidenceNone() {
+	    void noteEvidenceNone() {
 	    	String value = "endoplasmic";
 	    	String evidence ="ECO_0000269";
 	    	String query =query(UniProtField.Search.cc_scl_note, value);
@@ -227,7 +227,7 @@ public class CCSubCellLocationSearchIT {
 	        assertThat(retrievedAccessions, empty( ));
 	    }
 	    @Test
-	    public void noteAAEvidenceOne() {
+	    void noteAAEvidenceOne() {
 	    	String value = "endoplasmic";
 	    	String evidence ="automatic";
 	    	String query =query(UniProtField.Search.cc_scl_note, value);

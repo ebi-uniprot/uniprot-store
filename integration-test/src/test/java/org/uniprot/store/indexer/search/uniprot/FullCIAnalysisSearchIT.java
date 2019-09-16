@@ -38,9 +38,9 @@ import static org.uniprot.store.indexer.search.uniprot.TestUtils.convertToUniPro
  *
  * @author Edd
  */
-public class FullCIAnalysisSearchIT {
+class FullCIAnalysisSearchIT {
     @RegisterExtension
-    public static final UniProtSearchEngine searchEngine = new UniProtSearchEngine();
+    static final UniProtSearchEngine searchEngine = new UniProtSearchEngine();
     private static final String RESOURCE_ENTRY_PATH = "/it/uniprot";
     private static final List<String> RESOURCE_ENTRIES_TO_STORE =
             asList("P0A377.43", "P51587", "Q6GZV4.23", "Q197D8.25", "Q197F8.16");
@@ -49,7 +49,7 @@ public class FullCIAnalysisSearchIT {
     private List<String> tempSavedEntries = new ArrayList<>();
 
     @BeforeAll
-    public static void populateIndexWithTestData() throws IOException {
+    static void populateIndexWithTestData() throws IOException {
         for (String entryToStore : RESOURCE_ENTRIES_TO_STORE) {
             InputStream resourceAsStream = TestUtils
                     .getResourceAsStream(RESOURCE_ENTRY_PATH + "/" + entryToStore + ".dat");
@@ -63,14 +63,14 @@ public class FullCIAnalysisSearchIT {
     }
 
     @AfterEach
-    public void after() {
+    void after() {
         cleanTempEntries();
     }
 
     // phrases
     @ParameterizedTest
     @EnumSource(FieldType.class)
-    public void canFindSimpleExactPhrase(FieldType field) {
+    void canFindSimpleExactPhrase(FieldType field) {
         String accession = newAccession();
         String fieldValue = "hello world";
 
@@ -86,7 +86,7 @@ public class FullCIAnalysisSearchIT {
     @Disabled
     @ParameterizedTest
     @EnumSource(FieldType.class)
-    public void canFindExactPhraseContainingCommasNumbersBracesAndSlashes(FieldType field) {
+    void canFindExactPhraseContainingCommasNumbersBracesAndSlashes(FieldType field) {
         String accession = newAccession();
         String fieldValue = "Influenza A, virus (strain A/Goose/Guangdong/1/1996 H5N1 genotype Gs/Gd)";
         String query = fieldPhraseQuery(field.name(), fieldValue);
@@ -101,7 +101,7 @@ public class FullCIAnalysisSearchIT {
     @Disabled
     @ParameterizedTest
     @EnumSource(FieldType.class)
-    public void canFindPhraseContainingCommasNumbersBracesAndSlashes(FieldType field) {
+    void canFindPhraseContainingCommasNumbersBracesAndSlashes(FieldType field) {
         String accession = newAccession();
 
         String indexFieldValue = "Influenza A, virus (strain A/Goose/Guangdong/1/1996 H5N1";
@@ -118,7 +118,7 @@ public class FullCIAnalysisSearchIT {
 
     @ParameterizedTest
     @EnumSource(FieldType.class)
-    public void canFindProblematicBaseCasePhraseQuery(FieldType field) {
+    void canFindProblematicBaseCasePhraseQuery(FieldType field) {
         String accession = newAccession();
         String fieldValue = "1a b2";
         String query = fieldPhraseQuery(field.name(), fieldValue);
@@ -132,7 +132,7 @@ public class FullCIAnalysisSearchIT {
 
     @ParameterizedTest
     @EnumSource(FieldType.class)
-    public void canFindWordWithEqualsQuery(FieldType field) {
+    void canFindWordWithEqualsQuery(FieldType field) {
         String accession = newAccession();
         String indexFieldValue = "Note=Translated";
         String queryFieldValue = "Translated";
@@ -148,7 +148,7 @@ public class FullCIAnalysisSearchIT {
     // single word
     @ParameterizedTest
     @EnumSource(FieldType.class)
-    public void canFindSingleExactValue(FieldType field) {
+    void canFindSingleExactValue(FieldType field) {
         String accession = newAccession();
         String fieldValue = "Aspartate";
         String query = fieldQuery(field.name(), fieldValue);
@@ -162,7 +162,7 @@ public class FullCIAnalysisSearchIT {
 
     @ParameterizedTest
     @EnumSource(FieldType.class)
-    public void canFindSingleExactValueWithTerminatingSemiColon(FieldType field) {
+    void canFindSingleExactValueWithTerminatingSemiColon(FieldType field) {
         String accession = newAccession();
         String fieldValue = "Aspartate;";
         String query = fieldQuery(field.name(), fieldValue);
@@ -176,7 +176,7 @@ public class FullCIAnalysisSearchIT {
 
     @ParameterizedTest
     @EnumSource(FieldType.class)
-    public void canFindSingleExactValueWithoutTerminatingSemiColon(FieldType field) {
+    void canFindSingleExactValueWithoutTerminatingSemiColon(FieldType field) {
         String accession = newAccession();
         String indexFieldValue = "Aspartate;";
         String queryFieldValue = "Aspartate";
@@ -191,7 +191,7 @@ public class FullCIAnalysisSearchIT {
 
     @ParameterizedTest
     @EnumSource(FieldType.class)
-    public void canFindSingleValueWithTerminatingSemiColon(FieldType field) {
+    void canFindSingleValueWithTerminatingSemiColon(FieldType field) {
         String accession = newAccession();
         String indexFieldValue = "Aspartate";
         String queryFieldValue = "Aspartate;";
@@ -207,7 +207,7 @@ public class FullCIAnalysisSearchIT {
     // multi-word
     @ParameterizedTest
     @EnumSource(FieldType.class)
-    public void canFindExactValue(FieldType field) {
+    void canFindExactValue(FieldType field) {
         String accession = newAccession();
         String fieldValue = "Aspartate aminotransferase";
         String query = fieldQuery(field.name(), fieldValue);
@@ -221,7 +221,7 @@ public class FullCIAnalysisSearchIT {
 
     @ParameterizedTest
     @EnumSource(FieldType.class)
-    public void canFindComplexFieldUsingExactValue(FieldType field) {
+    void canFindComplexFieldUsingExactValue(FieldType field) {
         String accession = newAccession();
         String fieldValue = "(+)-car-3-ene synthase";
         String query = fieldQuery(field.name(), fieldValue);
@@ -235,7 +235,7 @@ public class FullCIAnalysisSearchIT {
 
     @ParameterizedTest
     @EnumSource(FieldType.class)
-    public void canFindComplexFieldUsingPartialValue(FieldType field) {
+    void canFindComplexFieldUsingPartialValue(FieldType field) {
         String accession = newAccession();
         String indexFieldValue = "(+)-car-3-ene synthase";
         String queryFieldValue = "3-ene synthase";
@@ -250,7 +250,7 @@ public class FullCIAnalysisSearchIT {
 
     @ParameterizedTest
     @EnumSource(FieldType.class)
-    public void canFindExactValueWithTerminatingSemiColon(FieldType field) {
+    void canFindExactValueWithTerminatingSemiColon(FieldType field) {
         String accession = newAccession();
         String fieldValue = "Aspartate aminotransferase;";
         String query = fieldQuery(field.name(), fieldValue);
@@ -264,7 +264,7 @@ public class FullCIAnalysisSearchIT {
 
     @ParameterizedTest
     @EnumSource(FieldType.class)
-    public void canFindExactValueWithoutTerminatingSemiColon(FieldType field) {
+    void canFindExactValueWithoutTerminatingSemiColon(FieldType field) {
         String accession = newAccession();
         String indexFieldValue = "Aspartate aminotransferase;";
         String queryFieldValue = "Aspartate aminotransferase";
@@ -279,7 +279,7 @@ public class FullCIAnalysisSearchIT {
 
     @ParameterizedTest
     @EnumSource(FieldType.class)
-    public void canBlahBlee(FieldType field) {
+    void canBlahBlee(FieldType field) {
         String accession = newAccession();
         String indexFieldValue = "Aspartate aminotransferase";
         String queryFieldValue = "aminotransferase Aspartate";
@@ -294,7 +294,7 @@ public class FullCIAnalysisSearchIT {
 
     @ParameterizedTest
     @EnumSource(FieldType.class)
-    public void canFindValueWithTerminatingSemiColon(FieldType field) {
+    void canFindValueWithTerminatingSemiColon(FieldType field) {
         String accession = newAccession();
         String indexFieldValue = "Aspartate aminotransferase";
         String queryFieldValue = "Aspartate aminotransferase;";
@@ -309,7 +309,7 @@ public class FullCIAnalysisSearchIT {
 
     @ParameterizedTest
     @EnumSource(FieldType.class)
-    public void canFindMultiWordValueGivenOneWord(FieldType field) {
+    void canFindMultiWordValueGivenOneWord(FieldType field) {
         String accession = newAccession();
         String indexFieldValue = "Aspartate aminotransferase";
         String queryFieldValue = "Aspartate";
@@ -324,7 +324,7 @@ public class FullCIAnalysisSearchIT {
 
     @ParameterizedTest
     @EnumSource(FieldType.class)
-    public void canFindMultiWordValueGivenOneWordWhenTheresATerminatingSemiColon(FieldType field) {
+    void canFindMultiWordValueGivenOneWordWhenTheresATerminatingSemiColon(FieldType field) {
         String accession = newAccession();
         String indexFieldValue = "Aspartate aminotransferase;";
         String queryFieldValue = "Aspartate";
@@ -340,7 +340,7 @@ public class FullCIAnalysisSearchIT {
     // multi-word terms
     @ParameterizedTest
     @EnumSource(FieldType.class)
-    public void canFindExactValueContainingComma(FieldType field) {
+    void canFindExactValueContainingComma(FieldType field) {
         String accession = newAccession();
         String fieldValue = "Aspartate aminotransferase, mitochondrial";
         String query = fieldQuery(field.name(), fieldValue);
@@ -354,7 +354,7 @@ public class FullCIAnalysisSearchIT {
 
     @ParameterizedTest
     @EnumSource(FieldType.class)
-    public void canFindValueContainingCommaWithoutTerminatingSemiColon(FieldType field) {
+    void canFindValueContainingCommaWithoutTerminatingSemiColon(FieldType field) {
         String accession = newAccession();
         String indexFieldValue = "L-topaquinone(1-) residue [79027]";
         String queryFieldValue = "L-topaquinone(1-)";
@@ -369,7 +369,7 @@ public class FullCIAnalysisSearchIT {
 
     @ParameterizedTest
     @EnumSource(FieldType.class)
-    public void canFindMultiWordValueContainingCommaGivenOneWordWhenTheresATerminatingSemiColon(FieldType field) {
+    void canFindMultiWordValueContainingCommaGivenOneWordWhenTheresATerminatingSemiColon(FieldType field) {
         String accession = newAccession();
         String indexFieldValue = "Aspartate, aminotransferase;";
         String queryFieldValue = "Aspartate";
@@ -385,7 +385,7 @@ public class FullCIAnalysisSearchIT {
     // multi-words with slashes
     @ParameterizedTest
     @EnumSource(FieldType.class)
-    public void canFindMultiWordValueWithSlash(FieldType field) {
+    void canFindMultiWordValueWithSlash(FieldType field) {
         String accession = newAccession();
         String fieldValue = "Influenza A virus (strain A/Goose/Guangdong/1/1996 H5N1 genotype Gs/Gd)";
         String query = fieldQuery(field.name(), fieldValue);
@@ -400,7 +400,7 @@ public class FullCIAnalysisSearchIT {
     // words containing special chars (just using '_' in tests, but applies to all non-word chars)
     @ParameterizedTest
     @EnumSource(FieldType.class)
-    public void canFindValueWithUnderScore(FieldType field) {
+    void canFindValueWithUnderScore(FieldType field) {
         String accession = newAccession();
         String fieldValue = "VARV_IND64_vel4_019";
         String query = fieldQuery(field.name(), fieldValue);
@@ -414,7 +414,7 @@ public class FullCIAnalysisSearchIT {
 
     @ParameterizedTest
     @EnumSource(FieldType.class)
-    public void caseInsensitiveFindValueWithUnderScores(FieldType field) {
+    void caseInsensitiveFindValueWithUnderScores(FieldType field) {
         String accession = newAccession();
         String fieldValue = "VARV_IND64_vel4_019";
         String query = fieldQuery(field.name(), fieldValue.toLowerCase());
@@ -428,7 +428,7 @@ public class FullCIAnalysisSearchIT {
 
     @ParameterizedTest
     @EnumSource(FieldType.class)
-    public void canUseFirstPartOfValueToFindValueWithUnderScores(FieldType field) {
+    void canUseFirstPartOfValueToFindValueWithUnderScores(FieldType field) {
         String accession = newAccession();
         String fieldValue = "VARV_IND64_vel4_019";
         String query = fieldQuery(field.name(), "VARV");
@@ -442,7 +442,7 @@ public class FullCIAnalysisSearchIT {
 
     @ParameterizedTest
     @EnumSource(FieldType.class)
-    public void canUseMiddlePartOfValueToFindValueWithUnderScores(FieldType field) {
+    void canUseMiddlePartOfValueToFindValueWithUnderScores(FieldType field) {
         String accession = newAccession();
         String fieldValue = "VARV_IND64_vel4_019";
         String query = fieldQuery(field.name(), "vel4");
@@ -456,7 +456,7 @@ public class FullCIAnalysisSearchIT {
 
     @ParameterizedTest
     @EnumSource(FieldType.class)
-    public void canUseMiddlePartsOfValueToFindValueWithUnderScores(FieldType field) {
+    void canUseMiddlePartsOfValueToFindValueWithUnderScores(FieldType field) {
         String accession = newAccession();
         String fieldValue = "VARV_IND64_vel4_019";
         String query = fieldQuery(field.name(), "IND64_vel4");
@@ -470,7 +470,7 @@ public class FullCIAnalysisSearchIT {
 
     @ParameterizedTest
     @EnumSource(FieldType.class)
-    public void canFindValueThatIsOnlyANumber(FieldType field) {
+    void canFindValueThatIsOnlyANumber(FieldType field) {
         String accession = newAccession();
         String fieldValue = "62";
         String query = fieldQuery(field.name(), fieldValue);
@@ -484,7 +484,7 @@ public class FullCIAnalysisSearchIT {
 
     @ParameterizedTest
     @EnumSource(FieldType.class)
-    public void canFindValuesContainingSpecialChars(FieldType field) {
+    void canFindValuesContainingSpecialChars(FieldType field) {
         List<String> valuesThatRequireEscaping = asList("+", "-", "&", "|", "!", "(", ")", "{EVIDENCE}", "[", "]", "^", "\"", "~", "?", ":", "/");
 
         for (String toEscape : valuesThatRequireEscaping) {
@@ -505,7 +505,7 @@ public class FullCIAnalysisSearchIT {
     @Disabled
     @ParameterizedTest
     @EnumSource(FieldType.class)
-    public void canFindValueViaAlternativeSpellingFromSynonymList(FieldType field) {
+    void canFindValueViaAlternativeSpellingFromSynonymList(FieldType field) {
         // ensure synonyms in are used:
         //    uniprot-data-services/data-service-deployments/src/main/distros/solr-conf/homes/uniprot-cores/uniprot/conf/synonyms.txt
         String accession = newAccession();
@@ -522,7 +522,7 @@ public class FullCIAnalysisSearchIT {
 
     @ParameterizedTest
     @EnumSource(FieldType.class)
-    public void canFindValueViaWithoutPossessive(FieldType field) {
+    void canFindValueViaWithoutPossessive(FieldType field) {
         String accession = newAccession();
         String indexFieldValue = "this was bill's";
         String queryFieldValue = "this was bill";

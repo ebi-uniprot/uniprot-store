@@ -43,9 +43,9 @@ public class UniProtSearchEngine extends AbstractSearchEngine<UniProtEntry> {
     }
 
     @Override
-    public void beforeEach(ExtensionContext context) {
+    public void beforeAll(ExtensionContext context) {
         setRequiredProperties();
-        super.beforeEach(context);
+        super.beforeAll(context);
     }
 
     private void setRequiredProperties() {

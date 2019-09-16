@@ -20,9 +20,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  * Tests the search capabilities of the {@link UniParcQueryBuilder} when it comes to searching for UniParc entries
  * that reference database source accessions
  */
-public class DatabaseSearchIT {
+class DatabaseSearchIT {
     @RegisterExtension
-    public static UniParcSearchEngine searchEngine = new UniParcSearchEngine();
+    static UniParcSearchEngine searchEngine = new UniParcSearchEngine();
 
     private static final String ID_1 = "UPI0000000001";
     private static final String ID_2 = "UPI0000000002";
@@ -34,7 +34,7 @@ public class DatabaseSearchIT {
     private static final String ACC_NC_000004_1185_0 = "NC_000004_1185_0";
 
     @BeforeAll
-    public static void populateIndexWithTestData() throws IOException {
+    static void populateIndexWithTestData() throws IOException {
         //Entry 1
         {
             Entry entry = TestUtils.createDefaultUniParcEntry();
@@ -68,7 +68,7 @@ public class DatabaseSearchIT {
         searchEngine.printIndexContents();
     }
     @Test
-    public void testAllUniProt() throws Exception{
+    void testAllUniProt() throws Exception{
     	 String query =uniprot("*");
          
          QueryResponse queryResponse =
@@ -79,7 +79,7 @@ public class DatabaseSearchIT {
          assertThat(retrievedAccessions, containsInAnyOrder(ID_1, ID_3));
     }
     @Test
-    public void testAllUniProtIsoform() throws Exception{
+    void testAllUniProtIsoform() throws Exception{
     	 String query =isoform("*");
          
          QueryResponse queryResponse =
@@ -91,7 +91,7 @@ public class DatabaseSearchIT {
     }
     
     @Test
-    public void testActiveTrembl() throws Exception{
+    void testActiveTrembl() throws Exception{
     	  String query =active(UniParcDatabaseType.TREMBL.getName());
           
           QueryResponse queryResponse =
@@ -103,7 +103,7 @@ public class DatabaseSearchIT {
     }
     
     @Test
-    public void testDBUniProt() throws Exception{
+    void testDBUniProt() throws Exception{
     	  String query =database(UniParcDatabaseType.TREMBL.getName());
           
           QueryResponse queryResponse =
@@ -115,7 +115,7 @@ public class DatabaseSearchIT {
     }
     
     @Test
-    public void testDBREFSEQ() throws Exception{
+    void testDBREFSEQ() throws Exception{
     	  String query =database(UniParcDatabaseType.REFSEQ.getName());
           
           QueryResponse queryResponse =
@@ -132,10 +132,10 @@ public class DatabaseSearchIT {
     private String database(String dbname) {
     	return QueryBuilder.query(UniParcField.Search.database.name(),dbname);
     }
-    public String uniprot(String acc) {
+    String uniprot(String acc) {
     	return QueryBuilder.query(UniParcField.Search.accession.name(),acc);
     }
-    public String isoform(String acc) {
+    String isoform(String acc) {
     	return QueryBuilder.query(UniParcField.Search.isoform.name(),acc);
     }
     

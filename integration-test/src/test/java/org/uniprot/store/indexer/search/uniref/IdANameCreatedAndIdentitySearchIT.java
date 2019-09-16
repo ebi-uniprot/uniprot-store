@@ -27,7 +27,7 @@ import org.uniprot.store.search.field.UniRefField;
  *
 */
 
-public class IdANameCreatedAndIdentitySearchIT {
+class IdANameCreatedAndIdentitySearchIT {
 	  private static final String ID_1 = "UniRef100_A0A007";
 	    private static final String ID_2 = "UniRef100_A0A009DWI3";
 	    private static final String ID_3 = "UniRef90_A0A007";
@@ -42,10 +42,10 @@ public class IdANameCreatedAndIdentitySearchIT {
 	    private static final String NAME_6 = "Cluster: Transposase domain protein";
 
 	    @RegisterExtension
-	    public static UniRefSearchEngine searchEngine = new UniRefSearchEngine();
+	    static UniRefSearchEngine searchEngine = new UniRefSearchEngine();
 	    
 	    @BeforeAll
-	    public static void populateIndexWithTestData() throws IOException {
+	    static void populateIndexWithTestData() throws IOException {
 	        //Entry 1
 	        {
 	            Entry entry = TestUtils.createSkeletonEntry(ID_1, NAME_1);
@@ -91,7 +91,7 @@ public class IdANameCreatedAndIdentitySearchIT {
 	        searchEngine.printIndexContents();
 	    }
 	    @Test
-	    public void uniref100Id() {
+	    void uniref100Id() {
 	    	String  query =idQuery(ID_1);
 	    	  QueryResponse queryResponse =
 	                  searchEngine.getQueryResponse(query);
@@ -103,7 +103,7 @@ public class IdANameCreatedAndIdentitySearchIT {
 	
 	    
 	    @Test
-	    public void uniref90Id() {
+	    void uniref90Id() {
 	    	String  query =idQuery(ID_3);
 	    	  QueryResponse queryResponse =
 	                  searchEngine.getQueryResponse(query);
@@ -114,7 +114,7 @@ public class IdANameCreatedAndIdentitySearchIT {
 	    }
 	    
 	    @Test
-	    public void uniref50Id() {
+	    void uniref50Id() {
 	    	String  query =idQuery(ID_5);
 	    	  QueryResponse queryResponse =
 	                  searchEngine.getQueryResponse(query);
@@ -124,7 +124,7 @@ public class IdANameCreatedAndIdentitySearchIT {
 	          assertThat(retrievedAccessions, containsInAnyOrder(ID_5));
 	    }
 	    @Test
-	    public void unirefNoId() {
+	    void unirefNoId() {
 	    	String  query =idQuery("UniRef100_A0A002");
 	    	  QueryResponse queryResponse =
 	                  searchEngine.getQueryResponse(query);
@@ -134,7 +134,7 @@ public class IdANameCreatedAndIdentitySearchIT {
 
 	    }
 	    @Test
-	    public void unirefNoId2() {
+	    void unirefNoId2() {
 	    	String  query =idQuery("UniRef10_A0A007");
 	    	  QueryResponse queryResponse =
 	                  searchEngine.getQueryResponse(query);
@@ -144,7 +144,7 @@ public class IdANameCreatedAndIdentitySearchIT {
 
 	    }
 	    @Test
-	    public void unirefName() {
+	    void unirefName() {
 	    	String  query =nameQuery("MoeK5");
 	    	  QueryResponse queryResponse =
 	                  searchEngine.getQueryResponse(query);
@@ -155,7 +155,7 @@ public class IdANameCreatedAndIdentitySearchIT {
 	    }
 	    
 	    @Test
-	    public void unirefName2() {
+	    void unirefName2() {
 	    	String  query =nameQuery("Transposase");
 	    	  QueryResponse queryResponse =
 	                  searchEngine.getQueryResponse(query);
@@ -165,7 +165,7 @@ public class IdANameCreatedAndIdentitySearchIT {
 	          assertThat(retrievedAccessions, containsInAnyOrder(ID_2, ID_4,  ID_6));
 	    }
 	    @Test
-	    public void unirefNameNo() {
+	    void unirefNameNo() {
 	    	String  query =nameQuery("Transposa");
 	    	  QueryResponse queryResponse =
 	                  searchEngine.getQueryResponse(query);
@@ -176,7 +176,7 @@ public class IdANameCreatedAndIdentitySearchIT {
 	    }
 	    
 	    @Test
-	    public void unirefIdentity100() {
+	    void unirefIdentity100() {
 	    	String  query =identityQuery("1.0");
 	    	  QueryResponse queryResponse =
 	                  searchEngine.getQueryResponse(query);
@@ -186,7 +186,7 @@ public class IdANameCreatedAndIdentitySearchIT {
 	          assertThat(retrievedAccessions, containsInAnyOrder(ID_1, ID_2));
 	    }
 	    @Test
-	    public void unirefIdentity90() {
+	    void unirefIdentity90() {
 	    	String  query =identityQuery("0.9");
 	    	  QueryResponse queryResponse =
 	                  searchEngine.getQueryResponse(query);
@@ -197,7 +197,7 @@ public class IdANameCreatedAndIdentitySearchIT {
 	    }
 	    
 	    @Test
-	    public void unirefIdentity50() {
+	    void unirefIdentity50() {
 	    	String  query =identityQuery("0.5");
 	    	  QueryResponse queryResponse =
 	                  searchEngine.getQueryResponse(query);
@@ -208,7 +208,7 @@ public class IdANameCreatedAndIdentitySearchIT {
 	    }
 	    
 	    @Test
-	    public void unirefIdentity80() {
+	    void unirefIdentity80() {
 	    	String  query =identityQuery("0.8");
 	    	  QueryResponse queryResponse =
 	                  searchEngine.getQueryResponse(query);
@@ -219,7 +219,7 @@ public class IdANameCreatedAndIdentitySearchIT {
 	    }
 	    
 	    @Test
-	    public void unirefCreatedSingle() {
+	    void unirefCreatedSingle() {
 	    	 LocalDate start = LocalDate.of(2015, 9, 11);
 	    	 LocalDate end = LocalDate.of(2015, 9, 12);
 	    	 String query = rangeQuery(UniRefField.Search.created.name(), start, end);
@@ -232,7 +232,7 @@ public class IdANameCreatedAndIdentitySearchIT {
 
 	    }
 	    @Test
-	    public void unirefCreatedRange() {
+	    void unirefCreatedRange() {
 	    	 LocalDate start = LocalDate.of(2015, 8, 8);
 	    	 LocalDate end = LocalDate.of(2015, 10, 9);
 	    	 String query = rangeQuery(UniRefField.Search.created.name(), start, end);

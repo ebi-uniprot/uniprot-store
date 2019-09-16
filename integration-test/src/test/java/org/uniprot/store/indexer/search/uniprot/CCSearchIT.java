@@ -22,11 +22,11 @@ import static org.hamcrest.Matchers.*;
 /**
  * Tests showing the behaviour of searching CC fields
  */
-public class CCSearchIT {
-    public static final String Q6GZX4 = "Q6GZX4";
-    public static final String Q6GZX3 = "Q6GZX3";
-    public static final String Q6GZY3 = "Q6GZY3";
-    public static final String Q197B6 = "Q197B6";
+class CCSearchIT {
+    private static final String Q6GZX4 = "Q6GZX4";
+    private static final String Q6GZX3 = "Q6GZX3";
+    private static final String Q6GZY3 = "Q6GZY3";
+    private static final String Q197B6 = "Q197B6";
     private static final String UNIPROT_FLAT_FILE_ENTRY_PATH = "/it/uniprot/P0A377.43.dat";
     private static final String Q196W5 = "Q196W5";
     private static final String Q6GZN7 = "Q6GZN7";
@@ -35,10 +35,10 @@ public class CCSearchIT {
     private static final String Q12345 = "Q12345";
 
     @RegisterExtension
-    public static UniProtSearchEngine searchEngine = new UniProtSearchEngine();
+    static UniProtSearchEngine searchEngine = new UniProtSearchEngine();
 
     @BeforeAll
-    public static void populateIndexWithTestData() throws IOException {
+    static void populateIndexWithTestData() throws IOException {
         // a test entry object that can be modified and added to index
         InputStream resourceAsStream = TestUtils.getResourceAsStream(UNIPROT_FLAT_FILE_ENTRY_PATH);
         UniProtEntryObjectProxy entryProxy = UniProtEntryObjectProxy.createEntryFromInputStream(resourceAsStream);
@@ -148,7 +148,7 @@ public class CCSearchIT {
     }
 
     @Test
-    public void shouldFindTwoCofactorEntry() {
+    void shouldFindTwoCofactorEntry() {
         String query = comments(CommentType.COFACTOR, "*");
 
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -158,7 +158,7 @@ public class CCSearchIT {
     }
 
     @Test
-    public void shouldFindOneFunctionEntry() {
+    void shouldFindOneFunctionEntry() {
         String query = comments(CommentType.FUNCTION, "*");
 
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -168,7 +168,7 @@ public class CCSearchIT {
     }
 
     @Test
-    public void domainFindLongCopyPastedSection() {
+    void domainFindLongCopyPastedSection() {
         String query = comments(CommentType.DOMAIN, "motif binds the catalytic zinc ion, thus inhibiting the enzyme.");
 
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -178,7 +178,7 @@ public class CCSearchIT {
     }
 
     @Test
-    public void catalyticActivFindNADP() {
+    void catalyticActivFindNADP() {
         String query = comments(CommentType.CATALYTIC_ACTIVITY, "NADP");
 
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -188,7 +188,7 @@ public class CCSearchIT {
     }
 
     @Test
-    public void catalyticActivFindCopyAndPastedEquation() {
+    void catalyticActivFindCopyAndPastedEquation() {
         String query = comments(CommentType.CATALYTIC_ACTIVITY, "2 R'C(R)SH + O(2) = R'C(R)S-S(R)CR'");
 
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -198,7 +198,7 @@ public class CCSearchIT {
     }
 
     @Test
-    public void catalyticActivFindHydroxygeraniolCI() {
+    void catalyticActivFindHydroxygeraniolCI() {
         String query = comments(CommentType.CATALYTIC_ACTIVITY, "HydrOxyGeraniol");
 
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -208,7 +208,7 @@ public class CCSearchIT {
     }
 
     @Test
-    public void catalyticActivFindHydroxygeraniolExact() {
+    void catalyticActivFindHydroxygeraniolExact() {
         String query = comments(CommentType.CATALYTIC_ACTIVITY, "hydroxygeraniol");
 
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -218,7 +218,7 @@ public class CCSearchIT {
     }
 
     @Test
-    public void catalyticActivFindO2() {
+    void catalyticActivFindO2() {
         String query = comments(CommentType.CATALYTIC_ACTIVITY, "O(2)");
 
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -228,7 +228,7 @@ public class CCSearchIT {
     }
 
     @Test
-    public void functionExactlyCorrect() {
+    void functionExactlyCorrect() {
     	String query = query(UniProtField.Search.accession, Q6GZX4);
          query = QueryBuilder.and(query, comments(CommentType.FUNCTION, "Transcription activation."));
 
@@ -239,7 +239,7 @@ public class CCSearchIT {
     }
 
     @Test
-    public void functionWithoutTerminalStop() {
+    void functionWithoutTerminalStop() {
     	String query = query(UniProtField.Search.accession, Q6GZX4);
          query = QueryBuilder.and(query, comments(CommentType.FUNCTION, "Transcription activation"));
 
@@ -250,7 +250,7 @@ public class CCSearchIT {
     }
 
     @Test
-    public void subcellularSpanning2Lines() {
+    void subcellularSpanning2Lines() {
     	String query = query(UniProtField.Search.accession, Q6GZX3);
          query = QueryBuilder.and(query, comments(CommentType.SUBCELLULAR_LOCATION, "Single-pass membrane protein"));
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -260,7 +260,7 @@ public class CCSearchIT {
     }
 
     @Test
-    public void subcellularFindWithoutSemiColon() {
+    void subcellularFindWithoutSemiColon() {
     	String query = query(UniProtField.Search.accession, Q6GZY3);
          query = QueryBuilder.and(query, comments(CommentType.SUBCELLULAR_LOCATION, "membrane"));
 
@@ -271,7 +271,7 @@ public class CCSearchIT {
     }
 
     @Test
-    public void subcellularFindBothEntriesFromCommonTerm() {
+    void subcellularFindBothEntriesFromCommonTerm() {
         String query = comments(CommentType.SUBCELLULAR_LOCATION, "Host membrane");
 
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -281,7 +281,7 @@ public class CCSearchIT {
     }
 
     @Test
-    public void subcellularFindOneEntryFromMoreSpecificTerm() {
+    void subcellularFindOneEntryFromMoreSpecificTerm() {
         String query = comments(CommentType.SUBCELLULAR_LOCATION, "Host membrane extraWord");
 
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -291,7 +291,7 @@ public class CCSearchIT {
     }
 
     @Test
-    public void subcellularFindOneEntryFromSpecificHyphenatedTerm() {
+    void subcellularFindOneEntryFromSpecificHyphenatedTerm() {
         String query = comments(CommentType.SUBCELLULAR_LOCATION, "this-is-a-word");
 
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -301,7 +301,7 @@ public class CCSearchIT {
     }
 
     @Test
-    public void subcellularFindBothEntriesFromHyphenatedTerm() {
+    void subcellularFindBothEntriesFromHyphenatedTerm() {
         String query = comments(CommentType.SUBCELLULAR_LOCATION, "this-is");
 
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -311,7 +311,7 @@ public class CCSearchIT {
     }
 
     @Test
-    public void subcellularFindBothWithoutSemiColon() {
+    void subcellularFindBothWithoutSemiColon() {
         String query = comments(CommentType.SUBCELLULAR_LOCATION, "membrane");
 
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -321,7 +321,7 @@ public class CCSearchIT {
     }
 
     @Test
-    public void subcellularPartialOrdered() {
+    void subcellularPartialOrdered() {
     	String query =query(UniProtField.Search.accession, Q197B6);
          query = QueryBuilder.and(query,
                 comments(CommentType.SIMILARITY, "Belongs to the protein kinase superfamily."));
@@ -333,7 +333,7 @@ public class CCSearchIT {
     }
 
     @Test
-    public void subcellularPartialOrderedWithForwardSlash() {
+    void subcellularPartialOrderedWithForwardSlash() {
     	String query =query(UniProtField.Search.accession, Q197B6);
          query = QueryBuilder.and(query, comments(CommentType.SIMILARITY, "Ser/Thr protein kinase family"));
 
@@ -344,7 +344,7 @@ public class CCSearchIT {
     }
 
     @Test
-    public void subcellularPartialUnordered() {
+    void subcellularPartialUnordered() {
     	String query =query(UniProtField.Search.accession, Q197B6);
          query = QueryBuilder.and(query, comments(CommentType.SIMILARITY, "protein kinase family Ser/Thr"));
 
@@ -355,7 +355,7 @@ public class CCSearchIT {
     }
 
     @Test
-    public void findIsoformWithinAlternativeProductsComment() {
+    void findIsoformWithinAlternativeProductsComment() {
         String query = comments(CommentType.ALTERNATIVE_PRODUCTS, "P48347-1");
 
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -365,7 +365,7 @@ public class CCSearchIT {
     }
 
     @Test
-    public void findFirstInteractionIdentifierWithinInteractionComment() {
+    void findFirstInteractionIdentifierWithinInteractionComment() {
         String query = comments(CommentType.INTERACTION, "EBI-1803304");
 
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -375,7 +375,7 @@ public class CCSearchIT {
     }
 
     @Test
-    public void findSecondInteractionIdentifierWithinInteractionComment() {
+    void findSecondInteractionIdentifierWithinInteractionComment() {
         String query = comments(CommentType.INTERACTION, "EBI-638506");
 
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -384,7 +384,7 @@ public class CCSearchIT {
         assertThat(retrievedAccessions, contains(Q12345));
     }
     @Test
-    public void findCofactorWithChebi() {
+    void findCofactorWithChebi() {
     		String query= query(UniProtField.Search.cc_cofactor_chebi, "57692");
     		QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -392,7 +392,7 @@ public class CCSearchIT {
             assertThat(retrievedAccessions, contains(Q6GZN7));
     }
     @Test
-    public void findCofactorWithNote() {
+    void findCofactorWithNote() {
     		String query= query(UniProtField.Search.cc_cofactor_note, "zinc");
     		QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -400,14 +400,14 @@ public class CCSearchIT {
             assertThat(retrievedAccessions, contains(Q196W5));
     }
     @Test
-    public void findBPCPWithAbsorption() {
+    void findBPCPWithAbsorption() {
     		String query= query(UniProtField.Search.cc_bpcp_absorption, "emission");
     		QueryResponse response = searchEngine.getQueryResponse(query);
     		List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
     		assertThat(retrievedAccessions, contains(Q6GZX3));
     }
     @Test
-    public void findBPCPWithKinetics() {
+    void findBPCPWithKinetics() {
     		String query= query(UniProtField.Search.cc_bpcp_kinetics, "enzyme");
     		QueryResponse response = searchEngine.getQueryResponse(query);
     		List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
@@ -416,7 +416,7 @@ public class CCSearchIT {
     		assertThat(retrievedAccessions, not(hasItem(Q12345)));
     }
     @Test
-    public void findBPCPWithPhDependence() {
+    void findBPCPWithPhDependence() {
     		String query= query(UniProtField.Search.cc_bpcp_ph_dependence, "optimum");
     		QueryResponse response = searchEngine.getQueryResponse(query);
     		List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
@@ -424,7 +424,7 @@ public class CCSearchIT {
     		assertThat(retrievedAccessions, not(hasItem(Q6V4H0)));
     }
     @Test
-    public void findBPCPWithTempDependence() {
+    void findBPCPWithTempDependence() {
     		String query= query(UniProtField.Search.cc_bpcp_temp_dependence, "70");
     		QueryResponse response = searchEngine.getQueryResponse(query);
     		List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
@@ -432,7 +432,7 @@ public class CCSearchIT {
     		assertThat(retrievedAccessions, not(hasItem(Q6V4H0)));
     }
     @Test
-    public void findBPCPWithRedox() {
+    void findBPCPWithRedox() {
     		String query= query(UniProtField.Search.cc_bpcp_redox_potential, "178");
     		QueryResponse response = searchEngine.getQueryResponse(query);
     		List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
@@ -440,7 +440,7 @@ public class CCSearchIT {
     		assertThat(retrievedAccessions, not(hasItem(Q12345)));
     }
     @Test
-    public void findSubcellLocation() {
+    void findSubcellLocation() {
     		String query= query(UniProtField.Search.cc_scl_term, "membrane");
     		QueryResponse response = searchEngine.getQueryResponse(query);
     		List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
@@ -448,7 +448,7 @@ public class CCSearchIT {
     		assertThat(retrievedAccessions, hasItem(Q6GZY3));
     }
     @Test
-    public void findSubcellLocationNote() {
+    void findSubcellLocationNote() {
     		String query= query(UniProtField.Search.cc_scl_note, "Localizes");
     		QueryResponse response = searchEngine.getQueryResponse(query);
     		List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
@@ -456,7 +456,7 @@ public class CCSearchIT {
     		assertThat(retrievedAccessions, not(hasItem(Q6GZX3)));
     }
     @Test
-    public void findAPEvent() {
+    void findAPEvent() {
     		String query= query(UniProtField.Search.cc_ap_as, "splicing");
     		QueryResponse response = searchEngine.getQueryResponse(query);
     		List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
@@ -464,7 +464,7 @@ public class CCSearchIT {
     		assertThat(retrievedAccessions, not(hasItem(Q6GZX3)));
     }
     @Test
-    public void findSCType() {
+    void findSCType() {
     		String query= query(UniProtField.Search.cc_sc_framesh, "Frameshift");
     		QueryResponse response = searchEngine.getQueryResponse(query);
     		List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
@@ -472,7 +472,7 @@ public class CCSearchIT {
     		assertThat(retrievedAccessions, not(hasItem(Q6GZX3)));
     }
     @Test
-    public void findSCTypeNo() {
+    void findSCTypeNo() {
     		String query= query(UniProtField.Search.cc_sc_eterm, "Erroneous");
     		QueryResponse response = searchEngine.getQueryResponse(query);
     		List<String> retrievedAccessions = searchEngine.getIdentifiers(response);

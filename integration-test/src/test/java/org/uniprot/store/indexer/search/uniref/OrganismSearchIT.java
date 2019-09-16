@@ -24,7 +24,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  *
 */
 
-public class OrganismSearchIT {
+class OrganismSearchIT {
 	 private static final String ID_1 = "UniRef100_A0A007";
 	    private static final String ID_2 = "UniRef100_A0A009DWI3";
 	
@@ -35,10 +35,10 @@ public class OrganismSearchIT {
 	    private static final String taxId = "9606";
 	    
 	    @RegisterExtension
-	    public static UniRefSearchEngine searchEngine = new UniRefSearchEngine();
+	    static UniRefSearchEngine searchEngine = new UniRefSearchEngine();
 	    
 	    @BeforeAll
-	    public static void populateIndexWithTestData() throws IOException {
+	    static void populateIndexWithTestData() throws IOException {
 	        //Entry 1
 	        {
 	            Entry entry = TestUtils.createSkeletonEntry(ID_1, NAME_1);
@@ -62,7 +62,7 @@ public class OrganismSearchIT {
 	    
 	    
 	    @Test
-	    public void testOrganism() {
+	    void testOrganism() {
 	    	String  query =organismQuery(organism_name);
 	    	  QueryResponse queryResponse =
 	                  searchEngine.getQueryResponse(query);
@@ -72,7 +72,7 @@ public class OrganismSearchIT {
 	          assertThat(retrievedAccessions, containsInAnyOrder(ID_1, ID_2));
 	    }
 	    @Test
-	    public void testOTaxonId() {
+	    void testOTaxonId() {
 	    	String  query =taxIdQuery(taxId);
 	    	  QueryResponse queryResponse =
 	                  searchEngine.getQueryResponse(query);

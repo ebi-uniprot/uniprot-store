@@ -21,11 +21,11 @@ import org.uniprot.store.search.field.QueryBuilder;
 import org.uniprot.store.search.field.UniProtField;
 
 
-public class CCAPSearchIT {
-	public static final String Q6GZX4 = "Q6GZX4";
-	public static final String Q6GZX3 = "Q6GZX3";
-	public static final String Q6GZY3 = "Q6GZY3";
-	public static final String Q197B6 = "Q197B6";
+class CCAPSearchIT {
+	private static final String Q6GZX4 = "Q6GZX4";
+	private static final String Q6GZX3 = "Q6GZX3";
+	private static final String Q6GZY3 = "Q6GZY3";
+	private static final String Q197B6 = "Q197B6";
 	private static final String UNIPROT_FLAT_FILE_ENTRY_PATH = "/it/uniprot/P0A377.43.dat";
 	private static final String Q6GZN7 = "Q6GZN7";
 	private static final String Q6V4H0 = "Q6V4H0";
@@ -33,10 +33,10 @@ public class CCAPSearchIT {
 	private static final String Q12345 = "Q12345";
 
 	@RegisterExtension
-	public static UniProtSearchEngine searchEngine = new UniProtSearchEngine();
+	static UniProtSearchEngine searchEngine = new UniProtSearchEngine();
 
 	@BeforeAll
-	public static void populateIndexWithTestData() throws IOException {
+	static void populateIndexWithTestData() throws IOException {
 		// a test entry object that can be modified and added to index
 		InputStream resourceAsStream = TestUtils.getResourceAsStream(UNIPROT_FLAT_FILE_ENTRY_PATH);
 		UniProtEntryObjectProxy entryProxy = UniProtEntryObjectProxy.createEntryFromInputStream(resourceAsStream);
@@ -119,7 +119,7 @@ public class CCAPSearchIT {
 	}
 
 	@Test
-	public void testAP() {
+	void testAP() {
 		String query = query(UniProtField.Search.cc_ap, "splicing");
 		QueryResponse response = searchEngine.getQueryResponse(query);
 		List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
@@ -128,7 +128,7 @@ public class CCAPSearchIT {
 	
 	}
 	@Test
-	public void testAPEv() {
+	void testAPEv() {
 		String evidence ="ECO_0000269";
 		String query = query(UniProtField.Search.cc_ap, "splicing");
 		query = QueryBuilder.and(query, query(UniProtField.Search.ccev_ap, evidence));
@@ -141,7 +141,7 @@ public class CCAPSearchIT {
 	}
 	
 	@Test
-	public void testAPOnlyEv() {
+	void testAPOnlyEv() {
 		String evidence ="ECO_0000269";
 		String query = query(UniProtField.Search.ccev_ap, evidence);
 	//	query = query.and(UniProtQueryBuilder.query(UniProtField.Search.ccev_ap, evidence));
@@ -153,7 +153,7 @@ public class CCAPSearchIT {
 	
 	}
 	@Test
-	public void testAPManualEv() {
+	void testAPManualEv() {
 		String evidence ="manual";
 		String query = query(UniProtField.Search.cc_ap, "splicing");
 		query = QueryBuilder.and(query, query(UniProtField.Search.ccev_ap, evidence));
@@ -166,7 +166,7 @@ public class CCAPSearchIT {
 	}
 	
 	@Test
-	public void testApApu() {
+	void testApApu() {
 		String query = query(UniProtField.Search.cc_ap_apu, "insulin");
 		QueryResponse response = searchEngine.getQueryResponse(query);
 		List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
@@ -176,7 +176,7 @@ public class CCAPSearchIT {
 	}
 	
 	@Test
-	public void testApApuEvidenceOne() {
+	void testApApuEvidenceOne() {
 		String query = query(UniProtField.Search.cc_ap_apu, "insulin");
 		String evidence ="ECO_0000269";
 		query = QueryBuilder.and(query, query(UniProtField.Search.ccev_ap_apu, evidence));
@@ -187,7 +187,7 @@ public class CCAPSearchIT {
 		assertThat(retrievedAccessions, not(hasItem(Q6GZN7)));
 	}
 	@Test
-	public void testApApuEvidenceNone() {
+	void testApApuEvidenceNone() {
 		String query = query(UniProtField.Search.cc_ap_apu, "insulin");
 		String evidence ="ECO_0000303";
 		query = QueryBuilder.and(query, query(UniProtField.Search.ccev_ap_apu, evidence));
@@ -199,7 +199,7 @@ public class CCAPSearchIT {
 	}
 	
 	@Test
-	public void testApAs() {
+	void testApAs() {
 		String query = query(UniProtField.Search.cc_ap_as, "transcription");
 		QueryResponse response = searchEngine.getQueryResponse(query);
 		List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
@@ -208,7 +208,7 @@ public class CCAPSearchIT {
 		assertThat(retrievedAccessions, not(hasItem(P48347)));
 	}
 	@Test
-	public void testApAsEvidenceOne() {
+	void testApAsEvidenceOne() {
 		String query = query(UniProtField.Search.cc_ap_as, "transcription");
 		String evidence ="ECO_0000303";
 		query = QueryBuilder.and(query, query(UniProtField.Search.ccev_ap_as, evidence));
@@ -219,7 +219,7 @@ public class CCAPSearchIT {
 		assertThat(retrievedAccessions, not(hasItem(Q6V4H0)));
 	}
 	@Test
-	public void testApAi() {
+	void testApAi() {
 		String query = query(UniProtField.Search.cc_ap_ai, "transcription");
 		QueryResponse response = searchEngine.getQueryResponse(query);
 		List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
@@ -228,7 +228,7 @@ public class CCAPSearchIT {
 		assertThat(retrievedAccessions, not(hasItem(Q6V4H0)));
 	}
 	@Test
-	public void testApAiEvidence() {
+	void testApAiEvidence() {
 		String query = query(UniProtField.Search.cc_ap_ai, "transcription");
 		String evidence ="ECO_0000303";
 		query = QueryBuilder.and(query, query(UniProtField.Search.ccev_ap_ai, evidence));
@@ -239,7 +239,7 @@ public class CCAPSearchIT {
 		assertThat(retrievedAccessions, not(hasItem(Q6V4H0)));
 	}
 	@Test
-	public void testApAiEvidenceNone() {
+	void testApAiEvidenceNone() {
 		String query = query(UniProtField.Search.cc_ap_ai, "transcription");
 		String evidence ="ECO_0000269";
 		query = QueryBuilder.and(query, query(UniProtField.Search.ccev_ap_ai, evidence));
@@ -249,7 +249,7 @@ public class CCAPSearchIT {
 		assertThat(retrievedAccessions, empty());
 	}
 	@Test
-	public void testApRf() {
+	void testApRf() {
 		String query = query(UniProtField.Search.cc_ap_rf, "*");
 		QueryResponse response = searchEngine.getQueryResponse(query);
 		List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
@@ -258,7 +258,7 @@ public class CCAPSearchIT {
 		assertThat(retrievedAccessions, not(hasItem(Q6GZN7)));
 	}
 	@Test
-	public void testApRfEvidence() {
+	void testApRfEvidence() {
 		String query = query(UniProtField.Search.cc_ap_rf, "*");
 		String evidence ="ECO_0000269";
 		String query2 = query(UniProtField.Search.ccev_ap_rf, evidence);

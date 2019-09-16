@@ -19,21 +19,21 @@ import static org.uniprot.store.indexer.search.DocFieldTransformer.fieldTransfor
  *
  * @author Edd
  */
-public class DocFieldTransformerTest {
+class DocFieldTransformerTest {
     private static final String INIT_NAME = "Bill";
     private static final int INIT_AGE = 20;
     private static final List<String> INIT_FAVE_COLOURS = asList("red", "yellow");
     private final MyDocument myDocument = new MyDocument();
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         myDocument.nameField = INIT_NAME;
         myDocument.ageField = INIT_AGE;
         myDocument.favouriteColoursField = INIT_FAVE_COLOURS;
     }
 
     @Test
-    public void canTransformStringField() {
+    void canTransformStringField() {
         String newName = "Sam";
         DocFieldTransformer transformer = fieldTransformer("name", newName);
         assertThat(myDocument.nameField, is(INIT_NAME));
@@ -44,7 +44,7 @@ public class DocFieldTransformerTest {
     }
 
     @Test
-    public void canTransformIntField() {
+    void canTransformIntField() {
         int newAge = INIT_AGE + 5;
         DocFieldTransformer transformer = fieldTransformer("age", newAge);
         assertThat(myDocument.ageField, is(INIT_AGE));
@@ -55,7 +55,7 @@ public class DocFieldTransformerTest {
     }
 
     @Test
-    public void canTransformListField() {
+    void canTransformListField() {
         List<String> newFaveColours = new ArrayList<>(INIT_FAVE_COLOURS);
         newFaveColours.add("Green");
 
@@ -68,7 +68,7 @@ public class DocFieldTransformerTest {
     }
 
     @Test
-    public void invalidFieldCausesException() {
+    void invalidFieldCausesException() {
         DocFieldTransformer transformer = fieldTransformer("height", 10);
 
         assertThrows(IllegalStateException.class, () -> transformer.accept(myDocument));

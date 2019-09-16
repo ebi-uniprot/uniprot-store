@@ -25,7 +25,7 @@ import static org.uniprot.store.indexer.search.uniprot.TestUtils.*;
  * taxonomy lineages Index is based on taxonomy.dat file. See how we load file content at: FileNodeIterable.createNode
  * and how we index at UniprotEntryConverter.setLineageTaxons
  */
-public class TaxonomyIT {
+class TaxonomyIT {
     private static final String UNIPROT_FLAT_FILE_ENTRY_PATH = "/it/uniprot/P0A377.43.dat";
     //Entry 1
     private static final String ACCESSION1 = "Q197F4";
@@ -40,10 +40,10 @@ public class TaxonomyIT {
     private static final int ORGANISM_TAX_ID3 = 93838; //Lineage: 93838 --> 11320 -->  197911 --> 11308 --> 1
 
     @RegisterExtension
-    public static UniProtSearchEngine searchEngine = new UniProtSearchEngine();
+    static UniProtSearchEngine searchEngine = new UniProtSearchEngine();
 
     @BeforeAll
-    public static void populateIndexWithTestData() throws IOException {
+    static void populateIndexWithTestData() throws IOException {
         // a test entry object that can be modified and added to index
         InputStream resourceAsStream = TestUtils.getResourceAsStream(UNIPROT_FLAT_FILE_ENTRY_PATH);
         UniProtEntryObjectProxy entryProxy = UniProtEntryObjectProxy.createEntryFromInputStream(resourceAsStream);
@@ -67,7 +67,7 @@ public class TaxonomyIT {
     }
 
     @Test
-    public void noMatchesForNonExistentName() throws Exception {
+    void noMatchesForNonExistentName() throws Exception {
         String query = taxonName("Unknown");
 
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -77,7 +77,7 @@ public class TaxonomyIT {
     }
 
     @Test
-    public void lineageNameMatchesEntry1() throws Exception {
+    void lineageNameMatchesEntry1() throws Exception {
         String query = taxonName("Tetronarce californica");
         query =QueryBuilder.and(query,taxonName("Pacific electric ray"));
         query =QueryBuilder.and(query,taxonName("Torpedo californica"));
@@ -97,7 +97,7 @@ public class TaxonomyIT {
     }
 
     @Test
-    public void lineageNameMatchesEntry2() throws Exception {
+    void lineageNameMatchesEntry2() throws Exception {
         String query = taxonName("Influenza C virus (strain C/Johannesburg/1/1966)\n");
         query =QueryBuilder.and(query,taxonName("INCJH")); //100673
         query =QueryBuilder.and(query,taxonName("Influenza C virus")) ;//11552
@@ -113,7 +113,7 @@ public class TaxonomyIT {
     }
 
     @Test
-    public void lineageNameMatchesEntry3() throws Exception {
+    void lineageNameMatchesEntry3() throws Exception {
         String query = taxonName("Influenza A virus (strain A/Goose/Guangdong/1/1996 H5N1 genotype Gs/Gd)");
         query =QueryBuilder.and(query, taxonName("I96A0"));
         query =QueryBuilder.and(query,taxonName("Influenza A virus"));
@@ -132,7 +132,7 @@ public class TaxonomyIT {
 
 
     @Test
-    public void commonLineageNameMatchesEntry2And3() throws Exception {
+    void commonLineageNameMatchesEntry2And3() throws Exception {
         String query = taxonName("Orthomyxoviridae");
         query =QueryBuilder.and(query, taxonName("9ORTO")); //ID: 11308
 
@@ -143,7 +143,7 @@ public class TaxonomyIT {
     }
 
     @Test
-    public void partialCommonLineageNameMatchesEntry2And3() throws Exception {
+    void partialCommonLineageNameMatchesEntry2And3() throws Exception {
         String query = taxonName("influenza");
 
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -153,7 +153,7 @@ public class TaxonomyIT {
     }
 
     @Test
-    public void lineageIdMatchesEntry1() throws Exception {
+    void lineageIdMatchesEntry1() throws Exception {
         String query = taxonID(7787);
         query =QueryBuilder.and(query, taxonID(7711));
         query =QueryBuilder.and(query, taxonID(33208));
@@ -167,7 +167,7 @@ public class TaxonomyIT {
     }
 
     @Test
-    public void lineageIdMatchesEntry2() throws Exception {
+    void lineageIdMatchesEntry2() throws Exception {
         String query = taxonID(100673);
         query =QueryBuilder.and(query, taxonID(11552));
         query =QueryBuilder.and(query, taxonID(197913));
@@ -181,7 +181,7 @@ public class TaxonomyIT {
     }
 
     @Test
-    public void lineageIdMatchesEntry3() throws Exception {
+    void lineageIdMatchesEntry3() throws Exception {
         String query = taxonID(93838);
         query =QueryBuilder.and(query, taxonID(11320));
         query =QueryBuilder.and(query, taxonID(197911));
@@ -196,7 +196,7 @@ public class TaxonomyIT {
 
 
     @Test
-    public void commonLineageIDMatchesEntry2And3() throws Exception {
+    void commonLineageIDMatchesEntry2And3() throws Exception {
         String query = taxonID(11308);
 
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -204,10 +204,10 @@ public class TaxonomyIT {
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
         assertThat(retrievedAccessions, containsInAnyOrder(ACCESSION2, ACCESSION3));
     }
-    String taxonName(String value) {
+    private String taxonName(String value) {
     	return query(UniProtField.Search.taxonomy_name, value);
     }
-    public static String taxonID(int taxonomy) {
+    private static String taxonID(int taxonomy) {
         return query(UniProtField.Search.taxonomy_id, String.valueOf(taxonomy));
     }
 }

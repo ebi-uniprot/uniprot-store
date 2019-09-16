@@ -23,13 +23,13 @@ import static org.mockito.ArgumentMatchers.contains;
 import static org.uniprot.store.search.field.SuggestField.Importance.high;
 import static org.uniprot.store.search.field.SuggestField.Importance.medium;
 
-public class SuggestSearchIT {
+class SuggestSearchIT {
     @RegisterExtension
-    public static SuggestSearchEngine searchEngine = new SuggestSearchEngine();
+    static SuggestSearchEngine searchEngine = new SuggestSearchEngine();
     private static final String REQUEST_HANDLER = "/search";
 
     @AfterEach
-    public void cleanup() {
+    void cleanup() {
         QueryResponse queryResponse = getResponse("*:*");
 
         queryResponse.getResults()
@@ -37,7 +37,7 @@ public class SuggestSearchIT {
     }
 
     @Test
-    public void exactMatch() {
+    void exactMatch() {
         String id = "1234";
         String value = "value";
         List<String> altValue = singletonList("altValue");
@@ -63,7 +63,7 @@ public class SuggestSearchIT {
     }
 
     @Test
-    public void leftPrefixMatchWillHit() {
+    void leftPrefixMatchWillHit() {
         String id = "1234";
         String value = "value";
         List<String> altValue = singletonList("altValue");
@@ -89,7 +89,7 @@ public class SuggestSearchIT {
     }
 
     @Test
-    public void leftPrefixAltValueDMelanogasterMatchWillHit() {
+    void leftPrefixAltValueDMelanogasterMatchWillHit() {
         String id = "1234";
         String value = "value";
         List<String> altValue = singletonList("D. melanogaster");
@@ -115,7 +115,7 @@ public class SuggestSearchIT {
     }
 
     @Test
-    public void leadingZerosAreIgnored() {
+    void leadingZerosAreIgnored() {
         String nonZeroIdPart = "1234";
         String id = "00000" + nonZeroIdPart;
         String value = "value";
@@ -142,7 +142,7 @@ public class SuggestSearchIT {
     }
 
     @Test
-    public void exactMatchComesFirst() {
+    void exactMatchComesFirst() {
         String id = "1234";
         String value = "value";
         List<String> altValue = singletonList("altValue");
@@ -170,7 +170,7 @@ public class SuggestSearchIT {
     }
 
     @Test
-    public void exactMatchOfSecondWord() {
+    void exactMatchOfSecondWord() {
         String id = "1234";
         String value = "one two three four";
         List<String> altValue = singletonList("altValue");
@@ -197,7 +197,7 @@ public class SuggestSearchIT {
     }
 
     @Test
-    public void prefixMatchOfSecondWord() {
+    void prefixMatchOfSecondWord() {
         String id = "1234";
         String value = "one twoooo three four";
         List<String> altValue = singletonList("altValue");
@@ -224,7 +224,7 @@ public class SuggestSearchIT {
     }
 
     @Test
-    public void idHasPrecedenceOverValue() {
+    void idHasPrecedenceOverValue() {
         String id = "12345678";
         List<String> altValue = singletonList("altValue");
         String dict = "randomDictionary";
@@ -252,7 +252,7 @@ public class SuggestSearchIT {
     }
 
     @Test
-    public void multiWordIdHasPrecedenceOverValue() {
+    void multiWordIdHasPrecedenceOverValue() {
         String id = "1234 5678";
         List<String> altValue = singletonList("altValue");
         String dict = "randomDictionary";
@@ -280,7 +280,7 @@ public class SuggestSearchIT {
     }
 
     @Test
-    public void exactAltValueHasPrecedenceOverAnother() {
+    void exactAltValueHasPrecedenceOverAnother() {
         String dict = "randomDictionary";
         String id = "id";
         String someValue = "someValue";
@@ -314,7 +314,7 @@ public class SuggestSearchIT {
     }
 
     @Test
-    public void findsECTypeId() {
+    void findsECTypeId() {
         String id = "1.2.3.1";
         String someValue = "some value";
         List<String> altValue = singletonList("altValue");
@@ -334,7 +334,7 @@ public class SuggestSearchIT {
     }
 
     @Test
-    public void findsPrefixECTypeId() {
+    void findsPrefixECTypeId() {
         String prefixId = "1.2";
         String id = prefixId + "3.1";
         String someValue = "some value";

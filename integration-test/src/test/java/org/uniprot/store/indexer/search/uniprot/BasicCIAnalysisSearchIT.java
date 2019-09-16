@@ -39,19 +39,19 @@ import static org.uniprot.store.indexer.search.uniprot.TestUtils.convertToUniPro
  *
  * @author Edd
  */
-public class BasicCIAnalysisSearchIT {
+class BasicCIAnalysisSearchIT {
     @RegisterExtension
-    public static final UniProtSearchEngine searchEngine = new UniProtSearchEngine();
+    static final UniProtSearchEngine searchEngine = new UniProtSearchEngine();
     private static final String RESOURCE_ENTRY_PATH = "/it/uniprot";
     private static final List<String> RESOURCE_ENTRIES_TO_STORE =
             asList("P0A377.43", "P51587", "Q6GZV4.23", "Q197D8.25", "Q197F8.16");
     private static UniProtEntryObjectProxy entryProxy;
     private static int accessionId = 0;
     private List<String> tempSavedEntries = new ArrayList<>();
-    public static final String ACC_LINE = "AC   %s;";
+    private static final String ACC_LINE = "AC   %s;";
 
     @BeforeAll
-    public static void populateIndexWithTestData() throws IOException{
+    static void populateIndexWithTestData() throws IOException{
         for (String entryToStore : RESOURCE_ENTRIES_TO_STORE) {
             InputStream resourceAsStream = TestUtils
                     .getResourceAsStream(RESOURCE_ENTRY_PATH + "/" + entryToStore + ".dat");
@@ -65,14 +65,14 @@ public class BasicCIAnalysisSearchIT {
     }
 
     @AfterEach
-    public void after() {
+    void after() {
         cleanTempEntries();
     }
 
     // phrases (even though it's treated as a single token with the basic analyser)
     @ParameterizedTest
     @EnumSource(FieldType.class)
-    public void canFindSimpleExactPhrase(FieldType field) {
+    void canFindSimpleExactPhrase(FieldType field) {
         String accession = newAccession();
         String fieldValue = "hello world";
 
@@ -88,7 +88,7 @@ public class BasicCIAnalysisSearchIT {
     // non-phrase queries
     @ParameterizedTest
     @EnumSource(FieldType.class)
-    public void canFindAccessionLikeValue(FieldType field) {
+    void canFindAccessionLikeValue(FieldType field) {
         String accession = newAccession();
         String fieldValue = "P12345";
         String query =fieldQuery(field.name(), fieldValue);
@@ -102,7 +102,7 @@ public class BasicCIAnalysisSearchIT {
 
     @ParameterizedTest
     @EnumSource(FieldType.class)
-    public void canFindComplexExactValue(FieldType field) {
+    void canFindComplexExactValue(FieldType field) {
         String accession = newAccession();
         String fieldValue = "aA12-3a-a44b-a4/VA,RV_IND64_vel4_019";
         String query = fieldQuery(field.name(), fieldValue);
@@ -116,7 +116,7 @@ public class BasicCIAnalysisSearchIT {
 
     @ParameterizedTest
     @EnumSource(FieldType.class)
-    public void cannotUseMiddlePartsOfValueToFindValueWithUnderScores(FieldType field) {
+    void cannotUseMiddlePartsOfValueToFindValueWithUnderScores(FieldType field) {
         String accession = newAccession();
         String fieldValue = "VARV_IND64_vel4_019";
         String query = fieldQuery(field.name(), "IND64_vel4");
@@ -130,7 +130,7 @@ public class BasicCIAnalysisSearchIT {
 
     @ParameterizedTest
     @EnumSource(FieldType.class)
-    public void canFindValueThatIsOnlyANumber(FieldType field) {
+    void canFindValueThatIsOnlyANumber(FieldType field) {
         String accession = newAccession();
         String fieldValue = "62";
         String query = fieldQuery(field.name(), fieldValue);
@@ -144,7 +144,7 @@ public class BasicCIAnalysisSearchIT {
 
     @ParameterizedTest
     @EnumSource(FieldType.class)
-    public void canFindValuesContainingSpecialChars(FieldType field) {
+    void canFindValuesContainingSpecialChars(FieldType field) {
         List<String> valuesThatRequireEscaping = asList("+", "-", "&", "|", "!", "(", ")", "{EVIDENCE}", "[", "]", "^", "\"", "~", "?", ":", "/");
 
         for (String toEscape : valuesThatRequireEscaping) {

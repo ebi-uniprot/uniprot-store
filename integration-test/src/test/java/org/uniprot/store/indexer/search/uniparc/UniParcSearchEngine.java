@@ -18,7 +18,7 @@ import org.uniprot.store.search.field.UniParcField;
 /**
  * Concrete implementation of the UniParce search engine
  */
-public class UniParcSearchEngine extends AbstractSearchEngine<Entry> {
+class UniParcSearchEngine extends AbstractSearchEngine<Entry> {
     private static final String SEARCH_ENGINE_NAME = "uniparc";
     private static final String TAXONOMY_FILE_NAME = "taxonomy/taxonomy.dat";
     private static final DocumentConverter<Entry, ?> DOCUMENT_PRODUCER = createDocumentProducer();

@@ -21,7 +21,7 @@ import static org.uniprot.store.indexer.search.uniprot.TestUtils.*;
 /**
  * Verifies if the protein keywords are indexed correctly
  */
-public class KeywordSearchIT {
+class KeywordSearchIT {
     private static final String UNIPROT_FLAT_FILE_ENTRY_PATH = "/it/uniprot/P0A377.43.dat";
     private static final String CHEMICAL = "2Fe-2S";
     private static final String ARCHAEAL_FLAGELLUM = "Archaeal flagellum";
@@ -33,10 +33,10 @@ public class KeywordSearchIT {
     private static final String ACCESSION2 = "Q197F5";
     private static final String ACCESSION3 = "Q197F6";
     @RegisterExtension
-    public static UniProtSearchEngine searchEngine = new UniProtSearchEngine();
+    static UniProtSearchEngine searchEngine = new UniProtSearchEngine();
 
     @BeforeAll
-    public static void populateIndexWithTestData() throws IOException {
+    static void populateIndexWithTestData() throws IOException {
         // a test entry object that can be modified and added to index
         InputStream resourceAsStream = TestUtils.getResourceAsStream(UNIPROT_FLAT_FILE_ENTRY_PATH);
         UniProtEntryObjectProxy entryProxy = UniProtEntryObjectProxy.createEntryFromInputStream(resourceAsStream);
@@ -64,7 +64,7 @@ public class KeywordSearchIT {
     }
 
     @Test
-    public void noMatchesForSubStringKeyword() throws Exception {
+    void noMatchesForSubStringKeyword() throws Exception {
         String keywordSubString = CHEMICAL.substring(0, CHEMICAL.length() - 2);
         String query = keyword(keywordSubString);
 
@@ -75,7 +75,7 @@ public class KeywordSearchIT {
     }
 
     @Test
-    public void amyloidSearchDoesNotMatchEntryWithAmyloidosis() throws Exception {
+    void amyloidSearchDoesNotMatchEntryWithAmyloidosis() throws Exception {
         String query = keyword(AMYLOID);
 
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -85,7 +85,7 @@ public class KeywordSearchIT {
     }
 
     @Test
-    public void apoplastKeywordMatchesEntry3() throws Exception {
+    void apoplastKeywordMatchesEntry3() throws Exception {
         String query = keyword(APOPLAST);
 
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -95,7 +95,7 @@ public class KeywordSearchIT {
     }
 
     @Test
-    public void lowerCaseApoplastMatchesEntry3() throws Exception {
+    void lowerCaseApoplastMatchesEntry3() throws Exception {
         String query = keyword(APOPLAST.toLowerCase());
 
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -105,7 +105,7 @@ public class KeywordSearchIT {
     }
 
     @Test
-    public void upperCaseApoplastMatchesEntry3() throws Exception {
+    void upperCaseApoplastMatchesEntry3() throws Exception {
         String query = keyword(APOPLAST.toUpperCase());
 
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -115,7 +115,7 @@ public class KeywordSearchIT {
     }
 
     @Test
-    public void archaealFlagellumKeywordMatchesEntries1And2() throws Exception {
+    void archaealFlagellumKeywordMatchesEntries1And2() throws Exception {
         String query = keyword(ARCHAEAL_FLAGELLUM);
 
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -125,7 +125,7 @@ public class KeywordSearchIT {
     }
 
     @Test
-    public void flagellumArchaealKeywordMatchesEntry1And2() throws Exception {
+    void flagellumArchaealKeywordMatchesEntry1And2() throws Exception {
         String query = keyword("flagellum Archaeal");
 
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -135,7 +135,7 @@ public class KeywordSearchIT {
     }
 
     @Test
-    public void archaealBiogenesisKeywordMatchesEntry2() throws Exception {
+    void archaealBiogenesisKeywordMatchesEntry2() throws Exception {
         String query = keyword("Archaeal biogenesis");
 
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -145,7 +145,7 @@ public class KeywordSearchIT {
     }
 
     @Test
-    public void archaealFlagellumBiogenesisKeywordMatchesEntry2() throws Exception {
+    void archaealFlagellumBiogenesisKeywordMatchesEntry2() throws Exception {
         String query = keyword(ARCHAEAL_FLAGELLUM_BIOGENESIS);
 
         QueryResponse response = searchEngine.getQueryResponse(query);

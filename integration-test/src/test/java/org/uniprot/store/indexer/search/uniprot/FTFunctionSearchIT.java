@@ -19,17 +19,17 @@ import org.uniprot.store.search.field.QueryBuilder;
 import org.uniprot.store.search.field.UniProtField;
 
 
-public class FTFunctionSearchIT {
-	public static final String Q6GZX4 = "Q6GZX4";
-	public static final String Q197B1 = "Q197B1";
+class FTFunctionSearchIT {
+	private static final String Q6GZX4 = "Q6GZX4";
+	private static final String Q197B1 = "Q197B1";
 	private static final String UNIPROT_FLAT_FILE_ENTRY_PATH = "/it/uniprot/P0A377.43.dat";
 	private static final String Q12345 = "Q12345";
 	private static final String P48347 = "P48347";
 	@RegisterExtension
-	public static UniProtSearchEngine searchEngine = new UniProtSearchEngine();
+	static UniProtSearchEngine searchEngine = new UniProtSearchEngine();
 
 	@BeforeAll
-	public static void populateIndexWithTestData() throws IOException {
+	static void populateIndexWithTestData() throws IOException {
 		// a test entry object that can be modified and added to index
 		InputStream resourceAsStream = TestUtils.getResourceAsStream(UNIPROT_FLAT_FILE_ENTRY_PATH);
 		UniProtEntryObjectProxy entryProxy = UniProtEntryObjectProxy.createEntryFromInputStream(resourceAsStream);
@@ -67,7 +67,7 @@ public class FTFunctionSearchIT {
 	}
 
 	@Test
-	public void sitesFindTwoEntry() {
+	void sitesFindTwoEntry() {
 		String query = query(UniProtField.Search.ft_sites, "Substrate");
 		QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -78,7 +78,7 @@ public class FTFunctionSearchIT {
 	}
 
 	@Test
-	public void sitesFindTwoEntryWithLength() {
+	void sitesFindTwoEntryWithLength() {
 		String query = query(UniProtField.Search.ft_sites, "Substrate");
 		query = QueryBuilder.and(query, QueryBuilder.rangeQuery(UniProtField.Search.ftlen_sites.name(), 1, 3));
 		QueryResponse response = searchEngine.getQueryResponse(query);
@@ -89,7 +89,7 @@ public class FTFunctionSearchIT {
 	}
 
 	@Test
-	public void sitesFindEntryWithLengthAndEvidence() {
+	void sitesFindEntryWithLengthAndEvidence() {
 		String query = query(UniProtField.Search.ft_sites, "Substrate");
 		query = QueryBuilder.and(query, QueryBuilder.rangeQuery(UniProtField.Search.ftlen_sites.name(), 1, 3));
 		String evidence = "ECO_0000256";
@@ -104,7 +104,7 @@ public class FTFunctionSearchIT {
 	}
 
 	@Test
-	public void siteFindEntry() {
+	void siteFindEntry() {
 		String query = features(FeatureType.SITE, "translocation.");
 
 		QueryResponse response = searchEngine.getQueryResponse(query);
@@ -114,7 +114,7 @@ public class FTFunctionSearchIT {
 	}
 
 	@Test
-	public void activeSiteFindEntry() {
+	void activeSiteFindEntry() {
 		String query = features(FeatureType.ACT_SITE, "intermediate.");
 		String evidence = "ECO_0000250";
 		query = QueryBuilder.and(query, featureEvidence(FeatureType.ACT_SITE, evidence));
@@ -125,7 +125,7 @@ public class FTFunctionSearchIT {
 	}
 
 	@Test
-	public void metalSiteFindEntry() {
+	void metalSiteFindEntry() {
 		String query = features(FeatureType.METAL, "Magnesium.");
 		query = QueryBuilder.and(query, featureLength(FeatureType.METAL, 1, 2));
 		QueryResponse response = searchEngine.getQueryResponse(query);
@@ -135,7 +135,7 @@ public class FTFunctionSearchIT {
 	}
 
 	@Test
-	public void metalSiteFindNonEntry() {
+	void metalSiteFindNonEntry() {
 		String query = features(FeatureType.METAL, "Magnesium.");
 		query = QueryBuilder.and(query, featureLength(FeatureType.METAL, 3, 5));
 		QueryResponse response = searchEngine.getQueryResponse(query);
@@ -145,7 +145,7 @@ public class FTFunctionSearchIT {
 	}
 
 	@Test
-	public void bindingSiteFindEntry() {
+	void bindingSiteFindEntry() {
 		String query = features(FeatureType.BINDING, "Substrate.");
 		query = QueryBuilder.and(query, featureLength(FeatureType.BINDING, 1, 2));
 		String evidence = "ECO_0000250";
@@ -156,7 +156,7 @@ public class FTFunctionSearchIT {
 		assertThat(retrievedAccessions, contains(Q12345));
 	}
 	@Test
-	public void caBindFindEntry() {
+	void caBindFindEntry() {
 		String query = features(FeatureType.CA_BIND, "site");
 		query = QueryBuilder.and(query, featureLength(FeatureType.CA_BIND, 1, 2));
 		String evidence = "ECO_0000250";
@@ -167,7 +167,7 @@ public class FTFunctionSearchIT {
 		assertThat(retrievedAccessions, contains(P48347));
 	}
 	@Test
-	public void dnaBindFindEntry() {
+	void dnaBindFindEntry() {
 		String query = features(FeatureType.DNA_BIND, "*");
 		query = QueryBuilder.and(query, featureLength(FeatureType.DNA_BIND, 1, 6));
 		String evidence = "ECO_0000250";
@@ -178,7 +178,7 @@ public class FTFunctionSearchIT {
 		assertThat(retrievedAccessions, contains(P48347));
 	}
 	@Test
-	public void npBindFindEntry() {
+	void npBindFindEntry() {
 		String query = features(FeatureType.NP_BIND, "NADP");
 		query = QueryBuilder.and(query, featureLength(FeatureType.NP_BIND, 1, 6));
 		String evidence = "ECO_0000250";

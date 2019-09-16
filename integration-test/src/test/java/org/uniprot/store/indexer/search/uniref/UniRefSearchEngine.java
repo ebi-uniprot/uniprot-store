@@ -20,13 +20,13 @@ import org.uniprot.store.search.field.UniRefField;
  *
 */
 
-public class UniRefSearchEngine extends AbstractSearchEngine<Entry> {
+class UniRefSearchEngine extends AbstractSearchEngine<Entry> {
 
 	 private static final String SEARCH_ENGINE_NAME = "uniref";
 	    private static final String TAXONOMY_FILE_NAME = "taxonomy/taxonomy.dat";
 	    private static final DocumentConverter<Entry, ?> DOCUMENT_PRODUCER = createDocumentProducer();
 
-	    public UniRefSearchEngine() {
+	    UniRefSearchEngine() {
 	        super(SEARCH_ENGINE_NAME, DOCUMENT_PRODUCER);
 	    }
 	   

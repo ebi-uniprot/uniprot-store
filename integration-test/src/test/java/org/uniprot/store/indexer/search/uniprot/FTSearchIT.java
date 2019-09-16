@@ -24,15 +24,15 @@ import static org.uniprot.store.indexer.search.uniprot.TestUtils.*;
 /**
  * Tests showing the behaviour of searching FT fields
  */
-public class FTSearchIT {
-    public static final String Q6GZX4 = "Q6GZX4";
-    public static final String Q197B1 = "Q197B1";
+class FTSearchIT {
+    private static final String Q6GZX4 = "Q6GZX4";
+    private static final String Q197B1 = "Q197B1";
     private static final String UNIPROT_FLAT_FILE_ENTRY_PATH = "/it/uniprot/P0A377.43.dat";
     @RegisterExtension
-    public static UniProtSearchEngine searchEngine = new UniProtSearchEngine();
+    static UniProtSearchEngine searchEngine = new UniProtSearchEngine();
 
     @BeforeAll
-    public static void populateIndexWithTestData() throws IOException {
+    static void populateIndexWithTestData() throws IOException {
         // a test entry object that can be modified and added to index
         InputStream resourceAsStream = TestUtils.getResourceAsStream(UNIPROT_FLAT_FILE_ENTRY_PATH);
         UniProtEntryObjectProxy entryProxy = UniProtEntryObjectProxy.createEntryFromInputStream(resourceAsStream);
@@ -55,7 +55,7 @@ public class FTSearchIT {
     }
 
     @Test
-    public void coiledFindEntrysWithEcoExactFF() {
+    void coiledFindEntrysWithEcoExactFF() {
         String query = featureEvidence(FeatureType.COILED, "ECO_0000255");
 
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -65,7 +65,7 @@ public class FTSearchIT {
     }
 
     @Test
-    public void coiledFindEntrysWithEcoInExact() {
+    void coiledFindEntrysWithEcoInExact() {
         String query = featureEvidence(FeatureType.COILED, "ECO_0000255");
 
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -75,7 +75,7 @@ public class FTSearchIT {
     }
 
     @Test
-    public void chainFindEntrysWithChain() {
+    void chainFindEntrysWithChain() {
     	String query = query(UniProtField.Search.accession, Q6GZX4);
          query = QueryBuilder.and(query, features(FeatureType.CHAIN, "*"));
 
@@ -86,7 +86,7 @@ public class FTSearchIT {
     }
 
     @Test
-    public void chainFindEntryWithChain() {
+    void chainFindEntryWithChain() {
         String query = features(FeatureType.CHAIN, "*");
 
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -96,7 +96,7 @@ public class FTSearchIT {
     }
 
     @Test
-    public void chainFindEntryContainingPutativeTranscription() {
+    void chainFindEntryContainingPutativeTranscription() {
         String query = features(FeatureType.CHAIN, "Putative transcription");
 
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -106,7 +106,7 @@ public class FTSearchIT {
     }
 
     @Test
-    public void chainFindEntryContainingFtId() {
+    void chainFindEntryContainingFtId() {
         String query = features(FeatureType.CHAIN, "/FTId=PRO_0000410512");
 
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -116,7 +116,7 @@ public class FTSearchIT {
     }
 
     @Test
-    public void chainFindNoEntryContainingFtId() {
+    void chainFindNoEntryContainingFtId() {
         String query = features(FeatureType.CHAIN, "/FTId=PRO_000041051");
 
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -126,7 +126,7 @@ public class FTSearchIT {
     }
 
     @Test
-    public void chainFindEntryContainingFtIdOnly() {
+    void chainFindEntryContainingFtIdOnly() {
         String query = features(FeatureType.CHAIN, "PRO_0000410512");
 
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -136,7 +136,7 @@ public class FTSearchIT {
     }
 
     @Test
-    public void chainFindEntryCopyPaste1FtLine() {
+    void chainFindEntryCopyPaste1FtLine() {
         String query = features(FeatureType.CHAIN, "Putative transcription factor 001R.");
 
         QueryResponse response = searchEngine.getQueryResponse(query);

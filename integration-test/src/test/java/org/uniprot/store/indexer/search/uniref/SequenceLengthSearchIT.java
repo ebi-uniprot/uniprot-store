@@ -22,7 +22,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  *
 */
 
-public class SequenceLengthSearchIT {
+class SequenceLengthSearchIT {
 	  private static final String ID_1 = "UniRef100_A0A007";
 	    private static final String ID_2 = "UniRef100_A0A009DWI3";
 	    private static final String ID_3 = "UniRef90_A0A007";
@@ -37,10 +37,10 @@ public class SequenceLengthSearchIT {
 	    private static final String NAME_6 = "Cluster: Transposase domain protein";
 	    
 	    @RegisterExtension
-	    public static UniRefSearchEngine searchEngine = new UniRefSearchEngine();
+	    static UniRefSearchEngine searchEngine = new UniRefSearchEngine();
 	    
 	    @BeforeAll
-	    public static void populateIndexWithTestData() throws IOException {
+	    static void populateIndexWithTestData() throws IOException {
 	        //Entry 1
 	        {
 	            Entry entry = TestUtils.createSkeletonEntry(ID_1, NAME_1);
@@ -87,7 +87,7 @@ public class SequenceLengthSearchIT {
 	        searchEngine.printIndexContents();
 	    }
 	    @Test 
-	    public void exactLength() {
+	    void exactLength() {
 	    	int length=51;
 	    	String query =lengthQuery(length);
 	    	 QueryResponse queryResponse =
@@ -99,7 +99,7 @@ public class SequenceLengthSearchIT {
 	    }
 	    
 	    @Test 
-	    public void exactLength2() {
+	    void exactLength2() {
 	    	int length=52;
 	    	String query =lengthQuery(length);
 	    	 QueryResponse queryResponse =
@@ -111,7 +111,7 @@ public class SequenceLengthSearchIT {
 	    }
 	    
 	    @Test 
-	    public void rangeLength() {
+	    void rangeLength() {
 	    	int start =50;
 	    	int end = 60;
 	    	String query =lengthQuery(start, end);
@@ -124,7 +124,7 @@ public class SequenceLengthSearchIT {
 	    }
 	    
 	    @Test 
-	    public void rangeLength2() {
+	    void rangeLength2() {
 	    	int start =45;
 	    	int end = 50;
 	    	String query =lengthQuery(start, end);

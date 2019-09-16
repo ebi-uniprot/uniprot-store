@@ -18,11 +18,11 @@ import static org.hamcrest.Matchers.hasItems;
 import static org.uniprot.store.indexer.search.uniprot.IdentifierSearchIT.ACC_LINE;
 import static org.uniprot.store.indexer.search.uniprot.TestUtils.*;
 
-public class CCTextOnlySearchIT {
-	public static final String Q6GZX4 = "Q6GZX4";
-	public static final String Q6GZX3 = "Q6GZX3";
-	public static final String Q6GZY3 = "Q6GZY3";
-	public static final String Q197B6 = "Q197B6";
+class CCTextOnlySearchIT {
+	private static final String Q6GZX4 = "Q6GZX4";
+	private static final String Q6GZX3 = "Q6GZX3";
+	private static final String Q6GZY3 = "Q6GZY3";
+	private static final String Q197B6 = "Q197B6";
 	private static final String UNIPROT_FLAT_FILE_ENTRY_PATH = "/it/uniprot/P0A377.43.dat";
 	private static final String Q196W5 = "Q196W5";
 	private static final String Q6GZN7 = "Q6GZN7";
@@ -31,10 +31,10 @@ public class CCTextOnlySearchIT {
 	private static final String Q12345 = "Q12345";
 
 	@RegisterExtension
-	public static UniProtSearchEngine searchEngine = new UniProtSearchEngine();
+	static UniProtSearchEngine searchEngine = new UniProtSearchEngine();
 
 	@BeforeAll
-	public static void populateIndexWithTestData() throws IOException {
+	static void populateIndexWithTestData() throws IOException {
 		// a test entry object that can be modified and added to index
 		InputStream resourceAsStream = TestUtils.getResourceAsStream(UNIPROT_FLAT_FILE_ENTRY_PATH);
 		UniProtEntryObjectProxy entryProxy = UniProtEntryObjectProxy.createEntryFromInputStream(resourceAsStream);
@@ -181,7 +181,7 @@ public class CCTextOnlySearchIT {
 	}
 
 	@Test
-	public void shouldFindTwoFunctionEntry() {
+	void shouldFindTwoFunctionEntry() {
 		String query = comments(CommentType.FUNCTION, "*");
 		QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -190,7 +190,7 @@ public class CCTextOnlySearchIT {
 	}
 	
 	@Test
-	public void shouldFindTwoFunctionEntryQuery() {
+	void shouldFindTwoFunctionEntryQuery() {
 		String query = comments(CommentType.FUNCTION, "activation");
 		QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -198,7 +198,7 @@ public class CCTextOnlySearchIT {
 		assertThat(retrievedAccessions, hasItems(Q6GZX3, Q6GZX4));
 	}
 	@Test
-	public void shouldFindOneFunctionEntryQueryWithEvidence() {
+	void shouldFindOneFunctionEntryQueryWithEvidence() {
 		String query = comments(CommentType.FUNCTION, "activation");
 		
 		String evidence ="ECO_0000256";
@@ -210,7 +210,7 @@ public class CCTextOnlySearchIT {
 		assertThat(retrievedAccessions, hasItems(Q6GZX3));
 	}
 	@Test
-	public void shouldFindNoneFunctionEntryQueryWithEvidence() {
+	void shouldFindNoneFunctionEntryQueryWithEvidence() {
 		String query = comments(CommentType.FUNCTION, "activation");
 		
 		String evidence ="ECO_0000269";
@@ -222,7 +222,7 @@ public class CCTextOnlySearchIT {
 		assertThat(retrievedAccessions, empty());
 	}
 	@Test
-	public void shouldFindTwoSimilarityEntryQuery() {
+	void shouldFindTwoSimilarityEntryQuery() {
 		String query = comments(CommentType.SIMILARITY, "family");
 		QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -231,7 +231,7 @@ public class CCTextOnlySearchIT {
 		assertThat(retrievedAccessions, hasItems(Q197B6, Q196W5));
 	}
 	@Test
-	public void shouldFindOneSimilarityEntryQueryEvidence() {
+	void shouldFindOneSimilarityEntryQueryEvidence() {
 		String query = comments(CommentType.SIMILARITY, "family");
 		String evidence ="ECO_0000305";
 		query = QueryBuilder.and(query, commentEvidence(CommentType.SIMILARITY, evidence));
@@ -242,7 +242,7 @@ public class CCTextOnlySearchIT {
 	}
 	
 	@Test
-	public void shouldFindOneEnzymeRegEntryQuery() {
+	void shouldFindOneEnzymeRegEntryQuery() {
 		String query = comments(CommentType.ACTIVITY_REGULATION, "phosphorylation");
 		QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -250,7 +250,7 @@ public class CCTextOnlySearchIT {
 		assertThat(retrievedAccessions, hasItems(Q6GZY3));
 	}
 	@Test
-	public void shouldFindOneEnzymeRegEntryQueryEvidence() {
+	void shouldFindOneEnzymeRegEntryQueryEvidence() {
 		String query = comments(CommentType.ACTIVITY_REGULATION, "phosphorylation");
 		String evidence ="ECO_0000269";
 		query = QueryBuilder.and(query, commentEvidence(CommentType.ACTIVITY_REGULATION, evidence));
@@ -261,7 +261,7 @@ public class CCTextOnlySearchIT {
 	}
 	
 	@Test
-	public void shouldFindNoneEnzymeRegEntryQueryEvidence() {
+	void shouldFindNoneEnzymeRegEntryQueryEvidence() {
 		String query = comments(CommentType.ACTIVITY_REGULATION, "phosphorylation");
 		String evidence ="ECO_0000305";
 		query = QueryBuilder.and(query, commentEvidence(CommentType.ACTIVITY_REGULATION, evidence));
@@ -271,7 +271,7 @@ public class CCTextOnlySearchIT {
 		assertThat(retrievedAccessions, empty());
 	}
 	@Test
-	public void shouldFindOneDomainEntryQuery() {
+	void shouldFindOneDomainEntryQuery() {
 		String query = comments(CommentType.DOMAIN, "cysteine");
 
 		QueryResponse response = searchEngine.getQueryResponse(query);
@@ -280,7 +280,7 @@ public class CCTextOnlySearchIT {
 		assertThat(retrievedAccessions, hasItems(Q196W5));
 	}
 	@Test
-	public void shouldFindOneSubunitEntryQuery() {
+	void shouldFindOneSubunitEntryQuery() {
 		String query = comments(CommentType.SUBUNIT, "molecules");
 
 		QueryResponse response = searchEngine.getQueryResponse(query);
@@ -289,7 +289,7 @@ public class CCTextOnlySearchIT {
 		assertThat(retrievedAccessions, hasItems(Q6GZY3));
 	}
 	@Test
-	public void shouldFindOneSubunitEntryQueryEvidence() {
+	void shouldFindOneSubunitEntryQueryEvidence() {
 		String query = comments(CommentType.SUBUNIT, "molecules");
 		String evidence ="ECO_0000250";
 		query = QueryBuilder.and(query, commentEvidence(CommentType.SUBUNIT, evidence));
@@ -300,7 +300,7 @@ public class CCTextOnlySearchIT {
 	}
 	
 	@Test
-	public void shouldFindNoneSubunitEntryQueryEvidence() {
+	void shouldFindNoneSubunitEntryQueryEvidence() {
 		String query = comments(CommentType.SUBUNIT, "molecules");
 		String evidence ="ECO_0000305";
 		query = QueryBuilder.and(query, commentEvidence(CommentType.SUBUNIT, evidence));
@@ -311,7 +311,7 @@ public class CCTextOnlySearchIT {
 	}
 	
 	@Test
-	public void shouldFindOneTissueSpeEntryQuery() {
+	void shouldFindOneTissueSpeEntryQuery() {
 		String query = comments(CommentType.TISSUE_SPECIFICITY, "expressed");
 
 		QueryResponse response = searchEngine.getQueryResponse(query);
@@ -321,7 +321,7 @@ public class CCTextOnlySearchIT {
 		assertThat(retrievedAccessions, hasItems(Q12345, Q6V4H0));
 	}
 	@Test
-	public void shouldFindOneTissueSpeEntryQueryEvidence() {
+	void shouldFindOneTissueSpeEntryQueryEvidence() {
 		String query = comments(CommentType.TISSUE_SPECIFICITY, "expressed");
 		String evidence ="ECO_0000269";
 		query = QueryBuilder.and(query, commentEvidence(CommentType.TISSUE_SPECIFICITY, evidence));
@@ -332,7 +332,7 @@ public class CCTextOnlySearchIT {
 	}
 	
 	@Test
-	public void shouldFindNoneTissueSpeEntryQueryEvidence() {
+	void shouldFindNoneTissueSpeEntryQueryEvidence() {
 		String query = comments(CommentType.TISSUE_SPECIFICITY, "expressed");
 		String evidence ="ECO_0000305";
 		query = QueryBuilder.and(query, commentEvidence(CommentType.TISSUE_SPECIFICITY, evidence));
@@ -343,7 +343,7 @@ public class CCTextOnlySearchIT {
 	}
 
 	@Test
-	public void shouldFindOneDevStageEntryQuery() {
+	void shouldFindOneDevStageEntryQuery() {
 		String query = comments(CommentType.DEVELOPMENTAL_STAGE, "senescence");
 
 		QueryResponse response = searchEngine.getQueryResponse(query);
@@ -352,7 +352,7 @@ public class CCTextOnlySearchIT {
 		assertThat(retrievedAccessions, hasItems(Q12345));
 	}
 	@Test
-	public void shouldFindOneDevStageEntryQueryEvidence() {
+	void shouldFindOneDevStageEntryQueryEvidence() {
 		String query = comments(CommentType.DEVELOPMENTAL_STAGE, "senescence");
 		String evidence ="ECO_0000269";
 		query = QueryBuilder.and(query, commentEvidence(CommentType.DEVELOPMENTAL_STAGE, evidence));
@@ -363,7 +363,7 @@ public class CCTextOnlySearchIT {
 	}
 	
 	@Test
-	public void shouldFindNoneDevStageEntryQueryEvidence() {
+	void shouldFindNoneDevStageEntryQueryEvidence() {
 		String query = comments(CommentType.DEVELOPMENTAL_STAGE, "senescence");
 		String evidence ="ECO_0000305";
 		query = QueryBuilder.and(query, commentEvidence(CommentType.DEVELOPMENTAL_STAGE, evidence));
@@ -374,7 +374,7 @@ public class CCTextOnlySearchIT {
 	}
 
 	@Test
-	public void shouldFindOneInductionEntryQuery() {
+	void shouldFindOneInductionEntryQuery() {
 		String query = comments(CommentType.INDUCTION, "abscisic");
 
 		QueryResponse response = searchEngine.getQueryResponse(query);
@@ -383,7 +383,7 @@ public class CCTextOnlySearchIT {
 		assertThat(retrievedAccessions, hasItems(Q12345));
 	}
 	@Test
-	public void shouldFindOneInductionEntryQueryEvidence() {
+	void shouldFindOneInductionEntryQueryEvidence() {
 		String query = comments(CommentType.INDUCTION, "abscisic");
 		String evidence ="ECO_0000269";
 		query = QueryBuilder.and(query, commentEvidence(CommentType.INDUCTION, evidence));
@@ -394,7 +394,7 @@ public class CCTextOnlySearchIT {
 	}
 	
 	@Test
-	public void shouldFindNoneInductionEntryQueryEvidence() {
+	void shouldFindNoneInductionEntryQueryEvidence() {
 		String query = comments(CommentType.INDUCTION, "abscisic");
 		String evidence ="ECO_0000305";
 		query = QueryBuilder.and(query, commentEvidence(CommentType.INDUCTION, evidence));
@@ -406,7 +406,7 @@ public class CCTextOnlySearchIT {
 	}
 	
 	@Test
-	public void shouldFindOneDisruptionEntryQuery() {
+	void shouldFindOneDisruptionEntryQuery() {
 		String query = comments(CommentType.DISRUPTION_PHENOTYPE, "biomass");
 
 		QueryResponse response = searchEngine.getQueryResponse(query);
@@ -415,7 +415,7 @@ public class CCTextOnlySearchIT {
 		assertThat(retrievedAccessions, hasItems(Q12345));
 	}
 	@Test
-	public void shouldFindOneDisruptionEntryQueryEvidence() {
+	void shouldFindOneDisruptionEntryQueryEvidence() {
 		String query = comments(CommentType.DISRUPTION_PHENOTYPE, "biomass");
 		String evidence ="ECO_0000269";
 		query = QueryBuilder.and(query, commentEvidence(CommentType.DISRUPTION_PHENOTYPE, evidence));
@@ -426,7 +426,7 @@ public class CCTextOnlySearchIT {
 	}
 	
 	@Test
-	public void shouldFindNoneDisruptionEntryQueryEvidence() {
+	void shouldFindNoneDisruptionEntryQueryEvidence() {
 		String query = comments(CommentType.DISRUPTION_PHENOTYPE, "biomass");
 		String evidence ="ECO_0000305";
 		query = QueryBuilder.and(query, commentEvidence(CommentType.DISRUPTION_PHENOTYPE, evidence));
@@ -437,7 +437,7 @@ public class CCTextOnlySearchIT {
 	}
 	
 	@Test
-	public void shouldFindOnePtmEntryQuery() {
+	void shouldFindOnePtmEntryQuery() {
 		String query = comments(CommentType.PTM, "tyrosine");
 
 		QueryResponse response = searchEngine.getQueryResponse(query);
@@ -446,7 +446,7 @@ public class CCTextOnlySearchIT {
 		assertThat(retrievedAccessions, hasItems(P48347));
 	}
 	@Test
-	public void shouldFindOnePtmEntryQueryEvidence() {
+	void shouldFindOnePtmEntryQueryEvidence() {
 		String query = comments(CommentType.PTM, "tyrosine");
 		String evidence ="ECO_0000269";
 		query = QueryBuilder.and(query, commentEvidence(CommentType.PTM, evidence));
@@ -457,7 +457,7 @@ public class CCTextOnlySearchIT {
 	}
 	
 	@Test
-	public void shouldFindNonePtmEntryQueryEvidence() {
+	void shouldFindNonePtmEntryQueryEvidence() {
 		String query = comments(CommentType.PTM, "tyrosine");
 		String evidence ="ECO_0000305";
 		query = QueryBuilder.and(query, commentEvidence(CommentType.PTM, evidence));
@@ -469,7 +469,7 @@ public class CCTextOnlySearchIT {
 	
 	
 	@Test
-	public void shouldFindOneCataEntryQuery() {
+	void shouldFindOneCataEntryQuery() {
 		String query = comments(CommentType.CATALYTIC_ACTIVITY, "O(2)");
 
 		QueryResponse response = searchEngine.getQueryResponse(query);
@@ -478,7 +478,7 @@ public class CCTextOnlySearchIT {
 		assertThat(retrievedAccessions, hasItems(Q6GZN7));
 	}
 	@Test
-	public void shouldFindOneCataEntryQueryEvidence() {
+	void shouldFindOneCataEntryQueryEvidence() {
 		String query = comments(CommentType.CATALYTIC_ACTIVITY, "O(2)");
 		String evidence ="ECO_0000255";
 		query = QueryBuilder.and(query, commentEvidence(CommentType.CATALYTIC_ACTIVITY, evidence));
@@ -490,7 +490,7 @@ public class CCTextOnlySearchIT {
 	}
 	
 	@Test
-	public void shouldFindNonCataEntryQueryEvidence() {
+	void shouldFindNonCataEntryQueryEvidence() {
 		String query = comments(CommentType.CATALYTIC_ACTIVITY, "O(2)");
 		String evidence ="ECO_0000269";
 		query = QueryBuilder.and(query, commentEvidence(CommentType.CATALYTIC_ACTIVITY, evidence));

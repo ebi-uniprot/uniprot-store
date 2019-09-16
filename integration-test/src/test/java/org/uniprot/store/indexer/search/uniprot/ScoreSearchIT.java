@@ -18,11 +18,11 @@ import static org.uniprot.store.indexer.search.uniprot.IdentifierSearchIT.ACC_LI
 import static org.uniprot.store.indexer.search.uniprot.TestUtils.convertToUniProtEntry;
 import static org.uniprot.store.indexer.search.uniprot.TestUtils.query;
 
-public class ScoreSearchIT {
-	 public static final String Q6GZX4 = "Q6GZX4";
-	    public static final String Q6GZX3 = "Q6GZX3";
-	    public static final String Q6GZY3 = "Q6GZY3";
-	    public static final String Q197B6 = "Q197B6";
+class ScoreSearchIT {
+			private static final String Q6GZX4 = "Q6GZX4";
+			private static final String Q6GZX3 = "Q6GZX3";
+			private static final String Q6GZY3 = "Q6GZY3";
+			private static final String Q197B6 = "Q197B6";
 	    private static final String UNIPROT_FLAT_FILE_ENTRY_PATH = "/it/uniprot/P0A377.43.dat";
 	    private static final String Q196W5 = "Q196W5";
 	    private static final String Q6GZN7 = "Q6GZN7";
@@ -31,10 +31,10 @@ public class ScoreSearchIT {
 	    private static final String Q12345 = "Q12345";
 
 	    @RegisterExtension
-	    public static UniProtSearchEngine searchEngine = new UniProtSearchEngine();
+			static UniProtSearchEngine searchEngine = new UniProtSearchEngine();
 
 	    @BeforeAll
-	    public static void populateIndexWithTestData() throws IOException {
+	    static void populateIndexWithTestData() throws IOException {
 	        // a test entry object that can be modified and added to index
 	        InputStream resourceAsStream = TestUtils.getResourceAsStream(UNIPROT_FLAT_FILE_ENTRY_PATH);
 	        UniProtEntryObjectProxy entryProxy = UniProtEntryObjectProxy.createEntryFromInputStream(resourceAsStream);
@@ -139,7 +139,7 @@ public class ScoreSearchIT {
 	        searchEngine.printIndexContents();
 	    }
 	    @Test
-	    public void score1() {
+	    void score1() {
 	    	String query= query(UniProtField.Search.annotation_score, "1");
     		QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -147,7 +147,7 @@ public class ScoreSearchIT {
             assertThat(retrievedAccessions, empty());
 	    }
 	    @Test
-	    public void score2() {
+	    void score2() {
 	    	String query= query(UniProtField.Search.annotation_score, "2");
     		QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -155,7 +155,7 @@ public class ScoreSearchIT {
             assertThat(retrievedAccessions, hasItems(Q6GZX4, Q6GZX3, Q6GZY3, Q197B6, Q6GZN7));
 	    }
 	    @Test
-	    public void score3() {
+	    void score3() {
 	    	String query= query(UniProtField.Search.annotation_score, "3");
     		QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -163,7 +163,7 @@ public class ScoreSearchIT {
             assertThat(retrievedAccessions, hasItems(Q6V4H0, Q12345));
 	    }
 	    @Test
-	    public void score4() {
+	    void score4() {
 	    	String query= query(UniProtField.Search.annotation_score, "4");
     		QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -171,7 +171,7 @@ public class ScoreSearchIT {
             assertThat(retrievedAccessions, empty());
 	    }
 	    @Test
-	    public void score5() {
+	    void score5() {
 	    	String query= query(UniProtField.Search.annotation_score, "5");
     		QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -179,7 +179,7 @@ public class ScoreSearchIT {
             assertThat(retrievedAccessions, empty());
 	    }
 	    @Test
-	    public void score6() {
+	    void score6() {
 	    	String query= query(UniProtField.Search.annotation_score, "6");
     		QueryResponse response = searchEngine.getQueryResponse(query);
 

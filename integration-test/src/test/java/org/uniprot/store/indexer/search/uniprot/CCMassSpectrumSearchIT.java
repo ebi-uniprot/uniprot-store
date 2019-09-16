@@ -19,18 +19,18 @@ import org.uniprot.core.uniprot.comment.CommentType;
 import org.uniprot.store.search.field.QueryBuilder;
 
 
-public class CCMassSpectrumSearchIT {
-	public static final String Q6GZX4 = "Q6GZX4";
-	public static final String Q6GZX3 = "Q6GZX3";
-	public static final String Q6GZY3 = "Q6GZY3";
-	public static final String Q197B6 = "Q197B6";
+class CCMassSpectrumSearchIT {
+	private static final String Q6GZX4 = "Q6GZX4";
+	private static final String Q6GZX3 = "Q6GZX3";
+	private static final String Q6GZY3 = "Q6GZY3";
+	private static final String Q197B6 = "Q197B6";
 	private static final String UNIPROT_FLAT_FILE_ENTRY_PATH = "/it/uniprot/P0A377.43.dat";
 
 	@RegisterExtension
-	public static UniProtSearchEngine searchEngine = new UniProtSearchEngine();
+	static UniProtSearchEngine searchEngine = new UniProtSearchEngine();
 
 	@BeforeAll
-	public static void populateIndexWithTestData() throws IOException {
+	static void populateIndexWithTestData() throws IOException {
 		// a test entry object that can be modified and added to index
 		InputStream resourceAsStream = TestUtils.getResourceAsStream(UNIPROT_FLAT_FILE_ENTRY_PATH);
 		UniProtEntryObjectProxy entryProxy = UniProtEntryObjectProxy.createEntryFromInputStream(resourceAsStream);
@@ -52,7 +52,7 @@ public class CCMassSpectrumSearchIT {
 		searchEngine.printIndexContents();
 	}
 	@Test
-	public void shouldFindTwoEntryQuery() {
+	void shouldFindTwoEntryQuery() {
 		String query = comments(CommentType.MASS_SPECTROMETRY, "*");
 
 		QueryResponse response = searchEngine.getQueryResponse(query);
@@ -62,7 +62,7 @@ public class CCMassSpectrumSearchIT {
 	}
 
 	@Test
-	public void shouldFindOneEntryQueryEvidence() {
+	void shouldFindOneEntryQueryEvidence() {
 		String query = comments(CommentType.MASS_SPECTROMETRY, "*");
 		String evidence = "ECO_0000269";
 		query = QueryBuilder.and(query, commentEvidence(CommentType.MASS_SPECTROMETRY, evidence));
@@ -74,7 +74,7 @@ public class CCMassSpectrumSearchIT {
 	}
 
 	@Test
-	public void shouldFindNoneEntryQueryEvidence() {
+	void shouldFindNoneEntryQueryEvidence() {
 		String query = comments(CommentType.MASS_SPECTROMETRY, "*");
 		String evidence = "ECO_0000255";
 		query = QueryBuilder.and(query, commentEvidence(CommentType.MASS_SPECTROMETRY, evidence));

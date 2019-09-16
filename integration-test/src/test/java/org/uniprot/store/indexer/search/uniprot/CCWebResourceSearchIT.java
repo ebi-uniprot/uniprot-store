@@ -18,18 +18,18 @@ import org.junit.jupiter.api.Test;
 import org.uniprot.core.flatfile.writer.LineType;
 import org.uniprot.core.uniprot.comment.CommentType;
 
-public class CCWebResourceSearchIT {
-	public static final String Q6GZX4 = "Q6GZX4";
-	public static final String Q6GZX3 = "Q6GZX3";
-	public static final String Q6GZY3 = "Q6GZY3";
-	public static final String Q197B6 = "Q197B6";
+class CCWebResourceSearchIT {
+	private static final String Q6GZX4 = "Q6GZX4";
+	private static final String Q6GZX3 = "Q6GZX3";
+	private static final String Q6GZY3 = "Q6GZY3";
+	private static final String Q197B6 = "Q197B6";
 	private static final String UNIPROT_FLAT_FILE_ENTRY_PATH = "/it/uniprot/P0A377.43.dat";
 
 	@RegisterExtension
-	public static UniProtSearchEngine searchEngine = new UniProtSearchEngine();
+	static UniProtSearchEngine searchEngine = new UniProtSearchEngine();
 
 	@BeforeAll
-	public static void populateIndexWithTestData() throws IOException {
+	static void populateIndexWithTestData() throws IOException {
 		// a test entry object that can be modified and added to index
 		InputStream resourceAsStream = TestUtils.getResourceAsStream(UNIPROT_FLAT_FILE_ENTRY_PATH);
 		UniProtEntryObjectProxy entryProxy = UniProtEntryObjectProxy.createEntryFromInputStream(resourceAsStream);
@@ -51,7 +51,7 @@ public class CCWebResourceSearchIT {
 		searchEngine.printIndexContents();
 	}
 	@Test
-	public void findTwo() {
+	void findTwo() {
 		String query = comments(CommentType.WEBRESOURCE, "*");
 
 		QueryResponse response = searchEngine.getQueryResponse(query);
@@ -59,7 +59,7 @@ public class CCWebResourceSearchIT {
 		assertThat(retrievedAccessions, hasItems(Q6GZX4, Q6GZX3));
 	}
 	@Test
-	public void findOne() {
+	void findOne() {
 		String query = comments(CommentType.WEBRESOURCE, "carbamoyltransferase");
 
 		QueryResponse response = searchEngine.getQueryResponse(query);

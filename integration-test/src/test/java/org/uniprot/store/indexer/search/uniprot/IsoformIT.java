@@ -21,7 +21,7 @@ import org.uniprot.store.search.field.UniProtField;
 /**
  * Verifies whether the accession searches are qorking properly
  */
-public class IsoformIT {
+class IsoformIT {
     private static final String UNIPROT_FLAT_FILE_ENTRY_PATH = "/it/uniprot/P0A377.43.dat";
     private static final String PRIMARY_ACCESSION1 = "Q197F5-1";
     private static final String SECONDARY_ACCESSION1_1 = "A4D160";
@@ -30,10 +30,10 @@ public class IsoformIT {
     private static final String SECONDARY_ACCESSION2_1 = "A4D162";
     private static final String PRIMARY_ACCESSION3 = "Q197F7-2";
     @RegisterExtension
-    public static UniProtSearchEngine searchEngine = new UniProtSearchEngine();
+    static UniProtSearchEngine searchEngine = new UniProtSearchEngine();
 
     @BeforeAll
-    public static void populateIndexWithTestData() throws IOException {
+    static void populateIndexWithTestData() throws IOException {
         // a test entry object that can be modified and added to index
         InputStream resourceAsStream = TestUtils.getResourceAsStream(UNIPROT_FLAT_FILE_ENTRY_PATH);
         UniProtEntryObjectProxy entryProxy = UniProtEntryObjectProxy.createEntryFromInputStream(resourceAsStream);
@@ -68,7 +68,7 @@ public class IsoformIT {
 
 
     @Test
-    public void queryIsofromAccessionFromEntry3MatchesEntry3() throws Exception {
+    void queryIsofromAccessionFromEntry3MatchesEntry3() throws Exception {
         String query = accession(PRIMARY_ACCESSION3.toLowerCase());
         String query1 = isoformOnly();
         String and = QueryBuilder.and(query, query1);
@@ -80,7 +80,7 @@ public class IsoformIT {
     }
 
     @Test
-    public void queryIsofromAccessionFromEntry2MatchesEntry() throws Exception {
+    void queryIsofromAccessionFromEntry2MatchesEntry() throws Exception {
         String query = accession(PRIMARY_ACCESSION2.toLowerCase());
         String query1 = isoformOnly();
         String and = QueryBuilder.and(query, query1);

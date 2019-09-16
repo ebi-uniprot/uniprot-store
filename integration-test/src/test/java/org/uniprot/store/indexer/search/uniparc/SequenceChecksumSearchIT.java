@@ -20,9 +20,9 @@ import static org.hamcrest.core.Is.is;
  * Tests the search capabilities of the {@link UniParcQueryBuilder} when it comes to searching for UniParc entries
  * that have a given checksum
  */
-public class SequenceChecksumSearchIT {
+class SequenceChecksumSearchIT {
     @RegisterExtension
-    public static UniParcSearchEngine searchEngine = new UniParcSearchEngine();
+    static UniParcSearchEngine searchEngine = new UniParcSearchEngine();
 
     private static final String ID_1 = "UPI0000000001";
     private static final String ID_2 = "UPI0000000002";
@@ -30,7 +30,7 @@ public class SequenceChecksumSearchIT {
     private static final String CHECKSUM_2 = "76F4826B7009DFAF";
 
     @BeforeAll
-    public static void populateIndexWithTestData() throws IOException {
+    static void populateIndexWithTestData() throws IOException {
         // a test entry object that can be modified and added to index
         Entry stubEntryObject = TestUtils.createDefaultUniParcEntry();
 
@@ -48,7 +48,7 @@ public class SequenceChecksumSearchIT {
     }
 
     @Test
-    public void searchNonExistentChecksumMatches0Entries() throws Exception {
+    void searchNonExistentChecksumMatches0Entries() throws Exception {
         String query=checksum("Unknown");
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -57,7 +57,7 @@ public class SequenceChecksumSearchIT {
     }
 
     @Test
-    public void searchForChecksumOfEntry1MatchesEntry1() throws Exception {
+    void searchForChecksumOfEntry1MatchesEntry1() throws Exception {
         String query=checksum(CHECKSUM_1);
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -66,7 +66,7 @@ public class SequenceChecksumSearchIT {
     }
 
     @Test
-    public void lowerCaseSearchForChecksumOfEntry1MatchesEntry1() throws Exception {
+    void lowerCaseSearchForChecksumOfEntry1MatchesEntry1() throws Exception {
         String query=checksum(CHECKSUM_1.toLowerCase());
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -75,7 +75,7 @@ public class SequenceChecksumSearchIT {
     }
 
     @Test
-    public void upperCaseSearchForChecksumOfEntry1MatchesEntry1() throws Exception {
+    void upperCaseSearchForChecksumOfEntry1MatchesEntry1() throws Exception {
         String query=checksum(CHECKSUM_1.toUpperCase());
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -84,7 +84,7 @@ public class SequenceChecksumSearchIT {
     }
 
     @Test
-    public void partialSearchForChecksumOfEntry1Matches0Entries() throws Exception {
+    void partialSearchForChecksumOfEntry1Matches0Entries() throws Exception {
         String query=checksum("5A0A2229D");
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -93,7 +93,7 @@ public class SequenceChecksumSearchIT {
     }
 
     @Test
-    public void searchForChecksumOfEntry2MatchesEntry2() throws Exception {
+    void searchForChecksumOfEntry2MatchesEntry2() throws Exception {
         String query=checksum(CHECKSUM_2);
         QueryResponse response = searchEngine.getQueryResponse(query);
 

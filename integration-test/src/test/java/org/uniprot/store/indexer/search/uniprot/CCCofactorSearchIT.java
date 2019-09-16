@@ -20,20 +20,20 @@ import org.uniprot.core.flatfile.writer.LineType;
 import org.uniprot.store.search.field.QueryBuilder;
 import org.uniprot.store.search.field.UniProtField;
 
-public class CCCofactorSearchIT {
-	 public static final String Q6GZX4 = "Q6GZX4";
-	    public static final String Q6GZX3 = "Q6GZX3";
-	    public static final String Q6GZY3 = "Q6GZY3";
-	    public static final String Q197B6 = "Q197B6";
-	    private static final String UNIPROT_FLAT_FILE_ENTRY_PATH = "/it/uniprot/P0A377.43.dat";
-	    private static final String Q196W5 = "Q196W5";
-	    private static final String Q6GZN7 = "Q6GZN7";
+class CCCofactorSearchIT {
+	private static final String Q6GZX4 = "Q6GZX4";
+	private static final String Q6GZX3 = "Q6GZX3";
+	private static final String Q6GZY3 = "Q6GZY3";
+	private static final String Q197B6 = "Q197B6";
+	private static final String UNIPROT_FLAT_FILE_ENTRY_PATH = "/it/uniprot/P0A377.43.dat";
+	private static final String Q196W5 = "Q196W5";
+	private static final String Q6GZN7 = "Q6GZN7";
 
 	    @RegisterExtension
-	    public static UniProtSearchEngine searchEngine = new UniProtSearchEngine();
+			static UniProtSearchEngine searchEngine = new UniProtSearchEngine();
 
 	    @BeforeAll
-	    public static void populateIndexWithTestData() throws IOException {
+	    static void populateIndexWithTestData() throws IOException {
 	        // a test entry object that can be modified and added to index
 	        InputStream resourceAsStream = TestUtils.getResourceAsStream(UNIPROT_FLAT_FILE_ENTRY_PATH);
 	        UniProtEntryObjectProxy entryProxy = UniProtEntryObjectProxy.createEntryFromInputStream(resourceAsStream);
@@ -87,7 +87,7 @@ public class CCCofactorSearchIT {
 	    }
 
 	    @Test
-	    public void findCofactorWithChebi() {
+	    void findCofactorWithChebi() {
 	    		String query= query(UniProtField.Search.cc_cofactor_chebi, "57692");
 	    		QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -96,7 +96,7 @@ public class CCCofactorSearchIT {
 	    }
 	    
 	    @Test
-	    public void findCofactorWithChebiName() {
+	    void findCofactorWithChebiName() {
 	    		String query= query(UniProtField.Search.cc_cofactor_chebi, "Mg(2+)");
 	    		QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -105,7 +105,7 @@ public class CCCofactorSearchIT {
 	    }
 	    
 	    @Test
-	    public void findCofactorWithChebiName2() {
+	    void findCofactorWithChebiName2() {
 	    		String query= query(UniProtField.Search.cc_cofactor_chebi, "phosphate");
 	    		QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -113,7 +113,7 @@ public class CCCofactorSearchIT {
 	            assertThat(retrievedAccessions, contains(Q6GZX3, Q6GZY3));
 	    }
 	    @Test
-	    public void findCofactorWithChebiNameEvidence() {
+	    void findCofactorWithChebiNameEvidence() {
 	    		String query= query(UniProtField.Search.cc_cofactor_chebi, "phosphate");
 	    		String evidence ="ECO_0000256";
 	    		query = QueryBuilder.and(query, query(UniProtField.Search.ccev_cofactor_chebi, evidence));
@@ -127,7 +127,7 @@ public class CCCofactorSearchIT {
 	    
 	    
 	    @Test
-	    public void findCofactorWithNote() {
+	    void findCofactorWithNote() {
 	    		String query= query(UniProtField.Search.cc_cofactor_note, "binds");
 	    		QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -136,7 +136,7 @@ public class CCCofactorSearchIT {
 	    }
 	    
 	    @Test
-	    public void findCofactorWithNoteEvidence() {
+	    void findCofactorWithNoteEvidence() {
 	    		String query= query(UniProtField.Search.cc_cofactor_note, "binds");
 	    		String evidence ="ECO_0000250";
 	    		query = QueryBuilder.and(query, query(UniProtField.Search.ccev_cofactor_note, evidence));
@@ -147,7 +147,7 @@ public class CCCofactorSearchIT {
 	    		assertThat(retrievedAccessions, not(hasItem(Q6GZY3)));
 	    }
 	    @Test
-	    public void findCofactorWithNoteAAEvidence() {
+	    void findCofactorWithNoteAAEvidence() {
 	    		String query= query(UniProtField.Search.cc_cofactor_note, "binds");
 	    		String evidence ="automatic";
 	    		query = QueryBuilder.and(query, query(UniProtField.Search.ccev_cofactor_note, evidence));
@@ -158,7 +158,7 @@ public class CCCofactorSearchIT {
 	    		assertThat(retrievedAccessions, not(hasItem(Q196W5)));
 	    }
 	    @Test
-	    public void findCofactorWithNoteManualEvidence() {
+	    void findCofactorWithNoteManualEvidence() {
 	    		String query= query(UniProtField.Search.cc_cofactor_note, "binds");
 	    		String evidence ="manual";
 	    		query = QueryBuilder.and(query, query(UniProtField.Search.ccev_cofactor_note, evidence));

@@ -25,7 +25,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  *
 */
 
-public class UniProtIdUPICountSearchIT {
+class UniProtIdUPICountSearchIT {
 	  private static final String ID_1 = "UniRef100_A0A007";
 	    private static final String ID_2 = "UniRef100_A0A009DWI3";
 	    private static final String ID_3 = "UniRef90_A0A007";
@@ -56,10 +56,10 @@ public class UniProtIdUPICountSearchIT {
 	    
 	    
 	    @RegisterExtension
-	    public static UniRefSearchEngine searchEngine = new UniRefSearchEngine();
+	    static UniRefSearchEngine searchEngine = new UniRefSearchEngine();
 	    
 	    @BeforeAll
-	    public static void populateIndexWithTestData() throws IOException {
+	    static void populateIndexWithTestData() throws IOException {
 	        //Entry 1
 	        {
 	            Entry entry = TestUtils.createSkeletonEntry(ID_1, NAME_1);
@@ -118,7 +118,7 @@ public class UniProtIdUPICountSearchIT {
 	    }
 	    
 	    @Test
-	    public void testAccession() {
+	    void testAccession() {
 	    	String  query =uniprotIdQuery(ACCESSION_1);
 	    	  QueryResponse queryResponse =
 	                  searchEngine.getQueryResponse(query);
@@ -128,7 +128,7 @@ public class UniProtIdUPICountSearchIT {
 	          assertThat(retrievedAccessions, containsInAnyOrder(ID_1, ID_6));
 	    }
 	    @Test
-	    public void testAccession5() {
+	    void testAccession5() {
 	    	String  query =uniprotIdQuery(ACCESSION_5);
 	    	  QueryResponse queryResponse =
 	                  searchEngine.getQueryResponse(query);
@@ -139,7 +139,7 @@ public class UniProtIdUPICountSearchIT {
 	    }
 	    
 	    @Test
-	    public void testUniProtID() {
+	    void testUniProtID() {
 	    	String  query =uniprotIdQuery(UNIPROTID_2);
 	    	  QueryResponse queryResponse =
 	                  searchEngine.getQueryResponse(query);
@@ -149,7 +149,7 @@ public class UniProtIdUPICountSearchIT {
 	          assertThat(retrievedAccessions, containsInAnyOrder(ID_2));
 	    }
 	    @Test
-	    public void testUniProtI2D() {
+	    void testUniProtI2D() {
 	    	String  query =uniprotIdQuery(UNIPROTID_4);
 	    	  QueryResponse queryResponse =
 	                  searchEngine.getQueryResponse(query);
@@ -161,7 +161,7 @@ public class UniProtIdUPICountSearchIT {
 	    
 	    
 	    @Test
-	    public void testUPI1() {
+	    void testUPI1() {
 	    	String  query =upiQuery(UPI_1);
 	    	  QueryResponse queryResponse =
 	                  searchEngine.getQueryResponse(query);
@@ -172,7 +172,7 @@ public class UniProtIdUPICountSearchIT {
 	    }
 	    
 	    @Test
-	    public void testUPI2() {
+	    void testUPI2() {
 	    	String  query =upiQuery(UPI_2);
 	    	  QueryResponse queryResponse =
 	                  searchEngine.getQueryResponse(query);
@@ -182,7 +182,7 @@ public class UniProtIdUPICountSearchIT {
 	          assertThat(retrievedAccessions, containsInAnyOrder(ID_6));
 	    }
 	    @Test
-	    public void testUPI3() {
+	    void testUPI3() {
 	    	String  query =upiQuery(UPI_3);
 	    	  QueryResponse queryResponse =
 	                  searchEngine.getQueryResponse(query);
@@ -192,7 +192,7 @@ public class UniProtIdUPICountSearchIT {
 	          assertThat(retrievedAccessions, containsInAnyOrder(ID_3, ID_4));
 	    }
 	    @Test
-	    public void testCount1() {
+	    void testCount1() {
 	    	String  query =countQuery(1);
 	    	  QueryResponse queryResponse =
 	                  searchEngine.getQueryResponse(query);
@@ -203,7 +203,7 @@ public class UniProtIdUPICountSearchIT {
 	    }
 	    
 	    @Test
-	    public void testCount2() {
+	    void testCount2() {
 	    	String  query =countQuery(2);
 	    	  QueryResponse queryResponse =
 	                  searchEngine.getQueryResponse(query);
@@ -214,7 +214,7 @@ public class UniProtIdUPICountSearchIT {
 	    }
 	    
 	    @Test
-	    public void testCount4() {
+	    void testCount4() {
 	    	String  query =countQuery(4);
 	    	  QueryResponse queryResponse =
 	                  searchEngine.getQueryResponse(query);
@@ -225,7 +225,7 @@ public class UniProtIdUPICountSearchIT {
 	    }
 	    
 	    @Test
-	    public void testCount24() {
+	    void testCount24() {
 	    	String  query =countQuery(2,4);
 	    	  QueryResponse queryResponse =
 	                  searchEngine.getQueryResponse(query);

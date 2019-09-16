@@ -31,13 +31,13 @@ import org.uniprot.store.search.field.QueryBuilder;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-public class ProteomeSearchIT {
+class ProteomeSearchIT {
 	 static final String PROTEOME_ROOT_ELEMENT = "proteome";
     @RegisterExtension
     static ProteomeSearchEngine searchEngine = new ProteomeSearchEngine();
 
     @BeforeAll
-    public static void populateIndexWithTestData() throws IOException {
+    static void populateIndexWithTestData() throws IOException {
         List<String> files = Arrays.asList(
                 "it/proteome/proteome_example.xml"
                
@@ -59,7 +59,7 @@ public class ProteomeSearchIT {
     }
     
     @Test
-    public void searchUPid(){
+    void searchUPid(){
         String upid = "UP000029775";
         String query = upid(upid);
         QueryResponse queryResponse =
@@ -72,7 +72,7 @@ public class ProteomeSearchIT {
     }
     
     @Test
-    public void searchAllUPid(){
+    void searchAllUPid(){
         String upid = "*";
         String query = upid(upid);
         QueryResponse queryResponse =
@@ -85,7 +85,7 @@ public class ProteomeSearchIT {
     
     
     @Test
-    public void searchListUPid() {
+    void searchListUPid() {
         List<String> upids = Arrays.asList("UP000029775", "UP000029766", "UP000000718" );
 
      
@@ -119,7 +119,7 @@ public class ProteomeSearchIT {
     
   
     @Test
-    public void searchTaxId(){
+    void searchTaxId(){
         int taxId=60714;
         String query =taxonomy(taxId);
         
@@ -133,7 +133,7 @@ public class ProteomeSearchIT {
     }
     
     @Test
-    public void searchIsRedundant(){
+    void searchIsRedundant(){
       
         String query =isRedudant(false);
         
@@ -149,7 +149,7 @@ public class ProteomeSearchIT {
  
 
     @Test
-    public void fetchAvroObject(){
+    void fetchAvroObject(){
     	String upid = "UP000000718";
         String query =upid(upid);
         

@@ -23,7 +23,7 @@ import static org.uniprot.store.indexer.search.uniprot.TestUtils.*;
 /**
  * Tests if the protein existence search is working correctly
  */
-public class ProteinExistenceSearchIT {
+class ProteinExistenceSearchIT {
     private static final String UNIPROT_FLAT_FILE_ENTRY_PATH = "/it/uniprot/P0A377.43.dat";
     private static final String Q6GZX1 = "Q6GZX1";
     private static final String Q6GZX2 = "Q6GZX2";
@@ -31,10 +31,10 @@ public class ProteinExistenceSearchIT {
     private static final String Q6GZX4 = "Q6GZX4";
     private static final String Q6GZX5 = "Q6GZX5";
     @RegisterExtension
-    public static UniProtSearchEngine searchEngine = new UniProtSearchEngine();
+    static UniProtSearchEngine searchEngine = new UniProtSearchEngine();
 
     @BeforeAll
-    public static void populateIndexWithTestData() throws IOException {
+    static void populateIndexWithTestData() throws IOException {
         // a test entry object that can be modified and added to index
         InputStream resourceAsStream = TestUtils.getResourceAsStream(UNIPROT_FLAT_FILE_ENTRY_PATH);
         UniProtEntryObjectProxy entryProxy = UniProtEntryObjectProxy.createEntryFromInputStream(resourceAsStream);
@@ -68,7 +68,7 @@ public class ProteinExistenceSearchIT {
     }
 
     @Test
-    public void peLevelProtein() {
+    void peLevelProtein() {
         String query = proteinExistence(ProteinExistence.PROTEIN_LEVEL);
         QueryResponse response = searchEngine.getQueryResponse(query);
         System.out.println(query);
@@ -77,7 +77,7 @@ public class ProteinExistenceSearchIT {
     }
 
     @Test
-    public void peLevelTranscript() {
+    void peLevelTranscript() {
         String query = proteinExistence(ProteinExistence.TRANSCRIPT_LEVEL);
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -86,7 +86,7 @@ public class ProteinExistenceSearchIT {
     }
 
     @Test
-    public void peLevelHomology() {
+    void peLevelHomology() {
         String query = proteinExistence(ProteinExistence.HOMOLOGY);
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -95,7 +95,7 @@ public class ProteinExistenceSearchIT {
     }
 
     @Test
-    public void peLevelPredicted() {
+    void peLevelPredicted() {
         String query = proteinExistence(ProteinExistence.PREDICTED);
         System.out.println(query);
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -105,7 +105,7 @@ public class ProteinExistenceSearchIT {
     }
 
     @Test
-    public void peLevelUncertain() {
+    void peLevelUncertain() {
         String query = proteinExistence(ProteinExistence.UNCERTAIN);
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -114,7 +114,7 @@ public class ProteinExistenceSearchIT {
     }
 
     @Test
-    public void peLevelUncertainWithAcc() {
+    void peLevelUncertainWithAcc() {
     	String query = query(UniProtField.Search.accession, Q6GZX5);
     	query =QueryBuilder.and(query, proteinExistence(ProteinExistence.UNCERTAIN));
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -124,7 +124,7 @@ public class ProteinExistenceSearchIT {
     }
 
     @Test
-    public void peLevelFindNothingWithUncertainWithAcc() {
+    void peLevelFindNothingWithUncertainWithAcc() {
     	String query = query(UniProtField.Search.accession, Q6GZX4);
     	query =QueryBuilder.and(query, proteinExistence(ProteinExistence.UNCERTAIN));
         QueryResponse response = searchEngine.getQueryResponse(query);
