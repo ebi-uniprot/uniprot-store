@@ -16,10 +16,6 @@ import static org.hamcrest.collection.IsEmptyCollection.empty;
 import static org.hamcrest.collection.IsIterableContainingInOrder.contains;
 import static org.hamcrest.core.Is.is;
 
-/**
- * Tests the search capabilities of the {@link UniParcQueryBuilder} when it comes to searching for UniParc entries
- * using the UniParc identifier
- */
 class IdentifierSearchIT {
     @RegisterExtension
     static UniParcSearchEngine searchEngine = new UniParcSearchEngine();
@@ -30,7 +26,7 @@ class IdentifierSearchIT {
     private static final String ID_4 = "UPI0000000004";
 
     @BeforeAll
-    static void populateIndexWithTestData() throws IOException {
+    static void populateIndexWithTestData() {
         // a test entry object that can be modified and added to index
         Entry entry = TestUtils.createDefaultUniParcEntry();
 
@@ -50,7 +46,7 @@ class IdentifierSearchIT {
     }
 
     @Test
-    void searchNonExistentIdReturns0Documents() throws Exception {
+    void searchNonExistentIdReturns0Documents() {
         String query=id(ID_4);
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -60,7 +56,7 @@ class IdentifierSearchIT {
 
 
     @Test
-    void searchForIDFromEntry1MatchesEntry1() throws Exception {
+    void searchForIDFromEntry1MatchesEntry1() {
         String query=id(ID_1);
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -69,7 +65,7 @@ class IdentifierSearchIT {
     }
 
     @Test
-    void uppercaseSearchForIDFromEntry1MatchesEntry1() throws Exception {
+    void uppercaseSearchForIDFromEntry1MatchesEntry1() {
         String query=id(ID_1.toUpperCase());
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -78,7 +74,7 @@ class IdentifierSearchIT {
     }
 
     @Test
-    void lowercaseSearchForIDFromEntry1MatchesEntry1() throws Exception {
+    void lowercaseSearchForIDFromEntry1MatchesEntry1() {
         String query=id(ID_1.toLowerCase());
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -87,7 +83,7 @@ class IdentifierSearchIT {
     }
 
     @Test
-    void searchForIDFromEntry3MatchesEntry3() throws Exception {
+    void searchForIDFromEntry3MatchesEntry3() {
         String query=id(ID_3);
         QueryResponse response = searchEngine.getQueryResponse(query);
 

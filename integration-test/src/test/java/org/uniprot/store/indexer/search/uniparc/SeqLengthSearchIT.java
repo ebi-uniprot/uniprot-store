@@ -27,7 +27,7 @@ class SeqLengthSearchIT {
     private static final String CHECKSUM_2 = "76F4826B7009DFAF";
 
     @BeforeAll
-    static void populateIndexWithTestData() throws IOException {
+    static void populateIndexWithTestData() {
         // a test entry object that can be modified and added to index
         Entry entry = TestUtils.createDefaultUniParcEntry();
 

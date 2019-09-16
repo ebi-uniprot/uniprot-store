@@ -1,27 +1,12 @@
 package org.uniprot.store.indexer.search.proteome;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Spliterator;
-import java.util.Spliterators;
-import java.util.function.Function;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
-
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.solr.client.solrj.beans.DocumentObjectBinder;
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.common.SolrDocumentList;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.junit.jupiter.api.extension.RegisterExtension;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.RegisterExtension;
 import org.uniprot.core.json.parser.proteome.ProteomeJsonConfig;
 import org.uniprot.core.xml.XmlChainIterator;
 import org.uniprot.core.xml.jaxb.proteome.Proteome;
@@ -29,19 +14,21 @@ import org.uniprot.store.search.document.proteome.ProteomeDocument;
 import org.uniprot.store.search.field.ProteomeField;
 import org.uniprot.store.search.field.QueryBuilder;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import java.util.*;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 class ProteomeSearchIT {
-	 static final String PROTEOME_ROOT_ELEMENT = "proteome";
+	 private static final String PROTEOME_ROOT_ELEMENT = "proteome";
     @RegisterExtension
     static ProteomeSearchEngine searchEngine = new ProteomeSearchEngine();
 
     @BeforeAll
-    static void populateIndexWithTestData() throws IOException {
-        List<String> files = Arrays.asList(
-                "it/proteome/proteome_example.xml"
-               
-        );
+    static void populateIndexWithTestData() {
+        List<String> files = Collections.singletonList("it/proteome/proteome_example.xml");
 
         XmlChainIterator<Proteome, Proteome>  chainingIterators =
         		new XmlChainIterator<>(new XmlChainIterator.FileInputStreamIterator(files),

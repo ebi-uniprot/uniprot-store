@@ -20,10 +20,6 @@ import org.uniprot.store.search.field.QueryBuilder;
 import org.uniprot.store.search.field.UniParcField;
 
 
-/**
- * Tests the search capabilities of the {@link UniParcQueryBuilder} when it comes to searching for UniParc entries
- * that reference database source accessions
- */
 class GeneNameSearchIT {
     @RegisterExtension
     static UniParcSearchEngine searchEngine = new UniParcSearchEngine();
@@ -38,7 +34,7 @@ class GeneNameSearchIT {
     private static final String GN_LONG = "AMTR_s00092p00144240";
 
     @BeforeAll
-    static void populateIndexWithTestData() throws IOException {
+    static void populateIndexWithTestData() {
         //Entry 1
 
         {
@@ -94,7 +90,7 @@ class GeneNameSearchIT {
     }
 
     @Test
-    void searchNonExistentIdReturns0Entries() throws Exception {
+    void searchNonExistentIdReturns0Entries() {
         String query = gene("Unknown");
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -103,7 +99,7 @@ class GeneNameSearchIT {
     }
 
     @Test
-    void searchForZNF705GMatchesEntry1() throws Exception {
+    void searchForZNF705GMatchesEntry1() {
         String query = gene(GN_ZNF705G);
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -112,7 +108,7 @@ class GeneNameSearchIT {
     }
 
     @Test
-    void lowerCaseSearchForZNF705GMatchesEntry1() throws Exception {
+    void lowerCaseSearchForZNF705GMatchesEntry1() {
         String query = gene(GN_ZNF705G.toLowerCase());
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -121,7 +117,7 @@ class GeneNameSearchIT {
     }
 
     @Test
-    void upperCaseSearchForZNF705GMatchesEntry1() throws Exception {
+    void upperCaseSearchForZNF705GMatchesEntry1() {
         String query = gene(GN_ZNF705G.toUpperCase());
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -130,7 +126,7 @@ class GeneNameSearchIT {
     }
 
     @Test
-    void searchForHLA_AMatchesEntry2() throws Exception {
+    void searchForHLA_AMatchesEntry2() {
         String query = gene(GN_HLA_A);
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -139,7 +135,7 @@ class GeneNameSearchIT {
     }
 
     @Test
-    void searchForHLA_BMatchesEntry3() throws Exception {
+    void searchForHLA_BMatchesEntry3() {
         String query = gene(GN_HLA_B);
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -148,7 +144,7 @@ class GeneNameSearchIT {
     }
 
     @Test
-    void partialSearchForHLAMatchesEntry2And3() throws Exception {
+    void partialSearchForHLAMatchesEntry2And3() {
         String query = gene("HLA");
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -157,7 +153,7 @@ class GeneNameSearchIT {
     }
 
     @Test
-    void partialSearchWithLessThan3CharsMatches0Entries() throws Exception {
+    void partialSearchWithLessThan3CharsMatches0Entries() {
         String query = gene("HL");
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -166,7 +162,7 @@ class GeneNameSearchIT {
     }
 
     @Test
-    void searchForLongGeneNameMatchesEntry4() throws Exception {
+    void searchForLongGeneNameMatchesEntry4() {
         String query = gene(GN_LONG);
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -175,7 +171,7 @@ class GeneNameSearchIT {
     }
 
     @Test
-    void partialSearchForLongGeneNameStartingFromMiddleOfNameMatches0Entries() throws Exception {
+    void partialSearchForLongGeneNameStartingFromMiddleOfNameMatches0Entries() {
         String query = gene("s00092p00144240");
         QueryResponse response = searchEngine.getQueryResponse(query);
 

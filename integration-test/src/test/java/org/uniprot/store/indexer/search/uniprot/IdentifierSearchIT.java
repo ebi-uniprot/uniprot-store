@@ -56,7 +56,7 @@ class IdentifierSearchIT {
     }
 
     @Test
-    void upperCaseSearchProteinIdMatchesTargetDocument() throws Exception {
+    void upperCaseSearchProteinIdMatchesTargetDocument() {
         String query = id(TARGET_ID);
 
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -66,7 +66,7 @@ class IdentifierSearchIT {
     }
 
     @Test
-    void lowerCaseSearchProteinIdMatchesTargetDocument() throws Exception {
+    void lowerCaseSearchProteinIdMatchesTargetDocument() {
     	String query =id(TARGET_ID.toLowerCase());
 
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -76,7 +76,7 @@ class IdentifierSearchIT {
     }
 
     @Test
-    void mixedCaseSearchProteinIdMatchesTargetDocument() throws Exception {
+    void mixedCaseSearchProteinIdMatchesTargetDocument() {
     	String query = id(mixCasing(TARGET_ID));
 
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -86,7 +86,7 @@ class IdentifierSearchIT {
     }
 
     @Test
-    void searchProteinIdDoesNotMatchAnyDocument() throws Exception {
+    void searchProteinIdDoesNotMatchAnyDocument() {
     	String query = id("IES3_YEAST");
 
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -96,7 +96,7 @@ class IdentifierSearchIT {
     }
 
     @Test
-    void partialProteinIdMatches0Documents() throws Exception {
+    void partialProteinIdMatches0Documents() {
     	String query = id("CYC");
 
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -106,7 +106,7 @@ class IdentifierSearchIT {
     }
 
     @Test
-    void searchForAccessionInIdQueryReturns0Documents() throws Exception {
+    void searchForAccessionInIdQueryReturns0Documents() {
     	String query = id(TARGET_ACCESSION);
 
         QueryResponse response = searchEngine.getQueryResponse(query);

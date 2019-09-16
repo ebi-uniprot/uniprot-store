@@ -8,7 +8,7 @@ class SuggestSearchEngine extends AbstractSearchEngine<SuggestDocument> {
 
     private static final String SEARCH_ENGINE_NAME = "suggest";
 
-    public SuggestSearchEngine() {
+    SuggestSearchEngine() {
         super(SEARCH_ENGINE_NAME, identityConverter -> identityConverter);
     }
 

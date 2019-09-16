@@ -102,7 +102,7 @@ class OrganelleIT {
     }
 
     @Test
-    void noMatchesForNonExistentOrganelle() throws Exception {
+    void noMatchesForNonExistentOrganelle() {
         String query = organelle(HYDROGENOSOME.getName());
 
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -112,7 +112,7 @@ class OrganelleIT {
     }
 
     @Test
-    void organelleFromEntry1MatchesEntry1() throws Exception {
+    void organelleFromEntry1MatchesEntry1() {
         String query = organelle(ORGANELLE1);
 
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -122,7 +122,7 @@ class OrganelleIT {
     }
 
     @Test
-    void partialPlasmidSearchMatchesEntry2() throws Exception {
+    void partialPlasmidSearchMatchesEntry2() {
         String query = organelle(PLASMID.getName());
 
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -132,7 +132,7 @@ class OrganelleIT {
     }
 
     @Test
-    void partialPlasmidSpecificNameSearchMatchesEntry2() throws Exception {
+    void partialPlasmidSpecificNameSearchMatchesEntry2() {
         String query = organelle(ORGANELLE_SPECIFIC_NAME2);
 
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -142,7 +142,7 @@ class OrganelleIT {
     }
 
     @Test
-    void plastidChildSearchMatchesEntry3() throws Exception {
+    void plastidChildSearchMatchesEntry3() {
         String query = organelle(CHROMATOPHORE_PLASTID.getName());
 
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -152,7 +152,7 @@ class OrganelleIT {
     }
 
     @Test
-    void plastidParentSearchMatchesEntry3And4() throws Exception {
+    void plastidParentSearchMatchesEntry3And4() {
         String query = organelle(PLASTID.getName());
 
         QueryResponse response = searchEngine.getQueryResponse(query);

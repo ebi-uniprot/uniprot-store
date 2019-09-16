@@ -102,7 +102,7 @@ class DatesSearchIT {
   
 
     @Test
-    void searchForCreatedBefore30SEP1989Returns0Documents() throws Exception {
+    void searchForCreatedBefore30SEP1989Returns0Documents() {
         LocalDate creationDate = LocalDate.of(1989, 9, 30);
 
         String query = before(UniProtField.Search.created.name(), creationDate);
@@ -114,7 +114,7 @@ class DatesSearchIT {
     }
 
     @Test
-    void searchForCreatedBefore01OCT1989Returns1Document() throws Exception {
+    void searchForCreatedBefore01OCT1989Returns1Document() {
     	LocalDate creationDate = LocalDate.of(1989, 10, 1);
 
         String query = before(UniProtField.Search.created.name(), creationDate);
@@ -126,7 +126,7 @@ class DatesSearchIT {
     }
 
     @Test
-    void searchForCreatedBefore15MAR1999Returns2Documents() throws Exception {
+    void searchForCreatedBefore15MAR1999Returns2Documents() {
     	LocalDate creationDate = LocalDate.of(1999, 3, 15);
 
         String query = before(UniProtField.Search.created.name(), creationDate);
@@ -138,7 +138,7 @@ class DatesSearchIT {
     }
 
     @Test
-    void searchForUpdatedBefore26OCT2004Returns0Documents() throws Exception {
+    void searchForUpdatedBefore26OCT2004Returns0Documents() {
     	LocalDate updateDate = LocalDate.of(2004, 10, 26);
 
         String query = before(UniProtField.Search.modified.name(), updateDate);
@@ -150,7 +150,7 @@ class DatesSearchIT {
     }
 
     @Test
-    void searchForUpdatedBefore27OCT2004Returns1Documents() throws Exception {
+    void searchForUpdatedBefore27OCT2004Returns1Documents() {
     	LocalDate updateDate = LocalDate.of(2004, 10, 27);
 
         String query = before(UniProtField.Search.modified.name(), updateDate);
@@ -162,7 +162,7 @@ class DatesSearchIT {
     }
 
     @Test
-    void searchForUpdatedBefore08FEB2006Returns2Documents() throws Exception {
+    void searchForUpdatedBefore08FEB2006Returns2Documents() {
     	LocalDate updateDate = LocalDate.of(2006, 2, 8);
 
         String query = before(UniProtField.Search.modified.name(), updateDate);
@@ -174,7 +174,7 @@ class DatesSearchIT {
     }
     @Disabled
     @Test
-    void searchForCreatedAfter31MAR2014Returns1Document() throws Exception {
+    void searchForCreatedAfter31MAR2014Returns1Document() {
     	LocalDate creationDate = LocalDate.of(2014, 3, 30);
 
         String query = after(UniProtField.Search.created.name(), creationDate);
@@ -186,7 +186,7 @@ class DatesSearchIT {
     }
 
     @Test
-    void searchForCreatedAfter30JUL2003Returns3Documents() throws Exception {
+    void searchForCreatedAfter30JUL2003Returns3Documents() {
     	LocalDate creationDate = LocalDate.of(2003, 7, 29);
 
         String query = after(UniProtField.Search.created.name(), creationDate);
@@ -199,7 +199,7 @@ class DatesSearchIT {
     }
 
     @Test
-    void searchForCreatedAfter15MAR1999Returns2Documents() throws Exception {
+    void searchForCreatedAfter15MAR1999Returns2Documents() {
     	LocalDate creationDate = LocalDate.of(1999, 3, 15);
 
         String query = after(UniProtField.Search.created.name(), creationDate);
@@ -211,7 +211,7 @@ class DatesSearchIT {
     }
 
     @Test
-    void searchForUpdatedAfter1APR2014Returns3Documents() throws Exception {
+    void searchForUpdatedAfter1APR2014Returns3Documents() {
     	LocalDate updateDate = LocalDate.of(2014, 4, 1);
 
         String query = after(UniProtField.Search.modified.name(), updateDate);
@@ -224,7 +224,7 @@ class DatesSearchIT {
     }
 
     @Test
-    void searchForUpdatedAfter01JAN2013Returns3Documents() throws Exception {
+    void searchForUpdatedAfter01JAN2013Returns3Documents() {
     	LocalDate updateDate = LocalDate.of(2013, 1, 1);
 
         String query = after(UniProtField.Search.modified.name(), updateDate);
@@ -236,7 +236,7 @@ class DatesSearchIT {
     }
 
     @Test
-    void searchForUpdatedAfter07FEB2006Returns4Documents() throws Exception {
+    void searchForUpdatedAfter07FEB2006Returns4Documents() {
     	LocalDate updateDate = LocalDate.of(2006, 2, 7);
 
         String query = after(UniProtField.Search.modified.name(), updateDate);
@@ -248,7 +248,7 @@ class DatesSearchIT {
     }
 
     @Test
-    void searchCreationBetween20FEB1979And10Dec1979Returns0Documents() throws Exception {
+    void searchCreationBetween20FEB1979And10Dec1979Returns0Documents() {
     	LocalDate startDate = LocalDate.of(1979, 2, 20);
     	LocalDate endDate = LocalDate.of(1979, 12, 10);
 
@@ -261,7 +261,7 @@ class DatesSearchIT {
     }
 
     @Test
-    void createdBetween01JAN1989And01JAN2000ReturnsEntry1And3() throws Exception {
+    void createdBetween01JAN1989And01JAN2000ReturnsEntry1And3() {
     	LocalDate startDate = LocalDate.of(1989, 1, 1);
     	LocalDate endDate = LocalDate.of(2000, 1, 1);
 
@@ -274,7 +274,7 @@ class DatesSearchIT {
     }
 
     @Test
-    void createdBetween01JAN1989And01JAN2000ReturnsEntry1And32() throws Exception {
+    void createdBetween01JAN1989And01JAN2000ReturnsEntry1And32() {
     	LocalDate startDate = LocalDate.of(1989, 1, 1);
     	LocalDate endDate = LocalDate.of(2000, 1, 1);
 
@@ -289,7 +289,7 @@ class DatesSearchIT {
 
     
     @Test
-    void searchUpdateBetween20FEB1979And10Dec1979Returns0Documents() throws Exception {
+    void searchUpdateBetween20FEB1979And10Dec1979Returns0Documents() {
     	LocalDate startDate = LocalDate.of(1979, 2, 20);
     	LocalDate endDate = LocalDate.of(1979, 12, 10);
 
@@ -304,7 +304,7 @@ class DatesSearchIT {
   
     
     @Test
-    void updatedBetween01JAN2004And01JAN2006ReturnsEntry1And3() throws Exception {
+    void updatedBetween01JAN2004And01JAN2006ReturnsEntry1And3() {
     	LocalDate startDate = LocalDate.of(2004, 1, 1);
     	LocalDate endDate = LocalDate.of(2006, 12, 1);
 
@@ -317,7 +317,7 @@ class DatesSearchIT {
     }
 
     @Test
-    void updatedBetween01JAN2004And01JAN2006ReturnsEntry1And32() throws Exception {
+    void updatedBetween01JAN2004And01JAN2006ReturnsEntry1And32() {
     	LocalDate startDate = LocalDate.of(2004, 1, 1);
     	LocalDate endDate = LocalDate.of(2006, 12, 1);
 
@@ -339,7 +339,7 @@ class DatesSearchIT {
      * Entry created:   29 March 2014, therefore this date is GMT
      */
     @Test
-    void searchExplicitGMTEntryTestUpperBound() throws Exception {
+    void searchExplicitGMTEntryTestUpperBound() {
     	LocalDate startDate = LocalDate.of(2014, 3, 28);
     	LocalDate endDate = LocalDate.of(2014, 3, 29);
 
@@ -352,7 +352,7 @@ class DatesSearchIT {
     }
 
     @Test
-    void searchExplicitGMTEntryTestExactDay() throws Exception {
+    void searchExplicitGMTEntryTestExactDay() {
     	LocalDate startDate = LocalDate.of(2014, 3, 29);
     	LocalDate endDate = LocalDate.of(2014, 3, 29);
 
@@ -365,7 +365,7 @@ class DatesSearchIT {
     }
 
     @Test
-    void searchExplicitGMTEntryTestOver() throws Exception {
+    void searchExplicitGMTEntryTestOver() {
     	LocalDate startDate = LocalDate.of(2014, 3, 28);
     	LocalDate endDate = LocalDate.of(2014, 3, 30);
 
@@ -378,7 +378,7 @@ class DatesSearchIT {
     }
 
     @Test
-    void searchExplicitGMTEntryTestLowerBound() throws Exception {
+    void searchExplicitGMTEntryTestLowerBound() {
     	LocalDate startDate = LocalDate.of(2014, 3, 29);
     	LocalDate endDate = LocalDate.of(2014, 3, 30);
 
@@ -396,7 +396,7 @@ class DatesSearchIT {
      * Entry created:   31 March 2014, therefore this date is GMT
      */
     @Test
-    void searchExplicitBSTEntryTestUpperBound() throws Exception {
+    void searchExplicitBSTEntryTestUpperBound() {
     	LocalDate startDate = LocalDate.of(2014, 3, 30);
     	LocalDate endDate = LocalDate.of(2014, 3, 31);
 
@@ -409,7 +409,7 @@ class DatesSearchIT {
     }
     @Disabled
     @Test
-    void searchExplicitBSTEntryTestExactDay() throws Exception {
+    void searchExplicitBSTEntryTestExactDay() {
     	LocalDate startDate = LocalDate.of(2014, 3, 31);
     	LocalDate endDate = LocalDate.of(2014, 3, 31);
 
@@ -423,7 +423,7 @@ class DatesSearchIT {
     }
 
     @Test
-    void searchExplicitBSTEntryTestOver() throws Exception {
+    void searchExplicitBSTEntryTestOver() {
     	LocalDate startDate = LocalDate.of(2014, 3, 30);
     	LocalDate endDate = LocalDate.of(2014, 4, 1);
 
@@ -436,7 +436,7 @@ class DatesSearchIT {
     }
     @Disabled
     @Test
-    void searchExplicitBSTEntryTestLowerBound() throws Exception {
+    void searchExplicitBSTEntryTestLowerBound() {
     	LocalDate startDate = LocalDate.of(2014, 3, 31);
     	LocalDate endDate = LocalDate.of(2014, 4, 1);
 
@@ -453,7 +453,7 @@ class DatesSearchIT {
      * Entry created:   30 March 2014, therefore this date is GMT still, since it starts @ midnight
      */
     @Test
-    void searchExplicitBSTDubiousEntryTestUpperBound() throws Exception {
+    void searchExplicitBSTDubiousEntryTestUpperBound() {
     	LocalDate startDate = LocalDate.of(2014, 3, 29);
     	LocalDate endDate = LocalDate.of(2014, 3, 30);
 
@@ -466,7 +466,7 @@ class DatesSearchIT {
     }
 
     @Test
-    void searchExplicitBSTDubiousEntryTestExactDay() throws Exception {
+    void searchExplicitBSTDubiousEntryTestExactDay() {
         LocalDate startDate = LocalDate.of(2014, 3, 30);
         LocalDate endDate = LocalDate.of(2014, 3, 30);
 
@@ -479,7 +479,7 @@ class DatesSearchIT {
     }
 
     @Test
-    void searchExplicitBSTDubiousEntryTestOver() throws Exception {
+    void searchExplicitBSTDubiousEntryTestOver() {
     	LocalDate startDate = LocalDate.of(2014, 3, 29);
     	LocalDate endDate = LocalDate.of(2014, 3, 31);
 
@@ -492,7 +492,7 @@ class DatesSearchIT {
     }
 
     @Test
-    void searchExplicitBSTDubiousEntryTestLowerBound() throws Exception {
+    void searchExplicitBSTDubiousEntryTestLowerBound() {
         LocalDate startDate = LocalDate.of(2014, 3, 30);
         LocalDate endDate = LocalDate.of(2014, 3, 31);
 
@@ -505,7 +505,7 @@ class DatesSearchIT {
     }
     
     @Test
-    void searchExplicitBSTSequenceUpdateTestOver() throws Exception {
+    void searchExplicitBSTSequenceUpdateTestOver() {
     	LocalDate startDate = LocalDate.of(2014, 3, 30);
     	LocalDate endDate = LocalDate.of(2014, 4, 1);
 

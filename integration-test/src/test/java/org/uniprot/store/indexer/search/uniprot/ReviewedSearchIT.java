@@ -53,7 +53,7 @@ class ReviewedSearchIT {
     }
 
     @Test
-    void reviewedEntryTypMatchesEntriesWithReviewedStatus() throws Exception {
+    void reviewedEntryTypMatchesEntriesWithReviewedStatus() {
         String query = query(UniProtField.Search.reviewed, "true");
 
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -63,7 +63,7 @@ class ReviewedSearchIT {
     }
 
     @Test
-    void unReviewedEntryTypMatchesEntriesWithUnreviewedStatus() throws Exception {
+    void unReviewedEntryTypMatchesEntriesWithUnreviewedStatus() {
     	 String query = query(UniProtField.Search.reviewed, "false");
 
         QueryResponse response = searchEngine.getQueryResponse(query);

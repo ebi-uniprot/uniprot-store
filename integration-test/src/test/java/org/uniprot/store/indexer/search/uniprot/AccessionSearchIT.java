@@ -67,7 +67,7 @@ class AccessionSearchIT {
     }
 
     @Test
-    void searchAccessionDoesNotMatchAnyDocument() throws Exception {
+    void searchAccessionDoesNotMatchAnyDocument() {
     	String query  = "accession:P12345";
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -76,7 +76,7 @@ class AccessionSearchIT {
     }
 
     @Test
-    void upperCaseAccessionFromEntry3MatchesEntry3() throws Exception {      //  Query query = UniProtQueryBuilder.accession(PRIMARY_ACCESSION3);
+    void upperCaseAccessionFromEntry3MatchesEntry3() {      //  Query query = UniProtQueryBuilder.accession(PRIMARY_ACCESSION3);
         String query  = "accession:" +PRIMARY_ACCESSION3;
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -85,7 +85,7 @@ class AccessionSearchIT {
     }
 
     @Test
-    void lowerCaseAccessionFromEntry3MatchesEntry3() throws Exception {
+    void lowerCaseAccessionFromEntry3MatchesEntry3() {
         String query  = "accession:" +PRIMARY_ACCESSION3.toLowerCase();
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -94,7 +94,7 @@ class AccessionSearchIT {
     }
 
     @Test
-    void mixedCaseAccessionFromEntry3MatchesEntry3() throws Exception {
+    void mixedCaseAccessionFromEntry3MatchesEntry3() {
         String query  = "accession:" +PRIMARY_ACCESSION3;
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -104,15 +104,12 @@ class AccessionSearchIT {
 
 
     @Test
-    void tooManyClauses() throws Exception {
-    	   String query  = "accession:" +PRIMARY_ACCESSION1;
-        for (int i = 0; i < 2000; i++) {
-        	query += " AND accession:" + PRIMARY_ACCESSION1;
-         
-        }
+    void tooManyClauses() {
+        StringBuilder query  = new StringBuilder("accession:" + PRIMARY_ACCESSION1);
+        query.append((" AND accession:" + PRIMARY_ACCESSION1).repeat(2000));
 
         try {
-            QueryResponse response = searchEngine.getQueryResponse(query);
+            QueryResponse response = searchEngine.getQueryResponse(query.toString());
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -120,7 +117,7 @@ class AccessionSearchIT {
 
 
     @Test
-    void secondaryAccessionFromEntry1MatchesEntry1() throws Exception {
+    void secondaryAccessionFromEntry1MatchesEntry1() {
         String query  = "accession:" +SECONDARY_ACCESSION1_1;
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -131,7 +128,7 @@ class AccessionSearchIT {
    
 
     @Test
-    void searchingAccessionsFromEntry1And2MatchesEntry1And2() throws Exception {
+    void searchingAccessionsFromEntry1And2MatchesEntry1And2() {
         String query = "accession:" + SECONDARY_ACCESSION1_1  +" OR " +"accession:" + PRIMARY_ACCESSION2;       
         QueryResponse response = searchEngine.getQueryResponse(query);
 

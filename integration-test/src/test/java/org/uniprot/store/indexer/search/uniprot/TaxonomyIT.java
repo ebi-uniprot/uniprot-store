@@ -67,7 +67,7 @@ class TaxonomyIT {
     }
 
     @Test
-    void noMatchesForNonExistentName() throws Exception {
+    void noMatchesForNonExistentName() {
         String query = taxonName("Unknown");
 
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -77,7 +77,7 @@ class TaxonomyIT {
     }
 
     @Test
-    void lineageNameMatchesEntry1() throws Exception {
+    void lineageNameMatchesEntry1() {
         String query = taxonName("Tetronarce californica");
         query =QueryBuilder.and(query,taxonName("Pacific electric ray"));
         query =QueryBuilder.and(query,taxonName("Torpedo californica"));
@@ -97,7 +97,7 @@ class TaxonomyIT {
     }
 
     @Test
-    void lineageNameMatchesEntry2() throws Exception {
+    void lineageNameMatchesEntry2() {
         String query = taxonName("Influenza C virus (strain C/Johannesburg/1/1966)\n");
         query =QueryBuilder.and(query,taxonName("INCJH")); //100673
         query =QueryBuilder.and(query,taxonName("Influenza C virus")) ;//11552
@@ -113,7 +113,7 @@ class TaxonomyIT {
     }
 
     @Test
-    void lineageNameMatchesEntry3() throws Exception {
+    void lineageNameMatchesEntry3() {
         String query = taxonName("Influenza A virus (strain A/Goose/Guangdong/1/1996 H5N1 genotype Gs/Gd)");
         query =QueryBuilder.and(query, taxonName("I96A0"));
         query =QueryBuilder.and(query,taxonName("Influenza A virus"));
@@ -132,7 +132,7 @@ class TaxonomyIT {
 
 
     @Test
-    void commonLineageNameMatchesEntry2And3() throws Exception {
+    void commonLineageNameMatchesEntry2And3() {
         String query = taxonName("Orthomyxoviridae");
         query =QueryBuilder.and(query, taxonName("9ORTO")); //ID: 11308
 
@@ -143,7 +143,7 @@ class TaxonomyIT {
     }
 
     @Test
-    void partialCommonLineageNameMatchesEntry2And3() throws Exception {
+    void partialCommonLineageNameMatchesEntry2And3() {
         String query = taxonName("influenza");
 
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -153,7 +153,7 @@ class TaxonomyIT {
     }
 
     @Test
-    void lineageIdMatchesEntry1() throws Exception {
+    void lineageIdMatchesEntry1() {
         String query = taxonID(7787);
         query =QueryBuilder.and(query, taxonID(7711));
         query =QueryBuilder.and(query, taxonID(33208));
@@ -167,7 +167,7 @@ class TaxonomyIT {
     }
 
     @Test
-    void lineageIdMatchesEntry2() throws Exception {
+    void lineageIdMatchesEntry2() {
         String query = taxonID(100673);
         query =QueryBuilder.and(query, taxonID(11552));
         query =QueryBuilder.and(query, taxonID(197913));
@@ -181,7 +181,7 @@ class TaxonomyIT {
     }
 
     @Test
-    void lineageIdMatchesEntry3() throws Exception {
+    void lineageIdMatchesEntry3() {
         String query = taxonID(93838);
         query =QueryBuilder.and(query, taxonID(11320));
         query =QueryBuilder.and(query, taxonID(197911));
@@ -196,7 +196,7 @@ class TaxonomyIT {
 
 
     @Test
-    void commonLineageIDMatchesEntry2And3() throws Exception {
+    void commonLineageIDMatchesEntry2And3() {
         String query = taxonID(11308);
 
         QueryResponse response = searchEngine.getQueryResponse(query);

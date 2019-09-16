@@ -16,10 +16,6 @@ import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.collection.IsEmptyCollection.empty;
 import static org.hamcrest.core.Is.is;
 
-/**
- * Tests the search capabilities of the {@link UniParcQueryBuilder} when it comes to searching for UniParc entries
- * that have a given checksum
- */
 class SequenceChecksumSearchIT {
     @RegisterExtension
     static UniParcSearchEngine searchEngine = new UniParcSearchEngine();
@@ -30,7 +26,7 @@ class SequenceChecksumSearchIT {
     private static final String CHECKSUM_2 = "76F4826B7009DFAF";
 
     @BeforeAll
-    static void populateIndexWithTestData() throws IOException {
+    static void populateIndexWithTestData() {
         // a test entry object that can be modified and added to index
         Entry stubEntryObject = TestUtils.createDefaultUniParcEntry();
 
@@ -48,7 +44,7 @@ class SequenceChecksumSearchIT {
     }
 
     @Test
-    void searchNonExistentChecksumMatches0Entries() throws Exception {
+    void searchNonExistentChecksumMatches0Entries() {
         String query=checksum("Unknown");
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -57,7 +53,7 @@ class SequenceChecksumSearchIT {
     }
 
     @Test
-    void searchForChecksumOfEntry1MatchesEntry1() throws Exception {
+    void searchForChecksumOfEntry1MatchesEntry1() {
         String query=checksum(CHECKSUM_1);
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -66,7 +62,7 @@ class SequenceChecksumSearchIT {
     }
 
     @Test
-    void lowerCaseSearchForChecksumOfEntry1MatchesEntry1() throws Exception {
+    void lowerCaseSearchForChecksumOfEntry1MatchesEntry1() {
         String query=checksum(CHECKSUM_1.toLowerCase());
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -75,7 +71,7 @@ class SequenceChecksumSearchIT {
     }
 
     @Test
-    void upperCaseSearchForChecksumOfEntry1MatchesEntry1() throws Exception {
+    void upperCaseSearchForChecksumOfEntry1MatchesEntry1() {
         String query=checksum(CHECKSUM_1.toUpperCase());
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -84,7 +80,7 @@ class SequenceChecksumSearchIT {
     }
 
     @Test
-    void partialSearchForChecksumOfEntry1Matches0Entries() throws Exception {
+    void partialSearchForChecksumOfEntry1Matches0Entries() {
         String query=checksum("5A0A2229D");
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -93,7 +89,7 @@ class SequenceChecksumSearchIT {
     }
 
     @Test
-    void searchForChecksumOfEntry2MatchesEntry2() throws Exception {
+    void searchForChecksumOfEntry2MatchesEntry2() {
         String query=checksum(CHECKSUM_2);
         QueryResponse response = searchEngine.getQueryResponse(query);
 

@@ -64,7 +64,7 @@ class KeywordSearchIT {
     }
 
     @Test
-    void noMatchesForSubStringKeyword() throws Exception {
+    void noMatchesForSubStringKeyword() {
         String keywordSubString = CHEMICAL.substring(0, CHEMICAL.length() - 2);
         String query = keyword(keywordSubString);
 
@@ -75,7 +75,7 @@ class KeywordSearchIT {
     }
 
     @Test
-    void amyloidSearchDoesNotMatchEntryWithAmyloidosis() throws Exception {
+    void amyloidSearchDoesNotMatchEntryWithAmyloidosis() {
         String query = keyword(AMYLOID);
 
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -85,7 +85,7 @@ class KeywordSearchIT {
     }
 
     @Test
-    void apoplastKeywordMatchesEntry3() throws Exception {
+    void apoplastKeywordMatchesEntry3() {
         String query = keyword(APOPLAST);
 
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -95,7 +95,7 @@ class KeywordSearchIT {
     }
 
     @Test
-    void lowerCaseApoplastMatchesEntry3() throws Exception {
+    void lowerCaseApoplastMatchesEntry3() {
         String query = keyword(APOPLAST.toLowerCase());
 
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -105,7 +105,7 @@ class KeywordSearchIT {
     }
 
     @Test
-    void upperCaseApoplastMatchesEntry3() throws Exception {
+    void upperCaseApoplastMatchesEntry3() {
         String query = keyword(APOPLAST.toUpperCase());
 
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -115,7 +115,7 @@ class KeywordSearchIT {
     }
 
     @Test
-    void archaealFlagellumKeywordMatchesEntries1And2() throws Exception {
+    void archaealFlagellumKeywordMatchesEntries1And2() {
         String query = keyword(ARCHAEAL_FLAGELLUM);
 
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -125,7 +125,7 @@ class KeywordSearchIT {
     }
 
     @Test
-    void flagellumArchaealKeywordMatchesEntry1And2() throws Exception {
+    void flagellumArchaealKeywordMatchesEntry1And2() {
         String query = keyword("flagellum Archaeal");
 
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -135,7 +135,7 @@ class KeywordSearchIT {
     }
 
     @Test
-    void archaealBiogenesisKeywordMatchesEntry2() throws Exception {
+    void archaealBiogenesisKeywordMatchesEntry2() {
         String query = keyword("Archaeal biogenesis");
 
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -145,7 +145,7 @@ class KeywordSearchIT {
     }
 
     @Test
-    void archaealFlagellumBiogenesisKeywordMatchesEntry2() throws Exception {
+    void archaealFlagellumBiogenesisKeywordMatchesEntry2() {
         String query = keyword(ARCHAEAL_FLAGELLUM_BIOGENESIS);
 
         QueryResponse response = searchEngine.getQueryResponse(query);

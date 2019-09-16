@@ -64,7 +64,7 @@ class FragmentSearchIT {
     }
 
     @Test
-    void searchForNonFragmentProteinsHitsEntry3() throws Exception {
+    void searchForNonFragmentProteinsHitsEntry3() {
         String query = query(UniProtField.Search.fragment , "false");
 
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -74,7 +74,7 @@ class FragmentSearchIT {
     }
     
     @Test
-    void searchForPrecursorProteinsHitsEntry3() throws Exception {
+    void searchForPrecursorProteinsHitsEntry3() {
         String query =  query(UniProtField.Search.precursor, "true");
    
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -84,7 +84,7 @@ class FragmentSearchIT {
     }
 
     @Test
-    void searchForFragmentProteinsHitsEntry1And2() throws Exception {
+    void searchForFragmentProteinsHitsEntry1And2() {
         String query = query(UniProtField.Search.fragment , "true");
 
         QueryResponse response = searchEngine.getQueryResponse(query);

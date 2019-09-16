@@ -1,5 +1,17 @@
 package org.uniprot.store.indexer.search.uniprot;
 
+import org.apache.solr.client.solrj.response.QueryResponse;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.RegisterExtension;
+import org.uniprot.core.flatfile.writer.LineType;
+import org.uniprot.store.search.field.QueryBuilder;
+import org.uniprot.store.search.field.UniProtField;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.List;
+
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.containsInAnyOrder;
@@ -8,18 +20,6 @@ import static org.hamcrest.core.Is.is;
 import static org.uniprot.store.indexer.search.uniprot.IdentifierSearchIT.ACC_LINE;
 import static org.uniprot.store.indexer.search.uniprot.TestUtils.convertToUniProtEntry;
 import static org.uniprot.store.indexer.search.uniprot.TestUtils.query;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.List;
-
-import org.apache.solr.client.solrj.response.QueryResponse;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.extension.RegisterExtension;
-import org.junit.jupiter.api.Test;
-import org.uniprot.core.flatfile.writer.LineType;
-import org.uniprot.store.search.field.QueryBuilder;
-import org.uniprot.store.search.field.UniProtField;
 
 /**
  * Tests whether the searches for organism host are working correctly
@@ -101,17 +101,17 @@ class OrganismHostIT {
     }
 
     private static String concatMultiOHLines(String... OHLines) {
-        String finalOHLine = "";
+        StringBuilder finalOHLine = new StringBuilder();
 
         for (String OHLine : OHLines) {
-            finalOHLine += OHLine;
+            finalOHLine.append(OHLine);
         }
 
-        return finalOHLine;
+        return finalOHLine.toString();
     }
 
     @Test
-    void noMatchesForNonExistentOrganismHostName() throws Exception {
+    void noMatchesForNonExistentOrganismHostName() {
         String query = organismHostName("Unknown");
 
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -121,7 +121,7 @@ class OrganismHostIT {
     }
 
     @Test
-    void organismHostNameFromEntry1MatchesEntry1() throws Exception {
+    void organismHostNameFromEntry1MatchesEntry1() {
         String query = organismHostName(SCIENTIFIC_NAME1);
         query = QueryBuilder.and(query, organismHostName(COMMON_NAME1));
         query = QueryBuilder.and(query,organismHostName(SYNONYM1));
@@ -134,7 +134,7 @@ class OrganismHostIT {
     }
 
     @Test
-    void organismHostNameFromEntry2MatchesEntry2() throws Exception {
+    void organismHostNameFromEntry2MatchesEntry2() {
         String query = organismHostName(SCIENTIFIC_NAME2);
 
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -144,7 +144,7 @@ class OrganismHostIT {
     }
 
     @Test
-    void organismHostNameFromEntry3MatchesEntry3() throws Exception {
+    void organismHostNameFromEntry3MatchesEntry3() {
         String query = organismHostName(SCIENTIFIC_NAME3);
         query = QueryBuilder.and(query, organismHostName(COMMON_NAME3));
         query = QueryBuilder.and(query, organismHostName(SYNONYM3));
@@ -157,7 +157,7 @@ class OrganismHostIT {
     }
 
     @Test
-    void organismHostNamesFromEntry4MatchesEntry4() throws Exception {
+    void organismHostNamesFromEntry4MatchesEntry4() {
         String query = organismHostName(SCIENTIFIC_NAME4_1);
         query = QueryBuilder.and(query, organismHostName(COMMON_NAME4_1));
         query = QueryBuilder.and(query, organismHostName(SYNONYM4_1));
@@ -173,7 +173,7 @@ class OrganismHostIT {
     }
 
     @Test
-    void organismHostNameFromMultiLineEntryMatchesEntry4() throws Exception {
+    void organismHostNameFromMultiLineEntryMatchesEntry4() {
         String query = organismHostName(SCIENTIFIC_NAME4_2);
 
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -183,7 +183,7 @@ class OrganismHostIT {
     }
 
     @Test
-    void partialOrganismHostNameMatchesEntry3() throws Exception {
+    void partialOrganismHostNameMatchesEntry3() {
         String query = organismHostName("lagotricha");
 
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -193,7 +193,7 @@ class OrganismHostIT {
     }
 
     @Test
-    void organismHostMnemonicFromEntry3MatchesEntry3() throws Exception {
+    void organismHostMnemonicFromEntry3MatchesEntry3() {
         String query = organismHostName(MNEMONIC3);
 
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -203,7 +203,7 @@ class OrganismHostIT {
     }
 
     @Test
-    void commonPartialOrganismHostNameMatchesEntry1And3() throws Exception {
+    void commonPartialOrganismHostNameMatchesEntry1And3() {
         String query = organismHostName("monkey");
 
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -213,7 +213,7 @@ class OrganismHostIT {
     }
 
     @Test
-    void noMatchesForNonExistentOrganismHostID() throws Exception {
+    void noMatchesForNonExistentOrganismHostID() {
         String query = organismHostID(9999999);
 
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -223,7 +223,7 @@ class OrganismHostIT {
     }
 
     @Test
-    void organismHostTaxIdFromEntry2MatchesEntry2() throws Exception {
+    void organismHostTaxIdFromEntry2MatchesEntry2() {
         String query = organismHostID(TAX_ID2);
 
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -233,7 +233,7 @@ class OrganismHostIT {
     }
 
     @Test
-    void firstOrganismHostTaxIdFromMultipleOHEntryMatchesEntry4() throws Exception {
+    void firstOrganismHostTaxIdFromMultipleOHEntryMatchesEntry4() {
         String query = organismHostID(TAX_ID4_1);
 
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -243,7 +243,7 @@ class OrganismHostIT {
     }
 
     @Test
-    void secondOrganismHostTaxIdFromMultipleOHEntryMatchesEntry4() throws Exception {
+    void secondOrganismHostTaxIdFromMultipleOHEntryMatchesEntry4() {
         String query = organismHostID(TAX_ID4_2);
 
         QueryResponse response = searchEngine.getQueryResponse(query);

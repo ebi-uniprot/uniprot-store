@@ -68,7 +68,7 @@ class IsoformIT {
 
 
     @Test
-    void queryIsofromAccessionFromEntry3MatchesEntry3() throws Exception {
+    void queryIsofromAccessionFromEntry3MatchesEntry3() {
         String query = accession(PRIMARY_ACCESSION3.toLowerCase());
         String query1 = isoformOnly();
         String and = QueryBuilder.and(query, query1);
@@ -80,7 +80,7 @@ class IsoformIT {
     }
 
     @Test
-    void queryIsofromAccessionFromEntry2MatchesEntry() throws Exception {
+    void queryIsofromAccessionFromEntry2MatchesEntry() {
         String query = accession(PRIMARY_ACCESSION2.toLowerCase());
         String query1 = isoformOnly();
         String and = QueryBuilder.and(query, query1);

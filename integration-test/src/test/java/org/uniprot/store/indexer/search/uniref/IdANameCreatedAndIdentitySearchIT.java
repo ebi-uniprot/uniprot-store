@@ -1,31 +1,21 @@
 package org.uniprot.store.indexer.search.uniref;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.containsInAnyOrder;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.uniprot.store.search.field.QueryBuilder.rangeQuery;
-
-import java.io.IOException;
-import java.time.LocalDate;
-import java.util.List;
-
 import org.apache.solr.client.solrj.response.QueryResponse;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.extension.RegisterExtension;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.RegisterExtension;
 import org.uniprot.core.xml.jaxb.uniref.Entry;
 import org.uniprot.core.xml.uniprot.XmlConverterHelper;
 import org.uniprot.store.search.field.QueryBuilder;
 import org.uniprot.store.search.field.UniRefField;
 
+import java.time.LocalDate;
+import java.util.List;
 
-/**
- *
- * @author jluo
- * @date: 19 Aug 2019
- *
-*/
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.containsInAnyOrder;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.uniprot.store.search.field.QueryBuilder.rangeQuery;
 
 class IdANameCreatedAndIdentitySearchIT {
 	  private static final String ID_1 = "UniRef100_A0A007";
@@ -45,7 +35,7 @@ class IdANameCreatedAndIdentitySearchIT {
 	    static UniRefSearchEngine searchEngine = new UniRefSearchEngine();
 	    
 	    @BeforeAll
-	    static void populateIndexWithTestData() throws IOException {
+	    static void populateIndexWithTestData() {
 	        //Entry 1
 	        {
 	            Entry entry = TestUtils.createSkeletonEntry(ID_1, NAME_1);

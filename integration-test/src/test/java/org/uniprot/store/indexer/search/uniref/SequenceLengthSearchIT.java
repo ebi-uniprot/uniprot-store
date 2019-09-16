@@ -15,13 +15,6 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-/**
- *
- * @author jluo
- * @date: 19 Aug 2019
- *
-*/
-
 class SequenceLengthSearchIT {
 	  private static final String ID_1 = "UniRef100_A0A007";
 	    private static final String ID_2 = "UniRef100_A0A009DWI3";
@@ -40,7 +33,7 @@ class SequenceLengthSearchIT {
 	    static UniRefSearchEngine searchEngine = new UniRefSearchEngine();
 	    
 	    @BeforeAll
-	    static void populateIndexWithTestData() throws IOException {
+	    static void populateIndexWithTestData() {
 	        //Entry 1
 	        {
 	            Entry entry = TestUtils.createSkeletonEntry(ID_1, NAME_1);

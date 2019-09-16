@@ -16,10 +16,6 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-/**
- * Tests the search capabilities of the {@link UniParcQueryBuilder} when it comes to searching for UniParc entries
- * that reference database source accessions
- */
 class DatabaseSearchIT {
     @RegisterExtension
     static UniParcSearchEngine searchEngine = new UniParcSearchEngine();
@@ -34,7 +30,7 @@ class DatabaseSearchIT {
     private static final String ACC_NC_000004_1185_0 = "NC_000004_1185_0";
 
     @BeforeAll
-    static void populateIndexWithTestData() throws IOException {
+    static void populateIndexWithTestData() {
         //Entry 1
         {
             Entry entry = TestUtils.createDefaultUniParcEntry();
@@ -68,7 +64,7 @@ class DatabaseSearchIT {
         searchEngine.printIndexContents();
     }
     @Test
-    void testAllUniProt() throws Exception{
+    void testAllUniProt(){
     	 String query =uniprot("*");
          
          QueryResponse queryResponse =
@@ -79,7 +75,7 @@ class DatabaseSearchIT {
          assertThat(retrievedAccessions, containsInAnyOrder(ID_1, ID_3));
     }
     @Test
-    void testAllUniProtIsoform() throws Exception{
+    void testAllUniProtIsoform(){
     	 String query =isoform("*");
          
          QueryResponse queryResponse =
@@ -91,7 +87,7 @@ class DatabaseSearchIT {
     }
     
     @Test
-    void testActiveTrembl() throws Exception{
+    void testActiveTrembl(){
     	  String query =active(UniParcDatabaseType.TREMBL.getName());
           
           QueryResponse queryResponse =
@@ -103,7 +99,7 @@ class DatabaseSearchIT {
     }
     
     @Test
-    void testDBUniProt() throws Exception{
+    void testDBUniProt(){
     	  String query =database(UniParcDatabaseType.TREMBL.getName());
           
           QueryResponse queryResponse =
@@ -115,7 +111,7 @@ class DatabaseSearchIT {
     }
     
     @Test
-    void testDBREFSEQ() throws Exception{
+    void testDBREFSEQ(){
     	  String query =database(UniParcDatabaseType.REFSEQ.getName());
           
           QueryResponse queryResponse =

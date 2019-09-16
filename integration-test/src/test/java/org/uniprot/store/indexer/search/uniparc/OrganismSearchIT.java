@@ -18,10 +18,6 @@ import org.uniprot.core.xml.jaxb.uniparc.Entry;
 import org.uniprot.store.search.field.QueryBuilder;
 import org.uniprot.store.search.field.UniParcField;
 
-/**
- * Tests the search capabilities of the {@link uk.ac.ebi.uniprot.dataservice.client.uniparc.UniParcQueryBuilder} when
- * it comes to searching for UniParc entries using a taxonomic Identifier or an organism name
- */
 class OrganismSearchIT {
     @RegisterExtension
     static UniParcSearchEngine searchEngine = new UniParcSearchEngine();
@@ -35,7 +31,7 @@ class OrganismSearchIT {
     private static final int EGGPLANT_TAX_ID = 4111;
 
     @BeforeAll
-    static void populateIndexWithTestData() throws IOException {
+    static void populateIndexWithTestData() {
         //Entry 1
         {
             Entry entry = TestUtils.createDefaultUniParcEntry();
@@ -62,7 +58,7 @@ class OrganismSearchIT {
     }
 
     @Test
-    void searchNonExistentTaxIdReturns0Documents() throws Exception {
+    void searchNonExistentTaxIdReturns0Documents() {
         String query = taxonId(Integer.MAX_VALUE);
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -71,7 +67,7 @@ class OrganismSearchIT {
     }
 
     @Test
-    void searchForHumanTaxIdReturnsEntry1() throws Exception {
+    void searchForHumanTaxIdReturnsEntry1() {
         String query = taxonId(HUMAN_TAX_ID);
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -80,7 +76,7 @@ class OrganismSearchIT {
     }
 
     @Test
-    void searchForHumanScientificNameReturnsEntry1() throws Exception {
+    void searchForHumanScientificNameReturnsEntry1() {
         String query = organismName(HUMAN_SCIENTIFIC_NAME);
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -89,7 +85,7 @@ class OrganismSearchIT {
     }
 
     @Test
-    void searchForHumanCommonNameReturnsEntry1() throws Exception {
+    void searchForHumanCommonNameReturnsEntry1() {
         String query = organismName(HUMAN_COMMON_NAME);
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -98,7 +94,7 @@ class OrganismSearchIT {
     }
 
     @Test
-    void searchForPartialHumanCommonNameReturnsEntry1() throws Exception {
+    void searchForPartialHumanCommonNameReturnsEntry1() {
         String query = organismName("homo");
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -107,7 +103,7 @@ class OrganismSearchIT {
     }
 
     @Test
-    void searchForChondromycesTaxIdReturnsEntry2() throws Exception {
+    void searchForChondromycesTaxIdReturnsEntry2() {
         String query = taxonId(EGGPLANT_TAX_ID);
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -116,7 +112,7 @@ class OrganismSearchIT {
     }
 
     @Test
-    void searchForChondromycesScientificNameReturnsEntry2() throws Exception {
+    void searchForChondromycesScientificNameReturnsEntry2() {
         String query = organismName(EGGPLANT_SCIENTIFIC_NAME);
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -125,7 +121,7 @@ class OrganismSearchIT {
     }
 
     @Test
-    void searchForNonExistentScientificNameReturns0Entires() throws Exception {
+    void searchForNonExistentScientificNameReturns0Entires() {
         String query = organismName("Unknown");
         QueryResponse response = searchEngine.getQueryResponse(query);
 

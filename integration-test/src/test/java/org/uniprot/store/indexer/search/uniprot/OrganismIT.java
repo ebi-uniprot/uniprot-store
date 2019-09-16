@@ -1,5 +1,17 @@
 package org.uniprot.store.indexer.search.uniprot;
 
+import org.apache.solr.client.solrj.response.QueryResponse;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.RegisterExtension;
+import org.uniprot.core.flatfile.writer.LineType;
+import org.uniprot.store.search.field.QueryBuilder;
+import org.uniprot.store.search.field.UniProtField;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.List;
+
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.containsInAnyOrder;
@@ -8,18 +20,6 @@ import static org.hamcrest.core.Is.is;
 import static org.uniprot.store.indexer.search.uniprot.IdentifierSearchIT.ACC_LINE;
 import static org.uniprot.store.indexer.search.uniprot.TestUtils.convertToUniProtEntry;
 import static org.uniprot.store.indexer.search.uniprot.TestUtils.query;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.List;
-
-import org.apache.solr.client.solrj.response.QueryResponse;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.extension.RegisterExtension;
-import org.junit.jupiter.api.Test;
-import org.uniprot.core.flatfile.writer.LineType;
-import org.uniprot.store.search.field.QueryBuilder;
-import org.uniprot.store.search.field.UniProtField;
 
 /**
  * Verifies if the organism and taxonomy fields are indexed correctly
@@ -109,7 +109,7 @@ class OrganismIT {
     }
 
     @Test
-    void noMatchesForNonExistentName() throws Exception {
+    void noMatchesForNonExistentName() {
         String query = organismName("Unknown");
 
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -119,10 +119,10 @@ class OrganismIT {
     }
 
     @Test
-    void organismNameFromEntry1MatchesEntry1() throws Exception {
+    void organismNameFromEntry1MatchesEntry1() {
         String query = organismName(SCIENTIFIC_NAME1);
           query =QueryBuilder.and(query, organismName(COMMON_NAME1));
-          query =QueryBuilder.and(query, organismName(MNEMONIC1));;
+          query =QueryBuilder.and(query, organismName(MNEMONIC1));
 
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -131,7 +131,7 @@ class OrganismIT {
     }
 
     @Test
-    void organismNameFromEntry2MatchesEntry2() throws Exception {
+    void organismNameFromEntry2MatchesEntry2() {
         String query = organismName(SCIENTIFIC_NAME2);
         query =QueryBuilder.and(query, organismName(COMMON_NAME2));
         query =QueryBuilder.and(query, organismName(SYNONYM2));
@@ -144,7 +144,7 @@ class OrganismIT {
     }
 
     @Test
-    void organismNameFromEntry3MatchesEntry3() throws Exception {
+    void organismNameFromEntry3MatchesEntry3() {
         String query = organismName(SCIENTIFIC_NAME3);
         query =QueryBuilder.and(query, organismName(COMMON_NAME3));
         query =QueryBuilder.and(query, organismName(SYNONYM3));
@@ -157,7 +157,7 @@ class OrganismIT {
     }
 
     @Test
-    void organismNameFromEntry4MatchesEntry4() throws Exception {
+    void organismNameFromEntry4MatchesEntry4() {
         String query = organismName(SCIENTIFIC_NAME4);
         query =QueryBuilder.and(query, organismName(MNEMONIC4));
 
@@ -168,7 +168,7 @@ class OrganismIT {
     }
 
     @Test
-    void organismNameFromEntry5MatchesEntry5() throws Exception {
+    void organismNameFromEntry5MatchesEntry5() {
         String query = organismName(SCIENTIFIC_NAME5);
         query =QueryBuilder.and(query, organismName(MNEMONIC5));
 
@@ -179,7 +179,7 @@ class OrganismIT {
     }
 
     @Test
-    void lowerCaseOrganismNameFromEntry1MatchesEntry1() throws Exception {
+    void lowerCaseOrganismNameFromEntry1MatchesEntry1() {
         String query = organismName(SCIENTIFIC_NAME1.toLowerCase());
 
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -189,7 +189,7 @@ class OrganismIT {
     }
 
     @Test
-    void partialNameVirusMatches4Entries() throws Exception {
+    void partialNameVirusMatches4Entries() {
         String query = organismName("virus");
 
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -199,7 +199,7 @@ class OrganismIT {
     }
 
     @Test
-    void partialHyphenatedNameVirusWillMatchEntries() throws Exception {
+    void partialHyphenatedNameVirusWillMatchEntries() {
         String query = organismName("Schmidt");
 
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -209,7 +209,7 @@ class OrganismIT {
     }
 
     @Test
-    void fullHyphenatedNameVirusWillMatchEntries() throws Exception {
+    void fullHyphenatedNameVirusWillMatchEntries() {
         String query = organismName("Schmidt-Ruppin");
 
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -219,7 +219,7 @@ class OrganismIT {
     }
 
     @Test
-    void fullMatchWithScapeChars() throws Exception {
+    void fullMatchWithScapeChars() {
         String query = organismName(SYNONYM3);
 
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -229,7 +229,7 @@ class OrganismIT {
     }
 
     @Test
-    void partialWordFromForwardSlashSeparatedNameMatchesEntry4() throws Exception {
+    void partialWordFromForwardSlashSeparatedNameMatchesEntry4() {
         String query = organismName("Guangdong");
 
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -238,7 +238,7 @@ class OrganismIT {
         assertThat(retrievedAccessions, contains(ACCESSION4));
     }
     @Test
-    void fullWordFromForwardSlashSeparatedNameMatchesEntry4() throws Exception {
+    void fullWordFromForwardSlashSeparatedNameMatchesEntry4() {
         String query = organismName("A/Goose/Guangdong/1/1996 H5N1 genotype Gs/Gd");
 
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -249,7 +249,7 @@ class OrganismIT {
 
 
     @Test
-    void partialNamePlusWordFromForwardSlashSeparatedNameMatchesEntry5() throws Exception {
+    void partialNamePlusWordFromForwardSlashSeparatedNameMatchesEntry5() {
         String query = organismName("Influenza Johannesburg");
 
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -260,7 +260,7 @@ class OrganismIT {
 
 
     @Test
-    void synonymWithHyphenFromEntry3MatchesEntry3() throws Exception {
+    void synonymWithHyphenFromEntry3MatchesEntry3() {
         String query = organismName(COMMON_NAME3);
 
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -270,7 +270,7 @@ class OrganismIT {
     }
 
     @Test
-    void taxIDFromEntry1MatchesEntry1() throws Exception {
+    void taxIDFromEntry1MatchesEntry1() {
         String query = taxonID(TAX_ID1);
 
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -280,7 +280,7 @@ class OrganismIT {
     }
 
     @Test
-    void noMatchesForNonExistentTaxID() throws Exception {
+    void noMatchesForNonExistentTaxID() {
         String query = taxonID(Integer.MAX_VALUE);
 
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -290,7 +290,7 @@ class OrganismIT {
     }
 
     @Test
-    void popularOrganismHuman() throws Exception{
+    void popularOrganismHuman(){
     	String query = query(UniProtField.Search.popular_organism, "Human");
     	 QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -299,7 +299,7 @@ class OrganismIT {
     	
     }
     @Test
-    void popularOrganismNoMouse() throws Exception{
+    void popularOrganismNoMouse(){
     	String query = query(UniProtField.Search.popular_organism, "Mouse");
     	 QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -308,7 +308,7 @@ class OrganismIT {
     	
     }
     @Test
-    void popularOrganismSOLMENotPopular() throws Exception{
+    void popularOrganismSOLMENotPopular(){
     	String query = query(UniProtField.Search.popular_organism, "SOLME");
     	 QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -317,7 +317,7 @@ class OrganismIT {
     	
     }
     @Test
-    void otherOrganismSOLME() throws Exception{
+    void otherOrganismSOLME(){
     	String query = query(UniProtField.Search.other_organism, "SOLME");
     	 QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -327,7 +327,7 @@ class OrganismIT {
     }
     
     @Test
-    void otherOrganismHumanNotOther() throws Exception{
+    void otherOrganismHumanNotOther(){
     	String query = query(UniProtField.Search.other_organism, "Human");
     	 QueryResponse response = searchEngine.getQueryResponse(query);
 
