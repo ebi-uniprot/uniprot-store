@@ -3,9 +3,9 @@ package org.uniprot.store.indexer.search.suggest;
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.common.SolrDocument;
 import org.apache.solr.common.SolrDocumentList;
-import org.junit.After;
-import org.junit.ClassRule;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.RegisterExtension;
 import org.uniprot.store.search.document.suggest.SuggestDocument;
 import org.uniprot.store.search.field.QueryBuilder;
 import org.uniprot.store.search.field.SuggestField;
@@ -24,11 +24,11 @@ import static org.uniprot.store.search.field.SuggestField.Importance.high;
 import static org.uniprot.store.search.field.SuggestField.Importance.medium;
 
 public class SuggestSearchIT {
-    @ClassRule
+    @RegisterExtension
     public static SuggestSearchEngine searchEngine = new SuggestSearchEngine();
     private static final String REQUEST_HANDLER = "/search";
 
-    @After
+    @AfterEach
     public void cleanup() {
         QueryResponse queryResponse = getResponse("*:*");
 

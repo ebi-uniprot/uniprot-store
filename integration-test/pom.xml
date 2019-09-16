@@ -122,17 +122,13 @@
                 </exclusion>
             </exclusions>
         </dependency>
-
         <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
         </dependency>
-
         <dependency>
-            <groupId>de.bechte.junit</groupId>
-            <artifactId>junit-hierarchicalcontextrunner</artifactId>
-            <version>4.12.1</version>
-            <scope>test</scope>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
         </dependency>
     </dependencies>
     <build>

@@ -1,7 +1,11 @@
 package org.uniprot.store.indexer.search.uniprot;
 
 import org.apache.solr.client.solrj.response.QueryResponse;
-import org.junit.*;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.RegisterExtension;
 import org.uniprot.core.flatfile.writer.LineType;
 import org.uniprot.store.search.field.UniProtField;
 
@@ -23,7 +27,7 @@ import static org.uniprot.store.indexer.search.uniprot.TestUtils.*;
  * Tests if the Genes section has been indexed properly
  */
 public class GeneSearchIT {
-    @ClassRule
+    @RegisterExtension
     public static UniProtSearchEngine searchEngine = new UniProtSearchEngine();
 
     private static final String UNIPROT_FLAT_FILE_ENTRY_PATH = "/it/uniprot/P0A377.43.dat";
@@ -65,7 +69,7 @@ public class GeneSearchIT {
     private static int accessionId = 0;
     private List<String> tempSavedEntries = new ArrayList<>();
 
-    @BeforeClass
+    @BeforeAll
     public static void populateIndexWithTestData() throws IOException {
         // a test entry object that can be modified and added to index
         InputStream resourceAsStream = TestUtils.getResourceAsStream(UNIPROT_FLAT_FILE_ENTRY_PATH);
@@ -130,7 +134,7 @@ public class GeneSearchIT {
         searchEngine.printIndexContents();
     }
 
-    @After
+    @AfterEach
     public void after() {
         cleanTempEntries();
     }
@@ -396,7 +400,7 @@ public class GeneSearchIT {
         }
     }
 
-    @Ignore
+    @Disabled
     @Test
     public void canFindGeneViaAlternativeSpellingFromSynonymList() {
         // ensure synonyms in are used:

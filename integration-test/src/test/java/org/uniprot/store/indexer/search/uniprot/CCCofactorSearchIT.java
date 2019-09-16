@@ -13,9 +13,9 @@ import java.io.InputStream;
 import java.util.List;
 
 import org.apache.solr.client.solrj.response.QueryResponse;
-import org.junit.BeforeClass;
-import org.junit.ClassRule;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.extension.RegisterExtension;
+import org.junit.jupiter.api.Test;
 import org.uniprot.core.flatfile.writer.LineType;
 import org.uniprot.store.search.field.QueryBuilder;
 import org.uniprot.store.search.field.UniProtField;
@@ -29,10 +29,10 @@ public class CCCofactorSearchIT {
 	    private static final String Q196W5 = "Q196W5";
 	    private static final String Q6GZN7 = "Q6GZN7";
 
-	    @ClassRule
+	    @RegisterExtension
 	    public static UniProtSearchEngine searchEngine = new UniProtSearchEngine();
 
-	    @BeforeClass
+	    @BeforeAll
 	    public static void populateIndexWithTestData() throws IOException {
 	        // a test entry object that can be modified and added to index
 	        InputStream resourceAsStream = TestUtils.getResourceAsStream(UNIPROT_FLAT_FILE_ENTRY_PATH);

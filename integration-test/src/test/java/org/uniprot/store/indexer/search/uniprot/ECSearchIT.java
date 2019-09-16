@@ -1,9 +1,9 @@
 package org.uniprot.store.indexer.search.uniprot;
 
 import org.apache.solr.client.solrj.response.QueryResponse;
-import org.junit.BeforeClass;
-import org.junit.ClassRule;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.extension.RegisterExtension;
+import org.junit.jupiter.api.Test;
 import org.uniprot.core.flatfile.writer.LineType;
 import org.uniprot.store.search.field.UniProtField;
 
@@ -71,10 +71,10 @@ public class ECSearchIT {
     private static final String ACCESSION9 = "Q197G1";
     private static final String EC9 = "2.4.11.40";
 
-    @ClassRule
+    @RegisterExtension
     public static UniProtSearchEngine searchEngine = new UniProtSearchEngine();
 
-    @BeforeClass
+    @BeforeAll
     public static void populateIndexWithTestData() throws IOException {
         // a test entry object that can be modified and added to index
         InputStream resourceAsStream = TestUtils.getResourceAsStream(UNIPROT_FLAT_FILE_ENTRY_PATH);

@@ -1,21 +1,21 @@
 package org.uniprot.store.indexer.search.uniref;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.containsInAnyOrder;
+import org.apache.solr.client.solrj.response.QueryResponse;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.RegisterExtension;
+import org.uniprot.core.xml.jaxb.uniref.Entry;
+import org.uniprot.core.xml.jaxb.uniref.PropertyType;
+import org.uniprot.store.search.field.QueryBuilder;
+import org.uniprot.store.search.field.UniRefField;
 
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
-import org.apache.solr.client.solrj.response.QueryResponse;
-import org.junit.Assert;
-import org.junit.BeforeClass;
-import org.junit.ClassRule;
-import org.junit.Test;
-import org.uniprot.core.xml.jaxb.uniref.Entry;
-import org.uniprot.core.xml.jaxb.uniref.PropertyType;
-import org.uniprot.store.search.field.QueryBuilder;
-import org.uniprot.store.search.field.UniRefField;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.containsInAnyOrder;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  *
@@ -34,10 +34,10 @@ public class OrganismSearchIT {
 	    private static final String organism_name ="Homo sapiens";
 	    private static final String taxId = "9606";
 	    
-	    @ClassRule
+	    @RegisterExtension
 	    public static UniRefSearchEngine searchEngine = new UniRefSearchEngine();
 	    
-	    @BeforeClass
+	    @BeforeAll
 	    public static void populateIndexWithTestData() throws IOException {
 	        //Entry 1
 	        {
@@ -68,7 +68,7 @@ public class OrganismSearchIT {
 	                  searchEngine.getQueryResponse(query);
 	          List<String> retrievedAccessions = searchEngine.getIdentifiers(queryResponse);
 	          
-	          Assert.assertEquals(2, retrievedAccessions.size());
+	          assertEquals(2, retrievedAccessions.size());
 	          assertThat(retrievedAccessions, containsInAnyOrder(ID_1, ID_2));
 	    }
 	    @Test
@@ -78,7 +78,7 @@ public class OrganismSearchIT {
 	                  searchEngine.getQueryResponse(query);
 	          List<String> retrievedAccessions = searchEngine.getIdentifiers(queryResponse);
 	          
-	          Assert.assertEquals(2, retrievedAccessions.size());
+	          assertEquals(2, retrievedAccessions.size());
 	          assertThat(retrievedAccessions, containsInAnyOrder(ID_1, ID_2));
 	    }
 	    

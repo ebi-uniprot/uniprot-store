@@ -9,9 +9,9 @@ import java.io.IOException;
 import java.util.List;
 
 import org.apache.solr.client.solrj.response.QueryResponse;
-import org.junit.BeforeClass;
-import org.junit.ClassRule;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.extension.RegisterExtension;
+import org.junit.jupiter.api.Test;
 import org.uniprot.core.uniparc.UniParcDatabaseType;
 import org.uniprot.core.xml.jaxb.uniparc.DbReferenceType;
 import org.uniprot.core.xml.jaxb.uniparc.Entry;
@@ -23,7 +23,7 @@ import org.uniprot.store.search.field.UniParcField;
  * it comes to searching for UniParc entries using a taxonomic Identifier or an organism name
  */
 public class OrganismSearchIT {
-    @ClassRule
+    @RegisterExtension
     public static UniParcSearchEngine searchEngine = new UniParcSearchEngine();
 
     private static final String ID_1 = "UPI0000000001";
@@ -34,7 +34,7 @@ public class OrganismSearchIT {
     private static final String EGGPLANT_SCIENTIFIC_NAME = "Solanum melongena";
     private static final int EGGPLANT_TAX_ID = 4111;
 
-    @BeforeClass
+    @BeforeAll
     public static void populateIndexWithTestData() throws IOException {
         //Entry 1
         {

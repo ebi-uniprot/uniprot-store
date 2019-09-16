@@ -1,9 +1,9 @@
 package org.uniprot.store.indexer.search.uniparc;
 
 import org.apache.solr.client.solrj.response.QueryResponse;
-import org.junit.BeforeClass;
-import org.junit.ClassRule;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.extension.RegisterExtension;
+import org.junit.jupiter.api.Test;
 import org.uniprot.core.xml.jaxb.uniparc.Entry;
 import org.uniprot.store.search.field.QueryBuilder;
 import org.uniprot.store.search.field.UniParcField;
@@ -18,7 +18,7 @@ import static org.hamcrest.core.Is.is;
 import static org.hamcrest.collection.IsEmptyCollection.empty;
 
 public class SeqLengthSearchIT {
-    @ClassRule
+    @RegisterExtension
     public static UniParcSearchEngine searchEngine = new UniParcSearchEngine();
 
     private static final String ID_1 = "UPI0000000001";
@@ -26,7 +26,7 @@ public class SeqLengthSearchIT {
     private static final String CHECKSUM_1 = "5A0A2229D6C87ABF";
     private static final String CHECKSUM_2 = "76F4826B7009DFAF";
 
-    @BeforeClass
+    @BeforeAll
     public static void populateIndexWithTestData() throws IOException {
         // a test entry object that can be modified and added to index
         Entry entry = TestUtils.createDefaultUniParcEntry();

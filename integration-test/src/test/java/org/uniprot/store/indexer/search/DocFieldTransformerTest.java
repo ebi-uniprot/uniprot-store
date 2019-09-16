@@ -1,9 +1,8 @@
 package org.uniprot.store.indexer.search;
 
 import org.apache.solr.client.solrj.beans.Field;
-import org.junit.Before;
-import org.junit.Test;
-import org.uniprot.store.indexer.search.DocFieldTransformer;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.uniprot.store.search.document.Document;
 
 import java.util.ArrayList;
@@ -26,7 +25,7 @@ public class DocFieldTransformerTest {
     private static final List<String> INIT_FAVE_COLOURS = asList("red", "yellow");
     private final MyDocument myDocument = new MyDocument();
 
-    @Before
+    @BeforeEach
     public void setUp() {
         myDocument.nameField = INIT_NAME;
         myDocument.ageField = INIT_AGE;

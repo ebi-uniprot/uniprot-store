@@ -1,9 +1,9 @@
 package org.uniprot.store.indexer.search.uniprot;
 
 import org.apache.solr.client.solrj.response.QueryResponse;
-import org.junit.BeforeClass;
-import org.junit.ClassRule;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.extension.RegisterExtension;
+import org.junit.jupiter.api.Test;
 import org.uniprot.core.flatfile.writer.LineType;
 import org.uniprot.store.search.field.UniProtField;
 
@@ -69,11 +69,11 @@ public class DESearchIT {
     private static final String DE_LINE9 = "DE   RecName: Full=Collectin-11;\n" +
             "DE   AltName: Full=Collectin kidney protein 1;\n" +
             "DE            Short=CL-K1;";
-    @ClassRule
+    @RegisterExtension
     public static UniProtSearchEngine searchEngine = new UniProtSearchEngine();
     private static int accessionId = 0;
 
-    @BeforeClass
+    @BeforeAll
     public static void populateIndexWithTestData() throws IOException {
         // a test entry object that can be modified and added to index
         InputStream resourceAsStream = TestUtils.getResourceAsStream(UNIPROT_FLAT_FILE_ENTRY_PATH);

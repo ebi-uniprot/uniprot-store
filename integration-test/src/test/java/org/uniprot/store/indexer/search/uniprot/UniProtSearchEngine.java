@@ -6,6 +6,8 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.HashMap;
 
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.extension.ExtensionContext;
 import org.uniprot.core.cv.chebi.ChebiRepo;
 import org.uniprot.core.cv.chebi.ChebiRepoFactory;
 import org.uniprot.core.cv.ec.ECRepo;
@@ -41,9 +43,9 @@ public class UniProtSearchEngine extends AbstractSearchEngine<UniProtEntry> {
     }
 
     @Override
-    protected void before() throws Throwable {
+    public void beforeEach(ExtensionContext context) {
         setRequiredProperties();
-        super.before();
+        super.beforeEach(context);
     }
 
     private void setRequiredProperties() {

@@ -1,27 +1,27 @@
 package org.uniprot.store.indexer.search.uniparc;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.containsInAnyOrder;
-
-import java.io.IOException;
-import java.util.List;
-
 import org.apache.solr.client.solrj.response.QueryResponse;
-import org.junit.Assert;
-import org.junit.BeforeClass;
-import org.junit.ClassRule;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.RegisterExtension;
 import org.uniprot.core.uniparc.UniParcDatabaseType;
 import org.uniprot.core.xml.jaxb.uniparc.Entry;
 import org.uniprot.store.search.field.QueryBuilder;
 import org.uniprot.store.search.field.UniParcField;
+
+import java.io.IOException;
+import java.util.List;
+
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.containsInAnyOrder;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Tests the search capabilities of the {@link UniParcQueryBuilder} when it comes to searching for UniParc entries
  * that reference database source accessions
  */
 public class DatabaseSearchIT {
-    @ClassRule
+    @RegisterExtension
     public static UniParcSearchEngine searchEngine = new UniParcSearchEngine();
 
     private static final String ID_1 = "UPI0000000001";
@@ -33,7 +33,7 @@ public class DatabaseSearchIT {
     private static final String ACC_ENSP00000226587 = "ENSP00000226587";
     private static final String ACC_NC_000004_1185_0 = "NC_000004_1185_0";
 
-    @BeforeClass
+    @BeforeAll
     public static void populateIndexWithTestData() throws IOException {
         //Entry 1
         {
@@ -75,7 +75,7 @@ public class DatabaseSearchIT {
                  searchEngine.getQueryResponse(query);
          List<String> retrievedAccessions = searchEngine.getIdentifiers(queryResponse);
          
-         Assert.assertEquals(2, retrievedAccessions.size());
+         assertEquals(2, retrievedAccessions.size());
          assertThat(retrievedAccessions, containsInAnyOrder(ID_1, ID_3));
     }
     @Test
@@ -86,7 +86,7 @@ public class DatabaseSearchIT {
                  searchEngine.getQueryResponse(query);
          List<String> retrievedAccessions = searchEngine.getIdentifiers(queryResponse);
          
-         Assert.assertEquals(3, retrievedAccessions.size());
+         assertEquals(3, retrievedAccessions.size());
          assertThat(retrievedAccessions, containsInAnyOrder(ID_1, ID_2, ID_3));
     }
     
@@ -98,7 +98,7 @@ public class DatabaseSearchIT {
                   searchEngine.getQueryResponse(query);
           List<String> retrievedAccessions = searchEngine.getIdentifiers(queryResponse);
           System.out.println(retrievedAccessions);
-          Assert.assertEquals(1, retrievedAccessions.size());
+          assertEquals(1, retrievedAccessions.size());
           assertThat(retrievedAccessions, containsInAnyOrder(ID_1));
     }
     
@@ -110,7 +110,7 @@ public class DatabaseSearchIT {
                   searchEngine.getQueryResponse(query);
           List<String> retrievedAccessions = searchEngine.getIdentifiers(queryResponse);
           
-          Assert.assertEquals(2, retrievedAccessions.size());
+          assertEquals(2, retrievedAccessions.size());
           assertThat(retrievedAccessions, containsInAnyOrder(ID_1, ID_3));
     }
     
@@ -122,7 +122,7 @@ public class DatabaseSearchIT {
                   searchEngine.getQueryResponse(query);
           List<String> retrievedAccessions = searchEngine.getIdentifiers(queryResponse);
 
-          Assert.assertEquals(1, retrievedAccessions.size());
+          assertEquals(1, retrievedAccessions.size());
           assertThat(retrievedAccessions, containsInAnyOrder(ID_3));
     }
     

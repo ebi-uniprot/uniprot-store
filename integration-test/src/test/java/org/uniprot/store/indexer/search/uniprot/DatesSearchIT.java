@@ -17,10 +17,10 @@ import java.time.LocalDate;
 import java.util.List;
 
 import org.apache.solr.client.solrj.response.QueryResponse;
-import org.junit.BeforeClass;
-import org.junit.ClassRule;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.extension.RegisterExtension;
+import org.junit.jupiter.api.Test;
 import org.uniprot.core.flatfile.writer.LineType;
 import org.uniprot.store.search.field.UniProtField;
 
@@ -54,10 +54,10 @@ public class DatesSearchIT {
     private static final String ACCESSION_BST = "Q197F9";
     private static final String CREATE_DATE_BST = "31-MAR-2014";
     private static final String UPDATE_DATE_BST = "02-APR-2014";
-    @ClassRule
+    @RegisterExtension
     public static UniProtSearchEngine searchEngine = new UniProtSearchEngine();
 
-    @BeforeClass
+    @BeforeAll
     public static void populateIndexWithTestData() throws IOException {
         // a test entry object that can be modified and added to index
         InputStream resourceAsStream = TestUtils.getResourceAsStream(UNIPROT_FLAT_FILE_ENTRY_PATH);
@@ -172,7 +172,7 @@ public class DatesSearchIT {
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
         assertThat(retrievedAccessions, containsInAnyOrder(ACCESSION1, ACCESSION3));
     }
-    @Ignore
+    @Disabled
     @Test
     public void searchForCreatedAfter31MAR2014Returns1Document() throws Exception {
     	LocalDate creationDate = LocalDate.of(2014, 3, 30);
@@ -407,7 +407,7 @@ public class DatesSearchIT {
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
         assertThat(retrievedAccessions, containsInAnyOrder(ACCESSION_BST, ACCESSION_BST_DUBIOUS));
     }
-    @Ignore
+    @Disabled
     @Test
     public void searchExplicitBSTEntryTestExactDay() throws Exception {
     	LocalDate startDate = LocalDate.of(2014, 3, 31);
@@ -434,7 +434,7 @@ public class DatesSearchIT {
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
         assertThat(retrievedAccessions, containsInAnyOrder(ACCESSION_BST, ACCESSION_BST_DUBIOUS));
     }
-    @Ignore
+    @Disabled
     @Test
     public void searchExplicitBSTEntryTestLowerBound() throws Exception {
     	LocalDate startDate = LocalDate.of(2014, 3, 31);

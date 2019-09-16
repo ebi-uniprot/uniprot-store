@@ -2,6 +2,7 @@ package org.uniprot.store.indexer.search.uniref;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsInAnyOrder;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.uniprot.store.search.field.QueryBuilder.rangeQuery;
 
 import java.io.IOException;
@@ -9,10 +10,10 @@ import java.time.LocalDate;
 import java.util.List;
 
 import org.apache.solr.client.solrj.response.QueryResponse;
-import org.junit.Assert;
-import org.junit.BeforeClass;
-import org.junit.ClassRule;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.extension.RegisterExtension;
+import org.junit.jupiter.api.Test;
 import org.uniprot.core.xml.jaxb.uniref.Entry;
 import org.uniprot.core.xml.uniprot.XmlConverterHelper;
 import org.uniprot.store.search.field.QueryBuilder;
@@ -40,10 +41,10 @@ public class IdANameCreatedAndIdentitySearchIT {
 	    private static final String NAME_5 = "Cluster: Glycosyl transferases group 1 family protein (Fragment)";
 	    private static final String NAME_6 = "Cluster: Transposase domain protein";
 
-	    @ClassRule
+	    @RegisterExtension
 	    public static UniRefSearchEngine searchEngine = new UniRefSearchEngine();
 	    
-	    @BeforeClass
+	    @BeforeAll
 	    public static void populateIndexWithTestData() throws IOException {
 	        //Entry 1
 	        {
@@ -96,7 +97,7 @@ public class IdANameCreatedAndIdentitySearchIT {
 	                  searchEngine.getQueryResponse(query);
 	          List<String> retrievedAccessions = searchEngine.getIdentifiers(queryResponse);
 	          
-	          Assert.assertEquals(1, retrievedAccessions.size());
+	          assertEquals(1, retrievedAccessions.size());
 	          assertThat(retrievedAccessions, containsInAnyOrder(ID_1));
 	    }
 	
@@ -108,7 +109,7 @@ public class IdANameCreatedAndIdentitySearchIT {
 	                  searchEngine.getQueryResponse(query);
 	          List<String> retrievedAccessions = searchEngine.getIdentifiers(queryResponse);
 	          
-	          Assert.assertEquals(1, retrievedAccessions.size());
+	          assertEquals(1, retrievedAccessions.size());
 	          assertThat(retrievedAccessions, containsInAnyOrder(ID_3));
 	    }
 	    
@@ -119,7 +120,7 @@ public class IdANameCreatedAndIdentitySearchIT {
 	                  searchEngine.getQueryResponse(query);
 	          List<String> retrievedAccessions = searchEngine.getIdentifiers(queryResponse);
 	          
-	          Assert.assertEquals(1, retrievedAccessions.size());
+	          assertEquals(1, retrievedAccessions.size());
 	          assertThat(retrievedAccessions, containsInAnyOrder(ID_5));
 	    }
 	    @Test
@@ -129,7 +130,7 @@ public class IdANameCreatedAndIdentitySearchIT {
 	                  searchEngine.getQueryResponse(query);
 	          List<String> retrievedAccessions = searchEngine.getIdentifiers(queryResponse);
 	          
-	          Assert.assertEquals(0, retrievedAccessions.size());
+	          assertEquals(0, retrievedAccessions.size());
 
 	    }
 	    @Test
@@ -139,7 +140,7 @@ public class IdANameCreatedAndIdentitySearchIT {
 	                  searchEngine.getQueryResponse(query);
 	          List<String> retrievedAccessions = searchEngine.getIdentifiers(queryResponse);
 	          
-	          Assert.assertEquals(0, retrievedAccessions.size());
+	          assertEquals(0, retrievedAccessions.size());
 
 	    }
 	    @Test
@@ -149,7 +150,7 @@ public class IdANameCreatedAndIdentitySearchIT {
 	                  searchEngine.getQueryResponse(query);
 	          List<String> retrievedAccessions = searchEngine.getIdentifiers(queryResponse);
 	          
-	          Assert.assertEquals(2, retrievedAccessions.size());
+	          assertEquals(2, retrievedAccessions.size());
 	          assertThat(retrievedAccessions, containsInAnyOrder(ID_1, ID_3));
 	    }
 	    
@@ -160,7 +161,7 @@ public class IdANameCreatedAndIdentitySearchIT {
 	                  searchEngine.getQueryResponse(query);
 	          List<String> retrievedAccessions = searchEngine.getIdentifiers(queryResponse);
 	          
-	          Assert.assertEquals(3, retrievedAccessions.size());
+	          assertEquals(3, retrievedAccessions.size());
 	          assertThat(retrievedAccessions, containsInAnyOrder(ID_2, ID_4,  ID_6));
 	    }
 	    @Test
@@ -170,7 +171,7 @@ public class IdANameCreatedAndIdentitySearchIT {
 	                  searchEngine.getQueryResponse(query);
 	          List<String> retrievedAccessions = searchEngine.getIdentifiers(queryResponse);
 	          
-	          Assert.assertEquals(0, retrievedAccessions.size());
+	          assertEquals(0, retrievedAccessions.size());
 
 	    }
 	    
@@ -181,7 +182,7 @@ public class IdANameCreatedAndIdentitySearchIT {
 	                  searchEngine.getQueryResponse(query);
 	          List<String> retrievedAccessions = searchEngine.getIdentifiers(queryResponse);
 	          
-	          Assert.assertEquals(2, retrievedAccessions.size());
+	          assertEquals(2, retrievedAccessions.size());
 	          assertThat(retrievedAccessions, containsInAnyOrder(ID_1, ID_2));
 	    }
 	    @Test
@@ -191,7 +192,7 @@ public class IdANameCreatedAndIdentitySearchIT {
 	                  searchEngine.getQueryResponse(query);
 	          List<String> retrievedAccessions = searchEngine.getIdentifiers(queryResponse);
 	          
-	          Assert.assertEquals(2, retrievedAccessions.size());
+	          assertEquals(2, retrievedAccessions.size());
 	          assertThat(retrievedAccessions, containsInAnyOrder(ID_3, ID_4));
 	    }
 	    
@@ -202,7 +203,7 @@ public class IdANameCreatedAndIdentitySearchIT {
 	                  searchEngine.getQueryResponse(query);
 	          List<String> retrievedAccessions = searchEngine.getIdentifiers(queryResponse);
 	          
-	          Assert.assertEquals(2, retrievedAccessions.size());
+	          assertEquals(2, retrievedAccessions.size());
 	          assertThat(retrievedAccessions, containsInAnyOrder(ID_5, ID_6));
 	    }
 	    
@@ -213,7 +214,7 @@ public class IdANameCreatedAndIdentitySearchIT {
 	                  searchEngine.getQueryResponse(query);
 	          List<String> retrievedAccessions = searchEngine.getIdentifiers(queryResponse);
 	          
-	          Assert.assertEquals(0, retrievedAccessions.size());
+	          assertEquals(0, retrievedAccessions.size());
 
 	    }
 	    
@@ -226,7 +227,7 @@ public class IdANameCreatedAndIdentitySearchIT {
 	                  searchEngine.getQueryResponse(query);
 	          List<String> retrievedAccessions = searchEngine.getIdentifiers(queryResponse);
 	          
-	          Assert.assertEquals(2, retrievedAccessions.size());
+	          assertEquals(2, retrievedAccessions.size());
 	          assertThat(retrievedAccessions, containsInAnyOrder(ID_1, ID_2));
 
 	    }
@@ -239,7 +240,7 @@ public class IdANameCreatedAndIdentitySearchIT {
 	                  searchEngine.getQueryResponse(query);
 	          List<String> retrievedAccessions = searchEngine.getIdentifiers(queryResponse);
 	          
-	          Assert.assertEquals(4, retrievedAccessions.size());
+	          assertEquals(4, retrievedAccessions.size());
 	          assertThat(retrievedAccessions, containsInAnyOrder(ID_1, ID_2, ID_3, ID_4));
 
 	    }

@@ -1,9 +1,9 @@
 package org.uniprot.store.indexer.search.uniparc;
 
 import org.apache.solr.client.solrj.response.QueryResponse;
-import org.junit.BeforeClass;
-import org.junit.ClassRule;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.extension.RegisterExtension;
+import org.junit.jupiter.api.Test;
 import org.uniprot.core.xml.jaxb.uniparc.Entry;
 import org.uniprot.store.search.field.QueryBuilder;
 import org.uniprot.store.search.field.UniParcField;
@@ -21,7 +21,7 @@ import static org.hamcrest.core.Is.is;
  * using the UniParc identifier
  */
 public class IdentifierSearchIT {
-    @ClassRule
+    @RegisterExtension
     public static UniParcSearchEngine searchEngine = new UniParcSearchEngine();
 
     private static final String ID_1 = "UPI0000000001";
@@ -29,7 +29,7 @@ public class IdentifierSearchIT {
     private static final String ID_3 = "UPI0000000003";
     private static final String ID_4 = "UPI0000000004";
 
-    @BeforeClass
+    @BeforeAll
     public static void populateIndexWithTestData() throws IOException {
         // a test entry object that can be modified and added to index
         Entry entry = TestUtils.createDefaultUniParcEntry();

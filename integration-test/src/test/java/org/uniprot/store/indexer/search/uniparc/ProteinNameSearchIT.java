@@ -9,9 +9,9 @@ import java.io.IOException;
 import java.util.List;
 
 import org.apache.solr.client.solrj.response.QueryResponse;
-import org.junit.BeforeClass;
-import org.junit.ClassRule;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.extension.RegisterExtension;
+import org.junit.jupiter.api.Test;
 import org.uniprot.core.uniparc.UniParcDatabaseType;
 import org.uniprot.core.xml.jaxb.uniparc.DbReferenceType;
 import org.uniprot.core.xml.jaxb.uniparc.Entry;
@@ -23,7 +23,7 @@ import org.uniprot.store.search.field.UniParcField;
  * that reference protein names
  */
 public class ProteinNameSearchIT {
-    @ClassRule
+    @RegisterExtension
     public static UniParcSearchEngine searchEngine = new UniParcSearchEngine();
 
     private static final String ID_1 = "UPI0000000001";
@@ -39,7 +39,7 @@ public class ProteinNameSearchIT {
     private static final String NAME_5 = "PP2A B subunit isoform B'-delta";
     private static final String NAME_6 = "Methylenetetrahydrofolate dehydrogenase (NADP(+))";
 
-    @BeforeClass
+    @BeforeAll
     public static void populateIndexWithTestData() throws IOException {
         // a test entry object that can be modified and added to index
 

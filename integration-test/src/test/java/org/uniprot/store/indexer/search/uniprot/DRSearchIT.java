@@ -1,10 +1,10 @@
 package org.uniprot.store.indexer.search.uniprot;
 
 import org.apache.solr.client.solrj.response.QueryResponse;
-import org.junit.BeforeClass;
-import org.junit.ClassRule;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.extension.RegisterExtension;
+import org.junit.jupiter.api.Test;
 import org.uniprot.core.flatfile.writer.LineType;
 import org.uniprot.store.search.field.QueryBuilder;
 import org.uniprot.store.search.field.UniProtField;
@@ -45,11 +45,11 @@ DRSearchIT {
     public static final String GENE3D_1 = "T1TTU8";
 
     private static final String UNIPROT_FLAT_FILE_ENTRY_PATH = "/it/uniprot/P0A377.43.dat";
-    @ClassRule
+    @RegisterExtension
     public static UniProtSearchEngine searchEngine = new UniProtSearchEngine();
 
 
-    @BeforeClass
+    @BeforeAll
     public static void populateIndexWithTestData() throws IOException {
         // a test entry object that can be modified and added to index
         InputStream resourceAsStream = TestUtils.getResourceAsStream(UNIPROT_FLAT_FILE_ENTRY_PATH);
@@ -448,7 +448,7 @@ DRSearchIT {
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
         assertThat(retrievedAccessions, contains(ZFIN_1));
     }
-    @Ignore
+    @Disabled
     @Test
     public void tcdbFindWithPlus() {
         String query = xref("TCDB", "na(+)");
@@ -478,7 +478,7 @@ DRSearchIT {
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
         assertThat(retrievedAccessions, contains(TCDB_3));
     }
-    @Ignore
+    @Disabled
     @Test
     public void tcdbFindWithPlusAndMore() {
         String query = xref("TCDB", "na(+) translocating");
@@ -488,7 +488,7 @@ DRSearchIT {
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
         assertThat(retrievedAccessions, contains(TCDB_3));
     }
-    @Ignore
+    @Disabled
     @Test
     public void tcdbFindBothPutative() {
         String query = xref("TCDB", "putative");
@@ -498,7 +498,7 @@ DRSearchIT {
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
         assertThat(retrievedAccessions, containsInAnyOrder(TCDB_2, TCDB_3));
     }
-    @Ignore
+    @Disabled
     @Test
     public void tcdbFindBothThisIsOccurrences() {
         String query = xref("TCDB", "zebra-is");
@@ -508,7 +508,7 @@ DRSearchIT {
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
         assertThat(retrievedAccessions, containsInAnyOrder(TCDB_2, TCDB_3));
     }
-    @Ignore
+    @Disabled
     @Test
     public void tcdbFindOnlyOnePutativeInorganic() {
         String query = xref("TCDB", "putative inorganic");
@@ -520,7 +520,7 @@ DRSearchIT {
     }
     
     
-    @Ignore
+    @Disabled
     @Test
     public void tcdbFindSingleThisIsAOccurrence() {
         String query = xref("TCDB", "zebra-feather-brownian");
@@ -530,7 +530,7 @@ DRSearchIT {
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
         assertThat(retrievedAccessions, contains(TCDB_2));
     }
-    @Ignore
+    @Disabled
     @Test
     public void tcdbFindSingleThisIsAWordOccurrence() {
         String query = xref("TCDB", "zebra-feather-brownian-monster");

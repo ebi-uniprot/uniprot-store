@@ -1,12 +1,11 @@
 package org.uniprot.store.indexer.search.uniprot;
 
 import org.apache.solr.client.solrj.response.QueryResponse;
-import org.junit.After;
-import org.junit.BeforeClass;
-import org.junit.ClassRule;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.extension.RegisterExtension;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.EnumSource;
 import org.uniprot.core.flatfile.writer.LineType;
 import org.uniprot.store.indexer.search.DocFieldTransformer;
 import org.uniprot.store.search.field.QueryBuilder;
@@ -14,7 +13,9 @@ import org.uniprot.store.search.field.UniProtField;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.function.Function;
 
 import static java.util.Arrays.asList;
@@ -38,35 +39,18 @@ import static org.uniprot.store.indexer.search.uniprot.TestUtils.convertToUniPro
  *
  * @author Edd
  */
-@RunWith(Parameterized.class)
 public class BasicCIAnalysisSearchIT {
-    @ClassRule
+    @RegisterExtension
     public static final UniProtSearchEngine searchEngine = new UniProtSearchEngine();
     private static final String RESOURCE_ENTRY_PATH = "/it/uniprot";
     private static final List<String> RESOURCE_ENTRIES_TO_STORE =
             asList("P0A377.43", "P51587", "Q6GZV4.23", "Q197D8.25", "Q197F8.16");
     private static UniProtEntryObjectProxy entryProxy;
     private static int accessionId = 0;
-    private final FieldType field;
     private List<String> tempSavedEntries = new ArrayList<>();
     public static final String ACC_LINE = "AC   %s;";
 
-    public BasicCIAnalysisSearchIT(FieldType field) {
-        this.field = field;
-    }
-
-    @Parameterized.Parameters(name = "field = {0}")
-    public static Collection<Object[]> data() {
-        return Arrays.asList(new Object[][]{
-                {FieldType.accession_id},
-                {FieldType.mnemonic},
-                {FieldType.gene_exact},
-                {FieldType.existence},
-                {FieldType.sec_acc}
-        });
-    }
-
-    @BeforeClass
+    @BeforeAll
     public static void populateIndexWithTestData() throws IOException{
         for (String entryToStore : RESOURCE_ENTRIES_TO_STORE) {
             InputStream resourceAsStream = TestUtils
@@ -80,14 +64,15 @@ public class BasicCIAnalysisSearchIT {
         ensureInitialEntriesWereSaved();
     }
 
-    @After
+    @AfterEach
     public void after() {
         cleanTempEntries();
     }
 
     // phrases (even though it's treated as a single token with the basic analyser)
-    @Test
-    public void canFindSimpleExactPhrase() {
+    @ParameterizedTest
+    @EnumSource(FieldType.class)
+    public void canFindSimpleExactPhrase(FieldType field) {
         String accession = newAccession();
         String fieldValue = "hello world";
 
@@ -97,12 +82,13 @@ public class BasicCIAnalysisSearchIT {
                 .withAccession(accession)
                 .withFieldValue(fieldValue)
                 .usingQuery(query)
-                .canBeFound();
+                .canBeFound(field);
     }
 
     // non-phrase queries
-    @Test
-    public void canFindAccessionLikeValue() {
+    @ParameterizedTest
+    @EnumSource(FieldType.class)
+    public void canFindAccessionLikeValue(FieldType field) {
         String accession = newAccession();
         String fieldValue = "P12345";
         String query =fieldQuery(field.name(), fieldValue);
@@ -111,11 +97,12 @@ public class BasicCIAnalysisSearchIT {
                 .withAccession(accession)
                 .withFieldValue(fieldValue)
                 .usingQuery(query)
-                .canBeFound();
+                .canBeFound(field);
     }
 
-    @Test
-    public void canFindComplexExactValue() {
+    @ParameterizedTest
+    @EnumSource(FieldType.class)
+    public void canFindComplexExactValue(FieldType field) {
         String accession = newAccession();
         String fieldValue = "aA12-3a-a44b-a4/VA,RV_IND64_vel4_019";
         String query = fieldQuery(field.name(), fieldValue);
@@ -124,11 +111,12 @@ public class BasicCIAnalysisSearchIT {
                 .withAccession(accession)
                 .withFieldValue(fieldValue)
                 .usingQuery(query)
-                .canBeFound();
+                .canBeFound(field);
     }
 
-    @Test
-    public void cannotUseMiddlePartsOfValueToFindValueWithUnderScores() {
+    @ParameterizedTest
+    @EnumSource(FieldType.class)
+    public void cannotUseMiddlePartsOfValueToFindValueWithUnderScores(FieldType field) {
         String accession = newAccession();
         String fieldValue = "VARV_IND64_vel4_019";
         String query = fieldQuery(field.name(), "IND64_vel4");
@@ -137,11 +125,12 @@ public class BasicCIAnalysisSearchIT {
                 .withAccession(accession)
                 .withFieldValue(fieldValue)
                 .usingQuery(query)
-                .canNotBeFound();
+                .canNotBeFound(field);
     }
 
-    @Test
-    public void canFindValueThatIsOnlyANumber() {
+    @ParameterizedTest
+    @EnumSource(FieldType.class)
+    public void canFindValueThatIsOnlyANumber(FieldType field) {
         String accession = newAccession();
         String fieldValue = "62";
         String query = fieldQuery(field.name(), fieldValue);
@@ -150,11 +139,12 @@ public class BasicCIAnalysisSearchIT {
                 .withAccession(accession)
                 .withFieldValue(fieldValue)
                 .usingQuery(query)
-                .canBeFound();
+                .canBeFound(field);
     }
 
-    @Test
-    public void canFindValuesContainingSpecialChars() {
+    @ParameterizedTest
+    @EnumSource(FieldType.class)
+    public void canFindValuesContainingSpecialChars(FieldType field) {
         List<String> valuesThatRequireEscaping = asList("+", "-", "&", "|", "!", "(", ")", "{EVIDENCE}", "[", "]", "^", "\"", "~", "?", ":", "/");
 
         for (String toEscape : valuesThatRequireEscaping) {
@@ -166,7 +156,7 @@ public class BasicCIAnalysisSearchIT {
                     .withAccession(accession)
                     .withFieldValue(fieldValue)
                     .usingQuery(query)
-                    .canBeFound();
+                    .canBeFound(field);
 
             searchEngine.removeEntry(accession);
         }
@@ -194,7 +184,7 @@ public class BasicCIAnalysisSearchIT {
     	return QueryBuilder.query(field, fieldValue,true, false);
     }
 
-    private void index(String accession, String fieldValue) {
+    private void index(String accession, String fieldValue, FieldType field) {
         DocFieldTransformer docFieldTransformer = fieldTransformer(field.name(), field.getType().apply(fieldValue));
         tempSavedEntries.add(accession);
         entryProxy.updateEntryObject(LineType.AC, String.format(ACC_LINE, accession));
@@ -252,18 +242,18 @@ public class BasicCIAnalysisSearchIT {
             return this;
         }
 
-        void canBeFound() {
-            List<String> retrievedAccessions = findAccessions();
+        void canBeFound(FieldType field) {
+            List<String> retrievedAccessions = findAccessions(field);
 
-            assertThat(retrievedAccessions, contains(toFind()));
+            assertThat(retrievedAccessions, contains(toFind(field)));
         }
 
-        void canNotBeFound() {
-            List<String> retrievedAccessions = findAccessions();
-            assertThat(retrievedAccessions, not(contains(toFind())));
+        void canNotBeFound(FieldType field) {
+            List<String> retrievedAccessions = findAccessions(field);
+            assertThat(retrievedAccessions, not(contains(toFind(field))));
         }
 
-        private String toFind() {
+        private String toFind(FieldType field) {
             String toFind;
             if (field.name().equals("accession_id")) {
                 toFind = fieldValue;
@@ -273,8 +263,8 @@ public class BasicCIAnalysisSearchIT {
             return toFind;
         }
 
-        private List<String> findAccessions() {
-            index(accession, fieldValue);
+        private List<String> findAccessions(FieldType field) {
+            index(accession, fieldValue, field);
             QueryResponse response = searchEngine.getQueryResponse(query);
 
             return searchEngine.getIdentifiers(response);

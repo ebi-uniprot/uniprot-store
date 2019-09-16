@@ -1,9 +1,9 @@
 package org.uniprot.store.indexer.search.proteome;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -17,10 +17,11 @@ import java.util.stream.StreamSupport;
 import org.apache.solr.client.solrj.beans.DocumentObjectBinder;
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.common.SolrDocumentList;
-import org.junit.Assert;
-import org.junit.BeforeClass;
-import org.junit.ClassRule;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.api.extension.RegisterExtension;
+import org.junit.jupiter.api.Test;
 import org.uniprot.core.json.parser.proteome.ProteomeJsonConfig;
 import org.uniprot.core.xml.XmlChainIterator;
 import org.uniprot.core.xml.jaxb.proteome.Proteome;
@@ -32,10 +33,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class ProteomeSearchIT {
 	 static final String PROTEOME_ROOT_ELEMENT = "proteome";
-    @ClassRule
-    public static ProteomeSearchEngine searchEngine = new ProteomeSearchEngine();
+    @RegisterExtension
+    static ProteomeSearchEngine searchEngine = new ProteomeSearchEngine();
 
-    @BeforeClass
+    @BeforeAll
     public static void populateIndexWithTestData() throws IOException {
         List<String> files = Arrays.asList(
                 "it/proteome/proteome_example.xml"
@@ -66,8 +67,8 @@ public class ProteomeSearchIT {
 
         SolrDocumentList results =
                 queryResponse.getResults();
-        Assert.assertEquals(1, results.size());
-        Assert.assertTrue(results.get(0).containsValue(upid)); 
+        assertEquals(1, results.size());
+        assertTrue(results.get(0).containsValue(upid)); 
     }
     
     @Test
@@ -79,7 +80,7 @@ public class ProteomeSearchIT {
 
         SolrDocumentList results =
                 queryResponse.getResults();
-        Assert.assertEquals(6, results.size());
+        assertEquals(6, results.size());
     }
     
     
@@ -98,7 +99,7 @@ public class ProteomeSearchIT {
 
         SolrDocumentList results =
                 queryResponse.getResults();
-        Assert.assertEquals(3, results.size());
+        assertEquals(3, results.size());
         List<String> foundUpids=
         StreamSupport.
         stream( Spliterators.spliteratorUnknownSize(
@@ -127,8 +128,8 @@ public class ProteomeSearchIT {
 
         SolrDocumentList results =
                 queryResponse.getResults();
-        Assert.assertEquals(1, results.size());
-        Assert.assertTrue(results.get(0).containsValue("UP000029766")); 
+        assertEquals(1, results.size());
+        assertTrue(results.get(0).containsValue("UP000029766")); 
     }
     
     @Test
@@ -141,7 +142,7 @@ public class ProteomeSearchIT {
 
         SolrDocumentList results =
                 queryResponse.getResults();
-        Assert.assertEquals(6, results.size());
+        assertEquals(6, results.size());
        
 
     }
@@ -157,8 +158,8 @@ public class ProteomeSearchIT {
 
         SolrDocumentList results =
                 queryResponse.getResults();
-        Assert.assertEquals(1, results.size());
-        Assert.assertTrue(results.get(0).containsValue("UP000000718")); 
+        assertEquals(1, results.size());
+        assertTrue(results.get(0).containsValue("UP000000718")); 
         DocumentObjectBinder binder = new DocumentObjectBinder();
         ProteomeDocument proteomeDoc = binder.getBean(ProteomeDocument.class, results.get(0));
         org.uniprot.core.proteome.ProteomeEntry proteome = toProteome(proteomeDoc);

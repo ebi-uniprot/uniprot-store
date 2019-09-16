@@ -1,19 +1,19 @@
 package org.uniprot.store.indexer.search.uniref;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.containsInAnyOrder;
+import org.apache.solr.client.solrj.response.QueryResponse;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.RegisterExtension;
+import org.uniprot.core.xml.jaxb.uniref.Entry;
+import org.uniprot.store.search.field.QueryBuilder;
+import org.uniprot.store.search.field.UniRefField;
 
 import java.io.IOException;
 import java.util.List;
 
-import org.apache.solr.client.solrj.response.QueryResponse;
-import org.junit.Assert;
-import org.junit.BeforeClass;
-import org.junit.ClassRule;
-import org.junit.Test;
-import org.uniprot.core.xml.jaxb.uniref.Entry;
-import org.uniprot.store.search.field.QueryBuilder;
-import org.uniprot.store.search.field.UniRefField;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.containsInAnyOrder;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  *
@@ -36,10 +36,10 @@ public class SequenceLengthSearchIT {
 	    private static final String NAME_5 = "Cluster: Glycosyl transferases group 1 family protein (Fragment)";
 	    private static final String NAME_6 = "Cluster: Transposase domain protein";
 	    
-	    @ClassRule
+	    @RegisterExtension
 	    public static UniRefSearchEngine searchEngine = new UniRefSearchEngine();
 	    
-	    @BeforeClass
+	    @BeforeAll
 	    public static void populateIndexWithTestData() throws IOException {
 	        //Entry 1
 	        {
@@ -94,7 +94,7 @@ public class SequenceLengthSearchIT {
 	                  searchEngine.getQueryResponse(query);
 	          List<String> retrievedAccessions = searchEngine.getIdentifiers(queryResponse);
 	          
-	          Assert.assertEquals(3, retrievedAccessions.size());
+	          assertEquals(3, retrievedAccessions.size());
 	          assertThat(retrievedAccessions, containsInAnyOrder(ID_1, ID_3, ID_5));
 	    }
 	    
@@ -106,7 +106,7 @@ public class SequenceLengthSearchIT {
 	                  searchEngine.getQueryResponse(query);
 	          List<String> retrievedAccessions = searchEngine.getIdentifiers(queryResponse);
 	          
-	          Assert.assertEquals(0, retrievedAccessions.size());
+	          assertEquals(0, retrievedAccessions.size());
 	        
 	    }
 	    
@@ -119,7 +119,7 @@ public class SequenceLengthSearchIT {
 	                  searchEngine.getQueryResponse(query);
 	          List<String> retrievedAccessions = searchEngine.getIdentifiers(queryResponse);
 	          
-	          Assert.assertEquals(5, retrievedAccessions.size());
+	          assertEquals(5, retrievedAccessions.size());
 	          assertThat(retrievedAccessions, containsInAnyOrder(ID_1, ID_2, ID_3, ID_5, ID_6));
 	    }
 	    
@@ -132,7 +132,7 @@ public class SequenceLengthSearchIT {
 	                  searchEngine.getQueryResponse(query);
 	          List<String> retrievedAccessions = searchEngine.getIdentifiers(queryResponse);
 	          
-	          Assert.assertEquals(0, retrievedAccessions.size());
+	          assertEquals(0, retrievedAccessions.size());
 
 	    }
 	    

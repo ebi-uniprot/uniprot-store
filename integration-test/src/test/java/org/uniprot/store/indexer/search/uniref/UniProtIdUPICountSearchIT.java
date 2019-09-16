@@ -1,22 +1,22 @@
 package org.uniprot.store.indexer.search.uniref;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.containsInAnyOrder;
-
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
-
 import org.apache.solr.client.solrj.response.QueryResponse;
-import org.junit.Assert;
-import org.junit.BeforeClass;
-import org.junit.ClassRule;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.RegisterExtension;
 import org.uniprot.core.xml.jaxb.uniref.Entry;
 import org.uniprot.core.xml.jaxb.uniref.MemberType;
 import org.uniprot.core.xml.jaxb.uniref.PropertyType;
 import org.uniprot.store.search.field.QueryBuilder;
 import org.uniprot.store.search.field.UniRefField;
+
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
+
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.containsInAnyOrder;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  *
@@ -55,10 +55,10 @@ public class UniProtIdUPICountSearchIT {
 	    private static final String UPI_3 = "UPI0000000003";
 	    
 	    
-	    @ClassRule
+	    @RegisterExtension
 	    public static UniRefSearchEngine searchEngine = new UniRefSearchEngine();
 	    
-	    @BeforeClass
+	    @BeforeAll
 	    public static void populateIndexWithTestData() throws IOException {
 	        //Entry 1
 	        {
@@ -124,7 +124,7 @@ public class UniProtIdUPICountSearchIT {
 	                  searchEngine.getQueryResponse(query);
 	          List<String> retrievedAccessions = searchEngine.getIdentifiers(queryResponse);
 	          
-	          Assert.assertEquals(2, retrievedAccessions.size());
+	          assertEquals(2, retrievedAccessions.size());
 	          assertThat(retrievedAccessions, containsInAnyOrder(ID_1, ID_6));
 	    }
 	    @Test
@@ -134,7 +134,7 @@ public class UniProtIdUPICountSearchIT {
 	                  searchEngine.getQueryResponse(query);
 	          List<String> retrievedAccessions = searchEngine.getIdentifiers(queryResponse);
 	          
-	          Assert.assertEquals(1, retrievedAccessions.size());
+	          assertEquals(1, retrievedAccessions.size());
 	          assertThat(retrievedAccessions, containsInAnyOrder(ID_5));
 	    }
 	    
@@ -145,7 +145,7 @@ public class UniProtIdUPICountSearchIT {
 	                  searchEngine.getQueryResponse(query);
 	          List<String> retrievedAccessions = searchEngine.getIdentifiers(queryResponse);
 	          
-	          Assert.assertEquals(1, retrievedAccessions.size());
+	          assertEquals(1, retrievedAccessions.size());
 	          assertThat(retrievedAccessions, containsInAnyOrder(ID_2));
 	    }
 	    @Test
@@ -155,7 +155,7 @@ public class UniProtIdUPICountSearchIT {
 	                  searchEngine.getQueryResponse(query);
 	          List<String> retrievedAccessions = searchEngine.getIdentifiers(queryResponse);
 	          
-	          Assert.assertEquals(2, retrievedAccessions.size());
+	          assertEquals(2, retrievedAccessions.size());
 	          assertThat(retrievedAccessions, containsInAnyOrder(ID_4, ID_6));
 	    }
 	    
@@ -167,7 +167,7 @@ public class UniProtIdUPICountSearchIT {
 	                  searchEngine.getQueryResponse(query);
 	          List<String> retrievedAccessions = searchEngine.getIdentifiers(queryResponse);
 	          
-	          Assert.assertEquals(2, retrievedAccessions.size());
+	          assertEquals(2, retrievedAccessions.size());
 	          assertThat(retrievedAccessions, containsInAnyOrder(ID_1, ID_5));
 	    }
 	    
@@ -178,7 +178,7 @@ public class UniProtIdUPICountSearchIT {
 	                  searchEngine.getQueryResponse(query);
 	          List<String> retrievedAccessions = searchEngine.getIdentifiers(queryResponse);
 	          
-	          Assert.assertEquals(1, retrievedAccessions.size());
+	          assertEquals(1, retrievedAccessions.size());
 	          assertThat(retrievedAccessions, containsInAnyOrder(ID_6));
 	    }
 	    @Test
@@ -188,7 +188,7 @@ public class UniProtIdUPICountSearchIT {
 	                  searchEngine.getQueryResponse(query);
 	          List<String> retrievedAccessions = searchEngine.getIdentifiers(queryResponse);
 	          
-	          Assert.assertEquals(2, retrievedAccessions.size());
+	          assertEquals(2, retrievedAccessions.size());
 	          assertThat(retrievedAccessions, containsInAnyOrder(ID_3, ID_4));
 	    }
 	    @Test
@@ -198,7 +198,7 @@ public class UniProtIdUPICountSearchIT {
 	                  searchEngine.getQueryResponse(query);
 	          List<String> retrievedAccessions = searchEngine.getIdentifiers(queryResponse);
 	          
-	          Assert.assertEquals(3, retrievedAccessions.size());
+	          assertEquals(3, retrievedAccessions.size());
 	          assertThat(retrievedAccessions, containsInAnyOrder(ID_1, ID_2, ID_3));
 	    }
 	    
@@ -209,7 +209,7 @@ public class UniProtIdUPICountSearchIT {
 	                  searchEngine.getQueryResponse(query);
 	          List<String> retrievedAccessions = searchEngine.getIdentifiers(queryResponse);
 	          
-	          Assert.assertEquals(2, retrievedAccessions.size());
+	          assertEquals(2, retrievedAccessions.size());
 	          assertThat(retrievedAccessions, containsInAnyOrder(ID_4, ID_5));
 	    }
 	    
@@ -220,7 +220,7 @@ public class UniProtIdUPICountSearchIT {
 	                  searchEngine.getQueryResponse(query);
 	          List<String> retrievedAccessions = searchEngine.getIdentifiers(queryResponse);
 	          
-	          Assert.assertEquals(1, retrievedAccessions.size());
+	          assertEquals(1, retrievedAccessions.size());
 	          assertThat(retrievedAccessions, containsInAnyOrder(ID_6));
 	    }
 	    
@@ -231,7 +231,7 @@ public class UniProtIdUPICountSearchIT {
 	                  searchEngine.getQueryResponse(query);
 	          List<String> retrievedAccessions = searchEngine.getIdentifiers(queryResponse);
 	          
-	          Assert.assertEquals(3, retrievedAccessions.size());
+	          assertEquals(3, retrievedAccessions.size());
 	          assertThat(retrievedAccessions, containsInAnyOrder(ID_4, ID_5, ID_6));
 	    }
 	    private String uniprotIdQuery(String  uniprotId) {

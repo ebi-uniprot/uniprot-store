@@ -10,9 +10,9 @@ import java.io.IOException;
 import java.util.List;
 
 import org.apache.solr.client.solrj.response.QueryResponse;
-import org.junit.BeforeClass;
-import org.junit.ClassRule;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.extension.RegisterExtension;
+import org.junit.jupiter.api.Test;
 import org.uniprot.core.uniparc.UniParcDatabaseType;
 import org.uniprot.core.xml.jaxb.uniparc.DbReferenceType;
 import org.uniprot.core.xml.jaxb.uniparc.Entry;
@@ -25,7 +25,7 @@ import org.uniprot.store.search.field.UniParcField;
  * that reference database source accessions
  */
 public class GeneNameSearchIT {
-    @ClassRule
+    @RegisterExtension
     public static UniParcSearchEngine searchEngine = new UniParcSearchEngine();
 
     private static final String ID_1 = "UPI0000000001";
@@ -37,7 +37,7 @@ public class GeneNameSearchIT {
     private static final String GN_HLA_B = "HLA-B";
     private static final String GN_LONG = "AMTR_s00092p00144240";
 
-    @BeforeClass
+    @BeforeAll
     public static void populateIndexWithTestData() throws IOException {
         //Entry 1
 
