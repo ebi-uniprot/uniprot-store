@@ -272,6 +272,9 @@ public class UniProtDocument implements Document {
     @Field("length")
     public int seqLength;
    
+ // Added by Chuming Chen for Peptide Search on Sept. 16, 2019.
+    @Field("sq")
+    public String seqAA;
     
     @Field("tissue")
     public Set<String> rcTissue = new HashSet<>();

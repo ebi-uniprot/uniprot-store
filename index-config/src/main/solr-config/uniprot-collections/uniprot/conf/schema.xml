@@ -730,7 +730,8 @@
      <!--  Sequence  -->
      <field name="mass" type="int" indexed="true" stored="false" required="false" multiValued="false"/>
      <field name="length" type="int" indexed="true" stored="false" required="false" multiValued="false"/>
-
+     <field name="sq" type="text_general" indexed="true" stored=“true" required=“true" multiValued=“false”/>
+     
      <field name="annotation_score" type="int" indexed="true" stored="true" required="false" multiValued="false" docValues="true"/>
 
     <!-- UniRef clusters -->
