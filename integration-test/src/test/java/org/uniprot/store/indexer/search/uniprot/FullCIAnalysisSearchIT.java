@@ -11,6 +11,8 @@ import org.uniprot.core.flatfile.writer.LineType;
 import org.uniprot.store.indexer.search.DocFieldTransformer;
 import org.uniprot.store.search.field.QueryBuilder;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;

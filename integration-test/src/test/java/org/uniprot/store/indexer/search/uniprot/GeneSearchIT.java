@@ -12,6 +12,8 @@ import org.uniprot.store.search.field.UniProtField;
 import java.util.ArrayList;
 import java.util.List;
 
+import java.io.IOException;
+import java.io.InputStream;
 import static java.util.Arrays.asList;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.contains;
