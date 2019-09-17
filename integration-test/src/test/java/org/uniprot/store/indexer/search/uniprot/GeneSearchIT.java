@@ -210,16 +210,6 @@ class GeneSearchIT {
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
         assertThat(retrievedAccessions, is(empty()));
     }
-
-    @Test
-    void partialCommonPPPGeneNameMatchesEntry3And4() {
-        String query = geneQuery("PPP");
-
-        QueryResponse response = searchEngine.getQueryResponse(query);
-
-        List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
-        assertThat(retrievedAccessions, containsInAnyOrder(ACCESSION3, ACCESSION4));
-    }
     
     @Test
     void partialCommonGeneNameWithWildCardMatchesEntry1And2() {
@@ -229,17 +219,6 @@ class GeneSearchIT {
 
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
         assertThat(retrievedAccessions, containsInAnyOrder(ACCESSION1, ACCESSION2));
-    }
-
-    @Test
-
-    void partialCommonPPP2RGeneNameMatchesEntry3And4() {
-        String query = geneQuery(COMMON_PPP2R_NAME);
-
-        QueryResponse response = searchEngine.getQueryResponse(query);
-
-        List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
-        assertThat(retrievedAccessions, containsInAnyOrder(ACCESSION3, ACCESSION4));
     }
 
     @Test
