@@ -13,7 +13,7 @@ import org.uniprot.store.indexer.proteome.ProteomeEntryConverter;
 import org.uniprot.store.indexer.search.AbstractSearchEngine;
 import org.uniprot.store.search.field.ProteomeField;
 
-public class ProteomeSearchEngine extends AbstractSearchEngine<Proteome> {
+class ProteomeSearchEngine extends AbstractSearchEngine<Proteome> {
 
     private static final String SEARCH_ENGINE_NAME = "proteome";
     private static final String TAXONOMY_FILE_NAME = "taxonomy/taxonomy.dat";

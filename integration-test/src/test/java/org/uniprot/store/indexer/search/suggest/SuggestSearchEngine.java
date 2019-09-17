@@ -4,11 +4,11 @@ import org.uniprot.store.indexer.search.AbstractSearchEngine;
 import org.uniprot.store.search.document.suggest.SuggestDocument;
 import org.uniprot.store.search.field.SuggestField;
 
-public class SuggestSearchEngine extends AbstractSearchEngine<SuggestDocument> {
+class SuggestSearchEngine extends AbstractSearchEngine<SuggestDocument> {
 
     private static final String SEARCH_ENGINE_NAME = "suggest";
 
-    public SuggestSearchEngine() {
+    SuggestSearchEngine() {
         super(SEARCH_ENGINE_NAME, identityConverter -> identityConverter);
     }
 

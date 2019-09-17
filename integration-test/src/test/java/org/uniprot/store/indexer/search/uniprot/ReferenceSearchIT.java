@@ -1,9 +1,9 @@
 package org.uniprot.store.indexer.search.uniprot;
 
 import org.apache.solr.client.solrj.response.QueryResponse;
-import org.junit.BeforeClass;
-import org.junit.ClassRule;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.extension.RegisterExtension;
+import org.junit.jupiter.api.Test;
 import org.uniprot.core.flatfile.parser.impl.DefaultUniprotLineParserFactory;
 import org.uniprot.core.flatfile.parser.impl.entry.EntryObject;
 import org.uniprot.core.flatfile.writer.LineType;
@@ -27,17 +27,17 @@ import static org.uniprot.store.indexer.search.uniprot.TestUtils.*;
 /**
  * Tests if the protein existence search is working correctly
  */
-public class ReferenceSearchIT {
+class ReferenceSearchIT {
     private static final String UNIPROT_FLAT_FILE_ENTRY_PATH = "/it/uniprot/P0A377.43.dat";
     private static final String Q6GZX1 = "Q6GZX1";
     private static final String Q6GZX2 = "Q6GZX2";
     private static final String Q6GZX3 = "Q6GZX3";
     private static final String Q6GZX4 = "Q6GZX4";
-    @ClassRule
-    public static UniProtSearchEngine searchEngine = new UniProtSearchEngine();
+    @RegisterExtension
+    static UniProtSearchEngine searchEngine = new UniProtSearchEngine();
 
-    @BeforeClass
-    public static void populateIndexWithTestData() throws IOException {
+    @BeforeAll
+    static void populateIndexWithTestData() throws IOException {
         // a test entry object that can be modified and added to index
         InputStream resourceAsStream = TestUtils.getResourceAsStream(UNIPROT_FLAT_FILE_ENTRY_PATH);
         String entryAsString = TestUtils.convertInputStreamToString(resourceAsStream);
@@ -158,7 +158,7 @@ public class ReferenceSearchIT {
     }
 
     @Test
-    public void refTitleFindSpecialCharacterFullTitle() {
+    void refTitleFindSpecialCharacterFullTitle() {
         String query = title("Ümlaut titles äre GREAT αβηω!");
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -167,7 +167,7 @@ public class ReferenceSearchIT {
     }
 
     @Test
-    public void refTitleFindReplaceAUmlautWithAPartialTitle() {
+    void refTitleFindReplaceAUmlautWithAPartialTitle() {
         String query = title("are great");
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -176,7 +176,7 @@ public class ReferenceSearchIT {
     }
 
     @Test
-    public void refTitleFindUmlautPartialTitle() {
+    void refTitleFindUmlautPartialTitle() {
         String query = title("Ümlaut");
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -185,7 +185,7 @@ public class ReferenceSearchIT {
     }
 
     @Test
-    public void refTitleFindNoUmlautPartialTitle() {
+    void refTitleFindNoUmlautPartialTitle() {
         String query = title("Umlaut");
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -194,7 +194,7 @@ public class ReferenceSearchIT {
     }
 
     @Test
-    public void refTitleFindAlphaPartialTitle() {
+    void refTitleFindAlphaPartialTitle() {
         String query = title("αβηω");
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -203,7 +203,7 @@ public class ReferenceSearchIT {
     }
 
     @Test
-    public void refTitleFindNothingWithWrongSpecialCharactersInTitle() {
+    void refTitleFindNothingWithWrongSpecialCharactersInTitle() {
         String query = title("αβηωThisbitIsWrong");
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -212,7 +212,7 @@ public class ReferenceSearchIT {
     }
 
     @Test
-    public void refFindFullTitle() {
+    void refFindFullTitle() {
         String query = title("Crystal structure of ylba, hypothetical protein from E.coli");
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -221,7 +221,7 @@ public class ReferenceSearchIT {
     }
 
     @Test
-    public void refFindLongFullTitle() {
+    void refFindLongFullTitle() {
         String query = title("Comparative genomic analyses of frog virus 3, type species of the genus Ranavirus (family Iridoviridae).");
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -230,7 +230,7 @@ public class ReferenceSearchIT {
     }
 
     @Test
-    public void refAuthorsSetFind1Entries() {
+    void refAuthorsSetFind1Entries() {
         Set<String> authorSet = new HashSet<String>() {{
             add("Knulst A.");
             add("Radauer C.");
@@ -243,7 +243,7 @@ public class ReferenceSearchIT {
     }
 
     @Test
-    public void refAuthorsSurnameSetFind1Entries() {
+    void refAuthorsSurnameSetFind1Entries() {
         Set<String> authorSet = new HashSet<String>() {{
             add("Knulst");
             add("Radauer");
@@ -257,7 +257,7 @@ public class ReferenceSearchIT {
 
     
     @Test
-    public void refAuthorsSetFind3Entries() {
+    void refAuthorsSetFind3Entries() {
         Set<String> authorSet = new HashSet<String>() {{
             add("Breiteneder H.");
             add("Gregory Chinchar V.");
@@ -270,7 +270,7 @@ public class ReferenceSearchIT {
     }
 
     @Test
-    public void refAuthorsSetFind0Entries() {
+    void refAuthorsSetFind0Entries() {
         Set<String> authorSet = new HashSet<String>() {{
             add("ThisIsNotEvenAName H.");
             add("NorIsThisANameWowCowabunga C.P.");
@@ -283,7 +283,7 @@ public class ReferenceSearchIT {
     }
 
     @Test
-    public void refAuthoringGroupAbbrev() {
+    void refAuthoringGroupAbbrev() {
         String query = authorGroup("NYSGRC");
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -292,7 +292,7 @@ public class ReferenceSearchIT {
     }
 
     @Test
-    public void refAuthoringGroupNoAbbrev() {
+    void refAuthoringGroupNoAbbrev() {
         String query = authorGroup("New York structural genomics research consortium");
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -301,7 +301,7 @@ public class ReferenceSearchIT {
     }
 
     @Test
-    public void refAuthoringGroupFull() {
+    void refAuthoringGroupFull() {
         String query = authorGroup("New York structural genomics research consortium (NYSGRC);");
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -310,7 +310,7 @@ public class ReferenceSearchIT {
     }
 
     @Test
-    public void refPubMedTwoEntries() {
+    void refPubMedTwoEntries() {
         String query = pubmed("15165820");
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -319,7 +319,7 @@ public class ReferenceSearchIT {
     }
 
     @Test
-    public void refPubMedNoEntries() {
+    void refPubMedNoEntries() {
         String query = pubmed("1516580");
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -327,7 +327,7 @@ public class ReferenceSearchIT {
         assertThat(retrievedAccessions, is(empty()));
     }
     @Test
-    public void refStrainsOneEntry() {
+    void refStrainsOneEntry() {
     	String query= query(UniProtField.Search.strain, "LL171");
     	System.out.println(query.toString());
 		QueryResponse response = searchEngine.getQueryResponse(query);
@@ -337,7 +337,7 @@ public class ReferenceSearchIT {
     }
     
     @Test
-    public void refTissueOneEntry() {
+    void refTissueOneEntry() {
     	String query= query(UniProtField.Search.tissue, "Fruit");
     	System.out.println(query.toString());
 		QueryResponse response = searchEngine.getQueryResponse(query);
@@ -346,7 +346,7 @@ public class ReferenceSearchIT {
 		assertThat(retrievedAccessions, not(hasItem(Q6GZX2)));
     }
     @Test
-    public void refPlasmidOneEntry() {
+    void refPlasmidOneEntry() {
     	String query= query(UniProtField.Search.plasmid, "plas");
 		QueryResponse response = searchEngine.getQueryResponse(query);
 		List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
@@ -355,7 +355,7 @@ public class ReferenceSearchIT {
     }
 
     @Test
-    public void refTransposonOneEntry() {
+    void refTransposonOneEntry() {
     	String query= query(UniProtField.Search.transposon, "tn1");
 		QueryResponse response = searchEngine.getQueryResponse(query);
 		List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
@@ -365,7 +365,7 @@ public class ReferenceSearchIT {
 
 
     @Test
-    public void refRPOneEntry() {
+    void refRPOneEntry() {
     	String query= query(UniProtField.Search.scope, "GLYCOSYLATION");
 		QueryResponse response = searchEngine.getQueryResponse(query);
 		List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
@@ -374,7 +374,7 @@ public class ReferenceSearchIT {
 		assertThat(retrievedAccessions, not(hasItem(Q6GZX2)));
     }
     @Test
-    public void refRPThreeEntries() {
+    void refRPThreeEntries() {
     	String query= query(UniProtField.Search.scope, "SUBCELLULAR");
 		QueryResponse response = searchEngine.getQueryResponse(query);
 		List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
@@ -383,7 +383,7 @@ public class ReferenceSearchIT {
 		assertThat(retrievedAccessions, not(hasItem(Q6GZX1)));
     }
     @Test
-    public void refPublished() {
+    void refPublished() {
     	LocalDate start = LocalDate.of(2010, 1, 1);
     	LocalDate end = LocalDate.of(2010, 12, 31);
 

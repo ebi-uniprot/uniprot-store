@@ -12,26 +12,26 @@ import java.io.InputStream;
 import java.util.List;
 
 import org.apache.solr.client.solrj.response.QueryResponse;
-import org.junit.BeforeClass;
-import org.junit.ClassRule;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.extension.RegisterExtension;
+import org.junit.jupiter.api.Test;
 import org.uniprot.core.flatfile.writer.LineType;
 import org.uniprot.core.uniprot.feature.FeatureType;
 import org.uniprot.store.search.field.QueryBuilder;
 
 
-public class FTFamilyDomainSearchIT {
-	public static final String Q6GZX4 = "Q6GZX4";
-	public static final String Q197B1 = "Q197B1";
+class FTFamilyDomainSearchIT {
+	private static final String Q6GZX4 = "Q6GZX4";
+	private static final String Q197B1 = "Q197B1";
 	private static final String UNIPROT_FLAT_FILE_ENTRY_PATH = "/it/uniprot/P0A377.43.dat";
 	private static final String Q12345 = "Q12345";
 	private static final String Q6GZN7 = "Q6GZN7";
 	private static final String Q6V4H0 = "Q6V4H0";
-	@ClassRule
-	public static UniProtSearchEngine searchEngine = new UniProtSearchEngine();
+	@RegisterExtension
+	static UniProtSearchEngine searchEngine = new UniProtSearchEngine();
 
-	@BeforeClass
-	public static void populateIndexWithTestData() throws IOException {
+	@BeforeAll
+	static void populateIndexWithTestData() throws IOException {
 		// a test entry object that can be modified and added to index
 		InputStream resourceAsStream = TestUtils.getResourceAsStream(UNIPROT_FLAT_FILE_ENTRY_PATH);
 		UniProtEntryObjectProxy entryProxy = UniProtEntryObjectProxy.createEntryFromInputStream(resourceAsStream);
@@ -80,7 +80,7 @@ public class FTFamilyDomainSearchIT {
 	}
 
 	@Test
-	public void domainFindEntryWithEvidenceLength() {
+	void domainFindEntryWithEvidenceLength() {
 		String query = features(FeatureType.DOMAIN, "phosphatase");
 		query =QueryBuilder.and(query, featureLength(FeatureType.DOMAIN, 10, 20));
 		String evidence = "ECO_0000259";
@@ -93,7 +93,7 @@ public class FTFamilyDomainSearchIT {
 		assertThat(retrievedAccessions, not(hasItem(Q197B1)));
 	}
 	@Test
-	public void coiledFindEntryWithEvidenceLength() {
+	void coiledFindEntryWithEvidenceLength() {
 		String query = features(FeatureType.COILED, "*");
 		query =QueryBuilder.and(query, featureLength(FeatureType.COILED, 10, 30));
 		String evidence = "ECO_0000255";
@@ -107,7 +107,7 @@ public class FTFamilyDomainSearchIT {
 	}
 	
 	@Test
-	public void compbiasFindEntryWithEvidenceLength() {
+	void compbiasFindEntryWithEvidenceLength() {
 		String query = features(FeatureType.COMPBIAS, "glu-rich");
 		query =QueryBuilder.and(query, featureLength(FeatureType.COMPBIAS, 10, 30));
 		String evidence = "ECO_0000256";
@@ -122,7 +122,7 @@ public class FTFamilyDomainSearchIT {
 	}
 	
 	@Test
-	public void motifFindEntryWithEvidenceLength() {
+	void motifFindEntryWithEvidenceLength() {
 		String query = features(FeatureType.MOTIF, "motif");
 		query =QueryBuilder.and(query, featureLength(FeatureType.MOTIF, 2, 30));
 		String evidence = "ECO_0000256";
@@ -135,7 +135,7 @@ public class FTFamilyDomainSearchIT {
 		assertThat(retrievedAccessions, not(hasItem(Q6GZX4)));
 	}
 	@Test
-	public void repeatFindEntryWithEvidenceLength() {
+	void repeatFindEntryWithEvidenceLength() {
 		String query = features(FeatureType.REPEAT, "motif");
 		query =QueryBuilder.and(query, featureLength(FeatureType.REPEAT, 2, 30));
 		String evidence = "ECO_0000256";
@@ -148,7 +148,7 @@ public class FTFamilyDomainSearchIT {
 		assertThat(retrievedAccessions, not(hasItem(Q6GZX4)));
 	}
 	@Test
-	public void regionFindEntryWithEvidenceLength() {
+	void regionFindEntryWithEvidenceLength() {
 		String query = features(FeatureType.REGION, "motif");
 		query =QueryBuilder.and(query, featureLength(FeatureType.REGION, 2, 30));
 		String evidence = "ECO_0000256";
@@ -161,7 +161,7 @@ public class FTFamilyDomainSearchIT {
 		assertThat(retrievedAccessions, not(hasItem(Q6GZX4)));
 	}
 	@Test
-	public void znfingFindEntryWithEvidenceLength() {
+	void znfingFindEntryWithEvidenceLength() {
 		String query = features(FeatureType.ZN_FING, "UBP");
 		query =QueryBuilder.and(query, featureLength(FeatureType.ZN_FING, 2, 70));
 		String evidence = "ECO_0000256";

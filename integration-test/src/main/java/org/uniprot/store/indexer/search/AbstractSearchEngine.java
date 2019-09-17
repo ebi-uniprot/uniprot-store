@@ -10,7 +10,9 @@ import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.common.SolrDocument;
 import org.apache.solr.common.SolrDocumentList;
 import org.apache.solr.core.CoreContainer;
-import org.junit.rules.ExternalResource;
+import org.junit.jupiter.api.extension.AfterAllCallback;
+import org.junit.jupiter.api.extension.BeforeAllCallback;
+import org.junit.jupiter.api.extension.ExtensionContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.uniprot.store.job.common.converter.DocumentConverter;
@@ -29,7 +31,7 @@ import java.util.List;
  * <p>
  * The class defines methods to insert/delete/query data from the data source.
  */
-public abstract class AbstractSearchEngine<E> extends ExternalResource {
+public abstract class AbstractSearchEngine<E> implements  BeforeAllCallback, AfterAllCallback {
     private static final String SOLR_CONFIG_DIR = "../index-config/src/main/solr-config/uniprot-collections";
     private static final Logger logger = LoggerFactory.getLogger(AbstractSearchEngine.class);
 
@@ -163,7 +165,11 @@ public abstract class AbstractSearchEngine<E> extends ExternalResource {
     protected abstract Enum identifierField();
 
     @Override
-    protected void before() throws Throwable {
+    public void beforeAll(ExtensionContext context){
+        createServer();
+    }
+
+    private void createServer(){
         // properties used by solrconfig.xml files in the cores' conf directories
         System.setProperty("solr.data.dir", indexHome.getAbsolutePath() + "/solr/data");
         System.setProperty("solr.core.name", "uniprot");
@@ -180,6 +186,7 @@ public abstract class AbstractSearchEngine<E> extends ExternalResource {
         CoreContainer container = new CoreContainer(solrConfigDir.getAbsolutePath());
 
         container.load();
+        container.waitForLoadingCoresToFinish(60 * 1000);
 
 
         if (!container.isLoaded(searchEngineName)) {
@@ -193,7 +200,11 @@ public abstract class AbstractSearchEngine<E> extends ExternalResource {
     }
 
     @Override
-    protected void after() {
+    public void afterAll(ExtensionContext context){
+        closeServer();
+    }
+
+    private void closeServer(){
         try {
             server.close();
             indexHome.deleteOnExit();

@@ -25,8 +25,8 @@ import org.uniprot.store.search.document.uniparc.UniParcDocument;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
 import static org.uniprot.store.indexer.common.utils.Constants.UNIPARC_INDEX_JOB;
 
 /**

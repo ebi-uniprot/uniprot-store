@@ -9,6 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <artifactId>uniprot-index-config</artifactId>
+    <version>${project.parent.version}</version>
     <profiles>
         <profile>
             <id>assemble-only-solr-collections-conf-archive</id>

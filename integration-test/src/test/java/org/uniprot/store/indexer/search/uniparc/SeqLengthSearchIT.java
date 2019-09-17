@@ -1,9 +1,9 @@
 package org.uniprot.store.indexer.search.uniparc;
 
 import org.apache.solr.client.solrj.response.QueryResponse;
-import org.junit.BeforeClass;
-import org.junit.ClassRule;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.extension.RegisterExtension;
+import org.junit.jupiter.api.Test;
 import org.uniprot.core.xml.jaxb.uniparc.Entry;
 import org.uniprot.store.search.field.QueryBuilder;
 import org.uniprot.store.search.field.UniParcField;
@@ -17,17 +17,17 @@ import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.hamcrest.core.Is.is;
 import static org.hamcrest.collection.IsEmptyCollection.empty;
 
-public class SeqLengthSearchIT {
-    @ClassRule
-    public static UniParcSearchEngine searchEngine = new UniParcSearchEngine();
+class SeqLengthSearchIT {
+    @RegisterExtension
+    static UniParcSearchEngine searchEngine = new UniParcSearchEngine();
 
     private static final String ID_1 = "UPI0000000001";
     private static final String ID_2 = "UPI0000000002";
     private static final String CHECKSUM_1 = "5A0A2229D6C87ABF";
     private static final String CHECKSUM_2 = "76F4826B7009DFAF";
 
-    @BeforeClass
-    public static void populateIndexWithTestData() throws IOException {
+    @BeforeAll
+    static void populateIndexWithTestData() {
         // a test entry object that can be modified and added to index
         Entry entry = TestUtils.createDefaultUniParcEntry();
 
@@ -44,7 +44,7 @@ public class SeqLengthSearchIT {
         searchEngine.printIndexContents();
     }
     @Test
-    public void searchOnExactLengthWithEntryOne(){
+    void searchOnExactLengthWithEntryOne(){
         String query = seqLength(16);
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -52,7 +52,7 @@ public class SeqLengthSearchIT {
         assertThat(retrievedIdentifiers, contains(ID_1));
     }
     @Test
-    public void searchOnExactLengthWithoutAny(){
+    void searchOnExactLengthWithoutAny(){
         String query = seqLength(15);
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -67,7 +67,7 @@ public class SeqLengthSearchIT {
     }
 
     @Test
-    public void searchOnLengthRangWithOneEntry(){
+    void searchOnLengthRangWithOneEntry(){
         String query = seqLengthRange(15, 18);
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -75,7 +75,7 @@ public class SeqLengthSearchIT {
         assertThat(retrievedIdentifiers, contains(ID_1));
     }
     @Test
-    public void searchOnLengthRangWithTwoEntries(){
+    void searchOnLengthRangWithTwoEntries(){
         String query = seqLengthRange(15, 30);
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -84,7 +84,7 @@ public class SeqLengthSearchIT {
     }
 
     @Test
-    public void searchOnLengthRangWithoutAny(){
+    void searchOnLengthRangWithoutAny(){
         String query = seqLengthRange(5, 15);
         QueryResponse response = searchEngine.getQueryResponse(query);
 

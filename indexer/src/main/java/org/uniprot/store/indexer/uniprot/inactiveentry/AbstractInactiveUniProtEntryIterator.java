@@ -1,10 +1,9 @@
 package org.uniprot.store.indexer.uniprot.inactiveentry;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
-public abstract class AbstractInactiveUniProtEntryIterator implements Iterator<InactiveUniProtEntry> {
+public abstract class AbstractInactiveUniProtEntryIterator implements InactiveEntryIterator{
     protected boolean hasResult = false;
     private InactiveUniProtEntry nextEntry = null;
 

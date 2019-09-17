@@ -14,27 +14,27 @@ import java.io.InputStream;
 import java.util.List;
 
 import org.apache.solr.client.solrj.response.QueryResponse;
-import org.junit.BeforeClass;
-import org.junit.ClassRule;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.extension.RegisterExtension;
+import org.junit.jupiter.api.Test;
 import org.uniprot.core.flatfile.writer.LineType;
 import org.uniprot.store.search.field.QueryBuilder;
 import org.uniprot.store.search.field.UniProtField;
 
 
-public class CCBpcpSearchIT {
-	  public static final String Q6GZX4 = "Q6GZX4";
-	    public static final String Q6GZX3 = "Q6GZX3";
-	    public static final String Q6GZY3 = "Q6GZY3";
-	    public static final String Q197B6 = "Q197B6";
+class CCBpcpSearchIT {
+	  private static final String Q6GZX4 = "Q6GZX4";
+	    private static final String Q6GZX3 = "Q6GZX3";
+	    private static final String Q6GZY3 = "Q6GZY3";
+	    private static final String Q197B6 = "Q197B6";
 	    private static final String UNIPROT_FLAT_FILE_ENTRY_PATH = "/it/uniprot/P0A377.43.dat";
 	    private static final String Q12345 = "Q12345";
 
-	    @ClassRule
-	    public static UniProtSearchEngine searchEngine = new UniProtSearchEngine();
+	    @RegisterExtension
+	    static UniProtSearchEngine searchEngine = new UniProtSearchEngine();
 
-	    @BeforeClass
-	    public static void populateIndexWithTestData() throws IOException {
+	    @BeforeAll
+	    static void populateIndexWithTestData() throws IOException {
 	        // a test entry object that can be modified and added to index
 	        InputStream resourceAsStream = TestUtils.getResourceAsStream(UNIPROT_FLAT_FILE_ENTRY_PATH);
 	        UniProtEntryObjectProxy entryProxy = UniProtEntryObjectProxy.createEntryFromInputStream(resourceAsStream);
@@ -115,14 +115,14 @@ public class CCBpcpSearchIT {
 	        searchEngine.printIndexContents();
 	    }
 	    @Test
-	    public void findBPC() {
+	    void findBPC() {
 	    		String query= query(UniProtField.Search.cc_bpcp, "protein");
 	    		QueryResponse response = searchEngine.getQueryResponse(query);
 	    		List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
 	    		assertThat(retrievedAccessions, hasItems(Q6GZX4 , Q6GZX3));
 	    }
 	    @Test
-	    public void findBPCWithEvidence() {
+	    void findBPCWithEvidence() {
 	    		String query= query(UniProtField.Search.cc_bpcp, "protein");
 	    		String evidence ="ECO_0000269";
 	    		query = QueryBuilder.and(query, query(UniProtField.Search.ccev_bpcp, evidence));
@@ -133,7 +133,7 @@ public class CCBpcpSearchIT {
 	    		assertThat(retrievedAccessions, not(hasItem(Q6GZX3)));
 	    }
 	    @Test
-	    public void findOnlyEvidence() {
+	    void findOnlyEvidence() {
 	    		String evidence ="ECO_0000269";
 	    		String query = query(UniProtField.Search.ccev_bpcp, evidence);
 	    		System.out.println(query);
@@ -144,7 +144,7 @@ public class CCBpcpSearchIT {
 	    		assertThat(retrievedAccessions, not(hasItem(Q6GZX3)));
 	    }
 	    @Test
-	    public void findBPCWithManualEvidence() {
+	    void findBPCWithManualEvidence() {
 	    		String query= query(UniProtField.Search.cc_bpcp, "protein");
 	    		String evidence ="manual";
 	    		query = QueryBuilder.and(query, query(UniProtField.Search.ccev_bpcp, evidence));
@@ -155,14 +155,14 @@ public class CCBpcpSearchIT {
 	    
 	    
 	    @Test
-	    public void findBPCPWithAbsorption() {
+	    void findBPCPWithAbsorption() {
 	    		String query= query(UniProtField.Search.cc_bpcp_absorption, "spectrum");
 	    		QueryResponse response = searchEngine.getQueryResponse(query);
 	    		List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
 	    		assertThat(retrievedAccessions, contains(Q6GZX4));
 	    }
 	    @Test
-	    public void findBPCPWithAbsorptionWithEvidence() {
+	    void findBPCPWithAbsorptionWithEvidence() {
 	    		String query= query(UniProtField.Search.cc_bpcp_absorption, "spectrum");
 	    		String evidence ="ECO_0000269";
 	    		query = QueryBuilder.and(query, query(UniProtField.Search.ccev_bpcp_absorption, evidence));
@@ -172,7 +172,7 @@ public class CCBpcpSearchIT {
 	    }
 	    
 	    @Test
-	    public void findBPCPWithAbsorptionWithEvidenceNo() {
+	    void findBPCPWithAbsorptionWithEvidenceNo() {
 	    		String query= query(UniProtField.Search.cc_bpcp_absorption, "spectrum");
 	    		String evidence ="ECO_0000250";
 	    		query = QueryBuilder.and(query, query(UniProtField.Search.ccev_bpcp_absorption, evidence));
@@ -182,14 +182,14 @@ public class CCBpcpSearchIT {
 	    }
 	    
 	    @Test
-	    public void findBPCPWithKinetics() {
+	    void findBPCPWithKinetics() {
 	    		String query= query(UniProtField.Search.cc_bpcp_kinetics, "*");
 	    		QueryResponse response = searchEngine.getQueryResponse(query);
 	    		List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
 	    		assertThat(retrievedAccessions, hasItems(Q6GZX3, Q6GZY3, Q197B6, Q12345));
 	    }
 	    @Test
-	    public void findBPCPWithKinetics2() {
+	    void findBPCPWithKinetics2() {
 	    		String query= query(UniProtField.Search.cc_bpcp_kinetics, "carboxyspermidine");
 	    		QueryResponse response = searchEngine.getQueryResponse(query);
 	    		List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
@@ -197,7 +197,7 @@ public class CCBpcpSearchIT {
 	    }
 	    
 	    @Test
-	    public void findBPCPWithKinetics2Evidenece() {
+	    void findBPCPWithKinetics2Evidenece() {
 	    		String query= query(UniProtField.Search.cc_bpcp_kinetics, "carboxyspermidine");
 	    		String evidence ="ECO_0000269";
 	    		query = QueryBuilder.and(query, query(UniProtField.Search.ccev_bpcp_kinetics, evidence));
@@ -207,7 +207,7 @@ public class CCBpcpSearchIT {
 	    }
 	    
 	    @Test
-	    public void findBPCPWithKineticEvid() {
+	    void findBPCPWithKineticEvid() {
 	    		String query= query(UniProtField.Search.cc_bpcp_kinetics, "*");
 	    		
 	    		String evidence ="ECO_0000269";
@@ -218,7 +218,7 @@ public class CCBpcpSearchIT {
 	    		assertThat(retrievedAccessions, not(hasItem(Q6GZX3)));
 	    }
 	    @Test
-	    public void findBPCPWithKineticEvidManual() {
+	    void findBPCPWithKineticEvidManual() {
 	    		String query= query(UniProtField.Search.cc_bpcp_kinetics, "*");
 	    		
 	    		String evidence ="manual";
@@ -228,14 +228,14 @@ public class CCBpcpSearchIT {
 	    		assertThat(retrievedAccessions, hasItems(Q6GZX3, Q6GZY3, Q197B6, Q12345));
 	    }
 	    @Test
-	    public void findBPCPWithPhDependence() {
+	    void findBPCPWithPhDependence() {
 	    		String query= query(UniProtField.Search.cc_bpcp_ph_dependence, "optimum");
 	    		QueryResponse response = searchEngine.getQueryResponse(query);
 	    		List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
 	    		assertThat(retrievedAccessions, hasItems(Q197B6, Q12345));
 	    }
 	    @Test
-	    public void findBPCPWithPhDependenceEvidence() {
+	    void findBPCPWithPhDependenceEvidence() {
 	    		String query= query(UniProtField.Search.cc_bpcp_ph_dependence, "optimum");
 	    		String evidence ="ECO_0000269";
 	    		query = QueryBuilder.and(query, query(UniProtField.Search.ccev_bpcp_ph_dependence, evidence));
@@ -245,14 +245,14 @@ public class CCBpcpSearchIT {
 	    		assertThat(retrievedAccessions, not(hasItem(Q12345)));
 	    }
 	    @Test
-	    public void findBPCPWithTempDependence() {
+	    void findBPCPWithTempDependence() {
 	    		String query= query(UniProtField.Search.cc_bpcp_temp_dependence, "temperature");
 	    		QueryResponse response = searchEngine.getQueryResponse(query);
 	    		List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
 	    		assertThat(retrievedAccessions, hasItems(Q12345, Q197B6));
 	    }
 	    @Test
-	    public void findBPCPWithTempDependenceEvidence() {
+	    void findBPCPWithTempDependenceEvidence() {
 	    		String query= query(UniProtField.Search.cc_bpcp_temp_dependence, "temperature");
 	    		String evidence ="ECO_0000305";
 	    		query = QueryBuilder.and(query, query(UniProtField.Search.ccev_bpcp_temp_dependence, evidence));
@@ -262,14 +262,14 @@ public class CCBpcpSearchIT {
 	    		assertThat(retrievedAccessions, not(hasItem(Q12345)));
 	    }
 	    @Test
-	    public void findBPCPWithRedox() {
+	    void findBPCPWithRedox() {
 	    		String query= query(UniProtField.Search.cc_bpcp_redox_potential, "heme");
 	    		QueryResponse response = searchEngine.getQueryResponse(query);
 	    		List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
 	    		assertThat(retrievedAccessions, hasItems(Q6GZY3));
 	    }
 	    @Test
-	    public void findBPCPWithRedoxEvidence() {
+	    void findBPCPWithRedoxEvidence() {
 	    		String query= query(UniProtField.Search.cc_bpcp_redox_potential, "heme");
 	    		String evidence ="ECO_0000269";
 	    		query = QueryBuilder.and(query, query(UniProtField.Search.ccev_bpcp_redox_potential, evidence));
@@ -279,7 +279,7 @@ public class CCBpcpSearchIT {
 	    		assertThat(retrievedAccessions, hasItems( Q6GZY3));
 	    }
 	    @Test
-	    public void findBPCPWithRedoxEvidenceNone() {
+	    void findBPCPWithRedoxEvidenceNone() {
 	    		String query= query(UniProtField.Search.cc_bpcp_redox_potential, "heme");
 	    		String evidence ="ECO_0000305";
 	    		query = QueryBuilder.and(query, query(UniProtField.Search.ccev_bpcp_redox_potential, evidence));

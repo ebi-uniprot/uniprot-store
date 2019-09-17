@@ -5,20 +5,17 @@ import java.io.File;
 import java.lang.reflect.Field;
 import java.net.URL;
 import java.util.Map;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.*;
 import org.uniprot.store.datastore.voldemort.MetricsUtil;
-import org.uniprot.store.datastore.voldemort.uniprot.VoldemortInMemoryUniprotEntryStore;
-import org.uniprot.store.datastore.voldemort.uniprot.VoldemortUniprotEntryStoreBuilder;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class VoldemortUniprotEntryStoreBuilderTest {
 
     private String storeName = "avro-uniprot";
 
-    @Before @After
+    @BeforeEach
+    @AfterEach
     public void cleanIndexFiles() throws Exception{
         for (int i=0;i<=10;i++) {
             new File(storeName+".parse.fail."+i+".txt").delete();

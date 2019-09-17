@@ -9,22 +9,18 @@ import java.io.IOException;
 import java.util.List;
 
 import org.apache.solr.client.solrj.response.QueryResponse;
-import org.junit.BeforeClass;
-import org.junit.ClassRule;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.extension.RegisterExtension;
+import org.junit.jupiter.api.Test;
 import org.uniprot.core.uniparc.UniParcDatabaseType;
 import org.uniprot.core.xml.jaxb.uniparc.DbReferenceType;
 import org.uniprot.core.xml.jaxb.uniparc.Entry;
 import org.uniprot.store.search.field.QueryBuilder;
 import org.uniprot.store.search.field.UniParcField;
 
-/**
- * Tests the search capabilities of the {@link uk.ac.ebi.uniprot.dataservice.client.uniparc.UniParcQueryBuilder} when
- * it comes to searching for UniParc entries using a taxonomic Identifier or an organism name
- */
-public class OrganismSearchIT {
-    @ClassRule
-    public static UniParcSearchEngine searchEngine = new UniParcSearchEngine();
+class OrganismSearchIT {
+    @RegisterExtension
+    static UniParcSearchEngine searchEngine = new UniParcSearchEngine();
 
     private static final String ID_1 = "UPI0000000001";
     private static final String ID_2 = "UPI0000000002";
@@ -34,8 +30,8 @@ public class OrganismSearchIT {
     private static final String EGGPLANT_SCIENTIFIC_NAME = "Solanum melongena";
     private static final int EGGPLANT_TAX_ID = 4111;
 
-    @BeforeClass
-    public static void populateIndexWithTestData() throws IOException {
+    @BeforeAll
+    static void populateIndexWithTestData() {
         //Entry 1
         {
             Entry entry = TestUtils.createDefaultUniParcEntry();
@@ -62,7 +58,7 @@ public class OrganismSearchIT {
     }
 
     @Test
-    public void searchNonExistentTaxIdReturns0Documents() throws Exception {
+    void searchNonExistentTaxIdReturns0Documents() {
         String query = taxonId(Integer.MAX_VALUE);
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -71,7 +67,7 @@ public class OrganismSearchIT {
     }
 
     @Test
-    public void searchForHumanTaxIdReturnsEntry1() throws Exception {
+    void searchForHumanTaxIdReturnsEntry1() {
         String query = taxonId(HUMAN_TAX_ID);
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -80,7 +76,7 @@ public class OrganismSearchIT {
     }
 
     @Test
-    public void searchForHumanScientificNameReturnsEntry1() throws Exception {
+    void searchForHumanScientificNameReturnsEntry1() {
         String query = organismName(HUMAN_SCIENTIFIC_NAME);
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -89,7 +85,7 @@ public class OrganismSearchIT {
     }
 
     @Test
-    public void searchForHumanCommonNameReturnsEntry1() throws Exception {
+    void searchForHumanCommonNameReturnsEntry1() {
         String query = organismName(HUMAN_COMMON_NAME);
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -98,7 +94,7 @@ public class OrganismSearchIT {
     }
 
     @Test
-    public void searchForPartialHumanCommonNameReturnsEntry1() throws Exception {
+    void searchForPartialHumanCommonNameReturnsEntry1() {
         String query = organismName("homo");
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -107,7 +103,7 @@ public class OrganismSearchIT {
     }
 
     @Test
-    public void searchForChondromycesTaxIdReturnsEntry2() throws Exception {
+    void searchForChondromycesTaxIdReturnsEntry2() {
         String query = taxonId(EGGPLANT_TAX_ID);
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -116,7 +112,7 @@ public class OrganismSearchIT {
     }
 
     @Test
-    public void searchForChondromycesScientificNameReturnsEntry2() throws Exception {
+    void searchForChondromycesScientificNameReturnsEntry2() {
         String query = organismName(EGGPLANT_SCIENTIFIC_NAME);
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -125,7 +121,7 @@ public class OrganismSearchIT {
     }
 
     @Test
-    public void searchForNonExistentScientificNameReturns0Entires() throws Exception {
+    void searchForNonExistentScientificNameReturns0Entires() {
         String query = organismName("Unknown");
         QueryResponse response = searchEngine.getQueryResponse(query);
 

@@ -1,9 +1,9 @@
 package org.uniprot.store.indexer.search.uniprot;
 
 import org.apache.solr.client.solrj.response.QueryResponse;
-import org.junit.BeforeClass;
-import org.junit.ClassRule;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.extension.RegisterExtension;
+import org.junit.jupiter.api.Test;
 import org.uniprot.core.flatfile.writer.LineType;
 import org.uniprot.store.search.field.UniProtField;
 
@@ -23,7 +23,7 @@ import static org.uniprot.store.indexer.search.uniprot.TestUtils.*;
 /**
  * Tests if the EC numbers are searched correctly
  */
-public class ECSearchIT {
+class ECSearchIT {
     private static final String UNIPROT_FLAT_FILE_ENTRY_PATH = "/it/uniprot/P0A377.43.dat";
     private static final String ACCESSION0 = "Q197F4";
     private static final String DE_LINE0 =
@@ -71,11 +71,11 @@ public class ECSearchIT {
     private static final String ACCESSION9 = "Q197G1";
     private static final String EC9 = "2.4.11.40";
 
-    @ClassRule
-    public static UniProtSearchEngine searchEngine = new UniProtSearchEngine();
+    @RegisterExtension
+    static UniProtSearchEngine searchEngine = new UniProtSearchEngine();
 
-    @BeforeClass
-    public static void populateIndexWithTestData() throws IOException {
+    @BeforeAll
+    static void populateIndexWithTestData() throws IOException {
         // a test entry object that can be modified and added to index
         InputStream resourceAsStream = TestUtils.getResourceAsStream(UNIPROT_FLAT_FILE_ENTRY_PATH);
         UniProtEntryObjectProxy entryProxy = UniProtEntryObjectProxy.createEntryFromInputStream(resourceAsStream);
@@ -139,7 +139,7 @@ public class ECSearchIT {
     }
 
     @Test
-    public void noMatchForUnknownEC() throws Exception {
+    void noMatchForUnknownEC() {
         String query = ec("1.1.1.2");
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -148,7 +148,7 @@ public class ECSearchIT {
     }
 
     @Test
-    public void searchForECNumberInMainRecMatchesEntry0() throws Exception {
+    void searchForECNumberInMainRecMatchesEntry0() {
         String query = ec("1.1.1.1");
 
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -158,7 +158,7 @@ public class ECSearchIT {
     }
 
     @Test
-    public void searchForECNumberInMainAltMatchesEntry0() throws Exception {
+    void searchForECNumberInMainAltMatchesEntry0() {
         String query = ec("2.2.2.2");
 
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -168,7 +168,7 @@ public class ECSearchIT {
     }
 
     @Test
-    public void searchForECNumberInMainSubMatchesEntry0() throws Exception {
+    void searchForECNumberInMainSubMatchesEntry0() {
         String query = ec("3.3.3.3");
 
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -178,7 +178,7 @@ public class ECSearchIT {
     }
 
     @Test
-    public void searchForECNumberInIncludesRecMatchesEntry0() throws Exception {
+    void searchForECNumberInIncludesRecMatchesEntry0() {
         String query = ec("4.4.4.4");
 
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -188,7 +188,7 @@ public class ECSearchIT {
     }
 
     @Test
-    public void searchForECNumberInIncludesAltMatchesEntry0() throws Exception {
+    void searchForECNumberInIncludesAltMatchesEntry0() {
         String query = ec("5.5.5.5");
 
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -198,7 +198,7 @@ public class ECSearchIT {
     }
 
     @Test
-    public void searchForECNumberInContainsRecMatchesEntry0() throws Exception {
+    void searchForECNumberInContainsRecMatchesEntry0() {
         String query = ec("6.6.6.6");
 
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -208,7 +208,7 @@ public class ECSearchIT {
     }
 
     @Test
-    public void searchForECNumberInContainsAltMatchesEntry0() throws Exception {
+    void searchForECNumberInContainsAltMatchesEntry0() {
         String query = ec("7.7.7.7");
 
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -218,7 +218,7 @@ public class ECSearchIT {
     }
 
     @Test
-    public void searchForECNumber3_4_11_4MatchesEntry1() throws Exception {
+    void searchForECNumber3_4_11_4MatchesEntry1() {
         String query = ec(EC1);
 
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -228,7 +228,7 @@ public class ECSearchIT {
     }
 
     @Test
-    public void searchForECNumber3_4_11_5MatchesEntry1() throws Exception {
+    void searchForECNumber3_4_11_5MatchesEntry1() {
         String query = ec(EC2);
 
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -238,7 +238,7 @@ public class ECSearchIT {
     }
 
     @Test
-    public void searchForECNumber3_4_11_MatchesEntry1And2And3() throws Exception {
+    void searchForECNumber3_4_11_MatchesEntry1And2And3() {
         String query = ec(EC3);
 
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -248,7 +248,7 @@ public class ECSearchIT {
     }
     
     @Test
-    public void searchForECExactNumber3_4_11_MatchesEntry3() throws Exception {
+    void searchForECExactNumber3_4_11_MatchesEntry3() {
         String query = query(UniProtField.Search.ec_exact, EC3);
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -259,7 +259,7 @@ public class ECSearchIT {
     
 
     @Test
-    public void searchForECNumber3_4_MatchesEntry1And2And3And4() throws Exception {
+    void searchForECNumber3_4_MatchesEntry1And2And3And4() {
         String query = ec("3.4.-.-");
 
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -269,7 +269,7 @@ public class ECSearchIT {
     }
 
     @Test
-    public void searchForECNumber3_MatchesEntry0And1And2And3And4() throws Exception {
+    void searchForECNumber3_MatchesEntry0And1And2And3And4() {
         String query = ec("3.-.-.-");
 
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -279,7 +279,7 @@ public class ECSearchIT {
     }
 
     @Test
-    public void searchForECNumber3_4_10_4MatchesEntry4() throws Exception {
+    void searchForECNumber3_4_10_4MatchesEntry4() {
         String query = ec(EC4);
 
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -289,7 +289,7 @@ public class ECSearchIT {
     }
 
     @Test
-    public void searchForECNumber2_4_11_4MatchesEntry4() throws Exception {
+    void searchForECNumber2_4_11_4MatchesEntry4() {
         String query = ec(EC5);
 
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -299,7 +299,7 @@ public class ECSearchIT {
     }
 
     @Test
-    public void searchForECNumber2_4_11_40DoesMatchesEntry9() throws Exception {
+    void searchForECNumber2_4_11_40DoesMatchesEntry9() {
         String query = ec(EC9);
 
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -309,7 +309,7 @@ public class ECSearchIT {
     }
 
     @Test
-    public void searchForECNumber2_4_11_4DoesNotDoWildCardSearchAtTheEndAndMatchEntry9() throws Exception {
+    void searchForECNumber2_4_11_4DoesNotDoWildCardSearchAtTheEndAndMatchEntry9() {
         String query = ec(EC5);
 
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -319,7 +319,7 @@ public class ECSearchIT {
     }
 
     @Test
-    public void searchForECNumber2_4_11_3MatchesEntry4() throws Exception {
+    void searchForECNumber2_4_11_3MatchesEntry4() {
         String query = ec("2.4.11.3");
 
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -329,7 +329,7 @@ public class ECSearchIT {
     }
 
     @Test
-    public void searchForECNumberWithMissingSecondElementDoesNotMatch() throws Exception {
+    void searchForECNumberWithMissingSecondElementDoesNotMatch() {
         String query = ec("2.-.11.4");
 
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -339,7 +339,7 @@ public class ECSearchIT {
     }
 
     @Test
-    public void searchForECNumber2_4_12_100MatchesEntry6() throws Exception {
+    void searchForECNumber2_4_12_100MatchesEntry6() {
         String query = ec(EC6);
 
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -349,7 +349,7 @@ public class ECSearchIT {
     }
 
     @Test
-    public void searchForECNumber2_4_13_n6MatchesEntry7() throws Exception {
+    void searchForECNumber2_4_13_n6MatchesEntry7() {
         String query = ec(EC7);
 
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -359,7 +359,7 @@ public class ECSearchIT {
     }
 
     @Test
-    public void searchForECNumber2_4_14_n26MatchesEntry8() throws Exception {
+    void searchForECNumber2_4_14_n26MatchesEntry8() {
         String query = ec(EC8);
 
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -369,7 +369,7 @@ public class ECSearchIT {
     }
     
     @Test
-    public void searchForECNumber2_4_11MatchEntry9() throws Exception {
+    void searchForECNumber2_4_11MatchEntry9() {
         String query = ec("2.4.11");
 
         QueryResponse response = searchEngine.getQueryResponse(query);

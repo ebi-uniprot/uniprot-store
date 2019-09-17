@@ -12,25 +12,25 @@ import java.io.InputStream;
 import java.util.List;
 
 import org.apache.solr.client.solrj.response.QueryResponse;
-import org.junit.BeforeClass;
-import org.junit.ClassRule;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.extension.RegisterExtension;
+import org.junit.jupiter.api.Test;
 import org.uniprot.core.flatfile.writer.LineType;
 import org.uniprot.core.uniprot.feature.FeatureType;
 import org.uniprot.store.search.field.QueryBuilder;
 import org.uniprot.store.search.field.UniProtField;
 
-public class FTStructureSearchIT {
+class FTStructureSearchIT {
 
-	public static final String Q6GZX4 = "Q6GZX4";
-	public static final String Q197B1 = "Q197B1";
+	private static final String Q6GZX4 = "Q6GZX4";
+	private static final String Q197B1 = "Q197B1";
 	private static final String UNIPROT_FLAT_FILE_ENTRY_PATH = "/it/uniprot/Q197D8.25.dat";
 	private static final String Q12345 = "Q12345";
-	@ClassRule
-	public static UniProtSearchEngine searchEngine = new UniProtSearchEngine();
+	@RegisterExtension
+	static UniProtSearchEngine searchEngine = new UniProtSearchEngine();
 
-	@BeforeClass
-	public static void populateIndexWithTestData() throws IOException {
+	@BeforeAll
+	static void populateIndexWithTestData() throws IOException {
 		// a test entry object that can be modified and added to index
 		InputStream resourceAsStream = TestUtils.getResourceAsStream(UNIPROT_FLAT_FILE_ENTRY_PATH);
 		UniProtEntryObjectProxy entryProxy = UniProtEntryObjectProxy.createEntryFromInputStream(resourceAsStream);
@@ -60,7 +60,7 @@ public class FTStructureSearchIT {
 		searchEngine.printIndexContents();
 	}
 	@Test
-	public void d3StructureFindEntry() {
+	void d3StructureFindEntry() {
 		String query= query(UniProtField.Search.d3structure, "true");
 		QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -70,7 +70,7 @@ public class FTStructureSearchIT {
 		assertThat(retrievedAccessions, not(hasItem(Q197B1)));
 	}
 	@Test
-	public void note3StructureFindEntry() {
+	void note3StructureFindEntry() {
 		String query= query(UniProtField.Search.d3structure, "false");
 		QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -80,7 +80,7 @@ public class FTStructureSearchIT {
 		assertThat(retrievedAccessions, not(hasItem(Q6GZX4)));
 	}
 	@Test
-	public void strandFindEntryWithEvidenceLength() {
+	void strandFindEntryWithEvidenceLength() {
 		String query = features(FeatureType.STRAND, "*");
 		query = QueryBuilder.and(query, featureLength(FeatureType.STRAND, 1, 25));
 		String evidence = "ECO_0000244";
@@ -94,7 +94,7 @@ public class FTStructureSearchIT {
 	}
 	
 	@Test
-	public void turnFindEntryWithEvidenceLength() {
+	void turnFindEntryWithEvidenceLength() {
 		String query = features(FeatureType.TURN, "*");
 		query = QueryBuilder.and(query, featureLength(FeatureType.TURN, 1, 25));
 		String evidence = "ECO_0000244";
@@ -107,7 +107,7 @@ public class FTStructureSearchIT {
 		assertThat(retrievedAccessions, not(hasItem(Q6GZX4)));
 	}
 	@Test
-	public void helixFindEntryWithEvidenceLength() {
+	void helixFindEntryWithEvidenceLength() {
 		String query = features(FeatureType.HELIX, "*");
 		query = QueryBuilder.and(query, featureLength(FeatureType.HELIX, 9, 25));
 		String evidence = "ECO_0000244";
@@ -120,7 +120,7 @@ public class FTStructureSearchIT {
 		assertThat(retrievedAccessions, not(hasItem(Q6GZX4)));
 	}
 	@Test
-	public void helixFindTwoEntriesWithEvidenceLength() {
+	void helixFindTwoEntriesWithEvidenceLength() {
 		String query = features(FeatureType.HELIX, "*");
 		query = QueryBuilder.and(query, featureLength(FeatureType.HELIX, 1, 25));
 		String evidence = "ECO_0000244";
@@ -132,7 +132,7 @@ public class FTStructureSearchIT {
 		assertThat(retrievedAccessions, hasItems(Q12345, Q6GZX4));
 	}
 	@Test
-	public void secstructFindTwoEntriesWithEvidenceLength() {
+	void secstructFindTwoEntriesWithEvidenceLength() {
 		String query= query(UniProtField.Search.ft_secstruct, "*");
 		query = QueryBuilder.and(query, QueryBuilder.rangeQuery(UniProtField.Search.ftlen_secstruct.name(), 1, 25));
 		String evidence = "ECO_0000244";

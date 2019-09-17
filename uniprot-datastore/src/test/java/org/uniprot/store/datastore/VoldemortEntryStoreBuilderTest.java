@@ -1,8 +1,8 @@
 package org.uniprot.store.datastore;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * This class is responsible to test Voldemort index proccess
