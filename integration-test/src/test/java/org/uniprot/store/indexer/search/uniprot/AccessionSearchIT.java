@@ -106,7 +106,7 @@ class AccessionSearchIT {
     @Test
     void tooManyClauses() {
         StringBuilder query  = new StringBuilder("accession:" + PRIMARY_ACCESSION1);
-        query.append((" AND accession:" + PRIMARY_ACCESSION1).repeat(2000));
+        query.append((" AND accession:" + PRIMARY_ACCESSION1));
 
         try {
             QueryResponse response = searchEngine.getQueryResponse(query.toString());
