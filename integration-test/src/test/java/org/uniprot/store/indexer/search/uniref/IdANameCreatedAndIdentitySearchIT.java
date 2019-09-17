@@ -1,32 +1,23 @@
 package org.uniprot.store.indexer.search.uniref;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.containsInAnyOrder;
-import static org.uniprot.store.search.field.QueryBuilder.rangeQuery;
-
-import java.io.IOException;
-import java.time.LocalDate;
-import java.util.List;
-
 import org.apache.solr.client.solrj.response.QueryResponse;
-import org.junit.Assert;
-import org.junit.BeforeClass;
-import org.junit.ClassRule;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.RegisterExtension;
 import org.uniprot.core.xml.jaxb.uniref.Entry;
 import org.uniprot.core.xml.uniprot.XmlConverterHelper;
 import org.uniprot.store.search.field.QueryBuilder;
 import org.uniprot.store.search.field.UniRefField;
 
+import java.time.LocalDate;
+import java.util.List;
 
-/**
- *
- * @author jluo
- * @date: 19 Aug 2019
- *
-*/
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.containsInAnyOrder;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.uniprot.store.search.field.QueryBuilder.rangeQuery;
 
-public class IdANameCreatedAndIdentitySearchIT {
+class IdANameCreatedAndIdentitySearchIT {
 	  private static final String ID_1 = "UniRef100_A0A007";
 	    private static final String ID_2 = "UniRef100_A0A009DWI3";
 	    private static final String ID_3 = "UniRef90_A0A007";
@@ -40,11 +31,11 @@ public class IdANameCreatedAndIdentitySearchIT {
 	    private static final String NAME_5 = "Cluster: Glycosyl transferases group 1 family protein (Fragment)";
 	    private static final String NAME_6 = "Cluster: Transposase domain protein";
 
-	    @ClassRule
-	    public static UniRefSearchEngine searchEngine = new UniRefSearchEngine();
+	    @RegisterExtension
+	    static UniRefSearchEngine searchEngine = new UniRefSearchEngine();
 	    
-	    @BeforeClass
-	    public static void populateIndexWithTestData() throws IOException {
+	    @BeforeAll
+	    static void populateIndexWithTestData() {
 	        //Entry 1
 	        {
 	            Entry entry = TestUtils.createSkeletonEntry(ID_1, NAME_1);
@@ -90,135 +81,135 @@ public class IdANameCreatedAndIdentitySearchIT {
 	        searchEngine.printIndexContents();
 	    }
 	    @Test
-	    public void uniref100Id() {
+	    void uniref100Id() {
 	    	String  query =idQuery(ID_1);
 	    	  QueryResponse queryResponse =
 	                  searchEngine.getQueryResponse(query);
 	          List<String> retrievedAccessions = searchEngine.getIdentifiers(queryResponse);
 	          
-	          Assert.assertEquals(1, retrievedAccessions.size());
+	          assertEquals(1, retrievedAccessions.size());
 	          assertThat(retrievedAccessions, containsInAnyOrder(ID_1));
 	    }
 	
 	    
 	    @Test
-	    public void uniref90Id() {
+	    void uniref90Id() {
 	    	String  query =idQuery(ID_3);
 	    	  QueryResponse queryResponse =
 	                  searchEngine.getQueryResponse(query);
 	          List<String> retrievedAccessions = searchEngine.getIdentifiers(queryResponse);
 	          
-	          Assert.assertEquals(1, retrievedAccessions.size());
+	          assertEquals(1, retrievedAccessions.size());
 	          assertThat(retrievedAccessions, containsInAnyOrder(ID_3));
 	    }
 	    
 	    @Test
-	    public void uniref50Id() {
+	    void uniref50Id() {
 	    	String  query =idQuery(ID_5);
 	    	  QueryResponse queryResponse =
 	                  searchEngine.getQueryResponse(query);
 	          List<String> retrievedAccessions = searchEngine.getIdentifiers(queryResponse);
 	          
-	          Assert.assertEquals(1, retrievedAccessions.size());
+	          assertEquals(1, retrievedAccessions.size());
 	          assertThat(retrievedAccessions, containsInAnyOrder(ID_5));
 	    }
 	    @Test
-	    public void unirefNoId() {
+	    void unirefNoId() {
 	    	String  query =idQuery("UniRef100_A0A002");
 	    	  QueryResponse queryResponse =
 	                  searchEngine.getQueryResponse(query);
 	          List<String> retrievedAccessions = searchEngine.getIdentifiers(queryResponse);
 	          
-	          Assert.assertEquals(0, retrievedAccessions.size());
+	          assertEquals(0, retrievedAccessions.size());
 
 	    }
 	    @Test
-	    public void unirefNoId2() {
+	    void unirefNoId2() {
 	    	String  query =idQuery("UniRef10_A0A007");
 	    	  QueryResponse queryResponse =
 	                  searchEngine.getQueryResponse(query);
 	          List<String> retrievedAccessions = searchEngine.getIdentifiers(queryResponse);
 	          
-	          Assert.assertEquals(0, retrievedAccessions.size());
+	          assertEquals(0, retrievedAccessions.size());
 
 	    }
 	    @Test
-	    public void unirefName() {
+	    void unirefName() {
 	    	String  query =nameQuery("MoeK5");
 	    	  QueryResponse queryResponse =
 	                  searchEngine.getQueryResponse(query);
 	          List<String> retrievedAccessions = searchEngine.getIdentifiers(queryResponse);
 	          
-	          Assert.assertEquals(2, retrievedAccessions.size());
+	          assertEquals(2, retrievedAccessions.size());
 	          assertThat(retrievedAccessions, containsInAnyOrder(ID_1, ID_3));
 	    }
 	    
 	    @Test
-	    public void unirefName2() {
+	    void unirefName2() {
 	    	String  query =nameQuery("Transposase");
 	    	  QueryResponse queryResponse =
 	                  searchEngine.getQueryResponse(query);
 	          List<String> retrievedAccessions = searchEngine.getIdentifiers(queryResponse);
 	          
-	          Assert.assertEquals(3, retrievedAccessions.size());
+	          assertEquals(3, retrievedAccessions.size());
 	          assertThat(retrievedAccessions, containsInAnyOrder(ID_2, ID_4,  ID_6));
 	    }
 	    @Test
-	    public void unirefNameNo() {
+	    void unirefNameNo() {
 	    	String  query =nameQuery("Transposa");
 	    	  QueryResponse queryResponse =
 	                  searchEngine.getQueryResponse(query);
 	          List<String> retrievedAccessions = searchEngine.getIdentifiers(queryResponse);
 	          
-	          Assert.assertEquals(0, retrievedAccessions.size());
+	          assertEquals(0, retrievedAccessions.size());
 
 	    }
 	    
 	    @Test
-	    public void unirefIdentity100() {
+	    void unirefIdentity100() {
 	    	String  query =identityQuery("1.0");
 	    	  QueryResponse queryResponse =
 	                  searchEngine.getQueryResponse(query);
 	          List<String> retrievedAccessions = searchEngine.getIdentifiers(queryResponse);
 	          
-	          Assert.assertEquals(2, retrievedAccessions.size());
+	          assertEquals(2, retrievedAccessions.size());
 	          assertThat(retrievedAccessions, containsInAnyOrder(ID_1, ID_2));
 	    }
 	    @Test
-	    public void unirefIdentity90() {
+	    void unirefIdentity90() {
 	    	String  query =identityQuery("0.9");
 	    	  QueryResponse queryResponse =
 	                  searchEngine.getQueryResponse(query);
 	          List<String> retrievedAccessions = searchEngine.getIdentifiers(queryResponse);
 	          
-	          Assert.assertEquals(2, retrievedAccessions.size());
+	          assertEquals(2, retrievedAccessions.size());
 	          assertThat(retrievedAccessions, containsInAnyOrder(ID_3, ID_4));
 	    }
 	    
 	    @Test
-	    public void unirefIdentity50() {
+	    void unirefIdentity50() {
 	    	String  query =identityQuery("0.5");
 	    	  QueryResponse queryResponse =
 	                  searchEngine.getQueryResponse(query);
 	          List<String> retrievedAccessions = searchEngine.getIdentifiers(queryResponse);
 	          
-	          Assert.assertEquals(2, retrievedAccessions.size());
+	          assertEquals(2, retrievedAccessions.size());
 	          assertThat(retrievedAccessions, containsInAnyOrder(ID_5, ID_6));
 	    }
 	    
 	    @Test
-	    public void unirefIdentity80() {
+	    void unirefIdentity80() {
 	    	String  query =identityQuery("0.8");
 	    	  QueryResponse queryResponse =
 	                  searchEngine.getQueryResponse(query);
 	          List<String> retrievedAccessions = searchEngine.getIdentifiers(queryResponse);
 	          
-	          Assert.assertEquals(0, retrievedAccessions.size());
+	          assertEquals(0, retrievedAccessions.size());
 
 	    }
 	    
 	    @Test
-	    public void unirefCreatedSingle() {
+	    void unirefCreatedSingle() {
 	    	 LocalDate start = LocalDate.of(2015, 9, 11);
 	    	 LocalDate end = LocalDate.of(2015, 9, 12);
 	    	 String query = rangeQuery(UniRefField.Search.created.name(), start, end);
@@ -226,12 +217,12 @@ public class IdANameCreatedAndIdentitySearchIT {
 	                  searchEngine.getQueryResponse(query);
 	          List<String> retrievedAccessions = searchEngine.getIdentifiers(queryResponse);
 	          
-	          Assert.assertEquals(2, retrievedAccessions.size());
+	          assertEquals(2, retrievedAccessions.size());
 	          assertThat(retrievedAccessions, containsInAnyOrder(ID_1, ID_2));
 
 	    }
 	    @Test
-	    public void unirefCreatedRange() {
+	    void unirefCreatedRange() {
 	    	 LocalDate start = LocalDate.of(2015, 8, 8);
 	    	 LocalDate end = LocalDate.of(2015, 10, 9);
 	    	 String query = rangeQuery(UniRefField.Search.created.name(), start, end);
@@ -239,7 +230,7 @@ public class IdANameCreatedAndIdentitySearchIT {
 	                  searchEngine.getQueryResponse(query);
 	          List<String> retrievedAccessions = searchEngine.getIdentifiers(queryResponse);
 	          
-	          Assert.assertEquals(4, retrievedAccessions.size());
+	          assertEquals(4, retrievedAccessions.size());
 	          assertThat(retrievedAccessions, containsInAnyOrder(ID_1, ID_2, ID_3, ID_4));
 
 	    }

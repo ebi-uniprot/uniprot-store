@@ -11,7 +11,7 @@ import org.uniprot.store.search.domain.impl.GoEvidences;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 class GoEvidencesTest {
 	private static GoEvidences instance;

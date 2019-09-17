@@ -9,22 +9,18 @@ import java.io.IOException;
 import java.util.List;
 
 import org.apache.solr.client.solrj.response.QueryResponse;
-import org.junit.BeforeClass;
-import org.junit.ClassRule;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.extension.RegisterExtension;
+import org.junit.jupiter.api.Test;
 import org.uniprot.core.uniparc.UniParcDatabaseType;
 import org.uniprot.core.xml.jaxb.uniparc.DbReferenceType;
 import org.uniprot.core.xml.jaxb.uniparc.Entry;
 import org.uniprot.store.search.field.QueryBuilder;
 import org.uniprot.store.search.field.UniParcField;
 
-/**
- * Tests the search capabilities of the {@link UniParcQueryBuilder} when it comes to searching for UniParc entries
- * that reference protein names
- */
-public class ProteinNameSearchIT {
-    @ClassRule
-    public static UniParcSearchEngine searchEngine = new UniParcSearchEngine();
+class ProteinNameSearchIT {
+    @RegisterExtension
+    static UniParcSearchEngine searchEngine = new UniParcSearchEngine();
 
     private static final String ID_1 = "UPI0000000001";
     private static final String ID_2 = "UPI0000000002";
@@ -39,8 +35,8 @@ public class ProteinNameSearchIT {
     private static final String NAME_5 = "PP2A B subunit isoform B'-delta";
     private static final String NAME_6 = "Methylenetetrahydrofolate dehydrogenase (NADP(+))";
 
-    @BeforeClass
-    public static void populateIndexWithTestData() throws IOException {
+    @BeforeAll
+    static void populateIndexWithTestData() {
         // a test entry object that can be modified and added to index
 
         
@@ -127,7 +123,7 @@ public class ProteinNameSearchIT {
     }
 
     @Test
-    public void nonExistentProteinNameMatchesNoDocuments() throws Exception {
+    void nonExistentProteinNameMatchesNoDocuments() {
         String query = proteinName("Unknown");
 
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -137,7 +133,7 @@ public class ProteinNameSearchIT {
     }
 
     @Test
-    public void searchName1HitsEntry1() throws Exception {
+    void searchName1HitsEntry1() {
         String query = proteinName(NAME_1);
 
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -147,7 +143,7 @@ public class ProteinNameSearchIT {
     }
 
     @Test
-    public void lowerCaseSearchName1HitsEntry1() throws Exception {
+    void lowerCaseSearchName1HitsEntry1() {
         String query = proteinName(NAME_1.toLowerCase());
 
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -157,7 +153,7 @@ public class ProteinNameSearchIT {
     }
 
     @Test
-    public void upperCaseSearchName1HitsEntry1() throws Exception {
+    void upperCaseSearchName1HitsEntry1() {
         String query = proteinName(NAME_1.toUpperCase());
 
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -167,7 +163,7 @@ public class ProteinNameSearchIT {
     }
 
     @Test
-    public void partialSearchName1HitsEntry1() throws Exception {
+    void partialSearchName1HitsEntry1() {
         String query = proteinName("hypothetical");
 
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -177,7 +173,7 @@ public class ProteinNameSearchIT {
     }
 
     @Test
-    public void searchName2HitsEntry2() throws Exception {
+    void searchName2HitsEntry2() {
         String query = proteinName("Protein kinase C inhibitor KCIP-1 isoform eta");
 
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -187,7 +183,7 @@ public class ProteinNameSearchIT {
     }
 
     @Test
-    public void partialSearchUsingHyphenatedNameInName2HitsEntry2() throws Exception {
+    void partialSearchUsingHyphenatedNameInName2HitsEntry2() {
         String query = proteinName("KCIP-1");
 
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -197,7 +193,7 @@ public class ProteinNameSearchIT {
     }
 
     @Test
-    public void noMatchForPartialSearchUsingHyphenatedNameWithExtraNonExistentCharacter() throws Exception {
+    void noMatchForPartialSearchUsingHyphenatedNameWithExtraNonExistentCharacter() {
         String query = proteinName("KCIPE-1");
 
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -207,7 +203,7 @@ public class ProteinNameSearchIT {
     }
 
     @Test
-    public void partialSearchUsingHyphenatedNameWithoutTheHyphenHitsEntry2() throws Exception {
+    void partialSearchUsingHyphenatedNameWithoutTheHyphenHitsEntry2() {
         String query = proteinName("KCIP 1");
 
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -217,7 +213,7 @@ public class ProteinNameSearchIT {
     }
 
     @Test
-    public void partialSearchForHyphenatedNameWithoutLeftSideOfHyphenationHitsEntry2() throws Exception {
+    void partialSearchForHyphenatedNameWithoutLeftSideOfHyphenationHitsEntry2() {
         String query = proteinName("KCIP");
 
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -227,7 +223,7 @@ public class ProteinNameSearchIT {
     }
 
     @Test
-    public void noMatchForPartialSubstringSearchOnHyphenatedName() throws Exception {
+    void noMatchForPartialSubstringSearchOnHyphenatedName() {
         String query = proteinName("KCI");
 
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -237,7 +233,7 @@ public class ProteinNameSearchIT {
     }
 
     @Test
-    public void searchForHyphenatedAndNumberedNameMatchesEntry3() throws Exception {
+    void searchForHyphenatedAndNumberedNameMatchesEntry3() {
         String query = proteinName("14-3-3");
 
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -247,7 +243,7 @@ public class ProteinNameSearchIT {
     }
 
     @Test
-    public void searchForPartialHyphenatedAndNumberedNameMatchesEntry3() throws Exception {
+    void searchForPartialHyphenatedAndNumberedNameMatchesEntry3() {
         String query = proteinName("14-3");
 
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -257,7 +253,7 @@ public class ProteinNameSearchIT {
     }
 
     @Test
-    public void searchForPartialHyphenatedAndNumberedNameWithoutHyphenMatchesEntry3() throws Exception {
+    void searchForPartialHyphenatedAndNumberedNameWithoutHyphenMatchesEntry3() {
         String query = proteinName("14 3");
 
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -267,7 +263,7 @@ public class ProteinNameSearchIT {
     }
 
     @Test
-    public void noMatchForPartialIncorrectHyphenatedAndNumberedNameMatches0Entries() throws Exception {
+    void noMatchForPartialIncorrectHyphenatedAndNumberedNameMatches0Entries() {
         String query = proteinName("14-1");
 
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -277,7 +273,7 @@ public class ProteinNameSearchIT {
     }
 
     @Test
-    public void searchForNameWithParenthesisMatchesEntry4() throws Exception {
+    void searchForNameWithParenthesisMatchesEntry4() {
         String query = proteinName(NAME_4);
 
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -287,7 +283,7 @@ public class ProteinNameSearchIT {
     }
 
     @Test
-    public void partialSearchUsingNameInBetweenParenthesisWithMatchesEntry4() throws Exception {
+    void partialSearchUsingNameInBetweenParenthesisWithMatchesEntry4() {
         String query = proteinName("HAE1");
 
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -297,7 +293,7 @@ public class ProteinNameSearchIT {
     }
 
     @Test
-    public void searchForNameWithSingleQuoteMatchesEntry5() throws Exception {
+    void searchForNameWithSingleQuoteMatchesEntry5() {
         String query = proteinName(NAME_5);
 
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -307,7 +303,7 @@ public class ProteinNameSearchIT {
     }
 
     @Test
-    public void partialSearchForNameWithoutSingleQuoteMatchesEntry5() throws Exception {
+    void partialSearchForNameWithoutSingleQuoteMatchesEntry5() {
         String query = proteinName("B-delta");
 
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -317,7 +313,7 @@ public class ProteinNameSearchIT {
     }
 
     @Test
-    public void searchForNameWithChemicalSymbolUsingMatchesEntry6() throws Exception {
+    void searchForNameWithChemicalSymbolUsingMatchesEntry6() {
         String query = proteinName(NAME_6);
 
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -327,7 +323,7 @@ public class ProteinNameSearchIT {
     }
 
     @Test
-    public void partialSearchForNameWithChemicalSymbolUsingSubstringOfChemicalSymbolMatchesEntry6() throws Exception {
+    void partialSearchForNameWithChemicalSymbolUsingSubstringOfChemicalSymbolMatchesEntry6() {
         String query = proteinName("NADP");
 
         QueryResponse response = searchEngine.getQueryResponse(query);

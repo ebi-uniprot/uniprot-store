@@ -1,6 +1,6 @@
 package org.uniprot.store.indexer.uniprot.mockers;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.uniprot.core.uniprot.UniProtEntry;
 
 import java.util.Collection;

@@ -1,9 +1,9 @@
 package org.uniprot.store.indexer.search.uniprot;
 
 import org.apache.solr.client.solrj.response.QueryResponse;
-import org.junit.BeforeClass;
-import org.junit.ClassRule;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.extension.RegisterExtension;
+import org.junit.jupiter.api.Test;
 import org.uniprot.core.flatfile.writer.LineType;
 import org.uniprot.store.search.field.UniProtField;
 
@@ -19,17 +19,17 @@ import static org.uniprot.store.indexer.search.uniprot.TestUtils.*;
 /**
  * Verifies if the protein UniProt entry type (Reviewed/Unreviewed) is indexed correctly
  */
-public class ReviewedSearchIT {
+class ReviewedSearchIT {
     private static final String UNIPROT_FLAT_FILE_ENTRY_PATH = "/it/uniprot/P0A377.43.dat";
     private static final String ID_LINE = "ID   CYC_HUMAN               %s;         105 AA.";
     private static final String ACCESSION1 = "Q197F4";
     private static final String ACCESSION2 = "Q197F5";
     private static final String ACCESSION3 = "Q197F6";
-    @ClassRule
-    public static UniProtSearchEngine searchEngine = new UniProtSearchEngine();
+    @RegisterExtension
+    static UniProtSearchEngine searchEngine = new UniProtSearchEngine();
 
-    @BeforeClass
-    public static void populateIndexWithTestData() throws IOException {
+    @BeforeAll
+    static void populateIndexWithTestData() throws IOException {
         // a test entry object that can be modified and added to index
         InputStream resourceAsStream = TestUtils.getResourceAsStream(UNIPROT_FLAT_FILE_ENTRY_PATH);
         UniProtEntryObjectProxy entryProxy = UniProtEntryObjectProxy.createEntryFromInputStream(resourceAsStream);
@@ -53,7 +53,7 @@ public class ReviewedSearchIT {
     }
 
     @Test
-    public void reviewedEntryTypMatchesEntriesWithReviewedStatus() throws Exception {
+    void reviewedEntryTypMatchesEntriesWithReviewedStatus() {
         String query = query(UniProtField.Search.reviewed, "true");
 
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -63,7 +63,7 @@ public class ReviewedSearchIT {
     }
 
     @Test
-    public void unReviewedEntryTypMatchesEntriesWithUnreviewedStatus() throws Exception {
+    void unReviewedEntryTypMatchesEntriesWithUnreviewedStatus() {
     	 String query = query(UniProtField.Search.reviewed, "false");
 
         QueryResponse response = searchEngine.getQueryResponse(query);

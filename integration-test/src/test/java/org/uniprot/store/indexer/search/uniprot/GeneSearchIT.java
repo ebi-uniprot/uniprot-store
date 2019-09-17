@@ -1,12 +1,14 @@
 package org.uniprot.store.indexer.search.uniprot;
 
 import org.apache.solr.client.solrj.response.QueryResponse;
-import org.junit.*;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.RegisterExtension;
 import org.uniprot.core.flatfile.writer.LineType;
 import org.uniprot.store.search.field.UniProtField;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,9 +24,9 @@ import static org.uniprot.store.indexer.search.uniprot.TestUtils.*;
 /**
  * Tests if the Genes section has been indexed properly
  */
-public class GeneSearchIT {
-    @ClassRule
-    public static UniProtSearchEngine searchEngine = new UniProtSearchEngine();
+class GeneSearchIT {
+    @RegisterExtension
+    static UniProtSearchEngine searchEngine = new UniProtSearchEngine();
 
     private static final String UNIPROT_FLAT_FILE_ENTRY_PATH = "/it/uniprot/P0A377.43.dat";
     private static final String COMMON_HLA_NAME = "HLA";
@@ -65,8 +67,8 @@ public class GeneSearchIT {
     private static int accessionId = 0;
     private List<String> tempSavedEntries = new ArrayList<>();
 
-    @BeforeClass
-    public static void populateIndexWithTestData() throws IOException {
+    @BeforeAll
+    static void populateIndexWithTestData() throws IOException {
         // a test entry object that can be modified and added to index
         InputStream resourceAsStream = TestUtils.getResourceAsStream(UNIPROT_FLAT_FILE_ENTRY_PATH);
         entryProxy = UniProtEntryObjectProxy.createEntryFromInputStream(resourceAsStream);
@@ -130,14 +132,14 @@ public class GeneSearchIT {
         searchEngine.printIndexContents();
     }
 
-    @After
-    public void after() {
+    @AfterEach
+    void after() {
         cleanTempEntries();
     }
 
     // exact gene queries ----------------------------------------------------
     @Test
-    public void incorrectExactGeneNameMatchesNoDocuments() {
+    void incorrectExactGeneNameMatchesNoDocuments() {
         String query = exactGeneQuery("this is wrong");
 
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -147,7 +149,7 @@ public class GeneSearchIT {
     }
 
     @Test
-    public void correctExactGeneNameMatchesEntry1() {
+    void correctExactGeneNameMatchesEntry1() {
         String query = exactGeneQuery(NAME1);
 
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -158,7 +160,7 @@ public class GeneSearchIT {
 
     // general gene queries ----------------------------------------------------
     @Test
-    public void nonExistentGeneNameMatchesNoDocuments() {
+    void nonExistentGeneNameMatchesNoDocuments() {
         String query = geneQuery("Unknown");
 
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -168,7 +170,7 @@ public class GeneSearchIT {
     }
 
     @Test
-    public void fullGeneNameFromEntry1MatchesEntry1() {
+    void fullGeneNameFromEntry1MatchesEntry1() {
         String query = geneQuery(NAME1);
 
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -178,7 +180,7 @@ public class GeneSearchIT {
     }
 
     @Test
-    public void fullGeneSynonymFromEntry1InLowerCaseMatchesEntry1() {
+    void fullGeneSynonymFromEntry1InLowerCaseMatchesEntry1() {
         String query = geneQuery(SYNONYM1_1.toLowerCase());
 
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -188,7 +190,7 @@ public class GeneSearchIT {
     }
 
     @Test
-    public void fullGeneSynonymFromEntry2MatchesEntry2() {
+    void fullGeneSynonymFromEntry2MatchesEntry2() {
         String query = geneQuery(SYNONYM2_1);
 
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -198,7 +200,7 @@ public class GeneSearchIT {
     }
 
     @Test
-    public void partialCommonGeneNameDoesNotMatchAnyEntry() {
+    void partialCommonGeneNameDoesNotMatchAnyEntry() {
         String query = geneQuery("PP");
 
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -206,9 +208,19 @@ public class GeneSearchIT {
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
         assertThat(retrievedAccessions, is(empty()));
     }
+
+    @Test
+    void partialCommonPPPGeneNameMatchesEntry3And4() {
+        String query = geneQuery("PPP");
+
+        QueryResponse response = searchEngine.getQueryResponse(query);
+
+        List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
+        assertThat(retrievedAccessions, containsInAnyOrder(ACCESSION3, ACCESSION4));
+    }
     
     @Test
-    public void partialCommonGeneNameWithWildCardMatchesEntry1And2() {
+    void partialCommonGeneNameWithWildCardMatchesEntry1And2() {
         String query = geneQuery(COMMON_HLA_NAME + "*");
 
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -218,7 +230,18 @@ public class GeneSearchIT {
     }
 
     @Test
-    public void orderedLocusNameFromEntry5MatchesEntry5() {
+
+    void partialCommonPPP2RGeneNameMatchesEntry3And4() {
+        String query = geneQuery(COMMON_PPP2R_NAME);
+
+        QueryResponse response = searchEngine.getQueryResponse(query);
+
+        List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
+        assertThat(retrievedAccessions, containsInAnyOrder(ACCESSION3, ACCESSION4));
+    }
+
+    @Test
+    void orderedLocusNameFromEntry5MatchesEntry5() {
         String query = geneQuery(OLN5_1);
 
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -228,7 +251,7 @@ public class GeneSearchIT {
     }
 
     @Test
-    public void bothElementsORFFromEntry6MatchesEntry6() {
+    void bothElementsORFFromEntry6MatchesEntry6() {
         String query = geneQuery(ORF6_1);
 
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -238,7 +261,7 @@ public class GeneSearchIT {
     }
 
     @Test
-    public void firstElementORFFromEntry6MatchesEntry6() {
+    void firstElementORFFromEntry6MatchesEntry6() {
         String query = geneQuery(ORF6_1_1);
 
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -248,7 +271,7 @@ public class GeneSearchIT {
     }
 
     @Test
-    public void secondElementORFFromEntry6MatchesEntry6() {
+    void secondElementORFFromEntry6MatchesEntry6() {
         String query = geneQuery(ORF6_1_2);
 
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -258,7 +281,7 @@ public class GeneSearchIT {
     }
 
     @Test
-    public void fullORFFromEntry7MatchesEntry7() {
+    void fullORFFromEntry7MatchesEntry7() {
         String query = geneQuery(ORF7_1);
 
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -268,7 +291,7 @@ public class GeneSearchIT {
     }
 
     @Test
-    public void ORFNameUpToDotFromEntry7MatchesEntry7() {
+    void ORFNameUpToDotFromEntry7MatchesEntry7() {
         String query = geneQuery(ORF7_1_PARTIAL);
 
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -279,7 +302,7 @@ public class GeneSearchIT {
 
     // Edge cases --------------------
     @Test
-    public void canFindGeneWithUnderScore() {
+    void canFindGeneWithUnderScore() {
         String accession = newAccession();
         String geneName = "VARV_IND64_vel4_019";
         String query = geneQuery(geneName);
@@ -292,7 +315,7 @@ public class GeneSearchIT {
     }
 
     @Test
-    public void caseInsensitiveFindGeneWithUnderScores() {
+    void caseInsensitiveFindGeneWithUnderScores() {
         String accession = newAccession();
         String geneName = "VARV_IND64_vel4_019";
         String query = geneQuery(geneName.toLowerCase());
@@ -305,7 +328,7 @@ public class GeneSearchIT {
     }
 
     @Test
-    public void canUseFirstPartOfGeneNameToFindGeneWithUnderScores() {
+    void canUseFirstPartOfGeneNameToFindGeneWithUnderScores() {
         String accession = newAccession();
         String geneName = "VARV_IND64_vel4_019";
         String query = geneQuery("VARV");
@@ -318,7 +341,7 @@ public class GeneSearchIT {
     }
 
     @Test
-    public void canUseMiddlePartOfGeneNameToFindGeneWithUnderScores() {
+    void canUseMiddlePartOfGeneNameToFindGeneWithUnderScores() {
         String accession = newAccession();
         String geneName = "VARV_IND64_vel4_019";
         String query = geneQuery("vel4");
@@ -331,7 +354,7 @@ public class GeneSearchIT {
     }
 
     @Test
-    public void canUseMiddlePartsOfGeneNameToFindGeneWithUnderScores() {
+    void canUseMiddlePartsOfGeneNameToFindGeneWithUnderScores() {
         String accession = newAccession();
         String geneName = "VARV_IND64_vel4_019";
         String query = geneQuery("IND64_vel4");
@@ -344,7 +367,7 @@ public class GeneSearchIT {
     }
 
     @Test
-    public void canFindGeneThatIsOnlyANumber() {
+    void canFindGeneThatIsOnlyANumber() {
         String accession = newAccession();
         String geneName = "62";
         String query = geneQuery(geneName);
@@ -357,7 +380,7 @@ public class GeneSearchIT {
     }
 
     @Test
-    public void canFindGenesContainingSpecialChars() {
+    void canFindGenesContainingSpecialChars() {
         List<String> valuesThatRequireEscaping = asList("+", "-", "&", "|", "!", "(", ")", "{EVIDENCE}", "[", "]", "^", "\"", "~", "?", ":", "/");
 
         for (String toEscape : valuesThatRequireEscaping) {
@@ -376,9 +399,9 @@ public class GeneSearchIT {
         }
     }
 
-    @Ignore
+    @Disabled
     @Test
-    public void canFindGeneViaAlternativeSpellingFromSynonymList() {
+    void canFindGeneViaAlternativeSpellingFromSynonymList() {
         // ensure synonyms in are used:
         //    uniprot-data-services/data-service-deployments/src/main/distros/solr-conf/homes/uniprot-cores/uniprot/conf/synonyms.txt
         String accession = newAccession();

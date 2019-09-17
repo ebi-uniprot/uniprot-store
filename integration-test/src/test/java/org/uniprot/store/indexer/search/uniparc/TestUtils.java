@@ -20,7 +20,7 @@ final class TestUtils {
     private TestUtils() {
     }
 
-    public static Entry createDefaultUniParcEntry() {
+    static Entry createDefaultUniParcEntry() {
     	
     	Entry entry = xmlFactory.createEntry();
     	entry.setAccession("UPI0000000001");
@@ -38,7 +38,7 @@ final class TestUtils {
     }
 
     
-    public static DbReferenceType createXref(String dbType, String id, String active) {
+    static DbReferenceType createXref(String dbType, String id, String active) {
     	DbReferenceType xref = xmlFactory.createDbReferenceType();
     	xref.setActive(active);
     	xref.setType(dbType);
@@ -55,14 +55,14 @@ final class TestUtils {
     	return xref;
     }
 
-    public static PropertyType createProperty(String type, String value) {
+    static PropertyType createProperty(String type, String value) {
     	PropertyType pr = xmlFactory.createPropertyType();
     	pr.setType(type);
     	pr.setValue(value);
     	return pr;
     }
     
-    public static Sequence createSequence(String sequenceText, String checkSum) {
+    static Sequence createSequence(String sequenceText, String checkSum) {
     	
         Sequence sequence = xmlFactory.createSequence();
         sequence.setContent(sequenceText);

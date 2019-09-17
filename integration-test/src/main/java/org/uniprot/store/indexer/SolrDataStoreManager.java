@@ -1,7 +1,8 @@
 package org.uniprot.store.indexer;
 
-import org.junit.rules.TemporaryFolder;
+import org.springframework.util.FileSystemUtils;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
@@ -17,16 +18,17 @@ import java.util.Properties;
  */
 public class SolrDataStoreManager {
     private static final String SOLR_SYSTEM_PROPERTIES = "solr-system.properties";
-    private TemporaryFolder temporaryFolder = new TemporaryFolder();
+    private File temporaryFolder;
 
     public SolrDataStoreManager() throws IOException {
-        temporaryFolder.create();
-        System.setProperty("solr.data.dir", temporaryFolder.getRoot().getAbsolutePath());
+        temporaryFolder = new File("test");
+        System.setProperty("solr.data.dir", temporaryFolder.getAbsolutePath());
         loadPropertiesAndSetAsSystemProperties();
     }
 
     public void cleanUp() {
-        temporaryFolder.delete();
+        System.setProperty("solr.data.dir", "");
+        FileSystemUtils.deleteRecursively(temporaryFolder);
     }
 
     private static void loadPropertiesAndSetAsSystemProperties() throws IOException {

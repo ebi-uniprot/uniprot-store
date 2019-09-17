@@ -1,28 +1,21 @@
 package org.uniprot.store.indexer.search.uniref;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.containsInAnyOrder;
-
-import java.io.IOException;
-import java.util.List;
-
 import org.apache.solr.client.solrj.response.QueryResponse;
-import org.junit.Assert;
-import org.junit.BeforeClass;
-import org.junit.ClassRule;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.RegisterExtension;
 import org.uniprot.core.xml.jaxb.uniref.Entry;
 import org.uniprot.store.search.field.QueryBuilder;
 import org.uniprot.store.search.field.UniRefField;
 
-/**
- *
- * @author jluo
- * @date: 19 Aug 2019
- *
-*/
+import java.io.IOException;
+import java.util.List;
 
-public class SequenceLengthSearchIT {
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.containsInAnyOrder;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+class SequenceLengthSearchIT {
 	  private static final String ID_1 = "UniRef100_A0A007";
 	    private static final String ID_2 = "UniRef100_A0A009DWI3";
 	    private static final String ID_3 = "UniRef90_A0A007";
@@ -36,11 +29,11 @@ public class SequenceLengthSearchIT {
 	    private static final String NAME_5 = "Cluster: Glycosyl transferases group 1 family protein (Fragment)";
 	    private static final String NAME_6 = "Cluster: Transposase domain protein";
 	    
-	    @ClassRule
-	    public static UniRefSearchEngine searchEngine = new UniRefSearchEngine();
+	    @RegisterExtension
+	    static UniRefSearchEngine searchEngine = new UniRefSearchEngine();
 	    
-	    @BeforeClass
-	    public static void populateIndexWithTestData() throws IOException {
+	    @BeforeAll
+	    static void populateIndexWithTestData() {
 	        //Entry 1
 	        {
 	            Entry entry = TestUtils.createSkeletonEntry(ID_1, NAME_1);
@@ -87,31 +80,31 @@ public class SequenceLengthSearchIT {
 	        searchEngine.printIndexContents();
 	    }
 	    @Test 
-	    public void exactLength() {
+	    void exactLength() {
 	    	int length=51;
 	    	String query =lengthQuery(length);
 	    	 QueryResponse queryResponse =
 	                  searchEngine.getQueryResponse(query);
 	          List<String> retrievedAccessions = searchEngine.getIdentifiers(queryResponse);
 	          
-	          Assert.assertEquals(3, retrievedAccessions.size());
+	          assertEquals(3, retrievedAccessions.size());
 	          assertThat(retrievedAccessions, containsInAnyOrder(ID_1, ID_3, ID_5));
 	    }
 	    
 	    @Test 
-	    public void exactLength2() {
+	    void exactLength2() {
 	    	int length=52;
 	    	String query =lengthQuery(length);
 	    	 QueryResponse queryResponse =
 	                  searchEngine.getQueryResponse(query);
 	          List<String> retrievedAccessions = searchEngine.getIdentifiers(queryResponse);
 	          
-	          Assert.assertEquals(0, retrievedAccessions.size());
+	          assertEquals(0, retrievedAccessions.size());
 	        
 	    }
 	    
 	    @Test 
-	    public void rangeLength() {
+	    void rangeLength() {
 	    	int start =50;
 	    	int end = 60;
 	    	String query =lengthQuery(start, end);
@@ -119,12 +112,12 @@ public class SequenceLengthSearchIT {
 	                  searchEngine.getQueryResponse(query);
 	          List<String> retrievedAccessions = searchEngine.getIdentifiers(queryResponse);
 	          
-	          Assert.assertEquals(5, retrievedAccessions.size());
+	          assertEquals(5, retrievedAccessions.size());
 	          assertThat(retrievedAccessions, containsInAnyOrder(ID_1, ID_2, ID_3, ID_5, ID_6));
 	    }
 	    
 	    @Test 
-	    public void rangeLength2() {
+	    void rangeLength2() {
 	    	int start =45;
 	    	int end = 50;
 	    	String query =lengthQuery(start, end);
@@ -132,7 +125,7 @@ public class SequenceLengthSearchIT {
 	                  searchEngine.getQueryResponse(query);
 	          List<String> retrievedAccessions = searchEngine.getIdentifiers(queryResponse);
 	          
-	          Assert.assertEquals(0, retrievedAccessions.size());
+	          assertEquals(0, retrievedAccessions.size());
 
 	    }
 	    

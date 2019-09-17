@@ -12,27 +12,27 @@ import java.io.InputStream;
 import java.util.List;
 
 import org.apache.solr.client.solrj.response.QueryResponse;
-import org.junit.BeforeClass;
-import org.junit.ClassRule;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.extension.RegisterExtension;
+import org.junit.jupiter.api.Test;
 import org.uniprot.core.flatfile.writer.LineType;
 import org.uniprot.core.uniprot.feature.FeatureType;
 import org.uniprot.store.search.field.QueryBuilder;
 import org.uniprot.store.search.field.UniProtField;
 
-public class FTPtmProcessSearchIT {
-	public static final String Q6GZX4 = "Q6GZX4";
-	public static final String Q197B1 = "Q197B1";
+class FTPtmProcessSearchIT {
+	private static final String Q6GZX4 = "Q6GZX4";
+	private static final String Q197B1 = "Q197B1";
 	private static final String UNIPROT_FLAT_FILE_ENTRY_PATH = "/it/uniprot/P0A377.43.dat";
 	private static final String Q12345 = "Q12345";
 	private static final String Q6GZN7 = "Q6GZN7";
 	private static final String Q6V4H0 = "Q6V4H0";
 	private static final String P48347 = "P48347";
-	@ClassRule
-	public static UniProtSearchEngine searchEngine = new UniProtSearchEngine();
+	@RegisterExtension
+	static UniProtSearchEngine searchEngine = new UniProtSearchEngine();
 
-	@BeforeClass
-	public static void populateIndexWithTestData() throws IOException {
+	@BeforeAll
+	static void populateIndexWithTestData() throws IOException {
 		// a test entry object that can be modified and added to index
 		InputStream resourceAsStream = TestUtils.getResourceAsStream(UNIPROT_FLAT_FILE_ENTRY_PATH);
 		UniProtEntryObjectProxy entryProxy = UniProtEntryObjectProxy.createEntryFromInputStream(resourceAsStream);
@@ -95,7 +95,7 @@ public class FTPtmProcessSearchIT {
 		searchEngine.printIndexContents();
 	}
 	@Test
-	public void modResFindEntryWithEvidenceLength() {
+	void modResFindEntryWithEvidenceLength() {
 		String query = features(FeatureType.MOD_RES, "phosphoserine");
 			query = QueryBuilder.and(query, featureLength(FeatureType.MOD_RES, 1, 1));
 			String evidence = "ECO_0000244";
@@ -108,7 +108,7 @@ public class FTPtmProcessSearchIT {
 			assertThat(retrievedAccessions, not(hasItem( Q197B1)));
 	}
 	@Test
-	public void lipidFindEntryWithEvidenceLength() {
+	void lipidFindEntryWithEvidenceLength() {
 		String query = features(FeatureType.LIPID, "cysteine");
 			query = QueryBuilder.and(query, featureLength(FeatureType.LIPID, 1, 1));
 			String evidence = "ECO_0000250";
@@ -121,7 +121,7 @@ public class FTPtmProcessSearchIT {
 			assertThat(retrievedAccessions, not(hasItem( Q6GZX4)));
 	}
 	@Test
-	public void carbohydFindEntryWithEvidenceLength() {
+	void carbohydFindEntryWithEvidenceLength() {
 		String query = features(FeatureType.CARBOHYD, "cysteine");
 			query = QueryBuilder.and(query, featureLength(FeatureType.CARBOHYD, 1, 1));
 			String evidence = "ECO_0000255";
@@ -134,7 +134,7 @@ public class FTPtmProcessSearchIT {
 			assertThat(retrievedAccessions, not(hasItem( Q6GZX4)));
 	}
 	@Test
-	public void disulfidFindEntryWithEvidenceLength() {
+	void disulfidFindEntryWithEvidenceLength() {
 		String query = features(FeatureType.DISULFID, "reversible");
 			query = QueryBuilder.and(query, featureLength(FeatureType.DISULFID, 100, 150));
 			String evidence = "ECO_0000250";
@@ -148,7 +148,7 @@ public class FTPtmProcessSearchIT {
 	}
 	
 	@Test
-	public void crosslinkFindEntryWithEvidenceLength() {
+	void crosslinkFindEntryWithEvidenceLength() {
 		String query = features(FeatureType.CROSSLNK, "lysine");
 			query = QueryBuilder.and(query, featureLength(FeatureType.CROSSLNK, 1, 1));
 			String evidence = "ECO_0000269";
@@ -162,7 +162,7 @@ public class FTPtmProcessSearchIT {
 	}
 	
 	@Test
-	public void chainFindEntryWithEvidenceLength() {
+	void chainFindEntryWithEvidenceLength() {
 		String query = features(FeatureType.CHAIN, "disulfide");
 			query = QueryBuilder.and(query, featureLength(FeatureType.CHAIN, 200, 400));
 			String evidence = "ECO_0000255";
@@ -176,7 +176,7 @@ public class FTPtmProcessSearchIT {
 	}
 	
 	@Test
-	public void initMetFindEntryWithEvidenceLength() {
+	void initMetFindEntryWithEvidenceLength() {
 		String query = features(FeatureType.INIT_MET, "removed");
 			query = QueryBuilder.and(query, featureLength(FeatureType.INIT_MET, 1, 1));
 			String evidence = "ECO_0000244";
@@ -190,7 +190,7 @@ public class FTPtmProcessSearchIT {
 			assertThat(retrievedAccessions, not(hasItem( Q197B1)));
 	}
 	@Test
-	public void peptideFindEntryWithEvidenceLength() {
+	void peptideFindEntryWithEvidenceLength() {
 		String query = features(FeatureType.PEPTIDE, "peptide");
 			query = QueryBuilder.and(query, featureLength(FeatureType.PEPTIDE, 10, 20));
 			String evidence = "ECO_0000305";
@@ -203,7 +203,7 @@ public class FTPtmProcessSearchIT {
 			assertThat(retrievedAccessions, not(hasItem( Q197B1)));
 	}
 	@Test
-	public void signalFindEntryWithEvidenceLength() {
+	void signalFindEntryWithEvidenceLength() {
 		String query = features(FeatureType.SIGNAL, "*");
 			query = QueryBuilder.and(query, featureLength(FeatureType.SIGNAL, 10, 20));
 			String evidence = "ECO_0000269";
@@ -216,7 +216,7 @@ public class FTPtmProcessSearchIT {
 			assertThat(retrievedAccessions, not(hasItem( Q197B1)));
 	}
 	@Test
-	public void propepFindEntryWithEvidenceLength() {
+	void propepFindEntryWithEvidenceLength() {
 		String query = features(FeatureType.PROPEP, "peptide");
 			query = QueryBuilder.and(query, featureLength(FeatureType.PROPEP, 5, 20));
 			String evidence = "ECO_0000250";
@@ -229,7 +229,7 @@ public class FTPtmProcessSearchIT {
 			assertThat(retrievedAccessions, not(hasItem( Q197B1)));
 	}
 	@Test
-	public void transitFindEntryWithEvidenceLength() {
+	void transitFindEntryWithEvidenceLength() {
 		String query = features(FeatureType.TRANSIT, "chloroplast");
 			query = QueryBuilder.and(query, featureLength(FeatureType.TRANSIT, 5, 20));
 			String evidence = "ECO_0000255";
@@ -244,7 +244,7 @@ public class FTPtmProcessSearchIT {
 	}
 	
 	@Test
-	public void moleculeProcessFindTwoEntry() {
+	void moleculeProcessFindTwoEntry() {
 		String query = query(UniProtField.Search.ft_molecule_processing, "peptide");
 		QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -255,7 +255,7 @@ public class FTPtmProcessSearchIT {
 	}
 
 	@Test
-	public void moleculeProcessFindTwoEntryWithLength() {
+	void moleculeProcessFindTwoEntryWithLength() {
 		String query = query(UniProtField.Search.ft_molecule_processing, "peptide");
 		query = QueryBuilder.and(query, QueryBuilder.rangeQuery(UniProtField.Search.ftlen_molecule_processing.name(), 9, 10));
 
@@ -268,7 +268,7 @@ public class FTPtmProcessSearchIT {
 	}
 
 	@Test
-	public void moleculeProcessFindEntryWithLengthAndEvidence() {
+	void moleculeProcessFindEntryWithLengthAndEvidence() {
 		String query = query(UniProtField.Search.ft_molecule_processing, "peptide");
 		query = QueryBuilder.and(query, QueryBuilder.rangeQuery(UniProtField.Search.ftlen_molecule_processing.name(), 9, 20));
 		String evidence = "ECO_0000269";

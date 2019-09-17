@@ -1,8 +1,8 @@
 package org.uniprot.store.datastore.voldemort.uniprot;
 
 
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 import org.uniprot.core.flatfile.parser.UniProtParser;
 import org.uniprot.core.flatfile.parser.impl.DefaultUniProtParser;
 import org.uniprot.core.flatfile.parser.impl.EntryBufferedReader2;
@@ -18,7 +18,7 @@ import java.util.Optional;
 
 import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class VoldemortInMemoryUniprotEntryStoreTest {
 
@@ -26,7 +26,7 @@ public class VoldemortInMemoryUniprotEntryStoreTest {
     private static VoldemortInMemoryUniprotEntryStore voldemortInMemoryEntryStore;
     private static final String storeName = "avro-uniprot";
 
-    @BeforeClass
+    @BeforeAll
     public static void loadData() throws Exception{
         URL resourcePath = VoldemortInMemoryUniprotEntryStoreTest.class.getClassLoader().getResource("uniprot/flatFIleSample.txt");
         assert resourcePath != null;

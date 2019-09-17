@@ -11,18 +11,19 @@
     </parent>
 
     <artifactId>uniprot-search</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>${project.parent.version}</version>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <solr.version>7.5.0</solr.version>
+        <uniprot-core.version>0.1-SNAPSHOT</uniprot-core.version>
     </properties>
 
     <dependencies>
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>controlled-vocabulary</artifactId>
-            <version>0.1-SNAPSHOT</version>
+            <version>${uniprot-core.version}</version>
             <exclusions>
                 <exclusion>
                     <groupId>org.slf4j</groupId>
@@ -34,7 +35,7 @@
         <dependency>
             <groupId>org.uniprot</groupId>
             <artifactId>core-common</artifactId>
-            <version>0.1-SNAPSHOT</version>
+            <version>${uniprot-core.version}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.solr</groupId>

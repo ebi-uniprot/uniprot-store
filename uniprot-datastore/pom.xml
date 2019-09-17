@@ -9,7 +9,7 @@
         <version>1.0-SNAPSHOT</version>
     </parent>
     <artifactId>uniprot-datastore</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>${project.parent.version}</version>
     <name>uniprot-datastore</name>
     <url>http://maven.apache.org</url>
 
@@ -17,6 +17,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <failsafe.version>2.0.1</failsafe.version>
         <metrics.version>3.2.6</metrics.version>
+        <uniprot-core.version>0.1-SNAPSHOT</uniprot-core.version>
     </properties>
     
     <dependencies>
@@ -70,32 +71,32 @@
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>core-domain</artifactId>
-            <version>0.1-SNAPSHOT</version>
+            <version>${uniprot-core.version}</version>
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>core-common</artifactId>
-            <version>0.1-SNAPSHOT</version>
+            <version>${uniprot-core.version}</version>
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>tools-entry-scorer</artifactId>
-            <version>0.1-SNAPSHOT</version>
+            <version>${uniprot-core.version}</version>
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>ff-parser</artifactId>
-            <version>0.1-SNAPSHOT</version>
+            <version>${uniprot-core.version}</version>
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>json-parser</artifactId>
-            <version>0.1-SNAPSHOT</version>
+            <version>${uniprot-core.version}</version>
         </dependency>
         <dependency>
             <groupId>org.uniprot</groupId>
             <artifactId>common-job</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>${project.parent.version}</version>
             <exclusions>
                 <exclusion>
                     <groupId>org.springframework.data</groupId>
@@ -124,17 +125,29 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>junit</groupId>
+                    <artifactId>junit</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.springframework.batch</groupId>
             <artifactId>spring-batch-test</artifactId>
             <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>junit</groupId>
+                    <artifactId>junit</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <dependency>
             <groupId>org.uniprot</groupId>
             <artifactId>common-job</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>${project.parent.version}</version>
             <type>test-jar</type>
             <scope>test</scope>
         </dependency>

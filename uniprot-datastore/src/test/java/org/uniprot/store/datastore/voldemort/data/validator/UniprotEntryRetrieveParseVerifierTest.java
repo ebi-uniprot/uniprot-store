@@ -1,15 +1,14 @@
 package org.uniprot.store.datastore.voldemort.data.validator;
 
 import com.codahale.metrics.Counter;
-import org.junit.After;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 import org.uniprot.core.flatfile.parser.UniProtParser;
 import org.uniprot.core.flatfile.parser.impl.DefaultUniProtParser;
 import org.uniprot.core.flatfile.parser.impl.EntryBufferedReader2;
 import org.uniprot.core.flatfile.parser.impl.SupportingDataMapImpl;
 import org.uniprot.core.uniprot.UniProtEntry;
-import org.uniprot.store.datastore.voldemort.data.validator.UniprotEntryRetrieveParseVerifier;
 import org.uniprot.store.datastore.voldemort.uniprot.VoldemortInMemoryUniprotEntryStore;
 
 import java.io.File;
@@ -17,7 +16,7 @@ import java.lang.reflect.Field;
 import java.net.URL;
 import java.util.Map;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class UniprotEntryRetrieveParseVerifierTest {
 
@@ -25,12 +24,12 @@ public class UniprotEntryRetrieveParseVerifierTest {
     private static String storeName = "avro-uniprot";
     private static VoldemortInMemoryUniprotEntryStore voldemortInMemoryEntryStore;
 
-    @After
+    @AfterEach
     public void cleanIndexFiles() throws Exception{
         new File("uniprot.parse.fail.txt").delete();
     }
 
-    @BeforeClass
+    @BeforeAll
     public static void loadData() throws Exception{
         URL resourcePath = UniprotEntryRetrieveParseVerifierTest.class.getClassLoader().getResource("uniprot/flatFIleSample.txt");
         assert resourcePath != null;

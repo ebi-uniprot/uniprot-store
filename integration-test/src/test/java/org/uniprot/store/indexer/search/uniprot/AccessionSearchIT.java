@@ -2,9 +2,9 @@ package org.uniprot.store.indexer.search.uniprot;
 
 import org.apache.commons.lang.WordUtils;
 import org.apache.solr.client.solrj.response.QueryResponse;
-import org.junit.BeforeClass;
-import org.junit.ClassRule;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.extension.RegisterExtension;
+import org.junit.jupiter.api.Test;
 import org.uniprot.core.flatfile.writer.LineType;
 
 import java.io.IOException;
@@ -21,7 +21,7 @@ import static org.uniprot.store.indexer.search.uniprot.TestUtils.convertToUniPro
 /**
  * Verifies whether the accession searches are qorking properly
  */
-public class AccessionSearchIT {
+class AccessionSearchIT {
     private static final String UNIPROT_FLAT_FILE_ENTRY_PATH = "/it/uniprot/P0A377.43.dat";
     private static final String PRIMARY_ACCESSION1 = "Q197F5";
     private static final String SECONDARY_ACCESSION1_1 = "A4D160";
@@ -29,11 +29,11 @@ public class AccessionSearchIT {
     private static final String PRIMARY_ACCESSION2 = "Q197F6";
     private static final String SECONDARY_ACCESSION2_1 = "A4D162";
     private static final String PRIMARY_ACCESSION3 = "Q197F7";
-    @ClassRule
-    public static UniProtSearchEngine searchEngine = new UniProtSearchEngine();
+    @RegisterExtension
+    static UniProtSearchEngine searchEngine = new UniProtSearchEngine();
 
-    @BeforeClass
-    public static void populateIndexWithTestData() throws IOException {
+    @BeforeAll
+    static void populateIndexWithTestData() throws IOException {
         // a test entry object that can be modified and added to index
         InputStream resourceAsStream = TestUtils.getResourceAsStream(UNIPROT_FLAT_FILE_ENTRY_PATH);
         UniProtEntryObjectProxy entryProxy = UniProtEntryObjectProxy.createEntryFromInputStream(resourceAsStream);
@@ -67,7 +67,7 @@ public class AccessionSearchIT {
     }
 
     @Test
-    public void searchAccessionDoesNotMatchAnyDocument() throws Exception {
+    void searchAccessionDoesNotMatchAnyDocument() {
     	String query  = "accession:P12345";
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -76,7 +76,7 @@ public class AccessionSearchIT {
     }
 
     @Test
-    public void upperCaseAccessionFromEntry3MatchesEntry3() throws Exception {      //  Query query = UniProtQueryBuilder.accession(PRIMARY_ACCESSION3);
+    void upperCaseAccessionFromEntry3MatchesEntry3() {      //  Query query = UniProtQueryBuilder.accession(PRIMARY_ACCESSION3);
         String query  = "accession:" +PRIMARY_ACCESSION3;
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -85,7 +85,7 @@ public class AccessionSearchIT {
     }
 
     @Test
-    public void lowerCaseAccessionFromEntry3MatchesEntry3() throws Exception {
+    void lowerCaseAccessionFromEntry3MatchesEntry3() {
         String query  = "accession:" +PRIMARY_ACCESSION3.toLowerCase();
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -94,7 +94,7 @@ public class AccessionSearchIT {
     }
 
     @Test
-    public void mixedCaseAccessionFromEntry3MatchesEntry3() throws Exception {
+    void mixedCaseAccessionFromEntry3MatchesEntry3() {
         String query  = "accession:" +PRIMARY_ACCESSION3;
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -104,15 +104,12 @@ public class AccessionSearchIT {
 
 
     @Test
-    public void tooManyClauses() throws Exception {
-    	   String query  = "accession:" +PRIMARY_ACCESSION1;
-        for (int i = 0; i < 2000; i++) {
-        	query += " AND accession:" + PRIMARY_ACCESSION1;
-         
-        }
+    void tooManyClauses() {
+        StringBuilder query  = new StringBuilder("accession:" + PRIMARY_ACCESSION1);
+        query.append((" AND accession:" + PRIMARY_ACCESSION1).repeat(2000));
 
         try {
-            QueryResponse response = searchEngine.getQueryResponse(query);
+            QueryResponse response = searchEngine.getQueryResponse(query.toString());
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -120,7 +117,7 @@ public class AccessionSearchIT {
 
 
     @Test
-    public void secondaryAccessionFromEntry1MatchesEntry1() throws Exception {
+    void secondaryAccessionFromEntry1MatchesEntry1() {
         String query  = "accession:" +SECONDARY_ACCESSION1_1;
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -131,7 +128,7 @@ public class AccessionSearchIT {
    
 
     @Test
-    public void searchingAccessionsFromEntry1And2MatchesEntry1And2() throws Exception {
+    void searchingAccessionsFromEntry1And2MatchesEntry1And2() {
         String query = "accession:" + SECONDARY_ACCESSION1_1  +" OR " +"accession:" + PRIMARY_ACCESSION2;       
         QueryResponse response = searchEngine.getQueryResponse(query);
 
