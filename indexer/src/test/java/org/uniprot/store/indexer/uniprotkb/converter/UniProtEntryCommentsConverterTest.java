@@ -485,17 +485,19 @@ class UniProtEntryCommentsConverterTest {
         assertEquals(0, document.commentEvMap.get(CCEV_SEQUENCE_CAUTION_FIELD).size());
 
 
-        assertEquals(6, document.seqCaution.size());
+        assertEquals(9, document.seqCaution.size());
         assertTrue(document.seqCaution.contains("Translated as Trp."));
+        assertTrue(document.seqCaution.contains("Frameshift"));
+        assertTrue(document.seqCaution.contains("Erroneous initiation"));
 
         assertEquals(2, document.seqCautionEv.size());
         assertTrue(document.seqCautionEv.contains("ECO_0000305"));
 
         assertEquals(1, document.seqCautionErInit.size());
-        assertTrue(document.seqCautionErInit.contains("Erroneous initiation"));
+        assertTrue(document.seqCautionErInit.contains("true"));
 
         assertEquals(1, document.seqCautionErPred.size());
-        assertTrue(document.seqCautionErPred.contains("Erroneous gene model prediction"));
+        assertTrue(document.seqCautionErPred.contains("true"));
 
         assertEquals(1, document.seqCautionErTerm.size());
         assertTrue(document.seqCautionErTerm.contains("Translated as Trp."));
@@ -504,7 +506,7 @@ class UniProtEntryCommentsConverterTest {
         assertTrue(document.seqCautionErTran.contains("Wrong choice of frame."));
 
         assertEquals(1, document.seqCautionFrameshift.size());
-        assertTrue(document.seqCautionFrameshift.contains("Frameshift"));
+        assertTrue(document.seqCautionFrameshift.contains("true"));
 
         assertEquals(1, document.seqCautionMisc.size());
         assertTrue(document.seqCautionMisc.contains("Chimeric cDNA. It is a chimera between Dox-A3 and PPO2."));

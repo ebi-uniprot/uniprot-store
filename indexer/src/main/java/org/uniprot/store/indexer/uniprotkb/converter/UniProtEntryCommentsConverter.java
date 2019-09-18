@@ -177,39 +177,35 @@ class UniProtEntryCommentsConverter {
     }
 
     private void convertCommentSC(SequenceCautionComment comment, UniProtDocument document) {
-        String val = comment.getSequenceCautionType().toDisplayName();
+        document.seqCaution.add(comment.getSequenceCautionType().toDisplayName());
+        String val = "true"; //default value for the type when we do not have note, so the type can be searched with '*'
         if (comment.hasNote()) {
             val = comment.getNote();
+            document.seqCaution.add(comment.getNote());
         }
+
         Set<String> evidence = UniProtEntryConverterUtil.extractEvidence(comment.getEvidences());
-        document.seqCaution.add(val);
         document.seqCautionEv.addAll(evidence);
         switch (comment.getSequenceCautionType()) {
             case FRAMESHIFT:
                 document.seqCautionFrameshift.add(val);
-                // document.seqCautionFrameshiftEv.addAll(evidence);
                 break;
             case ERRONEOUS_INITIATION:
                 document.seqCautionErInit.add(val);
-                // document.seqCautionErInitEv.addAll(evidence);
                 break;
             case ERRONEOUS_TERMIINATION:
                 document.seqCautionErTerm.add(val);
-                // document.seqCautionErTermEv.addAll(evidence);
                 break;
             case ERRONEOUS_PREDICTION:
                 document.seqCautionErPred.add(val);
-                // document.seqCautionErPredEv.addAll(evidence);
                 break;
             case ERRONEOUS_TRANSLATION:
                 document.seqCautionErTran.add(val);
-                // document.seqCautionErTranEv.addAll(evidence);
                 break;
             case MISCELLANEOUS_DISCREPANCY:
                 document.seqCautionMisc.add(val);
                 document.seqCautionMiscEv.addAll(evidence);
                 break;
-
             default:
 
         }

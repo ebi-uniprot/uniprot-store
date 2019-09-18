@@ -265,7 +265,7 @@ class UniProtEntryConverterTest {
     void convertOrganelleFields() {
         // given
         GeneLocation geneLocation = new GeneLocationBuilder()
-                .geneEncodingType(GeneEncodingType.CYANELLE_PLASTID)
+                .geneEncodingType(GeneEncodingType.CYANELLE)
                 .value("geneLocation value")
                 .addEvidence(createEvidence("60"))
                 .build();
@@ -280,9 +280,9 @@ class UniProtEntryConverterTest {
 
         // then
         assertEquals("P12345", document.accession);
-        assertEquals(Arrays.asList("Plastid", "Cyanelle geneLocation value"), document.organelles);
+        assertEquals(Arrays.asList("plastid", "cyanelle"), document.organelles);
         assertEquals(new HashSet<>(Arrays.asList("P12345", "UNIPROT_ENTRYID",
-                "Cyanelle geneLocation value", "Plastid")), document.content);
+                "cyanelle", "plastid")), document.content);
     }
 
     @Test

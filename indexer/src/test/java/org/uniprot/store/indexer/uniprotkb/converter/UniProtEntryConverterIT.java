@@ -120,7 +120,7 @@ class UniProtEntryConverterIT {
         assertEquals(172543L, doc.taxLineageIds.get(0).longValue());
 
         assertEquals(1, doc.organelles.size());
-        assertEquals("Mitochondrion", doc.organelles.get(0));
+        assertEquals("mitochondrion", doc.organelles.get(0));
 
         assertEquals(1, doc.organismHostIds.size());
         assertEquals(9539, doc.organismHostIds.get(0).intValue());

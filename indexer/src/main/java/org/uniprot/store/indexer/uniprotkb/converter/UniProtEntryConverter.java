@@ -42,9 +42,9 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtEntry, Un
     /**
      * An enum set representing all of the organelles that are children of plastid
      */
-    private static final EnumSet<GeneEncodingType> PLASTID_CHILD = EnumSet.of(GeneEncodingType.APICOPLAST_PLASTID,
-            GeneEncodingType.CHLOROPLAST_PLASTID, GeneEncodingType.CYANELLE_PLASTID,
-            GeneEncodingType.NON_PHOTOSYNTHETIC_PLASTID, GeneEncodingType.CHROMATOPHORE_PLASTID);
+    private static final EnumSet<GeneEncodingType> PLASTID_CHILD = EnumSet.of(GeneEncodingType.APICOPLAST,
+            GeneEncodingType.CHLOROPLAST, GeneEncodingType.CYANELLE,
+            GeneEncodingType.NON_PHOTOSYNTHETIC_PLASTID, GeneEncodingType.ORGANELLAR_CHROMATOPHORE);
 
     private final UniProtEntryCommentsConverter commentsConverter;
     private final UniProtEntryFeatureConverter featureConverter;
@@ -231,16 +231,9 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtEntry, Un
                 GeneEncodingType geneEncodingType = geneLocation.getGeneEncodingType();
 
                 if (PLASTID_CHILD.contains(geneEncodingType)) {
-                    document.organelles.add(GeneEncodingType.PLASTID.getName());
+                    document.organelles.add(GeneEncodingType.PLASTID.getName().toLowerCase());
                 }
-
-                String organelleValue = geneEncodingType.getName();
-                if (geneLocation.getValue() != null && !geneLocation.getValue().isEmpty()) {
-                    organelleValue += " " + geneLocation.getValue();
-                }
-                organelleValue = organelleValue.trim();
-
-                document.organelles.add(organelleValue);
+                document.organelles.add(geneEncodingType.getName().toLowerCase());
             }
             document.content.addAll(document.organelles);
         }
