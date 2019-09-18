@@ -456,7 +456,7 @@ class CCSearchIT {
     }
     @Test
     void findAPEvent() {
-    		String query= query(UniProtField.Search.cc_ap_as, "splicing");
+        String query = query(UniProtField.Search.cc_ap_as, "*");
     		QueryResponse response = searchEngine.getQueryResponse(query);
     		List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
     		assertThat(retrievedAccessions, hasItem(P48347));

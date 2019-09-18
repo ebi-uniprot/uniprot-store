@@ -362,7 +362,7 @@ class UniProtEntryConverterIT {
         .collect(Collectors.toList());
         checkSuggestionsContain(SuggestDictionary.SUBCELL, subcellTerm, true);
 
-        assertEquals(2, doc.ap.size());
+        assertEquals(3, doc.ap.size());
         assertTrue(doc.ap.contains("Alternative splicing"));
         assertEquals(2, doc.apAs.size());
         assertTrue(doc.apAs.contains("Additional isoforms seem to exist."));
@@ -513,10 +513,10 @@ class UniProtEntryConverterIT {
         assertEquals(0, doc.subcellLocationNoteEv.size());
 
 
-        assertEquals(1, doc.ap.size());
+        assertEquals(2, doc.ap.size());
         assertTrue(doc.ap.contains("Alternative splicing"));
         assertEquals(1, doc.apAs.size());
-        assertTrue(doc.apAs.contains("Alternative splicing"));
+        assertTrue(doc.apAs.contains("No experimental confirmation available."));
 
         assertEquals(0, doc.interactors.size());
 

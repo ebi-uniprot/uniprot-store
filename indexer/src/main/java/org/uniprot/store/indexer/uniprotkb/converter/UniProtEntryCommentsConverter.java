@@ -110,19 +110,32 @@ class UniProtEntryCommentsConverter {
     private void convertCommentAP(AlternativeProductsComment comment, UniProtDocument document) {
         List<String> values = new ArrayList<>();
         Set<String> evidence = new HashSet<>();
-        if (comment.hasNote()) {
-            comment.getNote().getTexts().stream().map(Value::getValue).forEach(values::add);
-
-            evidence.addAll(UniProtEntryConverterUtil.extractEvidence(comment.getNote().getTexts().stream()
-                    .flatMap(val -> val.getEvidences().stream()).collect(Collectors.toList())));
+        if (comment.hasNote() && comment.getNote().hasTexts()) {
+            comment.getNote()
+                    .getTexts()
+                    .forEach(evidencedValue -> {
+                        values.add(evidencedValue.getValue());
+                        evidence.addAll(UniProtEntryConverterUtil.extractEvidence(evidencedValue.getEvidences()));
+                    });
+        }
+        if (comment.hasIsoforms()) {
+            comment.getIsoforms().stream()
+                    .filter(APIsoform::hasNote)
+                    .flatMap(apIsoform -> apIsoform.getNote().getTexts().stream())
+                    .forEach(evidencedValue -> {
+                        values.add(evidencedValue.getValue());
+                        evidence.addAll(UniProtEntryConverterUtil.extractEvidence(evidencedValue.getEvidences()));
+                    });
         }
 
         List<String> events = new ArrayList<>();
         if (comment.hasEvents()) {
             comment.getEvents().stream().map(APEventType::getName).forEach(events::add);
-            values.addAll(events);
+            document.ap.addAll(events);
         }
-
+        if (values.isEmpty()) {
+            values.add("true"); //default value when we do not have note, so it can be searched with '*'
+        }
         document.ap.addAll(values);
         document.apEv.addAll(evidence);
         for (String event : events) {

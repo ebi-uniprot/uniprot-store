@@ -290,13 +290,13 @@ class UniProtEntryCommentsConverterTest {
         assertTrue(document.commentEvMap.containsKey(CCEV_ALTERNATIVE_PRODUCTS_FIELD));
         assertEquals(0, document.commentEvMap.get(CCEV_ALTERNATIVE_PRODUCTS_FIELD).size());
 
-        assertEquals(2, document.ap.size());
+        assertEquals(5, document.ap.size());
         assertTrue(document.ap.contains("Alternative promoter usage"));
-        assertTrue(document.ap.contains("Alternative initiation"));
+        assertTrue(document.ap.contains("Produced from the genomic RNA."));
         assertEquals(0, document.apEv.size());
-        assertEquals(2, document.apApu.size());
-        assertTrue(document.apApu.contains("Alternative promoter usage"));
-        assertTrue(document.apApu.contains("Alternative initiation"));
+        assertEquals(3, document.apApu.size());
+        assertTrue(document.apApu.contains("Produced from the genomic RNA."));
+        assertTrue(document.apApu.contains("Produced by alternative initiation from the subgenomic RNA."));
         assertEquals(0, document.apApuEv.size());
     }
 
