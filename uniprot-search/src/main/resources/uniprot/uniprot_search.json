@@ -37,7 +37,7 @@
 		"label": "Organism [OS]",
 		"term": "organism",
 		"dataType": "string",
-		"autoComplete": "/uniprot/api/suggester?dict=taxonomy&query=?",
+		"autoComplete": "/uniprot/api/suggester?dict=organism&query=?",
 		"description": "Search by Organism name",
 		"example": "saccharomyces"
 	},
@@ -55,7 +55,7 @@
 		"label": "Virus host",
 		"term": "host",
 		"dataType": "string",
-		"autoComplete": "/uniprot/api/suggester?dict=taxonomy&query=?",
+		"autoComplete": "/uniprot/api/suggester?dict=host&query=?",
 		"description": "Search by virus host",
 		"example": "human"
 	},
@@ -204,6 +204,7 @@
 				"label": "Catalytic Activity",
 				"itemType": "comment",
 				"term": "catalytic_activity",
+				"autoComplete": "/uniprot/api/suggester?dict=catalytic_activity&query=?",
 				"hasEvidence": true,
 				"description": "Search by comment catalytic activity",
 				"example": "tyrosine"
@@ -1112,8 +1113,46 @@
 				"id": "id_organelle",
 				"label": "Encoded in",
 				"term": "organelle",
-				"dataType": "string",
-				"autoComplete": "/uniprot/api/suggester?dict=organelle&query=?",
+				"dataType": "enum",
+				"values": [
+				{
+					"name": "Mitochondrion",
+					"value": "mitochondrion"
+				},
+				{
+					"name": "Plastid",
+					"value": "plastid"
+				},
+				{
+					"name": "Chloroplast",
+					"value": "chloroplast"
+				},
+				{
+					"name": "Cyanelle",
+					"value": "cyanelle"
+				},
+				{
+					"name": "Apicoplast",
+					"value": "apicoplast"
+				},
+				{
+					"name": "Organellar chromatophore",
+					"value": "organellar chromatophore"
+				},
+				{
+					"name": "Non-photosynthetic plastid",
+					"value": "non-photosynthetic plastid"
+				},
+				{
+					"name": "Nucleomorph",
+					"value": "nucleomorph"
+				},
+				{
+					"name": "Hydrogenosome",
+					"value": "hydrogenosome"
+				}
+				],
+
 				"description": "Search by organelle",
 				"example": "mitochondrion"
 			},
