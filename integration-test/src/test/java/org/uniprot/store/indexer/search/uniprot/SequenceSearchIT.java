@@ -1,23 +1,22 @@
 package org.uniprot.store.indexer.search.uniprot;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.containsInAnyOrder;
-import static org.hamcrest.Matchers.hasItem;
-import static org.hamcrest.Matchers.not;
-import static org.uniprot.store.indexer.search.uniprot.IdentifierSearchIT.ACC_LINE;
-import static org.uniprot.store.indexer.search.uniprot.TestUtils.*;
+import org.apache.solr.client.solrj.response.QueryResponse;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.RegisterExtension;
+import org.uniprot.core.flatfile.writer.LineType;
+import org.uniprot.store.search.field.QueryBuilder;
+import org.uniprot.store.search.field.UniProtField;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 
-import org.apache.solr.client.solrj.response.QueryResponse;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.extension.RegisterExtension;
-import org.junit.jupiter.api.Test;
-import org.uniprot.core.flatfile.writer.LineType;
-import org.uniprot.store.search.field.QueryBuilder;
-import org.uniprot.store.search.field.UniProtField;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.*;
+import static org.uniprot.store.indexer.search.uniprot.IdentifierSearchIT.ACC_LINE;
+import static org.uniprot.store.indexer.search.uniprot.TestUtils.convertToUniProtEntry;
+import static org.uniprot.store.indexer.search.uniprot.TestUtils.query;
 
 class SequenceSearchIT {
 			private static final String Q6GZX4 = "Q6GZX4";
@@ -144,6 +143,15 @@ class SequenceSearchIT {
 	    		assertThat(retrievedAccessions, hasItem(Q6GZX4));
 	    		assertThat(retrievedAccessions, not(hasItem(Q6GZX3)));
 	    }
+	@Test
+	void findSubSequence() {
+		String query= "sq:\"LLDY\"";
+		QueryResponse response = searchEngine.getQueryResponse(query);
+		List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
+		retrievedAccessions.forEach(System.out::println);
+		assertThat(retrievedAccessions, contains(Q6GZX4));
+	}
+
 	    @Test
 	    void findSingleByLengthRange() {
 	    		String query= QueryBuilder.rangeQuery(UniProtField.Search.length.name(), "250", "256", true, false);

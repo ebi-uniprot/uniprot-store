@@ -400,10 +400,7 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtEntry, Un
 		japiDocument.seqMass = seq.getMolWeight();
 		
 		// Added by Chuming Chen for Peptide Search on Sept. 16, 2019
-		japiDocument.seqAA = seq.getValue()
-							.replaceAll("\r", "")
-							.replaceAll("\n", "")
-							.replace("", " ").trim();
+		japiDocument.seqAA = seq.getValue();
 	}
 
 	private void setProteinNames(UniProtEntry source, UniProtDocument japiDocument) {
