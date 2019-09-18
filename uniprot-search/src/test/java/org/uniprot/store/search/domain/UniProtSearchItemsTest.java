@@ -55,7 +55,7 @@ class UniProtSearchItemsTest {
 		assertEquals("organism", item.orElse(new UniProtSearchItem()).getTerm());
 		assertEquals(SearchDataType.STRING, item.orElse(new UniProtSearchItem()).getDataType());
 		assertNotNull(item.orElse(new UniProtSearchItem()).getAutoComplete());
-		assertEquals("/uniprot/api/suggester?dict=taxonomy&query=?", item.orElse(new UniProtSearchItem()).getAutoComplete());
+		assertEquals("/uniprot/api/suggester?dict=organism&query=?", item.orElse(new UniProtSearchItem()).getAutoComplete());
 	}
 
 	@Test
