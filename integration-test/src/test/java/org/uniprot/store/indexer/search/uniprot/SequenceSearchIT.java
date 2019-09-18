@@ -12,18 +12,18 @@ import java.io.InputStream;
 import java.util.List;
 
 import org.apache.solr.client.solrj.response.QueryResponse;
-import org.junit.BeforeClass;
-import org.junit.ClassRule;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.extension.RegisterExtension;
+import org.junit.jupiter.api.Test;
 import org.uniprot.core.flatfile.writer.LineType;
 import org.uniprot.store.search.field.QueryBuilder;
 import org.uniprot.store.search.field.UniProtField;
 
-public class SequenceSearchIT {
-	 public static final String Q6GZX4 = "Q6GZX4";
-	    public static final String Q6GZX3 = "Q6GZX3";
-	    public static final String Q6GZY3 = "Q6GZY3";
-	    public static final String Q197B6 = "Q197B6";
+class SequenceSearchIT {
+			private static final String Q6GZX4 = "Q6GZX4";
+			private static final String Q6GZX3 = "Q6GZX3";
+			private static final String Q6GZY3 = "Q6GZY3";
+			private static final String Q197B6 = "Q197B6";
 	    private static final String UNIPROT_FLAT_FILE_ENTRY_PATH = "/it/uniprot/P0A377.43.dat";
 	    private static final String Q196W5 = "Q196W5";
 	    private static final String Q6GZN7 = "Q6GZN7";
@@ -31,11 +31,11 @@ public class SequenceSearchIT {
 	    private static final String P48347 = "P48347";
 	    private static final String Q12345 = "Q12345";
 
-	    @ClassRule
-	    public static UniProtSearchEngine searchEngine = new UniProtSearchEngine();
+	    @RegisterExtension
+			static UniProtSearchEngine searchEngine = new UniProtSearchEngine();
 
-	    @BeforeClass
-	    public static void populateIndexWithTestData() throws IOException {
+	    @BeforeAll
+	    static void populateIndexWithTestData() throws IOException {
 	        // a test entry object that can be modified and added to index
 	        InputStream resourceAsStream = TestUtils.getResourceAsStream(UNIPROT_FLAT_FILE_ENTRY_PATH);
 	        UniProtEntryObjectProxy entryProxy = UniProtEntryObjectProxy.createEntryFromInputStream(resourceAsStream);
@@ -137,7 +137,7 @@ public class SequenceSearchIT {
 	        searchEngine.printIndexContents();
 	    }
 	    @Test
-	    public void findSingleByLength() {
+	    void findSingleByLength() {
 	    		String query= query(UniProtField.Search.length, "256");
 	    		QueryResponse response = searchEngine.getQueryResponse(query);
 	    		List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
@@ -145,7 +145,7 @@ public class SequenceSearchIT {
 	    		assertThat(retrievedAccessions, not(hasItem(Q6GZX3)));
 	    }
 	    @Test
-	    public void findSingleByLengthRange() {
+	    void findSingleByLengthRange() {
 	    		String query= QueryBuilder.rangeQuery(UniProtField.Search.length.name(), "250", "256", true, false);
 	    		System.out.println(query);
 	    		QueryResponse response = searchEngine.getQueryResponse(query);
@@ -155,7 +155,7 @@ public class SequenceSearchIT {
 	    		assertThat(retrievedAccessions, not(hasItem(Q6GZX4)));
 	    }
 	    @Test
-	    public void findSingleByMass() {
+	    void findSingleByMass() {
 	    		String query= query(UniProtField.Search.mass, "38937");
 	    		QueryResponse response = searchEngine.getQueryResponse(query);
 	    		List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
@@ -163,7 +163,7 @@ public class SequenceSearchIT {
 	    		assertThat(retrievedAccessions, not(hasItem(Q6GZX3)));
 	    }
 	    @Test
-	    public void findSingleByMassRange() {
+	    void findSingleByMassRange() {
 	    		String query= QueryBuilder.rangeQuery(UniProtField.Search.mass.name(), 29734, 39427);
 	    		QueryResponse response = searchEngine.getQueryResponse(query);
 	    		List<String> retrievedAccessions = searchEngine.getIdentifiers(response);

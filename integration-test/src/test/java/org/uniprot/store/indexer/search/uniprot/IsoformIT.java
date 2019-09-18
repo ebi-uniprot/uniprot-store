@@ -11,9 +11,9 @@ import java.io.InputStream;
 import java.util.List;
 
 import org.apache.solr.client.solrj.response.QueryResponse;
-import org.junit.BeforeClass;
-import org.junit.ClassRule;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.extension.RegisterExtension;
+import org.junit.jupiter.api.Test;
 import org.uniprot.core.flatfile.writer.LineType;
 import org.uniprot.store.search.field.QueryBuilder;
 import org.uniprot.store.search.field.UniProtField;
@@ -21,7 +21,7 @@ import org.uniprot.store.search.field.UniProtField;
 /**
  * Verifies whether the accession searches are qorking properly
  */
-public class IsoformIT {
+class IsoformIT {
     private static final String UNIPROT_FLAT_FILE_ENTRY_PATH = "/it/uniprot/P0A377.43.dat";
     private static final String PRIMARY_ACCESSION1 = "Q197F5-1";
     private static final String SECONDARY_ACCESSION1_1 = "A4D160";
@@ -29,11 +29,11 @@ public class IsoformIT {
     private static final String PRIMARY_ACCESSION2 = "Q197F6";
     private static final String SECONDARY_ACCESSION2_1 = "A4D162";
     private static final String PRIMARY_ACCESSION3 = "Q197F7-2";
-    @ClassRule
-    public static UniProtSearchEngine searchEngine = new UniProtSearchEngine();
+    @RegisterExtension
+    static UniProtSearchEngine searchEngine = new UniProtSearchEngine();
 
-    @BeforeClass
-    public static void populateIndexWithTestData() throws IOException {
+    @BeforeAll
+    static void populateIndexWithTestData() throws IOException {
         // a test entry object that can be modified and added to index
         InputStream resourceAsStream = TestUtils.getResourceAsStream(UNIPROT_FLAT_FILE_ENTRY_PATH);
         UniProtEntryObjectProxy entryProxy = UniProtEntryObjectProxy.createEntryFromInputStream(resourceAsStream);
@@ -68,7 +68,7 @@ public class IsoformIT {
 
 
     @Test
-    public void queryIsofromAccessionFromEntry3MatchesEntry3() throws Exception {
+    void queryIsofromAccessionFromEntry3MatchesEntry3() {
         String query = accession(PRIMARY_ACCESSION3.toLowerCase());
         String query1 = isoformOnly();
         String and = QueryBuilder.and(query, query1);
@@ -80,7 +80,7 @@ public class IsoformIT {
     }
 
     @Test
-    public void queryIsofromAccessionFromEntry2MatchesEntry() throws Exception {
+    void queryIsofromAccessionFromEntry2MatchesEntry() {
         String query = accession(PRIMARY_ACCESSION2.toLowerCase());
         String query1 = isoformOnly();
         String and = QueryBuilder.and(query, query1);

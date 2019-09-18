@@ -11,26 +11,26 @@ import java.io.InputStream;
 import java.util.List;
 
 import org.apache.solr.client.solrj.response.QueryResponse;
-import org.junit.BeforeClass;
-import org.junit.ClassRule;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.extension.RegisterExtension;
+import org.junit.jupiter.api.Test;
 import org.uniprot.core.flatfile.writer.LineType;
 import org.uniprot.core.uniprot.comment.CommentType;
 import org.uniprot.store.search.field.QueryBuilder;
 
 
-public class CCDiseaseSearchIT {
-	public static final String Q6GZX4 = "Q6GZX4";
-	public static final String Q6GZX3 = "Q6GZX3";
-	public static final String Q6GZY3 = "Q6GZY3";
-	public static final String Q197B6 = "Q197B6";
+class CCDiseaseSearchIT {
+	private static final String Q6GZX4 = "Q6GZX4";
+	private static final String Q6GZX3 = "Q6GZX3";
+	private static final String Q6GZY3 = "Q6GZY3";
+	private static final String Q197B6 = "Q197B6";
 	private static final String UNIPROT_FLAT_FILE_ENTRY_PATH = "/it/uniprot/P0A377.43.dat";
 
-	@ClassRule
-	public static UniProtSearchEngine searchEngine = new UniProtSearchEngine();
+	@RegisterExtension
+	static UniProtSearchEngine searchEngine = new UniProtSearchEngine();
 
-	@BeforeClass
-	public static void populateIndexWithTestData() throws IOException {
+	@BeforeAll
+	static void populateIndexWithTestData() throws IOException {
 		// a test entry object that can be modified and added to index
 		InputStream resourceAsStream = TestUtils.getResourceAsStream(UNIPROT_FLAT_FILE_ENTRY_PATH);
 		UniProtEntryObjectProxy entryProxy = UniProtEntryObjectProxy.createEntryFromInputStream(resourceAsStream);
@@ -68,7 +68,7 @@ public class CCDiseaseSearchIT {
 	}
 
 	@Test
-	public void shouldFindTwoEntryQuery() {
+	void shouldFindTwoEntryQuery() {
 		String query = comments(CommentType.DISEASE, "active");
 
 		QueryResponse response = searchEngine.getQueryResponse(query);
@@ -78,7 +78,7 @@ public class CCDiseaseSearchIT {
 	}
 
 	@Test
-	public void shouldFindTwoEntryQueryEvidence() {
+	void shouldFindTwoEntryQueryEvidence() {
 		String query = comments(CommentType.DISEASE, "active");
 		String evidence = "ECO_0000269";
 		query = QueryBuilder.and(query, commentEvidence(CommentType.DISEASE, evidence));
@@ -90,7 +90,7 @@ public class CCDiseaseSearchIT {
 	}
 
 	@Test
-	public void shouldFindNoneEntryQueryEvidence() {
+	void shouldFindNoneEntryQueryEvidence() {
 		String query = comments(CommentType.DISEASE, "active");
 		String evidence = "ECO_0000255";
 		query = QueryBuilder.and(query, commentEvidence(CommentType.DISEASE, evidence));

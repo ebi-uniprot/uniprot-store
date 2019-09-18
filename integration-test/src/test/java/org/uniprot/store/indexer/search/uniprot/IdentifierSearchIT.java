@@ -3,9 +3,9 @@ package org.uniprot.store.indexer.search.uniprot;
 import org.apache.commons.lang.WordUtils;
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.hamcrest.collection.IsIterableContainingInOrder;
-import org.junit.BeforeClass;
-import org.junit.ClassRule;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.extension.RegisterExtension;
+import org.junit.jupiter.api.Test;
 import org.uniprot.core.flatfile.writer.LineType;
 import org.uniprot.store.search.field.QueryBuilder;
 import org.uniprot.store.search.field.UniProtField;
@@ -22,17 +22,17 @@ import static org.uniprot.store.indexer.search.uniprot.TestUtils.convertToUniPro
 /**
  * Verifies if the protein accession/protein id is indexed correctly
  */
-public class IdentifierSearchIT {
-    public static final String ACC_LINE = "AC   %s;";
+class IdentifierSearchIT {
+    static final String ACC_LINE = "AC   %s;";
     private static final String UNIPROT_FLAT_FILE_ENTRY_PATH = "/it/uniprot/P0A377.43.dat";
     private static final String TARGET_ACCESSION = "Q197F5";
     private static final String TARGET_ID = "CYC_HUMAN";
     private static final String ID_LINE = "ID   %s               Reviewed;         105 AA.";
-    @ClassRule
-    public static UniProtSearchEngine searchEngine = new UniProtSearchEngine();
+    @RegisterExtension
+    static UniProtSearchEngine searchEngine = new UniProtSearchEngine();
 
-    @BeforeClass
-    public static void populateIndexWithTestData() throws IOException {
+    @BeforeAll
+    static void populateIndexWithTestData() throws IOException {
         // a test entry object that can be modified and added to index
         InputStream resourceAsStream = TestUtils.getResourceAsStream(UNIPROT_FLAT_FILE_ENTRY_PATH);
         UniProtEntryObjectProxy entryProxy = UniProtEntryObjectProxy.createEntryFromInputStream(resourceAsStream);
@@ -56,7 +56,7 @@ public class IdentifierSearchIT {
     }
 
     @Test
-    public void upperCaseSearchProteinIdMatchesTargetDocument() throws Exception {
+    void upperCaseSearchProteinIdMatchesTargetDocument() {
         String query = id(TARGET_ID);
 
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -66,7 +66,7 @@ public class IdentifierSearchIT {
     }
 
     @Test
-    public void lowerCaseSearchProteinIdMatchesTargetDocument() throws Exception {
+    void lowerCaseSearchProteinIdMatchesTargetDocument() {
     	String query =id(TARGET_ID.toLowerCase());
 
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -76,7 +76,7 @@ public class IdentifierSearchIT {
     }
 
     @Test
-    public void mixedCaseSearchProteinIdMatchesTargetDocument() throws Exception {
+    void mixedCaseSearchProteinIdMatchesTargetDocument() {
     	String query = id(mixCasing(TARGET_ID));
 
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -86,7 +86,7 @@ public class IdentifierSearchIT {
     }
 
     @Test
-    public void searchProteinIdDoesNotMatchAnyDocument() throws Exception {
+    void searchProteinIdDoesNotMatchAnyDocument() {
     	String query = id("IES3_YEAST");
 
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -96,7 +96,7 @@ public class IdentifierSearchIT {
     }
 
     @Test
-    public void partialProteinIdMatches0Documents() throws Exception {
+    void partialProteinIdMatches0Documents() {
     	String query = id("CYC");
 
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -106,7 +106,7 @@ public class IdentifierSearchIT {
     }
 
     @Test
-    public void searchForAccessionInIdQueryReturns0Documents() throws Exception {
+    void searchForAccessionInIdQueryReturns0Documents() {
     	String query = id(TARGET_ACCESSION);
 
         QueryResponse response = searchEngine.getQueryResponse(query);

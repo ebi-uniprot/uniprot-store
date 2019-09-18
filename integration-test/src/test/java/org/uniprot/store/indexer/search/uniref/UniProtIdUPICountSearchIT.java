@@ -1,31 +1,24 @@
 package org.uniprot.store.indexer.search.uniref;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.containsInAnyOrder;
-
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
-
 import org.apache.solr.client.solrj.response.QueryResponse;
-import org.junit.Assert;
-import org.junit.BeforeClass;
-import org.junit.ClassRule;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.RegisterExtension;
 import org.uniprot.core.xml.jaxb.uniref.Entry;
 import org.uniprot.core.xml.jaxb.uniref.MemberType;
 import org.uniprot.core.xml.jaxb.uniref.PropertyType;
 import org.uniprot.store.search.field.QueryBuilder;
 import org.uniprot.store.search.field.UniRefField;
 
-/**
- *
- * @author jluo
- * @date: 19 Aug 2019
- *
-*/
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
-public class UniProtIdUPICountSearchIT {
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.containsInAnyOrder;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+class UniProtIdUPICountSearchIT {
 	  private static final String ID_1 = "UniRef100_A0A007";
 	    private static final String ID_2 = "UniRef100_A0A009DWI3";
 	    private static final String ID_3 = "UniRef90_A0A007";
@@ -55,11 +48,11 @@ public class UniProtIdUPICountSearchIT {
 	    private static final String UPI_3 = "UPI0000000003";
 	    
 	    
-	    @ClassRule
-	    public static UniRefSearchEngine searchEngine = new UniRefSearchEngine();
+	    @RegisterExtension
+	    static UniRefSearchEngine searchEngine = new UniRefSearchEngine();
 	    
-	    @BeforeClass
-	    public static void populateIndexWithTestData() throws IOException {
+	    @BeforeAll
+	    static void populateIndexWithTestData() {
 	        //Entry 1
 	        {
 	            Entry entry = TestUtils.createSkeletonEntry(ID_1, NAME_1);
@@ -118,120 +111,120 @@ public class UniProtIdUPICountSearchIT {
 	    }
 	    
 	    @Test
-	    public void testAccession() {
+	    void testAccession() {
 	    	String  query =uniprotIdQuery(ACCESSION_1);
 	    	  QueryResponse queryResponse =
 	                  searchEngine.getQueryResponse(query);
 	          List<String> retrievedAccessions = searchEngine.getIdentifiers(queryResponse);
 	          
-	          Assert.assertEquals(2, retrievedAccessions.size());
+	          assertEquals(2, retrievedAccessions.size());
 	          assertThat(retrievedAccessions, containsInAnyOrder(ID_1, ID_6));
 	    }
 	    @Test
-	    public void testAccession5() {
+	    void testAccession5() {
 	    	String  query =uniprotIdQuery(ACCESSION_5);
 	    	  QueryResponse queryResponse =
 	                  searchEngine.getQueryResponse(query);
 	          List<String> retrievedAccessions = searchEngine.getIdentifiers(queryResponse);
 	          
-	          Assert.assertEquals(1, retrievedAccessions.size());
+	          assertEquals(1, retrievedAccessions.size());
 	          assertThat(retrievedAccessions, containsInAnyOrder(ID_5));
 	    }
 	    
 	    @Test
-	    public void testUniProtID() {
+	    void testUniProtID() {
 	    	String  query =uniprotIdQuery(UNIPROTID_2);
 	    	  QueryResponse queryResponse =
 	                  searchEngine.getQueryResponse(query);
 	          List<String> retrievedAccessions = searchEngine.getIdentifiers(queryResponse);
 	          
-	          Assert.assertEquals(1, retrievedAccessions.size());
+	          assertEquals(1, retrievedAccessions.size());
 	          assertThat(retrievedAccessions, containsInAnyOrder(ID_2));
 	    }
 	    @Test
-	    public void testUniProtI2D() {
+	    void testUniProtI2D() {
 	    	String  query =uniprotIdQuery(UNIPROTID_4);
 	    	  QueryResponse queryResponse =
 	                  searchEngine.getQueryResponse(query);
 	          List<String> retrievedAccessions = searchEngine.getIdentifiers(queryResponse);
 	          
-	          Assert.assertEquals(2, retrievedAccessions.size());
+	          assertEquals(2, retrievedAccessions.size());
 	          assertThat(retrievedAccessions, containsInAnyOrder(ID_4, ID_6));
 	    }
 	    
 	    
 	    @Test
-	    public void testUPI1() {
+	    void testUPI1() {
 	    	String  query =upiQuery(UPI_1);
 	    	  QueryResponse queryResponse =
 	                  searchEngine.getQueryResponse(query);
 	          List<String> retrievedAccessions = searchEngine.getIdentifiers(queryResponse);
 	          
-	          Assert.assertEquals(2, retrievedAccessions.size());
+	          assertEquals(2, retrievedAccessions.size());
 	          assertThat(retrievedAccessions, containsInAnyOrder(ID_1, ID_5));
 	    }
 	    
 	    @Test
-	    public void testUPI2() {
+	    void testUPI2() {
 	    	String  query =upiQuery(UPI_2);
 	    	  QueryResponse queryResponse =
 	                  searchEngine.getQueryResponse(query);
 	          List<String> retrievedAccessions = searchEngine.getIdentifiers(queryResponse);
 	          
-	          Assert.assertEquals(1, retrievedAccessions.size());
+	          assertEquals(1, retrievedAccessions.size());
 	          assertThat(retrievedAccessions, containsInAnyOrder(ID_6));
 	    }
 	    @Test
-	    public void testUPI3() {
+	    void testUPI3() {
 	    	String  query =upiQuery(UPI_3);
 	    	  QueryResponse queryResponse =
 	                  searchEngine.getQueryResponse(query);
 	          List<String> retrievedAccessions = searchEngine.getIdentifiers(queryResponse);
 	          
-	          Assert.assertEquals(2, retrievedAccessions.size());
+	          assertEquals(2, retrievedAccessions.size());
 	          assertThat(retrievedAccessions, containsInAnyOrder(ID_3, ID_4));
 	    }
 	    @Test
-	    public void testCount1() {
+	    void testCount1() {
 	    	String  query =countQuery(1);
 	    	  QueryResponse queryResponse =
 	                  searchEngine.getQueryResponse(query);
 	          List<String> retrievedAccessions = searchEngine.getIdentifiers(queryResponse);
 	          
-	          Assert.assertEquals(3, retrievedAccessions.size());
+	          assertEquals(3, retrievedAccessions.size());
 	          assertThat(retrievedAccessions, containsInAnyOrder(ID_1, ID_2, ID_3));
 	    }
 	    
 	    @Test
-	    public void testCount2() {
+	    void testCount2() {
 	    	String  query =countQuery(2);
 	    	  QueryResponse queryResponse =
 	                  searchEngine.getQueryResponse(query);
 	          List<String> retrievedAccessions = searchEngine.getIdentifiers(queryResponse);
 	          
-	          Assert.assertEquals(2, retrievedAccessions.size());
+	          assertEquals(2, retrievedAccessions.size());
 	          assertThat(retrievedAccessions, containsInAnyOrder(ID_4, ID_5));
 	    }
 	    
 	    @Test
-	    public void testCount4() {
+	    void testCount4() {
 	    	String  query =countQuery(4);
 	    	  QueryResponse queryResponse =
 	                  searchEngine.getQueryResponse(query);
 	          List<String> retrievedAccessions = searchEngine.getIdentifiers(queryResponse);
 	          
-	          Assert.assertEquals(1, retrievedAccessions.size());
+	          assertEquals(1, retrievedAccessions.size());
 	          assertThat(retrievedAccessions, containsInAnyOrder(ID_6));
 	    }
 	    
 	    @Test
-	    public void testCount24() {
+	    void testCount24() {
 	    	String  query =countQuery(2,4);
 	    	  QueryResponse queryResponse =
 	                  searchEngine.getQueryResponse(query);
 	          List<String> retrievedAccessions = searchEngine.getIdentifiers(queryResponse);
 	          
-	          Assert.assertEquals(3, retrievedAccessions.size());
+	          assertEquals(3, retrievedAccessions.size());
 	          assertThat(retrievedAccessions, containsInAnyOrder(ID_4, ID_5, ID_6));
 	    }
 	    private String uniprotIdQuery(String  uniprotId) {
@@ -243,7 +236,7 @@ public class UniProtIdUPICountSearchIT {
 	    }
 	    
 	    static List<PropertyType> createUniProtAccProperty(String accession){
-	    	return Arrays.asList(TestUtils.createProperty("UniProtKB accession", accession));
+	    	return Collections.singletonList(TestUtils.createProperty("UniProtKB accession", accession));
 	    }
 	    static List<PropertyType> createProperty(String accession, String upi){
 	    	return Arrays.asList(TestUtils.createProperty("UniProtKB accession", accession),

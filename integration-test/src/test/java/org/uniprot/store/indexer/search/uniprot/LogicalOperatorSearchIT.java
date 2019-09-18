@@ -1,9 +1,9 @@
 package org.uniprot.store.indexer.search.uniprot;
 
 import org.apache.solr.client.solrj.response.QueryResponse;
-import org.junit.BeforeClass;
-import org.junit.ClassRule;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.extension.RegisterExtension;
+import org.junit.jupiter.api.Test;
 import org.uniprot.core.flatfile.writer.LineType;
 import org.uniprot.store.search.field.QueryBuilder;
 import org.uniprot.store.search.field.UniProtField;
@@ -21,16 +21,16 @@ import static org.uniprot.store.indexer.search.uniprot.TestUtils.*;
 /**
  * Tests whether the logical operators of the UniProtQueryBuilder are working properly
  */
-public class LogicalOperatorSearchIT {
+class LogicalOperatorSearchIT {
     private static final String UNIPROT_FLAT_FILE_ENTRY_PATH = "/it/uniprot/P0A377.43.dat";
     private static final String ACCESSION1 = "Q197F4";
     private static final String ACCESSION2 = "Q197F5";
     private static final String ACCESSION3 = "Q197F6";
-    @ClassRule
-    public static UniProtSearchEngine searchEngine = new UniProtSearchEngine();
+    @RegisterExtension
+    static UniProtSearchEngine searchEngine = new UniProtSearchEngine();
 
-    @BeforeClass
-    public static void populateIndexWithTestData() throws IOException {
+    @BeforeAll
+    static void populateIndexWithTestData() throws IOException {
         // a test entry object that can be modified and added to index
         InputStream resourceAsStream = TestUtils.getResourceAsStream(UNIPROT_FLAT_FILE_ENTRY_PATH);
         UniProtEntryObjectProxy entryProxy = UniProtEntryObjectProxy.createEntryFromInputStream(resourceAsStream);
@@ -51,7 +51,7 @@ public class LogicalOperatorSearchIT {
     }
 
     @Test
-    public void queryForAccessionInEntry1ReturnsEntry1() throws Exception {
+    void queryForAccessionInEntry1ReturnsEntry1() {
         String query = query(UniProtField.Search.accession, ACCESSION1);
 
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -61,7 +61,7 @@ public class LogicalOperatorSearchIT {
     }
 
     @Test
-    public void notEntry1ReturnsEntry2And3() throws Exception {
+    void notEntry1ReturnsEntry2And3() {
         String query = QueryBuilder.query(UniProtField.Search.accession.name(), ACCESSION1, false, true);
 
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -71,7 +71,7 @@ public class LogicalOperatorSearchIT {
     }
 
     @Test
-    public void orAccessionsReturnsEntry1And3() throws Exception {
+    void orAccessionsReturnsEntry1And3() {
         String acc1Query = query(UniProtField.Search.accession, ACCESSION1);
         String acc3Query = query(UniProtField.Search.accession, ACCESSION3);
 
@@ -84,7 +84,7 @@ public class LogicalOperatorSearchIT {
     }
 
     @Test
-    public void andAccessionsReturnsEntryNone() throws Exception {
+    void andAccessionsReturnsEntryNone() {
         String acc1Query = query(UniProtField.Search.accession, ACCESSION1);
         String acc3Query = query(UniProtField.Search.accession, ACCESSION3);
 

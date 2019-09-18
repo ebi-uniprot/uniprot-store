@@ -2,10 +2,6 @@ package org.uniprot.store.search.domain;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import org.uniprot.store.search.domain.SearchDataType;
-import org.uniprot.store.search.domain.SearchItem;
-import org.uniprot.store.search.domain.SearchItemType;
-import org.uniprot.store.search.domain.Tuple;
 import org.uniprot.store.search.domain.impl.TupleImpl;
 import org.uniprot.store.search.domain.impl.UniProtSearchItem;
 import org.uniprot.store.search.domain.impl.UniProtSearchItems;
@@ -14,8 +10,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
 class UniProtSearchItemsTest {
@@ -61,7 +55,7 @@ class UniProtSearchItemsTest {
 		assertEquals("organism", item.orElse(new UniProtSearchItem()).getTerm());
 		assertEquals(SearchDataType.STRING, item.orElse(new UniProtSearchItem()).getDataType());
 		assertNotNull(item.orElse(new UniProtSearchItem()).getAutoComplete());
-		assertEquals("/uniprot/api/suggester?dict=taxonomy&query=?", item.orElse(new UniProtSearchItem()).getAutoComplete());
+		assertEquals("/uniprot/api/suggester?dict=organism&query=?", item.orElse(new UniProtSearchItem()).getAutoComplete());
 	}
 
 	@Test

@@ -89,7 +89,7 @@
                     catenateAll="1"
                     splitOnCaseChange="1"
                     preserveOriginal="1"
-                    splitOnNumerics="1"
+                    splitOnNumerics="0"
                     stemEnglishPossessive="1"
             />
             <filter class="solr.FlattenGraphFilterFactory"/>
@@ -106,7 +106,7 @@
                     catenateAll="1"
                     splitOnCaseChange="1"
                     preserveOriginal="1"
-                    splitOnNumerics="1"
+                    splitOnNumerics="0"
                     stemEnglishPossessive="1"
             />
             <filter class="solr.LowerCaseFilterFactory"/>

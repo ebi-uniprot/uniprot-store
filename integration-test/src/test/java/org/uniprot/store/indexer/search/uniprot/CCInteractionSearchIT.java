@@ -10,26 +10,26 @@ import java.io.InputStream;
 import java.util.List;
 
 import org.apache.solr.client.solrj.response.QueryResponse;
-import org.junit.BeforeClass;
-import org.junit.ClassRule;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.extension.RegisterExtension;
+import org.junit.jupiter.api.Test;
 import org.uniprot.core.flatfile.writer.LineType;
 import org.uniprot.core.uniprot.comment.CommentType;
 import org.uniprot.store.search.field.QueryBuilder;
 import org.uniprot.store.search.field.UniProtField;
 
 
-public class CCInteractionSearchIT {
-	 public static final String Q6GZX4 = "Q6GZX4";
-	    public static final String Q6GZX3 = "Q6GZX3";
-	    public static final String Q6GZY3 = "Q6GZY3";
-	    public static final String Q197B6 = "Q197B6";
+class CCInteractionSearchIT {
+	 private static final String Q6GZX4 = "Q6GZX4";
+	    private static final String Q6GZX3 = "Q6GZX3";
+	    private static final String Q6GZY3 = "Q6GZY3";
+	    private static final String Q197B6 = "Q197B6";
 	    private static final String UNIPROT_FLAT_FILE_ENTRY_PATH = "/it/uniprot/P0A377.43.dat";
-	    @ClassRule
-	    public static UniProtSearchEngine searchEngine = new UniProtSearchEngine();
+	    @RegisterExtension
+	    static UniProtSearchEngine searchEngine = new UniProtSearchEngine();
 
-	    @BeforeClass
-	    public static void populateIndexWithTestData() throws IOException {
+	    @BeforeAll
+	    static void populateIndexWithTestData() throws IOException {
 	        // a test entry object that can be modified and added to index
 	        InputStream resourceAsStream = TestUtils.getResourceAsStream(UNIPROT_FLAT_FILE_ENTRY_PATH);
 	        UniProtEntryObjectProxy entryProxy = UniProtEntryObjectProxy.createEntryFromInputStream(resourceAsStream);
@@ -57,7 +57,7 @@ public class CCInteractionSearchIT {
 	    }
 	
 	    @Test
-	    public void interactionFindOne() {
+	    void interactionFindOne() {
 	    	String query= query(UniProtField.Search.interactor, "Q8NB12");
 		
 			QueryResponse response = searchEngine.getQueryResponse(query);
@@ -67,7 +67,7 @@ public class CCInteractionSearchIT {
 			assertThat(retrievedAccessions, hasItems(Q6GZX3));
 	    }
 	    @Test
-	    public void interactionFindOne2() {
+	    void interactionFindOne2() {
 	    	String query= query(UniProtField.Search.interactor, "EBI-1042898");
 	    	
 			QueryResponse response = searchEngine.getQueryResponse(query);
@@ -78,7 +78,7 @@ public class CCInteractionSearchIT {
 	    }
 	    
 	    @Test
-	    public void subunitFindOne() {
+	    void subunitFindOne() {
 	    	String query = comments(CommentType.SUBUNIT, "domain");
 			String evidence = "ECO_0000269";
 			query = QueryBuilder.and(query, commentEvidence(CommentType.SUBUNIT, evidence));

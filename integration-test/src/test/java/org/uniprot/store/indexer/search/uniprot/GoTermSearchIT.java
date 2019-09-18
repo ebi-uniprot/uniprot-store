@@ -12,9 +12,9 @@ import java.io.InputStream;
 import java.util.List;
 
 import org.apache.solr.client.solrj.response.QueryResponse;
-import org.junit.BeforeClass;
-import org.junit.ClassRule;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.extension.RegisterExtension;
+import org.junit.jupiter.api.Test;
 import org.uniprot.core.flatfile.writer.LineType;
 import org.uniprot.store.search.field.QueryBuilder;
 import org.uniprot.store.search.field.UniProtField;
@@ -23,19 +23,19 @@ import org.uniprot.store.search.field.UniProtField;
 /**
  * Test the behaviour of searching GO terms
  */
-public class GoTermSearchIT {
-    public static final String GO_1 = "T1TTT2";
-    public static final String GO_2 = "T1TTT3";
-    public static final String GO_3 = "T1TTT4";
-    public static final String GO_4 = "T1TTT5";
-    public static final String GO_5 = "T1TTT6";
-    public static final String GO_6 = "T1TTT7";
+class GoTermSearchIT {
+    private static final String GO_1 = "T1TTT2";
+    private static final String GO_2 = "T1TTT3";
+    private static final String GO_3 = "T1TTT4";
+    private static final String GO_4 = "T1TTT5";
+    private static final String GO_5 = "T1TTT6";
+    private static final String GO_6 = "T1TTT7";
     private static final String UNIPROT_FLAT_FILE_ENTRY_PATH = "/it/uniprot/P0A377.43.dat";
-    @ClassRule
-    public static UniProtSearchEngine searchEngine = new UniProtSearchEngine();
+    @RegisterExtension
+    static UniProtSearchEngine searchEngine = new UniProtSearchEngine();
 
-    @BeforeClass
-    public static void populateIndexWithTestData() throws IOException {
+    @BeforeAll
+    static void populateIndexWithTestData() throws IOException {
         // a test entry object that can be modified and added to index
         InputStream resourceAsStream = TestUtils.getResourceAsStream(UNIPROT_FLAT_FILE_ENTRY_PATH);
         UniProtEntryObjectProxy entryProxy = UniProtEntryObjectProxy.createEntryFromInputStream(resourceAsStream);
@@ -69,7 +69,7 @@ public class GoTermSearchIT {
     }
 
     @Test 
-    public void goEvidenceSingle() {
+    void goEvidenceSingle() {
       	String query= goTerm("iba", "*");
     		QueryResponse response = searchEngine.getQueryResponse(query);
     		 List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
@@ -77,7 +77,7 @@ public class GoTermSearchIT {
     		// assertThat(retrievedAccessions, containsInAnyOrder(GO_5, GO_6));
     }
     @Test 
-    public void goEvidenceTwo() {
+    void goEvidenceTwo() {
       	String query= goTerm("ida", "*");
     		QueryResponse response = searchEngine.getQueryResponse(query);
     		 List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
@@ -86,7 +86,7 @@ public class GoTermSearchIT {
     }
     
     @Test 
-    public void goWithEvidence() {
+    void goWithEvidence() {
       	String query= goTerm("iea", "0033644");
     		QueryResponse response = searchEngine.getQueryResponse(query);
     		 List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
@@ -94,7 +94,7 @@ public class GoTermSearchIT {
     		 assertThat(retrievedAccessions, contains(GO_1, GO_2));
     }
     @Test 
-    public void goWithEvidence2() {
+    void goWithEvidence2() {
       	String query= goTerm("iea", "0033645");
     		QueryResponse response = searchEngine.getQueryResponse(query);
     		 List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
@@ -103,7 +103,7 @@ public class GoTermSearchIT {
     }
     
     @Test 
-    public void goWithEvidenceTwo() {
+    void goWithEvidenceTwo() {
       	String query= goTerm("ida", "0001874");
     		QueryResponse response = searchEngine.getQueryResponse(query);
     		 List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
@@ -111,7 +111,7 @@ public class GoTermSearchIT {
     		 assertThat(retrievedAccessions, containsInAnyOrder(GO_5, GO_6));
     }
     @Test
-    public void goExactlyCorrectTerms() {
+    void goExactlyCorrectTerms() {
     	String query =query(UniProtField.Search.accession, GO_1);
     	query = QueryBuilder.and(query, goTerm("host cell membrane"));
 
@@ -122,7 +122,7 @@ public class GoTermSearchIT {
     }
 
     @Test
-    public void goPartialTermListMiddleWordMissing() {
+    void goPartialTermListMiddleWordMissing() {
     	String query =query(UniProtField.Search.accession, GO_1);
     	query =QueryBuilder.and(QueryBuilder.and(query, goTerm("host")), goTerm("membrane"));
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -132,7 +132,7 @@ public class GoTermSearchIT {
     }
 
     @Test
-    public void goPartialTermList() {
+    void goPartialTermList() {
     	String query =query(UniProtField.Search.accession, GO_1);
     	query = QueryBuilder.and(query, goTerm("cell membrane"));
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -142,7 +142,7 @@ public class GoTermSearchIT {
     }
 
     @Test
-    public void goExactTermsWhichUse5And3Prime() {
+    void goExactTermsWhichUse5And3Prime() {
     	String query =query(UniProtField.Search.accession, GO_3);
     	query = QueryBuilder.and(query, goTerm("3'-5'-exoribonuclease activity"));
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -152,7 +152,7 @@ public class GoTermSearchIT {
     }
 
     @Test
-    public void goPartialWith5And3Prime() {
+    void goPartialWith5And3Prime() {
     	String query =query(UniProtField.Search.accession, GO_3);
     	query = QueryBuilder.and(query, goTerm("exoribonuclease"));
 
@@ -163,7 +163,7 @@ public class GoTermSearchIT {
     }
 
     @Test
-    public void goExact1Comma6() {
+    void goExact1Comma6() {
     	String query =query(UniProtField.Search.accession, GO_4);
     	query = QueryBuilder.and(query, goTerm("alpha-1,6-mannosyltransferase activity"));
 
@@ -175,7 +175,7 @@ public class GoTermSearchIT {
     }
 
     @Test
-    public void goPartial1Comma6() {
+    void goPartial1Comma6() {
         String query = goTerm("mannosyltransferase");
 
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -185,7 +185,7 @@ public class GoTermSearchIT {
     }
 
     @Test
-    public void goExactWithArrowsWhoEverMadeThisStuffUp() {
+    void goExactWithArrowsWhoEverMadeThisStuffUp() {
         String query = goTerm("(1->3)-beta-D-glucan receptor activity");
 
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -195,7 +195,7 @@ public class GoTermSearchIT {
     }
 
     @Test
-    public void goPartialHyphens() {
+    void goPartialHyphens() {
         String query = goTerm("beta-D-glucan");
 
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -205,7 +205,7 @@ public class GoTermSearchIT {
     }
 
     @Test
-    public void goPartialHyphensAlternative() {
+    void goPartialHyphensAlternative() {
     	String query =goTerm("beta-D");
     	query = QueryBuilder.and(query, goTerm("glucan"));
 
@@ -216,7 +216,7 @@ public class GoTermSearchIT {
     }
 
     @Test
-    public void goFindMultipleReceptors() {
+    void goFindMultipleReceptors() {
         String query = goTerm("receptor");
 
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -226,7 +226,7 @@ public class GoTermSearchIT {
     }
 
     @Test
-    public void goFindMultipleReceptorActivities() {
+    void goFindMultipleReceptorActivities() {
         String query = goTerm("receptor activity");
 
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -241,7 +241,7 @@ public class GoTermSearchIT {
    private static final String GO_DYNAMIC_PREFIX = "go_";
 
     
-    public static String goTerm(String goEvidenceType, String value) {
+    static String goTerm(String goEvidenceType, String value) {
     	String field  = GO_DYNAMIC_PREFIX +  goEvidenceType.toLowerCase();
     	return QueryBuilder.query(field, value);
   	

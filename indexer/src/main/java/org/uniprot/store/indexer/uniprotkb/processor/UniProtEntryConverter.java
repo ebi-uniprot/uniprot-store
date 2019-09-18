@@ -106,9 +106,9 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtEntry, Un
 	/**
 	 * An enum set representing all of the organelles that are children of plastid
 	 */
-	private static final EnumSet<GeneEncodingType> PLASTID_CHILD = EnumSet.of(GeneEncodingType.APICOPLAST_PLASTID,
-			GeneEncodingType.CHLOROPLAST_PLASTID, GeneEncodingType.CYANELLE_PLASTID,
-			GeneEncodingType.NON_PHOTOSYNTHETIC_PLASTID, GeneEncodingType.CHROMATOPHORE_PLASTID);
+	private static final EnumSet<GeneEncodingType> PLASTID_CHILD = EnumSet.of(GeneEncodingType.APICOPLAST,
+			GeneEncodingType.CHLOROPLAST, GeneEncodingType.CYANELLE,
+			GeneEncodingType.NON_PHOTOSYNTHETIC_PLASTID, GeneEncodingType.ORGANELLAR_CHROMATOPHORE);
 	private static final String MANUAL_EVIDENCE = "manual";
 	private static final List<String> MANUAL_EVIDENCE_MAP = asList("ECO_0000269", "ECO_0000303", "ECO_0000305",
 			"ECO_0000250", "ECO_0000255", "ECO_0000244", "ECO_0000312");
@@ -1124,18 +1124,8 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtEntry, Un
 	private void setOrganelle(UniProtEntry source, UniProtDocument japiDocument) {
 		for (GeneLocation geneLocation : source.getGeneLocations()) {
 			GeneEncodingType geneEncodingType = geneLocation.getGeneEncodingType();
-
-			if (PLASTID_CHILD.contains(geneEncodingType)) {
-				japiDocument.organelles.add(GeneEncodingType.PLASTID.getName());
-			}
-
-			String organelleValue = geneEncodingType.getName();
-			if (geneLocation.getValue() != null && !geneLocation.getValue().isEmpty()) {
-				organelleValue += " " + geneLocation.getValue();
-			}
-			organelleValue = organelleValue.trim();
-
-			japiDocument.organelles.add(organelleValue);
+			japiDocument.content.add(geneEncodingType.getName());
+			japiDocument.organelles.add(geneEncodingType.getName().toLowerCase());
 		}
 	}
 

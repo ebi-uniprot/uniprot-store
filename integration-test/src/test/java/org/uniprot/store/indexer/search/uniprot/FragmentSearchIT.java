@@ -1,9 +1,9 @@
 package org.uniprot.store.indexer.search.uniprot;
 
 import org.apache.solr.client.solrj.response.QueryResponse;
-import org.junit.BeforeClass;
-import org.junit.ClassRule;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.extension.RegisterExtension;
+import org.junit.jupiter.api.Test;
 import org.uniprot.core.flatfile.writer.LineType;
 import org.uniprot.core.uniprot.description.FlagType;
 import org.uniprot.store.search.field.UniProtField;
@@ -21,16 +21,16 @@ import static org.uniprot.store.indexer.search.uniprot.TestUtils.*;
 /**
  * Tests if the fragment search is working correctly
  */
-public class FragmentSearchIT {
+class FragmentSearchIT {
     private static final String UNIPROT_FLAT_FILE_ENTRY_PATH = "/it/uniprot/P0A377.43.dat";
     private static final String ACCESSION1 = "Q197F4";
     private static final String ACCESSION2 = "Q197F5";
     private static final String ACCESSION3 = "Q197F6";
-    @ClassRule
-    public static UniProtSearchEngine searchEngine = new UniProtSearchEngine();
+    @RegisterExtension
+    static UniProtSearchEngine searchEngine = new UniProtSearchEngine();
 
-    @BeforeClass
-    public static void populateIndexWithTestData() throws IOException {
+    @BeforeAll
+    static void populateIndexWithTestData() throws IOException {
         // a test entry object that can be modified and added to index
         InputStream resourceAsStream = TestUtils.getResourceAsStream(UNIPROT_FLAT_FILE_ENTRY_PATH);
         UniProtEntryObjectProxy entryProxy = UniProtEntryObjectProxy.createEntryFromInputStream(resourceAsStream);
@@ -64,7 +64,7 @@ public class FragmentSearchIT {
     }
 
     @Test
-    public void searchForNonFragmentProteinsHitsEntry3() throws Exception {
+    void searchForNonFragmentProteinsHitsEntry3() {
         String query = query(UniProtField.Search.fragment , "false");
 
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -74,7 +74,7 @@ public class FragmentSearchIT {
     }
     
     @Test
-    public void searchForPrecursorProteinsHitsEntry3() throws Exception {
+    void searchForPrecursorProteinsHitsEntry3() {
         String query =  query(UniProtField.Search.precursor, "true");
    
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -84,7 +84,7 @@ public class FragmentSearchIT {
     }
 
     @Test
-    public void searchForFragmentProteinsHitsEntry1And2() throws Exception {
+    void searchForFragmentProteinsHitsEntry1And2() {
         String query = query(UniProtField.Search.fragment , "true");
 
         QueryResponse response = searchEngine.getQueryResponse(query);

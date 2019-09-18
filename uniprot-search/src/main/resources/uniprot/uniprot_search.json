@@ -37,7 +37,7 @@
 		"label": "Organism [OS]",
 		"term": "organism",
 		"dataType": "string",
-		"autoComplete": "/uniprot/api/suggester?dict=taxonomy&query=?",
+		"autoComplete": "/uniprot/api/suggester?dict=organism&query=?",
 		"description": "Search by Organism name",
 		"example": "saccharomyces"
 	},
@@ -55,7 +55,7 @@
 		"label": "Virus host",
 		"term": "host",
 		"dataType": "string",
-		"autoComplete": "/uniprot/api/suggester?dict=taxonomy&query=?",
+		"autoComplete": "/uniprot/api/suggester?dict=host&query=?",
 		"description": "Search by virus host",
 		"example": "human"
 	},
@@ -204,15 +204,16 @@
 				"label": "Catalytic Activity",
 				"itemType": "comment",
 				"term": "catalytic_activity",
+				"autoComplete": "/uniprot/api/suggester?dict=catalytic_activity&query=?",
 				"hasEvidence": true,
 				"description": "Search by comment catalytic activity",
 				"example": "tyrosine"
 			},
 			{
-				"id": "id_enzyme_regulation",
+				"id": "id_activity_regulation",
 				"label": "Activity regulation",
 				"itemType": "comment",
-				"term": "enzyme_regulation",
+				"term": "activity_regulation",
 				"dataType": "string",
 				"hasEvidence": true,
 				"description": "Search by comment activity regulation",
@@ -956,13 +957,13 @@
 			},
 			{
 				"id": "id_mass_spectrometry",
-				"label": "Mass spectrometry",
+				"label": "ectrometry",
 				"itemType": "comment",
 				"term": "mass_spectrometry",
 				"dataType": "string",
 				"hasEvidence": true,
-				"description": "Search by Comment mass spectrometry",
-				"example": "\"some value\""
+				"description": "Search by Comment ectrometry",
+				"example": "electrospray"
 			},
 			{
 				"id": "id_polymorphism",
@@ -972,7 +973,7 @@
 				"dataType": "string",
 				"hasEvidence": true,
 				"description": "Search by Comment Polymorphism",
-				"example": "transcripts"
+				"example": "transcript"
 			},
 			{
 				"id": "id_rna_editing",
@@ -982,7 +983,7 @@
 				"dataType": "string",
 				"hasEvidence": true,
 				"description": "Search by Comment rna editing",
-				"example": "embryos"
+				"example": "target"
 			},
 			{
 				"id": "id_group_natural_variations",
@@ -1070,7 +1071,7 @@
 			},
 			{
 				"id": "id_unsure",
-				"label": "Sequence uncertainty,",
+				"label": "Sequence uncertainty",
 				"itemType": "feature",
 				"term": "unsure",
 				"dataType": "string",
@@ -1112,8 +1113,46 @@
 				"id": "id_organelle",
 				"label": "Encoded in",
 				"term": "organelle",
-				"dataType": "string",
-				"autoComplete": "/uniprot/api/suggester?dict=organelle&query=?",
+				"dataType": "enum",
+				"values": [
+				{
+					"name": "Mitochondrion",
+					"value": "mitochondrion"
+				},
+				{
+					"name": "Plastid",
+					"value": "plastid"
+				},
+				{
+					"name": "Chloroplast",
+					"value": "chloroplast"
+				},
+				{
+					"name": "Cyanelle",
+					"value": "cyanelle"
+				},
+				{
+					"name": "Apicoplast",
+					"value": "apicoplast"
+				},
+				{
+					"name": "Organellar chromatophore",
+					"value": "organellar chromatophore"
+				},
+				{
+					"name": "Non-photosynthetic plastid",
+					"value": "non-photosynthetic plastid"
+				},
+				{
+					"name": "Nucleomorph",
+					"value": "nucleomorph"
+				},
+				{
+					"name": "Hydrogenosome",
+					"value": "hydrogenosome"
+				}
+				],
+
 				"description": "Search by organelle",
 				"example": "mitochondrion"
 			},
@@ -1364,14 +1403,6 @@
 		"itemType": "groupDisplay",
 		"items": [
 			{
-				"id": "id_lit_citation",
-				"label": "Title & Abstract",
-				"term": "lit_citation",
-				"dataType": "string",
-				"description": "Search by title or abstract",
-				"example": "somevalue"
-			},
-			{
 				"id": "id_lit_author",
 				"label": "Author",
 				"term": "lit_author",
@@ -1425,7 +1456,7 @@
 				"term": "proteome",
 				"dataType": "string",
 				"description": "Search by Proteome ID",
-				"example": "UP1234"
+				"example": "UP000005640"
 			},
 			{
 				"id": "id_proteomecomponent",

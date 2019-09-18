@@ -5,8 +5,8 @@ import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.hamcrest.collection.IsEmptyCollection.empty;
 import static org.hamcrest.collection.IsIterableContainingInOrder.contains;
 import static org.hamcrest.core.Is.is;
-import static org.uniprot.core.uniprot.GeneEncodingType.CHROMATOPHORE_PLASTID;
-import static org.uniprot.core.uniprot.GeneEncodingType.CYANELLE_PLASTID;
+import static org.uniprot.core.uniprot.GeneEncodingType.ORGANELLAR_CHROMATOPHORE;
+import static org.uniprot.core.uniprot.GeneEncodingType.CYANELLE;
 import static org.uniprot.core.uniprot.GeneEncodingType.HYDROGENOSOME;
 import static org.uniprot.core.uniprot.GeneEncodingType.MITOCHONDRION;
 import static org.uniprot.core.uniprot.GeneEncodingType.PLASMID;
@@ -20,16 +20,17 @@ import java.io.InputStream;
 import java.util.List;
 
 import org.apache.solr.client.solrj.response.QueryResponse;
-import org.junit.BeforeClass;
-import org.junit.ClassRule;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.extension.RegisterExtension;
+import org.junit.jupiter.api.Test;
 import org.uniprot.core.flatfile.writer.LineType;
 import org.uniprot.store.search.field.UniProtField;
 
 /**
  * Tests whether the organelles of a UniProt entry have been indexed correctly
  */
-public class OrganelleIT {
+class OrganelleIT {
     private static final String UNIPROT_FLAT_FILE_ENTRY_PATH = "/it/uniprot/P0A377.43.dat";
     //Entry 1
     private static final String ACCESSION1 = "Q197F4";
@@ -44,15 +45,15 @@ public class OrganelleIT {
     private static final String ORGANELLE4 = PLASMID.getName() + " " + ORGANELLE_SPECIFIC_NAME3;
     //Entry 3
     private static final String ACCESSION3 = "Q197F6";
-    private static final String ORGANELLE5 = PLASTID.getName() + "; " + CHROMATOPHORE_PLASTID.getName();
+    private static final String ORGANELLE5 = PLASTID.getName() ;
     //Entry 4
     private static final String ACCESSION4 = "Q197F7";
-    private static final String ORGANELLE6 = PLASTID.getName() + "; " + CYANELLE_PLASTID.getName();
-    @ClassRule
-    public static UniProtSearchEngine searchEngine = new UniProtSearchEngine();
+    private static final String ORGANELLE6 = PLASTID.getName();
+    @RegisterExtension
+    static UniProtSearchEngine searchEngine = new UniProtSearchEngine();
 
-    @BeforeClass
-    public static void populateIndexWithTestData() throws IOException {
+    @BeforeAll
+    static void populateIndexWithTestData() throws IOException {
         // a test entry object that can be modified and added to index
         InputStream resourceAsStream = TestUtils.getResourceAsStream(UNIPROT_FLAT_FILE_ENTRY_PATH);
         UniProtEntryObjectProxy entryProxy = UniProtEntryObjectProxy.createEntryFromInputStream(resourceAsStream);
@@ -102,7 +103,7 @@ public class OrganelleIT {
     }
 
     @Test
-    public void noMatchesForNonExistentOrganelle() throws Exception {
+    void noMatchesForNonExistentOrganelle() {
         String query = organelle(HYDROGENOSOME.getName());
 
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -112,7 +113,7 @@ public class OrganelleIT {
     }
 
     @Test
-    public void organelleFromEntry1MatchesEntry1() throws Exception {
+    void organelleFromEntry1MatchesEntry1() {
         String query = organelle(ORGANELLE1);
 
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -122,7 +123,7 @@ public class OrganelleIT {
     }
 
     @Test
-    public void partialPlasmidSearchMatchesEntry2() throws Exception {
+    void partialPlasmidSearchMatchesEntry2() {
         String query = organelle(PLASMID.getName());
 
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -130,9 +131,9 @@ public class OrganelleIT {
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
         assertThat(retrievedAccessions, contains(ACCESSION2));
     }
-
+    @Disabled
     @Test
-    public void partialPlasmidSpecificNameSearchMatchesEntry2() throws Exception {
+    void partialPlasmidSpecificNameSearchMatchesEntry2() {
         String query = organelle(ORGANELLE_SPECIFIC_NAME2);
 
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -142,8 +143,8 @@ public class OrganelleIT {
     }
 
     @Test
-    public void plastidChildSearchMatchesEntry3() throws Exception {
-        String query = organelle(CHROMATOPHORE_PLASTID.getName());
+    void plastidChildSearchMatchesEntry3() {
+        String query = organelle(ORGANELLAR_CHROMATOPHORE.name());
 
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -152,8 +153,8 @@ public class OrganelleIT {
     }
 
     @Test
-    public void plastidParentSearchMatchesEntry3And4() throws Exception {
-        String query = organelle(PLASTID.getName());
+    void plastidParentSearchMatchesEntry3And4() {
+        String query = organelle(PLASTID.name());
 
         QueryResponse response = searchEngine.getQueryResponse(query);
 
