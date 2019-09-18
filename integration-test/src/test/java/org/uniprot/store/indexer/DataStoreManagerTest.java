@@ -11,11 +11,8 @@ import org.junit.jupiter.api.Test;
 import org.uniprot.core.cv.chebi.ChebiRepo;
 import org.uniprot.core.cv.ec.ECRepo;
 import org.uniprot.core.uniprot.UniProtEntry;
-import org.uniprot.store.indexer.ClosableEmbeddedSolrClient;
-import org.uniprot.store.indexer.DataStoreManager;
-import org.uniprot.store.indexer.SolrDataStoreManager;
 import org.uniprot.store.indexer.uniprot.mockers.*;
-import org.uniprot.store.indexer.uniprotkb.processor.UniProtEntryConverter;
+import org.uniprot.store.indexer.uniprotkb.converter.UniProtEntryConverter;
 import org.uniprot.store.search.SolrCollection;
 import org.uniprot.store.search.document.uniprot.UniProtDocument;
 

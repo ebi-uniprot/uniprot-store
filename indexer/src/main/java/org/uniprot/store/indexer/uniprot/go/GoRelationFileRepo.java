@@ -43,7 +43,7 @@ public class GoRelationFileRepo implements GoRelationRepo {
     @Cacheable(value = UniProtKBJob.GO_ANCESTORS_CACHE)
     public Set<GoTerm> getAncestors(String fromGoTerm, List<Relationship> relationships) {
         List<Relationship> relationshipsToUse = relationships;
-        if (!Utils.notEmpty(relationshipsToUse)) {
+        if (Utils.nullOrEmpty(relationshipsToUse)) {
             relationshipsToUse = singletonList(IS_A);
         }
 
