@@ -41,6 +41,7 @@ class UniProtEntryFeatureConverter {
                 String xrefId = feature.getDbXref().getId();
                 String dbName = feature.getDbXref().getDatabaseType().getName();
                 featuresOfTypeList.addAll(UniProtEntryConverterUtil.getXrefId(xrefId, dbName));
+                document.content.addAll(UniProtEntryConverterUtil.getXrefId(xrefId, dbName));
             }
             document.proteinsWith.add(feature.getType().name().toLowerCase());
 

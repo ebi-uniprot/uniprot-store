@@ -69,8 +69,9 @@ class UniProtEntryFeatureConverterTest {
         List<Integer> chainLengthValue = Collections.singletonList(7);
         assertEquals(new HashSet<>(chainLengthValue), document.featureLengthMap.get("ftlen_chain"));
 
-        assertEquals(3, document.content.size());
-        assertEquals(new HashSet<>(Arrays.asList("CHAIN", "FT12345", "description value")), document.content);
+        assertEquals(5, document.content.size());
+        assertEquals(new HashSet<>(Arrays.asList("CHAIN", "FT12345", "dbSNP-DBSNP-12345",
+                "description value", "DBSNP-12345")), document.content);
 
         assertEquals(Collections.singleton("chain"), document.proteinsWith);
     }

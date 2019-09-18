@@ -77,7 +77,11 @@ class UniProtEntryCommentsConverterTest {
                 "Rhea:RHEA-COMP:10136, Rhea:RHEA-COMP:10137, ChEBI:CHEBI:15378, ChEBI:CHEBI:30616, ChEBI:CHEBI:46858, " +
                 "ChEBI:CHEBI:82620, ChEBI:CHEBI:456216; EC=2.7.10.1;";
         assertTrue(document.commentMap.containsKey("cc_catalytic_activity"));
+        assertEquals(6, document.commentMap.get("cc_catalytic_activity").size());
         assertTrue(document.commentMap.get("cc_catalytic_activity").contains(expectedIndexed));
+        assertTrue(document.commentMap.get("cc_catalytic_activity").contains("RHEA-COMP:10136"));
+        assertTrue(document.commentMap.get("cc_catalytic_activity").contains("RHEA:10596"));
+        assertTrue(document.commentMap.get("cc_catalytic_activity").contains("CHEBI:456216"));
 
         assertTrue(document.content.contains(expectedIndexed));
 

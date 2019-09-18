@@ -424,6 +424,11 @@ class UniProtEntryCommentsConverter {
             List<DBCrossReference<ReactionReferenceType>> reactionReferences = reaction.getReactionReferences();
             reactionReferences.stream().filter(ref -> ref.getDatabaseType() == ReactionReferenceType.CHEBI)
                     .forEach(val -> addCatalyticSuggestions(doc, field, val));
+            reactionReferences.stream().filter(ref -> ref.getDatabaseType() != ReactionReferenceType.CHEBI)
+                    .forEach(val -> {
+                        Collection<String> value = doc.commentMap.computeIfAbsent(field, k -> new ArrayList<>());
+                        value.add(val.getId());
+                    });
         }
     }
 
