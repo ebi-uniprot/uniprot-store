@@ -730,7 +730,7 @@
      <!--  Sequence  -->
      <field name="mass" type="int" indexed="true" stored="false" required="false" multiValued="false"/>
      <field name="length" type="int" indexed="true" stored="false" required="false" multiValued="false"/>
-     <field name="sq" type="sequence_analyzer" indexed="true" stored="false" required="true" multiValued="false"/>
+     <field name="sq" type="sequence_ci" indexed="true" stored="false" required="true" multiValued="false"/>
      
      <field name="annotation_score" type="int" indexed="true" stored="true" required="false" multiValued="false" docValues="true"/>
 
@@ -745,7 +745,11 @@
      <field name="text_rev" type="text_general_rev" indexed="true" stored="false" multiValued="true"/>
 
     <!-- Start of UJDK type definitions -->
-    <fieldType name="sequence_analyzer" class="solr.TextField" sortMissingLast="true" omitNorms="false" positionIncrementGap="100">
+    <!-- Takes a peptide sequence tokenises it after every amino acid, and lowercases each token. Therefore, for
+         AAAA we end up with four tokens, a, a, a, a. This is done for both index and query time. We do not need to stort
+         norms because we aren't interested in how much of the field was matched. Requests over this field must be
+         specified with a phrase query, e.g., "AAA", meaning, 'give me all hits where A is repeated 3 times. -->
+    <fieldType name="sequence_ci" class="solr.TextField" sortMissingLast="true" omitNorms="false">
         <analyzer type="index">
             <tokenizer class="solr.PatternTokenizerFactory" pattern="(?&lt;=.)(?!$)"/>
             <filter class="solr.LowerCaseFilterFactory"/>
