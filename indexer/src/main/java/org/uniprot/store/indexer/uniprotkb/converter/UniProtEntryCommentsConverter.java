@@ -8,6 +8,8 @@ import org.uniprot.core.cv.pathway.UniPathway;
 import org.uniprot.core.flatfile.parser.impl.cc.CCLineBuilderFactory;
 import org.uniprot.core.flatfile.writer.FFLineBuilder;
 import org.uniprot.core.uniprot.comment.*;
+import org.uniprot.core.uniprot.evidence.Evidence;
+import org.uniprot.core.uniprot.evidence.EvidencedValue;
 import org.uniprot.core.util.Utils;
 import org.uniprot.store.indexer.uniprot.pathway.PathwayRepo;
 import org.uniprot.store.search.document.suggest.SuggestDictionary;
@@ -111,20 +113,17 @@ class UniProtEntryCommentsConverter {
         List<String> values = new ArrayList<>();
         Set<String> evidence = new HashSet<>();
         if (comment.hasNote() && comment.getNote().hasTexts()) {
-            comment.getNote()
-                    .getTexts()
-                    .forEach(evidencedValue -> {
-                        values.add(evidencedValue.getValue());
-                        evidence.addAll(UniProtEntryConverterUtil.extractEvidence(evidencedValue.getEvidences()));
-                    });
+            values.addAll(getTextsValue(comment.getNote().getTexts()));
+            evidence.addAll(getTextsEvidence(comment.getNote().getTexts()));
         }
         if (comment.hasIsoforms()) {
             comment.getIsoforms().stream()
                     .filter(APIsoform::hasNote)
-                    .flatMap(apIsoform -> apIsoform.getNote().getTexts().stream())
-                    .forEach(evidencedValue -> {
-                        values.add(evidencedValue.getValue());
-                        evidence.addAll(UniProtEntryConverterUtil.extractEvidence(evidencedValue.getEvidences()));
+                    .map(APIsoform::getNote)
+                    .filter(Note::hasTexts)
+                    .forEach(note -> {
+                        values.addAll(getTextsValue(note.getTexts()));
+                        evidence.addAll(getTextsEvidence(note.getTexts()));
                     });
         }
 
@@ -160,7 +159,6 @@ class UniProtEntryCommentsConverter {
     }
 
     private void convertFactor(CofactorComment comment, UniProtDocument document) {
-
         if (comment.hasCofactors()) {
             comment.getCofactors().forEach(val -> {
                 document.cofactorChebi.add(val.getName());
@@ -182,10 +180,8 @@ class UniProtEntryCommentsConverter {
         }
 
         if ((comment.hasNote()) && (comment.getNote().hasTexts())) {
-            comment.getNote().getTexts().forEach(val -> {
-                document.cofactorNote.add(val.getValue());
-                document.cofactorNoteEv.addAll(UniProtEntryConverterUtil.extractEvidence(val.getEvidences()));
-            });
+            document.cofactorNote.addAll(getTextsValue(comment.getNote().getTexts()));
+            document.cofactorNoteEv.addAll(getTextsEvidence(comment.getNote().getTexts()));
         }
     }
 
@@ -222,7 +218,6 @@ class UniProtEntryCommentsConverter {
             default:
 
         }
-
     }
 
     private void convertDiseaseComment(DiseaseComment comment, UniProtDocument document) {
@@ -239,65 +234,99 @@ class UniProtEntryCommentsConverter {
             Absorption absorption = comment.getAbsorption();
             document.bpcpAbsorption.add("" + absorption.getMax());
             document.bpcpAbsorptionEv.addAll(UniProtEntryConverterUtil.extractEvidence(absorption.getEvidences()));
-            if (absorption.getNote() != null) {
-                document.bpcpAbsorption.addAll(
-                        absorption.getNote().getTexts().stream().map(Value::getValue).collect(Collectors.toList()));
-                document.bpcpAbsorptionEv.addAll(UniProtEntryConverterUtil.extractEvidence(absorption.getNote().getTexts().stream()
-                        .flatMap(val -> val.getEvidences().stream()).collect(Collectors.toList())));
+            if (absorption.hasNote() && absorption.getNote().hasTexts()) {
+                document.bpcpAbsorption.addAll(getTextsValue(absorption.getNote().getTexts()));
+                document.bpcpAbsorptionEv.addAll(getTextsEvidence(absorption.getNote().getTexts()));
             }
             document.bpcp.addAll(document.bpcpAbsorption);
             document.bpcpEv.addAll(document.bpcpAbsorptionEv);
         }
         if (comment.hasKineticParameters()) {
-            KineticParameters kp = comment.getKineticParameters();
-            kp.getMaximumVelocities().stream().map(MaximumVelocity::getEnzyme)
-                    .filter(val -> !Utils.nullOrEmpty(val)).forEach(document.bpcpKinetics::add);
-            document.bpcpKineticsEv.addAll(UniProtEntryConverterUtil.extractEvidence(kp.getMaximumVelocities().stream()
-                    .flatMap(val -> val.getEvidences().stream()).collect(Collectors.toList())));
-            kp.getMichaelisConstants().stream().map(MichaelisConstant::getSubstrate)
-                    .filter(val -> !Utils.nullOrEmpty(val)).forEach(document.bpcpKinetics::add);
-            document.bpcpKineticsEv.addAll(UniProtEntryConverterUtil.extractEvidence(kp.getMichaelisConstants().stream()
-                    .flatMap(val -> val.getEvidences().stream()).collect(Collectors.toList())));
-            if (kp.getNote() != null) {
-                document.bpcpKinetics
-                        .addAll(kp.getNote().getTexts().stream().map(Value::getValue).collect(Collectors.toList()));
-                document.bpcpKineticsEv.addAll(UniProtEntryConverterUtil.extractEvidence(kp.getNote().getTexts().stream()
-                        .flatMap(val -> val.getEvidences().stream()).collect(Collectors.toList())));
-            }
-            if (document.bpcpKinetics.isEmpty()) {
-                kp.getMaximumVelocities().stream().map(val -> "" + val.getVelocity())
-                        .forEach(document.bpcpKinetics::add);
-                kp.getMichaelisConstants().stream().map(val -> "" + val.getConstant())
-                        .forEach(document.bpcpKinetics::add);
-            }
-            document.bpcp.addAll(document.bpcpKinetics);
-            document.bpcpEv.addAll(document.bpcpKineticsEv);
-
+            convertKineticParameters(document, comment.getKineticParameters());
         }
-        if (comment.hasPhDependence()) {
-            comment.getPhDependence().getTexts().stream().map(Value::getValue)
-                    .forEach(document.bpcpPhDependence::add);
-            document.bpcpPhDependenceEv.addAll(UniProtEntryConverterUtil.extractEvidence(comment.getPhDependence().getTexts().stream()
-                    .flatMap(val -> val.getEvidences().stream()).collect(Collectors.toList())));
+        if (comment.hasPhDependence() && comment.getPhDependence().hasTexts()) {
+            document.bpcpPhDependence.addAll(getTextsValue(comment.getPhDependence().getTexts()));
+            document.bpcpPhDependenceEv.addAll(getTextsEvidence(comment.getPhDependence().getTexts()));
             document.bpcp.addAll(document.bpcpPhDependence);
             document.bpcpEv.addAll(document.bpcpPhDependenceEv);
         }
-        if (comment.hasRedoxPotential()) {
-            comment.getRedoxPotential().getTexts().stream().map(Value::getValue)
-                    .forEach(document.bpcpRedoxPotential::add);
-            document.bpcpRedoxPotentialEv.addAll(UniProtEntryConverterUtil.extractEvidence(comment.getRedoxPotential().getTexts().stream()
-                    .flatMap(val -> val.getEvidences().stream()).collect(Collectors.toList())));
+        if (comment.hasRedoxPotential() && comment.getRedoxPotential().hasTexts()) {
+            document.bpcpRedoxPotential.addAll(getTextsValue(comment.getRedoxPotential().getTexts()));
+            document.bpcpRedoxPotentialEv.addAll(getTextsEvidence(comment.getRedoxPotential().getTexts()));
             document.bpcp.addAll(document.bpcpRedoxPotential);
             document.bpcpEv.addAll(document.bpcpRedoxPotentialEv);
         }
-        if (comment.hasTemperatureDependence()) {
-            comment.getTemperatureDependence().getTexts().stream().map(Value::getValue)
-                    .forEach(document.bpcpTempDependence::add);
-            document.bpcpTempDependenceEv.addAll(UniProtEntryConverterUtil.extractEvidence(comment.getTemperatureDependence().getTexts()
-                    .stream().flatMap(val -> val.getEvidences().stream()).collect(Collectors.toList())));
+        if (comment.hasTemperatureDependence() && comment.getTemperatureDependence().hasTexts()) {
+            document.bpcpTempDependence.addAll(getTextsValue(comment.getTemperatureDependence().getTexts()));
+            document.bpcpTempDependenceEv.addAll(getTextsEvidence(comment.getTemperatureDependence().getTexts()));
             document.bpcp.addAll(document.bpcpTempDependence);
             document.bpcpEv.addAll(document.bpcpTempDependenceEv);
         }
+    }
+
+    private void convertKineticParameters(UniProtDocument document, KineticParameters kp) {
+        if (kp.hasMaximumVelocities()) {
+            convertCommentBPCPMaximumVelocity(document, kp.getMaximumVelocities());
+        }
+        if (kp.hasMichaelisConstants()) {
+            convertCommentBPCPMichaelisConstant(document, kp.getMichaelisConstants());
+        }
+        if (kp.hasNote() && kp.getNote().hasTexts()) {
+            document.bpcpKinetics.addAll(getTextsValue(kp.getNote().getTexts()));
+            document.bpcpKineticsEv.addAll(getTextsEvidence(kp.getNote().getTexts()));
+        }
+        document.bpcp.addAll(document.bpcpKinetics);
+        document.bpcpEv.addAll(document.bpcpKineticsEv);
+    }
+
+    private void convertCommentBPCPMichaelisConstant(UniProtDocument document, List<MichaelisConstant> michaelisConstants) {
+        michaelisConstants.forEach(michaelisConstant -> {
+            if (michaelisConstant.hasConstant()) {
+                document.bpcpKinetics.add(String.valueOf(michaelisConstant.getConstant()));
+            }
+            if (michaelisConstant.hasSubstrate()) {
+                document.bpcpKinetics.add(michaelisConstant.getSubstrate());
+            }
+            if (michaelisConstant.hasEvidences()) {
+                document.bpcpKineticsEv.addAll(UniProtEntryConverterUtil.extractEvidence(michaelisConstant.getEvidences()));
+            }
+        });
+    }
+
+    private void convertCommentBPCPMaximumVelocity(UniProtDocument document, List<MaximumVelocity> maximumVelocities) {
+        maximumVelocities.forEach(maximumVelocity -> {
+            if (maximumVelocity.hasEnzyme()) {
+                document.bpcpKinetics.add(maximumVelocity.getEnzyme());
+            }
+
+            if (maximumVelocity.hasVelocity()) {
+                document.bpcpKinetics.add(String.valueOf(maximumVelocity.getVelocity()));
+            }
+
+            if (maximumVelocity.hasEvidences()) {
+                document.bpcpKineticsEv.addAll(UniProtEntryConverterUtil.extractEvidence(maximumVelocity.getEvidences()));
+            }
+        });
+    }
+
+    private List<String> getTextsValue(List<EvidencedValue> texts) {
+        List<String> result = new ArrayList<>();
+        if (Utils.notEmpty(texts)) {
+            texts.stream().map(Value::getValue).forEach(result::add);
+        }
+        return result;
+    }
+
+    private Set<String> getTextsEvidence(List<EvidencedValue> texts) {
+        Set<String> result = new HashSet<>();
+        if (Utils.notEmpty(texts)) {
+            List<Evidence> evidences = texts.stream()
+                    .flatMap(text -> text.getEvidences().stream())
+                    .collect(Collectors.toList());
+
+            result.addAll(UniProtEntryConverterUtil.extractEvidence(evidences));
+        }
+        return result;
     }
 
     private void convertCommentSL(SubcellularLocationComment comment, UniProtDocument document) {
@@ -317,11 +346,9 @@ class UniProtEntryCommentsConverter {
                 }
             });
         }
-        if (comment.hasNote()) {
-            comment.getNote().getTexts().stream().map(Value::getValue).forEach(document.subcellLocationNote::add);
-            Set<String> noteEv = UniProtEntryConverterUtil.extractEvidence(comment.getNote().getTexts().stream()
-                    .flatMap(val -> val.getEvidences().stream()).collect(Collectors.toList()));
-            document.subcellLocationNoteEv.addAll(noteEv);
+        if (comment.hasNote() && comment.getNote().hasTexts()) {
+            document.subcellLocationNote.addAll(getTextsValue(comment.getNote().getTexts()));
+            document.subcellLocationNoteEv.addAll(getTextsEvidence(comment.getNote().getTexts()));
         }
     }
 
@@ -372,8 +399,9 @@ class UniProtEntryCommentsConverter {
         Set<String> evidences = new HashSet<>();
         if (comment instanceof FreeTextComment) {
             FreeTextComment toComment = (FreeTextComment) comment;
-            evidences.addAll(UniProtEntryConverterUtil.extractEvidence(toComment.getTexts().stream().flatMap(val -> val.getEvidences().stream())
-                    .collect(Collectors.toList())));
+            if (toComment.hasTexts()) {
+                evidences.addAll(getTextsEvidence(toComment.getTexts()));
+            }
         }
         CommentType type = comment.getCommentType();
         switch (type) {
@@ -382,8 +410,7 @@ class UniProtEntryCommentsConverter {
                 if (diseaseComment.hasDefinedDisease()) {
                     evidences.addAll(UniProtEntryConverterUtil.extractEvidence(diseaseComment.getDisease().getEvidences()));
                     if (diseaseComment.hasNote() && diseaseComment.getNote().hasTexts()) {
-                        evidences.addAll(UniProtEntryConverterUtil.extractEvidence(diseaseComment.getNote().getTexts().stream()
-                                .flatMap(val -> val.getEvidences().stream()).collect(Collectors.toList())));
+                        evidences.addAll(getTextsEvidence(diseaseComment.getNote().getTexts()));
                     }
                 }
                 break;
@@ -393,9 +420,8 @@ class UniProtEntryCommentsConverter {
                     evidences.addAll(UniProtEntryConverterUtil.extractEvidence(reComment.getPositions().stream()
                             .flatMap(val -> val.getEvidences().stream()).collect(Collectors.toList())));
                 }
-                if (reComment.hasNote()) {
-                    evidences.addAll(UniProtEntryConverterUtil.extractEvidence(reComment.getNote().getTexts().stream()
-                            .flatMap(val -> val.getEvidences().stream()).collect(Collectors.toList())));
+                if (reComment.hasNote() && reComment.getNote().hasTexts()) {
+                    evidences.addAll(getTextsEvidence(reComment.getNote().getTexts()));
                 }
                 break;
             case MASS_SPECTROMETRY:

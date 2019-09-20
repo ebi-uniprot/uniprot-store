@@ -298,6 +298,66 @@ class UniProtEntryCommentsConverterTest {
         assertTrue(document.apApu.contains("Produced from the genomic RNA."));
         assertTrue(document.apApu.contains("Produced by alternative initiation from the subgenomic RNA."));
         assertEquals(0, document.apApuEv.size());
+
+        assertTrue(document.content.contains(alternativeProductsLine));
+    }
+
+    @Test
+    void testAlternativeProductsRibosomalFrameshiftingCommentConvertProperlyToDocument() {
+        ChebiRepo chebiRepo = mock(ChebiRepo.class);
+        PathwayRepo pathwayRepo = mock(PathwayRepo.class);
+        Map<String, SuggestDocument> suggestions = new HashMap<>();
+
+        String alternativeLine = "CC   -!- ALTERNATIVE PRODUCTS:\n" +
+                "CC       Event=Ribosomal frameshifting; Named isoforms=2;\n" +
+                "CC       Name=Genome polyprotein;\n" +
+                "CC         IsoId=P12296-1; Sequence=Displayed;\n" +
+                "CC         Note=Produced by conventional translation.\n" +
+                "CC         {ECO:0000269|PubMed:22025686};\n" +
+                "CC       Name=2B*;\n" +
+                "CC         IsoId=P0DJX8-1; Sequence=External;\n" +
+                "CC         Note=Produced by -1 ribosomal frameshifting. The N-terminus is\n" +
+                "CC         translated following a ribosomal skip event.\n" +
+                "CC         {ECO:0000269|PubMed:22025686};";
+
+        String alternativeProductsLine = "ALTERNATIVE PRODUCTS:\n" +
+                "Event=Ribosomal frameshifting; Named isoforms=2;\n" +
+                "Name=Genome polyprotein;\n" +
+                "IsoId=P12296-1; Sequence=Displayed;\n" +
+                "Note=Produced by conventional translation.;\n" +
+                "Name=2B*;\n" +
+                "IsoId=P0DJX8-1; Sequence=External;\n" +
+                "Note=Produced by -1 ribosomal frameshifting. The N-terminus is translated following a ribosomal skip event.;";
+        UniProtEntry entry = createUniProtEntryFromCommentLine(alternativeLine);
+
+        UniProtEntryCommentsConverter converter = new UniProtEntryCommentsConverter(chebiRepo, pathwayRepo, suggestions);
+        UniProtDocument document = new UniProtDocument();
+        converter.convertCommentToDocument(entry.getComments(), document);
+        assertNotNull(document);
+
+        assertEquals(1, document.proteinsWith.size());
+        assertTrue(document.proteinsWith.contains("alternative_products"));
+
+        assertTrue(document.commentMap.containsKey(CC_ALTERNATIVE_PRODUCTS_FIELD));
+        assertTrue(document.commentMap.get(CC_ALTERNATIVE_PRODUCTS_FIELD).
+                contains(alternativeProductsLine));
+
+        assertEquals(1, document.commentEvMap.size());
+        assertTrue(document.commentEvMap.containsKey(CCEV_ALTERNATIVE_PRODUCTS_FIELD));
+        assertEquals(0, document.commentEvMap.get(CCEV_ALTERNATIVE_PRODUCTS_FIELD).size());
+
+        assertEquals(3, document.ap.size());
+        assertTrue(document.ap.contains("Ribosomal frameshifting"));
+        assertTrue(document.ap.contains("Produced by conventional translation."));
+        assertEquals(3, document.apEv.size());
+        assertTrue(document.apEv.contains("ECO_0000269"));
+        assertEquals(2, document.apRf.size());
+        assertTrue(document.apRf.contains("Produced by conventional translation."));
+        assertTrue(document.apRf.contains("Produced by -1 ribosomal frameshifting. The N-terminus is translated following a ribosomal skip event."));
+        assertEquals(3, document.apRfEv.size());
+        assertTrue(document.apRfEv.contains("ECO_0000269"));
+
+        assertTrue(document.content.contains(alternativeProductsLine));
     }
 
     @Test
@@ -357,6 +417,10 @@ class UniProtEntryCommentsConverterTest {
         assertNotNull(suggestDocument.altValues);
         assertEquals(1, suggestDocument.altValues.size());
         assertEquals("inchikey 18420", suggestDocument.altValues.get(0));
+
+        assertTrue(document.content.contains("COFACTOR: RNA-directed RNA polymerase:\n" +
+                "Name=Mg(2+); Xref=ChEBI:CHEBI:18420;\n" +
+                "Note=Requires the presence of 3CDpro or 3CPro.;"));
     }
 
     @Test
@@ -372,6 +436,8 @@ class UniProtEntryCommentsConverterTest {
                 "CC   -!- BIOPHYSICOCHEMICAL PROPERTIES:\n" +
                 "CC       Absorption:\n" +
                 "CC         Abs(max)=550 nm {ECO:0000269|PubMed:10510276};\n" +
+                "CC         Note=Shoulder at 335 nm (at pH 7.5 and 30 degrees Celsius).\n" +
+                "CC         {ECO:0000269|PubMed:22547782};\n" +
                 "CC       Kinetic parameters:\n" +
                 "CC         KM=9 uM for AMP (at pH 5.5 and 25 degrees Celsius)\n" +
                 "CC         {ECO:0000269|PubMed:10510276};\n" +
@@ -394,9 +460,7 @@ class UniProtEntryCommentsConverterTest {
                 "CC       Redox potential:\n" +
                 "CC         E(0) is -75 mV. {ECO:0000269|PubMed:17344208};\n" +
                 "CC       Temperature dependence:\n" +
-                "CC         Highly thermostable. Exhibits over 85% or 60% of activity after\n" +
-                "CC         a 1 hour or 3 hours incubation at 90 degrees Celsius,\n" +
-                "CC         respectively. The half-life is estimated to be 257 minutes.\n" +
+                "CC         Highly thermostable. Exhibits over 85% or 60% of activity after.\n" +
                 "CC         {ECO:0000269|PubMed:17344208};";
 
         String phdependenceLineValue = "BIOPHYSICOCHEMICAL PROPERTIES:\n" +
@@ -420,30 +484,39 @@ class UniProtEntryCommentsConverterTest {
         assertTrue(document.commentEvMap.containsKey(CCEV_BIOPHYSICOCHEMICAL_PROPERTIES_FIELD));
         assertEquals(0, document.commentEvMap.get(CCEV_BIOPHYSICOCHEMICAL_PROPERTIES_FIELD).size());
 
-        assertEquals(12, document.bpcp.size());
+        assertEquals(19, document.bpcp.size());
         assertTrue(document.bpcp.contains("550"));
         assertEquals(3, document.bpcpEv.size());
         assertTrue(document.bpcpEv.contains("ECO_0000269"));
 
-        assertEquals(1, document.bpcpAbsorption.size());
+        assertEquals(2, document.bpcpAbsorption.size());
+        assertTrue(document.bpcpAbsorption.contains("Shoulder at 335 nm (at pH 7.5 and 30 degrees Celsius)."));
         assertEquals(3, document.bpcpAbsorptionEv.size());
         assertTrue(document.bpcpAbsorptionEv.contains("experimental"));
 
-        assertEquals(8, document.bpcpKinetics.size());
+        assertEquals(14, document.bpcpKinetics.size());
+        assertTrue(document.bpcpKinetics.contains("kcat is 13 s(-1) for L-proline. kcat is 75 s(-1) for 3,4-dehydro-L-proline."));
         assertEquals(3, document.bpcpKineticsEv.size());
         assertTrue(document.bpcpKineticsEv.contains("manual"));
 
         assertEquals(1, document.bpcpPhDependence.size());
+        assertTrue(document.bpcpPhDependence.contains("Optimum pH is 5.0 for protease activity."));
         assertEquals(3, document.bpcpPhDependenceEv.size());
         assertTrue(document.bpcpPhDependenceEv.contains("ECO_0000269"));
 
         assertEquals(1, document.bpcpRedoxPotential.size());
+        assertTrue(document.bpcpRedoxPotential.contains("E(0) is -75 mV."));
         assertEquals(3, document.bpcpRedoxPotentialEv.size());
         assertTrue(document.bpcpRedoxPotentialEv.contains("experimental"));
 
         assertEquals(1, document.bpcpTempDependence.size());
+        assertTrue(document.bpcpTempDependence.contains("Highly thermostable. Exhibits over 85% or 60% of activity after."));
         assertEquals(3, document.bpcpTempDependenceEv.size());
         assertTrue(document.bpcpTempDependenceEv.contains("manual"));
+
+        assertEquals(3, document.content.size());
+        assertTrue(document.content.contains(phdependenceLineValue));
+
     }
 
     @Test
@@ -513,6 +586,9 @@ class UniProtEntryCommentsConverterTest {
 
         assertEquals(2, document.seqCautionMiscEv.size());
         assertTrue(document.seqCautionMiscEv.contains("manual"));
+
+        assertEquals(6, document.content.size());
+        assertTrue(document.content.contains(sequenceCautionLineValue));
     }
 
     @Test
@@ -527,7 +603,14 @@ class UniProtEntryCommentsConverterTest {
                 "CC       {ECO:0000250|UniProtKB:P03314}. Host endoplasmic reticulum\n" +
                 "CC       membrane {ECO:0000250|UniProtKB:P03314}; Multi-pass membrane\n" +
                 "CC       protein {ECO:0000255}. Note=ER membrane retention is mediated by\n" +
-                "CC       the transmembrane domains. {ECO:0000250|UniProtKB:P03314}.";
+                "CC       the transmembrane domains. {ECO:0000250|UniProtKB:P03314}.\n" +
+                "CC   -!- SUBCELLULAR LOCATION: Cell membrane {ECO:0000305|PubMed:22512337};\n" +
+                "CC       Lipid-anchor {ECO:0000250|UniProtKB:Q7M759}; Cytoplasmic side\n" +
+                "CC       {ECO:0000305|PubMed:22512337}. Cytoplasmic vesicle membrane\n" +
+                "CC       {ECO:0000305|PubMed:22512337}; Lipid-anchor\n" +
+                "CC       {ECO:0000250|UniProtKB:Q7M759}; Cytoplasmic side\n" +
+                "CC       {ECO:0000305|PubMed:22512337}. Note=In neurons, localizes to the\n" +
+                "CC       sensory endings and to cytoplasmic punctate structures.";
 
         String subcellularLocationLineValue = "SUBCELLULAR LOCATION: Capsid protein: Virion. Host cytoplasm.";
         UniProtEntry entry = createUniProtEntryFromCommentLine(subcellularLocationLine);
@@ -537,7 +620,7 @@ class UniProtEntryCommentsConverterTest {
         converter.convertCommentToDocument(entry.getComments(), document);
 
         assertNotNull(document);
-        assertEquals(2, document.commentMap.get(CC_SUBCELLULAR_LOCATION_FIELD).size());
+        assertEquals(3, document.commentMap.get(CC_SUBCELLULAR_LOCATION_FIELD).size());
 
         assertEquals(1, document.proteinsWith.size());
         assertTrue(document.proteinsWith.contains("subcellular_location"));
@@ -549,14 +632,14 @@ class UniProtEntryCommentsConverterTest {
         assertEquals(0, document.commentEvMap.get(CCEV_SUBCELLULAR_LOCATION_FIELD).size());
 
 
-        assertEquals(10, document.subcellLocationTerm.size());
+        assertEquals(18, document.subcellLocationTerm.size());
         assertTrue(document.subcellLocationTerm.contains("Host cytoplasm"));
         assertTrue(document.subcellLocationTerm.contains("SL-0381"));
 
-        assertEquals(3, document.subcellLocationTermEv.size());
+        assertEquals(4, document.subcellLocationTermEv.size());
         assertTrue(document.subcellLocationTermEv.contains("ECO_0000255"));
 
-        assertEquals(1, document.subcellLocationNote.size());
+        assertEquals(2, document.subcellLocationNote.size());
         assertTrue(document.subcellLocationNote.contains("ER membrane retention is mediated by the transmembrane domains"));
 
         assertEquals(2, document.subcellLocationNoteEv.size());
@@ -566,7 +649,7 @@ class UniProtEntryCommentsConverterTest {
         assertTrue(document.content.contains("SL-0390"));
 
         //check suggestions
-        assertEquals(5, suggestions.size());
+        assertEquals(9, suggestions.size());
         assertTrue(suggestions.containsKey("SUBCELL:SL-0390"));
         assertTrue(suggestions.containsKey("SUBCELL:SL-9909"));
 
