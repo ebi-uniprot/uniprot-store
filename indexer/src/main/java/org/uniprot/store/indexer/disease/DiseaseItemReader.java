@@ -2,7 +2,7 @@ package org.uniprot.store.indexer.disease;
 
 import org.springframework.batch.item.ItemReader;
 import org.uniprot.core.cv.disease.Disease;
-import org.uniprot.core.cv.impl.DiseaseFileReader;
+import org.uniprot.core.cv.disease.DiseaseFileReader;
 
 import java.io.IOException;
 import java.util.Iterator;

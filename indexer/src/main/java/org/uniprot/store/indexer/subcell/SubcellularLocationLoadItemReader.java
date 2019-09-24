@@ -1,7 +1,7 @@
 package org.uniprot.store.indexer.subcell;
 
 import org.springframework.batch.item.ItemReader;
-import org.uniprot.core.cv.impl.SubcellularLocationFileReader;
+import org.uniprot.core.cv.subcell.SubcellularLocationFileReader;
 import org.uniprot.core.cv.subcell.SubcellularLocationEntry;
 
 import java.io.IOException;
