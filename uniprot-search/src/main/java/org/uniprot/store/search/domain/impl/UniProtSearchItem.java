@@ -31,6 +31,7 @@ public class UniProtSearchItem implements SearchItem {
 	private String autoComplete;
 	private String description;
 	private String example;
+	private Boolean termSuffix;
 
 	public Boolean isHasRange() {
 		return hasRange;
@@ -44,4 +45,5 @@ public class UniProtSearchItem implements SearchItem {
 		this.items = new ArrayList<>();
 		this.items.addAll(items);
 	}
+
 }
