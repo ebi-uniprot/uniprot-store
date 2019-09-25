@@ -7,7 +7,7 @@ import org.uniprot.core.cv.chebi.ChebiRepoFactory;
 import org.uniprot.core.cv.ec.ECRepo;
 import org.uniprot.core.cv.ec.ECRepoFactory;
 import org.uniprot.core.cv.taxonomy.FileNodeIterable;
-import org.uniprot.core.cv.taxonomy.TaxonomyMapRepo;
+import org.uniprot.core.cv.taxonomy.impl.TaxonomyMapRepo;
 import org.uniprot.core.cv.taxonomy.TaxonomyRepo;
 import org.uniprot.core.uniprot.UniProtEntry;
 import org.uniprot.store.indexer.search.AbstractSearchEngine;
