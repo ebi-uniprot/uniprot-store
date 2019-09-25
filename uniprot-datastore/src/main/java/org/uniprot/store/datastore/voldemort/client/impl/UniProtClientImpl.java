@@ -1,12 +1,12 @@
 package org.uniprot.store.datastore.voldemort.client.impl;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-
 import org.uniprot.core.uniprot.UniProtEntry;
 import org.uniprot.store.datastore.voldemort.VoldemortClient;
 import org.uniprot.store.datastore.voldemort.client.UniProtClient;
+
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 public class UniProtClientImpl implements UniProtClient {
     private final VoldemortClient<UniProtEntry> client;
@@ -40,6 +40,10 @@ public class UniProtClientImpl implements UniProtClient {
     @Override
     public String getStoreName() {
         return client.getStoreName();
+    }
+
+    public void truncate() {
+        client.truncate();
     }
 
 }

@@ -89,6 +89,11 @@ public abstract class VoldemortRemoteJsonBinaryStore<T> implements VoldemortClie
         time.stop();
     }
 
+    @Override
+    public void truncate() {
+        throw new UnsupportedOperationException("Truncate remove voldemort is not a supported operation.");
+    }
+
     public abstract String getStoreId(T entry);
 
     public abstract ObjectMapper getStoreObjectMapper();

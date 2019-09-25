@@ -56,6 +56,11 @@ public abstract class VoldemortInMemoryEntryStore<T> implements VoldemortClient<
         }
     }
 
+    public void truncate() {
+        logger.info("Truncating entries ");
+        storageEngine.truncate();
+    }
+
     public Optional<T> getEntry(String id) {
         logger.info("Getting entry: {}", id);
         Store<String, T,String> store = this.getStore();

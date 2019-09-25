@@ -7,7 +7,6 @@ import net.jodah.failsafe.RetryPolicy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.uniprot.core.util.Utils;
-
 import voldemort.VoldemortException;
 import voldemort.client.ClientConfig;
 import voldemort.client.SocketStoreClientFactory;
@@ -55,6 +54,11 @@ public abstract class VoldemortRemoteEntryStore<T> implements VoldemortClient<T>
                 .handle(VoldemortException.class)
                 .withDelay(Duration.ofMillis(2))
                 .withMaxRetries(3);
+    }
+
+    @Override
+    public void truncate() {
+        throw new UnsupportedOperationException("Truncate remove voldemort is not a supported operation.");
     }
 
     @Override

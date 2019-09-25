@@ -2,12 +2,12 @@ package org.uniprot.store.indexer;
 
 import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.client.solrj.response.QueryResponse;
-import org.apache.solr.core.CoreContainer;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.RegisterExtension;
 import org.uniprot.core.cv.chebi.ChebiRepo;
 import org.uniprot.core.cv.ec.ECRepo;
 import org.uniprot.core.uniprot.UniProtEntry;
@@ -16,9 +16,7 @@ import org.uniprot.store.indexer.uniprotkb.converter.UniProtEntryConverter;
 import org.uniprot.store.search.SolrCollection;
 import org.uniprot.store.search.document.uniprot.UniProtDocument;
 
-import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
 import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -29,20 +27,15 @@ import static org.mockito.Mockito.mock;
 
 class DataStoreManagerTest {
     private static final String P12345 = "P12345";
-    private static DataStoreManager storeManager;
+
+    @RegisterExtension
+    static DataStoreManager storeManager = new DataStoreManager();
 
     @BeforeAll
     static void setUp() {
         try {
-            File file = Files.createTempDirectory("test_solr_data").toFile();
-            System.setProperty("solr.data.dir", file.getAbsolutePath());
-            File solrHome = new File("../index-config/src/main/solr-config/uniprot-collections");
-            CoreContainer container = new CoreContainer(solrHome.getAbsolutePath());
-            container.load();
-            ClosableEmbeddedSolrClient solrClient = new ClosableEmbeddedSolrClient(container, SolrCollection.uniprot);
-            SolrDataStoreManager solrStoreManager = new SolrDataStoreManager();
-            storeManager = new DataStoreManager(solrStoreManager);
-            storeManager.addSolrClient(DataStoreManager.StoreType.UNIPROT, solrClient);
+
+            storeManager.addSolrClient(DataStoreManager.StoreType.UNIPROT, SolrCollection.uniprot);
 
             //    UUWStoreClient storeClient = new FakeStoreClient(VoldemortInMemoryUniprotEntryStore
             //             .getInstance("avro-uniprot"));
