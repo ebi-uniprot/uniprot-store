@@ -2,8 +2,8 @@ package org.uniprot.store.indexer.search.uniprot;
 
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.extension.RegisterExtension;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.RegisterExtension;
 import org.uniprot.core.flatfile.writer.LineType;
 import org.uniprot.core.uniprot.feature.FeatureType;
 import org.uniprot.store.search.field.QueryBuilder;
@@ -107,7 +107,7 @@ class FTSearchIT {
 
     @Test
     void chainFindEntryContainingFtId() {
-        String query = features(FeatureType.CHAIN, "/FTId=PRO_0000410512");
+        String query = features(FeatureType.CHAIN, "PRO_0000410512");
 
         QueryResponse response = searchEngine.getQueryResponse(query);
 

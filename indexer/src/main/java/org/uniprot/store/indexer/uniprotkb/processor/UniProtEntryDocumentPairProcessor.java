@@ -6,9 +6,10 @@ import org.springframework.batch.core.annotation.BeforeStep;
 import org.springframework.batch.item.ExecutionContext;
 import org.uniprot.core.flatfile.writer.impl.UniProtFlatfileWriter;
 import org.uniprot.core.uniprot.UniProtEntry;
-import org.uniprot.store.job.common.processor.EntryDocumentPairProcessor;
 import org.uniprot.store.indexer.common.utils.Constants;
+import org.uniprot.store.indexer.uniprotkb.converter.UniProtEntryConverter;
 import org.uniprot.store.indexer.uniprotkb.model.UniProtEntryDocumentPair;
+import org.uniprot.store.job.common.processor.EntryDocumentPairProcessor;
 import org.uniprot.store.search.document.uniprot.UniProtDocument;
 
 /**

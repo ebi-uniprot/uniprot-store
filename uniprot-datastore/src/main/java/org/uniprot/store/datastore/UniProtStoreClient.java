@@ -1,10 +1,10 @@
 package org.uniprot.store.datastore;
 
+import org.uniprot.store.datastore.voldemort.VoldemortClient;
+
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-
-import org.uniprot.store.datastore.voldemort.VoldemortClient;
 
 /**
  * Generic class for saving and retrieving entities of type {@code S} to/from a data-store containing
@@ -40,5 +40,9 @@ public class UniProtStoreClient<S> {
 
     public void saveEntry(S s) {
         client.saveEntry(s);
+    }
+
+    public void truncate() {
+        client.truncate();
     }
 }

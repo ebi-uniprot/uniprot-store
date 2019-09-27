@@ -33,6 +33,19 @@ Release:     2019_01 of 16-Jan-2019
 
 ___________________________________________________________________________
 
+ID   Jackson-Weiss syndrome.
+AC   DI-00602
+AR   JWS.
+DE   An autosomal dominant craniosynostosis syndrome characterized by
+DE   craniofacial abnormalities and abnormality of the feet: broad great
+DE   toes with medial deviation and tarsal-metatarsal coalescence.
+SY   Craniosynostosis-midfacial hypoplasia-foot abnormalities.
+DR   MIM; 123150; phenotype.
+DR   MedGen; C0795998.
+DR   MeSH; D003398.
+DR   MeSH; D005532.
+KW   KW-0989:Craniosynostosis.
+//
 ID   2,4-dienoyl-CoA reductase deficiency.
 AC   DI-04240
 AR   DECRD.
@@ -2483,3 +2496,4 @@ DR   MedGen; C0342683.
 DR   MedGen; C1859932.
 DR   MeSH; D016115.
 KW   KW-0015:Albinism.
+//

@@ -1,7 +1,7 @@
 package org.uniprot.store.indexer.keyword;
 
 import org.springframework.batch.item.ItemReader;
-import org.uniprot.core.cv.impl.KeywordFileReader;
+import org.uniprot.core.cv.keyword.KeywordFileReader;
 import org.uniprot.core.cv.keyword.KeywordEntry;
 
 import java.io.IOException;

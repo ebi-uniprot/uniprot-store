@@ -39,7 +39,8 @@
 		"dataType": "string",
 		"autoComplete": "/uniprot/api/suggester?dict=organism&query=?",
 		"description": "Search by Organism name",
-		"example": "saccharomyces"
+		"example": "saccharomyces",
+		"termSuffix":true
 	},
 	{
 		"id": "id_taxonomy",
@@ -48,7 +49,8 @@
 		"dataType": "string",
 		"autoComplete": "/uniprot/api/suggester?dict=taxonomy&query=?",
 		"description": "Search by NCBI taxonomy",
-		"example": "human"
+		"example": "human",
+		"termSuffix":true
 	},
 	{
 		"id": "id_host",
@@ -57,7 +59,8 @@
 		"dataType": "string",
 		"autoComplete": "/uniprot/api/suggester?dict=host&query=?",
 		"description": "Search by virus host",
-		"example": "human"
+		"example": "human",
+		"termSuffix":true
 	},
 	{
 		"id": "id_existence",

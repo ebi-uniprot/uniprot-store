@@ -4,15 +4,26 @@ import org.apache.solr.client.solrj.SolrClient;
 import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.client.solrj.response.QueryResponse;
+import org.apache.solr.core.CoreContainer;
+import org.junit.jupiter.api.extension.AfterAllCallback;
+import org.junit.jupiter.api.extension.BeforeAllCallback;
+import org.junit.jupiter.api.extension.ExtensionContext;
 import org.slf4j.Logger;
+import org.springframework.util.FileSystemUtils;
 import org.uniprot.store.datastore.UniProtStoreClient;
 import org.uniprot.store.job.common.converter.DocumentConverter;
+import org.uniprot.store.search.SolrCollection;
 import org.uniprot.store.search.document.Document;
 
+import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 import java.util.stream.Collectors;
 
 import static java.util.Arrays.asList;
@@ -23,20 +34,49 @@ import static org.slf4j.LoggerFactory.getLogger;
  *
  * @author Edd
  */
-public class DataStoreManager {
+public class DataStoreManager implements AfterAllCallback, BeforeAllCallback {
+
     public enum StoreType {
         UNIPROT, INACTIVE_UNIPROT, UNIPARC, UNIREF, CROSSREF, PROTEOME, DISEASE, TAXONOMY, GENECENTRIC,
-        KEYWORD, LITERATURE, SUBCELLULAR_LOCATION
+        KEYWORD, LITERATURE, SUBCELLULAR_LOCATION, SUGGEST
     }
 
+    private static final String SOLR_SYSTEM_PROPERTIES = "solr-system.properties";
     private static final Logger LOGGER = getLogger(DataStoreManager.class);
-    private final SolrDataStoreManager solrDataStoreManager;
-    private final Map<StoreType, SolrClient> solrClientMap = new HashMap<>();
+    private final Map<StoreType, ClosableEmbeddedSolrClient> solrClientMap = new HashMap<>();
     private final Map<StoreType, UniProtStoreClient> storeMap = new HashMap<>();
     private final Map<StoreType, DocumentConverter> docConverterMap = new HashMap<>();
 
-    public DataStoreManager(SolrDataStoreManager solrDataStoreManager) {
-        this.solrDataStoreManager = solrDataStoreManager;
+    private Path temporaryFolder;
+    private CoreContainer container;
+
+    @Override
+    public void beforeAll(ExtensionContext extensionContext) throws Exception {
+        loadPropertiesAndSetAsSystemProperties();
+        temporaryFolder = Files.createTempDirectory("solr");
+        System.setProperty("solr.data.dir", temporaryFolder.toString());
+        File solrHome = new File(System.getProperty(ClosableEmbeddedSolrClient.SOLR_HOME));
+        container = new CoreContainer(solrHome.getAbsolutePath());
+        container.load();
+    }
+
+    @Override
+    public void afterAll(ExtensionContext extensionContext) throws Exception {
+        close();
+        System.setProperty("solr.data.dir", "");
+        FileSystemUtils.deleteRecursively(temporaryFolder);
+    }
+
+    private static void loadPropertiesAndSetAsSystemProperties() throws IOException {
+        Properties properties = new Properties();
+        InputStream propertiesStream = DataStoreManager.class.getClassLoader()
+                .getResourceAsStream(SOLR_SYSTEM_PROPERTIES);
+        properties.load(propertiesStream);
+
+        for (String property : properties.stringPropertyNames()) {
+            System.out.println(property + "\t" + properties.getProperty(property));
+            System.setProperty(property, properties.getProperty(property));
+        }
     }
 
     public void close() {
@@ -47,7 +87,6 @@ public class DataStoreManager {
                 throw new IllegalStateException(e);
             }
         }
-        solrDataStoreManager.cleanUp();
     }
 
     public <T> void save(StoreType storeType, List<T> entries) {
@@ -60,8 +99,9 @@ public class DataStoreManager {
         saveEntriesInSolr(storeType, asList(entries));
     }
 
-    public void addSolrClient(StoreType storeType, ClosableEmbeddedSolrClient client) {
-        solrClientMap.put(storeType, client);
+    public void addSolrClient(StoreType storeType, SolrCollection collection) {
+        ClosableEmbeddedSolrClient solrClient = new ClosableEmbeddedSolrClient(container, collection);
+        solrClientMap.put(storeType, solrClient);
     }
 
     public void addStore(StoreType storeType, UniProtStoreClient storeClient) {
@@ -152,11 +192,11 @@ public class DataStoreManager {
 
     public void cleanSolr(StoreType storeType) {
         try {
-            SolrClient solrClient = solrClientMap.get(storeType);
+            ClosableEmbeddedSolrClient solrClient = solrClientMap.get(storeType);
             solrClient.deleteByQuery("*:*");
             solrClient.commit();
-        } catch (SolrServerException | IOException e) {
-            throw new IllegalStateException(e);
+        } catch (Exception e) {
+            LOGGER.warn("Unable to clean solr data for " + storeType.name(), e);
         }
     }
 }

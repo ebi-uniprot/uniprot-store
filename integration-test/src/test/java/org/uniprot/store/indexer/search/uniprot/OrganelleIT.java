@@ -1,31 +1,25 @@
 package org.uniprot.store.indexer.search.uniprot;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.containsInAnyOrder;
-import static org.hamcrest.collection.IsEmptyCollection.empty;
-import static org.hamcrest.collection.IsIterableContainingInOrder.contains;
-import static org.hamcrest.core.Is.is;
-import static org.uniprot.core.uniprot.GeneEncodingType.ORGANELLAR_CHROMATOPHORE;
-import static org.uniprot.core.uniprot.GeneEncodingType.CYANELLE;
-import static org.uniprot.core.uniprot.GeneEncodingType.HYDROGENOSOME;
-import static org.uniprot.core.uniprot.GeneEncodingType.MITOCHONDRION;
-import static org.uniprot.core.uniprot.GeneEncodingType.PLASMID;
-import static org.uniprot.core.uniprot.GeneEncodingType.PLASTID;
-import static org.uniprot.store.indexer.search.uniprot.IdentifierSearchIT.ACC_LINE;
-import static org.uniprot.store.indexer.search.uniprot.TestUtils.convertToUniProtEntry;
-import static org.uniprot.store.indexer.search.uniprot.TestUtils.query;
+import org.apache.solr.client.solrj.response.QueryResponse;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.RegisterExtension;
+import org.uniprot.core.flatfile.writer.LineType;
+import org.uniprot.store.search.field.UniProtField;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 
-import org.apache.solr.client.solrj.response.QueryResponse;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Disabled;
-import org.junit.jupiter.api.extension.RegisterExtension;
-import org.junit.jupiter.api.Test;
-import org.uniprot.core.flatfile.writer.LineType;
-import org.uniprot.store.search.field.UniProtField;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.containsInAnyOrder;
+import static org.hamcrest.collection.IsEmptyCollection.empty;
+import static org.hamcrest.collection.IsIterableContainingInOrder.contains;
+import static org.hamcrest.core.Is.is;
+import static org.uniprot.core.uniprot.GeneEncodingType.*;
+import static org.uniprot.store.indexer.search.uniprot.IdentifierSearchIT.ACC_LINE;
+import static org.uniprot.store.indexer.search.uniprot.TestUtils.convertToUniProtEntry;
+import static org.uniprot.store.indexer.search.uniprot.TestUtils.query;
 
 /**
  * Tests whether the organelles of a UniProt entry have been indexed correctly
@@ -45,10 +39,11 @@ class OrganelleIT {
     private static final String ORGANELLE4 = PLASMID.getName() + " " + ORGANELLE_SPECIFIC_NAME3;
     //Entry 3
     private static final String ACCESSION3 = "Q197F6";
-    private static final String ORGANELLE5 = PLASTID.getName() ;
+    private static final String ORGANELLE5 = PLASTID.getName() + "; " + CYANELLE.getName(); //CYANELLE is child of PLASTID
     //Entry 4
     private static final String ACCESSION4 = "Q197F7";
-    private static final String ORGANELLE6 = PLASTID.getName();
+    private static final String ORGANELLE6 = PLASTID.getName() + "; " + ORGANELLAR_CHROMATOPHORE.getName();
+    ;
     @RegisterExtension
     static UniProtSearchEngine searchEngine = new UniProtSearchEngine();
 
@@ -65,7 +60,7 @@ class OrganelleIT {
 
         //Entry 2
         entryProxy.updateEntryObject(LineType.AC, String.format(ACC_LINE, ACCESSION2));
-        entryProxy.updateEntryObject(LineType.OG, createOGLine(ORGANELLE2, ORGANELLE3, ORGANELLE4));
+        entryProxy.updateEntryObject(LineType.OG, createOGLine(ORGANELLE3, ORGANELLE2, ORGANELLE4));
         searchEngine.indexEntry(convertToUniProtEntry(entryProxy));
 
         //Entry 3
@@ -90,7 +85,6 @@ class OrganelleIT {
                 if (organelles.length > 1 && i == (organelles.length - 1)) {
                     line.append("and ");
                 }
-
                 line.append(organelles[i]).append(", ");
             }
 
@@ -98,7 +92,6 @@ class OrganelleIT {
         } else {
             line.append(".");
         }
-
         return line.toString();
     }
 
@@ -114,7 +107,7 @@ class OrganelleIT {
 
     @Test
     void organelleFromEntry1MatchesEntry1() {
-        String query = organelle(ORGANELLE1);
+        String query = organelle(MITOCHONDRION.getName());
 
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -131,25 +124,25 @@ class OrganelleIT {
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
         assertThat(retrievedAccessions, contains(ACCESSION2));
     }
-    @Disabled
+
     @Test
-    void partialPlasmidSpecificNameSearchMatchesEntry2() {
+    void partialPlasmidSpecificNameNotFound() {
         String query = organelle(ORGANELLE_SPECIFIC_NAME2);
 
         QueryResponse response = searchEngine.getQueryResponse(query);
 
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
-        assertThat(retrievedAccessions, contains(ACCESSION2));
+        assertThat(retrievedAccessions, is(empty()));
     }
 
     @Test
     void plastidChildSearchMatchesEntry3() {
-        String query = organelle(ORGANELLAR_CHROMATOPHORE.name());
+        String query = organelle(ORGANELLAR_CHROMATOPHORE.getName().toLowerCase());
 
         QueryResponse response = searchEngine.getQueryResponse(query);
 
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
-        assertThat(retrievedAccessions, contains(ACCESSION3));
+        assertThat(retrievedAccessions, contains(ACCESSION4));
     }
 
     @Test
