@@ -777,7 +777,7 @@
        filter factories. Therefore, we now have removed synonyms handling,
        and use of deprecated filters.
     -->
-    <fieldType name="full_ci" class="solr.TextField" sortMissingLast="true" omitNorms="false" positionIncrementGap="100">
+    <fieldType name="full_ci" class="solr.TextField" sortMissingLast="true" omitNorms="true" positionIncrementGap="100">
         <analyzer type="index">
             <tokenizer class="solr.WhitespaceTokenizerFactory"/>
             <filter class="solr.ASCIIFoldingFilterFactory" preserveOriginal="false"/>

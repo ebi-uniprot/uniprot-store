@@ -4,7 +4,7 @@ package org.uniprot.store.indexer.uniprot.mockers;
 import java.io.File;
 
 import org.uniprot.core.cv.taxonomy.FileNodeIterable;
-import org.uniprot.core.cv.taxonomy.TaxonomyMapRepo;
+import org.uniprot.core.cv.taxonomy.impl.TaxonomyMapRepo;
 import org.uniprot.core.cv.taxonomy.TaxonomyRepo;
 
 public class TaxonomyRepoMocker {

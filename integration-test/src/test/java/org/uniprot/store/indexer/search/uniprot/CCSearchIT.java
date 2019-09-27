@@ -2,8 +2,8 @@ package org.uniprot.store.indexer.search.uniprot;
 
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.extension.RegisterExtension;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.RegisterExtension;
 import org.uniprot.core.flatfile.writer.LineType;
 import org.uniprot.core.uniprot.comment.CommentType;
 import org.uniprot.store.search.field.QueryBuilder;
@@ -14,10 +14,9 @@ import java.io.InputStream;
 import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.not;
+import static org.hamcrest.Matchers.*;
 import static org.uniprot.store.indexer.search.uniprot.IdentifierSearchIT.ACC_LINE;
 import static org.uniprot.store.indexer.search.uniprot.TestUtils.*;
-import static org.hamcrest.Matchers.*;
 
 /**
  * Tests showing the behaviour of searching CC fields
@@ -457,7 +456,7 @@ class CCSearchIT {
     }
     @Test
     void findAPEvent() {
-    		String query= query(UniProtField.Search.cc_ap_as, "splicing");
+        String query = query(UniProtField.Search.cc_ap_as, "*");
     		QueryResponse response = searchEngine.getQueryResponse(query);
     		List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
     		assertThat(retrievedAccessions, hasItem(P48347));
@@ -465,7 +464,7 @@ class CCSearchIT {
     }
     @Test
     void findSCType() {
-    		String query= query(UniProtField.Search.cc_sc_framesh, "Frameshift");
+        String query = query(UniProtField.Search.cc_sc_framesh, "*");
     		QueryResponse response = searchEngine.getQueryResponse(query);
     		List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
     		assertThat(retrievedAccessions, hasItem(Q6GZX4));

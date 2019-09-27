@@ -14,7 +14,7 @@ import org.springframework.core.io.FileSystemResource;
 import org.springframework.oxm.Unmarshaller;
 import org.springframework.oxm.jaxb.Jaxb2Marshaller;
 import org.uniprot.core.cv.taxonomy.FileNodeIterable;
-import org.uniprot.core.cv.taxonomy.TaxonomyMapRepo;
+import org.uniprot.core.cv.taxonomy.impl.TaxonomyMapRepo;
 import org.uniprot.core.cv.taxonomy.TaxonomyRepo;
 import org.uniprot.core.xml.jaxb.proteome.Proteome;
 import org.uniprot.store.indexer.common.config.UniProtSolrOperations;

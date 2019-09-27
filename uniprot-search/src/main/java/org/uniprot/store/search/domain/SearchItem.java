@@ -16,4 +16,5 @@ public interface SearchItem {
 	Boolean isHasEvidence();
 	String getAutoComplete();
 	String getExample();
+	Boolean getTermSuffix();
 }

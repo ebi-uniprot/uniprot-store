@@ -1,22 +1,15 @@
 package org.uniprot.store.indexer.search.uniprot;
 
 
-import java.io.File;
-import java.net.URISyntaxException;
-import java.net.URL;
-import java.util.HashMap;
-
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.uniprot.core.cv.chebi.ChebiRepo;
 import org.uniprot.core.cv.chebi.ChebiRepoFactory;
 import org.uniprot.core.cv.ec.ECRepo;
 import org.uniprot.core.cv.ec.ECRepoFactory;
 import org.uniprot.core.cv.taxonomy.FileNodeIterable;
-import org.uniprot.core.cv.taxonomy.TaxonomyMapRepo;
+import org.uniprot.core.cv.taxonomy.impl.TaxonomyMapRepo;
 import org.uniprot.core.cv.taxonomy.TaxonomyRepo;
 import org.uniprot.core.uniprot.UniProtEntry;
-import org.uniprot.store.job.common.converter.DocumentConverter;
 import org.uniprot.store.indexer.search.AbstractSearchEngine;
 import org.uniprot.store.indexer.uniprot.go.GoRelationFileReader;
 import org.uniprot.store.indexer.uniprot.go.GoRelationFileRepo;
@@ -24,8 +17,14 @@ import org.uniprot.store.indexer.uniprot.go.GoRelationRepo;
 import org.uniprot.store.indexer.uniprot.go.GoTermFileReader;
 import org.uniprot.store.indexer.uniprot.pathway.PathwayFileRepo;
 import org.uniprot.store.indexer.uniprot.pathway.PathwayRepo;
-import org.uniprot.store.indexer.uniprotkb.processor.UniProtEntryConverter;
+import org.uniprot.store.indexer.uniprotkb.converter.UniProtEntryConverter;
+import org.uniprot.store.job.common.converter.DocumentConverter;
 import org.uniprot.store.search.field.UniProtField;
+
+import java.io.File;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.util.HashMap;
 
 /**
  * Concrete implementation of the UniProt search engine
