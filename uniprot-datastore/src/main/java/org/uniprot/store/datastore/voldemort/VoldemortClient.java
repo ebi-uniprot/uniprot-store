@@ -18,4 +18,6 @@ public interface VoldemortClient<T> {
     Map<String, T> getEntryMap(Iterable<String> ids);
 
     void saveEntry(T entry);
+
+    void truncate();
 }
