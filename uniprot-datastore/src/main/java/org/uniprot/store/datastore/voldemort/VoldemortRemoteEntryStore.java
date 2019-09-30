@@ -75,7 +75,7 @@ public abstract class VoldemortRemoteEntryStore<T> implements VoldemortClient<T>
         try {
             Versioned<T> entryObjectVersioned = Failsafe.with(retryPolicy).get(() -> client.get(acc));
 
-            if (Utils.nonNull(entryObjectVersioned)) {
+            if (Utils.notNull(entryObjectVersioned)) {
                 return Optional.of(entryObjectVersioned.getValue());
             } else {
                 return Optional.empty();

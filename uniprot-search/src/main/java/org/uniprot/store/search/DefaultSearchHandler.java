@@ -6,7 +6,7 @@ import org.apache.lucene.queryparser.classic.QueryParser;
 import org.apache.lucene.search.*;
 import org.uniprot.store.search.field.SearchField;
 
-import static org.uniprot.core.util.Utils.nonNull;
+import static org.uniprot.core.util.Utils.notNull;
 
 import java.util.Arrays;
 import java.util.List;
@@ -136,7 +136,7 @@ public class DefaultSearchHandler {
 
     private BoostQuery getBoostQuery(QueryType queryType, SearchField field, String... values) {
         Query boostQuery;
-        if (nonNull(field.getBoostValue().getValue())) {
+        if (notNull(field.getBoostValue().getValue())) {
             String boostValue = field.getBoostValue().getValue();
             if (boostValue.contains(" ")) {
                 boostQuery = new PhraseQuery(field.getName(), boostValue);
@@ -154,7 +154,7 @@ public class DefaultSearchHandler {
     }
 
     private boolean hasValidValue(TermQuery query, SearchField searchField) {
-        if (nonNull(searchField.getBoostValue().getValue())) {
+        if (notNull(searchField.getBoostValue().getValue())) {
             return searchField.hasValidValue(searchField.getBoostValue().getValue());
         } else {
             return searchField.hasValidValue(query.getTerm().text());
@@ -162,7 +162,7 @@ public class DefaultSearchHandler {
     }
 
     private boolean hasValidValue(PhraseQuery query, SearchField searchField) {
-        if (nonNull(searchField.getBoostValue().getValue())) {
+        if (notNull(searchField.getBoostValue().getValue())) {
             return searchField.hasValidValue(searchField.getBoostValue().getValue());
         } else {
             String[] values = Arrays.stream(query.getTerms()).map(Term::text).toArray(String[]::new);

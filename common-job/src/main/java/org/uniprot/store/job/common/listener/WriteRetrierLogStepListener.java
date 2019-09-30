@@ -33,7 +33,7 @@ public class WriteRetrierLogStepListener implements StepExecutionListener {
         if (executionContext.containsKey(CommonConstants.ENTRIES_TO_WRITE_COUNTER)) {
             OnZeroCountSleeper sleeper = (OnZeroCountSleeper) executionContext
                     .get(CommonConstants.ENTRIES_TO_WRITE_COUNTER);
-            if (Utils.nonNull(sleeper)) {
+            if (Utils.notNull(sleeper)) {
                 sleeper.sleepUntilZero();
             }
         }

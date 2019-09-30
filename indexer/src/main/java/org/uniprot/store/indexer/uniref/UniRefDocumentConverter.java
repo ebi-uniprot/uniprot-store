@@ -75,7 +75,7 @@ public class UniRefDocumentConverter implements DocumentConverter<Entry, UniRefD
 		if(member.getMemberIdType() ==UniRefMemberIdType.UNIPARC) {
 			result.add(member.getMemberId());
 		}
-		if(Utils.nonNull(member.getUniParcId())){
+		if(Utils.notNull(member.getUniParcId())){
 			result.add(member.getUniParcId().getValue());
 		}
 		return result;
@@ -93,7 +93,7 @@ public class UniRefDocumentConverter implements DocumentConverter<Entry, UniRefD
 		if(member.getMemberIdType() ==UniRefMemberIdType.UNIPROTKB) {
 			result.add(member.getMemberId());
 		}
-		if(Utils.nonNull(member.getUniProtAccession())){
+		if(Utils.notNull(member.getUniProtAccession())){
 			result.add(member.getUniProtAccession().getValue());
 		}
 		return result;

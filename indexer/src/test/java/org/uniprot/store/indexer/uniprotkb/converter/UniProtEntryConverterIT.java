@@ -39,7 +39,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
-import static org.uniprot.core.util.Utils.nonNull;
+import static org.uniprot.core.util.Utils.notNull;
 import static org.uniprot.store.indexer.uniprot.go.GoRelationFileRepo.Relationship.IS_A;
 import static org.uniprot.store.indexer.uniprot.go.GoRelationFileRepo.Relationship.PART_OF;
 import static org.uniprot.store.indexer.uniprotkb.converter.UniProtEntryConverterUtil.createSuggestionMapKey;
@@ -569,7 +569,7 @@ class UniProtEntryConverterIT {
                     .get(createSuggestionMapKey(SuggestDictionary.CATALYTIC_ACTIVITY, id));
             assertThat(chebiDoc.id, is(id));
             assertThat(chebiDoc.value, is(chebi.getName()));
-            if (nonNull(chebi.getInchiKey())) {
+            if (notNull(chebi.getInchiKey())) {
                 assertThat(chebiDoc.altValues, contains(chebi.getInchiKey()));
             }
         }
