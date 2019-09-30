@@ -1,263 +1,219 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
-	<parent>
-		<groupId>org.springframework.boot</groupId>
-		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>2.1.3.RELEASE</version>
-	</parent>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.1.3.RELEASE</version>
+    </parent>
+    
+    <groupId>org.uniprot</groupId>
+    <artifactId>uniprot-store-parent</artifactId>
+    <name>UniProt Store Aggregator</name>
 
-	<groupId>org.uniprot</groupId>
-	<artifactId>uniprot-store-parent</artifactId>
-	<name>UniProt Store Aggregator</name>
+    <packaging>pom</packaging>
+    <version>1.0-SNAPSHOT</version>
 
-	<packaging>pom</packaging>
-	<version>1.0-SNAPSHOT</version>
+    <modules>
+        <module>index-config</module>
+        <module>uniprot-search</module>
+        <module>indexer</module>
+        <module>integration-test</module>
+        <module>uniprot-datastore</module>
+        <module>common-job</module>
+    </modules>
 
-	<modules>
-		<module>index-config</module>
-		<module>uniprot-search</module>
-		<module>indexer</module>
-		<module>integration-test</module>
-		<module>uniprot-datastore</module>
-		<module>common-job</module>
-	</modules>
+    <dependencies>
+        <!-- Tests -->
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <version>${junit-jupiter.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <version>${junit-jupiter.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-params</artifactId>
+            <version>${junit-jupiter.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.hamcrest</groupId>
+            <artifactId>hamcrest-core</artifactId>
+            <version>${hamcrest-core.version}</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
 
-	<dependencies>
-		<!-- Tests -->
-		<dependency>
-			<groupId>org.mockito</groupId>
-			<artifactId>mockito-core</artifactId>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.junit.jupiter</groupId>
-			<artifactId>junit-jupiter-api</artifactId>
-			<version>${junit-jupiter.version}</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.junit.jupiter</groupId>
-			<artifactId>junit-jupiter-engine</artifactId>
-			<version>${junit-jupiter.version}</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.junit.jupiter</groupId>
-			<artifactId>junit-jupiter-params</artifactId>
-			<version>${junit-jupiter.version}</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.hamcrest</groupId>
-			<artifactId>hamcrest-core</artifactId>
-			<version>${hamcrest-core.version}</version>
-			<scope>test</scope>
-		</dependency>
-	</dependencies>
+    <repositories>
+        <repository>
+            <id>spring-releases</id>
+            <url>https://repo.spring.io/libs-release</url>
+        </repository>
+        <repository>
+            <id>spring-libs-milestone</id>
+            <name>Spring Milestones</name>
+            <url>https://repo.spring.io/libs-milestone</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+        <repository>
+            <id>uniprot-artifactory-release</id>
+            <name>UniProt Artifactory for Releases</name>
+            <releases>
+                <enabled>true</enabled>
+                <updatePolicy>always</updatePolicy>
+                <checksumPolicy>warn</checksumPolicy>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+            <url>${http-uniprot-private-url}/release</url>
+        </repository>
+        <repository>
+            <id>uniprot-artifactory-snapshots</id>
+            <name>UniProt Artifactory for Snapshots</name>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+                <checksumPolicy>warn</checksumPolicy>
+            </snapshots>
+            <url>${http-uniprot-private-url}/snapshot</url>
+        </repository>
+        <repository>
+            <id>uniprot-artifactory-private-thirdparty</id>
+            <name>UniProt Artifactory for Private Third-Party Dependencies</name>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+            <url>${http-uniprot-private-url}/private-thirdparty</url>
+        </repository>
+    </repositories>
 
-	<repositories>
-		<repository>
-			<id>spring-releases</id>
-			<url>https://repo.spring.io/libs-release</url>
-		</repository>
-		<repository>
-			<id>spring-libs-milestone</id>
-			<name>Spring Milestones</name>
-			<url>https://repo.spring.io/libs-milestone</url>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-		</repository>
-		<repository>
-			<id>uniprot-artifactory-release</id>
-			<name>UniProt Artifactory for Releases</name>
-			<releases>
-				<enabled>true</enabled>
-				<updatePolicy>always</updatePolicy>
-				<checksumPolicy>warn</checksumPolicy>
-			</releases>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-			<url>${http-uniprot-private-url}/release</url>
-		</repository>
-		<repository>
-			<id>uniprot-artifactory-snapshots</id>
-			<name>UniProt Artifactory for Snapshots</name>
-			<releases>
-				<enabled>false</enabled>
-			</releases>
-			<snapshots>
-				<enabled>true</enabled>
-				<checksumPolicy>warn</checksumPolicy>
-			</snapshots>
-			<url>${http-uniprot-private-url}/snapshot</url>
-		</repository>
-		<repository>
-			<id>uniprot-artifactory-private-thirdparty</id>
-			<name>UniProt Artifactory for Private Third-Party Dependencies</name>
-			<releases>
-				<enabled>true</enabled>
-			</releases>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-			<url>${http-uniprot-private-url}/private-thirdparty</url>
-		</repository>
-	</repositories>
+    <profiles>
+        <profile>
+            <id>jenkins</id>
+            <activation>
+                <property>
+                    <name>env.BUILD_NUMBER</name>
+                </property>
+            </activation>
+            <distributionManagement>
+                <repository>
+                    <id>uniprot-artifactory-deploy-release</id>
+                    <name>Deploy Uniprot Maven Release</name>
+                    <url>${http-uniprot-private-url}/release</url>
+                </repository>
+                <snapshotRepository>
+                    <uniqueVersion>false</uniqueVersion>
+                    <id>uniprot-artifactory-deploy-snapshot</id>
+                    <name>Deploy Uniprot Maven Snapshot</name>
+                    <url>${http-uniprot-private-url}/snapshot</url>
+                </snapshotRepository>
+            </distributionManagement>
+        </profile>
+    </profiles>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
+                </configuration>
+            </plugin>
 
-	<profiles>
-		<profile>
-			<id>jenkins</id>
-			<activation>
-				<property>
-					<name>env.BUILD_NUMBER</name>
-				</property>
-			</activation>
-			<distributionManagement>
-				<repository>
-					<id>uniprot-artifactory-deploy-release</id>
-					<name>Deploy Uniprot Maven Release</name>
-					<url>${http-uniprot-private-url}/release</url>
-				</repository>
-				<snapshotRepository>
-					<uniqueVersion>false</uniqueVersion>
-					<id>uniprot-artifactory-deploy-snapshot</id>
-					<name>Deploy Uniprot Maven Snapshot</name>
-					<url>${http-uniprot-private-url}/snapshot</url>
-				</snapshotRepository>
-			</distributionManagement>
-		</profile>
-	</profiles>
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<configuration>
-					<source>${java.version}</source>
-					<target>${java.version}</target>
-				</configuration>
-			</plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <!-- Exclude integration tests from unit test run-->
+                    <excludes>
+                        <skipITs>${skipUTs}</skipITs>
+                        <exclude>**/*IT.java</exclude>
+                        <exclude>**/IT*.java</exclude>
+                    </excludes>
+                    <argLine>${jacoco.agent.ut.arg}</argLine>
+                </configuration>
+            </plugin>
 
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-surefire-plugin</artifactId>
-				<configuration>
-					<!-- Exclude integration tests from unit test run -->
-					<excludes>
-						<skipITs>${skipUTs}</skipITs>
-						<exclude>**/*IT.java</exclude>
-						<exclude>**/IT*.java</exclude>
-					</excludes>
-					<argLine>${jacoco.agent.ut.arg}</argLine>
-				</configuration>
-			</plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-failsafe-plugin</artifactId>
+                <configuration>
+                    <forkCount>1</forkCount>
+                    <reuseForks>false</reuseForks>
+                    <skipITs>${skipITs}</skipITs>
+                    <argLine>${jacoco.agent.it.arg}</argLine>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>integration-test</goal>
+                            <goal>verify</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
 
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-failsafe-plugin</artifactId>
-				<configuration>
-					<forkCount>1</forkCount>
-					<reuseForks>false</reuseForks>
-					<skipITs>${skipITs}</skipITs>
-					<argLine>${jacoco.agent.it.arg}</argLine>
-				</configuration>
-				<executions>
-					<execution>
-						<goals>
-							<goal>integration-test</goal>
-							<goal>verify</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-
-			<plugin>
-				<groupId>org.jacoco</groupId>
-				<artifactId>jacoco-maven-plugin</artifactId>
-				<version>${jacoco.maven.version}</version>
-				<executions>
-					<!-- Sets up jacaco for unit test coverage analysis (jacoco.agent.ut.arg) -->
-					<execution>
-						<id>prepare-ut-agent</id>
-						<phase>process-test-classes</phase>
-						<goals>
-							<goal>prepare-agent</goal>
-						</goals>
-						<configuration>
-							<destFile>${jacoco.reportPath}</destFile>
-							<propertyName>jacoco.agent.ut.arg</propertyName>
-						</configuration>
-					</execution>
-					<!-- Sets up jacaco for integration test coverage analysis (jacoco.agent.it.arg) -->
-					<execution>
-						<id>prepare-it-agent</id>
-						<phase>pre-integration-test</phase>
-						<goals>
-							<goal>prepare-agent</goal>
-						</goals>
-						<configuration>
-							<destFile>${jacoco.itReportPath}</destFile>
-							<propertyName>jacoco.agent.it.arg</propertyName>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-
-			<!-- Auto-format code when built for consistency amongst developers' contributions -->
-			<plugin>
-				<groupId>com.diffplug.spotless</groupId>
-				<artifactId>spotless-maven-plugin</artifactId>
-				<version>${spotless.version}</version>
-				<configuration>
-					<java>
-						<googleJavaFormat>
-							<version>1.7</version>
-							<!-- Optional, available versions: GOOGLE, AOSP https://github.com/google/google-java-format/blob/master/core/src/main/java/com/google/googlejavaformat/java/JavaFormatterOptions.java -->
-							<style>AOSP</style>
-						</googleJavaFormat>
-						<removeUnusedImports />
-						<importOrder>
-							<order>java,javax,org,com</order>
-						</importOrder>
-					</java>
-					<formats>
-						<format>
-							<includes>
-								<include>pom.xml</include>
-								<include>src/main/**/*.xml</include>
-								<include>src/main/**/*.xsd</include>
-							</includes>
-							<eclipseWtp>
-								<type>XML</type>
-							</eclipseWtp>
-						</format>
-					</formats>
-				</configuration>
-				<executions>
-					<execution>
-						<!-- Reformats as soon as possible -->
-						<id>spotless-apply</id>
-						<phase>compile</phase>
-						<goals>
-							<goal>apply</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-		</plugins>
-	</build>
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>${jacoco.maven.version}</version>
+                <executions>
+                    <!-- Sets up jacaco for unit test coverage analysis (jacoco.agent.ut.arg) -->
+                    <execution>
+                        <id>prepare-ut-agent</id>
+                        <phase>process-test-classes</phase>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                        <configuration>
+                            <destFile>${jacoco.reportPath}</destFile>
+                            <propertyName>jacoco.agent.ut.arg</propertyName>
+                        </configuration>
+                    </execution>
+                    <!-- Sets up jacaco for integration test coverage analysis (jacoco.agent.it.arg) -->
+                    <execution>
+                        <id>prepare-it-agent</id>
+                        <phase>pre-integration-test</phase>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                        <configuration>
+                            <destFile>${jacoco.itReportPath}</destFile>
+                            <propertyName>jacoco.agent.it.arg</propertyName>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 
 	<properties>
 		<junit-jupiter.version>5.4.1</junit-jupiter.version>
 		<jcommander.version>1.72</jcommander.version>
 		<http-uniprot-private-url>http://wwwdev.ebi.ac.uk/uniprot/artifactory</http-uniprot-private-url>
 		<jacoco.version>0.7.8</jacoco.version>
-		<jacoco.outputDir>${project.build.directory}</jacoco.outputDir>
+		<jacoco.outputDir>${project.basedir}/../target</jacoco.outputDir>
 		<jacoco.out.ut.file>jacoco-ut.exec</jacoco.out.ut.file>
 		<jacoco.reportPath>${jacoco.outputDir}/${jacoco.out.ut.file}</jacoco.reportPath>
 		<jacoco.out.it.file>jacoco-it.exec</jacoco.out.it.file>
