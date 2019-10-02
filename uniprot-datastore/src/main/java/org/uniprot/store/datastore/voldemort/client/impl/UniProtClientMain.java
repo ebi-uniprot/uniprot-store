@@ -28,12 +28,12 @@ public class UniProtClientMain {
         if (!Strings.isNullOrEmpty(configure.getVoldemortUrl())) {
             voldemortUrl = configure.getVoldemortUrl();
         }
-        ClientFactory factory = new DefaultClientFactory( voldemortUrl, 20);
-        UniProtClient client = factory.createUniProtClient();
-        UniProtClientMain main = new UniProtClientMain();
-       main.execute(configure, client);
-     
-       factory.close();
+
+        try (ClientFactory factory = new DefaultClientFactory(voldemortUrl, 20)) {
+          UniProtClient client = factory.createUniProtClient();
+          UniProtClientMain main = new UniProtClientMain();
+          main.execute(configure, client);
+        }
 
     }
 
@@ -81,7 +81,7 @@ public class UniProtClientMain {
                 accList.clear();
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Error while writing the file", e);
         }
     
     }
