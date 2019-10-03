@@ -34,7 +34,7 @@ class UniProtEntryFeatureConverterTest {
         UniProtDocument document = new UniProtDocument();
         UniProtEntryFeatureConverter converter = new UniProtEntryFeatureConverter();
 
-        Range location = Range.create(2, 8);
+        Range location = new Range(2, 8);
         Feature feature = new FeatureBuilder()
                 .type(FeatureType.NON_TER)
                 .location(location)
@@ -87,7 +87,7 @@ class UniProtEntryFeatureConverterTest {
                 .id("DBSNP-12345")
                 .build();
 
-        Range location = Range.create(2, 8);
+        Range location = new Range(2, 8);
         List<Evidence> evidences = Collections.singletonList(createEvidence());
         return new FeatureBuilder()
                 .type(FeatureType.CHAIN)

@@ -4,7 +4,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class QueryBuilder {
-	  public static char[] escaping_char = {'+', '-', '&', '|', '!', '(', ')', '{', '}', '[', ']', '^', '"', '~', '?', ':', '/'};
+	  protected static final char[] ESCAPING_CHARS = {'+', '-', '&', '|', '!', '(', ')', '{', '}', '[', ']', '^', '"', '~', '?', ':', '/'};
 	  private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'");
 	   
 	  public static String and(String query1, String query2) {
@@ -94,7 +94,7 @@ public class QueryBuilder {
 	    }
 
 	  private static boolean needEscape(char c) {
-		  	for(char ch: escaping_char ) {
+		  	for(char ch: ESCAPING_CHARS) {
 		  		if(ch ==c)
 		  			return true;
 		  	}

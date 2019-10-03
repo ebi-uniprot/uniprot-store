@@ -1,5 +1,7 @@
 package org.uniprot.store.datastore.voldemort.client.impl;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.uniprot.core.uniprot.UniProtEntry;
 import org.uniprot.store.datastore.voldemort.VoldemortClient;
 import org.uniprot.store.datastore.voldemort.client.ClientFactory;
@@ -9,6 +11,7 @@ import org.uniprot.store.datastore.voldemort.uniprot.VoldemortRemoteUniProtKBEnt
 import com.google.inject.name.Named;
 
 public class DefaultClientFactory implements ClientFactory {
+    private static final Logger LOGGER = LoggerFactory.getLogger(DefaultClientFactory.class);
     private static final int DEFAULT_MAX_CONNECTION=20;
     private final VoldemortClient<UniProtEntry> voldemortStore;
     private static final String VOLDEMORT_STORE = "avro-uniprot";
@@ -28,7 +31,7 @@ public class DefaultClientFactory implements ClientFactory {
        try{
             store = new VoldemortRemoteUniProtKBEntryStore(numberOfConn, storeName, voldemortUrl);
        }catch(RuntimeException e){
-           e.printStackTrace();
+           LOGGER.error("Unable to get the store", e);
           
        }
        this.voldemortStore = store;
