@@ -8,7 +8,6 @@ import lombok.Data;
  * @author Edd
  */
 @Data
-//@ConfigurationProperties(prefix = "store")
 public class StoreProperties {
     private String host;
     private int numberOfConnections;
