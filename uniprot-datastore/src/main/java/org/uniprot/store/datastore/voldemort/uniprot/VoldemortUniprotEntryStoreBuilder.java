@@ -98,8 +98,7 @@ public class VoldemortUniprotEntryStoreBuilder extends VoldemortEntryStoreBuilde
             try {
                 next = entryBufferReader2.next();
             } catch (Exception e) {
-                logger.warn("Error splitting entry string");
-                e.printStackTrace();
+                logger.warn("Error splitting entry string", e);
             } finally {
                 time.stop();
             }
