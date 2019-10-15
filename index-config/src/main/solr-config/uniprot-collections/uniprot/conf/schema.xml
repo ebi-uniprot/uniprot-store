@@ -943,40 +943,4 @@
 		</analyzer>
 	</fieldType>
 	<!-- End of UJDK type definitions -->
-
-	<fieldType name="suggester_ci" class="solr.TextField"
-		sortMissingLast="true" omitNorms="true" positionIncrementGap="100">
-		<!-- defined for index and query time -->
-		<analyzer type="index">
-			<charFilter class="solr.PatternReplaceCharFilterFactory"
-				pattern="(/|-)" replacement=" " />
-			<charFilter class="solr.PatternReplaceCharFilterFactory"
-				pattern="(')" replacement="" />
-			<charFilter class="solr.PatternReplaceCharFilterFactory"
-				pattern="^([A-Za-z0-9_]+)\.([0-9]+)$" replacement="$1.$2 $1" />
-			<tokenizer class="solr.ClassicTokenizerFactory" />
-			<filter class="solr.LowerCaseFilterFactory" />
-			<filter class="solr.SynonymGraphFilterFactory"
-				synonyms="synonyms.txt" ignoreCase="true" expand="false" />
-			<filter class="solr.StopFilterFactory" words="stopwords.txt"
-				ignoreCase="true" />
-			<filter class="solr.PorterStemFilterFactory" />
-			<filter class="solr.RemoveDuplicatesTokenFilterFactory" />
-			<filter class="solr.FlattenGraphFilterFactory" />
-		</analyzer>
-		<analyzer type="query">
-			<charFilter class="solr.PatternReplaceCharFilterFactory"
-				pattern="(/|-)" replacement=" " />
-			<charFilter class="solr.PatternReplaceCharFilterFactory"
-				pattern="(')" replacement="" />
-			<tokenizer class="solr.ClassicTokenizerFactory" />
-			<filter class="solr.LowerCaseFilterFactory" />
-			<filter class="solr.SynonymGraphFilterFactory"
-				synonyms="synonyms.txt" ignoreCase="true" expand="false" />
-			<filter class="solr.StopFilterFactory" words="stopwords.txt"
-				ignoreCase="true" />
-			<filter class="solr.PorterStemFilterFactory" />
-			<filter class="solr.RemoveDuplicatesTokenFilterFactory" />
-		</analyzer>
-	</fieldType>
 </schema>
