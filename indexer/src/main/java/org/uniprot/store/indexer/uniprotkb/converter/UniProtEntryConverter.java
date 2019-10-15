@@ -184,6 +184,7 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtEntry, Un
     private void convertSequence(Sequence seq, UniProtDocument document) {
         document.seqLength = seq.getLength();
         document.seqMass = seq.getMolWeight();
+        document.seqAA = seq.getValue();
     }
 
     private void convertKeywords(List<Keyword> keywords, UniProtDocument document) {
