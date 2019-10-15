@@ -50,7 +50,7 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtEntry, Un
     private final UniProtEntryFeatureConverter featureConverter;
     private final UniProtEntryReferencesConverter referencesConverter;
     private final UniProtEntryCrossReferenceConverter crossReferenceConverter;
-    private final UniprotEntryTaxonomyConverter taxonomyConverter;
+    private final UniProtEntryTaxonomyConverter taxonomyConverter;
     private final UniprotEntryProteinDescriptionConverter proteinDescriptionConverter;
 
 
@@ -59,7 +59,7 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtEntry, Un
 
     public UniProtEntryConverter(TaxonomyRepo taxonomyRepo, GoRelationRepo goRelationRepo, PathwayRepo pathwayRepo,
                                  ChebiRepo chebiRepo, ECRepo ecRepo, Map<String, SuggestDocument> suggestDocuments) {
-        this.taxonomyConverter = new UniprotEntryTaxonomyConverter(taxonomyRepo, suggestDocuments);
+        this.taxonomyConverter = new UniProtEntryTaxonomyConverter(taxonomyRepo, suggestDocuments);
         this.crossReferenceConverter = new UniProtEntryCrossReferenceConverter(goRelationRepo, suggestDocuments);
         this.commentsConverter = new UniProtEntryCommentsConverter(chebiRepo, pathwayRepo, suggestDocuments);
         this.featureConverter = new UniProtEntryFeatureConverter();
