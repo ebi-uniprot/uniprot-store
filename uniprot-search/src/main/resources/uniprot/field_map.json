@@ -33,10 +33,15 @@
 	},
 	{
 		"name": "fragment",
+		"mapTo": "protein_name"
+	},
+
+	{
+		"name": "length",
 		"mapTo": "sequence"
 	},
 	{
-		"name": "sequence_version",
+		"name": "mass",
 		"mapTo": "sequence"
 	},
 	{
