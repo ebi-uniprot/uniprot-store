@@ -422,13 +422,14 @@ public interface UniProtField {
         gene("genes"),
         comment("comments"),
         feature("features"),
-        gene_location("geneLocations"),
+        organelle( "geneLocations"),
         keyword("keywords"),
         reference("references"),
         xref("databaseCrossReferences"),
         sequence("sequence"),
-        internalSection_internal("internalSection", true),
+        internalSection_internal("internalSection"),
         inactiveReason_internal("inactiveReason", true),
+        lineage("lineages"),
         length,
         mass;
 

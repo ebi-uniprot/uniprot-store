@@ -44,7 +44,7 @@
 			},
 			{
 				"label": "Proteomes",
-				"name": "dr:proteomes"
+				"name": "dr_proteomes"
 			},
 			{
 				"label": "Taxonomic lineage",
@@ -61,15 +61,15 @@
 		"fields": [
 			{
 				"label": "Alternative products (isoforms)",
-				"name": "cc:alternative_products"
+				"name": "cc_alternative_products"
 			},
 			{
 				"label": "Alternative sequence",
-				"name": "ft:var_seq"
+				"name": "ft_var_seq"
 			},
 			{
 				"label": "Erroneous gene model prediction",
-				"name": "error_gmodel_pred"
+				"name": "sc_epred"
 			},
 			{
 				"label": "Fragment",
@@ -77,7 +77,8 @@
 			},
 			{
 				"label": "Gene encoded by",
-				"name": "gene_location"
+				"name": "organelle",
+				"javaFieldName": "geneLocation"
 			},
 			{
 				"label": "Length",
@@ -89,31 +90,31 @@
 			},
 			{
 				"label": "Mass spectrometry",
-				"name": "cc:mass_spectrometry"
+				"name": "cc_mass_spectrometry"
 			},
 			{
 				"label": "Natural variant",
-				"name": "ft:variant"
+				"name": "ft_variant"
 			},
 			{
 				"label": "Non-adjacent residue",
-				"name": "ft:non_con"
+				"name": "ft_non_con"
 			},
 			{
 				"label": "Non-standard residue",
-				"name": "ft:non_std"
+				"name": "ft_non_std"
 			},
 			{
 				"label": "Non-terminal residue",
-				"name": "ft:non_ter"
+				"name": "ft_non_ter"
 			},
 			{
 				"label": "Polymorphism",
-				"name": "cc:polymorphism"
+				"name": "cc_polymorphism"
 			},
 			{
 				"label": "RNA Editing",
-				"name": "cc:rna_editing"
+				"name": "cc_rna_editing"
 			},
 			{
 				"label": "Sequence",
@@ -121,15 +122,15 @@
 			},
 			{
 				"label": "Sequence caution",
-				"name": "cc:sequence_caution"
+				"name": "cc_sequence_caution"
 			},
 			{
 				"label": "Sequence conflict",
-				"name": "ft:conflict"
+				"name": "ft_conflict"
 			},
 			{
 				"label": "Sequence uncertainty",
-				"name": "ft:unsure"
+				"name": "ft_unsure"
 			},
 			{
 				"label": "Sequence version",
@@ -146,39 +147,39 @@
 			},
 			{
 				"label": "Active site",
-				"name": "ft:act_site"
+				"name": "ft_act_site"
 			},
 			{
 				"label": "Binding site",
-				"name": "ft:binding"
+				"name": "ft_binding"
 			},
 			{
 				"label": "Calcium binding",
-				"name": "ft:ca_bind"
+				"name": "ft_ca_bind"
 			},
 			{
 				"label": "Catalytic activity",
-				"name": "cc:catalytic_activity"
+				"name": "cc_catalytic_activity"
 			},
 			{
 				"label": "Cofactor",
-				"name": "cc:cofactor"
+				"name": "cc_cofactor"
 			},
 			{
 				"label": "DNA binding",
-				"name": "ft:dna_bind"
+				"name": "ft_dna_bind"
 			},
 			{
 				"label": "EC number",
 				"name": "ec"
 			},
 			{
-				"label": "Enzyme regulation",
-				"name": "cc:enzyme_regulation"
+				"label": "Activity regulation",
+				"name": "cc_activity_regulation"
 			},
 			{
 				"label": "Function [CC]",
-				"name": "cc:function"
+				"name": "cc_function"
 			},
 			{
 				"label": "Kinetics",
@@ -186,15 +187,15 @@
 			},
 			{
 				"label": "Metal binding",
-				"name": "ft:metal"
+				"name": "ft_metal"
 			},
 			{
 				"label": "Nucleotide binding",
-				"name": "ft:np_bind"
+				"name": "ft_np_bind"
 			},
 			{
 				"label": "Pathway",
-				"name": "cc:pathway"
+				"name": "cc_pathway"
 			},
 			{
 				"label": "pH dependence",
@@ -206,7 +207,7 @@
 			},
 			{
 				"label": "Site",
-				"name": "ft:site"
+				"name": "ft_site"
 			},
 			{
 				"label": "Temperature dependence",
@@ -223,7 +224,7 @@
 			},
 			{
 				"label": "Caution",
-				"name": "cc:caution"
+				"name": "cc_caution"
 			},
 			{
 				"label": "Features",
@@ -243,7 +244,7 @@
 			},
 			{
 				"label": "Miscellaneous [CC]",
-				"name": "cc:miscellaneous"
+				"name": "cc_miscellaneous"
 			},
 			{
 				"label": "Protein existence",
@@ -268,11 +269,11 @@
 		"fields": [
 			{
 				"label": "Interacts with",
-				"name": "cc:interaction"
+				"name": "cc_interaction"
 			},
 			{
 				"label": "Subunit structure",
-				"name": "cc:subunit"
+				"name": "cc_subunit"
 			}
 		]
 	},
@@ -281,15 +282,15 @@
 		"fields": [
 			{
 				"label": "Developmental stage",
-				"name": "cc:developmental_stage"
+				"name": "cc_developmental_stage"
 			},
 			{
 				"label": "Induction",
-				"name": "cc:induction"
+				"name": "cc_induction"
 			},
 			{
 				"label": "Tissue specificity",
-				"name": "cc:tissue_specificity"
+				"name": "cc_tissue_specificity"
 			}
 		]
 	},
@@ -323,31 +324,31 @@
 		"fields": [
 			{
 				"label": "Allergenic Properties",
-				"name": "cc:allergen"
+				"name": "cc_allergen"
 			},
 			{
 				"label": "Biotechnological use",
-				"name": "cc:biotechnology"
+				"name": "cc_biotechnology"
 			},
 			{
 				"label": "Disruption phenotype",
-				"name": "cc:disruption_phenotype"
+				"name": "cc_disruption_phenotype"
 			},
 			{
 				"label": "Involvement in disease",
-				"name": "cc:disease"
+				"name": "cc_disease"
 			},
 			{
 				"label": "Mutagenesis",
-				"name": "ft:mutagen"
+				"name": "ft_mutagen"
 			},
 			{
 				"label": "Pharmaceutical use",
-				"name": "cc:pharmaceutical"
+				"name": "cc_pharmaceutical"
 			},
 			{
 				"label": "Toxic dose",
-				"name": "cc:toxic_dose"
+				"name": "cc_toxic_dose"
 			}
 		]
 	},
@@ -356,19 +357,19 @@
 		"fields": [
 			{
 				"label": "Intramembrane",
-				"name": "ft:intramem"
+				"name": "ft_intramem"
 			},
 			{
 				"label": "Subcellular location [CC]",
-				"name": "cc:subcellular_location"
+				"name": "cc_subcellular_location"
 			},
 			{
 				"label": "Topological domain",
-				"name": "ft:top_dom"
+				"name": "ft_top_dom"
 			},
 			{
 				"label": "Transmembrane",
-				"name": "ft:transmem"
+				"name": "ft_transmem"
 			}
 		]
 	},
@@ -377,51 +378,51 @@
 		"fields": [
 			{
 				"label": "Chain",
-				"name": "ft:chain"
+				"name": "ft_chain"
 			},
 			{
 				"label": "Cross-link",
-				"name": "ft:crosslnk"
+				"name": "ft_crosslnk"
 			},
 			{
 				"label": "Disulfide bond",
-				"name": "ft:disulfide"
+				"name": "ft_disulfide"
 			},
 			{
 				"label": "Glycosylation",
-				"name": "ft:carbohyd"
+				"name": "ft_carbohyd"
 			},
 			{
 				"label": "Initiator methionine",
-				"name": "ft:init_met"
+				"name": "ft_init_met"
 			},
 			{
 				"label": "Lipidation",
-				"name": "ft:lipid"
+				"name": "ft_lipid"
 			},
 			{
 				"label": "Modified residue",
-				"name": "ft:mod_res"
+				"name": "ft_mod_res"
 			},
 			{
 				"label": "Peptide",
-				"name": "ft:peptide"
+				"name": "ft_peptide"
 			},
 			{
 				"label": "Post-translational modification",
-				"name": "cc:ptm"
+				"name": "cc_ptm"
 			},
 			{
 				"label": "Propeptide",
-				"name": "ft:propep"
+				"name": "ft_propep"
 			},
 			{
 				"label": "Signal peptide",
-				"name": "ft:signal"
+				"name": "ft_signal"
 			},
 			{
 				"label": "Transit peptide",
-				"name": "ft:transit"
+				"name": "ft_transit"
 			}
 		]
 	},
@@ -434,15 +435,15 @@
 			},
 			{
 				"label": "Beta strand",
-				"name": "ft:strand"
+				"name": "ft_strand"
 			},
 			{
 				"label": "Helix",
-				"name": "ft:helix"
+				"name": "ft_helix"
 			},
 			{
 				"label": "Turn",
-				"name": "ft:turn"
+				"name": "ft_turn"
 			}
 		]
 	},
@@ -485,175 +486,47 @@
 		"fields": [
 			{
 				"label": "Coiled coil",
-				"name": "ft:coiled"
+				"name": "ft_coiled"
 			},
 			{
 				"label": "Compositional bias",
-				"name": "ft:compbias"
+				"name": "ft_compbias"
 			},
 			{
 				"label": "Domain [CC]",
-				"name": "cc:domain"
+				"name": "cc_domain"
 			},
 			{
 				"label": "Domain [FT]",
-				"name": "ft:domain"
+				"name": "ft_domain"
 			},
 			{
 				"label": "Motif",
-				"name": "ft:motif"
+				"name": "ft_motif"
 			},
 			{
 				"label": "Protein families",
-				"name": "protein_families"
+				"name": "family"
 			},
 			{
 				"label": "Region",
-				"name": "ft:region"
+				"name": "ft_region"
 			},
 			{
 				"label": "Repeat",
-				"name": "ft:repeat"
+				"name": "ft_repeat"
 			},
 			{
 				"label": "Sequence similarities",
-				"name": "cc:similarity"
+				"name": "similarity"
 			},
 			{
 				"label": "Zinc finger",
-				"name": "ft:zn_fing"
+				"name": "ft_zn_fing"
 			}
 		]
 	},
-	{
-		"groupName": "Taxonomic lineage",
-		"fields": [
-			{
-				"label": "Taxonomic lineage (all)",
-				"name": "lineage_all"
-			},
-			{
-				"label": "Taxonomic lineage (CLASS)",
-				"name": "lin_class"
-			},
-			{
-				"label": "Taxonomic lineage (COHORT)",
-				"name": "lin_cohort"
-			},
-			{
-				"label": "Taxonomic lineage (FAMILY)",
-				"name": "lin_family"
-			},
-			{
-				"label": "Taxonomic lineage (FORMA)",
-				"name": "lin_forma"
-			},
-			{
-				"label": "Taxonomic lineage (GENUS)",
-				"name": "lin_genus"
-			},
-			{
-				"label": "Taxonomic lineage (INFRACLASS)",
-				"name": "lin_infraclass"
-			},
-			{
-				"label": "Taxonomic lineage (INFRAORDER)",
-				"name": "lin_infraorder"
-			},
-			{
-				"label": "Taxonomic lineage (KINGDOM)",
-				"name": "lin_kingdom"
-			},
-			{
-				"label": "Taxonomic lineage (ORDER)",
-				"name": "lin_order"
-			},
-			{
-				"label": "Taxonomic lineage (PARVORDER)",
-				"name": "lin_parvorder"
-			},
-			{
-				"label": "Taxonomic lineage (PHYLUM)",
-				"name": "lin_phylum"
-			},
-			{
-				"label": "Taxonomic lineage (SPECIES)",
-				"name": "lin_species"
-			},
-			{
-				"label": "Taxonomic lineage (SPECIES_GROUP)",
-				"name": "lin_species_group"
-			},
-			{
-				"label": "Taxonomic lineage (SPECIES_SUBGROUP)",
-				"name": "lin_species_subgroup"
-			},
-			{
-				"label": "Taxonomic lineage (SUBCLASS)",
-				"name": "lin_subclass"
-			},
-			{
-				"label": "Taxonomic lineage (SUBCOHORT)",
-				"name": "lin_subcohort"
-			},
-			{
-				"label": "Taxonomic lineage (SUBFAMILY)",
-				"name": "lin_subfamily"
-			},
-			{
-				"label": "Taxonomic lineage (SUBGENUS)",
-				"name": "lin_subgenus"
-			},
-			{
-				"label": "Taxonomic lineage (SUBKINGDOM)",
-				"name": "lin_subkingdom"
-			},
-			{
-				"label": "Taxonomic lineage (SUBORDER)",
-				"name": "lin_suborder"
-			},
-			{
-				"label": "Taxonomic lineage (SUBPHYLUM)",
-				"name": "lin_subphylum"
-			},
-			{
-				"label": "Taxonomic lineage (SUBSPECIES)",
-				"name": "lin_subspecies"
-			},
-			{
-				"label": "Taxonomic lineage (SUBTRIBE)",
-				"name": "lin_subtribe"
-			},
-			{
-				"label": "Taxonomic lineage (SUPERCLASS)",
-				"name": "lin_superclass"
-			},
-			{
-				"label": "Taxonomic lineage (SUPERFAMILY)",
-				"name": "lin_superfamily"
-			},
-			{
-				"label": "Taxonomic lineage (SUPERKINGDOM)",
-				"name": "lin_superkingdom"
-			},
-			{
-				"label": "Taxonomic lineage (SUPERORDER)",
-				"name": "lin_superorder"
-			},
-			{
-				"label": "Taxonomic lineage (SUPERPHYLUM)",
-				"name": "lin_superphylum"
-			},
-			{
-				"label": "Taxonomic lineage (TRIBE)",
-				"name": "lin_tribe"
-			},
-			{
-				"label": "Taxonomic lineage (VARIETAS)",
-				"name": "lin_varietas"
-			}
-		]
-	},
+	
 	{
 		"groupName": "Taxonomic identifier",
 		"fields": [

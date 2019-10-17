@@ -123,6 +123,13 @@ class UniProtResultFieldsTest {
 				.forEach(System.out::println);
 	}
 
+	@Test
+	void testOrganelle() {
+		Optional<Field> field =instance.getField("organelle");
+		System.out.println(field.get().getJavaFieldName());
+
+		
+	}
 	void testDatabaseFieldSize() {
 		List<FieldGroup> groups = instance.getDatabaseFields();
 		assertEquals(19, groups.size());

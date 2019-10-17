@@ -20,22 +20,18 @@
 		"mapTo": "gene"
 	},	
 	{
+		"name": "keywordId",
+		"mapTo": "keyword"
+	},
+	{
 		"name": "organism_id",
 		"mapTo": "organism"
 	},
+	
 	{
-		"name": "error_gmodel_pred",
-		"mapTo": "cc:sequence_caution"
+		"name": "tax_id",
+		"mapTo": "organism"
 	},
-		{
-		"name": "protein_families",
-		"mapTo": "cc:similarity"
-	},
-	{
-		"name": "fragment",
-		"mapTo": "protein_name"
-	},
-
 	{
 		"name": "length",
 		"mapTo": "sequence"
@@ -44,34 +40,50 @@
 		"name": "mass",
 		"mapTo": "sequence"
 	},
-	{
-		"name": "absorption",
-		"mapTo": "cc:biophysicochemical_properties"
-	},
+	
 	{
 		"name": "ec",
 		"mapTo": "protein_name"
 	},
 	{
+		"name": "fragment",
+		"mapTo": "protein_name"
+	},
+	
+	
+	{
+		"name": "family",
+		"mapTo": "cc_similarity"
+	},
+
+	{
+		"name": "sc_epred",
+		"mapTo": "cc_sequence_caution"
+	},
+
+	
+	{
+		"name": "absorption",
+		"mapTo": "cc_biophysicochemical_properties"
+	},
+	{
 		"name": "kinetics",
-		"mapTo": "cc:biophysicochemical_properties"
+		"mapTo": "cc_biophysicochemical_properties"
 	},
 	{
 		"name": "ph_dependence",
-		"mapTo": "cc:biophysicochemical_properties"
+		"mapTo": "cc_biophysicochemical_properties"
 	},
 	{
 		"name": "redox_potential",
-		"mapTo": "cc:biophysicochemical_properties"
+		"mapTo": "cc_biophysicochemical_properties"
 	},
 	{
 		"name": "temp_dependence",
-		"mapTo": "cc:biophysicochemical_properties"
+		"mapTo": "cc_biophysicochemical_properties"
 	},
-	{
-		"name": "caution",
-		"mapTo": "cc:alternative_products"
-	},
+
+	
 	{
 		"name": "features",
 		"mapTo": "feature"
@@ -86,23 +98,23 @@
 	},
 	{
 		"name": "go_p",
-		"mapTo": "dr:go"
+		"mapTo": "dr_go"
 	},
 	{
 		"name": "go_c",
-		"mapTo": "dr:go"
+		"mapTo": "dr_go"
 	},
 	{
 		"name": "go",
-		"mapTo": "dr:go"
+		"mapTo": "dr_go"
 	},
 	{
 		"name": "go_f",
-		"mapTo": "dr:go"
+		"mapTo": "dr_go"
 	},
 	{
 		"name": "go_id",
-		"mapTo": "dr:go"
+		"mapTo": "dr_go"
 	},
 	{
 		"name": "pm_id",
@@ -124,146 +136,17 @@
 		"name": "version",
 		"mapTo": "info"
 	},
+	
 	{
-		"name": "lineage_all",
-		"mapTo": "lineage"
-	},
-	{
-		"name": "lin_class",
-		"mapTo": "lineage"
-	},
-	{
-		"name": "lin_cohort",
-		"mapTo": "lineage"
-	},
-	{
-		"name": "lin_family",
-		"mapTo": "lineage"
-	},
-	{
-		"name": "lin_forma",
-		"mapTo": "lineage"
-	},
-	{
-		"name": "lin_genus",
-		"mapTo": "lineage"
-	},
-	{
-		"name": "lin_infraclass",
-		"mapTo": "lineage"
-	},
-	{
-		"name": "lin_infraorder",
-		"mapTo": "lineage"
-	},
-	{
-		"name": "lin_kingdom",
-		"mapTo": "lineage"
-	},
-	{
-		"name": "lin_order",
-		"mapTo": "lineage"
-	},
-	{
-		"name": "lin_parvorder",
-		"mapTo": "lineage"
-	},
-	{
-		"name": "lin_phylum",
-		"mapTo": "lineage"
-	},
-	{
-		"name": "lin_species",
-		"mapTo": "lineage"
-	},
-	{
-		"name": "lin_species_group",
-		"mapTo": "lineage"
-	},
-	{
-		"name": "lin_species_subgroup",
-		"mapTo": "lineage"
-	},
-	{
-		"name": "lin_subclass",
-		"mapTo": "lineage"
-	},
-	{
-		"name": "lin_subcohort",
-		"mapTo": "lineage"
-	},
-	{
-		"name": "lin_subfamily",
-		"mapTo": "lineage"
-	},
-	{
-		"name": "lin_subgenus",
-		"mapTo": "lineage"
-	},
-	{
-		"name": "lin_subkingdom",
-		"mapTo": "lineage"
-	},
-	{
-		"name": "lin_suborder",
-		"mapTo": "lineage"
-	},
-	{
-		"name": "lin_subphylum",
-		"mapTo": "lineage"
-	},
-	{
-		"name": "lin_subspecies",
-		"mapTo": "lineage"
-	},
-	{
-		"name": "lin_subtribe",
-		"mapTo": "lineage"
-	},
-	{
-		"name": "lin_superclass",
-		"mapTo": "lineage"
-	},
-	{
-		"name": "lin_superfamily",
-		"mapTo": "lineage"
-	},
-	{
-		"name": "lin_superkingdom",
-		"mapTo": "lineage"
-	},
-	{
-		"name": "lin_superorder",
-		"mapTo": "lineage"
-	},
-	{
-		"name": "lin_superphylum",
-		"mapTo": "lineage"
-	},
-	{
-		"name": "lin_tribe",
-		"mapTo": "lineage"
-	},
-	{
-		"name": "lin_varietas",
-		"mapTo": "lineage"
-	},
-	{
-		"name": "tax_id",
-		"mapTo": "organism"
-	},
-	{
-		"name": "dr:dbsnp",
-		"mapTo": "ft:variant"
+		"name": "dr_dbsnp",
+		"mapTo": "ft_variant"
 	},
 	{
 		"name": "3d",
-		"mapTo": "dr:pdb"
-	},
-	{
-		"name": "keywordId",
-		"mapTo": "keyword"
+		"mapTo": "dr_pdb"
 	}
 	
+
+
 
 ]
