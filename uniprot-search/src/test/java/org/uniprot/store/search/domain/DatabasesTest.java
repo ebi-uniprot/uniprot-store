@@ -39,8 +39,8 @@ class DatabasesTest {
 	}
 	@Test
 	void testField() {
-		assertTrue(instance.getField("dr:embl").isPresent());
-		assertTrue(instance.getField("dr:ensembl").isPresent());
+		assertTrue(instance.getField("dr_embl").isPresent());
+		assertTrue(instance.getField("dr_ensembl").isPresent());
 		assertFalse(instance.getField("embl").isPresent());
 	}
 
