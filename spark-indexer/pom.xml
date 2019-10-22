@@ -7,15 +7,23 @@
         <groupId>org.uniprot</groupId>
         <version>1.0-SNAPSHOT</version>
     </parent>
+    <properties>
+        <ojdbc.version>11.2.0.4</ojdbc.version>
+    </properties>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>spark-indexer</artifactId>
 
     <dependencies>
         <dependency>
+            <groupId>org.scala-lang</groupId>
+            <artifactId>scala-library</artifactId>
+            <version>2.12.8</version>
+        </dependency>
+        <dependency>
             <groupId>org.apache.spark</groupId>
             <artifactId>spark-sql_2.12</artifactId>
-            <version>2.4.4</version>
+            <version>2.4.2</version>
         </dependency>
         <dependency>
             <groupId>com.databricks</groupId>
@@ -26,13 +34,23 @@
         <dependency>
             <groupId>org.apache.spark</groupId>
             <artifactId>spark-core_2.12</artifactId>
-            <version>2.4.4</version>
+            <version>2.4.2</version>
             <exclusions>
                 <exclusion>
                     <groupId>org.slf4j</groupId>
                     <artifactId>slf4j-log4j12</artifactId>
                 </exclusion>
             </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.spark</groupId>
+            <artifactId>spark-graphx_2.12</artifactId>
+            <version>2.4.2</version>
+        </dependency>
+        <dependency>
+            <groupId>com.oracle</groupId>
+            <artifactId>ojdbc6</artifactId>
+            <version>${ojdbc.version}</version>
         </dependency>
         <dependency>
             <groupId>org.uniprot</groupId>
@@ -63,6 +81,11 @@
             <groupId>com.lucidworks.spark</groupId>
             <artifactId>spark-solr</artifactId>
             <version>3.6.6</version>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <optional>true</optional>
         </dependency>
     </dependencies>
 
