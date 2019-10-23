@@ -2,13 +2,12 @@ package indexer.uniref;
 
 import org.apache.spark.api.java.function.MapFunction;
 import org.apache.spark.sql.Row;
+import org.apache.spark.sql.types.DataTypes;
+import org.apache.spark.sql.types.StructType;
 import org.uniprot.core.impl.SequenceImpl;
 import org.uniprot.core.uniparc.impl.UniParcIdImpl;
 import org.uniprot.core.uniprot.impl.UniProtAccessionImpl;
-import org.uniprot.core.uniref.RepresentativeMember;
-import org.uniprot.core.uniref.UniRefEntry;
-import org.uniprot.core.uniref.UniRefMember;
-import org.uniprot.core.uniref.UniRefMemberIdType;
+import org.uniprot.core.uniref.*;
 import org.uniprot.core.uniref.builder.RepresentativeMemberBuilder;
 import org.uniprot.core.uniref.builder.UniRefEntryBuilder;
 import org.uniprot.core.uniref.builder.UniRefMemberBuilder;
@@ -24,6 +23,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static indexer.util.RowUtils.hasFieldName;
+
 /**
  * @author lgonzales
  * @since 2019-10-01
@@ -31,10 +32,16 @@ import java.util.Map;
 public class DatasetUnirefEntryConverter implements MapFunction<Row, UniRefEntry>, Serializable {
 
     private static final long serialVersionUID = -526130623950089875L;
+    private final UniRefType uniRefType;
+
+    public DatasetUnirefEntryConverter(UniRefType uniRefType) {
+        this.uniRefType = uniRefType;
+    }
 
     @Override
     public UniRefEntry call(Row rowValue) throws Exception {
         UniRefEntryBuilder builder = new UniRefEntryBuilder();
+        builder.entryType(uniRefType);
         builder.id(rowValue.getString(rowValue.fieldIndex("_id")));
         DateTimeFormatter formatter = new DateTimeFormatterBuilder().parseCaseInsensitive()
                 .append(DateTimeFormatter.ofPattern("yyyy-MM-dd")).toFormatter();
@@ -142,12 +149,47 @@ public class DatasetUnirefEntryConverter implements MapFunction<Row, UniRefEntry
         return propertyMap;
     }
 
-    private boolean hasFieldName(String fieldName, Row row) {
-        try {
-            return row.get(row.fieldIndex(fieldName)) != null;
-        } catch (IllegalArgumentException iae) {
-            return false;
-        }
+    public static StructType getUniRefXMLSchema() {
+        StructType structType = new StructType();
+        structType = structType.add("_id", DataTypes.StringType, true);
+        structType = structType.add("_updated", DataTypes.StringType, true);
+        structType = structType.add("member", DataTypes.createArrayType(getMemberSchema()), true);
+        structType = structType.add("name", DataTypes.StringType, true);
+        structType = structType.add("property", DataTypes.createArrayType(getPropertySchema()), true);
+
+        StructType representativeMember = getMemberSchema();
+        representativeMember = representativeMember.add("sequence", getSequenceSchema(), true);
+
+        structType = structType.add("representativeMember", representativeMember, true);
+        return structType;
+
+    }
+
+    private static StructType getMemberSchema() {
+        StructType dbReference = new StructType();
+        dbReference = dbReference.add("_id", DataTypes.StringType, true);
+        dbReference = dbReference.add("_type", DataTypes.StringType, true);
+        dbReference = dbReference.add("property", DataTypes.createArrayType(getPropertySchema()), true);
+
+        StructType member = new StructType();
+        member = member.add("dbReference", dbReference, true);
+        return member;
+    }
+
+    private static StructType getPropertySchema() {
+        StructType structType = new StructType();
+        structType = structType.add("_VALUE", DataTypes.StringType, true);
+        structType = structType.add("_type", DataTypes.StringType, true);
+        structType = structType.add("_value", DataTypes.StringType, true);
+        return structType;
+    }
+
+    private static StructType getSequenceSchema() {
+        StructType structType = new StructType();
+        structType = structType.add("_VALUE", DataTypes.StringType, true);
+        structType = structType.add("_checksum", DataTypes.StringType, true);
+        structType = structType.add("_length", DataTypes.LongType, true);
+        return structType;
     }
 
 }
