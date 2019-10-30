@@ -1,11 +1,11 @@
 package org.uniprot.store.search.field;
 
+import org.uniprot.store.search.field.validator.FieldValueValidator;
+
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
-
-import org.uniprot.store.search.field.validator.FieldValueValidator;
 
 public interface KeywordField {
 
