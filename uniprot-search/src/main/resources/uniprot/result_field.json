@@ -5,17 +5,17 @@
 			{
 				"label": "Entry",
 				"name": "accession",
-				"jsonPath" : "$.primaryAccession"
+				"jsonPath" : "primaryAccession"
 			},
 			{
 				"label": "Entry Name",
 				"name": "id",
-				"jsonPath" : "$.uniProtId"
+				"jsonPath" : "uniProtId"
 			},
 			{
 				"label": "Gene Names",
 				"name": "gene_names",
-				"jsonPath" : "$.genes"
+				"jsonPath" : "genes"
 			},
 			{
 				"label": "Gene Names (ordered locus)",
@@ -24,32 +24,32 @@
 			{
 				"label": "Gene Names (ORF)",
 				"name": "gene_orf",
-				"jsonPath" : "$.genes.*.orfNames.*.value"
+				"jsonPath" : "genes.*.orfNames.*.value"
 			},
 			{
 				"label": "Gene Names (primary)",
 				"name": "gene_primary",
-				"jsonPath" : "$.genes.*.geneName.value"
+				"jsonPath" : "genes.*.geneName.value"
 			},
 			{
 				"label": "Gene Names (synonym)",
 				"name": "gene_synonym",
-				"jsonPath" : "$.genes.*.synonyms.*.value"
+				"jsonPath" : "genes.*.synonyms.*.value"
 			},
 			{
 				"label": "Organism",
 				"name": "organism",
-				"jsonPath" : "$.organism"
+				"jsonPath" : "organism"
 			},
 			{
 				"label": "Organism (ID)",
 				"name": "organism_id",
-				"jsonPath" : "$.organism.taxonId"
+				"jsonPath" : "organism.taxonId"
 			},
 			{
 				"label": "Protein names",
 				"name": "protein_name",
-				"jsonPath" : "$.proteinDescription"
+				"jsonPath" : "proteinDescription"
 			},
 			{
 				"label": "Proteomes",
@@ -58,7 +58,7 @@
 			{
 				"label": "Taxonomic lineage",
 				"name": "lineage",
-				"jsonPath" : "$.organism.lineage.*"
+				"jsonPath" : "organism.lineage.*"
 			},
 			{
 				"label": "Virus hosts",
@@ -389,7 +389,7 @@
 			{
 				"label": "Chain",
 				"name": "ft_chain",
-				"jsonPath" : "$.features[?(@.type==\"chain\")]"
+				"jsonPath" : "features[?(@.type==\"chain\")]"
 			},
 			{
 				"label": "Cross-link",

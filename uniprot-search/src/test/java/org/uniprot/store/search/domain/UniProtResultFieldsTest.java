@@ -1,16 +1,12 @@
 package org.uniprot.store.search.domain;
 
+import com.google.common.base.Strings;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import org.uniprot.store.search.domain.Field;
-import org.uniprot.store.search.domain.FieldGroup;
 import org.uniprot.store.search.domain.impl.FieldGroupImpl;
 import org.uniprot.store.search.domain.impl.FieldImpl;
 import org.uniprot.store.search.domain.impl.UniProtResultFields;
 
-import com.google.common.base.Strings;
-
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -115,10 +111,19 @@ class UniProtResultFieldsTest {
 	@Test
 	void allFields() {
 		List<FieldGroup> groups = instance.getResultFields();
-		groups.stream().flatMap(val -> val.getFields().stream()).map(val -> val.getName()).distinct()
-				.filter(val -> !val.startsWith("ft_")).filter(val -> !val.startsWith("cc_"))
-				.filter(val -> !val.startsWith("dr_")).filter(val -> !Strings.isNullOrEmpty(val))
-				.forEach(System.out::println);
+		List<Field> collect = groups.stream()
+				.flatMap(val -> val.getFields().stream())
+				.collect(Collectors.toList());
+
+		groups.stream()
+				.flatMap(val -> val.getFields().stream())
+				.map(Field::getName)
+				.distinct()
+				.filter(val -> !val.startsWith("ft_"))
+				.filter(val -> !val.startsWith("cc_"))
+				.filter(val -> !val.startsWith("dr_"))
+				.filter(val -> !Strings.isNullOrEmpty(val))
+                .forEach(System.out::println);
 	}
 
 	@Test
