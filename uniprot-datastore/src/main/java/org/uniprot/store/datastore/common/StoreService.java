@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * Base service for a any data source/store
+ * Base service for any data source/store
  * @param <T>
  */
 public interface StoreService<T> {
