@@ -1,4 +1,4 @@
-package indexer.go;
+package indexer.go.evidence;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;

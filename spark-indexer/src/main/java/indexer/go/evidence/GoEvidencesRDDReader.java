@@ -1,11 +1,13 @@
-package indexer.go;
+package indexer.go.evidence;
 
+import indexer.uniprot.UniprotRDDTupleReader;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.spark.SparkConf;
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaSparkContext;
 import org.apache.spark.api.java.function.PairFunction;
 import org.apache.spark.sql.SparkSession;
+import org.uniprot.core.uniprot.UniProtEntry;
 import org.uniprot.core.uniprot.evidence.Evidence;
 import org.uniprot.core.uniprot.evidence.impl.EvidenceHelper;
 import scala.Tuple2;
@@ -61,16 +63,21 @@ public class GoEvidencesRDDReader {
         System.out.println("******************* STARTING GO EVIDENCES LOAD *************************");
         JavaSparkContext sc = new JavaSparkContext(conf);
 
+        JavaPairRDD<String, UniProtEntry> uniProtEntryRDD = UniprotRDDTupleReader.read(sc, applicationConfig, sc.hadoopConfiguration());
         JavaPairRDD<String, Iterable<GoEvidence>> goEvidencesDataset = GoEvidencesRDDReader.readGoEvidences(conf, applicationConfig);
 
-        System.out.println("GO EVIDENCES COUNT" + goEvidencesDataset.count());
+        uniProtEntryRDD = (JavaPairRDD<String, UniProtEntry>) uniProtEntryRDD
+                .leftOuterJoin(goEvidencesDataset)
+                .mapValues(new GoEvidenceMapper());
 
-        goEvidencesDataset.take(100).forEach(tuple -> {
+        System.out.println("GO EVIDENCES COUNT" + uniProtEntryRDD.count());
+
+/*        uniProtEntryRDD.take(100).forEach(tuple -> {
             System.out.println("ACCESSION ID: " + tuple._1());
 
             Iterable<GoEvidence> item = tuple._2();
             item.forEach(System.out::println);
-        });
+        });*/
         sc.close();
 
         System.out.println("******************* END GO EVIDENCES LOAD *************************");

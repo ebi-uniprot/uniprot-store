@@ -1,4 +1,4 @@
-package indexer.go;
+package indexer.go.evidence;
 
 import org.apache.spark.api.java.Optional;
 import org.apache.spark.api.java.function.Function;
@@ -27,8 +27,7 @@ public class GoEvidenceMapper implements Function<Tuple2<UniProtEntry, Optional<
     public UniProtEntry call(Tuple2<UniProtEntry, Optional<Iterable<GoEvidence>>> tuple) throws Exception {
         UniProtEntryBuilder.ActiveEntryBuilder entry = new UniProtEntryBuilder().from(tuple._1);
         if (tuple._2.isPresent()) {
-            List<GoEvidence> goEvidences = (List<GoEvidence>) tuple._2.get();
-            Map<String, List<Evidence>> goEvidenceMap = getGoEvidenceMap(goEvidences);
+            Map<String, List<Evidence>> goEvidenceMap = getGoEvidenceMap(tuple._2.get());
 
             List<UniProtDBCrossReference> xrefs = tuple._1.getDatabaseCrossReferences().stream().map(xref -> {
                 if (xref.getDatabaseType().getName().equals("GO")) {
@@ -58,7 +57,7 @@ public class GoEvidenceMapper implements Function<Tuple2<UniProtEntry, Optional<
         }
     }
 
-    private Map<String, List<Evidence>> getGoEvidenceMap(List<GoEvidence> goEvidences) {
+    private Map<String, List<Evidence>> getGoEvidenceMap(Iterable<GoEvidence> goEvidences) {
         Map<String, List<Evidence>> goEvidenceMap = new HashMap<>();
 
         goEvidences.forEach(goEvidence -> {
