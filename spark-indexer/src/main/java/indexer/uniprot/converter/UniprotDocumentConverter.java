@@ -68,8 +68,6 @@ public class UniprotDocumentConverter {
         public UniProtEntryToSolrDocumentConverter(GoRelations goRelations, Map<String, UniPathway> pathway) {
             this.goRelations = goRelations;
             this.pathway = pathway;
-            log.info("LOADED SUPORTING DATA UniPathway: " + pathway.size());
-            log.info("LOADED SUPORTING DATA Go Relations: " + (goRelations != null));
         }
 
         @Override

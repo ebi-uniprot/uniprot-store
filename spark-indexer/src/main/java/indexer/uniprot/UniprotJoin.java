@@ -6,6 +6,7 @@ import indexer.uniref.MappedUniRef;
 import indexer.uniref.UniRefMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.spark.api.java.JavaPairRDD;
+import org.apache.spark.api.java.JavaSparkContext;
 import org.uniprot.core.taxonomy.TaxonomyEntry;
 import org.uniprot.core.uniprot.UniProtEntry;
 import org.uniprot.core.util.Utils;
@@ -21,31 +22,44 @@ import java.util.*;
 @Slf4j
 public class UniprotJoin {
 
+
     public static JavaPairRDD<String, UniProtDocument> joinTaxonomy(
             JavaPairRDD<String, UniProtDocument> uniProtDocumentRDD,
-            JavaPairRDD<String, TaxonomyEntry> taxonomyEntryJavaPairRDD) {
+            JavaPairRDD<String, TaxonomyEntry> taxonomyEntryJavaPairRDD,
+            ResourceBundle applicationConfig, JavaSparkContext sparkContext) {
 
         // JavaPairRDD<taxId,accession>
-        JavaPairRDD<String, String> taxonomyMapRDD = (JavaPairRDD<String, String>) uniProtDocumentRDD
-                .flatMapToPair(tuple2 -> {
-                    String accession = tuple2._1;
-                    UniProtDocument doc = tuple2._2;
-                    List<Tuple2<String, String>> organisms = new ArrayList<>();
-                    organisms.add(new Tuple2<>(String.valueOf(doc.organismTaxId), accession));
+        String filePath = applicationConfig.getString("uniprot.flat.file");
+        sparkContext.hadoopConfiguration().set("textinputformat.record.delimiter", "\n//\n");
+        JavaPairRDD<String, String> taxonomyMapRDD = (JavaPairRDD<String, String>) sparkContext.textFile(filePath)
+                .flatMapToPair(entryStr -> {
+                    String[] lines = entryStr.split("\n");
+                    List<Tuple2<String, String>> organismTuple = new ArrayList<>();
+                    String accession = lines[1].substring(2, lines[1].indexOf(";")).trim();
 
-                    doc.organismHostIds.stream()
-                            .map(organismHost -> {
-                                return new Tuple2<String, String>(String.valueOf(organismHost), accession);
-                            }).forEach(organisms::add);
+                    Arrays.stream(entryStr.split("\n"))
+                            .filter(line -> line.startsWith("OX  ") || line.startsWith("OH   "))
+                            .map(line -> {
+                                String organismId = line.substring(line.indexOf("NCBI_TaxID=") + 11);
+                                if (organismId.indexOf(";") > 0) {
+                                    organismId = organismId.substring(0, organismId.indexOf(";"));
+                                }
+                                if (organismId.indexOf(" ") > 0) {
+                                    organismId = organismId.substring(0, organismId.indexOf(" "));
+                                }
+                                return new Tuple2<String, String>(organismId, accession);
+                            })
+                            .forEach(organismTuple::add);
 
-                    return (Iterator<Tuple2<String, String>>) organisms.iterator();
+                    return (Iterator<Tuple2<String, String>>) organismTuple.iterator();
                 });
 
         // JavaPairRDD<accession, Iterable<taxonomy>>
         JavaPairRDD<String, Iterable<TaxonomyEntry>> joinedRDD = (JavaPairRDD<String, Iterable<TaxonomyEntry>>)
                 taxonomyMapRDD.join(taxonomyEntryJavaPairRDD)
-                        .mapValues(tuple -> tuple._2)
-                        .groupByKey();
+                        .mapToPair(tuple -> tuple._2)
+                        .groupByKey()
+                        .repartition(500);
 
         return (JavaPairRDD<String, UniProtDocument>) uniProtDocumentRDD.leftOuterJoin(joinedRDD)
                 .mapValues(tuple -> {

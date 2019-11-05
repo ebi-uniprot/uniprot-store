@@ -24,6 +24,59 @@ import java.util.ResourceBundle;
  * @since 2019-10-16
  */
 public class SparkRDDDriverProgram {
+/*
+    public static void main(String[] args) {
+        ResourceBundle applicationConfig = loadApplicationProperty();
+
+        SparkConf sparkConf = new SparkConf().setAppName(applicationConfig.getString("spark.application.name"))
+                .setMaster(applicationConfig.getString("spark.master"));//.set("spark.driver.host", "localhost");
+        JavaSparkContext sparkContext = new JavaSparkContext(sparkConf);
+
+        JavaPairRDD<String, TaxonomyEntry> taxonomyEntryJavaPairRDD = TaxonomyRDDReader.readTaxonomyNodeWithLineage(sparkContext, applicationConfig);
+
+        String filePath = applicationConfig.getString("uniprot.flat.file");
+        sparkContext.hadoopConfiguration().set("textinputformat.record.delimiter", "\n//\n");
+        JavaPairRDD<String, String> taxonomyMapRDD = (JavaPairRDD<String, String>) sparkContext.textFile(filePath)
+                .flatMapToPair(entryStr -> {
+                    String[] lines = entryStr.split("\n");
+                    List<Tuple2<String,String>> organismTuple = new ArrayList<>();
+                    String accession= lines[1].substring(2,lines[1].indexOf(";")).trim();
+
+                    Arrays.stream(entryStr.split("\n"))
+                            .filter(line -> line.startsWith("OX  ") || line.startsWith("OH   "))
+                            .map(line -> {
+                                String organismId = line.substring(line.indexOf("NCBI_TaxID=")+11);
+                                if(organismId.indexOf(";") > 0 ){
+                                    organismId = organismId.substring(0,organismId.indexOf(";"));
+                                }
+                                if (organismId.indexOf(" ") > 0 ){
+                                    organismId = organismId.substring(0,organismId.indexOf(" "));
+                                }
+                                return new Tuple2<String,String>(organismId, accession);
+                            })
+                            .forEach(organismTuple::add);
+
+                    return (Iterator<Tuple2<String, String>>) organismTuple.iterator();
+                });
+
+        // (JavaPairRDD<String, Iterable<TaxonomyEntry>>)
+        JavaPairRDD<String, Iterable<TaxonomyEntry>> joinedRDD = (JavaPairRDD<String, Iterable<TaxonomyEntry>>)
+                taxonomyMapRDD.join(taxonomyEntryJavaPairRDD)
+                .mapToPair(tuple -> tuple._2)
+                .groupByKey();
+
+
+        System.out.println("JOINED UNIPROT WITH TAXONOMY COUNT: " + joinedRDD.count());
+        joinedRDD.take(200).forEach(tuple -> {
+            System.out.println("1 ID: " + tuple._1());
+            tuple._2.forEach(taxonomyEntry -> {
+               System.out.println("2 TAXON ID: "+taxonomyEntry.getTaxonId());
+            });
+            System.out.println("----------------------------");
+        });
+        sparkContext.close();
+    }
+*/
 
     public static void main(String[] args) throws Exception {
         ResourceBundle applicationConfig = loadApplicationProperty();
@@ -42,7 +95,8 @@ public class SparkRDDDriverProgram {
 
 
         JavaPairRDD<String, TaxonomyEntry> taxonomyEntryJavaPairRDD = TaxonomyRDDReader.readTaxonomyNodeWithLineage(sparkContext, applicationConfig);
-        uniProtDocumentRDD = UniprotJoin.joinTaxonomy(uniProtDocumentRDD, taxonomyEntryJavaPairRDD);
+        uniProtDocumentRDD = UniprotJoin.joinTaxonomy(uniProtDocumentRDD, taxonomyEntryJavaPairRDD, applicationConfig, sparkContext);
+
 
 /*        JavaPairRDD<String, MappedUniRef> uniref50EntryRDD = UniRefRDDTupleReader.read50(sparkConf, applicationConfig);
         uniProtDocumentRDD = UniprotJoin.joinUniRef(uniProtDocumentRDD,uniref50EntryRDD);
@@ -62,12 +116,14 @@ public class SparkRDDDriverProgram {
 
             UniProtDocument document = tuple._2();
             System.out.println("DOCUMENT ACCESSION: " + document.accession);
+
 /*            System.out.println("DOCUMENT 50: " + document.unirefCluster50);
             System.out.println("DOCUMENT 90: " + document.unirefCluster90);
             System.out.println("DOCUMENT 100: " + document.unirefCluster100);
             System.out.println("DOCUMENT GO IDS: " + document.goIds.size());
             System.out.println("DOCUMENT PATHWAY IDS: " + document.pathway.size());
             System.out.println("DOCUMENT KEYWORD IDS: " + document.keywords.size());*/
+
             System.out.println("DOCUMENT ORGANISM IDS: " + document.organismTaxId);
             System.out.println("DOCUMENT LINEAGE IDS: " + document.taxLineageIds.size());
             System.out.println("DOCUMENT LINEAGE NAMES: " + document.organismTaxon.size());
