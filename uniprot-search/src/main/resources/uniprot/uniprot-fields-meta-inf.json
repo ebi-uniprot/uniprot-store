@@ -68,7 +68,7 @@
     "searchInfo": {
       "id": "id_host",
       "label": "Virus host",
-      "term": "host",
+      "term": "host // needed?",
       "dataType": "string",
       "autoComplete": "/uniprot/api/suggester?dict=host&query=?",
       "description": "Search by virus host",
@@ -80,6 +80,51 @@
         "groupName": "Names & Taxonomy",
         "label": "Virus hosts",
         "name": "organism_host",
+        "paths": [
+          "organismHosts[*].scientificName"
+        ]
+      }
+    ]
+  },
+  {
+    "searchEngineField": "existence",
+    "searchInfo": [
+      {
+        "id": "id_existence",
+        "label": "Protein Existence [PE]",
+        "term": "existence // needed?",
+        "dataType": "enum",
+        "description": "Search by protein existence",
+        "values": [
+          {
+            "name": "Evidence at protein level",
+            "value": "protein_level"
+          },
+          {
+            "name": "Evidence at transcript level",
+            "value": "transcript_level"
+          },
+          {
+            "name": "Inferred from homology",
+            "value": "homology"
+          },
+          {
+            "name": "Predicted",
+            "value": "predicted"
+          },
+          {
+            "name": "Uncertain",
+            "value": "uncertain"
+          }
+        ],
+        "example": "1"
+      }
+    ]             ,
+    "resultInfo": [
+      {
+        "groupName": "Miscellaneous",
+        "label": "Protein existence",
+        "name": "protein_existence",
         "paths": [
           "organismHosts[*].scientificName"
         ]
