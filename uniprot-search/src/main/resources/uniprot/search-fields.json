@@ -9,9 +9,731 @@
   },
   "searchFields": [
     {
-      "searchEngineField": "accession",
-      "regex" : "([O,P,Q][0-9][A-Z|0-9]{3}[0-9]|[A-N,R-Z]([0-9][A-Z][A-Z|0-9]{2}){1,2}[0-9])(-\\d+)*",
-      "fieldType" : "TERM",
+      "term": "annotation_score",
+      "sort": "annotation_score"
+    },
+    {
+      "term": "accession_id",
+      "fieldType": "TERM",
+      "validRegex": "([O,P,Q][0-9][A-Z|0-9]{3}[0-9]|[A-N,R-Z]([0-9][A-Z][A-Z|0-9]{2}){1,2}[0-9])(-\\d+)*"
+    },
+    {
+      "term": "mnemonic_default",
+      "fieldType": "TERM"
+    },
+    {
+      "term": "reviewed",
+      "fieldType": "TERM",
+      "validRegex": "^true|false$"
+    },
+    {
+      "term": "name",
+      "fieldType": "TERM"
+    },
+    {
+      "term": "sec_acc",
+      "fieldType": "TERM"
+    },
+    {
+      "term": "content",
+      "fieldType": "TERM"
+    },
+    {
+      "term": "keyword",
+      "fieldType": "TERM"
+    },
+    {
+      "term": "ec",
+      "fieldType": "TERM"
+    },
+    {
+      "term": "ec_exact",
+      "fieldType": "TERM"
+    },
+    {
+      "term": "protgene_default",
+      "fieldType": "TERM"
+    },
+    {
+      "term": "gene",
+      "fieldType": "TERM"
+    },
+    {
+      "term": "gene_exact",
+      "fieldType": "TERM"
+    },
+    {
+      "term": "organism_name",
+      "fieldType": "TERM"
+    },
+    {
+      "term": "organism_id",
+      "fieldType": "TERM",
+      "validRegex": "^[0-9]+$"
+    },
+    {
+      "term": "host_name",
+      "fieldType": "TERM"
+    },
+    {
+      "term": "host_id",
+      "fieldType": "TERM",
+      "validRegex": "^[0-9]+$"
+    },
+    {
+      "term": "taxonomy_name",
+      "fieldType": "TERM"
+    },
+    {
+      "term": "taxonomy_id",
+      "fieldType": "TERM",
+      "validRegex": "^[0-9]+$"
+    },
+    {
+      "term": "popular_organism",
+      "fieldType": "TERM"
+    },
+    {
+      "term": "other_organism",
+      "fieldType": "TERM"
+    },
+    {
+      "term": "organelle",
+      "fieldType": "TERM"
+    },
+    {
+      "term": "modified",
+      "fieldType": "RANGE"
+    },
+    {
+      "term": "created",
+      "fieldType": "RANGE"
+    },
+    {
+      "term": "sequence_modified",
+      "fieldType": "RANGE"
+    },
+    {
+      "term": "lit_pubdate",
+      "fieldType": "RANGE"
+    },
+    {
+      "term": "source",
+      "fieldType": "TERM"
+    },
+    {
+      "term": "xref",
+      "fieldType": "TERM"
+    },
+    {
+      "term": "database",
+      "fieldType": "TERM"
+    },
+    {
+      "term": "lit_author",
+      "fieldType": "TERM"
+    },
+    {
+      "term": "lit_organisation",
+      "fieldType": "TERM"
+    },
+    {
+      "term": "lit_title",
+      "fieldType": "TERM"
+    },
+    {
+      "term": "lit_pubmed",
+      "fieldType": "TERM"
+    },
+    {
+      "term": "lit_journal",
+      "fieldType": "TERM"
+    },
+    {
+      "term": "fragment",
+      "fieldType": "TERM"
+    },
+    {
+      "term": "existence",
+      "fieldType": "TERM"
+    },
+    {
+      "term": "is_isoform",
+      "fieldType": "TERM",
+      "validRegex": "^true|false$"
+    },
+    {
+      "term": "length",
+      "fieldType": "RANGE"
+    },
+    {
+      "term": "mass",
+      "fieldType": "RANGE"
+    },
+    {
+      "term": "precursor",
+      "fieldType": "TERM"
+    },
+    {
+      "term": "active",
+      "fieldType": "TERM",
+      "validRegex": "^true|false$"
+    },
+    {
+      "term": "d3structure",
+      "fieldType": "TERM",
+      "validRegex": "^true|false$"
+    },
+    {
+      "term": "tissue",
+      "fieldType": "TERM"
+    },
+    {
+      "term": "strain",
+      "fieldType": "TERM"
+    },
+    {
+      "term": "plasmid",
+      "fieldType": "TERM"
+    },
+    {
+      "term": "transposon",
+      "fieldType": "TERM"
+    },
+    {
+      "term": "scope",
+      "fieldType": "TERM"
+    },
+    {
+      "term": "cc_scl_term",
+      "fieldType": "TERM"
+    },
+    {
+      "term": "cc_scl_note",
+      "fieldType": "TERM"
+    },
+    {
+      "term": "ccev_scl_term",
+      "fieldType": "TERM"
+    },
+    {
+      "term": "ccev_scl_note",
+      "fieldType": "TERM"
+    },
+    {
+      "term": "cc_ap",
+      "fieldType": "TERM"
+    },
+    {
+      "term": "cc_ap_apu",
+      "fieldType": "TERM"
+    },
+    {
+      "term": "cc_ap_as",
+      "fieldType": "TERM"
+    },
+    {
+      "term": "cc_ap_ai",
+      "fieldType": "TERM"
+    },
+    {
+      "term": "cc_ap_rf",
+      "fieldType": "TERM"
+    },
+    {
+      "term": "ccev_ap",
+      "fieldType": "TERM"
+    },
+    {
+      "term": "ccev_ap_apu",
+      "fieldType": "TERM"
+    },
+    {
+      "term": "ccev_ap_as",
+      "fieldType": "TERM"
+    },
+    {
+      "term": "ccev_ap_ai",
+      "fieldType": "TERM"
+    },
+    {
+      "term": "ccev_ap_rf",
+      "fieldType": "TERM"
+    },
+    {
+      "term": "cc_bpcp",
+      "fieldType": "TERM"
+    },
+    {
+      "term": "cc_bpcp_absorption",
+      "fieldType": "TERM"
+    },
+    {
+      "term": "cc_bpcp_kinetics",
+      "fieldType": "TERM"
+    },
+    {
+      "term": "cc_bpcp_ph_dependence",
+      "fieldType": "TERM"
+    },
+    {
+      "term": "cc_bpcp_redox_potential",
+      "fieldType": "TERM"
+    },
+    {
+      "term": "cc_bpcp_temp_dependence",
+      "fieldType": "TERM"
+    },
+    {
+      "term": "ccev_bpcp",
+      "fieldType": "TERM"
+    },
+    {
+      "term": "ccev_bpcp_absorption",
+      "fieldType": "TERM"
+    },
+    {
+      "term": "ccev_bpcp_kinetics",
+      "fieldType": "TERM"
+    },
+    {
+      "term": "ccev_bpcp_ph_dependence",
+      "fieldType": "TERM"
+    },
+    {
+      "term": "ccev_bpcp_redox_potential",
+      "fieldType": "TERM"
+    },
+    {
+      "term": "ccev_bpcp_temp_dependence",
+      "fieldType": "TERM"
+    },
+    {
+      "term": "cc_cofactor_chebi",
+      "fieldType": "TERM"
+    },
+    {
+      "term": "cc_cofactor_note",
+      "fieldType": "TERM"
+    },
+    {
+      "term": "ccev_cofactor_chebi",
+      "fieldType": "TERM"
+    },
+    {
+      "term": "ccev_cofactor_note",
+      "fieldType": "TERM"
+    },
+    {
+      "term": "cc_sc",
+      "fieldType": "TERM"
+    },
+    {
+      "term": "cc_sc_framesh",
+      "fieldType": "TERM"
+    },
+    {
+      "term": "cc_sc_einit",
+      "fieldType": "TERM"
+    },
+    {
+      "term": "cc_sc_eterm",
+      "fieldType": "TERM"
+    },
+    {
+      "term": "cc_sc_epred",
+      "fieldType": "TERM"
+    },
+    {
+      "term": "cc_sc_etran",
+      "fieldType": "TERM"
+    },
+    {
+      "term": "cc_sc_misc",
+      "fieldType": "TERM"
+    },
+    {
+      "term": "ccev_sc",
+      "fieldType": "TERM"
+    },
+    {
+      "term": "ccev_sc_misc",
+      "fieldType": "TERM"
+    },
+    {
+      "term": "cc_function",
+      "fieldType": "TERM"
+    },
+    {
+      "term": "ccev_function",
+      "fieldType": "TERM"
+    },
+    {
+      "term": "cc_catalytic_activity",
+      "fieldType": "TERM"
+    },
+    {
+      "term": "ccev_catalytic_activity",
+      "fieldType": "TERM"
+    },
+    {
+      "term": "cc_cofactor",
+      "fieldType": "TERM"
+    },
+    {
+      "term": "ccev_cofactor",
+      "fieldType": "TERM"
+    },
+    {
+      "term": "cc_activity_regulation",
+      "fieldType": "TERM"
+    },
+    {
+      "term": "ccev_activity_regulation",
+      "fieldType": "TERM"
+    },
+    {
+      "term": "cc_biophysicochemical_properties",
+      "fieldType": "TERM"
+    },
+    {
+      "term": "ccev_biophysicochemical_properties",
+      "fieldType": "TERM"
+    },
+    {
+      "term": "cc_pathway",
+      "fieldType": "TERM"
+    },
+    {
+      "term": "ccev_pathway",
+      "fieldType": "TERM"
+    },
+    {
+      "term": "cc_subunit",
+      "fieldType": "TERM"
+    },
+    {
+      "term": "ccev_subunit",
+      "fieldType": "TERM"
+    },
+    {
+      "term": "cc_interaction",
+      "fieldType": "TERM"
+    },
+    {
+      "term": "ccev_interaction",
+      "fieldType": "TERM"
+    },
+    {
+      "term": "cc_subcellular_location",
+      "fieldType": "TERM"
+    },
+    {
+      "term": "ccev_subcellular_location",
+      "fieldType": "TERM"
+    },
+    {
+      "term": "cc_alternative_products",
+      "fieldType": "TERM"
+    },
+    {
+      "term": "ccev_alternative_products",
+      "fieldType": "TERM"
+    },
+    {
+      "term": "cc_tissue_specificity",
+      "fieldType": "TERM"
+    },
+    {
+      "term": "ccev_tissue_specificity",
+      "fieldType": "TERM"
+    },
+    {
+      "term": "cc_developmental_stage",
+      "fieldType": "TERM"
+    },
+    {
+      "term": "ccev_developmental_stage",
+      "fieldType": "TERM"
+    },
+    {
+      "term": "cc_induction",
+      "fieldType": "TERM"
+    },
+    {
+      "term": "ccev_induction",
+      "fieldType": "TERM"
+    },
+    {
+      "term": "cc_domain",
+      "fieldType": "TERM"
+    },
+    {
+      "term": "ccev_domain",
+      "fieldType": "TERM"
+    },
+    {
+      "term": "cc_ptm",
+      "fieldType": "TERM"
+    },
+    {
+      "term": "ccev_ptm",
+      "fieldType": "TERM"
+    },
+    {
+      "term": "cc_rna_editing",
+      "fieldType": "TERM"
+    },
+    {
+      "term": "ccev_rna_editing",
+      "fieldType": "TERM"
+    },
+    {
+      "term": "cc_mass_spectrometry",
+      "fieldType": "TERM"
+    },
+    {
+      "term": "ccev_mass_spectrometry",
+      "fieldType": "TERM"
+    },
+    {
+      "term": "cc_polymorphism",
+      "fieldType": "TERM"
+    },
+    {
+      "term": "ccev_polymorphism",
+      "fieldType": "TERM"
+    },
+    {
+      "term": "cc_disease",
+      "fieldType": "TERM"
+    },
+    {
+      "term": "ccev_disease",
+      "fieldType": "TERM"
+    },
+    {
+      "term": "cc_disruption_phenotype",
+      "fieldType": "TERM"
+    },
+    {
+      "term": "ccev_disruption_phenotype",
+      "fieldType": "TERM"
+    },
+    {
+      "term": "cc_allergen",
+      "fieldType": "TERM"
+    },
+    {
+      "term": "ccev_allergen",
+      "fieldType": "TERM"
+    },
+    {
+      "term": "cc_toxic_dose",
+      "fieldType": "TERM"
+    },
+    {
+      "term": "ccev_toxic_dose",
+      "fieldType": "TERM"
+    },
+    {
+      "term": "cc_biotechnology",
+      "fieldType": "TERM"
+    },
+    {
+      "term": "ccev_biotechnology",
+      "fieldType": "TERM"
+    },
+    {
+      "term": "cc_pharmaceutical",
+      "fieldType": "TERM"
+    },
+    {
+      "term": "ccev_pharmaceutical",
+      "fieldType": "TERM"
+    },
+    {
+      "term": "cc_miscellaneous",
+      "fieldType": "TERM"
+    },
+    {
+      "term": "ccev_miscellaneous",
+      "fieldType": "TERM"
+    },
+    {
+      "term": "cc_similarity",
+      "fieldType": "TERM"
+    },
+    {
+      "term": "ccev_similarity",
+      "fieldType": "TERM"
+    },
+    {
+      "term": "cc_caution",
+      "fieldType": "TERM"
+    },
+    {
+      "term": "ccev_caution",
+      "fieldType": "TERM"
+    },
+    {
+      "term": "cc_sequence_caution",
+      "fieldType": "TERM"
+    },
+    {
+      "term": "ccev_sequence_caution",
+      "fieldType": "TERM"
+    },
+    {
+      "term": "cc_webresource",
+      "fieldType": "TERM"
+    },
+    {
+      "term": "ccev_webresource",
+      "fieldType": "TERM"
+    },
+    {
+      "term": "cc_unknown",
+      "fieldType": "TERM"
+    },
+    {
+      "term": "ccev_unknown",
+      "fieldType": "TERM"
+    },
+    {
+      "term": "interactor",
+      "fieldType": "TERM"
+    },
+    {
+      "term": "family",
+      "fieldType": "TERM"
+    },
+    {
+      "term": "proteome",
+      "fieldType": "TERM",
+      "validRegex" : "^UP[0-9]{9}$"
+    },
+    {
+      "term": "proteomecomponent",
+      "fieldType": "TERM"
+    },
+    {
+      "term": "go",
+      "fieldType": "TERM"
+    },
+    {
+      "term": "go_ida",
+      "fieldType": "TERM"
+    },
+    {
+      "term": "go_imp",
+      "fieldType": "TERM"
+    },
+    {
+      "term": "go_igi",
+      "fieldType": "TERM"
+    },
+    {
+      "term": "go_ipi",
+      "fieldType": "TERM"
+    },
+    {
+      "term": "go_iep",
+      "fieldType": "TERM"
+    },
+    {
+      "term": "go_tas",
+      "fieldType": "TERM"
+    },
+    {
+      "term": "go_nas",
+      "fieldType": "TERM"
+    },
+    {
+      "term": "go_ic",
+      "fieldType": "TERM"
+    },
+    {
+      "term": "go_iss",
+      "fieldType": "TERM"
+    },
+    {
+      "term": "go_iea",
+      "fieldType": "TERM"
+    },
+    {
+      "term": "go_igc",
+      "fieldType": "TERM"
+    },
+    {
+      "term": "go_rca",
+      "fieldType": "TERM"
+    },
+    {
+      "term": "go_nd",
+      "fieldType": "TERM"
+    },
+    {
+      "term": "go_exp",
+      "fieldType": "TERM"
+    },
+    {
+      "term": "go_iba",
+      "fieldType": "TERM"
+    },
+    {
+      "term": "go_ibd",
+      "fieldType": "TERM"
+    },
+    {
+      "term": "go_ikr",
+      "fieldType": "TERM"
+    },
+    {
+      "term": "go_ird",
+      "fieldType": "TERM"
+    },
+    {
+      "term": "go_iso",
+      "fieldType": "TERM"
+    },
+    {
+      "term": "go_isa",
+      "fieldType": "TERM"
+    },
+    {
+      "term": "go_ism",
+      "fieldType": "TERM"
+    },
+    {
+      "term": "go_hda",
+      "fieldType": "TERM"
+    },
+    {
+      "term": "go_hmp",
+      "fieldType": "TERM"
+    },
+    {
+      "term": "go_hgi",
+      "fieldType": "TERM"
+    },
+    {
+      "term": "go_hep",
+      "fieldType": "TERM"
+    },
+    {
+      "term": "go_htp",
+      "fieldType": "TERM"
+    },
+    {
+      "term": "go_unknown",
+      "fieldType": "TERM"
+    },
+    {
+      "term": "accession",
+      "sort": "accession_id",
+      "validRegex": "([O,P,Q][0-9][A-Z|0-9]{3}[0-9]|[A-N,R-Z]([0-9][A-Z][A-Z|0-9]{2}){1,2}[0-9])(-\\d+)*",
+      "fieldType": "TERM",
       "id": "id_accession",
       "label": "UniProtKB AC",
       "itemType": "single",
@@ -23,6 +745,7 @@
       "id": "id_mnemonic",
       "label": "Entry Name [ID]",
       "term": "mnemonic",
+      "sort": "mnemonic_sort",
       "dataType": "string",
       "description": "Search by UniProtKB entry name",
       "example": "P53_HUMAN"
@@ -31,6 +754,7 @@
       "id": "id_name",
       "label": "Protein Name [DE]",
       "term": "name",
+      "sort": "name_sort",
       "dataType": "string",
       "description": "Search by UniProtKB Protein name",
       "example": "mas5"
@@ -39,6 +763,7 @@
       "id": "id_gene",
       "label": "Gene Name [GN]",
       "term": "gene",
+      "sort": "gene_sort",
       "dataType": "string",
       "description": "Search by UniProtKB gene name",
       "example": "ydj1"
@@ -47,6 +772,7 @@
       "id": "id_organism",
       "label": "Organism [OS]",
       "term": "organism",
+      "sort": "organism_sort",
       "dataType": "string",
       "autoComplete": "/uniprot/api/suggester?dict=organism&query=?",
       "description": "Search by Organism name",
@@ -111,7 +837,7 @@
       "items": [
         {
           "id": "id_ec",
-          "label": "Function^^Enzyme classification [EC]",
+          "label": "Enzyme classification [EC]",
           "term": "ec",
           "dataType": "string",
           "autoComplete": "/uniprot/api/suggester?dict=ec&query=?",
@@ -125,7 +851,7 @@
           "items": [
             {
               "id": "id_cofactor_chebi",
-              "label": "Function^^Cofactors^^ChEBI term",
+              "label": "ChEBI term",
               "itemType": "comment",
               "term": "cofactor_chebi",
               "dataType": "string",
@@ -821,6 +1547,7 @@
           "id": "id_mass",
           "label": "Mass(Da)",
           "term": "mass",
+          "sort": "mass",
           "dataType": "integer",
           "hasRange": true,
           "description": "Search by Sequence mass",
@@ -830,6 +1557,7 @@
           "id": "id_length",
           "label": "Sequence length",
           "term": "length",
+          "sort": "length",
           "dataType": "integer",
           "hasRange": true,
           "description": "Search by Sequence length",
