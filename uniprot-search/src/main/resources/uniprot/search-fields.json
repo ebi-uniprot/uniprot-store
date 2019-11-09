@@ -611,7 +611,7 @@
     {
       "term": "proteome",
       "fieldType": "TERM",
-      "validRegex" : "^UP[0-9]{9}$"
+      "validRegex": "^UP[0-9]{9}$"
     },
     {
       "term": "proteomecomponent",
@@ -619,6 +619,14 @@
     },
     {
       "term": "go",
+      "fieldType": "TERM"
+    },
+    {
+      "term": "go_manual",
+      "fieldType": "TERM"
+    },
+    {
+      "term": "go_automatic",
       "fieldType": "TERM"
     },
     {
