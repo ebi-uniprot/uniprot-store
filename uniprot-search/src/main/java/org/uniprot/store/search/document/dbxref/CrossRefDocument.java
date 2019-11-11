@@ -1,7 +1,9 @@
 package org.uniprot.store.search.document.dbxref;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.apache.solr.client.solrj.beans.Field;
 import org.uniprot.store.search.document.Document;
 
@@ -9,6 +11,8 @@ import java.io.Serializable;
 
 @Builder
 @Getter
+@NoArgsConstructor
+@AllArgsConstructor
 public class CrossRefDocument implements Document {
     @Field
     private String accession;
