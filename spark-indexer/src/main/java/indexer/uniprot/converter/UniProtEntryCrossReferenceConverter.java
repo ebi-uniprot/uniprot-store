@@ -117,7 +117,7 @@ class UniProtEntryCrossReferenceConverter {
 
     private void addAncestors(String evType, String goTerm, UniProtDocument doc) {
         if (goRelations != null) {
-            Set<GoTerm> ancestors = goRelations.getAncestors(goTerm);
+            Set<GoTerm> ancestors = null;//goRelations.getAncestors(goTerm); //TODO: fix it
             if (ancestors != null)
                 ancestors.forEach(ancestor -> addGoterm(evType, ancestor.getId(), ancestor.getName(), doc));
         }
@@ -126,7 +126,7 @@ class UniProtEntryCrossReferenceConverter {
     private void addGoterm(String evType, String goId, String term, UniProtDocument document) {
         String key = GO + evType;
         Collection<String> values = document.goWithEvidenceMaps.computeIfAbsent(key, k -> new HashSet<>());
-        String idOnly = goId.substring(3);
+        String idOnly = goId.substring(3).trim();
         values.add(idOnly);
         values.add(term);
 

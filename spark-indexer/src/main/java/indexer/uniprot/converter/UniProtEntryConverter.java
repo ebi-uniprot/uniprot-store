@@ -5,7 +5,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.uniprot.core.DBCrossReference;
 import org.uniprot.core.Sequence;
 import org.uniprot.core.cv.keyword.KeywordCategory;
-import org.uniprot.core.cv.pathway.UniPathway;
 import org.uniprot.core.gene.Gene;
 import org.uniprot.core.scorer.uniprotkb.UniProtEntryScored;
 import org.uniprot.core.uniprot.*;
@@ -50,7 +49,7 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtEntry, Un
     private final UniprotEntryTaxonomyConverter taxonomyConverter;
     private final UniprotEntryProteinDescriptionConverter proteinDescriptionConverter;
 
-    public UniProtEntryConverter(GoRelations goRelations, Map<String, UniPathway> pathway) {
+    public UniProtEntryConverter(GoRelations goRelations, Map<String, String> pathway) {
         this.taxonomyConverter = new UniprotEntryTaxonomyConverter();
         this.crossReferenceConverter = new UniProtEntryCrossReferenceConverter(goRelations);
         this.commentsConverter = new UniProtEntryCommentsConverter(pathway);

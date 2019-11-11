@@ -1,6 +1,7 @@
 package indexer.go.relations;
 
 import java.io.Serializable;
+import java.util.Set;
 
 /**
  * @author lgonzales
@@ -11,5 +12,7 @@ public interface GoTerm extends Serializable, Comparable<GoTerm> {
     String getId();
 
     String getName();
+
+    Set<GoTerm> getAncestors();
 
 }

@@ -4,6 +4,7 @@ import indexer.uniprot.converter.SupportingDataMapHDSFImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.spark.api.java.JavaPairRDD;
+import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
 import org.apache.spark.api.java.function.PairFunction;
 import org.uniprot.core.flatfile.parser.SupportingDataMap;
@@ -36,7 +37,9 @@ public class UniprotRDDTupleReader {
         String filePath = applicationConfig.getString("uniprot.flat.file");
         PairFunction<String, String, UniProtEntry> mapper = new FlatFileMapper(supportingDataMap);
         jsc.hadoopConfiguration().set("textinputformat.record.delimiter", SPLITTER);
-        return (JavaPairRDD<String, UniProtEntry>) jsc.textFile(filePath)
+        JavaRDD<String> splittedFileRDD = jsc.textFile(filePath);
+        return (JavaPairRDD<String, UniProtEntry>) splittedFileRDD
+                .repartition(splittedFileRDD.getNumPartitions() * 2)
                 .map(e -> e + SPLITTER)
                 .mapToPair(mapper);
     }

@@ -22,42 +22,19 @@ public class GoRelations implements Serializable {
         goTerms = new LinkedList<>();
     }
 
-    public void addTerms(List<GoTerm> terms) {
+    LinkedList<GoTerm> getGoTerms() {
+        return goTerms;
+    }
+
+    void addTerms(List<GoTerm> terms) {
         goTerms.addAll(terms);
     }
 
-    public void addRelations(Map<String, Set<String>> goRelations) {
+    void addRelations(Map<String, Set<String>> goRelations) {
         this.goRelations.putAll(goRelations);
     }
 
-    public Set<GoTerm> getAncestors(String goTermId) {
-        GoTerm term = getGoTermById(goTermId);
-        Set<GoTerm> visited = new TreeSet<>();
-        Queue<String> queue = new LinkedList<>();
-        queue.add(term.getId());
-        visited.add(term);
-        while (!queue.isEmpty()) {
-            String vertex = queue.poll();
-            for (String relatedGoId : goRelations.getOrDefault(vertex, Collections.emptySet())) {
-                GoTerm relatedGoTerm = getGoTermById(relatedGoId);
-                if (!visited.contains(relatedGoTerm)) {
-                    visited.add(relatedGoTerm);
-                    queue.add(relatedGoId);
-                }
-            }
-        }
-        return visited;
-    }
 
-    private GoTerm getGoTermById(String goTermId) {
-        GoTerm goTerm = new GoTermFileReader.GoTermImpl(goTermId, null);
-        if (goTerms.contains(goTerm)) {
-            return goTerms.get(goTerms.indexOf(goTerm));
-        } else {
-            log.warn("GO TERM NOT FOUND FOR GO RELATION ID: " + goTermId);
-            return goTerm;
-        }
-    }
 
 
 }

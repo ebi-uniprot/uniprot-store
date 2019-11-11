@@ -2,7 +2,6 @@ package indexer.uniprot.converter;
 
 import org.uniprot.core.DBCrossReference;
 import org.uniprot.core.Value;
-import org.uniprot.core.cv.pathway.UniPathway;
 import org.uniprot.core.flatfile.parser.impl.cc.CCLineBuilderFactory;
 import org.uniprot.core.flatfile.writer.FFLineBuilder;
 import org.uniprot.core.uniprot.comment.*;
@@ -23,13 +22,13 @@ import java.util.stream.Collectors;
  */
 class UniProtEntryCommentsConverter implements Serializable {
 
-    private final Map<String, UniPathway> pathwayRepo;
+    private final Map<String, String> pathwayRepo;
     private static final String COMMENT = "cc_";
     private static final String CC_EV = "ccev_";
     private static final Pattern PATTERN_FAMILY = Pattern.compile(
             "(?:In the .+? section; )?[Bb]elongs to the (.+?family)\\.(?: (.+?family)\\.)?(?: (.+?family)\\.)?(?: Highly divergent\\.)?");
 
-    UniProtEntryCommentsConverter(Map<String, UniPathway> pathway) {
+    UniProtEntryCommentsConverter(Map<String, String> pathway) {
         this.pathwayRepo = pathway;
     }
 
@@ -367,9 +366,9 @@ class UniProtEntryCommentsConverter implements Serializable {
 
     private void updatePathway(String val, UniProtDocument document) {
         if (pathwayRepo != null) {
-            UniPathway unipathway = pathwayRepo.get(val);
-            if (unipathway != null) {
-                document.pathway.add(unipathway.getAccession());
+            String unipathwayAccession = pathwayRepo.get(val);
+            if (unipathwayAccession != null) {
+                document.pathway.add(unipathwayAccession);
             }
         }
     }
