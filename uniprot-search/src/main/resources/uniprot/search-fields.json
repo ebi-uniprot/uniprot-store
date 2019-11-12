@@ -92,9 +92,6 @@
       "term": "ccev_alternative_products"
     },
     {
-      "term": "ccev_polymorphism"
-    },
-    {
       "term": "cc_disease"
     },
     {
@@ -1105,7 +1102,7 @@
           "id": "id_polymorphism",
           "label": "Polymorphism",
           "term": "cc_polymorphism",
-          "evTerm": "cc_polymorphism",
+          "evTerm": "ccev_polymorphism",
           "dataType": "string",
           "description": "Search by Comment Polymorphism",
           "example": "transcript"
@@ -1446,8 +1443,7 @@
     {
       "id": "id_group_cross_references",
       "label": "Cross-references",
-      "itemType": "group",
-      "items": []
+      "itemType": "group"
     },
     {
       "id": "id_webresource",
