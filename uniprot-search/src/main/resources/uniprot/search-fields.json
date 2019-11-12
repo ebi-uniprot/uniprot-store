@@ -199,7 +199,7 @@
     {
       "term": "accession",
       "sortTerm": "accession_id",
-      "validRegex": "([O,P,Q][0-9][A-Z|0-9]{3}[0-9]|[A-N,R-Z]([0-9][A-Z][A-Z|0-9]{2}){1,2}[0-9])(-\\d+)*",
+      "termValidRegex": "([O,P,Q][0-9][A-Z|0-9]{3}[0-9]|[A-N,R-Z]([0-9][A-Z][A-Z|0-9]{2}){1,2}[0-9])(-\\d+)*",
       "id": "id_accession",
       "label": "UniProtKB AC",
       "itemType": "single",
@@ -1591,7 +1591,7 @@
       "id": "id_reviewed",
       "label": "Reviewed",
       "term": "reviewed",
-      "validRegex": "^true|false$",
+      "termValidRegex": "^true|false$",
       "dataType": "enum",
       "values": [
         {
