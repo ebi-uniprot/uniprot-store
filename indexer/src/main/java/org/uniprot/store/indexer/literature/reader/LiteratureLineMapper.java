@@ -95,7 +95,7 @@ public class LiteratureLineMapper extends DefaultLineMapper<LiteratureEntry> {
     }
 
     private LiteratureEntryBuilder parseRALine(LiteratureEntryBuilder builder, List<String> raLines) {
-        if (Utils.notEmpty(raLines)) {
+        if (Utils.notNullOrEmpty(raLines)) {
             String raLine = String.join("", raLines);
             raLine = raLine.substring(0, raLine.length() - 1);
             List<Author> authors = Arrays.stream(raLine.split(LINE_ITEM_SEPARATOR))
@@ -109,7 +109,7 @@ public class LiteratureLineMapper extends DefaultLineMapper<LiteratureEntry> {
     }
 
     private LiteratureEntryBuilder parseRTLine(LiteratureEntryBuilder builder, List<String> rtLines) {
-        if (Utils.notEmpty(rtLines)) {
+        if (Utils.notNullOrEmpty(rtLines)) {
             String rtLine = String.join(" ", rtLines);
             builder = builder.title(rtLine.substring(1, rtLine.length() - 2));
         }

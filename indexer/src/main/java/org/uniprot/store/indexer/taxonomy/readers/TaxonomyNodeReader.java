@@ -38,7 +38,7 @@ public class TaxonomyNodeReader implements RowMapper<TaxonomyEntry> {
         builder.mnemonic(resultSet.getString("TAX_CODE"));
         builder.parentId(resultSet.getLong("PARENT_ID"));
         String rank = resultSet.getString("RANK");
-        if (Utils.notEmpty(rank)) {
+        if (Utils.notNullOrEmpty(rank)) {
             try {
                 builder.rank(TaxonomyRank.valueOf(rank.toUpperCase()));
             } catch (IllegalArgumentException iae) {

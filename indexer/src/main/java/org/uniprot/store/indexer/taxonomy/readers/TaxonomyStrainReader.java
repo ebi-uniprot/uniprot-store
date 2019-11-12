@@ -28,7 +28,7 @@ public class TaxonomyStrainReader implements RowMapper<TaxonomyStrainReader.Stra
         scientific_name, synonym;
 
         static StrainNameClass fromQuery(String value) {
-            if (Utils.notEmpty(value)) {
+            if (Utils.notNullOrEmpty(value)) {
                 if (value.equals("scientific name")) {
                     return StrainNameClass.scientific_name;
                 } else if (value.equals("synonym")) {

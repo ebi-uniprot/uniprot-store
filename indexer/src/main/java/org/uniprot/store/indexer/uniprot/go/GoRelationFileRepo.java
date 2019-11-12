@@ -47,7 +47,7 @@ public class GoRelationFileRepo implements GoRelationRepo {
             relationshipsToUse = singletonList(IS_A);
         }
 
-        if (Utils.nonNull(fromGoTerm)) {
+        if (Utils.notNull(fromGoTerm)) {
             Set<GoTerm> ancestorsFound = new HashSet<>();
             addAncestors(singleton(fromGoTerm), ancestorsFound, relationshipsToUse);
             return ancestorsFound;
@@ -76,7 +76,7 @@ public class GoRelationFileRepo implements GoRelationRepo {
     }
 
     private Set<GoTerm> convert(Set<String> goIds, Map<String, GoTerm> gotermMap) {
-        return goIds.stream().map(gotermMap::get).filter(Utils::nonNull).collect(Collectors.toSet());
+        return goIds.stream().map(gotermMap::get).filter(Utils::notNull).collect(Collectors.toSet());
     }
 
     public enum Relationship {

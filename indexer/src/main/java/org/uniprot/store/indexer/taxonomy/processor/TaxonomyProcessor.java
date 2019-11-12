@@ -141,7 +141,7 @@ public class TaxonomyProcessor implements ItemProcessor<TaxonomyEntry, TaxonomyD
     private List<TaxonomyLineage> loadLineage(long taxonId) {
         List<List<TaxonomyLineage>> result = jdbcTemplate
                 .query(getTaxonomyLineageSQL(), new TaxonomyLineageReader(), taxonId);
-        if (Utils.notEmpty(result)) {
+        if (Utils.notNullOrEmpty(result)) {
             return result.get(0);
         }
         return null;

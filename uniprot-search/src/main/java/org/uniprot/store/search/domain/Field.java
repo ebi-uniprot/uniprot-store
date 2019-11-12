@@ -1,6 +1,8 @@
 package org.uniprot.store.search.domain;
 
-public interface Field {
+import org.uniprot.store.search.field.ReturnField;
+
+public interface Field extends ReturnField{
 	String getLabel();
 	String getName();
 }

@@ -208,21 +208,24 @@
         </plugins>
     </build>
 
-    <properties>
-        <junit-jupiter.version>5.4.1</junit-jupiter.version>
-        <jcommander.version>1.72</jcommander.version>
-        <http-uniprot-private-url>http://wwwdev.ebi.ac.uk/uniprot/artifactory</http-uniprot-private-url>
-        <jacoco.version>0.7.8</jacoco.version>
-        <jacoco.outputDir>${project.build.directory}</jacoco.outputDir>
-        <jacoco.out.ut.file>jacoco-ut.exec</jacoco.out.ut.file>
-        <jacoco.reportPath>${jacoco.outputDir}/${jacoco.out.ut.file}</jacoco.reportPath>
-        <jacoco.out.it.file>jacoco-it.exec</jacoco.out.it.file>
-        <jacoco.itReportPath>${jacoco.outputDir}/${jacoco.out.it.file}</jacoco.itReportPath>
-        <surefire-version>2.22.2</surefire-version>
-        <jacoco.maven.version>0.8.4</jacoco.maven.version>
-        <skipITs>false</skipITs>
-        <skipUTs>false</skipUTs>
-        <hamcrest-core.version>1.3</hamcrest-core.version>
-        <java.version>1.8</java.version>
-    </properties>
+	<properties>
+		<junit-jupiter.version>5.4.1</junit-jupiter.version>
+		<jcommander.version>1.72</jcommander.version>
+		<http-uniprot-private-url>http://wwwdev.ebi.ac.uk/uniprot/artifactory</http-uniprot-private-url>
+		<jacoco.version>0.7.8</jacoco.version>
+		<jacoco.outputDir>${project.basedir}/../target</jacoco.outputDir>
+		<jacoco.out.ut.file>jacoco-ut.exec</jacoco.out.ut.file>
+		<jacoco.reportPath>${jacoco.outputDir}/${jacoco.out.ut.file}</jacoco.reportPath>
+		<jacoco.out.it.file>jacoco-it.exec</jacoco.out.it.file>
+		<jacoco.itReportPath>${jacoco.outputDir}/${jacoco.out.it.file}</jacoco.itReportPath>
+		<surefire-version>2.22.2</surefire-version>
+		<jacoco.maven.version>0.8.4</jacoco.maven.version>
+		<skipITs>false</skipITs>
+		<skipUTs>false</skipUTs>
+		<hamcrest-core.version>1.3</hamcrest-core.version>
+		<java.version>1.8</java.version>
+
+		<!-- Auto-formatting -->
+		<spotless.version>1.24.1</spotless.version>
+	</properties>
 </project>

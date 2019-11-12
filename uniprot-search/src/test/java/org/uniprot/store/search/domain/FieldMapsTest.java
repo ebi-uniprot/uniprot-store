@@ -23,7 +23,7 @@ class FieldMapsTest {
 	@Test
 	void testGetMappedSequence() {
 		String mapped = instance.getField("fragment");
-		assertEquals("sequence", mapped);
+		assertEquals("protein_name", mapped);
 	//	mapped = instance.getField("length");
 	//	assertEquals("sequence", mapped);
 	//	mapped = instance.getField("mass");
@@ -33,29 +33,29 @@ class FieldMapsTest {
 	@Test
 	void testGetMappedLineage() {
 		String mapped = instance.getField("lineage_all");
-		assertEquals("lineage", mapped);
+		assertEquals("lineage_all", mapped);
 		mapped = instance.getField("lin_genus");
-		assertEquals("lineage", mapped);
+		assertEquals("lin_genus", mapped);
 		mapped = instance.getField("lin_species");
-		assertEquals("lineage", mapped);
+		assertEquals("lin_species", mapped);
 	}
 	@Test
 	void testGetMappedBiophyProperties() {
 		String mapped = instance.getField("kinetics");
-		assertEquals("cc:biophysicochemical_properties", mapped);
+		assertEquals("cc_biophysicochemical_properties", mapped);
 		mapped = instance.getField("temp_dependence");
-		assertEquals("cc:biophysicochemical_properties", mapped);
+		assertEquals("cc_biophysicochemical_properties", mapped);
 		mapped = instance.getField("ph_dependence");
-		assertEquals("cc:biophysicochemical_properties", mapped);
+		assertEquals("cc_biophysicochemical_properties", mapped);
 	}
 	@Test
 	void testGetMappedGo() {
 		String mapped = instance.getField("go_id");
-		assertEquals("dr:go", mapped);
+		assertEquals("dr_go", mapped);
 		mapped = instance.getField("go_c");
-		assertEquals("dr:go", mapped);
+		assertEquals("dr_go", mapped);
 		mapped = instance.getField("go_p");
-		assertEquals("dr:go", mapped);
+		assertEquals("dr_go", mapped);
 	}
 	@Test
 	void testGetMappedInfo() {

@@ -20,7 +20,7 @@ import org.uniprot.store.search.domain.Tuple;
 public enum Databases {
 	INSTANCE;
 	private static final String DATABASES2 = " databases";
-	private static final String DR = "dr:";
+	private static final String DR = "dr_";
 	private static final String ANY2 = "any";
 	private static final String ANY_CROSS_REFERENCE = "Any cross-reference";
 	private static final String ANY = "Any";

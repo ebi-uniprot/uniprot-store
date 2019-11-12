@@ -21,7 +21,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-import static org.uniprot.core.util.Utils.nonNull;
+import static org.uniprot.core.util.Utils.notNull;
 import static org.uniprot.core.util.Utils.nullOrEmpty;
 
 /**
@@ -170,7 +170,7 @@ class UniProtEntryCommentsConverter {
                     document.cofactorChebi.add(id);
 
                     Chebi chebi = chebiRepo.getById(id);
-                    if (nonNull(chebi)) {
+                    if (notNull(chebi)) {
                         addChebiSuggestions(SuggestDictionary.CHEBI, referenceId, chebi);
                         document.cofactorChebi.add(referenceId);
                     }
@@ -311,7 +311,7 @@ class UniProtEntryCommentsConverter {
 
     private List<String> getTextsValue(List<EvidencedValue> texts) {
         List<String> result = new ArrayList<>();
-        if (Utils.notEmpty(texts)) {
+        if (Utils.notNullOrEmpty(texts)) {
             texts.stream().map(Value::getValue).forEach(result::add);
         }
         return result;
@@ -319,7 +319,7 @@ class UniProtEntryCommentsConverter {
 
     private Set<String> getTextsEvidence(List<EvidencedValue> texts) {
         Set<String> result = new HashSet<>();
-        if (Utils.notEmpty(texts)) {
+        if (Utils.notNullOrEmpty(texts)) {
             List<Evidence> evidences = texts.stream()
                     .flatMap(text -> text.getEvidences().stream())
                     .collect(Collectors.toList());
@@ -486,7 +486,7 @@ class UniProtEntryCommentsConverter {
             int firstColon = referenceId.indexOf(':');
             String fullId = referenceId.substring(firstColon + 1);
             Chebi chebi = chebiRepo.getById(fullId);
-            if (nonNull(chebi)) {
+            if (notNull(chebi)) {
                 addChebiSuggestions(SuggestDictionary.CATALYTIC_ACTIVITY, referenceId, chebi);
                 Collection<String> value = document.commentMap.computeIfAbsent(field, k -> new ArrayList<>());
                 value.add(referenceId);

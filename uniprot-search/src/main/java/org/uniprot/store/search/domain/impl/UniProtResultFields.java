@@ -12,7 +12,7 @@ import org.uniprot.store.search.domain.Field;
 import org.uniprot.store.search.domain.FieldGroup;
 import org.uniprot.store.search.field.ReturnField;
 
-public enum UniProtResultFields implements ReturnField {
+public enum UniProtResultFields implements ReturnField{
 	INSTANCE;
 	private static final String FILENAME = "uniprot/result_field.json";
 	private List<FieldGroup> resultFields = new ArrayList<>();

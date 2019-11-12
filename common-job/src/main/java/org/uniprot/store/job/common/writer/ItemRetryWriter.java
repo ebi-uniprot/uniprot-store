@@ -90,7 +90,7 @@ public abstract class ItemRetryWriter<E, S> implements ItemWriter<E> {
     }
 
     private void recordItemsWereProcessed(int numberOfItemsProcessed) {
-        if (!Utils.nonNull(sleeper)) {
+        if (!Utils.notNull(sleeper)) {
             this.sleeper = (OnZeroCountSleeper) executionContext.get(CommonConstants.ENTRIES_TO_WRITE_COUNTER);
         }
         sleeper.minus(numberOfItemsProcessed);

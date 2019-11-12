@@ -48,7 +48,7 @@ class UniProtResultFieldsTest {
 	@Test
 	void testResultFieldSize() {
 		List<FieldGroup> groups = instance.getResultFields();
-		assertEquals(16, groups.size());
+		assertEquals(15, groups.size());
 		verifyGroupSize(groups, "Names & Taxonomy", 13);
 		verifyGroupSize(groups, "Sequences", 19);
 		verifyGroupSize(groups, "Function", 18);
@@ -63,7 +63,6 @@ class UniProtResultFieldsTest {
 		verifyGroupSize(groups, "Publications", 2);
 		verifyGroupSize(groups, "Date of", 4);
 		verifyGroupSize(groups, "Family & Domains", 10);
-		verifyGroupSize(groups, "Taxonomic lineage", 31);
 		verifyGroupSize(groups, "Taxonomic identifier", 1);
 	}
 
@@ -76,11 +75,11 @@ class UniProtResultFieldsTest {
 	@Test
 	void testResultFieldGroup() {
 		List<FieldGroup> groups = instance.getResultFields();
-		assertEquals(16, groups.size());
+		assertEquals(15, groups.size());
 		System.out.println(
 		groups.stream().flatMap(val->val.getFields().stream())
 		.map(Field::getName)
-		.filter(val ->val.startsWith("ft:"))
+		.filter(val ->val.startsWith("ft_"))
 		.map(val -> "\"" + val +"\"")
 		.collect(Collectors.joining(", ")));
 	
@@ -96,20 +95,19 @@ class UniProtResultFieldsTest {
 	void testResultField() {
 		List<FieldGroup> groups = instance.getResultFields();
 		verifyField(groups, "Names & Taxonomy", "Gene Names", "gene_names");
-		verifyField(groups, "Sequences", "Alternative sequence", "ft:var_seq");
+		verifyField(groups, "Sequences", "Alternative sequence", "ft_var_seq");
 		verifyField(groups, "Function", "Kinetics", "kinetics");
-		verifyField(groups, "Miscellaneous", "Caution", "cc:caution");
-		verifyField(groups, "Interaction", "Subunit structure", "cc:subunit");
-		verifyField(groups, "Expression", "Induction", "cc:induction");
+		verifyField(groups, "Miscellaneous", "Caution", "cc_caution");
+		verifyField(groups, "Interaction", "Subunit structure", "cc_subunit");
+		verifyField(groups, "Expression", "Induction", "cc_induction");
 		verifyField(groups, "Gene Ontology (GO)", "Gene Ontology (cellular component)", "go_c");
-		verifyField(groups, "Pathology & Biotech", "Mutagenesis", "ft:mutagen");
-		verifyField(groups, "Subcellular location", "Subcellular location [CC]", "cc:subcellular_location");
-		verifyField(groups, "PTM / Processing", "Cross-link", "ft:crosslnk");
+		verifyField(groups, "Pathology & Biotech", "Mutagenesis", "ft_mutagen");
+		verifyField(groups, "Subcellular location", "Subcellular location [CC]", "cc_subcellular_location");
+		verifyField(groups, "PTM / Processing", "Cross-link", "ft_crosslnk");
 		verifyField(groups, "Structure", "3D", "3d");
 		verifyField(groups, "Publications", "PubMed ID", "pm_id");
 		verifyField(groups, "Date of", "Date of creation", "date_create");
-		verifyField(groups, "Family & Domains", "Compositional bias", "ft:compbias");
-		verifyField(groups, "Taxonomic lineage", "Taxonomic lineage (CLASS)", "tl:class");
+		verifyField(groups, "Family & Domains", "Compositional bias", "ft_compbias");
 		verifyField(groups, "Taxonomic identifier", "Taxonomic lineage IDs", "tax_id");
 
 	}
@@ -118,11 +116,18 @@ class UniProtResultFieldsTest {
 	void allFields() {
 		List<FieldGroup> groups = instance.getResultFields();
 		groups.stream().flatMap(val -> val.getFields().stream()).map(val -> val.getName()).distinct()
-				.filter(val -> !val.startsWith("ft:")).filter(val -> !val.startsWith("cc:"))
-				.filter(val -> !val.startsWith("dr:")).filter(val -> !Strings.isNullOrEmpty(val))
+				.filter(val -> !val.startsWith("ft_")).filter(val -> !val.startsWith("cc_"))
+				.filter(val -> !val.startsWith("dr_")).filter(val -> !Strings.isNullOrEmpty(val))
 				.forEach(System.out::println);
 	}
 
+	@Test
+	void testOrganelle() {
+		Optional<Field> field =instance.getField("organelle");
+		System.out.println(field.get().getJavaFieldName());
+
+		
+	}
 	void testDatabaseFieldSize() {
 		List<FieldGroup> groups = instance.getDatabaseFields();
 		assertEquals(19, groups.size());
@@ -150,23 +155,23 @@ class UniProtResultFieldsTest {
 	void testDatabaseField() {
 		List<FieldGroup> groups = instance.getDatabaseFields();
 		assertEquals(19, groups.size());
-		verifyField(groups, "SEQ", "EMBL", "dr:embl");
-		verifyField(groups, "3DS", "PDB", "dr:pdb");
-		verifyField(groups, "PPI", "CORUM", "dr:corum");
-		verifyField(groups, "CHEMISTRY", "ChEMBL", "dr:chembl");
-		verifyField(groups, "PFAM", "IMGT_GENE-DB", "dr:imgt_gene-db");
-		verifyField(groups, "PTM", "GlyConnect", "dr:glyconnect");
-		verifyField(groups, "PMD", "dbSNP", "dr:dbsnp");
-		verifyField(groups, "2DG", "SWISS-2DPAGE", "dr:swiss-2dpage");
-		verifyField(groups, "PROTEOMIC", "PRIDE", "dr:pride");
-		verifyField(groups, "PAM", "DNASU", "dr:dnasu");
-		verifyField(groups, "GMA", "Ensembl", "dr:ensembl");
-		verifyField(groups, "ORG", "DisGeNET", "dr:disgenet");
-		verifyField(groups, "PLG", "KO", "dr:ko");
-		verifyField(groups, "EAP", "BRENDA", "dr:brenda");
-		verifyField(groups, "OTHER", "GeneWiki", "dr:genewiki");
-		verifyField(groups, "GEP", "Bgee", "dr:bgee");
-		verifyField(groups, "FMD", "HAMAP", "dr:hamap");
+		verifyField(groups, "SEQ", "EMBL", "dr_embl");
+		verifyField(groups, "3DS", "PDB", "dr_pdb");
+		verifyField(groups, "PPI", "CORUM", "dr_corum");
+		verifyField(groups, "CHEMISTRY", "ChEMBL", "dr_chembl");
+		verifyField(groups, "PFAM", "IMGT_GENE-DB", "dr_imgt_gene-db");
+		verifyField(groups, "PTM", "GlyConnect", "dr_glyconnect");
+		verifyField(groups, "PMD", "dbSNP", "dr_dbsnp");
+		verifyField(groups, "2DG", "SWISS-2DPAGE", "dr_swiss-2dpage");
+		verifyField(groups, "PROTEOMIC", "PRIDE", "dr_pride");
+		verifyField(groups, "PAM", "DNASU", "dr_dnasu");
+		verifyField(groups, "GMA", "Ensembl", "dr_ensembl");
+		verifyField(groups, "ORG", "DisGeNET", "dr_disgenet");
+		verifyField(groups, "PLG", "KO", "dr_ko");
+		verifyField(groups, "EAP", "BRENDA", "dr_brenda");
+		verifyField(groups, "OTHER", "GeneWiki", "dr_genewiki");
+		verifyField(groups, "GEP", "Bgee", "dr_bgee");
+		verifyField(groups, "FMD", "HAMAP", "dr_hamap");
 	}
 
 	private void verifyField(List<FieldGroup> groups, String groupName, String label, String name) {

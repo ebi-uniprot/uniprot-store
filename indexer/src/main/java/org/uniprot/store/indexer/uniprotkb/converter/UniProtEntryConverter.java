@@ -50,7 +50,7 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtEntry, Un
     private final UniProtEntryFeatureConverter featureConverter;
     private final UniProtEntryReferencesConverter referencesConverter;
     private final UniProtEntryCrossReferenceConverter crossReferenceConverter;
-    private final UniprotEntryTaxonomyConverter taxonomyConverter;
+    private final UniProtEntryTaxonomyConverter taxonomyConverter;
     private final UniprotEntryProteinDescriptionConverter proteinDescriptionConverter;
 
 
@@ -59,7 +59,7 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtEntry, Un
 
     public UniProtEntryConverter(TaxonomyRepo taxonomyRepo, GoRelationRepo goRelationRepo, PathwayRepo pathwayRepo,
                                  ChebiRepo chebiRepo, ECRepo ecRepo, Map<String, SuggestDocument> suggestDocuments) {
-        this.taxonomyConverter = new UniprotEntryTaxonomyConverter(taxonomyRepo, suggestDocuments);
+        this.taxonomyConverter = new UniProtEntryTaxonomyConverter(taxonomyRepo, suggestDocuments);
         this.crossReferenceConverter = new UniProtEntryCrossReferenceConverter(goRelationRepo, suggestDocuments);
         this.commentsConverter = new UniProtEntryCommentsConverter(chebiRepo, pathwayRepo, suggestDocuments);
         this.featureConverter = new UniProtEntryFeatureConverter();
@@ -187,7 +187,7 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtEntry, Un
     }
 
     private void convertKeywords(List<Keyword> keywords, UniProtDocument document) {
-        if (Utils.notEmpty(keywords)) {
+        if (Utils.notNullOrEmpty(keywords)) {
             keywords.forEach(keyword -> updateKeyword(keyword, document));
             document.content.addAll(document.keywords);
         }
@@ -212,7 +212,7 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtEntry, Un
     }
 
     private void convertGeneNames(List<Gene> genes, UniProtDocument document) {
-        if (Utils.notEmpty(genes)) {
+        if (Utils.notNullOrEmpty(genes)) {
             for (Gene gene : genes) {
                 addValueToStringList(document.geneNamesExact, gene.getGeneName());
                 addValueListToStringList(document.geneNamesExact, gene.getSynonyms());
@@ -226,7 +226,7 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtEntry, Un
     }
 
     private void convertOrganelle(List<GeneLocation> geneLocations, UniProtDocument document) {
-        if (Utils.notEmpty(geneLocations)) {
+        if (Utils.notNullOrEmpty(geneLocations)) {
             for (GeneLocation geneLocation : geneLocations) {
                 GeneEncodingType geneEncodingType = geneLocation.getGeneEncodingType();
 

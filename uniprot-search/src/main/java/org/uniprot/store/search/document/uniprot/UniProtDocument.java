@@ -272,6 +272,9 @@ public class UniProtDocument implements Document {
     @Field("length")
     public int seqLength;
    
+ // Added by Chuming Chen for Peptide Search on Sept. 16, 2019.
+    @Field("sq")
+    public String seqAA;
     
     @Field("tissue")
     public Set<String> rcTissue = new HashSet<>();
@@ -306,13 +309,13 @@ public class UniProtDocument implements Document {
     public int score;
     
     @Field("avro_binary")
-    public byte[] avro_binray;
+    public byte[] avroBinary;
 
     @Field("avro_bin")
-    public String avro_binary;
+    public String avroBin;
 
     @Field("avro_json")
-    public String avro_json;
+    public String avroJson;
     
     @Field("inactive_reason")
     public String inactiveReason;
@@ -334,14 +337,6 @@ public class UniProtDocument implements Document {
     
     @Field("uniref_cluster_100")
     public String unirefCluster100;
-
-    public String file_path;
-    public long obj_offset;
-    public long obj_location;
-    
-    
-    
-    
 
     @Override
     public String getDocumentId() {
@@ -394,6 +389,7 @@ public class UniProtDocument implements Document {
         if (secacc != null ? !secacc.equals(that.secacc) : that.secacc != null) return false;
         if (taxLineageIds != null ? !taxLineageIds.equals(that.taxLineageIds) : that.taxLineageIds != null)
             return false;
+
         return true;
     }
 
