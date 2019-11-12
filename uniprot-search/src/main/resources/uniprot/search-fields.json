@@ -8,536 +8,888 @@
   },
   "searchFields": [
     {
-      "term": "annotation_score",
-      "sortTerm": "annotation_score"
+      "term": {
+        "name": "annotation_score"
+      },
+      "sortTerm": {
+        "name": "annotation_score"
+      }
     },
     {
-      "term": "accession_id",
-      "validRegex": "([O,P,Q][0-9][A-Z|0-9]{3}[0-9]|[A-N,R-Z]([0-9][A-Z][A-Z|0-9]{2}){1,2}[0-9])(-\\d+)*"
+      "term": {
+        "name": "accession_id",
+        "validRegex": "([O,P,Q][0-9][A-Z|0-9]{3}[0-9]|[A-N,R-Z]([0-9][A-Z][A-Z|0-9]{2}){1,2}[0-9])(-\\d+)*"
+      }
     },
     {
-      "term": "mnemonic_default"
+      "term": {
+        "name": "mnemonic_default"
+      }
     },
     {
-      "term": "sec_acc"
+      "term": {
+        "name": "sec_acc"
+      }
     },
     {
-      "term": "content"
+      "term": {
+        "name": "content"
+      }
     },
     {
-      "term": "ec"
+      "term": {
+        "name": "ec"
+      }
     },
     {
-      "term": "ec_exact"
+      "term": {
+        "name": "ec_exact"
+      }
     },
     {
-      "term": "protgene_default"
+      "term": {
+        "name": "protgene_default"
+      }
     },
     {
-      "term": "gene_exact"
+      "term": {
+        "name": "gene_exact"
+      }
     },
     {
-      "term": "organism_id",
-      "validRegex": "^[0-9]+$"
+      "term": {
+        "name": "organism_id",
+        "validRegex": "^[0-9]+$"
+      }
     },
     {
-      "term": "host_name"
+      "term": {
+        "name": "host_name"
+      }
     },
     {
-      "term": "host_id",
-      "validRegex": "^[0-9]+$"
+      "term": {
+        "name": "host_id",
+        "validRegex": "^[0-9]+$"
+      }
     },
     {
-      "term": "taxonomy_name"
+      "term": {
+        "name": "taxonomy_name"
+      }
     },
     {
-      "term": "taxonomy_id",
-      "validRegex": "^[0-9]+$"
+      "term": {
+        "name": "taxonomy_id",
+        "validRegex": "^[0-9]+$"
+      }
     },
     {
-      "term": "popular_organism"
+      "term": {
+        "name": "popular_organism"
+      }
     },
     {
-      "term": "other_organism"
+      "term": {
+        "name": "other_organism"
+      }
     },
     {
-      "term": "organelle"
+      "term": {
+        "name": "organelle"
+      }
     },
     {
-      "positionalTerm": "modified"
+      "positionalTerm": {
+        "name": "modified"
+      }
     },
     {
-      "positionalTerm": "created"
+      "positionalTerm": {
+        "name": "created"
+      }
     },
     {
-      "positionalTerm": "sequence_modified"
+      "positionalTerm": {
+        "name": "sequence_modified"
+      }
     },
     {
-      "positionalTerm": "lit_pubdate"
+      "positionalTerm": {
+        "name": "lit_pubdate"
+      }
     },
     {
-      "term": "source"
+      "term": {
+        "name": "source"
+      }
     },
     {
-      "term": "xref"
+      "term": {
+        "name": "xref"
+      }
     },
     {
-      "term": "database"
+      "term": {
+        "name": "database"
+      }
     },
     {
-      "term": "lit_author"
+      "term": {
+        "name": "lit_author"
+      }
     },
     {
-      "term": "lit_organisation"
+      "term": {
+        "name": "lit_organisation"
+      }
     },
     {
-      "term": "lit_title"
+      "term": {
+        "name": "lit_title"
+      }
     },
     {
-      "term": "lit_pubmed"
+      "term": {
+        "name": "lit_pubmed"
+      }
     },
     {
-      "term": "lit_journal"
+      "term": {
+        "name": "lit_journal"
+      }
     },
     {
-      "term": "fragment"
+      "term": {
+        "name": "fragment"
+      }
     },
     {
-      "term": "existence"
+      "term": {
+        "name": "existence"
+      }
     },
     {
-      "term": "is_isoform",
+      "term": {
+        "name": "is_isoform"
+      },
       "validRegex": "^true|false$"
     },
     {
-      "positionalTerm": "length"
+      "positionalTerm": {
+        "name": "length"
+      }
     },
     {
-      "positionalTerm": "mass"
+      "positionalTerm": {
+        "name": "mass"
+      }
     },
     {
-      "term": "precursor"
+      "term": {
+        "name": "precursor"
+      }
     },
     {
-      "term": "active",
+      "term": {
+        "name": "active"
+      },
       "validRegex": "^true|false$"
     },
     {
-      "term": "d3structure",
+      "term": {
+        "name": "d3structure"
+      },
       "validRegex": "^true|false$"
     },
     {
-      "term": "tissue"
+      "term": {
+        "name": "tissue"
+      }
     },
     {
-      "term": "strain"
+      "term": {
+        "name": "strain"
+      }
     },
     {
-      "term": "plasmid"
+      "term": {
+        "name": "plasmid"
+      }
     },
     {
-      "term": "transposon"
+      "term": {
+        "name": "transposon"
+      }
     },
     {
-      "term": "scope"
+      "term": {
+        "name": "scope"
+      }
     },
     {
-      "term": "cc_scl_term"
+      "term": {
+        "name": "cc_scl_term"
+      }
     },
     {
-      "term": "cc_scl_note"
+      "term": {
+        "name": "cc_scl_note"
+      }
     },
     {
-      "term": "ccev_scl_term"
+      "term": {
+        "name": "ccev_scl_term"
+      }
     },
     {
-      "term": "ccev_scl_note"
+      "term": {
+        "name": "ccev_scl_note"
+      }
     },
     {
-      "term": "cc_ap"
+      "term": {
+        "name": "cc_ap"
+      }
     },
     {
-      "term": "cc_ap_apu"
+      "term": {
+        "name": "cc_ap_apu"
+      }
     },
     {
-      "term": "cc_ap_as"
+      "term": {
+        "name": "cc_ap_as"
+      }
     },
     {
-      "term": "cc_ap_ai"
+      "term": {
+        "name": "cc_ap_ai"
+      }
     },
     {
-      "term": "cc_ap_rf"
+      "term": {
+        "name": "cc_ap_rf"
+      }
     },
     {
-      "term": "ccev_ap"
+      "term": {
+        "name": "ccev_ap"
+      }
     },
     {
-      "term": "ccev_ap_apu"
+      "term": {
+        "name": "ccev_ap_apu"
+      }
     },
     {
-      "term": "ccev_ap_as"
+      "term": {
+        "name": "ccev_ap_as"
+      }
     },
     {
-      "term": "ccev_ap_ai"
+      "term": {
+        "name": "ccev_ap_ai"
+      }
     },
     {
-      "term": "ccev_ap_rf"
+      "term": {
+        "name": "ccev_ap_rf"
+      }
     },
     {
-      "term": "cc_bpcp"
+      "term": {
+        "name": "cc_bpcp"
+      }
     },
     {
-      "term": "cc_bpcp_absorption"
+      "term": {
+        "name": "cc_bpcp_absorption"
+      }
     },
     {
-      "term": "cc_bpcp_kinetics"
+      "term": {
+        "name": "cc_bpcp_kinetics"
+      }
     },
     {
-      "term": "cc_bpcp_ph_dependence"
+      "term": {
+        "name": "cc_bpcp_ph_dependence"
+      }
     },
     {
-      "term": "cc_bpcp_redox_potential"
+      "term": {
+        "name": "cc_bpcp_redox_potential"
+      }
     },
     {
-      "term": "cc_bpcp_temp_dependence"
+      "term": {
+        "name": "cc_bpcp_temp_dependence"
+      }
     },
     {
-      "term": "ccev_bpcp"
+      "term": {
+        "name": "ccev_bpcp"
+      }
     },
     {
-      "term": "ccev_bpcp_absorption"
+      "term": {
+        "name": "ccev_bpcp_absorption"
+      }
     },
     {
-      "term": "ccev_bpcp_kinetics"
+      "term": {
+        "name": "ccev_bpcp_kinetics"
+      }
     },
     {
-      "term": "ccev_bpcp_ph_dependence"
+      "term": {
+        "name": "ccev_bpcp_ph_dependence"
+      }
     },
     {
-      "term": "ccev_bpcp_redox_potential"
+      "term": {
+        "name": "ccev_bpcp_redox_potential"
+      }
     },
     {
-      "term": "ccev_bpcp_temp_dependence"
+      "term": {
+        "name": "ccev_bpcp_temp_dependence"
+      }
     },
     {
-      "term": "cc_cofactor_chebi"
+      "term": {
+        "name": "cc_cofactor_chebi"
+      }
     },
     {
-      "term": "cc_cofactor_note"
+      "term": {
+        "name": "cc_cofactor_note"
+      }
     },
     {
-      "term": "ccev_cofactor_chebi"
+      "term": {
+        "name": "ccev_cofactor_chebi"
+      }
     },
     {
-      "term": "ccev_cofactor_note"
+      "term": {
+        "name": "ccev_cofactor_note"
+      }
     },
     {
-      "term": "cc_sc"
+      "term": {
+        "name": "cc_sc"
+      }
     },
     {
-      "term": "cc_sc_framesh"
+      "term": {
+        "name": "cc_sc_framesh"
+      }
     },
     {
-      "term": "cc_sc_einit"
+      "term": {
+        "name": "cc_sc_einit"
+      }
     },
     {
-      "term": "cc_sc_eterm"
+      "term": {
+        "name": "cc_sc_eterm"
+      }
     },
     {
-      "term": "cc_sc_epred"
+      "term": {
+        "name": "cc_sc_epred"
+      }
     },
     {
-      "term": "cc_sc_etran"
+      "term": {
+        "name": "cc_sc_etran"
+      }
     },
     {
-      "term": "cc_sc_misc"
+      "term": {
+        "name": "cc_sc_misc"
+      }
     },
     {
-      "term": "ccev_sc"
+      "term": {
+        "name": "ccev_sc"
+      }
     },
     {
-      "term": "ccev_sc_misc"
+      "term": {
+        "name": "ccev_sc_misc"
+      }
     },
     {
-      "term": "cc_function"
+      "term": {
+        "name": "cc_function"
+      }
     },
     {
-      "term": "ccev_function"
+      "term": {
+        "name": "ccev_function"
+      }
     },
     {
-      "term": "cc_catalytic_activity"
+      "term": {
+        "name": "cc_catalytic_activity"
+      }
     },
     {
-      "term": "ccev_catalytic_activity"
+      "term": {
+        "name": "ccev_catalytic_activity"
+      }
     },
     {
-      "term": "cc_cofactor"
+      "term": {
+        "name": "cc_cofactor"
+      }
     },
     {
-      "term": "ccev_cofactor"
+      "term": {
+        "name": "ccev_cofactor"
+      }
     },
     {
-      "term": "cc_activity_regulation"
+      "term": {
+        "name": "cc_activity_regulation"
+      }
     },
     {
-      "term": "ccev_activity_regulation"
+      "term": {
+        "name": "ccev_activity_regulation"
+      }
     },
     {
-      "term": "cc_biophysicochemical_properties"
+      "term": {
+        "name": "cc_biophysicochemical_properties"
+      }
     },
     {
-      "term": "ccev_biophysicochemical_properties"
+      "term": {
+        "name": "ccev_biophysicochemical_properties"
+      }
     },
     {
-      "term": "cc_pathway"
+      "term": {
+        "name": "cc_pathway"
+      }
     },
     {
-      "term": "ccev_pathway"
+      "term": {
+        "name": "ccev_pathway"
+      }
     },
     {
-      "term": "cc_subunit"
+      "term": {
+        "name": "cc_subunit"
+      }
     },
     {
-      "term": "ccev_subunit"
+      "term": {
+        "name": "ccev_subunit"
+      }
     },
     {
-      "term": "cc_interaction"
+      "term": {
+        "name": "cc_interaction"
+      }
     },
     {
-      "term": "ccev_interaction"
+      "term": {
+        "name": "ccev_interaction"
+      }
     },
     {
-      "term": "cc_subcellular_location"
+      "term": {
+        "name": "cc_subcellular_location"
+      }
     },
     {
-      "term": "ccev_subcellular_location"
+      "term": {
+        "name": "ccev_subcellular_location"
+      }
     },
     {
-      "term": "cc_alternative_products"
+      "term": {
+        "name": "cc_alternative_products"
+      }
     },
     {
-      "term": "ccev_alternative_products"
+      "term": {
+        "name": "ccev_alternative_products"
+      }
     },
     {
-      "term": "cc_tissue_specificity"
+      "term": {
+        "name": "cc_tissue_specificity"
+      }
     },
     {
-      "term": "ccev_tissue_specificity"
+      "term": {
+        "name": "ccev_tissue_specificity"
+      }
     },
     {
-      "term": "cc_developmental_stage"
+      "term": {
+        "name": "cc_developmental_stage"
+      }
     },
     {
-      "term": "ccev_developmental_stage"
+      "term": {
+        "name": "ccev_developmental_stage"
+      }
     },
     {
-      "term": "cc_induction"
+      "term": {
+        "name": "cc_induction"
+      }
     },
     {
-      "term": "ccev_induction"
+      "term": {
+        "name": "ccev_induction"
+      }
     },
     {
-      "term": "cc_domain"
+      "term": {
+        "name": "cc_domain"
+      }
     },
     {
-      "term": "ccev_domain"
+      "term": {
+        "name": "ccev_domain"
+      }
     },
     {
-      "term": "cc_ptm"
+      "term": {
+        "name": "cc_ptm"
+      }
     },
     {
-      "term": "ccev_ptm"
+      "term": {
+        "name": "ccev_ptm"
+      }
     },
     {
-      "term": "cc_rna_editing"
+      "term": {
+        "name": "cc_rna_editing"
+      }
     },
     {
-      "term": "ccev_rna_editing"
+      "term": {
+        "name": "ccev_rna_editing"
+      }
     },
     {
-      "term": "cc_mass_spectrometry"
+      "term": {
+        "name": "cc_mass_spectrometry"
+      }
     },
     {
-      "term": "ccev_mass_spectrometry"
+      "term": {
+        "name": "ccev_mass_spectrometry"
+      }
     },
     {
-      "term": "cc_polymorphism"
+      "term": {
+        "name": "cc_polymorphism"
+      }
     },
     {
-      "term": "ccev_polymorphism"
+      "term": {
+        "name": "ccev_polymorphism"
+      }
     },
     {
-      "term": "cc_disease"
+      "term": {
+        "name": "cc_disease"
+      }
     },
     {
-      "term": "ccev_disease"
+      "term": {
+        "name": "ccev_disease"
+      }
     },
     {
-      "term": "cc_disruption_phenotype"
+      "term": {
+        "name": "cc_disruption_phenotype"
+      }
     },
     {
-      "term": "ccev_disruption_phenotype"
+      "term": {
+        "name": "ccev_disruption_phenotype"
+      }
     },
     {
-      "term": "cc_allergen"
+      "term": {
+        "name": "cc_allergen"
+      }
     },
     {
-      "term": "ccev_allergen"
+      "term": {
+        "name": "ccev_allergen"
+      }
     },
     {
-      "term": "cc_toxic_dose"
+      "term": {
+        "name": "cc_toxic_dose"
+      }
     },
     {
-      "term": "ccev_toxic_dose"
+      "term": {
+        "name": "ccev_toxic_dose"
+      }
     },
     {
-      "term": "cc_biotechnology"
+      "term": {
+        "name": "cc_biotechnology"
+      }
     },
     {
-      "term": "ccev_biotechnology"
+      "term": {
+        "name": "ccev_biotechnology"
+      }
     },
     {
-      "term": "cc_pharmaceutical"
+      "term": {
+        "name": "cc_pharmaceutical"
+      }
     },
     {
-      "term": "ccev_pharmaceutical"
+      "term": {
+        "name": "ccev_pharmaceutical"
+      }
     },
     {
-      "term": "cc_miscellaneous"
+      "term": {
+        "name": "cc_miscellaneous"
+      }
     },
     {
-      "term": "ccev_miscellaneous"
+      "term": {
+        "name": "ccev_miscellaneous"
+      }
     },
     {
-      "term": "cc_similarity"
+      "term": {
+        "name": "cc_similarity"
+      }
     },
     {
-      "term": "ccev_similarity"
+      "term": {
+        "name": "ccev_similarity"
+      }
     },
     {
-      "term": "cc_caution"
+      "term": {
+        "name": "cc_caution"
+      }
     },
     {
-      "term": "ccev_caution"
+      "term": {
+        "name": "ccev_caution"
+      }
     },
     {
-      "term": "cc_sequence_caution"
+      "term": {
+        "name": "cc_sequence_caution"
+      }
     },
     {
-      "term": "ccev_sequence_caution"
+      "term": {
+        "name": "ccev_sequence_caution"
+      }
     },
     {
-      "term": "cc_unknown"
+      "term": {
+        "name": "cc_unknown"
+      }
     },
     {
-      "term": "ccev_unknown"
+      "term": {
+        "name": "ccev_unknown"
+      }
     },
     {
-      "term": "interactor"
+      "term": {
+        "name": "interactor"
+      }
     },
     {
-      "term": "family"
+      "term": {
+        "name": "family"
+      }
     },
     {
-      "term": "proteome",
+      "term": {
+        "name": "proteome"
+      },
       "validRegex": "^UP[0-9]{9}$"
     },
     {
-      "term": "proteomecomponent"
+      "term": {
+        "name": "proteomecomponent"
+      }
     },
     {
-      "term": "go"
+      "term": {
+        "name": "go"
+      }
     },
     {
-      "term": "go_manual"
+      "term": {
+        "name": "go_manual"
+      }
     },
     {
-      "term": "go_automatic"
+      "term": {
+        "name": "go_automatic"
+      }
     },
     {
-      "term": "go_ida"
+      "term": {
+        "name": "go_ida"
+      }
     },
     {
-      "term": "go_imp"
+      "term": {
+        "name": "go_imp"
+      }
     },
     {
-      "term": "go_igi"
+      "term": {
+        "name": "go_igi"
+      }
     },
     {
-      "term": "go_ipi"
+      "term": {
+        "name": "go_ipi"
+      }
     },
     {
-      "term": "go_iep"
+      "term": {
+        "name": "go_iep"
+      }
     },
     {
-      "term": "go_tas"
+      "term": {
+        "name": "go_tas"
+      }
     },
     {
-      "term": "go_nas"
+      "term": {
+        "name": "go_nas"
+      }
     },
     {
-      "term": "go_ic"
+      "term": {
+        "name": "go_ic"
+      }
     },
     {
-      "term": "go_iss"
+      "term": {
+        "name": "go_iss"
+      }
     },
     {
-      "term": "go_iea"
+      "term": {
+        "name": "go_iea"
+      }
     },
     {
-      "term": "go_igc"
+      "term": {
+        "name": "go_igc"
+      }
     },
     {
-      "term": "go_rca"
+      "term": {
+        "name": "go_rca"
+      }
     },
     {
-      "term": "go_nd"
+      "term": {
+        "name": "go_nd"
+      }
     },
     {
-      "term": "go_exp"
+      "term": {
+        "name": "go_exp"
+      }
     },
     {
-      "term": "go_iba"
+      "term": {
+        "name": "go_iba"
+      }
     },
     {
-      "term": "go_ibd"
+      "term": {
+        "name": "go_ibd"
+      }
     },
     {
-      "term": "go_ikr"
+      "term": {
+        "name": "go_ikr"
+      }
     },
     {
-      "term": "go_ird"
+      "term": {
+        "name": "go_ird"
+      }
     },
     {
-      "term": "go_iso"
+      "term": {
+        "name": "go_iso"
+      }
     },
     {
-      "term": "go_isa"
+      "term": {
+        "name": "go_isa"
+      }
     },
     {
-      "term": "go_ism"
+      "term": {
+        "name": "go_ism"
+      }
     },
     {
-      "term": "go_hda"
+      "term": {
+        "name": "go_hda"
+      }
     },
     {
-      "term": "go_hmp"
+      "term": {
+        "name": "go_hmp"
+      }
     },
     {
-      "term": "go_hgi"
+      "term": {
+        "name": "go_hgi"
+      }
     },
     {
-      "term": "go_hep"
+      "term": {
+        "name": "go_hep"
+      }
     },
     {
-      "term": "go_htp"
+      "term": {
+        "name": "go_htp"
+      }
     },
     {
-      "term": "go_unknown"
+      "term": {
+        "name": "go_unknown"
+      }
     },
     {
-      "term": "accession",
-      "sortTerm": "accession_id",
+      "term": {
+        "name": "accession"
+      },
+      "sortTerm": {
+        "name": "accession_id"
+      },
       "validRegex": "([O,P,Q][0-9][A-Z|0-9]{3}[0-9]|[A-N,R-Z]([0-9][A-Z][A-Z|0-9]{2}){1,2}[0-9])(-\\d+)*",
       "id": "id_accession",
       "label": "UniProtKB AC",
@@ -549,8 +901,12 @@
     {
       "id": "id_mnemonic",
       "label": "Entry Name [ID]",
-      "term": "mnemonic",
-      "sortTerm": "mnemonic_sort",
+      "term": {
+        "name": "mnemonic"
+      },
+      "sortTerm": {
+        "name": "mnemonic_sort"
+      },
       "dataType": "string",
       "description": "Search by UniProtKB entry name",
       "example": "P53_HUMAN"
@@ -558,8 +914,12 @@
     {
       "id": "id_name",
       "label": "Protein Name [DE]",
-      "term": "name",
-      "sortTerm": "name_sort",
+      "term": {
+        "name": "name"
+      },
+      "sortTerm": {
+        "name": "name_sort"
+      },
       "dataType": "string",
       "description": "Search by UniProtKB Protein name",
       "example": "mas5"
@@ -567,8 +927,12 @@
     {
       "id": "id_gene",
       "label": "Gene Name [GN]",
-      "term": "gene",
-      "sortTerm": "gene_sort",
+      "term": {
+        "name": "gene"
+      },
+      "sortTerm": {
+        "name": "gene_sort"
+      },
       "dataType": "string",
       "description": "Search by UniProtKB gene name",
       "example": "ydj1"
@@ -576,8 +940,12 @@
     {
       "id": "id_organism",
       "label": "Organism [OS]",
-      "term": "organism_name",
-      "sortTerm": "organism_sort",
+      "term": {
+        "name": "organism_name"
+      },
+      "sortTerm": {
+        "name": "organism_sort"
+      },
       "dataType": "string",
       "autoComplete": "/uniprot/api/suggester?dict=organism&query=?",
       "autoCompleteTerm": "organism_id",
@@ -587,7 +955,9 @@
     {
       "id": "id_taxonomy",
       "label": "Taxonomy [OC]",
-      "term": "taxonomy_name",
+      "term": {
+        "name": "taxonomy_name"
+      },
       "dataType": "string",
       "autoComplete": "/uniprot/api/suggester?dict=taxonomy&query=?",
       "autoCompleteTerm": "taxonomy_id",
@@ -597,7 +967,9 @@
     {
       "id": "id_host",
       "label": "Virus host",
-      "term": "host_name",
+      "term": {
+        "name": "host_name"
+      },
       "dataType": "string",
       "autoComplete": "/uniprot/api/suggester?dict=host&query=?",
       "autoCompleteTerm": "host_id",
@@ -607,7 +979,9 @@
     {
       "id": "id_existence",
       "label": "Protein Existence [PE]",
-      "term": "existence",
+      "term": {
+        "name": "existence"
+      },
       "dataType": "enum",
       "description": "Search by protein existence",
       "values": [
@@ -642,7 +1016,9 @@
         {
           "id": "id_ec",
           "label": "Enzyme classification [EC]",
-          "term": "ec",
+          "term": {
+            "name": "ec"
+          },
           "dataType": "string",
           "autoComplete": "/uniprot/api/suggester?dict=ec&query=?",
           "description": "Search by Enzyme EC number",
@@ -656,8 +1032,12 @@
             {
               "id": "id_cofactor_chebi",
               "label": "ChEBI term",
-              "term": "cc_cofactor_chebi",
-              "evTerm": "ccev_cofactor_chebi",
+              "term": {
+                "name": "cc_cofactor_chebi"
+              },
+              "evTerm": {
+                "name": "ccev_cofactor_chebi"
+              },
               "dataType": "string",
               "autoComplete": "/uniprot/api/suggester?dict=chebi&query=?",
               "description": "Search by cofactor chebi ",
@@ -666,8 +1046,12 @@
             {
               "id": "id_cofactor_note",
               "label": "Note",
-              "term": "cc_cofactor_note",
-              "evTerm": "ccev_cofactor_note",
+              "term": {
+                "name": "cc_cofactor_note"
+              },
+              "evTerm": {
+                "name": "ccev_cofactor_note"
+              },
               "dataType": "string",
               "description": "Search by cofactor note",
               "example": "subunit"
@@ -682,8 +1066,12 @@
             {
               "id": "id_bpcp",
               "label": "Any",
-              "term": "cc_bpcp",
-              "evTerm": "ccev_bpcp",
+              "term": {
+                "name": "cc_bpcp"
+              },
+              "evTerm": {
+                "name": "ccev_bpcp"
+              },
               "dataType": "string",
               "description": "Search by biophysicochemical properties",
               "example": "\"some value\""
@@ -691,8 +1079,12 @@
             {
               "id": "id_bpcp_absorption",
               "label": "Absorption",
-              "term": "cc_bpcp_absorption",
-              "evTerm": "ccev_bpcp_absorption",
+              "term": {
+                "name": "cc_bpcp_absorption"
+              },
+              "evTerm": {
+                "name": "ccev_bpcp_absorption"
+              },
               "dataType": "string",
               "description": "Search by biophysicochemical properties: absorption",
               "example": "prosthetic"
@@ -700,8 +1092,12 @@
             {
               "id": "id_bpcp_kinetics",
               "label": "Kinetics",
-              "term": "cc_bpcp_kinetics",
-              "evTerm": "ccev_bpcp_kinetics",
+              "term": {
+                "name": "cc_bpcp_kinetics"
+              },
+              "evTerm": {
+                "name": "ccev_bpcp_kinetics"
+              },
               "dataType": "string",
               "description": "Search by biophysicochemical properties: kinetic parameters",
               "example": "aspartate"
@@ -709,8 +1105,12 @@
             {
               "id": "id_bpcp_ph_dependence",
               "label": "ph dependence",
-              "term": "cc_bpcp_ph_dependence",
-              "evTerm": "ccev_bpcp_ph_dependence",
+              "term": {
+                "name": "cc_bpcp_ph_dependence"
+              },
+              "evTerm": {
+                "name": "ccev_bpcp_ph_dependence"
+              },
               "dataType": "string",
               "description": "Search by biophysicochemical properties: ph dependence",
               "example": "optimum"
@@ -718,8 +1118,12 @@
             {
               "id": "id_bpcp_redox_potential",
               "label": "Redox potential",
-              "term": "cc_bpcp_redox_potential",
-              "evTerm": "ccev_bpcp_redox_potential",
+              "term": {
+                "name": "cc_bpcp_redox_potential"
+              },
+              "evTerm": {
+                "name": "ccev_bpcp_redox_potential"
+              },
               "dataType": "string",
               "description": "Search by biophysicochemical properties: redox potential",
               "example": "siroheme"
@@ -727,8 +1131,12 @@
             {
               "id": "id_bpcp_temp_dependence",
               "label": "Temperature dependence",
-              "term": "cc_bpcp_temp_dependence",
-              "evTerm": "ccev_bpcp_temp_dependence",
+              "term": {
+                "name": "cc_bpcp_temp_dependence"
+              },
+              "evTerm": {
+                "name": "ccev_bpcp_temp_dependence"
+              },
               "dataType": "string",
               "description": "Search by biophysicochemical properties: tempeature dependence",
               "example": "*"
@@ -738,8 +1146,12 @@
         {
           "id": "id_catalytic_activity",
           "label": "Catalytic Activity",
-          "term": "cc_catalytic_activity",
-          "evTerm": "ccev_catalytic_activity",
+          "term": {
+            "name": "cc_catalytic_activity"
+          },
+          "evTerm": {
+            "name": "ccev_catalytic_activity"
+          },
           "autoComplete": "/uniprot/api/suggester?dict=catalytic_activity&query=?",
           "description": "Search by comment catalytic activity",
           "example": "tyrosine"
@@ -747,8 +1159,12 @@
         {
           "id": "id_activity_regulation",
           "label": "Activity regulation",
-          "term": "cc_activity_regulation",
-          "evTerm": "ccev_activity_regulation",
+          "term": {
+            "name": "cc_activity_regulation"
+          },
+          "evTerm": {
+            "name": "ccev_activity_regulation"
+          },
           "dataType": "string",
           "description": "Search by comment activity regulation",
           "example": "inhibited"
@@ -756,8 +1172,12 @@
         {
           "id": "id_function_cc",
           "label": "Function [CC]",
-          "term": "cc_function",
-          "evTerm": "ccev_function",
+          "term": {
+            "name": "cc_function"
+          },
+          "evTerm": {
+            "name": "ccev_function"
+          },
           "dataType": "string",
           "description": "Search by comment function",
           "example": "enzyme"
@@ -765,8 +1185,12 @@
         {
           "id": "id_caution",
           "label": "Caution",
-          "term": "cc_caution",
-          "evTerm": "ccev_caution",
+          "term": {
+            "name": "cc_caution"
+          },
+          "evTerm": {
+            "name": "ccev_caution"
+          },
           "dataType": "string",
           "description": "Search by caution comment",
           "example": "kinase"
@@ -779,50 +1203,80 @@
             {
               "id": "id_sites",
               "label": "Any",
-              "term": "ft_sites",
+              "term": {
+                "name": "ft_sites"
+              },
               "dataType": "string",
-              "positionalTerm": "ftlen_sites",
-              "evTerm": "ftev_sites",
+              "positionalTerm": {
+                "name": "ftlen_sites"
+              },
+              "evTerm": {
+                "name": "ftev_sites"
+              },
               "description": "Search by feature sites",
               "example": "translocation"
             },
             {
               "id": "id_act_site",
               "label": "Active site",
-              "term": "act_site",
+              "term": {
+                "name": "act_site"
+              },
               "dataType": "string",
-              "positionalTerm": "ftlen_act_site",
-              "evTerm": "ftev_act_site",
+              "positionalTerm": {
+                "name": "ftlen_act_site"
+              },
+              "evTerm": {
+                "name": "ftev_act_site"
+              },
               "description": "Search by feature  active site",
               "example": "phosphocysteine"
             },
             {
               "id": "id_metal",
               "label": "Metal binding",
-              "term": "metal",
+              "term": {
+                "name": "metal"
+              },
               "dataType": "string",
-              "positionalTerm": "ftlen_metal",
-              "evTerm": "ftev_metal",
+              "positionalTerm": {
+                "name": "ftlen_metal"
+              },
+              "evTerm": {
+                "name": "ftev_metal"
+              },
               "description": "Search by feature metal binding",
               "example": "phosphocysteine"
             },
             {
               "id": "id_binding",
               "label": "Binding site",
-              "term": "binding",
+              "term": {
+                "name": "binding"
+              },
               "dataType": "string",
-              "positionalTerm": "ftlen_binding",
-              "evTerm": "ftev_binding",
+              "positionalTerm": {
+                "name": "ftlen_binding"
+              },
+              "evTerm": {
+                "name": "ftev_binding"
+              },
               "description": "Search by feature binding site",
               "example": "phosphocysteine"
             },
             {
               "id": "id_site",
               "label": "Other",
-              "term": "site",
+              "term": {
+                "name": "site"
+              },
               "dataType": "string",
-              "positionalTerm": "ftlen_site",
-              "evTerm": "ftev_site",
+              "positionalTerm": {
+                "name": "ftlen_site"
+              },
+              "evTerm": {
+                "name": "ftev_site"
+              },
               "description": "Search by feature other site",
               "example": "phosphocysteine"
             }
@@ -831,38 +1285,60 @@
         {
           "id": "id_ca_bind",
           "label": "Calcium binding",
-          "term": "ft_ca_bind",
+          "term": {
+            "name": "ft_ca_bind"
+          },
           "dataType": "string",
-          "positionalTerm": "ftlen_ca_bind",
-          "evTerm": "ftev_ca_bind",
+          "positionalTerm": {
+            "name": "ftlen_ca_bind"
+          },
+          "evTerm": {
+            "name": "ftev_ca_bind"
+          },
           "description": "Search by feature calcium binding",
           "example": "site"
         },
         {
           "id": "id_dna_bind",
           "label": "DNA binding",
-          "term": "ft_dna_bind",
+          "term": {
+            "name": "ft_dna_bind"
+          },
           "dataType": "string",
-          "positionalTerm": "ftlen_dna_bind",
-          "evTerm": "ftev_dna_bind",
+          "positionalTerm": {
+            "name": "ftlen_dna_bind"
+          },
+          "evTerm": {
+            "name": "ftev_dna_bind"
+          },
           "description": "Search by feature DNA binding",
           "example": "*"
         },
         {
           "id": "id_np_bind",
           "label": "Nucleotide binding",
-          "term": "ft_np_bind",
+          "term": {
+            "name": "ft_np_bind"
+          },
           "dataType": "string",
-          "positionalTerm": "ftlen_np_bind",
-          "evTerm": "ftev_np_bind",
+          "positionalTerm": {
+            "name": "ftlen_np_bind"
+          },
+          "evTerm": {
+            "name": "ftev_np_bind"
+          },
           "description": "Search by feature Nucleotide binding",
           "example": "NADP"
         },
         {
           "id": "id_pathway",
           "label": "Pathway",
-          "term": "cc_pathway",
-          "evTerm": "ccev_pathway",
+          "term": {
+            "name": "cc_pathway"
+          },
+          "evTerm": {
+            "name": "ccev_pathway"
+          },
           "dataType": "string",
           "description": "Search by comment pathway",
           "example": "metabolism"
@@ -870,8 +1346,12 @@
         {
           "id": "id_miscellaneous",
           "label": "Miscellaneous [CC]",
-          "term": "cc_miscellaneous",
-          "evTerm": "ccev_miscellaneous",
+          "term": {
+            "name": "cc_miscellaneous"
+          },
+          "evTerm": {
+            "name": "ccev_miscellaneous"
+          },
           "dataType": "string",
           "description": "Search by comment Miscellaneous",
           "example": "abscisic"
@@ -891,8 +1371,12 @@
             {
               "id": "id_scl_term",
               "label": "Subcellular location term",
-              "term": "cc_scl_term",
-              "evTerm": "ccev_scl_term",
+              "term": {
+                "name": "cc_scl_term"
+              },
+              "evTerm": {
+                "name": "ccev_scl_term"
+              },
               "dataType": "string",
               "autoComplete": "/uniprot/api/suggester?dict=subcell&query=?",
               "description": "Search by comment subcellular location term",
@@ -901,8 +1385,12 @@
             {
               "id": "id_scl_note",
               "label": "Subcellular location note",
-              "term": "cc_scl_note",
-              "evTerm": "ccev_scl_note",
+              "term": {
+                "name": "cc_scl_note"
+              },
+              "evTerm": {
+                "name": "ccev_scl_note"
+              },
               "dataType": "string",
               "description": "Search by comment subcellular location note",
               "example": "membrane"
@@ -912,30 +1400,48 @@
         {
           "id": "id_transmem",
           "label": "Transmembrane",
-          "term": "ft_transmem",
+          "term": {
+            "name": "ft_transmem"
+          },
           "dataType": "string",
-          "positionalTerm": "ftlen_transmem",
-          "evTerm": "ftev_transmem",
+          "positionalTerm": {
+            "name": "ftlen_transmem"
+          },
+          "evTerm": {
+            "name": "ftev_transmem"
+          },
           "description": "Search by Transmembrane",
           "example": "forming"
         },
         {
           "id": "id_topo_dom",
           "label": "Topological domain",
-          "term": "ft_topo_dom",
+          "term": {
+            "name": "ft_topo_dom"
+          },
           "dataType": "string",
-          "positionalTerm": "ftlen_topo_dom",
-          "evTerm": "ftev_topo_dom",
+          "positionalTerm": {
+            "name": "ftlen_topo_dom"
+          },
+          "evTerm": {
+            "name": "ftev_topo_dom"
+          },
           "description": "Search by Topological domain",
           "example": "forming"
         },
         {
           "id": "id_intramem",
           "label": "Intramembrane",
-          "term": "ft_intramem",
+          "term": {
+            "name": "ft_intramem"
+          },
           "dataType": "string",
-          "positionalTerm": "ftlen_intramem",
-          "evTerm": "ftev_intramem",
+          "positionalTerm": {
+            "name": "ftlen_intramem"
+          },
+          "evTerm": {
+            "name": "ftev_intramem"
+          },
           "description": "Search by Intramembrane",
           "example": "forming"
         }
@@ -949,8 +1455,12 @@
         {
           "id": "id_disease",
           "label": "Disease",
-          "term": "disease",
-          "evTerm": "ccev_disease",
+          "term": {
+            "name": "disease"
+          },
+          "evTerm": {
+            "name": "ccev_disease"
+          },
           "dataType": "string",
           "description": "Search by Comment disease",
           "example": "nephrotic"
@@ -958,8 +1468,12 @@
         {
           "id": "id_allergen",
           "label": "Alergenic properties",
-          "term": "cc_allergen",
-          "evTerm": "ccev_allergen",
+          "term": {
+            "name": "cc_allergen"
+          },
+          "evTerm": {
+            "name": "ccev_allergen"
+          },
           "dataType": "string",
           "description": "Search by Comment alergenic properties",
           "example": "allergic"
@@ -967,8 +1481,12 @@
         {
           "id": "id_toxic_dose",
           "label": "Toxic dose",
-          "term": "cc_toxic_dose",
-          "evTerm": "ccev_toxic_dose",
+          "term": {
+            "name": "cc_toxic_dose"
+          },
+          "evTerm": {
+            "name": "ccev_toxic_dose"
+          },
           "dataType": "string",
           "description": "Search by Comment Toxic dose",
           "example": "intracistenal"
@@ -976,8 +1494,12 @@
         {
           "id": "id_biotechnology",
           "label": "Biotechnological use",
-          "term": "cc_biotechnology",
-          "evTerm": "ccev_biotechnology",
+          "term": {
+            "name": "cc_biotechnology"
+          },
+          "evTerm": {
+            "name": "ccev_biotechnology"
+          },
           "dataType": "string",
           "description": "Search by Comment Biotechnological use",
           "example": "vaccine"
@@ -985,8 +1507,12 @@
         {
           "id": "id_pharmaceutical",
           "label": "Pharmaceutical use",
-          "term": "pharmaceutical",
-          "evTerm": "ccev_pharmaceutical",
+          "term": {
+            "name": "pharmaceutical"
+          },
+          "evTerm": {
+            "name": "ccev_pharmaceutical"
+          },
           "dataType": "string",
           "description": "Search by Comment Pharmaceutical use",
           "example": "peptide"
@@ -994,8 +1520,12 @@
         {
           "id": "id_disruption_phenotype",
           "label": "Disruption phenotype",
-          "term": "disruption_phenotype",
-          "evTerm": "ccev_disruption_phenotype",
+          "term": {
+            "name": "disruption_phenotype"
+          },
+          "evTerm": {
+            "name": "ccev_disruption_phenotype"
+          },
           "dataType": "string",
           "description": "Search by Comment Disruption phenotype",
           "example": "infected"
@@ -1003,10 +1533,16 @@
         {
           "id": "id_mutagen",
           "label": "Mutagenesis",
-          "term": "ft_mutagen",
+          "term": {
+            "name": "ft_mutagen"
+          },
           "dataType": "string",
-          "positionalTerm": "ftlen_mutagen",
-          "evTerm": "ftev_mutagen",
+          "positionalTerm": {
+            "name": "ftlen_mutagen"
+          },
+          "evTerm": {
+            "name": "ftev_mutagen"
+          },
           "description": "Search by Feature Mutagenesis",
           "example": "phosphatase"
         }
@@ -1020,8 +1556,12 @@
         {
           "id": "id_ptm",
           "label": "Post-translational modification [CC]",
-          "term": "cc_ptm",
-          "evTerm": "ccev_ptm",
+          "term": {
+            "name": "cc_ptm"
+          },
+          "evTerm": {
+            "name": "ccev_ptm"
+          },
           "dataType": "string",
           "description": "Search by Comment Post-translational modification",
           "example": "mitosis"
@@ -1029,50 +1569,80 @@
         {
           "id": "id_mod_res",
           "label": "Modified residue [FT]",
-          "term": "ft_mod_res",
+          "term": {
+            "name": "ft_mod_res"
+          },
           "dataType": "string",
-          "positionalTerm": "ftlen_mod_res",
-          "evTerm": "ftev_mod_res",
+          "positionalTerm": {
+            "name": "ftlen_mod_res"
+          },
+          "evTerm": {
+            "name": "ftev_mod_res"
+          },
           "description": "Search by Feature Modified residue",
           "example": "phosphoserine"
         },
         {
           "id": "id_lipid",
           "label": "Lipidation [FT]",
-          "term": "ft_lipid",
+          "term": {
+            "name": "ft_lipid"
+          },
           "dataType": "string",
-          "positionalTerm": "ftlen_lipid",
-          "evTerm": "ftev_lipid",
+          "positionalTerm": {
+            "name": "ftlen_lipid"
+          },
+          "evTerm": {
+            "name": "ftev_lipid"
+          },
           "description": "Search by Feature Lipidation",
           "example": "cysteine"
         },
         {
           "id": "id_carbohyd",
           "label": "Glycosylation [FT]",
-          "term": "ft_carbohyd",
+          "term": {
+            "name": "ft_carbohyd"
+          },
           "dataType": "string",
-          "positionalTerm": "ftlen_carbohyd",
-          "evTerm": "ftev_carbohyd",
+          "positionalTerm": {
+            "name": "ftlen_carbohyd"
+          },
+          "evTerm": {
+            "name": "ftev_carbohyd"
+          },
           "description": "Search by Feature Glycosylation",
           "example": "cysteine"
         },
         {
           "id": "id_disulfid",
           "label": "Disulfide bond [FT]",
-          "term": "ft_disulfid",
+          "term": {
+            "name": "ft_disulfid"
+          },
           "dataType": "string",
-          "positionalTerm": "ftlen_disulfid",
-          "evTerm": "ftev_disulfid",
+          "positionalTerm": {
+            "name": "ftlen_disulfid"
+          },
+          "evTerm": {
+            "name": "ftev_disulfid"
+          },
           "description": "Search by Feature Disulfide bond",
           "example": "reversible"
         },
         {
           "id": "id_crosslnk",
           "label": "Cross-link [FT]",
-          "term": "ft_crosslnk",
+          "term": {
+            "name": "ft_crosslnk"
+          },
           "dataType": "string",
-          "positionalTerm": "ftlen_crosslnk",
-          "evTerm": "ftev_crosslnk",
+          "positionalTerm": {
+            "name": "ftlen_crosslnk"
+          },
+          "evTerm": {
+            "name": "ftev_crosslnk"
+          },
           "description": "Search by Feature Cross-link",
           "example": "lysine"
         },
@@ -1084,70 +1654,112 @@
             {
               "id": "id_molecule_processing",
               "label": "Any molecule processing",
-              "term": "ft_molecule_processing",
+              "term": {
+                "name": "ft_molecule_processing"
+              },
               "dataType": "string",
-              "positionalTerm": "ftlen_molecule_processing",
-              "evTerm": "ftev_molecule_processing",
+              "positionalTerm": {
+                "name": "ftlen_molecule_processing"
+              },
+              "evTerm": {
+                "name": "ftev_molecule_processing"
+              },
               "description": "Search by Feature Molecule Processing",
               "example": "disulfide"
             },
             {
               "id": "id_chain",
               "label": "Chain",
-              "term": "ft_chain",
+              "term": {
+                "name": "ft_chain"
+              },
               "dataType": "string",
-              "positionalTerm": "ftlen_chain",
-              "evTerm": "ftev_chain",
+              "positionalTerm": {
+                "name": "ftlen_chain"
+              },
+              "evTerm": {
+                "name": "ftev_chain"
+              },
               "description": "Search by Feature chain",
               "example": "kinase"
             },
             {
               "id": "id_init_met",
               "label": "Initiator methionine",
-              "term": "ft_init_met",
+              "term": {
+                "name": "ft_init_met"
+              },
               "dataType": "string",
-              "positionalTerm": "ftlen_init_met",
-              "evTerm": "ftev_init_met",
+              "positionalTerm": {
+                "name": "ftlen_init_met"
+              },
+              "evTerm": {
+                "name": "ftev_init_met"
+              },
               "description": "Search by Feature initiator methionine",
               "example": "Removed"
             },
             {
               "id": "id_peptide",
               "label": "Peptide",
-              "term": "ft_peptide",
+              "term": {
+                "name": "ft_peptide"
+              },
               "dataType": "string",
-              "positionalTerm": "ftlen_peptide",
-              "evTerm": "ftev_peptide",
+              "positionalTerm": {
+                "name": "ftlen_peptide"
+              },
+              "evTerm": {
+                "name": "ftev_peptide"
+              },
               "description": "Search by Feature peptide",
               "example": "Removed"
             },
             {
               "id": "id_signal",
               "label": "Signal Peptide",
-              "term": "ft_signal",
+              "term": {
+                "name": "ft_signal"
+              },
               "dataType": "string",
-              "positionalTerm": "ftlen_signal",
-              "evTerm": "ftev_signal",
+              "positionalTerm": {
+                "name": "ftlen_signal"
+              },
+              "evTerm": {
+                "name": "ftev_signal"
+              },
               "description": "Search by Feature signal peptide",
               "example": "cleaved"
             },
             {
               "id": "id_propep",
               "label": "Propeptide",
-              "term": "ft_propep",
+              "term": {
+                "name": "ft_propep"
+              },
               "dataType": "string",
-              "positionalTerm": "ftlen_propep",
-              "evTerm": "ftev_propep",
+              "positionalTerm": {
+                "name": "ftlen_propep"
+              },
+              "evTerm": {
+                "name": "ftev_propep"
+              },
               "description": "Search by Feature signal peptide",
               "example": "Activation peptide"
             },
             {
               "id": "id_transit",
               "label": "Transit Peptide",
-              "term": "ft_transit",
+              "term": {
+                "name": "ft_transit"
+              },
               "dataType": "string",
-              "positionalTerm": "ftlen_transit",
-              "evTerm": "ftev_transit",
+              "positionalTerm": {
+                "name": "ftlen_transit"
+              },
+              "evTerm": {
+                "name": "ftev_transit"
+              },
               "description": "Search by Feature signal peptide",
               "example": "Mitochondrion"
             }
@@ -1163,8 +1775,12 @@
         {
           "id": "id_developmental_stage",
           "label": "Developmental stage",
-          "term": "cc_developmental_stage",
-          "evTerm": "ccev_developmental_stage",
+          "term": {
+            "name": "cc_developmental_stage"
+          },
+          "evTerm": {
+            "name": "ccev_developmental_stage"
+          },
           "dataType": "string",
           "description": "Search by Comment Developmental stage",
           "example": "brain"
@@ -1172,8 +1788,12 @@
         {
           "id": "id_induction",
           "label": "Induction",
-          "term": "cc_induction",
-          "evTerm": "ccev_induction",
+          "term": {
+            "name": "cc_induction"
+          },
+          "evTerm": {
+            "name": "ccev_induction"
+          },
           "dataType": "string",
           "description": "Search by Comment Induction",
           "example": "calcium"
@@ -1181,8 +1801,12 @@
         {
           "id": "id_tissue_specificity",
           "label": "Tissue specificity",
-          "term": "cc_tissue_specificity",
-          "evTerm": "ccev_tissue_specificity",
+          "term": {
+            "name": "cc_tissue_specificity"
+          },
+          "evTerm": {
+            "name": "ccev_tissue_specificity"
+          },
           "dataType": "string",
           "description": "Search by Comment Tissue specificity",
           "example": "pancreas"
@@ -1197,7 +1821,9 @@
         {
           "id": "id_interactor",
           "label": "Binary Interaction",
-          "term": "interactor",
+          "term": {
+            "name": "interactor"
+          },
           "dataType": "string",
           "description": "Search by Comment Binary Interaction",
           "example": "EBI-1042898"
@@ -1205,8 +1831,12 @@
         {
           "id": "id_subunit",
           "label": "Subunit structure",
-          "term": "cc_subunit",
-          "evTerm": "ccev_subunit",
+          "term": {
+            "name": "cc_subunit"
+          },
+          "evTerm": {
+            "name": "ccev_subunit"
+          },
           "dataType": "string",
           "description": "Search by Subunit structure",
           "example": "homodimer"
@@ -1221,7 +1851,9 @@
         {
           "id": "id_d3structure",
           "label": "3D Structure",
-          "term": "d3structure",
+          "term": {
+            "name": "d3structure"
+          },
           "dataType": "enum",
           "hasEvidence": false,
           "description": "Search by having pdb cross reference or not",
@@ -1245,40 +1877,64 @@
             {
               "id": "id_secstruct",
               "label": "Any",
-              "term": "ft_secstruct",
+              "term": {
+                "name": "ft_secstruct"
+              },
               "dataType": "string",
-              "positionalTerm": "ftlen_secstruct",
-              "evTerm": "ftev_secstruct",
+              "positionalTerm": {
+                "name": "ftlen_secstruct"
+              },
+              "evTerm": {
+                "name": "ftev_secstruct"
+              },
               "description": "Search by Feature Any secondary structure",
               "example": "*"
             },
             {
               "id": "id_helix",
               "label": "Helix",
-              "term": "ft_helix",
+              "term": {
+                "name": "ft_helix"
+              },
               "dataType": "string",
-              "positionalTerm": "ftlen_helix",
-              "evTerm": "ftev_helix",
+              "positionalTerm": {
+                "name": "ftlen_helix"
+              },
+              "evTerm": {
+                "name": "ftev_helix"
+              },
               "description": "Search by Feature helix",
               "example": "*"
             },
             {
               "id": "id_turn",
               "label": "Turn",
-              "term": "ft_turn",
+              "term": {
+                "name": "ft_turn"
+              },
               "dataType": "string",
-              "positionalTerm": "ftlen_turn",
-              "evTerm": "ftev_turn",
+              "positionalTerm": {
+                "name": "ftlen_turn"
+              },
+              "evTerm": {
+                "name": "ftev_turn"
+              },
               "description": "Search by Feature turn",
               "example": "*"
             },
             {
               "id": "id_strand",
               "label": "Beta strand",
-              "term": "ft_strand",
+              "term": {
+                "name": "ft_strand"
+              },
               "dataType": "string",
-              "positionalTerm": "ftlen_strand",
-              "evTerm": "ftev_strand",
+              "positionalTerm": {
+                "name": "ftlen_strand"
+              },
+              "evTerm": {
+                "name": "ftev_strand"
+              },
               "description": "Search by Feature Beta strand",
               "example": "*"
             }
@@ -1294,18 +1950,26 @@
         {
           "id": "id_mass",
           "label": "Mass(Da)",
-          "sortTerm": "mass",
+          "sortTerm": {
+            "name": "mass"
+          },
           "dataType": "integer",
-          "positionalTerm": "mass",
+          "positionalTerm": {
+            "name": "mass"
+          },
           "description": "Search by Sequence mass",
           "example": "[441126 TO 441126]"
         },
         {
           "id": "id_length",
           "label": "Sequence length",
-          "sortTerm": "length",
+          "sortTerm": {
+            "name": "length"
+          },
           "dataType": "integer",
-          "positionalTerm": "length",
+          "positionalTerm": {
+            "name": "length"
+          },
           "description": "Search by Sequence length",
           "example": "[441 TO 450]"
         },
@@ -1317,8 +1981,12 @@
             {
               "id": "id_ap",
               "label": "Any",
-              "term": "cc_ap",
-              "evTerm": "ccev_ap",
+              "term": {
+                "name": "cc_ap"
+              },
+              "evTerm": {
+                "name": "ccev_ap"
+              },
               "dataType": "string",
               "description": "Search by Comment alternative Products",
               "example": "tissues"
@@ -1326,8 +1994,12 @@
             {
               "id": "id_ap_apu",
               "label": "Alternative promoter usage",
-              "term": "cc_ap_apu",
-              "evTerm": "ccev_ap_apu",
+              "term": {
+                "name": "cc_ap_apu"
+              },
+              "evTerm": {
+                "name": "ccev_ap_apu"
+              },
               "dataType": "string",
               "description": "Search by Comment alternative Products: alternative promoter usage",
               "example": "*"
@@ -1335,8 +2007,12 @@
             {
               "id": "id_ap_as",
               "label": "Alternative splicing",
-              "term": "cc_ap_as",
-              "evTerm": "ccev_ap_as",
+              "term": {
+                "name": "cc_ap_as"
+              },
+              "evTerm": {
+                "name": "ccev_ap_as"
+              },
               "dataType": "string",
               "description": "Search by Comment alternative Products: alternative splicing",
               "example": "experimental"
@@ -1344,8 +2020,12 @@
             {
               "id": "id_ap_ai",
               "label": "Alternative initiation",
-              "term": "cc_ap_ai",
-              "evTerm": "ccev_ap_ai",
+              "term": {
+                "name": "cc_ap_ai"
+              },
+              "evTerm": {
+                "name": "ccev_ap_ai"
+              },
               "dataType": "string",
               "description": "Search by Comment alternative Products: alternative initiation",
               "example": "acetylalanine"
@@ -1353,8 +2033,12 @@
             {
               "id": "id_ap_rf",
               "label": "Ribosomal frameshifting",
-              "term": "cc_ap_rf",
-              "evTerm": "ccev_ap_rf",
+              "term": {
+                "name": "cc_ap_rf"
+              },
+              "evTerm": {
+                "name": "ccev_ap_rf"
+              },
               "dataType": "string",
               "description": "Search by Comment alternative Products: ribosomal frameshifting",
               "example": "translation"
@@ -1369,17 +2053,25 @@
             {
               "id": "id_sc",
               "label": "Any",
-              "term": "cc_sequence_caution",
-              "evTerm": "cc_sequence_caution",
+              "term": {
+                "name": "cc_sequence_caution"
+              },
+              "evTerm": {
+                "name": "cc_sequence_caution"
+              },
               "dataType": "string",
               "description": "Search by Comment Sequence caution",
               "example": "translated"
             },
             {
               "id": "id_sc_framesh",
-              "label": "Framshift",
-              "term": "cc_sc_framesh",
-              "evTerm": "ccev_sc_framesh",
+              "label": "Frame shift",
+              "term": {
+                "name": "cc_sc_framesh"
+              },
+              "evTerm": {
+                "name": "ccev_sc_framesh"
+              },
               "dataType": "string",
               "description": "Search by Comment Sequence caution: frameshift",
               "example": "*"
@@ -1387,7 +2079,9 @@
             {
               "id": "id_sc_einit",
               "label": "Erroneous initiation",
-              "term": "cc_sc_einit",
+              "term": {
+                "name": "cc_sc_einit"
+              },
               "dataType": "string",
               "description": "Search by Comment Sequence caution: erroneous initiation",
               "example": "extended"
@@ -1395,7 +2089,9 @@
             {
               "id": "id_sc_eterm",
               "label": "Erroneous termination",
-              "term": "cc_sc_eterm",
+              "term": {
+                "name": "cc_sc_eterm"
+              },
               "dataType": "string",
               "description": "Search by Comment Sequence caution: erroneous termination",
               "example": "translated"
@@ -1403,7 +2099,9 @@
             {
               "id": "id_sc_epred",
               "label": "Erroneous gene model prediction",
-              "term": "cc_sc_epred",
+              "term": {
+                "name": "cc_sc_epred"
+              },
               "dataType": "string",
               "description": "Search by Comment Sequence caution: erroneous gene model prediction",
               "example": "*"
@@ -1411,7 +2109,9 @@
             {
               "id": "id_sc_etran",
               "label": "Erroneous translation",
-              "term": "cc_sc_etran",
+              "term": {
+                "name": "cc_sc_etran"
+              },
               "dataType": "string",
               "description": "Search by Comment Sequence caution: erroneous translation",
               "example": "choice"
@@ -1419,8 +2119,12 @@
             {
               "id": "id_sc_misc",
               "label": "Miscellaneous Discrepancy",
-              "term": "cc_sc_misc",
-              "evTerm": "ccev_sc_misc",
+              "term": {
+                "name": "cc_sc_misc"
+              },
+              "evTerm": {
+                "name": "ccev_sc_misc"
+              },
               "dataType": "string",
               "description": "Search by Comment Sequence caution: miscellaneous discrepancy",
               "example": "sequence"
@@ -1430,8 +2134,12 @@
         {
           "id": "id_mass_spectrometry",
           "label": "ectrometry",
-          "term": "cc_mass_spectrometry",
-          "evTerm": "ccev_mass_spectrometry",
+          "term": {
+            "name": "cc_mass_spectrometry"
+          },
+          "evTerm": {
+            "name": "ccev_mass_spectrometry"
+          },
           "dataType": "string",
           "description": "Search by Comment ectrometry",
           "example": "electrospray"
@@ -1439,8 +2147,12 @@
         {
           "id": "id_polymorphism",
           "label": "Polymorphism",
-          "term": "cc_polymorphism",
-          "evTerm": "cc_polymorphism",
+          "term": {
+            "name": "cc_polymorphism"
+          },
+          "evTerm": {
+            "name": "cc_polymorphism"
+          },
           "dataType": "string",
           "description": "Search by Comment Polymorphism",
           "example": "transcript"
@@ -1448,8 +2160,12 @@
         {
           "id": "id_rna_editing",
           "label": "RNA Editing",
-          "term": "cc_rna_editing",
-          "evTerm": "ccev_rna_editing",
+          "term": {
+            "name": "cc_rna_editing"
+          },
+          "evTerm": {
+            "name": "ccev_rna_editing"
+          },
           "dataType": "string",
           "description": "Search by Comment rna editing",
           "example": "target"
@@ -1462,30 +2178,48 @@
             {
               "id": "id_variants",
               "label": "Any",
-              "term": "ft_variants",
+              "term": {
+                "name": "ft_variants"
+              },
               "dataType": "string",
-              "positionalTerm": "ftlen_variants",
-              "evTerm": "ftev_variants",
+              "positionalTerm": {
+                "name": "ftlen_variants"
+              },
+              "evTerm": {
+                "name": "ftev_variants"
+              },
               "description": "Search by Feature natural variations",
               "example": "colorectal"
             },
             {
               "id": "id_variant",
               "label": "Natural variant",
-              "term": "ft_variant",
+              "term": {
+                "name": "ft_variant"
+              },
               "dataType": "string",
-              "positionalTerm": "ftlen_variant",
-              "evTerm": "ftev_variant",
+              "positionalTerm": {
+                "name": "ftlen_variant"
+              },
+              "evTerm": {
+                "name": "ftev_variant"
+              },
               "description": "Search by Feature natural variant",
               "example": "colorectal"
             },
             {
               "id": "id_var_seq",
               "label": "Alternative sequence",
-              "term": "ft_var_seq",
+              "term": {
+                "name": "ft_var_seq"
+              },
               "dataType": "string",
-              "positionalTerm": "ftlen_var_seq",
-              "evTerm": "ftev_var_seq",
+              "positionalTerm": {
+                "name": "ftlen_var_seq"
+              },
+              "evTerm": {
+                "name": "ftev_var_seq"
+              },
               "description": "Search by Feature alternative sequence",
               "example": "isoform"
             }
@@ -1494,67 +2228,105 @@
         {
           "id": "id_non_std",
           "label": "Non-standard residue",
-          "term": "ft_non_std",
+          "term": {
+            "name": "ft_non_std"
+          },
           "dataType": "string",
-          "positionalTerm": "ftlen_non_std",
-          "evTerm": "ftev_non_std",
+          "positionalTerm": {
+            "name": "ftlen_non_std"
+          },
+          "evTerm": {
+            "name": "ftev_non_std"
+          },
           "description": "Search by feature non standard residue",
           "example": "selenocysteine"
         },
         {
           "id": "id_non_ter",
           "label": "Non-terminal residue",
-          "term": "ft_non_ter",
+          "term": {
+            "name": "ft_non_ter"
+          },
           "dataType": "string",
-          "positionalTerm": "ftlen_non_ter",
-          "evTerm": "ftev_non_ter",
+          "positionalTerm": {
+            "name": "ftlen_non_ter"
+          },
+          "evTerm": {
+            "name": "ftev_non_ter"
+          },
           "description": "Search by feature non-terminal residue",
           "example": "*"
         },
         {
           "id": "id_non_cons",
           "label": "Non-adjacent residue",
-          "term": "ft_non_cons",
+          "term": {
+            "name": "ft_non_cons"
+          },
           "dataType": "string",
-          "positionalTerm": "ftlen_non_cons",
-          "evTerm": "ftev_non_cons",
+          "positionalTerm": {
+            "name": "ftlen_non_cons"
+          },
+          "evTerm": {
+            "name": "ftev_non_cons"
+          },
           "description": "Search by feature non-adjacent residue",
           "example": "*"
         },
         {
           "id": "id_conflict",
           "label": "Sequence conflict",
-          "term": "ft_conflict",
+          "term": {
+            "name": "ft_conflict"
+          },
           "dataType": "string",
-          "positionalTerm": "ftlen_conflict",
-          "evTerm": "ftev_conflict",
+          "positionalTerm": {
+            "name": "ftlen_conflict"
+          },
+          "evTerm": {
+            "name": "ftev_conflict"
+          },
           "description": "Search by feature Sequence conflict",
           "example": "*"
         },
         {
           "id": "id_unsure",
           "label": "Sequence uncertainty",
-          "term": "ft_unsure",
+          "term": {
+            "name": "ft_unsure"
+          },
           "dataType": "string",
-          "positionalTerm": "ftlen_unsure",
-          "evTerm": "ftev_unsure",
+          "positionalTerm": {
+            "name": "ftlen_unsure"
+          },
+          "evTerm": {
+            "name": "ftev_unsure"
+          },
           "description": "Search by feature Sequence uncertainty",
           "example": "*"
         },
         {
           "id": "id_positional",
           "label": "Sequence features [FT]",
-          "term": "ft_positional",
+          "term": {
+            "name": "ft_positional"
+          },
           "dataType": "string",
-          "positionalTerm": "ftlen_positional",
-          "evTerm": "ftev_positional",
+          "positionalTerm": {
+            "name": "ftlen_positional"
+          },
+          "evTerm": {
+            "name": "ftev_positional"
+          },
           "description": "Search by sequence positional features",
           "example": "colorectal"
         },
         {
           "id": "id_fragment",
           "label": "Fragment",
-          "term": "fragment",
+          "term": {
+            "name": "fragment"
+          },
           "dataType": "enum",
           "values": [
             {
@@ -1572,7 +2344,9 @@
         {
           "id": "id_organelle",
           "label": "Encoded in",
-          "term": "organelle",
+          "term": {
+            "name": "organelle"
+          },
           "dataType": "enum",
           "values": [
             {
@@ -1618,7 +2392,9 @@
         {
           "id": "id_precursor",
           "label": "Precursor",
-          "term": "precursor",
+          "term": {
+            "name": "precursor"
+          },
           "dataType": "enum",
           "values": [
             {
@@ -1641,7 +2417,9 @@
             {
               "id": "id_tissue",
               "label": "Tissue",
-              "term": "tissue",
+              "term": {
+                "name": "tissue"
+              },
               "dataType": "string",
               "description": "Search by tissue",
               "example": "head"
@@ -1649,7 +2427,9 @@
             {
               "id": "id_strain",
               "label": "Strain",
-              "term": "strain",
+              "term": {
+                "name": "strain"
+              },
               "dataType": "string",
               "description": "Search by strain",
               "example": "berkeley"
@@ -1657,7 +2437,9 @@
             {
               "id": "id_plasmid",
               "label": "Plasmid",
-              "term": "plasmid",
+              "term": {
+                "name": "plasmid"
+              },
               "dataType": "string",
               "description": "Search by plasmid",
               "example": "pO113"
@@ -1665,7 +2447,9 @@
             {
               "id": "id_transposon",
               "label": "Transposon",
-              "term": "transposon",
+              "term": {
+                "name": "transposon"
+              },
               "dataType": "string",
               "description": "Search by transposon",
               "example": "tn3"
@@ -1682,26 +2466,38 @@
         {
           "id": "id_domain_ft",
           "label": "Domain [FT]",
-          "term": "ft_domain",
+          "term": {
+            "name": "ft_domain"
+          },
           "dataType": "string",
-          "positionalTerm": "ftlen_domain",
-          "evTerm": "ftev_domain",
+          "positionalTerm": {
+            "name": "ftlen_domain"
+          },
+          "evTerm": {
+            "name": "ftev_domain"
+          },
           "description": "Search by feature domain",
           "example": "phosphatase"
         },
         {
           "id": "id_domain_cc",
           "label": "Domain Comments [CC]",
-          "term": "cc_domain",
+          "term": {
+            "name": "cc_domain"
+          },
           "dataType": "string",
-          "evTerm": "ccev_domain",
+          "evTerm": {
+            "name": "ccev_domain"
+          },
           "description": "Search by comment domain",
           "example": "conformation"
         },
         {
           "id": "id_family",
           "label": "Protein family",
-          "term": "family",
+          "term": {
+            "name": "family"
+          },
           "dataType": "string",
           "description": "Search by protein belongs to a family",
           "example": "pa28"
@@ -1709,59 +2505,93 @@
         {
           "id": "id_coiled",
           "label": "Coiled-coil",
-          "term": "ft_coiled",
+          "term": {
+            "name": "ft_coiled"
+          },
           "dataType": "string",
-          "positionalTerm": "ftlen_coiled",
-          "evTerm": "ftev_coiled",
+          "positionalTerm": {
+            "name": "ftlen_coiled"
+          },
+          "evTerm": {
+            "name": "ftev_coiled"
+          },
           "description": "Search by feature coiled coil",
           "example": "*"
         },
         {
           "id": "id_compbias",
           "label": "Compositional bias",
-          "term": "ft_compbias",
+          "term": {
+            "name": "ft_compbias"
+          },
           "dataType": "string",
-          "positionalTerm": "ftlen_compbias",
-          "evTerm": "ftev_compbias",
+          "positionalTerm": {
+            "name": "ftlen_compbias"
+          },
+          "evTerm": {
+            "name": "ftev_compbias"
+          },
           "description": "Search by feature compositional bias",
           "example": "glu-rich"
         },
         {
           "id": "id_motif",
           "label": "Motif",
-          "term": "ft_motif",
+          "term": {
+            "name": "ft_motif"
+          },
           "dataType": "string",
-          "positionalTerm": "ftlen_motif",
-          "evTerm": "ftev_motif",
+          "positionalTerm": {
+            "name": "ftlen_motif"
+          },
+          "evTerm": {
+            "name": "ftev_motif"
+          },
           "description": "Search by feature motif",
           "example": "motif"
         },
         {
           "id": "id_region",
           "label": "Region",
-          "term": "ft_region",
+          "term": {
+            "name": "ft_region"
+          },
           "dataType": "string",
-          "positionalTerm": "ftlen_region",
-          "evTerm": "ftev_region",
+          "positionalTerm": {
+            "name": "ftlen_region"
+          },
+          "evTerm": {
+            "name": "ftev_region"
+          },
           "description": "Search by feature region",
           "example": "motif"
         },
         {
           "id": "id_repeat",
           "label": "Repeat",
-          "term": "ft_repeat",
+          "term": {
+            "name": "ft_repeat"
+          },
           "dataType": "string",
-          "positionalTerm": "ftlen_repeat",
-          "evTerm": "ftev_repeat",
+          "positionalTerm": {
+            "name": "ftlen_repeat"
+          },
+          "evTerm": {
+            "name": "ftev_repeat"
+          },
           "description": "Search by feature repeat",
           "example": "motif"
         },
         {
           "id": "id_similarity",
           "label": "Sequence similarity",
-          "term": "ft_similarity",
+          "term": {
+            "name": "ft_similarity"
+          },
           "dataType": "string",
-          "evTerm": "ftev_similarity",
+          "evTerm": {
+            "name": "ftev_similarity"
+          },
           "description": "Search by comment similarity",
           "example": "phosphatase"
         },
@@ -1769,10 +2599,16 @@
           "id": "id_zn_fing",
           "label": "Zinc finger",
           "itemType": "ft_feature",
-          "term": "zn_fing",
+          "term": {
+            "name": "zn_fing"
+          },
           "dataType": "string",
-          "positionalTerm": "ftlen_feature",
-          "evTerm": "ftev_feature",
+          "positionalTerm": {
+            "name": "ftlen_feature"
+          },
+          "evTerm": {
+            "name": "ftev_feature"
+          },
           "description": "Search by feature zinc finger",
           "example": "UBP"
         }
@@ -1787,8 +2623,12 @@
     {
       "id": "id_webresource",
       "label": "Web Resources",
-      "term": "cc_webresource",
-      "evTerm": "ccev_webresource",
+      "term": {
+        "name": "cc_webresource"
+      },
+      "evTerm": {
+        "name": "ccev_webresource"
+      },
       "dataType": "string",
       "description": "Search by comment Web resources",
       "example": "lck"
@@ -1802,7 +2642,9 @@
           "id": "id_created",
           "label": "Date Of Creation",
           "dataType": "date",
-          "positionalTerm": "created",
+          "positionalTerm": {
+            "name": "created"
+          },
           "description": "Search by Date of creation",
           "example": "[2018-03-04 TO 2018-03-08]"
         },
@@ -1810,7 +2652,9 @@
           "id": "id_modified",
           "label": "Date of last entry modification",
           "dataType": "date",
-          "positionalTerm": "modified",
+          "positionalTerm": {
+            "name": "modified"
+          },
           "description": "Search by Date of last entry modification",
           "example": "[2018-03-04 TO 2018-03-08]"
         },
@@ -1818,7 +2662,9 @@
           "id": "id_sequence_modified",
           "label": "Date of last sequence modification",
           "dataType": "date",
-          "positionalTerm": "sequence_modified",
+          "positionalTerm": {
+            "name": "sequence_modified"
+          },
           "description": "Search by Date of last sequence modification",
           "example": "[2018-03-04 TO 2018-03-08]"
         }
@@ -1828,16 +2674,22 @@
       "id": "id_go",
       "label": "Gene Ontology [GO]",
       "itemType": "goterm",
-      "term": "go",
+      "term": {
+        "name": "go"
+      },
       "autoComplete": "/uniprot/api/suggester?dict=go&query=?",
-      "evTerm": "go",
+      "evTerm": {
+        "name": "go"
+      },
       "description": "search go term with evidence. If evidence is not consider term is go. If evidence is considered such as iea, the term is go_iea",
       "example": "0009986"
     },
     {
       "id": "id_keyword",
       "label": "Keyword [KW]",
-      "term": "keyword",
+      "term": {
+        "name": "keyword"
+      },
       "dataType": "string",
       "autoComplete": "/uniprot/api/suggester?dict=keyword&query=?",
       "description": "Search by keyword",
@@ -1851,7 +2703,9 @@
         {
           "id": "id_lit_author",
           "label": "Author",
-          "term": "lit_author",
+          "term": {
+            "name": "lit_author"
+          },
           "dataType": "string",
           "description": "Search by author",
           "example": "smith"
@@ -1859,7 +2713,9 @@
         {
           "id": "id_lit_journal",
           "label": "Journal",
-          "term": "lit_journal",
+          "term": {
+            "name": "lit_journal"
+          },
           "dataType": "string",
           "description": "Search by journal name",
           "example": "nature"
@@ -1869,13 +2725,17 @@
           "label": "Published",
           "dataType": "date",
           "description": "Search by published date",
-          "positionalTerm": "lit_pubdate",
+          "positionalTerm": {
+            "name": "lit_pubdate"
+          },
           "example": "[2017-01-01 TO 2010-12-31]"
         },
         {
           "id": "id_lit_pubmed",
           "label": "PubMed Id",
-          "term": "lit_pubmed",
+          "term": {
+            "name": "lit_pubmed"
+          },
           "dataType": "string",
           "description": "Search by pubmed id",
           "example": "15165820"
@@ -1883,7 +2743,9 @@
         {
           "id": "id_lit_title",
           "label": "Title",
-          "term": "lit_title",
+          "term": {
+            "name": "lit_title"
+          },
           "dataType": "string",
           "description": "Search by title",
           "example": "protein"
@@ -1898,7 +2760,9 @@
         {
           "id": "id_proteome",
           "label": "Proteome ID",
-          "term": "proteome",
+          "term": {
+            "name": "proteome"
+          },
           "dataType": "string",
           "description": "Search by Proteome ID",
           "example": "UP000005640"
@@ -1906,7 +2770,9 @@
         {
           "id": "id_proteomecomponent",
           "label": "Proteome Component",
-          "term": "proteomecomponent",
+          "term": {
+            "name": "proteomecomponent"
+          },
           "dataType": "string",
           "description": "Search by Proteome component",
           "example": "chromosome"
@@ -1916,7 +2782,9 @@
     {
       "id": "id_scope",
       "label": "Cited for",
-      "term": "scope",
+      "term": {
+        "name": "scope"
+      },
       "dataType": "string",
       "description": "Search by citation RP cited for",
       "example": "microtubule"
@@ -1924,8 +2792,10 @@
     {
       "id": "id_reviewed",
       "label": "Reviewed",
-      "term": "reviewed",
-      "validRegex": "^true|false$",
+      "term": {
+        "name": "reviewed",
+        "validRegex": "^true|false$"
+      },
       "dataType": "enum",
       "values": [
         {
@@ -1943,7 +2813,9 @@
     {
       "id": "id_active",
       "label": "Active",
-      "term": "active",
+      "term": {
+        "name": "active"
+      },
       "dataType": "enum",
       "values": [
         {
