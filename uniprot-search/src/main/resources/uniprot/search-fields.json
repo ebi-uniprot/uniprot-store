@@ -442,7 +442,7 @@
               "label": "Any",
               "term": "ft_sites",
               "dataType": "string",
-              "positionalTerm": "ftlen_sites",
+              "rangeTerm": "ftlen_sites",
               "evTerm": "ftev_sites",
               "description": "Search by feature sites",
               "example": "translocation"
@@ -452,7 +452,7 @@
               "label": "Active site",
               "term": "act_site",
               "dataType": "string",
-              "positionalTerm": "ftlen_act_site",
+              "rangeTerm": "ftlen_act_site",
               "evTerm": "ftev_act_site",
               "description": "Search by feature  active site",
               "example": "phosphocysteine"
@@ -462,7 +462,7 @@
               "label": "Metal binding",
               "term": "metal",
               "dataType": "string",
-              "positionalTerm": "ftlen_metal",
+              "rangeTerm": "ftlen_metal",
               "evTerm": "ftev_metal",
               "description": "Search by feature metal binding",
               "example": "phosphocysteine"
@@ -472,7 +472,7 @@
               "label": "Binding site",
               "term": "binding",
               "dataType": "string",
-              "positionalTerm": "ftlen_binding",
+              "rangeTerm": "ftlen_binding",
               "evTerm": "ftev_binding",
               "description": "Search by feature binding site",
               "example": "phosphocysteine"
@@ -482,7 +482,7 @@
               "label": "Other",
               "term": "site",
               "dataType": "string",
-              "positionalTerm": "ftlen_site",
+              "rangeTerm": "ftlen_site",
               "evTerm": "ftev_site",
               "description": "Search by feature other site",
               "example": "phosphocysteine"
@@ -494,7 +494,7 @@
           "label": "Calcium binding",
           "term": "ft_ca_bind",
           "dataType": "string",
-          "positionalTerm": "ftlen_ca_bind",
+          "rangeTerm": "ftlen_ca_bind",
           "evTerm": "ftev_ca_bind",
           "description": "Search by feature calcium binding",
           "example": "site"
@@ -504,7 +504,7 @@
           "label": "DNA binding",
           "term": "ft_dna_bind",
           "dataType": "string",
-          "positionalTerm": "ftlen_dna_bind",
+          "rangeTerm": "ftlen_dna_bind",
           "evTerm": "ftev_dna_bind",
           "description": "Search by feature DNA binding",
           "example": "*"
@@ -514,7 +514,7 @@
           "label": "Nucleotide binding",
           "term": "ft_np_bind",
           "dataType": "string",
-          "positionalTerm": "ftlen_np_bind",
+          "rangeTerm": "ftlen_np_bind",
           "evTerm": "ftev_np_bind",
           "description": "Search by feature Nucleotide binding",
           "example": "NADP"
@@ -575,7 +575,7 @@
           "label": "Transmembrane",
           "term": "ft_transmem",
           "dataType": "string",
-          "positionalTerm": "ftlen_transmem",
+          "rangeTerm": "ftlen_transmem",
           "evTerm": "ftev_transmem",
           "description": "Search by Transmembrane",
           "example": "forming"
@@ -585,7 +585,7 @@
           "label": "Topological domain",
           "term": "ft_topo_dom",
           "dataType": "string",
-          "positionalTerm": "ftlen_topo_dom",
+          "rangeTerm": "ftlen_topo_dom",
           "evTerm": "ftev_topo_dom",
           "description": "Search by Topological domain",
           "example": "forming"
@@ -595,7 +595,7 @@
           "label": "Intramembrane",
           "term": "ft_intramem",
           "dataType": "string",
-          "positionalTerm": "ftlen_intramem",
+          "rangeTerm": "ftlen_intramem",
           "evTerm": "ftev_intramem",
           "description": "Search by Intramembrane",
           "example": "forming"
@@ -666,7 +666,7 @@
           "label": "Mutagenesis",
           "term": "ft_mutagen",
           "dataType": "string",
-          "positionalTerm": "ftlen_mutagen",
+          "rangeTerm": "ftlen_mutagen",
           "evTerm": "ftev_mutagen",
           "description": "Search by Feature Mutagenesis",
           "example": "phosphatase"
@@ -692,7 +692,7 @@
           "label": "Modified residue [FT]",
           "term": "ft_mod_res",
           "dataType": "string",
-          "positionalTerm": "ftlen_mod_res",
+          "rangeTerm": "ftlen_mod_res",
           "evTerm": "ftev_mod_res",
           "description": "Search by Feature Modified residue",
           "example": "phosphoserine"
@@ -702,7 +702,7 @@
           "label": "Lipidation [FT]",
           "term": "ft_lipid",
           "dataType": "string",
-          "positionalTerm": "ftlen_lipid",
+          "rangeTerm": "ftlen_lipid",
           "evTerm": "ftev_lipid",
           "description": "Search by Feature Lipidation",
           "example": "cysteine"
@@ -712,7 +712,7 @@
           "label": "Glycosylation [FT]",
           "term": "ft_carbohyd",
           "dataType": "string",
-          "positionalTerm": "ftlen_carbohyd",
+          "rangeTerm": "ftlen_carbohyd",
           "evTerm": "ftev_carbohyd",
           "description": "Search by Feature Glycosylation",
           "example": "cysteine"
@@ -722,7 +722,7 @@
           "label": "Disulfide bond [FT]",
           "term": "ft_disulfid",
           "dataType": "string",
-          "positionalTerm": "ftlen_disulfid",
+          "rangeTerm": "ftlen_disulfid",
           "evTerm": "ftev_disulfid",
           "description": "Search by Feature Disulfide bond",
           "example": "reversible"
@@ -732,7 +732,7 @@
           "label": "Cross-link [FT]",
           "term": "ft_crosslnk",
           "dataType": "string",
-          "positionalTerm": "ftlen_crosslnk",
+          "rangeTerm": "ftlen_crosslnk",
           "evTerm": "ftev_crosslnk",
           "description": "Search by Feature Cross-link",
           "example": "lysine"
@@ -747,7 +747,7 @@
               "label": "Any molecule processing",
               "term": "ft_molecule_processing",
               "dataType": "string",
-              "positionalTerm": "ftlen_molecule_processing",
+              "rangeTerm": "ftlen_molecule_processing",
               "evTerm": "ftev_molecule_processing",
               "description": "Search by Feature Molecule Processing",
               "example": "disulfide"
@@ -757,7 +757,7 @@
               "label": "Chain",
               "term": "ft_chain",
               "dataType": "string",
-              "positionalTerm": "ftlen_chain",
+              "rangeTerm": "ftlen_chain",
               "evTerm": "ftev_chain",
               "description": "Search by Feature chain",
               "example": "kinase"
@@ -767,7 +767,7 @@
               "label": "Initiator methionine",
               "term": "ft_init_met",
               "dataType": "string",
-              "positionalTerm": "ftlen_init_met",
+              "rangeTerm": "ftlen_init_met",
               "evTerm": "ftev_init_met",
               "description": "Search by Feature initiator methionine",
               "example": "Removed"
@@ -777,7 +777,7 @@
               "label": "Peptide",
               "term": "ft_peptide",
               "dataType": "string",
-              "positionalTerm": "ftlen_peptide",
+              "rangeTerm": "ftlen_peptide",
               "evTerm": "ftev_peptide",
               "description": "Search by Feature peptide",
               "example": "Removed"
@@ -787,7 +787,7 @@
               "label": "Signal Peptide",
               "term": "ft_signal",
               "dataType": "string",
-              "positionalTerm": "ftlen_signal",
+              "rangeTerm": "ftlen_signal",
               "evTerm": "ftev_signal",
               "description": "Search by Feature signal peptide",
               "example": "cleaved"
@@ -797,7 +797,7 @@
               "label": "Propeptide",
               "term": "ft_propep",
               "dataType": "string",
-              "positionalTerm": "ftlen_propep",
+              "rangeTerm": "ftlen_propep",
               "evTerm": "ftev_propep",
               "description": "Search by Feature signal peptide",
               "example": "Activation peptide"
@@ -807,7 +807,7 @@
               "label": "Transit Peptide",
               "term": "ft_transit",
               "dataType": "string",
-              "positionalTerm": "ftlen_transit",
+              "rangeTerm": "ftlen_transit",
               "evTerm": "ftev_transit",
               "description": "Search by Feature signal peptide",
               "example": "Mitochondrion"
@@ -909,7 +909,7 @@
               "label": "Any",
               "term": "ft_secstruct",
               "dataType": "string",
-              "positionalTerm": "ftlen_secstruct",
+              "rangeTerm": "ftlen_secstruct",
               "evTerm": "ftev_secstruct",
               "description": "Search by Feature Any secondary structure",
               "example": "*"
@@ -919,7 +919,7 @@
               "label": "Helix",
               "term": "ft_helix",
               "dataType": "string",
-              "positionalTerm": "ftlen_helix",
+              "rangeTerm": "ftlen_helix",
               "evTerm": "ftev_helix",
               "description": "Search by Feature helix",
               "example": "*"
@@ -929,7 +929,7 @@
               "label": "Turn",
               "term": "ft_turn",
               "dataType": "string",
-              "positionalTerm": "ftlen_turn",
+              "rangeTerm": "ftlen_turn",
               "evTerm": "ftev_turn",
               "description": "Search by Feature turn",
               "example": "*"
@@ -939,7 +939,7 @@
               "label": "Beta strand",
               "term": "ft_strand",
               "dataType": "string",
-              "positionalTerm": "ftlen_strand",
+              "rangeTerm": "ftlen_strand",
               "evTerm": "ftev_strand",
               "description": "Search by Feature Beta strand",
               "example": "*"
@@ -958,7 +958,7 @@
           "label": "Mass(Da)",
           "sortTerm": "mass",
           "dataType": "integer",
-          "positionalTerm": "mass",
+          "rangeTerm": "mass",
           "description": "Search by Sequence mass",
           "example": "[441126 TO 441126]"
         },
@@ -967,7 +967,7 @@
           "label": "Sequence length",
           "sortTerm": "length",
           "dataType": "integer",
-          "positionalTerm": "length",
+          "rangeTerm": "length",
           "description": "Search by Sequence length",
           "example": "[441 TO 450]"
         },
@@ -1126,7 +1126,7 @@
               "label": "Any",
               "term": "ft_variants",
               "dataType": "string",
-              "positionalTerm": "ftlen_variants",
+              "rangeTerm": "ftlen_variants",
               "evTerm": "ftev_variants",
               "description": "Search by Feature natural variations",
               "example": "colorectal"
@@ -1136,7 +1136,7 @@
               "label": "Natural variant",
               "term": "ft_variant",
               "dataType": "string",
-              "positionalTerm": "ftlen_variant",
+              "rangeTerm": "ftlen_variant",
               "evTerm": "ftev_variant",
               "description": "Search by Feature natural variant",
               "example": "colorectal"
@@ -1146,7 +1146,7 @@
               "label": "Alternative sequence",
               "term": "ft_var_seq",
               "dataType": "string",
-              "positionalTerm": "ftlen_var_seq",
+              "rangeTerm": "ftlen_var_seq",
               "evTerm": "ftev_var_seq",
               "description": "Search by Feature alternative sequence",
               "example": "isoform"
@@ -1158,7 +1158,7 @@
           "label": "Non-standard residue",
           "term": "ft_non_std",
           "dataType": "string",
-          "positionalTerm": "ftlen_non_std",
+          "rangeTerm": "ftlen_non_std",
           "evTerm": "ftev_non_std",
           "description": "Search by feature non standard residue",
           "example": "selenocysteine"
@@ -1168,7 +1168,7 @@
           "label": "Non-terminal residue",
           "term": "ft_non_ter",
           "dataType": "string",
-          "positionalTerm": "ftlen_non_ter",
+          "rangeTerm": "ftlen_non_ter",
           "evTerm": "ftev_non_ter",
           "description": "Search by feature non-terminal residue",
           "example": "*"
@@ -1178,7 +1178,7 @@
           "label": "Non-adjacent residue",
           "term": "ft_non_cons",
           "dataType": "string",
-          "positionalTerm": "ftlen_non_cons",
+          "rangeTerm": "ftlen_non_cons",
           "evTerm": "ftev_non_cons",
           "description": "Search by feature non-adjacent residue",
           "example": "*"
@@ -1188,7 +1188,7 @@
           "label": "Sequence conflict",
           "term": "ft_conflict",
           "dataType": "string",
-          "positionalTerm": "ftlen_conflict",
+          "rangeTerm": "ftlen_conflict",
           "evTerm": "ftev_conflict",
           "description": "Search by feature Sequence conflict",
           "example": "*"
@@ -1198,7 +1198,7 @@
           "label": "Sequence uncertainty",
           "term": "ft_unsure",
           "dataType": "string",
-          "positionalTerm": "ftlen_unsure",
+          "rangeTerm": "ftlen_unsure",
           "evTerm": "ftev_unsure",
           "description": "Search by feature Sequence uncertainty",
           "example": "*"
@@ -1208,7 +1208,7 @@
           "label": "Sequence features [FT]",
           "term": "ft_positional",
           "dataType": "string",
-          "positionalTerm": "ftlen_positional",
+          "rangeTerm": "ftlen_positional",
           "evTerm": "ftev_positional",
           "description": "Search by sequence positional features",
           "example": "colorectal"
@@ -1346,7 +1346,7 @@
           "label": "Domain [FT]",
           "term": "ft_domain",
           "dataType": "string",
-          "positionalTerm": "ftlen_domain",
+          "rangeTerm": "ftlen_domain",
           "evTerm": "ftev_domain",
           "description": "Search by feature domain",
           "example": "phosphatase"
@@ -1373,7 +1373,7 @@
           "label": "Coiled-coil",
           "term": "ft_coiled",
           "dataType": "string",
-          "positionalTerm": "ftlen_coiled",
+          "rangeTerm": "ftlen_coiled",
           "evTerm": "ftev_coiled",
           "description": "Search by feature coiled coil",
           "example": "*"
@@ -1383,7 +1383,7 @@
           "label": "Compositional bias",
           "term": "ft_compbias",
           "dataType": "string",
-          "positionalTerm": "ftlen_compbias",
+          "rangeTerm": "ftlen_compbias",
           "evTerm": "ftev_compbias",
           "description": "Search by feature compositional bias",
           "example": "glu-rich"
@@ -1393,7 +1393,7 @@
           "label": "Motif",
           "term": "ft_motif",
           "dataType": "string",
-          "positionalTerm": "ftlen_motif",
+          "rangeTerm": "ftlen_motif",
           "evTerm": "ftev_motif",
           "description": "Search by feature motif",
           "example": "motif"
@@ -1403,7 +1403,7 @@
           "label": "Region",
           "term": "ft_region",
           "dataType": "string",
-          "positionalTerm": "ftlen_region",
+          "rangeTerm": "ftlen_region",
           "evTerm": "ftev_region",
           "description": "Search by feature region",
           "example": "motif"
@@ -1413,7 +1413,7 @@
           "label": "Repeat",
           "term": "ft_repeat",
           "dataType": "string",
-          "positionalTerm": "ftlen_repeat",
+          "rangeTerm": "ftlen_repeat",
           "evTerm": "ftev_repeat",
           "description": "Search by feature repeat",
           "example": "motif"
@@ -1433,7 +1433,7 @@
           "itemType": "ft_feature",
           "term": "zn_fing",
           "dataType": "string",
-          "positionalTerm": "ftlen_feature",
+          "rangeTerm": "ftlen_feature",
           "evTerm": "ftev_feature",
           "description": "Search by feature zinc finger",
           "example": "UBP"
@@ -1463,7 +1463,7 @@
           "id": "id_created",
           "label": "Date Of Creation",
           "dataType": "date",
-          "positionalTerm": "created",
+          "rangeTerm": "created",
           "description": "Search by Date of creation",
           "example": "[2018-03-04 TO 2018-03-08]"
         },
@@ -1471,7 +1471,7 @@
           "id": "id_modified",
           "label": "Date of last entry modification",
           "dataType": "date",
-          "positionalTerm": "modified",
+          "rangeTerm": "modified",
           "description": "Search by Date of last entry modification",
           "example": "[2018-03-04 TO 2018-03-08]"
         },
@@ -1479,7 +1479,7 @@
           "id": "id_sequence_modified",
           "label": "Date of last sequence modification",
           "dataType": "date",
-          "positionalTerm": "sequence_modified",
+          "rangeTerm": "sequence_modified",
           "description": "Search by Date of last sequence modification",
           "example": "[2018-03-04 TO 2018-03-08]"
         }
@@ -1530,7 +1530,7 @@
           "label": "Published",
           "dataType": "date",
           "description": "Search by published date",
-          "positionalTerm": "lit_pubdate",
+          "rangeTerm": "lit_pubdate",
           "example": "[2017-01-01 TO 2010-12-31]"
         },
         {
