@@ -1,12 +1,13 @@
 package indexer.uniprot.converter;
 
-import indexer.go.relations.GoRelations;
-import indexer.go.relations.GoTerm;
 import org.uniprot.core.Property;
 import org.uniprot.core.uniprot.xdb.UniProtDBCrossReference;
 import org.uniprot.store.search.document.uniprot.UniProtDocument;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -18,12 +19,6 @@ class UniProtEntryCrossReferenceConverter {
 
     private static final String GO = "go_";
     private static final String XREF_COUNT = "xref_count_";
-    private final GoRelations goRelations;
-
-
-    UniProtEntryCrossReferenceConverter(GoRelations goRelations) {
-        this.goRelations = goRelations;
-    }
 
     void convertCrossReferences(List<UniProtDBCrossReference> references, UniProtDocument document) {
         convertXref(references, document);
@@ -110,17 +105,8 @@ class UniProtEntryCrossReferenceConverter {
                 .map(property -> property.getValue().split(":")[0].toLowerCase()).collect(Collectors.joining());
 
         addGoterm(evType, go.getId(), goTerm, document);
-        addAncestors(evType, go.getId(), document);
         document.content.add(go.getId().substring(3));// id
         document.content.add(goTerm); // term
-    }
-
-    private void addAncestors(String evType, String goTerm, UniProtDocument doc) {
-        if (goRelations != null) {
-            Set<GoTerm> ancestors = null;//goRelations.getAncestors(goTerm); //TODO: fix it
-            if (ancestors != null)
-                ancestors.forEach(ancestor -> addGoterm(evType, ancestor.getId(), ancestor.getName(), doc));
-        }
     }
 
     private void addGoterm(String evType, String goId, String term, UniProtDocument document) {
@@ -133,8 +119,5 @@ class UniProtEntryCrossReferenceConverter {
         document.goes.add(idOnly);
         document.goes.add(term);
         document.goIds.add(idOnly);
-
-/*        suggestions.putIfAbsent(UniProtEntryConverterUtil.createSuggestionMapKey(SuggestDictionary.GO, idOnly),
-                SuggestDocument.builder().id(idOnly).value(term).dictionary(SuggestDictionary.GO.name()).build());*/
     }
 }

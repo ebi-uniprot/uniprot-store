@@ -22,7 +22,7 @@ import java.util.ResourceBundle;
 public class GoEvidencesRDDReader {
 
 
-    public static JavaPairRDD<String, Iterable<GoEvidence>> readGoEvidences(SparkConf sparkConf, ResourceBundle applicationConfig) {
+    public static JavaPairRDD<String, Iterable<GoEvidence>> load(SparkConf sparkConf, ResourceBundle applicationConfig) {
         SparkSession spark = SparkSession
                 .builder()
                 .config(sparkConf)
@@ -63,8 +63,8 @@ public class GoEvidencesRDDReader {
         System.out.println("******************* STARTING GO EVIDENCES LOAD *************************");
         JavaSparkContext sc = new JavaSparkContext(conf);
 
-        JavaPairRDD<String, UniProtEntry> uniProtEntryRDD = UniprotRDDTupleReader.read(sc, applicationConfig, sc.hadoopConfiguration());
-        JavaPairRDD<String, Iterable<GoEvidence>> goEvidencesDataset = GoEvidencesRDDReader.readGoEvidences(conf, applicationConfig);
+        JavaPairRDD<String, UniProtEntry> uniProtEntryRDD = UniprotRDDTupleReader.load(sc, applicationConfig);
+        JavaPairRDD<String, Iterable<GoEvidence>> goEvidencesDataset = GoEvidencesRDDReader.load(conf, applicationConfig);
 
         uniProtEntryRDD = (JavaPairRDD<String, UniProtEntry>) uniProtEntryRDD
                 .leftOuterJoin(goEvidencesDataset)

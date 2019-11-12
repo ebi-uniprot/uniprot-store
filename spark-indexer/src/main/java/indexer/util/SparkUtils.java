@@ -5,6 +5,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
+import org.apache.spark.SparkConf;
+import org.apache.spark.api.java.JavaSparkContext;
 
 import java.io.*;
 import java.net.URL;
@@ -53,6 +55,12 @@ public class SparkUtils {
             // load from the classpath
             return ResourceBundle.getBundle("application");
         }
+    }
+
+    public static JavaSparkContext loadSparkContext(ResourceBundle applicationConfig) {
+        SparkConf sparkConf = new SparkConf().setAppName(applicationConfig.getString("spark.application.name"))
+                .setMaster(applicationConfig.getString("spark.master"));//.set("spark.driver.host", "localhost");
+        return new JavaSparkContext(sparkConf);
     }
 
 

@@ -28,14 +28,14 @@ import static indexer.util.RowUtils.hasFieldName;
 public class TaxonomyRDDReader {
 
 
-    public static JavaPairRDD<String, TaxonomyEntry> readTaxonomyNode(JavaSparkContext sparkContext, ResourceBundle applicationConfig) {
-        return (JavaPairRDD<String, TaxonomyEntry>) readTaxonomyNodeRow(sparkContext, applicationConfig)
+    public static JavaPairRDD<String, TaxonomyEntry> load(JavaSparkContext sparkContext, ResourceBundle applicationConfig) {
+        return (JavaPairRDD<String, TaxonomyEntry>) loadTaxonomyNodeRow(sparkContext, applicationConfig)
                 .toJavaRDD()
                 .mapToPair(new TaxonomyRowMapper());
     }
 
-    public static JavaPairRDD<String, TaxonomyEntry> readTaxonomyNodeWithLineage(JavaSparkContext sparkContext, ResourceBundle applicationConfig) {
-        JavaPairRDD<String, TaxonomyEntry> taxonomyNode = readTaxonomyNode(sparkContext, applicationConfig);
+    public static JavaPairRDD<String, TaxonomyEntry> loadWithLineage(JavaSparkContext sparkContext, ResourceBundle applicationConfig) {
+        JavaPairRDD<String, TaxonomyEntry> taxonomyNode = load(sparkContext, applicationConfig);
 
         JavaPairRDD<String, List<TaxonomyLineage>> taxonomyLineage = TaxonomyLineageReader
                 .readTaxonomyLineage(sparkContext, applicationConfig);
@@ -44,7 +44,7 @@ public class TaxonomyRDDReader {
                 .mapValues(new TaxonomyJoinMapper());
     }
 
-    private static Dataset<Row> readTaxonomyNodeRow(JavaSparkContext sparkContext, ResourceBundle applicationConfig) {
+    private static Dataset<Row> loadTaxonomyNodeRow(JavaSparkContext sparkContext, ResourceBundle applicationConfig) {
         long maxTaxId = getMaxTaxId(sparkContext, applicationConfig);
         int numberPartition = Integer.valueOf(applicationConfig.getString("database.taxonomy.partition"));
         SparkSession spark = SparkSession
@@ -165,7 +165,7 @@ public class TaxonomyRDDReader {
 
         //System.out.println("MAX ID"+ TaxonomyRDDReader.getMaxTaxId(sc, applicationConfig));
 
-        JavaPairRDD<String, TaxonomyEntry> taxonomyDataset = TaxonomyRDDReader.readTaxonomyNodeWithLineage(sc, applicationConfig);
+        JavaPairRDD<String, TaxonomyEntry> taxonomyDataset = TaxonomyRDDReader.loadWithLineage(sc, applicationConfig);
 
         System.out.println("Taxonomy JavaPairRDD COUNT: " + taxonomyDataset.count());
 

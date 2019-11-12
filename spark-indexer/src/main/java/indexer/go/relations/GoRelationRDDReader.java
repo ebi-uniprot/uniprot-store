@@ -16,7 +16,7 @@ import java.util.*;
 @Slf4j
 public class GoRelationRDDReader {
 
-    public static JavaPairRDD<String, GoTerm> loadGoRelations(ResourceBundle applicationConfig, JavaSparkContext sparkContext) {
+    public static JavaPairRDD<String, GoTerm> load(ResourceBundle applicationConfig, JavaSparkContext sparkContext) {
 
         String goRelationsFolder = applicationConfig.getString("go.relations.dir.path");
         GoTermFileReader goTermFileReader = new GoTermFileReader(goRelationsFolder, sparkContext.hadoopConfiguration());
@@ -74,7 +74,7 @@ public class GoRelationRDDReader {
                 .setMaster(applicationConfig.getString("spark.master")).set("spark.driver.host", "localhost");
         JavaSparkContext sparkContext = new JavaSparkContext(sparkConf);
 
-        JavaPairRDD<String, GoTerm> goRelations = GoRelationRDDReader.loadGoRelations(applicationConfig, sparkContext);
+        JavaPairRDD<String, GoTerm> goRelations = GoRelationRDDReader.load(applicationConfig, sparkContext);
 
         System.out.println("COUNT:" + goRelations.count());
     }

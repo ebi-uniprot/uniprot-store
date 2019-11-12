@@ -24,7 +24,7 @@ import java.util.stream.Collectors;
 public class UniRefRDDTupleReader implements Serializable {
     private static final long serialVersionUID = -4292235298850285242L;
 
-    private static Dataset<Row> readRawXml(SparkConf sparkConf, String xmlFilePath) {
+    private static Dataset<Row> loadRawXml(SparkConf sparkConf, String xmlFilePath) {
         SparkSession spark = SparkSession
                 .builder()
                 .config(sparkConf)
@@ -37,19 +37,19 @@ public class UniRefRDDTupleReader implements Serializable {
         return data;
     }
 
-    public static JavaPairRDD<String, MappedUniRef> read50(SparkConf sparkConf, ResourceBundle applicationConfig) {
+    public static JavaPairRDD<String, MappedUniRef> load50(SparkConf sparkConf, ResourceBundle applicationConfig) {
         String xmlFilePath = applicationConfig.getString("uniref.50.xml.file");
         Integer repartition = new Integer(applicationConfig.getString("uniref.50.repartition"));
         return getMappedUniRef(sparkConf, xmlFilePath, UniRefType.UniRef50, repartition);
     }
 
-    public static JavaPairRDD<String, MappedUniRef> read90(SparkConf sparkConf, ResourceBundle applicationConfig) {
+    public static JavaPairRDD<String, MappedUniRef> load90(SparkConf sparkConf, ResourceBundle applicationConfig) {
         String xmlFilePath = applicationConfig.getString("uniref.90.xml.file");
         Integer repartition = new Integer(applicationConfig.getString("uniref.90.repartition"));
         return getMappedUniRef(sparkConf, xmlFilePath, UniRefType.UniRef90, repartition);
     }
 
-    public static JavaPairRDD<String, MappedUniRef> read100(SparkConf sparkConf, ResourceBundle applicationConfig) {
+    public static JavaPairRDD<String, MappedUniRef> load100(SparkConf sparkConf, ResourceBundle applicationConfig) {
         String xmlFilePath = applicationConfig.getString("uniref.100.xml.file");
         Integer repartition = new Integer(applicationConfig.getString("uniref.100.repartition"));
         return getMappedUniRef(sparkConf, xmlFilePath, UniRefType.UniRef100, repartition);
@@ -57,7 +57,7 @@ public class UniRefRDDTupleReader implements Serializable {
 
     private static JavaPairRDD<String, MappedUniRef> getMappedUniRef(SparkConf sparkConf, String xmlFilePath,
                                                                      UniRefType uniRefType, Integer repartition) {
-        Dataset<Row> uniRefEntryDataset = readRawXml(sparkConf, xmlFilePath);
+        Dataset<Row> uniRefEntryDataset = loadRawXml(sparkConf, xmlFilePath);
         if (repartition > 0) {
             uniRefEntryDataset = uniRefEntryDataset.repartition(repartition);
         }

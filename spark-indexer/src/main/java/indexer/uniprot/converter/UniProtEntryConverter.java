@@ -1,6 +1,5 @@
 package indexer.uniprot.converter;
 
-import indexer.go.relations.GoRelations;
 import lombok.extern.slf4j.Slf4j;
 import org.uniprot.core.DBCrossReference;
 import org.uniprot.core.Sequence;
@@ -49,9 +48,9 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtEntry, Un
     private final UniprotEntryTaxonomyConverter taxonomyConverter;
     private final UniprotEntryProteinDescriptionConverter proteinDescriptionConverter;
 
-    public UniProtEntryConverter(GoRelations goRelations, Map<String, String> pathway) {
+    public UniProtEntryConverter(Map<String, String> pathway) {
         this.taxonomyConverter = new UniprotEntryTaxonomyConverter();
-        this.crossReferenceConverter = new UniProtEntryCrossReferenceConverter(goRelations);
+        this.crossReferenceConverter = new UniProtEntryCrossReferenceConverter();
         this.commentsConverter = new UniProtEntryCommentsConverter(pathway);
         this.featureConverter = new UniProtEntryFeatureConverter();
         this.referencesConverter = new UniProtEntryReferencesConverter();
