@@ -22,6 +22,7 @@ import org.uniprot.store.search.document.suggest.SuggestDictionary;
 import org.uniprot.store.search.document.suggest.SuggestDocument;
 import org.uniprot.store.search.document.uniprot.UniProtDocument;
 
+import java.io.Serializable;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.Map;
@@ -36,8 +37,9 @@ import static org.uniprot.store.indexer.uniprotkb.converter.UniProtEntryConverte
  * @author Edd
  */
 @Slf4j
-public class UniProtEntryConverter implements DocumentConverter<UniProtEntry, UniProtDocument> {
+public class UniProtEntryConverter implements DocumentConverter<UniProtEntry, UniProtDocument>, Serializable {
 
+    private static final long serialVersionUID = -4786571927033506456L;
     private static final String DASH = "-";
     /**
      * An enum set representing all of the organelles that are children of plastid

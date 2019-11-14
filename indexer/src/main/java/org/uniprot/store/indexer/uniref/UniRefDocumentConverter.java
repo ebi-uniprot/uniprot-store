@@ -1,9 +1,5 @@
 package org.uniprot.store.indexer.uniref;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
-
 import org.uniprot.core.cv.taxonomy.TaxonomicNode;
 import org.uniprot.core.cv.taxonomy.TaxonomyRepo;
 import org.uniprot.core.uniref.UniRefEntry;
@@ -12,11 +8,15 @@ import org.uniprot.core.uniref.UniRefMemberIdType;
 import org.uniprot.core.util.Utils;
 import org.uniprot.core.xml.jaxb.uniref.Entry;
 import org.uniprot.core.xml.uniref.UniRefEntryConverter;
-import org.uniprot.store.job.common.converter.DocumentConverter;
 import org.uniprot.store.indexer.util.DateUtils;
 import org.uniprot.store.indexer.util.TaxonomyRepoUtil;
+import org.uniprot.store.job.common.converter.DocumentConverter;
 import org.uniprot.store.search.document.uniref.UniRefDocument;
 import org.uniprot.store.search.document.uniref.UniRefDocument.UniRefDocumentBuilder;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  *
@@ -100,15 +100,16 @@ public class UniRefDocumentConverter implements DocumentConverter<Entry, UniRefD
 	}
 	
 	private void processTaxonomy(String organismName, long taxId, UniRefDocumentBuilder builder) {
-		
 		builder.taxLineageId((int) taxId);
 		builder.organismTaxon(organismName);
-		List<TaxonomicNode> nodes = TaxonomyRepoUtil.getTaxonomyLineage(taxonomyRepo, (int) taxId);
-		nodes.forEach(node -> {
-			builder.taxLineageId(node.id());
-			List<String> names = TaxonomyRepoUtil.extractTaxonFromNode(node);
-			names.forEach(val -> builder.organismTaxon(val));
-		});
+		if (taxonomyRepo != null) {
+			List<TaxonomicNode> nodes = TaxonomyRepoUtil.getTaxonomyLineage(taxonomyRepo, (int) taxId);
+			nodes.forEach(node -> {
+				builder.taxLineageId(node.id());
+				List<String> names = TaxonomyRepoUtil.extractTaxonFromNode(node);
+				names.forEach(builder::organismTaxon);
+			});
+		}
 	}
 
 }

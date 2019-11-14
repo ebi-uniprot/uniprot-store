@@ -12,6 +12,7 @@ import indexer.uniref.UniRefMapper;
 import indexer.uniref.UniRefRDDTupleReader;
 import indexer.util.SolrUtils;
 import indexer.util.SparkUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.spark.SparkConf;
 import org.apache.spark.api.java.JavaPairRDD;
@@ -31,6 +32,7 @@ import java.util.stream.Collectors;
  * @author lgonzales
  * @since 2019-11-12
  */
+@Slf4j
 public class UniprotKbIndexer {
 
     public static void prepareSolrIndex(JavaSparkContext sparkContext, ResourceBundle applicationConfig) {
@@ -61,6 +63,8 @@ public class UniprotKbIndexer {
 
         String hdfsPath = applicationConfig.getString("uniprot.solr.documents.path");
         SolrUtils.saveSolrInputDocumentRDD(uniProtDocumentRDD, hdfsPath);
+
+        log.info("Completed UniprotKB prepare Solr index");
     }
 
     private static JavaPairRDD<String, UniProtDocument> convertToUniProtDocument(
