@@ -21,6 +21,8 @@ public class UniProtKBSearchItem implements SearchItem {
     String id;
     String label;
     String term;
+    String termValidRegex;
+    String idValidRegex;
     String idTerm;
     String sortTerm;
     String autoComplete;
@@ -31,6 +33,5 @@ public class UniProtKBSearchItem implements SearchItem {
     String sites;
     String example;
     String itemType = "single";
-    String validRegex;
     List<SearchItem> items;
 }

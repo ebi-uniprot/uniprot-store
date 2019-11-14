@@ -78,7 +78,7 @@ public enum UniProtKBSearchFields implements SearchFields {
                             .term(searchItem.getRangeTerm())
                             .sortTerm(searchItem.getSortTerm())
                             .type(FieldType.RANGE)
-                            .validRegex(searchItem.getValidRegex())
+                            .validRegex(searchItem.getTermValidRegex())
                             .build());
         } else {
             // standard term
@@ -87,7 +87,7 @@ public enum UniProtKBSearchFields implements SearchFields {
                             .term(searchItem.getTerm())
                             .sortTerm(searchItem.getSortTerm())
                             .type(FieldType.TERM)
-                            .validRegex(searchItem.getValidRegex())
+                            .validRegex(searchItem.getTermValidRegex())
                             .build());
         }
 
@@ -97,7 +97,7 @@ public enum UniProtKBSearchFields implements SearchFields {
                     SearchFieldImpl.builder()
                             .term(searchItem.getIdTerm())
                             .type(FieldType.TERM)
-                            .validRegex(searchItem.getValidRegex())
+                            .validRegex(searchItem.getIdValidRegex())
                             .build());
         }
 
