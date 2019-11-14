@@ -3,13 +3,16 @@ package org.uniprot.store.search.document.uniprot;
 import org.apache.solr.client.solrj.beans.Field;
 import org.uniprot.store.search.document.Document;
 
+import java.io.Serializable;
 import java.util.*;
 
 /**
  * Document used for indexing uniprot entries into Solr
  */
 
-public class UniProtDocument implements Document {
+public class UniProtDocument implements Document, Serializable {
+
+    private static final long serialVersionUID = 6487942504460456915L;
 
     @Field("accession_id")
     public String accession;
@@ -271,8 +274,8 @@ public class UniProtDocument implements Document {
     
     @Field("length")
     public int seqLength;
-   
- // Added by Chuming Chen for Peptide Search on Sept. 16, 2019.
+
+    // Added by Chuming Chen for Peptide Search on Sept. 16, 2019.
     @Field("sq")
     public String seqAA;
     

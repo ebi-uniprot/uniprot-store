@@ -41,7 +41,7 @@ public class SupportingDataMapHDSFImpl implements SupportingDataMap {
     }
 
     private void loadSubcellularLocationMap(String subcellularLocationFile, Configuration hadoopConfig) {
-        if (Utils.notEmpty(subcellularLocationFile)) {
+        if (Utils.notNullOrEmpty(subcellularLocationFile)) {
             List<String> lines = readLines(subcellularLocationFile, hadoopConfig);
             List<SubcellularLocationEntry> entries = new SubcellularLocationFileReader().parseLines(lines);
             subcellularLocationMap.putAll(entries.stream()
@@ -53,7 +53,7 @@ public class SupportingDataMapHDSFImpl implements SupportingDataMap {
     }
 
     private void loadKeywordMap(String keywordFile, Configuration hadoopConfig) {
-        if (Utils.notEmpty(keywordFile)) {
+        if (Utils.notNullOrEmpty(keywordFile)) {
             List<String> lines = readLines(keywordFile, hadoopConfig);
             List<KeywordEntry> entries = new KeywordFileReader().parseLines(lines);
             keywordMap.putAll(entries.stream().collect(Collectors.toMap(KeywordFileReader::getId, KeywordFileReader::getAccessionCategoryPair)));
@@ -64,7 +64,7 @@ public class SupportingDataMapHDSFImpl implements SupportingDataMap {
     }
 
     private void loadDiseaseMap(String diseaseFile, Configuration hadoopConfig) {
-        if (Utils.notEmpty(diseaseFile)) {
+        if (Utils.notNullOrEmpty(diseaseFile)) {
             List<String> lines = readLines(diseaseFile, hadoopConfig);
             List<Disease> entries = new DiseaseFileReader().parseLines(lines);
             diseaseMap.putAll(entries.stream().collect(Collectors.toMap(Disease::getId, Disease::getAccession)));

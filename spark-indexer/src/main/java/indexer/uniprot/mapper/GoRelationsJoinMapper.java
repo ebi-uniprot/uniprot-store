@@ -37,7 +37,7 @@ public class GoRelationsJoinMapper implements PairFlatMapFunction<String, String
         String drLine = goLines.stream()
                 .filter(line -> line.startsWith("DR   GO;"))
                 .collect(Collectors.joining("\n"));
-        if (Utils.notEmpty(drLine)) {
+        if (Utils.notNullOrEmpty(drLine)) {
             final UniprotLineParser<DrLineObject> drParser = new DefaultUniprotLineParserFactory().createDrLineParser();
             DrLineObject drLineObject = drParser.parse(drLine + "\n");
             drLineObject.drObjects.forEach(drValue -> {

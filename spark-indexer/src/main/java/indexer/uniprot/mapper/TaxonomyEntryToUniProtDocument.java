@@ -38,7 +38,7 @@ public class TaxonomyEntryToUniProtDocument implements Function<Tuple2<UniProtDo
                 log.warn("Unable to find organism id " + doc.organismTaxId + " in mapped organisms " + taxonomyEntryMap.keySet());
             }
 
-            if (Utils.notEmpty(doc.organismHostIds)) {
+            if (Utils.notNullOrEmpty(doc.organismHostIds)) {
                 doc.organismHostIds.forEach(taxId -> {
                     TaxonomyEntry organismHost = taxonomyEntryMap.get((long) taxId);
                     if (organismHost != null) {

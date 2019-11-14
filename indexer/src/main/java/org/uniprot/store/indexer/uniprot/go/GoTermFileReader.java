@@ -86,11 +86,6 @@ public class GoTermFileReader {
                     return false;
             } else if (!goId.equals(other.goId))
                 return false;
-            if (name == null) {
-                if (other.name != null)
-                    return false;
-            } else if (!name.equals(other.name))
-                return false;
             return true;
         }
 

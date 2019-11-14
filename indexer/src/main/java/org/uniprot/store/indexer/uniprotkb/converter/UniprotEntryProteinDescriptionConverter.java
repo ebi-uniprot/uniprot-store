@@ -46,11 +46,13 @@ class UniprotEntryProteinDescriptionConverter {
         document.ecNumbers = ecNumbers;
         document.ecNumbersExact = document.ecNumbers;
 
-        for (String ecNumber : ecNumbers) {
-            ecRepo.getEC(ecNumber)
-                    .ifPresent(ec -> suggestions.putIfAbsent(createSuggestionMapKey(SuggestDictionary.EC, ecNumber),
-                            SuggestDocument.builder().id(ecNumber).value(ec.label())
-                                    .dictionary(SuggestDictionary.EC.name()).build()));
+        if (ecRepo != null) {
+            for (String ecNumber : ecNumbers) {
+                ecRepo.getEC(ecNumber)
+                        .ifPresent(ec -> suggestions.putIfAbsent(createSuggestionMapKey(SuggestDictionary.EC, ecNumber),
+                                SuggestDocument.builder().id(ecNumber).value(ec.label())
+                                        .dictionary(SuggestDictionary.EC.name()).build()));
+            }
         }
     }
 

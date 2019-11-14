@@ -28,7 +28,7 @@ public class FlatFileToUniprotEntry implements PairFunction<String, String, UniP
     @Override
     public Tuple2<String, UniProtEntry> call(String entryString) throws Exception {
         UniprotLineParser<EntryObject> entryParser = new DefaultUniprotLineParserFactory().createEntryParser();
-        EntryObjectConverter entryObjectConverter = new EntryObjectConverter(supportingDataMap, true);
+        EntryObjectConverter entryObjectConverter = new EntryObjectConverter(supportingDataMap, true); //TODO: change to false
 
         EntryObject parsed = entryParser.parse(entryString);
         UniProtEntry uniProtEntry = entryObjectConverter.convert(parsed);

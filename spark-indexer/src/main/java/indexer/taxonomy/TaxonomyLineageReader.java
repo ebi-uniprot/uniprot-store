@@ -108,7 +108,7 @@ public class TaxonomyLineageReader {
                 builder.taxonId(Long.parseLong(lineageIdArray[i]));
                 builder.scientificName(lineageNameArray[i]);
                 builder.hidden(lineageHiddenArray[i].equals("1"));
-                if (Utils.notEmpty(lineageRankArray[i])) {
+                if (Utils.notNullOrEmpty(lineageRankArray[i])) {
                     try {
                         builder.rank(TaxonomyRank.valueOf(lineageRankArray[i].toUpperCase()));
                     } catch (IllegalArgumentException iae) {

@@ -16,6 +16,7 @@ import org.uniprot.store.search.document.suggest.SuggestDictionary;
 import org.uniprot.store.search.document.suggest.SuggestDocument;
 import org.uniprot.store.search.document.uniprot.UniProtDocument;
 
+import java.io.Serializable;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -28,7 +29,7 @@ import static org.uniprot.core.util.Utils.nullOrEmpty;
  * @author lgonzales
  * @since 2019-09-04
  */
-class UniProtEntryCommentsConverter {
+class UniProtEntryCommentsConverter implements Serializable {
 
     private final ChebiRepo chebiRepo;
     private final PathwayRepo pathwayRepo;
@@ -169,10 +170,12 @@ class UniProtEntryCommentsConverter {
                         id = id.substring("CHEBI:".length());
                     document.cofactorChebi.add(id);
 
-                    Chebi chebi = chebiRepo.getById(id);
-                    if (notNull(chebi)) {
-                        addChebiSuggestions(SuggestDictionary.CHEBI, referenceId, chebi);
-                        document.cofactorChebi.add(referenceId);
+                    if (chebiRepo != null) {
+                        Chebi chebi = chebiRepo.getById(id);
+                        if (notNull(chebi)) {
+                            addChebiSuggestions(SuggestDictionary.CHEBI, referenceId, chebi);
+                            document.cofactorChebi.add(referenceId);
+                        }
                     }
                 }
                 document.cofactorChebiEv.addAll(UniProtEntryConverterUtil.extractEvidence(val.getEvidences()));
@@ -383,9 +386,11 @@ class UniProtEntryCommentsConverter {
     }
 
     private void updatePathway(String val, UniProtDocument document) {
-        UniPathway unipathway = pathwayRepo.getFromName(val);
-        if (unipathway != null) {
-            document.pathway.add(unipathway.getAccession());
+        if (pathwayRepo != null) {
+            UniPathway unipathway = pathwayRepo.getFromName(val);
+            if (unipathway != null) {
+                document.pathway.add(unipathway.getAccession());
+            }
         }
     }
 
@@ -481,7 +486,7 @@ class UniProtEntryCommentsConverter {
     }
 
     private void addCatalyticSuggestions(UniProtDocument document, String field, DBCrossReference<ReactionReferenceType> reactionReference) {
-        if (reactionReference.getDatabaseType() == ReactionReferenceType.CHEBI) {
+        if (reactionReference.getDatabaseType() == ReactionReferenceType.CHEBI && chebiRepo != null) {
             String referenceId = reactionReference.getId();
             int firstColon = referenceId.indexOf(':');
             String fullId = referenceId.substring(firstColon + 1);

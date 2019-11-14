@@ -95,7 +95,7 @@ public class UniRefRDDTupleReader implements Serializable {
                 mappedAccessions.add(new Tuple2<>(accession, mappedUniRef));
             }
 
-            if (Utils.notEmpty(uniRefEntry.getMembers())) {
+            if (Utils.notNullOrEmpty(uniRefEntry.getMembers())) {
                 uniRefEntry.getMembers().forEach(uniRefMember -> {
                     if (uniRefMember.getMemberIdType() == UniRefMemberIdType.UNIPROTKB) {
                         String accession = uniRefMember.getUniProtAccession().getValue();

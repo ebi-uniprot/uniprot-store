@@ -37,7 +37,7 @@ public class DiseaseRDDReader {
             DiseaseFileReader fileReader = new DiseaseFileReader();
             List<String> diseaseLineList = Arrays.asList(diseaseLines.split("\n"));
             List<Disease> diseases = fileReader.parseLines(diseaseLineList);
-            if (Utils.notEmpty(diseases)) {
+            if (Utils.notNullOrEmpty(diseases)) {
                 Disease disease = diseases.get(0);
                 return new Tuple2(disease.getId(), disease);
             } else {

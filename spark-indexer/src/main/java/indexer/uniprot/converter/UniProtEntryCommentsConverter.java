@@ -294,7 +294,7 @@ class UniProtEntryCommentsConverter implements Serializable {
 
     private List<String> getTextsValue(List<EvidencedValue> texts) {
         List<String> result = new ArrayList<>();
-        if (Utils.notEmpty(texts)) {
+        if (Utils.notNullOrEmpty(texts)) {
             texts.stream().map(Value::getValue).forEach(result::add);
         }
         return result;
@@ -302,7 +302,7 @@ class UniProtEntryCommentsConverter implements Serializable {
 
     private Set<String> getTextsEvidence(List<EvidencedValue> texts) {
         Set<String> result = new HashSet<>();
-        if (Utils.notEmpty(texts)) {
+        if (Utils.notNullOrEmpty(texts)) {
             List<Evidence> evidences = texts.stream()
                     .flatMap(text -> text.getEvidences().stream())
                     .collect(Collectors.toList());

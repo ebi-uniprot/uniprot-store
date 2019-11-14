@@ -124,9 +124,11 @@ class UniProtEntryCrossReferenceConverter {
     }
 
     private void addAncestors(String evType, String goTerm, UniProtDocument doc) {
-        Set<GoTerm> ancestors = goRelationRepo.getAncestors(goTerm, asList(IS_A, PART_OF));
-        if (ancestors != null)
-            ancestors.forEach(ancestor -> addGoterm(evType, ancestor.getId(), ancestor.getName(), doc));
+        if (goRelationRepo != null) {
+            Set<GoTerm> ancestors = goRelationRepo.getAncestors(goTerm, asList(IS_A, PART_OF));
+            if (ancestors != null)
+                ancestors.forEach(ancestor -> addGoterm(evType, ancestor.getId(), ancestor.getName(), doc));
+        }
     }
 
     private void addGoterm(String evType, String goId, String term, UniProtDocument document) {
