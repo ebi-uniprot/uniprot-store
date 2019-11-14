@@ -1,9 +1,10 @@
 package org.uniprot.store.search.domain2;
 
 /**
- * Created 12/11/2019
+ * Created 14/11/19
  *
  * @author Edd
  */
-public class TermField {
+public enum FieldType {
+    RANGE, TERM
 }
