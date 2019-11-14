@@ -9,7 +9,14 @@ import java.util.Optional;
  */
 public interface SearchField {
     String getTerm();
-    Optional<String> getSortTerm();
-    Optional<String> getValidRegex();
+
     FieldType getType();
+
+    default Optional<String> getSortTerm() {
+        return Optional.empty();
+    }
+
+    default Optional<String> getValidRegex() {
+        return Optional.empty();
+    }
 }

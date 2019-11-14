@@ -34,5 +34,7 @@ public interface SearchItem {
 
     String getItemType();
 
+    String getValidRegex();
+
     List<SearchItem> getItems();
 }

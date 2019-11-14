@@ -31,5 +31,6 @@ public class UniProtKBSearchItem implements SearchItem {
     String sites;
     String example;
     String itemType = "single";
+    String validRegex;
     List<SearchItem> items;
 }
