@@ -1497,7 +1497,7 @@
     "example": "chromosomal"
   },
   {
-    "id": "id_",
+    "id": "id_literature_citation",
     "label": "Literature Citation",
     "itemType": "groupDisplay",
     "items": [
