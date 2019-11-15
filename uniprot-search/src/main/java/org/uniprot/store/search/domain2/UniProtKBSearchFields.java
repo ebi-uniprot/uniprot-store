@@ -1,13 +1,12 @@
 package org.uniprot.store.search.domain2;
 
-import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import org.uniprot.core.util.Utils;
 import org.uniprot.store.search.domain2.impl.SearchFieldImpl;
-import org.uniprot.store.search.domain2.impl.UniProtKBSearchItem;
+import org.uniprot.store.search.domain2.impl.SearchItemImpl;
 
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -20,46 +19,41 @@ import static java.util.stream.Collectors.groupingBy;
  *
  * @author Edd
  */
-public enum UniProtKBSearchFields implements SearchFields {
+public enum UniProtKBSearchFields implements SearchItems, SearchFields {
     INSTANCE;
 
     private static final String FILENAME = "uniprot/search-fields.json";
     private List<SearchItem> searchItems = new ArrayList<>();
     private List<SearchField> searchFields = new ArrayList<>();
-    private Map<FieldType, List<SearchField>> fieldsByType;
+    private Map<SearchFieldType, List<SearchField>> fieldsByType;
     private List<String> sortFieldNames;
 
     private void init() {
-        ObjectMapper objectMapper = getJsonMapper();
-        try (InputStream is =
-                UniProtKBSearchFields.class.getClassLoader().getResourceAsStream(FILENAME); ) {
-            List<SearchItem> allItems =
-                    objectMapper.readValue(is, new TypeReference<List<UniProtKBSearchItem>>() {});
+        ObjectMapper mapper = getJsonMapper();
+        JavaType type =
+                mapper.getTypeFactory().constructCollectionType(List.class, SearchItem.class);
+        List<SearchItem> allItems = JsonLoader.loadItems(FILENAME, mapper, type);
 
-            // search terms (used by front-end)
-            allItems.stream()
-                    .filter(item -> Utils.notNullOrEmpty(item.getLabel()))
-                    .forEach(searchItems::add);
+        // search terms (used by front-end)
+        allItems.stream()
+                .filter(item -> Utils.notNullOrEmpty(item.getLabel()))
+                .forEach(searchItems::add);
 
-            // all search fields used in application code
-            allItems.stream()
-                    .map(this::searchItemToSearchField)
-                    .distinct()
-                    .forEach(searchFields::addAll);
+        // all search fields used in application code
+        allItems.stream()
+                .map(this::searchItemToSearchField)
+                .distinct()
+                .forEach(searchFields::addAll);
 
-            // record fields by type
-            fieldsByType = searchFields.stream().collect(groupingBy(SearchField::getType));
+        // record fields by type
+        fieldsByType = searchFields.stream().collect(groupingBy(SearchField::getType));
 
-            // sorts
-            sortFieldNames =
-                    allItems.stream()
-                            .filter(field -> Utils.notNullOrEmpty(field.getSortTerm()))
-                            .map(SearchItem::getSortTerm)
-                            .collect(Collectors.toList());
-
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+        // sorts
+        sortFieldNames =
+                allItems.stream()
+                        .filter(field -> Utils.notNullOrEmpty(field.getSortTerm()))
+                        .map(SearchItem::getSortTerm)
+                        .collect(Collectors.toList());
     }
 
     private List<SearchField> searchItemToSearchField(SearchItem searchItem) {
@@ -77,7 +71,7 @@ public enum UniProtKBSearchFields implements SearchFields {
                     SearchFieldImpl.builder()
                             .term(searchItem.getRangeTerm())
                             .sortTerm(searchItem.getSortTerm())
-                            .type(FieldType.RANGE)
+                            .type(SearchFieldType.RANGE)
                             .validRegex(searchItem.getTermValidRegex())
                             .build());
         } else {
@@ -86,17 +80,17 @@ public enum UniProtKBSearchFields implements SearchFields {
                     SearchFieldImpl.builder()
                             .term(searchItem.getTerm())
                             .sortTerm(searchItem.getSortTerm())
-                            .type(FieldType.TERM)
+                            .type(SearchFieldType.TERM)
                             .validRegex(searchItem.getTermValidRegex())
                             .build());
         }
 
         // id term
-        if (Utils.notNullOrEmpty(searchItem.getIdTerm())) {
+        if (Utils.notNullOrEmpty(searchItem.getNumberTerm())) {
             fields.add(
                     SearchFieldImpl.builder()
-                            .term(searchItem.getIdTerm())
-                            .type(FieldType.TERM)
+                            .term(searchItem.getNumberTerm())
+                            .type(SearchFieldType.TERM)
                             .validRegex(searchItem.getIdValidRegex())
                             .build());
         }
@@ -121,12 +115,12 @@ public enum UniProtKBSearchFields implements SearchFields {
 
     @Override
     public List<SearchField> getTermFields() {
-        return fieldsByType.get(FieldType.TERM);
+        return fieldsByType.get(SearchFieldType.TERM);
     }
 
     @Override
     public List<SearchField> getRangeFields() {
-        return fieldsByType.get(FieldType.RANGE);
+        return fieldsByType.get(SearchFieldType.RANGE);
     }
 
     @Override
@@ -135,7 +129,8 @@ public enum UniProtKBSearchFields implements SearchFields {
     }
 
     public static void main(String[] args) {
-        UniProtKBSearchFields.INSTANCE.getSorts().stream()
+        //        UniProtKBSearchFields.INSTANCE.getSorts().stream()
+        UniProtKBSearchFields.INSTANCE.getSearchItems().stream()
                 .map(Object::toString)
                 .forEach(System.out::println);
     }
@@ -147,7 +142,7 @@ public enum UniProtKBSearchFields implements SearchFields {
         //        mod.addAbstractTypeMapping(EvidenceItem.class, EvidenceItemImpl.class);
         //        mod.addAbstractTypeMapping(FieldGroup.class, FieldGroupImpl.class);
         //        mod.addAbstractTypeMapping(Field.class, FieldImpl.class);
-        mod.addAbstractTypeMapping(SearchItem.class, UniProtKBSearchItem.class);
+        mod.addAbstractTypeMapping(SearchItem.class, SearchItemImpl.class);
         //        mod.addAbstractTypeMapping(Tuple.class, TupleImpl.class);
         objectMapper.registerModule(mod);
         return objectMapper;

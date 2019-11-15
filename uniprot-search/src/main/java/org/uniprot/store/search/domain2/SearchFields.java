@@ -8,7 +8,6 @@ import java.util.List;
  * @author Edd
  */
 public interface SearchFields {
-    List<SearchItem> getSearchItems();
     List<SearchField> getSearchFields();
     List<SearchField> getTermFields();
     List<SearchField> getRangeFields();

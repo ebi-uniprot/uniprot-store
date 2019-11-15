@@ -10,7 +10,7 @@ import java.util.Optional;
 public interface SearchField {
     String getTerm();
 
-    FieldType getType();
+    SearchFieldType getType();
 
     default Optional<String> getSortTerm() {
         return Optional.empty();

@@ -14,7 +14,7 @@ public interface SearchItem {
 
     String getTerm();
 
-    String getIdTerm();
+    String getNumberTerm();
 
     String getSortTerm();
 

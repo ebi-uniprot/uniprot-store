@@ -17,13 +17,13 @@ import java.util.List;
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Data
 @ToString
-public class UniProtKBSearchItem implements SearchItem {
+public class SearchItemImpl implements SearchItem {
     String id;
     String label;
     String term;
     String termValidRegex;
     String idValidRegex;
-    String idTerm;
+    String numberTerm;
     String sortTerm;
     String autoComplete;
     String dataType = "string";
