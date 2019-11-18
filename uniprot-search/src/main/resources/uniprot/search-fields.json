@@ -770,6 +770,7 @@
       {
         "label": "Tissue specificity",
         "dataType": "string",
+        "field": "cc_tissue_specificity",
         "evidenceField": "ccev_tissue_specificity",
         "description": "Search by Comment Tissue specificity",
         "example": "pancreas"

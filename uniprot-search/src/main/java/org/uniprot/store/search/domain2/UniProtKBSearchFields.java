@@ -158,7 +158,7 @@ public enum UniProtKBSearchFields implements SearchItems, SearchFields {
     }
 
     public static void main(String[] args) {
-        UniProtKBSearchFields.INSTANCE.getSearchItems().stream()
+        UniProtKBSearchFields.INSTANCE.getSearchFields().stream()
                 .map(Object::toString)
                 .forEach(System.out::println);
     }
