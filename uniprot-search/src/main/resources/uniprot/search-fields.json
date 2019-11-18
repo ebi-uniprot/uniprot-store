@@ -5,7 +5,7 @@
   },
   {
     "field": "accession_id",
-    "termValidRegex": "([O,P,Q][0-9][A-Z|0-9]{3}[0-9]|[A-N,R-Z]([0-9][A-Z][A-Z|0-9]{2}){1,2}[0-9])(-\\d+)*"
+    "fieldValidRegex": "([O,P,Q][0-9][A-Z|0-9]{3}[0-9]|[A-N,R-Z]([0-9][A-Z][A-Z|0-9]{2}){1,2}[0-9])(-\\d+)*"
   },
   {
     "field": "mnemonic_default"
@@ -45,7 +45,7 @@
   },
   {
     "field": "is_isoform",
-    "termValidRegex": "^true|false$"
+    "fieldValidRegex": "^true|false$"
   },
   {
     "field": "cc_sc"
@@ -188,7 +188,7 @@
   {
     "field": "accession",
     "sortField": "accession_id",
-    "termValidRegex": "([O,P,Q][0-9][A-Z|0-9]{3}[0-9]|[A-N,R-Z]([0-9][A-Z][A-Z|0-9]{2}){1,2}[0-9])(-\\d+)*",
+    "fieldValidRegex": "([O,P,Q][0-9][A-Z|0-9]{3}[0-9]|[A-N,R-Z]([0-9][A-Z][A-Z|0-9]{2}){1,2}[0-9])(-\\d+)*",
     "hash": "id_accession",
     "label": "UniProtKB AC",
     "itemType": "single",
@@ -231,7 +231,7 @@
     "sortField": "organism_sort",
     "autoComplete": "/uniprot/api/suggester?dict=organism&query=?",
     "idField": "organism_id",
-    "numberValidRegex": "^[0-9]+$",
+    "idValidRegex": "^[0-9]+$",
     "description": "Search by Organism name",
     "example": "saccharomyces"
   },
@@ -242,7 +242,7 @@
     "field": "taxonomy_name",
     "autoComplete": "/uniprot/api/suggester?dict=taxonomy&query=?",
     "idField": "taxonomy_id",
-    "numberValidRegex": "^[0-9]+$",
+    "idValidRegex": "^[0-9]+$",
     "description": "Search by NCBI taxonomy",
     "example": "human"
   },
@@ -253,7 +253,7 @@
     "field": "host_name",
     "autoComplete": "/uniprot/api/suggester?dict=host&query=?",
     "idField": "host_id",
-    "numberValidRegex": "^[0-9]+$",
+    "idValidRegex": "^[0-9]+$",
     "description": "Search by virus host",
     "example": "human"
   },
@@ -878,7 +878,7 @@
         "hash": "id_d3structure",
         "label": "3D Structure",
         "field": "d3structure",
-        "termValidRegex": "^true|false$",
+        "fieldValidRegex": "^true|false$",
         "dataType": "enum",
         "description": "Search by having pdb cross reference or not",
         "values": [
@@ -1556,7 +1556,7 @@
         "hash": "id_proteome",
         "label": "Proteome ID",
         "field": "proteome",
-        "termValidRegex": "^UP[0-9]{9}$",
+        "fieldValidRegex": "^UP[0-9]{9}$",
         "dataType": "string",
         "description": "Search by Proteome ID",
         "example": "UP000005640"
@@ -1583,7 +1583,7 @@
     "hash": "id_reviewed",
     "label": "Reviewed",
     "field": "reviewed",
-    "termValidRegex": "^true|false$",
+    "fieldValidRegex": "^true|false$",
     "dataType": "enum",
     "values": [
       {
@@ -1602,7 +1602,7 @@
     "hash": "id_active",
     "label": "Active",
     "field": "active",
-    "termValidRegex": "^true|false$",
+    "fieldValidRegex": "^true|false$",
     "dataType": "enum",
     "values": [
       {

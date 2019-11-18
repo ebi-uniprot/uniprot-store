@@ -12,23 +12,23 @@ public interface SearchItem {
 
     String getLabel();
 
-    String getTerm();
+    String getField();
 
-    String getTermValidRegex();
+    String getFieldValidRegex();
 
-    String getNumberTerm();
+    String getIdField();
 
-    String getNumberValidRegex();
+    String getIdValidRegex();
 
-    String getSortTerm();
+    String getSortField();
 
     String getAutoComplete();
 
     String getDataType();
 
-    String getRangeTerm();
+    String getRangeField();
 
-    String getEvTerm();
+    String getEvField();
 
     String getDescription();
 

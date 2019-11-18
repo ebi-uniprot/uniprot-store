@@ -54,8 +54,8 @@ public enum UniProtKBSearchFields implements SearchItems, SearchFields {
         // sorts
         sortFieldNames =
                 allItems.stream()
-                        .filter(field -> Utils.notNullOrEmpty(field.getSortTerm()))
-                        .map(SearchItem::getSortTerm)
+                        .filter(field -> Utils.notNullOrEmpty(field.getSortField()))
+                        .map(SearchItem::getSortField)
                         .collect(Collectors.toSet());
     }
 
@@ -84,14 +84,14 @@ public enum UniProtKBSearchFields implements SearchItems, SearchFields {
     private void searchItemToSearchField(SearchItem searchItem, List<SearchField> fields) {
         if (!searchItem.getItemType().equals("group")
                 && !searchItem.getItemType().equals("groupDisplay")) {
-            if (Utils.notNullOrEmpty(searchItem.getRangeTerm())) {
+            if (Utils.notNullOrEmpty(searchItem.getRangeField())) {
                 // range term
                 fields.add(
                         SearchFieldImpl.builder()
-                                .term(searchItem.getRangeTerm())
-                                .sortTerm(searchItem.getSortTerm())
+                                .term(searchItem.getRangeField())
+                                .sortTerm(searchItem.getSortField())
                                 .type(SearchFieldType.RANGE)
-                                .validRegex(searchItem.getTermValidRegex())
+                                .validRegex(searchItem.getIdValidRegex())
                                 .build());
             } else {
                 // standard term
