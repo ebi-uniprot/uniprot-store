@@ -14,7 +14,11 @@ public interface SearchItem {
 
     String getTerm();
 
+    String getTermValidRegex();
+
     String getNumberTerm();
+
+    String getNumberValidRegex();
 
     String getSortTerm();
 
@@ -33,10 +37,6 @@ public interface SearchItem {
     String getExample();
 
     String getItemType();
-
-    String getTermValidRegex();
-
-    String getIdValidRegex();
 
     List<SearchItem> getItems();
 }

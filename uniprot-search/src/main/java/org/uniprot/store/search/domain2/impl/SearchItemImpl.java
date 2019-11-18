@@ -22,8 +22,8 @@ public class SearchItemImpl implements SearchItem {
     String label;
     String term;
     String termValidRegex;
-    String idValidRegex;
     String numberTerm;
+    String numberValidRegex;
     String sortTerm;
     String autoComplete;
     String dataType = "string";

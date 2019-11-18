@@ -17,7 +17,7 @@ public class JsonLoader {
         try (InputStream is = JsonLoader.class.getClassLoader().getResourceAsStream(fileName); ) {
             allItems = mapper.readValue(is, type);
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            throw new IllegalStateException(e);
         }
         return allItems;
     }

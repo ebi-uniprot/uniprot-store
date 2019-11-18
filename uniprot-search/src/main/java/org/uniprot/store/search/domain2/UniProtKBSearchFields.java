@@ -104,13 +104,22 @@ public enum UniProtKBSearchFields implements SearchItems, SearchFields {
                                 .build());
             }
 
+            // ev term
+            if (Utils.notNullOrEmpty(searchItem.getEvTerm())) {
+                fields.add(
+                    SearchFieldImpl.builder()
+                        .term(searchItem.getEvTerm())
+                        .type(SearchFieldType.TERM)
+                        .build());
+            }
+
             // id term
             if (Utils.notNullOrEmpty(searchItem.getNumberTerm())) {
                 fields.add(
                         SearchFieldImpl.builder()
                                 .term(searchItem.getNumberTerm())
                                 .type(SearchFieldType.TERM)
-                                .validRegex(searchItem.getIdValidRegex())
+                                .validRegex(searchItem.getNumberValidRegex())
                                 .build());
             }
         }
