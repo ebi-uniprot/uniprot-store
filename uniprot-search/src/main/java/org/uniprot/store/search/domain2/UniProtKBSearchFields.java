@@ -97,10 +97,10 @@ public enum UniProtKBSearchFields implements SearchItems, SearchFields {
                 // standard term
                 fields.add(
                         SearchFieldImpl.builder()
-                                .term(searchItem.getTerm())
+                                .term(searchItem.getField())
                                 .sortTerm(searchItem.getSortTerm())
                                 .type(SearchFieldType.TERM)
-                                .validRegex(searchItem.getTermValidRegex())
+                                .validRegex(searchItem.getFieldValidRegex())
                                 .build());
             }
 
@@ -114,10 +114,10 @@ public enum UniProtKBSearchFields implements SearchItems, SearchFields {
             }
 
             // id term
-            if (Utils.notNullOrEmpty(searchItem.getNumberTerm())) {
+            if (Utils.notNullOrEmpty(searchItem.getIdField())) {
                 fields.add(
                         SearchFieldImpl.builder()
-                                .term(searchItem.getNumberTerm())
+                                .term(searchItem.getIdField())
                                 .type(SearchFieldType.TERM)
                                 .validRegex(searchItem.getNumberValidRegex())
                                 .build());
@@ -143,7 +143,7 @@ public enum UniProtKBSearchFields implements SearchItems, SearchFields {
     }
 
     @Override
-    public Set<SearchField> getTermFields() {
+    public Set<SearchField> getGeneralFields() {
         return fieldsByType.get(SearchFieldType.TERM);
     }
 

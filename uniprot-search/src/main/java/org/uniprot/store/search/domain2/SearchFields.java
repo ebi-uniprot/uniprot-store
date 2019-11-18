@@ -55,7 +55,7 @@ public interface SearchFields {
 
     Set<SearchField> getSearchFields();
 
-    Set<SearchField> getTermFields();
+    Set<SearchField> getGeneralFields();
 
     Set<SearchField> getRangeFields();
 
