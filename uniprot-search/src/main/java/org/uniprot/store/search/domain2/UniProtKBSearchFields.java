@@ -65,7 +65,7 @@ public enum UniProtKBSearchFields implements SearchItems, SearchFields {
                         .map(
                                 db ->
                                         SearchFieldImpl.builder()
-                                                .term(XREF_COUNT_PREFIX + db.getName().toLowerCase())
+                                                .name(XREF_COUNT_PREFIX + db.getName().toLowerCase())
                                                 .type(SearchFieldType.TERM)
                                                 .build())
                         .collect(Collectors.toList());
@@ -88,8 +88,8 @@ public enum UniProtKBSearchFields implements SearchItems, SearchFields {
                 // range term
                 fields.add(
                         SearchFieldImpl.builder()
-                                .term(searchItem.getRangeField())
-                                .sortTerm(searchItem.getSortField())
+                                .name(searchItem.getRangeField())
+                                .sortName(searchItem.getSortField())
                                 .type(SearchFieldType.RANGE)
                                 .validRegex(searchItem.getIdValidRegex())
                                 .build());
@@ -97,18 +97,18 @@ public enum UniProtKBSearchFields implements SearchItems, SearchFields {
                 // standard term
                 fields.add(
                         SearchFieldImpl.builder()
-                                .term(searchItem.getField())
-                                .sortTerm(searchItem.getSortTerm())
+                                .name(searchItem.getField())
+                                .sortName(searchItem.getSortField())
                                 .type(SearchFieldType.TERM)
                                 .validRegex(searchItem.getFieldValidRegex())
                                 .build());
             }
 
             // ev term
-            if (Utils.notNullOrEmpty(searchItem.getEvTerm())) {
+            if (Utils.notNullOrEmpty(searchItem.getEvidenceField())) {
                 fields.add(
                     SearchFieldImpl.builder()
-                        .term(searchItem.getEvTerm())
+                        .name(searchItem.getEvidenceField())
                         .type(SearchFieldType.TERM)
                         .build());
             }
@@ -117,9 +117,9 @@ public enum UniProtKBSearchFields implements SearchItems, SearchFields {
             if (Utils.notNullOrEmpty(searchItem.getIdField())) {
                 fields.add(
                         SearchFieldImpl.builder()
-                                .term(searchItem.getIdField())
+                                .name(searchItem.getIdField())
                                 .type(SearchFieldType.TERM)
-                                .validRegex(searchItem.getNumberValidRegex())
+                                .validRegex(searchItem.getIdValidRegex())
                                 .build());
             }
         }
@@ -158,7 +158,7 @@ public enum UniProtKBSearchFields implements SearchItems, SearchFields {
     }
 
     public static void main(String[] args) {
-        UniProtKBSearchFields.INSTANCE.getSearchFields().stream()
+        UniProtKBSearchFields.INSTANCE.getSearchItems().stream()
                 .map(Object::toString)
                 .forEach(System.out::println);
     }

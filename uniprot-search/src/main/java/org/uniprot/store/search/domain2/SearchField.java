@@ -8,11 +8,11 @@ import java.util.Optional;
  * @author Edd
  */
 public interface SearchField {
-    String getTerm();
+    String getName();
 
     SearchFieldType getType();
 
-    default Optional<String> getSortTerm() {
+    default Optional<String> getSortName() {
         return Optional.empty();
     }
 

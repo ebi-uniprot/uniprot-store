@@ -10,21 +10,21 @@ import java.util.Set;
 public interface SearchFields {
     default boolean hasField(String field) {
         return getSearchFields().stream()
-                .map(SearchField::getTerm)
+                .map(SearchField::getName)
                 .anyMatch(searchField -> searchField.equals(field));
     }
 
     default boolean hasSortField(String field) {
         return getSearchFields().stream()
-                .filter(searchField -> searchField.getSortTerm().isPresent())
-                .map(SearchField::getTerm)
+                .filter(searchField -> searchField.getSortName().isPresent())
+                .map(SearchField::getName)
                 .anyMatch(searchField -> searchField.equals(field));
     }
 
     default String getField(String field) {
         return getSearchFields().stream()
-                .filter(searchField -> searchField.getTerm().equals(field))
-                .map(SearchField::getTerm)
+                .filter(searchField -> searchField.getName().equals(field))
+                .map(SearchField::getName)
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("Unknown field: " + field));
     }
@@ -35,9 +35,9 @@ public interface SearchFields {
                         + field
                         + "' does not have an associated sort field.");
         for (SearchField searchField : getSearchFields()) {
-            if (searchField.getTerm().equals(field) && searchField.getSortTerm().isPresent()) {
+            if (searchField.getName().equals(field) && searchField.getSortName().isPresent()) {
                 return searchField
-                        .getSortTerm()
+                        .getSortName()
                         .orElseThrow(() -> exception);
             }
         }
@@ -46,7 +46,7 @@ public interface SearchFields {
 
     default boolean fieldValueIsValid(String field, String value) {
         for (SearchField searchField : getSearchFields()) {
-            if (searchField.getTerm().equals(field)) {
+            if (searchField.getName().equals(field)) {
                 return searchField.getValidRegex().map(value::matches).orElse(true);
             }
         }

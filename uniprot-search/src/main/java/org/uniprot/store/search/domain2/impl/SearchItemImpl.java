@@ -18,7 +18,6 @@ import java.util.List;
 @Data
 @ToString
 public class SearchItemImpl implements SearchItem {
-    String id;
     String label;
     String field;
     String fieldValidRegex;
@@ -28,7 +27,7 @@ public class SearchItemImpl implements SearchItem {
     String autoComplete;
     String dataType = "string";
     String rangeField;
-    String evField;
+    String evidenceField;
     String description;
     String sites;
     String example;

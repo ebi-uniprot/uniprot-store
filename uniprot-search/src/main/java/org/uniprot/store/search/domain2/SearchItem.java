@@ -8,8 +8,6 @@ import java.util.List;
  * @author Edd
  */
 public interface SearchItem {
-    String getId();
-
     String getLabel();
 
     String getField();
@@ -28,7 +26,7 @@ public interface SearchItem {
 
     String getRangeField();
 
-    String getEvField();
+    String getEvidenceField();
 
     String getDescription();
 

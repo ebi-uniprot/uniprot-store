@@ -15,14 +15,14 @@ import java.util.Optional;
 @Builder
 @Data
 public class SearchFieldImpl implements SearchField {
-    private String term;
+    private String name;
     private SearchFieldType type;
-    private String sortTerm;
+    private String sortName;
     private String validRegex;
 
     @Override
-    public Optional<String> getSortTerm() {
-        return Optional.ofNullable(sortTerm);
+    public Optional<String> getSortName() {
+        return Optional.ofNullable(sortName);
     }
 
     @Override
