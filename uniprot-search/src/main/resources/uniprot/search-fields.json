@@ -418,7 +418,7 @@
           },
           {
             "label": "Active site",
-            "field": "act_site",
+            "field": "ft_act_site",
             "dataType": "string",
             "rangeField": "ftlen_act_site",
             "evidenceField": "ftev_act_site",
@@ -427,7 +427,7 @@
           },
           {
             "label": "Metal binding",
-            "field": "metal",
+            "field": "ft_metal",
             "dataType": "string",
             "rangeField": "ftlen_metal",
             "evidenceField": "ftev_metal",
@@ -436,7 +436,7 @@
           },
           {
             "label": "Binding site",
-            "field": "binding",
+            "field": "ft_binding",
             "dataType": "string",
             "rangeField": "ftlen_binding",
             "evidenceField": "ftev_binding",
@@ -445,7 +445,7 @@
           },
           {
             "label": "Other",
-            "field": "site",
+            "field": "ft_site",
             "dataType": "string",
             "rangeField": "ftlen_site",
             "evidenceField": "ftev_site",
