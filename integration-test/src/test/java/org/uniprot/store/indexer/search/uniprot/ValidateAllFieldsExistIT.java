@@ -24,8 +24,8 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
  * and the file that acts as source for {@link UniProtKBSearchFields}, {@code search-fields.json}
  * will need correcting.
  *
- * <p>For example if {@code search-fields.json} contains field 'xxx', but the Solr schema defines
- * field called, 'xx', then a test will fail that reports the Solr error that states that field
+ * <p>For example if {@code search-fields.json} contains field 'xxx', but the Solr schema defines a
+ * field called, 'xx', then a test will fail that reports the Solr error stating that field
  * 'xxx' does not exist.
  *
  * <p>Note that dynamic fields in Solr have slightly different behaviour. Dynamic fields in a Solr
