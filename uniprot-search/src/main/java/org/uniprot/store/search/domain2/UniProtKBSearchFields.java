@@ -23,7 +23,7 @@ public enum UniProtKBSearchFields implements SearchItems, SearchFields {
     INSTANCE;
 
     private static final String FILENAME = "uniprot/search-fields.json";
-    private static final String XREF_COUNT_PREFIX = "xref_count_";
+    static final String XREF_COUNT_PREFIX = "xref_count_";
     private List<SearchItem> searchItems = new ArrayList<>();
     private Set<SearchField> searchFields = new HashSet<>();
     private Map<SearchFieldType, Set<SearchField>> fieldsByType;
@@ -35,7 +35,7 @@ public enum UniProtKBSearchFields implements SearchItems, SearchFields {
                 mapper.getTypeFactory().constructCollectionType(List.class, SearchItem.class);
         List<SearchItem> allItems = JsonLoader.loadItems(FILENAME, mapper, type);
 
-        // search terms (used by front-end)
+        // search items (used by front-end)
         allItems.stream()
                 .filter(item -> Utils.notNullOrEmpty(item.getLabel()))
                 .forEach(searchItems::add);
@@ -185,12 +185,12 @@ public enum UniProtKBSearchFields implements SearchItems, SearchFields {
     }
 
     public static void main(String[] args) {
-        UniProtKBSearchFields.INSTANCE.getSearchFields().stream()
+        UniProtKBSearchFields.INSTANCE.getSearchItems().stream()
                 .map(Object::toString)
                 .forEach(System.out::println);
     }
 
-    public static ObjectMapper getJsonMapper() {
+    private static ObjectMapper getJsonMapper() {
         final ObjectMapper objectMapper = new ObjectMapper();
         SimpleModule mod = new SimpleModule();
         mod.addAbstractTypeMapping(SearchItem.class, SearchItemImpl.class);
