@@ -1,0 +1,1298 @@
+[
+  {
+    "field": "annotation_score",
+    "sortField": "annotation_score"
+  },
+  {
+    "field": "accession_id",
+    "fieldValidRegex": "([O,P,Q][0-9][A-Z|0-9]{3}[0-9]|[A-N,R-Z]([0-9][A-Z][A-Z|0-9]{2}){1,2}[0-9])(-\\d+)*"
+  },
+  {
+    "field": "mnemonic_default"
+  },
+  {
+    "field": "accession",
+    "sortField": "accession_id",
+    "fieldValidRegex": "([O,P,Q][0-9][A-Z|0-9]{3}[0-9]|[A-N,R-Z]([0-9][A-Z][A-Z|0-9]{2}){1,2}[0-9])(-\\d+)*",
+    "label": "UniProtKB AC",
+    "itemType": "single",
+    "dataType": "string",
+    "description": "Search by UniProtKB Accession",
+    "example": "P12345"
+  },
+  {
+    "label": "Entry Name [ID]",
+    "field": "mnemonic",
+    "sortField": "mnemonic_sort",
+    "dataType": "string",
+    "description": "Search by UniProtKB entry name",
+    "example": "P53_HUMAN"
+  },
+  {
+    "label": "Protein Name [DE]",
+    "field": "name",
+    "sortField": "name_sort",
+    "dataType": "string",
+    "description": "Search by UniProtKB Protein name",
+    "example": "mas5"
+  },
+  {
+    "label": "Gene Name [GN]",
+    "field": "gene",
+    "sortField": "gene_sort",
+    "dataType": "string",
+    "description": "Search by UniProtKB gene name",
+    "example": "ydj1"
+  },
+  {
+    "label": "Organism [OS]",
+    "dataType": "string",
+    "field": "organism_name",
+    "sortField": "organism_sort",
+    "autoComplete": "/uniprot/api/suggester?dict=organism&query=?",
+    "idField": "organism_id",
+    "idValidRegex": "^[0-9]+$",
+    "description": "Search by Organism name",
+    "example": "saccharomyces"
+  },
+  {
+    "label": "Taxonomy [OC]",
+    "dataType": "string",
+    "field": "taxonomy_name",
+    "autoComplete": "/uniprot/api/suggester?dict=taxonomy&query=?",
+    "idField": "taxonomy_id",
+    "idValidRegex": "^[0-9]+$",
+    "description": "Search by NCBI taxonomy",
+    "example": "human"
+  },
+  {
+    "label": "Virus host",
+    "dataType": "string",
+    "field": "host_name",
+    "autoComplete": "/uniprot/api/suggester?dict=host&query=?",
+    "idField": "host_id",
+    "idValidRegex": "^[0-9]+$",
+    "description": "Search by virus host",
+    "example": "human"
+  },
+  {
+    "label": "Protein Existence [PE]",
+    "field": "existence",
+    "dataType": "enum",
+    "description": "Search by protein existence",
+    "values": [
+      {
+        "name": "Evidence at protein level",
+        "value": "protein_level"
+      },
+      {
+        "name": "Evidence at transcript level",
+        "value": "transcript_level"
+      },
+      {
+        "name": "Inferred from homology",
+        "value": "homology"
+      },
+      {
+        "name": "Predicted",
+        "value": "predicted"
+      },
+      {
+        "name": "Uncertain",
+        "value": "uncertain"
+      }
+    ],
+    "example": "1"
+  },
+  {
+    "label": "Function",
+    "itemType": "group",
+    "items": [
+      {
+        "label": "Enzyme classification [EC]",
+        "field": "ec",
+        "dataType": "string",
+        "autoComplete": "/uniprot/api/suggester?dict=ec&query=?",
+        "idField": "ec",
+        "description": "Search by Enzyme EC number",
+        "example": "1.1.2.3"
+      },
+      {
+        "label": "Cofactors",
+        "itemType": "group",
+        "items": [
+          {
+            "label": "ChEBI term",
+            "field": "cc_cofactor_chebi",
+            "evidenceField": "ccev_cofactor_chebi",
+            "dataType": "string",
+            "autoComplete": "/uniprot/api/suggester?dict=chebi&query=?",
+            "idField": "cc_cofactor_chebi",
+            "description": "Search by cofactor chebi ",
+            "example": "29105"
+          },
+          {
+            "label": "Note",
+            "field": "cc_cofactor_note",
+            "evidenceField": "ccev_cofactor_note",
+            "dataType": "string",
+            "description": "Search by cofactor note",
+            "example": "subunit"
+          }
+        ]
+      },
+      {
+        "label": "Biophysicochemical properties",
+        "itemType": "group",
+        "items": [
+          {
+            "label": "Any",
+            "field": "cc_bpcp",
+            "evidenceField": "ccev_bpcp",
+            "dataType": "string",
+            "description": "Search by biophysicochemical properties",
+            "example": "\"some value\""
+          },
+          {
+            "label": "Absorption",
+            "field": "cc_bpcp_absorption",
+            "evidenceField": "ccev_bpcp_absorption",
+            "dataType": "string",
+            "description": "Search by biophysicochemical properties: absorption",
+            "example": "prosthetic"
+          },
+          {
+            "label": "Kinetics",
+            "field": "cc_bpcp_kinetics",
+            "evidenceField": "ccev_bpcp_kinetics",
+            "dataType": "string",
+            "description": "Search by biophysicochemical properties: kinetic parameters",
+            "example": "aspartate"
+          },
+          {
+            "label": "ph dependence",
+            "field": "cc_bpcp_ph_dependence",
+            "evidenceField": "ccev_bpcp_ph_dependence",
+            "dataType": "string",
+            "description": "Search by biophysicochemical properties: ph dependence",
+            "example": "optimum"
+          },
+          {
+            "label": "Redox potential",
+            "field": "cc_bpcp_redox_potential",
+            "evidenceField": "ccev_bpcp_redox_potential",
+            "dataType": "string",
+            "description": "Search by biophysicochemical properties: redox potential",
+            "example": "siroheme"
+          },
+          {
+            "label": "Temperature dependence",
+            "field": "cc_bpcp_temp_dependence",
+            "evidenceField": "ccev_bpcp_temp_dependence",
+            "dataType": "string",
+            "description": "Search by biophysicochemical properties: tempeature dependence",
+            "example": "*"
+          }
+        ]
+      },
+      {
+        "label": "Catalytic Activity",
+        "field": "cc_catalytic_activity",
+        "evidenceField": "ccev_catalytic_activity",
+        "autoComplete": "/uniprot/api/suggester?dict=catalytic_activity&query=?",
+        "idField": "cc_catalytic_activity",
+        "description": "Search by comment catalytic activity",
+        "example": "tyrosine"
+      },
+      {
+        "label": "Activity regulation",
+        "field": "cc_activity_regulation",
+        "evidenceField": "ccev_activity_regulation",
+        "dataType": "string",
+        "description": "Search by comment activity regulation",
+        "example": "inhibited"
+      },
+      {
+        "label": "Function [CC]",
+        "field": "cc_function",
+        "evidenceField": "ccev_function",
+        "dataType": "string",
+        "description": "Search by comment function",
+        "example": "enzyme"
+      },
+      {
+        "label": "Caution",
+        "field": "cc_caution",
+        "evidenceField": "ccev_caution",
+        "dataType": "string",
+        "description": "Search by caution comment",
+        "example": "kinase"
+      },
+      {
+        "label": "Sites",
+        "itemType": "group",
+        "items": [
+          {
+            "label": "Any",
+            "field": "ft_sites",
+            "dataType": "string",
+            "rangeField": "ftlen_sites",
+            "evidenceField": "ftev_sites",
+            "description": "Search by feature sites",
+            "example": "translocation"
+          },
+          {
+            "label": "Active site",
+            "field": "ft_act_site",
+            "dataType": "string",
+            "rangeField": "ftlen_act_site",
+            "evidenceField": "ftev_act_site",
+            "description": "Search by feature  active site",
+            "example": "phosphocysteine"
+          },
+          {
+            "label": "Metal binding",
+            "field": "ft_metal",
+            "dataType": "string",
+            "rangeField": "ftlen_metal",
+            "evidenceField": "ftev_metal",
+            "description": "Search by feature metal binding",
+            "example": "phosphocysteine"
+          },
+          {
+            "label": "Binding site",
+            "field": "ft_binding",
+            "dataType": "string",
+            "rangeField": "ftlen_binding",
+            "evidenceField": "ftev_binding",
+            "description": "Search by feature binding site",
+            "example": "phosphocysteine"
+          },
+          {
+            "label": "Other",
+            "field": "ft_site",
+            "dataType": "string",
+            "rangeField": "ftlen_site",
+            "evidenceField": "ftev_site",
+            "description": "Search by feature other site",
+            "example": "phosphocysteine"
+          }
+        ]
+      },
+      {
+        "label": "Calcium binding",
+        "field": "ft_ca_bind",
+        "dataType": "string",
+        "rangeField": "ftlen_ca_bind",
+        "evidenceField": "ftev_ca_bind",
+        "description": "Search by feature calcium binding",
+        "example": "site"
+      },
+      {
+        "label": "DNA binding",
+        "field": "ft_dna_bind",
+        "dataType": "string",
+        "rangeField": "ftlen_dna_bind",
+        "evidenceField": "ftev_dna_bind",
+        "description": "Search by feature DNA binding",
+        "example": "*"
+      },
+      {
+        "label": "Nucleotide binding",
+        "field": "ft_np_bind",
+        "dataType": "string",
+        "rangeField": "ftlen_np_bind",
+        "evidenceField": "ftev_np_bind",
+        "description": "Search by feature Nucleotide binding",
+        "example": "NADP"
+      },
+      {
+        "label": "Pathway",
+        "field": "cc_pathway",
+        "evidenceField": "ccev_pathway",
+        "dataType": "string",
+        "description": "Search by comment pathway",
+        "example": "metabolism"
+      },
+      {
+        "label": "Miscellaneous [CC]",
+        "field": "cc_miscellaneous",
+        "evidenceField": "ccev_miscellaneous",
+        "dataType": "string",
+        "description": "Search by comment Miscellaneous",
+        "example": "abscisic"
+      }
+    ]
+  },
+  {
+    "label": "Subcellular location",
+    "itemType": "group",
+    "items": [
+      {
+        "label": "Subcellular location [CC]",
+        "itemType": "group",
+        "items": [
+          {
+            "label": "Subcellular location term",
+            "field": "cc_scl_term",
+            "evidenceField": "ccev_scl_term",
+            "dataType": "string",
+            "autoComplete": "/uniprot/api/suggester?dict=subcell&query=?",
+            "idField": "cc_scl_term",
+            "description": "Search by comment subcellular location term",
+            "example": "membrane"
+          },
+          {
+            "label": "Subcellular location note",
+            "field": "cc_scl_note",
+            "evidenceField": "ccev_scl_note",
+            "dataType": "string",
+            "description": "Search by comment subcellular location note",
+            "example": "membrane"
+          }
+        ]
+      },
+      {
+        "label": "Transmembrane",
+        "field": "ft_transmem",
+        "dataType": "string",
+        "rangeField": "ftlen_transmem",
+        "evidenceField": "ftev_transmem",
+        "description": "Search by Transmembrane",
+        "example": "forming"
+      },
+      {
+        "label": "Topological domain",
+        "field": "ft_topo_dom",
+        "dataType": "string",
+        "rangeField": "ftlen_topo_dom",
+        "evidenceField": "ftev_topo_dom",
+        "description": "Search by Topological domain",
+        "example": "forming"
+      },
+      {
+        "label": "Intramembrane",
+        "field": "ft_intramem",
+        "dataType": "string",
+        "rangeField": "ftlen_intramem",
+        "evidenceField": "ftev_intramem",
+        "description": "Search by Intramembrane",
+        "example": "forming"
+      }
+    ]
+  },
+  {
+    "label": "Pathology & Biotech",
+    "itemType": "group",
+    "items": [
+      {
+        "label": "Disease",
+        "field": "cc_disease",
+        "evidenceField": "ccev_disease",
+        "dataType": "string",
+        "description": "Search by Comment disease",
+        "example": "nephrotic"
+      },
+      {
+        "label": "Alergenic properties",
+        "field": "cc_allergen",
+        "evidenceField": "ccev_allergen",
+        "dataType": "string",
+        "description": "Search by Comment alergenic properties",
+        "example": "allergic"
+      },
+      {
+        "label": "Toxic dose",
+        "field": "cc_toxic_dose",
+        "evidenceField": "ccev_toxic_dose",
+        "dataType": "string",
+        "description": "Search by Comment Toxic dose",
+        "example": "intracistenal"
+      },
+      {
+        "label": "Biotechnological use",
+        "field": "cc_biotechnology",
+        "evidenceField": "ccev_biotechnology",
+        "dataType": "string",
+        "description": "Search by Comment Biotechnological use",
+        "example": "vaccine"
+      },
+      {
+        "label": "Pharmaceutical use",
+        "field": "cc_pharmaceutical",
+        "evidenceField": "ccev_pharmaceutical",
+        "dataType": "string",
+        "description": "Search by Comment Pharmaceutical use",
+        "example": "peptide"
+      },
+      {
+        "label": "Disruption phenotype",
+        "field": "cc_disruption_phenotype",
+        "evidenceField": "ccev_disruption_phenotype",
+        "dataType": "string",
+        "description": "Search by Comment Disruption phenotype",
+        "example": "infected"
+      },
+      {
+        "label": "Mutagenesis",
+        "field": "ft_mutagen",
+        "dataType": "string",
+        "rangeField": "ftlen_mutagen",
+        "evidenceField": "ftev_mutagen",
+        "description": "Search by Feature Mutagenesis",
+        "example": "phosphatase"
+      }
+    ]
+  },
+  {
+    "label": "PTM/Processing",
+    "itemType": "group",
+    "items": [
+      {
+        "label": "Post-translational modification [CC]",
+        "field": "cc_ptm",
+        "evidenceField": "ccev_ptm",
+        "dataType": "string",
+        "description": "Search by Comment Post-translational modification",
+        "example": "mitosis"
+      },
+      {
+        "label": "Modified residue [FT]",
+        "field": "ft_mod_res",
+        "dataType": "string",
+        "rangeField": "ftlen_mod_res",
+        "evidenceField": "ftev_mod_res",
+        "description": "Search by Feature Modified residue",
+        "example": "phosphoserine"
+      },
+      {
+        "label": "Lipidation [FT]",
+        "field": "ft_lipid",
+        "dataType": "string",
+        "rangeField": "ftlen_lipid",
+        "evidenceField": "ftev_lipid",
+        "description": "Search by Feature Lipidation",
+        "example": "cysteine"
+      },
+      {
+        "label": "Glycosylation [FT]",
+        "field": "ft_carbohyd",
+        "dataType": "string",
+        "rangeField": "ftlen_carbohyd",
+        "evidenceField": "ftev_carbohyd",
+        "description": "Search by Feature Glycosylation",
+        "example": "cysteine"
+      },
+      {
+        "label": "Disulfide bond [FT]",
+        "field": "ft_disulfid",
+        "dataType": "string",
+        "rangeField": "ftlen_disulfid",
+        "evidenceField": "ftev_disulfid",
+        "description": "Search by Feature Disulfide bond",
+        "example": "reversible"
+      },
+      {
+        "label": "Cross-link [FT]",
+        "field": "ft_crosslnk",
+        "dataType": "string",
+        "rangeField": "ftlen_crosslnk",
+        "evidenceField": "ftev_crosslnk",
+        "description": "Search by Feature Cross-link",
+        "example": "lysine"
+      },
+      {
+        "label": "Molecule Processing [FT]",
+        "itemType": "group",
+        "items": [
+          {
+            "label": "Any molecule processing",
+            "field": "ft_molecule_processing",
+            "dataType": "string",
+            "rangeField": "ftlen_molecule_processing",
+            "evidenceField": "ftev_molecule_processing",
+            "description": "Search by Feature Molecule Processing",
+            "example": "disulfide"
+          },
+          {
+            "label": "Chain",
+            "field": "ft_chain",
+            "dataType": "string",
+            "rangeField": "ftlen_chain",
+            "evidenceField": "ftev_chain",
+            "description": "Search by Feature chain",
+            "example": "kinase"
+          },
+          {
+            "label": "Initiator methionine",
+            "field": "ft_init_met",
+            "dataType": "string",
+            "rangeField": "ftlen_init_met",
+            "evidenceField": "ftev_init_met",
+            "description": "Search by Feature initiator methionine",
+            "example": "Removed"
+          },
+          {
+            "label": "Peptide",
+            "field": "ft_peptide",
+            "dataType": "string",
+            "rangeField": "ftlen_peptide",
+            "evidenceField": "ftev_peptide",
+            "description": "Search by Feature peptide",
+            "example": "Removed"
+          },
+          {
+            "label": "Signal Peptide",
+            "field": "ft_signal",
+            "dataType": "string",
+            "rangeField": "ftlen_signal",
+            "evidenceField": "ftev_signal",
+            "description": "Search by Feature signal peptide",
+            "example": "cleaved"
+          },
+          {
+            "label": "Propeptide",
+            "field": "ft_propep",
+            "dataType": "string",
+            "rangeField": "ftlen_propep",
+            "evidenceField": "ftev_propep",
+            "description": "Search by Feature signal peptide",
+            "example": "Activation peptide"
+          },
+          {
+            "label": "Transit Peptide",
+            "field": "ft_transit",
+            "dataType": "string",
+            "rangeField": "ftlen_transit",
+            "evidenceField": "ftev_transit",
+            "description": "Search by Feature signal peptide",
+            "example": "Mitochondrion"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "label": "Expression",
+    "itemType": "group",
+    "items": [
+      {
+        "label": "Developmental stage",
+        "field": "cc_developmental_stage",
+        "evidenceField": "ccev_developmental_stage",
+        "dataType": "string",
+        "description": "Search by Comment Developmental stage",
+        "example": "brain"
+      },
+      {
+        "label": "Induction",
+        "field": "cc_induction",
+        "evidenceField": "ccev_induction",
+        "dataType": "string",
+        "description": "Search by Comment Induction",
+        "example": "calcium"
+      },
+      {
+        "label": "Tissue specificity",
+        "dataType": "string",
+        "field": "cc_tissue_specificity",
+        "evidenceField": "ccev_tissue_specificity",
+        "description": "Search by Comment Tissue specificity",
+        "example": "pancreas"
+      }
+    ]
+  },
+  {
+    "label": "Interaction",
+    "itemType": "group",
+    "items": [
+      {
+        "label": "Binary Interaction",
+        "field": "interactor",
+        "dataType": "string",
+        "description": "Search by Comment Binary Interaction",
+        "example": "EBI-1042898"
+      },
+      {
+        "label": "Subunit structure",
+        "field": "cc_subunit",
+        "evidenceField": "ccev_subunit",
+        "dataType": "string",
+        "description": "Search by Subunit structure",
+        "example": "homodimer"
+      }
+    ]
+  },
+  {
+    "label": "Structure",
+    "itemType": "group",
+    "items": [
+      {
+        "label": "3D Structure",
+        "field": "d3structure",
+        "fieldValidRegex": "^true|false$",
+        "dataType": "enum",
+        "description": "Search by having pdb cross reference or not",
+        "values": [
+          {
+            "name": "Yes",
+            "value": "true"
+          },
+          {
+            "name": "No",
+            "value": "false"
+          }
+        ],
+        "example": "true"
+      },
+      {
+        "label": "Secondary structure",
+        "itemType": "group",
+        "items": [
+          {
+            "label": "Any",
+            "field": "ft_secstruct",
+            "dataType": "string",
+            "rangeField": "ftlen_secstruct",
+            "evidenceField": "ftev_secstruct",
+            "description": "Search by Feature Any secondary structure",
+            "example": "*"
+          },
+          {
+            "label": "Helix",
+            "field": "ft_helix",
+            "dataType": "string",
+            "rangeField": "ftlen_helix",
+            "evidenceField": "ftev_helix",
+            "description": "Search by Feature helix",
+            "example": "*"
+          },
+          {
+            "label": "Turn",
+            "field": "ft_turn",
+            "dataType": "string",
+            "rangeField": "ftlen_turn",
+            "evidenceField": "ftev_turn",
+            "description": "Search by Feature turn",
+            "example": "*"
+          },
+          {
+            "label": "Beta strand",
+            "field": "ft_strand",
+            "dataType": "string",
+            "rangeField": "ftlen_strand",
+            "evidenceField": "ftev_strand",
+            "description": "Search by Feature Beta strand",
+            "example": "*"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "label": "Sequence",
+    "itemType": "group",
+    "items": [
+      {
+        "label": "Mass(Da)",
+        "sortField": "mass",
+        "dataType": "integer",
+        "rangeField": "mass",
+        "description": "Search by Sequence mass",
+        "example": "[441126 TO 441126]"
+      },
+      {
+        "label": "Sequence length",
+        "sortField": "length",
+        "dataType": "integer",
+        "rangeField": "length",
+        "description": "Search by Sequence length",
+        "example": "[441 TO 450]"
+      },
+      {
+        "label": "Alternative products (isoforms)",
+        "itemType": "group",
+        "items": [
+          {
+            "label": "Any",
+            "field": "cc_ap",
+            "evidenceField": "ccev_ap",
+            "dataType": "string",
+            "description": "Search by Comment alternative Products",
+            "example": "tissues"
+          },
+          {
+            "label": "Alternative promoter usage",
+            "field": "cc_ap_apu",
+            "evidenceField": "ccev_ap_apu",
+            "dataType": "string",
+            "description": "Search by Comment alternative Products: alternative promoter usage",
+            "example": "*"
+          },
+          {
+            "label": "Alternative splicing",
+            "field": "cc_ap_as",
+            "evidenceField": "ccev_ap_as",
+            "dataType": "string",
+            "description": "Search by Comment alternative Products: alternative splicing",
+            "example": "experimental"
+          },
+          {
+            "label": "Alternative initiation",
+            "field": "cc_ap_ai",
+            "evidenceField": "ccev_ap_ai",
+            "dataType": "string",
+            "description": "Search by Comment alternative Products: alternative initiation",
+            "example": "acetylalanine"
+          },
+          {
+            "label": "Ribosomal frameshifting",
+            "field": "cc_ap_rf",
+            "evidenceField": "ccev_ap_rf",
+            "dataType": "string",
+            "description": "Search by Comment alternative Products: ribosomal frameshifting",
+            "example": "translation"
+          }
+        ]
+      },
+      {
+        "label": "Sequence caution",
+        "itemType": "group",
+        "items": [
+          {
+            "label": "Any",
+            "field": "cc_sequence_caution",
+            "evidenceField": "ccev_sequence_caution",
+            "dataType": "string",
+            "description": "Search by Comment Sequence caution",
+            "example": "translated"
+          },
+          {
+            "label": "Framshift",
+            "field": "cc_sc_framesh",
+            "evidenceField": "ccev_sc_framesh",
+            "dataType": "string",
+            "description": "Search by Comment Sequence caution: frameshift",
+            "example": "*"
+          },
+          {
+            "label": "Erroneous initiation",
+            "field": "cc_sc_einit",
+            "dataType": "string",
+            "description": "Search by Comment Sequence caution: erroneous initiation",
+            "example": "extended"
+          },
+          {
+            "label": "Erroneous termination",
+            "field": "cc_sc_eterm",
+            "dataType": "string",
+            "description": "Search by Comment Sequence caution: erroneous termination",
+            "example": "translated"
+          },
+          {
+            "label": "Erroneous gene model prediction",
+            "field": "cc_sc_epred",
+            "dataType": "string",
+            "description": "Search by Comment Sequence caution: erroneous gene model prediction",
+            "example": "*"
+          },
+          {
+            "label": "Erroneous translation",
+            "field": "cc_sc_etran",
+            "dataType": "string",
+            "description": "Search by Comment Sequence caution: erroneous translation",
+            "example": "choice"
+          },
+          {
+            "label": "Miscellaneous Discrepancy",
+            "field": "cc_sc_misc",
+            "evidenceField": "ccev_sc_misc",
+            "dataType": "string",
+            "description": "Search by Comment Sequence caution: miscellaneous discrepancy",
+            "example": "sequence"
+          }
+        ]
+      },
+      {
+        "label": "ectrometry",
+        "field": "cc_mass_spectrometry",
+        "evidenceField": "ccev_mass_spectrometry",
+        "dataType": "string",
+        "description": "Search by Comment ectrometry",
+        "example": "electrospray"
+      },
+      {
+        "label": "Polymorphism",
+        "field": "cc_polymorphism",
+        "evidenceField": "ccev_polymorphism",
+        "dataType": "string",
+        "description": "Search by Comment Polymorphism",
+        "example": "transcript"
+      },
+      {
+        "label": "RNA Editing",
+        "field": "cc_rna_editing",
+        "evidenceField": "ccev_rna_editing",
+        "dataType": "string",
+        "description": "Search by Comment rna editing",
+        "example": "target"
+      },
+      {
+        "label": "Natural Variations",
+        "itemType": "group",
+        "items": [
+          {
+            "label": "Any",
+            "field": "ft_variants",
+            "dataType": "string",
+            "rangeField": "ftlen_variants",
+            "evidenceField": "ftev_variants",
+            "description": "Search by Feature natural variations",
+            "example": "colorectal"
+          },
+          {
+            "label": "Natural variant",
+            "field": "ft_variant",
+            "dataType": "string",
+            "rangeField": "ftlen_variant",
+            "evidenceField": "ftev_variant",
+            "description": "Search by Feature natural variant",
+            "example": "colorectal"
+          },
+          {
+            "label": "Alternative sequence",
+            "field": "ft_var_seq",
+            "dataType": "string",
+            "rangeField": "ftlen_var_seq",
+            "evidenceField": "ftev_var_seq",
+            "description": "Search by Feature alternative sequence",
+            "example": "isoform"
+          }
+        ]
+      },
+      {
+        "label": "Non-standard residue",
+        "field": "ft_non_std",
+        "dataType": "string",
+        "rangeField": "ftlen_non_std",
+        "evidenceField": "ftev_non_std",
+        "description": "Search by feature non standard residue",
+        "example": "selenocysteine"
+      },
+      {
+        "label": "Non-terminal residue",
+        "field": "ft_non_ter",
+        "dataType": "string",
+        "rangeField": "ftlen_non_ter",
+        "evidenceField": "ftev_non_ter",
+        "description": "Search by feature non-terminal residue",
+        "example": "*"
+      },
+      {
+        "label": "Non-adjacent residue",
+        "field": "ft_non_cons",
+        "dataType": "string",
+        "rangeField": "ftlen_non_cons",
+        "evidenceField": "ftev_non_cons",
+        "description": "Search by feature non-adjacent residue",
+        "example": "*"
+      },
+      {
+        "label": "Sequence conflict",
+        "field": "ft_conflict",
+        "dataType": "string",
+        "rangeField": "ftlen_conflict",
+        "evidenceField": "ftev_conflict",
+        "description": "Search by feature Sequence conflict",
+        "example": "*"
+      },
+      {
+        "label": "Sequence uncertainty",
+        "field": "ft_unsure",
+        "dataType": "string",
+        "rangeField": "ftlen_unsure",
+        "evidenceField": "ftev_unsure",
+        "description": "Search by feature Sequence uncertainty",
+        "example": "*"
+      },
+      {
+        "label": "Sequence features [FT]",
+        "field": "ft_positional",
+        "dataType": "string",
+        "rangeField": "ftlen_positional",
+        "evidenceField": "ftev_positional",
+        "description": "Search by sequence positional features",
+        "example": "colorectal"
+      },
+      {
+        "label": "Fragment",
+        "field": "fragment",
+        "dataType": "enum",
+        "values": [
+          {
+            "name": "Yes",
+            "value": "true"
+          },
+          {
+            "name": "No",
+            "value": "false"
+          }
+        ],
+        "description": "Search by fragment",
+        "example": "true"
+      },
+      {
+        "label": "Encoded in",
+        "field": "organelle",
+        "dataType": "enum",
+        "values": [
+          {
+            "name": "Mitochondrion",
+            "value": "mitochondrion"
+          },
+          {
+            "name": "Plastid",
+            "value": "plastid"
+          },
+          {
+            "name": "Chloroplast",
+            "value": "chloroplast"
+          },
+          {
+            "name": "Cyanelle",
+            "value": "cyanelle"
+          },
+          {
+            "name": "Apicoplast",
+            "value": "apicoplast"
+          },
+          {
+            "name": "Organellar chromatophore",
+            "value": "organellar chromatophore"
+          },
+          {
+            "name": "Non-photosynthetic plastid",
+            "value": "non-photosynthetic plastid"
+          },
+          {
+            "name": "Nucleomorph",
+            "value": "nucleomorph"
+          },
+          {
+            "name": "Hydrogenosome",
+            "value": "hydrogenosome"
+          }
+        ],
+        "description": "Search by organelle",
+        "example": "mitochondrion"
+      },
+      {
+        "label": "Precursor",
+        "field": "precursor",
+        "dataType": "enum",
+        "values": [
+          {
+            "name": "Yes",
+            "value": "true"
+          },
+          {
+            "name": "No",
+            "value": "false"
+          }
+        ],
+        "description": "Search by precursor",
+        "example": "true"
+      },
+      {
+        "label": "Sequence from ... [RC]",
+        "itemType": "group",
+        "items": [
+          {
+            "label": "Tissue",
+            "field": "tissue",
+            "dataType": "string",
+            "description": "Search by tissue",
+            "example": "head"
+          },
+          {
+            "label": "Strain",
+            "field": "strain",
+            "dataType": "string",
+            "description": "Search by strain",
+            "example": "berkeley"
+          },
+          {
+            "label": "Plasmid",
+            "field": "plasmid",
+            "dataType": "string",
+            "description": "Search by plasmid",
+            "example": "pO113"
+          },
+          {
+            "label": "Transposon",
+            "field": "transposon",
+            "dataType": "string",
+            "description": "Search by transposon",
+            "example": "tn3"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "label": "Family and Domains",
+    "itemType": "group",
+    "items": [
+      {
+        "label": "Domain [FT]",
+        "field": "ft_domain",
+        "dataType": "string",
+        "rangeField": "ftlen_domain",
+        "evidenceField": "ftev_domain",
+        "description": "Search by feature domain",
+        "example": "phosphatase"
+      },
+      {
+        "label": "Domain Comments [CC]",
+        "field": "cc_domain",
+        "dataType": "string",
+        "evidenceField": "ccev_domain",
+        "description": "Search by comment domain",
+        "example": "conformation"
+      },
+      {
+        "label": "Protein family",
+        "field": "family",
+        "dataType": "string",
+        "description": "Search by protein belongs to a family",
+        "example": "pa28"
+      },
+      {
+        "label": "Coiled-coil",
+        "field": "ft_coiled",
+        "dataType": "string",
+        "rangeField": "ftlen_coiled",
+        "evidenceField": "ftev_coiled",
+        "description": "Search by feature coiled coil",
+        "example": "*"
+      },
+      {
+        "label": "Compositional bias",
+        "field": "ft_compbias",
+        "dataType": "string",
+        "rangeField": "ftlen_compbias",
+        "evidenceField": "ftev_compbias",
+        "description": "Search by feature compositional bias",
+        "example": "glu-rich"
+      },
+      {
+        "label": "Motif",
+        "field": "ft_motif",
+        "dataType": "string",
+        "rangeField": "ftlen_motif",
+        "evidenceField": "ftev_motif",
+        "description": "Search by feature motif",
+        "example": "motif"
+      },
+      {
+        "label": "Region",
+        "field": "ft_region",
+        "dataType": "string",
+        "rangeField": "ftlen_region",
+        "evidenceField": "ftev_region",
+        "description": "Search by feature region",
+        "example": "motif"
+      },
+      {
+        "label": "Repeat",
+        "field": "ft_repeat",
+        "dataType": "string",
+        "rangeField": "ftlen_repeat",
+        "evidenceField": "ftev_repeat",
+        "description": "Search by feature repeat",
+        "example": "motif"
+      },
+      {
+        "label": "Sequence similarity",
+        "field": "ft_similarity",
+        "dataType": "string",
+        "evidenceField": "ftev_similarity",
+        "description": "Search by comment similarity",
+        "example": "phosphatase"
+      },
+      {
+        "label": "Zinc finger",
+        "itemType": "ft_feature",
+        "field": "zn_fing",
+        "dataType": "string",
+        "rangeField": "ftlen_feature",
+        "evidenceField": "ftev_feature",
+        "description": "Search by feature zinc finger",
+        "example": "UBP"
+      }
+    ]
+  },
+  {
+    "label": "Cross-references",
+    "itemType": "group"
+  },
+  {
+    "label": "Web Resources",
+    "field": "cc_webresource",
+    "evidenceField": "ccev_webresource",
+    "dataType": "string",
+    "description": "Search by comment Web resources",
+    "example": "lck"
+  },
+  {
+    "label": "Date Of",
+    "itemType": "group",
+    "items": [
+      {
+        "label": "Date Of Creation",
+        "dataType": "date",
+        "rangeField": "created",
+        "description": "Search by Date of creation",
+        "example": "[2018-03-04 TO 2018-03-08]"
+      },
+      {
+        "label": "Date of last entry modification",
+        "dataType": "date",
+        "rangeField": "modified",
+        "description": "Search by Date of last entry modification",
+        "example": "[2018-03-04 TO 2018-03-08]"
+      },
+      {
+        "label": "Date of last sequence modification",
+        "dataType": "date",
+        "rangeField": "sequence_modified",
+        "description": "Search by Date of last sequence modification",
+        "example": "[2018-03-04 TO 2018-03-08]"
+      }
+    ]
+  },
+  {
+    "label": "Gene Ontology [GO]",
+    "itemType": "goterm",
+    "field": "go",
+    "autoComplete": "/uniprot/api/suggester?dict=go&query=?",
+    "idField": "go",
+    "evidenceField": "go",
+    "description": "search go term with evidence. If evidence is not consider term is go. If evidence is considered such as iea, the term is go_iea",
+    "example": "0009986"
+  },
+  {
+    "label": "Keyword [KW]",
+    "field": "keyword",
+    "dataType": "string",
+    "autoComplete": "/uniprot/api/suggester?dict=keyword&query=?",
+    "idField": "keyword",
+    "description": "Search by keyword",
+    "example": "chromosomal"
+  },
+  {
+    "label": "Literature Citation",
+    "itemType": "groupDisplay",
+    "items": [
+      {
+        "label": "Author",
+        "field": "lit_author",
+        "dataType": "string",
+        "description": "Search by author",
+        "example": "smith"
+      },
+      {
+        "label": "Journal",
+        "field": "lit_journal",
+        "dataType": "string",
+        "description": "Search by journal name",
+        "example": "nature"
+      },
+      {
+        "label": "Published",
+        "dataType": "date",
+        "description": "Search by published date",
+        "rangeField": "lit_pubdate",
+        "example": "[2009-01-01 TO 2019-12-31]"
+      },
+      {
+        "label": "PubMed Id",
+        "field": "lit_pubmed",
+        "dataType": "string",
+        "description": "Search by pubmed id",
+        "example": "15165820"
+      },
+      {
+        "label": "Title",
+        "field": "lit_title",
+        "dataType": "string",
+        "description": "Search by title",
+        "example": "protein"
+      }
+    ]
+  },
+  {
+    "label": "Proteomes",
+    "itemType": "group",
+    "items": [
+      {
+        "label": "Proteome ID",
+        "field": "proteome",
+        "fieldValidRegex": "^UP[0-9]{9}$",
+        "dataType": "string",
+        "description": "Search by Proteome ID",
+        "example": "UP000005640"
+      },
+      {
+        "label": "Proteome Component",
+        "field": "proteomecomponent",
+        "dataType": "string",
+        "description": "Search by Proteome component",
+        "example": "chromosome"
+      }
+    ]
+  },
+  {
+    "label": "Cited for",
+    "field": "scope",
+    "dataType": "string",
+    "description": "Search by citation RP cited for",
+    "example": "microtubule"
+  },
+  {
+    "label": "Reviewed",
+    "field": "reviewed",
+    "fieldValidRegex": "^true|false$",
+    "dataType": "enum",
+    "values": [
+      {
+        "name": "Yes",
+        "value": "true"
+      },
+      {
+        "name": "No",
+        "value": "false"
+      }
+    ],
+    "description": "Search by reviewed",
+    "example": "true"
+  },
+  {
+    "label": "Active",
+    "field": "active",
+    "fieldValidRegex": "^true|false$",
+    "dataType": "enum",
+    "values": [
+      {
+        "name": "Yes",
+        "value": "true"
+      },
+      {
+        "name": "No",
+        "value": "false"
+      }
+    ],
+    "description": "Search by active or not",
+    "example": "true"
+  }
+]

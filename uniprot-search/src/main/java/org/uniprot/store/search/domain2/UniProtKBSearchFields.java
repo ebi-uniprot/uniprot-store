@@ -46,10 +46,16 @@ public enum UniProtKBSearchFields implements SearchItems, SearchFields {
                 .distinct()
                 .forEach(searchFields::addAll);
         addDbXrefs();
+        verifyNoDuplicateFields();
 
         // record fields by type
-        fieldsByType = searchFields.stream()
-                .collect(groupingBy(SearchField::getType, Collectors.mapping(Function.identity(), Collectors.toSet())));
+        fieldsByType =
+                searchFields.stream()
+                        .collect(
+                                groupingBy(
+                                        SearchField::getType,
+                                        Collectors.mapping(
+                                                Function.identity(), Collectors.toSet())));
 
         // sorts
         sortFieldNames =
@@ -59,14 +65,35 @@ public enum UniProtKBSearchFields implements SearchItems, SearchFields {
                         .collect(Collectors.toSet());
     }
 
+    private void verifyNoDuplicateFields() {
+        List<String> fieldNames = new ArrayList<>();
+        for (SearchField searchField : searchFields) {
+            fieldNames.add(searchField.getName());
+            searchField
+                    .getSortName()
+                    .filter(sortName -> !sortName.equals(searchField.getName()))
+                    .ifPresent(fieldNames::add);
+        }
+
+        Set<String> allItems = new HashSet<>();
+        Set<String> duplicates =
+                fieldNames.stream().filter(name -> !allItems.add(name)).collect(Collectors.toSet());
+        if (!duplicates.isEmpty()) {
+            throw new IllegalStateException(
+                    "Duplicate field names found: " + Arrays.toString(duplicates.toArray()));
+        }
+    }
+
     private void addDbXrefs() {
         List<SearchFieldImpl> dbXrefCountFields =
                 UniProtXDbTypes.INSTANCE.getAllDBXRefTypes().stream()
                         .map(
                                 db ->
                                         SearchFieldImpl.builder()
-                                                .name(XREF_COUNT_PREFIX + db.getName().toLowerCase())
-                                                .type(SearchFieldType.TERM)
+                                                .name(
+                                                        XREF_COUNT_PREFIX
+                                                                + db.getName().toLowerCase())
+                                                .type(SearchFieldType.GENERAL)
                                                 .build())
                         .collect(Collectors.toList());
 
@@ -85,7 +112,7 @@ public enum UniProtKBSearchFields implements SearchItems, SearchFields {
         if (!searchItem.getItemType().equals("group")
                 && !searchItem.getItemType().equals("groupDisplay")) {
             if (Utils.notNullOrEmpty(searchItem.getRangeField())) {
-                // range term
+                // range
                 fields.add(
                         SearchFieldImpl.builder()
                                 .name(searchItem.getRangeField())
@@ -94,31 +121,31 @@ public enum UniProtKBSearchFields implements SearchItems, SearchFields {
                                 .validRegex(searchItem.getIdValidRegex())
                                 .build());
             } else {
-                // standard term
+                // standard
                 fields.add(
                         SearchFieldImpl.builder()
                                 .name(searchItem.getField())
                                 .sortName(searchItem.getSortField())
-                                .type(SearchFieldType.TERM)
+                                .type(SearchFieldType.GENERAL)
                                 .validRegex(searchItem.getFieldValidRegex())
                                 .build());
             }
 
-            // ev term
+            // evidence
             if (Utils.notNullOrEmpty(searchItem.getEvidenceField())) {
                 fields.add(
-                    SearchFieldImpl.builder()
-                        .name(searchItem.getEvidenceField())
-                        .type(SearchFieldType.TERM)
-                        .build());
+                        SearchFieldImpl.builder()
+                                .name(searchItem.getEvidenceField())
+                                .type(SearchFieldType.GENERAL)
+                                .build());
             }
 
-            // id term
+            // id
             if (Utils.notNullOrEmpty(searchItem.getIdField())) {
                 fields.add(
                         SearchFieldImpl.builder()
                                 .name(searchItem.getIdField())
-                                .type(SearchFieldType.TERM)
+                                .type(SearchFieldType.GENERAL)
                                 .validRegex(searchItem.getIdValidRegex())
                                 .build());
             }
@@ -144,7 +171,7 @@ public enum UniProtKBSearchFields implements SearchItems, SearchFields {
 
     @Override
     public Set<SearchField> getGeneralFields() {
-        return fieldsByType.get(SearchFieldType.TERM);
+        return fieldsByType.get(SearchFieldType.GENERAL);
     }
 
     @Override
@@ -166,12 +193,7 @@ public enum UniProtKBSearchFields implements SearchItems, SearchFields {
     public static ObjectMapper getJsonMapper() {
         final ObjectMapper objectMapper = new ObjectMapper();
         SimpleModule mod = new SimpleModule();
-        //        mod.addAbstractTypeMapping(EvidenceGroup.class, EvidenceGroupImpl.class);
-        //        mod.addAbstractTypeMapping(EvidenceItem.class, EvidenceItemImpl.class);
-        //        mod.addAbstractTypeMapping(FieldGroup.class, FieldGroupImpl.class);
-        //        mod.addAbstractTypeMapping(Field.class, FieldImpl.class);
         mod.addAbstractTypeMapping(SearchItem.class, SearchItemImpl.class);
-        //        mod.addAbstractTypeMapping(Tuple.class, TupleImpl.class);
         objectMapper.registerModule(mod);
         return objectMapper;
     }

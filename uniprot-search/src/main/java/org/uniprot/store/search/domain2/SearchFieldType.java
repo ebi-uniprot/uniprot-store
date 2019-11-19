@@ -6,5 +6,5 @@ package org.uniprot.store.search.domain2;
  * @author Edd
  */
 public enum SearchFieldType {
-    RANGE, TERM
+    RANGE, GENERAL
 }

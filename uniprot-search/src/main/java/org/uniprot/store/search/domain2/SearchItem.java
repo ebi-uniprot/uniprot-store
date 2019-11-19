@@ -3,7 +3,11 @@ package org.uniprot.store.search.domain2;
 import java.util.List;
 
 /**
- * Created 12/11/2019
+ * Represents search items and their associated meta-data. Instances of this class form the basis of
+ * all {@link SearchField}s (fields used by the search engine), regular expressions for valid
+ * values, and human readable descriptions (used by front-end and other clients).
+ *
+ * <p>Created 12/11/2019
  *
  * @author Edd
  */
