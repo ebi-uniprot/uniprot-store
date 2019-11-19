@@ -20,6 +20,9 @@ import static org.hamcrest.core.IsNot.not;
 import static org.hamcrest.core.IsNull.notNullValue;
 
 /**
+ * This class verifies example values against their associated fields, defined in {@code search-fields.json}. These
+ * examples help clients (e.g., front-end) formulate the correct format of queries.
+ *
  * Created 18/11/2019
  *
  * @author Edd
@@ -27,10 +30,31 @@ import static org.hamcrest.core.IsNull.notNullValue;
 class VerifyUniProtAdvancedSearchExamplesIT {
     @RegisterExtension static UniProtSearchEngine searchEngine = new UniProtSearchEngine();
 
+    @ParameterizedTest(name = "{1}:{2}")
+    @MethodSource("provideSearchItems")
+    void searchFieldIsKnownToSearchEngine(
+            String label, String field, String example) {
+        assertThat(label, is(not(isEmptyOrNullString())));
+        assertThat(example, is(not(isEmptyOrNullString())));
+
+        assertThat(field, is(not(isEmptyOrNullString())));
+
+        QueryResponse queryResponse =
+                searchEngine.getQueryResponse("select", field + ":" + example);
+        assertThat(queryResponse, is(notNullValue()));
+    }
+
     private static Stream<Arguments> provideSearchItems() {
-        List<SearchItem> items =
-                new ArrayList<>(UniProtKBSearchFields.INSTANCE.getSearchItems());
-        return extractAllItems(items).stream().map(Arguments::of);
+        List<SearchItem> items = new ArrayList<>(UniProtKBSearchFields.INSTANCE.getSearchItems());
+        return extractAllItems(items).stream()
+                .map(
+                        searchField ->
+                                Arguments.of(
+                                        searchField.getLabel(),
+                                        searchField.getField() != null
+                                                ? searchField.getField()
+                                                : searchField.getRangeField(),
+                                        searchField.getExample()));
     }
 
     private static List<SearchItem> extractAllItems(List<SearchItem> items) {
@@ -39,8 +63,7 @@ class VerifyUniProtAdvancedSearchExamplesIT {
         return currentItems;
     }
 
-    private static void extractAllItems(
-            List<SearchItem> items, List<SearchItem> currentItems) {
+    private static void extractAllItems(List<SearchItem> items, List<SearchItem> currentItems) {
         for (SearchItem item : items) {
             if (item.getItemType().equals("single")) {
                 currentItems.add(item);
@@ -49,28 +72,5 @@ class VerifyUniProtAdvancedSearchExamplesIT {
                 extractAllItems(item.getItems(), currentItems);
             }
         }
-    }
-
-    @ParameterizedTest
-    @MethodSource("provideSearchItems")
-    void searchFieldIsKnownToSearchEngine(SearchItem searchItem) {
-        assertThat(searchItem.getLabel(), is(not(isEmptyOrNullString())));
-        String example = searchItem.getExample();
-        String field = searchItem.getField();
-        assertThat(example, is(not(isEmptyOrNullString())));
-
-        if (field == null) {
-            String rangeField = searchItem.getRangeField();
-            assertThat(rangeField, is(not(isEmptyOrNullString())));
-
-            field = rangeField;
-        }
-        
-        assertThat(field, is(not(isEmptyOrNullString())));
-
-        // found need to use date queries like: (created:[2010-10-08T23:59:59Z TO 2019-11-22T23:59:59Z]), not simple dates
-        QueryResponse queryResponse =
-                searchEngine.getQueryResponse("select", field + ":" + example);
-        assertThat(queryResponse, is(notNullValue()));
     }
 }

@@ -18,7 +18,18 @@ import static org.hamcrest.core.IsNull.notNullValue;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
- * Created 18/11/2019
+ * This class tests that all search fields known about via, {@link UniProtKBSearchFields}, can be
+ * queried against. No special test is performed on the response other than checking that the
+ * request worked. If the field did not exist, then a test will fail and developers will be alerted,
+ * and the file that acts as source for {@link UniProtKBSearchFields}, {@code search-fields.json}
+ * will need correcting.
+ *
+ * <p>For example if {@code search-fields.json} contains field 'xxx', but the Solr schema defines
+ * field called, 'xx', then a test will fail that reports the Solr error that states that field
+ * 'xxx' does not exist.
+ *
+ * <p>Note that dynamic fields in Solr have slightly different behaviour. Dynamic fields in a Solr
+ * schema, e.g., ft_*, allow queries upon any field starting with ft_. Created 18/11/2019
  *
  * @author Edd
  */
@@ -33,18 +44,15 @@ class ValidateAllFieldsExistIT {
                 .map(Arguments::of);
     }
 
-    @ParameterizedTest
+    @ParameterizedTest(name = "{0}:*")
     @MethodSource("provideSearchFields")
     void searchFieldIsKnownToSearchEngine(String searchField) {
-        QueryResponse queryResponse =
-                searchEngine.getQueryResponse("select", searchField + ":*");
+        QueryResponse queryResponse = searchEngine.getQueryResponse("select", searchField + ":*");
         assertThat(queryResponse, is(notNullValue()));
     }
 
     @Test
     void unknownFieldCausesException() {
-        assertThrows(
-            SolrException.class,
-            () -> searchEngine.getQueryResponse("select", "asdf:*"));
+        assertThrows(SolrException.class, () -> searchEngine.getQueryResponse("select", "asdf:*"));
     }
 }
