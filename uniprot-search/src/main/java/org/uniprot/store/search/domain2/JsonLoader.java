@@ -12,6 +12,8 @@ import java.util.List;
  * @author Edd
  */
 public class JsonLoader {
+    private JsonLoader() {}
+
     static <T> List<T> loadItems(String fileName, ObjectMapper mapper, JavaType type) {
         List<T> allItems;
         try (InputStream is = JsonLoader.class.getClassLoader().getResourceAsStream(fileName); ) {

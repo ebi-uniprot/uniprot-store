@@ -47,6 +47,7 @@
             "label": "NOTE",
             "field": "cc_cofactor_note",
             "evidenceField": "ccev_cofactor_note",
+            "rangeField" : "pretend_cofactor_range_field",
             "dataType": "string",
             "description": "Search by cofactor note",
             "example": "subunit"

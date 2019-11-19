@@ -116,11 +116,12 @@ public enum UniProtKBSearchFields implements SearchItems, SearchFields {
                 fields.add(
                         SearchFieldImpl.builder()
                                 .name(searchItem.getRangeField())
-                                .sortName(searchItem.getSortField())
                                 .type(SearchFieldType.RANGE)
                                 .validRegex(searchItem.getIdValidRegex())
                                 .build());
-            } else {
+            }
+
+            if (Utils.notNullOrEmpty(searchItem.getField())){
                 // standard
                 fields.add(
                         SearchFieldImpl.builder()
