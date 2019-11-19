@@ -1388,7 +1388,7 @@
         "dataType": "date",
         "description": "Search by published date",
         "rangeField": "lit_pubdate",
-        "example": "[2017-01-01 TO 2010-12-31]"
+        "example": "[2009-01-01 TO 2019-12-31]"
       },
       {
         "label": "PubMed Id",
