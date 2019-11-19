@@ -1,6 +1,23 @@
 package indexer.uniprot.mapper;
 
+import indexer.uniprot.converter.SupportingDataMapHDSFImpl;
 import org.junit.jupiter.api.Test;
+import org.uniprot.core.flatfile.parser.SupportingDataMap;
+import org.uniprot.core.flatfile.parser.UniprotLineParser;
+import org.uniprot.core.flatfile.parser.impl.DefaultUniprotLineParserFactory;
+import org.uniprot.core.flatfile.parser.impl.entry.EntryObject;
+import org.uniprot.core.flatfile.parser.impl.entry.EntryObjectConverter;
+import org.uniprot.core.uniprot.UniProtEntry;
+import org.uniprot.core.uniprot.builder.UniProtEntryBuilder;
+import org.uniprot.store.job.common.DocumentConversionException;
+import org.uniprot.store.search.document.uniprot.UniProtDocument;
+
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.HashMap;
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * @author lgonzales
@@ -9,6 +26,28 @@ import org.junit.jupiter.api.Test;
 class UniProtEntryToSolrDocumentTest {
 
     @Test
-    void call() {
+    void testMapUniprotEntryToDocument() throws Exception {
+        SupportingDataMap supportingDataMap = new SupportingDataMapHDSFImpl(null,null, null, null);
+        UniprotLineParser<EntryObject> entryParser = new DefaultUniprotLineParserFactory().createEntryParser();
+        EntryObjectConverter entryObjectConverter = new EntryObjectConverter(supportingDataMap, true);
+
+        List<String> flatFileLines = Files.readAllLines(Paths.get(ClassLoader.getSystemResource("uniprotkb/Q9EPI6.sp").toURI()));
+        EntryObject parsed = entryParser.parse(String.join("\n", flatFileLines));
+        UniProtEntry uniProtEntry = entryObjectConverter.convert(parsed);
+
+        UniProtEntryToSolrDocument mapper = new UniProtEntryToSolrDocument(new HashMap<>());
+        UniProtDocument doc = mapper.call(uniProtEntry);
+
+        assertNotNull(doc);
+        assertEquals("Q9EPI6", doc.accession);
+        //Document converter has its own test, here we just make sure that the mapper is working as expected..
+    }
+
+    @Test
+    void testInvalidUniprotEntry() throws Exception {
+        UniProtEntryToSolrDocument mapper = new UniProtEntryToSolrDocument(new HashMap<>());
+        assertThrows(DocumentConversionException.class, () -> {
+            mapper.call(new UniProtEntryBuilder().primaryAccession(null).uniProtId(null).active().build());
+        }, "Error converting UniProt entry");
     }
 }
