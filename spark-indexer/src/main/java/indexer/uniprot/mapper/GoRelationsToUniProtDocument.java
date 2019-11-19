@@ -37,7 +37,9 @@ public class GoRelationsToUniProtDocument implements Function<Tuple2<UniProtDocu
                             goMapValues.add(idOnly);
                             goMapValues.add(ancestor.getName());
                         } else {
-                            log.warn("Unable to find Go With Evidence Type Map Key");
+                            log.warn("Unable to find Go With Evidence Type Map Key" +
+                                    " for accession" + doc.accession +
+                                    " and go term " + parentId);
                         }
                     });
                 }

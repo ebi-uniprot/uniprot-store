@@ -1,5 +1,6 @@
 package indexer.uniprot.mapper;
 
+import indexer.uniprot.converter.UniProtEntryConverterUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.spark.api.java.Optional;
 import org.apache.spark.api.java.function.Function;
@@ -8,10 +9,7 @@ import org.uniprot.core.util.Utils;
 import org.uniprot.store.search.document.uniprot.UniProtDocument;
 import scala.Tuple2;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -21,6 +19,27 @@ import java.util.stream.Collectors;
 @Slf4j
 public class TaxonomyEntryToUniProtDocument implements Function<Tuple2<UniProtDocument, Optional<Iterable<TaxonomyEntry>>>, UniProtDocument> {
     private static final long serialVersionUID = -7030543979688452323L;
+
+    private static final Map<Long, String> POPULAR_ORGANIMS_TAX_NAME = Collections
+            .unmodifiableMap(new HashMap<Long, String>() {
+                private static final long serialVersionUID = 7236156454194571508L;
+
+                {
+                    put(9606L, "Human");
+                    put(10090L, "Mouse");
+                    put(10116L, "Rat");
+                    put(9913L, "Bovine");
+                    put(7955L, "Zebrafish");
+                    put(7227L, "Fruit fly");
+                    put(6239L, "C. elegans");
+                    put(44689L, "Slime mold");
+                    put(3702L, "A. thaliana");
+                    put(39947L, "Rice");
+                    put(83333L, "E. coli K12");
+                    put(224308L, "B. subtilis");
+                    put(559292L, "S. cerevisiae");
+                }
+            });
 
     @Override
     public UniProtDocument call(Tuple2<UniProtDocument, Optional<Iterable<TaxonomyEntry>>> tuple) throws Exception {
@@ -35,7 +54,7 @@ public class TaxonomyEntryToUniProtDocument implements Function<Tuple2<UniProtDo
             if (organism != null) {
                 updateOrganismFields(doc, organism);
             } else {
-                log.warn("Unable to find organism id " + doc.organismTaxId + " in mapped organisms " + taxonomyEntryMap.keySet());
+                log.warn("Unable to find organism id " + doc.organismTaxId + " in mapped organisms " + taxonomyEntryMap.keySet() + "for accession " + doc.accession);
             }
 
             if (Utils.notNullOrEmpty(doc.organismHostIds)) {
@@ -44,7 +63,7 @@ public class TaxonomyEntryToUniProtDocument implements Function<Tuple2<UniProtDo
                     if (organismHost != null) {
                         doc.organismHostNames.addAll(getOrganismNames(organismHost));
                     } else {
-                        log.warn("Unable to find organism host id " + taxId + " in mapped organisms " + taxonomyEntryMap.keySet());
+                        log.warn("Unable to find organism host id " + taxId + " in mapped organisms " + taxonomyEntryMap.keySet() + "for accession " + doc.accession);
                     }
                 });
                 doc.content.addAll(doc.organismHostNames);
@@ -56,7 +75,9 @@ public class TaxonomyEntryToUniProtDocument implements Function<Tuple2<UniProtDo
     }
 
     private void updateOrganismFields(UniProtDocument doc, TaxonomyEntry organism) {
-        doc.organismName.addAll(getOrganismNames(organism));
+        List<String> organismNames = getOrganismNames(organism);
+        doc.organismName.addAll(organismNames);
+        doc.organismSort = UniProtEntryConverterUtil.truncatedSortValue(String.join(" ", organismNames));
         if (organism.hasLineage()) {
             organism.getLineage()
                     .forEach(lineage -> {
@@ -72,6 +93,19 @@ public class TaxonomyEntryToUniProtDocument implements Function<Tuple2<UniProtDo
         doc.content.addAll(doc.organismName);
         doc.content.addAll(doc.taxLineageIds.stream().map(String::valueOf).collect(Collectors.toList()));
         doc.content.addAll(doc.organismTaxon);
+
+        String popularOrgamism = POPULAR_ORGANIMS_TAX_NAME.get(organism.getTaxonId());
+        if (popularOrgamism != null) {
+            doc.popularOrganism = popularOrgamism;
+        } else {
+            if (organism.hasMnemonic()) {
+                doc.otherOrganism = organism.getMnemonic();
+            } else if (organism.hasCommonName()) {
+                doc.otherOrganism = organism.getCommonName();
+            } else {
+                doc.otherOrganism = organism.getScientificName();
+            }
+        }
     }
 
     private List<String> getOrganismNames(TaxonomyEntry organism) {

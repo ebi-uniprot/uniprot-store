@@ -1,19 +1,12 @@
 package indexer.taxonomy;
 
-import org.apache.spark.SparkConf;
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaSparkContext;
-import org.apache.spark.api.java.function.PairFunction;
 import org.apache.spark.sql.Dataset;
 import org.apache.spark.sql.Row;
 import org.apache.spark.sql.SparkSession;
 import org.uniprot.core.taxonomy.TaxonomyLineage;
-import org.uniprot.core.taxonomy.TaxonomyRank;
-import org.uniprot.core.taxonomy.builder.TaxonomyLineageBuilder;
-import org.uniprot.core.util.Utils;
-import scala.Tuple2;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -37,7 +30,7 @@ public class TaxonomyLineageReader {
             " START WITH TAX_ID >= {start} AND TAX_ID <= {end} " +
             " CONNECT BY PRIOR PARENT_ID = TAX_ID";
 
-    public static JavaPairRDD<String, List<TaxonomyLineage>> readTaxonomyLineage(JavaSparkContext sparkContext, ResourceBundle applicationConfig) {
+    public static JavaPairRDD<String, List<TaxonomyLineage>> load(JavaSparkContext sparkContext, ResourceBundle applicationConfig) {
         int maxTaxId = TaxonomyRDDReader.getMaxTaxId(sparkContext, applicationConfig);
         System.out.println("MAx tax id: " + maxTaxId);
 
@@ -82,64 +75,8 @@ public class TaxonomyLineageReader {
     }
 
     private static JavaPairRDD<String, List<TaxonomyLineage>> mapToLineage(Dataset<Row> tableDataset) {
-        return (JavaPairRDD<String, List<TaxonomyLineage>>) tableDataset.toJavaRDD().mapToPair(new LineageRowMapper());
-    }
-
-    private static class LineageRowMapper implements PairFunction<Row, String, List<TaxonomyLineage>>, Serializable {
-
-        private static final long serialVersionUID = -7723532417214033169L;
-
-        @Override
-        public Tuple2<String, List<TaxonomyLineage>> call(Row rowValue) throws Exception {
-            String lineageId = rowValue.getString(rowValue.fieldIndex("LINEAGE_ID"));
-            String lineageName = rowValue.getString(rowValue.fieldIndex("LINEAGE_NAME"));
-            String lineageRank = rowValue.getString(rowValue.fieldIndex("LINEAGE_RANK"));
-            String lineageHidden = rowValue.getString(rowValue.fieldIndex("LINEAGE_HIDDEN"));
-
-            String[] lineageIdArray = lineageId.substring(1).split("\\|");
-            String[] lineageRankArray = lineageRank.substring(1).split("\\|");
-            String[] lineageHiddenArray = lineageHidden.substring(1).split("\\|");
-            String[] lineageNameArray = lineageName.substring(1).split("\\|");
-
-            String taxId = lineageIdArray[0];
-            List<TaxonomyLineage> lineageList = new ArrayList<>();
-            for (int i = 1; i < lineageIdArray.length - 1; i++) {
-                TaxonomyLineageBuilder builder = new TaxonomyLineageBuilder();
-                builder.taxonId(Long.parseLong(lineageIdArray[i]));
-                builder.scientificName(lineageNameArray[i]);
-                builder.hidden(lineageHiddenArray[i].equals("1"));
-                if (Utils.notNullOrEmpty(lineageRankArray[i])) {
-                    try {
-                        builder.rank(TaxonomyRank.valueOf(lineageRankArray[i].toUpperCase()));
-                    } catch (IllegalArgumentException iae) {
-                        builder.rank(TaxonomyRank.NO_RANK);
-                    }
-                }
-                lineageList.add(builder.build());
-            }
-
-            return new Tuple2<>(taxId, lineageList);
-        }
-
-    }
-
-    public static void main(String[] args) {
-        ResourceBundle applicationConfig = ResourceBundle.getBundle("application");
-
-        SparkConf conf = new SparkConf().setAppName(applicationConfig.getString("spark.application.name"))
-                .setMaster(applicationConfig.getString("spark.master"));
-        System.out.println("******************* STARTING TAXONOMY LINEAGE LOAD *************************");
-        JavaSparkContext sc = new JavaSparkContext(conf);
-
-        JavaPairRDD<String, List<TaxonomyLineage>> taxonomyLineage = TaxonomyLineageReader.readTaxonomyLineage(sc, applicationConfig);
-
-        System.out.println("LINEAGE COUNT: " + taxonomyLineage.count());
-
-        Tuple2<String, List<TaxonomyLineage>> rowList = (Tuple2<String, List<TaxonomyLineage>>) taxonomyLineage.first();
-        System.out.println(rowList._2);
-
-
-        sc.close();
+        return (JavaPairRDD<String, List<TaxonomyLineage>>) tableDataset.toJavaRDD()
+                .mapToPair(new TaxonomyLineageRowMapper());
     }
 
 }

@@ -123,7 +123,7 @@ public class UniprotKbIndexer {
         // JavaPairRDD<accession, Iterable<taxonomy>> joinRDD
         JavaPairRDD<String, Iterable<TaxonomyEntry>> joinedRDD = (JavaPairRDD<String, Iterable<TaxonomyEntry>>)
                 JavaPairRDD.fromJavaRDD(taxonomyMapRDD.join(taxonomyEntryJavaPairRDD).values())
-                        .groupByKey().repartition(uniProtDocumentRDD.getNumPartitions());
+                        .groupByKey();
 
         return (JavaPairRDD<String, UniProtDocument>) uniProtDocumentRDD.leftOuterJoin(joinedRDD)
                 .mapValues(new TaxonomyEntryToUniProtDocument());
@@ -143,7 +143,7 @@ public class UniprotKbIndexer {
         // JavaPairRDD<accession, Iterable<GoTerm>> joinRDD
         JavaPairRDD<String, Iterable<GoTerm>> joinedRDD = (JavaPairRDD<String, Iterable<GoTerm>>)
                 JavaPairRDD.fromJavaRDD(goMapRDD.join(goRelationsRDD).values())
-                        .groupByKey().repartition(uniProtDocumentRDD.getNumPartitions());
+                        .groupByKey();
 
         return (JavaPairRDD<String, UniProtDocument>) uniProtDocumentRDD.leftOuterJoin(joinedRDD)
                 .mapValues(new GoRelationsToUniProtDocument());

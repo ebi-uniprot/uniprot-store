@@ -18,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class FlatFileToUniprotEntryTest {
 
     @Test
-    void canFlatFileToUniprotEntryMapperValidEntry() throws Exception {
+    void testValidEntry() throws Exception {
         String keywordFile = "keyword/keywlist.txt";
         String diseaseFile = "disease/humdisease.txt";
         String subcellFile = "subcell/subcell.txt";
@@ -35,10 +35,11 @@ class FlatFileToUniprotEntryTest {
         assertEquals(mappedEntry._1, "O60260");
         assertNotNull(mappedEntry._2);
         assertEquals(mappedEntry._2.getPrimaryAccession().getValue(), "O60260");
+        //Entry converter has its own test, here we just make sure that the mapper is working as expected..
     }
 
     @Test
-    void canFlatFileToUniprotEntryMapperInValidEntry() throws Exception {
+    void testInvalidEntry() throws Exception {
         SupportingDataMapHDSFImpl supportingDataMap = new SupportingDataMapHDSFImpl("", "", "", null);
         FlatFileToUniprotEntry mapper = new FlatFileToUniprotEntry(supportingDataMap);
 

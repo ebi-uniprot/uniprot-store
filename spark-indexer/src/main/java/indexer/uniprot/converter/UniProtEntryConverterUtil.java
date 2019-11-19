@@ -19,7 +19,7 @@ import java.util.stream.Stream;
  * @author lgonzales
  * @since 2019-09-04
  */
-class UniProtEntryConverterUtil {
+public class UniProtEntryConverterUtil {
 
     private static final int SORT_FIELD_MAX_LENGTH = 30;
 
@@ -57,7 +57,7 @@ class UniProtEntryConverterUtil {
         return values;
     }
 
-    static String truncatedSortValue(String value) {
+    public static String truncatedSortValue(String value) {
         if (value != null && value.length() > SORT_FIELD_MAX_LENGTH) {
             return value.substring(0, SORT_FIELD_MAX_LENGTH);
         } else {

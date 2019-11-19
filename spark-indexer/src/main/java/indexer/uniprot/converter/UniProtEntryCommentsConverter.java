@@ -22,6 +22,7 @@ import java.util.stream.Collectors;
  */
 class UniProtEntryCommentsConverter implements Serializable {
 
+    private static final long serialVersionUID = -7061951400700075623L;
     private final Map<String, String> pathwayRepo;
     private static final String COMMENT = "cc_";
     private static final String CC_EV = "ccev_";
@@ -369,6 +370,7 @@ class UniProtEntryCommentsConverter implements Serializable {
             String unipathwayAccession = pathwayRepo.get(val);
             if (unipathwayAccession != null) {
                 document.pathway.add(unipathwayAccession);
+                document.content.add(unipathwayAccession);
             }
         }
     }
@@ -435,8 +437,7 @@ class UniProtEntryCommentsConverter implements Serializable {
         if (reaction.hasReactionReferences()) {
             String field = this.getCommentField(comment);
             List<DBCrossReference<ReactionReferenceType>> reactionReferences = reaction.getReactionReferences();
-            reactionReferences.stream().filter(ref -> ref.getDatabaseType() != ReactionReferenceType.CHEBI)
-                    .forEach(val -> {
+            reactionReferences.forEach(val -> {
                         Collection<String> value = doc.commentMap.computeIfAbsent(field, k -> new ArrayList<>());
                         value.add(val.getId());
                     });

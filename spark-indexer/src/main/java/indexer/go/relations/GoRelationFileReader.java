@@ -2,8 +2,6 @@ package indexer.go.relations;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.hadoop.conf.Configuration;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -29,8 +27,6 @@ public class GoRelationFileReader {
 
     private static final String FILENAME = "GO.relations";
 
-    private final Logger logger = LoggerFactory.getLogger(getClass());
-
     public GoRelationFileReader(String goRelationFPath, Configuration hadoopConfig) {
         this.hadoopConfig = hadoopConfig;
         this.goRelationFPath = goRelationFPath;
@@ -55,8 +51,4 @@ public class GoRelationFileReader {
         return lines;
     }
 
-    private Set<String> add2Relations(Set<String> existing, Set<String> newValue) {
-        existing.addAll(newValue);
-        return existing;
-    }
 }

@@ -1,8 +1,6 @@
 package indexer.go.relations;
 
-import indexer.util.SparkUtils;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.spark.SparkConf;
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaSparkContext;
 import scala.Tuple2;
@@ -65,18 +63,6 @@ public class GoRelationRDDReader {
             log.warn("GO TERM NOT FOUND FOR GO RELATION ID: " + goTermId);
             return goTerm;
         }
-    }
-
-
-    public static void main(String[] args) {
-        ResourceBundle applicationConfig = SparkUtils.loadApplicationProperty();
-        SparkConf sparkConf = new SparkConf().setAppName(applicationConfig.getString("spark.application.name"))
-                .setMaster(applicationConfig.getString("spark.master")).set("spark.driver.host", "localhost");
-        JavaSparkContext sparkContext = new JavaSparkContext(sparkConf);
-
-        JavaPairRDD<String, GoTerm> goRelations = GoRelationRDDReader.load(applicationConfig, sparkContext);
-
-        System.out.println("COUNT:" + goRelations.count());
     }
 
 }

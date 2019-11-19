@@ -9,10 +9,7 @@ import org.uniprot.core.uniprot.xdb.UniProtDBCrossReference;
 import org.uniprot.core.uniprot.xdb.builder.UniProtDBCrossReferenceBuilder;
 import scala.Tuple2;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -30,7 +27,7 @@ public class GoEvidenceMapper implements Function<Tuple2<UniProtEntry, Optional<
             Map<String, List<Evidence>> goEvidenceMap = getGoEvidenceMap(tuple._2.get());
 
             List<UniProtDBCrossReference> xrefs = tuple._1.getDatabaseCrossReferences().stream().map(xref -> {
-                if (xref.getDatabaseType().getName().equals("GO")) {
+                if (Objects.equals(xref.getDatabaseType().getName(), "GO")) {
                     return addGoEvidences(xref, goEvidenceMap);
                 } else {
                     return xref;
