@@ -60,7 +60,9 @@ public class ProteomeEntryConverter implements DocumentConverter<Proteome, Prote
         document.taxLineageIds.forEach(val -> document.content.add(val.toString()));
 
         document.proteomeStored = ByteBuffer.wrap(getBinaryObject(source));
-        updateAnnotationScore(document, source);
+        if(source.getAnnotationScore() != null) {
+            updateAnnotationScore(document, source);
+        }
         return document;
     }
 
