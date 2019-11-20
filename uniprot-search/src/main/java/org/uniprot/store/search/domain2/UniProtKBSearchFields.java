@@ -1,18 +1,10 @@
 package org.uniprot.store.search.domain2;
 
-import com.fasterxml.jackson.databind.JavaType;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.module.SimpleModule;
 import org.uniprot.core.cv.xdb.UniProtXDbTypes;
-import org.uniprot.core.util.Utils;
 import org.uniprot.store.search.domain2.impl.SearchFieldImpl;
-import org.uniprot.store.search.domain2.impl.SearchItemImpl;
 
 import java.util.*;
-import java.util.function.Function;
 import java.util.stream.Collectors;
-
-import static java.util.stream.Collectors.groupingBy;
 
 /**
  * Created 12/11/2019
@@ -24,148 +16,34 @@ public enum UniProtKBSearchFields implements SearchItems, SearchFields {
 
     private static final String FILENAME = "uniprot/search-fields.json";
     static final String XREF_COUNT_PREFIX = "xref_count_";
-    private List<SearchItem> searchItems = new ArrayList<>();
-    private Set<SearchField> searchFields = new HashSet<>();
-    private Map<SearchFieldType, Set<SearchField>> fieldsByType;
-    private Set<String> sortFieldNames;
-
-    private void init() {
-        // TODO: 20/11/2019 generify
-        ObjectMapper mapper = getJsonMapper();
-        JavaType type =
-                mapper.getTypeFactory().constructCollectionType(List.class, SearchItem.class);
-        List<SearchItem> allItems = JsonLoader.loadItems(FILENAME, mapper, type);
-
-        // search items (used by front-end)
-        allItems.stream()
-                .filter(item -> Utils.notNullOrEmpty(item.getLabel()))
-                .forEach(searchItems::add);
-
-        // all search fields used in application code
-        allItems.stream()
-                .map(this::searchItemToSearchField)
-                .distinct()
-                .forEach(searchFields::addAll);
-        addDbXrefs();
-        SearchFieldsValidator.validate(searchFields);
-
-        // record fields by type
-        fieldsByType =
-                searchFields.stream()
-                        .collect(
-                                groupingBy(
-                                        SearchField::getType,
-                                        Collectors.mapping(
-                                                Function.identity(), Collectors.toSet())));
-
-        // sorts
-        sortFieldNames =
-                allItems.stream()
-                        .filter(field -> Utils.notNullOrEmpty(field.getSortField()))
-                        .map(SearchItem::getSortField)
-                        .collect(Collectors.toSet());
-    }
-
-    private void addDbXrefs() {
-        List<SearchFieldImpl> dbXrefCountFields =
-                UniProtXDbTypes.INSTANCE.getAllDBXRefTypes().stream()
-                        .map(
-                                db ->
-                                        SearchFieldImpl.builder()
-                                                .name(
-                                                        XREF_COUNT_PREFIX
-                                                                + db.getName().toLowerCase())
-                                                .type(SearchFieldType.GENERAL)
-                                                .build())
-                        .collect(Collectors.toList());
-
-        searchFields.addAll(dbXrefCountFields);
-    }
-
-    private List<SearchField> searchItemToSearchField(SearchItem searchItem) {
-        List<SearchField> fields = new ArrayList<>();
-
-        searchItemToSearchField(searchItem, fields);
-
-        return fields;
-    }
-
-    private void searchItemToSearchField(SearchItem searchItem, List<SearchField> fields) {
-        if (!searchItem.getItemType().equals("group")
-                && !searchItem.getItemType().equals("groupDisplay")) {
-
-            // general
-            if (Utils.notNullOrEmpty(searchItem.getField())) {
-                fields.add(
-                        SearchFieldImpl.builder()
-                                .name(searchItem.getField())
-                                .sortName(searchItem.getSortField())
-                                .type(SearchFieldType.GENERAL)
-                                .validRegex(searchItem.getFieldValidRegex())
-                                .build());
-            }
-
-            // range
-            if (Utils.notNullOrEmpty(searchItem.getRangeField())) {
-                fields.add(
-                        SearchFieldImpl.builder()
-                                .name(searchItem.getRangeField())
-                                .type(SearchFieldType.RANGE)
-                                .validRegex(searchItem.getIdValidRegex())
-                                .build());
-            }
-
-            // evidence
-            if (Utils.notNullOrEmpty(searchItem.getEvidenceField())) {
-                fields.add(
-                        SearchFieldImpl.builder()
-                                .name(searchItem.getEvidenceField())
-                                .type(SearchFieldType.GENERAL)
-                                .build());
-            }
-
-            // id
-            if (Utils.notNullOrEmpty(searchItem.getIdField())) {
-                fields.add(
-                        SearchFieldImpl.builder()
-                                .name(searchItem.getIdField())
-                                .type(SearchFieldType.GENERAL)
-                                .validRegex(searchItem.getIdValidRegex())
-                                .build());
-            }
-        }
-
-        if (Utils.notNullOrEmpty(searchItem.getItems())) {
-            searchItem.getItems().forEach(field -> searchItemToSearchField(field, fields));
-        }
-    }
+    private UniProtKBSearchFieldsLoader searchFieldsLoader;
 
     UniProtKBSearchFields() {
-        init();
+        searchFieldsLoader = new UniProtKBSearchFieldsLoader(FILENAME);
     }
 
     public List<SearchItem> getSearchItems() {
-        return searchItems;
+        return searchFieldsLoader.getSearchItems();
     }
 
     @Override
     public Set<SearchField> getSearchFields() {
-        return searchFields;
+        return searchFieldsLoader.getSearchFields();
     }
 
     @Override
     public Set<SearchField> getGeneralFields() {
-        return fieldsByType.get(SearchFieldType.GENERAL);
+        return searchFieldsLoader.getGeneralFields();
     }
 
     @Override
     public Set<SearchField> getRangeFields() {
-        return fieldsByType.get(SearchFieldType.RANGE);
+        return searchFieldsLoader.getRangeFields();
     }
 
     @Override
     public Set<String> getSorts() {
-        return sortFieldNames;
+        return searchFieldsLoader.getSorts();
     }
 
     public static void main(String[] args) {
@@ -174,11 +52,28 @@ public enum UniProtKBSearchFields implements SearchItems, SearchFields {
                 .forEach(System.out::println);
     }
 
-    private static ObjectMapper getJsonMapper() {
-        final ObjectMapper objectMapper = new ObjectMapper();
-        SimpleModule mod = new SimpleModule();
-        mod.addAbstractTypeMapping(SearchItem.class, SearchItemImpl.class);
-        objectMapper.registerModule(mod);
-        return objectMapper;
+    private static class UniProtKBSearchFieldsLoader extends SearchFieldsLoader {
+
+        UniProtKBSearchFieldsLoader(String fileName) {
+            super(fileName);
+        }
+
+        @Override
+        protected Set<SearchField> extractSearchFields(List<SearchItem> allSearchItems) {
+            Set<SearchField> searchFields = super.extractSearchFields(allSearchItems);
+            searchFields.addAll(getDbXrefsCountSearchFields());
+            return searchFields;
+        }
+
+        private List<SearchFieldImpl> getDbXrefsCountSearchFields() {
+            return UniProtXDbTypes.INSTANCE.getAllDBXRefTypes().stream()
+                    .map(
+                            db ->
+                                    SearchFieldImpl.builder()
+                                            .name(XREF_COUNT_PREFIX + db.getName().toLowerCase())
+                                            .type(SearchFieldType.GENERAL)
+                                            .build())
+                    .collect(Collectors.toList());
+        }
     }
 }

@@ -29,7 +29,6 @@ public class SearchItemImpl implements SearchItem {
     String rangeField;
     String evidenceField;
     String description;
-    String sites;
     String example;
     String itemType = "single";
     List<SearchItem> items;

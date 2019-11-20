@@ -1,26 +1,19 @@
 package org.uniprot.store.search.domain2;
 
-import org.uniprot.core.util.Utils;
-
 import java.util.*;
 import java.util.stream.Collectors;
 
 /**
  * A validator for {@link SearchField}s.
  *
- * Created 20/11/2019
+ * <p>Created 20/11/2019
  *
  * @author Edd
  */
 class SearchFieldsValidator {
     static void validate(Collection<SearchField> searchFields) {
         verifyNoDuplicateFields(searchFields);
-
-        searchFields.forEach(
-                searchField -> {
-                    checkMandatoryFields(searchField);
-                    sortFieldMustHaveField(searchField);
-                });
+        searchFields.forEach(SearchFieldsValidator::checkMandatoryFields);
     }
 
     private static void checkMandatoryFields(SearchField field) {
@@ -28,17 +21,6 @@ class SearchFieldsValidator {
             throw new IllegalStateException(
                     "Mandatory search field value (name/type) missing for: " + field.getName());
         }
-    }
-
-    private static void sortFieldMustHaveField(SearchField field) {
-        field.getSortName().ifPresent(sortName -> {
-            if(Utils.nullOrEmpty(field.getName())){
-                throw new IllegalStateException(
-                    "Sort field ("
-                        + sortName
-                        + ") must have an associated field name.");
-            }
-        });
     }
 
     private static void verifyNoDuplicateFields(Collection<SearchField> searchFields) {

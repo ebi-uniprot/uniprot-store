@@ -21,16 +21,13 @@ public interface SearchFields {
                 .anyMatch(searchField -> searchField.equals(field));
     }
 
-    // TODO: 20/11/2019 return searchfield
-    default String getField(String field) {
+    default SearchField getField(String field) {
         return getSearchFields().stream()
             .filter(searchField -> searchField.getName().equals(field))
-            .map(SearchField::getName)
             .findFirst()
             .orElseThrow(() -> new IllegalArgumentException("Unknown field: " + field));
     }
 
-    // TODO: 20/11/2019 return searchfield
     default String getSortFieldFor(String field) {
         IllegalArgumentException exception = new IllegalArgumentException(
                 "Field '"

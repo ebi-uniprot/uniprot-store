@@ -34,8 +34,6 @@ public interface SearchItem {
 
     String getDescription();
 
-    String getSites();
-
     String getExample();
 
     String getItemType();
