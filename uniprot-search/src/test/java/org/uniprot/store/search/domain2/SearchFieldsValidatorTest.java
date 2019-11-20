@@ -44,6 +44,19 @@ class SearchFieldsValidatorTest {
     }
 
     @Test
+    void missingFieldCausesException() {
+        assertThrows(
+            IllegalStateException.class,
+            () ->
+                SearchFieldsValidator.validate(
+                    asList(
+                        SearchFieldImpl.builder()
+                            .type(SearchFieldType.GENERAL)
+                            .build(),
+                        SearchFieldImpl.builder().name("field2").build())));
+    }
+
+    @Test
     void sortWithoutFieldCausesException() {
         assertThrows(
                 IllegalStateException.class,

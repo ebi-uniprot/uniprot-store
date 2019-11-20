@@ -18,15 +18,15 @@ class SearchFieldsValidator {
 
         searchFields.forEach(
                 searchField -> {
-                    fieldsMustHaveType(searchField);
+                    checkMandatoryFields(searchField);
                     sortFieldMustHaveField(searchField);
                 });
     }
 
-    private static void fieldsMustHaveType(SearchField field) {
-        if (field.getType() == null) {
+    private static void checkMandatoryFields(SearchField field) {
+        if (field.getName() == null || field.getType() == null) {
             throw new IllegalStateException(
-                    "Mandatory search field type missing for: " + field.getName());
+                    "Mandatory search field value (name/type) missing for: " + field.getName());
         }
     }
 
