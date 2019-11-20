@@ -93,9 +93,8 @@ public class UniRefDocumentConverter implements DocumentConverter<Entry, UniRefD
 		if(member.getMemberIdType() ==UniRefMemberIdType.UNIPROTKB) {
 			result.add(member.getMemberId());
 		}
-		if(Utils.notNull(member.getUniProtAccession())){
-			result.add(member.getUniProtAccession().getValue());
-		}
+		member.getUniProtAccessions().forEach(val -> result.add(val.getValue()));
+	
 		return result;
 	}
 	
