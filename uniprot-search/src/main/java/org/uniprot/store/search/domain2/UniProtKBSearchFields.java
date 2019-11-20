@@ -46,7 +46,7 @@ public enum UniProtKBSearchFields implements SearchItems, SearchFields {
                 .distinct()
                 .forEach(searchFields::addAll);
         addDbXrefs();
-        verifyNoDuplicateFields();
+        SearchFieldsValidator.validate(searchFields);
 
         // record fields by type
         fieldsByType =
@@ -63,25 +63,6 @@ public enum UniProtKBSearchFields implements SearchItems, SearchFields {
                         .filter(field -> Utils.notNullOrEmpty(field.getSortField()))
                         .map(SearchItem::getSortField)
                         .collect(Collectors.toSet());
-    }
-
-    private void verifyNoDuplicateFields() {
-        List<String> fieldNames = new ArrayList<>();
-        for (SearchField searchField : searchFields) {
-            fieldNames.add(searchField.getName());
-            searchField
-                    .getSortName()
-                    .filter(sortName -> !sortName.equals(searchField.getName()))
-                    .ifPresent(fieldNames::add);
-        }
-
-        Set<String> allItems = new HashSet<>();
-        Set<String> duplicates =
-                fieldNames.stream().filter(name -> !allItems.add(name)).collect(Collectors.toSet());
-        if (!duplicates.isEmpty()) {
-            throw new IllegalStateException(
-                    "Duplicate field names found: " + Arrays.toString(duplicates.toArray()));
-        }
     }
 
     private void addDbXrefs() {

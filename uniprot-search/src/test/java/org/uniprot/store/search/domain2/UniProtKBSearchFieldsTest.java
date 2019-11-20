@@ -85,7 +85,7 @@ class UniProtKBSearchFieldsTest {
     }
 
     @Test
-    void searchItemsAreCorrect() {
+    void checkSearchItems() {
         Map<String, SearchItem> itemMap =
                 searchItemsToMap(UniProtKBSearchFields.INSTANCE.getSearchItems());
         assertThat(
