@@ -30,6 +30,7 @@ public enum UniProtKBSearchFields implements SearchItems, SearchFields {
     private Set<String> sortFieldNames;
 
     private void init() {
+        // TODO: 20/11/2019 generify
         ObjectMapper mapper = getJsonMapper();
         JavaType type =
                 mapper.getTypeFactory().constructCollectionType(List.class, SearchItem.class);
