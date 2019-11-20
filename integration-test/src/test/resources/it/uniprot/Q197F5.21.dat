@@ -34,9 +34,6 @@ DR   GeneID; 4156254; -.
 DR   Proteomes; UP000001358; Genome.
 PE   3: Inferred from homology;
 KW   Complete proteome; Reference proteome; Signal.
-FT   SIGNAL        1     24       {ECO:0000255}.
-FT   CHAIN        25    217       Uncharacterized protein 005L.
-FT                                /FTId=PRO_0000377940.
 SQ   SEQUENCE   217 AA;  23854 MW;  6DBE65967D7EEBD5 CRC64;
      MRYTVLIALQ GALLLLLLID DGQGQSPYPY PGMPCNSSRQ CGLGTCVHSR CAHCSSDGTL
      CSPEDPTMVW PCCPESSCQL VVGLPSLVNH YNCLPNQCTD SSQCPGGFGC MTRRSKCELC

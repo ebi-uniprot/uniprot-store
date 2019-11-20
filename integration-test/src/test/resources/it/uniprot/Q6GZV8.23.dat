@@ -30,9 +30,6 @@ DR   GeneID; 2947737; -.
 DR   Proteomes; UP000008770; Genome.
 PE   4: Predicted;
 KW   Complete proteome; Reference proteome.
-FT   CHAIN         1    502       Uncharacterized protein 017L.
-FT                                /FTId=PRO_0000410557.
-FT   COMPBIAS    425    428       Poly-Ala.
 SQ   SEQUENCE   502 AA;  53469 MW;  A747EE6F952CBAD7 CRC64;
      METMSDYSKE VSEALSALRG ELSALSAAIS NTVRAGSYSA PVAKDCKAGH CDSKAVLKSL
      SRSARDLDSA VEAVSSNCEW ASSGYGKQIA RALRDDAVRV KREVESTRDA VDVVTPSCCV

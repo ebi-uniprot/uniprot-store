@@ -38,9 +38,6 @@ DR   Pfam; PF04947; Pox_VLTF3; 1.
 PE   4: Predicted;
 KW   Activator; Complete proteome; Reference proteome; Transcription;
 KW   Transcription regulation.
-FT   CHAIN         1    256       Putative transcription factor 001R.
-FT                                /FTId=PRO_0000410512.
-FT   COMPBIAS     14     17       Poly-Arg.
 SQ   SEQUENCE   256 AA;  29735 MW;  B4840739BF7D4121 CRC64;
      MAFSAEDVLK EYDRRRRMEA LLLSLYYPND RKLLDYKEWS PPRVQVECPK APVEWNNPPS
      EKGLIVGHFS GIKYKGEKAQ ASEVDVNKMC CWVSKFKDAM RRYQGIQTCK IPGKVLSDLD

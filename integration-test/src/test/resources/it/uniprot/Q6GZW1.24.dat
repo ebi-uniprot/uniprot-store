@@ -30,9 +30,6 @@ DR   GeneID; 2947786; -.
 DR   Proteomes; UP000008770; Genome.
 PE   4: Predicted;
 KW   Coiled coil; Complete proteome; Reference proteome.
-FT   CHAIN         1    119       Uncharacterized protein 014R.
-FT                                /FTId=PRO_0000410559.
-FT   COILED        6     36       {ECO:0000255}.
 SQ   SEQUENCE   119 AA;  13358 MW;  C15D333E848F54B1 CRC64;
      METLVQAYLD IQGKIAEFRR EIKALRVEEK AITANLFEAM GEAGVESIRI SEDRYLVAEE
      KPKRTRSKQQ FYQAAEGEGF TQEDVDRLMS LSRGAVTGSS SNVKIRKSAP ARNEEDDDG

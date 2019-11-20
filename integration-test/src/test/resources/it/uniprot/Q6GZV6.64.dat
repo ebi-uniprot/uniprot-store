@@ -51,19 +51,6 @@ DR   PROSITE; PS00108; PROTEIN_KINASE_ST; 1.
 PE   3: Inferred from homology;
 KW   ATP-binding; Complete proteome; Kinase; Nucleotide-binding;
 KW   Reference proteome; Serine/threonine-protein kinase; Transferase.
-FT   CHAIN         1    851       Putative serine/threonine-protein kinase
-FT                                019R.
-FT                                /FTId=PRO_0000410576.
-FT   DOMAIN      456    851       Protein kinase. {ECO:0000255|PROSITE-
-FT                                ProRule:PRU00159}.
-FT   NP_BIND     462    470       ATP. {ECO:0000255|PROSITE-
-FT                                ProRule:PRU00159}.
-FT   COMPBIAS     53     59       Poly-Ala.
-FT   ACT_SITE    608    608       Proton acceptor. {ECO:0000255|PROSITE-
-FT                                ProRule:PRU00159, ECO:0000255|PROSITE-
-FT                                ProRule:PRU10027}.
-FT   BINDING     485    485       ATP. {ECO:0000255|PROSITE-
-FT                                ProRule:PRU00159}.
 SQ   SEQUENCE   851 AA;  92929 MW;  5FB497EDDDD37D89 CRC64;
      MATNYCDEFE RNPTRNPRTG RTIKRGGPVF RALERECSDG AARVFPAAAV RGAAAARAAS
      PRVAAASPCP EFARDPTRNP RTGRPIKRGG PVFRALEREC ADYGGASPRR VSPARAFPNR

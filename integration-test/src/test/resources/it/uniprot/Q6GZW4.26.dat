@@ -39,9 +39,6 @@ DR   GO; GO:0016021; C:integral component of membrane; IEA:UniProtKB-KW.
 PE   4: Predicted;
 KW   Complete proteome; Host membrane; Membrane; Reference proteome;
 KW   Transmembrane; Transmembrane helix.
-FT   CHAIN         1     70       Uncharacterized protein 011R.
-FT                                /FTId=PRO_0000410547.
-FT   TRANSMEM      4     24       Helical. {ECO:0000255}.
 SQ   SEQUENCE   70 AA;  7872 MW;  D4A52724E9D798C6 CRC64;
      MTSVKTIAML AMLVIVAALI YMGYRTFTSM QSKLNELESR VNAPQLRPPV MSPIVPLNFI
      ESEDLDKELD

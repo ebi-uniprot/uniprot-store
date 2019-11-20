@@ -38,10 +38,6 @@ DR   Pfam; PF03003; DUF230; 1.
 PE   4: Predicted;
 KW   Complete proteome; Host membrane; Membrane; Reference proteome;
 KW   Transmembrane; Transmembrane helix.
-FT   CHAIN         1    320       Uncharacterized protein 002L.
-FT                                /FTId=PRO_0000410509.
-FT   TRANSMEM    301    318       Helical. {ECO:0000255}.
-FT   COMPBIAS    263    295       Pro-rich.
 SQ   SEQUENCE   320 AA;  34642 MW;  9E110808B6E328E0 CRC64;
      MSIIGATRLQ NDKSDTYSAG PCYAGGCSAF TPRGTCGKDW DLGEQTCASG FCTSQPLCAR
      IKKTQVCGLR YSSKGKDPLV SAEWDSRGAP YVRCTYDADL IDTQAQVDQF VSMFGESPSL
