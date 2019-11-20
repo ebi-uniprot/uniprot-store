@@ -6,6 +6,8 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 /**
+ * A validator for {@link SearchField}s.
+ *
  * Created 20/11/2019
  *
  * @author Edd
