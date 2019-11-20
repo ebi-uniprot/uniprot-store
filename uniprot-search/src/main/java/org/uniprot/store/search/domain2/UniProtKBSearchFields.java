@@ -111,23 +111,25 @@ public enum UniProtKBSearchFields implements SearchItems, SearchFields {
     private void searchItemToSearchField(SearchItem searchItem, List<SearchField> fields) {
         if (!searchItem.getItemType().equals("group")
                 && !searchItem.getItemType().equals("groupDisplay")) {
-            if (Utils.notNullOrEmpty(searchItem.getRangeField())) {
-                // range
-                fields.add(
-                        SearchFieldImpl.builder()
-                                .name(searchItem.getRangeField())
-                                .sortName(searchItem.getSortField())
-                                .type(SearchFieldType.RANGE)
-                                .validRegex(searchItem.getIdValidRegex())
-                                .build());
-            } else {
-                // standard
+
+            // general
+            if (Utils.notNullOrEmpty(searchItem.getField())) {
                 fields.add(
                         SearchFieldImpl.builder()
                                 .name(searchItem.getField())
                                 .sortName(searchItem.getSortField())
                                 .type(SearchFieldType.GENERAL)
                                 .validRegex(searchItem.getFieldValidRegex())
+                                .build());
+            }
+
+            // range
+            if (Utils.notNullOrEmpty(searchItem.getRangeField())) {
+                fields.add(
+                        SearchFieldImpl.builder()
+                                .name(searchItem.getRangeField())
+                                .type(SearchFieldType.RANGE)
+                                .validRegex(searchItem.getIdValidRegex())
                                 .build());
             }
 

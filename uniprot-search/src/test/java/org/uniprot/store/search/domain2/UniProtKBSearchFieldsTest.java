@@ -12,6 +12,7 @@ import java.util.stream.Collectors;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
+import static org.uniprot.store.search.domain2.UniProtKBSearchFields.INSTANCE;
 import static org.uniprot.store.search.domain2.UniProtKBSearchFields.XREF_COUNT_PREFIX;
 
 /**
@@ -22,13 +23,58 @@ import static org.uniprot.store.search.domain2.UniProtKBSearchFields.XREF_COUNT_
 class UniProtKBSearchFieldsTest {
     @Test
     void canLoadAllFields() {
-        Set<SearchField> fieldsWithoutXrefCounts =
-                getFields(searchField -> !searchField.getName().startsWith(XREF_COUNT_PREFIX));
+        List<String> allFieldNames =
+                getFields(searchField -> !searchField.getName().startsWith(XREF_COUNT_PREFIX))
+                        .stream()
+                        .map(SearchField::getName)
+                        .collect(Collectors.toList());
 
-        assertThat(fieldsWithoutXrefCounts, hasSize(8));
+        assertThat(
+                allFieldNames,
+                containsInAnyOrder(
+                        "annotation_score",
+                        "mnemonic_default",
+                        "accession",
+                        "ec",
+                        "cc_cofactor_chebi",
+                        "cc_cofactor_note",
+                        "ccev_cofactor_chebi",
+                        "ccev_cofactor_note",
+                        "pretend_range_field"));
+    }
+
+    @Test
+    void checkSortFields() {
         assertThat(
                 UniProtKBSearchFields.INSTANCE.getSorts(),
                 containsInAnyOrder("accession_id", "annotation_score"));
+    }
+
+    @Test
+    void checkRangeFields() {
+        assertThat(
+                INSTANCE.getRangeFields().stream()
+                        .map(SearchField::getName)
+                        .collect(Collectors.toList()),
+                contains("pretend_range_field"));
+    }
+
+    @Test
+    void checkGeneralFields() {
+        assertThat(
+                INSTANCE.getGeneralFields().stream()
+                        .filter(searchField -> !searchField.getName().startsWith(XREF_COUNT_PREFIX))
+                        .map(SearchField::getName)
+                        .collect(Collectors.toList()),
+                containsInAnyOrder(
+                        "annotation_score",
+                        "mnemonic_default",
+                        "accession",
+                        "ec",
+                        "cc_cofactor_chebi",
+                        "cc_cofactor_note",
+                        "ccev_cofactor_chebi",
+                        "ccev_cofactor_note"));
     }
 
     @Test
@@ -40,7 +86,8 @@ class UniProtKBSearchFieldsTest {
 
     @Test
     void searchItemsAreCorrect() {
-        Map<String, SearchItem> itemMap = searchItemsToMap(UniProtKBSearchFields.INSTANCE.getSearchItems());
+        Map<String, SearchItem> itemMap =
+                searchItemsToMap(UniProtKBSearchFields.INSTANCE.getSearchItems());
         assertThat(
                 itemMap.keySet(),
                 containsInAnyOrder("ACCESSION", "FUNCTION", "COFACTORS", "CHEBI", "NOTE", "EC"));
@@ -54,6 +101,7 @@ class UniProtKBSearchFieldsTest {
 
         SearchItem chebiItem = itemMap.get("CHEBI");
         assertThat(chebiItem.getField(), is("cc_cofactor_chebi"));
+        assertThat(chebiItem.getRangeField(), is("pretend_range_field"));
         assertThat(chebiItem.getEvidenceField(), is("ccev_cofactor_chebi"));
         assertThat(chebiItem.getDataType(), is("string"));
         assertThat(chebiItem.getAutoComplete(), is("/uniprot/api/suggester?dict=chebi&query=?"));
@@ -91,7 +139,6 @@ class UniProtKBSearchFieldsTest {
     }
 
     private Set<SearchField> getFields(Predicate<SearchField> predicate) {
-
         return UniProtKBSearchFields.INSTANCE.getSearchFields().stream()
                 .filter(predicate)
                 .peek(System.out::println)
