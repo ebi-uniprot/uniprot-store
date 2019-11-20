@@ -23,13 +23,14 @@ import static org.uniprot.store.search.domain2.UniProtKBSearchFields.XREF_COUNT_
 class UniProtKBSearchFieldsTest {
     @Test
     void canLoadAllFields() {
-        List<String> fieldNames =
+        List<String> allFieldNames =
                 getFields(searchField -> !searchField.getName().startsWith(XREF_COUNT_PREFIX))
                         .stream()
                         .map(SearchField::getName)
                         .collect(Collectors.toList());
+
         assertThat(
-                fieldNames,
+                allFieldNames,
                 containsInAnyOrder(
                         "annotation_score",
                         "mnemonic_default",
@@ -39,32 +40,32 @@ class UniProtKBSearchFieldsTest {
                         "cc_cofactor_note",
                         "ccev_cofactor_chebi",
                         "ccev_cofactor_note",
-                        "pretend_cofactor_range_field"));
+                        "pretend_range_field"));
     }
 
     @Test
-    void checkSortsAreCorrect() {
-        assertThat(INSTANCE.getSorts(), containsInAnyOrder("accession_id", "annotation_score"));
+    void checkSortFields() {
+        assertThat(
+                UniProtKBSearchFields.INSTANCE.getSorts(),
+                containsInAnyOrder("accession_id", "annotation_score"));
     }
 
     @Test
-    void checkRangeFieldsAreCorrect() {
+    void checkRangeFields() {
         assertThat(
                 INSTANCE.getRangeFields().stream()
                         .map(SearchField::getName)
                         .collect(Collectors.toList()),
-                containsInAnyOrder("pretend_cofactor_range_field"));
+                contains("pretend_range_field"));
     }
 
     @Test
-    void checkGeneralFieldsAreCorrect() {
-        List<String> generalFields =
-                INSTANCE.getGeneralFields().stream()
-                        .map(SearchField::getName)
-                        .filter(searchField -> !searchField.startsWith(XREF_COUNT_PREFIX))
-                        .collect(Collectors.toList());
+    void checkGeneralFields() {
         assertThat(
-                generalFields,
+                INSTANCE.getGeneralFields().stream()
+                        .filter(searchField -> !searchField.getName().startsWith(XREF_COUNT_PREFIX))
+                        .map(SearchField::getName)
+                        .collect(Collectors.toList()),
                 containsInAnyOrder(
                         "annotation_score",
                         "mnemonic_default",
@@ -84,7 +85,7 @@ class UniProtKBSearchFieldsTest {
     }
 
     @Test
-    void searchItemsAreCorrect() {
+    void checkSearchItems() {
         Map<String, SearchItem> itemMap =
                 searchItemsToMap(UniProtKBSearchFields.INSTANCE.getSearchItems());
         assertThat(
@@ -100,6 +101,7 @@ class UniProtKBSearchFieldsTest {
 
         SearchItem chebiItem = itemMap.get("CHEBI");
         assertThat(chebiItem.getField(), is("cc_cofactor_chebi"));
+        assertThat(chebiItem.getRangeField(), is("pretend_range_field"));
         assertThat(chebiItem.getEvidenceField(), is("ccev_cofactor_chebi"));
         assertThat(chebiItem.getDataType(), is("string"));
         assertThat(chebiItem.getAutoComplete(), is("/uniprot/api/suggester?dict=chebi&query=?"));

@@ -30,6 +30,7 @@ public enum UniProtKBSearchFields implements SearchItems, SearchFields {
     private Set<String> sortFieldNames;
 
     private void init() {
+        // TODO: 20/11/2019 generify
         ObjectMapper mapper = getJsonMapper();
         JavaType type =
                 mapper.getTypeFactory().constructCollectionType(List.class, SearchItem.class);
@@ -46,7 +47,7 @@ public enum UniProtKBSearchFields implements SearchItems, SearchFields {
                 .distinct()
                 .forEach(searchFields::addAll);
         addDbXrefs();
-        verifyNoDuplicateFields();
+        SearchFieldsValidator.validate(searchFields);
 
         // record fields by type
         fieldsByType =
@@ -63,25 +64,6 @@ public enum UniProtKBSearchFields implements SearchItems, SearchFields {
                         .filter(field -> Utils.notNullOrEmpty(field.getSortField()))
                         .map(SearchItem::getSortField)
                         .collect(Collectors.toSet());
-    }
-
-    private void verifyNoDuplicateFields() {
-        List<String> fieldNames = new ArrayList<>();
-        for (SearchField searchField : searchFields) {
-            fieldNames.add(searchField.getName());
-            searchField
-                    .getSortName()
-                    .filter(sortName -> !sortName.equals(searchField.getName()))
-                    .ifPresent(fieldNames::add);
-        }
-
-        Set<String> allItems = new HashSet<>();
-        Set<String> duplicates =
-                fieldNames.stream().filter(name -> !allItems.add(name)).collect(Collectors.toSet());
-        if (!duplicates.isEmpty()) {
-            throw new IllegalStateException(
-                    "Duplicate field names found: " + Arrays.toString(duplicates.toArray()));
-        }
     }
 
     private void addDbXrefs() {
@@ -111,24 +93,25 @@ public enum UniProtKBSearchFields implements SearchItems, SearchFields {
     private void searchItemToSearchField(SearchItem searchItem, List<SearchField> fields) {
         if (!searchItem.getItemType().equals("group")
                 && !searchItem.getItemType().equals("groupDisplay")) {
-            if (Utils.notNullOrEmpty(searchItem.getRangeField())) {
-                // range
-                fields.add(
-                        SearchFieldImpl.builder()
-                                .name(searchItem.getRangeField())
-                                .type(SearchFieldType.RANGE)
-                                .validRegex(searchItem.getIdValidRegex())
-                                .build());
-            }
 
-            if (Utils.notNullOrEmpty(searchItem.getField())){
-                // standard
+            // general
+            if (Utils.notNullOrEmpty(searchItem.getField())) {
                 fields.add(
                         SearchFieldImpl.builder()
                                 .name(searchItem.getField())
                                 .sortName(searchItem.getSortField())
                                 .type(SearchFieldType.GENERAL)
                                 .validRegex(searchItem.getFieldValidRegex())
+                                .build());
+            }
+
+            // range
+            if (Utils.notNullOrEmpty(searchItem.getRangeField())) {
+                fields.add(
+                        SearchFieldImpl.builder()
+                                .name(searchItem.getRangeField())
+                                .type(SearchFieldType.RANGE)
+                                .validRegex(searchItem.getIdValidRegex())
                                 .build());
             }
 

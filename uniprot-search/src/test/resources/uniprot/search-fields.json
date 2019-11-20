@@ -37,6 +37,7 @@
             "label": "CHEBI",
             "field": "cc_cofactor_chebi",
             "evidenceField": "ccev_cofactor_chebi",
+            "rangeField": "pretend_range_field",
             "dataType": "string",
             "autoComplete": "/uniprot/api/suggester?dict=chebi&query=?",
             "idField": "cc_cofactor_chebi",
