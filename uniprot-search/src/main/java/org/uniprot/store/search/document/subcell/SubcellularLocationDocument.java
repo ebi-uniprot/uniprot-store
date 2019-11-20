@@ -1,7 +1,9 @@
 package org.uniprot.store.search.document.subcell;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.apache.solr.client.solrj.beans.Field;
 import org.uniprot.store.search.document.Document;
 
@@ -14,6 +16,8 @@ import java.util.List;
  */
 @Getter
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class SubcellularLocationDocument implements Document {
 
     @Field

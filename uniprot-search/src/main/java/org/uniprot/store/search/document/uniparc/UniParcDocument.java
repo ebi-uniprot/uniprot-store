@@ -5,15 +5,14 @@ import java.nio.ByteBuffer;
 import java.util.List;
 import java.util.Set;
 
+import lombok.*;
 import org.apache.solr.client.solrj.beans.Field;
 import org.uniprot.store.search.document.Document;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Singular;
-
 @Builder
 @Getter
+@NoArgsConstructor
+@AllArgsConstructor
 public class UniParcDocument implements Document {
     
 	@Field("upi")

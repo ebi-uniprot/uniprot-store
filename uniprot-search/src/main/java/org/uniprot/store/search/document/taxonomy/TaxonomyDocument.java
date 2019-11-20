@@ -1,7 +1,9 @@
 package org.uniprot.store.search.document.taxonomy;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.apache.solr.client.solrj.beans.Field;
 import org.uniprot.store.search.document.Document;
 
@@ -10,6 +12,8 @@ import java.util.List;
 
 @Builder
 @Getter
+@NoArgsConstructor
+@AllArgsConstructor
 public class TaxonomyDocument implements Document {
 
     @Field

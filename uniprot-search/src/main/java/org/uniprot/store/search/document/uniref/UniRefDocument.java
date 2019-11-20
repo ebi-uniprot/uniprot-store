@@ -4,12 +4,9 @@ import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
+import lombok.*;
 import org.apache.solr.client.solrj.beans.Field;
 import org.uniprot.store.search.document.Document;
-
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Singular;
 
 /**
  *
@@ -19,6 +16,8 @@ import lombok.Singular;
  */
 @Builder
 @Getter
+@NoArgsConstructor
+@AllArgsConstructor
 public class UniRefDocument implements Document {
 
 	@Field("id")
