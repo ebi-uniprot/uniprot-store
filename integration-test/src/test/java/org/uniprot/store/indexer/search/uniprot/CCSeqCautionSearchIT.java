@@ -39,14 +39,14 @@ class CCSeqCautionSearchIT {
 		// --------------
 		entryProxy.updateEntryObject(LineType.AC, String.format(ACC_LINE, Q6GZX4));
 		entryProxy.updateEntryObject(LineType.CC, "CC   -!- FUNCTION: Transcription activation. {ECO:0000305}.\n"
-				+ "CC   -!- SEQUENCE CAUTION:\n" + "CC       Sequence=CAA36850.1; Type=Frameshift; Positions=496;");
+				+ "CC   -!- SEQUENCE CAUTION:\n" + "CC       Sequence=CAA36850.1; Type=Frameshift;");
 		searchEngine.indexEntry(convertToUniProtEntry(entryProxy));
 
 		// --------------
 		entryProxy.updateEntryObject(LineType.AC, String.format(ACC_LINE, Q6GZX3));
 		entryProxy.updateEntryObject(LineType.CC, "CC   -!- SEQUENCE CAUTION:\n"
 				+ "CC       Sequence=BAC87262.1; Type=Erroneous initiation; Evidence={ECO:0000305};\n"
-				+ "CC       Sequence=CAC85331.1; Type=Frameshift; Positions=354, 369, 616, 618; Evidence={ECO:0000305};");
+				+ "CC       Sequence=CAC85331.1; Type=Frameshift; Evidence={ECO:0000305};");
 		searchEngine.indexEntry(convertToUniProtEntry(entryProxy));
 
 		// --------------
@@ -59,8 +59,8 @@ class CCSeqCautionSearchIT {
 		// --------------
 		entryProxy.updateEntryObject(LineType.AC, String.format(ACC_LINE, Q197B6));
 		entryProxy.updateEntryObject(LineType.CC, "CC   -!- SEQUENCE CAUTION:\n"
-				+ "CC       Sequence=BAB15298.1; Type=Erroneous termination; Positions=453; Note=Translated as Glu.; Evidence={ECO:0000269};\n"
-				+ "CC       Sequence=BAC85554.1; Type=Frameshift; Positions=383; Evidence={ECO:0000269};");
+				+ "CC       Sequence=BAB15298.1; Type=Erroneous termination; Note=Translated as Glu.; Evidence={ECO:0000269};\n"
+				+ "CC       Sequence=BAC85554.1; Type=Frameshift; Evidence={ECO:0000269};");
 		searchEngine.indexEntry(convertToUniProtEntry(entryProxy));
 
 		// --------------
@@ -74,7 +74,7 @@ class CCSeqCautionSearchIT {
 		entryProxy.updateEntryObject(LineType.CC, "CC   -!- SEQUENCE CAUTION:\n"
 				+ "CC       Sequence=AAB61673.1; Type=Erroneous translation; Note=Wrong choice of CDS.; Evidence={ECO:0000305};\n"
 				+ "CC       Sequence=AAI15038.1; Type=Erroneous initiation; Note=Translation N-terminally extended.; Evidence={ECO:0000305};\n"
-				+ "CC       Sequence=AAI15038.1; Type=Erroneous termination; Positions=526; Note=Translated as Gln.; Evidence={ECO:0000305};");
+				+ "CC       Sequence=AAI15038.1; Type=Erroneous termination; Note=Translated as Gln.; Evidence={ECO:0000305};");
 		searchEngine.indexEntry(convertToUniProtEntry(entryProxy));
 
 		// --------------

@@ -98,10 +98,10 @@ CC         Note=No experimental confirmation available.;
 CC       Name=5;
 CC         IsoId=Q9EPI6-5; Sequence=VSP_014773, VSP_014774;
 CC         Note=No experimental confirmation available.;
-CC   -----------------------------------------------------------------------
+CC   ---------------------------------------------------------------------------
 CC   Copyrighted by the UniProt Consortium, see https://www.uniprot.org/terms
 CC   Distributed under the Creative Commons Attribution (CC BY 4.0) License
-CC   -----------------------------------------------------------------------
+CC   ---------------------------------------------------------------------------
 DR   EMBL; AJ293698; CAC20867.1; -; mRNA. [Q9EPI6-2]
 DR   GO; GO:0097440; C:apical dendrite; IDA:UniProtKB.
 DR   GO; GO:0030054; C:cell junction; IEA:UniProtKB-KW.

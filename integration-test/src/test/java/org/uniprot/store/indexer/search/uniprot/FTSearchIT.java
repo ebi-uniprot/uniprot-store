@@ -39,14 +39,22 @@ class FTSearchIT {
 
         // --------------
         entryProxy.updateEntryObject(LineType.AC, String.format(ACC_LINE, Q6GZX4));
-        entryProxy.updateEntryObject(LineType.FT, "FT   CHAIN         1    256       Putative transcription factor 001R.\n" +
-                "FT                                /FTId=PRO_0000410512.\n" +
-                "FT   COMPBIAS     14     17       Poly-Arg.");
+        entryProxy.updateEntryObject(LineType.FT, 
+						"FT   CHAIN           1..256\n" + 
+						"FT                   /note=\"Putative transcription factor 001R\"\n" + 
+		
+						"FT                   /id=\"PRO_0000410512\"\n"+
+						"FT   COMPBIAS        14..17\n" + 
+						"FT                   /note=\"Poly-Arg\"");
+
         searchEngine.indexEntry(convertToUniProtEntry(entryProxy));
 
         // --------------
         entryProxy.updateEntryObject(LineType.AC, String.format(ACC_LINE, Q197B1));
-        entryProxy.updateEntryObject(LineType.FT, "FT   COILED       62    124       {ECO:0000255}.");
+        entryProxy.updateEntryObject(LineType.FT,
+        		
+						"FT   COILED          62..124\n" + 
+						"FT                   /evidence=\"ECO:0000255\"");
         searchEngine.indexEntry(convertToUniProtEntry(entryProxy));
 
         searchEngine.printIndexContents();

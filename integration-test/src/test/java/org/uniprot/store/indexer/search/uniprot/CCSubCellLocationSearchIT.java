@@ -58,7 +58,7 @@ class CCSubCellLocationSearchIT {
 	        // --------------
 	        entryProxy.updateEntryObject(LineType.AC, String.format(ACC_LINE, Q197B6));
 	        entryProxy.updateEntryObject(LineType.CC,
-	    			"CC   -!- SUBCELLULAR LOCATION: Spike protein S2: Virion membrane\n" +
+	    			"CC   -!- SUBCELLULAR LOCATION: [Spike protein S2]: Virion membrane\n" +
 	    			"CC       {ECO:0000313|EMBL:BAG16761.1}; Single-pass type I membrane sdssds\n" +
 	    			"CC       protein (By similarity) {ECO:0000269|PubMed:10433554}. Host\n" +
 	    			"CC       endoplasmic reticulum-Golgi intermediate compartment membrane\n" +
