@@ -37,29 +37,44 @@ class FTFunctionSearchIT {
 		// --------------
 		entryProxy.updateEntryObject(LineType.AC, String.format(ACC_LINE, Q6GZX4));
 		entryProxy.updateEntryObject(LineType.FT,
-				"FT   SITE         11     11       Substrate for Tat translocation through\n"
-						+ "FT                                the endosomal membrane.\n"
-						+ "FT                                {ECO:0000256|HAMAP-Rule:MF_04079}.");
+						"FT   SITE            11\n" + 
+						"FT                   /note=\"Substrate for Tat translocation through the endosomal membrane\"\n" + 
+						"FT                   /evidence=\"ECO:0000256|HAMAP-Rule:MF_04079\"");
+
+
 		searchEngine.indexEntry(convertToUniProtEntry(entryProxy));
 
 		// --------------
 		entryProxy.updateEntryObject(LineType.AC, String.format(ACC_LINE, Q197B1));
-		entryProxy.updateEntryObject(LineType.FT, "FT   METAL       151    151       Magnesium. {ECO:0000255|HAMAP-\n"
-				+ "FT                                Rule:MF_01227}.");
+		entryProxy.updateEntryObject(LineType.FT, 
+				
+						"FT   METAL           151\n" + 
+						"FT                   /note=\"Magnesium\"\n" + 
+						"FT                   /evidence=\"ECO:0000255|HAMAP-Rule:MF_01227\"");
+
 		searchEngine.indexEntry(convertToUniProtEntry(entryProxy));
 
 		entryProxy.updateEntryObject(LineType.AC, String.format(ACC_LINE, Q12345));
 		entryProxy.updateEntryObject(LineType.FT,
-				"FT   BINDING    1516   1516       Substrate. {ECO:0000250}.\n"
-						+ "FT   ACT_SITE   1380   1380       Phosphocysteine intermediate.\n"
-						+ "FT                                {ECO:0000250}.");
+						"FT   BINDING         1516\n" + 
+						"FT                   /note=\"Substrate\"\n" + 
+						"FT                   /evidence=\"ECO:0000250\"\n"+
+						"FT   ACT_SITE        1380\n" + 
+						"FT                   /note=\"Phosphocysteine intermediate\"\n" + 
+						"FT                   /evidence=\"ECO:0000250\"");
+
 		searchEngine.indexEntry(convertToUniProtEntry(entryProxy));
 
 		entryProxy.updateEntryObject(LineType.AC, String.format(ACC_LINE, P48347));
 		entryProxy.updateEntryObject(LineType.FT,
-				"FT   CA_BIND     228    229       Second part of site. {ECO:0000250}.\n"
-				+ "FT   DNA_BIND     13     16       {ECO:0000250}.\n"
-				+ "FT   NP_BIND      81     85       NADP. {ECO:0000250|UniProtKB:Q4V8K1}.");
+						"FT   CA_BIND         228..229\n" + 
+						"FT                   /note=\"Second part of site\"\n" + 
+						"FT                   /evidence=\"ECO:0000250\"\n"+
+						"FT   DNA_BIND        13..16\n" + 
+						"FT                   /evidence=\"ECO:0000250\"\n"+
+						"FT   NP_BIND         81..85\n" + 
+						"FT                   /note=\"NADP\"\n" + 
+						"FT                   /evidence=\"ECO:0000250|UniProtKB:Q4V8K1\"");
 		searchEngine.indexEntry(convertToUniProtEntry(entryProxy));
         
        

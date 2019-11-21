@@ -21,7 +21,7 @@ import org.uniprot.core.xml.XmlChainIterator;
 */
 
 public class XmlItemReader<T> implements ItemReader<T> {
-	  private XmlChainIterator<T, T> entryIterator;
+	  protected XmlChainIterator<T, T> entryIterator;
     public XmlItemReader(String filepath, Class<T> clazz, String startElement) {
     	init(filepath, clazz, startElement);
     }

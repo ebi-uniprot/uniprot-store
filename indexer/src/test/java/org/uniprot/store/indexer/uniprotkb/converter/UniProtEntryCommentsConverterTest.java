@@ -369,12 +369,12 @@ class UniProtEntryCommentsConverterTest {
         Chebi chebiId1 = new ChebiBuilder().id("18420").name("Chebi Name 18420").inchiKey("inchikey 18420").build();
         when(chebiRepo.getById("18420")).thenReturn(chebiId1);
 
-        String cofactorLine = "CC   -!- COFACTOR: RNA-directed RNA polymerase:\n" +
+        String cofactorLine = "CC   -!- COFACTOR: [RNA-directed RNA polymerase]:\n" +
                 "CC       Name=Mg(2+); Xref=ChEBI:CHEBI:18420;\n" +
                 "CC         Evidence={ECO:0000250|UniProtKB:P03313};\n" +
                 "CC       Note=Requires the presence of 3CDpro or 3CPro.\n" +
                 "CC       {ECO:0000250|UniProtKB:P03313};";
-        String cofactorLineValue = "COFACTOR: RNA-directed RNA polymerase:\n" +
+        String cofactorLineValue = "COFACTOR: [RNA-directed RNA polymerase]:\n" +
                 "Name=Mg(2+); Xref=ChEBI:CHEBI:18420;\n" +
                 "Note=Requires the presence of 3CDpro or 3CPro.;";
 
@@ -418,7 +418,7 @@ class UniProtEntryCommentsConverterTest {
         assertEquals(1, suggestDocument.altValues.size());
         assertEquals("inchikey 18420", suggestDocument.altValues.get(0));
 
-        assertTrue(document.content.contains("COFACTOR: RNA-directed RNA polymerase:\n" +
+        assertTrue(document.content.contains("COFACTOR: [RNA-directed RNA polymerase]:\n" +
                 "Name=Mg(2+); Xref=ChEBI:CHEBI:18420;\n" +
                 "Note=Requires the presence of 3CDpro or 3CPro.;"));
     }
@@ -526,7 +526,7 @@ class UniProtEntryCommentsConverterTest {
         Map<String, SuggestDocument> suggestions = new HashMap<>();
 
         String sequenceCautionLine = "CC   -!- SEQUENCE CAUTION:\n" +
-                "CC       Sequence=CAB59730.1; Type=Frameshift; Positions=76, 138; Evidence={ECO:0000305};\n" +
+                "CC       Sequence=CAB59730.1; Type=Frameshift; Evidence={ECO:0000305};\n" +
                 "CC   -!- SEQUENCE CAUTION:\n" +
                 "CC       Sequence=AAA42785.1; Type=Erroneous gene model prediction; Evidence={ECO:0000305};\n" +
                 "CC   -!- SEQUENCE CAUTION:\n" +
@@ -536,10 +536,10 @@ class UniProtEntryCommentsConverterTest {
                 "CC   -!- SEQUENCE CAUTION:\n" +
                 "CC       Sequence=BAB43866.1; Type=Miscellaneous discrepancy; Note=Chimeric cDNA. It is a chimera between Dox-A3 and PPO2.; Evidence={ECO:0000305};\n" +
                 "CC   -!- SEQUENCE CAUTION:\n" +
-                "CC       Sequence=CAH10679.1; Type=Erroneous termination; Positions=431; Note=Translated as Trp.; Evidence={ECO:0000305};";
+                "CC       Sequence=CAH10679.1; Type=Erroneous termination; Note=Translated as Trp.; Evidence={ECO:0000305};";
 
         String sequenceCautionLineValue = "SEQUENCE CAUTION:\n" +
-                "Sequence=CAB59730.1; Type=Frameshift; Positions=76, 138;";
+                "Sequence=CAB59730.1; Type=Frameshift;";
         UniProtEntry entry = createUniProtEntryFromCommentLine(sequenceCautionLine);
 
         UniProtEntryCommentsConverter converter = new UniProtEntryCommentsConverter(chebiRepo, pathwayRepo, suggestions);
@@ -597,8 +597,8 @@ class UniProtEntryCommentsConverterTest {
         PathwayRepo pathwayRepo = mock(PathwayRepo.class);
         Map<String, SuggestDocument> suggestions = new HashMap<>();
 
-        String subcellularLocationLine = "CC   -!- SUBCELLULAR LOCATION: Capsid protein: Virion. Host cytoplasm.\n" +
-                "CC   -!- SUBCELLULAR LOCATION: Small envelope protein M: Virion membrane\n" +
+        String subcellularLocationLine = "CC   -!- SUBCELLULAR LOCATION: [Capsid protein]: Virion. Host cytoplasm.\n" +
+                "CC   -!- SUBCELLULAR LOCATION: [Small envelope protein M]: Virion membrane\n" +
                 "CC       {ECO:0000250|UniProtKB:P03314}; Multi-pass membrane protein\n" +
                 "CC       {ECO:0000250|UniProtKB:P03314}. Host endoplasmic reticulum\n" +
                 "CC       membrane {ECO:0000250|UniProtKB:P03314}; Multi-pass membrane\n" +
@@ -612,7 +612,7 @@ class UniProtEntryCommentsConverterTest {
                 "CC       {ECO:0000305|PubMed:22512337}. Note=In neurons, localizes to the\n" +
                 "CC       sensory endings and to cytoplasmic punctate structures.";
 
-        String subcellularLocationLineValue = "SUBCELLULAR LOCATION: Capsid protein: Virion. Host cytoplasm.";
+        String subcellularLocationLineValue = "SUBCELLULAR LOCATION: [Capsid protein]: Virion. Host cytoplasm.";
         UniProtEntry entry = createUniProtEntryFromCommentLine(subcellularLocationLine);
 
         UniProtEntryCommentsConverter converter = new UniProtEntryCommentsConverter(chebiRepo, pathwayRepo, suggestions);
@@ -756,11 +756,11 @@ class UniProtEntryCommentsConverterTest {
         PathwayRepo pathwayRepo = mock(PathwayRepo.class);
         Map<String, SuggestDocument> suggestions = new HashMap<>();
 
-        String massSpectrometryCommentLine = "CC   -!- MASS SPECTROMETRY: Mass=8891.4; Method=Electrospray; Range=21-99;\n" +
+        String massSpectrometryCommentLine = "CC   -!- MASS SPECTROMETRY: Mass=8891.4; Method=Electrospray;\n" +
                 "CC       Note=Strain BALB/c. Without methionine sulfoxide.;\n" +
                 "CC       Evidence={ECO:0000269|PubMed:16876491};";
 
-        String indexedMassSpectrometryComment = "MASS SPECTROMETRY: Mass=8891.4; Method=Electrospray; Range=21-99; " +
+        String indexedMassSpectrometryComment = "MASS SPECTROMETRY: Mass=8891.4; Method=Electrospray; " +
                 "Note=Strain BALB/c. Without methionine sulfoxide.; Evidence={ECO:0000269|PubMed:16876491};";
 
         UniProtEntry entry = createUniProtEntryFromCommentLine(massSpectrometryCommentLine);

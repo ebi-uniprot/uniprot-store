@@ -39,23 +39,33 @@ class FTStructureSearchIT {
 		entryProxy.updateEntryObject(LineType.AC, String.format(ACC_LINE, Q6GZX4));
 		entryProxy.updateEntryObject(LineType.DR, "DR   PDB; 3SR9; X-ray; 2.40 A; A=1326-1901.");
 		entryProxy.updateEntryObject(LineType.FT,
-				"FT   HELIX       428    430       {ECO:0000244|PDB:2A8B}.");
+					
+						"FT   HELIX           428..430\n" + 
+						"FT                   /evidence=\"ECO:0000244|PDB:2A8B\"");
 		searchEngine.indexEntry(convertToUniProtEntry(entryProxy));
 
 		// --------------
 		entryProxy.updateEntryObject(LineType.AC, String.format(ACC_LINE, Q197B1));
 		entryProxy.updateEntryObject(LineType.DR, "DR   EMBL; BC083188; AAH83188.1; -; mRNA.");
 		entryProxy.updateEntryObject(LineType.FT,
-				"FT   STRAND      487    492       {ECO:0000244|PDB:2A8B}.\n" + 
-				"FT   STRAND      494    499       {ECO:0000244|PDB:2A8B}.");
+						"FT   STRAND          487..492\n" + 
+						"FT                   /evidence=\"ECO:0000244|PDB:2A8B\"\n"+
+						"FT   STRAND          494..499\n" + 
+						"FT                   /evidence=\"ECO:0000244|PDB:2A8B\"");
+
 		searchEngine.indexEntry(convertToUniProtEntry(entryProxy));
 
 		entryProxy.updateEntryObject(LineType.AC, String.format(ACC_LINE, Q12345));
 		entryProxy.updateEntryObject(LineType.DR, "DR   EMBL; BC083188; AAH83188.1; -; mRNA.");
 		entryProxy.updateEntryObject(LineType.FT,
-				"FT   TURN       1476   1478       {ECO:0000244|PDB:4C6F}.\n" + 
-				"FT   TURN       1480   1482       {ECO:0000244|PDB:4C6F}.\n" + 
-				"FT   HELIX      1485   1494       {ECO:0000244|PDB:4C6F}.");
+				
+						"FT   TURN            1476..1478\n" + 
+						"FT                   /evidence=\"ECO:0000244|PDB:4C6F\"\n"+
+						"FT   TURN            1480..1482\n" + 
+						"FT                   /evidence=\"ECO:0000244|PDB:4C6F\"\n"+
+						"FT   HELIX           1485..1494\n" + 
+						"FT                   /evidence=\"ECO:0000244|PDB:4C6F\"");
+
 		searchEngine.indexEntry(convertToUniProtEntry(entryProxy));
 		searchEngine.printIndexContents();
 	}

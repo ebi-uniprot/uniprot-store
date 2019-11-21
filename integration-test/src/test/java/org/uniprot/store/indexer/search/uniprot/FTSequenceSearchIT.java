@@ -40,35 +40,50 @@ class FTSequenceSearchIT {
 		// --------------
 		entryProxy.updateEntryObject(LineType.AC, String.format(ACC_LINE, Q6GZX4));
 		entryProxy.updateEntryObject(LineType.FT,
-				"FT   VAR_SEQ     234    249       Missing (in isoform 3). {ECO:0000305}.\n"
-						+ "FT                                /FTId=VSP_055167.");
+			
+						"FT   VAR_SEQ         234..249\n" + 
+						"FT                   /note=\"Missing (in isoform 3)\"\n" + 
+						"FT                   /evidence=\"ECO:0000305\"\n"+
+						"FT                   /id=\"VSP_055167\"");
+				
+
 		searchEngine.indexEntry(convertToUniProtEntry(entryProxy));
 
 		// --------------
 		entryProxy.updateEntryObject(LineType.AC, String.format(ACC_LINE, Q197B1));
 		entryProxy.updateEntryObject(LineType.FT,
-				"FT   VARIANT     177    177       R -> Q (in a colorectal cancer sample;\n"
-						+ "FT                                somatic mutation; dbSNP:rs374122292).\n"
-						+ "FT                                {ECO:0000269|PubMed:16959974}.\n"
-						+ "FT                                /FTId=VAR_035897.");
+			
+					"FT   VARIANT         177\n" + 
+					"FT                   /note=\"R -> Q (in a colorectal cancer sample; somatic mutation; dbSNP:rs374122292)\"\n" + 
+					"FT                   /evidence=\"ECO:0000269|PubMed:16959974\"\n"+
+					"FT                   /id=\"VAR_035897\"");
+
 		searchEngine.indexEntry(convertToUniProtEntry(entryProxy));
 
 		entryProxy.updateEntryObject(LineType.AC, String.format(ACC_LINE, Q12345));
 		entryProxy.updateEntryObject(LineType.FT,
-				"FT   NON_STD      92     92       Selenocysteine. {ECO:0000250}.\n" +
-				"FT   NON_TER       1      1       {ECO:0000303|PubMed:17963685}.");
+				
+						"FT   NON_STD         92\n" + 
+						"FT                   /note=\"Selenocysteine\"\n" + 
+						"FT                   /evidence=\"ECO:0000250\"\n"+
+						"FT   NON_TER         1\n" + 
+						"FT                   /evidence=\"ECO:0000303|PubMed:17963685\"");
 		searchEngine.indexEntry(convertToUniProtEntry(entryProxy));
 
 		entryProxy.updateEntryObject(LineType.AC, String.format(ACC_LINE, Q6GZN7));
 		entryProxy.updateEntryObject(LineType.FT,
-				"FT   NON_CONS     15     16       {ECO:0000305}.\n" +
-				"FT   CONFLICT    758    758       P -> A (in Ref. 1; CAA57732).\n" + 
-				"FT                                {ECO:0000305}.");
+						"FT   NON_CONS        15..16\n" + 
+						"FT                   /evidence=\"ECO:0000305\"\n"+
+						"FT                   /id=\"PRO_0000027671\"\n"+
+						"FT   CONFLICT        758\n" + 
+						"FT                   /note=\"P -> A (in Ref. 1; CAA57732)\"\n" + 
+						"FT                   /evidence=\"ECO:0000305\"");
 		searchEngine.indexEntry(convertToUniProtEntry(entryProxy));
 
 		entryProxy.updateEntryObject(LineType.AC, String.format(ACC_LINE, Q6V4H0));
 		entryProxy.updateEntryObject(LineType.FT,
-				"FT   UNSURE       44     44       {ECO:0000269|Ref.1}.");
+						"FT   UNSURE          44\n" + 
+						"FT                   /evidence=\"ECO:0000269|Ref.1\"");
 		searchEngine.indexEntry(convertToUniProtEntry(entryProxy));
 
 		searchEngine.printIndexContents();

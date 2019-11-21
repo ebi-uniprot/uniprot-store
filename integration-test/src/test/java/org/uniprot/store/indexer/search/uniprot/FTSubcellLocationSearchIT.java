@@ -38,31 +38,46 @@ class FTSubcellLocationSearchIT {
 		// --------------
 		entryProxy.updateEntryObject(LineType.AC, String.format(ACC_LINE, Q6GZX4));
 		entryProxy.updateEntryObject(LineType.FT,
-				"FT   TRANSMEM    580    604       Helical. {ECO:0000255}.");
+
+						"FT   TRANSMEM        580..604\n" + 
+						"FT                   /note=\"Helical\"\n" + 
+						"FT                   /evidence=\"ECO:0000255\"");
+
 		searchEngine.indexEntry(convertToUniProtEntry(entryProxy));
 
 		// --------------
 		entryProxy.updateEntryObject(LineType.AC, String.format(ACC_LINE, Q197B1));
 		entryProxy.updateEntryObject(LineType.FT,
-				"FT   TRANSMEM    705    725       Helical. {ECO:0000255}.\n" + 
-				"FT   TOPO_DOM    726   1070       Cytoplasmic. {ECO:0000255}.");
+						"FT   TRANSMEM        705..725\n" + 
+						"FT                   /note=\"Helical\"\n" + 
+						"FT                   /evidence=\"ECO:0000255\"\n"+
+
+						"FT   TOPO_DOM        726..1070\n" + 
+						"FT                   /note=\"Cytoplasmic\"\n" + 
+						"FT                   /evidence=\"ECO:0000255\"");
 		searchEngine.indexEntry(convertToUniProtEntry(entryProxy));
 
 		entryProxy.updateEntryObject(LineType.AC, String.format(ACC_LINE, Q12345));
 		entryProxy.updateEntryObject(LineType.FT,
-				"FT   INTRAMEM    510    547       Helical. {ECO:0000250|UniProtKB:F1RAX4}.\n" + 
-				"FT   TOPO_DOM    548    667       Cytoplasmic.\n" + 
-				"FT                                {ECO:0000250|UniProtKB:F1RAX4}.");
+						"FT   INTRAMEM        510..547\n" + 
+						"FT                   /note=\"Helical\"\n" + 
+						"FT                   /evidence=\"ECO:0000250|UniProtKB:F1RAX4\"\n"+
+						"FT   TOPO_DOM        548..667\n" + 
+						"FT                   /note=\"Cytoplasmic\"\n" + 
+						"FT                   /evidence=\"ECO:0000250|UniProtKB:F1RAX4\"");
+
 		searchEngine.indexEntry(convertToUniProtEntry(entryProxy));
 
 		
 		entryProxy.updateEntryObject(LineType.AC, String.format(ACC_LINE, Q6GZN7));
 		entryProxy.updateEntryObject(LineType.FT,
-				"FT   MUTAGEN      15     15       T->V: No effect on molecular weight; when\n" + 
-				"FT                                associated with V-109 and V-116.\n" + 
-				"FT                                {ECO:0000269|PubMed:16956885}.\n" +
-				"FT   HELIX         4     13       {ECO:0000244|PDB:4QOB}.\n" + 
-				"FT   HELIX        17     27       {ECO:0000244|PDB:4QOB}.");
+						"FT   MUTAGEN         15\n" + 
+						"FT                   /note=\"T->V: No effect on molecular weight; when associated with V-109 and V-116.\"\n" + 
+						"FT                   /evidence=\"ECO:0000269|PubMed:16956885\"\n"+
+						"FT   HELIX           4..13\n" + 
+						"FT                   /evidence=\"ECO:0000244|PDB:4QOB\"\n"+
+						"FT   HELIX           17..27\n" + 
+						"FT                   /evidence=\"ECO:0000244|PDB:4QOB\"");
 		searchEngine.indexEntry(convertToUniProtEntry(entryProxy));
 		searchEngine.printIndexContents();
 	}

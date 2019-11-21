@@ -43,7 +43,7 @@ class ScoreSearchIT {
 	        entryProxy.updateEntryObject(LineType.AC, String.format(ACC_LINE, Q6GZX4));
 	        entryProxy.updateEntryObject(LineType.CC, "CC   -!- FUNCTION: Transcription activation. {ECO:0000305}.\n"+
 	        		"CC   -!- SEQUENCE CAUTION:\n"
-					+ "CC       Sequence=CAA36850.1; Type=Frameshift; Positions=496;");
+					+ "CC       Sequence=CAA36850.1; Type=Frameshift;");
 	        searchEngine.indexEntry(convertToUniProtEntry(entryProxy));
 
 	        // --------------

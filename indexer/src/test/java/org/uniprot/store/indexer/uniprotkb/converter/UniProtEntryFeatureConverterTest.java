@@ -9,6 +9,7 @@ import org.uniprot.core.uniprot.evidence.EvidenceCode;
 import org.uniprot.core.uniprot.evidence.builder.EvidenceBuilder;
 import org.uniprot.core.uniprot.feature.AlternativeSequence;
 import org.uniprot.core.uniprot.feature.Feature;
+import org.uniprot.core.uniprot.feature.FeatureLocation;
 import org.uniprot.core.uniprot.feature.FeatureType;
 import org.uniprot.core.uniprot.feature.FeatureXDbType;
 import org.uniprot.core.uniprot.feature.builder.AlternativeSequenceBuilder;
@@ -34,7 +35,7 @@ class UniProtEntryFeatureConverterTest {
         UniProtDocument document = new UniProtDocument();
         UniProtEntryFeatureConverter converter = new UniProtEntryFeatureConverter();
 
-        Range location = new Range(2, 8);
+        FeatureLocation location = new FeatureLocation(2, 8);
         Feature feature = new FeatureBuilder()
                 .type(FeatureType.NON_TER)
                 .location(location)
@@ -87,7 +88,7 @@ class UniProtEntryFeatureConverterTest {
                 .id("DBSNP-12345")
                 .build();
 
-        Range location = new Range(2, 8);
+        FeatureLocation location = new FeatureLocation(2, 8);
         List<Evidence> evidences = Collections.singletonList(createEvidence());
         return new FeatureBuilder()
                 .type(FeatureType.CHAIN)

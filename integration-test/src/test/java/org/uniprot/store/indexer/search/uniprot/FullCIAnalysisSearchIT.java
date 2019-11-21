@@ -43,7 +43,12 @@ class FullCIAnalysisSearchIT {
     static final UniProtSearchEngine searchEngine = new UniProtSearchEngine();
     private static final String RESOURCE_ENTRY_PATH = "/it/uniprot";
     private static final List<String> RESOURCE_ENTRIES_TO_STORE =
-            asList("P0A377.43", "P51587", "Q6GZV4.23", "Q197D8.25", "Q197F8.16");
+            asList("P0A377.43",
+            		"P51587",
+            		"Q6GZV4.23",
+            		"Q197D8.25",
+            		"Q197F8.16"
+            		);
     private static UniProtEntryObjectProxy entryProxy;
     private static int accessionId = 0;
     private List<String> tempSavedEntries = new ArrayList<>();
