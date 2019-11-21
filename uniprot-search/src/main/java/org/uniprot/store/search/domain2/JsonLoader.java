@@ -7,7 +7,10 @@ import java.io.InputStream;
 import java.util.List;
 
 /**
- * Created 15/11/19
+ * This class is responsible for loading JSON objects and creating an instance of the corresponding
+ * model.
+ *
+ * <p>Created 15/11/19
  *
  * @author Edd
  */

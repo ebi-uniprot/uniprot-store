@@ -3,7 +3,10 @@ package org.uniprot.store.search.domain2;
 import java.util.Set;
 
 /**
- * Created 14/11/19
+ * Represents a container of {@link SearchField} instances, providing utility methods to ease their
+ * access.
+ *
+ * <p>Created 14/11/19
  *
  * @author Edd
  */
@@ -23,21 +26,18 @@ public interface SearchFields {
 
     default SearchField getField(String field) {
         return getSearchFields().stream()
-            .filter(searchField -> searchField.getName().equals(field))
-            .findFirst()
-            .orElseThrow(() -> new IllegalArgumentException("Unknown field: " + field));
+                .filter(searchField -> searchField.getName().equals(field))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("Unknown field: " + field));
     }
 
     default String getSortFieldFor(String field) {
-        IllegalArgumentException exception = new IllegalArgumentException(
-                "Field '"
-                        + field
-                        + "' does not have an associated sort field.");
+        IllegalArgumentException exception =
+                new IllegalArgumentException(
+                        "Field '" + field + "' does not have an associated sort field.");
         for (SearchField searchField : getSearchFields()) {
             if (searchField.getName().equals(field) && searchField.getSortName().isPresent()) {
-                return searchField
-                        .getSortName()
-                        .orElseThrow(() -> exception);
+                return searchField.getSortName().orElseThrow(() -> exception);
             }
         }
         throw exception;

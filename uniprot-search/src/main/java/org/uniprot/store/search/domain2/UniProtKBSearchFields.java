@@ -8,7 +8,10 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
- * Created 12/11/2019
+ * Represents all accessible UniProtKB search fields, and provides access to them via both
+ * contracts, {@link SearchItems} and {@link SearchFields}.
+ *
+ * <p>Created 12/11/2019
  *
  * @author Edd
  */

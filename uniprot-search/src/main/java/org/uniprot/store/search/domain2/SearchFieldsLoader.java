@@ -14,7 +14,9 @@ import java.util.stream.Collectors;
 import static java.util.stream.Collectors.groupingBy;
 
 /**
- * Created 20/11/19
+ * This class is responsible for loading {@link SearchField} instances from a given JSON source.
+ *
+ * <p>Created 20/11/19
  *
  * @author Edd
  */
