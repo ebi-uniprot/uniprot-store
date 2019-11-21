@@ -247,7 +247,7 @@ class UniProtEntryConverterIT {
         assertEquals("19-JUL-2005", dateFormat.format(doc.firstCreated).toUpperCase());
         assertEquals("01-MAR-2001", dateFormat.format(doc.sequenceUpdated).toUpperCase());
 
-        assertEquals(38, doc.keywords.size());
+        assertEquals(36, doc.keywords.size());
         assertEquals("KW-0025", doc.keywords.get(0));
         assertEquals("Alternative splicing", doc.keywords.get(1));
         List<String> keywordIds=
@@ -307,7 +307,7 @@ class UniProtEntryConverterIT {
         assertEquals(5, doc.referenceJournals.size());
         assertTrue(doc.referenceJournals.contains("Genome Res."));
 
-        assertEquals(15, doc.proteinsWith.size());
+        assertEquals(16, doc.proteinsWith.size());
         assertTrue(doc.proteinsWith.contains("chain"));
         assertFalse(doc.proteinsWith.contains("similarity")); //filtered out
         assertFalse(doc.proteinsWith.contains("conflict")); //filtered out
@@ -326,16 +326,16 @@ class UniProtEntryConverterIT {
         assertTrue(doc.commentEvMap.get(CCEV_SIMILARITY_FIELD).contains("ECO_0000305"));
         assertTrue(doc.commentEvMap.get(CCEV_SIMILARITY_FIELD).contains("manual"));
 
-        assertEquals(8, doc.featuresMap.size());
+        assertEquals(9, doc.featuresMap.size());
         assertTrue(doc.featuresMap.containsKey(FT_CONFLICT_FIELD));
         assertTrue(doc.featuresMap.get(FT_CONFLICT_FIELD).contains("in Ref. 3; AAH87719"));
 
-        assertEquals(8, doc.featureEvidenceMap.size());
+        assertEquals(9, doc.featureEvidenceMap.size());
         assertTrue(doc.featureEvidenceMap.containsKey(FTEV_CONFLICT_FIELD));
         assertTrue(doc.featureEvidenceMap.get(FTEV_CONFLICT_FIELD).contains("ECO_0000305"));
         assertTrue(doc.featureEvidenceMap.get(FTEV_CONFLICT_FIELD).contains("manual"));
 
-        assertEquals(8, doc.featureLengthMap.size());
+        assertEquals(9, doc.featureLengthMap.size());
         assertTrue(doc.featureLengthMap.containsKey(FTLEN_CHAIN_FIELD));
         assertTrue(doc.featureLengthMap.get(FTLEN_CHAIN_FIELD).contains(531));
 
@@ -435,7 +435,7 @@ class UniProtEntryConverterIT {
         assertEquals("19-JUL-2005", dateFormat.format(doc.firstCreated).toUpperCase());
         assertEquals("01-MAR-2001", dateFormat.format(doc.sequenceUpdated).toUpperCase());
 
-        assertEquals(38, doc.keywords.size());
+        assertEquals(36, doc.keywords.size());
         assertEquals("KW-0025", doc.keywords.get(0));
         assertEquals("Alternative splicing", doc.keywords.get(1));
 

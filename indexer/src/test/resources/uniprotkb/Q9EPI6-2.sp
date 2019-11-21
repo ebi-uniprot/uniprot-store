@@ -130,7 +130,7 @@ DR   GO; GO:0043523; P:regulation of neuron apoptotic process; IMP:UniProtKB.
 DR   GO; GO:0048168; P:regulation of neuronal synaptic plasticity; IMP:UniProtKB.
 PE   1: Evidence at protein level;
 KW   Alternative splicing; Cell junction; Cell membrane; Cell projection;
-KW   Complete proteome; Cytoplasm; Cytoskeleton; Lipoprotein; Membrane;
+KW   Cytoplasm; Cytoskeleton; Lipoprotein; Membrane;
 KW   Myristate; Nucleus; Postsynaptic cell membrane; Reference proteome;
 KW   Synapse; Synaptosome.
 SQ   SEQUENCE   509 AA;  57478 MW;  C2FDA9126D99E39C CRC64;

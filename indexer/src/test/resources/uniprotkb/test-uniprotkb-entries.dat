@@ -22,8 +22,6 @@ CC   -----------------------------------------------------------------------
 CC   Copyrighted by the UniProt Consortium, see https://www.uniprot.org/terms
 CC   Distributed under the Creative Commons Attribution (CC BY 4.0) License
 CC   -----------------------------------------------------------------------
-DR   GO; GO:0020002; C:integral component of membrane; IDA:UniProtKB-KW.
-DR   GO; GO:0005739; C:mitochondrion; IEA:UniProtKB-KW.
 DR   EMBL; AP017912; BBA70811.1; -; Genomic_DNA.
 DR   Proteomes; UP000262260; Chromosome.
 DR   InterPro; IPR023346; Lysozyme-like_dom_sf.
@@ -32,7 +30,6 @@ DR   Pfam; PF01464; SLT; 1.
 DR   SUPFAM; SSF53955; SSF53955; 1.
 PE   4: Predicted;
 KW   Acetylation {ECO:0000313|Proteomes:UP000262260}.
-FT   DOMAIN       96    158       SLT. {ECO:0000259|Pfam:PF01464}.
 SQ   SEQUENCE   204 AA;  22858 MW;  5AC17E07135F6066 CRC64;
      MLFSVSCNQS GLRKETGPTA HFAAATDLEV RRLMEQGVEY DERQRQARAI AVVFAKRTTP
      ERAHKLAALC YLKTLGTDLM PLDLAEIALS ETGSLGFNAK AVSPKGALGV WQLMPYRAAS
@@ -63,8 +60,6 @@ CC   -----------------------------------------------------------------------
 CC   Copyrighted by the UniProt Consortium, see https://www.uniprot.org/terms
 CC   Distributed under the Creative Commons Attribution (CC BY 4.0) License
 CC   -----------------------------------------------------------------------
-DR   GO; GO:0020002; C:integral component of membrane; IDA:UniProtKB-KW.
-DR   GO; GO:0005739; C:mitochondrion; IEA:UniProtKB-KW.
 DR   EMBL; AP017912; BBA70811.1; -; Genomic_DNA.
 DR   Proteomes; UP000262260; Chromosome.
 DR   InterPro; IPR023346; Lysozyme-like_dom_sf.
@@ -73,7 +68,6 @@ DR   Pfam; PF01464; SLT; 1.
 DR   SUPFAM; SSF53955; SSF53955; 1.
 PE   4: Predicted;
 KW   Acetylation {ECO:0000313|Proteomes:UP000262260}.
-FT   DOMAIN       96    158       SLT. {ECO:0000259|Pfam:PF01464}.
 SQ   SEQUENCE   204 AA;  22858 MW;  5AC17E07135F6066 CRC64;
      MLFSVSCNQS GLRKETGPTA HFAAATDLEV RRLMEQGVEY DERQRQARAI AVVFAKRTTP
      ERAHKLAALC YLKTLGTDLM PLDLAEIALS ETGSLGFNAK AVSPKGALGV WQLMPYRAAS
@@ -104,8 +98,6 @@ CC   -----------------------------------------------------------------------
 CC   Copyrighted by the UniProt Consortium, see https://www.uniprot.org/terms
 CC   Distributed under the Creative Commons Attribution (CC BY 4.0) License
 CC   -----------------------------------------------------------------------
-DR   GO; GO:0020002; C:integral component of membrane; IDA:UniProtKB-KW.
-DR   GO; GO:0005739; C:mitochondrion; IEA:UniProtKB-KW.
 DR   EMBL; AP017912; BBA70811.1; -; Genomic_DNA.
 DR   Proteomes; UP000262260; Chromosome.
 DR   InterPro; IPR023346; Lysozyme-like_dom_sf.
@@ -114,7 +106,6 @@ DR   Pfam; PF01464; SLT; 1.
 DR   SUPFAM; SSF53955; SSF53955; 1.
 PE   4: Predicted;
 KW   Acetylation {ECO:0000313|Proteomes:UP000262260}.
-FT   DOMAIN       96    158       SLT. {ECO:0000259|Pfam:PF01464}.
 SQ   SEQUENCE   204 AA;  22858 MW;  5AC17E07135F6066 CRC64;
      MLFSVSCNQS GLRKETGPTA HFAAATDLEV RRLMEQGVEY DERQRQARAI AVVFAKRTTP
      ERAHKLAALC YLKTLGTDLM PLDLAEIALS ETGSLGFNAK AVSPKGALGV WQLMPYRAAS
@@ -145,8 +136,6 @@ CC   -----------------------------------------------------------------------
 CC   Copyrighted by the UniProt Consortium, see https://www.uniprot.org/terms
 CC   Distributed under the Creative Commons Attribution (CC BY 4.0) License
 CC   -----------------------------------------------------------------------
-DR   GO; GO:0020002; C:integral component of membrane; IDA:UniProtKB-KW.
-DR   GO; GO:0005739; C:mitochondrion; IEA:UniProtKB-KW.
 DR   EMBL; AP017912; BBA70811.1; -; Genomic_DNA.
 DR   Proteomes; UP000262260; Chromosome.
 DR   InterPro; IPR023346; Lysozyme-like_dom_sf.
@@ -155,7 +144,6 @@ DR   Pfam; PF01464; SLT; 1.
 DR   SUPFAM; SSF53955; SSF53955; 1.
 PE   4: Predicted;
 KW   Acetylation {ECO:0000313|Proteomes:UP000262260}.
-FT   DOMAIN       96    158       SLT. {ECO:0000259|Pfam:PF01464}.
 SQ   SEQUENCE   204 AA;  22858 MW;  5AC17E07135F6066 CRC64;
      MLFSVSCNQS GLRKETGPTA HFAAATDLEV RRLMEQGVEY DERQRQARAI AVVFAKRTTP
      ERAHKLAALC YLKTLGTDLM PLDLAEIALS ETGSLGFNAK AVSPKGALGV WQLMPYRAAS
@@ -186,9 +174,6 @@ CC   -----------------------------------------------------------------------
 CC   Copyrighted by the UniProt Consortium, see https://www.uniprot.org/terms
 CC   Distributed under the Creative Commons Attribution (CC BY 4.0) License
 CC   -----------------------------------------------------------------------
-DR   GO; GO:0020002; C:integral component of membrane; IDA:UniProtKB-KW.
-DR   GO; GO:0005739; C:mitochondrion; IEA:UniProtKB-KW.
-DR   GO; GO:0070469; C:respiratory chain; IEA:UniProtKB-KW.
 DR   EMBL; AP017912; BBA70811.1; -; Genomic_DNA.
 DR   Proteomes; UP000262260; Chromosome.
 DR   InterPro; IPR023346; Lysozyme-like_dom_sf.
@@ -197,7 +182,6 @@ DR   Pfam; PF01464; SLT; 1.
 DR   SUPFAM; SSF53955; SSF53955; 1.
 PE   4: Predicted;
 KW   Acetylation {ECO:0000313|Proteomes:UP000262260}.
-FT   DOMAIN       96    158       SLT. {ECO:0000259|Pfam:PF01464}.
 SQ   SEQUENCE   204 AA;  22858 MW;  5AC17E07135F6066 CRC64;
      MLFSVSCNQS GLRKETGPTA HFAAATDLEV RRLMEQGVEY DERQRQARAI AVVFAKRTTP
      ERAHKLAALC YLKTLGTDLM PLDLAEIALS ETGSLGFNAK AVSPKGALGV WQLMPYRAAS
