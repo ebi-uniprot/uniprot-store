@@ -1294,7 +1294,7 @@
       {
         "label": "Zinc finger",
         "itemType": "ft_feature",
-        "field": "zn_fing",
+        "field": "ft_zn_fing",
         "dataType": "string",
         "rangeField": "ftlen_feature",
         "evidenceField": "ftev_feature",
