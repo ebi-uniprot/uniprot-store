@@ -3,7 +3,8 @@ package org.uniprot.store.search.domain2;
 import org.uniprot.core.cv.xdb.UniProtXDbTypes;
 import org.uniprot.store.search.domain2.impl.SearchFieldImpl;
 
-import java.util.*;
+import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -22,6 +23,7 @@ public enum UniProtKBSearchFields implements SearchItems, SearchFields {
         searchFieldsLoader = new UniProtKBSearchFieldsLoader(FILENAME);
     }
 
+    @Override
     public List<SearchItem> getSearchItems() {
         return searchFieldsLoader.getSearchItems();
     }
