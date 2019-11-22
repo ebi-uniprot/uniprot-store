@@ -54,9 +54,5 @@ public interface SearchFields {
 
     Set<SearchField> getSearchFields();
 
-    Set<SearchField> getGeneralFields();
-
-    Set<SearchField> getRangeFields();
-
     Set<String> getSorts();
 }

@@ -8,14 +8,14 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
- * Represents all accessible UniProtKB search fields, and provides access to them via both
- * contracts, {@link SearchItems} and {@link SearchFields}.
+ * Represents all accessible UniProtKB search fields, and provides access to them via the {@link
+ * SearchFields} contract.
  *
  * <p>Created 12/11/2019
  *
  * @author Edd
  */
-public enum UniProtKBSearchFields implements SearchItems, SearchFields {
+public enum UniProtKBSearchFields implements SearchFields {
     INSTANCE;
 
     private static final String FILENAME = "uniprot/search-fields.json";
@@ -27,34 +27,13 @@ public enum UniProtKBSearchFields implements SearchItems, SearchFields {
     }
 
     @Override
-    public List<SearchItem> getSearchItems() {
-        return searchFieldsLoader.getSearchItems();
-    }
-
-    @Override
     public Set<SearchField> getSearchFields() {
         return searchFieldsLoader.getSearchFields();
     }
 
     @Override
-    public Set<SearchField> getGeneralFields() {
-        return searchFieldsLoader.getGeneralFields();
-    }
-
-    @Override
-    public Set<SearchField> getRangeFields() {
-        return searchFieldsLoader.getRangeFields();
-    }
-
-    @Override
     public Set<String> getSorts() {
         return searchFieldsLoader.getSorts();
-    }
-
-    public static void main(String[] args) {
-        UniProtKBSearchFields.INSTANCE.getSearchItems().stream()
-                .map(Object::toString)
-                .forEach(System.out::println);
     }
 
     private static class UniProtKBSearchFieldsLoader extends SearchFieldsLoader {

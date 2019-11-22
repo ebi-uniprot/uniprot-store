@@ -8,10 +8,7 @@ import org.uniprot.store.search.domain2.impl.SearchFieldImpl;
 import org.uniprot.store.search.domain2.impl.SearchItemImpl;
 
 import java.util.*;
-import java.util.function.Function;
 import java.util.stream.Collectors;
-
-import static java.util.stream.Collectors.groupingBy;
 
 /**
  * This class is responsible for loading {@link SearchField} instances from a given JSON source.
@@ -23,7 +20,6 @@ import static java.util.stream.Collectors.groupingBy;
 public class SearchFieldsLoader implements SearchItems, SearchFields {
     private List<SearchItem> searchItems = new ArrayList<>();
     private Set<SearchField> searchFields = new HashSet<>();
-    private Map<SearchFieldType, Set<SearchField>> fieldsByType;
     private Set<String> sortFieldNames;
 
     SearchFieldsLoader(String fileName) {
@@ -44,15 +40,6 @@ public class SearchFieldsLoader implements SearchItems, SearchFields {
         // all search fields used in application code
         searchFields.addAll(extractSearchFields(allItems));
         SearchFieldsValidator.validate(searchFields);
-
-        // record fields by type
-        fieldsByType =
-                searchFields.stream()
-                        .collect(
-                                groupingBy(
-                                        SearchField::getType,
-                                        Collectors.mapping(
-                                                Function.identity(), Collectors.toSet())));
 
         // sorts
         sortFieldNames =
@@ -130,16 +117,6 @@ public class SearchFieldsLoader implements SearchItems, SearchFields {
     @Override
     public Set<SearchField> getSearchFields() {
         return searchFields;
-    }
-
-    @Override
-    public Set<SearchField> getGeneralFields() {
-        return fieldsByType.get(SearchFieldType.GENERAL);
-    }
-
-    @Override
-    public Set<SearchField> getRangeFields() {
-        return fieldsByType.get(SearchFieldType.RANGE);
     }
 
     @Override
