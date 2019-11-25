@@ -12,8 +12,8 @@ import java.util.stream.Collectors;
  */
 class SearchFieldsValidator {
     static void validate(Collection<SearchField> searchFields) {
-        verifyNoDuplicateFields(searchFields);
         searchFields.forEach(SearchFieldsValidator::checkMandatoryFields);
+        verifyNoDuplicateFields(searchFields);
     }
 
     private static void checkMandatoryFields(SearchField field) {
@@ -34,8 +34,12 @@ class SearchFieldsValidator {
 
             searchField
                     .getSortName()
-                    .filter(sortName -> !sortName.equals(searchField.getName()))
-                    .ifPresent(fieldNames::add);
+                    .ifPresent(
+                            sortName -> {
+                                if (!sortName.equals(searchField.getName())) {
+                                    fieldNames.add(sortName);
+                                }
+                            });
         }
 
         Set<String> allItems = new HashSet<>();

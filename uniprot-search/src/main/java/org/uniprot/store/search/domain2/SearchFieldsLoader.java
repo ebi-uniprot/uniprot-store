@@ -38,8 +38,9 @@ public class SearchFieldsLoader implements SearchItems, SearchFields {
                 .forEach(searchItems::add);
 
         // all search fields used in application code
-        searchFields.addAll(extractSearchFields(allItems));
-        SearchFieldsValidator.validate(searchFields);
+        List<SearchField> allSearchFields = extractSearchFields(allItems);
+        SearchFieldsValidator.validate(allSearchFields);
+        searchFields.addAll(allSearchFields);
 
         // sorts
         sortFieldNames =
@@ -49,11 +50,11 @@ public class SearchFieldsLoader implements SearchItems, SearchFields {
                         .collect(Collectors.toSet());
     }
 
-    protected Set<SearchField> extractSearchFields(List<SearchItem> allSearchItems) {
+    protected List<SearchField> extractSearchFields(List<SearchItem> allSearchItems) {
         return allSearchItems.stream()
                 .map(this::searchItemToSearchField)
                 .flatMap(Collection::stream)
-                .collect(Collectors.toSet());
+                .collect(Collectors.toList());
     }
 
     private List<SearchField> searchItemToSearchField(SearchItem searchItem) {
@@ -81,8 +82,14 @@ public class SearchFieldsLoader implements SearchItems, SearchFields {
 
             // range
             if (Utils.notNullOrEmpty(searchItem.getRangeField())) {
+
+                SearchFieldImpl.SearchFieldImplBuilder fieldBuilder = SearchFieldImpl.builder();
+                if (searchItem.getField() == null) {
+                    fieldBuilder.sortName(searchItem.getSortField());
+                }
+
                 fields.add(
-                        SearchFieldImpl.builder()
+                        fieldBuilder
                                 .name(searchItem.getRangeField())
                                 .type(SearchFieldType.RANGE)
                                 .validRegex(searchItem.getIdValidRegex())
@@ -91,21 +98,29 @@ public class SearchFieldsLoader implements SearchItems, SearchFields {
 
             // evidence
             if (Utils.notNullOrEmpty(searchItem.getEvidenceField())) {
-                fields.add(
+                SearchFieldImpl field =
                         SearchFieldImpl.builder()
                                 .name(searchItem.getEvidenceField())
                                 .type(SearchFieldType.GENERAL)
-                                .build());
+                                .build();
+
+                if (!fields.contains(field)) {
+                    fields.add(field);
+                }
             }
 
             // id
             if (Utils.notNullOrEmpty(searchItem.getIdField())) {
-                fields.add(
+                SearchFieldImpl field =
                         SearchFieldImpl.builder()
                                 .name(searchItem.getIdField())
                                 .type(SearchFieldType.GENERAL)
                                 .validRegex(searchItem.getIdValidRegex())
-                                .build());
+                                .build();
+
+                if (!fields.contains(field)) {
+                    fields.add(field);
+                }
             }
         }
 

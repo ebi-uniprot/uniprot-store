@@ -90,4 +90,21 @@ class SearchFieldsValidatorTest {
                                 .build()));
         assertTrue(expectTrue);
     }
+
+    @Test
+    void sameFieldForGeneralAndRangeCausesDuplicateException() {
+        assertThrows(
+                IllegalStateException.class,
+                () ->
+                        SearchFieldsValidator.validate(
+                                asList(
+                                        SearchFieldImpl.builder()
+                                                .name("field1")
+                                                .type(SearchFieldType.GENERAL)
+                                                .build(),
+                                        SearchFieldImpl.builder()
+                                                .name("field1")
+                                                .type(SearchFieldType.RANGE)
+                                                .build())));
+    }
 }

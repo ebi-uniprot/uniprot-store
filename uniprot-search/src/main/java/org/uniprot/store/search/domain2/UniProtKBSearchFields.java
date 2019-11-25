@@ -43,8 +43,8 @@ public enum UniProtKBSearchFields implements SearchFields {
         }
 
         @Override
-        protected Set<SearchField> extractSearchFields(List<SearchItem> allSearchItems) {
-            Set<SearchField> searchFields = super.extractSearchFields(allSearchItems);
+        protected List<SearchField> extractSearchFields(List<SearchItem> allSearchItems) {
+            List<SearchField> searchFields = super.extractSearchFields(allSearchItems);
             searchFields.addAll(getDbXrefsCountSearchFields());
             return searchFields;
         }

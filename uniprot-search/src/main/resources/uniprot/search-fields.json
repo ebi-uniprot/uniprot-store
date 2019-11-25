@@ -80,9 +80,6 @@
     "field": "ccev_alternative_products"
   },
   {
-    "field": "cc_disease"
-  },
-  {
     "field": "cc_similarity"
   },
   {
@@ -866,7 +863,6 @@
     "items": [
       {
         "label": "Mass(Da)",
-        "field" : "mass",
         "sortField": "mass",
         "dataType": "integer",
         "rangeField": "mass",
@@ -875,7 +871,6 @@
       },
       {
         "label": "Sequence length",
-        "field": "length",
         "sortField": "length",
         "dataType": "integer",
         "rangeField": "length",
@@ -1348,9 +1343,9 @@
     "label": "Gene Ontology [GO]",
     "itemType": "goterm",
     "field": "go",
+    "evidenceField": "go",
     "autoComplete": "/uniprot/api/suggester?dict=go&query=?",
     "idField": "go",
-    "evidenceField": "go",
     "description": "search go term with evidence. If evidence is not consider term is go. If evidence is considered such as iea, the term is go_iea",
     "example": "0009986"
   },
