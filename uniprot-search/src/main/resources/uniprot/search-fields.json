@@ -866,6 +866,7 @@
     "items": [
       {
         "label": "Mass(Da)",
+        "field" : "mass",
         "sortField": "mass",
         "dataType": "integer",
         "rangeField": "mass",
@@ -874,6 +875,7 @@
       },
       {
         "label": "Sequence length",
+        "field": "length",
         "sortField": "length",
         "dataType": "integer",
         "rangeField": "length",

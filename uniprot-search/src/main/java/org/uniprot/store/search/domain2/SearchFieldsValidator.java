@@ -26,7 +26,12 @@ class SearchFieldsValidator {
     private static void verifyNoDuplicateFields(Collection<SearchField> searchFields) {
         List<String> fieldNames = new ArrayList<>();
         for (SearchField searchField : searchFields) {
-            fieldNames.add(searchField.getName());
+            if (searchField.getType().equals(SearchFieldType.GENERAL)
+                    || (searchField.getType().equals(SearchFieldType.RANGE)
+                            && fieldNames.contains(searchField.getName()))) {
+                fieldNames.add(searchField.getName());
+            }
+
             searchField
                     .getSortName()
                     .filter(sortName -> !sortName.equals(searchField.getName()))
