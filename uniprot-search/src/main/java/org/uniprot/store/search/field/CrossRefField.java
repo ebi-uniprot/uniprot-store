@@ -39,7 +39,10 @@ public interface CrossRefField {
         private final SearchFieldType searchFieldType;
         private final BoostValue boostValue;
 
-        Search(SearchFieldType searchFieldType, Predicate<String> fieldValueValidator, BoostValue boostValue) {
+        Search(
+                SearchFieldType searchFieldType,
+                Predicate<String> fieldValueValidator,
+                BoostValue boostValue) {
             this.searchFieldType = searchFieldType;
             this.fieldValueValidator = fieldValueValidator;
             this.boostValue = boostValue;

@@ -3,9 +3,8 @@ package org.uniprot.store.search.field;
 import lombok.Getter;
 
 /**
- * This class represents a boosted value of a field, and is used in {@link SearchField} definitions. For example,
- * an instance with value="term1", boost=2.1f
- * Created 26/06/19
+ * This class represents a boosted value of a field, and is used in {@link SearchField} definitions.
+ * For example, an instance with value="term1", boost=2.1f Created 26/06/19
  *
  * @author Edd
  */

@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Profile;
 
 /**
  * @author lgonzales
- * <p>
+ *     <p>
  */
 @Configuration
 @Profile("online")

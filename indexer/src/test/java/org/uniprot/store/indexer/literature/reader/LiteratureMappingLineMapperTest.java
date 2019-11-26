@@ -1,22 +1,20 @@
 package org.uniprot.store.indexer.literature.reader;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
 import org.uniprot.core.literature.LiteratureEntry;
 import org.uniprot.core.literature.LiteratureMappedReference;
-import org.uniprot.store.indexer.literature.reader.LiteratureMappingLineMapper;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-/**
- * @author lgonzales
- */
+/** @author lgonzales */
 class LiteratureMappingLineMapperTest {
 
     @Test
     void mapLineWithAnnotationAndCategory() throws Exception {
-        String entryText = "X5FSX0\tGAD\t1358782\t126289\t[Pathology & Biotech]Not Associated with PSYCH: schizophrenia.";
+        String entryText =
+                "X5FSX0\tGAD\t1358782\t126289\t[Pathology & Biotech]Not Associated with PSYCH: schizophrenia.";
         LiteratureMappingLineMapper mapper = new LiteratureMappingLineMapper();
         LiteratureEntry entry = mapper.mapLine(entryText, 1);
 
@@ -41,13 +39,14 @@ class LiteratureMappingLineMapperTest {
 
         assertTrue(reference.hasSourceCategory());
         assertEquals(reference.getSourceCategory().size(), 1);
-        MatcherAssert.assertThat(reference.getSourceCategory(), Matchers.contains("Pathology & Biotech"));
-
+        MatcherAssert.assertThat(
+                reference.getSourceCategory(), Matchers.contains("Pathology & Biotech"));
     }
 
     @Test
     void mapLineWithAnnotationOnly() throws Exception {
-        String entryText = "X5FSX0\tGAD\t1358782\t126289\tNot Associated with PSYCH: schizophrenia.";
+        String entryText =
+                "X5FSX0\tGAD\t1358782\t126289\tNot Associated with PSYCH: schizophrenia.";
         LiteratureMappingLineMapper mapper = new LiteratureMappingLineMapper();
         LiteratureEntry entry = mapper.mapLine(entryText, 1);
 
@@ -99,6 +98,7 @@ class LiteratureMappingLineMapperTest {
 
         assertTrue(reference.hasSourceCategory());
         assertEquals(reference.getSourceCategory().size(), 2);
-        MatcherAssert.assertThat(reference.getSourceCategory(), Matchers.contains("Expression", "Sequences"));
+        MatcherAssert.assertThat(
+                reference.getSourceCategory(), Matchers.contains("Expression", "Sequences"));
     }
 }

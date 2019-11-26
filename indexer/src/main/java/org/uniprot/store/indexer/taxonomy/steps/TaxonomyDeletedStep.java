@@ -1,5 +1,10 @@
 package org.uniprot.store.indexer.taxonomy.steps;
 
+import java.io.IOException;
+import java.sql.SQLException;
+
+import javax.sql.DataSource;
+
 import org.springframework.batch.core.ChunkListener;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.StepExecutionListener;
@@ -23,14 +28,7 @@ import org.uniprot.store.indexer.taxonomy.readers.TaxonomyDeletedReader;
 import org.uniprot.store.search.SolrCollection;
 import org.uniprot.store.search.document.taxonomy.TaxonomyDocument;
 
-import javax.sql.DataSource;
-import java.io.IOException;
-import java.sql.SQLException;
-
-/**
- *
- * @author lgonzales
- */
+/** @author lgonzales */
 @Configuration
 public class TaxonomyDeletedStep {
 
@@ -38,14 +36,18 @@ public class TaxonomyDeletedStep {
     private Integer chunkSize;
 
     @Bean(name = "taxonomyDeleted")
-    public Step taxonomyDeleted(StepBuilderFactory stepBuilders, StepExecutionListener stepListener,
-                                          ChunkListener chunkListener,
-                                          ItemReader<TaxonomyEntry> itemTaxonomyDeletedReader,
-                                          ItemProcessor<TaxonomyEntry,TaxonomyDocument> itemTaxonomyDeletedProcessor,
-                                          ItemWriter<TaxonomyDocument> itemTaxonomyDeletedWriter,
-                                          UniProtSolrOperations solrOperations) throws SQLException, IOException {
-        return stepBuilders.get(Constants.TAXONOMY_LOAD_DELETED_STEP_NAME)
-                .<TaxonomyEntry,TaxonomyDocument>chunk(chunkSize)
+    public Step taxonomyDeleted(
+            StepBuilderFactory stepBuilders,
+            StepExecutionListener stepListener,
+            ChunkListener chunkListener,
+            ItemReader<TaxonomyEntry> itemTaxonomyDeletedReader,
+            ItemProcessor<TaxonomyEntry, TaxonomyDocument> itemTaxonomyDeletedProcessor,
+            ItemWriter<TaxonomyDocument> itemTaxonomyDeletedWriter,
+            UniProtSolrOperations solrOperations)
+            throws SQLException, IOException {
+        return stepBuilders
+                .get(Constants.TAXONOMY_LOAD_DELETED_STEP_NAME)
+                .<TaxonomyEntry, TaxonomyDocument>chunk(chunkSize)
                 .reader(itemTaxonomyDeletedReader)
                 .processor(itemTaxonomyDeletedProcessor)
                 .writer(itemTaxonomyDeletedWriter)
@@ -56,7 +58,8 @@ public class TaxonomyDeletedStep {
     }
 
     @Bean(name = "itemTaxonomyDeletedReader")
-    public ItemReader<TaxonomyEntry> itemTaxonomyDeletedReader(@Qualifier("readDataSource") DataSource readDataSource) throws SQLException {
+    public ItemReader<TaxonomyEntry> itemTaxonomyDeletedReader(
+            @Qualifier("readDataSource") DataSource readDataSource) throws SQLException {
         JdbcCursorItemReader<TaxonomyEntry> itemReader = new JdbcCursorItemReader<>();
         itemReader.setDataSource(readDataSource);
         itemReader.setSql(TaxonomySQLConstants.SELECT_TAXONOMY_DELETED_SQL);
@@ -66,13 +69,13 @@ public class TaxonomyDeletedStep {
     }
 
     @Bean(name = "itemTaxonomyDeletedProcessor")
-    public ItemProcessor<TaxonomyEntry, TaxonomyDocument> itemTaxonomyDeletedProcessor(){
+    public ItemProcessor<TaxonomyEntry, TaxonomyDocument> itemTaxonomyDeletedProcessor() {
         return new TaxonomyMergedDeletedProcessor();
     }
 
     @Bean(name = "itemTaxonomyDeletedWriter")
-    public ItemWriter<TaxonomyDocument> itemTaxonomyDeletedWriter(UniProtSolrOperations solrOperations) {
+    public ItemWriter<TaxonomyDocument> itemTaxonomyDeletedWriter(
+            UniProtSolrOperations solrOperations) {
         return new SolrDocumentWriter<>(solrOperations, SolrCollection.taxonomy);
     }
-
 }

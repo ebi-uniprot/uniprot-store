@@ -1,6 +1,9 @@
 package org.uniprot.store.indexer.uniprotkb.converter;
 
+import java.util.List;
+
 import lombok.extern.slf4j.Slf4j;
+
 import org.uniprot.core.citation.Citation;
 import org.uniprot.core.citation.CitationXrefType;
 import org.uniprot.core.citation.JournalArticle;
@@ -8,8 +11,6 @@ import org.uniprot.core.uniprot.ReferenceComment;
 import org.uniprot.core.uniprot.UniProtReference;
 import org.uniprot.core.util.PublicationDateFormatter;
 import org.uniprot.store.search.document.uniprot.UniProtDocument;
-
-import java.util.List;
 
 /**
  * @author lgonzales

@@ -1,11 +1,5 @@
 package org.uniprot.store.datastore.voldemort.client;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.uniprot.core.uniprot.UniProtEntry;
-import org.uniprot.store.datastore.voldemort.VoldemortEntryStoreBuilder;
-import org.uniprot.store.datastore.voldemort.client.impl.DefaultClientFactory;
-
 import java.io.IOException;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
@@ -16,6 +10,12 @@ import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicLong;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.uniprot.core.uniprot.UniProtEntry;
+import org.uniprot.store.datastore.voldemort.VoldemortEntryStoreBuilder;
+import org.uniprot.store.datastore.voldemort.client.impl.DefaultClientFactory;
 
 /**
  * Created 13/10/2016
@@ -40,54 +40,59 @@ public class ClientStressTest {
 
         UniProtClient uniProtClient = defaultClientFactory.createUniProtClient();
 
-        VoldemortEntryStoreBuilder.LimitedQueue<Runnable> queue = new VoldemortEntryStoreBuilder.LimitedQueue<>(10000);
+        VoldemortEntryStoreBuilder.LimitedQueue<Runnable> queue =
+                new VoldemortEntryStoreBuilder.LimitedQueue<>(10000);
 
-        //new blocking queue.
-        //int coreNumber = Runtime.getRuntime().availableProcessors();
-        ExecutorService executorService = new ThreadPoolExecutor(numberOfThread, 32, 30, TimeUnit.SECONDS, queue);
+        // new blocking queue.
+        // int coreNumber = Runtime.getRuntime().availableProcessors();
+        ExecutorService executorService =
+                new ThreadPoolExecutor(numberOfThread, 32, 30, TimeUnit.SECONDS, queue);
 
         Path path = FileSystems.getDefault().getPath(accessionFile);
 
-        Files.lines(path).forEach((acc) -> {
-            number_entry_counter.incrementAndGet();
-            Runnable runnable = new Runnable() {
-                @Override
-                public void run() {
-                    Optional<UniProtEntry> entry = this.getEntry(acc);
-                    if (entry.isPresent()) {
-                        long l = counter.incrementAndGet();
-                        if (l % 10000 == 0) {
-                            logger.info("get entries {}", l);
-                        }
-                    }
-                }
+        Files.lines(path)
+                .forEach(
+                        (acc) -> {
+                            number_entry_counter.incrementAndGet();
+                            Runnable runnable =
+                                    new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            Optional<UniProtEntry> entry = this.getEntry(acc);
+                                            if (entry.isPresent()) {
+                                                long l = counter.incrementAndGet();
+                                                if (l % 10000 == 0) {
+                                                    logger.info("get entries {}", l);
+                                                }
+                                            }
+                                        }
 
-                private Optional<UniProtEntry> getEntry(String acc) {
-                    if (acc != null && acc.length() > 2) {
-                        try {
-                            return uniProtClient.getEntry(acc);
-                        } catch (Exception e) {
-                            logger.error("error while get entry" + acc, e);
-                            return Optional.empty();
-                        }
-                    } else {
-                        logger.error("error accession input: " + acc);
-                        return Optional.empty();
-                    }
-                }
-            };
+                                        private Optional<UniProtEntry> getEntry(String acc) {
+                                            if (acc != null && acc.length() > 2) {
+                                                try {
+                                                    return uniProtClient.getEntry(acc);
+                                                } catch (Exception e) {
+                                                    logger.error("error while get entry" + acc, e);
+                                                    return Optional.empty();
+                                                }
+                                            } else {
+                                                logger.error("error accession input: " + acc);
+                                                return Optional.empty();
+                                            }
+                                        }
+                                    };
 
-            executorService.submit(runnable);
-
-        });
+                            executorService.submit(runnable);
+                        });
 
         Thread.sleep(1000);
         executorService.shutdown();
-        defaultClientFactory.close();       
-        logger.info(String.format("input acc: %d, got %d", number_entry_counter.get(), counter.get()));
+        defaultClientFactory.close();
+        logger.info(
+                String.format("input acc: %d, got %d", number_entry_counter.get(), counter.get()));
     }
 
-    static public class LimitedQueue<E> extends LinkedBlockingQueue<E> {
+    public static class LimitedQueue<E> extends LinkedBlockingQueue<E> {
         public LimitedQueue(int maxSize) {
             super(maxSize);
         }

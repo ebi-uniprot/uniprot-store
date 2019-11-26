@@ -1,23 +1,22 @@
 package org.uniprot.store.indexer.taxonomy.processor;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import java.nio.ByteBuffer;
+
 import org.springframework.batch.item.ItemProcessor;
 import org.uniprot.core.json.parser.taxonomy.TaxonomyJsonConfig;
 import org.uniprot.core.taxonomy.TaxonomyEntry;
 import org.uniprot.store.search.document.taxonomy.TaxonomyDocument;
 
-import java.nio.ByteBuffer;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
-/**
- *
- * @author lgonzales
- */
-public class TaxonomyMergedDeletedProcessor implements ItemProcessor<TaxonomyEntry, TaxonomyDocument> {
+/** @author lgonzales */
+public class TaxonomyMergedDeletedProcessor
+        implements ItemProcessor<TaxonomyEntry, TaxonomyDocument> {
 
     private final ObjectMapper jsonMapper;
 
-    public TaxonomyMergedDeletedProcessor(){
+    public TaxonomyMergedDeletedProcessor() {
         jsonMapper = TaxonomyJsonConfig.getInstance().getFullObjectMapper();
     }
 

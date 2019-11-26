@@ -12,5 +12,4 @@ import org.springframework.context.annotation.Configuration;
 @ConditionalOnProperty(prefix = "uniprot.job", name = "name", havingValue = "uniprotkb")
 @ComponentScan(basePackages = {"org.uniprot.store.datastore.uniprotkb"})
 @Configuration
-public class UniProtKBStoreJobConfig {
-}
+public class UniProtKBStoreJobConfig {}

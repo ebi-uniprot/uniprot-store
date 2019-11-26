@@ -1,8 +1,13 @@
 package org.uniprot.store.indexer.literature.processor;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import java.nio.ByteBuffer;
+import java.util.HashSet;
+import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
+
 import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.batch.item.ItemProcessor;
 import org.springframework.data.solr.core.query.Criteria;
 import org.springframework.data.solr.core.query.Query;
@@ -19,15 +24,10 @@ import org.uniprot.store.indexer.common.config.UniProtSolrOperations;
 import org.uniprot.store.search.SolrCollection;
 import org.uniprot.store.search.document.literature.LiteratureDocument;
 
-import java.nio.ByteBuffer;
-import java.util.HashSet;
-import java.util.Optional;
-import java.util.Set;
-import java.util.stream.Collectors;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
-/**
- * @author lgonzales
- */
+/** @author lgonzales */
 @Slf4j
 public class LiteratureLoadProcessor implements ItemProcessor<LiteratureEntry, LiteratureDocument> {
 
@@ -43,13 +43,16 @@ public class LiteratureLoadProcessor implements ItemProcessor<LiteratureEntry, L
     public LiteratureDocument process(LiteratureEntry entry) throws Exception {
         LiteratureEntryBuilder entryBuilder = new LiteratureEntryBuilder().from(entry);
         Query query = new SimpleQuery().addCriteria(Criteria.where("id").is(entry.getPubmedId()));
-        Optional<LiteratureDocument> optionalDocument = solrOperations.queryForObject(SolrCollection.literature.name(), query, LiteratureDocument.class);
+        Optional<LiteratureDocument> optionalDocument =
+                solrOperations.queryForObject(
+                        SolrCollection.literature.name(), query, LiteratureDocument.class);
         if (optionalDocument.isPresent()) {
             LiteratureDocument document = optionalDocument.get();
 
-            //Get statistics and mapped references from previous steps and copy it to entry builder
+            // Get statistics and mapped references from previous steps and copy it to entry builder
             byte[] literatureObj = document.getLiteratureObj().array();
-            LiteratureEntry statisticsEntry = literatureObjectMapper.readValue(literatureObj, LiteratureEntryImpl.class);
+            LiteratureEntry statisticsEntry =
+                    literatureObjectMapper.readValue(literatureObj, LiteratureEntryImpl.class);
             entryBuilder.statistics(statisticsEntry.getStatistics());
             entryBuilder.literatureMappedReference(statisticsEntry.getLiteratureMappedReferences());
         }
@@ -69,7 +72,8 @@ public class LiteratureLoadProcessor implements ItemProcessor<LiteratureEntry, L
         content.add(entry.getTitle());
 
         if (entry.hasAuthors()) {
-            Set<String> authors = entry.getAuthors().stream().map(Author::getValue).collect(Collectors.toSet());
+            Set<String> authors =
+                    entry.getAuthors().stream().map(Author::getValue).collect(Collectors.toSet());
             builder.author(authors);
             content.addAll(authors);
         }
@@ -83,7 +87,8 @@ public class LiteratureLoadProcessor implements ItemProcessor<LiteratureEntry, L
         if (entry.hasStatistics()) {
             LiteratureStatistics statistics = entry.getStatistics();
             builder.mappedin(statistics.hasMappedProteinCount());
-            builder.citedin(statistics.hasReviewedProteinCount() || statistics.hasUnreviewedProteinCount());
+            builder.citedin(
+                    statistics.hasReviewedProteinCount() || statistics.hasUnreviewedProteinCount());
         }
 
         if (entry.hasLiteratureAbstract()) {
@@ -95,11 +100,12 @@ public class LiteratureLoadProcessor implements ItemProcessor<LiteratureEntry, L
         builder.content(content);
 
         if (entry.hasLiteratureMappedReferences()) {
-            Set<String> uniprotAccessions = entry.getLiteratureMappedReferences().stream()
-                    .filter(LiteratureMappedReference::hasUniprotAccession)
-                    .map(LiteratureMappedReference::getUniprotAccession)
-                    .map(UniProtAccession::getValue)
-                    .collect(Collectors.toSet());
+            Set<String> uniprotAccessions =
+                    entry.getLiteratureMappedReferences().stream()
+                            .filter(LiteratureMappedReference::hasUniprotAccession)
+                            .map(LiteratureMappedReference::getUniprotAccession)
+                            .map(UniProtAccession::getValue)
+                            .collect(Collectors.toSet());
             builder.mappedProteins(uniprotAccessions);
         }
 
@@ -117,5 +123,4 @@ public class LiteratureLoadProcessor implements ItemProcessor<LiteratureEntry, L
             throw new RuntimeException("Unable to parse Literature to binary json: ", e);
         }
     }
-
 }

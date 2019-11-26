@@ -9,18 +9,16 @@ import org.uniprot.store.datastore.voldemort.VoldemortClient;
 import org.uniprot.store.datastore.voldemort.uniref.VoldemortInMemoryUniRefEntryStore;
 
 /**
- *
  * @author jluo
  * @date: 20 Aug 2019
- *
-*/
+ */
 @TestConfiguration
 public class UniRefStoreTestConfig {
-	@Bean
+    @Bean
     @Profile("offline")
     public UniProtStoreClient<UniRefEntry> unirefStoreClient() {
-        VoldemortClient<UniRefEntry> client = VoldemortInMemoryUniRefEntryStore.getInstance("uniref");
+        VoldemortClient<UniRefEntry> client =
+                VoldemortInMemoryUniRefEntryStore.getInstance("uniref");
         return new UniProtStoreClient<>(client);
     }
 }
-

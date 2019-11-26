@@ -1,5 +1,15 @@
 package org.uniprot.store.indexer.common.writer;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -11,21 +21,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.solr.core.query.SimpleQuery;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.uniprot.store.indexer.common.config.UniProtSolrOperations;
-import org.uniprot.store.indexer.common.writer.SolrDocumentWriter;
 import org.uniprot.store.indexer.test.config.FakeIndexerSpringBootApplication;
 import org.uniprot.store.indexer.test.config.SolrTestConfig;
 import org.uniprot.store.search.SolrCollection;
 import org.uniprot.store.search.document.dbxref.CrossRefDocument;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = {FakeIndexerSpringBootApplication.class, SolrTestConfig.class})
@@ -33,9 +32,7 @@ class SolrDocumentWriterTest {
 
     private SolrDocumentWriter solrDocumentWriter;
 
-    @Autowired
-    private UniProtSolrOperations solrOperations;
-
+    @Autowired private UniProtSolrOperations solrOperations;
 
     private static String random;
 
@@ -57,13 +54,16 @@ class SolrDocumentWriterTest {
 
     @Test
     void testWriteCrossRefs() throws Exception {
-        List<CrossRefDocument> dbxrefList = IntStream.range(0, 10).mapToObj(i -> createDBXRef(i))
-                .collect(Collectors.toList());
+        List<CrossRefDocument> dbxrefList =
+                IntStream.range(0, 10).mapToObj(i -> createDBXRef(i)).collect(Collectors.toList());
         // write the cross refs to the solr
         solrDocumentWriter.write(dbxrefList);
         // get the cross refs and verify
-        Page<CrossRefDocument> response = solrOperations
-                .query(SolrCollection.crossref.name(), new SimpleQuery("*:*"), CrossRefDocument.class);
+        Page<CrossRefDocument> response =
+                solrOperations.query(
+                        SolrCollection.crossref.name(),
+                        new SimpleQuery("*:*"),
+                        CrossRefDocument.class);
         assertNotNull(response);
         assertEquals(10, response.getTotalElements());
         List<CrossRefDocument> results = response.getContent();

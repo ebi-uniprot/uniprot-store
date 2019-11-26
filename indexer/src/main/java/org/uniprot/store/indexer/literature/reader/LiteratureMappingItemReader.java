@@ -5,9 +5,7 @@ import org.springframework.batch.item.file.FlatFileItemReader;
 import org.uniprot.core.literature.LiteratureEntry;
 import org.uniprot.core.literature.builder.LiteratureEntryBuilder;
 
-/**
- * @author lgonzales
- */
+/** @author lgonzales */
 public class LiteratureMappingItemReader implements ItemReader<LiteratureEntry>, ItemStream {
 
     private FlatFileItemReader<LiteratureEntry> delegate;
@@ -26,7 +24,8 @@ public class LiteratureMappingItemReader implements ItemReader<LiteratureEntry>,
             LiteratureEntryBuilder itemBuilder = new LiteratureEntryBuilder().from(entry);
             while ((nextEntry = this.delegate.read()) != null) {
                 if (entry.getPubmedId().equals(nextEntry.getPubmedId())) {
-                    itemBuilder.addLiteratureMappedReference(nextEntry.getLiteratureMappedReferences().get(0));
+                    itemBuilder.addLiteratureMappedReference(
+                            nextEntry.getLiteratureMappedReferences().get(0));
                 } else {
                     return itemBuilder.build();
                 }

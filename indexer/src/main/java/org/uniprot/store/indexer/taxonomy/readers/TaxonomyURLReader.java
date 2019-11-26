@@ -1,13 +1,11 @@
 package org.uniprot.store.indexer.taxonomy.readers;
 
-import org.springframework.jdbc.core.RowMapper;
-
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-/**
- * @author lgonzales
- */
+import org.springframework.jdbc.core.RowMapper;
+
+/** @author lgonzales */
 public class TaxonomyURLReader implements RowMapper<String> {
 
     @Override

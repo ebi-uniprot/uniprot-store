@@ -1,7 +1,7 @@
 package org.uniprot.store.datastore.voldemort;
 
 public class RetrievalException extends RuntimeException {
-    public RetrievalException(){
+    public RetrievalException() {
         super();
     }
 

@@ -4,16 +4,12 @@ import org.uniprot.core.uniref.UniRefEntry;
 import org.uniprot.store.datastore.voldemort.VoldemortInMemoryEntryStore;
 
 /**
- *
  * @author jluo
  * @date: 20 Aug 2019
- *
-*/
-
+ */
 public class VoldemortInMemoryUniRefEntryStore extends VoldemortInMemoryEntryStore<UniRefEntry> {
 
     private static VoldemortInMemoryUniRefEntryStore instance;
-
 
     public static VoldemortInMemoryUniRefEntryStore getInstance(String storeName) {
         if (instance == null) {
@@ -30,6 +26,4 @@ public class VoldemortInMemoryUniRefEntryStore extends VoldemortInMemoryEntrySto
     public String getStoreId(UniRefEntry entry) {
         return entry.getId().getValue();
     }
-
 }
-

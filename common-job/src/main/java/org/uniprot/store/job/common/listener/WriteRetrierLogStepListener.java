@@ -13,10 +13,9 @@ import org.springframework.batch.core.ExitStatus;
 import org.springframework.batch.core.StepExecution;
 import org.springframework.batch.core.StepExecutionListener;
 import org.springframework.batch.item.ExecutionContext;
-import org.uniprot.store.job.common.util.CommonConstants;
-
 import org.uniprot.core.util.Utils;
 import org.uniprot.core.util.concurrency.OnZeroCountSleeper;
+import org.uniprot.store.job.common.util.CommonConstants;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -31,15 +30,16 @@ public class WriteRetrierLogStepListener implements StepExecutionListener {
     public ExitStatus afterStep(StepExecution stepExecution) {
         ExecutionContext executionContext = stepExecution.getJobExecution().getExecutionContext();
         if (executionContext.containsKey(CommonConstants.ENTRIES_TO_WRITE_COUNTER)) {
-            OnZeroCountSleeper sleeper = (OnZeroCountSleeper) executionContext
-                    .get(CommonConstants.ENTRIES_TO_WRITE_COUNTER);
+            OnZeroCountSleeper sleeper =
+                    (OnZeroCountSleeper)
+                            executionContext.get(CommonConstants.ENTRIES_TO_WRITE_COUNTER);
             if (Utils.notNull(sleeper)) {
                 sleeper.sleepUntilZero();
             }
         }
 
-        AtomicInteger failedCountAtomicInteger = (AtomicInteger) executionContext
-                .get(CommonConstants.FAILED_ENTRIES_COUNT_KEY);
+        AtomicInteger failedCountAtomicInteger =
+                (AtomicInteger) executionContext.get(CommonConstants.FAILED_ENTRIES_COUNT_KEY);
         int failedCount = -1;
         if (failedCountAtomicInteger != null) {
             failedCount = failedCountAtomicInteger.get();
@@ -51,8 +51,8 @@ public class WriteRetrierLogStepListener implements StepExecutionListener {
             }
         }
 
-        AtomicInteger writtenCountAtomicInteger = (AtomicInteger) executionContext
-                .get(CommonConstants.WRITTEN_ENTRIES_COUNT_KEY);
+        AtomicInteger writtenCountAtomicInteger =
+                (AtomicInteger) executionContext.get(CommonConstants.WRITTEN_ENTRIES_COUNT_KEY);
         int writtenCount = -1;
         if (writtenCountAtomicInteger != null) {
             writtenCount = writtenCountAtomicInteger.get();

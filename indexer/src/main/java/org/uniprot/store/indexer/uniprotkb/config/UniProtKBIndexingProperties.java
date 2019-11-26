@@ -1,13 +1,14 @@
 package org.uniprot.store.indexer.uniprotkb.config;
 
 import lombok.Data;
+
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.uniprot.core.util.concurrency.TaskExecutorProperties;
 
 /**
  * Represents configuration properties required for the indexing of UniProtKB data.
- * <p>
- * Created 10/04/19
+ *
+ * <p>Created 10/04/19
  *
  * @author Edd
  */

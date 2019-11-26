@@ -9,12 +9,12 @@ import org.uniprot.store.search.field.validator.FieldValueValidator;
 
 public interface TaxonomyField {
 
-    enum Sort{
+    enum Sort {
         name("name_sort");
 
         private String solrFieldName;
 
-        Sort(String solrFieldName){
+        Sort(String solrFieldName) {
             this.solrFieldName = solrFieldName;
         }
 
@@ -37,12 +37,12 @@ public interface TaxonomyField {
         rank(SearchFieldType.TERM),
         strain(SearchFieldType.TERM),
         host(SearchFieldType.TERM, FieldValueValidator::isNumberValue, null),
-        linked(SearchFieldType.TERM,FieldValueValidator::isBooleanValue, null),
-        active(SearchFieldType.TERM,FieldValueValidator::isBooleanValue, null),
-        complete(SearchFieldType.TERM,FieldValueValidator::isBooleanValue, null),
-        reference(SearchFieldType.TERM,FieldValueValidator::isBooleanValue, null),
-        reviewed(SearchFieldType.TERM,FieldValueValidator::isBooleanValue, null),
-        annotated(SearchFieldType.TERM,FieldValueValidator::isBooleanValue, null),
+        linked(SearchFieldType.TERM, FieldValueValidator::isBooleanValue, null),
+        active(SearchFieldType.TERM, FieldValueValidator::isBooleanValue, null),
+        complete(SearchFieldType.TERM, FieldValueValidator::isBooleanValue, null),
+        reference(SearchFieldType.TERM, FieldValueValidator::isBooleanValue, null),
+        reviewed(SearchFieldType.TERM, FieldValueValidator::isBooleanValue, null),
+        annotated(SearchFieldType.TERM, FieldValueValidator::isBooleanValue, null),
         content(SearchFieldType.TERM);
 
         private final Predicate<String> fieldValueValidator;
@@ -55,7 +55,10 @@ public interface TaxonomyField {
             this.boostValue = null;
         }
 
-        Search(SearchFieldType searchFieldType, Predicate<String> fieldValueValidator, BoostValue boostValue) {
+        Search(
+                SearchFieldType searchFieldType,
+                Predicate<String> fieldValueValidator,
+                BoostValue boostValue) {
             this.searchFieldType = searchFieldType;
             this.fieldValueValidator = fieldValueValidator;
             this.boostValue = boostValue;
@@ -79,7 +82,7 @@ public interface TaxonomyField {
             return this.name();
         }
 
-        public static List<SearchField> getBoostFields(){
+        public static List<SearchField> getBoostFields() {
             return Arrays.stream(Search.values())
                     .filter(Search::hasBoostValue)
                     .collect(Collectors.toList());
@@ -88,7 +91,7 @@ public interface TaxonomyField {
 
     enum ResultFields implements ReturnField {
         id("Taxon"),
-        taxonId("Taxon Id", "taxonId", true),// always present in json response
+        taxonId("Taxon Id", "taxonId", true), // always present in json response
         parent("Parent", "parentId"),
         mnemonic("Mnemonic", "mnemonic"),
         scientific_name("Scientific name", "scientificName"),
@@ -109,15 +112,15 @@ public interface TaxonomyField {
         private String javaFieldName;
         private boolean isMandatoryJsonField;
 
-        ResultFields(String label){
+        ResultFields(String label) {
             this(label, null);
         }
 
-        ResultFields(String label, String javaFieldName){
+        ResultFields(String label, String javaFieldName) {
             this(label, javaFieldName, false);
         }
 
-        ResultFields(String label, String javaFieldName, boolean isMandatoryJsonField){
+        ResultFields(String label, String javaFieldName, boolean isMandatoryJsonField) {
             this.label = label;
             this.javaFieldName = javaFieldName;
             this.isMandatoryJsonField = isMandatoryJsonField;
@@ -134,7 +137,7 @@ public interface TaxonomyField {
         }
 
         @Override
-        public String getJavaFieldName(){
+        public String getJavaFieldName() {
             return this.javaFieldName;
         }
 

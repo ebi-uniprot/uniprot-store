@@ -1,11 +1,11 @@
 package org.uniprot.store.search.field;
 
-import org.uniprot.store.search.field.validator.FieldValueValidator;
-
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
+
+import org.uniprot.store.search.field.validator.FieldValueValidator;
 
 /**
  * @author lgonzales
@@ -49,7 +49,10 @@ public interface SubcellularLocationField {
             this.boostValue = null;
         }
 
-        Search(SearchFieldType searchFieldType, Predicate<String> fieldValueValidator, BoostValue boostValue) {
+        Search(
+                SearchFieldType searchFieldType,
+                Predicate<String> fieldValueValidator,
+                BoostValue boostValue) {
             this.searchFieldType = searchFieldType;
             this.fieldValueValidator = fieldValueValidator;
             this.boostValue = boostValue;
@@ -88,17 +91,16 @@ public interface SubcellularLocationField {
                     .filter(SubcellularLocationField.Search::hasBoostValue)
                     .collect(Collectors.toList());
         }
-
     }
 
     enum ResultFields implements ReturnField {
-        id("Alias","id",true),
-        accession("Subcellular location ID","accession"),
-        definition("Description","definition"),
-        category("Category","category"),
-        keyword("Keyword","keyword"),
-        synonyms("Synonyms","synonyms"),
-        content("Content","content"),
+        id("Alias", "id", true),
+        accession("Subcellular location ID", "accession"),
+        definition("Description", "definition"),
+        category("Category", "category"),
+        keyword("Keyword", "keyword"),
+        synonyms("Synonyms", "synonyms"),
+        content("Content", "content"),
         gene_ontologies("Gene Ontologies", "geneOntologies"),
         note("Note", "note"),
         references("References", "references"),
@@ -114,9 +116,11 @@ public interface SubcellularLocationField {
         ResultFields(String label) {
             this(label, null);
         }
+
         ResultFields(String label, String javaFieldName) {
             this(label, javaFieldName, false);
         }
+
         ResultFields(String label, String javaFieldName, boolean isMandatoryJsonField) {
             this.label = label;
             this.javaFieldName = javaFieldName;
@@ -145,7 +149,7 @@ public interface SubcellularLocationField {
     }
 
     enum Return {
-        id, subcellularlocation_obj
+        id,
+        subcellularlocation_obj
     }
-
 }

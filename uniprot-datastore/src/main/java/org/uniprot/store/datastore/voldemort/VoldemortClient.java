@@ -1,12 +1,12 @@
 package org.uniprot.store.datastore.voldemort;
 
-import org.uniprot.store.datastore.common.StoreService;
-
-import java.util.List;
 import java.util.Map;
+
+import org.uniprot.store.datastore.common.StoreService;
 
 /**
  * Represents a client of the Voldemort key / value data-store.
+ *
  * @param <T> the entity type being stored in Voldemort.
  */
 public interface VoldemortClient<T> extends StoreService<T> {

@@ -1,35 +1,45 @@
 package org.uniprot.store.indexer.uniprot.go;
 
-import org.springframework.cache.annotation.Cacheable;
-import org.uniprot.core.util.Utils;
-import org.uniprot.store.indexer.uniprotkb.UniProtKBJob;
+import static java.util.Collections.*;
+import static org.uniprot.store.indexer.uniprot.go.GoRelationFileRepo.Relationship.IS_A;
+import static org.uniprot.store.indexer.uniprot.go.GoRelationFileRepo.Relationship.PART_OF;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static java.util.Collections.*;
-import static org.uniprot.store.indexer.uniprot.go.GoRelationFileRepo.Relationship.IS_A;
-import static org.uniprot.store.indexer.uniprot.go.GoRelationFileRepo.Relationship.PART_OF;
+import org.springframework.cache.annotation.Cacheable;
+import org.uniprot.core.util.Utils;
+import org.uniprot.store.indexer.uniprotkb.UniProtKBJob;
 
 public class GoRelationFileRepo implements GoRelationRepo {
     private final Map<String, Set<GoTerm>> isAMap;
     private final Map<String, Set<GoTerm>> partOfMap;
 
-    public static GoRelationFileRepo create(GoRelationFileReader goRelationReader, GoTermFileReader goTermReader) {
+    public static GoRelationFileRepo create(
+            GoRelationFileReader goRelationReader, GoTermFileReader goTermReader) {
         return new GoRelationFileRepo(goRelationReader, goTermReader);
     }
 
-    public GoRelationFileRepo(GoRelationFileReader goRelationReader, GoTermFileReader goTermReader) {
+    public GoRelationFileRepo(
+            GoRelationFileReader goRelationReader, GoTermFileReader goTermReader) {
         goRelationReader.read();
 
         Map<String, Set<String>> isAMapStr = goRelationReader.getIsAMap();
         Map<String, Set<String>> isPartMapStr = goRelationReader.getIsPartMap();
         Map<String, GoTerm> gotermMap = goTermReader.read();
-        isAMap = isAMapStr.entrySet().stream()
-                .collect(Collectors.toMap(Map.Entry::getKey, val -> convert(val.getValue(), gotermMap)));
+        isAMap =
+                isAMapStr.entrySet().stream()
+                        .collect(
+                                Collectors.toMap(
+                                        Map.Entry::getKey,
+                                        val -> convert(val.getValue(), gotermMap)));
 
-        partOfMap = isPartMapStr.entrySet().stream()
-                .collect(Collectors.toMap(Map.Entry::getKey, val -> convert(val.getValue(), gotermMap)));
+        partOfMap =
+                isPartMapStr.entrySet().stream()
+                        .collect(
+                                Collectors.toMap(
+                                        Map.Entry::getKey,
+                                        val -> convert(val.getValue(), gotermMap)));
     }
 
     public Set<GoTerm> getIsA(String goId) {
@@ -56,7 +66,8 @@ public class GoRelationFileRepo implements GoRelationRepo {
         }
     }
 
-    private void addAncestors(Set<String> baseGoIds, Set<GoTerm> ancestors, List<Relationship> relationships) {
+    private void addAncestors(
+            Set<String> baseGoIds, Set<GoTerm> ancestors, List<Relationship> relationships) {
         for (String base : baseGoIds) {
             Set<GoTerm> parents = new HashSet<>();
             if (relationships.contains(IS_A)) {
@@ -68,18 +79,22 @@ public class GoRelationFileRepo implements GoRelationRepo {
             }
 
             ancestors.addAll(parents);
-            addAncestors(parents.stream()
-                                 .map(GoTerm::getId)
-                                 .collect(Collectors.toSet()),
-                         ancestors, relationships);
+            addAncestors(
+                    parents.stream().map(GoTerm::getId).collect(Collectors.toSet()),
+                    ancestors,
+                    relationships);
         }
     }
 
     private Set<GoTerm> convert(Set<String> goIds, Map<String, GoTerm> gotermMap) {
-        return goIds.stream().map(gotermMap::get).filter(Utils::notNull).collect(Collectors.toSet());
+        return goIds.stream()
+                .map(gotermMap::get)
+                .filter(Utils::notNull)
+                .collect(Collectors.toSet());
     }
 
     public enum Relationship {
-        IS_A, PART_OF
+        IS_A,
+        PART_OF
     }
 }

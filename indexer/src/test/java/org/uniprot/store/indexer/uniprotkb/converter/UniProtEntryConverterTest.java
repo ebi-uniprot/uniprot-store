@@ -1,5 +1,13 @@
 package org.uniprot.store.indexer.uniprotkb.converter;
 
+import static org.junit.jupiter.api.Assertions.*;
+
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.*;
+
 import org.junit.jupiter.api.Test;
 import org.uniprot.core.cv.keyword.KeywordCategory;
 import org.uniprot.core.gene.Gene;
@@ -20,14 +28,6 @@ import org.uniprot.store.job.common.DocumentConversionException;
 import org.uniprot.store.search.document.suggest.SuggestDocument;
 import org.uniprot.store.search.document.uniprot.UniProtDocument;
 
-import java.time.Instant;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.util.*;
-
-import static org.junit.jupiter.api.Assertions.*;
-
 /**
  * @author lgonzales
  * @since 2019-09-16
@@ -37,26 +37,31 @@ class UniProtEntryConverterTest {
     @Test
     void documentConversionException() {
         // when
-        UniProtEntryConverter converter = new UniProtEntryConverter(null, null, null, null, null, null);
+        UniProtEntryConverter converter =
+                new UniProtEntryConverter(null, null, null, null, null, null);
 
-        assertThrows(DocumentConversionException.class, () -> {
-            converter.convert(null);
-        });
+        assertThrows(
+                DocumentConversionException.class,
+                () -> {
+                    converter.convert(null);
+                });
     }
 
     @Test
     void convertCanonicalAccessionEntry() {
         // given
-        UniProtEntry entry = new UniProtEntryBuilder()
-                .primaryAccession(new UniProtAccessionImpl("P12345"))
-                .uniProtId(new UniProtIdImpl("UNIPROT_ENTRYID"))
-                .active()
-                .entryType(UniProtEntryType.TREMBL)
-                .sequence(new SequenceImpl("AAAAA"))
-                .build();
+        UniProtEntry entry =
+                new UniProtEntryBuilder()
+                        .primaryAccession(new UniProtAccessionImpl("P12345"))
+                        .uniProtId(new UniProtIdImpl("UNIPROT_ENTRYID"))
+                        .active()
+                        .entryType(UniProtEntryType.TREMBL)
+                        .sequence(new SequenceImpl("AAAAA"))
+                        .build();
 
         // when
-        UniProtEntryConverter converter = new UniProtEntryConverter(null, null, null, null, null, null);
+        UniProtEntryConverter converter =
+                new UniProtEntryConverter(null, null, null, null, null, null);
         UniProtDocument document = converter.convert(entry);
 
         // then
@@ -70,16 +75,18 @@ class UniProtEntryConverterTest {
     @Test
     void convertIsoformAccessionEntry() {
         // given
-        UniProtEntry entry = new UniProtEntryBuilder()
-                .primaryAccession(new UniProtAccessionImpl("P12345-5"))
-                .uniProtId(new UniProtIdImpl("UNIPROT_ENTRYID"))
-                .active()
-                .entryType(UniProtEntryType.TREMBL)
-                .sequence(new SequenceImpl("AAAAA"))
-                .build();
+        UniProtEntry entry =
+                new UniProtEntryBuilder()
+                        .primaryAccession(new UniProtAccessionImpl("P12345-5"))
+                        .uniProtId(new UniProtIdImpl("UNIPROT_ENTRYID"))
+                        .active()
+                        .entryType(UniProtEntryType.TREMBL)
+                        .sequence(new SequenceImpl("AAAAA"))
+                        .build();
 
         // when
-        UniProtEntryConverter converter = new UniProtEntryConverter(null, null, null, null, null, null);
+        UniProtEntryConverter converter =
+                new UniProtEntryConverter(null, null, null, null, null, null);
         UniProtDocument document = converter.convert(entry);
 
         // then
@@ -87,32 +94,35 @@ class UniProtEntryConverterTest {
         assertTrue(document.isIsoform);
         assertTrue(document.active);
         assertEquals(Collections.singletonList("P12345"), document.secacc);
-        assertEquals(new HashSet<>(Arrays.asList("P12345-5", "P12345", "UNIPROT_ENTRYID")), document.content);
+        assertEquals(
+                new HashSet<>(Arrays.asList("P12345-5", "P12345", "UNIPROT_ENTRYID")),
+                document.content);
     }
 
     @Test
     void convertCanonicalIsoformAccessionEntry() {
         // given
-        APIsoform isoform = new APIsoformBuilder()
-                .addId("P12345-1")
-                .sequenceStatus(IsoformSequenceStatus.DISPLAYED)
-                .build();
+        APIsoform isoform =
+                new APIsoformBuilder()
+                        .addId("P12345-1")
+                        .sequenceStatus(IsoformSequenceStatus.DISPLAYED)
+                        .build();
 
-        AlternativeProductsComment comment = new APCommentBuilder()
-                .addIsoform(isoform)
-                .build();
+        AlternativeProductsComment comment = new APCommentBuilder().addIsoform(isoform).build();
 
-        UniProtEntry entry = new UniProtEntryBuilder()
-                .primaryAccession(new UniProtAccessionImpl("P12345-1"))
-                .uniProtId(new UniProtIdImpl("UNIPROT_ENTRYID"))
-                .active()
-                .entryType(UniProtEntryType.SWISSPROT)
-                .comments(Collections.singletonList(comment))
-                .sequence(new SequenceImpl("AAAAA"))
-                .build();
+        UniProtEntry entry =
+                new UniProtEntryBuilder()
+                        .primaryAccession(new UniProtAccessionImpl("P12345-1"))
+                        .uniProtId(new UniProtIdImpl("UNIPROT_ENTRYID"))
+                        .active()
+                        .entryType(UniProtEntryType.SWISSPROT)
+                        .comments(Collections.singletonList(comment))
+                        .sequence(new SequenceImpl("AAAAA"))
+                        .build();
 
         // when
-        UniProtEntryConverter converter = new UniProtEntryConverter(null, null, null, null, null, null);
+        UniProtEntryConverter converter =
+                new UniProtEntryConverter(null, null, null, null, null, null);
         UniProtDocument document = converter.convert(entry);
 
         // then
@@ -126,16 +136,18 @@ class UniProtEntryConverterTest {
     void convertIdDefaultForTrEMBLIncludesSpeciesButNotAccession() {
         // given
         String species = "SPECIES";
-        UniProtEntry entry = new UniProtEntryBuilder()
-                .primaryAccession(new UniProtAccessionImpl("P12345"))
-                .uniProtId(new UniProtIdImpl("ACCESSION_" + species))
-                .active()
-                .entryType(UniProtEntryType.TREMBL)
-                .sequence(new SequenceImpl("AAAAA"))
-                .build();
+        UniProtEntry entry =
+                new UniProtEntryBuilder()
+                        .primaryAccession(new UniProtAccessionImpl("P12345"))
+                        .uniProtId(new UniProtIdImpl("ACCESSION_" + species))
+                        .active()
+                        .entryType(UniProtEntryType.TREMBL)
+                        .sequence(new SequenceImpl("AAAAA"))
+                        .build();
 
         // when
-        UniProtEntryConverter converter = new UniProtEntryConverter(null, null, null, null, null, null);
+        UniProtEntryConverter converter =
+                new UniProtEntryConverter(null, null, null, null, null, null);
         UniProtDocument document = converter.convert(entry);
 
         // then
@@ -147,16 +159,18 @@ class UniProtEntryConverterTest {
     void convertIdDefaultForSwissProtIncludesGeneAndSpecies() {
         // given
         String id = "GENE_SPECIES";
-        UniProtEntry entry = new UniProtEntryBuilder()
-                .primaryAccession(new UniProtAccessionImpl("P12345"))
-                .uniProtId(new UniProtIdImpl(id))
-                .active()
-                .entryType(UniProtEntryType.SWISSPROT)
-                .sequence(new SequenceImpl("AAAAA"))
-                .build();
+        UniProtEntry entry =
+                new UniProtEntryBuilder()
+                        .primaryAccession(new UniProtAccessionImpl("P12345"))
+                        .uniProtId(new UniProtIdImpl(id))
+                        .active()
+                        .entryType(UniProtEntryType.SWISSPROT)
+                        .sequence(new SequenceImpl("AAAAA"))
+                        .build();
 
         // when
-        UniProtEntryConverter converter = new UniProtEntryConverter(null, null, null, null, null, null);
+        UniProtEntryConverter converter =
+                new UniProtEntryConverter(null, null, null, null, null, null);
         UniProtDocument document = converter.convert(entry);
 
         // then
@@ -171,20 +185,20 @@ class UniProtEntryConverterTest {
         LocalDate lastAnnotationUpdate = LocalDate.of(2019, 1, 25);
         LocalDate lastSequenceUpdate = LocalDate.of(2018, 1, 25);
 
-        EntryAudit entryAudit = new EntryAuditBuilder()
-                .entryVersion(10)
-                .firstPublic(firstPublic)
-                .lastAnnotationUpdate(lastAnnotationUpdate)
-                .sequenceVersion(5)
-                .lastSequenceUpdate(lastSequenceUpdate)
-                .build();
+        EntryAudit entryAudit =
+                new EntryAuditBuilder()
+                        .entryVersion(10)
+                        .firstPublic(firstPublic)
+                        .lastAnnotationUpdate(lastAnnotationUpdate)
+                        .sequenceVersion(5)
+                        .lastSequenceUpdate(lastSequenceUpdate)
+                        .build();
 
-        UniProtEntry entry = getBasicEntryBuilder()
-                .entryAudit(entryAudit)
-                .build();
+        UniProtEntry entry = getBasicEntryBuilder().entryAudit(entryAudit).build();
 
         // when
-        UniProtEntryConverter converter = new UniProtEntryConverter(null, null, null, null, null, null);
+        UniProtEntryConverter converter =
+                new UniProtEntryConverter(null, null, null, null, null, null);
         UniProtDocument document = converter.convert(entry);
 
         // then
@@ -197,58 +211,80 @@ class UniProtEntryConverterTest {
     @Test
     void convertGeneNamesFields() {
         // given
-        Gene gene = new GeneBuilder()
-                .geneName(new GeneNameBuilder().value("some Gene name").build())
-                .addSynonyms(new GeneNameSynonymBuilder().value("some Syn").build())
-                .addOrderedLocusNames(new OrderedLocusNameBuilder().value("some locus").build())
-                .addOrfNames(new ORFNameBuilder().value("some orf").build())
-                .addOrfNames(new ORFNameBuilder().value("some other orf").build())
-                .build();
+        Gene gene =
+                new GeneBuilder()
+                        .geneName(new GeneNameBuilder().value("some Gene name").build())
+                        .addSynonyms(new GeneNameSynonymBuilder().value("some Syn").build())
+                        .addOrderedLocusNames(
+                                new OrderedLocusNameBuilder().value("some locus").build())
+                        .addOrfNames(new ORFNameBuilder().value("some orf").build())
+                        .addOrfNames(new ORFNameBuilder().value("some other orf").build())
+                        .build();
 
-        UniProtEntry entry = getBasicEntryBuilder()
-                .genes(Collections.singletonList(gene))
-                .build();
+        UniProtEntry entry = getBasicEntryBuilder().genes(Collections.singletonList(gene)).build();
 
         // when
-        UniProtEntryConverter converter = new UniProtEntryConverter(null, null, null, null, null, null);
+        UniProtEntryConverter converter =
+                new UniProtEntryConverter(null, null, null, null, null, null);
         UniProtDocument document = converter.convert(entry);
 
         // then
         assertEquals("P12345", document.accession);
-        assertEquals(Arrays.asList("some Gene name", "some Syn", "some locus", "some orf", "some other orf"), document.geneNamesExact);
+        assertEquals(
+                Arrays.asList(
+                        "some Gene name", "some Syn", "some locus", "some orf", "some other orf"),
+                document.geneNamesExact);
         assertEquals(document.geneNamesExact, document.geneNames);
         assertEquals("some Gene name some Syn some l", document.geneNamesSort);
-        assertEquals(new HashSet<>(Arrays.asList("P12345", "UNIPROT_ENTRYID", "some Gene name",
-                "some Syn", "some locus", "some orf", "some other orf")), document.content);
+        assertEquals(
+                new HashSet<>(
+                        Arrays.asList(
+                                "P12345",
+                                "UNIPROT_ENTRYID",
+                                "some Gene name",
+                                "some Syn",
+                                "some locus",
+                                "some orf",
+                                "some other orf")),
+                document.content);
     }
 
     @Test
     void convertKeywordsFields() {
         // given
-        Keyword keyword = new KeywordBuilder()
-                .id("KW-1111")
-                .value("keyword value")
-                .category(KeywordCategory.DOMAIN)
-                .addEvidence(createEvidence("50"))
-                .build();
+        Keyword keyword =
+                new KeywordBuilder()
+                        .id("KW-1111")
+                        .value("keyword value")
+                        .category(KeywordCategory.DOMAIN)
+                        .addEvidence(createEvidence("50"))
+                        .build();
 
-        UniProtEntry entry = getBasicEntryBuilder()
-                .addKeyword(keyword)
-                .build();
+        UniProtEntry entry = getBasicEntryBuilder().addKeyword(keyword).build();
 
         Map<String, SuggestDocument> suggestions = new HashMap<>();
 
         // when
-        UniProtEntryConverter converter = new UniProtEntryConverter(null, null, null, null, null, suggestions);
+        UniProtEntryConverter converter =
+                new UniProtEntryConverter(null, null, null, null, null, suggestions);
         UniProtDocument document = converter.convert(entry);
 
         // then
         assertEquals("P12345", document.accession);
-        assertEquals(Arrays.asList("KW-1111", "keyword value", "KW-9994", "Domain"), document.keywords);
-        assertEquals(new HashSet<>(Arrays.asList("P12345", "UNIPROT_ENTRYID",
-                "KW-1111", "keyword value", "KW-9994", "Domain")), document.content);
+        assertEquals(
+                Arrays.asList("KW-1111", "keyword value", "KW-9994", "Domain"), document.keywords);
+        assertEquals(
+                new HashSet<>(
+                        Arrays.asList(
+                                "P12345",
+                                "UNIPROT_ENTRYID",
+                                "KW-1111",
+                                "keyword value",
+                                "KW-9994",
+                                "Domain")),
+                document.content);
 
-        //check suggestions
+        // check suggestions
         assertEquals(2, suggestions.size());
         assertTrue(suggestions.containsKey("KEYWORD:KW-1111"));
         assertTrue(suggestions.containsKey("KEYWORD:KW-9994"));
@@ -264,52 +300,54 @@ class UniProtEntryConverterTest {
     @Test
     void convertOrganelleFields() {
         // given
-        GeneLocation geneLocation = new GeneLocationBuilder()
-                .geneEncodingType(GeneEncodingType.CYANELLE)
-                .value("geneLocation value")
-                .addEvidence(createEvidence("60"))
-                .build();
+        GeneLocation geneLocation =
+                new GeneLocationBuilder()
+                        .geneEncodingType(GeneEncodingType.CYANELLE)
+                        .value("geneLocation value")
+                        .addEvidence(createEvidence("60"))
+                        .build();
 
-        UniProtEntry entry = getBasicEntryBuilder()
-                .addGeneLocation(geneLocation)
-                .build();
+        UniProtEntry entry = getBasicEntryBuilder().addGeneLocation(geneLocation).build();
 
         // when
-        UniProtEntryConverter converter = new UniProtEntryConverter(null, null, null, null, null, null);
+        UniProtEntryConverter converter =
+                new UniProtEntryConverter(null, null, null, null, null, null);
         UniProtDocument document = converter.convert(entry);
 
         // then
         assertEquals("P12345", document.accession);
         assertEquals(Arrays.asList("plastid", "cyanelle"), document.organelles);
-        assertEquals(new HashSet<>(Arrays.asList("P12345", "UNIPROT_ENTRYID",
-                "cyanelle", "plastid")), document.content);
+        assertEquals(
+                new HashSet<>(Arrays.asList("P12345", "UNIPROT_ENTRYID", "cyanelle", "plastid")),
+                document.content);
     }
 
     @Test
     void convertProteinExistenceFields() {
         // given
-        UniProtEntry entry = getBasicEntryBuilder()
-                .proteinExistence(ProteinExistence.PROTEIN_LEVEL)
-                .build();
+        UniProtEntry entry =
+                getBasicEntryBuilder().proteinExistence(ProteinExistence.PROTEIN_LEVEL).build();
 
         // when
-        UniProtEntryConverter converter = new UniProtEntryConverter(null, null, null, null, null, null);
+        UniProtEntryConverter converter =
+                new UniProtEntryConverter(null, null, null, null, null, null);
         UniProtDocument document = converter.convert(entry);
 
         // then
         assertEquals("P12345", document.accession);
         assertEquals("PROTEIN_LEVEL", document.proteinExistence);
-        //@lgonzales: protein existence information is not in the content (default) field, should it be?
+        // @lgonzales: protein existence information is not in the content (default) field, should
+        // it be?
     }
 
     @Test
     void convertSequenceFields() {
         // given
-        UniProtEntry entry = getBasicEntryBuilder()
-                .build();
+        UniProtEntry entry = getBasicEntryBuilder().build();
 
         // when
-        UniProtEntryConverter converter = new UniProtEntryConverter(null, null, null, null, null, null);
+        UniProtEntryConverter converter =
+                new UniProtEntryConverter(null, null, null, null, null, null);
         UniProtDocument document = converter.convert(entry);
 
         // then
@@ -321,12 +359,11 @@ class UniProtEntryConverterTest {
     @Test
     void convertEntryScore() {
         // given
-        UniProtEntry entry = getBasicEntryBuilder()
-                .sequence(new SequenceImpl("AAAAA"))
-                .build();
+        UniProtEntry entry = getBasicEntryBuilder().sequence(new SequenceImpl("AAAAA")).build();
 
         // when
-        UniProtEntryConverter converter = new UniProtEntryConverter(null, null, null, null, null, null);
+        UniProtEntryConverter converter =
+                new UniProtEntryConverter(null, null, null, null, null, null);
         UniProtDocument document = converter.convert(entry);
 
         // then
@@ -337,21 +374,26 @@ class UniProtEntryConverterTest {
     @Test
     void convertEvidenceSources() {
         // given
-        Evidence evidence = new EvidenceBuilder()
-                .evidenceCode(EvidenceCode.ECO_0000256)
-                .databaseName("HAMAP-Rule")
-                .databaseId("hamapId")
-                .build();
+        Evidence evidence =
+                new EvidenceBuilder()
+                        .evidenceCode(EvidenceCode.ECO_0000256)
+                        .databaseName("HAMAP-Rule")
+                        .databaseId("hamapId")
+                        .build();
 
-        Gene gene = new GeneBuilder()
-                .geneName(new GeneNameBuilder().value("some Gene name").addEvidence(evidence).build())
-                .build();
-        UniProtEntry entry = getBasicEntryBuilder()
-                .addGene(gene)
-                .build();
+        Gene gene =
+                new GeneBuilder()
+                        .geneName(
+                                new GeneNameBuilder()
+                                        .value("some Gene name")
+                                        .addEvidence(evidence)
+                                        .build())
+                        .build();
+        UniProtEntry entry = getBasicEntryBuilder().addGene(gene).build();
 
         // when
-        UniProtEntryConverter converter = new UniProtEntryConverter(null, null, null, null, null, null);
+        UniProtEntryConverter converter =
+                new UniProtEntryConverter(null, null, null, null, null, null);
         UniProtDocument document = converter.convert(entry);
 
         // then

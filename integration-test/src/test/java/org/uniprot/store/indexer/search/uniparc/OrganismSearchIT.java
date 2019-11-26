@@ -1,26 +1,24 @@
 package org.uniprot.store.indexer.search.uniparc;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.contains;
-import static org.hamcrest.collection.IsEmptyCollection.empty;
-import static org.hamcrest.core.Is.is;
-
-import java.io.IOException;
-import java.util.List;
-
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.extension.RegisterExtension;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.RegisterExtension;
 import org.uniprot.core.uniparc.UniParcDatabaseType;
 import org.uniprot.core.xml.jaxb.uniparc.DbReferenceType;
 import org.uniprot.core.xml.jaxb.uniparc.Entry;
 import org.uniprot.store.search.field.QueryBuilder;
 import org.uniprot.store.search.field.UniParcField;
 
+import java.util.List;
+
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.contains;
+import static org.hamcrest.collection.IsEmptyCollection.empty;
+import static org.hamcrest.core.Is.is;
+
 class OrganismSearchIT {
-    @RegisterExtension
-    static UniParcSearchEngine searchEngine = new UniParcSearchEngine();
+    @RegisterExtension static UniParcSearchEngine searchEngine = new UniParcSearchEngine();
 
     private static final String ID_1 = "UPI0000000001";
     private static final String ID_2 = "UPI0000000002";
@@ -32,24 +30,25 @@ class OrganismSearchIT {
 
     @BeforeAll
     static void populateIndexWithTestData() {
-        //Entry 1
+        // Entry 1
         {
             Entry entry = TestUtils.createDefaultUniParcEntry();
             entry.setAccession(ID_1);
-            DbReferenceType xref= TestUtils.createXref(UniParcDatabaseType.TREMBL.getName(), "P47986", "Y");
-            xref.getProperty().add(TestUtils.createProperty("NCBI_taxonomy_id", ""+HUMAN_TAX_ID));
+            DbReferenceType xref =
+                    TestUtils.createXref(UniParcDatabaseType.TREMBL.getName(), "P47986", "Y");
+            xref.getProperty().add(TestUtils.createProperty("NCBI_taxonomy_id", "" + HUMAN_TAX_ID));
             entry.getDbReference().add(xref);
             searchEngine.indexEntry(entry);
-            
-        
         }
 
-        //Entry 2
+        // Entry 2
         {
             Entry entry = TestUtils.createDefaultUniParcEntry();
             entry.setAccession(ID_2);
-            DbReferenceType xref= TestUtils.createXref(UniParcDatabaseType.TREMBL.getName(), "P47986", "Y");
-            xref.getProperty().add(TestUtils.createProperty("NCBI_taxonomy_id", ""+EGGPLANT_TAX_ID));
+            DbReferenceType xref =
+                    TestUtils.createXref(UniParcDatabaseType.TREMBL.getName(), "P47986", "Y");
+            xref.getProperty()
+                    .add(TestUtils.createProperty("NCBI_taxonomy_id", "" + EGGPLANT_TAX_ID));
             entry.getDbReference().add(xref);
             searchEngine.indexEntry(entry);
         }
@@ -128,10 +127,12 @@ class OrganismSearchIT {
         List<String> retrievedIdentifiers = searchEngine.getIdentifiers(response);
         assertThat(retrievedIdentifiers, is(empty()));
     }
+
     private String taxonId(int value) {
-    	return QueryBuilder.query(UniParcField.Search.taxonomy_id.name(), ""+value);
+        return QueryBuilder.query(UniParcField.Search.taxonomy_id.name(), "" + value);
     }
+
     private String organismName(String value) {
-    	return QueryBuilder.query(UniParcField.Search.taxonomy_name.name(),value);
+        return QueryBuilder.query(UniParcField.Search.taxonomy_name.name(), value);
     }
 }
