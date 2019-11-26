@@ -42,33 +42,39 @@ import org.uniprot.store.search.SolrCollection;
 import org.uniprot.store.search.document.uniprot.UniProtDocument;
 
 /**
- *
  * @author jluo
  * @date: 5 Sep 2019
- *
-*/
+ */
 @ActiveProfiles(profiles = {"job", "offline"})
 @ExtendWith(SpringExtension.class)
-@SpringBootTest(classes = {SolrTestConfig.class, FakeIndexerSpringBootApplication.class, InactiveEntryIndexJob.class,
-                           InactiveEntryStep.class, ListenerConfig.class})
-@TestPropertySource(properties = {"uniprotkb.indexing.itemProcessorTaskExecutor.corePoolSize=1",
-        "uniprotkb.indexing.itemProcessorTaskExecutor.maxPoolSize=1",
-        "uniprotkb.indexing.itemWriterTaskExecutor.corePoolSize=1",
-        "uniprotkb.indexing.itemWriterTaskExecutor.maxPoolSize=1"})
+@SpringBootTest(
+        classes = {
+            SolrTestConfig.class,
+            FakeIndexerSpringBootApplication.class,
+            InactiveEntryIndexJob.class,
+            InactiveEntryStep.class,
+            ListenerConfig.class
+        })
+@TestPropertySource(
+        properties = {
+            "uniprotkb.indexing.itemProcessorTaskExecutor.corePoolSize=1",
+            "uniprotkb.indexing.itemProcessorTaskExecutor.maxPoolSize=1",
+            "uniprotkb.indexing.itemWriterTaskExecutor.corePoolSize=1",
+            "uniprotkb.indexing.itemWriterTaskExecutor.maxPoolSize=1"
+        })
 public class InactiveEntryIndexJobIT {
-	@Autowired
-    private JobLauncherTestUtils jobLauncher;
-    @Autowired
-    private UniProtSolrOperations solrOperations;
-    @Autowired
-    private UniProtKBIndexingProperties indexingProperties;
+    @Autowired private JobLauncherTestUtils jobLauncher;
+    @Autowired private UniProtSolrOperations solrOperations;
+    @Autowired private UniProtKBIndexingProperties indexingProperties;
 
     @Test
     void testUniProtKBIndexingJob() throws Exception {
         JobExecution jobExecution = jobLauncher.launchJob();
-        assertThat(jobExecution.getJobInstance().getJobName(), CoreMatchers.is(INACTIVEENTRY_INDEX_JOB));
+        assertThat(
+                jobExecution.getJobInstance().getJobName(),
+                CoreMatchers.is(INACTIVEENTRY_INDEX_JOB));
 
-       Thread.sleep(5000);
+        Thread.sleep(5000);
 
         BatchStatus status = jobExecution.getStatus();
         assertThat(status, is(BatchStatus.COMPLETED));
@@ -77,14 +83,16 @@ public class InactiveEntryIndexJobIT {
         assertThat(stepExecutions, hasSize(1));
 
         checkInactiveEntryIndexingStep(jobExecution, stepExecutions);
-     
     }
 
-    private void checkInactiveEntryIndexingStep(JobExecution jobExecution, Collection<StepExecution> stepExecutions)
+    private void checkInactiveEntryIndexingStep(
+            JobExecution jobExecution, Collection<StepExecution> stepExecutions)
             throws IOException {
-        StepExecution kbIndexingStep = stepExecutions.stream()
-                .filter(step -> step.getStepName().equals(INACTIVEENTRY_INDEX_STEP))
-                .collect(Collectors.toList()).get(0);
+        StepExecution kbIndexingStep =
+                stepExecutions.stream()
+                        .filter(step -> step.getStepName().equals(INACTIVEENTRY_INDEX_STEP))
+                        .collect(Collectors.toList())
+                        .get(0);
 
         assertThat(kbIndexingStep.getReadCount(), is(22));
         checkWriteCount(jobExecution, CommonConstants.FAILED_ENTRIES_COUNT_KEY, 0);
@@ -95,20 +103,21 @@ public class InactiveEntryIndexJobIT {
         assertThat(sourceAccessions, hasSize(22));
 
         SimpleQuery query = new SimpleQuery("*:*");
-   
-        query.setPageRequest( PageRequest.of(0, 30));
-        Page<UniProtDocument> response = solrOperations
-                .query(SolrCollection.uniprot.name(), query, UniProtDocument.class);
-        
+
+        query.setPageRequest(PageRequest.of(0, 30));
+        Page<UniProtDocument> response =
+                solrOperations.query(SolrCollection.uniprot.name(), query, UniProtDocument.class);
+
         assertThat(response, is(notNullValue()));
         assertThat(response.getTotalElements(), is(22L));
-        Set<String> results = response.stream().map(doc -> doc.accession).collect(Collectors.toSet());
-        results.forEach(accession -> assertThat(sourceAccessions, hasItem(accession)) );
-       
-        assertThat(response.stream().map(doc -> doc.accession).collect(Collectors.toSet()),
-                   is(sourceAccessions));
-    }
+        Set<String> results =
+                response.stream().map(doc -> doc.accession).collect(Collectors.toSet());
+        results.forEach(accession -> assertThat(sourceAccessions, hasItem(accession)));
 
+        assertThat(
+                response.stream().map(doc -> doc.accession).collect(Collectors.toSet()),
+                is(sourceAccessions));
+    }
 
     private Set<String> readSourceAccessions() throws IOException {
         return Files.lines(Paths.get(indexingProperties.getInactiveEntryFile()))
@@ -116,11 +125,12 @@ public class InactiveEntryIndexJobIT {
                 .collect(Collectors.toSet());
     }
 
-    private void checkWriteCount(JobExecution jobExecution, String uniprotkbIndexFailedEntriesCountKey, int i) {
-        AtomicInteger failedCountAI = (AtomicInteger) jobExecution.getExecutionContext()
-                .get(uniprotkbIndexFailedEntriesCountKey);
+    private void checkWriteCount(
+            JobExecution jobExecution, String uniprotkbIndexFailedEntriesCountKey, int i) {
+        AtomicInteger failedCountAI =
+                (AtomicInteger)
+                        jobExecution.getExecutionContext().get(uniprotkbIndexFailedEntriesCountKey);
         assertThat(failedCountAI, CoreMatchers.is(notNullValue()));
         assertThat(failedCountAI.get(), CoreMatchers.is(i));
     }
 }
-

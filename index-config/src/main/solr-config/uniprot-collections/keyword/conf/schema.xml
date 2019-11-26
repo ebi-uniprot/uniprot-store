@@ -1,91 +1,85 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<!--
- Licensed to the Apache Software Foundation (ASF) under one or more
- contributor license agreements.  See the NOTICE file distributed with
- this work for additional information regarding copyright ownership.
- The ASF licenses this file to You under the Apache License, Version 2.0
- (the "License"); you may not use this file except in compliance with
- the License.  You may obtain a copy of the License at
-
-     http://www.apache.org/licenses/LICENSE-2.0
-
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
+<!-- Licensed to the Apache Software Foundation (ASF) under one or more contributor 
+	license agreements. See the NOTICE file distributed with this work for additional 
+	information regarding copyright ownership. The ASF licenses this file to 
+	You under the Apache License, Version 2.0 (the "License"); you may not use 
+	this file except in compliance with the License. You may obtain a copy of 
+	the License at http://www.apache.org/licenses/LICENSE-2.0 Unless required 
+	by applicable law or agreed to in writing, software distributed under the 
+	License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS 
+	OF ANY KIND, either express or implied. See the License for the specific 
+	language governing permissions and limitations under the License. -->
 <schema name="keyword" version="1.6">
-    <!-- =============================== keyword fields  =============================== -->
-    <field name="id" type="string" indexed="true" stored="true" required="true" docValues="true"/>
-    <field name="keyword_id" type="basic_ci" indexed="true" stored="false" required="true"/>
-    <field name="name" type="full_ci" indexed="true" stored="false"/>
-    <field name="name_sort" type="string" indexed="true" stored="false" docValues="true"/>
-    <field name="ancestor" type="full_ci" indexed="true" stored="false" multiValued="true"/> <!-- many levels -->
-    <field name="parent" type="full_ci" indexed="true" stored="false" multiValued="true"/> <!-- one level only -->
-    <field name="content" type="full_ci" indexed="true" stored="false" multiValued="true"/> <!-- For search on any field -->
-    <!-- the whole keyword object as binary -->
-    <field name="keyword_obj" type="binary" indexed="false" stored="true" required="true"/>
-    <!-- Field constraints -->
-    <copyField source="id" dest="keyword_id"/>
-    <copyField source="name" dest="name_sort"/>
-    <uniqueKey>id</uniqueKey>
+	<!-- =============================== keyword fields =============================== -->
+	<field name="id" type="string" indexed="true" stored="true"
+		required="true" docValues="true" />
+	<field name="keyword_id" type="basic_ci" indexed="true"
+		stored="false" required="true" />
+	<field name="name" type="full_ci" indexed="true" stored="false" />
+	<field name="name_sort" type="string" indexed="true"
+		stored="false" docValues="true" />
+	<field name="ancestor" type="full_ci" indexed="true"
+		stored="false" multiValued="true" /> <!-- many levels -->
+	<field name="parent" type="full_ci" indexed="true" stored="false"
+		multiValued="true" /> <!-- one level only -->
+	<field name="content" type="full_ci" indexed="true"
+		stored="false" multiValued="true" /> <!-- For search on any field -->
+	<!-- the whole keyword object as binary -->
+	<field name="keyword_obj" type="binary" indexed="false"
+		stored="true" required="true" />
+	<!-- Field constraints -->
+	<copyField source="id" dest="keyword_id" />
+	<copyField source="name" dest="name_sort" />
+	<uniqueKey>id</uniqueKey>
 
-    <!-- Meta fields -->
-    <!-- If you remove this field, you must _also_ disable the update log in solrconfig.xml
-      or Solr won't start. _version_ and update log are required for SolrCloud
-   -->
-    <field name="_version_" type="plong" indexed="true" stored="true"/>
+	<!-- Meta fields -->
+	<!-- If you remove this field, you must _also_ disable the update log in 
+		solrconfig.xml or Solr won't start. _version_ and update log are required 
+		for SolrCloud -->
+	<field name="_version_" type="plong" indexed="true" stored="true" />
 
-    <!-- =============================== field types  =============================== -->
-    <fieldType name="plong" class="solr.LongPointField" docValues="true"/>
-    <fieldType name="string" class="solr.StrField" sortMissingLast="true"/>
-    <fieldType name="boolean" class="solr.BoolField" sortMissingLast="true"/>
-    <fieldType name="binary" class="solr.BinaryField"/>
+	<!-- =============================== field types =============================== -->
+	<fieldType name="plong" class="solr.LongPointField"
+		docValues="true" />
+	<fieldType name="string" class="solr.StrField"
+		sortMissingLast="true" />
+	<fieldType name="boolean" class="solr.BoolField"
+		sortMissingLast="true" />
+	<fieldType name="binary" class="solr.BinaryField" />
 
-    <fieldType name="basic_ci" class="solr.TextField" sortMissingLast="true" omitNorms="true" positionIncrementGap="100">
-        <analyzer type="index">
-            <tokenizer class="solr.WhitespaceTokenizerFactory"/>
-            <filter class="solr.LowerCaseFilterFactory"/>
-        </analyzer>
-        <analyzer type="query">
-            <tokenizer class="solr.WhitespaceTokenizerFactory"/>
-            <filter class="solr.LowerCaseFilterFactory"/>
-        </analyzer>
-    </fieldType>
-    <fieldType name="full_ci" class="solr.TextField" sortMissingLast="true" omitNorms="true" positionIncrementGap="100">
-        <analyzer type="index">
-            <tokenizer class="solr.WhitespaceTokenizerFactory"/>
-            <filter class="solr.ASCIIFoldingFilterFactory" preserveOriginal="false"/>
-            <filter class="solr.WordDelimiterGraphFilterFactory"
-                    generateWordParts="1"
-                    generateNumberParts="1"
-                    catenateWords="1"
-                    catenateNumbers="1"
-                    catenateAll="1"
-                    splitOnCaseChange="1"
-                    preserveOriginal="1"
-                    splitOnNumerics="0"
-                    stemEnglishPossessive="1"
-            />
-            <filter class="solr.FlattenGraphFilterFactory"/>
-            <filter class="solr.LowerCaseFilterFactory"/>
-        </analyzer>
-        <analyzer type="query">
-            <tokenizer class="solr.WhitespaceTokenizerFactory"/>
-            <filter class="solr.ASCIIFoldingFilterFactory" preserveOriginal="false"/>
-            <filter class="solr.WordDelimiterGraphFilterFactory"
-                    generateWordParts="1"
-                    generateNumberParts="1"
-                    catenateWords="1"
-                    catenateNumbers="1"
-                    catenateAll="1"
-                    splitOnCaseChange="1"
-                    preserveOriginal="1"
-                    splitOnNumerics="0"
-                    stemEnglishPossessive="1"
-            />
-            <filter class="solr.LowerCaseFilterFactory"/>
-        </analyzer>
-    </fieldType>
+	<fieldType name="basic_ci" class="solr.TextField"
+		sortMissingLast="true" omitNorms="true" positionIncrementGap="100">
+		<analyzer type="index">
+			<tokenizer class="solr.WhitespaceTokenizerFactory" />
+			<filter class="solr.LowerCaseFilterFactory" />
+		</analyzer>
+		<analyzer type="query">
+			<tokenizer class="solr.WhitespaceTokenizerFactory" />
+			<filter class="solr.LowerCaseFilterFactory" />
+		</analyzer>
+	</fieldType>
+	<fieldType name="full_ci" class="solr.TextField"
+		sortMissingLast="true" omitNorms="true" positionIncrementGap="100">
+		<analyzer type="index">
+			<tokenizer class="solr.WhitespaceTokenizerFactory" />
+			<filter class="solr.ASCIIFoldingFilterFactory"
+				preserveOriginal="false" />
+			<filter class="solr.WordDelimiterGraphFilterFactory"
+				generateWordParts="1" generateNumberParts="1" catenateWords="1"
+				catenateNumbers="1" catenateAll="1" splitOnCaseChange="1"
+				preserveOriginal="1" splitOnNumerics="0" stemEnglishPossessive="1" />
+			<filter class="solr.FlattenGraphFilterFactory" />
+			<filter class="solr.LowerCaseFilterFactory" />
+		</analyzer>
+		<analyzer type="query">
+			<tokenizer class="solr.WhitespaceTokenizerFactory" />
+			<filter class="solr.ASCIIFoldingFilterFactory"
+				preserveOriginal="false" />
+			<filter class="solr.WordDelimiterGraphFilterFactory"
+				generateWordParts="1" generateNumberParts="1" catenateWords="1"
+				catenateNumbers="1" catenateAll="1" splitOnCaseChange="1"
+				preserveOriginal="1" splitOnNumerics="0" stemEnglishPossessive="1" />
+			<filter class="solr.LowerCaseFilterFactory" />
+		</analyzer>
+	</fieldType>
 </schema>

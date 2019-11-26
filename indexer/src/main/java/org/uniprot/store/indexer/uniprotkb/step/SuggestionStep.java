@@ -1,5 +1,7 @@
 package org.uniprot.store.indexer.uniprotkb.step;
 
+import static org.uniprot.store.indexer.common.utils.Constants.SUGGESTIONS_INDEX_STEP;
+
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
 import org.springframework.batch.core.listener.ExecutionContextPromotionListener;
@@ -19,8 +21,6 @@ import org.uniprot.store.job.common.listener.LogStepListener;
 import org.uniprot.store.search.SolrCollection;
 import org.uniprot.store.search.document.suggest.SuggestDocument;
 
-import static org.uniprot.store.indexer.common.utils.Constants.SUGGESTIONS_INDEX_STEP;
-
 /**
  * Created 15/05/19
  *
@@ -34,19 +34,22 @@ public class SuggestionStep {
     private final UniProtSolrOperations solrOperations;
 
     @Autowired
-    public SuggestionStep(StepBuilderFactory stepBuilderFactory,
-                          UniProtKBIndexingProperties indexingProperties,
-                          UniProtSolrOperations solrOperations) {
+    public SuggestionStep(
+            StepBuilderFactory stepBuilderFactory,
+            UniProtKBIndexingProperties indexingProperties,
+            UniProtSolrOperations solrOperations) {
         this.stepBuilderFactory = stepBuilderFactory;
         this.indexingProperties = indexingProperties;
         this.solrOperations = solrOperations;
     }
 
     @Bean(name = "suggestionIndexingStep")
-    public Step suggestionStep(SuggestionItemReader suggestionItemReader,
-                               ExecutionContextPromotionListener promotionListener,
-                               @Qualifier("suggestion") LogRateListener<SuggestDocument> suggestionLogRateListener) {
-        return this.stepBuilderFactory.get(SUGGESTIONS_INDEX_STEP)
+    public Step suggestionStep(
+            SuggestionItemReader suggestionItemReader,
+            ExecutionContextPromotionListener promotionListener,
+            @Qualifier("suggestion") LogRateListener<SuggestDocument> suggestionLogRateListener) {
+        return this.stepBuilderFactory
+                .get(SUGGESTIONS_INDEX_STEP)
                 .listener(promotionListener)
                 .<SuggestDocument, SuggestDocument>chunk(indexingProperties.getChunkSize())
                 .reader(suggestionItemReader)

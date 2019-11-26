@@ -6,9 +6,7 @@ import org.springframework.batch.core.StepExecutionListener;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-/**
- * @author lgonzales
- */
+/** @author lgonzales */
 @Configuration
 public class ListenerConfig {
     @Bean

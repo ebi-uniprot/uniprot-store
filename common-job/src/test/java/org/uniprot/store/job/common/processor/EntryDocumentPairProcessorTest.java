@@ -24,7 +24,8 @@ import java.util.stream.Collectors;
  * @author Edd
  */
 class EntryDocumentPairProcessorTest {
-    private static final String INDEXING_DOC_CONVERSION_FAILED_ENTRIES_LOG = "indexing-doc-conversion-failed-entries.error";
+    private static final String INDEXING_DOC_CONVERSION_FAILED_ENTRIES_LOG =
+            "indexing-doc-conversion-failed-entries.error";
     private BasicDocumentPairProcessor converter;
 
     @BeforeEach
@@ -61,13 +62,13 @@ class EntryDocumentPairProcessorTest {
         MatcherAssert.assertThat(Files.exists(logFileForErrors), Matchers.is(true));
 
         // sanity check: ensure the error log contains the correct accession
-        List<String> lines = Files.lines(logFileForErrors)
-                .collect(Collectors.toList());
+        List<String> lines = Files.lines(logFileForErrors).collect(Collectors.toList());
         MatcherAssert.assertThat(lines, Matchers.hasSize(1));
         MatcherAssert.assertThat(lines, IsIterableContainingInOrder.contains(entryContents));
     }
 
-    private static class BasicDocumentPairProcessor extends EntryDocumentPairProcessor<BasicEntry, BasicDocument, BasicEntryDocumentPair> {
+    private static class BasicDocumentPairProcessor
+            extends EntryDocumentPairProcessor<BasicEntry, BasicDocument, BasicEntryDocumentPair> {
         BasicDocumentPairProcessor(DocumentConverter<BasicEntry, BasicDocument> converter) {
             super(converter);
         }
@@ -90,7 +91,8 @@ class EntryDocumentPairProcessorTest {
         }
     }
 
-    private static class BasicEntryDocumentPair extends AbstractEntryDocumentPair<BasicEntry, BasicDocument> {
+    private static class BasicEntryDocumentPair
+            extends AbstractEntryDocumentPair<BasicEntry, BasicDocument> {
         BasicEntryDocumentPair(BasicEntry entry) {
             super(entry);
         }

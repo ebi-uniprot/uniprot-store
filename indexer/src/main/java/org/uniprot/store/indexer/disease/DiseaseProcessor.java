@@ -1,7 +1,11 @@
 package org.uniprot.store.indexer.disease;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import java.nio.ByteBuffer;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
 import org.springframework.batch.core.StepExecution;
 import org.springframework.batch.core.annotation.BeforeStep;
 import org.springframework.batch.item.ItemProcessor;
@@ -11,11 +15,8 @@ import org.uniprot.core.json.parser.disease.DiseaseJsonConfig;
 import org.uniprot.store.indexer.common.utils.Constants;
 import org.uniprot.store.search.document.disease.DiseaseDocument;
 
-import java.nio.ByteBuffer;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class DiseaseProcessor implements ItemProcessor<Disease, DiseaseDocument> {
     private ObjectMapper diseaseObjectMapper;
@@ -30,7 +31,10 @@ public class DiseaseProcessor implements ItemProcessor<Disease, DiseaseDocument>
     public DiseaseDocument process(Disease disease) {
         List<String> kwIds = new ArrayList<>();
         if (disease.getKeywords() != null) {
-            kwIds = disease.getKeywords().stream().map(kw -> kw.getId()).collect(Collectors.toList());
+            kwIds =
+                    disease.getKeywords().stream()
+                            .map(kw -> kw.getId())
+                            .collect(Collectors.toList());
         }
         // name is a combination of id, acronym, definition, synonyms, keywords
         List<String> name = new ArrayList<>();
@@ -60,9 +64,10 @@ public class DiseaseProcessor implements ItemProcessor<Disease, DiseaseDocument>
             DiseaseBuilder diseaseBuilder = DiseaseBuilder.newInstance().from(disease);
 
             // get the protein count, reviewed and unreviewed
-            DiseaseProteinCountReader.DiseaseProteinCount diseaseProteinCount = this.diseaseIdProteinCountMap.get(disease.getId());
+            DiseaseProteinCountReader.DiseaseProteinCount diseaseProteinCount =
+                    this.diseaseIdProteinCountMap.get(disease.getId());
 
-            if(diseaseProteinCount != null) {
+            if (diseaseProteinCount != null) {
                 diseaseBuilder.reviewedProteinCount(diseaseProteinCount.getReviewedProteinCount());
             }
 
@@ -74,10 +79,14 @@ public class DiseaseProcessor implements ItemProcessor<Disease, DiseaseDocument>
     }
 
     @BeforeStep
-    public void getStepExecution(final StepExecution stepExecution) {// get the cached data from previous step
+    public void getStepExecution(
+            final StepExecution stepExecution) { // get the cached data from previous step
 
-        this.diseaseIdProteinCountMap = (Map<String, DiseaseProteinCountReader.DiseaseProteinCount>) stepExecution.getJobExecution()
-                .getExecutionContext().get(Constants.DISEASE_PROTEIN_COUNT_KEY);
+        this.diseaseIdProteinCountMap =
+                (Map<String, DiseaseProteinCountReader.DiseaseProteinCount>)
+                        stepExecution
+                                .getJobExecution()
+                                .getExecutionContext()
+                                .get(Constants.DISEASE_PROTEIN_COUNT_KEY);
     }
-
 }

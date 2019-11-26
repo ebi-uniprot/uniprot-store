@@ -1,6 +1,7 @@
 package org.uniprot.store.search.domain;
 
 public interface Tuple {
-	String getName();
-	String getValue();
+    String getName();
+
+    String getValue();
 }

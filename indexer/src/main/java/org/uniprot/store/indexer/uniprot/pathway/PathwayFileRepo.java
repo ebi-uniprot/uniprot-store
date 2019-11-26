@@ -1,6 +1,5 @@
 package org.uniprot.store.indexer.uniprot.pathway;
 
-
 import org.uniprot.core.cv.pathway.UniPathway;
 import org.uniprot.core.cv.pathway.UniPathwayService;
 import org.uniprot.core.cv.pathway.impl.UniPathwayServiceImpl;
@@ -16,5 +15,4 @@ public class PathwayFileRepo implements PathwayRepo {
     public UniPathway getFromName(String name) {
         return unipathwayService.getByName(name);
     }
-
 }

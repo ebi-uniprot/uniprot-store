@@ -9,12 +9,12 @@ import org.uniprot.store.search.field.validator.FieldValueValidator;
 
 public interface DiseaseField {
 
-    enum Sort{
+    enum Sort {
         accession("accession");
 
         private String solrFieldName;
 
-        Sort(String solrFieldName){
+        Sort(String solrFieldName) {
             this.solrFieldName = solrFieldName;
         }
 
@@ -37,7 +37,10 @@ public interface DiseaseField {
         private final SearchFieldType searchFieldType;
         private final BoostValue boostValue;
 
-        Search(SearchFieldType searchFieldType, Predicate<String> fieldValueValidator, BoostValue boostValue) {
+        Search(
+                SearchFieldType searchFieldType,
+                Predicate<String> fieldValueValidator,
+                BoostValue boostValue) {
             this.searchFieldType = searchFieldType;
             this.fieldValueValidator = fieldValueValidator;
             this.boostValue = boostValue;
@@ -67,7 +70,7 @@ public interface DiseaseField {
             return this.name();
         }
 
-        public static List<SearchField> getBoostFields(){
+        public static List<SearchField> getBoostFields() {
             return Arrays.stream(Search.values())
                     .filter(Search::hasBoostValue)
                     .collect(Collectors.toList());
@@ -89,11 +92,11 @@ public interface DiseaseField {
         private String javaFieldName;
         private boolean isDefault;
 
-        ResultFields(String label, String javaFieldName){
+        ResultFields(String label, String javaFieldName) {
             this(label, javaFieldName, false);
         }
 
-        ResultFields(String label, String javaFieldName, boolean isDefault){
+        ResultFields(String label, String javaFieldName, boolean isDefault) {
             this.label = label;
             this.javaFieldName = javaFieldName;
             this.isDefault = isDefault;
@@ -107,7 +110,7 @@ public interface DiseaseField {
             return this.isDefault;
         }
 
-        public static String getDefaultFields(){
+        public static String getDefaultFields() {
             return Arrays.stream(ResultFields.values())
                     .filter(f -> f.isDefault)
                     .map(f -> f.name())

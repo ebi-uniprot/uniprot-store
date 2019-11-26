@@ -1,16 +1,15 @@
 package org.uniprot.store.indexer.taxonomy.readers;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 import lombok.Getter;
+
 import org.springframework.jdbc.core.RowMapper;
 import org.uniprot.core.taxonomy.builder.TaxonomyStrainBuilder;
 import org.uniprot.core.util.Utils;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-
-/**
- * @author lgonzales
- */
+/** @author lgonzales */
 public class TaxonomyStrainReader implements RowMapper<TaxonomyStrainReader.Strain> {
 
     @Override
@@ -25,7 +24,8 @@ public class TaxonomyStrainReader implements RowMapper<TaxonomyStrainReader.Stra
     }
 
     public enum StrainNameClass {
-        scientific_name, synonym;
+        scientific_name,
+        synonym;
 
         static StrainNameClass fromQuery(String value) {
             if (Utils.notNullOrEmpty(value)) {

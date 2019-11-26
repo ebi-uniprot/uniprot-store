@@ -7,9 +7,7 @@ import java.util.stream.Collectors;
 
 import org.uniprot.store.search.field.validator.FieldValueValidator;
 
-/**
- * @author lgonzales
- */
+/** @author lgonzales */
 public interface LiteratureField {
 
     enum Sort {
@@ -53,7 +51,10 @@ public interface LiteratureField {
             this.boostValue = null;
         }
 
-        Search(SearchFieldType searchFieldType, Predicate<String> fieldValueValidator, BoostValue boostValue) {
+        Search(
+                SearchFieldType searchFieldType,
+                Predicate<String> fieldValueValidator,
+                BoostValue boostValue) {
             this.searchFieldType = searchFieldType;
             this.fieldValueValidator = fieldValueValidator;
             this.boostValue = boostValue;
@@ -92,7 +93,6 @@ public interface LiteratureField {
                     .filter(LiteratureField.Search::hasBoostValue)
                     .collect(Collectors.toList());
         }
-
     }
 
     enum ResultFields implements ReturnField {
@@ -120,9 +120,11 @@ public interface LiteratureField {
         ResultFields(String label) {
             this(label, null);
         }
+
         ResultFields(String label, String javaFieldName) {
             this(label, javaFieldName, false);
         }
+
         ResultFields(String label, String javaFieldName, boolean isMandatoryJsonField) {
             this.label = label;
             this.javaFieldName = javaFieldName;
@@ -151,6 +153,7 @@ public interface LiteratureField {
     }
 
     enum Return {
-        id, literature_obj
+        id,
+        literature_obj
     }
 }

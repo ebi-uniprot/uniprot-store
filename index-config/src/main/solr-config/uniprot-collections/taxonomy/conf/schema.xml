@@ -1,115 +1,117 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<!--
- Licensed to the Apache Software Foundation (ASF) under one or more
- contributor license agreements.  See the NOTICE file distributed with
- this work for additional information regarding copyright ownership.
- The ASF licenses this file to You under the Apache License, Version 2.0
- (the "License"); you may not use this file except in compliance with
- the License.  You may obtain a copy of the License at
-
-     http://www.apache.org/licenses/LICENSE-2.0
-
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
+<!-- Licensed to the Apache Software Foundation (ASF) under one or more contributor 
+	license agreements. See the NOTICE file distributed with this work for additional 
+	information regarding copyright ownership. The ASF licenses this file to 
+	You under the Apache License, Version 2.0 (the "License"); you may not use 
+	this file except in compliance with the License. You may obtain a copy of 
+	the License at http://www.apache.org/licenses/LICENSE-2.0 Unless required 
+	by applicable law or agreed to in writing, software distributed under the 
+	License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS 
+	OF ANY KIND, either express or implied. See the License for the specific 
+	language governing permissions and limitations under the License. -->
 <schema name="taxonomy" version="1.6">
-    <!-- =============================== taxonomy fields  =============================== -->
-    <field name="id" type="string" indexed="true" stored="true" required="true" multiValued="false" docValues="true"/>
-    <field name="tax_id" type="plong" indexed="true" stored="true" required="true" multiValued="false" docValues="true"/>
-    <field name="ancestor" type="plong" indexed="true" stored="true" required="false" multiValued="false" docValues="true"/>
-    <field name="name_sort" type="string" indexed="true" docValues="true"/>
+	<!-- =============================== taxonomy fields =============================== -->
+	<field name="id" type="string" indexed="true" stored="true"
+		required="true" multiValued="false" docValues="true" />
+	<field name="tax_id" type="plong" indexed="true" stored="true"
+		required="true" multiValued="false" docValues="true" />
+	<field name="ancestor" type="plong" indexed="true" stored="true"
+		required="false" multiValued="false" docValues="true" />
+	<field name="name_sort" type="string" indexed="true"
+		docValues="true" />
 
-    <field name="rank" type="basic_ci" indexed="true"/>
-    <field name="scientific" type="full_ci" indexed="true"/>
-    <field name="common" type="full_ci" indexed="true"/>
-    <field name="synonym" type="full_ci" indexed="true"/>
-    <field name="mnemonic" type="basic_ci" indexed="true"/>
-    <field name="strain" type="full_ci" indexed="true" multiValued="true"/>
-    <field name="host" type="plong" indexed="true" multiValued="true"/>
-    <field name="lineage" type="plong" indexed="true" multiValued="true"/>
+	<field name="rank" type="basic_ci" indexed="true" />
+	<field name="scientific" type="full_ci" indexed="true" />
+	<field name="common" type="full_ci" indexed="true" />
+	<field name="synonym" type="full_ci" indexed="true" />
+	<field name="mnemonic" type="basic_ci" indexed="true" />
+	<field name="strain" type="full_ci" indexed="true"
+		multiValued="true" />
+	<field name="host" type="plong" indexed="true" multiValued="true" />
+	<field name="lineage" type="plong" indexed="true"
+		multiValued="true" />
 
-    <field name="hidden" type="boolean" indexed="true" docValues="true"/>
-    <field name="active" type="boolean" indexed="true" docValues="true"/>
-    <field name="linked" type="boolean" indexed="true" docValues="true"/>
-    <field name="complete" type="boolean" indexed="true" docValues="true"/>
-    <field name="reference" type="boolean" indexed="true" docValues="true"/>
-    <field name="reviewed" type="boolean" indexed="true"  docValues="true"/>
-    <field name="annotated" type="boolean" indexed="true"  docValues="true"/>
+	<field name="hidden" type="boolean" indexed="true"
+		docValues="true" />
+	<field name="active" type="boolean" indexed="true"
+		docValues="true" />
+	<field name="linked" type="boolean" indexed="true"
+		docValues="true" />
+	<field name="complete" type="boolean" indexed="true"
+		docValues="true" />
+	<field name="reference" type="boolean" indexed="true"
+		docValues="true" />
+	<field name="reviewed" type="boolean" indexed="true"
+		docValues="true" />
+	<field name="annotated" type="boolean" indexed="true"
+		docValues="true" />
 
-    <field name="content" type="full_ci" indexed="true" stored="false" multiValued="true"/>
-    <!-- the whole taxonomy object as binary -->
-    <field name="taxonomy_obj" type="binary" indexed="false" stored="true" required="true" multiValued="false"/>
-    <!-- @lgonzales: replaces field was in the old website, but we have not find usage,
-                    so I will keep commented out for now, it get values from tax_update tables.
-    <field name="replaces"/>   -->
+	<field name="content" type="full_ci" indexed="true"
+		stored="false" multiValued="true" />
+	<!-- the whole taxonomy object as binary -->
+	<field name="taxonomy_obj" type="binary" indexed="false"
+		stored="true" required="true" multiValued="false" />
+	<!-- @lgonzales: replaces field was in the old website, but we have not 
+		find usage, so I will keep commented out for now, it get values from tax_update 
+		tables. <field name="replaces"/> -->
 
-    <copyField source="scientific" dest="name_sort"/>
-    <copyField source="tax_id" dest="content"/>
-    <copyField source="scientific" dest="content"/>
-    <copyField source="common" dest="content"/>
-    <copyField source="mnemonic" dest="content"/>
-    <copyField source="strain" dest="content"/>
+	<copyField source="scientific" dest="name_sort" />
+	<copyField source="tax_id" dest="content" />
+	<copyField source="scientific" dest="content" />
+	<copyField source="common" dest="content" />
+	<copyField source="mnemonic" dest="content" />
+	<copyField source="strain" dest="content" />
 
-    <uniqueKey>id</uniqueKey>
+	<uniqueKey>id</uniqueKey>
 
-    <!-- Meta fields -->
-    <!-- If you remove this field, you must _also_ disable the update log in solrconfig.xml
-      or Solr won't start. _version_ and update log are required for SolrCloud
-   -->
-    <field name="_version_" type="plong" indexed="true" stored="true"/>
+	<!-- Meta fields -->
+	<!-- If you remove this field, you must _also_ disable the update log in 
+		solrconfig.xml or Solr won't start. _version_ and update log are required 
+		for SolrCloud -->
+	<field name="_version_" type="plong" indexed="true" stored="true" />
 
-    <!-- =============================== field types  =============================== -->
-    <fieldType name="plong" class="solr.LongPointField" docValues="true"/>
-    <fieldType name="string" class="solr.StrField" sortMissingLast="true"/>
-    <fieldType name="boolean" class="solr.BoolField" sortMissingLast="true"/>
-    <fieldType name="binary" class="solr.BinaryField"/>
+	<!-- =============================== field types =============================== -->
+	<fieldType name="plong" class="solr.LongPointField"
+		docValues="true" />
+	<fieldType name="string" class="solr.StrField"
+		sortMissingLast="true" />
+	<fieldType name="boolean" class="solr.BoolField"
+		sortMissingLast="true" />
+	<fieldType name="binary" class="solr.BinaryField" />
 
-    <fieldType name="basic_ci" class="solr.TextField" sortMissingLast="true" omitNorms="true" positionIncrementGap="100">
-        <analyzer type="index">
-            <tokenizer class="solr.WhitespaceTokenizerFactory"/>
-            <filter class="solr.LowerCaseFilterFactory"/>
-        </analyzer>
-        <analyzer type="query">
-            <tokenizer class="solr.WhitespaceTokenizerFactory"/>
-            <filter class="solr.LowerCaseFilterFactory"/>
-        </analyzer>
-    </fieldType>
-    <fieldType name="full_ci" class="solr.TextField" sortMissingLast="true" omitNorms="true" positionIncrementGap="100">
-        <analyzer type="index">
-            <tokenizer class="solr.WhitespaceTokenizerFactory"/>
-            <filter class="solr.ASCIIFoldingFilterFactory" preserveOriginal="false"/>
-            <filter class="solr.WordDelimiterGraphFilterFactory"
-                    generateWordParts="1"
-                    generateNumberParts="1"
-                    catenateWords="1"
-                    catenateNumbers="1"
-                    catenateAll="1"
-                    splitOnCaseChange="1"
-                    preserveOriginal="1"
-                    splitOnNumerics="0"
-                    stemEnglishPossessive="1"
-            />
-            <filter class="solr.FlattenGraphFilterFactory"/>
-            <filter class="solr.LowerCaseFilterFactory"/>
-        </analyzer>
-        <analyzer type="query">
-            <tokenizer class="solr.WhitespaceTokenizerFactory"/>
-            <filter class="solr.ASCIIFoldingFilterFactory" preserveOriginal="false"/>
-            <filter class="solr.WordDelimiterGraphFilterFactory"
-                    generateWordParts="1"
-                    generateNumberParts="1"
-                    catenateWords="1"
-                    catenateNumbers="1"
-                    catenateAll="1"
-                    splitOnCaseChange="1"
-                    preserveOriginal="1"
-                    splitOnNumerics="0"
-                    stemEnglishPossessive="1"
-            />
-            <filter class="solr.LowerCaseFilterFactory"/>
-        </analyzer>
-    </fieldType>
+	<fieldType name="basic_ci" class="solr.TextField"
+		sortMissingLast="true" omitNorms="true" positionIncrementGap="100">
+		<analyzer type="index">
+			<tokenizer class="solr.WhitespaceTokenizerFactory" />
+			<filter class="solr.LowerCaseFilterFactory" />
+		</analyzer>
+		<analyzer type="query">
+			<tokenizer class="solr.WhitespaceTokenizerFactory" />
+			<filter class="solr.LowerCaseFilterFactory" />
+		</analyzer>
+	</fieldType>
+	<fieldType name="full_ci" class="solr.TextField"
+		sortMissingLast="true" omitNorms="true" positionIncrementGap="100">
+		<analyzer type="index">
+			<tokenizer class="solr.WhitespaceTokenizerFactory" />
+			<filter class="solr.ASCIIFoldingFilterFactory"
+				preserveOriginal="false" />
+			<filter class="solr.WordDelimiterGraphFilterFactory"
+				generateWordParts="1" generateNumberParts="1" catenateWords="1"
+				catenateNumbers="1" catenateAll="1" splitOnCaseChange="1"
+				preserveOriginal="1" splitOnNumerics="0" stemEnglishPossessive="1" />
+			<filter class="solr.FlattenGraphFilterFactory" />
+			<filter class="solr.LowerCaseFilterFactory" />
+		</analyzer>
+		<analyzer type="query">
+			<tokenizer class="solr.WhitespaceTokenizerFactory" />
+			<filter class="solr.ASCIIFoldingFilterFactory"
+				preserveOriginal="false" />
+			<filter class="solr.WordDelimiterGraphFilterFactory"
+				generateWordParts="1" generateNumberParts="1" catenateWords="1"
+				catenateNumbers="1" catenateAll="1" splitOnCaseChange="1"
+				preserveOriginal="1" splitOnNumerics="0" stemEnglishPossessive="1" />
+			<filter class="solr.LowerCaseFilterFactory" />
+		</analyzer>
+	</fieldType>
 </schema>

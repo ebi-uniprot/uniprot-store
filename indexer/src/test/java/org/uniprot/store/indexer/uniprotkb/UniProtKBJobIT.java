@@ -1,5 +1,20 @@
 package org.uniprot.store.indexer.uniprotkb;
 
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.notNullValue;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.greaterThan;
+import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
+import static org.uniprot.store.indexer.common.utils.Constants.*;
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.Collection;
+import java.util.Set;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collectors;
+
 import org.hamcrest.CoreMatchers;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -26,21 +41,6 @@ import org.uniprot.store.search.SolrCollection;
 import org.uniprot.store.search.document.suggest.SuggestDocument;
 import org.uniprot.store.search.document.uniprot.UniProtDocument;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.Collection;
-import java.util.Set;
-import java.util.concurrent.atomic.AtomicInteger;
-import java.util.stream.Collectors;
-
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.notNullValue;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.greaterThan;
-import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
-import static org.uniprot.store.indexer.common.utils.Constants.*;
-
 /**
  * Created 11/04/19
  *
@@ -48,26 +48,30 @@ import static org.uniprot.store.indexer.common.utils.Constants.*;
  */
 @ActiveProfiles(profiles = {"job", "offline"})
 @ExtendWith(SpringExtension.class)
-@SpringBootTest(classes = {SolrTestConfig.class, FakeIndexerSpringBootApplication.class, UniProtKBJob.class,
-                           UniProtKBStep.class, SuggestionStep.class, ListenerConfig.class})
-@TestPropertySource(properties = {"uniprotkb.indexing.itemProcessorTaskExecutor.corePoolSize=1",
-                                  "uniprotkb.indexing.itemProcessorTaskExecutor.maxPoolSize=1",
-                                  "uniprotkb.indexing.itemWriterTaskExecutor.corePoolSize=1",
-                                  "uniprotkb.indexing.itemWriterTaskExecutor.maxPoolSize=1"})
+@SpringBootTest(
+        classes = {
+            SolrTestConfig.class, FakeIndexerSpringBootApplication.class, UniProtKBJob.class,
+            UniProtKBStep.class, SuggestionStep.class, ListenerConfig.class
+        })
+@TestPropertySource(
+        properties = {
+            "uniprotkb.indexing.itemProcessorTaskExecutor.corePoolSize=1",
+            "uniprotkb.indexing.itemProcessorTaskExecutor.maxPoolSize=1",
+            "uniprotkb.indexing.itemWriterTaskExecutor.corePoolSize=1",
+            "uniprotkb.indexing.itemWriterTaskExecutor.maxPoolSize=1"
+        })
 class UniProtKBJobIT {
-    @Autowired
-    private JobLauncherTestUtils jobLauncher;
-    @Autowired
-    private UniProtSolrOperations solrOperations;
-    @Autowired
-    private UniProtKBIndexingProperties indexingProperties;
+    @Autowired private JobLauncherTestUtils jobLauncher;
+    @Autowired private UniProtSolrOperations solrOperations;
+    @Autowired private UniProtKBIndexingProperties indexingProperties;
 
     @Test
     void testUniProtKBIndexingJob() throws Exception {
         JobExecution jobExecution = jobLauncher.launchJob();
-        assertThat(jobExecution.getJobInstance().getJobName(), CoreMatchers.is(UNIPROTKB_INDEX_JOB));
+        assertThat(
+                jobExecution.getJobInstance().getJobName(), CoreMatchers.is(UNIPROTKB_INDEX_JOB));
 
-//        Thread.sleep(10000);
+        //        Thread.sleep(10000);
 
         BatchStatus status = jobExecution.getStatus();
         assertThat(status, is(BatchStatus.COMPLETED));
@@ -79,11 +83,14 @@ class UniProtKBJobIT {
         checkSuggestionIndexingStep(stepExecutions);
     }
 
-    private void checkUniProtKBIndexingStep(JobExecution jobExecution, Collection<StepExecution> stepExecutions)
+    private void checkUniProtKBIndexingStep(
+            JobExecution jobExecution, Collection<StepExecution> stepExecutions)
             throws IOException {
-        StepExecution kbIndexingStep = stepExecutions.stream()
-                .filter(step -> step.getStepName().equals(UNIPROTKB_INDEX_STEP))
-                .collect(Collectors.toList()).get(0);
+        StepExecution kbIndexingStep =
+                stepExecutions.stream()
+                        .filter(step -> step.getStepName().equals(UNIPROTKB_INDEX_STEP))
+                        .collect(Collectors.toList())
+                        .get(0);
 
         assertThat(kbIndexingStep.getReadCount(), is(5));
         checkWriteCount(jobExecution, CommonConstants.FAILED_ENTRIES_COUNT_KEY, 0);
@@ -93,20 +100,26 @@ class UniProtKBJobIT {
         Set<String> sourceAccessions = readSourceAccessions();
         assertThat(sourceAccessions, hasSize(5));
 
-        Page<UniProtDocument> response = solrOperations
-                .query(SolrCollection.uniprot.name(), new SimpleQuery("*:*"), UniProtDocument.class);
+        Page<UniProtDocument> response =
+                solrOperations.query(
+                        SolrCollection.uniprot.name(),
+                        new SimpleQuery("*:*"),
+                        UniProtDocument.class);
 
         assertThat(response, is(notNullValue()));
         assertThat(response.getTotalElements(), is(5L));
 
-        assertThat(response.stream().map(doc -> doc.accession).collect(Collectors.toSet()),
-                   is(sourceAccessions));
+        assertThat(
+                response.stream().map(doc -> doc.accession).collect(Collectors.toSet()),
+                is(sourceAccessions));
     }
 
     private void checkSuggestionIndexingStep(Collection<StepExecution> stepExecutions) {
-        StepExecution suggestionIndexingStep = stepExecutions.stream()
-                .filter(step -> step.getStepName().equals(SUGGESTIONS_INDEX_STEP))
-                .collect(Collectors.toList()).get(0);
+        StepExecution suggestionIndexingStep =
+                stepExecutions.stream()
+                        .filter(step -> step.getStepName().equals(SUGGESTIONS_INDEX_STEP))
+                        .collect(Collectors.toList())
+                        .get(0);
 
         assertThat(suggestionIndexingStep.getReadCount(), is(greaterThan(0)));
 
@@ -115,9 +128,11 @@ class UniProtKBJobIT {
         assertThat(suggestionIndexingStep.getSkipCount(), is(0));
         assertThat(suggestionIndexingStep.getFailureExceptions(), hasSize(0));
 
-
-        Page<SuggestDocument> response = solrOperations
-                .query(SolrCollection.suggest.name(), new SimpleQuery("*:*"), SuggestDocument.class);
+        Page<SuggestDocument> response =
+                solrOperations.query(
+                        SolrCollection.suggest.name(),
+                        new SimpleQuery("*:*"),
+                        SuggestDocument.class);
         assertThat(response, is(notNullValue()));
         assertThat(response.getTotalElements(), is((long) reportedWriteCount));
     }
@@ -129,9 +144,11 @@ class UniProtKBJobIT {
                 .collect(Collectors.toSet());
     }
 
-    private void checkWriteCount(JobExecution jobExecution, String uniprotkbIndexFailedEntriesCountKey, int i) {
-        AtomicInteger failedCountAI = (AtomicInteger) jobExecution.getExecutionContext()
-                .get(uniprotkbIndexFailedEntriesCountKey);
+    private void checkWriteCount(
+            JobExecution jobExecution, String uniprotkbIndexFailedEntriesCountKey, int i) {
+        AtomicInteger failedCountAI =
+                (AtomicInteger)
+                        jobExecution.getExecutionContext().get(uniprotkbIndexFailedEntriesCountKey);
         assertThat(failedCountAI, CoreMatchers.is(notNullValue()));
         assertThat(failedCountAI.get(), CoreMatchers.is(i));
     }

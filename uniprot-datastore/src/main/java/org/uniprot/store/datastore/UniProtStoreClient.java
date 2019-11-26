@@ -1,17 +1,18 @@
 package org.uniprot.store.datastore;
 
-import org.uniprot.store.datastore.voldemort.VoldemortClient;
-
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import org.uniprot.store.datastore.voldemort.VoldemortClient;
+
 /**
- * Generic class for saving and retrieving entities of type {@code S} to/from a data-store containing
- * serialized forms of the entity, of type {@code A}. Currently, the underlying data-store is accessed via a
- * {@link VoldemortClient}, but could be replaced in future by other store.
+ * Generic class for saving and retrieving entities of type {@code S} to/from a data-store
+ * containing serialized forms of the entity, of type {@code A}. Currently, the underlying
+ * data-store is accessed via a {@link VoldemortClient}, but could be replaced in future by other
+ * store.
  *
- * Created 21/09/18
+ * <p>Created 21/09/18
  *
  * @author Edd
  */

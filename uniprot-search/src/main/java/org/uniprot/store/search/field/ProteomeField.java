@@ -38,9 +38,15 @@ public interface ProteomeField {
     }
 
     enum Search implements SearchField {
-        upid(SearchFieldType.TERM, FieldValueValidator::isUpidValid, null),            // proteome upid
-        reference(SearchFieldType.TERM, FieldValueValidator::isBooleanValue, null),             // reference or not reference
-        redundant(SearchFieldType.TERM, FieldValueValidator::isBooleanValue, null),             // redundant or not redudant
+        upid(SearchFieldType.TERM, FieldValueValidator::isUpidValid, null), // proteome upid
+        reference(
+                SearchFieldType.TERM,
+                FieldValueValidator::isBooleanValue,
+                null), // reference or not reference
+        redundant(
+                SearchFieldType.TERM,
+                FieldValueValidator::isBooleanValue,
+                null), // redundant or not redudant
         annotation_score(SearchFieldType.TERM),
         proteome_type(SearchFieldType.TERM),
         organism_name(SearchFieldType.TERM, null, boostValue(2.0f)),
@@ -50,7 +56,7 @@ public interface ProteomeField {
         superkingdom(SearchFieldType.TERM),
         genome_accession(SearchFieldType.TERM),
         genome_assembly(SearchFieldType.TERM),
-        content(SearchFieldType.TERM); //used in the default search
+        content(SearchFieldType.TERM); // used in the default search
 
         private final Predicate<String> fieldValueValidator;
         private final SearchFieldType searchFieldType;
@@ -62,7 +68,10 @@ public interface ProteomeField {
             this.boostValue = null;
         }
 
-        Search(SearchFieldType searchFieldType, Predicate<String> fieldValueValidator, BoostValue boostValue) {
+        Search(
+                SearchFieldType searchFieldType,
+                Predicate<String> fieldValueValidator,
+                BoostValue boostValue) {
             this.searchFieldType = searchFieldType;
             this.fieldValueValidator = fieldValueValidator;
             this.boostValue = boostValue;

@@ -12,5 +12,4 @@ import org.springframework.context.annotation.Configuration;
 @ConditionalOnProperty(prefix = "uniprot.job", name = "name", havingValue = "taxonomy")
 @ComponentScan(basePackages = {"org.uniprot.store.indexer.taxonomy"})
 @Configuration
-public class TaxonomyIndexingJobConfig {
-}
+public class TaxonomyIndexingJobConfig {}

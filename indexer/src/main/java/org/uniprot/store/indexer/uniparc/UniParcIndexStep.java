@@ -1,5 +1,8 @@
 package org.uniprot.store.indexer.uniparc;
 
+import java.io.File;
+import java.io.IOException;
+
 import org.springframework.batch.core.ChunkListener;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.StepExecutionListener;
@@ -12,8 +15,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.uniprot.core.cv.taxonomy.FileNodeIterable;
-import org.uniprot.core.cv.taxonomy.impl.TaxonomyMapRepo;
 import org.uniprot.core.cv.taxonomy.TaxonomyRepo;
+import org.uniprot.core.cv.taxonomy.impl.TaxonomyMapRepo;
 import org.uniprot.core.xml.jaxb.uniparc.Entry;
 import org.uniprot.store.indexer.common.config.UniProtSolrOperations;
 import org.uniprot.store.indexer.common.writer.SolrDocumentWriter;
@@ -22,64 +25,68 @@ import org.uniprot.store.job.common.listener.LogRateListener;
 import org.uniprot.store.search.SolrCollection;
 import org.uniprot.store.search.document.uniparc.UniParcDocument;
 
-import java.io.File;
-import java.io.IOException;
-
 /**
- *
  * @author jluo
  * @date: 18 Jun 2019
- *
  */
-
 @Configuration
 public class UniParcIndexStep {
-	
-	@Value(("${solr.indexing.chunkSize}"))
-	private int chunkSize = 100;
-	@Value(("${uniparc.indexing.xml.file}"))
-	private String uniparcXmlFilename;
 
-	@Value(("${uniprotkb.indexing.taxonomyFile}"))
-	private String taxonomyFile;
+    @Value(("${solr.indexing.chunkSize}"))
+    private int chunkSize = 100;
 
-	private final StepBuilderFactory stepBuilderFactory;
-	
-	@Autowired
-	public UniParcIndexStep(StepBuilderFactory stepBuilderFactory) {
-		this.stepBuilderFactory = stepBuilderFactory;
-	}
+    @Value(("${uniparc.indexing.xml.file}"))
+    private String uniparcXmlFilename;
 
-	@Bean("UniParcIndexStep")
-	public Step uniparcIndexViaXmlStep(StepExecutionListener stepListener, ChunkListener chunkListener,
-			ItemReader<Entry> itemReader, ItemProcessor<Entry, UniParcDocument> itemProcessor,
-			ItemWriter<UniParcDocument> itemWriter) {
-		return this.stepBuilderFactory.get("UniParc_Index_Step").<Entry, UniParcDocument>chunk(chunkSize)
-				.reader(itemReader).processor(itemProcessor).writer(itemWriter).listener(stepListener)
-				.listener(chunkListener).listener(new LogRateListener<UniParcDocument>()).build();
-	}
+    @Value(("${uniprotkb.indexing.taxonomyFile}"))
+    private String taxonomyFile;
 
-	@Bean
-	public ItemReader<Entry> uniparcReader() throws IOException {
-		return new UniParcXmlEntryReader(uniparcXmlFilename);
-	}
+    private final StepBuilderFactory stepBuilderFactory;
 
-	@Bean
-	public ItemProcessor<Entry, UniParcDocument> uniparcEntryProcessor() {
-		return new UniParcEntryProcessor(uniparcEntryConverter());
-	}
+    @Autowired
+    public UniParcIndexStep(StepBuilderFactory stepBuilderFactory) {
+        this.stepBuilderFactory = stepBuilderFactory;
+    }
+
+    @Bean("UniParcIndexStep")
+    public Step uniparcIndexViaXmlStep(
+            StepExecutionListener stepListener,
+            ChunkListener chunkListener,
+            ItemReader<Entry> itemReader,
+            ItemProcessor<Entry, UniParcDocument> itemProcessor,
+            ItemWriter<UniParcDocument> itemWriter) {
+        return this.stepBuilderFactory
+                .get("UniParc_Index_Step")
+                .<Entry, UniParcDocument>chunk(chunkSize)
+                .reader(itemReader)
+                .processor(itemProcessor)
+                .writer(itemWriter)
+                .listener(stepListener)
+                .listener(chunkListener)
+                .listener(new LogRateListener<UniParcDocument>())
+                .build();
+    }
+
+    @Bean
+    public ItemReader<Entry> uniparcReader() throws IOException {
+        return new UniParcXmlEntryReader(uniparcXmlFilename);
+    }
+
+    @Bean
+    public ItemProcessor<Entry, UniParcDocument> uniparcEntryProcessor() {
+        return new UniParcEntryProcessor(uniparcEntryConverter());
+    }
 
     private DocumentConverter<Entry, UniParcDocument> uniparcEntryConverter() {
         return new UniParcDocumentConverter(createTaxonomyRepo());
     }
-	
-	
-	@Bean
-	public ItemWriter<UniParcDocument> uniparcItemWriter(UniProtSolrOperations solrOperations) {
-		return new SolrDocumentWriter<>(solrOperations, SolrCollection.uniparc);
-	}
 
-	private TaxonomyRepo createTaxonomyRepo() {
-		return new TaxonomyMapRepo(new FileNodeIterable(new File(taxonomyFile)));
-	}
+    @Bean
+    public ItemWriter<UniParcDocument> uniparcItemWriter(UniProtSolrOperations solrOperations) {
+        return new SolrDocumentWriter<>(solrOperations, SolrCollection.uniparc);
+    }
+
+    private TaxonomyRepo createTaxonomyRepo() {
+        return new TaxonomyMapRepo(new FileNodeIterable(new File(taxonomyFile)));
+    }
 }

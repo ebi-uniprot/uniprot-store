@@ -21,45 +21,41 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.uniprot.store.indexer.search.uniprot.IdentifierSearchIT.ACC_LINE;
 import static org.uniprot.store.indexer.search.uniprot.TestUtils.*;
 
-/**
- * Tests showing the behaviour of searching FT fields
- */
+/** Tests showing the behaviour of searching FT fields */
 class FTSearchIT {
     private static final String Q6GZX4 = "Q6GZX4";
     private static final String Q197B1 = "Q197B1";
     private static final String UNIPROT_FLAT_FILE_ENTRY_PATH = "/it/uniprot/P0A377.43.dat";
-    @RegisterExtension
-    static UniProtSearchEngine searchEngine = new UniProtSearchEngine();
+    @RegisterExtension static UniProtSearchEngine searchEngine = new UniProtSearchEngine();
 
     @BeforeAll
     static void populateIndexWithTestData() throws IOException {
         // a test entry object that can be modified and added to index
         InputStream resourceAsStream = TestUtils.getResourceAsStream(UNIPROT_FLAT_FILE_ENTRY_PATH);
-        UniProtEntryObjectProxy entryProxy = UniProtEntryObjectProxy.createEntryFromInputStream(resourceAsStream);
+        UniProtEntryObjectProxy entryProxy =
+                UniProtEntryObjectProxy.createEntryFromInputStream(resourceAsStream);
 
         // --------------
         entryProxy.updateEntryObject(LineType.AC, String.format(ACC_LINE, Q6GZX4));
-        entryProxy.updateEntryObject(LineType.FT, 
-						"FT   CHAIN           1..256\n" + 
-						"FT                   /note=\"Putative transcription factor 001R\"\n" + 
-		
-						"FT                   /id=\"PRO_0000410512\"\n"+
-						"FT   COMPBIAS        14..17\n" + 
-						"FT                   /note=\"Poly-Arg\"");
+        entryProxy.updateEntryObject(
+                LineType.FT,
+                "FT   CHAIN           1..256\n"
+                        + "FT                   /note=\"Putative transcription factor 001R\"\n"
+                        + "FT                   /id=\"PRO_0000410512\"\n"
+                        + "FT   COMPBIAS        14..17\n"
+                        + "FT                   /note=\"Poly-Arg\"");
 
         searchEngine.indexEntry(convertToUniProtEntry(entryProxy));
 
         // --------------
         entryProxy.updateEntryObject(LineType.AC, String.format(ACC_LINE, Q197B1));
-        entryProxy.updateEntryObject(LineType.FT,
-        		
-						"FT   COILED          62..124\n" + 
-						"FT                   /evidence=\"ECO:0000255\"");
+        entryProxy.updateEntryObject(
+                LineType.FT,
+                "FT   COILED          62..124\n"
+                        + "FT                   /evidence=\"ECO:0000255\"");
         searchEngine.indexEntry(convertToUniProtEntry(entryProxy));
 
         searchEngine.printIndexContents();
-        
-
     }
 
     @Test
@@ -84,8 +80,8 @@ class FTSearchIT {
 
     @Test
     void chainFindEntrysWithChain() {
-    	String query = query(UniProtField.Search.accession, Q6GZX4);
-         query = QueryBuilder.and(query, features(FeatureType.CHAIN, "*"));
+        String query = query(UniProtField.Search.accession, Q6GZX4);
+        query = QueryBuilder.and(query, features(FeatureType.CHAIN, "*"));
 
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -152,5 +148,4 @@ class FTSearchIT {
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
         assertThat(retrievedAccessions, contains(Q6GZX4));
     }
-
 }

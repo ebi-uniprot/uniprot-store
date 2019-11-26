@@ -1,11 +1,12 @@
 package org.uniprot.store.search.domain2.impl;
 
+import java.util.Optional;
+
 import lombok.Builder;
 import lombok.Data;
-import org.uniprot.store.search.domain2.SearchFieldType;
-import org.uniprot.store.search.domain2.SearchField;
 
-import java.util.Optional;
+import org.uniprot.store.search.domain2.SearchField;
+import org.uniprot.store.search.domain2.SearchFieldType;
 
 /**
  * Created 14/11/19

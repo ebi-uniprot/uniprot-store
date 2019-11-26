@@ -1,7 +1,7 @@
 package org.uniprot.store.indexer.keyword;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import java.nio.ByteBuffer;
+
 import org.springframework.batch.item.ItemProcessor;
 import org.uniprot.core.cv.keyword.KeywordEntry;
 import org.uniprot.core.cv.keyword.KeywordStatistics;
@@ -10,12 +10,12 @@ import org.uniprot.core.cv.keyword.impl.KeywordStatisticsImpl;
 import org.uniprot.core.json.parser.keyword.KeywordJsonConfig;
 import org.uniprot.store.search.document.keyword.KeywordDocument;
 
-import java.nio.ByteBuffer;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
-/**
- * @author lgonzales
- */
-public class KeywordStatisticsProcessor implements ItemProcessor<KeywordStatisticsReader.KeywordCount, KeywordDocument> {
+/** @author lgonzales */
+public class KeywordStatisticsProcessor
+        implements ItemProcessor<KeywordStatisticsReader.KeywordCount, KeywordDocument> {
 
     private final ObjectMapper keywordObjectMapper;
 
@@ -24,8 +24,12 @@ public class KeywordStatisticsProcessor implements ItemProcessor<KeywordStatisti
     }
 
     @Override
-    public KeywordDocument process(KeywordStatisticsReader.KeywordCount keywordCount) throws Exception {
-        KeywordStatistics statistics = new KeywordStatisticsImpl(keywordCount.getReviewedProteinCount(), keywordCount.getUnreviewedProteinCount());
+    public KeywordDocument process(KeywordStatisticsReader.KeywordCount keywordCount)
+            throws Exception {
+        KeywordStatistics statistics =
+                new KeywordStatisticsImpl(
+                        keywordCount.getReviewedProteinCount(),
+                        keywordCount.getUnreviewedProteinCount());
         KeywordEntryImpl keywordEntry = new KeywordEntryImpl();
         keywordEntry.setStatistics(statistics);
 

@@ -24,16 +24,20 @@ import static org.uniprot.store.search.field.SuggestField.Importance.high;
 import static org.uniprot.store.search.field.SuggestField.Importance.medium;
 
 class SuggestSearchIT {
-    @RegisterExtension
-    static SuggestSearchEngine searchEngine = new SuggestSearchEngine();
+    @RegisterExtension static SuggestSearchEngine searchEngine = new SuggestSearchEngine();
     private static final String REQUEST_HANDLER = "/search";
 
     @AfterEach
     void cleanup() {
         QueryResponse queryResponse = getResponse("*:*");
 
-        queryResponse.getResults()
-                .forEach(doc -> searchEngine.removeEntry(doc.getFieldValue(SuggestField.Stored.id.name()).toString()));
+        queryResponse
+                .getResults()
+                .forEach(
+                        doc ->
+                                searchEngine.removeEntry(
+                                        doc.getFieldValue(SuggestField.Stored.id.name())
+                                                .toString()));
     }
 
     @Test
@@ -42,18 +46,20 @@ class SuggestSearchIT {
         String value = "value";
         List<String> altValue = singletonList("altValue");
         String dict = "randomDictionary";
-        searchEngine.indexEntry(SuggestDocument.builder()
-                                        .id(id)
-                                        .dictionary(dict)
-                                        .value(value)
-                                        .altValues(altValue)
-                                        .build());
-        searchEngine.indexEntry(SuggestDocument.builder()
-                                        .id(id)
-                                        .dictionary("anotherDictionary")
-                                        .value(value)
-                                        .altValues(altValue)
-                                        .build());
+        searchEngine.indexEntry(
+                SuggestDocument.builder()
+                        .id(id)
+                        .dictionary(dict)
+                        .value(value)
+                        .altValues(altValue)
+                        .build());
+        searchEngine.indexEntry(
+                SuggestDocument.builder()
+                        .id(id)
+                        .dictionary("anotherDictionary")
+                        .value(value)
+                        .altValues(altValue)
+                        .build());
 
         QueryResponse queryResponse = getResponse(query(dict, id));
 
@@ -68,18 +74,20 @@ class SuggestSearchIT {
         String value = "value";
         List<String> altValue = singletonList("altValue");
         String dict = "randomDictionary";
-        searchEngine.indexEntry(SuggestDocument.builder()
-                                        .id(id)
-                                        .dictionary(dict)
-                                        .value(value)
-                                        .altValues(altValue)
-                                        .build());
-        searchEngine.indexEntry(SuggestDocument.builder()
-                                        .id(id)
-                                        .dictionary("anotherDictionary")
-                                        .value(value)
-                                        .altValues(altValue)
-                                        .build());
+        searchEngine.indexEntry(
+                SuggestDocument.builder()
+                        .id(id)
+                        .dictionary(dict)
+                        .value(value)
+                        .altValues(altValue)
+                        .build());
+        searchEngine.indexEntry(
+                SuggestDocument.builder()
+                        .id(id)
+                        .dictionary("anotherDictionary")
+                        .value(value)
+                        .altValues(altValue)
+                        .build());
 
         QueryResponse queryResponse = getResponse(query(dict, id.substring(0, id.length() - 1)));
 
@@ -94,18 +102,20 @@ class SuggestSearchIT {
         String value = "value";
         List<String> altValue = singletonList("D. melanogaster");
         String dict = "randomDictionary";
-        searchEngine.indexEntry(SuggestDocument.builder()
-                                        .id(id)
-                                        .dictionary(dict)
-                                        .value(value)
-                                        .altValues(altValue)
-                                        .build());
-        searchEngine.indexEntry(SuggestDocument.builder()
-                                        .id(id)
-                                        .dictionary("anotherDictionary")
-                                        .value(value)
-                                        .altValues(altValue)
-                                        .build());
+        searchEngine.indexEntry(
+                SuggestDocument.builder()
+                        .id(id)
+                        .dictionary(dict)
+                        .value(value)
+                        .altValues(altValue)
+                        .build());
+        searchEngine.indexEntry(
+                SuggestDocument.builder()
+                        .id(id)
+                        .dictionary("anotherDictionary")
+                        .value(value)
+                        .altValues(altValue)
+                        .build());
 
         QueryResponse queryResponse = getResponse(query(dict, "mel"));
 
@@ -121,18 +131,20 @@ class SuggestSearchIT {
         String value = "value";
         List<String> altValue = singletonList("altValue");
         String dict = "randomDictionary";
-        searchEngine.indexEntry(SuggestDocument.builder()
-                                        .id(id)
-                                        .dictionary(dict)
-                                        .value(value)
-                                        .altValues(altValue)
-                                        .build());
-        searchEngine.indexEntry(SuggestDocument.builder()
-                                        .id("234")
-                                        .dictionary(dict)
-                                        .value(value)
-                                        .altValues(altValue)
-                                        .build());
+        searchEngine.indexEntry(
+                SuggestDocument.builder()
+                        .id(id)
+                        .dictionary(dict)
+                        .value(value)
+                        .altValues(altValue)
+                        .build());
+        searchEngine.indexEntry(
+                SuggestDocument.builder()
+                        .id("234")
+                        .dictionary(dict)
+                        .value(value)
+                        .altValues(altValue)
+                        .build());
 
         QueryResponse queryResponse = getResponse(query(dict, nonZeroIdPart));
 
@@ -148,18 +160,20 @@ class SuggestSearchIT {
         List<String> altValue = singletonList("altValue");
         String dict = "randomDictionary";
         String idLonger = id + "567";
-        searchEngine.indexEntry(SuggestDocument.builder()
-                                        .id(idLonger)
-                                        .dictionary(dict)
-                                        .value(value)
-                                        .altValues(altValue)
-                                        .build());
-        searchEngine.indexEntry(SuggestDocument.builder()
-                                        .id(id)
-                                        .dictionary(dict)
-                                        .value(value)
-                                        .altValues(altValue)
-                                        .build());
+        searchEngine.indexEntry(
+                SuggestDocument.builder()
+                        .id(idLonger)
+                        .dictionary(dict)
+                        .value(value)
+                        .altValues(altValue)
+                        .build());
+        searchEngine.indexEntry(
+                SuggestDocument.builder()
+                        .id(id)
+                        .dictionary(dict)
+                        .value(value)
+                        .altValues(altValue)
+                        .build());
 
         QueryResponse queryResponse = getResponse(query(dict, id));
 
@@ -176,18 +190,20 @@ class SuggestSearchIT {
         List<String> altValue = singletonList("altValue");
         String dict = "randomDictionary";
         String idLonger = id + "567";
-        searchEngine.indexEntry(SuggestDocument.builder()
-                                        .id(idLonger)
-                                        .dictionary(dict)
-                                        .value(value)
-                                        .altValues(altValue)
-                                        .build());
-        searchEngine.indexEntry(SuggestDocument.builder()
-                                        .id(id)
-                                        .dictionary(dict)
-                                        .value("another value")
-                                        .altValues(altValue)
-                                        .build());
+        searchEngine.indexEntry(
+                SuggestDocument.builder()
+                        .id(idLonger)
+                        .dictionary(dict)
+                        .value(value)
+                        .altValues(altValue)
+                        .build());
+        searchEngine.indexEntry(
+                SuggestDocument.builder()
+                        .id(id)
+                        .dictionary(dict)
+                        .value("another value")
+                        .altValues(altValue)
+                        .build());
 
         QueryResponse queryResponse = getResponse(query(dict, "two"));
 
@@ -203,18 +219,20 @@ class SuggestSearchIT {
         List<String> altValue = singletonList("altValue");
         String dict = "randomDictionary";
         String idLonger = id + "567";
-        searchEngine.indexEntry(SuggestDocument.builder()
-                                        .id(idLonger)
-                                        .dictionary(dict)
-                                        .value(value)
-                                        .altValues(altValue)
-                                        .build());
-        searchEngine.indexEntry(SuggestDocument.builder()
-                                        .id(id)
-                                        .dictionary(dict)
-                                        .value("another value")
-                                        .altValues(altValue)
-                                        .build());
+        searchEngine.indexEntry(
+                SuggestDocument.builder()
+                        .id(idLonger)
+                        .dictionary(dict)
+                        .value(value)
+                        .altValues(altValue)
+                        .build());
+        searchEngine.indexEntry(
+                SuggestDocument.builder()
+                        .id(id)
+                        .dictionary(dict)
+                        .value("another value")
+                        .altValues(altValue)
+                        .build());
 
         QueryResponse queryResponse = getResponse(query(dict, "two"));
 
@@ -230,18 +248,20 @@ class SuggestSearchIT {
         String dict = "randomDictionary";
         String someId = "some id";
         String someValue = "some value";
-        searchEngine.indexEntry(SuggestDocument.builder()
-                                        .id(someId)
-                                        .dictionary(dict)
-                                        .value(id)
-                                        .altValues(altValue)
-                                        .build());
-        searchEngine.indexEntry(SuggestDocument.builder()
-                                        .id(id)
-                                        .dictionary(dict)
-                                        .value(someValue)
-                                        .altValues(altValue)
-                                        .build());
+        searchEngine.indexEntry(
+                SuggestDocument.builder()
+                        .id(someId)
+                        .dictionary(dict)
+                        .value(id)
+                        .altValues(altValue)
+                        .build());
+        searchEngine.indexEntry(
+                SuggestDocument.builder()
+                        .id(id)
+                        .dictionary(dict)
+                        .value(someValue)
+                        .altValues(altValue)
+                        .build());
 
         QueryResponse queryResponse = getResponse(query(dict, id));
 
@@ -258,18 +278,20 @@ class SuggestSearchIT {
         String dict = "randomDictionary";
         String someId = "some id";
         String someValue = "some value";
-        searchEngine.indexEntry(SuggestDocument.builder()
-                                        .id(someId)
-                                        .dictionary(dict)
-                                        .value(id)
-                                        .altValues(altValue)
-                                        .build());
-        searchEngine.indexEntry(SuggestDocument.builder()
-                                        .id(id)
-                                        .dictionary(dict)
-                                        .value(someValue)
-                                        .altValues(altValue)
-                                        .build());
+        searchEngine.indexEntry(
+                SuggestDocument.builder()
+                        .id(someId)
+                        .dictionary(dict)
+                        .value(id)
+                        .altValues(altValue)
+                        .build());
+        searchEngine.indexEntry(
+                SuggestDocument.builder()
+                        .id(id)
+                        .dictionary(dict)
+                        .value(someValue)
+                        .altValues(altValue)
+                        .build());
 
         QueryResponse queryResponse = getResponse(query(dict, id));
 
@@ -290,20 +312,22 @@ class SuggestSearchIT {
         String otherId = "otherId";
         List<String> otherAltValues = asList("Human", man + " another", "yetAnother");
 
-        searchEngine.indexEntry(SuggestDocument.builder()
-                                        .id(otherId)
-                                        .dictionary(dict)
-                                        .importance(medium.name())
-                                        .value(someValue)
-                                        .altValues(otherAltValues)
-                                        .build());
-        searchEngine.indexEntry(SuggestDocument.builder()
-                                        .id(id)
-                                        .dictionary(dict)
-                                        .importance(high.name())
-                                        .value(someValue)
-                                        .altValues(altValues)
-                                        .build());
+        searchEngine.indexEntry(
+                SuggestDocument.builder()
+                        .id(otherId)
+                        .dictionary(dict)
+                        .importance(medium.name())
+                        .value(someValue)
+                        .altValues(otherAltValues)
+                        .build());
+        searchEngine.indexEntry(
+                SuggestDocument.builder()
+                        .id(id)
+                        .dictionary(dict)
+                        .importance(high.name())
+                        .value(someValue)
+                        .altValues(altValues)
+                        .build());
 
         QueryResponse queryResponse = getResponse(query(dict, man.toLowerCase()));
 
@@ -319,12 +343,13 @@ class SuggestSearchIT {
         String someValue = "some value";
         List<String> altValue = singletonList("altValue");
         String dict = "randomDictionary";
-        searchEngine.indexEntry(SuggestDocument.builder()
-                                        .id(id)
-                                        .dictionary(dict)
-                                        .value(someValue)
-                                        .altValues(altValue)
-                                        .build());
+        searchEngine.indexEntry(
+                SuggestDocument.builder()
+                        .id(id)
+                        .dictionary(dict)
+                        .value(someValue)
+                        .altValues(altValue)
+                        .build());
 
         QueryResponse queryResponse = getResponse(query(dict, id));
 
@@ -341,18 +366,20 @@ class SuggestSearchIT {
         List<String> altValue = singletonList("altValue");
         String dict = "randomDictionary";
         String someId = "some id";
-        searchEngine.indexEntry(SuggestDocument.builder()
-                                        .id(id)
-                                        .dictionary(dict)
-                                        .value(someValue)
-                                        .altValues(altValue)
-                                        .build());
-        searchEngine.indexEntry(SuggestDocument.builder()
-                                        .id(someId)
-                                        .dictionary(dict)
-                                        .value(someValue)
-                                        .altValues(altValue)
-                                        .build());
+        searchEngine.indexEntry(
+                SuggestDocument.builder()
+                        .id(id)
+                        .dictionary(dict)
+                        .value(someValue)
+                        .altValues(altValue)
+                        .build());
+        searchEngine.indexEntry(
+                SuggestDocument.builder()
+                        .id(someId)
+                        .dictionary(dict)
+                        .value(someValue)
+                        .altValues(altValue)
+                        .build());
 
         QueryResponse queryResponse = getResponse(query(dict, prefixId));
 
@@ -365,14 +392,20 @@ class SuggestSearchIT {
         return searchEngine.getQueryResponse(REQUEST_HANDLER, query);
     }
 
-    private void checkResultsContains(SolrDocumentList results, int position, String id, String value, List<String> altValues) {
+    private void checkResultsContains(
+            SolrDocumentList results,
+            int position,
+            String id,
+            String value,
+            List<String> altValues) {
         SolrDocument document = results.get(position);
         checkFieldForDocument(document, SuggestField.Stored.id, id);
         checkFieldForDocument(document, SuggestField.Stored.value, value);
         checkFieldForDocument(document, SuggestField.Stored.altValue, altValues);
     }
 
-    private void checkFieldForDocument(SolrDocument document, SuggestField.Stored valueEnum, String value) {
+    private void checkFieldForDocument(
+            SolrDocument document, SuggestField.Stored valueEnum, String value) {
         Collection<String> fieldNames = document.getFieldNames();
 
         if (value == null) {
@@ -382,7 +415,8 @@ class SuggestSearchIT {
         }
     }
 
-    private void checkFieldForDocument(SolrDocument document, SuggestField.Stored valueEnum, List<String> values) {
+    private void checkFieldForDocument(
+            SolrDocument document, SuggestField.Stored valueEnum, List<String> values) {
         Collection<String> fieldNames = document.getFieldNames();
 
         if (values == null) {
@@ -393,9 +427,13 @@ class SuggestSearchIT {
     }
 
     private String query(String dict, String content) {
-        String query = "\"" + content + "\"" + " +" + QueryBuilder.query(SuggestField.Search.dict.name(), dict);
+        String query =
+                "\""
+                        + content
+                        + "\""
+                        + " +"
+                        + QueryBuilder.query(SuggestField.Search.dict.name(), dict);
         System.out.println(query);
         return query;
     }
 }
-

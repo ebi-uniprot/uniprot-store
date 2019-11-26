@@ -24,7 +24,8 @@ public class ClosableEmbeddedSolrClient extends SolrClient {
     }
 
     @Override
-    public NamedList<Object> request(SolrRequest solrRequest, String s) throws SolrServerException, IOException {
+    public NamedList<Object> request(SolrRequest solrRequest, String s)
+            throws SolrServerException, IOException {
         return server.request(solrRequest, s);
     }
 

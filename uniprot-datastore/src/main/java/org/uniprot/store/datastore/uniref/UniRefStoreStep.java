@@ -2,6 +2,8 @@ package org.uniprot.store.datastore.uniref;
 
 import static org.uniprot.store.datastore.utils.Constants.UNIREF_STORE_STEP;
 
+import net.jodah.failsafe.RetryPolicy;
+
 import org.springframework.aop.framework.Advised;
 import org.springframework.aop.support.AopUtils;
 import org.springframework.batch.core.Step;
@@ -26,37 +28,35 @@ import org.uniprot.store.job.common.listener.LogRateListener;
 import org.uniprot.store.job.common.listener.WriteRetrierLogStepListener;
 import org.uniprot.store.job.common.writer.ItemRetryWriter;
 
-import net.jodah.failsafe.RetryPolicy;
-
 /**
- *
  * @author jluo
  * @date: 15 Aug 2019
- *
-*/
+ */
 @Configuration
 @Import({UniRefStoreConfig.class, UniRefConfig.class, UniRefAsnycConfig.class})
 public class UniRefStoreStep {
-	private final StepBuilderFactory stepBuilderFactory;
+    private final StepBuilderFactory stepBuilderFactory;
     private final UniRefStoreProperties unirefStoreProperties;
 
     @Autowired
-    public UniRefStoreStep(StepBuilderFactory stepBuilderFactory,
-    		UniRefStoreProperties unirefStoreProperties) {
+    public UniRefStoreStep(
+            StepBuilderFactory stepBuilderFactory, UniRefStoreProperties unirefStoreProperties) {
         this.stepBuilderFactory = stepBuilderFactory;
         this.unirefStoreProperties = unirefStoreProperties;
     }
-    
-    
-    @Bean(name = "unirefStoreMainStep")
-    public Step unirefMainStep(WriteRetrierLogStepListener writeRetrierLogStepListener,
-                                       @Qualifier("unirefLogRateListener") LogRateListener<UniRefEntry> unirefLogRateListener,
-                                       ItemReader<Entry> entryItemReader,
-                                       ItemProcessor<Entry, UniRefEntry> unirefEntryProcessor,
-                                       ItemWriter<UniRefEntry> unirefEntryItemWriter,
-                                       ExecutionContextPromotionListener promotionListener) throws Exception {
 
-        return this.stepBuilderFactory.get(UNIREF_STORE_STEP)
+    @Bean(name = "unirefStoreMainStep")
+    public Step unirefMainStep(
+            WriteRetrierLogStepListener writeRetrierLogStepListener,
+            @Qualifier("unirefLogRateListener") LogRateListener<UniRefEntry> unirefLogRateListener,
+            ItemReader<Entry> entryItemReader,
+            ItemProcessor<Entry, UniRefEntry> unirefEntryProcessor,
+            ItemWriter<UniRefEntry> unirefEntryItemWriter,
+            ExecutionContextPromotionListener promotionListener)
+            throws Exception {
+
+        return this.stepBuilderFactory
+                .get(UNIREF_STORE_STEP)
                 .listener(promotionListener)
                 .<Entry, UniRefEntry>chunk(unirefStoreProperties.getChunkSize())
                 .reader(entryItemReader)
@@ -67,33 +67,34 @@ public class UniRefStoreStep {
                 .listener(unwrapProxy(unirefEntryItemWriter))
                 .build();
     }
-    
+
     // ---------------------- Readers ----------------------
     @Bean
     public ItemReader<Entry> unirefEntryItemReader() {
         return new UniRefXmlEntryReader(unirefStoreProperties.getXmlFilePath());
     }
-    
+
     // ---------------------- Processors ----------------------
     @Bean
     public ItemProcessor<Entry, UniRefEntry> unirefEntryProcessor() {
         return new UniRefEntryProcessor();
     }
-    
+
     // ---------------------- Writers ----------------------
     @Bean
-    public ItemRetryWriter<UniRefEntry, UniRefEntry> unirefEntryItemWriter(UniProtStoreClient<UniRefEntry> unirefStoreClient,    		
-    		 RetryPolicy<Object> writeRetryPolicy) {
-        return new UniRefEntryRetryWriter(entries -> entries.forEach(unirefStoreClient::saveEntry),
-                                           writeRetryPolicy);
+    public ItemRetryWriter<UniRefEntry, UniRefEntry> unirefEntryItemWriter(
+            UniProtStoreClient<UniRefEntry> unirefStoreClient,
+            RetryPolicy<Object> writeRetryPolicy) {
+        return new UniRefEntryRetryWriter(
+                entries -> entries.forEach(unirefStoreClient::saveEntry), writeRetryPolicy);
     }
-    
+
     // ---------------------- Listeners ----------------------
     @Bean(name = "unirefLogRateListener")
     public LogRateListener<UniRefEntry> unirefLogRateListener() {
         return new LogRateListener<>(unirefStoreProperties.getLogRateInterval());
     }
-    //g
+    // g
     private Object unwrapProxy(Object bean) throws Exception {
         if (AopUtils.isAopProxy(bean) && bean instanceof Advised) {
             Advised advised = (Advised) bean;
@@ -102,4 +103,3 @@ public class UniRefStoreStep {
         return bean;
     }
 }
-

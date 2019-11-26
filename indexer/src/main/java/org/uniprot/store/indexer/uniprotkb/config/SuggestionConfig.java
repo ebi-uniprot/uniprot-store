@@ -1,13 +1,5 @@
 package org.uniprot.store.indexer.uniprotkb.config;
 
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.uniprot.core.cv.xdb.UniProtXDbTypes;
-import org.uniprot.core.uniprot.comment.CommentType;
-import org.uniprot.core.uniprot.feature.FeatureCategory;
-import org.uniprot.store.search.document.suggest.SuggestDictionary;
-import org.uniprot.store.search.document.suggest.SuggestDocument;
-
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -16,6 +8,14 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.uniprot.core.cv.xdb.UniProtXDbTypes;
+import org.uniprot.core.uniprot.comment.CommentType;
+import org.uniprot.core.uniprot.feature.FeatureCategory;
+import org.uniprot.store.search.document.suggest.SuggestDictionary;
+import org.uniprot.store.search.document.suggest.SuggestDocument;
 
 /**
  * Created 16/05/19
@@ -35,17 +35,29 @@ public class SuggestionConfig {
     public Map<String, SuggestDocument> suggestDocuments() {
         Map<String, SuggestDocument> suggestionMap = new ConcurrentHashMap<>();
 
-        loadDefaultMainSuggestions().forEach(suggestion -> suggestionMap.put(suggestion.value, suggestion));        
-      
-        
-        loadDefaultTaxonSynonymSuggestions(SuggestDictionary.TAXONOMY, DEFAULT_TAXON_SYNONYMS_FILE ).forEach(suggestion -> 
-        	suggestionMap.put(SuggestDictionary.TAXONOMY.name() + ":" + suggestion.id, suggestion));  
-        
-        loadDefaultTaxonSynonymSuggestions(SuggestDictionary.ORGANISM, DEFAULT_TAXON_SYNONYMS_FILE ).forEach(suggestion -> 
-    	suggestionMap.put(SuggestDictionary.ORGANISM.name() + ":" + suggestion.id, suggestion));  
-        
-        loadDefaultTaxonSynonymSuggestions(SuggestDictionary.HOST, DEFAULT_HOST_SYNONYMS_FILE ).forEach(suggestion -> 
-    	suggestionMap.put(SuggestDictionary.HOST.name() + ":" + suggestion.id, suggestion));   
+        loadDefaultMainSuggestions()
+                .forEach(suggestion -> suggestionMap.put(suggestion.value, suggestion));
+
+        loadDefaultTaxonSynonymSuggestions(SuggestDictionary.TAXONOMY, DEFAULT_TAXON_SYNONYMS_FILE)
+                .forEach(
+                        suggestion ->
+                                suggestionMap.put(
+                                        SuggestDictionary.TAXONOMY.name() + ":" + suggestion.id,
+                                        suggestion));
+
+        loadDefaultTaxonSynonymSuggestions(SuggestDictionary.ORGANISM, DEFAULT_TAXON_SYNONYMS_FILE)
+                .forEach(
+                        suggestion ->
+                                suggestionMap.put(
+                                        SuggestDictionary.ORGANISM.name() + ":" + suggestion.id,
+                                        suggestion));
+
+        loadDefaultTaxonSynonymSuggestions(SuggestDictionary.HOST, DEFAULT_HOST_SYNONYMS_FILE)
+                .forEach(
+                        suggestion ->
+                                suggestionMap.put(
+                                        SuggestDictionary.HOST.name() + ":" + suggestion.id,
+                                        suggestion));
         return suggestionMap;
     }
 
@@ -58,14 +70,16 @@ public class SuggestionConfig {
 
         return defaultSuggestions;
     }
-    
-    private List<SuggestDocument> loadDefaultTaxonSynonymSuggestions(SuggestDictionary dict, String taxonSynonymFile) {
+
+    private List<SuggestDocument> loadDefaultTaxonSynonymSuggestions(
+            SuggestDictionary dict, String taxonSynonymFile) {
         List<SuggestDocument> taxonSuggestions = new ArrayList<>();
-        InputStream inputStream = SuggestionConfig.class.getClassLoader()
-                .getResourceAsStream(taxonSynonymFile);
+        InputStream inputStream =
+                SuggestionConfig.class.getClassLoader().getResourceAsStream(taxonSynonymFile);
         if (inputStream != null) {
-            try (Stream<String> lines = new BufferedReader(new InputStreamReader(inputStream)).lines()) {
-                lines.map(val->createDefaultTaxonomySuggestion(val, dict))
+            try (Stream<String> lines =
+                    new BufferedReader(new InputStreamReader(inputStream)).lines()) {
+                lines.map(val -> createDefaultTaxonomySuggestion(val, dict))
                         .filter(Objects::nonNull)
                         .forEach(taxonSuggestions::add);
             }
@@ -74,9 +88,8 @@ public class SuggestionConfig {
         return taxonSuggestions;
     }
 
-  
-    
-    private SuggestDocument createDefaultTaxonomySuggestion(String csvLine, SuggestDictionary dict ) {
+    private SuggestDocument createDefaultTaxonomySuggestion(
+            String csvLine, SuggestDictionary dict) {
         String[] lineParts = csvLine.split("\t");
         if (!csvLine.startsWith(COMMENT_LINE_PREFIX) && lineParts.length == 4) {
             return SuggestDocument.builder()
@@ -93,13 +106,14 @@ public class SuggestionConfig {
 
     private static List<SuggestDocument> databaseSuggestions() {
         return UniProtXDbTypes.INSTANCE.getAllDBXRefTypes().stream()
-                .map(type -> {
-                    String name = removeTerminalSemiColon(type.getDisplayName());
-                    return SuggestDocument.builder()
-                            .value(DATABASE_PREFIX + name)
-                            .dictionary(SuggestDictionary.MAIN.name())
-                            .build();
-                })
+                .map(
+                        type -> {
+                            String name = removeTerminalSemiColon(type.getDisplayName());
+                            return SuggestDocument.builder()
+                                    .value(DATABASE_PREFIX + name)
+                                    .dictionary(SuggestDictionary.MAIN.name())
+                                    .build();
+                        })
                 .collect(Collectors.toList());
     }
 
@@ -112,7 +126,8 @@ public class SuggestionConfig {
         }
     }
 
-    private <T extends Enum<T>> List<SuggestDocument> enumToSuggestions(EnumSuggestionFunction<T> typeToSuggestion) {
+    private <T extends Enum<T>> List<SuggestDocument> enumToSuggestions(
+            EnumSuggestionFunction<T> typeToSuggestion) {
         return Stream.of(typeToSuggestion.getEnumType().getEnumConstants())
                 .map(typeToSuggestion)
                 .filter(Optional::isPresent)
@@ -128,10 +143,11 @@ public class SuggestionConfig {
         @Override
         public Optional<SuggestDocument> apply(FeatureCategory value) {
             String name = value.name();
-            return Optional.of(SuggestDocument.builder()
-                                       .value(FEATURE_CATEGORY_PREFIX + name)
-                                       .dictionary(SuggestDictionary.MAIN.name())
-                                       .build());
+            return Optional.of(
+                    SuggestDocument.builder()
+                            .value(FEATURE_CATEGORY_PREFIX + name)
+                            .dictionary(SuggestDictionary.MAIN.name())
+                            .build());
         }
 
         @Override
@@ -144,12 +160,13 @@ public class SuggestionConfig {
         @Override
         public Optional<SuggestDocument> apply(CommentType value) {
             String name = value.toXmlDisplayName();
-            return value == CommentType.UNKNOWN ?
-                    Optional.empty() :
-                    Optional.of(SuggestDocument.builder()
-                                        .value(COMMENT_TYPE_PREFIX + name)
-                                        .dictionary(SuggestDictionary.MAIN.name())
-                                        .build());
+            return value == CommentType.UNKNOWN
+                    ? Optional.empty()
+                    : Optional.of(
+                            SuggestDocument.builder()
+                                    .value(COMMENT_TYPE_PREFIX + name)
+                                    .dictionary(SuggestDictionary.MAIN.name())
+                                    .build());
         }
 
         @Override

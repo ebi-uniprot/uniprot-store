@@ -1,10 +1,9 @@
 package org.uniprot.store.indexer.uniprot.inactiveentry;
 
-
-import com.google.common.base.Strings;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import com.google.common.base.Strings;
 
 public class InactiveUniProtEntry {
 
@@ -14,8 +13,8 @@ public class InactiveUniProtEntry {
     private final List<String> mergedOrDemergedAccessions;
     private static final String DEMERGED = "demerged";
 
-
-    public InactiveUniProtEntry(String accession, String id, String reason, List<String> mergedOrDemergedAccessions) {
+    public InactiveUniProtEntry(
+            String accession, String id, String reason, List<String> mergedOrDemergedAccessions) {
         super();
         this.accession = accession;
         this.id = id;
@@ -50,15 +49,19 @@ public class InactiveUniProtEntry {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append(accession).append(",")
-                .append(id).append(",")
-                .append(reason).append(",")
+        sb.append(accession)
+                .append(",")
+                .append(id)
+                .append(",")
+                .append(reason)
+                .append(",")
                 .append(mergedOrDemergedAccessions);
 
         return sb.toString();
     }
 
-    public static InactiveUniProtEntry from(String accession, String id, String reason, String mergedToAccesion) {
+    public static InactiveUniProtEntry from(
+            String accession, String id, String reason, String mergedToAccesion) {
         String name = id;
         if (accession.equals(name)) {
             name = "";
@@ -75,16 +78,18 @@ public class InactiveUniProtEntry {
     public static InactiveUniProtEntry merge(List<InactiveUniProtEntry> demergedEntries) {
         if (demergedEntries.isEmpty()) {
             return null;
-        } else if (demergedEntries.size() == 1)
-            return demergedEntries.get(0);
+        } else if (demergedEntries.size() == 1) return demergedEntries.get(0);
         else {
             List<String> accessions = new ArrayList<>();
             demergedEntries.stream()
                     .map(InactiveUniProtEntry::getMergedOrDemergedAccessions)
                     .forEach(accessions::addAll);
 
-            return new InactiveUniProtEntry(demergedEntries.get(0).getAccession(),
-                                            demergedEntries.get(0).getId(), DEMERGED, accessions);
+            return new InactiveUniProtEntry(
+                    demergedEntries.get(0).getAccession(),
+                    demergedEntries.get(0).getId(),
+                    DEMERGED,
+                    accessions);
         }
     }
 }

@@ -25,8 +25,8 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
  * will need correcting.
  *
  * <p>For example if {@code search-fields.json} contains field 'xxx', but the Solr schema defines a
- * field called, 'xx', then a test will fail that reports the Solr error stating that field
- * 'xxx' does not exist.
+ * field called, 'xx', then a test will fail that reports the Solr error stating that field 'xxx'
+ * does not exist.
  *
  * <p>Note that dynamic fields in Solr have slightly different behaviour. Dynamic fields in a Solr
  * schema, e.g., ft_*, allow queries upon any field starting with ft_. Created 18/11/2019

@@ -1,13 +1,15 @@
 package org.uniprot.store.datastore.voldemort;
 
-import com.codahale.metrics.Timer;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.inject.Inject;
+import java.io.IOException;
+import java.time.Duration;
+import java.util.*;
+
 import net.jodah.failsafe.Failsafe;
 import net.jodah.failsafe.RetryPolicy;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import voldemort.VoldemortException;
 import voldemort.client.ClientConfig;
 import voldemort.client.SocketStoreClientFactory;
@@ -15,9 +17,10 @@ import voldemort.client.StoreClient;
 import voldemort.client.StoreClientFactory;
 import voldemort.versioning.Versioned;
 
-import java.io.IOException;
-import java.time.Duration;
-import java.util.*;
+import com.codahale.metrics.Timer;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.inject.Inject;
 
 /**
  * @author lgonzales
@@ -84,8 +87,7 @@ public abstract class VoldemortRemoteJsonBinaryStore<T> implements VoldemortClie
         try {
             binaryEntry = getStoreObjectMapper().writeValueAsBytes(entry);
         } catch (JsonProcessingException e) {
-            throw new RuntimeException(
-                    "Unable to parse entry to binary json: ", e);
+            throw new RuntimeException("Unable to parse entry to binary json: ", e);
         }
         client.put(acc, binaryEntry);
         time.stop();
