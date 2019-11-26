@@ -7,7 +7,10 @@
 
 package org.uniprot.store.job.common.listener;
 
+import java.util.concurrent.atomic.AtomicInteger;
+
 import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.batch.core.BatchStatus;
 import org.springframework.batch.core.ExitStatus;
 import org.springframework.batch.core.StepExecution;
@@ -16,8 +19,6 @@ import org.springframework.batch.item.ExecutionContext;
 import org.uniprot.core.util.Utils;
 import org.uniprot.core.util.concurrency.OnZeroCountSleeper;
 import org.uniprot.store.job.common.util.CommonConstants;
-
-import java.util.concurrent.atomic.AtomicInteger;
 
 @Slf4j
 public class WriteRetrierLogStepListener implements StepExecutionListener {

@@ -1,5 +1,16 @@
 package org.uniprot.store.indexer.search.uniprot;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.contains;
+import static org.hamcrest.Matchers.containsInAnyOrder;
+import static org.uniprot.store.indexer.search.uniprot.IdentifierSearchIT.ACC_LINE;
+import static org.uniprot.store.indexer.search.uniprot.TestUtils.convertToUniProtEntry;
+import static org.uniprot.store.indexer.search.uniprot.TestUtils.query;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.List;
+
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -8,21 +19,7 @@ import org.uniprot.core.flatfile.writer.LineType;
 import org.uniprot.store.search.domain2.UniProtKBSearchFields;
 import org.uniprot.store.search.field.QueryBuilder;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.List;
-
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.contains;
-import static org.hamcrest.Matchers.containsInAnyOrder;
-import static org.uniprot.store.indexer.search.uniprot.IdentifierSearchIT.ACC_LINE;
-import static org.uniprot.store.indexer.search.uniprot.TestUtils.convertToUniProtEntry;
-import static org.uniprot.store.indexer.search.uniprot.TestUtils.query;
-
-
-/**
- * Test the behaviour of searching GO terms
- */
+/** Test the behaviour of searching GO terms */
 class GoTermSearchIT {
     private static final String GO_1 = "T1TTT2";
     private static final String GO_2 = "T1TTT3";
@@ -31,89 +28,103 @@ class GoTermSearchIT {
     private static final String GO_5 = "T1TTT6";
     private static final String GO_6 = "T1TTT7";
     private static final String UNIPROT_FLAT_FILE_ENTRY_PATH = "/it/uniprot/P0A377.43.dat";
-    @RegisterExtension
-    static UniProtSearchEngine searchEngine = new UniProtSearchEngine();
+    @RegisterExtension static UniProtSearchEngine searchEngine = new UniProtSearchEngine();
 
     @BeforeAll
     static void populateIndexWithTestData() throws IOException {
         // a test entry object that can be modified and added to index
         InputStream resourceAsStream = TestUtils.getResourceAsStream(UNIPROT_FLAT_FILE_ENTRY_PATH);
-        UniProtEntryObjectProxy entryProxy = UniProtEntryObjectProxy.createEntryFromInputStream(resourceAsStream);
+        UniProtEntryObjectProxy entryProxy =
+                UniProtEntryObjectProxy.createEntryFromInputStream(resourceAsStream);
 
         // GO refs
         entryProxy.updateEntryObject(LineType.AC, String.format(ACC_LINE, GO_1));
-        entryProxy.updateEntryObject(LineType.DR, "DR   GO; GO:0033644; C:host cell membrane; IEA:UniProtKB-KW.");
+        entryProxy.updateEntryObject(
+                LineType.DR, "DR   GO; GO:0033644; C:host cell membrane; IEA:UniProtKB-KW.");
         searchEngine.indexEntry(convertToUniProtEntry(entryProxy));
 
         entryProxy.updateEntryObject(LineType.AC, String.format(ACC_LINE, GO_2));
-        entryProxy.updateEntryObject(LineType.DR, "DR   GO; GO:0033645; C:host wheresTheSundayTimes membrane; IEA:UniProtKB-KW.");
+        entryProxy.updateEntryObject(
+                LineType.DR,
+                "DR   GO; GO:0033645; C:host wheresTheSundayTimes membrane; IEA:UniProtKB-KW.");
         searchEngine.indexEntry(convertToUniProtEntry(entryProxy));
 
         entryProxy.updateEntryObject(LineType.AC, String.format(ACC_LINE, GO_3));
-        entryProxy.updateEntryObject(LineType.DR, "DR   GO; GO:0000175; F:3'-5'-exoribonuclease activity; IBA:GO_Central.");
+        entryProxy.updateEntryObject(
+                LineType.DR,
+                "DR   GO; GO:0000175; F:3'-5'-exoribonuclease activity; IBA:GO_Central.");
         searchEngine.indexEntry(convertToUniProtEntry(entryProxy));
 
         entryProxy.updateEntryObject(LineType.AC, String.format(ACC_LINE, GO_4));
-        entryProxy.updateEntryObject(LineType.DR, "DR   GO; GO:0000009; F:alpha-1,6-mannosyltransferase activity; ISS:UniProtKB.");
+        entryProxy.updateEntryObject(
+                LineType.DR,
+                "DR   GO; GO:0000009; F:alpha-1,6-mannosyltransferase activity; ISS:UniProtKB.");
         searchEngine.indexEntry(convertToUniProtEntry(entryProxy));
 
         entryProxy.updateEntryObject(LineType.AC, String.format(ACC_LINE, GO_5));
-        entryProxy.updateEntryObject(LineType.DR, "DR   GO; GO:0001874; F:(1->3)-beta-D-glucan receptor activity; IDA:MGI.");
+        entryProxy.updateEntryObject(
+                LineType.DR,
+                "DR   GO; GO:0001874; F:(1->3)-beta-D-glucan receptor activity; IDA:MGI.");
         searchEngine.indexEntry(convertToUniProtEntry(entryProxy));
 
         entryProxy.updateEntryObject(LineType.AC, String.format(ACC_LINE, GO_6));
-        entryProxy.updateEntryObject(LineType.DR, "DR   GO; GO:0001874; F:(1->4)-beta-D-marsBars receptor activity; IDA:MGI.");
+        entryProxy.updateEntryObject(
+                LineType.DR,
+                "DR   GO; GO:0001874; F:(1->4)-beta-D-marsBars receptor activity; IDA:MGI.");
         searchEngine.indexEntry(convertToUniProtEntry(entryProxy));
 
         searchEngine.printIndexContents();
     }
 
-    @Test 
+    @Test
     void goEvidenceSingle() {
-      	String query= goTerm("iba", "*");
-    		QueryResponse response = searchEngine.getQueryResponse(query);
-    		 List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
-    		 assertThat(retrievedAccessions, contains(GO_3));
-    		// assertThat(retrievedAccessions, containsInAnyOrder(GO_5, GO_6));
+        String query = goTerm("iba", "*");
+        QueryResponse response = searchEngine.getQueryResponse(query);
+        List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
+        assertThat(retrievedAccessions, contains(GO_3));
+        // assertThat(retrievedAccessions, containsInAnyOrder(GO_5, GO_6));
     }
-    @Test 
+
+    @Test
     void goEvidenceTwo() {
-      	String query= goTerm("ida", "*");
-    		QueryResponse response = searchEngine.getQueryResponse(query);
-    		 List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
-    		
-    		 assertThat(retrievedAccessions, containsInAnyOrder(GO_5, GO_6));
+        String query = goTerm("ida", "*");
+        QueryResponse response = searchEngine.getQueryResponse(query);
+        List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
+
+        assertThat(retrievedAccessions, containsInAnyOrder(GO_5, GO_6));
     }
-    
-    @Test 
+
+    @Test
     void goWithEvidence() {
-      	String query= goTerm("iea", "0033644");
-    		QueryResponse response = searchEngine.getQueryResponse(query);
-    		 List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
-    		System.out.println(retrievedAccessions);
-    		 assertThat(retrievedAccessions, contains(GO_1, GO_2));
+        String query = goTerm("iea", "0033644");
+        QueryResponse response = searchEngine.getQueryResponse(query);
+        List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
+        System.out.println(retrievedAccessions);
+        assertThat(retrievedAccessions, contains(GO_1, GO_2));
     }
-    @Test 
+
+    @Test
     void goWithEvidence2() {
-      	String query= goTerm("iea", "0033645");
-    		QueryResponse response = searchEngine.getQueryResponse(query);
-    		 List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
-    		System.out.println(retrievedAccessions);
-    		 assertThat(retrievedAccessions, contains(GO_2));
+        String query = goTerm("iea", "0033645");
+        QueryResponse response = searchEngine.getQueryResponse(query);
+        List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
+        System.out.println(retrievedAccessions);
+        assertThat(retrievedAccessions, contains(GO_2));
     }
-    
-    @Test 
+
+    @Test
     void goWithEvidenceTwo() {
-      	String query= goTerm("ida", "0001874");
-    		QueryResponse response = searchEngine.getQueryResponse(query);
-    		 List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
-    		
-    		 assertThat(retrievedAccessions, containsInAnyOrder(GO_5, GO_6));
+        String query = goTerm("ida", "0001874");
+        QueryResponse response = searchEngine.getQueryResponse(query);
+        List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
+
+        assertThat(retrievedAccessions, containsInAnyOrder(GO_5, GO_6));
     }
+
     @Test
     void goExactlyCorrectTerms() {
-    	String query =query(UniProtKBSearchFields.INSTANCE.getField("accession"), GO_1);
-    	query = QueryBuilder.and(query, goTerm("host cell membrane"));
+        String query = query(UniProtKBSearchFields.INSTANCE.getField("accession"), GO_1);
+        query = QueryBuilder.and(query, goTerm("host cell membrane"));
 
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -123,8 +134,8 @@ class GoTermSearchIT {
 
     @Test
     void goPartialTermListMiddleWordMissing() {
-    	String query =query(UniProtKBSearchFields.INSTANCE.getField("accession"), GO_1);
-    	query =QueryBuilder.and(QueryBuilder.and(query, goTerm("host")), goTerm("membrane"));
+        String query = query(UniProtKBSearchFields.INSTANCE.getField("accession"), GO_1);
+        query = QueryBuilder.and(QueryBuilder.and(query, goTerm("host")), goTerm("membrane"));
         QueryResponse response = searchEngine.getQueryResponse(query);
 
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
@@ -133,8 +144,8 @@ class GoTermSearchIT {
 
     @Test
     void goPartialTermList() {
-    	String query =query(UniProtKBSearchFields.INSTANCE.getField("accession"), GO_1);
-    	query = QueryBuilder.and(query, goTerm("cell membrane"));
+        String query = query(UniProtKBSearchFields.INSTANCE.getField("accession"), GO_1);
+        query = QueryBuilder.and(query, goTerm("cell membrane"));
         QueryResponse response = searchEngine.getQueryResponse(query);
 
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
@@ -143,8 +154,8 @@ class GoTermSearchIT {
 
     @Test
     void goExactTermsWhichUse5And3Prime() {
-    	String query =query(UniProtKBSearchFields.INSTANCE.getField("accession"), GO_3);
-    	query = QueryBuilder.and(query, goTerm("3'-5'-exoribonuclease activity"));
+        String query = query(UniProtKBSearchFields.INSTANCE.getField("accession"), GO_3);
+        query = QueryBuilder.and(query, goTerm("3'-5'-exoribonuclease activity"));
         QueryResponse response = searchEngine.getQueryResponse(query);
 
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
@@ -153,8 +164,8 @@ class GoTermSearchIT {
 
     @Test
     void goPartialWith5And3Prime() {
-    	String query =query(UniProtKBSearchFields.INSTANCE.getField("accession"), GO_3);
-    	query = QueryBuilder.and(query, goTerm("exoribonuclease"));
+        String query = query(UniProtKBSearchFields.INSTANCE.getField("accession"), GO_3);
+        query = QueryBuilder.and(query, goTerm("exoribonuclease"));
 
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -164,9 +175,8 @@ class GoTermSearchIT {
 
     @Test
     void goExact1Comma6() {
-    	String query =query(UniProtKBSearchFields.INSTANCE.getField("accession"), GO_4);
-    	query = QueryBuilder.and(query, goTerm("alpha-1,6-mannosyltransferase activity"));
-
+        String query = query(UniProtKBSearchFields.INSTANCE.getField("accession"), GO_4);
+        query = QueryBuilder.and(query, goTerm("alpha-1,6-mannosyltransferase activity"));
 
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -206,8 +216,8 @@ class GoTermSearchIT {
 
     @Test
     void goPartialHyphensAlternative() {
-    	String query =goTerm("beta-D");
-    	query = QueryBuilder.and(query, goTerm("glucan"));
+        String query = goTerm("beta-D");
+        query = QueryBuilder.and(query, goTerm("glucan"));
 
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -234,17 +244,15 @@ class GoTermSearchIT {
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
         assertThat(retrievedAccessions, containsInAnyOrder(GO_5, GO_6));
     }
-    
-   private String goTerm(String term) {
-	   return query(UniProtKBSearchFields.INSTANCE.getField("go"), term);
-    }
-   private static final String GO_DYNAMIC_PREFIX = "go_";
 
-    
-    static String goTerm(String goEvidenceType, String value) {
-    	String field  = GO_DYNAMIC_PREFIX +  goEvidenceType.toLowerCase();
-    	return QueryBuilder.query(field, value);
-  	
+    private String goTerm(String term) {
+        return query(UniProtKBSearchFields.INSTANCE.getField("go"), term);
     }
-    
+
+    private static final String GO_DYNAMIC_PREFIX = "go_";
+
+    static String goTerm(String goEvidenceType, String value) {
+        String field = GO_DYNAMIC_PREFIX + goEvidenceType.toLowerCase();
+        return QueryBuilder.query(field, value);
+    }
 }

@@ -1,5 +1,19 @@
 package org.uniprot.store.indexer;
 
+import static java.util.Arrays.asList;
+import static org.slf4j.LoggerFactory.getLogger;
+
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Properties;
+import java.util.stream.Collectors;
+
 import org.apache.solr.client.solrj.SolrClient;
 import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.SolrServerException;
@@ -14,20 +28,6 @@ import org.uniprot.store.datastore.UniProtStoreClient;
 import org.uniprot.store.job.common.converter.DocumentConverter;
 import org.uniprot.store.search.SolrCollection;
 import org.uniprot.store.search.document.Document;
-
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Properties;
-import java.util.stream.Collectors;
-
-import static java.util.Arrays.asList;
-import static org.slf4j.LoggerFactory.getLogger;
 
 /**
  * Created 19/09/18

@@ -1,5 +1,14 @@
 package org.uniprot.store.indexer.search.uniprot;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.*;
+import static org.uniprot.store.indexer.search.uniprot.IdentifierSearchIT.ACC_LINE;
+import static org.uniprot.store.indexer.search.uniprot.TestUtils.convertToUniProtEntry;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.List;
+
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -8,15 +17,6 @@ import org.uniprot.core.flatfile.writer.LineType;
 import org.uniprot.store.search.domain2.SearchField;
 import org.uniprot.store.search.domain2.UniProtKBSearchFields;
 import org.uniprot.store.search.field.QueryBuilder;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.List;
-
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
-import static org.uniprot.store.indexer.search.uniprot.IdentifierSearchIT.ACC_LINE;
-import static org.uniprot.store.indexer.search.uniprot.TestUtils.convertToUniProtEntry;
 
 class CCBpcpSearchIT {
     private static final String Q6GZX4 = "Q6GZX4";

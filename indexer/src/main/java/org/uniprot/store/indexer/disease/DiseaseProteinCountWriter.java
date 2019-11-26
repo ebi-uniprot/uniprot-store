@@ -57,7 +57,7 @@ public class DiseaseProteinCountWriter
     }
 
     @BeforeStep // set the stepExecution to pass data from this step to another step. See above
-                // executionContext.put() call
+    // executionContext.put() call
     public void setStepExecution(final StepExecution stepExecution) {
         this.stepExecution = stepExecution;
     }

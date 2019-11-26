@@ -1,5 +1,16 @@
 package org.uniprot.store.indexer.search.uniprot;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.*;
+import static org.hamcrest.core.Is.is;
+import static org.uniprot.store.indexer.search.uniprot.IdentifierSearchIT.ACC_LINE;
+import static org.uniprot.store.indexer.search.uniprot.TestUtils.convertToUniProtEntry;
+import static org.uniprot.store.indexer.search.uniprot.TestUtils.query;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.List;
+
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Disabled;
@@ -9,22 +20,8 @@ import org.uniprot.core.flatfile.writer.LineType;
 import org.uniprot.store.search.domain2.UniProtKBSearchFields;
 import org.uniprot.store.search.field.QueryBuilder;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.List;
-
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
-import static org.hamcrest.core.Is.is;
-import static org.uniprot.store.indexer.search.uniprot.IdentifierSearchIT.ACC_LINE;
-import static org.uniprot.store.indexer.search.uniprot.TestUtils.convertToUniProtEntry;
-import static org.uniprot.store.indexer.search.uniprot.TestUtils.query;
-
-/**
- * Tests showing the behaviour of searching DR fields
- */
-class
-DRSearchIT {
+/** Tests showing the behaviour of searching DR fields */
+class DRSearchIT {
     private static final String GO_1 = "T1TTT2";
     private static final String GO_2 = "T1TTT3";
     private static final String GO_3 = "T1TTU9";
@@ -46,29 +43,32 @@ DRSearchIT {
     private static final String GENE3D_1 = "T1TTU8";
 
     private static final String UNIPROT_FLAT_FILE_ENTRY_PATH = "/it/uniprot/P0A377.43.dat";
-    @RegisterExtension
-    static UniProtSearchEngine searchEngine = new UniProtSearchEngine();
-
+    @RegisterExtension static UniProtSearchEngine searchEngine = new UniProtSearchEngine();
 
     @BeforeAll
     static void populateIndexWithTestData() throws IOException {
         // a test entry object that can be modified and added to index
         InputStream resourceAsStream = TestUtils.getResourceAsStream(UNIPROT_FLAT_FILE_ENTRY_PATH);
-        UniProtEntryObjectProxy entryProxy = UniProtEntryObjectProxy.createEntryFromInputStream(resourceAsStream);
+        UniProtEntryObjectProxy entryProxy =
+                UniProtEntryObjectProxy.createEntryFromInputStream(resourceAsStream);
 
         // GO refs
         entryProxy.updateEntryObject(LineType.AC, String.format(ACC_LINE, GO_1));
-        entryProxy.updateEntryObject(LineType.DR, "DR   GO; GO:0033644; C:host cell membrane; IEA:UniProtKB-KW.");
+        entryProxy.updateEntryObject(
+                LineType.DR, "DR   GO; GO:0033644; C:host cell membrane; IEA:UniProtKB-KW.");
         searchEngine.indexEntry(convertToUniProtEntry(entryProxy));
 
         entryProxy.updateEntryObject(LineType.AC, String.format(ACC_LINE, GO_2));
-        entryProxy.updateEntryObject(LineType.DR, "DR   GO; GO:0033644; C:host wheresTheSundayTimes membrane; IEA:UniProtKB-KW.");
+        entryProxy.updateEntryObject(
+                LineType.DR,
+                "DR   GO; GO:0033644; C:host wheresTheSundayTimes membrane; IEA:UniProtKB-KW.");
         searchEngine.indexEntry(convertToUniProtEntry(entryProxy));
 
         entryProxy.updateEntryObject(LineType.AC, String.format(ACC_LINE, GO_3));
-        entryProxy.updateEntryObject(LineType.DR, "DR   GO; GO:0000175; F:3'-5'-exoribonuclease activity; IBA:GO_Central.");
+        entryProxy.updateEntryObject(
+                LineType.DR,
+                "DR   GO; GO:0000175; F:3'-5'-exoribonuclease activity; IBA:GO_Central.");
         searchEngine.indexEntry(convertToUniProtEntry(entryProxy));
-
 
         // RefSeq refs
         entryProxy.updateEntryObject(LineType.AC, String.format(ACC_LINE, REF_SEQ_1));
@@ -81,17 +81,21 @@ DRSearchIT {
 
         // EMBL refs
         entryProxy.updateEntryObject(LineType.AC, String.format(ACC_LINE, EMBL_1));
-        entryProxy.updateEntryObject(LineType.DR, "DR   EMBL; AY548484; AAT09661.1; -; Genomic_DNA.\n"
-        		+ "DR   EMBL; AY548489; AAT09662.1; -; Genomic_DNA.");
-        
+        entryProxy.updateEntryObject(
+                LineType.DR,
+                "DR   EMBL; AY548484; AAT09661.1; -; Genomic_DNA.\n"
+                        + "DR   EMBL; AY548489; AAT09662.1; -; Genomic_DNA.");
+
         searchEngine.indexEntry(convertToUniProtEntry(entryProxy));
 
         entryProxy.updateEntryObject(LineType.AC, String.format(ACC_LINE, EMBL_2));
-        entryProxy.updateEntryObject(LineType.DR, "DR   EMBL; AY548484; AAT09661.2; -; Genomic_DNA.");
+        entryProxy.updateEntryObject(
+                LineType.DR, "DR   EMBL; AY548484; AAT09661.2; -; Genomic_DNA.");
         searchEngine.indexEntry(convertToUniProtEntry(entryProxy));
 
         entryProxy.updateEntryObject(LineType.AC, String.format(ACC_LINE, EMBL_3));
-        entryProxy.updateEntryObject(LineType.DR, "DR   EMBL; BY548484; BAT09661.1; -; Genomic_DNA.");
+        entryProxy.updateEntryObject(
+                LineType.DR, "DR   EMBL; BY548484; BAT09661.1; -; Genomic_DNA.");
         searchEngine.indexEntry(convertToUniProtEntry(entryProxy));
 
         // DR   InterPro
@@ -109,11 +113,15 @@ DRSearchIT {
         searchEngine.indexEntry(convertToUniProtEntry(entryProxy));
 
         entryProxy.updateEntryObject(LineType.AC, String.format(ACC_LINE, ARACHNOSERVER_1));
-        entryProxy.updateEntryObject(LineType.DR, "DR   ArachnoServer; AS001207; Sphingomyelinase D-like LaSicTox alphaclone2 (fragment).");
+        entryProxy.updateEntryObject(
+                LineType.DR,
+                "DR   ArachnoServer; AS001207; Sphingomyelinase D-like LaSicTox alphaclone2 (fragment).");
         searchEngine.indexEntry(convertToUniProtEntry(entryProxy));
 
         entryProxy.updateEntryObject(LineType.AC, String.format(ACC_LINE, ARACHNOSERVER_2));
-        entryProxy.updateEntryObject(LineType.DR, "DR   ArachnoServer; AS001207; Sphingomyelinase D-like LaSicTox alphaclone (fragment).");
+        entryProxy.updateEntryObject(
+                LineType.DR,
+                "DR   ArachnoServer; AS001207; Sphingomyelinase D-like LaSicTox alphaclone (fragment).");
         searchEngine.indexEntry(convertToUniProtEntry(entryProxy));
 
         entryProxy.updateEntryObject(LineType.AC, String.format(ACC_LINE, CCDS_1));
@@ -121,19 +129,26 @@ DRSearchIT {
         searchEngine.indexEntry(convertToUniProtEntry(entryProxy));
 
         entryProxy.updateEntryObject(LineType.AC, String.format(ACC_LINE, ZFIN_1));
-        entryProxy.updateEntryObject(LineType.DR, "DR   ZFIN; ZDB-GENE-091204-381; si:ch211-120j21.1.");
+        entryProxy.updateEntryObject(
+                LineType.DR, "DR   ZFIN; ZDB-GENE-091204-381; si:ch211-120j21.1.");
         searchEngine.indexEntry(convertToUniProtEntry(entryProxy));
 
         entryProxy.updateEntryObject(LineType.AC, String.format(ACC_LINE, TCDB_1));
-        entryProxy.updateEntryObject(LineType.DR, "DR   TCDB; 9.C.15.1.1; the animal calmodulin-dependent e.r. secretion pathway (csp) family.");
+        entryProxy.updateEntryObject(
+                LineType.DR,
+                "DR   TCDB; 9.C.15.1.1; the animal calmodulin-dependent e.r. secretion pathway (csp) family.");
         searchEngine.indexEntry(convertToUniProtEntry(entryProxy));
 
         entryProxy.updateEntryObject(LineType.AC, String.format(ACC_LINE, TCDB_2));
-        entryProxy.updateEntryObject(LineType.DR, "DR   TCDB; 9.B.67.5.1; the putative inorganic carbon (hco3(-)) transporter/o-brownianntigen polymerase (ict/oap) family zebra-feather-brownian-monster.");
+        entryProxy.updateEntryObject(
+                LineType.DR,
+                "DR   TCDB; 9.B.67.5.1; the putative inorganic carbon (hco3(-)) transporter/o-brownianntigen polymerase (ict/oap) family zebra-feather-brownian-monster.");
         searchEngine.indexEntry(convertToUniProtEntry(entryProxy));
 
         entryProxy.updateEntryObject(LineType.AC, String.format(ACC_LINE, TCDB_3));
-        entryProxy.updateEntryObject(LineType.DR, "DR   TCDB; 3.D.6.1.1; the putative ion (h(+) or na(+))-translocating nadh:ferredoxin oxidoreductase (nfo) family zebra-feather-another-monster.");
+        entryProxy.updateEntryObject(
+                LineType.DR,
+                "DR   TCDB; 3.D.6.1.1; the putative ion (h(+) or na(+))-translocating nadh:ferredoxin oxidoreductase (nfo) family zebra-feather-another-monster.");
         searchEngine.indexEntry(convertToUniProtEntry(entryProxy));
 
         entryProxy.updateEntryObject(LineType.AC, String.format(ACC_LINE, GENE3D_1));
@@ -163,12 +178,10 @@ DRSearchIT {
         assertThat(retrievedAccessions, contains(GENE3D_1));
     }
 
-
-
     @Test
     void goExactlyCorrectAccession() {
-    	String query = query(UniProtKBSearchFields.INSTANCE.getField("accession"), GO_1);
-         query = QueryBuilder.and(query, xref("GO", "GO:0033644"));
+        String query = query(UniProtKBSearchFields.INSTANCE.getField("accession"), GO_1);
+        query = QueryBuilder.and(query, xref("GO", "GO:0033644"));
 
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -178,14 +191,14 @@ DRSearchIT {
 
     @Test
     void goCaseInSensitiveAccession() {
-    	String query = query(UniProtKBSearchFields.INSTANCE.getField("accession"), GO_1);
-    	 query = QueryBuilder.and(query, xref("GO", "go:0033644"));
+        String query = query(UniProtKBSearchFields.INSTANCE.getField("accession"), GO_1);
+        query = QueryBuilder.and(query, xref("GO", "go:0033644"));
         QueryResponse response = searchEngine.getQueryResponse(query);
 
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
         assertThat(retrievedAccessions, contains(GO_1));
     }
-   
+
     @Test
     void refseqCommonWordFoundInBothEntries() {
         String query = xref("REFSEQ", "*");
@@ -208,9 +221,8 @@ DRSearchIT {
 
     @Test
     void refseqIDNoVersion() {
-    	String query = query(UniProtKBSearchFields.INSTANCE.getField("accession"), REF_SEQ_1);
-        query =  QueryBuilder.and( query,xref("REFSEQ", "YP_654585"));
-
+        String query = query(UniProtKBSearchFields.INSTANCE.getField("accession"), REF_SEQ_1);
+        query = QueryBuilder.and(query, xref("REFSEQ", "YP_654585"));
 
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -220,8 +232,8 @@ DRSearchIT {
 
     @Test
     void refseqIDWithVersion() {
-    	String query = query(UniProtKBSearchFields.INSTANCE.getField("accession"), REF_SEQ_1);
-         query =  QueryBuilder.and( query,xref("REFSEQ", "YP_654585.1"));
+        String query = query(UniProtKBSearchFields.INSTANCE.getField("accession"), REF_SEQ_1);
+        query = QueryBuilder.and(query, xref("REFSEQ", "YP_654585.1"));
 
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -231,9 +243,8 @@ DRSearchIT {
 
     @Test
     void refseqDontFindIDWithVersion() {
-    	String query = query(UniProtKBSearchFields.INSTANCE.getField("accession"), REF_SEQ_1);
-        query =  QueryBuilder.and( query,xref("REFSEQ", "YP_654585.2"));
-
+        String query = query(UniProtKBSearchFields.INSTANCE.getField("accession"), REF_SEQ_1);
+        query = QueryBuilder.and(query, xref("REFSEQ", "YP_654585.2"));
 
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -243,8 +254,8 @@ DRSearchIT {
 
     @Test
     void refseqDontFindIDWithVersionAgain() {
-    	String query = query(UniProtKBSearchFields.INSTANCE.getField("accession"), REF_SEQ_2);
-         query = QueryBuilder.and( query,xref("REFSEQ", "NC_008187.1"));
+        String query = query(UniProtKBSearchFields.INSTANCE.getField("accession"), REF_SEQ_2);
+        query = QueryBuilder.and(query, xref("REFSEQ", "NC_008187.1"));
 
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -254,8 +265,8 @@ DRSearchIT {
 
     @Test
     void refseqFindIDWithVersion() {
-    	String query = query(UniProtKBSearchFields.INSTANCE.getField("accession"), REF_SEQ_2);
-         query = QueryBuilder.and( query, xref("REFSEQ", "NC_008187.2"));
+        String query = query(UniProtKBSearchFields.INSTANCE.getField("accession"), REF_SEQ_2);
+        query = QueryBuilder.and(query, xref("REFSEQ", "NC_008187.2"));
 
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -295,8 +306,8 @@ DRSearchIT {
 
     @Test
     void emblDontFindInEntry() {
-    	String query = query(UniProtKBSearchFields.INSTANCE.getField("accession"), EMBL_1);
-         query = QueryBuilder.and(query, xref("EMBL", "BY548484"));
+        String query = query(UniProtKBSearchFields.INSTANCE.getField("accession"), EMBL_1);
+        query = QueryBuilder.and(query, xref("EMBL", "BY548484"));
 
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -306,8 +317,8 @@ DRSearchIT {
 
     @Test
     void emblFindInEntry() {
-    	String query = query(UniProtKBSearchFields.INSTANCE.getField("accession"), EMBL_3);
-         query =QueryBuilder.and(query, xref("EMBL", "BY548484"));
+        String query = query(UniProtKBSearchFields.INSTANCE.getField("accession"), EMBL_3);
+        query = QueryBuilder.and(query, xref("EMBL", "BY548484"));
 
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -324,36 +335,37 @@ DRSearchIT {
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
         assertThat(retrievedAccessions, contains(EMBL_1, EMBL_2, EMBL_3));
     }
-    
-    @Test 
+
+    @Test
     void emblCount() {
-    	String query =QueryBuilder.rangeQuery("xref_count_embl", 1, 2);
-    	 QueryResponse response = searchEngine.getQueryResponse(query);
+        String query = QueryBuilder.rangeQuery("xref_count_embl", 1, 2);
+        QueryResponse response = searchEngine.getQueryResponse(query);
 
-         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
-         System.out.println(retrievedAccessions);
-         assertThat(retrievedAccessions, contains(EMBL_1, EMBL_2, EMBL_3));
+        List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
+        System.out.println(retrievedAccessions);
+        assertThat(retrievedAccessions, contains(EMBL_1, EMBL_2, EMBL_3));
     }
-    @Test 
+
+    @Test
     void emblCount2() {
-    	String query =QueryBuilder.rangeQuery("xref_count_embl", 1, 1);
-    	 QueryResponse response = searchEngine.getQueryResponse(query);
+        String query = QueryBuilder.rangeQuery("xref_count_embl", 1, 1);
+        QueryResponse response = searchEngine.getQueryResponse(query);
 
-         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
-         System.out.println(retrievedAccessions);
-         assertThat(retrievedAccessions, contains(EMBL_2, EMBL_3));
+        List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
+        System.out.println(retrievedAccessions);
+        assertThat(retrievedAccessions, contains(EMBL_2, EMBL_3));
     }
-    
-    @Test 
+
+    @Test
     void emblCount3() {
-    	String query =QueryBuilder.rangeQuery("xref_count_embl", 2, 3);
-    	 QueryResponse response = searchEngine.getQueryResponse(query);
+        String query = QueryBuilder.rangeQuery("xref_count_embl", 2, 3);
+        QueryResponse response = searchEngine.getQueryResponse(query);
 
-         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
-         System.out.println(retrievedAccessions);
-         assertThat(retrievedAccessions, contains(EMBL_1));
+        List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
+        System.out.println(retrievedAccessions);
+        assertThat(retrievedAccessions, contains(EMBL_1));
     }
-    
+
     @Test
     void emblFindProteinIDWithoutVersion() {
         String query = xref("EMBL", "BAT09661");
@@ -363,7 +375,7 @@ DRSearchIT {
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
         assertThat(retrievedAccessions, containsInAnyOrder(EMBL_3));
     }
- 
+
     @Test
     void emblFindProteinIDWithVersionNoVersion() {
         String query = xref("EMBL", "AAT09661");
@@ -374,6 +386,7 @@ DRSearchIT {
         System.out.println(retrievedAccessions);
         assertThat(retrievedAccessions, hasItems(EMBL_1, EMBL_2));
     }
+
     @Test
     void emblFindProteinIDWithVersion() {
         String query = xref("EMBL", "AAT09661.1");
@@ -394,7 +407,6 @@ DRSearchIT {
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
         assertThat(retrievedAccessions, contains(ALLTERGOME_1));
     }
-  
 
     @Test
     void allergomeFindNothingWrongaccession() {
@@ -405,7 +417,6 @@ DRSearchIT {
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
         assertThat(retrievedAccessions, is(empty()));
     }
-    
 
     @Test
     void ccdsFindCCDSNoVersionaccession() {
@@ -437,9 +448,6 @@ DRSearchIT {
         assertThat(retrievedAccessions, is(empty()));
     }
 
-
-
-
     @Test
     void zfinFindExactSecond() {
         String query = xref("ZFIN", "ZDB-GENE-091204-381");
@@ -449,6 +457,7 @@ DRSearchIT {
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
         assertThat(retrievedAccessions, contains(ZFIN_1));
     }
+
     @Disabled
     @Test
     void tcdbFindWithPlus() {
@@ -479,6 +488,7 @@ DRSearchIT {
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
         assertThat(retrievedAccessions, contains(TCDB_3));
     }
+
     @Disabled
     @Test
     void tcdbFindWithPlusAndMore() {
@@ -489,6 +499,7 @@ DRSearchIT {
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
         assertThat(retrievedAccessions, contains(TCDB_3));
     }
+
     @Disabled
     @Test
     void tcdbFindBothPutative() {
@@ -499,6 +510,7 @@ DRSearchIT {
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
         assertThat(retrievedAccessions, containsInAnyOrder(TCDB_2, TCDB_3));
     }
+
     @Disabled
     @Test
     void tcdbFindBothThisIsOccurrences() {
@@ -509,6 +521,7 @@ DRSearchIT {
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
         assertThat(retrievedAccessions, containsInAnyOrder(TCDB_2, TCDB_3));
     }
+
     @Disabled
     @Test
     void tcdbFindOnlyOnePutativeInorganic() {
@@ -519,8 +532,7 @@ DRSearchIT {
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
         assertThat(retrievedAccessions, containsInAnyOrder(TCDB_2));
     }
-    
-    
+
     @Disabled
     @Test
     void tcdbFindSingleThisIsAOccurrence() {
@@ -531,6 +543,7 @@ DRSearchIT {
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
         assertThat(retrievedAccessions, contains(TCDB_2));
     }
+
     @Disabled
     @Test
     void tcdbFindSingleThisIsAWordOccurrence() {
@@ -541,10 +554,13 @@ DRSearchIT {
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
         assertThat(retrievedAccessions, contains(TCDB_2));
     }
+
     private String xref(String type, String value) {
-    	return query(UniProtKBSearchFields.INSTANCE.getField("xref"), type.toLowerCase() +"-" + value);
+        return query(
+                UniProtKBSearchFields.INSTANCE.getField("xref"), type.toLowerCase() + "-" + value);
     }
-    private String xref( String value) {
-    	return query(UniProtKBSearchFields.INSTANCE.getField("xref"), value);
+
+    private String xref(String value) {
+        return query(UniProtKBSearchFields.INSTANCE.getField("xref"), value);
     }
 }

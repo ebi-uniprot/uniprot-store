@@ -1,5 +1,10 @@
 package org.uniprot.store.indexer.search.uniprot;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+
 import org.uniprot.core.flatfile.parser.UniprotLineParser;
 import org.uniprot.core.flatfile.parser.impl.DefaultUniprotLineParserFactory;
 import org.uniprot.core.flatfile.parser.impl.ac.AcLineObject;
@@ -22,11 +27,6 @@ import org.uniprot.core.flatfile.parser.impl.pe.PeLineObject;
 import org.uniprot.core.flatfile.parser.impl.sq.SqLineObject;
 import org.uniprot.core.flatfile.writer.LineType;
 import org.uniprot.core.uniprot.UniProtEntry;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 
 public class UniProtEntryObjectProxy {
     protected EntryObject entryObject;

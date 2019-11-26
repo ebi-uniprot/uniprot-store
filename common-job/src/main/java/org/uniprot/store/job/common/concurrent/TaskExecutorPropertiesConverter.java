@@ -1,9 +1,9 @@
 package org.uniprot.store.job.common.concurrent;
 
+import java.util.concurrent.ThreadPoolExecutor;
+
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.uniprot.core.util.concurrency.TaskExecutorProperties;
-
-import java.util.concurrent.ThreadPoolExecutor;
 
 /**
  * Created 28/07/19
