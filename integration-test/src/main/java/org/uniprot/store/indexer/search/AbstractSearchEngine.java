@@ -124,7 +124,7 @@ public abstract class AbstractSearchEngine<E> implements  BeforeAllCallback, Aft
         SolrDocumentList documents = response.getResults();
 
         for (SolrDocument document : documents) {
-            String accession = (String) document.get(identifierField().name());
+            String accession = (String) document.get(identifierField());
 
             accessions.add(accession);
         }
@@ -162,7 +162,7 @@ public abstract class AbstractSearchEngine<E> implements  BeforeAllCallback, Aft
 
     protected abstract String identifierQuery(String entryId);
 
-    protected abstract Enum identifierField();
+    protected abstract String identifierField();
 
     @Override
     public void beforeAll(ExtensionContext context){
