@@ -1,6 +1,12 @@
 package org.uniprot.store.indexer.proteome;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
 import lombok.Data;
+
 import org.springframework.batch.item.ItemProcessor;
 import org.springframework.batch.item.ItemReader;
 import org.springframework.batch.item.ItemWriter;
@@ -14,18 +20,13 @@ import org.springframework.core.io.FileSystemResource;
 import org.springframework.oxm.Unmarshaller;
 import org.springframework.oxm.jaxb.Jaxb2Marshaller;
 import org.uniprot.core.cv.taxonomy.FileNodeIterable;
-import org.uniprot.core.cv.taxonomy.impl.TaxonomyMapRepo;
 import org.uniprot.core.cv.taxonomy.TaxonomyRepo;
+import org.uniprot.core.cv.taxonomy.impl.TaxonomyMapRepo;
 import org.uniprot.core.xml.jaxb.proteome.Proteome;
 import org.uniprot.store.indexer.common.config.UniProtSolrOperations;
-import org.uniprot.store.job.common.converter.DocumentConverter;
 import org.uniprot.store.indexer.genecentric.GeneCentricDocumentWriter;
+import org.uniprot.store.job.common.converter.DocumentConverter;
 import org.uniprot.store.search.document.proteome.ProteomeDocument;
-
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * @author jluo
@@ -53,7 +54,6 @@ public class ProteomeConfig {
                 .addFragmentRootElements("proteome")
                 .unmarshaller(proteomeMarshaller())
                 .build();
-
     }
 
     @Bean
@@ -87,7 +87,8 @@ public class ProteomeConfig {
     }
 
     @Bean(name = "proteomeGeneCentricItemWriter")
-    public CompositeItemWriter<Proteome> proteomeCompositeWriter(UniProtSolrOperations solrOperations) {
+    public CompositeItemWriter<Proteome> proteomeCompositeWriter(
+            UniProtSolrOperations solrOperations) {
         CompositeItemWriter<Proteome> compositeWriter = new CompositeItemWriter<>();
         ItemWriter<Proteome> proteomeWriter = proteomeItemWriter(solrOperations);
         ItemWriter<Proteome> geneCentricWriter = geneCentricItemWriter(solrOperations);

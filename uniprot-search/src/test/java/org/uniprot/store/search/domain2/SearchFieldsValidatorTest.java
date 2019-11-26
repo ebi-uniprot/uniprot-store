@@ -1,10 +1,10 @@
 package org.uniprot.store.search.domain2;
 
-import org.junit.jupiter.api.Test;
-import org.uniprot.store.search.domain2.impl.SearchFieldImpl;
-
 import static java.util.Arrays.asList;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+
+import org.junit.jupiter.api.Test;
+import org.uniprot.store.search.domain2.impl.SearchFieldImpl;
 
 /**
  * Created 20/11/2019
@@ -46,14 +46,14 @@ class SearchFieldsValidatorTest {
     @Test
     void missingFieldCausesException() {
         assertThrows(
-            IllegalStateException.class,
-            () ->
-                SearchFieldsValidator.validate(
-                    asList(
-                        SearchFieldImpl.builder()
-                            .type(SearchFieldType.GENERAL)
-                            .build(),
-                        SearchFieldImpl.builder().name("field2").build())));
+                IllegalStateException.class,
+                () ->
+                        SearchFieldsValidator.validate(
+                                asList(
+                                        SearchFieldImpl.builder()
+                                                .type(SearchFieldType.GENERAL)
+                                                .build(),
+                                        SearchFieldImpl.builder().name("field2").build())));
     }
 
     @Test

@@ -1,15 +1,15 @@
 package org.uniprot.store.indexer.literature.reader;
 
-import lombok.Getter;
-import org.springframework.jdbc.core.RowMapper;
-
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-/**
- * @author lgonzales
- */
-public class LiteratureStatisticsReader implements RowMapper<LiteratureStatisticsReader.LiteratureCount> {
+import lombok.Getter;
+
+import org.springframework.jdbc.core.RowMapper;
+
+/** @author lgonzales */
+public class LiteratureStatisticsReader
+        implements RowMapper<LiteratureStatisticsReader.LiteratureCount> {
 
     @Override
     public LiteratureCount mapRow(ResultSet resultSet, int rowIndex) throws SQLException {
@@ -25,8 +25,8 @@ public class LiteratureStatisticsReader implements RowMapper<LiteratureStatistic
         private final long unreviewedProteinCount;
         private final long pubmedId;
 
-
-        public LiteratureCount(long pubmedId, long reviewedProteinCount, long unreviewedProteinCount) {
+        public LiteratureCount(
+                long pubmedId, long reviewedProteinCount, long unreviewedProteinCount) {
             this.pubmedId = pubmedId;
             this.reviewedProteinCount = reviewedProteinCount;
             this.unreviewedProteinCount = unreviewedProteinCount;

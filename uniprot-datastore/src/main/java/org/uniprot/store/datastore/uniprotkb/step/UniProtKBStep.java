@@ -29,11 +29,10 @@ import org.uniprot.store.job.common.listener.WriteRetrierLogStepListener;
 
 import static org.uniprot.store.datastore.utils.Constants.UNIPROTKB_STORE_STEP;
 
-
 /**
  * The main UniProtKB store step.
- * <p>
- * Created 10/04/19
+ *
+ * <p>Created 10/04/19
  *
  * @author Edd
  */
@@ -45,21 +44,25 @@ public class UniProtKBStep {
     private final UniProtKBStoreProperties uniProtKBStoreProperties;
 
     @Autowired
-    public UniProtKBStep(StepBuilderFactory stepBuilderFactory,
-                         UniProtKBStoreProperties uniProtKBStoreProperties) {
+    public UniProtKBStep(
+            StepBuilderFactory stepBuilderFactory,
+            UniProtKBStoreProperties uniProtKBStoreProperties) {
         this.stepBuilderFactory = stepBuilderFactory;
         this.uniProtKBStoreProperties = uniProtKBStoreProperties;
     }
 
     @Bean(name = "uniProtKBStoreMainStep")
-    public Step uniProtKBStoreMainStep(WriteRetrierLogStepListener writeRetrierLogStepListener,
-                                       @Qualifier("uniProtKB") LogRateListener<UniProtEntry> uniProtKBLogRateListener,
-                                       ItemReader<UniProtEntry> entryItemReader,
-                                       ItemProcessor<UniProtEntry, UniProtEntry> uniProtEntryPassThroughProcessor,
-                                       ItemWriter<UniProtEntry> uniProtEntryItemWriter,
-                                       ExecutionContextPromotionListener promotionListener) throws Exception {
+    public Step uniProtKBStoreMainStep(
+            WriteRetrierLogStepListener writeRetrierLogStepListener,
+            @Qualifier("uniProtKB") LogRateListener<UniProtEntry> uniProtKBLogRateListener,
+            ItemReader<UniProtEntry> entryItemReader,
+            ItemProcessor<UniProtEntry, UniProtEntry> uniProtEntryPassThroughProcessor,
+            ItemWriter<UniProtEntry> uniProtEntryItemWriter,
+            ExecutionContextPromotionListener promotionListener)
+            throws Exception {
 
-        return this.stepBuilderFactory.get(UNIPROTKB_STORE_STEP)
+        return this.stepBuilderFactory
+                .get(UNIPROTKB_STORE_STEP)
                 .listener(promotionListener)
                 .<UniProtEntry, UniProtEntry>chunk(uniProtKBStoreProperties.getChunkSize())
                 .reader(entryItemReader)
@@ -85,10 +88,11 @@ public class UniProtKBStep {
 
     // ---------------------- Writers ----------------------
     @Bean
-    public ItemWriter<UniProtEntry> uniProtEntryItemWriter(UniProtStoreClient<UniProtEntry> uniProtKBStoreClient,
-                                                           RetryPolicy<Object> writeRetryPolicy) {
-        return new UniProtEntryRetryWriter(entries -> entries.forEach(uniProtKBStoreClient::saveEntry),
-                                           writeRetryPolicy);
+    public ItemWriter<UniProtEntry> uniProtEntryItemWriter(
+            UniProtStoreClient<UniProtEntry> uniProtKBStoreClient,
+            RetryPolicy<Object> writeRetryPolicy) {
+        return new UniProtEntryRetryWriter(
+                entries -> entries.forEach(uniProtKBStoreClient::saveEntry), writeRetryPolicy);
     }
 
     // ---------------------- Listeners ----------------------

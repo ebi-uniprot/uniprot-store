@@ -1,5 +1,7 @@
 package org.uniprot.store.indexer.uniparc;
 
+import static org.uniprot.store.indexer.common.utils.Constants.UNIPARC_INDEX_JOB;
+
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.JobExecution;
 import org.springframework.batch.core.JobExecutionListener;
@@ -15,15 +17,10 @@ import org.uniprot.store.indexer.common.config.UniProtSolrOperations;
 import org.uniprot.store.job.common.listener.WriteRetrierLogJobListener;
 import org.uniprot.store.search.SolrCollection;
 
-import static org.uniprot.store.indexer.common.utils.Constants.UNIPARC_INDEX_JOB;
-
 /**
- *
  * @author jluo
  * @date: 18 Jun 2019
- *
-*/
-
+ */
 @Configuration
 @Import({SolrRepositoryConfig.class})
 public class UniParcIndexJob {
@@ -31,7 +28,8 @@ public class UniParcIndexJob {
     private final UniProtSolrOperations solrOperations;
 
     @Autowired
-    public UniParcIndexJob(JobBuilderFactory jobBuilderFactory, UniProtSolrOperations solrOperations) {
+    public UniParcIndexJob(
+            JobBuilderFactory jobBuilderFactory, UniProtSolrOperations solrOperations) {
         this.jobBuilderFactory = jobBuilderFactory;
         this.solrOperations = solrOperations;
     }
@@ -39,22 +37,23 @@ public class UniParcIndexJob {
     @Bean
     public Job uniparcIndexingJob(
             @Qualifier("UniParcIndexStep") Step uniparcIndexStep,
-
             WriteRetrierLogJobListener writeRetrierLogJobListener) {
-        return this.jobBuilderFactory.get(UNIPARC_INDEX_JOB)
+        return this.jobBuilderFactory
+                .get(UNIPARC_INDEX_JOB)
                 .start(uniparcIndexStep)
                 .listener(writeRetrierLogJobListener)
-                .listener(new JobExecutionListener() {
-                    @Override
-                    public void beforeJob(JobExecution jobExecution) {
-                        // no-op
-                    }
+                .listener(
+                        new JobExecutionListener() {
+                            @Override
+                            public void beforeJob(JobExecution jobExecution) {
+                                // no-op
+                            }
 
-                    @Override
-                    public void afterJob(JobExecution jobExecution) {
-                        solrOperations.commit(SolrCollection.uniparc.name());
-                    }
-                })
+                            @Override
+                            public void afterJob(JobExecution jobExecution) {
+                                solrOperations.commit(SolrCollection.uniparc.name());
+                            }
+                        })
                 .build();
     }
 }

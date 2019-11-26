@@ -18,7 +18,8 @@ public class StoreTestConfig {
     @Bean
     @Profile("offline")
     public UniProtStoreClient<UniProtEntry> uniProtKBStoreClient() {
-        VoldemortClient<UniProtEntry> client = VoldemortInMemoryUniprotEntryStore.getInstance("avro-uniprot");
+        VoldemortClient<UniProtEntry> client =
+                VoldemortInMemoryUniprotEntryStore.getInstance("avro-uniprot");
         return new UniProtStoreClient<>(client);
     }
 }

@@ -1,7 +1,7 @@
 package org.uniprot.store.indexer.uniprotkb.processor;
 
-import org.uniprot.store.job.common.converter.DocumentConverter;
 import org.uniprot.store.indexer.uniprot.inactiveentry.InactiveUniProtEntry;
+import org.uniprot.store.job.common.converter.DocumentConverter;
 import org.uniprot.store.search.document.uniprot.UniProtDocument;
 
 /**
@@ -9,7 +9,8 @@ import org.uniprot.store.search.document.uniprot.UniProtDocument;
  *
  * @author Edd
  */
-public class InactiveEntryConverter implements DocumentConverter<InactiveUniProtEntry, UniProtDocument> {
+public class InactiveEntryConverter
+        implements DocumentConverter<InactiveUniProtEntry, UniProtDocument> {
     @Override
     public UniProtDocument convert(InactiveUniProtEntry source) {
         UniProtDocument document = new UniProtDocument();

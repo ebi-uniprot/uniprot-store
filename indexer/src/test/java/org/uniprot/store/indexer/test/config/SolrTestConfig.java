@@ -7,7 +7,13 @@
 
 package org.uniprot.store.indexer.test.config;
 
+import static org.mockito.Mockito.mock;
+
+import java.io.File;
+import java.nio.file.Files;
+
 import lombok.extern.slf4j.Slf4j;
+
 import org.apache.commons.io.FileUtils;
 import org.apache.http.client.HttpClient;
 import org.apache.solr.client.solrj.SolrClient;
@@ -20,11 +26,6 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.data.solr.core.SolrTemplate;
 import org.springframework.data.solr.server.support.EmbeddedSolrServerFactory;
 import org.uniprot.store.indexer.common.config.UniProtSolrOperations;
-
-import java.io.File;
-import java.nio.file.Files;
-
-import static org.mockito.Mockito.mock;
 
 @TestConfiguration
 @Slf4j

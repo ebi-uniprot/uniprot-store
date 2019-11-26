@@ -7,14 +7,21 @@ package org.uniprot.store.search.field;
  */
 public class SuggestField {
     public enum Search {
-        content, id, dict
+        content,
+        id,
+        dict
     }
 
     public enum Stored {
-        id, value, altValue
+        id,
+        value,
+        altValue
     }
 
     public enum Importance {
-        highest, high, medium, low
+        highest,
+        high,
+        medium,
+        low
     }
 }

@@ -10,9 +10,9 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.uniprot.core.util.concurrency.TaskExecutorProperties;
 import org.uniprot.store.job.common.writer.ItemRetryWriter;
 
-import static org.uniprot.store.job.common.concurrent.TaskExecutorPropertiesConverter.createThreadPoolTaskExecutor;
-
 import java.util.List;
+
+import static org.uniprot.store.job.common.concurrent.TaskExecutorPropertiesConverter.createThreadPoolTaskExecutor;
 
 /**
  * Created 11/07/19
@@ -33,12 +33,13 @@ public class AsyncConfig {
 
     /**
      * Used by {@link ItemRetryWriter#write(List)}.
+     *
      * @return the task executor used when writing items
      */
     @Bean(ItemRetryWriter.ITEM_WRITER_TASK_EXECUTOR)
     public ThreadPoolTaskExecutor itemWriterTaskExecutor() {
-        TaskExecutorProperties taskExecutorProperties = uniProtKBStoreProperties
-                .getItemWriterTaskExecutor();
+        TaskExecutorProperties taskExecutorProperties =
+                uniProtKBStoreProperties.getItemWriterTaskExecutor();
         ThreadPoolTaskExecutor taskExecutor = createThreadPoolTaskExecutor(taskExecutorProperties);
         log.info("Using Item Writer task executor: {}", taskExecutorProperties);
         return taskExecutor;

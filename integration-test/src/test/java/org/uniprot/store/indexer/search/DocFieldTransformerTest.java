@@ -89,5 +89,4 @@ class DocFieldTransformerTest {
             return nameField;
         }
     }
-
 }

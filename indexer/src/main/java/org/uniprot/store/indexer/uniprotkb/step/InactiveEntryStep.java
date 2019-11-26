@@ -4,6 +4,8 @@ import static org.uniprot.store.indexer.common.utils.Constants.INACTIVEENTRY_IND
 
 import java.util.concurrent.Future;
 
+import net.jodah.failsafe.RetryPolicy;
+
 import org.springframework.aop.framework.Advised;
 import org.springframework.aop.support.AopUtils;
 import org.springframework.batch.core.Step;
@@ -35,90 +37,99 @@ import org.uniprot.store.job.common.listener.LogRateListener;
 import org.uniprot.store.job.common.listener.WriteRetrierLogStepListener;
 import org.uniprot.store.search.SolrCollection;
 
-import net.jodah.failsafe.RetryPolicy;
-
 /**
- *
  * @author jluo
  * @date: 5 Sep 2019
- *
  */
 @Configuration
 @Import({UniProtKBConfig.class, AsyncConfig.class})
 public class InactiveEntryStep {
-	private final StepBuilderFactory stepBuilderFactory;
-	private final UniProtKBIndexingProperties uniProtKBIndexingProperties;
-	private final UniProtSolrOperations solrOperations;
+    private final StepBuilderFactory stepBuilderFactory;
+    private final UniProtKBIndexingProperties uniProtKBIndexingProperties;
+    private final UniProtSolrOperations solrOperations;
 
+    @Autowired
+    public InactiveEntryStep(
+            StepBuilderFactory stepBuilderFactory,
+            UniProtSolrOperations solrOperations,
+            UniProtKBIndexingProperties indexingProperties) {
+        this.stepBuilderFactory = stepBuilderFactory;
+        this.solrOperations = solrOperations;
+        this.uniProtKBIndexingProperties = indexingProperties;
+    }
 
-	@Autowired
-	public InactiveEntryStep(StepBuilderFactory stepBuilderFactory, UniProtSolrOperations solrOperations,
-			UniProtKBIndexingProperties indexingProperties) {
-		this.stepBuilderFactory = stepBuilderFactory;
-		this.solrOperations = solrOperations;
-		this.uniProtKBIndexingProperties = indexingProperties;
-	}
-	
-	
-	 @Bean(name = "inactiveEntryIndexingMainStep")
-	    public Step inactiveEntryIndexingMainFFStep(WriteRetrierLogStepListener writeRetrierLogStepListener,
-	                                            @Qualifier("inactiveEntry") LogRateListener<InactiveEntryDocumentPair> uniProtKBLogRateListener,
-	                                            @Qualifier("inactiveEntryReader")ItemReader<InactiveEntryDocumentPair> entryItemReader,
-	                                            @Qualifier("inactiveEntryAsyncProcessor") ItemProcessor<InactiveEntryDocumentPair, Future<InactiveEntryDocumentPair>> asyncProcessor,
-	                                            @Qualifier("inactiveEntryAsyncWriter") ItemWriter<Future<InactiveEntryDocumentPair>> asyncWriter,
-	                                            InactiveEntryDocumentPairProcessor inactiveEntryDocumentItemProcessor,
-	                                            @Qualifier("inactiveEntryWriter")  ItemWriter<InactiveEntryDocumentPair> inactiveEntryDocumentItemWriter,
-	                                            ExecutionContextPromotionListener promotionListener) throws Exception {
+    @Bean(name = "inactiveEntryIndexingMainStep")
+    public Step inactiveEntryIndexingMainFFStep(
+            WriteRetrierLogStepListener writeRetrierLogStepListener,
+            @Qualifier("inactiveEntry")
+                    LogRateListener<InactiveEntryDocumentPair> uniProtKBLogRateListener,
+            @Qualifier("inactiveEntryReader") ItemReader<InactiveEntryDocumentPair> entryItemReader,
+            @Qualifier("inactiveEntryAsyncProcessor")
+                    ItemProcessor<InactiveEntryDocumentPair, Future<InactiveEntryDocumentPair>>
+                            asyncProcessor,
+            @Qualifier("inactiveEntryAsyncWriter")
+                    ItemWriter<Future<InactiveEntryDocumentPair>> asyncWriter,
+            InactiveEntryDocumentPairProcessor inactiveEntryDocumentItemProcessor,
+            @Qualifier("inactiveEntryWriter")
+                    ItemWriter<InactiveEntryDocumentPair> inactiveEntryDocumentItemWriter,
+            ExecutionContextPromotionListener promotionListener)
+            throws Exception {
 
-	        return this.stepBuilderFactory.get(INACTIVEENTRY_INDEX_STEP)
-	                .listener(promotionListener)
-	                .<InactiveEntryDocumentPair, Future<InactiveEntryDocumentPair>>
-	                        chunk(uniProtKBIndexingProperties.getChunkSize())
-	                .reader(entryItemReader)
-	                .processor(asyncProcessor)
-	                .writer(asyncWriter)
-	                .listener(writeRetrierLogStepListener)
-	                .listener(uniProtKBLogRateListener)
-	                .listener(inactiveEntryDocumentItemProcessor)
-	                .listener(unwrapProxy(inactiveEntryDocumentItemWriter))
-	                .build();
-	    }
-
+        return this.stepBuilderFactory
+                .get(INACTIVEENTRY_INDEX_STEP)
+                .listener(promotionListener)
+                .<InactiveEntryDocumentPair, Future<InactiveEntryDocumentPair>>chunk(
+                        uniProtKBIndexingProperties.getChunkSize())
+                .reader(entryItemReader)
+                .processor(asyncProcessor)
+                .writer(asyncWriter)
+                .listener(writeRetrierLogStepListener)
+                .listener(uniProtKBLogRateListener)
+                .listener(inactiveEntryDocumentItemProcessor)
+                .listener(unwrapProxy(inactiveEntryDocumentItemWriter))
+                .build();
+    }
 
     // ---------------------- Readers ----------------------
-	 @Bean("inactiveEntryReader")
-	public ItemReader<InactiveEntryDocumentPair> entryItemReader() {
-		return new InactiveUniProtEntryItemReader(inactiveEntryIterator());
-	}
+    @Bean("inactiveEntryReader")
+    public ItemReader<InactiveEntryDocumentPair> entryItemReader() {
+        return new InactiveUniProtEntryItemReader(inactiveEntryIterator());
+    }
 
-	 @Bean("inactiveEntryIterator")
-	public InactiveEntryIterator inactiveEntryIterator() {
-		return new FFInactiveUniProtEntryIterator(uniProtKBIndexingProperties.getInactiveEntryFile());
-	}
-	 // ---------------------- Processors ----------------------
+    @Bean("inactiveEntryIterator")
+    public InactiveEntryIterator inactiveEntryIterator() {
+        return new FFInactiveUniProtEntryIterator(
+                uniProtKBIndexingProperties.getInactiveEntryFile());
+    }
+    // ---------------------- Processors ----------------------
     @Bean("inactiveItemProcessor")
     public InactiveEntryDocumentPairProcessor uniProtDocumentItemProcessor() {
-        return new InactiveEntryDocumentPairProcessor(
-                new InactiveEntryConverter());
+        return new InactiveEntryDocumentPairProcessor(new InactiveEntryConverter());
     }
-    
+
     @Bean("inactiveEntryAsyncProcessor")
-    public ItemProcessor<InactiveEntryDocumentPair, Future<InactiveEntryDocumentPair>> asyncProcessor(
-    		InactiveEntryDocumentPairProcessor uniProtDocumentItemProcessor,
-            @Qualifier("itemProcessorTaskExecutor") ThreadPoolTaskExecutor itemProcessorTaskExecutor) {
-        AsyncItemProcessor<InactiveEntryDocumentPair, InactiveEntryDocumentPair> asyncProcessor = new AsyncItemProcessor<>();
+    public ItemProcessor<InactiveEntryDocumentPair, Future<InactiveEntryDocumentPair>>
+            asyncProcessor(
+                    InactiveEntryDocumentPairProcessor uniProtDocumentItemProcessor,
+                    @Qualifier("itemProcessorTaskExecutor")
+                            ThreadPoolTaskExecutor itemProcessorTaskExecutor) {
+        AsyncItemProcessor<InactiveEntryDocumentPair, InactiveEntryDocumentPair> asyncProcessor =
+                new AsyncItemProcessor<>();
         asyncProcessor.setDelegate(uniProtDocumentItemProcessor);
         asyncProcessor.setTaskExecutor(itemProcessorTaskExecutor);
         return asyncProcessor;
     }
     // ---------------------- Writers ----------------------
     @Bean("inactiveEntryWriter")
-    public ItemWriter<InactiveEntryDocumentPair> uniProtDocumentItemWriter(RetryPolicy<Object> writeRetryPolicy) {
-        return new InactiveEntryDocumentPairWriter(this.solrOperations, SolrCollection.uniprot, writeRetryPolicy);
+    public ItemWriter<InactiveEntryDocumentPair> uniProtDocumentItemWriter(
+            RetryPolicy<Object> writeRetryPolicy) {
+        return new InactiveEntryDocumentPairWriter(
+                this.solrOperations, SolrCollection.uniprot, writeRetryPolicy);
     }
 
     @Bean("inactiveEntryAsyncWriter")
-    public ItemWriter<Future<InactiveEntryDocumentPair>> asyncWriter(ItemWriter<InactiveEntryDocumentPair> uniProtDocumentItemWriter) {
+    public ItemWriter<Future<InactiveEntryDocumentPair>> asyncWriter(
+            ItemWriter<InactiveEntryDocumentPair> uniProtDocumentItemWriter) {
         AsyncItemWriter<InactiveEntryDocumentPair> asyncItemWriter = new AsyncItemWriter<>();
         asyncItemWriter.setDelegate(uniProtDocumentItemWriter);
 
@@ -130,6 +141,7 @@ public class InactiveEntryStep {
     public LogRateListener<InactiveEntryDocumentPair> uniProtKBLogRateListener() {
         return new LogRateListener<>(uniProtKBIndexingProperties.getUniProtKBLogRateInterval());
     }
+
     private Object unwrapProxy(Object bean) throws Exception {
         if (AopUtils.isAopProxy(bean) && bean instanceof Advised) {
             Advised advised = (Advised) bean;

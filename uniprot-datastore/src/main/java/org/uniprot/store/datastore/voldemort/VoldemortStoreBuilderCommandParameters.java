@@ -1,19 +1,21 @@
 package org.uniprot.store.datastore.voldemort;
 
-import com.beust.jcommander.JCommander;
-import com.beust.jcommander.Parameter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.beust.jcommander.JCommander;
+import com.beust.jcommander.Parameter;
+
 /**
- * This class contains required voldemort parameters that are used to setup the voldemort load execution.
+ * This class contains required voldemort parameters that are used to setup the voldemort load
+ * execution.
  *
  * @author gqi
- *
  */
 public abstract class VoldemortStoreBuilderCommandParameters {
 
-    private static final Logger logger = LoggerFactory.getLogger(VoldemortStoreBuilderCommandParameters.class);
+    private static final Logger logger =
+            LoggerFactory.getLogger(VoldemortStoreBuilderCommandParameters.class);
 
     @Parameter(names = "-voldemortUrl", description = "The Voldemort URL", required = true)
     protected String voldemortUrl;
@@ -21,12 +23,16 @@ public abstract class VoldemortStoreBuilderCommandParameters {
     @Parameter(names = "-importFilePath", description = "The imported file path", required = true)
     protected String importFilePath;
 
-    @Parameter(names = "-releaseNumber", description = "The release number in the format: YYYY_MM, e.g., 2015_07",
+    @Parameter(
+            names = "-releaseNumber",
+            description = "The release number in the format: YYYY_MM, e.g., 2015_07",
             required = true)
     protected String releaseNumber;
 
-    @Parameter(names = "-statsFile",
-            description = "The path to a statistics file that will be generated at the end of indexing",
+    @Parameter(
+            names = "-statsFile",
+            description =
+                    "The path to a statistics file that will be generated at the end of indexing",
             required = true)
     protected String statsFilePath;
 

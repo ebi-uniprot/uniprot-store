@@ -1,5 +1,7 @@
 package org.uniprot.store.indexer.keyword;
 
+import java.io.IOException;
+import java.sql.SQLException;
 
 import org.springframework.batch.core.ChunkListener;
 import org.springframework.batch.core.Step;
@@ -21,20 +23,13 @@ import org.uniprot.store.indexer.common.writer.SolrDocumentWriter;
 import org.uniprot.store.search.SolrCollection;
 import org.uniprot.store.search.document.keyword.KeywordDocument;
 
-import java.io.IOException;
-import java.sql.SQLException;
-
-/**
- * @author lgonzales
- */
+/** @author lgonzales */
 @Configuration
 public class KeywordLoadStep {
 
-    @Autowired
-    private StepBuilderFactory steps;
+    @Autowired private StepBuilderFactory steps;
 
-    @Autowired
-    private UniProtSolrOperations solrOperations;
+    @Autowired private UniProtSolrOperations solrOperations;
 
     @Value(("${ds.import.chunk.size}"))
     private Integer chunkSize;
@@ -43,12 +38,16 @@ public class KeywordLoadStep {
     private String filePath;
 
     @Bean(name = "IndexKeywordStep")
-    public Step indexKeyword(StepExecutionListener stepListener, ChunkListener chunkListener,
-                             @Qualifier("KeywordReader") ItemReader<KeywordEntry> keywordReader,
-                             @Qualifier("KeywordProcessor") ItemProcessor<KeywordEntry, KeywordDocument> keywordProcessor,
-                             @Qualifier("KeywordWriter") ItemWriter<KeywordDocument> keywordWriter,
-                             UniProtSolrOperations solrOperations) {
-        return this.steps.get(Constants.KEYWORD_INDEX_STEP)
+    public Step indexKeyword(
+            StepExecutionListener stepListener,
+            ChunkListener chunkListener,
+            @Qualifier("KeywordReader") ItemReader<KeywordEntry> keywordReader,
+            @Qualifier("KeywordProcessor")
+                    ItemProcessor<KeywordEntry, KeywordDocument> keywordProcessor,
+            @Qualifier("KeywordWriter") ItemWriter<KeywordDocument> keywordWriter,
+            UniProtSolrOperations solrOperations) {
+        return this.steps
+                .get(Constants.KEYWORD_INDEX_STEP)
                 .<KeywordEntry, KeywordDocument>chunk(this.chunkSize)
                 .reader(keywordReader)
                 .processor(keywordProcessor)
@@ -73,5 +72,4 @@ public class KeywordLoadStep {
     public ItemProcessor<KeywordEntry, KeywordDocument> keywordProcessor() throws SQLException {
         return new KeywordLoadProcessor(this.solrOperations);
     }
-
 }

@@ -6,12 +6,9 @@ import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.util.Date;
 
-/**
- * Contains several utility methods that help with date manipulation
- */
+/** Contains several utility methods that help with date manipulation */
 public final class DateUtils {
-    private DateUtils() {
-    }
+    private DateUtils() {}
 
     /**
      * Converts the given date into a UTC date, without the time zone
@@ -35,10 +32,11 @@ public final class DateUtils {
     }
 
     /**
-     * Converts a LocalDate into the old Date format. The method allows you to specify the timezone to convert with.
+     * Converts a LocalDate into the old Date format. The method allows you to specify the timezone
+     * to convert with.
      *
      * @param localDate the Local date to convert from
-     * @param zoneId    the timezone offset to use
+     * @param zoneId the timezone offset to use
      * @return the converted date
      */
     private static Date convertLocalDateToDate(LocalDate localDate, ZoneId zoneId) {
@@ -47,7 +45,8 @@ public final class DateUtils {
     }
 
     /**
-     * Converts an old {@link Date} instance into a {@link LocalDate}. Uses the system default timezone
+     * Converts an old {@link Date} instance into a {@link LocalDate}. Uses the system default
+     * timezone
      *
      * @param date the date to convert
      * @return the converted date
@@ -57,10 +56,10 @@ public final class DateUtils {
     }
 
     /**
-     * Converts an old {@link Date} instance into a {@link LocalDate}. The method allows you to specify the timezone to
-     * convert with.
+     * Converts an old {@link Date} instance into a {@link LocalDate}. The method allows you to
+     * specify the timezone to convert with.
      *
-     * @param date   the date to convert
+     * @param date the date to convert
      * @param zoneId the timezone to convert with
      * @return the converted date
      */

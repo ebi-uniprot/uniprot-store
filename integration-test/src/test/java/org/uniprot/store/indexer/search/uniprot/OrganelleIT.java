@@ -21,15 +21,13 @@ import static org.uniprot.store.indexer.search.uniprot.IdentifierSearchIT.ACC_LI
 import static org.uniprot.store.indexer.search.uniprot.TestUtils.convertToUniProtEntry;
 import static org.uniprot.store.indexer.search.uniprot.TestUtils.query;
 
-/**
- * Tests whether the organelles of a UniProt entry have been indexed correctly
- */
+/** Tests whether the organelles of a UniProt entry have been indexed correctly */
 class OrganelleIT {
     private static final String UNIPROT_FLAT_FILE_ENTRY_PATH = "/it/uniprot/P0A377.43.dat";
-    //Entry 1
+    // Entry 1
     private static final String ACCESSION1 = "Q197F4";
     private static final String ORGANELLE1 = MITOCHONDRION.getName();
-    //Entry 2
+    // Entry 2
     private static final String ACCESSION2 = "Q197F5";
     private static final String ORGANELLE_SPECIFIC_NAME1 = "pCP301";
     private static final String ORGANELLE2 = PLASMID.getName() + " " + ORGANELLE_SPECIFIC_NAME1;
@@ -37,38 +35,39 @@ class OrganelleIT {
     private static final String ORGANELLE3 = PLASMID.getName() + " " + ORGANELLE_SPECIFIC_NAME2;
     private static final String ORGANELLE_SPECIFIC_NAME3 = "pINV_F6_M1382";
     private static final String ORGANELLE4 = PLASMID.getName() + " " + ORGANELLE_SPECIFIC_NAME3;
-    //Entry 3
+    // Entry 3
     private static final String ACCESSION3 = "Q197F6";
-    private static final String ORGANELLE5 = PLASTID.getName() + "; " + CYANELLE.getName(); //CYANELLE is child of PLASTID
-    //Entry 4
+    private static final String ORGANELLE5 =
+            PLASTID.getName() + "; " + CYANELLE.getName(); // CYANELLE is child of PLASTID
+    // Entry 4
     private static final String ACCESSION4 = "Q197F7";
-    private static final String ORGANELLE6 = PLASTID.getName() + "; " + ORGANELLAR_CHROMATOPHORE.getName();
-    ;
-    @RegisterExtension
-    static UniProtSearchEngine searchEngine = new UniProtSearchEngine();
+    private static final String ORGANELLE6 =
+            PLASTID.getName() + "; " + ORGANELLAR_CHROMATOPHORE.getName();;
+    @RegisterExtension static UniProtSearchEngine searchEngine = new UniProtSearchEngine();
 
     @BeforeAll
     static void populateIndexWithTestData() throws IOException {
         // a test entry object that can be modified and added to index
         InputStream resourceAsStream = TestUtils.getResourceAsStream(UNIPROT_FLAT_FILE_ENTRY_PATH);
-        UniProtEntryObjectProxy entryProxy = UniProtEntryObjectProxy.createEntryFromInputStream(resourceAsStream);
+        UniProtEntryObjectProxy entryProxy =
+                UniProtEntryObjectProxy.createEntryFromInputStream(resourceAsStream);
 
-        //Entry 1
+        // Entry 1
         entryProxy.updateEntryObject(LineType.AC, String.format(ACC_LINE, ACCESSION1));
         entryProxy.updateEntryObject(LineType.OG, createOGLine(ORGANELLE1));
         searchEngine.indexEntry(convertToUniProtEntry(entryProxy));
 
-        //Entry 2
+        // Entry 2
         entryProxy.updateEntryObject(LineType.AC, String.format(ACC_LINE, ACCESSION2));
         entryProxy.updateEntryObject(LineType.OG, createOGLine(ORGANELLE3, ORGANELLE2, ORGANELLE4));
         searchEngine.indexEntry(convertToUniProtEntry(entryProxy));
 
-        //Entry 3
+        // Entry 3
         entryProxy.updateEntryObject(LineType.AC, String.format(ACC_LINE, ACCESSION3));
         entryProxy.updateEntryObject(LineType.OG, createOGLine(ORGANELLE5));
         searchEngine.indexEntry(convertToUniProtEntry(entryProxy));
-        
-        //Entry 4
+
+        // Entry 4
         entryProxy.updateEntryObject(LineType.AC, String.format(ACC_LINE, ACCESSION4));
         entryProxy.updateEntryObject(LineType.OG, createOGLine(ORGANELLE6));
         searchEngine.indexEntry(convertToUniProtEntry(entryProxy));
@@ -81,7 +80,7 @@ class OrganelleIT {
 
         if (organelles.length > 0) {
             for (int i = 0; i < organelles.length; i++) {
-                //if more than one organelle exists the last one gets an and appended to it
+                // if more than one organelle exists the last one gets an and appended to it
                 if (organelles.length > 1 && i == (organelles.length - 1)) {
                     line.append("and ");
                 }
@@ -154,8 +153,8 @@ class OrganelleIT {
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
         assertThat(retrievedAccessions, containsInAnyOrder(ACCESSION3, ACCESSION4));
     }
-    
-     String organelle(String name) {
+
+    String organelle(String name) {
         return query(UniProtField.Search.organelle, name);
     }
 }

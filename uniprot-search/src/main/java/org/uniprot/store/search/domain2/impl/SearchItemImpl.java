@@ -1,12 +1,14 @@
 package org.uniprot.store.search.domain2.impl;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonInclude;
+import java.util.List;
+
 import lombok.Data;
 import lombok.ToString;
+
 import org.uniprot.store.search.domain2.SearchItem;
 
-import java.util.List;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
 
 /**
  * Created 14/11/19

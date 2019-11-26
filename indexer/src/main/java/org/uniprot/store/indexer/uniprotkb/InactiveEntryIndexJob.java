@@ -18,43 +18,44 @@ import org.uniprot.store.job.common.listener.WriteRetrierLogJobListener;
 import org.uniprot.store.search.SolrCollection;
 
 /**
- *
  * @author jluo
  * @date: 5 Sep 2019
- *
-*/
+ */
 @Configuration
 @Import({SolrRepositoryConfig.class})
 public class InactiveEntryIndexJob {
-	 private final JobBuilderFactory jobBuilderFactory;
-	    private final UniProtSolrOperations solrOperations;
+    private final JobBuilderFactory jobBuilderFactory;
+    private final UniProtSolrOperations solrOperations;
 
-	    @Autowired
-	    public InactiveEntryIndexJob(JobBuilderFactory jobBuilderFactory, UniProtSolrOperations solrOperations) {
-	        this.jobBuilderFactory = jobBuilderFactory;
-	        this.solrOperations = solrOperations;
-	    }
+    @Autowired
+    public InactiveEntryIndexJob(
+            JobBuilderFactory jobBuilderFactory, UniProtSolrOperations solrOperations) {
+        this.jobBuilderFactory = jobBuilderFactory;
+        this.solrOperations = solrOperations;
+    }
 
-	    @Bean
-	    public Job inactiveEntryIndexingJob(@Qualifier("inactiveEntryIndexingMainStep") Step inactiveEntryIndexingMainFFStep,
-	                                    WriteRetrierLogJobListener writeRetrierLogJobListener) {
-	        return this.jobBuilderFactory.get(INACTIVEENTRY_INDEX_JOB)
-	                .start(inactiveEntryIndexingMainFFStep)
-	                .listener(writeRetrierLogJobListener)
-	                .listener(new JobExecutionListener() {
-	                    @Override
-	                    public void beforeJob(JobExecution jobExecution) {
-	                        // no-op
-	                    }
+    @Bean
+    public Job inactiveEntryIndexingJob(
+            @Qualifier("inactiveEntryIndexingMainStep") Step inactiveEntryIndexingMainFFStep,
+            WriteRetrierLogJobListener writeRetrierLogJobListener) {
+        return this.jobBuilderFactory
+                .get(INACTIVEENTRY_INDEX_JOB)
+                .start(inactiveEntryIndexingMainFFStep)
+                .listener(writeRetrierLogJobListener)
+                .listener(
+                        new JobExecutionListener() {
+                            @Override
+                            public void beforeJob(JobExecution jobExecution) {
+                                // no-op
+                            }
 
-	                    // Hard commit contents of repository once job has finished.
-	                    // Delegate all other commits to 'autoCommit' element of solrconfig.xml
-	                    @Override
-	                    public void afterJob(JobExecution jobExecution) {
-	                        solrOperations.commit(SolrCollection.uniprot.name());
-	                    }
-	                })
-	                .build();
-	    }
+                            // Hard commit contents of repository once job has finished.
+                            // Delegate all other commits to 'autoCommit' element of solrconfig.xml
+                            @Override
+                            public void afterJob(JobExecution jobExecution) {
+                                solrOperations.commit(SolrCollection.uniprot.name());
+                            }
+                        })
+                .build();
+    }
 }
-

@@ -1,19 +1,17 @@
 package org.uniprot.store.indexer.taxonomy.readers;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.jdbc.core.RowMapper;
 import org.uniprot.core.taxonomy.TaxonomyLineage;
 import org.uniprot.core.taxonomy.TaxonomyRank;
 import org.uniprot.core.taxonomy.builder.TaxonomyLineageBuilder;
 import org.uniprot.core.util.Utils;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
-
-/**
- * @author lgonzales
- */
+/** @author lgonzales */
 public class TaxonomyLineageReader implements RowMapper<List<TaxonomyLineage>> {
 
     @Override
@@ -45,5 +43,4 @@ public class TaxonomyLineageReader implements RowMapper<List<TaxonomyLineage>> {
         }
         return lineageList;
     }
-
 }

@@ -2,8 +2,8 @@ package org.uniprot.store.indexer.search.uniprot;
 
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.extension.RegisterExtension;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.RegisterExtension;
 import org.uniprot.core.flatfile.writer.LineType;
 import org.uniprot.core.uniprot.ProteinExistence;
 import org.uniprot.store.search.field.QueryBuilder;
@@ -18,11 +18,10 @@ import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.core.Is.is;
 import static org.uniprot.store.indexer.search.uniprot.IdentifierSearchIT.ACC_LINE;
-import static org.uniprot.store.indexer.search.uniprot.TestUtils.*;
+import static org.uniprot.store.indexer.search.uniprot.TestUtils.convertToUniProtEntry;
+import static org.uniprot.store.indexer.search.uniprot.TestUtils.query;
 
-/**
- * Tests if the protein existence search is working correctly
- */
+/** Tests if the protein existence search is working correctly */
 class ProteinExistenceSearchIT {
     private static final String UNIPROT_FLAT_FILE_ENTRY_PATH = "/it/uniprot/P0A377.43.dat";
     private static final String Q6GZX1 = "Q6GZX1";
@@ -30,14 +29,14 @@ class ProteinExistenceSearchIT {
     private static final String Q6GZX3 = "Q6GZX3";
     private static final String Q6GZX4 = "Q6GZX4";
     private static final String Q6GZX5 = "Q6GZX5";
-    @RegisterExtension
-    static UniProtSearchEngine searchEngine = new UniProtSearchEngine();
+    @RegisterExtension static UniProtSearchEngine searchEngine = new UniProtSearchEngine();
 
     @BeforeAll
     static void populateIndexWithTestData() throws IOException {
         // a test entry object that can be modified and added to index
         InputStream resourceAsStream = TestUtils.getResourceAsStream(UNIPROT_FLAT_FILE_ENTRY_PATH);
-        UniProtEntryObjectProxy entryProxy = UniProtEntryObjectProxy.createEntryFromInputStream(resourceAsStream);
+        UniProtEntryObjectProxy entryProxy =
+                UniProtEntryObjectProxy.createEntryFromInputStream(resourceAsStream);
 
         // proteinExistence 1
         entryProxy.updateEntryObject(LineType.AC, String.format(ACC_LINE, Q6GZX1));
@@ -48,17 +47,17 @@ class ProteinExistenceSearchIT {
         entryProxy.updateEntryObject(LineType.AC, String.format(ACC_LINE, Q6GZX2));
         entryProxy.updateEntryObject(LineType.PE, "PE   2: Evidence at transcript level;");
         searchEngine.indexEntry(convertToUniProtEntry(entryProxy));
-        
+
         // proteinExistence 3
         entryProxy.updateEntryObject(LineType.AC, String.format(ACC_LINE, Q6GZX3));
         entryProxy.updateEntryObject(LineType.PE, "PE   3: Inferred from homology;");
         searchEngine.indexEntry(convertToUniProtEntry(entryProxy));
-        
+
         // proteinExistence 4
         entryProxy.updateEntryObject(LineType.AC, String.format(ACC_LINE, Q6GZX4));
         entryProxy.updateEntryObject(LineType.PE, "PE   4: Predicted;");
         searchEngine.indexEntry(convertToUniProtEntry(entryProxy));
-        
+
         // proteinExistence 5
         entryProxy.updateEntryObject(LineType.AC, String.format(ACC_LINE, Q6GZX5));
         entryProxy.updateEntryObject(LineType.PE, "PE   5: Uncertain;");
@@ -115,8 +114,8 @@ class ProteinExistenceSearchIT {
 
     @Test
     void peLevelUncertainWithAcc() {
-    	String query = query(UniProtField.Search.accession, Q6GZX5);
-    	query =QueryBuilder.and(query, proteinExistence(ProteinExistence.UNCERTAIN));
+        String query = query(UniProtField.Search.accession, Q6GZX5);
+        query = QueryBuilder.and(query, proteinExistence(ProteinExistence.UNCERTAIN));
         QueryResponse response = searchEngine.getQueryResponse(query);
 
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
@@ -125,13 +124,14 @@ class ProteinExistenceSearchIT {
 
     @Test
     void peLevelFindNothingWithUncertainWithAcc() {
-    	String query = query(UniProtField.Search.accession, Q6GZX4);
-    	query =QueryBuilder.and(query, proteinExistence(ProteinExistence.UNCERTAIN));
+        String query = query(UniProtField.Search.accession, Q6GZX4);
+        query = QueryBuilder.and(query, proteinExistence(ProteinExistence.UNCERTAIN));
         QueryResponse response = searchEngine.getQueryResponse(query);
 
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
         assertThat(retrievedAccessions, is(empty()));
     }
+
     String proteinExistence(ProteinExistence proteinExistence) {
         return query(UniProtField.Search.existence, proteinExistence.name());
     }

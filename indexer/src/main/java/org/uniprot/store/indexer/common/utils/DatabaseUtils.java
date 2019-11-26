@@ -1,13 +1,14 @@
 package org.uniprot.store.indexer.common.utils;
 
-import org.apache.commons.lang3.tuple.ImmutablePair;
-import org.apache.commons.lang3.tuple.Pair;
-
-import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+
+import javax.sql.DataSource;
+
+import org.apache.commons.lang3.tuple.ImmutablePair;
+import org.apache.commons.lang3.tuple.Pair;
 
 public class DatabaseUtils {
     private PreparedStatement preparedStatement;
@@ -24,12 +25,12 @@ public class DatabaseUtils {
         Long unrevCount = 0L;
         try (ResultSet resultSet = this.preparedStatement.executeQuery()) {
             while (resultSet.next()) {
-                if (Long.valueOf(0).equals(resultSet.getLong(1))) { // 0 == reviewed, 1 == unreviewed
+                if (Long.valueOf(0)
+                        .equals(resultSet.getLong(1))) { // 0 == reviewed, 1 == unreviewed
                     revCount = resultSet.getLong(2);
                 } else if (Long.valueOf(1).equals(resultSet.getLong(1))) {
                     unrevCount = resultSet.getLong(2);
                 }
-
             }
         }
         Pair<Long, Long> revUnrevCountPair = new ImmutablePair<>(revCount, unrevCount);

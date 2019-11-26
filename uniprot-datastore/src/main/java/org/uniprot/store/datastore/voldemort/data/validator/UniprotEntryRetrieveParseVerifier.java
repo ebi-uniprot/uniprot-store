@@ -1,18 +1,5 @@
 package org.uniprot.store.datastore.voldemort.data.validator;
 
-import com.codahale.metrics.Counter;
-import com.codahale.metrics.Slf4jReporter;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.uniprot.core.flatfile.parser.impl.EntryBufferedReader2;
-import org.uniprot.core.uniprot.UniProtEntry;
-import org.uniprot.core.uniprot.UniProtEntryType;
-import org.uniprot.store.datastore.voldemort.MetricsUtil;
-import org.uniprot.store.datastore.voldemort.VoldemortClient;
-import org.uniprot.store.datastore.voldemort.VoldemortEntryStoreBuilder;
-import org.uniprot.store.datastore.voldemort.uniprot.VoldemortRemoteUniProtKBEntryStore;
-import org.uniprot.store.datastore.voldemort.uniprot.VoldemortUniprotStoreBuilderCommandParameters;
-
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -25,6 +12,20 @@ import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.uniprot.core.flatfile.parser.impl.EntryBufferedReader2;
+import org.uniprot.core.uniprot.UniProtEntry;
+import org.uniprot.core.uniprot.UniProtEntryType;
+import org.uniprot.store.datastore.voldemort.MetricsUtil;
+import org.uniprot.store.datastore.voldemort.VoldemortClient;
+import org.uniprot.store.datastore.voldemort.VoldemortEntryStoreBuilder;
+import org.uniprot.store.datastore.voldemort.uniprot.VoldemortRemoteUniProtKBEntryStore;
+import org.uniprot.store.datastore.voldemort.uniprot.VoldemortUniprotStoreBuilderCommandParameters;
+
+import com.codahale.metrics.Counter;
+import com.codahale.metrics.Slf4jReporter;
 
 /**
  * This class is responsible to test if we are able to parse back to uniprot entry for all entries

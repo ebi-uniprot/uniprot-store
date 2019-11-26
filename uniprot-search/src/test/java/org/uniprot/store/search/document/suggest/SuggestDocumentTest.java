@@ -1,11 +1,10 @@
 package org.uniprot.store.search.document.suggest;
 
-import org.junit.jupiter.api.Test;
-import org.uniprot.store.search.document.suggest.SuggestDocument;
-
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 import static org.uniprot.store.search.document.suggest.SuggestDocument.DEFAULT_IMPORTANCE;
+
+import org.junit.jupiter.api.Test;
 
 /**
  * Created 25/05/19

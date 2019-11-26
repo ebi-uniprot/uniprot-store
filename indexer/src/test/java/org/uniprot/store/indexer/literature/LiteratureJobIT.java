@@ -1,6 +1,13 @@
 package org.uniprot.store.indexer.literature;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.notNullValue;
+
+import java.nio.ByteBuffer;
+import java.util.Map;
+import java.util.stream.Collectors;
+
 import org.hamcrest.CoreMatchers;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -31,42 +38,45 @@ import org.uniprot.store.job.common.listener.ListenerConfig;
 import org.uniprot.store.search.SolrCollection;
 import org.uniprot.store.search.document.literature.LiteratureDocument;
 
-import java.nio.ByteBuffer;
-import java.util.Map;
-import java.util.stream.Collectors;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.notNullValue;
-
-/**
- * @author lgonzales
- */
+/** @author lgonzales */
 @ActiveProfiles(profiles = {"job", "offline"})
 @ExtendWith(SpringExtension.class)
-@SpringBootTest(classes = {FakeIndexerSpringBootApplication.class, SolrTestConfig.class, FakeReadDatabaseConfig.class,
-        ListenerConfig.class, LiteratureJob.class, LiteratureLoadStep.class, LiteratureMappingStep.class,
-        LiteratureJobIT.KeywordStatisticsStepFake.class})
+@SpringBootTest(
+        classes = {
+            FakeIndexerSpringBootApplication.class,
+            SolrTestConfig.class,
+            FakeReadDatabaseConfig.class,
+            ListenerConfig.class,
+            LiteratureJob.class,
+            LiteratureLoadStep.class,
+            LiteratureMappingStep.class,
+            LiteratureJobIT.KeywordStatisticsStepFake.class
+        })
 class LiteratureJobIT {
 
-    @Autowired
-    private JobLauncherTestUtils jobLauncher;
+    @Autowired private JobLauncherTestUtils jobLauncher;
 
-    @Autowired
-    private SolrTemplate template;
+    @Autowired private SolrTemplate template;
 
     @Test
     void testLiteratureIndexingJob() throws Exception {
         JobExecution jobExecution = jobLauncher.launchJob();
-        assertThat(jobExecution.getJobInstance().getJobName(), CoreMatchers.is(Constants.LITERATURE_LOAD_JOB_NAME));
+        assertThat(
+                jobExecution.getJobInstance().getJobName(),
+                CoreMatchers.is(Constants.LITERATURE_LOAD_JOB_NAME));
 
-
-        //Validating job and status execution
+        // Validating job and status execution
         BatchStatus status = jobExecution.getStatus();
         assertThat(status, is(BatchStatus.COMPLETED));
 
-        Map<String, StepExecution> stepMap = jobExecution.getStepExecutions().stream()
-                .collect(Collectors.toMap(StepExecution::getStepName, stepExecution -> stepExecution));
+        Map<String, StepExecution> stepMap =
+                jobExecution.getStepExecutions().stream()
+                        .collect(
+                                Collectors.toMap(
+                                        StepExecution::getStepName,
+                                        stepExecution -> stepExecution));
 
         assertThat(stepMap, is(notNullValue()));
         assertThat(stepMap.containsKey(Constants.LITERATURE_INDEX_STEP), is(true));
@@ -74,43 +84,48 @@ class LiteratureJobIT {
         assertThat(step.getReadCount(), is(18));
         assertThat(step.getWriteCount(), is(18));
 
-        //Validating if solr document was written correctly
+        // Validating if solr document was written correctly
         SimpleQuery solrQuery = new SimpleQuery("*:*");
         solrQuery.addSort(new Sort(Sort.Direction.ASC, "id"));
-        Page<LiteratureDocument> response = template
-                .query(SolrCollection.literature.name(), solrQuery, LiteratureDocument.class);
+        Page<LiteratureDocument> response =
+                template.query(
+                        SolrCollection.literature.name(), solrQuery, LiteratureDocument.class);
         assertThat(response, is(notNullValue()));
         assertThat(response.getTotalElements(), is(18L));
 
-
-        //Validating if solr document was written correctly
+        // Validating if solr document was written correctly
         solrQuery = new SimpleQuery("author:Hendrickson W.A.");
         solrQuery.addSort(new Sort(Sort.Direction.ASC, "id"));
-        response = template
-                .query(SolrCollection.literature.name(), solrQuery, LiteratureDocument.class);
+        response =
+                template.query(
+                        SolrCollection.literature.name(), solrQuery, LiteratureDocument.class);
         assertThat(response, is(notNullValue()));
         assertThat(response.getTotalElements(), is(1L));
 
-
-        //Validating if solr document was written correctly
-        solrQuery = new SimpleQuery("title:Glutamine synthetase in newborn mice homozygous for lethal albino alleles");
+        // Validating if solr document was written correctly
+        solrQuery =
+                new SimpleQuery(
+                        "title:Glutamine synthetase in newborn mice homozygous for lethal albino alleles");
         solrQuery.addSort(new Sort(Sort.Direction.ASC, "id"));
-        response = template
-                .query(SolrCollection.literature.name(), solrQuery, LiteratureDocument.class);
+        response =
+                template.query(
+                        SolrCollection.literature.name(), solrQuery, LiteratureDocument.class);
         assertThat(response, is(notNullValue()));
         assertThat(response.getTotalElements(), is(1L));
 
-        //Validating if solr document was written correctly
+        // Validating if solr document was written correctly
         solrQuery = new SimpleQuery("mapped_protein:Q15423");
-        response = template
-                .query(SolrCollection.literature.name(), solrQuery, LiteratureDocument.class);
+        response =
+                template.query(
+                        SolrCollection.literature.name(), solrQuery, LiteratureDocument.class);
         assertThat(response, is(notNullValue()));
         assertThat(response.getTotalElements(), is(1L));
 
-        //validating if can search one single entry with mapped and cited items
+        // validating if can search one single entry with mapped and cited items
         solrQuery = new SimpleQuery("id:11203701");
-        response = template
-                .query(SolrCollection.literature.name(), solrQuery, LiteratureDocument.class);
+        response =
+                template.query(
+                        SolrCollection.literature.name(), solrQuery, LiteratureDocument.class);
         assertThat(response, is(notNullValue()));
         assertThat(response.getTotalElements(), is(1L));
 
@@ -132,9 +147,12 @@ class LiteratureJobIT {
         assertThat(entry.getDoiId(), is("10.1006/dbio.2000.9955"));
 
         assertThat(entry.hasTitle(), is(true));
-        assertThat(entry.getTitle(), is("TNF signaling via the ligand-receptor pair ectodysplasin " +
-                "and edar controls the function of epithelial signaling centers and is regulated by Wnt " +
-                "and activin during tooth organogenesis."));
+        assertThat(
+                entry.getTitle(),
+                is(
+                        "TNF signaling via the ligand-receptor pair ectodysplasin "
+                                + "and edar controls the function of epithelial signaling centers and is regulated by Wnt "
+                                + "and activin during tooth organogenesis."));
 
         assertThat(entry.hasAuthoringGroup(), is(false));
 
@@ -182,9 +200,8 @@ class LiteratureJobIT {
 
         @Override
         protected String getStatisticsSQL() {
-            return LiteratureSQLConstants.LITERATURE_STATISTICS_SQL.replaceAll("FULL JOIN", "INNER JOIN");
+            return LiteratureSQLConstants.LITERATURE_STATISTICS_SQL.replaceAll(
+                    "FULL JOIN", "INNER JOIN");
         }
-
     }
-
 }

@@ -11,11 +11,12 @@ import com.google.inject.name.Named;
 /**
  * This class contains methods to save Uniprot voldemort entry remotely.
  *
- * Created 05/10/2017
+ * <p>Created 05/10/2017
  *
  * @author lgonzales
  */
-public class VoldemortRemoteUniProtKBEntryStore extends VoldemortRemoteJsonBinaryStore<UniProtEntry> {
+public class VoldemortRemoteUniProtKBEntryStore
+        extends VoldemortRemoteJsonBinaryStore<UniProtEntry> {
     public static final String UNIPROT_VOLDEMORT_URL = "uniprotVoldemortUrl";
     public static final String UNIPROT_VOLDEMORT_STORE_NAME = "uniprotVoldemortStoreName";
 
@@ -26,7 +27,8 @@ public class VoldemortRemoteUniProtKBEntryStore extends VoldemortRemoteJsonBinar
         super(storeName, voldemortUrl);
     }
 
-    public VoldemortRemoteUniProtKBEntryStore(int maxConnection, String storeName, String... voldemortUrl) {
+    public VoldemortRemoteUniProtKBEntryStore(
+            int maxConnection, String storeName, String... voldemortUrl) {
         super(maxConnection, storeName, voldemortUrl);
     }
 

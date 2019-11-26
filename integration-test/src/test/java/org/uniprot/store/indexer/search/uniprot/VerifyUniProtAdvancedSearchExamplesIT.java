@@ -20,10 +20,11 @@ import static org.hamcrest.core.IsNot.not;
 import static org.hamcrest.core.IsNull.notNullValue;
 
 /**
- * This class verifies example values against their associated fields, defined in {@code search-fields.json}. These
- * examples help clients (e.g., front-end) formulate the correct format of queries.
+ * This class verifies example values against their associated fields, defined in {@code
+ * search-fields.json}. These examples help clients (e.g., front-end) formulate the correct format
+ * of queries.
  *
- * Created 18/11/2019
+ * <p>Created 18/11/2019
  *
  * @author Edd
  */
@@ -32,8 +33,7 @@ class VerifyUniProtAdvancedSearchExamplesIT {
 
     @ParameterizedTest(name = "{1}:{2}")
     @MethodSource("provideSearchItems")
-    void searchFieldIsKnownToSearchEngine(
-            String label, String field, String example) {
+    void searchFieldIsKnownToSearchEngine(String label, String field, String example) {
         assertThat(label, is(not(isEmptyOrNullString())));
         assertThat(example, is(not(isEmptyOrNullString())));
 

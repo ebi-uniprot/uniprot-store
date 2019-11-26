@@ -1,5 +1,12 @@
 package org.uniprot.store.indexer.uniprotkb.converter;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
 import org.uniprot.core.Value;
 import org.uniprot.core.uniprot.UniProtEntry;
 import org.uniprot.core.uniprot.comment.AlternativeProductsComment;
@@ -7,13 +14,6 @@ import org.uniprot.core.uniprot.comment.CommentType;
 import org.uniprot.core.uniprot.comment.IsoformSequenceStatus;
 import org.uniprot.core.uniprot.evidence.Evidence;
 import org.uniprot.store.search.document.suggest.SuggestDictionary;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 /**
  * @author lgonzales
@@ -24,9 +24,10 @@ class UniProtEntryConverterUtil {
     private static final int SORT_FIELD_MAX_LENGTH = 30;
 
     static Set<String> extractEvidence(List<Evidence> evidences) {
-        Set<String> extractedEvidence = evidences.stream()
-                .flatMap(UniProtEntryConverterUtil::addExtractedEvidenceItem)
-                .collect(Collectors.toSet());
+        Set<String> extractedEvidence =
+                evidences.stream()
+                        .flatMap(UniProtEntryConverterUtil::addExtractedEvidenceItem)
+                        .collect(Collectors.toSet());
         return extractedEvidence;
     }
 
@@ -34,9 +35,10 @@ class UniProtEntryConverterUtil {
         List<String> result = new ArrayList<>();
         result.add(evidence.getEvidenceCode().name());
 
-        result.addAll(evidence.getEvidenceCode().getCategories().stream()
-                .map(category -> category.name().toLowerCase())
-                .collect(Collectors.toList()));
+        result.addAll(
+                evidence.getEvidenceCode().getCategories().stream()
+                        .map(category -> category.name().toLowerCase())
+                        .collect(Collectors.toList()));
 
         return result.stream();
     }
@@ -80,14 +82,23 @@ class UniProtEntryConverterUtil {
     }
 
     static boolean isCanonicalIsoform(UniProtEntry uniProtEntry) {
-        return uniProtEntry.getCommentByType(CommentType.ALTERNATIVE_PRODUCTS)
-                .stream()
-                .map(comment -> (AlternativeProductsComment) comment)
-                .flatMap(comment -> comment.getIsoforms().stream())
-                .filter(isoform -> isoform.getIsoformSequenceStatus() == IsoformSequenceStatus.DISPLAYED)
-                .flatMap(isoform -> isoform.getIsoformIds().stream())
-                .filter(isoformId -> isoformId.getValue().equals(uniProtEntry.getPrimaryAccession().getValue()))
-                .count() == 1L;
+        return uniProtEntry.getCommentByType(CommentType.ALTERNATIVE_PRODUCTS).stream()
+                        .map(comment -> (AlternativeProductsComment) comment)
+                        .flatMap(comment -> comment.getIsoforms().stream())
+                        .filter(
+                                isoform ->
+                                        isoform.getIsoformSequenceStatus()
+                                                == IsoformSequenceStatus.DISPLAYED)
+                        .flatMap(isoform -> isoform.getIsoformIds().stream())
+                        .filter(
+                                isoformId ->
+                                        isoformId
+                                                .getValue()
+                                                .equals(
+                                                        uniProtEntry
+                                                                .getPrimaryAccession()
+                                                                .getValue()))
+                        .count()
+                == 1L;
     }
-
 }

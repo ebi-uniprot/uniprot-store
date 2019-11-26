@@ -46,7 +46,10 @@ public interface KeywordField {
             this.boostValue = null;
         }
 
-        Search(SearchFieldType searchFieldType, Predicate<String> fieldValueValidator, BoostValue boostValue) {
+        Search(
+                SearchFieldType searchFieldType,
+                Predicate<String> fieldValueValidator,
+                BoostValue boostValue) {
             this.searchFieldType = searchFieldType;
             this.fieldValueValidator = fieldValueValidator;
             this.boostValue = boostValue;
@@ -85,11 +88,9 @@ public interface KeywordField {
                     .filter(Search::hasBoostValue)
                     .collect(Collectors.toList());
         }
-
     }
 
     enum ResultFields implements ReturnField {
-
         id("Keyword ID"),
         keyword("Keyword", "keyword", true),
         name("Name"),
@@ -104,10 +105,11 @@ public interface KeywordField {
 
         private String label;
         private String javaFieldName;
-        private boolean isMandatoryJsonField; // flag to indicate field which will always be present in
-                                              // Json response no matter what 'fields' are pass in request
+        private boolean
+                isMandatoryJsonField; // flag to indicate field which will always be present in
+        // Json response no matter what 'fields' are pass in request
 
-        ResultFields(String label){
+        ResultFields(String label) {
             this(label, null);
         }
 
@@ -125,24 +127,25 @@ public interface KeywordField {
             return this.label;
         }
 
-		@Override
-		public boolean hasReturnField(String fieldName) {
-			 return Arrays.stream(ResultFields.values())
-	                    .anyMatch(returnItem -> returnItem.name().equalsIgnoreCase(fieldName));
-		}
+        @Override
+        public boolean hasReturnField(String fieldName) {
+            return Arrays.stream(ResultFields.values())
+                    .anyMatch(returnItem -> returnItem.name().equalsIgnoreCase(fieldName));
+        }
 
-		@Override
-        public String getJavaFieldName(){
+        @Override
+        public String getJavaFieldName() {
             return this.javaFieldName;
         }
 
         @Override
-        public boolean isMandatoryJsonField(){
+        public boolean isMandatoryJsonField() {
             return this.isMandatoryJsonField;
         }
     }
 
     enum Return {
-        id, taxonomy_obj
+        id,
+        taxonomy_obj
     }
 }

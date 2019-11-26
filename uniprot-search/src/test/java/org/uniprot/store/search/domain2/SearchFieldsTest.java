@@ -1,10 +1,10 @@
 package org.uniprot.store.search.domain2;
 
-import org.junit.jupiter.api.Test;
-
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+
+import org.junit.jupiter.api.Test;
 
 /**
  * Created 20/11/19
@@ -55,7 +55,7 @@ class SearchFieldsTest {
                 IllegalArgumentException.class,
                 () -> UniProtKBSearchFields.INSTANCE.getSortFieldFor("mnemonic_default"));
     }
-    
+
     @Test
     void fieldValueIsValid_isTrueWhenValid() {
         assertThat(
@@ -66,6 +66,5 @@ class SearchFieldsTest {
     void fieldValueIsValid_isFalseWhenInvalid() {
         assertThat(
                 UniProtKBSearchFields.INSTANCE.fieldValueIsValid("accession", "12345"), is(false));
-
     }
 }

@@ -23,32 +23,27 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.hasSize;
 import static org.uniprot.store.indexer.search.DocFieldTransformer.fieldTransformer;
-import static org.uniprot.store.indexer.search.uniprot.FullCIAnalysisSearchIT.FieldType.TypeFunctions.STRING_FUNCTION;
 import static org.uniprot.store.indexer.search.uniprot.FullCIAnalysisSearchIT.FieldType.TypeFunctions.STRING_LIST_FUNCTION;
 import static org.uniprot.store.indexer.search.uniprot.IdentifierSearchIT.ACC_LINE;
 import static org.uniprot.store.indexer.search.uniprot.TestUtils.convertToUniProtEntry;
 
 /**
- * This class tests the edge cases of the {@code full_ci} field type defined in UniProt's schema.xml.
- * <p>
- * For all fields that use {@code full_ci}, add a corresponding {@link FieldType} and add it to the {@code @Parameters}
- * collection of fields to test. This ensures all fields that should use this field type, really do.
- * <p>
- * Created 02/07/18
+ * This class tests the edge cases of the {@code full_ci} field type defined in UniProt's
+ * schema.xml.
+ *
+ * <p>For all fields that use {@code full_ci}, add a corresponding {@link FieldType} and add it to
+ * the {@code @Parameters} collection of fields to test. This ensures all fields that should use
+ * this field type, really do.
+ *
+ * <p>Created 02/07/18
  *
  * @author Edd
  */
 class FullCIAnalysisSearchIT {
-    @RegisterExtension
-    static final UniProtSearchEngine searchEngine = new UniProtSearchEngine();
+    @RegisterExtension static final UniProtSearchEngine searchEngine = new UniProtSearchEngine();
     private static final String RESOURCE_ENTRY_PATH = "/it/uniprot";
     private static final List<String> RESOURCE_ENTRIES_TO_STORE =
-            asList("P0A377.43",
-            		"P51587",
-            		"Q6GZV4.23",
-            		"Q197D8.25",
-            		"Q197F8.16"
-            		);
+            asList("P0A377.43", "P51587", "Q6GZV4.23", "Q197D8.25", "Q197F8.16");
     private static UniProtEntryObjectProxy entryProxy;
     private static int accessionId = 0;
     private List<String> tempSavedEntries = new ArrayList<>();
@@ -56,8 +51,9 @@ class FullCIAnalysisSearchIT {
     @BeforeAll
     static void populateIndexWithTestData() throws IOException {
         for (String entryToStore : RESOURCE_ENTRIES_TO_STORE) {
-            InputStream resourceAsStream = TestUtils
-                    .getResourceAsStream(RESOURCE_ENTRY_PATH + "/" + entryToStore + ".dat");
+            InputStream resourceAsStream =
+                    TestUtils.getResourceAsStream(
+                            RESOURCE_ENTRY_PATH + "/" + entryToStore + ".dat");
             entryProxy = UniProtEntryObjectProxy.createEntryFromInputStream(resourceAsStream);
 
             searchEngine.indexEntry(convertToUniProtEntry(entryProxy));
@@ -93,7 +89,8 @@ class FullCIAnalysisSearchIT {
     @EnumSource(FieldType.class)
     void canFindExactPhraseContainingCommasNumbersBracesAndSlashes(FieldType field) {
         String accession = newAccession();
-        String fieldValue = "Influenza A, virus (strain A/Goose/Guangdong/1/1996 H5N1 genotype Gs/Gd)";
+        String fieldValue =
+                "Influenza A, virus (strain A/Goose/Guangdong/1/1996 H5N1 genotype Gs/Gd)";
         String query = fieldPhraseQuery(field.name(), fieldValue);
 
         new EntryCheck()
@@ -374,7 +371,8 @@ class FullCIAnalysisSearchIT {
 
     @ParameterizedTest
     @EnumSource(FieldType.class)
-    void canFindMultiWordValueContainingCommaGivenOneWordWhenTheresATerminatingSemiColon(FieldType field) {
+    void canFindMultiWordValueContainingCommaGivenOneWordWhenTheresATerminatingSemiColon(
+            FieldType field) {
         String accession = newAccession();
         String indexFieldValue = "Aspartate, aminotransferase;";
         String queryFieldValue = "Aspartate";
@@ -392,7 +390,8 @@ class FullCIAnalysisSearchIT {
     @EnumSource(FieldType.class)
     void canFindMultiWordValueWithSlash(FieldType field) {
         String accession = newAccession();
-        String fieldValue = "Influenza A virus (strain A/Goose/Guangdong/1/1996 H5N1 genotype Gs/Gd)";
+        String fieldValue =
+                "Influenza A virus (strain A/Goose/Guangdong/1/1996 H5N1 genotype Gs/Gd)";
         String query = fieldQuery(field.name(), fieldValue);
 
         new EntryCheck()
@@ -490,7 +489,24 @@ class FullCIAnalysisSearchIT {
     @ParameterizedTest
     @EnumSource(FieldType.class)
     void canFindValuesContainingSpecialChars(FieldType field) {
-        List<String> valuesThatRequireEscaping = asList("+", "-", "&", "|", "!", "(", ")", "{EVIDENCE}", "[", "]", "^", "\"", "~", "?", ":", "/");
+        List<String> valuesThatRequireEscaping =
+                asList(
+                        "+",
+                        "-",
+                        "&",
+                        "|",
+                        "!",
+                        "(",
+                        ")",
+                        "{EVIDENCE}",
+                        "[",
+                        "]",
+                        "^",
+                        "\"",
+                        "~",
+                        "?",
+                        ":",
+                        "/");
 
         for (String toEscape : valuesThatRequireEscaping) {
             String accession = newAccession();
@@ -512,7 +528,8 @@ class FullCIAnalysisSearchIT {
     @EnumSource(FieldType.class)
     void canFindValueViaAlternativeSpellingFromSynonymList(FieldType field) {
         // ensure synonyms in are used:
-        //    uniprot-data-services/data-service-deployments/src/main/distros/solr-conf/homes/uniprot-cores/uniprot/conf/synonyms.txt
+        //
+        // uniprot-data-services/data-service-deployments/src/main/distros/solr-conf/homes/uniprot-cores/uniprot/conf/synonyms.txt
         String accession = newAccession();
         String indexFieldValue = "hemoglobin tumor";
         String queryFieldValue = "haemoglobin tumour";
@@ -558,7 +575,8 @@ class FullCIAnalysisSearchIT {
     }
 
     private void index(String accession, String fieldValue, FieldType field) {
-        DocFieldTransformer docFieldTransformer = fieldTransformer(field.name(), field.getType().apply(fieldValue));
+        DocFieldTransformer docFieldTransformer =
+                fieldTransformer(field.name(), field.getType().apply(fieldValue));
         tempSavedEntries.add(accession);
         entryProxy.updateEntryObject(LineType.AC, String.format(ACC_LINE, accession));
         searchEngine.indexEntry(convertToUniProtEntry(entryProxy), docFieldTransformer);
@@ -590,7 +608,8 @@ class FullCIAnalysisSearchIT {
         }
 
         static class TypeFunctions {
-            static final Function<String, List<String>> STRING_LIST_FUNCTION = Collections::singletonList;
+            static final Function<String, List<String>> STRING_LIST_FUNCTION =
+                    Collections::singletonList;
             static final Function<String, String> STRING_FUNCTION = s -> s;
         }
     }

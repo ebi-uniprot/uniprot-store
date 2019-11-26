@@ -1,15 +1,13 @@
 package org.uniprot.store.indexer.keyword;
 
-import org.springframework.batch.item.ItemReader;
-import org.uniprot.core.cv.keyword.KeywordFileReader;
-import org.uniprot.core.cv.keyword.KeywordEntry;
-
 import java.io.IOException;
 import java.util.Iterator;
 
-/**
- * @author lgonzales
- */
+import org.springframework.batch.item.ItemReader;
+import org.uniprot.core.cv.keyword.KeywordEntry;
+import org.uniprot.core.cv.keyword.KeywordFileReader;
+
+/** @author lgonzales */
 public class KeywordLoadItemReader implements ItemReader<KeywordEntry> {
     private Iterator<KeywordEntry> keywordIterator;
 
@@ -25,5 +23,4 @@ public class KeywordLoadItemReader implements ItemReader<KeywordEntry> {
         }
         return null;
     }
-
 }
