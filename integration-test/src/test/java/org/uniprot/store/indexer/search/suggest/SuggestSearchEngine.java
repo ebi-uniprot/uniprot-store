@@ -13,8 +13,8 @@ class SuggestSearchEngine extends AbstractSearchEngine<SuggestDocument> {
     }
 
     @Override
-    protected Enum identifierField() {
-        return SuggestField.Search.id;
+    protected String identifierField() {
+        return SuggestField.Search.id.name();
     }
 
     @Override

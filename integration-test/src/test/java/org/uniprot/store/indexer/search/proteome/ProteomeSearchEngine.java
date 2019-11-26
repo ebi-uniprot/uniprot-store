@@ -1,17 +1,17 @@
 package org.uniprot.store.indexer.search.proteome;
 
+import org.uniprot.core.cv.taxonomy.FileNodeIterable;
+import org.uniprot.core.cv.taxonomy.TaxonomyRepo;
+import org.uniprot.core.cv.taxonomy.impl.TaxonomyMapRepo;
+import org.uniprot.core.xml.jaxb.proteome.Proteome;
+import org.uniprot.store.indexer.proteome.ProteomeEntryConverter;
+import org.uniprot.store.indexer.search.AbstractSearchEngine;
+import org.uniprot.store.job.common.converter.DocumentConverter;
+import org.uniprot.store.search.field.ProteomeField;
+
 import java.io.File;
 import java.net.URISyntaxException;
 import java.net.URL;
-
-import org.uniprot.core.cv.taxonomy.FileNodeIterable;
-import org.uniprot.core.cv.taxonomy.impl.TaxonomyMapRepo;
-import org.uniprot.core.cv.taxonomy.TaxonomyRepo;
-import org.uniprot.core.xml.jaxb.proteome.Proteome;
-import org.uniprot.store.job.common.converter.DocumentConverter;
-import org.uniprot.store.indexer.proteome.ProteomeEntryConverter;
-import org.uniprot.store.indexer.search.AbstractSearchEngine;
-import org.uniprot.store.search.field.ProteomeField;
 
 class ProteomeSearchEngine extends AbstractSearchEngine<Proteome> {
 
@@ -40,8 +40,8 @@ class ProteomeSearchEngine extends AbstractSearchEngine<Proteome> {
     }
 
     @Override
-    protected Enum identifierField() {
-       return ProteomeField.Search.upid;
+    protected String identifierField() {
+       return ProteomeField.Search.upid.name();
     }
 
 	@Override

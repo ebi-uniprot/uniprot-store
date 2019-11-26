@@ -1,24 +1,22 @@
 package org.uniprot.store.indexer.search.uniprot;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.hasItem;
-import static org.hamcrest.Matchers.hasItems;
-import static org.hamcrest.Matchers.not;
-import static org.uniprot.store.indexer.search.uniprot.IdentifierSearchIT.ACC_LINE;
-import static org.uniprot.store.indexer.search.uniprot.TestUtils.*;
+import org.apache.solr.client.solrj.response.QueryResponse;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.RegisterExtension;
+import org.uniprot.core.flatfile.writer.LineType;
+import org.uniprot.core.uniprot.feature.FeatureType;
+import org.uniprot.store.search.domain2.UniProtKBSearchFields;
+import org.uniprot.store.search.field.QueryBuilder;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 
-import org.apache.solr.client.solrj.response.QueryResponse;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.extension.RegisterExtension;
-import org.junit.jupiter.api.Test;
-import org.uniprot.core.flatfile.writer.LineType;
-import org.uniprot.core.uniprot.feature.FeatureType;
-import org.uniprot.store.search.field.QueryBuilder;
-import org.uniprot.store.search.field.UniProtField;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.*;
+import static org.uniprot.store.indexer.search.uniprot.IdentifierSearchIT.ACC_LINE;
+import static org.uniprot.store.indexer.search.uniprot.TestUtils.*;
 
 class FTSequenceSearchIT {
 
@@ -119,10 +117,10 @@ class FTSequenceSearchIT {
 
 	@Test
 	void variantsFindEntryWithLengthAndEvidence() {
-		String query= query(UniProtField.Search.ft_variants, "colorectal");
-		query = QueryBuilder.and(query, QueryBuilder.rangeQuery(UniProtField.Search.ftlen_variants.name(), 1, 21));
+		String query= query(UniProtKBSearchFields.INSTANCE.getField("ft_variants"), "colorectal");
+		query = QueryBuilder.and(query, QueryBuilder.rangeQuery(UniProtKBSearchFields.INSTANCE.getField("ftlen_variants").getName(), 1, 21));
 		String evidence = "ECO_0000269";
-		query = QueryBuilder.and(query, query(UniProtField.Search.ftev_variants, evidence));
+		query = QueryBuilder.and(query, query(UniProtKBSearchFields.INSTANCE.getField("ftev_variants"), evidence));
 		QueryResponse response = searchEngine.getQueryResponse(query);
 
 		List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
@@ -199,10 +197,10 @@ class FTSequenceSearchIT {
 	}
 	@Test
 	void positionFindEntryWithLengthAndEvidence() {
-		String query= query(UniProtField.Search.ft_positional, "colorectal");
-		query = QueryBuilder.and(query, QueryBuilder.rangeQuery(UniProtField.Search.ftlen_positional.name(), 1, 21));
+		String query= query(UniProtKBSearchFields.INSTANCE.getField("ft_positional"), "colorectal");
+		query = QueryBuilder.and(query, QueryBuilder.rangeQuery(UniProtKBSearchFields.INSTANCE.getField("ftlen_positional").getName(), 1, 21));
 		String evidence = "ECO_0000269";
-		query = QueryBuilder.and(query, query(UniProtField.Search.ftev_positional, evidence));
+		query = QueryBuilder.and(query, query(UniProtKBSearchFields.INSTANCE.getField("ftev_positional"), evidence));
 		QueryResponse response = searchEngine.getQueryResponse(query);
 
 		List<String> retrievedAccessions = searchEngine.getIdentifiers(response);

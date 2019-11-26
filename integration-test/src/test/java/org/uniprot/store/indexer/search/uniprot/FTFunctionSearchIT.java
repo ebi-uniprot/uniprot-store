@@ -1,22 +1,22 @@
 package org.uniprot.store.indexer.search.uniprot;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
-import static org.uniprot.store.indexer.search.uniprot.IdentifierSearchIT.ACC_LINE;
-import static org.uniprot.store.indexer.search.uniprot.TestUtils.*;
+import org.apache.solr.client.solrj.response.QueryResponse;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.RegisterExtension;
+import org.uniprot.core.flatfile.writer.LineType;
+import org.uniprot.core.uniprot.feature.FeatureType;
+import org.uniprot.store.search.domain2.UniProtKBSearchFields;
+import org.uniprot.store.search.field.QueryBuilder;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 
-import org.apache.solr.client.solrj.response.QueryResponse;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.extension.RegisterExtension;
-import org.junit.jupiter.api.Test;
-import org.uniprot.core.flatfile.writer.LineType;
-import org.uniprot.core.uniprot.feature.FeatureType;
-import org.uniprot.store.search.field.QueryBuilder;
-import org.uniprot.store.search.field.UniProtField;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.*;
+import static org.uniprot.store.indexer.search.uniprot.IdentifierSearchIT.ACC_LINE;
+import static org.uniprot.store.indexer.search.uniprot.TestUtils.*;
 
 
 class FTFunctionSearchIT {
@@ -83,7 +83,7 @@ class FTFunctionSearchIT {
 
 	@Test
 	void sitesFindTwoEntry() {
-		String query = query(UniProtField.Search.ft_sites, "Substrate");
+		String query = query(UniProtKBSearchFields.INSTANCE.getField("ft_sites"), "Substrate");
 		QueryResponse response = searchEngine.getQueryResponse(query);
 
 		List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
@@ -94,8 +94,8 @@ class FTFunctionSearchIT {
 
 	@Test
 	void sitesFindTwoEntryWithLength() {
-		String query = query(UniProtField.Search.ft_sites, "Substrate");
-		query = QueryBuilder.and(query, QueryBuilder.rangeQuery(UniProtField.Search.ftlen_sites.name(), 1, 3));
+		String query = query(UniProtKBSearchFields.INSTANCE.getField("ft_sites"), "Substrate");
+		query = QueryBuilder.and(query, QueryBuilder.rangeQuery(UniProtKBSearchFields.INSTANCE.getField("ftlen_sites").getName(), 1, 3));
 		QueryResponse response = searchEngine.getQueryResponse(query);
 
 		List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
@@ -105,10 +105,10 @@ class FTFunctionSearchIT {
 
 	@Test
 	void sitesFindEntryWithLengthAndEvidence() {
-		String query = query(UniProtField.Search.ft_sites, "Substrate");
-		query = QueryBuilder.and(query, QueryBuilder.rangeQuery(UniProtField.Search.ftlen_sites.name(), 1, 3));
+		String query = query(UniProtKBSearchFields.INSTANCE.getField("ft_sites"), "Substrate");
+		query = QueryBuilder.and(query, QueryBuilder.rangeQuery(UniProtKBSearchFields.INSTANCE.getField("ftlen_sites").getName(), 1, 3));
 		String evidence = "ECO_0000256";
-		query = QueryBuilder.and(query, query(UniProtField.Search.ftev_sites, evidence));
+		query = QueryBuilder.and(query, query(UniProtKBSearchFields.INSTANCE.getField("ftev_sites"), evidence));
 
 		QueryResponse response = searchEngine.getQueryResponse(query);
 

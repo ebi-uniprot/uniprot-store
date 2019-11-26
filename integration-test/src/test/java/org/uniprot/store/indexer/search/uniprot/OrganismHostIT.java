@@ -5,8 +5,8 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;
 import org.uniprot.core.flatfile.writer.LineType;
+import org.uniprot.store.search.domain2.UniProtKBSearchFields;
 import org.uniprot.store.search.field.QueryBuilder;
-import org.uniprot.store.search.field.UniProtField;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -253,9 +253,9 @@ class OrganismHostIT {
     }
     
     String organismHostName(String name) {
-    	return query(UniProtField.Search.host_name, name);
+    	return query(UniProtKBSearchFields.INSTANCE.getField("host_name"), name);
     }
     String organismHostID(int tax) {
-    	return query(UniProtField.Search.host_id, String.valueOf(tax));
+    	return query(UniProtKBSearchFields.INSTANCE.getField("host_id"), String.valueOf(tax));
     }
 }

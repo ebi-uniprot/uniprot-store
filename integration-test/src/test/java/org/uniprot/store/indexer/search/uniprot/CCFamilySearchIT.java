@@ -1,23 +1,21 @@
 package org.uniprot.store.indexer.search.uniprot;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.hasItem;
-import static org.hamcrest.Matchers.hasItems;
-import static org.hamcrest.Matchers.not;
-import static org.uniprot.store.indexer.search.uniprot.IdentifierSearchIT.ACC_LINE;
-import static org.uniprot.store.indexer.search.uniprot.TestUtils.convertToUniProtEntry;
-import static org.uniprot.store.indexer.search.uniprot.TestUtils.query;
+import org.apache.solr.client.solrj.response.QueryResponse;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.RegisterExtension;
+import org.uniprot.core.flatfile.writer.LineType;
+import org.uniprot.store.search.domain2.UniProtKBSearchFields;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 
-import org.apache.solr.client.solrj.response.QueryResponse;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.extension.RegisterExtension;
-import org.junit.jupiter.api.Test;
-import org.uniprot.core.flatfile.writer.LineType;
-import org.uniprot.store.search.field.UniProtField;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.*;
+import static org.uniprot.store.indexer.search.uniprot.IdentifierSearchIT.ACC_LINE;
+import static org.uniprot.store.indexer.search.uniprot.TestUtils.convertToUniProtEntry;
+import static org.uniprot.store.indexer.search.uniprot.TestUtils.query;
 
 
 class CCFamilySearchIT {
@@ -61,7 +59,7 @@ class CCFamilySearchIT {
 		}
 		  @Test
 		    void familyFindOne() {
-		    	String query= query(UniProtField.Search.family, "kinase");
+		    	String query= query(UniProtKBSearchFields.INSTANCE.getField("family"), "kinase");
 		    	
 				QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -73,7 +71,7 @@ class CCFamilySearchIT {
 
 		  @Test
 		    void familyFindTwo() {
-		    	String query= query(UniProtField.Search.family, "protein");
+		    	String query= query(UniProtKBSearchFields.INSTANCE.getField("family"), "protein");
 		    
 				QueryResponse response = searchEngine.getQueryResponse(query);
 

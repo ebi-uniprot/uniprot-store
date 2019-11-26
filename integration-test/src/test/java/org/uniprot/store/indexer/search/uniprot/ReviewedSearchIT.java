@@ -2,10 +2,10 @@ package org.uniprot.store.indexer.search.uniprot;
 
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.extension.RegisterExtension;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.RegisterExtension;
 import org.uniprot.core.flatfile.writer.LineType;
-import org.uniprot.store.search.field.UniProtField;
+import org.uniprot.store.search.domain2.UniProtKBSearchFields;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -14,7 +14,8 @@ import java.util.List;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.collection.IsIterableContainingInOrder.contains;
 import static org.uniprot.store.indexer.search.uniprot.IdentifierSearchIT.ACC_LINE;
-import static org.uniprot.store.indexer.search.uniprot.TestUtils.*;
+import static org.uniprot.store.indexer.search.uniprot.TestUtils.convertToUniProtEntry;
+import static org.uniprot.store.indexer.search.uniprot.TestUtils.query;
 
 /**
  * Verifies if the protein UniProt entry type (Reviewed/Unreviewed) is indexed correctly
@@ -54,7 +55,7 @@ class ReviewedSearchIT {
 
     @Test
     void reviewedEntryTypMatchesEntriesWithReviewedStatus() {
-        String query = query(UniProtField.Search.reviewed, "true");
+        String query = query(UniProtKBSearchFields.INSTANCE.getField("reviewed"), "true");
 
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -64,7 +65,7 @@ class ReviewedSearchIT {
 
     @Test
     void unReviewedEntryTypMatchesEntriesWithUnreviewedStatus() {
-    	 String query = query(UniProtField.Search.reviewed, "false");
+    	 String query = query(UniProtKBSearchFields.INSTANCE.getField("reviewed"), "false");
 
         QueryResponse response = searchEngine.getQueryResponse(query);
 

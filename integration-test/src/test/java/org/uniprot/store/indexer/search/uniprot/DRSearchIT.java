@@ -3,11 +3,11 @@ package org.uniprot.store.indexer.search.uniprot;
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Disabled;
-import org.junit.jupiter.api.extension.RegisterExtension;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.RegisterExtension;
 import org.uniprot.core.flatfile.writer.LineType;
+import org.uniprot.store.search.domain2.UniProtKBSearchFields;
 import org.uniprot.store.search.field.QueryBuilder;
-import org.uniprot.store.search.field.UniProtField;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -17,7 +17,8 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 import static org.hamcrest.core.Is.is;
 import static org.uniprot.store.indexer.search.uniprot.IdentifierSearchIT.ACC_LINE;
-import static org.uniprot.store.indexer.search.uniprot.TestUtils.*;
+import static org.uniprot.store.indexer.search.uniprot.TestUtils.convertToUniProtEntry;
+import static org.uniprot.store.indexer.search.uniprot.TestUtils.query;
 
 /**
  * Tests showing the behaviour of searching DR fields
@@ -166,7 +167,7 @@ DRSearchIT {
 
     @Test
     void goExactlyCorrectAccession() {
-    	String query = query(UniProtField.Search.accession, GO_1);
+    	String query = query(UniProtKBSearchFields.INSTANCE.getField("accession"), GO_1);
          query = QueryBuilder.and(query, xref("GO", "GO:0033644"));
 
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -177,7 +178,7 @@ DRSearchIT {
 
     @Test
     void goCaseInSensitiveAccession() {
-    	String query = query(UniProtField.Search.accession, GO_1);
+    	String query = query(UniProtKBSearchFields.INSTANCE.getField("accession"), GO_1);
     	 query = QueryBuilder.and(query, xref("GO", "go:0033644"));
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -207,7 +208,7 @@ DRSearchIT {
 
     @Test
     void refseqIDNoVersion() {
-    	String query = query(UniProtField.Search.accession, REF_SEQ_1);
+    	String query = query(UniProtKBSearchFields.INSTANCE.getField("accession"), REF_SEQ_1);
         query =  QueryBuilder.and( query,xref("REFSEQ", "YP_654585"));
 
 
@@ -219,7 +220,7 @@ DRSearchIT {
 
     @Test
     void refseqIDWithVersion() {
-    	String query = query(UniProtField.Search.accession, REF_SEQ_1);
+    	String query = query(UniProtKBSearchFields.INSTANCE.getField("accession"), REF_SEQ_1);
          query =  QueryBuilder.and( query,xref("REFSEQ", "YP_654585.1"));
 
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -230,7 +231,7 @@ DRSearchIT {
 
     @Test
     void refseqDontFindIDWithVersion() {
-    	String query = query(UniProtField.Search.accession, REF_SEQ_1);
+    	String query = query(UniProtKBSearchFields.INSTANCE.getField("accession"), REF_SEQ_1);
         query =  QueryBuilder.and( query,xref("REFSEQ", "YP_654585.2"));
 
 
@@ -242,7 +243,7 @@ DRSearchIT {
 
     @Test
     void refseqDontFindIDWithVersionAgain() {
-    	String query = query(UniProtField.Search.accession, REF_SEQ_2);
+    	String query = query(UniProtKBSearchFields.INSTANCE.getField("accession"), REF_SEQ_2);
          query = QueryBuilder.and( query,xref("REFSEQ", "NC_008187.1"));
 
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -253,7 +254,7 @@ DRSearchIT {
 
     @Test
     void refseqFindIDWithVersion() {
-    	String query = query(UniProtField.Search.accession, REF_SEQ_2);
+    	String query = query(UniProtKBSearchFields.INSTANCE.getField("accession"), REF_SEQ_2);
          query = QueryBuilder.and( query, xref("REFSEQ", "NC_008187.2"));
 
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -294,7 +295,7 @@ DRSearchIT {
 
     @Test
     void emblDontFindInEntry() {
-    	String query = query(UniProtField.Search.accession, EMBL_1);
+    	String query = query(UniProtKBSearchFields.INSTANCE.getField("accession"), EMBL_1);
          query = QueryBuilder.and(query, xref("EMBL", "BY548484"));
 
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -305,7 +306,7 @@ DRSearchIT {
 
     @Test
     void emblFindInEntry() {
-    	String query = query(UniProtField.Search.accession, EMBL_3);
+    	String query = query(UniProtKBSearchFields.INSTANCE.getField("accession"), EMBL_3);
          query =QueryBuilder.and(query, xref("EMBL", "BY548484"));
 
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -541,9 +542,9 @@ DRSearchIT {
         assertThat(retrievedAccessions, contains(TCDB_2));
     }
     private String xref(String type, String value) {
-    	return query(UniProtField.Search.xref, type.toLowerCase() +"-" + value);
+    	return query(UniProtKBSearchFields.INSTANCE.getField("xref"), type.toLowerCase() +"-" + value);
     }
     private String xref( String value) {
-    	return query(UniProtField.Search.xref, value);
+    	return query(UniProtKBSearchFields.INSTANCE.getField("xref"), value);
     }
 }

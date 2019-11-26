@@ -2,11 +2,11 @@ package org.uniprot.store.indexer.search.uniprot;
 
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.extension.RegisterExtension;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.RegisterExtension;
 import org.uniprot.core.flatfile.writer.LineType;
+import org.uniprot.store.search.domain2.UniProtKBSearchFields;
 import org.uniprot.store.search.field.QueryBuilder;
-import org.uniprot.store.search.field.UniProtField;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -18,7 +18,8 @@ import static org.hamcrest.collection.IsEmptyCollection.empty;
 import static org.hamcrest.core.Is.is;
 import static org.uniprot.store.indexer.search.uniprot.IdentifierSearchIT.ACC_LINE;
 import static org.uniprot.store.indexer.search.uniprot.OrganismIT.OX_LINE;
-import static org.uniprot.store.indexer.search.uniprot.TestUtils.*;
+import static org.uniprot.store.indexer.search.uniprot.TestUtils.convertToUniProtEntry;
+import static org.uniprot.store.indexer.search.uniprot.TestUtils.query;
 
 /**
  * Tests whether the taxonomy lineages have been indexed correctly
@@ -205,9 +206,9 @@ class TaxonomyIT {
         assertThat(retrievedAccessions, containsInAnyOrder(ACCESSION2, ACCESSION3));
     }
     private String taxonName(String value) {
-    	return query(UniProtField.Search.taxonomy_name, value);
+    	return query(UniProtKBSearchFields.INSTANCE.getField("taxonomy_name"), value);
     }
     private static String taxonID(int taxonomy) {
-        return query(UniProtField.Search.taxonomy_id, String.valueOf(taxonomy));
+        return query(UniProtKBSearchFields.INSTANCE.getField("taxonomy_id"), String.valueOf(taxonomy));
     }
 }

@@ -5,7 +5,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;
 import org.uniprot.core.flatfile.writer.LineType;
-import org.uniprot.store.search.field.UniProtField;
+import org.uniprot.store.search.domain2.UniProtKBSearchFields;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -156,6 +156,6 @@ class OrganelleIT {
     }
     
      String organelle(String name) {
-        return query(UniProtField.Search.organelle, name);
+        return query(UniProtKBSearchFields.INSTANCE.getField("organelle"), name);
     }
 }

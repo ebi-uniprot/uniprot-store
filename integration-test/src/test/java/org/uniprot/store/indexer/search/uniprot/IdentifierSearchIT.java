@@ -4,11 +4,11 @@ import org.apache.commons.lang.WordUtils;
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.hamcrest.collection.IsIterableContainingInOrder;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.extension.RegisterExtension;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.RegisterExtension;
 import org.uniprot.core.flatfile.writer.LineType;
+import org.uniprot.store.search.domain2.UniProtKBSearchFields;
 import org.uniprot.store.search.field.QueryBuilder;
-import org.uniprot.store.search.field.UniProtField;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -116,7 +116,7 @@ class IdentifierSearchIT {
     }
 
     private String id(String id) {
-    	return QueryBuilder.query(UniProtField.Search.mnemonic.name(),id);
+    	return QueryBuilder.query(UniProtKBSearchFields.INSTANCE.getField("mnemonic").getName(), id);
     }
     private String mixCasing(String value) {
         return WordUtils.capitalize(value);

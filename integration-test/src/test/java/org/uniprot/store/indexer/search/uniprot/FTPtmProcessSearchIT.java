@@ -1,24 +1,22 @@
 package org.uniprot.store.indexer.search.uniprot;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.hasItem;
-import static org.hamcrest.Matchers.hasItems;
-import static org.hamcrest.Matchers.not;
-import static org.uniprot.store.indexer.search.uniprot.IdentifierSearchIT.ACC_LINE;
-import static org.uniprot.store.indexer.search.uniprot.TestUtils.*;
+import org.apache.solr.client.solrj.response.QueryResponse;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.RegisterExtension;
+import org.uniprot.core.flatfile.writer.LineType;
+import org.uniprot.core.uniprot.feature.FeatureType;
+import org.uniprot.store.search.domain2.UniProtKBSearchFields;
+import org.uniprot.store.search.field.QueryBuilder;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 
-import org.apache.solr.client.solrj.response.QueryResponse;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.extension.RegisterExtension;
-import org.junit.jupiter.api.Test;
-import org.uniprot.core.flatfile.writer.LineType;
-import org.uniprot.core.uniprot.feature.FeatureType;
-import org.uniprot.store.search.field.QueryBuilder;
-import org.uniprot.store.search.field.UniProtField;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.*;
+import static org.uniprot.store.indexer.search.uniprot.IdentifierSearchIT.ACC_LINE;
+import static org.uniprot.store.indexer.search.uniprot.TestUtils.*;
 
 class FTPtmProcessSearchIT {
 	private static final String Q6GZX4 = "Q6GZX4";
@@ -263,7 +261,7 @@ class FTPtmProcessSearchIT {
 	
 	@Test
 	void moleculeProcessFindTwoEntry() {
-		String query = query(UniProtField.Search.ft_molecule_processing, "peptide");
+		String query = query(UniProtKBSearchFields.INSTANCE.getField("ft_molecule_processing"), "peptide");
 		QueryResponse response = searchEngine.getQueryResponse(query);
 
 		List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
@@ -274,8 +272,8 @@ class FTPtmProcessSearchIT {
 
 	@Test
 	void moleculeProcessFindTwoEntryWithLength() {
-		String query = query(UniProtField.Search.ft_molecule_processing, "peptide");
-		query = QueryBuilder.and(query, QueryBuilder.rangeQuery(UniProtField.Search.ftlen_molecule_processing.name(), 9, 10));
+		String query = query(UniProtKBSearchFields.INSTANCE.getField("ft_molecule_processing"), "peptide");
+		query = QueryBuilder.and(query, QueryBuilder.rangeQuery(UniProtKBSearchFields.INSTANCE.getField("ftlen_molecule_processing").getName(), 9, 10));
 
 		QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -287,10 +285,10 @@ class FTPtmProcessSearchIT {
 
 	@Test
 	void moleculeProcessFindEntryWithLengthAndEvidence() {
-		String query = query(UniProtField.Search.ft_molecule_processing, "peptide");
-		query = QueryBuilder.and(query, QueryBuilder.rangeQuery(UniProtField.Search.ftlen_molecule_processing.name(), 9, 20));
+		String query = query(UniProtKBSearchFields.INSTANCE.getField("ft_molecule_processing"), "peptide");
+		query = QueryBuilder.and(query, QueryBuilder.rangeQuery(UniProtKBSearchFields.INSTANCE.getField("ftlen_molecule_processing").getName(), 9, 20));
 		String evidence = "ECO_0000269";
-		query = QueryBuilder.and(query, query(UniProtField.Search.ftev_molecule_processing, evidence));
+		query = QueryBuilder.and(query, query(UniProtKBSearchFields.INSTANCE.getField("ftev_molecule_processing"), evidence));
 		QueryResponse response = searchEngine.getQueryResponse(query);
 
 		List<String> retrievedAccessions = searchEngine.getIdentifiers(response);

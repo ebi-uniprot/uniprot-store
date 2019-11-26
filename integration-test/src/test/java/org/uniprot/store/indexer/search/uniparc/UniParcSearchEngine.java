@@ -2,18 +2,18 @@ package org.uniprot.store.indexer.search.uniparc;
 
 
 
+import org.uniprot.core.cv.taxonomy.FileNodeIterable;
+import org.uniprot.core.cv.taxonomy.TaxonomyRepo;
+import org.uniprot.core.cv.taxonomy.impl.TaxonomyMapRepo;
+import org.uniprot.core.xml.jaxb.uniparc.Entry;
+import org.uniprot.store.indexer.search.AbstractSearchEngine;
+import org.uniprot.store.indexer.uniparc.UniParcDocumentConverter;
+import org.uniprot.store.job.common.converter.DocumentConverter;
+import org.uniprot.store.search.field.UniParcField;
+
 import java.io.File;
 import java.net.URISyntaxException;
 import java.net.URL;
-
-import org.uniprot.core.cv.taxonomy.FileNodeIterable;
-import org.uniprot.core.cv.taxonomy.impl.TaxonomyMapRepo;
-import org.uniprot.core.cv.taxonomy.TaxonomyRepo;
-import org.uniprot.core.xml.jaxb.uniparc.Entry;
-import org.uniprot.store.job.common.converter.DocumentConverter;
-import org.uniprot.store.indexer.search.AbstractSearchEngine;
-import org.uniprot.store.indexer.uniparc.UniParcDocumentConverter;
-import org.uniprot.store.search.field.UniParcField;
 
 /**
  * Concrete implementation of the UniParce search engine
@@ -45,8 +45,8 @@ class UniParcSearchEngine extends AbstractSearchEngine<Entry> {
 
     @SuppressWarnings("rawtypes")
 	@Override
-    protected Enum identifierField() {
-       return UniParcField.Search.upi;
+    protected String identifierField() {
+       return UniParcField.Search.upi.name();
     }
 
 	@Override

@@ -7,13 +7,13 @@ import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;
 import org.uniprot.core.flatfile.writer.LineType;
-import org.uniprot.store.search.field.UniProtField;
-
-import java.util.ArrayList;
-import java.util.List;
+import org.uniprot.store.search.domain2.UniProtKBSearchFields;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
+
 import static java.util.Arrays.asList;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.contains;
@@ -413,11 +413,11 @@ class GeneSearchIT {
     }
 
     private String geneQuery(String value) {
-        return query(UniProtField.Search.gene, value);
+        return query(UniProtKBSearchFields.INSTANCE.getField("gene"), value);
     }
 
     private String exactGeneQuery(String value) {
-        return query(UniProtField.Search.gene_exact, value);
+        return query(UniProtKBSearchFields.INSTANCE.getField("gene_exact"), value);
     }
 
     /**

@@ -2,10 +2,10 @@ package org.uniprot.store.indexer.search.uniprot;
 
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.extension.RegisterExtension;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.RegisterExtension;
 import org.uniprot.core.flatfile.writer.LineType;
-import org.uniprot.store.search.field.UniProtField;
+import org.uniprot.store.search.domain2.UniProtKBSearchFields;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -17,7 +17,8 @@ import static org.hamcrest.Matchers.not;
 import static org.hamcrest.collection.IsEmptyCollection.empty;
 import static org.hamcrest.core.Is.is;
 import static org.uniprot.store.indexer.search.uniprot.IdentifierSearchIT.ACC_LINE;
-import static org.uniprot.store.indexer.search.uniprot.TestUtils.*;
+import static org.uniprot.store.indexer.search.uniprot.TestUtils.convertToUniProtEntry;
+import static org.uniprot.store.indexer.search.uniprot.TestUtils.query;
 
 /**
  * Tests if the protein names of an entry are indexed correctly
@@ -598,6 +599,6 @@ class DESearchIT {
     }
     
     private String proteinName(String value) {
-    	return query(UniProtField.Search.name, value);
+    	return query(UniProtKBSearchFields.INSTANCE.getField("name"), value);
     }
 }

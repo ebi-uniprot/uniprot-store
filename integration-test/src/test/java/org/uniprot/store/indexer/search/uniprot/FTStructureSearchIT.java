@@ -1,24 +1,22 @@
 package org.uniprot.store.indexer.search.uniprot;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.hasItem;
-import static org.hamcrest.Matchers.hasItems;
-import static org.hamcrest.Matchers.not;
-import static org.uniprot.store.indexer.search.uniprot.IdentifierSearchIT.ACC_LINE;
-import static org.uniprot.store.indexer.search.uniprot.TestUtils.*;
+import org.apache.solr.client.solrj.response.QueryResponse;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.RegisterExtension;
+import org.uniprot.core.flatfile.writer.LineType;
+import org.uniprot.core.uniprot.feature.FeatureType;
+import org.uniprot.store.search.domain2.UniProtKBSearchFields;
+import org.uniprot.store.search.field.QueryBuilder;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 
-import org.apache.solr.client.solrj.response.QueryResponse;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.extension.RegisterExtension;
-import org.junit.jupiter.api.Test;
-import org.uniprot.core.flatfile.writer.LineType;
-import org.uniprot.core.uniprot.feature.FeatureType;
-import org.uniprot.store.search.field.QueryBuilder;
-import org.uniprot.store.search.field.UniProtField;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.*;
+import static org.uniprot.store.indexer.search.uniprot.IdentifierSearchIT.ACC_LINE;
+import static org.uniprot.store.indexer.search.uniprot.TestUtils.*;
 
 class FTStructureSearchIT {
 
@@ -71,7 +69,7 @@ class FTStructureSearchIT {
 	}
 	@Test
 	void d3StructureFindEntry() {
-		String query= query(UniProtField.Search.d3structure, "true");
+		String query= query(UniProtKBSearchFields.INSTANCE.getField("d3structure"), "true");
 		QueryResponse response = searchEngine.getQueryResponse(query);
 
 		List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
@@ -81,7 +79,7 @@ class FTStructureSearchIT {
 	}
 	@Test
 	void note3StructureFindEntry() {
-		String query= query(UniProtField.Search.d3structure, "false");
+		String query= query(UniProtKBSearchFields.INSTANCE.getField("d3structure"), "false");
 		QueryResponse response = searchEngine.getQueryResponse(query);
 
 		List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
@@ -143,10 +141,10 @@ class FTStructureSearchIT {
 	}
 	@Test
 	void secstructFindTwoEntriesWithEvidenceLength() {
-		String query= query(UniProtField.Search.ft_secstruct, "*");
-		query = QueryBuilder.and(query, QueryBuilder.rangeQuery(UniProtField.Search.ftlen_secstruct.name(), 1, 25));
+		String query= query(UniProtKBSearchFields.INSTANCE.getField("ft_secstruct"), "*");
+		query = QueryBuilder.and(query, QueryBuilder.rangeQuery(UniProtKBSearchFields.INSTANCE.getField("ftlen_secstruct").getName(), 1, 25));
 		String evidence = "ECO_0000244";
-		query = QueryBuilder.and(query,  query(UniProtField.Search.ftev_secstruct, evidence));
+		query = QueryBuilder.and(query,  query(UniProtKBSearchFields.INSTANCE.getField("ftev_secstruct"), evidence));
 		QueryResponse response = searchEngine.getQueryResponse(query);
 
 		List<String> retrievedAccessions = searchEngine.getIdentifiers(response);

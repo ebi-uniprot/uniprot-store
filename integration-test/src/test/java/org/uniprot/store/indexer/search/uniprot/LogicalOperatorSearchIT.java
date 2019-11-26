@@ -2,11 +2,11 @@ package org.uniprot.store.indexer.search.uniprot;
 
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.extension.RegisterExtension;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.RegisterExtension;
 import org.uniprot.core.flatfile.writer.LineType;
+import org.uniprot.store.search.domain2.UniProtKBSearchFields;
 import org.uniprot.store.search.field.QueryBuilder;
-import org.uniprot.store.search.field.UniProtField;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -16,7 +16,8 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 import static org.hamcrest.core.Is.is;
 import static org.uniprot.store.indexer.search.uniprot.IdentifierSearchIT.ACC_LINE;
-import static org.uniprot.store.indexer.search.uniprot.TestUtils.*;
+import static org.uniprot.store.indexer.search.uniprot.TestUtils.convertToUniProtEntry;
+import static org.uniprot.store.indexer.search.uniprot.TestUtils.query;
 
 /**
  * Tests whether the logical operators of the UniProtQueryBuilder are working properly
@@ -52,7 +53,7 @@ class LogicalOperatorSearchIT {
 
     @Test
     void queryForAccessionInEntry1ReturnsEntry1() {
-        String query = query(UniProtField.Search.accession, ACCESSION1);
+        String query = query(UniProtKBSearchFields.INSTANCE.getField("accession"), ACCESSION1);
 
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -62,7 +63,7 @@ class LogicalOperatorSearchIT {
 
     @Test
     void notEntry1ReturnsEntry2And3() {
-        String query = QueryBuilder.query(UniProtField.Search.accession.name(), ACCESSION1, false, true);
+        String query = QueryBuilder.query(UniProtKBSearchFields.INSTANCE.getField("accession").getName(), ACCESSION1, false, true);
 
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -72,8 +73,8 @@ class LogicalOperatorSearchIT {
 
     @Test
     void orAccessionsReturnsEntry1And3() {
-        String acc1Query = query(UniProtField.Search.accession, ACCESSION1);
-        String acc3Query = query(UniProtField.Search.accession, ACCESSION3);
+        String acc1Query = query(UniProtKBSearchFields.INSTANCE.getField("accession"), ACCESSION1);
+        String acc3Query = query(UniProtKBSearchFields.INSTANCE.getField("accession"), ACCESSION3);
 
         String orQuery = QueryBuilder.or(acc1Query, acc3Query);
 
@@ -85,8 +86,8 @@ class LogicalOperatorSearchIT {
 
     @Test
     void andAccessionsReturnsEntryNone() {
-        String acc1Query = query(UniProtField.Search.accession, ACCESSION1);
-        String acc3Query = query(UniProtField.Search.accession, ACCESSION3);
+        String acc1Query = query(UniProtKBSearchFields.INSTANCE.getField("accession"), ACCESSION1);
+        String acc3Query = query(UniProtKBSearchFields.INSTANCE.getField("accession"), ACCESSION3);
 
         String andQuery = QueryBuilder.and(acc1Query, acc3Query);
 

@@ -2,13 +2,13 @@ package org.uniprot.store.indexer.search.uniprot;
 
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.extension.RegisterExtension;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.RegisterExtension;
 import org.uniprot.core.flatfile.parser.impl.DefaultUniprotLineParserFactory;
 import org.uniprot.core.flatfile.parser.impl.entry.EntryObject;
 import org.uniprot.core.flatfile.writer.LineType;
+import org.uniprot.store.search.domain2.UniProtKBSearchFields;
 import org.uniprot.store.search.field.QueryBuilder;
-import org.uniprot.store.search.field.UniProtField;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -19,10 +19,10 @@ import java.util.stream.Collectors;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
-import static org.hamcrest.Matchers.not;
 import static org.hamcrest.core.Is.is;
 import static org.uniprot.store.indexer.search.uniprot.IdentifierSearchIT.ACC_LINE;
-import static org.uniprot.store.indexer.search.uniprot.TestUtils.*;
+import static org.uniprot.store.indexer.search.uniprot.TestUtils.convertToUniProtEntry;
+import static org.uniprot.store.indexer.search.uniprot.TestUtils.query;
 
 /**
  * Tests if the protein existence search is working correctly
@@ -328,7 +328,7 @@ class ReferenceSearchIT {
     }
     @Test
     void refStrainsOneEntry() {
-    	String query= query(UniProtField.Search.strain, "LL171");
+    	String query= query(UniProtKBSearchFields.INSTANCE.getField("strain"), "LL171");
     	System.out.println(query.toString());
 		QueryResponse response = searchEngine.getQueryResponse(query);
 		List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
@@ -338,7 +338,7 @@ class ReferenceSearchIT {
     
     @Test
     void refTissueOneEntry() {
-    	String query= query(UniProtField.Search.tissue, "Fruit");
+    	String query= query(UniProtKBSearchFields.INSTANCE.getField("tissue"), "Fruit");
     	System.out.println(query.toString());
 		QueryResponse response = searchEngine.getQueryResponse(query);
 		List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
@@ -347,7 +347,7 @@ class ReferenceSearchIT {
     }
     @Test
     void refPlasmidOneEntry() {
-    	String query= query(UniProtField.Search.plasmid, "plas");
+    	String query= query(UniProtKBSearchFields.INSTANCE.getField("plasmid"), "plas");
 		QueryResponse response = searchEngine.getQueryResponse(query);
 		List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
 		assertThat(retrievedAccessions, hasItem(Q6GZX1));
@@ -356,7 +356,7 @@ class ReferenceSearchIT {
 
     @Test
     void refTransposonOneEntry() {
-    	String query= query(UniProtField.Search.transposon, "tn1");
+    	String query= query(UniProtKBSearchFields.INSTANCE.getField("transposon"), "tn1");
 		QueryResponse response = searchEngine.getQueryResponse(query);
 		List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
 		assertThat(retrievedAccessions, hasItem(Q6GZX2));
@@ -366,7 +366,7 @@ class ReferenceSearchIT {
 
     @Test
     void refRPOneEntry() {
-    	String query= query(UniProtField.Search.scope, "GLYCOSYLATION");
+    	String query= query(UniProtKBSearchFields.INSTANCE.getField("scope"), "GLYCOSYLATION");
 		QueryResponse response = searchEngine.getQueryResponse(query);
 		List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
 		System.out.println(retrievedAccessions);
@@ -375,7 +375,7 @@ class ReferenceSearchIT {
     }
     @Test
     void refRPThreeEntries() {
-    	String query= query(UniProtField.Search.scope, "SUBCELLULAR");
+    	String query= query(UniProtKBSearchFields.INSTANCE.getField("scope"), "SUBCELLULAR");
 		QueryResponse response = searchEngine.getQueryResponse(query);
 		List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
 		System.out.println(retrievedAccessions);
@@ -387,7 +387,7 @@ class ReferenceSearchIT {
     	LocalDate start = LocalDate.of(2010, 1, 1);
     	LocalDate end = LocalDate.of(2010, 12, 31);
 
-    	String query= QueryBuilder.rangeQuery(UniProtField.Search.lit_pubdate.name(), start, end);
+    	String query= QueryBuilder.rangeQuery(UniProtKBSearchFields.INSTANCE.getField("lit_pubdate").getName(), start, end);
 
     	QueryResponse response = searchEngine.getQueryResponse(query);
 		List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
@@ -465,13 +465,13 @@ class ReferenceSearchIT {
         }
     }
     private String title(String value) {
-    	return query(UniProtField.Search.lit_title, value);
+    	return query(UniProtKBSearchFields.INSTANCE.getField("lit_title"), value);
     }
     private String author(String value) {
-    	return query(UniProtField.Search.lit_author, value);
+    	return query(UniProtKBSearchFields.INSTANCE.getField("lit_author"), value);
     }
     private String authorGroup(String value) {
-    	return query(UniProtField.Search.lit_organisation, value);
+    	return query(UniProtKBSearchFields.INSTANCE.getField("lit_organisation"), value);
     }
     BinaryOperator<String> andQuery =  (q1, q2)->QueryBuilder.and(q1, q2);
     private String authors(Collection<String> values) {
@@ -480,6 +480,6 @@ class ReferenceSearchIT {
     	return query.get();
     }
     private String pubmed(String value) {
-    	return query(UniProtField.Search.lit_pubmed, value);
+    	return query(UniProtKBSearchFields.INSTANCE.getField("lit_pubmed"), value);
     }
 }
