@@ -1,15 +1,14 @@
 package org.uniprot.store.search.domain2;
 
-import java.util.*;
-import java.util.stream.Collectors;
-
+import com.fasterxml.jackson.databind.JavaType;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.module.SimpleModule;
 import org.uniprot.core.util.Utils;
 import org.uniprot.store.search.domain2.impl.SearchFieldImpl;
 import org.uniprot.store.search.domain2.impl.SearchItemImpl;
 
-import com.fasterxml.jackson.databind.JavaType;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.module.SimpleModule;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * This class is responsible for loading {@link SearchField} instances from a given JSON source.
@@ -23,7 +22,7 @@ public class SearchFieldsLoader implements SearchItems, SearchFields {
     private Set<SearchField> searchFields = new HashSet<>();
     private Set<String> sortFieldNames;
 
-    SearchFieldsLoader(String fileName) {
+    public SearchFieldsLoader(String fileName) {
         init(fileName);
     }
 
