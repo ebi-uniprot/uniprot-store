@@ -1,5 +1,13 @@
 package org.uniprot.store.indexer.uniprotkb.converter;
 
+import static java.util.Arrays.asList;
+import static java.util.Collections.singletonList;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+
+import java.util.*;
+
 import org.junit.jupiter.api.Test;
 import org.uniprot.core.cv.taxonomy.TaxonomicNode;
 import org.uniprot.core.cv.taxonomy.TaxonomyRepo;
@@ -9,14 +17,6 @@ import org.uniprot.core.uniprot.taxonomy.builder.OrganismBuilder;
 import org.uniprot.core.uniprot.taxonomy.builder.OrganismHostBuilder;
 import org.uniprot.store.search.document.suggest.SuggestDocument;
 import org.uniprot.store.search.document.uniprot.UniProtDocument;
-
-import java.util.*;
-
-import static java.util.Arrays.asList;
-import static java.util.Collections.singletonList;
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 /**
  * @author lgonzales
@@ -141,8 +141,7 @@ class UniProtEntryTaxonomyConverterTest {
         assertEquals(9000, uniProtDocument.organismTaxId);
 
         // organism fields
-        assertEquals(
-                asList("other scientific", "other synonym"), uniProtDocument.organismName);
+        assertEquals(asList("other scientific", "other synonym"), uniProtDocument.organismName);
         assertEquals("other scientific other synonym", uniProtDocument.organismSort);
 
         // organism facet fields
@@ -151,8 +150,7 @@ class UniProtEntryTaxonomyConverterTest {
 
         // lineage fields
         assertEquals(asList(9000), uniProtDocument.taxLineageIds);
-        assertEquals(
-                asList("other scientific", "other synonym"), uniProtDocument.organismTaxon);
+        assertEquals(asList("other scientific", "other synonym"), uniProtDocument.organismTaxon);
 
         // content for default search
         assertEquals(
@@ -202,8 +200,7 @@ class UniProtEntryTaxonomyConverterTest {
 
         // content for default search
         assertEquals(
-                new HashSet<>(
-                        asList("Human", "HUMAN", "Homo sapiens", "9606", "Homo sapian")),
+                new HashSet<>(asList("Human", "HUMAN", "Homo sapiens", "9606", "Homo sapian")),
                 uniProtDocument.content);
 
         // suggestion documents for organism host...
@@ -240,8 +237,7 @@ class UniProtEntryTaxonomyConverterTest {
                 new UniProtEntryTaxonomyConverter(repo, suggestions);
 
         // when
-        converter.convertOrganismHosts(
-                asList(organismHost, otherOrganismHost), uniProtDocument);
+        converter.convertOrganismHosts(asList(organismHost, otherOrganismHost), uniProtDocument);
 
         // then
         assertEquals(asList(9606, 9000), uniProtDocument.organismHostIds);

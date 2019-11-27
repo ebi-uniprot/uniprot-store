@@ -1,5 +1,7 @@
 package org.uniprot.store.indexer.uniprotkb;
 
+import static org.uniprot.store.indexer.common.utils.Constants.UNIPROTKB_INDEX_JOB;
+
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.JobExecution;
 import org.springframework.batch.core.JobExecutionListener;
@@ -16,12 +18,10 @@ import org.uniprot.store.indexer.common.config.UniProtSolrOperations;
 import org.uniprot.store.job.common.listener.WriteRetrierLogJobListener;
 import org.uniprot.store.search.SolrCollection;
 
-import static org.uniprot.store.indexer.common.utils.Constants.UNIPROTKB_INDEX_JOB;
-
 /**
  * The main UniProtKB indexing job.
- * <p>
- * Created 10/04/19
+ *
+ * <p>Created 10/04/19
  *
  * @author Edd
  */
@@ -39,26 +39,29 @@ public class UniProtKBJob {
     }
 
     @Bean
-    public Job uniProtKBIndexingJob(@Qualifier("uniProtKBIndexingMainStep") Step uniProtKBIndexingMainFFStep,
-                                    @Qualifier("suggestionIndexingStep") Step suggestionStep,
-                                    WriteRetrierLogJobListener writeRetrierLogJobListener) {
-        return this.jobBuilderFactory.get(UNIPROTKB_INDEX_JOB)
+    public Job uniProtKBIndexingJob(
+            @Qualifier("uniProtKBIndexingMainStep") Step uniProtKBIndexingMainFFStep,
+            @Qualifier("suggestionIndexingStep") Step suggestionStep,
+            WriteRetrierLogJobListener writeRetrierLogJobListener) {
+        return this.jobBuilderFactory
+                .get(UNIPROTKB_INDEX_JOB)
                 .start(uniProtKBIndexingMainFFStep)
                 .next(suggestionStep)
                 .listener(writeRetrierLogJobListener)
-                .listener(new JobExecutionListener() {
-                    @Override
-                    public void beforeJob(JobExecution jobExecution) {
-                        // no-op
-                    }
+                .listener(
+                        new JobExecutionListener() {
+                            @Override
+                            public void beforeJob(JobExecution jobExecution) {
+                                // no-op
+                            }
 
-                    // Hard commit contents of repository once job has finished.
-                    // Delegate all other commits to 'autoCommit' element of solrconfig.xml
-                    @Override
-                    public void afterJob(JobExecution jobExecution) {
-                        solrOperations.commit(SolrCollection.uniprot.name());
-                    }
-                })
+                            // Hard commit contents of repository once job has finished.
+                            // Delegate all other commits to 'autoCommit' element of solrconfig.xml
+                            @Override
+                            public void afterJob(JobExecution jobExecution) {
+                                solrOperations.commit(SolrCollection.uniprot.name());
+                            }
+                        })
                 .build();
     }
 }

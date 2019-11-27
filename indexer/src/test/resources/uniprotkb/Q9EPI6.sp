@@ -210,50 +210,71 @@ DR   GO; GO:0043523; P:regulation of neuron apoptotic process; IMP:UniProtKB.
 DR   GO; GO:0048168; P:regulation of neuronal synaptic plasticity; IMP:UniProtKB.
 PE   1: Evidence at protein level;
 KW   Alternative splicing; Cell junction; Cell membrane; Cell projection;
-KW   Complete proteome; Cytoplasm; Cytoskeleton; Lipoprotein; Membrane;
+KW   Cytoplasm; Cytoskeleton; Lipoprotein; Membrane;
 KW   Myristate; Nucleus; Postsynaptic cell membrane; Reference proteome;
 KW   Synapse; Synaptosome.
-FT   INIT_MET      1      1       Removed.
-FT   CHAIN         2    532       NMDA receptor synaptonuclear signaling
-FT                                and neuronal migration factor.
-FT                                /FTId=PRO_0000096780.
-FT   REGION        2    235       Necessary and sufficient to elicit
-FT                                dendritic processes and synaptic
-FT                                contacts.
-FT   MOTIF       247    252       Nuclear localization signal.
-FT   LIPID         2      2       N-myristoyl glycine.
-FT                                {ECO:0000269|PubMed:18303947}.
-FT   VAR_SEQ     238    262       Missing (in isoform 3).
-FT                                {ECO:0000303|Ref.2}.
-FT                                /FTId=VSP_014770.
-FT   VAR_SEQ     240    262       Missing (in isoform 2 and isoform 4).
-FT                                {ECO:0000303|Ref.1}.
-FT                                /FTId=VSP_014771.
-FT   VAR_SEQ     280    309       Missing (in isoform 4).
-FT                                {ECO:0000303|Ref.1}.
-FT                                /FTId=VSP_014772.
-FT   VAR_SEQ     310    336       SSDLQSSHCTLDEACEDLDWDTEKGLE -> TNLLQGAQGR
-FT                                VHPNHHPQRRPIHHPHP (in isoform 5).
-FT                                {ECO:0000303|Ref.2}.
-FT                                /FTId=VSP_014773.
-FT   VAR_SEQ     337    532       Missing (in isoform 5).
-FT                                {ECO:0000303|Ref.2}.
-FT                                /FTId=VSP_014774.
-FT   MUTAGEN       2      2       G->A: Exclusive nuclear localization.
-FT                                Shows a reduction in synaptic contacts
-FT                                and dendritic processes.
-FT                                {ECO:0000269|PubMed:18303947}.
-FT   MUTAGEN     241    241       F->E: Loss of CABP1 binding.
-FT                                {ECO:0000269|PubMed:18303947}.
-FT   MUTAGEN     247    252       Missing: Extranuclear localization and
-FT                                reduced CABP1 and KPNA1 binding. Shows a
-FT                                reduction in synaptic contacts and
-FT                                dendritic processes.
-FT                                {ECO:0000269|PubMed:18303947}.
-FT   MUTAGEN     260    261       IQ->GG: No effect on CABP1 binding.
-FT                                {ECO:0000269|PubMed:18303947}.
-FT   CONFLICT    174    174       K -> Q (in Ref. 3; AAH87719).
-FT                                {ECO:0000305}.
+FT   INIT_MET        1
+FT                   /note="Removed"
+FT   CHAIN           2..532
+FT                   /note="NMDA receptor synaptonuclear signaling and neuronal
+FT                   migration factor"
+FT                   /id="PRO_0000096780"
+FT   REGION          2..235
+FT                   /note="Necessary and sufficient to elicit dendritic
+FT                   processes and synaptic contacts"
+FT   MOTIF           247..252
+FT                   /note="Nuclear localization signal"
+FT   MOD_RES         206
+FT                   /note="Phosphoserine"
+FT                   /evidence="ECO:0000250|UniProtKB:Q99NF2"
+FT   MOD_RES         292
+FT                   /note="Phosphoserine"
+FT                   /evidence="ECO:0000244|PubMed:22673903"
+FT   MOD_RES         294
+FT                   /note="Phosphoserine"
+FT                   /evidence="ECO:0000244|PubMed:22673903"
+FT   LIPID           2
+FT                   /note="N-myristoyl glycine"
+FT                   /evidence="ECO:0000269|PubMed:18303947"
+FT   VAR_SEQ         238..262
+FT                   /note="Missing (in isoform 3)"
+FT                   /evidence="ECO:0000303|Ref.2"
+FT                   /id="VSP_014770"
+FT   VAR_SEQ         240..262
+FT                   /note="Missing (in isoform 2 and isoform 4)"
+FT                   /evidence="ECO:0000303|Ref.1"
+FT                   /id="VSP_014771"
+FT   VAR_SEQ         280..309
+FT                   /note="Missing (in isoform 4)"
+FT                   /evidence="ECO:0000303|Ref.1"
+FT                   /id="VSP_014772"
+FT   VAR_SEQ         310..336
+FT                   /note="SSDLQSSHCTLDEACEDLDWDTEKGLE -> TNLLQGAQGRVHPNHHPQRRP
+FT                   IHHPHP (in isoform 5)"
+FT                   /evidence="ECO:0000303|Ref.2"
+FT                   /id="VSP_014773"
+FT   VAR_SEQ         337..532
+FT                   /note="Missing (in isoform 5)"
+FT                   /evidence="ECO:0000303|Ref.2"
+FT                   /id="VSP_014774"
+FT   MUTAGEN         2
+FT                   /note="G->A: Exclusive nuclear localization. Shows a
+FT                   reduction in synaptic contacts and dendritic processes"
+FT                   /evidence="ECO:0000269|PubMed:18303947"
+FT   MUTAGEN         241
+FT                   /note="F->E: Loss of CABP1 binding"
+FT                   /evidence="ECO:0000269|PubMed:18303947"
+FT   MUTAGEN         247..252
+FT                   /note="Missing: Extranuclear localization and reduced CABP1
+FT                   and KPNA1 binding. Shows a reduction in synaptic contacts
+FT                   and dendritic processes"
+FT                   /evidence="ECO:0000269|PubMed:18303947"
+FT   MUTAGEN         260..261
+FT                   /note="IQ->GG: No effect on CABP1 binding"
+FT                   /evidence="ECO:0000269|PubMed:18303947"
+FT   CONFLICT        174
+FT                   /note="K -> Q (in Ref. 3; AAH87719)"
+FT                   /evidence="ECO:0000305"
 SQ   SEQUENCE   532 AA;  60282 MW;  01AEF4B6A09EB753 CRC64;
      MGAAASRRRA LRSEAMSSVA AKVRAARAFG EYLSQSHPEN RNGADHLLAD AYSGHEGSPE
      MQPAPHNKRR LSLVSNGRYE GSISDEAVSG KTATEGPQPR VYTISREPAL LPGSEAEAIE

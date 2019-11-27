@@ -1,21 +1,25 @@
 package org.uniprot.store.search.document.disease;
 
+import java.nio.ByteBuffer;
+import java.util.List;
+
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+
 import org.apache.solr.client.solrj.beans.Field;
 import org.uniprot.store.search.document.Document;
 
-import java.nio.ByteBuffer;
-import java.util.List;
 @Getter
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class DiseaseDocument implements Document {
-    @Field
-    private String accession;
-    @Field
-    private List<String> name; // search by name
-    @Field
-    private List<String> content; // default search field
+    @Field private String accession;
+    @Field private List<String> name; // search by name
+    @Field private List<String> content; // default search field
+
     @Field("disease_obj")
     private ByteBuffer diseaseObj;
 

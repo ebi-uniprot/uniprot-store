@@ -6,5 +6,14 @@ package org.uniprot.store.search.document.suggest;
  * @author Edd
  */
 public enum SuggestDictionary {
-    KEYWORD, SUBCELL, MAIN, TAXONOMY, GO, EC, CATALYTIC_ACTIVITY, ORGANISM, HOST, CHEBI;
+    KEYWORD,
+    SUBCELL,
+    MAIN,
+    TAXONOMY,
+    GO,
+    EC,
+    CATALYTIC_ACTIVITY,
+    ORGANISM,
+    HOST,
+    CHEBI;
 }

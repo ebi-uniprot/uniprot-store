@@ -33,7 +33,8 @@ class ItemRetryWriterTest {
     void beforeEach() {
         this.retryPolicy = new RetryPolicy<>().withMaxRetries(2);
         this.fakeStoreMock = mock(FakeStore.class);
-        this.writer = new WriterUnderTest(items -> fakeStoreMock.saveToStore(items), this.retryPolicy);
+        this.writer =
+                new WriterUnderTest(items -> fakeStoreMock.saveToStore(items), this.retryPolicy);
         JobExecution mockJobExecution = new JobExecution(1L);
         ExecutionContext executionContext = new ExecutionContext();
         executionContext.put(CommonConstants.ENTRIES_TO_WRITE_COUNTER, new OnZeroCountSleeper());
@@ -85,7 +86,6 @@ class ItemRetryWriterTest {
         }
     }
 
-
     private static class FakeEntry {
         FakeEntry(String entryId) {
             this.entryId = entryId;
@@ -113,5 +113,4 @@ class ItemRetryWriterTest {
             log.info("Pretending to save items: {}", items);
         }
     }
-
 }

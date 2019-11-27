@@ -1,6 +1,14 @@
 package org.uniprot.store.indexer.taxonomy;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.*;
+
+import java.nio.ByteBuffer;
+import java.util.Map;
+import java.util.stream.Collectors;
+
+import javax.sql.DataSource;
+
 import org.hamcrest.CoreMatchers;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -37,40 +45,45 @@ import org.uniprot.store.job.common.listener.ListenerConfig;
 import org.uniprot.store.search.SolrCollection;
 import org.uniprot.store.search.document.taxonomy.TaxonomyDocument;
 
-import javax.sql.DataSource;
-import java.nio.ByteBuffer;
-import java.util.Map;
-import java.util.stream.Collectors;
-
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 @ActiveProfiles(profiles = {"job", "offline"})
 @ExtendWith(SpringExtension.class)
-@SpringBootTest(classes = {FakeIndexerSpringBootApplication.class, SolrTestConfig.class, FakeReadDatabaseConfig.class,
-                           ListenerConfig.class, TaxonomyJobIT.TaxonomyNodeStepFake.class,
-                           TaxonomyJobIT.TaxonomyStatisticsStepFake.class,
-                           TaxonomyMergedStep.class, TaxonomyDeletedStep.class, TaxonomyJob.class})
+@SpringBootTest(
+        classes = {
+            FakeIndexerSpringBootApplication.class,
+            SolrTestConfig.class,
+            FakeReadDatabaseConfig.class,
+            ListenerConfig.class,
+            TaxonomyJobIT.TaxonomyNodeStepFake.class,
+            TaxonomyJobIT.TaxonomyStatisticsStepFake.class,
+            TaxonomyMergedStep.class,
+            TaxonomyDeletedStep.class,
+            TaxonomyJob.class
+        })
 class TaxonomyJobIT {
 
-    @Autowired
-    private JobLauncherTestUtils jobLauncher;
+    @Autowired private JobLauncherTestUtils jobLauncher;
 
-    @Autowired
-    private UniProtSolrOperations solrOperations;
+    @Autowired private UniProtSolrOperations solrOperations;
 
     @Test
     void testTaxonomyIndexingJob() throws Exception {
         JobExecution jobExecution = jobLauncher.launchJob();
-        assertThat(jobExecution.getJobInstance().getJobName(), CoreMatchers.is(Constants.TAXONOMY_LOAD_JOB_NAME));
+        assertThat(
+                jobExecution.getJobInstance().getJobName(),
+                CoreMatchers.is(Constants.TAXONOMY_LOAD_JOB_NAME));
 
-
-        //Validating job and status execution
+        // Validating job and status execution
         BatchStatus status = jobExecution.getStatus();
         assertThat(status, is(BatchStatus.COMPLETED));
 
-        Map<String, StepExecution> stepMap = jobExecution.getStepExecutions().stream()
-                .collect(Collectors.toMap(StepExecution::getStepName, stepExecution -> stepExecution));
+        Map<String, StepExecution> stepMap =
+                jobExecution.getStepExecutions().stream()
+                        .collect(
+                                Collectors.toMap(
+                                        StepExecution::getStepName,
+                                        stepExecution -> stepExecution));
 
         assertThat(stepMap, is(notNullValue()));
         assertThat(stepMap.containsKey(Constants.TAXONOMY_LOAD_NODE_STEP_NAME), is(true));
@@ -83,11 +96,12 @@ class TaxonomyJobIT {
         assertThat(step.getReadCount(), is(2));
         assertThat(step.getWriteCount(), is(2));
 
-        //Validating if solr document was written correctly
+        // Validating if solr document was written correctly
         SimpleQuery solrQuery = new SimpleQuery("*:*");
         solrQuery.addSort(new Sort(Sort.Direction.ASC, "id"));
-        Page<TaxonomyDocument> response = solrOperations
-                .query(SolrCollection.taxonomy.name(), solrQuery, TaxonomyDocument.class);
+        Page<TaxonomyDocument> response =
+                solrOperations.query(
+                        SolrCollection.taxonomy.name(), solrQuery, TaxonomyDocument.class);
         assertThat(response, is(notNullValue()));
         assertThat(response.getTotalElements(), is(9L));
 
@@ -101,53 +115,56 @@ class TaxonomyJobIT {
         TaxonomyEntry entry = jsonMapper.readValue(byteBuffer.array(), TaxonomyEntryImpl.class);
         validateTaxonomyEntry(entry);
 
-
         solrQuery = new SimpleQuery("reviewed:true");
-        response = solrOperations
-                .query(SolrCollection.taxonomy.name(), solrQuery, TaxonomyDocument.class);
+        response =
+                solrOperations.query(
+                        SolrCollection.taxonomy.name(), solrQuery, TaxonomyDocument.class);
         assertThat(response, is(notNullValue()));
         assertThat(response.getTotalElements(), is(2L));
-
 
         solrQuery = new SimpleQuery("host:4");
-        response = solrOperations
-                .query(SolrCollection.taxonomy.name(), solrQuery, TaxonomyDocument.class);
+        response =
+                solrOperations.query(
+                        SolrCollection.taxonomy.name(), solrQuery, TaxonomyDocument.class);
         assertThat(response, is(notNullValue()));
         assertThat(response.getTotalElements(), is(2L));
 
-
         solrQuery = new SimpleQuery("content:Sptr_Scientific_5");
-        response = solrOperations
-                .query(SolrCollection.taxonomy.name(), solrQuery, TaxonomyDocument.class);
+        response =
+                solrOperations.query(
+                        SolrCollection.taxonomy.name(), solrQuery, TaxonomyDocument.class);
         assertThat(response, is(notNullValue()));
         assertThat(response.getTotalElements(), is(1L));
 
-
         solrQuery = new SimpleQuery("active:false");
-        response = solrOperations
-                .query(SolrCollection.taxonomy.name(), solrQuery, TaxonomyDocument.class);
+        response =
+                solrOperations.query(
+                        SolrCollection.taxonomy.name(), solrQuery, TaxonomyDocument.class);
         assertThat(response, is(notNullValue()));
         assertThat(response.getTotalElements(), is(4L));
 
-        //verify deleted
+        // verify deleted
         taxonomyDocument = response.getContent().get(0);
         byteBuffer = taxonomyDocument.getTaxonomyObj();
         entry = jsonMapper.readValue(byteBuffer.array(), TaxonomyEntryImpl.class);
         assertThat(entry.hasInactiveReason(), is(true));
         assertThat(entry.getInactiveReason().hasInactiveReasonType(), is(true));
-        assertThat(entry.getInactiveReason().getInactiveReasonType(), is(TaxonomyInactiveReasonType.DELETED));
+        assertThat(
+                entry.getInactiveReason().getInactiveReasonType(),
+                is(TaxonomyInactiveReasonType.DELETED));
         assertThat(entry.getInactiveReason().hasMergedTo(), is(false));
 
-        //verify merged
+        // verify merged
         taxonomyDocument = response.getContent().get(2);
         byteBuffer = taxonomyDocument.getTaxonomyObj();
         entry = jsonMapper.readValue(byteBuffer.array(), TaxonomyEntryImpl.class);
         assertThat(entry.hasInactiveReason(), is(true));
         assertThat(entry.getInactiveReason().hasInactiveReasonType(), is(true));
-        assertThat(entry.getInactiveReason().getInactiveReasonType(), is(TaxonomyInactiveReasonType.MERGED));
+        assertThat(
+                entry.getInactiveReason().getInactiveReasonType(),
+                is(TaxonomyInactiveReasonType.MERGED));
         assertThat(entry.getInactiveReason().hasMergedTo(), is(true));
         assertThat(entry.getInactiveReason().getMergedTo(), is(5L));
-
     }
 
     private void validateTaxonomyDocument(TaxonomyDocument taxonomyDocument) {
@@ -163,8 +180,11 @@ class TaxonomyJobIT {
         assertThat(taxonomyDocument.getRank(), is("family"));
 
         assertThat(taxonomyDocument.getHost(), contains(4L, 5L));
-        assertThat(taxonomyDocument
-                           .getStrain(), contains("strain 1 ; strain 1,syn 1  , strain 1,syn 2", "strain 2 ; strain 2 syn 1"));
+        assertThat(
+                taxonomyDocument.getStrain(),
+                contains(
+                        "strain 1 ; strain 1,syn 1  , strain 1,syn 2",
+                        "strain 2 ; strain 2 syn 1"));
         assertThat(taxonomyDocument.isLinked(), is(true));
         assertThat(taxonomyDocument.getLineage(), contains(4L));
         assertThat(taxonomyDocument.isHidden(), is(true));
@@ -202,7 +222,6 @@ class TaxonomyJobIT {
         assertThat(strain.getName(), is("strain 1"));
         assertThat(strain.getSynonyms(), contains("strain 1,syn 1 ", "strain 1,syn 2"));
 
-
         assertThat(entry.getLineage(), is(notNullValue()));
         assertThat(entry.getLineage().size(), is(1));
         TaxonomyLineage lineage = entry.getLineage().get(0);
@@ -217,7 +236,6 @@ class TaxonomyJobIT {
         assertThat(statistics.getUnreviewedProteinCount(), is(2L));
         assertThat(statistics.getReferenceProteomeCount(), is(2L));
         assertThat(statistics.getCompleteProteomeCount(), is(1L));
-
     }
 
     @Configuration
@@ -225,7 +243,9 @@ class TaxonomyJobIT {
 
         @Override
         @Bean(name = "itemTaxonomyNodeProcessor")
-        public ItemProcessor<TaxonomyEntry, TaxonomyDocument> itemTaxonomyNodeProcessor(@Qualifier("readDataSource") DataSource readDataSource, UniProtSolrOperations solrOperations) {
+        public ItemProcessor<TaxonomyEntry, TaxonomyDocument> itemTaxonomyNodeProcessor(
+                @Qualifier("readDataSource") DataSource readDataSource,
+                UniProtSolrOperations solrOperations) {
             return new TaxonomyProcessorFake(readDataSource, solrOperations);
         }
     }
@@ -237,24 +257,23 @@ class TaxonomyJobIT {
         protected String getStatisticsSQL() {
             return TaxonomySQLConstants.COUNT_PROTEINS_SQL.replaceAll("FULL JOIN", "INNER JOIN");
         }
-
     }
 
     private static class TaxonomyProcessorFake extends TaxonomyProcessor {
 
-        public TaxonomyProcessorFake(DataSource readDataSource, UniProtSolrOperations solrOperations) {
+        public TaxonomyProcessorFake(
+                DataSource readDataSource, UniProtSolrOperations solrOperations) {
             super(readDataSource, solrOperations);
         }
 
         @Override
         protected String getTaxonomyLineageSQL() {
-            return "SELECT '|5|4|1' as lineage_id," +
-                    "      '|name5|name4|name1' AS lineage_name," +
-                    "      '|rank5|KINGDOM|rank1' AS lineage_rank," +
-                    "      '|0|1|0' AS lineage_hidden" +
-                    " FROM taxonomy.V_PUBLIC_NODE" +
-                    " WHERE TAX_ID = ?";
+            return "SELECT '|5|4|1' as lineage_id,"
+                    + "      '|name5|name4|name1' AS lineage_name,"
+                    + "      '|rank5|KINGDOM|rank1' AS lineage_rank,"
+                    + "      '|0|1|0' AS lineage_hidden"
+                    + " FROM taxonomy.V_PUBLIC_NODE"
+                    + " WHERE TAX_ID = ?";
         }
     }
-
 }

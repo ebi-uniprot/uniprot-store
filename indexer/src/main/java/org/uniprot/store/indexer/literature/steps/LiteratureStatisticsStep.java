@@ -1,5 +1,9 @@
 package org.uniprot.store.indexer.literature.steps;
 
+import java.sql.SQLException;
+
+import javax.sql.DataSource;
+
 import org.springframework.batch.core.ChunkListener;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.StepExecutionListener;
@@ -22,12 +26,7 @@ import org.uniprot.store.indexer.literature.reader.LiteratureStatisticsReader;
 import org.uniprot.store.search.SolrCollection;
 import org.uniprot.store.search.document.literature.LiteratureDocument;
 
-import javax.sql.DataSource;
-import java.sql.SQLException;
-
-/**
- * @author lgonzales
- */
+/** @author lgonzales */
 @Configuration
 public class LiteratureStatisticsStep {
 
@@ -35,13 +34,17 @@ public class LiteratureStatisticsStep {
     private Integer chunkSize;
 
     @Bean(name = "LiteratureStatistics")
-    public Step literatureStatistics(StepBuilderFactory stepBuilders, StepExecutionListener stepListener,
-                                     ChunkListener chunkListener,
-                                     ItemReader<LiteratureStatisticsReader.LiteratureCount> itemLiteratureStatisticsReader,
-                                     ItemProcessor<LiteratureStatisticsReader.LiteratureCount, LiteratureDocument> itemLiteratureStatisticsProcessor,
-                                     ItemWriter<LiteratureDocument> itemLiteratureStatisticsWriter,
-                                     UniProtSolrOperations solrOperations) {
-        return stepBuilders.get(Constants.LITERATURE_LOAD_STATISTICS_STEP_NAME)
+    public Step literatureStatistics(
+            StepBuilderFactory stepBuilders,
+            StepExecutionListener stepListener,
+            ChunkListener chunkListener,
+            ItemReader<LiteratureStatisticsReader.LiteratureCount> itemLiteratureStatisticsReader,
+            ItemProcessor<LiteratureStatisticsReader.LiteratureCount, LiteratureDocument>
+                    itemLiteratureStatisticsProcessor,
+            ItemWriter<LiteratureDocument> itemLiteratureStatisticsWriter,
+            UniProtSolrOperations solrOperations) {
+        return stepBuilders
+                .get(Constants.LITERATURE_LOAD_STATISTICS_STEP_NAME)
                 .<LiteratureStatisticsReader.LiteratureCount, LiteratureDocument>chunk(chunkSize)
                 .reader(itemLiteratureStatisticsReader)
                 .processor(itemLiteratureStatisticsProcessor)
@@ -53,8 +56,10 @@ public class LiteratureStatisticsStep {
     }
 
     @Bean(name = "itemLiteratureStatisticsReader")
-    public ItemReader<LiteratureStatisticsReader.LiteratureCount> itemLiteratureStatisticsReader(@Qualifier("readDataSource") DataSource readDataSource) throws SQLException {
-        JdbcCursorItemReader<LiteratureStatisticsReader.LiteratureCount> itemReader = new JdbcCursorItemReader<>();
+    public ItemReader<LiteratureStatisticsReader.LiteratureCount> itemLiteratureStatisticsReader(
+            @Qualifier("readDataSource") DataSource readDataSource) throws SQLException {
+        JdbcCursorItemReader<LiteratureStatisticsReader.LiteratureCount> itemReader =
+                new JdbcCursorItemReader<>();
         itemReader.setDataSource(readDataSource);
         itemReader.setSql(getStatisticsSQL());
         itemReader.setRowMapper(new LiteratureStatisticsReader());
@@ -63,17 +68,18 @@ public class LiteratureStatisticsStep {
     }
 
     @Bean(name = "itemLiteratureStatisticsProcessor")
-    public ItemProcessor<LiteratureStatisticsReader.LiteratureCount, LiteratureDocument> itemLiteratureStatisticsProcessor() {
+    public ItemProcessor<LiteratureStatisticsReader.LiteratureCount, LiteratureDocument>
+            itemLiteratureStatisticsProcessor() {
         return new LiteratureStatisticsProcessor();
     }
 
     @Bean(name = "itemLiteratureStatisticsWriter")
-    public ItemWriter<LiteratureDocument> itemLiteratureStatisticsWriter(UniProtSolrOperations solrOperations) {
+    public ItemWriter<LiteratureDocument> itemLiteratureStatisticsWriter(
+            UniProtSolrOperations solrOperations) {
         return new SolrDocumentWriter<>(solrOperations, SolrCollection.literature);
     }
 
     protected String getStatisticsSQL() {
         return LiteratureSQLConstants.LITERATURE_STATISTICS_SQL;
     }
-
 }

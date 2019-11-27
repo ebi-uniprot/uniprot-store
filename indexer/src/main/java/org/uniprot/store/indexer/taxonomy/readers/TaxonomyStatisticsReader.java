@@ -1,14 +1,13 @@
 package org.uniprot.store.indexer.taxonomy.readers;
 
-import lombok.Getter;
-import org.springframework.jdbc.core.RowMapper;
-
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-/**
- * @author lgonzales
- */
+import lombok.Getter;
+
+import org.springframework.jdbc.core.RowMapper;
+
+/** @author lgonzales */
 public class TaxonomyStatisticsReader implements RowMapper<TaxonomyStatisticsReader.TaxonomyCount> {
 
     @Override
@@ -18,7 +17,12 @@ public class TaxonomyStatisticsReader implements RowMapper<TaxonomyStatisticsRea
         long unreviewedProteinCount = resultSet.getLong("unreviewedProteinCount");
         long referenceProteomeCount = resultSet.getLong("referenceProteomeCount");
         long completeProteomeCount = resultSet.getLong("completeProteomeCount");
-        return new TaxonomyCount(taxId, reviewedProteinCount, unreviewedProteinCount, referenceProteomeCount, completeProteomeCount);
+        return new TaxonomyCount(
+                taxId,
+                reviewedProteinCount,
+                unreviewedProteinCount,
+                referenceProteomeCount,
+                completeProteomeCount);
     }
 
     @Getter
@@ -29,9 +33,12 @@ public class TaxonomyStatisticsReader implements RowMapper<TaxonomyStatisticsRea
         private final long completeProteomeCount;
         private final long taxId;
 
-
-        public TaxonomyCount(long taxId, long reviewedProteinCount, long unreviewedProteinCount,
-                             long referenceProteomeCount, long completeProteomeCount) {
+        public TaxonomyCount(
+                long taxId,
+                long reviewedProteinCount,
+                long unreviewedProteinCount,
+                long referenceProteomeCount,
+                long completeProteomeCount) {
             this.taxId = taxId;
             this.reviewedProteinCount = reviewedProteinCount;
             this.unreviewedProteinCount = unreviewedProteinCount;
@@ -39,5 +46,4 @@ public class TaxonomyStatisticsReader implements RowMapper<TaxonomyStatisticsRea
             this.completeProteomeCount = completeProteomeCount;
         }
     }
-
 }

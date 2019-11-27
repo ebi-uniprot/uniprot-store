@@ -481,11 +481,11 @@
 		stored="false" required="false" multiValued="false" />
 	<field name="reviewed" type="boolean" indexed="true"
 		stored="false" required="false" multiValued="false" />
-	<field name="modified" type="date" indexed="true" stored="false"
+	<field name="modified" type="rdates" indexed="true"
+		stored="false" required="false" />
+	<field name="created" type="rdates" indexed="true" stored="false"
 		required="false" />
-	<field name="created" type="date" indexed="true" stored="false"
-		required="false" />
-	<field name="sequence_modified" type="date" indexed="true"
+	<field name="sequence_modified" type="rdates" indexed="true"
 		stored="false" required="false" />
 
 	<field name="source" type="lowercase" indexed="true"
@@ -686,11 +686,15 @@
 		indexed="true" required="false" stored="false" multiValued="false" />
 
 	<!-- Citations -->
-	<field name="lit_author" type="full_ci" indexed="true" stored="false" required="false" multiValued="true" />
-	<field name="lit_organisation" type="full_ci" indexed="true" stored="false" required="false" multiValued="true" />
+	<field name="lit_author" type="full_ci" indexed="true"
+		stored="false" required="false" multiValued="true" />
+	<field name="lit_organisation" type="full_ci" indexed="true"
+		stored="false" required="false" multiValued="true" />
 
-	<field name="lit_title" type="full_ci" indexed="true" stored="false" required="false" multiValued="true" />
-	<field name="lit_pubdate" type="date" indexed="true" stored="false" required="false" multiValued="true" />
+	<field name="lit_title" type="full_ci" indexed="true"
+		stored="false" required="false" multiValued="true" />
+	<field name="lit_pubdate" type="rdates" indexed="true"
+		stored="false" required="false" multiValued="true" />
 
 	<field name="lit_pubmed" type="string" indexed="true" stored="false" required="false" multiValued="true" />
 	<field name="lit_journal" type="basic_ci" indexed="true" stored="false" required="false" multiValued="true" />

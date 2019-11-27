@@ -1,27 +1,27 @@
 package org.uniprot.store.indexer.uniprotkb.converter;
 
-import org.junit.jupiter.api.Test;
-import org.uniprot.core.DBCrossReference;
-import org.uniprot.core.Range;
-import org.uniprot.core.builder.DBCrossReferenceBuilder;
-import org.uniprot.core.uniprot.evidence.Evidence;
-import org.uniprot.core.uniprot.evidence.EvidenceCode;
-import org.uniprot.core.uniprot.evidence.builder.EvidenceBuilder;
-import org.uniprot.core.uniprot.feature.AlternativeSequence;
-import org.uniprot.core.uniprot.feature.Feature;
-import org.uniprot.core.uniprot.feature.FeatureType;
-import org.uniprot.core.uniprot.feature.FeatureXDbType;
-import org.uniprot.core.uniprot.feature.builder.AlternativeSequenceBuilder;
-import org.uniprot.core.uniprot.feature.builder.FeatureBuilder;
-import org.uniprot.store.search.document.uniprot.UniProtDocument;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import org.junit.jupiter.api.Test;
+import org.uniprot.core.DBCrossReference;
+import org.uniprot.core.builder.DBCrossReferenceBuilder;
+import org.uniprot.core.uniprot.evidence.Evidence;
+import org.uniprot.core.uniprot.evidence.EvidenceCode;
+import org.uniprot.core.uniprot.evidence.builder.EvidenceBuilder;
+import org.uniprot.core.uniprot.feature.AlternativeSequence;
+import org.uniprot.core.uniprot.feature.Feature;
+import org.uniprot.core.uniprot.feature.FeatureLocation;
+import org.uniprot.core.uniprot.feature.FeatureType;
+import org.uniprot.core.uniprot.feature.FeatureXDbType;
+import org.uniprot.core.uniprot.feature.builder.AlternativeSequenceBuilder;
+import org.uniprot.core.uniprot.feature.builder.FeatureBuilder;
+import org.uniprot.store.search.document.uniprot.UniProtDocument;
 
 /**
  * @author lgonzales
@@ -34,11 +34,8 @@ class UniProtEntryFeatureConverterTest {
         UniProtDocument document = new UniProtDocument();
         UniProtEntryFeatureConverter converter = new UniProtEntryFeatureConverter();
 
-        Range location = new Range(2, 8);
-        Feature feature = new FeatureBuilder()
-                .type(FeatureType.NON_TER)
-                .location(location)
-                .build();
+        FeatureLocation location = new FeatureLocation(2, 8);
+        Feature feature = new FeatureBuilder().type(FeatureType.NON_TER).location(location).build();
 
         List<Feature> features = Collections.singletonList(feature);
 
@@ -46,7 +43,6 @@ class UniProtEntryFeatureConverterTest {
 
         assertEquals(Collections.emptySet(), document.proteinsWith);
     }
-
 
     @Test
     void convertFeature() {
@@ -58,36 +54,52 @@ class UniProtEntryFeatureConverterTest {
         converter.convertFeature(features, document);
 
         assertTrue(document.featuresMap.containsKey("ft_chain"));
-        List<String> chainValue = Arrays.asList("CHAIN", "FT12345", "dbSNP-DBSNP-12345", "description value", "DBSNP-12345");
+        List<String> chainValue =
+                Arrays.asList(
+                        "CHAIN",
+                        "FT12345",
+                        "dbSNP-DBSNP-12345",
+                        "description value",
+                        "DBSNP-12345");
         assertEquals(new HashSet<>(chainValue), document.featuresMap.get("ft_chain"));
 
         assertTrue(document.featureEvidenceMap.containsKey("ftev_chain"));
         List<String> chainEvidenceValue = Arrays.asList("manual", "ECO_0000255");
-        assertEquals(new HashSet<>(chainEvidenceValue), document.featureEvidenceMap.get("ftev_chain"));
+        assertEquals(
+                new HashSet<>(chainEvidenceValue), document.featureEvidenceMap.get("ftev_chain"));
 
         assertTrue(document.featureLengthMap.containsKey("ftlen_chain"));
         List<Integer> chainLengthValue = Collections.singletonList(7);
         assertEquals(new HashSet<>(chainLengthValue), document.featureLengthMap.get("ftlen_chain"));
 
         assertEquals(5, document.content.size());
-        assertEquals(new HashSet<>(Arrays.asList("CHAIN", "FT12345", "dbSNP-DBSNP-12345",
-                "description value", "DBSNP-12345")), document.content);
+        assertEquals(
+                new HashSet<>(
+                        Arrays.asList(
+                                "CHAIN",
+                                "FT12345",
+                                "dbSNP-DBSNP-12345",
+                                "description value",
+                                "DBSNP-12345")),
+                document.content);
 
         assertEquals(Collections.singleton("chain"), document.proteinsWith);
     }
 
     private static Feature getFeature() {
-        AlternativeSequence alternativeSequence = new AlternativeSequenceBuilder()
-                .original("original value")
-                .alternative("alternative value")
-                .build();
+        AlternativeSequence alternativeSequence =
+                new AlternativeSequenceBuilder()
+                        .original("original value")
+                        .alternative("alternative value")
+                        .build();
 
-        DBCrossReference<FeatureXDbType> xrefs = new DBCrossReferenceBuilder<FeatureXDbType>()
-                .databaseType(FeatureXDbType.DBSNP)
-                .id("DBSNP-12345")
-                .build();
+        DBCrossReference<FeatureXDbType> xrefs =
+                new DBCrossReferenceBuilder<FeatureXDbType>()
+                        .databaseType(FeatureXDbType.DBSNP)
+                        .id("DBSNP-12345")
+                        .build();
 
-        Range location = new Range(2, 8);
+        FeatureLocation location = new FeatureLocation(2, 8);
         List<Evidence> evidences = Collections.singletonList(createEvidence());
         return new FeatureBuilder()
                 .type(FeatureType.CHAIN)

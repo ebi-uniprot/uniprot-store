@@ -3,20 +3,18 @@ package org.uniprot.store.indexer.uniprot.inactiveentry;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class AbstractInactiveUniProtEntryIterator implements InactiveEntryIterator{
+public abstract class AbstractInactiveUniProtEntryIterator implements InactiveEntryIterator {
     protected boolean hasResult = false;
     private InactiveUniProtEntry nextEntry = null;
 
-    abstract protected InactiveUniProtEntry nextEntry();
+    protected abstract InactiveUniProtEntry nextEntry();
 
     @Override
     public boolean hasNext() {
-        if (hasResult)
-            return hasResult;
+        if (hasResult) return hasResult;
 
         nextEntry = nextEntry();
         return hasResult;
-
     }
 
     @Override
@@ -26,8 +24,7 @@ public abstract class AbstractInactiveUniProtEntryIterator implements InactiveEn
             if (currentOne == null) {
                 currentOne = nextEntry();
             }
-            if (currentOne == null)
-                return currentOne;
+            if (currentOne == null) return currentOne;
             List<InactiveUniProtEntry> group = new ArrayList<>();
             group.add(currentOne);
             do {
@@ -44,11 +41,9 @@ public abstract class AbstractInactiveUniProtEntryIterator implements InactiveEn
             } while (true);
             if (group.size() == 1) {
                 return currentOne;
-            } else
-                return InactiveUniProtEntry.merge(group);
+            } else return InactiveUniProtEntry.merge(group);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
-
 }

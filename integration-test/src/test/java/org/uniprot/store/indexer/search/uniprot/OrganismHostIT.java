@@ -21,9 +21,7 @@ import static org.uniprot.store.indexer.search.uniprot.IdentifierSearchIT.ACC_LI
 import static org.uniprot.store.indexer.search.uniprot.TestUtils.convertToUniProtEntry;
 import static org.uniprot.store.indexer.search.uniprot.TestUtils.query;
 
-/**
- * Tests whether the searches for organism host are working correctly
- */
+/** Tests whether the searches for organism host are working correctly */
 class OrganismHostIT {
     private static final String UNIPROT_FLAT_FILE_ENTRY_PATH = "/it/uniprot/P0A377.43.dat";
     private static final String ACCESSION1 = "Q197F4";
@@ -54,31 +52,31 @@ class OrganismHostIT {
     private static final String COMMON_NAME4_2 = "Human";
     private static final String MNEMONIC4_2 = "HUMAN";
     private static final int TAX_ID4_2 = 9606;
-    @RegisterExtension
-    static UniProtSearchEngine searchEngine = new UniProtSearchEngine();
+    @RegisterExtension static UniProtSearchEngine searchEngine = new UniProtSearchEngine();
 
     @BeforeAll
     static void populateIndexWithTestData() throws IOException {
         // a test entry object that can be modified and added to index
         InputStream resourceAsStream = TestUtils.getResourceAsStream(UNIPROT_FLAT_FILE_ENTRY_PATH);
-        UniProtEntryObjectProxy entryProxy = UniProtEntryObjectProxy.createEntryFromInputStream(resourceAsStream);
+        UniProtEntryObjectProxy entryProxy =
+                UniProtEntryObjectProxy.createEntryFromInputStream(resourceAsStream);
 
-        //Entry 1
+        // Entry 1
         entryProxy.updateEntryObject(LineType.AC, String.format(ACC_LINE, ACCESSION1));
         entryProxy.updateEntryObject(LineType.OH, createOHLine(TAX_ID1, SCIENTIFIC_NAME1));
         searchEngine.indexEntry(convertToUniProtEntry(entryProxy));
-        
-        //Entry 2
+
+        // Entry 2
         entryProxy.updateEntryObject(LineType.AC, String.format(ACC_LINE, ACCESSION2));
         entryProxy.updateEntryObject(LineType.OH, createOHLine(TAX_ID2, SCIENTIFIC_NAME2));
         searchEngine.indexEntry(convertToUniProtEntry(entryProxy));
-        
-        //Entry 3
+
+        // Entry 3
         entryProxy.updateEntryObject(LineType.AC, String.format(ACC_LINE, ACCESSION3));
         entryProxy.updateEntryObject(LineType.OH, createOHLine(TAX_ID3, SCIENTIFIC_NAME3));
         searchEngine.indexEntry(convertToUniProtEntry(entryProxy));
-        
-        //Entry 4
+
+        // Entry 4
         String OHLine1 = createOHLine(TAX_ID4_1, SCIENTIFIC_NAME4_1);
         String OHLine2 = createOHLine(TAX_ID4_2, SCIENTIFIC_NAME4_2);
 
@@ -92,8 +90,8 @@ class OrganismHostIT {
     /**
      * Converts the given parameters into the flat file representation of an OH line
      *
-     * @param taxId          the NCBI taxonomic identifier of the organism host
-     * @param officialName   the official name of the organism host
+     * @param taxId the NCBI taxonomic identifier of the organism host
+     * @param officialName the official name of the organism host
      * @return FF representation of the organism host
      */
     private static String createOHLine(int taxId, String officialName) {
@@ -124,8 +122,8 @@ class OrganismHostIT {
     void organismHostNameFromEntry1MatchesEntry1() {
         String query = organismHostName(SCIENTIFIC_NAME1);
         query = QueryBuilder.and(query, organismHostName(COMMON_NAME1));
-        query = QueryBuilder.and(query,organismHostName(SYNONYM1));
-        query = QueryBuilder.and(query,organismHostName(MNEMONIC1));
+        query = QueryBuilder.and(query, organismHostName(SYNONYM1));
+        query = QueryBuilder.and(query, organismHostName(MNEMONIC1));
 
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -251,11 +249,12 @@ class OrganismHostIT {
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
         assertThat(retrievedAccessions, contains(ACCESSION4));
     }
-    
+
     String organismHostName(String name) {
-    	return query(UniProtField.Search.host_name, name);
+        return query(UniProtField.Search.host_name, name);
     }
+
     String organismHostID(int tax) {
-    	return query(UniProtField.Search.host_id, String.valueOf(tax));
+        return query(UniProtField.Search.host_id, String.valueOf(tax));
     }
 }

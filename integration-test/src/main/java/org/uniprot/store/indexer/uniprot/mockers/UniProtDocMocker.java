@@ -1,15 +1,15 @@
 package org.uniprot.store.indexer.uniprot.mockers;
 
+import org.uniprot.store.search.document.uniprot.UniProtDocument;
+
 import java.util.ArrayList;
 import java.util.List;
 
-import org.uniprot.store.search.document.uniprot.UniProtDocument;
-
 /**
- * A class used for mocking {@link UniProtDocument} instances. Used in tests and for simplifying our interaction with
- * Solr.
+ * A class used for mocking {@link UniProtDocument} instances. Used in tests and for simplifying our
+ * interaction with Solr.
  *
- * Created 14/09/18
+ * <p>Created 14/09/18
  *
  * @author Edd
  */

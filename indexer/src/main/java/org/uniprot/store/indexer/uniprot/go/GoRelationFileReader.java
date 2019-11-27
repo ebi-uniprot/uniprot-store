@@ -1,14 +1,14 @@
 package org.uniprot.store.indexer.uniprot.go;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.*;
 import java.util.stream.Stream;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 // TODO: 04/07/19 test this class
 public class GoRelationFileReader {
@@ -47,8 +47,7 @@ public class GoRelationFileReader {
     }
 
     private void readLine(String line) {
-        if (line.startsWith(COMMENT_PREFIX))
-            return;
+        if (line.startsWith(COMMENT_PREFIX)) return;
         String[] tokens = line.split(SEPARATOR);
         if (tokens.length == 3) {
 

@@ -1,5 +1,8 @@
 package org.uniprot.store.indexer.uniprotkb.converter;
 
+import java.util.*;
+import java.util.stream.Collectors;
+
 import org.uniprot.core.cv.taxonomy.TaxonomicNode;
 import org.uniprot.core.cv.taxonomy.TaxonomyRepo;
 import org.uniprot.core.uniprot.taxonomy.Organism;
@@ -8,9 +11,6 @@ import org.uniprot.store.indexer.util.TaxonomyRepoUtil;
 import org.uniprot.store.search.document.suggest.SuggestDictionary;
 import org.uniprot.store.search.document.suggest.SuggestDocument;
 import org.uniprot.store.search.document.uniprot.UniProtDocument;
-
-import java.util.*;
-import java.util.stream.Collectors;
 
 /**
  * @author lgonzales

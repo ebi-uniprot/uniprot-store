@@ -1,19 +1,19 @@
 package org.uniprot.store.indexer.uniprotkb.converter;
 
-import org.uniprot.core.Value;
-import org.uniprot.core.cv.ec.ECRepo;
-import org.uniprot.core.uniprot.description.*;
-import org.uniprot.store.search.document.suggest.SuggestDictionary;
-import org.uniprot.store.search.document.suggest.SuggestDocument;
-import org.uniprot.store.search.document.uniprot.UniProtDocument;
+import static org.uniprot.store.indexer.uniprotkb.converter.UniProtEntryConverterUtil.createSuggestionMapKey;
+import static org.uniprot.store.indexer.uniprotkb.converter.UniProtEntryConverterUtil.truncatedSortValue;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import static org.uniprot.store.indexer.uniprotkb.converter.UniProtEntryConverterUtil.createSuggestionMapKey;
-import static org.uniprot.store.indexer.uniprotkb.converter.UniProtEntryConverterUtil.truncatedSortValue;
+import org.uniprot.core.Value;
+import org.uniprot.core.cv.ec.ECRepo;
+import org.uniprot.core.uniprot.description.*;
+import org.uniprot.store.search.document.suggest.SuggestDictionary;
+import org.uniprot.store.search.document.suggest.SuggestDocument;
+import org.uniprot.store.search.document.uniprot.UniProtDocument;
 
 /**
  * @author lgonzales
@@ -24,12 +24,14 @@ class UniprotEntryProteinDescriptionConverter {
     private final ECRepo ecRepo;
     private final Map<String, SuggestDocument> suggestions;
 
-    UniprotEntryProteinDescriptionConverter(ECRepo ecRepo, Map<String, SuggestDocument> suggestions) {
+    UniprotEntryProteinDescriptionConverter(
+            ECRepo ecRepo, Map<String, SuggestDocument> suggestions) {
         this.ecRepo = ecRepo;
         this.suggestions = suggestions;
     }
 
-    void convertProteinDescription(ProteinDescription proteinDescription, UniProtDocument document) {
+    void convertProteinDescription(
+            ProteinDescription proteinDescription, UniProtDocument document) {
         if (proteinDescription != null) {
             List<String> names = extractProteinDescriptionValues(proteinDescription);
             document.proteinNames.addAll(names);
@@ -46,17 +48,22 @@ class UniprotEntryProteinDescriptionConverter {
         document.ecNumbers = ecNumbers;
         document.ecNumbersExact = document.ecNumbers;
 
-        if (ecRepo != null) {
-            for (String ecNumber : ecNumbers) {
-                ecRepo.getEC(ecNumber)
-                        .ifPresent(ec -> suggestions.putIfAbsent(createSuggestionMapKey(SuggestDictionary.EC, ecNumber),
-                                SuggestDocument.builder().id(ecNumber).value(ec.label())
-                                        .dictionary(SuggestDictionary.EC.name()).build()));
-            }
+        for (String ecNumber : ecNumbers) {
+            ecRepo.getEC(ecNumber)
+                    .ifPresent(
+                            ec ->
+                                    suggestions.putIfAbsent(
+                                            createSuggestionMapKey(SuggestDictionary.EC, ecNumber),
+                                            SuggestDocument.builder()
+                                                    .id(ecNumber)
+                                                    .value(ec.label())
+                                                    .dictionary(SuggestDictionary.EC.name())
+                                                    .build()));
         }
     }
 
-    private void convertFragmentNPrecursor(ProteinDescription proteinDescription, UniProtDocument document) {
+    private void convertFragmentNPrecursor(
+            ProteinDescription proteinDescription, UniProtDocument document) {
         boolean isFragment = false;
         boolean isPrecursor = false;
         if (proteinDescription.hasFlag()) {
@@ -90,16 +97,24 @@ class UniprotEntryProteinDescriptionConverter {
             values.addAll(getProteinRecNameNames(description.getRecommendedName()));
         }
         if (description.hasSubmissionNames()) {
-            description.getSubmissionNames().stream().map(this::getProteinSubNameNames).forEach(values::addAll);
+            description.getSubmissionNames().stream()
+                    .map(this::getProteinSubNameNames)
+                    .forEach(values::addAll);
         }
         if (description.hasAlternativeNames()) {
-            description.getAlternativeNames().stream().map(this::getProteinAltNameNames).forEach(values::addAll);
+            description.getAlternativeNames().stream()
+                    .map(this::getProteinAltNameNames)
+                    .forEach(values::addAll);
         }
         if (description.hasContains()) {
-            description.getContains().stream().map(this::getProteinSectionValues).forEach(values::addAll);
+            description.getContains().stream()
+                    .map(this::getProteinSectionValues)
+                    .forEach(values::addAll);
         }
         if (description.hasIncludes()) {
-            description.getIncludes().stream().map(this::getProteinSectionValues).forEach(values::addAll);
+            description.getIncludes().stream()
+                    .map(this::getProteinSectionValues)
+                    .forEach(values::addAll);
         }
         if (description.hasAllergenName()) {
             values.add(description.getAllergenName().getValue());
@@ -122,7 +137,9 @@ class UniprotEntryProteinDescriptionConverter {
             names.addAll(getProteinRecNameNames(proteinSection.getRecommendedName()));
         }
         if (proteinSection.hasAlternativeNames()) {
-            proteinSection.getAlternativeNames().stream().map(this::getProteinAltNameNames).forEach(names::addAll);
+            proteinSection.getAlternativeNames().stream()
+                    .map(this::getProteinAltNameNames)
+                    .forEach(names::addAll);
         }
         if (proteinSection.hasCdAntigenNames()) {
             proteinSection.getCdAntigenNames().stream().map(Value::getValue).forEach(names::add);
@@ -171,39 +188,47 @@ class UniprotEntryProteinDescriptionConverter {
 
     private List<String> extractProteinDescriptionEcs(ProteinDescription proteinDescription) {
         List<String> ecs = new ArrayList<>();
-        if (proteinDescription.hasRecommendedName() && proteinDescription.getRecommendedName().hasEcNumbers()) {
+        if (proteinDescription.hasRecommendedName()
+                && proteinDescription.getRecommendedName().hasEcNumbers()) {
             ecs.addAll(getEcs(proteinDescription.getRecommendedName().getEcNumbers()));
         }
         if (proteinDescription.hasSubmissionNames()) {
-            proteinDescription.getSubmissionNames().stream().filter(ProteinSubName::hasEcNumbers)
-                    .flatMap(proteinSubName -> getEcs(proteinSubName.getEcNumbers()).stream()).forEach(ecs::add);
+            proteinDescription.getSubmissionNames().stream()
+                    .filter(ProteinSubName::hasEcNumbers)
+                    .flatMap(proteinSubName -> getEcs(proteinSubName.getEcNumbers()).stream())
+                    .forEach(ecs::add);
         }
         if (proteinDescription.hasAlternativeNames()) {
-            proteinDescription.getAlternativeNames().stream().filter(ProteinAltName::hasEcNumbers)
-                    .flatMap(proteinAltName -> getEcs(proteinAltName.getEcNumbers()).stream()).forEach(ecs::add);
+            proteinDescription.getAlternativeNames().stream()
+                    .filter(ProteinAltName::hasEcNumbers)
+                    .flatMap(proteinAltName -> getEcs(proteinAltName.getEcNumbers()).stream())
+                    .forEach(ecs::add);
         }
         if (proteinDescription.hasContains()) {
             proteinDescription.getContains().stream()
-                    .flatMap(proteinSection -> getProteinSectionEcs(proteinSection).stream()).forEach(ecs::add);
+                    .flatMap(proteinSection -> getProteinSectionEcs(proteinSection).stream())
+                    .forEach(ecs::add);
         }
         if (proteinDescription.hasIncludes()) {
             proteinDescription.getIncludes().stream()
-                    .flatMap(proteinSection -> getProteinSectionEcs(proteinSection).stream()).forEach(ecs::add);
+                    .flatMap(proteinSection -> getProteinSectionEcs(proteinSection).stream())
+                    .forEach(ecs::add);
         }
         return ecs;
     }
 
     private List<String> getProteinSectionEcs(ProteinSection proteinSection) {
         List<String> ecs = new ArrayList<>();
-        if (proteinSection.hasRecommendedName() && proteinSection.getRecommendedName().hasEcNumbers()) {
+        if (proteinSection.hasRecommendedName()
+                && proteinSection.getRecommendedName().hasEcNumbers()) {
             ecs.addAll(getEcs(proteinSection.getRecommendedName().getEcNumbers()));
         }
         if (proteinSection.hasAlternativeNames()) {
-            proteinSection.getAlternativeNames().stream().filter(ProteinAltName::hasEcNumbers)
-                    .flatMap(proteinAltName -> getEcs(proteinAltName.getEcNumbers()).stream()).forEach(ecs::add);
+            proteinSection.getAlternativeNames().stream()
+                    .filter(ProteinAltName::hasEcNumbers)
+                    .flatMap(proteinAltName -> getEcs(proteinAltName.getEcNumbers()).stream())
+                    .forEach(ecs::add);
         }
         return ecs;
     }
-
-
 }

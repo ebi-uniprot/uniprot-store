@@ -204,50 +204,9 @@ DR   GO; GO:0043523; P:regulation of neuron apoptotic process; IMP:UniProtKB.
 DR   GO; GO:0048168; P:regulation of neuronal synaptic plasticity; IMP:UniProtKB.
 PE   1: Evidence at protein level;
 KW   Alternative splicing; Cell junction; Cell membrane; Cell projection;
-KW   Complete proteome; Cytoplasm; Cytoskeleton; Lipoprotein; Membrane;
+KW   Cytoplasm; Cytoskeleton; Lipoprotein; Membrane;
 KW   Myristate; Nucleus; Postsynaptic cell membrane; Reference proteome;
 KW   Synapse; Synaptosome.
-FT   INIT_MET      1      1       Removed.
-FT   CHAIN         2    532       NMDA receptor synaptonuclear signaling
-FT                                and neuronal migration factor.
-FT                                /FTId=PRO_0000096780.
-FT   REGION        2    235       Necessary and sufficient to elicit
-FT                                dendritic processes and synaptic
-FT                                contacts.
-FT   MOTIF       247    252       Nuclear localization signal.
-FT   LIPID         2      2       N-myristoyl glycine.
-FT                                {ECO:0000269|PubMed:18303947}.
-FT   VAR_SEQ     238    262       Missing (in isoform 3).
-FT                                {ECO:0000303|Ref.2}.
-FT                                /FTId=VSP_014770.
-FT   VAR_SEQ     240    262       Missing (in isoform 2 and isoform 4).
-FT                                {ECO:0000303|Ref.1}.
-FT                                /FTId=VSP_014771.
-FT   VAR_SEQ     280    309       Missing (in isoform 4).
-FT                                {ECO:0000303|Ref.1}.
-FT                                /FTId=VSP_014772.
-FT   VAR_SEQ     310    336       SSDLQSSHCTLDEACEDLDWDTEKGLE -> TNLLQGAQGR
-FT                                VHPNHHPQRRPIHHPHP (in isoform 5).
-FT                                {ECO:0000303|Ref.2}.
-FT                                /FTId=VSP_014773.
-FT   VAR_SEQ     337    532       Missing (in isoform 5).
-FT                                {ECO:0000303|Ref.2}.
-FT                                /FTId=VSP_014774.
-FT   MUTAGEN       2      2       G->A: Exclusive nuclear localization.
-FT                                Shows a reduction in synaptic contacts
-FT                                and dendritic processes.
-FT                                {ECO:0000269|PubMed:18303947}.
-FT   MUTAGEN     241    241       F->E: Loss of CABP1 binding.
-FT                                {ECO:0000269|PubMed:18303947}.
-FT   MUTAGEN     247    252       Missing: Extranuclear localization and
-FT                                reduced CABP1 and KPNA1 binding. Shows a
-FT                                reduction in synaptic contacts and
-FT                                dendritic processes.
-FT                                {ECO:0000269|PubMed:18303947}.
-FT   MUTAGEN     260    261       IQ->GG: No effect on CABP1 binding.
-FT                                {ECO:0000269|PubMed:18303947}.
-FT   CONFLICT    174    174       K -> Q (in Ref. 3; AAH87719).
-FT                                {ECO:0000305}.
 SQ   SEQUENCE   532 AA;  60282 MW;  01AEF4B6A09EB753 CRC64;
      MGAAASRRRA LRSEAMSSVA AKVRAARAFG EYLSQSHPEN RNGADHLLAD AYSGHEGSPE
      MQPAPHNKRR LSLVSNGRYE GSISDEAVSG KTATEGPQPR VYTISREPAL LPGSEAEAIE

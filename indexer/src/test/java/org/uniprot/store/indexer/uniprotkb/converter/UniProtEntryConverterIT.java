@@ -1,5 +1,26 @@
 package org.uniprot.store.indexer.uniprotkb.converter;
 
+import static java.util.Arrays.asList;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.*;
+import static org.hamcrest.core.Is.is;
+import static org.hamcrest.core.IsNot.not;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+import static org.uniprot.core.util.Utils.notNull;
+import static org.uniprot.store.indexer.uniprot.go.GoRelationFileRepo.Relationship.IS_A;
+import static org.uniprot.store.indexer.uniprot.go.GoRelationFileRepo.Relationship.PART_OF;
+import static org.uniprot.store.indexer.uniprotkb.converter.UniProtEntryConverterUtil.createSuggestionMapKey;
+
+import java.io.InputStream;
+import java.nio.charset.Charset;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.*;
+import java.util.stream.Collectors;
+
 import org.apache.commons.io.IOUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -22,27 +43,6 @@ import org.uniprot.store.indexer.uniprotkb.processor.UniProtEntryDocumentPairPro
 import org.uniprot.store.search.document.suggest.SuggestDictionary;
 import org.uniprot.store.search.document.suggest.SuggestDocument;
 import org.uniprot.store.search.document.uniprot.UniProtDocument;
-
-import java.io.InputStream;
-import java.nio.charset.Charset;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.*;
-import java.util.stream.Collectors;
-
-import static java.util.Arrays.asList;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
-import static org.hamcrest.core.Is.is;
-import static org.hamcrest.core.IsNot.not;
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.anyInt;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
-import static org.uniprot.core.util.Utils.notNull;
-import static org.uniprot.store.indexer.uniprot.go.GoRelationFileRepo.Relationship.IS_A;
-import static org.uniprot.store.indexer.uniprot.go.GoRelationFileRepo.Relationship.PART_OF;
-import static org.uniprot.store.indexer.uniprotkb.converter.UniProtEntryConverterUtil.createSuggestionMapKey;
 
 /**
  * Created 12/04/19
@@ -73,8 +73,14 @@ class UniProtEntryConverterIT {
         chebiRepoMock = mock(ChebiRepo.class);
         ecRepoMock = mock(ECRepo.class);
         suggestions = new HashMap<>();
-        converter = new UniProtEntryConverter(repoMock, goRelationRepoMock, mock(PathwayRepo.class), chebiRepoMock,
-                                              ecRepoMock, suggestions);
+        converter =
+                new UniProtEntryConverter(
+                        repoMock,
+                        goRelationRepoMock,
+                        mock(PathwayRepo.class),
+                        chebiRepoMock,
+                        ecRepoMock,
+                        suggestions);
         dateFormat = new SimpleDateFormat("dd-MMM-yyyy");
     }
 
@@ -82,10 +88,11 @@ class UniProtEntryConverterIT {
     void testConvertFullA0PHU1Entry() throws Exception {
         when(repoMock.retrieveNodeUsingTaxID(anyInt()))
                 .thenReturn(getTaxonomyNode(172543, "Cichlasoma festae", null, null, null));
-       Set<GoTerm> ancestors = new HashSet<>();
+        Set<GoTerm> ancestors = new HashSet<>();
         ancestors.addAll(getMockParentGoTerm());
         ancestors.addAll(getMockPartOfGoTerm());
-        when(goRelationRepoMock.getAncestors("GO:0016021", asList(IS_A, PART_OF))).thenReturn(ancestors);
+        when(goRelationRepoMock.getAncestors("GO:0016021", asList(IS_A, PART_OF)))
+                .thenReturn(ancestors);
         String file = "A0PHU1.txl";
         UniProtEntry entry = parse(file);
         assertNotNull(entry);
@@ -138,9 +145,11 @@ class UniProtEntryConverterIT {
         assertTrue(doc.databases.contains("go"));
         assertTrue(doc.databases.contains("interpro"));
 
-
         assertEquals(1, doc.referenceTitles.size());
-        assertTrue(doc.referenceTitles.get(0).startsWith("Phylogeny and biogeography of 91 species of heroine"));
+        assertTrue(
+                doc.referenceTitles
+                        .get(0)
+                        .startsWith("Phylogeny and biogeography of 91 species of heroine"));
 
         assertEquals(12, doc.referenceAuthors.size());
         assertTrue(doc.referenceAuthors.get(0).startsWith("Concheiro Perez G.A."));
@@ -157,8 +166,10 @@ class UniProtEntryConverterIT {
 
         assertEquals(3, doc.commentMap.keySet().size());
         assertTrue(doc.commentMap.containsKey(CC_SIMILARITY_FIELD));
-        assertTrue(doc.commentMap.get(CC_SIMILARITY_FIELD).
-                contains("SIMILARITY: Belongs to the cytochrome b family."));
+        assertTrue(
+                doc.commentMap
+                        .get(CC_SIMILARITY_FIELD)
+                        .contains("SIMILARITY: Belongs to the cytochrome b family."));
 
         assertEquals(3, doc.commentEvMap.size());
         assertTrue(doc.commentEvMap.containsKey(CCEV_SIMILARITY_FIELD));
@@ -173,8 +184,10 @@ class UniProtEntryConverterIT {
 
         assertEquals(3, doc.commentMap.keySet().size());
         assertTrue(doc.commentMap.containsKey(CC_SIMILARITY_FIELD));
-        assertTrue(doc.commentMap.get(CC_SIMILARITY_FIELD).
-                contains("SIMILARITY: Belongs to the cytochrome b family."));
+        assertTrue(
+                doc.commentMap
+                        .get(CC_SIMILARITY_FIELD)
+                        .contains("SIMILARITY: Belongs to the cytochrome b family."));
 
         assertEquals(2, doc.cofactorChebi.size());
         assertTrue(doc.cofactorChebi.contains("heme"));
@@ -212,7 +225,12 @@ class UniProtEntryConverterIT {
     void testConvertFullQ9EPI6Entry() throws Exception {
         when(repoMock.retrieveNodeUsingTaxID(anyInt()))
                 .thenReturn(getTaxonomyNode(10116, "Rattus norvegicus", "Rat", null, null));
-        Chebi chebiId1 = new ChebiBuilder().id("15379").name("Chebi Name 15379").inchiKey("inchikey 15379").build();
+        Chebi chebiId1 =
+                new ChebiBuilder()
+                        .id("15379")
+                        .name("Chebi Name 15379")
+                        .inchiKey("inchikey 15379")
+                        .build();
         Chebi chebiId2 = new ChebiBuilder().id("16526").name("Chebi Name 16526").build();
         when(chebiRepoMock.getById("15379")).thenReturn(chebiId1);
         when(chebiRepoMock.getById("16526")).thenReturn(chebiId2);
@@ -232,10 +250,16 @@ class UniProtEntryConverterIT {
         assertTrue(doc.reviewed);
 
         assertEquals(5, doc.proteinNames.size());
-        assertTrue(doc.proteinNames.contains("NMDA receptor synaptonuclear signaling and neuronal migration factor"));
-        assertTrue(doc.proteinNames.contains("Juxtasynaptic attractor of caldendrin on dendritic boutons protein"));
+        assertTrue(
+                doc.proteinNames.contains(
+                        "NMDA receptor synaptonuclear signaling and neuronal migration factor"));
+        assertTrue(
+                doc.proteinNames.contains(
+                        "Juxtasynaptic attractor of caldendrin on dendritic boutons protein"));
         assertTrue(doc.proteinNames.contains("Jacob protein"));
-        assertTrue(doc.proteinNames.contains("Nasal embryonic luteinizing hormone-releasing hormone factor"));
+        assertTrue(
+                doc.proteinNames.contains(
+                        "Nasal embryonic luteinizing hormone-releasing hormone factor"));
         assertTrue(doc.proteinNames.contains("Nasal embryonic LHRH factor"));
         assertEquals("NMDA receptor synaptonuclear s", doc.proteinsNamesSort);
 
@@ -247,12 +271,13 @@ class UniProtEntryConverterIT {
         assertEquals("19-JUL-2005", dateFormat.format(doc.firstCreated).toUpperCase());
         assertEquals("01-MAR-2001", dateFormat.format(doc.sequenceUpdated).toUpperCase());
 
-        assertEquals(38, doc.keywords.size());
+        assertEquals(36, doc.keywords.size());
         assertEquals("KW-0025", doc.keywords.get(0));
         assertEquals("Alternative splicing", doc.keywords.get(1));
-        List<String> keywordIds=
-        doc.keywords.stream().filter(val ->val.startsWith("KW-"))
-        .collect(Collectors.toList());
+        List<String> keywordIds =
+                doc.keywords.stream()
+                        .filter(val -> val.startsWith("KW-"))
+                        .collect(Collectors.toList());
         checkSuggestionsContain(SuggestDictionary.KEYWORD, keywordIds, false);
 
         assertEquals(3, doc.geneNames.size());
@@ -269,10 +294,10 @@ class UniProtEntryConverterIT {
         assertEquals(2, doc.organismTaxon.size());
         assertEquals(1, doc.taxLineageIds.size());
         assertEquals(10116L, doc.taxLineageIds.get(0).longValue());
-        checkSuggestionsContain(SuggestDictionary.TAXONOMY,
-                                doc.taxLineageIds.stream()
-                                        .map(Object::toString)
-                                        .collect(Collectors.toList()), false);
+        checkSuggestionsContain(
+                SuggestDictionary.TAXONOMY,
+                doc.taxLineageIds.stream().map(Object::toString).collect(Collectors.toList()),
+                false);
 
         assertEquals(0, doc.organelles.size());
         assertEquals(0, doc.organismHostNames.size());
@@ -289,7 +314,9 @@ class UniProtEntryConverterIT {
         assertTrue(doc.databases.contains("ensembl"));
 
         assertEquals(7, doc.referenceTitles.size());
-        assertTrue(doc.referenceTitles.contains("Characterization of the novel brain-specific protein Jacob."));
+        assertTrue(
+                doc.referenceTitles.contains(
+                        "Characterization of the novel brain-specific protein Jacob."));
 
         assertEquals(55, doc.referenceAuthors.size());
         assertTrue(doc.referenceAuthors.contains("Kramer P.R."));
@@ -307,35 +334,39 @@ class UniProtEntryConverterIT {
         assertEquals(5, doc.referenceJournals.size());
         assertTrue(doc.referenceJournals.contains("Genome Res."));
 
-        assertEquals(15, doc.proteinsWith.size());
+        assertEquals(16, doc.proteinsWith.size());
         assertTrue(doc.proteinsWith.contains("chain"));
-        assertFalse(doc.proteinsWith.contains("similarity")); //filtered out
-        assertFalse(doc.proteinsWith.contains("conflict")); //filtered out
+        assertFalse(doc.proteinsWith.contains("similarity")); // filtered out
+        assertFalse(doc.proteinsWith.contains("conflict")); // filtered out
 
         assertEquals(10, doc.commentMap.keySet().size());
         assertTrue(doc.commentMap.containsKey(CC_SIMILARITY_FIELD));
-        assertTrue(doc.commentMap.get(CC_SIMILARITY_FIELD).
-                contains("SIMILARITY: Belongs to the NSMF family."));
+        assertTrue(
+                doc.commentMap
+                        .get(CC_SIMILARITY_FIELD)
+                        .contains("SIMILARITY: Belongs to the NSMF family."));
 
         assertTrue(doc.commentMap.containsKey(CC_SIMILARITY_FIELD));
-        assertTrue(doc.commentMap.get(CC_SIMILARITY_FIELD).
-                contains("SIMILARITY: Belongs to the NSMF family."));
+        assertTrue(
+                doc.commentMap
+                        .get(CC_SIMILARITY_FIELD)
+                        .contains("SIMILARITY: Belongs to the NSMF family."));
 
         assertEquals(10, doc.commentEvMap.size());
         assertTrue(doc.commentEvMap.containsKey(CCEV_SIMILARITY_FIELD));
         assertTrue(doc.commentEvMap.get(CCEV_SIMILARITY_FIELD).contains("ECO_0000305"));
         assertTrue(doc.commentEvMap.get(CCEV_SIMILARITY_FIELD).contains("manual"));
 
-        assertEquals(8, doc.featuresMap.size());
+        assertEquals(9, doc.featuresMap.size());
         assertTrue(doc.featuresMap.containsKey(FT_CONFLICT_FIELD));
         assertTrue(doc.featuresMap.get(FT_CONFLICT_FIELD).contains("in Ref. 3; AAH87719"));
 
-        assertEquals(8, doc.featureEvidenceMap.size());
+        assertEquals(9, doc.featureEvidenceMap.size());
         assertTrue(doc.featureEvidenceMap.containsKey(FTEV_CONFLICT_FIELD));
         assertTrue(doc.featureEvidenceMap.get(FTEV_CONFLICT_FIELD).contains("ECO_0000305"));
         assertTrue(doc.featureEvidenceMap.get(FTEV_CONFLICT_FIELD).contains("manual"));
 
-        assertEquals(8, doc.featureLengthMap.size());
+        assertEquals(9, doc.featureLengthMap.size());
         assertTrue(doc.featureLengthMap.containsKey(FTLEN_CHAIN_FIELD));
         assertTrue(doc.featureLengthMap.get(FTLEN_CHAIN_FIELD).contains(531));
 
@@ -346,8 +377,9 @@ class UniProtEntryConverterIT {
         assertFalse(doc.d3structure);
 
         assertTrue(doc.commentMap.containsKey(CC_CATALYTIC_ACTIVITY));
-        assertThat(doc.commentMap.get(CC_CATALYTIC_ACTIVITY), hasItems(
-                containsString(chebiId1.getId()), containsString(chebiId2.getId())));
+        assertThat(
+                doc.commentMap.get(CC_CATALYTIC_ACTIVITY),
+                hasItems(containsString(chebiId1.getId()), containsString(chebiId2.getId())));
         checkCatalyticChebiSuggestions(asList(chebiId1, chebiId2));
 
         assertEquals(26, doc.subcellLocationTerm.size());
@@ -357,9 +389,10 @@ class UniProtEntryConverterIT {
         assertEquals(2, doc.subcellLocationNoteEv.size());
         assertTrue(doc.subcellLocationNoteEv.contains("ECO_0000250"));
         assertTrue(doc.subcellLocationNoteEv.contains("manual"));
-        List<String> subcellTerm=
-        doc.subcellLocationTerm.stream().filter(val-> !val.startsWith("SL-"))
-        .collect(Collectors.toList());
+        List<String> subcellTerm =
+                doc.subcellLocationTerm.stream()
+                        .filter(val -> !val.startsWith("SL-"))
+                        .collect(Collectors.toList());
         checkSuggestionsContain(SuggestDictionary.SUBCELL, subcellTerm, true);
 
         assertEquals(3, doc.ap.size());
@@ -389,14 +422,14 @@ class UniProtEntryConverterIT {
         assertTrue(doc.goes.contains("0030863"));
         checkSuggestionsContain(SuggestDictionary.GO, doc.goIds, false);
 
-//        assertEquals(50, doc.defaultGo.size());
-//        assertTrue(doc.defaultGo.contains("membrane"));
+        //        assertEquals(50, doc.defaultGo.size());
+        //        assertTrue(doc.defaultGo.contains("membrane"));
 
         assertEquals(4, doc.goWithEvidenceMaps.size());
         assertTrue(doc.goWithEvidenceMaps.containsKey("go_ida"));
 
         assertEquals(5, doc.score);
-//        assertNotNull(doc.avro_binary);
+        //        assertNotNull(doc.avro_binary);
 
         assertFalse(doc.isIsoform);
     }
@@ -420,11 +453,16 @@ class UniProtEntryConverterIT {
         assertTrue(doc.reviewed);
 
         assertEquals(5, doc.proteinNames.size());
-        assertTrue(doc.proteinNames
-                           .contains("Isoform 2 of NMDA receptor synaptonuclear signaling and neuronal migration factor"));
-        assertTrue(doc.proteinNames.contains("Juxtasynaptic attractor of caldendrin on dendritic boutons protein"));
+        assertTrue(
+                doc.proteinNames.contains(
+                        "Isoform 2 of NMDA receptor synaptonuclear signaling and neuronal migration factor"));
+        assertTrue(
+                doc.proteinNames.contains(
+                        "Juxtasynaptic attractor of caldendrin on dendritic boutons protein"));
         assertTrue(doc.proteinNames.contains("Jacob protein"));
-        assertTrue(doc.proteinNames.contains("Nasal embryonic luteinizing hormone-releasing hormone factor"));
+        assertTrue(
+                doc.proteinNames.contains(
+                        "Nasal embryonic luteinizing hormone-releasing hormone factor"));
         assertTrue(doc.proteinNames.contains("Nasal embryonic LHRH factor"));
         assertEquals("Isoform 2 of NMDA receptor syn", doc.proteinsNamesSort);
 
@@ -435,7 +473,7 @@ class UniProtEntryConverterIT {
         assertEquals("19-JUL-2005", dateFormat.format(doc.firstCreated).toUpperCase());
         assertEquals("01-MAR-2001", dateFormat.format(doc.sequenceUpdated).toUpperCase());
 
-        assertEquals(38, doc.keywords.size());
+        assertEquals(36, doc.keywords.size());
         assertEquals("KW-0025", doc.keywords.get(0));
         assertEquals("Alternative splicing", doc.keywords.get(1));
 
@@ -469,7 +507,9 @@ class UniProtEntryConverterIT {
         assertTrue(doc.databases.contains("embl"));
 
         assertEquals(8, doc.referenceTitles.size());
-        assertTrue(doc.referenceTitles.contains("Characterization of the novel brain-specific protein Jacob."));
+        assertTrue(
+                doc.referenceTitles.contains(
+                        "Characterization of the novel brain-specific protein Jacob."));
 
         assertEquals(62, doc.referenceAuthors.size());
         assertTrue(doc.referenceAuthors.contains("Kramer P.R."));
@@ -512,7 +552,6 @@ class UniProtEntryConverterIT {
         assertEquals(0, doc.subcellLocationNote.size());
         assertEquals(0, doc.subcellLocationNoteEv.size());
 
-
         assertEquals(2, doc.ap.size());
         assertTrue(doc.ap.contains("Alternative splicing"));
         assertEquals(1, doc.apAs.size());
@@ -537,14 +576,14 @@ class UniProtEntryConverterIT {
         assertEquals(50, doc.goes.size());
         assertTrue(doc.goes.contains("0030863"));
 
-//        assertEquals(50, doc.defaultGo.size());
-//        assertTrue(doc.defaultGo.contains("membrane"));
+        //        assertEquals(50, doc.defaultGo.size());
+        //        assertTrue(doc.defaultGo.contains("membrane"));
 
         assertEquals(4, doc.goWithEvidenceMaps.size());
         assertTrue(doc.goWithEvidenceMaps.containsKey("go_ida"));
 
         assertEquals(5, doc.score);
-//        assertNotNull(doc.avro_binary);
+        //        assertNotNull(doc.avro_binary);
     }
 
     @Test
@@ -565,8 +604,9 @@ class UniProtEntryConverterIT {
     private void checkCatalyticChebiSuggestions(List<Chebi> chebiList) {
         for (Chebi chebi : chebiList) {
             String id = "CHEBI:" + chebi.getId();
-            SuggestDocument chebiDoc = suggestions
-                    .get(createSuggestionMapKey(SuggestDictionary.CATALYTIC_ACTIVITY, id));
+            SuggestDocument chebiDoc =
+                    suggestions.get(
+                            createSuggestionMapKey(SuggestDictionary.CATALYTIC_ACTIVITY, id));
             assertThat(chebiDoc.id, is(id));
             assertThat(chebiDoc.value, is(chebi.getName()));
             if (notNull(chebi.getInchiKey())) {
@@ -575,11 +615,13 @@ class UniProtEntryConverterIT {
         }
     }
 
-    private void checkSuggestionsContain(SuggestDictionary dict, Collection<String> values, boolean sizeOnly) {
+    private void checkSuggestionsContain(
+            SuggestDictionary dict, Collection<String> values, boolean sizeOnly) {
         // the number of suggestions for this dictionary is the same size as values
-        List<String> foundSuggestions = this.suggestions.keySet().stream()
-                .filter(key -> key.startsWith(dict.name()))
-                .collect(Collectors.toList());
+        List<String> foundSuggestions =
+                this.suggestions.keySet().stream()
+                        .filter(key -> key.startsWith(dict.name()))
+                        .collect(Collectors.toList());
         assertThat(values, hasSize(foundSuggestions.size()));
 
         if (!sizeOnly) {
@@ -594,13 +636,17 @@ class UniProtEntryConverterIT {
     }
 
     private UniProtEntry parse(String file) throws Exception {
-        InputStream is = UniProtEntryDocumentPairProcessor.class.getClassLoader()
-                .getResourceAsStream("uniprotkb/" + file);
+        InputStream is =
+                UniProtEntryDocumentPairProcessor.class
+                        .getClassLoader()
+                        .getResourceAsStream("uniprotkb/" + file);
         assertNotNull(is);
-        SupportingDataMap supportingDataMap = new SupportingDataMapImpl("uniprotkb/keywlist.txt",
-                                                                        "uniprotkb/humdisease.txt",
-                                                                        "target/test-classes/uniprotkb/PMID.GO.dr_ext.txt",
-                                                                        "uniprotkb/subcell.txt");
+        SupportingDataMap supportingDataMap =
+                new SupportingDataMapImpl(
+                        "uniprotkb/keywlist.txt",
+                        "uniprotkb/humdisease.txt",
+                        "target/test-classes/uniprotkb/PMID.GO.dr_ext.txt",
+                        "uniprotkb/subcell.txt");
         DefaultUniProtParser parser = new DefaultUniProtParser(supportingDataMap, false);
         return parser.parse(IOUtils.toString(is, Charset.defaultCharset()));
     }
@@ -609,58 +655,58 @@ class UniProtEntryConverterIT {
         return converter.convert(entry);
     }
 
-
     private Set<GoTerm> getMockParentGoTerm() {
-        return new HashSet<>(asList(
-                new GoTermFileReader.GoTermImpl("GO:123", "Go term 3"),
-                new GoTermFileReader.GoTermImpl("GO:124", "Go term 4")
-        ));
-
+        return new HashSet<>(
+                asList(
+                        new GoTermFileReader.GoTermImpl("GO:123", "Go term 3"),
+                        new GoTermFileReader.GoTermImpl("GO:124", "Go term 4")));
     }
 
     private Set<GoTerm> getMockPartOfGoTerm() {
-        return new HashSet<>(asList(
-                new GoTermFileReader.GoTermImpl("GO:125", "Go term 5"),
-                new GoTermFileReader.GoTermImpl("GO:126", "Go term 6")
-        ));
+        return new HashSet<>(
+                asList(
+                        new GoTermFileReader.GoTermImpl("GO:125", "Go term 5"),
+                        new GoTermFileReader.GoTermImpl("GO:126", "Go term 6")));
     }
 
-    private Optional<TaxonomicNode> getTaxonomyNode(int id, String scientificName, String commonName, String synonym, String mnemonic) {
-        return Optional.of(new TaxonomicNode() {
-            @Override
-            public int id() {
-                return id;
-            }
+    private Optional<TaxonomicNode> getTaxonomyNode(
+            int id, String scientificName, String commonName, String synonym, String mnemonic) {
+        return Optional.of(
+                new TaxonomicNode() {
+                    @Override
+                    public int id() {
+                        return id;
+                    }
 
-            @Override
-            public String scientificName() {
-                return scientificName;
-            }
+                    @Override
+                    public String scientificName() {
+                        return scientificName;
+                    }
 
-            @Override
-            public String commonName() {
-                return commonName;
-            }
+                    @Override
+                    public String commonName() {
+                        return commonName;
+                    }
 
-            @Override
-            public String synonymName() {
-                return synonym;
-            }
+                    @Override
+                    public String synonymName() {
+                        return synonym;
+                    }
 
-            @Override
-            public String mnemonic() {
-                return mnemonic;
-            }
+                    @Override
+                    public String mnemonic() {
+                        return mnemonic;
+                    }
 
-            @Override
-            public TaxonomicNode parent() {
-                return null;
-            }
+                    @Override
+                    public TaxonomicNode parent() {
+                        return null;
+                    }
 
-            @Override
-            public boolean hasParent() {
-                return false;
-            }
-        });
+                    @Override
+                    public boolean hasParent() {
+                        return false;
+                    }
+                });
     }
 }

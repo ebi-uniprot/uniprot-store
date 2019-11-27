@@ -1,5 +1,9 @@
 package org.uniprot.store.indexer.taxonomy.steps;
 
+import java.sql.SQLException;
+
+import javax.sql.DataSource;
+
 import org.springframework.batch.core.ChunkListener;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.StepExecutionListener;
@@ -23,12 +27,7 @@ import org.uniprot.store.indexer.taxonomy.readers.TaxonomyNodeReader;
 import org.uniprot.store.search.SolrCollection;
 import org.uniprot.store.search.document.taxonomy.TaxonomyDocument;
 
-import javax.sql.DataSource;
-import java.sql.SQLException;
-
-/**
- * @author lgonzales
- */
+/** @author lgonzales */
 @Configuration
 public class TaxonomyNodeStep {
 
@@ -36,13 +35,16 @@ public class TaxonomyNodeStep {
     private Integer chunkSize;
 
     @Bean(name = "taxonomyNode")
-    public Step taxonomyNode(StepBuilderFactory stepBuilders, StepExecutionListener stepListener,
-                             ChunkListener chunkListener,
-                             ItemReader<TaxonomyEntry> itemTaxonomyNodeReader,
-                             ItemProcessor<TaxonomyEntry, TaxonomyDocument> itemTaxonomyNodeProcessor,
-                             ItemWriter<TaxonomyDocument> itemTaxonomyNodeWriter,
-                             UniProtSolrOperations solrOperations) {
-        return stepBuilders.get(Constants.TAXONOMY_LOAD_NODE_STEP_NAME)
+    public Step taxonomyNode(
+            StepBuilderFactory stepBuilders,
+            StepExecutionListener stepListener,
+            ChunkListener chunkListener,
+            ItemReader<TaxonomyEntry> itemTaxonomyNodeReader,
+            ItemProcessor<TaxonomyEntry, TaxonomyDocument> itemTaxonomyNodeProcessor,
+            ItemWriter<TaxonomyDocument> itemTaxonomyNodeWriter,
+            UniProtSolrOperations solrOperations) {
+        return stepBuilders
+                .get(Constants.TAXONOMY_LOAD_NODE_STEP_NAME)
                 .<TaxonomyEntry, TaxonomyDocument>chunk(chunkSize)
                 .reader(itemTaxonomyNodeReader)
                 .processor(itemTaxonomyNodeProcessor)
@@ -54,7 +56,8 @@ public class TaxonomyNodeStep {
     }
 
     @Bean(name = "itemTaxonomyNodeReader")
-    public ItemReader<TaxonomyEntry> itemTaxonomyNodeReader(@Qualifier("readDataSource") DataSource readDataSource) throws SQLException {
+    public ItemReader<TaxonomyEntry> itemTaxonomyNodeReader(
+            @Qualifier("readDataSource") DataSource readDataSource) throws SQLException {
         JdbcCursorItemReader<TaxonomyEntry> itemReader = new JdbcCursorItemReader<>();
         itemReader.setDataSource(readDataSource);
         itemReader.setSql(TaxonomySQLConstants.SELECT_TAXONOMY_NODE_SQL);
@@ -64,12 +67,15 @@ public class TaxonomyNodeStep {
     }
 
     @Bean(name = "itemTaxonomyNodeProcessor")
-    public ItemProcessor<TaxonomyEntry, TaxonomyDocument> itemTaxonomyNodeProcessor(@Qualifier("readDataSource") DataSource readDataSource, UniProtSolrOperations solrOperations) {
+    public ItemProcessor<TaxonomyEntry, TaxonomyDocument> itemTaxonomyNodeProcessor(
+            @Qualifier("readDataSource") DataSource readDataSource,
+            UniProtSolrOperations solrOperations) {
         return new TaxonomyProcessor(readDataSource, solrOperations);
     }
 
     @Bean(name = "itemTaxonomyNodeWriter")
-    public ItemWriter<TaxonomyDocument> itemTaxonomyNodeWriter(UniProtSolrOperations solrOperations) {
+    public ItemWriter<TaxonomyDocument> itemTaxonomyNodeWriter(
+            UniProtSolrOperations solrOperations) {
         return new SolrDocumentWriter<>(solrOperations, SolrCollection.taxonomy);
     }
 }

@@ -1,18 +1,19 @@
 package org.uniprot.store.indexer.crossref.readers;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.jdbc.core.RowMapper;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 
-/**
- * @author sahmad
- */
+import org.springframework.jdbc.core.RowMapper;
+
+/** @author sahmad */
 @Slf4j
-public class CrossRefUniProtCountReader implements RowMapper<CrossRefUniProtCountReader.CrossRefProteinCount> {
+public class CrossRefUniProtCountReader
+        implements RowMapper<CrossRefUniProtCountReader.CrossRefProteinCount> {
 
     @Override
     public CrossRefProteinCount mapRow(ResultSet resultSet, int rowIndex) throws SQLException {

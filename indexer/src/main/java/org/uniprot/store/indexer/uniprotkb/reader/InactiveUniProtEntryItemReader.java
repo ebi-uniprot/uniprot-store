@@ -13,34 +13,34 @@ import org.uniprot.store.indexer.uniprotkb.model.InactiveEntryDocumentPair;
 import org.uniprot.store.job.common.util.CommonConstants;
 
 /**
- *
  * @author jluo
  * @date: 5 Sep 2019
- *
-*/
-
+ */
 public class InactiveUniProtEntryItemReader implements ItemReader<InactiveEntryDocumentPair> {
-	private InactiveEntryIterator  entryIterator;
-	private final OnZeroCountSleeper sleeper;
-	public InactiveUniProtEntryItemReader(InactiveEntryIterator  entryIterator) {
-		this.entryIterator = entryIterator;
+    private InactiveEntryIterator entryIterator;
+    private final OnZeroCountSleeper sleeper;
+
+    public InactiveUniProtEntryItemReader(InactiveEntryIterator entryIterator) {
+        this.entryIterator = entryIterator;
         this.sleeper = new OnZeroCountSleeper();
-	}
-	@Override
-	public InactiveEntryDocumentPair read()
-			throws Exception, UnexpectedInputException, ParseException, NonTransientResourceException {
-		if (entryIterator.hasNext()) {
-			   sleeper.increment();
+    }
+
+    @Override
+    public InactiveEntryDocumentPair read()
+            throws Exception, UnexpectedInputException, ParseException,
+                    NonTransientResourceException {
+        if (entryIterator.hasNext()) {
+            sleeper.increment();
             return new InactiveEntryDocumentPair(entryIterator.next());
         } else {
-        	entryIterator.close();
+            entryIterator.close();
             return null;
         }
-	}
-	 @BeforeStep
-	    public void setStepExecution(final StepExecution stepExecution) {
-	        ExecutionContext executionContext = stepExecution.getJobExecution().getExecutionContext();
-	        executionContext.put(CommonConstants.ENTRIES_TO_WRITE_COUNTER, sleeper);
-	    }
-}
+    }
 
+    @BeforeStep
+    public void setStepExecution(final StepExecution stepExecution) {
+        ExecutionContext executionContext = stepExecution.getJobExecution().getExecutionContext();
+        executionContext.put(CommonConstants.ENTRIES_TO_WRITE_COUNTER, sleeper);
+    }
+}

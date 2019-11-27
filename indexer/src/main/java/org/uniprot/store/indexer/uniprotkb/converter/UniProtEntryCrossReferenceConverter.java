@@ -1,5 +1,13 @@
 package org.uniprot.store.indexer.uniprotkb.converter;
 
+import static java.util.Arrays.asList;
+import static org.uniprot.store.indexer.uniprot.go.GoRelationFileRepo.Relationship.IS_A;
+import static org.uniprot.store.indexer.uniprot.go.GoRelationFileRepo.Relationship.PART_OF;
+
+import java.util.*;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+
 import org.uniprot.core.Property;
 import org.uniprot.core.uniprot.xdb.UniProtDBCrossReference;
 import org.uniprot.store.indexer.uniprot.go.GoRelationRepo;
@@ -7,14 +15,6 @@ import org.uniprot.store.indexer.uniprot.go.GoTerm;
 import org.uniprot.store.search.document.suggest.SuggestDictionary;
 import org.uniprot.store.search.document.suggest.SuggestDocument;
 import org.uniprot.store.search.document.uniprot.UniProtDocument;
-
-import java.util.*;
-import java.util.function.Function;
-import java.util.stream.Collectors;
-
-import static java.util.Arrays.asList;
-import static org.uniprot.store.indexer.uniprot.go.GoRelationFileRepo.Relationship.IS_A;
-import static org.uniprot.store.indexer.uniprot.go.GoRelationFileRepo.Relationship.PART_OF;
 
 /**
  * @author lgonzales
@@ -27,13 +27,14 @@ class UniProtEntryCrossReferenceConverter {
     private final GoRelationRepo goRelationRepo;
     private final Map<String, SuggestDocument> suggestions;
 
-
-    UniProtEntryCrossReferenceConverter(GoRelationRepo goRelationRepo, Map<String, SuggestDocument> suggestDocuments) {
+    UniProtEntryCrossReferenceConverter(
+            GoRelationRepo goRelationRepo, Map<String, SuggestDocument> suggestDocuments) {
         this.goRelationRepo = goRelationRepo;
         this.suggestions = suggestDocuments;
     }
 
-    void convertCrossReferences(List<UniProtDBCrossReference> references, UniProtDocument document) {
+    void convertCrossReferences(
+            List<UniProtDBCrossReference> references, UniProtDocument document) {
         convertXref(references, document);
         convertXrefCount(references, document);
     }
@@ -54,13 +55,21 @@ class UniProtEntryCrossReferenceConverter {
             switch (dbname.toLowerCase()) {
                 case "embl":
                     if (xref.hasProperties()) {
-                        Optional<String> proteinId = xref.getProperties().stream()
-                                .filter(property -> property.getKey().equalsIgnoreCase("ProteinId"))
-                                .filter(property -> !property.getValue().equalsIgnoreCase("-")).map(Property::getValue)
-                                .findFirst();
-                        proteinId.ifPresent(s -> {
-                            convertXRefId(document, dbname, s);
-                        });
+                        Optional<String> proteinId =
+                                xref.getProperties().stream()
+                                        .filter(
+                                                property ->
+                                                        property.getKey()
+                                                                .equalsIgnoreCase("ProteinId"))
+                                        .filter(
+                                                property ->
+                                                        !property.getValue().equalsIgnoreCase("-"))
+                                        .map(Property::getValue)
+                                        .findFirst();
+                        proteinId.ifPresent(
+                                s -> {
+                                    convertXRefId(document, dbname, s);
+                                });
                     }
                     break;
                 case "refseq":
@@ -68,28 +77,33 @@ class UniProtEntryCrossReferenceConverter {
                 case "unipathway":
                 case "ensembl":
                     if (xref.hasProperties()) {
-                        List<String> properties = xref.getProperties().stream()
-                                .filter(property -> !property.getValue().equalsIgnoreCase("-")).map(Property::getValue)
-                                .collect(Collectors.toList());
-                        properties.forEach(s -> {
-                            convertXRefId(document, dbname, s);
-                        });
+                        List<String> properties =
+                                xref.getProperties().stream()
+                                        .filter(
+                                                property ->
+                                                        !property.getValue().equalsIgnoreCase("-"))
+                                        .map(Property::getValue)
+                                        .collect(Collectors.toList());
+                        properties.forEach(
+                                s -> {
+                                    convertXRefId(document, dbname, s);
+                                });
                     }
                     break;
                 case "proteomes":
                     document.proteomes.add(xref.getId());
                     if (xref.hasProperties()) {
-                        document.proteomeComponents
-                                .addAll(xref.getProperties().stream().map(Property::getValue).collect(Collectors.toSet()));
+                        document.proteomeComponents.addAll(
+                                xref.getProperties().stream()
+                                        .map(Property::getValue)
+                                        .collect(Collectors.toSet()));
                     }
                     break;
                 case "go":
                     convertGoTerm(xref, document);
                     break;
                 default:
-
             }
-
         }
         document.d3structure = d3structure;
         if (d3structure) {
@@ -103,37 +117,43 @@ class UniProtEntryCrossReferenceConverter {
         document.content.addAll(xrefIds);
     }
 
-    private void convertXrefCount(List<UniProtDBCrossReference> references, UniProtDocument document) {
-        document.xrefCountMap = references.stream()
-                .map(val -> XREF_COUNT + val.getDatabaseType().getName().toLowerCase())
-                .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
+    private void convertXrefCount(
+            List<UniProtDBCrossReference> references, UniProtDocument document) {
+        document.xrefCountMap =
+                references.stream()
+                        .map(val -> XREF_COUNT + val.getDatabaseType().getName().toLowerCase())
+                        .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
     }
 
     private void convertGoTerm(UniProtDBCrossReference go, UniProtDocument document) {
-        String goTerm = go.getProperties().stream()
-                .filter(property -> property.getKey().equalsIgnoreCase("GoTerm"))
-                .map(property -> property.getValue().split(":")[1]).collect(Collectors.joining());
-        String evType = go.getProperties().stream()
-                .filter(property -> property.getKey().equalsIgnoreCase("GoEvidenceType"))
-                .map(property -> property.getValue().split(":")[0].toLowerCase()).collect(Collectors.joining());
+        String goTerm =
+                go.getProperties().stream()
+                        .filter(property -> property.getKey().equalsIgnoreCase("GoTerm"))
+                        .map(property -> property.getValue().split(":")[1])
+                        .collect(Collectors.joining());
+        String evType =
+                go.getProperties().stream()
+                        .filter(property -> property.getKey().equalsIgnoreCase("GoEvidenceType"))
+                        .map(property -> property.getValue().split(":")[0].toLowerCase())
+                        .collect(Collectors.joining());
 
         addGoterm(evType, go.getId(), goTerm, document);
         addAncestors(evType, go.getId(), document);
-        document.content.add(go.getId().substring(3));// id
+        document.content.add(go.getId().substring(3)); // id
         document.content.add(goTerm); // term
     }
 
     private void addAncestors(String evType, String goTerm, UniProtDocument doc) {
-        if (goRelationRepo != null) {
-            Set<GoTerm> ancestors = goRelationRepo.getAncestors(goTerm, asList(IS_A, PART_OF));
-            if (ancestors != null)
-                ancestors.forEach(ancestor -> addGoterm(evType, ancestor.getId(), ancestor.getName(), doc));
-        }
+        Set<GoTerm> ancestors = goRelationRepo.getAncestors(goTerm, asList(IS_A, PART_OF));
+        if (ancestors != null)
+            ancestors.forEach(
+                    ancestor -> addGoterm(evType, ancestor.getId(), ancestor.getName(), doc));
     }
 
     private void addGoterm(String evType, String goId, String term, UniProtDocument document) {
         String key = GO + evType;
-        Collection<String> values = document.goWithEvidenceMaps.computeIfAbsent(key, k -> new HashSet<>());
+        Collection<String> values =
+                document.goWithEvidenceMaps.computeIfAbsent(key, k -> new HashSet<>());
         String idOnly = goId.substring(3);
         values.add(idOnly);
         values.add(term);
@@ -142,7 +162,12 @@ class UniProtEntryCrossReferenceConverter {
         document.goes.add(term);
         document.goIds.add(idOnly);
 
-        suggestions.putIfAbsent(UniProtEntryConverterUtil.createSuggestionMapKey(SuggestDictionary.GO, idOnly),
-                SuggestDocument.builder().id(idOnly).value(term).dictionary(SuggestDictionary.GO.name()).build());
+        suggestions.putIfAbsent(
+                UniProtEntryConverterUtil.createSuggestionMapKey(SuggestDictionary.GO, idOnly),
+                SuggestDocument.builder()
+                        .id(idOnly)
+                        .value(term)
+                        .dictionary(SuggestDictionary.GO.name())
+                        .build());
     }
 }

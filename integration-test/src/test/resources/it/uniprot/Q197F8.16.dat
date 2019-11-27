@@ -22,10 +22,10 @@ RA   Kutish G.F., Rock D.L.;
 RT   "Genome of invertebrate iridescent virus type 3 (mosquito iridescent
 RT   virus).";
 RL   J. Virol. 80:8439-8449(2006).
-CC   -----------------------------------------------------------------------
+CC   ---------------------------------------------------------------------------
 CC   Copyrighted by the UniProt Consortium, see https://www.uniprot.org/terms
-CC   Distributed under the Creative Commons Attribution-NoDerivs License
-CC   -----------------------------------------------------------------------
+CC   Distributed under the Creative Commons Attribution (CC BY 4.0) License
+CC   ---------------------------------------------------------------------------
 DR   EMBL; DQ643392; ABF82032.1; -; Genomic_DNA.
 DR   RefSeq; YP_654574.1; NC_008187.1.
 DR   ProteinModelPortal; Q197F8; -.
@@ -33,8 +33,6 @@ DR   GeneID; 4156251; -.
 DR   Proteomes; UP000001358; Genome.
 PE   4: Predicted;
 KW   Complete proteome; Reference proteome.
-FT   CHAIN         1    458       Uncharacterized protein 002R.
-FT                                /FTId=PRO_0000377938.
 SQ   SEQUENCE   458 AA;  53921 MW;  E46E5C85D7ACA139 CRC64;
      MASNTVSAQG GSNRPVRDFS NIQDVAQFLL FDPIWNEQPG SIVPWKMNRE QALAERYPEL
      QTSEPSEDYS GPVESLELLP LEIKLDIMQY LSWEQISWCK HPWLWTRWYK DNVVRVSAIT
