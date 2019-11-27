@@ -25,5 +25,6 @@ public class MappedUniRef implements Serializable {
     private UniRefType uniRefType;
     private UniRefMember uniRefMember;
     private List<String> memberAccessions;
+    private int memberSize;
 
 }

@@ -17,7 +17,7 @@ import static indexer.util.SparkUtils.getInputStream;
  * @since 2019-10-25
  */
 @Slf4j
-public class GoTermFileReader {
+class GoTermFileReader {
     private static final String COMMENT_PREFIX = "!";
     private static final String SEPARATOR = "\t";
     private static final String NOT_OBSOLETE = "N";
@@ -25,38 +25,42 @@ public class GoTermFileReader {
     private final String filepath;
     private final Configuration hadoopConfig;
 
-    public GoTermFileReader(String filepath, Configuration hadoopConfig) {
+    GoTermFileReader(String filepath, Configuration hadoopConfig) {
         this.filepath = filepath;
         this.hadoopConfig = hadoopConfig;
     }
 
-    public List<GoTerm> read() {
+    List<GoTerm> read() {
         String filename = filepath + File.separator + FILENAME;
         List<GoTerm> lines = new ArrayList<>();
         try {
             try (BufferedReader br = new BufferedReader(new InputStreamReader(getInputStream(filename, hadoopConfig)))) {
                 String line;
                 while ((line = br.readLine()) != null) {
-                    lines.add(readLine(line));
+                    GoTerm goTerm = readLine(line);
+                    if(goTerm != null) {
+                        lines.add(goTerm);
+                    }
                 }
             }
         } catch (IOException e) {
-            log.error("Problem loading file.", e);
+            log.error("IOException loading file: "+filename, e);
+            throw new RuntimeException("IOException loading file: "+filename, e);
         }
         return lines;
     }
 
     private GoTerm readLine(String line) {
-        if (line.startsWith(COMMENT_PREFIX))
-            return null;
-
-        String[] tokens = line.split(SEPARATOR);
-        if (tokens.length == 4) {
-            if (tokens[1].equals(NOT_OBSOLETE)) {
-                return new GoTermImpl(tokens[0], tokens[2]);
+        GoTerm result = null;
+        if (!line.startsWith(COMMENT_PREFIX)) {
+            String[] tokens = line.split(SEPARATOR);
+            if (tokens.length == 4) {
+                if (tokens[1].equals(NOT_OBSOLETE)) {
+                    result = new GoTermImpl(tokens[0], tokens[2]);
+                }
             }
         }
-        return null;
+        return result;
     }
 
 }

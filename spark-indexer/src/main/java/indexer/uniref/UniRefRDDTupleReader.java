@@ -65,53 +65,7 @@ public class UniRefRDDTupleReader implements Serializable {
         Encoder<UniRefEntry> entryEncoder = (Encoder<UniRefEntry>) Encoders.kryo(UniRefEntry.class);
         return (JavaPairRDD<String, MappedUniRef>) uniRefEntryDataset
                 .map(new DatasetUnirefEntryConverter(uniRefType), entryEncoder)
-                .toJavaRDD().flatMapToPair(new UniRefRDDTupleMapper());
+                .toJavaRDD().flatMapToPair(new UniRefEntryRDDTupleMapper());
     }
 
-
-    private static class UniRefRDDTupleMapper implements PairFlatMapFunction<UniRefEntry, String, MappedUniRef>, Serializable {
-
-        private static final long serialVersionUID = -6357861588356599290L;
-
-        @Override
-        public Iterator<Tuple2<String, MappedUniRef>> call(UniRefEntry uniRefEntry) throws Exception {
-            List<Tuple2<String, MappedUniRef>> mappedAccessions = new ArrayList<>();
-
-            List<String> memberAccessions = uniRefEntry.getMembers().stream()
-                    .filter(uniRefMember -> uniRefMember.getMemberIdType() == UniRefMemberIdType.UNIPROTKB)
-                    .map(uniRefMember -> uniRefMember.getUniProtAccession().getValue())
-                    .collect(Collectors.toList());
-
-            if (uniRefEntry.getRepresentativeMember().getMemberIdType() == UniRefMemberIdType.UNIPROTKB) {
-                String accession = uniRefEntry.getRepresentativeMember().getUniProtAccession().getValue();
-                memberAccessions.add(accession);
-                MappedUniRef mappedUniRef = MappedUniRef.builder()
-                        .uniRefType(uniRefEntry.getEntryType())
-                        .clusterID(uniRefEntry.getId().getValue())
-                        .uniRefMember(uniRefEntry.getRepresentativeMember())
-                        .memberAccessions(memberAccessions)
-                        .build();
-
-                mappedAccessions.add(new Tuple2<>(accession, mappedUniRef));
-            }
-
-            if (Utils.notNullOrEmpty(uniRefEntry.getMembers())) {
-                uniRefEntry.getMembers().forEach(uniRefMember -> {
-                    if (uniRefMember.getMemberIdType() == UniRefMemberIdType.UNIPROTKB) {
-                        String accession = uniRefMember.getUniProtAccession().getValue();
-                        MappedUniRef mappedUniRef = MappedUniRef.builder()
-                                .uniRefType(uniRefEntry.getEntryType())
-                                .clusterID(uniRefEntry.getId().getValue())
-                                .uniRefMember(uniRefMember)
-                                .memberAccessions(memberAccessions)
-                                .build();
-
-                        mappedAccessions.add(new Tuple2<>(accession, mappedUniRef));
-                    }
-                });
-            }
-
-            return mappedAccessions.iterator();
-        }
-    }
 }

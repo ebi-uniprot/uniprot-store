@@ -21,8 +21,8 @@ public class TaxonomyLineageReader {
             "   CONNECT_BY_ROOT TAX_ID AS TAX_ID," +
             "   SYS_CONNECT_BY_PATH(TAX_ID, '|') AS lineage_id," +
             "   SYS_CONNECT_BY_PATH(COALESCE(SPTR_SCIENTIFIC,NCBI_SCIENTIFIC), '|') AS lineage_name," +
-            "   SYS_CONNECT_BY_PATH(COALESCE(SPTR_COMMON, NCBI_COMMON), '|') AS lineage_common," +
-            "   SYS_CONNECT_BY_PATH(SPTR_SYNONYM, '|') AS lineage_synonym," +
+            "   SYS_CONNECT_BY_PATH(COALESCE(SPTR_COMMON, NCBI_COMMON, ' '), '|') AS lineage_common," +
+            "   SYS_CONNECT_BY_PATH(COALESCE(SPTR_SYNONYM, ' '), '|') AS lineage_synonym," +
             "   SYS_CONNECT_BY_PATH(RANK, '|') AS lineage_rank," +
             "   SYS_CONNECT_BY_PATH(HIDDEN, '|') AS lineage_hidden" +
             " FROM taxonomy.V_PUBLIC_NODE" +
@@ -32,7 +32,7 @@ public class TaxonomyLineageReader {
 
     public static JavaPairRDD<String, List<TaxonomyLineage>> load(JavaSparkContext sparkContext, ResourceBundle applicationConfig) {
         int maxTaxId = TaxonomyRDDReader.getMaxTaxId(sparkContext, applicationConfig);
-        System.out.println("MAx tax id: " + maxTaxId);
+        System.out.println("Max tax id: " + maxTaxId);
 
         SparkSession spark = SparkSession
                 .builder()

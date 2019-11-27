@@ -20,14 +20,23 @@ public class UniRefMapper implements Function<Tuple2<UniProtDocument, Optional<M
             MappedUniRef uniRef = (MappedUniRef) tuple._2.get();
             switch (uniRef.getUniRefType()) {
                 case UniRef50:
-                    document.unirefCluster50 = uniRef.getClusterID();
+                    document.unirefCluster50.add(uniRef.getClusterID());
+                    document.unirefCluster50.addAll(uniRef.getMemberAccessions());
+                    document.unirefSize50 = uniRef.getMemberSize();
                     break;
                 case UniRef90:
-                    document.unirefCluster90 = uniRef.getClusterID();
+                    document.unirefCluster90.add(uniRef.getClusterID());
+                    document.unirefCluster90.addAll(uniRef.getMemberAccessions());
+                    document.unirefSize90 = uniRef.getMemberSize();
                     break;
                 case UniRef100:
-                    document.unirefCluster100 = uniRef.getClusterID();
+                    document.unirefCluster100.add(uniRef.getClusterID());
+                    document.unirefCluster100.addAll(uniRef.getMemberAccessions());
+                    document.unirefSize100 = uniRef.getMemberSize();
                     break;
+            }
+            if(uniRef.getUniRefMember() != null && uniRef.getUniRefMember().getUniParcId() != null){
+                document.uniparc = uniRef.getUniRefMember().getUniParcId().getValue();
             }
         }
         return document;

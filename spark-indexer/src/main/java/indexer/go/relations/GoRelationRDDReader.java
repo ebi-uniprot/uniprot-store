@@ -37,7 +37,7 @@ public class GoRelationRDDReader {
     }
 
 
-    private static Set<GoTerm> getAncestors(GoTerm term, List<GoTerm> goTerms, Map<String, Set<String>> relations) {
+    static Set<GoTerm> getAncestors(GoTerm term, List<GoTerm> goTerms, Map<String, Set<String>> relations) {
         Set<GoTerm> visited = new HashSet<>();
         Queue<String> queue = new LinkedList<>();
         queue.add(term.getId());
@@ -55,7 +55,7 @@ public class GoRelationRDDReader {
         return visited;
     }
 
-    private static GoTerm getGoTermById(String goTermId, List<GoTerm> goTerms) {
+    static GoTerm getGoTermById(String goTermId, List<GoTerm> goTerms) {
         GoTerm goTerm = new GoTermImpl(goTermId, null);
         if (goTerms.contains(goTerm)) {
             return goTerms.get(goTerms.indexOf(goTerm));

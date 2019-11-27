@@ -19,20 +19,19 @@ import static indexer.util.SparkUtils.getInputStream;
  * @since 2019-10-25
  */
 @Slf4j
-public class GoRelationFileReader {
-    private static final String COMMENT_PREFIX = "!";
+class GoRelationFileReader {
     private static final String SEPARATOR = "\t";
     private final String goRelationFPath;
     private final Configuration hadoopConfig;
 
     private static final String FILENAME = "GO.relations";
 
-    public GoRelationFileReader(String goRelationFPath, Configuration hadoopConfig) {
+    GoRelationFileReader(String goRelationFPath, Configuration hadoopConfig) {
         this.hadoopConfig = hadoopConfig;
         this.goRelationFPath = goRelationFPath;
     }
 
-    public Map<String, Set<String>> read() {
+    Map<String, Set<String>> read() {
         String filename = goRelationFPath + File.separator + FILENAME;
         Map<String, Set<String>> lines = new HashMap<>();
         try (BufferedReader br = new BufferedReader(new InputStreamReader(getInputStream(filename, hadoopConfig)))) {
@@ -46,7 +45,8 @@ public class GoRelationFileReader {
                 }
             }
         } catch (IOException e) {
-            log.error("Problem loading file.", e);
+            log.error("IOException loading file: "+filename, e);
+            throw new RuntimeException("IOException loading file: "+filename, e);
         }
         return lines;
     }
