@@ -1,7 +1,10 @@
 package org.uniprot.store.indexer.search;
 
-import com.google.common.base.Preconditions;
-import com.google.common.io.Files;
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.solr.client.solrj.SolrClient;
 import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.SolrServerException;
@@ -18,21 +21,20 @@ import org.slf4j.LoggerFactory;
 import org.uniprot.store.job.common.converter.DocumentConverter;
 import org.uniprot.store.search.document.Document;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
+import com.google.common.base.Preconditions;
+import com.google.common.io.Files;
 
 /**
  * Class that sets up a search engine for testing purposes.
- * <p>
- * Uses an {@link org.apache.solr.client.solrj.embedded.EmbeddedSolrServer} to create a standalone solr instance
- * <p>
- * The class defines methods to insert/delete/query data from the data source.
+ *
+ * <p>Uses an {@link org.apache.solr.client.solrj.embedded.EmbeddedSolrServer} to create a
+ * standalone solr instance
+ *
+ * <p>The class defines methods to insert/delete/query data from the data source.
  */
-public abstract class AbstractSearchEngine<E> implements  BeforeAllCallback, AfterAllCallback {
-    private static final String SOLR_CONFIG_DIR = "../index-config/src/main/solr-config/uniprot-collections";
+public abstract class AbstractSearchEngine<E> implements BeforeAllCallback, AfterAllCallback {
+    private static final String SOLR_CONFIG_DIR =
+            "../index-config/src/main/solr-config/uniprot-collections";
     private static final Logger logger = LoggerFactory.getLogger(AbstractSearchEngine.class);
 
     private static final int DEFAULT_RETRIEVABLE_ROWS = 1000;
@@ -43,7 +45,8 @@ public abstract class AbstractSearchEngine<E> implements  BeforeAllCallback, Aft
 
     private int retrievableRows;
 
-    public AbstractSearchEngine(String searchEngineName, DocumentConverter<E, ?> documentConverter) {
+    public AbstractSearchEngine(
+            String searchEngineName, DocumentConverter<E, ?> documentConverter) {
         this.documentConverter = documentConverter;
         this.searchEngineName = searchEngineName;
 
@@ -92,7 +95,8 @@ public abstract class AbstractSearchEngine<E> implements  BeforeAllCallback, Aft
                 server.deleteByQuery(idQuery);
                 server.commit();
             } catch (SolrServerException | IOException e) {
-                throw new IllegalStateException("Failed to remove entry with id: " + entryId + " from index.", e);
+                throw new IllegalStateException(
+                        "Failed to remove entry with id: " + entryId + " from index.", e);
             }
         }
     }
@@ -124,14 +128,13 @@ public abstract class AbstractSearchEngine<E> implements  BeforeAllCallback, Aft
         SolrDocumentList documents = response.getResults();
 
         for (SolrDocument document : documents) {
-            String accession = (String) document.get(identifierField().name());
+            String accession = (String) document.get(identifierField());
 
             accessions.add(accession);
         }
 
         return accessions;
     }
-
 
     public void printIndexContents() {
         // show all results
@@ -162,23 +165,23 @@ public abstract class AbstractSearchEngine<E> implements  BeforeAllCallback, Aft
 
     protected abstract String identifierQuery(String entryId);
 
-    protected abstract Enum identifierField();
+    protected abstract String identifierField();
 
     @Override
-    public void beforeAll(ExtensionContext context){
+    public void beforeAll(ExtensionContext context) {
         createServer();
     }
 
-    private void createServer(){
+    private void createServer() {
         // properties used by solrconfig.xml files in the cores' conf directories
         System.setProperty("solr.data.dir", indexHome.getAbsolutePath() + "/solr/data");
         System.setProperty("solr.core.name", "uniprot");
         System.setProperty("solr.ulog.dir", indexHome.getAbsolutePath() + "/tlog");
         //   System.setProperty("solr.lib.ujdk.location", ".");
-//        System.setProperty("uniprot.voldemort.url", "inMemoryStore");
-//        System.setProperty("uniprot.voldemort.store", "avro-uniprot");
-//        System.setProperty("uniparc.voldemort.url", "inMemoryStore");
-//        System.setProperty("uniparc.voldemort.store", "avro-uniparc");
+        //        System.setProperty("uniprot.voldemort.url", "inMemoryStore");
+        //        System.setProperty("uniprot.voldemort.store", "avro-uniprot");
+        //        System.setProperty("uniparc.voldemort.url", "inMemoryStore");
+        //        System.setProperty("uniparc.voldemort.store", "avro-uniparc");
 
         File solrConfigDir = new File(SOLR_CONFIG_DIR);
 
@@ -188,23 +191,27 @@ public abstract class AbstractSearchEngine<E> implements  BeforeAllCallback, Aft
         container.load();
         container.waitForLoadingCoresToFinish(60 * 1000);
 
-
         if (!container.isLoaded(searchEngineName)) {
-            container.getCoreInitFailures().forEach((key, value) -> {
-                logger.error("Search engine " + key + ", has failed: ", value.exception);
-            });
-            throw new IllegalStateException("Search engine " + searchEngineName + ", has not loaded properly");
+            container
+                    .getCoreInitFailures()
+                    .forEach(
+                            (key, value) -> {
+                                logger.error(
+                                        "Search engine " + key + ", has failed: ", value.exception);
+                            });
+            throw new IllegalStateException(
+                    "Search engine " + searchEngineName + ", has not loaded properly");
         }
 
         server = new EmbeddedSolrServer(container, searchEngineName);
     }
 
     @Override
-    public void afterAll(ExtensionContext context){
+    public void afterAll(ExtensionContext context) {
         closeServer();
     }
 
-    private void closeServer(){
+    private void closeServer() {
         try {
             server.close();
             indexHome.deleteOnExit();

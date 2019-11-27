@@ -12,15 +12,13 @@ import java.util.List;
 
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.extension.RegisterExtension;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.RegisterExtension;
 import org.uniprot.core.flatfile.writer.LineType;
+import org.uniprot.store.search.domain2.UniProtKBSearchFields;
 import org.uniprot.store.search.field.QueryBuilder;
-import org.uniprot.store.search.field.UniProtField;
 
-/**
- * Verifies whether the accession searches are qorking properly
- */
+/** Verifies whether the accession searches are qorking properly */
 class IsoformIT {
     private static final String UNIPROT_FLAT_FILE_ENTRY_PATH = "/it/uniprot/P0A377.43.dat";
     private static final String PRIMARY_ACCESSION1 = "Q197F5-1";
@@ -29,25 +27,27 @@ class IsoformIT {
     private static final String PRIMARY_ACCESSION2 = "Q197F6";
     private static final String SECONDARY_ACCESSION2_1 = "A4D162";
     private static final String PRIMARY_ACCESSION3 = "Q197F7-2";
-    @RegisterExtension
-    static UniProtSearchEngine searchEngine = new UniProtSearchEngine();
+    @RegisterExtension static UniProtSearchEngine searchEngine = new UniProtSearchEngine();
 
     @BeforeAll
     static void populateIndexWithTestData() throws IOException {
         // a test entry object that can be modified and added to index
         InputStream resourceAsStream = TestUtils.getResourceAsStream(UNIPROT_FLAT_FILE_ENTRY_PATH);
-        UniProtEntryObjectProxy entryProxy = UniProtEntryObjectProxy.createEntryFromInputStream(resourceAsStream);
+        UniProtEntryObjectProxy entryProxy =
+                UniProtEntryObjectProxy.createEntryFromInputStream(resourceAsStream);
 
-        //Entry 1
-        entryProxy.updateEntryObject(LineType.AC, createACLine(PRIMARY_ACCESSION1, SECONDARY_ACCESSION1_1,
-                SECONDARY_ACCESSION1_2));
+        // Entry 1
+        entryProxy.updateEntryObject(
+                LineType.AC,
+                createACLine(PRIMARY_ACCESSION1, SECONDARY_ACCESSION1_1, SECONDARY_ACCESSION1_2));
         searchEngine.indexEntry(convertToUniProtEntry(entryProxy));
 
-        //Entry 2
-        entryProxy.updateEntryObject(LineType.AC, createACLine(PRIMARY_ACCESSION2, SECONDARY_ACCESSION2_1));
+        // Entry 2
+        entryProxy.updateEntryObject(
+                LineType.AC, createACLine(PRIMARY_ACCESSION2, SECONDARY_ACCESSION2_1));
         searchEngine.indexEntry(convertToUniProtEntry(entryProxy));
 
-        //Entry 3
+        // Entry 3
         entryProxy.updateEntryObject(LineType.AC, createACLine(PRIMARY_ACCESSION3));
         searchEngine.indexEntry(convertToUniProtEntry(entryProxy));
 
@@ -65,7 +65,6 @@ class IsoformIT {
 
         return ACLineBuilder.toString().trim();
     }
-
 
     @Test
     void queryIsofromAccessionFromEntry3MatchesEntry3() {
@@ -92,9 +91,10 @@ class IsoformIT {
     }
 
     private String accession(String accession) {
-    	return query(UniProtField.Search.accession, accession);
+        return query(UniProtKBSearchFields.INSTANCE.getField("accession"), accession);
     }
+
     private String isoformOnly() {
-    	return query(UniProtField.Search.is_isoform, "true");
+        return query(UniProtKBSearchFields.INSTANCE.getField("is_isoform"), "true");
     }
 }

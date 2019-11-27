@@ -5,7 +5,7 @@ import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import java.util.zip.GZIPInputStream;
 
-public class FFInactiveUniProtEntryIterator extends AbstractInactiveUniProtEntryIterator  {
+public class FFInactiveUniProtEntryIterator extends AbstractInactiveUniProtEntryIterator {
     private final String filename;
     private BufferedReader reader;
 
@@ -16,11 +16,17 @@ public class FFInactiveUniProtEntryIterator extends AbstractInactiveUniProtEntry
 
     private void init() {
         try {
-            if (filename.toLowerCase().endsWith(".gzip") || filename.toLowerCase().endsWith(".gz")) {
-                reader = new BufferedReader(new InputStreamReader(new GZIPInputStream(new FileInputStream(filename))),
-                                            16384);
+            if (filename.toLowerCase().endsWith(".gzip")
+                    || filename.toLowerCase().endsWith(".gz")) {
+                reader =
+                        new BufferedReader(
+                                new InputStreamReader(
+                                        new GZIPInputStream(new FileInputStream(filename))),
+                                16384);
             } else {
-                reader = new BufferedReader(new InputStreamReader(new FileInputStream(filename)), 16384);
+                reader =
+                        new BufferedReader(
+                                new InputStreamReader(new FileInputStream(filename)), 16384);
             }
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -32,8 +38,7 @@ public class FFInactiveUniProtEntryIterator extends AbstractInactiveUniProtEntry
         try {
             String line = reader.readLine();
             hasResult = line != null;
-            if (!hasResult)
-                return null;
+            if (!hasResult) return null;
             return convert(line);
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -53,6 +58,5 @@ public class FFInactiveUniProtEntryIterator extends AbstractInactiveUniProtEntry
     @Override
     public void close() throws Exception {
         reader.close();
-
     }
 }

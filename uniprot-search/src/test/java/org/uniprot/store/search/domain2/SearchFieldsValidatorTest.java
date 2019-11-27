@@ -1,11 +1,11 @@
 package org.uniprot.store.search.domain2;
 
-import org.junit.jupiter.api.Test;
-import org.uniprot.store.search.domain2.impl.SearchFieldImpl;
-
 import static java.util.Arrays.asList;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import org.junit.jupiter.api.Test;
+import org.uniprot.store.search.domain2.impl.SearchFieldImpl;
 
 /**
  * Created 20/11/2019

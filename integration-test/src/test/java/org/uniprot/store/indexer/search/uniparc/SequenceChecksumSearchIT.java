@@ -1,24 +1,22 @@
 package org.uniprot.store.indexer.search.uniparc;
 
-import org.apache.solr.client.solrj.response.QueryResponse;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.extension.RegisterExtension;
-import org.junit.jupiter.api.Test;
-import org.uniprot.core.xml.jaxb.uniparc.Entry;
-import org.uniprot.store.search.field.QueryBuilder;
-import org.uniprot.store.search.field.UniParcField;
-
-import java.io.IOException;
-import java.util.List;
-
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.collection.IsEmptyCollection.empty;
 import static org.hamcrest.core.Is.is;
 
+import java.util.List;
+
+import org.apache.solr.client.solrj.response.QueryResponse;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.RegisterExtension;
+import org.uniprot.core.xml.jaxb.uniparc.Entry;
+import org.uniprot.store.search.field.QueryBuilder;
+import org.uniprot.store.search.field.UniParcField;
+
 class SequenceChecksumSearchIT {
-    @RegisterExtension
-    static UniParcSearchEngine searchEngine = new UniParcSearchEngine();
+    @RegisterExtension static UniParcSearchEngine searchEngine = new UniParcSearchEngine();
 
     private static final String ID_1 = "UPI0000000001";
     private static final String ID_2 = "UPI0000000002";
@@ -30,12 +28,12 @@ class SequenceChecksumSearchIT {
         // a test entry object that can be modified and added to index
         Entry stubEntryObject = TestUtils.createDefaultUniParcEntry();
 
-        //Entry 1
+        // Entry 1
         stubEntryObject.setAccession(ID_1);
         stubEntryObject.setSequence(TestUtils.createSequence("A", CHECKSUM_1));
         searchEngine.indexEntry(stubEntryObject);
 
-        //Entry 2
+        // Entry 2
         stubEntryObject.setAccession(ID_2);
         stubEntryObject.setSequence(TestUtils.createSequence("B", CHECKSUM_2));
         searchEngine.indexEntry(stubEntryObject);
@@ -45,7 +43,7 @@ class SequenceChecksumSearchIT {
 
     @Test
     void searchNonExistentChecksumMatches0Entries() {
-        String query=checksum("Unknown");
+        String query = checksum("Unknown");
         QueryResponse response = searchEngine.getQueryResponse(query);
 
         List<String> retrievedIdentifiers = searchEngine.getIdentifiers(response);
@@ -54,7 +52,7 @@ class SequenceChecksumSearchIT {
 
     @Test
     void searchForChecksumOfEntry1MatchesEntry1() {
-        String query=checksum(CHECKSUM_1);
+        String query = checksum(CHECKSUM_1);
         QueryResponse response = searchEngine.getQueryResponse(query);
 
         List<String> retrievedIdentifiers = searchEngine.getIdentifiers(response);
@@ -63,7 +61,7 @@ class SequenceChecksumSearchIT {
 
     @Test
     void lowerCaseSearchForChecksumOfEntry1MatchesEntry1() {
-        String query=checksum(CHECKSUM_1.toLowerCase());
+        String query = checksum(CHECKSUM_1.toLowerCase());
         QueryResponse response = searchEngine.getQueryResponse(query);
 
         List<String> retrievedIdentifiers = searchEngine.getIdentifiers(response);
@@ -72,7 +70,7 @@ class SequenceChecksumSearchIT {
 
     @Test
     void upperCaseSearchForChecksumOfEntry1MatchesEntry1() {
-        String query=checksum(CHECKSUM_1.toUpperCase());
+        String query = checksum(CHECKSUM_1.toUpperCase());
         QueryResponse response = searchEngine.getQueryResponse(query);
 
         List<String> retrievedIdentifiers = searchEngine.getIdentifiers(response);
@@ -81,7 +79,7 @@ class SequenceChecksumSearchIT {
 
     @Test
     void partialSearchForChecksumOfEntry1Matches0Entries() {
-        String query=checksum("5A0A2229D");
+        String query = checksum("5A0A2229D");
         QueryResponse response = searchEngine.getQueryResponse(query);
 
         List<String> retrievedIdentifiers = searchEngine.getIdentifiers(response);
@@ -90,13 +88,14 @@ class SequenceChecksumSearchIT {
 
     @Test
     void searchForChecksumOfEntry2MatchesEntry2() {
-        String query=checksum(CHECKSUM_2);
+        String query = checksum(CHECKSUM_2);
         QueryResponse response = searchEngine.getQueryResponse(query);
 
         List<String> retrievedIdentifiers = searchEngine.getIdentifiers(response);
         assertThat(retrievedIdentifiers, contains(ID_2));
     }
+
     private String checksum(String value) {
-    	return QueryBuilder.query(UniParcField.Search.checksum.name(),value);
+        return QueryBuilder.query(UniParcField.Search.checksum.name(), value);
     }
 }

@@ -9,8 +9,8 @@ import voldemort.store.StorageEngine;
 
 /**
  * Use an in Memory storage to save Uniprot entries.
- * <p>
- * Created 05/10/2017
+ *
+ * <p>Created 05/10/2017
  *
  * @author lgonzales
  */
@@ -18,7 +18,8 @@ public class VoldemortInMemoryUniprotEntryStore extends VoldemortInMemoryEntrySt
 
     private static VoldemortInMemoryUniprotEntryStore instance;
 
-    private static final Logger logger = LoggerFactory.getLogger(VoldemortInMemoryUniprotEntryStore.class);
+    private static final Logger logger =
+            LoggerFactory.getLogger(VoldemortInMemoryUniprotEntryStore.class);
 
     private StorageEngine<String, UniProtEntry, String> storageEngine;
 
@@ -37,5 +38,4 @@ public class VoldemortInMemoryUniprotEntryStore extends VoldemortInMemoryEntrySt
     public String getStoreId(UniProtEntry entry) {
         return entry.getPrimaryAccession().getValue();
     }
-
 }

@@ -1,14 +1,13 @@
 package org.uniprot.store.job.common.listener;
 
+import java.util.List;
+
 import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.batch.core.ChunkListener;
 import org.springframework.batch.core.scope.context.ChunkContext;
 
-import java.util.List;
-
-/**
- * @author lgonzales
- */
+/** @author lgonzales */
 @Slf4j
 public class LogChunkListener implements ChunkListener {
 
@@ -29,8 +28,8 @@ public class LogChunkListener implements ChunkListener {
         String stepName = chunkContext.getStepContext().getStepName();
         String status = chunkContext.getStepContext().getStepExecution().getStatus().name();
         log.warn("Failed to Executed chunk for step: {} and with status: {}", stepName, status);
-        List<Throwable> errors = chunkContext.getStepContext().getStepExecution().getFailureExceptions();
+        List<Throwable> errors =
+                chunkContext.getStepContext().getStepExecution().getFailureExceptions();
         errors.forEach(throwable -> log.error("Chunk Error: ", throwable));
     }
-
 }

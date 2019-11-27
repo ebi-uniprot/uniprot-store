@@ -1,6 +1,12 @@
 package org.uniprot.store.indexer.literature.reader;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.batch.item.file.mapping.DefaultLineMapper;
 import org.uniprot.core.citation.Author;
 import org.uniprot.core.citation.impl.AuthorImpl;
@@ -9,14 +15,7 @@ import org.uniprot.core.literature.LiteratureEntry;
 import org.uniprot.core.literature.builder.LiteratureEntryBuilder;
 import org.uniprot.core.util.Utils;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
-
-/**
- * @author lgonzales
- */
+/** @author lgonzales */
 @Slf4j
 public class LiteratureLineMapper extends DefaultLineMapper<LiteratureEntry> {
     private static final String RX_LINE = "RX";
@@ -32,11 +31,11 @@ public class LiteratureLineMapper extends DefaultLineMapper<LiteratureEntry> {
     private static final String ID_SEPARATOR = ";";
     private static final String LINE_ITEM_SEPARATOR = ",";
 
-
     public LiteratureEntry mapLine(String entryString, int lineNumber) throws Exception {
-        List<String> entryLines = Arrays.stream(entryString.split("\n"))
-                .filter(str -> !str.isEmpty())
-                .collect(Collectors.toList());
+        List<String> entryLines =
+                Arrays.stream(entryString.split("\n"))
+                        .filter(str -> !str.isEmpty())
+                        .collect(Collectors.toList());
 
         LiteratureFileEntry fileEntry = new LiteratureFileEntry();
         for (String line : entryLines) {
@@ -63,7 +62,7 @@ public class LiteratureLineMapper extends DefaultLineMapper<LiteratureEntry> {
                 case IP_LINE:
                 case EM_LINE:
                 case NO_ABSTRACT_LINE:
-                    //do nothing for now
+                    // do nothing for now
                     break;
                 default:
                     fileEntry.abstractLines.add(line);
@@ -84,31 +83,37 @@ public class LiteratureLineMapper extends DefaultLineMapper<LiteratureEntry> {
         return builder.build();
     }
 
-    private LiteratureEntryBuilder parseRXLine(LiteratureEntryBuilder builder, List<String> rxLines) {
+    private LiteratureEntryBuilder parseRXLine(
+            LiteratureEntryBuilder builder, List<String> rxLines) {
         String rxLine = String.join("", rxLines);
         String[] rxLineArray = rxLine.split(ID_SEPARATOR);
-        builder = builder.pubmedId(Long.valueOf(rxLineArray[0].substring(rxLineArray[0].indexOf('=') + 1)));
+        builder =
+                builder.pubmedId(
+                        Long.valueOf(rxLineArray[0].substring(rxLineArray[0].indexOf('=') + 1)));
         if (rxLineArray.length > 1) {
             builder = builder.doiId(rxLineArray[1].substring(rxLineArray[1].indexOf('=') + 1));
         }
         return builder;
     }
 
-    private LiteratureEntryBuilder parseRALine(LiteratureEntryBuilder builder, List<String> raLines) {
+    private LiteratureEntryBuilder parseRALine(
+            LiteratureEntryBuilder builder, List<String> raLines) {
         if (Utils.notNullOrEmpty(raLines)) {
             String raLine = String.join("", raLines);
             raLine = raLine.substring(0, raLine.length() - 1);
-            List<Author> authors = Arrays.stream(raLine.split(LINE_ITEM_SEPARATOR))
-                    .filter(author -> !author.isEmpty())
-                    .map(String::trim)
-                    .map(AuthorImpl::new)
-                    .collect(Collectors.toList());
+            List<Author> authors =
+                    Arrays.stream(raLine.split(LINE_ITEM_SEPARATOR))
+                            .filter(author -> !author.isEmpty())
+                            .map(String::trim)
+                            .map(AuthorImpl::new)
+                            .collect(Collectors.toList());
             builder = builder.authors(authors);
         }
         return builder;
     }
 
-    private LiteratureEntryBuilder parseRTLine(LiteratureEntryBuilder builder, List<String> rtLines) {
+    private LiteratureEntryBuilder parseRTLine(
+            LiteratureEntryBuilder builder, List<String> rtLines) {
         if (Utils.notNullOrEmpty(rtLines)) {
             String rtLine = String.join(" ", rtLines);
             builder = builder.title(rtLine.substring(1, rtLine.length() - 2));
@@ -116,35 +121,42 @@ public class LiteratureLineMapper extends DefaultLineMapper<LiteratureEntry> {
         return builder;
     }
 
-    private LiteratureEntryBuilder parseRGLine(LiteratureEntryBuilder builder, List<String> rgLines) {
-        List<String> authoringGroup = rgLines.stream()
-                .map(ag -> ag.substring(0, ag.length() - 1))
-                .collect(Collectors.toList());
+    private LiteratureEntryBuilder parseRGLine(
+            LiteratureEntryBuilder builder, List<String> rgLines) {
+        List<String> authoringGroup =
+                rgLines.stream()
+                        .map(ag -> ag.substring(0, ag.length() - 1))
+                        .collect(Collectors.toList());
         builder = builder.authoringGroup(authoringGroup);
         return builder;
     }
 
-    ////RL   Journal_abbrev Volume:First_page-Last_page(YYYY).
-    private LiteratureEntryBuilder parseRLLine(LiteratureEntryBuilder builder, List<String> rlLines) {
+    //// RL   Journal_abbrev Volume:First_page-Last_page(YYYY).
+    private LiteratureEntryBuilder parseRLLine(
+            LiteratureEntryBuilder builder, List<String> rlLines) {
         String rlLine = String.join(" ", rlLines);
         String rlLineJournalAndVolume = rlLine.substring(0, rlLine.indexOf(':'));
 
-        if (rlLineJournalAndVolume.lastIndexOf('.') > 0 && rlLineJournalAndVolume.lastIndexOf('.') < rlLineJournalAndVolume.length()) {
+        if (rlLineJournalAndVolume.lastIndexOf('.') > 0
+                && rlLineJournalAndVolume.lastIndexOf('.') < rlLineJournalAndVolume.length()) {
             String journal = rlLine.substring(0, rlLineJournalAndVolume.lastIndexOf('.') + 1);
             builder = builder.journal(journal.trim());
 
-            String volume = rlLineJournalAndVolume.substring(rlLineJournalAndVolume.lastIndexOf('.') + 1);
+            String volume =
+                    rlLineJournalAndVolume.substring(rlLineJournalAndVolume.lastIndexOf('.') + 1);
             builder = builder.volume(volume.trim());
         } else {
             String journal = rlLine.substring(0, rlLineJournalAndVolume.lastIndexOf(' '));
             builder = builder.journal(journal);
 
-            String volume = rlLineJournalAndVolume.substring(rlLineJournalAndVolume.lastIndexOf(' ') + 1);
+            String volume =
+                    rlLineJournalAndVolume.substring(rlLineJournalAndVolume.lastIndexOf(' ') + 1);
             builder = builder.volume(volume);
         }
 
         String rlLinePagesAndYear = rlLine.substring(rlLine.indexOf(':') + 1);
-        String[] pages = rlLinePagesAndYear.substring(0, rlLinePagesAndYear.indexOf('(')).split("-");
+        String[] pages =
+                rlLinePagesAndYear.substring(0, rlLinePagesAndYear.indexOf('(')).split("-");
         builder = builder.firstPage(pages[0]);
         if (pages.length > 1) {
             builder = builder.lastPage(pages[1]);
@@ -152,7 +164,9 @@ public class LiteratureLineMapper extends DefaultLineMapper<LiteratureEntry> {
             builder = builder.lastPage(pages[0]);
         }
 
-        String publicationYear = rlLinePagesAndYear.substring(rlLinePagesAndYear.indexOf('(') + 1, rlLinePagesAndYear.indexOf(')'));
+        String publicationYear =
+                rlLinePagesAndYear.substring(
+                        rlLinePagesAndYear.indexOf('(') + 1, rlLinePagesAndYear.indexOf(')'));
         builder = builder.publicationDate(new PublicationDateImpl(publicationYear));
         return builder;
     }

@@ -1,10 +1,11 @@
 package org.uniprot.store.job.common.listener;
 
+import java.util.concurrent.TimeUnit;
+
 import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.batch.core.JobExecution;
 import org.springframework.batch.core.JobExecutionListener;
-
-import java.util.concurrent.TimeUnit;
 
 @Slf4j
 public class WriteRetrierLogJobListener implements JobExecutionListener {
@@ -17,16 +18,19 @@ public class WriteRetrierLogJobListener implements JobExecutionListener {
     public void afterJob(JobExecution jobExecution) {
         log.info("Job {} completed.", jobExecution.getJobInstance().getJobName());
 
-        long durationMillis = jobExecution.getEndTime().getTime() - jobExecution.getStartTime().getTime();
+        long durationMillis =
+                jobExecution.getEndTime().getTime() - jobExecution.getStartTime().getTime();
 
         String duration =
-                String.format("%d hrs, %d min, %d sec",
-                              TimeUnit.MILLISECONDS.toHours(durationMillis),
-                              TimeUnit.MILLISECONDS.toMinutes(durationMillis) -
-                                      TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(durationMillis)),
-                              TimeUnit.MILLISECONDS.toSeconds(durationMillis) -
-                                      TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(durationMillis))
-                );
+                String.format(
+                        "%d hrs, %d min, %d sec",
+                        TimeUnit.MILLISECONDS.toHours(durationMillis),
+                        TimeUnit.MILLISECONDS.toMinutes(durationMillis)
+                                - TimeUnit.HOURS.toMinutes(
+                                        TimeUnit.MILLISECONDS.toHours(durationMillis)),
+                        TimeUnit.MILLISECONDS.toSeconds(durationMillis)
+                                - TimeUnit.MINUTES.toSeconds(
+                                        TimeUnit.MILLISECONDS.toMinutes(durationMillis)));
 
         log.info("=====================================================");
         log.info("                Job Statistics                 ");

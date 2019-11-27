@@ -1,26 +1,25 @@
 package org.uniprot.store.indexer.search.uniprot;
 
-import org.apache.solr.client.solrj.response.QueryResponse;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.extension.RegisterExtension;
-import org.junit.jupiter.api.Test;
-import org.uniprot.core.flatfile.writer.LineType;
-import org.uniprot.store.search.field.UniProtField;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.List;
-
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 import static org.hamcrest.collection.IsEmptyCollection.empty;
 import static org.hamcrest.core.Is.is;
 import static org.uniprot.store.indexer.search.uniprot.IdentifierSearchIT.ACC_LINE;
-import static org.uniprot.store.indexer.search.uniprot.TestUtils.*;
+import static org.uniprot.store.indexer.search.uniprot.TestUtils.convertToUniProtEntry;
+import static org.uniprot.store.indexer.search.uniprot.TestUtils.query;
 
-/**
- * Verifies if the protein keywords are indexed correctly
- */
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.List;
+
+import org.apache.solr.client.solrj.response.QueryResponse;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.RegisterExtension;
+import org.uniprot.core.flatfile.writer.LineType;
+import org.uniprot.store.search.domain2.UniProtKBSearchFields;
+
+/** Verifies if the protein keywords are indexed correctly */
 class KeywordSearchIT {
     private static final String UNIPROT_FLAT_FILE_ENTRY_PATH = "/it/uniprot/P0A377.43.dat";
     private static final String CHEMICAL = "2Fe-2S";
@@ -32,26 +31,27 @@ class KeywordSearchIT {
     private static final String ACCESSION1 = "Q197F4";
     private static final String ACCESSION2 = "Q197F5";
     private static final String ACCESSION3 = "Q197F6";
-    @RegisterExtension
-    static UniProtSearchEngine searchEngine = new UniProtSearchEngine();
+    @RegisterExtension static UniProtSearchEngine searchEngine = new UniProtSearchEngine();
 
     @BeforeAll
     static void populateIndexWithTestData() throws IOException {
         // a test entry object that can be modified and added to index
         InputStream resourceAsStream = TestUtils.getResourceAsStream(UNIPROT_FLAT_FILE_ENTRY_PATH);
-        UniProtEntryObjectProxy entryProxy = UniProtEntryObjectProxy.createEntryFromInputStream(resourceAsStream);
+        UniProtEntryObjectProxy entryProxy =
+                UniProtEntryObjectProxy.createEntryFromInputStream(resourceAsStream);
 
-        //Entry 1
+        // Entry 1
         entryProxy.updateEntryObject(LineType.AC, String.format(ACC_LINE, ACCESSION1));
         entryProxy.updateEntryObject(LineType.KW, createKWLine(CHEMICAL, ARCHAEAL_FLAGELLUM));
         searchEngine.indexEntry(convertToUniProtEntry(entryProxy));
 
-        //Entry 2
+        // Entry 2
         entryProxy.updateEntryObject(LineType.AC, String.format(ACC_LINE, ACCESSION2));
-        entryProxy.updateEntryObject(LineType.KW, createKWLine(ARCHAEAL_FLAGELLUM_BIOGENESIS, AMYLOID));
+        entryProxy.updateEntryObject(
+                LineType.KW, createKWLine(ARCHAEAL_FLAGELLUM_BIOGENESIS, AMYLOID));
         searchEngine.indexEntry(convertToUniProtEntry(entryProxy));
 
-        //Entry 3
+        // Entry 3
         entryProxy.updateEntryObject(LineType.AC, String.format(ACC_LINE, ACCESSION3));
         entryProxy.updateEntryObject(LineType.KW, createKWLine(APOPLAST, AMYLOIDOSIS));
         searchEngine.indexEntry(convertToUniProtEntry(entryProxy));
@@ -153,7 +153,8 @@ class KeywordSearchIT {
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
         assertThat(retrievedAccessions, contains(ACCESSION2));
     }
+
     String keyword(String value) {
-    	return query(UniProtField.Search.keyword, value);
+        return query(UniProtKBSearchFields.INSTANCE.getField("keyword"), value);
     }
 }

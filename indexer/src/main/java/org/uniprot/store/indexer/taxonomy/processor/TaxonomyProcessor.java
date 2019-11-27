@@ -1,7 +1,15 @@
 package org.uniprot.store.indexer.taxonomy.processor;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import static org.uniprot.store.indexer.taxonomy.TaxonomySQLConstants.*;
+
+import java.nio.ByteBuffer;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
+import javax.sql.DataSource;
+
 import org.springframework.batch.item.ItemProcessor;
 import org.springframework.data.solr.core.query.Criteria;
 import org.springframework.data.solr.core.query.Query;
@@ -22,14 +30,8 @@ import org.uniprot.store.indexer.taxonomy.readers.*;
 import org.uniprot.store.search.SolrCollection;
 import org.uniprot.store.search.document.taxonomy.TaxonomyDocument;
 
-import javax.sql.DataSource;
-import java.nio.ByteBuffer;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
-
-import static org.uniprot.store.indexer.taxonomy.TaxonomySQLConstants.*;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class TaxonomyProcessor implements ItemProcessor<TaxonomyEntry, TaxonomyDocument> {
 
@@ -48,13 +50,15 @@ public class TaxonomyProcessor implements ItemProcessor<TaxonomyEntry, TaxonomyD
         long taxonId = entry.getTaxonId();
         TaxonomyEntryBuilder entryBuilder = new TaxonomyEntryBuilder().from(entry);
         Query query = new SimpleQuery().addCriteria(Criteria.where("id").is(taxonId));
-        Optional<TaxonomyDocument> optionalDocument = solrOperations
-                .queryForObject(SolrCollection.taxonomy.name(), query, TaxonomyDocument.class);
+        Optional<TaxonomyDocument> optionalDocument =
+                solrOperations.queryForObject(
+                        SolrCollection.taxonomy.name(), query, TaxonomyDocument.class);
         if (optionalDocument.isPresent()) {
             TaxonomyDocument document = optionalDocument.get();
 
             byte[] taxonomyObj = document.getTaxonomyObj().array();
-            TaxonomyEntry statisticsEntry = jsonMapper.readValue(taxonomyObj, TaxonomyEntryImpl.class);
+            TaxonomyEntry statisticsEntry =
+                    jsonMapper.readValue(taxonomyObj, TaxonomyEntryImpl.class);
             entryBuilder.statistics(statisticsEntry.getStatistics());
         }
         entryBuilder.hosts(loadVirusHosts(taxonId));
@@ -102,9 +106,12 @@ public class TaxonomyProcessor implements ItemProcessor<TaxonomyEntry, TaxonomyD
             }
         }
 
-        documentBuilder.host(entry.getHosts().stream().map(Taxonomy::getTaxonId).collect(Collectors.toList()));
-        documentBuilder
-                .lineage(entry.getLineage().stream().map(TaxonomyLineage::getTaxonId).collect(Collectors.toList()));
+        documentBuilder.host(
+                entry.getHosts().stream().map(Taxonomy::getTaxonId).collect(Collectors.toList()));
+        documentBuilder.lineage(
+                entry.getLineage().stream()
+                        .map(TaxonomyLineage::getTaxonId)
+                        .collect(Collectors.toList()));
         documentBuilder.strain(buildStrainList(entry.getStrains()));
         documentBuilder.taxonomyObj(getTaxonomyBinary(entry));
 
@@ -112,9 +119,14 @@ public class TaxonomyProcessor implements ItemProcessor<TaxonomyEntry, TaxonomyD
     }
 
     private List<String> buildStrainList(List<TaxonomyStrain> strainList) {
-        return strainList.stream().map(strain -> {
-            return strain.getName() + " ; " + String.join(" , ", strain.getSynonyms());
-        }).collect(Collectors.toList());
+        return strainList.stream()
+                .map(
+                        strain -> {
+                            return strain.getName()
+                                    + " ; "
+                                    + String.join(" , ", strain.getSynonyms());
+                        })
+                .collect(Collectors.toList());
     }
 
     private ByteBuffer getTaxonomyBinary(TaxonomyEntry entry) {
@@ -130,17 +142,18 @@ public class TaxonomyProcessor implements ItemProcessor<TaxonomyEntry, TaxonomyD
     }
 
     private List<String> loadOtherNames(long taxonId) {
-        return jdbcTemplate.query(SELECT_TAXONOMY_OTHER_NAMES_SQL, new TaxonomyNamesReader(), taxonId);
+        return jdbcTemplate.query(
+                SELECT_TAXONOMY_OTHER_NAMES_SQL, new TaxonomyNamesReader(), taxonId);
     }
 
-
     private List<Taxonomy> loadVirusHosts(long taxonId) {
-        return jdbcTemplate.query(SELECT_TAXONOMY_HOSTS_SQL, new TaxonomyVirusHostReader(), taxonId);
+        return jdbcTemplate.query(
+                SELECT_TAXONOMY_HOSTS_SQL, new TaxonomyVirusHostReader(), taxonId);
     }
 
     private List<TaxonomyLineage> loadLineage(long taxonId) {
-        List<List<TaxonomyLineage>> result = jdbcTemplate
-                .query(getTaxonomyLineageSQL(), new TaxonomyLineageReader(), taxonId);
+        List<List<TaxonomyLineage>> result =
+                jdbcTemplate.query(getTaxonomyLineageSQL(), new TaxonomyLineageReader(), taxonId);
         if (Utils.notNullOrEmpty(result)) {
             return result.get(0);
         }
@@ -149,22 +162,28 @@ public class TaxonomyProcessor implements ItemProcessor<TaxonomyEntry, TaxonomyD
 
     private List<TaxonomyStrain> loadStrains(long taxonId) {
         List<TaxonomyStrain> result = new ArrayList<>();
-        List<TaxonomyStrainReader.Strain> strains = jdbcTemplate
-                .query(SELECT_TAXONOMY_STRAINS_SQL, new TaxonomyStrainReader(), taxonId);
+        List<TaxonomyStrainReader.Strain> strains =
+                jdbcTemplate.query(
+                        SELECT_TAXONOMY_STRAINS_SQL, new TaxonomyStrainReader(), taxonId);
 
-        strains.stream().collect(Collectors.groupingBy(TaxonomyStrainReader.Strain::getId)).values()
-                .forEach((strainList) -> {
-                    TaxonomyStrainBuilder builder = new TaxonomyStrainBuilder();
-                    for (TaxonomyStrainReader.Strain strain : strainList) {
-                        if (strain.getNameClass().equals(TaxonomyStrainReader.StrainNameClass.scientific_name)) {
-                            builder.name(strain.getName());
-                        } else {
-                            builder.addSynonym(strain.getName());
-                        }
-                    }
-                    result.add(builder.build());
-                });
+        strains.stream()
+                .collect(Collectors.groupingBy(TaxonomyStrainReader.Strain::getId))
+                .values()
+                .forEach(
+                        (strainList) -> {
+                            TaxonomyStrainBuilder builder = new TaxonomyStrainBuilder();
+                            for (TaxonomyStrainReader.Strain strain : strainList) {
+                                if (strain.getNameClass()
+                                        .equals(
+                                                TaxonomyStrainReader.StrainNameClass
+                                                        .scientific_name)) {
+                                    builder.name(strain.getName());
+                                } else {
+                                    builder.addSynonym(strain.getName());
+                                }
+                            }
+                            result.add(builder.build());
+                        });
         return result;
     }
-
 }

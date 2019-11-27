@@ -13,10 +13,10 @@ import org.uniprot.store.search.field.validator.FieldValueValidator;
  * @author jluo
  * @date: 17 May 2019
  */
-
 public interface GeneCentricField {
     enum Return {
-        accession_id, genecentric_stored;
+        accession_id,
+        genecentric_stored;
     }
 
     enum ResultFields implements ReturnField {
@@ -35,29 +35,25 @@ public interface GeneCentricField {
         ResultFields(String label, String javaFieldName) {
             this.label = label;
             this.javaFieldName = javaFieldName;
-
         }
 
-        public String getLabel(){
+        public String getLabel() {
             return this.label;
         }
 
         @Override
-        public String getJavaFieldName(){
+        public String getJavaFieldName() {
             return this.javaFieldName;
         }
-
 
         @Override
         public boolean hasReturnField(String fieldName) {
             return Arrays.stream(ResultFields.values())
                     .anyMatch(returnItem -> returnItem.name().equalsIgnoreCase(fieldName));
         }
-    }
+    };
 
-    ;
-
-     enum Sort {
+    enum Sort {
         accession_id("accession_id");
 
         private String solrFieldName;
@@ -77,14 +73,19 @@ public interface GeneCentricField {
     }
 
     enum Search implements SearchField {
-        accession_id(SearchFieldType.TERM, FieldValueValidator::isAccessionValid, null), // uniprot entry accession
-        accession(SearchFieldType.TERM, FieldValueValidator::isAccessionValid, null), // uniprot entry accession
+        accession_id(
+                SearchFieldType.TERM,
+                FieldValueValidator::isAccessionValid,
+                null), // uniprot entry accession
+        accession(
+                SearchFieldType.TERM,
+                FieldValueValidator::isAccessionValid,
+                null), // uniprot entry accession
         upid(SearchFieldType.TERM, FieldValueValidator::isUpidValid, null), // proteome upid
         organism_id(SearchFieldType.TERM, FieldValueValidator::isNumberValue, boostValue(2.0f)),
         gene(SearchFieldType.TERM),
         reviewed(SearchFieldType.TERM, FieldValueValidator::isBooleanValue, null),
-        content(SearchFieldType.TERM); //used in the default search
-
+        content(SearchFieldType.TERM); // used in the default search
 
         private final Predicate<String> fieldValueValidator;
         private final SearchFieldType searchFieldType;
@@ -96,7 +97,10 @@ public interface GeneCentricField {
             this.boostValue = null;
         }
 
-        Search(SearchFieldType searchFieldType, Predicate<String> fieldValueValidator, BoostValue boostValue) {
+        Search(
+                SearchFieldType searchFieldType,
+                Predicate<String> fieldValueValidator,
+                BoostValue boostValue) {
             this.searchFieldType = searchFieldType;
             this.fieldValueValidator = fieldValueValidator;
             this.boostValue = boostValue;
@@ -126,5 +130,4 @@ public interface GeneCentricField {
                     .collect(Collectors.toList());
         }
     }
-
 }

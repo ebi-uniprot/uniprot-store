@@ -1,17 +1,17 @@
 package org.uniprot.store.search.domain2;
 
-import org.junit.jupiter.api.Test;
-import org.uniprot.core.cv.xdb.UniProtXDbTypes;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.containsInAnyOrder;
+import static org.hamcrest.Matchers.hasSize;
+import static org.uniprot.store.search.domain2.UniProtKBSearchFields.XREF_COUNT_PREFIX;
 
 import java.util.List;
 import java.util.Set;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.containsInAnyOrder;
-import static org.hamcrest.Matchers.hasSize;
-import static org.uniprot.store.search.domain2.UniProtKBSearchFields.XREF_COUNT_PREFIX;
+import org.junit.jupiter.api.Test;
+import org.uniprot.core.cv.xdb.UniProtXDbTypes;
 
 /**
  * Created 19/11/2019

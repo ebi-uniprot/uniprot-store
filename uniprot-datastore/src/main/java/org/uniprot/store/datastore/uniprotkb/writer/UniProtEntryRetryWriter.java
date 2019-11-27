@@ -1,9 +1,9 @@
 package org.uniprot.store.datastore.uniprotkb.writer;
 
-import net.jodah.failsafe.RetryPolicy;
-
 import java.util.List;
 import java.util.stream.Collectors;
+
+import net.jodah.failsafe.RetryPolicy;
 
 import org.uniprot.core.flatfile.writer.impl.UniProtFlatfileWriter;
 import org.uniprot.core.scorer.uniprotkb.UniProtEntryScored;
@@ -42,12 +42,12 @@ public class UniProtEntryRetryWriter extends ItemRetryWriter<UniProtEntry, UniPr
         super.write(items.stream().map(this::addAnnotationScore).collect(Collectors.toList()));
     }
 
-    // TODO: 26/07/19 why don't we set the annotation score by default when we read the entry? 
+    // TODO: 26/07/19 why don't we set the annotation score by default when we read the entry?
     private UniProtEntry addAnnotationScore(UniProtEntry entry) {
         UniProtEntryScored entryScored = new UniProtEntryScored(entry);
         double score = entryScored.score();
         UniProtEntryBuilder.ActiveEntryBuilder builder = new UniProtEntryBuilder().from(entry);
         builder.annotationScore(score);
-        return  builder.build();
+        return builder.build();
     }
 }

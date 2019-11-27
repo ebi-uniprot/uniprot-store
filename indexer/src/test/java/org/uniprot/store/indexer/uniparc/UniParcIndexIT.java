@@ -1,6 +1,12 @@
 package org.uniprot.store.indexer.uniparc;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.notNullValue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
+import static org.uniprot.store.indexer.common.utils.Constants.UNIPARC_INDEX_JOB;
+
 import org.hamcrest.CoreMatchers;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -22,55 +28,53 @@ import org.uniprot.store.job.common.listener.ListenerConfig;
 import org.uniprot.store.search.SolrCollection;
 import org.uniprot.store.search.document.uniparc.UniParcDocument;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.notNullValue;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.fail;
-import static org.uniprot.store.indexer.common.utils.Constants.UNIPARC_INDEX_JOB;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
- *
  * @author jluo
  * @date: 18 Jun 2019
- *
-*/
+ */
 @ActiveProfiles(profiles = {"job", "offline"})
 @ExtendWith(SpringExtension.class)
-@SpringBootTest(classes = {FakeIndexerSpringBootApplication.class, SolrTestConfig.class, UniParcIndexJob.class,
-                           UniParcIndexStep.class, ListenerConfig.class})
+@SpringBootTest(
+        classes = {
+            FakeIndexerSpringBootApplication.class,
+            SolrTestConfig.class,
+            UniParcIndexJob.class,
+            UniParcIndexStep.class,
+            ListenerConfig.class
+        })
 public class UniParcIndexIT {
-	 @Autowired
-	    private JobLauncherTestUtils jobLauncher;
-	    @Autowired
-	    private UniProtSolrOperations solrOperations;
+    @Autowired private JobLauncherTestUtils jobLauncher;
+    @Autowired private UniProtSolrOperations solrOperations;
 
-	    @Test
-	    void testIndexJob() throws Exception {
-	        JobExecution jobExecution = jobLauncher.launchJob();
-	        assertThat(jobExecution.getJobInstance().getJobName(), CoreMatchers.is(UNIPARC_INDEX_JOB));
+    @Test
+    void testIndexJob() throws Exception {
+        JobExecution jobExecution = jobLauncher.launchJob();
+        assertThat(jobExecution.getJobInstance().getJobName(), CoreMatchers.is(UNIPARC_INDEX_JOB));
 
-	        BatchStatus status = jobExecution.getStatus();
-	        assertThat(status, is(BatchStatus.COMPLETED));
+        BatchStatus status = jobExecution.getStatus();
+        assertThat(status, is(BatchStatus.COMPLETED));
 
-	        Page<UniParcDocument> response = solrOperations
-	                .query(SolrCollection.uniparc.name(), new SimpleQuery("*:*"), UniParcDocument.class);
-	        assertThat(response, is(notNullValue()));
-	        assertThat(response.getTotalElements(), is(3l));
-	        response.forEach(val -> verifyEntry(val));
-	       
-	    }
-	    private void verifyEntry(UniParcDocument doc) {
-	    	String upi = doc.getDocumentId();
-	    	ObjectMapper objectMapper = UniParcJsonConfig.getInstance().getFullObjectMapper();
-	    	byte [] obj =doc.getEntryStored().array();
-	    	try {
-	    		UniParcEntry uniparc = objectMapper.readValue(obj, UniParcEntry.class);
-	    	assertEquals(upi, uniparc.getUniParcId().getValue());
-	    	}catch(Exception e) {
-	    		fail(e.getMessage());
-	    	}
-	    }
-	    	
+        Page<UniParcDocument> response =
+                solrOperations.query(
+                        SolrCollection.uniparc.name(),
+                        new SimpleQuery("*:*"),
+                        UniParcDocument.class);
+        assertThat(response, is(notNullValue()));
+        assertThat(response.getTotalElements(), is(3l));
+        response.forEach(val -> verifyEntry(val));
+    }
+
+    private void verifyEntry(UniParcDocument doc) {
+        String upi = doc.getDocumentId();
+        ObjectMapper objectMapper = UniParcJsonConfig.getInstance().getFullObjectMapper();
+        byte[] obj = doc.getEntryStored().array();
+        try {
+            UniParcEntry uniparc = objectMapper.readValue(obj, UniParcEntry.class);
+            assertEquals(upi, uniparc.getUniParcId().getValue());
+        } catch (Exception e) {
+            fail(e.getMessage());
+        }
+    }
 }
-

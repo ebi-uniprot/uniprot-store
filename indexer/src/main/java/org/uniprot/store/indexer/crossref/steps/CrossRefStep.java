@@ -1,5 +1,6 @@
 package org.uniprot.store.indexer.crossref.steps;
 
+import java.io.IOException;
 
 import org.springframework.batch.core.ChunkListener;
 import org.springframework.batch.core.Step;
@@ -22,16 +23,12 @@ import org.uniprot.store.indexer.crossref.readers.CrossRefReader;
 import org.uniprot.store.search.SolrCollection;
 import org.uniprot.store.search.document.dbxref.CrossRefDocument;
 
-import java.io.IOException;
-
 @Configuration
 public class CrossRefStep {
 
-    @Autowired
-    private StepBuilderFactory steps;
+    @Autowired private StepBuilderFactory steps;
 
-    @Autowired
-    private UniProtSolrOperations solrOperations;
+    @Autowired private UniProtSolrOperations solrOperations;
 
     @Value(("${ds.import.chunk.size}"))
     private Integer chunkSize;
@@ -40,11 +37,15 @@ public class CrossRefStep {
     private String filePath;
 
     @Bean(name = "IndexCrossRefStep")
-    public Step indexCrossRef(StepExecutionListener stepListener, ChunkListener chunkListener,
-                              @Qualifier("crossRefReader") ItemReader<CrossRefEntry> xrefReader,
-                              @Qualifier("crossRefProcessor") ItemProcessor<CrossRefEntry, CrossRefDocument> xrefProcessor,
-                              @Qualifier("crossRefWriter") ItemWriter<CrossRefDocument> xrefWriter) {
-        return this.steps.get(Constants.CROSS_REF_INDEX_STEP)
+    public Step indexCrossRef(
+            StepExecutionListener stepListener,
+            ChunkListener chunkListener,
+            @Qualifier("crossRefReader") ItemReader<CrossRefEntry> xrefReader,
+            @Qualifier("crossRefProcessor")
+                    ItemProcessor<CrossRefEntry, CrossRefDocument> xrefProcessor,
+            @Qualifier("crossRefWriter") ItemWriter<CrossRefDocument> xrefWriter) {
+        return this.steps
+                .get(Constants.CROSS_REF_INDEX_STEP)
                 .<CrossRefEntry, CrossRefDocument>chunk(this.chunkSize)
                 .reader(xrefReader)
                 .processor(xrefProcessor)
@@ -68,6 +69,5 @@ public class CrossRefStep {
     public ItemProcessor<CrossRefEntry, CrossRefDocument> xrefProcessor() {
 
         return new CrossRefProcessor();
-
     }
 }

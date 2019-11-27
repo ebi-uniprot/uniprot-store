@@ -1,5 +1,9 @@
 package org.uniprot.store.indexer.taxonomy.steps;
 
+import java.sql.SQLException;
+
+import javax.sql.DataSource;
+
 import org.springframework.batch.core.ChunkListener;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.StepExecutionListener;
@@ -22,13 +26,7 @@ import org.uniprot.store.indexer.taxonomy.readers.TaxonomyStatisticsReader;
 import org.uniprot.store.search.SolrCollection;
 import org.uniprot.store.search.document.taxonomy.TaxonomyDocument;
 
-import javax.sql.DataSource;
-import java.sql.SQLException;
-
-/**
- *
- * @author lgonzales
- */
+/** @author lgonzales */
 @Configuration
 public class TaxonomyStatisticsStep {
 
@@ -36,13 +34,17 @@ public class TaxonomyStatisticsStep {
     private Integer chunkSize;
 
     @Bean(name = "taxonomyStatistics")
-    public Step taxonomyStatistics(StepBuilderFactory stepBuilders, StepExecutionListener stepListener,
-                                       ChunkListener chunkListener,
-                                       ItemReader<TaxonomyStatisticsReader.TaxonomyCount> itemTaxonomyStatisticsReader,
-                                       ItemProcessor<TaxonomyStatisticsReader.TaxonomyCount,TaxonomyDocument> itemTaxonomyStatisticsProcessor,
-                                       ItemWriter<TaxonomyDocument> itemTaxonomyStatisticsWriter,
-                                       UniProtSolrOperations solrOperations){
-        return stepBuilders.get(Constants.TAXONOMY_LOAD_STATISTICS_STEP_NAME)
+    public Step taxonomyStatistics(
+            StepBuilderFactory stepBuilders,
+            StepExecutionListener stepListener,
+            ChunkListener chunkListener,
+            ItemReader<TaxonomyStatisticsReader.TaxonomyCount> itemTaxonomyStatisticsReader,
+            ItemProcessor<TaxonomyStatisticsReader.TaxonomyCount, TaxonomyDocument>
+                    itemTaxonomyStatisticsProcessor,
+            ItemWriter<TaxonomyDocument> itemTaxonomyStatisticsWriter,
+            UniProtSolrOperations solrOperations) {
+        return stepBuilders
+                .get(Constants.TAXONOMY_LOAD_STATISTICS_STEP_NAME)
                 .<TaxonomyStatisticsReader.TaxonomyCount, TaxonomyDocument>chunk(chunkSize)
                 .reader(itemTaxonomyStatisticsReader)
                 .processor(itemTaxonomyStatisticsProcessor)
@@ -54,8 +56,10 @@ public class TaxonomyStatisticsStep {
     }
 
     @Bean(name = "itemTaxonomyStatisticsReader")
-    public ItemReader<TaxonomyStatisticsReader.TaxonomyCount> itemTaxonomyStatisticsReader(@Qualifier("readDataSource") DataSource readDataSource) throws SQLException {
-        JdbcCursorItemReader<TaxonomyStatisticsReader.TaxonomyCount> itemReader = new JdbcCursorItemReader<>();
+    public ItemReader<TaxonomyStatisticsReader.TaxonomyCount> itemTaxonomyStatisticsReader(
+            @Qualifier("readDataSource") DataSource readDataSource) throws SQLException {
+        JdbcCursorItemReader<TaxonomyStatisticsReader.TaxonomyCount> itemReader =
+                new JdbcCursorItemReader<>();
         itemReader.setDataSource(readDataSource);
         itemReader.setSql(getStatisticsSQL());
         itemReader.setRowMapper(new TaxonomyStatisticsReader());
@@ -64,17 +68,18 @@ public class TaxonomyStatisticsStep {
     }
 
     @Bean(name = "itemTaxonomyStatisticsProcessor")
-    public ItemProcessor<TaxonomyStatisticsReader.TaxonomyCount, TaxonomyDocument> itemTaxonomyStatisticsProcessor() {
+    public ItemProcessor<TaxonomyStatisticsReader.TaxonomyCount, TaxonomyDocument>
+            itemTaxonomyStatisticsProcessor() {
         return new TaxonomyStatisticsProcessor();
     }
 
     @Bean(name = "itemTaxonomyStatisticsWriter")
-    public ItemWriter<TaxonomyDocument> itemTaxonomyStatisticsWriter(UniProtSolrOperations solrOperations) {
+    public ItemWriter<TaxonomyDocument> itemTaxonomyStatisticsWriter(
+            UniProtSolrOperations solrOperations) {
         return new SolrDocumentWriter<>(solrOperations, SolrCollection.taxonomy);
     }
 
-    protected String getStatisticsSQL(){
+    protected String getStatisticsSQL() {
         return TaxonomySQLConstants.COUNT_PROTEINS_SQL;
     }
 }
-

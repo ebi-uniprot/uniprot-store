@@ -1,5 +1,15 @@
 package org.uniprot.store.indexer.search.uniprot;
 
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.isEmptyOrNullString;
+import static org.hamcrest.core.IsNot.not;
+import static org.hamcrest.core.IsNull.notNullValue;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Stream;
+
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.junit.jupiter.api.extension.RegisterExtension;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -9,21 +19,12 @@ import org.uniprot.core.util.Utils;
 import org.uniprot.store.search.domain2.SearchItem;
 import org.uniprot.store.search.domain2.UniProtKBSearchItems;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Stream;
-
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.isEmptyOrNullString;
-import static org.hamcrest.core.IsNot.not;
-import static org.hamcrest.core.IsNull.notNullValue;
-
 /**
- * This class verifies example values against their associated fields, defined in {@code search-fields.json}. These
- * examples help clients (e.g., front-end) formulate the correct format of queries.
+ * This class verifies example values against their associated fields, defined in {@code
+ * search-fields.json}. These examples help clients (e.g., front-end) formulate the correct format
+ * of queries.
  *
- * Created 18/11/2019
+ * <p>Created 18/11/2019
  *
  * @author Edd
  */
@@ -32,8 +33,7 @@ class VerifyUniProtAdvancedSearchExamplesIT {
 
     @ParameterizedTest(name = "{1}:{2}")
     @MethodSource("provideSearchItems")
-    void searchFieldIsKnownToSearchEngine(
-            String label, String field, String example) {
+    void searchFieldIsKnownToSearchEngine(String label, String field, String example) {
         assertThat(label, is(not(isEmptyOrNullString())));
         assertThat(example, is(not(isEmptyOrNullString())));
 

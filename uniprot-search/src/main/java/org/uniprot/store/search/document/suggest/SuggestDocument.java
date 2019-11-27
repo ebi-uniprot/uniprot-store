@@ -1,14 +1,13 @@
 package org.uniprot.store.search.document.suggest;
 
+import java.util.List;
 
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Singular;
+
 import org.apache.solr.client.solrj.beans.Field;
 import org.uniprot.store.search.document.Document;
-
-import java.util.List;
-
 
 @EqualsAndHashCode
 @Builder(builderClassName = "SuggestDocumentBuilder")

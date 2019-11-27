@@ -1,7 +1,14 @@
 package org.uniprot.store.indexer.uniprotkb.step;
 
+import static org.uniprot.store.indexer.common.utils.Constants.UNIPROTKB_INDEX_STEP;
+
+import java.io.File;
+import java.util.Map;
+import java.util.concurrent.Future;
+
 import lombok.extern.slf4j.Slf4j;
 import net.jodah.failsafe.RetryPolicy;
+
 import org.springframework.aop.framework.Advised;
 import org.springframework.aop.support.AopUtils;
 import org.springframework.batch.core.Step;
@@ -21,8 +28,8 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.uniprot.core.cv.chebi.ChebiRepoFactory;
 import org.uniprot.core.cv.ec.ECRepoFactory;
 import org.uniprot.core.cv.taxonomy.FileNodeIterable;
-import org.uniprot.core.cv.taxonomy.impl.TaxonomyMapRepo;
 import org.uniprot.core.cv.taxonomy.TaxonomyRepo;
+import org.uniprot.core.cv.taxonomy.impl.TaxonomyMapRepo;
 import org.uniprot.store.indexer.common.config.UniProtSolrOperations;
 import org.uniprot.store.indexer.uniprot.go.GoRelationFileReader;
 import org.uniprot.store.indexer.uniprot.go.GoRelationFileRepo;
@@ -42,16 +49,10 @@ import org.uniprot.store.job.common.listener.WriteRetrierLogStepListener;
 import org.uniprot.store.search.SolrCollection;
 import org.uniprot.store.search.document.suggest.SuggestDocument;
 
-import java.io.File;
-import java.util.Map;
-import java.util.concurrent.Future;
-
-import static org.uniprot.store.indexer.common.utils.Constants.UNIPROTKB_INDEX_STEP;
-
 /**
  * The main UniProtKB indexing step.
- * <p>
- * Created 10/04/19
+ *
+ * <p>Created 10/04/19
  *
  * @author Edd
  */
@@ -64,28 +65,36 @@ public class UniProtKBStep {
     private final UniProtSolrOperations solrOperations;
 
     @Autowired
-    public UniProtKBStep(StepBuilderFactory stepBuilderFactory,
-                         UniProtSolrOperations solrOperations,
-                         UniProtKBIndexingProperties indexingProperties) {
+    public UniProtKBStep(
+            StepBuilderFactory stepBuilderFactory,
+            UniProtSolrOperations solrOperations,
+            UniProtKBIndexingProperties indexingProperties) {
         this.stepBuilderFactory = stepBuilderFactory;
         this.solrOperations = solrOperations;
         this.uniProtKBIndexingProperties = indexingProperties;
     }
 
     @Bean(name = "uniProtKBIndexingMainStep")
-    public Step uniProtKBIndexingMainFFStep(WriteRetrierLogStepListener writeRetrierLogStepListener,
-                                            @Qualifier("uniProtKB") LogRateListener<UniProtEntryDocumentPair> uniProtKBLogRateListener,
-                                            ItemReader<UniProtEntryDocumentPair> entryItemReader,
-                                            @Qualifier("uniprotkbAsyncProcessor") ItemProcessor<UniProtEntryDocumentPair, Future<UniProtEntryDocumentPair>> asyncProcessor,
-                                            @Qualifier("uniprotkbAsyncWriter") ItemWriter<Future<UniProtEntryDocumentPair>> asyncWriter,
-                                            UniProtEntryDocumentPairProcessor uniProtDocumentItemProcessor,
-                                            ItemWriter<UniProtEntryDocumentPair> uniProtDocumentItemWriter,
-                                            ExecutionContextPromotionListener promotionListener) throws Exception {
+    public Step uniProtKBIndexingMainFFStep(
+            WriteRetrierLogStepListener writeRetrierLogStepListener,
+            @Qualifier("uniProtKB")
+                    LogRateListener<UniProtEntryDocumentPair> uniProtKBLogRateListener,
+            ItemReader<UniProtEntryDocumentPair> entryItemReader,
+            @Qualifier("uniprotkbAsyncProcessor")
+                    ItemProcessor<UniProtEntryDocumentPair, Future<UniProtEntryDocumentPair>>
+                            asyncProcessor,
+            @Qualifier("uniprotkbAsyncWriter")
+                    ItemWriter<Future<UniProtEntryDocumentPair>> asyncWriter,
+            UniProtEntryDocumentPairProcessor uniProtDocumentItemProcessor,
+            ItemWriter<UniProtEntryDocumentPair> uniProtDocumentItemWriter,
+            ExecutionContextPromotionListener promotionListener)
+            throws Exception {
 
-        return this.stepBuilderFactory.get(UNIPROTKB_INDEX_STEP)
+        return this.stepBuilderFactory
+                .get(UNIPROTKB_INDEX_STEP)
                 .listener(promotionListener)
-                .<UniProtEntryDocumentPair, Future<UniProtEntryDocumentPair>>
-                        chunk(uniProtKBIndexingProperties.getChunkSize())
+                .<UniProtEntryDocumentPair, Future<UniProtEntryDocumentPair>>chunk(
+                        uniProtKBIndexingProperties.getChunkSize())
                 .reader(entryItemReader)
                 .processor(asyncProcessor)
                 .writer(asyncWriter)
@@ -104,7 +113,8 @@ public class UniProtKBStep {
 
     // ---------------------- Processors ----------------------
     @Bean
-    public UniProtEntryDocumentPairProcessor uniProtDocumentItemProcessor(Map<String, SuggestDocument> suggestDocuments, GoRelationFileRepo goRelationFileRepo) {
+    public UniProtEntryDocumentPairProcessor uniProtDocumentItemProcessor(
+            Map<String, SuggestDocument> suggestDocuments, GoRelationFileRepo goRelationFileRepo) {
         return new UniProtEntryDocumentPairProcessor(
                 new UniProtEntryConverter(
                         createTaxonomyRepo(),
@@ -118,8 +128,10 @@ public class UniProtKBStep {
     @Bean("uniprotkbAsyncProcessor")
     public ItemProcessor<UniProtEntryDocumentPair, Future<UniProtEntryDocumentPair>> asyncProcessor(
             UniProtEntryDocumentPairProcessor uniProtDocumentItemProcessor,
-            @Qualifier("itemProcessorTaskExecutor") ThreadPoolTaskExecutor itemProcessorTaskExecutor) {
-        AsyncItemProcessor<UniProtEntryDocumentPair, UniProtEntryDocumentPair> asyncProcessor = new AsyncItemProcessor<>();
+            @Qualifier("itemProcessorTaskExecutor")
+                    ThreadPoolTaskExecutor itemProcessorTaskExecutor) {
+        AsyncItemProcessor<UniProtEntryDocumentPair, UniProtEntryDocumentPair> asyncProcessor =
+                new AsyncItemProcessor<>();
         asyncProcessor.setDelegate(uniProtDocumentItemProcessor);
         asyncProcessor.setTaskExecutor(itemProcessorTaskExecutor);
 
@@ -128,12 +140,15 @@ public class UniProtKBStep {
 
     // ---------------------- Writers ----------------------
     @Bean
-    public ItemWriter<UniProtEntryDocumentPair> uniProtDocumentItemWriter(RetryPolicy<Object> writeRetryPolicy) {
-        return new UniProtEntryDocumentPairWriter(this.solrOperations, SolrCollection.uniprot, writeRetryPolicy);
+    public ItemWriter<UniProtEntryDocumentPair> uniProtDocumentItemWriter(
+            RetryPolicy<Object> writeRetryPolicy) {
+        return new UniProtEntryDocumentPairWriter(
+                this.solrOperations, SolrCollection.uniprot, writeRetryPolicy);
     }
 
     @Bean("uniprotkbAsyncWriter")
-    public ItemWriter<Future<UniProtEntryDocumentPair>> asyncWriter(ItemWriter<UniProtEntryDocumentPair> uniProtDocumentItemWriter) {
+    public ItemWriter<Future<UniProtEntryDocumentPair>> asyncWriter(
+            ItemWriter<UniProtEntryDocumentPair> uniProtDocumentItemWriter) {
         AsyncItemWriter<UniProtEntryDocumentPair> asyncItemWriter = new AsyncItemWriter<>();
         asyncItemWriter.setDelegate(uniProtDocumentItemWriter);
 
@@ -148,8 +163,8 @@ public class UniProtKBStep {
 
     // ---------------------- Source Data Access beans and helpers ----------------------
     /**
-     * Needs to be a bean since it contains a @Cacheable annotation within, and Spring
-     * will only scan for these annotations inside beans.
+     * Needs to be a bean since it contains a @Cacheable annotation within, and Spring will only
+     * scan for these annotations inside beans.
      *
      * @return the GoRelationFileRepo
      */
@@ -170,7 +185,8 @@ public class UniProtKBStep {
     }
 
     private TaxonomyRepo createTaxonomyRepo() {
-        return new TaxonomyMapRepo(new FileNodeIterable(new File(uniProtKBIndexingProperties.getTaxonomyFile())));
+        return new TaxonomyMapRepo(
+                new FileNodeIterable(new File(uniProtKBIndexingProperties.getTaxonomyFile())));
     }
 
     /**

@@ -1,17 +1,15 @@
 package org.uniprot.store.indexer.search;
 
-
 import java.lang.reflect.Field;
 import java.util.function.Consumer;
 
 import org.uniprot.store.search.document.Document;
 
-
 /**
- * Required to capture and modify the {@code value} of Solr {@code @Field("value")} annotations. This is necessary
- * for testing purposes. See {@link FullCIAnalysisSearchIT}.
+ * Required to capture and modify the {@code value} of Solr {@code @Field("value")} annotations.
+ * This is necessary for testing purposes. See {@link FullCIAnalysisSearchIT}.
  *
- * Created 02/07/18
+ * <p>Created 02/07/18
  *
  * @author Edd
  */
@@ -34,9 +32,11 @@ public class DocFieldTransformer implements Consumer<Document> {
         try {
             boolean updated = false;
             for (Field declaredField : c.getDeclaredFields()) {
-                if (declaredField.isAnnotationPresent(org.apache.solr.client.solrj.beans.Field.class)) {
+                if (declaredField.isAnnotationPresent(
+                        org.apache.solr.client.solrj.beans.Field.class)) {
                     org.apache.solr.client.solrj.beans.Field declaredAnnotation =
-                            declaredField.getDeclaredAnnotation(org.apache.solr.client.solrj.beans.Field.class);
+                            declaredField.getDeclaredAnnotation(
+                                    org.apache.solr.client.solrj.beans.Field.class);
                     if (declaredAnnotation.value().equals(this.field)) {
                         declaredField.set(doc, value);
                         updated = true;
@@ -44,7 +44,8 @@ public class DocFieldTransformer implements Consumer<Document> {
                 }
             }
             if (!updated) {
-                throw new IllegalStateException("Cannot transform document, field does not exist: " + this.field);
+                throw new IllegalStateException(
+                        "Cannot transform document, field does not exist: " + this.field);
             }
         } catch (IllegalAccessException e) {
             throw new IllegalStateException("Cannot transform document", e);

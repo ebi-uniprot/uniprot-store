@@ -5,13 +5,12 @@ import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.collection.IsEmptyCollection.empty;
 import static org.hamcrest.core.Is.is;
 
-import java.io.IOException;
 import java.util.List;
 
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.extension.RegisterExtension;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.RegisterExtension;
 import org.uniprot.core.uniparc.UniParcDatabaseType;
 import org.uniprot.core.xml.jaxb.uniparc.DbReferenceType;
 import org.uniprot.core.xml.jaxb.uniparc.Entry;
@@ -19,8 +18,7 @@ import org.uniprot.store.search.field.QueryBuilder;
 import org.uniprot.store.search.field.UniParcField;
 
 class ProteinNameSearchIT {
-    @RegisterExtension
-    static UniParcSearchEngine searchEngine = new UniParcSearchEngine();
+    @RegisterExtension static UniParcSearchEngine searchEngine = new UniParcSearchEngine();
 
     private static final String ID_1 = "UPI0000000001";
     private static final String ID_2 = "UPI0000000002";
@@ -39,85 +37,83 @@ class ProteinNameSearchIT {
     static void populateIndexWithTestData() {
         // a test entry object that can be modified and added to index
 
-        
-        //Entry 1
+        // Entry 1
         {
             Entry entry = TestUtils.createDefaultUniParcEntry();
             entry.setAccession(ID_1);
             entry.getDbReference().clear();
-            
-            DbReferenceType xref= TestUtils.createXref(UniParcDatabaseType.TREMBL.getName(), "P47986", "Y");
+
+            DbReferenceType xref =
+                    TestUtils.createXref(UniParcDatabaseType.TREMBL.getName(), "P47986", "Y");
             xref.getProperty().add(TestUtils.createProperty("protein_name", NAME_1));
             entry.getDbReference().add(xref);
             searchEngine.indexEntry(entry);
         }
 
-        //Entry 2
+        // Entry 2
         {
             Entry entry = TestUtils.createDefaultUniParcEntry();
             entry.setAccession(ID_2);
             entry.getDbReference().clear();
-            
-            DbReferenceType xref= TestUtils.createXref(UniParcDatabaseType.TREMBL.getName(), "P47986", "Y");
+
+            DbReferenceType xref =
+                    TestUtils.createXref(UniParcDatabaseType.TREMBL.getName(), "P47986", "Y");
             xref.getProperty().add(TestUtils.createProperty("protein_name", NAME_2));
             entry.getDbReference().add(xref);
             searchEngine.indexEntry(entry);
         }
 
-
-
-        //Entry 3
+        // Entry 3
         {
             Entry entry = TestUtils.createDefaultUniParcEntry();
             entry.setAccession(ID_3);
             entry.getDbReference().clear();
-            
-            DbReferenceType xref= TestUtils.createXref(UniParcDatabaseType.TREMBL.getName(), "P47986", "Y");
+
+            DbReferenceType xref =
+                    TestUtils.createXref(UniParcDatabaseType.TREMBL.getName(), "P47986", "Y");
             xref.getProperty().add(TestUtils.createProperty("protein_name", NAME_3));
             entry.getDbReference().add(xref);
             searchEngine.indexEntry(entry);
         }
 
-
-        //Entry 4
+        // Entry 4
         {
             Entry entry = TestUtils.createDefaultUniParcEntry();
             entry.setAccession(ID_4);
             entry.getDbReference().clear();
-            
-            DbReferenceType xref= TestUtils.createXref(UniParcDatabaseType.TREMBL.getName(), "P47986", "Y");
+
+            DbReferenceType xref =
+                    TestUtils.createXref(UniParcDatabaseType.TREMBL.getName(), "P47986", "Y");
             xref.getProperty().add(TestUtils.createProperty("protein_name", NAME_4));
             entry.getDbReference().add(xref);
             searchEngine.indexEntry(entry);
         }
 
-
-        //Entry 5
+        // Entry 5
         {
             Entry entry = TestUtils.createDefaultUniParcEntry();
             entry.setAccession(ID_5);
             entry.getDbReference().clear();
-            
-            DbReferenceType xref= TestUtils.createXref(UniParcDatabaseType.TREMBL.getName(), "P47986", "Y");
+
+            DbReferenceType xref =
+                    TestUtils.createXref(UniParcDatabaseType.TREMBL.getName(), "P47986", "Y");
             xref.getProperty().add(TestUtils.createProperty("protein_name", NAME_5));
             entry.getDbReference().add(xref);
             searchEngine.indexEntry(entry);
         }
-        
 
-        //Entry 6
+        // Entry 6
         {
             Entry entry = TestUtils.createDefaultUniParcEntry();
             entry.setAccession(ID_6);
             entry.getDbReference().clear();
-            
-            DbReferenceType xref= TestUtils.createXref(UniParcDatabaseType.TREMBL.getName(), "P47986", "Y");
+
+            DbReferenceType xref =
+                    TestUtils.createXref(UniParcDatabaseType.TREMBL.getName(), "P47986", "Y");
             xref.getProperty().add(TestUtils.createProperty("protein_name", NAME_6));
             entry.getDbReference().add(xref);
             searchEngine.indexEntry(entry);
         }
-        
-
 
         searchEngine.printIndexContents();
     }
@@ -331,8 +327,8 @@ class ProteinNameSearchIT {
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
         assertThat(retrievedAccessions, contains(ID_6));
     }
+
     private String proteinName(String value) {
-    	return QueryBuilder.query(UniParcField.Search.protein.name(),value);
+        return QueryBuilder.query(UniParcField.Search.protein.name(), value);
     }
-    
 }

@@ -13,21 +13,20 @@ import org.uniprot.store.indexer.common.config.DataSourceConfig;
 import org.uniprot.store.indexer.common.config.SolrRepositoryConfig;
 import org.uniprot.store.indexer.common.utils.Constants;
 
-/**
- * @author lgonzales
- */
+/** @author lgonzales */
 @Configuration
 @Import({DataSourceConfig.class, SolrRepositoryConfig.class})
 public class LiteratureJob {
-    @Autowired
-    private JobBuilderFactory jobs;
+    @Autowired private JobBuilderFactory jobs;
 
     @Bean("LiteratureLoadJob")
-    public Job indexLiteratureSupportingData(@Qualifier("IndexLiteratureStep") Step indexLiterature,
-                                             @Qualifier("LiteratureMappingStep") Step literatureMappingStep,
-                                             @Qualifier("LiteratureStatistics") Step literatureStatistics,
-                                             JobExecutionListener jobListener) {
-        return this.jobs.get(Constants.LITERATURE_LOAD_JOB_NAME)
+    public Job indexLiteratureSupportingData(
+            @Qualifier("IndexLiteratureStep") Step indexLiterature,
+            @Qualifier("LiteratureMappingStep") Step literatureMappingStep,
+            @Qualifier("LiteratureStatistics") Step literatureStatistics,
+            JobExecutionListener jobListener) {
+        return this.jobs
+                .get(Constants.LITERATURE_LOAD_JOB_NAME)
                 .start(literatureStatistics) // index all protein counts for literature
                 .next(literatureMappingStep) // update all pir mappings
                 .next(indexLiterature) // index literature entry

@@ -12,75 +12,77 @@ import java.util.List;
 
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.extension.RegisterExtension;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.RegisterExtension;
 import org.uniprot.core.flatfile.writer.LineType;
 import org.uniprot.core.uniprot.comment.CommentType;
 import org.uniprot.store.search.field.QueryBuilder;
 
-
 class CCMassSpectrumSearchIT {
-	private static final String Q6GZX4 = "Q6GZX4";
-	private static final String Q6GZX3 = "Q6GZX3";
-	private static final String Q6GZY3 = "Q6GZY3";
-	private static final String Q197B6 = "Q197B6";
-	private static final String UNIPROT_FLAT_FILE_ENTRY_PATH = "/it/uniprot/P0A377.43.dat";
+    private static final String Q6GZX4 = "Q6GZX4";
+    private static final String Q6GZX3 = "Q6GZX3";
+    private static final String Q6GZY3 = "Q6GZY3";
+    private static final String Q197B6 = "Q197B6";
+    private static final String UNIPROT_FLAT_FILE_ENTRY_PATH = "/it/uniprot/P0A377.43.dat";
 
-	@RegisterExtension
-	static UniProtSearchEngine searchEngine = new UniProtSearchEngine();
+    @RegisterExtension static UniProtSearchEngine searchEngine = new UniProtSearchEngine();
 
-	@BeforeAll
-	static void populateIndexWithTestData() throws IOException {
-		// a test entry object that can be modified and added to index
-		InputStream resourceAsStream = TestUtils.getResourceAsStream(UNIPROT_FLAT_FILE_ENTRY_PATH);
-		UniProtEntryObjectProxy entryProxy = UniProtEntryObjectProxy.createEntryFromInputStream(resourceAsStream);
+    @BeforeAll
+    static void populateIndexWithTestData() throws IOException {
+        // a test entry object that can be modified and added to index
+        InputStream resourceAsStream = TestUtils.getResourceAsStream(UNIPROT_FLAT_FILE_ENTRY_PATH);
+        UniProtEntryObjectProxy entryProxy =
+                UniProtEntryObjectProxy.createEntryFromInputStream(resourceAsStream);
 
-		// --------------
-		entryProxy.updateEntryObject(LineType.AC, String.format(ACC_LINE, Q6GZX4));
-		entryProxy.updateEntryObject(LineType.CC,
-				"CC   -!- MASS SPECTROMETRY: Mass=11329.741; Mass_error=0.0057;\n" + 
-				"CC       Method=Electrospray; Range=1-108;\n" + 
-				"CC       Evidence={ECO:0000269|PubMed:20586483};");
-		searchEngine.indexEntry(convertToUniProtEntry(entryProxy));
+        // --------------
+        entryProxy.updateEntryObject(LineType.AC, String.format(ACC_LINE, Q6GZX4));
+        entryProxy.updateEntryObject(
+                LineType.CC,
+                "CC   -!- MASS SPECTROMETRY: Mass=11329.741; Mass_error=0.0057;\n"
+                        + "CC       Method=Electrospray; Range=1-108;\n"
+                        + "CC       Evidence={ECO:0000269|PubMed:20586483};");
+        searchEngine.indexEntry(convertToUniProtEntry(entryProxy));
 
-		// --------------
-		entryProxy.updateEntryObject(LineType.AC, String.format(ACC_LINE, Q6GZX3));
-		entryProxy.updateEntryObject(LineType.CC,
-				"CC   -!- MASS SPECTROMETRY: Mass=24166.0; Mass_error=1.2; Method=MALDI;\n" + 
-				"CC       Range=35-268; Evidence={ECO:0000256|PubMed:15578758};");
-		searchEngine.indexEntry(convertToUniProtEntry(entryProxy));
-		searchEngine.printIndexContents();
-	}
-	@Test
-	void shouldFindTwoEntryQuery() {
-		String query = comments(CommentType.MASS_SPECTROMETRY, "*");
+        // --------------
+        entryProxy.updateEntryObject(LineType.AC, String.format(ACC_LINE, Q6GZX3));
+        entryProxy.updateEntryObject(
+                LineType.CC,
+                "CC   -!- MASS SPECTROMETRY: Mass=24166.0; Mass_error=1.2; Method=MALDI;\n"
+                        + "CC       Range=35-268; Evidence={ECO:0000256|PubMed:15578758};");
+        searchEngine.indexEntry(convertToUniProtEntry(entryProxy));
+        searchEngine.printIndexContents();
+    }
 
-		QueryResponse response = searchEngine.getQueryResponse(query);
+    @Test
+    void shouldFindTwoEntryQuery() {
+        String query = comments(CommentType.MASS_SPECTROMETRY, "*");
 
-		List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
-		assertThat(retrievedAccessions, hasItems(Q6GZX4, Q6GZX3));
-	}
+        QueryResponse response = searchEngine.getQueryResponse(query);
 
-	@Test
-	void shouldFindOneEntryQueryEvidence() {
-		String query = comments(CommentType.MASS_SPECTROMETRY, "*");
-		String evidence = "ECO_0000269";
-		query = QueryBuilder.and(query, commentEvidence(CommentType.MASS_SPECTROMETRY, evidence));
-		QueryResponse response = searchEngine.getQueryResponse(query);
+        List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
+        assertThat(retrievedAccessions, hasItems(Q6GZX4, Q6GZX3));
+    }
 
-		List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
-		System.out.println(retrievedAccessions);
-		assertThat(retrievedAccessions, hasItems(Q6GZX4));
-	}
+    @Test
+    void shouldFindOneEntryQueryEvidence() {
+        String query = comments(CommentType.MASS_SPECTROMETRY, "*");
+        String evidence = "ECO_0000269";
+        query = QueryBuilder.and(query, commentEvidence(CommentType.MASS_SPECTROMETRY, evidence));
+        QueryResponse response = searchEngine.getQueryResponse(query);
 
-	@Test
-	void shouldFindNoneEntryQueryEvidence() {
-		String query = comments(CommentType.MASS_SPECTROMETRY, "*");
-		String evidence = "ECO_0000255";
-		query = QueryBuilder.and(query, commentEvidence(CommentType.MASS_SPECTROMETRY, evidence));
-		QueryResponse response = searchEngine.getQueryResponse(query);
+        List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
+        System.out.println(retrievedAccessions);
+        assertThat(retrievedAccessions, hasItems(Q6GZX4));
+    }
 
-		List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
-		assertThat(retrievedAccessions, empty());
-	}
+    @Test
+    void shouldFindNoneEntryQueryEvidence() {
+        String query = comments(CommentType.MASS_SPECTROMETRY, "*");
+        String evidence = "ECO_0000255";
+        query = QueryBuilder.and(query, commentEvidence(CommentType.MASS_SPECTROMETRY, evidence));
+        QueryResponse response = searchEngine.getQueryResponse(query);
+
+        List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
+        assertThat(retrievedAccessions, empty());
+    }
 }

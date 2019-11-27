@@ -17,16 +17,17 @@ import org.uniprot.store.indexer.common.utils.Constants;
 @Import({DataSourceConfig.class, SolrRepositoryConfig.class})
 public class TaxonomyJob {
 
-    @Autowired
-    private JobBuilderFactory jobs;
+    @Autowired private JobBuilderFactory jobs;
 
     @Bean("indexTaxonomyJob")
-    public Job indexTaxonomy(@Qualifier("taxonomyNode") Step taxonomyNode,
-                             @Qualifier("taxonomyStatistics") Step taxonomyStatistics,
-                             @Qualifier("taxonomyMerged") Step taxonomyMerged,
-                             @Qualifier("taxonomyDeleted") Step taxonomyDeleted,
-                             JobExecutionListener jobListener) {
-        return this.jobs.get(Constants.TAXONOMY_LOAD_JOB_NAME)
+    public Job indexTaxonomy(
+            @Qualifier("taxonomyNode") Step taxonomyNode,
+            @Qualifier("taxonomyStatistics") Step taxonomyStatistics,
+            @Qualifier("taxonomyMerged") Step taxonomyMerged,
+            @Qualifier("taxonomyDeleted") Step taxonomyDeleted,
+            JobExecutionListener jobListener) {
+        return this.jobs
+                .get(Constants.TAXONOMY_LOAD_JOB_NAME)
                 .start(taxonomyDeleted)
                 .next(taxonomyMerged)
                 .next(taxonomyStatistics)

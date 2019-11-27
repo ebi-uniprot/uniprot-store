@@ -1,16 +1,16 @@
 package org.uniprot.store.job.common.listener;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-
-import java.time.Instant;
-import java.util.List;
-
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.uniprot.store.job.common.listener.LogRateListener.WRITE_RATE_DOCUMENT_INTERVAL;
+
+import java.time.Instant;
+import java.util.List;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * Created 22/08/19
@@ -26,7 +26,7 @@ class LogRateListenerTest {
     @BeforeEach
     @SuppressWarnings("unchecked")
     void setUp() {
-        mockedWrittenDocList = (List<Object>)mock(List.class);
+        mockedWrittenDocList = (List<Object>) mock(List.class);
         start = Instant.now();
         itemRateWriterListener = new LogRateListener<>(start);
     }
@@ -39,7 +39,8 @@ class LogRateListenerTest {
         when(mockedWrittenDocList.size()).thenReturn(numDocs);
 
         itemRateWriterListener.afterWrite(mockedWrittenDocList);
-        LogRateListener.StatsInfo statsInfo = itemRateWriterListener.computeWriteRateStats(fiveSecsAfterStart);
+        LogRateListener.StatsInfo statsInfo =
+                itemRateWriterListener.computeWriteRateStats(fiveSecsAfterStart);
 
         System.out.println(statsInfo.toString());
         assertThat(statsInfo.totalSeconds, is(5L));
@@ -62,7 +63,8 @@ class LogRateListenerTest {
         when(mockedWrittenDocList.size()).thenReturn(tenDocs);
         itemRateWriterListener.afterWrite(mockedWrittenDocList);
 
-        LogRateListener.StatsInfo statsInfo = itemRateWriterListener.computeWriteRateStats(twoSecsAfterStart);
+        LogRateListener.StatsInfo statsInfo =
+                itemRateWriterListener.computeWriteRateStats(twoSecsAfterStart);
 
         System.out.println(statsInfo);
         assertThat(statsInfo.deltaWriteCount, is(tenDocs));

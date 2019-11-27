@@ -13,8 +13,8 @@ import org.uniprot.store.job.common.listener.WriteRetrierLogJobListener;
 
 /**
  * The main UniProtKB data storing job.
- * <p>
- * Created 10/04/19
+ *
+ * <p>Created 10/04/19
  *
  * @author Edd
  */
@@ -28,9 +28,11 @@ public class UniProtKBJob {
     }
 
     @Bean
-    public Job uniProtKBIndexingJob(@Qualifier("uniProtKBStoreMainStep") Step uniProtKBDataStoreMainStep,
-                                    WriteRetrierLogJobListener writeRetrierLogJobListener) {
-        return this.jobBuilderFactory.get(UNIPROTKB_STORE_JOB)
+    public Job uniProtKBIndexingJob(
+            @Qualifier("uniProtKBStoreMainStep") Step uniProtKBDataStoreMainStep,
+            WriteRetrierLogJobListener writeRetrierLogJobListener) {
+        return this.jobBuilderFactory
+                .get(UNIPROTKB_STORE_JOB)
                 .start(uniProtKBDataStoreMainStep)
                 .listener(writeRetrierLogJobListener)
                 .build();

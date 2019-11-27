@@ -24,18 +24,19 @@ import org.uniprot.store.indexer.common.utils.Constants;
 @Import({SolrRepositoryConfig.class, DataSourceConfig.class})
 public class CrossRefJob {
 
-    @Autowired
-    private JobBuilderFactory jobs;
+    @Autowired private JobBuilderFactory jobs;
 
     @Bean("indexCrossRefJob")
-    public Job indexSupportingData(@Qualifier("IndexCrossRefStep") Step indexCrossRef,
-                                   @Qualifier("CrossRefUniProtKBCountStep") Step indexUniProtCount,
-                                   JobExecutionListener jobListener) {
-        return this.jobs.get(Constants.CROSS_REF_LOAD_JOB)
-                .start(indexUniProtCount)// get the cross refs protein count and cache them in a map and use in next step
-                .next(indexCrossRef)// index the cross references
+    public Job indexSupportingData(
+            @Qualifier("IndexCrossRefStep") Step indexCrossRef,
+            @Qualifier("CrossRefUniProtKBCountStep") Step indexUniProtCount,
+            JobExecutionListener jobListener) {
+        return this.jobs
+                .get(Constants.CROSS_REF_LOAD_JOB)
+                .start(indexUniProtCount) // get the cross refs protein count and cache them in a
+                // map and use in next step
+                .next(indexCrossRef) // index the cross references
                 .listener(jobListener)
                 .build();
     }
-
 }

@@ -1,5 +1,19 @@
 package org.uniprot.store.indexer;
 
+import static java.util.Arrays.asList;
+import static org.slf4j.LoggerFactory.getLogger;
+
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Properties;
+import java.util.stream.Collectors;
+
 import org.apache.solr.client.solrj.SolrClient;
 import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.SolrServerException;
@@ -15,20 +29,6 @@ import org.uniprot.store.job.common.converter.DocumentConverter;
 import org.uniprot.store.search.SolrCollection;
 import org.uniprot.store.search.document.Document;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Properties;
-import java.util.stream.Collectors;
-
-import static java.util.Arrays.asList;
-import static org.slf4j.LoggerFactory.getLogger;
-
 /**
  * Created 19/09/18
  *
@@ -37,8 +37,19 @@ import static org.slf4j.LoggerFactory.getLogger;
 public class DataStoreManager implements AfterAllCallback, BeforeAllCallback {
 
     public enum StoreType {
-        UNIPROT, INACTIVE_UNIPROT, UNIPARC, UNIREF, CROSSREF, PROTEOME, DISEASE, TAXONOMY, GENECENTRIC,
-        KEYWORD, LITERATURE, SUBCELLULAR_LOCATION, SUGGEST
+        UNIPROT,
+        INACTIVE_UNIPROT,
+        UNIPARC,
+        UNIREF,
+        CROSSREF,
+        PROTEOME,
+        DISEASE,
+        TAXONOMY,
+        GENECENTRIC,
+        KEYWORD,
+        LITERATURE,
+        SUBCELLULAR_LOCATION,
+        SUGGEST
     }
 
     private static final String SOLR_SYSTEM_PROPERTIES = "solr-system.properties";
@@ -69,8 +80,8 @@ public class DataStoreManager implements AfterAllCallback, BeforeAllCallback {
 
     private static void loadPropertiesAndSetAsSystemProperties() throws IOException {
         Properties properties = new Properties();
-        InputStream propertiesStream = DataStoreManager.class.getClassLoader()
-                .getResourceAsStream(SOLR_SYSTEM_PROPERTIES);
+        InputStream propertiesStream =
+                DataStoreManager.class.getClassLoader().getResourceAsStream(SOLR_SYSTEM_PROPERTIES);
         properties.load(propertiesStream);
 
         for (String property : properties.stringPropertyNames()) {
@@ -100,7 +111,8 @@ public class DataStoreManager implements AfterAllCallback, BeforeAllCallback {
     }
 
     public void addSolrClient(StoreType storeType, SolrCollection collection) {
-        ClosableEmbeddedSolrClient solrClient = new ClosableEmbeddedSolrClient(container, collection);
+        ClosableEmbeddedSolrClient solrClient =
+                new ClosableEmbeddedSolrClient(container, collection);
         solrClientMap.put(storeType, solrClient);
     }
 
@@ -124,7 +136,9 @@ public class DataStoreManager implements AfterAllCallback, BeforeAllCallback {
                 storeClient.saveEntry(o);
                 count++;
             } catch (Exception e) {
-                LOGGER.debug("Trying to add entry {} to data store again but a problem was encountered -- skipping", o);
+                LOGGER.debug(
+                        "Trying to add entry {} to data store again but a problem was encountered -- skipping",
+                        o);
             }
         }
 
@@ -139,7 +153,8 @@ public class DataStoreManager implements AfterAllCallback, BeforeAllCallback {
         return solrClientMap.get(storeType);
     }
 
-    public QueryResponse querySolr(StoreType storeType, String query) throws IOException, SolrServerException {
+    public QueryResponse querySolr(StoreType storeType, String query)
+            throws IOException, SolrServerException {
         return solrClientMap.get(storeType).query(new SolrQuery(query));
     }
 
@@ -164,8 +179,8 @@ public class DataStoreManager implements AfterAllCallback, BeforeAllCallback {
     public <T, D extends Document> void saveEntriesInSolr(StoreType storeType, List<T> entries) {
         DocumentConverter<T, D> documentConverter = docConverterMap.get(storeType);
         SolrClient client = solrClientMap.get(storeType);
-        List<D> docs = entries.stream().map(documentConverter::convert)
-                .collect(Collectors.toList());
+        List<D> docs =
+                entries.stream().map(documentConverter::convert).collect(Collectors.toList());
         try {
             client.addBeans(docs);
             client.commit();

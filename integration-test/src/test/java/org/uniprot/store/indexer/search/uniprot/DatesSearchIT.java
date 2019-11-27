@@ -7,9 +7,7 @@ import static org.hamcrest.collection.IsIterableContainingInOrder.contains;
 import static org.hamcrest.core.Is.is;
 import static org.uniprot.store.indexer.search.uniprot.IdentifierSearchIT.ACC_LINE;
 import static org.uniprot.store.indexer.search.uniprot.TestUtils.convertToUniProtEntry;
-import static org.uniprot.store.search.field.QueryBuilder.after;
-import static org.uniprot.store.search.field.QueryBuilder.before;
-import static org.uniprot.store.search.field.QueryBuilder.rangeQuery;
+import static org.uniprot.store.search.field.QueryBuilder.*;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -19,20 +17,18 @@ import java.util.List;
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Disabled;
-import org.junit.jupiter.api.extension.RegisterExtension;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.RegisterExtension;
 import org.uniprot.core.flatfile.writer.LineType;
-import org.uniprot.store.search.field.UniProtField;
+import org.uniprot.store.search.domain2.UniProtKBSearchFields;
 
-/**
- * Verifies if the creation and modification dates within the UniProt entry are indexed properly
- */
+/** Verifies if the creation and modification dates within the UniProt entry are indexed properly */
 class DatesSearchIT {
     private static final String UNIPROT_FLAT_FILE_ENTRY_PATH = "/it/uniprot/P0A377.43.dat";
     private static final String DT_LINE =
-            "DT   %s, integrated into UniProtKB/Swiss-Prot.\n" +
-                    "DT   %s, sequence version 2.\n" +
-                    "DT   %s, entry version 97.";
+            "DT   %s, integrated into UniProtKB/Swiss-Prot.\n"
+                    + "DT   %s, sequence version 2.\n"
+                    + "DT   %s, entry version 97.";
     private static final String ACCESSION1 = "Q197F4";
     private static final String CREATE_DATE1 = "01-OCT-1989";
     private static final String UPDATE_DATE1 = "07-FEB-2006";
@@ -54,58 +50,67 @@ class DatesSearchIT {
     private static final String ACCESSION_BST = "Q197F9";
     private static final String CREATE_DATE_BST = "31-MAR-2014";
     private static final String UPDATE_DATE_BST = "02-APR-2014";
-    @RegisterExtension
-    static UniProtSearchEngine searchEngine = new UniProtSearchEngine();
+    @RegisterExtension static UniProtSearchEngine searchEngine = new UniProtSearchEngine();
 
     @BeforeAll
     static void populateIndexWithTestData() throws IOException {
         // a test entry object that can be modified and added to index
         InputStream resourceAsStream = TestUtils.getResourceAsStream(UNIPROT_FLAT_FILE_ENTRY_PATH);
-        UniProtEntryObjectProxy entryProxy = UniProtEntryObjectProxy.createEntryFromInputStream(resourceAsStream);
+        UniProtEntryObjectProxy entryProxy =
+                UniProtEntryObjectProxy.createEntryFromInputStream(resourceAsStream);
 
-        //Entry 1
+        // Entry 1
         entryProxy.updateEntryObject(LineType.AC, String.format(ACC_LINE, ACCESSION1));
-        entryProxy.updateEntryObject(LineType.DT, String.format(DT_LINE, CREATE_DATE1, CREATE_DATE1, UPDATE_DATE1));
+        entryProxy.updateEntryObject(
+                LineType.DT, String.format(DT_LINE, CREATE_DATE1, CREATE_DATE1, UPDATE_DATE1));
         searchEngine.indexEntry(convertToUniProtEntry(entryProxy));
 
-        //Entry 2
+        // Entry 2
         entryProxy.updateEntryObject(LineType.AC, String.format(ACC_LINE, ACCESSION2));
-        entryProxy.updateEntryObject(LineType.DT, String.format(DT_LINE, CREATE_DATE2, CREATE_DATE2, UPDATE_DATE2));
+        entryProxy.updateEntryObject(
+                LineType.DT, String.format(DT_LINE, CREATE_DATE2, CREATE_DATE2, UPDATE_DATE2));
         searchEngine.indexEntry(convertToUniProtEntry(entryProxy));
 
-        //Entry 3
+        // Entry 3
         entryProxy.updateEntryObject(LineType.AC, String.format(ACC_LINE, ACCESSION3));
-        entryProxy.updateEntryObject(LineType.DT, String.format(DT_LINE, CREATE_DATE3, CREATE_DATE3, UPDATE_DATE3));
+        entryProxy.updateEntryObject(
+                LineType.DT, String.format(DT_LINE, CREATE_DATE3, CREATE_DATE3, UPDATE_DATE3));
         searchEngine.indexEntry(convertToUniProtEntry(entryProxy));
 
         // Entry 4
         entryProxy.updateEntryObject(LineType.AC, String.format(ACC_LINE, ACCESSION_BST));
-        entryProxy.updateEntryObject(LineType.DT, String.format(DT_LINE, CREATE_DATE_BST, CREATE_DATE_BST,
-                UPDATE_DATE_BST));
+        entryProxy.updateEntryObject(
+                LineType.DT,
+                String.format(DT_LINE, CREATE_DATE_BST, CREATE_DATE_BST, UPDATE_DATE_BST));
         searchEngine.indexEntry(convertToUniProtEntry(entryProxy));
 
         // Entry 5
         entryProxy.updateEntryObject(LineType.AC, String.format(ACC_LINE, ACCESSION_GMT));
-        entryProxy.updateEntryObject(LineType.DT, String.format(DT_LINE, CREATE_DATE_GMT, CREATE_DATE_GMT,
-                UPDATE_DATE_GMT));
+        entryProxy.updateEntryObject(
+                LineType.DT,
+                String.format(DT_LINE, CREATE_DATE_GMT, CREATE_DATE_GMT, UPDATE_DATE_GMT));
         searchEngine.indexEntry(convertToUniProtEntry(entryProxy));
 
         // Entry 6
         entryProxy.updateEntryObject(LineType.AC, String.format(ACC_LINE, ACCESSION_BST_DUBIOUS));
-        entryProxy.updateEntryObject(LineType.DT, String.format(DT_LINE, CREATE_DATE_BST_DUBIOUS, CREATE_DATE_BST_DUBIOUS,
-                UPDATE_DATE_BST_DUBIOUS));
+        entryProxy.updateEntryObject(
+                LineType.DT,
+                String.format(
+                        DT_LINE,
+                        CREATE_DATE_BST_DUBIOUS,
+                        CREATE_DATE_BST_DUBIOUS,
+                        UPDATE_DATE_BST_DUBIOUS));
         searchEngine.indexEntry(convertToUniProtEntry(entryProxy));
 
         searchEngine.printIndexContents();
     }
 
-  
-
     @Test
     void searchForCreatedBefore30SEP1989Returns0Documents() {
         LocalDate creationDate = LocalDate.of(1989, 9, 30);
 
-        String query = before(UniProtField.Search.created.name(), creationDate);
+        String query =
+                before(UniProtKBSearchFields.INSTANCE.getField("created").getName(), creationDate);
 
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -115,9 +120,10 @@ class DatesSearchIT {
 
     @Test
     void searchForCreatedBefore01OCT1989Returns1Document() {
-    	LocalDate creationDate = LocalDate.of(1989, 10, 1);
+        LocalDate creationDate = LocalDate.of(1989, 10, 1);
 
-        String query = before(UniProtField.Search.created.name(), creationDate);
+        String query =
+                before(UniProtKBSearchFields.INSTANCE.getField("created").getName(), creationDate);
 
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -127,9 +133,10 @@ class DatesSearchIT {
 
     @Test
     void searchForCreatedBefore15MAR1999Returns2Documents() {
-    	LocalDate creationDate = LocalDate.of(1999, 3, 15);
+        LocalDate creationDate = LocalDate.of(1999, 3, 15);
 
-        String query = before(UniProtField.Search.created.name(), creationDate);
+        String query =
+                before(UniProtKBSearchFields.INSTANCE.getField("created").getName(), creationDate);
 
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -139,9 +146,10 @@ class DatesSearchIT {
 
     @Test
     void searchForUpdatedBefore26OCT2004Returns0Documents() {
-    	LocalDate updateDate = LocalDate.of(2004, 10, 26);
+        LocalDate updateDate = LocalDate.of(2004, 10, 26);
 
-        String query = before(UniProtField.Search.modified.name(), updateDate);
+        String query =
+                before(UniProtKBSearchFields.INSTANCE.getField("modified").getName(), updateDate);
 
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -151,9 +159,10 @@ class DatesSearchIT {
 
     @Test
     void searchForUpdatedBefore27OCT2004Returns1Documents() {
-    	LocalDate updateDate = LocalDate.of(2004, 10, 27);
+        LocalDate updateDate = LocalDate.of(2004, 10, 27);
 
-        String query = before(UniProtField.Search.modified.name(), updateDate);
+        String query =
+                before(UniProtKBSearchFields.INSTANCE.getField("modified").getName(), updateDate);
 
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -163,21 +172,24 @@ class DatesSearchIT {
 
     @Test
     void searchForUpdatedBefore08FEB2006Returns2Documents() {
-    	LocalDate updateDate = LocalDate.of(2006, 2, 8);
+        LocalDate updateDate = LocalDate.of(2006, 2, 8);
 
-        String query = before(UniProtField.Search.modified.name(), updateDate);
+        String query =
+                before(UniProtKBSearchFields.INSTANCE.getField("modified").getName(), updateDate);
 
         QueryResponse response = searchEngine.getQueryResponse(query);
 
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
         assertThat(retrievedAccessions, containsInAnyOrder(ACCESSION1, ACCESSION3));
     }
+
     @Disabled
     @Test
     void searchForCreatedAfter31MAR2014Returns1Document() {
-    	LocalDate creationDate = LocalDate.of(2014, 3, 30);
+        LocalDate creationDate = LocalDate.of(2014, 3, 30);
 
-        String query = after(UniProtField.Search.created.name(), creationDate);
+        String query =
+                after(UniProtKBSearchFields.INSTANCE.getField("created").getName(), creationDate);
 
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -187,72 +199,103 @@ class DatesSearchIT {
 
     @Test
     void searchForCreatedAfter30JUL2003Returns3Documents() {
-    	LocalDate creationDate = LocalDate.of(2003, 7, 29);
+        LocalDate creationDate = LocalDate.of(2003, 7, 29);
 
-        String query = after(UniProtField.Search.created.name(), creationDate);
+        String query =
+                after(UniProtKBSearchFields.INSTANCE.getField("created").getName(), creationDate);
 
         QueryResponse response = searchEngine.getQueryResponse(query);
 
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
         System.out.println(retrievedAccessions);
-        assertThat(retrievedAccessions, containsInAnyOrder(ACCESSION2, ACCESSION_BST, ACCESSION_GMT, ACCESSION_BST_DUBIOUS));
+        assertThat(
+                retrievedAccessions,
+                containsInAnyOrder(
+                        ACCESSION2, ACCESSION_BST, ACCESSION_GMT, ACCESSION_BST_DUBIOUS));
     }
 
     @Test
     void searchForCreatedAfter15MAR1999Returns2Documents() {
-    	LocalDate creationDate = LocalDate.of(1999, 3, 15);
+        LocalDate creationDate = LocalDate.of(1999, 3, 15);
 
-        String query = after(UniProtField.Search.created.name(), creationDate);
+        String query =
+                after(UniProtKBSearchFields.INSTANCE.getField("created").getName(), creationDate);
 
         QueryResponse response = searchEngine.getQueryResponse(query);
 
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
-        assertThat(retrievedAccessions, containsInAnyOrder(ACCESSION2, ACCESSION3, ACCESSION_BST, ACCESSION_GMT, ACCESSION_BST_DUBIOUS));
+        assertThat(
+                retrievedAccessions,
+                containsInAnyOrder(
+                        ACCESSION2,
+                        ACCESSION3,
+                        ACCESSION_BST,
+                        ACCESSION_GMT,
+                        ACCESSION_BST_DUBIOUS));
     }
 
     @Test
     void searchForUpdatedAfter1APR2014Returns3Documents() {
-    	LocalDate updateDate = LocalDate.of(2014, 4, 1);
+        LocalDate updateDate = LocalDate.of(2014, 4, 1);
 
-        String query = after(UniProtField.Search.modified.name(), updateDate);
-     
+        String query =
+                after(UniProtKBSearchFields.INSTANCE.getField("modified").getName(), updateDate);
+
         QueryResponse response = searchEngine.getQueryResponse(query);
 
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
         System.out.println(retrievedAccessions);
-        assertThat(retrievedAccessions, containsInAnyOrder(ACCESSION_BST, ACCESSION_BST_DUBIOUS, ACCESSION_GMT));
+        assertThat(
+                retrievedAccessions,
+                containsInAnyOrder(ACCESSION_BST, ACCESSION_BST_DUBIOUS, ACCESSION_GMT));
     }
 
     @Test
     void searchForUpdatedAfter01JAN2013Returns3Documents() {
-    	LocalDate updateDate = LocalDate.of(2013, 1, 1);
+        LocalDate updateDate = LocalDate.of(2013, 1, 1);
 
-        String query = after(UniProtField.Search.modified.name(), updateDate);
+        String query =
+                after(UniProtKBSearchFields.INSTANCE.getField("modified").getName(), updateDate);
 
         QueryResponse response = searchEngine.getQueryResponse(query);
 
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
-        assertThat(retrievedAccessions, containsInAnyOrder(ACCESSION2, ACCESSION_BST, ACCESSION_GMT, ACCESSION_BST_DUBIOUS));
+        assertThat(
+                retrievedAccessions,
+                containsInAnyOrder(
+                        ACCESSION2, ACCESSION_BST, ACCESSION_GMT, ACCESSION_BST_DUBIOUS));
     }
 
     @Test
     void searchForUpdatedAfter07FEB2006Returns4Documents() {
-    	LocalDate updateDate = LocalDate.of(2006, 2, 7);
+        LocalDate updateDate = LocalDate.of(2006, 2, 7);
 
-        String query = after(UniProtField.Search.modified.name(), updateDate);
+        String query =
+                after(UniProtKBSearchFields.INSTANCE.getField("modified").getName(), updateDate);
 
         QueryResponse response = searchEngine.getQueryResponse(query);
 
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
-        assertThat(retrievedAccessions, containsInAnyOrder(ACCESSION1, ACCESSION2, ACCESSION_BST, ACCESSION_GMT, ACCESSION_BST_DUBIOUS));
+        assertThat(
+                retrievedAccessions,
+                containsInAnyOrder(
+                        ACCESSION1,
+                        ACCESSION2,
+                        ACCESSION_BST,
+                        ACCESSION_GMT,
+                        ACCESSION_BST_DUBIOUS));
     }
 
     @Test
     void searchCreationBetween20FEB1979And10Dec1979Returns0Documents() {
-    	LocalDate startDate = LocalDate.of(1979, 2, 20);
-    	LocalDate endDate = LocalDate.of(1979, 12, 10);
+        LocalDate startDate = LocalDate.of(1979, 2, 20);
+        LocalDate endDate = LocalDate.of(1979, 12, 10);
 
-        String query = rangeQuery(UniProtField.Search.created.name(), startDate, endDate);
+        String query =
+                rangeQuery(
+                        UniProtKBSearchFields.INSTANCE.getField("created").getName(),
+                        startDate,
+                        endDate);
 
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -262,10 +305,14 @@ class DatesSearchIT {
 
     @Test
     void createdBetween01JAN1989And01JAN2000ReturnsEntry1And3() {
-    	LocalDate startDate = LocalDate.of(1989, 1, 1);
-    	LocalDate endDate = LocalDate.of(2000, 1, 1);
+        LocalDate startDate = LocalDate.of(1989, 1, 1);
+        LocalDate endDate = LocalDate.of(2000, 1, 1);
 
-        String query = rangeQuery(UniProtField.Search.created.name(), startDate, endDate);
+        String query =
+                rangeQuery(
+                        UniProtKBSearchFields.INSTANCE.getField("created").getName(),
+                        startDate,
+                        endDate);
 
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -275,25 +322,31 @@ class DatesSearchIT {
 
     @Test
     void createdBetween01JAN1989And01JAN2000ReturnsEntry1And32() {
-    	LocalDate startDate = LocalDate.of(1989, 1, 1);
-    	LocalDate endDate = LocalDate.of(2000, 1, 1);
+        LocalDate startDate = LocalDate.of(1989, 1, 1);
+        LocalDate endDate = LocalDate.of(2000, 1, 1);
 
-        String query = rangeQuery(UniProtField.Search.created.name(),
-        		startDate, endDate);
-      
+        String query =
+                rangeQuery(
+                        UniProtKBSearchFields.INSTANCE.getField("created").getName(),
+                        startDate,
+                        endDate);
+
         QueryResponse response = searchEngine.getQueryResponse(query);
 
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
         assertThat(retrievedAccessions, containsInAnyOrder(ACCESSION1, ACCESSION3));
     }
 
-    
     @Test
     void searchUpdateBetween20FEB1979And10Dec1979Returns0Documents() {
-    	LocalDate startDate = LocalDate.of(1979, 2, 20);
-    	LocalDate endDate = LocalDate.of(1979, 12, 10);
+        LocalDate startDate = LocalDate.of(1979, 2, 20);
+        LocalDate endDate = LocalDate.of(1979, 12, 10);
 
-        String query = rangeQuery(UniProtField.Search.modified.name(), startDate, endDate);
+        String query =
+                rangeQuery(
+                        UniProtKBSearchFields.INSTANCE.getField("modified").getName(),
+                        startDate,
+                        endDate);
 
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -301,14 +354,16 @@ class DatesSearchIT {
         assertThat(retrievedAccessions, is(empty()));
     }
 
-  
-    
     @Test
     void updatedBetween01JAN2004And01JAN2006ReturnsEntry1And3() {
-    	LocalDate startDate = LocalDate.of(2004, 1, 1);
-    	LocalDate endDate = LocalDate.of(2006, 12, 1);
+        LocalDate startDate = LocalDate.of(2004, 1, 1);
+        LocalDate endDate = LocalDate.of(2006, 12, 1);
 
-        String query = rangeQuery(UniProtField.Search.modified.name(), startDate, endDate);
+        String query =
+                rangeQuery(
+                        UniProtKBSearchFields.INSTANCE.getField("modified").getName(),
+                        startDate,
+                        endDate);
 
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -318,13 +373,16 @@ class DatesSearchIT {
 
     @Test
     void updatedBetween01JAN2004And01JAN2006ReturnsEntry1And32() {
-    	LocalDate startDate = LocalDate.of(2004, 1, 1);
-    	LocalDate endDate = LocalDate.of(2006, 12, 1);
+        LocalDate startDate = LocalDate.of(2004, 1, 1);
+        LocalDate endDate = LocalDate.of(2006, 12, 1);
 
-       // String query = updated(startDate, endDate);
-        
-        String query = rangeQuery(UniProtField.Search.modified.name(),
-        		startDate, endDate);
+        // String query = updated(startDate, endDate);
+
+        String query =
+                rangeQuery(
+                        UniProtKBSearchFields.INSTANCE.getField("modified").getName(),
+                        startDate,
+                        endDate);
 
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -332,18 +390,20 @@ class DatesSearchIT {
         assertThat(retrievedAccessions, containsInAnyOrder(ACCESSION1, ACCESSION3));
     }
 
-
-
     /*
      * BST for 2014:    30 March - 26 October
      * Entry created:   29 March 2014, therefore this date is GMT
      */
     @Test
     void searchExplicitGMTEntryTestUpperBound() {
-    	LocalDate startDate = LocalDate.of(2014, 3, 28);
-    	LocalDate endDate = LocalDate.of(2014, 3, 29);
+        LocalDate startDate = LocalDate.of(2014, 3, 28);
+        LocalDate endDate = LocalDate.of(2014, 3, 29);
 
-        String query = rangeQuery(UniProtField.Search.created.name(), startDate, endDate);
+        String query =
+                rangeQuery(
+                        UniProtKBSearchFields.INSTANCE.getField("created").getName(),
+                        startDate,
+                        endDate);
 
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -353,10 +413,14 @@ class DatesSearchIT {
 
     @Test
     void searchExplicitGMTEntryTestExactDay() {
-    	LocalDate startDate = LocalDate.of(2014, 3, 29);
-    	LocalDate endDate = LocalDate.of(2014, 3, 29);
+        LocalDate startDate = LocalDate.of(2014, 3, 29);
+        LocalDate endDate = LocalDate.of(2014, 3, 29);
 
-        String query = rangeQuery(UniProtField.Search.created.name(), startDate, endDate);
+        String query =
+                rangeQuery(
+                        UniProtKBSearchFields.INSTANCE.getField("created").getName(),
+                        startDate,
+                        endDate);
 
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -366,10 +430,14 @@ class DatesSearchIT {
 
     @Test
     void searchExplicitGMTEntryTestOver() {
-    	LocalDate startDate = LocalDate.of(2014, 3, 28);
-    	LocalDate endDate = LocalDate.of(2014, 3, 30);
+        LocalDate startDate = LocalDate.of(2014, 3, 28);
+        LocalDate endDate = LocalDate.of(2014, 3, 30);
 
-        String query = rangeQuery(UniProtField.Search.created.name(), startDate, endDate);
+        String query =
+                rangeQuery(
+                        UniProtKBSearchFields.INSTANCE.getField("created").getName(),
+                        startDate,
+                        endDate);
 
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -379,10 +447,14 @@ class DatesSearchIT {
 
     @Test
     void searchExplicitGMTEntryTestLowerBound() {
-    	LocalDate startDate = LocalDate.of(2014, 3, 29);
-    	LocalDate endDate = LocalDate.of(2014, 3, 30);
+        LocalDate startDate = LocalDate.of(2014, 3, 29);
+        LocalDate endDate = LocalDate.of(2014, 3, 30);
 
-        String query = rangeQuery(UniProtField.Search.created.name(), startDate, endDate);
+        String query =
+                rangeQuery(
+                        UniProtKBSearchFields.INSTANCE.getField("created").getName(),
+                        startDate,
+                        endDate);
 
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -397,23 +469,32 @@ class DatesSearchIT {
      */
     @Test
     void searchExplicitBSTEntryTestUpperBound() {
-    	LocalDate startDate = LocalDate.of(2014, 3, 30);
-    	LocalDate endDate = LocalDate.of(2014, 3, 31);
+        LocalDate startDate = LocalDate.of(2014, 3, 30);
+        LocalDate endDate = LocalDate.of(2014, 3, 31);
 
-        String query = rangeQuery(UniProtField.Search.created.name(), startDate, endDate);
+        String query =
+                rangeQuery(
+                        UniProtKBSearchFields.INSTANCE.getField("created").getName(),
+                        startDate,
+                        endDate);
 
         QueryResponse response = searchEngine.getQueryResponse(query);
 
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
         assertThat(retrievedAccessions, containsInAnyOrder(ACCESSION_BST, ACCESSION_BST_DUBIOUS));
     }
+
     @Disabled
     @Test
     void searchExplicitBSTEntryTestExactDay() {
-    	LocalDate startDate = LocalDate.of(2014, 3, 31);
-    	LocalDate endDate = LocalDate.of(2014, 3, 31);
+        LocalDate startDate = LocalDate.of(2014, 3, 31);
+        LocalDate endDate = LocalDate.of(2014, 3, 31);
 
-        String query = rangeQuery(UniProtField.Search.created.name(), startDate, endDate);
+        String query =
+                rangeQuery(
+                        UniProtKBSearchFields.INSTANCE.getField("created").getName(),
+                        startDate,
+                        endDate);
 
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -424,23 +505,32 @@ class DatesSearchIT {
 
     @Test
     void searchExplicitBSTEntryTestOver() {
-    	LocalDate startDate = LocalDate.of(2014, 3, 30);
-    	LocalDate endDate = LocalDate.of(2014, 4, 1);
+        LocalDate startDate = LocalDate.of(2014, 3, 30);
+        LocalDate endDate = LocalDate.of(2014, 4, 1);
 
-        String query = rangeQuery(UniProtField.Search.created.name(), startDate, endDate);
+        String query =
+                rangeQuery(
+                        UniProtKBSearchFields.INSTANCE.getField("created").getName(),
+                        startDate,
+                        endDate);
 
         QueryResponse response = searchEngine.getQueryResponse(query);
 
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
         assertThat(retrievedAccessions, containsInAnyOrder(ACCESSION_BST, ACCESSION_BST_DUBIOUS));
     }
+
     @Disabled
     @Test
     void searchExplicitBSTEntryTestLowerBound() {
-    	LocalDate startDate = LocalDate.of(2014, 3, 31);
-    	LocalDate endDate = LocalDate.of(2014, 4, 1);
+        LocalDate startDate = LocalDate.of(2014, 3, 31);
+        LocalDate endDate = LocalDate.of(2014, 4, 1);
 
-        String query = rangeQuery(UniProtField.Search.created.name(), startDate, endDate);
+        String query =
+                rangeQuery(
+                        UniProtKBSearchFields.INSTANCE.getField("created").getName(),
+                        startDate,
+                        endDate);
 
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -454,10 +544,14 @@ class DatesSearchIT {
      */
     @Test
     void searchExplicitBSTDubiousEntryTestUpperBound() {
-    	LocalDate startDate = LocalDate.of(2014, 3, 29);
-    	LocalDate endDate = LocalDate.of(2014, 3, 30);
+        LocalDate startDate = LocalDate.of(2014, 3, 29);
+        LocalDate endDate = LocalDate.of(2014, 3, 30);
 
-        String query = rangeQuery(UniProtField.Search.created.name(), startDate, endDate);
+        String query =
+                rangeQuery(
+                        UniProtKBSearchFields.INSTANCE.getField("created").getName(),
+                        startDate,
+                        endDate);
 
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -470,7 +564,11 @@ class DatesSearchIT {
         LocalDate startDate = LocalDate.of(2014, 3, 30);
         LocalDate endDate = LocalDate.of(2014, 3, 30);
 
-        String query = rangeQuery(UniProtField.Search.created.name(), startDate, endDate);
+        String query =
+                rangeQuery(
+                        UniProtKBSearchFields.INSTANCE.getField("created").getName(),
+                        startDate,
+                        endDate);
 
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -480,15 +578,21 @@ class DatesSearchIT {
 
     @Test
     void searchExplicitBSTDubiousEntryTestOver() {
-    	LocalDate startDate = LocalDate.of(2014, 3, 29);
-    	LocalDate endDate = LocalDate.of(2014, 3, 31);
+        LocalDate startDate = LocalDate.of(2014, 3, 29);
+        LocalDate endDate = LocalDate.of(2014, 3, 31);
 
-        String query = rangeQuery(UniProtField.Search.created.name(), startDate, endDate);
+        String query =
+                rangeQuery(
+                        UniProtKBSearchFields.INSTANCE.getField("created").getName(),
+                        startDate,
+                        endDate);
 
         QueryResponse response = searchEngine.getQueryResponse(query);
 
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
-        assertThat(retrievedAccessions, containsInAnyOrder(ACCESSION_BST_DUBIOUS, ACCESSION_GMT, ACCESSION_BST));
+        assertThat(
+                retrievedAccessions,
+                containsInAnyOrder(ACCESSION_BST_DUBIOUS, ACCESSION_GMT, ACCESSION_BST));
     }
 
     @Test
@@ -496,26 +600,32 @@ class DatesSearchIT {
         LocalDate startDate = LocalDate.of(2014, 3, 30);
         LocalDate endDate = LocalDate.of(2014, 3, 31);
 
-        String query = rangeQuery(UniProtField.Search.created.name(), startDate, endDate);
+        String query =
+                rangeQuery(
+                        UniProtKBSearchFields.INSTANCE.getField("created").getName(),
+                        startDate,
+                        endDate);
 
         QueryResponse response = searchEngine.getQueryResponse(query);
 
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
         assertThat(retrievedAccessions, containsInAnyOrder(ACCESSION_BST_DUBIOUS, ACCESSION_BST));
     }
-    
+
     @Test
     void searchExplicitBSTSequenceUpdateTestOver() {
-    	LocalDate startDate = LocalDate.of(2014, 3, 30);
-    	LocalDate endDate = LocalDate.of(2014, 4, 1);
+        LocalDate startDate = LocalDate.of(2014, 3, 30);
+        LocalDate endDate = LocalDate.of(2014, 4, 1);
 
-        String query = rangeQuery(UniProtField.Search.sequence_modified.name(), startDate, endDate);
+        String query =
+                rangeQuery(
+                        UniProtKBSearchFields.INSTANCE.getField("sequence_modified").getName(),
+                        startDate,
+                        endDate);
 
         QueryResponse response = searchEngine.getQueryResponse(query);
 
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
         assertThat(retrievedAccessions, containsInAnyOrder(ACCESSION_BST, ACCESSION_BST_DUBIOUS));
     }
-    
-
 }

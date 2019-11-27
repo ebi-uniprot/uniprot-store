@@ -19,7 +19,6 @@ public class GoTermFileReader {
         this.filepath = filepath;
     }
 
-
     public Map<String, GoTerm> read() {
         String filename = filepath + File.separator + FILENAME;
         try (Stream<String> stream = Files.lines(Paths.get(filename))) {
@@ -32,8 +31,7 @@ public class GoTermFileReader {
     }
 
     private GoTerm readLine(String line) {
-        if (line.startsWith(COMMENT_PREFIX))
-            return null;
+        if (line.startsWith(COMMENT_PREFIX)) return null;
 
         String[] tokens = line.split(SEPARATOR);
         if (tokens.length == 4) {
@@ -74,25 +72,17 @@ public class GoTermFileReader {
 
         @Override
         public boolean equals(Object obj) {
-            if (this == obj)
-                return true;
-            if (obj == null)
-                return false;
-            if (getClass() != obj.getClass())
-                return false;
+            if (this == obj) return true;
+            if (obj == null) return false;
+            if (getClass() != obj.getClass()) return false;
             GoTermImpl other = (GoTermImpl) obj;
             if (goId == null) {
-                if (other.goId != null)
-                    return false;
-            } else if (!goId.equals(other.goId))
-                return false;
+                if (other.goId != null) return false;
+            } else if (!goId.equals(other.goId)) return false;
             if (name == null) {
-                if (other.name != null)
-                    return false;
-            } else if (!name.equals(other.name))
-                return false;
+                if (other.name != null) return false;
+            } else if (!name.equals(other.name)) return false;
             return true;
         }
-
     }
 }

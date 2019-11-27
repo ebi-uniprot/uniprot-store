@@ -1,5 +1,14 @@
 package org.uniprot.store.indexer;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.jupiter.api.Assertions.fail;
+import static org.mockito.Mockito.mock;
+
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.hamcrest.Matchers;
@@ -16,20 +25,10 @@ import org.uniprot.store.indexer.uniprotkb.converter.UniProtEntryConverter;
 import org.uniprot.store.search.SolrCollection;
 import org.uniprot.store.search.document.uniprot.UniProtDocument;
 
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.stream.Collectors;
-
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.jupiter.api.Assertions.fail;
-import static org.mockito.Mockito.mock;
-
 class DataStoreManagerTest {
     private static final String P12345 = "P12345";
 
-    @RegisterExtension
-    static DataStoreManager storeManager = new DataStoreManager();
+    @RegisterExtension static DataStoreManager storeManager = new DataStoreManager();
 
     @BeforeAll
     static void setUp() {
@@ -37,20 +36,20 @@ class DataStoreManagerTest {
 
             storeManager.addSolrClient(DataStoreManager.StoreType.UNIPROT, SolrCollection.uniprot);
 
-            //    UUWStoreClient storeClient = new FakeStoreClient(VoldemortInMemoryUniprotEntryStore
+            //    UUWStoreClient storeClient = new
+            // FakeStoreClient(VoldemortInMemoryUniprotEntryStore
             //             .getInstance("avro-uniprot"));
             //     storeManager.addVoldemort(DataStoreManager.StoreType.UNIPROT, storeClient);
             ChebiRepo chebiRepoMock = mock(ChebiRepo.class);
-            storeManager
-                    .addDocConverter(DataStoreManager.StoreType.UNIPROT, new UniProtEntryConverter(TaxonomyRepoMocker
-                                                                                                           .getTaxonomyRepo(),
-                                                                                                   GoRelationsRepoMocker
-                                                                                                           .getGoRelationRepo(),
-                                                                                                   PathwayRepoMocker
-                                                                                                           .getPathwayRepo(),
-                                                                                                   chebiRepoMock,
-                                                                                                   mock(ECRepo.class),
-                                                                                                   new HashMap<>()));
+            storeManager.addDocConverter(
+                    DataStoreManager.StoreType.UNIPROT,
+                    new UniProtEntryConverter(
+                            TaxonomyRepoMocker.getTaxonomyRepo(),
+                            GoRelationsRepoMocker.getGoRelationRepo(),
+                            PathwayRepoMocker.getPathwayRepo(),
+                            chebiRepoMock,
+                            mock(ECRepo.class),
+                            new HashMap<>()));
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -58,11 +57,10 @@ class DataStoreManagerTest {
         }
     }
 
-
     //    private static UniProtUniRefMap uniprotUniRefMap() {
-//    	return  UniProtUniRefMap.builder(true).build();
-//
-//    }
+    //    	return  UniProtUniRefMap.builder(true).build();
+    //
+    //    }
     @AfterEach
     void cleanUp() {
         storeManager.cleanSolr(DataStoreManager.StoreType.UNIPROT);
@@ -72,19 +70,27 @@ class DataStoreManagerTest {
 
     @Test
     void canAddAndSearchDocumentsInSolr() throws IOException, SolrServerException {
-        storeManager.saveDocs(DataStoreManager.StoreType.UNIPROT, UniProtDocMocker.createDoc(P12345));
-        QueryResponse response = storeManager.querySolr(DataStoreManager.StoreType.UNIPROT, "accession:P12345");
-        List<String> results = response.getBeans(UniProtDocument.class).stream().map(doc -> doc.accession)
-                .collect(Collectors.toList());
+        storeManager.saveDocs(
+                DataStoreManager.StoreType.UNIPROT, UniProtDocMocker.createDoc(P12345));
+        QueryResponse response =
+                storeManager.querySolr(DataStoreManager.StoreType.UNIPROT, "accession:P12345");
+        List<String> results =
+                response.getBeans(UniProtDocument.class).stream()
+                        .map(doc -> doc.accession)
+                        .collect(Collectors.toList());
         assertThat(results, Matchers.contains(P12345));
     }
 
     @Test
     void canAddEntriesAndSearchDocumentsInSolr() throws IOException, SolrServerException {
-        storeManager.saveDocs(DataStoreManager.StoreType.UNIPROT, UniProtDocMocker.createDoc(P12345));
-        QueryResponse response = storeManager.querySolr(DataStoreManager.StoreType.UNIPROT, "accession:P12345");
-        List<String> results = response.getBeans(UniProtDocument.class).stream().map(doc -> doc.accession)
-                .collect(Collectors.toList());
+        storeManager.saveDocs(
+                DataStoreManager.StoreType.UNIPROT, UniProtDocMocker.createDoc(P12345));
+        QueryResponse response =
+                storeManager.querySolr(DataStoreManager.StoreType.UNIPROT, "accession:P12345");
+        List<String> results =
+                response.getBeans(UniProtDocument.class).stream()
+                        .map(doc -> doc.accession)
+                        .collect(Collectors.toList());
         assertThat(results, Matchers.contains(P12345));
     }
 
@@ -95,41 +101,47 @@ class DataStoreManagerTest {
         String accession = entry.getPrimaryAccession().getValue();
         storeManager.saveEntriesInSolr(DataStoreManager.StoreType.UNIPROT, entry);
         QueryResponse response = storeManager.querySolr(DataStoreManager.StoreType.UNIPROT, "*:*");
-        List<String> results = response.getBeans(UniProtDocument.class).stream().map(doc -> doc.accession)
-                .collect(Collectors.toList());
+        List<String> results =
+                response.getBeans(UniProtDocument.class).stream()
+                        .map(doc -> doc.accession)
+                        .collect(Collectors.toList());
         assertThat(results, Matchers.contains(accession));
     }
 
-//    @Test
-//    void canAddAndFetchEntriesInVoldemort() {
-//        UniProtEntry entry = UniProtEntryMocker.create(UniProtEntryMocker.Type.SP);
-//        String accession = entry.getPrimaryAccession().getValue();
-//        storeManager.saveToVoldemort(DataStoreManager.StoreType.UNIPROT, entry);
-//        List<UniProtEntry> voldemortEntries = storeManager.getVoldemortEntries(DataStoreManager.StoreType.UNIPROT, accession);
-//        assertThat(voldemortEntries, hasSize(1));
-//        assertThat(voldemortEntries.get(0), Matchers.is(entry));
-//    }
-//
-//    @Test
-//    void canAddAndFetchEntriesInSolrAndVoldemort() throws IOException, SolrServerException {
-//        UniProtEntry entry = UniProtEntryMocker.create(UniProtEntryMocker.Type.SP);
-//        String accession = entry.getPrimaryAccession().getValue();
-//        storeManager.save(DataStoreManager.StoreType.UNIPROT, entry);
-//
-//        QueryResponse response = storeManager.querySolr(DataStoreManager.StoreType.UNIPROT, "*:*");
-//        List<String> results = response.getBeans(UniProtDocument.class).stream().map(doc -> doc.accession)
-//                .collect(Collectors.toList());
-//        assertThat(results, Matchers.contains(accession));
-//
-//        List<UniProtEntry> voldemortEntries = storeManager.getVoldemortEntries(DataStoreManager.StoreType.UNIPROT, accession);
-//        assertThat(voldemortEntries, hasSize(1));
-//        assertThat(voldemortEntries.get(0), Matchers.is(entry));
-//    }
-//
-//    private static class FakeStoreClient extends UUWStoreClient<UniProtEntry> {
-//
-//        FakeStoreClient(VoldemortClient<UniProtEntry> client) {
-//            super(client);
-//        }
-//    }
+    //    @Test
+    //    void canAddAndFetchEntriesInVoldemort() {
+    //        UniProtEntry entry = UniProtEntryMocker.create(UniProtEntryMocker.Type.SP);
+    //        String accession = entry.getPrimaryAccession().getValue();
+    //        storeManager.saveToVoldemort(DataStoreManager.StoreType.UNIPROT, entry);
+    //        List<UniProtEntry> voldemortEntries =
+    // storeManager.getVoldemortEntries(DataStoreManager.StoreType.UNIPROT, accession);
+    //        assertThat(voldemortEntries, hasSize(1));
+    //        assertThat(voldemortEntries.get(0), Matchers.is(entry));
+    //    }
+    //
+    //    @Test
+    //    void canAddAndFetchEntriesInSolrAndVoldemort() throws IOException, SolrServerException {
+    //        UniProtEntry entry = UniProtEntryMocker.create(UniProtEntryMocker.Type.SP);
+    //        String accession = entry.getPrimaryAccession().getValue();
+    //        storeManager.save(DataStoreManager.StoreType.UNIPROT, entry);
+    //
+    //        QueryResponse response = storeManager.querySolr(DataStoreManager.StoreType.UNIPROT,
+    // "*:*");
+    //        List<String> results = response.getBeans(UniProtDocument.class).stream().map(doc ->
+    // doc.accession)
+    //                .collect(Collectors.toList());
+    //        assertThat(results, Matchers.contains(accession));
+    //
+    //        List<UniProtEntry> voldemortEntries =
+    // storeManager.getVoldemortEntries(DataStoreManager.StoreType.UNIPROT, accession);
+    //        assertThat(voldemortEntries, hasSize(1));
+    //        assertThat(voldemortEntries.get(0), Matchers.is(entry));
+    //    }
+    //
+    //    private static class FakeStoreClient extends UUWStoreClient<UniProtEntry> {
+    //
+    //        FakeStoreClient(VoldemortClient<UniProtEntry> client) {
+    //            super(client);
+    //        }
+    //    }
 }

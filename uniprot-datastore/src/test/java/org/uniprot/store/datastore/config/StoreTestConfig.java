@@ -6,21 +6,15 @@ import org.springframework.boot.test.context.TestConfiguration;
 import org.uniprot.store.datastore.common.config.StoreProperties;
 
 /**
- *
  * @author jluo
  * @date: 15 Aug 2019
- *
-*/
+ */
 @TestConfiguration
 @ConfigurationProperties(prefix = "store.uniprotkb")
 public class StoreTestConfig {
-	@Autowired	
-	private StoreProperties properties;
+    @Autowired private StoreProperties properties;
 
-	public StoreTestConfig(StoreProperties properties) {
-		this.properties = properties;
-	}
-	
-	
+    public StoreTestConfig(StoreProperties properties) {
+        this.properties = properties;
+    }
 }
-

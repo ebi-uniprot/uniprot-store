@@ -21,14 +21,16 @@ public class UniProtEntryItemReader implements ItemReader<UniProtEntryDocumentPa
 
     public UniProtEntryItemReader(UniProtKBIndexingProperties indexingProperties) {
         DefaultUniProtEntryIterator uniProtEntryIterator =
-                new DefaultUniProtEntryIterator(indexingProperties.getEntryIteratorThreads(),
-                                                indexingProperties.getEntryIteratorQueueSize(),
-                                                indexingProperties.getEntryIteratorFFQueueSize());
-        uniProtEntryIterator.setInput(indexingProperties.getUniProtEntryFile(),
-                                      indexingProperties.getKeywordFile(),
-                                      indexingProperties.getDiseaseFile(),
-                                      indexingProperties.getAccessionGoPubmedFile(),
-                                      indexingProperties.getSubcellularLocationFile());
+                new DefaultUniProtEntryIterator(
+                        indexingProperties.getEntryIteratorThreads(),
+                        indexingProperties.getEntryIteratorQueueSize(),
+                        indexingProperties.getEntryIteratorFFQueueSize());
+        uniProtEntryIterator.setInput(
+                indexingProperties.getUniProtEntryFile(),
+                indexingProperties.getKeywordFile(),
+                indexingProperties.getDiseaseFile(),
+                indexingProperties.getAccessionGoPubmedFile(),
+                indexingProperties.getSubcellularLocationFile());
         this.entryIterator = uniProtEntryIterator;
         this.sleeper = new OnZeroCountSleeper();
     }

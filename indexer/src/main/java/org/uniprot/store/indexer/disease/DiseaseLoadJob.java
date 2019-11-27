@@ -23,16 +23,18 @@ import org.uniprot.store.indexer.common.utils.Constants;
 @Configuration
 @Import({DataSourceConfig.class, SolrRepositoryConfig.class})
 public class DiseaseLoadJob {
-    @Autowired
-    private JobBuilderFactory jobs;
+    @Autowired private JobBuilderFactory jobs;
 
     @Bean("DiseaseLoadJob")
-    public Job indexSupportingData(@Qualifier("DiseaseProteinCountStep") Step diseaseProteinCountStep,
+    public Job indexSupportingData(
+            @Qualifier("DiseaseProteinCountStep") Step diseaseProteinCountStep,
             @Qualifier("IndexDiseaseStep") Step indexDisease,
-                                   JobExecutionListener jobListener) {
-        return this.jobs.get(Constants.DISEASE_LOAD_JOB_NAME)
-                .start(diseaseProteinCountStep)// get the protein count of the diseases and cache them for next step
-                .next(indexDisease)//index the disease
+            JobExecutionListener jobListener) {
+        return this.jobs
+                .get(Constants.DISEASE_LOAD_JOB_NAME)
+                .start(diseaseProteinCountStep) // get the protein count of the diseases and cache
+                // them for next step
+                .next(indexDisease) // index the disease
                 .listener(jobListener)
                 .build();
     }

@@ -22,7 +22,7 @@ public class SearchFieldsLoader implements SearchItems, SearchFields {
     private Set<SearchField> searchFields = new HashSet<>();
     private Set<SearchField> sortFields;
 
-    SearchFieldsLoader(String fileName) {
+    public SearchFieldsLoader(String fileName) {
         init(fileName);
     }
 

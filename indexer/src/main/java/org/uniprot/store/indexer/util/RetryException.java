@@ -1,7 +1,8 @@
 package org.uniprot.store.indexer.util;
 
 /**
- * Exception that is thrown when an operation has failed to execute even after several retry attempts.
+ * Exception that is thrown when an operation has failed to execute even after several retry
+ * attempts.
  *
  * @author Ricardo Antunes
  */

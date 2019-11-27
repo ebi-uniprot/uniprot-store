@@ -12,5 +12,4 @@ import org.springframework.context.annotation.Configuration;
 @ConditionalOnProperty(prefix = "uniprot.job", name = "name", havingValue = "genecentric")
 @ComponentScan(basePackages = {"org.uniprot.store.indexer.genecentric"})
 @Configuration
-public class GeneCentricIndexingJobConfig {
-}
+public class GeneCentricIndexingJobConfig {}

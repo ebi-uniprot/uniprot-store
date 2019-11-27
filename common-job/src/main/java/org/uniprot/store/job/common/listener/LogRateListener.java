@@ -1,20 +1,21 @@
 package org.uniprot.store.job.common.listener;
 
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.batch.core.ItemWriteListener;
-import org.springframework.batch.core.StepExecution;
-import org.springframework.batch.core.annotation.BeforeStep;
-
 import java.time.Duration;
 import java.time.Instant;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import lombok.extern.slf4j.Slf4j;
+
+import org.springframework.batch.core.ItemWriteListener;
+import org.springframework.batch.core.StepExecution;
+import org.springframework.batch.core.annotation.BeforeStep;
+
 /**
- * Class used to log statistics of the rate of writing. The primary purpose is to provide
- * a basis for reviewing, comparing and tuning batch run performances.
- * <p>
- * Created 17/04/19
+ * Class used to log statistics of the rate of writing. The primary purpose is to provide a basis
+ * for reviewing, comparing and tuning batch run performances.
+ *
+ * <p>Created 17/04/19
  *
  * @author Edd
  */
@@ -61,13 +62,11 @@ public class LogRateListener<O> implements ItemWriteListener<O> {
     }
 
     @Override
-    public void onWriteError(Exception e, List<? extends O> list) {
-
-    }
+    public void onWriteError(Exception e, List<? extends O> list) {}
 
     /**
-     * Compute writing rate statistics and return a formatted {@link StatsInfo} instance,
-     * ready for printing.
+     * Compute writing rate statistics and return a formatted {@link StatsInfo} instance, ready for
+     * printing.
      *
      * @param now the time point at which the statistics should be computed
      * @return a {@link StatsInfo} instance representing the write rate statistics
@@ -102,22 +101,22 @@ public class LogRateListener<O> implements ItemWriteListener<O> {
         public String toString() {
             float deltaDocsPerSecond = (float) deltaWriteCount / deltaSeconds;
             float totalDocsPerSecond = (float) totalWriteCount / totalSeconds;
-            return
-                    "\n\tWrite statistics {\n" +
-                            "\t\tLatest delta:\n" +
-                            String.format("\t\t\t# docs\t\t:\t%d%n", deltaWriteCount) +
-                            String.format("\t\t\ttime (sec)\t:\t%d%n", deltaSeconds) +
-                            String.format("\t\t\tdocs/sec\t:\t%.2f%n", deltaDocsPerSecond) +
-                            String.format("\t\t\tdocs/hour\t:\t%.0f\t(projected from docs/sec)%n", deltaDocsPerSecond
-                                    * SECONDS_IN_AN_HOUR) +
-                            "\t\tOverall:\n" +
-                            String.format("\t\t\t# docs\t\t:\t%d%n", totalWriteCount) +
-                            String.format("\t\t\ttime (sec)\t:\t%d%n", totalSeconds) +
-                            String.format("\t\t\tdocs/sec\t:\t%.2f%n", totalDocsPerSecond) +
-                            String.format("\t\t\tdocs/hour\t:\t%.0f\t(projected from docs/sec)%n", totalDocsPerSecond *
-                                    SECONDS_IN_AN_HOUR) +
-                            "\t}\n";
+            return "\n\tWrite statistics {\n"
+                    + "\t\tLatest delta:\n"
+                    + String.format("\t\t\t# docs\t\t:\t%d%n", deltaWriteCount)
+                    + String.format("\t\t\ttime (sec)\t:\t%d%n", deltaSeconds)
+                    + String.format("\t\t\tdocs/sec\t:\t%.2f%n", deltaDocsPerSecond)
+                    + String.format(
+                            "\t\t\tdocs/hour\t:\t%.0f\t(projected from docs/sec)%n",
+                            deltaDocsPerSecond * SECONDS_IN_AN_HOUR)
+                    + "\t\tOverall:\n"
+                    + String.format("\t\t\t# docs\t\t:\t%d%n", totalWriteCount)
+                    + String.format("\t\t\ttime (sec)\t:\t%d%n", totalSeconds)
+                    + String.format("\t\t\tdocs/sec\t:\t%.2f%n", totalDocsPerSecond)
+                    + String.format(
+                            "\t\t\tdocs/hour\t:\t%.0f\t(projected from docs/sec)%n",
+                            totalDocsPerSecond * SECONDS_IN_AN_HOUR)
+                    + "\t}\n";
         }
     }
-
 }

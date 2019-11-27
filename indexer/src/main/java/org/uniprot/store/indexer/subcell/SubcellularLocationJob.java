@@ -21,18 +21,19 @@ import org.uniprot.store.indexer.common.utils.Constants;
 @Import({DataSourceConfig.class, SolrRepositoryConfig.class})
 public class SubcellularLocationJob {
 
-    @Autowired
-    private JobBuilderFactory jobs;
+    @Autowired private JobBuilderFactory jobs;
 
     @Bean("SubcellularLocationLoadJob")
-    public Job indexSubcellularLocationSupportingData(@Qualifier("IndexSubcellularLocationStep") Step indexSubcellularLocation,
-                                                      @Qualifier("subcellularLocationStatistics") Step subcellularLocationStatistics,
-                                                      JobExecutionListener jobListener) {
-        return this.jobs.get(Constants.SUBCELLULAR_LOCATION_LOAD_JOB_NAME)
-                .start(subcellularLocationStatistics)//index the subcellular location statistics only
+    public Job indexSubcellularLocationSupportingData(
+            @Qualifier("IndexSubcellularLocationStep") Step indexSubcellularLocation,
+            @Qualifier("subcellularLocationStatistics") Step subcellularLocationStatistics,
+            JobExecutionListener jobListener) {
+        return this.jobs
+                .get(Constants.SUBCELLULAR_LOCATION_LOAD_JOB_NAME)
+                .start(subcellularLocationStatistics) // index the subcellular location statistics
+                // only
                 .next(indexSubcellularLocation) // index subcellular location entry
                 .listener(jobListener)
                 .build();
     }
-
 }

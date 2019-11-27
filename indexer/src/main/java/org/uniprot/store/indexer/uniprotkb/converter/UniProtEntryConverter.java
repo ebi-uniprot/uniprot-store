@@ -1,6 +1,15 @@
 package org.uniprot.store.indexer.uniprotkb.converter;
 
+import static org.uniprot.store.indexer.uniprotkb.converter.UniProtEntryConverterUtil.*;
+
+import java.util.EnumSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.stream.Collectors;
+
 import lombok.extern.slf4j.Slf4j;
+
 import org.uniprot.core.DBCrossReference;
 import org.uniprot.core.Sequence;
 import org.uniprot.core.cv.chebi.ChebiRepo;
@@ -22,14 +31,6 @@ import org.uniprot.store.search.document.suggest.SuggestDictionary;
 import org.uniprot.store.search.document.suggest.SuggestDocument;
 import org.uniprot.store.search.document.uniprot.UniProtDocument;
 
-import java.util.EnumSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.stream.Collectors;
-
-import static org.uniprot.store.indexer.uniprotkb.converter.UniProtEntryConverterUtil.*;
-
 /**
  * Created 18/04/19
  *
@@ -39,12 +40,14 @@ import static org.uniprot.store.indexer.uniprotkb.converter.UniProtEntryConverte
 public class UniProtEntryConverter implements DocumentConverter<UniProtEntry, UniProtDocument> {
 
     private static final String DASH = "-";
-    /**
-     * An enum set representing all of the organelles that are children of plastid
-     */
-    private static final EnumSet<GeneEncodingType> PLASTID_CHILD = EnumSet.of(GeneEncodingType.APICOPLAST,
-            GeneEncodingType.CHLOROPLAST, GeneEncodingType.CYANELLE,
-            GeneEncodingType.NON_PHOTOSYNTHETIC_PLASTID, GeneEncodingType.ORGANELLAR_CHROMATOPHORE);
+    /** An enum set representing all of the organelles that are children of plastid */
+    private static final EnumSet<GeneEncodingType> PLASTID_CHILD =
+            EnumSet.of(
+                    GeneEncodingType.APICOPLAST,
+                    GeneEncodingType.CHLOROPLAST,
+                    GeneEncodingType.CYANELLE,
+                    GeneEncodingType.NON_PHOTOSYNTHETIC_PLASTID,
+                    GeneEncodingType.ORGANELLAR_CHROMATOPHORE);
 
     private final UniProtEntryCommentsConverter commentsConverter;
     private final UniProtEntryFeatureConverter featureConverter;
@@ -53,18 +56,25 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtEntry, Un
     private final UniProtEntryTaxonomyConverter taxonomyConverter;
     private final UniprotEntryProteinDescriptionConverter proteinDescriptionConverter;
 
-
     private Map<String, SuggestDocument> suggestions;
     // private final UniProtUniRefMap uniprotUniRefMap;
 
-    public UniProtEntryConverter(TaxonomyRepo taxonomyRepo, GoRelationRepo goRelationRepo, PathwayRepo pathwayRepo,
-                                 ChebiRepo chebiRepo, ECRepo ecRepo, Map<String, SuggestDocument> suggestDocuments) {
+    public UniProtEntryConverter(
+            TaxonomyRepo taxonomyRepo,
+            GoRelationRepo goRelationRepo,
+            PathwayRepo pathwayRepo,
+            ChebiRepo chebiRepo,
+            ECRepo ecRepo,
+            Map<String, SuggestDocument> suggestDocuments) {
         this.taxonomyConverter = new UniProtEntryTaxonomyConverter(taxonomyRepo, suggestDocuments);
-        this.crossReferenceConverter = new UniProtEntryCrossReferenceConverter(goRelationRepo, suggestDocuments);
-        this.commentsConverter = new UniProtEntryCommentsConverter(chebiRepo, pathwayRepo, suggestDocuments);
+        this.crossReferenceConverter =
+                new UniProtEntryCrossReferenceConverter(goRelationRepo, suggestDocuments);
+        this.commentsConverter =
+                new UniProtEntryCommentsConverter(chebiRepo, pathwayRepo, suggestDocuments);
         this.featureConverter = new UniProtEntryFeatureConverter();
         this.referencesConverter = new UniProtEntryReferencesConverter();
-        this.proteinDescriptionConverter = new UniprotEntryProteinDescriptionConverter(ecRepo, suggestDocuments);
+        this.proteinDescriptionConverter =
+                new UniprotEntryProteinDescriptionConverter(ecRepo, suggestDocuments);
         this.suggestions = suggestDocuments;
         // this.uniprotUniRefMap = uniProtUniRefMap;
     }
@@ -86,7 +96,8 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtEntry, Un
                 // accession.
                 // this way when you search by an accession and ask to include isoforms, it will
                 // find it.
-                String canonicalAccession = document.accession.substring(0, document.accession.indexOf(DASH));
+                String canonicalAccession =
+                        document.accession.substring(0, document.accession.indexOf(DASH));
                 document.secacc.add(canonicalAccession);
             } else {
                 document.isIsoform = false;
@@ -96,12 +107,14 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtEntry, Un
             document.content.add(document.accession);
             document.content.addAll(document.secacc);
 
-            proteinDescriptionConverter.convertProteinDescription(source.getProteinDescription(), document);
+            proteinDescriptionConverter.convertProteinDescription(
+                    source.getProteinDescription(), document);
             taxonomyConverter.convertOrganism(source.getOrganism(), document);
             taxonomyConverter.convertOrganismHosts(source.getOrganismHosts(), document);
             referencesConverter.convertReferences(source.getReferences(), document);
             commentsConverter.convertCommentToDocument(source.getComments(), document);
-            crossReferenceConverter.convertCrossReferences(source.getDatabaseCrossReferences(), document);
+            crossReferenceConverter.convertCrossReferences(
+                    source.getDatabaseCrossReferences(), document);
             featureConverter.convertFeature(source.getFeatures(), document);
             convertUniprotId(source.getUniProtId(), document);
             convertEntryAudit(source.getEntryAudit(), document);
@@ -127,26 +140,35 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtEntry, Un
 
     private void convertEntryAudit(EntryAudit entryAudit, UniProtDocument document) {
         if (entryAudit != null) {
-            document.firstCreated = DateUtils.convertLocalDateToDate(entryAudit.getFirstPublicDate());
-            document.lastModified = DateUtils.convertLocalDateToDate(entryAudit.getLastAnnotationUpdateDate());
-            document.sequenceUpdated = DateUtils.convertLocalDateToDate(entryAudit.getLastSequenceUpdateDate());
+            document.firstCreated =
+                    DateUtils.convertLocalDateToDate(entryAudit.getFirstPublicDate());
+            document.lastModified =
+                    DateUtils.convertLocalDateToDate(entryAudit.getLastAnnotationUpdateDate());
+            document.sequenceUpdated =
+                    DateUtils.convertLocalDateToDate(entryAudit.getLastSequenceUpdateDate());
         }
     }
 
     private void convertEvidenceSources(UniProtEntry uniProtEntry, UniProtDocument document) {
         List<Evidence> evidences = uniProtEntry.gatherEvidences();
-        document.sources = evidences.stream().map(Evidence::getSource)
-                .filter(Objects::nonNull)
-                .map(DBCrossReference::getDatabaseType)
-                .filter(val -> (val != null) && val.getDetail().getCategory() == EvidenceTypeCategory.A)
-                .map(val -> {
-                    String data = val.getName();
-                    if (data.equalsIgnoreCase("HAMAP-rule"))
-                        data = "HAMAP";
-                    return data;
-                })
-                .map(String::toLowerCase)
-                .collect(Collectors.toList());
+        document.sources =
+                evidences.stream()
+                        .map(Evidence::getSource)
+                        .filter(Objects::nonNull)
+                        .map(DBCrossReference::getDatabaseType)
+                        .filter(
+                                val ->
+                                        (val != null)
+                                                && val.getDetail().getCategory()
+                                                        == EvidenceTypeCategory.A)
+                        .map(
+                                val -> {
+                                    String data = val.getName();
+                                    if (data.equalsIgnoreCase("HAMAP-rule")) data = "HAMAP";
+                                    return data;
+                                })
+                        .map(String::toLowerCase)
+                        .collect(Collectors.toList());
     }
 
     private void convertUniprotId(UniProtId uniProtId, UniProtDocument document) {
@@ -202,13 +224,21 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtEntry, Un
             document.keywords.add(kc.getName());
         }
 
-        suggestions.putIfAbsent(createSuggestionMapKey(SuggestDictionary.KEYWORD, keyword.getId()),
-                SuggestDocument.builder().id(keyword.getId()).value(keyword.getValue())
-                        .dictionary(SuggestDictionary.KEYWORD.name()).build());
+        suggestions.putIfAbsent(
+                createSuggestionMapKey(SuggestDictionary.KEYWORD, keyword.getId()),
+                SuggestDocument.builder()
+                        .id(keyword.getId())
+                        .value(keyword.getValue())
+                        .dictionary(SuggestDictionary.KEYWORD.name())
+                        .build());
 
-        suggestions.putIfAbsent(createSuggestionMapKey(SuggestDictionary.KEYWORD, kc.getAccession()),
-                SuggestDocument.builder().id(kc.getAccession()).value(kc.getName())
-                        .dictionary(SuggestDictionary.KEYWORD.name()).build());
+        suggestions.putIfAbsent(
+                createSuggestionMapKey(SuggestDictionary.KEYWORD, kc.getAccession()),
+                SuggestDocument.builder()
+                        .id(kc.getAccession())
+                        .value(kc.getName())
+                        .dictionary(SuggestDictionary.KEYWORD.name())
+                        .build());
     }
 
     private void convertGeneNames(List<Gene> genes, UniProtDocument document) {
@@ -239,7 +269,8 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtEntry, Un
         }
     }
 
-    private void convertProteinExistence(ProteinExistence proteinExistence, UniProtDocument document) {
+    private void convertProteinExistence(
+            ProteinExistence proteinExistence, UniProtDocument document) {
         if (proteinExistence != null) {
             document.proteinExistence = proteinExistence.name();
         }
