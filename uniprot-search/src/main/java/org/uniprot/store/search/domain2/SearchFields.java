@@ -19,7 +19,7 @@ public interface SearchFields {
 
     default boolean hasSortField(String field) {
         return getSearchFields().stream()
-                .filter(searchField -> searchField.getSortName().isPresent())
+                .filter(searchField -> searchField.getSortField().isPresent())
                 .map(SearchField::getName)
                 .anyMatch(searchField -> searchField.equals(field));
     }
@@ -31,13 +31,13 @@ public interface SearchFields {
                 .orElseThrow(() -> new IllegalArgumentException("Unknown field: " + field));
     }
 
-    default String getSortFieldFor(String field) {
+    default SearchField getSortFieldFor(String field) {
         IllegalArgumentException exception =
                 new IllegalArgumentException(
                         "Field '" + field + "' does not have an associated sort field.");
         for (SearchField searchField : getSearchFields()) {
-            if (searchField.getName().equals(field) && searchField.getSortName().isPresent()) {
-                return searchField.getSortName().orElseThrow(() -> exception);
+            if (searchField.getName().equals(field) && searchField.getSortField().isPresent()) {
+                return searchField.getSortField().orElseThrow(() -> exception);
             }
         }
         throw exception;
@@ -54,5 +54,5 @@ public interface SearchFields {
 
     Set<SearchField> getSearchFields();
 
-    Set<String> getSorts();
+    Set<SearchField> getSortFields();
 }

@@ -65,23 +65,31 @@ class SearchFieldsValidatorTest {
                         SearchFieldsValidator.validate(
                                 asList(
                                         SearchFieldImpl.builder()
-                                                .sortName("sortField")
+                                                .sortField(
+                                                        SearchFieldImpl.builder()
+                                                                .name("sortField")
+                                                                .type(SearchFieldType.GENERAL)
+                                                                .build())
                                                 .type(SearchFieldType.GENERAL)
                                                 .build(),
                                         SearchFieldImpl.builder()
-                                                .name("field2")
+                                                .name("sortField")
                                                 .type(SearchFieldType.GENERAL)
                                                 .build())));
     }
 
     @Test
-    void fieldSortAndRangeCanBeTheSame() {
+    void fieldSortAndNameCanBeTheSame() {
         boolean expectTrue = true;
         SearchFieldsValidator.validate(
                 asList(
                         SearchFieldImpl.builder()
                                 .name("field1")
-                                .sortName("field1")
+                                .sortField(
+                                        SearchFieldImpl.builder()
+                                                .name("field1")
+                                                .type(SearchFieldType.GENERAL)
+                                                .build())
                                 .type(SearchFieldType.GENERAL)
                                 .build(),
                         SearchFieldImpl.builder()

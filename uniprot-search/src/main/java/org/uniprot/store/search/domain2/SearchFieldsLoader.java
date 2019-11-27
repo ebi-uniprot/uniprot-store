@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 public class SearchFieldsLoader implements SearchItems, SearchFields {
     private List<SearchItem> searchItems = new ArrayList<>();
     private Set<SearchField> searchFields = new HashSet<>();
-    private Set<String> sortFieldNames;
+    private Set<SearchField> sortFields;
 
     SearchFieldsLoader(String fileName) {
         init(fileName);
@@ -43,10 +43,11 @@ public class SearchFieldsLoader implements SearchItems, SearchFields {
         searchFields.addAll(allSearchFields);
 
         // sorts
-        sortFieldNames =
-                allItems.stream()
-                        .filter(field -> Utils.notNullOrEmpty(field.getSortField()))
-                        .map(SearchItem::getSortField)
+        sortFields =
+                searchFields.stream()
+                        .map(SearchField::getSortField)
+                        .filter(Optional::isPresent)
+                        .map(Optional::get)
                         .collect(Collectors.toSet());
     }
 
@@ -71,10 +72,21 @@ public class SearchFieldsLoader implements SearchItems, SearchFields {
 
             // general
             if (Utils.notNullOrEmpty(searchItem.getField())) {
+                SearchFieldImpl.SearchFieldImplBuilder fieldBuilder = SearchFieldImpl.builder();
+
+                if (Utils.notNullOrEmpty(searchItem.getSortField())) {
+                    SearchFieldImpl sortField =
+                            SearchFieldImpl.builder()
+                                    .name(searchItem.getSortField())
+                                    .type(SearchFieldType.GENERAL)
+                                    .validRegex(searchItem.getFieldValidRegex())
+                                    .build();
+                    fieldBuilder.sortField(sortField);
+                }
+
                 fields.add(
-                        SearchFieldImpl.builder()
+                        fieldBuilder
                                 .name(searchItem.getField())
-                                .sortName(searchItem.getSortField())
                                 .type(SearchFieldType.GENERAL)
                                 .validRegex(searchItem.getFieldValidRegex())
                                 .build());
@@ -82,17 +94,23 @@ public class SearchFieldsLoader implements SearchItems, SearchFields {
 
             // range
             if (Utils.notNullOrEmpty(searchItem.getRangeField())) {
-
                 SearchFieldImpl.SearchFieldImplBuilder fieldBuilder = SearchFieldImpl.builder();
-                if (searchItem.getField() == null) {
-                    fieldBuilder.sortName(searchItem.getSortField());
+                if (searchItem.getField() == null
+                        && Utils.notNullOrEmpty(searchItem.getSortField())) {
+                    SearchFieldImpl sortField =
+                            SearchFieldImpl.builder()
+                                    .name(searchItem.getSortField())
+                                    .type(SearchFieldType.RANGE)
+                                    .validRegex(searchItem.getFieldValidRegex())
+                                    .build();
+                    fieldBuilder.sortField(sortField);
                 }
 
                 fields.add(
                         fieldBuilder
                                 .name(searchItem.getRangeField())
                                 .type(SearchFieldType.RANGE)
-                                .validRegex(searchItem.getIdValidRegex())
+                                .validRegex(searchItem.getFieldValidRegex())
                                 .build());
             }
 
@@ -135,8 +153,8 @@ public class SearchFieldsLoader implements SearchItems, SearchFields {
     }
 
     @Override
-    public Set<String> getSorts() {
-        return sortFieldNames;
+    public Set<SearchField> getSortFields() {
+        return sortFields;
     }
 
     @Override

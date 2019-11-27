@@ -50,13 +50,16 @@ class SearchFieldsLoaderTest {
 
     @Test
     void checkSortFields() {
-        assertThat(fieldsLoader.getSorts(), containsInAnyOrder("accession_id", "annotation_score"));
+        assertThat(
+                fieldsLoader.getSortFields().stream()
+                        .map(SearchField::getName)
+                        .collect(Collectors.toList()),
+                containsInAnyOrder("accession_id", "annotation_score"));
     }
 
     @Test
     void checkSearchItems() {
-        Map<String, SearchItem> itemMap =
-                searchItemsToMap(fieldsLoader.getSearchItems());
+        Map<String, SearchItem> itemMap = searchItemsToMap(fieldsLoader.getSearchItems());
         assertThat(
                 itemMap.keySet(),
                 containsInAnyOrder("ACCESSION", "FUNCTION", "COFACTORS", "CHEBI", "NOTE", "EC"));

@@ -14,7 +14,7 @@ public interface SearchField {
 
     SearchFieldType getType();
 
-    default Optional<String> getSortName() {
+    default Optional<SearchField> getSortField() {
         return Optional.empty();
     }
 
