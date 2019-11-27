@@ -8,6 +8,7 @@ import org.uniprot.core.impl.SequenceImpl;
 import org.uniprot.core.uniparc.impl.UniParcIdImpl;
 import org.uniprot.core.uniprot.impl.UniProtAccessionImpl;
 import org.uniprot.core.uniref.*;
+import org.uniprot.core.uniref.builder.GoTermBuilder;
 import org.uniprot.core.uniref.builder.RepresentativeMemberBuilder;
 import org.uniprot.core.uniref.builder.UniRefEntryBuilder;
 import org.uniprot.core.uniref.builder.UniRefMemberBuilder;
@@ -29,12 +30,18 @@ import static indexer.util.RowUtils.hasFieldName;
  * @author lgonzales
  * @since 2019-10-01
  */
-public class DatasetUnirefEntryConverter implements MapFunction<Row, UniRefEntry>, Serializable {
+class DatasetUnirefEntryConverter implements MapFunction<Row, UniRefEntry>, Serializable {
 
+    private static final String PROPERTY_MEMBER_COUNT = "member count";
+    private static final String PROPERTY_COMMON_TAXON = "common taxon";
+    private static final String PROPERTY_COMMON_TAXON_ID = "common taxon ID";
+    private static final String PROPERTY_GO_FUNCTION = "GO Molecular Function";
+    private static final String PROPERTY_GO_COMPONENT = "GO Cellular Component";
+    private static final String PROPERTY_GO_PROCESS = "GO Biological Process";
     private static final long serialVersionUID = -526130623950089875L;
     private final UniRefType uniRefType;
 
-    public DatasetUnirefEntryConverter(UniRefType uniRefType) {
+    DatasetUnirefEntryConverter(UniRefType uniRefType) {
         this.uniRefType = uniRefType;
     }
 
@@ -53,9 +60,18 @@ public class DatasetUnirefEntryConverter implements MapFunction<Row, UniRefEntry
         }
         if (hasFieldName("property", rowValue)) {
             Map<String, String> propertyMap = convertProperties(rowValue);
-            builder.memberCount(Integer.valueOf(propertyMap.getOrDefault("member count", "0")));
-            builder.commonTaxon(propertyMap.get("common taxon"));
-            builder.commonTaxonId(Integer.valueOf(propertyMap.getOrDefault("common taxon ID", "0")));
+            builder.memberCount(Integer.valueOf(propertyMap.getOrDefault(PROPERTY_MEMBER_COUNT, "0")));
+            builder.commonTaxon(propertyMap.getOrDefault(PROPERTY_COMMON_TAXON, ""));
+            builder.commonTaxonId(Integer.valueOf(propertyMap.getOrDefault(PROPERTY_COMMON_TAXON_ID, "0")));
+            if(propertyMap.containsKey(PROPERTY_GO_FUNCTION)){
+                builder.addGoTerm(createGoTerm(GoTermType.FUNCTION, propertyMap.get(PROPERTY_GO_FUNCTION)));
+            }
+            if(propertyMap.containsKey(PROPERTY_GO_COMPONENT)){
+                builder.addGoTerm(createGoTerm(GoTermType.COMPONENT, propertyMap.get(PROPERTY_GO_COMPONENT)));
+            }
+            if(propertyMap.containsKey(PROPERTY_GO_PROCESS)){
+                builder.addGoTerm(createGoTerm(GoTermType.PROCESS, propertyMap.get(PROPERTY_GO_PROCESS)));
+            }
         }
 
         if (hasFieldName("member", rowValue)) {
@@ -67,7 +83,6 @@ public class DatasetUnirefEntryConverter implements MapFunction<Row, UniRefEntry
             members.stream()
                     .map(this::convertMember)
                     .forEach(builder::addMember);
-
         }
 
         if (hasFieldName("representativeMember", rowValue)) {
@@ -76,6 +91,10 @@ public class DatasetUnirefEntryConverter implements MapFunction<Row, UniRefEntry
         }
 
         return builder.build();
+    }
+
+    private GoTerm createGoTerm(GoTermType type, String id) {
+        return new GoTermBuilder().type(type).id(id).build();
     }
 
     private RepresentativeMember convertRepresentativeMember(Row representativeMemberRow) {
@@ -126,7 +145,7 @@ public class DatasetUnirefEntryConverter implements MapFunction<Row, UniRefEntry
                 builder.organismName(propertyMap.get("source organism"));
                 builder.organismTaxId(Integer.valueOf(propertyMap.getOrDefault("NCBI taxonomy", "0")));
                 builder.sequenceLength(Integer.valueOf(propertyMap.getOrDefault("length", "0")));
-                builder.isSeed(Boolean.getBoolean(propertyMap.getOrDefault("isSeed", "false")));
+                builder.isSeed(Boolean.valueOf(propertyMap.getOrDefault("isSeed", "false")));
             }
         }
         return builder.build();
@@ -149,34 +168,38 @@ public class DatasetUnirefEntryConverter implements MapFunction<Row, UniRefEntry
         return propertyMap;
     }
 
-    public static StructType getUniRefXMLSchema() {
+    static StructType getUniRefXMLSchema() {
         StructType structType = new StructType();
         structType = structType.add("_id", DataTypes.StringType, true);
         structType = structType.add("_updated", DataTypes.StringType, true);
         structType = structType.add("member", DataTypes.createArrayType(getMemberSchema()), true);
         structType = structType.add("name", DataTypes.StringType, true);
         structType = structType.add("property", DataTypes.createArrayType(getPropertySchema()), true);
-
-        StructType representativeMember = getMemberSchema();
-        representativeMember = representativeMember.add("sequence", getSequenceSchema(), true);
-
-        structType = structType.add("representativeMember", representativeMember, true);
+        structType = structType.add("representativeMember", getRepresentativeMemberSchema(), true);
         return structType;
-
     }
 
-    private static StructType getMemberSchema() {
+    static StructType getRepresentativeMemberSchema() {
+        StructType representativeMember = getMemberSchema();
+        representativeMember = representativeMember.add("sequence", getSequenceSchema(), true);
+        return representativeMember;
+    }
+
+    static StructType getMemberSchema() {
+        StructType member = new StructType();
+        member = member.add("dbReference", getDBReferenceSchema(), true);
+        return member;
+    }
+
+    static StructType getDBReferenceSchema() {
         StructType dbReference = new StructType();
         dbReference = dbReference.add("_id", DataTypes.StringType, true);
         dbReference = dbReference.add("_type", DataTypes.StringType, true);
         dbReference = dbReference.add("property", DataTypes.createArrayType(getPropertySchema()), true);
-
-        StructType member = new StructType();
-        member = member.add("dbReference", dbReference, true);
-        return member;
+        return dbReference;
     }
 
-    private static StructType getPropertySchema() {
+    static StructType getPropertySchema() {
         StructType structType = new StructType();
         structType = structType.add("_VALUE", DataTypes.StringType, true);
         structType = structType.add("_type", DataTypes.StringType, true);
@@ -184,7 +207,7 @@ public class DatasetUnirefEntryConverter implements MapFunction<Row, UniRefEntry
         return structType;
     }
 
-    private static StructType getSequenceSchema() {
+    static StructType getSequenceSchema() {
         StructType structType = new StructType();
         structType = structType.add("_VALUE", DataTypes.StringType, true);
         structType = structType.add("_checksum", DataTypes.StringType, true);
