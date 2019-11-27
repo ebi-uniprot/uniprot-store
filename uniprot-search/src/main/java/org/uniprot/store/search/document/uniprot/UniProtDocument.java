@@ -333,13 +333,28 @@ public class UniProtDocument implements Document, Serializable {
     public List<String> sources =new ArrayList<>();
     
     @Field("uniref_cluster_50")
-    public String unirefCluster50;
+    public List<String> unirefCluster50 = new ArrayList<>();
     
     @Field("uniref_cluster_90")
-    public String unirefCluster90;
+    public List<String> unirefCluster90 = new ArrayList<>();;
     
     @Field("uniref_cluster_100")
-    public String unirefCluster100;
+    public List<String> unirefCluster100 = new ArrayList<>();;
+
+    @Field("uniref_size_50")
+    public int unirefSize50;
+
+    @Field("uniref_size_90")
+    public int unirefSize90;
+
+    @Field("uniref_size_100")
+    public int unirefSize100;
+
+    @Field("mapped_citation")
+    public List<String> mappedCitation;
+
+    @Field("uniparc")
+    public String uniparc;
 
     @Override
     public String getDocumentId() {
