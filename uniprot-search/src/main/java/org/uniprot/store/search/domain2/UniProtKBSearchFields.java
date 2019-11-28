@@ -61,7 +61,6 @@ public enum UniProtKBSearchFields implements SearchFields {
                                     SearchFieldImpl.builder()
                                             .name(XREF_COUNT_PREFIX + db.getName().toLowerCase())
                                             .type(SearchFieldType.RANGE)
-                                            .validRegex("^[0-9]+$")
                                             .build())
                     .collect(Collectors.toList());
         }

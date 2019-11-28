@@ -38,7 +38,8 @@ class SearchFieldsValidator {
                 fieldNames.stream().filter(name -> !allItems.add(name)).collect(Collectors.toSet());
         if (!duplicates.isEmpty()) {
             throw new IllegalStateException(
-                    "Invalid duplicate field names found: " + Arrays.toString(duplicates.toArray()));
+                    "Invalid duplicate field names found: "
+                            + Arrays.toString(duplicates.toArray()));
         }
     }
 }
