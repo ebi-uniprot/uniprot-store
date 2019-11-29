@@ -336,7 +336,7 @@
             "example": "aspartate"
           },
           {
-            "label": "ph dependence",
+            "label": "pH dependence",
             "field": "cc_bpcp_ph_dependence",
             "evidenceField": "ccev_bpcp_ph_dependence",
             "dataType": "string",
