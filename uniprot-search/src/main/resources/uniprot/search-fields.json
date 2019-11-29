@@ -1041,7 +1041,7 @@
         "dataType": "string",
         "rangeField": "ftlen_non_std",
         "evidenceField": "ftev_non_std",
-        "description": "Search by feature non standard residue",
+        "description": "Search by feature non-standard residue",
         "example": "selenocysteine"
       },
       {
