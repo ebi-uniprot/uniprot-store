@@ -1,6 +1,16 @@
 package indexer.uniprot.converter;
 
+import static indexer.uniprot.converter.UniProtEntryConverterUtil.*;
+
+import java.io.Serializable;
+import java.util.EnumSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.stream.Collectors;
+
 import lombok.extern.slf4j.Slf4j;
+
 import org.uniprot.core.DBCrossReference;
 import org.uniprot.core.Sequence;
 import org.uniprot.core.cv.keyword.KeywordCategory;
@@ -15,31 +25,25 @@ import org.uniprot.store.job.common.DocumentConversionException;
 import org.uniprot.store.job.common.converter.DocumentConverter;
 import org.uniprot.store.search.document.uniprot.UniProtDocument;
 
-import java.io.Serializable;
-import java.util.EnumSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.stream.Collectors;
-
-import static indexer.uniprot.converter.UniProtEntryConverterUtil.*;
-
 /**
  * Created 18/04/19
  *
  * @author Edd
  */
 @Slf4j
-public class UniProtEntryConverter implements DocumentConverter<UniProtEntry, UniProtDocument>, Serializable {
+public class UniProtEntryConverter
+        implements DocumentConverter<UniProtEntry, UniProtDocument>, Serializable {
 
     private static final long serialVersionUID = -4786571927033506456L;
     private static final String DASH = "-";
-    /**
-     * An enum set representing all of the organelles that are children of plastid
-     */
-    private static final EnumSet<GeneEncodingType> PLASTID_CHILD = EnumSet.of(GeneEncodingType.APICOPLAST,
-            GeneEncodingType.CHLOROPLAST, GeneEncodingType.CYANELLE,
-            GeneEncodingType.NON_PHOTOSYNTHETIC_PLASTID, GeneEncodingType.ORGANELLAR_CHROMATOPHORE);
+    /** An enum set representing all of the organelles that are children of plastid */
+    private static final EnumSet<GeneEncodingType> PLASTID_CHILD =
+            EnumSet.of(
+                    GeneEncodingType.APICOPLAST,
+                    GeneEncodingType.CHLOROPLAST,
+                    GeneEncodingType.CYANELLE,
+                    GeneEncodingType.NON_PHOTOSYNTHETIC_PLASTID,
+                    GeneEncodingType.ORGANELLAR_CHROMATOPHORE);
 
     private final UniProtEntryCommentsConverter commentsConverter;
     private final UniProtEntryFeatureConverter featureConverter;
@@ -74,7 +78,8 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtEntry, Un
                 // accession.
                 // this way when you search by an accession and ask to include isoforms, it will
                 // find it.
-                String canonicalAccession = document.accession.substring(0, document.accession.indexOf(DASH));
+                String canonicalAccession =
+                        document.accession.substring(0, document.accession.indexOf(DASH));
                 document.secacc.add(canonicalAccession);
             } else {
                 document.isIsoform = false;
@@ -84,12 +89,14 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtEntry, Un
             document.content.add(document.accession);
             document.content.addAll(document.secacc);
 
-            proteinDescriptionConverter.convertProteinDescription(source.getProteinDescription(), document);
+            proteinDescriptionConverter.convertProteinDescription(
+                    source.getProteinDescription(), document);
             taxonomyConverter.convertOrganism(source.getOrganism(), document);
             taxonomyConverter.convertOrganismHosts(source.getOrganismHosts(), document);
             referencesConverter.convertReferences(source.getReferences(), document);
             commentsConverter.convertCommentToDocument(source.getComments(), document);
-            crossReferenceConverter.convertCrossReferences(source.getDatabaseCrossReferences(), document);
+            crossReferenceConverter.convertCrossReferences(
+                    source.getDatabaseCrossReferences(), document);
             featureConverter.convertFeature(source.getFeatures(), document);
             convertUniprotId(source.getUniProtId(), document);
             convertEntryAudit(source.getEntryAudit(), document);
@@ -108,33 +115,42 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtEntry, Un
             if (source != null && source.getPrimaryAccession() != null) {
                 message += ": " + source.getPrimaryAccession().getValue();
             }
-            log.error(message, e);
+            log.info(message + ", with error message" + e.getMessage());
             throw new DocumentConversionException(message, e);
         }
     }
 
     private void convertEntryAudit(EntryAudit entryAudit, UniProtDocument document) {
         if (entryAudit != null) {
-            document.firstCreated = DateUtils.convertLocalDateToDate(entryAudit.getFirstPublicDate());
-            document.lastModified = DateUtils.convertLocalDateToDate(entryAudit.getLastAnnotationUpdateDate());
-            document.sequenceUpdated = DateUtils.convertLocalDateToDate(entryAudit.getLastSequenceUpdateDate());
+            document.firstCreated =
+                    DateUtils.convertLocalDateToDate(entryAudit.getFirstPublicDate());
+            document.lastModified =
+                    DateUtils.convertLocalDateToDate(entryAudit.getLastAnnotationUpdateDate());
+            document.sequenceUpdated =
+                    DateUtils.convertLocalDateToDate(entryAudit.getLastSequenceUpdateDate());
         }
     }
 
     private void convertEvidenceSources(UniProtEntry uniProtEntry, UniProtDocument document) {
         List<Evidence> evidences = uniProtEntry.gatherEvidences();
-        document.sources = evidences.stream().map(Evidence::getSource)
-                .filter(Objects::nonNull)
-                .map(DBCrossReference::getDatabaseType)
-                .filter(val -> (val != null) && val.getDetail().getCategory() == EvidenceTypeCategory.A)
-                .map(val -> {
-                    String data = val.getName();
-                    if (data.equalsIgnoreCase("HAMAP-rule"))
-                        data = "HAMAP";
-                    return data;
-                })
-                .map(String::toLowerCase)
-                .collect(Collectors.toList());
+        document.sources =
+                evidences.stream()
+                        .map(Evidence::getSource)
+                        .filter(Objects::nonNull)
+                        .map(DBCrossReference::getDatabaseType)
+                        .filter(
+                                val ->
+                                        (val != null)
+                                                && val.getDetail().getCategory()
+                                                        == EvidenceTypeCategory.A)
+                        .map(
+                                val -> {
+                                    String data = val.getName();
+                                    if (data.equalsIgnoreCase("HAMAP-rule")) data = "HAMAP";
+                                    return data;
+                                })
+                        .map(String::toLowerCase)
+                        .collect(Collectors.toList());
     }
 
     private void convertUniprotId(UniProtId uniProtId, UniProtDocument document) {
@@ -219,7 +235,8 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtEntry, Un
         }
     }
 
-    private void convertProteinExistence(ProteinExistence proteinExistence, UniProtDocument document) {
+    private void convertProteinExistence(
+            ProteinExistence proteinExistence, UniProtDocument document) {
         if (proteinExistence != null) {
             document.proteinExistence = proteinExistence.name();
         }
