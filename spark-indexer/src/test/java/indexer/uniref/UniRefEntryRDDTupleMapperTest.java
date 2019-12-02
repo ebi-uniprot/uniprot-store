@@ -1,18 +1,19 @@
 package indexer.uniref;
 
+import static org.junit.jupiter.api.Assertions.*;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
 import org.junit.jupiter.api.Test;
 import org.uniprot.core.uniprot.builder.UniProtAccessionBuilder;
 import org.uniprot.core.uniref.*;
 import org.uniprot.core.uniref.builder.RepresentativeMemberBuilder;
 import org.uniprot.core.uniref.builder.UniRefEntryBuilder;
 import org.uniprot.core.uniref.builder.UniRefMemberBuilder;
+
 import scala.Tuple2;
-
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * @author lgonzales
@@ -21,31 +22,35 @@ import static org.junit.jupiter.api.Assertions.*;
 class UniRefEntryRDDTupleMapperTest {
 
     @Test
-    void testMapRepresentativeUninprotKBMember() throws Exception{
+    void testMapRepresentativeUninprotKBMember() throws Exception {
         UniRefEntryRDDTupleMapper mapper = new UniRefEntryRDDTupleMapper();
 
-        RepresentativeMember representativeMember = new RepresentativeMemberBuilder()
-                .memberIdType(UniRefMemberIdType.UNIPROTKB)
-                .accession(new UniProtAccessionBuilder("P12345").build())
-                .build();
+        RepresentativeMember representativeMember =
+                new RepresentativeMemberBuilder()
+                        .memberIdType(UniRefMemberIdType.UNIPROTKB)
+                        .addAccession(new UniProtAccessionBuilder("P12345").build())
+                        .build();
 
-        UniRefMember member = new UniRefMemberBuilder()
-                .memberIdType(UniRefMemberIdType.UNIPARC)
-                .accession(new UniProtAccessionBuilder("UP1234567890").build())
-                .build();
+        UniRefMember member =
+                new UniRefMemberBuilder()
+                        .memberIdType(UniRefMemberIdType.UNIPARC)
+                        .addAccession(new UniProtAccessionBuilder("UP1234567890").build())
+                        .build();
 
-        UniRefEntry entry = new UniRefEntryBuilder()
-                .entryType(UniRefType.UniRef100)
-                .id("UniRef100_P12345")
-                .memberCount(10)
-                .representativeMember(representativeMember)
-                .addMember(member)
-                .build();
+        UniRefEntry entry =
+                new UniRefEntryBuilder()
+                        .entryType(UniRefType.UniRef100)
+                        .id("UniRef100_P12345")
+                        .memberCount(10)
+                        .representativeMember(representativeMember)
+                        .addMember(member)
+                        .build();
 
-        Iterator<Tuple2<String, MappedUniRef>> result =  mapper.call(entry);
+        Iterator<Tuple2<String, MappedUniRef>> result = mapper.call(entry);
         assertNotNull(result);
 
-        List<Tuple2<String, MappedUniRef>> resultList = new ArrayList<Tuple2<String, MappedUniRef>>();
+        List<Tuple2<String, MappedUniRef>> resultList =
+                new ArrayList<Tuple2<String, MappedUniRef>>();
         result.forEachRemaining(resultList::add);
 
         assertEquals(1, resultList.size());
@@ -64,39 +69,43 @@ class UniRefEntryRDDTupleMapperTest {
         assertTrue(mappedUniRef.getMemberAccessions().contains("P12345"));
     }
 
-
     @Test
-    void testMapUniprotKBTypeMembers() throws Exception{
+    void testMapUniprotKBTypeMembers() throws Exception {
         UniRefEntryRDDTupleMapper mapper = new UniRefEntryRDDTupleMapper();
 
-        RepresentativeMember representativeMember = new RepresentativeMemberBuilder()
-                .memberIdType(UniRefMemberIdType.UNIPARC)
-                .accession(new UniProtAccessionBuilder("UP1234567890").build())
-                .build();
+        RepresentativeMember representativeMember =
+                new RepresentativeMemberBuilder()
+                        .memberIdType(UniRefMemberIdType.UNIPARC)
+                        .addAccession(new UniProtAccessionBuilder("UP1234567890").build())
+                        .build();
 
-        UniRefMember member = new UniRefMemberBuilder()
-                .memberIdType(UniRefMemberIdType.UNIPROTKB)
-                .accession(new UniProtAccessionBuilder("P12345").build())
-                .build();
+        UniRefMember member =
+                new UniRefMemberBuilder()
+                        .memberIdType(UniRefMemberIdType.UNIPROTKB)
+                        .addAccession(new UniProtAccessionBuilder("P12345").build())
+                        .build();
 
-        UniRefMember uniparcMember = new UniRefMemberBuilder()
-                .memberIdType(UniRefMemberIdType.UNIPARC)
-                .accession(new UniProtAccessionBuilder("UP1234567899").build())
-                .build();
+        UniRefMember uniparcMember =
+                new UniRefMemberBuilder()
+                        .memberIdType(UniRefMemberIdType.UNIPARC)
+                        .addAccession(new UniProtAccessionBuilder("UP1234567899").build())
+                        .build();
 
-        UniRefEntry entry = new UniRefEntryBuilder()
-                .entryType(UniRefType.UniRef100)
-                .id("UniRef100_P12345")
-                .memberCount(10)
-                .addMember(member)
-                .addMember(uniparcMember)
-                .representativeMember(representativeMember)
-                .build();
+        UniRefEntry entry =
+                new UniRefEntryBuilder()
+                        .entryType(UniRefType.UniRef100)
+                        .id("UniRef100_P12345")
+                        .memberCount(10)
+                        .addMember(member)
+                        .addMember(uniparcMember)
+                        .representativeMember(representativeMember)
+                        .build();
 
-        Iterator<Tuple2<String, MappedUniRef>> result =  mapper.call(entry);
+        Iterator<Tuple2<String, MappedUniRef>> result = mapper.call(entry);
         assertNotNull(result);
 
-        List<Tuple2<String, MappedUniRef>> resultList = new ArrayList<Tuple2<String, MappedUniRef>>();
+        List<Tuple2<String, MappedUniRef>> resultList =
+                new ArrayList<Tuple2<String, MappedUniRef>>();
         result.forEachRemaining(resultList::add);
 
         assertEquals(1, resultList.size());
@@ -114,5 +123,4 @@ class UniRefEntryRDDTupleMapperTest {
         assertEquals(1, mappedUniRef.getMemberAccessions().size());
         assertTrue(mappedUniRef.getMemberAccessions().contains("P12345"));
     }
-
 }

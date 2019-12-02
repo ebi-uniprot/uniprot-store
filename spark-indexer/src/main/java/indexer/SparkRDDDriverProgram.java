@@ -1,11 +1,11 @@
 package indexer;
 
+import java.util.ResourceBundle;
+
+import org.apache.spark.api.java.JavaSparkContext;
 
 import indexer.uniprot.UniprotKbIndexer;
 import indexer.util.SparkUtils;
-import org.apache.spark.api.java.JavaSparkContext;
-
-import java.util.ResourceBundle;
 
 /**
  * @author lgonzales
@@ -21,6 +21,4 @@ public class SparkRDDDriverProgram {
 
         sparkContext.close();
     }
-
-
 }

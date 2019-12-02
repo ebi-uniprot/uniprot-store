@@ -52,7 +52,8 @@ class UniProtEntryTaxonomyConverter {
             int taxonomyId = Math.toIntExact(organism.getTaxonId());
             document.organismTaxId = taxonomyId;
             if (taxonomyRepo != null) {
-                Optional<TaxonomicNode> taxonomicNode = taxonomyRepo.retrieveNodeUsingTaxID(taxonomyId);
+                Optional<TaxonomicNode> taxonomicNode =
+                        taxonomyRepo.retrieveNodeUsingTaxID(taxonomyId);
                 if (taxonomicNode.isPresent()) {
 
                     TaxonomicNode node = taxonomicNode.get();
@@ -94,7 +95,8 @@ class UniProtEntryTaxonomyConverter {
                             List<String> extractedTaxoNode =
                                     TaxonomyRepoUtil.extractTaxonFromNode(node);
                             document.organismHostNames.addAll(extractedTaxoNode);
-                            addTaxonSuggestions(SuggestDictionary.HOST, taxonomyId, extractedTaxoNode);
+                            addTaxonSuggestions(
+                                    SuggestDictionary.HOST, taxonomyId, extractedTaxoNode);
                         }
                     }
                 });

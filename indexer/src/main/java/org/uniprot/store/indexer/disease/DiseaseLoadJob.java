@@ -32,9 +32,8 @@ public class DiseaseLoadJob {
             JobExecutionListener jobListener) {
         return this.jobs
                 .get(Constants.DISEASE_LOAD_JOB_NAME)
-                .start(
-                        diseaseProteinCountStep) // get the protein count of the diseases and cache
-                                                 // them for next step
+                .start(diseaseProteinCountStep) // get the protein count of the diseases and cache
+                // them for next step
                 .next(indexDisease) // index the disease
                 .listener(jobListener)
                 .build();

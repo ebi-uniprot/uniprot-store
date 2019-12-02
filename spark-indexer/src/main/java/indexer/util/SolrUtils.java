@@ -1,7 +1,9 @@
 package indexer.util;
 
-import com.lucidworks.spark.util.SolrSupport;
+import java.util.ResourceBundle;
+
 import lombok.extern.slf4j.Slf4j;
+
 import org.apache.solr.client.solrj.beans.DocumentObjectBinder;
 import org.apache.solr.client.solrj.impl.CloudSolrClient;
 import org.apache.solr.common.SolrInputDocument;
@@ -9,7 +11,7 @@ import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
 import org.uniprot.store.search.document.Document;
 
-import java.util.ResourceBundle;
+import com.lucidworks.spark.util.SolrSupport;
 
 /**
  * @author lgonzales
@@ -18,14 +20,22 @@ import java.util.ResourceBundle;
 @Slf4j
 public class SolrUtils {
 
-    public static void saveSolrInputDocumentRDD(JavaPairRDD<String, ? extends Document> docRDD, String savePath) {
-        docRDD.values().map(doc -> {
-            DocumentObjectBinder binder = new DocumentObjectBinder();
-            return binder.toSolrInputDocument(doc);
-        }).rdd().saveAsObjectFile(savePath);
+    public static void saveSolrInputDocumentRDD(
+            JavaPairRDD<String, ? extends Document> docRDD, String savePath) {
+        docRDD.values()
+                .map(
+                        doc -> {
+                            DocumentObjectBinder binder = new DocumentObjectBinder();
+                            return binder.toSolrInputDocument(doc);
+                        })
+                .rdd()
+                .saveAsObjectFile(savePath);
     }
 
-    public static void indexDocuments(JavaRDD<SolrInputDocument> solrInputDocumentRDD, String collection, ResourceBundle config) {
+    public static void indexDocuments(
+            JavaRDD<SolrInputDocument> solrInputDocumentRDD,
+            String collection,
+            ResourceBundle config) {
         String zkHost = config.getString("solr.zkhost");
         log.info("Starting solr index for collection: " + collection + " in zkHost " + zkHost);
         try {

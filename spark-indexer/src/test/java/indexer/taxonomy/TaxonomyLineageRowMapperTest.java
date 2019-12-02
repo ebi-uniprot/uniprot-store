@@ -1,5 +1,10 @@
 package indexer.taxonomy;
 
+import static org.junit.jupiter.api.Assertions.*;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.spark.sql.Row;
 import org.apache.spark.sql.catalyst.expressions.GenericRowWithSchema;
 import org.apache.spark.sql.types.DataTypes;
@@ -7,12 +12,8 @@ import org.apache.spark.sql.types.StructType;
 import org.junit.jupiter.api.Test;
 import org.uniprot.core.taxonomy.TaxonomyLineage;
 import org.uniprot.core.taxonomy.TaxonomyRank;
+
 import scala.Tuple2;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * @author lgonzales
@@ -21,15 +22,15 @@ import static org.junit.jupiter.api.Assertions.*;
 class TaxonomyLineageRowMapperTest {
 
     @Test
-    void testTaxonomyLineageRowMapperRoot() throws Exception{
+    void testTaxonomyLineageRowMapperRoot() throws Exception {
         List<Object> values = new ArrayList<>();
-        values.add("|1"); //LINEAGE_ID
-        values.add("|root"); //LINEAGE_NAME
-        values.add("| "); //LINEAGE_COMMON
-        values.add("|no rank"); //LINEAGE_RANK
-        values.add("|1"); //LINEAGE_HIDDEN
+        values.add("|1"); // LINEAGE_ID
+        values.add("|root"); // LINEAGE_NAME
+        values.add("| "); // LINEAGE_COMMON
+        values.add("|no rank"); // LINEAGE_RANK
+        values.add("|1"); // LINEAGE_HIDDEN
 
-        Row row = new GenericRowWithSchema(values.toArray(),getTaxonomyLineageSchema() );
+        Row row = new GenericRowWithSchema(values.toArray(), getTaxonomyLineageSchema());
 
         TaxonomyLineageRowMapper taxonomyRowMapper = new TaxonomyLineageRowMapper();
         Tuple2<String, List<TaxonomyLineage>> result = taxonomyRowMapper.call(row);
@@ -43,15 +44,16 @@ class TaxonomyLineageRowMapperTest {
     }
 
     @Test
-    void testTaxonomyLineageRowMapper() throws Exception{
+    void testTaxonomyLineageRowMapper() throws Exception {
         List<Object> values = new ArrayList<>();
-        values.add("|6|335928|356|28211|1224|2|131567|1"); //LINEAGE_ID
-        values.add("|Azorhizobium|Xanthobacteraceae|Rhizobiales|Alphaproteobacteria|Proteobacteria|Bacteria|cellular organisms|root"); //LINEAGE_NAME
-        values.add("| | |rhizobacteria| | |eubacteria| | "); //LINEAGE_COMMON
-        values.add("|genus|family|order|class|phylum|superkingdom|no rank|no rank"); //LINEAGE_RANK
-        values.add("|0|0|0|0|0|0|1|1"); //LINEAGE_HIDDEN
+        values.add("|6|335928|356|28211|1224|2|131567|1"); // LINEAGE_ID
+        values.add(
+                "|Azorhizobium|Xanthobacteraceae|Rhizobiales|Alphaproteobacteria|Proteobacteria|Bacteria|cellular organisms|root"); // LINEAGE_NAME
+        values.add("| | |rhizobacteria| | |eubacteria| | "); // LINEAGE_COMMON
+        values.add("|genus|family|order|class|phylum|superkingdom|no rank|no rank"); // LINEAGE_RANK
+        values.add("|0|0|0|0|0|0|1|1"); // LINEAGE_HIDDEN
 
-        Row row = new GenericRowWithSchema(values.toArray(),getTaxonomyLineageSchema() );
+        Row row = new GenericRowWithSchema(values.toArray(), getTaxonomyLineageSchema());
 
         TaxonomyLineageRowMapper taxonomyRowMapper = new TaxonomyLineageRowMapper();
         Tuple2<String, List<TaxonomyLineage>> result = taxonomyRowMapper.call(row);
@@ -62,7 +64,6 @@ class TaxonomyLineageRowMapperTest {
         List<TaxonomyLineage> mappedLineage = result._2;
         assertNotNull(mappedLineage);
         assertEquals(6, mappedLineage.size());
-
 
         TaxonomyLineage cellularOrganism = mappedLineage.get(5);
         assertEquals(131567L, cellularOrganism.getTaxonId());

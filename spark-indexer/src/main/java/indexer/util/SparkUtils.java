@@ -1,17 +1,19 @@
 package indexer.util;
 
-import indexer.SparkRDDDriverProgram;
+import java.io.*;
+import java.net.URL;
+import java.net.URLClassLoader;
+import java.util.*;
+
 import lombok.extern.slf4j.Slf4j;
+
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
 import org.apache.spark.SparkConf;
 import org.apache.spark.api.java.JavaSparkContext;
 
-import java.io.*;
-import java.net.URL;
-import java.net.URLClassLoader;
-import java.util.*;
+import indexer.SparkRDDDriverProgram;
 
 /**
  * @author lgonzales
@@ -22,7 +24,8 @@ public class SparkUtils {
 
     public static List<String> readLines(String filePath, Configuration hadoopConfig) {
         List<String> lines = new ArrayList<>();
-        try (BufferedReader br = new BufferedReader(new InputStreamReader(getInputStream(filePath, hadoopConfig)))) {
+        try (BufferedReader br =
+                new BufferedReader(new InputStreamReader(getInputStream(filePath, hadoopConfig)))) {
             for (String line = null; (line = br.readLine()) != null; ) {
                 lines.add(line);
             }
@@ -32,7 +35,8 @@ public class SparkUtils {
         return lines;
     }
 
-    public static InputStream getInputStream(String filePath, Configuration hadoopConfig) throws IOException {
+    public static InputStream getInputStream(String filePath, Configuration hadoopConfig)
+            throws IOException {
         InputStream inputStream = SparkUtils.class.getClassLoader().getResourceAsStream(filePath);
         if (inputStream == null) {
             if (filePath.startsWith("hdfs:")) {
@@ -47,9 +51,10 @@ public class SparkUtils {
 
     public static ResourceBundle loadApplicationProperty() {
         try {
-            //try to load from the directory that the application is being executed
-            URL resourceURL = SparkRDDDriverProgram.class.getProtectionDomain().getCodeSource().getLocation();
-            URLClassLoader urlLoader = new URLClassLoader(new java.net.URL[]{resourceURL});
+            // try to load from the directory that the application is being executed
+            URL resourceURL =
+                    SparkRDDDriverProgram.class.getProtectionDomain().getCodeSource().getLocation();
+            URLClassLoader urlLoader = new URLClassLoader(new java.net.URL[] {resourceURL});
             return ResourceBundle.getBundle("application", Locale.getDefault(), urlLoader);
         } catch (MissingResourceException e) {
             // load from the classpath
@@ -58,10 +63,12 @@ public class SparkUtils {
     }
 
     public static JavaSparkContext loadSparkContext(ResourceBundle applicationConfig) {
-        SparkConf sparkConf = new SparkConf().setAppName(applicationConfig.getString("spark.application.name"))
-                .setMaster(applicationConfig.getString("spark.master"));//.set("spark.driver.host", "localhost");
+        SparkConf sparkConf =
+                new SparkConf()
+                        .setAppName(applicationConfig.getString("spark.application.name"))
+                        .setMaster(
+                                applicationConfig.getString(
+                                        "spark.master")); // .set("spark.driver.host", "localhost");
         return new JavaSparkContext(sparkConf);
     }
-
-
 }

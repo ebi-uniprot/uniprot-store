@@ -14,5 +14,4 @@ public interface GoTerm extends Serializable, Comparable<GoTerm> {
     String getName();
 
     Set<GoTerm> getAncestors();
-
 }

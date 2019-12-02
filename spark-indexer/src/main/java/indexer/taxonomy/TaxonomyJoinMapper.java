@@ -1,19 +1,22 @@
 package indexer.taxonomy;
 
+import java.io.Serializable;
+import java.util.List;
+
 import org.apache.spark.api.java.function.Function;
 import org.uniprot.core.taxonomy.TaxonomyEntry;
 import org.uniprot.core.taxonomy.TaxonomyLineage;
 import org.uniprot.core.taxonomy.builder.TaxonomyEntryBuilder;
-import scala.Tuple2;
 
-import java.io.Serializable;
-import java.util.List;
+import scala.Tuple2;
 
 /**
  * @author lgonzales
  * @since 2019-11-14
  */
-class TaxonomyJoinMapper implements Function<Tuple2<TaxonomyEntry, List<TaxonomyLineage>>, TaxonomyEntry>, Serializable {
+class TaxonomyJoinMapper
+        implements Function<Tuple2<TaxonomyEntry, List<TaxonomyLineage>>, TaxonomyEntry>,
+                Serializable {
 
     private static final long serialVersionUID = 7479649182382873120L;
 

@@ -1,5 +1,9 @@
 package indexer.uniref;
 
+import static org.junit.jupiter.api.Assertions.*;
+
+import java.util.Arrays;
+
 import org.apache.spark.api.java.Optional;
 import org.junit.jupiter.api.Test;
 import org.uniprot.core.uniparc.impl.UniParcIdImpl;
@@ -9,11 +13,8 @@ import org.uniprot.core.uniref.UniRefMemberIdType;
 import org.uniprot.core.uniref.UniRefType;
 import org.uniprot.core.uniref.builder.UniRefMemberBuilder;
 import org.uniprot.store.search.document.uniprot.UniProtDocument;
+
 import scala.Tuple2;
-
-import java.util.Arrays;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * @author lgonzales
@@ -22,26 +23,29 @@ import static org.junit.jupiter.api.Assertions.*;
 class UniRefMapperTest {
 
     @Test
-    void testUniRef50() throws Exception{
+    void testUniRef50() throws Exception {
         UniRefMapper mapper = new UniRefMapper();
 
-        UniRefMember member = new UniRefMemberBuilder()
-                .memberIdType(UniRefMemberIdType.UNIPROTKB)
-                .accession(new UniProtAccessionBuilder("P12345").build())
-                .uniparcId(new UniParcIdImpl("UPI0009B2B4C6"))
-                .build();
+        UniRefMember member =
+                new UniRefMemberBuilder()
+                        .memberIdType(UniRefMemberIdType.UNIPROTKB)
+                        .addAccession(new UniProtAccessionBuilder("P12345").build())
+                        .uniparcId(new UniParcIdImpl("UPI0009B2B4C6"))
+                        .build();
 
-        MappedUniRef mappedUniRef = MappedUniRef.builder()
-                .memberSize(12)
-                .memberAccessions(Arrays.asList("P21802","P12345"))
-                .uniRefType(UniRefType.UniRef50)
-                .uniRefMember(member)
-                .clusterID("UniRef100_P21802")
-                .build();
+        MappedUniRef mappedUniRef =
+                MappedUniRef.builder()
+                        .memberSize(12)
+                        .memberAccessions(Arrays.asList("P21802", "P12345"))
+                        .uniRefType(UniRefType.UniRef50)
+                        .uniRefMember(member)
+                        .clusterID("UniRef100_P21802")
+                        .build();
 
-        Tuple2<UniProtDocument, Optional<MappedUniRef>> tuple = new Tuple2<>(new UniProtDocument(), Optional.of(mappedUniRef));
+        Tuple2<UniProtDocument, Optional<MappedUniRef>> tuple =
+                new Tuple2<>(new UniProtDocument(), Optional.of(mappedUniRef));
 
-        UniProtDocument result =  mapper.call(tuple);
+        UniProtDocument result = mapper.call(tuple);
 
         assertNotNull(result);
 
@@ -61,26 +65,29 @@ class UniRefMapperTest {
     }
 
     @Test
-    void testUniRef90() throws Exception{
+    void testUniRef90() throws Exception {
         UniRefMapper mapper = new UniRefMapper();
 
-        UniRefMember member = new UniRefMemberBuilder()
-                .memberIdType(UniRefMemberIdType.UNIPROTKB)
-                .accession(new UniProtAccessionBuilder("P12345").build())
-                .uniparcId(new UniParcIdImpl("UPI0009B2B4C6"))
-                .build();
+        UniRefMember member =
+                new UniRefMemberBuilder()
+                        .memberIdType(UniRefMemberIdType.UNIPROTKB)
+                        .addAccession(new UniProtAccessionBuilder("P12345").build())
+                        .uniparcId(new UniParcIdImpl("UPI0009B2B4C6"))
+                        .build();
 
-        MappedUniRef mappedUniRef = MappedUniRef.builder()
-                .memberSize(12)
-                .memberAccessions(Arrays.asList("P21802","P12345"))
-                .uniRefType(UniRefType.UniRef90)
-                .uniRefMember(member)
-                .clusterID("UniRef100_P21802")
-                .build();
+        MappedUniRef mappedUniRef =
+                MappedUniRef.builder()
+                        .memberSize(12)
+                        .memberAccessions(Arrays.asList("P21802", "P12345"))
+                        .uniRefType(UniRefType.UniRef90)
+                        .uniRefMember(member)
+                        .clusterID("UniRef100_P21802")
+                        .build();
 
-        Tuple2<UniProtDocument, Optional<MappedUniRef>> tuple = new Tuple2<>(new UniProtDocument(), Optional.of(mappedUniRef));
+        Tuple2<UniProtDocument, Optional<MappedUniRef>> tuple =
+                new Tuple2<>(new UniProtDocument(), Optional.of(mappedUniRef));
 
-        UniProtDocument result =  mapper.call(tuple);
+        UniProtDocument result = mapper.call(tuple);
 
         assertNotNull(result);
 
@@ -99,28 +106,30 @@ class UniRefMapperTest {
         assertEquals("UPI0009B2B4C6", result.uniparc);
     }
 
-
     @Test
-    void testUniRef100() throws Exception{
+    void testUniRef100() throws Exception {
         UniRefMapper mapper = new UniRefMapper();
 
-        UniRefMember member = new UniRefMemberBuilder()
-                .memberIdType(UniRefMemberIdType.UNIPROTKB)
-                .accession(new UniProtAccessionBuilder("P12345").build())
-                .uniparcId(new UniParcIdImpl("UPI0009B2B4C6"))
-                .build();
+        UniRefMember member =
+                new UniRefMemberBuilder()
+                        .memberIdType(UniRefMemberIdType.UNIPROTKB)
+                        .addAccession(new UniProtAccessionBuilder("P12345").build())
+                        .uniparcId(new UniParcIdImpl("UPI0009B2B4C6"))
+                        .build();
 
-        MappedUniRef mappedUniRef = MappedUniRef.builder()
-                .memberSize(12)
-                .memberAccessions(Arrays.asList("P21802","P12345"))
-                .uniRefType(UniRefType.UniRef100)
-                .uniRefMember(member)
-                .clusterID("UniRef100_P21802")
-                .build();
+        MappedUniRef mappedUniRef =
+                MappedUniRef.builder()
+                        .memberSize(12)
+                        .memberAccessions(Arrays.asList("P21802", "P12345"))
+                        .uniRefType(UniRefType.UniRef100)
+                        .uniRefMember(member)
+                        .clusterID("UniRef100_P21802")
+                        .build();
 
-        Tuple2<UniProtDocument, Optional<MappedUniRef>> tuple = new Tuple2<>(new UniProtDocument(), Optional.of(mappedUniRef));
+        Tuple2<UniProtDocument, Optional<MappedUniRef>> tuple =
+                new Tuple2<>(new UniProtDocument(), Optional.of(mappedUniRef));
 
-        UniProtDocument result =  mapper.call(tuple);
+        UniProtDocument result = mapper.call(tuple);
 
         assertNotNull(result);
 
@@ -139,14 +148,14 @@ class UniRefMapperTest {
         assertEquals("UPI0009B2B4C6", result.uniparc);
     }
 
-
     @Test
-    void testWithoutAnyMap() throws Exception{
+    void testWithoutAnyMap() throws Exception {
         UniRefMapper mapper = new UniRefMapper();
 
-        Tuple2<UniProtDocument, Optional<MappedUniRef>> tuple = new Tuple2<>(new UniProtDocument(), Optional.empty());
+        Tuple2<UniProtDocument, Optional<MappedUniRef>> tuple =
+                new Tuple2<>(new UniProtDocument(), Optional.empty());
 
-        UniProtDocument result =  mapper.call(tuple);
+        UniProtDocument result = mapper.call(tuple);
 
         assertNotNull(result);
 

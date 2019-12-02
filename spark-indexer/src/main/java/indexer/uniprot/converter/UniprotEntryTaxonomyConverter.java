@@ -1,10 +1,10 @@
 package indexer.uniprot.converter;
 
+import java.util.List;
+
 import org.uniprot.core.uniprot.taxonomy.Organism;
 import org.uniprot.core.uniprot.taxonomy.OrganismHost;
 import org.uniprot.store.search.document.uniprot.UniProtDocument;
-
-import java.util.List;
 
 /**
  * @author lgonzales
@@ -21,11 +21,11 @@ class UniprotEntryTaxonomyConverter {
     }
 
     void convertOrganismHosts(List<OrganismHost> hosts, UniProtDocument document) {
-        hosts.forEach(host -> {
-            int taxonomyId = Math.toIntExact(host.getTaxonId());
-            document.organismHostIds.add(taxonomyId);
-            document.content.add(String.valueOf(taxonomyId));
-        });
+        hosts.forEach(
+                host -> {
+                    int taxonomyId = Math.toIntExact(host.getTaxonId());
+                    document.organismHostIds.add(taxonomyId);
+                    document.content.add(String.valueOf(taxonomyId));
+                });
     }
-
 }

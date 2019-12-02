@@ -1,10 +1,11 @@
 package org.uniprot.store.indexer.search.uniparc;
 
-import org.uniprot.core.xml.jaxb.uniparc.*;
+import java.util.GregorianCalendar;
 
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
-import java.util.GregorianCalendar;
+
+import org.uniprot.core.xml.jaxb.uniparc.*;
 
 /** Holds several utility methods that aid in the UniParc tests */
 final class TestUtils {

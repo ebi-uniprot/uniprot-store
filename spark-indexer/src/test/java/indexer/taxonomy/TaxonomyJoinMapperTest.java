@@ -1,17 +1,18 @@
 package indexer.taxonomy;
 
-import org.junit.jupiter.api.Test;
-import org.uniprot.core.taxonomy.TaxonomyEntry;
-import org.uniprot.core.taxonomy.TaxonomyLineage;
-import org.uniprot.core.taxonomy.builder.TaxonomyEntryBuilder;
-import org.uniprot.core.taxonomy.builder.TaxonomyLineageBuilder;
-import scala.Tuple2;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.Test;
+import org.uniprot.core.taxonomy.TaxonomyEntry;
+import org.uniprot.core.taxonomy.TaxonomyLineage;
+import org.uniprot.core.taxonomy.builder.TaxonomyEntryBuilder;
+import org.uniprot.core.taxonomy.builder.TaxonomyLineageBuilder;
+
+import scala.Tuple2;
 
 /**
  * @author lgonzales
@@ -20,12 +21,12 @@ import static org.junit.jupiter.api.Assertions.*;
 class TaxonomyJoinMapperTest {
 
     @Test
-    void testMapTaxonomyLineage() throws Exception{
+    void testMapTaxonomyLineage() throws Exception {
         TaxonomyEntry entry = new TaxonomyEntryBuilder().taxonId(9606L).build();
         List<TaxonomyLineage> lineage = new ArrayList<>();
         lineage.add(new TaxonomyLineageBuilder().taxonId(1L).build());
         lineage.add(new TaxonomyLineageBuilder().taxonId(2L).build());
-        Tuple2<TaxonomyEntry, List<TaxonomyLineage>> tuple = new Tuple2<>(entry,lineage);
+        Tuple2<TaxonomyEntry, List<TaxonomyLineage>> tuple = new Tuple2<>(entry, lineage);
 
         TaxonomyJoinMapper mapper = new TaxonomyJoinMapper();
         TaxonomyEntry result = mapper.call(tuple);
@@ -36,9 +37,10 @@ class TaxonomyJoinMapperTest {
     }
 
     @Test
-    void testMapTaxonomyEmptyLineage() throws Exception{
+    void testMapTaxonomyEmptyLineage() throws Exception {
         TaxonomyEntry entry = new TaxonomyEntryBuilder().taxonId(9606L).build();
-        Tuple2<TaxonomyEntry, List<TaxonomyLineage>> tuple = new Tuple2<>(entry, Collections.emptyList());
+        Tuple2<TaxonomyEntry, List<TaxonomyLineage>> tuple =
+                new Tuple2<>(entry, Collections.emptyList());
 
         TaxonomyJoinMapper mapper = new TaxonomyJoinMapper();
         TaxonomyEntry result = mapper.call(tuple);
@@ -47,5 +49,4 @@ class TaxonomyJoinMapperTest {
         assertNotNull(result.getLineage());
         assertFalse(result.hasLineage());
     }
-
 }

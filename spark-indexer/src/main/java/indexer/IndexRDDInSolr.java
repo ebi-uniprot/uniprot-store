@@ -1,12 +1,13 @@
 package indexer;
 
-import indexer.util.SolrUtils;
-import indexer.util.SparkUtils;
+import java.util.ResourceBundle;
+
 import org.apache.solr.common.SolrInputDocument;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
 
-import java.util.ResourceBundle;
+import indexer.util.SolrUtils;
+import indexer.util.SparkUtils;
 
 /**
  * @author lgonzales
@@ -14,18 +15,23 @@ import java.util.ResourceBundle;
  */
 public class IndexRDDInSolr {
 
-
     public static void main(String[] args) {
         ResourceBundle applicationConfig = SparkUtils.loadApplicationProperty();
         JavaSparkContext sparkContext = SparkUtils.loadSparkContext(applicationConfig);
 
-        String hdfsFilePath = applicationConfig.getString("uniprot.solr.documents.path");//applicationConfig.getString(args[0]);
-        JavaRDD<SolrInputDocument> solrInputDocumentRDD = (JavaRDD<SolrInputDocument>) sparkContext.objectFile(hdfsFilePath)
-                .map(obj -> {
-                    return (SolrInputDocument) obj;
-                });
+        String hdfsFilePath =
+                applicationConfig.getString(
+                        "uniprot.solr.documents.path"); // applicationConfig.getString(args[0]);
+        JavaRDD<SolrInputDocument> solrInputDocumentRDD =
+                (JavaRDD<SolrInputDocument>)
+                        sparkContext
+                                .objectFile(hdfsFilePath)
+                                .map(
+                                        obj -> {
+                                            return (SolrInputDocument) obj;
+                                        });
 
-        String solrCollection = "uniprot";//args[1];
+        String solrCollection = "uniprot"; // args[1];
         SolrUtils.indexDocuments(solrInputDocumentRDD, solrCollection, applicationConfig);
 
         sparkContext.close();

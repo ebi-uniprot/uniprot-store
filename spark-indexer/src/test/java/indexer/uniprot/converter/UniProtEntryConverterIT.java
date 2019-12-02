@@ -1,12 +1,6 @@
 package indexer.uniprot.converter;
 
-import org.apache.commons.io.IOUtils;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.uniprot.core.flatfile.parser.SupportingDataMap;
-import org.uniprot.core.flatfile.parser.impl.DefaultUniProtParser;
-import org.uniprot.core.uniprot.UniProtEntry;
-import org.uniprot.store.search.document.uniprot.UniProtDocument;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.InputStream;
 import java.nio.charset.Charset;
@@ -17,7 +11,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static org.junit.jupiter.api.Assertions.*;
+import org.apache.commons.io.IOUtils;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.uniprot.core.flatfile.parser.SupportingDataMap;
+import org.uniprot.core.flatfile.parser.impl.DefaultUniProtParser;
+import org.uniprot.core.uniprot.UniProtEntry;
+import org.uniprot.store.search.document.uniprot.UniProtDocument;
 
 /**
  * Created 12/04/19
@@ -81,9 +81,11 @@ class UniProtEntryConverterIT {
         assertTrue(doc.databases.contains("go"));
         assertTrue(doc.databases.contains("interpro"));
 
-
         assertEquals(1, doc.referenceTitles.size());
-        assertTrue(doc.referenceTitles.get(0).startsWith("Phylogeny and biogeography of 91 species of heroine"));
+        assertTrue(
+                doc.referenceTitles
+                        .get(0)
+                        .startsWith("Phylogeny and biogeography of 91 species of heroine"));
 
         assertEquals(12, doc.referenceAuthors.size());
         assertTrue(doc.referenceAuthors.get(0).startsWith("Concheiro Perez G.A."));
@@ -100,8 +102,10 @@ class UniProtEntryConverterIT {
 
         assertEquals(3, doc.commentMap.keySet().size());
         assertTrue(doc.commentMap.containsKey(CC_SIMILARITY_FIELD));
-        assertTrue(doc.commentMap.get(CC_SIMILARITY_FIELD).
-                contains("SIMILARITY: Belongs to the cytochrome b family."));
+        assertTrue(
+                doc.commentMap
+                        .get(CC_SIMILARITY_FIELD)
+                        .contains("SIMILARITY: Belongs to the cytochrome b family."));
 
         assertEquals(3, doc.commentEvMap.size());
         assertTrue(doc.commentEvMap.containsKey(CCEV_SIMILARITY_FIELD));
@@ -116,8 +120,10 @@ class UniProtEntryConverterIT {
 
         assertEquals(3, doc.commentMap.keySet().size());
         assertTrue(doc.commentMap.containsKey(CC_SIMILARITY_FIELD));
-        assertTrue(doc.commentMap.get(CC_SIMILARITY_FIELD).
-                contains("SIMILARITY: Belongs to the cytochrome b family."));
+        assertTrue(
+                doc.commentMap
+                        .get(CC_SIMILARITY_FIELD)
+                        .contains("SIMILARITY: Belongs to the cytochrome b family."));
 
         assertEquals(3, doc.cofactorChebi.size());
         assertTrue(doc.cofactorChebi.contains("heme"));
@@ -166,10 +172,16 @@ class UniProtEntryConverterIT {
         assertTrue(doc.reviewed);
 
         assertEquals(5, doc.proteinNames.size());
-        assertTrue(doc.proteinNames.contains("NMDA receptor synaptonuclear signaling and neuronal migration factor"));
-        assertTrue(doc.proteinNames.contains("Juxtasynaptic attractor of caldendrin on dendritic boutons protein"));
+        assertTrue(
+                doc.proteinNames.contains(
+                        "NMDA receptor synaptonuclear signaling and neuronal migration factor"));
+        assertTrue(
+                doc.proteinNames.contains(
+                        "Juxtasynaptic attractor of caldendrin on dendritic boutons protein"));
         assertTrue(doc.proteinNames.contains("Jacob protein"));
-        assertTrue(doc.proteinNames.contains("Nasal embryonic luteinizing hormone-releasing hormone factor"));
+        assertTrue(
+                doc.proteinNames.contains(
+                        "Nasal embryonic luteinizing hormone-releasing hormone factor"));
         assertTrue(doc.proteinNames.contains("Nasal embryonic LHRH factor"));
         assertEquals("NMDA receptor synaptonuclear s", doc.proteinsNamesSort);
 
@@ -180,12 +192,13 @@ class UniProtEntryConverterIT {
         assertEquals("19-JUL-2005", dateFormat.format(doc.firstCreated).toUpperCase());
         assertEquals("01-MAR-2001", dateFormat.format(doc.sequenceUpdated).toUpperCase());
 
-        assertEquals(38, doc.keywords.size());
+        assertEquals(36, doc.keywords.size());
         assertEquals("KW-0025", doc.keywords.get(0));
         assertEquals("Alternative splicing", doc.keywords.get(1));
-        List<String> keywordIds=
-        doc.keywords.stream().filter(val ->val.startsWith("KW-"))
-        .collect(Collectors.toList());
+        List<String> keywordIds =
+                doc.keywords.stream()
+                        .filter(val -> val.startsWith("KW-"))
+                        .collect(Collectors.toList());
 
         assertEquals(3, doc.geneNames.size());
         assertEquals("Nsmf", doc.geneNames.get(0));
@@ -209,7 +222,9 @@ class UniProtEntryConverterIT {
         assertTrue(doc.databases.contains("ensembl"));
 
         assertEquals(7, doc.referenceTitles.size());
-        assertTrue(doc.referenceTitles.contains("Characterization of the novel brain-specific protein Jacob."));
+        assertTrue(
+                doc.referenceTitles.contains(
+                        "Characterization of the novel brain-specific protein Jacob."));
 
         assertEquals(55, doc.referenceAuthors.size());
         assertTrue(doc.referenceAuthors.contains("Kramer P.R."));
@@ -227,35 +242,39 @@ class UniProtEntryConverterIT {
         assertEquals(5, doc.referenceJournals.size());
         assertTrue(doc.referenceJournals.contains("Genome Res."));
 
-        assertEquals(15, doc.proteinsWith.size());
+        assertEquals(16, doc.proteinsWith.size());
         assertTrue(doc.proteinsWith.contains("chain"));
-        assertFalse(doc.proteinsWith.contains("similarity")); //filtered out
-        assertFalse(doc.proteinsWith.contains("conflict")); //filtered out
+        assertFalse(doc.proteinsWith.contains("similarity")); // filtered out
+        assertFalse(doc.proteinsWith.contains("conflict")); // filtered out
 
         assertEquals(10, doc.commentMap.keySet().size());
         assertTrue(doc.commentMap.containsKey(CC_SIMILARITY_FIELD));
-        assertTrue(doc.commentMap.get(CC_SIMILARITY_FIELD).
-                contains("SIMILARITY: Belongs to the NSMF family."));
+        assertTrue(
+                doc.commentMap
+                        .get(CC_SIMILARITY_FIELD)
+                        .contains("SIMILARITY: Belongs to the NSMF family."));
 
         assertTrue(doc.commentMap.containsKey(CC_SIMILARITY_FIELD));
-        assertTrue(doc.commentMap.get(CC_SIMILARITY_FIELD).
-                contains("SIMILARITY: Belongs to the NSMF family."));
+        assertTrue(
+                doc.commentMap
+                        .get(CC_SIMILARITY_FIELD)
+                        .contains("SIMILARITY: Belongs to the NSMF family."));
 
         assertEquals(10, doc.commentEvMap.size());
         assertTrue(doc.commentEvMap.containsKey(CCEV_SIMILARITY_FIELD));
         assertTrue(doc.commentEvMap.get(CCEV_SIMILARITY_FIELD).contains("ECO_0000305"));
         assertTrue(doc.commentEvMap.get(CCEV_SIMILARITY_FIELD).contains("manual"));
 
-        assertEquals(8, doc.featuresMap.size());
+        assertEquals(9, doc.featuresMap.size());
         assertTrue(doc.featuresMap.containsKey(FT_CONFLICT_FIELD));
         assertTrue(doc.featuresMap.get(FT_CONFLICT_FIELD).contains("in Ref. 3; AAH87719"));
 
-        assertEquals(8, doc.featureEvidenceMap.size());
+        assertEquals(9, doc.featureEvidenceMap.size());
         assertTrue(doc.featureEvidenceMap.containsKey(FTEV_CONFLICT_FIELD));
         assertTrue(doc.featureEvidenceMap.get(FTEV_CONFLICT_FIELD).contains("ECO_0000305"));
         assertTrue(doc.featureEvidenceMap.get(FTEV_CONFLICT_FIELD).contains("manual"));
 
-        assertEquals(8, doc.featureLengthMap.size());
+        assertEquals(9, doc.featureLengthMap.size());
         assertTrue(doc.featureLengthMap.containsKey(FTLEN_CHAIN_FIELD));
         assertTrue(doc.featureLengthMap.get(FTLEN_CHAIN_FIELD).contains(531));
 
@@ -276,9 +295,10 @@ class UniProtEntryConverterIT {
         assertEquals(2, doc.subcellLocationNoteEv.size());
         assertTrue(doc.subcellLocationNoteEv.contains("ECO_0000250"));
         assertTrue(doc.subcellLocationNoteEv.contains("manual"));
-        List<String> subcellTerm=
-        doc.subcellLocationTerm.stream().filter(val-> !val.startsWith("SL-"))
-        .collect(Collectors.toList());
+        List<String> subcellTerm =
+                doc.subcellLocationTerm.stream()
+                        .filter(val -> !val.startsWith("SL-"))
+                        .collect(Collectors.toList());
 
         assertEquals(3, doc.ap.size());
         assertTrue(doc.ap.contains("Alternative splicing"));
@@ -330,11 +350,16 @@ class UniProtEntryConverterIT {
         assertTrue(doc.reviewed);
 
         assertEquals(5, doc.proteinNames.size());
-        assertTrue(doc.proteinNames
-                           .contains("Isoform 2 of NMDA receptor synaptonuclear signaling and neuronal migration factor"));
-        assertTrue(doc.proteinNames.contains("Juxtasynaptic attractor of caldendrin on dendritic boutons protein"));
+        assertTrue(
+                doc.proteinNames.contains(
+                        "Isoform 2 of NMDA receptor synaptonuclear signaling and neuronal migration factor"));
+        assertTrue(
+                doc.proteinNames.contains(
+                        "Juxtasynaptic attractor of caldendrin on dendritic boutons protein"));
         assertTrue(doc.proteinNames.contains("Jacob protein"));
-        assertTrue(doc.proteinNames.contains("Nasal embryonic luteinizing hormone-releasing hormone factor"));
+        assertTrue(
+                doc.proteinNames.contains(
+                        "Nasal embryonic luteinizing hormone-releasing hormone factor"));
         assertTrue(doc.proteinNames.contains("Nasal embryonic LHRH factor"));
         assertEquals("Isoform 2 of NMDA receptor syn", doc.proteinsNamesSort);
 
@@ -345,7 +370,7 @@ class UniProtEntryConverterIT {
         assertEquals("19-JUL-2005", dateFormat.format(doc.firstCreated).toUpperCase());
         assertEquals("01-MAR-2001", dateFormat.format(doc.sequenceUpdated).toUpperCase());
 
-        assertEquals(38, doc.keywords.size());
+        assertEquals(36, doc.keywords.size());
         assertEquals("KW-0025", doc.keywords.get(0));
         assertEquals("Alternative splicing", doc.keywords.get(1));
 
@@ -370,7 +395,9 @@ class UniProtEntryConverterIT {
         assertTrue(doc.databases.contains("embl"));
 
         assertEquals(8, doc.referenceTitles.size());
-        assertTrue(doc.referenceTitles.contains("Characterization of the novel brain-specific protein Jacob."));
+        assertTrue(
+                doc.referenceTitles.contains(
+                        "Characterization of the novel brain-specific protein Jacob."));
 
         assertEquals(62, doc.referenceAuthors.size());
         assertTrue(doc.referenceAuthors.contains("Kramer P.R."));
@@ -413,7 +440,6 @@ class UniProtEntryConverterIT {
         assertEquals(0, doc.subcellLocationNote.size());
         assertEquals(0, doc.subcellLocationNoteEv.size());
 
-
         assertEquals(2, doc.ap.size());
         assertTrue(doc.ap.contains("Alternative splicing"));
         assertEquals(1, doc.apAs.size());
@@ -438,14 +464,14 @@ class UniProtEntryConverterIT {
         assertEquals(50, doc.goes.size());
         assertTrue(doc.goes.contains("0030863"));
 
-//        assertEquals(50, doc.defaultGo.size());
-//        assertTrue(doc.defaultGo.contains("membrane"));
+        //        assertEquals(50, doc.defaultGo.size());
+        //        assertTrue(doc.defaultGo.contains("membrane"));
 
         assertEquals(4, doc.goWithEvidenceMaps.size());
         assertTrue(doc.goWithEvidenceMaps.containsKey("go_ida"));
 
         assertEquals(5, doc.score);
-//        assertNotNull(doc.avro_binary);
+        //        assertNotNull(doc.avro_binary);
     }
 
     @Test
@@ -462,12 +488,17 @@ class UniProtEntryConverterIT {
     }
 
     private UniProtEntry parse(String file) throws Exception {
-        InputStream is = UniProtEntryConverterIT.class.getClassLoader()
-                .getResourceAsStream("uniprotkb/" + file);
+        InputStream is =
+                UniProtEntryConverterIT.class
+                        .getClassLoader()
+                        .getResourceAsStream("uniprotkb/" + file);
         assertNotNull(is);
-        SupportingDataMap supportingDataMap = new SupportingDataMapHDSFImpl("keyword/keywlist.txt",
-                                                                        "disease/humdisease.txt",
-                                                                        "subcell/subcell.txt", null);
+        SupportingDataMap supportingDataMap =
+                new SupportingDataMapHDSFImpl(
+                        "keyword/keywlist.txt",
+                        "disease/humdisease.txt",
+                        "subcell/subcell.txt",
+                        null);
         DefaultUniProtParser parser = new DefaultUniProtParser(supportingDataMap, false);
         return parser.parse(IOUtils.toString(is, Charset.defaultCharset()));
     }
@@ -475,5 +506,4 @@ class UniProtEntryConverterIT {
     private UniProtDocument convertEntry(UniProtEntry entry) {
         return converter.convert(entry);
     }
-
 }

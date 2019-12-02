@@ -1,7 +1,6 @@
 package indexer.uniprot.mapper;
 
-import org.junit.jupiter.api.Test;
-import scala.Tuple2;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -9,7 +8,9 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.Test;
+
+import scala.Tuple2;
 
 /**
  * @author lgonzales
@@ -23,7 +24,8 @@ class TaxonomyJoinMapperTest {
         TaxonomyJoinMapper mapper = new TaxonomyJoinMapper();
 
         String flatFile = "uniprotkb/O60260.txt";
-        List<String> flatFileLines = Files.readAllLines(Paths.get(ClassLoader.getSystemResource(flatFile).toURI()));
+        List<String> flatFileLines =
+                Files.readAllLines(Paths.get(ClassLoader.getSystemResource(flatFile).toURI()));
         Iterator<Tuple2<String, String>> result = mapper.call(String.join("\n", flatFileLines));
 
         assertNotNull(result);
@@ -38,14 +40,14 @@ class TaxonomyJoinMapperTest {
         assertEquals(1, size);
     }
 
-
     @Test
     void testValidEntryWithOrganismAndHost() throws Exception {
 
         TaxonomyJoinMapper mapper = new TaxonomyJoinMapper();
 
         String flatFile = "uniprotkb/P03378.txt";
-        List<String> flatFileLines = Files.readAllLines(Paths.get(ClassLoader.getSystemResource(flatFile).toURI()));
+        List<String> flatFileLines =
+                Files.readAllLines(Paths.get(ClassLoader.getSystemResource(flatFile).toURI()));
         Iterator<Tuple2<String, String>> result = mapper.call(String.join("\n", flatFileLines));
 
         assertNotNull(result);
@@ -58,8 +60,5 @@ class TaxonomyJoinMapperTest {
         assertEquals("P03378", resultList.get(0)._2);
         assertEquals("9606", resultList.get(1)._1);
         assertEquals("P03378", resultList.get(1)._2);
-
-
     }
-
 }

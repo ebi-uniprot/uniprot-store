@@ -1,9 +1,16 @@
 package org.uniprot.store.job.common.writer;
 
-import com.google.common.base.Strings;
+import static org.slf4j.LoggerFactory.getLogger;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collectors;
+
 import lombok.extern.slf4j.Slf4j;
 import net.jodah.failsafe.Failsafe;
 import net.jodah.failsafe.RetryPolicy;
+
 import org.slf4j.Logger;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.StepExecution;
@@ -16,12 +23,7 @@ import org.uniprot.core.util.concurrency.OnZeroCountSleeper;
 import org.uniprot.store.job.common.store.Store;
 import org.uniprot.store.job.common.util.CommonConstants;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.atomic.AtomicInteger;
-import java.util.stream.Collectors;
-
-import static org.slf4j.LoggerFactory.getLogger;
+import com.google.common.base.Strings;
 
 /**
  * This abstract class is responsible for writing documents from a list of {@link

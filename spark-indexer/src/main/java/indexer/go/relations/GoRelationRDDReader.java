@@ -1,11 +1,13 @@
 package indexer.go.relations;
 
+import java.util.*;
+
 import lombok.extern.slf4j.Slf4j;
+
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaSparkContext;
-import scala.Tuple2;
 
-import java.util.*;
+import scala.Tuple2;
 
 /**
  * @author lgonzales
@@ -14,30 +16,38 @@ import java.util.*;
 @Slf4j
 public class GoRelationRDDReader {
 
-    public static JavaPairRDD<String, GoTerm> load(ResourceBundle applicationConfig, JavaSparkContext sparkContext) {
+    public static JavaPairRDD<String, GoTerm> load(
+            ResourceBundle applicationConfig, JavaSparkContext sparkContext) {
 
         String goRelationsFolder = applicationConfig.getString("go.relations.dir.path");
-        GoTermFileReader goTermFileReader = new GoTermFileReader(goRelationsFolder, sparkContext.hadoopConfiguration());
+        GoTermFileReader goTermFileReader =
+                new GoTermFileReader(goRelationsFolder, sparkContext.hadoopConfiguration());
         List<GoTerm> goTerms = goTermFileReader.read();
         log.info("Loaded " + goTerms.size() + " GO relations terms");
 
-        GoRelationFileReader goRelationFileReader = new GoRelationFileReader(goRelationsFolder, sparkContext.hadoopConfiguration());
+        GoRelationFileReader goRelationFileReader =
+                new GoRelationFileReader(goRelationsFolder, sparkContext.hadoopConfiguration());
         Map<String, Set<String>> relations = goRelationFileReader.read();
         log.info("Loaded " + relations.size() + " GO relations map");
 
-
         List<Tuple2<String, GoTerm>> pairs = new ArrayList<>();
-        goTerms.stream().filter(Objects::nonNull).forEach(goTerm -> {
-            Set<GoTerm> ancestors = getAncestors(goTerm, goTerms, relations);
-            GoTerm goTermWithRelations = new GoTermImpl(goTerm.getId(), goTerm.getName(), ancestors);
-            pairs.add(new Tuple2<String, GoTerm>(goTerm.getId(), goTermWithRelations));
-        });
+        goTerms.stream()
+                .filter(Objects::nonNull)
+                .forEach(
+                        goTerm -> {
+                            Set<GoTerm> ancestors = getAncestors(goTerm, goTerms, relations);
+                            GoTerm goTermWithRelations =
+                                    new GoTermImpl(goTerm.getId(), goTerm.getName(), ancestors);
+                            pairs.add(
+                                    new Tuple2<String, GoTerm>(
+                                            goTerm.getId(), goTermWithRelations));
+                        });
         log.info("Loaded  GO relations" + pairs.size());
         return (JavaPairRDD<String, GoTerm>) sparkContext.parallelizePairs(pairs);
     }
 
-
-    static Set<GoTerm> getAncestors(GoTerm term, List<GoTerm> goTerms, Map<String, Set<String>> relations) {
+    static Set<GoTerm> getAncestors(
+            GoTerm term, List<GoTerm> goTerms, Map<String, Set<String>> relations) {
         Set<GoTerm> visited = new HashSet<>();
         Queue<String> queue = new LinkedList<>();
         queue.add(term.getId());
@@ -64,5 +74,4 @@ public class GoRelationRDDReader {
             return goTerm;
         }
     }
-
 }

@@ -1,5 +1,13 @@
 package indexer.uniprot.converter;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+
 import org.junit.jupiter.api.Test;
 import org.uniprot.core.Property;
 import org.uniprot.core.uniprot.evidence.Evidence;
@@ -9,14 +17,6 @@ import org.uniprot.core.uniprot.xdb.UniProtDBCrossReference;
 import org.uniprot.core.uniprot.xdb.UniProtXDbType;
 import org.uniprot.core.uniprot.xdb.builder.UniProtDBCrossReferenceBuilder;
 import org.uniprot.store.search.document.uniprot.UniProtDocument;
-
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * @author lgonzales
@@ -30,16 +30,24 @@ class UniProtEntryCrossReferenceConverterTest {
 
         UniProtEntryCrossReferenceConverter converter = new UniProtEntryCrossReferenceConverter();
 
-        UniProtDBCrossReference xref = getUniProtDBCrossReference(new UniProtXDbType("Proteomes"), "id value", new Property("Component", "PC12345"));
+        UniProtDBCrossReference xref =
+                getUniProtDBCrossReference(
+                        new UniProtXDbType("Proteomes"),
+                        "id value",
+                        new Property("Component", "PC12345"));
         List<UniProtDBCrossReference> references = Collections.singletonList(xref);
 
         converter.convertCrossReferences(references, document);
 
-        //Proteomes and proteomes components are not being saved in the content (default field), should it be?
+        // Proteomes and proteomes components are not being saved in the content (default field),
+        // should it be?
         assertEquals(3, document.content.size());
-        assertEquals(new HashSet<>(Arrays.asList("proteomes-id value", "proteomes", "id value")), document.content);
+        assertEquals(
+                new HashSet<>(Arrays.asList("proteomes-id value", "proteomes", "id value")),
+                document.content);
 
-        assertEquals(new HashSet<>(Arrays.asList("proteomes-id value", "id value")), document.xrefs);
+        assertEquals(
+                new HashSet<>(Arrays.asList("proteomes-id value", "id value")), document.xrefs);
 
         assertEquals(Collections.singleton("proteomes"), document.databases);
 
@@ -48,7 +56,6 @@ class UniProtEntryCrossReferenceConverterTest {
 
         assertEquals(Collections.singleton("id value"), document.proteomes);
         assertEquals(Collections.singleton("PC12345"), document.proteomeComponents);
-
     }
 
     @Test
@@ -57,15 +64,21 @@ class UniProtEntryCrossReferenceConverterTest {
 
         UniProtEntryCrossReferenceConverter converter = new UniProtEntryCrossReferenceConverter();
 
-        UniProtDBCrossReference xref = getUniProtDBCrossReference(new UniProtXDbType("GO"), "GO:12345",
-                new Property("GoTerm", "C:apical dendrite"),
-                new Property("GoEvidenceType", "IDA:UniProtKB"));
+        UniProtDBCrossReference xref =
+                getUniProtDBCrossReference(
+                        new UniProtXDbType("GO"),
+                        "GO:12345",
+                        new Property("GoTerm", "C:apical dendrite"),
+                        new Property("GoEvidenceType", "IDA:UniProtKB"));
         List<UniProtDBCrossReference> references = Collections.singletonList(xref);
 
         converter.convertCrossReferences(references, document);
 
         assertEquals(5, document.content.size());
-        assertEquals(new HashSet<>(Arrays.asList("go-GO:12345", "GO:12345", "go", "12345", "apical dendrite")), document.content);
+        assertEquals(
+                new HashSet<>(
+                        Arrays.asList("go-GO:12345", "GO:12345", "go", "12345", "apical dendrite")),
+                document.content);
 
         assertEquals(new HashSet<>(Arrays.asList("go-GO:12345", "GO:12345")), document.xrefs);
 
@@ -78,7 +91,9 @@ class UniProtEntryCrossReferenceConverterTest {
         assertEquals(new HashSet<>(Collections.singletonList("12345")), document.goIds);
 
         assertTrue(document.goWithEvidenceMaps.containsKey("go_ida"));
-        assertEquals(new HashSet<>(Arrays.asList("12345", "apical dendrite")), document.goWithEvidenceMaps.get("go_ida"));
+        assertEquals(
+                new HashSet<>(Arrays.asList("12345", "apical dendrite")),
+                document.goWithEvidenceMaps.get("go_ida"));
     }
 
     @Test
@@ -87,13 +102,16 @@ class UniProtEntryCrossReferenceConverterTest {
 
         UniProtEntryCrossReferenceConverter converter = new UniProtEntryCrossReferenceConverter();
 
-        UniProtDBCrossReference xref = getUniProtDBCrossReference(new UniProtXDbType("PDB"), "id value", new Property("id", "PDB12345"));
+        UniProtDBCrossReference xref =
+                getUniProtDBCrossReference(
+                        new UniProtXDbType("PDB"), "id value", new Property("id", "PDB12345"));
         List<UniProtDBCrossReference> references = Collections.singletonList(xref);
 
         converter.convertCrossReferences(references, document);
 
         assertEquals(3, document.content.size());
-        assertEquals(new HashSet<>(Arrays.asList("pdb-id value", "pdb", "id value")), document.content);
+        assertEquals(
+                new HashSet<>(Arrays.asList("pdb-id value", "pdb", "id value")), document.content);
 
         assertEquals(new HashSet<>(Arrays.asList("pdb-id value", "id value")), document.xrefs);
 
@@ -111,17 +129,31 @@ class UniProtEntryCrossReferenceConverterTest {
 
         UniProtEntryCrossReferenceConverter converter = new UniProtEntryCrossReferenceConverter();
 
-        UniProtDBCrossReference xref = getUniProtDBCrossReference(new UniProtXDbType("EMBL"), "id value", new Property("ProteinId", "EMBL12345"), new Property("NotProteinId", "notIndexed"));
+        UniProtDBCrossReference xref =
+                getUniProtDBCrossReference(
+                        new UniProtXDbType("EMBL"),
+                        "id value",
+                        new Property("ProteinId", "EMBL12345"),
+                        new Property("NotProteinId", "notIndexed"));
         List<UniProtDBCrossReference> references = Collections.singletonList(xref);
 
         converter.convertCrossReferences(references, document);
 
         assertEquals(5, document.content.size());
-        assertEquals(new HashSet<>(Arrays.asList("embl-id value", "embl", "embl-EMBL12345",
-                "EMBL12345", "id value")), document.content);
+        assertEquals(
+                new HashSet<>(
+                        Arrays.asList(
+                                "embl-id value",
+                                "embl",
+                                "embl-EMBL12345",
+                                "EMBL12345",
+                                "id value")),
+                document.content);
 
-        assertEquals(new HashSet<>(Arrays.asList("embl-id value", "embl-EMBL12345",
-                "EMBL12345", "id value")), document.xrefs);
+        assertEquals(
+                new HashSet<>(
+                        Arrays.asList("embl-id value", "embl-EMBL12345", "EMBL12345", "id value")),
+                document.xrefs);
 
         assertEquals(Collections.singleton("embl"), document.databases);
 
@@ -135,26 +167,39 @@ class UniProtEntryCrossReferenceConverterTest {
 
         UniProtEntryCrossReferenceConverter converter = new UniProtEntryCrossReferenceConverter();
 
-        UniProtDBCrossReference xref = getUniProtDBCrossReference(new UniProtXDbType("Ensembl"), "id value", new Property("ProteinId", "E12345"));
+        UniProtDBCrossReference xref =
+                getUniProtDBCrossReference(
+                        new UniProtXDbType("Ensembl"),
+                        "id value",
+                        new Property("ProteinId", "E12345"));
         List<UniProtDBCrossReference> references = Collections.singletonList(xref);
 
         converter.convertCrossReferences(references, document);
 
         assertEquals(5, document.content.size());
-        assertEquals(new HashSet<>(Arrays.asList("ensembl-id value", "ensembl", "ensembl-E12345",
-                "E12345", "id value")), document.content);
+        assertEquals(
+                new HashSet<>(
+                        Arrays.asList(
+                                "ensembl-id value",
+                                "ensembl",
+                                "ensembl-E12345",
+                                "E12345",
+                                "id value")),
+                document.content);
 
-        assertEquals(new HashSet<>(Arrays.asList("ensembl-id value", "ensembl-E12345",
-                "E12345", "id value")), document.xrefs);
+        assertEquals(
+                new HashSet<>(
+                        Arrays.asList("ensembl-id value", "ensembl-E12345", "E12345", "id value")),
+                document.xrefs);
 
         assertEquals(Collections.singleton("ensembl"), document.databases);
 
         assertTrue(document.xrefCountMap.containsKey("xref_count_ensembl"));
         assertEquals(1L, document.xrefCountMap.get("xref_count_ensembl"));
-
     }
 
-    private static UniProtDBCrossReference getUniProtDBCrossReference(UniProtXDbType dbType, String id, Property... property) {
+    private static UniProtDBCrossReference getUniProtDBCrossReference(
+            UniProtXDbType dbType, String id, Property... property) {
         return new UniProtDBCrossReferenceBuilder()
                 .id(id)
                 .isoformId("Q9NXB0-1")
@@ -171,5 +216,4 @@ class UniProtEntryCrossReferenceConverterTest {
                 .databaseId("71234329")
                 .build();
     }
-
 }

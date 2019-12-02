@@ -1,11 +1,10 @@
 package indexer.go.relations;
 
-import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.Test;
 
 /**
  * @author lgonzales
@@ -32,7 +31,9 @@ class GoTermFileReaderTest {
     @Test
     void testReadInvalidGoTermsFile() {
         GoTermFileReader termFileReader = new GoTermFileReader("invalid", null);
-        assertThrows(RuntimeException.class, termFileReader::read, "IOException loading file: invalid/GO.terms");
+        assertThrows(
+                RuntimeException.class,
+                termFileReader::read,
+                "IOException loading file: invalid/GO.terms");
     }
-
 }

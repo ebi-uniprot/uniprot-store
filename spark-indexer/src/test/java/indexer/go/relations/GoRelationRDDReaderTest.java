@@ -1,10 +1,10 @@
 package indexer.go.relations;
 
-import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.*;
 
-import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.Test;
 
 /**
  * @author lgonzales
@@ -30,7 +30,8 @@ class GoRelationRDDReaderTest {
         go3Relations.add("GO1");
         relations.put("GO3", go3Relations);
 
-        Set<GoTerm> goTermRelations = GoRelationRDDReader.getAncestors(goTerm1, goTermList, relations);
+        Set<GoTerm> goTermRelations =
+                GoRelationRDDReader.getAncestors(goTerm1, goTermList, relations);
         assertNotNull(goTermRelations);
         assertEquals(4, goTermRelations.size());
         assertTrue(goTermRelations.contains(new GoTermImpl("GO1", null)));
@@ -43,7 +44,8 @@ class GoRelationRDDReaderTest {
     void getAncestorsWithoutAncestors() {
         GoTerm goTerm1 = new GoTermImpl("GO1", "TERM1");
         List<GoTerm> goTermList = Collections.singletonList(goTerm1);
-        Set<GoTerm> goTermRelations = GoRelationRDDReader.getAncestors(goTerm1, goTermList, new HashMap<>());
+        Set<GoTerm> goTermRelations =
+                GoRelationRDDReader.getAncestors(goTerm1, goTermList, new HashMap<>());
         assertNotNull(goTermRelations);
         assertEquals(1, goTermRelations.size());
         assertTrue(goTermRelations.contains(new GoTermImpl("GO1", null)));
@@ -52,7 +54,8 @@ class GoRelationRDDReaderTest {
     @Test
     void getAncestorsWithoutGoTermAndAncertors() {
         GoTerm goTerm1 = new GoTermImpl("GO1", "TERM1");
-        Set<GoTerm> goTermRelations = GoRelationRDDReader.getAncestors(goTerm1, new ArrayList<>(), new HashMap<>());
+        Set<GoTerm> goTermRelations =
+                GoRelationRDDReader.getAncestors(goTerm1, new ArrayList<>(), new HashMap<>());
         assertNotNull(goTermRelations);
         assertEquals(1, goTermRelations.size());
         assertTrue(goTermRelations.contains(new GoTermImpl("GO1", null)));

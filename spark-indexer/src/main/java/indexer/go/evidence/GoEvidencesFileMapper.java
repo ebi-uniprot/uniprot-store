@@ -1,9 +1,11 @@
 package indexer.go.evidence;
 
 import lombok.extern.slf4j.Slf4j;
+
 import org.apache.spark.api.java.function.PairFunction;
 import org.uniprot.core.uniprot.evidence.Evidence;
 import org.uniprot.core.uniprot.evidence.impl.EvidenceHelper;
+
 import scala.Tuple2;
 
 /**
@@ -25,8 +27,9 @@ public class GoEvidencesFileMapper implements PairFunction<String, String, GoEvi
             Evidence evidence = EvidenceHelper.parseEvidenceLine(evidenceValue);
             return new Tuple2<>(accession, new GoEvidence(goId, evidence));
         } else {
-            log.warn("unable to parse line: '" + line + "' in go evidence file");
-            throw new IllegalArgumentException("unable to parse line: '" + line + "' in go evidence file");
+            log.info("unable to parse line: '" + line + "' in go evidence file");
+            throw new IllegalArgumentException(
+                    "unable to parse line: '" + line + "' in go evidence file");
         }
     }
 }

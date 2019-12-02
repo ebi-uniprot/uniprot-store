@@ -1,5 +1,7 @@
 package org.uniprot.store.datastore.uniprotkb;
 
+import static org.uniprot.store.datastore.utils.Constants.UNIPROTKB_STORE_JOB;
+
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
@@ -8,8 +10,6 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.uniprot.store.job.common.listener.WriteRetrierLogJobListener;
-
-import static org.uniprot.store.datastore.utils.Constants.UNIPROTKB_STORE_JOB;
 
 /**
  * The main UniProtKB data storing job.

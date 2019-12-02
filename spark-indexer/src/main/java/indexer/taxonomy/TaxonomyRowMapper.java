@@ -1,16 +1,17 @@
 package indexer.taxonomy;
 
+import static indexer.util.RowUtils.hasFieldName;
+
+import java.io.Serializable;
+import java.math.BigDecimal;
+
 import org.apache.spark.api.java.function.PairFunction;
 import org.apache.spark.sql.Row;
 import org.uniprot.core.taxonomy.TaxonomyEntry;
 import org.uniprot.core.taxonomy.TaxonomyRank;
 import org.uniprot.core.taxonomy.builder.TaxonomyEntryBuilder;
+
 import scala.Tuple2;
-
-import java.io.Serializable;
-import java.math.BigDecimal;
-
-import static indexer.util.RowUtils.hasFieldName;
 
 /**
  * @author lgonzales
@@ -65,5 +66,4 @@ class TaxonomyRowMapper implements PairFunction<Row, String, TaxonomyEntry>, Ser
 
         return new Tuple2<String, TaxonomyEntry>(String.valueOf(taxId), builder.build());
     }
-
 }

@@ -1,5 +1,11 @@
 package indexer.taxonomy;
 
+import static org.junit.jupiter.api.Assertions.*;
+
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.spark.sql.Row;
 import org.apache.spark.sql.catalyst.expressions.GenericRowWithSchema;
 import org.apache.spark.sql.types.DataTypes;
@@ -7,13 +13,8 @@ import org.apache.spark.sql.types.StructType;
 import org.junit.jupiter.api.Test;
 import org.uniprot.core.taxonomy.TaxonomyEntry;
 import org.uniprot.core.taxonomy.TaxonomyRank;
+
 import scala.Tuple2;
-
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * @author lgonzales
@@ -22,20 +23,20 @@ import static org.junit.jupiter.api.Assertions.*;
 class TaxonomyRowMapperTest {
 
     @Test
-    void testTaxonomyRowMapperRequiredOnly() throws Exception{
+    void testTaxonomyRowMapperRequiredOnly() throws Exception {
         List<Object> values = new ArrayList<>();
-        values.add(new BigDecimal(1000)); //TAX_ID
-        values.add(null); //SPTR_COMMON
-        values.add(null); //NCBI_COMMON
-        values.add(null); //SPTR_SCIENTIFIC
-        values.add(null); //NCBI_SCIENTIFIC
-        values.add(null); //TAX_CODE
-        values.add(null); //PARENT_ID
-        values.add(null); //RANK
-        values.add(null); //SPTR_SYNONYM
-        values.add(null); //HIDDEN
+        values.add(new BigDecimal(1000)); // TAX_ID
+        values.add(null); // SPTR_COMMON
+        values.add(null); // NCBI_COMMON
+        values.add(null); // SPTR_SCIENTIFIC
+        values.add(null); // NCBI_SCIENTIFIC
+        values.add(null); // TAX_CODE
+        values.add(null); // PARENT_ID
+        values.add(null); // RANK
+        values.add(null); // SPTR_SYNONYM
+        values.add(null); // HIDDEN
 
-        Row row = new GenericRowWithSchema(values.toArray(),getTaxonomySchema() );
+        Row row = new GenericRowWithSchema(values.toArray(), getTaxonomySchema());
 
         TaxonomyRowMapper taxonomyRowMapper = new TaxonomyRowMapper();
         Tuple2<String, TaxonomyEntry> result = taxonomyRowMapper.call(row);
@@ -57,20 +58,20 @@ class TaxonomyRowMapperTest {
     }
 
     @Test
-    void testTaxonomyRowMapperWithSPRT() throws Exception{
+    void testTaxonomyRowMapperWithSPRT() throws Exception {
         List<Object> values = new ArrayList<>();
-        values.add(new BigDecimal(1000)); //TAX_ID
-        values.add("SPTR_COMMON value"); //SPTR_COMMON
-        values.add("NCBI_COMMON value"); //NCBI_COMMON
-        values.add("SPTR_SCIENTIFIC value"); //SPTR_SCIENTIFIC
-        values.add("NCBI_SCIENTIFIC value"); //NCBI_SCIENTIFIC
-        values.add("TAX_CODE value"); //TAX_CODE
-        values.add(new BigDecimal(1001)); //PARENT_ID
-        values.add("family"); //RANK
-        values.add("SPTR_SYNONYM value"); //SPTR_SYNONYM
-        values.add(new BigDecimal(1)); //HIDDEN
+        values.add(new BigDecimal(1000)); // TAX_ID
+        values.add("SPTR_COMMON value"); // SPTR_COMMON
+        values.add("NCBI_COMMON value"); // NCBI_COMMON
+        values.add("SPTR_SCIENTIFIC value"); // SPTR_SCIENTIFIC
+        values.add("NCBI_SCIENTIFIC value"); // NCBI_SCIENTIFIC
+        values.add("TAX_CODE value"); // TAX_CODE
+        values.add(new BigDecimal(1001)); // PARENT_ID
+        values.add("family"); // RANK
+        values.add("SPTR_SYNONYM value"); // SPTR_SYNONYM
+        values.add(new BigDecimal(1)); // HIDDEN
 
-        Row row = new GenericRowWithSchema(values.toArray(),getTaxonomySchema() );
+        Row row = new GenericRowWithSchema(values.toArray(), getTaxonomySchema());
 
         TaxonomyRowMapper taxonomyRowMapper = new TaxonomyRowMapper();
         Tuple2<String, TaxonomyEntry> result = taxonomyRowMapper.call(row);
@@ -92,20 +93,20 @@ class TaxonomyRowMapperTest {
     }
 
     @Test
-    void testTaxonomyRowMapperWithNCBI() throws Exception{
+    void testTaxonomyRowMapperWithNCBI() throws Exception {
         List<Object> values = new ArrayList<>();
-        values.add(new BigDecimal(1000)); //TAX_ID
-        values.add(null); //SPTR_COMMON
-        values.add("NCBI_COMMON value"); //NCBI_COMMON
-        values.add(null); //SPTR_SCIENTIFIC
-        values.add("NCBI_SCIENTIFIC value"); //NCBI_SCIENTIFIC
-        values.add("TAX_CODE value"); //TAX_CODE
-        values.add(new BigDecimal(1001)); //PARENT_ID
-        values.add("family"); //RANK
-        values.add("SPTR_SYNONYM value"); //SPTR_SYNONYM
-        values.add(new BigDecimal(1)); //HIDDEN
+        values.add(new BigDecimal(1000)); // TAX_ID
+        values.add(null); // SPTR_COMMON
+        values.add("NCBI_COMMON value"); // NCBI_COMMON
+        values.add(null); // SPTR_SCIENTIFIC
+        values.add("NCBI_SCIENTIFIC value"); // NCBI_SCIENTIFIC
+        values.add("TAX_CODE value"); // TAX_CODE
+        values.add(new BigDecimal(1001)); // PARENT_ID
+        values.add("family"); // RANK
+        values.add("SPTR_SYNONYM value"); // SPTR_SYNONYM
+        values.add(new BigDecimal(1)); // HIDDEN
 
-        Row row = new GenericRowWithSchema(values.toArray(),getTaxonomySchema() );
+        Row row = new GenericRowWithSchema(values.toArray(), getTaxonomySchema());
 
         TaxonomyRowMapper taxonomyRowMapper = new TaxonomyRowMapper();
         Tuple2<String, TaxonomyEntry> result = taxonomyRowMapper.call(row);

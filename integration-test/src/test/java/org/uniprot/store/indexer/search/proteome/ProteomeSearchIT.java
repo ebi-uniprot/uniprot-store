@@ -1,6 +1,12 @@
 package org.uniprot.store.indexer.search.proteome;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import static org.junit.jupiter.api.Assertions.*;
+
+import java.util.*;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
+
 import org.apache.solr.client.solrj.beans.DocumentObjectBinder;
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.common.SolrDocumentList;
@@ -14,12 +20,7 @@ import org.uniprot.store.search.document.proteome.ProteomeDocument;
 import org.uniprot.store.search.field.ProteomeField;
 import org.uniprot.store.search.field.QueryBuilder;
 
-import java.util.*;
-import java.util.function.Function;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
-
-import static org.junit.jupiter.api.Assertions.*;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 class ProteomeSearchIT {
     private static final String PROTEOME_ROOT_ELEMENT = "proteome";

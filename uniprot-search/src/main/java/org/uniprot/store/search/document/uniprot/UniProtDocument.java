@@ -1,15 +1,12 @@
 package org.uniprot.store.search.document.uniprot;
 
-import org.apache.solr.client.solrj.beans.Field;
-import org.uniprot.store.search.document.Document;
-
 import java.io.Serializable;
 import java.util.*;
 
-/**
- * Document used for indexing uniprot entries into Solr
- */
+import org.apache.solr.client.solrj.beans.Field;
+import org.uniprot.store.search.document.Document;
 
+/** Document used for indexing uniprot entries into Solr */
 public class UniProtDocument implements Document, Serializable {
 
     private static final long serialVersionUID = 6487942504460456915L;
@@ -284,8 +281,8 @@ public class UniProtDocument implements Document, Serializable {
 
     @Field("length")
     public int seqLength;
-   
- // Added by Chuming Chen for Peptide Search on Sept. 16, 2019.
+
+    // Added by Chuming Chen for Peptide Search on Sept. 16, 2019.
     @Field("sq")
     public String seqAA;
 
@@ -345,10 +342,10 @@ public class UniProtDocument implements Document, Serializable {
 
     @Field("uniref_cluster_50")
     public List<String> unirefCluster50 = new ArrayList<>();
-    
+
     @Field("uniref_cluster_90")
     public List<String> unirefCluster90 = new ArrayList<>();;
-    
+
     @Field("uniref_cluster_100")
     public List<String> unirefCluster100 = new ArrayList<>();;
 

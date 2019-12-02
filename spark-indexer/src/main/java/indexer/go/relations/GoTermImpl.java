@@ -50,18 +50,13 @@ public class GoTermImpl implements GoTerm {
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
+        if (this == obj) return true;
+        if (obj == null) return false;
+        if (getClass() != obj.getClass()) return false;
         GoTermImpl other = (GoTermImpl) obj;
         if (goId == null) {
-            if (other.goId != null)
-                return false;
-        } else if (!goId.equals(other.goId))
-            return false;
+            if (other.goId != null) return false;
+        } else if (!goId.equals(other.goId)) return false;
         return true;
     }
 

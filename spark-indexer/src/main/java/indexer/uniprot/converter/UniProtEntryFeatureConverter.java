@@ -1,13 +1,13 @@
 package indexer.uniprot.converter;
 
-import org.uniprot.core.uniprot.feature.Feature;
-import org.uniprot.core.uniprot.feature.FeatureType;
-import org.uniprot.store.search.document.uniprot.UniProtDocument;
-
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
+import org.uniprot.core.uniprot.feature.Feature;
+import org.uniprot.core.uniprot.feature.FeatureType;
+import org.uniprot.store.search.document.uniprot.UniProtDocument;
 
 /**
  * @author lgonzales
@@ -24,7 +24,8 @@ class UniProtEntryFeatureConverter {
             String field = getFeatureField(feature, FEATURE);
             String evField = getFeatureField(feature, FT_EV);
             String lengthField = getFeatureField(feature, FT_LENGTH);
-            Collection<String> featuresOfTypeList = document.featuresMap.computeIfAbsent(field, k -> new HashSet<>());
+            Collection<String> featuresOfTypeList =
+                    document.featuresMap.computeIfAbsent(field, k -> new HashSet<>());
 
             featuresOfTypeList.add(feature.getType().getName());
             document.content.add(feature.getType().getName());
@@ -46,19 +47,22 @@ class UniProtEntryFeatureConverter {
             document.proteinsWith.add(feature.getType().name().toLowerCase());
 
             // start and end of location
-            int length = feature.getLocation().getEnd().getValue() - feature.getLocation().getStart().getValue() + 1;
-            Set<String> evidences = UniProtEntryConverterUtil.extractEvidence(feature.getEvidences());
-            Collection<Integer> lengthList = document.featureLengthMap.computeIfAbsent(lengthField,
-                    k -> new HashSet<>());
+            int length =
+                    feature.getLocation().getEnd().getValue()
+                            - feature.getLocation().getStart().getValue()
+                            + 1;
+            Set<String> evidences =
+                    UniProtEntryConverterUtil.extractEvidence(feature.getEvidences());
+            Collection<Integer> lengthList =
+                    document.featureLengthMap.computeIfAbsent(lengthField, k -> new HashSet<>());
             lengthList.add(length);
 
-            Collection<String> evidenceList = document.featureEvidenceMap.computeIfAbsent(evField,
-                    k -> new HashSet<>());
+            Collection<String> evidenceList =
+                    document.featureEvidenceMap.computeIfAbsent(evField, k -> new HashSet<>());
             evidenceList.addAll(evidences);
         }
         document.proteinsWith.removeIf(this::filterUnnecessaryProteinsWithFeatureTypes);
     }
-
 
     private String getFeatureField(Feature feature, String type) {
         String field = type + feature.getType().name().toLowerCase();

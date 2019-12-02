@@ -1,18 +1,18 @@
 package indexer.uniprot.converter;
 
+import static java.util.Arrays.asList;
+import static java.util.Collections.singleton;
+import static java.util.Collections.singletonList;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import java.util.HashSet;
+
 import org.junit.jupiter.api.Test;
 import org.uniprot.core.uniprot.taxonomy.Organism;
 import org.uniprot.core.uniprot.taxonomy.OrganismHost;
 import org.uniprot.core.uniprot.taxonomy.builder.OrganismBuilder;
 import org.uniprot.core.uniprot.taxonomy.builder.OrganismHostBuilder;
 import org.uniprot.store.search.document.uniprot.UniProtDocument;
-
-import java.util.HashSet;
-
-import static java.util.Arrays.asList;
-import static java.util.Collections.singleton;
-import static java.util.Collections.singletonList;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * @author lgonzales
@@ -45,7 +45,6 @@ class UniProtEntryTaxonomyConverterTest {
         // objects that will be updated in the convertion method
         UniProtDocument uniProtDocument = new UniProtDocument();
 
-
         UniprotEntryTaxonomyConverter converter = new UniprotEntryTaxonomyConverter();
 
         // when
@@ -69,12 +68,10 @@ class UniProtEntryTaxonomyConverterTest {
         UniprotEntryTaxonomyConverter converter = new UniprotEntryTaxonomyConverter();
 
         // when
-        converter.convertOrganismHosts(
-                asList(organismHost, otherOrganismHost), uniProtDocument);
+        converter.convertOrganismHosts(asList(organismHost, otherOrganismHost), uniProtDocument);
 
         // then
         assertEquals(asList(9606, 9000), uniProtDocument.organismHostIds);
-
 
         // content for default search
         assertEquals(new HashSet<>(asList("9606", "9000")), uniProtDocument.content);

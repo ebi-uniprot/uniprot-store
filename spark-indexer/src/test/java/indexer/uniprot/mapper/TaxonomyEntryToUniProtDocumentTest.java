@@ -1,5 +1,10 @@
 package indexer.uniprot.mapper;
 
+import static org.junit.jupiter.api.Assertions.*;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.spark.api.java.Optional;
 import org.junit.jupiter.api.Test;
 import org.uniprot.core.taxonomy.TaxonomyEntry;
@@ -7,12 +12,8 @@ import org.uniprot.core.taxonomy.TaxonomyLineage;
 import org.uniprot.core.taxonomy.builder.TaxonomyEntryBuilder;
 import org.uniprot.core.taxonomy.builder.TaxonomyLineageBuilder;
 import org.uniprot.store.search.document.uniprot.UniProtDocument;
+
 import scala.Tuple2;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * @author lgonzales
@@ -22,29 +23,32 @@ class TaxonomyEntryToUniProtDocumentTest {
 
     @Test
     void testDocumentWithValidPopularOrganismsWithLineage() throws Exception {
-        TaxonomyLineage lineage = new TaxonomyLineageBuilder()
-                .taxonId(1111L)
-                .scientificName("lineage scientific 1111")
-                .commonName("lineage common 1111")
-                .addSynonyms("lineage synonym 1111")
-                .build();
+        TaxonomyLineage lineage =
+                new TaxonomyLineageBuilder()
+                        .taxonId(1111L)
+                        .scientificName("lineage scientific 1111")
+                        .commonName("lineage common 1111")
+                        .addSynonyms("lineage synonym 1111")
+                        .build();
 
-        TaxonomyLineage lineage2 = new TaxonomyLineageBuilder()
-                .taxonId(2222L)
-                .scientificName("lineage scientific 2222")
-                .commonName("lineage common 2222")
-                .addSynonyms("lineage synonym 2222")
-                .build();
+        TaxonomyLineage lineage2 =
+                new TaxonomyLineageBuilder()
+                        .taxonId(2222L)
+                        .scientificName("lineage scientific 2222")
+                        .commonName("lineage common 2222")
+                        .addSynonyms("lineage synonym 2222")
+                        .build();
 
-        TaxonomyEntry organismEntry = new TaxonomyEntryBuilder()
-                .taxonId(9606L)
-                .commonName("organism common name")
-                .scientificName("organism scientific name")
-                .mnemonic("organism mnemonic")
-                .addSynonyms("organism synonym")
-                .addLineage(lineage)
-                .addLineage(lineage2)
-                .build();
+        TaxonomyEntry organismEntry =
+                new TaxonomyEntryBuilder()
+                        .taxonId(9606L)
+                        .commonName("organism common name")
+                        .scientificName("organism scientific name")
+                        .mnemonic("organism mnemonic")
+                        .addSynonyms("organism synonym")
+                        .addLineage(lineage)
+                        .addLineage(lineage2)
+                        .build();
 
         List<TaxonomyEntry> entries = new ArrayList<>();
         entries.add(organismEntry);
@@ -52,7 +56,8 @@ class TaxonomyEntryToUniProtDocumentTest {
         UniProtDocument doc = new UniProtDocument();
         doc.organismTaxId = 9606;
 
-        Tuple2<UniProtDocument, Optional<Iterable<TaxonomyEntry>>> tuple = new Tuple2<>(doc, Optional.of(entries));
+        Tuple2<UniProtDocument, Optional<Iterable<TaxonomyEntry>>> tuple =
+                new Tuple2<>(doc, Optional.of(entries));
         TaxonomyEntryToUniProtDocument mapper = new TaxonomyEntryToUniProtDocument();
 
         UniProtDocument result = mapper.call(tuple);
@@ -88,12 +93,13 @@ class TaxonomyEntryToUniProtDocumentTest {
 
     @Test
     void testDocumentOtherOrganismWithMnemonic() throws Exception {
-        TaxonomyEntry organismEntry = new TaxonomyEntryBuilder()
-                .taxonId(1000L)
-                .commonName("organism common name")
-                .scientificName("organism scientific name")
-                .mnemonic("organism mnemonic")
-                .build();
+        TaxonomyEntry organismEntry =
+                new TaxonomyEntryBuilder()
+                        .taxonId(1000L)
+                        .commonName("organism common name")
+                        .scientificName("organism scientific name")
+                        .mnemonic("organism mnemonic")
+                        .build();
 
         List<TaxonomyEntry> entries = new ArrayList<>();
         entries.add(organismEntry);
@@ -101,7 +107,8 @@ class TaxonomyEntryToUniProtDocumentTest {
         UniProtDocument doc = new UniProtDocument();
         doc.organismTaxId = 1000;
 
-        Tuple2<UniProtDocument, Optional<Iterable<TaxonomyEntry>>> tuple = new Tuple2<>(doc, Optional.of(entries));
+        Tuple2<UniProtDocument, Optional<Iterable<TaxonomyEntry>>> tuple =
+                new Tuple2<>(doc, Optional.of(entries));
         TaxonomyEntryToUniProtDocument mapper = new TaxonomyEntryToUniProtDocument();
 
         UniProtDocument result = mapper.call(tuple);
@@ -113,12 +120,13 @@ class TaxonomyEntryToUniProtDocumentTest {
 
     @Test
     void testDocumentOtherOrganismWithCommon() throws Exception {
-        TaxonomyEntry organismEntry = new TaxonomyEntryBuilder()
-                .taxonId(1000L)
-                .commonName("organism common name")
-                .scientificName("organism scientific name")
-                .addSynonyms("organism synonym")
-                .build();
+        TaxonomyEntry organismEntry =
+                new TaxonomyEntryBuilder()
+                        .taxonId(1000L)
+                        .commonName("organism common name")
+                        .scientificName("organism scientific name")
+                        .addSynonyms("organism synonym")
+                        .build();
 
         List<TaxonomyEntry> entries = new ArrayList<>();
         entries.add(organismEntry);
@@ -126,7 +134,8 @@ class TaxonomyEntryToUniProtDocumentTest {
         UniProtDocument doc = new UniProtDocument();
         doc.organismTaxId = 1000;
 
-        Tuple2<UniProtDocument, Optional<Iterable<TaxonomyEntry>>> tuple = new Tuple2<>(doc, Optional.of(entries));
+        Tuple2<UniProtDocument, Optional<Iterable<TaxonomyEntry>>> tuple =
+                new Tuple2<>(doc, Optional.of(entries));
         TaxonomyEntryToUniProtDocument mapper = new TaxonomyEntryToUniProtDocument();
 
         UniProtDocument result = mapper.call(tuple);
@@ -138,10 +147,11 @@ class TaxonomyEntryToUniProtDocumentTest {
 
     @Test
     void testDocumentOtherOrganismWithScientific() throws Exception {
-        TaxonomyEntry organismEntry = new TaxonomyEntryBuilder()
-                .taxonId(1000L)
-                .scientificName("organism scientific name")
-                .build();
+        TaxonomyEntry organismEntry =
+                new TaxonomyEntryBuilder()
+                        .taxonId(1000L)
+                        .scientificName("organism scientific name")
+                        .build();
 
         List<TaxonomyEntry> entries = new ArrayList<>();
         entries.add(organismEntry);
@@ -149,7 +159,8 @@ class TaxonomyEntryToUniProtDocumentTest {
         UniProtDocument doc = new UniProtDocument();
         doc.organismTaxId = 1000;
 
-        Tuple2<UniProtDocument, Optional<Iterable<TaxonomyEntry>>> tuple = new Tuple2<>(doc, Optional.of(entries));
+        Tuple2<UniProtDocument, Optional<Iterable<TaxonomyEntry>>> tuple =
+                new Tuple2<>(doc, Optional.of(entries));
         TaxonomyEntryToUniProtDocument mapper = new TaxonomyEntryToUniProtDocument();
 
         UniProtDocument result = mapper.call(tuple);
@@ -162,32 +173,34 @@ class TaxonomyEntryToUniProtDocumentTest {
     @Test
     void testDocumentWithValidOrganismHosts() throws Exception {
 
-        TaxonomyEntry organismHost9606 = new TaxonomyEntryBuilder()
-                .taxonId(9606L)
-                .commonName("organism common name 9606")
-                .scientificName("organism scientific name 9606")
-                .mnemonic("organism mnemonic 9606")
-                .addSynonyms("organism synonym 9606")
-                .build();
+        TaxonomyEntry organismHost9606 =
+                new TaxonomyEntryBuilder()
+                        .taxonId(9606L)
+                        .commonName("organism common name 9606")
+                        .scientificName("organism scientific name 9606")
+                        .mnemonic("organism mnemonic 9606")
+                        .addSynonyms("organism synonym 9606")
+                        .build();
 
-        TaxonomyEntry organismHost9000 = new TaxonomyEntryBuilder()
-                .taxonId(9000L)
-                .commonName("organism common name 9000")
-                .scientificName("organism scientific name 9000")
-                .mnemonic("organism mnemonic 9000")
-                .addSynonyms("organism synonym 9000")
-                .build();
+        TaxonomyEntry organismHost9000 =
+                new TaxonomyEntryBuilder()
+                        .taxonId(9000L)
+                        .commonName("organism common name 9000")
+                        .scientificName("organism scientific name 9000")
+                        .mnemonic("organism mnemonic 9000")
+                        .addSynonyms("organism synonym 9000")
+                        .build();
 
         UniProtDocument doc = new UniProtDocument();
         doc.organismHostIds.add(9606);
         doc.organismHostIds.add(9000);
 
-
         List<TaxonomyEntry> entries = new ArrayList<>();
         entries.add(organismHost9606);
         entries.add(organismHost9000);
 
-        Tuple2<UniProtDocument, Optional<Iterable<TaxonomyEntry>>> tuple = new Tuple2<>(doc, Optional.of(entries));
+        Tuple2<UniProtDocument, Optional<Iterable<TaxonomyEntry>>> tuple =
+                new Tuple2<>(doc, Optional.of(entries));
         TaxonomyEntryToUniProtDocument mapper = new TaxonomyEntryToUniProtDocument();
 
         UniProtDocument result = mapper.call(tuple);
@@ -213,10 +226,10 @@ class TaxonomyEntryToUniProtDocumentTest {
     void testDocumentWithoutOrganismsAndHosts() throws Exception {
         List<TaxonomyEntry> entries = new ArrayList<>();
 
-
         UniProtDocument doc = new UniProtDocument();
 
-        Tuple2<UniProtDocument, Optional<Iterable<TaxonomyEntry>>> tuple = new Tuple2<>(doc, Optional.of(entries));
+        Tuple2<UniProtDocument, Optional<Iterable<TaxonomyEntry>>> tuple =
+                new Tuple2<>(doc, Optional.of(entries));
         TaxonomyEntryToUniProtDocument mapper = new TaxonomyEntryToUniProtDocument();
 
         UniProtDocument result = mapper.call(tuple);

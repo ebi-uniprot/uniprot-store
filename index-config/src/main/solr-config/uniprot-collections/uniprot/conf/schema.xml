@@ -696,9 +696,12 @@
 	<field name="lit_pubdate" type="rdates" indexed="true"
 		stored="false" required="false" multiValued="true" />
 
-	<field name="lit_pubmed" type="string" indexed="true" stored="false" required="false" multiValued="true" />
-	<field name="lit_journal" type="basic_ci" indexed="true" stored="false" required="false" multiValued="true" />
-	<field name="mapped_citation" type="string" indexed="true" stored="false" required="false" multiValued="true"/>
+	<field name="lit_pubmed" type="string" indexed="true"
+		stored="false" required="false" multiValued="true" />
+	<field name="lit_journal" type="basic_ci" indexed="true"
+		stored="false" required="false" multiValued="true" />
+	<field name="mapped_citation" type="string" indexed="true"
+		stored="false" required="false" multiValued="true" />
 
 	<field name="tissue" type="basic_ci" indexed="true"
 		stored="false" required="false" multiValued="true" />
@@ -862,12 +865,16 @@
 	<field name="uniref_cluster_100" type="string" indexed="true"
 		stored="false" required="false" multiValued="true" docValues="true" />
 
-	<field name="uniref_size_50" type="string" indexed="true" stored="false" required="false" multiValued="false"/>
-	<field name="uniref_size_90" type="string" indexed="true" stored="false" required="false" multiValued="false"/>
-	<field name="uniref_size_100" type="string" indexed="true" stored="false" required="false" multiValued="false"/>
+	<field name="uniref_size_50" type="string" indexed="true"
+		stored="false" required="false" multiValued="false" />
+	<field name="uniref_size_90" type="string" indexed="true"
+		stored="false" required="false" multiValued="false" />
+	<field name="uniref_size_100" type="string" indexed="true"
+		stored="false" required="false" multiValued="false" />
 
 	<!-- UniParc -->
-	<field name="uniparc" type="string" indexed="true" stored="false" required="false" multiValued="false"/>
+	<field name="uniparc" type="string" indexed="true" stored="false"
+		required="false" multiValued="false" />
 
 
 	<field name="text" type="text_general" indexed="true"

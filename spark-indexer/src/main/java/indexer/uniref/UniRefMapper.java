@@ -3,18 +3,21 @@ package indexer.uniref;
 import org.apache.spark.api.java.Optional;
 import org.apache.spark.api.java.function.Function;
 import org.uniprot.store.search.document.uniprot.UniProtDocument;
+
 import scala.Tuple2;
 
 /**
  * @author lgonzales
  * @since 2019-10-22
  */
-public class UniRefMapper implements Function<Tuple2<UniProtDocument, Optional<MappedUniRef>>, UniProtDocument> {
+public class UniRefMapper
+        implements Function<Tuple2<UniProtDocument, Optional<MappedUniRef>>, UniProtDocument> {
 
     private static final long serialVersionUID = -7600564687228805786L;
 
     @Override
-    public UniProtDocument call(Tuple2<UniProtDocument, Optional<MappedUniRef>> tuple) throws Exception {
+    public UniProtDocument call(Tuple2<UniProtDocument, Optional<MappedUniRef>> tuple)
+            throws Exception {
         UniProtDocument document = tuple._1;
         if (tuple._2.isPresent()) {
             MappedUniRef uniRef = (MappedUniRef) tuple._2.get();
@@ -35,7 +38,8 @@ public class UniRefMapper implements Function<Tuple2<UniProtDocument, Optional<M
                     document.unirefSize100 = uniRef.getMemberSize();
                     break;
             }
-            if(uniRef.getUniRefMember() != null && uniRef.getUniRefMember().getUniParcId() != null){
+            if (uniRef.getUniRefMember() != null
+                    && uniRef.getUniRefMember().getUniParcId() != null) {
                 document.uniparc = uniRef.getUniRefMember().getUniParcId().getValue();
             }
         }

@@ -1,5 +1,16 @@
 package indexer.uniref;
 
+import static indexer.util.RowUtils.hasFieldName;
+
+import java.io.Serializable;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.apache.spark.api.java.function.MapFunction;
 import org.apache.spark.sql.Row;
 import org.apache.spark.sql.types.DataTypes;
@@ -14,17 +25,6 @@ import org.uniprot.core.uniref.builder.UniRefEntryBuilder;
 import org.uniprot.core.uniref.builder.UniRefMemberBuilder;
 import org.uniprot.core.uniref.impl.OverlapRegionImpl;
 import org.uniprot.core.uniref.impl.UniRefEntryIdImpl;
-
-import java.io.Serializable;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeFormatterBuilder;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import static indexer.util.RowUtils.hasFieldName;
 
 /**
  * @author lgonzales
@@ -50,8 +50,11 @@ class DatasetUnirefEntryConverter implements MapFunction<Row, UniRefEntry>, Seri
         UniRefEntryBuilder builder = new UniRefEntryBuilder();
         builder.entryType(uniRefType);
         builder.id(rowValue.getString(rowValue.fieldIndex("_id")));
-        DateTimeFormatter formatter = new DateTimeFormatterBuilder().parseCaseInsensitive()
-                .append(DateTimeFormatter.ofPattern("yyyy-MM-dd")).toFormatter();
+        DateTimeFormatter formatter =
+                new DateTimeFormatterBuilder()
+                        .parseCaseInsensitive()
+                        .append(DateTimeFormatter.ofPattern("yyyy-MM-dd"))
+                        .toFormatter();
         String xmlUpdatedDate = rowValue.getString(rowValue.fieldIndex("_updated"));
         builder.updated(LocalDate.parse(xmlUpdatedDate, formatter));
 
@@ -60,17 +63,22 @@ class DatasetUnirefEntryConverter implements MapFunction<Row, UniRefEntry>, Seri
         }
         if (hasFieldName("property", rowValue)) {
             Map<String, String> propertyMap = convertProperties(rowValue);
-            builder.memberCount(Integer.valueOf(propertyMap.getOrDefault(PROPERTY_MEMBER_COUNT, "0")));
+            builder.memberCount(
+                    Integer.valueOf(propertyMap.getOrDefault(PROPERTY_MEMBER_COUNT, "0")));
             builder.commonTaxon(propertyMap.getOrDefault(PROPERTY_COMMON_TAXON, ""));
-            builder.commonTaxonId(Integer.valueOf(propertyMap.getOrDefault(PROPERTY_COMMON_TAXON_ID, "0")));
-            if(propertyMap.containsKey(PROPERTY_GO_FUNCTION)){
-                builder.addGoTerm(createGoTerm(GoTermType.FUNCTION, propertyMap.get(PROPERTY_GO_FUNCTION)));
+            builder.commonTaxonId(
+                    Integer.valueOf(propertyMap.getOrDefault(PROPERTY_COMMON_TAXON_ID, "0")));
+            if (propertyMap.containsKey(PROPERTY_GO_FUNCTION)) {
+                builder.addGoTerm(
+                        createGoTerm(GoTermType.FUNCTION, propertyMap.get(PROPERTY_GO_FUNCTION)));
             }
-            if(propertyMap.containsKey(PROPERTY_GO_COMPONENT)){
-                builder.addGoTerm(createGoTerm(GoTermType.COMPONENT, propertyMap.get(PROPERTY_GO_COMPONENT)));
+            if (propertyMap.containsKey(PROPERTY_GO_COMPONENT)) {
+                builder.addGoTerm(
+                        createGoTerm(GoTermType.COMPONENT, propertyMap.get(PROPERTY_GO_COMPONENT)));
             }
-            if(propertyMap.containsKey(PROPERTY_GO_PROCESS)){
-                builder.addGoTerm(createGoTerm(GoTermType.PROCESS, propertyMap.get(PROPERTY_GO_PROCESS)));
+            if (propertyMap.containsKey(PROPERTY_GO_PROCESS)) {
+                builder.addGoTerm(
+                        createGoTerm(GoTermType.PROCESS, propertyMap.get(PROPERTY_GO_PROCESS)));
             }
         }
 
@@ -80,13 +88,12 @@ class DatasetUnirefEntryConverter implements MapFunction<Row, UniRefEntry>, Seri
                 Row member = (Row) rowValue.get(rowValue.fieldIndex("member"));
                 members = Collections.singletonList(member);
             }
-            members.stream()
-                    .map(this::convertMember)
-                    .forEach(builder::addMember);
+            members.stream().map(this::convertMember).forEach(builder::addMember);
         }
 
         if (hasFieldName("representativeMember", rowValue)) {
-            Row representativeMemberRow = (Row) rowValue.get(rowValue.fieldIndex("representativeMember"));
+            Row representativeMemberRow =
+                    (Row) rowValue.get(rowValue.fieldIndex("representativeMember"));
             builder.representativeMember(convertRepresentativeMember(representativeMemberRow));
         }
 
@@ -98,10 +105,13 @@ class DatasetUnirefEntryConverter implements MapFunction<Row, UniRefEntry>, Seri
     }
 
     private RepresentativeMember convertRepresentativeMember(Row representativeMemberRow) {
-        RepresentativeMemberBuilder builder = new RepresentativeMemberBuilder()
-                .from(convertMember(representativeMemberRow));
+        RepresentativeMemberBuilder builder =
+                new RepresentativeMemberBuilder().from(convertMember(representativeMemberRow));
         if (hasFieldName("sequence", representativeMemberRow)) {
-            Row sequence = (Row) representativeMemberRow.get(representativeMemberRow.fieldIndex("sequence"));
+            Row sequence =
+                    (Row)
+                            representativeMemberRow.get(
+                                    representativeMemberRow.fieldIndex("sequence"));
             if (hasFieldName("_VALUE", sequence)) {
                 String sequenceValue = sequence.getString(sequence.fieldIndex("_VALUE"));
                 builder.sequence(new SequenceImpl(sequenceValue));
@@ -121,7 +131,8 @@ class DatasetUnirefEntryConverter implements MapFunction<Row, UniRefEntry>, Seri
             if (hasFieldName("property", dbReference)) {
                 Map<String, String> propertyMap = convertProperties(dbReference);
                 if (propertyMap.containsKey("UniProtKB accession")) {
-                    builder.accession(new UniProtAccessionImpl(propertyMap.get("UniProtKB accession")));
+                    builder.addAccession(
+                            new UniProtAccessionImpl(propertyMap.get("UniProtKB accession")));
                 }
                 if (propertyMap.containsKey("UniParc ID")) {
                     builder.uniparcId(new UniParcIdImpl(propertyMap.get("UniParc ID")));
@@ -143,7 +154,8 @@ class DatasetUnirefEntryConverter implements MapFunction<Row, UniRefEntry>, Seri
                 }
                 builder.proteinName(propertyMap.get("protein name"));
                 builder.organismName(propertyMap.get("source organism"));
-                builder.organismTaxId(Integer.valueOf(propertyMap.getOrDefault("NCBI taxonomy", "0")));
+                builder.organismTaxId(
+                        Integer.valueOf(propertyMap.getOrDefault("NCBI taxonomy", "0")));
                 builder.sequenceLength(Integer.valueOf(propertyMap.getOrDefault("length", "0")));
                 builder.isSeed(Boolean.valueOf(propertyMap.getOrDefault("isSeed", "false")));
             }
@@ -158,13 +170,14 @@ class DatasetUnirefEntryConverter implements MapFunction<Row, UniRefEntry>, Seri
             properties = Collections.singletonList(member);
         }
         Map<String, String> propertyMap = new HashMap<>();
-        properties.forEach(property -> {
-            if (hasFieldName("_type", property) && hasFieldName("_value", property)) {
-                String type = property.getString(property.fieldIndex("_type"));
-                String value = property.getString(property.fieldIndex("_value"));
-                propertyMap.put(type, value);
-            }
-        });
+        properties.forEach(
+                property -> {
+                    if (hasFieldName("_type", property) && hasFieldName("_value", property)) {
+                        String type = property.getString(property.fieldIndex("_type"));
+                        String value = property.getString(property.fieldIndex("_value"));
+                        propertyMap.put(type, value);
+                    }
+                });
         return propertyMap;
     }
 
@@ -174,7 +187,8 @@ class DatasetUnirefEntryConverter implements MapFunction<Row, UniRefEntry>, Seri
         structType = structType.add("_updated", DataTypes.StringType, true);
         structType = structType.add("member", DataTypes.createArrayType(getMemberSchema()), true);
         structType = structType.add("name", DataTypes.StringType, true);
-        structType = structType.add("property", DataTypes.createArrayType(getPropertySchema()), true);
+        structType =
+                structType.add("property", DataTypes.createArrayType(getPropertySchema()), true);
         structType = structType.add("representativeMember", getRepresentativeMemberSchema(), true);
         return structType;
     }
@@ -195,7 +209,8 @@ class DatasetUnirefEntryConverter implements MapFunction<Row, UniRefEntry>, Seri
         StructType dbReference = new StructType();
         dbReference = dbReference.add("_id", DataTypes.StringType, true);
         dbReference = dbReference.add("_type", DataTypes.StringType, true);
-        dbReference = dbReference.add("property", DataTypes.createArrayType(getPropertySchema()), true);
+        dbReference =
+                dbReference.add("property", DataTypes.createArrayType(getPropertySchema()), true);
         return dbReference;
     }
 
@@ -214,5 +229,4 @@ class DatasetUnirefEntryConverter implements MapFunction<Row, UniRefEntry>, Seri
         structType = structType.add("_length", DataTypes.LongType, true);
         return structType;
     }
-
 }

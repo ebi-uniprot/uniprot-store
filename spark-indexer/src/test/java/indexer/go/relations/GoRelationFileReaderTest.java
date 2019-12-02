@@ -1,13 +1,12 @@
 package indexer.go.relations;
 
-import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import org.junit.jupiter.api.Test;
 
 /**
  * @author lgonzales
@@ -22,7 +21,10 @@ class GoRelationFileReaderTest {
         Map<String, Set<String>> goRelations = relationFileReader.read();
 
         assertNotNull(goRelations);
-        assertEquals(881, goRelations.size(), "Number of expected relations read from test go relation file");
+        assertEquals(
+                881,
+                goRelations.size(),
+                "Number of expected relations read from test go relation file");
 
         assertNotNull(goRelations.get("GO:0006853"), "Has a valid relation");
         Set<String> relationSet = goRelations.get("GO:0006853");
@@ -34,10 +36,12 @@ class GoRelationFileReaderTest {
         assertTrue(relationSet.contains("GO:0032365"));
     }
 
-
     @Test
     void testReadInvalidGoRelationsFile() {
         GoRelationFileReader relationFileReader = new GoRelationFileReader("invalid", null);
-        assertThrows(RuntimeException.class, relationFileReader::read, "IOException loading file: invalid/GO.relations");
+        assertThrows(
+                RuntimeException.class,
+                relationFileReader::read,
+                "IOException loading file: invalid/GO.relations");
     }
 }

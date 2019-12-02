@@ -1,12 +1,12 @@
 package indexer.go.evidence;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 import org.junit.jupiter.api.Test;
 import org.uniprot.core.uniprot.evidence.Evidence;
 import org.uniprot.core.uniprot.evidence.EvidenceCode;
-import org.uniprot.core.uniprot.evidence.EvidenceType;
-import scala.Tuple2;
 
-import static org.junit.jupiter.api.Assertions.*;
+import scala.Tuple2;
 
 /**
  * @author lgonzales
@@ -15,9 +15,10 @@ import static org.junit.jupiter.api.Assertions.*;
 class GoEvidencesFileMapperTest {
 
     @Test
-    void testMapGoEvidencesLineMapper() throws Exception{
+    void testMapGoEvidencesLineMapper() throws Exception {
         // given
-        String line = "A0A021WW32\tGO:0000278\tP\tmitotic cell cycle\tECO:0000315\tIMP\tPMID:12573216\tFlyBase";
+        String line =
+                "A0A021WW32\tGO:0000278\tP\tmitotic cell cycle\tECO:0000315\tIMP\tPMID:12573216\tFlyBase";
         GoEvidencesFileMapper mapper = new GoEvidencesFileMapper();
 
         // when
@@ -42,12 +43,14 @@ class GoEvidencesFileMapperTest {
         assertEquals("12573216", evidence.getSource().getId());
     }
 
-
     @Test
     void testInvalidMapGoEvidencesLineMapper() throws Exception {
         GoEvidencesFileMapper mapper = new GoEvidencesFileMapper();
-        assertThrows(IllegalArgumentException.class, () -> {
-            mapper.call("INVALID DATA");
-        }, "unable to parse line: 'INVALID DATA' in go evidence file");
+        assertThrows(
+                IllegalArgumentException.class,
+                () -> {
+                    mapper.call("INVALID DATA");
+                },
+                "unable to parse line: 'INVALID DATA' in go evidence file");
     }
 }

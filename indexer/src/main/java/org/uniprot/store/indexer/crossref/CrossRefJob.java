@@ -33,9 +33,8 @@ public class CrossRefJob {
             JobExecutionListener jobListener) {
         return this.jobs
                 .get(Constants.CROSS_REF_LOAD_JOB)
-                .start(
-                        indexUniProtCount) // get the cross refs protein count and cache them in a
-                                           // map and use in next step
+                .start(indexUniProtCount) // get the cross refs protein count and cache them in a
+                // map and use in next step
                 .next(indexCrossRef) // index the cross references
                 .listener(jobListener)
                 .build();

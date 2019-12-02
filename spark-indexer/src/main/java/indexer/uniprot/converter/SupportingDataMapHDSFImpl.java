@@ -1,6 +1,15 @@
 package indexer.uniprot.converter;
 
+import static indexer.util.SparkUtils.readLines;
+
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
 import lombok.extern.slf4j.Slf4j;
+
 import org.apache.hadoop.conf.Configuration;
 import org.uniprot.core.cv.disease.Disease;
 import org.uniprot.core.cv.disease.DiseaseFileReader;
@@ -14,14 +23,6 @@ import org.uniprot.core.uniprot.evidence.Evidence;
 import org.uniprot.core.util.Pair;
 import org.uniprot.core.util.Utils;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
-
-import static indexer.util.SparkUtils.readLines;
-
 /**
  * @author lgonzales
  * @since 2019-11-01
@@ -34,18 +35,28 @@ public class SupportingDataMapHDSFImpl implements SupportingDataMap {
     private Map<String, String> diseaseMap = new HashMap<>();
     private Map<String, String> subcellularLocationMap = new HashMap<>();
 
-    public SupportingDataMapHDSFImpl(String keywordFile, String diseaseFile, String subcellularLocationFile, Configuration hadoopConfig) {
+    public SupportingDataMapHDSFImpl(
+            String keywordFile,
+            String diseaseFile,
+            String subcellularLocationFile,
+            Configuration hadoopConfig) {
         loadKeywordMap(keywordFile, hadoopConfig);
         loadDiseaseMap(diseaseFile, hadoopConfig);
         loadSubcellularLocationMap(subcellularLocationFile, hadoopConfig);
     }
 
-    private void loadSubcellularLocationMap(String subcellularLocationFile, Configuration hadoopConfig) {
+    private void loadSubcellularLocationMap(
+            String subcellularLocationFile, Configuration hadoopConfig) {
         if (Utils.notNullOrEmpty(subcellularLocationFile)) {
             List<String> lines = readLines(subcellularLocationFile, hadoopConfig);
-            List<SubcellularLocationEntry> entries = new SubcellularLocationFileReader().parseLines(lines);
-            subcellularLocationMap.putAll(entries.stream()
-                    .collect(Collectors.toMap(SubcellularLocationEntry::getContent, SubcellularLocationEntry::getAccession)));
+            List<SubcellularLocationEntry> entries =
+                    new SubcellularLocationFileReader().parseLines(lines);
+            subcellularLocationMap.putAll(
+                    entries.stream()
+                            .collect(
+                                    Collectors.toMap(
+                                            SubcellularLocationEntry::getContent,
+                                            SubcellularLocationEntry::getAccession)));
             log.info("Loaded " + subcellularLocationMap.size() + " Subcellular Location Map");
         } else {
             log.warn("Subcellular Location File was not loaded");
@@ -56,7 +67,12 @@ public class SupportingDataMapHDSFImpl implements SupportingDataMap {
         if (Utils.notNullOrEmpty(keywordFile)) {
             List<String> lines = readLines(keywordFile, hadoopConfig);
             List<KeywordEntry> entries = new KeywordFileReader().parseLines(lines);
-            keywordMap.putAll(entries.stream().collect(Collectors.toMap(KeywordFileReader::getId, KeywordFileReader::getAccessionCategoryPair)));
+            keywordMap.putAll(
+                    entries.stream()
+                            .collect(
+                                    Collectors.toMap(
+                                            KeywordFileReader::getId,
+                                            KeywordFileReader::getAccessionCategoryPair)));
             log.info("Loaded " + keywordMap.size() + " keyword Map");
         } else {
             log.warn("Keyword File was not loaded");
@@ -67,7 +83,9 @@ public class SupportingDataMapHDSFImpl implements SupportingDataMap {
         if (Utils.notNullOrEmpty(diseaseFile)) {
             List<String> lines = readLines(diseaseFile, hadoopConfig);
             List<Disease> entries = new DiseaseFileReader().parseLines(lines);
-            diseaseMap.putAll(entries.stream().collect(Collectors.toMap(Disease::getId, Disease::getAccession)));
+            diseaseMap.putAll(
+                    entries.stream()
+                            .collect(Collectors.toMap(Disease::getId, Disease::getAccession)));
             log.info("Loaded " + diseaseMap.size() + " disease Map");
         } else {
             log.warn("diseaseFile path must not be null or empty");

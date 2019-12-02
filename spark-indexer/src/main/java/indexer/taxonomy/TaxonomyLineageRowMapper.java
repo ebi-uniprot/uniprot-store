@@ -1,22 +1,24 @@
 package indexer.taxonomy;
 
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.spark.api.java.function.PairFunction;
 import org.apache.spark.sql.Row;
 import org.uniprot.core.taxonomy.TaxonomyLineage;
 import org.uniprot.core.taxonomy.TaxonomyRank;
 import org.uniprot.core.taxonomy.builder.TaxonomyLineageBuilder;
 import org.uniprot.core.util.Utils;
-import scala.Tuple2;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
+import scala.Tuple2;
 
 /**
  * @author lgonzales
  * @since 2019-11-14
  */
-class TaxonomyLineageRowMapper implements PairFunction<Row, String, List<TaxonomyLineage>>, Serializable {
+class TaxonomyLineageRowMapper
+        implements PairFunction<Row, String, List<TaxonomyLineage>>, Serializable {
 
     private static final long serialVersionUID = -7723532417214033169L;
 
@@ -54,5 +56,4 @@ class TaxonomyLineageRowMapper implements PairFunction<Row, String, List<Taxonom
 
         return new Tuple2<>(taxId, lineageList);
     }
-
 }

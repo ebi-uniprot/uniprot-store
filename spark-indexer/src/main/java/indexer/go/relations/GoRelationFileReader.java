@@ -1,7 +1,6 @@
 package indexer.go.relations;
 
-import lombok.extern.slf4j.Slf4j;
-import org.apache.hadoop.conf.Configuration;
+import static indexer.util.SparkUtils.getInputStream;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -12,7 +11,9 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import static indexer.util.SparkUtils.getInputStream;
+import lombok.extern.slf4j.Slf4j;
+
+import org.apache.hadoop.conf.Configuration;
 
 /**
  * @author lgonzales
@@ -34,7 +35,8 @@ class GoRelationFileReader {
     Map<String, Set<String>> read() {
         String filename = goRelationFPath + File.separator + FILENAME;
         Map<String, Set<String>> lines = new HashMap<>();
-        try (BufferedReader br = new BufferedReader(new InputStreamReader(getInputStream(filename, hadoopConfig)))) {
+        try (BufferedReader br =
+                new BufferedReader(new InputStreamReader(getInputStream(filename, hadoopConfig)))) {
             String line;
             while ((line = br.readLine()) != null) {
                 String[] tokens = line.split(SEPARATOR);
@@ -45,10 +47,9 @@ class GoRelationFileReader {
                 }
             }
         } catch (IOException e) {
-            log.error("IOException loading file: "+filename, e);
-            throw new RuntimeException("IOException loading file: "+filename, e);
+            log.error("IOException loading file: " + filename, e);
+            throw new RuntimeException("IOException loading file: " + filename, e);
         }
         return lines;
     }
-
 }

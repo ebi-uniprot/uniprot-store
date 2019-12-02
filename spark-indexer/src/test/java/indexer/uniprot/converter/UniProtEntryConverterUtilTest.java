@@ -1,5 +1,11 @@
 package indexer.uniprot.converter;
 
+import static org.junit.jupiter.api.Assertions.*;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+
 import org.junit.jupiter.api.Test;
 import org.uniprot.core.citation.Author;
 import org.uniprot.core.citation.impl.AuthorImpl;
@@ -16,12 +22,6 @@ import org.uniprot.core.uniprot.evidence.EvidenceCode;
 import org.uniprot.core.uniprot.evidence.builder.EvidenceBuilder;
 import org.uniprot.store.search.document.suggest.SuggestDictionary;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-
-import static org.junit.jupiter.api.Assertions.*;
-
 /**
  * @author lgonzales
  * @since 2019-09-09
@@ -31,11 +31,12 @@ class UniProtEntryConverterUtilTest {
     @Test
     void extractAutomaticEvidence() {
         List<Evidence> evidences = new ArrayList<>();
-        evidences.add(new EvidenceBuilder()
-                .databaseId("id")
-                .databaseName("name")
-                .evidenceCode(EvidenceCode.ECO_0000213)
-                .build());
+        evidences.add(
+                new EvidenceBuilder()
+                        .databaseId("id")
+                        .databaseName("name")
+                        .evidenceCode(EvidenceCode.ECO_0000213)
+                        .build());
 
         Set<String> extractedEvidences = UniProtEntryConverterUtil.extractEvidence(evidences);
 
@@ -47,28 +48,29 @@ class UniProtEntryConverterUtilTest {
     @Test
     void extractManualEvidence() {
         List<Evidence> evidences = new ArrayList<>();
-        evidences.add(new EvidenceBuilder()
-                .databaseId("id")
-                .databaseName("name")
-                .evidenceCode(EvidenceCode.ECO_0000244)
-                .build());
+        evidences.add(
+                new EvidenceBuilder()
+                        .databaseId("id")
+                        .databaseName("name")
+                        .evidenceCode(EvidenceCode.ECO_0000244)
+                        .build());
 
         Set<String> extractedEvidences = UniProtEntryConverterUtil.extractEvidence(evidences);
 
         assertEquals(2, extractedEvidences.size());
         assertTrue(extractedEvidences.contains(EvidenceCode.ECO_0000244.name()));
         assertTrue(extractedEvidences.contains("manual"));
-
     }
 
     @Test
     void extractExperimentalEvidence() {
         List<Evidence> evidences = new ArrayList<>();
-        evidences.add(new EvidenceBuilder()
-                .databaseId("id")
-                .databaseName("name")
-                .evidenceCode(EvidenceCode.ECO_0000303)
-                .build());
+        evidences.add(
+                new EvidenceBuilder()
+                        .databaseId("id")
+                        .databaseName("name")
+                        .evidenceCode(EvidenceCode.ECO_0000303)
+                        .build());
 
         Set<String> extractedEvidences = UniProtEntryConverterUtil.extractEvidence(evidences);
 
@@ -78,10 +80,10 @@ class UniProtEntryConverterUtilTest {
         assertTrue(extractedEvidences.contains("manual"));
     }
 
-
     @Test
     void createSuggestionMapKey() {
-        String mapKey = UniProtEntryConverterUtil.createSuggestionMapKey(SuggestDictionary.GO, "12345");
+        String mapKey =
+                UniProtEntryConverterUtil.createSuggestionMapKey(SuggestDictionary.GO, "12345");
         assertEquals("GO:12345", mapKey);
     }
 
@@ -105,11 +107,12 @@ class UniProtEntryConverterUtilTest {
         assertEquals("DB_NAME-12345", result.get(3));
     }
 
-
     @Test
     void truncatedSortValue() {
         String value = "1234567890123456789012345678901234567890";
-        assertEquals("123456789012345678901234567890", UniProtEntryConverterUtil.truncatedSortValue(value));
+        assertEquals(
+                "123456789012345678901234567890",
+                UniProtEntryConverterUtil.truncatedSortValue(value));
     }
 
     @Test
@@ -143,11 +146,12 @@ class UniProtEntryConverterUtilTest {
 
     @Test
     void isCanonicalIsoformNotCannonical() {
-        UniProtEntry entry = new UniProtEntryBuilder()
-                .primaryAccession(new UniProtAccessionBuilder("P12345").build())
-                .uniProtId(null)
-                .active()
-                .build();
+        UniProtEntry entry =
+                new UniProtEntryBuilder()
+                        .primaryAccession(new UniProtAccessionBuilder("P12345").build())
+                        .uniProtId(null)
+                        .active()
+                        .build();
 
         boolean isCanonical = UniProtEntryConverterUtil.isCanonicalIsoform(entry);
         assertFalse(isCanonical);
@@ -155,24 +159,23 @@ class UniProtEntryConverterUtilTest {
 
     @Test
     void isCanonicalIsoformWhenIsCannonicalIsoform() {
-        APIsoform isoform = new APIsoformBuilder()
-                .addId("P12345")
-                .sequenceStatus(IsoformSequenceStatus.DISPLAYED)
-                .build();
+        APIsoform isoform =
+                new APIsoformBuilder()
+                        .addId("P12345")
+                        .sequenceStatus(IsoformSequenceStatus.DISPLAYED)
+                        .build();
 
-        AlternativeProductsComment comment = new APCommentBuilder()
-                .addIsoform(isoform)
-                .build();
+        AlternativeProductsComment comment = new APCommentBuilder().addIsoform(isoform).build();
 
-        UniProtEntry entry = new UniProtEntryBuilder()
-                .primaryAccession(new UniProtAccessionBuilder("P12345").build())
-                .uniProtId(null)
-                .active()
-                .addComment(comment)
-                .build();
+        UniProtEntry entry =
+                new UniProtEntryBuilder()
+                        .primaryAccession(new UniProtAccessionBuilder("P12345").build())
+                        .uniProtId(null)
+                        .active()
+                        .addComment(comment)
+                        .build();
 
         boolean isCanonical = UniProtEntryConverterUtil.isCanonicalIsoform(entry);
         assertTrue(isCanonical);
     }
-
 }

@@ -1,11 +1,12 @@
 package indexer.go.evidence;
 
+import java.io.Serializable;
+
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
-import org.uniprot.core.uniprot.evidence.Evidence;
 
-import java.io.Serializable;
+import org.uniprot.core.uniprot.evidence.Evidence;
 
 /**
  * @author lgonzales
@@ -21,7 +22,6 @@ public class GoEvidence implements Serializable {
     private String goId;
 
     private Evidence evidence;
-
 
     public GoEvidence(String goId, Evidence evidence) {
         this.goId = goId;

@@ -9,18 +9,14 @@ import org.junit.jupiter.api.Test;
 class SupportingDataMapHDSFImplTest {
 
     @Test
-    void getKeywordMap() {
-    }
+    void getKeywordMap() {}
 
     @Test
-    void getDiseaseMap() {
-    }
+    void getDiseaseMap() {}
 
     @Test
-    void getGoEvidencesMap() {
-    }
+    void getGoEvidencesMap() {}
 
     @Test
-    void getSubcellularLocationMap() {
-    }
+    void getSubcellularLocationMap() {}
 }

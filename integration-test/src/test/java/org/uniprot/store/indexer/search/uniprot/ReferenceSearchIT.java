@@ -1,5 +1,19 @@
 package org.uniprot.store.indexer.search.uniprot;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.*;
+import static org.hamcrest.core.Is.is;
+import static org.uniprot.store.indexer.search.uniprot.IdentifierSearchIT.ACC_LINE;
+import static org.uniprot.store.indexer.search.uniprot.TestUtils.convertToUniProtEntry;
+import static org.uniprot.store.indexer.search.uniprot.TestUtils.query;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.time.LocalDate;
+import java.util.*;
+import java.util.function.BinaryOperator;
+import java.util.stream.Collectors;
+
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -9,20 +23,6 @@ import org.uniprot.core.flatfile.parser.impl.entry.EntryObject;
 import org.uniprot.core.flatfile.writer.LineType;
 import org.uniprot.store.search.field.QueryBuilder;
 import org.uniprot.store.search.field.UniProtField;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.time.LocalDate;
-import java.util.*;
-import java.util.function.BinaryOperator;
-import java.util.stream.Collectors;
-
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
-import static org.hamcrest.core.Is.is;
-import static org.uniprot.store.indexer.search.uniprot.IdentifierSearchIT.ACC_LINE;
-import static org.uniprot.store.indexer.search.uniprot.TestUtils.convertToUniProtEntry;
-import static org.uniprot.store.indexer.search.uniprot.TestUtils.query;
 
 /** Tests if the protein existence search is working correctly */
 class ReferenceSearchIT {

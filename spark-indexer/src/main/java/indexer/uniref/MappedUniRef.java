@@ -1,14 +1,15 @@
 package indexer.uniref;
 
+import java.io.Serializable;
+import java.util.List;
+
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
+
 import org.uniprot.core.uniref.UniRefMember;
 import org.uniprot.core.uniref.UniRefType;
-
-import java.io.Serializable;
-import java.util.List;
 
 /**
  * @author lgonzales
@@ -26,5 +27,4 @@ public class MappedUniRef implements Serializable {
     private UniRefMember uniRefMember;
     private List<String> memberAccessions;
     private int memberSize;
-
 }

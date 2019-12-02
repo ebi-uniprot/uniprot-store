@@ -1,7 +1,6 @@
 package indexer.go.relations;
 
-import lombok.extern.slf4j.Slf4j;
-import org.apache.hadoop.conf.Configuration;
+import static indexer.util.SparkUtils.getInputStream;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -10,7 +9,9 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
-import static indexer.util.SparkUtils.getInputStream;
+import lombok.extern.slf4j.Slf4j;
+
+import org.apache.hadoop.conf.Configuration;
 
 /**
  * @author lgonzales
@@ -34,18 +35,20 @@ class GoTermFileReader {
         String filename = filepath + File.separator + FILENAME;
         List<GoTerm> lines = new ArrayList<>();
         try {
-            try (BufferedReader br = new BufferedReader(new InputStreamReader(getInputStream(filename, hadoopConfig)))) {
+            try (BufferedReader br =
+                    new BufferedReader(
+                            new InputStreamReader(getInputStream(filename, hadoopConfig)))) {
                 String line;
                 while ((line = br.readLine()) != null) {
                     GoTerm goTerm = readLine(line);
-                    if(goTerm != null) {
+                    if (goTerm != null) {
                         lines.add(goTerm);
                     }
                 }
             }
         } catch (IOException e) {
-            log.error("IOException loading file: "+filename, e);
-            throw new RuntimeException("IOException loading file: "+filename, e);
+            log.error("IOException loading file: " + filename, e);
+            throw new RuntimeException("IOException loading file: " + filename, e);
         }
         return lines;
     }
@@ -62,5 +65,4 @@ class GoTermFileReader {
         }
         return result;
     }
-
 }
