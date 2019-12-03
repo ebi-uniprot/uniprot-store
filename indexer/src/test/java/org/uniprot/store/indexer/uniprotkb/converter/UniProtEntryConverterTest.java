@@ -14,8 +14,6 @@ import org.uniprot.core.uniprot.comment.builder.APIsoformBuilder;
 import org.uniprot.core.uniprot.evidence.Evidence;
 import org.uniprot.core.uniprot.evidence.EvidenceCode;
 import org.uniprot.core.uniprot.evidence.builder.EvidenceBuilder;
-import org.uniprot.core.uniprot.impl.UniProtAccessionImpl;
-import org.uniprot.core.uniprot.impl.UniProtIdImpl;
 import org.uniprot.store.job.common.DocumentConversionException;
 import org.uniprot.store.search.document.suggest.SuggestDocument;
 import org.uniprot.store.search.document.uniprot.UniProtDocument;
@@ -47,11 +45,7 @@ class UniProtEntryConverterTest {
     @Test
     void convertCanonicalAccessionEntry() {
         // given
-        UniProtEntry entry = new UniProtEntryBuilder()
-                .primaryAccession(new UniProtAccessionImpl("P12345"))
-                .uniProtId(new UniProtIdImpl("UNIPROT_ENTRYID"))
-                .active()
-                .entryType(UniProtEntryType.TREMBL)
+        UniProtEntry entry = new UniProtEntryBuilder("P12345", "UNIPROT_ENTRYID", UniProtEntryType.TREMBL)
                 .sequence(new SequenceImpl("AAAAA"))
                 .build();
 
@@ -70,11 +64,7 @@ class UniProtEntryConverterTest {
     @Test
     void convertIsoformAccessionEntry() {
         // given
-        UniProtEntry entry = new UniProtEntryBuilder()
-                .primaryAccession(new UniProtAccessionImpl("P12345-5"))
-                .uniProtId(new UniProtIdImpl("UNIPROT_ENTRYID"))
-                .active()
-                .entryType(UniProtEntryType.TREMBL)
+        UniProtEntry entry = new UniProtEntryBuilder("P12345-5", "UNIPROT_ENTRYID", UniProtEntryType.TREMBL)
                 .sequence(new SequenceImpl("AAAAA"))
                 .build();
 
@@ -102,12 +92,8 @@ class UniProtEntryConverterTest {
                 .addIsoform(isoform)
                 .build();
 
-        UniProtEntry entry = new UniProtEntryBuilder()
-                .primaryAccession(new UniProtAccessionImpl("P12345-1"))
-                .uniProtId(new UniProtIdImpl("UNIPROT_ENTRYID"))
-                .active()
-                .entryType(UniProtEntryType.SWISSPROT)
-                .comments(Collections.singletonList(comment))
+        UniProtEntry entry = new UniProtEntryBuilder("P12345-1", "UNIPROT_ENTRYID", UniProtEntryType.SWISSPROT)
+                .commentsSet(Collections.singletonList(comment))
                 .sequence(new SequenceImpl("AAAAA"))
                 .build();
 
@@ -126,11 +112,7 @@ class UniProtEntryConverterTest {
     void convertIdDefaultForTrEMBLIncludesSpeciesButNotAccession() {
         // given
         String species = "SPECIES";
-        UniProtEntry entry = new UniProtEntryBuilder()
-                .primaryAccession(new UniProtAccessionImpl("P12345"))
-                .uniProtId(new UniProtIdImpl("ACCESSION_" + species))
-                .active()
-                .entryType(UniProtEntryType.TREMBL)
+        UniProtEntry entry = new UniProtEntryBuilder("P12345", "ACCESSION_" + species, UniProtEntryType.TREMBL)
                 .sequence(new SequenceImpl("AAAAA"))
                 .build();
 
@@ -147,11 +129,7 @@ class UniProtEntryConverterTest {
     void convertIdDefaultForSwissProtIncludesGeneAndSpecies() {
         // given
         String id = "GENE_SPECIES";
-        UniProtEntry entry = new UniProtEntryBuilder()
-                .primaryAccession(new UniProtAccessionImpl("P12345"))
-                .uniProtId(new UniProtIdImpl(id))
-                .active()
-                .entryType(UniProtEntryType.SWISSPROT)
+        UniProtEntry entry = new UniProtEntryBuilder("P12345", id, UniProtEntryType.SWISSPROT)
                 .sequence(new SequenceImpl("AAAAA"))
                 .build();
 
@@ -206,7 +184,7 @@ class UniProtEntryConverterTest {
                 .build();
 
         UniProtEntry entry = getBasicEntryBuilder()
-                .genes(Collections.singletonList(gene))
+                .genesSet(Collections.singletonList(gene))
                 .build();
 
         // when
@@ -233,7 +211,7 @@ class UniProtEntryConverterTest {
                 .build();
 
         UniProtEntry entry = getBasicEntryBuilder()
-                .addKeyword(keyword)
+                .keywordAdd(keyword)
                 .build();
 
         Map<String, SuggestDocument> suggestions = new HashMap<>();
@@ -271,7 +249,7 @@ class UniProtEntryConverterTest {
                 .build();
 
         UniProtEntry entry = getBasicEntryBuilder()
-                .addGeneLocation(geneLocation)
+                .geneLocationAdd(geneLocation)
                 .build();
 
         // when
@@ -347,7 +325,7 @@ class UniProtEntryConverterTest {
                 .geneName(new GeneNameBuilder().value("some Gene name").addEvidence(evidence).build())
                 .build();
         UniProtEntry entry = getBasicEntryBuilder()
-                .addGene(gene)
+                .geneAdd(gene)
                 .build();
 
         // when
@@ -359,12 +337,8 @@ class UniProtEntryConverterTest {
         assertEquals(Collections.singletonList("hamap"), document.sources);
     }
 
-    private UniProtEntryBuilder.ActiveEntryBuilder getBasicEntryBuilder() {
-        return new UniProtEntryBuilder()
-                .primaryAccession(new UniProtAccessionImpl("P12345"))
-                .uniProtId(new UniProtIdImpl("UNIPROT_ENTRYID"))
-                .active()
-                .entryType(UniProtEntryType.SWISSPROT)
+    private UniProtEntryBuilder getBasicEntryBuilder() {
+        return new UniProtEntryBuilder("P12345", "UNIPROT_ENTRYID", UniProtEntryType.SWISSPROT)
                 .sequence(new SequenceImpl("AAAAA"));
     }
 

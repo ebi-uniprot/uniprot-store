@@ -189,7 +189,7 @@ public class VoldemortUniprotEntryStoreBuilder extends VoldemortEntryStoreBuilde
                 try {
                     UniProtEntryScored entryScored = new UniProtEntryScored(entryObject);
                     double score = entryScored.score();
-                    UniProtEntryBuilder.ActiveEntryBuilder builder = new UniProtEntryBuilder().from(entryObject);
+                    UniProtEntryBuilder builder = UniProtEntryBuilder.fromInstance(entryObject);
                     builder.annotationScore(score);
                     entryObject = builder.build();
 
