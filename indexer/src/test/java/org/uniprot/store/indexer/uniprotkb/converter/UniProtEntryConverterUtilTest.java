@@ -147,8 +147,7 @@ class UniProtEntryConverterUtilTest {
 
     @Test
     void isCanonicalIsoformNotCannonical() {
-        UniProtEntry entry = new UniProtEntryBuilder(new UniProtAccessionBuilder("P12345").build(), null, UniProtEntryType.TREMBL)
-                        .build();
+        UniProtEntry entry = new UniProtEntryBuilder("P12345", "id", UniProtEntryType.TREMBL).build();
 
         boolean isCanonical = UniProtEntryConverterUtil.isCanonicalIsoform(entry);
         assertFalse(isCanonical);
@@ -164,9 +163,8 @@ class UniProtEntryConverterUtilTest {
 
         AlternativeProductsComment comment = new APCommentBuilder().addIsoform(isoform).build();
 
-        UniProtEntry entry = new UniProtEntryBuilder(new UniProtAccessionBuilder("P12345").build(),null, UniProtEntryType.SWISSPROT)
-                .commentAdd(comment)
-                        .build();
+        UniProtEntry entry = new UniProtEntryBuilder("P12345", "id", UniProtEntryType.SWISSPROT)
+                .commentAdd(comment).build();
 
         boolean isCanonical = UniProtEntryConverterUtil.isCanonicalIsoform(entry);
         assertTrue(isCanonical);
