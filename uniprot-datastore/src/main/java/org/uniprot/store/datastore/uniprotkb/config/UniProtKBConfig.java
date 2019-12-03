@@ -35,16 +35,21 @@ public class UniProtKBConfig {
         return new RetryPolicy<>()
                 .handle(singletonList(Exception.class))
                 .withMaxRetries(uniProtKBStoreProperties.getWriteRetryLimit())
-                .withBackoff(uniProtKBStoreProperties.getWriteRetryBackOffFromMillis(),
-                             uniProtKBStoreProperties.getWriteRetryBackOffToMillis(),
-                             ChronoUnit.MILLIS);
+                .withBackoff(
+                        uniProtKBStoreProperties.getWriteRetryBackOffFromMillis(),
+                        uniProtKBStoreProperties.getWriteRetryBackOffToMillis(),
+                        ChronoUnit.MILLIS);
     }
 
     @Bean
     public ExecutionContextPromotionListener promotionListener() {
-        ExecutionContextPromotionListener executionContextPromotionListener = new ExecutionContextPromotionListener();
-        executionContextPromotionListener.setKeys(new String[]{Constants.STORE_FAILED_ENTRIES_COUNT_KEY,
-                                                               Constants.STORE_WRITTEN_ENTRIES_COUNT_KEY});
+        ExecutionContextPromotionListener executionContextPromotionListener =
+                new ExecutionContextPromotionListener();
+        executionContextPromotionListener.setKeys(
+                new String[] {
+                    Constants.STORE_FAILED_ENTRIES_COUNT_KEY,
+                    Constants.STORE_WRITTEN_ENTRIES_COUNT_KEY
+                });
         return executionContextPromotionListener;
     }
 }

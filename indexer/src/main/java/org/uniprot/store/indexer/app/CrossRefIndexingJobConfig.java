@@ -12,5 +12,4 @@ import org.springframework.context.annotation.Configuration;
 @ConditionalOnProperty(prefix = "uniprot.job", name = "name", havingValue = "crossref")
 @ComponentScan(basePackages = {"org.uniprot.store.indexer.crossref"})
 @Configuration
-public class CrossRefIndexingJobConfig {
-}
+public class CrossRefIndexingJobConfig {}

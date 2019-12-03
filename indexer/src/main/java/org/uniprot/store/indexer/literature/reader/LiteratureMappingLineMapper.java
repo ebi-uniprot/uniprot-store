@@ -1,12 +1,5 @@
 package org.uniprot.store.indexer.literature.reader;
 
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.batch.item.file.mapping.DefaultLineMapper;
-import org.uniprot.core.literature.LiteratureEntry;
-import org.uniprot.core.literature.LiteratureMappedReference;
-import org.uniprot.core.literature.builder.LiteratureEntryBuilder;
-import org.uniprot.core.literature.builder.LiteratureMappedReferenceBuilder;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -14,14 +7,19 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-/**
- * @author lgonzales
- */
+import lombok.extern.slf4j.Slf4j;
+
+import org.springframework.batch.item.file.mapping.DefaultLineMapper;
+import org.uniprot.core.literature.LiteratureEntry;
+import org.uniprot.core.literature.LiteratureMappedReference;
+import org.uniprot.core.literature.builder.LiteratureEntryBuilder;
+import org.uniprot.core.literature.builder.LiteratureMappedReferenceBuilder;
+
+/** @author lgonzales */
 @Slf4j
 public class LiteratureMappingLineMapper extends DefaultLineMapper<LiteratureEntry> {
 
     private Pattern p = Pattern.compile("^(\\[.*\\])(.*)");
-
 
     public LiteratureEntry mapLine(String entryString, int lineNumber) throws Exception {
         String[] lineFields = entryString.split("\t");
@@ -30,12 +28,13 @@ public class LiteratureMappingLineMapper extends DefaultLineMapper<LiteratureEnt
             String annnotation = "";
             if (lineFields.length == 5) {
                 Matcher matcher = p.matcher(lineFields[4]);
-                if (matcher.matches()) { //split categories from the rest of the text...
+                if (matcher.matches()) { // split categories from the rest of the text...
                     String matchedCategories = matcher.group(1);
                     String[] categoriesArray = matchedCategories.split("]");
-                    categories.addAll(Arrays.stream(categoriesArray)
-                            .map(category -> category.substring(1))
-                            .collect(Collectors.toList()));
+                    categories.addAll(
+                            Arrays.stream(categoriesArray)
+                                    .map(category -> category.substring(1))
+                                    .collect(Collectors.toList()));
 
                     annnotation = lineFields[4].substring(matchedCategories.length());
                 } else {
@@ -43,17 +42,25 @@ public class LiteratureMappingLineMapper extends DefaultLineMapper<LiteratureEnt
                 }
             }
             LiteratureEntryBuilder entryBuilder = new LiteratureEntryBuilder();
-            LiteratureMappedReference mappedReference = new LiteratureMappedReferenceBuilder()
-                    .uniprotAccession(lineFields[0])
-                    .source(lineFields[1])
-                    .sourceId(lineFields[3])
-                    .annotation(annnotation)
-                    .sourceCategory(categories)
-                    .build();
+            LiteratureMappedReference mappedReference =
+                    new LiteratureMappedReferenceBuilder()
+                            .uniprotAccession(lineFields[0])
+                            .source(lineFields[1])
+                            .sourceId(lineFields[3])
+                            .annotation(annnotation)
+                            .sourceCategory(categories)
+                            .build();
 
-            return entryBuilder.pubmedId(Long.valueOf(lineFields[2])).addLiteratureMappedReference(mappedReference).build();
+            return entryBuilder
+                    .pubmedId(Long.valueOf(lineFields[2]))
+                    .addLiteratureMappedReference(mappedReference)
+                    .build();
         } else {
-            log.warn("Unable to parse correctly line number [" + lineNumber + "] with value: " + entryString);
+            log.warn(
+                    "Unable to parse correctly line number ["
+                            + lineNumber
+                            + "] with value: "
+                            + entryString);
             return null;
         }
     }

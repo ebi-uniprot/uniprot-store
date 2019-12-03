@@ -1,6 +1,25 @@
 package org.uniprot.store.indexer.uniprotkb;
 
+import static java.util.Arrays.asList;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.notNullValue;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.hasSize;
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.eq;
+import static org.mockito.Mockito.mock;
+import static org.uniprot.store.indexer.DocumentWriteRetryHelper.SolrResponse;
+import static org.uniprot.store.indexer.DocumentWriteRetryHelper.stubSolrWriteResponses;
+import static org.uniprot.store.indexer.common.utils.Constants.UNIPROTKB_INDEX_JOB;
+import static org.uniprot.store.indexer.common.utils.Constants.UNIPROTKB_INDEX_STEP;
+
+import java.time.temporal.ChronoUnit;
+import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collectors;
+
 import net.jodah.failsafe.RetryPolicy;
+
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.batch.core.BatchStatus;
@@ -28,24 +47,6 @@ import org.uniprot.store.job.common.listener.ListenerConfig;
 import org.uniprot.store.job.common.util.CommonConstants;
 import org.uniprot.store.search.SolrCollection;
 
-import java.time.temporal.ChronoUnit;
-import java.util.List;
-import java.util.concurrent.atomic.AtomicInteger;
-import java.util.stream.Collectors;
-
-import static java.util.Arrays.asList;
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.notNullValue;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.hasSize;
-import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.eq;
-import static org.mockito.Mockito.mock;
-import static org.uniprot.store.indexer.DocumentWriteRetryHelper.SolrResponse;
-import static org.uniprot.store.indexer.DocumentWriteRetryHelper.stubSolrWriteResponses;
-import static org.uniprot.store.indexer.common.utils.Constants.UNIPROTKB_INDEX_JOB;
-import static org.uniprot.store.indexer.common.utils.Constants.UNIPROTKB_INDEX_STEP;
-
 /**
  * Created 12/04/19
  *
@@ -53,36 +54,42 @@ import static org.uniprot.store.indexer.common.utils.Constants.UNIPROTKB_INDEX_S
  */
 @ActiveProfiles(profiles = {"notTooManySolrRemoteHostErrors", "offline", "job"})
 @ExtendWith(SpringExtension.class)
-@SpringBootTest(classes = {FakeIndexerSpringBootApplication.class,
-                           UniProtKBJobWithSolrWriteRetriesThenSuccessIT.RetryConfig.class,
-                           SolrTestConfig.class, UniProtKBJob.class,
-                           UniProtKBStep.class, SuggestionStep.class, ListenerConfig.class})
+@SpringBootTest(
+        classes = {
+            FakeIndexerSpringBootApplication.class,
+            UniProtKBJobWithSolrWriteRetriesThenSuccessIT.RetryConfig.class,
+            SolrTestConfig.class,
+            UniProtKBJob.class,
+            UniProtKBStep.class,
+            SuggestionStep.class,
+            ListenerConfig.class
+        })
 class UniProtKBJobWithSolrWriteRetriesThenSuccessIT {
-    @Autowired
-    private JobLauncherTestUtils jobLauncherTestUtils;
+    @Autowired private JobLauncherTestUtils jobLauncherTestUtils;
 
-    private static final List<SolrResponse> SOLR_RESPONSES = asList(
-                                            // read first chunk (size 2; read total 2)
-            SolrResponse.OK,                // .. then, write first chunk (write total 2)
-                                            // read second chunk (size 2; read total 4)
-            SolrResponse.REMOTE_EXCEPTION,  // .. then error when writing (write total 2)
-            SolrResponse.OK,                // .. then success when writing (write total 4)
-            SolrResponse.OK);               // all written
+    private static final List<SolrResponse> SOLR_RESPONSES =
+            asList(
+                    // read first chunk (size 2; read total 2)
+                    SolrResponse.OK, // .. then, write first chunk (write total 2)
+                    // read second chunk (size 2; read total 4)
+                    SolrResponse.REMOTE_EXCEPTION, // .. then error when writing (write total 2)
+                    SolrResponse.OK, // .. then success when writing (write total 4)
+                    SolrResponse.OK); // all written
 
     @Test
     void notTooManyRetriesCauseASuccessfulIndexingJob() throws Exception {
         JobExecution jobExecution = jobLauncherTestUtils.launchJob();
         assertThat(jobExecution.getJobInstance().getJobName(), is(UNIPROTKB_INDEX_JOB));
 
-        List<StepExecution> jobsSingleStepAsList = jobExecution.getStepExecutions()
-                .stream()
-                .filter(step -> step.getStepName().equals(UNIPROTKB_INDEX_STEP))
-                .collect(Collectors.toList());
+        List<StepExecution> jobsSingleStepAsList =
+                jobExecution.getStepExecutions().stream()
+                        .filter(step -> step.getStepName().equals(UNIPROTKB_INDEX_STEP))
+                        .collect(Collectors.toList());
         assertThat(jobsSingleStepAsList, hasSize(1));
 
         StepExecution indexingStep = jobsSingleStepAsList.get(0);
 
-        assertThat(indexingStep.getReadCount(), is(5));  // ensure everything was read
+        assertThat(indexingStep.getReadCount(), is(5)); // ensure everything was read
 
         checkWriteCount(jobExecution, CommonConstants.FAILED_ENTRIES_COUNT_KEY, 0);
         checkWriteCount(jobExecution, CommonConstants.WRITTEN_ENTRIES_COUNT_KEY, 5);
@@ -93,9 +100,11 @@ class UniProtKBJobWithSolrWriteRetriesThenSuccessIT {
         assertThat(jobExecution.getStatus(), is(BatchStatus.COMPLETED));
     }
 
-    private void checkWriteCount(JobExecution jobExecution, String uniprotkbIndexFailedEntriesCountKey, int i) {
-        AtomicInteger failedCountAI = (AtomicInteger) jobExecution.getExecutionContext()
-                .get(uniprotkbIndexFailedEntriesCountKey);
+    private void checkWriteCount(
+            JobExecution jobExecution, String uniprotkbIndexFailedEntriesCountKey, int i) {
+        AtomicInteger failedCountAI =
+                (AtomicInteger)
+                        jobExecution.getExecutionContext().get(uniprotkbIndexFailedEntriesCountKey);
         assertThat(failedCountAI, is(notNullValue()));
         assertThat(failedCountAI.get(), is(i));
     }
@@ -108,14 +117,14 @@ class UniProtKBJobWithSolrWriteRetriesThenSuccessIT {
         @SuppressWarnings(value = "unchecked")
         ItemWriter<UniProtEntryDocumentPair> uniProtDocumentItemWriterIT() throws Exception {
             UniProtSolrOperations mockSolrTemplate = mock(UniProtSolrOperations.class);
-            stubSolrWriteResponses(SOLR_RESPONSES).when(mockSolrTemplate)
+            stubSolrWriteResponses(SOLR_RESPONSES)
+                    .when(mockSolrTemplate)
                     .saveBeans(eq(SolrCollection.uniprot.name()), any());
 
-            return new UniProtEntryDocumentPairWriter(mockSolrTemplate,
-                                                      SolrCollection.uniprot,
-                                                      new RetryPolicy<>()
-                                                      .withMaxRetries(2)
-                                                      .withBackoff(1, 2, ChronoUnit.SECONDS));
+            return new UniProtEntryDocumentPairWriter(
+                    mockSolrTemplate,
+                    SolrCollection.uniprot,
+                    new RetryPolicy<>().withMaxRetries(2).withBackoff(1, 2, ChronoUnit.SECONDS));
         }
     }
 }

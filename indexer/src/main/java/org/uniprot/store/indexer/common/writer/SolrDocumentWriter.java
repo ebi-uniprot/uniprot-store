@@ -1,15 +1,13 @@
 package org.uniprot.store.indexer.common.writer;
 
+import java.util.List;
+
 import org.springframework.batch.item.ItemWriter;
 import org.uniprot.store.indexer.common.config.UniProtSolrOperations;
 import org.uniprot.store.search.SolrCollection;
 import org.uniprot.store.search.document.Document;
 
-import java.util.List;
-
-/**
- * @author lgonzales
- */
+/** @author lgonzales */
 public class SolrDocumentWriter<T extends Document> implements ItemWriter<T> {
     private final UniProtSolrOperations solrOperations;
     private final SolrCollection collection;

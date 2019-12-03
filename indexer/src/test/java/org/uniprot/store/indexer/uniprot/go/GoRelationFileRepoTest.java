@@ -1,18 +1,5 @@
 package org.uniprot.store.indexer.uniprot.go;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.uniprot.store.indexer.uniprot.go.GoRelationFileReader;
-import org.uniprot.store.indexer.uniprot.go.GoRelationFileRepo;
-import org.uniprot.store.indexer.uniprot.go.GoTerm;
-import org.uniprot.store.indexer.uniprot.go.GoTermFileReader;
-
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
-import java.util.stream.Collectors;
-
 import static java.util.Arrays.asList;
 import static java.util.Collections.singletonList;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -21,6 +8,15 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.uniprot.store.indexer.uniprot.go.GoRelationFileRepo.Relationship.IS_A;
 import static org.uniprot.store.indexer.uniprot.go.GoRelationFileRepo.Relationship.PART_OF;
+
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * Created 05/07/19
@@ -74,26 +70,30 @@ class GoRelationFileRepoTest {
 
     @Test
     void ancestorsWhenNoRelationsGivenUsesDefaultIsA() {
-        assertThat(extractIds(repo.getAncestors("1", null)),
-                   containsInAnyOrder("2", "3", "5", "6", "7"));
+        assertThat(
+                extractIds(repo.getAncestors("1", null)),
+                containsInAnyOrder("2", "3", "5", "6", "7"));
     }
 
     @Test
     void findsIsAAncestors() {
-        assertThat(extractIds(repo.getAncestors("1", singletonList(IS_A))),
-                   containsInAnyOrder("2", "3", "5", "6", "7"));
+        assertThat(
+                extractIds(repo.getAncestors("1", singletonList(IS_A))),
+                containsInAnyOrder("2", "3", "5", "6", "7"));
     }
 
     @Test
     void findsPartOfAncestors() {
-        assertThat(extractIds(repo.getAncestors("1", singletonList(PART_OF))),
-                   containsInAnyOrder("4", "6", "7"));
+        assertThat(
+                extractIds(repo.getAncestors("1", singletonList(PART_OF))),
+                containsInAnyOrder("4", "6", "7"));
     }
 
     @Test
     void findsAllAncestors() {
-        assertThat(extractIds(repo.getAncestors("1", asList(IS_A, PART_OF))),
-                   containsInAnyOrder("2", "3", "4", "5", "6", "7"));
+        assertThat(
+                extractIds(repo.getAncestors("1", asList(IS_A, PART_OF))),
+                containsInAnyOrder("2", "3", "4", "5", "6", "7"));
     }
 
     @SuppressWarnings("unchecked")

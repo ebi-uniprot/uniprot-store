@@ -1,38 +1,38 @@
 package org.uniprot.store.datastore.voldemort;
 
-import com.codahale.metrics.Timer;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.inject.Inject;
+import java.io.IOException;
+import java.time.Duration;
+import java.util.*;
+
 import net.jodah.failsafe.Failsafe;
 import net.jodah.failsafe.RetryPolicy;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import voldemort.VoldemortException;
 import voldemort.client.ClientConfig;
 import voldemort.client.SocketStoreClientFactory;
 import voldemort.client.StoreClient;
 import voldemort.client.StoreClientFactory;
-import voldemort.versioning.Version;
 import voldemort.versioning.Versioned;
 
-import java.io.IOException;
-import java.time.Duration;
-import java.util.*;
-import java.util.stream.Collectors;
+import com.codahale.metrics.Timer;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.inject.Inject;
 
 /**
- *
- *
  * @author lgonzales
  * @param <T> entity that is being saved.
  */
 public abstract class VoldemortRemoteJsonBinaryStore<T> implements VoldemortClient<T> {
 
-    private final StoreClient<String, byte[]> client;
-
-    private static final Logger logger = LoggerFactory.getLogger(VoldemortRemoteJsonBinaryStore.class);
+    private static final Logger logger =
+            LoggerFactory.getLogger(VoldemortRemoteJsonBinaryStore.class);
     private static final int DEFAULT_MAX_CONNECTION = 20;
+    private static final String TIME_OUT_MILLIS = "60000";
+    private final StoreClient<String, byte[]> client;
     private final StoreClientFactory factory;
     private final RetryPolicy<Object> retryPolicy;
     private final String storeName;
@@ -42,18 +42,20 @@ public abstract class VoldemortRemoteJsonBinaryStore<T> implements VoldemortClie
     }
 
     @Inject
-    public VoldemortRemoteJsonBinaryStore(int maxConnection, String storeName, String... voldemortUrl) {
+    public VoldemortRemoteJsonBinaryStore(
+            int maxConnection, String storeName, String... voldemortUrl) {
 
         Properties properties = new Properties();
-        String TIME_OUT_MS = "60000";
+        String timeOutMillis = TIME_OUT_MILLIS;
 
-        properties.setProperty(ClientConfig.CONNECTION_TIMEOUT_MS_PROPERTY, TIME_OUT_MS);
-        properties.setProperty(ClientConfig.SOCKET_TIMEOUT_MS_PROPERTY, TIME_OUT_MS);
-        properties.setProperty(ClientConfig.ROUTING_TIMEOUT_MS_PROPERTY, TIME_OUT_MS);
-        properties.setProperty(ClientConfig.MAX_CONNECTIONS_PER_NODE_PROPERTY, Integer.toString(maxConnection));
-        properties.setProperty(ClientConfig.SYS_CONNECTION_TIMEOUT_MS, TIME_OUT_MS);
-        properties.setProperty(ClientConfig.SYS_ROUTING_TIMEOUT_MS, TIME_OUT_MS);
-        properties.setProperty(ClientConfig.SYS_SOCKET_TIMEOUT_MS, TIME_OUT_MS);
+        properties.setProperty(ClientConfig.CONNECTION_TIMEOUT_MS_PROPERTY, timeOutMillis);
+        properties.setProperty(ClientConfig.SOCKET_TIMEOUT_MS_PROPERTY, timeOutMillis);
+        properties.setProperty(ClientConfig.ROUTING_TIMEOUT_MS_PROPERTY, timeOutMillis);
+        properties.setProperty(
+                ClientConfig.MAX_CONNECTIONS_PER_NODE_PROPERTY, Integer.toString(maxConnection));
+        properties.setProperty(ClientConfig.SYS_CONNECTION_TIMEOUT_MS, timeOutMillis);
+        properties.setProperty(ClientConfig.SYS_ROUTING_TIMEOUT_MS, timeOutMillis);
+        properties.setProperty(ClientConfig.SYS_SOCKET_TIMEOUT_MS, timeOutMillis);
 
         ClientConfig clientConfig = new ClientConfig(properties);
 
@@ -69,29 +71,32 @@ public abstract class VoldemortRemoteJsonBinaryStore<T> implements VoldemortClie
         }
         this.storeName = storeName;
         this.client = factory.getStoreClient(storeName);
-        retryPolicy = new RetryPolicy<>()
-                .handle(VoldemortException.class)
-                .withDelay(Duration.ofMillis(1))
-                .withMaxRetries(3);
+        retryPolicy =
+                new RetryPolicy<>()
+                        .handle(VoldemortException.class)
+                        .withDelay(Duration.ofMillis(1))
+                        .withMaxRetries(3);
     }
 
     @Override
     public void saveEntry(T entry) {
-        Timer.Context time = MetricsUtil.getMetricRegistryInstance().timer("voldemort-save-entry-time").time();
+        Timer.Context time =
+                MetricsUtil.getMetricRegistryInstance().timer("voldemort-save-entry-time").time();
         String acc = getStoreId(entry);
         byte[] binaryEntry;
         try {
             binaryEntry = getStoreObjectMapper().writeValueAsBytes(entry);
         } catch (JsonProcessingException e) {
-            throw new RuntimeException("Unable to parse entry to binary json: ",e); //TODO: improve it
+            throw new RuntimeException("Unable to parse entry to binary json: ", e);
         }
-        Version put = client.put(acc, binaryEntry);
+        client.put(acc, binaryEntry);
         time.stop();
     }
 
     @Override
     public void truncate() {
-        throw new UnsupportedOperationException("Truncate remove voldemort is not a supported operation.");
+        throw new UnsupportedOperationException(
+                "Truncate remove voldemort is not a supported operation.");
     }
 
     public abstract String getStoreId(T entry);
@@ -117,32 +122,32 @@ public abstract class VoldemortRemoteJsonBinaryStore<T> implements VoldemortClie
         }
     }
 
-    public List<T> getEntries(Iterable<String> acc) {
+    public List<T> getEntries(Iterable<String> accessions) {
         try {
-            Map<String, Versioned<byte[]>> all = Failsafe.with(retryPolicy).get(() -> client.getAll(acc));
-            return all.values().stream()
-                    .map(this::getEntryFromBinary)
-                    .collect(Collectors.toList());
+            List<T> toReturn = new ArrayList<>();
+            Map<String, Versioned<byte[]>> batch =
+                    Failsafe.with(retryPolicy).get(() -> client.getAll(accessions));
+            accessions.forEach(
+                    acc -> {
+                        Versioned<byte[]> versionedEntry = batch.get(acc);
+                        if (versionedEntry != null) {
+                            T entry = getEntryFromBinary(versionedEntry);
+                            toReturn.add(entry);
+                        }
+                    });
+            return toReturn;
         } catch (Exception e) {
             logger.warn("Error getting entry from BDB store.", e);
             throw new RuntimeException("Error getting entry from BDB store", e);
         }
     }
 
-    private T getEntryFromBinary(Versioned<byte[]> entryObjectVersioned) {
-        try {
-            return getStoreObjectMapper().readValue(entryObjectVersioned.getValue(),getEntryClass());
-        } catch (IOException e) {
-            throw new RuntimeException("Error getting entry from BDB store.", e);
-        }
-    }
-
     public Map<String, T> getEntryMap(Iterable<String> acc) {
-        Map<String, Versioned<byte[]>> all = Failsafe.with(retryPolicy).get(() -> client.getAll(acc));
+        Map<String, Versioned<byte[]>> all =
+                Failsafe.with(retryPolicy).get(() -> client.getAll(acc));
         HashMap<String, T> stringEntryObjectHashMap = new HashMap<>();
 
-        all.forEach((key, value) ->
-                stringEntryObjectHashMap.put(key, getEntryFromBinary(value)));
+        all.forEach((key, value) -> stringEntryObjectHashMap.put(key, getEntryFromBinary(value)));
 
         return stringEntryObjectHashMap;
     }
@@ -153,5 +158,14 @@ public abstract class VoldemortRemoteJsonBinaryStore<T> implements VoldemortClie
 
     public void close() {
         this.factory.close();
+    }
+
+    private T getEntryFromBinary(Versioned<byte[]> entryObjectVersioned) {
+        try {
+            return getStoreObjectMapper()
+                    .readValue(entryObjectVersioned.getValue(), getEntryClass());
+        } catch (IOException e) {
+            throw new RuntimeException("Error getting entry from BDB store.", e);
+        }
     }
 }

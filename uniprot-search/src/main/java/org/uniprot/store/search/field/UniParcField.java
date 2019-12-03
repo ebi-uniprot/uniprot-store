@@ -8,129 +8,135 @@ import java.util.stream.Collectors;
 import org.uniprot.store.search.field.validator.FieldValueValidator;
 
 /**
- *
  * @author jluo
  * @date: 18 Jun 2019
- *
-*/
-
+ */
 public interface UniParcField {
-	enum Return {
-		upi, entry_stored;
-	}
-	
-	 enum Sort {
-		upi("upi"),
-		length("length");
+    enum Return {
+        upi,
+        entry_stored;
+    }
 
-		private String solrFieldName;
+    enum Sort {
+        upi("upi"),
+        length("length");
 
-		Sort(String solrFieldName) {
-			this.solrFieldName = solrFieldName;
-		}
+        private String solrFieldName;
 
-		public String getSolrFieldName() {
-			return solrFieldName;
-		}
+        Sort(String solrFieldName) {
+            this.solrFieldName = solrFieldName;
+        }
 
-		@Override
-		public String toString() {
-			return this.solrFieldName;
-		}
-	}
-	
-	enum Search implements SearchField {
-		upi(SearchFieldType.TERM, FieldValueValidator::isUpiValid, null), // uniparc upid
-		accession(SearchFieldType.TERM, FieldValueValidator::isAccessionValid, null), // uniprot entry accession
-		isoform(SearchFieldType.TERM, FieldValueValidator::isAccessionValid, null), // uniprot entry accession
-		upid(SearchFieldType.TERM, FieldValueValidator::isUpidValid, null), // proteome upid
-		
-		taxonomy_id(SearchFieldType.TERM, FieldValueValidator::isNumberValue, null),
-		taxonomy_name(SearchFieldType.TERM, null,null),
-	 
-		gene(SearchFieldType.TERM), 
-		protein(SearchFieldType.TERM), 
-		database(SearchFieldType.TERM), 
-		active(SearchFieldType.TERM), 
-		checksum(SearchFieldType.TERM), 
-		length(SearchFieldType.RANGE),
-		content(SearchFieldType.TERM); //used in the default search
-																												
+        public String getSolrFieldName() {
+            return solrFieldName;
+        }
 
-		private final Predicate<String> fieldValueValidator;
-		private final SearchFieldType searchFieldType;
-		private final BoostValue boostValue;
+        @Override
+        public String toString() {
+            return this.solrFieldName;
+        }
+    }
 
-		Search(SearchFieldType searchFieldType) {
-			this.searchFieldType = searchFieldType;
-			this.fieldValueValidator = null;
-			this.boostValue = null;
-		}
+    enum Search implements SearchField {
+        upi(SearchFieldType.TERM, FieldValueValidator::isUpiValid, null), // uniparc upid
+        accession(
+                SearchFieldType.TERM,
+                FieldValueValidator::isAccessionValid,
+                null), // uniprot entry accession
+        isoform(
+                SearchFieldType.TERM,
+                FieldValueValidator::isAccessionValid,
+                null), // uniprot entry accession
+        upid(SearchFieldType.TERM, FieldValueValidator::isUpidValid, null), // proteome upid
 
-		Search(SearchFieldType searchFieldType, Predicate<String> fieldValueValidator, BoostValue boostValue) {
-			this.searchFieldType = searchFieldType;
-			this.fieldValueValidator = fieldValueValidator;
-			this.boostValue = boostValue;
-		}
+        taxonomy_id(SearchFieldType.TERM, FieldValueValidator::isNumberValue, null),
+        taxonomy_name(SearchFieldType.TERM, null, null),
 
-		@Override
-		public Predicate<String> getFieldValueValidator() {
-			return this.fieldValueValidator;
-		}
+        gene(SearchFieldType.TERM),
+        protein(SearchFieldType.TERM),
+        database(SearchFieldType.TERM),
+        active(SearchFieldType.TERM),
+        checksum(SearchFieldType.TERM),
+        length(SearchFieldType.RANGE),
+        content(SearchFieldType.TERM); // used in the default search
 
-		@Override
-		public SearchFieldType getSearchFieldType() {
-			return this.searchFieldType;
-		}
+        private final Predicate<String> fieldValueValidator;
+        private final SearchFieldType searchFieldType;
+        private final BoostValue boostValue;
 
-		@Override
-		public BoostValue getBoostValue() {
-			return this.boostValue;
-		}
+        Search(SearchFieldType searchFieldType) {
+            this.searchFieldType = searchFieldType;
+            this.fieldValueValidator = null;
+            this.boostValue = null;
+        }
 
-		@Override
-		public boolean hasBoostValue() {
-			return boostValue != null;
-		}
+        Search(
+                SearchFieldType searchFieldType,
+                Predicate<String> fieldValueValidator,
+                BoostValue boostValue) {
+            this.searchFieldType = searchFieldType;
+            this.fieldValueValidator = fieldValueValidator;
+            this.boostValue = boostValue;
+        }
 
-		@Override
-		public boolean hasValidValue(String value) {
-			return this.fieldValueValidator == null || this.fieldValueValidator.test(value);
-		}
+        @Override
+        public Predicate<String> getFieldValueValidator() {
+            return this.fieldValueValidator;
+        }
 
-		@Override
-		public String getName() {
-			return this.name();
-		}
+        @Override
+        public SearchFieldType getSearchFieldType() {
+            return this.searchFieldType;
+        }
 
-		public static List<SearchField> getBoostFields() {
-			return Arrays.stream(Search.values())
-					.filter(Search::hasBoostValue)
-					.collect(Collectors.toList());
-		}
-	}
-	enum ResultFields implements ReturnField{
-		uniParcId,
-		databaseCrossReferences,
-		sequence,
-		uniprotExclusionReason,
-		sequenceFeatures,
-		taxonomies;
+        @Override
+        public BoostValue getBoostValue() {
+            return this.boostValue;
+        }
 
-		@Override
-		public boolean hasReturnField(String fieldName) {
-			return false;
-		}
+        @Override
+        public boolean hasBoostValue() {
+            return boostValue != null;
+        }
 
-		@Override
-		public String getJavaFieldName() {
-			return this.name();
-		}
+        @Override
+        public boolean hasValidValue(String value) {
+            return this.fieldValueValidator == null || this.fieldValueValidator.test(value);
+        }
 
-		@Override
-		public boolean isMandatoryJsonField() {
-			return false;
-		}
-	}
+        @Override
+        public String getName() {
+            return this.name();
+        }
+
+        public static List<SearchField> getBoostFields() {
+            return Arrays.stream(Search.values())
+                    .filter(Search::hasBoostValue)
+                    .collect(Collectors.toList());
+        }
+    }
+
+    enum ResultFields implements ReturnField {
+        uniParcId,
+        databaseCrossReferences,
+        sequence,
+        uniprotExclusionReason,
+        sequenceFeatures,
+        taxonomies;
+
+        @Override
+        public boolean hasReturnField(String fieldName) {
+            return false;
+        }
+
+        @Override
+        public String getJavaFieldName() {
+            return this.name();
+        }
+
+        @Override
+        public boolean isMandatoryJsonField() {
+            return false;
+        }
+    }
 }
-

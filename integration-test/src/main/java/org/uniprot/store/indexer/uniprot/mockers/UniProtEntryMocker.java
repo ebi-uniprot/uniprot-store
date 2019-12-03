@@ -1,6 +1,5 @@
 package org.uniprot.store.indexer.uniprot.mockers;
 
-
 import org.apache.commons.io.IOUtils;
 import org.uniprot.core.builder.SequenceBuilder;
 import org.uniprot.core.flatfile.parser.UniProtParser;
@@ -25,8 +24,12 @@ import java.util.Map;
 public class UniProtEntryMocker {
 
     public enum Type {
-        SP("Q8DIA7.dat"), SP_COMPLEX("P97929.dat"), TR("F1Q0X3.dat"),
-        SP_CANONICAL("P21802.dat"),SP_ISOFORM("P21802-2.dat"),SP_CANONICAL_ISOFORM("P21802-1.dat"),
+        SP("Q8DIA7.dat"),
+        SP_COMPLEX("P97929.dat"),
+        TR("F1Q0X3.dat"),
+        SP_CANONICAL("P21802.dat"),
+        SP_ISOFORM("P21802-2.dat"),
+        SP_CANONICAL_ISOFORM("P21802-1.dat"),
         WITH_DEMERGED_SEC_ACCESSION("P63150.dat");
 
         private final String fileName;
@@ -40,7 +43,8 @@ public class UniProtEntryMocker {
 
     static {
         for (Type type : Type.values()) {
-            InputStream is = UniProtEntryMocker.class.getResourceAsStream("/entry/" + type.fileName);
+            InputStream is =
+                    UniProtEntryMocker.class.getResourceAsStream("/entry/" + type.fileName);
             try {
                 UniProtParser parser = new DefaultUniProtParser(new SupportingDataMapImpl(), true);
                 UniProtEntry entry = parser.parse(IOUtils.toString(is, Charset.defaultCharset()));
@@ -52,7 +56,7 @@ public class UniProtEntryMocker {
     }
 
     public static UniProtEntry create(String accession) {
-        UniProtEntry entry =  entryMap.get(Type.SP);
+        UniProtEntry entry = entryMap.get(Type.SP);
         UniProtEntryBuilder builder = UniProtEntryBuilder.fromInstance(entry);
         return builder.primaryAccession(new UniProtAccessionBuilder(accession).build())
                 .entryType(UniProtEntryType.TREMBL)

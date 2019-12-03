@@ -12,13 +12,14 @@ import org.uniprot.store.search.document.Document;
 public interface DocumentConverter<S, T extends Document> {
 
     /**
-     * It is necessary to return a list rather than just a single object. For example, if we want to index Feature
-     * from a UniProtEntry object, a list of features document will need to be returned for that UniProtEntryObject.
+     * It is necessary to return a list rather than just a single object. For example, if we want to
+     * index Feature from a UniProtEntry object, a list of features document will need to be
+     * returned for that UniProtEntryObject.
      *
      * @param source the source object
      * @return the list of document that is generated from the source object.
-     * @throws DocumentConversionException is thrown when a mapping error occurs between the source being converted,
-     *                                     and the document
+     * @throws DocumentConversionException is thrown when a mapping error occurs between the source
+     *     being converted, and the document
      */
     T convert(S source);
 }

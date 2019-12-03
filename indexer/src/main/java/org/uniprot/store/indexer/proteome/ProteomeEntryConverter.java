@@ -17,8 +17,8 @@ import org.uniprot.core.uniprot.taxonomy.Taxonomy;
 import org.uniprot.core.uniprot.taxonomy.builder.TaxonomyBuilder;
 import org.uniprot.core.xml.jaxb.proteome.Proteome;
 import org.uniprot.core.xml.proteome.ProteomeConverter;
-import org.uniprot.store.job.common.converter.DocumentConverter;
 import org.uniprot.store.indexer.util.TaxonomyRepoUtil;
+import org.uniprot.store.job.common.converter.DocumentConverter;
 import org.uniprot.store.search.document.proteome.ProteomeDocument;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -30,13 +30,11 @@ import com.google.common.collect.Lists;
  * @author jluo
  * @date: 23 Apr 2019
  */
-
 public class ProteomeEntryConverter implements DocumentConverter<Proteome, ProteomeDocument> {
     private static final String GC_SET_ACC = "GCSetAcc";
     private final TaxonomyRepo taxonomyRepo;
     private final ProteomeConverter proteomeConverter;
     private final ObjectMapper objectMapper;
-
 
     public ProteomeEntryConverter(TaxonomyRepo taxonomyRepo) {
         this.taxonomyRepo = taxonomyRepo;
@@ -60,7 +58,9 @@ public class ProteomeEntryConverter implements DocumentConverter<Proteome, Prote
         document.taxLineageIds.forEach(val -> document.content.add(val.toString()));
 
         document.proteomeStored = ByteBuffer.wrap(getBinaryObject(source));
-        updateAnnotationScore(document, source);
+        if (source.getAnnotationScore() != null) {
+            updateAnnotationScore(document, source);
+        }
         return document;
     }
 
@@ -78,8 +78,7 @@ public class ProteomeEntryConverter implements DocumentConverter<Proteome, Prote
         } else if ((source.getRedundantTo() != null) && (!source.getRedundantTo().isEmpty())) {
             document.proteomeType = 4;
             document.isRedundant = true;
-        } else
-            document.proteomeType = 3;
+        } else document.proteomeType = 3;
     }
 
     private void setOrganism(Proteome source, ProteomeDocument document) {
@@ -96,18 +95,18 @@ public class ProteomeEntryConverter implements DocumentConverter<Proteome, Prote
             document.organismName.add(source.getName());
             document.organismTaxon.add(source.getName());
         }
-
     }
 
     private void setLineageTaxon(int taxId, ProteomeDocument document) {
-    	if (taxId > 0) {
-        	List<TaxonomicNode> nodes = TaxonomyRepoUtil.getTaxonomyLineage(taxonomyRepo, taxId);
-    		nodes.forEach(node -> {
-    			int id = node.id();
-    			document.taxLineageIds.add(id);
-    			List<String> taxons = TaxonomyRepoUtil.extractTaxonFromNode(node);
-    			 document.organismTaxon.addAll(taxons);
-    		});
+        if (taxId > 0) {
+            List<TaxonomicNode> nodes = TaxonomyRepoUtil.getTaxonomyLineage(taxonomyRepo, taxId);
+            nodes.forEach(
+                    node -> {
+                        int id = node.id();
+                        document.taxLineageIds.add(id);
+                        List<String> taxons = TaxonomyRepoUtil.extractTaxonFromNode(node);
+                        document.organismTaxon.addAll(taxons);
+                    });
         }
     }
 
@@ -122,8 +121,8 @@ public class ProteomeEntryConverter implements DocumentConverter<Proteome, Prote
         ProteomeEntry proteome = this.proteomeConverter.fromXml(source);
         ProteomeEntryBuilder builder = ProteomeEntryBuilder.newInstance().from(proteome);
         builder.canonicalProteins(Collections.emptyList());
-        Optional<TaxonomicNode> taxonomicNode = taxonomyRepo
-                .retrieveNodeUsingTaxID((int) proteome.getTaxonomy().getTaxonId());
+        Optional<TaxonomicNode> taxonomicNode =
+                taxonomyRepo.retrieveNodeUsingTaxID((int) proteome.getTaxonomy().getTaxonId());
         if (taxonomicNode.isPresent()) {
             builder.taxonomy(getTaxonomy(taxonomicNode.get(), proteome.getTaxonomy().getTaxonId()));
             builder.taxonLineage(getLineage(taxonomicNode.get().id()));
@@ -142,33 +141,33 @@ public class ProteomeEntryConverter implements DocumentConverter<Proteome, Prote
 
         TaxonomyBuilder builder = TaxonomyBuilder.newInstance();
         builder.taxonId(taxId).scientificName(node.scientificName());
-        if (!Strings.isNullOrEmpty(node.commonName()))
-            builder.commonName(node.commonName());
-        if (!Strings.isNullOrEmpty(node.mnemonic()))
-            builder.mnemonic(node.mnemonic());
+        if (!Strings.isNullOrEmpty(node.commonName())) builder.commonName(node.commonName());
+        if (!Strings.isNullOrEmpty(node.mnemonic())) builder.mnemonic(node.mnemonic());
         if (!Strings.isNullOrEmpty(node.synonymName())) {
             builder.addSynonyms(node.synonymName());
         }
         return builder.build();
-
     }
 
     private List<TaxonomyLineage> getLineage(int taxId) {
-    	List<TaxonomicNode> nodes = TaxonomyRepoUtil.getTaxonomyLineage(taxonomyRepo, taxId);
-    	List<TaxonomyLineage> lineage = 
-    	nodes.stream().skip(1).map(node ->
-    		  new TaxonomyLineageBuilder()
-             .taxonId(node.id())
-             .scientificName(node.scientificName())
-             .build() 		
-    	).collect(Collectors.toList());
+        List<TaxonomicNode> nodes = TaxonomyRepoUtil.getTaxonomyLineage(taxonomyRepo, taxId);
+        List<TaxonomyLineage> lineage =
+                nodes.stream()
+                        .skip(1)
+                        .map(
+                                node ->
+                                        new TaxonomyLineageBuilder()
+                                                .taxonId(node.id())
+                                                .scientificName(node.scientificName())
+                                                .build())
+                        .collect(Collectors.toList());
         return Lists.reverse(lineage);
     }
 
     private List<String> fetchGenomeAccessions(Proteome source) {
-        return source.getComponent().stream().map(val -> val.getGenomeAccession()).flatMap(val -> val.stream())
+        return source.getComponent().stream()
+                .map(val -> val.getGenomeAccession())
+                .flatMap(val -> val.stream())
                 .collect(Collectors.toList());
     }
-
 }
-

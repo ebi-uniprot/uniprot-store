@@ -1,7 +1,5 @@
 package org.uniprot.store.datastore.uniprotkb;
 
-import static org.uniprot.store.datastore.utils.Constants.UNIPROTKB_STORE_JOB;
-
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
@@ -11,10 +9,12 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.uniprot.store.job.common.listener.WriteRetrierLogJobListener;
 
+import static org.uniprot.store.datastore.utils.Constants.UNIPROTKB_STORE_JOB;
+
 /**
  * The main UniProtKB data storing job.
- * <p>
- * Created 10/04/19
+ *
+ * <p>Created 10/04/19
  *
  * @author Edd
  */
@@ -28,9 +28,11 @@ public class UniProtKBJob {
     }
 
     @Bean
-    public Job uniProtKBIndexingJob(@Qualifier("uniProtKBStoreMainStep") Step uniProtKBDataStoreMainStep,
-                                    WriteRetrierLogJobListener writeRetrierLogJobListener) {
-        return this.jobBuilderFactory.get(UNIPROTKB_STORE_JOB)
+    public Job uniProtKBIndexingJob(
+            @Qualifier("uniProtKBStoreMainStep") Step uniProtKBDataStoreMainStep,
+            WriteRetrierLogJobListener writeRetrierLogJobListener) {
+        return this.jobBuilderFactory
+                .get(UNIPROTKB_STORE_JOB)
                 .start(uniProtKBDataStoreMainStep)
                 .listener(writeRetrierLogJobListener)
                 .build();

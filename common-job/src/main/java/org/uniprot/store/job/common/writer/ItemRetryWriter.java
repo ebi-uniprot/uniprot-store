@@ -1,5 +1,6 @@
 package org.uniprot.store.job.common.writer;
 
+import com.google.common.base.Strings;
 import lombok.extern.slf4j.Slf4j;
 import net.jodah.failsafe.Failsafe;
 import net.jodah.failsafe.RetryPolicy;
@@ -10,13 +11,10 @@ import org.springframework.batch.core.annotation.BeforeStep;
 import org.springframework.batch.item.ExecutionContext;
 import org.springframework.batch.item.ItemWriter;
 import org.springframework.scheduling.annotation.Async;
-import org.uniprot.store.job.common.store.Store;
-import org.uniprot.store.job.common.util.CommonConstants;
-
-import com.google.common.base.Strings;
-
 import org.uniprot.core.util.Utils;
 import org.uniprot.core.util.concurrency.OnZeroCountSleeper;
+import org.uniprot.store.job.common.store.Store;
+import org.uniprot.store.job.common.util.CommonConstants;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,23 +24,29 @@ import java.util.stream.Collectors;
 import static org.slf4j.LoggerFactory.getLogger;
 
 /**
- * <p>This abstract class is responsible for writing documents from a list of {@link EntryDocumentPair}s to Solr.
- * Writes to Solr are retried as configured in a {@link RetryPolicy} instance.</p>
+ * This abstract class is responsible for writing documents from a list of {@link
+ * EntryDocumentPair}s to Solr. Writes to Solr are retried as configured in a {@link RetryPolicy}
+ * instance.
  *
- * <p>Given the list of {@link EntryDocumentPair}s, if the constituent documents (obtained via {@link EntryDocumentPair#getDocument()})
- * cause an {@link Exception} when writing to Solr even after all attempted retries, then a dedicated log file is generated.
- * The log file is created as follows: for every entry in the list of {@link EntryDocumentPair}s (obtained via {@link EntryDocumentPair#getEntry()}
- * the method {@link #entryToString(Object)} is called. Concrete implementations of this class must override this method
- * to define how to write each entry in the log file.</p>
+ * <p>Given the list of {@link EntryDocumentPair}s, if the constituent documents (obtained via
+ * {@link EntryDocumentPair#getDocument()}) cause an {@link Exception} when writing to Solr even
+ * after all attempted retries, then a dedicated log file is generated. The log file is created as
+ * follows: for every entry in the list of {@link EntryDocumentPair}s (obtained via {@link
+ * EntryDocumentPair#getEntry()} the method {@link #entryToString(Object)} is called. Concrete
+ * implementations of this class must override this method to define how to write each entry in the
+ * log file.
  *
- * <p>NOTE: this class catches failures via a simple retry framework ({@link RetryPolicy}) during writes. Therefore Spring
- * Batch records false statistics of numbers of skips, writes, etc. For this reason, when using this class in a {@link org.springframework.batch.core.Step},
- * there are the following recommendations:
+ * <p>NOTE: this class catches failures via a simple retry framework ({@link RetryPolicy}) during
+ * writes. Therefore Spring Batch records false statistics of numbers of skips, writes, etc. For
+ * this reason, when using this class in a {@link org.springframework.batch.core.Step}, there are
+ * the following recommendations:
+ *
  * <ul>
- * <li>When using this class, do not use Spring Batch's fault tolerance {@link Job} features.</li>
- * <li>Use {@link WriteRetrierLogStepListener}, {@link WriteRetrierLogJobListener} to capture write statistics.</li>
+ *   <li>When using this class, do not use Spring Batch's fault tolerance {@link Job} features.
+ *   <li>Use {@link WriteRetrierLogStepListener}, {@link WriteRetrierLogJobListener} to capture
+ *       write statistics.
  * </ul>
- * </p>
+ *
  * Created 12/04/19
  *
  * @author Edd
@@ -83,15 +87,16 @@ public abstract class ItemRetryWriter<E, S> implements ItemWriter<E> {
         this.failedWritingEntriesCount = new AtomicInteger(0);
         this.writtenEntriesCount = new AtomicInteger(0);
 
-        executionContext
-                .put(CommonConstants.FAILED_ENTRIES_COUNT_KEY, this.failedWritingEntriesCount);
-        executionContext
-                .put(CommonConstants.WRITTEN_ENTRIES_COUNT_KEY, this.writtenEntriesCount);
+        executionContext.put(
+                CommonConstants.FAILED_ENTRIES_COUNT_KEY, this.failedWritingEntriesCount);
+        executionContext.put(CommonConstants.WRITTEN_ENTRIES_COUNT_KEY, this.writtenEntriesCount);
     }
 
     private void recordItemsWereProcessed(int numberOfItemsProcessed) {
         if (!Utils.notNull(sleeper)) {
-            this.sleeper = (OnZeroCountSleeper) executionContext.get(CommonConstants.ENTRIES_TO_WRITE_COUNTER);
+            this.sleeper =
+                    (OnZeroCountSleeper)
+                            executionContext.get(CommonConstants.ENTRIES_TO_WRITE_COUNTER);
         }
         sleeper.minus(numberOfItemsProcessed);
     }
@@ -99,38 +104,33 @@ public abstract class ItemRetryWriter<E, S> implements ItemWriter<E> {
     protected abstract String extractItemId(E item);
 
     protected abstract String entryToString(E entry);
-    
+
     protected String getHeader() {
-    	return "";
+        return "";
     }
 
     protected String getFooter() {
-    	return "";
+        return "";
     }
 
     public abstract S itemToEntry(E item);
 
     private void writeEntriesToStore(List<? extends E> items) {
-        List<S> convertedItems = items.stream()
-                .map(this::itemToEntry)
-                .collect(Collectors.toList());
+        List<S> convertedItems = items.stream().map(this::itemToEntry).collect(Collectors.toList());
         store.save(convertedItems);
         writtenEntriesCount.addAndGet(convertedItems.size());
         recordItemsWereProcessed(convertedItems.size());
     }
 
-    private void logFailedEntriesToFile(List<? extends E> items,
-                                        Throwable throwable) {
+    private void logFailedEntriesToFile(List<? extends E> items, Throwable throwable) {
         List<String> accessions = new ArrayList<>();
-        if(!Strings.isNullOrEmpty(getHeader()))
-        	STORE_FAILED_LOGGER.error(getHeader());
+        if (!Strings.isNullOrEmpty(getHeader())) STORE_FAILED_LOGGER.error(getHeader());
         for (E item : items) {
             String entryFF = entryToString(item);
             accessions.add(extractItemId(item));
             STORE_FAILED_LOGGER.error(entryFF);
         }
-        if(!Strings.isNullOrEmpty(getFooter()))
-        	STORE_FAILED_LOGGER.error(getFooter());
+        if (!Strings.isNullOrEmpty(getFooter())) STORE_FAILED_LOGGER.error(getFooter());
         log.error(ERROR_WRITING_ENTRIES_TO_STORE + accessions, throwable);
         failedWritingEntriesCount.addAndGet(items.size());
         recordItemsWereProcessed(items.size());

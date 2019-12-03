@@ -1,5 +1,7 @@
 package org.uniprot.store.indexer.literature.steps;
 
+import java.io.IOException;
+import java.sql.SQLException;
 
 import org.springframework.batch.core.ChunkListener;
 import org.springframework.batch.core.Step;
@@ -26,20 +28,13 @@ import org.uniprot.store.indexer.literature.reader.LiteratureRecordSeparatorPoli
 import org.uniprot.store.search.SolrCollection;
 import org.uniprot.store.search.document.literature.LiteratureDocument;
 
-import java.io.IOException;
-import java.sql.SQLException;
-
-/**
- * @author lgonzales
- */
+/** @author lgonzales */
 @Configuration
 public class LiteratureLoadStep {
 
-    @Autowired
-    private StepBuilderFactory steps;
+    @Autowired private StepBuilderFactory steps;
 
-    @Autowired
-    private UniProtSolrOperations solrOperations;
+    @Autowired private UniProtSolrOperations solrOperations;
 
     @Value(("${ds.import.chunk.size}"))
     private Integer chunkSize;
@@ -48,12 +43,16 @@ public class LiteratureLoadStep {
     private Resource literatureFile;
 
     @Bean(name = "IndexLiteratureStep")
-    public Step indexLiterature(StepExecutionListener stepListener, ChunkListener chunkListener,
-                                @Qualifier("LiteratureReader") ItemReader<LiteratureEntry> literatureReader,
-                                @Qualifier("LiteratureProcessor") ItemProcessor<LiteratureEntry, LiteratureDocument> literatureProcessor,
-                                @Qualifier("LiteratureWriter") ItemWriter<LiteratureDocument> literatureWriter,
-                                UniProtSolrOperations solrOperations) {
-        return this.steps.get(Constants.LITERATURE_INDEX_STEP)
+    public Step indexLiterature(
+            StepExecutionListener stepListener,
+            ChunkListener chunkListener,
+            @Qualifier("LiteratureReader") ItemReader<LiteratureEntry> literatureReader,
+            @Qualifier("LiteratureProcessor")
+                    ItemProcessor<LiteratureEntry, LiteratureDocument> literatureProcessor,
+            @Qualifier("LiteratureWriter") ItemWriter<LiteratureDocument> literatureWriter,
+            UniProtSolrOperations solrOperations) {
+        return this.steps
+                .get(Constants.LITERATURE_INDEX_STEP)
                 .<LiteratureEntry, LiteratureDocument>chunk(this.chunkSize)
                 .reader(literatureReader)
                 .processor(literatureProcessor)
@@ -81,7 +80,8 @@ public class LiteratureLoadStep {
     }
 
     @Bean(name = "LiteratureProcessor")
-    public ItemProcessor<LiteratureEntry, LiteratureDocument> literatureProcessor() throws SQLException {
+    public ItemProcessor<LiteratureEntry, LiteratureDocument> literatureProcessor()
+            throws SQLException {
         return new LiteratureLoadProcessor(solrOperations);
     }
 
@@ -95,5 +95,4 @@ public class LiteratureLoadStep {
     private LiteratureLineMapper getLiteratureLineMapper() {
         return new LiteratureLineMapper();
     }
-
 }

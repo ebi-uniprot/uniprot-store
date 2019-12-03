@@ -2,10 +2,7 @@ package org.uniprot.store.search.field;
 
 import java.util.function.Predicate;
 
-/**
- *
- * @author lgonzales
- */
+/** @author lgonzales */
 public interface SearchField {
 
     BoostValue getBoostValue();
@@ -23,5 +20,4 @@ public interface SearchField {
     SearchFieldType getSearchFieldType();
 
     Predicate<String> getFieldValueValidator();
-
 }

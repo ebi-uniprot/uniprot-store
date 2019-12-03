@@ -1,11 +1,11 @@
 package org.uniprot.store.search;
 
+import java.util.Arrays;
+import java.util.List;
+
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.queryparser.classic.QueryParser;
 import org.apache.lucene.search.*;
-
-import java.util.Arrays;
-import java.util.List;
 
 /**
  * This is a utility class to help extract information about solr query
@@ -21,7 +21,7 @@ public class SolrQueryUtil {
             Query query = qp.parse(inputQuery);
             isValid = hasFieldTerms(query, terms);
         } catch (Exception e) {
-            //Syntax error is validated by ValidSolrQuerySyntax
+            // Syntax error is validated by ValidSolrQuerySyntax
         }
         return isValid;
     }
@@ -55,5 +55,4 @@ public class SolrQueryUtil {
         }
         return hasTerm;
     }
-
 }

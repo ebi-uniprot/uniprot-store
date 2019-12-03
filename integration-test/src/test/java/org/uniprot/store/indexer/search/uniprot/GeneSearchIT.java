@@ -9,11 +9,11 @@ import org.junit.jupiter.api.extension.RegisterExtension;
 import org.uniprot.core.flatfile.writer.LineType;
 import org.uniprot.store.search.field.UniProtField;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-import java.io.IOException;
-import java.io.InputStream;
 import static java.util.Arrays.asList;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.contains;
@@ -23,47 +23,43 @@ import static org.hamcrest.core.Is.is;
 import static org.uniprot.store.indexer.search.uniprot.IdentifierSearchIT.ACC_LINE;
 import static org.uniprot.store.indexer.search.uniprot.TestUtils.*;
 
-/**
- * Tests if the Genes section has been indexed properly
- */
+/** Tests if the Genes section has been indexed properly */
 class GeneSearchIT {
-    @RegisterExtension
-    static UniProtSearchEngine searchEngine = new UniProtSearchEngine();
+    @RegisterExtension static UniProtSearchEngine searchEngine = new UniProtSearchEngine();
 
     private static final String UNIPROT_FLAT_FILE_ENTRY_PATH = "/it/uniprot/P0A377.43.dat";
     private static final String COMMON_HLA_NAME = "HLA";
 
-    //Entry 1
+    // Entry 1
     private static final String ACCESSION1 = "Q197F4";
     private static final String NAME1 = "HLA-A";
     private static final String SYNONYM1_1 = "HLAA";
-    //Entry 2
+    // Entry 2
     private static final String ACCESSION2 = "Q197F5";
     private static final String NAME2 = "HLA-B";
     private static final String SYNONYM2_1 = "HLAB";
     private static final String COMMON_PPP2R_NAME = "PPP2R";
-    //Entry 3
+    // Entry 3
     private static final String ACCESSION3 = "Q197F6";
     private static final String NAME3 = "PPP2R5A";
-    //Entry 4
+    // Entry 4
     private static final String ACCESSION4 = "Q197F7";
     private static final String NAME4 = "PPP2R5D";
-    //Entry 5
+    // Entry 5
     private static final String ACCESSION5 = "Q197F8";
     private static final String NAME5 = "alkA";
     private static final String OLN5_1 = "b2068";
-    //Entry 6
+    // Entry 6
     private static final String ACCESSION6 = "Q197F9";
     private static final String NAME6 = "ATG16L1";
     private static final String ORF6_1_1 = "UNQ9393";
     private static final String ORF6_1_2 = "PRO34307";
     private static final String ORF6_1 = ORF6_1_1 + "/" + ORF6_1_2;
-    //Entry 7
+    // Entry 7
     private static final String ACCESSION7 = "Q197G0";
     private static final String NAME7 = "ABCC1";
     private static final String ORF7_1_PARTIAL = "T4K22";
     private static final String ORF7_1 = "T4K22.12";
-
 
     private static UniProtEntryObjectProxy entryProxy;
     private static int accessionId = 0;
@@ -75,7 +71,7 @@ class GeneSearchIT {
         InputStream resourceAsStream = TestUtils.getResourceAsStream(UNIPROT_FLAT_FILE_ENTRY_PATH);
         entryProxy = UniProtEntryObjectProxy.createEntryFromInputStream(resourceAsStream);
 
-        //Entry 1
+        // Entry 1
         GeneBuilder geneBuilder = new GeneBuilder();
         geneBuilder.setName(NAME1).addSynonym(SYNONYM1_1);
 
@@ -83,7 +79,7 @@ class GeneSearchIT {
         entryProxy.updateEntryObject(LineType.GN, geneBuilder.buildGNLine());
         searchEngine.indexEntry(convertToUniProtEntry(entryProxy));
 
-        //Entry 2
+        // Entry 2
         geneBuilder = new GeneBuilder();
         geneBuilder.setName(NAME2).addSynonym(SYNONYM2_1);
 
@@ -91,7 +87,7 @@ class GeneSearchIT {
         entryProxy.updateEntryObject(LineType.GN, geneBuilder.buildGNLine());
         searchEngine.indexEntry(convertToUniProtEntry(entryProxy));
 
-        //Entry 3
+        // Entry 3
         geneBuilder = new GeneBuilder();
         geneBuilder.setName(NAME3);
 
@@ -99,7 +95,7 @@ class GeneSearchIT {
         entryProxy.updateEntryObject(LineType.GN, geneBuilder.buildGNLine());
         searchEngine.indexEntry(convertToUniProtEntry(entryProxy));
 
-        //Entry 4
+        // Entry 4
         geneBuilder = new GeneBuilder();
         geneBuilder.setName(NAME4);
 
@@ -107,7 +103,7 @@ class GeneSearchIT {
         entryProxy.updateEntryObject(LineType.GN, geneBuilder.buildGNLine());
         searchEngine.indexEntry(convertToUniProtEntry(entryProxy));
 
-        //Entry 5
+        // Entry 5
         geneBuilder = new GeneBuilder();
         geneBuilder.setName(NAME5).addOLNName(OLN5_1);
 
@@ -115,7 +111,7 @@ class GeneSearchIT {
         entryProxy.updateEntryObject(LineType.GN, geneBuilder.buildGNLine());
         searchEngine.indexEntry(convertToUniProtEntry(entryProxy));
 
-        //Entry 6
+        // Entry 6
         geneBuilder = new GeneBuilder();
         geneBuilder.setName(NAME6).addORFName(ORF6_1);
 
@@ -123,7 +119,7 @@ class GeneSearchIT {
         entryProxy.updateEntryObject(LineType.GN, geneBuilder.buildGNLine());
         searchEngine.indexEntry(convertToUniProtEntry(entryProxy));
 
-        //Entry 7
+        // Entry 7
         geneBuilder = new GeneBuilder();
         geneBuilder.setName(NAME7).addORFName(ORF7_1);
 
@@ -210,7 +206,7 @@ class GeneSearchIT {
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
         assertThat(retrievedAccessions, is(empty()));
     }
-    
+
     @Test
     void partialCommonGeneNameWithWildCardMatchesEntry1And2() {
         String query = geneQuery(COMMON_HLA_NAME + "*");
@@ -362,11 +358,28 @@ class GeneSearchIT {
 
     @Test
     void canFindGenesContainingSpecialChars() {
-        List<String> valuesThatRequireEscaping = asList("+", "-", "&", "|", "!", "(", ")", "{EVIDENCE}", "[", "]", "^", "\"", "~", "?", ":", "/");
+        List<String> valuesThatRequireEscaping =
+                asList(
+                        "+",
+                        "-",
+                        "&",
+                        "|",
+                        "!",
+                        "(",
+                        ")",
+                        "{EVIDENCE}",
+                        "[",
+                        "]",
+                        "^",
+                        "\"",
+                        "~",
+                        "?",
+                        ":",
+                        "/");
 
         for (String toEscape : valuesThatRequireEscaping) {
             String accession = newAccession();
-            String geneName = "hello"+toEscape+"world";
+            String geneName = "hello" + toEscape + "world";
             System.out.println(geneName);
             String query = geneQuery(geneName);
 
@@ -384,7 +397,8 @@ class GeneSearchIT {
     @Test
     void canFindGeneViaAlternativeSpellingFromSynonymList() {
         // ensure synonyms in are used:
-        //    uniprot-data-services/data-service-deployments/src/main/distros/solr-conf/homes/uniprot-cores/uniprot/conf/synonyms.txt
+        //
+        // uniprot-data-services/data-service-deployments/src/main/distros/solr-conf/homes/uniprot-cores/uniprot/conf/synonyms.txt
         String accession = newAccession();
         String indexGeneName = "hemoglobin tumor";
         String queryGeneName = "haemoglobin tumour";
@@ -421,8 +435,8 @@ class GeneSearchIT {
     }
 
     /**
-     * Builder that collects the necessary parameters to build the GN line, and then returns a flat file
-     * representation of the GN line with the given parameters.
+     * Builder that collects the necessary parameters to build the GN line, and then returns a flat
+     * file representation of the GN line with the given parameters.
      */
     private static class GeneBuilder {
         private String name;
@@ -492,7 +506,7 @@ class GeneSearchIT {
          * Convenience method that converts a list of names into a section in the GN line
          *
          * @param nameType the name section that will be built, i.e. synonyms, OLNNames, ORFNames
-         * @param names    the names that make up the section
+         * @param names the names that make up the section
          * @return a flat file version of the section being built
          */
         private String buildMultiNameSection(String nameType, List<String> names) {
@@ -500,7 +514,8 @@ class GeneSearchIT {
 
             if (!names.isEmpty()) {
                 multiNameString =
-                        createMultiElementFFLine(nameType + "=", ",", ";", names.toArray(new String[0]));
+                        createMultiElementFFLine(
+                                nameType + "=", ",", ";", names.toArray(new String[0]));
             }
 
             return multiNameString;

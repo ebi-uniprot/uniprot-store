@@ -1,5 +1,10 @@
 package org.uniprot.store.indexer.taxonomy.steps;
 
+import java.io.IOException;
+import java.sql.SQLException;
+
+import javax.sql.DataSource;
+
 import org.springframework.batch.core.ChunkListener;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.StepExecutionListener;
@@ -23,14 +28,7 @@ import org.uniprot.store.indexer.taxonomy.readers.TaxonomyMergeReader;
 import org.uniprot.store.search.SolrCollection;
 import org.uniprot.store.search.document.taxonomy.TaxonomyDocument;
 
-import javax.sql.DataSource;
-import java.io.IOException;
-import java.sql.SQLException;
-
-/**
- *
- * @author lgonzales
- */
+/** @author lgonzales */
 @Configuration
 public class TaxonomyMergedStep {
 
@@ -38,14 +36,18 @@ public class TaxonomyMergedStep {
     private Integer chunkSize;
 
     @Bean(name = "taxonomyMerged")
-    public Step taxonomyMerged(StepBuilderFactory stepBuilders, StepExecutionListener stepListener,
-                                         ChunkListener chunkListener,
-                                         ItemReader<TaxonomyEntry> itemTaxonomyMergedReader,
-                                         ItemProcessor<TaxonomyEntry,TaxonomyDocument> itemTaxonomyMergedProcessor,
-                                         ItemWriter<TaxonomyDocument> itemTaxonomyMergedWriter,
-                                         UniProtSolrOperations solrOperations) throws SQLException, IOException {
-        return stepBuilders.get(Constants.TAXONOMY_LOAD_MERGED_STEP_NAME)
-                .<TaxonomyEntry,TaxonomyDocument>chunk(chunkSize)
+    public Step taxonomyMerged(
+            StepBuilderFactory stepBuilders,
+            StepExecutionListener stepListener,
+            ChunkListener chunkListener,
+            ItemReader<TaxonomyEntry> itemTaxonomyMergedReader,
+            ItemProcessor<TaxonomyEntry, TaxonomyDocument> itemTaxonomyMergedProcessor,
+            ItemWriter<TaxonomyDocument> itemTaxonomyMergedWriter,
+            UniProtSolrOperations solrOperations)
+            throws SQLException, IOException {
+        return stepBuilders
+                .get(Constants.TAXONOMY_LOAD_MERGED_STEP_NAME)
+                .<TaxonomyEntry, TaxonomyDocument>chunk(chunkSize)
                 .reader(itemTaxonomyMergedReader)
                 .processor(itemTaxonomyMergedProcessor)
                 .writer(itemTaxonomyMergedWriter)
@@ -55,9 +57,9 @@ public class TaxonomyMergedStep {
                 .build();
     }
 
-
     @Bean(name = "itemTaxonomyMergedReader")
-    public ItemReader<TaxonomyEntry> itemTaxonomyMergedReader(@Qualifier("readDataSource") DataSource readDataSource) throws SQLException {
+    public ItemReader<TaxonomyEntry> itemTaxonomyMergedReader(
+            @Qualifier("readDataSource") DataSource readDataSource) throws SQLException {
         JdbcCursorItemReader<TaxonomyEntry> itemReader = new JdbcCursorItemReader<>();
         itemReader.setDataSource(readDataSource);
         itemReader.setSql(TaxonomySQLConstants.SELECT_TAXONOMY_MERGED_SQL);
@@ -67,13 +69,13 @@ public class TaxonomyMergedStep {
     }
 
     @Bean(name = "itemTaxonomyMergedProcessor")
-    public ItemProcessor<TaxonomyEntry, TaxonomyDocument> itemTaxonomyMergedProcessor(){
+    public ItemProcessor<TaxonomyEntry, TaxonomyDocument> itemTaxonomyMergedProcessor() {
         return new TaxonomyMergedDeletedProcessor();
     }
 
     @Bean(name = "itemTaxonomyMergedWriter")
-    public ItemWriter<TaxonomyDocument> itemTaxonomyMergedWriter(UniProtSolrOperations solrOperations) {
+    public ItemWriter<TaxonomyDocument> itemTaxonomyMergedWriter(
+            UniProtSolrOperations solrOperations) {
         return new SolrDocumentWriter<>(solrOperations, SolrCollection.taxonomy);
     }
-
 }

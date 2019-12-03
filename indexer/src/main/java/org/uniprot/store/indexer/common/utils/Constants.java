@@ -1,18 +1,18 @@
 package org.uniprot.store.indexer.common.utils;
 
-
 public class Constants {
     public static final String SUPPORTING_DATA_INDEX_JOB = "Supporting data indexing job";
 
     public static final String UNIPROTKB_INDEX_JOB = "UniProtKB_Indexing_Job";
     public static final String UNIPROTKB_INDEX_STEP = "UniProtKB_Indexing_Step";
-    
+
     public static final String INACTIVEENTRY_INDEX_JOB = "InactiveEntry_Indexing_Job";
     public static final String INACTIVEENTRY_INDEX_STEP = "InactiveEntry_Indexing_Step";
 
     public static final String CROSS_REF_LOAD_JOB = "Cross ref load job";
     public static final String CROSS_REF_INDEX_STEP = "Cross ref indexing step";
-    public static final String CROSS_REF_UNIPROT_COUNT_STEP_NAME = "CROSS_REF_UNIPROT_COUNT_STEP_NAME";
+    public static final String CROSS_REF_UNIPROT_COUNT_STEP_NAME =
+            "CROSS_REF_UNIPROT_COUNT_STEP_NAME";
     public static final String CROSS_REF_PROTEIN_COUNT_KEY = "Cross Ref Protein Context Key";
 
     public static final String TAXONOMY_LOAD_JOB_NAME = "TAXONOMY_LOAD_JOB_NAME";
@@ -37,10 +37,13 @@ public class Constants {
     public static final String LITERATURE_MAPPING_INDEX_STEP = "LITERATURE_MAPPING_INDEX_STEP";
     public static final String LITERATURE_LOAD_STATISTICS_STEP_NAME = "LITERATURE_LOAD_STATISTICS";
 
-    public static final String SUBCELLULAR_LOCATION_LOAD_JOB_NAME = "SUBCELLULAR_LOCATION_LOAD_JOB_NAME";
+    public static final String SUBCELLULAR_LOCATION_LOAD_JOB_NAME =
+            "SUBCELLULAR_LOCATION_LOAD_JOB_NAME";
     public static final String SUBCELLULAR_LOCATION_INDEX_STEP = "SUBCELLULAR_LOCATION_INDEX_STEP";
-    public static final String SUBCELLULAR_LOCATION_LOAD_STATISTICS_STEP_NAME = "SUBCELLULAR_LOCATION_LOAD_STATISTICS";
-    public static final String SUBCELLULAR_LOCATION_LOAD_STATISTICS_KEY = "SUBCELLULAR_LOCATION_LOAD_STATISTICS_KEY";
+    public static final String SUBCELLULAR_LOCATION_LOAD_STATISTICS_STEP_NAME =
+            "SUBCELLULAR_LOCATION_LOAD_STATISTICS";
+    public static final String SUBCELLULAR_LOCATION_LOAD_STATISTICS_KEY =
+            "SUBCELLULAR_LOCATION_LOAD_STATISTICS_KEY";
 
     public static final String SUGGESTIONS_INDEX_STEP = "Suggestion_Indexing_Step";
     public static final String SUGGESTIONS_MAP = "Suggestions_Set";

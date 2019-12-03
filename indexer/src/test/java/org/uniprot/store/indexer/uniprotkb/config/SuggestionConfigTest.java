@@ -1,15 +1,10 @@
 package org.uniprot.store.indexer.uniprotkb.config;
 
-//import org.jetbrains.annotations.NotNull;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
-import org.uniprot.core.cv.xdb.UniProtXDbTypeDetail;
-import org.uniprot.core.cv.xdb.UniProtXDbTypes;
-import org.uniprot.core.uniprot.comment.CommentType;
-import org.uniprot.core.uniprot.feature.FeatureCategory;
-import org.uniprot.store.indexer.uniprotkb.config.SuggestionConfig;
-import org.uniprot.store.search.document.suggest.SuggestDictionary;
-import org.uniprot.store.search.document.suggest.SuggestDocument;
+// import org.jetbrains.annotations.NotNull;
+import static java.util.Arrays.asList;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.*;
+import static org.uniprot.store.indexer.uniprotkb.config.SuggestionConfig.*;
 
 import java.util.Arrays;
 import java.util.List;
@@ -18,10 +13,14 @@ import java.util.stream.Collectors;
 
 import javax.validation.constraints.NotNull;
 
-import static java.util.Arrays.asList;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
-import static org.uniprot.store.indexer.uniprotkb.config.SuggestionConfig.*;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
+import org.uniprot.core.cv.xdb.UniProtXDbTypeDetail;
+import org.uniprot.core.cv.xdb.UniProtXDbTypes;
+import org.uniprot.core.uniprot.comment.CommentType;
+import org.uniprot.core.uniprot.feature.FeatureCategory;
+import org.uniprot.store.search.document.suggest.SuggestDictionary;
+import org.uniprot.store.search.document.suggest.SuggestDocument;
 
 /**
  * Created 25/05/19
@@ -39,17 +38,24 @@ class SuggestionConfigTest {
 
     @Test
     void allDefaultTaxonsLoaded() {
-        List<SuggestDocument> taxonSuggestions = extractSuggestDocuments(SuggestDictionary.TAXONOMY.name());
+        List<SuggestDocument> taxonSuggestions =
+                extractSuggestDocuments(SuggestDictionary.TAXONOMY.name());
         assertThat(taxonSuggestions, hasSize(35));
 
-        List<SuggestDocument> xenopusTropicalisList = taxonSuggestions.stream()
-                .filter(suggestion -> suggestion.value.equals("Xenopus tropicalis"))
-                .collect(Collectors.toList());
+        List<SuggestDocument> xenopusTropicalisList =
+                taxonSuggestions.stream()
+                        .filter(suggestion -> suggestion.value.equals("Xenopus tropicalis"))
+                        .collect(Collectors.toList());
         assertThat(xenopusTropicalisList, hasSize(1));
         SuggestDocument xenopusTropicalis = xenopusTropicalisList.get(0);
-        assertThat(xenopusTropicalis.altValues,
-                   contains("Western clawed frog", "Tropical clawed frog", "X. tropicalis",
-                            "Xenopus laevis tropicalis", "Silurana tropicalis"));
+        assertThat(
+                xenopusTropicalis.altValues,
+                contains(
+                        "Western clawed frog",
+                        "Tropical clawed frog",
+                        "X. tropicalis",
+                        "Xenopus laevis tropicalis",
+                        "Silurana tropicalis"));
         assertThat(xenopusTropicalis.id, is("8364"));
         assertThat(xenopusTropicalis.importance, is("high"));
     }
@@ -62,10 +68,17 @@ class SuggestionConfigTest {
         assertThat(dbxRefTypes, hasSize(greaterThan(0)));
         assertThat(suggestions, hasSize(dbxRefTypes.size()));
 
-        List<SuggestDocument> firstDbXrefTypeList = suggestions.stream()
-                .filter(suggestion -> suggestion.value.equals(DATABASE_PREFIX + dbxRefTypes.get(0).getDisplayName()))
-                .collect(Collectors.toList());
-        assertThat(firstDbXrefTypeList.get(0).value, is(DATABASE_PREFIX + dbxRefTypes.get(0).getDisplayName()));
+        List<SuggestDocument> firstDbXrefTypeList =
+                suggestions.stream()
+                        .filter(
+                                suggestion ->
+                                        suggestion.value.equals(
+                                                DATABASE_PREFIX
+                                                        + dbxRefTypes.get(0).getDisplayName()))
+                        .collect(Collectors.toList());
+        assertThat(
+                firstDbXrefTypeList.get(0).value,
+                is(DATABASE_PREFIX + dbxRefTypes.get(0).getDisplayName()));
     }
 
     @Test
@@ -76,26 +89,41 @@ class SuggestionConfigTest {
         assertThat(featureCategories, hasSize(greaterThan(0)));
         assertThat(suggestions, hasSize(featureCategories.size()));
 
-        List<SuggestDocument> specificCategoryList = suggestions.stream()
-                .filter(suggestion -> suggestion.value.equals(FEATURE_CATEGORY_PREFIX + featureCategories.get(0).name()))
-                .collect(Collectors.toList());
-        assertThat(specificCategoryList.get(0).value, is(FEATURE_CATEGORY_PREFIX + featureCategories.get(0).name()));
+        List<SuggestDocument> specificCategoryList =
+                suggestions.stream()
+                        .filter(
+                                suggestion ->
+                                        suggestion.value.equals(
+                                                FEATURE_CATEGORY_PREFIX
+                                                        + featureCategories.get(0).name()))
+                        .collect(Collectors.toList());
+        assertThat(
+                specificCategoryList.get(0).value,
+                is(FEATURE_CATEGORY_PREFIX + featureCategories.get(0).name()));
     }
 
     @Test
     void allDefaultCommentTypesLoaded() {
         List<SuggestDocument> suggestions = extractSuggestDocuments(COMMENT_TYPE_PREFIX);
 
-        List<CommentType> commentTypes = Arrays.stream(CommentType.values())
-                .filter(type -> type != CommentType.UNKNOWN)
-                .collect(Collectors.toList());
+        List<CommentType> commentTypes =
+                Arrays.stream(CommentType.values())
+                        .filter(type -> type != CommentType.UNKNOWN)
+                        .collect(Collectors.toList());
         assertThat(commentTypes, hasSize(greaterThan(0)));
         assertThat(suggestions, hasSize(commentTypes.size()));
 
-        List<SuggestDocument> specificTypeList = suggestions.stream()
-                .filter(suggestion -> suggestion.value.equals(COMMENT_TYPE_PREFIX + commentTypes.get(0).toXmlDisplayName()))
-                .collect(Collectors.toList());
-        assertThat(specificTypeList.get(0).value, is(COMMENT_TYPE_PREFIX + commentTypes.get(0).toXmlDisplayName()));
+        List<SuggestDocument> specificTypeList =
+                suggestions.stream()
+                        .filter(
+                                suggestion ->
+                                        suggestion.value.equals(
+                                                COMMENT_TYPE_PREFIX
+                                                        + commentTypes.get(0).toXmlDisplayName()))
+                        .collect(Collectors.toList());
+        assertThat(
+                specificTypeList.get(0).value,
+                is(COMMENT_TYPE_PREFIX + commentTypes.get(0).toXmlDisplayName()));
     }
 
     @Test

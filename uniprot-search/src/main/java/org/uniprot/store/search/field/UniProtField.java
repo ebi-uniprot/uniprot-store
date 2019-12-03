@@ -1,6 +1,5 @@
 package org.uniprot.store.search.field;
 
-
 import static org.uniprot.store.search.field.BoostValue.boostValue;
 
 import java.util.function.Predicate;
@@ -36,20 +35,29 @@ public interface UniProtField {
     }
 
     enum Search implements SearchField {
-        accession_id(SearchFieldType.TERM, FieldValueValidator::isAccessionValid, boostValue(1.1f)),            // uniprot entry accession
-        accession(SearchFieldType.TERM, FieldValueValidator::isAccessionValid, null),            // uniprot entry accession
+        accession_id(
+                SearchFieldType.TERM,
+                FieldValueValidator::isAccessionValid,
+                boostValue(1.1f)), // uniprot entry accession
+        accession(
+                SearchFieldType.TERM,
+                FieldValueValidator::isAccessionValid,
+                null), // uniprot entry accession
         mnemonic(SearchFieldType.TERM),
-        mnemonic_default(SearchFieldType.TERM, null, boostValue(10.0f)),  // uniprot entry name
-        reviewed(SearchFieldType.TERM, FieldValueValidator::isBooleanValue, boostValue("true", 8.0f)),  // reviewed or not reviewed
-        name(SearchFieldType.TERM),              // protein name
-        sec_acc(SearchFieldType.TERM),              // secondary accessions, other accessions
-        content(SearchFieldType.TERM), //used in the default search
+        mnemonic_default(SearchFieldType.TERM, null, boostValue(10.0f)), // uniprot entry name
+        reviewed(
+                SearchFieldType.TERM,
+                FieldValueValidator::isBooleanValue,
+                boostValue("true", 8.0f)), // reviewed or not reviewed
+        name(SearchFieldType.TERM), // protein name
+        sec_acc(SearchFieldType.TERM), // secondary accessions, other accessions
+        content(SearchFieldType.TERM), // used in the default search
         keyword(SearchFieldType.TERM),
-        ec(SearchFieldType.TERM, null, boostValue(1.1f)),                   // EC number
+        ec(SearchFieldType.TERM, null, boostValue(1.1f)), // EC number
         ec_exact(SearchFieldType.TERM),
-        protgene_default(SearchFieldType.TERM, null, boostValue(2.0f)),                 // protein or gene name
-        gene(SearchFieldType.TERM),                 // gene name
-        gene_exact(SearchFieldType.TERM),                 // exact gene name
+        protgene_default(SearchFieldType.TERM, null, boostValue(2.0f)), // protein or gene name
+        gene(SearchFieldType.TERM), // gene name
+        gene_exact(SearchFieldType.TERM), // exact gene name
         organism_name(SearchFieldType.TERM, null, boostValue(2.0f)),
         organism_id(SearchFieldType.TERM, FieldValueValidator::isNumberValue, boostValue(2.0f)),
         host_name(SearchFieldType.TERM),
@@ -60,13 +68,13 @@ public interface UniProtField {
         other_organism(SearchFieldType.TERM),
         organelle(SearchFieldType.TERM),
 
-        modified(SearchFieldType.RANGE),    // last updated
-        created(SearchFieldType.RANGE),    // entry first created
-        sequence_modified(SearchFieldType.RANGE), //sequence last updated
+        modified(SearchFieldType.RANGE), // last updated
+        created(SearchFieldType.RANGE), // entry first created
+        sequence_modified(SearchFieldType.RANGE), // sequence last updated
         lit_pubdate(SearchFieldType.RANGE),
 
         source(SearchFieldType.TERM),
-        
+
         ft_sites(SearchFieldType.TERM),
         ftev_sites(SearchFieldType.TERM),
         ftlen_sites(SearchFieldType.RANGE),
@@ -201,15 +209,14 @@ public interface UniProtField {
         ftev_intramem(SearchFieldType.TERM),
         ftlen_intramem(SearchFieldType.RANGE),
 
-
-        xref(SearchFieldType.TERM),    //database cross references
+        xref(SearchFieldType.TERM), // database cross references
         database(SearchFieldType.TERM),
-        lit_author(SearchFieldType.TERM),  //reference author
-        lit_organisation(SearchFieldType.TERM), //reference organisation
-        lit_title(SearchFieldType.TERM), //reference title
-        lit_pubmed(SearchFieldType.TERM), //reference pubmed id
+        lit_author(SearchFieldType.TERM), // reference author
+        lit_organisation(SearchFieldType.TERM), // reference organisation
+        lit_title(SearchFieldType.TERM), // reference title
+        lit_pubmed(SearchFieldType.TERM), // reference pubmed id
         lit_journal(SearchFieldType.TERM),
-        fragment(SearchFieldType.TERM),           // indicates whether the protein has non-terminal endings
+        fragment(SearchFieldType.TERM), // indicates whether the protein has non-terminal endings
         existence(SearchFieldType.TERM),
         is_isoform(SearchFieldType.TERM, FieldValueValidator::isBooleanValue, null),
         length(SearchFieldType.RANGE),
@@ -218,20 +225,19 @@ public interface UniProtField {
         active(SearchFieldType.TERM, FieldValueValidator::isBooleanValue, null),
         d3structure(SearchFieldType.TERM, FieldValueValidator::isBooleanValue, null),
 
-        tissue(SearchFieldType.TERM),  //rc line
-        strain(SearchFieldType.TERM), //rc line
-        plasmid(SearchFieldType.TERM), //rc line
-        transposon(SearchFieldType.TERM), //rc line
-        scope(SearchFieldType.TERM),   //rp line
+        tissue(SearchFieldType.TERM), // rc line
+        strain(SearchFieldType.TERM), // rc line
+        plasmid(SearchFieldType.TERM), // rc line
+        transposon(SearchFieldType.TERM), // rc line
+        scope(SearchFieldType.TERM), // rp line
 
-
-        //subcell location cc
+        // subcell location cc
         cc_scl_term(SearchFieldType.TERM),
         cc_scl_note(SearchFieldType.TERM),
         ccev_scl_term(SearchFieldType.TERM),
         ccev_scl_note(SearchFieldType.TERM),
 
-        //AP
+        // AP
         cc_ap(SearchFieldType.TERM),
         cc_ap_apu(SearchFieldType.TERM),
         cc_ap_as(SearchFieldType.TERM),
@@ -242,7 +248,7 @@ public interface UniProtField {
         ccev_ap_as(SearchFieldType.TERM),
         ccev_ap_ai(SearchFieldType.TERM),
         ccev_ap_rf(SearchFieldType.TERM),
-        //bpcp
+        // bpcp
         cc_bpcp(SearchFieldType.TERM),
         cc_bpcp_absorption(SearchFieldType.TERM),
         cc_bpcp_kinetics(SearchFieldType.TERM),
@@ -255,13 +261,13 @@ public interface UniProtField {
         ccev_bpcp_ph_dependence(SearchFieldType.TERM),
         ccev_bpcp_redox_potential(SearchFieldType.TERM),
         ccev_bpcp_temp_dependence(SearchFieldType.TERM),
-        //cofactor
+        // cofactor
         cc_cofactor_chebi(SearchFieldType.TERM),
         cc_cofactor_note(SearchFieldType.TERM),
         ccev_cofactor_chebi(SearchFieldType.TERM),
         ccev_cofactor_note(SearchFieldType.TERM),
 
-        //sequence caution
+        // sequence caution
         cc_sc(SearchFieldType.TERM),
         cc_sc_framesh(SearchFieldType.TERM),
         cc_sc_einit(SearchFieldType.TERM),
@@ -379,7 +385,10 @@ public interface UniProtField {
             this.boostValue = null;
         }
 
-        Search(SearchFieldType searchFieldType, Predicate<String> fieldValueValidator, BoostValue boostValue) {
+        Search(
+                SearchFieldType searchFieldType,
+                Predicate<String> fieldValueValidator,
+                BoostValue boostValue) {
             this.searchFieldType = searchFieldType;
             this.fieldValueValidator = fieldValueValidator;
             this.boostValue = boostValue;
@@ -404,10 +413,10 @@ public interface UniProtField {
         public String getName() {
             return this.name();
         }
-
     }
 
-    // All the fields for uniprotkb entry object. For filtering using jsonresponse projector.please see class UniProtResultFields
+    // All the fields for uniprotkb entry object. For filtering using jsonresponse projector.please
+    // see class UniProtResultFields
     enum ResultFields implements ReturnField {
         entryType("entryType", true),
         primaryAccession("primaryAccession", true),
@@ -422,21 +431,21 @@ public interface UniProtField {
         gene("genes"),
         comment("comments"),
         feature("features"),
-        gene_location("geneLocations"),
+        organelle("geneLocations"),
         keyword("keywords"),
         reference("references"),
         xref("databaseCrossReferences"),
         sequence("sequence"),
-        internalSection_internal("internalSection", true),
+        internalSection_internal("internalSection"),
         inactiveReason_internal("inactiveReason", true),
+        lineage("lineages"),
         length,
         mass;
-
 
         private String javaFieldName;
         private boolean isMandatoryJsonField;
 
-        ResultFields(){
+        ResultFields() {
             this(null);
         }
 
@@ -467,6 +476,5 @@ public interface UniProtField {
 
     enum Return {
         accession
-
     }
 }

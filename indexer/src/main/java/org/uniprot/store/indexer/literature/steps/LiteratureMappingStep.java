@@ -1,5 +1,7 @@
 package org.uniprot.store.indexer.literature.steps;
 
+import java.io.IOException;
+
 import org.springframework.batch.core.ChunkListener;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.StepExecutionListener;
@@ -25,24 +27,20 @@ import org.uniprot.store.indexer.literature.reader.LiteratureMappingLineMapper;
 import org.uniprot.store.search.SolrCollection;
 import org.uniprot.store.search.document.literature.LiteratureDocument;
 
-import java.io.IOException;
-
 /**
  * IMPORTANT: literature mapping file must be sorted by pubmed id, before start the index proccess
- * <p>
- * The command to sort is this: sort -k 3 add_bibl_info.tb > pir_map.txt
- * PIR mapping source: ftp://ftp.pir.georgetown.edu/databases/idmapping/.add_bibl_info/add_bibl_info.tb.gz
+ *
+ * <p>The command to sort is this: sort -k 3 add_bibl_info.tb > pir_map.txt PIR mapping source:
+ * ftp://ftp.pir.georgetown.edu/databases/idmapping/.add_bibl_info/add_bibl_info.tb.gz
  *
  * @author lgonzales
  */
 @Configuration
 public class LiteratureMappingStep {
 
-    @Autowired
-    private StepBuilderFactory steps;
+    @Autowired private StepBuilderFactory steps;
 
-    @Autowired
-    private UniProtSolrOperations solrOperations;
+    @Autowired private UniProtSolrOperations solrOperations;
 
     @Value(("${ds.import.chunk.size}"))
     private Integer chunkSize;
@@ -51,12 +49,18 @@ public class LiteratureMappingStep {
     private Resource literatureMappingFile;
 
     @Bean(name = "LiteratureMappingStep")
-    public Step indexLiteratureMapping(StepExecutionListener stepListener, ChunkListener chunkListener,
-                                       @Qualifier("LiteratureMappingReader") ItemReader<LiteratureEntry> literatureMappingReader,
-                                       @Qualifier("LiteratureMappingProcessor") ItemProcessor<LiteratureEntry, LiteratureDocument> literatureMappingProcessor,
-                                       @Qualifier("LiteratureMappingWriter") ItemWriter<LiteratureDocument> literatureMappingWriter,
-                                       UniProtSolrOperations solrOperations) {
-        return this.steps.get(Constants.LITERATURE_MAPPING_INDEX_STEP)
+    public Step indexLiteratureMapping(
+            StepExecutionListener stepListener,
+            ChunkListener chunkListener,
+            @Qualifier("LiteratureMappingReader")
+                    ItemReader<LiteratureEntry> literatureMappingReader,
+            @Qualifier("LiteratureMappingProcessor")
+                    ItemProcessor<LiteratureEntry, LiteratureDocument> literatureMappingProcessor,
+            @Qualifier("LiteratureMappingWriter")
+                    ItemWriter<LiteratureDocument> literatureMappingWriter,
+            UniProtSolrOperations solrOperations) {
+        return this.steps
+                .get(Constants.LITERATURE_MAPPING_INDEX_STEP)
                 .<LiteratureEntry, LiteratureDocument>chunk(chunkSize)
                 .reader(literatureMappingReader)
                 .processor(literatureMappingProcessor)
@@ -87,5 +91,4 @@ public class LiteratureMappingStep {
     public ItemProcessor<LiteratureEntry, LiteratureDocument> literatureMappingProcessor() {
         return new LiteratureMappingProcessor(this.solrOperations);
     }
-
 }

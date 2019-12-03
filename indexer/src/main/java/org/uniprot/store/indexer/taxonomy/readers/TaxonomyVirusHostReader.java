@@ -1,15 +1,13 @@
 package org.uniprot.store.indexer.taxonomy.readers;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 import org.springframework.jdbc.core.RowMapper;
 import org.uniprot.core.uniprot.taxonomy.Taxonomy;
 import org.uniprot.core.uniprot.taxonomy.builder.TaxonomyBuilder;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-
-/**
- * @author lgonzales
- */
+/** @author lgonzales */
 public class TaxonomyVirusHostReader implements RowMapper<Taxonomy> {
 
     @Override

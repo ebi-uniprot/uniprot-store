@@ -1,5 +1,11 @@
 package org.uniprot.store.indexer.crossref;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
+import java.io.IOException;
+import java.util.HashMap;
+
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.batch.core.JobExecution;
@@ -8,12 +14,6 @@ import org.uniprot.core.crossref.CrossRefEntry;
 import org.uniprot.store.indexer.common.utils.Constants;
 import org.uniprot.store.indexer.crossref.readers.CrossRefReader;
 
-import java.io.IOException;
-import java.util.HashMap;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-
 class CrossRefReaderTest {
     private static final String DBXREF_PATH = "crossref/test-dbxref.txt";
     private static CrossRefReader reader;
@@ -21,7 +21,9 @@ class CrossRefReaderTest {
     @BeforeAll
     static void setReader() throws IOException {
         JobExecution jobExecution = new JobExecution(1L);
-        jobExecution.getExecutionContext().put(Constants.CROSS_REF_PROTEIN_COUNT_KEY, new HashMap<>());
+        jobExecution
+                .getExecutionContext()
+                .put(Constants.CROSS_REF_PROTEIN_COUNT_KEY, new HashMap<>());
         StepExecution stepExecution = new StepExecution("cross-ref-reader", jobExecution);
         reader = new CrossRefReader(DBXREF_PATH);
         reader.getCrossRefProteinCountMap(stepExecution);

@@ -890,7 +890,7 @@
 						"id": "id_sc",
 						"label": "Any",
 						"itemType": "comment",
-						"term": "sc",
+						"term": "sequence_caution",
 						"dataType": "string",
 						"hasEvidence": true,
 						"description": "Search by Comment Sequence caution",

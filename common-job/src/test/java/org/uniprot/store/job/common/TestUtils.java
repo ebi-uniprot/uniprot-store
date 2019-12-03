@@ -6,8 +6,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Profile;
 
 /**
- * Used in integration tests to run Spring Batch jobs
- * Created 29/07/19
+ * Used in integration tests to run Spring Batch jobs Created 29/07/19
  *
  * @author Edd
  */

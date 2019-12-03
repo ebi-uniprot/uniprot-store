@@ -1,5 +1,18 @@
 package org.uniprot.store.datastore.uniprotkb;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.*;
+import static org.uniprot.store.datastore.utils.Constants.UNIPROTKB_STORE_JOB;
+import static org.uniprot.store.datastore.utils.Constants.UNIPROTKB_STORE_STEP;
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.Collection;
+import java.util.Set;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collectors;
+
 import org.hamcrest.CoreMatchers;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -14,26 +27,12 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.uniprot.core.uniprot.UniProtEntry;
 import org.uniprot.store.datastore.UniProtStoreClient;
 import org.uniprot.store.datastore.test.FakeStoreSpringBootApplication;
-import org.uniprot.store.datastore.uniprotkb.UniProtKBJob;
 import org.uniprot.store.datastore.uniprotkb.config.StoreTestConfig;
 import org.uniprot.store.datastore.uniprotkb.config.UniProtKBStoreProperties;
 import org.uniprot.store.datastore.uniprotkb.step.UniProtKBStep;
 import org.uniprot.store.job.common.TestUtils;
 import org.uniprot.store.job.common.listener.ListenerConfig;
 import org.uniprot.store.job.common.util.CommonConstants;
-
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.Collection;
-import java.util.Set;
-import java.util.concurrent.atomic.AtomicInteger;
-import java.util.stream.Collectors;
-
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
-import static org.uniprot.store.datastore.utils.Constants.UNIPROTKB_STORE_JOB;
-import static org.uniprot.store.datastore.utils.Constants.UNIPROTKB_STORE_STEP;
 
 /**
  * Created 28/07/19
@@ -42,22 +41,27 @@ import static org.uniprot.store.datastore.utils.Constants.UNIPROTKB_STORE_STEP;
  */
 @ActiveProfiles(profiles = {"job", "offline"})
 @ExtendWith(SpringExtension.class)
-@SpringBootTest(classes = {StoreTestConfig.class, TestUtils.class, FakeStoreSpringBootApplication.class, UniProtKBJob.class,
-                           UniProtKBStep.class, ListenerConfig.class})
+@SpringBootTest(
+        classes = {
+            StoreTestConfig.class,
+            TestUtils.class,
+            FakeStoreSpringBootApplication.class,
+            UniProtKBJob.class,
+            UniProtKBStep.class,
+            ListenerConfig.class
+        })
 class UniProtKBJobIT {
-    @Autowired
-    private JobLauncherTestUtils jobLauncher;
+    @Autowired private JobLauncherTestUtils jobLauncher;
 
-    @Autowired
-    private UniProtKBStoreProperties uniProtKBStoreProperties;
+    @Autowired private UniProtKBStoreProperties uniProtKBStoreProperties;
 
-    @Autowired
-    private UniProtStoreClient<UniProtEntry> uniProtKBStoreClient;
+    @Autowired private UniProtStoreClient<UniProtEntry> uniProtKBStoreClient;
 
     @Test
     void testUniProtKBStoreJob() throws Exception {
         JobExecution jobExecution = jobLauncher.launchJob();
-        assertThat(jobExecution.getJobInstance().getJobName(), CoreMatchers.is(UNIPROTKB_STORE_JOB));
+        assertThat(
+                jobExecution.getJobInstance().getJobName(), CoreMatchers.is(UNIPROTKB_STORE_JOB));
 
         BatchStatus status = jobExecution.getStatus();
         assertThat(status, is(BatchStatus.COMPLETED));
@@ -68,11 +72,14 @@ class UniProtKBJobIT {
         checkUniProtKBStoreStep(jobExecution, stepExecutions);
     }
 
-    private void checkUniProtKBStoreStep(JobExecution jobExecution, Collection<StepExecution> stepExecutions)
+    private void checkUniProtKBStoreStep(
+            JobExecution jobExecution, Collection<StepExecution> stepExecutions)
             throws IOException {
-        StepExecution kbStep = stepExecutions.stream()
-                .filter(step -> step.getStepName().equals(UNIPROTKB_STORE_STEP))
-                .collect(Collectors.toList()).get(0);
+        StepExecution kbStep =
+                stepExecutions.stream()
+                        .filter(step -> step.getStepName().equals(UNIPROTKB_STORE_STEP))
+                        .collect(Collectors.toList())
+                        .get(0);
 
         assertThat(kbStep.getReadCount(), is(5));
         checkWriteCount(jobExecution, CommonConstants.FAILED_ENTRIES_COUNT_KEY, 0);
@@ -83,8 +90,8 @@ class UniProtKBJobIT {
         assertThat(sourceAccessions, hasSize(5));
 
         // check that they all were saved in the store client
-        sourceAccessions
-                .forEach(acc -> assertThat(uniProtKBStoreClient.getEntry(acc), is(notNullValue())));
+        sourceAccessions.forEach(
+                acc -> assertThat(uniProtKBStoreClient.getEntry(acc), is(notNullValue())));
     }
 
     private Set<String> readSourceAccessions() throws IOException {
@@ -94,9 +101,11 @@ class UniProtKBJobIT {
                 .collect(Collectors.toSet());
     }
 
-    private void checkWriteCount(JobExecution jobExecution, String uniprotkbIndexFailedEntriesCountKey, int i) {
-        AtomicInteger failedCountAI = (AtomicInteger) jobExecution.getExecutionContext()
-                .get(uniprotkbIndexFailedEntriesCountKey);
+    private void checkWriteCount(
+            JobExecution jobExecution, String uniprotkbIndexFailedEntriesCountKey, int i) {
+        AtomicInteger failedCountAI =
+                (AtomicInteger)
+                        jobExecution.getExecutionContext().get(uniprotkbIndexFailedEntriesCountKey);
         assertThat(failedCountAI, CoreMatchers.is(CoreMatchers.notNullValue()));
         assertThat(failedCountAI.get(), CoreMatchers.is(i));
     }

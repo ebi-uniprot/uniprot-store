@@ -1,11 +1,11 @@
 package org.uniprot.store.indexer.subcell;
 
-import org.springframework.batch.item.ItemReader;
-import org.uniprot.core.cv.subcell.SubcellularLocationFileReader;
-import org.uniprot.core.cv.subcell.SubcellularLocationEntry;
-
 import java.io.IOException;
 import java.util.Iterator;
+
+import org.springframework.batch.item.ItemReader;
+import org.uniprot.core.cv.subcell.SubcellularLocationEntry;
+import org.uniprot.core.cv.subcell.SubcellularLocationFileReader;
 
 /**
  * @author lgonzales
@@ -15,7 +15,8 @@ public class SubcellularLocationLoadItemReader implements ItemReader<Subcellular
     private Iterator<SubcellularLocationEntry> subcellularLocationIterator;
 
     public SubcellularLocationLoadItemReader(String filePath) throws IOException {
-        SubcellularLocationFileReader subcellularLocationFileReader = new SubcellularLocationFileReader();
+        SubcellularLocationFileReader subcellularLocationFileReader =
+                new SubcellularLocationFileReader();
         this.subcellularLocationIterator = subcellularLocationFileReader.parse(filePath).iterator();
     }
 
@@ -26,5 +27,4 @@ public class SubcellularLocationLoadItemReader implements ItemReader<Subcellular
         }
         return null;
     }
-
 }

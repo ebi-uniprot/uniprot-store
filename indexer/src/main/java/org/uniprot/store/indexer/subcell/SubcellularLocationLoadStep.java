@@ -1,5 +1,7 @@
 package org.uniprot.store.indexer.subcell;
 
+import java.io.IOException;
+
 import org.springframework.batch.core.ChunkListener;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.StepExecutionListener;
@@ -19,8 +21,6 @@ import org.uniprot.store.indexer.common.writer.SolrDocumentWriter;
 import org.uniprot.store.search.SolrCollection;
 import org.uniprot.store.search.document.subcell.SubcellularLocationDocument;
 
-import java.io.IOException;
-
 /**
  * @author lgonzales
  * @since 2019-07-11
@@ -28,11 +28,9 @@ import java.io.IOException;
 @Configuration
 public class SubcellularLocationLoadStep {
 
-    @Autowired
-    private StepBuilderFactory steps;
+    @Autowired private StepBuilderFactory steps;
 
-    @Autowired
-    private UniProtSolrOperations solrOperations;
+    @Autowired private UniProtSolrOperations solrOperations;
 
     @Value(("${ds.import.chunk.size}"))
     private Integer chunkSize;
@@ -41,11 +39,18 @@ public class SubcellularLocationLoadStep {
     private String filePath;
 
     @Bean(name = "IndexSubcellularLocationStep")
-    public Step indexSubcellularLocation(StepExecutionListener stepListener, ChunkListener chunkListener,
-                                         @Qualifier("SubcellularLocationReader") ItemReader<SubcellularLocationEntry> subcellularLocationReader,
-                                         @Qualifier("SubcellularLocationProcessor") ItemProcessor<SubcellularLocationEntry, SubcellularLocationDocument> subcellularLocationProcessor,
-                                         @Qualifier("SubcellularLocationWriter") ItemWriter<SubcellularLocationDocument> subcellularLocationWriter) {
-        return this.steps.get(Constants.SUBCELLULAR_LOCATION_INDEX_STEP)
+    public Step indexSubcellularLocation(
+            StepExecutionListener stepListener,
+            ChunkListener chunkListener,
+            @Qualifier("SubcellularLocationReader")
+                    ItemReader<SubcellularLocationEntry> subcellularLocationReader,
+            @Qualifier("SubcellularLocationProcessor")
+                    ItemProcessor<SubcellularLocationEntry, SubcellularLocationDocument>
+                            subcellularLocationProcessor,
+            @Qualifier("SubcellularLocationWriter")
+                    ItemWriter<SubcellularLocationDocument> subcellularLocationWriter) {
+        return this.steps
+                .get(Constants.SUBCELLULAR_LOCATION_INDEX_STEP)
                 .<SubcellularLocationEntry, SubcellularLocationDocument>chunk(this.chunkSize)
                 .reader(subcellularLocationReader)
                 .processor(subcellularLocationProcessor)
@@ -66,8 +71,8 @@ public class SubcellularLocationLoadStep {
     }
 
     @Bean(name = "SubcellularLocationProcessor")
-    public ItemProcessor<SubcellularLocationEntry, SubcellularLocationDocument> subcellularLocationProcessor() {
+    public ItemProcessor<SubcellularLocationEntry, SubcellularLocationDocument>
+            subcellularLocationProcessor() {
         return new SubcellularLocationLoadProcessor();
     }
-
 }

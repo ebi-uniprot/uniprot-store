@@ -1,12 +1,15 @@
 package org.uniprot.store.search.document.subcell;
 
-import lombok.Builder;
-import lombok.Getter;
-import org.apache.solr.client.solrj.beans.Field;
-import org.uniprot.store.search.document.Document;
-
 import java.nio.ByteBuffer;
 import java.util.List;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
+import org.apache.solr.client.solrj.beans.Field;
+import org.uniprot.store.search.document.Document;
 
 /**
  * @author lgonzales
@@ -14,19 +17,17 @@ import java.util.List;
  */
 @Getter
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class SubcellularLocationDocument implements Document {
 
-    @Field
-    private String id;
+    @Field private String id;
 
-    @Field
-    private String name;
+    @Field private String name;
 
-    @Field
-    private String category;
+    @Field private String category;
 
-    @Field
-    private List<String> content;
+    @Field private List<String> content;
 
     @Field("subcellularlocation_obj")
     private ByteBuffer subcellularlocationObj;

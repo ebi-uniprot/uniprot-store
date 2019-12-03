@@ -22,6 +22,7 @@ import org.uniprot.store.search.document.proteome.ProteomeDocument;
 @Configuration
 public class ProteomeIndexStep {
     private final StepBuilderFactory stepBuilderFactory;
+
     @Value(("${solr.indexing.chunkSize}"))
     private int chunkSize = 100;
 
@@ -36,7 +37,8 @@ public class ProteomeIndexStep {
             ChunkListener chunkListener,
             @Qualifier("proteomeXmlReader") ItemReader<Proteome> itemReader,
             @Qualifier("proteomeGeneCentricItemWriter") CompositeItemWriter<Proteome> itemWriter) {
-        return this.stepBuilderFactory.get("Proteome_Index_Step")
+        return this.stepBuilderFactory
+                .get("Proteome_Index_Step")
                 .<Proteome, Proteome>chunk(chunkSize)
                 .reader(itemReader)
                 .writer(itemWriter)
@@ -46,4 +48,3 @@ public class ProteomeIndexStep {
                 .build();
     }
 }
-

@@ -481,11 +481,11 @@
 		stored="false" required="false" multiValued="false" />
 	<field name="reviewed" type="boolean" indexed="true"
 		stored="false" required="false" multiValued="false" />
-	<field name="modified" type="date" indexed="true" stored="false"
+	<field name="modified" type="rdates" indexed="true"
+		stored="false" required="false" />
+	<field name="created" type="rdates" indexed="true" stored="false"
 		required="false" />
-	<field name="created" type="date" indexed="true" stored="false"
-		required="false" />
-	<field name="sequence_modified" type="date" indexed="true"
+	<field name="sequence_modified" type="rdates" indexed="true"
 		stored="false" required="false" />
 
 	<field name="source" type="lowercase" indexed="true"
@@ -693,7 +693,7 @@
 
 	<field name="lit_title" type="full_ci" indexed="true"
 		stored="false" required="false" multiValued="true" />
-	<field name="lit_pubdate" type="date" indexed="true"
+	<field name="lit_pubdate" type="rdates" indexed="true"
 		stored="false" required="false" multiValued="true" />
 
 	<field name="lit_pubmed" type="string" indexed="true"
@@ -943,40 +943,4 @@
 		</analyzer>
 	</fieldType>
 	<!-- End of UJDK type definitions -->
-
-	<fieldType name="suggester_ci" class="solr.TextField"
-		sortMissingLast="true" omitNorms="true" positionIncrementGap="100">
-		<!-- defined for index and query time -->
-		<analyzer type="index">
-			<charFilter class="solr.PatternReplaceCharFilterFactory"
-				pattern="(/|-)" replacement=" " />
-			<charFilter class="solr.PatternReplaceCharFilterFactory"
-				pattern="(')" replacement="" />
-			<charFilter class="solr.PatternReplaceCharFilterFactory"
-				pattern="^([A-Za-z0-9_]+)\.([0-9]+)$" replacement="$1.$2 $1" />
-			<tokenizer class="solr.ClassicTokenizerFactory" />
-			<filter class="solr.LowerCaseFilterFactory" />
-			<filter class="solr.SynonymGraphFilterFactory"
-				synonyms="synonyms.txt" ignoreCase="true" expand="false" />
-			<filter class="solr.StopFilterFactory" words="stopwords.txt"
-				ignoreCase="true" />
-			<filter class="solr.PorterStemFilterFactory" />
-			<filter class="solr.RemoveDuplicatesTokenFilterFactory" />
-			<filter class="solr.FlattenGraphFilterFactory" />
-		</analyzer>
-		<analyzer type="query">
-			<charFilter class="solr.PatternReplaceCharFilterFactory"
-				pattern="(/|-)" replacement=" " />
-			<charFilter class="solr.PatternReplaceCharFilterFactory"
-				pattern="(')" replacement="" />
-			<tokenizer class="solr.ClassicTokenizerFactory" />
-			<filter class="solr.LowerCaseFilterFactory" />
-			<filter class="solr.SynonymGraphFilterFactory"
-				synonyms="synonyms.txt" ignoreCase="true" expand="false" />
-			<filter class="solr.StopFilterFactory" words="stopwords.txt"
-				ignoreCase="true" />
-			<filter class="solr.PorterStemFilterFactory" />
-			<filter class="solr.RemoveDuplicatesTokenFilterFactory" />
-		</analyzer>
-	</fieldType>
 </schema>

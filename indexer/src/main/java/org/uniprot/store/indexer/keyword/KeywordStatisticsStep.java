@@ -1,5 +1,9 @@
 package org.uniprot.store.indexer.keyword;
 
+import java.sql.SQLException;
+
+import javax.sql.DataSource;
+
 import org.springframework.batch.core.ChunkListener;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.StepExecutionListener;
@@ -19,12 +23,7 @@ import org.uniprot.store.indexer.common.writer.SolrDocumentWriter;
 import org.uniprot.store.search.SolrCollection;
 import org.uniprot.store.search.document.keyword.KeywordDocument;
 
-import javax.sql.DataSource;
-import java.sql.SQLException;
-
-/**
- * @author lgonzales
- */
+/** @author lgonzales */
 @Configuration
 public class KeywordStatisticsStep {
 
@@ -32,13 +31,17 @@ public class KeywordStatisticsStep {
     private Integer chunkSize;
 
     @Bean(name = "keywordStatistics")
-    public Step keywordStatistics(StepBuilderFactory stepBuilders, StepExecutionListener stepListener,
-                                  ChunkListener chunkListener,
-                                  ItemReader<KeywordStatisticsReader.KeywordCount> itemKeywordStatisticsReader,
-                                  ItemProcessor<KeywordStatisticsReader.KeywordCount, KeywordDocument> itemKeywordStatisticsProcessor,
-                                  ItemWriter<KeywordDocument> itemKeywordStatisticsWriter,
-                                  UniProtSolrOperations solrOperations) {
-        return stepBuilders.get(Constants.KEYWORD_LOAD_STATISTICS_STEP_NAME)
+    public Step keywordStatistics(
+            StepBuilderFactory stepBuilders,
+            StepExecutionListener stepListener,
+            ChunkListener chunkListener,
+            ItemReader<KeywordStatisticsReader.KeywordCount> itemKeywordStatisticsReader,
+            ItemProcessor<KeywordStatisticsReader.KeywordCount, KeywordDocument>
+                    itemKeywordStatisticsProcessor,
+            ItemWriter<KeywordDocument> itemKeywordStatisticsWriter,
+            UniProtSolrOperations solrOperations) {
+        return stepBuilders
+                .get(Constants.KEYWORD_LOAD_STATISTICS_STEP_NAME)
                 .<KeywordStatisticsReader.KeywordCount, KeywordDocument>chunk(chunkSize)
                 .reader(itemKeywordStatisticsReader)
                 .processor(itemKeywordStatisticsProcessor)
@@ -50,8 +53,10 @@ public class KeywordStatisticsStep {
     }
 
     @Bean(name = "itemKeywordStatisticsReader")
-    public ItemReader<KeywordStatisticsReader.KeywordCount> itemKeywordStatisticsReader(@Qualifier("readDataSource") DataSource readDataSource) throws SQLException {
-        JdbcCursorItemReader<KeywordStatisticsReader.KeywordCount> itemReader = new JdbcCursorItemReader<>();
+    public ItemReader<KeywordStatisticsReader.KeywordCount> itemKeywordStatisticsReader(
+            @Qualifier("readDataSource") DataSource readDataSource) throws SQLException {
+        JdbcCursorItemReader<KeywordStatisticsReader.KeywordCount> itemReader =
+                new JdbcCursorItemReader<>();
         itemReader.setDataSource(readDataSource);
         itemReader.setSql(getStatisticsSQL());
         itemReader.setRowMapper(new KeywordStatisticsReader());
@@ -60,17 +65,18 @@ public class KeywordStatisticsStep {
     }
 
     @Bean(name = "itemKeywordStatisticsProcessor")
-    public ItemProcessor<KeywordStatisticsReader.KeywordCount, KeywordDocument> itemKeywordStatisticsProcessor() {
+    public ItemProcessor<KeywordStatisticsReader.KeywordCount, KeywordDocument>
+            itemKeywordStatisticsProcessor() {
         return new KeywordStatisticsProcessor();
     }
 
     @Bean(name = "itemKeywordStatisticsWriter")
-    public ItemWriter<KeywordDocument> itemKeywordStatisticsWriter(UniProtSolrOperations solrOperations) {
+    public ItemWriter<KeywordDocument> itemKeywordStatisticsWriter(
+            UniProtSolrOperations solrOperations) {
         return new SolrDocumentWriter<>(solrOperations, SolrCollection.keyword);
     }
 
     protected String getStatisticsSQL() {
         return KeywordSQLConstants.KEYWORD_STATISTICS_URL;
     }
-
 }

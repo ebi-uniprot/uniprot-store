@@ -1,7 +1,13 @@
 package org.uniprot.store.indexer.keyword;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import java.nio.ByteBuffer;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
 import org.springframework.batch.item.ItemProcessor;
 import org.springframework.data.solr.core.query.Criteria;
 import org.springframework.data.solr.core.query.Query;
@@ -14,17 +20,10 @@ import org.uniprot.store.indexer.common.config.UniProtSolrOperations;
 import org.uniprot.store.search.SolrCollection;
 import org.uniprot.store.search.document.keyword.KeywordDocument;
 
-import java.nio.ByteBuffer;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
-/**
- * @author lgonzales
- */
+/** @author lgonzales */
 public class KeywordLoadProcessor implements ItemProcessor<KeywordEntry, KeywordDocument> {
 
     private final ObjectMapper keywordObjectMapper;
@@ -39,18 +38,22 @@ public class KeywordLoadProcessor implements ItemProcessor<KeywordEntry, Keyword
     public KeywordDocument process(KeywordEntry entry) throws Exception {
         KeywordEntryImpl keywordEntry = (KeywordEntryImpl) entry;
 
-        Query query = new SimpleQuery().addCriteria(Criteria.where("id").is(keywordEntry.getKeyword().getAccession()));
-        Optional<KeywordDocument> optionalDocument = solrOperations
-                .queryForObject(SolrCollection.keyword.name(), query, KeywordDocument.class);
+        Query query =
+                new SimpleQuery()
+                        .addCriteria(
+                                Criteria.where("id").is(keywordEntry.getKeyword().getAccession()));
+        Optional<KeywordDocument> optionalDocument =
+                solrOperations.queryForObject(
+                        SolrCollection.keyword.name(), query, KeywordDocument.class);
         if (optionalDocument.isPresent()) {
             KeywordDocument document = optionalDocument.get();
 
             byte[] keywordObj = document.getKeywordObj().array();
-            KeywordEntry statisticsEntry = keywordObjectMapper.readValue(keywordObj, KeywordEntryImpl.class);
+            KeywordEntry statisticsEntry =
+                    keywordObjectMapper.readValue(keywordObj, KeywordEntryImpl.class);
             keywordEntry.setStatistics(statisticsEntry.getStatistics());
         }
         return createKeywordDocument(keywordEntry);
-
     }
 
     private KeywordDocument createKeywordDocument(KeywordEntryImpl keywordEntry) {
@@ -70,15 +73,17 @@ public class KeywordLoadProcessor implements ItemProcessor<KeywordEntry, Keyword
         builder.content(content);
 
         if (!keywordEntry.getParents().isEmpty()) {
-            List<String> parents = keywordEntry.getParents().stream()
-                    .flatMap(this::getParentStream)
-                    .collect(Collectors.toList());
+            List<String> parents =
+                    keywordEntry.getParents().stream()
+                            .flatMap(this::getParentStream)
+                            .collect(Collectors.toList());
             builder.parent(parents); // only one level
 
-            List<String> ancestors = keywordEntry.getParents().stream()
-                    .flatMap(this::getAncestorsStrem)
-                    .collect(Collectors.toList());
-            builder.ancestor(ancestors); //recursively navigate over parents...
+            List<String> ancestors =
+                    keywordEntry.getParents().stream()
+                            .flatMap(this::getAncestorsStrem)
+                            .collect(Collectors.toList());
+            builder.ancestor(ancestors); // recursively navigate over parents...
         }
 
         byte[] keywordByte = getKeywordObjectBinary(keywordEntry);
@@ -93,7 +98,8 @@ public class KeywordLoadProcessor implements ItemProcessor<KeywordEntry, Keyword
 
     private Stream<String> getAncestorsStrem(KeywordEntry kwEntry) {
         Stream<String> currentParent = getParentStream(kwEntry);
-        Stream<String> parentsStream = kwEntry.getParents().stream().flatMap(this::getAncestorsStrem); //recursive call
+        Stream<String> parentsStream =
+                kwEntry.getParents().stream().flatMap(this::getAncestorsStrem); // recursive call
         return Stream.concat(currentParent, parentsStream);
     }
 
@@ -104,5 +110,4 @@ public class KeywordLoadProcessor implements ItemProcessor<KeywordEntry, Keyword
             throw new RuntimeException("Unable to parse Keyword to binary json: ", e);
         }
     }
-
 }
