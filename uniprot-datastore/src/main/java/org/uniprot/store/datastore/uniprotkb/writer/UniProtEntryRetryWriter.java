@@ -45,7 +45,7 @@ public class UniProtEntryRetryWriter extends ItemRetryWriter<UniProtEntry, UniPr
     private UniProtEntry addAnnotationScore(UniProtEntry entry) {
         UniProtEntryScored entryScored = new UniProtEntryScored(entry);
         double score = entryScored.score();
-        UniProtEntryBuilder.ActiveEntryBuilder builder = new UniProtEntryBuilder().from(entry);
+        UniProtEntryBuilder builder = UniProtEntryBuilder.fromInstance(entry);
         builder.annotationScore(score);
         return builder.build();
     }
