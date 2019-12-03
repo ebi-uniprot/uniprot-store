@@ -119,7 +119,7 @@ class UniProtEntryConverterTest {
     void convertIdDefaultForTrEMBLIncludesSpeciesButNotAccession() {
         // given
         String species = "SPECIES";
-        UniProtEntry entry = UniProtEntry entry = new UniProtEntryBuilder("P12345", "ACCESSION_" + species, UniProtEntryType.TREMBL)
+        UniProtEntry entry = new UniProtEntryBuilder("P12345", "ACCESSION_" + species, UniProtEntryType.TREMBL)
                         .sequence(new SequenceImpl("AAAAA"))
                         .build();
 
