@@ -1,15 +1,14 @@
 package org.uniprot.store.search.domain2;
 
-import java.util.*;
-import java.util.stream.Collectors;
-
+import com.fasterxml.jackson.databind.JavaType;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.module.SimpleModule;
 import org.uniprot.core.util.Utils;
 import org.uniprot.store.search.domain2.impl.SearchFieldImpl;
 import org.uniprot.store.search.domain2.impl.SearchItemImpl;
 
-import com.fasterxml.jackson.databind.JavaType;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.module.SimpleModule;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * This class is responsible for loading {@link SearchField} instances from a given JSON source.
@@ -18,8 +17,7 @@ import com.fasterxml.jackson.databind.module.SimpleModule;
  *
  * @author Edd
  */
-public class SearchFieldsLoader implements SearchItems, SearchFields {
-    private List<SearchItem> searchItems = new ArrayList<>();
+public class SearchFieldsLoader implements SearchFields {
     private Set<SearchField> searchFields = new HashSet<>();
     private Set<SearchField> sortFields;
 
@@ -32,11 +30,6 @@ public class SearchFieldsLoader implements SearchItems, SearchFields {
         JavaType type =
                 mapper.getTypeFactory().constructCollectionType(List.class, SearchItem.class);
         List<SearchItem> allItems = JsonLoader.loadItems(fileName, mapper, type);
-
-        // search items (used by front-end)
-        allItems.stream()
-                .filter(item -> Utils.notNullOrEmpty(item.getLabel()))
-                .forEach(searchItems::add);
 
         // all search fields used in application code
         List<SearchField> allSearchFields = extractSearchFields(allItems);
@@ -156,11 +149,6 @@ public class SearchFieldsLoader implements SearchItems, SearchFields {
     @Override
     public Set<SearchField> getSortFields() {
         return sortFields;
-    }
-
-    @Override
-    public List<SearchItem> getSearchItems() {
-        return searchItems;
     }
 
     private static ObjectMapper getJsonMapper() {
