@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test;
 import org.uniprot.core.citation.Author;
 import org.uniprot.core.citation.impl.AuthorImpl;
 import org.uniprot.core.uniprot.UniProtEntry;
+import org.uniprot.core.uniprot.UniProtEntryType;
 import org.uniprot.core.uniprot.builder.UniProtAccessionBuilder;
 import org.uniprot.core.uniprot.builder.UniProtEntryBuilder;
 import org.uniprot.core.uniprot.comment.APIsoform;
@@ -146,12 +147,7 @@ class UniProtEntryConverterUtilTest {
 
     @Test
     void isCanonicalIsoformNotCannonical() {
-        UniProtEntry entry =
-                new UniProtEntryBuilder()
-                        .primaryAccession(new UniProtAccessionBuilder("P12345").build())
-                        .uniProtId(null)
-                        .active()
-                        .build();
+        UniProtEntry entry = new UniProtEntryBuilder("P12345", "id", UniProtEntryType.TREMBL).build();
 
         boolean isCanonical = UniProtEntryConverterUtil.isCanonicalIsoform(entry);
         assertFalse(isCanonical);
@@ -167,13 +163,8 @@ class UniProtEntryConverterUtilTest {
 
         AlternativeProductsComment comment = new APCommentBuilder().addIsoform(isoform).build();
 
-        UniProtEntry entry =
-                new UniProtEntryBuilder()
-                        .primaryAccession(new UniProtAccessionBuilder("P12345").build())
-                        .uniProtId(null)
-                        .active()
-                        .addComment(comment)
-                        .build();
+        UniProtEntry entry = new UniProtEntryBuilder("P12345", "id", UniProtEntryType.SWISSPROT)
+                .commentAdd(comment).build();
 
         boolean isCanonical = UniProtEntryConverterUtil.isCanonicalIsoform(entry);
         assertTrue(isCanonical);
