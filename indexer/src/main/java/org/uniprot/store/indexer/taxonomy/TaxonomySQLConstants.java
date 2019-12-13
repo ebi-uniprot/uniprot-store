@@ -23,7 +23,7 @@ public class TaxonomySQLConstants {
                     + "                 GROUP BY proteome_Taxid) pr ON pr.proteome_Taxid = u.TAX_ID"
                     + " LEFT JOIN (SELECT proteome_Taxid, count(*) as completeProteomeCount"
                     + "                 FROM SPTR.proteome"
-                    + "                 WHERE publish=1 and IS_COMPLETE = 1"
+                    + "                 WHERE publish=1 and ((IS_REDUNDANT=0 OR COVERABLE_BY_REDUNDANCY=0)  and IS_EXCLUDED=0)"
                     + "                 GROUP BY proteome_Taxid) pc ON pc.proteome_Taxid = u.TAX_ID";
 
     public static final String SELECT_TAXONOMY_STRAINS_SQL =
