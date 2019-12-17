@@ -30,9 +30,8 @@ public class SubcellularLocationJob {
             JobExecutionListener jobListener) {
         return this.jobs
                 .get(Constants.SUBCELLULAR_LOCATION_LOAD_JOB_NAME)
-                .start(
-                        subcellularLocationStatistics) // index the subcellular location statistics
-                                                       // only
+                .start(subcellularLocationStatistics) // index the subcellular location statistics
+                // only
                 .next(indexSubcellularLocation) // index subcellular location entry
                 .listener(jobListener)
                 .build();

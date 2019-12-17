@@ -5,8 +5,8 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
-import org.uniprot.core.literature.LiteratureEntry;
 import org.uniprot.core.literature.LiteratureMappedReference;
+import org.uniprot.core.literature.LiteratureStoreEntry;
 
 /** @author lgonzales */
 class LiteratureMappingLineMapperTest {
@@ -16,10 +16,11 @@ class LiteratureMappingLineMapperTest {
         String entryText =
                 "X5FSX0\tGAD\t1358782\t126289\t[Pathology & Biotech]Not Associated with PSYCH: schizophrenia.";
         LiteratureMappingLineMapper mapper = new LiteratureMappingLineMapper();
-        LiteratureEntry entry = mapper.mapLine(entryText, 1);
+        LiteratureStoreEntry entry = mapper.mapLine(entryText, 1);
 
-        assertTrue(entry.hasPubmedId());
-        assertEquals(entry.getPubmedId(), 1358782L);
+        assertTrue(entry.hasLiteratureEntry());
+        assertTrue(entry.getLiteratureEntry().hasPubmedId());
+        assertEquals(entry.getLiteratureEntry().getPubmedId(), 1358782L);
 
         assertTrue(entry.hasLiteratureMappedReferences());
         assertEquals(entry.getLiteratureMappedReferences().size(), 1);
@@ -48,10 +49,11 @@ class LiteratureMappingLineMapperTest {
         String entryText =
                 "X5FSX0\tGAD\t1358782\t126289\tNot Associated with PSYCH: schizophrenia.";
         LiteratureMappingLineMapper mapper = new LiteratureMappingLineMapper();
-        LiteratureEntry entry = mapper.mapLine(entryText, 1);
+        LiteratureStoreEntry entry = mapper.mapLine(entryText, 1);
 
-        assertTrue(entry.hasPubmedId());
-        assertEquals(entry.getPubmedId(), 1358782L);
+        assertTrue(entry.hasLiteratureEntry());
+        assertTrue(entry.getLiteratureEntry().hasPubmedId());
+        assertEquals(entry.getLiteratureEntry().getPubmedId(), 1358782L);
 
         assertTrue(entry.hasLiteratureMappedReferences());
         assertEquals(entry.getLiteratureMappedReferences().size(), 1);
@@ -76,10 +78,11 @@ class LiteratureMappingLineMapperTest {
     void mapLineWithCategoryOnly() throws Exception {
         String entryText = "X5FSX0\tGAD\t1358782\t126289\t[Expression][Sequences]";
         LiteratureMappingLineMapper mapper = new LiteratureMappingLineMapper();
-        LiteratureEntry entry = mapper.mapLine(entryText, 1);
+        LiteratureStoreEntry entry = mapper.mapLine(entryText, 1);
 
-        assertTrue(entry.hasPubmedId());
-        assertEquals(entry.getPubmedId(), 1358782L);
+        assertTrue(entry.hasLiteratureEntry());
+        assertTrue(entry.getLiteratureEntry().hasPubmedId());
+        assertEquals(entry.getLiteratureEntry().getPubmedId(), 1358782L);
 
         assertTrue(entry.hasLiteratureMappedReferences());
         assertEquals(entry.getLiteratureMappedReferences().size(), 1);

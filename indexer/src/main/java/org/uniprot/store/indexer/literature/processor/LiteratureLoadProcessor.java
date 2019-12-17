@@ -17,8 +17,10 @@ import org.uniprot.core.json.parser.literature.LiteratureJsonConfig;
 import org.uniprot.core.literature.LiteratureEntry;
 import org.uniprot.core.literature.LiteratureMappedReference;
 import org.uniprot.core.literature.LiteratureStatistics;
+import org.uniprot.core.literature.LiteratureStoreEntry;
 import org.uniprot.core.literature.builder.LiteratureEntryBuilder;
-import org.uniprot.core.literature.impl.LiteratureEntryImpl;
+import org.uniprot.core.literature.builder.LiteratureStoreEntryBuilder;
+import org.uniprot.core.literature.impl.LiteratureStoreEntryImpl;
 import org.uniprot.core.uniprot.UniProtAccession;
 import org.uniprot.store.indexer.common.config.UniProtSolrOperations;
 import org.uniprot.store.search.SolrCollection;
@@ -41,6 +43,7 @@ public class LiteratureLoadProcessor implements ItemProcessor<LiteratureEntry, L
 
     @Override
     public LiteratureDocument process(LiteratureEntry entry) throws Exception {
+        LiteratureStoreEntryBuilder entryStoreBuilder = new LiteratureStoreEntryBuilder();
         LiteratureEntryBuilder entryBuilder = new LiteratureEntryBuilder().from(entry);
         Query query = new SimpleQuery().addCriteria(Criteria.where("id").is(entry.getPubmedId()));
         Optional<LiteratureDocument> optionalDocument =
@@ -51,15 +54,18 @@ public class LiteratureLoadProcessor implements ItemProcessor<LiteratureEntry, L
 
             // Get statistics and mapped references from previous steps and copy it to entry builder
             byte[] literatureObj = document.getLiteratureObj().array();
-            LiteratureEntry statisticsEntry =
-                    literatureObjectMapper.readValue(literatureObj, LiteratureEntryImpl.class);
-            entryBuilder.statistics(statisticsEntry.getStatistics());
-            entryBuilder.literatureMappedReference(statisticsEntry.getLiteratureMappedReferences());
+            LiteratureStoreEntry statisticsEntry =
+                    literatureObjectMapper.readValue(literatureObj, LiteratureStoreEntryImpl.class);
+            entryBuilder.statistics(statisticsEntry.getLiteratureEntry().getStatistics());
+            entryStoreBuilder.literatureMappedReference(
+                    statisticsEntry.getLiteratureMappedReferences());
         }
-        return createLiteratureDocument(entryBuilder.build());
+        entryStoreBuilder.literatureEntry(entryBuilder.build());
+        return createLiteratureDocument(entryStoreBuilder.build());
     }
 
-    private LiteratureDocument createLiteratureDocument(LiteratureEntry entry) {
+    private LiteratureDocument createLiteratureDocument(LiteratureStoreEntry entryStore) {
+        LiteratureEntry entry = entryStore.getLiteratureEntry();
         LiteratureDocument.LiteratureDocumentBuilder builder = LiteratureDocument.builder();
         Set<String> content = new HashSet<>();
         builder.id(String.valueOf(entry.getPubmedId()));
@@ -99,9 +105,9 @@ public class LiteratureLoadProcessor implements ItemProcessor<LiteratureEntry, L
         }
         builder.content(content);
 
-        if (entry.hasLiteratureMappedReferences()) {
+        if (entryStore.hasLiteratureMappedReferences()) {
             Set<String> uniprotAccessions =
-                    entry.getLiteratureMappedReferences().stream()
+                    entryStore.getLiteratureMappedReferences().stream()
                             .filter(LiteratureMappedReference::hasUniprotAccession)
                             .map(LiteratureMappedReference::getUniprotAccession)
                             .map(UniProtAccession::getValue)
@@ -109,14 +115,14 @@ public class LiteratureLoadProcessor implements ItemProcessor<LiteratureEntry, L
             builder.mappedProteins(uniprotAccessions);
         }
 
-        byte[] literatureByte = getLiteratureObjectBinary(entry);
+        byte[] literatureByte = getLiteratureObjectBinary(entryStore);
         builder.literatureObj(ByteBuffer.wrap(literatureByte));
 
         log.debug("LiteratureLoadProcessor entry: " + entry);
         return builder.build();
     }
 
-    private byte[] getLiteratureObjectBinary(LiteratureEntry literature) {
+    private byte[] getLiteratureObjectBinary(LiteratureStoreEntry literature) {
         try {
             return this.literatureObjectMapper.writeValueAsBytes(literature);
         } catch (JsonProcessingException e) {

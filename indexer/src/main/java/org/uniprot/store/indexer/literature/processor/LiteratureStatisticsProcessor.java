@@ -8,8 +8,10 @@ import org.springframework.batch.item.ItemProcessor;
 import org.uniprot.core.json.parser.literature.LiteratureJsonConfig;
 import org.uniprot.core.literature.LiteratureEntry;
 import org.uniprot.core.literature.LiteratureStatistics;
+import org.uniprot.core.literature.LiteratureStoreEntry;
 import org.uniprot.core.literature.builder.LiteratureEntryBuilder;
 import org.uniprot.core.literature.builder.LiteratureStatisticsBuilder;
+import org.uniprot.core.literature.builder.LiteratureStoreEntryBuilder;
 import org.uniprot.store.indexer.literature.reader.LiteratureStatisticsReader;
 import org.uniprot.store.search.document.literature.LiteratureDocument;
 
@@ -44,14 +46,16 @@ public class LiteratureStatisticsProcessor
         LiteratureDocument.LiteratureDocumentBuilder builder = LiteratureDocument.builder();
         builder.id(String.valueOf(literatureCount.getPubmedId()));
 
-        byte[] literatureByte = getLiteratureObjectBinary(literatureEntry);
+        LiteratureStoreEntry storeEntry =
+                new LiteratureStoreEntryBuilder().literatureEntry(literatureEntry).build();
+        byte[] literatureByte = getLiteratureObjectBinary(storeEntry);
         builder.literatureObj(ByteBuffer.wrap(literatureByte));
 
-        log.debug("LiteratureStatisticsProcessor entry: " + literatureEntry);
+        log.debug("LiteratureStatisticsProcessor entry: " + literatureEntry.getPubmedId());
         return builder.build();
     }
 
-    private byte[] getLiteratureObjectBinary(LiteratureEntry literature) {
+    private byte[] getLiteratureObjectBinary(LiteratureStoreEntry literature) {
         try {
             return this.literatureObjectMapper.writeValueAsBytes(literature);
         } catch (JsonProcessingException e) {

@@ -2,28 +2,30 @@ package org.uniprot.store.indexer.literature.reader;
 
 import org.springframework.batch.item.*;
 import org.springframework.batch.item.file.FlatFileItemReader;
-import org.uniprot.core.literature.LiteratureEntry;
-import org.uniprot.core.literature.builder.LiteratureEntryBuilder;
+import org.uniprot.core.literature.LiteratureStoreEntry;
+import org.uniprot.core.literature.builder.LiteratureStoreEntryBuilder;
 
 /** @author lgonzales */
-public class LiteratureMappingItemReader implements ItemReader<LiteratureEntry>, ItemStream {
+public class LiteratureMappingItemReader implements ItemReader<LiteratureStoreEntry>, ItemStream {
 
-    private FlatFileItemReader<LiteratureEntry> delegate;
+    private FlatFileItemReader<LiteratureStoreEntry> delegate;
 
-    private LiteratureEntry nextEntry;
+    private LiteratureStoreEntry nextEntry;
 
     @Override
-    public LiteratureEntry read() throws Exception, UnexpectedInputException, ParseException {
-        LiteratureEntry entry;
+    public LiteratureStoreEntry read() throws Exception, UnexpectedInputException, ParseException {
+        LiteratureStoreEntry entry;
         if (nextEntry != null) {
             entry = nextEntry;
         } else {
             entry = delegate.read();
         }
         if (entry != null) {
-            LiteratureEntryBuilder itemBuilder = new LiteratureEntryBuilder().from(entry);
+            LiteratureStoreEntryBuilder itemBuilder = new LiteratureStoreEntryBuilder().from(entry);
             while ((nextEntry = this.delegate.read()) != null) {
-                if (entry.getPubmedId().equals(nextEntry.getPubmedId())) {
+                if (entry.getLiteratureEntry()
+                        .getPubmedId()
+                        .equals(nextEntry.getLiteratureEntry().getPubmedId())) {
                     itemBuilder.addLiteratureMappedReference(
                             nextEntry.getLiteratureMappedReferences().get(0));
                 } else {
@@ -35,7 +37,7 @@ public class LiteratureMappingItemReader implements ItemReader<LiteratureEntry>,
         return null;
     }
 
-    public void setDelegate(FlatFileItemReader<LiteratureEntry> delegate) {
+    public void setDelegate(FlatFileItemReader<LiteratureStoreEntry> delegate) {
         this.delegate = delegate;
     }
 
