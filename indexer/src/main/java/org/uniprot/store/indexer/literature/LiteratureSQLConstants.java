@@ -12,7 +12,7 @@ public class LiteratureSQLConstants {
                     + "    WHERE p2d.database_id = 'U' "
                     + "      AND db.merge_status <> 'R' "
                     + "      AND db.deleted = 'N' "
-                    + "      AND db.entry_type = 0 "
+                    + "      AND db.entry_type = 1 "
                     + "    GROUP BY p2d.primary_id) u "
                     + "FULL JOIN ( "
                     + "    SELECT p2d.primary_id, count(*) as reviewedProteinCount FROM sptr.publication_2_database p2d "
@@ -21,7 +21,7 @@ public class LiteratureSQLConstants {
                     + "    WHERE p2d.database_id = 'U' "
                     + "      AND db.merge_status <> 'R' "
                     + "      AND db.deleted = 'N' "
-                    + "      AND db.entry_type = 1 "
+                    + "      AND db.entry_type = 0 "
                     + "    GROUP BY p2d.primary_id) r "
                     + "ON r.primary_id = u.primary_id";
 }
