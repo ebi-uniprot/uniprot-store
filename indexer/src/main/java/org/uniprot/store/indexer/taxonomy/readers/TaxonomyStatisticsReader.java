@@ -16,13 +16,13 @@ public class TaxonomyStatisticsReader implements RowMapper<TaxonomyStatisticsRea
         long reviewedProteinCount = resultSet.getLong("reviewedProteinCount");
         long unreviewedProteinCount = resultSet.getLong("unreviewedProteinCount");
         long referenceProteomeCount = resultSet.getLong("referenceProteomeCount");
-        long completeProteomeCount = resultSet.getLong("completeProteomeCount");
+        long otherProteomeCount = resultSet.getLong("proteomeCount");
         return new TaxonomyCount(
                 taxId,
                 reviewedProteinCount,
                 unreviewedProteinCount,
                 referenceProteomeCount,
-                completeProteomeCount);
+                otherProteomeCount);
     }
 
     @Getter
@@ -30,7 +30,7 @@ public class TaxonomyStatisticsReader implements RowMapper<TaxonomyStatisticsRea
         private final long reviewedProteinCount;
         private final long unreviewedProteinCount;
         private final long referenceProteomeCount;
-        private final long completeProteomeCount;
+        private final long proteomeCount;
         private final long taxId;
 
         public TaxonomyCount(
@@ -38,12 +38,12 @@ public class TaxonomyStatisticsReader implements RowMapper<TaxonomyStatisticsRea
                 long reviewedProteinCount,
                 long unreviewedProteinCount,
                 long referenceProteomeCount,
-                long completeProteomeCount) {
+                long proteomeCount) {
             this.taxId = taxId;
             this.reviewedProteinCount = reviewedProteinCount;
             this.unreviewedProteinCount = unreviewedProteinCount;
             this.referenceProteomeCount = referenceProteomeCount;
-            this.completeProteomeCount = completeProteomeCount;
+            this.proteomeCount = proteomeCount;
         }
     }
 }

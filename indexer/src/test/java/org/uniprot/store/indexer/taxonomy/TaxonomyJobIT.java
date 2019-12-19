@@ -191,7 +191,7 @@ class TaxonomyJobIT {
         assertThat(taxonomyDocument.isReviewed(), is(true));
         assertThat(taxonomyDocument.isAnnotated(), is(true));
         assertThat(taxonomyDocument.isReference(), is(true));
-        assertThat(taxonomyDocument.isComplete(), is(true));
+        assertThat(taxonomyDocument.isProteome(), is(true));
     }
 
     private void validateTaxonomyEntry(TaxonomyEntry entry) {
@@ -235,7 +235,7 @@ class TaxonomyJobIT {
         assertThat(statistics.getReviewedProteinCount(), is(6L));
         assertThat(statistics.getUnreviewedProteinCount(), is(2L));
         assertThat(statistics.getReferenceProteomeCount(), is(2L));
-        assertThat(statistics.getCompleteProteomeCount(), is(1L));
+        assertThat(statistics.getProteomeCount(), is(1L));
     }
 
     @Configuration

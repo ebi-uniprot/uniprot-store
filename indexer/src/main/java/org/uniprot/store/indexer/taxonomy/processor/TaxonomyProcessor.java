@@ -101,8 +101,8 @@ public class TaxonomyProcessor implements ItemProcessor<TaxonomyEntry, TaxonomyD
             if (statistics.hasReferenceProteomeCount()) {
                 documentBuilder.reference(true);
             }
-            if (statistics.hasCompleteProteomeCount()) {
-                documentBuilder.complete(true);
+            if (statistics.hasProteomeCount()) {
+                documentBuilder.proteome(true);
             }
         }
 
