@@ -10,10 +10,11 @@ import org.springframework.data.solr.core.query.Criteria;
 import org.springframework.data.solr.core.query.Query;
 import org.springframework.data.solr.core.query.SimpleQuery;
 import org.uniprot.core.json.parser.literature.LiteratureJsonConfig;
-import org.uniprot.core.literature.LiteratureEntry;
+import org.uniprot.core.literature.LiteratureStoreEntry;
 import org.uniprot.core.literature.builder.LiteratureEntryBuilder;
 import org.uniprot.core.literature.builder.LiteratureStatisticsBuilder;
-import org.uniprot.core.literature.impl.LiteratureEntryImpl;
+import org.uniprot.core.literature.builder.LiteratureStoreEntryBuilder;
+import org.uniprot.core.literature.impl.LiteratureStoreEntryImpl;
 import org.uniprot.store.indexer.common.config.UniProtSolrOperations;
 import org.uniprot.store.search.SolrCollection;
 import org.uniprot.store.search.document.literature.LiteratureDocument;
@@ -24,7 +25,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 /** @author lgonzales */
 @Slf4j
 public class LiteratureMappingProcessor
-        implements ItemProcessor<LiteratureEntry, LiteratureDocument> {
+        implements ItemProcessor<LiteratureStoreEntry, LiteratureDocument> {
 
     private final UniProtSolrOperations solrOperations;
     private final ObjectMapper literatureObjectMapper;
@@ -35,9 +36,12 @@ public class LiteratureMappingProcessor
     }
 
     @Override
-    public LiteratureDocument process(LiteratureEntry mappedEntry) throws Exception {
+    public LiteratureDocument process(LiteratureStoreEntry mappedEntry) throws Exception {
         Query query =
-                new SimpleQuery().addCriteria(Criteria.where("id").is(mappedEntry.getPubmedId()));
+                new SimpleQuery()
+                        .addCriteria(
+                                Criteria.where("id")
+                                        .is(mappedEntry.getLiteratureEntry().getPubmedId()));
         Optional<LiteratureDocument> optionalDocument =
                 solrOperations.queryForObject(
                         SolrCollection.literature.name(), query, LiteratureDocument.class);
@@ -47,32 +51,37 @@ public class LiteratureMappingProcessor
 
             // Get statistics from previous step and copy it to builder
             byte[] literatureObj = document.getLiteratureObj().array();
-            LiteratureEntry statisticsEntry =
-                    literatureObjectMapper.readValue(literatureObj, LiteratureEntryImpl.class);
-            statisticsBuilder = statisticsBuilder.from(statisticsEntry.getStatistics());
+            LiteratureStoreEntry statisticsEntry =
+                    literatureObjectMapper.readValue(literatureObj, LiteratureStoreEntryImpl.class);
+            statisticsBuilder =
+                    statisticsBuilder.from(statisticsEntry.getLiteratureEntry().getStatistics());
         }
         // update mappedProteinCount in the statistic builder
         statisticsBuilder.mappedProteinCount(mappedEntry.getLiteratureMappedReferences().size());
 
         // Set updated statistics to the mappedEntry
-        LiteratureEntryBuilder mappedEntryBuilder = new LiteratureEntryBuilder().from(mappedEntry);
-        mappedEntryBuilder.statistics(statisticsBuilder.build());
-        mappedEntry = mappedEntryBuilder.build();
+        LiteratureStoreEntryBuilder mappedEntryStoreBuilder =
+                new LiteratureStoreEntryBuilder().from(mappedEntry);
+        LiteratureEntryBuilder entryBuilder =
+                new LiteratureEntryBuilder().from(mappedEntry.getLiteratureEntry());
+        entryBuilder.statistics(statisticsBuilder.build());
+        mappedEntryStoreBuilder.literatureEntry(entryBuilder.build());
+        mappedEntry = mappedEntryStoreBuilder.build();
 
         return createLiteratureDocument(mappedEntry);
     }
 
-    private LiteratureDocument createLiteratureDocument(LiteratureEntry mappedEntry) {
+    private LiteratureDocument createLiteratureDocument(LiteratureStoreEntry mappedEntry) {
         LiteratureDocument.LiteratureDocumentBuilder builder = LiteratureDocument.builder();
         byte[] literatureByte = getLiteratureObjectBinary(mappedEntry);
         builder.literatureObj(ByteBuffer.wrap(literatureByte));
-        builder.id(String.valueOf(mappedEntry.getPubmedId()));
+        builder.id(String.valueOf(mappedEntry.getLiteratureEntry().getPubmedId()));
 
         log.debug("LiteratureStatisticsProcessor entry: " + mappedEntry);
         return builder.build();
     }
 
-    private byte[] getLiteratureObjectBinary(LiteratureEntry literature) {
+    private byte[] getLiteratureObjectBinary(LiteratureStoreEntry literature) {
         try {
             return this.literatureObjectMapper.writeValueAsBytes(literature);
         } catch (JsonProcessingException e) {
