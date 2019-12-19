@@ -38,7 +38,7 @@ public class UniprotRDDTupleReader {
 
         return (JavaPairRDD<String, UniProtEntry>)
                 splittedFileRDD
-                        .repartition(splittedFileRDD.getNumPartitions() * 3)
+                        // .repartition(splittedFileRDD.getNumPartitions() * 3)
                         .map(e -> e + SPLITTER)
                         .mapToPair(mapper);
     }
