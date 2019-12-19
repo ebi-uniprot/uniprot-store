@@ -859,11 +859,11 @@
 
 	<!-- UniRef clusters -->
 	<field name="uniref_cluster_50" type="string" indexed="true"
-		stored="false" required="false" multiValued="true" docValues="true" />
+		stored="false" required="false" multiValued="true" />
 	<field name="uniref_cluster_90" type="string" indexed="true"
-		stored="false" required="false" multiValued="true" docValues="true" />
+		stored="false" required="false" multiValued="true" />
 	<field name="uniref_cluster_100" type="string" indexed="true"
-		stored="false" required="false" multiValued="true" docValues="true" />
+		stored="false" required="false" multiValued="true" />
 
 	<field name="uniref_size_50" type="string" indexed="true"
 		stored="false" required="false" multiValued="false" />
