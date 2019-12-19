@@ -1,14 +1,15 @@
 package org.uniprot.store.job.common.listener;
 
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.batch.core.ItemWriteListener;
-import org.springframework.batch.core.StepExecution;
-import org.springframework.batch.core.annotation.BeforeStep;
-
 import java.time.Duration;
 import java.time.Instant;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
+
+import lombok.extern.slf4j.Slf4j;
+
+import org.springframework.batch.core.ItemWriteListener;
+import org.springframework.batch.core.StepExecution;
+import org.springframework.batch.core.annotation.BeforeStep;
 
 /**
  * Class used to log statistics of the rate of writing. The primary purpose is to provide a basis

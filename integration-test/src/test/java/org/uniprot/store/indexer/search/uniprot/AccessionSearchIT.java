@@ -1,21 +1,21 @@
 package org.uniprot.store.indexer.search.uniprot;
 
-import org.apache.solr.client.solrj.response.QueryResponse;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.RegisterExtension;
-import org.uniprot.core.flatfile.writer.LineType;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.List;
-
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.hamcrest.collection.IsEmptyCollection.empty;
 import static org.hamcrest.core.Is.is;
 import static org.uniprot.store.indexer.search.uniprot.TestUtils.convertToUniProtEntry;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.List;
+
+import org.apache.solr.client.solrj.response.QueryResponse;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.RegisterExtension;
+import org.uniprot.core.flatfile.writer.LineType;
 
 /** Verifies whether the accession searches are qorking properly */
 class AccessionSearchIT {
@@ -75,9 +75,8 @@ class AccessionSearchIT {
     }
 
     @Test
-    void
-            upperCaseAccessionFromEntry3MatchesEntry3() { //  Query query =
-                                                          // UniProtQueryBuilder.accession(PRIMARY_ACCESSION3);
+    void upperCaseAccessionFromEntry3MatchesEntry3() { //  Query query =
+        // UniProtQueryBuilder.accession(PRIMARY_ACCESSION3);
         String query = "accession:" + PRIMARY_ACCESSION3;
         QueryResponse response = searchEngine.getQueryResponse(query);
 

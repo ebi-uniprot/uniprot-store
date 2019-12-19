@@ -1,5 +1,7 @@
 package org.uniprot.store.indexer;
 
+import java.io.IOException;
+
 import org.apache.solr.client.solrj.SolrClient;
 import org.apache.solr.client.solrj.SolrRequest;
 import org.apache.solr.client.solrj.SolrServerException;
@@ -7,8 +9,6 @@ import org.apache.solr.client.solrj.embedded.EmbeddedSolrServer;
 import org.apache.solr.common.util.NamedList;
 import org.apache.solr.core.CoreContainer;
 import org.uniprot.store.search.SolrCollection;
-
-import java.io.IOException;
 
 /**
  * Created 19/09/18

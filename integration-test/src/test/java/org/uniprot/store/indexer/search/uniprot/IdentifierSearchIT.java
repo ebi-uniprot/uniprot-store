@@ -1,5 +1,14 @@
 package org.uniprot.store.indexer.search.uniprot;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.collection.IsEmptyCollection.empty;
+import static org.hamcrest.core.Is.is;
+import static org.uniprot.store.indexer.search.uniprot.TestUtils.convertToUniProtEntry;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.List;
+
 import org.apache.commons.lang.WordUtils;
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.hamcrest.collection.IsIterableContainingInOrder;
@@ -9,15 +18,6 @@ import org.junit.jupiter.api.extension.RegisterExtension;
 import org.uniprot.core.flatfile.writer.LineType;
 import org.uniprot.store.search.field.QueryBuilder;
 import org.uniprot.store.search.field.UniProtField;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.List;
-
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.collection.IsEmptyCollection.empty;
-import static org.hamcrest.core.Is.is;
-import static org.uniprot.store.indexer.search.uniprot.TestUtils.convertToUniProtEntry;
 
 /** Verifies if the protein accession/protein id is indexed correctly */
 class IdentifierSearchIT {

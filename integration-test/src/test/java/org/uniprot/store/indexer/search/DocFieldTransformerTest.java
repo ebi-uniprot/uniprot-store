@@ -1,18 +1,18 @@
 package org.uniprot.store.indexer.search;
 
-import org.apache.solr.client.solrj.beans.Field;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.uniprot.store.search.document.Document;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import static java.util.Arrays.asList;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.uniprot.store.indexer.search.DocFieldTransformer.fieldTransformer;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.solr.client.solrj.beans.Field;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.uniprot.store.search.document.Document;
 
 /**
  * Created 02/07/18

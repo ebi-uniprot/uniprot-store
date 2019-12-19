@@ -1,18 +1,5 @@
 package org.uniprot.store.indexer.search.suggest;
 
-import org.apache.solr.client.solrj.response.QueryResponse;
-import org.apache.solr.common.SolrDocument;
-import org.apache.solr.common.SolrDocumentList;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.RegisterExtension;
-import org.uniprot.store.search.document.suggest.SuggestDocument;
-import org.uniprot.store.search.field.QueryBuilder;
-import org.uniprot.store.search.field.SuggestField;
-
-import java.util.Collection;
-import java.util.List;
-
 import static java.util.Arrays.asList;
 import static java.util.Collections.singletonList;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -22,6 +9,19 @@ import static org.hamcrest.core.Is.is;
 import static org.mockito.ArgumentMatchers.contains;
 import static org.uniprot.store.search.field.SuggestField.Importance.high;
 import static org.uniprot.store.search.field.SuggestField.Importance.medium;
+
+import java.util.Collection;
+import java.util.List;
+
+import org.apache.solr.client.solrj.response.QueryResponse;
+import org.apache.solr.common.SolrDocument;
+import org.apache.solr.common.SolrDocumentList;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.RegisterExtension;
+import org.uniprot.store.search.document.suggest.SuggestDocument;
+import org.uniprot.store.search.field.QueryBuilder;
+import org.uniprot.store.search.field.SuggestField;
 
 class SuggestSearchIT {
     @RegisterExtension static SuggestSearchEngine searchEngine = new SuggestSearchEngine();

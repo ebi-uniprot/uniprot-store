@@ -1,6 +1,14 @@
 package org.uniprot.store.job.common.processor;
 
+import java.io.PrintWriter;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import lombok.Getter;
+
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.hamcrest.collection.IsIterableContainingInOrder;
@@ -10,13 +18,6 @@ import org.uniprot.store.job.common.DocumentConversionException;
 import org.uniprot.store.job.common.converter.DocumentConverter;
 import org.uniprot.store.job.common.model.AbstractEntryDocumentPair;
 import org.uniprot.store.search.document.Document;
-
-import java.io.PrintWriter;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * Created 22/08/19

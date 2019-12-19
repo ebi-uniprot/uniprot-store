@@ -1,13 +1,13 @@
 package org.uniprot.store.indexer.search.uniref;
 
+import java.time.LocalDate;
+import java.util.Collections;
+import java.util.List;
+
 import org.uniprot.core.util.Crc64;
 import org.uniprot.core.xml.jaxb.uniref.*;
 import org.uniprot.core.xml.jaxb.uniref.MemberType.Sequence;
 import org.uniprot.core.xml.uniprot.XmlConverterHelper;
-
-import java.time.LocalDate;
-import java.util.Collections;
-import java.util.List;
 
 /**
  * @author jluo

@@ -142,7 +142,7 @@ class UniProtEntryCommentsConverter {
         if (values.isEmpty()) {
             values.add(
                     "true"); // default value when we do not have note, so it can be searched with
-                             // '*'
+            // '*'
         }
         document.ap.addAll(values);
         document.apEv.addAll(evidence);
@@ -203,7 +203,7 @@ class UniProtEntryCommentsConverter {
         document.seqCaution.add(comment.getSequenceCautionType().toDisplayName());
         String val =
                 "true"; // default value for the type when we do not have note, so the type can be
-                        // searched with '*'
+        // searched with '*'
         if (comment.hasNote()) {
             val = comment.getNote();
             document.seqCaution.add(comment.getNote());

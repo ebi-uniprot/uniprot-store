@@ -32,7 +32,7 @@ public class TaxonomyStatisticsProcessor
                         .reviewedProteinCount(taxonomyCount.getReviewedProteinCount())
                         .unreviewedProteinCount(taxonomyCount.getUnreviewedProteinCount())
                         .referenceProteomeCount(taxonomyCount.getReferenceProteomeCount())
-                        .completeProteomeCount(taxonomyCount.getCompleteProteomeCount())
+                        .proteomeCount(taxonomyCount.getProteomeCount())
                         .build();
 
         TaxonomyEntry entry =

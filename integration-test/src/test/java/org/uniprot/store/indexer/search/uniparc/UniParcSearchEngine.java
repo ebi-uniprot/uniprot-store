@@ -1,5 +1,9 @@
 package org.uniprot.store.indexer.search.uniparc;
 
+import java.io.File;
+import java.net.URISyntaxException;
+import java.net.URL;
+
 import org.uniprot.core.cv.taxonomy.FileNodeIterable;
 import org.uniprot.core.cv.taxonomy.TaxonomyRepo;
 import org.uniprot.core.cv.taxonomy.impl.TaxonomyMapRepo;
@@ -8,10 +12,6 @@ import org.uniprot.store.indexer.search.AbstractSearchEngine;
 import org.uniprot.store.indexer.uniparc.UniParcDocumentConverter;
 import org.uniprot.store.job.common.converter.DocumentConverter;
 import org.uniprot.store.search.field.UniParcField;
-
-import java.io.File;
-import java.net.URISyntaxException;
-import java.net.URL;
 
 /** Concrete implementation of the UniParce search engine */
 class UniParcSearchEngine extends AbstractSearchEngine<Entry> {

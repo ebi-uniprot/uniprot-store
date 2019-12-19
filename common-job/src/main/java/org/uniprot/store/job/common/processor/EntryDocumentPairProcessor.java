@@ -1,6 +1,7 @@
 package org.uniprot.store.job.common.processor;
 
 import lombok.extern.slf4j.Slf4j;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.batch.item.ItemProcessor;
@@ -41,7 +42,7 @@ public abstract class EntryDocumentPairProcessor<
             writeFailedEntryToFile(entry);
             log.error("Error converting entry: " + extractEntryId(entry), e);
             return null; // => the item should not be written
-                         // https://docs.spring.io/spring-batch/trunk/reference/html/domain.html#domainItemProcessor
+            // https://docs.spring.io/spring-batch/trunk/reference/html/domain.html#domainItemProcessor
         }
     }
 

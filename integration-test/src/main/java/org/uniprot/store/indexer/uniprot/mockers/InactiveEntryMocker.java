@@ -1,8 +1,8 @@
 package org.uniprot.store.indexer.uniprot.mockers;
 
-import org.uniprot.store.indexer.uniprot.inactiveentry.InactiveUniProtEntry;
-
 import java.util.*;
+
+import org.uniprot.store.indexer.uniprot.inactiveentry.InactiveUniProtEntry;
 
 /**
  * This class is responsible to create mock objects for inactive UniProt entries.

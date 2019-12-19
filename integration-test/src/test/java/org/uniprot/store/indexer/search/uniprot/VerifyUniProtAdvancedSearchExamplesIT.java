@@ -1,5 +1,15 @@
 package org.uniprot.store.indexer.search.uniprot;
 
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.isEmptyOrNullString;
+import static org.hamcrest.core.IsNot.not;
+import static org.hamcrest.core.IsNull.notNullValue;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Stream;
+
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.junit.jupiter.api.extension.RegisterExtension;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -8,16 +18,6 @@ import org.junit.jupiter.params.provider.MethodSource;
 import org.uniprot.core.util.Utils;
 import org.uniprot.store.search.domain2.SearchItem;
 import org.uniprot.store.search.domain2.UniProtKBSearchItems;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Stream;
-
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.isEmptyOrNullString;
-import static org.hamcrest.core.IsNot.not;
-import static org.hamcrest.core.IsNull.notNullValue;
 
 /**
  * This class verifies example values against their associated fields, defined in {@code

@@ -123,8 +123,10 @@ create table SPTR.PROTEOME
   PROTEOME_ID             NUMBER(10),
   PROTEOME_TAXID          NUMBER(10),
   PUBLISH                 NUMBER(1),
-  IS_COMPLETE             NUMBER(1),
-  IS_REFERENCE            NUMBER(1)
+  IS_REDUNDANT            NUMBER(1),
+  IS_REFERENCE            NUMBER(1),
+  COVERABLE_BY_REDUNDANCY NUMBER(1),
+  IS_EXCLUDED             NUMBER(1)
 );
 
 create table SPTR.KEYWORD
