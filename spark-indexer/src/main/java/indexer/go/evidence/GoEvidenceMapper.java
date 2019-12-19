@@ -25,7 +25,7 @@ public class GoEvidenceMapper
     @Override
     public UniProtEntry call(Tuple2<UniProtEntry, Optional<Iterable<GoEvidence>>> tuple)
             throws Exception {
-        UniProtEntryBuilder.ActiveEntryBuilder entry = new UniProtEntryBuilder().from(tuple._1);
+        UniProtEntryBuilder entry = UniProtEntryBuilder.fromInstance(tuple._1);
         if (tuple._2.isPresent()) {
             Map<String, List<Evidence>> goEvidenceMap = getGoEvidenceMap(tuple._2.get());
 
@@ -41,7 +41,7 @@ public class GoEvidenceMapper
                                         }
                                     })
                             .collect(Collectors.toList());
-            entry.databaseCrossReferences(xrefs);
+            entry.databaseCrossReferencesSet(xrefs);
         }
         return entry.build();
     }

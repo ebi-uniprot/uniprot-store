@@ -8,6 +8,7 @@ import java.util.List;
 import org.apache.spark.api.java.Optional;
 import org.junit.jupiter.api.Test;
 import org.uniprot.core.uniprot.UniProtEntry;
+import org.uniprot.core.uniprot.UniProtEntryType;
 import org.uniprot.core.uniprot.builder.UniProtEntryBuilder;
 import org.uniprot.core.uniprot.evidence.Evidence;
 import org.uniprot.core.uniprot.evidence.EvidenceCode;
@@ -41,12 +42,9 @@ class GoEvidenceMapperTest {
                         .build();
 
         UniProtEntry entry =
-                new UniProtEntryBuilder()
-                        .primaryAccession(null)
-                        .uniProtId(null)
-                        .active()
-                        .addDatabaseCrossReference(goCrossReference)
-                        .addDatabaseCrossReference(otherGoCrossReference)
+                new UniProtEntryBuilder("P12345", "ID_P12345", UniProtEntryType.SWISSPROT)
+                        .databaseCrossReferenceAdd(goCrossReference)
+                        .databaseCrossReferenceAdd(otherGoCrossReference)
                         .build();
 
         Evidence evidence =
@@ -110,12 +108,9 @@ class GoEvidenceMapperTest {
                         .build();
 
         UniProtEntry entry =
-                new UniProtEntryBuilder()
-                        .primaryAccession(null)
-                        .uniProtId(null)
-                        .active()
-                        .addDatabaseCrossReference(goCrossReference)
-                        .addDatabaseCrossReference(otherGoCrossReference)
+                new UniProtEntryBuilder("P12345", "ID_P12345", UniProtEntryType.SWISSPROT)
+                        .databaseCrossReferenceAdd(goCrossReference)
+                        .databaseCrossReferenceAdd(otherGoCrossReference)
                         .build();
 
         Tuple2<UniProtEntry, Optional<Iterable<GoEvidence>>> tuple =
@@ -154,12 +149,9 @@ class GoEvidenceMapperTest {
                         .build();
 
         UniProtEntry entry =
-                new UniProtEntryBuilder()
-                        .primaryAccession(null)
-                        .uniProtId(null)
-                        .active()
-                        .addDatabaseCrossReference(goCrossReference)
-                        .addDatabaseCrossReference(otherGoCrossReference)
+                new UniProtEntryBuilder("P12345", "ID_P12345", UniProtEntryType.SWISSPROT)
+                        .databaseCrossReferenceAdd(goCrossReference)
+                        .databaseCrossReferenceAdd(otherGoCrossReference)
                         .build();
 
         Tuple2<UniProtEntry, Optional<Iterable<GoEvidence>>> tuple =
