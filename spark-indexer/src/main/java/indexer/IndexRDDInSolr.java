@@ -10,6 +10,8 @@ import indexer.util.SolrUtils;
 import indexer.util.SparkUtils;
 
 /**
+ * This class is responsible to load data from saved SolrDocuments and Index in Solr
+ *
  * @author lgonzales
  * @since 2019-11-07
  */

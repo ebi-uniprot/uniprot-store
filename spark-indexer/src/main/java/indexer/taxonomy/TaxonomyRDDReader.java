@@ -12,11 +12,14 @@ import org.uniprot.core.taxonomy.TaxonomyEntry;
 import org.uniprot.core.taxonomy.TaxonomyLineage;
 
 /**
+ * This class is Responsible to load JavaPairRDD{key=taxId, value=TaxonomyEntry}
+ *
  * @author lgonzales
  * @since 2019-10-08
  */
 public class TaxonomyRDDReader {
 
+    /** @return return a JavaPairRDD{key=taxId, value=TaxonomyEntry} */
     public static JavaPairRDD<String, TaxonomyEntry> load(
             JavaSparkContext sparkContext, ResourceBundle applicationConfig) {
         return (JavaPairRDD<String, TaxonomyEntry>)
@@ -25,6 +28,7 @@ public class TaxonomyRDDReader {
                         .mapToPair(new TaxonomyRowMapper());
     }
 
+    /** @return return a JavaPairRDD{key=taxId, value=TaxonomyEntry} including lineage data */
     public static JavaPairRDD<String, TaxonomyEntry> loadWithLineage(
             JavaSparkContext sparkContext, ResourceBundle applicationConfig) {
         JavaPairRDD<String, TaxonomyEntry> taxonomyNode = load(sparkContext, applicationConfig);

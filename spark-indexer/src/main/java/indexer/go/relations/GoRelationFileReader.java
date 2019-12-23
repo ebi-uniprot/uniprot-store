@@ -16,6 +16,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.hadoop.conf.Configuration;
 
 /**
+ * Class responsible to Load Go Terms Relations from Hadoop File System
+ *
  * @author lgonzales
  * @since 2019-10-25
  */

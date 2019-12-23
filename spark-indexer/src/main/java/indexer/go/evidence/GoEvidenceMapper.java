@@ -14,6 +14,8 @@ import org.uniprot.core.uniprot.xdb.builder.UniProtDBCrossReferenceBuilder;
 import scala.Tuple2;
 
 /**
+ * This class is responsible to map an Iterable of GoEvidence to an UniProtEntry
+ *
  * @author lgonzales
  * @since 2019-10-22
  */
@@ -22,6 +24,10 @@ public class GoEvidenceMapper
 
     private static final long serialVersionUID = 7478726902589041984L;
 
+    /**
+     * @param tuple of <UniProtEntry, Iterable of GoEvidence>
+     * @return UniProtEntry with extra Go Evidences
+     */
     @Override
     public UniProtEntry call(Tuple2<UniProtEntry, Optional<Iterable<GoEvidence>>> tuple)
             throws Exception {

@@ -24,6 +24,8 @@ import org.uniprot.core.util.Pair;
 import org.uniprot.core.util.Utils;
 
 /**
+ * Class responsible to load SupportingData from Hadoop FileSystem.
+ *
  * @author lgonzales
  * @since 2019-11-01
  */

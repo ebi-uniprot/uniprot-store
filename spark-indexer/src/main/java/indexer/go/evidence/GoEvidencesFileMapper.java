@@ -9,6 +9,9 @@ import org.uniprot.core.uniprot.evidence.impl.EvidenceHelper;
 import scala.Tuple2;
 
 /**
+ * This class map extended Go Evidences string line To a Tuple2{key=uniprot accession, value={@link
+ * GoEvidence}}
+ *
  * @author lgonzales
  * @since 2019-11-14
  */
@@ -17,6 +20,10 @@ public class GoEvidencesFileMapper implements PairFunction<String, String, GoEvi
 
     private static final long serialVersionUID = 7265825845507683822L;
 
+    /**
+     * @param line Go Evidences string line
+     * @return Tuple2{key=uniprot accession, value={@link GoEvidence}}
+     */
     @Override
     public Tuple2<String, GoEvidence> call(String line) throws Exception {
         String[] splitedLine = line.split("\t");

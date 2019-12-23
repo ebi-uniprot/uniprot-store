@@ -7,6 +7,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
+import org.uniprot.core.uniparc.impl.UniParcIdImpl;
 import org.uniprot.core.uniprot.builder.UniProtAccessionBuilder;
 import org.uniprot.core.uniref.*;
 import org.uniprot.core.uniref.builder.RepresentativeMemberBuilder;
@@ -29,6 +30,7 @@ class UniRefEntryRDDTupleMapperTest {
                 new RepresentativeMemberBuilder()
                         .memberIdType(UniRefMemberIdType.UNIPROTKB)
                         .addAccession(new UniProtAccessionBuilder("P12345").build())
+                        .uniparcId(new UniParcIdImpl("UPI000000111"))
                         .build();
 
         UniRefMember member =
@@ -61,12 +63,8 @@ class UniRefEntryRDDTupleMapperTest {
         MappedUniRef mappedUniRef = tuple._2;
         assertNotNull(mappedUniRef);
         assertEquals("UniRef100_P12345", mappedUniRef.getClusterID());
-        assertEquals(10, mappedUniRef.getMemberSize());
-        assertEquals(representativeMember, mappedUniRef.getUniRefMember());
+        assertEquals("UPI000000111", mappedUniRef.getUniparcUPI());
         assertEquals(UniRefType.UniRef100, mappedUniRef.getUniRefType());
-
-        assertEquals(1, mappedUniRef.getMemberAccessions().size());
-        assertTrue(mappedUniRef.getMemberAccessions().contains("P12345"));
     }
 
     @Test
@@ -83,6 +81,7 @@ class UniRefEntryRDDTupleMapperTest {
                 new UniRefMemberBuilder()
                         .memberIdType(UniRefMemberIdType.UNIPROTKB)
                         .addAccession(new UniProtAccessionBuilder("P12345").build())
+                        .uniparcId(new UniParcIdImpl("UPI000000111"))
                         .build();
 
         UniRefMember uniparcMember =
@@ -116,11 +115,7 @@ class UniRefEntryRDDTupleMapperTest {
         MappedUniRef mappedUniRef = tuple._2;
         assertNotNull(mappedUniRef);
         assertEquals("UniRef100_P12345", mappedUniRef.getClusterID());
-        assertEquals(10, mappedUniRef.getMemberSize());
-        assertEquals(member, mappedUniRef.getUniRefMember());
+        assertEquals("UPI000000111", mappedUniRef.getUniparcUPI());
         assertEquals(UniRefType.UniRef100, mappedUniRef.getUniRefType());
-
-        assertEquals(1, mappedUniRef.getMemberAccessions().size());
-        assertTrue(mappedUniRef.getMemberAccessions().contains("P12345"));
     }
 }

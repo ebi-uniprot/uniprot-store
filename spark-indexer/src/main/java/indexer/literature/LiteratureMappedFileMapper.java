@@ -16,6 +16,9 @@ import org.uniprot.core.literature.builder.LiteratureMappedReferenceBuilder;
 import scala.Tuple2;
 
 /**
+ * Class Responsible to load PIR mapped file to an JavaPairRDD{key=PubmedId,
+ * value=LiteratureMappedReference}
+ *
  * @author lgonzales
  * @since 2019-12-02
  */
@@ -26,6 +29,10 @@ public class LiteratureMappedFileMapper
     private static final long serialVersionUID = -1866448223077034360L;
     private Pattern p = Pattern.compile("^(\\[.*\\])(.*)");
 
+    /**
+     * @param entryString PIR mapped file line String
+     * @return JavaPairRDD{key=PubmedId, value=LiteratureMappedReference}
+     */
     @Override
     public Tuple2<String, LiteratureMappedReference> call(String entryString) throws Exception {
         String[] lineFields = entryString.split("\t");
@@ -36,12 +43,7 @@ public class LiteratureMappedFileMapper
                 Matcher matcher = p.matcher(lineFields[4]);
                 if (matcher.matches()) { // split categories from the rest of the text...
                     String matchedCategories = matcher.group(1);
-                    String[] categoriesArray = matchedCategories.split("]");
-                    categories.addAll(
-                            Arrays.stream(categoriesArray)
-                                    .map(category -> category.substring(1))
-                                    .collect(Collectors.toList()));
-
+                    categories.addAll(getCategories(matchedCategories));
                     annnotation = lineFields[4].substring(matchedCategories.length());
                 } else {
                     annnotation = lineFields[4];
@@ -57,10 +59,17 @@ public class LiteratureMappedFileMapper
                             .sourceCategory(categories)
                             .build();
 
-            return new Tuple2<>(lineFields[0], mappedReference);
+            return new Tuple2<>(lineFields[2], mappedReference);
         } else {
             log.warn("Unable to parse correctly line [" + entryString + "]");
             return null;
         }
+    }
+
+    private List<String> getCategories(String matchedCategories) {
+        String[] categoriesArray = matchedCategories.split("]");
+        return Arrays.stream(categoriesArray)
+                .map(category -> category.substring(1))
+                .collect(Collectors.toList());
     }
 }

@@ -4,6 +4,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
+ * Model Implementation for Go Terms Relations
+ *
  * @author lgonzales
  * @since 2019-11-08
  */

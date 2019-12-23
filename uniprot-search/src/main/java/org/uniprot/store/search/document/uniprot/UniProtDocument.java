@@ -341,25 +341,16 @@ public class UniProtDocument implements Document, Serializable {
     public List<String> sources = new ArrayList<>();
 
     @Field("uniref_cluster_50")
-    public List<String> unirefCluster50 = new ArrayList<>();
+    public String unirefCluster50;
 
     @Field("uniref_cluster_90")
-    public List<String> unirefCluster90 = new ArrayList<>();;
+    public String unirefCluster90;
 
     @Field("uniref_cluster_100")
-    public List<String> unirefCluster100 = new ArrayList<>();;
-
-    @Field("uniref_size_50")
-    public int unirefSize50;
-
-    @Field("uniref_size_90")
-    public int unirefSize90;
-
-    @Field("uniref_size_100")
-    public int unirefSize100;
+    public String unirefCluster100;
 
     @Field("mapped_citation")
-    public List<String> mappedCitation;
+    public List<String> mappedCitation = new ArrayList<>();
 
     @Field("uniparc")
     public String uniparc;
@@ -382,9 +373,6 @@ public class UniProtDocument implements Document, Serializable {
                 && seqMass == document.seqMass
                 && seqLength == document.seqLength
                 && score == document.score
-                && unirefSize50 == document.unirefSize50
-                && unirefSize90 == document.unirefSize90
-                && unirefSize100 == document.unirefSize100
                 && Objects.equals(accession, document.accession)
                 && Objects.equals(secacc, document.secacc)
                 && Objects.equals(id, document.id)
@@ -608,9 +596,6 @@ public class UniProtDocument implements Document, Serializable {
                         unirefCluster50,
                         unirefCluster90,
                         unirefCluster100,
-                        unirefSize50,
-                        unirefSize90,
-                        unirefSize100,
                         mappedCitation,
                         uniparc);
         result = 31 * result + Arrays.hashCode(avroBinary);
@@ -857,12 +842,6 @@ public class UniProtDocument implements Document, Serializable {
                 + unirefCluster90
                 + ", unirefCluster100="
                 + unirefCluster100
-                + ", unirefSize50="
-                + unirefSize50
-                + ", unirefSize90="
-                + unirefSize90
-                + ", unirefSize100="
-                + unirefSize100
                 + ", mappedCitation="
                 + mappedCitation
                 + ", uniparc='"

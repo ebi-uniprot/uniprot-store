@@ -13,6 +13,8 @@ import scala.Tuple2;
 import indexer.go.relations.GoTerm;
 
 /**
+ * This class Merge GoTerm relations to UniprotDocument.
+ *
  * @author lgonzales
  * @since 2019-11-12
  */
@@ -21,6 +23,10 @@ public class GoRelationsToUniProtDocument
         implements Function<Tuple2<UniProtDocument, Optional<Iterable<GoTerm>>>, UniProtDocument> {
     private static final long serialVersionUID = -5057000958468900711L;
 
+    /**
+     * @param tuple is a Tuple2{key=UniProtDocument, value=Iterable<GoTerm>}
+     * @return UniProtDocument with all extra go terms relations added to it.
+     */
     @Override
     public UniProtDocument call(Tuple2<UniProtDocument, Optional<Iterable<GoTerm>>> tuple)
             throws Exception {

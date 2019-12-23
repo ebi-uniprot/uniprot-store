@@ -7,14 +7,15 @@ import java.util.stream.Collectors;
 
 import org.apache.spark.api.java.function.PairFlatMapFunction;
 import org.uniprot.core.uniprot.UniProtAccession;
-import org.uniprot.core.uniref.UniRefEntry;
-import org.uniprot.core.uniref.UniRefMemberIdType;
+import org.uniprot.core.uniref.*;
 import org.uniprot.core.util.Utils;
 
 import scala.Serializable;
 import scala.Tuple2;
 
 /**
+ * This class is Responsible to Map a UniRefEntry, to a Tuple{key=accession, value=MappedUniRef}
+ *
  * @author lgonzales
  * @since 2019-11-22
  */
@@ -23,41 +24,21 @@ public class UniRefEntryRDDTupleMapper
 
     private static final long serialVersionUID = -6357861588356599290L;
 
+    /**
+     * @param uniRefEntry UniRefEntry
+     * @return an Iterator of Tuple{key=accession, value=MappedUniRef} for each UNIPROTKB
+     *     member/representativeMember
+     */
     @Override
     public Iterator<Tuple2<String, MappedUniRef>> call(UniRefEntry uniRefEntry) throws Exception {
         List<Tuple2<String, MappedUniRef>> mappedAccessions = new ArrayList<>();
-
-        List<String> memberAccessions =
-                uniRefEntry.getMembers().stream()
-                        .filter(
-                                uniRefMember ->
-                                        uniRefMember.getMemberIdType()
-                                                == UniRefMemberIdType.UNIPROTKB)
-                        .flatMap(
-                                uniRefMember ->
-                                        uniRefMember.getUniProtAccessions().stream()
-                                                .map(UniProtAccession::getValue))
-                        .collect(Collectors.toList());
-
+        UniRefType type = uniRefEntry.getEntryType();
+        String clusterId = uniRefEntry.getId().getValue();
         if (uniRefEntry.getRepresentativeMember().getMemberIdType()
                 == UniRefMemberIdType.UNIPROTKB) {
-            List<String> accessions =
-                    uniRefEntry.getRepresentativeMember().getUniProtAccessions().stream()
-                            .map(UniProtAccession::getValue)
-                            .collect(Collectors.toList());
-            memberAccessions.addAll(accessions);
-            MappedUniRef mappedUniRef =
-                    MappedUniRef.builder()
-                            .uniRefType(uniRefEntry.getEntryType())
-                            .clusterID(uniRefEntry.getId().getValue())
-                            .uniRefMember(uniRefEntry.getRepresentativeMember())
-                            .memberAccessions(memberAccessions)
-                            .memberSize(uniRefEntry.getMemberCount())
-                            .build();
-            accessions.forEach(
-                    accession -> {
-                        mappedAccessions.add(new Tuple2<>(accession, mappedUniRef));
-                    });
+            mappedAccessions.addAll(
+                    getMappedUnirefsForMember(
+                            type, clusterId, uniRefEntry.getRepresentativeMember()));
         }
 
         if (Utils.notNullOrEmpty(uniRefEntry.getMembers())) {
@@ -67,28 +48,42 @@ public class UniRefEntryRDDTupleMapper
                             uniRefMember -> {
                                 if (uniRefMember.getMemberIdType()
                                         == UniRefMemberIdType.UNIPROTKB) {
-                                    List<String> accessions =
-                                            uniRefMember.getUniProtAccessions().stream()
-                                                    .map(UniProtAccession::getValue)
-                                                    .collect(Collectors.toList());
-                                    MappedUniRef mappedUniRef =
-                                            MappedUniRef.builder()
-                                                    .uniRefType(uniRefEntry.getEntryType())
-                                                    .clusterID(uniRefEntry.getId().getValue())
-                                                    .uniRefMember(uniRefMember)
-                                                    .memberAccessions(memberAccessions)
-                                                    .memberSize(uniRefEntry.getMemberCount())
-                                                    .build();
-
-                                    accessions.forEach(
-                                            accession -> {
-                                                mappedAccessions.add(
-                                                        new Tuple2<>(accession, mappedUniRef));
-                                            });
+                                    mappedAccessions.addAll(
+                                            getMappedUnirefsForMember(
+                                                    type, clusterId, uniRefMember));
                                 }
                             });
         }
 
         return mappedAccessions.iterator();
+    }
+
+    private List<Tuple2<String, MappedUniRef>> getMappedUnirefsForMember(
+            UniRefType type, String clusterId, UniRefMember uniRefMember) {
+        List<String> accessions =
+                uniRefMember.getUniProtAccessions().stream()
+                        .map(UniProtAccession::getValue)
+                        .collect(Collectors.toList());
+        MappedUniRef mappedUniRef =
+                MappedUniRef.builder()
+                        .uniRefType(type)
+                        .clusterID(clusterId)
+                        .uniparcUPI(getUniparcUPIFromMember(uniRefMember))
+                        .build();
+
+        return accessions.stream()
+                .map(
+                        accession -> {
+                            return new Tuple2<>(accession, mappedUniRef);
+                        })
+                .collect(Collectors.toList());
+    }
+
+    private String getUniparcUPIFromMember(UniRefMember member) {
+        String result = "";
+        if (member.getUniParcId() != null) {
+            result = member.getUniParcId().getValue();
+        }
+        return result;
     }
 }

@@ -15,6 +15,9 @@ import scala.Tuple2;
 import indexer.uniprot.converter.UniProtEntryConverterUtil;
 
 /**
+ * This class Merge a Iterable of TaxonomyEntry into UniProtDocument for organism, lineage and virus
+ * host.
+ *
  * @author lgonzales
  * @since 2019-11-12
  */
@@ -46,6 +49,10 @@ public class TaxonomyEntryToUniProtDocument
                         }
                     });
 
+    /**
+     * @param tuple Iterable of TaxonomyEntry that are related with a protein entry.
+     * @return UniProtDocument with organism, lineage and organism host.
+     */
     @Override
     public UniProtDocument call(Tuple2<UniProtDocument, Optional<Iterable<TaxonomyEntry>>> tuple)
             throws Exception {
@@ -64,12 +71,8 @@ public class TaxonomyEntryToUniProtDocument
                 updateOrganismFields(doc, organism);
             } else {
                 log.warn(
-                        "Unable to find organism id "
-                                + doc.organismTaxId
-                                + " in mapped organisms "
-                                + taxonomyEntryMap.keySet()
-                                + "for accession "
-                                + doc.accession);
+                        getWarnMessage(
+                                doc.accession, taxonomyEntryMap.keySet(), doc.organismTaxId));
             }
 
             if (Utils.notNullOrEmpty(doc.organismHostIds)) {
@@ -80,12 +83,8 @@ public class TaxonomyEntryToUniProtDocument
                                 doc.organismHostNames.addAll(getOrganismNames(organismHost));
                             } else {
                                 log.warn(
-                                        "Unable to find organism host id "
-                                                + taxId
-                                                + " in mapped organisms "
-                                                + taxonomyEntryMap.keySet()
-                                                + "for accession "
-                                                + doc.accession);
+                                        getWarnMessage(
+                                                doc.accession, taxonomyEntryMap.keySet(), taxId));
                             }
                         });
                 doc.content.addAll(doc.organismHostNames);
@@ -98,6 +97,15 @@ public class TaxonomyEntryToUniProtDocument
                             + doc.accession);
         }
         return doc;
+    }
+
+    private String getWarnMessage(String accession, Set<Long> keys, int organismTaxId) {
+        return "Unable to find organism id"
+                + organismTaxId
+                + " in mapped organisms "
+                + keys
+                + "for accession "
+                + accession;
     }
 
     private void updateOrganismFields(UniProtDocument doc, TaxonomyEntry organism) {

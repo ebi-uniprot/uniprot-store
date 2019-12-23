@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.Set;
 
 /**
+ * Model for Go Terms Relations
+ *
  * @author lgonzales
  * @since 2019-10-25
  */

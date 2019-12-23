@@ -14,6 +14,9 @@ import scala.Serializable;
 import scala.Tuple2;
 
 /**
+ * This mapper convert flat file entry in String format to a tuple of Tuple2{key=accession,
+ * value={@link UniProtEntry}}
+ *
  * @author lgonzales
  * @since 2019-11-12
  */
@@ -28,12 +31,16 @@ public class FlatFileToUniprotEntry
         this.supportingDataMap = supportingDataMap;
     }
 
+    /**
+     * @param entryString flat file entry in String format
+     * @return Tuple2{key=accession, value={@link UniProtEntry}}
+     */
     @Override
     public Tuple2<String, UniProtEntry> call(String entryString) throws Exception {
         UniprotLineParser<EntryObject> entryParser =
                 new DefaultUniprotLineParserFactory().createEntryParser();
         EntryObjectConverter entryObjectConverter =
-                new EntryObjectConverter(supportingDataMap, true); // TODO: change to false
+                new EntryObjectConverter(supportingDataMap, false);
 
         EntryObject parsed = entryParser.parse(entryString);
         UniProtEntry uniProtEntry = entryObjectConverter.convert(parsed);

@@ -13,7 +13,6 @@ import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaSparkContext;
 import org.uniprot.core.cv.pathway.UniPathway;
 import org.uniprot.core.cv.pathway.UniPathwayFileReader;
-import org.uniprot.core.literature.LiteratureMappedReference;
 import org.uniprot.core.taxonomy.TaxonomyEntry;
 import org.uniprot.core.uniprot.UniProtEntry;
 import org.uniprot.store.search.document.uniprot.UniProtDocument;
@@ -33,6 +32,8 @@ import indexer.util.SolrUtils;
 import indexer.util.SparkUtils;
 
 /**
+ * This class is responsible to load all the data for UniProtDocument and save it into HDSF
+ *
  * @author lgonzales
  * @since 2019-11-12
  */
@@ -80,15 +81,16 @@ public class UniprotKbIndexer {
                 UniRefRDDTupleReader.load100(sparkConf, applicationConfig);
         uniProtDocumentRDD = joinUniRef(uniProtDocumentRDD, uniref100EntryRDD);
 
-        JavaPairRDD<String, Iterable<LiteratureMappedReference>> literatureMappedRDD =
-                LiteratureMappedRDDReader.load(sparkConf, applicationConfig);
-        uniProtDocumentRDD = joinLiteratureMapped(uniProtDocumentRDD, literatureMappedRDD);
+        JavaPairRDD<String, Iterable<String>> literatureMappedPubMedRDD =
+                LiteratureMappedRDDReader.loadAccessionPubMedRDD(sparkConf, applicationConfig);
+        uniProtDocumentRDD = joinLiteratureMapped(uniProtDocumentRDD, literatureMappedPubMedRDD);
 
         boolean shouldIndexInactive =
                 Boolean.valueOf(applicationConfig.getString("uniprot.index.inactive"));
         if (shouldIndexInactive) {
             JavaPairRDD<String, UniProtDocument> inactiveEntryRDD =
                     InactiveUniprotRDDTupleReader.load(sparkConf, applicationConfig);
+            uniProtDocumentRDD = uniProtDocumentRDD.union(inactiveEntryRDD);
         }
 
         String hdfsPath = applicationConfig.getString("uniprot.solr.documents.path");
@@ -97,6 +99,10 @@ public class UniprotKbIndexer {
         log.info("Completed UniprotKB prepare Solr index");
     }
 
+    /**
+     * @param uniProtEntryRDD JavaPairRDD<accesion, UniProtEntry>
+     * @return RDD of JavaPairRDD<accesion, UniProtDocument> with UniProtEntry mapped information
+     */
     private static JavaPairRDD<String, UniProtDocument> convertToUniProtDocument(
             JavaPairRDD<String, UniProtEntry> uniProtEntryRDD,
             ResourceBundle applicationConfig,
@@ -164,6 +170,22 @@ public class UniprotKbIndexer {
                         .mapValues(new TaxonomyEntryToUniProtDocument());
     }
 
+    /**
+     * --- PLEASE NOTE --- To join GoRelations we are creating an RDD of JavaPairRDD<goId,accession>
+     * extracted from FlatFile GO DR lines. It means that one protein may have many goIds
+     *
+     * <p>The Second step is a join between JavaPairRDD<goId,accession> and JavaPairRDD<goId,GoTerm>
+     * received as method parameter and we group by accession, so the result RDD would be a
+     * (JavaPairRDD<accession, Iterable<GoTerm>>).
+     *
+     * <p>The Third and last step is to join JavaPairRDD<accession, Iterable<GoTerm>> with
+     * JavaPairRDD<accession, UniProtDocument> and at this point we can map GoTerms Relations
+     * information into UniProtDocument.
+     *
+     * @param uniProtDocumentRDD JavaPairRDD<accession, UniProtDocument>
+     * @param goRelationsRDD JavaPairRDD<accession, GoTerm>
+     * @return JavaPairRDD<accession, UniProtDocument> with added GoRelations
+     */
     private static JavaPairRDD<String, UniProtDocument> joinGoRelations(
             JavaPairRDD<String, UniProtDocument> uniProtDocumentRDD,
             JavaPairRDD<String, GoTerm> goRelationsRDD,
@@ -171,7 +193,6 @@ public class UniprotKbIndexer {
             JavaSparkContext sparkContext) {
 
         // JavaPairRDD<goId,accession> goMapRDD --> extracted from flat file DR lines for GO
-        // database
         JavaPairRDD<String, String> goMapRDD =
                 (JavaPairRDD<String, String>)
                         UniprotRDDTupleReader.loadFlatFileToRDD(sparkContext, applicationConfig)
@@ -189,6 +210,11 @@ public class UniprotKbIndexer {
                         .mapValues(new GoRelationsToUniProtDocument());
     }
 
+    /**
+     * @param uniProtDocumentRDD current JavaPairRDD<accesion, UniProtDocument>
+     * @param unirefJavaPair JavaPairRDD<accesion, MappedUniRef>
+     * @return RDD of JavaPairRDD<accesion, UniProtDocument> with MappedUniRef mapped information
+     */
     private static JavaPairRDD<String, UniProtDocument> joinUniRef(
             JavaPairRDD<String, UniProtDocument> uniProtDocumentRDD,
             JavaPairRDD<String, MappedUniRef> unirefJavaPair) {
@@ -197,6 +223,12 @@ public class UniprotKbIndexer {
                 uniProtDocumentRDD.leftOuterJoin(unirefJavaPair).mapValues(new UniRefMapper());
     }
 
+    /**
+     * @param uniProtEntryRDD JavaPairRDD<accesion, UniProtEntry>
+     * @param goEvidenceRDD JavaPairRDD<accession, Iterable<GoEvidence>>
+     * @return RDD of JavaPairRDD<accesion, UniProtEntry> with extended GoEvidence mapped
+     *     information
+     */
     private static JavaPairRDD<String, UniProtEntry> joinGoEvidences(
             JavaPairRDD<String, UniProtEntry> uniProtEntryRDD,
             JavaPairRDD<String, Iterable<GoEvidence>> goEvidenceRDD) {
@@ -204,9 +236,15 @@ public class UniprotKbIndexer {
                 uniProtEntryRDD.leftOuterJoin(goEvidenceRDD).mapValues(new GoEvidenceMapper());
     }
 
+    /**
+     * @param uniProtDocumentRDD current JavaPairRDD<accesion, UniProtDocument>
+     * @param literatureMappedRDD JavaPairRDD<accesion, List of PubmedId>
+     * @return JavaPairRDD<accesion, UniProtDocument> with mapped PIR Computationally mapped pubmed
+     *     ids
+     */
     private static JavaPairRDD<String, UniProtDocument> joinLiteratureMapped(
             JavaPairRDD<String, UniProtDocument> uniProtDocumentRDD,
-            JavaPairRDD<String, Iterable<LiteratureMappedReference>> literatureMappedRDD) {
+            JavaPairRDD<String, Iterable<String>> literatureMappedRDD) {
         return (JavaPairRDD<String, UniProtDocument>)
                 uniProtDocumentRDD
                         .leftOuterJoin(literatureMappedRDD)

@@ -11,6 +11,8 @@ import org.uniprot.core.uniref.UniRefType;
 import scala.Serializable;
 
 /**
+ * Responsible to Load JavaPairRDD{Key=accession, value=MappedUniRef}
+ *
  * @author lgonzales
  * @since 2019-10-16
  */
@@ -29,6 +31,7 @@ public class UniRefRDDTupleReader implements Serializable {
         return data;
     }
 
+    /** @return JavaPairRDD{Key=accession, value=MappedUniRef} for UniRefType.UniRef90 */
     public static JavaPairRDD<String, MappedUniRef> load50(
             SparkConf sparkConf, ResourceBundle applicationConfig) {
         String xmlFilePath = applicationConfig.getString("uniref.50.xml.file");
@@ -36,6 +39,7 @@ public class UniRefRDDTupleReader implements Serializable {
         return getMappedUniRef(sparkConf, xmlFilePath, UniRefType.UniRef50, repartition);
     }
 
+    /** @return JavaPairRDD{Key=accession, value=MappedUniRef} for UniRefType.UniRef50 */
     public static JavaPairRDD<String, MappedUniRef> load90(
             SparkConf sparkConf, ResourceBundle applicationConfig) {
         String xmlFilePath = applicationConfig.getString("uniref.90.xml.file");
@@ -43,6 +47,7 @@ public class UniRefRDDTupleReader implements Serializable {
         return getMappedUniRef(sparkConf, xmlFilePath, UniRefType.UniRef90, repartition);
     }
 
+    /** @return JavaPairRDD{Key=accession, value=MappedUniRef} for UniRefType.UniRef100 */
     public static JavaPairRDD<String, MappedUniRef> load100(
             SparkConf sparkConf, ResourceBundle applicationConfig) {
         String xmlFilePath = applicationConfig.getString("uniref.100.xml.file");

@@ -12,6 +12,17 @@ import org.apache.spark.sql.SparkSession;
 import org.uniprot.core.taxonomy.TaxonomyLineage;
 
 /**
+ * This class is responsible to read values from Lineage into an a JavaPairRDD{key=taxId, value=List
+ * of TaxonomyLineage}
+ *
+ * <p>In order to improve the performance there is a logic to partition the query based on the
+ * number of partitions (database.lineage.partition).
+ *
+ * <p>It basically get the maxTaxId and divide by the number of partition, to create a range for
+ * each partition
+ *
+ * <p>After that it executes one query for each partition based on the partition range.
+ *
  * @author lgonzales
  * @since 2019-10-11
  */
@@ -31,6 +42,7 @@ public class TaxonomyLineageReader {
                     + " START WITH TAX_ID >= {start} AND TAX_ID <= {end} "
                     + " CONNECT BY PRIOR PARENT_ID = TAX_ID";
 
+    /** @return JavaPairRDD{key=taxId, value=List of TaxonomyLineage} */
     public static JavaPairRDD<String, List<TaxonomyLineage>> load(
             JavaSparkContext sparkContext, ResourceBundle applicationConfig) {
         int maxTaxId = TaxonomyRDDReader.getMaxTaxId(sparkContext, applicationConfig);

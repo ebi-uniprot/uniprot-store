@@ -22,25 +22,25 @@ class LiteratureMappedFileMapperTest {
 
         assertNotNull(tuple);
         assertNotNull(tuple._1);
-        assertEquals(tuple._1, "X5FSX0");
+        assertEquals("1358782", tuple._1);
 
         assertNotNull(tuple._2);
         LiteratureMappedReference reference = tuple._2;
         assertTrue(reference.hasUniprotAccession());
-        assertEquals(reference.getUniprotAccession().getValue(), "X5FSX0");
+        assertEquals("X5FSX0", reference.getUniprotAccession().getValue());
 
         assertTrue(reference.hasSource());
-        assertEquals(reference.getSource(), "GAD");
+        assertEquals("GAD", reference.getSource());
 
         assertTrue(reference.hasSourceId());
-        assertEquals(reference.getSourceId(), "126289");
+        assertEquals("126289", reference.getSourceId());
 
         assertTrue(reference.hasAnnotation());
-        assertEquals(reference.getAnnotation(), "Not Associated with PSYCH: schizophrenia.");
+        assertEquals("Not Associated with PSYCH: schizophrenia.", reference.getAnnotation());
 
         assertTrue(reference.hasSourceCategory());
-        assertEquals(reference.getSourceCategory().size(), 1);
-        assertEquals(reference.getSourceCategory().get(0), "Pathology & Biotech");
+        assertEquals(1, reference.getSourceCategory().size());
+        assertEquals("Pathology & Biotech", reference.getSourceCategory().get(0));
     }
 
     @Test
@@ -52,22 +52,22 @@ class LiteratureMappedFileMapperTest {
 
         assertNotNull(tuple);
         assertNotNull(tuple._1);
-        assertEquals(tuple._1, "X5FSX0");
+        assertEquals("1358782", tuple._1);
 
         assertNotNull(tuple._2);
         LiteratureMappedReference reference = tuple._2;
 
         assertTrue(reference.hasUniprotAccession());
-        assertEquals(reference.getUniprotAccession().getValue(), "X5FSX0");
+        assertEquals("X5FSX0", reference.getUniprotAccession().getValue());
 
         assertTrue(reference.hasSource());
-        assertEquals(reference.getSource(), "GAD");
+        assertEquals("GAD", reference.getSource());
 
         assertTrue(reference.hasSourceId());
-        assertEquals(reference.getSourceId(), "126289");
+        assertEquals("126289", reference.getSourceId());
 
         assertTrue(reference.hasAnnotation());
-        assertEquals(reference.getAnnotation(), "Not Associated with PSYCH: schizophrenia.");
+        assertEquals("Not Associated with PSYCH: schizophrenia.", reference.getAnnotation());
 
         assertFalse(reference.hasSourceCategory());
     }
@@ -80,25 +80,25 @@ class LiteratureMappedFileMapperTest {
 
         assertNotNull(tuple);
         assertNotNull(tuple._1);
-        assertEquals(tuple._1, "X5FSX0");
+        assertEquals("1358782", tuple._1);
 
         assertNotNull(tuple._2);
         LiteratureMappedReference reference = tuple._2;
 
         assertTrue(reference.hasUniprotAccession());
-        assertEquals(reference.getUniprotAccession().getValue(), "X5FSX0");
+        assertEquals("X5FSX0", reference.getUniprotAccession().getValue());
 
         assertTrue(reference.hasSource());
-        assertEquals(reference.getSource(), "GAD");
+        assertEquals("GAD", reference.getSource());
 
         assertTrue(reference.hasSourceId());
-        assertEquals(reference.getSourceId(), "126289");
+        assertEquals("126289", reference.getSourceId());
 
         assertFalse(reference.hasAnnotation());
 
         assertTrue(reference.hasSourceCategory());
-        assertEquals(reference.getSourceCategory().size(), 2);
-        assertEquals(reference.getSourceCategory().get(0), "Expression");
-        assertEquals(reference.getSourceCategory().get(1), "Sequences");
+        assertEquals(2, reference.getSourceCategory().size());
+        assertEquals("Expression", reference.getSourceCategory().get(0));
+        assertEquals("Sequences", reference.getSourceCategory().get(1));
     }
 }

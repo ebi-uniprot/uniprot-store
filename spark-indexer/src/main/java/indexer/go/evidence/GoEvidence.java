@@ -9,6 +9,8 @@ import lombok.ToString;
 import org.uniprot.core.uniprot.evidence.Evidence;
 
 /**
+ * Model class for the mapped Go Evidence
+ *
  * @author lgonzales
  * @since 2019-10-21
  */

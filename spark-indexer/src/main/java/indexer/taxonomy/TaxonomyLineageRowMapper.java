@@ -14,6 +14,9 @@ import org.uniprot.core.util.Utils;
 import scala.Tuple2;
 
 /**
+ * This class Map SELECT_TAXONOMY_LINEAGE_SQL SQL Row result to a Tuple{key=taxId, value=List of
+ * TaxonomyLineage}
+ *
  * @author lgonzales
  * @since 2019-11-14
  */
@@ -22,6 +25,10 @@ class TaxonomyLineageRowMapper
 
     private static final long serialVersionUID = -7723532417214033169L;
 
+    /**
+     * @param rowValue TaxonomyLineageReader.SELECT_TAXONOMY_LINEAGE_SQL SQL Row result
+     * @return a Tuple{key=taxId, value=List of TaxonomyLineage}
+     */
     @Override
     public Tuple2<String, List<TaxonomyLineage>> call(Row rowValue) throws Exception {
         String lineageId = rowValue.getString(rowValue.fieldIndex("LINEAGE_ID"));

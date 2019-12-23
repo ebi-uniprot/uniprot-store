@@ -14,6 +14,8 @@ import org.uniprot.core.taxonomy.builder.TaxonomyEntryBuilder;
 import scala.Tuple2;
 
 /**
+ * This class Map SQL Row result to a Tuple{key=taxId, value=TaxonomyEntry}
+ *
  * @author lgonzales
  * @since 2019-11-14
  */
@@ -21,6 +23,10 @@ class TaxonomyRowMapper implements PairFunction<Row, String, TaxonomyEntry>, Ser
 
     private static final long serialVersionUID = -7723532417214033169L;
 
+    /**
+     * @param rowValue SQL Row result
+     * @return a Tuple{key=taxId, value=TaxonomyEntry}
+     */
     @Override
     public Tuple2<String, TaxonomyEntry> call(Row rowValue) throws Exception {
         BigDecimal taxId = rowValue.getDecimal(rowValue.fieldIndex("TAX_ID"));

@@ -12,6 +12,8 @@ import indexer.uniprot.converter.SupportingDataMapHDSFImpl;
 import indexer.uniprot.mapper.FlatFileToUniprotEntry;
 
 /**
+ * This class load an JavaPairRDD with <accession, UniProtEntry>
+ *
  * @author lgonzales
  * @since 2019-10-16
  */
@@ -19,6 +21,7 @@ public class UniprotRDDTupleReader {
 
     private static final String SPLITTER = "\n//\n";
 
+    /** @return an JavaPairRDD with <accession, UniProtEntry> */
     public static JavaPairRDD<String, UniProtEntry> load(
             JavaSparkContext jsc, ResourceBundle applicationConfig) {
         String keywordFile = applicationConfig.getString("keyword.file.path");
@@ -38,11 +41,15 @@ public class UniprotRDDTupleReader {
 
         return (JavaPairRDD<String, UniProtEntry>)
                 splittedFileRDD
-                        // .repartition(splittedFileRDD.getNumPartitions() * 3)
+                        // in the end when I save the document, it generate 3 times
+                        // the number of partition, By doing it at the beginning it
+                        // run the process faster.
+                        .repartition(splittedFileRDD.getNumPartitions() * 3)
                         .map(e -> e + SPLITTER)
                         .mapToPair(mapper);
     }
 
+    /** @return Return an RDD with the entry in String format */
     public static JavaRDD<String> loadFlatFileToRDD(
             JavaSparkContext jsc, ResourceBundle applicationConfig) {
         String filePath = applicationConfig.getString("uniprot.flat.file");

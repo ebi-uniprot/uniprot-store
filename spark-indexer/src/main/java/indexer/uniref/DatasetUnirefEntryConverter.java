@@ -27,6 +27,8 @@ import org.uniprot.core.uniref.impl.OverlapRegionImpl;
 import org.uniprot.core.uniref.impl.UniRefEntryIdImpl;
 
 /**
+ * This class Map XML Row result to a UniRefEntry
+ *
  * @author lgonzales
  * @since 2019-10-01
  */
@@ -45,6 +47,10 @@ class DatasetUnirefEntryConverter implements MapFunction<Row, UniRefEntry>, Seri
         this.uniRefType = uniRefType;
     }
 
+    /**
+     * @param rowValue XML Row
+     * @return mapped UniRefEntry
+     */
     @Override
     public UniRefEntry call(Row rowValue) throws Exception {
         UniRefEntryBuilder builder = new UniRefEntryBuilder();

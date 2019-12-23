@@ -16,12 +16,19 @@ import org.uniprot.core.util.Utils;
 import scala.Tuple2;
 
 /**
+ * Map from entry in FF String format To Iterator of Tuple2{key=goId, value=accession} extracted
+ * from DR lines
+ *
  * @author lgonzales
  * @since 2019-11-12
  */
 public class GoRelationsJoinMapper implements PairFlatMapFunction<String, String, String> {
     private static final long serialVersionUID = -2452907832200117358L;
 
+    /**
+     * @param entryStr flat file entry in String format
+     * @return Iterator of Tuple2{key=goId, value=accession} extracted from DR lines
+     */
     @Override
     public Iterator<Tuple2<String, String>> call(String entryStr) throws Exception {
         final UniprotLineParser<AcLineObject> acParser =

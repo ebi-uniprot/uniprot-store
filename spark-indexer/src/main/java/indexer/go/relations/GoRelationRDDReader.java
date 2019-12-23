@@ -10,12 +10,20 @@ import org.apache.spark.api.java.JavaSparkContext;
 import scala.Tuple2;
 
 /**
+ * This class load GoRelation to a JavaPairRDD{key=goTermId, value={@link GoTerm with
+ * Ancestors(Relations)}}
+ *
  * @author lgonzales
  * @since 2019-11-09
  */
 @Slf4j
 public class GoRelationRDDReader {
 
+    /**
+     * load Go Relations to a JavaPairRDD
+     *
+     * @return JavaPairRDD{key=goTermId, value={@link GoTerm with Ancestors(Relations)}}
+     */
     public static JavaPairRDD<String, GoTerm> load(
             ResourceBundle applicationConfig, JavaSparkContext sparkContext) {
 

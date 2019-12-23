@@ -7,6 +7,8 @@ import org.uniprot.store.search.document.uniprot.UniProtDocument;
 import scala.Tuple2;
 
 /**
+ * This class is responsible to Map MappedUniRef into UniProtDocument based on UniRefType
+ *
  * @author lgonzales
  * @since 2019-10-22
  */
@@ -15,6 +17,10 @@ public class UniRefMapper
 
     private static final long serialVersionUID = -7600564687228805786L;
 
+    /**
+     * @param tuple of {key=UniProtDocument, value=MappedUniRef}
+     * @return UniProtDocument with added MappedUniRef information.
+     */
     @Override
     public UniProtDocument call(Tuple2<UniProtDocument, Optional<MappedUniRef>> tuple)
             throws Exception {
@@ -23,24 +29,17 @@ public class UniRefMapper
             MappedUniRef uniRef = (MappedUniRef) tuple._2.get();
             switch (uniRef.getUniRefType()) {
                 case UniRef50:
-                    document.unirefCluster50.add(uniRef.getClusterID());
-                    document.unirefCluster50.addAll(uniRef.getMemberAccessions());
-                    document.unirefSize50 = uniRef.getMemberSize();
+                    document.unirefCluster50 = uniRef.getClusterID();
                     break;
                 case UniRef90:
-                    document.unirefCluster90.add(uniRef.getClusterID());
-                    document.unirefCluster90.addAll(uniRef.getMemberAccessions());
-                    document.unirefSize90 = uniRef.getMemberSize();
+                    document.unirefCluster90 = uniRef.getClusterID();
                     break;
                 case UniRef100:
-                    document.unirefCluster100.add(uniRef.getClusterID());
-                    document.unirefCluster100.addAll(uniRef.getMemberAccessions());
-                    document.unirefSize100 = uniRef.getMemberSize();
+                    document.unirefCluster100 = uniRef.getClusterID();
                     break;
             }
-            if (uniRef.getUniRefMember() != null
-                    && uniRef.getUniRefMember().getUniParcId() != null) {
-                document.uniparc = uniRef.getUniRefMember().getUniParcId().getValue();
+            if (uniRef.getUniparcUPI() != null) {
+                document.uniparc = uniRef.getUniparcUPI();
             }
         }
         return document;

@@ -13,6 +13,9 @@ import org.uniprot.core.util.Utils;
 import scala.Tuple2;
 
 /**
+ * This class map a humdisease string lines of an Disease Entry To a Tuple2{key=diseaseId,
+ * value={@link Disease}}
+ *
  * @author lgonzales
  * @since 2019-11-14
  */
@@ -21,6 +24,11 @@ public class DiseaseFileMapper implements PairFunction<String, String, Disease> 
 
     private static final long serialVersionUID = 7494631073619296441L;
 
+    /**
+     * @param diseaseLines humdisease string lines of an Disease Entry
+     * @return a Tuple2{key=diseaseId, value={@link Disease}}
+     * @throws Exception
+     */
     @Override
     public Tuple2<String, Disease> call(String diseaseLines) throws Exception {
         diseaseLines = "_________\n" + diseaseLines;

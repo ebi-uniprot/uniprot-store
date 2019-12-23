@@ -17,12 +17,19 @@ import org.uniprot.core.util.Utils;
 import scala.Tuple2;
 
 /**
+ * Map from entry in FF String format To Iterator of Tuple2{key=taxId, value=accession} extracted
+ * from OX and OH lines
+ *
  * @author lgonzales
  * @since 2019-11-12
  */
 public class TaxonomyJoinMapper implements PairFlatMapFunction<String, String, String> {
     private static final long serialVersionUID = -1472328217700233918L;
 
+    /**
+     * @param entryStr entry in FF String format
+     * @return Iterator of Tuple2{key=taxId, value=accession} extracted from OX and OH lines
+     */
     @Override
     public Iterator<Tuple2<String, String>> call(String entryStr) throws Exception {
         final UniprotLineParser<AcLineObject> acParser =
