@@ -82,13 +82,16 @@ public class TaxonomyLineageReader {
                                                 "Unable to union lineage datasets"));
     }
 
-    private static int[][] getRanges(int maxId, int numPartition) {
-        int rangeSize = Math.floorDiv(maxId, numPartition);
-        int start = 1;
+    static int[][] getRanges(int maxId, int numPartition) {
+        int rangeSize = (int) Math.ceil((double) maxId / numPartition);
+        int start = 0;
         int[][] range = new int[numPartition][2];
         for (int i = 0; i < numPartition; i++) {
-            range[i] = new int[] {start, start + rangeSize};
-            start = start + rangeSize + 1;
+            range[i] = new int[] {start + 1, start + rangeSize};
+            start = start + rangeSize;
+        }
+        if (range[numPartition - 1][1] > maxId) {
+            range[numPartition - 1][1] = maxId;
         }
         return range;
     }

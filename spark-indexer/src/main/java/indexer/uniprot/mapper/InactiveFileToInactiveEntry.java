@@ -32,9 +32,9 @@ public class InactiveFileToInactiveEntry
     @Override
     public Tuple2<String, UniProtEntry> call(String line) throws Exception {
         String[] tokens = line.split(",");
-        String accession = tokens[0];
+        String accession = tokens[0].trim();
         String proteinId = tokens[1];
-        String reasonType = tokens[2];
+        String reasonType = tokens[2].trim();
 
         EntryInactiveReasonBuilder reasonBuilder = new EntryInactiveReasonBuilder();
         reasonBuilder.type(InactiveReasonType.valueOf(reasonType.toUpperCase()));
@@ -42,9 +42,10 @@ public class InactiveFileToInactiveEntry
             reasonBuilder.addMergeDemergeTo(tokens[3]);
         }
         UniProtEntry inactiveEntry;
-        if (Utils.notNullOrEmpty(proteinId)) {
+        if (Utils.notNull(proteinId) && !proteinId.trim().isEmpty()) {
             inactiveEntry =
-                    new UniProtEntryBuilder(accession, proteinId, reasonBuilder.build()).build();
+                    new UniProtEntryBuilder(accession, proteinId.trim(), reasonBuilder.build())
+                            .build();
         } else {
             inactiveEntry = new UniProtEntryBuilder(accession, reasonBuilder.build()).build();
         }
