@@ -1,4 +1,4 @@
-package indexer.util;
+package org.uniprot.store.spark.indexer.util;
 
 import java.io.*;
 import java.net.URL;
@@ -12,8 +12,7 @@ import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
 import org.apache.spark.SparkConf;
 import org.apache.spark.api.java.JavaSparkContext;
-
-import indexer.SparkRDDDriverProgram;
+import org.uniprot.store.spark.indexer.SparkRDDDriverProgram;
 
 /**
  * @author lgonzales

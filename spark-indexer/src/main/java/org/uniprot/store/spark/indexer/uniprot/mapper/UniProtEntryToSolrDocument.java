@@ -1,4 +1,4 @@
-package indexer.uniprot.mapper;
+package org.uniprot.store.spark.indexer.uniprot.mapper;
 
 import java.io.Serializable;
 import java.util.Map;
@@ -6,9 +6,8 @@ import java.util.Map;
 import org.apache.spark.api.java.function.Function;
 import org.uniprot.core.uniprot.UniProtEntry;
 import org.uniprot.store.search.document.uniprot.UniProtDocument;
-
-import indexer.uniprot.converter.InactiveUniprotEntryConverter;
-import indexer.uniprot.converter.UniProtEntryConverter;
+import org.uniprot.store.spark.indexer.uniprot.converter.InactiveUniprotEntryConverter;
+import org.uniprot.store.spark.indexer.uniprot.converter.UniProtEntryConverter;
 
 /**
  * This class is responsible to Map UniProtEntry object to UniProtDocument

@@ -1,4 +1,4 @@
-package indexer.uniprot.mapper;
+package org.uniprot.store.spark.indexer.uniprot.mapper;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -10,9 +10,9 @@ import org.apache.spark.api.java.function.Function;
 import org.uniprot.core.taxonomy.TaxonomyEntry;
 import org.uniprot.core.util.Utils;
 import org.uniprot.store.search.document.uniprot.UniProtDocument;
+import org.uniprot.store.spark.indexer.uniprot.converter.UniProtEntryConverterUtil;
 
 import scala.Tuple2;
-import indexer.uniprot.converter.UniProtEntryConverterUtil;
 
 /**
  * This class Merge a Iterable of TaxonomyEntry into UniProtDocument for organism, lineage and virus
@@ -67,7 +67,7 @@ public class TaxonomyEntryToUniProtDocument
                             });
 
             TaxonomyEntry organism = taxonomyEntryMap.get((long) doc.organismTaxId);
-            if (organism != null) {
+            if (Utils.notNull(organism)) {
                 updateOrganismFields(doc, organism);
             } else {
                 log.warn(
@@ -79,7 +79,7 @@ public class TaxonomyEntryToUniProtDocument
                 doc.organismHostIds.forEach(
                         taxId -> {
                             TaxonomyEntry organismHost = taxonomyEntryMap.get((long) taxId);
-                            if (organismHost != null) {
+                            if (Utils.notNull(organismHost)) {
                                 doc.organismHostNames.addAll(getOrganismNames(organismHost));
                             } else {
                                 log.warn(
@@ -132,7 +132,7 @@ public class TaxonomyEntryToUniProtDocument
         doc.content.addAll(doc.organismTaxon);
 
         String popularOrgamism = POPULAR_ORGANIMS_TAX_NAME.get(organism.getTaxonId());
-        if (popularOrgamism != null) {
+        if (Utils.notNull(popularOrgamism)) {
             doc.popularOrganism = popularOrgamism;
         } else {
             if (organism.hasMnemonic()) {

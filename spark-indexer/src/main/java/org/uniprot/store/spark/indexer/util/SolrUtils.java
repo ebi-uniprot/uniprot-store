@@ -1,4 +1,4 @@
-package indexer.util;
+package org.uniprot.store.spark.indexer.util;
 
 import java.util.ResourceBundle;
 
@@ -9,6 +9,7 @@ import org.apache.solr.client.solrj.impl.CloudSolrClient;
 import org.apache.solr.common.SolrInputDocument;
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
+import org.uniprot.store.search.SolrCollection;
 import org.uniprot.store.search.document.Document;
 
 import com.lucidworks.spark.util.SolrSupport;
@@ -34,24 +35,26 @@ public class SolrUtils {
 
     public static void indexDocuments(
             JavaRDD<SolrInputDocument> solrInputDocumentRDD,
-            String collection,
+            SolrCollection collection,
             ResourceBundle config) {
+        String collectionName = collection.toString();
         String zkHost = config.getString("solr.zkhost");
-        log.info("Starting solr index for collection: " + collection + " in zkHost " + zkHost);
+        log.info("Starting solr index for collection: " + collectionName + " in zkHost " + zkHost);
         try {
 
             int solrBatchSize = Integer.valueOf(config.getString("solr.batch.size"));
-            SolrSupport.indexDocs(zkHost, collection, solrBatchSize, solrInputDocumentRDD.rdd());
-            log.info("Completed solr index for collection " + collection);
+            SolrSupport.indexDocs(
+                    zkHost, collectionName, solrBatchSize, solrInputDocumentRDD.rdd());
+            log.info("Completed solr index for collection " + collectionName);
         } catch (Exception e) {
-            log.error("Exception indexing data to solr, for collection " + collection, e);
+            log.error("Exception indexing data to solr, for collection " + collectionName, e);
             throw new RuntimeException("Exception: ", e);
         }
-        log.info("Completed solr index for collection " + collection);
+        log.info("Completed solr index for collection " + collectionName);
 
         CloudSolrClient solrClient = SolrSupport.getCachedCloudClient(zkHost);
-        commit(collection, solrClient);
-        optimize(collection, solrClient);
+        commit(collectionName, solrClient);
+        optimize(collectionName, solrClient);
     }
 
     private static void optimize(String collection, CloudSolrClient solrClient) {

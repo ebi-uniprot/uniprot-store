@@ -1,4 +1,4 @@
-package indexer.uniprot.mapper;
+package org.uniprot.store.spark.indexer.uniprot.mapper;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -18,8 +18,7 @@ import org.uniprot.core.uniprot.UniProtEntryType;
 import org.uniprot.core.uniprot.builder.UniProtEntryBuilder;
 import org.uniprot.store.job.common.DocumentConversionException;
 import org.uniprot.store.search.document.uniprot.UniProtDocument;
-
-import indexer.uniprot.converter.SupportingDataMapHDSFImpl;
+import org.uniprot.store.spark.indexer.uniprot.converter.SupportingDataMapHDSFImpl;
 
 /**
  * @author lgonzales

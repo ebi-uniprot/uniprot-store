@@ -1,4 +1,4 @@
-package indexer.uniprot.mapper;
+package org.uniprot.store.spark.indexer.uniprot.mapper;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -7,10 +7,10 @@ import java.util.*;
 import org.apache.spark.api.java.Optional;
 import org.junit.jupiter.api.Test;
 import org.uniprot.store.search.document.uniprot.UniProtDocument;
+import org.uniprot.store.spark.indexer.go.relations.GOTerm;
+import org.uniprot.store.spark.indexer.go.relations.GOTermImpl;
 
 import scala.Tuple2;
-import indexer.go.relations.GoTerm;
-import indexer.go.relations.GoTermImpl;
 
 /**
  * @author lgonzales
@@ -22,11 +22,11 @@ class GoRelationsToUniProtDocumentTest {
     void testDocumentWithValidGoRelations() throws Exception {
         GoRelationsToUniProtDocument mapper = new GoRelationsToUniProtDocument();
 
-        Set<GoTerm> ancestors = new HashSet<>();
-        ancestors.add(new GoTermImpl("GO:0011111", "Ancestor 1"));
-        ancestors.add(new GoTermImpl("GO:0022222", "Ancestor 2"));
-        List<GoTerm> goTerms = new ArrayList<>();
-        goTerms.add(new GoTermImpl("GO:0012345", "Go Term", ancestors));
+        Set<GOTerm> ancestors = new HashSet<>();
+        ancestors.add(new GOTermImpl("GO:0011111", "Ancestor 1"));
+        ancestors.add(new GOTermImpl("GO:0022222", "Ancestor 2"));
+        List<GOTerm> goTerms = new ArrayList<>();
+        goTerms.add(new GOTermImpl("GO:0012345", "Go Term", ancestors));
 
         List<String> goValues = new ArrayList<>();
         goValues.add("0012345");
@@ -34,7 +34,7 @@ class GoRelationsToUniProtDocumentTest {
         UniProtDocument doc = new UniProtDocument();
         doc.goWithEvidenceMaps.put("ida", goValues);
 
-        Tuple2<UniProtDocument, Optional<Iterable<GoTerm>>> tuple =
+        Tuple2<UniProtDocument, Optional<Iterable<GOTerm>>> tuple =
                 new Tuple2<>(doc, Optional.of(goTerms));
         UniProtDocument result = mapper.call(tuple);
 
@@ -64,7 +64,7 @@ class GoRelationsToUniProtDocumentTest {
     void testDocumentWithEmptyGoRelations() throws Exception {
         GoRelationsToUniProtDocument mapper = new GoRelationsToUniProtDocument();
 
-        Tuple2<UniProtDocument, Optional<Iterable<GoTerm>>> tuple =
+        Tuple2<UniProtDocument, Optional<Iterable<GOTerm>>> tuple =
                 new Tuple2<>(new UniProtDocument(), Optional.empty());
         UniProtDocument result = mapper.call(tuple);
 
@@ -77,13 +77,13 @@ class GoRelationsToUniProtDocumentTest {
     void testDocumentWithInvalidGoMapRelations() throws Exception {
         GoRelationsToUniProtDocument mapper = new GoRelationsToUniProtDocument();
 
-        Set<GoTerm> ancestors = new HashSet<>();
-        ancestors.add(new GoTermImpl("GO:0011111", "Ancestor 1"));
-        ancestors.add(new GoTermImpl("GO:0022222", "Ancestor 2"));
-        List<GoTerm> goTerms = new ArrayList<>();
-        goTerms.add(new GoTermImpl("GO:0012345", "Go Term", ancestors));
+        Set<GOTerm> ancestors = new HashSet<>();
+        ancestors.add(new GOTermImpl("GO:0011111", "Ancestor 1"));
+        ancestors.add(new GOTermImpl("GO:0022222", "Ancestor 2"));
+        List<GOTerm> goTerms = new ArrayList<>();
+        goTerms.add(new GOTermImpl("GO:0012345", "Go Term", ancestors));
 
-        Tuple2<UniProtDocument, Optional<Iterable<GoTerm>>> tuple =
+        Tuple2<UniProtDocument, Optional<Iterable<GOTerm>>> tuple =
                 new Tuple2<>(new UniProtDocument(), Optional.of(goTerms));
         UniProtDocument result = mapper.call(tuple);
 

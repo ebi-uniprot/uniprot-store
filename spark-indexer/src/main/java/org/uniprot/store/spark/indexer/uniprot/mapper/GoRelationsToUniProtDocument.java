@@ -1,4 +1,4 @@
-package indexer.uniprot.mapper;
+package org.uniprot.store.spark.indexer.uniprot.mapper;
 
 import java.util.Collection;
 import java.util.Map;
@@ -7,10 +7,11 @@ import lombok.extern.slf4j.Slf4j;
 
 import org.apache.spark.api.java.Optional;
 import org.apache.spark.api.java.function.Function;
+import org.uniprot.core.util.Utils;
 import org.uniprot.store.search.document.uniprot.UniProtDocument;
+import org.uniprot.store.spark.indexer.go.relations.GOTerm;
 
 import scala.Tuple2;
-import indexer.go.relations.GoTerm;
 
 /**
  * This class Merge GoTerm relations to UniprotDocument.
@@ -20,7 +21,7 @@ import indexer.go.relations.GoTerm;
  */
 @Slf4j
 public class GoRelationsToUniProtDocument
-        implements Function<Tuple2<UniProtDocument, Optional<Iterable<GoTerm>>>, UniProtDocument> {
+        implements Function<Tuple2<UniProtDocument, Optional<Iterable<GOTerm>>>, UniProtDocument> {
     private static final long serialVersionUID = -5057000958468900711L;
 
     /**
@@ -28,7 +29,7 @@ public class GoRelationsToUniProtDocument
      * @return UniProtDocument with all extra go terms relations added to it.
      */
     @Override
-    public UniProtDocument call(Tuple2<UniProtDocument, Optional<Iterable<GoTerm>>> tuple)
+    public UniProtDocument call(Tuple2<UniProtDocument, Optional<Iterable<GOTerm>>> tuple)
             throws Exception {
         UniProtDocument doc = tuple._1;
         if (tuple._2.isPresent()) {
@@ -41,7 +42,7 @@ public class GoRelationsToUniProtDocument
                                         getGoWithEvidenceMapsKey(parentId, doc.goWithEvidenceMaps);
                                 Collection<String> goMapValues =
                                         doc.goWithEvidenceMaps.get(evidenceMapKey);
-                                if (goTerm.getAncestors() != null) {
+                                if (Utils.notNull(goTerm.getAncestors())) {
                                     goTerm.getAncestors()
                                             .forEach(
                                                     ancestor -> {
@@ -53,7 +54,7 @@ public class GoRelationsToUniProtDocument
                                                         doc.goes.add(idOnly);
                                                         doc.goes.add(ancestor.getName());
 
-                                                        if (goMapValues != null) {
+                                                        if (Utils.notNull(goMapValues)) {
                                                             goMapValues.add(idOnly);
                                                             goMapValues.add(ancestor.getName());
                                                         } else {

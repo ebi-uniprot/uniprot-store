@@ -1,4 +1,4 @@
-package indexer.uniprot.mapper;
+package org.uniprot.store.spark.indexer.uniprot.mapper;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -8,9 +8,9 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 import org.uniprot.core.uniprot.UniProtEntry;
+import org.uniprot.store.spark.indexer.uniprot.converter.SupportingDataMapHDSFImpl;
 
 import scala.Tuple2;
-import indexer.uniprot.converter.SupportingDataMapHDSFImpl;
 
 /**
  * @author lgonzales

@@ -1,4 +1,6 @@
-package indexer.uniprot.converter;
+package org.uniprot.store.spark.indexer.uniprot.converter;
+
+import static org.uniprot.core.util.Utils.*;
 
 import java.util.List;
 
@@ -10,10 +12,10 @@ import org.uniprot.store.search.document.uniprot.UniProtDocument;
  * @author lgonzales
  * @since 2019-09-05
  */
-class UniprotEntryTaxonomyConverter {
+class UniProtEntryTaxonomyConverter {
 
     void convertOrganism(Organism organism, UniProtDocument document) {
-        if (organism != null) {
+        if (notNull(organism)) {
             int taxonomyId = Math.toIntExact(organism.getTaxonId());
             document.organismTaxId = taxonomyId;
             document.content.add(String.valueOf(taxonomyId));

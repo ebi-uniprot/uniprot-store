@@ -1,4 +1,4 @@
-package indexer.uniprot;
+package org.uniprot.store.spark.indexer.uniprot;
 
 import java.util.ResourceBundle;
 
@@ -7,9 +7,8 @@ import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
 import org.apache.spark.api.java.function.PairFunction;
 import org.uniprot.core.uniprot.UniProtEntry;
-
-import indexer.uniprot.converter.SupportingDataMapHDSFImpl;
-import indexer.uniprot.mapper.FlatFileToUniprotEntry;
+import org.uniprot.store.spark.indexer.uniprot.converter.SupportingDataMapHDSFImpl;
+import org.uniprot.store.spark.indexer.uniprot.mapper.FlatFileToUniprotEntry;
 
 /**
  * This class load an JavaPairRDD with <accession, UniProtEntry>
@@ -17,7 +16,7 @@ import indexer.uniprot.mapper.FlatFileToUniprotEntry;
  * @author lgonzales
  * @since 2019-10-16
  */
-public class UniprotRDDTupleReader {
+public class UniProtKBRDDTupleReader {
 
     private static final String SPLITTER = "\n//\n";
 

@@ -1,11 +1,10 @@
-package indexer;
+package org.uniprot.store.spark.indexer;
 
 import java.util.ResourceBundle;
 
 import org.apache.spark.api.java.JavaSparkContext;
-
-import indexer.uniprot.UniprotKbIndexer;
-import indexer.util.SparkUtils;
+import org.uniprot.store.spark.indexer.uniprot.UniProtKBIndexer;
+import org.uniprot.store.spark.indexer.util.SparkUtils;
 
 /**
  * @author lgonzales
@@ -17,7 +16,7 @@ public class SparkRDDDriverProgram {
         ResourceBundle applicationConfig = SparkUtils.loadApplicationProperty();
         JavaSparkContext sparkContext = SparkUtils.loadSparkContext(applicationConfig);
 
-        UniprotKbIndexer.prepareSolrIndex(sparkContext, applicationConfig);
+        UniProtKBIndexer.prepareSolrIndex(sparkContext, applicationConfig);
 
         sparkContext.close();
     }

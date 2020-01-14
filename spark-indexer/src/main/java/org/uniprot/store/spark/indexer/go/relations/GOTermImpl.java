@@ -1,28 +1,30 @@
-package indexer.go.relations;
+package org.uniprot.store.spark.indexer.go.relations;
 
 import java.util.HashSet;
 import java.util.Set;
 
+import org.uniprot.core.util.Utils;
+
 /**
- * Model Implementation for Go Terms Relations
+ * Model Implementation for GO Terms Relations
  *
  * @author lgonzales
  * @since 2019-11-08
  */
-public class GoTermImpl implements GoTerm {
+public class GOTermImpl implements GOTerm {
 
     private static final long serialVersionUID = -2969929999892986987L;
     private final String goId;
     private final String name;
-    private Set<GoTerm> ancestors;
+    private Set<GOTerm> ancestors;
 
-    public GoTermImpl(String goId, String name) {
+    public GOTermImpl(String goId, String name) {
         this.goId = goId;
         this.name = name;
         this.ancestors = new HashSet<>();
     }
 
-    public GoTermImpl(String goId, String name, Set<GoTerm> ancestors) {
+    public GOTermImpl(String goId, String name, Set<GOTerm> ancestors) {
         this(goId, name);
         this.ancestors.addAll(ancestors);
     }
@@ -38,7 +40,7 @@ public class GoTermImpl implements GoTerm {
     }
 
     @Override
-    public Set<GoTerm> getAncestors() {
+    public Set<GOTerm> getAncestors() {
         return ancestors;
     }
 
@@ -55,15 +57,15 @@ public class GoTermImpl implements GoTerm {
         if (this == obj) return true;
         if (obj == null) return false;
         if (getClass() != obj.getClass()) return false;
-        GoTermImpl other = (GoTermImpl) obj;
+        GOTermImpl other = (GOTermImpl) obj;
         if (goId == null) {
-            if (other.goId != null) return false;
+            if (Utils.notNull(other.goId)) return false;
         } else if (!goId.equals(other.goId)) return false;
         return true;
     }
 
     @Override
-    public int compareTo(GoTerm g1) {
+    public int compareTo(GOTerm g1) {
         return g1.getId().compareTo(this.getId());
     }
 }
