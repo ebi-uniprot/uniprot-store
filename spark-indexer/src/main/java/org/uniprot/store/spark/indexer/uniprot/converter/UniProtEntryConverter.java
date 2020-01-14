@@ -1,7 +1,8 @@
-package org.uniprot.store.indexer.uniprotkb.converter;
+package org.uniprot.store.spark.indexer.uniprot.converter;
 
-import static org.uniprot.store.indexer.uniprotkb.converter.UniProtEntryConverterUtil.*;
+import static org.uniprot.store.spark.indexer.uniprot.converter.UniProtEntryConverterUtil.*;
 
+import java.io.Serializable;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.Map;
@@ -12,23 +13,16 @@ import lombok.extern.slf4j.Slf4j;
 
 import org.uniprot.core.DBCrossReference;
 import org.uniprot.core.Sequence;
-import org.uniprot.core.cv.chebi.ChebiRepo;
-import org.uniprot.core.cv.ec.ECRepo;
 import org.uniprot.core.cv.keyword.KeywordCategory;
-import org.uniprot.core.cv.taxonomy.TaxonomyRepo;
 import org.uniprot.core.gene.Gene;
 import org.uniprot.core.scorer.uniprotkb.UniProtEntryScored;
 import org.uniprot.core.uniprot.*;
 import org.uniprot.core.uniprot.evidence.Evidence;
 import org.uniprot.core.uniprot.evidence.EvidenceTypeCategory;
 import org.uniprot.core.util.Utils;
-import org.uniprot.store.indexer.uniprot.go.GoRelationRepo;
-import org.uniprot.store.indexer.uniprot.pathway.PathwayRepo;
 import org.uniprot.store.indexer.util.DateUtils;
 import org.uniprot.store.job.common.DocumentConversionException;
 import org.uniprot.store.job.common.converter.DocumentConverter;
-import org.uniprot.store.search.document.suggest.SuggestDictionary;
-import org.uniprot.store.search.document.suggest.SuggestDocument;
 import org.uniprot.store.search.document.uniprot.UniProtDocument;
 
 /**
@@ -37,8 +31,10 @@ import org.uniprot.store.search.document.uniprot.UniProtDocument;
  * @author Edd
  */
 @Slf4j
-public class UniProtEntryConverter implements DocumentConverter<UniProtEntry, UniProtDocument> {
+public class UniProtEntryConverter
+        implements DocumentConverter<UniProtEntry, UniProtDocument>, Serializable {
 
+    private static final long serialVersionUID = -4786571927033506456L;
     private static final String DASH = "-";
     /** An enum set representing all of the organelles that are children of plastid */
     private static final EnumSet<GeneEncodingType> PLASTID_CHILD =
@@ -54,27 +50,15 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtEntry, Un
     private final UniProtEntryReferencesConverter referencesConverter;
     private final UniProtEntryCrossReferenceConverter crossReferenceConverter;
     private final UniProtEntryTaxonomyConverter taxonomyConverter;
-    private final UniprotEntryProteinDescriptionConverter proteinDescriptionConverter;
+    private final UniProtEntryProteinDescriptionConverter proteinDescriptionConverter;
 
-    private Map<String, SuggestDocument> suggestions;
-
-    public UniProtEntryConverter(
-            TaxonomyRepo taxonomyRepo,
-            GoRelationRepo goRelationRepo,
-            PathwayRepo pathwayRepo,
-            ChebiRepo chebiRepo,
-            ECRepo ecRepo,
-            Map<String, SuggestDocument> suggestDocuments) {
-        this.taxonomyConverter = new UniProtEntryTaxonomyConverter(taxonomyRepo, suggestDocuments);
-        this.crossReferenceConverter =
-                new UniProtEntryCrossReferenceConverter(goRelationRepo, suggestDocuments);
-        this.commentsConverter =
-                new UniProtEntryCommentsConverter(chebiRepo, pathwayRepo, suggestDocuments);
+    public UniProtEntryConverter(Map<String, String> pathway) {
+        this.taxonomyConverter = new UniProtEntryTaxonomyConverter();
+        this.crossReferenceConverter = new UniProtEntryCrossReferenceConverter();
+        this.commentsConverter = new UniProtEntryCommentsConverter(pathway);
         this.featureConverter = new UniProtEntryFeatureConverter();
         this.referencesConverter = new UniProtEntryReferencesConverter();
-        this.proteinDescriptionConverter =
-                new UniprotEntryProteinDescriptionConverter(ecRepo, suggestDocuments);
-        this.suggestions = suggestDocuments;
+        this.proteinDescriptionConverter = new UniProtEntryProteinDescriptionConverter();
     }
 
     @Override
@@ -123,20 +107,21 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtEntry, Un
             convertSequence(source.getSequence(), document);
             convertEntryScore(source, document);
             convertEvidenceSources(source, document);
+            convertUniRefClusters(document.accession, document);
 
             return document;
         } catch (Exception e) {
             String message = "Error converting UniProt entry";
-            if (source != null && source.getPrimaryAccession() != null) {
+            if (Utils.notNull(source) && Utils.notNull(source.getPrimaryAccession())) {
                 message += ": " + source.getPrimaryAccession().getValue();
             }
-            log.error(message, e);
+            log.info(message + ", with error message" + e.getMessage());
             throw new DocumentConversionException(message, e);
         }
     }
 
     private void convertEntryAudit(EntryAudit entryAudit, UniProtDocument document) {
-        if (entryAudit != null) {
+        if (Utils.notNull(entryAudit)) {
             document.firstCreated =
                     DateUtils.convertLocalDateToDate(entryAudit.getFirstPublicDate());
             document.lastModified =
@@ -155,7 +140,7 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtEntry, Un
                         .map(DBCrossReference::getDatabaseType)
                         .filter(
                                 val ->
-                                        (val != null)
+                                        (Utils.notNull(val))
                                                 && val.getDetail().getCategory()
                                                         == EvidenceTypeCategory.A)
                         .map(
@@ -187,6 +172,12 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtEntry, Un
         }
     }
 
+    private void convertUniRefClusters(String accession, UniProtDocument document) {
+        // document.unirefCluster50 = uniprotUniRefMap.getMappings50(accession);
+        // document.unirefCluster90 = uniprotUniRefMap.getMappings90(accession);
+        // document.unirefCluster100 = uniprotUniRefMap.getMappings100(accession);
+    }
+
     private void convertEntryScore(UniProtEntry source, UniProtDocument document) {
         UniProtEntryScored entryScored = new UniProtEntryScored(source);
         double score = entryScored.score();
@@ -214,22 +205,6 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtEntry, Un
             document.keywords.add(kc.getAccession());
             document.keywords.add(kc.getName());
         }
-
-        suggestions.putIfAbsent(
-                createSuggestionMapKey(SuggestDictionary.KEYWORD, keyword.getId()),
-                SuggestDocument.builder()
-                        .id(keyword.getId())
-                        .value(keyword.getValue())
-                        .dictionary(SuggestDictionary.KEYWORD.name())
-                        .build());
-
-        suggestions.putIfAbsent(
-                createSuggestionMapKey(SuggestDictionary.KEYWORD, kc.getAccession()),
-                SuggestDocument.builder()
-                        .id(kc.getAccession())
-                        .value(kc.getName())
-                        .dictionary(SuggestDictionary.KEYWORD.name())
-                        .build());
     }
 
     private void convertGeneNames(List<Gene> genes, UniProtDocument document) {
@@ -262,12 +237,8 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtEntry, Un
 
     private void convertProteinExistence(
             ProteinExistence proteinExistence, UniProtDocument document) {
-        if (proteinExistence != null) {
+        if (Utils.notNull(proteinExistence)) {
             document.proteinExistence = proteinExistence.name();
         }
-    }
-
-    public Object getSuggestions() {
-        return this.suggestions;
     }
 }
