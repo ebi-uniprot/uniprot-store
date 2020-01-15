@@ -1,5 +1,8 @@
 [
   {
+    "field": "proteins_with"
+  },
+  {
     "field": "annotation_score",
     "sortField": "annotation_score"
   },
