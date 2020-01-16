@@ -31,7 +31,7 @@ public class TaxonomyDocument implements Document {
     @Field private boolean hidden;
     @Field private boolean active;
     @Field private boolean linked;
-    @Field private boolean complete;
+    @Field private boolean proteome;
     @Field private boolean reference;
     @Field private boolean reviewed;
     @Field private boolean annotated;

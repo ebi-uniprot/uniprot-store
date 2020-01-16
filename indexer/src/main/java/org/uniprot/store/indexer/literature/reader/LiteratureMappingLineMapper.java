@@ -12,16 +12,18 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.item.file.mapping.DefaultLineMapper;
 import org.uniprot.core.literature.LiteratureEntry;
 import org.uniprot.core.literature.LiteratureMappedReference;
+import org.uniprot.core.literature.LiteratureStoreEntry;
 import org.uniprot.core.literature.builder.LiteratureEntryBuilder;
 import org.uniprot.core.literature.builder.LiteratureMappedReferenceBuilder;
+import org.uniprot.core.literature.builder.LiteratureStoreEntryBuilder;
 
 /** @author lgonzales */
 @Slf4j
-public class LiteratureMappingLineMapper extends DefaultLineMapper<LiteratureEntry> {
+public class LiteratureMappingLineMapper extends DefaultLineMapper<LiteratureStoreEntry> {
 
     private Pattern p = Pattern.compile("^(\\[.*\\])(.*)");
 
-    public LiteratureEntry mapLine(String entryString, int lineNumber) throws Exception {
+    public LiteratureStoreEntry mapLine(String entryString, int lineNumber) throws Exception {
         String[] lineFields = entryString.split("\t");
         if (lineFields.length == 4 || lineFields.length == 5) {
             List<String> categories = new ArrayList<>();
@@ -41,7 +43,7 @@ public class LiteratureMappingLineMapper extends DefaultLineMapper<LiteratureEnt
                     annnotation = lineFields[4];
                 }
             }
-            LiteratureEntryBuilder entryBuilder = new LiteratureEntryBuilder();
+
             LiteratureMappedReference mappedReference =
                     new LiteratureMappedReferenceBuilder()
                             .uniprotAccession(lineFields[0])
@@ -51,9 +53,12 @@ public class LiteratureMappingLineMapper extends DefaultLineMapper<LiteratureEnt
                             .sourceCategory(categories)
                             .build();
 
-            return entryBuilder
-                    .pubmedId(Long.valueOf(lineFields[2]))
+            LiteratureEntry entry =
+                    new LiteratureEntryBuilder().pubmedId(Long.valueOf(lineFields[2])).build();
+
+            return new LiteratureStoreEntryBuilder()
                     .addLiteratureMappedReference(mappedReference)
+                    .literatureEntry(entry)
                     .build();
         } else {
             log.warn(

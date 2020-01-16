@@ -37,7 +37,7 @@
 		docValues="true" />
 	<field name="linked" type="boolean" indexed="true"
 		docValues="true" />
-	<field name="complete" type="boolean" indexed="true"
+	<field name="proteome" type="boolean" indexed="true"
 		docValues="true" />
 	<field name="reference" type="boolean" indexed="true"
 		docValues="true" />

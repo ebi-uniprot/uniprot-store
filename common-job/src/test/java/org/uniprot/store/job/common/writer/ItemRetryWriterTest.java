@@ -1,7 +1,14 @@
 package org.uniprot.store.job.common.writer;
 
+import static org.mockito.Mockito.*;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
 import lombok.extern.slf4j.Slf4j;
 import net.jodah.failsafe.RetryPolicy;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.batch.core.JobExecution;
@@ -11,12 +18,6 @@ import org.uniprot.core.util.concurrency.OnZeroCountSleeper;
 import org.uniprot.store.job.common.model.AbstractEntryDocumentPair;
 import org.uniprot.store.job.common.store.Store;
 import org.uniprot.store.job.common.util.CommonConstants;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-
-import static org.mockito.Mockito.*;
 
 /**
  * Created 28/07/19

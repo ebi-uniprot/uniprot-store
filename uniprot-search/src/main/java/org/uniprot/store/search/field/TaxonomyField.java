@@ -39,7 +39,7 @@ public interface TaxonomyField {
         host(SearchFieldType.TERM, FieldValueValidator::isNumberValue, null),
         linked(SearchFieldType.TERM, FieldValueValidator::isBooleanValue, null),
         active(SearchFieldType.TERM, FieldValueValidator::isBooleanValue, null),
-        complete(SearchFieldType.TERM, FieldValueValidator::isBooleanValue, null),
+        proteome(SearchFieldType.TERM, FieldValueValidator::isBooleanValue, null),
         reference(SearchFieldType.TERM, FieldValueValidator::isBooleanValue, null),
         reviewed(SearchFieldType.TERM, FieldValueValidator::isBooleanValue, null),
         annotated(SearchFieldType.TERM, FieldValueValidator::isBooleanValue, null),

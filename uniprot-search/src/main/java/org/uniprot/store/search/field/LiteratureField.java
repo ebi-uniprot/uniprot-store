@@ -106,7 +106,6 @@ public interface LiteratureField {
         publication("Publication", "publicationDate"),
         reference("Reference"),
         lit_abstract("Abstract/Summary", "literatureAbstract"),
-        mapped_references("Mapped references", "literatureMappedReferences"),
         statistics("Statistics", "statistics"),
         first_page("First page", "firstPage"),
         last_page("Last page", "lastPage"),

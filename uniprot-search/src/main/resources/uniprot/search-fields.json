@@ -4,6 +4,9 @@
     "fieldValidRegex": "([O,P,Q][0-9][A-Z|0-9]{3}[0-9]|[A-N,R-Z]([0-9][A-Z][A-Z|0-9]{2}){1,2}[0-9])(-\\d+)*"
   },
   {
+    "field": "proteins_with"
+  },
+  {
     "field": "annotation_score",
     "sortField": "annotation_score"
   },

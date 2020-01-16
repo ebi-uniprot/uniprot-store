@@ -214,4 +214,11 @@ public class DataStoreManager implements AfterAllCallback, BeforeAllCallback {
             LOGGER.warn("Unable to clean solr data for " + storeType.name(), e);
         }
     }
+
+    public void cleanStore(StoreType storeType) {
+        UniProtStoreClient storeClient = storeMap.get(storeType);
+        if (storeClient != null) {
+            storeClient.truncate();
+        }
+    }
 }
