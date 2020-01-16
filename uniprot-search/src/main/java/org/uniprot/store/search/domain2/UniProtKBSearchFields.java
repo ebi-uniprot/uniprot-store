@@ -1,11 +1,11 @@
 package org.uniprot.store.search.domain2;
 
+import org.uniprot.core.cv.xdb.UniProtXDbTypes;
+import org.uniprot.store.search.domain2.impl.SearchFieldImpl;
+
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
-
-import org.uniprot.core.cv.xdb.UniProtXDbTypes;
-import org.uniprot.store.search.domain2.impl.SearchFieldImpl;
 
 /**
  * Represents all accessible UniProtKB search fields, and provides access to them via the {@link
@@ -21,11 +21,6 @@ public enum UniProtKBSearchFields implements SearchFields {
     private static final String FILENAME = "uniprot/search-fields.json";
     static final String XREF_COUNT_PREFIX = "xref_count_";
     private UniProtKBSearchFieldsLoader searchFieldsLoader;
-
-    public static void main(String[] args) {
-        UniProtKBSearchFields.INSTANCE.getSearchFields().stream().forEach(System.out::println);
-        System.out.println("hello world");
-    }
 
     UniProtKBSearchFields() {
         searchFieldsLoader = new UniProtKBSearchFieldsLoader(FILENAME);
