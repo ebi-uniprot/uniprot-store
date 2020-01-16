@@ -11,6 +11,7 @@ import java.util.stream.Stream;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.uniprot.core.cv.xdb.UniProtXDbTypeDetail;
 import org.uniprot.core.cv.xdb.UniProtXDbTypes;
 import org.uniprot.core.uniprot.comment.CommentType;
 import org.uniprot.core.uniprot.feature.FeatureCategory;
@@ -106,6 +107,7 @@ public class SuggestionConfig {
 
     private static List<SuggestDocument> databaseSuggestions() {
         return UniProtXDbTypes.INSTANCE.getAllDBXRefTypes().stream()
+        		.filter(val ->val.getLinkTp().equals(UniProtXDbTypeDetail.EXPLICIT))
                 .map(
                         type -> {
                             String name = removeTerminalSemiColon(type.getDisplayName());
