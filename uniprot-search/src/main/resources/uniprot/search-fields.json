@@ -1,5 +1,9 @@
 [
   {
+    "field": "accession_id",
+    "fieldValidRegex": "([O,P,Q][0-9][A-Z|0-9]{3}[0-9]|[A-N,R-Z]([0-9][A-Z][A-Z|0-9]{2}){1,2}[0-9])(-\\d+)*"
+  },
+  {
     "field": "proteins_with"
   },
   {
@@ -81,15 +85,6 @@
   },
   {
     "field": "ccev_alternative_products"
-  },
-  {
-    "field": "cc_disease"
-  },
-  {
-    "field": "cc_similarity"
-  },
-  {
-    "field": "ccev_similarity"
   },
   {
     "field": "cc_unknown"
@@ -344,11 +339,11 @@
             "example": "aspartate"
           },
           {
-            "label": "ph dependence",
+            "label": "pH dependence",
             "field": "cc_bpcp_ph_dependence",
             "evidenceField": "ccev_bpcp_ph_dependence",
             "dataType": "string",
-            "description": "Search by biophysicochemical properties: ph dependence",
+            "description": "Search by biophysicochemical properties: pH dependence",
             "example": "optimum"
           },
           {
@@ -364,7 +359,7 @@
             "field": "cc_bpcp_temp_dependence",
             "evidenceField": "ccev_bpcp_temp_dependence",
             "dataType": "string",
-            "description": "Search by biophysicochemical properties: tempeature dependence",
+            "description": "Search by biophysicochemical properties: temperature dependence",
             "example": "*"
           }
         ]
@@ -572,7 +567,7 @@
         "field": "cc_allergen",
         "evidenceField": "ccev_allergen",
         "dataType": "string",
-        "description": "Search by Comment alergenic properties",
+        "description": "Search by Comment allergenic properties",
         "example": "allergic"
       },
       {
@@ -806,7 +801,7 @@
         "field": "d3structure",
         "fieldValidRegex": "^true|false$",
         "dataType": "enum",
-        "description": "Search by having pdb cross reference or not",
+        "description": "Search by having PDB cross reference or not",
         "values": [
           {
             "name": "Yes",
@@ -942,9 +937,8 @@
             "example": "translated"
           },
           {
-            "label": "Framshift",
+            "label": "Frameshift",
             "field": "cc_sc_framesh",
-            "evidenceField": "ccev_sc_framesh",
             "dataType": "string",
             "description": "Search by Comment Sequence caution: frameshift",
             "example": "*"
@@ -988,11 +982,11 @@
         ]
       },
       {
-        "label": "ectrometry",
+        "label": "Mass Spectrometry",
         "field": "cc_mass_spectrometry",
         "evidenceField": "ccev_mass_spectrometry",
         "dataType": "string",
-        "description": "Search by Comment ectrometry",
+        "description": "Search by Comment Spectrometry",
         "example": "electrospray"
       },
       {
@@ -1008,7 +1002,7 @@
         "field": "cc_rna_editing",
         "evidenceField": "ccev_rna_editing",
         "dataType": "string",
-        "description": "Search by Comment rna editing",
+        "description": "Search by Comment RNA editing",
         "example": "target"
       },
       {
@@ -1050,7 +1044,7 @@
         "dataType": "string",
         "rangeField": "ftlen_non_std",
         "evidenceField": "ftev_non_std",
-        "description": "Search by feature non standard residue",
+        "description": "Search by feature non-standard residue",
         "example": "selenocysteine"
       },
       {
@@ -1288,19 +1282,18 @@
       },
       {
         "label": "Sequence similarity",
-        "field": "ft_similarity",
+        "field": "cc_similarity",
         "dataType": "string",
-        "evidenceField": "ftev_similarity",
+        "evidenceField": "ccev_similarity",
         "description": "Search by comment similarity",
         "example": "phosphatase"
       },
       {
         "label": "Zinc finger",
-        "itemType": "ft_feature",
         "field": "ft_zn_fing",
         "dataType": "string",
-        "rangeField": "ftlen_feature",
-        "evidenceField": "ftev_feature",
+        "rangeField": "ftlen_zn_fing",
+        "evidenceField": "ftev_zn_fing",
         "description": "Search by feature zinc finger",
         "example": "UBP"
       }
@@ -1349,10 +1342,10 @@
     "label": "Gene Ontology [GO]",
     "itemType": "goterm",
     "field": "go",
+    "evidenceField": "go",
     "autoComplete": "/uniprot/api/suggester?dict=go&query=?",
     "idField": "go",
-    "evidenceField": "go",
-    "description": "search go term with evidence. If evidence is not consider term is go. If evidence is considered such as iea, the term is go_iea",
+    "description": "Search GO term with evidence. If evidence is not provided, the term is 'go'. Otherwise, for an evidence source such as IEA, the term is 'go_iea'",
     "example": "0009986"
   },
   {
@@ -1390,10 +1383,10 @@
         "example": "[2009-01-01 TO 2019-12-31]"
       },
       {
-        "label": "PubMed Id",
+        "label": "PubMed ID",
         "field": "lit_pubmed",
         "dataType": "string",
-        "description": "Search by pubmed id",
+        "description": "Search by PubMed ID",
         "example": "15165820"
       },
       {

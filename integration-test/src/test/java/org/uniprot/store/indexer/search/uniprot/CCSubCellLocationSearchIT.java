@@ -16,8 +16,8 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;
 import org.uniprot.core.flatfile.writer.LineType;
+import org.uniprot.store.search.domain2.UniProtKBSearchFields;
 import org.uniprot.store.search.field.QueryBuilder;
-import org.uniprot.store.search.field.UniProtField;
 
 class CCSubCellLocationSearchIT {
     private static final String Q6GZX4 = "Q6GZX4";
@@ -78,7 +78,7 @@ class CCSubCellLocationSearchIT {
     @Test
     void termThree() {
         String value = "membrane";
-        String query = query(UniProtField.Search.cc_scl_term, value);
+        String query = query(UniProtKBSearchFields.INSTANCE.getField("cc_scl_term"), value);
 
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -90,8 +90,11 @@ class CCSubCellLocationSearchIT {
     void termEvidenceOne() {
         String value = "membrane";
         String evidence = "ECO_0000269";
-        String query = query(UniProtField.Search.cc_scl_term, value);
-        query = QueryBuilder.and(query, query(UniProtField.Search.ccev_scl_term, evidence));
+        String query = query(UniProtKBSearchFields.INSTANCE.getField("cc_scl_term"), value);
+        query =
+                QueryBuilder.and(
+                        query,
+                        query(UniProtKBSearchFields.INSTANCE.getField("ccev_scl_term"), evidence));
         QueryResponse response = searchEngine.getQueryResponse(query);
 
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
@@ -102,8 +105,11 @@ class CCSubCellLocationSearchIT {
     void termEvidenceNone() {
         String value = "membrane";
         String evidence = "ECO_0000250";
-        String query = query(UniProtField.Search.cc_scl_term, value);
-        query = QueryBuilder.and(query, query(UniProtField.Search.ccev_scl_term, evidence));
+        String query = query(UniProtKBSearchFields.INSTANCE.getField("cc_scl_term"), value);
+        query =
+                QueryBuilder.and(
+                        query,
+                        query(UniProtKBSearchFields.INSTANCE.getField("ccev_scl_term"), evidence));
 
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -114,7 +120,7 @@ class CCSubCellLocationSearchIT {
     @Test
     void termTopologyThree() {
         String value = "protein";
-        String query = query(UniProtField.Search.cc_scl_term, value);
+        String query = query(UniProtKBSearchFields.INSTANCE.getField("cc_scl_term"), value);
 
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -126,8 +132,11 @@ class CCSubCellLocationSearchIT {
     void termTopologyEvidenceOne() {
         String value = "protein";
         String evidence = "ECO_0000269";
-        String query = query(UniProtField.Search.cc_scl_term, value);
-        query = QueryBuilder.and(query, query(UniProtField.Search.ccev_scl_term, evidence));
+        String query = query(UniProtKBSearchFields.INSTANCE.getField("cc_scl_term"), value);
+        query =
+                QueryBuilder.and(
+                        query,
+                        query(UniProtKBSearchFields.INSTANCE.getField("ccev_scl_term"), evidence));
 
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -139,8 +148,11 @@ class CCSubCellLocationSearchIT {
     void termTopologyManualEvidenceOne() {
         String value = "protein";
         String evidence = "manual";
-        String query = query(UniProtField.Search.cc_scl_term, value);
-        query = QueryBuilder.and(query, query(UniProtField.Search.ccev_scl_term, evidence));
+        String query = query(UniProtKBSearchFields.INSTANCE.getField("cc_scl_term"), value);
+        query =
+                QueryBuilder.and(
+                        query,
+                        query(UniProtKBSearchFields.INSTANCE.getField("ccev_scl_term"), evidence));
 
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -152,8 +164,11 @@ class CCSubCellLocationSearchIT {
     void termTopologyExperimentalEvidenceOne() {
         String value = "protein";
         String evidence = "experimental";
-        String query = query(UniProtField.Search.cc_scl_term, value);
-        query = QueryBuilder.and(query, query(UniProtField.Search.ccev_scl_term, evidence));
+        String query = query(UniProtKBSearchFields.INSTANCE.getField("cc_scl_term"), value);
+        query =
+                QueryBuilder.and(
+                        query,
+                        query(UniProtKBSearchFields.INSTANCE.getField("ccev_scl_term"), evidence));
 
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -164,7 +179,7 @@ class CCSubCellLocationSearchIT {
     @Test
     void termOrientationOne() {
         String value = "top";
-        String query = query(UniProtField.Search.cc_scl_term, value);
+        String query = query(UniProtKBSearchFields.INSTANCE.getField("cc_scl_term"), value);
 
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -176,8 +191,11 @@ class CCSubCellLocationSearchIT {
     void termOrientationEvidenceOne() {
         String value = "top";
         String evidence = "ECO_0000313";
-        String query = query(UniProtField.Search.cc_scl_term, value);
-        query = QueryBuilder.and(query, query(UniProtField.Search.ccev_scl_term, evidence));
+        String query = query(UniProtKBSearchFields.INSTANCE.getField("cc_scl_term"), value);
+        query =
+                QueryBuilder.and(
+                        query,
+                        query(UniProtKBSearchFields.INSTANCE.getField("ccev_scl_term"), evidence));
 
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -189,8 +207,11 @@ class CCSubCellLocationSearchIT {
     void termOrientationEvidenceNone() {
         String value = "top";
         String evidence = "ECO_0000305";
-        String query = query(UniProtField.Search.cc_scl_term, value);
-        query = QueryBuilder.and(query, query(UniProtField.Search.ccev_scl_term, evidence));
+        String query = query(UniProtKBSearchFields.INSTANCE.getField("cc_scl_term"), value);
+        query =
+                QueryBuilder.and(
+                        query,
+                        query(UniProtKBSearchFields.INSTANCE.getField("ccev_scl_term"), evidence));
 
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -201,7 +222,7 @@ class CCSubCellLocationSearchIT {
     @Test
     void noteTwo() {
         String value = "endoplasmic";
-        String query = query(UniProtField.Search.cc_scl_note, value);
+        String query = query(UniProtKBSearchFields.INSTANCE.getField("cc_scl_note"), value);
 
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -213,8 +234,11 @@ class CCSubCellLocationSearchIT {
     void noteEvidenceOne() {
         String value = "endoplasmic";
         String evidence = "ECO_0000256";
-        String query = query(UniProtField.Search.cc_scl_note, value);
-        query = QueryBuilder.and(query, query(UniProtField.Search.ccev_scl_note, evidence));
+        String query = query(UniProtKBSearchFields.INSTANCE.getField("cc_scl_note"), value);
+        query =
+                QueryBuilder.and(
+                        query,
+                        query(UniProtKBSearchFields.INSTANCE.getField("ccev_scl_note"), evidence));
         QueryResponse response = searchEngine.getQueryResponse(query);
 
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
@@ -225,8 +249,11 @@ class CCSubCellLocationSearchIT {
     void noteEvidenceNone() {
         String value = "endoplasmic";
         String evidence = "ECO_0000269";
-        String query = query(UniProtField.Search.cc_scl_note, value);
-        query = QueryBuilder.and(query, query(UniProtField.Search.ccev_scl_note, evidence));
+        String query = query(UniProtKBSearchFields.INSTANCE.getField("cc_scl_note"), value);
+        query =
+                QueryBuilder.and(
+                        query,
+                        query(UniProtKBSearchFields.INSTANCE.getField("ccev_scl_note"), evidence));
 
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -238,8 +265,11 @@ class CCSubCellLocationSearchIT {
     void noteAAEvidenceOne() {
         String value = "endoplasmic";
         String evidence = "automatic";
-        String query = query(UniProtField.Search.cc_scl_note, value);
-        query = QueryBuilder.and(query, query(UniProtField.Search.ccev_scl_note, evidence));
+        String query = query(UniProtKBSearchFields.INSTANCE.getField("cc_scl_note"), value);
+        query =
+                QueryBuilder.and(
+                        query,
+                        query(UniProtKBSearchFields.INSTANCE.getField("ccev_scl_note"), evidence));
 
         QueryResponse response = searchEngine.getQueryResponse(query);
 

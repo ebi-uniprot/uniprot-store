@@ -15,7 +15,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;
 import org.uniprot.core.flatfile.writer.LineType;
-import org.uniprot.store.search.field.UniProtField;
+import org.uniprot.store.search.domain2.UniProtKBSearchFields;
 
 class DrProteomeSearchIT {
     private static final String Q6GZX4 = "Q6GZX4";
@@ -52,7 +52,7 @@ class DrProteomeSearchIT {
 
     @Test
     void proteomeFindTwoEntryQuery() {
-        String query = query(UniProtField.Search.proteome, "UP000005640");
+        String query = query(UniProtKBSearchFields.INSTANCE.getField("proteome"), "UP000005640");
 
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -63,7 +63,10 @@ class DrProteomeSearchIT {
 
     @Test
     void proteomeComponentFindTwoEntryQuery() {
-        String query = query(UniProtField.Search.proteomecomponent, "Chromosome 14");
+        String query =
+                query(
+                        UniProtKBSearchFields.INSTANCE.getField("proteomecomponent"),
+                        "Chromosome 14");
 
         QueryResponse response = searchEngine.getQueryResponse(query);
 

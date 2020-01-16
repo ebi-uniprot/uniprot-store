@@ -19,7 +19,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;
 import org.uniprot.core.flatfile.writer.LineType;
-import org.uniprot.store.search.field.UniProtField;
+import org.uniprot.store.search.domain2.UniProtKBSearchFields;
 
 /** Tests whether the organelles of a UniProt entry have been indexed correctly */
 class OrganelleIT {
@@ -155,6 +155,6 @@ class OrganelleIT {
     }
 
     String organelle(String name) {
-        return query(UniProtField.Search.organelle, name);
+        return query(UniProtKBSearchFields.INSTANCE.getField("organelle"), name);
     }
 }

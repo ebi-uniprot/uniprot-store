@@ -38,9 +38,9 @@ class ValidateAllFieldsExistIT {
 
     private static Stream<Arguments> provideSearchFields() {
         return Stream.concat(
-                        UniProtKBSearchFields.INSTANCE.getSorts().stream(),
-                        UniProtKBSearchFields.INSTANCE.getSearchFields().stream()
-                                .map(SearchField::getName))
+                        UniProtKBSearchFields.INSTANCE.getSortFields().stream(),
+                        UniProtKBSearchFields.INSTANCE.getSearchFields().stream())
+                .map(SearchField::getName)
                 .map(Arguments::of);
     }
 

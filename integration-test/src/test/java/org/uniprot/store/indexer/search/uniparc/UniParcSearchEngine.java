@@ -41,8 +41,8 @@ class UniParcSearchEngine extends AbstractSearchEngine<Entry> {
 
     @SuppressWarnings("rawtypes")
     @Override
-    protected Enum identifierField() {
-        return UniParcField.Search.upi;
+    protected String identifierField() {
+        return UniParcField.Search.upi.name();
     }
 
     @Override

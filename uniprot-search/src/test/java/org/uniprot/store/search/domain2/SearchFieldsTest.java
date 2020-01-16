@@ -1,10 +1,10 @@
 package org.uniprot.store.search.domain2;
 
+import org.junit.jupiter.api.Test;
+
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-
-import org.junit.jupiter.api.Test;
 
 /**
  * Created 20/11/19
@@ -46,7 +46,9 @@ class SearchFieldsTest {
 
     @Test
     void getSortFieldFor_retrievesSortFieldWhenPresent() {
-        assertThat(UniProtKBSearchFields.INSTANCE.getSortFieldFor("accession"), is("accession_id"));
+        assertThat(
+                UniProtKBSearchFields.INSTANCE.getSortFieldFor("accession").getName(),
+                is("accession_id"));
     }
 
     @Test

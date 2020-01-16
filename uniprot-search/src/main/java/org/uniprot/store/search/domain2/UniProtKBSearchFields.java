@@ -22,6 +22,11 @@ public enum UniProtKBSearchFields implements SearchFields {
     static final String XREF_COUNT_PREFIX = "xref_count_";
     private UniProtKBSearchFieldsLoader searchFieldsLoader;
 
+    public static void main(String[] args) {
+        UniProtKBSearchFields.INSTANCE.getSearchFields().stream().forEach(System.out::println);
+        System.out.println("hello world");
+    }
+
     UniProtKBSearchFields() {
         searchFieldsLoader = new UniProtKBSearchFieldsLoader(FILENAME);
     }
@@ -32,8 +37,8 @@ public enum UniProtKBSearchFields implements SearchFields {
     }
 
     @Override
-    public Set<String> getSorts() {
-        return searchFieldsLoader.getSorts();
+    public Set<SearchField> getSortFields() {
+        return searchFieldsLoader.getSortFields();
     }
 
     private static class UniProtKBSearchFieldsLoader extends SearchFieldsLoader {
@@ -43,8 +48,8 @@ public enum UniProtKBSearchFields implements SearchFields {
         }
 
         @Override
-        protected Set<SearchField> extractSearchFields(List<SearchItem> allSearchItems) {
-            Set<SearchField> searchFields = super.extractSearchFields(allSearchItems);
+        protected List<SearchField> extractSearchFields(List<SearchItem> allSearchItems) {
+            List<SearchField> searchFields = super.extractSearchFields(allSearchItems);
             searchFields.addAll(getDbXrefsCountSearchFields());
             return searchFields;
         }
@@ -55,7 +60,7 @@ public enum UniProtKBSearchFields implements SearchFields {
                             db ->
                                     SearchFieldImpl.builder()
                                             .name(XREF_COUNT_PREFIX + db.getName().toLowerCase())
-                                            .type(SearchFieldType.GENERAL)
+                                            .type(SearchFieldType.RANGE)
                                             .build())
                     .collect(Collectors.toList());
         }

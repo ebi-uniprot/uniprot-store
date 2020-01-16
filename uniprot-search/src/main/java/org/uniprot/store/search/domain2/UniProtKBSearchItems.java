@@ -4,7 +4,7 @@ import java.util.List;
 
 /**
  * Represents all accessible UniProtKB search items, and provides access to them via the {@link
- * SearchItems} and {@link SearchFields} contract.
+ * SearchItems} contract.
  *
  * <p>Created 22/11/2019
  *
@@ -14,14 +14,14 @@ public enum UniProtKBSearchItems implements SearchItems {
     INSTANCE;
 
     private static final String FILENAME = "uniprot/search-fields.json";
-    private final SearchFieldsLoader searchFieldsLoader;
+    private final SearchItems searchItems;
 
     UniProtKBSearchItems() {
-        searchFieldsLoader = new SearchFieldsLoader(FILENAME);
+        searchItems = new SearchItemsLoader(FILENAME);
     }
 
     @Override
     public List<SearchItem> getSearchItems() {
-        return searchFieldsLoader.getSearchItems();
+        return searchItems.getSearchItems();
     }
 }

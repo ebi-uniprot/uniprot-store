@@ -41,8 +41,8 @@ class ProteomeSearchEngine extends AbstractSearchEngine<Proteome> {
     }
 
     @Override
-    protected Enum identifierField() {
-        return ProteomeField.Search.upid;
+    protected String identifierField() {
+        return ProteomeField.Search.upid.name();
     }
 
     @Override

@@ -45,7 +45,9 @@ class UniProtKBSearchFieldsTest {
     @Test
     void checkSortFields() {
         assertThat(
-                UniProtKBSearchFields.INSTANCE.getSorts(),
+                UniProtKBSearchFields.INSTANCE.getSortFields().stream()
+                        .map(SearchField::getName)
+                        .collect(Collectors.toList()),
                 containsInAnyOrder("accession_id", "annotation_score"));
     }
 

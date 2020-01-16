@@ -50,7 +50,7 @@ class UniRefSearchEngine extends AbstractSearchEngine<Entry> {
 
     @SuppressWarnings("rawtypes")
     @Override
-    protected Enum identifierField() {
-        return UniRefField.Search.id;
+    protected String identifierField() {
+        return UniRefField.Search.id.name();
     }
 }

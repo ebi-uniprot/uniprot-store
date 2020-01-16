@@ -15,7 +15,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;
 import org.uniprot.core.flatfile.writer.LineType;
-import org.uniprot.store.search.field.UniProtField;
+import org.uniprot.store.search.domain2.UniProtKBSearchFields;
 
 class CCFamilySearchIT {
     private static final String Q6GZX4 = "Q6GZX4";
@@ -58,7 +58,7 @@ class CCFamilySearchIT {
 
     @Test
     void familyFindOne() {
-        String query = query(UniProtField.Search.family, "kinase");
+        String query = query(UniProtKBSearchFields.INSTANCE.getField("family"), "kinase");
 
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -70,7 +70,7 @@ class CCFamilySearchIT {
 
     @Test
     void familyFindTwo() {
-        String query = query(UniProtField.Search.family, "protein");
+        String query = query(UniProtKBSearchFields.INSTANCE.getField("family"), "protein");
 
         QueryResponse response = searchEngine.getQueryResponse(query);
 
