@@ -17,7 +17,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;
 import org.uniprot.core.flatfile.writer.LineType;
-import org.uniprot.store.search.domain2.UniProtKBSearchFields;
+import org.uniprot.store.search.domain2.UniProtSearchFields;
 
 /** Tests if the EC numbers are searched correctly */
 class ECSearchIT {
@@ -245,7 +245,7 @@ class ECSearchIT {
 
     @Test
     void searchForECExactNumber3_4_11_MatchesEntry3() {
-        String query = query(UniProtKBSearchFields.INSTANCE.getField("ec_exact"), EC3);
+        String query = query(UniProtSearchFields.UNIPROTKB.getField("ec_exact"), EC3);
         QueryResponse response = searchEngine.getQueryResponse(query);
 
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
@@ -379,6 +379,6 @@ class ECSearchIT {
     }
 
     private String ec(String value) {
-        return query(UniProtKBSearchFields.INSTANCE.getField("ec"), value);
+        return query(UniProtSearchFields.UNIPROTKB.getField("ec"), value);
     }
 }

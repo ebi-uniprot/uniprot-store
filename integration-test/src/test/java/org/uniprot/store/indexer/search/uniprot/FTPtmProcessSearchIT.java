@@ -15,7 +15,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;
 import org.uniprot.core.flatfile.writer.LineType;
 import org.uniprot.core.uniprot.feature.FeatureType;
-import org.uniprot.store.search.domain2.UniProtKBSearchFields;
+import org.uniprot.store.search.domain2.UniProtSearchFields;
 import org.uniprot.store.search.field.QueryBuilder;
 
 class FTPtmProcessSearchIT {
@@ -272,7 +272,7 @@ class FTPtmProcessSearchIT {
     @Test
     void moleculeProcessFindTwoEntry() {
         String query =
-                query(UniProtKBSearchFields.INSTANCE.getField("ft_molecule_processing"), "peptide");
+                query(UniProtSearchFields.UNIPROTKB.getField("ft_molecule_processing"), "peptide");
         QueryResponse response = searchEngine.getQueryResponse(query);
 
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
@@ -283,12 +283,12 @@ class FTPtmProcessSearchIT {
     @Test
     void moleculeProcessFindTwoEntryWithLength() {
         String query =
-                query(UniProtKBSearchFields.INSTANCE.getField("ft_molecule_processing"), "peptide");
+                query(UniProtSearchFields.UNIPROTKB.getField("ft_molecule_processing"), "peptide");
         query =
                 QueryBuilder.and(
                         query,
                         QueryBuilder.rangeQuery(
-                                UniProtKBSearchFields.INSTANCE
+                                UniProtSearchFields.UNIPROTKB
                                         .getField("ftlen_molecule_processing")
                                         .getName(),
                                 9,
@@ -305,12 +305,12 @@ class FTPtmProcessSearchIT {
     @Test
     void moleculeProcessFindEntryWithLengthAndEvidence() {
         String query =
-                query(UniProtKBSearchFields.INSTANCE.getField("ft_molecule_processing"), "peptide");
+                query(UniProtSearchFields.UNIPROTKB.getField("ft_molecule_processing"), "peptide");
         query =
                 QueryBuilder.and(
                         query,
                         QueryBuilder.rangeQuery(
-                                UniProtKBSearchFields.INSTANCE
+                                UniProtSearchFields.UNIPROTKB
                                         .getField("ftlen_molecule_processing")
                                         .getName(),
                                 9,
@@ -320,7 +320,7 @@ class FTPtmProcessSearchIT {
                 QueryBuilder.and(
                         query,
                         query(
-                                UniProtKBSearchFields.INSTANCE.getField("ftev_molecule_processing"),
+                                UniProtSearchFields.UNIPROTKB.getField("ftev_molecule_processing"),
                                 evidence));
         QueryResponse response = searchEngine.getQueryResponse(query);
 

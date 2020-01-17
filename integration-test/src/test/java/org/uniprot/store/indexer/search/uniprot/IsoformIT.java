@@ -15,7 +15,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;
 import org.uniprot.core.flatfile.writer.LineType;
-import org.uniprot.store.search.domain2.UniProtKBSearchFields;
+import org.uniprot.store.search.domain2.UniProtSearchFields;
 import org.uniprot.store.search.field.QueryBuilder;
 
 /** Verifies whether the accession searches are qorking properly */
@@ -91,10 +91,10 @@ class IsoformIT {
     }
 
     private String accession(String accession) {
-        return query(UniProtKBSearchFields.INSTANCE.getField("accession"), accession);
+        return query(UniProtSearchFields.UNIPROTKB.getField("accession"), accession);
     }
 
     private String isoformOnly() {
-        return query(UniProtKBSearchFields.INSTANCE.getField("is_isoform"), "true");
+        return query(UniProtSearchFields.UNIPROTKB.getField("is_isoform"), "true");
     }
 }

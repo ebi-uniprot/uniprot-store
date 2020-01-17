@@ -17,7 +17,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;
 import org.uniprot.core.flatfile.writer.LineType;
 import org.uniprot.core.uniprot.description.FlagType;
-import org.uniprot.store.search.domain2.UniProtKBSearchFields;
+import org.uniprot.store.search.domain2.UniProtSearchFields;
 
 /** Tests if the fragment search is working correctly */
 class FragmentSearchIT {
@@ -67,7 +67,7 @@ class FragmentSearchIT {
 
     @Test
     void searchForNonFragmentProteinsHitsEntry3() {
-        String query = query(UniProtKBSearchFields.INSTANCE.getField("fragment"), "false");
+        String query = query(UniProtSearchFields.UNIPROTKB.getField("fragment"), "false");
 
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -77,7 +77,7 @@ class FragmentSearchIT {
 
     @Test
     void searchForPrecursorProteinsHitsEntry3() {
-        String query = query(UniProtKBSearchFields.INSTANCE.getField("precursor"), "true");
+        String query = query(UniProtSearchFields.UNIPROTKB.getField("precursor"), "true");
 
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -87,7 +87,7 @@ class FragmentSearchIT {
 
     @Test
     void searchForFragmentProteinsHitsEntry1And2() {
-        String query = query(UniProtKBSearchFields.INSTANCE.getField("fragment"), "true");
+        String query = query(UniProtSearchFields.UNIPROTKB.getField("fragment"), "true");
 
         QueryResponse response = searchEngine.getQueryResponse(query);
 

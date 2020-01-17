@@ -14,40 +14,40 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 class SearchFieldsTest {
     @Test
     void hasField_isTrueWhenPresent() {
-        assertThat(UniProtKBSearchFields.INSTANCE.hasField("accession"), is(true));
+        assertThat(UniProtSearchFields.UNIPROTKB.hasField("accession"), is(true));
     }
 
     @Test
     void hasField_isFalseWhenNotPresent() {
-        assertThat(UniProtKBSearchFields.INSTANCE.hasField("XXXXXXX"), is(false));
+        assertThat(UniProtSearchFields.UNIPROTKB.hasField("XXXXXXX"), is(false));
     }
 
     @Test
     void hasSortField_isTrueWhenPresent() {
-        assertThat(UniProtKBSearchFields.INSTANCE.hasSortField("accession"), is(true));
+        assertThat(UniProtSearchFields.UNIPROTKB.hasSortField("accession"), is(true));
     }
 
     @Test
     void hasSortField_isFalseWhenPresent() {
-        assertThat(UniProtKBSearchFields.INSTANCE.hasSortField("mnemonic_default"), is(false));
+        assertThat(UniProtSearchFields.UNIPROTKB.hasSortField("mnemonic_default"), is(false));
     }
 
     @Test
     void getField_retrievesFieldWhenPresent() {
-        assertThat(UniProtKBSearchFields.INSTANCE.getField("accession").getName(), is("accession"));
+        assertThat(UniProtSearchFields.UNIPROTKB.getField("accession").getName(), is("accession"));
     }
 
     @Test
     void getField_throwsExceptionWhenNotPresent() {
         assertThrows(
                 IllegalArgumentException.class,
-                () -> UniProtKBSearchFields.INSTANCE.getField("XXXXXXX"));
+                () -> UniProtSearchFields.UNIPROTKB.getField("XXXXXXX"));
     }
 
     @Test
     void getSortFieldFor_retrievesSortFieldWhenPresent() {
         assertThat(
-                UniProtKBSearchFields.INSTANCE.getSortFieldFor("accession").getName(),
+                UniProtSearchFields.UNIPROTKB.getSortFieldFor("accession").getName(),
                 is("accession_id"));
     }
 
@@ -55,18 +55,18 @@ class SearchFieldsTest {
     void getSortFieldFor_throwsExceptionWhenSortFieldNotPresent() {
         assertThrows(
                 IllegalArgumentException.class,
-                () -> UniProtKBSearchFields.INSTANCE.getSortFieldFor("mnemonic_default"));
+                () -> UniProtSearchFields.UNIPROTKB.getSortFieldFor("mnemonic_default"));
     }
 
     @Test
     void fieldValueIsValid_isTrueWhenValid() {
         assertThat(
-                UniProtKBSearchFields.INSTANCE.fieldValueIsValid("accession", "P12345"), is(true));
+                UniProtSearchFields.UNIPROTKB.fieldValueIsValid("accession", "P12345"), is(true));
     }
 
     @Test
     void fieldValueIsValid_isFalseWhenInvalid() {
         assertThat(
-                UniProtKBSearchFields.INSTANCE.fieldValueIsValid("accession", "12345"), is(false));
+                UniProtSearchFields.UNIPROTKB.fieldValueIsValid("accession", "12345"), is(false));
     }
 }

@@ -18,7 +18,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;
 import org.uniprot.core.flatfile.writer.LineType;
-import org.uniprot.store.search.domain2.UniProtKBSearchFields;
+import org.uniprot.store.search.domain2.UniProtSearchFields;
 import org.uniprot.store.search.field.QueryBuilder;
 
 /**
@@ -209,11 +209,11 @@ class TaxonomyIT {
     }
 
     private String taxonName(String value) {
-        return query(UniProtKBSearchFields.INSTANCE.getField("taxonomy_name"), value);
+        return query(UniProtSearchFields.UNIPROTKB.getField("taxonomy_name"), value);
     }
 
     private static String taxonID(int taxonomy) {
         return query(
-                UniProtKBSearchFields.INSTANCE.getField("taxonomy_id"), String.valueOf(taxonomy));
+                UniProtSearchFields.UNIPROTKB.getField("taxonomy_id"), String.valueOf(taxonomy));
     }
 }

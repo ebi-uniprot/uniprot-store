@@ -15,7 +15,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.uniprot.store.search.domain2.SearchField;
-import org.uniprot.store.search.domain2.UniProtKBSearchFields;
+import org.uniprot.store.search.domain2.UniProtSearchFields;
 
 /**
  * This class tests that all search fields known about via, {@link UniProtKBSearchFields}, can be
@@ -38,8 +38,8 @@ class ValidateAllFieldsExistIT {
 
     private static Stream<Arguments> provideSearchFields() {
         return Stream.concat(
-                        UniProtKBSearchFields.INSTANCE.getSortFields().stream(),
-                        UniProtKBSearchFields.INSTANCE.getSearchFields().stream())
+                        UniProtSearchFields.UNIPROTKB.getSortFields().stream(),
+                        UniProtSearchFields.UNIPROTKB.getSearchFields().stream())
                 .map(SearchField::getName)
                 .map(Arguments::of);
     }
