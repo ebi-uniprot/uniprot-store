@@ -3,7 +3,6 @@ package org.uniprot.store.search.domain2;
 import org.uniprot.core.cv.xdb.UniProtXDbTypes;
 import org.uniprot.store.search.domain2.impl.SearchFieldImpl;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
@@ -35,25 +34,6 @@ public enum UniProtSearchFields implements SearchFields {
 
     UniProtSearchFields(String configPath) {
         this.configPath = configPath;
-    }
-
-    public static void main(String[] args) {
-        Arrays.stream(UniProtSearchFields.values())
-                .forEach(
-                        searchFields -> {
-                            System.out.println("--- " + searchFields.name() + " ---");
-                            System.out.println("SearchFields");
-                            searchFields.getSearchFields().stream()
-                                    .map(SearchField::getName)
-                                    .forEach(System.out::println);
-                            System.out.println("SortFields");
-                            searchFields.getSortFields().stream()
-                                    .map(SearchField::getName)
-                                    .forEach(System.out::println);
-                        });
-        UniProtSearchFields.DISEASE.getSearchFields().stream()
-                .map(SearchField::getName)
-                .forEach(System.out::println);
     }
 
     @Override
