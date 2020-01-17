@@ -36,7 +36,7 @@ public enum UniProtKBSearchFields implements SearchFields {
         return searchFieldsLoader.getSortFields();
     }
 
-    private static class UniProtKBSearchFieldsLoader extends SearchFieldsLoader {
+    public static class UniProtKBSearchFieldsLoader extends SearchFieldsLoader {
 
         UniProtKBSearchFieldsLoader(String fileName) {
             super(fileName);

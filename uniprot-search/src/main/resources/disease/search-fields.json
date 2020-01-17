@@ -1,0 +1,12 @@
+[
+  {
+    "field": "accession",
+    "sortField": "accession"
+  },
+  {
+    "field": "name"
+  },
+  {
+    "field": "content"
+  }
+]

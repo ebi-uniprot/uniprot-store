@@ -1,0 +1,48 @@
+[
+  {
+    "field": "upi",
+    "sortField": "upi",
+    "fieldValidRegex": "UPI[\\w]{10}"
+  },
+  {
+    "field": "accession",
+    "fieldValidRegex": "([O,P,Q][0-9][A-Z|0-9]{3}[0-9]|[A-N,R-Z]([0-9][A-Z][A-Z|0-9]{2}){1,2}[0-9])"
+  },
+  {
+    "field": "isoform",
+    "fieldValidRegex": "([O,P,Q][0-9][A-Z|0-9]{3}[0-9]|[A-N,R-Z]([0-9][A-Z][A-Z|0-9]{2}){1,2}[0-9])"
+  },
+  {
+    "field": "upid",
+    "fieldValidRegex": "UPI[\\w]{10}"
+  },
+  {
+    "field": "taxonomy_id",
+    "fieldValidRegex": "^[0-9]+$"
+  },
+  {
+    "field": "taxonomy_name"
+  },
+  {
+    "field": "gene"
+  },
+  {
+    "field": "protein"
+  },
+  {
+    "field": "database"
+  },
+  {
+    "field": "active"
+  },
+  {
+    "field": "checksum"
+  },
+  {
+    "field": "length",
+    "sortField": "upi"
+  },
+  {
+    "field": "content"
+  }
+]
