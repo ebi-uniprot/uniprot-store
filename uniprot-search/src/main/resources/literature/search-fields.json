@@ -5,7 +5,11 @@
     "sortField": "id_sort"
   },
   {
-    "field": "title"
+    "field": "doi"
+  },
+  {
+    "field": "title",
+    "sortField": "title_sort"
   },
   {
     "field": "author"

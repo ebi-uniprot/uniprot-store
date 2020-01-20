@@ -39,8 +39,8 @@
     "field": "checksum"
   },
   {
-    "field": "length",
-    "sortField": "upi"
+    "rangeField": "length",
+    "sortField": "length"
   },
   {
     "field": "content"

@@ -1,13 +1,13 @@
 package org.uniprot.store.search.domain2;
 
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
-
-import java.util.List;
-
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.uniprot.store.search.domain2.UniProtKBSearchFieldsLoader.XREF_COUNT_PREFIX;
+
+import java.util.List;
+
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 /**
  * Other aspects of the loader are tested elsewhere. Therefore, this class just tests whether {@link
