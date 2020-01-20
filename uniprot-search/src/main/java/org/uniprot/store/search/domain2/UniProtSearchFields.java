@@ -1,12 +1,12 @@
 package org.uniprot.store.search.domain2;
 
-import org.uniprot.core.cv.xdb.UniProtXDbTypes;
-import org.uniprot.store.search.domain2.impl.SearchFieldImpl;
-
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
+
+import org.uniprot.core.cv.xdb.UniProtXDbTypes;
+import org.uniprot.store.search.domain2.impl.SearchFieldImpl;
 
 /**
  * Represents all accessible search fields for UniProt domains (e.g., UniProtKB, UniParc, UniRef),

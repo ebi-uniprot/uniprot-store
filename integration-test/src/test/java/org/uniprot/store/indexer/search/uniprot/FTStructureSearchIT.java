@@ -153,9 +153,7 @@ class FTStructureSearchIT {
                 QueryBuilder.and(
                         query,
                         QueryBuilder.rangeQuery(
-                                UniProtSearchFields.UNIPROTKB
-                                        .getField("ftlen_secstruct")
-                                        .getName(),
+                                UniProtSearchFields.UNIPROTKB.getField("ftlen_secstruct").getName(),
                                 1,
                                 25));
         String evidence = "ECO_0000244";

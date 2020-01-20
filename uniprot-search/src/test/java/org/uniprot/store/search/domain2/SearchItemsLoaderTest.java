@@ -16,7 +16,7 @@ import static org.hamcrest.Matchers.*;
  * @author Edd
  */
 class SearchItemsLoaderTest {
-    private static final String FILENAME = "uniprot/search-fields.json";
+    private static final String FILENAME = "search-loader-fields.json";
     private static SearchItemsLoader fieldsLoader;
 
     @BeforeAll

@@ -64,9 +64,7 @@ class DrProteomeSearchIT {
     @Test
     void proteomeComponentFindTwoEntryQuery() {
         String query =
-                query(
-                        UniProtSearchFields.UNIPROTKB.getField("proteomecomponent"),
-                        "Chromosome 14");
+                query(UniProtSearchFields.UNIPROTKB.getField("proteomecomponent"), "Chromosome 14");
 
         QueryResponse response = searchEngine.getQueryResponse(query);
 

@@ -114,8 +114,7 @@ class IdentifierSearchIT {
     }
 
     private String id(String id) {
-        return QueryBuilder.query(
-                UniProtSearchFields.UNIPROTKB.getField("mnemonic").getName(), id);
+        return QueryBuilder.query(UniProtSearchFields.UNIPROTKB.getField("mnemonic").getName(), id);
     }
 
     private String mixCasing(String value) {

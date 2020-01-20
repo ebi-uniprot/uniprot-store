@@ -211,8 +211,7 @@ class FTSequenceSearchIT {
 
     @Test
     void positionFindEntryWithLengthAndEvidence() {
-        String query =
-                query(UniProtSearchFields.UNIPROTKB.getField("ft_positional"), "colorectal");
+        String query = query(UniProtSearchFields.UNIPROTKB.getField("ft_positional"), "colorectal");
         query =
                 QueryBuilder.and(
                         query,
@@ -226,9 +225,7 @@ class FTSequenceSearchIT {
         query =
                 QueryBuilder.and(
                         query,
-                        query(
-                                UniProtSearchFields.UNIPROTKB.getField("ftev_positional"),
-                                evidence));
+                        query(UniProtSearchFields.UNIPROTKB.getField("ftev_positional"), evidence));
         QueryResponse response = searchEngine.getQueryResponse(query);
 
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);

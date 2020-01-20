@@ -44,7 +44,7 @@ class DatabasesTest {
         List<UniProtXDbTypeDetail> allKnownCrossReferences =
                 UniProtXDbTypes.INSTANCE.getAllDBXRefTypes().stream()
                         .filter(dbd -> !dbd.getCategory().equals(DatabaseCategory.UNKNOWN))
-                        .filter(dbd-> dbd.getLinkTp().equals(UniProtXDbTypeDetail.EXPLICIT))
+                        .filter(dbd -> dbd.getLinkTp().equals(UniProtXDbTypeDetail.EXPLICIT))
                         .collect(Collectors.toList());
 
         List<DatabaseGroup> groups = instance.getDatabases();
@@ -53,7 +53,6 @@ class DatabasesTest {
                 groups.stream()
                         .flatMap(g -> g.getItems().stream())
                         .filter(t -> !t.getValue().equals("any"))
-                        
                         .collect(Collectors.toList());
         assertEquals(allKnownCrossReferences.size(), databaseGroupItems.size());
         int nDb = groups.stream().mapToInt(val -> val.getItems().size()).sum();

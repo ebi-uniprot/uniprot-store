@@ -1,13 +1,13 @@
 package org.uniprot.store.search.domain2;
 
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.containsInAnyOrder;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.containsInAnyOrder;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 /**
  * Created 20/11/19
@@ -15,7 +15,7 @@ import static org.hamcrest.Matchers.containsInAnyOrder;
  * @author Edd
  */
 class SearchFieldsLoaderTest {
-    private static final String FILENAME = "uniprot/search-fields.json";
+    private static final String FILENAME = "search-loader-fields.json";
     private static SearchFieldsLoader fieldsLoader;
 
     @BeforeAll
