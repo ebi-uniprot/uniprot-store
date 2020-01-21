@@ -1,7 +1,7 @@
 [
   {
-    "field": "name",
-    "sortField": "name"
+    "field": "scientific",
+    "sortField": "name_sort"
   },
   {
     "field": "id",
