@@ -1,16 +1,20 @@
 [
   {
     "field": "upid",
+    "sortField": "upid",
     "fieldValidRegex": "UP[0-9]{9}"
   },
   {
-    "field": "proteome_type"
+    "field": "proteome_type",
+    "sortField": "proteome_type"
   },
   {
-    "field": "annotation_score"
+    "field": "annotation_score",
+    "sortField": "annotation_score"
   },
   {
-    "field": "organism_sort"
+    "field": "organism_sort",
+    "sortField": "organism_sort"
   },
   {
     "field": "reference",

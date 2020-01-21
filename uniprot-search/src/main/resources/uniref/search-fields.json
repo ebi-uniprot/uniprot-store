@@ -15,15 +15,16 @@
     "field": "identity"
   },
   {
-    "field": "count",
+    "rangeField": "count",
     "sortField": "count"
   },
   {
-    "field": "length",
+    "rangeField": "length",
     "sortField": "length"
   },
   {
-    "field": "created"
+    "rangeField": "created",
+    "sortField": "created"
   },
   {
     "field": "uniprot_id"
@@ -38,7 +39,7 @@
   },
   {
     "field": "taxonomy_name"
-  } ,
+  },
   {
     "field": "content"
   }

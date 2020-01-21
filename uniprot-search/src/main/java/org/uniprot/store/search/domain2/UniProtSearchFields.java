@@ -1,12 +1,7 @@
 package org.uniprot.store.search.domain2;
 
-import java.util.List;
 import java.util.Objects;
 import java.util.Set;
-import java.util.stream.Collectors;
-
-import org.uniprot.core.cv.xdb.UniProtXDbTypes;
-import org.uniprot.store.search.domain2.impl.SearchFieldImpl;
 
 /**
  * Represents all accessible search fields for UniProt domains (e.g., UniProtKB, UniParc, UniRef),
@@ -55,32 +50,6 @@ public enum UniProtSearchFields implements SearchFields {
             } else {
                 searchFieldsLoader = new SearchFieldsLoader(configPath);
             }
-        }
-    }
-
-    private static class UniProtKBSearchFieldsLoader extends SearchFieldsLoader {
-        private static final String XREF_COUNT_PREFIX = "xref_count_";
-
-        UniProtKBSearchFieldsLoader(String fileName) {
-            super(fileName);
-        }
-
-        @Override
-        protected List<SearchField> extractSearchFields(List<SearchItem> allSearchItems) {
-            List<SearchField> searchFields = super.extractSearchFields(allSearchItems);
-            searchFields.addAll(getDbXrefsCountSearchFields());
-            return searchFields;
-        }
-
-        private List<SearchFieldImpl> getDbXrefsCountSearchFields() {
-            return UniProtXDbTypes.INSTANCE.getAllDBXRefTypes().stream()
-                    .map(
-                            db ->
-                                    SearchFieldImpl.builder()
-                                            .name(XREF_COUNT_PREFIX + db.getName().toLowerCase())
-                                            .type(SearchFieldType.RANGE)
-                                            .build())
-                    .collect(Collectors.toList());
         }
     }
 }
