@@ -12,9 +12,6 @@
     "fieldValidRegex": "^[0-9]+$"
   },
   {
-    "field": "scientific"
-  },
-  {
     "field": "common"
   },
   {
