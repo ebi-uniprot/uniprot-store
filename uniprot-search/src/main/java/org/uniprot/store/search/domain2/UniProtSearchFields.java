@@ -12,24 +12,24 @@ import java.util.Set;
  * @author Edd
  */
 public enum UniProtSearchFields implements SearchFields {
-    CROSSREF("crossref/search-fields.json"),
-    DISEASE("disease/search-fields.json"),
-    GENECENTRIC("gene-centric/search-fields.json"),
-    KEYWORD("keyword/search-fields.json"),
-    LITERATURE("literature/search-fields.json"),
-    PROTEOME("proteome/search-fields.json"),
-    SUBCELL("subcell-location/search-fields.json"),
-    SUGGEST("suggest/search-fields.json"),
-    TAXONOMY("taxonomy/search-fields.json"),
-    UNIPARC("uniparc/search-fields.json"),
-    UNIPROTKB("uniprot/search-fields.json"),
-    UNIREF("uniref/search-fields.json");
+    CROSSREF("crossref"),
+    DISEASE("disease"),
+    GENECENTRIC("gene-centric"),
+    KEYWORD("keyword"),
+    LITERATURE("literature"),
+    PROTEOME("proteome"),
+    SUBCELL("subcell-location"),
+    SUGGEST("suggest"),
+    TAXONOMY("taxonomy"),
+    UNIPARC("uniparc"),
+    UNIPROTKB("uniprot"),
+    UNIREF("uniref");
 
     private String configPath;
     private SearchFieldsLoader searchFieldsLoader;
 
     UniProtSearchFields(String configPath) {
-        this.configPath = configPath;
+        this.configPath = String.format("%s/%s", configPath, "search-fields.json");
     }
 
     @Override
