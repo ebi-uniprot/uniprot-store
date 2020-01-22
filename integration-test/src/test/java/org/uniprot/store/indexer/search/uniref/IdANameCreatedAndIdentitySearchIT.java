@@ -14,8 +14,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;
 import org.uniprot.core.xml.jaxb.uniref.Entry;
 import org.uniprot.core.xml.uniprot.XmlConverterHelper;
+import org.uniprot.store.search.domain2.UniProtSearchFields;
 import org.uniprot.store.search.field.QueryBuilder;
-import org.uniprot.store.search.field.UniRefField;
 
 class IdANameCreatedAndIdentitySearchIT {
     private static final String ID_1 = "UniRef100_A0A007";
@@ -201,7 +201,8 @@ class IdANameCreatedAndIdentitySearchIT {
     void unirefCreatedSingle() {
         LocalDate start = LocalDate.of(2015, 9, 11);
         LocalDate end = LocalDate.of(2015, 9, 12);
-        String query = rangeQuery(UniRefField.Search.created.name(), start, end);
+        String query =
+                rangeQuery(UniProtSearchFields.UNIREF.getField("created").getName(), start, end);
         QueryResponse queryResponse = searchEngine.getQueryResponse(query);
         List<String> retrievedAccessions = searchEngine.getIdentifiers(queryResponse);
 
@@ -213,7 +214,8 @@ class IdANameCreatedAndIdentitySearchIT {
     void unirefCreatedRange() {
         LocalDate start = LocalDate.of(2015, 8, 8);
         LocalDate end = LocalDate.of(2015, 10, 9);
-        String query = rangeQuery(UniRefField.Search.created.name(), start, end);
+        String query =
+                rangeQuery(UniProtSearchFields.UNIREF.getField("created").getName(), start, end);
         QueryResponse queryResponse = searchEngine.getQueryResponse(query);
         List<String> retrievedAccessions = searchEngine.getIdentifiers(queryResponse);
 
@@ -222,14 +224,15 @@ class IdANameCreatedAndIdentitySearchIT {
     }
 
     private String idQuery(String id) {
-        return QueryBuilder.query(UniRefField.Search.id.name(), id);
+        return QueryBuilder.query(UniProtSearchFields.UNIREF.getField("id").getName(), id);
     }
 
     private String nameQuery(String name) {
-        return QueryBuilder.query(UniRefField.Search.name.name(), name);
+        return QueryBuilder.query(UniProtSearchFields.UNIREF.getField("name").getName(), name);
     }
 
     private String identityQuery(String identity) {
-        return QueryBuilder.query(UniRefField.Search.identity.name(), identity);
+        return QueryBuilder.query(
+                UniProtSearchFields.UNIREF.getField("identity").getName(), identity);
     }
 }

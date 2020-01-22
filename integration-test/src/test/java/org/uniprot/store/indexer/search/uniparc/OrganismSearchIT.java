@@ -14,8 +14,8 @@ import org.junit.jupiter.api.extension.RegisterExtension;
 import org.uniprot.core.uniparc.UniParcDatabaseType;
 import org.uniprot.core.xml.jaxb.uniparc.DbReferenceType;
 import org.uniprot.core.xml.jaxb.uniparc.Entry;
+import org.uniprot.store.search.domain2.UniProtSearchFields;
 import org.uniprot.store.search.field.QueryBuilder;
-import org.uniprot.store.search.field.UniParcField;
 
 class OrganismSearchIT {
     @RegisterExtension static UniParcSearchEngine searchEngine = new UniParcSearchEngine();
@@ -129,10 +129,12 @@ class OrganismSearchIT {
     }
 
     private String taxonId(int value) {
-        return QueryBuilder.query(UniParcField.Search.taxonomy_id.name(), "" + value);
+        return QueryBuilder.query(
+                UniProtSearchFields.UNIPARC.getField("taxonomy_id").getName(), "" + value);
     }
 
     private String organismName(String value) {
-        return QueryBuilder.query(UniParcField.Search.taxonomy_name.name(), value);
+        return QueryBuilder.query(
+                UniProtSearchFields.UNIPARC.getField("taxonomy_name").getName(), value);
     }
 }

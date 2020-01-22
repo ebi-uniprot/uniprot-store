@@ -13,8 +13,8 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;
 import org.uniprot.core.xml.jaxb.uniparc.Entry;
+import org.uniprot.store.search.domain2.UniProtSearchFields;
 import org.uniprot.store.search.field.QueryBuilder;
-import org.uniprot.store.search.field.UniParcField;
 
 class SeqLengthSearchIT {
     @RegisterExtension static UniParcSearchEngine searchEngine = new UniParcSearchEngine();
@@ -100,10 +100,12 @@ class SeqLengthSearchIT {
     }
 
     private String seqLengthRange(int start, int end) {
-        return QueryBuilder.rangeQuery(UniParcField.Search.length.name(), start, end);
+        return QueryBuilder.rangeQuery(
+                UniProtSearchFields.UNIPARC.getField("length").getName(), start, end);
     }
 
     private String seqLength(int start) {
-        return QueryBuilder.query(UniParcField.Search.length.name(), "" + start);
+        return QueryBuilder.query(
+                UniProtSearchFields.UNIPARC.getField("length").getName(), "" + start);
     }
 }

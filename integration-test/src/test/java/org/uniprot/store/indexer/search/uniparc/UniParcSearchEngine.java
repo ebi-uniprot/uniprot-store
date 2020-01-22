@@ -11,7 +11,7 @@ import org.uniprot.core.xml.jaxb.uniparc.Entry;
 import org.uniprot.store.indexer.search.AbstractSearchEngine;
 import org.uniprot.store.indexer.uniparc.UniParcDocumentConverter;
 import org.uniprot.store.job.common.converter.DocumentConverter;
-import org.uniprot.store.search.field.UniParcField;
+import org.uniprot.store.search.domain2.UniProtSearchFields;
 
 /** Concrete implementation of the UniParce search engine */
 class UniParcSearchEngine extends AbstractSearchEngine<Entry> {
@@ -42,11 +42,11 @@ class UniParcSearchEngine extends AbstractSearchEngine<Entry> {
     @SuppressWarnings("rawtypes")
     @Override
     protected String identifierField() {
-        return UniParcField.Search.upi.name();
+        return UniProtSearchFields.UNIPARC.getField("upi").getName();
     }
 
     @Override
     protected String identifierQuery(String entryId) {
-        return UniParcField.Search.upid.name() + ":" + entryId;
+        return UniProtSearchFields.UNIPARC.getField("upid").getName() + ":" + entryId;
     }
 }

@@ -12,8 +12,8 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;
 import org.uniprot.core.xml.jaxb.uniparc.Entry;
+import org.uniprot.store.search.domain2.UniProtSearchFields;
 import org.uniprot.store.search.field.QueryBuilder;
-import org.uniprot.store.search.field.UniParcField;
 
 class IdentifierSearchIT {
     @RegisterExtension static UniParcSearchEngine searchEngine = new UniParcSearchEngine();
@@ -89,6 +89,7 @@ class IdentifierSearchIT {
     }
 
     private String id(String value) {
-        return QueryBuilder.query(UniParcField.Search.upi.name(), value.toUpperCase());
+        return QueryBuilder.query(
+                UniProtSearchFields.UNIPARC.getField("upi").getName(), value.toUpperCase());
     }
 }

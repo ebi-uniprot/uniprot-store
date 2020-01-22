@@ -1,13 +1,5 @@
 package org.uniprot.store.indexer.search.uniref;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.containsInAnyOrder;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -15,8 +7,16 @@ import org.junit.jupiter.api.extension.RegisterExtension;
 import org.uniprot.core.xml.jaxb.uniref.Entry;
 import org.uniprot.core.xml.jaxb.uniref.MemberType;
 import org.uniprot.core.xml.jaxb.uniref.PropertyType;
+import org.uniprot.store.search.domain2.UniProtSearchFields;
 import org.uniprot.store.search.field.QueryBuilder;
-import org.uniprot.store.search.field.UniRefField;
+
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.containsInAnyOrder;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class UniProtIdUPICountSearchIT {
     private static final String ID_1 = "UniRef100_A0A007";
@@ -241,11 +241,12 @@ class UniProtIdUPICountSearchIT {
     }
 
     private String uniprotIdQuery(String uniprotId) {
-        return QueryBuilder.query(UniRefField.Search.uniprot_id.name(), uniprotId);
+        return QueryBuilder.query(
+                UniProtSearchFields.UNIREF.getField("uniprot_id").getName(), uniprotId);
     }
 
     private String upiQuery(String upi) {
-        return QueryBuilder.query(UniRefField.Search.upi.name(), upi);
+        return QueryBuilder.query(UniProtSearchFields.UNIREF.getField("upi").getName(), upi);
     }
 
     static List<PropertyType> createUniProtAccProperty(String accession) {
@@ -260,10 +261,12 @@ class UniProtIdUPICountSearchIT {
     }
 
     String countQuery(int count) {
-        return QueryBuilder.query(UniRefField.Search.count.name(), "" + count);
+        return QueryBuilder.query(
+                UniProtSearchFields.UNIREF.getField("count").getName(), "" + count);
     }
 
     String countQuery(int start, int end) {
-        return QueryBuilder.rangeQuery(UniRefField.Search.count.name(), start, end);
+        return QueryBuilder.rangeQuery(
+                UniProtSearchFields.UNIREF.getField("count").getName(), start, end);
     }
 }
