@@ -19,6 +19,7 @@ public enum UniProtSearchFields implements SearchFields {
     LITERATURE("literature/search-fields.json"),
     PROTEOME("proteome/search-fields.json"),
     SUBCELL("subcell-location/search-fields.json"),
+    SUGGEST("suggest/search-fields.json"),
     TAXONOMY("taxonomy/search-fields.json"),
     UNIPARC("uniparc/search-fields.json"),
     UNIPROTKB("uniprot/search-fields.json"),
