@@ -1,15 +1,5 @@
 package org.uniprot.store.indexer.common.writer;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
-
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -25,6 +15,16 @@ import org.uniprot.store.indexer.test.config.FakeIndexerSpringBootApplication;
 import org.uniprot.store.indexer.test.config.SolrTestConfig;
 import org.uniprot.store.search.SolrCollection;
 import org.uniprot.store.search.document.dbxref.CrossRefDocument;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = {FakeIndexerSpringBootApplication.class, SolrTestConfig.class})
@@ -99,7 +99,7 @@ class SolrDocumentWriterTest {
         contents.add(co);
 
         CrossRefDocument.CrossRefDocumentBuilder builder = CrossRefDocument.builder();
-        builder.abbrev(ab).accession(ac).categoryStr(ct).dbUrl(du);
+        builder.abbrev(ab).accession(ac).category(ct).dbUrl(du);
         builder.doiId(di).linkType(lt).name(nm).pubMedId(pb).server(sr);
         return builder.build();
     }

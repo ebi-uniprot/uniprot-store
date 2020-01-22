@@ -1,16 +1,16 @@
 package org.uniprot.store.search;
 
+import static org.uniprot.core.util.Utils.notNull;
+
+import java.util.Arrays;
+import java.util.List;
+
 import org.apache.lucene.analysis.core.WhitespaceAnalyzer;
 import org.apache.lucene.index.Term;
 import org.apache.lucene.queryparser.classic.QueryParser;
 import org.apache.lucene.search.*;
 import org.uniprot.store.search.domain2.UniProtSearchFields;
 import org.uniprot.store.search.field.SearchField;
-
-import java.util.Arrays;
-import java.util.List;
-
-import static org.uniprot.core.util.Utils.notNull;
 
 /**
  * This class helps to improve default solr query search to get a better score and results.
@@ -34,7 +34,9 @@ public class DefaultSearchHandler {
 
     public DefaultSearchHandler(
             UniProtSearchFields searchFields,
-            String defaultField, String idField, List<SearchField> boostFields) {
+            String defaultField,
+            String idField,
+            List<SearchField> boostFields) {
         this.searchFields = searchFields;
         this.defaultField = searchFields.getField(defaultField);
         this.idField = searchFields.getField(idField);
