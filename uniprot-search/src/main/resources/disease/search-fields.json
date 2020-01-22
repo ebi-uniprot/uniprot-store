@@ -1,7 +1,8 @@
 [
   {
     "field": "accession",
-    "sortField": "accession"
+    "sortField": "accession",
+    "fieldValidRegex" : "^DI-[0-9]{5}$"
   },
   {
     "field": "name"
