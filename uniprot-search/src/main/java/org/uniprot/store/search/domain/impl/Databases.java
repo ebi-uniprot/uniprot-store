@@ -40,13 +40,23 @@ public enum Databases {
                         UniProtXDbTypes.INSTANCE.getDBTypesByCategory(category);
                 List<Tuple> databaseTypes =
                         types.stream()
-                        .filter(val -> val.getLinkTp().equalsIgnoreCase(UniProtXDbTypeDetail.EXPLICIT))
-                        .map(this::convertTuple).collect(Collectors.toList());
+                                .filter(
+                                        val ->
+                                                val.getLinkTp()
+                                                        .equalsIgnoreCase(
+                                                                UniProtXDbTypeDetail.EXPLICIT))
+                                .map(this::convertTuple)
+                                .collect(Collectors.toList());
                 databases.add(new DatabaseGroupImpl(category.getDisplayName(), databaseTypes));
                 List<Field> fields =
                         types.stream()
-                        .filter(val -> val.getLinkTp().equalsIgnoreCase(UniProtXDbTypeDetail.EXPLICIT))
-                        .map(this::convertField).collect(Collectors.toList());
+                                .filter(
+                                        val ->
+                                                val.getLinkTp()
+                                                        .equalsIgnoreCase(
+                                                                UniProtXDbTypeDetail.EXPLICIT))
+                                .map(this::convertField)
+                                .collect(Collectors.toList());
                 if (category.isSearchable())
                     databaseFields.add(
                             new FieldGroupImpl(

@@ -107,7 +107,7 @@ public class SuggestionConfig {
 
     private static List<SuggestDocument> databaseSuggestions() {
         return UniProtXDbTypes.INSTANCE.getAllDBXRefTypes().stream()
-        		.filter(val ->val.getLinkTp().equals(UniProtXDbTypeDetail.EXPLICIT))
+                .filter(val -> val.getLinkTp().equals(UniProtXDbTypeDetail.EXPLICIT))
                 .map(
                         type -> {
                             String name = removeTerminalSemiColon(type.getDisplayName());
