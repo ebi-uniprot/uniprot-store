@@ -1,7 +1,11 @@
-package org.uniprot.store.search.domain2;
+package org.uniprot.store.search.field;
 
 import java.util.Objects;
 import java.util.Set;
+
+import org.uniprot.store.search.domain2.SearchField;
+import org.uniprot.store.search.domain2.SearchFieldsLoader;
+import org.uniprot.store.search.domain2.UniProtKBSearchFieldsLoader;
 
 /**
  * Represents all accessible search fields for UniProt domains (e.g., UniProtKB, UniParc, UniRef),
@@ -33,7 +37,7 @@ public enum UniProtSearchFields implements SearchFields {
     }
 
     @Override
-    public Set<SearchField> getSearchFields() {
+    public Set<org.uniprot.store.search.domain2.SearchField> getSearchFields() {
         checkInitialised();
         return searchFieldsLoader.getSearchFields();
     }

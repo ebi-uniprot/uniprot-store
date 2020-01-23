@@ -17,8 +17,8 @@ import org.uniprot.core.json.parser.proteome.ProteomeJsonConfig;
 import org.uniprot.core.xml.XmlChainIterator;
 import org.uniprot.core.xml.jaxb.proteome.Proteome;
 import org.uniprot.store.search.document.proteome.ProteomeDocument;
-import org.uniprot.store.search.domain2.UniProtSearchFields;
 import org.uniprot.store.search.field.QueryBuilder;
+import org.uniprot.store.search.field.UniProtSearchFields;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 

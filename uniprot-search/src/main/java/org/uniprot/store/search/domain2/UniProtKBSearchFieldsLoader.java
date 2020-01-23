@@ -1,10 +1,10 @@
 package org.uniprot.store.search.domain2;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 import org.uniprot.core.cv.xdb.UniProtXDbTypes;
 import org.uniprot.store.search.domain2.impl.SearchFieldImpl;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * UniProtKB search fields originate from both the {@code search-fields.json} file, and {@link
@@ -15,10 +15,10 @@ import org.uniprot.store.search.domain2.impl.SearchFieldImpl;
  *
  * @author Edd
  */
-class UniProtKBSearchFieldsLoader extends SearchFieldsLoader {
+public class UniProtKBSearchFieldsLoader extends SearchFieldsLoader {
     static final String XREF_COUNT_PREFIX = "xref_count_";
 
-    UniProtKBSearchFieldsLoader(String fileName) {
+    public UniProtKBSearchFieldsLoader(String fileName) {
         super(fileName);
     }
 

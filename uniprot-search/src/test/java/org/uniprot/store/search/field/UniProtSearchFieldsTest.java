@@ -1,4 +1,4 @@
-package org.uniprot.store.search.domain2;
+package org.uniprot.store.search.field;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;

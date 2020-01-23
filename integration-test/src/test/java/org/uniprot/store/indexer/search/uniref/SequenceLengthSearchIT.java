@@ -11,8 +11,8 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;
 import org.uniprot.core.xml.jaxb.uniref.Entry;
-import org.uniprot.store.search.domain2.UniProtSearchFields;
 import org.uniprot.store.search.field.QueryBuilder;
+import org.uniprot.store.search.field.UniProtSearchFields;
 
 class SequenceLengthSearchIT {
     private static final String ID_1 = "UniRef100_A0A007";

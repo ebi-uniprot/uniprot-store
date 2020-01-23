@@ -12,8 +12,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;
 import org.uniprot.core.uniparc.UniParcDatabaseType;
 import org.uniprot.core.xml.jaxb.uniparc.Entry;
-import org.uniprot.store.search.domain2.UniProtSearchFields;
 import org.uniprot.store.search.field.QueryBuilder;
+import org.uniprot.store.search.field.UniProtSearchFields;
 
 class DatabaseSearchIT {
     @RegisterExtension static UniParcSearchEngine searchEngine = new UniParcSearchEngine();

@@ -20,9 +20,9 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;
 import org.uniprot.store.search.document.suggest.SuggestDocument;
-import org.uniprot.store.search.domain2.UniProtSearchFields;
 import org.uniprot.store.search.field.QueryBuilder;
 import org.uniprot.store.search.field.SuggestField;
+import org.uniprot.store.search.field.UniProtSearchFields;
 
 class SuggestSearchIT {
     @RegisterExtension static SuggestSearchEngine searchEngine = new SuggestSearchEngine();

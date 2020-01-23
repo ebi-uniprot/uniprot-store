@@ -11,7 +11,7 @@ import org.uniprot.core.xml.jaxb.proteome.Proteome;
 import org.uniprot.store.indexer.proteome.ProteomeEntryConverter;
 import org.uniprot.store.indexer.search.AbstractSearchEngine;
 import org.uniprot.store.job.common.converter.DocumentConverter;
-import org.uniprot.store.search.domain2.UniProtSearchFields;
+import org.uniprot.store.search.field.UniProtSearchFields;
 
 class ProteomeSearchEngine extends AbstractSearchEngine<Proteome> {
 

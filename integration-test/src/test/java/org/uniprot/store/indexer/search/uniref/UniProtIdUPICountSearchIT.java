@@ -1,5 +1,13 @@
 package org.uniprot.store.indexer.search.uniref;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.containsInAnyOrder;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -7,16 +15,8 @@ import org.junit.jupiter.api.extension.RegisterExtension;
 import org.uniprot.core.xml.jaxb.uniref.Entry;
 import org.uniprot.core.xml.jaxb.uniref.MemberType;
 import org.uniprot.core.xml.jaxb.uniref.PropertyType;
-import org.uniprot.store.search.domain2.UniProtSearchFields;
 import org.uniprot.store.search.field.QueryBuilder;
-
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.containsInAnyOrder;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import org.uniprot.store.search.field.UniProtSearchFields;
 
 class UniProtIdUPICountSearchIT {
     private static final String ID_1 = "UniRef100_A0A007";
