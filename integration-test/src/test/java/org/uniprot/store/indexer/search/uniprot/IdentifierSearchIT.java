@@ -16,8 +16,8 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;
 import org.uniprot.core.flatfile.writer.LineType;
-import org.uniprot.store.search.domain2.UniProtKBSearchFields;
 import org.uniprot.store.search.field.QueryBuilder;
+import org.uniprot.store.search.field.UniProtSearchFields;
 
 /** Verifies if the protein accession/protein id is indexed correctly */
 class IdentifierSearchIT {
@@ -114,8 +114,7 @@ class IdentifierSearchIT {
     }
 
     private String id(String id) {
-        return QueryBuilder.query(
-                UniProtKBSearchFields.INSTANCE.getField("mnemonic").getName(), id);
+        return QueryBuilder.query(UniProtSearchFields.UNIPROTKB.getField("mnemonic").getName(), id);
     }
 
     private String mixCasing(String value) {

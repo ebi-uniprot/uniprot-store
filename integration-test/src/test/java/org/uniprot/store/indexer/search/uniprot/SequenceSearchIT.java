@@ -15,8 +15,8 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;
 import org.uniprot.core.flatfile.writer.LineType;
-import org.uniprot.store.search.domain2.UniProtKBSearchFields;
 import org.uniprot.store.search.field.QueryBuilder;
+import org.uniprot.store.search.field.UniProtSearchFields;
 
 class SequenceSearchIT {
     private static final String Q6GZX4 = "Q6GZX4";
@@ -143,7 +143,7 @@ class SequenceSearchIT {
 
     @Test
     void findSingleByLength() {
-        String query = query(UniProtKBSearchFields.INSTANCE.getField("length"), "256");
+        String query = query(UniProtSearchFields.UNIPROTKB.getField("length"), "256");
         QueryResponse response = searchEngine.getQueryResponse(query);
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
         assertThat(retrievedAccessions, hasItem(Q6GZX4));
@@ -154,7 +154,7 @@ class SequenceSearchIT {
     void findSingleByLengthRange() {
         String query =
                 QueryBuilder.rangeQuery(
-                        UniProtKBSearchFields.INSTANCE.getField("length").getName(),
+                        UniProtSearchFields.UNIPROTKB.getField("length").getName(),
                         "250",
                         "256",
                         true,
@@ -169,7 +169,7 @@ class SequenceSearchIT {
 
     @Test
     void findSingleByMass() {
-        String query = query(UniProtKBSearchFields.INSTANCE.getField("mass"), "38937");
+        String query = query(UniProtSearchFields.UNIPROTKB.getField("mass"), "38937");
         QueryResponse response = searchEngine.getQueryResponse(query);
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
         assertThat(retrievedAccessions, hasItem(Q6V4H0));
@@ -180,7 +180,7 @@ class SequenceSearchIT {
     void findSingleByMassRange() {
         String query =
                 QueryBuilder.rangeQuery(
-                        UniProtKBSearchFields.INSTANCE.getField("mass").getName(), 29734, 39427);
+                        UniProtSearchFields.UNIPROTKB.getField("mass").getName(), 29734, 39427);
         QueryResponse response = searchEngine.getQueryResponse(query);
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
         assertThat(retrievedAccessions, containsInAnyOrder(Q6GZX4, Q6V4H0, Q6GZX3, Q197B6));

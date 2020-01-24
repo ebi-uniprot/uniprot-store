@@ -15,7 +15,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;
 import org.uniprot.core.flatfile.writer.LineType;
-import org.uniprot.store.search.domain2.UniProtKBSearchFields;
+import org.uniprot.store.search.field.UniProtSearchFields;
 
 /** Verifies if the protein UniProt entry type (Reviewed/Unreviewed) is indexed correctly */
 class ReviewedSearchIT {
@@ -53,7 +53,7 @@ class ReviewedSearchIT {
 
     @Test
     void reviewedEntryTypMatchesEntriesWithReviewedStatus() {
-        String query = query(UniProtKBSearchFields.INSTANCE.getField("reviewed"), "true");
+        String query = query(UniProtSearchFields.UNIPROTKB.getField("reviewed"), "true");
 
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -63,7 +63,7 @@ class ReviewedSearchIT {
 
     @Test
     void unReviewedEntryTypMatchesEntriesWithUnreviewedStatus() {
-        String query = query(UniProtKBSearchFields.INSTANCE.getField("reviewed"), "false");
+        String query = query(UniProtSearchFields.UNIPROTKB.getField("reviewed"), "false");
 
         QueryResponse response = searchEngine.getQueryResponse(query);
 

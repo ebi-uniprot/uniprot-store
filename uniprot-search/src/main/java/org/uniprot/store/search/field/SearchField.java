@@ -5,7 +5,9 @@ import java.util.function.Predicate;
 /** @author lgonzales */
 public interface SearchField {
 
-    BoostValue getBoostValue();
+    default BoostValue getBoostValue() {
+        return null;
+    }
 
     default boolean hasBoostValue() {
         return getBoostValue() != null;
@@ -15,9 +17,15 @@ public interface SearchField {
         return getFieldValueValidator() == null || getFieldValueValidator().test(value);
     }
 
-    String getName();
+    default String getName() {
+        return null;
+    }
 
-    SearchFieldType getSearchFieldType();
+    default SearchFieldType getSearchFieldType() {
+        return null;
+    }
 
-    Predicate<String> getFieldValueValidator();
+    default Predicate<String> getFieldValueValidator() {
+        return null;
+    }
 }

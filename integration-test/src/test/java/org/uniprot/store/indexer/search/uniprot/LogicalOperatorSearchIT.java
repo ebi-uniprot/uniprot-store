@@ -16,8 +16,8 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;
 import org.uniprot.core.flatfile.writer.LineType;
-import org.uniprot.store.search.domain2.UniProtKBSearchFields;
 import org.uniprot.store.search.field.QueryBuilder;
+import org.uniprot.store.search.field.UniProtSearchFields;
 
 /** Tests whether the logical operators of the UniProtQueryBuilder are working properly */
 class LogicalOperatorSearchIT {
@@ -51,7 +51,7 @@ class LogicalOperatorSearchIT {
 
     @Test
     void queryForAccessionInEntry1ReturnsEntry1() {
-        String query = query(UniProtKBSearchFields.INSTANCE.getField("accession"), ACCESSION1);
+        String query = query(UniProtSearchFields.UNIPROTKB.getField("accession"), ACCESSION1);
 
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -63,7 +63,7 @@ class LogicalOperatorSearchIT {
     void notEntry1ReturnsEntry2And3() {
         String query =
                 QueryBuilder.query(
-                        UniProtKBSearchFields.INSTANCE.getField("accession").getName(),
+                        UniProtSearchFields.UNIPROTKB.getField("accession").getName(),
                         ACCESSION1,
                         false,
                         true);
@@ -76,8 +76,8 @@ class LogicalOperatorSearchIT {
 
     @Test
     void orAccessionsReturnsEntry1And3() {
-        String acc1Query = query(UniProtKBSearchFields.INSTANCE.getField("accession"), ACCESSION1);
-        String acc3Query = query(UniProtKBSearchFields.INSTANCE.getField("accession"), ACCESSION3);
+        String acc1Query = query(UniProtSearchFields.UNIPROTKB.getField("accession"), ACCESSION1);
+        String acc3Query = query(UniProtSearchFields.UNIPROTKB.getField("accession"), ACCESSION3);
 
         String orQuery = QueryBuilder.or(acc1Query, acc3Query);
 
@@ -89,8 +89,8 @@ class LogicalOperatorSearchIT {
 
     @Test
     void andAccessionsReturnsEntryNone() {
-        String acc1Query = query(UniProtKBSearchFields.INSTANCE.getField("accession"), ACCESSION1);
-        String acc3Query = query(UniProtKBSearchFields.INSTANCE.getField("accession"), ACCESSION3);
+        String acc1Query = query(UniProtSearchFields.UNIPROTKB.getField("accession"), ACCESSION1);
+        String acc3Query = query(UniProtSearchFields.UNIPROTKB.getField("accession"), ACCESSION3);
 
         String andQuery = QueryBuilder.and(acc1Query, acc3Query);
 

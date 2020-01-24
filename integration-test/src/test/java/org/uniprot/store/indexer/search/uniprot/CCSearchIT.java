@@ -15,8 +15,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;
 import org.uniprot.core.flatfile.writer.LineType;
 import org.uniprot.core.uniprot.comment.CommentType;
-import org.uniprot.store.search.domain2.UniProtKBSearchFields;
 import org.uniprot.store.search.field.QueryBuilder;
+import org.uniprot.store.search.field.UniProtSearchFields;
 
 /** Tests showing the behaviour of searching CC fields */
 class CCSearchIT {
@@ -242,7 +242,7 @@ class CCSearchIT {
 
     @Test
     void functionExactlyCorrect() {
-        String query = query(UniProtKBSearchFields.INSTANCE.getField("accession"), Q6GZX4);
+        String query = query(UniProtSearchFields.UNIPROTKB.getField("accession"), Q6GZX4);
         query =
                 QueryBuilder.and(
                         query, comments(CommentType.FUNCTION, "Transcription activation."));
@@ -255,7 +255,7 @@ class CCSearchIT {
 
     @Test
     void functionWithoutTerminalStop() {
-        String query = query(UniProtKBSearchFields.INSTANCE.getField("accession"), Q6GZX4);
+        String query = query(UniProtSearchFields.UNIPROTKB.getField("accession"), Q6GZX4);
         query = QueryBuilder.and(query, comments(CommentType.FUNCTION, "Transcription activation"));
 
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -266,7 +266,7 @@ class CCSearchIT {
 
     @Test
     void subcellularSpanning2Lines() {
-        String query = query(UniProtKBSearchFields.INSTANCE.getField("accession"), Q6GZX3);
+        String query = query(UniProtSearchFields.UNIPROTKB.getField("accession"), Q6GZX3);
         query =
                 QueryBuilder.and(
                         query,
@@ -279,7 +279,7 @@ class CCSearchIT {
 
     @Test
     void subcellularFindWithoutSemiColon() {
-        String query = query(UniProtKBSearchFields.INSTANCE.getField("accession"), Q6GZY3);
+        String query = query(UniProtSearchFields.UNIPROTKB.getField("accession"), Q6GZY3);
         query = QueryBuilder.and(query, comments(CommentType.SUBCELLULAR_LOCATION, "membrane"));
 
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -340,7 +340,7 @@ class CCSearchIT {
 
     @Test
     void subcellularPartialOrdered() {
-        String query = query(UniProtKBSearchFields.INSTANCE.getField("accession"), Q197B6);
+        String query = query(UniProtSearchFields.UNIPROTKB.getField("accession"), Q197B6);
         query =
                 QueryBuilder.and(
                         query,
@@ -356,7 +356,7 @@ class CCSearchIT {
 
     @Test
     void subcellularPartialOrderedWithForwardSlash() {
-        String query = query(UniProtKBSearchFields.INSTANCE.getField("accession"), Q197B6);
+        String query = query(UniProtSearchFields.UNIPROTKB.getField("accession"), Q197B6);
         query =
                 QueryBuilder.and(
                         query, comments(CommentType.SIMILARITY, "Ser/Thr protein kinase family"));
@@ -369,7 +369,7 @@ class CCSearchIT {
 
     @Test
     void subcellularPartialUnordered() {
-        String query = query(UniProtKBSearchFields.INSTANCE.getField("accession"), Q197B6);
+        String query = query(UniProtSearchFields.UNIPROTKB.getField("accession"), Q197B6);
         query =
                 QueryBuilder.and(
                         query, comments(CommentType.SIMILARITY, "protein kinase family Ser/Thr"));
@@ -412,7 +412,7 @@ class CCSearchIT {
 
     @Test
     void findCofactorWithChebi() {
-        String query = query(UniProtKBSearchFields.INSTANCE.getField("cc_cofactor_chebi"), "57692");
+        String query = query(UniProtSearchFields.UNIPROTKB.getField("cc_cofactor_chebi"), "57692");
         QueryResponse response = searchEngine.getQueryResponse(query);
 
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
@@ -421,7 +421,7 @@ class CCSearchIT {
 
     @Test
     void findCofactorWithNote() {
-        String query = query(UniProtKBSearchFields.INSTANCE.getField("cc_cofactor_note"), "zinc");
+        String query = query(UniProtSearchFields.UNIPROTKB.getField("cc_cofactor_note"), "zinc");
         QueryResponse response = searchEngine.getQueryResponse(query);
 
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
@@ -431,7 +431,7 @@ class CCSearchIT {
     @Test
     void findBPCPWithAbsorption() {
         String query =
-                query(UniProtKBSearchFields.INSTANCE.getField("cc_bpcp_absorption"), "emission");
+                query(UniProtSearchFields.UNIPROTKB.getField("cc_bpcp_absorption"), "emission");
         QueryResponse response = searchEngine.getQueryResponse(query);
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
         assertThat(retrievedAccessions, contains(Q6GZX3));
@@ -439,7 +439,7 @@ class CCSearchIT {
 
     @Test
     void findBPCPWithKinetics() {
-        String query = query(UniProtKBSearchFields.INSTANCE.getField("cc_bpcp_kinetics"), "enzyme");
+        String query = query(UniProtSearchFields.UNIPROTKB.getField("cc_bpcp_kinetics"), "enzyme");
         QueryResponse response = searchEngine.getQueryResponse(query);
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
         System.out.println(retrievedAccessions);
@@ -450,7 +450,7 @@ class CCSearchIT {
     @Test
     void findBPCPWithPhDependence() {
         String query =
-                query(UniProtKBSearchFields.INSTANCE.getField("cc_bpcp_ph_dependence"), "optimum");
+                query(UniProtSearchFields.UNIPROTKB.getField("cc_bpcp_ph_dependence"), "optimum");
         QueryResponse response = searchEngine.getQueryResponse(query);
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
         assertThat(retrievedAccessions, hasItem(Q12345));
@@ -460,7 +460,7 @@ class CCSearchIT {
     @Test
     void findBPCPWithTempDependence() {
         String query =
-                query(UniProtKBSearchFields.INSTANCE.getField("cc_bpcp_temp_dependence"), "70");
+                query(UniProtSearchFields.UNIPROTKB.getField("cc_bpcp_temp_dependence"), "70");
         QueryResponse response = searchEngine.getQueryResponse(query);
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
         assertThat(retrievedAccessions, hasItem(Q12345));
@@ -470,7 +470,7 @@ class CCSearchIT {
     @Test
     void findBPCPWithRedox() {
         String query =
-                query(UniProtKBSearchFields.INSTANCE.getField("cc_bpcp_redox_potential"), "178");
+                query(UniProtSearchFields.UNIPROTKB.getField("cc_bpcp_redox_potential"), "178");
         QueryResponse response = searchEngine.getQueryResponse(query);
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
         assertThat(retrievedAccessions, hasItem(Q6V4H0));
@@ -479,7 +479,7 @@ class CCSearchIT {
 
     @Test
     void findSubcellLocation() {
-        String query = query(UniProtKBSearchFields.INSTANCE.getField("cc_scl_term"), "membrane");
+        String query = query(UniProtSearchFields.UNIPROTKB.getField("cc_scl_term"), "membrane");
         QueryResponse response = searchEngine.getQueryResponse(query);
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
         assertThat(retrievedAccessions, hasItem(Q6GZX3));
@@ -488,7 +488,7 @@ class CCSearchIT {
 
     @Test
     void findSubcellLocationNote() {
-        String query = query(UniProtKBSearchFields.INSTANCE.getField("cc_scl_note"), "Localizes");
+        String query = query(UniProtSearchFields.UNIPROTKB.getField("cc_scl_note"), "Localizes");
         QueryResponse response = searchEngine.getQueryResponse(query);
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
         assertThat(retrievedAccessions, hasItem(Q6GZY3));
@@ -497,7 +497,7 @@ class CCSearchIT {
 
     @Test
     void findAPEvent() {
-        String query = query(UniProtKBSearchFields.INSTANCE.getField("cc_ap_as"), "*");
+        String query = query(UniProtSearchFields.UNIPROTKB.getField("cc_ap_as"), "*");
         QueryResponse response = searchEngine.getQueryResponse(query);
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
         assertThat(retrievedAccessions, hasItem(P48347));
@@ -506,7 +506,7 @@ class CCSearchIT {
 
     @Test
     void findSCType() {
-        String query = query(UniProtKBSearchFields.INSTANCE.getField("cc_sc_framesh"), "*");
+        String query = query(UniProtSearchFields.UNIPROTKB.getField("cc_sc_framesh"), "*");
         QueryResponse response = searchEngine.getQueryResponse(query);
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
         assertThat(retrievedAccessions, hasItem(Q6GZX4));
@@ -515,7 +515,7 @@ class CCSearchIT {
 
     @Test
     void findSCTypeNo() {
-        String query = query(UniProtKBSearchFields.INSTANCE.getField("cc_sc_eterm"), "Erroneous");
+        String query = query(UniProtSearchFields.UNIPROTKB.getField("cc_sc_eterm"), "Erroneous");
         QueryResponse response = searchEngine.getQueryResponse(query);
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
         assertThat(retrievedAccessions, not(hasItem(Q6GZX4)));

@@ -23,7 +23,7 @@ import org.uniprot.store.indexer.uniprot.pathway.PathwayFileRepo;
 import org.uniprot.store.indexer.uniprot.pathway.PathwayRepo;
 import org.uniprot.store.indexer.uniprotkb.converter.UniProtEntryConverter;
 import org.uniprot.store.job.common.converter.DocumentConverter;
-import org.uniprot.store.search.domain2.UniProtKBSearchFields;
+import org.uniprot.store.search.field.UniProtSearchFields;
 
 /** Concrete implementation of the UniProt search engine */
 public class UniProtSearchEngine extends AbstractSearchEngine<UniProtEntry> {
@@ -60,7 +60,7 @@ public class UniProtSearchEngine extends AbstractSearchEngine<UniProtEntry> {
 
     @Override
     protected String identifierField() {
-        return UniProtKBSearchFields.INSTANCE.getSortFieldFor("accession").getName();
+        return UniProtSearchFields.UNIPROTKB.getSortFieldFor("accession").getName();
     }
 
     static class TestDocumentProducer {

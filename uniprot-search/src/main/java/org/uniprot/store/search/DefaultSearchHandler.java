@@ -10,6 +10,7 @@ import org.apache.lucene.index.Term;
 import org.apache.lucene.queryparser.classic.QueryParser;
 import org.apache.lucene.search.*;
 import org.uniprot.store.search.field.SearchField;
+import org.uniprot.store.search.field.UniProtSearchFields;
 
 /**
  * This class helps to improve default solr query search to get a better score and results.
@@ -26,14 +27,19 @@ import org.uniprot.store.search.field.SearchField;
  */
 public class DefaultSearchHandler {
 
-    private final SearchField defaultField;
-    private final SearchField idField;
+    private final org.uniprot.store.search.domain2.SearchField defaultField;
+    private final org.uniprot.store.search.domain2.SearchField idField;
     private final List<SearchField> boostFields;
+    private UniProtSearchFields searchFields;
 
     public DefaultSearchHandler(
-            SearchField defaultField, SearchField idField, List<SearchField> boostFields) {
-        this.defaultField = defaultField;
-        this.idField = idField;
+            UniProtSearchFields searchFields,
+            String defaultField,
+            String idField,
+            List<SearchField> boostFields) {
+        this.searchFields = searchFields;
+        this.defaultField = searchFields.getField(defaultField);
+        this.idField = searchFields.getField(idField);
         this.boostFields = boostFields;
     }
 
@@ -115,7 +121,7 @@ public class DefaultSearchHandler {
     }
 
     private Query rewriteDefaultTermQuery(TermQuery query) {
-        if (idField.hasValidValue(query.getTerm().text())) {
+        if (searchFields.fieldValueIsValid(idField.getName(), query.getTerm().text())) {
             // if it is a valid id (accession) value for example... we search directly in id
             // (accession) field...
             return new TermQuery(new Term(idField.getName(), query.getTerm().bytes()));

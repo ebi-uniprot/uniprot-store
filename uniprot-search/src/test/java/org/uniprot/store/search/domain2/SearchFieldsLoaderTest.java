@@ -15,7 +15,7 @@ import org.junit.jupiter.api.Test;
  * @author Edd
  */
 class SearchFieldsLoaderTest {
-    private static final String FILENAME = "uniprot/search-fields.json";
+    private static final String FILENAME = "search-loader-fields.json";
     private static SearchFieldsLoader fieldsLoader;
 
     @BeforeAll

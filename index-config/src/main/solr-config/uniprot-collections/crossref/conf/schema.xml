@@ -45,7 +45,8 @@
 	<!-- Field constraints -->
 	<uniqueKey>accession</uniqueKey>
 	<copyField source="accession" dest="id" />
-	<copyField source="category_str" dest="category_facet" />
+	<!-- <copyField source="category_str" dest="category_facet" /> -->
+	<copyField source="category_facet" dest="category_str" />
 	<!-- name = name_only + abbrev -->
 	<copyField source="abbrev" dest="name" />
 	<copyField source="name_only" dest="name" />

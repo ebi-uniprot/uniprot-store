@@ -15,8 +15,8 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;
 import org.uniprot.core.flatfile.writer.LineType;
-import org.uniprot.store.search.domain2.UniProtKBSearchFields;
 import org.uniprot.store.search.field.QueryBuilder;
+import org.uniprot.store.search.field.UniProtSearchFields;
 
 class CCCofactorSearchIT {
     private static final String Q6GZX4 = "Q6GZX4";
@@ -89,7 +89,7 @@ class CCCofactorSearchIT {
 
     @Test
     void findCofactorWithChebi() {
-        String query = query(UniProtKBSearchFields.INSTANCE.getField("cc_cofactor_chebi"), "57692");
+        String query = query(UniProtSearchFields.UNIPROTKB.getField("cc_cofactor_chebi"), "57692");
         QueryResponse response = searchEngine.getQueryResponse(query);
 
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
@@ -98,8 +98,7 @@ class CCCofactorSearchIT {
 
     @Test
     void findCofactorWithChebiName() {
-        String query =
-                query(UniProtKBSearchFields.INSTANCE.getField("cc_cofactor_chebi"), "Mg(2+)");
+        String query = query(UniProtSearchFields.UNIPROTKB.getField("cc_cofactor_chebi"), "Mg(2+)");
         QueryResponse response = searchEngine.getQueryResponse(query);
 
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
@@ -109,7 +108,7 @@ class CCCofactorSearchIT {
     @Test
     void findCofactorWithChebiName2() {
         String query =
-                query(UniProtKBSearchFields.INSTANCE.getField("cc_cofactor_chebi"), "phosphate");
+                query(UniProtSearchFields.UNIPROTKB.getField("cc_cofactor_chebi"), "phosphate");
         QueryResponse response = searchEngine.getQueryResponse(query);
 
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
@@ -119,13 +118,13 @@ class CCCofactorSearchIT {
     @Test
     void findCofactorWithChebiNameEvidence() {
         String query =
-                query(UniProtKBSearchFields.INSTANCE.getField("cc_cofactor_chebi"), "phosphate");
+                query(UniProtSearchFields.UNIPROTKB.getField("cc_cofactor_chebi"), "phosphate");
         String evidence = "ECO_0000256";
         query =
                 QueryBuilder.and(
                         query,
                         query(
-                                UniProtKBSearchFields.INSTANCE.getField("ccev_cofactor_chebi"),
+                                UniProtSearchFields.UNIPROTKB.getField("ccev_cofactor_chebi"),
                                 evidence));
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -137,7 +136,7 @@ class CCCofactorSearchIT {
 
     @Test
     void findCofactorWithNote() {
-        String query = query(UniProtKBSearchFields.INSTANCE.getField("cc_cofactor_note"), "binds");
+        String query = query(UniProtSearchFields.UNIPROTKB.getField("cc_cofactor_note"), "binds");
         QueryResponse response = searchEngine.getQueryResponse(query);
 
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
@@ -146,13 +145,13 @@ class CCCofactorSearchIT {
 
     @Test
     void findCofactorWithNoteEvidence() {
-        String query = query(UniProtKBSearchFields.INSTANCE.getField("cc_cofactor_note"), "binds");
+        String query = query(UniProtSearchFields.UNIPROTKB.getField("cc_cofactor_note"), "binds");
         String evidence = "ECO_0000250";
         query =
                 QueryBuilder.and(
                         query,
                         query(
-                                UniProtKBSearchFields.INSTANCE.getField("ccev_cofactor_note"),
+                                UniProtSearchFields.UNIPROTKB.getField("ccev_cofactor_note"),
                                 evidence));
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -163,13 +162,13 @@ class CCCofactorSearchIT {
 
     @Test
     void findCofactorWithNoteAAEvidence() {
-        String query = query(UniProtKBSearchFields.INSTANCE.getField("cc_cofactor_note"), "binds");
+        String query = query(UniProtSearchFields.UNIPROTKB.getField("cc_cofactor_note"), "binds");
         String evidence = "automatic";
         query =
                 QueryBuilder.and(
                         query,
                         query(
-                                UniProtKBSearchFields.INSTANCE.getField("ccev_cofactor_note"),
+                                UniProtSearchFields.UNIPROTKB.getField("ccev_cofactor_note"),
                                 evidence));
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -180,13 +179,13 @@ class CCCofactorSearchIT {
 
     @Test
     void findCofactorWithNoteManualEvidence() {
-        String query = query(UniProtKBSearchFields.INSTANCE.getField("cc_cofactor_note"), "binds");
+        String query = query(UniProtSearchFields.UNIPROTKB.getField("cc_cofactor_note"), "binds");
         String evidence = "manual";
         query =
                 QueryBuilder.and(
                         query,
                         query(
-                                UniProtKBSearchFields.INSTANCE.getField("ccev_cofactor_note"),
+                                UniProtSearchFields.UNIPROTKB.getField("ccev_cofactor_note"),
                                 evidence));
 
         QueryResponse response = searchEngine.getQueryResponse(query);

@@ -11,7 +11,7 @@ import org.uniprot.core.xml.jaxb.uniref.Entry;
 import org.uniprot.store.indexer.search.AbstractSearchEngine;
 import org.uniprot.store.indexer.uniref.UniRefDocumentConverter;
 import org.uniprot.store.job.common.converter.DocumentConverter;
-import org.uniprot.store.search.field.UniRefField;
+import org.uniprot.store.search.field.UniProtSearchFields;
 
 /**
  * @author jluo
@@ -45,12 +45,12 @@ class UniRefSearchEngine extends AbstractSearchEngine<Entry> {
 
     @Override
     protected String identifierQuery(String entryId) {
-        return UniRefField.Search.id.name() + ":" + entryId;
+        return UniProtSearchFields.UNIREF.getField("id").getName() + ":" + entryId;
     }
 
     @SuppressWarnings("rawtypes")
     @Override
     protected String identifierField() {
-        return UniRefField.Search.id.name();
+        return UniProtSearchFields.UNIREF.getField("id").getName();
     }
 }

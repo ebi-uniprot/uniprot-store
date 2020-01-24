@@ -1,0 +1,34 @@
+[
+  {
+    "field": "id",
+    "fieldValidRegex": "^[0-9]+$",
+    "sortField": "id_sort"
+  },
+  {
+    "field": "doi"
+  },
+  {
+    "field": "title",
+    "sortField": "title_sort"
+  },
+  {
+    "field": "author"
+  },
+  {
+    "field": "journal"
+  },
+  {
+    "field": "published"
+  },
+  {
+    "field": "citedin",
+    "fieldValidRegex": "^true|false$"
+  },
+  {
+    "field": "mappedin",
+    "fieldValidRegex": "^true|false$"
+  },
+  {
+    "field": "content"
+  }
+]

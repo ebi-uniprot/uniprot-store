@@ -1,0 +1,57 @@
+[
+  {
+    "field": "scientific",
+    "sortField": "name_sort"
+  },
+  {
+    "field": "id",
+    "fieldValidRegex": "^[0-9]+$"
+  },
+  {
+    "field": "tax_id",
+    "fieldValidRegex": "^[0-9]+$"
+  },
+  {
+    "field": "common"
+  },
+  {
+    "field": "mnemonic"
+  },
+  {
+    "field": "rank"
+  },
+  {
+    "field": "strain"
+  },
+  {
+    "field": "host",
+    "fieldValidRegex": "^[0-9]+$"
+  },
+  {
+    "field": "linked",
+    "fieldValidRegex": "^true|false$"
+  },
+  {
+    "field": "active",
+    "fieldValidRegex": "^true|false$"
+  },
+  {
+    "field": "proteome",
+    "fieldValidRegex": "^true|false$"
+  },
+  {
+    "field": "reference",
+    "fieldValidRegex": "^true|false$"
+  },
+  {
+    "field": "reviewed",
+    "fieldValidRegex": "^true|false$"
+  },
+  {
+    "field": "annotated",
+    "fieldValidRegex": "^true|false$"
+  },
+  {
+    "field": "content"
+  }
+]
