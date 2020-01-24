@@ -5,8 +5,8 @@ import org.uniprot.store.search.domain2.SearchField;
 import java.util.Set;
 
 /**
- * Represents a container of {@link SearchField} instances,
- * providing utility methods to ease their access.
+ * Represents a container of {@link SearchField} instances, providing utility methods to ease their
+ * access.
  *
  * <p>Created 14/11/19
  *
