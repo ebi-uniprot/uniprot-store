@@ -1,16 +1,15 @@
 package org.uniprot.store.datastore.uniprotkb.writer;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 import net.jodah.failsafe.RetryPolicy;
-
 import org.uniprot.core.flatfile.writer.impl.UniProtFlatfileWriter;
 import org.uniprot.core.scorer.uniprotkb.UniProtEntryScored;
 import org.uniprot.core.uniprot.UniProtEntry;
 import org.uniprot.core.uniprot.builder.UniProtEntryBuilder;
 import org.uniprot.store.job.common.store.Store;
 import org.uniprot.store.job.common.writer.ItemRetryWriter;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created 25/07/19
@@ -46,7 +45,7 @@ public class UniProtEntryRetryWriter extends ItemRetryWriter<UniProtEntry, UniPr
     private UniProtEntry addAnnotationScore(UniProtEntry entry) {
         UniProtEntryScored entryScored = new UniProtEntryScored(entry);
         double score = entryScored.score();
-        UniProtEntryBuilder builder = UniProtEntryBuilder.fromInstance(entry);
+        UniProtEntryBuilder builder = UniProtEntryBuilder.from(entry);
         builder.annotationScore(score);
         return builder.build();
     }
