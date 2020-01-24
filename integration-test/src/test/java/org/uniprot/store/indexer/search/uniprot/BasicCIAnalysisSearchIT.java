@@ -25,8 +25,8 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.EnumSource;
 import org.uniprot.core.flatfile.writer.LineType;
 import org.uniprot.store.indexer.search.DocFieldTransformer;
-import org.uniprot.store.search.domain2.UniProtSearchFields;
 import org.uniprot.store.search.field.QueryBuilder;
+import org.uniprot.store.search.field.UniProtSearchFields;
 
 /**
  * This class tests the edge cases of the {@code basic_ci} field type defined in UniProt's

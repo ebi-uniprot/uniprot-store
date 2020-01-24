@@ -15,10 +15,10 @@ import org.uniprot.store.search.domain2.impl.SearchFieldImpl;
  *
  * @author Edd
  */
-class UniProtKBSearchFieldsLoader extends SearchFieldsLoader {
+public class UniProtKBSearchFieldsLoader extends SearchFieldsLoader {
     static final String XREF_COUNT_PREFIX = "xref_count_";
 
-    UniProtKBSearchFieldsLoader(String fileName) {
+    public UniProtKBSearchFieldsLoader(String fileName) {
         super(fileName);
     }
 

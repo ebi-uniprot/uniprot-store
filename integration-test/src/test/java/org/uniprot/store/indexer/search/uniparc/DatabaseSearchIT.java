@@ -13,7 +13,7 @@ import org.junit.jupiter.api.extension.RegisterExtension;
 import org.uniprot.core.uniparc.UniParcDatabaseType;
 import org.uniprot.core.xml.jaxb.uniparc.Entry;
 import org.uniprot.store.search.field.QueryBuilder;
-import org.uniprot.store.search.field.UniParcField;
+import org.uniprot.store.search.field.UniProtSearchFields;
 
 class DatabaseSearchIT {
     @RegisterExtension static UniParcSearchEngine searchEngine = new UniParcSearchEngine();
@@ -138,18 +138,19 @@ class DatabaseSearchIT {
     }
 
     private String active(String dbname) {
-        return QueryBuilder.query(UniParcField.Search.active.name(), dbname);
+        return QueryBuilder.query(UniProtSearchFields.UNIPARC.getField("active").getName(), dbname);
     }
 
     private String database(String dbname) {
-        return QueryBuilder.query(UniParcField.Search.database.name(), dbname);
+        return QueryBuilder.query(
+                UniProtSearchFields.UNIPARC.getField("database").getName(), dbname);
     }
 
     String uniprot(String acc) {
-        return QueryBuilder.query(UniParcField.Search.accession.name(), acc);
+        return QueryBuilder.query(UniProtSearchFields.UNIPARC.getField("accession").getName(), acc);
     }
 
     String isoform(String acc) {
-        return QueryBuilder.query(UniParcField.Search.isoform.name(), acc);
+        return QueryBuilder.query(UniProtSearchFields.UNIPARC.getField("isoform").getName(), acc);
     }
 }

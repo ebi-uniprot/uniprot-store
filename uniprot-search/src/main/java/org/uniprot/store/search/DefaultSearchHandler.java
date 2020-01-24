@@ -9,8 +9,8 @@ import org.apache.lucene.analysis.core.WhitespaceAnalyzer;
 import org.apache.lucene.index.Term;
 import org.apache.lucene.queryparser.classic.QueryParser;
 import org.apache.lucene.search.*;
-import org.uniprot.store.search.domain2.UniProtSearchFields;
 import org.uniprot.store.search.field.SearchField;
+import org.uniprot.store.search.field.UniProtSearchFields;
 
 /**
  * This class helps to improve default solr query search to get a better score and results.

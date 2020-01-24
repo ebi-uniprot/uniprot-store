@@ -1,4 +1,8 @@
-package org.uniprot.store.search.domain2;
+package org.uniprot.store.search.field;
+
+import org.uniprot.store.search.domain2.SearchField;
+import org.uniprot.store.search.domain2.SearchFieldsLoader;
+import org.uniprot.store.search.domain2.UniProtKBSearchFieldsLoader;
 
 import java.util.Objects;
 import java.util.Set;

@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 import org.uniprot.core.util.Utils;
 import org.uniprot.store.search.domain2.impl.SearchFieldImpl;
 import org.uniprot.store.search.domain2.impl.SearchItemImpl;
+import org.uniprot.store.search.field.SearchFields;
 
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
