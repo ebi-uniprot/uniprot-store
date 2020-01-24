@@ -1,11 +1,5 @@
 package org.uniprot.store.indexer.uniprot.mockers;
 
-import java.io.InputStream;
-import java.nio.charset.Charset;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-
 import org.apache.commons.io.IOUtils;
 import org.uniprot.core.builder.SequenceBuilder;
 import org.uniprot.core.flatfile.parser.UniProtParser;
@@ -15,6 +9,12 @@ import org.uniprot.core.uniprot.UniProtEntry;
 import org.uniprot.core.uniprot.UniProtEntryType;
 import org.uniprot.core.uniprot.builder.UniProtAccessionBuilder;
 import org.uniprot.core.uniprot.builder.UniProtEntryBuilder;
+
+import java.io.InputStream;
+import java.nio.charset.Charset;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created 19/09/18
@@ -57,7 +57,7 @@ public class UniProtEntryMocker {
 
     public static UniProtEntry create(String accession) {
         UniProtEntry entry = entryMap.get(Type.SP);
-        UniProtEntryBuilder builder = UniProtEntryBuilder.fromInstance(entry);
+        UniProtEntryBuilder builder = UniProtEntryBuilder.from(entry);
         return builder.primaryAccession(new UniProtAccessionBuilder(accession).build())
                 .entryType(UniProtEntryType.TREMBL)
                 .sequence(new SequenceBuilder("AAAAA").build())
@@ -65,7 +65,7 @@ public class UniProtEntryMocker {
     }
 
     public static UniProtEntry create(Type type) {
-        return UniProtEntryBuilder.fromInstance(entryMap.get(type)).build();
+        return UniProtEntryBuilder.from(entryMap.get(type)).build();
     }
 
     public static Collection<UniProtEntry> createEntries() {
