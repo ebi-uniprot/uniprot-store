@@ -12,7 +12,8 @@ import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
 import org.apache.spark.SparkConf;
 import org.apache.spark.api.java.JavaSparkContext;
-import org.uniprot.store.spark.indexer.SparkRDDDriverProgram;
+import org.uniprot.store.search.SolrCollection;
+import org.uniprot.store.spark.indexer.WriteIndexDocumentsToHDFSMain;
 
 /**
  * @author lgonzales
@@ -52,7 +53,10 @@ public class SparkUtils {
         try {
             // try to load from the directory that the application is being executed
             URL resourceURL =
-                    SparkRDDDriverProgram.class.getProtectionDomain().getCodeSource().getLocation();
+                    WriteIndexDocumentsToHDFSMain.class
+                            .getProtectionDomain()
+                            .getCodeSource()
+                            .getLocation();
             URLClassLoader urlLoader = new URLClassLoader(new java.net.URL[] {resourceURL});
             return ResourceBundle.getBundle("application", Locale.getDefault(), urlLoader);
         } catch (MissingResourceException e) {
@@ -65,9 +69,16 @@ public class SparkUtils {
         SparkConf sparkConf =
                 new SparkConf()
                         .setAppName(applicationConfig.getString("spark.application.name"))
-                        .setMaster(
-                                applicationConfig.getString(
-                                        "spark.master")); // .set("spark.driver.host", "localhost");
+                        .setMaster(applicationConfig.getString("spark.master"));
+        // .set("spark.driver.host", "localhost"); // Uncomment this line to make it work locally
         return new JavaSparkContext(sparkConf);
+    }
+
+    public static SolrCollection getSolrCollection(String collectionName) {
+        try {
+            return SolrCollection.valueOf(collectionName);
+        } catch (Exception e) {
+            throw new RuntimeException("Invalid solr collection name: " + collectionName);
+        }
     }
 }

@@ -17,7 +17,7 @@ import org.uniprot.store.spark.indexer.util.SparkUtils;
  * @since 2019-12-12
  */
 @Slf4j
-public class ValidateSavedDocument {
+public class ValidateHDFSDocumentsMain {
 
     public static void main(String[] args) {
         ResourceBundle applicationConfig = SparkUtils.loadApplicationProperty();

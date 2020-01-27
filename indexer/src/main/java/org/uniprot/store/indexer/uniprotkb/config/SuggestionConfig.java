@@ -24,8 +24,8 @@ import org.uniprot.store.search.document.suggest.SuggestDocument;
  */
 @Configuration
 public class SuggestionConfig {
-    private static final String DEFAULT_TAXON_SYNONYMS_FILE = "default-taxon-synonyms.txt";
-    private static final String DEFAULT_HOST_SYNONYMS_FILE = "default-host-synonyms.txt";
+    public static final String DEFAULT_TAXON_SYNONYMS_FILE = "default-taxon-synonyms.txt";
+    public static final String DEFAULT_HOST_SYNONYMS_FILE = "default-host-synonyms.txt";
     private static final String COMMENT_LINE_PREFIX = "#";
     static final String DATABASE_PREFIX = "Database: ";
     static final String FEATURE_CATEGORY_PREFIX = "Feature Category: ";
@@ -71,7 +71,7 @@ public class SuggestionConfig {
         return defaultSuggestions;
     }
 
-    private List<SuggestDocument> loadDefaultTaxonSynonymSuggestions(
+    public List<SuggestDocument> loadDefaultTaxonSynonymSuggestions(
             SuggestDictionary dict, String taxonSynonymFile) {
         List<SuggestDocument> taxonSuggestions = new ArrayList<>();
         InputStream inputStream =
@@ -91,12 +91,11 @@ public class SuggestionConfig {
     private SuggestDocument createDefaultTaxonomySuggestion(
             String csvLine, SuggestDictionary dict) {
         String[] lineParts = csvLine.split("\t");
-        if (!csvLine.startsWith(COMMENT_LINE_PREFIX) && lineParts.length == 4) {
+        if (!csvLine.startsWith(COMMENT_LINE_PREFIX) && lineParts.length == 3) {
             return SuggestDocument.builder()
-                    .value(lineParts[0])
-                    .altValues(Stream.of(lineParts[2].split(",")).collect(Collectors.toList()))
-                    .id(lineParts[1])
-                    .importance(lineParts[3])
+                    .altValues(Stream.of(lineParts[1].split(",")).collect(Collectors.toList()))
+                    .id(lineParts[0].trim())
+                    .importance(lineParts[2].trim())
                     .dictionary(dict.name())
                     .build();
         } else {
@@ -104,7 +103,7 @@ public class SuggestionConfig {
         }
     }
 
-    private static List<SuggestDocument> databaseSuggestions() {
+    public static List<SuggestDocument> databaseSuggestions() {
         return UniProtXDbTypes.INSTANCE.getAllDBXRefTypes().stream()
                 .map(
                         type -> {

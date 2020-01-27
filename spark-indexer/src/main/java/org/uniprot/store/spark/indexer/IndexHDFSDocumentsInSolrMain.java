@@ -15,7 +15,7 @@ import org.uniprot.store.spark.indexer.util.SparkUtils;
  * @author lgonzales
  * @since 2019-11-07
  */
-public class IndexRDDInSolr {
+public class IndexHDFSDocumentsInSolrMain {
 
     public static void main(String[] args) {
         ResourceBundle applicationConfig = SparkUtils.loadApplicationProperty();
@@ -39,18 +39,10 @@ public class IndexRDDInSolr {
                                             return (SolrInputDocument) obj;
                                         });
 
-        SolrCollection solrCollection = getSolrCollection(args);
+        SolrCollection solrCollection = SparkUtils.getSolrCollection(args[1]);
         SolrUtils.indexDocuments(solrInputDocumentRDD, solrCollection, applicationConfig);
 
         sparkContext.close();
-    }
-
-    private static SolrCollection getSolrCollection(String[] args) {
-        try {
-            return SolrCollection.valueOf(args[1]);
-        } catch (Exception e) {
-            throw new RuntimeException("Invalid solr collection name: " + args[1]);
-        }
     }
 
     private static String getHDFSFilePath(String[] args, ResourceBundle applicationConfig) {

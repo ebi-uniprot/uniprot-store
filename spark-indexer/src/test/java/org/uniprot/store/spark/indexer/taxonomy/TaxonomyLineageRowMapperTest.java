@@ -32,7 +32,7 @@ class TaxonomyLineageRowMapperTest {
 
         Row row = new GenericRowWithSchema(values.toArray(), getTaxonomyLineageSchema());
 
-        TaxonomyLineageRowMapper taxonomyRowMapper = new TaxonomyLineageRowMapper();
+        TaxonomyLineageRowMapper taxonomyRowMapper = new TaxonomyLineageRowMapper(false);
         Tuple2<String, List<TaxonomyLineage>> result = taxonomyRowMapper.call(row);
 
         assertNotNull(result);
@@ -55,7 +55,7 @@ class TaxonomyLineageRowMapperTest {
 
         Row row = new GenericRowWithSchema(values.toArray(), getTaxonomyLineageSchema());
 
-        TaxonomyLineageRowMapper taxonomyRowMapper = new TaxonomyLineageRowMapper();
+        TaxonomyLineageRowMapper taxonomyRowMapper = new TaxonomyLineageRowMapper(false);
         Tuple2<String, List<TaxonomyLineage>> result = taxonomyRowMapper.call(row);
 
         assertNotNull(result);

@@ -34,7 +34,7 @@ public class TaxonomyRDDReader {
         JavaPairRDD<String, TaxonomyEntry> taxonomyNode = load(sparkContext, applicationConfig);
 
         JavaPairRDD<String, List<TaxonomyLineage>> taxonomyLineage =
-                TaxonomyLineageReader.load(sparkContext, applicationConfig);
+                TaxonomyLineageReader.load(sparkContext, applicationConfig, false);
 
         return (JavaPairRDD<String, TaxonomyEntry>)
                 taxonomyNode.join(taxonomyLineage).mapValues(new TaxonomyJoinMapper());

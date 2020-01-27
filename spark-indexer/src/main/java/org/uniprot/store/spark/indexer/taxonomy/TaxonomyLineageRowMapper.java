@@ -24,6 +24,11 @@ class TaxonomyLineageRowMapper
         implements PairFunction<Row, String, List<TaxonomyLineage>>, Serializable {
 
     private static final long serialVersionUID = -7723532417214033169L;
+    private final boolean includeOrganism;
+
+    TaxonomyLineageRowMapper(boolean includeOrganism) {
+        this.includeOrganism = includeOrganism;
+    }
 
     /**
      * @param rowValue TaxonomyLineageReader.SELECT_TAXONOMY_LINEAGE_SQL SQL Row result
@@ -45,7 +50,7 @@ class TaxonomyLineageRowMapper
 
         String taxId = lineageIdArray[0];
         List<TaxonomyLineage> lineageList = new ArrayList<>();
-        for (int i = 1; i < lineageIdArray.length - 1; i++) {
+        for (int i = getLineageInitialIndex(); i < lineageIdArray.length - 1; i++) {
             TaxonomyLineageBuilder builder = new TaxonomyLineageBuilder();
             builder.taxonId(Long.parseLong(lineageIdArray[i]));
             builder.scientificName(lineageNameArray[i]);
@@ -62,5 +67,13 @@ class TaxonomyLineageRowMapper
         }
 
         return new Tuple2<>(taxId, lineageList);
+    }
+
+    private int getLineageInitialIndex() {
+        int index = 1;
+        if (includeOrganism) {
+            index = 0;
+        }
+        return index;
     }
 }

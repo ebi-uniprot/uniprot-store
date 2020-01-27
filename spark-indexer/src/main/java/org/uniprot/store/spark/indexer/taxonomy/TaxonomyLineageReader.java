@@ -44,7 +44,9 @@ public class TaxonomyLineageReader {
 
     /** @return JavaPairRDD{key=taxId, value=List of TaxonomyLineage} */
     public static JavaPairRDD<String, List<TaxonomyLineage>> load(
-            JavaSparkContext sparkContext, ResourceBundle applicationConfig) {
+            JavaSparkContext sparkContext,
+            ResourceBundle applicationConfig,
+            boolean includeOrganism) {
         int maxTaxId = TaxonomyRDDReader.getMaxTaxId(sparkContext, applicationConfig);
         System.out.println("Max tax id: " + maxTaxId);
 
@@ -71,7 +73,7 @@ public class TaxonomyLineageReader {
                             .option("password", applicationConfig.getString("database.password"))
                             .option("query", sql)
                             .load();
-            datasets.add(mapToLineage(tableDataset));
+            datasets.add(mapToLineage(tableDataset, includeOrganism));
         }
         return (JavaPairRDD<String, List<TaxonomyLineage>>)
                 datasets.stream()
@@ -97,8 +99,8 @@ public class TaxonomyLineageReader {
     }
 
     private static JavaPairRDD<String, List<TaxonomyLineage>> mapToLineage(
-            Dataset<Row> tableDataset) {
+            Dataset<Row> tableDataset, boolean includeOrganism) {
         return (JavaPairRDD<String, List<TaxonomyLineage>>)
-                tableDataset.toJavaRDD().mapToPair(new TaxonomyLineageRowMapper());
+                tableDataset.toJavaRDD().mapToPair(new TaxonomyLineageRowMapper(includeOrganism));
     }
 }
