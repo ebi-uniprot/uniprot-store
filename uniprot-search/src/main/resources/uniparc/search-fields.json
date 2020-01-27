@@ -14,7 +14,7 @@
   },
   {
     "field": "upid",
-    "fieldValidRegex": "UPI[\\w]{10}"
+    "fieldValidRegex": "UP[0-9]{9}"
   },
   {
     "field": "taxonomy_id",

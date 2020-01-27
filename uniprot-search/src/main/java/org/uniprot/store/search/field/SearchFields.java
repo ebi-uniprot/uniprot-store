@@ -1,8 +1,8 @@
 package org.uniprot.store.search.field;
 
-import org.uniprot.store.search.domain2.SearchField;
-
 import java.util.Set;
+
+import org.uniprot.store.search.domain2.SearchField;
 
 /**
  * Represents a container of {@link SearchField} instances, providing utility methods to ease their
