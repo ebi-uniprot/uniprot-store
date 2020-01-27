@@ -1,10 +1,10 @@
 package org.uniprot.store.search.domain2;
 
-import java.io.InputStream;
-import java.util.List;
-
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
+import java.io.InputStream;
+import java.util.List;
 
 /**
  * This class is responsible for loading JSON objects and creating an instance of the corresponding
@@ -17,7 +17,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public class JsonLoader {
     private JsonLoader() {}
 
-    static <T> List<T> loadItems(String fileName, ObjectMapper mapper, JavaType type) {
+    public static <T> List<T> loadItems(String fileName, ObjectMapper mapper, JavaType type) {
         List<T> allItems;
         try (InputStream is = JsonLoader.class.getClassLoader().getResourceAsStream(fileName); ) {
             allItems = mapper.readValue(is, type);
