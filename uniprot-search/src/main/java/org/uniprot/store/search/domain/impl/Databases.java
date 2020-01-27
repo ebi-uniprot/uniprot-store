@@ -42,9 +42,7 @@ public enum Databases {
                         types.stream()
                                 .filter(
                                         val ->
-                                                val.getLinkTp()
-                                                        .equalsIgnoreCase(
-                                                                UniProtXDbTypeDetail.EXPLICIT))
+                                                !val.isImplicit())
                                 .map(this::convertTuple)
                                 .collect(Collectors.toList());
                 databases.add(new DatabaseGroupImpl(category.getDisplayName(), databaseTypes));
@@ -52,9 +50,7 @@ public enum Databases {
                         types.stream()
                                 .filter(
                                         val ->
-                                                val.getLinkTp()
-                                                        .equalsIgnoreCase(
-                                                                UniProtXDbTypeDetail.EXPLICIT))
+                                                !val.isImplicit())
                                 .map(this::convertField)
                                 .collect(Collectors.toList());
                 if (category.isSearchable())

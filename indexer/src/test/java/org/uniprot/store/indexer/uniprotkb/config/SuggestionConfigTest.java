@@ -65,7 +65,7 @@ class SuggestionConfigTest {
         List<SuggestDocument> suggestions = extractSuggestDocuments("Database:");
         List<UniProtXDbTypeDetail> dbxRefTypes =
                 UniProtXDbTypes.INSTANCE.getAllDBXRefTypes().stream()
-                        .filter(val -> val.getLinkTp().equals(UniProtXDbTypeDetail.EXPLICIT))
+                        .filter(val -> !val.isImplicit())
                         .collect(Collectors.toList());
         assertThat(dbxRefTypes, hasSize(greaterThan(0)));
         assertThat(suggestions, hasSize(dbxRefTypes.size()));

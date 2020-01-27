@@ -44,7 +44,7 @@ class DatabasesTest {
         List<UniProtXDbTypeDetail> allKnownCrossReferences =
                 UniProtXDbTypes.INSTANCE.getAllDBXRefTypes().stream()
                         .filter(dbd -> !dbd.getCategory().equals(DatabaseCategory.UNKNOWN))
-                        .filter(dbd -> dbd.getLinkTp().equals(UniProtXDbTypeDetail.EXPLICIT))
+                        .filter(dbd -> !dbd.isImplicit())
                         .collect(Collectors.toList());
 
         List<DatabaseGroup> groups = instance.getDatabases();
