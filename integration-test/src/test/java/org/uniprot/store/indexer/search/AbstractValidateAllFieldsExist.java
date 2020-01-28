@@ -40,7 +40,7 @@ public abstract class AbstractValidateAllFieldsExist<T> {
 
     protected abstract UniProtSearchFields getSearchFieldType();
 
-    protected Stream<Arguments> provideSearchFields() {
+    private Stream<Arguments> provideSearchFields() {
         return Stream.concat(
                 getSearchFieldType().getSortFields().stream(),
                 getSearchFieldType().getSearchFields().stream())
