@@ -61,7 +61,7 @@ public class DiseaseProcessor implements ItemProcessor<Disease, DiseaseDocument>
 
     private byte[] getDiseaseObjectBinary(Disease disease) {
         try {
-            DiseaseBuilder diseaseBuilder = DiseaseBuilder.newInstance().from(disease);
+            DiseaseBuilder diseaseBuilder = DiseaseBuilder.from(disease);
 
             // get the protein count, reviewed and unreviewed
             DiseaseProteinCountReader.DiseaseProteinCount diseaseProteinCount =

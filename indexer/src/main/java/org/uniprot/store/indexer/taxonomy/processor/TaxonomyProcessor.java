@@ -48,7 +48,7 @@ public class TaxonomyProcessor implements ItemProcessor<TaxonomyEntry, TaxonomyD
     @Override
     public TaxonomyDocument process(TaxonomyEntry entry) throws Exception {
         long taxonId = entry.getTaxonId();
-        TaxonomyEntryBuilder entryBuilder = new TaxonomyEntryBuilder().from(entry);
+        TaxonomyEntryBuilder entryBuilder = TaxonomyEntryBuilder.from(entry);
         Query query = new SimpleQuery().addCriteria(Criteria.where("id").is(taxonId));
         Optional<TaxonomyDocument> optionalDocument =
                 solrOperations.queryForObject(

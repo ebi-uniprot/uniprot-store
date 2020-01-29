@@ -15,6 +15,7 @@ import org.uniprot.core.taxonomy.TaxonomyLineage;
 import org.uniprot.core.taxonomy.builder.TaxonomyLineageBuilder;
 import org.uniprot.core.uniprot.taxonomy.Taxonomy;
 import org.uniprot.core.uniprot.taxonomy.builder.TaxonomyBuilder;
+import org.uniprot.core.xml.jaxb.proteome.DbReferenceType;
 import org.uniprot.core.xml.jaxb.proteome.Proteome;
 import org.uniprot.core.xml.proteome.ProteomeConverter;
 import org.uniprot.store.indexer.util.TaxonomyRepoUtil;
@@ -113,13 +114,13 @@ public class ProteomeEntryConverter implements DocumentConverter<Proteome, Prote
     private List<String> fetchGenomeAssemblyId(Proteome source) {
         return source.getDbReference().stream()
                 .filter(val -> val.getType().equals(GC_SET_ACC))
-                .map(val -> val.getId())
+                .map(DbReferenceType::getId)
                 .collect(Collectors.toList());
     }
 
     private byte[] getBinaryObject(Proteome source) {
         ProteomeEntry proteome = this.proteomeConverter.fromXml(source);
-        ProteomeEntryBuilder builder = ProteomeEntryBuilder.newInstance().from(proteome);
+        ProteomeEntryBuilder builder = ProteomeEntryBuilder.from(proteome);
         builder.canonicalProteins(Collections.emptyList());
         Optional<TaxonomicNode> taxonomicNode =
                 taxonomyRepo.retrieveNodeUsingTaxID((int) proteome.getTaxonomy().getTaxonId());
