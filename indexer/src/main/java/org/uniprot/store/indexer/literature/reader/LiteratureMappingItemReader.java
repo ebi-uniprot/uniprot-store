@@ -21,7 +21,7 @@ public class LiteratureMappingItemReader implements ItemReader<LiteratureStoreEn
             entry = delegate.read();
         }
         if (entry != null) {
-            LiteratureStoreEntryBuilder itemBuilder = new LiteratureStoreEntryBuilder().from(entry);
+            LiteratureStoreEntryBuilder itemBuilder = LiteratureStoreEntryBuilder.from(entry);
             while ((nextEntry = this.delegate.read()) != null) {
                 if (entry.getLiteratureEntry()
                         .getPubmedId()
