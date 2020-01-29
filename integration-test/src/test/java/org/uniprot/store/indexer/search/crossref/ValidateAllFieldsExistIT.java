@@ -13,8 +13,7 @@ import org.uniprot.store.search.field.UniProtSearchFields;
  *
  * @author Edd
  */
-class ValidateAllFieldsExistIT
-        extends AbstractValidateAllFieldsExist<CrossRefDocument> {
+class ValidateAllFieldsExistIT extends AbstractValidateAllFieldsExist<CrossRefDocument> {
     @RegisterExtension static CrossRefSearchEngine searchEngine = new CrossRefSearchEngine();
 
     protected AbstractSearchEngine<CrossRefDocument> getSearchEngine() {

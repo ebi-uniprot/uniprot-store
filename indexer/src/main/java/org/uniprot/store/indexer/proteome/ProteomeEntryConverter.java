@@ -140,7 +140,7 @@ public class ProteomeEntryConverter implements DocumentConverter<Proteome, Prote
 
     private Taxonomy getTaxonomy(TaxonomicNode node, long taxId) {
 
-        TaxonomyBuilder builder = TaxonomyBuilder.newInstance();
+        TaxonomyBuilder builder = new TaxonomyBuilder();
         builder.taxonId(taxId).scientificName(node.scientificName());
         if (!Strings.isNullOrEmpty(node.commonName())) builder.commonName(node.commonName());
         if (!Strings.isNullOrEmpty(node.mnemonic())) builder.mnemonic(node.mnemonic());
