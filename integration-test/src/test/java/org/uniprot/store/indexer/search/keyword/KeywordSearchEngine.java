@@ -18,10 +18,6 @@ class KeywordSearchEngine extends AbstractSearchEngine<KeywordDocument> {
 
     @Override
     protected String identifierQuery(String entryId) {
-        return "("
-                + UniProtSearchFields.KEYWORD.getField("id").getName()
-                + ":\""
-                + entryId
-                + "\")";
+        return "(" + UniProtSearchFields.KEYWORD.getField("id").getName() + ":\"" + entryId + "\")";
     }
 }
