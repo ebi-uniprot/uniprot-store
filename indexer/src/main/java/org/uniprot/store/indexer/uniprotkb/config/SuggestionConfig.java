@@ -11,7 +11,6 @@ import java.util.stream.Stream;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.uniprot.core.cv.xdb.UniProtXDbTypeDetail;
 import org.uniprot.core.cv.xdb.UniProtXDbTypes;
 import org.uniprot.core.uniprot.comment.CommentType;
 import org.uniprot.core.uniprot.feature.FeatureCategory;

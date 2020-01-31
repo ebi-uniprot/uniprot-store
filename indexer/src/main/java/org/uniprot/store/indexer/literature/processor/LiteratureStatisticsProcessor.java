@@ -5,6 +5,11 @@ import java.nio.ByteBuffer;
 import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.batch.item.ItemProcessor;
+import org.uniprot.core.DBCrossReference;
+import org.uniprot.core.builder.DBCrossReferenceBuilder;
+import org.uniprot.core.citation.CitationXrefType;
+import org.uniprot.core.citation.Literature;
+import org.uniprot.core.citation.builder.LiteratureBuilder;
 import org.uniprot.core.json.parser.literature.LiteratureJsonConfig;
 import org.uniprot.core.literature.LiteratureEntry;
 import org.uniprot.core.literature.LiteratureStatistics;
@@ -37,11 +42,14 @@ public class LiteratureStatisticsProcessor
                         .reviewedProteinCount(literatureCount.getReviewedProteinCount())
                         .unreviewedProteinCount(literatureCount.getUnreviewedProteinCount())
                         .build();
-        LiteratureEntry literatureEntry =
-                new LiteratureEntryBuilder()
-                        .pubmedId(literatureCount.getPubmedId())
-                        .statistics(statistics)
+        DBCrossReference<CitationXrefType> pubmedXref =
+                new DBCrossReferenceBuilder<CitationXrefType>()
+                        .databaseType(CitationXrefType.PUBMED)
+                        .id(String.valueOf(literatureCount.getPubmedId()))
                         .build();
+        Literature literature = new LiteratureBuilder().addCitationXrefs(pubmedXref).build();
+        LiteratureEntry literatureEntry =
+                new LiteratureEntryBuilder().citation(literature).statistics(statistics).build();
 
         LiteratureDocument.LiteratureDocumentBuilder builder = LiteratureDocument.builder();
         builder.id(String.valueOf(literatureCount.getPubmedId()));
@@ -51,7 +59,7 @@ public class LiteratureStatisticsProcessor
         byte[] literatureByte = getLiteratureObjectBinary(storeEntry);
         builder.literatureObj(ByteBuffer.wrap(literatureByte));
 
-        log.debug("LiteratureStatisticsProcessor entry: " + literatureEntry.getPubmedId());
+        log.debug("LiteratureStatisticsProcessor entry: " + literatureCount.getPubmedId());
         return builder.build();
     }
 

@@ -40,17 +40,13 @@ public enum Databases {
                         UniProtXDbTypes.INSTANCE.getDBTypesByCategory(category);
                 List<Tuple> databaseTypes =
                         types.stream()
-                                .filter(
-                                        val ->
-                                                !val.isImplicit())
+                                .filter(val -> !val.isImplicit())
                                 .map(this::convertTuple)
                                 .collect(Collectors.toList());
                 databases.add(new DatabaseGroupImpl(category.getDisplayName(), databaseTypes));
                 List<Field> fields =
                         types.stream()
-                                .filter(
-                                        val ->
-                                                !val.isImplicit())
+                                .filter(val -> !val.isImplicit())
                                 .map(this::convertField)
                                 .collect(Collectors.toList());
                 if (category.isSearchable())

@@ -9,6 +9,7 @@ import org.springframework.batch.item.ItemProcessor;
 import org.springframework.data.solr.core.query.Criteria;
 import org.springframework.data.solr.core.query.Query;
 import org.springframework.data.solr.core.query.SimpleQuery;
+import org.uniprot.core.citation.Literature;
 import org.uniprot.core.json.parser.literature.LiteratureJsonConfig;
 import org.uniprot.core.literature.LiteratureStoreEntry;
 import org.uniprot.core.literature.builder.LiteratureEntryBuilder;
@@ -37,11 +38,9 @@ public class LiteratureMappingProcessor
 
     @Override
     public LiteratureDocument process(LiteratureStoreEntry mappedEntry) throws Exception {
+        Literature literature = (Literature) mappedEntry.getLiteratureEntry().getCitation();
         Query query =
-                new SimpleQuery()
-                        .addCriteria(
-                                Criteria.where("id")
-                                        .is(mappedEntry.getLiteratureEntry().getPubmedId()));
+                new SimpleQuery().addCriteria(Criteria.where("id").is(literature.getPubmedId()));
         Optional<LiteratureDocument> optionalDocument =
                 solrOperations.queryForObject(
                         SolrCollection.literature.name(), query, LiteratureDocument.class);
@@ -54,28 +53,30 @@ public class LiteratureMappingProcessor
             LiteratureStoreEntry statisticsEntry =
                     literatureObjectMapper.readValue(literatureObj, LiteratureStoreEntryImpl.class);
             statisticsBuilder =
-                    statisticsBuilder.from(statisticsEntry.getLiteratureEntry().getStatistics());
+                    LiteratureStatisticsBuilder.from(
+                            statisticsEntry.getLiteratureEntry().getStatistics());
         }
         // update mappedProteinCount in the statistic builder
         statisticsBuilder.mappedProteinCount(mappedEntry.getLiteratureMappedReferences().size());
 
         // Set updated statistics to the mappedEntry
         LiteratureStoreEntryBuilder mappedEntryStoreBuilder =
-                new LiteratureStoreEntryBuilder().from(mappedEntry);
+                LiteratureStoreEntryBuilder.from(mappedEntry);
         LiteratureEntryBuilder entryBuilder =
-                new LiteratureEntryBuilder().from(mappedEntry.getLiteratureEntry());
+                LiteratureEntryBuilder.from(mappedEntry.getLiteratureEntry());
         entryBuilder.statistics(statisticsBuilder.build());
         mappedEntryStoreBuilder.literatureEntry(entryBuilder.build());
         mappedEntry = mappedEntryStoreBuilder.build();
 
-        return createLiteratureDocument(mappedEntry);
+        return createLiteratureDocument(mappedEntry, literature.getPubmedId());
     }
 
-    private LiteratureDocument createLiteratureDocument(LiteratureStoreEntry mappedEntry) {
+    private LiteratureDocument createLiteratureDocument(
+            LiteratureStoreEntry mappedEntry, Long pubmedId) {
         LiteratureDocument.LiteratureDocumentBuilder builder = LiteratureDocument.builder();
         byte[] literatureByte = getLiteratureObjectBinary(mappedEntry);
         builder.literatureObj(ByteBuffer.wrap(literatureByte));
-        builder.id(String.valueOf(mappedEntry.getLiteratureEntry().getPubmedId()));
+        builder.id(String.valueOf(pubmedId));
 
         log.debug("LiteratureStatisticsProcessor entry: " + mappedEntry);
         return builder.build();
