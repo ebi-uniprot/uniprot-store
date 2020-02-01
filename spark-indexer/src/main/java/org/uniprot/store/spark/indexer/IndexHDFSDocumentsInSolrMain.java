@@ -21,8 +21,8 @@ public class IndexHDFSDocumentsInSolrMain {
         ResourceBundle applicationConfig = SparkUtils.loadApplicationProperty();
         JavaSparkContext sparkContext = SparkUtils.loadSparkContext(applicationConfig);
 
-        if (args == null || args.length < 2) {
-            throw new RuntimeException(
+        if (args == null || args.length != 2) {
+            throw new IllegalArgumentException(
                     "Invalid arguments. "
                             + "Expected args[0]=hdfsFilePath parameter name "
                             + " (for example: uniprot.solr.documents.path), "
@@ -50,7 +50,7 @@ public class IndexHDFSDocumentsInSolrMain {
             return applicationConfig.getString(args[0]);
             // applicationConfig.getString("uniprot.solr.documents.path");
         } catch (Exception e) {
-            throw new RuntimeException(
+            throw new IllegalArgumentException(
                     "Invalid hdfsFilePath parameter name: "
                             + args[0]
                             + "Expected uniprot.solr.documents.path for example",

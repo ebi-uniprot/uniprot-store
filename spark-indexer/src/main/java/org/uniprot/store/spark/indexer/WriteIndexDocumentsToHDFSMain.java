@@ -15,9 +15,8 @@ import org.uniprot.store.spark.indexer.util.SparkUtils;
 public class WriteIndexDocumentsToHDFSMain {
 
     public static void main(String[] args) throws Exception {
-        // args = new String[] {"suggest"}; // TODO: REMOVE IT...
-        if (args == null || args.length < 1) {
-            throw new RuntimeException(
+        if (args == null || args.length != 1) {
+            throw new IllegalArgumentException(
                     "Invalid arguments. Expected args[0]= collection name (for example: uniprot)");
         }
 
