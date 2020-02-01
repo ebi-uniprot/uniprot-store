@@ -1,0 +1,18 @@
+9606	Man	highest
+7227	Fruit fly,D. melanogaster	high
+10116	Rat,Brown rat,Laboratory rat,Norway rat,Buffalo rat,R. norvegicus	high
+4932	Baker’s yeast,Brewer’s yeast,S. cerevisiae	high
+3702	Mouse-ear cress,Thale cress,Arabidopsis,A. Thaliana	high
+39947	Rice,Japanese rice,Japonica rice,O. sativa	high
+83333	E. coli	high
+1280	Staph. aureus,S. aureus	high
+9913	Cow,Dairy cow,Cattle,Domestic cow,B. taurus	high
+9598	Chimpanzee,Chimp,P. troglodytes	high
+9031	Chicken,G. gallus,Gallus domesticus	high
+9615	Dog,Domestic dog,Beagle dog,Canis familiaris	high
+10036	Hamster,Golden hamster,Syrian hamster,M. auratus	high
+9793	Donkey,Ass,African donkey,African ass,E. asinus	high
+9989	Rabbit,Domestic rabbit,European rabbit,O. cuniculus	high
+9823	Pig,Swine,Wild boar,S. scrofa	high
+9940	Sheep,Lamb,O. aries	high
+9544	Rhesus monkey,Rhesus macaque,M. mulatta	high

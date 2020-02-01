@@ -11,6 +11,8 @@ import org.uniprot.core.flatfile.parser.impl.ox.OxLineObject;
 import scala.Tuple2;
 
 /**
+ * This class map from flatFile entry string to a Tuple of Organism Id
+ * found in OX line
  * @author lgonzales
  * @since 2020-01-20
  */

@@ -14,6 +14,7 @@ import org.uniprot.core.uniprot.comment.Comment;
 import org.uniprot.core.uniprot.comment.CommentType;
 
 /**
+ * Utility class for Suggest index
  * @author lgonzales
  * @since 2020-01-17
  */

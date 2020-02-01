@@ -15,6 +15,8 @@ import org.uniprot.core.util.Utils;
 import scala.Tuple2;
 
 /**
+ * This class map from flatFile entry string to an Iterator of Keywords
+ * found in KW lines
  * @author lgonzales
  * @since 2020-01-16
  */

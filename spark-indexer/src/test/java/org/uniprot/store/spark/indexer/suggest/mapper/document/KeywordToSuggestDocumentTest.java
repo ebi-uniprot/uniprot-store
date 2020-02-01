@@ -26,14 +26,8 @@ class KeywordToSuggestDocumentTest {
         keywordEntry.setKeyword(new KeywordImpl("kwId","kwAcc"));
 
         KeywordToSuggestDocument mapper = new KeywordToSuggestDocument();
-        Iterable<SuggestDocument> results = mapper.call(new Tuple2<>("kwIdId",keywordEntry));
+        SuggestDocument result = mapper.call(keywordEntry);
 
-        assertNotNull(results);
-        List<SuggestDocument> resultList = new ArrayList<>();
-        results.forEach(resultList::add);
-        assertEquals(1, resultList.size());
-
-        SuggestDocument result = resultList.get(0);
         assertEquals("KEYWORD", result.dictionary);
         assertEquals("kwAcc", result.id);
         assertEquals("kwId", result.value);
@@ -48,24 +42,11 @@ class KeywordToSuggestDocumentTest {
         keywordEntry.setCategory(new KeywordImpl("kwCatId","kwCatAcc"));
 
         KeywordToSuggestDocument mapper = new KeywordToSuggestDocument();
-        Iterable<SuggestDocument> results = mapper.call(new Tuple2<>("kwIdId",keywordEntry));
+        SuggestDocument result = mapper.call(keywordEntry);
 
-        assertNotNull(results);
-        List<SuggestDocument> resultList = new ArrayList<>();
-        results.forEach(resultList::add);
-        assertEquals(2, resultList.size());
-
-        SuggestDocument result = resultList.get(0);
         assertEquals("KEYWORD", result.dictionary);
         assertEquals("kwAcc", result.id);
         assertEquals("kwId", result.value);
-        assertTrue(result.altValues.isEmpty());
-        assertEquals("medium", result.importance);
-
-        result = resultList.get(1);
-        assertEquals("KEYWORD", result.dictionary);
-        assertEquals("kwCatAcc", result.id);
-        assertEquals("kwCatId", result.value);
         assertTrue(result.altValues.isEmpty());
         assertEquals("medium", result.importance);
     }

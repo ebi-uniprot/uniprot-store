@@ -9,6 +9,7 @@ import org.uniprot.store.search.document.suggest.SuggestDocument;
 import scala.Tuple2;
 
 /**
+ * This class converts a Chebi entry to a SuggestDocument
  * @author lgonzales
  * @since 2020-01-17
  */

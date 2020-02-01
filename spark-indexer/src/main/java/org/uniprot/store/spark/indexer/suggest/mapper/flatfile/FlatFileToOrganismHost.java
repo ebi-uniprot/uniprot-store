@@ -15,6 +15,8 @@ import org.uniprot.core.util.Utils;
 import scala.Tuple2;
 
 /**
+ * This class map from flatFile entry string to an Iterator of Tuples of Organism Host
+ * found in OH lines
  * @author lgonzales
  * @since 2020-01-20
  */
