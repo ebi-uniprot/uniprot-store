@@ -23,8 +23,12 @@ public class SolrUtils {
 
     public static void saveSolrInputDocumentRDD(
             JavaPairRDD<String, ? extends Document> docRDD, String savePath) {
-        docRDD.values()
-                .map(
+        saveSolrInputDocumentRDD(docRDD.values(), savePath);
+    }
+
+    public static void saveSolrInputDocumentRDD(
+            JavaRDD<? extends Document> docRDD, String savePath) {
+        docRDD.map(
                         doc -> {
                             DocumentObjectBinder binder = new DocumentObjectBinder();
                             return binder.toSolrInputDocument(doc);

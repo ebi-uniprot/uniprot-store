@@ -16,7 +16,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;
 import org.uniprot.core.flatfile.writer.LineType;
-import org.uniprot.store.search.field.UniProtField;
+import org.uniprot.store.search.field.UniProtSearchFields;
 
 class ScoreSearchIT {
     private static final String Q6GZX4 = "Q6GZX4";
@@ -154,7 +154,7 @@ class ScoreSearchIT {
 
     @Test
     void score1() {
-        String query = query(UniProtField.Search.annotation_score, "1");
+        String query = query(UniProtSearchFields.UNIPROTKB.getField("annotation_score"), "1");
         QueryResponse response = searchEngine.getQueryResponse(query);
 
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
@@ -163,7 +163,7 @@ class ScoreSearchIT {
 
     @Test
     void score2() {
-        String query = query(UniProtField.Search.annotation_score, "2");
+        String query = query(UniProtSearchFields.UNIPROTKB.getField("annotation_score"), "2");
         QueryResponse response = searchEngine.getQueryResponse(query);
 
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
@@ -172,7 +172,7 @@ class ScoreSearchIT {
 
     @Test
     void score3() {
-        String query = query(UniProtField.Search.annotation_score, "3");
+        String query = query(UniProtSearchFields.UNIPROTKB.getField("annotation_score"), "3");
         QueryResponse response = searchEngine.getQueryResponse(query);
 
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
@@ -181,7 +181,7 @@ class ScoreSearchIT {
 
     @Test
     void score4() {
-        String query = query(UniProtField.Search.annotation_score, "4");
+        String query = query(UniProtSearchFields.UNIPROTKB.getField("annotation_score"), "4");
         QueryResponse response = searchEngine.getQueryResponse(query);
 
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
@@ -190,7 +190,7 @@ class ScoreSearchIT {
 
     @Test
     void score5() {
-        String query = query(UniProtField.Search.annotation_score, "5");
+        String query = query(UniProtSearchFields.UNIPROTKB.getField("annotation_score"), "5");
         QueryResponse response = searchEngine.getQueryResponse(query);
 
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
@@ -199,7 +199,7 @@ class ScoreSearchIT {
 
     @Test
     void score6() {
-        String query = query(UniProtField.Search.annotation_score, "6");
+        String query = query(UniProtSearchFields.UNIPROTKB.getField("annotation_score"), "6");
         QueryResponse response = searchEngine.getQueryResponse(query);
 
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);

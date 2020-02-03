@@ -54,16 +54,17 @@ public class LiteratureMappingProcessor
             LiteratureStoreEntry statisticsEntry =
                     literatureObjectMapper.readValue(literatureObj, LiteratureStoreEntryImpl.class);
             statisticsBuilder =
-                    statisticsBuilder.from(statisticsEntry.getLiteratureEntry().getStatistics());
+                    LiteratureStatisticsBuilder.from(
+                            statisticsEntry.getLiteratureEntry().getStatistics());
         }
         // update mappedProteinCount in the statistic builder
         statisticsBuilder.mappedProteinCount(mappedEntry.getLiteratureMappedReferences().size());
 
         // Set updated statistics to the mappedEntry
         LiteratureStoreEntryBuilder mappedEntryStoreBuilder =
-                new LiteratureStoreEntryBuilder().from(mappedEntry);
+                LiteratureStoreEntryBuilder.from(mappedEntry);
         LiteratureEntryBuilder entryBuilder =
-                new LiteratureEntryBuilder().from(mappedEntry.getLiteratureEntry());
+                LiteratureEntryBuilder.from(mappedEntry.getLiteratureEntry());
         entryBuilder.statistics(statisticsBuilder.build());
         mappedEntryStoreBuilder.literatureEntry(entryBuilder.build());
         mappedEntry = mappedEntryStoreBuilder.build();

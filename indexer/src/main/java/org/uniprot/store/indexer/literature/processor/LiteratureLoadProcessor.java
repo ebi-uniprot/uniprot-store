@@ -44,7 +44,7 @@ public class LiteratureLoadProcessor implements ItemProcessor<LiteratureEntry, L
     @Override
     public LiteratureDocument process(LiteratureEntry entry) throws Exception {
         LiteratureStoreEntryBuilder entryStoreBuilder = new LiteratureStoreEntryBuilder();
-        LiteratureEntryBuilder entryBuilder = new LiteratureEntryBuilder().from(entry);
+        LiteratureEntryBuilder entryBuilder = LiteratureEntryBuilder.from(entry);
         Query query = new SimpleQuery().addCriteria(Criteria.where("id").is(entry.getPubmedId()));
         Optional<LiteratureDocument> optionalDocument =
                 solrOperations.queryForObject(

@@ -18,7 +18,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;
 import org.uniprot.core.flatfile.writer.LineType;
-import org.uniprot.store.search.field.UniProtField;
+import org.uniprot.store.search.field.UniProtSearchFields;
 
 /** Tests if the protein names of an entry are indexed correctly */
 class DESearchIT {
@@ -604,6 +604,6 @@ class DESearchIT {
     }
 
     private String proteinName(String value) {
-        return query(UniProtField.Search.name, value);
+        return query(UniProtSearchFields.UNIPROTKB.getField("name"), value);
     }
 }

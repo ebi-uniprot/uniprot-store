@@ -1,5 +1,6 @@
 package org.uniprot.store.search.document.suggest;
 
+import java.io.Serializable;
 import java.util.List;
 
 import lombok.Builder;
@@ -11,8 +12,9 @@ import org.uniprot.store.search.document.Document;
 
 @EqualsAndHashCode
 @Builder(builderClassName = "SuggestDocumentBuilder")
-public class SuggestDocument implements Document {
-    static final String DEFAULT_IMPORTANCE = "medium";
+public class SuggestDocument implements Document, Serializable {
+    public static final String DEFAULT_IMPORTANCE = "medium";
+    private static final long serialVersionUID = 2126936244930669278L;
 
     @Field("id")
     public String id;
@@ -37,7 +39,8 @@ public class SuggestDocument implements Document {
 
     // setting default field values in a builder following instructions here:
     // https://www.baeldung.com/lombok-builder-default-value
-    public static class SuggestDocumentBuilder {
+    public static class SuggestDocumentBuilder implements Serializable {
+        private static final long serialVersionUID = 8082411551239368406L;
         private String importance = DEFAULT_IMPORTANCE;
     }
 }

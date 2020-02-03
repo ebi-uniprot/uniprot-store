@@ -75,55 +75,62 @@ public class UniprotEntryRetrieveParseVerifier {
     }
 
     void executeVerification(String uniprotFFPath) throws IOException {
-        PrintWriter parsingFailed =
-                new PrintWriter(new FileOutputStream("uniprot.parse.fail.txt", true));
 
-        VoldemortEntryStoreBuilder.LimitedQueue<Runnable> queue =
-                new VoldemortEntryStoreBuilder.LimitedQueue<>(50000);
+        try (PrintWriter parsingFailed =
+                new PrintWriter(new FileOutputStream("uniprot.parse.fail.txt", true))) {
 
-        // new blocking queue.
-        int coreNumber = Runtime.getRuntime().availableProcessors();
-        int numThread = Math.max(8, coreNumber);
-        numThread = Math.min(numThread, 32);
-        ExecutorService executorService =
-                new ThreadPoolExecutor(numThread, 32, 30, TimeUnit.SECONDS, queue);
+            VoldemortEntryStoreBuilder.LimitedQueue<Runnable> queue =
+                    new VoldemortEntryStoreBuilder.LimitedQueue<>(50000);
 
-        try (EntryBufferedReader2 entryBufferReader2 = new EntryBufferedReader2(uniprotFFPath)) {
-            do {
-                String next = null;
-                try {
-                    next = entryBufferReader2.next();
-                } catch (Exception e) {
-                    logger.warn("Error splitting entry string", e);
-                }
+            // new blocking queue.
+            int coreNumber = Runtime.getRuntime().availableProcessors();
+            int numThread = Math.max(8, coreNumber);
+            numThread = Math.min(numThread, 32);
+            ExecutorService executorService =
+                    new ThreadPoolExecutor(numThread, 32, 30, TimeUnit.SECONDS, queue);
 
-                if (next == null) {
-                    break;
-                } else {
-                    final String accession = getAccession(next);
-                    executorService.submit(
-                            new UniprotEntryRetrieveParseVerifier.DataVerificationJob(
-                                    accession, parsingFailed));
-                }
-            } while (true);
-        } catch (Exception e) {
-            logger.warn("Error creating entry buffer", e);
+            try (EntryBufferedReader2 entryBufferReader2 =
+                    new EntryBufferedReader2(uniprotFFPath)) {
+                do {
+                    String next = getNextEntryString(entryBufferReader2);
+
+                    if (next == null) {
+                        break;
+                    } else {
+                        final String accession = getAccession(next);
+                        executorService.submit(
+                                new UniprotEntryRetrieveParseVerifier.DataVerificationJob(
+                                        accession, parsingFailed));
+                    }
+                } while (true);
+            } catch (Exception e) {
+                logger.warn("Error creating entry buffer", e);
+            }
+
+            logger.info("Done strings splitting.");
+
+            executorService.shutdown();
+            logger.info("Shutting down executor");
+
+            try {
+                executorService.awaitTermination(15, TimeUnit.MINUTES);
+            } catch (InterruptedException e) {
+                logger.warn("Executer waiting interrupted.", e);
+                Thread.currentThread().interrupt();
+            }
         }
-
-        logger.info("Done strings splitting.");
-
-        executorService.shutdown();
-        logger.info("Shutting down executor");
-
-        try {
-            executorService.awaitTermination(15, TimeUnit.MINUTES);
-        } catch (InterruptedException e) {
-            logger.warn("Executer waiting interrupted.", e);
-        }
-
-        parsingFailed.close();
 
         logger.info("Done entry storing.");
+    }
+
+    private String getNextEntryString(EntryBufferedReader2 entryBufferReader2) {
+        String next = null;
+        try {
+            next = entryBufferReader2.next();
+        } catch (Exception e) {
+            logger.warn("Error splitting entry string", e);
+        }
+        return next;
     }
 
     private String getAccession(String nextStr) {

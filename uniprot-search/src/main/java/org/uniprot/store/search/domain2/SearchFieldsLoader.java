@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 import org.uniprot.core.util.Utils;
 import org.uniprot.store.search.domain2.impl.SearchFieldImpl;
 import org.uniprot.store.search.domain2.impl.SearchItemImpl;
+import org.uniprot.store.search.field.SearchFields;
 
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -18,12 +19,11 @@ import com.fasterxml.jackson.databind.module.SimpleModule;
  *
  * @author Edd
  */
-public class SearchFieldsLoader implements SearchItems, SearchFields {
-    private List<SearchItem> searchItems = new ArrayList<>();
+public class SearchFieldsLoader implements SearchFields {
     private Set<SearchField> searchFields = new HashSet<>();
-    private Set<String> sortFieldNames;
+    private Set<SearchField> sortFields;
 
-    SearchFieldsLoader(String fileName) {
+    public SearchFieldsLoader(String fileName) {
         init(fileName);
     }
 
@@ -33,28 +33,25 @@ public class SearchFieldsLoader implements SearchItems, SearchFields {
                 mapper.getTypeFactory().constructCollectionType(List.class, SearchItem.class);
         List<SearchItem> allItems = JsonLoader.loadItems(fileName, mapper, type);
 
-        // search items (used by front-end)
-        allItems.stream()
-                .filter(item -> Utils.notNullOrEmpty(item.getLabel()))
-                .forEach(searchItems::add);
-
         // all search fields used in application code
-        searchFields.addAll(extractSearchFields(allItems));
-        SearchFieldsValidator.validate(searchFields);
+        List<SearchField> allSearchFields = extractSearchFields(allItems);
+        SearchFieldsValidator.validate(allSearchFields);
+        searchFields.addAll(allSearchFields);
 
         // sorts
-        sortFieldNames =
-                allItems.stream()
-                        .filter(field -> Utils.notNullOrEmpty(field.getSortField()))
-                        .map(SearchItem::getSortField)
+        sortFields =
+                searchFields.stream()
+                        .map(SearchField::getSortField)
+                        .filter(Optional::isPresent)
+                        .map(Optional::get)
                         .collect(Collectors.toSet());
     }
 
-    protected Set<SearchField> extractSearchFields(List<SearchItem> allSearchItems) {
+    protected List<SearchField> extractSearchFields(List<SearchItem> allSearchItems) {
         return allSearchItems.stream()
                 .map(this::searchItemToSearchField)
                 .flatMap(Collection::stream)
-                .collect(Collectors.toSet());
+                .collect(Collectors.toList());
     }
 
     private List<SearchField> searchItemToSearchField(SearchItem searchItem) {
@@ -71,10 +68,21 @@ public class SearchFieldsLoader implements SearchItems, SearchFields {
 
             // general
             if (Utils.notNullOrEmpty(searchItem.getField())) {
+                SearchFieldImpl.SearchFieldImplBuilder fieldBuilder = SearchFieldImpl.builder();
+
+                if (Utils.notNullOrEmpty(searchItem.getSortField())) {
+                    SearchFieldImpl sortField =
+                            SearchFieldImpl.builder()
+                                    .name(searchItem.getSortField())
+                                    .type(SearchFieldType.GENERAL)
+                                    .validRegex(searchItem.getFieldValidRegex())
+                                    .build();
+                    fieldBuilder.sortField(sortField);
+                }
+
                 fields.add(
-                        SearchFieldImpl.builder()
+                        fieldBuilder
                                 .name(searchItem.getField())
-                                .sortName(searchItem.getSortField())
                                 .type(SearchFieldType.GENERAL)
                                 .validRegex(searchItem.getFieldValidRegex())
                                 .build());
@@ -82,31 +90,51 @@ public class SearchFieldsLoader implements SearchItems, SearchFields {
 
             // range
             if (Utils.notNullOrEmpty(searchItem.getRangeField())) {
+                SearchFieldImpl.SearchFieldImplBuilder fieldBuilder = SearchFieldImpl.builder();
+                if (searchItem.getField() == null
+                        && Utils.notNullOrEmpty(searchItem.getSortField())) {
+                    SearchFieldImpl sortField =
+                            SearchFieldImpl.builder()
+                                    .name(searchItem.getSortField())
+                                    .type(SearchFieldType.RANGE)
+                                    .validRegex(searchItem.getFieldValidRegex())
+                                    .build();
+                    fieldBuilder.sortField(sortField);
+                }
+
                 fields.add(
-                        SearchFieldImpl.builder()
+                        fieldBuilder
                                 .name(searchItem.getRangeField())
                                 .type(SearchFieldType.RANGE)
-                                .validRegex(searchItem.getIdValidRegex())
+                                .validRegex(searchItem.getFieldValidRegex())
                                 .build());
             }
 
             // evidence
             if (Utils.notNullOrEmpty(searchItem.getEvidenceField())) {
-                fields.add(
+                SearchFieldImpl field =
                         SearchFieldImpl.builder()
                                 .name(searchItem.getEvidenceField())
                                 .type(SearchFieldType.GENERAL)
-                                .build());
+                                .build();
+
+                if (!fields.contains(field)) {
+                    fields.add(field);
+                }
             }
 
             // id
             if (Utils.notNullOrEmpty(searchItem.getIdField())) {
-                fields.add(
+                SearchFieldImpl field =
                         SearchFieldImpl.builder()
                                 .name(searchItem.getIdField())
                                 .type(SearchFieldType.GENERAL)
                                 .validRegex(searchItem.getIdValidRegex())
-                                .build());
+                                .build();
+
+                if (!fields.contains(field)) {
+                    fields.add(field);
+                }
             }
         }
 
@@ -121,13 +149,8 @@ public class SearchFieldsLoader implements SearchItems, SearchFields {
     }
 
     @Override
-    public Set<String> getSorts() {
-        return sortFieldNames;
-    }
-
-    @Override
-    public List<SearchItem> getSearchItems() {
-        return searchItems;
+    public Set<SearchField> getSortFields() {
+        return sortFields;
     }
 
     private static ObjectMapper getJsonMapper() {

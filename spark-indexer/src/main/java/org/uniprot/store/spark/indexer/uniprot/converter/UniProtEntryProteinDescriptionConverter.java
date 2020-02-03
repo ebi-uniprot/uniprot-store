@@ -15,9 +15,9 @@ import org.uniprot.store.search.document.uniprot.UniProtDocument;
  * @author lgonzales
  * @since 2019-09-05
  */
-class UniProtEntryProteinDescriptionConverter {
+public class UniProtEntryProteinDescriptionConverter {
 
-    UniProtEntryProteinDescriptionConverter() {}
+    public UniProtEntryProteinDescriptionConverter() {}
 
     void convertProteinDescription(
             ProteinDescription proteinDescription, UniProtDocument document) {
@@ -161,7 +161,7 @@ class UniProtEntryProteinDescriptionConverter {
         return names;
     }
 
-    private List<String> extractProteinDescriptionEcs(ProteinDescription proteinDescription) {
+    public List<String> extractProteinDescriptionEcs(ProteinDescription proteinDescription) {
         List<String> ecs = new ArrayList<>();
         if (proteinDescription.hasRecommendedName()
                 && proteinDescription.getRecommendedName().hasEcNumbers()) {

@@ -99,7 +99,7 @@ class SolrDocumentWriterTest {
         contents.add(co);
 
         CrossRefDocument.CrossRefDocumentBuilder builder = CrossRefDocument.builder();
-        builder.abbrev(ab).accession(ac).categoryStr(ct).dbUrl(du);
+        builder.abbrev(ab).accession(ac).category(ct).dbUrl(du);
         builder.doiId(di).linkType(lt).name(nm).pubMedId(pb).server(sr);
         return builder.build();
     }

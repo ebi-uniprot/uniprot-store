@@ -12,8 +12,8 @@ import java.util.stream.Collectors;
  */
 class SearchFieldsValidator {
     static void validate(Collection<SearchField> searchFields) {
-        verifyNoDuplicateFields(searchFields);
         searchFields.forEach(SearchFieldsValidator::checkMandatoryFields);
+        verifyNoDuplicateFields(searchFields);
     }
 
     private static void checkMandatoryFields(SearchField field) {
@@ -26,11 +26,11 @@ class SearchFieldsValidator {
     private static void verifyNoDuplicateFields(Collection<SearchField> searchFields) {
         List<String> fieldNames = new ArrayList<>();
         for (SearchField searchField : searchFields) {
-            fieldNames.add(searchField.getName());
-            searchField
-                    .getSortName()
-                    .filter(sortName -> !sortName.equals(searchField.getName()))
-                    .ifPresent(fieldNames::add);
+            if (searchField.getType().equals(SearchFieldType.GENERAL)
+                    || (searchField.getType().equals(SearchFieldType.RANGE)
+                            && fieldNames.contains(searchField.getName()))) {
+                fieldNames.add(searchField.getName());
+            }
         }
 
         Set<String> allItems = new HashSet<>();
@@ -38,7 +38,8 @@ class SearchFieldsValidator {
                 fieldNames.stream().filter(name -> !allItems.add(name)).collect(Collectors.toSet());
         if (!duplicates.isEmpty()) {
             throw new IllegalStateException(
-                    "Duplicate field names found: " + Arrays.toString(duplicates.toArray()));
+                    "Invalid duplicate field names found: "
+                            + Arrays.toString(duplicates.toArray()));
         }
     }
 }

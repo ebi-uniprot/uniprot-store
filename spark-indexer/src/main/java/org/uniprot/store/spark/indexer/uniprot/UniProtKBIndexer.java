@@ -39,7 +39,7 @@ import org.uniprot.store.spark.indexer.util.SparkUtils;
 @Slf4j
 public class UniProtKBIndexer {
 
-    public static void prepareSolrIndex(
+    public static void writeIndexDocumentsToHDFS(
             JavaSparkContext sparkContext, ResourceBundle applicationConfig) {
         SparkConf sparkConf = sparkContext.sc().conf();
 
@@ -169,7 +169,7 @@ public class UniProtKBIndexer {
             ResourceBundle applicationConfig,
             JavaSparkContext sparkContext) {
 
-        // JavaPairRDD<accession, GoTerm>
+        // JavaPairRDD<goId, GoTerm>
         JavaPairRDD<String, GOTerm> goRelationsRDD =
                 GORelationRDDReader.load(applicationConfig, sparkContext);
 

@@ -2,7 +2,7 @@ package org.uniprot.store.indexer.search.suggest;
 
 import org.uniprot.store.indexer.search.AbstractSearchEngine;
 import org.uniprot.store.search.document.suggest.SuggestDocument;
-import org.uniprot.store.search.field.SuggestField;
+import org.uniprot.store.search.field.UniProtSearchFields;
 
 class SuggestSearchEngine extends AbstractSearchEngine<SuggestDocument> {
 
@@ -13,12 +13,12 @@ class SuggestSearchEngine extends AbstractSearchEngine<SuggestDocument> {
     }
 
     @Override
-    protected Enum identifierField() {
-        return SuggestField.Search.id;
+    protected String identifierField() {
+        return UniProtSearchFields.SUGGEST.getField("id").getName();
     }
 
     @Override
     protected String identifierQuery(String entryId) {
-        return "(" + SuggestField.Search.id + ":\"" + entryId + "\")";
+        return "(" + UniProtSearchFields.SUGGEST.getField("id").getName() + ":\"" + entryId + "\")";
     }
 }

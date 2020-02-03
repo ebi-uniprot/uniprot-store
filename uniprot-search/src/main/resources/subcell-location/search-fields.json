@@ -1,0 +1,17 @@
+[
+  {
+    "field": "name",
+    "sortField": "name_sort"
+  },
+  {
+    "field": "id",
+    "sortField": "id",
+    "fieldValidRegex": "^SL-[0-9]{4}$"
+  },
+  {
+    "field": "category"
+  },
+  {
+    "field": "content"
+  }
+]
