@@ -13,6 +13,7 @@ import org.springframework.data.solr.core.query.Criteria;
 import org.springframework.data.solr.core.query.Query;
 import org.springframework.data.solr.core.query.SimpleQuery;
 import org.uniprot.core.citation.Author;
+import org.uniprot.core.citation.Literature;
 import org.uniprot.core.json.parser.literature.LiteratureJsonConfig;
 import org.uniprot.core.literature.LiteratureEntry;
 import org.uniprot.core.literature.LiteratureMappedReference;
@@ -45,7 +46,9 @@ public class LiteratureLoadProcessor implements ItemProcessor<LiteratureEntry, L
     public LiteratureDocument process(LiteratureEntry entry) throws Exception {
         LiteratureStoreEntryBuilder entryStoreBuilder = new LiteratureStoreEntryBuilder();
         LiteratureEntryBuilder entryBuilder = LiteratureEntryBuilder.from(entry);
-        Query query = new SimpleQuery().addCriteria(Criteria.where("id").is(entry.getPubmedId()));
+        Literature literature = (Literature) entry.getCitation();
+        Query query =
+                new SimpleQuery().addCriteria(Criteria.where("id").is(literature.getPubmedId()));
         Optional<LiteratureDocument> optionalDocument =
                 solrOperations.queryForObject(
                         SolrCollection.literature.name(), query, LiteratureDocument.class);
@@ -66,29 +69,32 @@ public class LiteratureLoadProcessor implements ItemProcessor<LiteratureEntry, L
 
     private LiteratureDocument createLiteratureDocument(LiteratureStoreEntry entryStore) {
         LiteratureEntry entry = entryStore.getLiteratureEntry();
+        Literature literature = (Literature) entry.getCitation();
         LiteratureDocument.LiteratureDocumentBuilder builder = LiteratureDocument.builder();
         Set<String> content = new HashSet<>();
-        builder.id(String.valueOf(entry.getPubmedId()));
-        content.add(String.valueOf(entry.getPubmedId()));
+        builder.id(String.valueOf(literature.getPubmedId()));
+        content.add(String.valueOf(literature.getPubmedId()));
 
-        builder.doi(entry.getDoiId());
-        content.add(entry.getDoiId());
+        builder.doi(literature.getDoiId());
+        content.add(literature.getDoiId());
 
-        builder.title(entry.getTitle());
-        content.add(entry.getTitle());
+        builder.title(literature.getTitle());
+        content.add(literature.getTitle());
 
-        if (entry.hasAuthors()) {
+        if (literature.hasAuthors()) {
             Set<String> authors =
-                    entry.getAuthors().stream().map(Author::getValue).collect(Collectors.toSet());
+                    literature.getAuthors().stream()
+                            .map(Author::getValue)
+                            .collect(Collectors.toSet());
             builder.author(authors);
             content.addAll(authors);
         }
-        if (entry.hasJournal()) {
-            builder.journal(entry.getJournal().getName());
-            content.add(entry.getJournal().getName());
+        if (literature.hasJournal()) {
+            builder.journal(literature.getJournal().getName());
+            content.add(literature.getJournal().getName());
         }
-        if (entry.hasPublicationDate()) {
-            builder.published(entry.getPublicationDate().getValue());
+        if (literature.hasPublicationDate()) {
+            builder.published(literature.getPublicationDate().getValue());
         }
         if (entry.hasStatistics()) {
             LiteratureStatistics statistics = entry.getStatistics();
@@ -97,11 +103,11 @@ public class LiteratureLoadProcessor implements ItemProcessor<LiteratureEntry, L
                     statistics.hasReviewedProteinCount() || statistics.hasUnreviewedProteinCount());
         }
 
-        if (entry.hasLiteratureAbstract()) {
-            content.add(entry.getLiteratureAbstract());
+        if (literature.hasLiteratureAbstract()) {
+            content.add(literature.getLiteratureAbstract());
         }
-        if (entry.hasAuthoringGroup()) {
-            content.addAll(entry.getAuthoringGroup());
+        if (literature.hasAuthoringGroup()) {
+            content.addAll(literature.getAuthoringGroup());
         }
         builder.content(content);
 
