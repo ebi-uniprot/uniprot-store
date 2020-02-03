@@ -105,6 +105,7 @@ public class SuggestionConfig {
 
     public static List<SuggestDocument> databaseSuggestions() {
         return UniProtXDbTypes.INSTANCE.getAllDBXRefTypes().stream()
+                .filter(val -> !val.isImplicit())
                 .map(
                         type -> {
                             String name = removeTerminalSemiColon(type.getDisplayName());

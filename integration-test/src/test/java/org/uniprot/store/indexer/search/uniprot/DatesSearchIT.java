@@ -20,7 +20,7 @@ import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;
 import org.uniprot.core.flatfile.writer.LineType;
-import org.uniprot.store.search.field.UniProtField;
+import org.uniprot.store.search.field.UniProtSearchFields;
 
 /** Verifies if the creation and modification dates within the UniProt entry are indexed properly */
 class DatesSearchIT {
@@ -109,7 +109,8 @@ class DatesSearchIT {
     void searchForCreatedBefore30SEP1989Returns0Documents() {
         LocalDate creationDate = LocalDate.of(1989, 9, 30);
 
-        String query = before(UniProtField.Search.created.name(), creationDate);
+        String query =
+                before(UniProtSearchFields.UNIPROTKB.getField("created").getName(), creationDate);
 
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -121,7 +122,8 @@ class DatesSearchIT {
     void searchForCreatedBefore01OCT1989Returns1Document() {
         LocalDate creationDate = LocalDate.of(1989, 10, 1);
 
-        String query = before(UniProtField.Search.created.name(), creationDate);
+        String query =
+                before(UniProtSearchFields.UNIPROTKB.getField("created").getName(), creationDate);
 
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -133,7 +135,8 @@ class DatesSearchIT {
     void searchForCreatedBefore15MAR1999Returns2Documents() {
         LocalDate creationDate = LocalDate.of(1999, 3, 15);
 
-        String query = before(UniProtField.Search.created.name(), creationDate);
+        String query =
+                before(UniProtSearchFields.UNIPROTKB.getField("created").getName(), creationDate);
 
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -145,7 +148,8 @@ class DatesSearchIT {
     void searchForUpdatedBefore26OCT2004Returns0Documents() {
         LocalDate updateDate = LocalDate.of(2004, 10, 26);
 
-        String query = before(UniProtField.Search.modified.name(), updateDate);
+        String query =
+                before(UniProtSearchFields.UNIPROTKB.getField("modified").getName(), updateDate);
 
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -157,7 +161,8 @@ class DatesSearchIT {
     void searchForUpdatedBefore27OCT2004Returns1Documents() {
         LocalDate updateDate = LocalDate.of(2004, 10, 27);
 
-        String query = before(UniProtField.Search.modified.name(), updateDate);
+        String query =
+                before(UniProtSearchFields.UNIPROTKB.getField("modified").getName(), updateDate);
 
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -169,7 +174,8 @@ class DatesSearchIT {
     void searchForUpdatedBefore08FEB2006Returns2Documents() {
         LocalDate updateDate = LocalDate.of(2006, 2, 8);
 
-        String query = before(UniProtField.Search.modified.name(), updateDate);
+        String query =
+                before(UniProtSearchFields.UNIPROTKB.getField("modified").getName(), updateDate);
 
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -182,7 +188,8 @@ class DatesSearchIT {
     void searchForCreatedAfter31MAR2014Returns1Document() {
         LocalDate creationDate = LocalDate.of(2014, 3, 30);
 
-        String query = after(UniProtField.Search.created.name(), creationDate);
+        String query =
+                after(UniProtSearchFields.UNIPROTKB.getField("created").getName(), creationDate);
 
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -194,7 +201,8 @@ class DatesSearchIT {
     void searchForCreatedAfter30JUL2003Returns3Documents() {
         LocalDate creationDate = LocalDate.of(2003, 7, 29);
 
-        String query = after(UniProtField.Search.created.name(), creationDate);
+        String query =
+                after(UniProtSearchFields.UNIPROTKB.getField("created").getName(), creationDate);
 
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -210,7 +218,8 @@ class DatesSearchIT {
     void searchForCreatedAfter15MAR1999Returns2Documents() {
         LocalDate creationDate = LocalDate.of(1999, 3, 15);
 
-        String query = after(UniProtField.Search.created.name(), creationDate);
+        String query =
+                after(UniProtSearchFields.UNIPROTKB.getField("created").getName(), creationDate);
 
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -229,7 +238,8 @@ class DatesSearchIT {
     void searchForUpdatedAfter1APR2014Returns3Documents() {
         LocalDate updateDate = LocalDate.of(2014, 4, 1);
 
-        String query = after(UniProtField.Search.modified.name(), updateDate);
+        String query =
+                after(UniProtSearchFields.UNIPROTKB.getField("modified").getName(), updateDate);
 
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -244,7 +254,8 @@ class DatesSearchIT {
     void searchForUpdatedAfter01JAN2013Returns3Documents() {
         LocalDate updateDate = LocalDate.of(2013, 1, 1);
 
-        String query = after(UniProtField.Search.modified.name(), updateDate);
+        String query =
+                after(UniProtSearchFields.UNIPROTKB.getField("modified").getName(), updateDate);
 
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -259,7 +270,8 @@ class DatesSearchIT {
     void searchForUpdatedAfter07FEB2006Returns4Documents() {
         LocalDate updateDate = LocalDate.of(2006, 2, 7);
 
-        String query = after(UniProtField.Search.modified.name(), updateDate);
+        String query =
+                after(UniProtSearchFields.UNIPROTKB.getField("modified").getName(), updateDate);
 
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -279,7 +291,11 @@ class DatesSearchIT {
         LocalDate startDate = LocalDate.of(1979, 2, 20);
         LocalDate endDate = LocalDate.of(1979, 12, 10);
 
-        String query = rangeQuery(UniProtField.Search.created.name(), startDate, endDate);
+        String query =
+                rangeQuery(
+                        UniProtSearchFields.UNIPROTKB.getField("created").getName(),
+                        startDate,
+                        endDate);
 
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -292,7 +308,11 @@ class DatesSearchIT {
         LocalDate startDate = LocalDate.of(1989, 1, 1);
         LocalDate endDate = LocalDate.of(2000, 1, 1);
 
-        String query = rangeQuery(UniProtField.Search.created.name(), startDate, endDate);
+        String query =
+                rangeQuery(
+                        UniProtSearchFields.UNIPROTKB.getField("created").getName(),
+                        startDate,
+                        endDate);
 
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -305,7 +325,11 @@ class DatesSearchIT {
         LocalDate startDate = LocalDate.of(1989, 1, 1);
         LocalDate endDate = LocalDate.of(2000, 1, 1);
 
-        String query = rangeQuery(UniProtField.Search.created.name(), startDate, endDate);
+        String query =
+                rangeQuery(
+                        UniProtSearchFields.UNIPROTKB.getField("created").getName(),
+                        startDate,
+                        endDate);
 
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -318,7 +342,11 @@ class DatesSearchIT {
         LocalDate startDate = LocalDate.of(1979, 2, 20);
         LocalDate endDate = LocalDate.of(1979, 12, 10);
 
-        String query = rangeQuery(UniProtField.Search.modified.name(), startDate, endDate);
+        String query =
+                rangeQuery(
+                        UniProtSearchFields.UNIPROTKB.getField("modified").getName(),
+                        startDate,
+                        endDate);
 
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -331,7 +359,11 @@ class DatesSearchIT {
         LocalDate startDate = LocalDate.of(2004, 1, 1);
         LocalDate endDate = LocalDate.of(2006, 12, 1);
 
-        String query = rangeQuery(UniProtField.Search.modified.name(), startDate, endDate);
+        String query =
+                rangeQuery(
+                        UniProtSearchFields.UNIPROTKB.getField("modified").getName(),
+                        startDate,
+                        endDate);
 
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -346,7 +378,11 @@ class DatesSearchIT {
 
         // String query = updated(startDate, endDate);
 
-        String query = rangeQuery(UniProtField.Search.modified.name(), startDate, endDate);
+        String query =
+                rangeQuery(
+                        UniProtSearchFields.UNIPROTKB.getField("modified").getName(),
+                        startDate,
+                        endDate);
 
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -363,7 +399,11 @@ class DatesSearchIT {
         LocalDate startDate = LocalDate.of(2014, 3, 28);
         LocalDate endDate = LocalDate.of(2014, 3, 29);
 
-        String query = rangeQuery(UniProtField.Search.created.name(), startDate, endDate);
+        String query =
+                rangeQuery(
+                        UniProtSearchFields.UNIPROTKB.getField("created").getName(),
+                        startDate,
+                        endDate);
 
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -376,7 +416,11 @@ class DatesSearchIT {
         LocalDate startDate = LocalDate.of(2014, 3, 29);
         LocalDate endDate = LocalDate.of(2014, 3, 29);
 
-        String query = rangeQuery(UniProtField.Search.created.name(), startDate, endDate);
+        String query =
+                rangeQuery(
+                        UniProtSearchFields.UNIPROTKB.getField("created").getName(),
+                        startDate,
+                        endDate);
 
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -389,7 +433,11 @@ class DatesSearchIT {
         LocalDate startDate = LocalDate.of(2014, 3, 28);
         LocalDate endDate = LocalDate.of(2014, 3, 30);
 
-        String query = rangeQuery(UniProtField.Search.created.name(), startDate, endDate);
+        String query =
+                rangeQuery(
+                        UniProtSearchFields.UNIPROTKB.getField("created").getName(),
+                        startDate,
+                        endDate);
 
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -402,7 +450,11 @@ class DatesSearchIT {
         LocalDate startDate = LocalDate.of(2014, 3, 29);
         LocalDate endDate = LocalDate.of(2014, 3, 30);
 
-        String query = rangeQuery(UniProtField.Search.created.name(), startDate, endDate);
+        String query =
+                rangeQuery(
+                        UniProtSearchFields.UNIPROTKB.getField("created").getName(),
+                        startDate,
+                        endDate);
 
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -420,7 +472,11 @@ class DatesSearchIT {
         LocalDate startDate = LocalDate.of(2014, 3, 30);
         LocalDate endDate = LocalDate.of(2014, 3, 31);
 
-        String query = rangeQuery(UniProtField.Search.created.name(), startDate, endDate);
+        String query =
+                rangeQuery(
+                        UniProtSearchFields.UNIPROTKB.getField("created").getName(),
+                        startDate,
+                        endDate);
 
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -434,7 +490,11 @@ class DatesSearchIT {
         LocalDate startDate = LocalDate.of(2014, 3, 31);
         LocalDate endDate = LocalDate.of(2014, 3, 31);
 
-        String query = rangeQuery(UniProtField.Search.created.name(), startDate, endDate);
+        String query =
+                rangeQuery(
+                        UniProtSearchFields.UNIPROTKB.getField("created").getName(),
+                        startDate,
+                        endDate);
 
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -448,7 +508,11 @@ class DatesSearchIT {
         LocalDate startDate = LocalDate.of(2014, 3, 30);
         LocalDate endDate = LocalDate.of(2014, 4, 1);
 
-        String query = rangeQuery(UniProtField.Search.created.name(), startDate, endDate);
+        String query =
+                rangeQuery(
+                        UniProtSearchFields.UNIPROTKB.getField("created").getName(),
+                        startDate,
+                        endDate);
 
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -462,7 +526,11 @@ class DatesSearchIT {
         LocalDate startDate = LocalDate.of(2014, 3, 31);
         LocalDate endDate = LocalDate.of(2014, 4, 1);
 
-        String query = rangeQuery(UniProtField.Search.created.name(), startDate, endDate);
+        String query =
+                rangeQuery(
+                        UniProtSearchFields.UNIPROTKB.getField("created").getName(),
+                        startDate,
+                        endDate);
 
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -479,7 +547,11 @@ class DatesSearchIT {
         LocalDate startDate = LocalDate.of(2014, 3, 29);
         LocalDate endDate = LocalDate.of(2014, 3, 30);
 
-        String query = rangeQuery(UniProtField.Search.created.name(), startDate, endDate);
+        String query =
+                rangeQuery(
+                        UniProtSearchFields.UNIPROTKB.getField("created").getName(),
+                        startDate,
+                        endDate);
 
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -492,7 +564,11 @@ class DatesSearchIT {
         LocalDate startDate = LocalDate.of(2014, 3, 30);
         LocalDate endDate = LocalDate.of(2014, 3, 30);
 
-        String query = rangeQuery(UniProtField.Search.created.name(), startDate, endDate);
+        String query =
+                rangeQuery(
+                        UniProtSearchFields.UNIPROTKB.getField("created").getName(),
+                        startDate,
+                        endDate);
 
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -505,7 +581,11 @@ class DatesSearchIT {
         LocalDate startDate = LocalDate.of(2014, 3, 29);
         LocalDate endDate = LocalDate.of(2014, 3, 31);
 
-        String query = rangeQuery(UniProtField.Search.created.name(), startDate, endDate);
+        String query =
+                rangeQuery(
+                        UniProtSearchFields.UNIPROTKB.getField("created").getName(),
+                        startDate,
+                        endDate);
 
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -520,7 +600,11 @@ class DatesSearchIT {
         LocalDate startDate = LocalDate.of(2014, 3, 30);
         LocalDate endDate = LocalDate.of(2014, 3, 31);
 
-        String query = rangeQuery(UniProtField.Search.created.name(), startDate, endDate);
+        String query =
+                rangeQuery(
+                        UniProtSearchFields.UNIPROTKB.getField("created").getName(),
+                        startDate,
+                        endDate);
 
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -533,7 +617,11 @@ class DatesSearchIT {
         LocalDate startDate = LocalDate.of(2014, 3, 30);
         LocalDate endDate = LocalDate.of(2014, 4, 1);
 
-        String query = rangeQuery(UniProtField.Search.sequence_modified.name(), startDate, endDate);
+        String query =
+                rangeQuery(
+                        UniProtSearchFields.UNIPROTKB.getField("sequence_modified").getName(),
+                        startDate,
+                        endDate);
 
         QueryResponse response = searchEngine.getQueryResponse(query);
 

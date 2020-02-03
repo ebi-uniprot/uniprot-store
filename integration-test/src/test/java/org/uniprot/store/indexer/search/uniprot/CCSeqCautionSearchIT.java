@@ -16,7 +16,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;
 import org.uniprot.core.flatfile.writer.LineType;
 import org.uniprot.store.search.field.QueryBuilder;
-import org.uniprot.store.search.field.UniProtField;
+import org.uniprot.store.search.field.UniProtSearchFields;
 
 class CCSeqCautionSearchIT {
     private static final String Q6GZX4 = "Q6GZX4";
@@ -104,7 +104,7 @@ class CCSeqCautionSearchIT {
 
     @Test
     void findAllSeqCaution() {
-        String query = query(UniProtField.Search.cc_sc, "*");
+        String query = query(UniProtSearchFields.UNIPROTKB.getField("cc_sc"), "*");
         QueryResponse response = searchEngine.getQueryResponse(query);
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
         assertThat(
@@ -114,7 +114,7 @@ class CCSeqCautionSearchIT {
 
     @Test
     void findSeqCaution() {
-        String query = query(UniProtField.Search.cc_sc, "Translated");
+        String query = query(UniProtSearchFields.UNIPROTKB.getField("cc_sc"), "Translated");
         QueryResponse response = searchEngine.getQueryResponse(query);
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
         assertThat(retrievedAccessions, hasItems(Q6GZN7, Q197B6));
@@ -122,9 +122,11 @@ class CCSeqCautionSearchIT {
 
     @Test
     void findSeqCautionWithEvidence() {
-        String query = query(UniProtField.Search.cc_sc, "Translated");
+        String query = query(UniProtSearchFields.UNIPROTKB.getField("cc_sc"), "Translated");
         String evidence = "ECO_0000305";
-        query = QueryBuilder.and(query, query(UniProtField.Search.ccev_sc, evidence));
+        query =
+                QueryBuilder.and(
+                        query, query(UniProtSearchFields.UNIPROTKB.getField("ccev_sc"), evidence));
         QueryResponse response = searchEngine.getQueryResponse(query);
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
         assertThat(retrievedAccessions, hasItems(Q6GZN7));
@@ -133,9 +135,11 @@ class CCSeqCautionSearchIT {
 
     @Test
     void findSeqCautionWithManualEvidence() {
-        String query = query(UniProtField.Search.cc_sc, "Translated");
+        String query = query(UniProtSearchFields.UNIPROTKB.getField("cc_sc"), "Translated");
         String evidence = "manual";
-        query = QueryBuilder.and(query, query(UniProtField.Search.ccev_sc, evidence));
+        query =
+                QueryBuilder.and(
+                        query, query(UniProtSearchFields.UNIPROTKB.getField("ccev_sc"), evidence));
         QueryResponse response = searchEngine.getQueryResponse(query);
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
         assertThat(retrievedAccessions, hasItems(Q197B6));
@@ -143,9 +147,11 @@ class CCSeqCautionSearchIT {
 
     @Test
     void findSeqCautionWithAutomaticEvidence() {
-        String query = query(UniProtField.Search.cc_sc, "Translated");
+        String query = query(UniProtSearchFields.UNIPROTKB.getField("cc_sc"), "Translated");
         String evidence = "automatic";
-        query = QueryBuilder.and(query, query(UniProtField.Search.ccev_sc, evidence));
+        query =
+                QueryBuilder.and(
+                        query, query(UniProtSearchFields.UNIPROTKB.getField("ccev_sc"), evidence));
         QueryResponse response = searchEngine.getQueryResponse(query);
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
         assertThat(retrievedAccessions, empty());
@@ -153,7 +159,7 @@ class CCSeqCautionSearchIT {
 
     @Test
     void findAllSeqCautionFrameshift() {
-        String query = query(UniProtField.Search.cc_sc_framesh, "*");
+        String query = query(UniProtSearchFields.UNIPROTKB.getField("cc_sc_framesh"), "*");
         QueryResponse response = searchEngine.getQueryResponse(query);
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
         assertThat(retrievedAccessions, hasItems(Q6GZX4, Q6GZX3, Q197B6));
@@ -161,7 +167,7 @@ class CCSeqCautionSearchIT {
 
     @Test
     void findAllSeqCautionErrorInit() {
-        String query = query(UniProtField.Search.cc_sc_einit, "extended");
+        String query = query(UniProtSearchFields.UNIPROTKB.getField("cc_sc_einit"), "extended");
         QueryResponse response = searchEngine.getQueryResponse(query);
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
         assertThat(retrievedAccessions, hasItems(Q6GZY3, Q6GZN7));
@@ -169,7 +175,7 @@ class CCSeqCautionSearchIT {
 
     @Test
     void findAllSeqCautionErrorPredict() {
-        String query = query(UniProtField.Search.cc_sc_epred, "*");
+        String query = query(UniProtSearchFields.UNIPROTKB.getField("cc_sc_epred"), "*");
         QueryResponse response = searchEngine.getQueryResponse(query);
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
         assertThat(retrievedAccessions, hasItems(Q6GZY3, Q196W5));
@@ -177,7 +183,7 @@ class CCSeqCautionSearchIT {
 
     @Test
     void findAllSeqCautionErrorTerm() {
-        String query = query(UniProtField.Search.cc_sc_eterm, "Translated");
+        String query = query(UniProtSearchFields.UNIPROTKB.getField("cc_sc_eterm"), "Translated");
         QueryResponse response = searchEngine.getQueryResponse(query);
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
         assertThat(retrievedAccessions, hasItems(Q197B6, Q6GZN7));
@@ -185,7 +191,7 @@ class CCSeqCautionSearchIT {
 
     @Test
     void findAllSeqCautionErrorTranslation() {
-        String query = query(UniProtField.Search.cc_sc_etran, "choice");
+        String query = query(UniProtSearchFields.UNIPROTKB.getField("cc_sc_etran"), "choice");
         QueryResponse response = searchEngine.getQueryResponse(query);
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
         assertThat(retrievedAccessions, hasItems(Q6GZN7));
@@ -193,7 +199,7 @@ class CCSeqCautionSearchIT {
 
     @Test
     void findAllSeqCautionMisc() {
-        String query = query(UniProtField.Search.cc_sc_misc, "sequence");
+        String query = query(UniProtSearchFields.UNIPROTKB.getField("cc_sc_misc"), "sequence");
         QueryResponse response = searchEngine.getQueryResponse(query);
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
         assertThat(retrievedAccessions, hasItems(Q6V4H0));
@@ -201,9 +207,12 @@ class CCSeqCautionSearchIT {
 
     @Test
     void findAllSeqCautionMiscWithEv() {
-        String query = query(UniProtField.Search.cc_sc_misc, "sequence");
+        String query = query(UniProtSearchFields.UNIPROTKB.getField("cc_sc_misc"), "sequence");
         String evidence = "ECO_0000305";
-        query = QueryBuilder.and(query, query(UniProtField.Search.ccev_sc_misc, evidence));
+        query =
+                QueryBuilder.and(
+                        query,
+                        query(UniProtSearchFields.UNIPROTKB.getField("ccev_sc_misc"), evidence));
         QueryResponse response = searchEngine.getQueryResponse(query);
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
         assertThat(retrievedAccessions, hasItems(Q6V4H0));
@@ -211,9 +220,12 @@ class CCSeqCautionSearchIT {
 
     @Test
     void findAllSeqCautionMiscWithEvEmptu() {
-        String query = query(UniProtField.Search.cc_sc_misc, "sequence");
+        String query = query(UniProtSearchFields.UNIPROTKB.getField("cc_sc_misc"), "sequence");
         String evidence = "ECO_0000268";
-        query = QueryBuilder.and(query, query(UniProtField.Search.ccev_sc_misc, evidence));
+        query =
+                QueryBuilder.and(
+                        query,
+                        query(UniProtSearchFields.UNIPROTKB.getField("ccev_sc_misc"), evidence));
         QueryResponse response = searchEngine.getQueryResponse(query);
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
         assertThat(retrievedAccessions, empty());

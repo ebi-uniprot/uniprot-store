@@ -18,12 +18,12 @@ import org.uniprot.store.search.domain2.SearchFieldType;
 public class SearchFieldImpl implements SearchField {
     private String name;
     private SearchFieldType type;
-    private String sortName;
+    private SearchField sortField;
     private String validRegex;
 
     @Override
-    public Optional<String> getSortName() {
-        return Optional.ofNullable(sortName);
+    public Optional<SearchField> getSortField() {
+        return Optional.ofNullable(sortField);
     }
 
     @Override

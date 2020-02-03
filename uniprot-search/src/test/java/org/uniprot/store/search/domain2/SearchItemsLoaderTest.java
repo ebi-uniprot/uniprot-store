@@ -1,27 +1,32 @@
 package org.uniprot.store.search.domain2;
 
-import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.containsInAnyOrder;
-import static org.hamcrest.core.Is.is;
+import static org.hamcrest.Matchers.*;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 /**
- * Created 22/11/2019
+ * Created 20/11/19
  *
  * @author Edd
  */
-class UniProtKBSearchItemsTest {
+class SearchItemsLoaderTest {
+    private static final String FILENAME = "search-loader-fields.json";
+    private static SearchItemsLoader fieldsLoader;
+
+    @BeforeAll
+    static void setUp() {
+        fieldsLoader = new SearchItemsLoader(FILENAME);
+    }
 
     @Test
     void checkSearchItems() {
-        Map<String, SearchItem> itemMap =
-                searchItemsToMap(UniProtKBSearchItems.INSTANCE.getSearchItems());
+        Map<String, SearchItem> itemMap = searchItemsToMap(fieldsLoader.getSearchItems());
         assertThat(
                 itemMap.keySet(),
                 containsInAnyOrder("ACCESSION", "FUNCTION", "COFACTORS", "CHEBI", "NOTE", "EC"));

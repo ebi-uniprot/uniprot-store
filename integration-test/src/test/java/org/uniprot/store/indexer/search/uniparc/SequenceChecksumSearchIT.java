@@ -13,7 +13,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;
 import org.uniprot.core.xml.jaxb.uniparc.Entry;
 import org.uniprot.store.search.field.QueryBuilder;
-import org.uniprot.store.search.field.UniParcField;
+import org.uniprot.store.search.field.UniProtSearchFields;
 
 class SequenceChecksumSearchIT {
     @RegisterExtension static UniParcSearchEngine searchEngine = new UniParcSearchEngine();
@@ -96,6 +96,7 @@ class SequenceChecksumSearchIT {
     }
 
     private String checksum(String value) {
-        return QueryBuilder.query(UniParcField.Search.checksum.name(), value);
+        return QueryBuilder.query(
+                UniProtSearchFields.UNIPARC.getField("checksum").getName(), value);
     }
 }

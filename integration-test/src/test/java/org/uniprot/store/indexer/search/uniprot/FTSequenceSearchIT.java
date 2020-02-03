@@ -16,7 +16,7 @@ import org.junit.jupiter.api.extension.RegisterExtension;
 import org.uniprot.core.flatfile.writer.LineType;
 import org.uniprot.core.uniprot.feature.FeatureType;
 import org.uniprot.store.search.field.QueryBuilder;
-import org.uniprot.store.search.field.UniProtField;
+import org.uniprot.store.search.field.UniProtSearchFields;
 
 class FTSequenceSearchIT {
 
@@ -118,13 +118,19 @@ class FTSequenceSearchIT {
 
     @Test
     void variantsFindEntryWithLengthAndEvidence() {
-        String query = query(UniProtField.Search.ft_variants, "colorectal");
+        String query = query(UniProtSearchFields.UNIPROTKB.getField("ft_variants"), "colorectal");
         query =
                 QueryBuilder.and(
                         query,
-                        QueryBuilder.rangeQuery(UniProtField.Search.ftlen_variants.name(), 1, 21));
+                        QueryBuilder.rangeQuery(
+                                UniProtSearchFields.UNIPROTKB.getField("ftlen_variants").getName(),
+                                1,
+                                21));
         String evidence = "ECO_0000269";
-        query = QueryBuilder.and(query, query(UniProtField.Search.ftev_variants, evidence));
+        query =
+                QueryBuilder.and(
+                        query,
+                        query(UniProtSearchFields.UNIPROTKB.getField("ftev_variants"), evidence));
         QueryResponse response = searchEngine.getQueryResponse(query);
 
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
@@ -205,14 +211,21 @@ class FTSequenceSearchIT {
 
     @Test
     void positionFindEntryWithLengthAndEvidence() {
-        String query = query(UniProtField.Search.ft_positional, "colorectal");
+        String query = query(UniProtSearchFields.UNIPROTKB.getField("ft_positional"), "colorectal");
         query =
                 QueryBuilder.and(
                         query,
                         QueryBuilder.rangeQuery(
-                                UniProtField.Search.ftlen_positional.name(), 1, 21));
+                                UniProtSearchFields.UNIPROTKB
+                                        .getField("ftlen_positional")
+                                        .getName(),
+                                1,
+                                21));
         String evidence = "ECO_0000269";
-        query = QueryBuilder.and(query, query(UniProtField.Search.ftev_positional, evidence));
+        query =
+                QueryBuilder.and(
+                        query,
+                        query(UniProtSearchFields.UNIPROTKB.getField("ftev_positional"), evidence));
         QueryResponse response = searchEngine.getQueryResponse(query);
 
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);

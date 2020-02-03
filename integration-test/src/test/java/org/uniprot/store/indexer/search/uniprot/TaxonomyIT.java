@@ -19,7 +19,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;
 import org.uniprot.core.flatfile.writer.LineType;
 import org.uniprot.store.search.field.QueryBuilder;
-import org.uniprot.store.search.field.UniProtField;
+import org.uniprot.store.search.field.UniProtSearchFields;
 
 /**
  * Tests whether the taxonomy lineages have been indexed correctly taxonomy lineages Index is based
@@ -209,10 +209,11 @@ class TaxonomyIT {
     }
 
     private String taxonName(String value) {
-        return query(UniProtField.Search.taxonomy_name, value);
+        return query(UniProtSearchFields.UNIPROTKB.getField("taxonomy_name"), value);
     }
 
     private static String taxonID(int taxonomy) {
-        return query(UniProtField.Search.taxonomy_id, String.valueOf(taxonomy));
+        return query(
+                UniProtSearchFields.UNIPROTKB.getField("taxonomy_id"), String.valueOf(taxonomy));
     }
 }

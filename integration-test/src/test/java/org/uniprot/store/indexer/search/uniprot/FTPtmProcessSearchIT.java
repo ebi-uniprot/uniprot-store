@@ -16,7 +16,7 @@ import org.junit.jupiter.api.extension.RegisterExtension;
 import org.uniprot.core.flatfile.writer.LineType;
 import org.uniprot.core.uniprot.feature.FeatureType;
 import org.uniprot.store.search.field.QueryBuilder;
-import org.uniprot.store.search.field.UniProtField;
+import org.uniprot.store.search.field.UniProtSearchFields;
 
 class FTPtmProcessSearchIT {
     private static final String Q6GZX4 = "Q6GZX4";
@@ -271,7 +271,8 @@ class FTPtmProcessSearchIT {
 
     @Test
     void moleculeProcessFindTwoEntry() {
-        String query = query(UniProtField.Search.ft_molecule_processing, "peptide");
+        String query =
+                query(UniProtSearchFields.UNIPROTKB.getField("ft_molecule_processing"), "peptide");
         QueryResponse response = searchEngine.getQueryResponse(query);
 
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
@@ -281,12 +282,17 @@ class FTPtmProcessSearchIT {
 
     @Test
     void moleculeProcessFindTwoEntryWithLength() {
-        String query = query(UniProtField.Search.ft_molecule_processing, "peptide");
+        String query =
+                query(UniProtSearchFields.UNIPROTKB.getField("ft_molecule_processing"), "peptide");
         query =
                 QueryBuilder.and(
                         query,
                         QueryBuilder.rangeQuery(
-                                UniProtField.Search.ftlen_molecule_processing.name(), 9, 10));
+                                UniProtSearchFields.UNIPROTKB
+                                        .getField("ftlen_molecule_processing")
+                                        .getName(),
+                                9,
+                                10));
 
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -298,16 +304,24 @@ class FTPtmProcessSearchIT {
 
     @Test
     void moleculeProcessFindEntryWithLengthAndEvidence() {
-        String query = query(UniProtField.Search.ft_molecule_processing, "peptide");
+        String query =
+                query(UniProtSearchFields.UNIPROTKB.getField("ft_molecule_processing"), "peptide");
         query =
                 QueryBuilder.and(
                         query,
                         QueryBuilder.rangeQuery(
-                                UniProtField.Search.ftlen_molecule_processing.name(), 9, 20));
+                                UniProtSearchFields.UNIPROTKB
+                                        .getField("ftlen_molecule_processing")
+                                        .getName(),
+                                9,
+                                20));
         String evidence = "ECO_0000269";
         query =
                 QueryBuilder.and(
-                        query, query(UniProtField.Search.ftev_molecule_processing, evidence));
+                        query,
+                        query(
+                                UniProtSearchFields.UNIPROTKB.getField("ftev_molecule_processing"),
+                                evidence));
         QueryResponse response = searchEngine.getQueryResponse(query);
 
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);

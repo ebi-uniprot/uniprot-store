@@ -57,7 +57,7 @@ public class UniProtEntryMocker {
 
     public static UniProtEntry create(String accession) {
         UniProtEntry entry = entryMap.get(Type.SP);
-        UniProtEntryBuilder builder = UniProtEntryBuilder.fromInstance(entry);
+        UniProtEntryBuilder builder = UniProtEntryBuilder.from(entry);
         return builder.primaryAccession(new UniProtAccessionBuilder(accession).build())
                 .entryType(UniProtEntryType.TREMBL)
                 .sequence(new SequenceBuilder("AAAAA").build())
@@ -65,7 +65,7 @@ public class UniProtEntryMocker {
     }
 
     public static UniProtEntry create(Type type) {
-        return UniProtEntryBuilder.fromInstance(entryMap.get(type)).build();
+        return UniProtEntryBuilder.from(entryMap.get(type)).build();
     }
 
     public static Collection<UniProtEntry> createEntries() {

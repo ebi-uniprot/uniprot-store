@@ -1,0 +1,53 @@
+[
+  {
+    "field": "upid",
+    "sortField": "upid",
+    "fieldValidRegex": "UP[0-9]{9}"
+  },
+  {
+    "field": "proteome_type",
+    "sortField": "proteome_type"
+  },
+  {
+    "field": "annotation_score",
+    "sortField": "annotation_score"
+  },
+  {
+    "field": "organism_sort",
+    "sortField": "organism_sort"
+  },
+  {
+    "field": "reference",
+    "fieldValidRegex": "^true|false$"
+  },
+  {
+    "field": "redundant",
+    "fieldValidRegex": "^true|false$"
+  },
+  {
+    "field": "organism_name"
+  },
+  {
+    "field": "organism_id",
+    "fieldValidRegex": "^[0-9]+$"
+  },
+  {
+    "field": "taxonomy_name"
+  },
+  {
+    "field": "taxonomy_id",
+    "fieldValidRegex": "^[0-9]+$"
+  },
+  {
+    "field": "superkingdom"
+  },
+  {
+    "field": "genome_accession"
+  },
+  {
+    "field": "genome_assembly"
+  },
+  {
+    "field": "content"
+  }
+]
