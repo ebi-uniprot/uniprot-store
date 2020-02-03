@@ -2,6 +2,8 @@ package org.uniprot.store.indexer.literature.reader;
 
 import org.springframework.batch.item.*;
 import org.springframework.batch.item.file.FlatFileItemReader;
+import org.uniprot.core.DBCrossReference;
+import org.uniprot.core.citation.CitationXrefType;
 import org.uniprot.core.literature.LiteratureStoreEntry;
 import org.uniprot.core.literature.builder.LiteratureStoreEntryBuilder;
 
@@ -21,11 +23,22 @@ public class LiteratureMappingItemReader implements ItemReader<LiteratureStoreEn
             entry = delegate.read();
         }
         if (entry != null) {
+            String entryPubmedId =
+                    entry.getLiteratureEntry()
+                            .getCitation()
+                            .getCitationXrefsByType(CitationXrefType.PUBMED)
+                            .map(DBCrossReference::getId)
+                            .orElse("");
             LiteratureStoreEntryBuilder itemBuilder = LiteratureStoreEntryBuilder.from(entry);
             while ((nextEntry = this.delegate.read()) != null) {
-                if (entry.getLiteratureEntry()
-                        .getPubmedId()
-                        .equals(nextEntry.getLiteratureEntry().getPubmedId())) {
+                String nextPubmedId =
+                        nextEntry
+                                .getLiteratureEntry()
+                                .getCitation()
+                                .getCitationXrefsByType(CitationXrefType.PUBMED)
+                                .map(DBCrossReference::getId)
+                                .orElse("");
+                if (entryPubmedId.equals(nextPubmedId)) {
                     itemBuilder.addLiteratureMappedReference(
                             nextEntry.getLiteratureMappedReferences().get(0));
                 } else {

@@ -3,6 +3,7 @@ package org.uniprot.store.indexer.literature;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.nio.ByteBuffer;
 import java.util.Map;
@@ -24,6 +25,7 @@ import org.springframework.data.solr.core.SolrTemplate;
 import org.springframework.data.solr.core.query.SimpleQuery;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.uniprot.core.citation.Literature;
 import org.uniprot.core.json.parser.literature.LiteratureJsonConfig;
 import org.uniprot.core.literature.LiteratureEntry;
 import org.uniprot.core.literature.LiteratureStoreEntry;
@@ -143,41 +145,44 @@ class LiteratureJobIT {
 
     private void validateLiteratureEntry(LiteratureEntry entry) {
         assertThat(entry, is(notNullValue()));
-        assertThat(entry.hasPubmedId(), is(true));
-        assertThat(entry.getPubmedId(), is(11203701L));
+        assertTrue(entry.hasCitation());
+        Literature literature = (Literature) entry.getCitation();
 
-        assertThat(entry.hasDoiId(), is(true));
-        assertThat(entry.getDoiId(), is("10.1006/dbio.2000.9955"));
+        assertThat(literature.hasPubmedId(), is(true));
+        assertThat(literature.getPubmedId(), is(11203701L));
 
-        assertThat(entry.hasTitle(), is(true));
+        assertThat(literature.hasDoiId(), is(true));
+        assertThat(literature.getDoiId(), is("10.1006/dbio.2000.9955"));
+
+        assertThat(literature.hasTitle(), is(true));
         assertThat(
-                entry.getTitle(),
+                literature.getTitle(),
                 is(
                         "TNF signaling via the ligand-receptor pair ectodysplasin "
                                 + "and edar controls the function of epithelial signaling centers and is regulated by Wnt "
                                 + "and activin during tooth organogenesis."));
 
-        assertThat(entry.hasAuthoringGroup(), is(false));
+        assertThat(literature.hasAuthoringGroup(), is(false));
 
-        assertThat(entry.hasAuthors(), is(true));
-        assertThat(entry.getAuthors().size(), is(10));
+        assertThat(literature.hasAuthors(), is(true));
+        assertThat(literature.getAuthors().size(), is(10));
 
-        assertThat(entry.isCompleteAuthorList(), is(true));
+        assertThat(literature.isCompleteAuthorList(), is(true));
 
-        assertThat(entry.hasPublicationDate(), is(true));
-        assertThat(entry.getPublicationDate().getValue(), is("2001"));
+        assertThat(literature.hasPublicationDate(), is(true));
+        assertThat(literature.getPublicationDate().getValue(), is("2001"));
 
-        assertThat(entry.hasJournal(), is(true));
-        assertThat(entry.getJournal().getName(), is("Dev. Biol."));
+        assertThat(literature.hasJournal(), is(true));
+        assertThat(literature.getJournal().getName(), is("Dev. Biol."));
 
-        assertThat(entry.hasFirstPage(), is(true));
-        assertThat(entry.getFirstPage(), is("443"));
+        assertThat(literature.hasFirstPage(), is(true));
+        assertThat(literature.getFirstPage(), is("443"));
 
-        assertThat(entry.hasLastPage(), is(true));
-        assertThat(entry.getLastPage(), is("455"));
+        assertThat(literature.hasLastPage(), is(true));
+        assertThat(literature.getLastPage(), is("455"));
 
-        assertThat(entry.hasVolume(), is(true));
-        assertThat(entry.getVolume(), is("229"));
+        assertThat(literature.hasVolume(), is(true));
+        assertThat(literature.getVolume(), is("229"));
 
         assertThat(entry.hasStatistics(), is(true));
         assertThat(entry.getStatistics().getMappedProteinCount(), is(19L));
