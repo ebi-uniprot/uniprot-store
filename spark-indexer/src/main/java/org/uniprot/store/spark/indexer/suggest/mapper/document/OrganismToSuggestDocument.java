@@ -12,6 +12,7 @@ import scala.Tuple2;
 
 /**
  * This class converts an Organism entry to a SuggestDocument
+ *
  * @author lgonzales
  * @since 2020-01-20
  */

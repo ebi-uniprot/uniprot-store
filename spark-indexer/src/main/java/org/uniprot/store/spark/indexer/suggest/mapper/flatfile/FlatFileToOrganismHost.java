@@ -15,8 +15,9 @@ import org.uniprot.core.util.Utils;
 import scala.Tuple2;
 
 /**
- * This class map from flatFile entry string to an Iterator of Tuples of Organism Host
- * found in OH lines
+ * This class map from flatFile entry string to an Iterator of Tuples of Organism Host found in OH
+ * lines
+ *
  * @author lgonzales
  * @since 2020-01-20
  */
@@ -37,11 +38,13 @@ public class FlatFileToOrganismHost implements PairFlatMapFunction<String, Strin
                 final UniprotLineParser<OhLineObject> ohParser =
                         new DefaultUniprotLineParserFactory().createOhLineParser();
                 OhLineObject ohLineObject = ohParser.parse(ohLine + "\n");
-                ohLineObject.hosts.forEach(
-                        ohValue -> {
-                            String taxId = String.valueOf(ohValue.tax_id);
-                            result.add(new Tuple2<String, String>(taxId, taxId));
-                        });
+                ohLineObject
+                        .getHosts()
+                        .forEach(
+                                ohValue -> {
+                                    String taxId = String.valueOf(ohValue.getTax_id());
+                                    result.add(new Tuple2<String, String>(taxId, taxId));
+                                });
             } catch (Exception e) {
                 throw new RuntimeException("Unable to parse ohline: " + ohLine, e);
             }

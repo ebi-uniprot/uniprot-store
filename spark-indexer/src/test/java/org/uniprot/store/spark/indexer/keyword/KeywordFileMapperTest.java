@@ -1,12 +1,13 @@
 package org.uniprot.store.spark.indexer.keyword;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 import org.junit.jupiter.api.Test;
 import org.uniprot.core.cv.keyword.KeywordEntry;
 import org.uniprot.core.cv.keyword.impl.KeywordEntryImpl;
 import org.uniprot.core.cv.keyword.impl.KeywordImpl;
-import scala.Tuple2;
 
-import static org.junit.jupiter.api.Assertions.*;
+import scala.Tuple2;
 
 /**
  * @author lgonzales
@@ -17,7 +18,7 @@ class KeywordFileMapperTest {
     @Test
     void testECFileMapper() throws Exception {
         KeywordEntryImpl entry = new KeywordEntryImpl();
-        KeywordImpl keyword = new KeywordImpl("kwId","kwAcc");
+        KeywordImpl keyword = new KeywordImpl("kwId", "kwAcc");
         entry.setKeyword(keyword);
 
         KeywordFileMapper mapper = new KeywordFileMapper();

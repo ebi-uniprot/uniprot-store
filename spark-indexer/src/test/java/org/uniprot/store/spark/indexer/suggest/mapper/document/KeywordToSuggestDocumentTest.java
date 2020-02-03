@@ -3,16 +3,9 @@ package org.uniprot.store.spark.indexer.suggest.mapper.document;
 import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
-import org.uniprot.core.cv.keyword.KeywordEntry;
 import org.uniprot.core.cv.keyword.impl.KeywordEntryImpl;
 import org.uniprot.core.cv.keyword.impl.KeywordImpl;
 import org.uniprot.store.search.document.suggest.SuggestDocument;
-import scala.Tuple2;
-
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 
 /**
  * @author lgonzales
@@ -23,7 +16,7 @@ class KeywordToSuggestDocumentTest {
     @Test
     void testKeywordToSuggestDocumentWithoutCategory() throws Exception {
         KeywordEntryImpl keywordEntry = new KeywordEntryImpl();
-        keywordEntry.setKeyword(new KeywordImpl("kwId","kwAcc"));
+        keywordEntry.setKeyword(new KeywordImpl("kwId", "kwAcc"));
 
         KeywordToSuggestDocument mapper = new KeywordToSuggestDocument();
         SuggestDocument result = mapper.call(keywordEntry);
@@ -38,8 +31,8 @@ class KeywordToSuggestDocumentTest {
     @Test
     void testKeywordToSuggestDocumentWithCategory() throws Exception {
         KeywordEntryImpl keywordEntry = new KeywordEntryImpl();
-        keywordEntry.setKeyword(new KeywordImpl("kwId","kwAcc"));
-        keywordEntry.setCategory(new KeywordImpl("kwCatId","kwCatAcc"));
+        keywordEntry.setKeyword(new KeywordImpl("kwId", "kwAcc"));
+        keywordEntry.setCategory(new KeywordImpl("kwCatId", "kwCatAcc"));
 
         KeywordToSuggestDocument mapper = new KeywordToSuggestDocument();
         SuggestDocument result = mapper.call(keywordEntry);

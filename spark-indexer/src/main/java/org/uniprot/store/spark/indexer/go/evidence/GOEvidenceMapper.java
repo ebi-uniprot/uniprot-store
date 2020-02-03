@@ -31,7 +31,7 @@ public class GOEvidenceMapper
     @Override
     public UniProtEntry call(Tuple2<UniProtEntry, Optional<Iterable<GOEvidence>>> tuple)
             throws Exception {
-        UniProtEntryBuilder entry = UniProtEntryBuilder.fromInstance(tuple._1);
+        UniProtEntryBuilder entry = UniProtEntryBuilder.from(tuple._1);
         if (tuple._2.isPresent()) {
             Map<String, List<Evidence>> goEvidenceMap = getGoEvidenceMap(tuple._2.get());
 

@@ -3,10 +3,8 @@ package org.uniprot.store.spark.indexer.suggest.mapper.document;
 import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
-import org.uniprot.core.cv.subcell.SubcellularLocationEntry;
 import org.uniprot.core.cv.subcell.impl.SubcellularLocationEntryImpl;
 import org.uniprot.store.search.document.suggest.SuggestDocument;
-import scala.Tuple2;
 
 /**
  * @author lgonzales
@@ -21,7 +19,7 @@ class SubcellularLocationToSuggestDocumentTest {
         entry.setAccession("slAcc");
         SubcellularLocationToSuggestDocument mapper = new SubcellularLocationToSuggestDocument();
 
-        SuggestDocument result = mapper.call(new Tuple2<>("slId", entry));
+        SuggestDocument result = mapper.call(entry);
         assertNotNull(result);
 
         assertEquals("SUBCELL", result.dictionary);

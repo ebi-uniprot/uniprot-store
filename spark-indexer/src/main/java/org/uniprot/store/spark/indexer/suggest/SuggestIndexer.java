@@ -34,6 +34,7 @@ import scala.Tuple2;
 
 /**
  * This class is responsible to load all the data for SuggestDocument and write it into HDFS
+ *
  * @author lgonzales
  * @since 2020-01-15
  */
@@ -41,6 +42,7 @@ public class SuggestIndexer {
 
     /**
      * load all the data for SuggestDocument and write it into HDFS (Hadoop File System)
+     *
      * @param sparkContext spark configuration
      * @param applicationConfig config
      */
@@ -57,17 +59,9 @@ public class SuggestIndexer {
                         .union(getKeyword(sparkContext, applicationConfig))
                         .union(getSubcell(sparkContext, applicationConfig))
                         .union(getEC(flatFileRDD, sparkContext, applicationConfig))
-                        .union(
-                                getChebi(
-                                        flatFileRDD,
-                                        sparkContext,
-                                        applicationConfig))
+                        .union(getChebi(flatFileRDD, sparkContext, applicationConfig))
                         .union(getGo(flatFileRDD, sparkContext, applicationConfig))
-                        .union(
-                                getOrganism(
-                                        flatFileRDD,
-                                        sparkContext,
-                                        applicationConfig))
+                        .union(getOrganism(flatFileRDD, sparkContext, applicationConfig))
                         .repartition(suggestPartition);
         String hdfsPath = applicationConfig.getString("suggest.solr.documents.path");
         SolrUtils.saveSolrInputDocumentRDD(suggestRDD, hdfsPath);
@@ -86,7 +80,8 @@ public class SuggestIndexer {
      * @param flatFileRDD JavaRDD<flatFile entry in String format>
      * @param sparkContext spark configuration
      * @param applicationConfig config
-     * @return JavaRDD of SuggestDocument with GOTerms (including ancestors) mapped from UniprotKB flat file entries
+     * @return JavaRDD of SuggestDocument with GOTerms (including ancestors) mapped from UniprotKB
+     *     flat file entries
      */
     private static JavaRDD<SuggestDocument> getGo(
             JavaRDD<String> flatFileRDD,
@@ -116,7 +111,8 @@ public class SuggestIndexer {
      * @param flatFileRDD JavaRDD<flatFile entry in String format>
      * @param sparkContext spark configuration
      * @param applicationConfig config
-     * @return JavaRDD of SuggestDocument with Chebi information mapped from UniprotKB flat file entries
+     * @return JavaRDD of SuggestDocument with Chebi information mapped from UniprotKB flat file
+     *     entries
      */
     private static JavaRDD<SuggestDocument> getChebi(
             JavaRDD<String> flatFileRDD,
@@ -126,7 +122,8 @@ public class SuggestIndexer {
         // JavaPairRDD<chebiId,Chebi Entry> --> extracted from chebi.obo
         JavaPairRDD<String, Chebi> chebiRDD = ChebiRDDReader.load(sparkContext, applicationConfig);
 
-        // JavaPairRDD<chebiId,chebiId> flatFileCatalyticActivityRDD --> extracted from flat file CC(CatalyticActivity) lines
+        // JavaPairRDD<chebiId,chebiId> flatFileCatalyticActivityRDD --> extracted from flat file
+        // CC(CatalyticActivity) lines
         JavaPairRDD<String, String> flatFileCatalyticActivityRDD =
                 (JavaPairRDD<String, String>)
                         flatFileRDD
@@ -143,7 +140,8 @@ public class SuggestIndexer {
                                 .values()
                                 .distinct();
 
-        // JavaPairRDD<chebiId,chebiId> flatFileCofactorRDD --> extracted from flat file CC(Cofactor) lines
+        // JavaPairRDD<chebiId,chebiId> flatFileCofactorRDD --> extracted from flat file
+        // CC(Cofactor) lines
         JavaPairRDD<String, String> flatFileCofactorRDD =
                 (JavaPairRDD<String, String>)
                         flatFileRDD
@@ -166,7 +164,8 @@ public class SuggestIndexer {
      * @param flatFileRDD JavaRDD<flatFile entry in String format>
      * @param sparkContext spark configuration
      * @param applicationConfig config
-     * @return JavaRDD of SuggestDocument with EC information mapped from UniprotKB flat file entries
+     * @return JavaRDD of SuggestDocument with EC information mapped from UniprotKB flat file
+     *     entries
      */
     private static JavaRDD<SuggestDocument> getEC(
             JavaRDD<String> flatFileRDD,
@@ -176,7 +175,9 @@ public class SuggestIndexer {
         // JavaPairRDD<ecId,ecId> flatFileEcRDD --> extracted from flat file DE(with EC) lines
         JavaPairRDD<String, String> flatFileEcRDD =
                 (JavaPairRDD<String, String>)
-                        flatFileRDD.flatMapToPair(new FlatFileToEC()).reduceByKey((ecId1, ecId2) -> ecId1);
+                        flatFileRDD
+                                .flatMapToPair(new FlatFileToEC())
+                                .reduceByKey((ecId1, ecId2) -> ecId1);
 
         // JavaPairRDD<ecId,EC entry> ecRDD --> extracted from ec files
         JavaPairRDD<String, EC> ecRDD = ECRDDReader.load(sparkContext, applicationConfig);
@@ -188,13 +189,14 @@ public class SuggestIndexer {
     /**
      * @param sparkContext spark configuration
      * @param applicationConfig config
-     * @return JavaRDD of SuggestDocument with Subcellular Location information mapped from subcell.txt file
+     * @return JavaRDD of SuggestDocument with Subcellular Location information mapped from
+     *     subcell.txt file
      */
     private static JavaRDD<SuggestDocument> getSubcell(
-            JavaSparkContext sparkContext,
-            ResourceBundle applicationConfig) {
+            JavaSparkContext sparkContext, ResourceBundle applicationConfig) {
 
-        // JavaPairRDD<subcellId,SubcellularLocationEntry> subcellularLocation --> extracted from subcell.txt
+        // JavaPairRDD<subcellId,SubcellularLocationEntry> subcellularLocation --> extracted from
+        // subcell.txt
         JavaPairRDD<String, SubcellularLocationEntry> subcellularLocation =
                 SubcellularLocationRDDReader.load(sparkContext, applicationConfig);
 
@@ -211,26 +213,22 @@ public class SuggestIndexer {
      * @return JavaRDD of SuggestDocument with Keyword information mapped from keywlist.txt file
      */
     private static JavaRDD<SuggestDocument> getKeyword(
-            JavaSparkContext sparkContext,
-            ResourceBundle applicationConfig) {
+            JavaSparkContext sparkContext, ResourceBundle applicationConfig) {
 
         // JavaPairRDD<keywordId,KeywordEntry> keyword --> extracted from keywlist.txt
         JavaPairRDD<String, KeywordEntry> keyword =
                 KeywordRDDReader.load(sparkContext, applicationConfig);
 
         return (JavaRDD<SuggestDocument>)
-                        keyword
-                        .mapValues(new KeywordToSuggestDocument())
-                        .values()
-                        .distinct();
+                keyword.mapValues(new KeywordToSuggestDocument()).values().distinct();
     }
 
     /**
      * @param flatFileRDD JavaRDD<flatFile entry in String format>
      * @param sparkContext spark configuration
      * @param applicationConfig config
-     * @return JavaRDD of SuggestDocument with Organism/Organism Host and Taxonomy
-     * information mapped from UniprotKB flat file entries
+     * @return JavaRDD of SuggestDocument with Organism/Organism Host and Taxonomy information
+     *     mapped from UniprotKB flat file entries
      */
     private static JavaRDD<SuggestDocument> getOrganism(
             JavaRDD<String> flatFileRDD,
@@ -242,10 +240,12 @@ public class SuggestIndexer {
         organismWithLineage.repartition(organismWithLineage.getNumPartitions());
 
         // ORGANISM
-        //JavaPairRDD<taxId, taxId> flatFileOrganismRDD -> extract from flat file OX line
+        // JavaPairRDD<taxId, taxId> flatFileOrganismRDD -> extract from flat file OX line
         JavaPairRDD<String, String> flatFileOrganismRDD =
                 (JavaPairRDD<String, String>)
-                        flatFileRDD.mapToPair(new FlatFileToOrganism()).reduceByKey((taxId1, taxId2) -> taxId1);
+                        flatFileRDD
+                                .mapToPair(new FlatFileToOrganism())
+                                .reduceByKey((taxId1, taxId2) -> taxId1);
 
         JavaRDD<SuggestDocument> organismSuggester =
                 (JavaRDD<SuggestDocument>)
@@ -271,7 +271,7 @@ public class SuggestIndexer {
                                 .reduceByKey(new TaxonomyHighImportanceReduce())
                                 .values();
 
-        //JavaPairRDD<taxId, taxId> flatFileOrganismHostRDD -> extract from flat file OH lines
+        // JavaPairRDD<taxId, taxId> flatFileOrganismHostRDD -> extract from flat file OH lines
         JavaPairRDD<String, String> flatFileOrganismHostRDD =
                 (JavaPairRDD<String, String>)
                         flatFileRDD
@@ -296,6 +296,7 @@ public class SuggestIndexer {
 
     /**
      * Load High Important Organism documents from a config file defined by Curators
+     *
      * @param sparkContext spark config
      * @param dictionary Suggest Dictionary
      * @return JavaPairRDD<organismId, SuggestDocument>

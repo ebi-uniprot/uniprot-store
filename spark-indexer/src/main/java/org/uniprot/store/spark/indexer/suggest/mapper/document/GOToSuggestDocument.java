@@ -13,6 +13,7 @@ import scala.Tuple2;
 
 /**
  * This class converts a GOTerm and its ancestors to a Iterable of SuggestDocument
+ *
  * @author lgonzales
  * @since 2020-01-20
  */

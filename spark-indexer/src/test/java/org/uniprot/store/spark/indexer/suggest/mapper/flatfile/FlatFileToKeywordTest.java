@@ -2,12 +2,13 @@ package org.uniprot.store.spark.indexer.suggest.mapper.flatfile;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import org.junit.jupiter.api.Test;
-import scala.Tuple2;
-
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+
+import org.junit.jupiter.api.Test;
+
+import scala.Tuple2;
 
 /**
  * @author lgonzales
@@ -19,11 +20,12 @@ class FlatFileToKeywordTest {
     void testFlatFileTokeywordWithkeyword() throws Exception {
         FlatFileToKeyword mapper = new FlatFileToKeyword();
 
-        String input = "AC   Q9BRS2; B2RB28; Q8NDC8; Q96NV9;\n" +
-                "KW   3D-structure; ATP-binding; Cytoplasm; Direct protein sequencing; Hydrolase;\n" +
-                "KW   Kinase; Magnesium; Metal-binding; Nucleotide-binding; Phosphoprotein;\n" +
-                "KW   Polymorphism; Reference proteome; Ribosome biogenesis;\n" +
-                "KW   Serine/threonine-protein kinase; Transferase.";
+        String input =
+                "AC   Q9BRS2; B2RB28; Q8NDC8; Q96NV9;\n"
+                        + "KW   3D-structure; ATP-binding; Cytoplasm; Direct protein sequencing; Hydrolase;\n"
+                        + "KW   Kinase; Magnesium; Metal-binding; Nucleotide-binding; Phosphoprotein;\n"
+                        + "KW   Polymorphism; Reference proteome; Ribosome biogenesis;\n"
+                        + "KW   Serine/threonine-protein kinase; Transferase.";
         Iterator<Tuple2<String, String>> results = mapper.call(input);
         assertNotNull(results);
         List<Tuple2<String, String>> resultList = new ArrayList<>();
@@ -50,5 +52,4 @@ class FlatFileToKeywordTest {
         assertNotNull(results);
         assertFalse(results.hasNext());
     }
-
 }

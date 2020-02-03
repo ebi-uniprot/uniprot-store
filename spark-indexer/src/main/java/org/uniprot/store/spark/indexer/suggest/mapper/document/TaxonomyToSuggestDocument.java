@@ -15,6 +15,7 @@ import scala.Tuple2;
 
 /**
  * This class converts an Organism and its Lineage to an Iterator of SuggestDocument
+ *
  * @author lgonzales
  * @since 2020-01-20
  */

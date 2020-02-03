@@ -198,7 +198,7 @@ class UniProtEntryCommentsConverter implements Serializable {
             case ERRONEOUS_INITIATION:
                 document.seqCautionErInit.add(val);
                 break;
-            case ERRONEOUS_TERMIINATION:
+            case ERRONEOUS_TERMINATION:
                 document.seqCautionErTerm.add(val);
                 break;
             case ERRONEOUS_PREDICTION:

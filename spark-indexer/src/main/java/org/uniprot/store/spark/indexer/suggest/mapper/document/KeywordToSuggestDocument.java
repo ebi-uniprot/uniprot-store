@@ -1,19 +1,13 @@
 package org.uniprot.store.spark.indexer.suggest.mapper.document;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.apache.spark.api.java.function.Function;
-import org.uniprot.core.cv.keyword.Keyword;
 import org.uniprot.core.cv.keyword.KeywordEntry;
-import org.uniprot.core.util.Utils;
 import org.uniprot.store.search.document.suggest.SuggestDictionary;
 import org.uniprot.store.search.document.suggest.SuggestDocument;
 
-import scala.Tuple2;
-
 /**
  * This class converts a Keyword entry to a SuggestDocument
+ *
  * @author lgonzales
  * @since 2020-01-16
  */
@@ -23,9 +17,9 @@ public class KeywordToSuggestDocument implements Function<KeywordEntry, SuggestD
     @Override
     public SuggestDocument call(KeywordEntry keyword) throws Exception {
         return SuggestDocument.builder()
-                        .id(keyword.getKeyword().getAccession())
-                        .value(keyword.getKeyword().getId())
-                        .dictionary(SuggestDictionary.KEYWORD.name())
-                        .build();
+                .id(keyword.getKeyword().getAccession())
+                .value(keyword.getKeyword().getId())
+                .dictionary(SuggestDictionary.KEYWORD.name())
+                .build();
     }
 }

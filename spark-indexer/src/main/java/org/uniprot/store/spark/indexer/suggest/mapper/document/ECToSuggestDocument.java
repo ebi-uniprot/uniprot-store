@@ -9,6 +9,7 @@ import scala.Tuple2;
 
 /**
  * This class converts a EC entry to a SuggestDocument
+ *
  * @author lgonzales
  * @since 2020-01-17
  */

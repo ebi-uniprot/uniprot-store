@@ -40,5 +40,4 @@ class ChebiToSuggestDocumentTest {
         SuggestDocument result = chebiToSuggestDocument.call(tuple);
         assertNotNull(result);
     }
-
 }

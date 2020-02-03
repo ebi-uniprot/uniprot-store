@@ -68,12 +68,14 @@ public class TaxonomyJoinMapper implements PairFlatMapFunction<String, String, S
             final UniprotLineParser<OhLineObject> ohParser =
                     new DefaultUniprotLineParserFactory().createOhLineParser();
             OhLineObject ohLineObject = ohParser.parse(ohLine + "\n");
-            ohLineObject.hosts.forEach(
-                    ohValue -> {
-                        organismTuple.add(
-                                new Tuple2<String, String>(
-                                        String.valueOf(ohValue.tax_id), accession));
-                    });
+            ohLineObject
+                    .getHosts()
+                    .forEach(
+                            ohValue -> {
+                                organismTuple.add(
+                                        new Tuple2<String, String>(
+                                                String.valueOf(ohValue.getTax_id()), accession));
+                            });
         }
         return (Iterator<Tuple2<String, String>>) organismTuple.iterator();
     }

@@ -18,8 +18,9 @@ import org.uniprot.store.spark.indexer.uniprot.converter.UniProtEntryProteinDesc
 import scala.Tuple2;
 
 /**
- * This class map from flatFile entry string to an Iterator of ECs
- * found in protein description lines
+ * This class map from flatFile entry string to an Iterator of ECs found in protein description
+ * lines
+ *
  * @author lgonzales
  * @since 2020-01-17
  */

@@ -2,12 +2,13 @@ package org.uniprot.store.spark.indexer.suggest.mapper.flatfile;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import org.junit.jupiter.api.Test;
-import scala.Tuple2;
-
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+
+import org.junit.jupiter.api.Test;
+
+import scala.Tuple2;
 
 /**
  * @author lgonzales
@@ -29,10 +30,11 @@ class FlatFileToCofactorChebiTest {
     void testFlatFileToCofactorChebiWithChebi() throws Exception {
         FlatFileToCofactorChebi mapper = new FlatFileToCofactorChebi();
 
-        String input = "AC   B8HUM7;\n" +
-                "CC   -!- COFACTOR:\n" +
-                "CC       Name=Mg(2+); Xref=ChEBI:CHEBI:18420;\n" +
-                "CC         Evidence={ECO:0000255|HAMAP-Rule:MF_00451};";
+        String input =
+                "AC   B8HUM7;\n"
+                        + "CC   -!- COFACTOR:\n"
+                        + "CC       Name=Mg(2+); Xref=ChEBI:CHEBI:18420;\n"
+                        + "CC         Evidence={ECO:0000255|HAMAP-Rule:MF_00451};";
         Iterator<Tuple2<String, String>> results = mapper.call(input);
         assertNotNull(results);
         List<Tuple2<String, String>> resultList = new ArrayList<>();
@@ -43,5 +45,4 @@ class FlatFileToCofactorChebiTest {
         assertEquals("18420", result._1);
         assertEquals("CHEBI:18420", result._2);
     }
-
 }

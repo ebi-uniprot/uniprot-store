@@ -1,11 +1,12 @@
 package org.uniprot.store.spark.indexer.ec;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 import org.junit.jupiter.api.Test;
 import org.uniprot.core.cv.ec.EC;
 import org.uniprot.core.cv.ec.impl.ECImpl;
-import scala.Tuple2;
 
-import static org.junit.jupiter.api.Assertions.*;
+import scala.Tuple2;
 
 /**
  * @author lgonzales

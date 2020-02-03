@@ -9,9 +9,9 @@ import org.uniprot.core.util.Utils;
 import org.uniprot.store.search.document.suggest.SuggestDocument;
 
 /**
- * This class merge two SuggestDocuments into one.
- * During the merge we choose the one with highest importance
- * and also merge all the alternatives names.
+ * This class merge two SuggestDocuments into one. During the merge we choose the one with highest
+ * importance and also merge all the alternatives names.
+ *
  * @author lgonzales
  * @since 2020-01-21
  */

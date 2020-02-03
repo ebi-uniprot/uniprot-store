@@ -5,10 +5,9 @@ import org.uniprot.core.cv.subcell.SubcellularLocationEntry;
 import org.uniprot.store.search.document.suggest.SuggestDictionary;
 import org.uniprot.store.search.document.suggest.SuggestDocument;
 
-import scala.Tuple2;
-
 /**
  * This class converts a SubcellularLocation entry to a SuggestDocument
+ *
  * @author lgonzales
  * @since 2020-01-16
  */

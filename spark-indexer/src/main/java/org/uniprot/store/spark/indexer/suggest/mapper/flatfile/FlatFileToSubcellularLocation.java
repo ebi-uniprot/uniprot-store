@@ -15,6 +15,7 @@ import scala.Tuple2;
 /**
  * This class map from flatFile entry string to an Iterator of Tuples of Subcellular Location Ids
  * found in Subcellular Location Comments lines
+ *
  * @author lgonzales
  * @since 2020-01-16
  */

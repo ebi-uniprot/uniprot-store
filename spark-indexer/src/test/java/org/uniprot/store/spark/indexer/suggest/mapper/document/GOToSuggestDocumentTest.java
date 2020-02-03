@@ -2,16 +2,17 @@ package org.uniprot.store.spark.indexer.suggest.mapper.document;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import org.junit.jupiter.api.Test;
-import org.uniprot.store.search.document.suggest.SuggestDocument;
-import org.uniprot.store.spark.indexer.go.relations.GOTerm;
-import org.uniprot.store.spark.indexer.go.relations.GOTermImpl;
-import scala.Tuple2;
-
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
+import org.junit.jupiter.api.Test;
+import org.uniprot.store.search.document.suggest.SuggestDocument;
+import org.uniprot.store.spark.indexer.go.relations.GOTerm;
+import org.uniprot.store.spark.indexer.go.relations.GOTermImpl;
+
+import scala.Tuple2;
 
 /**
  * @author lgonzales
@@ -24,7 +25,7 @@ class GOToSuggestDocumentTest {
         GOTerm term = new GOTermImpl("goId", "goName");
 
         GOToSuggestDocument mapper = new GOToSuggestDocument();
-        Iterable<SuggestDocument> results = mapper.call(new Tuple2<>(term,"goIdId"));
+        Iterable<SuggestDocument> results = mapper.call(new Tuple2<>(term, "goIdId"));
 
         assertNotNull(results);
         List<SuggestDocument> resultList = new ArrayList<>();
@@ -39,7 +40,6 @@ class GOToSuggestDocumentTest {
         assertEquals("medium", result.importance);
     }
 
-
     @Test
     void testGOToSuggestDocumentWithAncestors() throws Exception {
         Set<GOTerm> ancestors = new HashSet<>();
@@ -48,7 +48,7 @@ class GOToSuggestDocumentTest {
         GOTerm term = new GOTermImpl("goId", "goName", ancestors);
 
         GOToSuggestDocument mapper = new GOToSuggestDocument();
-        Iterable<SuggestDocument> results = mapper.call(new Tuple2<>(term,"goIdId"));
+        Iterable<SuggestDocument> results = mapper.call(new Tuple2<>(term, "goIdId"));
 
         assertNotNull(results);
         List<SuggestDocument> resultList = new ArrayList<>();

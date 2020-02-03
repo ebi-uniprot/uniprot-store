@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.uniprot.core.cv.ec.EC;
 import org.uniprot.core.cv.ec.impl.ECImpl;
 import org.uniprot.store.search.document.suggest.SuggestDocument;
+
 import scala.Tuple2;
 
 /**
@@ -18,7 +19,7 @@ class ECToSuggestDocumentTest {
     void testECToSuggestDocument() throws Exception {
         ECToSuggestDocument mapper = new ECToSuggestDocument();
         EC ec = new ECImpl("ecId", "ecLabel");
-        SuggestDocument result = mapper.call(new Tuple2<>("ecId",ec));
+        SuggestDocument result = mapper.call(new Tuple2<>("ecId", ec));
 
         assertNotNull(result);
 
@@ -28,5 +29,4 @@ class ECToSuggestDocumentTest {
         assertTrue(result.altValues.isEmpty());
         assertEquals("medium", result.importance);
     }
-
 }

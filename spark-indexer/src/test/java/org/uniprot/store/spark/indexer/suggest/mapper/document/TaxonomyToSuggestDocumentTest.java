@@ -2,16 +2,17 @@ package org.uniprot.store.spark.indexer.suggest.mapper.document;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import org.junit.jupiter.api.Test;
-import org.uniprot.core.taxonomy.TaxonomyLineage;
-import org.uniprot.core.taxonomy.builder.TaxonomyLineageBuilder;
-import org.uniprot.store.search.document.suggest.SuggestDocument;
-import scala.Tuple2;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+
+import org.junit.jupiter.api.Test;
+import org.uniprot.core.taxonomy.TaxonomyLineage;
+import org.uniprot.core.taxonomy.builder.TaxonomyLineageBuilder;
+import org.uniprot.store.search.document.suggest.SuggestDocument;
+
+import scala.Tuple2;
 
 /**
  * @author lgonzales
@@ -21,12 +22,11 @@ class TaxonomyToSuggestDocumentTest {
 
     @Test
     void testOrganismToSuggestDocumentSingleOrganism() throws Exception {
-        TaxonomyLineage organism = new TaxonomyLineageBuilder()
-                .taxonId(1111)
-                .scientificName("value")
-                .build();
+        TaxonomyLineage organism =
+                new TaxonomyLineageBuilder().taxonId(1111).scientificName("value").build();
         TaxonomyToSuggestDocument mapper = new TaxonomyToSuggestDocument();
-        Tuple2<String, Tuple2<String, List<TaxonomyLineage>>> tuple = new Tuple2<>("1111", new Tuple2<>("1111", Collections.singletonList(organism)));
+        Tuple2<String, Tuple2<String, List<TaxonomyLineage>>> tuple =
+                new Tuple2<>("1111", new Tuple2<>("1111", Collections.singletonList(organism)));
         Iterator<Tuple2<String, SuggestDocument>> results = mapper.call(tuple);
         assertNotNull(results);
         List<Tuple2<String, SuggestDocument>> resultList = new ArrayList<>();
@@ -45,21 +45,21 @@ class TaxonomyToSuggestDocumentTest {
     @Test
     void testOrganismToSuggestDocumentMultiplesOrganism() throws Exception {
         List<TaxonomyLineage> input = new ArrayList<>();
-        TaxonomyLineage organism = new TaxonomyLineageBuilder()
-                .taxonId(1111)
-                .scientificName("value")
-                .build();
+        TaxonomyLineage organism =
+                new TaxonomyLineageBuilder().taxonId(1111).scientificName("value").build();
         input.add(organism);
 
-        TaxonomyLineage organism2 = new TaxonomyLineageBuilder()
-                .taxonId(2222)
-                .scientificName("value2")
-                .commonName("altValue2")
-                .build();
+        TaxonomyLineage organism2 =
+                new TaxonomyLineageBuilder()
+                        .taxonId(2222)
+                        .scientificName("value2")
+                        .commonName("altValue2")
+                        .build();
         input.add(organism2);
 
         TaxonomyToSuggestDocument mapper = new TaxonomyToSuggestDocument();
-        Tuple2<String, Tuple2<String, List<TaxonomyLineage>>> tuple = new Tuple2<>("1111", new Tuple2<>("1111", input));
+        Tuple2<String, Tuple2<String, List<TaxonomyLineage>>> tuple =
+                new Tuple2<>("1111", new Tuple2<>("1111", input));
         Iterator<Tuple2<String, SuggestDocument>> results = mapper.call(tuple);
         assertNotNull(results);
         List<Tuple2<String, SuggestDocument>> resultList = new ArrayList<>();
