@@ -1,37 +1,37 @@
 # This is a comment and should be ignored
-Homo sapiens	9606	Man	highest
-Human immunodeficiency virus 1	11676	AIDS virus,HIV	high
-Caenorhabditis elegans	6239	Roundworm,C. elegans	high
-Caenorhabditis briggsae	6238	C. briggsae	high
-Drosophila melanogaster	7227	Fruit fly,D. melanogaster	high
-Danio rerio	7955	Zebrafish,D. rerio,Brachydanio rerio	high
-Xenopus laevis	8355	African clawed frog,Clawed frog,X. laevis	high
-Xenopus tropicalis	8364	Western clawed frog,Tropical clawed frog,X. tropicalis,Xenopus laevis tropicalis,Silurana tropicalis	high
-Mus musculus	10090	Mouse,Laboratory mouse,House mouse	high
-Rattus norvegicus	10116	Rat,Brown rat,Laboratory rat,Norway rat,Buffalo rat,R. norvegicus	high
-Saccharomyces cerevisiae	4932	Baker’s yeast,Brewer’s yeast,S. cerevisiae	high
-Schizosaccharomyces pombe	4896	Fission yeast,S. pombe	high
-Candida albicans	5476	Yeast,C. albicans	high
-Arabidopsis thaliana	3702	Mouse-ear cress,Thale cress,Arabidopsis,A. Thaliana	high
-Oryza sativa	39947	Rice,Japanese rice,Japonica rice,O. sativa	high
-Escherichia coli	83333	E. coli	high
-Bacillus subtilis	224308	B. subtilis	high
-Staphylococcus aureus	1280	Staph. aureus,S. aureus	high
-Bos taurus	9913	Cow,Dairy cow,Cattle,Domestic cow,B. taurus	high
-Pan troglodytes	9598	Chimpanzee,Chimp,P. troglodytes	high
-Echinus esculentus	7648	Sea urchin,E. esculentus	high
+9606	Man	highest
+11676	AIDS virus,HIV	high
+6239	Roundworm,C. elegans	high
+6238	C. briggsae	high
+7227	Fruit fly,D. melanogaster	high
+7955	Zebrafish,D. rerio,Brachydanio rerio	high
+8355	African clawed frog,Clawed frog,X. laevis	high
+8364	Western clawed frog,Tropical clawed frog,X. tropicalis,Xenopus laevis tropicalis,Silurana tropicalis	high
+10090	Mouse,Laboratory mouse,House mouse	high
+10116	Rat,Brown rat,Laboratory rat,Norway rat,Buffalo rat,R. norvegicus	high
+4932	Baker’s yeast,Brewer’s yeast,S. cerevisiae	high
+4896	Fission yeast,S. pombe	high
+5476	Yeast,C. albicans	high
+3702	Mouse-ear cress,Thale cress,Arabidopsis,A. Thaliana	high
+39947	Rice,Japanese rice,Japonica rice,O. sativa	high
+83333	E. coli	high
+224308	B. subtilis	high
+1280	Staph. aureus,S. aureus	high
+9913	Cow,Dairy cow,Cattle,Domestic cow,B. taurus	high
+9598	Chimpanzee,Chimp,P. troglodytes	high
+7648	Sea urchin,E. esculentus	high
 # This is a comment and should be ignored
-Gorilla gorilla gorilla	9595	Gorilla,Western lowland gorilla,G. gorilla	high
-Gallus gallus	9031	Chicken,G. gallus,Gallus domesticus	high
-Canis lupus familiaris	9615	Dog,Domestic dog,Beagle dog,Canis familiaris	high
-Felis catus	9695	Cat,Domestic cat,Feline,F. catus	high
-Mesocricetus auratus	10036	Hamster,Golden hamster,Syrian hamster,M. auratus	high
-Cricetulus longicaudatus	10030	Hamster,Chinese hamster,Long-tailed dwarf hamster,C. longicaudatus	high
-Equus asinus	9793	Donkey,Ass,African donkey,African ass,E. asinus	high
-Oryctolagus cuniculus	9989	Rabbit,Domestic rabbit,European rabbit,O. cuniculus	high
-Sus scrofa	9823	Pig,Swine,Wild boar,S. scrofa	high
-Ovis aries	9940	Sheep,Lamb,O. aries	high
-Ambystoma mexicanum	8296	Axolotl,A. mexicanum	high
-Heterocephalus glaber	10181	Naked mole rat,H. glaber	high
-Macaca mulatta	9544	Rhesus monkey,Rhesus macaque,M. mulatta	high
-Dictyostelium discoideum	44689	Slime mold,D. discoideum	high
+9595	Gorilla,Western lowland gorilla,G. gorilla	high
+9031	Chicken,G. gallus,Gallus domesticus	high
+9615	Dog,Domestic dog,Beagle dog,Canis familiaris	high
+9695	Cat,Domestic cat,Feline,F. catus	high
+10036	Hamster,Golden hamster,Syrian hamster,M. auratus	high
+10030	Hamster,Chinese hamster,Long-tailed dwarf hamster,C. longicaudatus	high
+9793	Donkey,Ass,African donkey,African ass,E. asinus	high
+9989	Rabbit,Domestic rabbit,European rabbit,O. cuniculus	high
+9823	Pig,Swine,Wild boar,S. scrofa	high
+9940	Sheep,Lamb,O. aries	high
+8296	Axolotl,A. mexicanum	high
+10181	Naked mole rat,H. glaber	high
+9544	Rhesus monkey,Rhesus macaque,M. mulatta	high
+44689	Slime mold,D. discoideum	high

@@ -700,6 +700,8 @@
 		stored="false" required="false" multiValued="true" />
 	<field name="lit_journal" type="basic_ci" indexed="true"
 		stored="false" required="false" multiValued="true" />
+	<field name="mapped_citation" type="string" indexed="true"
+		stored="false" required="false" multiValued="true" />
 
 	<field name="tissue" type="basic_ci" indexed="true"
 		stored="false" required="false" multiValued="true" />
@@ -715,7 +717,6 @@
 		stored="false" required="false" multiValued="true" />
 	<field name="proteome" type="lowercase" indexed="true"
 		stored="false" required="false" multiValued="true" />
-
 
 	<!-- Feature types -->
 	<dynamicField name="ft_*" type="full_ci" indexed="true"
@@ -858,11 +859,16 @@
 
 	<!-- UniRef clusters -->
 	<field name="uniref_cluster_50" type="string" indexed="true"
-		stored="false" required="false" multiValued="false" docValues="true" />
+		stored="false" required="false" multiValued="false" />
 	<field name="uniref_cluster_90" type="string" indexed="true"
-		stored="false" required="false" multiValued="false" docValues="true" />
+		stored="false" required="false" multiValued="false" />
 	<field name="uniref_cluster_100" type="string" indexed="true"
-		stored="false" required="false" multiValued="false" docValues="true" />
+		stored="false" required="false" multiValued="false" />
+
+	<!-- UniParc -->
+	<field name="uniparc" type="string" indexed="true" stored="false"
+		required="false" multiValued="false" />
+
 
 	<field name="text" type="text_general" indexed="true"
 		stored="false" multiValued="true" />

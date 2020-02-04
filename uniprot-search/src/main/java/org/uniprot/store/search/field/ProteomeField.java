@@ -6,9 +6,6 @@ public interface ProteomeField {
         proteome_stored;
     }
 
-    // boost organism_name^2.0
-    // boost organism_id^2.0
-
     enum ResultFields implements ReturnField {
         id,
         description,

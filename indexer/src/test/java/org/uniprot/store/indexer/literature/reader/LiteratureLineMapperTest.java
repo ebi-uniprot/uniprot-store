@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
+import org.uniprot.core.citation.Literature;
 import org.uniprot.core.citation.impl.AuthorImpl;
 import org.uniprot.core.literature.LiteratureEntry;
 
@@ -34,53 +35,55 @@ class LiteratureLineMapperTest {
 
         LiteratureLineMapper mapper = new LiteratureLineMapper();
         LiteratureEntry entry = mapper.mapLine(entryText, 10);
+        assertTrue(entry.hasCitation());
+        Literature literature = (Literature) entry.getCitation();
 
-        assertTrue(entry.hasPubmedId());
-        assertEquals(entry.getPubmedId(), 1L);
+        assertTrue(literature.hasPubmedId());
+        assertEquals(literature.getPubmedId(), 1L);
 
-        assertTrue(entry.hasDoiId());
-        assertEquals(entry.getDoiId(), "10.1016/0006-2944(75)90147-7");
+        assertTrue(literature.hasDoiId());
+        assertEquals(literature.getDoiId(), "10.1016/0006-2944(75)90147-7");
 
-        assertTrue(entry.hasAuthoringGroup());
+        assertTrue(literature.hasAuthoringGroup());
         MatcherAssert.assertThat(
-                entry.getAuthoringGroups(),
+                literature.getAuthoringGroups(),
                 Matchers.contains(
                         "DIAbetes Genetics Replication And Meta-analysis (DIAGRAM) Consortium"));
 
-        assertTrue(entry.hasAuthors());
+        assertTrue(literature.hasAuthors());
         MatcherAssert.assertThat(
-                entry.getAuthors(),
+                literature.getAuthors(),
                 Matchers.contains(new AuthorImpl("Makar A.B."), new AuthorImpl("McMartin K.E.")));
 
-        assertTrue(entry.hasFirstPage());
-        assertEquals(entry.getFirstPage(), "117");
+        assertTrue(literature.hasFirstPage());
+        assertEquals(literature.getFirstPage(), "117");
 
-        assertTrue(entry.hasJournal());
-        assertEquals(entry.getJournal().getName(), "Biochem Med");
+        assertTrue(literature.hasJournal());
+        assertEquals(literature.getJournal().getName(), "Biochem Med");
 
-        assertTrue(entry.hasLastPage());
-        assertEquals(entry.getLastPage(), "126");
+        assertTrue(literature.hasLastPage());
+        assertEquals(literature.getLastPage(), "126");
 
-        assertTrue(entry.hasLiteratureAbstract());
+        assertTrue(literature.hasLiteratureAbstract());
         assertEquals(
-                entry.getLiteratureAbstract(),
+                literature.getLiteratureAbstract(),
                 "Above pH 8.5, pepsinogen is converted into a form which"
                         + " cannot be activated to pepsin on exposure to low pH. Intermediate exposure to neutral pH, "
                         + "however, returns the protein to a form which can be activated.");
 
-        assertTrue(entry.hasPublicationDate());
-        assertEquals(entry.getPublicationDate().getValue(), "1975");
+        assertTrue(literature.hasPublicationDate());
+        assertEquals(literature.getPublicationDate().getValue(), "1975");
 
-        assertTrue(entry.hasTitle());
+        assertTrue(literature.hasTitle());
         assertEquals(
-                entry.getTitle(),
+                literature.getTitle(),
                 "Formate assay in body fluids: application in methanol poisoning.");
 
-        assertTrue(entry.hasVolume());
-        assertEquals(entry.getVolume(), "13");
+        assertTrue(literature.hasVolume());
+        assertEquals(literature.getVolume(), "13");
 
         assertFalse(entry.hasStatistics());
-        assertFalse(entry.isCompleteAuthorList());
+        assertFalse(literature.isCompleteAuthorList());
     }
 
     @Test
@@ -97,33 +100,36 @@ class LiteratureLineMapperTest {
         LiteratureLineMapper mapper = new LiteratureLineMapper();
         LiteratureEntry entry = mapper.mapLine(entryText, 10);
 
-        assertTrue(entry.hasPubmedId());
-        assertEquals(entry.getPubmedId(), 1L);
+        assertTrue(entry.hasCitation());
+        Literature literature = (Literature) entry.getCitation();
 
-        assertTrue(entry.hasAuthors());
+        assertTrue(literature.hasPubmedId());
+        assertEquals(literature.getPubmedId(), 1L);
+
+        assertTrue(literature.hasAuthors());
         MatcherAssert.assertThat(
-                entry.getAuthors(), Matchers.contains(new AuthorImpl("Makar A.B.")));
+                literature.getAuthors(), Matchers.contains(new AuthorImpl("Makar A.B.")));
 
-        assertTrue(entry.hasFirstPage());
-        assertEquals(entry.getFirstPage(), "117");
+        assertTrue(literature.hasFirstPage());
+        assertEquals(literature.getFirstPage(), "117");
 
-        assertTrue(entry.hasLastPage());
-        assertEquals(entry.getLastPage(), "117");
+        assertTrue(literature.hasLastPage());
+        assertEquals(literature.getLastPage(), "117");
 
-        assertTrue(entry.hasJournal());
-        assertEquals(entry.getJournal().getName(), "Biochem Med");
+        assertTrue(literature.hasJournal());
+        assertEquals(literature.getJournal().getName(), "Biochem Med");
 
-        assertTrue(entry.hasVolume());
-        assertEquals(entry.getVolume(), "13");
+        assertTrue(literature.hasVolume());
+        assertEquals(literature.getVolume(), "13");
 
-        assertTrue(entry.hasPublicationDate());
-        assertEquals(entry.getPublicationDate().getValue(), "1975");
+        assertTrue(literature.hasPublicationDate());
+        assertEquals(literature.getPublicationDate().getValue(), "1975");
 
-        assertFalse(entry.hasTitle());
-        assertFalse(entry.hasDoiId());
-        assertFalse(entry.hasAuthoringGroup());
-        assertFalse(entry.hasLiteratureAbstract());
+        assertFalse(literature.hasTitle());
+        assertFalse(literature.hasDoiId());
+        assertFalse(literature.hasAuthoringGroup());
+        assertFalse(literature.hasLiteratureAbstract());
         assertFalse(entry.hasStatistics());
-        assertTrue(entry.isCompleteAuthorList());
+        assertTrue(literature.isCompleteAuthorList());
     }
 }

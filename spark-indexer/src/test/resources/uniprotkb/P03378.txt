@@ -1,0 +1,414 @@
+ID   ENV_HV1A2               Reviewed;         855 AA.
+AC   P03378;
+DT   21-JUL-1986, integrated into UniProtKB/Swiss-Prot.
+DT   21-JUL-1986, sequence version 1.
+DT   13-NOV-2019, entry version 139.
+DE   RecName: Full=Envelope glycoprotein gp160 {ECO:0000255|HAMAP-Rule:MF_04083};
+DE   AltName: Full=Env polyprotein {ECO:0000255|HAMAP-Rule:MF_04083};
+DE   Contains:
+DE     RecName: Full=Surface protein gp120 {ECO:0000255|HAMAP-Rule:MF_04083};
+DE              Short=SU {ECO:0000255|HAMAP-Rule:MF_04083};
+DE     AltName: Full=Glycoprotein 120 {ECO:0000255|HAMAP-Rule:MF_04083};
+DE              Short=gp120 {ECO:0000255|HAMAP-Rule:MF_04083};
+DE   Contains:
+DE     RecName: Full=Transmembrane protein gp41 {ECO:0000255|HAMAP-Rule:MF_04083};
+DE              Short=TM {ECO:0000255|HAMAP-Rule:MF_04083};
+DE     AltName: Full=Glycoprotein 41 {ECO:0000255|HAMAP-Rule:MF_04083};
+DE              Short=gp41 {ECO:0000255|HAMAP-Rule:MF_04083};
+DE   Flags: Precursor;
+GN   Name=env {ECO:0000255|HAMAP-Rule:MF_04083};
+OS   Human immunodeficiency virus type 1 group M subtype B (isolate
+OS   ARV2/SF2) (HIV-1).
+OC   Viruses; Ortervirales; Retroviridae; Orthoretrovirinae; Lentivirus.
+OX   NCBI_TaxID=11685;
+OH   NCBI_TaxID=9606; Homo sapiens (Human).
+RN   [1]
+RP   NUCLEOTIDE SEQUENCE [GENOMIC RNA].
+RX   PubMed=2578227; DOI=10.1126/science.2578227;
+RA   Sanchez-Pescador R., Power M.D., Barr P.J., Steimer K.S.,
+RA   Stempien M.M., Brown-Shimer S.L., Gee W.W., Renard A., Randolph A.,
+RA   Levy J.A., Dina D., Luciw P.A.;
+RT   "Nucleotide sequence and expression of an AIDS-associated retrovirus
+RT   (ARV-2).";
+RL   Science 227:484-492(1985).
+RN   [2]
+RP   REVIEW.
+RX   PubMed=12974773; DOI=10.1034/j.1600-0463.2003.11107803.x;
+RA   Geijtenbeek T.B., van Kooyk Y.;
+RT   "Pathogens target DC-SIGN to influence their fate DC-SIGN functions as
+RT   a pathogen receptor with broad specificity.";
+RL   APMIS 111:698-714(2003).
+RN   [3]
+RP   REVIEW.
+RX   PubMed=12873764; DOI=10.1016/s0005-2736(03)00161-5;
+RA   Gallo S.A., Finnegan C.M., Viard M., Raviv Y., Dimitrov A.,
+RA   Rawat S.S., Puri A., Durell S., Blumenthal R.;
+RT   "The HIV Env-mediated fusion reaction.";
+RL   Biochim. Biophys. Acta 1614:36-50(2003).
+RN   [4]
+RP   REVIEW.
+RX   PubMed=15719026; DOI=10.1038/sj.cdd.4401584;
+RA   Perfettini J.-L., Castedo M., Roumier T., Andreau K., Nardacci R.,
+RA   Piacentini M., Kroemer G.;
+RT   "Mechanisms of apoptosis induction by the HIV-1 envelope.";
+RL   Cell Death Differ. 12:916-923(2005).
+RN   [5]
+RP   REVIEW.
+RX   PubMed=15725757; DOI=10.1089/aid.2005.21.171;
+RA   Hartley O., Klasse P.J., Sattentau Q.J., Moore J.P.;
+RT   "V3: HIV's switch-hitter.";
+RL   AIDS Res. Hum. Retroviruses 21:171-189(2005).
+RN   [6]
+RP   REVIEW.
+RX   PubMed=16114975; DOI=10.2165/00003495-200565130-00002;
+RA   Reeves J.D., Piefer A.J.;
+RT   "Emerging drug targets for antiretroviral therapy.";
+RL   Drugs 65:1747-1766(2005).
+RN   [7]
+RP   REVIEW.
+RX   PubMed=16437164; DOI=10.1038/sj.emboj.7600947;
+RA   Lusso P.;
+RT   "HIV and the chemokine system: 10 years later.";
+RL   EMBO J. 25:447-456(2006).
+CC   -!- FUNCTION: Envelope glycoprotein gp160: Oligomerizes in the host
+CC       endoplasmic reticulum into predominantly trimers. In a second
+CC       time, gp160 transits in the host Golgi, where glycosylation is
+CC       completed. The precursor is then proteolytically cleaved in the
+CC       trans-Golgi and thereby activated by cellular furin or furin-like
+CC       proteases to produce gp120 and gp41. {ECO:0000255|HAMAP-
+CC       Rule:MF_04083}.
+CC   -!- FUNCTION: Surface protein gp120: Attaches the virus to the host
+CC       lymphoid cell by binding to the primary receptor CD4. This
+CC       interaction induces a structural rearrangement creating a high
+CC       affinity binding site for a chemokine coreceptor like CXCR4 and/or
+CC       CCR5. Acts as a ligand for CD209/DC-SIGN and CLEC4M/DC-SIGNR,
+CC       which are respectively found on dendritic cells (DCs), and on
+CC       endothelial cells of liver sinusoids and lymph node sinuses. These
+CC       interactions allow capture of viral particles at mucosal surfaces
+CC       by these cells and subsequent transmission to permissive cells.
+CC       HIV subverts the migration properties of dendritic cells to gain
+CC       access to CD4+ T-cells in lymph nodes. Virus transmission to
+CC       permissive T-cells occurs either in trans (without DCs infection,
+CC       through viral capture and transmission), or in cis (following DCs
+CC       productive infection, through the usual CD4-gp120 interaction),
+CC       thereby inducing a robust infection. In trans infection, bound
+CC       virions remain infectious over days and it is proposed that they
+CC       are not degraded, but protected in non-lysosomal acidic organelles
+CC       within the DCs close to the cell membrane thus contributing to the
+CC       viral infectious potential during DCs' migration from the
+CC       periphery to the lymphoid tissues. On arrival at lymphoid tissues,
+CC       intact virions recycle back to DCs' cell surface allowing virus
+CC       transmission to CD4+ T-cells. {ECO:0000255|HAMAP-Rule:MF_04083}.
+CC   -!- FUNCTION: Transmembrane protein gp41: Acts as a class I viral
+CC       fusion protein. Under the current model, the protein has at least
+CC       3 conformational states: pre-fusion native state, pre-hairpin
+CC       intermediate state, and post-fusion hairpin state. During fusion
+CC       of viral and target intracellular membranes, the coiled coil
+CC       regions (heptad repeats) assume a trimer-of-hairpins structure,
+CC       positioning the fusion peptide in close proximity to the C-
+CC       terminal region of the ectodomain. The formation of this structure
+CC       appears to drive apposition and subsequent fusion of viral and
+CC       target cell membranes. Complete fusion occurs in host cell
+CC       endosomes and is dynamin-dependent, however some lipid transfer
+CC       might occur at the plasma membrane. The virus undergoes clathrin-
+CC       dependent internalization long before endosomal fusion, thus
+CC       minimizing the surface exposure of conserved viral epitopes during
+CC       fusion and reducing the efficacy of inhibitors targeting these
+CC       epitopes. Membranes fusion leads to delivery of the nucleocapsid
+CC       into the cytoplasm. {ECO:0000255|HAMAP-Rule:MF_04083}.
+CC   -!- SUBUNIT: The mature envelope protein (Env) consists of a
+CC       homotrimer of non-covalently associated gp120-gp41 heterodimers.
+CC       The resulting complex protrudes from the virus surface as a spike.
+CC       There seems to be as few as 10 spikes on the average virion.
+CC       Surface protein gp120 interacts with host CD4, CCR5 and CXCR4.
+CC       Gp120 also interacts with the C-type lectins CD209/DC-SIGN and
+CC       CLEC4M/DC-SIGNR (collectively referred to as DC-SIGN(R)). Gp120
+CC       and gp41 interact with GalCer. Gp120 interacts with host
+CC       ITGA4/ITGB7 complex; on CD4+ T-cells, this interaction results in
+CC       rapid activation of integrin ITGAL/LFA-1, which facilitates
+CC       efficient cell-to-cell spreading of HIV-1. Gp120 interacts with
+CC       cell-associated heparan sulfate; this interaction increases virus
+CC       infectivity on permissive cells and may be involved in infection
+CC       of CD4- cells. {ECO:0000255|HAMAP-Rule:MF_04083}.
+CC   -!- SUBCELLULAR LOCATION: Surface protein gp120: Virion membrane
+CC       {ECO:0000255|HAMAP-Rule:MF_04083}; Peripheral membrane protein
+CC       {ECO:0000255|HAMAP-Rule:MF_04083}. Host cell membrane
+CC       {ECO:0000255|HAMAP-Rule:MF_04083}; Peripheral membrane protein
+CC       {ECO:0000255|HAMAP-Rule:MF_04083}. Host endosome membrane
+CC       {ECO:0000255|HAMAP-Rule:MF_04083}; Single-pass type I membrane
+CC       protein {ECO:0000255|HAMAP-Rule:MF_04083}. Note=The surface
+CC       protein is not anchored to the viral envelope, but associates with
+CC       the extravirion surface through its binding to TM. It is probably
+CC       concentrated at the site of budding and incorporated into the
+CC       virions possibly by contacts between the cytoplasmic tail of Env
+CC       and the N-terminus of Gag. {ECO:0000255|HAMAP-Rule:MF_04083}.
+CC   -!- SUBCELLULAR LOCATION: Transmembrane protein gp41: Virion membrane
+CC       {ECO:0000255|HAMAP-Rule:MF_04083}; Single-pass type I membrane
+CC       protein {ECO:0000255|HAMAP-Rule:MF_04083}. Host cell membrane
+CC       {ECO:0000255|HAMAP-Rule:MF_04083}; Single-pass type I membrane
+CC       protein {ECO:0000255|HAMAP-Rule:MF_04083}. Host endosome membrane
+CC       {ECO:0000255|HAMAP-Rule:MF_04083}; Single-pass type I membrane
+CC       protein {ECO:0000255|HAMAP-Rule:MF_04083}. Note=It is probably
+CC       concentrated at the site of budding and incorporated into the
+CC       virions possibly by contacts between the cytoplasmic tail of Env
+CC       and the N-terminus of Gag. {ECO:0000255|HAMAP-Rule:MF_04083}.
+CC   -!- DOMAIN: Some of the most genetically diverse regions of the viral
+CC       genome are present in Env. They are called variable regions 1
+CC       through 5 (V1 through V5). Coreceptor usage of gp120 is determined
+CC       mainly by the primary structure of the third variable region (V3)
+CC       in the outer domain of gp120. The sequence of V3 determines which
+CC       coreceptor, CCR5 and/or CXCR4 (corresponding to R5/macrophage,
+CC       X4/T cell and R5X4/T cell and macrophage tropism), is used to
+CC       trigger the fusion potential of the Env complex, and hence which
+CC       cells the virus can infect. Binding to CCR5 involves a region
+CC       adjacent in addition to V3. {ECO:0000255|HAMAP-Rule:MF_04083}.
+CC   -!- DOMAIN: The membrane proximal external region (MPER) present in
+CC       gp41 is a tryptophan-rich region recognized by the antibodies 2F5,
+CC       Z13, and 4E10. MPER seems to play a role in fusion.
+CC       {ECO:0000255|HAMAP-Rule:MF_04083}.
+CC   -!- DOMAIN: The 17 amino acids long immunosuppressive region is
+CC       present in many retroviral envelope proteins. Synthetic peptides
+CC       derived from this relatively conserved sequence inhibit immune
+CC       function in vitro and in vivo. {ECO:0000255|HAMAP-Rule:MF_04083}.
+CC   -!- DOMAIN: The YXXL motif is involved in determining the exact site
+CC       of viral release at the surface of infected mononuclear cells and
+CC       promotes endocytosis. YXXL and di-leucine endocytosis motifs
+CC       interact directly or indirectly with the clathrin adapter
+CC       complexes, opperate independently, and their activities are not
+CC       additive. {ECO:0000255|HAMAP-Rule:MF_04083}.
+CC   -!- DOMAIN: The CD4-binding region is targeted by the antibody b12.
+CC       {ECO:0000255|HAMAP-Rule:MF_04083}.
+CC   -!- PTM: Highly glycosylated by host. The high number of glycan on the
+CC       protein is reffered to as 'glycan shield' because it contributes
+CC       to hide protein sequence from adaptive immune system.
+CC       {ECO:0000255|HAMAP-Rule:MF_04083}.
+CC   -!- PTM: Palmitoylation of the transmembrane protein and of Env
+CC       polyprotein (prior to its proteolytic cleavage) is essential for
+CC       their association with host cell membrane lipid rafts.
+CC       Palmitoylation is therefore required for envelope trafficking to
+CC       classical lipid rafts, but not for viral replication.
+CC       {ECO:0000255|HAMAP-Rule:MF_04083}.
+CC   -!- PTM: Specific enzymatic cleavages in vivo yield mature proteins.
+CC       Envelope glycoproteins are synthesized as an inactive precursor
+CC       that is heavily N-glycosylated and processed likely by host cell
+CC       furin in the Golgi to yield the mature SU and TM proteins. The
+CC       cleavage site between SU and TM requires the minimal sequence
+CC       [KR]-X-[KR]-R. About 2 of the 9 disulfide bonds of gp41 are
+CC       reduced by P4HB/PDI, following binding to CD4 receptor.
+CC       {ECO:0000255|HAMAP-Rule:MF_04083}.
+CC   -!- MISCELLANEOUS: Inhibitors targeting HIV-1 viral envelope proteins
+CC       are used as antiretroviral drugs. Attachment of virions to the
+CC       cell surface via non-specific interactions and CD4 binding can be
+CC       blocked by inhibitors that include cyanovirin-N,
+CC       cyclotriazadisulfonamide analogs, PRO 2000, TNX 355 and PRO 542.
+CC       In addition, BMS 806 can block CD4-induced conformational changes.
+CC       Env interactions with the coreceptor molecules can be targeted by
+CC       CCR5 antagonists including SCH-D, maraviroc (UK 427857) and
+CC       aplaviroc (GW 873140), and the CXCR4 antagonist AMD 070. Fusion of
+CC       viral and cellular membranes can be inhibited by peptides such as
+CC       enfuvirtide and tifuvirtide (T 1249). Resistance to inhibitors
+CC       associated with mutations in Env are observed. Most of the time,
+CC       single mutations confer only a modest reduction in drug
+CC       susceptibility. Combination of several mutations is usually
+CC       required to develop a high-level drug resistance.
+CC       {ECO:0000255|HAMAP-Rule:MF_04083}.
+CC   -!- MISCELLANEOUS: HIV-1 lineages are divided in three main groups, M
+CC       (for Major), O (for Outlier), and N (for New, or Non-M, Non-O).
+CC       The vast majority of strains found worldwide belong to the group
+CC       M. Group O seems to be endemic to and largely confined to Cameroon
+CC       and neighboring countries in West Central Africa, where these
+CC       viruses represent a small minority of HIV-1 strains. The group N
+CC       is represented by a limited number of isolates from Cameroonian
+CC       persons. The group M is further subdivided in 9 clades or subtypes
+CC       (A to D, F to H, J and K). {ECO:0000255|HAMAP-Rule:MF_04083}.
+CC   -!- SIMILARITY: Belongs to the HIV-1 env protein family.
+CC       {ECO:0000255|HAMAP-Rule:MF_04083}.
+CC   -!- WEB RESOURCE: Name=hivdb; Note=HIV drug resistance database;
+CC       URL="http://hivdb.stanford.edu";
+CC   -!- WEB RESOURCE: Name=BioAfrica: HIV bioinformatics in Africa;
+CC       URL="http://www.bioafrica.net/proteomics/ENVprot.html";
+CC   -!- WEB RESOURCE: Name=HIV drug resistance mutations;
+CC       URL="https://www.iasusa.org/content/hiv-drug-resistance-mutations";
+CC   -----------------------------------------------------------------------
+CC   Copyrighted by the UniProt Consortium, see https://www.uniprot.org/terms
+CC   Distributed under the Creative Commons Attribution (CC BY 4.0) License
+CC   -----------------------------------------------------------------------
+DR   EMBL; K02007; AAB59882.1; -; Genomic_RNA.
+DR   PIR; A03976; VCLJA2.
+DR   PDB; 5DRZ; X-ray; 2.54 A; P/Q=582-617.
+DR   PDBsum; 5DRZ; -.
+DR   SMR; P03378; -.
+DR   iPTMnet; P03378; -.
+DR   UniCarbKB; P03378; -.
+DR   ABCD; P03378; -.
+DR   Reactome; R-HSA-5621480; Dectin-2 family.
+DR   PRO; PR:P03378; -.
+DR   Proteomes; UP000007688; Genome.
+DR   GO; GO:0044175; C:host cell endosome membrane; IEA:UniProtKB-SubCell.
+DR   GO; GO:0020002; C:host cell plasma membrane; ISS:UniProtKB.
+DR   GO; GO:0016021; C:integral component of membrane; IEA:UniProtKB-UniRule.
+DR   GO; GO:0019031; C:viral envelope; IEA:UniProtKB-KW.
+DR   GO; GO:0019012; C:virion; ISS:UniProtKB.
+DR   GO; GO:0055036; C:virion membrane; IEA:UniProtKB-SubCell.
+DR   GO; GO:0005198; F:structural molecule activity; IEA:UniProtKB-UniRule.
+DR   GO; GO:0090527; P:actin filament reorganization; IEA:UniProtKB-UniRule.
+DR   GO; GO:0075512; P:clathrin-dependent endocytosis of virus by host cell; ISS:UniProtKB.
+DR   GO; GO:0030683; P:evasion or tolerance by virus of host immune response; IEA:UniProtKB-UniRule.
+DR   GO; GO:0039654; P:fusion of virus membrane with host endosome membrane; IEA:UniProtKB-UniRule.
+DR   GO; GO:0019064; P:fusion of virus membrane with host plasma membrane; ISS:UniProtKB.
+DR   GO; GO:1903905; P:positive regulation of establishment of T cell polarity; IEA:UniProtKB-UniRule.
+DR   GO; GO:1903908; P:positive regulation of plasma membrane raft polarization; IEA:UniProtKB-UniRule.
+DR   GO; GO:1903911; P:positive regulation of receptor clustering; IEA:UniProtKB-UniRule.
+DR   GO; GO:0002223; P:stimulatory C-type lectin receptor signaling pathway; TAS:Reactome.
+DR   GO; GO:0019082; P:viral protein processing; ISS:UniProtKB.
+DR   GO; GO:0019062; P:virion attachment to host cell; ISS:UniProtKB.
+DR   CDD; cd09909; HIV-1-like_HR1-HR2; 1.
+DR   Gene3D; 2.170.40.20; -; 2.
+DR   HAMAP; MF_04083; HIV_ENV; 1.
+DR   InterPro; IPR036377; Gp120_core_sf.
+DR   InterPro; IPR037527; Gp160.
+DR   InterPro; IPR000328; GP41-like.
+DR   InterPro; IPR000777; HIV1_Gp120.
+DR   Pfam; PF00516; GP120; 1.
+DR   Pfam; PF00517; GP41; 1.
+DR   SUPFAM; SSF56502; SSF56502; 2.
+PE   1: Evidence at protein level;
+KW   3D-structure; AIDS; Apoptosis;
+KW   Clathrin-mediated endocytosis of virus by host;
+KW   Cleavage on pair of basic residues; Coiled coil; Complete proteome;
+KW   Disulfide bond; Fusion of virus membrane with host endosomal membrane;
+KW   Fusion of virus membrane with host membrane; Glycoprotein;
+KW   Host cell membrane; Host endosome; Host membrane;
+KW   Host-virus interaction; Lipoprotein; Membrane; Palmitate;
+KW   Reference proteome; Signal; Transmembrane; Transmembrane helix;
+KW   Viral attachment to host cell; Viral envelope protein;
+KW   Viral immunoevasion; Viral penetration into host cytoplasm; Virion;
+KW   Virus endocytosis by host; Virus entry into host cell.
+FT   SIGNAL        1     31       {ECO:0000255|HAMAP-Rule:MF_04083}.
+FT   CHAIN        32    855       Envelope glycoprotein gp160.
+FT                                {ECO:0000255|HAMAP-Rule:MF_04083}.
+FT                                /FTId=PRO_0000239473.
+FT   CHAIN        32    509       Surface protein gp120.
+FT                                {ECO:0000255|HAMAP-Rule:MF_04083}.
+FT                                /FTId=PRO_0000038386.
+FT   CHAIN       510    855       Transmembrane protein gp41.
+FT                                {ECO:0000255|HAMAP-Rule:MF_04083}.
+FT                                /FTId=PRO_0000038387.
+FT   TOPO_DOM     32    683       Extracellular. {ECO:0000255|HAMAP-
+FT                                Rule:MF_04083}.
+FT   TRANSMEM    684    704       Helical. {ECO:0000255|HAMAP-
+FT                                Rule:MF_04083}.
+FT   TOPO_DOM    705    855       Cytoplasmic. {ECO:0000255|HAMAP-
+FT                                Rule:MF_04083}.
+FT   REGION      130    154       V1. {ECO:0000255|HAMAP-Rule:MF_04083}.
+FT   REGION      155    199       V2. {ECO:0000255|HAMAP-Rule:MF_04083}.
+FT   REGION      299    332       V3. {ECO:0000255|HAMAP-Rule:MF_04083}.
+FT   REGION      366    376       CD4-binding loop. {ECO:0000255|HAMAP-
+FT                                Rule:MF_04083}.
+FT   REGION      387    415       V4. {ECO:0000255|HAMAP-Rule:MF_04083}.
+FT   REGION      458    469       V5.
+FT   REGION      460    469       V5. {ECO:0000255|HAMAP-Rule:MF_04083}.
+FT   REGION      510    531       Fusion peptide. {ECO:0000255|HAMAP-
+FT                                Rule:MF_04083}.
+FT   REGION      573    591       Immunosuppression. {ECO:0000255|HAMAP-
+FT                                Rule:MF_04083}.
+FT   REGION      661    682       MPER; binding to GalCer.
+FT                                {ECO:0000255|HAMAP-Rule:MF_04083}.
+FT   COILED      632    666       {ECO:0000255|HAMAP-Rule:MF_04083}.
+FT   MOTIF       711    714       YXXL motif; contains endocytosis signal.
+FT                                {ECO:0000255|HAMAP-Rule:MF_04083}.
+FT   MOTIF       854    855       Di-leucine internalization motif.
+FT                                {ECO:0000255|HAMAP-Rule:MF_04083}.
+FT   SITE        509    510       Cleavage; by host furin.
+FT                                {ECO:0000255|HAMAP-Rule:MF_04083}.
+FT   LIPID       763    763       S-palmitoyl cysteine; by host.
+FT                                {ECO:0000255|HAMAP-Rule:MF_04083}.
+FT   CARBOHYD     87     87       N-linked (GlcNAc...) asparagine; by host.
+FT                                {ECO:0000255|HAMAP-Rule:MF_04083}.
+FT   CARBOHYD    129    129       N-linked (GlcNAc...) asparagine; by host.
+FT                                {ECO:0000255|HAMAP-Rule:MF_04083}.
+FT   CARBOHYD    140    140       N-linked (GlcNAc...) asparagine; by host.
+FT                                {ECO:0000255|HAMAP-Rule:MF_04083}.
+FT   CARBOHYD    154    154       N-linked (GlcNAc...) asparagine; by host.
+FT                                {ECO:0000255|HAMAP-Rule:MF_04083}.
+FT   CARBOHYD    158    158       N-linked (GlcNAc...) asparagine; by host.
+FT                                {ECO:0000255|HAMAP-Rule:MF_04083}.
+FT   CARBOHYD    184    184       N-linked (GlcNAc...) asparagine; by host.
+FT                                {ECO:0000255|HAMAP-Rule:MF_04083}.
+FT   CARBOHYD    190    190       N-linked (GlcNAc...) asparagine; by host.
+FT                                {ECO:0000255|HAMAP-Rule:MF_04083}.
+FT   CARBOHYD    200    200       N-linked (GlcNAc...) asparagine; by host.
+FT                                {ECO:0000255|HAMAP-Rule:MF_04083}.
+FT   CARBOHYD    233    233       N-linked (GlcNAc...) asparagine; by host.
+FT                                {ECO:0000255|HAMAP-Rule:MF_04083}.
+FT   CARBOHYD    244    244       N-linked (GlcNAc...) asparagine; by host.
+FT                                {ECO:0000255|HAMAP-Rule:MF_04083}.
+FT   CARBOHYD    265    265       N-linked (GlcNAc...) asparagine; by host.
+FT                                {ECO:0000255|HAMAP-Rule:MF_04083}.
+FT   CARBOHYD    279    279       N-linked (GlcNAc...) asparagine; by host.
+FT                                {ECO:0000255|HAMAP-Rule:MF_04083}.
+FT   CARBOHYD    292    292       N-linked (GlcNAc...) asparagine; by host.
+FT                                {ECO:0000255|HAMAP-Rule:MF_04083}.
+FT   CARBOHYD    298    298       N-linked (GlcNAc...) asparagine; by host.
+FT                                {ECO:0000255|HAMAP-Rule:MF_04083}.
+FT   CARBOHYD    304    304       N-linked (GlcNAc...) asparagine; by host.
+FT                                {ECO:0000255|HAMAP-Rule:MF_04083}.
+FT   CARBOHYD    334    334       N-linked (GlcNAc...) asparagine; by host.
+FT                                {ECO:0000255|HAMAP-Rule:MF_04083}.
+FT   CARBOHYD    341    341       N-linked (GlcNAc...) asparagine; by host.
+FT                                {ECO:0000255|HAMAP-Rule:MF_04083}.
+FT   CARBOHYD    358    358       N-linked (GlcNAc...) asparagine; by host.
+FT                                {ECO:0000255|HAMAP-Rule:MF_04083}.
+FT   CARBOHYD    364    364       N-linked (GlcNAc...) asparagine; by host.
+FT                                {ECO:0000255|HAMAP-Rule:MF_04083}.
+FT   CARBOHYD    388    388       N-linked (GlcNAc...) asparagine; by host.
+FT                                {ECO:0000255|HAMAP-Rule:MF_04083}.
+FT   CARBOHYD    394    394       N-linked (GlcNAc...) asparagine; by host.
+FT                                {ECO:0000255|HAMAP-Rule:MF_04083}.
+FT   CARBOHYD    400    400       N-linked (GlcNAc...) asparagine; by host.
+FT                                {ECO:0000255|HAMAP-Rule:MF_04083}.
+FT   CARBOHYD    408    408       N-linked (GlcNAc...) asparagine; by host.
+FT                                {ECO:0000255|HAMAP-Rule:MF_04083}.
+FT   CARBOHYD    445    445       N-linked (GlcNAc...) asparagine; by host.
+FT                                {ECO:0000255|HAMAP-Rule:MF_04083}.
+FT   CARBOHYD    458    458       N-linked (GlcNAc...) asparagine; by host.
+FT                                {ECO:0000255|HAMAP-Rule:MF_04083}.
+FT   CARBOHYD    461    461       N-linked (GlcNAc...) asparagine; by host.
+FT                                {ECO:0000255|HAMAP-Rule:MF_04083}.
+FT   CARBOHYD    610    610       N-linked (GlcNAc...) asparagine; by host.
+FT                                {ECO:0000255|HAMAP-Rule:MF_04083}.
+FT   CARBOHYD    615    615       N-linked (GlcNAc...) asparagine; by host.
+FT                                {ECO:0000255|HAMAP-Rule:MF_04083}.
+FT   CARBOHYD    624    624       N-linked (GlcNAc...) asparagine; by host.
+FT                                {ECO:0000255|HAMAP-Rule:MF_04083}.
+FT   CARBOHYD    636    636       N-linked (GlcNAc...) asparagine; by host.
+FT                                {ECO:0000255|HAMAP-Rule:MF_04083}.
+FT   DISULFID     53     73       {ECO:0000255|HAMAP-Rule:MF_04083}.
+FT   DISULFID    118    208       {ECO:0000255|HAMAP-Rule:MF_04083}.
+FT   DISULFID    125    199       {ECO:0000255|HAMAP-Rule:MF_04083}.
+FT   DISULFID    130    155       {ECO:0000255|HAMAP-Rule:MF_04083}.
+FT   DISULFID    221    250       {ECO:0000255|HAMAP-Rule:MF_04083}.
+FT   DISULFID    231    242       {ECO:0000255|HAMAP-Rule:MF_04083}.
+FT   DISULFID    299    333       {ECO:0000255|HAMAP-Rule:MF_04083}.
+FT   DISULFID    380    442       {ECO:0000255|HAMAP-Rule:MF_04083}.
+FT   DISULFID    387    415       {ECO:0000255|HAMAP-Rule:MF_04083}.
+FT   DISULFID    597    603       {ECO:0000255|HAMAP-Rule:MF_04083}.
+FT   STRAND      595    600       {ECO:0000244|PDB:5DRZ}.
+FT   TURN        601    605       {ECO:0000244|PDB:5DRZ}.
+SQ   SEQUENCE   855 AA;  97438 MW;  A3BC20573AAC41A2 CRC64;
+     MKVKGTRRNY QHLWRWGTLL LGMLMICSAT EKLWVTVYYG VPVWKEATTT LFCASDARAY
+     DTEVHNVWAT HACVPTDPNP QEVVLGNVTE NFNMWKNNMV EQMQEDIISL WDQSLKPCVK
+     LTPLCVTLNC TDLGKATNTN SSNWKEEIKG EIKNCSFNIT TSIRDKIQKE NALFRNLDVV
+     PIDNASTTTN YTNYRLIHCN RSVITQACPK VSFEPIPIHY CTPAGFAILK CNNKTFNGKG
+     PCTNVSTVQC THGIRPIVST QLLLNGSLAE EEVVIRSDNF TNNAKTIIVQ LNESVAINCT
+     RPNNNTRKSI YIGPGRAFHT TGRIIGDIRK AHCNISRAQW NNTLEQIVKK LREQFGNNKT
+     IVFNQSSGGD PEIVMHSFNC RGEFFYCNTT QLFNNTWRLN HTEGTKGNDT IILPCRIKQI
+     INMWQEVGKA MYAPPIGGQI SCSSNITGLL LTRDGGTNVT NDTEVFRPGG GDMRDNWRSE
+     LYKYKVIKIE PLGIAPTKAK RRVVQREKRA VGIVGAMFLG FLGAAGSTMG AVSLTLTVQA
+     RQLLSGIVQQ QNNLLRAIEA QQHLLQLTVW GIKQLQARVL AVERYLRDQQ LLGIWGCSGK
+     LICTTAVPWN ASWSNKSLED IWDNMTWMQW EREIDNYTNT IYTLLEESQN QQEKNEQELL
+     ELDKWASLWN WFSITNWLWY IKIFIMIVGG LVGLRIVFAV LSIVNRVRQG YSPLSFQTRL
+     PVPRGPDRPD GIEEEGGERD RDRSVRLVDG FLALIWEDLR SLCLFSYRRL RDLLLIAART
+     VEILGHRGWE ALKYWWSLLQ YWIQELKNSA VSWLNATAIA VTEGTDRVIE VAQRAYRAIL
+     HIHRRIRQGL ERLLL
+//

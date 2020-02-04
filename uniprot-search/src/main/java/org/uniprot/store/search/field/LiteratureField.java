@@ -17,6 +17,7 @@ public interface LiteratureField {
         reference("Reference"),
         lit_abstract("Abstract/Summary", "literatureAbstract"),
         statistics("Statistics", "statistics"),
+        citation("Citation", "citation"),
         first_page("First page", "firstPage"),
         last_page("Last page", "lastPage"),
         volume("Volume", "volume"),
