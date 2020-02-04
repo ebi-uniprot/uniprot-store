@@ -26,7 +26,7 @@ public class LiteratureMappingItemReader implements ItemReader<LiteratureStoreEn
                 if (entry.getLiteratureEntry()
                         .getPubmedId()
                         .equals(nextEntry.getLiteratureEntry().getPubmedId())) {
-                    itemBuilder.addLiteratureMappedReference(
+                    itemBuilder.literatureMappedReferencesAdd(
                             nextEntry.getLiteratureMappedReferences().get(0));
                 } else {
                     return itemBuilder.build();

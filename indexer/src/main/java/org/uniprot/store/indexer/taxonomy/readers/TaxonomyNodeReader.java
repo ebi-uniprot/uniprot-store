@@ -37,14 +37,14 @@ public class TaxonomyNodeReader implements RowMapper<TaxonomyEntry> {
         builder.mnemonic(resultSet.getString("TAX_CODE"));
         builder.parentId(resultSet.getLong("PARENT_ID"));
         String rank = resultSet.getString("RANK");
-        if (Utils.notNullOrEmpty(rank)) {
+        if (Utils.notNullNotEmpty(rank)) {
             try {
                 builder.rank(TaxonomyRank.valueOf(rank.toUpperCase()));
             } catch (IllegalArgumentException iae) {
                 builder.rank(TaxonomyRank.NO_RANK);
             }
         }
-        builder.addSynonyms(resultSet.getString("SPTR_SYNONYM"));
+        builder.synonymsAdd(resultSet.getString("SPTR_SYNONYM"));
         builder.hidden(resultSet.getBoolean("HIDDEN"));
         builder.active(true);
         return builder.build();

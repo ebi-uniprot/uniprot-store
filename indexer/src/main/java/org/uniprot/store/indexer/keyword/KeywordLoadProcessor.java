@@ -62,7 +62,7 @@ public class KeywordLoadProcessor implements ItemProcessor<KeywordEntry, Keyword
         content.add(keywordEntry.getKeyword().getId());
         content.add(keywordEntry.getKeyword().getAccession());
         content.add(keywordEntry.getDefinition());
-        if (Utils.notNullOrEmpty(keywordEntry.getSynonyms())) {
+        if (Utils.notNullNotEmpty(keywordEntry.getSynonyms())) {
             content.addAll(keywordEntry.getSynonyms());
         }
 

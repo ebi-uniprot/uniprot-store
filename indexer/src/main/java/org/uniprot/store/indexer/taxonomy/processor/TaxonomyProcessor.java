@@ -61,11 +61,11 @@ public class TaxonomyProcessor implements ItemProcessor<TaxonomyEntry, TaxonomyD
                     jsonMapper.readValue(taxonomyObj, TaxonomyEntryImpl.class);
             entryBuilder.statistics(statisticsEntry.getStatistics());
         }
-        entryBuilder.hosts(loadVirusHosts(taxonId));
-        entryBuilder.otherNames(loadOtherNames(taxonId));
-        entryBuilder.lineage(loadLineage(taxonId));
-        entryBuilder.strains(loadStrains(taxonId));
-        entryBuilder.links(loadLinks(taxonId));
+        entryBuilder.hostsSet(loadVirusHosts(taxonId));
+        entryBuilder.otherNamesSet(loadOtherNames(taxonId));
+        entryBuilder.lineagesSet(loadLineage(taxonId));
+        entryBuilder.strainsSet(loadStrains(taxonId));
+        entryBuilder.linksSet(loadLinks(taxonId));
 
         return buildTaxonomyDocument(entryBuilder.build());
     }
@@ -109,7 +109,7 @@ public class TaxonomyProcessor implements ItemProcessor<TaxonomyEntry, TaxonomyD
         documentBuilder.host(
                 entry.getHosts().stream().map(Taxonomy::getTaxonId).collect(Collectors.toList()));
         documentBuilder.lineage(
-                entry.getLineage().stream()
+                entry.getLineages().stream()
                         .map(TaxonomyLineage::getTaxonId)
                         .collect(Collectors.toList()));
         documentBuilder.strain(buildStrainList(entry.getStrains()));
@@ -154,7 +154,7 @@ public class TaxonomyProcessor implements ItemProcessor<TaxonomyEntry, TaxonomyD
     private List<TaxonomyLineage> loadLineage(long taxonId) {
         List<List<TaxonomyLineage>> result =
                 jdbcTemplate.query(getTaxonomyLineageSQL(), new TaxonomyLineageReader(), taxonId);
-        if (Utils.notNullOrEmpty(result)) {
+        if (Utils.notNullNotEmpty(result)) {
             return result.get(0);
         }
         return null;
@@ -179,7 +179,7 @@ public class TaxonomyProcessor implements ItemProcessor<TaxonomyEntry, TaxonomyD
                                                         .scientific_name)) {
                                     builder.name(strain.getName());
                                 } else {
-                                    builder.addSynonym(strain.getName());
+                                    builder.synonymsAdd(strain.getName());
                                 }
                             }
                             result.add(builder.build());

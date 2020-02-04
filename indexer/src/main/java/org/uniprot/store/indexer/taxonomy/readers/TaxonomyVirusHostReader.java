@@ -25,7 +25,7 @@ public class TaxonomyVirusHostReader implements RowMapper<Taxonomy> {
         builder.scientificName(scientificName);
         builder.commonName(common);
         builder.mnemonic(resultSet.getString("TAX_CODE"));
-        builder.addSynonyms(resultSet.getString("SPTR_SYNONYM"));
+        builder.synonymsAdd(resultSet.getString("SPTR_SYNONYM"));
         return builder.build();
     }
 }

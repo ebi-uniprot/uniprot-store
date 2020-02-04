@@ -68,7 +68,7 @@ class VerifyUniProtAdvancedSearchExamplesIT {
             if (item.getItemType().equals("single")) {
                 currentItems.add(item);
             }
-            if (Utils.notNullOrEmpty(item.getItems())) {
+            if (Utils.notNullNotEmpty(item.getItems())) {
                 extractAllItems(item.getItems(), currentItems);
             }
         }

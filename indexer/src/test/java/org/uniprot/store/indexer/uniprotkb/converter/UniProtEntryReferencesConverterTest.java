@@ -145,24 +145,24 @@ class UniProtEntryReferencesConverterTest {
                         .lastPage("10")
                         .volume("volume value")
                         .publicationDate("2029")
-                        .addAuthorGroup(prefix + " auth group")
-                        .addAuthor(prefix + "  author")
+                        .authorGroupsAdd(prefix + " auth group")
+                        .authorsAdd(prefix + "  author")
                         .title(prefix + "  tittle")
-                        .citationXrefs(Collections.singletonList(xref))
+                        .citationXrefsSet(Collections.singletonList(xref))
                         .build();
 
         ReferenceComment referenceComment =
                 new ReferenceCommentBuilder()
                         .type(referenceCommentType)
                         .value(prefix + " reference comment")
-                        .evidences(Collections.singletonList(evidence))
+                        .evidencesSet(Collections.singletonList(evidence))
                         .build();
 
         return new UniProtReferenceBuilder()
                 .citation(citation)
-                .addComment(referenceComment)
-                .addPositions(prefix + " position")
-                .evidences(Collections.singletonList(evidence))
+                .referenceCommentsAdd(referenceComment)
+                .referencePositionsAdd(prefix + " position")
+                .evidencesSet(Collections.singletonList(evidence))
                 .build();
     }
 }

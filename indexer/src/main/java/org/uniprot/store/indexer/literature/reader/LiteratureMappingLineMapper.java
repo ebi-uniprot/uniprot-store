@@ -50,14 +50,14 @@ public class LiteratureMappingLineMapper extends DefaultLineMapper<LiteratureSto
                             .source(lineFields[1])
                             .sourceId(lineFields[3])
                             .annotation(annnotation)
-                            .sourceCategory(categories)
+                            .sourceCategoriesSet(categories)
                             .build();
 
             LiteratureEntry entry =
                     new LiteratureEntryBuilder().pubmedId(Long.valueOf(lineFields[2])).build();
 
             return new LiteratureStoreEntryBuilder()
-                    .addLiteratureMappedReference(mappedReference)
+                    .literatureMappedReferencesAdd(mappedReference)
                     .literatureEntry(entry)
                     .build();
         } else {
