@@ -10,6 +10,11 @@ import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.batch.item.file.mapping.DefaultLineMapper;
+import org.uniprot.core.DBCrossReference;
+import org.uniprot.core.builder.DBCrossReferenceBuilder;
+import org.uniprot.core.citation.CitationXrefType;
+import org.uniprot.core.citation.Literature;
+import org.uniprot.core.citation.builder.LiteratureBuilder;
 import org.uniprot.core.literature.LiteratureEntry;
 import org.uniprot.core.literature.LiteratureMappedReference;
 import org.uniprot.core.literature.LiteratureStoreEntry;
@@ -53,8 +58,15 @@ public class LiteratureMappingLineMapper extends DefaultLineMapper<LiteratureSto
                             .sourceCategory(categories)
                             .build();
 
-            LiteratureEntry entry =
-                    new LiteratureEntryBuilder().pubmedId(Long.valueOf(lineFields[2])).build();
+            DBCrossReference<CitationXrefType> xref =
+                    new DBCrossReferenceBuilder<CitationXrefType>()
+                            .databaseType(CitationXrefType.PUBMED)
+                            .id(lineFields[2])
+                            .build();
+
+            Literature literature = new LiteratureBuilder().addCitationXrefs(xref).build();
+
+            LiteratureEntry entry = new LiteratureEntryBuilder().citation(literature).build();
 
             return new LiteratureStoreEntryBuilder()
                     .addLiteratureMappedReference(mappedReference)

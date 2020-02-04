@@ -51,30 +51,32 @@ class UniProtEntryTaxonomyConverter {
         if (organism != null) {
             int taxonomyId = Math.toIntExact(organism.getTaxonId());
             document.organismTaxId = taxonomyId;
+            if (taxonomyRepo != null) {
+                Optional<TaxonomicNode> taxonomicNode =
+                        taxonomyRepo.retrieveNodeUsingTaxID(taxonomyId);
+                if (taxonomicNode.isPresent()) {
 
-            Optional<TaxonomicNode> taxonomicNode = taxonomyRepo.retrieveNodeUsingTaxID(taxonomyId);
-            if (taxonomicNode.isPresent()) {
+                    TaxonomicNode node = taxonomicNode.get();
+                    List<String> extractedTaxoNode = TaxonomyRepoUtil.extractTaxonFromNode(node);
+                    document.organismName.addAll(extractedTaxoNode);
+                    document.organismSort =
+                            UniProtEntryConverterUtil.truncatedSortValue(
+                                    String.join(" ", extractedTaxoNode));
 
-                TaxonomicNode node = taxonomicNode.get();
-                List<String> extractedTaxoNode = TaxonomyRepoUtil.extractTaxonFromNode(node);
-                document.organismName.addAll(extractedTaxoNode);
-                document.organismSort =
-                        UniProtEntryConverterUtil.truncatedSortValue(
-                                String.join(" ", extractedTaxoNode));
-
-                String popularOrgamism = POPULAR_ORGANISMS_TAX_NAME.get(taxonomyId);
-                if (popularOrgamism != null) {
-                    document.popularOrganism = popularOrgamism;
-                } else {
-                    if (node.mnemonic() != null && !node.mnemonic().isEmpty()) {
-                        document.otherOrganism = node.mnemonic();
-                    } else if (node.commonName() != null && !node.commonName().isEmpty()) {
-                        document.otherOrganism = node.commonName();
+                    String popularOrgamism = POPULAR_ORGANISMS_TAX_NAME.get(taxonomyId);
+                    if (popularOrgamism != null) {
+                        document.popularOrganism = popularOrgamism;
                     } else {
-                        document.otherOrganism = node.scientificName();
+                        if (node.mnemonic() != null && !node.mnemonic().isEmpty()) {
+                            document.otherOrganism = node.mnemonic();
+                        } else if (node.commonName() != null && !node.commonName().isEmpty()) {
+                            document.otherOrganism = node.commonName();
+                        } else {
+                            document.otherOrganism = node.scientificName();
+                        }
                     }
+                    addTaxonSuggestions(SuggestDictionary.ORGANISM, taxonomyId, extractedTaxoNode);
                 }
-                addTaxonSuggestions(SuggestDictionary.ORGANISM, taxonomyId, extractedTaxoNode);
             }
             convertLineageTaxon(taxonomyId, document);
         }
@@ -85,14 +87,17 @@ class UniProtEntryTaxonomyConverter {
                 host -> {
                     int taxonomyId = Math.toIntExact(host.getTaxonId());
                     document.organismHostIds.add(taxonomyId);
-                    Optional<TaxonomicNode> taxonomicNode =
-                            taxonomyRepo.retrieveNodeUsingTaxID(taxonomyId);
-                    if (taxonomicNode.isPresent()) {
-                        TaxonomicNode node = taxonomicNode.get();
-                        List<String> extractedTaxoNode =
-                                TaxonomyRepoUtil.extractTaxonFromNode(node);
-                        document.organismHostNames.addAll(extractedTaxoNode);
-                        addTaxonSuggestions(SuggestDictionary.HOST, taxonomyId, extractedTaxoNode);
+                    if (taxonomyRepo != null) {
+                        Optional<TaxonomicNode> taxonomicNode =
+                                taxonomyRepo.retrieveNodeUsingTaxID(taxonomyId);
+                        if (taxonomicNode.isPresent()) {
+                            TaxonomicNode node = taxonomicNode.get();
+                            List<String> extractedTaxoNode =
+                                    TaxonomyRepoUtil.extractTaxonFromNode(node);
+                            document.organismHostNames.addAll(extractedTaxoNode);
+                            addTaxonSuggestions(
+                                    SuggestDictionary.HOST, taxonomyId, extractedTaxoNode);
+                        }
                     }
                 });
 
@@ -104,7 +109,7 @@ class UniProtEntryTaxonomyConverter {
     }
 
     private void convertLineageTaxon(int taxId, UniProtDocument document) {
-        if (taxId > 0) {
+        if (taxId > 0 && taxonomyRepo != null) {
             List<TaxonomicNode> nodes = TaxonomyRepoUtil.getTaxonomyLineage(taxonomyRepo, taxId);
             nodes.forEach(
                     node -> {

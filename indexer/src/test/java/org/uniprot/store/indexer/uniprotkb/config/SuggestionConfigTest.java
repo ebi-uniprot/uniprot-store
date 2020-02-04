@@ -44,7 +44,7 @@ class SuggestionConfigTest {
 
         List<SuggestDocument> xenopusTropicalisList =
                 taxonSuggestions.stream()
-                        .filter(suggestion -> suggestion.value.equals("Xenopus tropicalis"))
+                        .filter(suggestion -> suggestion.id.equals("8364"))
                         .collect(Collectors.toList());
         assertThat(xenopusTropicalisList, hasSize(1));
         SuggestDocument xenopusTropicalis = xenopusTropicalisList.get(0);

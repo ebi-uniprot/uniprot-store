@@ -57,7 +57,6 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtEntry, Un
     private final UniprotEntryProteinDescriptionConverter proteinDescriptionConverter;
 
     private Map<String, SuggestDocument> suggestions;
-    // private final UniProtUniRefMap uniprotUniRefMap;
 
     public UniProtEntryConverter(
             TaxonomyRepo taxonomyRepo,
@@ -76,7 +75,6 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtEntry, Un
         this.proteinDescriptionConverter =
                 new UniprotEntryProteinDescriptionConverter(ecRepo, suggestDocuments);
         this.suggestions = suggestDocuments;
-        // this.uniprotUniRefMap = uniProtUniRefMap;
     }
 
     @Override
@@ -125,7 +123,6 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtEntry, Un
             convertSequence(source.getSequence(), document);
             convertEntryScore(source, document);
             convertEvidenceSources(source, document);
-            convertUniRefClusters(document.accession, document);
 
             return document;
         } catch (Exception e) {
@@ -188,12 +185,6 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtEntry, Un
                 document.idDefault = idParts[1];
             }
         }
-    }
-
-    private void convertUniRefClusters(String accession, UniProtDocument document) {
-        // document.unirefCluster50 = uniprotUniRefMap.getMappings50(accession);
-        // document.unirefCluster90 = uniprotUniRefMap.getMappings90(accession);
-        // document.unirefCluster100 = uniprotUniRefMap.getMappings100(accession);
     }
 
     private void convertEntryScore(UniProtEntry source, UniProtDocument document) {
