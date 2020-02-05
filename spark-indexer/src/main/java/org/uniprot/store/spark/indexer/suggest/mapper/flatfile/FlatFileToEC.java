@@ -35,7 +35,7 @@ public class FlatFileToEC implements PairFlatMapFunction<String, String, String>
                         .filter(line -> line.startsWith("DE  "))
                         .collect(Collectors.joining("\n"));
 
-        if (Utils.notNullOrEmpty(descriptionsLines)) {
+        if (Utils.notNullNotEmpty(descriptionsLines)) {
             final UniprotLineParser<DeLineObject> deParser =
                     new DefaultUniprotLineParserFactory().createDeLineParser();
 

@@ -64,7 +64,7 @@ public class LiteratureMappingLineMapper extends DefaultLineMapper<LiteratureSto
                             .id(lineFields[2])
                             .build();
 
-            Literature literature = new LiteratureBuilder().addCitationXrefs(xref).build();
+            Literature literature = new LiteratureBuilder().citationXrefsAdd(xref).build();
 
             LiteratureEntry entry = new LiteratureEntryBuilder().citation(literature).build();
 

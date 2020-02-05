@@ -28,7 +28,7 @@ public class FlatFileToSubcellularLocation implements PairFlatMapFunction<String
         String subcellularComments =
                 SuggesterUtil.getCommentLinesByType(entryStr, CommentType.SUBCELLULAR_LOCATION);
 
-        if (Utils.notNullOrEmpty(subcellularComments)) {
+        if (Utils.notNullNotEmpty(subcellularComments)) {
             List<Comment> comments = SuggesterUtil.getComments(subcellularComments);
 
             comments.stream()

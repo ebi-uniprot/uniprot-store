@@ -31,8 +31,8 @@ class TaxonomyJoinMapper
         TaxonomyEntry entry = tuple._1;
         List<TaxonomyLineage> lineage = tuple._2;
 
-        TaxonomyEntryBuilder builder = new TaxonomyEntryBuilder().from(entry);
-        builder.lineage(lineage);
+        TaxonomyEntryBuilder builder = TaxonomyEntryBuilder.from(entry);
+        builder.lineagesSet(lineage);
 
         return builder.build();
     }

@@ -145,7 +145,7 @@ class UniProtEntryReferencesConverterTest {
                         .lastPage("10")
                         .volume("volume value")
                         .publicationDate("2029")
-                        .authorGroupsAdd(prefix + " auth group")
+                        .authoringGroupsAdd(prefix + " auth group")
                         .authorsAdd(prefix + "  author")
                         .title(prefix + "  tittle")
                         .citationXrefsSet(Collections.singletonList(xref))

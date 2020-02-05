@@ -22,7 +22,6 @@ import org.uniprot.core.uniref.*;
 import org.uniprot.core.uniref.builder.GoTermBuilder;
 import org.uniprot.core.uniref.builder.RepresentativeMemberBuilder;
 import org.uniprot.core.uniref.builder.UniRefEntryBuilder;
-import org.uniprot.core.uniref.builder.UniRefMemberBuilder;
 import org.uniprot.core.uniref.impl.OverlapRegionImpl;
 import org.uniprot.core.uniref.impl.UniRefEntryIdImpl;
 
@@ -75,15 +74,15 @@ class DatasetUnirefEntryConverter implements MapFunction<Row, UniRefEntry>, Seri
             builder.commonTaxonId(
                     Integer.valueOf(propertyMap.getOrDefault(PROPERTY_COMMON_TAXON_ID, "0")));
             if (propertyMap.containsKey(PROPERTY_GO_FUNCTION)) {
-                builder.addGoTerm(
+                builder.goTermsAdd(
                         createGoTerm(GoTermType.FUNCTION, propertyMap.get(PROPERTY_GO_FUNCTION)));
             }
             if (propertyMap.containsKey(PROPERTY_GO_COMPONENT)) {
-                builder.addGoTerm(
+                builder.goTermsAdd(
                         createGoTerm(GoTermType.COMPONENT, propertyMap.get(PROPERTY_GO_COMPONENT)));
             }
             if (propertyMap.containsKey(PROPERTY_GO_PROCESS)) {
-                builder.addGoTerm(
+                builder.goTermsAdd(
                         createGoTerm(GoTermType.PROCESS, propertyMap.get(PROPERTY_GO_PROCESS)));
             }
         }
@@ -94,7 +93,7 @@ class DatasetUnirefEntryConverter implements MapFunction<Row, UniRefEntry>, Seri
                 Row member = (Row) rowValue.get(rowValue.fieldIndex("member"));
                 members = Collections.singletonList(member);
             }
-            members.stream().map(this::convertMember).forEach(builder::addMember);
+            members.stream().map(this::convertMember).forEach(builder::membersAdd);
         }
 
         if (hasFieldName("representativeMember", rowValue)) {
@@ -112,7 +111,7 @@ class DatasetUnirefEntryConverter implements MapFunction<Row, UniRefEntry>, Seri
 
     private RepresentativeMember convertRepresentativeMember(Row representativeMemberRow) {
         RepresentativeMemberBuilder builder =
-                new RepresentativeMemberBuilder().from(convertMember(representativeMemberRow));
+                RepresentativeMemberBuilder.from(convertMember(representativeMemberRow));
         if (hasFieldName("sequence", representativeMemberRow)) {
             Row sequence =
                     (Row)
@@ -126,8 +125,8 @@ class DatasetUnirefEntryConverter implements MapFunction<Row, UniRefEntry>, Seri
         return builder.build();
     }
 
-    private UniRefMember convertMember(Row member) {
-        UniRefMemberBuilder builder = new UniRefMemberBuilder();
+    private RepresentativeMember convertMember(Row member) {
+        RepresentativeMemberBuilder builder = new RepresentativeMemberBuilder();
         if (hasFieldName("dbReference", member)) {
             Row dbReference = (Row) member.get(member.fieldIndex("dbReference"));
             builder.memberId(dbReference.getString(dbReference.fieldIndex("_id")));
@@ -137,7 +136,7 @@ class DatasetUnirefEntryConverter implements MapFunction<Row, UniRefEntry>, Seri
             if (hasFieldName("property", dbReference)) {
                 Map<String, String> propertyMap = convertProperties(dbReference);
                 if (propertyMap.containsKey("UniProtKB accession")) {
-                    builder.addAccession(
+                    builder.accessionsAdd(
                             new UniProtAccessionImpl(propertyMap.get("UniProtKB accession")));
                 }
                 if (propertyMap.containsKey("UniParc ID")) {

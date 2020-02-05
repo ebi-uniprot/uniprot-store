@@ -75,7 +75,7 @@ public class TaxonomyEntryToUniProtDocument
                                 doc.accession, taxonomyEntryMap.keySet(), doc.organismTaxId));
             }
 
-            if (Utils.notNullOrEmpty(doc.organismHostIds)) {
+            if (Utils.notNullNotEmpty(doc.organismHostIds)) {
                 doc.organismHostIds.forEach(
                         taxId -> {
                             TaxonomyEntry organismHost = taxonomyEntryMap.get((long) taxId);
@@ -114,7 +114,7 @@ public class TaxonomyEntryToUniProtDocument
         doc.organismSort =
                 UniProtEntryConverterUtil.truncatedSortValue(String.join(" ", organismNames));
         if (organism.hasLineage()) {
-            organism.getLineage()
+            organism.getLineages()
                     .forEach(
                             lineage -> {
                                 doc.taxLineageIds.add(new Long(lineage.getTaxonId()).intValue());

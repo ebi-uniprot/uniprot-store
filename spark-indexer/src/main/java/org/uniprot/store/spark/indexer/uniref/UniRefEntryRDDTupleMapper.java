@@ -41,7 +41,7 @@ public class UniRefEntryRDDTupleMapper
                             type, clusterId, uniRefEntry.getRepresentativeMember()));
         }
 
-        if (Utils.notNullOrEmpty(uniRefEntry.getMembers())) {
+        if (Utils.notNullNotEmpty(uniRefEntry.getMembers())) {
             uniRefEntry
                     .getMembers()
                     .forEach(

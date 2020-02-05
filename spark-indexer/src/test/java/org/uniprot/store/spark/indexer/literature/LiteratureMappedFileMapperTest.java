@@ -39,8 +39,8 @@ class LiteratureMappedFileMapperTest {
         assertEquals("Not Associated with PSYCH: schizophrenia.", reference.getAnnotation());
 
         assertTrue(reference.hasSourceCategory());
-        assertEquals(1, reference.getSourceCategory().size());
-        assertEquals("Pathology & Biotech", reference.getSourceCategory().get(0));
+        assertEquals(1, reference.getSourceCategories().size());
+        assertEquals("Pathology & Biotech", reference.getSourceCategories().get(0));
     }
 
     @Test
@@ -97,8 +97,8 @@ class LiteratureMappedFileMapperTest {
         assertFalse(reference.hasAnnotation());
 
         assertTrue(reference.hasSourceCategory());
-        assertEquals(2, reference.getSourceCategory().size());
-        assertEquals("Expression", reference.getSourceCategory().get(0));
-        assertEquals("Sequences", reference.getSourceCategory().get(1));
+        assertEquals(2, reference.getSourceCategories().size());
+        assertEquals("Expression", reference.getSourceCategories().get(0));
+        assertEquals("Sequences", reference.getSourceCategories().get(1));
     }
 }

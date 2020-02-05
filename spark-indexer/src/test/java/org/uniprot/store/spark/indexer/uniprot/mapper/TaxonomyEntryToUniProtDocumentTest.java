@@ -28,7 +28,7 @@ class TaxonomyEntryToUniProtDocumentTest {
                         .taxonId(1111L)
                         .scientificName("lineage scientific 1111")
                         .commonName("lineage common 1111")
-                        .addSynonyms("lineage synonym 1111")
+                        .synonymsAdd("lineage synonym 1111")
                         .build();
 
         TaxonomyLineage lineage2 =
@@ -36,7 +36,7 @@ class TaxonomyEntryToUniProtDocumentTest {
                         .taxonId(2222L)
                         .scientificName("lineage scientific 2222")
                         .commonName("lineage common 2222")
-                        .addSynonyms("lineage synonym 2222")
+                        .synonymsAdd("lineage synonym 2222")
                         .build();
 
         TaxonomyEntry organismEntry =
@@ -45,9 +45,9 @@ class TaxonomyEntryToUniProtDocumentTest {
                         .commonName("organism common name")
                         .scientificName("organism scientific name")
                         .mnemonic("organism mnemonic")
-                        .addSynonyms("organism synonym")
-                        .addLineage(lineage)
-                        .addLineage(lineage2)
+                        .synonymsAdd("organism synonym")
+                        .lineagesAdd(lineage)
+                        .lineagesAdd(lineage2)
                         .build();
 
         List<TaxonomyEntry> entries = new ArrayList<>();
@@ -125,7 +125,7 @@ class TaxonomyEntryToUniProtDocumentTest {
                         .taxonId(1000L)
                         .commonName("organism common name")
                         .scientificName("organism scientific name")
-                        .addSynonyms("organism synonym")
+                        .synonymsAdd("organism synonym")
                         .build();
 
         List<TaxonomyEntry> entries = new ArrayList<>();
@@ -179,7 +179,7 @@ class TaxonomyEntryToUniProtDocumentTest {
                         .commonName("organism common name 9606")
                         .scientificName("organism scientific name 9606")
                         .mnemonic("organism mnemonic 9606")
-                        .addSynonyms("organism synonym 9606")
+                        .synonymsAdd("organism synonym 9606")
                         .build();
 
         TaxonomyEntry organismHost9000 =
@@ -188,7 +188,7 @@ class TaxonomyEntryToUniProtDocumentTest {
                         .commonName("organism common name 9000")
                         .scientificName("organism scientific name 9000")
                         .mnemonic("organism mnemonic 9000")
-                        .addSynonyms("organism synonym 9000")
+                        .synonymsAdd("organism synonym 9000")
                         .build();
 
         UniProtDocument doc = new UniProtDocument();

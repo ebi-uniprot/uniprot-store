@@ -39,7 +39,7 @@ public class InactiveFileToInactiveEntry
         EntryInactiveReasonBuilder reasonBuilder = new EntryInactiveReasonBuilder();
         reasonBuilder.type(InactiveReasonType.valueOf(reasonType.toUpperCase()));
         if (tokens.length == 4 && !tokens[3].equals("-")) {
-            reasonBuilder.addMergeDemergeTo(tokens[3]);
+            reasonBuilder.mergeDemergeTosAdd(tokens[3]);
         }
         UniProtEntry inactiveEntry;
         if (Utils.notNull(proteinId) && !proteinId.trim().isEmpty()) {

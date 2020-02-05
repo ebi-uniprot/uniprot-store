@@ -33,7 +33,7 @@ public class FlatFileToOrganismHost implements PairFlatMapFunction<String, Strin
                         .filter(line -> line.startsWith("OH  "))
                         .collect(Collectors.joining("\n"));
 
-        if (Utils.notNullOrEmpty(ohLine)) {
+        if (Utils.notNullNotEmpty(ohLine)) {
             try {
                 final UniprotLineParser<OhLineObject> ohParser =
                         new DefaultUniprotLineParserFactory().createOhLineParser();

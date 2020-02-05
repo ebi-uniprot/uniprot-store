@@ -18,11 +18,11 @@ class InactiveEntryAggregationMapperTest {
     @Test
     void testEntryWithDemerged() throws Exception {
         EntryInactiveReason reason1 =
-                new EntryInactiveReasonBuilder().addMergeDemergeTo("P88888").build();
+                new EntryInactiveReasonBuilder().mergeDemergeTosAdd("P88888").build();
         UniProtEntry entry1 = new UniProtEntryBuilder("P99999", "ID_99999", reason1).build();
 
         EntryInactiveReason reason2 =
-                new EntryInactiveReasonBuilder().addMergeDemergeTo("P77777").build();
+                new EntryInactiveReasonBuilder().mergeDemergeTosAdd("P77777").build();
         UniProtEntry entry2 = new UniProtEntryBuilder("P99999", "ID_99999", reason2).build();
 
         InactiveEntryAggregationMapper mapper = new InactiveEntryAggregationMapper();
@@ -40,10 +40,10 @@ class InactiveEntryAggregationMapperTest {
         assertNotNull(inactiveReason.getInactiveReasonType());
         assertEquals(InactiveReasonType.DEMERGED, inactiveReason.getInactiveReasonType());
 
-        assertNotNull(inactiveReason.getMergeDemergeTo());
-        assertEquals(2, inactiveReason.getMergeDemergeTo().size());
-        assertEquals("P88888", inactiveReason.getMergeDemergeTo().get(0));
-        assertEquals("P77777", inactiveReason.getMergeDemergeTo().get(1));
+        assertNotNull(inactiveReason.getMergeDemergeTos());
+        assertEquals(2, inactiveReason.getMergeDemergeTos().size());
+        assertEquals("P88888", inactiveReason.getMergeDemergeTos().get(0));
+        assertEquals("P77777", inactiveReason.getMergeDemergeTos().get(1));
     }
 
     @Test
@@ -51,7 +51,7 @@ class InactiveEntryAggregationMapperTest {
         EntryInactiveReason reason1 =
                 new EntryInactiveReasonBuilder()
                         .type(InactiveReasonType.MERGED)
-                        .addMergeDemergeTo("P88888")
+                        .mergeDemergeTosAdd("P88888")
                         .build();
         UniProtEntry entry1 = new UniProtEntryBuilder("P99999", "ID_99999", reason1).build();
 
@@ -67,7 +67,7 @@ class InactiveEntryAggregationMapperTest {
         EntryInactiveReason reason1 =
                 new EntryInactiveReasonBuilder()
                         .type(InactiveReasonType.DELETED)
-                        .addMergeDemergeTo("P88888")
+                        .mergeDemergeTosAdd("P88888")
                         .build();
         UniProtEntry entry1 = new UniProtEntryBuilder("P99999", "ID_99999", reason1).build();
 

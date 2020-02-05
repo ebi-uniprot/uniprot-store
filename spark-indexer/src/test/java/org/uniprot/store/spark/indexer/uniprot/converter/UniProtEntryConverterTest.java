@@ -93,11 +93,11 @@ class UniProtEntryConverterTest {
         // given
         APIsoform isoform =
                 new APIsoformBuilder()
-                        .addId("P12345-1")
+                        .isoformIdsAdd("P12345-1")
                         .sequenceStatus(IsoformSequenceStatus.DISPLAYED)
                         .build();
 
-        AlternativeProductsComment comment = new APCommentBuilder().addIsoform(isoform).build();
+        AlternativeProductsComment comment = new APCommentBuilder().isoformsAdd(isoform).build();
 
         UniProtEntry entry =
                 new UniProtEntryBuilder("P12345-1", "UNIPROT_ENTRYID", UniProtEntryType.SWISSPROT)
@@ -187,11 +187,11 @@ class UniProtEntryConverterTest {
         Gene gene =
                 new GeneBuilder()
                         .geneName(new GeneNameBuilder().value("some Gene name").build())
-                        .addSynonyms(new GeneNameSynonymBuilder().value("some Syn").build())
-                        .addOrderedLocusNames(
+                        .synonymsAdd(new GeneNameSynonymBuilder().value("some Syn").build())
+                        .orderedLocusNamesAdd(
                                 new OrderedLocusNameBuilder().value("some locus").build())
-                        .addOrfNames(new ORFNameBuilder().value("some orf").build())
-                        .addOrfNames(new ORFNameBuilder().value("some other orf").build())
+                        .orfNamesAdd(new ORFNameBuilder().value("some orf").build())
+                        .orfNamesAdd(new ORFNameBuilder().value("some other orf").build())
                         .build();
 
         UniProtEntry entry =
@@ -230,10 +230,10 @@ class UniProtEntryConverterTest {
                         .id("KW-1111")
                         .value("keyword value")
                         .category(KeywordCategory.DOMAIN)
-                        .addEvidence(createEvidence("50"))
+                        .evidencesAdd(createEvidence("50"))
                         .build();
 
-        UniProtEntry entry = getBasicEntryBuilder().keywordAdd(keyword).build();
+        UniProtEntry entry = getBasicEntryBuilder().keywordsAdd(keyword).build();
 
         // when
         UniProtEntryConverter converter = new UniProtEntryConverter(null);
@@ -262,10 +262,10 @@ class UniProtEntryConverterTest {
                 new GeneLocationBuilder()
                         .geneEncodingType(GeneEncodingType.CYANELLE)
                         .value("geneLocation value")
-                        .addEvidence(createEvidence("60"))
+                        .evidencesAdd(createEvidence("60"))
                         .build();
 
-        UniProtEntry entry = getBasicEntryBuilder().geneLocationAdd(geneLocation).build();
+        UniProtEntry entry = getBasicEntryBuilder().geneLocationsAdd(geneLocation).build();
 
         // when
         UniProtEntryConverter converter = new UniProtEntryConverter(null);
@@ -340,10 +340,10 @@ class UniProtEntryConverterTest {
                         .geneName(
                                 new GeneNameBuilder()
                                         .value("some Gene name")
-                                        .addEvidence(evidence)
+                                        .evidencesAdd(evidence)
                                         .build())
                         .build();
-        UniProtEntry entry = getBasicEntryBuilder().geneAdd(gene).build();
+        UniProtEntry entry = getBasicEntryBuilder().genesAdd(gene).build();
 
         // when
         UniProtEntryConverter converter = new UniProtEntryConverter(null);

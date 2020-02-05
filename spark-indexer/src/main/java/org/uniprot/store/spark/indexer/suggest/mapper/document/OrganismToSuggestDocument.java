@@ -44,10 +44,10 @@ public class OrganismToSuggestDocument
 
     private static List<String> extractAltValuesFromOrganism(TaxonomyLineage organism) {
         List<String> altValues = new ArrayList<>();
-        if (Utils.notNullOrEmpty(organism.getCommonName())) {
+        if (Utils.notNullNotEmpty(organism.getCommonName())) {
             altValues.add(organism.getCommonName());
         }
-        if (Utils.notNullOrEmpty(organism.getSynonyms())) {
+        if (Utils.notNullNotEmpty(organism.getSynonyms())) {
             altValues.addAll(organism.getSynonyms());
         }
         return altValues;

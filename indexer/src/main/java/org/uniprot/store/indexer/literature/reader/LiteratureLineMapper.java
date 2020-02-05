@@ -98,7 +98,7 @@ public class LiteratureLineMapper extends DefaultLineMapper<LiteratureEntry> {
                         .databaseType(CitationXrefType.PUBMED)
                         .id(pubmedId)
                         .build();
-        builder = builder.addCitationXrefs(pubmedXref);
+        builder = builder.citationXrefsAdd(pubmedXref);
         if (rxLineArray.length > 1) {
             String doiId = rxLineArray[1].substring(rxLineArray[1].indexOf('=') + 1);
             DBCrossReference<CitationXrefType> doiXref =
@@ -106,7 +106,7 @@ public class LiteratureLineMapper extends DefaultLineMapper<LiteratureEntry> {
                             .databaseType(CitationXrefType.DOI)
                             .id(doiId)
                             .build();
-            builder = builder.addCitationXrefs(doiXref);
+            builder = builder.citationXrefsAdd(doiXref);
         }
         return builder;
     }
