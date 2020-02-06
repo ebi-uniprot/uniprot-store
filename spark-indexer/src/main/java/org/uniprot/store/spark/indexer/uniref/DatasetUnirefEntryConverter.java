@@ -22,6 +22,7 @@ import org.uniprot.core.uniref.*;
 import org.uniprot.core.uniref.builder.GoTermBuilder;
 import org.uniprot.core.uniref.builder.RepresentativeMemberBuilder;
 import org.uniprot.core.uniref.builder.UniRefEntryBuilder;
+import org.uniprot.core.uniref.builder.UniRefMemberBuilder;
 import org.uniprot.core.uniref.impl.OverlapRegionImpl;
 import org.uniprot.core.uniref.impl.UniRefEntryIdImpl;
 
@@ -125,8 +126,8 @@ class DatasetUnirefEntryConverter implements MapFunction<Row, UniRefEntry>, Seri
         return builder.build();
     }
 
-    private RepresentativeMember convertMember(Row member) {
-        RepresentativeMemberBuilder builder = new RepresentativeMemberBuilder();
+    private UniRefMember convertMember(Row member) {
+        UniRefMemberBuilder builder = new UniRefMemberBuilder();
         if (hasFieldName("dbReference", member)) {
             Row dbReference = (Row) member.get(member.fieldIndex("dbReference"));
             builder.memberId(dbReference.getString(dbReference.fieldIndex("_id")));
