@@ -61,7 +61,7 @@ class TaxonomyRowMapper implements PairFunction<Row, String, TaxonomyEntry>, Ser
         }
 
         if (hasFieldName("SPTR_SYNONYM", rowValue)) {
-            builder.addSynonyms(rowValue.getString(rowValue.fieldIndex("SPTR_SYNONYM")));
+            builder.synonymsAdd(rowValue.getString(rowValue.fieldIndex("SPTR_SYNONYM")));
         }
 
         if (hasFieldName("HIDDEN", rowValue)) {

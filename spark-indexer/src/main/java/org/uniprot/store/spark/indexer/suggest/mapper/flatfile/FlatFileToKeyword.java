@@ -31,7 +31,7 @@ public class FlatFileToKeyword implements PairFlatMapFunction<String, String, St
                 Arrays.stream(entryStr.split("\n"))
                         .filter(line -> line.startsWith("KW  "))
                         .collect(Collectors.joining("\n"));
-        if (Utils.notNullOrEmpty(keywordLines)) {
+        if (Utils.notNullNotEmpty(keywordLines)) {
             final UniprotLineParser<KwLineObject> kwParser =
                     new DefaultUniprotLineParserFactory().createKwLineParser();
             KwLineObject kwLineObject = kwParser.parse(keywordLines + "\n");

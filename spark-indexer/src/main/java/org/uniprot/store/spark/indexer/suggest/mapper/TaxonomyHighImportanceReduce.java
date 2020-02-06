@@ -25,10 +25,10 @@ public class TaxonomyHighImportanceReduce
         SuggestDocument important = getMostImportant(doc1, doc2);
         if (!important.importance.equals(SuggestDocument.DEFAULT_IMPORTANCE)) {
             Set<String> altValues = new HashSet<>();
-            if (Utils.notNullOrEmpty(doc1.altValues)) {
+            if (Utils.notNullNotEmpty(doc1.altValues)) {
                 altValues.addAll(doc1.altValues);
             }
-            if (Utils.notNullOrEmpty(doc2.altValues)) {
+            if (Utils.notNullNotEmpty(doc2.altValues)) {
                 altValues.addAll(doc2.altValues);
             }
             important.altValues = new ArrayList<>(altValues);

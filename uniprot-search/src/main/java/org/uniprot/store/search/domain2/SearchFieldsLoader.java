@@ -67,10 +67,10 @@ public class SearchFieldsLoader implements SearchFields {
                 && !searchItem.getItemType().equals("groupDisplay")) {
 
             // general
-            if (Utils.notNullOrEmpty(searchItem.getField())) {
+            if (Utils.notNullNotEmpty(searchItem.getField())) {
                 SearchFieldImpl.SearchFieldImplBuilder fieldBuilder = SearchFieldImpl.builder();
 
-                if (Utils.notNullOrEmpty(searchItem.getSortField())) {
+                if (Utils.notNullNotEmpty(searchItem.getSortField())) {
                     SearchFieldImpl sortField =
                             SearchFieldImpl.builder()
                                     .name(searchItem.getSortField())
@@ -89,10 +89,10 @@ public class SearchFieldsLoader implements SearchFields {
             }
 
             // range
-            if (Utils.notNullOrEmpty(searchItem.getRangeField())) {
+            if (Utils.notNullNotEmpty(searchItem.getRangeField())) {
                 SearchFieldImpl.SearchFieldImplBuilder fieldBuilder = SearchFieldImpl.builder();
                 if (searchItem.getField() == null
-                        && Utils.notNullOrEmpty(searchItem.getSortField())) {
+                        && Utils.notNullNotEmpty(searchItem.getSortField())) {
                     SearchFieldImpl sortField =
                             SearchFieldImpl.builder()
                                     .name(searchItem.getSortField())
@@ -111,7 +111,7 @@ public class SearchFieldsLoader implements SearchFields {
             }
 
             // evidence
-            if (Utils.notNullOrEmpty(searchItem.getEvidenceField())) {
+            if (Utils.notNullNotEmpty(searchItem.getEvidenceField())) {
                 SearchFieldImpl field =
                         SearchFieldImpl.builder()
                                 .name(searchItem.getEvidenceField())
@@ -124,7 +124,7 @@ public class SearchFieldsLoader implements SearchFields {
             }
 
             // id
-            if (Utils.notNullOrEmpty(searchItem.getIdField())) {
+            if (Utils.notNullNotEmpty(searchItem.getIdField())) {
                 SearchFieldImpl field =
                         SearchFieldImpl.builder()
                                 .name(searchItem.getIdField())
@@ -138,7 +138,7 @@ public class SearchFieldsLoader implements SearchFields {
             }
         }
 
-        if (Utils.notNullOrEmpty(searchItem.getItems())) {
+        if (Utils.notNullNotEmpty(searchItem.getItems())) {
             searchItem.getItems().forEach(field -> searchItemToSearchField(field, fields));
         }
     }

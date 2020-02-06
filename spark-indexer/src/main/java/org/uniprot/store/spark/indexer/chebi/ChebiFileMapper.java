@@ -24,7 +24,7 @@ public class ChebiFileMapper implements PairFunction<String, String, Chebi> {
     public Tuple2<String, Chebi> call(String chebiLines) throws Exception {
         ChebiFileReader reader = new ChebiFileReader();
         List<Chebi> result = reader.parseLines(Arrays.asList(chebiLines.split("\n")));
-        if (Utils.notNullOrEmpty(result)) {
+        if (Utils.notNullNotEmpty(result)) {
             Chebi chebi = result.get(0);
             return new Tuple2<>(chebi.getId(), chebi);
         } else {

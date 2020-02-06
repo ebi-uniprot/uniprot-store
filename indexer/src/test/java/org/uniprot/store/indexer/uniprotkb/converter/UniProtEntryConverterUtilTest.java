@@ -157,15 +157,15 @@ class UniProtEntryConverterUtilTest {
     void isCanonicalIsoformWhenIsCannonicalIsoform() {
         APIsoform isoform =
                 new APIsoformBuilder()
-                        .addId("P12345")
+                        .isoformIdsAdd("P12345")
                         .sequenceStatus(IsoformSequenceStatus.DISPLAYED)
                         .build();
 
-        AlternativeProductsComment comment = new APCommentBuilder().addIsoform(isoform).build();
+        AlternativeProductsComment comment = new APCommentBuilder().isoformsAdd(isoform).build();
 
         UniProtEntry entry =
                 new UniProtEntryBuilder("P12345", "id", UniProtEntryType.SWISSPROT)
-                        .commentAdd(comment)
+                        .commentsAdd(comment)
                         .build();
 
         boolean isCanonical = UniProtEntryConverterUtil.isCanonicalIsoform(entry);

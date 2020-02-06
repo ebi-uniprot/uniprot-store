@@ -43,7 +43,7 @@ class UniProtEntryReferencesConverter {
                                 });
             }
             if (citation.hasAuthoringGroup()) {
-                citation.getAuthoringGroup()
+                citation.getAuthoringGroups()
                         .forEach(
                                 authGroup -> {
                                     document.referenceOrganizations.add(authGroup);

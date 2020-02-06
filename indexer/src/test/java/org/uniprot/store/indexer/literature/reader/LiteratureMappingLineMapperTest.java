@@ -42,9 +42,9 @@ class LiteratureMappingLineMapperTest {
         assertEquals(reference.getAnnotation(), "Not Associated with PSYCH: schizophrenia.");
 
         assertTrue(reference.hasSourceCategory());
-        assertEquals(reference.getSourceCategory().size(), 1);
+        assertEquals(reference.getSourceCategories().size(), 1);
         MatcherAssert.assertThat(
-                reference.getSourceCategory(), Matchers.contains("Pathology & Biotech"));
+                reference.getSourceCategories(), Matchers.contains("Pathology & Biotech"));
     }
 
     @Test
@@ -107,8 +107,8 @@ class LiteratureMappingLineMapperTest {
         assertFalse(reference.hasAnnotation());
 
         assertTrue(reference.hasSourceCategory());
-        assertEquals(reference.getSourceCategory().size(), 2);
+        assertEquals(reference.getSourceCategories().size(), 2);
         MatcherAssert.assertThat(
-                reference.getSourceCategory(), Matchers.contains("Expression", "Sequences"));
+                reference.getSourceCategories(), Matchers.contains("Expression", "Sequences"));
     }
 }

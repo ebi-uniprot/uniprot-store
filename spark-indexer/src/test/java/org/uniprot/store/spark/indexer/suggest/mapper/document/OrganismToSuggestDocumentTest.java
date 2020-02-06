@@ -57,8 +57,8 @@ class OrganismToSuggestDocumentTest {
                         .taxonId(2222)
                         .scientificName("value2")
                         .commonName("alt1")
-                        .addSynonyms("alt2")
-                        .addSynonyms("alt3")
+                        .synonymsAdd("alt2")
+                        .synonymsAdd("alt3")
                         .build();
 
         SuggestDocument result =

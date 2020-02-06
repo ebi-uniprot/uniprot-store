@@ -62,7 +62,7 @@ public class SolrQueryUtil {
             BooleanQuery booleanQuery = (BooleanQuery) inputQuery;
             for (BooleanClause clause : booleanQuery.clauses()) {
                 String value = getTermValue(clause.getQuery(), term);
-                if (Utils.notNullOrEmpty(value)) {
+                if (Utils.notNullNotEmpty(value)) {
                     result = value;
                     break;
                 }

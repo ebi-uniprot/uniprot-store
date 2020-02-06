@@ -40,8 +40,8 @@ class InactiveFileToInactiveEntryTest {
         assertNotNull(inactiveReason.getInactiveReasonType());
         assertEquals(InactiveReasonType.DELETED, inactiveReason.getInactiveReasonType());
 
-        assertNotNull(inactiveReason.getMergeDemergeTo());
-        assertTrue(inactiveReason.getMergeDemergeTo().isEmpty());
+        assertNotNull(inactiveReason.getMergeDemergeTos());
+        assertTrue(inactiveReason.getMergeDemergeTos().isEmpty());
     }
 
     @Test
@@ -69,9 +69,9 @@ class InactiveFileToInactiveEntryTest {
         assertNotNull(inactiveReason.getInactiveReasonType());
         assertEquals(InactiveReasonType.MERGED, inactiveReason.getInactiveReasonType());
 
-        assertNotNull(inactiveReason.getMergeDemergeTo());
-        assertEquals(1, inactiveReason.getMergeDemergeTo().size());
-        assertEquals("P69159", inactiveReason.getMergeDemergeTo().get(0));
+        assertNotNull(inactiveReason.getMergeDemergeTos());
+        assertEquals(1, inactiveReason.getMergeDemergeTos().size());
+        assertEquals("P69159", inactiveReason.getMergeDemergeTos().get(0));
     }
 
     @Test
@@ -98,8 +98,8 @@ class InactiveFileToInactiveEntryTest {
         assertNotNull(inactiveReason.getInactiveReasonType());
         assertEquals(InactiveReasonType.MERGED, inactiveReason.getInactiveReasonType());
 
-        assertNotNull(inactiveReason.getMergeDemergeTo());
-        assertEquals(1, inactiveReason.getMergeDemergeTo().size());
-        assertEquals("P69160", inactiveReason.getMergeDemergeTo().get(0));
+        assertNotNull(inactiveReason.getMergeDemergeTos());
+        assertEquals(1, inactiveReason.getMergeDemergeTos().size());
+        assertEquals("P69160", inactiveReason.getMergeDemergeTos().get(0));
     }
 }

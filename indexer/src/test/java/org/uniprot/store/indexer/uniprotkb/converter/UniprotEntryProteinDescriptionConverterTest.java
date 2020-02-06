@@ -153,21 +153,21 @@ class UniprotEntryProteinDescriptionConverterTest {
         ProteinSection include =
                 new ProteinSectionBuilder()
                         .recommendedName(getRecommendedName("includes"))
-                        .alternativeNames(createAltName("includes"))
-                        .addInnNames(createName("includes inn antigen", "PRU100212"))
+                        .alternativeNamesSet(createAltName("includes"))
+                        .innNamesAdd(createName("includes inn antigen", "PRU100212"))
                         .allergenName(createName("includes allergen", "PRU10023"))
                         .biotechName(createName("includes biotech", "PRU10024"))
-                        .addCdAntigenNames(createName("includes cd antigen", "PRU10025"))
+                        .cdAntigenNamesAdd(createName("includes cd antigen", "PRU10025"))
                         .build();
 
         ProteinSection contain =
                 new ProteinSectionBuilder()
                         .recommendedName(getRecommendedName("contains"))
-                        .alternativeNames(createAltName("contains"))
-                        .addInnNames(createName("contains inn antigen", "PRU100212"))
+                        .alternativeNamesSet(createAltName("contains"))
+                        .innNamesAdd(createName("contains inn antigen", "PRU100212"))
                         .allergenName(createName("contains allergen", "PRU10023"))
                         .biotechName(createName("contains biotech", "PRU10024"))
-                        .addCdAntigenNames(createName("contains cd antigen", "PRU10025"))
+                        .cdAntigenNamesAdd(createName("contains cd antigen", "PRU10025"))
                         .build();
 
         ProteinRecName recommendedName = getRecommendedName("");
@@ -176,15 +176,15 @@ class UniprotEntryProteinDescriptionConverterTest {
 
         return new ProteinDescriptionBuilder()
                 .allergenName(createName("main allergen", "PRU10023"))
-                .alternativeNames(proteinAltNames)
+                .alternativeNamesSet(proteinAltNames)
                 .biotechName(createName("main biotech", "PRU10024"))
-                .addCdAntigenNames(createName("main cd antigen", "PRU10025"))
+                .cdAntigenNamesAdd(createName("main cd antigen", "PRU10025"))
                 .flag(FlagType.FRAGMENT)
-                .addIncludes(include)
-                .addContains(contain)
-                .addInnNames(createName("main inn antigen", "PRU100212"))
+                .includesAdd(include)
+                .containsAdd(contain)
+                .innNamesAdd(createName("main inn antigen", "PRU100212"))
                 .recommendedName(recommendedName)
-                .submissionNames(subNames)
+                .submissionNamesSet(subNames)
                 .build();
     }
 
@@ -195,8 +195,8 @@ class UniprotEntryProteinDescriptionConverterTest {
 
         return new ProteinRecNameBuilder()
                 .fullName(fullName)
-                .shortNames(shortNames)
-                .ecNumbers(ecNumbers)
+                .shortNamesSet(shortNames)
+                .ecNumbersSet(ecNumbers)
                 .build();
     }
 
@@ -205,7 +205,7 @@ class UniprotEntryProteinDescriptionConverterTest {
         List<EC> ecNumbers1 = createECNumbers("1.2.3.5", 11);
 
         ProteinSubName subName =
-                new ProteinSubNameBuilder().fullName(fullName1).ecNumbers(ecNumbers1).build();
+                new ProteinSubNameBuilder().fullName(fullName1).ecNumbersSet(ecNumbers1).build();
         return Collections.singletonList(subName);
     }
 
@@ -217,8 +217,8 @@ class UniprotEntryProteinDescriptionConverterTest {
         ProteinAltName alternativeName =
                 new ProteinAltNameBuilder()
                         .fullName(fullName)
-                        .shortNames(shortNames)
-                        .ecNumbers(ecNumbers)
+                        .shortNamesSet(shortNames)
+                        .ecNumbersSet(ecNumbers)
                         .build();
         return Collections.singletonList(alternativeName);
     }
@@ -228,14 +228,14 @@ class UniprotEntryProteinDescriptionConverterTest {
     }
 
     private static Name createName(String value, String id) {
-        return new NameBuilder().value(value).addEvidence(createEvidence(2)).build();
+        return new NameBuilder().value(value).evidencesAdd(createEvidence(2)).build();
     }
 
     private static List<EC> createECNumbers(String ec, int index) {
         return Collections.singletonList(
                 new org.uniprot.core.uniprot.description.builder.ECBuilder()
                         .value(ec)
-                        .addEvidence(createEvidence(index))
+                        .evidencesAdd(createEvidence(index))
                         .build());
     }
 

@@ -26,7 +26,7 @@ public class GOToSuggestDocument
         List<SuggestDocument> result = new ArrayList<>();
         GOTerm goTerm = tuple._1;
         result.add(buildSuggestDocument(goTerm));
-        if (Utils.notNullOrEmpty(goTerm.getAncestors())) {
+        if (Utils.notNullNotEmpty(goTerm.getAncestors())) {
             goTerm.getAncestors()
                     .forEach(
                             ancestor -> {

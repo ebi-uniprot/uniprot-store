@@ -47,7 +47,7 @@ public class LiteratureStatisticsProcessor
                         .databaseType(CitationXrefType.PUBMED)
                         .id(String.valueOf(literatureCount.getPubmedId()))
                         .build();
-        Literature literature = new LiteratureBuilder().addCitationXrefs(pubmedXref).build();
+        Literature literature = new LiteratureBuilder().citationXrefsAdd(pubmedXref).build();
         LiteratureEntry literatureEntry =
                 new LiteratureEntryBuilder().citation(literature).statistics(statistics).build();
 

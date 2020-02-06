@@ -121,12 +121,12 @@ public class ProteomeEntryConverter implements DocumentConverter<Proteome, Prote
     private byte[] getBinaryObject(Proteome source) {
         ProteomeEntry proteome = this.proteomeConverter.fromXml(source);
         ProteomeEntryBuilder builder = ProteomeEntryBuilder.from(proteome);
-        builder.canonicalProteins(Collections.emptyList());
+        builder.canonicalProteinsSet(Collections.emptyList());
         Optional<TaxonomicNode> taxonomicNode =
                 taxonomyRepo.retrieveNodeUsingTaxID((int) proteome.getTaxonomy().getTaxonId());
         if (taxonomicNode.isPresent()) {
             builder.taxonomy(getTaxonomy(taxonomicNode.get(), proteome.getTaxonomy().getTaxonId()));
-            builder.taxonLineage(getLineage(taxonomicNode.get().id()));
+            builder.taxonLineagesSet(getLineage(taxonomicNode.get().id()));
         }
         ProteomeEntry modifiedProteome = builder.build();
         byte[] binaryEntry;
@@ -145,7 +145,7 @@ public class ProteomeEntryConverter implements DocumentConverter<Proteome, Prote
         if (!Strings.isNullOrEmpty(node.commonName())) builder.commonName(node.commonName());
         if (!Strings.isNullOrEmpty(node.mnemonic())) builder.mnemonic(node.mnemonic());
         if (!Strings.isNullOrEmpty(node.synonymName())) {
-            builder.addSynonyms(node.synonymName());
+            builder.synonymsAdd(node.synonymName());
         }
         return builder.build();
     }

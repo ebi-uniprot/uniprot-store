@@ -235,9 +235,9 @@ class UniProtEntryCrossReferenceConverterTest {
         return new UniProtDBCrossReferenceBuilder()
                 .id(id)
                 .isoformId("Q9NXB0-1")
-                .properties(Arrays.asList(property))
+                .propertiesSet(Arrays.asList(property))
                 .databaseType(dbType)
-                .addEvidence(createEvidence())
+                .evidencesAdd(createEvidence())
                 .build();
     }
 

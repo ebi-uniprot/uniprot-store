@@ -222,9 +222,9 @@ class TaxonomyJobIT {
         assertThat(strain.getName(), is("strain 1"));
         assertThat(strain.getSynonyms(), contains("strain 1,syn 1 ", "strain 1,syn 2"));
 
-        assertThat(entry.getLineage(), is(notNullValue()));
-        assertThat(entry.getLineage().size(), is(1));
-        TaxonomyLineage lineage = entry.getLineage().get(0);
+        assertThat(entry.getLineages(), is(notNullValue()));
+        assertThat(entry.getLineages().size(), is(1));
+        TaxonomyLineage lineage = entry.getLineages().get(0);
         assertThat(lineage.getTaxonId(), is(4L));
         assertThat(lineage.getScientificName(), is("name4"));
         assertThat(lineage.getRank(), is(TaxonomyRank.KINGDOM));

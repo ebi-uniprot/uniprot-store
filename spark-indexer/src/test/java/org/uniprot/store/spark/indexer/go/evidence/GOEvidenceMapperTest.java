@@ -43,8 +43,8 @@ class GOEvidenceMapperTest {
 
         UniProtEntry entry =
                 new UniProtEntryBuilder("P12345", "ID_P12345", UniProtEntryType.SWISSPROT)
-                        .databaseCrossReferenceAdd(goCrossReference)
-                        .databaseCrossReferenceAdd(otherGoCrossReference)
+                        .databaseCrossReferencesAdd(goCrossReference)
+                        .databaseCrossReferencesAdd(otherGoCrossReference)
                         .build();
 
         Evidence evidence =
@@ -109,8 +109,8 @@ class GOEvidenceMapperTest {
 
         UniProtEntry entry =
                 new UniProtEntryBuilder("P12345", "ID_P12345", UniProtEntryType.SWISSPROT)
-                        .databaseCrossReferenceAdd(goCrossReference)
-                        .databaseCrossReferenceAdd(otherGoCrossReference)
+                        .databaseCrossReferencesAdd(goCrossReference)
+                        .databaseCrossReferencesAdd(otherGoCrossReference)
                         .build();
 
         Tuple2<UniProtEntry, Optional<Iterable<GOEvidence>>> tuple =
@@ -150,8 +150,8 @@ class GOEvidenceMapperTest {
 
         UniProtEntry entry =
                 new UniProtEntryBuilder("P12345", "ID_P12345", UniProtEntryType.SWISSPROT)
-                        .databaseCrossReferenceAdd(goCrossReference)
-                        .databaseCrossReferenceAdd(otherGoCrossReference)
+                        .databaseCrossReferencesAdd(goCrossReference)
+                        .databaseCrossReferencesAdd(otherGoCrossReference)
                         .build();
 
         Tuple2<UniProtEntry, Optional<Iterable<GOEvidence>>> tuple =

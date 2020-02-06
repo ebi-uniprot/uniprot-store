@@ -22,9 +22,9 @@ public class InactiveUniprotEntryConverter
         }
         document.inactiveReason =
                 source.getInactiveReason().getInactiveReasonType().toDisplayName();
-        if (Utils.notNullOrEmpty(source.getInactiveReason().getMergeDemergeTo())) {
+        if (Utils.notNullNotEmpty(source.getInactiveReason().getMergeDemergeTos())) {
             document.inactiveReason +=
-                    ":" + String.join(",", source.getInactiveReason().getMergeDemergeTo());
+                    ":" + String.join(",", source.getInactiveReason().getMergeDemergeTos());
         }
         document.active = false;
 

@@ -339,7 +339,7 @@ class UniProtEntryCommentsConverter {
 
     private List<String> getTextsValue(List<EvidencedValue> texts) {
         List<String> result = new ArrayList<>();
-        if (Utils.notNullOrEmpty(texts)) {
+        if (Utils.notNullNotEmpty(texts)) {
             texts.stream().map(Value::getValue).forEach(result::add);
         }
         return result;
@@ -347,7 +347,7 @@ class UniProtEntryCommentsConverter {
 
     private Set<String> getTextsEvidence(List<EvidencedValue> texts) {
         Set<String> result = new HashSet<>();
-        if (Utils.notNullOrEmpty(texts)) {
+        if (Utils.notNullNotEmpty(texts)) {
             List<Evidence> evidences =
                     texts.stream()
                             .flatMap(text -> text.getEvidences().stream())

@@ -29,14 +29,14 @@ class UniRefEntryRDDTupleMapperTest {
         RepresentativeMember representativeMember =
                 new RepresentativeMemberBuilder()
                         .memberIdType(UniRefMemberIdType.UNIPROTKB)
-                        .addAccession(new UniProtAccessionBuilder("P12345").build())
+                        .accessionsAdd(new UniProtAccessionBuilder("P12345").build())
                         .uniparcId(new UniParcIdImpl("UPI000000111"))
                         .build();
 
         UniRefMember member =
                 new UniRefMemberBuilder()
                         .memberIdType(UniRefMemberIdType.UNIPARC)
-                        .addAccession(new UniProtAccessionBuilder("UP1234567890").build())
+                        .accessionsAdd(new UniProtAccessionBuilder("UP1234567890").build())
                         .build();
 
         UniRefEntry entry =
@@ -45,7 +45,7 @@ class UniRefEntryRDDTupleMapperTest {
                         .id("UniRef100_P12345")
                         .memberCount(10)
                         .representativeMember(representativeMember)
-                        .addMember(member)
+                        .membersAdd(member)
                         .build();
 
         Iterator<Tuple2<String, MappedUniRef>> result = mapper.call(entry);
@@ -74,20 +74,20 @@ class UniRefEntryRDDTupleMapperTest {
         RepresentativeMember representativeMember =
                 new RepresentativeMemberBuilder()
                         .memberIdType(UniRefMemberIdType.UNIPARC)
-                        .addAccession(new UniProtAccessionBuilder("UP1234567890").build())
+                        .accessionsAdd(new UniProtAccessionBuilder("UP1234567890").build())
                         .build();
 
         UniRefMember member =
                 new UniRefMemberBuilder()
                         .memberIdType(UniRefMemberIdType.UNIPROTKB)
-                        .addAccession(new UniProtAccessionBuilder("P12345").build())
+                        .accessionsAdd(new UniProtAccessionBuilder("P12345").build())
                         .uniparcId(new UniParcIdImpl("UPI000000111"))
                         .build();
 
         UniRefMember uniparcMember =
                 new UniRefMemberBuilder()
                         .memberIdType(UniRefMemberIdType.UNIPARC)
-                        .addAccession(new UniProtAccessionBuilder("UP1234567899").build())
+                        .accessionsAdd(new UniProtAccessionBuilder("UP1234567899").build())
                         .build();
 
         UniRefEntry entry =
@@ -95,8 +95,8 @@ class UniRefEntryRDDTupleMapperTest {
                         .entryType(UniRefType.UniRef100)
                         .id("UniRef100_P12345")
                         .memberCount(10)
-                        .addMember(member)
-                        .addMember(uniparcMember)
+                        .membersAdd(member)
+                        .membersAdd(uniparcMember)
                         .representativeMember(representativeMember)
                         .build();
 
