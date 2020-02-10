@@ -3,9 +3,9 @@ package org.uniprot.store.spark.indexer.keyword;
 import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
-import org.uniprot.core.cv.keyword.KeywordEntry;
-import org.uniprot.core.cv.keyword.impl.KeywordEntryImpl;
 import org.uniprot.core.cv.keyword.impl.KeywordImpl;
+import org.uniprot.cv.keyword.KeywordEntry;
+import org.uniprot.cv.keyword.impl.KeywordEntryImpl;
 
 import scala.Tuple2;
 

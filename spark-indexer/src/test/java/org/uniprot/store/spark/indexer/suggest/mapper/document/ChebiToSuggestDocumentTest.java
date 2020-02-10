@@ -3,8 +3,8 @@ package org.uniprot.store.spark.indexer.suggest.mapper.document;
 import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
-import org.uniprot.core.cv.chebi.Chebi;
-import org.uniprot.core.cv.chebi.ChebiBuilder;
+import org.uniprot.cv.chebi.Chebi;
+import org.uniprot.cv.chebi.ChebiBuilder;
 import org.uniprot.store.search.document.suggest.SuggestDocument;
 
 import scala.Tuple2;

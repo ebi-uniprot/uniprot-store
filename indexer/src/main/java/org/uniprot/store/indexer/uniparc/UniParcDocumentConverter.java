@@ -3,8 +3,6 @@ package org.uniprot.store.indexer.uniparc;
 import java.nio.ByteBuffer;
 import java.util.List;
 
-import org.uniprot.core.cv.taxonomy.TaxonomicNode;
-import org.uniprot.core.cv.taxonomy.TaxonomyRepo;
 import org.uniprot.core.json.parser.uniparc.UniParcJsonConfig;
 import org.uniprot.core.uniparc.UniParcDBCrossReference;
 import org.uniprot.core.uniparc.UniParcDatabaseType;
@@ -12,6 +10,8 @@ import org.uniprot.core.uniparc.UniParcEntry;
 import org.uniprot.core.uniprot.taxonomy.Taxonomy;
 import org.uniprot.core.xml.jaxb.uniparc.Entry;
 import org.uniprot.core.xml.uniparc.UniParcEntryConverter;
+import org.uniprot.cv.taxonomy.TaxonomicNode;
+import org.uniprot.cv.taxonomy.TaxonomyRepo;
 import org.uniprot.store.indexer.util.TaxonomyRepoUtil;
 import org.uniprot.store.job.common.converter.DocumentConverter;
 import org.uniprot.store.search.document.uniparc.UniParcDocument;

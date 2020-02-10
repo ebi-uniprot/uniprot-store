@@ -4,10 +4,10 @@ import java.io.File;
 import java.net.URISyntaxException;
 import java.net.URL;
 
-import org.uniprot.core.cv.taxonomy.FileNodeIterable;
-import org.uniprot.core.cv.taxonomy.TaxonomyRepo;
-import org.uniprot.core.cv.taxonomy.impl.TaxonomyMapRepo;
 import org.uniprot.core.xml.jaxb.proteome.Proteome;
+import org.uniprot.cv.taxonomy.FileNodeIterable;
+import org.uniprot.cv.taxonomy.TaxonomyRepo;
+import org.uniprot.cv.taxonomy.impl.TaxonomyMapRepo;
 import org.uniprot.store.indexer.proteome.ProteomeEntryConverter;
 import org.uniprot.store.indexer.search.AbstractSearchEngine;
 import org.uniprot.store.job.common.converter.DocumentConverter;

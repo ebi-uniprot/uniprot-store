@@ -6,7 +6,7 @@ import org.apache.hadoop.conf.Configuration;
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaSparkContext;
 import org.apache.spark.sql.SparkSession;
-import org.uniprot.core.cv.chebi.Chebi;
+import org.uniprot.cv.chebi.Chebi;
 
 /**
  * @author lgonzales

@@ -5,8 +5,8 @@ import java.util.ResourceBundle;
 
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaSparkContext;
-import org.uniprot.core.cv.keyword.KeywordEntry;
-import org.uniprot.core.cv.keyword.KeywordFileReader;
+import org.uniprot.cv.keyword.KeywordEntry;
+import org.uniprot.cv.keyword.KeywordFileReader;
 import org.uniprot.store.spark.indexer.util.SparkUtils;
 
 /**
