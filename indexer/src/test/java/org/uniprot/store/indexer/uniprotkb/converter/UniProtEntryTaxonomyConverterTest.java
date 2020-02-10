@@ -9,12 +9,12 @@ import static org.mockito.Mockito.when;
 import java.util.*;
 
 import org.junit.jupiter.api.Test;
-import org.uniprot.core.cv.taxonomy.TaxonomicNode;
-import org.uniprot.core.cv.taxonomy.TaxonomyRepo;
 import org.uniprot.core.uniprot.taxonomy.Organism;
 import org.uniprot.core.uniprot.taxonomy.OrganismHost;
 import org.uniprot.core.uniprot.taxonomy.builder.OrganismBuilder;
 import org.uniprot.core.uniprot.taxonomy.builder.OrganismHostBuilder;
+import org.uniprot.cv.taxonomy.TaxonomicNode;
+import org.uniprot.cv.taxonomy.TaxonomyRepo;
 import org.uniprot.store.search.document.suggest.SuggestDocument;
 import org.uniprot.store.search.document.uniprot.UniProtDocument;
 

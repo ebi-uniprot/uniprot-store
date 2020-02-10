@@ -3,8 +3,8 @@ package org.uniprot.store.spark.indexer.suggest.mapper.document;
 import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
-import org.uniprot.core.cv.ec.EC;
-import org.uniprot.core.cv.ec.impl.ECImpl;
+import org.uniprot.cv.ec.EC;
+import org.uniprot.cv.ec.impl.ECImpl;
 import org.uniprot.store.search.document.suggest.SuggestDocument;
 
 import scala.Tuple2;

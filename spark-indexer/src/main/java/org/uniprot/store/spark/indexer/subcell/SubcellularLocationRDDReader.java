@@ -5,8 +5,8 @@ import java.util.ResourceBundle;
 
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaSparkContext;
-import org.uniprot.core.cv.subcell.SubcellularLocationEntry;
-import org.uniprot.core.cv.subcell.SubcellularLocationFileReader;
+import org.uniprot.cv.subcell.SubcellularLocationEntry;
+import org.uniprot.cv.subcell.SubcellularLocationFileReader;
 import org.uniprot.store.spark.indexer.util.SparkUtils;
 
 /**

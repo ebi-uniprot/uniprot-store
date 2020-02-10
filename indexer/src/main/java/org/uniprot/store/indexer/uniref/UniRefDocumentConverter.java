@@ -4,14 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.uniprot.core.cv.taxonomy.TaxonomicNode;
-import org.uniprot.core.cv.taxonomy.TaxonomyRepo;
 import org.uniprot.core.uniref.UniRefEntry;
 import org.uniprot.core.uniref.UniRefMember;
 import org.uniprot.core.uniref.UniRefMemberIdType;
 import org.uniprot.core.util.Utils;
 import org.uniprot.core.xml.jaxb.uniref.Entry;
 import org.uniprot.core.xml.uniref.UniRefEntryConverter;
+import org.uniprot.cv.taxonomy.TaxonomicNode;
+import org.uniprot.cv.taxonomy.TaxonomyRepo;
 import org.uniprot.store.indexer.util.DateUtils;
 import org.uniprot.store.indexer.util.TaxonomyRepoUtil;
 import org.uniprot.store.job.common.converter.DocumentConverter;

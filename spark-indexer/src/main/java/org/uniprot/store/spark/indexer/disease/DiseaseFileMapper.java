@@ -7,8 +7,8 @@ import lombok.extern.slf4j.Slf4j;
 
 import org.apache.spark.api.java.function.PairFunction;
 import org.uniprot.core.cv.disease.Disease;
-import org.uniprot.core.cv.disease.DiseaseFileReader;
 import org.uniprot.core.util.Utils;
+import org.uniprot.cv.disease.DiseaseFileReader;
 
 import scala.Tuple2;
 

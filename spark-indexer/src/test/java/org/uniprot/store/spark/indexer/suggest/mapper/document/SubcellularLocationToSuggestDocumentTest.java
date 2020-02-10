@@ -3,7 +3,7 @@ package org.uniprot.store.spark.indexer.suggest.mapper.document;
 import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
-import org.uniprot.core.cv.subcell.impl.SubcellularLocationEntryImpl;
+import org.uniprot.cv.subcell.impl.SubcellularLocationEntryImpl;
 import org.uniprot.store.search.document.suggest.SuggestDocument;
 
 /**

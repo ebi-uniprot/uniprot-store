@@ -12,16 +12,16 @@ import lombok.extern.slf4j.Slf4j;
 
 import org.apache.hadoop.conf.Configuration;
 import org.uniprot.core.cv.disease.Disease;
-import org.uniprot.core.cv.disease.DiseaseFileReader;
 import org.uniprot.core.cv.keyword.KeywordCategory;
-import org.uniprot.core.cv.keyword.KeywordEntry;
-import org.uniprot.core.cv.keyword.KeywordFileReader;
-import org.uniprot.core.cv.subcell.SubcellularLocationEntry;
-import org.uniprot.core.cv.subcell.SubcellularLocationFileReader;
 import org.uniprot.core.flatfile.parser.SupportingDataMap;
 import org.uniprot.core.uniprot.evidence.Evidence;
 import org.uniprot.core.util.Pair;
 import org.uniprot.core.util.Utils;
+import org.uniprot.cv.disease.DiseaseFileReader;
+import org.uniprot.cv.keyword.KeywordEntry;
+import org.uniprot.cv.keyword.KeywordFileReader;
+import org.uniprot.cv.subcell.SubcellularLocationEntry;
+import org.uniprot.cv.subcell.SubcellularLocationFileReader;
 
 /**
  * Class responsible to load SupportingData from Hadoop FileSystem.

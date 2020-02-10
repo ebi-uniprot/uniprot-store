@@ -3,8 +3,8 @@ package org.uniprot.store.spark.indexer.subcell;
 import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
-import org.uniprot.core.cv.subcell.SubcellularLocationEntry;
-import org.uniprot.core.cv.subcell.impl.SubcellularLocationEntryImpl;
+import org.uniprot.cv.subcell.SubcellularLocationEntry;
+import org.uniprot.cv.subcell.impl.SubcellularLocationEntryImpl;
 
 import scala.Tuple2;
 

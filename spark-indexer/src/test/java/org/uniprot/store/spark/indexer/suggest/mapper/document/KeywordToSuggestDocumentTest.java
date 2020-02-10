@@ -3,8 +3,8 @@ package org.uniprot.store.spark.indexer.suggest.mapper.document;
 import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
-import org.uniprot.core.cv.keyword.impl.KeywordEntryImpl;
 import org.uniprot.core.cv.keyword.impl.KeywordImpl;
+import org.uniprot.cv.keyword.impl.KeywordEntryImpl;
 import org.uniprot.store.search.document.suggest.SuggestDocument;
 
 /**
