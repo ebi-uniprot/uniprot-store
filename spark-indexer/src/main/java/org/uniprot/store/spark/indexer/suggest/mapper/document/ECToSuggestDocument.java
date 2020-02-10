@@ -1,7 +1,7 @@
 package org.uniprot.store.spark.indexer.suggest.mapper.document;
 
 import org.apache.spark.api.java.function.Function;
-import org.uniprot.cv.ec.EC;
+import org.uniprot.core.cv.ec.EC;
 import org.uniprot.store.search.document.suggest.SuggestDictionary;
 import org.uniprot.store.search.document.suggest.SuggestDocument;
 

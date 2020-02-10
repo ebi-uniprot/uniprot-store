@@ -7,7 +7,7 @@ import java.util.ResourceBundle;
 
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaSparkContext;
-import org.uniprot.cv.ec.EC;
+import org.uniprot.core.cv.ec.EC;
 import org.uniprot.cv.ec.ECCache;
 import org.uniprot.cv.ec.ECFileReader;
 import org.uniprot.store.spark.indexer.util.SparkUtils;

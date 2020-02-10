@@ -3,7 +3,7 @@ package org.uniprot.store.spark.indexer.suggest.mapper.document;
 import static org.uniprot.core.util.Utils.nullOrEmpty;
 
 import org.apache.spark.api.java.function.Function;
-import org.uniprot.cv.chebi.Chebi;
+import org.uniprot.core.cv.chebi.Chebi;
 import org.uniprot.store.search.document.suggest.SuggestDocument;
 
 import scala.Tuple2;
