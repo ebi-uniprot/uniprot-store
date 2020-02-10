@@ -1,7 +1,7 @@
 package org.uniprot.store.spark.indexer.ec;
 
 import org.apache.spark.api.java.function.PairFunction;
-import org.uniprot.cv.ec.EC;
+import org.uniprot.core.cv.ec.EC;
 
 import scala.Tuple2;
 

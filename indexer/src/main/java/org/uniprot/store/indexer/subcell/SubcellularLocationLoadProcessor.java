@@ -10,11 +10,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.StepExecution;
 import org.springframework.batch.core.annotation.BeforeStep;
 import org.springframework.batch.item.ItemProcessor;
+import org.uniprot.core.cv.subcell.SubcellularLocationEntry;
+import org.uniprot.core.cv.subcell.SubcellularLocationStatistics;
+import org.uniprot.core.cv.subcell.impl.SubcellularLocationEntryImpl;
+import org.uniprot.core.cv.subcell.impl.SubcellularLocationStatisticsImpl;
 import org.uniprot.core.json.parser.subcell.SubcellularLocationJsonConfig;
-import org.uniprot.cv.subcell.SubcellularLocationEntry;
-import org.uniprot.cv.subcell.SubcellularLocationStatistics;
-import org.uniprot.cv.subcell.impl.SubcellularLocationEntryImpl;
-import org.uniprot.cv.subcell.impl.SubcellularLocationStatisticsImpl;
 import org.uniprot.store.indexer.common.utils.Constants;
 import org.uniprot.store.search.document.subcell.SubcellularLocationDocument;
 

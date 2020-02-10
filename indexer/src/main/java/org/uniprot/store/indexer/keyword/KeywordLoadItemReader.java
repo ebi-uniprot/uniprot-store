@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.util.Iterator;
 
 import org.springframework.batch.item.ItemReader;
-import org.uniprot.cv.keyword.KeywordEntry;
+import org.uniprot.core.cv.keyword.KeywordEntry;
 import org.uniprot.cv.keyword.KeywordFileReader;
 
 /** @author lgonzales */

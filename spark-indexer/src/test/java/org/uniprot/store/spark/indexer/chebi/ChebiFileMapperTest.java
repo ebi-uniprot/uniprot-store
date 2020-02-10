@@ -3,7 +3,7 @@ package org.uniprot.store.spark.indexer.chebi;
 import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
-import org.uniprot.cv.chebi.Chebi;
+import org.uniprot.core.cv.chebi.Chebi;
 
 import scala.Tuple2;
 

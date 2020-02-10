@@ -3,8 +3,8 @@ package org.uniprot.store.spark.indexer.ec;
 import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
-import org.uniprot.cv.ec.EC;
-import org.uniprot.cv.ec.impl.ECImpl;
+import org.uniprot.core.cv.ec.EC;
+import org.uniprot.core.cv.ec.ECImpl;
 
 import scala.Tuple2;
 

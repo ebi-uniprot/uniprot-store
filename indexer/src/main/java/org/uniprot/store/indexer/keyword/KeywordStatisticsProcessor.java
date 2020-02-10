@@ -3,11 +3,11 @@ package org.uniprot.store.indexer.keyword;
 import java.nio.ByteBuffer;
 
 import org.springframework.batch.item.ItemProcessor;
+import org.uniprot.core.cv.keyword.KeywordEntry;
+import org.uniprot.core.cv.keyword.KeywordStatistics;
+import org.uniprot.core.cv.keyword.impl.KeywordEntryImpl;
+import org.uniprot.core.cv.keyword.impl.KeywordStatisticsImpl;
 import org.uniprot.core.json.parser.keyword.KeywordJsonConfig;
-import org.uniprot.cv.keyword.KeywordEntry;
-import org.uniprot.cv.keyword.KeywordStatistics;
-import org.uniprot.cv.keyword.impl.KeywordEntryImpl;
-import org.uniprot.cv.keyword.impl.KeywordStatisticsImpl;
 import org.uniprot.store.search.document.keyword.KeywordDocument;
 
 import com.fasterxml.jackson.core.JsonProcessingException;

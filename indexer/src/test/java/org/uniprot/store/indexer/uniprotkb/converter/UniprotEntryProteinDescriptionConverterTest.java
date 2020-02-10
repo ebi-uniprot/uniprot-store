@@ -7,12 +7,12 @@ import static org.mockito.Mockito.when;
 import java.util.*;
 
 import org.junit.jupiter.api.Test;
+import org.uniprot.core.cv.ec.ECBuilder;
 import org.uniprot.core.uniprot.description.*;
 import org.uniprot.core.uniprot.description.builder.*;
 import org.uniprot.core.uniprot.evidence.Evidence;
 import org.uniprot.core.uniprot.evidence.EvidenceCode;
 import org.uniprot.core.uniprot.evidence.builder.EvidenceBuilder;
-import org.uniprot.cv.ec.ECBuilder;
 import org.uniprot.cv.ec.ECRepo;
 import org.uniprot.store.search.document.suggest.SuggestDocument;
 import org.uniprot.store.search.document.uniprot.UniProtDocument;
