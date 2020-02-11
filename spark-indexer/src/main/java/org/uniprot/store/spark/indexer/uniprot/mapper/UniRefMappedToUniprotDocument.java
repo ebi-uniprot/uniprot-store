@@ -1,9 +1,10 @@
-package org.uniprot.store.spark.indexer.uniref;
+package org.uniprot.store.spark.indexer.uniprot.mapper;
 
 import org.apache.spark.api.java.Optional;
 import org.apache.spark.api.java.function.Function;
 import org.uniprot.core.util.Utils;
 import org.uniprot.store.search.document.uniprot.UniProtDocument;
+import org.uniprot.store.spark.indexer.uniprot.mapper.model.MappedUniRef;
 
 import scala.Tuple2;
 
@@ -13,7 +14,7 @@ import scala.Tuple2;
  * @author lgonzales
  * @since 2019-10-22
  */
-public class UniRefMapper
+public class UniRefMappedToUniprotDocument
         implements Function<Tuple2<UniProtDocument, Optional<MappedUniRef>>, UniProtDocument> {
 
     private static final long serialVersionUID = -7600564687228805786L;

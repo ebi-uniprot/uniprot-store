@@ -1,4 +1,4 @@
-package org.uniprot.store.spark.indexer.uniref;
+package org.uniprot.store.spark.indexer.uniprot.mapper;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -9,6 +9,7 @@ import org.apache.spark.api.java.function.PairFlatMapFunction;
 import org.uniprot.core.uniprot.UniProtAccession;
 import org.uniprot.core.uniref.*;
 import org.uniprot.core.util.Utils;
+import org.uniprot.store.spark.indexer.uniprot.mapper.model.MappedUniRef;
 
 import scala.Serializable;
 import scala.Tuple2;
@@ -19,7 +20,7 @@ import scala.Tuple2;
  * @author lgonzales
  * @since 2019-11-22
  */
-public class UniRefEntryRDDTupleMapper
+public class UniRefJoinMapper
         implements PairFlatMapFunction<UniRefEntry, String, MappedUniRef>, Serializable {
 
     private static final long serialVersionUID = -6357861588356599290L;

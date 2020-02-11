@@ -10,11 +10,14 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.spark.SparkConf;
 import org.apache.spark.api.java.JavaPairRDD;
+import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
 import org.uniprot.core.cv.pathway.UniPathway;
 import org.uniprot.core.cv.pathway.UniPathwayFileReader;
 import org.uniprot.core.taxonomy.TaxonomyEntry;
 import org.uniprot.core.uniprot.UniProtEntry;
+import org.uniprot.core.uniref.UniRefEntry;
+import org.uniprot.core.uniref.UniRefType;
 import org.uniprot.store.search.document.uniprot.UniProtDocument;
 import org.uniprot.store.spark.indexer.go.evidence.GOEvidence;
 import org.uniprot.store.spark.indexer.go.evidence.GOEvidenceMapper;
@@ -24,8 +27,9 @@ import org.uniprot.store.spark.indexer.go.relations.GOTerm;
 import org.uniprot.store.spark.indexer.literature.LiteratureMappedRDDReader;
 import org.uniprot.store.spark.indexer.taxonomy.TaxonomyRDDReader;
 import org.uniprot.store.spark.indexer.uniprot.mapper.*;
-import org.uniprot.store.spark.indexer.uniref.MappedUniRef;
-import org.uniprot.store.spark.indexer.uniref.UniRefMapper;
+import org.uniprot.store.spark.indexer.uniprot.mapper.UniRefJoinMapper;
+import org.uniprot.store.spark.indexer.uniprot.mapper.UniRefMappedToUniprotDocument;
+import org.uniprot.store.spark.indexer.uniprot.mapper.model.MappedUniRef;
 import org.uniprot.store.spark.indexer.uniref.UniRefRDDTupleReader;
 import org.uniprot.store.spark.indexer.util.SolrUtils;
 import org.uniprot.store.spark.indexer.util.SparkUtils;
@@ -202,18 +206,27 @@ public class UniProtKBIndexer {
             ResourceBundle applicationConfig,
             SparkConf sparkConf) {
         JavaPairRDD<String, MappedUniRef> uniref50EntryRDD =
-                UniRefRDDTupleReader.load50(sparkConf, applicationConfig);
+                loadUniRefMap(UniRefType.UniRef50, sparkConf, applicationConfig);
         uniProtDocumentRDD = joinUniRef(uniProtDocumentRDD, uniref50EntryRDD);
 
         JavaPairRDD<String, MappedUniRef> uniref90EntryRDD =
-                UniRefRDDTupleReader.load90(sparkConf, applicationConfig);
+                loadUniRefMap(UniRefType.UniRef90, sparkConf, applicationConfig);
         uniProtDocumentRDD = joinUniRef(uniProtDocumentRDD, uniref90EntryRDD);
 
         JavaPairRDD<String, MappedUniRef> uniref100EntryRDD =
-                UniRefRDDTupleReader.load100(sparkConf, applicationConfig);
+                loadUniRefMap(UniRefType.UniRef100, sparkConf, applicationConfig);
         uniProtDocumentRDD = joinUniRef(uniProtDocumentRDD, uniref100EntryRDD);
 
         return uniProtDocumentRDD;
+    }
+
+    /** @return JavaPairRDD{Key=accession, value=MappedUniRef} for UniRefType.UniRef90 */
+    private static JavaPairRDD<String, MappedUniRef> loadUniRefMap(
+            UniRefType uniRefType, SparkConf sparkConf, ResourceBundle applicationConfig) {
+        JavaRDD<UniRefEntry> uniRefEntryJavaRDD =
+                UniRefRDDTupleReader.load(uniRefType, sparkConf, applicationConfig);
+        return (JavaPairRDD<String, MappedUniRef>)
+                uniRefEntryJavaRDD.flatMapToPair(new UniRefJoinMapper());
     }
 
     /**
@@ -226,7 +239,9 @@ public class UniProtKBIndexer {
             JavaPairRDD<String, MappedUniRef> unirefJavaPair) {
 
         return (JavaPairRDD<String, UniProtDocument>)
-                uniProtDocumentRDD.leftOuterJoin(unirefJavaPair).mapValues(new UniRefMapper());
+                uniProtDocumentRDD
+                        .leftOuterJoin(unirefJavaPair)
+                        .mapValues(new UniRefMappedToUniprotDocument());
     }
 
     /**

@@ -12,7 +12,7 @@ import org.uniprot.store.search.document.Document;
  * @author jluo
  * @date: 13 Aug 2019
  */
-@Builder
+@Builder(toBuilder = true)
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor

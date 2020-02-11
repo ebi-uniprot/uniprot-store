@@ -1,4 +1,4 @@
-package org.uniprot.store.spark.indexer.uniref;
+package org.uniprot.store.spark.indexer.uniref.converter;
 
 import static org.uniprot.store.spark.indexer.util.RowUtils.hasFieldName;
 
@@ -27,12 +27,12 @@ import org.uniprot.core.uniref.impl.OverlapRegionImpl;
 import org.uniprot.core.uniref.impl.UniRefEntryIdImpl;
 
 /**
- * This class Map XML Row result to a UniRefEntry
+ * This class convert XML Row result to a UniRefEntry
  *
  * @author lgonzales
  * @since 2019-10-01
  */
-class DatasetUnirefEntryConverter implements MapFunction<Row, UniRefEntry>, Serializable {
+public class DatasetUnirefEntryConverter implements MapFunction<Row, UniRefEntry>, Serializable {
 
     private static final String PROPERTY_MEMBER_COUNT = "member count";
     private static final String PROPERTY_COMMON_TAXON = "common taxon";
@@ -43,7 +43,7 @@ class DatasetUnirefEntryConverter implements MapFunction<Row, UniRefEntry>, Seri
     private static final long serialVersionUID = -526130623950089875L;
     private final UniRefType uniRefType;
 
-    DatasetUnirefEntryConverter(UniRefType uniRefType) {
+    public DatasetUnirefEntryConverter(UniRefType uniRefType) {
         this.uniRefType = uniRefType;
     }
 
@@ -187,7 +187,7 @@ class DatasetUnirefEntryConverter implements MapFunction<Row, UniRefEntry>, Seri
         return propertyMap;
     }
 
-    static StructType getUniRefXMLSchema() {
+    public static StructType getUniRefXMLSchema() {
         StructType structType = new StructType();
         structType = structType.add("_id", DataTypes.StringType, true);
         structType = structType.add("_updated", DataTypes.StringType, true);

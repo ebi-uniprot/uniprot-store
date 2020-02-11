@@ -107,7 +107,6 @@ public class UniProtEntryConverter
             convertSequence(source.getSequence(), document);
             convertEntryScore(source, document);
             convertEvidenceSources(source, document);
-            convertUniRefClusters(document.accession, document);
 
             return document;
         } catch (Exception e) {
@@ -170,12 +169,6 @@ public class UniProtEntryConverter
                 document.idDefault = idParts[1];
             }
         }
-    }
-
-    private void convertUniRefClusters(String accession, UniProtDocument document) {
-        // document.unirefCluster50 = uniprotUniRefMap.getMappings50(accession);
-        // document.unirefCluster90 = uniprotUniRefMap.getMappings90(accession);
-        // document.unirefCluster100 = uniprotUniRefMap.getMappings100(accession);
     }
 
     private void convertEntryScore(UniProtEntry source, UniProtDocument document) {

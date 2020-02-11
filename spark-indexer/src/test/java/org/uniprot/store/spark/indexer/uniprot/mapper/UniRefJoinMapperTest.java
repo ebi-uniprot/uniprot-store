@@ -1,4 +1,4 @@
-package org.uniprot.store.spark.indexer.uniref;
+package org.uniprot.store.spark.indexer.uniprot.mapper;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -13,6 +13,7 @@ import org.uniprot.core.uniref.*;
 import org.uniprot.core.uniref.builder.RepresentativeMemberBuilder;
 import org.uniprot.core.uniref.builder.UniRefEntryBuilder;
 import org.uniprot.core.uniref.builder.UniRefMemberBuilder;
+import org.uniprot.store.spark.indexer.uniprot.mapper.model.MappedUniRef;
 
 import scala.Tuple2;
 
@@ -20,11 +21,11 @@ import scala.Tuple2;
  * @author lgonzales
  * @since 2019-11-22
  */
-class UniRefEntryRDDTupleMapperTest {
+class UniRefJoinMapperTest {
 
     @Test
     void testMapRepresentativeUninprotKBMember() throws Exception {
-        UniRefEntryRDDTupleMapper mapper = new UniRefEntryRDDTupleMapper();
+        UniRefJoinMapper mapper = new UniRefJoinMapper();
 
         RepresentativeMember representativeMember =
                 new RepresentativeMemberBuilder()
@@ -69,7 +70,7 @@ class UniRefEntryRDDTupleMapperTest {
 
     @Test
     void testMapUniprotKBTypeMembers() throws Exception {
-        UniRefEntryRDDTupleMapper mapper = new UniRefEntryRDDTupleMapper();
+        UniRefJoinMapper mapper = new UniRefJoinMapper();
 
         RepresentativeMember representativeMember =
                 new RepresentativeMemberBuilder()

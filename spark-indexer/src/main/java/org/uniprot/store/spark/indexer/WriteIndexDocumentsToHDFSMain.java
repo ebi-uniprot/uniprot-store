@@ -6,6 +6,7 @@ import org.apache.spark.api.java.JavaSparkContext;
 import org.uniprot.store.search.SolrCollection;
 import org.uniprot.store.spark.indexer.suggest.SuggestIndexer;
 import org.uniprot.store.spark.indexer.uniprot.UniProtKBIndexer;
+import org.uniprot.store.spark.indexer.uniref.UniRefIndexer;
 import org.uniprot.store.spark.indexer.util.SparkUtils;
 
 /**
@@ -30,8 +31,12 @@ public class WriteIndexDocumentsToHDFSMain {
                 case suggest:
                     SuggestIndexer.writeIndexDocumentsToHDFS(sparkContext, applicationConfig);
                     break;
+                case uniref:
+                    UniRefIndexer.writeIndexDocumentsToHDFS(sparkContext, applicationConfig);
+                    break;
                 default:
-                    throw new RuntimeException("Collection not yet supported by spark indexer");
+                    throw new UnsupportedOperationException(
+                            "Collection not yet supported by spark indexer");
             }
         } catch (Exception e) {
             throw new Exception("Unexpected error during index", e);

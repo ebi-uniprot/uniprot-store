@@ -1,4 +1,4 @@
-package org.uniprot.store.spark.indexer.uniref;
+package org.uniprot.store.spark.indexer.uniprot.mapper;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -6,6 +6,7 @@ import org.apache.spark.api.java.Optional;
 import org.junit.jupiter.api.Test;
 import org.uniprot.core.uniref.UniRefType;
 import org.uniprot.store.search.document.uniprot.UniProtDocument;
+import org.uniprot.store.spark.indexer.uniprot.mapper.model.MappedUniRef;
 
 import scala.Tuple2;
 
@@ -13,11 +14,11 @@ import scala.Tuple2;
  * @author lgonzales
  * @since 2019-11-22
  */
-class UniRefMapperTest {
+class UniRefMappedToUniprotDocumentTest {
 
     @Test
     void testUniRef50() throws Exception {
-        UniRefMapper mapper = new UniRefMapper();
+        UniRefMappedToUniprotDocument mapper = new UniRefMappedToUniprotDocument();
 
         MappedUniRef mappedUniRef =
                 MappedUniRef.builder()
@@ -43,7 +44,7 @@ class UniRefMapperTest {
 
     @Test
     void testUniRef90() throws Exception {
-        UniRefMapper mapper = new UniRefMapper();
+        UniRefMappedToUniprotDocument mapper = new UniRefMappedToUniprotDocument();
 
         MappedUniRef mappedUniRef =
                 MappedUniRef.builder()
@@ -69,7 +70,7 @@ class UniRefMapperTest {
 
     @Test
     void testUniRef100() throws Exception {
-        UniRefMapper mapper = new UniRefMapper();
+        UniRefMappedToUniprotDocument mapper = new UniRefMappedToUniprotDocument();
 
         MappedUniRef mappedUniRef =
                 MappedUniRef.builder()
@@ -95,7 +96,7 @@ class UniRefMapperTest {
 
     @Test
     void testWithoutAnyMap() throws Exception {
-        UniRefMapper mapper = new UniRefMapper();
+        UniRefMappedToUniprotDocument mapper = new UniRefMappedToUniprotDocument();
 
         Tuple2<UniProtDocument, Optional<MappedUniRef>> tuple =
                 new Tuple2<>(new UniProtDocument(), Optional.empty());

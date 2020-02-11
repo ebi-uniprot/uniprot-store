@@ -1,4 +1,4 @@
-package org.uniprot.store.spark.indexer.uniref;
+package org.uniprot.store.spark.indexer.uniprot.mapper.model;
 
 import java.io.Serializable;
 
