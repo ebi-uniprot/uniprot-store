@@ -3,7 +3,7 @@ package org.uniprot.store.spark.indexer.chebi;
 import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
-import org.uniprot.core.cv.chebi.Chebi;
+import org.uniprot.core.cv.chebi.ChebiEntry;
 
 import scala.Tuple2;
 
@@ -25,10 +25,10 @@ class ChebiFileMapperTest {
                         + "is_a: CHEBI:36342";
 
         ChebiFileMapper mapper = new ChebiFileMapper();
-        Tuple2<String, Chebi> result = mapper.call(input);
+        Tuple2<String, ChebiEntry> result = mapper.call(input);
         assertNotNull(result);
         assertEquals("36347", result._1);
-        Chebi chebi = result._2;
+        ChebiEntry chebi = result._2;
 
         assertEquals("36347", chebi.getId());
         assertEquals("nuclear particle", chebi.getName());
@@ -58,10 +58,10 @@ class ChebiFileMapperTest {
                         + "is_a: CHEBI:33627";
 
         ChebiFileMapper mapper = new ChebiFileMapper();
-        Tuple2<String, Chebi> result = mapper.call(input);
+        Tuple2<String, ChebiEntry> result = mapper.call(input);
         assertNotNull(result);
         assertEquals("30151", result._1);
-        Chebi chebi = result._2;
+        ChebiEntry chebi = result._2;
 
         assertEquals("30151", chebi.getId());
         assertEquals("aluminide(1-)", chebi.getName());

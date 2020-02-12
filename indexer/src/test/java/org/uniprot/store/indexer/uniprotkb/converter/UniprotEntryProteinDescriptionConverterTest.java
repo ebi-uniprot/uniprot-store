@@ -7,7 +7,7 @@ import static org.mockito.Mockito.when;
 import java.util.*;
 
 import org.junit.jupiter.api.Test;
-import org.uniprot.core.cv.ec.ECBuilder;
+import org.uniprot.core.cv.ec.ECEntryBuilder;
 import org.uniprot.core.uniprot.description.*;
 import org.uniprot.core.uniprot.description.builder.*;
 import org.uniprot.core.uniprot.evidence.Evidence;
@@ -30,11 +30,14 @@ class UniprotEntryProteinDescriptionConverterTest {
 
         ECRepo ecRepo = mock(ECRepo.class);
         when(ecRepo.getEC("1.2.3.3"))
-                .thenReturn(Optional.of(new ECBuilder().label("Label 3").id("1.2.3.3").build()));
+                .thenReturn(
+                        Optional.of(new ECEntryBuilder().label("Label 3").id("1.2.3.3").build()));
         when(ecRepo.getEC("1.2.3.4"))
-                .thenReturn(Optional.of(new ECBuilder().label("Label 4").id("1.2.3.4").build()));
+                .thenReturn(
+                        Optional.of(new ECEntryBuilder().label("Label 4").id("1.2.3.4").build()));
         when(ecRepo.getEC("1.2.3.5"))
-                .thenReturn(Optional.of(new ECBuilder().label("Label 5").id("1.2.3.5").build()));
+                .thenReturn(
+                        Optional.of(new ECEntryBuilder().label("Label 5").id("1.2.3.5").build()));
 
         ProteinDescription proteinDescription = getProteinDescription();
 
@@ -73,7 +76,7 @@ class UniprotEntryProteinDescriptionConverterTest {
         assertEquals(25, document.proteinNames.size());
         assertEquals(indexedNames, document.proteinNames);
 
-        // Should we add EC numbers to the content field?
+        // Should we add ECEntry numbers to the content field?
         assertEquals(25, document.content.size());
         assertEquals(new HashSet<>(indexedNames), document.content);
 
@@ -91,15 +94,15 @@ class UniprotEntryProteinDescriptionConverterTest {
         assertFalse(document.precursor);
 
         assertEquals(3, suggestions.size());
-        assertTrue(suggestions.containsKey("EC:1.2.3.3"));
-        assertTrue(suggestions.containsKey("EC:1.2.3.4"));
-        assertTrue(suggestions.containsKey("EC:1.2.3.5"));
+        assertTrue(suggestions.containsKey("ECEntry:1.2.3.3"));
+        assertTrue(suggestions.containsKey("ECEntry:1.2.3.4"));
+        assertTrue(suggestions.containsKey("ECEntry:1.2.3.5"));
 
-        SuggestDocument suggestionDocument = suggestions.get("EC:1.2.3.3");
+        SuggestDocument suggestionDocument = suggestions.get("ECEntry:1.2.3.3");
         assertEquals(suggestionDocument.id, "1.2.3.3");
         assertEquals(suggestionDocument.value, "Label 3");
         assertTrue(suggestionDocument.altValues.isEmpty());
-        assertEquals(suggestionDocument.dictionary, "EC");
+        assertEquals(suggestionDocument.dictionary, "ECEntry");
         assertEquals(suggestionDocument.importance, "medium");
     }
 
@@ -110,7 +113,8 @@ class UniprotEntryProteinDescriptionConverterTest {
 
         ECRepo ecRepo = mock(ECRepo.class);
         when(ecRepo.getEC("1.2.3.4"))
-                .thenReturn(Optional.of(new ECBuilder().label("Label 4").id("1.2.3.4").build()));
+                .thenReturn(
+                        Optional.of(new ECEntryBuilder().label("Label 4").id("1.2.3.4").build()));
 
         ProteinDescription description =
                 new ProteinDescriptionBuilder()
@@ -133,7 +137,8 @@ class UniprotEntryProteinDescriptionConverterTest {
 
         ECRepo ecRepo = mock(ECRepo.class);
         when(ecRepo.getEC("1.2.3.4"))
-                .thenReturn(Optional.of(new ECBuilder().label("Label 4").id("1.2.3.4").build()));
+                .thenReturn(
+                        Optional.of(new ECEntryBuilder().label("Label 4").id("1.2.3.4").build()));
 
         ProteinDescription description =
                 new ProteinDescriptionBuilder()

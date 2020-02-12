@@ -3,10 +3,10 @@ package org.uniprot.store.indexer.keyword;
 import java.nio.ByteBuffer;
 
 import org.springframework.batch.item.ItemProcessor;
+import org.uniprot.core.Statistics;
+import org.uniprot.core.builder.StatisticsBuilder;
 import org.uniprot.core.cv.keyword.KeywordEntry;
-import org.uniprot.core.cv.keyword.KeywordStatistics;
 import org.uniprot.core.cv.keyword.impl.KeywordEntryImpl;
-import org.uniprot.core.cv.keyword.impl.KeywordStatisticsImpl;
 import org.uniprot.core.json.parser.keyword.KeywordJsonConfig;
 import org.uniprot.store.search.document.keyword.KeywordDocument;
 
@@ -26,10 +26,11 @@ public class KeywordStatisticsProcessor
     @Override
     public KeywordDocument process(KeywordStatisticsReader.KeywordCount keywordCount)
             throws Exception {
-        KeywordStatistics statistics =
-                new KeywordStatisticsImpl(
-                        keywordCount.getReviewedProteinCount(),
-                        keywordCount.getUnreviewedProteinCount());
+        Statistics statistics =
+                new StatisticsBuilder()
+                        .reviewedProteinCount(keywordCount.getReviewedProteinCount())
+                        .unreviewedProteinCount(keywordCount.getUnreviewedProteinCount())
+                        .build();
         KeywordEntryImpl keywordEntry = new KeywordEntryImpl();
         keywordEntry.setStatistics(statistics);
 

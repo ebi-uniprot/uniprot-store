@@ -20,8 +20,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.solr.core.query.SimpleQuery;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.uniprot.core.cv.disease.CrossReference;
-import org.uniprot.core.cv.disease.Disease;
+import org.uniprot.core.cv.disease.DiseaseCrossReference;
+import org.uniprot.core.cv.disease.DiseaseEntry;
 import org.uniprot.core.cv.keyword.Keyword;
 import org.uniprot.core.json.parser.disease.DiseaseJsonConfig;
 import org.uniprot.store.indexer.common.config.UniProtSolrOperations;
@@ -91,8 +91,8 @@ class DiseaseLoadJobIT {
 
         Assertions.assertNotNull(diseaseByteBuffer);
         // convert the binary to disease object
-        Disease disease =
-                this.diseaseObjectMapper.readValue(diseaseByteBuffer.array(), Disease.class);
+        DiseaseEntry disease =
+                this.diseaseObjectMapper.readValue(diseaseByteBuffer.array(), DiseaseEntry.class);
         assertThat(disease.getId(), is("Rheumatoid arthritis"));
         assertThat(disease.getAccession(), is("DI-02692"));
         assertThat(disease.getAcronym(), is("RA"));
@@ -113,7 +113,7 @@ class DiseaseLoadJobIT {
         solrOperations.commit(SolrCollection.disease.name());
     }
 
-    private void verifyCrossRef(CrossReference xref) {
+    private void verifyCrossRef(DiseaseCrossReference xref) {
         assertThat(xref.getId(), notNullValue());
         assertThat(xref.getDatabaseType(), notNullValue());
         assertThat(xref.getProperties(), notNullValue());

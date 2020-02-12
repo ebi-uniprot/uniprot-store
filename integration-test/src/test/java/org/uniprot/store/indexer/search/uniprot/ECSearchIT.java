@@ -19,27 +19,27 @@ import org.junit.jupiter.api.extension.RegisterExtension;
 import org.uniprot.core.flatfile.writer.LineType;
 import org.uniprot.store.search.field.UniProtSearchFields;
 
-/** Tests if the EC numbers are searched correctly */
+/** Tests if the ECEntry numbers are searched correctly */
 class ECSearchIT {
     private static final String UNIPROT_FLAT_FILE_ENTRY_PATH = "/it/uniprot/P0A377.43.dat";
     private static final String ACCESSION0 = "Q197F4";
     private static final String DE_LINE0 =
             "DE   RecName: Full=DUMMY;\n"
-                    + "DE            EC=1.1.1.1;\n"
+                    + "DE            ECEntry=1.1.1.1;\n"
                     + "DE   AltName: Full=DUMMY;\n"
-                    + "DE            EC=2.2.2.2;\n"
+                    + "DE            ECEntry=2.2.2.2;\n"
                     + "DE   SubName: Full=DUMMY;\n"
-                    + "DE            EC=3.3.3.3;\n"
+                    + "DE            ECEntry=3.3.3.3;\n"
                     + "DE   Includes:\n"
                     + "DE     RecName: Full=DUMMY;\n"
-                    + "DE              EC=4.4.4.4;\n"
+                    + "DE              ECEntry=4.4.4.4;\n"
                     + "DE     AltName: Full=DUMMY;\n"
-                    + "DE              EC=5.5.5.5;\n"
+                    + "DE              ECEntry=5.5.5.5;\n"
                     + "DE   Contains:\n"
                     + "DE     RecName: Full=DUMMY;\n"
-                    + "DE              EC=6.6.6.6;\n"
+                    + "DE              ECEntry=6.6.6.6;\n"
                     + "DE     AltName: Full=DUMMY;\n"
-                    + "DE              EC=7.7.7.7;\n";
+                    + "DE              ECEntry=7.7.7.7;\n";
 
     private static final String ACCESSION1 = "Q197F5";
     private static final String EC1 = "3.4.11.4";
@@ -131,7 +131,7 @@ class ECSearchIT {
     }
 
     private static String createDELine(String ecNumber) {
-        return "DE   RecName: Full=DUMMY;\n" + "DE            EC=" + ecNumber + ";\n";
+        return "DE   RecName: Full=DUMMY;\n" + "DE            ECEntry=" + ecNumber + ";\n";
     }
 
     @Test

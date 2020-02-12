@@ -4,11 +4,11 @@ import java.io.IOException;
 import java.util.Iterator;
 
 import org.springframework.batch.item.ItemReader;
-import org.uniprot.core.cv.disease.Disease;
+import org.uniprot.core.cv.disease.DiseaseEntry;
 import org.uniprot.cv.disease.DiseaseFileReader;
 
-public class DiseaseItemReader implements ItemReader<Disease> {
-    private Iterator<Disease> diseaseIterator;
+public class DiseaseItemReader implements ItemReader<DiseaseEntry> {
+    private Iterator<DiseaseEntry> diseaseIterator;
 
     public DiseaseItemReader(String filePath) throws IOException {
         DiseaseFileReader diseaseFileReader = new DiseaseFileReader();
@@ -16,7 +16,7 @@ public class DiseaseItemReader implements ItemReader<Disease> {
     }
 
     @Override
-    public Disease read() {
+    public DiseaseEntry read() {
 
         if (this.diseaseIterator.hasNext()) {
             return this.diseaseIterator.next();
