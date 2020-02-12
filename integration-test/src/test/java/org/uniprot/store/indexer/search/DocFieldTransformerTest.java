@@ -75,6 +75,8 @@ class DocFieldTransformerTest {
     }
 
     private static class MyDocument implements Document {
+        private static final long serialVersionUID = 2605262218059853651L;
+
         @Field("name")
         String nameField;
 

@@ -17,6 +17,7 @@ import org.uniprot.store.search.document.Document;
 @AllArgsConstructor
 public class TaxonomyDocument implements Document {
 
+    private static final long serialVersionUID = 4997382803706180061L;
     @Field private String id;
 
     @Field("tax_id")

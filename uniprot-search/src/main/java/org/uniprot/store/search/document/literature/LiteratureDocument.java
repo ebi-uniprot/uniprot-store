@@ -17,6 +17,7 @@ import org.uniprot.store.search.document.Document;
 @AllArgsConstructor
 public class LiteratureDocument implements Document {
 
+    private static final long serialVersionUID = 3330874625625289086L;
     @Field private String id;
 
     @Field private String doi;

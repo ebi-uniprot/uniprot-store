@@ -17,6 +17,7 @@ import org.uniprot.store.search.document.Document;
 @AllArgsConstructor
 public class KeywordDocument implements Document {
 
+    private static final long serialVersionUID = 1014031525256478859L;
     @Field private String id;
 
     @Field private String name;

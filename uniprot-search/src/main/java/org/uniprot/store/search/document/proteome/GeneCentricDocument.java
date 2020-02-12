@@ -23,6 +23,8 @@ import org.uniprot.store.search.document.Document;
 @NoArgsConstructor
 @AllArgsConstructor
 public class GeneCentricDocument implements Document {
+    private static final long serialVersionUID = -1586599109792615114L;
+
     @Field("accession_id")
     private String accession;
 

@@ -101,6 +101,7 @@ class EntryDocumentPairProcessorTest {
 
     @Getter
     private static class BasicDocument implements Document {
+        private static final long serialVersionUID = 4394154220198489795L;
         private final String value;
 
         BasicDocument(String value) {

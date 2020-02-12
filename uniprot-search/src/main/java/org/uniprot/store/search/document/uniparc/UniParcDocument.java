@@ -15,6 +15,8 @@ import org.uniprot.store.search.document.Document;
 @AllArgsConstructor
 public class UniParcDocument implements Document {
 
+    private static final long serialVersionUID = 6897342859069571092L;
+
     @Field("upi")
     private String upi;
 

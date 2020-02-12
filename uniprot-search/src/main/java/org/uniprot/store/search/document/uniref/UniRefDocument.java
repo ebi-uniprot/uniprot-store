@@ -18,6 +18,8 @@ import org.uniprot.store.search.document.Document;
 @AllArgsConstructor
 public class UniRefDocument implements Document {
 
+    private static final long serialVersionUID = -1168863804678801054L;
+
     @Field("id")
     private String id;
 

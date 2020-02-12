@@ -16,6 +16,7 @@ import org.uniprot.store.search.document.Document;
 @NoArgsConstructor
 @AllArgsConstructor
 public class DiseaseDocument implements Document {
+    private static final long serialVersionUID = -427975560658449173L;
     @Field private String accession;
     @Field private List<String> name; // search by name
     @Field private List<String> content; // default search field

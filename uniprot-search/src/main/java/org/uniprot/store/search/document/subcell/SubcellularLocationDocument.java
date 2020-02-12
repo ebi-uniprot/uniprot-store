@@ -21,6 +21,7 @@ import org.uniprot.store.search.document.Document;
 @AllArgsConstructor
 public class SubcellularLocationDocument implements Document {
 
+    private static final long serialVersionUID = -4478266706383173211L;
     @Field private String id;
 
     @Field private String name;

@@ -11,6 +11,8 @@ import org.uniprot.store.search.document.Document;
 
 public class ProteomeDocument implements Document {
 
+    private static final long serialVersionUID = -1646520136782599683L;
+
     @Field("upid")
     public String upid;
 

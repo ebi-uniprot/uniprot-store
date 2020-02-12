@@ -12,7 +12,7 @@ import org.uniprot.store.search.document.Document;
 
 @EqualsAndHashCode
 @Builder(builderClassName = "SuggestDocumentBuilder")
-public class SuggestDocument implements Document, Serializable {
+public class SuggestDocument implements Document {
     public static final String DEFAULT_IMPORTANCE = "medium";
     private static final long serialVersionUID = 2126936244930669278L;
 
