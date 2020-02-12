@@ -3,7 +3,7 @@ package org.uniprot.store.search.domain2;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.uniprot.core.cv.xdb.UniProtXDbTypes;
+import org.uniprot.cv.xdb.UniProtXDbTypes;
 import org.uniprot.store.search.domain2.impl.SearchFieldImpl;
 
 /**
