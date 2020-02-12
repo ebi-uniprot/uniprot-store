@@ -68,11 +68,13 @@
       },
       "required" : ["id"],
       "dependencies": {
-        "childNumber": ["seqNumber"],
+        "childNumber": ["seqNumber", "parentId"],
         "fieldName": ["fieldType", "dataType", "example", "description"],
         "fieldType": ["fieldName"],
         "autoComplete": ["autoCompleteQueryField"],
-        "seqNumber": ["itemType"]
+        "seqNumber": ["itemType"],
+        "autoCompleteQueryField": ["autoComplete"],
+        "autoCompleteQueryFieldValidRegex": ["autoComplete"]
       }
     },
     "Value" : {

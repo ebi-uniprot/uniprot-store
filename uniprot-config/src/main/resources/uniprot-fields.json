@@ -5,8 +5,8 @@
     "validRegex": "([OPQ][0-9][A-Z0-9]{3}[0-9]|[A-NR-Z]([0-9][A-Z][A-Z0-9]{2}){1,2}[0-9])(-[0-9]+)?",
     "fieldType": "field",
     "dataType": "string",
-    "example":  "sample example",
-    "description" : "this is a dummy description"
+    "example":  "P12345",
+    "description" : "Search by UniProtKB Accession"
   },
   {
     "id":"proteins_with",
@@ -495,14 +495,14 @@
   },
   {
     "seqNumber": 1,
-    "id": "accession_sprt",
+    "id": "accession_sort",
     "fieldName": "accession_id",
     "fieldType": "sort",
     "label": "UniProtKB AC",
     "itemType": "single",
     "dataType": "string",
-    "description": "Search by UniProtKB Accession",
-    "example": "P12345"
+    "description": "Sort by UniProtKB Accession",
+    "example": "accession_id asc"
   },
   {
     "seqNumber": 2,
@@ -523,8 +523,8 @@
     "itemType": "single",
     "fieldType": "sort",
     "dataType": "string",
-    "description": "Search by UniProtKB entry name",
-    "example": "P53_HUMAN"
+    "description": "Sort by UniProtKB entry name",
+    "example": "mnemonic_sort desc"
   },
   {
     "seqNumber": 4,
@@ -545,8 +545,8 @@
     "fieldType": "sort",
     "dataType": "string",
     "itemType": "single",
-    "description": "Search by UniProtKB Protein name",
-    "example": "mas5"
+    "description": "Sort by UniProtKB Protein name",
+    "example": "name_sort asc"
   },
   {
     "seqNumber": 6,
@@ -560,18 +560,18 @@
     "example": "ydj1"
   },
   {
-    "seqNumber": 6,
+    "seqNumber": 7,
     "id": "gene_sort",
     "label": "Gene Name [GN]",
     "fieldName": "gene_sort",
     "fieldType": "sort",
     "dataType": "string",
     "itemType": "single",
-    "description": "Search by UniProtKB gene name",
-    "example": "ydj1"
+    "description": "Sort by UniProtKB gene name",
+    "example": "gene_sort asc"
   },
   {
-    "seqNumber": 7,
+    "seqNumber": 8,
     "id": "organism_name_field",
     "label": "Organism [OS]",
     "dataType": "string",
@@ -585,18 +585,18 @@
     "example": "saccharomyces"
   },
   {
-    "seqNumber": 8,
+    "seqNumber": 9,
     "id": "organism_sort",
     "label": "Organism [OS]",
     "dataType": "string",
     "fieldName": "organism_sort",
     "fieldType": "sort",
     "itemType": "single",
-    "description": "Search by Organism name",
-    "example": "saccharomyces"
+    "description": "Sort by Organism name",
+    "example": "organism_sort asc"
   },
   {
-    "seqNumber": 9,
+    "seqNumber": 10,
     "id": "taxonomy_name",
     "label": "Taxonomy [OC]",
     "dataType": "string",
@@ -610,7 +610,7 @@
     "example": "human"
   },
   {
-    "seqNumber": 10,
+    "seqNumber": 11,
     "id": "host_name",
     "label": "Virus host",
     "dataType": "string",
@@ -624,7 +624,7 @@
     "example": "human"
   },
   {
-    "seqNumber": 11,
+    "seqNumber": 12,
     "id": "existence",
     "label": "Protein Existence [PE]",
     "fieldName": "existence",
@@ -657,7 +657,7 @@
     "example": "1"
   },
   {
-    "seqNumber": 12,
+    "seqNumber": 13,
     "id": "cc_webresource",
     "label": "Web Resources",
     "fieldName": "cc_webresource",
@@ -668,7 +668,7 @@
     "example": "lck"
   },
   {
-    "seqNumber": 13,
+    "seqNumber": 14,
     "id": "ccev_webresource",
     "label": "Web Resources",
     "fieldName": "ccev_webresource",
@@ -679,7 +679,7 @@
     "example": "lck"
   },
   {
-    "seqNumber": 14,
+    "seqNumber": 15,
     "id": "go_field",
     "label": "Gene Ontology [GO]",
     "itemType": "single",
@@ -688,24 +688,22 @@
     "dataType": "string",
     "autoComplete": "/uniprot/api/suggester?dict=go&query=?",
     "autoCompleteQueryField": "go",
-    "description": "Search GO term with evidence. If evidence is not provided, the term is 'go'. Otherwise, for an evidence source such as IEA, the term is 'go_iea'",
+    "description": "Search GO term with evidence type. If evidence is not provided, the term is 'go'. Otherwise, for an evidence source such as IEA, the term is 'go_iea'",
     "example": "0009986"
   },
   {
-    "seqNumber": 15,
+    "seqNumber": 16,
     "id": "go_evidence",
     "label": "Gene Ontology [GO]",
     "itemType": "single",
     "fieldName": "go",
     "fieldType": "evidence",
     "dataType": "string",
-    "autoComplete": "/uniprot/api/suggester?dict=go&query=?",
-    "autoCompleteQueryField": "go",
-    "description": "Search GO term with evidence. If evidence is not provided, the term is 'go'. Otherwise, for an evidence source such as IEA, the term is 'go_iea'",
-    "example": "0009986"
+    "description": "Search GO term with evidence type. If evidence is not provided, the term is 'go'. Otherwise, for an evidence source such as IEA, the term is 'go_iea'",
+    "example": "manual"
   },
   {
-    "seqNumber": 16,
+    "seqNumber": 17,
     "id": "keyword_field",
     "label": "Keyword [KW]",
     "fieldName": "keyword",
@@ -718,7 +716,7 @@
     "example": "chromosomal"
   },
   {
-    "seqNumber": 17,
+    "seqNumber": 18,
     "id": "litci",
     "label": "Literature Citation",
     "itemType": "group"
@@ -789,7 +787,7 @@
     "example": "protein"
   },
   {
-    "seqNumber": 18,
+    "seqNumber": 19,
     "id": "proteomes",
     "label": "Proteomes",
     "itemType": "group"
@@ -822,7 +820,7 @@
     "example": "chromosome"
   },
   {
-    "seqNumber": 19,
+    "seqNumber": 20,
     "id": "citedfor",
     "label": "Cited for",
     "fieldName": "scope",
@@ -833,7 +831,7 @@
     "example": "microtubule"
   },
   {
-    "seqNumber": 20,
+    "seqNumber": 21,
     "id": "reviewed",
     "label": "Reviewed",
     "fieldName": "reviewed",
@@ -855,7 +853,7 @@
     "example": "true"
   },
   {
-    "seqNumber": 21,
+    "seqNumber": 22,
     "id": "active",
     "label": "Active",
     "fieldName": "active",
@@ -880,7 +878,7 @@
     "label": "Function",
     "itemType": "group",
     "id": "function",
-    "seqNumber": 22
+    "seqNumber": 23
   },
   {
     "parentId": "function",
@@ -930,8 +928,8 @@
     "itemType": "single",
     "fieldType": "evidence",
     "dataType": "string",
-    "description": "Search by cofactor chebi ",
-    "example": "29105"
+    "description": "Search chebi term with evidence type",
+    "example": "manual"
   },
   {
     "parentId": "cofactors",
@@ -956,8 +954,8 @@
     "itemType": "single",
     "fieldType": "evidence",
     "dataType": "string",
-    "description": "Search by cofactor note",
-    "example": "subunit"
+    "description": "Search cofactor note with evidence type",
+    "example": "ECO_0000269"
   },
   {
     "parentId": "function",
@@ -990,8 +988,8 @@
     "fieldType": "evidence",
     "itemType": "single",
     "dataType": "string",
-    "description": "Search by biophysicochemical properties",
-    "example": "\"some value\""
+    "description": "Search biophysicochemical properties with evidence type",
+    "example": "automatic"
   },
   {
     "parentId": "biophysicochemical",
@@ -1016,8 +1014,8 @@
     "itemType": "single",
     "fieldType": "evidence",
     "dataType": "string",
-    "description": "Search by biophysicochemical properties: absorption",
-    "example": "prosthetic"
+    "description": "Search biophysicochemical properties: absorption with evidence type",
+    "example": "ECO_0000213"
   },
   {
     "parentId": "biophysicochemical",
@@ -1042,8 +1040,8 @@
     "fieldName": "ccev_bpcp_kinetics",
     "fieldType": "evidence",
     "dataType": "string",
-    "description": "Search by biophysicochemical properties: kinetic parameters",
-    "example": "aspartate"
+    "description": "Search biophysicochemical properties: kinetic parameters with evidence type",
+    "example": "experimental"
   },
   {
     "parentId": "biophysicochemical",
@@ -1068,8 +1066,8 @@
     "itemType": "single",
     "fieldType": "evidence",
     "dataType": "string",
-    "description": "Search by biophysicochemical properties: pH dependence",
-    "example": "optimum"
+    "description": "Search biophysicochemical properties: pH dependence with evidence type",
+    "example": "ECO_0000305"
   },
   {
     "parentId": "biophysicochemical",
@@ -1094,8 +1092,8 @@
     "fieldName": "ccev_bpcp_redox_potential",
     "fieldType": "evidence",
     "dataType": "string",
-    "description": "Search by biophysicochemical properties: redox potential",
-    "example": "siroheme"
+    "description": "Search biophysicochemical properties: redox potential with evidence type",
+    "example": "manual"
   },
   {
     "parentId": "biophysicochemical",
@@ -1120,8 +1118,8 @@
     "itemType": "single",
     "fieldType": "evidence",
     "dataType": "string",
-    "description": "Search by biophysicochemical properties: temperature dependence",
-    "example": "*"
+    "description": "Search biophysicochemical properties: temperature dependence with evidence type",
+    "example": "manual"
   },
   {
     "parentId": "function",
@@ -1148,8 +1146,8 @@
     "fieldName": "ccev_catalytic_activity",
     "fieldType": "evidence",
     "dataType": "string",
-    "description": "Search by comment catalytic activity",
-    "example": "tyrosine"
+    "description": "Search comment catalytic activity with evidence type",
+    "example": "manual"
   },
   {
     "parentId": "function",
@@ -1174,8 +1172,8 @@
     "fieldName": "ccev_activity_regulation",
     "fieldType": "evidence",
     "dataType": "string",
-    "description": "Search by comment activity regulation",
-    "example": "inhibited"
+    "description": "Search comment activity regulation with evidence type",
+    "example": "manual"
   },
   {
     "parentId": "function",
@@ -1200,8 +1198,8 @@
     "fieldName": "ccev_function",
     "fieldType": "evidence",
     "dataType": "string",
-    "description": "Search by comment function",
-    "example": "enzyme"
+    "description": "Search comment function with evidence type",
+    "example": "experimental"
   },
   {
     "parentId": "function",
@@ -1226,8 +1224,8 @@
     "fieldName": "ccev_caution",
     "fieldType": "evidence",
     "dataType": "string",
-    "description": "Search by caution comment",
-    "example": "kinase"
+    "description": "Search caution comment with evidence type",
+    "example": "manual"
   },
   {
     "parentId": "function",
@@ -1259,9 +1257,9 @@
     "itemType": "single",
     "fieldName": "ftlen_sites",
     "fieldType": "range",
-    "dataType": "string",
-    "description": "Search by feature sites",
-    "example": "translocation"
+    "dataType": "integer",
+    "description": "Search feature sites within range",
+    "example": "[0 TO 100]"
   },
   {
     "parentId": "sites",
@@ -1273,8 +1271,8 @@
     "fieldName": "ftev_sites",
     "fieldType": "evidence",
     "dataType": "string",
-    "description": "Search by feature sites",
-    "example": "translocation"
+    "description": "Search feature sites with evidence type",
+    "example": "manual"
   },
   {
     "parentId": "sites",
@@ -1297,10 +1295,10 @@
     "id": "ftlen_act_site",
     "itemType": "single",
     "fieldName": "ftlen_act_site",
-    "dataType": "string",
+    "dataType": "integer",
     "fieldType": "range",
-    "description": "Search by feature  active site",
-    "example": "phosphocysteine"
+    "description": "Search feature  active site within range",
+    "example": "[0 TO 100]"
   },
   {
     "parentId": "sites",
@@ -1312,8 +1310,8 @@
     "fieldName": "ftev_act_site",
     "dataType": "string",
     "fieldType": "evidence",
-    "description": "Search by feature  active site",
-    "example": "phosphocysteine"
+    "description": "Search feature  active site with evidence type",
+    "example": "manual"
   },
   {
     "parentId": "sites",
@@ -1337,9 +1335,9 @@
     "itemType": "single",
     "fieldName": "ftlen_metal",
     "fieldType": "range",
-    "dataType": "string",
-    "description": "Search by feature metal binding",
-    "example": "phosphocysteine"
+    "dataType": "integer",
+    "description": "Search feature metal binding within range",
+    "example": "[0 TO 100]"
   },
   {
     "parentId": "sites",
@@ -1351,8 +1349,8 @@
     "fieldName": "ftev_metal",
     "fieldType": "evidence",
     "dataType": "string",
-    "description": "Search by feature metal binding",
-    "example": "phosphocysteine"
+    "description": "Search feature metal binding with evidence type",
+    "example": "manual"
   },
   {
     "parentId": "sites",
@@ -1376,9 +1374,9 @@
     "itemType": "single",
     "fieldName": "ftlen_binding",
     "fieldType": "range",
-    "dataType": "string",
-    "description": "Search by feature binding site",
-    "example": "phosphocysteine"
+    "dataType": "integer",
+    "description": "Search feature binding site within range",
+    "example": "[0 TO 100]"
   },
   {
     "parentId": "sites",
@@ -1390,8 +1388,8 @@
     "fieldName": "ftev_binding",
     "fieldType": "evidence",
     "dataType": "string",
-    "description": "Search by feature binding site",
-    "example": "phosphocysteine"
+    "description": "Search feature binding site with evidence type",
+    "example": "any"
   },
   {
     "parentId": "sites",
@@ -1415,9 +1413,9 @@
     "itemType": "single",
     "fieldName": "ftlen_site",
     "fieldType": "range",
-    "dataType": "string",
-    "description": "Search by feature other site",
-    "example": "phosphocysteine"
+    "dataType": "integer",
+    "description": "Search feature other site within range",
+    "example": "[0 TO 100]"
   },
   {
     "parentId": "sites",
@@ -1429,8 +1427,8 @@
     "fieldName": "ftev_site",
     "fieldType": "evidence",
     "dataType": "string",
-    "description": "Search by feature other site",
-    "example": "phosphocysteine"
+    "description": "Search feature other site with evidence type",
+    "example": "any"
   },
   {
     "parentId": "function",
@@ -1454,9 +1452,9 @@
     "itemType": "single",
     "fieldName": "ftlen_ca_bind",
     "fieldType": "range",
-    "dataType": "string",
-    "description": "Search by feature calcium binding",
-    "example": "site"
+    "dataType": "integer",
+    "description": "Search feature calcium binding within range",
+    "example": "[0 TO 100]"
   },
   {
     "parentId": "function",
@@ -1468,8 +1466,8 @@
     "fieldName": "ftev_ca_bind",
     "fieldType": "evidence",
     "dataType": "string",
-    "description": "Search by feature calcium binding",
-    "example": "site"
+    "description": "Search feature calcium binding with evidence type",
+    "example": "any"
   },
   {
     "parentId": "function",
@@ -1493,9 +1491,9 @@
     "itemType": "single",
     "fieldName": "ftlen_dna_bind",
     "fieldType": "range",
-    "dataType": "string",
-    "description": "Search by feature DNA binding",
-    "example": "*"
+    "dataType": "integer",
+    "description": "Search feature DNA binding within range",
+    "example": "[0 TO 100]"
   },
   {
     "parentId": "function",
@@ -1507,8 +1505,8 @@
     "fieldName": "ftev_dna_bind",
     "fieldType": "evidence",
     "dataType": "string",
-    "description": "Search by feature DNA binding",
-    "example": "*"
+    "description": "Search feature DNA binding with evidence",
+    "example": "any"
   },
   {
     "parentId": "function",
@@ -1528,13 +1526,13 @@
     "childNumber": 10,
     "seqNumber": 1,
     "label": "Nucleotide binding",
-    "dataType": "string",
+    "dataType": "integer",
     "id": "ftlen_np_bind",
     "fieldName": "ftlen_np_bind",
     "itemType": "single",
     "fieldType": "range",
-    "description": "Search by feature Nucleotide binding",
-    "example": "NADP"
+    "description": "Search feature Nucleotide binding within range",
+    "example": "[0 TO 100]"
   },
   {
     "parentId": "function",
@@ -1546,8 +1544,8 @@
     "itemType": "single",
     "dataType": "string",
     "fieldType": "evidence",
-    "description": "Search by feature Nucleotide binding",
-    "example": "NADP"
+    "description": "Search feature Nucleotide binding with evidence type",
+    "example": "any"
   },
   {
     "parentId": "function",
@@ -1572,8 +1570,8 @@
     "fieldName": "ccev_pathway",
     "fieldType": "evidence",
     "dataType": "string",
-    "description": "Search by comment pathway",
-    "example": "metabolism"
+    "description": "Search comment pathway with evidence type",
+    "example": "any"
   },
   {
     "parentId": "function",
@@ -1598,8 +1596,8 @@
     "itemType": "single",
     "fieldName": "ccev_miscellaneous",
     "dataType": "string",
-    "description": "Search by comment Miscellaneous",
-    "example": "abscisic"
+    "description": "Search comment Miscellaneous with evidence type",
+    "example": "any"
   },
   {
     "label": "Sequence",

@@ -9,6 +9,7 @@ import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 
 import org.everit.json.schema.Schema;
+import org.everit.json.schema.ValidationException;
 import org.everit.json.schema.loader.SchemaLoader;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -26,7 +27,12 @@ public class SchemaValidator {
         SchemaLoader loader =
                 SchemaLoader.builder().schemaJson(jsonSchema).draftV7Support().build();
         Schema schema = loader.load().build();
-        schema.validate(jsonInput);
+        try {
+            schema.validate(jsonInput);
+        } catch (ValidationException ve){
+            log.error(ve.getAllMessages().toString());
+            throw ve;
+        }
     }
 
     private static InputStream readFile(String filePath) {
