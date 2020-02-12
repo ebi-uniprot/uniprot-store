@@ -100,7 +100,7 @@ class ScoreSearchIT {
                 "CC   -!- CATALYTIC ACTIVITY:\n"
                         + "CC       Reaction=O2 + 2 R'C(R)SH = H2O2 + R'C(R)S-S(R)CR';\n"
                         + "CC         Xref=Rhea:RHEA:17357, ChEBI:CHEBI:15379, ChEBI:CHEBI:16240,\n"
-                        + "CC         ChEBI:CHEBI:16520, ChEBI:CHEBI:17412; EC=1.8.3.2;");
+                        + "CC         ChEBI:CHEBI:16520, ChEBI:CHEBI:17412; ECEntry=1.8.3.2;");
         searchEngine.indexEntry(convertToUniProtEntry(entryProxy));
 
         // --------------
@@ -111,7 +111,7 @@ class ScoreSearchIT {
                         + "CC       Reaction=(6E)-8-hydroxygeraniol + 2 NADP(+) = (6E)-8-oxogeranial +\n"
                         + "CC         2 H(+) + 2 NADPH; Xref=Rhea:RHEA:32659, ChEBI:CHEBI:15378,\n"
                         + "CC         ChEBI:CHEBI:57783, ChEBI:CHEBI:58349, ChEBI:CHEBI:64235,\n"
-                        + "CC         ChEBI:CHEBI:64239; EC=1.1.1.324; Evidence={ECO:0000269|Ref.1};\n"
+                        + "CC         ChEBI:CHEBI:64239; ECEntry=1.1.1.324; Evidence={ECO:0000269|Ref.1};\n"
                         + "CC   -!- BIOPHYSICOCHEMICAL PROPERTIES:\n"
                         + "CC       Kinetic parameters:\n"
                         + "CC         KM=6.9 uM for Ins(1,3,4,5)P(4) {ECO:0000269|PubMed:9359836};\n"

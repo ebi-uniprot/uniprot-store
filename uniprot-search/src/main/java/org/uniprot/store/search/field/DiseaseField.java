@@ -7,7 +7,7 @@ public interface DiseaseField {
 
     enum ResultFields implements ReturnField {
         id("Name", "id", true),
-        accession("Disease ID", "accession", true),
+        accession("DiseaseEntry ID", "accession", true),
         acronym("Mnemonic", "acronym", true),
         definition("Description", "definition", true),
         alternative_names("Alternative Names", "alternativeNames"),

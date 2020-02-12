@@ -29,7 +29,8 @@ class SearchItemsLoaderTest {
         Map<String, SearchItem> itemMap = searchItemsToMap(fieldsLoader.getSearchItems());
         assertThat(
                 itemMap.keySet(),
-                containsInAnyOrder("ACCESSION", "FUNCTION", "COFACTORS", "CHEBI", "NOTE", "EC"));
+                containsInAnyOrder(
+                        "ACCESSION", "FUNCTION", "COFACTORS", "CHEBI", "NOTE", "ECEntry"));
 
         SearchItem accessionItem = itemMap.get("ACCESSION");
         assertThat(accessionItem.getField(), is("accession"));

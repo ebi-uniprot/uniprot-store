@@ -3,7 +3,7 @@ package org.uniprot.store.spark.indexer.disease;
 import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
-import org.uniprot.core.cv.disease.Disease;
+import org.uniprot.core.cv.disease.DiseaseEntry;
 
 import scala.Tuple2;
 
@@ -32,11 +32,11 @@ class DiseaseFileMapperTest {
 
         DiseaseFileMapper mapper = new DiseaseFileMapper();
 
-        Tuple2<String, Disease> tuple = mapper.call(diseaseLines);
+        Tuple2<String, DiseaseEntry> tuple = mapper.call(diseaseLines);
         assertNotNull(tuple);
 
         assertEquals("Jackson-Weiss syndrome", tuple._1);
-        Disease disease = tuple._2;
+        DiseaseEntry disease = tuple._2;
         assertNotNull(disease);
         assertEquals("DI-00602", disease.getAccession());
     }

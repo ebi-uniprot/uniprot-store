@@ -24,9 +24,9 @@ import java.util.stream.Collectors;
 import org.apache.commons.io.IOUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.uniprot.core.cv.chebi.Chebi;
-import org.uniprot.core.cv.chebi.ChebiBuilder;
-import org.uniprot.core.cv.ec.ECBuilder;
+import org.uniprot.core.cv.chebi.ChebiEntry;
+import org.uniprot.core.cv.chebi.ChebiEntryBuilder;
+import org.uniprot.core.cv.ec.ECEntryBuilder;
 import org.uniprot.core.flatfile.parser.SupportingDataMap;
 import org.uniprot.core.flatfile.parser.impl.DefaultUniProtParser;
 import org.uniprot.core.flatfile.parser.impl.SupportingDataMapImpl;
@@ -225,17 +225,20 @@ class UniProtEntryConverterIT {
     void testConvertFullQ9EPI6Entry() throws Exception {
         when(repoMock.retrieveNodeUsingTaxID(anyInt()))
                 .thenReturn(getTaxonomyNode(10116, "Rattus norvegicus", "Rat", null, null));
-        Chebi chebiId1 =
-                new ChebiBuilder()
+        ChebiEntry chebiId1 =
+                new ChebiEntryBuilder()
                         .id("15379")
-                        .name("Chebi Name 15379")
+                        .name("ChebiEntry Name 15379")
                         .inchiKey("inchikey 15379")
                         .build();
-        Chebi chebiId2 = new ChebiBuilder().id("16526").name("Chebi Name 16526").build();
+        ChebiEntry chebiId2 =
+                new ChebiEntryBuilder().id("16526").name("ChebiEntry Name 16526").build();
         when(chebiRepoMock.getById("15379")).thenReturn(chebiId1);
         when(chebiRepoMock.getById("16526")).thenReturn(chebiId2);
         when(ecRepoMock.getEC("2.7.10.2"))
-                .thenReturn(Optional.of(new ECBuilder().id("2.7.10.2").label("EC 1").build()));
+                .thenReturn(
+                        Optional.of(
+                                new ECEntryBuilder().id("2.7.10.2").label("ECEntry 1").build()));
 
         String file = "Q9EPI6.sp";
         UniProtEntry entry = parse(file);
@@ -601,8 +604,8 @@ class UniProtEntryConverterIT {
         assertNull(doc.reviewed);
     }
 
-    private void checkCatalyticChebiSuggestions(List<Chebi> chebiList) {
-        for (Chebi chebi : chebiList) {
+    private void checkCatalyticChebiSuggestions(List<ChebiEntry> chebiList) {
+        for (ChebiEntry chebi : chebiList) {
             String id = "CHEBI:" + chebi.getId();
             SuggestDocument chebiDoc =
                     suggestions.get(

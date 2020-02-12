@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
 
 import org.apache.hadoop.conf.Configuration;
-import org.uniprot.core.cv.disease.Disease;
+import org.uniprot.core.cv.disease.DiseaseEntry;
 import org.uniprot.core.cv.keyword.KeywordCategory;
 import org.uniprot.core.cv.keyword.KeywordEntry;
 import org.uniprot.core.cv.subcell.SubcellularLocationEntry;
@@ -84,10 +84,12 @@ public class SupportingDataMapHDSFImpl implements SupportingDataMap {
     private void loadDiseaseMap(String diseaseFile, Configuration hadoopConfig) {
         if (Utils.notNullNotEmpty(diseaseFile)) {
             List<String> lines = readLines(diseaseFile, hadoopConfig);
-            List<Disease> entries = new DiseaseFileReader().parseLines(lines);
+            List<DiseaseEntry> entries = new DiseaseFileReader().parseLines(lines);
             diseaseMap.putAll(
                     entries.stream()
-                            .collect(Collectors.toMap(Disease::getId, Disease::getAccession)));
+                            .collect(
+                                    Collectors.toMap(
+                                            DiseaseEntry::getId, DiseaseEntry::getAccession)));
             log.info("Loaded " + diseaseMap.size() + " disease Map");
         } else {
             log.warn("diseaseFile path must not be null or empty");

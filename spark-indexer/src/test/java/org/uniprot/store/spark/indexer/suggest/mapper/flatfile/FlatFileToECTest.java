@@ -23,8 +23,8 @@ class FlatFileToECTest {
         String input =
                 "AC   Q9BRS2; B2RB28; Q8NDC8; Q96NV9;\n"
                         + "DE   RecName: Full=Serine/threonine-protein kinase RIO1;\n"
-                        + "DE            EC=2.7.11.1 {ECO:0000269|PubMed:22072790};\n"
-                        + "DE            EC=3.6.3.-;\n"
+                        + "DE            ECEntry=2.7.11.1 {ECO:0000269|PubMed:22072790};\n"
+                        + "DE            ECEntry=3.6.3.-;\n"
                         + "DE   AltName: Full=RIO kinase 1;";
         Iterator<Tuple2<String, String>> results = mapper.call(input);
         assertNotNull(results);

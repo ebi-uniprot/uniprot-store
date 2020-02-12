@@ -62,7 +62,7 @@ class UniProtEntryProteinDescriptionConverterTest {
         assertEquals(25, document.proteinNames.size());
         assertEquals(indexedNames, document.proteinNames);
 
-        // Should we add EC numbers to the content field?
+        // Should we add ECEntry numbers to the content field?
         assertEquals(25, document.content.size());
         assertEquals(new HashSet<>(indexedNames), document.content);
 

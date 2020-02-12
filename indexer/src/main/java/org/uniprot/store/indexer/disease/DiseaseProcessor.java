@@ -9,8 +9,8 @@ import java.util.stream.Collectors;
 import org.springframework.batch.core.StepExecution;
 import org.springframework.batch.core.annotation.BeforeStep;
 import org.springframework.batch.item.ItemProcessor;
-import org.uniprot.core.cv.disease.Disease;
-import org.uniprot.core.cv.disease.DiseaseBuilder;
+import org.uniprot.core.cv.disease.DiseaseEntry;
+import org.uniprot.core.cv.disease.builder.DiseaseEntryBuilder;
 import org.uniprot.core.json.parser.disease.DiseaseJsonConfig;
 import org.uniprot.store.indexer.common.utils.Constants;
 import org.uniprot.store.search.document.disease.DiseaseDocument;
@@ -18,7 +18,7 @@ import org.uniprot.store.search.document.disease.DiseaseDocument;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-public class DiseaseProcessor implements ItemProcessor<Disease, DiseaseDocument> {
+public class DiseaseProcessor implements ItemProcessor<DiseaseEntry, DiseaseDocument> {
     private ObjectMapper diseaseObjectMapper;
     // cache from DiseaseProteinCountWriter Step
     private Map<String, DiseaseProteinCountReader.DiseaseProteinCount> diseaseIdProteinCountMap;
@@ -28,7 +28,7 @@ public class DiseaseProcessor implements ItemProcessor<Disease, DiseaseDocument>
     }
 
     @Override
-    public DiseaseDocument process(Disease disease) {
+    public DiseaseDocument process(DiseaseEntry disease) {
         List<String> kwIds = new ArrayList<>();
         if (disease.getKeywords() != null) {
             kwIds =
@@ -59,9 +59,9 @@ public class DiseaseProcessor implements ItemProcessor<Disease, DiseaseDocument>
         return builder.build();
     }
 
-    private byte[] getDiseaseObjectBinary(Disease disease) {
+    private byte[] getDiseaseObjectBinary(DiseaseEntry disease) {
         try {
-            DiseaseBuilder diseaseBuilder = DiseaseBuilder.from(disease);
+            DiseaseEntryBuilder diseaseBuilder = DiseaseEntryBuilder.from(disease);
 
             // get the protein count, reviewed and unreviewed
             DiseaseProteinCountReader.DiseaseProteinCount diseaseProteinCount =
