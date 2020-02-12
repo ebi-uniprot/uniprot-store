@@ -24,6 +24,7 @@
 		<module>common-job</module>
 		<module>spark-indexer</module>
 		<module>integration-test</module>
+		<module>uniprot-config</module>
 	</modules>
 
 	<dependencies>
