@@ -29,7 +29,7 @@ public class FlatFileToCofactorChebi implements PairFlatMapFunction<String, Stri
         String catalyticsComments =
                 SuggesterUtil.getCommentLinesByType(entryStr, CommentType.COFACTOR);
 
-        if (Utils.notNullOrEmpty(catalyticsComments)) {
+        if (Utils.notNullNotEmpty(catalyticsComments)) {
             List<Comment> comments = SuggesterUtil.getComments(catalyticsComments);
 
             comments.stream()

@@ -29,7 +29,7 @@ public class FlatFileToCatalyticActivityChebi
         String catalyticsComments =
                 SuggesterUtil.getCommentLinesByType(entryStr, CommentType.CATALYTIC_ACTIVITY);
 
-        if (Utils.notNullOrEmpty(catalyticsComments)) {
+        if (Utils.notNullNotEmpty(catalyticsComments)) {
             List<Comment> comments = SuggesterUtil.getComments(catalyticsComments);
 
             comments.stream()

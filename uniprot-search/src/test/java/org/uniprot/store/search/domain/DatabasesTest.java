@@ -11,7 +11,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.uniprot.core.cv.xdb.DatabaseCategory;
 import org.uniprot.core.cv.xdb.UniProtXDbTypeDetail;
-import org.uniprot.core.cv.xdb.UniProtXDbTypes;
+import org.uniprot.cv.xdb.UniProtXDbTypes;
 import org.uniprot.store.search.domain.impl.Databases;
 
 class DatabasesTest {

@@ -184,7 +184,7 @@ public class UniProtEntryConverter
     }
 
     private void convertKeywords(List<Keyword> keywords, UniProtDocument document) {
-        if (Utils.notNullOrEmpty(keywords)) {
+        if (Utils.notNullNotEmpty(keywords)) {
             keywords.forEach(keyword -> updateKeyword(keyword, document));
             document.content.addAll(document.keywords);
         }
@@ -201,7 +201,7 @@ public class UniProtEntryConverter
     }
 
     private void convertGeneNames(List<Gene> genes, UniProtDocument document) {
-        if (Utils.notNullOrEmpty(genes)) {
+        if (Utils.notNullNotEmpty(genes)) {
             for (Gene gene : genes) {
                 addValueToStringList(document.geneNamesExact, gene.getGeneName());
                 addValueListToStringList(document.geneNamesExact, gene.getSynonyms());
@@ -215,7 +215,7 @@ public class UniProtEntryConverter
     }
 
     private void convertOrganelle(List<GeneLocation> geneLocations, UniProtDocument document) {
-        if (Utils.notNullOrEmpty(geneLocations)) {
+        if (Utils.notNullNotEmpty(geneLocations)) {
             for (GeneLocation geneLocation : geneLocations) {
                 GeneEncodingType geneEncodingType = geneLocation.getGeneEncodingType();
 

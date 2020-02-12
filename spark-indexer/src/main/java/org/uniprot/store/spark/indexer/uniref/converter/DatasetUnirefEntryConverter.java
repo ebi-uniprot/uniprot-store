@@ -75,15 +75,15 @@ public class DatasetUnirefEntryConverter implements MapFunction<Row, UniRefEntry
             builder.commonTaxonId(
                     Integer.valueOf(propertyMap.getOrDefault(PROPERTY_COMMON_TAXON_ID, "0")));
             if (propertyMap.containsKey(PROPERTY_GO_FUNCTION)) {
-                builder.addGoTerm(
+                builder.goTermsAdd(
                         createGoTerm(GoTermType.FUNCTION, propertyMap.get(PROPERTY_GO_FUNCTION)));
             }
             if (propertyMap.containsKey(PROPERTY_GO_COMPONENT)) {
-                builder.addGoTerm(
+                builder.goTermsAdd(
                         createGoTerm(GoTermType.COMPONENT, propertyMap.get(PROPERTY_GO_COMPONENT)));
             }
             if (propertyMap.containsKey(PROPERTY_GO_PROCESS)) {
-                builder.addGoTerm(
+                builder.goTermsAdd(
                         createGoTerm(GoTermType.PROCESS, propertyMap.get(PROPERTY_GO_PROCESS)));
             }
         }
@@ -94,7 +94,7 @@ public class DatasetUnirefEntryConverter implements MapFunction<Row, UniRefEntry
                 Row member = (Row) rowValue.get(rowValue.fieldIndex("member"));
                 members = Collections.singletonList(member);
             }
-            members.stream().map(this::convertMember).forEach(builder::addMember);
+            members.stream().map(this::convertMember).forEach(builder::membersAdd);
         }
 
         if (hasFieldName("representativeMember", rowValue)) {
@@ -112,7 +112,7 @@ public class DatasetUnirefEntryConverter implements MapFunction<Row, UniRefEntry
 
     private RepresentativeMember convertRepresentativeMember(Row representativeMemberRow) {
         RepresentativeMemberBuilder builder =
-                new RepresentativeMemberBuilder().from(convertMember(representativeMemberRow));
+                RepresentativeMemberBuilder.from(convertMember(representativeMemberRow));
         if (hasFieldName("sequence", representativeMemberRow)) {
             Row sequence =
                     (Row)
@@ -137,7 +137,7 @@ public class DatasetUnirefEntryConverter implements MapFunction<Row, UniRefEntry
             if (hasFieldName("property", dbReference)) {
                 Map<String, String> propertyMap = convertProperties(dbReference);
                 if (propertyMap.containsKey("UniProtKB accession")) {
-                    builder.addAccession(
+                    builder.accessionsAdd(
                             new UniProtAccessionImpl(propertyMap.get("UniProtKB accession")));
                 }
                 if (propertyMap.containsKey("UniParc ID")) {

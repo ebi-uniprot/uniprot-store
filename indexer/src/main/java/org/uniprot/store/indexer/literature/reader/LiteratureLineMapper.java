@@ -98,7 +98,7 @@ public class LiteratureLineMapper extends DefaultLineMapper<LiteratureEntry> {
                         .databaseType(CitationXrefType.PUBMED)
                         .id(pubmedId)
                         .build();
-        builder = builder.addCitationXrefs(pubmedXref);
+        builder = builder.citationXrefsAdd(pubmedXref);
         if (rxLineArray.length > 1) {
             String doiId = rxLineArray[1].substring(rxLineArray[1].indexOf('=') + 1);
             DBCrossReference<CitationXrefType> doiXref =
@@ -106,13 +106,13 @@ public class LiteratureLineMapper extends DefaultLineMapper<LiteratureEntry> {
                             .databaseType(CitationXrefType.DOI)
                             .id(doiId)
                             .build();
-            builder = builder.addCitationXrefs(doiXref);
+            builder = builder.citationXrefsAdd(doiXref);
         }
         return builder;
     }
 
     private LiteratureBuilder parseRALine(LiteratureBuilder builder, List<String> raLines) {
-        if (Utils.notNullOrEmpty(raLines)) {
+        if (Utils.notNullNotEmpty(raLines)) {
             String raLine = String.join("", raLines);
             raLine = raLine.substring(0, raLine.length() - 1);
             List<Author> authors =
@@ -121,13 +121,13 @@ public class LiteratureLineMapper extends DefaultLineMapper<LiteratureEntry> {
                             .map(String::trim)
                             .map(AuthorImpl::new)
                             .collect(Collectors.toList());
-            builder = builder.authors(authors);
+            builder = builder.authorsSet(authors);
         }
         return builder;
     }
 
     private LiteratureBuilder parseRTLine(LiteratureBuilder builder, List<String> rtLines) {
-        if (Utils.notNullOrEmpty(rtLines)) {
+        if (Utils.notNullNotEmpty(rtLines)) {
             String rtLine = String.join(" ", rtLines);
             builder = builder.title(rtLine.substring(1, rtLine.length() - 2));
         }
@@ -139,7 +139,7 @@ public class LiteratureLineMapper extends DefaultLineMapper<LiteratureEntry> {
                 rgLines.stream()
                         .map(ag -> ag.substring(0, ag.length() - 1))
                         .collect(Collectors.toList());
-        builder = builder.authoringGroups(authoringGroup);
+        builder = builder.authoringGroupsSet(authoringGroup);
         return builder;
     }
 

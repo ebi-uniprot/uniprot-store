@@ -39,7 +39,7 @@ public class LiteratureMappingItemReader implements ItemReader<LiteratureStoreEn
                                 .map(DBCrossReference::getId)
                                 .orElse("");
                 if (entryPubmedId.equals(nextPubmedId)) {
-                    itemBuilder.addLiteratureMappedReference(
+                    itemBuilder.literatureMappedReferencesAdd(
                             nextEntry.getLiteratureMappedReferences().get(0));
                 } else {
                     return itemBuilder.build();

@@ -60,7 +60,7 @@ public class LiteratureLoadProcessor implements ItemProcessor<LiteratureEntry, L
             LiteratureStoreEntry statisticsEntry =
                     literatureObjectMapper.readValue(literatureObj, LiteratureStoreEntryImpl.class);
             entryBuilder.statistics(statisticsEntry.getLiteratureEntry().getStatistics());
-            entryStoreBuilder.literatureMappedReference(
+            entryStoreBuilder.literatureMappedReferencesSet(
                     statisticsEntry.getLiteratureMappedReferences());
         }
         entryStoreBuilder.literatureEntry(entryBuilder.build());
@@ -107,7 +107,7 @@ public class LiteratureLoadProcessor implements ItemProcessor<LiteratureEntry, L
             content.add(literature.getLiteratureAbstract());
         }
         if (literature.hasAuthoringGroup()) {
-            content.addAll(literature.getAuthoringGroup());
+            content.addAll(literature.getAuthoringGroups());
         }
         builder.content(content);
 

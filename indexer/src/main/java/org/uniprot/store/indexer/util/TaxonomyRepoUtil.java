@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import org.uniprot.core.cv.taxonomy.TaxonomicNode;
-import org.uniprot.core.cv.taxonomy.TaxonomyRepo;
+import org.uniprot.cv.taxonomy.TaxonomicNode;
+import org.uniprot.cv.taxonomy.TaxonomyRepo;
 
 /**
  * @author jluo

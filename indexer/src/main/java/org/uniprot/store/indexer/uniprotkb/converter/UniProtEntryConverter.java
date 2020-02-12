@@ -12,16 +12,16 @@ import lombok.extern.slf4j.Slf4j;
 
 import org.uniprot.core.DBCrossReference;
 import org.uniprot.core.Sequence;
-import org.uniprot.core.cv.chebi.ChebiRepo;
-import org.uniprot.core.cv.ec.ECRepo;
 import org.uniprot.core.cv.keyword.KeywordCategory;
-import org.uniprot.core.cv.taxonomy.TaxonomyRepo;
 import org.uniprot.core.gene.Gene;
 import org.uniprot.core.scorer.uniprotkb.UniProtEntryScored;
 import org.uniprot.core.uniprot.*;
 import org.uniprot.core.uniprot.evidence.Evidence;
 import org.uniprot.core.uniprot.evidence.EvidenceTypeCategory;
 import org.uniprot.core.util.Utils;
+import org.uniprot.cv.chebi.ChebiRepo;
+import org.uniprot.cv.ec.ECRepo;
+import org.uniprot.cv.taxonomy.TaxonomyRepo;
 import org.uniprot.store.indexer.uniprot.go.GoRelationRepo;
 import org.uniprot.store.indexer.uniprot.pathway.PathwayRepo;
 import org.uniprot.store.indexer.util.DateUtils;
@@ -200,7 +200,7 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtEntry, Un
     }
 
     private void convertKeywords(List<Keyword> keywords, UniProtDocument document) {
-        if (Utils.notNullOrEmpty(keywords)) {
+        if (Utils.notNullNotEmpty(keywords)) {
             keywords.forEach(keyword -> updateKeyword(keyword, document));
             document.content.addAll(document.keywords);
         }
@@ -233,7 +233,7 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtEntry, Un
     }
 
     private void convertGeneNames(List<Gene> genes, UniProtDocument document) {
-        if (Utils.notNullOrEmpty(genes)) {
+        if (Utils.notNullNotEmpty(genes)) {
             for (Gene gene : genes) {
                 addValueToStringList(document.geneNamesExact, gene.getGeneName());
                 addValueListToStringList(document.geneNamesExact, gene.getSynonyms());
@@ -247,7 +247,7 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtEntry, Un
     }
 
     private void convertOrganelle(List<GeneLocation> geneLocations, UniProtDocument document) {
-        if (Utils.notNullOrEmpty(geneLocations)) {
+        if (Utils.notNullNotEmpty(geneLocations)) {
             for (GeneLocation geneLocation : geneLocations) {
                 GeneEncodingType geneEncodingType = geneLocation.getGeneEncodingType();
 

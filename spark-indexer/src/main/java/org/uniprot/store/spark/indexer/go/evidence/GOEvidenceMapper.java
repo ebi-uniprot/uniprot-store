@@ -63,8 +63,8 @@ public class GOEvidenceMapper
                     .databaseType(xref.getDatabaseType())
                     .id(xref.getId())
                     .isoformId(xref.getIsoformId())
-                    .evidences(evidences)
-                    .properties(xref.getProperties())
+                    .evidencesSet(evidences)
+                    .propertiesSet(xref.getProperties())
                     .build();
         }
     }

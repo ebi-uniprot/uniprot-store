@@ -33,7 +33,7 @@ class TaxonomyJoinMapperTest {
 
         assertNotNull(result);
         assertTrue(result.hasLineage());
-        assertEquals(lineage, result.getLineage());
+        assertEquals(lineage, result.getLineages());
     }
 
     @Test
@@ -46,7 +46,7 @@ class TaxonomyJoinMapperTest {
         TaxonomyEntry result = mapper.call(tuple);
 
         assertNotNull(result);
-        assertNotNull(result.getLineage());
+        assertNotNull(result.getLineages());
         assertFalse(result.hasLineage());
     }
 }

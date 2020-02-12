@@ -32,7 +32,7 @@ public class SearchItemsLoader implements SearchItems {
 
         // search items (used by front-end)
         allItems.stream()
-                .filter(item -> Utils.notNullOrEmpty(item.getLabel()))
+                .filter(item -> Utils.notNullNotEmpty(item.getLabel()))
                 .forEach(searchItems::add);
     }
 

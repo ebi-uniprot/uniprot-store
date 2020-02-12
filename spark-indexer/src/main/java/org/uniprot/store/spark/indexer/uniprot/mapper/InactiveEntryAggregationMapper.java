@@ -32,12 +32,12 @@ public class InactiveEntryAggregationMapper
             mergedEntry = getNotNullEntry(entry1, entry2);
         } else {
             List<String> mergedAccessions = new ArrayList<>();
-            mergedAccessions.addAll(entry1.getInactiveReason().getMergeDemergeTo());
-            mergedAccessions.addAll(entry2.getInactiveReason().getMergeDemergeTo());
+            mergedAccessions.addAll(entry1.getInactiveReason().getMergeDemergeTos());
+            mergedAccessions.addAll(entry2.getInactiveReason().getMergeDemergeTos());
 
             EntryInactiveReasonBuilder inactiveReasonBuilder =
-                    new EntryInactiveReasonBuilder().from(entry1.getInactiveReason());
-            inactiveReasonBuilder.mergeDemergeTo(mergedAccessions);
+                    EntryInactiveReasonBuilder.from(entry1.getInactiveReason());
+            inactiveReasonBuilder.mergeDemergeTosSet(mergedAccessions);
             inactiveReasonBuilder.type(InactiveReasonType.DEMERGED);
 
             mergedEntry =

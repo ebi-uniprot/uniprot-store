@@ -45,6 +45,4 @@ public interface GeneCentricField {
                     .anyMatch(returnItem -> returnItem.name().equalsIgnoreCase(fieldName));
         }
     }
-
-    // boost organism_id^2.0;
 }

@@ -11,7 +11,6 @@ import java.util.stream.Collectors;
 import org.uniprot.core.DBCrossReference;
 import org.uniprot.core.Value;
 import org.uniprot.core.cv.chebi.Chebi;
-import org.uniprot.core.cv.chebi.ChebiRepo;
 import org.uniprot.core.cv.pathway.UniPathway;
 import org.uniprot.core.flatfile.parser.impl.cc.CCLineBuilderFactory;
 import org.uniprot.core.flatfile.writer.FFLineBuilder;
@@ -19,6 +18,7 @@ import org.uniprot.core.uniprot.comment.*;
 import org.uniprot.core.uniprot.evidence.Evidence;
 import org.uniprot.core.uniprot.evidence.EvidencedValue;
 import org.uniprot.core.util.Utils;
+import org.uniprot.cv.chebi.ChebiRepo;
 import org.uniprot.store.indexer.uniprot.pathway.PathwayRepo;
 import org.uniprot.store.search.document.suggest.SuggestDictionary;
 import org.uniprot.store.search.document.suggest.SuggestDocument;
@@ -339,7 +339,7 @@ class UniProtEntryCommentsConverter {
 
     private List<String> getTextsValue(List<EvidencedValue> texts) {
         List<String> result = new ArrayList<>();
-        if (Utils.notNullOrEmpty(texts)) {
+        if (Utils.notNullNotEmpty(texts)) {
             texts.stream().map(Value::getValue).forEach(result::add);
         }
         return result;
@@ -347,7 +347,7 @@ class UniProtEntryCommentsConverter {
 
     private Set<String> getTextsEvidence(List<EvidencedValue> texts) {
         Set<String> result = new HashSet<>();
-        if (Utils.notNullOrEmpty(texts)) {
+        if (Utils.notNullNotEmpty(texts)) {
             List<Evidence> evidences =
                     texts.stream()
                             .flatMap(text -> text.getEvidences().stream())

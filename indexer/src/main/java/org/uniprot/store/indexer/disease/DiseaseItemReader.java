@@ -5,7 +5,7 @@ import java.util.Iterator;
 
 import org.springframework.batch.item.ItemReader;
 import org.uniprot.core.cv.disease.Disease;
-import org.uniprot.core.cv.disease.DiseaseFileReader;
+import org.uniprot.cv.disease.DiseaseFileReader;
 
 public class DiseaseItemReader implements ItemReader<Disease> {
     private Iterator<Disease> diseaseIterator;

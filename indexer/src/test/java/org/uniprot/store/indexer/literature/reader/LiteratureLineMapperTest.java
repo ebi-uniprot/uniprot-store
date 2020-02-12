@@ -46,7 +46,7 @@ class LiteratureLineMapperTest {
 
         assertTrue(literature.hasAuthoringGroup());
         MatcherAssert.assertThat(
-                literature.getAuthoringGroup(),
+                literature.getAuthoringGroups(),
                 Matchers.contains(
                         "DIAbetes Genetics Replication And Meta-analysis (DIAGRAM) Consortium"));
 

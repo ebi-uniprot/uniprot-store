@@ -7,8 +7,8 @@ import lombok.extern.slf4j.Slf4j;
 
 import org.apache.spark.api.java.function.PairFunction;
 import org.uniprot.core.cv.disease.Disease;
-import org.uniprot.core.cv.disease.DiseaseFileReader;
 import org.uniprot.core.util.Utils;
+import org.uniprot.cv.disease.DiseaseFileReader;
 
 import scala.Tuple2;
 
@@ -35,7 +35,7 @@ public class DiseaseFileMapper implements PairFunction<String, String, Disease> 
         DiseaseFileReader fileReader = new DiseaseFileReader();
         List<String> diseaseLineList = Arrays.asList(diseaseLines.split("\n"));
         List<Disease> diseases = fileReader.parseLines(diseaseLineList);
-        if (Utils.notNullOrEmpty(diseases)) {
+        if (Utils.notNullNotEmpty(diseases)) {
             Disease disease = diseases.get(0);
             return new Tuple2<String, Disease>(disease.getId(), disease);
         } else {

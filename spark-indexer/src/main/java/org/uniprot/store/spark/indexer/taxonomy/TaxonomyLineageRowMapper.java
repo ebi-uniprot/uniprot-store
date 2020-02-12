@@ -56,7 +56,7 @@ class TaxonomyLineageRowMapper
             builder.scientificName(lineageNameArray[i]);
             builder.commonName(lineageCommonArray[i].trim());
             builder.hidden(lineageHiddenArray[i].equals("1"));
-            if (Utils.notNullOrEmpty(lineageRankArray[i])) {
+            if (Utils.notNullNotEmpty(lineageRankArray[i])) {
                 try {
                     builder.rank(TaxonomyRank.valueOf(lineageRankArray[i].toUpperCase()));
                 } catch (IllegalArgumentException iae) {

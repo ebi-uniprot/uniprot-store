@@ -82,7 +82,7 @@ class UniProtEntryConverterUtil {
     }
 
     static boolean isCanonicalIsoform(UniProtEntry uniProtEntry) {
-        return uniProtEntry.getCommentByType(CommentType.ALTERNATIVE_PRODUCTS).stream()
+        return uniProtEntry.getCommentsByType(CommentType.ALTERNATIVE_PRODUCTS).stream()
                         .map(comment -> (AlternativeProductsComment) comment)
                         .flatMap(comment -> comment.getIsoforms().stream())
                         .filter(

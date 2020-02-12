@@ -12,16 +12,16 @@ import lombok.extern.slf4j.Slf4j;
 
 import org.apache.hadoop.conf.Configuration;
 import org.uniprot.core.cv.disease.Disease;
-import org.uniprot.core.cv.disease.DiseaseFileReader;
 import org.uniprot.core.cv.keyword.KeywordCategory;
 import org.uniprot.core.cv.keyword.KeywordEntry;
-import org.uniprot.core.cv.keyword.KeywordFileReader;
 import org.uniprot.core.cv.subcell.SubcellularLocationEntry;
-import org.uniprot.core.cv.subcell.SubcellularLocationFileReader;
 import org.uniprot.core.flatfile.parser.SupportingDataMap;
 import org.uniprot.core.uniprot.evidence.Evidence;
 import org.uniprot.core.util.Pair;
 import org.uniprot.core.util.Utils;
+import org.uniprot.cv.disease.DiseaseFileReader;
+import org.uniprot.cv.keyword.KeywordFileReader;
+import org.uniprot.cv.subcell.SubcellularLocationFileReader;
 
 /**
  * Class responsible to load SupportingData from Hadoop FileSystem.
@@ -49,7 +49,7 @@ public class SupportingDataMapHDSFImpl implements SupportingDataMap {
 
     private void loadSubcellularLocationMap(
             String subcellularLocationFile, Configuration hadoopConfig) {
-        if (Utils.notNullOrEmpty(subcellularLocationFile)) {
+        if (Utils.notNullNotEmpty(subcellularLocationFile)) {
             List<String> lines = readLines(subcellularLocationFile, hadoopConfig);
             List<SubcellularLocationEntry> entries =
                     new SubcellularLocationFileReader().parseLines(lines);
@@ -66,7 +66,7 @@ public class SupportingDataMapHDSFImpl implements SupportingDataMap {
     }
 
     private void loadKeywordMap(String keywordFile, Configuration hadoopConfig) {
-        if (Utils.notNullOrEmpty(keywordFile)) {
+        if (Utils.notNullNotEmpty(keywordFile)) {
             List<String> lines = readLines(keywordFile, hadoopConfig);
             List<KeywordEntry> entries = new KeywordFileReader().parseLines(lines);
             keywordMap.putAll(
@@ -82,7 +82,7 @@ public class SupportingDataMapHDSFImpl implements SupportingDataMap {
     }
 
     private void loadDiseaseMap(String diseaseFile, Configuration hadoopConfig) {
-        if (Utils.notNullOrEmpty(diseaseFile)) {
+        if (Utils.notNullNotEmpty(diseaseFile)) {
             List<String> lines = readLines(diseaseFile, hadoopConfig);
             List<Disease> entries = new DiseaseFileReader().parseLines(lines);
             diseaseMap.putAll(

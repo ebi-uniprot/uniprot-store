@@ -64,7 +64,7 @@ public class TaxonomyJoinMapper implements PairFlatMapFunction<String, String, S
                 taxonomyLines.stream()
                         .filter(line -> line.startsWith("OH  "))
                         .collect(Collectors.joining("\n"));
-        if (Utils.notNullOrEmpty(ohLine)) {
+        if (Utils.notNullNotEmpty(ohLine)) {
             final UniprotLineParser<OhLineObject> ohParser =
                     new DefaultUniprotLineParserFactory().createOhLineParser();
             OhLineObject ohLineObject = ohParser.parse(ohLine + "\n");

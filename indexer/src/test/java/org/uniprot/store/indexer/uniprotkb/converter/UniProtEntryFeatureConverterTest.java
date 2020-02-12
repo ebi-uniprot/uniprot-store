@@ -90,7 +90,7 @@ class UniProtEntryFeatureConverterTest {
         AlternativeSequence alternativeSequence =
                 new AlternativeSequenceBuilder()
                         .original("original value")
-                        .alternative("alternative value")
+                        .alternativeSequencesAdd("alternative value")
                         .build();
 
         DBCrossReference<FeatureXDbType> xrefs =
@@ -106,7 +106,7 @@ class UniProtEntryFeatureConverterTest {
                 .alternativeSequence(alternativeSequence)
                 .dbXref(xrefs)
                 .description("description value")
-                .evidences(evidences)
+                .evidencesSet(evidences)
                 .featureId("FT12345")
                 .location(location)
                 .build();

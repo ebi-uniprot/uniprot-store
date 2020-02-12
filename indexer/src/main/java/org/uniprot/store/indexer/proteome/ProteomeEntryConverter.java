@@ -6,8 +6,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import org.uniprot.core.cv.taxonomy.TaxonomicNode;
-import org.uniprot.core.cv.taxonomy.TaxonomyRepo;
 import org.uniprot.core.json.parser.proteome.ProteomeJsonConfig;
 import org.uniprot.core.proteome.ProteomeEntry;
 import org.uniprot.core.proteome.builder.ProteomeEntryBuilder;
@@ -18,6 +16,8 @@ import org.uniprot.core.uniprot.taxonomy.builder.TaxonomyBuilder;
 import org.uniprot.core.xml.jaxb.proteome.DbReferenceType;
 import org.uniprot.core.xml.jaxb.proteome.Proteome;
 import org.uniprot.core.xml.proteome.ProteomeConverter;
+import org.uniprot.cv.taxonomy.TaxonomicNode;
+import org.uniprot.cv.taxonomy.TaxonomyRepo;
 import org.uniprot.store.indexer.util.TaxonomyRepoUtil;
 import org.uniprot.store.job.common.converter.DocumentConverter;
 import org.uniprot.store.search.document.proteome.ProteomeDocument;
@@ -121,12 +121,12 @@ public class ProteomeEntryConverter implements DocumentConverter<Proteome, Prote
     private byte[] getBinaryObject(Proteome source) {
         ProteomeEntry proteome = this.proteomeConverter.fromXml(source);
         ProteomeEntryBuilder builder = ProteomeEntryBuilder.from(proteome);
-        builder.canonicalProteins(Collections.emptyList());
+        builder.canonicalProteinsSet(Collections.emptyList());
         Optional<TaxonomicNode> taxonomicNode =
                 taxonomyRepo.retrieveNodeUsingTaxID((int) proteome.getTaxonomy().getTaxonId());
         if (taxonomicNode.isPresent()) {
             builder.taxonomy(getTaxonomy(taxonomicNode.get(), proteome.getTaxonomy().getTaxonId()));
-            builder.taxonLineage(getLineage(taxonomicNode.get().id()));
+            builder.taxonLineagesSet(getLineage(taxonomicNode.get().id()));
         }
         ProteomeEntry modifiedProteome = builder.build();
         byte[] binaryEntry;
@@ -145,7 +145,7 @@ public class ProteomeEntryConverter implements DocumentConverter<Proteome, Prote
         if (!Strings.isNullOrEmpty(node.commonName())) builder.commonName(node.commonName());
         if (!Strings.isNullOrEmpty(node.mnemonic())) builder.mnemonic(node.mnemonic());
         if (!Strings.isNullOrEmpty(node.synonymName())) {
-            builder.addSynonyms(node.synonymName());
+            builder.synonymsAdd(node.synonymName());
         }
         return builder.build();
     }

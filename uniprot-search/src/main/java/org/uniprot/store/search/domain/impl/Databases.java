@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 
 import org.uniprot.core.cv.xdb.DatabaseCategory;
 import org.uniprot.core.cv.xdb.UniProtXDbTypeDetail;
-import org.uniprot.core.cv.xdb.UniProtXDbTypes;
+import org.uniprot.cv.xdb.UniProtXDbTypes;
 import org.uniprot.store.search.domain.DatabaseGroup;
 import org.uniprot.store.search.domain.Field;
 import org.uniprot.store.search.domain.FieldGroup;

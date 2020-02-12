@@ -56,7 +56,7 @@ public class LiteratureMappedFileMapper
                             .source(lineFields[1])
                             .sourceId(lineFields[3])
                             .annotation(annnotation)
-                            .sourceCategory(categories)
+                            .sourceCategoriesSet(categories)
                             .build();
 
             return new Tuple2<>(lineFields[2], mappedReference);

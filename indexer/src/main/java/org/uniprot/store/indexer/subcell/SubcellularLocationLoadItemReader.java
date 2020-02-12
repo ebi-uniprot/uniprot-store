@@ -5,7 +5,7 @@ import java.util.Iterator;
 
 import org.springframework.batch.item.ItemReader;
 import org.uniprot.core.cv.subcell.SubcellularLocationEntry;
-import org.uniprot.core.cv.subcell.SubcellularLocationFileReader;
+import org.uniprot.cv.subcell.SubcellularLocationFileReader;
 
 /**
  * @author lgonzales
