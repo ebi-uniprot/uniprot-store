@@ -1,6 +1,6 @@
-package org.uniprot.store.schema;
+package org.uniprot.store.config.schema;
 
-import static org.uniprot.store.config.UniProtSearchFieldConfiguration.*;
+import static org.uniprot.store.config.uniprotkb.UniProtSearchFieldConfiguration.*;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;

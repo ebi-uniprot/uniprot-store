@@ -1,4 +1,4 @@
-package org.uniprot.store.config;
+package org.uniprot.store.config.common;
 
 import java.io.*;
 import java.util.Arrays;
@@ -10,6 +10,7 @@ import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.uniprot.store.config.model.FieldItem;
 
 @Slf4j
 public abstract class AbstractFieldConfiguration implements FieldConfiguration {

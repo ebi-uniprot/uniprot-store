@@ -1,4 +1,4 @@
-package org.uniprot.store.config;
+package org.uniprot.store.config.uniprotkb;
 
 import java.util.List;
 import java.util.Map;
@@ -6,7 +6,9 @@ import java.util.stream.Collectors;
 
 import lombok.NonNull;
 
-import org.uniprot.store.schema.SchemaValidator;
+import org.uniprot.store.config.common.AbstractFieldConfiguration;
+import org.uniprot.store.config.model.FieldItem;
+import org.uniprot.store.config.schema.SchemaValidator;
 
 public class UniProtSearchFieldConfiguration extends AbstractFieldConfiguration {
     public static final String CONFIG_FILE = "uniprot-fields.json";

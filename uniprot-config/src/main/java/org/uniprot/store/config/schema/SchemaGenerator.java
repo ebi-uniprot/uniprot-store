@@ -1,4 +1,4 @@
-package org.uniprot.store.schema;
+package org.uniprot.store.config.schema;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
