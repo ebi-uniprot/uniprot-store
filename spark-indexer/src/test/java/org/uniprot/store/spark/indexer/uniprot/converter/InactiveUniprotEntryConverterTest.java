@@ -37,7 +37,7 @@ class InactiveUniprotEntryConverterTest {
         EntryInactiveReason inactiveReason =
                 new EntryInactiveReasonBuilder()
                         .type(InactiveReasonType.MERGED)
-                        .addMergeDemergeTo("P11111")
+                        .mergeDemergeTosAdd("P11111")
                         .build();
         UniProtEntry entry = new UniProtEntryBuilder("P12345", "ID1", inactiveReason).build();
         UniProtDocument result = converter.convert(entry);
@@ -55,8 +55,8 @@ class InactiveUniprotEntryConverterTest {
         EntryInactiveReason inactiveReason =
                 new EntryInactiveReasonBuilder()
                         .type(InactiveReasonType.DEMERGED)
-                        .addMergeDemergeTo("P11111")
-                        .addMergeDemergeTo("P22222")
+                        .mergeDemergeTosAdd("P11111")
+                        .mergeDemergeTosAdd("P22222")
                         .build();
         UniProtEntry entry = new UniProtEntryBuilder("P12345", "ID1", inactiveReason).build();
         UniProtDocument result = converter.convert(entry);

@@ -24,7 +24,7 @@ public class UniRefTaxonomyJoin
         if (tuple._2.isPresent()) {
             UniRefDocument.UniRefDocumentBuilder builder = result.toBuilder();
             TaxonomyEntry organism = tuple._2.get();
-            organism.getLineage()
+            organism.getLineages()
                     .forEach(
                             lineage -> {
                                 builder.taxLineageId(new Long(lineage.getTaxonId()).intValue());

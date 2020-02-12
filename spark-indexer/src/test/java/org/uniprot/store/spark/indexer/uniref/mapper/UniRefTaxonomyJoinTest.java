@@ -40,7 +40,7 @@ class UniRefTaxonomyJoinTest {
                         .scientificName("scientificName2")
                         .build());
 
-        TaxonomyEntry entry = new TaxonomyEntryBuilder().lineage(lineage).build();
+        TaxonomyEntry entry = new TaxonomyEntryBuilder().lineagesSet(lineage).build();
         Optional<TaxonomyEntry> tax = Optional.of(entry);
         Tuple2<UniRefDocument, Optional<TaxonomyEntry>> tuple = new Tuple2<>(doc, tax);
 

@@ -124,9 +124,9 @@ class UniRefDocumentConverterTest {
                 .entryType(UniRefType.UniRef100)
                 .commonTaxonId(3)
                 .commonTaxon("UniRefCommonTaxon")
-                .addGoTerm(new GoTermImpl(GoTermType.COMPONENT, "id"))
+                .goTermsAdd(new GoTermImpl(GoTermType.COMPONENT, "id"))
                 .representativeMember(representativeMember)
-                .addMember(member)
+                .membersAdd(member)
                 .build();
     }
 
@@ -139,7 +139,7 @@ class UniRefDocumentConverterTest {
                 .organismTaxId(1)
                 .sequenceLength(11)
                 .proteinName("representativeMemberProteinName")
-                .addAccession(new UniProtAccessionBuilder("representativeMemberAccession").build())
+                .accessionsAdd(new UniProtAccessionBuilder("representativeMemberAccession").build())
                 .uniref50Id(new UniRefEntryIdImpl("representativeMemberUniref50Id"))
                 .uniref90Id(new UniRefEntryIdImpl("representativeMemberUniref90Id"))
                 .uniref100Id(new UniRefEntryIdImpl("representativeMemberUniref100Id"))
@@ -158,7 +158,7 @@ class UniRefDocumentConverterTest {
                 .organismTaxId(2)
                 .sequenceLength(10)
                 .proteinName("memberProteinName")
-                .addAccession(new UniProtAccessionBuilder("memberAccession").build())
+                .accessionsAdd(new UniProtAccessionBuilder("memberAccession").build())
                 .uniref50Id(new UniRefEntryIdImpl("memberUniref50Id"))
                 .uniref90Id(new UniRefEntryIdImpl("memberUniref90Id"))
                 .uniref100Id(new UniRefEntryIdImpl("memberUniref100Id"))
