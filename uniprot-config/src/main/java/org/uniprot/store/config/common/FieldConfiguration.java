@@ -1,4 +1,6 @@
-package org.uniprot.store.config;
+package org.uniprot.store.config.common;
+
+import org.uniprot.store.config.model.FieldItem;
 
 import java.io.IOException;
 import java.io.InputStream;

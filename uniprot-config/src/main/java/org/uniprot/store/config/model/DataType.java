@@ -1,4 +1,4 @@
-package org.uniprot.store.config;
+package org.uniprot.store.config.model;
 
 public enum DataType {
     string,

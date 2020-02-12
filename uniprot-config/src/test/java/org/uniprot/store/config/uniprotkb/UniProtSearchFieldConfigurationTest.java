@@ -1,4 +1,4 @@
-package org.uniprot.store.config;
+package org.uniprot.store.config.uniprotkb;
 
 import java.io.IOException;
 import java.util.List;
@@ -7,6 +7,8 @@ import java.util.Map;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.uniprot.store.config.model.FieldItem;
+import org.uniprot.store.config.uniprotkb.UniProtSearchFieldConfiguration;
 
 public class UniProtSearchFieldConfigurationTest {
 

@@ -1,4 +1,4 @@
-package org.uniprot.store.schema;
+package org.uniprot.store.config.schema;
 
 import java.io.File;
 import java.io.FileInputStream;
