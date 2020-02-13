@@ -657,7 +657,7 @@
     "example": "1"
   },
   {
-    "seqNumber": 13,
+    "seqNumber": 23,
     "id": "cc_webresource",
     "label": "Web Resources",
     "fieldName": "cc_webresource",
@@ -668,7 +668,7 @@
     "example": "lck"
   },
   {
-    "seqNumber": 14,
+    "seqNumber": 33,
     "id": "ccev_webresource",
     "label": "Web Resources",
     "fieldName": "ccev_webresource",
@@ -679,7 +679,7 @@
     "example": "lck"
   },
   {
-    "seqNumber": 15,
+    "seqNumber": 24,
     "id": "go_field",
     "label": "Gene Ontology [GO]",
     "itemType": "single",
@@ -692,7 +692,7 @@
     "example": "0009986"
   },
   {
-    "seqNumber": 16,
+    "seqNumber": 25,
     "id": "go_evidence",
     "label": "Gene Ontology [GO]",
     "itemType": "single",
@@ -703,7 +703,7 @@
     "example": "manual"
   },
   {
-    "seqNumber": 17,
+    "seqNumber": 26,
     "id": "keyword_field",
     "label": "Keyword [KW]",
     "fieldName": "keyword",
@@ -716,7 +716,7 @@
     "example": "chromosomal"
   },
   {
-    "seqNumber": 18,
+    "seqNumber": 27,
     "id": "litci",
     "label": "Literature Citation",
     "itemType": "group"
@@ -787,7 +787,7 @@
     "example": "protein"
   },
   {
-    "seqNumber": 19,
+    "seqNumber": 28,
     "id": "proteomes",
     "label": "Proteomes",
     "itemType": "group"
@@ -820,7 +820,7 @@
     "example": "chromosome"
   },
   {
-    "seqNumber": 20,
+    "seqNumber": 29,
     "id": "citedfor",
     "label": "Cited for",
     "fieldName": "scope",
@@ -831,7 +831,7 @@
     "example": "microtubule"
   },
   {
-    "seqNumber": 21,
+    "seqNumber": 30,
     "id": "reviewed",
     "label": "Reviewed",
     "fieldName": "reviewed",
@@ -853,7 +853,7 @@
     "example": "true"
   },
   {
-    "seqNumber": 22,
+    "seqNumber": 31,
     "id": "active",
     "label": "Active",
     "fieldName": "active",
@@ -878,7 +878,7 @@
     "label": "Function",
     "itemType": "group",
     "id": "function",
-    "seqNumber": 23
+    "seqNumber": 13
   },
   {
     "parentId": "function",
@@ -1603,7 +1603,7 @@
     "label": "Sequence",
     "itemType": "group",
     "id": "sequence",
-    "seqNumber": 40
+    "seqNumber": 22
   },
   {
     "parentId": "sequence",
@@ -1615,8 +1615,8 @@
     "fieldName": "mass",
     "fieldType": "sort",
     "dataType": "integer",
-    "description": "Search by Sequence mass",
-    "example": "[441126 TO 441126]"
+    "description": "Sort by Sequence mass",
+    "example": "mass asc"
   },
   {
     "parentId": "sequence",
@@ -1628,7 +1628,7 @@
     "fieldName": "mass",
     "fieldType": "range",
     "dataType": "integer",
-    "description": "Search by Sequence mass",
+    "description": "Search by Sequence mass range",
     "example": "[441126 TO 441126]"
   },
   {
@@ -1641,8 +1641,8 @@
     "fieldName": "length",
     "fieldType": "sort",
     "dataType": "integer",
-    "description": "Search by Sequence length",
-    "example": "[441 TO 450]"
+    "description": "Sort by Sequence length",
+    "example": "length desc"
   },
   {
     "parentId": "sequence",
@@ -1654,7 +1654,7 @@
     "fieldName": "length",
     "fieldType": "range",
     "dataType": "integer",
-    "description": "Search by Sequence length",
+    "description": "Search by Sequence length range",
     "example": "[441 TO 450]"
   },
   {
@@ -1688,8 +1688,8 @@
     "itemType": "single",
     "fieldType": "evidence",
     "dataType": "string",
-    "description": "Search by Comment alternative Products",
-    "example": "tissues"
+    "description": "Search Comment alternative Products with evidence type",
+    "example": "manual"
   },
   {
     "parentId": "alt product isoform",
@@ -1714,8 +1714,8 @@
     "fieldName": "ccev_ap_apu",
     "fieldType": "evidence",
     "dataType": "string",
-    "description": "Search by Comment alternative Products: alternative promoter usage",
-    "example": "*"
+    "description": "Search Comment alternative Products: alternative promoter usage with evidence type",
+    "example": "any"
   },
   {
     "parentId": "alt product isoform",
@@ -1740,7 +1740,7 @@
     "fieldName": "ccev_ap_as",
     "fieldType": "evidence",
     "dataType": "string",
-    "description": "Search by Comment alternative Products: alternative splicing",
+    "description": "Search Comment alternative Products: alternative splicing with evidence type",
     "example": "experimental"
   },
   {
@@ -1766,8 +1766,8 @@
     "fieldName": "ccev_ap_ai",
     "fieldType": "evidence",
     "dataType": "string",
-    "description": "Search by Comment alternative Products: alternative initiation",
-    "example": "acetylalanine"
+    "description": "Search by Comment alternative Products: alternative initiation with evidence type",
+    "example": "any"
   },
   {
     "parentId": "alt product isoform",
@@ -1792,8 +1792,8 @@
     "fieldName": "ccev_ap_rf",
     "fieldType": "evidence",
     "dataType": "string",
-    "description": "Search by Comment alternative Products: ribosomal frameshifting",
-    "example": "translation"
+    "description": "Search Comment alternative Products: ribosomal frameshifting with evidence type",
+    "example": "manual"
   },
   {
     "parentId": "sequence",
@@ -1826,8 +1826,8 @@
     "fieldName": "ccev_sequence_caution",
     "fieldType": "evidence",
     "dataType": "string",
-    "description": "Search by Comment Sequence caution",
-    "example": "translated"
+    "description": "Search Comment Sequence caution with evidence typee",
+    "example": "any"
   },
   {
     "parentId": "seq caution",
@@ -1917,8 +1917,8 @@
     "fieldName": "ccev_sc_misc",
     "fieldType": "evidence",
     "dataType": "string",
-    "description": "Search by Comment Sequence caution: miscellaneous discrepancy",
-    "example": "sequence"
+    "description": "Search Comment Sequence caution: miscellaneous discrepancy with evidence",
+    "example": "any"
   },
   {
     "parentId": "sequence",
@@ -1936,15 +1936,15 @@
   {
     "parentId": "sequence",
     "childNumber": 4,
-    "seqNumber": 0,
+    "seqNumber": 1,
     "label": "Mass Spectrometry",
     "id": "ccev_mass_spectrometry",
     "itemType": "single",
     "fieldName": "ccev_mass_spectrometry",
     "fieldType": "evidence",
     "dataType": "string",
-    "description": "Search by Comment Spectrometry",
-    "example": "electrospray"
+    "description": "Search Comment Spectrometry with evidence type",
+    "example": "manual"
   },
   {
     "parentId": "sequence",
@@ -1969,8 +1969,8 @@
     "fieldName": "ccev_polymorphism",
     "fieldType": "evidence",
     "dataType": "string",
-    "description": "Search by Comment Polymorphism",
-    "example": "transcript"
+    "description": "Search Comment Polymorphism with evidence type",
+    "example": "manual"
   },
   {
     "parentId": "sequence",
@@ -1995,8 +1995,8 @@
     "fieldName": "ccev_rna_editing",
     "fieldType": "evidence",
     "dataType": "string",
-    "description": "Search by Comment RNA editing",
-    "example": "target"
+    "description": "Search Comment RNA editing with evidence type",
+    "example": "manual"
   },
   {
     "parentId": "sequence",
@@ -2028,9 +2028,9 @@
     "itemType": "single",
     "fieldName": "ftlen_variants",
     "fieldType": "range",
-    "dataType": "string",
-    "description": "Search by Feature natural variations",
-    "example": "colorectal"
+    "dataType": "integer",
+    "description": "Search Feature natural variations within range",
+    "example": "[0 TO 100]"
   },
   {
     "parentId": "natural variations",
@@ -2042,8 +2042,8 @@
     "fieldName": "ftev_variants",
     "fieldType": "evidence",
     "dataType": "string",
-    "description": "Search by Feature natural variations",
-    "example": "colorectal"
+    "description": "Search Feature natural variations with evidence type",
+    "example": "manual"
   },
   {
     "parentId": "natural variations",
@@ -2067,9 +2067,9 @@
     "itemType": "single",
     "fieldName": "ftlen_variant",
     "fieldType": "range",
-    "dataType": "string",
-    "description": "Search by Feature natural variant",
-    "example": "colorectal"
+    "dataType": "integer",
+    "description": "Search Feature natural variant within range",
+    "example": "[0 to 100]"
   },
   {
     "parentId": "natural variations",
@@ -2081,8 +2081,8 @@
     "fieldName": "ftev_variant",
     "fieldType": "evidence",
     "dataType": "string",
-    "description": "Search by Feature natural variant",
-    "example": "colorectal"
+    "description": "Search Feature natural variant with evidence type",
+    "example": "manual"
   },
   {
     "parentId": "natural variations",
@@ -2106,9 +2106,9 @@
     "itemType": "single",
     "fieldName": "ftlen_var_seq",
     "fieldType": "range",
-    "dataType": "string",
-    "description": "Search by Feature alternative sequence",
-    "example": "isoform"
+    "dataType": "integer",
+    "description": "Search Feature alternative sequence within range",
+    "example": "[0 TO 100]"
   },
   {
     "parentId": "natural variations",
@@ -2120,8 +2120,8 @@
     "fieldName": "ftev_var_seq",
     "fieldType": "evidence",
     "dataType": "string",
-    "description": "Search by Feature alternative sequence",
-    "example": "isoform"
+    "description": "Search Feature alternative sequence with evidence type",
+    "example": "manual"
   },
   {
     "parentId": "sequence",
@@ -2145,9 +2145,9 @@
     "itemType": "single",
     "fieldName": "ftlen_non_std",
     "fieldType": "range",
-    "dataType": "string",
-    "description": "Search by feature non-standard residue",
-    "example": "selenocysteine"
+    "dataType": "integer",
+    "description": "Search feature non-standard residue within range",
+    "example": "[0 TO 100]"
   },
   {
     "parentId": "sequence",
@@ -2159,8 +2159,8 @@
     "fieldName": "ftev_non_std",
     "fieldType": "evidence",
     "dataType": "string",
-    "description": "Search by feature non-standard residue",
-    "example": "selenocysteine"
+    "description": "Search feature non-standard residue with evidence type",
+    "example": "manual"
   },
   {
     "parentId": "sequence",
@@ -2184,9 +2184,9 @@
     "itemType": "single",
     "fieldName": "ftlen_non_ter",
     "fieldType": "range",
-    "dataType": "string",
-    "description": "Search by feature non-terminal residue",
-    "example": "*"
+    "dataType": "integer",
+    "description": "Search feature non-terminal residue within range",
+    "example": "[0 TO 100]"
   },
   {
     "parentId": "sequence",
@@ -2198,8 +2198,8 @@
     "fieldName": "ftev_non_ter",
     "fieldType": "evidence",
     "dataType": "string",
-    "description": "Search by feature non-terminal residue",
-    "example": "*"
+    "description": "Search feature non-terminal residue with evidence type",
+    "example": "manual"
   },
   {
     "parentId": "sequence",
@@ -2223,9 +2223,9 @@
     "itemType": "single",
     "fieldName": "ftlen_non_cons",
     "fieldType": "range",
-    "dataType": "string",
-    "description": "Search by feature non-adjacent residue",
-    "example": "*"
+    "dataType": "integer",
+    "description": "Search feature non-adjacent residue within range",
+    "example": "[0 TO 100]"
   },
   {
     "parentId": "sequence",
@@ -2237,8 +2237,8 @@
     "fieldName": "ftev_non_cons",
     "fieldType": "evidence",
     "dataType": "string",
-    "description": "Search by feature non-adjacent residue",
-    "example": "*"
+    "description": "Search feature non-adjacent residue with evidence type",
+    "example": "manual"
   },
   {
     "parentId": "sequence",
@@ -2262,9 +2262,9 @@
     "itemType": "single",
     "fieldName": "ftlen_conflict",
     "fieldType": "range",
-    "dataType": "string",
-    "description": "Search by feature Sequence conflict",
-    "example": "*"
+    "dataType": "integer",
+    "description": "Search feature Sequence conflict within range",
+    "example": "[0 TO 100]"
   },
   {
     "parentId": "sequence",
@@ -2276,8 +2276,8 @@
     "fieldName": "ftev_conflict",
     "fieldType": "evidence",
     "dataType": "string",
-    "description": "Search by feature Sequence conflict",
-    "example": "*"
+    "description": "Search feature Sequence conflict with evidence type",
+    "example": "manual"
   },
   {
     "parentId": "sequence",
@@ -2301,9 +2301,9 @@
     "itemType": "single",
     "fieldName": "ftlen_unsure",
     "fieldType": "range",
-    "dataType": "string",
-    "description": "Search by feature Sequence uncertainty",
-    "example": "*"
+    "dataType": "integer",
+    "description": "Search feature Sequence uncertainty within range",
+    "example": "[0 TO 100]"
   },
   {
     "parentId": "sequence",
@@ -2315,8 +2315,8 @@
     "fieldName": "ftev_unsure",
     "fieldType": "evidence",
     "dataType": "string",
-    "description": "Search by feature Sequence uncertainty",
-    "example": "*"
+    "description": "Search feature Sequence uncertainty with evidence type",
+    "example": "manual"
   },
   {
     "parentId": "sequence",
@@ -2340,9 +2340,9 @@
     "itemType": "single",
     "fieldName": "ftlen_positional",
     "fieldType": "range",
-    "dataType": "string",
-    "description": "Search by sequence positional features",
-    "example": "colorectal"
+    "dataType": "integer",
+    "description": "Search sequence positional features within range",
+    "example": "[0 TO 100]"
   },
   {
     "parentId": "sequence",
@@ -2354,8 +2354,8 @@
     "fieldName": "ftev_positional",
     "fieldType": "evidence",
     "dataType": "string",
-    "description": "Search by sequence positional features",
-    "example": "colorectal"
+    "description": "Search sequence positional features with evidence type",
+    "example": "manual"
   },
   {
     "parentId": "sequence",
@@ -2456,7 +2456,7 @@
   },
   {
     "parentId": "sequence",
-    "childNumber": 17,
+    "childNumber": 19,
     "seqNumber": 0,
     "label": "Sequence from ... [RC]",
     "itemType": "group",
@@ -2518,7 +2518,7 @@
     "label": "PTM/Processing",
     "itemType": "group",
     "id": "ptmproc",
-    "seqNumber": 36
+    "seqNumber": 16
   },
   {
     "parentId": "ptmproc",
@@ -2543,8 +2543,8 @@
     "fieldName": "ccev_ptm",
     "fieldType": "evidence",
     "dataType": "string",
-    "description": "Search by Comment Post-translational modification",
-    "example": "mitosis"
+    "description": "Search Comment Post-translational modification with evidence type",
+    "example": "any"
   },
   {
     "parentId": "ptmproc",
@@ -2568,9 +2568,9 @@
     "itemType": "single",
     "fieldName": "ftlen_mod_res",
     "fieldType": "range",
-    "dataType": "string",
-    "description": "Search by Feature Modified residue",
-    "example": "phosphoserine"
+    "dataType": "integer",
+    "description": "Search Feature Modified residue within range",
+    "example": "[0 TO 100]"
   },
   {
     "parentId": "ptmproc",
@@ -2582,8 +2582,8 @@
     "fieldName": "ftev_mod_res",
     "fieldType": "range",
     "dataType": "string",
-    "description": "Search by Feature Modified residue",
-    "example": "phosphoserine"
+    "description": "Search Feature Modified residue with eevidence type",
+    "example": "manual"
   },
   {
     "parentId": "ptmproc",
@@ -2607,9 +2607,9 @@
     "itemType": "single",
     "fieldName": "ftlen_lipid",
     "fieldType": "range",
-    "dataType": "string",
-    "description": "Search by Feature Lipidation",
-    "example": "cysteine"
+    "dataType": "integer",
+    "description": "Search Feature Lipidation within range",
+    "example": "[0 TO 100]"
   },
   {
     "parentId": "ptmproc",
@@ -2621,8 +2621,8 @@
     "fieldName": "ftev_lipid",
     "fieldType": "evidence",
     "dataType": "string",
-    "description": "Search by Feature Lipidation",
-    "example": "cysteine"
+    "description": "Search Feature Lipidation with evidence type",
+    "example": "manual"
   },
   {
     "parentId": "ptmproc",
@@ -2646,9 +2646,9 @@
     "itemType": "single",
     "fieldName": "ftlen_carbohyd",
     "fieldType": "range",
-    "dataType": "string",
-    "description": "Search by Feature Glycosylation",
-    "example": "cysteine"
+    "dataType": "integer",
+    "description": "Search Feature Glycosylation within range",
+    "example": "[0 TO 100]"
   },
   {
     "parentId": "ptmproc",
@@ -2660,8 +2660,8 @@
     "fieldName": "ftev_carbohyd",
     "fieldType": "evidence",
     "dataType": "string",
-    "description": "Search by Feature Glycosylation",
-    "example": "cysteine"
+    "description": "Search Feature Glycosylation with evidence type",
+    "example": "manual"
   },
   {
     "parentId": "ptmproc",
@@ -2685,9 +2685,9 @@
     "itemType": "single",
     "fieldName": "ftlen_disulfid",
     "fieldType": "range",
-    "dataType": "string",
-    "description": "Search by Feature Disulfide bond",
-    "example": "reversible"
+    "dataType": "integer",
+    "description": "Search Feature Disulfide bond within range",
+    "example": "[0 TO 100]"
   },
   {
     "parentId": "ptmproc",
@@ -2699,8 +2699,8 @@
     "fieldName": "ftev_disulfid",
     "fieldType": "evidence",
     "dataType": "string",
-    "description": "Search by Feature Disulfide bond",
-    "example": "reversible"
+    "description": "Search Feature Disulfide bond with evidence type",
+    "example": "manual"
   },
   {
     "parentId": "ptmproc",
@@ -2724,9 +2724,9 @@
     "itemType": "single",
     "fieldName": "ftlen_crosslnk",
     "fieldType": "range",
-    "dataType": "string",
-    "description": "Search by Feature Cross-link",
-    "example": "lysine"
+    "dataType": "integer",
+    "description": "Search Feature Cross-link within range",
+    "example": "[0 TO 100]"
   },
   {
     "parentId": "ptmproc",
@@ -2738,8 +2738,8 @@
     "fieldName": "ftev_crosslnk",
     "fieldType": "evidence",
     "dataType": "string",
-    "description": "Search by Feature Cross-link",
-    "example": "lysine"
+    "description": "Search Feature Cross-link with evidence type",
+    "example": "manual"
   },
   {
     "parentId": "ptmproc",
@@ -2771,9 +2771,9 @@
     "itemType": "single",
     "fieldName": "ftlen_molecule_processing",
     "fieldType": "range",
-    "dataType": "string",
-    "description": "Search by Feature Molecule Processing",
-    "example": "disulfide"
+    "dataType": "integer",
+    "description": "Search Feature Molecule Processing within range",
+    "example": "[0 TO 100]"
   },
   {
     "parentId": "molproc",
@@ -2785,8 +2785,8 @@
     "fieldName": "ftev_molecule_processing",
     "fieldType": "evidence",
     "dataType": "string",
-    "description": "Search by Feature Molecule Processing",
-    "example": "disulfide"
+    "description": "Search Feature Molecule Processing with evidence type",
+    "example": "manual"
   },
   {
     "parentId": "molproc",
@@ -2810,9 +2810,9 @@
     "itemType": "single",
     "fieldName": "ftlen_chain",
     "fieldType": "range",
-    "dataType": "string",
-    "description": "Search by Feature chain",
-    "example": "kinase"
+    "dataType": "integer",
+    "description": "Search Feature chain within range",
+    "example": "[0 TO 100]"
   },
   {
     "parentId": "molproc",
@@ -2824,8 +2824,8 @@
     "fieldName": "ftev_chain",
     "fieldType": "evidence",
     "dataType": "string",
-    "description": "Search by Feature chain",
-    "example": "kinase"
+    "description": "Search Feature chain with evidence type",
+    "example": "manual"
   },
   {
     "parentId": "molproc",
@@ -2849,9 +2849,9 @@
     "itemType": "single",
     "fieldName": "ftlen_init_met",
     "fieldType": "range",
-    "dataType": "string",
-    "description": "Search by Feature initiator methionine",
-    "example": "Removed"
+    "dataType": "integer",
+    "description": "Search Feature initiator methionine within range",
+    "example": "[0 TO 100]"
   },
   {
     "parentId": "molproc",
@@ -2863,8 +2863,8 @@
     "fieldName": "ftev_init_met",
     "fieldType": "evidence",
     "dataType": "string",
-    "description": "Search by Feature initiator methionine",
-    "example": "Removed"
+    "description": "Search Feature initiator methionine with evidence type",
+    "example": "manual"
   },
   {
     "parentId": "molproc",
@@ -2888,9 +2888,9 @@
     "itemType": "single",
     "fieldName": "ftlen_peptide",
     "fieldType": "range",
-    "dataType": "string",
-    "description": "Search by Feature peptide",
-    "example": "Removed"
+    "dataType": "integer",
+    "description": "Search Feature peptide within range",
+    "example": "[0 TO 100]"
   },
   {
     "parentId": "molproc",
@@ -2902,8 +2902,8 @@
     "fieldName": "ftev_peptide",
     "fieldType": "evidence",
     "dataType": "string",
-    "description": "Search by Feature peptide",
-    "example": "Removed"
+    "description": "Search Feature peptide with evidence type",
+    "example": "any"
   },
   {
     "parentId": "molproc",
@@ -2926,10 +2926,10 @@
     "id": "ftlen_signal",
     "itemType": "single",
     "fieldName": "ftlen_signal",
-    "fieldType": "evidence",
-    "dataType": "string",
-    "description": "Search by Feature signal peptide",
-    "example": "cleaved"
+    "fieldType": "range",
+    "dataType": "integer",
+    "description": "Search Feature signal peptide within range",
+    "example": "[0 TO 100]"
   },
   {
     "parentId": "molproc",
@@ -2941,8 +2941,8 @@
     "fieldName": "ftev_signal",
     "fieldType": "evidence",
     "dataType": "string",
-    "description": "Search by Feature signal peptide",
-    "example": "cleaved"
+    "description": "Search Feature signal peptide with evidence type",
+    "example": "manual"
   },
   {
     "parentId": "molproc",
@@ -2966,9 +2966,9 @@
     "itemType": "single",
     "fieldName": "ftlen_propep",
     "fieldType": "range",
-    "dataType": "string",
-    "description": "Search by Feature signal peptide",
-    "example": "Activation peptide"
+    "dataType": "integer",
+    "description": "Search Feature signal peptide within range",
+    "example": "[0 TO 100]"
   },
   {
     "parentId": "molproc",
@@ -2980,8 +2980,8 @@
     "fieldName": "ftev_propep",
     "fieldType": "evidence",
     "dataType": "string",
-    "description": "Search by Feature signal peptide",
-    "example": "Activation peptide"
+    "description": "Search Feature signal peptide with evidence type",
+    "example": "manual"
   },
   {
     "parentId": "molproc",
@@ -3005,9 +3005,9 @@
     "itemType": "single",
     "fieldName": "ftlen_transit",
     "fieldType": "range",
-    "dataType": "string",
-    "description": "Search by Feature signal peptide",
-    "example": "Mitochondrion"
+    "dataType": "integer",
+    "description": "Search Feature signal peptide within range",
+    "example": "[0 TO 100]"
   },
   {
     "parentId": "molproc",
@@ -3019,14 +3019,14 @@
     "fieldName": "ftev_transit",
     "fieldType": "evidence",
     "dataType": "string",
-    "description": "Search by Feature signal peptide",
-    "example": "Mitochondrion"
+    "description": "Search Feature signal peptide with evidence type",
+    "example": "manual"
   },
   {
     "label": "Interaction",
     "itemType": "group",
     "id": "interaction",
-    "seqNumber": 37
+    "seqNumber": 18
   },
   {
     "parentId": "interaction",
@@ -3064,14 +3064,14 @@
     "fieldName": "ccev_subunit",
     "fieldType": "evidence",
     "dataType": "string",
-    "description": "Search by Subunit structure",
-    "example": "homodimer"
+    "description": "Search Subunit structure with evidence type",
+    "example": "manual"
   },
   {
     "label": "Family and Domains",
     "itemType": "group",
     "id": "family and domains",
-    "seqNumber": 41
+    "seqNumber": 20
   },
   {
     "parentId": "family and domains",
@@ -3095,9 +3095,9 @@
     "itemType": "single",
     "fieldName": "ftlen_domain",
     "fieldType": "range",
-    "dataType": "string",
-    "description": "Search by feature domain",
-    "example": "phosphatase"
+    "dataType": "integer",
+    "description": "Search feature domain within range",
+    "example": "[0 TO 100]"
   },
   {
     "parentId": "family and domains",
@@ -3109,8 +3109,8 @@
     "fieldName": "ftev_domain",
     "fieldType": "evidence",
     "dataType": "string",
-    "description": "Search by feature domain",
-    "example": "phosphatase"
+    "description": "Search feature domain with evidence type",
+    "example": "manual"
   },
   {
     "parentId": "family and domains",
@@ -3135,8 +3135,8 @@
     "fieldName": "ccev_domain",
     "fieldType": "evidence",
     "dataType": "string",
-    "description": "Search by comment domain",
-    "example": "conformation"
+    "description": "Search comment domain with evidence type",
+    "example": "any"
   },
   {
     "parentId": "family and domains",
@@ -3173,9 +3173,9 @@
     "itemType": "single",
     "fieldName": "ftlen_coiled",
     "fieldType": "range",
-    "dataType": "string",
-    "description": "Search by feature coiled coil",
-    "example": "*"
+    "dataType": "integer",
+    "description": "Search feature coiled coil within range",
+    "example": "[0 TO 100]"
   },
   {
     "parentId": "family and domains",
@@ -3187,8 +3187,8 @@
     "fieldName": "ftev_coiled",
     "fieldType": "evidence",
     "dataType": "string",
-    "description": "Search by feature coiled coil",
-    "example": "*"
+    "description": "Search feature coiled coil with evidence type",
+    "example": "manual"
   },
   {
     "parentId": "family and domains",
@@ -3212,9 +3212,9 @@
     "itemType": "single",
     "fieldName": "ftlen_compbias",
     "fieldType": "range",
-    "dataType": "string",
-    "description": "Search by feature compositional bias",
-    "example": "glu-rich"
+    "dataType": "integer",
+    "description": "Search feature compositional bias within range",
+    "example": "[0 TO 100]"
   },
   {
     "parentId": "family and domains",
@@ -3226,8 +3226,8 @@
     "fieldName": "ftev_compbias",
     "fieldType": "evidence",
     "dataType": "string",
-    "description": "Search by feature compositional bias",
-    "example": "glu-rich"
+    "description": "Search feature compositional bias with evidence type",
+    "example": "manual"
   },
   {
     "parentId": "family and domains",
@@ -3251,9 +3251,9 @@
     "itemType": "single",
     "fieldName": "ftlen_motif",
     "fieldType": "range",
-    "dataType": "string",
-    "description": "Search by feature motif",
-    "example": "motif"
+    "dataType": "integer",
+    "description": "Search feature motif within range",
+    "example": "[0 TO 100]"
   },
   {
     "parentId": "family and domains",
@@ -3265,8 +3265,8 @@
     "fieldName": "ftev_motif",
     "fieldType": "evidence",
     "dataType": "string",
-    "description": "Search by feature motif",
-    "example": "motif"
+    "description": "Search feature motif with evidence type",
+    "example": "manual"
   },
   {
     "parentId": "family and domains",
@@ -3290,9 +3290,9 @@
     "itemType": "single",
     "fieldName": "ftlen_region",
     "fieldType": "range",
-    "dataType": "string",
-    "description": "Search by feature region",
-    "example": "motif"
+    "dataType": "integer",
+    "description": "Search feature region within range",
+    "example": "[0 TO 100]"
   },
   {
     "parentId": "family and domains",
@@ -3304,8 +3304,8 @@
     "fieldName": "ftev_region",
     "fieldType": "evidence",
     "dataType": "string",
-    "description": "Search by feature region",
-    "example": "motif"
+    "description": "Search feature region with evidence type",
+    "example": "manual"
   },
   {
     "parentId": "family and domains",
@@ -3329,9 +3329,9 @@
     "itemType": "single",
     "fieldName": "ftlen_repeat",
     "fieldType": "range",
-    "dataType": "string",
-    "description": "Search by feature repeat",
-    "example": "motif"
+    "dataType": "integer",
+    "description": "Search feature repeat within range",
+    "example": "[0 TO 100]"
   },
   {
     "parentId": "family and domains",
@@ -3343,8 +3343,8 @@
     "fieldName": "ftev_repeat",
     "fieldType": "evidence",
     "dataType": "string",
-    "description": "Search by feature repeat",
-    "example": "motif"
+    "description": "Search feature repeat with evidence type",
+    "example": "manual"
   },
   {
     "parentId": "family and domains",
@@ -3369,8 +3369,8 @@
     "fieldName": "ccev_similarity",
     "fieldType": "evidence",
     "dataType": "string",
-    "description": "Search by comment similarity",
-    "example": "phosphatase"
+    "description": "Search comment similarity with evidence type",
+    "example": "manual"
   },
   {
     "parentId": "family and domains",
@@ -3394,9 +3394,9 @@
     "itemType": "single",
     "fieldName": "ftlen_zn_fing",
     "fieldType": "range",
-    "dataType": "string",
-    "description": "Search by feature zinc finger",
-    "example": "UBP"
+    "dataType": "integer",
+    "description": "Search feature zinc finger within range",
+    "example": "[0 TO 100]"
   },
   {
     "parentId": "family and domains",
@@ -3408,14 +3408,14 @@
     "fieldName": "ftev_zn_fing",
     "fieldType": "evidence",
     "dataType": "string",
-    "description": "Search by feature zinc finger",
-    "example": "UBP"
+    "description": "Search feature zinc finger with evidence type",
+    "example": "manual"
   },
   {
     "label": "Expression",
     "itemType": "group",
     "id": "expression",
-    "seqNumber": 38
+    "seqNumber": 17
   },
   {
     "parentId": "expression",
@@ -3440,8 +3440,8 @@
     "fieldName": "ccev_developmental_stage",
     "fieldType": "evidence",
     "dataType": "string",
-    "description": "Search by Comment Developmental stage",
-    "example": "brain"
+    "description": "Search Comment Developmental stage with evidence type",
+    "example": "manual"
   },
   {
     "parentId": "expression",
@@ -3466,8 +3466,8 @@
     "fieldName": "ccev_induction",
     "fieldType": "evidence",
     "dataType": "string",
-    "description": "Search by Comment Induction",
-    "example": "calcium"
+    "description": "Search Comment Induction with evidence type",
+    "example": "manual"
   },
   {
     "parentId": "expression",
@@ -3492,14 +3492,14 @@
     "itemType": "single",
     "fieldName": "ccev_tissue_specificity",
     "fieldType": "evidence",
-    "description": "Search by Comment Tissue specificity",
-    "example": "pancreas"
+    "description": "Search Comment Tissue specificity with evidence type",
+    "example": "manual"
   },
   {
     "label": "Date Of",
     "itemType": "group",
     "id": "dateof",
-    "seqNumber": 42
+    "seqNumber": 19
   },
   {
     "parentId": "dateof",
@@ -3544,7 +3544,7 @@
     "label": "Structure",
     "itemType": "group",
     "id": "structure",
-    "seqNumber": 39
+    "seqNumber": 21
   },
   {
     "parentId": "structure",
@@ -3587,9 +3587,9 @@
     "itemType": "single",
     "fieldName": "ftlen_secstruct",
     "fieldType": "range",
-    "dataType": "string",
-    "description": "Search by Feature Any secondary structure",
-    "example": "*"
+    "dataType": "integer",
+    "description": "Search Feature Any secondary structure within range",
+    "example": "[0 TO 100]"
   },
   {
     "parentId": "secondary structure",
@@ -3614,8 +3614,8 @@
     "fieldName": "ftev_secstruct",
     "fieldType": "evidence",
     "dataType": "string",
-    "description": "Search by Feature Any secondary structure",
-    "example": "*"
+    "description": "Search Feature Any secondary structure with evidence type",
+    "example": "manual"
   },
   {
     "parentId": "secondary structure",
@@ -3639,9 +3639,9 @@
     "itemType": "single",
     "fieldName": "ftlen_helix",
     "fieldType": "range",
-    "dataType": "string",
-    "description": "Search by Feature helix",
-    "example": "*"
+    "dataType": "integer",
+    "description": "Search Feature helix within range",
+    "example": "[0 TO 100]"
   },
   {
     "parentId": "secondary structure",
@@ -3653,8 +3653,8 @@
     "fieldName": "ftev_helix",
     "fieldType": "evidence",
     "dataType": "string",
-    "description": "Search by Feature helix",
-    "example": "*"
+    "description": "Search Feature helix with evidence type",
+    "example": "manual"
   },
   {
     "parentId": "secondary structure",
@@ -3678,9 +3678,9 @@
     "itemType": "single",
     "fieldName": "ftlen_turn",
     "fieldType": "range",
-    "dataType": "string",
-    "description": "Search by Feature turn",
-    "example": "*"
+    "dataType": "integer",
+    "description": "Search Feature turn within range",
+    "example": "[0 TO 100]"
   },
   {
     "parentId": "secondary structure",
@@ -3692,8 +3692,8 @@
     "fieldName": "ftev_turn",
     "fieldType": "evidence",
     "dataType": "string",
-    "description": "Search by Feature turn",
-    "example": "*"
+    "description": "Search Feature turn with evidence type",
+    "example": "manual"
   },
   {
     "parentId": "secondary structure",
@@ -3717,9 +3717,9 @@
     "itemType": "single",
     "fieldName": "ftlen_strand",
     "fieldType": "range",
-    "dataType": "string",
-    "description": "Search by Feature Beta strand",
-    "example": "*"
+    "dataType": "integer",
+    "description": "Search Feature Beta strand within range",
+    "example": "[0 TO 100]"
   },
   {
     "parentId": "secondary structure",
@@ -3731,14 +3731,14 @@
     "fieldName": "ftev_strand",
     "fieldType": "evidence",
     "dataType": "string",
-    "description": "Search by Feature Beta strand",
-    "example": "*"
+    "description": "Search Feature Beta strand with evidence type",
+    "example": "manual"
   },
   {
     "label": "Subcellular location",
     "itemType": "group",
     "id": "subcellular",
-    "seqNumber": 34
+    "seqNumber": 14
   },
   {
     "parentId": "subcellular",
@@ -3773,11 +3773,11 @@
     "fieldName": "ccev_scl_term",
     "fieldType": "evidence",
     "dataType": "string",
-    "description": "Search by comment subcellular location term",
-    "example": "membrane"
+    "description": "Search comment subcellular location term with evidence type",
+    "example": "manual"
   },
   {
-    "parentId": "cc__subcellular",
+    "parentId": "cc_subcellular",
     "childNumber": 1,
     "seqNumber": 0,
     "label": "Subcellular location note",
@@ -3790,7 +3790,7 @@
     "example": "membrane"
   },
   {
-    "parentId": "cc__subcellular",
+    "parentId": "cc_subcellular",
     "childNumber": 1,
     "seqNumber": 1,
     "label": "Subcellular location note",
@@ -3799,8 +3799,8 @@
     "fieldName": "ccev_scl_note",
     "fieldType": "evidence",
     "dataType": "string",
-    "description": "Search by comment subcellular location note",
-    "example": "membrane"
+    "description": "Search comment subcellular location note with evidence type",
+    "example": "manual"
   },
   {
     "parentId": "subcellular",
@@ -3824,9 +3824,9 @@
     "itemType": "single",
     "fieldName": "ftlen_transmem",
     "fieldType": "range",
-    "dataType": "string",
-    "description": "Search by Transmembrane",
-    "example": "forming"
+    "dataType": "integer",
+    "description": "Search Transmembrane within range",
+    "example": "[0 TO 100]"
   },
   {
     "parentId": "subcellular",
@@ -3838,8 +3838,8 @@
     "fieldName": "ftev_transmem",
     "fieldType": "evidence",
     "dataType": "string",
-    "description": "Search by Transmembrane",
-    "example": "forming"
+    "description": "Search Transmembrane with evidence type",
+    "example": "manual"
   },
   {
     "parentId": "subcellular",
@@ -3864,8 +3864,8 @@
     "fieldName": "ftlen_topo_dom",
     "fieldType": "evidence",
     "dataType": "string",
-    "description": "Search by Topological domain",
-    "example": "forming"
+    "description": "Search Topological domain with evidence type",
+    "example": "manual"
   },
   {
     "parentId": "subcellular",
@@ -3877,8 +3877,8 @@
     "fieldName": "ftev_topo_dom",
     "fieldType": "evidence",
     "dataType": "string",
-    "description": "Search by Topological domain",
-    "example": "forming"
+    "description": "Search Topological domain with evidence type",
+    "example": "manual"
   },
   {
     "parentId": "subcellular",
@@ -3902,9 +3902,9 @@
     "itemType": "single",
     "fieldName": "ftlen_intramem",
     "fieldType": "range",
-    "dataType": "string",
-    "description": "Search by Intramembrane",
-    "example": "forming"
+    "dataType": "integer",
+    "description": "Search Intramembrane within range",
+    "example": "[0 TO 100]"
   },
   {
     "parentId": "subcellular",
@@ -3916,14 +3916,14 @@
     "fieldName": "ftev_intramem",
     "fieldType": "evidence",
     "dataType": "string",
-    "description": "Search by Intramembrane",
-    "example": "forming"
+    "description": "Search Intramembrane with evidence type",
+    "example": "manual"
   },
   {
     "label": "Pathology & Biotech",
     "itemType": "group",
     "id": "pathbio",
-    "seqNumber": 35
+    "seqNumber": 15
   },
   {
     "parentId" : "pathbio",
@@ -3948,8 +3948,8 @@
     "fieldName": "ccev_disease",
     "fieldType": "evidence",
     "dataType": "string",
-    "description": "Search by Comment disease",
-    "example": "nephrotic"
+    "description": "Search Comment disease with evidence type",
+    "example": "manual"
   },
   {
     "parentId" : "pathbio",
@@ -3974,8 +3974,8 @@
     "fieldName": "ccev_allergen",
     "fieldType": "evidence",
     "dataType": "string",
-    "description": "Search by Comment allergenic properties",
-    "example": "allergic"
+    "description": "Search Comment allergenic properties with evidence type",
+    "example": "manual"
   },
   {
     "parentId" : "pathbio",
@@ -4000,8 +4000,8 @@
     "fieldName": "ccev_toxic_dose",
     "fieldType": "evidence",
     "dataType": "string",
-    "description": "Search by Comment Toxic dose",
-    "example": "intracistenal"
+    "description": "Search Comment Toxic dose with evidence type",
+    "example": "manual"
   },
   {
     "parentId" : "pathbio",
@@ -4026,8 +4026,8 @@
     "fieldName": "ccev_biotechnology",
     "fieldType": "evidence",
     "dataType": "string",
-    "description": "Search by Comment Biotechnological use",
-    "example": "vaccine"
+    "description": "Search Comment Biotechnological use with evidence type",
+    "example": "manual"
   },
   {
     "parentId" : "pathbio",
@@ -4052,8 +4052,8 @@
     "fieldName": "ccev_pharmaceutical",
     "fieldType": "evidence",
     "dataType": "string",
-    "description": "Search by Comment Pharmaceutical use",
-    "example": "peptide"
+    "description": "Search Comment Pharmaceutical use with evidence type",
+    "example": "manual"
   },
   {
     "parentId" : "pathbio",
@@ -4078,8 +4078,8 @@
     "fieldName": "ccev_disruption_phenotype",
     "fieldType": "evidence",
     "dataType": "string",
-    "description": "Search by Comment Disruption phenotype",
-    "example": "infected"
+    "description": "Search Comment Disruption phenotype with evidence type",
+    "example": "any"
   },
   {
     "parentId" : "pathbio",
@@ -4103,9 +4103,9 @@
     "itemType": "single",
     "fieldName": "ftlen_mutagen",
     "fieldType": "range",
-    "dataType": "string",
-    "description": "Search by Feature Mutagenesis",
-    "example": "phosphatase"
+    "dataType": "integer",
+    "description": "Search Feature Mutagenesis within range",
+    "example": "[0 TO 100]"
   },
   {
     "parentId" : "pathbio",
@@ -4117,7 +4117,14 @@
     "fieldName": "ftev_mutagen",
     "fieldType": "evidence",
     "dataType": "string",
-    "description": "Search by Feature Mutagenesis",
-    "example": "phosphatase"
+    "description": "Search Feature Mutagenesis with evidence type",
+    "example": "manual"
+  },
+  {
+    "label": "Cross-references",
+    "id": "crossref",
+    "dataType": "string",
+    "itemType": "group",
+    "seqNumber": 32
   }
 ]

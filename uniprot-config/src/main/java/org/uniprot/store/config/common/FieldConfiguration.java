@@ -1,11 +1,11 @@
 package org.uniprot.store.config.common;
 
-import org.uniprot.store.config.model.FieldItem;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 import java.util.Map;
+
+import org.uniprot.store.config.model.FieldItem;
 
 public interface FieldConfiguration {
     void init();
