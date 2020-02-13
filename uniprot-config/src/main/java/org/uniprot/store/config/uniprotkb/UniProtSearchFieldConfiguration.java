@@ -8,6 +8,7 @@ import lombok.NonNull;
 
 import org.uniprot.store.config.common.AbstractFieldConfiguration;
 import org.uniprot.store.config.model.FieldItem;
+import org.uniprot.store.config.schema.DataValidator;
 import org.uniprot.store.config.schema.SchemaValidator;
 
 public class UniProtSearchFieldConfiguration extends AbstractFieldConfiguration {
@@ -19,6 +20,7 @@ public class UniProtSearchFieldConfiguration extends AbstractFieldConfiguration 
     private UniProtSearchFieldConfiguration() {
         SchemaValidator.validate(SCHEMA_FILE, CONFIG_FILE);
         init();
+        DataValidator.validateParentExists(this.fieldItems, idFieldItemMap);
     }
 
     private static class SearchFieldConfigurationHolder {

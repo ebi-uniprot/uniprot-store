@@ -8,7 +8,6 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.uniprot.store.config.model.FieldItem;
-import org.uniprot.store.config.uniprotkb.UniProtSearchFieldConfiguration;
 
 public class UniProtSearchFieldConfigurationTest {
 

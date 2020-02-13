@@ -14,6 +14,7 @@ import org.everit.json.schema.loader.SchemaLoader;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONTokener;
+import org.uniprot.store.config.common.FieldValidationException;
 
 @Slf4j
 public class SchemaValidator {
@@ -29,9 +30,9 @@ public class SchemaValidator {
         Schema schema = loader.load().build();
         try {
             schema.validate(jsonInput);
-        } catch (ValidationException ve){
+        } catch (ValidationException ve) {
             log.error(ve.getAllMessages().toString());
-            throw ve;
+            throw new FieldValidationException("Schema validation failed", ve);
         }
     }
 
