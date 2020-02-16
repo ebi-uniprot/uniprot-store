@@ -2,9 +2,10 @@ package org.uniprot.store.indexer.uniprot.mockers;
 
 import java.io.InputStream;
 import java.nio.charset.Charset;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
+import java.util.concurrent.ThreadLocalRandom;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import org.apache.commons.io.IOUtils;
 import org.uniprot.core.flatfile.parser.UniProtParser;
@@ -22,6 +23,7 @@ import org.uniprot.core.uniprotkb.impl.UniProtKBEntryBuilder;
  * @author Edd
  */
 public class UniProtEntryMocker {
+    private static final Character[] PROTEIN_PREFIX = new Character[] {'O', 'P', 'Q'};
 
     public enum Type {
         SP("Q8DIA7.dat"),
@@ -70,5 +72,34 @@ public class UniProtEntryMocker {
 
     public static Collection<UniProtKBEntry> createEntries() {
         return entryMap.values();
+    }
+
+    public static List<UniProtEntry> cloneEntries(Type type, int count) {
+        UniProtEntry modelEntry = entryMap.get(type);
+        Set<String> accessions = new HashSet<>();
+        return IntStream.range(0, count)
+                .mapToObj(index -> generateProteinAccession(accessions, PROTEIN_PREFIX[index % 3]))
+                .map(accession -> cloneUniProtEntry(accession, modelEntry))
+                .collect(Collectors.toList());
+    }
+
+    private static UniProtEntry cloneUniProtEntry(String newAccession, UniProtEntry modelEntry) {
+        UniProtEntryBuilder builder = UniProtEntryBuilder.from(modelEntry);
+        return builder.primaryAccession(new UniProtAccessionBuilder(newAccession).build()).build();
+    }
+
+    private static String generateProteinAccession(Set<String> accessions, char prefix) {
+        String accession = generateProteinAccession(prefix);
+        if (accessions.contains(accession)) {
+            return generateProteinAccession(accessions, prefix);
+        }
+        accessions.add(accession);
+        return accession;
+    }
+
+    private static String generateProteinAccession(char prefix) {
+        long num = ThreadLocalRandom.current().nextLong(10000, 100000);
+        String accession = prefix + String.valueOf(num);
+        return accession;
     }
 }
