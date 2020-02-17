@@ -11,7 +11,7 @@ import org.uniprot.store.spark.indexer.suggest.SuggesterUtil;
 import scala.Tuple2;
 
 /**
- * This class map from flatFile entry string to an Iterator of Chebi Ids found in all Catalytic
+ * This class map from flatFile entry string to an Iterator of ChebiEntry Ids found in all Catalytic
  * Activities comments lines
  *
  * @author lgonzales

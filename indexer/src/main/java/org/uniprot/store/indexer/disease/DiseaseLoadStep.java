@@ -14,7 +14,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.uniprot.core.cv.disease.Disease;
+import org.uniprot.core.cv.disease.DiseaseEntry;
 import org.uniprot.store.indexer.common.config.UniProtSolrOperations;
 import org.uniprot.store.indexer.common.utils.Constants;
 import org.uniprot.store.indexer.common.writer.SolrDocumentWriter;
@@ -38,12 +38,13 @@ public class DiseaseLoadStep {
     public Step indexDisease(
             StepExecutionListener stepListener,
             ChunkListener chunkListener,
-            @Qualifier("DiseaseReader") ItemReader<Disease> diseaseReader,
-            @Qualifier("DiseaseProcessor") ItemProcessor<Disease, DiseaseDocument> diseaseProcessor,
+            @Qualifier("DiseaseReader") ItemReader<DiseaseEntry> diseaseReader,
+            @Qualifier("DiseaseProcessor")
+                    ItemProcessor<DiseaseEntry, DiseaseDocument> diseaseProcessor,
             @Qualifier("DiseaseWriter") ItemWriter<DiseaseDocument> diseaseWriter) {
         return this.steps
                 .get(Constants.DISEASE_INDEX_STEP)
-                .<Disease, DiseaseDocument>chunk(this.chunkSize)
+                .<DiseaseEntry, DiseaseDocument>chunk(this.chunkSize)
                 .reader(diseaseReader)
                 .processor(diseaseProcessor)
                 .writer(diseaseWriter)
@@ -53,7 +54,7 @@ public class DiseaseLoadStep {
     }
 
     @Bean(name = "DiseaseReader")
-    public ItemReader<Disease> diseaseReader() throws IOException {
+    public ItemReader<DiseaseEntry> diseaseReader() throws IOException {
         return new DiseaseItemReader(this.filePath);
     }
 
@@ -63,7 +64,7 @@ public class DiseaseLoadStep {
     }
 
     @Bean(name = "DiseaseProcessor")
-    public ItemProcessor<Disease, DiseaseDocument> diseaseProcessor() {
+    public ItemProcessor<DiseaseEntry, DiseaseDocument> diseaseProcessor() {
 
         return new DiseaseProcessor();
     }

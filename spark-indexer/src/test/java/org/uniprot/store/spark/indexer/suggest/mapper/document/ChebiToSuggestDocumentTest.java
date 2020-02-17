@@ -3,8 +3,8 @@ package org.uniprot.store.spark.indexer.suggest.mapper.document;
 import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
-import org.uniprot.core.cv.chebi.Chebi;
-import org.uniprot.core.cv.chebi.ChebiBuilder;
+import org.uniprot.core.cv.chebi.ChebiEntry;
+import org.uniprot.core.cv.chebi.ChebiEntryBuilder;
 import org.uniprot.store.search.document.suggest.SuggestDocument;
 
 import scala.Tuple2;
@@ -17,8 +17,8 @@ class ChebiToSuggestDocumentTest {
 
     @Test
     void callWithoutAlternativeValue() throws Exception {
-        Chebi chebi = new ChebiBuilder().id("Id1").name("Name1").build();
-        Tuple2<String, Chebi> tuple = new Tuple2<>("Id1", chebi);
+        ChebiEntry chebi = new ChebiEntryBuilder().id("Id1").name("Name1").build();
+        Tuple2<String, ChebiEntry> tuple = new Tuple2<>("Id1", chebi);
 
         ChebiToSuggestDocument chebiToSuggestDocument = new ChebiToSuggestDocument("testName1");
         SuggestDocument result = chebiToSuggestDocument.call(tuple);
@@ -33,8 +33,9 @@ class ChebiToSuggestDocumentTest {
 
     @Test
     void callWithAlternativeValue() throws Exception {
-        Chebi chebi = new ChebiBuilder().id("Id2").name("Name2").inchiKey("inch2").build();
-        Tuple2<String, Chebi> tuple = new Tuple2<>("Id2", chebi);
+        ChebiEntry chebi =
+                new ChebiEntryBuilder().id("Id2").name("Name2").inchiKey("inch2").build();
+        Tuple2<String, ChebiEntry> tuple = new Tuple2<>("Id2", chebi);
 
         ChebiToSuggestDocument chebiToSuggestDocument = new ChebiToSuggestDocument("testName2");
         SuggestDocument result = chebiToSuggestDocument.call(tuple);

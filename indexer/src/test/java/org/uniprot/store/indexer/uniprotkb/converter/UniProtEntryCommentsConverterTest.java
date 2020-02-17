@@ -11,8 +11,8 @@ import java.util.Map;
 
 import org.junit.jupiter.api.Test;
 import org.uniprot.core.builder.SequenceBuilder;
-import org.uniprot.core.cv.chebi.Chebi;
-import org.uniprot.core.cv.chebi.ChebiBuilder;
+import org.uniprot.core.cv.chebi.ChebiEntry;
+import org.uniprot.core.cv.chebi.ChebiEntryBuilder;
 import org.uniprot.core.cv.pathway.UniPathway;
 import org.uniprot.core.flatfile.parser.impl.cc.CcLineTransformer;
 import org.uniprot.core.uniprot.UniProtEntry;
@@ -50,13 +50,14 @@ class UniProtEntryCommentsConverterTest {
     void testCatalyticActivityCommentConvertProperlyToDocument() {
         PathwayRepo pathwayRepo = mock(PathwayRepo.class);
         ChebiRepo chebiRepo = mock(ChebiRepo.class);
-        Chebi chebiId1 =
-                new ChebiBuilder()
+        ChebiEntry chebiId1 =
+                new ChebiEntryBuilder()
                         .id("30616")
-                        .name("Chebi Name 30616")
+                        .name("ChebiEntry Name 30616")
                         .inchiKey("inchikey 30616")
                         .build();
-        Chebi chebiId2 = new ChebiBuilder().id("456216").name("Chebi Name 456216").build();
+        ChebiEntry chebiId2 =
+                new ChebiEntryBuilder().id("456216").name("ChebiEntry Name 456216").build();
         when(chebiRepo.getById("30616")).thenReturn(chebiId1);
         when(chebiRepo.getById("456216")).thenReturn(chebiId2);
 
@@ -105,7 +106,7 @@ class UniProtEntryCommentsConverterTest {
         assertTrue(document.proteinsWith.contains("catalytic_activity"));
 
         // check suggestions
-        // lgonzales: should we add EC to catalytic activity suggestions?
+        // lgonzales: should we add ECEntry to catalytic activity suggestions?
         assertEquals(2, suggestions.size());
         assertTrue(suggestions.containsKey("CATALYTIC_ACTIVITY:CHEBI:30616"));
         assertTrue(suggestions.containsKey("CATALYTIC_ACTIVITY:CHEBI:456216"));
@@ -113,7 +114,7 @@ class UniProtEntryCommentsConverterTest {
         SuggestDocument suggestDocument = suggestions.get("CATALYTIC_ACTIVITY:CHEBI:30616");
         assertEquals("CATALYTIC_ACTIVITY", suggestDocument.dictionary);
         assertEquals("CHEBI:30616", suggestDocument.id);
-        assertEquals("Chebi Name 30616", suggestDocument.value);
+        assertEquals("ChebiEntry Name 30616", suggestDocument.value);
         assertNotNull(suggestDocument.altValues);
         assertEquals(1, suggestDocument.altValues.size());
         assertEquals("inchikey 30616", suggestDocument.altValues.get(0));
@@ -410,10 +411,10 @@ class UniProtEntryCommentsConverterTest {
         PathwayRepo pathwayRepo = mock(PathwayRepo.class);
         Map<String, SuggestDocument> suggestions = new HashMap<>();
 
-        Chebi chebiId1 =
-                new ChebiBuilder()
+        ChebiEntry chebiId1 =
+                new ChebiEntryBuilder()
                         .id("18420")
-                        .name("Chebi Name 18420")
+                        .name("ChebiEntry Name 18420")
                         .inchiKey("inchikey 18420")
                         .build();
         when(chebiRepo.getById("18420")).thenReturn(chebiId1);
@@ -464,7 +465,7 @@ class UniProtEntryCommentsConverterTest {
         SuggestDocument suggestDocument = suggestions.get("CHEBI:CHEBI:18420");
         assertEquals("CHEBI", suggestDocument.dictionary);
         assertEquals("CHEBI:18420", suggestDocument.id);
-        assertEquals("Chebi Name 18420", suggestDocument.value);
+        assertEquals("ChebiEntry Name 18420", suggestDocument.value);
         assertNotNull(suggestDocument.altValues);
         assertEquals(1, suggestDocument.altValues.size());
         assertEquals("inchikey 18420", suggestDocument.altValues.get(0));

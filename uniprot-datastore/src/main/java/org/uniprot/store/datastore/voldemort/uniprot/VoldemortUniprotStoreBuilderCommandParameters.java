@@ -26,7 +26,7 @@ public class VoldemortUniprotStoreBuilderCommandParameters
             required = true)
     private String goExtendedPMIDPath;
 
-    @Parameter(names = "-diseaseFilePath", description = "Disease file path", required = true)
+    @Parameter(names = "-diseaseFilePath", description = "DiseaseEntry file path", required = true)
     private String diseaseFilePath;
 
     @Parameter(names = "-keywordFilePath", description = "Keyword file path", required = true)

@@ -8,8 +8,8 @@ import java.util.stream.Collectors;
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
-import org.uniprot.core.cv.chebi.Chebi;
-import org.uniprot.core.cv.ec.EC;
+import org.uniprot.core.cv.chebi.ChebiEntry;
+import org.uniprot.core.cv.ec.ECEntry;
 import org.uniprot.core.cv.keyword.KeywordEntry;
 import org.uniprot.core.cv.subcell.SubcellularLocationEntry;
 import org.uniprot.core.taxonomy.TaxonomyLineage;
@@ -111,16 +111,17 @@ public class SuggestIndexer {
      * @param flatFileRDD JavaRDD<flatFile entry in String format>
      * @param sparkContext spark configuration
      * @param applicationConfig config
-     * @return JavaRDD of SuggestDocument with Chebi information mapped from UniprotKB flat file
-     *     entries
+     * @return JavaRDD of SuggestDocument with ChebiEntry information mapped from UniprotKB flat
+     *     file entries
      */
     private static JavaRDD<SuggestDocument> getChebi(
             JavaRDD<String> flatFileRDD,
             JavaSparkContext sparkContext,
             ResourceBundle applicationConfig) {
 
-        // JavaPairRDD<chebiId,Chebi Entry> --> extracted from chebi.obo
-        JavaPairRDD<String, Chebi> chebiRDD = ChebiRDDReader.load(sparkContext, applicationConfig);
+        // JavaPairRDD<chebiId,ChebiEntry Entry> --> extracted from chebi.obo
+        JavaPairRDD<String, ChebiEntry> chebiRDD =
+                ChebiRDDReader.load(sparkContext, applicationConfig);
 
         // JavaPairRDD<chebiId,chebiId> flatFileCatalyticActivityRDD --> extracted from flat file
         // CC(CatalyticActivity) lines
@@ -164,7 +165,7 @@ public class SuggestIndexer {
      * @param flatFileRDD JavaRDD<flatFile entry in String format>
      * @param sparkContext spark configuration
      * @param applicationConfig config
-     * @return JavaRDD of SuggestDocument with EC information mapped from UniprotKB flat file
+     * @return JavaRDD of SuggestDocument with ECEntry information mapped from UniprotKB flat file
      *     entries
      */
     private static JavaRDD<SuggestDocument> getEC(
@@ -172,15 +173,15 @@ public class SuggestIndexer {
             JavaSparkContext sparkContext,
             ResourceBundle applicationConfig) {
 
-        // JavaPairRDD<ecId,ecId> flatFileEcRDD --> extracted from flat file DE(with EC) lines
+        // JavaPairRDD<ecId,ecId> flatFileEcRDD --> extracted from flat file DE(with ECEntry) lines
         JavaPairRDD<String, String> flatFileEcRDD =
                 (JavaPairRDD<String, String>)
                         flatFileRDD
                                 .flatMapToPair(new FlatFileToEC())
                                 .reduceByKey((ecId1, ecId2) -> ecId1);
 
-        // JavaPairRDD<ecId,EC entry> ecRDD --> extracted from ec files
-        JavaPairRDD<String, EC> ecRDD = ECRDDReader.load(sparkContext, applicationConfig);
+        // JavaPairRDD<ecId,ECEntry entry> ecRDD --> extracted from ec files
+        JavaPairRDD<String, ECEntry> ecRDD = ECRDDReader.load(sparkContext, applicationConfig);
 
         return (JavaRDD<SuggestDocument>)
                 flatFileEcRDD.join(ecRDD).mapValues(new ECToSuggestDocument()).values().distinct();

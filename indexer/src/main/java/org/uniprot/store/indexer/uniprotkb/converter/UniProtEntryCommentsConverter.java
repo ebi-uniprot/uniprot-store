@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 
 import org.uniprot.core.DBCrossReference;
 import org.uniprot.core.Value;
-import org.uniprot.core.cv.chebi.Chebi;
+import org.uniprot.core.cv.chebi.ChebiEntry;
 import org.uniprot.core.cv.pathway.UniPathway;
 import org.uniprot.core.flatfile.parser.impl.cc.CCLineBuilderFactory;
 import org.uniprot.core.flatfile.writer.FFLineBuilder;
@@ -180,7 +180,7 @@ class UniProtEntryCommentsConverter {
                                         id = id.substring("CHEBI:".length());
                                     document.cofactorChebi.add(id);
 
-                                    Chebi chebi = chebiRepo.getById(id);
+                                    ChebiEntry chebi = chebiRepo.getById(id);
                                     if (notNull(chebi)) {
                                         addChebiSuggestions(
                                                 SuggestDictionary.CHEBI, referenceId, chebi);
@@ -549,7 +549,7 @@ class UniProtEntryCommentsConverter {
             String referenceId = reactionReference.getId();
             int firstColon = referenceId.indexOf(':');
             String fullId = referenceId.substring(firstColon + 1);
-            Chebi chebi = chebiRepo.getById(fullId);
+            ChebiEntry chebi = chebiRepo.getById(fullId);
             if (notNull(chebi)) {
                 addChebiSuggestions(SuggestDictionary.CATALYTIC_ACTIVITY, referenceId, chebi);
                 Collection<String> value =
@@ -559,7 +559,7 @@ class UniProtEntryCommentsConverter {
         }
     }
 
-    private void addChebiSuggestions(SuggestDictionary dicType, String id, Chebi chebi) {
+    private void addChebiSuggestions(SuggestDictionary dicType, String id, ChebiEntry chebi) {
         SuggestDocument.SuggestDocumentBuilder suggestionBuilder =
                 SuggestDocument.builder().id(id).dictionary(dicType.name()).value(chebi.getName());
         if (!nullOrEmpty(chebi.getInchiKey())) {

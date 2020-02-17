@@ -6,7 +6,7 @@ import org.apache.hadoop.conf.Configuration;
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaSparkContext;
 import org.apache.spark.sql.SparkSession;
-import org.uniprot.core.cv.chebi.Chebi;
+import org.uniprot.core.cv.chebi.ChebiEntry;
 
 /**
  * @author lgonzales
@@ -14,8 +14,8 @@ import org.uniprot.core.cv.chebi.Chebi;
  */
 public class ChebiRDDReader {
 
-    /** @return JavaPairRDD{key=chebiId, value={@link Chebi}} */
-    public static JavaPairRDD<String, Chebi> load(
+    /** @return JavaPairRDD{key=chebiId, value={@link ChebiEntry}} */
+    public static JavaPairRDD<String, ChebiEntry> load(
             JavaSparkContext jsc, ResourceBundle applicationConfig) {
         String filePath = applicationConfig.getString("chebi.file.path");
 
@@ -23,7 +23,7 @@ public class ChebiRDDReader {
         jsc.hadoopConfiguration().set("textinputformat.record.delimiter", "\n\n");
         SparkSession spark = SparkSession.builder().config(jsc.getConf()).getOrCreate();
 
-        return (JavaPairRDD<String, Chebi>)
+        return (JavaPairRDD<String, ChebiEntry>)
                 jsc.textFile(filePath)
                         .filter(
                                 input ->
