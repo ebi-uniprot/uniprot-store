@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 
 import lombok.NonNull;
 
+import org.apache.commons.lang3.StringUtils;
 import org.uniprot.store.config.common.AbstractFieldConfiguration;
 import org.uniprot.store.config.model.FieldItem;
 import org.uniprot.store.config.schema.DataValidator;
@@ -62,9 +63,7 @@ public class UniProtSearchFieldConfiguration extends AbstractFieldConfiguration 
     }
 
     private boolean isTopLevel(FieldItem fi) {
-        return (fi.getParentId() == null || fi.getParentId().isEmpty())
-                && fi.getSeqNumber()
-                        != null; // if seqNumber is set, it means it is used by advance search
+        return StringUtils.isBlank(fi.getParentId()) && fi.getSeqNumber() != null;
     }
 
     void initForTesting(String testConfigFile) {
