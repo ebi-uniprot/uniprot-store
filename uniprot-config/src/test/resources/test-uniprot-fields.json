@@ -668,9 +668,15 @@
     "example": "1"
   },
   {
-    "seqNumber": 8,
-    "id": "cc_webresource",
     "label": "Web Resources",
+    "seqNumber": 8,
+    "itemType": "horizontal_group",
+    "id": "Web Resources"
+  },
+  {
+    "childNumber": 0,
+    "id": "cc_webresource",
+    "parentId": "Web Resources",
     "fieldName": "cc_webresource",
     "fieldType": "field",
     "dataType": "string",
@@ -679,20 +685,26 @@
     "example": "lck"
   },
   {
-    "seqNumber": 9,
+    "childNumber": 1,
     "id": "ccev_webresource",
-    "label": "Web Resources",
+    "parentId": "Web Resources",
     "fieldName": "ccev_webresource",
     "fieldType": "evidence",
     "dataType": "string",
     "itemType": "single",
     "description": "Search by comment Web resources",
-    "example": "lck"
+    "example": "manual"
   },
   {
-    "seqNumber": 10,
-    "id": "go_field",
+    "seqNumber": 9,
     "label": "Gene Ontology [GO]",
+    "id": "Gene Ontology [GO]",
+    "itemType": "horizontal_group"
+  },
+  {
+    "childNumber": 0,
+    "id": "go_field",
+    "parentId": "Gene Ontology [GO]",
     "itemType": "single",
     "fieldName": "go",
     "fieldType": "field",
@@ -703,9 +715,9 @@
     "example": "0009986"
   },
   {
-    "seqNumber": 11,
+    "childNumber": 1,
     "id": "go_evidence",
-    "label": "Gene Ontology [GO]",
+    "parentId": "Gene Ontology [GO]",
     "itemType": "single",
     "fieldName": "go",
     "fieldType": "evidence",
@@ -714,7 +726,7 @@
     "example": "manual"
   },
   {
-    "seqNumber": 12,
+    "seqNumber": 10,
     "id": "keyword_field",
     "label": "Keyword [KW]",
     "fieldName": "keyword",
@@ -727,7 +739,7 @@
     "example": "chromosomal"
   },
   {
-    "seqNumber": 13,
+    "seqNumber": 11,
     "id": "litci",
     "label": "Literature Citation",
     "itemType": "group"
@@ -735,7 +747,6 @@
   {
     "parentId": "litci",
     "childNumber": 0,
-    "seqNumber": 0,
     "itemType": "single",
     "label": "Author",
     "fieldName": "lit_author",
@@ -748,7 +759,6 @@
   {
     "parentId": "litci",
     "childNumber": 1,
-    "seqNumber": 0,
     "itemType": "single",
     "label": "Journal",
     "fieldName": "lit_journal",
@@ -761,7 +771,6 @@
   {
     "parentId": "litci",
     "childNumber": 2,
-    "seqNumber": 0,
     "itemType": "single",
     "label": "Published",
     "dataType": "date",
@@ -774,7 +783,6 @@
   {
     "parentId": "litci",
     "childNumber": 3,
-    "seqNumber": 0,
     "itemType": "single",
     "label": "PubMed ID",
     "fieldName": "lit_pubmed",
@@ -788,7 +796,6 @@
     "parentId": "litci",
     "id": "lit_title",
     "childNumber": 4,
-    "seqNumber": 0,
     "itemType": "single",
     "label": "Title",
     "fieldName": "lit_title",
@@ -798,7 +805,7 @@
     "example": "protein"
   },
   {
-    "seqNumber": 14,
+    "seqNumber": 12,
     "id": "proteomes",
     "label": "Proteomes",
     "itemType": "group"
@@ -806,7 +813,6 @@
   {
     "parentId": "proteomes",
     "childNumber": 0,
-    "seqNumber": 0,
     "fieldType": "field",
     "itemType": "single",
     "label": "Proteome ID",
@@ -820,7 +826,6 @@
   {
     "parentId": "proteomes",
     "childNumber": 1,
-    "seqNumber": 0,
     "fieldType": "field",
     "itemType": "single",
     "label": "Proteome Component",
@@ -831,7 +836,7 @@
     "example": "chromosome"
   },
   {
-    "seqNumber": 15,
+    "seqNumber": 13,
     "id": "citedfor",
     "label": "Cited for",
     "fieldName": "scope",
@@ -842,7 +847,7 @@
     "example": "microtubule"
   },
   {
-    "seqNumber": 16,
+    "seqNumber": 14,
     "id": "reviewed",
     "label": "Reviewed",
     "fieldName": "reviewed",
@@ -864,7 +869,7 @@
     "example": "true"
   },
   {
-    "seqNumber": 17,
+    "seqNumber": 15,
     "id": "active",
     "label": "Active",
     "fieldName": "active",
@@ -889,12 +894,11 @@
     "label": "Function",
     "itemType": "group",
     "id": "function",
-    "seqNumber": 18
+    "seqNumber": 16
   },
   {
     "parentId": "function",
     "childNumber": 0,
-    "seqNumber": 0,
     "label": "Enzyme classification [EC]",
     "id": "ec",
     "fieldName": "ec",
@@ -909,16 +913,20 @@
   {
     "parentId": "function",
     "childNumber": 1,
-    "seqNumber": 0,
     "label": "Cofactors",
     "itemType": "group",
     "id": "cofactors"
   },
   {
     "parentId": "cofactors",
-    "childNumber": 0,
-    "seqNumber": 0,
     "label": "ChEBI term",
+    "childNumber": 0,
+    "itemType": "horizontal_group",
+    "id": "chebi term"
+  },
+  {
+    "parentId": "chebi term",
+    "childNumber": 0,
     "id": "cc_cofactor_chebi",
     "fieldName": "cc_cofactor_chebi",
     "itemType": "single",
@@ -930,10 +938,8 @@
     "example": "29105"
   },
   {
-    "parentId": "cofactors",
-    "childNumber": 0,
-    "seqNumber": 1,
-    "label": "ChEBI term",
+    "parentId": "chebi term",
+    "childNumber": 1,
     "id": "ccev_cofactor_chebi",
     "fieldName": "ccev_cofactor_chebi",
     "itemType": "single",
@@ -944,9 +950,14 @@
   },
   {
     "parentId": "cofactors",
-    "childNumber": 1,
-    "seqNumber": 0,
     "label": "Note",
+    "childNumber": 1,
+    "itemType": "horizontal_group",
+    "id": "note"
+  },
+  {
+    "parentId": "note",
+    "childNumber": 0,
     "id": "cc_cofactor_note",
     "fieldName": "cc_cofactor_note",
     "itemType": "single",
@@ -956,10 +967,8 @@
     "example": "subunit"
   },
   {
-    "parentId": "cofactors",
+    "parentId": "note",
     "childNumber": 1,
-    "seqNumber": 1,
-    "label": "Note",
     "id": "ccev_cofactor_note",
     "fieldName": "ccev_cofactor_note",
     "itemType": "single",
@@ -971,16 +980,20 @@
   {
     "parentId": "function",
     "childNumber": 2,
-    "seqNumber": 0,
     "label": "Biophysicochemical properties",
     "itemType": "group",
     "id": "biophysicochemical"
   },
   {
     "parentId": "biophysicochemical",
-    "childNumber": 0,
-    "seqNumber": 0,
     "label": "Any",
+    "childNumber": 0,
+    "itemType": "horizontal_group",
+    "id": "biophysicochemical-any"
+  },
+  {
+    "parentId": "biophysicochemical-any",
+    "childNumber": 0,
     "id": "cc_bpcp",
     "fieldName": "cc_bpcp",
     "itemType": "single",
@@ -990,10 +1003,8 @@
     "example": "\"some value\""
   },
   {
-    "parentId": "biophysicochemical",
-    "childNumber": 0,
-    "seqNumber": 1,
-    "label": "Any",
+    "parentId": "biophysicochemical-any",
+    "childNumber": 1,
     "id": "ccev_bpcp",
     "fieldName": "ccev_bpcp",
     "fieldType": "evidence",
@@ -1004,9 +1015,14 @@
   },
   {
     "parentId": "biophysicochemical",
-    "childNumber": 1,
-    "seqNumber": 0,
     "label": "Absorption",
+    "childNumber": 1,
+    "itemType": "horizontal_group",
+    "id": "biophysicochemical-absorption"
+  },
+  {
+    "parentId": "biophysicochemical-absorption",
+    "childNumber": 0,
     "id": "cc_bpcp_absorption",
     "fieldName": "cc_bpcp_absorption",
     "fieldType": "field",
@@ -1016,10 +1032,8 @@
     "example": "prosthetic"
   },
   {
-    "parentId": "biophysicochemical",
+    "parentId": "biophysicochemical-absorption",
     "childNumber": 1,
-    "seqNumber": 1,
-    "label": "Absorption",
     "id": "ccev_bpcp_absorption",
     "fieldName": "ccev_bpcp_absorption",
     "itemType": "single",
@@ -1030,9 +1044,14 @@
   },
   {
     "parentId": "biophysicochemical",
-    "childNumber": 2,
-    "seqNumber": 0,
     "label": "Kinetics",
+    "childNumber": 2,
+    "itemType": "horizontal_group",
+    "id": "biophysicochemical-kinetics"
+  },
+  {
+    "parentId": "biophysicochemical-kinetics",
+    "childNumber": 0,
     "id": "cc_bpcp_kinetics",
     "fieldName": "cc_bpcp_kinetics",
     "itemType": "single",
@@ -1042,10 +1061,8 @@
     "example": "aspartate"
   },
   {
-    "parentId": "biophysicochemical",
-    "childNumber": 2,
-    "seqNumber": 1,
-    "label": "Kinetics",
+    "parentId": "biophysicochemical-kinetics",
+    "childNumber": 1,
     "id": "ccev_bpcp_kinetics",
     "itemType": "single",
     "fieldName": "ccev_bpcp_kinetics",
@@ -1056,9 +1073,14 @@
   },
   {
     "parentId": "biophysicochemical",
-    "childNumber": 3,
-    "seqNumber": 0,
     "label": "pH dependence",
+    "childNumber": 3,
+    "itemType": "horizontal_group",
+    "id": "biophysicochemical-pH dependence"
+  },
+  {
+    "parentId": "biophysicochemical-pH dependence",
+    "childNumber": 0,
     "id": "cc_bpcp_ph_dependence",
     "fieldName": "cc_bpcp_ph_dependence",
     "itemType": "single",
@@ -1068,10 +1090,8 @@
     "example": "optimum"
   },
   {
-    "parentId": "biophysicochemical",
-    "childNumber": 3,
-    "seqNumber": 1,
-    "label": "pH dependence",
+    "parentId": "biophysicochemical-pH dependence",
+    "childNumber": 1,
     "id": "ccev_bpcp_ph_dependence",
     "fieldName": "ccev_bpcp_ph_dependence",
     "itemType": "single",
@@ -1082,9 +1102,14 @@
   },
   {
     "parentId": "biophysicochemical",
-    "childNumber": 4,
-    "seqNumber": 0,
     "label": "Redox potential",
+    "childNumber": 4,
+    "itemType": "horizontal_group",
+    "id": "biophysicochemical-Redox potential"
+  },
+  {
+    "parentId": "biophysicochemical-Redox potential",
+    "childNumber": 0,
     "id": "cc_bpcp_redox_potential",
     "itemType": "single",
     "fieldName": "cc_bpcp_redox_potential",
@@ -1094,10 +1119,8 @@
     "example": "siroheme"
   },
   {
-    "parentId": "biophysicochemical",
-    "childNumber": 4,
-    "seqNumber": 1,
-    "label": "Redox potential",
+    "parentId": "biophysicochemical-Redox potential",
+    "childNumber": 1,
     "id": "ccev_bpcp_redox_potential",
     "itemType": "single",
     "fieldName": "ccev_bpcp_redox_potential",
@@ -1108,9 +1131,14 @@
   },
   {
     "parentId": "biophysicochemical",
-    "childNumber": 5,
-    "seqNumber": 0,
     "label": "Temperature dependence",
+    "childNumber": 5,
+    "itemType": "horizontal_group",
+    "id": "biophysicochemical-Temperature dependence"
+  },
+  {
+    "parentId": "biophysicochemical-Temperature dependence",
+    "childNumber": 0,
     "id": "cc_bpcp_temp_dependence",
     "fieldName": "cc_bpcp_temp_dependence",
     "itemType": "single",
@@ -1120,10 +1148,8 @@
     "example": "*"
   },
   {
-    "parentId": "biophysicochemical",
-    "childNumber": 5,
-    "seqNumber": 1,
-    "label": "Temperature dependence",
+    "parentId": "biophysicochemical-Temperature dependence",
+    "childNumber": 1,
     "id": "ccev_bpcp_temp_dependence",
     "fieldName": "ccev_bpcp_temp_dependence",
     "itemType": "single",
@@ -1134,9 +1160,14 @@
   },
   {
     "parentId": "function",
-    "childNumber": 3,
-    "seqNumber": 0,
     "label": "Catalytic Activity",
+    "childNumber": 3,
+    "itemType": "horizontal_group",
+    "id": "Catalytic Activity"
+  },
+  {
+    "parentId": "Catalytic Activity",
+    "childNumber": 0,
     "id": "cc_catalytic_activity_field",
     "itemType": "single",
     "fieldName": "cc_catalytic_activity",
@@ -1148,10 +1179,8 @@
     "example": "tyrosine"
   },
   {
-    "parentId": "function",
-    "childNumber": 3,
-    "seqNumber": 1,
-    "label": "Catalytic Activity",
+    "parentId": "Catalytic Activity",
+    "childNumber": 1,
     "id": "ccev_catalytic_activity",
     "itemType": "single",
     "fieldName": "ccev_catalytic_activity",
@@ -1162,9 +1191,14 @@
   },
   {
     "parentId": "function",
-    "childNumber": 4,
-    "seqNumber": 0,
     "label": "Activity regulation",
+    "childNumber": 4,
+    "itemType": "horizontal_group",
+    "id": "Activity regulation"
+  },
+  {
+    "parentId": "Activity regulation",
+    "childNumber": 0,
     "id": "cc_activity_regulation",
     "itemType": "single",
     "fieldName": "cc_activity_regulation",
@@ -1174,10 +1208,8 @@
     "example": "inhibited"
   },
   {
-    "parentId": "function",
-    "childNumber": 4,
-    "seqNumber": 1,
-    "label": "Activity regulation",
+    "parentId": "Activity regulation",
+    "childNumber": 1,
     "id": "ccev_activity_regulation",
     "itemType": "single",
     "fieldName": "ccev_activity_regulation",
@@ -1188,9 +1220,14 @@
   },
   {
     "parentId": "function",
-    "childNumber": 5,
-    "seqNumber": 0,
     "label": "Function [CC]",
+    "childNumber": 5,
+    "itemType": "horizontal_group",
+    "id": "Function [CC]"
+  },
+  {
+    "parentId": "Function [CC]",
+    "childNumber": 0,
     "id": "cc_function",
     "itemType": "single",
     "fieldName": "cc_function",
@@ -1200,10 +1237,8 @@
     "example": "enzyme"
   },
   {
-    "parentId": "function",
-    "childNumber": 5,
-    "seqNumber": 1,
-    "label": "Function [CC]",
+    "parentId": "Function [CC]",
+    "childNumber": 1,
     "id": "ccev_function",
     "itemType": "single",
     "fieldName": "ccev_function",
@@ -1214,9 +1249,14 @@
   },
   {
     "parentId": "function",
-    "childNumber": 6,
-    "seqNumber": 0,
     "label": "Caution",
+    "childNumber": 6,
+    "itemType": "horizontal_group",
+    "id": "Caution"
+  },
+  {
+    "parentId": "Caution",
+    "childNumber": 0,
     "id": "cc_caution",
     "itemType": "single",
     "fieldName": "cc_caution",
@@ -1226,10 +1266,8 @@
     "example": "kinase"
   },
   {
-    "parentId": "function",
-    "childNumber": 6,
-    "seqNumber": 1,
-    "label": "Caution",
+    "parentId": "Caution",
+    "childNumber": 1,
     "id": "ccev_caution",
     "itemType": "single",
     "fieldName": "ccev_caution",
@@ -1241,7 +1279,6 @@
   {
     "parentId": "function",
     "childNumber": 7,
-    "seqNumber": 0,
     "label": "Sites",
     "id": "sites",
     "itemType": "group"
@@ -1249,8 +1286,13 @@
   {
     "parentId": "sites",
     "childNumber": 0,
-    "seqNumber": 0,
     "label": "Any",
+    "id": "sites-any",
+    "itemType": "horizontal_group"
+  },
+  {
+    "parentId": "sites-any",
+    "childNumber": 0,
     "id": "ft_sites",
     "itemType": "single",
     "fieldName": "ft_sites",
@@ -1260,10 +1302,8 @@
     "example": "translocation"
   },
   {
-    "parentId": "sites",
-    "childNumber": 0,
-    "seqNumber": 1,
-    "label": "Any",
+    "parentId": "sites-any",
+    "childNumber": 1,
     "id": "ftlen_sites",
     "itemType": "single",
     "fieldName": "ftlen_sites",
@@ -1273,10 +1313,8 @@
     "example": "[0 TO 100]"
   },
   {
-    "parentId": "sites",
-    "childNumber": 0,
-    "seqNumber": 2,
-    "label": "Any",
+    "parentId": "sites-any",
+    "childNumber": 2,
     "id": "ftev_sites",
     "itemType": "single",
     "fieldName": "ftev_sites",
@@ -1288,8 +1326,13 @@
   {
     "parentId": "sites",
     "childNumber": 1,
-    "seqNumber": 0,
     "label": "Active site",
+    "id": "sites-Active site",
+    "itemType": "horizontal_group"
+  },
+  {
+    "parentId": "sites-Active site",
+    "childNumber": 0,
     "id": "ft_act_site",
     "itemType": "single",
     "fieldName": "ft_act_site",
@@ -1299,10 +1342,8 @@
     "example": "phosphocysteine"
   },
   {
-    "parentId": "sites",
+    "parentId": "sites-Active site",
     "childNumber": 1,
-    "seqNumber": 1,
-    "label": "Active site",
     "id": "ftlen_act_site",
     "itemType": "single",
     "fieldName": "ftlen_act_site",
@@ -1312,10 +1353,8 @@
     "example": "[0 TO 100]"
   },
   {
-    "parentId": "sites",
-    "childNumber": 1,
-    "seqNumber": 2,
-    "label": "Active site",
+    "parentId": "sites-Active site",
+    "childNumber": 2,
     "id": "ftev_act_site",
     "itemType": "single",
     "fieldName": "ftev_act_site",
@@ -1327,8 +1366,13 @@
   {
     "parentId": "sites",
     "childNumber": 2,
-    "seqNumber": 0,
     "label": "Metal binding",
+    "id": "sites-Metal binding",
+    "itemType": "horizontal_group"
+  },
+  {
+    "parentId": "sites-Metal binding",
+    "childNumber": 0,
     "id": "ft_metal",
     "itemType": "single",
     "fieldName": "ft_metal",
@@ -1338,10 +1382,8 @@
     "example": "phosphocysteine"
   },
   {
-    "parentId": "sites",
-    "childNumber": 2,
-    "seqNumber": 1,
-    "label": "Metal binding",
+    "parentId": "sites-Metal binding",
+    "childNumber": 1,
     "id": "ftlen_metal",
     "itemType": "single",
     "fieldName": "ftlen_metal",
@@ -1351,10 +1393,8 @@
     "example": "[0 TO 100]"
   },
   {
-    "parentId": "sites",
+    "parentId": "sites-Metal binding",
     "childNumber": 2,
-    "seqNumber": 2,
-    "label": "Metal binding",
     "id": "ftev_metal",
     "itemType": "single",
     "fieldName": "ftev_metal",
@@ -1366,8 +1406,13 @@
   {
     "parentId": "sites",
     "childNumber": 3,
-    "seqNumber": 0,
     "label": "Binding site",
+    "id": "sites-Binding site",
+    "itemType": "horizontal_group"
+  },
+  {
+    "parentId": "sites-Binding site",
+    "childNumber": 0,
     "id": "ft_binding",
     "itemType": "single",
     "fieldName": "ft_binding",
@@ -1377,10 +1422,8 @@
     "example": "phosphocysteine"
   },
   {
-    "parentId": "sites",
-    "childNumber": 3,
-    "seqNumber": 1,
-    "label": "Binding site",
+    "parentId": "sites-Binding site",
+    "childNumber": 1,
     "id": "ftlen_binding",
     "itemType": "single",
     "fieldName": "ftlen_binding",
@@ -1390,10 +1433,8 @@
     "example": "[0 TO 100]"
   },
   {
-    "parentId": "sites",
-    "childNumber": 3,
-    "seqNumber": 2,
-    "label": "Binding site",
+    "parentId": "sites-Binding site",
+    "childNumber": 2,
     "id": "ftev_binding",
     "itemType": "single",
     "fieldName": "ftev_binding",
@@ -1405,8 +1446,13 @@
   {
     "parentId": "sites",
     "childNumber": 4,
-    "seqNumber": 0,
     "label": "Other",
+    "id": "sites-Other",
+    "itemType": "horizontal_group"
+  },
+  {
+    "parentId": "sites-Other",
+    "childNumber": 0,
     "id": "ft_site",
     "itemType": "single",
     "fieldName": "ft_site",
@@ -1416,10 +1462,8 @@
     "example": "phosphocysteine"
   },
   {
-    "parentId": "sites",
-    "childNumber": 4,
-    "seqNumber": 1,
-    "label": "Other",
+    "parentId": "sites-Other",
+    "childNumber": 1,
     "id": "ftlen_site",
     "itemType": "single",
     "fieldName": "ftlen_site",
@@ -1429,10 +1473,8 @@
     "example": "[0 TO 100]"
   },
   {
-    "parentId": "sites",
-    "childNumber": 4,
-    "seqNumber": 2,
-    "label": "Other",
+    "parentId": "sites-Other",
+    "childNumber": 2,
     "id": "ftev_site",
     "itemType": "single",
     "fieldName": "ftev_site",
@@ -1444,8 +1486,13 @@
   {
     "parentId": "function",
     "childNumber": 8,
-    "seqNumber": 0,
     "label": "Calcium binding",
+    "id": "Calcium binding",
+    "itemType": "horizontal_group"
+  },
+  {
+    "parentId": "Calcium binding",
+    "childNumber": 0,
     "id": "ft_ca_bind",
     "itemType": "single",
     "fieldName": "ft_ca_bind",
@@ -1455,10 +1502,8 @@
     "example": "site"
   },
   {
-    "parentId": "function",
-    "childNumber": 8,
-    "seqNumber": 1,
-    "label": "Calcium binding",
+    "parentId": "Calcium binding",
+    "childNumber": 1,
     "id": "ftlen_ca_bind",
     "itemType": "single",
     "fieldName": "ftlen_ca_bind",
@@ -1468,10 +1513,8 @@
     "example": "[0 TO 100]"
   },
   {
-    "parentId": "function",
-    "childNumber": 8,
-    "seqNumber": 2,
-    "label": "Calcium binding",
+    "parentId": "Calcium binding",
+    "childNumber": 2,
     "id": "ftev_ca_bind",
     "itemType": "single",
     "fieldName": "ftev_ca_bind",
@@ -1483,8 +1526,13 @@
   {
     "parentId": "function",
     "childNumber": 9,
-    "seqNumber": 0,
     "label": "DNA binding",
+    "id": "DNA binding",
+    "itemType": "horizontal_group"
+  },
+  {
+    "parentId": "DNA binding",
+    "childNumber": 0,
     "id": "ft_dna_bind",
     "itemType": "single",
     "fieldName": "ft_dna_bind",
@@ -1494,10 +1542,8 @@
     "example": "*"
   },
   {
-    "parentId": "function",
-    "childNumber": 9,
-    "seqNumber": 1,
-    "label": "DNA binding",
+    "parentId": "DNA binding",
+    "childNumber": 1,
     "id": "ftlen_dna_bind",
     "itemType": "single",
     "fieldName": "ftlen_dna_bind",
@@ -1507,10 +1553,8 @@
     "example": "[0 TO 100]"
   },
   {
-    "parentId": "function",
-    "childNumber": 9,
-    "seqNumber": 2,
-    "label": "DNA binding",
+    "parentId": "DNA binding",
+    "childNumber": 2,
     "id": "ftev_dna_bind",
     "itemType": "single",
     "fieldName": "ftev_dna_bind",
@@ -1522,8 +1566,13 @@
   {
     "parentId": "function",
     "childNumber": 10,
-    "seqNumber": 0,
     "label": "Nucleotide binding",
+    "id": "Nucleotide binding",
+    "itemType": "horizontal_group"
+  },
+  {
+    "parentId": "Nucleotide binding",
+    "childNumber": 0,
     "id": "ft_np_bind",
     "fieldName": "ft_np_bind",
     "itemType": "single",
@@ -1533,10 +1582,8 @@
     "example": "NADP"
   },
   {
-    "parentId": "function",
-    "childNumber": 10,
-    "seqNumber": 1,
-    "label": "Nucleotide binding",
+    "parentId": "Nucleotide binding",
+    "childNumber": 1,
     "dataType": "integer",
     "id": "ftlen_np_bind",
     "fieldName": "ftlen_np_bind",
@@ -1546,10 +1593,8 @@
     "example": "[0 TO 100]"
   },
   {
-    "parentId": "function",
-    "childNumber": 10,
-    "seqNumber": 2,
-    "label": "Nucleotide binding",
+    "parentId": "Nucleotide binding",
+    "childNumber": 2,
     "id": "ftev_np_bind",
     "fieldName": "ftev_np_bind",
     "itemType": "single",
@@ -1561,8 +1606,13 @@
   {
     "parentId": "function",
     "childNumber": 11,
-    "seqNumber": 0,
     "label": "Pathway",
+    "id": "Pathway",
+    "itemType": "horizontal_group"
+  },
+  {
+    "parentId": "Pathway",
+    "childNumber": 0,
     "id": "cc_pathway",
     "itemType": "single",
     "fieldName": "cc_pathway",
@@ -1572,10 +1622,8 @@
     "example": "metabolism"
   },
   {
-    "parentId": "function",
-    "childNumber": 11,
-    "seqNumber": 1,
-    "label": "Pathway",
+    "parentId": "Pathway",
+    "childNumber": 1,
     "id": "ccev_pathway",
     "itemType": "single",
     "fieldName": "ccev_pathway",
@@ -1587,8 +1635,13 @@
   {
     "parentId": "function",
     "childNumber": 12,
-    "seqNumber": 0,
     "label": "Miscellaneous [CC]",
+    "id": "Miscellaneous [CC]",
+    "itemType": "horizontal_group"
+  },
+  {
+    "parentId": "Miscellaneous [CC]",
+    "childNumber": 0,
     "id": "cc_miscellaneous",
     "itemType": "single",
     "fieldName": "cc_miscellaneous",
@@ -1598,10 +1651,8 @@
     "example": "abscisic"
   },
   {
-    "parentId": "function",
-    "childNumber": 12,
-    "seqNumber": 1,
-    "label": "Miscellaneous [CC]",
+    "parentId": "Miscellaneous [CC]",
+    "childNumber": 1,
     "fieldType": "evidence",
     "id": "ccev_miscellaneous",
     "itemType": "single",
@@ -1614,12 +1665,11 @@
     "label": "Sequence",
     "itemType": "group",
     "id": "sequence",
-    "seqNumber": 19
+    "seqNumber": 17
   },
   {
     "parentId": "sequence",
     "childNumber": 0,
-    "seqNumber": 0,
     "label": "Mass(Da)",
     "id": "mass_range",
     "itemType": "single",
@@ -1632,7 +1682,6 @@
   {
     "parentId": "sequence",
     "childNumber": 1,
-    "seqNumber": 0,
     "label": "Sequence length",
     "id": "length_range",
     "itemType": "single",
@@ -1645,7 +1694,6 @@
   {
     "parentId": "sequence",
     "childNumber": 2,
-    "seqNumber": 0,
     "label": "Alternative products (isoforms)",
     "itemType": "group",
     "id": "alt product isoform"
@@ -1653,8 +1701,13 @@
   {
     "parentId": "alt product isoform",
     "childNumber": 0,
-    "seqNumber": 0,
     "label": "Any",
+    "id": "sequence-any",
+    "itemType": "horizontal_group"
+  },
+  {
+    "parentId": "sequence-any",
+    "childNumber": 0,
     "id": "cc_ap",
     "itemType": "single",
     "fieldName": "cc_ap",
@@ -1664,10 +1717,8 @@
     "example": "tissues"
   },
   {
-    "parentId": "alt product isoform",
-    "childNumber": 0,
-    "seqNumber": 1,
-    "label": "Any",
+    "parentId": "sequence-any",
+    "childNumber": 1,
     "id": "ccev_ap",
     "fieldName": "ccev_ap",
     "itemType": "single",
@@ -1679,8 +1730,13 @@
   {
     "parentId": "alt product isoform",
     "childNumber": 1,
-    "seqNumber": 0,
     "label": "Alternative promoter usage",
+    "id": "Alternative promoter usage",
+    "itemType": "horizontal_group"
+  },
+  {
+    "parentId": "Alternative promoter usage",
+    "childNumber": 0,
     "id": "cc_ap_apu",
     "itemType": "single",
     "fieldName": "cc_ap_apu",
@@ -1690,10 +1746,8 @@
     "example": "*"
   },
   {
-    "parentId": "alt product isoform",
+    "parentId": "Alternative promoter usage",
     "childNumber": 1,
-    "seqNumber": 1,
-    "label": "Alternative promoter usage",
     "id": "ccev_ap_apu",
     "itemType": "single",
     "fieldName": "ccev_ap_apu",
@@ -1705,8 +1759,13 @@
   {
     "parentId": "alt product isoform",
     "childNumber": 2,
-    "seqNumber": 0,
     "label": "Alternative splicing",
+    "id": "Alternative splicing",
+    "itemType": "horizontal_group"
+  },
+  {
+    "parentId": "Alternative splicing",
+    "childNumber": 0,
     "id": "cc_ap_as",
     "itemType": "single",
     "fieldName": "cc_ap_as",
@@ -1716,10 +1775,8 @@
     "example": "experimental"
   },
   {
-    "parentId": "alt product isoform",
-    "childNumber": 2,
-    "seqNumber": 1,
-    "label": "Alternative splicing",
+    "parentId": "Alternative splicing",
+    "childNumber": 1,
     "id": "ccev_ap_as",
     "itemType": "single",
     "fieldName": "ccev_ap_as",
@@ -1731,8 +1788,13 @@
   {
     "parentId": "alt product isoform",
     "childNumber": 3,
-    "seqNumber": 0,
     "label": "Alternative initiation",
+    "id": "Alternative initiation",
+    "itemType": "horizontal_group"
+  },
+  {
+    "parentId": "Alternative initiation",
+    "childNumber": 0,
     "id": "cc_ap_ai",
     "itemType": "single",
     "fieldName": "cc_ap_ai",
@@ -1742,10 +1804,8 @@
     "example": "acetylalanine"
   },
   {
-    "parentId": "alt product isoform",
-    "childNumber": 3,
-    "seqNumber": 1,
-    "label": "Alternative initiation",
+    "parentId": "Alternative initiation",
+    "childNumber": 1,
     "id": "ccev_ap_ai",
     "itemType": "single",
     "fieldName": "ccev_ap_ai",
@@ -1757,8 +1817,13 @@
   {
     "parentId": "alt product isoform",
     "childNumber": 4,
-    "seqNumber": 0,
     "label": "Ribosomal frameshifting",
+    "id": "Ribosomal frameshifting",
+    "itemType": "horizontal_group"
+  },
+  {
+    "parentId": "Ribosomal frameshifting",
+    "childNumber": 0,
     "id": "cc_ap_rf",
     "itemType": "single",
     "fieldName": "cc_ap_rf",
@@ -1768,10 +1833,8 @@
     "example": "translation"
   },
   {
-    "parentId": "alt product isoform",
-    "childNumber": 4,
-    "seqNumber": 1,
-    "label": "Ribosomal frameshifting",
+    "parentId": "Ribosomal frameshifting",
+    "childNumber": 1,
     "id": "ccev_ap_rf",
     "itemType": "single",
     "fieldName": "ccev_ap_rf",
@@ -1783,7 +1846,6 @@
   {
     "parentId": "sequence",
     "childNumber": 3,
-    "seqNumber": 0,
     "label": "Sequence caution",
     "itemType": "group",
     "id": "seq caution"
@@ -1791,8 +1853,13 @@
   {
     "parentId": "seq caution",
     "childNumber": 0,
-    "seqNumber": 0,
     "label": "Any",
+    "id": "seq caution any",
+    "itemType": "horizontal_group"
+  },
+  {
+    "parentId": "seq caution any",
+    "childNumber": 0,
     "id": "cc_sequence_caution",
     "itemType": "single",
     "fieldName": "cc_sequence_caution",
@@ -1802,10 +1869,8 @@
     "example": "translated"
   },
   {
-    "parentId": "seq caution",
-    "childNumber": 0,
-    "seqNumber": 1,
-    "label": "Any",
+    "parentId": "seq caution any",
+    "childNumber": 1,
     "id": "ccev_sequence_caution",
     "itemType": "single",
     "fieldName": "ccev_sequence_caution",
@@ -1817,7 +1882,6 @@
   {
     "parentId": "seq caution",
     "childNumber": 1,
-    "seqNumber": 0,
     "label": "Frameshift",
     "id": "cc_sc_framesh",
     "itemType": "single",
@@ -1830,7 +1894,6 @@
   {
     "parentId": "seq caution",
     "childNumber": 2,
-    "seqNumber": 0,
     "label": "Erroneous initiation",
     "id": "cc_sc_einit",
     "itemType": "single",
@@ -1843,7 +1906,6 @@
   {
     "parentId": "seq caution",
     "childNumber": 3,
-    "seqNumber": 0,
     "label": "Erroneous termination",
     "id": "cc_sc_eterm",
     "itemType": "single",
@@ -1856,7 +1918,6 @@
   {
     "parentId": "seq caution",
     "childNumber": 4,
-    "seqNumber": 0,
     "label": "Erroneous gene model prediction",
     "id": "cc_sc_epred",
     "itemType": "single",
@@ -1869,7 +1930,6 @@
   {
     "parentId": "seq caution",
     "childNumber": 5,
-    "seqNumber": 0,
     "label": "Erroneous translation",
     "id": "cc_sc_etran",
     "itemType": "single",
@@ -1882,8 +1942,13 @@
   {
     "parentId": "seq caution",
     "childNumber": 6,
-    "seqNumber": 0,
     "label": "Miscellaneous Discrepancy",
+    "id": "Miscellaneous Discrepancy",
+    "itemType": "horizontal_group"
+  },
+  {
+    "parentId": "Miscellaneous Discrepancy",
+    "childNumber": 0,
     "id": "cc_sc_misc",
     "itemType": "single",
     "fieldName": "cc_sc_misc",
@@ -1893,10 +1958,8 @@
     "example": "sequence"
   },
   {
-    "parentId": "seq caution",
-    "childNumber": 6,
-    "seqNumber": 1,
-    "label": "Miscellaneous Discrepancy",
+    "parentId": "Miscellaneous Discrepancy",
+    "childNumber": 1,
     "id": "ccev_sc_misc",
     "itemType": "single",
     "fieldName": "ccev_sc_misc",
@@ -1908,8 +1971,13 @@
   {
     "parentId": "sequence",
     "childNumber": 4,
-    "seqNumber": 0,
     "label": "Mass Spectrometry",
+    "id": "Mass Spectrometry",
+    "itemType": "horizontal_group"
+  },
+  {
+    "parentId": "Mass Spectrometry",
+    "childNumber": 0,
     "id": "cc_mass_spectrometry",
     "itemType": "single",
     "fieldName": "cc_mass_spectrometry",
@@ -1919,10 +1987,8 @@
     "example": "electrospray"
   },
   {
-    "parentId": "sequence",
-    "childNumber": 4,
-    "seqNumber": 1,
-    "label": "Mass Spectrometry",
+    "parentId": "Mass Spectrometry",
+    "childNumber": 1,
     "id": "ccev_mass_spectrometry",
     "itemType": "single",
     "fieldName": "ccev_mass_spectrometry",
@@ -1934,8 +2000,13 @@
   {
     "parentId": "sequence",
     "childNumber": 5,
-    "seqNumber": 0,
     "label": "Polymorphism",
+    "id": "Polymorphism",
+    "itemType": "horizontal_group"
+  },
+  {
+    "parentId": "Polymorphism",
+    "childNumber": 0,
     "id": "cc_polymorphism",
     "itemType": "single",
     "fieldName": "cc_polymorphism",
@@ -1945,10 +2016,8 @@
     "example": "transcript"
   },
   {
-    "parentId": "sequence",
-    "childNumber": 5,
-    "seqNumber": 1,
-    "label": "Polymorphism",
+    "parentId": "Polymorphism",
+    "childNumber": 1,
     "id": "ccev_polymorphism",
     "itemType": "single",
     "fieldName": "ccev_polymorphism",
@@ -1960,8 +2029,13 @@
   {
     "parentId": "sequence",
     "childNumber": 6,
-    "seqNumber": 0,
     "label": "RNA Editing",
+    "id": "RNA Editing",
+    "itemType": "horizontal_group"
+  },
+  {
+    "parentId": "RNA Editing",
+    "childNumber": 0,
     "id": "cc_rna_editing",
     "itemType": "single",
     "fieldName": "cc_rna_editing",
@@ -1971,10 +2045,8 @@
     "example": "target"
   },
   {
-    "parentId": "sequence",
-    "childNumber": 6,
-    "seqNumber": 1,
-    "label": "RNA Editing",
+    "parentId": "RNA Editing",
+    "childNumber": 1,
     "id": "ccev_rna_editing",
     "itemType": "single",
     "fieldName": "ccev_rna_editing",
@@ -1986,7 +2058,6 @@
   {
     "parentId": "sequence",
     "childNumber": 7,
-    "seqNumber": 0,
     "label": "Natural Variations",
     "itemType": "group",
     "id": "natural variations"
@@ -1994,8 +2065,13 @@
   {
     "parentId": "natural variations",
     "childNumber": 0,
-    "seqNumber": 0,
     "label": "Any",
+    "id": "natural variations-any",
+    "itemType": "horizontal_group"
+  },
+  {
+    "parentId": "natural variations-any",
+    "childNumber": 0,
     "id": "ft_variants",
     "itemType": "single",
     "fieldName": "ft_variants",
@@ -2005,10 +2081,8 @@
     "example": "colorectal"
   },
   {
-    "parentId": "natural variations",
-    "childNumber": 0,
-    "seqNumber": 1,
-    "label": "Any",
+    "parentId": "natural variations-any",
+    "childNumber": 1,
     "id": "ftlen_variants",
     "itemType": "single",
     "fieldName": "ftlen_variants",
@@ -2018,10 +2092,8 @@
     "example": "[0 TO 100]"
   },
   {
-    "parentId": "natural variations",
-    "childNumber": 0,
-    "seqNumber": 2,
-    "label": "Any",
+    "parentId": "natural variations-any",
+    "childNumber": 2,
     "id": "ftev_variants",
     "itemType": "single",
     "fieldName": "ftev_variants",
@@ -2033,8 +2105,13 @@
   {
     "parentId": "natural variations",
     "childNumber": 1,
-    "seqNumber": 0,
     "label": "Natural variant",
+    "id": "natural variations-Natural variant",
+    "itemType": "horizontal_group"
+  },
+  {
+    "parentId": "natural variations-Natural variant",
+    "childNumber": 0,
     "id": "ft_variant",
     "itemType": "single",
     "fieldName": "ft_variant",
@@ -2044,10 +2121,8 @@
     "example": "colorectal"
   },
   {
-    "parentId": "natural variations",
+    "parentId": "natural variations-Natural variant",
     "childNumber": 1,
-    "seqNumber": 1,
-    "label": "Natural variant",
     "id": "ftlen_variant",
     "itemType": "single",
     "fieldName": "ftlen_variant",
@@ -2057,10 +2132,8 @@
     "example": "[0 to 100]"
   },
   {
-    "parentId": "natural variations",
-    "childNumber": 1,
-    "seqNumber": 2,
-    "label": "Natural variant",
+    "parentId": "natural variations-Natural variant",
+    "childNumber": 2,
     "id": "ftev_variant",
     "itemType": "single",
     "fieldName": "ftev_variant",
@@ -2072,8 +2145,13 @@
   {
     "parentId": "natural variations",
     "childNumber": 2,
-    "seqNumber": 0,
     "label": "Alternative sequence",
+    "id": "natural variations-Alternative sequence",
+    "itemType": "horizontal_group"
+  },
+  {
+    "parentId": "natural variations-Alternative sequence",
+    "childNumber": 0,
     "id": "ft_var_seq",
     "itemType": "single",
     "fieldName": "ft_var_seq",
@@ -2083,10 +2161,8 @@
     "example": "isoform"
   },
   {
-    "parentId": "natural variations",
-    "childNumber": 2,
-    "seqNumber": 1,
-    "label": "Alternative sequence",
+    "parentId": "natural variations-Alternative sequence",
+    "childNumber": 1,
     "id": "ftlen_var_seq",
     "itemType": "single",
     "fieldName": "ftlen_var_seq",
@@ -2096,10 +2172,8 @@
     "example": "[0 TO 100]"
   },
   {
-    "parentId": "natural variations",
+    "parentId": "natural variations-Alternative sequence",
     "childNumber": 2,
-    "seqNumber": 2,
-    "label": "Alternative sequence",
     "id": "ftev_var_seq",
     "itemType": "single",
     "fieldName": "ftev_var_seq",
@@ -2111,8 +2185,13 @@
   {
     "parentId": "sequence",
     "childNumber": 8,
-    "seqNumber": 0,
     "label": "Non-standard residue",
+    "id": "Non-standard residue",
+    "itemType": "horizontal_group"
+  },
+  {
+    "parentId": "Non-standard residue",
+    "childNumber": 0,
     "id": "ft_non_std",
     "itemType": "single",
     "fieldName": "ft_non_std",
@@ -2122,10 +2201,8 @@
     "example": "selenocysteine"
   },
   {
-    "parentId": "sequence",
-    "childNumber": 8,
-    "seqNumber": 1,
-    "label": "Non-standard residue",
+    "parentId": "Non-standard residue",
+    "childNumber": 1,
     "id": "ftlen_non_std",
     "itemType": "single",
     "fieldName": "ftlen_non_std",
@@ -2135,10 +2212,8 @@
     "example": "[0 TO 100]"
   },
   {
-    "parentId": "sequence",
-    "childNumber": 8,
-    "seqNumber": 2,
-    "label": "Non-standard residue",
+    "parentId": "Non-standard residue",
+    "childNumber": 2,
     "id": "ftev_non_std",
     "itemType": "single",
     "fieldName": "ftev_non_std",
@@ -2150,8 +2225,13 @@
   {
     "parentId": "sequence",
     "childNumber": 9,
-    "seqNumber": 0,
     "label": "Non-terminal residue",
+    "id": "Non-terminal residue",
+    "itemType": "horizontal_group"
+  },
+  {
+    "parentId": "Non-terminal residue",
+    "childNumber": 0,
     "id": "ft_non_ter",
     "itemType": "single",
     "fieldName": "ft_non_ter",
@@ -2161,10 +2241,8 @@
     "example": "*"
   },
   {
-    "parentId": "sequence",
-    "childNumber": 9,
-    "seqNumber": 1,
-    "label": "Non-terminal residue",
+    "parentId": "Non-terminal residue",
+    "childNumber": 1,
     "id": "ftlen_non_ter",
     "itemType": "single",
     "fieldName": "ftlen_non_ter",
@@ -2174,10 +2252,8 @@
     "example": "[0 TO 100]"
   },
   {
-    "parentId": "sequence",
-    "childNumber": 9,
-    "seqNumber": 2,
-    "label": "Non-terminal residue",
+    "parentId": "Non-terminal residue",
+    "childNumber": 2,
     "id": "ftev_non_ter",
     "itemType": "single",
     "fieldName": "ftev_non_ter",
@@ -2189,8 +2265,13 @@
   {
     "parentId": "sequence",
     "childNumber": 10,
-    "seqNumber": 0,
     "label": "Non-adjacent residue",
+    "id": "Non-adjacent residue",
+    "itemType": "horizontal_group"
+  },
+  {
+    "parentId": "Non-adjacent residue",
+    "childNumber": 0,
     "id": "ft_non_cons",
     "itemType": "single",
     "fieldName": "ft_non_cons",
@@ -2200,10 +2281,8 @@
     "example": "*"
   },
   {
-    "parentId": "sequence",
-    "childNumber": 10,
-    "seqNumber": 1,
-    "label": "Non-adjacent residue",
+    "parentId": "Non-adjacent residue",
+    "childNumber": 1,
     "id": "ftlen_non_cons",
     "itemType": "single",
     "fieldName": "ftlen_non_cons",
@@ -2213,10 +2292,8 @@
     "example": "[0 TO 100]"
   },
   {
-    "parentId": "sequence",
-    "childNumber": 10,
-    "seqNumber": 2,
-    "label": "Non-adjacent residue",
+    "parentId": "Non-adjacent residue",
+    "childNumber": 2,
     "id": "ftev_non_cons",
     "itemType": "single",
     "fieldName": "ftev_non_cons",
@@ -2228,8 +2305,13 @@
   {
     "parentId": "sequence",
     "childNumber": 11,
-    "seqNumber": 0,
     "label": "Sequence conflict",
+    "id": "Sequence conflict",
+    "itemType": "horizontal_group"
+  },
+  {
+    "parentId": "Sequence conflict",
+    "childNumber": 0,
     "id": "ft_conflict",
     "itemType": "single",
     "fieldName": "ft_conflict",
@@ -2239,10 +2321,8 @@
     "example": "*"
   },
   {
-    "parentId": "sequence",
-    "childNumber": 11,
-    "seqNumber": 1,
-    "label": "Sequence conflict",
+    "parentId": "Sequence conflict",
+    "childNumber": 1,
     "id": "ftlen_conflict",
     "itemType": "single",
     "fieldName": "ftlen_conflict",
@@ -2252,10 +2332,8 @@
     "example": "[0 TO 100]"
   },
   {
-    "parentId": "sequence",
-    "childNumber": 11,
-    "seqNumber": 2,
-    "label": "Sequence conflict",
+    "parentId": "Sequence conflict",
+    "childNumber": 2,
     "id": "ftev_conflict",
     "itemType": "single",
     "fieldName": "ftev_conflict",
@@ -2267,8 +2345,13 @@
   {
     "parentId": "sequence",
     "childNumber": 12,
-    "seqNumber": 0,
     "label": "Sequence uncertainty",
+    "id": "Sequence uncertainty",
+    "itemType": "horizontal_group"
+  },
+  {
+    "parentId": "Sequence uncertainty",
+    "childNumber": 0,
     "id": "ft_unsure",
     "itemType": "single",
     "fieldName": "ft_unsure",
@@ -2278,10 +2361,8 @@
     "example": "*"
   },
   {
-    "parentId": "sequence",
-    "childNumber": 12,
-    "seqNumber": 1,
-    "label": "Sequence uncertainty",
+    "parentId": "Sequence uncertainty",
+    "childNumber": 1,
     "id": "ftlen_unsure",
     "itemType": "single",
     "fieldName": "ftlen_unsure",
@@ -2291,10 +2372,8 @@
     "example": "[0 TO 100]"
   },
   {
-    "parentId": "sequence",
-    "childNumber": 12,
-    "seqNumber": 2,
-    "label": "Sequence uncertainty",
+    "parentId": "Sequence uncertainty",
+    "childNumber": 2,
     "id": "ftev_unsure",
     "itemType": "single",
     "fieldName": "ftev_unsure",
@@ -2306,8 +2385,13 @@
   {
     "parentId": "sequence",
     "childNumber": 13,
-    "seqNumber": 0,
     "label": "Sequence features [FT]",
+    "id": "Sequence features [FT]",
+    "itemType": "horizontal_group"
+  },
+  {
+    "parentId": "Sequence features [FT]",
+    "childNumber": 0,
     "id": "ft_positional",
     "itemType": "single",
     "fieldName": "ft_positional",
@@ -2317,10 +2401,8 @@
     "example": "colorectal"
   },
   {
-    "parentId": "sequence",
-    "childNumber": 13,
-    "seqNumber": 1,
-    "label": "Sequence features [FT]",
+    "parentId": "Sequence features [FT]",
+    "childNumber": 1,
     "id": "ftlen_positional",
     "itemType": "single",
     "fieldName": "ftlen_positional",
@@ -2330,10 +2412,8 @@
     "example": "[0 TO 100]"
   },
   {
-    "parentId": "sequence",
-    "childNumber": 13,
-    "seqNumber": 2,
-    "label": "Sequence features [FT]",
+    "parentId": "Sequence features [FT]",
+    "childNumber": 2,
     "id": "ftev_positional",
     "itemType": "single",
     "fieldName": "ftev_positional",
@@ -2345,7 +2425,6 @@
   {
     "parentId": "sequence",
     "childNumber": 14,
-    "seqNumber": 0,
     "label": "Fragment",
     "id": "fragment",
     "itemType": "single",
@@ -2368,7 +2447,6 @@
   {
     "parentId": "sequence",
     "childNumber": 15,
-    "seqNumber": 0,
     "label": "Encoded in",
     "id": "organelle",
     "itemType": "single",
@@ -2419,7 +2497,6 @@
   {
     "parentId": "sequence",
     "childNumber": 16,
-    "seqNumber": 0,
     "label": "Precursor",
     "id": "precursor",
     "itemType": "single",
@@ -2441,8 +2518,7 @@
   },
   {
     "parentId": "sequence",
-    "childNumber": 19,
-    "seqNumber": 0,
+    "childNumber": 17,
     "label": "Sequence from ... [RC]",
     "itemType": "group",
     "id": "sequence from rc"
@@ -2450,7 +2526,6 @@
   {
     "parentId": "sequence from rc",
     "childNumber": 0,
-    "seqNumber": 0,
     "label": "Tissue",
     "id": "tissue",
     "itemType": "single",
@@ -2463,7 +2538,6 @@
   {
     "parentId": "sequence from rc",
     "childNumber": 1,
-    "seqNumber": 0,
     "label": "Strain",
     "id": "strain",
     "itemType": "single",
@@ -2476,7 +2550,6 @@
   {
     "parentId": "sequence from rc",
     "childNumber": 2,
-    "seqNumber": 0,
     "label": "Plasmid",
     "id": "plasmid",
     "itemType": "single",
@@ -2489,7 +2562,6 @@
   {
     "parentId": "sequence from rc",
     "childNumber": 3,
-    "seqNumber": 0,
     "label": "Transposon",
     "id": "transposon",
     "itemType": "single",
@@ -2503,13 +2575,18 @@
     "label": "PTM/Processing",
     "itemType": "group",
     "id": "ptmproc",
-    "seqNumber": 20
+    "seqNumber": 18
   },
   {
     "parentId": "ptmproc",
-    "childNumber": 0,
-    "seqNumber": 0,
+    "itemType": "horizontal_group",
     "label": "Post-translational modification [CC]",
+    "id": "Post-translational modification [CC]",
+    "childNumber": 0
+  },
+  {
+    "parentId": "Post-translational modification [CC]",
+    "childNumber": 0,
     "id": "cc_ptm",
     "itemType": "single",
     "fieldName": "cc_ptm",
@@ -2519,10 +2596,8 @@
     "example": "mitosis"
   },
   {
-    "parentId": "ptmproc",
-    "childNumber": 0,
-    "seqNumber": 1,
-    "label": "Post-translational modification [CC]",
+    "parentId": "Post-translational modification [CC]",
+    "childNumber": 1,
     "id": "ccev_ptm",
     "itemType": "single",
     "fieldName": "ccev_ptm",
@@ -2533,9 +2608,14 @@
   },
   {
     "parentId": "ptmproc",
-    "childNumber": 1,
-    "seqNumber": 0,
+    "itemType": "horizontal_group",
     "label": "Modified residue [FT]",
+    "id": "Modified residue [FT]",
+    "childNumber": 1
+  },
+  {
+    "parentId": "Modified residue [FT]",
+    "childNumber": 0,
     "id": "ft_mod_res",
     "itemType": "single",
     "fieldName": "ft_mod_res",
@@ -2545,10 +2625,8 @@
     "example": "phosphoserine"
   },
   {
-    "parentId": "ptmproc",
+    "parentId": "Modified residue [FT]",
     "childNumber": 1,
-    "seqNumber": 1,
-    "label": "Modified residue [FT]",
     "id": "ftlen_mod_res",
     "itemType": "single",
     "fieldName": "ftlen_mod_res",
@@ -2558,10 +2636,8 @@
     "example": "[0 TO 100]"
   },
   {
-    "parentId": "ptmproc",
-    "childNumber": 1,
-    "seqNumber": 2,
-    "label": "Modified residue [FT]",
+    "parentId": "Modified residue [FT]",
+    "childNumber": 2,
     "id": "ftev_mod_res",
     "itemType": "single",
     "fieldName": "ftev_mod_res",
@@ -2572,9 +2648,14 @@
   },
   {
     "parentId": "ptmproc",
-    "childNumber": 2,
-    "seqNumber": 0,
+    "itemType": "horizontal_group",
     "label": "Lipidation [FT]",
+    "id": "Lipidation [FT]",
+    "childNumber": 2
+  },
+  {
+    "parentId": "Lipidation [FT]",
+    "childNumber": 0,
     "id": "ft_lipid",
     "itemType": "single",
     "fieldName": "ft_lipid",
@@ -2584,10 +2665,8 @@
     "example": "cysteine"
   },
   {
-    "parentId": "ptmproc",
-    "childNumber": 2,
-    "seqNumber": 1,
-    "label": "Lipidation [FT]",
+    "parentId": "Lipidation [FT]",
+    "childNumber": 1,
     "id": "ftlen_lipid",
     "itemType": "single",
     "fieldName": "ftlen_lipid",
@@ -2597,10 +2676,8 @@
     "example": "[0 TO 100]"
   },
   {
-    "parentId": "ptmproc",
+    "parentId": "Lipidation [FT]",
     "childNumber": 2,
-    "seqNumber": 2,
-    "label": "Lipidation [FT]",
     "id": "ftev_lipid",
     "itemType": "single",
     "fieldName": "ftev_lipid",
@@ -2611,9 +2688,14 @@
   },
   {
     "parentId": "ptmproc",
-    "childNumber": 3,
-    "seqNumber": 0,
+    "itemType": "horizontal_group",
     "label": "Glycosylation [FT]",
+    "id": "Glycosylation [FT]",
+    "childNumber": 3
+  },
+  {
+    "parentId": "Glycosylation [FT]",
+    "childNumber": 0,
     "id": "ft_carbohyd",
     "itemType": "single",
     "fieldName": "ft_carbohyd",
@@ -2623,10 +2705,8 @@
     "example": "cysteine"
   },
   {
-    "parentId": "ptmproc",
-    "childNumber": 3,
-    "seqNumber": 1,
-    "label": "Glycosylation [FT]",
+    "parentId": "Glycosylation [FT]",
+    "childNumber": 1,
     "id": "ftlen_carbohyd",
     "itemType": "single",
     "fieldName": "ftlen_carbohyd",
@@ -2636,10 +2716,8 @@
     "example": "[0 TO 100]"
   },
   {
-    "parentId": "ptmproc",
-    "childNumber": 3,
-    "seqNumber": 2,
-    "label": "Glycosylation [FT]",
+    "parentId": "Glycosylation [FT]",
+    "childNumber": 2,
     "id": "ftev_carbohyd",
     "itemType": "single",
     "fieldName": "ftev_carbohyd",
@@ -2650,9 +2728,14 @@
   },
   {
     "parentId": "ptmproc",
-    "childNumber": 4,
-    "seqNumber": 0,
+    "itemType": "horizontal_group",
     "label": "Disulfide bond [FT]",
+    "id": "Disulfide bond [FT]",
+    "childNumber": 4
+  },
+  {
+    "parentId": "Disulfide bond [FT]",
+    "childNumber": 0,
     "id": "ft_disulfid",
     "itemType": "single",
     "fieldName": "ft_disulfid",
@@ -2662,10 +2745,8 @@
     "example": "reversible"
   },
   {
-    "parentId": "ptmproc",
-    "childNumber": 4,
-    "seqNumber": 1,
-    "label": "Disulfide bond [FT]",
+    "parentId": "Disulfide bond [FT]",
+    "childNumber": 1,
     "id": "ftlen_disulfid",
     "itemType": "single",
     "fieldName": "ftlen_disulfid",
@@ -2675,10 +2756,8 @@
     "example": "[0 TO 100]"
   },
   {
-    "parentId": "ptmproc",
-    "childNumber": 4,
-    "seqNumber": 2,
-    "label": "Disulfide bond [FT]",
+    "parentId": "Disulfide bond [FT]",
+    "childNumber": 2,
     "id": "ftev_disulfid",
     "itemType": "single",
     "fieldName": "ftev_disulfid",
@@ -2689,9 +2768,14 @@
   },
   {
     "parentId": "ptmproc",
-    "childNumber": 5,
-    "seqNumber": 0,
+    "itemType": "horizontal_group",
     "label": "Cross-link [FT]",
+    "id": "Cross-link [FT]",
+    "childNumber": 5
+  },
+  {
+    "parentId": "Cross-link [FT]",
+    "childNumber": 0,
     "id": "ft_crosslnk",
     "itemType": "single",
     "fieldName": "ft_crosslnk",
@@ -2701,10 +2785,8 @@
     "example": "lysine"
   },
   {
-    "parentId": "ptmproc",
-    "childNumber": 5,
-    "seqNumber": 1,
-    "label": "Cross-link [FT]",
+    "parentId": "Cross-link [FT]",
+    "childNumber": 1,
     "id": "ftlen_crosslnk",
     "itemType": "single",
     "fieldName": "ftlen_crosslnk",
@@ -2714,10 +2796,8 @@
     "example": "[0 TO 100]"
   },
   {
-    "parentId": "ptmproc",
-    "childNumber": 5,
-    "seqNumber": 2,
-    "label": "Cross-link [FT]",
+    "parentId": "Cross-link [FT]",
+    "childNumber": 2,
     "id": "ftev_crosslnk",
     "itemType": "single",
     "fieldName": "ftev_crosslnk",
@@ -2729,16 +2809,20 @@
   {
     "parentId": "ptmproc",
     "childNumber": 6,
-    "seqNumber": 0,
     "label": "Molecule Processing [FT]",
     "itemType": "group",
     "id": "molproc"
   },
   {
     "parentId": "molproc",
-    "childNumber": 0,
-    "seqNumber": 0,
+    "itemType": "horizontal_group",
     "label": "Any molecule processing",
+    "id": "Any molecule processing",
+    "childNumber": 0
+  },
+  {
+    "parentId": "Any molecule processing",
+    "childNumber": 0,
     "id": "ft_molecule_processing",
     "itemType": "single",
     "fieldName": "ft_molecule_processing",
@@ -2748,10 +2832,8 @@
     "example": "disulfide"
   },
   {
-    "parentId": "molproc",
-    "childNumber": 0,
-    "seqNumber": 1,
-    "label": "Any molecule processing",
+    "parentId": "Any molecule processing",
+    "childNumber": 1,
     "id": "ftlen_molecule_processing",
     "itemType": "single",
     "fieldName": "ftlen_molecule_processing",
@@ -2761,10 +2843,8 @@
     "example": "[0 TO 100]"
   },
   {
-    "parentId": "molproc",
-    "childNumber": 0,
-    "seqNumber": 2,
-    "label": "Any molecule processing",
+    "parentId": "Any molecule processing",
+    "childNumber": 2,
     "id": "ftev_molecule_processing",
     "itemType": "single",
     "fieldName": "ftev_molecule_processing",
@@ -2775,9 +2855,14 @@
   },
   {
     "parentId": "molproc",
-    "childNumber": 1,
-    "seqNumber": 0,
+    "itemType": "horizontal_group",
     "label": "Chain",
+    "id": "Chain",
+    "childNumber": 1
+  },
+  {
+    "parentId": "Chain",
+    "childNumber": 0,
     "id": "ft_chain",
     "itemType": "single",
     "fieldName": "ft_chain",
@@ -2787,10 +2872,8 @@
     "example": "kinase"
   },
   {
-    "parentId": "molproc",
+    "parentId": "Chain",
     "childNumber": 1,
-    "seqNumber": 1,
-    "label": "Chain",
     "id": "ftlen_chain",
     "itemType": "single",
     "fieldName": "ftlen_chain",
@@ -2800,10 +2883,8 @@
     "example": "[0 TO 100]"
   },
   {
-    "parentId": "molproc",
-    "childNumber": 1,
-    "seqNumber": 2,
-    "label": "Chain",
+    "parentId": "Chain",
+    "childNumber": 2,
     "id": "ftev_chain",
     "itemType": "single",
     "fieldName": "ftev_chain",
@@ -2814,9 +2895,14 @@
   },
   {
     "parentId": "molproc",
-    "childNumber": 2,
-    "seqNumber": 0,
+    "itemType": "horizontal_group",
     "label": "Initiator methionine",
+    "id": "Initiator methionine",
+    "childNumber": 2
+  },
+  {
+    "parentId": "Initiator methionine",
+    "childNumber": 0,
     "id": "ft_init_met",
     "itemType": "single",
     "fieldName": "ft_init_met",
@@ -2826,10 +2912,8 @@
     "example": "Removed"
   },
   {
-    "parentId": "molproc",
-    "childNumber": 2,
-    "seqNumber": 1,
-    "label": "Initiator methionine",
+    "parentId": "Initiator methionine",
+    "childNumber": 1,
     "id": "ftlen_init_met",
     "itemType": "single",
     "fieldName": "ftlen_init_met",
@@ -2839,10 +2923,8 @@
     "example": "[0 TO 100]"
   },
   {
-    "parentId": "molproc",
+    "parentId": "Initiator methionine",
     "childNumber": 2,
-    "seqNumber": 2,
-    "label": "Initiator methionine",
     "id": "ftev_init_met",
     "itemType": "single",
     "fieldName": "ftev_init_met",
@@ -2853,9 +2935,14 @@
   },
   {
     "parentId": "molproc",
-    "childNumber": 3,
-    "seqNumber": 0,
+    "itemType": "horizontal_group",
     "label": "Peptide",
+    "id": "Peptide",
+    "childNumber": 3
+  },
+  {
+    "parentId": "Peptide",
+    "childNumber": 0,
     "id": "ft_peptide",
     "itemType": "single",
     "fieldName": "ft_peptide",
@@ -2865,10 +2952,8 @@
     "example": "Removed"
   },
   {
-    "parentId": "molproc",
-    "childNumber": 3,
-    "seqNumber": 1,
-    "label": "Peptide",
+    "parentId": "Peptide",
+    "childNumber": 1,
     "id": "ftlen_peptide",
     "itemType": "single",
     "fieldName": "ftlen_peptide",
@@ -2878,10 +2963,8 @@
     "example": "[0 TO 100]"
   },
   {
-    "parentId": "molproc",
-    "childNumber": 3,
-    "seqNumber": 2,
-    "label": "Peptide",
+    "parentId": "Peptide",
+    "childNumber": 2,
     "id": "ftev_peptide",
     "itemType": "single",
     "fieldName": "ftev_peptide",
@@ -2892,9 +2975,14 @@
   },
   {
     "parentId": "molproc",
-    "childNumber": 4,
-    "seqNumber": 0,
+    "itemType": "horizontal_group",
     "label": "Signal Peptide",
+    "id": "Signal Peptide",
+    "childNumber": 4
+  },
+  {
+    "parentId": "Signal Peptide",
+    "childNumber": 0,
     "id": "ft_signal",
     "itemType": "single",
     "fieldName": "ft_signal",
@@ -2904,10 +2992,8 @@
     "example": "cleaved"
   },
   {
-    "parentId": "molproc",
-    "childNumber": 4,
-    "seqNumber": 1,
-    "label": "Signal Peptide",
+    "parentId": "Signal Peptide",
+    "childNumber": 1,
     "id": "ftlen_signal",
     "itemType": "single",
     "fieldName": "ftlen_signal",
@@ -2917,10 +3003,8 @@
     "example": "[0 TO 100]"
   },
   {
-    "parentId": "molproc",
-    "childNumber": 4,
-    "seqNumber": 2,
-    "label": "Signal Peptide",
+    "parentId": "Signal Peptide",
+    "childNumber": 2,
     "id": "ftev_signal",
     "itemType": "single",
     "fieldName": "ftev_signal",
@@ -2931,9 +3015,14 @@
   },
   {
     "parentId": "molproc",
-    "childNumber": 5,
-    "seqNumber": 0,
+    "itemType": "horizontal_group",
     "label": "Propeptide",
+    "id": "Propeptide",
+    "childNumber": 5
+  },
+  {
+    "parentId": "Propeptide",
+    "childNumber": 0,
     "id": "ft_propep",
     "itemType": "single",
     "fieldName": "ft_propep",
@@ -2943,10 +3032,8 @@
     "example": "Activation peptide"
   },
   {
-    "parentId": "molproc",
-    "childNumber": 5,
-    "seqNumber": 1,
-    "label": "Propeptide",
+    "parentId": "Propeptide",
+    "childNumber": 1,
     "id": "ftlen_propep",
     "itemType": "single",
     "fieldName": "ftlen_propep",
@@ -2956,10 +3043,8 @@
     "example": "[0 TO 100]"
   },
   {
-    "parentId": "molproc",
-    "childNumber": 5,
-    "seqNumber": 2,
-    "label": "Propeptide",
+    "parentId": "Propeptide",
+    "childNumber": 2,
     "id": "ftev_propep",
     "itemType": "single",
     "fieldName": "ftev_propep",
@@ -2970,9 +3055,14 @@
   },
   {
     "parentId": "molproc",
-    "childNumber": 6,
-    "seqNumber": 0,
+    "itemType": "horizontal_group",
     "label": "Transit Peptide",
+    "id": "Transit Peptide",
+    "childNumber": 6
+  },
+  {
+    "parentId": "Transit Peptide",
+    "childNumber": 0,
     "id": "ft_transit",
     "itemType": "single",
     "fieldName": "ft_transit",
@@ -2982,10 +3072,8 @@
     "example": "Mitochondrion"
   },
   {
-    "parentId": "molproc",
-    "childNumber": 6,
-    "seqNumber": 1,
-    "label": "Transit Peptide",
+    "parentId": "Transit Peptide",
+    "childNumber": 1,
     "id": "ftlen_transit",
     "itemType": "single",
     "fieldName": "ftlen_transit",
@@ -2995,10 +3083,8 @@
     "example": "[0 TO 100]"
   },
   {
-    "parentId": "molproc",
-    "childNumber": 6,
-    "seqNumber": 2,
-    "label": "Transit Peptide",
+    "parentId": "Transit Peptide",
+    "childNumber": 2,
     "id": "ftev_transit",
     "itemType": "single",
     "fieldName": "ftev_transit",
@@ -3011,12 +3097,11 @@
     "label": "Interaction",
     "itemType": "group",
     "id": "interaction",
-    "seqNumber": 21
+    "seqNumber": 19
   },
   {
     "parentId": "interaction",
     "childNumber": 0,
-    "seqNumber": 0,
     "label": "Binary Interaction",
     "id": "interactor",
     "itemType": "single",
@@ -3028,9 +3113,14 @@
   },
   {
     "parentId": "interaction",
-    "childNumber": 1,
-    "seqNumber": 0,
+    "itemType": "horizontal_group",
     "label": "Subunit structure",
+    "id": "Subunit structure",
+    "childNumber": 1
+  },
+  {
+    "parentId": "Subunit structure",
+    "childNumber": 0,
     "id": "cc_subunit",
     "itemType": "single",
     "fieldName": "cc_subunit",
@@ -3040,10 +3130,8 @@
     "example": "homodimer"
   },
   {
-    "parentId": "interaction",
+    "parentId": "Subunit structure",
     "childNumber": 1,
-    "seqNumber": 1,
-    "label": "Subunit structure",
     "id": "ccev_subunit",
     "itemType": "single",
     "fieldName": "ccev_subunit",
@@ -3056,13 +3144,18 @@
     "label": "Family and Domains",
     "itemType": "group",
     "id": "family and domains",
-    "seqNumber": 22
+    "seqNumber": 20
   },
   {
     "parentId": "family and domains",
-    "childNumber": 0,
-    "seqNumber": 0,
+    "itemType": "horizontal_group",
     "label": "Domain [FT]",
+    "id": "Domain [FT]",
+    "childNumber": 0
+  },
+  {
+    "parentId": "Domain [FT]",
+    "childNumber": 0,
     "id": "ft_domain",
     "itemType": "single",
     "fieldName": "ft_domain",
@@ -3072,10 +3165,8 @@
     "example": "phosphatase"
   },
   {
-    "parentId": "family and domains",
-    "childNumber": 0,
-    "seqNumber": 1,
-    "label": "Domain [FT]",
+    "parentId": "Domain [FT]",
+    "childNumber": 1,
     "id": "ftlen_domain",
     "itemType": "single",
     "fieldName": "ftlen_domain",
@@ -3085,10 +3176,8 @@
     "example": "[0 TO 100]"
   },
   {
-    "parentId": "family and domains",
-    "childNumber": 0,
-    "seqNumber": 2,
-    "label": "Domain [FT]",
+    "parentId": "Domain [FT]",
+    "childNumber": 2,
     "id": "ftev_domain",
     "itemType": "single",
     "fieldName": "ftev_domain",
@@ -3099,9 +3188,14 @@
   },
   {
     "parentId": "family and domains",
-    "childNumber": 1,
-    "seqNumber": 0,
+    "itemType": "horizontal_group",
     "label": "Domain Comments [CC]",
+    "id": "Domain Comments [CC]",
+    "childNumber": 1
+  },
+  {
+    "parentId": "Domain Comments [CC]",
+    "childNumber": 0,
     "id": "cc_domain",
     "itemType": "single",
     "fieldName": "cc_domain",
@@ -3111,10 +3205,8 @@
     "example": "conformation"
   },
   {
-    "parentId": "family and domains",
+    "parentId": "Domain Comments [CC]",
     "childNumber": 1,
-    "seqNumber": 1,
-    "label": "Domain Comments [CC]",
     "id": "ccev_domain",
     "itemType": "single",
     "fieldName": "ccev_domain",
@@ -3126,7 +3218,6 @@
   {
     "parentId": "family and domains",
     "childNumber": 2,
-    "seqNumber": 0,
     "label": "Protein family",
     "id": "family",
     "itemType": "single",
@@ -3138,9 +3229,14 @@
   },
   {
     "parentId": "family and domains",
-    "childNumber": 3,
-    "seqNumber": 0,
+    "itemType": "horizontal_group",
     "label": "Coiled-coil",
+    "id": "Coiled-coil",
+    "childNumber": 3
+  },
+  {
+    "parentId": "Coiled-coil",
+    "childNumber": 0,
     "id": "ft_coiled",
     "itemType": "single",
     "fieldName": "ft_coiled",
@@ -3150,10 +3246,8 @@
     "example": "*"
   },
   {
-    "parentId": "family and domains",
-    "childNumber": 3,
-    "seqNumber": 1,
-    "label": "Coiled-coil",
+    "parentId": "Coiled-coil",
+    "childNumber": 1,
     "id": "ftlen_coiled",
     "itemType": "single",
     "fieldName": "ftlen_coiled",
@@ -3163,10 +3257,8 @@
     "example": "[0 TO 100]"
   },
   {
-    "parentId": "family and domains",
-    "childNumber": 3,
-    "seqNumber": 2,
-    "label": "Coiled-coil",
+    "parentId": "Coiled-coil",
+    "childNumber": 2,
     "id": "ftev_coiled",
     "itemType": "single",
     "fieldName": "ftev_coiled",
@@ -3177,9 +3269,14 @@
   },
   {
     "parentId": "family and domains",
-    "childNumber": 4,
-    "seqNumber": 0,
+    "itemType": "horizontal_group",
     "label": "Compositional bias",
+    "id": "Compositional bias",
+    "childNumber": 4
+  },
+  {
+    "parentId": "Compositional bias",
+    "childNumber": 0,
     "id": "ft_compbias",
     "itemType": "single",
     "fieldName": "ft_compbias",
@@ -3189,10 +3286,8 @@
     "example": "glu-rich"
   },
   {
-    "parentId": "family and domains",
-    "childNumber": 4,
-    "seqNumber": 1,
-    "label": "Compositional bias",
+    "parentId": "Compositional bias",
+    "childNumber": 1,
     "id": "ftlen_compbias",
     "itemType": "single",
     "fieldName": "ftlen_compbias",
@@ -3202,10 +3297,8 @@
     "example": "[0 TO 100]"
   },
   {
-    "parentId": "family and domains",
-    "childNumber": 4,
-    "seqNumber": 2,
-    "label": "Compositional bias",
+    "parentId": "Compositional bias",
+    "childNumber": 2,
     "id": "ftev_compbias",
     "itemType": "single",
     "fieldName": "ftev_compbias",
@@ -3216,9 +3309,14 @@
   },
   {
     "parentId": "family and domains",
-    "childNumber": 5,
-    "seqNumber": 0,
+    "itemType": "horizontal_group",
     "label": "Motif",
+    "id": "Motif",
+    "childNumber": 5
+  },
+  {
+    "parentId": "Motif",
+    "childNumber": 0,
     "id": "ft_motif",
     "itemType": "single",
     "fieldName": "ft_motif",
@@ -3228,10 +3326,8 @@
     "example": "motif"
   },
   {
-    "parentId": "family and domains",
-    "childNumber": 5,
-    "seqNumber": 1,
-    "label": "Motif",
+    "parentId": "Motif",
+    "childNumber": 1,
     "id": "ftlen_motif",
     "itemType": "single",
     "fieldName": "ftlen_motif",
@@ -3241,10 +3337,8 @@
     "example": "[0 TO 100]"
   },
   {
-    "parentId": "family and domains",
-    "childNumber": 5,
-    "seqNumber": 2,
-    "label": "Motif",
+    "parentId": "Motif",
+    "childNumber": 2,
     "id": "ftev_motif",
     "itemType": "single",
     "fieldName": "ftev_motif",
@@ -3255,9 +3349,14 @@
   },
   {
     "parentId": "family and domains",
-    "childNumber": 6,
-    "seqNumber": 0,
+    "itemType": "horizontal_group",
     "label": "Region",
+    "id": "Region",
+    "childNumber": 6
+  },
+  {
+    "parentId": "Region",
+    "childNumber": 0,
     "id": "ft_region",
     "itemType": "single",
     "fieldName": "ft_region",
@@ -3267,10 +3366,8 @@
     "example": "motif"
   },
   {
-    "parentId": "family and domains",
-    "childNumber": 6,
-    "seqNumber": 1,
-    "label": "Region",
+    "parentId": "Region",
+    "childNumber": 1,
     "id": "ftlen_region",
     "itemType": "single",
     "fieldName": "ftlen_region",
@@ -3280,10 +3377,8 @@
     "example": "[0 TO 100]"
   },
   {
-    "parentId": "family and domains",
-    "childNumber": 6,
-    "seqNumber": 2,
-    "label": "Region",
+    "parentId": "Region",
+    "childNumber": 2,
     "id": "ftev_region",
     "itemType": "single",
     "fieldName": "ftev_region",
@@ -3294,9 +3389,14 @@
   },
   {
     "parentId": "family and domains",
-    "childNumber": 7,
-    "seqNumber": 0,
+    "itemType": "horizontal_group",
     "label": "Repeat",
+    "id": "Repeat",
+    "childNumber": 7
+  },
+  {
+    "parentId": "Repeat",
+    "childNumber": 0,
     "id": "ft_repeat",
     "itemType": "single",
     "fieldName": "ft_repeat",
@@ -3306,10 +3406,8 @@
     "example": "motif"
   },
   {
-    "parentId": "family and domains",
-    "childNumber": 7,
-    "seqNumber": 1,
-    "label": "Repeat",
+    "parentId": "Repeat",
+    "childNumber": 1,
     "id": "ftlen_repeat",
     "itemType": "single",
     "fieldName": "ftlen_repeat",
@@ -3319,10 +3417,8 @@
     "example": "[0 TO 100]"
   },
   {
-    "parentId": "family and domains",
-    "childNumber": 7,
-    "seqNumber": 2,
-    "label": "Repeat",
+    "parentId": "Repeat",
+    "childNumber": 2,
     "id": "ftev_repeat",
     "itemType": "single",
     "fieldName": "ftev_repeat",
@@ -3333,9 +3429,14 @@
   },
   {
     "parentId": "family and domains",
-    "childNumber": 8,
-    "seqNumber": 0,
+    "itemType": "horizontal_group",
     "label": "Sequence similarity",
+    "id": "Sequence similarity",
+    "childNumber": 8
+  },
+  {
+    "parentId": "Sequence similarity",
+    "childNumber": 0,
     "id": "cc_similarity",
     "itemType": "single",
     "fieldName": "cc_similarity",
@@ -3345,10 +3446,8 @@
     "example": "phosphatase"
   },
   {
-    "parentId": "family and domains",
-    "childNumber": 8,
-    "seqNumber": 1,
-    "label": "Sequence similarity",
+    "parentId": "Sequence similarity",
+    "childNumber": 1,
     "id": "ccev_similarity",
     "itemType": "single",
     "fieldName": "ccev_similarity",
@@ -3359,9 +3458,14 @@
   },
   {
     "parentId": "family and domains",
-    "childNumber": 9,
-    "seqNumber": 0,
+    "itemType": "horizontal_group",
     "label": "Zinc finger",
+    "id": "Zinc finger",
+    "childNumber": 9
+  },
+  {
+    "parentId": "Zinc finger",
+    "childNumber": 0,
     "id": "ft_zn_fing",
     "itemType": "single",
     "fieldName": "ft_zn_fing",
@@ -3371,10 +3475,8 @@
     "example": "UBP"
   },
   {
-    "parentId": "family and domains",
-    "childNumber": 9,
-    "seqNumber": 1,
-    "label": "Zinc finger",
+    "parentId": "Zinc finger",
+    "childNumber": 1,
     "id": "ftlen_zn_fing",
     "itemType": "single",
     "fieldName": "ftlen_zn_fing",
@@ -3384,10 +3486,8 @@
     "example": "[0 TO 100]"
   },
   {
-    "parentId": "family and domains",
-    "childNumber": 9,
-    "seqNumber": 2,
-    "label": "Zinc finger",
+    "parentId": "Zinc finger",
+    "childNumber": 2,
     "id": "ftev_zn_fing",
     "itemType": "single",
     "fieldName": "ftev_zn_fing",
@@ -3400,13 +3500,18 @@
     "label": "Expression",
     "itemType": "group",
     "id": "expression",
-    "seqNumber": 23
+    "seqNumber": 21
   },
   {
     "parentId": "expression",
-    "childNumber": 0,
-    "seqNumber": 0,
+    "itemType": "horizontal_group",
     "label": "Developmental stage",
+    "id": "Developmental stage",
+    "childNumber": 0
+  },
+  {
+    "parentId": "Developmental stage",
+    "childNumber": 0,
     "id": "cc_developmental_stage",
     "itemType": "single",
     "fieldName": "cc_developmental_stage",
@@ -3416,10 +3521,8 @@
     "example": "brain"
   },
   {
-    "parentId": "expression",
-    "childNumber": 0,
-    "seqNumber": 1,
-    "label": "Developmental stage",
+    "parentId": "Developmental stage",
+    "childNumber": 1,
     "id": "ccev_developmental_stage",
     "itemType": "single",
     "fieldName": "ccev_developmental_stage",
@@ -3430,9 +3533,14 @@
   },
   {
     "parentId": "expression",
-    "childNumber": 1,
-    "seqNumber": 0,
+    "itemType": "horizontal_group",
     "label": "Induction",
+    "id": "Induction",
+    "childNumber": 1
+  },
+  {
+    "parentId": "Induction",
+    "childNumber": 0,
     "id": "cc_induction",
     "itemType": "single",
     "fieldName": "cc_induction",
@@ -3442,10 +3550,8 @@
     "example": "calcium"
   },
   {
-    "parentId": "expression",
+    "parentId": "Induction",
     "childNumber": 1,
-    "seqNumber": 1,
-    "label": "Induction",
     "id": "ccev_induction",
     "itemType": "single",
     "fieldName": "ccev_induction",
@@ -3456,9 +3562,14 @@
   },
   {
     "parentId": "expression",
-    "childNumber": 2,
-    "seqNumber": 0,
+    "itemType": "horizontal_group",
     "label": "Tissue specificity",
+    "id": "Tissue specificity",
+    "childNumber": 2
+  },
+  {
+    "parentId": "Tissue specificity",
+    "childNumber": 0,
     "id": "cc_tissue_specificity",
     "itemType": "single",
     "fieldName": "cc_tissue_specificity",
@@ -3468,10 +3579,8 @@
     "example": "pancreas"
   },
   {
-    "parentId": "expression",
-    "childNumber": 2,
-    "seqNumber": 1,
-    "label": "Tissue specificity",
+    "parentId": "Tissue specificity",
+    "childNumber": 1,
     "dataType": "string",
     "id": "ccev_tissue_specificity",
     "itemType": "single",
@@ -3484,12 +3593,11 @@
     "label": "Date Of",
     "itemType": "group",
     "id": "dateof",
-    "seqNumber": 24
+    "seqNumber": 22
   },
   {
     "parentId": "dateof",
     "childNumber": 0,
-    "seqNumber": 0,
     "label": "Date Of Creation",
     "dataType": "date",
     "id": "created",
@@ -3502,7 +3610,6 @@
   {
     "parentId": "dateof",
     "childNumber": 1,
-    "seqNumber": 0,
     "label": "Date of last entry modification",
     "dataType": "date",
     "id": "modified",
@@ -3515,7 +3622,6 @@
   {
     "parentId": "dateof",
     "childNumber": 2,
-    "seqNumber": 0,
     "label": "Date of last sequence modification",
     "dataType": "date",
     "id": "sequence_modified",
@@ -3529,12 +3635,11 @@
     "label": "Structure",
     "itemType": "group",
     "id": "structure",
-    "seqNumber": 25
+    "seqNumber": 23
   },
   {
     "parentId": "structure",
     "childNumber": 0,
-    "seqNumber": 0,
     "label": "3D Structure",
     "id": "d3structure",
     "itemType": "single",
@@ -3558,16 +3663,20 @@
   {
     "parentId": "structure",
     "childNumber": 1,
-    "seqNumber": 0,
     "label": "Secondary structure",
     "itemType": "group",
     "id": "secondary structure"
   },
   {
     "parentId": "secondary structure",
-    "childNumber": 0,
-    "seqNumber": 1,
+    "itemType": "horizontal_group",
     "label": "Any",
+    "id": "secondary structure - any",
+    "childNumber": 0
+  },
+  {
+    "parentId": "secondary structure - any",
+    "childNumber": 1,
     "id": "ftlen_secstruct",
     "itemType": "single",
     "fieldName": "ftlen_secstruct",
@@ -3577,10 +3686,8 @@
     "example": "[0 TO 100]"
   },
   {
-    "parentId": "secondary structure",
+    "parentId": "secondary structure - any",
     "childNumber": 0,
-    "seqNumber": 0,
-    "label": "Any",
     "id": "ft_secstruct",
     "itemType": "single",
     "fieldName": "ft_secstruct",
@@ -3590,10 +3697,8 @@
     "example": "*"
   },
   {
-    "parentId": "secondary structure",
-    "childNumber": 0,
-    "seqNumber": 2,
-    "label": "Any",
+    "parentId": "secondary structure - any",
+    "childNumber": 2,
     "id": "ftev_secstruct",
     "itemType": "single",
     "fieldName": "ftev_secstruct",
@@ -3604,9 +3709,14 @@
   },
   {
     "parentId": "secondary structure",
-    "childNumber": 1,
-    "seqNumber": 0,
+    "itemType": "horizontal_group",
     "label": "Helix",
+    "id": "secondary structure - Helix",
+    "childNumber": 1
+  },
+  {
+    "parentId": "secondary structure - Helix",
+    "childNumber": 0,
     "id": "ft_helix",
     "itemType": "single",
     "fieldName": "ft_helix",
@@ -3616,10 +3726,8 @@
     "example": "*"
   },
   {
-    "parentId": "secondary structure",
+    "parentId": "secondary structure - Helix",
     "childNumber": 1,
-    "seqNumber": 1,
-    "label": "Helix",
     "id": "ftlen_helix",
     "itemType": "single",
     "fieldName": "ftlen_helix",
@@ -3629,10 +3737,8 @@
     "example": "[0 TO 100]"
   },
   {
-    "parentId": "secondary structure",
-    "childNumber": 1,
-    "seqNumber": 2,
-    "label": "Helix",
+    "parentId": "secondary structure - Helix",
+    "childNumber": 2,
     "id": "ftev_helix",
     "itemType": "single",
     "fieldName": "ftev_helix",
@@ -3643,9 +3749,14 @@
   },
   {
     "parentId": "secondary structure",
-    "childNumber": 2,
-    "seqNumber": 0,
+    "itemType": "horizontal_group",
     "label": "Turn",
+    "id": "secondary structure - Turn",
+    "childNumber": 2
+  },
+  {
+    "parentId": "secondary structure - Turn",
+    "childNumber": 0,
     "id": "ft_turn",
     "itemType": "single",
     "fieldName": "ft_turn",
@@ -3655,10 +3766,8 @@
     "example": "*"
   },
   {
-    "parentId": "secondary structure",
-    "childNumber": 2,
-    "seqNumber": 1,
-    "label": "Turn",
+    "parentId": "secondary structure - Turn",
+    "childNumber": 1,
     "id": "ftlen_turn",
     "itemType": "single",
     "fieldName": "ftlen_turn",
@@ -3668,10 +3777,8 @@
     "example": "[0 TO 100]"
   },
   {
-    "parentId": "secondary structure",
+    "parentId": "secondary structure - Turn",
     "childNumber": 2,
-    "seqNumber": 2,
-    "label": "Turn",
     "id": "ftev_turn",
     "itemType": "single",
     "fieldName": "ftev_turn",
@@ -3682,9 +3789,14 @@
   },
   {
     "parentId": "secondary structure",
-    "childNumber": 3,
-    "seqNumber": 0,
+    "itemType": "horizontal_group",
     "label": "Beta strand",
+    "id": "secondary structure - Beta strand",
+    "childNumber": 3
+  },
+  {
+    "parentId": "secondary structure - Beta strand",
+    "childNumber": 0,
     "id": "ft_strand",
     "itemType": "single",
     "fieldName": "ft_strand",
@@ -3694,10 +3806,8 @@
     "example": "*"
   },
   {
-    "parentId": "secondary structure",
-    "childNumber": 3,
-    "seqNumber": 1,
-    "label": "Beta strand",
+    "parentId": "secondary structure - Beta strand",
+    "childNumber": 1,
     "id": "ftlen_strand",
     "itemType": "single",
     "fieldName": "ftlen_strand",
@@ -3707,10 +3817,8 @@
     "example": "[0 TO 100]"
   },
   {
-    "parentId": "secondary structure",
-    "childNumber": 3,
-    "seqNumber": 2,
-    "label": "Beta strand",
+    "parentId": "secondary structure - Beta strand",
+    "childNumber": 2,
     "id": "ftev_strand",
     "itemType": "single",
     "fieldName": "ftev_strand",
@@ -3723,21 +3831,25 @@
     "label": "Subcellular location",
     "itemType": "group",
     "id": "subcellular",
-    "seqNumber": 26
+    "seqNumber": 24
   },
   {
     "parentId": "subcellular",
     "childNumber": 0,
-    "seqNumber": 0,
     "id": "cc_subcellular",
     "label": "Subcellular location [CC]",
     "itemType": "group"
   },
   {
     "parentId": "cc_subcellular",
-    "childNumber": 0,
-    "seqNumber": 0,
+    "itemType": "horizontal_group",
     "label": "Subcellular location term",
+    "id": "Subcellular location term",
+    "childNumber": 0
+  },
+  {
+    "parentId": "Subcellular location term",
+    "childNumber": 0,
     "id": "cc_scl_term_field",
     "itemType": "single",
     "fieldName": "cc_scl_term",
@@ -3749,10 +3861,8 @@
     "example": "membrane"
   },
   {
-    "parentId": "cc_subcellular",
-    "childNumber": 0,
-    "seqNumber": 1,
-    "label": "Subcellular location term",
+    "parentId": "Subcellular location term",
+    "childNumber": 1,
     "id": "ccev_scl_term",
     "itemType": "single",
     "fieldName": "ccev_scl_term",
@@ -3763,9 +3873,14 @@
   },
   {
     "parentId": "cc_subcellular",
-    "childNumber": 1,
-    "seqNumber": 0,
+    "itemType": "horizontal_group",
     "label": "Subcellular location note",
+    "id": "Subcellular location note",
+    "childNumber": 1
+  },
+  {
+    "parentId": "Subcellular location note",
+    "childNumber": 0,
     "id": "cc_scl_note",
     "itemType": "single",
     "fieldName": "cc_scl_note",
@@ -3775,10 +3890,8 @@
     "example": "membrane"
   },
   {
-    "parentId": "cc_subcellular",
+    "parentId": "Subcellular location note",
     "childNumber": 1,
-    "seqNumber": 1,
-    "label": "Subcellular location note",
     "id": "ccev_scl_note",
     "itemType": "single",
     "fieldName": "ccev_scl_note",
@@ -3789,9 +3902,14 @@
   },
   {
     "parentId": "subcellular",
-    "childNumber": 1,
-    "seqNumber": 0,
+    "itemType": "horizontal_group",
     "label": "Transmembrane",
+    "id": "Transmembrane",
+    "childNumber": 1
+  },
+  {
+    "parentId": "Transmembrane",
+    "childNumber": 0,
     "id": "ft_transmem",
     "itemType": "single",
     "fieldName": "ft_transmem",
@@ -3801,10 +3919,8 @@
     "example": "forming"
   },
   {
-    "parentId": "subcellular",
+    "parentId": "Transmembrane",
     "childNumber": 1,
-    "seqNumber": 1,
-    "label": "Transmembrane",
     "id": "ftlen_transmem",
     "itemType": "single",
     "fieldName": "ftlen_transmem",
@@ -3814,10 +3930,8 @@
     "example": "[0 TO 100]"
   },
   {
-    "parentId": "subcellular",
-    "childNumber": 1,
-    "seqNumber": 2,
-    "label": "Transmembrane",
+    "parentId": "Transmembrane",
+    "childNumber": 2,
     "id": "ftev_transmem",
     "itemType": "single",
     "fieldName": "ftev_transmem",
@@ -3828,9 +3942,14 @@
   },
   {
     "parentId": "subcellular",
-    "childNumber": 2,
-    "seqNumber": 0,
+    "itemType": "horizontal_group",
     "label": "Topological domain",
+    "id": "Topological domain",
+    "childNumber": 2
+  },
+  {
+    "parentId": "Topological domain",
+    "childNumber": 0,
     "id": "ft_topo_dom",
     "itemType": "single",
     "fieldName": "ft_topo_dom",
@@ -3840,10 +3959,8 @@
     "example": "forming"
   },
   {
-    "parentId": "subcellular",
-    "childNumber": 2,
-    "seqNumber": 1,
-    "label": "Topological domain",
+    "parentId": "Topological domain",
+    "childNumber": 1,
     "id": "ftlen_topo_dom",
     "itemType": "single",
     "fieldName": "ftlen_topo_dom",
@@ -3853,10 +3970,8 @@
     "example": "manual"
   },
   {
-    "parentId": "subcellular",
+    "parentId": "Topological domain",
     "childNumber": 2,
-    "seqNumber": 2,
-    "label": "Topological domain",
     "id": "ftev_topo_dom",
     "itemType": "single",
     "fieldName": "ftev_topo_dom",
@@ -3867,9 +3982,14 @@
   },
   {
     "parentId": "subcellular",
-    "childNumber": 3,
-    "seqNumber": 0,
+    "itemType": "horizontal_group",
     "label": "Intramembrane",
+    "id": "Intramembrane",
+    "childNumber": 3
+  },
+  {
+    "parentId": "Intramembrane",
+    "childNumber": 0,
     "id": "ft_intramem",
     "itemType": "single",
     "fieldName": "ft_intramem",
@@ -3879,10 +3999,8 @@
     "example": "forming"
   },
   {
-    "parentId": "subcellular",
-    "childNumber": 3,
-    "seqNumber": 1,
-    "label": "Intramembrane",
+    "parentId": "Intramembrane",
+    "childNumber": 1,
     "id": "ftlen_intramem",
     "itemType": "single",
     "fieldName": "ftlen_intramem",
@@ -3892,10 +4010,8 @@
     "example": "[0 TO 100]"
   },
   {
-    "parentId": "subcellular",
-    "childNumber": 3,
-    "seqNumber": 2,
-    "label": "Intramembrane",
+    "parentId": "Intramembrane",
+    "childNumber": 2,
     "id": "ftev_intramem",
     "itemType": "single",
     "fieldName": "ftev_intramem",
@@ -3908,13 +4024,18 @@
     "label": "Pathology & Biotech",
     "itemType": "group",
     "id": "pathbio",
-    "seqNumber": 27
+    "seqNumber": 25
   },
   {
-    "parentId" : "pathbio",
-    "childNumber": 0,
-    "seqNumber": 0,
+    "parentId": "pathbio",
+    "itemType": "horizontal_group",
     "label": "Disease",
+    "id": "Disease",
+    "childNumber": 0
+  },
+  {
+    "parentId" : "Disease",
+    "childNumber": 0,
     "id": "cc_disease",
     "itemType": "single",
     "fieldName": "cc_disease",
@@ -3924,10 +4045,8 @@
     "example": "nephrotic"
   },
   {
-    "parentId" : "pathbio",
-    "childNumber": 0,
-    "seqNumber": 1,
-    "label": "Disease",
+    "parentId" : "Disease",
+    "childNumber": 1,
     "id": "ccev_disease",
     "itemType": "single",
     "fieldName": "ccev_disease",
@@ -3937,10 +4056,15 @@
     "example": "manual"
   },
   {
-    "parentId" : "pathbio",
-    "childNumber": 1,
-    "seqNumber": 0,
+    "parentId": "pathbio",
+    "itemType": "horizontal_group",
     "label": "Alergenic properties",
+    "id": "Alergenic properties",
+    "childNumber": 1
+  },
+  {
+    "parentId" : "Alergenic properties",
+    "childNumber": 0,
     "id": "cc_allergen",
     "itemType": "single",
     "fieldName": "cc_allergen",
@@ -3950,10 +4074,8 @@
     "example": "allergic"
   },
   {
-    "parentId" : "pathbio",
+    "parentId" : "Alergenic properties",
     "childNumber": 1,
-    "seqNumber": 1,
-    "label": "Alergenic properties",
     "id": "ccev_allergen",
     "itemType": "single",
     "fieldName": "ccev_allergen",
@@ -3963,10 +4085,15 @@
     "example": "manual"
   },
   {
-    "parentId" : "pathbio",
-    "childNumber": 2,
-    "seqNumber": 0,
+    "parentId": "pathbio",
+    "itemType": "horizontal_group",
     "label": "Toxic dose",
+    "id": "Toxic dose",
+    "childNumber": 2
+  },
+  {
+    "parentId" : "Toxic dose",
+    "childNumber": 0,
     "id": "cc_toxic_dose",
     "fieldName": "cc_toxic_dose",
     "itemType": "single",
@@ -3976,10 +4103,8 @@
     "example": "intracistenal"
   },
   {
-    "parentId" : "pathbio",
-    "childNumber": 2,
-    "seqNumber": 1,
-    "label": "Toxic dose",
+    "parentId" : "Toxic dose",
+    "childNumber": 1,
     "id": "ccev_toxic_dose",
     "itemType": "single",
     "fieldName": "ccev_toxic_dose",
@@ -3989,10 +4114,15 @@
     "example": "manual"
   },
   {
-    "parentId" : "pathbio",
-    "childNumber": 3,
-    "seqNumber": 0,
+    "parentId": "pathbio",
+    "itemType": "horizontal_group",
     "label": "Biotechnological use",
+    "id": "Biotechnological use",
+    "childNumber": 3
+  },
+  {
+    "parentId" : "Biotechnological use",
+    "childNumber": 0,
     "id": "cc_biotechnology",
     "itemType": "single",
     "fieldName": "cc_biotechnology",
@@ -4002,10 +4132,8 @@
     "example": "vaccine"
   },
   {
-    "parentId" : "pathbio",
-    "childNumber": 3,
-    "seqNumber": 1,
-    "label": "Biotechnological use",
+    "parentId" : "Biotechnological use",
+    "childNumber": 1,
     "id": "ccev_biotechnology",
     "itemType": "single",
     "fieldName": "ccev_biotechnology",
@@ -4015,10 +4143,15 @@
     "example": "manual"
   },
   {
-    "parentId" : "pathbio",
-    "childNumber": 4,
-    "seqNumber": 0,
+    "parentId": "pathbio",
+    "itemType": "horizontal_group",
     "label": "Pharmaceutical use",
+    "id": "Pharmaceutical use",
+    "childNumber": 4
+  },
+  {
+    "parentId" : "Pharmaceutical use",
+    "childNumber": 0,
     "id": "cc_pharmaceutical",
     "itemType": "single",
     "fieldName": "cc_pharmaceutical",
@@ -4028,10 +4161,8 @@
     "example": "peptide"
   },
   {
-    "parentId" : "pathbio",
-    "childNumber": 4,
-    "seqNumber": 1,
-    "label": "Pharmaceutical use",
+    "parentId" : "Pharmaceutical use",
+    "childNumber": 1,
     "id": "ccev_pharmaceutical",
     "itemType": "single",
     "fieldName": "ccev_pharmaceutical",
@@ -4041,10 +4172,15 @@
     "example": "manual"
   },
   {
-    "parentId" : "pathbio",
-    "childNumber": 5,
-    "seqNumber": 0,
+    "parentId": "pathbio",
+    "itemType": "horizontal_group",
     "label": "Disruption phenotype",
+    "id": "Disruption phenotype",
+    "childNumber": 5
+  },
+  {
+    "parentId" : "Disruption phenotype",
+    "childNumber": 0,
     "id": "cc_disruption_phenotype",
     "itemType": "single",
     "fieldName": "cc_disruption_phenotype",
@@ -4054,10 +4190,8 @@
     "example": "infected"
   },
   {
-    "parentId" : "pathbio",
-    "childNumber": 5,
-    "seqNumber": 1,
-    "label": "Disruption phenotype",
+    "parentId" : "Disruption phenotype",
+    "childNumber": 1,
     "id": "ccev_disruption_phenotype",
     "itemType": "single",
     "fieldName": "ccev_disruption_phenotype",
@@ -4067,10 +4201,15 @@
     "example": "any"
   },
   {
-    "parentId" : "pathbio",
-    "childNumber": 6,
-    "seqNumber": 0,
+    "parentId": "pathbio",
+    "itemType": "horizontal_group",
     "label": "Mutagenesis",
+    "id": "Mutagenesis",
+    "childNumber": 6
+  },
+  {
+    "parentId" : "Mutagenesis",
+    "childNumber": 0,
     "id": "ft_mutagen",
     "itemType": "single",
     "fieldName": "ft_mutagen",
@@ -4080,10 +4219,8 @@
     "example": "phosphatase"
   },
   {
-    "parentId" : "pathbio",
-    "childNumber": 6,
-    "seqNumber": 1,
-    "label": "Mutagenesis",
+    "parentId" : "Mutagenesis",
+    "childNumber": 1,
     "id": "ftlen_mutagen",
     "itemType": "single",
     "fieldName": "ftlen_mutagen",
@@ -4093,10 +4230,8 @@
     "example": "[0 TO 100]"
   },
   {
-    "parentId" : "pathbio",
-    "childNumber": 6,
-    "seqNumber": 2,
-    "label": "Mutagenesis",
+    "parentId" : "Mutagenesis",
+    "childNumber": 2,
     "id": "ftev_mutagen",
     "itemType": "single",
     "fieldName": "ftev_mutagen",
@@ -4110,6 +4245,6 @@
     "id": "crossref",
     "dataType": "string",
     "itemType": "group",
-    "seqNumber": 28
+    "seqNumber": 26
   }
 ]
