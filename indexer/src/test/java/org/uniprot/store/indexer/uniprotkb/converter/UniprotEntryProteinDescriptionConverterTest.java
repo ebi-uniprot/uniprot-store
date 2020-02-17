@@ -94,15 +94,15 @@ class UniprotEntryProteinDescriptionConverterTest {
         assertFalse(document.precursor);
 
         assertEquals(3, suggestions.size());
-        assertTrue(suggestions.containsKey("ECEntry:1.2.3.3"));
-        assertTrue(suggestions.containsKey("ECEntry:1.2.3.4"));
-        assertTrue(suggestions.containsKey("ECEntry:1.2.3.5"));
+        assertTrue(suggestions.containsKey("EC:1.2.3.3"));
+        assertTrue(suggestions.containsKey("EC:1.2.3.4"));
+        assertTrue(suggestions.containsKey("EC:1.2.3.5"));
 
-        SuggestDocument suggestionDocument = suggestions.get("ECEntry:1.2.3.3");
+        SuggestDocument suggestionDocument = suggestions.get("EC:1.2.3.3");
         assertEquals(suggestionDocument.id, "1.2.3.3");
         assertEquals(suggestionDocument.value, "Label 3");
         assertTrue(suggestionDocument.altValues.isEmpty());
-        assertEquals(suggestionDocument.dictionary, "ECEntry");
+        assertEquals(suggestionDocument.dictionary, "EC");
         assertEquals(suggestionDocument.importance, "medium");
     }
 

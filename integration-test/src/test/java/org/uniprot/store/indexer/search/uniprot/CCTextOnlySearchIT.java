@@ -116,7 +116,7 @@ class CCTextOnlySearchIT {
                 "CC   -!- CATALYTIC ACTIVITY:\n"
                         + "CC       Reaction=O2 + 2 R'C(R)SH = H2O2 + R'C(R)S-S(R)CR';\n"
                         + "CC         Xref=Rhea:RHEA:17357, ChEBI:CHEBI:15379, ChEBI:CHEBI:16240,\n"
-                        + "CC         ChEBI:CHEBI:16520, ChEBI:CHEBI:17412; ECEntry=1.8.3.2;");
+                        + "CC         ChEBI:CHEBI:16520, ChEBI:CHEBI:17412; EC=1.8.3.2;");
         searchEngine.indexEntry(convertToUniProtEntry(entryProxy));
 
         // --------------
