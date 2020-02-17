@@ -236,9 +236,7 @@ class UniProtEntryConverterIT {
         when(chebiRepoMock.getById("15379")).thenReturn(chebiId1);
         when(chebiRepoMock.getById("16526")).thenReturn(chebiId2);
         when(ecRepoMock.getEC("2.7.10.2"))
-                .thenReturn(
-                        Optional.of(
-                                new ECEntryBuilder().id("2.7.10.2").label("ECEntry 1").build()));
+                .thenReturn(Optional.of(new ECEntryBuilder().id("2.7.10.2").label("EC 1").build()));
 
         String file = "Q9EPI6.sp";
         UniProtEntry entry = parse(file);

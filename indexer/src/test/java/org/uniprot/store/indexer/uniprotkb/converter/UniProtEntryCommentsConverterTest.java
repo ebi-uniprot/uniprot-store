@@ -69,7 +69,7 @@ class UniProtEntryCommentsConverterTest {
                         + "CC         tyrosyl-[protein]; Xref=Rhea:RHEA:10596, Rhea:RHEA-COMP:10136,\n"
                         + "CC         Rhea:RHEA-COMP:10137, ChEBI:CHEBI:15378, ChEBI:CHEBI:30616,\n"
                         + "CC         ChEBI:CHEBI:46858, ChEBI:CHEBI:82620, ChEBI:CHEBI:456216;\n"
-                        + "CC         ECEntry=2.7.10.1; Evidence={ECO:0000255|PROSITE-ProRule:PRU10028,\n"
+                        + "CC         EC=2.7.10.1; Evidence={ECO:0000255|PROSITE-ProRule:PRU10028,\n"
                         + "CC         ECO:0000269|PubMed:16844695, ECO:0000269|PubMed:18056630,\n"
                         + "CC         ECO:0000269|PubMed:19410646, ECO:0000269|PubMed:21454610};";
 
@@ -85,7 +85,7 @@ class UniProtEntryCommentsConverterTest {
                 "CATALYTIC ACTIVITY:\n"
                         + "Reaction=ATP + L-tyrosyl-[protein] = ADP + H(+) + O-phospho-L-tyrosyl-[protein]; Xref=Rhea:RHEA:10596, "
                         + "Rhea:RHEA-COMP:10136, Rhea:RHEA-COMP:10137, ChEBI:CHEBI:15378, ChEBI:CHEBI:30616, ChEBI:CHEBI:46858, "
-                        + "ChEBI:CHEBI:82620, ChEBI:CHEBI:456216; ECEntry=2.7.10.1;";
+                        + "ChEBI:CHEBI:82620, ChEBI:CHEBI:456216; EC=2.7.10.1;";
         assertTrue(document.commentMap.containsKey("cc_catalytic_activity"));
         assertEquals(6, document.commentMap.get("cc_catalytic_activity").size());
         assertTrue(document.commentMap.get("cc_catalytic_activity").contains(expectedIndexed));

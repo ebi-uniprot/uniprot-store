@@ -23,7 +23,7 @@ class ECToSuggestDocumentTest {
 
         assertNotNull(result);
 
-        assertEquals("ECEntry", result.dictionary);
+        assertEquals("EC", result.dictionary);
         assertEquals("ecId", result.id);
         assertEquals("ecLabel", result.value);
         assertTrue(result.altValues.isEmpty());
