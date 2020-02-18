@@ -56,7 +56,7 @@ class UniprotEntryProteinDescriptionConverter {
                                             createSuggestionMapKey(SuggestDictionary.EC, ecNumber),
                                             SuggestDocument.builder()
                                                     .id(ecNumber)
-                                                    .value(ec.label())
+                                                    .value(ec.getLabel())
                                                     .dictionary(SuggestDictionary.EC.name())
                                                     .build()));
         }

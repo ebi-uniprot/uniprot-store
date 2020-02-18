@@ -15,6 +15,6 @@ public class ECFileMapper implements PairFunction<ECEntry, String, ECEntry> {
 
     @Override
     public Tuple2<String, ECEntry> call(ECEntry ec) throws Exception {
-        return new Tuple2<>(ec.id(), ec);
+        return new Tuple2<>(ec.getId(), ec);
     }
 }
