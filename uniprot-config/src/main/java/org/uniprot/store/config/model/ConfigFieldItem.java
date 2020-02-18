@@ -10,7 +10,7 @@ import lombok.Data;
 
 /** @author sahmad */
 @Data
-public class FieldItem implements Serializable {
+public class ConfigFieldItem implements Serializable {
     public enum DataType {
         string,
         integer,

@@ -1,26 +1,20 @@
 package org.uniprot.store.config.service.impl;
 
-import org.uniprot.store.config.service.ConfigFieldService;
-import org.uniprot.store.config.repository.ConfigFieldRepository;
-import org.uniprot.store.config.model.FieldItem;
 import org.uniprot.store.config.repository.impl.UniProtConfigFieldRepositoryImpl;
+import org.uniprot.store.config.service.AbstractConfigFieldService;
+import org.uniprot.store.config.service.ConfigFieldService;
 
-import java.util.List;
+public final class UniProtConfigFieldServiceImpl extends AbstractConfigFieldService {
 
-public class UniProtConfigFieldServiceImpl implements ConfigFieldService {
-    private ConfigFieldRepository repository;
-
-    public UniProtConfigFieldServiceImpl() {
-        this.repository = UniProtConfigFieldRepositoryImpl.getInstance();
+    private UniProtConfigFieldServiceImpl() {
+        super(UniProtConfigFieldRepositoryImpl.getInstance());
     }
 
-    @Override
-    public List<FieldItem> getAllFieldItems() {
-        return this.repository.getFieldItems();
+    public static ConfigFieldService getInstance() {
+        return UniProtConfigFieldServiceImpl.ConfigFieldServiceHolder.INSTANCE;
     }
 
-    @Override
-    public FieldItem getFieldItemById(String id) {
-        return this.repository.getIdFieldItemMap().get(id);
+    private static class ConfigFieldServiceHolder {
+        private static final ConfigFieldService INSTANCE = new UniProtConfigFieldServiceImpl();
     }
 }

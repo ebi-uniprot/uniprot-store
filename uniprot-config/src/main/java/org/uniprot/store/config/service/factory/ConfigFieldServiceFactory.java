@@ -7,7 +7,7 @@ import org.uniprot.store.config.service.impl.UniProtConfigFieldServiceImpl;
 public class ConfigFieldServiceFactory {
     public static ConfigFieldService getConfigFieldService(UniProtDataType dataType){
         if(UniProtDataType.UNIPROTKB == dataType) {
-            return new UniProtConfigFieldServiceImpl();
+            return UniProtConfigFieldServiceImpl.getInstance();
         }
         return null;
     }

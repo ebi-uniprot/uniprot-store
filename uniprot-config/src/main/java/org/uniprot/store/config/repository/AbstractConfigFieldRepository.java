@@ -3,7 +3,8 @@ package org.uniprot.store.config.repository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
-import org.uniprot.store.config.model.FieldItem;
+import org.uniprot.store.config.common.DataValidator;
+import org.uniprot.store.config.model.ConfigFieldItem;
 import org.uniprot.store.config.schema.SchemaValidator;
 
 import java.io.*;
@@ -17,8 +18,8 @@ public  abstract class AbstractConfigFieldRepository implements ConfigFieldRepos
 
     private String configSchema;
     private String configFile;
-    private List<FieldItem> fieldItems;
-    private Map<String, FieldItem> idFieldItemMap;
+    private List<ConfigFieldItem> fieldItems;
+    private Map<String, ConfigFieldItem> idFieldItemMap;
 
     protected AbstractConfigFieldRepository(String configSchema, String configFile) {
         this.configSchema = configSchema;
@@ -33,14 +34,14 @@ public  abstract class AbstractConfigFieldRepository implements ConfigFieldRepos
         this.idFieldItemMap = buildIdFieldItemMap(this.fieldItems);
     }
 
-    public List<FieldItem> loadAndGetFieldItems(@NonNull String config) {
+    public List<ConfigFieldItem> loadAndGetFieldItems(@NonNull String config) {
         ObjectMapper objectMapper = new ObjectMapper();
-        List<FieldItem> fieldItemList;
+        List<ConfigFieldItem> fieldItemList;
         try (InputStream inputStream = readConfig(config)) {
             if (inputStream == null) {
                 throw new IllegalArgumentException("File '" + config + "' not found");
             }
-            fieldItemList = Arrays.asList(objectMapper.readValue(inputStream, FieldItem[].class));
+            fieldItemList = Arrays.asList(objectMapper.readValue(inputStream, ConfigFieldItem[].class));
         } catch (IOException e) {
             log.error(e.getMessage());
             throw new IllegalArgumentException(
@@ -49,9 +50,9 @@ public  abstract class AbstractConfigFieldRepository implements ConfigFieldRepos
         return fieldItemList;
     }
 
-    public Map<String, FieldItem> buildIdFieldItemMap(@NonNull List<FieldItem> fieldItems) {
+    public Map<String, ConfigFieldItem> buildIdFieldItemMap(@NonNull List<ConfigFieldItem> fieldItems) {
         return fieldItems.stream()
-                .collect(Collectors.toMap(FieldItem::getId, fieldItem -> fieldItem));
+                .collect(Collectors.toMap(ConfigFieldItem::getId, fieldItem -> fieldItem));
     }
 
     public InputStream readConfig(String config) {
@@ -69,12 +70,12 @@ public  abstract class AbstractConfigFieldRepository implements ConfigFieldRepos
     }
 
     @Override
-    public List<FieldItem> getFieldItems() {
+    public List<ConfigFieldItem> getFieldItems() {
         return this.fieldItems;
     }
 
     @Override
-    public Map<String, FieldItem> getIdFieldItemMap() {
+    public Map<String, ConfigFieldItem> getIdFieldItemMap() {
         return this.idFieldItemMap;
     }
 }
