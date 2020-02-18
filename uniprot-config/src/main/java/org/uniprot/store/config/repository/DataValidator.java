@@ -1,4 +1,4 @@
-package org.uniprot.store.config.schema;
+package org.uniprot.store.config.repository;
 
 import org.apache.commons.lang3.StringUtils;
 import org.uniprot.store.config.common.FieldValidationException;

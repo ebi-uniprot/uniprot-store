@@ -11,6 +11,24 @@ import lombok.Data;
 /** @author sahmad */
 @Data
 public class FieldItem implements Serializable {
+    public enum DataType {
+        string,
+        integer,
+        enumeration,
+        date
+    }
+    public enum ItemType {
+        group,
+        single,
+        sibling_group
+    }
+    public enum FieldType {
+        field,
+        range,
+        evidence,
+        sort
+    }
+
     private static final long serialVersionUID = -1835246966684124878L;
     @NotNull private String id;
     private String parentId;
