@@ -21,7 +21,7 @@ public class UniProtSearchFieldConfiguration extends AbstractFieldConfiguration 
     private UniProtSearchFieldConfiguration() {
         SchemaValidator.validate(SCHEMA_FILE, CONFIG_FILE);
         init();
-        DataValidator.validateParentExists(this.fieldItems, idFieldItemMap);
+        DataValidator.validateContent(this.fieldItems, idFieldItemMap);
     }
 
     private static class SearchFieldConfigurationHolder {
