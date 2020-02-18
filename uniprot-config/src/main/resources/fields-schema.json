@@ -25,7 +25,7 @@
         },
         "itemType" : {
           "type" : "string",
-          "enum" : [ "group", "single", "horizontal_group" ]
+          "enum" : [ "group", "single", "sibling_group" ]
         },
         "fieldType" : {
           "type" : "string",
