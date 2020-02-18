@@ -670,7 +670,7 @@
   {
     "label": "Web Resources",
     "seqNumber": 8,
-    "itemType": "horizontal_group",
+    "itemType": "sibling_group",
     "id": "Web Resources"
   },
   {
@@ -699,7 +699,7 @@
     "seqNumber": 9,
     "label": "Gene Ontology [GO]",
     "id": "Gene Ontology [GO]",
-    "itemType": "horizontal_group"
+    "itemType": "sibling_group"
   },
   {
     "childNumber": 0,
@@ -921,7 +921,7 @@
     "parentId": "cofactors",
     "label": "ChEBI term",
     "childNumber": 0,
-    "itemType": "horizontal_group",
+    "itemType": "sibling_group",
     "id": "chebi term"
   },
   {
@@ -952,7 +952,7 @@
     "parentId": "cofactors",
     "label": "Note",
     "childNumber": 1,
-    "itemType": "horizontal_group",
+    "itemType": "sibling_group",
     "id": "note"
   },
   {
@@ -988,7 +988,7 @@
     "parentId": "biophysicochemical",
     "label": "Any",
     "childNumber": 0,
-    "itemType": "horizontal_group",
+    "itemType": "sibling_group",
     "id": "biophysicochemical-any"
   },
   {
@@ -1017,7 +1017,7 @@
     "parentId": "biophysicochemical",
     "label": "Absorption",
     "childNumber": 1,
-    "itemType": "horizontal_group",
+    "itemType": "sibling_group",
     "id": "biophysicochemical-absorption"
   },
   {
@@ -1046,7 +1046,7 @@
     "parentId": "biophysicochemical",
     "label": "Kinetics",
     "childNumber": 2,
-    "itemType": "horizontal_group",
+    "itemType": "sibling_group",
     "id": "biophysicochemical-kinetics"
   },
   {
@@ -1075,7 +1075,7 @@
     "parentId": "biophysicochemical",
     "label": "pH dependence",
     "childNumber": 3,
-    "itemType": "horizontal_group",
+    "itemType": "sibling_group",
     "id": "biophysicochemical-pH dependence"
   },
   {
@@ -1104,7 +1104,7 @@
     "parentId": "biophysicochemical",
     "label": "Redox potential",
     "childNumber": 4,
-    "itemType": "horizontal_group",
+    "itemType": "sibling_group",
     "id": "biophysicochemical-Redox potential"
   },
   {
@@ -1133,7 +1133,7 @@
     "parentId": "biophysicochemical",
     "label": "Temperature dependence",
     "childNumber": 5,
-    "itemType": "horizontal_group",
+    "itemType": "sibling_group",
     "id": "biophysicochemical-Temperature dependence"
   },
   {
@@ -1162,7 +1162,7 @@
     "parentId": "function",
     "label": "Catalytic Activity",
     "childNumber": 3,
-    "itemType": "horizontal_group",
+    "itemType": "sibling_group",
     "id": "Catalytic Activity"
   },
   {
@@ -1193,7 +1193,7 @@
     "parentId": "function",
     "label": "Activity regulation",
     "childNumber": 4,
-    "itemType": "horizontal_group",
+    "itemType": "sibling_group",
     "id": "Activity regulation"
   },
   {
@@ -1222,7 +1222,7 @@
     "parentId": "function",
     "label": "Function [CC]",
     "childNumber": 5,
-    "itemType": "horizontal_group",
+    "itemType": "sibling_group",
     "id": "Function [CC]"
   },
   {
@@ -1251,7 +1251,7 @@
     "parentId": "function",
     "label": "Caution",
     "childNumber": 6,
-    "itemType": "horizontal_group",
+    "itemType": "sibling_group",
     "id": "Caution"
   },
   {
@@ -1288,7 +1288,7 @@
     "childNumber": 0,
     "label": "Any",
     "id": "sites-any",
-    "itemType": "horizontal_group"
+    "itemType": "sibling_group"
   },
   {
     "parentId": "sites-any",
@@ -1328,7 +1328,7 @@
     "childNumber": 1,
     "label": "Active site",
     "id": "sites-Active site",
-    "itemType": "horizontal_group"
+    "itemType": "sibling_group"
   },
   {
     "parentId": "sites-Active site",
@@ -1368,7 +1368,7 @@
     "childNumber": 2,
     "label": "Metal binding",
     "id": "sites-Metal binding",
-    "itemType": "horizontal_group"
+    "itemType": "sibling_group"
   },
   {
     "parentId": "sites-Metal binding",
@@ -1408,7 +1408,7 @@
     "childNumber": 3,
     "label": "Binding site",
     "id": "sites-Binding site",
-    "itemType": "horizontal_group"
+    "itemType": "sibling_group"
   },
   {
     "parentId": "sites-Binding site",
@@ -1448,7 +1448,7 @@
     "childNumber": 4,
     "label": "Other",
     "id": "sites-Other",
-    "itemType": "horizontal_group"
+    "itemType": "sibling_group"
   },
   {
     "parentId": "sites-Other",
@@ -1488,7 +1488,7 @@
     "childNumber": 8,
     "label": "Calcium binding",
     "id": "Calcium binding",
-    "itemType": "horizontal_group"
+    "itemType": "sibling_group"
   },
   {
     "parentId": "Calcium binding",
@@ -1528,7 +1528,7 @@
     "childNumber": 9,
     "label": "DNA binding",
     "id": "DNA binding",
-    "itemType": "horizontal_group"
+    "itemType": "sibling_group"
   },
   {
     "parentId": "DNA binding",
@@ -1568,7 +1568,7 @@
     "childNumber": 10,
     "label": "Nucleotide binding",
     "id": "Nucleotide binding",
-    "itemType": "horizontal_group"
+    "itemType": "sibling_group"
   },
   {
     "parentId": "Nucleotide binding",
@@ -1608,7 +1608,7 @@
     "childNumber": 11,
     "label": "Pathway",
     "id": "Pathway",
-    "itemType": "horizontal_group"
+    "itemType": "sibling_group"
   },
   {
     "parentId": "Pathway",
@@ -1637,7 +1637,7 @@
     "childNumber": 12,
     "label": "Miscellaneous [CC]",
     "id": "Miscellaneous [CC]",
-    "itemType": "horizontal_group"
+    "itemType": "sibling_group"
   },
   {
     "parentId": "Miscellaneous [CC]",
@@ -1703,7 +1703,7 @@
     "childNumber": 0,
     "label": "Any",
     "id": "sequence-any",
-    "itemType": "horizontal_group"
+    "itemType": "sibling_group"
   },
   {
     "parentId": "sequence-any",
@@ -1732,7 +1732,7 @@
     "childNumber": 1,
     "label": "Alternative promoter usage",
     "id": "Alternative promoter usage",
-    "itemType": "horizontal_group"
+    "itemType": "sibling_group"
   },
   {
     "parentId": "Alternative promoter usage",
@@ -1761,7 +1761,7 @@
     "childNumber": 2,
     "label": "Alternative splicing",
     "id": "Alternative splicing",
-    "itemType": "horizontal_group"
+    "itemType": "sibling_group"
   },
   {
     "parentId": "Alternative splicing",
@@ -1790,7 +1790,7 @@
     "childNumber": 3,
     "label": "Alternative initiation",
     "id": "Alternative initiation",
-    "itemType": "horizontal_group"
+    "itemType": "sibling_group"
   },
   {
     "parentId": "Alternative initiation",
@@ -1819,7 +1819,7 @@
     "childNumber": 4,
     "label": "Ribosomal frameshifting",
     "id": "Ribosomal frameshifting",
-    "itemType": "horizontal_group"
+    "itemType": "sibling_group"
   },
   {
     "parentId": "Ribosomal frameshifting",
@@ -1855,7 +1855,7 @@
   "childNumber": 0,
   "label": "Any",
   "id": "seq caution any",
-  "itemType": "horizontal_group"
+  "itemType": "sibling_group"
 },
   {
     "parentId": "seq caution any",
@@ -1944,7 +1944,7 @@
     "childNumber": 6,
     "label": "Miscellaneous Discrepancy",
     "id": "Miscellaneous Discrepancy",
-    "itemType": "horizontal_group"
+    "itemType": "sibling_group"
   },
   {
     "parentId": "Miscellaneous Discrepancy",
@@ -1973,7 +1973,7 @@
     "childNumber": 4,
     "label": "Mass Spectrometry",
     "id": "Mass Spectrometry",
-    "itemType": "horizontal_group"
+    "itemType": "sibling_group"
   },
   {
     "parentId": "Mass Spectrometry",
@@ -2002,7 +2002,7 @@
     "childNumber": 5,
     "label": "Polymorphism",
     "id": "Polymorphism",
-    "itemType": "horizontal_group"
+    "itemType": "sibling_group"
   },
   {
     "parentId": "Polymorphism",
@@ -2031,7 +2031,7 @@
     "childNumber": 6,
     "label": "RNA Editing",
     "id": "RNA Editing",
-    "itemType": "horizontal_group"
+    "itemType": "sibling_group"
   },
   {
     "parentId": "RNA Editing",
@@ -2067,7 +2067,7 @@
     "childNumber": 0,
     "label": "Any",
     "id": "natural variations-any",
-    "itemType": "horizontal_group"
+    "itemType": "sibling_group"
   },
   {
     "parentId": "natural variations-any",
@@ -2107,7 +2107,7 @@
     "childNumber": 1,
     "label": "Natural variant",
     "id": "natural variations-Natural variant",
-    "itemType": "horizontal_group"
+    "itemType": "sibling_group"
   },
   {
     "parentId": "natural variations-Natural variant",
@@ -2147,7 +2147,7 @@
     "childNumber": 2,
     "label": "Alternative sequence",
     "id": "natural variations-Alternative sequence",
-    "itemType": "horizontal_group"
+    "itemType": "sibling_group"
   },
   {
     "parentId": "natural variations-Alternative sequence",
@@ -2187,7 +2187,7 @@
     "childNumber": 8,
     "label": "Non-standard residue",
     "id": "Non-standard residue",
-    "itemType": "horizontal_group"
+    "itemType": "sibling_group"
   },
   {
     "parentId": "Non-standard residue",
@@ -2227,7 +2227,7 @@
     "childNumber": 9,
     "label": "Non-terminal residue",
     "id": "Non-terminal residue",
-    "itemType": "horizontal_group"
+    "itemType": "sibling_group"
   },
   {
     "parentId": "Non-terminal residue",
@@ -2267,7 +2267,7 @@
     "childNumber": 10,
     "label": "Non-adjacent residue",
     "id": "Non-adjacent residue",
-    "itemType": "horizontal_group"
+    "itemType": "sibling_group"
   },
   {
     "parentId": "Non-adjacent residue",
@@ -2307,7 +2307,7 @@
     "childNumber": 11,
     "label": "Sequence conflict",
     "id": "Sequence conflict",
-    "itemType": "horizontal_group"
+    "itemType": "sibling_group"
   },
   {
     "parentId": "Sequence conflict",
@@ -2347,7 +2347,7 @@
     "childNumber": 12,
     "label": "Sequence uncertainty",
     "id": "Sequence uncertainty",
-    "itemType": "horizontal_group"
+    "itemType": "sibling_group"
   },
   {
     "parentId": "Sequence uncertainty",
@@ -2387,7 +2387,7 @@
     "childNumber": 13,
     "label": "Sequence features [FT]",
     "id": "Sequence features [FT]",
-    "itemType": "horizontal_group"
+    "itemType": "sibling_group"
   },
   {
     "parentId": "Sequence features [FT]",
@@ -2579,7 +2579,7 @@
   },
   {
     "parentId": "ptmproc",
-    "itemType": "horizontal_group",
+    "itemType": "sibling_group",
     "label": "Post-translational modification [CC]",
     "id": "Post-translational modification [CC]",
     "childNumber": 0
@@ -2608,7 +2608,7 @@
   },
   {
     "parentId": "ptmproc",
-    "itemType": "horizontal_group",
+    "itemType": "sibling_group",
     "label": "Modified residue [FT]",
     "id": "Modified residue [FT]",
     "childNumber": 1
@@ -2648,7 +2648,7 @@
   },
   {
     "parentId": "ptmproc",
-    "itemType": "horizontal_group",
+    "itemType": "sibling_group",
     "label": "Lipidation [FT]",
     "id": "Lipidation [FT]",
     "childNumber": 2
@@ -2688,7 +2688,7 @@
   },
   {
     "parentId": "ptmproc",
-    "itemType": "horizontal_group",
+    "itemType": "sibling_group",
     "label": "Glycosylation [FT]",
     "id": "Glycosylation [FT]",
     "childNumber": 3
@@ -2728,7 +2728,7 @@
   },
   {
     "parentId": "ptmproc",
-    "itemType": "horizontal_group",
+    "itemType": "sibling_group",
     "label": "Disulfide bond [FT]",
     "id": "Disulfide bond [FT]",
     "childNumber": 4
@@ -2768,7 +2768,7 @@
   },
   {
     "parentId": "ptmproc",
-    "itemType": "horizontal_group",
+    "itemType": "sibling_group",
     "label": "Cross-link [FT]",
     "id": "Cross-link [FT]",
     "childNumber": 5
@@ -2815,7 +2815,7 @@
   },
   {
     "parentId": "molproc",
-    "itemType": "horizontal_group",
+    "itemType": "sibling_group",
     "label": "Any molecule processing",
     "id": "Any molecule processing",
     "childNumber": 0
@@ -2855,7 +2855,7 @@
   },
   {
     "parentId": "molproc",
-    "itemType": "horizontal_group",
+    "itemType": "sibling_group",
     "label": "Chain",
     "id": "Chain",
     "childNumber": 1
@@ -2895,7 +2895,7 @@
   },
   {
     "parentId": "molproc",
-    "itemType": "horizontal_group",
+    "itemType": "sibling_group",
     "label": "Initiator methionine",
     "id": "Initiator methionine",
     "childNumber": 2
@@ -2935,7 +2935,7 @@
   },
   {
     "parentId": "molproc",
-    "itemType": "horizontal_group",
+    "itemType": "sibling_group",
     "label": "Peptide",
     "id": "Peptide",
     "childNumber": 3
@@ -2975,7 +2975,7 @@
   },
   {
     "parentId": "molproc",
-    "itemType": "horizontal_group",
+    "itemType": "sibling_group",
     "label": "Signal Peptide",
     "id": "Signal Peptide",
     "childNumber": 4
@@ -3015,7 +3015,7 @@
   },
   {
     "parentId": "molproc",
-    "itemType": "horizontal_group",
+    "itemType": "sibling_group",
     "label": "Propeptide",
     "id": "Propeptide",
     "childNumber": 5
@@ -3055,7 +3055,7 @@
   },
   {
     "parentId": "molproc",
-    "itemType": "horizontal_group",
+    "itemType": "sibling_group",
     "label": "Transit Peptide",
     "id": "Transit Peptide",
     "childNumber": 6
@@ -3113,7 +3113,7 @@
   },
   {
     "parentId": "interaction",
-    "itemType": "horizontal_group",
+    "itemType": "sibling_group",
     "label": "Subunit structure",
     "id": "Subunit structure",
     "childNumber": 1
@@ -3148,7 +3148,7 @@
   },
   {
     "parentId": "family and domains",
-    "itemType": "horizontal_group",
+    "itemType": "sibling_group",
     "label": "Domain [FT]",
     "id": "Domain [FT]",
     "childNumber": 0
@@ -3188,7 +3188,7 @@
   },
   {
     "parentId": "family and domains",
-    "itemType": "horizontal_group",
+    "itemType": "sibling_group",
     "label": "Domain Comments [CC]",
     "id": "Domain Comments [CC]",
     "childNumber": 1
@@ -3229,7 +3229,7 @@
   },
   {
     "parentId": "family and domains",
-    "itemType": "horizontal_group",
+    "itemType": "sibling_group",
     "label": "Coiled-coil",
     "id": "Coiled-coil",
     "childNumber": 3
@@ -3269,7 +3269,7 @@
   },
   {
     "parentId": "family and domains",
-    "itemType": "horizontal_group",
+    "itemType": "sibling_group",
     "label": "Compositional bias",
     "id": "Compositional bias",
     "childNumber": 4
@@ -3309,7 +3309,7 @@
   },
   {
     "parentId": "family and domains",
-    "itemType": "horizontal_group",
+    "itemType": "sibling_group",
     "label": "Motif",
     "id": "Motif",
     "childNumber": 5
@@ -3349,7 +3349,7 @@
   },
   {
     "parentId": "family and domains",
-    "itemType": "horizontal_group",
+    "itemType": "sibling_group",
     "label": "Region",
     "id": "Region",
     "childNumber": 6
@@ -3389,7 +3389,7 @@
   },
   {
     "parentId": "family and domains",
-    "itemType": "horizontal_group",
+    "itemType": "sibling_group",
     "label": "Repeat",
     "id": "Repeat",
     "childNumber": 7
@@ -3429,7 +3429,7 @@
   },
   {
     "parentId": "family and domains",
-    "itemType": "horizontal_group",
+    "itemType": "sibling_group",
     "label": "Sequence similarity",
     "id": "Sequence similarity",
     "childNumber": 8
@@ -3458,7 +3458,7 @@
   },
   {
     "parentId": "family and domains",
-    "itemType": "horizontal_group",
+    "itemType": "sibling_group",
     "label": "Zinc finger",
     "id": "Zinc finger",
     "childNumber": 9
@@ -3504,7 +3504,7 @@
   },
   {
     "parentId": "expression",
-    "itemType": "horizontal_group",
+    "itemType": "sibling_group",
     "label": "Developmental stage",
     "id": "Developmental stage",
     "childNumber": 0
@@ -3533,7 +3533,7 @@
   },
   {
     "parentId": "expression",
-    "itemType": "horizontal_group",
+    "itemType": "sibling_group",
     "label": "Induction",
     "id": "Induction",
     "childNumber": 1
@@ -3562,7 +3562,7 @@
   },
   {
     "parentId": "expression",
-    "itemType": "horizontal_group",
+    "itemType": "sibling_group",
     "label": "Tissue specificity",
     "id": "Tissue specificity",
     "childNumber": 2
@@ -3669,7 +3669,7 @@
   },
   {
     "parentId": "secondary structure",
-    "itemType": "horizontal_group",
+    "itemType": "sibling_group",
     "label": "Any",
     "id": "secondary structure - any",
     "childNumber": 0
@@ -3709,7 +3709,7 @@
   },
   {
     "parentId": "secondary structure",
-    "itemType": "horizontal_group",
+    "itemType": "sibling_group",
     "label": "Helix",
     "id": "secondary structure - Helix",
     "childNumber": 1
@@ -3749,7 +3749,7 @@
   },
   {
     "parentId": "secondary structure",
-    "itemType": "horizontal_group",
+    "itemType": "sibling_group",
     "label": "Turn",
     "id": "secondary structure - Turn",
     "childNumber": 2
@@ -3789,7 +3789,7 @@
   },
   {
     "parentId": "secondary structure",
-    "itemType": "horizontal_group",
+    "itemType": "sibling_group",
     "label": "Beta strand",
     "id": "secondary structure - Beta strand",
     "childNumber": 3
@@ -3842,7 +3842,7 @@
   },
   {
     "parentId": "cc_subcellular",
-    "itemType": "horizontal_group",
+    "itemType": "sibling_group",
     "label": "Subcellular location term",
     "id": "Subcellular location term",
     "childNumber": 0
@@ -3873,7 +3873,7 @@
   },
   {
     "parentId": "cc_subcellular",
-    "itemType": "horizontal_group",
+    "itemType": "sibling_group",
     "label": "Subcellular location note",
     "id": "Subcellular location note",
     "childNumber": 1
@@ -3902,7 +3902,7 @@
   },
   {
     "parentId": "subcellular",
-    "itemType": "horizontal_group",
+    "itemType": "sibling_group",
     "label": "Transmembrane",
     "id": "Transmembrane",
     "childNumber": 1
@@ -3942,7 +3942,7 @@
   },
   {
     "parentId": "subcellular",
-    "itemType": "horizontal_group",
+    "itemType": "sibling_group",
     "label": "Topological domain",
     "id": "Topological domain",
     "childNumber": 2
@@ -3982,7 +3982,7 @@
   },
   {
     "parentId": "subcellular",
-    "itemType": "horizontal_group",
+    "itemType": "sibling_group",
     "label": "Intramembrane",
     "id": "Intramembrane",
     "childNumber": 3
@@ -4028,7 +4028,7 @@
   },
   {
     "parentId": "pathbio",
-    "itemType": "horizontal_group",
+    "itemType": "sibling_group",
     "label": "Disease",
     "id": "Disease",
     "childNumber": 0
@@ -4057,7 +4057,7 @@
   },
   {
     "parentId": "pathbio",
-    "itemType": "horizontal_group",
+    "itemType": "sibling_group",
     "label": "Alergenic properties",
     "id": "Alergenic properties",
     "childNumber": 1
@@ -4086,7 +4086,7 @@
   },
   {
     "parentId": "pathbio",
-    "itemType": "horizontal_group",
+    "itemType": "sibling_group",
     "label": "Toxic dose",
     "id": "Toxic dose",
     "childNumber": 2
@@ -4115,7 +4115,7 @@
   },
   {
     "parentId": "pathbio",
-    "itemType": "horizontal_group",
+    "itemType": "sibling_group",
     "label": "Biotechnological use",
     "id": "Biotechnological use",
     "childNumber": 3
@@ -4144,7 +4144,7 @@
   },
   {
     "parentId": "pathbio",
-    "itemType": "horizontal_group",
+    "itemType": "sibling_group",
     "label": "Pharmaceutical use",
     "id": "Pharmaceutical use",
     "childNumber": 4
@@ -4173,7 +4173,7 @@
   },
   {
     "parentId": "pathbio",
-    "itemType": "horizontal_group",
+    "itemType": "sibling_group",
     "label": "Disruption phenotype",
     "id": "Disruption phenotype",
     "childNumber": 5
@@ -4202,7 +4202,7 @@
   },
   {
     "parentId": "pathbio",
-    "itemType": "horizontal_group",
+    "itemType": "sibling_group",
     "label": "Mutagenesis",
     "id": "Mutagenesis",
     "childNumber": 6
