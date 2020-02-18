@@ -20,8 +20,8 @@ public class ECToSuggestDocument implements Function<Tuple2<String, ECEntry>, Su
     public SuggestDocument call(Tuple2<String, ECEntry> tuple) throws Exception {
         ECEntry ec = tuple._2;
         return SuggestDocument.builder()
-                .id(ec.id())
-                .value(ec.label())
+                .id(ec.getId())
+                .value(ec.getLabel())
                 .dictionary(SuggestDictionary.EC.name())
                 .build();
     }

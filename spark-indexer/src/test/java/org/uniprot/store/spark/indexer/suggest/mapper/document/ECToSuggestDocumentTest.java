@@ -4,7 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
 import org.uniprot.core.cv.ec.ECEntry;
-import org.uniprot.core.cv.ec.ECEntryImpl;
+import org.uniprot.core.cv.ec.impl.ECEntryImpl;
 import org.uniprot.store.search.document.suggest.SuggestDocument;
 
 import scala.Tuple2;
