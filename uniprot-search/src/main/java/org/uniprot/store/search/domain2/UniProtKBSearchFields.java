@@ -37,13 +37,6 @@ public class UniProtKBSearchFields extends SearchFieldsLoader {
     }
 
     @Override
-    public boolean hasSortField(String field) {
-        return this.getSortFields().stream()
-                .map(SearchField::getName)
-                .anyMatch(fieldName -> field.equals(fieldName));
-    }
-
-    @Override
     public SearchField getSortFieldFor(String field) {
         SearchField searchField = this.getField(field);
         SearchField sortField = null;

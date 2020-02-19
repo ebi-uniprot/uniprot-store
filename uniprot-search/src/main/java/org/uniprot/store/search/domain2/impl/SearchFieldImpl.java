@@ -20,7 +20,7 @@ import org.uniprot.store.search.domain2.SearchFieldType;
 @Builder
 @Data
 public class SearchFieldImpl implements SearchField {
-    private static final String XREF_COUNT_PREFIX = "xref_count_";
+    public static final String XREF_COUNT_PREFIX = "xref_count_";
     private String name;
     private SearchFieldType type;
     private SearchField sortField;
