@@ -64,6 +64,9 @@
         },
         "autoCompleteQueryFieldValidRegex" : {
           "type" : "string"
+        },
+        "sortFieldId" : {
+          "type" : "string"
         }
       },
       "required" : ["id"],

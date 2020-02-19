@@ -19,7 +19,6 @@ public class DataValidatorTest {
         UniProtSearchFieldConfiguration config = UniProtSearchFieldConfiguration.getInstance();
         List<FieldItem> allFields = config.loadAndGetFieldItems(TEST_SEARCH_FIELDS_CONFIG);
         Map<String, FieldItem> idFieldMap = config.buildIdFieldItemMap(allFields);
-        Assertions.assertDoesNotThrow(
-                () -> DataValidator.validateContent(allFields, idFieldMap));
+        Assertions.assertDoesNotThrow(() -> DataValidator.validateContent(allFields, idFieldMap));
     }
 }

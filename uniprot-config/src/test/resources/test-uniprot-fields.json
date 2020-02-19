@@ -1,5 +1,32 @@
 [
   {
+    "id": "host_id",
+    "fieldName": "host_id",
+    "dataType": "string",
+    "fieldType": "field",
+    "validRegex": "^[0-9]+$",
+    "description": "Search by virus host id",
+    "example": "1234"
+  },
+  {
+    "id": "taxonomy_id",
+    "dataType": "string",
+    "fieldName": "taxonomy_id",
+    "fieldType": "field",
+    "validRegex": "^[0-9]+$",
+    "description": "Search by NCBI taxonomy id",
+    "example": "12345"
+  },
+  {
+    "id": "organism_id",
+    "dataType": "string",
+    "fieldName": "organism_id",
+    "fieldType": "field",
+    "validRegex": "^[0-9]+$",
+    "description": "Search by Organism id",
+    "example": "1234"
+  },
+  {
     "id": "accession_sort",
     "fieldName": "accession_id",
     "fieldType": "sort",
@@ -30,7 +57,8 @@
     "dataType": "string",
     "example":  "sample example",
     "fieldType": "field",
-    "description" : "this is a dummy description"
+    "description" : "this is a dummy description",
+    "sortFieldId": "annotation_score_sort"
   },
   {
     "id":"annotation_score_sort",
@@ -557,7 +585,8 @@
     "itemType": "single",
     "dataType": "string",
     "description": "Search by UniProtKB Accession",
-    "example": "P12345"
+    "example": "P12345",
+    "sortFieldId": "accession_id"
   },
   {
     "seqNumber": 1,
@@ -568,7 +597,8 @@
     "itemType": "single",
     "dataType": "string",
     "description": "Search by UniProtKB entry name",
-    "example": "P53_HUMAN"
+    "example": "P53_HUMAN",
+    "sortFieldId": "mnemonic_sort"
   },
   {
     "seqNumber": 2,
@@ -579,7 +609,8 @@
     "itemType": "single",
     "dataType": "string",
     "description": "Search by UniProtKB Protein name",
-    "example": "mas5"
+    "example": "mas5",
+    "sortFieldId": "name_sort"
   },
   {
     "seqNumber": 3,
@@ -590,7 +621,8 @@
     "dataType": "string",
     "itemType": "single",
     "description": "Search by UniProtKB gene name",
-    "example": "ydj1"
+    "example": "ydj1",
+    "sortFieldId": "gene_sort"
   },
   {
     "seqNumber": 4,
@@ -604,7 +636,8 @@
     "autoCompleteQueryField": "organism_id",
     "autoCompleteQueryFieldValidRegex": "^[0-9]+$",
     "description": "Search by Organism name",
-    "example": "saccharomyces"
+    "example": "saccharomyces",
+    "sortFieldId": "organism_sort"
   },
   {
     "seqNumber": 5,
@@ -1677,7 +1710,8 @@
     "fieldType": "range",
     "dataType": "integer",
     "description": "Search by Sequence mass range",
-    "example": "[441126 TO 441126]"
+    "example": "[441126 TO 441126]",
+    "sortFieldId": "mass_sort"
   },
   {
     "parentId": "sequence",
@@ -1689,7 +1723,8 @@
     "fieldType": "range",
     "dataType": "integer",
     "description": "Search by Sequence length range",
-    "example": "[441 TO 450]"
+    "example": "[441 TO 450]",
+    "sortFieldId": "length_sort"
   },
   {
     "parentId": "sequence",
