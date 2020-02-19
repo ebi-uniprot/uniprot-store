@@ -23,6 +23,10 @@ public class SearchFieldsLoader implements SearchFields {
     private Set<SearchField> searchFields = new HashSet<>();
     private Set<SearchField> sortFields;
 
+    protected SearchFieldsLoader() {
+        // do nothing
+    }
+
     public SearchFieldsLoader(String fileName) {
         init(fileName);
     }

@@ -28,6 +28,7 @@ public class FieldItem implements Serializable {
     private String autoComplete;
     private String autoCompleteQueryField;
     private String autoCompleteQueryFieldValidRegex;
+    private String sortFieldId;
 
     @Data
     public static class Value {
