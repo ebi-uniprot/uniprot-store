@@ -66,11 +66,14 @@ public class SparkUtils {
     }
 
     public static JavaSparkContext loadSparkContext(ResourceBundle applicationConfig) {
+        String sparkMaster = applicationConfig.getString("spark.master");
         SparkConf sparkConf =
                 new SparkConf()
                         .setAppName(applicationConfig.getString("spark.application.name"))
-                        .setMaster(applicationConfig.getString("spark.master"));
-        // .set("spark.driver.host", "localhost"); // Uncomment this line to make it work locally
+                        .setMaster(sparkMaster);
+        if (sparkMaster.startsWith("local")) {
+            sparkConf = sparkConf.set("spark.driver.host", "localhost");
+        }
         return new JavaSparkContext(sparkConf);
     }
 

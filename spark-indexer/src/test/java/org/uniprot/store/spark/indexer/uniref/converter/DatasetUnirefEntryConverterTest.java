@@ -9,6 +9,7 @@ import org.apache.spark.sql.Row;
 import org.apache.spark.sql.catalyst.expressions.GenericRowWithSchema;
 import org.junit.jupiter.api.Test;
 import org.uniprot.core.uniref.*;
+import org.uniprot.store.spark.indexer.util.RowUtils;
 
 import scala.collection.JavaConverters;
 import scala.collection.Seq;
@@ -111,8 +112,9 @@ class DatasetUnirefEntryConverterTest {
         assertEquals(9606, uniRefMember.getOrganismTaxId());
         assertEquals(80, uniRefMember.getSequenceLength());
         assertEquals("Fibroblast growth factor receptor 2", uniRefMember.getProteinName());
-        assertEquals(1, uniRefMember.getUniProtAccessions().size());
+        assertEquals(2, uniRefMember.getUniProtAccessions().size());
         assertEquals("P12345", uniRefMember.getUniProtAccessions().get(0).getValue());
+        assertEquals("P54321", uniRefMember.getUniProtAccessions().get(1).getValue());
         assertEquals("UniRef50_P12345", uniRefMember.getUniRef50Id().getValue());
         assertEquals("UniRef90_P12345", uniRefMember.getUniRef90Id().getValue());
         assertEquals("UniRef100_P12345", uniRefMember.getUniRef100Id().getValue());
@@ -153,6 +155,7 @@ class DatasetUnirefEntryConverterTest {
     private Seq getMemberPropertiesSeq() {
         List<Object> properties = new ArrayList<>();
         properties.add(getPropertyRow("UniProtKB accession", "P12345"));
+        properties.add(getPropertyRow("UniProtKB accession", "P54321"));
         properties.add(getPropertyRow("UniParc ID", "UPI000012A72A"));
         properties.add(getPropertyRow("UniRef50 ID", "UniRef50_P12345"));
         properties.add(getPropertyRow("UniRef90 ID", "UniRef90_P12345"));
@@ -173,8 +176,7 @@ class DatasetUnirefEntryConverterTest {
         sequenceValues.add("6CD5001C960ED82F");
         sequenceValues.add("821");
         Row sequenceRow =
-                new GenericRowWithSchema(
-                        sequenceValues.toArray(), DatasetUnirefEntryConverter.getSequenceSchema());
+                new GenericRowWithSchema(sequenceValues.toArray(), RowUtils.getSequenceSchema());
 
         List<Object> representativeMembers = new ArrayList<>();
         representativeMembers.add(
@@ -191,8 +193,7 @@ class DatasetUnirefEntryConverterTest {
         propertyValues.add("_VALUE");
         propertyValues.add(name);
         propertyValues.add(value);
-        return new GenericRowWithSchema(
-                propertyValues.toArray(), DatasetUnirefEntryConverter.getPropertySchema());
+        return new GenericRowWithSchema(propertyValues.toArray(), RowUtils.getPropertySchema());
     }
 
     private Row getMemberRowSeq(String type, String id, Seq memberProperties) {
@@ -208,7 +209,7 @@ class DatasetUnirefEntryConverterTest {
         dbReferenceValue.add(type);
         dbReferenceValue.add(memberProperties);
         return new GenericRowWithSchema(
-                dbReferenceValue.toArray(), DatasetUnirefEntryConverter.getDBReferenceSchema());
+                dbReferenceValue.toArray(), RowUtils.getDBReferenceSchema());
     }
 
     private Seq getMemberRowSeq() {

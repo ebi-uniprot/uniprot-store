@@ -9,7 +9,7 @@ import lombok.*;
 import org.apache.solr.client.solrj.beans.Field;
 import org.uniprot.store.search.document.Document;
 
-@Builder
+@Builder(toBuilder = true)
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
@@ -66,6 +66,7 @@ public class UniParcDocument implements Document {
     private ByteBuffer entryStored;
 
     // DEFAULT SEARCH FIELD
+    @Singular("contentAdd")
     @Field("content")
     public List<String> content;
 

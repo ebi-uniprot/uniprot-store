@@ -7,7 +7,6 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -15,7 +14,6 @@ import org.apache.spark.api.java.function.MapFunction;
 import org.apache.spark.sql.Row;
 import org.apache.spark.sql.types.DataTypes;
 import org.apache.spark.sql.types.StructType;
-import org.uniprot.core.impl.SequenceImpl;
 import org.uniprot.core.uniparc.impl.UniParcIdImpl;
 import org.uniprot.core.uniprot.impl.UniProtAccessionImpl;
 import org.uniprot.core.uniref.*;
@@ -25,6 +23,7 @@ import org.uniprot.core.uniref.builder.UniRefEntryBuilder;
 import org.uniprot.core.uniref.builder.UniRefMemberBuilder;
 import org.uniprot.core.uniref.impl.OverlapRegionImpl;
 import org.uniprot.core.uniref.impl.UniRefEntryIdImpl;
+import org.uniprot.store.spark.indexer.util.RowUtils;
 
 /**
  * This class convert XML Row result to a UniRefEntry
@@ -68,23 +67,33 @@ public class DatasetUnirefEntryConverter implements MapFunction<Row, UniRefEntry
             builder.name(rowValue.getString(rowValue.fieldIndex("name")));
         }
         if (hasFieldName("property", rowValue)) {
-            Map<String, String> propertyMap = convertProperties(rowValue);
-            builder.memberCount(
-                    Integer.valueOf(propertyMap.getOrDefault(PROPERTY_MEMBER_COUNT, "0")));
-            builder.commonTaxon(propertyMap.getOrDefault(PROPERTY_COMMON_TAXON, ""));
-            builder.commonTaxonId(
-                    Integer.valueOf(propertyMap.getOrDefault(PROPERTY_COMMON_TAXON_ID, "0")));
+            Map<String, List<String>> propertyMap = RowUtils.convertProperties(rowValue);
+            if (propertyMap.containsKey(PROPERTY_MEMBER_COUNT)) {
+                String memberCount = propertyMap.get(PROPERTY_MEMBER_COUNT).get(0);
+                builder.memberCount(Integer.valueOf(memberCount));
+            }
+            if (propertyMap.containsKey(PROPERTY_COMMON_TAXON)) {
+                String commonTaxon = propertyMap.get(PROPERTY_COMMON_TAXON).get(0);
+                builder.commonTaxon(commonTaxon);
+            }
+            if (propertyMap.containsKey(PROPERTY_COMMON_TAXON_ID)) {
+                String commonTaxonId = propertyMap.get(PROPERTY_COMMON_TAXON_ID).get(0);
+                builder.commonTaxonId(Integer.valueOf(commonTaxonId));
+            }
             if (propertyMap.containsKey(PROPERTY_GO_FUNCTION)) {
-                builder.goTermsAdd(
-                        createGoTerm(GoTermType.FUNCTION, propertyMap.get(PROPERTY_GO_FUNCTION)));
+                propertyMap.get(PROPERTY_GO_FUNCTION).stream()
+                        .map(goTerm -> createGoTerm(GoTermType.FUNCTION, goTerm))
+                        .forEach(builder::goTermsAdd);
             }
             if (propertyMap.containsKey(PROPERTY_GO_COMPONENT)) {
-                builder.goTermsAdd(
-                        createGoTerm(GoTermType.COMPONENT, propertyMap.get(PROPERTY_GO_COMPONENT)));
+                propertyMap.get(PROPERTY_GO_COMPONENT).stream()
+                        .map(goTerm -> createGoTerm(GoTermType.FUNCTION, goTerm))
+                        .forEach(builder::goTermsAdd);
             }
             if (propertyMap.containsKey(PROPERTY_GO_PROCESS)) {
-                builder.goTermsAdd(
-                        createGoTerm(GoTermType.PROCESS, propertyMap.get(PROPERTY_GO_PROCESS)));
+                propertyMap.get(PROPERTY_GO_PROCESS).stream()
+                        .map(goTerm -> createGoTerm(GoTermType.FUNCTION, goTerm))
+                        .forEach(builder::goTermsAdd);
             }
         }
 
@@ -118,10 +127,7 @@ public class DatasetUnirefEntryConverter implements MapFunction<Row, UniRefEntry
                     (Row)
                             representativeMemberRow.get(
                                     representativeMemberRow.fieldIndex("sequence"));
-            if (hasFieldName("_VALUE", sequence)) {
-                String sequenceValue = sequence.getString(sequence.fieldIndex("_VALUE"));
-                builder.sequence(new SequenceImpl(sequenceValue));
-            }
+            builder.sequence(RowUtils.convertSequence(sequence));
         }
         return builder.build();
     }
@@ -135,56 +141,52 @@ public class DatasetUnirefEntryConverter implements MapFunction<Row, UniRefEntry
             builder.memberIdType(UniRefMemberIdType.typeOf(memberType));
 
             if (hasFieldName("property", dbReference)) {
-                Map<String, String> propertyMap = convertProperties(dbReference);
+                Map<String, List<String>> propertyMap = RowUtils.convertProperties(dbReference);
                 if (propertyMap.containsKey("UniProtKB accession")) {
-                    builder.accessionsAdd(
-                            new UniProtAccessionImpl(propertyMap.get("UniProtKB accession")));
+                    propertyMap.get("UniProtKB accession").stream()
+                            .map(UniProtAccessionImpl::new)
+                            .forEach(builder::accessionsAdd);
                 }
                 if (propertyMap.containsKey("UniParc ID")) {
-                    builder.uniparcId(new UniParcIdImpl(propertyMap.get("UniParc ID")));
+                    String uniparcId = propertyMap.get("UniParc ID").get(0);
+                    builder.uniparcId(new UniParcIdImpl(uniparcId));
                 }
                 if (propertyMap.containsKey("UniRef50 ID")) {
-                    builder.uniref50Id(new UniRefEntryIdImpl(propertyMap.get("UniRef50 ID")));
+                    String uniref50 = propertyMap.get("UniRef50 ID").get(0);
+                    builder.uniref50Id(new UniRefEntryIdImpl(uniref50));
                 }
                 if (propertyMap.containsKey("UniRef90 ID")) {
-                    builder.uniref90Id(new UniRefEntryIdImpl(propertyMap.get("UniRef90 ID")));
+                    String uniref90 = propertyMap.get("UniRef90 ID").get(0);
+                    builder.uniref90Id(new UniRefEntryIdImpl(uniref90));
                 }
                 if (propertyMap.containsKey("UniRef100 ID")) {
-                    builder.uniref100Id(new UniRefEntryIdImpl(propertyMap.get("UniRef100 ID")));
+                    String uniref100 = propertyMap.get("UniRef100 ID").get(0);
+                    builder.uniref100Id(new UniRefEntryIdImpl(uniref100));
                 }
                 if (propertyMap.containsKey("overlap region")) {
-                    String overlap = propertyMap.get("overlap region");
+                    String overlap = propertyMap.get("overlap region").get(0);
                     int start = new Integer(overlap.substring(0, overlap.indexOf("-")));
                     int end = new Integer(overlap.substring(overlap.indexOf("-") + 1));
                     builder.overlapRegion(new OverlapRegionImpl(start, end));
                 }
-                builder.proteinName(propertyMap.get("protein name"));
-                builder.organismName(propertyMap.get("source organism"));
-                builder.organismTaxId(
-                        Integer.valueOf(propertyMap.getOrDefault("NCBI taxonomy", "0")));
-                builder.sequenceLength(Integer.valueOf(propertyMap.getOrDefault("length", "0")));
-                builder.isSeed(Boolean.valueOf(propertyMap.getOrDefault("isSeed", "false")));
+                if (propertyMap.containsKey("protein name")) {
+                    builder.proteinName(propertyMap.get("protein name").get(0));
+                }
+                if (propertyMap.containsKey("source organism")) {
+                    builder.organismName(propertyMap.get("source organism").get(0));
+                }
+                if (propertyMap.containsKey("NCBI taxonomy")) {
+                    builder.organismTaxId(Integer.valueOf(propertyMap.get("NCBI taxonomy").get(0)));
+                }
+                if (propertyMap.containsKey("length")) {
+                    builder.sequenceLength(Integer.valueOf(propertyMap.get("length").get(0)));
+                }
+                if (propertyMap.containsKey("isSeed")) {
+                    builder.isSeed(Boolean.valueOf(propertyMap.get("isSeed").get(0)));
+                }
             }
         }
         return builder.build();
-    }
-
-    private Map<String, String> convertProperties(Row rowValue) {
-        List<Row> properties = rowValue.getList(rowValue.fieldIndex("property"));
-        if (properties == null) {
-            Row member = (Row) rowValue.get(rowValue.fieldIndex("property"));
-            properties = Collections.singletonList(member);
-        }
-        Map<String, String> propertyMap = new HashMap<>();
-        properties.forEach(
-                property -> {
-                    if (hasFieldName("_type", property) && hasFieldName("_value", property)) {
-                        String type = property.getString(property.fieldIndex("_type"));
-                        String value = property.getString(property.fieldIndex("_value"));
-                        propertyMap.put(type, value);
-                    }
-                });
-        return propertyMap;
     }
 
     public static StructType getUniRefXMLSchema() {
@@ -194,45 +196,22 @@ public class DatasetUnirefEntryConverter implements MapFunction<Row, UniRefEntry
         structType = structType.add("member", DataTypes.createArrayType(getMemberSchema()), true);
         structType = structType.add("name", DataTypes.StringType, true);
         structType =
-                structType.add("property", DataTypes.createArrayType(getPropertySchema()), true);
+                structType.add(
+                        "property", DataTypes.createArrayType(RowUtils.getPropertySchema()), true);
         structType = structType.add("representativeMember", getRepresentativeMemberSchema(), true);
         return structType;
     }
 
     static StructType getRepresentativeMemberSchema() {
         StructType representativeMember = getMemberSchema();
-        representativeMember = representativeMember.add("sequence", getSequenceSchema(), true);
+        representativeMember =
+                representativeMember.add("sequence", RowUtils.getSequenceSchema(), true);
         return representativeMember;
     }
 
     static StructType getMemberSchema() {
         StructType member = new StructType();
-        member = member.add("dbReference", getDBReferenceSchema(), true);
+        member = member.add("dbReference", RowUtils.getDBReferenceSchema(), true);
         return member;
-    }
-
-    static StructType getDBReferenceSchema() {
-        StructType dbReference = new StructType();
-        dbReference = dbReference.add("_id", DataTypes.StringType, true);
-        dbReference = dbReference.add("_type", DataTypes.StringType, true);
-        dbReference =
-                dbReference.add("property", DataTypes.createArrayType(getPropertySchema()), true);
-        return dbReference;
-    }
-
-    static StructType getPropertySchema() {
-        StructType structType = new StructType();
-        structType = structType.add("_VALUE", DataTypes.StringType, true);
-        structType = structType.add("_type", DataTypes.StringType, true);
-        structType = structType.add("_value", DataTypes.StringType, true);
-        return structType;
-    }
-
-    static StructType getSequenceSchema() {
-        StructType structType = new StructType();
-        structType = structType.add("_VALUE", DataTypes.StringType, true);
-        structType = structType.add("_checksum", DataTypes.StringType, true);
-        structType = structType.add("_length", DataTypes.LongType, true);
-        return structType;
     }
 }
