@@ -4,8 +4,9 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
 import org.uniprot.core.cv.keyword.KeywordEntry;
-import org.uniprot.core.cv.keyword.impl.KeywordEntryImpl;
-import org.uniprot.core.cv.keyword.impl.KeywordImpl;
+import org.uniprot.core.cv.keyword.KeywordEntryKeyword;
+import org.uniprot.core.cv.keyword.builder.KeywordEntryBuilder;
+import org.uniprot.core.cv.keyword.builder.KeywordEntryKeywordBuilder;
 
 import scala.Tuple2;
 
@@ -17,9 +18,9 @@ class KeywordFileMapperTest {
 
     @Test
     void testECFileMapper() throws Exception {
-        KeywordEntryImpl entry = new KeywordEntryImpl();
-        KeywordImpl keyword = new KeywordImpl("kwId", "kwAcc");
-        entry.setKeyword(keyword);
+        KeywordEntryKeyword keyword =
+                new KeywordEntryKeywordBuilder().id("kwId").accession("kwAcc").build();
+        KeywordEntry entry = new KeywordEntryBuilder().keyword(keyword).build();
 
         KeywordFileMapper mapper = new KeywordFileMapper();
         Tuple2<String, KeywordEntry> result = mapper.call(entry);

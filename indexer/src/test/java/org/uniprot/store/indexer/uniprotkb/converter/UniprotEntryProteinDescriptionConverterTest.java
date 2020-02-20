@@ -7,7 +7,7 @@ import static org.mockito.Mockito.when;
 import java.util.*;
 
 import org.junit.jupiter.api.Test;
-import org.uniprot.core.cv.ec.ECEntryBuilder;
+import org.uniprot.core.cv.ec.builder.ECEntryBuilder;
 import org.uniprot.core.uniprot.description.*;
 import org.uniprot.core.uniprot.description.builder.*;
 import org.uniprot.core.uniprot.evidence.Evidence;

@@ -13,7 +13,8 @@ import org.springframework.data.solr.core.query.Criteria;
 import org.springframework.data.solr.core.query.Query;
 import org.springframework.data.solr.core.query.SimpleQuery;
 import org.uniprot.core.cv.keyword.KeywordEntry;
-import org.uniprot.core.cv.keyword.impl.KeywordEntryImpl;
+import org.uniprot.core.cv.keyword.builder.KeywordEntryBuilder;
+import org.uniprot.core.cv.keyword.builder.KeywordEntryImpl;
 import org.uniprot.core.json.parser.keyword.KeywordJsonConfig;
 import org.uniprot.core.util.Utils;
 import org.uniprot.store.indexer.common.config.UniProtSolrOperations;
@@ -36,12 +37,9 @@ public class KeywordLoadProcessor implements ItemProcessor<KeywordEntry, Keyword
 
     @Override
     public KeywordDocument process(KeywordEntry entry) throws Exception {
-        KeywordEntryImpl keywordEntry = (KeywordEntryImpl) entry;
-
         Query query =
                 new SimpleQuery()
-                        .addCriteria(
-                                Criteria.where("id").is(keywordEntry.getKeyword().getAccession()));
+                        .addCriteria(Criteria.where("id").is(entry.getKeyword().getAccession()));
         Optional<KeywordDocument> optionalDocument =
                 solrOperations.queryForObject(
                         SolrCollection.keyword.name(), query, KeywordDocument.class);
@@ -51,12 +49,15 @@ public class KeywordLoadProcessor implements ItemProcessor<KeywordEntry, Keyword
             byte[] keywordObj = document.getKeywordObj().array();
             KeywordEntry statisticsEntry =
                     keywordObjectMapper.readValue(keywordObj, KeywordEntryImpl.class);
-            keywordEntry.setStatistics(statisticsEntry.getStatistics());
+            entry =
+                    KeywordEntryBuilder.from(entry)
+                            .statistics(statisticsEntry.getStatistics())
+                            .build();
         }
-        return createKeywordDocument(keywordEntry);
+        return createKeywordDocument(entry);
     }
 
-    private KeywordDocument createKeywordDocument(KeywordEntryImpl keywordEntry) {
+    private KeywordDocument createKeywordDocument(KeywordEntry keywordEntry) {
         // content is keyword id + keyword name + definition + synonyms
         List<String> content = new ArrayList<>();
         content.add(keywordEntry.getKeyword().getId());

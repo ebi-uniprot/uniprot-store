@@ -22,7 +22,7 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.uniprot.core.cv.disease.DiseaseCrossReference;
 import org.uniprot.core.cv.disease.DiseaseEntry;
-import org.uniprot.core.cv.keyword.Keyword;
+import org.uniprot.core.cv.keyword.KeywordEntryKeyword;
 import org.uniprot.core.json.parser.disease.DiseaseJsonConfig;
 import org.uniprot.store.indexer.common.config.UniProtSolrOperations;
 import org.uniprot.store.indexer.common.utils.Constants;
@@ -119,7 +119,7 @@ class DiseaseLoadJobIT {
         assertThat(xref.getProperties(), notNullValue());
     }
 
-    private void verifyKeyword(Keyword kw) {
+    private void verifyKeyword(KeywordEntryKeyword kw) {
         assertThat(kw.getId(), notNullValue());
         assertThat(kw.getAccession(), notNullValue());
     }
