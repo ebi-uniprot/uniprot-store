@@ -8,7 +8,7 @@ import org.uniprot.cv.xdb.UniProtXDbTypes;
 import org.uniprot.store.config.common.FieldConfiguration;
 import org.uniprot.store.config.model.FieldItem;
 import org.uniprot.store.config.model.FieldType;
-import org.uniprot.store.config.uniprotkb.UniProtSearchFieldConfiguration;
+import org.uniprot.store.config.uniprotkb.UniProtKBSearchFieldConfiguration;
 import org.uniprot.store.search.domain2.impl.SearchFieldImpl;
 
 public class UniProtKBSearchFields extends SearchFieldsLoader {
@@ -17,7 +17,7 @@ public class UniProtKBSearchFields extends SearchFieldsLoader {
     private Set<SearchField> sortFields;
 
     public UniProtKBSearchFields() {
-        this.configService = UniProtSearchFieldConfiguration.getInstance();
+        this.configService = UniProtKBSearchFieldConfiguration.getInstance();
     }
 
     @Override
@@ -27,7 +27,7 @@ public class UniProtKBSearchFields extends SearchFieldsLoader {
             this.searchFields =
                     this.configService.getAllFieldItems().stream()
                             .filter(this::isSearchField)
-                            .map(fieldItem -> SearchFieldImpl.from(fieldItem))
+                            .map(SearchFieldImpl::from)
                             .collect(Collectors.toSet());
 
             Set<SearchField> dbXrefsFields = getDbXrefsCountSearchFields();
@@ -60,7 +60,7 @@ public class UniProtKBSearchFields extends SearchFieldsLoader {
             this.sortFields =
                     this.configService.getAllFieldItems().stream()
                             .filter(this::isSortField)
-                            .map(fieldItem -> SearchFieldImpl.from(fieldItem))
+                            .map(SearchFieldImpl::from)
                             .collect(Collectors.toSet());
         }
         return this.sortFields;
@@ -68,7 +68,7 @@ public class UniProtKBSearchFields extends SearchFieldsLoader {
 
     private Set<SearchField> getDbXrefsCountSearchFields() {
         return UniProtXDbTypes.INSTANCE.getAllDBXRefTypes().stream()
-                .map(db -> SearchFieldImpl.from(db))
+                .map(SearchFieldImpl::from)
                 .collect(Collectors.toSet());
     }
 
