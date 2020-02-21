@@ -4,20 +4,19 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import org.uniprot.cv.xdb.UniProtXDbTypes;
 import org.uniprot.store.config.common.SearchFieldConfiguration;
+import org.uniprot.store.config.crossref.CrossRefSearchFieldConfiguration;
 import org.uniprot.store.config.model.FieldItem;
 import org.uniprot.store.config.model.FieldType;
-import org.uniprot.store.config.uniprotkb.UniProtKBSearchFieldConfiguration;
 import org.uniprot.store.search.domain2.impl.SearchFieldImpl;
 
-public class UniProtKBSearchFields extends SearchFieldsLoader {
+public class CrossRefSearchFields extends SearchFieldsLoader {
     private SearchFieldConfiguration configService;
     private Set<SearchField> searchFields;
     private Set<SearchField> sortFields;
 
-    public UniProtKBSearchFields() {
-        this.configService = UniProtKBSearchFieldConfiguration.getInstance();
+    public CrossRefSearchFields() {
+        this.configService = CrossRefSearchFieldConfiguration.getInstance();
     }
 
     @Override
@@ -29,9 +28,6 @@ public class UniProtKBSearchFields extends SearchFieldsLoader {
                             .filter(this::isSearchField)
                             .map(SearchFieldImpl::from)
                             .collect(Collectors.toSet());
-
-            Set<SearchField> dbXrefsFields = getDbXrefsCountSearchFields();
-            this.searchFields.addAll(dbXrefsFields);
         }
         return this.searchFields;
     }
@@ -64,12 +60,6 @@ public class UniProtKBSearchFields extends SearchFieldsLoader {
                             .collect(Collectors.toSet());
         }
         return this.sortFields;
-    }
-
-    private Set<SearchField> getDbXrefsCountSearchFields() {
-        return UniProtXDbTypes.INSTANCE.getAllDBXRefTypes().stream()
-                .map(SearchFieldImpl::from)
-                .collect(Collectors.toSet());
     }
 
     private boolean isSearchField(FieldItem fieldItem) {

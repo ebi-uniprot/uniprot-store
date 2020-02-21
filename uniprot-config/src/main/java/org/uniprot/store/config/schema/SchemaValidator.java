@@ -19,11 +19,18 @@ import org.uniprot.store.config.common.FieldValidationException;
 @Slf4j
 public class SchemaValidator {
     public static void validate(@NonNull String schemaFile, @NonNull String jsonInputFile) {
+
         InputStream schemaStream = readFile(schemaFile);
+        InputStream jsonStream = readFile(jsonInputFile);
+
+        validateInputAgainstSchema(schemaStream, jsonStream);
+    }
+
+    public static void validateInputAgainstSchema(
+            InputStream schemaStream, InputStream configStream) {
         JSONObject jsonSchema = new JSONObject(new JSONTokener(schemaStream));
 
-        InputStream jsonStream = readFile(jsonInputFile);
-        JSONArray jsonInput = new JSONArray(new JSONTokener(jsonStream));
+        JSONArray jsonInput = new JSONArray(new JSONTokener(configStream));
 
         SchemaLoader loader =
                 SchemaLoader.builder().schemaJson(jsonSchema).draftV7Support().build();
@@ -36,7 +43,7 @@ public class SchemaValidator {
         }
     }
 
-    private static InputStream readFile(String filePath) {
+    public static InputStream readFile(String filePath) {
         InputStream inputStream =
                 SchemaValidator.class.getClassLoader().getResourceAsStream(filePath);
         if (inputStream == null) {
