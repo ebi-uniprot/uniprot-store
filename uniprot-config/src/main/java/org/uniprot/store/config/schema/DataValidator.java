@@ -1,21 +1,23 @@
 package org.uniprot.store.config.schema;
 
+import java.util.BitSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.stream.Collectors;
+
 import org.apache.commons.lang3.StringUtils;
 import org.uniprot.store.config.common.FieldValidationException;
 import org.uniprot.store.config.model.FieldItem;
 
-import javax.validation.constraints.PositiveOrZero;
-import java.util.BitSet;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
-
 public class DataValidator {
-    
-    public static void validateContent(List<FieldItem> fieldItems, Map<String, FieldItem> idFieldMap){
+
+    public static void validateContent(
+            List<FieldItem> fieldItems, Map<String, FieldItem> idFieldMap) {
         validateParentExists(fieldItems, idFieldMap);
         validateSeqNumbers(fieldItems);
         validateChildNumbers(fieldItems);
+        validateSortFieldIds(fieldItems, idFieldMap);
     }
 
     private static void validateParentExists(
@@ -33,48 +35,69 @@ public class DataValidator {
                         });
     }
 
-    private static void validateSeqNumbers(List<FieldItem> fieldItems){
+    private static void validateSeqNumbers(List<FieldItem> fieldItems) {
         List<Integer> seqNumbers = extractSeqNumbers(fieldItems);
         validateNaturalNumbers(seqNumbers, "seqNumber");
     }
 
-    private static List<Integer> extractSeqNumbers(List<FieldItem> fieldItems){
-        List<Integer> seqNumbers = fieldItems.stream()
-                .filter(fi -> fi.getSeqNumber() != null)
-                .map(fi -> fi.getSeqNumber())
-                .collect(Collectors.toList());
+    private static List<Integer> extractSeqNumbers(List<FieldItem> fieldItems) {
+        List<Integer> seqNumbers =
+                fieldItems.stream()
+                        .filter(fi -> fi.getSeqNumber() != null)
+                        .map(fi -> fi.getSeqNumber())
+                        .collect(Collectors.toList());
         return seqNumbers;
     }
 
     private static void validateChildNumbers(List<FieldItem> fieldItems) {
 
-        Map<String, List<FieldItem>> parentChildrenMap = fieldItems.stream()
-                .filter(fi -> StringUtils.isNotBlank(fi.getParentId()))
-                .collect(Collectors.groupingBy(FieldItem::getParentId));
+        Map<String, List<FieldItem>> parentChildrenMap =
+                fieldItems.stream()
+                        .filter(fi -> StringUtils.isNotBlank(fi.getParentId()))
+                        .collect(Collectors.groupingBy(FieldItem::getParentId));
 
-        parentChildrenMap.entrySet().stream().forEach(pc -> validateChildNumbers(pc.getKey(), pc.getValue()));
-
+        parentChildrenMap.entrySet().stream()
+                .forEach(pc -> validateChildNumbers(pc.getKey(), pc.getValue()));
     }
 
-    static void validateChildNumbers(String parentId, List<FieldItem> children){
-        List<Integer> childNumbers = children.stream().map(c -> c.getChildNumber()).collect(Collectors.toList());
-        String message = "childNumber for parentId '" + parentId +"'";
+    static void validateChildNumbers(String parentId, List<FieldItem> children) {
+        List<Integer> childNumbers =
+                children.stream().map(c -> c.getChildNumber()).collect(Collectors.toList());
+        String message = "childNumber for parentId '" + parentId + "'";
         validateNaturalNumbers(childNumbers, message);
     }
 
-    private static void validateNaturalNumbers(List<Integer> numbers, String message){
+    private static void validateNaturalNumbers(List<Integer> numbers, String message) {
         // check numbers are natural number including 0
         int inputSize = numbers.size();
         BitSet visitedSet = new BitSet(inputSize);
 
-        for(Integer number : numbers){
-            if(number >= inputSize){
-                throw new FieldValidationException(message + " " + number +" is bigger than available number.");
+        for (Integer number : numbers) {
+            if (number >= inputSize) {
+                throw new FieldValidationException(
+                        message + " " + number + " is bigger than available number.");
             }
-            if(visitedSet.get(number)){
-                throw new FieldValidationException(message + " " + number +" is already used.");
+            if (visitedSet.get(number)) {
+                throw new FieldValidationException(message + " " + number + " is already used.");
             }
             visitedSet.set(number);
         }
+    }
+
+    private static void validateSortFieldIds(
+            List<FieldItem> fieldItems, Map<String, FieldItem> idFieldMap) {
+        fieldItems.stream()
+                .filter(fi -> hasSortFieldId(fi))
+                .forEach(
+                        fi -> {
+                            if (!idFieldMap.containsKey(fi.getSortFieldId())) {
+                                throw new FieldValidationException(
+                                        "No field item for sortId " + fi.getSortFieldId());
+                            }
+                        });
+    }
+
+    private static boolean hasSortFieldId(FieldItem fi) {
+        return Objects.nonNull(fi.getSortFieldId());
     }
 }

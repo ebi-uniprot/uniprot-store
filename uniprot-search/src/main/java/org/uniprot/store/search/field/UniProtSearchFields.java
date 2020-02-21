@@ -5,7 +5,7 @@ import java.util.Set;
 
 import org.uniprot.store.search.domain2.SearchField;
 import org.uniprot.store.search.domain2.SearchFieldsLoader;
-import org.uniprot.store.search.domain2.UniProtKBSearchFieldsLoader;
+import org.uniprot.store.search.domain2.UniProtKBSearchFields;
 
 /**
  * Represents all accessible search fields for UniProt domains (e.g., UniProtKB, UniParc, UniRef),
@@ -48,10 +48,16 @@ public enum UniProtSearchFields implements SearchFields {
         return searchFieldsLoader.getSortFields();
     }
 
+    @Override
+    public SearchField getSortFieldFor(String field) {
+        checkInitialised();
+        return searchFieldsLoader.getSortFieldFor(field);
+    }
+
     private void checkInitialised() {
         if (Objects.isNull(searchFieldsLoader)) {
             if (configPath.startsWith("uniprot")) {
-                searchFieldsLoader = new UniProtKBSearchFieldsLoader(configPath);
+                searchFieldsLoader = new UniProtKBSearchFields();
             } else {
                 searchFieldsLoader = new SearchFieldsLoader(configPath);
             }
