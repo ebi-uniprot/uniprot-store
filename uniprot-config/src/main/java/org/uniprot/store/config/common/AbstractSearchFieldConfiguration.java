@@ -16,19 +16,19 @@ import org.uniprot.store.config.schema.SchemaValidator;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Slf4j
-public abstract class AbstractFieldConfiguration implements FieldConfiguration {
+public abstract class AbstractSearchFieldConfiguration implements SearchFieldConfiguration {
     private List<FieldItem> fieldItems;
     private Map<String, FieldItem> idFieldItemMap;
     private String schemaFile;
     private String configFile;
 
-    protected AbstractFieldConfiguration(String schemaFile, String configFile) {
+    protected AbstractSearchFieldConfiguration(String schemaFile, String configFile) {
         SchemaValidator.validate(schemaFile, configFile);
         init(schemaFile, configFile);
         DataValidator.validateContent(this.fieldItems, idFieldItemMap);
     }
 
-    public void init(String schemaFile, String configFile) {
+    private void init(String schemaFile, String configFile) {
         this.schemaFile = schemaFile;
         this.configFile = configFile;
         this.fieldItems = loadAndGetFieldItems(this.configFile);
@@ -43,18 +43,18 @@ public abstract class AbstractFieldConfiguration implements FieldConfiguration {
         return this.idFieldItemMap.get(id);
     }
 
-    public List<FieldItem> loadAndGetFieldItems(@NonNull String config) {
+    public List<FieldItem> loadAndGetFieldItems(@NonNull String configFile) {
         ObjectMapper objectMapper = new ObjectMapper();
         List<FieldItem> fieldItemList;
-        try (InputStream inputStream = readConfig(config)) {
+        try (InputStream inputStream = readConfig(configFile)) {
             if (inputStream == null) {
-                throw new IllegalArgumentException("File '" + config + "' not found");
+                throw new IllegalArgumentException("File '" + configFile + "' not found");
             }
             fieldItemList = Arrays.asList(objectMapper.readValue(inputStream, FieldItem[].class));
         } catch (IOException e) {
             log.error(e.getMessage());
             throw new IllegalArgumentException(
-                    "File '" + config + "' could not be be converted into list of FieldItem");
+                    "File '" + configFile + "' could not be be converted into list of FieldItem");
         }
         return fieldItemList;
     }
@@ -66,7 +66,7 @@ public abstract class AbstractFieldConfiguration implements FieldConfiguration {
 
     public InputStream readConfig(String config) {
         InputStream inputStream =
-                FieldConfiguration.class.getClassLoader().getResourceAsStream(config);
+                SearchFieldConfiguration.class.getClassLoader().getResourceAsStream(config);
         if (inputStream == null) {
             File file = new File(config);
             try {

@@ -3,6 +3,7 @@ package org.uniprot.store.search.field;
 import java.util.Objects;
 import java.util.Set;
 
+import org.uniprot.store.search.domain2.CrossRefSearchFields;
 import org.uniprot.store.search.domain2.SearchField;
 import org.uniprot.store.search.domain2.SearchFieldsLoader;
 import org.uniprot.store.search.domain2.UniProtKBSearchFields;
@@ -58,6 +59,8 @@ public enum UniProtSearchFields implements SearchFields {
         if (Objects.isNull(searchFieldsLoader)) {
             if (configPath.startsWith("uniprot")) {
                 searchFieldsLoader = new UniProtKBSearchFields();
+            } else if (configPath.startsWith("crossref")) {
+                searchFieldsLoader = new CrossRefSearchFields();
             } else {
                 searchFieldsLoader = new SearchFieldsLoader(configPath);
             }

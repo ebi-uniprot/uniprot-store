@@ -6,8 +6,8 @@ import java.util.Map;
 
 import org.uniprot.store.config.model.FieldItem;
 
-public interface FieldConfiguration {
-    void init(String schemaFile, String configFile);
+public interface SearchFieldConfiguration {
+    String SCHEMA_FILE = "search-fields-schema.json";
 
     List<FieldItem> loadAndGetFieldItems(String config);
 

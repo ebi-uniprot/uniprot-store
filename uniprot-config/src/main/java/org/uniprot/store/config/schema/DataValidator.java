@@ -20,7 +20,7 @@ public class DataValidator {
         validateSortFieldIds(fieldItems, idFieldMap);
     }
 
-    private static void validateParentExists(
+    public static void validateParentExists(
             List<FieldItem> fieldItems, Map<String, FieldItem> idFieldMap) {
         fieldItems.stream()
                 .filter(fi -> StringUtils.isNotBlank(fi.getParentId()))
@@ -35,7 +35,7 @@ public class DataValidator {
                         });
     }
 
-    private static void validateSeqNumbers(List<FieldItem> fieldItems) {
+    public static void validateSeqNumbers(List<FieldItem> fieldItems) {
         List<Integer> seqNumbers = extractSeqNumbers(fieldItems);
         validateNaturalNumbers(seqNumbers, "seqNumber");
     }
@@ -44,12 +44,12 @@ public class DataValidator {
         List<Integer> seqNumbers =
                 fieldItems.stream()
                         .filter(fi -> fi.getSeqNumber() != null)
-                        .map(fi -> fi.getSeqNumber())
+                        .map(FieldItem::getSeqNumber)
                         .collect(Collectors.toList());
         return seqNumbers;
     }
 
-    private static void validateChildNumbers(List<FieldItem> fieldItems) {
+    public static void validateChildNumbers(List<FieldItem> fieldItems) {
 
         Map<String, List<FieldItem>> parentChildrenMap =
                 fieldItems.stream()
@@ -60,7 +60,20 @@ public class DataValidator {
                 .forEach(pc -> validateChildNumbers(pc.getKey(), pc.getValue()));
     }
 
-    static void validateChildNumbers(String parentId, List<FieldItem> children) {
+    public static void validateSortFieldIds(
+            List<FieldItem> fieldItems, Map<String, FieldItem> idFieldMap) {
+        fieldItems.stream()
+                .filter(fi -> hasSortFieldId(fi))
+                .forEach(
+                        fi -> {
+                            if (!idFieldMap.containsKey(fi.getSortFieldId())) {
+                                throw new FieldValidationException(
+                                        "No field item with id for sortId " + fi.getSortFieldId());
+                            }
+                        });
+    }
+
+    private static void validateChildNumbers(String parentId, List<FieldItem> children) {
         List<Integer> childNumbers =
                 children.stream().map(c -> c.getChildNumber()).collect(Collectors.toList());
         String message = "childNumber for parentId '" + parentId + "'";
@@ -73,28 +86,21 @@ public class DataValidator {
         BitSet visitedSet = new BitSet(inputSize);
 
         for (Integer number : numbers) {
+            if (number == null) {
+                throw new FieldValidationException(message + " " + number + " is null.");
+            }
             if (number >= inputSize) {
                 throw new FieldValidationException(
                         message + " " + number + " is bigger than available number.");
+            }
+            if (number < 0) {
+                throw new FieldValidationException(message + " " + number + " is less than zero.");
             }
             if (visitedSet.get(number)) {
                 throw new FieldValidationException(message + " " + number + " is already used.");
             }
             visitedSet.set(number);
         }
-    }
-
-    private static void validateSortFieldIds(
-            List<FieldItem> fieldItems, Map<String, FieldItem> idFieldMap) {
-        fieldItems.stream()
-                .filter(fi -> hasSortFieldId(fi))
-                .forEach(
-                        fi -> {
-                            if (!idFieldMap.containsKey(fi.getSortFieldId())) {
-                                throw new FieldValidationException(
-                                        "No field item for sortId " + fi.getSortFieldId());
-                            }
-                        });
     }
 
     private static boolean hasSortFieldId(FieldItem fi) {
