@@ -1,0 +1,26 @@
+[
+  {
+    "id": "id",
+    "fieldName": "id",
+    "fieldType": "field",
+    "dataType": "string",
+    "description": "Search by id",
+    "example": "sample id"
+  },
+  {
+    "id": "dict",
+    "fieldName": "dict",
+    "fieldType": "field",
+    "dataType": "string",
+    "description": "Search by dict",
+    "example": "sample dict value"
+  },
+  {
+    "id": "content",
+    "fieldName": "content",
+    "fieldType": "field",
+    "dataType": "string",
+    "description": "Search by any content",
+    "example": "cell"
+  }
+]

@@ -1,0 +1,36 @@
+[
+  {
+    "id": "accession",
+    "fieldName": "accession",
+    "validRegex" : "^DI-[0-9]{5}$",
+    "fieldType": "field",
+    "dataType": "string",
+    "sortFieldId": "accession_sort_id",
+    "description": "Search by disease accession",
+    "example": "DI-12345"
+  },
+  {
+    "id": "accession_sort_id",
+    "fieldName": "accession",
+    "fieldType": "sort",
+    "dataType": "string",
+    "description": "Sort by disease accession",
+    "example": "accession asc"
+  },
+  {
+    "id": "name",
+    "fieldName": "name",
+    "fieldType": "field",
+    "dataType": "string",
+    "description": "Search by disease name",
+    "example": "alzheimer disease"
+  },
+  {
+    "id": "content",
+    "fieldName": "content",
+    "fieldType": "field",
+    "dataType": "string",
+    "description": "Search by any content",
+    "example": "cancer"
+  }
+]

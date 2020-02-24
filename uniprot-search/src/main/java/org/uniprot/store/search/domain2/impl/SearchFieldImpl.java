@@ -7,8 +7,8 @@ import lombok.Builder;
 import lombok.Data;
 
 import org.uniprot.core.cv.xdb.UniProtXDbTypeDetail;
-import org.uniprot.store.config.model.FieldItem;
-import org.uniprot.store.config.model.FieldType;
+import org.uniprot.store.config.searchfield.model.FieldItem;
+import org.uniprot.store.config.searchfield.model.FieldType;
 import org.uniprot.store.search.domain2.SearchField;
 import org.uniprot.store.search.domain2.SearchFieldType;
 

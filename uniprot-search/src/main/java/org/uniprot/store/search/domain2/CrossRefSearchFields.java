@@ -4,14 +4,14 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import org.uniprot.store.config.common.SearchFieldConfiguration;
-import org.uniprot.store.config.crossref.CrossRefSearchFieldConfiguration;
-import org.uniprot.store.config.model.FieldItem;
-import org.uniprot.store.config.model.FieldType;
+import org.uniprot.store.config.searchfield.common.SearchFieldConfig;
+import org.uniprot.store.config.searchfield.impl.CrossRefSearchFieldConfiguration;
+import org.uniprot.store.config.searchfield.model.FieldItem;
+import org.uniprot.store.config.searchfield.model.FieldType;
 import org.uniprot.store.search.domain2.impl.SearchFieldImpl;
 
 public class CrossRefSearchFields extends SearchFieldsLoader {
-    private SearchFieldConfiguration configService;
+    private SearchFieldConfig configService;
     private Set<SearchField> searchFields;
     private Set<SearchField> sortFields;
 
