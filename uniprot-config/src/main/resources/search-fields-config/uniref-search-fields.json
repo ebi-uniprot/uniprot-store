@@ -1,0 +1,146 @@
+[
+  {
+    "id": "id",
+    "fieldName": "id",
+    "fieldType": "field",
+    "dataType": "string",
+    "validRegex": "(UniRef100|UniRef90|UniRef50)\\w*",
+    "sortFieldId": "id_sort",
+    "description": "Search by uniref id",
+    "example": "UniRef100_A0A001"
+  },
+  {
+    "id": "id_sort",
+    "fieldName": "id",
+    "fieldType": "sort",
+    "dataType": "string",
+    "description": "Sort by uniref id",
+    "example": "id asc"
+  },
+  {
+    "id": "organism_sort",
+    "fieldName": "organism_sort",
+    "sortFieldId": "organism_sort_id",
+    "fieldType": "field",
+    "dataType": "string",
+    "description": "Search by organism",
+    "example": "sample organism"
+  },
+  {
+    "id": "organism_sort_id",
+    "fieldName": "organism_sort",
+    "fieldType": "field",
+    "dataType": "string",
+    "description": "Sort by name",
+    "example": "organism_sort asc"
+  },
+  {
+    "id": "name",
+    "fieldName": "name",
+    "fieldType": "field",
+    "dataType": "string",
+    "description": "Search by name",
+    "example": "sample name"
+  },
+  {
+    "id": "identity",
+    "fieldName": "identity",
+    "fieldType": "field",
+    "dataType": "string",
+    "description": "Search by identity",
+    "example": "sample identity"
+  },
+  {
+    "id": "count",
+    "fieldName": "count",
+    "fieldType": "range",
+    "dataType": "integer",
+    "sortFieldId": "count_sort",
+    "description": "Search by count",
+    "example": "[100 TO 300]"
+  },
+  {
+    "id": "count_sort",
+    "fieldName": "count",
+    "fieldType": "sort",
+    "dataType": "integer",
+    "description": "Sort by count",
+    "example": "count asc"
+  },
+  {
+    "id": "length",
+    "fieldName": "length",
+    "fieldType": "range",
+    "dataType": "integer",
+    "sortFieldId": "length_sort",
+    "description": "Search by length",
+    "example": "[100 TO 300]"
+  },
+  {
+    "id": "length_sort",
+    "fieldName": "length",
+    "fieldType": "sort",
+    "dataType": "integer",
+    "description": "Sort by length",
+    "example": "length asc"
+  },
+  {
+    "id": "created",
+    "fieldName": "created",
+    "fieldType": "range",
+    "dataType": "date",
+    "sortFieldId": "created_sort",
+    "description": "Search by created",
+    "example": "[2011-10-10 TO 2019-10-10]"
+  },
+  {
+    "id": "created_sort",
+    "fieldName": "created",
+    "fieldType": "sort",
+    "dataType": "date",
+    "description": "Sort by created",
+    "example": "created asc"
+  },
+  {
+    "id": "uniprot_id",
+    "fieldName": "uniprot_id",
+    "fieldType": "field",
+    "dataType": "string",
+    "description": "Search by uniprot id",
+    "example": "sample uniprot id"
+  },
+  {
+    "id": "upi",
+    "fieldName": "upi",
+    "validRegex": "UPI[\\w]{10}",
+    "fieldType": "field",
+    "dataType": "string",
+    "description": "Search by upi",
+    "example": "UPI0123456789"
+  },
+  {
+    "id": "taxonomy_id",
+    "fieldName": "taxonomy_id",
+    "validRegex": "^[0-9]+$",
+    "fieldType": "field",
+    "dataType": "integer",
+    "description": "Search by taxonomy id",
+    "example": "1234565"
+  },
+  {
+    "id": "taxonomy_name",
+    "fieldName": "taxonomy_name",
+    "fieldType": "field",
+    "dataType": "string",
+    "description": "Search by taxonomy name",
+    "example": "sample name"
+  },
+  {
+    "id": "content",
+    "fieldName": "content",
+    "fieldType": "field",
+    "dataType": "string",
+    "description": "Search by any content",
+    "example": "sample content"
+  }
+]

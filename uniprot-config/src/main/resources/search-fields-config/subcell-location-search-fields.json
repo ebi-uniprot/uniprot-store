@@ -1,0 +1,52 @@
+[
+  {
+    "id": "name",
+    "fieldName": "name",
+    "fieldType": "field",
+    "dataType": "string",
+    "sortFieldId": "name_sort_id",
+    "description": "Search by subcellular location name",
+    "example": "A band"
+  },
+  {
+    "id": "name_sort_id",
+    "fieldName": "name_sort",
+    "fieldType": "sort",
+    "dataType": "string",
+    "description": "Sort by subcellular location name",
+    "example": "name_sort asc"
+  },
+  {
+    "id": "category",
+    "fieldName": "category",
+    "fieldType": "field",
+    "dataType": "string",
+    "description": "Search by category",
+    "example": "Cellular"
+  },
+  {
+    "id": "id",
+    "fieldName": "id",
+    "fieldType": "field",
+    "dataType": "string",
+    "sortFieldId": "id_sort",
+    "description": "Search by subcellular location id",
+    "example": "SL-0476"
+  },
+  {
+    "id": "id_sort",
+    "fieldName": "id",
+    "fieldType": "sort",
+    "dataType": "string",
+    "description": "Sort by subcellular location id",
+    "example": "id asc"
+  },
+  {
+    "id": "content",
+    "fieldName": "content",
+    "fieldType": "field",
+    "dataType": "string",
+    "description": "Search by any content",
+    "example": "cell"
+  }
+]
