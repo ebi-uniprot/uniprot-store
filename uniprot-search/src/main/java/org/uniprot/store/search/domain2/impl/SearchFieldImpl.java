@@ -59,7 +59,7 @@ public class SearchFieldImpl implements SearchField {
     private static boolean isGeneralFieldItem(FieldItem fieldItem) {
         return Objects.nonNull(fieldItem.getFieldType())
                 && (FieldType.evidence == fieldItem.getFieldType()
-                        || FieldType.field == fieldItem.getFieldType());
+                        || FieldType.general == fieldItem.getFieldType());
     }
 
     private static boolean isRangeFieldItem(FieldItem fieldItem) {

@@ -2,7 +2,7 @@
   {
     "id": "id",
     "fieldName": "id",
-    "fieldType": "field",
+    "fieldType": "general",
     "dataType": "string",
     "description": "Search by id",
     "example": "sample id"
@@ -10,7 +10,7 @@
   {
     "id": "dict",
     "fieldName": "dict",
-    "fieldType": "field",
+    "fieldType": "general",
     "dataType": "string",
     "description": "Search by dict",
     "example": "sample dict value"
@@ -18,7 +18,7 @@
   {
     "id": "content",
     "fieldName": "content",
-    "fieldType": "field",
+    "fieldType": "general",
     "dataType": "string",
     "description": "Search by any content",
     "example": "cell"

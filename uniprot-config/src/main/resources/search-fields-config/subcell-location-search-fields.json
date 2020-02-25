@@ -2,7 +2,7 @@
   {
     "id": "name",
     "fieldName": "name",
-    "fieldType": "field",
+    "fieldType": "general",
     "dataType": "string",
     "sortFieldId": "name_sort_id",
     "description": "Search by subcellular location name",
@@ -19,7 +19,7 @@
   {
     "id": "category",
     "fieldName": "category",
-    "fieldType": "field",
+    "fieldType": "general",
     "dataType": "string",
     "description": "Search by category",
     "example": "Cellular"
@@ -27,7 +27,8 @@
   {
     "id": "id",
     "fieldName": "id",
-    "fieldType": "field",
+    "validRegex": "^SL-[0-9]{4}$",
+    "fieldType": "general",
     "dataType": "string",
     "sortFieldId": "id_sort",
     "description": "Search by subcellular location id",
@@ -44,7 +45,7 @@
   {
     "id": "content",
     "fieldName": "content",
-    "fieldType": "field",
+    "fieldType": "general",
     "dataType": "string",
     "description": "Search by any content",
     "example": "cell"

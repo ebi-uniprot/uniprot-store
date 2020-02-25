@@ -29,7 +29,7 @@
         },
         "fieldType" : {
           "type" : "string",
-          "enum" : [ "field", "range", "evidence", "sort" ]
+          "enum" : [ "general", "range", "evidence", "sort" ]
         },
         "label" : {
           "type" : "string"

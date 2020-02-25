@@ -2,7 +2,7 @@
   {
     "id": "id",
     "fieldName": "id",
-    "fieldType": "field",
+    "fieldType": "general",
     "dataType": "string",
     "validRegex": "(UniRef100|UniRef90|UniRef50)\\w*",
     "sortFieldId": "id_sort",
@@ -21,7 +21,7 @@
     "id": "organism_sort",
     "fieldName": "organism_sort",
     "sortFieldId": "organism_sort_id",
-    "fieldType": "field",
+    "fieldType": "general",
     "dataType": "string",
     "description": "Search by organism",
     "example": "sample organism"
@@ -29,7 +29,7 @@
   {
     "id": "organism_sort_id",
     "fieldName": "organism_sort",
-    "fieldType": "field",
+    "fieldType": "general",
     "dataType": "string",
     "description": "Sort by name",
     "example": "organism_sort asc"
@@ -37,7 +37,7 @@
   {
     "id": "name",
     "fieldName": "name",
-    "fieldType": "field",
+    "fieldType": "general",
     "dataType": "string",
     "description": "Search by name",
     "example": "sample name"
@@ -45,7 +45,7 @@
   {
     "id": "identity",
     "fieldName": "identity",
-    "fieldType": "field",
+    "fieldType": "general",
     "dataType": "string",
     "description": "Search by identity",
     "example": "sample identity"
@@ -104,7 +104,7 @@
   {
     "id": "uniprot_id",
     "fieldName": "uniprot_id",
-    "fieldType": "field",
+    "fieldType": "general",
     "dataType": "string",
     "description": "Search by uniprot id",
     "example": "sample uniprot id"
@@ -113,7 +113,7 @@
     "id": "upi",
     "fieldName": "upi",
     "validRegex": "UPI[\\w]{10}",
-    "fieldType": "field",
+    "fieldType": "general",
     "dataType": "string",
     "description": "Search by upi",
     "example": "UPI0123456789"
@@ -122,7 +122,7 @@
     "id": "taxonomy_id",
     "fieldName": "taxonomy_id",
     "validRegex": "^[0-9]+$",
-    "fieldType": "field",
+    "fieldType": "general",
     "dataType": "integer",
     "description": "Search by taxonomy id",
     "example": "1234565"
@@ -130,7 +130,7 @@
   {
     "id": "taxonomy_name",
     "fieldName": "taxonomy_name",
-    "fieldType": "field",
+    "fieldType": "general",
     "dataType": "string",
     "description": "Search by taxonomy name",
     "example": "sample name"
@@ -138,7 +138,7 @@
   {
     "id": "content",
     "fieldName": "content",
-    "fieldType": "field",
+    "fieldType": "general",
     "dataType": "string",
     "description": "Search by any content",
     "example": "sample content"
