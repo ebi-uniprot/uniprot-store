@@ -2,7 +2,7 @@
   {
     "id": "id",
     "fieldName": "id",
-    "fieldType": "field",
+    "fieldType": "general",
     "dataType": "string",
     "validRegex": "^[0-9]+$",
     "sortFieldId": "id_sort_id",
@@ -20,7 +20,7 @@
   {
     "id": "title",
     "fieldName": "title",
-    "fieldType": "field",
+    "fieldType": "general",
     "dataType": "string",
     "sortFieldId": "title_sort_id",
     "description": "Search by title",
@@ -37,7 +37,7 @@
   {
     "id": "doi",
     "fieldName": "doi",
-    "fieldType": "field",
+    "fieldType": "general",
     "dataType": "string",
     "description": "Search by data object identifier",
     "example": "10.1007/s11882-009-0055-9"
@@ -45,7 +45,7 @@
   {
     "id": "author",
     "fieldName": "author",
-    "fieldType": "field",
+    "fieldType": "general",
     "dataType": "string",
     "description": "Search by author name",
     "example": "sample author name"
@@ -53,7 +53,7 @@
   {
     "id": "journal",
     "fieldName": "journal",
-    "fieldType": "field",
+    "fieldType": "general",
     "dataType": "string",
     "description": "Search by journal",
     "example": "sample journal"
@@ -61,7 +61,7 @@
   {
     "id": "published",
     "fieldName": "published",
-    "fieldType": "field",
+    "fieldType": "general",
     "dataType": "string",
     "description": "Search by published",
     "example": "sample"
@@ -69,7 +69,7 @@
   {
     "id": "citedin",
     "fieldName": "citedin",
-    "fieldType": "field",
+    "fieldType": "general",
     "dataType": "bool",
     "validRegex": "^true|false$",
     "description": "Search if mapped in",
@@ -78,7 +78,7 @@
   {
     "id": "mappedin",
     "fieldName": "mappedin",
-    "fieldType": "field",
+    "fieldType": "general",
     "dataType": "bool",
     "validRegex": "^true|false$",
     "description": "Search if mapped in",
@@ -87,7 +87,7 @@
   {
     "id": "content",
     "fieldName": "content",
-    "fieldType": "field",
+    "fieldType": "general",
     "dataType": "string",
     "description": "Search by any content",
     "example": "sample"

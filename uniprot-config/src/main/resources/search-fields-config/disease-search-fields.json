@@ -3,7 +3,7 @@
     "id": "accession",
     "fieldName": "accession",
     "validRegex" : "^DI-[0-9]{5}$",
-    "fieldType": "field",
+    "fieldType": "general",
     "dataType": "string",
     "sortFieldId": "accession_sort_id",
     "description": "Search by disease accession",
@@ -20,7 +20,7 @@
   {
     "id": "name",
     "fieldName": "name",
-    "fieldType": "field",
+    "fieldType": "general",
     "dataType": "string",
     "description": "Search by disease name",
     "example": "alzheimer disease"
@@ -28,7 +28,7 @@
   {
     "id": "content",
     "fieldName": "content",
-    "fieldType": "field",
+    "fieldType": "general",
     "dataType": "string",
     "description": "Search by any content",
     "example": "cancer"

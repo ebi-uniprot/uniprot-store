@@ -132,6 +132,14 @@ public abstract class AbstractSearchFieldConfig implements SearchFieldConfig {
         return this.idFieldItemMap.get(id);
     }
 
+    public FieldType getFieldTypeByFieldName(String fieldName) {
+        FieldItem fieldItem = getSearchFieldItemByName(fieldName);
+        if (fieldItem.getFieldType() == FieldType.evidence) {
+            return FieldType.general;
+        }
+        return fieldItem.getFieldType();
+    }
+
     public List<FieldItem> loadAndGetFieldItems(@NonNull String configFile) {
         ObjectMapper objectMapper = new ObjectMapper();
         List<FieldItem> fieldItemList;

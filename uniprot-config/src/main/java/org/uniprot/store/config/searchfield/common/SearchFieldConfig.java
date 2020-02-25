@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.Optional;
 
 import org.uniprot.store.config.searchfield.model.FieldItem;
+import org.uniprot.store.config.searchfield.model.FieldType;
 
 public interface SearchFieldConfig {
     String SCHEMA_FILE = "schema/search-fields-schema.json";
@@ -41,4 +42,6 @@ public interface SearchFieldConfig {
     List<FieldItem> getChildFieldItems(String parentId);
 
     InputStream readConfig(String config);
+
+    FieldType getFieldTypeByFieldName(String fieldName);
 }

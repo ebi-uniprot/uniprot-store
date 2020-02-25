@@ -2,7 +2,7 @@
   {
     "id": "upid",
     "fieldName": "upid",
-    "fieldType": "field",
+    "fieldType": "general",
     "dataType": "string",
     "sortFieldId": "upid_sort",
     "validRegex": "UP[0-9]{9}",
@@ -20,7 +20,7 @@
   {
     "id": "proteome_type",
     "fieldName": "proteome_type",
-    "fieldType": "field",
+    "fieldType": "general",
     "dataType": "integer",
     "sortFieldId": "proteome_type_sort",
     "description": "search by proteome type",
@@ -37,7 +37,7 @@
   {
     "id": "annotation_score",
     "fieldName": "annotation_score",
-    "fieldType": "field",
+    "fieldType": "general",
     "dataType": "integer",
     "sortFieldId": "annotation_score_sort",
     "description": "search by annotation_score ",
@@ -54,7 +54,7 @@
   {
     "id": "organism_sort",
     "fieldName": "organism_sort",
-    "fieldType": "field",
+    "fieldType": "general",
     "dataType": "string",
     "sortFieldId": "organism_sort_id",
     "description": "search by organism",
@@ -71,7 +71,7 @@
   {
     "id": "reference",
     "fieldName": "reference",
-    "fieldType": "field",
+    "fieldType": "general",
     "validRegex": "^true|false$",
     "dataType": "bool",
     "description": "search if reference",
@@ -80,7 +80,7 @@
   {
     "id": "redundant",
     "fieldName": "redundant",
-    "fieldType": "field",
+    "fieldType": "general",
     "validRegex": "^true|false$",
     "dataType": "bool",
     "description": "search  if redundant",
@@ -89,7 +89,7 @@
   {
     "id": "organism_name",
     "fieldName": "organism_name",
-    "fieldType": "field",
+    "fieldType": "general",
     "dataType": "string",
     "description": "search by organism",
     "example": "sample organism name"
@@ -98,7 +98,7 @@
     "id": "organism_id",
     "fieldName": "organism_id",
     "validRegex": "^[0-9]+$",
-    "fieldType": "field",
+    "fieldType": "general",
     "dataType": "integer",
     "description": "search by organism id",
     "example": "12345"
@@ -106,7 +106,7 @@
   {
     "id": "taxonomy_name",
     "fieldName": "taxonomy_name",
-    "fieldType": "field",
+    "fieldType": "general",
     "dataType": "string",
     "description": "search by taxonomy name",
     "example": "sample taxonomy  name"
@@ -115,7 +115,7 @@
     "id": "taxonomy_id",
     "fieldName": "taxonomy_id",
     "validRegex": "^[0-9]+$",
-    "fieldType": "field",
+    "fieldType": "general",
     "dataType": "integer",
     "description": "search by taxonomy id",
     "example": "12345"
@@ -123,7 +123,7 @@
   {
     "id": "superkingdom",
     "fieldName": "superkingdom",
-    "fieldType": "field",
+    "fieldType": "general",
     "dataType": "string",
     "description": "search by superkingdom name",
     "example": "sample superkingdom  name"
@@ -131,7 +131,7 @@
   {
     "id": "genome_accession",
     "fieldName": "genome_accession",
-    "fieldType": "field",
+    "fieldType": "general",
     "dataType": "string",
     "description": "search by genome accession ",
     "example": "sample genome accession"
@@ -139,7 +139,7 @@
   {
     "id": "genome_assembly",
     "fieldName": "genome_assembly",
-    "fieldType": "field",
+    "fieldType": "general",
     "dataType": "string",
     "description": "search by genome_assembly ",
     "example": "sample genome_assembly"
@@ -147,7 +147,7 @@
   {
     "id": "content",
     "fieldName": "content",
-    "fieldType": "field",
+    "fieldType": "general",
     "dataType": "string",
     "description": "Search by any content",
     "example": "sample"

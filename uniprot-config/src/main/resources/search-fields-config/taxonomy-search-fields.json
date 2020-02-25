@@ -2,7 +2,7 @@
   {
     "id": "scientific",
     "fieldName": "scientific",
-    "fieldType": "field",
+    "fieldType": "general",
     "dataType": "string",
     "sortFieldId": "name_sort_id",
     "description": "Search by scientific name",
@@ -19,7 +19,7 @@
   {
     "id": "id",
     "fieldName": "id",
-    "fieldType": "field",
+    "fieldType": "general",
     "dataType": "string",
     "validRegex": "^[0-9]+$",
     "description": "Search by taxon identifier",
@@ -28,7 +28,7 @@
   {
     "id": "tax_id",
     "fieldName": "tax_id",
-    "fieldType": "field",
+    "fieldType": "general",
     "dataType": "integer",
     "validRegex": "^[0-9]+$",
     "description": "Search by taxon identifier",
@@ -37,7 +37,7 @@
   {
     "id": "common",
     "fieldName": "common",
-    "fieldType": "field",
+    "fieldType": "general",
     "dataType": "string",
     "description": "Search by common name",
     "example": "sample name"
@@ -45,7 +45,7 @@
   {
     "id": "mnemonic",
     "fieldName": "mnemonic",
-    "fieldType": "field",
+    "fieldType": "general",
     "dataType": "string",
     "description": "Search by mnemonic name",
     "example": "sample mnemonic"
@@ -53,7 +53,7 @@
   {
     "id": "rank",
     "fieldName": "rank",
-    "fieldType": "field",
+    "fieldType": "general",
     "dataType": "string",
     "description": "Search by rank name",
     "example": "SPECIES_GROUP"
@@ -61,7 +61,7 @@
   {
     "id": "strain",
     "fieldName": "strain",
-    "fieldType": "field",
+    "fieldType": "general",
     "dataType": "string",
     "description": "Search by rank name",
     "example": "SPECIES_GROUP"
@@ -69,7 +69,7 @@
   {
     "id": "host",
     "fieldName": "host",
-    "fieldType": "field",
+    "fieldType": "general",
     "dataType": "integer",
     "validRegex": "^[0-9]+$",
     "description": "Search by host identifier",
@@ -78,7 +78,7 @@
   {
     "id": "linked",
     "fieldName": "linked",
-    "fieldType": "field",
+    "fieldType": "general",
     "dataType": "bool",
     "validRegex": "^true|false$",
     "description": "Search if taxonomy is linked",
@@ -87,7 +87,7 @@
   {
     "id": "active",
     "fieldName": "active",
-    "fieldType": "field",
+    "fieldType": "general",
     "dataType": "bool",
     "validRegex": "^true|false$",
     "description": "Search if taxonomy is active",
@@ -96,7 +96,7 @@
   {
     "id": "proteome",
     "fieldName": "proteome",
-    "fieldType": "field",
+    "fieldType": "general",
     "dataType": "bool",
     "validRegex": "^true|false$",
     "description": "Search if taxonomy is proteome",
@@ -105,7 +105,7 @@
   {
     "id": "reference",
     "fieldName": "reference",
-    "fieldType": "field",
+    "fieldType": "general",
     "dataType": "bool",
     "validRegex": "^true|false$",
     "description": "Search if taxonomy is referenced",
@@ -114,7 +114,7 @@
   {
     "id": "reviewed",
     "fieldName": "reviewed",
-    "fieldType": "field",
+    "fieldType": "general",
     "dataType": "bool",
     "validRegex": "^true|false$",
     "description": "Search if taxonomy is reviewed",
@@ -123,7 +123,7 @@
   {
     "id": "annotated",
     "fieldName": "annotated",
-    "fieldType": "field",
+    "fieldType": "general",
     "dataType": "bool",
     "validRegex": "^true|false$",
     "description": "Search if taxonomy is annotated",
@@ -132,7 +132,7 @@
   {
     "id": "content",
     "fieldName": "content",
-    "fieldType": "field",
+    "fieldType": "general",
     "dataType": "string",
     "description": "Search by any content",
     "example": "sample text"

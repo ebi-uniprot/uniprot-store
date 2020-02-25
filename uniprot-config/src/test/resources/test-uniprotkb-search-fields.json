@@ -3,7 +3,7 @@
     "id": "host_id",
     "fieldName": "host_id",
     "dataType": "string",
-    "fieldType": "field",
+    "fieldType": "general",
     "validRegex": "^[0-9]+$",
     "description": "Search by virus host id",
     "example": "1234"
@@ -12,7 +12,7 @@
     "id": "taxonomy_id",
     "dataType": "string",
     "fieldName": "taxonomy_id",
-    "fieldType": "field",
+    "fieldType": "general",
     "validRegex": "^[0-9]+$",
     "description": "Search by NCBI taxonomy id",
     "example": "12345"
@@ -21,7 +21,7 @@
     "id": "organism_id",
     "dataType": "string",
     "fieldName": "organism_id",
-    "fieldType": "field",
+    "fieldType": "general",
     "validRegex": "^[0-9]+$",
     "description": "Search by Organism id",
     "example": "1234"
@@ -38,7 +38,7 @@
     "id":"accession_id",
     "fieldName": "accession_id",
     "validRegex": "([OPQ][0-9][A-Z0-9]{3}[0-9]|[A-NR-Z]([0-9][A-Z][A-Z0-9]{2}){1,2}[0-9])(-[0-9]+)?",
-    "fieldType": "field",
+    "fieldType": "general",
     "dataType": "string",
     "example":  "P12345",
     "description" : "Search by UniProtKB Accession"
@@ -46,7 +46,7 @@
   {
     "id":"proteins_with",
     "fieldName": "proteins_with",
-    "fieldType": "field",
+    "fieldType": "general",
     "dataType": "string",
     "example":  "sample example",
     "description" : "this is a dummy description"
@@ -56,7 +56,7 @@
     "fieldName": "annotation_score",
     "dataType": "string",
     "example":  "sample example",
-    "fieldType": "field",
+    "fieldType": "general",
     "description" : "this is a dummy description",
     "sortFieldId": "annotation_score_sort"
   },
@@ -72,7 +72,7 @@
     "id":"mnemonic_default",
     "fieldName": "mnemonic_default",
     "dataType": "string",
-    "fieldType": "field",
+    "fieldType": "general",
     "example":  "sample example",
     "description" : "this is a dummy description"
   },
@@ -80,7 +80,7 @@
     "id":"sec_acc",
     "fieldName": "sec_acc",
     "dataType": "string",
-    "fieldType": "field",
+    "fieldType": "general",
     "example":  "sample example",
     "description" : "this is a dummy description"
   },
@@ -88,7 +88,7 @@
     "id":"content",
     "fieldName": "content",
     "dataType": "string",
-    "fieldType": "field",
+    "fieldType": "general",
     "example":  "sample example",
     "description" : "this is a dummy description"
   },
@@ -96,7 +96,7 @@
     "id":"ec_exact",
     "fieldName": "ec_exact",
     "dataType": "string",
-    "fieldType": "field",
+    "fieldType": "general",
     "example":  "sample example",
     "description" : "this is a dummy description"
   },
@@ -105,14 +105,14 @@
     "fieldName": "protgene_default",
     "dataType": "string",
     "example":  "sample example",
-    "fieldType": "field",
+    "fieldType": "general",
     "description" : "this is a dummy description"
   },
   {
     "id":"gene_exact",
     "fieldName": "gene_exact",
     "dataType": "string",
-    "fieldType": "field",
+    "fieldType": "general",
     "example":  "sample example",
     "description" : "this is a dummy description"
   },
@@ -120,7 +120,7 @@
     "id":"popular_organism",
     "fieldName": "popular_organism",
     "dataType": "string",
-    "fieldType": "field",
+    "fieldType": "general",
     "example":  "sample example",
     "description" : "this is a dummy description"
   },
@@ -128,7 +128,7 @@
     "id":"other_organism",
     "fieldName": "other_organism",
     "dataType": "string",
-    "fieldType": "field",
+    "fieldType": "general",
     "example":  "sample example",
     "description" : "this is a dummy description"
   },
@@ -136,7 +136,7 @@
     "id":"source",
     "fieldName": "source",
     "dataType": "string",
-    "fieldType": "field",
+    "fieldType": "general",
     "example":  "sample example",
     "description" : "this is a dummy description"
   },
@@ -144,7 +144,7 @@
     "id":"xref",
     "fieldName": "xref",
     "dataType": "string",
-    "fieldType": "field",
+    "fieldType": "general",
     "example":  "sample example",
     "description" : "this is a dummy description"
   },
@@ -152,7 +152,7 @@
     "id":"database",
     "fieldName": "database",
     "dataType": "string",
-    "fieldType": "field",
+    "fieldType": "general",
     "example":  "sample example",
     "description" : "this is a dummy description"
   },
@@ -160,7 +160,7 @@
     "id":"lit_organisation",
     "fieldName": "lit_organisation",
     "dataType": "string",
-    "fieldType": "field",
+    "fieldType": "general",
     "example":  "sample example",
     "description" : "this is a dummy description"
   },
@@ -169,7 +169,7 @@
     "fieldName": "is_isoform",
     "validRegex": "^true|false$",
     "dataType": "string",
-    "fieldType": "field",
+    "fieldType": "general",
     "example":  "sample example",
     "description" : "this is a dummy description"
   },
@@ -177,7 +177,7 @@
     "id":"cc_sc",
     "fieldName": "cc_sc",
     "dataType": "string",
-    "fieldType": "field",
+    "fieldType": "general",
     "example":  "sample example",
     "description" : "this is a dummy description"
   },
@@ -187,20 +187,20 @@
     "dataType": "string",
     "example":  "sample example",
     "description" : "this is a dummy description",
-    "fieldType": "field"
+    "fieldType": "general"
   },
   {
     "id":"cc_cofactor",
     "fieldName": "cc_cofactor",
     "dataType": "string",
-    "fieldType": "field",
+    "fieldType": "general",
     "example":  "sample example",
     "description" : "this is a dummy description"
   },
   {
     "id":"ccev_cofactor",
     "fieldName": "ccev_cofactor",
-    "fieldType": "field",
+    "fieldType": "general",
     "dataType": "string",
     "example":  "sample example",
     "description" : "this is a dummy description"
@@ -209,7 +209,7 @@
     "id":"cc_biophysicochemical_properties",
     "fieldName": "cc_biophysicochemical_properties",
     "dataType": "string",
-    "fieldType": "field",
+    "fieldType": "general",
     "example":  "sample example",
     "description" : "this is a dummy description"
   },
@@ -217,7 +217,7 @@
     "id":"ccev_biophysicochemical_properties",
     "fieldName": "ccev_biophysicochemical_properties",
     "dataType": "string",
-    "fieldType": "field",
+    "fieldType": "general",
     "example":  "sample example",
     "description" : "this is a dummy description"
   },
@@ -226,14 +226,14 @@
     "fieldName": "cc_interaction",
     "dataType": "string",
     "example":  "sample example",
-    "fieldType": "field",
+    "fieldType": "general",
     "description" : "this is a dummy description"
   },
   {
     "id":"ccev_interaction",
     "fieldName": "ccev_interaction",
     "dataType": "string",
-    "fieldType": "field",
+    "fieldType": "general",
     "example":  "sample example",
     "description" : "this is a dummy description"
   },
@@ -241,7 +241,7 @@
     "id":"cc_subcellular_location",
     "fieldName": "cc_subcellular_location",
     "dataType": "string",
-    "fieldType": "field",
+    "fieldType": "general",
     "example":  "sample example",
     "description" : "this is a dummy description"
   },
@@ -249,7 +249,7 @@
     "id":"ccev_subcellular_location",
     "fieldName": "ccev_subcellular_location",
     "dataType": "string",
-    "fieldType": "field",
+    "fieldType": "general",
     "example":  "sample example",
     "description" : "this is a dummy description"
   },
@@ -257,7 +257,7 @@
     "id":"cc_alternative_products",
     "fieldName": "cc_alternative_products",
     "dataType": "string",
-    "fieldType": "field",
+    "fieldType": "general",
     "example":  "sample example",
     "description" : "this is a dummy description"
   },
@@ -265,7 +265,7 @@
     "id":"ccev_alternative_products",
     "fieldName": "ccev_alternative_products",
     "dataType": "string",
-    "fieldType": "field",
+    "fieldType": "general",
     "example":  "sample example",
     "description" : "this is a dummy description"
   },
@@ -273,13 +273,13 @@
     "id":"cc_unknown",
     "fieldName": "cc_unknown",
     "dataType": "string",
-    "fieldType": "field",
+    "fieldType": "general",
     "example":  "sample example",
     "description" : "this is a dummy description"
   },
   {
     "id":"ccev_unknown",
-    "fieldType": "field",
+    "fieldType": "general",
     "fieldName": "ccev_unknown",
     "dataType": "string",
     "example":  "sample example",
@@ -287,7 +287,7 @@
   },
   {
     "id":"go_manual",
-    "fieldType": "field",
+    "fieldType": "general",
     "fieldName": "go_manual",
     "dataType": "string",
     "example":  "sample example",
@@ -295,7 +295,7 @@
   },
   {
     "id":"go_automatic",
-    "fieldType": "field",
+    "fieldType": "general",
     "fieldName": "go_automatic",
     "dataType": "string",
     "example":  "sample example",
@@ -303,7 +303,7 @@
   },
   {
     "id":"go_ida",
-    "fieldType": "field",
+    "fieldType": "general",
     "fieldName": "go_ida",
     "dataType": "string",
     "example":  "sample example",
@@ -311,7 +311,7 @@
   },
   {
     "id":"go_imp",
-    "fieldType": "field",
+    "fieldType": "general",
     "fieldName": "go_imp",
     "dataType": "string",
     "example":  "sample example",
@@ -319,7 +319,7 @@
   },
   {
     "id":"go_igi",
-    "fieldType": "field",
+    "fieldType": "general",
     "fieldName": "go_igi",
     "dataType": "string",
     "example":  "sample example",
@@ -327,7 +327,7 @@
   },
   {
     "id":"go_ipi",
-    "fieldType": "field",
+    "fieldType": "general",
     "fieldName": "go_ipi",
     "dataType": "string",
     "example":  "sample example",
@@ -335,7 +335,7 @@
   },
   {
     "id":"go_iep",
-    "fieldType": "field",
+    "fieldType": "general",
     "fieldName": "go_iep",
     "dataType": "string",
     "example":  "sample example",
@@ -343,7 +343,7 @@
   },
   {
     "id":"go_tas",
-    "fieldType": "field",
+    "fieldType": "general",
     "fieldName": "go_tas",
     "dataType": "string",
     "example":  "sample example",
@@ -351,7 +351,7 @@
   },
   {
     "id":"go_nas",
-    "fieldType": "field",
+    "fieldType": "general",
     "fieldName": "go_nas",
     "dataType": "string",
     "example":  "sample example",
@@ -359,7 +359,7 @@
   },
   {
     "id":"go_ic",
-    "fieldType": "field",
+    "fieldType": "general",
     "fieldName": "go_ic",
     "dataType": "string",
     "example":  "sample example",
@@ -367,7 +367,7 @@
   },
   {
     "id":"go_iss",
-    "fieldType": "field",
+    "fieldType": "general",
     "fieldName": "go_iss",
     "dataType": "string",
     "example":  "sample example",
@@ -375,7 +375,7 @@
   },
   {
     "id":"go_iea",
-    "fieldType": "field",
+    "fieldType": "general",
     "fieldName": "go_iea",
     "dataType": "string",
     "example":  "sample example",
@@ -383,7 +383,7 @@
   },
   {
     "id":"go_igc",
-    "fieldType": "field",
+    "fieldType": "general",
     "fieldName": "go_igc",
     "dataType": "string",
     "example":  "sample example",
@@ -391,7 +391,7 @@
   },
   {
     "id":"go_rca",
-    "fieldType": "field",
+    "fieldType": "general",
     "fieldName": "go_rca",
     "dataType": "string",
     "example":  "sample example",
@@ -400,7 +400,7 @@
   {
     "id":"go_nd",
     "fieldName": "go_nd",
-    "fieldType": "field",
+    "fieldType": "general",
     "dataType": "string",
     "example":  "sample example",
     "description" : "this is a dummy description"
@@ -408,14 +408,14 @@
   {
     "id":"go_exp",
     "fieldName": "go_exp",
-    "fieldType": "field",
+    "fieldType": "general",
     "dataType": "string",
     "example":  "sample example",
     "description" : "this is a dummy description"
   },
   {
     "id":"go_iba",
-    "fieldType": "field",
+    "fieldType": "general",
     "fieldName": "go_iba",
     "dataType": "string",
     "example":  "sample example",
@@ -423,7 +423,7 @@
   },
   {
     "id":"go_ibd",
-    "fieldType": "field",
+    "fieldType": "general",
     "fieldName": "go_ibd",
     "dataType": "string",
     "example":  "sample example",
@@ -431,7 +431,7 @@
   },
   {
     "id":"go_ikr",
-    "fieldType": "field",
+    "fieldType": "general",
     "fieldName": "go_ikr",
     "dataType": "string",
     "example":  "sample example",
@@ -439,7 +439,7 @@
   },
   {
     "id":"go_ird",
-    "fieldType": "field",
+    "fieldType": "general",
     "fieldName": "go_ird",
     "dataType": "string",
     "example":  "sample example",
@@ -447,7 +447,7 @@
   },
   {
     "id":"go_iso",
-    "fieldType": "field",
+    "fieldType": "general",
     "fieldName": "go_iso",
     "dataType": "string",
     "example":  "sample example",
@@ -455,7 +455,7 @@
   },
   {
     "id":"go_isa",
-    "fieldType": "field",
+    "fieldType": "general",
     "fieldName": "go_isa",
     "dataType": "string",
     "example":  "sample example",
@@ -463,7 +463,7 @@
   },
   {
     "id":"go_ism",
-    "fieldType": "field",
+    "fieldType": "general",
     "fieldName": "go_ism",
     "dataType": "string",
     "example":  "sample example",
@@ -471,7 +471,7 @@
   },
   {
     "id":"go_hda",
-    "fieldType": "field",
+    "fieldType": "general",
     "fieldName": "go_hda",
     "dataType": "string",
     "example":  "sample example",
@@ -479,7 +479,7 @@
   },
   {
     "id":"go_hmp",
-    "fieldType": "field",
+    "fieldType": "general",
     "fieldName": "go_hmp",
     "dataType": "string",
     "example":  "sample example",
@@ -487,7 +487,7 @@
   },
   {
     "id":"go_hgi",
-    "fieldType": "field",
+    "fieldType": "general",
     "fieldName": "go_hgi",
     "dataType": "string",
     "example":  "sample example",
@@ -495,7 +495,7 @@
   },
   {
     "id":"go_hep",
-    "fieldType": "field",
+    "fieldType": "general",
     "fieldName": "go_hep",
     "dataType": "string",
     "example":  "sample example",
@@ -503,7 +503,7 @@
   },
   {
     "id":"go_htp",
-    "fieldType": "field",
+    "fieldType": "general",
     "fieldName": "go_htp",
     "dataType": "string",
     "example":  "sample example",
@@ -511,7 +511,7 @@
   },
   {
     "id": "go_unknown",
-    "fieldType": "field",
+    "fieldType": "general",
     "fieldName": "go_unknown",
     "dataType": "string",
     "example":  "sample example",
@@ -579,7 +579,7 @@
     "seqNumber": 0,
     "id": "accession_field",
     "fieldName": "accession",
-    "fieldType": "field",
+    "fieldType": "general",
     "validRegex": "([OPQ][0-9][A-Z0-9]{3}[0-9]|[A-NR-Z]([0-9][A-Z][A-Z0-9]{2}){1,2}[0-9])(-[0-9]+)?",
     "label": "UniProtKB AC",
     "itemType": "single",
@@ -593,7 +593,7 @@
     "id": "mnemonic_field",
     "label": "Entry Name [ID]",
     "fieldName": "mnemonic",
-    "fieldType": "field",
+    "fieldType": "general",
     "itemType": "single",
     "dataType": "string",
     "description": "Search by UniProtKB entry name",
@@ -605,7 +605,7 @@
     "id": "name_field",
     "label": "Protein Name [DE]",
     "fieldName": "name",
-    "fieldType": "field",
+    "fieldType": "general",
     "itemType": "single",
     "dataType": "string",
     "description": "Search by UniProtKB Protein name",
@@ -617,7 +617,7 @@
     "id": "gene_field",
     "label": "Gene Name [GN]",
     "fieldName": "gene",
-    "fieldType": "field",
+    "fieldType": "general",
     "dataType": "string",
     "itemType": "single",
     "description": "Search by UniProtKB gene name",
@@ -630,7 +630,7 @@
     "label": "Organism [OS]",
     "dataType": "string",
     "fieldName": "organism_name",
-    "fieldType": "field",
+    "fieldType": "general",
     "itemType": "single",
     "autoComplete": "/uniprot/api/suggester?dict=organism&query=?",
     "autoCompleteQueryField": "organism_id",
@@ -645,7 +645,7 @@
     "label": "Taxonomy [OC]",
     "dataType": "string",
     "fieldName": "taxonomy_name",
-    "fieldType": "field",
+    "fieldType": "general",
     "autoComplete": "/uniprot/api/suggester?dict=taxonomy&query=?",
     "autoCompleteQueryField": "taxonomy_id",
     "autoCompleteQueryFieldValidRegex": "^[0-9]+$",
@@ -659,7 +659,7 @@
     "label": "Virus host",
     "dataType": "string",
     "fieldName": "host_name",
-    "fieldType": "field",
+    "fieldType": "general",
     "autoComplete": "/uniprot/api/suggester?dict=host&query=?",
     "autoCompleteQueryField": "host_id",
     "autoCompleteQueryFieldValidRegex": "^[0-9]+$",
@@ -672,7 +672,7 @@
     "id": "existence",
     "label": "Protein Existence [PE]",
     "fieldName": "existence",
-    "fieldType": "field",
+    "fieldType": "general",
     "dataType": "enumeration",
     "itemType": "single",
     "description": "Search by protein existence",
@@ -711,7 +711,7 @@
     "id": "cc_webresource",
     "parentId": "Web Resources",
     "fieldName": "cc_webresource",
-    "fieldType": "field",
+    "fieldType": "general",
     "dataType": "string",
     "itemType": "single",
     "description": "Search by comment Web resources",
@@ -740,7 +740,7 @@
     "parentId": "Gene Ontology [GO]",
     "itemType": "single",
     "fieldName": "go",
-    "fieldType": "field",
+    "fieldType": "general",
     "dataType": "string",
     "autoComplete": "/uniprot/api/suggester?dict=go&query=?",
     "autoCompleteQueryField": "go",
@@ -763,7 +763,7 @@
     "id": "keyword_field",
     "label": "Keyword [KW]",
     "fieldName": "keyword",
-    "fieldType": "field",
+    "fieldType": "general",
     "dataType": "string",
     "itemType": "single",
     "autoComplete": "/uniprot/api/suggester?dict=keyword&query=?",
@@ -784,7 +784,7 @@
     "label": "Author",
     "fieldName": "lit_author",
     "id": "lit_author",
-    "fieldType": "field",
+    "fieldType": "general",
     "dataType": "string",
     "description": "Search by author",
     "example": "smith"
@@ -796,7 +796,7 @@
     "label": "Journal",
     "fieldName": "lit_journal",
     "id": "lit_journal",
-    "fieldType": "field",
+    "fieldType": "general",
     "dataType": "string",
     "description": "Search by journal name",
     "example": "nature"
@@ -820,7 +820,7 @@
     "label": "PubMed ID",
     "fieldName": "lit_pubmed",
     "id": "lit_pubmed",
-    "fieldType": "field",
+    "fieldType": "general",
     "dataType": "string",
     "description": "Search by PubMed ID",
     "example": "15165820"
@@ -832,7 +832,7 @@
     "itemType": "single",
     "label": "Title",
     "fieldName": "lit_title",
-    "fieldType": "field",
+    "fieldType": "general",
     "dataType": "string",
     "description": "Search by title",
     "example": "protein"
@@ -846,7 +846,7 @@
   {
     "parentId": "proteomes",
     "childNumber": 0,
-    "fieldType": "field",
+    "fieldType": "general",
     "itemType": "single",
     "label": "Proteome ID",
     "fieldName": "proteome",
@@ -859,7 +859,7 @@
   {
     "parentId": "proteomes",
     "childNumber": 1,
-    "fieldType": "field",
+    "fieldType": "general",
     "itemType": "single",
     "label": "Proteome Component",
     "fieldName": "proteomecomponent",
@@ -873,7 +873,7 @@
     "id": "citedfor",
     "label": "Cited for",
     "fieldName": "scope",
-    "fieldType": "field",
+    "fieldType": "general",
     "itemType": "single",
     "dataType": "string",
     "description": "Search by citation RP cited for",
@@ -884,7 +884,7 @@
     "id": "reviewed",
     "label": "Reviewed",
     "fieldName": "reviewed",
-    "fieldType": "field",
+    "fieldType": "general",
     "validRegex": "^true|false$",
     "dataType": "enumeration",
     "itemType": "single",
@@ -906,7 +906,7 @@
     "id": "active",
     "label": "Active",
     "fieldName": "active",
-    "fieldType": "field",
+    "fieldType": "general",
     "itemType": "single",
     "validRegex": "^true|false$",
     "dataType": "enumeration",
@@ -936,7 +936,7 @@
     "id": "ec",
     "fieldName": "ec",
     "itemType": "single",
-    "fieldType": "field",
+    "fieldType": "general",
     "dataType": "string",
     "description": "Search by Enzyme EC number",
     "autoComplete": "/uniprot/api/suggester?dict=ec&query=?",
@@ -963,7 +963,7 @@
     "id": "cc_cofactor_chebi",
     "fieldName": "cc_cofactor_chebi",
     "itemType": "single",
-    "fieldType": "field",
+    "fieldType": "general",
     "dataType": "string",
     "description": "Search by cofactor chebi ",
     "autoComplete": "/uniprot/api/suggester?dict=chebi&query=?",
@@ -994,7 +994,7 @@
     "id": "cc_cofactor_note",
     "fieldName": "cc_cofactor_note",
     "itemType": "single",
-    "fieldType": "field",
+    "fieldType": "general",
     "dataType": "string",
     "description": "Search by cofactor note",
     "example": "subunit"
@@ -1030,7 +1030,7 @@
     "id": "cc_bpcp",
     "fieldName": "cc_bpcp",
     "itemType": "single",
-    "fieldType": "field",
+    "fieldType": "general",
     "dataType": "string",
     "description": "Search by biophysicochemical properties",
     "example": "\"some value\""
@@ -1058,7 +1058,7 @@
     "childNumber": 0,
     "id": "cc_bpcp_absorption",
     "fieldName": "cc_bpcp_absorption",
-    "fieldType": "field",
+    "fieldType": "general",
     "itemType": "single",
     "dataType": "string",
     "description": "Search by biophysicochemical properties: absorption",
@@ -1088,7 +1088,7 @@
     "id": "cc_bpcp_kinetics",
     "fieldName": "cc_bpcp_kinetics",
     "itemType": "single",
-    "fieldType": "field",
+    "fieldType": "general",
     "dataType": "string",
     "description": "Search by biophysicochemical properties: kinetic parameters",
     "example": "aspartate"
@@ -1117,7 +1117,7 @@
     "id": "cc_bpcp_ph_dependence",
     "fieldName": "cc_bpcp_ph_dependence",
     "itemType": "single",
-    "fieldType": "field",
+    "fieldType": "general",
     "dataType": "string",
     "description": "Search by biophysicochemical properties: pH dependence",
     "example": "optimum"
@@ -1146,7 +1146,7 @@
     "id": "cc_bpcp_redox_potential",
     "itemType": "single",
     "fieldName": "cc_bpcp_redox_potential",
-    "fieldType": "field",
+    "fieldType": "general",
     "dataType": "string",
     "description": "Search by biophysicochemical properties: redox potential",
     "example": "siroheme"
@@ -1175,7 +1175,7 @@
     "id": "cc_bpcp_temp_dependence",
     "fieldName": "cc_bpcp_temp_dependence",
     "itemType": "single",
-    "fieldType": "field",
+    "fieldType": "general",
     "dataType": "string",
     "description": "Search by biophysicochemical properties: temperature dependence",
     "example": "*"
@@ -1204,7 +1204,7 @@
     "id": "cc_catalytic_activity_field",
     "itemType": "single",
     "fieldName": "cc_catalytic_activity",
-    "fieldType": "field",
+    "fieldType": "general",
     "dataType": "string",
     "autoComplete": "/uniprot/api/suggester?dict=catalytic_activity&query=?",
     "autoCompleteQueryField": "cc_catalytic_activity",
@@ -1235,7 +1235,7 @@
     "id": "cc_activity_regulation",
     "itemType": "single",
     "fieldName": "cc_activity_regulation",
-    "fieldType": "field",
+    "fieldType": "general",
     "dataType": "string",
     "description": "Search by comment activity regulation",
     "example": "inhibited"
@@ -1264,7 +1264,7 @@
     "id": "cc_function",
     "itemType": "single",
     "fieldName": "cc_function",
-    "fieldType": "field",
+    "fieldType": "general",
     "dataType": "string",
     "description": "Search by comment function",
     "example": "enzyme"
@@ -1293,7 +1293,7 @@
     "id": "cc_caution",
     "itemType": "single",
     "fieldName": "cc_caution",
-    "fieldType": "field",
+    "fieldType": "general",
     "dataType": "string",
     "description": "Search by caution comment",
     "example": "kinase"
@@ -1329,7 +1329,7 @@
     "id": "ft_sites",
     "itemType": "single",
     "fieldName": "ft_sites",
-    "fieldType": "field",
+    "fieldType": "general",
     "dataType": "string",
     "description": "Search by feature sites",
     "example": "translocation"
@@ -1370,7 +1370,7 @@
     "itemType": "single",
     "fieldName": "ft_act_site",
     "dataType": "string",
-    "fieldType": "field",
+    "fieldType": "general",
     "description": "Search by feature  active site",
     "example": "phosphocysteine"
   },
@@ -1409,7 +1409,7 @@
     "id": "ft_metal",
     "itemType": "single",
     "fieldName": "ft_metal",
-    "fieldType": "field",
+    "fieldType": "general",
     "dataType": "string",
     "description": "Search by feature metal binding",
     "example": "phosphocysteine"
@@ -1449,7 +1449,7 @@
     "id": "ft_binding",
     "itemType": "single",
     "fieldName": "ft_binding",
-    "fieldType": "field",
+    "fieldType": "general",
     "dataType": "string",
     "description": "Search by feature binding site",
     "example": "phosphocysteine"
@@ -1489,7 +1489,7 @@
     "id": "ft_site",
     "itemType": "single",
     "fieldName": "ft_site",
-    "fieldType": "field",
+    "fieldType": "general",
     "dataType": "string",
     "description": "Search by feature other site",
     "example": "phosphocysteine"
@@ -1529,7 +1529,7 @@
     "id": "ft_ca_bind",
     "itemType": "single",
     "fieldName": "ft_ca_bind",
-    "fieldType": "field",
+    "fieldType": "general",
     "dataType": "string",
     "description": "Search by feature calcium binding",
     "example": "site"
@@ -1569,7 +1569,7 @@
     "id": "ft_dna_bind",
     "itemType": "single",
     "fieldName": "ft_dna_bind",
-    "fieldType": "field",
+    "fieldType": "general",
     "dataType": "string",
     "description": "Search by feature DNA binding",
     "example": "*"
@@ -1610,7 +1610,7 @@
     "fieldName": "ft_np_bind",
     "itemType": "single",
     "dataType": "string",
-    "fieldType": "field",
+    "fieldType": "general",
     "description": "Search by feature Nucleotide binding",
     "example": "NADP"
   },
@@ -1649,7 +1649,7 @@
     "id": "cc_pathway",
     "itemType": "single",
     "fieldName": "cc_pathway",
-    "fieldType": "field",
+    "fieldType": "general",
     "dataType": "string",
     "description": "Search by comment pathway",
     "example": "metabolism"
@@ -1678,7 +1678,7 @@
     "id": "cc_miscellaneous",
     "itemType": "single",
     "fieldName": "cc_miscellaneous",
-    "fieldType": "field",
+    "fieldType": "general",
     "dataType": "string",
     "description": "Search by comment Miscellaneous",
     "example": "abscisic"
@@ -1746,7 +1746,7 @@
     "id": "cc_ap",
     "itemType": "single",
     "fieldName": "cc_ap",
-    "fieldType": "field",
+    "fieldType": "general",
     "dataType": "string",
     "description": "Search by Comment alternative Products",
     "example": "tissues"
@@ -1775,7 +1775,7 @@
     "id": "cc_ap_apu",
     "itemType": "single",
     "fieldName": "cc_ap_apu",
-    "fieldType": "field",
+    "fieldType": "general",
     "dataType": "string",
     "description": "Search by Comment alternative Products: alternative promoter usage",
     "example": "*"
@@ -1804,7 +1804,7 @@
     "id": "cc_ap_as",
     "itemType": "single",
     "fieldName": "cc_ap_as",
-    "fieldType": "field",
+    "fieldType": "general",
     "dataType": "string",
     "description": "Search by Comment alternative Products: alternative splicing",
     "example": "experimental"
@@ -1833,7 +1833,7 @@
     "id": "cc_ap_ai",
     "itemType": "single",
     "fieldName": "cc_ap_ai",
-    "fieldType": "field",
+    "fieldType": "general",
     "dataType": "string",
     "description": "Search by Comment alternative Products: alternative initiation",
     "example": "acetylalanine"
@@ -1862,7 +1862,7 @@
     "id": "cc_ap_rf",
     "itemType": "single",
     "fieldName": "cc_ap_rf",
-    "fieldType": "field",
+    "fieldType": "general",
     "dataType": "string",
     "description": "Search by Comment alternative Products: ribosomal frameshifting",
     "example": "translation"
@@ -1898,7 +1898,7 @@
     "id": "cc_sequence_caution",
     "itemType": "single",
     "fieldName": "cc_sequence_caution",
-    "fieldType": "field",
+    "fieldType": "general",
     "dataType": "string",
     "description": "Search by Comment Sequence caution",
     "example": "translated"
@@ -1921,7 +1921,7 @@
     "id": "cc_sc_framesh",
     "itemType": "single",
     "fieldName": "cc_sc_framesh",
-    "fieldType": "field",
+    "fieldType": "general",
     "dataType": "string",
     "description": "Search by Comment Sequence caution: frameshift",
     "example": "*"
@@ -1933,7 +1933,7 @@
     "id": "cc_sc_einit",
     "itemType": "single",
     "fieldName": "cc_sc_einit",
-    "fieldType": "field",
+    "fieldType": "general",
     "dataType": "string",
     "description": "Search by Comment Sequence caution: erroneous initiation",
     "example": "extended"
@@ -1945,7 +1945,7 @@
     "id": "cc_sc_eterm",
     "itemType": "single",
     "fieldName": "cc_sc_eterm",
-    "fieldType": "field",
+    "fieldType": "general",
     "dataType": "string",
     "description": "Search by Comment Sequence caution: erroneous termination",
     "example": "translated"
@@ -1957,7 +1957,7 @@
     "id": "cc_sc_epred",
     "itemType": "single",
     "fieldName": "cc_sc_epred",
-    "fieldType": "field",
+    "fieldType": "general",
     "dataType": "string",
     "description": "Search by Comment Sequence caution: erroneous gene model prediction",
     "example": "*"
@@ -1969,7 +1969,7 @@
     "id": "cc_sc_etran",
     "itemType": "single",
     "fieldName": "cc_sc_etran",
-    "fieldType": "field",
+    "fieldType": "general",
     "dataType": "string",
     "description": "Search by Comment Sequence caution: erroneous translation",
     "example": "choice"
@@ -1987,7 +1987,7 @@
     "id": "cc_sc_misc",
     "itemType": "single",
     "fieldName": "cc_sc_misc",
-    "fieldType": "field",
+    "fieldType": "general",
     "dataType": "string",
     "description": "Search by Comment Sequence caution: miscellaneous discrepancy",
     "example": "sequence"
@@ -2016,7 +2016,7 @@
     "id": "cc_mass_spectrometry",
     "itemType": "single",
     "fieldName": "cc_mass_spectrometry",
-    "fieldType": "field",
+    "fieldType": "general",
     "dataType": "string",
     "description": "Search by Comment Spectrometry",
     "example": "electrospray"
@@ -2045,7 +2045,7 @@
     "id": "cc_polymorphism",
     "itemType": "single",
     "fieldName": "cc_polymorphism",
-    "fieldType": "field",
+    "fieldType": "general",
     "dataType": "string",
     "description": "Search by Comment Polymorphism",
     "example": "transcript"
@@ -2074,7 +2074,7 @@
     "id": "cc_rna_editing",
     "itemType": "single",
     "fieldName": "cc_rna_editing",
-    "fieldType": "field",
+    "fieldType": "general",
     "dataType": "string",
     "description": "Search by Comment RNA editing",
     "example": "target"
@@ -2110,7 +2110,7 @@
     "id": "ft_variants",
     "itemType": "single",
     "fieldName": "ft_variants",
-    "fieldType": "field",
+    "fieldType": "general",
     "dataType": "string",
     "description": "Search by Feature natural variations",
     "example": "colorectal"
@@ -2150,7 +2150,7 @@
     "id": "ft_variant",
     "itemType": "single",
     "fieldName": "ft_variant",
-    "fieldType": "field",
+    "fieldType": "general",
     "dataType": "string",
     "description": "Search by Feature natural variant",
     "example": "colorectal"
@@ -2190,7 +2190,7 @@
     "id": "ft_var_seq",
     "itemType": "single",
     "fieldName": "ft_var_seq",
-    "fieldType": "field",
+    "fieldType": "general",
     "dataType": "string",
     "description": "Search by Feature alternative sequence",
     "example": "isoform"
@@ -2230,7 +2230,7 @@
     "id": "ft_non_std",
     "itemType": "single",
     "fieldName": "ft_non_std",
-    "fieldType": "field",
+    "fieldType": "general",
     "dataType": "string",
     "description": "Search by feature non-standard residue",
     "example": "selenocysteine"
@@ -2270,7 +2270,7 @@
     "id": "ft_non_ter",
     "itemType": "single",
     "fieldName": "ft_non_ter",
-    "fieldType": "field",
+    "fieldType": "general",
     "dataType": "string",
     "description": "Search by feature non-terminal residue",
     "example": "*"
@@ -2310,7 +2310,7 @@
     "id": "ft_non_cons",
     "itemType": "single",
     "fieldName": "ft_non_cons",
-    "fieldType": "field",
+    "fieldType": "general",
     "dataType": "string",
     "description": "Search by feature non-adjacent residue",
     "example": "*"
@@ -2350,7 +2350,7 @@
     "id": "ft_conflict",
     "itemType": "single",
     "fieldName": "ft_conflict",
-    "fieldType": "field",
+    "fieldType": "general",
     "dataType": "string",
     "description": "Search by feature Sequence conflict",
     "example": "*"
@@ -2390,7 +2390,7 @@
     "id": "ft_unsure",
     "itemType": "single",
     "fieldName": "ft_unsure",
-    "fieldType": "field",
+    "fieldType": "general",
     "dataType": "string",
     "description": "Search by feature Sequence uncertainty",
     "example": "*"
@@ -2430,7 +2430,7 @@
     "id": "ft_positional",
     "itemType": "single",
     "fieldName": "ft_positional",
-    "fieldType": "field",
+    "fieldType": "general",
     "dataType": "string",
     "description": "Search by sequence positional features",
     "example": "colorectal"
@@ -2464,7 +2464,7 @@
     "id": "fragment",
     "itemType": "single",
     "fieldName": "fragment",
-    "fieldType": "field",
+    "fieldType": "general",
     "dataType": "enumeration",
     "values": [
       {
@@ -2486,7 +2486,7 @@
     "id": "organelle",
     "itemType": "single",
     "fieldName": "organelle",
-    "fieldType": "field",
+    "fieldType": "general",
     "dataType": "enumeration",
     "values": [
       {
@@ -2536,7 +2536,7 @@
     "id": "precursor",
     "itemType": "single",
     "fieldName": "precursor",
-    "fieldType": "field",
+    "fieldType": "general",
     "dataType": "enumeration",
     "values": [
       {
@@ -2565,7 +2565,7 @@
     "id": "tissue",
     "itemType": "single",
     "fieldName": "tissue",
-    "fieldType": "field",
+    "fieldType": "general",
     "dataType": "string",
     "description": "Search by tissue",
     "example": "head"
@@ -2577,7 +2577,7 @@
     "id": "strain",
     "itemType": "single",
     "fieldName": "strain",
-    "fieldType": "field",
+    "fieldType": "general",
     "dataType": "string",
     "description": "Search by strain",
     "example": "berkeley"
@@ -2589,7 +2589,7 @@
     "id": "plasmid",
     "itemType": "single",
     "fieldName": "plasmid",
-    "fieldType": "field",
+    "fieldType": "general",
     "dataType": "string",
     "description": "Search by plasmid",
     "example": "pO113"
@@ -2601,7 +2601,7 @@
     "id": "transposon",
     "itemType": "single",
     "fieldName": "transposon",
-    "fieldType": "field",
+    "fieldType": "general",
     "dataType": "string",
     "description": "Search by transposon",
     "example": "tn3"
@@ -2625,7 +2625,7 @@
     "id": "cc_ptm",
     "itemType": "single",
     "fieldName": "cc_ptm",
-    "fieldType": "field",
+    "fieldType": "general",
     "dataType": "string",
     "description": "Search by Comment Post-translational modification",
     "example": "mitosis"
@@ -2654,7 +2654,7 @@
     "id": "ft_mod_res",
     "itemType": "single",
     "fieldName": "ft_mod_res",
-    "fieldType": "field",
+    "fieldType": "general",
     "dataType": "string",
     "description": "Search by Feature Modified residue",
     "example": "phosphoserine"
@@ -2694,7 +2694,7 @@
     "id": "ft_lipid",
     "itemType": "single",
     "fieldName": "ft_lipid",
-    "fieldType": "field",
+    "fieldType": "general",
     "dataType": "string",
     "description": "Search by Feature Lipidation",
     "example": "cysteine"
@@ -2734,7 +2734,7 @@
     "id": "ft_carbohyd",
     "itemType": "single",
     "fieldName": "ft_carbohyd",
-    "fieldType": "field",
+    "fieldType": "general",
     "dataType": "string",
     "description": "Search by Feature Glycosylation",
     "example": "cysteine"
@@ -2774,7 +2774,7 @@
     "id": "ft_disulfid",
     "itemType": "single",
     "fieldName": "ft_disulfid",
-    "fieldType": "field",
+    "fieldType": "general",
     "dataType": "string",
     "description": "Search by Feature Disulfide bond",
     "example": "reversible"
@@ -2814,7 +2814,7 @@
     "id": "ft_crosslnk",
     "itemType": "single",
     "fieldName": "ft_crosslnk",
-    "fieldType": "field",
+    "fieldType": "general",
     "dataType": "string",
     "description": "Search by Feature Cross-link",
     "example": "lysine"
@@ -2861,7 +2861,7 @@
     "id": "ft_molecule_processing",
     "itemType": "single",
     "fieldName": "ft_molecule_processing",
-    "fieldType": "field",
+    "fieldType": "general",
     "dataType": "string",
     "description": "Search by Feature Molecule Processing",
     "example": "disulfide"
@@ -2901,7 +2901,7 @@
     "id": "ft_chain",
     "itemType": "single",
     "fieldName": "ft_chain",
-    "fieldType": "field",
+    "fieldType": "general",
     "dataType": "string",
     "description": "Search by Feature chain",
     "example": "kinase"
@@ -2941,7 +2941,7 @@
     "id": "ft_init_met",
     "itemType": "single",
     "fieldName": "ft_init_met",
-    "fieldType": "field",
+    "fieldType": "general",
     "dataType": "string",
     "description": "Search by Feature initiator methionine",
     "example": "Removed"
@@ -2981,7 +2981,7 @@
     "id": "ft_peptide",
     "itemType": "single",
     "fieldName": "ft_peptide",
-    "fieldType": "field",
+    "fieldType": "general",
     "dataType": "string",
     "description": "Search by Feature peptide",
     "example": "Removed"
@@ -3021,7 +3021,7 @@
     "id": "ft_signal",
     "itemType": "single",
     "fieldName": "ft_signal",
-    "fieldType": "field",
+    "fieldType": "general",
     "dataType": "string",
     "description": "Search by Feature signal peptide",
     "example": "cleaved"
@@ -3061,7 +3061,7 @@
     "id": "ft_propep",
     "itemType": "single",
     "fieldName": "ft_propep",
-    "fieldType": "field",
+    "fieldType": "general",
     "dataType": "string",
     "description": "Search by Feature signal peptide",
     "example": "Activation peptide"
@@ -3101,7 +3101,7 @@
     "id": "ft_transit",
     "itemType": "single",
     "fieldName": "ft_transit",
-    "fieldType": "field",
+    "fieldType": "general",
     "dataType": "string",
     "description": "Search by Feature signal peptide",
     "example": "Mitochondrion"
@@ -3141,7 +3141,7 @@
     "id": "interactor",
     "itemType": "single",
     "fieldName": "interactor",
-    "fieldType": "field",
+    "fieldType": "general",
     "dataType": "string",
     "description": "Search by Comment Binary Interaction",
     "example": "EBI-1042898"
@@ -3159,7 +3159,7 @@
     "id": "cc_subunit",
     "itemType": "single",
     "fieldName": "cc_subunit",
-    "fieldType": "field",
+    "fieldType": "general",
     "dataType": "string",
     "description": "Search by Subunit structure",
     "example": "homodimer"
@@ -3194,7 +3194,7 @@
     "id": "ft_domain",
     "itemType": "single",
     "fieldName": "ft_domain",
-    "fieldType": "field",
+    "fieldType": "general",
     "dataType": "string",
     "description": "Search by feature domain",
     "example": "phosphatase"
@@ -3234,7 +3234,7 @@
     "id": "cc_domain",
     "itemType": "single",
     "fieldName": "cc_domain",
-    "fieldType": "field",
+    "fieldType": "general",
     "dataType": "string",
     "description": "Search by comment domain",
     "example": "conformation"
@@ -3257,7 +3257,7 @@
     "id": "family",
     "itemType": "single",
     "fieldName": "family",
-    "fieldType": "field",
+    "fieldType": "general",
     "dataType": "string",
     "description": "Search by protein belongs to a family",
     "example": "pa28"
@@ -3275,7 +3275,7 @@
     "id": "ft_coiled",
     "itemType": "single",
     "fieldName": "ft_coiled",
-    "fieldType": "field",
+    "fieldType": "general",
     "dataType": "string",
     "description": "Search by feature coiled coil",
     "example": "*"
@@ -3315,7 +3315,7 @@
     "id": "ft_compbias",
     "itemType": "single",
     "fieldName": "ft_compbias",
-    "fieldType": "field",
+    "fieldType": "general",
     "dataType": "string",
     "description": "Search by feature compositional bias",
     "example": "glu-rich"
@@ -3355,7 +3355,7 @@
     "id": "ft_motif",
     "itemType": "single",
     "fieldName": "ft_motif",
-    "fieldType": "field",
+    "fieldType": "general",
     "dataType": "string",
     "description": "Search by feature motif",
     "example": "motif"
@@ -3395,7 +3395,7 @@
     "id": "ft_region",
     "itemType": "single",
     "fieldName": "ft_region",
-    "fieldType": "field",
+    "fieldType": "general",
     "dataType": "string",
     "description": "Search by feature region",
     "example": "motif"
@@ -3435,7 +3435,7 @@
     "id": "ft_repeat",
     "itemType": "single",
     "fieldName": "ft_repeat",
-    "fieldType": "field",
+    "fieldType": "general",
     "dataType": "string",
     "description": "Search by feature repeat",
     "example": "motif"
@@ -3475,7 +3475,7 @@
     "id": "cc_similarity",
     "itemType": "single",
     "fieldName": "cc_similarity",
-    "fieldType": "field",
+    "fieldType": "general",
     "dataType": "string",
     "description": "Search by comment similarity",
     "example": "phosphatase"
@@ -3504,7 +3504,7 @@
     "id": "ft_zn_fing",
     "itemType": "single",
     "fieldName": "ft_zn_fing",
-    "fieldType": "field",
+    "fieldType": "general",
     "dataType": "string",
     "description": "Search by feature zinc finger",
     "example": "UBP"
@@ -3550,7 +3550,7 @@
     "id": "cc_developmental_stage",
     "itemType": "single",
     "fieldName": "cc_developmental_stage",
-    "fieldType": "field",
+    "fieldType": "general",
     "dataType": "string",
     "description": "Search by Comment Developmental stage",
     "example": "brain"
@@ -3579,7 +3579,7 @@
     "id": "cc_induction",
     "itemType": "single",
     "fieldName": "cc_induction",
-    "fieldType": "field",
+    "fieldType": "general",
     "dataType": "string",
     "description": "Search by Comment Induction",
     "example": "calcium"
@@ -3608,7 +3608,7 @@
     "id": "cc_tissue_specificity",
     "itemType": "single",
     "fieldName": "cc_tissue_specificity",
-    "fieldType": "field",
+    "fieldType": "general",
     "dataType": "string",
     "description": "Search by Comment Tissue specificity",
     "example": "pancreas"
@@ -3679,7 +3679,7 @@
     "id": "d3structure",
     "itemType": "single",
     "fieldName": "d3structure",
-    "fieldType": "field",
+    "fieldType": "general",
     "validRegex": "^true|false$",
     "dataType": "enumeration",
     "description": "Search by having PDB cross reference or not",
@@ -3726,7 +3726,7 @@
     "id": "ft_secstruct",
     "itemType": "single",
     "fieldName": "ft_secstruct",
-    "fieldType": "field",
+    "fieldType": "general",
     "dataType": "string",
     "description": "Search by Feature Any secondary structure",
     "example": "*"
@@ -3755,7 +3755,7 @@
     "id": "ft_helix",
     "itemType": "single",
     "fieldName": "ft_helix",
-    "fieldType": "field",
+    "fieldType": "general",
     "dataType": "string",
     "description": "Search by Feature helix",
     "example": "*"
@@ -3795,7 +3795,7 @@
     "id": "ft_turn",
     "itemType": "single",
     "fieldName": "ft_turn",
-    "fieldType": "field",
+    "fieldType": "general",
     "dataType": "string",
     "description": "Search by Feature turn",
     "example": "*"
@@ -3835,7 +3835,7 @@
     "id": "ft_strand",
     "itemType": "single",
     "fieldName": "ft_strand",
-    "fieldType": "field",
+    "fieldType": "general",
     "dataType": "string",
     "description": "Search by Feature Beta strand",
     "example": "*"
@@ -3888,7 +3888,7 @@
     "id": "cc_scl_term_field",
     "itemType": "single",
     "fieldName": "cc_scl_term",
-    "fieldType": "field",
+    "fieldType": "general",
     "dataType": "string",
     "autoComplete": "/uniprot/api/suggester?dict=subcell&query=?",
     "autoCompleteQueryField": "cc_scl_term",
@@ -3919,7 +3919,7 @@
     "id": "cc_scl_note",
     "itemType": "single",
     "fieldName": "cc_scl_note",
-    "fieldType": "field",
+    "fieldType": "general",
     "dataType": "string",
     "description": "Search by comment subcellular location note",
     "example": "membrane"
@@ -3948,7 +3948,7 @@
     "id": "ft_transmem",
     "itemType": "single",
     "fieldName": "ft_transmem",
-    "fieldType": "field",
+    "fieldType": "general",
     "dataType": "string",
     "description": "Search by Transmembrane",
     "example": "forming"
@@ -3988,7 +3988,7 @@
     "id": "ft_topo_dom",
     "itemType": "single",
     "fieldName": "ft_topo_dom",
-    "fieldType": "field",
+    "fieldType": "general",
     "dataType": "string",
     "description": "Search by Topological domain",
     "example": "forming"
@@ -4028,7 +4028,7 @@
     "id": "ft_intramem",
     "itemType": "single",
     "fieldName": "ft_intramem",
-    "fieldType": "field",
+    "fieldType": "general",
     "dataType": "string",
     "description": "Search by Intramembrane",
     "example": "forming"
@@ -4074,7 +4074,7 @@
     "id": "cc_disease",
     "itemType": "single",
     "fieldName": "cc_disease",
-    "fieldType": "field",
+    "fieldType": "general",
     "dataType": "string",
     "description": "Search by Comment disease",
     "example": "nephrotic"
@@ -4103,7 +4103,7 @@
     "id": "cc_allergen",
     "itemType": "single",
     "fieldName": "cc_allergen",
-    "fieldType": "field",
+    "fieldType": "general",
     "dataType": "string",
     "description": "Search by Comment allergenic properties",
     "example": "allergic"
@@ -4132,7 +4132,7 @@
     "id": "cc_toxic_dose",
     "fieldName": "cc_toxic_dose",
     "itemType": "single",
-    "fieldType": "field",
+    "fieldType": "general",
     "dataType": "string",
     "description": "Search by Comment Toxic dose",
     "example": "intracistenal"
@@ -4161,7 +4161,7 @@
     "id": "cc_biotechnology",
     "itemType": "single",
     "fieldName": "cc_biotechnology",
-    "fieldType": "field",
+    "fieldType": "general",
     "dataType": "string",
     "description": "Search by Comment Biotechnological use",
     "example": "vaccine"
@@ -4190,7 +4190,7 @@
     "id": "cc_pharmaceutical",
     "itemType": "single",
     "fieldName": "cc_pharmaceutical",
-    "fieldType": "field",
+    "fieldType": "general",
     "dataType": "string",
     "description": "Search by Comment Pharmaceutical use",
     "example": "peptide"
@@ -4219,7 +4219,7 @@
     "id": "cc_disruption_phenotype",
     "itemType": "single",
     "fieldName": "cc_disruption_phenotype",
-    "fieldType": "field",
+    "fieldType": "general",
     "dataType": "string",
     "description": "Search by Comment Disruption phenotype",
     "example": "infected"
@@ -4248,7 +4248,7 @@
     "id": "ft_mutagen",
     "itemType": "single",
     "fieldName": "ft_mutagen",
-    "fieldType": "field",
+    "fieldType": "general",
     "dataType": "string",
     "description": "Search by Feature Mutagenesis",
     "example": "phosphatase"

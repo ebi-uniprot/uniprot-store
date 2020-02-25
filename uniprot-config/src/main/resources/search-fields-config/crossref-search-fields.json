@@ -3,7 +3,7 @@
     "id": "accession",
     "fieldName": "accession",
     "validRegex": "^DB-[0-9]{4}$",
-    "fieldType": "field",
+    "fieldType": "general",
     "dataType": "string",
     "sortFieldId": "accession_sort",
     "description": "Search by crossref accession",
@@ -20,7 +20,7 @@
   {
     "id": "category_str",
     "fieldName": "category_str",
-    "fieldType": "field",
+    "fieldType": "general",
     "sortFieldId": "category_str_sort",
     "dataType": "string",
     "description": "Search by crossref category",
@@ -37,7 +37,7 @@
   {
     "id": "name",
     "fieldName": "name",
-    "fieldType": "field",
+    "fieldType": "general",
     "dataType": "string",
     "description": "Search by crossref name",
     "example": "Arabidopsis Information Portal"
@@ -45,7 +45,7 @@
   {
     "id": "category_facet",
     "fieldName": "category_facet",
-    "fieldType": "field",
+    "fieldType": "general",
     "dataType": "string",
     "description": "Search crossref by category facet",
     "example": "PTM databases"
@@ -53,7 +53,7 @@
   {
     "id": "content",
     "fieldName": "content",
-    "fieldType": "field",
+    "fieldType": "general",
     "dataType": "string",
     "description": "Search by any content",
     "example": "PTM"

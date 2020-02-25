@@ -114,7 +114,6 @@ public enum UniProtSearchItems implements SearchItems {
     }
 
     public static void main(String[] args) {
-
         UniProtSearchItems.INSTANCE.init();
         System.out.println("DONE!!!!");
     }
