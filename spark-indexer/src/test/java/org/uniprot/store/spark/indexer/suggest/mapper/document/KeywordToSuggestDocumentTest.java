@@ -4,7 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
 import org.uniprot.core.cv.keyword.KeywordEntry;
-import org.uniprot.core.cv.keyword.KeywordEntryKeyword;
+import org.uniprot.core.cv.keyword.KeywordId;
 import org.uniprot.core.cv.keyword.builder.KeywordEntryBuilder;
 import org.uniprot.core.cv.keyword.builder.KeywordEntryKeywordBuilder;
 import org.uniprot.store.search.document.suggest.SuggestDocument;
@@ -47,7 +47,7 @@ class KeywordToSuggestDocumentTest {
         assertEquals("medium", result.importance);
     }
 
-    private KeywordEntryKeyword kw(String id, String accession) {
+    private KeywordId kw(String id, String accession) {
         return new KeywordEntryKeywordBuilder().id(id).accession(accession).build();
     }
 }

@@ -4,7 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
 import org.uniprot.core.cv.keyword.KeywordEntry;
-import org.uniprot.core.cv.keyword.KeywordEntryKeyword;
+import org.uniprot.core.cv.keyword.KeywordId;
 import org.uniprot.core.cv.keyword.builder.KeywordEntryBuilder;
 import org.uniprot.core.cv.keyword.builder.KeywordEntryKeywordBuilder;
 
@@ -18,7 +18,7 @@ class KeywordFileMapperTest {
 
     @Test
     void testECFileMapper() throws Exception {
-        KeywordEntryKeyword keyword =
+        KeywordId keyword =
                 new KeywordEntryKeywordBuilder().id("kwId").accession("kwAcc").build();
         KeywordEntry entry = new KeywordEntryBuilder().keyword(keyword).build();
 

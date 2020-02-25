@@ -39,7 +39,7 @@ public class KeywordLoadProcessor implements ItemProcessor<KeywordEntry, Keyword
     public KeywordDocument process(KeywordEntry entry) throws Exception {
         Query query =
                 new SimpleQuery()
-                        .addCriteria(Criteria.where("id").is(entry.getKeyword().getAccession()));
+                        .addCriteria(Criteria.where("id").is(entry.getKeyword().getId()));
         Optional<KeywordDocument> optionalDocument =
                 solrOperations.queryForObject(
                         SolrCollection.keyword.name(), query, KeywordDocument.class);
@@ -60,8 +60,8 @@ public class KeywordLoadProcessor implements ItemProcessor<KeywordEntry, Keyword
     private KeywordDocument createKeywordDocument(KeywordEntry keywordEntry) {
         // content is keyword id + keyword name + definition + synonyms
         List<String> content = new ArrayList<>();
+        content.add(keywordEntry.getKeyword().getName());
         content.add(keywordEntry.getKeyword().getId());
-        content.add(keywordEntry.getKeyword().getAccession());
         content.add(keywordEntry.getDefinition());
         if (Utils.notNullNotEmpty(keywordEntry.getSynonyms())) {
             content.addAll(keywordEntry.getSynonyms());
@@ -69,8 +69,8 @@ public class KeywordLoadProcessor implements ItemProcessor<KeywordEntry, Keyword
 
         // create Keyword document
         KeywordDocument.KeywordDocumentBuilder builder = KeywordDocument.builder();
-        builder.id(keywordEntry.getKeyword().getAccession());
-        builder.name(keywordEntry.getKeyword().getId());
+        builder.id(keywordEntry.getKeyword().getId());
+        builder.name(keywordEntry.getKeyword().getName());
         builder.content(content);
 
         if (!keywordEntry.getParents().isEmpty()) {
@@ -94,7 +94,7 @@ public class KeywordLoadProcessor implements ItemProcessor<KeywordEntry, Keyword
     }
 
     private Stream<String> getParentStream(KeywordEntry kwEntry) {
-        return Stream.of(kwEntry.getKeyword().getId(), kwEntry.getKeyword().getAccession());
+        return Stream.of(kwEntry.getKeyword().getName(), kwEntry.getKeyword().getId());
     }
 
     private Stream<String> getAncestorsStrem(KeywordEntry kwEntry) {
