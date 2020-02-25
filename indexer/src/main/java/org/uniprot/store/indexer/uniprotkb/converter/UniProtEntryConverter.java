@@ -208,7 +208,7 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtEntry, Un
 
     private void updateKeyword(Keyword keyword, UniProtDocument document) {
         document.keywords.add(keyword.getId());
-        addValueToStringList(document.keywords, keyword);
+        document.keywords.add(keyword.getName());
         KeywordCategory kc = keyword.getCategory();
         if (!document.keywords.contains(kc.getAccession())) {
             document.keywords.add(kc.getAccession());
@@ -219,7 +219,7 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtEntry, Un
                 createSuggestionMapKey(SuggestDictionary.KEYWORD, keyword.getId()),
                 SuggestDocument.builder()
                         .id(keyword.getId())
-                        .value(keyword.getValue())
+                        .value(keyword.getName())
                         .dictionary(SuggestDictionary.KEYWORD.name())
                         .build());
 

@@ -38,8 +38,7 @@ public class KeywordLoadProcessor implements ItemProcessor<KeywordEntry, Keyword
     @Override
     public KeywordDocument process(KeywordEntry entry) throws Exception {
         Query query =
-                new SimpleQuery()
-                        .addCriteria(Criteria.where("id").is(entry.getKeyword().getId()));
+                new SimpleQuery().addCriteria(Criteria.where("id").is(entry.getKeyword().getId()));
         Optional<KeywordDocument> optionalDocument =
                 solrOperations.queryForObject(
                         SolrCollection.keyword.name(), query, KeywordDocument.class);
