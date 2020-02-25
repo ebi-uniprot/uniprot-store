@@ -70,7 +70,7 @@ public abstract class AbstractSearchFieldConfig implements SearchFieldConfig {
     }
 
     @Override
-    public Boolean hasSearchFieldItem(String fieldName) {
+    public Boolean doesSearchFieldItemExist(String fieldName) {
         Boolean searchFieldExist = false;
         try {
             searchFieldExist = Objects.nonNull(this.getSearchFieldItemByName(fieldName));
@@ -96,7 +96,7 @@ public abstract class AbstractSearchFieldConfig implements SearchFieldConfig {
     }
 
     @Override
-    public Boolean hasCorrespondingSortField(String searchFieldName) {
+    public Boolean doesCorrespondingSortFieldExist(String searchFieldName) {
         Boolean sortFieldExist = false;
         try {
             sortFieldExist = Objects.nonNull(getCorrespondingSortField(searchFieldName));
@@ -116,18 +116,6 @@ public abstract class AbstractSearchFieldConfig implements SearchFieldConfig {
         return this.sortFieldItems;
     }
 
-    @Override
-    public Optional<FieldItem> getSortFieldItemByName(String sortFieldName) {
-        return this.getSortFieldItems().stream()
-                .filter(fi -> sortFieldName.equals(fi.getFieldName()))
-                .findFirst();
-    }
-
-    @Override
-    public Boolean hasSortFieldItem(String sortFieldName) {
-        return this.getSortFieldItemByName(sortFieldName).isPresent();
-    }
-
     public FieldItem getFieldItemById(@NonNull String id) {
         return this.idFieldItemMap.get(id);
     }
@@ -140,6 +128,7 @@ public abstract class AbstractSearchFieldConfig implements SearchFieldConfig {
         return fieldItem.getFieldType();
     }
 
+    @Override
     public List<FieldItem> loadAndGetFieldItems(@NonNull String configFile) {
         ObjectMapper objectMapper = new ObjectMapper();
         List<FieldItem> fieldItemList;
@@ -156,11 +145,13 @@ public abstract class AbstractSearchFieldConfig implements SearchFieldConfig {
         return fieldItemList;
     }
 
+    @Override
     public Map<String, FieldItem> buildIdFieldItemMap(@NonNull List<FieldItem> fieldItems) {
         return fieldItems.stream()
                 .collect(Collectors.toMap(FieldItem::getId, fieldItem -> fieldItem));
     }
 
+    @Override
     public InputStream readConfig(String config) {
         InputStream inputStream =
                 SearchFieldConfig.class.getClassLoader().getResourceAsStream(config);
@@ -173,16 +164,6 @@ public abstract class AbstractSearchFieldConfig implements SearchFieldConfig {
             }
         }
         return inputStream;
-    }
-
-    @Override
-    public List<FieldItem> getTopLevelFieldItems() {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public List<FieldItem> getChildFieldItems(String parentId) {
-        throw new UnsupportedOperationException();
     }
 
     private boolean isSearchFieldItem(FieldItem fieldItem) {

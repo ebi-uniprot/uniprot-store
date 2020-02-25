@@ -3,8 +3,10 @@ package org.uniprot.store.search.field.validator;
 /**
  * This class defines regular expressions as constants, for reference by other classes if needed.
  * Note that this provides static, compile time access to some regular expressions for fields.
- * However, the defacto source is {@link org.uniprot.store.config.searchfield.common.SearchFieldConfig}, via the {@link
- * org.uniprot.store.config.searchfield.common.SearchFieldConfig#isSearchFieldValueValid(String, String)} (String, String)} method.
+ * However, the defacto source is {@link
+ * org.uniprot.store.config.searchfield.common.SearchFieldConfig}, via the {@link
+ * org.uniprot.store.config.searchfield.common.SearchFieldConfig#isSearchFieldValueValid(String,
+ * String)} (String, String)} method.
  *
  * @author lgonzales
  */
