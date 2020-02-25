@@ -26,22 +26,23 @@ class SearchFieldsTest {
 
     @Test
     void hasField_isTrueWhenPresent() {
-        assertThat(searchFieldConfig.hasSearchFieldItem("accession"), is(true));
+        assertThat(searchFieldConfig.doesSearchFieldItemExist("accession"), is(true));
     }
 
     @Test
     void hasField_isFalseWhenNotPresent() {
-        assertThat(searchFieldConfig.hasSearchFieldItem("XXXXXXX"), is(false));
+        assertThat(searchFieldConfig.doesSearchFieldItemExist("XXXXXXX"), is(false));
     }
 
     @Test
     void hasSortField_isTrueWhenPresent() {
-        assertThat(searchFieldConfig.hasCorrespondingSortField("accession"), is(true));
+        assertThat(searchFieldConfig.doesCorrespondingSortFieldExist("accession"), is(true));
     }
 
     @Test
     void hasSortField_isFalseWhenPresent() {
-        assertThat(searchFieldConfig.hasCorrespondingSortField("mnemonic_default"), is(false));
+        assertThat(
+                searchFieldConfig.doesCorrespondingSortFieldExist("mnemonic_default"), is(false));
     }
 
     @Test

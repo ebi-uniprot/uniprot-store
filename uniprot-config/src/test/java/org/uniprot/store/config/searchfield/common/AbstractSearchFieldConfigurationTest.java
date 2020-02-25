@@ -26,20 +26,6 @@ public class AbstractSearchFieldConfigurationTest {
     }
 
     @Test
-    void testGetFieldItemById() {
-        FieldItem fieldItem = fieldConfig.getFieldItemById("taxonomy_id");
-        Assertions.assertNotNull(fieldItem);
-        Assertions.assertNotNull("taxonomy_id", fieldItem.getId());
-    }
-
-    @Test
-    void testGetFieldItemByMissingId() {
-        String missingId = "random";
-        FieldItem fieldItem = fieldConfig.getFieldItemById(missingId);
-        Assertions.assertNull(fieldItem);
-    }
-
-    @Test
     void testLoadSearchFields() {
         List<FieldItem> fieldItems =
                 fieldConfig.loadAndGetFieldItems(TestFieldConfiguration.TEST_SEARCH_FIELDS_CONFIG);
@@ -68,18 +54,5 @@ public class AbstractSearchFieldConfigurationTest {
     @Test
     void testSearchFieldsConfigReadFail() {
         Assertions.assertNull(fieldConfig.readConfig("random.json"));
-    }
-
-    @Test
-    void testGetTopLevelFieldItems() {
-        Assertions.assertThrows(
-                UnsupportedOperationException.class, () -> fieldConfig.getTopLevelFieldItems());
-    }
-
-    @Test
-    void testGetChildFieldItems() {
-        Assertions.assertThrows(
-                UnsupportedOperationException.class,
-                () -> fieldConfig.getChildFieldItems("something"));
     }
 }
