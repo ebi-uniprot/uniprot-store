@@ -1,8 +1,10 @@
 package org.uniprot.store.indexer.search.suggest;
 
+import org.uniprot.store.config.searchfield.common.SearchFieldConfig;
+import org.uniprot.store.config.searchfield.factory.SearchFieldConfigFactory;
+import org.uniprot.store.config.searchfield.factory.UniProtDataType;
 import org.uniprot.store.indexer.search.AbstractSearchEngine;
 import org.uniprot.store.search.document.suggest.SuggestDocument;
-import org.uniprot.store.search.field.UniProtSearchFields;
 
 class SuggestSearchEngine extends AbstractSearchEngine<SuggestDocument> {
 
@@ -13,12 +15,21 @@ class SuggestSearchEngine extends AbstractSearchEngine<SuggestDocument> {
     }
 
     @Override
+    protected SearchFieldConfig getSearchFieldConfig() {
+        return SearchFieldConfigFactory.getSearchFieldConfig(UniProtDataType.suggest);
+    }
+
+    @Override
     protected String identifierField() {
-        return UniProtSearchFields.SUGGEST.getField("id").getName();
+        return getSearchFieldConfig().getSearchFieldItemByName("id").getFieldName();
     }
 
     @Override
     protected String identifierQuery(String entryId) {
-        return "(" + UniProtSearchFields.SUGGEST.getField("id").getName() + ":\"" + entryId + "\")";
+        return "("
+                + getSearchFieldConfig().getSearchFieldItemByName("id").getFieldName()
+                + ":\""
+                + entryId
+                + "\")";
     }
 }

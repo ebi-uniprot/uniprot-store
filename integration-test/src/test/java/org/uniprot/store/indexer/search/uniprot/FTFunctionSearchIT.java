@@ -16,7 +16,6 @@ import org.junit.jupiter.api.extension.RegisterExtension;
 import org.uniprot.core.flatfile.writer.LineType;
 import org.uniprot.core.uniprot.feature.FeatureType;
 import org.uniprot.store.search.field.QueryBuilder;
-import org.uniprot.store.search.field.UniProtSearchFields;
 
 class FTFunctionSearchIT {
     private static final String Q6GZX4 = "Q6GZX4";
@@ -83,7 +82,10 @@ class FTFunctionSearchIT {
 
     @Test
     void sitesFindTwoEntry() {
-        String query = query(UniProtSearchFields.UNIPROTKB.getField("ft_sites"), "Substrate");
+        String query =
+                query(
+                        searchEngine.getSearchFieldConfig().getSearchFieldItemByName("ft_sites"),
+                        "Substrate");
         QueryResponse response = searchEngine.getQueryResponse(query);
 
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
@@ -93,12 +95,18 @@ class FTFunctionSearchIT {
 
     @Test
     void sitesFindTwoEntryWithLength() {
-        String query = query(UniProtSearchFields.UNIPROTKB.getField("ft_sites"), "Substrate");
+        String query =
+                query(
+                        searchEngine.getSearchFieldConfig().getSearchFieldItemByName("ft_sites"),
+                        "Substrate");
         query =
                 QueryBuilder.and(
                         query,
                         QueryBuilder.rangeQuery(
-                                UniProtSearchFields.UNIPROTKB.getField("ftlen_sites").getName(),
+                                searchEngine
+                                        .getSearchFieldConfig()
+                                        .getSearchFieldItemByName("ftlen_sites")
+                                        .getFieldName(),
                                 1,
                                 3));
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -110,19 +118,29 @@ class FTFunctionSearchIT {
 
     @Test
     void sitesFindEntryWithLengthAndEvidence() {
-        String query = query(UniProtSearchFields.UNIPROTKB.getField("ft_sites"), "Substrate");
+        String query =
+                query(
+                        searchEngine.getSearchFieldConfig().getSearchFieldItemByName("ft_sites"),
+                        "Substrate");
         query =
                 QueryBuilder.and(
                         query,
                         QueryBuilder.rangeQuery(
-                                UniProtSearchFields.UNIPROTKB.getField("ftlen_sites").getName(),
+                                searchEngine
+                                        .getSearchFieldConfig()
+                                        .getSearchFieldItemByName("ftlen_sites")
+                                        .getFieldName(),
                                 1,
                                 3));
         String evidence = "ECO_0000256";
         query =
                 QueryBuilder.and(
                         query,
-                        query(UniProtSearchFields.UNIPROTKB.getField("ftev_sites"), evidence));
+                        query(
+                                searchEngine
+                                        .getSearchFieldConfig()
+                                        .getSearchFieldItemByName("ftev_sites"),
+                                evidence));
 
         QueryResponse response = searchEngine.getQueryResponse(query);
 

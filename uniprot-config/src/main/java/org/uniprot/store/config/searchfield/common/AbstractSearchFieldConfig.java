@@ -71,7 +71,13 @@ public abstract class AbstractSearchFieldConfig implements SearchFieldConfig {
 
     @Override
     public Boolean hasSearchFieldItem(String fieldName) {
-        return Objects.nonNull(this.getSearchFieldItemByName(fieldName));
+        Boolean searchFieldExist = false;
+        try {
+            searchFieldExist = Objects.nonNull(this.getSearchFieldItemByName(fieldName));
+        } catch (IllegalArgumentException ile) {
+            // it means, search field doesn't exist
+        }
+        return searchFieldExist;
     }
 
     @Override
@@ -79,7 +85,7 @@ public abstract class AbstractSearchFieldConfig implements SearchFieldConfig {
         FieldItem searchField = getSearchFieldItemByName(searchFieldName);
         String sortFieldId = searchField.getSortFieldId();
         return getSortFieldItems().stream()
-                .filter(sortFieldItem -> sortFieldId.equals(sortFieldItem.getId()))
+                .filter(sortFieldItem -> sortFieldItem.getId().equals(sortFieldId))
                 .findFirst()
                 .orElseThrow(
                         () ->
@@ -87,6 +93,17 @@ public abstract class AbstractSearchFieldConfig implements SearchFieldConfig {
                                         "Field '"
                                                 + searchFieldName
                                                 + "' does not have an associated sort field."));
+    }
+
+    @Override
+    public Boolean hasCorrespondingSortField(String searchFieldName) {
+        Boolean sortFieldExist = false;
+        try {
+            sortFieldExist = Objects.nonNull(getCorrespondingSortField(searchFieldName));
+        } catch (IllegalArgumentException ile) {
+            // it means, sort field doesn't exist
+        }
+        return sortFieldExist;
     }
 
     public List<FieldItem> getSortFieldItems() {
@@ -100,15 +117,15 @@ public abstract class AbstractSearchFieldConfig implements SearchFieldConfig {
     }
 
     @Override
-    public Optional<FieldItem> getSortFieldItemByName(String fieldName) {
+    public Optional<FieldItem> getSortFieldItemByName(String sortFieldName) {
         return this.getSortFieldItems().stream()
-                .filter(fi -> fieldName.equals(fi.getFieldName()))
+                .filter(fi -> sortFieldName.equals(fi.getFieldName()))
                 .findFirst();
     }
 
     @Override
-    public boolean hasSortFieldItem(String fieldName) {
-        return this.getSortFieldItemByName(fieldName).isPresent();
+    public Boolean hasSortFieldItem(String sortFieldName) {
+        return this.getSortFieldItemByName(sortFieldName).isPresent();
     }
 
     public FieldItem getFieldItemById(@NonNull String id) {

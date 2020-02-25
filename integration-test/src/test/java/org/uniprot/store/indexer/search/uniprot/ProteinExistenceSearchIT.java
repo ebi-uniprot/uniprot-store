@@ -19,7 +19,6 @@ import org.junit.jupiter.api.extension.RegisterExtension;
 import org.uniprot.core.flatfile.writer.LineType;
 import org.uniprot.core.uniprot.ProteinExistence;
 import org.uniprot.store.search.field.QueryBuilder;
-import org.uniprot.store.search.field.UniProtSearchFields;
 
 /** Tests if the protein existence search is working correctly */
 class ProteinExistenceSearchIT {
@@ -114,7 +113,10 @@ class ProteinExistenceSearchIT {
 
     @Test
     void peLevelUncertainWithAcc() {
-        String query = query(UniProtSearchFields.UNIPROTKB.getField("accession"), Q6GZX5);
+        String query =
+                query(
+                        searchEngine.getSearchFieldConfig().getSearchFieldItemByName("accession"),
+                        Q6GZX5);
         query = QueryBuilder.and(query, proteinExistence(ProteinExistence.UNCERTAIN));
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -124,7 +126,10 @@ class ProteinExistenceSearchIT {
 
     @Test
     void peLevelFindNothingWithUncertainWithAcc() {
-        String query = query(UniProtSearchFields.UNIPROTKB.getField("accession"), Q6GZX4);
+        String query =
+                query(
+                        searchEngine.getSearchFieldConfig().getSearchFieldItemByName("accession"),
+                        Q6GZX4);
         query = QueryBuilder.and(query, proteinExistence(ProteinExistence.UNCERTAIN));
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -133,6 +138,8 @@ class ProteinExistenceSearchIT {
     }
 
     String proteinExistence(ProteinExistence proteinExistence) {
-        return query(UniProtSearchFields.UNIPROTKB.getField("existence"), proteinExistence.name());
+        return query(
+                searchEngine.getSearchFieldConfig().getSearchFieldItemByName("existence"),
+                proteinExistence.name());
     }
 }

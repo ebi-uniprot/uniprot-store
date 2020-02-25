@@ -22,7 +22,6 @@ import org.junit.jupiter.api.extension.RegisterExtension;
 import org.uniprot.store.search.document.suggest.SuggestDocument;
 import org.uniprot.store.search.field.QueryBuilder;
 import org.uniprot.store.search.field.SuggestField;
-import org.uniprot.store.search.field.UniProtSearchFields;
 
 class SuggestSearchIT {
     @RegisterExtension static SuggestSearchEngine searchEngine = new SuggestSearchEngine();
@@ -434,7 +433,11 @@ class SuggestSearchIT {
                         + "\""
                         + " +"
                         + QueryBuilder.query(
-                                UniProtSearchFields.SUGGEST.getField("dict").getName(), dict);
+                                searchEngine
+                                        .getSearchFieldConfig()
+                                        .getSearchFieldItemByName("dict")
+                                        .getFieldName(),
+                                dict);
         System.out.println(query);
         return query;
     }

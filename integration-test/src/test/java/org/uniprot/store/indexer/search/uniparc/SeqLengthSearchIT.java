@@ -14,7 +14,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;
 import org.uniprot.core.xml.jaxb.uniparc.Entry;
 import org.uniprot.store.search.field.QueryBuilder;
-import org.uniprot.store.search.field.UniProtSearchFields;
 
 class SeqLengthSearchIT {
     @RegisterExtension static UniParcSearchEngine searchEngine = new UniParcSearchEngine();
@@ -101,11 +100,20 @@ class SeqLengthSearchIT {
 
     private String seqLengthRange(int start, int end) {
         return QueryBuilder.rangeQuery(
-                UniProtSearchFields.UNIPARC.getField("length").getName(), start, end);
+                searchEngine
+                        .getSearchFieldConfig()
+                        .getSearchFieldItemByName("length")
+                        .getFieldName(),
+                start,
+                end);
     }
 
     private String seqLength(int start) {
         return QueryBuilder.query(
-                UniProtSearchFields.UNIPARC.getField("length").getName(), "" + start);
+                searchEngine
+                        .getSearchFieldConfig()
+                        .getSearchFieldItemByName("length")
+                        .getFieldName(),
+                "" + start);
     }
 }

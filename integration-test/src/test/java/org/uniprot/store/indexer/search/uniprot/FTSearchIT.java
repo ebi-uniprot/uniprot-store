@@ -19,7 +19,6 @@ import org.junit.jupiter.api.extension.RegisterExtension;
 import org.uniprot.core.flatfile.writer.LineType;
 import org.uniprot.core.uniprot.feature.FeatureType;
 import org.uniprot.store.search.field.QueryBuilder;
-import org.uniprot.store.search.field.UniProtSearchFields;
 
 /** Tests showing the behaviour of searching FT fields */
 class FTSearchIT {
@@ -80,7 +79,10 @@ class FTSearchIT {
 
     @Test
     void chainFindEntrysWithChain() {
-        String query = query(UniProtSearchFields.UNIPROTKB.getField("accession"), Q6GZX4);
+        String query =
+                query(
+                        searchEngine.getSearchFieldConfig().getSearchFieldItemByName("accession"),
+                        Q6GZX4);
         query = QueryBuilder.and(query, features(FeatureType.CHAIN, "*"));
 
         QueryResponse response = searchEngine.getQueryResponse(query);

@@ -586,7 +586,7 @@
     "dataType": "string",
     "description": "Search by UniProtKB Accession",
     "example": "P12345",
-    "sortFieldId": "accession_id"
+    "sortFieldId": "accession_sort"
   },
   {
     "seqNumber": 1,

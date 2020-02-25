@@ -14,19 +14,19 @@ import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
-import org.uniprot.store.search.domain2.SearchField;
-import org.uniprot.store.search.field.UniProtSearchFields;
+import org.uniprot.store.config.searchfield.common.SearchFieldConfig;
+import org.uniprot.store.config.searchfield.model.FieldItem;
 
 /**
- * This class tests that all search fields known about via, {@link UniProtSearchFields}, can be
+ * This class tests that all search fields known about via, {@link SearchFieldConfig}, can be
  * queried against. No special test is performed on the response other than checking that the
  * request worked. If the field did not exist, then a test will fail and developers will be alerted,
- * and the file that acts as source for {@link UniProtSearchFields}, {@code search-fields.json} will
- * need correcting.
+ * and the file that acts as source for {@link SearchFieldConfig}, {@code
+ * <UniProtDataType>-search-fields.json} will need correcting.
  *
- * <p>For example if {@code search-fields.json} contains field 'xxx', but the Solr schema defines a
- * field called, 'xx', then a test will fail that reports the Solr error stating that field 'xxx'
- * does not exist.
+ * <p>For example if {@code uniprotkb-search-fields.json} contains field 'xxx', but the Solr schema
+ * defines a field called, 'xx', then a test will fail that reports the Solr error stating that
+ * field 'xxx' does not exist.
  *
  * <p>Note that dynamic fields in Solr have slightly different behaviour. Dynamic fields in a Solr
  * schema, e.g., ft_*, allow queries upon any field starting with ft_. Created 18/11/2019
@@ -38,13 +38,15 @@ public abstract class AbstractValidateAllFieldsExist<T> {
 
     protected abstract AbstractSearchEngine<T> getSearchEngine();
 
-    protected abstract UniProtSearchFields getSearchFieldType();
+    protected SearchFieldConfig getSearchFieldConfig() {
+        return getSearchEngine().getSearchFieldConfig();
+    }
 
     private Stream<Arguments> provideSearchFields() {
         return Stream.concat(
-                        getSearchFieldType().getSortFields().stream(),
-                        getSearchFieldType().getSearchFields().stream())
-                .map(SearchField::getName)
+                        getSearchFieldConfig().getSortFieldItems().stream(),
+                        getSearchFieldConfig().getSearchFieldItems().stream())
+                .map(FieldItem::getFieldName)
                 .map(Arguments::of);
     }
 

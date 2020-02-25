@@ -19,7 +19,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;
 import org.uniprot.core.flatfile.writer.LineType;
 import org.uniprot.store.search.field.QueryBuilder;
-import org.uniprot.store.search.field.UniProtSearchFields;
 
 /**
  * Verifies if the organism and taxonomy fields are indexed correctly Organism Index is based on
@@ -294,7 +293,12 @@ class OrganismIT {
 
     @Test
     void popularOrganismHuman() {
-        String query = query(UniProtSearchFields.UNIPROTKB.getField("popular_organism"), "Human");
+        String query =
+                query(
+                        searchEngine
+                                .getSearchFieldConfig()
+                                .getSearchFieldItemByName("popular_organism"),
+                        "Human");
         QueryResponse response = searchEngine.getQueryResponse(query);
 
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
@@ -303,7 +307,12 @@ class OrganismIT {
 
     @Test
     void popularOrganismNoMouse() {
-        String query = query(UniProtSearchFields.UNIPROTKB.getField("popular_organism"), "Mouse");
+        String query =
+                query(
+                        searchEngine
+                                .getSearchFieldConfig()
+                                .getSearchFieldItemByName("popular_organism"),
+                        "Mouse");
         QueryResponse response = searchEngine.getQueryResponse(query);
 
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
@@ -312,7 +321,12 @@ class OrganismIT {
 
     @Test
     void popularOrganismSOLMENotPopular() {
-        String query = query(UniProtSearchFields.UNIPROTKB.getField("popular_organism"), "SOLME");
+        String query =
+                query(
+                        searchEngine
+                                .getSearchFieldConfig()
+                                .getSearchFieldItemByName("popular_organism"),
+                        "SOLME");
         QueryResponse response = searchEngine.getQueryResponse(query);
 
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
@@ -321,7 +335,12 @@ class OrganismIT {
 
     @Test
     void otherOrganismSOLME() {
-        String query = query(UniProtSearchFields.UNIPROTKB.getField("other_organism"), "SOLME");
+        String query =
+                query(
+                        searchEngine
+                                .getSearchFieldConfig()
+                                .getSearchFieldItemByName("other_organism"),
+                        "SOLME");
         QueryResponse response = searchEngine.getQueryResponse(query);
 
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
@@ -330,7 +349,12 @@ class OrganismIT {
 
     @Test
     void otherOrganismHumanNotOther() {
-        String query = query(UniProtSearchFields.UNIPROTKB.getField("other_organism"), "Human");
+        String query =
+                query(
+                        searchEngine
+                                .getSearchFieldConfig()
+                                .getSearchFieldItemByName("other_organism"),
+                        "Human");
         QueryResponse response = searchEngine.getQueryResponse(query);
 
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
@@ -338,11 +362,14 @@ class OrganismIT {
     }
 
     private String organismName(String name) {
-        return query(UniProtSearchFields.UNIPROTKB.getField("organism_name"), name);
+        return query(
+                searchEngine.getSearchFieldConfig().getSearchFieldItemByName("organism_name"),
+                name);
     }
 
     private static String taxonID(int taxonomy) {
         return query(
-                UniProtSearchFields.UNIPROTKB.getField("organism_id"), String.valueOf(taxonomy));
+                searchEngine.getSearchFieldConfig().getSearchFieldItemByName("organism_id"),
+                String.valueOf(taxonomy));
     }
 }
