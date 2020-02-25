@@ -21,7 +21,6 @@ import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;
 import org.uniprot.core.flatfile.writer.LineType;
-import org.uniprot.store.search.field.UniProtSearchFields;
 
 /** Tests if the Genes section has been indexed properly */
 class GeneSearchIT {
@@ -427,11 +426,12 @@ class GeneSearchIT {
     }
 
     private String geneQuery(String value) {
-        return query(UniProtSearchFields.UNIPROTKB.getField("gene"), value);
+        return query(searchEngine.getSearchFieldConfig().getSearchFieldItemByName("gene"), value);
     }
 
     private String exactGeneQuery(String value) {
-        return query(UniProtSearchFields.UNIPROTKB.getField("gene_exact"), value);
+        return query(
+                searchEngine.getSearchFieldConfig().getSearchFieldItemByName("gene_exact"), value);
     }
 
     /**

@@ -12,7 +12,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;
 import org.uniprot.core.xml.jaxb.uniref.Entry;
 import org.uniprot.store.search.field.QueryBuilder;
-import org.uniprot.store.search.field.UniProtSearchFields;
 
 class SequenceLengthSearchIT {
     private static final String ID_1 = "UniRef100_A0A007";
@@ -125,11 +124,20 @@ class SequenceLengthSearchIT {
 
     String lengthQuery(int length) {
         return QueryBuilder.query(
-                UniProtSearchFields.UNIREF.getField("length").getName(), "" + length);
+                searchEngine
+                        .getSearchFieldConfig()
+                        .getSearchFieldItemByName("length")
+                        .getFieldName(),
+                "" + length);
     }
 
     String lengthQuery(int start, int end) {
         return QueryBuilder.rangeQuery(
-                UniProtSearchFields.UNIREF.getField("length").getName(), start, end);
+                searchEngine
+                        .getSearchFieldConfig()
+                        .getSearchFieldItemByName("length")
+                        .getFieldName(),
+                start,
+                end);
     }
 }

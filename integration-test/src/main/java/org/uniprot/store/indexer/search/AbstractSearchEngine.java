@@ -18,6 +18,7 @@ import org.junit.jupiter.api.extension.BeforeAllCallback;
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.uniprot.store.config.searchfield.common.SearchFieldConfig;
 import org.uniprot.store.job.common.converter.DocumentConverter;
 import org.uniprot.store.search.document.Document;
 
@@ -166,6 +167,8 @@ public abstract class AbstractSearchEngine<E> implements BeforeAllCallback, Afte
     protected abstract String identifierQuery(String entryId);
 
     protected abstract String identifierField();
+
+    protected abstract SearchFieldConfig getSearchFieldConfig();
 
     @Override
     public void beforeAll(ExtensionContext context) {

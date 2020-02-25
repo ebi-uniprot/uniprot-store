@@ -18,7 +18,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;
 import org.uniprot.core.flatfile.writer.LineType;
 import org.uniprot.store.search.field.QueryBuilder;
-import org.uniprot.store.search.field.UniProtSearchFields;
 
 /** Tests showing the behaviour of searching DR fields */
 class DRSearchIT {
@@ -180,7 +179,10 @@ class DRSearchIT {
 
     @Test
     void goExactlyCorrectAccession() {
-        String query = query(UniProtSearchFields.UNIPROTKB.getField("accession"), GO_1);
+        String query =
+                query(
+                        searchEngine.getSearchFieldConfig().getSearchFieldItemByName("accession"),
+                        GO_1);
         query = QueryBuilder.and(query, xref("GO", "GO:0033644"));
 
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -191,7 +193,10 @@ class DRSearchIT {
 
     @Test
     void goCaseInSensitiveAccession() {
-        String query = query(UniProtSearchFields.UNIPROTKB.getField("accession"), GO_1);
+        String query =
+                query(
+                        searchEngine.getSearchFieldConfig().getSearchFieldItemByName("accession"),
+                        GO_1);
         query = QueryBuilder.and(query, xref("GO", "go:0033644"));
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -221,7 +226,10 @@ class DRSearchIT {
 
     @Test
     void refseqIDNoVersion() {
-        String query = query(UniProtSearchFields.UNIPROTKB.getField("accession"), REF_SEQ_1);
+        String query =
+                query(
+                        searchEngine.getSearchFieldConfig().getSearchFieldItemByName("accession"),
+                        REF_SEQ_1);
         query = QueryBuilder.and(query, xref("REFSEQ", "YP_654585"));
 
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -232,7 +240,10 @@ class DRSearchIT {
 
     @Test
     void refseqIDWithVersion() {
-        String query = query(UniProtSearchFields.UNIPROTKB.getField("accession"), REF_SEQ_1);
+        String query =
+                query(
+                        searchEngine.getSearchFieldConfig().getSearchFieldItemByName("accession"),
+                        REF_SEQ_1);
         query = QueryBuilder.and(query, xref("REFSEQ", "YP_654585.1"));
 
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -243,7 +254,10 @@ class DRSearchIT {
 
     @Test
     void refseqDontFindIDWithVersion() {
-        String query = query(UniProtSearchFields.UNIPROTKB.getField("accession"), REF_SEQ_1);
+        String query =
+                query(
+                        searchEngine.getSearchFieldConfig().getSearchFieldItemByName("accession"),
+                        REF_SEQ_1);
         query = QueryBuilder.and(query, xref("REFSEQ", "YP_654585.2"));
 
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -254,7 +268,10 @@ class DRSearchIT {
 
     @Test
     void refseqDontFindIDWithVersionAgain() {
-        String query = query(UniProtSearchFields.UNIPROTKB.getField("accession"), REF_SEQ_2);
+        String query =
+                query(
+                        searchEngine.getSearchFieldConfig().getSearchFieldItemByName("accession"),
+                        REF_SEQ_2);
         query = QueryBuilder.and(query, xref("REFSEQ", "NC_008187.1"));
 
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -265,7 +282,10 @@ class DRSearchIT {
 
     @Test
     void refseqFindIDWithVersion() {
-        String query = query(UniProtSearchFields.UNIPROTKB.getField("accession"), REF_SEQ_2);
+        String query =
+                query(
+                        searchEngine.getSearchFieldConfig().getSearchFieldItemByName("accession"),
+                        REF_SEQ_2);
         query = QueryBuilder.and(query, xref("REFSEQ", "NC_008187.2"));
 
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -306,7 +326,10 @@ class DRSearchIT {
 
     @Test
     void emblDontFindInEntry() {
-        String query = query(UniProtSearchFields.UNIPROTKB.getField("accession"), EMBL_1);
+        String query =
+                query(
+                        searchEngine.getSearchFieldConfig().getSearchFieldItemByName("accession"),
+                        EMBL_1);
         query = QueryBuilder.and(query, xref("EMBL", "BY548484"));
 
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -317,7 +340,10 @@ class DRSearchIT {
 
     @Test
     void emblFindInEntry() {
-        String query = query(UniProtSearchFields.UNIPROTKB.getField("accession"), EMBL_3);
+        String query =
+                query(
+                        searchEngine.getSearchFieldConfig().getSearchFieldItemByName("accession"),
+                        EMBL_3);
         query = QueryBuilder.and(query, xref("EMBL", "BY548484"));
 
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -557,10 +583,11 @@ class DRSearchIT {
 
     private String xref(String type, String value) {
         return query(
-                UniProtSearchFields.UNIPROTKB.getField("xref"), type.toLowerCase() + "-" + value);
+                searchEngine.getSearchFieldConfig().getSearchFieldItemByName("xref"),
+                type.toLowerCase() + "-" + value);
     }
 
     private String xref(String value) {
-        return query(UniProtSearchFields.UNIPROTKB.getField("xref"), value);
+        return query(searchEngine.getSearchFieldConfig().getSearchFieldItemByName("xref"), value);
     }
 }

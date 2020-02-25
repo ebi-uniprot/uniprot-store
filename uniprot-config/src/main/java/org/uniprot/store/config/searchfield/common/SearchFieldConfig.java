@@ -26,13 +26,15 @@ public interface SearchFieldConfig {
 
     Boolean hasSearchFieldItem(String fieldName);
 
-    FieldItem getCorrespondingSortField(String fieldName);
+    FieldItem getCorrespondingSortField(String searchFieldName);
+
+    Boolean hasCorrespondingSortField(String searchFieldName);
 
     List<FieldItem> getSortFieldItems();
 
     Optional<FieldItem> getSortFieldItemByName(String fieldName);
 
-    boolean hasSortFieldItem(String fieldName);
+    Boolean hasSortFieldItem(String sortFieldName);
 
     List<FieldItem> getTopLevelFieldItems();
 

@@ -8,10 +8,12 @@ import org.uniprot.core.xml.jaxb.uniparc.Entry;
 import org.uniprot.cv.taxonomy.FileNodeIterable;
 import org.uniprot.cv.taxonomy.TaxonomyRepo;
 import org.uniprot.cv.taxonomy.impl.TaxonomyMapRepo;
+import org.uniprot.store.config.searchfield.common.SearchFieldConfig;
+import org.uniprot.store.config.searchfield.factory.SearchFieldConfigFactory;
+import org.uniprot.store.config.searchfield.factory.UniProtDataType;
 import org.uniprot.store.indexer.search.AbstractSearchEngine;
 import org.uniprot.store.indexer.uniparc.UniParcDocumentConverter;
 import org.uniprot.store.job.common.converter.DocumentConverter;
-import org.uniprot.store.search.field.UniProtSearchFields;
 
 /** Concrete implementation of the UniParce search engine */
 class UniParcSearchEngine extends AbstractSearchEngine<Entry> {
@@ -39,14 +41,21 @@ class UniParcSearchEngine extends AbstractSearchEngine<Entry> {
         }
     }
 
+    @Override
+    protected SearchFieldConfig getSearchFieldConfig() {
+        return SearchFieldConfigFactory.getSearchFieldConfig(UniProtDataType.uniparc);
+    }
+
     @SuppressWarnings("rawtypes")
     @Override
     protected String identifierField() {
-        return UniProtSearchFields.UNIPARC.getField("upi").getName();
+        return getSearchFieldConfig().getSearchFieldItemByName("upi").getFieldName();
     }
 
     @Override
     protected String identifierQuery(String entryId) {
-        return UniProtSearchFields.UNIPARC.getField("upid").getName() + ":" + entryId;
+        return getSearchFieldConfig().getSearchFieldItemByName("upid").getFieldName()
+                + ":"
+                + entryId;
     }
 }

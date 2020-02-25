@@ -4,7 +4,11 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.uniprot.store.config.searchfield.common.SearchFieldConfig;
+import org.uniprot.store.config.searchfield.factory.SearchFieldConfigFactory;
+import org.uniprot.store.config.searchfield.factory.UniProtDataType;
 
 /**
  * Created 20/11/19
@@ -12,42 +16,52 @@ import org.junit.jupiter.api.Test;
  * @author Edd
  */
 class SearchFieldsTest {
+    private static SearchFieldConfig searchFieldConfig;
+
+    @BeforeAll
+    static void setUp() {
+        searchFieldConfig =
+                SearchFieldConfigFactory.getSearchFieldConfig(UniProtDataType.uniprotkb);
+    }
+
     @Test
     void hasField_isTrueWhenPresent() {
-        assertThat(UniProtSearchFields.UNIPROTKB.hasField("accession"), is(true));
+        assertThat(searchFieldConfig.hasSearchFieldItem("accession"), is(true));
     }
 
     @Test
     void hasField_isFalseWhenNotPresent() {
-        assertThat(UniProtSearchFields.UNIPROTKB.hasField("XXXXXXX"), is(false));
+        assertThat(searchFieldConfig.hasSearchFieldItem("XXXXXXX"), is(false));
     }
 
     @Test
     void hasSortField_isTrueWhenPresent() {
-        assertThat(UniProtSearchFields.UNIPROTKB.hasSortField("accession"), is(true));
+        assertThat(searchFieldConfig.hasCorrespondingSortField("accession"), is(true));
     }
 
     @Test
     void hasSortField_isFalseWhenPresent() {
-        assertThat(UniProtSearchFields.UNIPROTKB.hasSortField("mnemonic_default"), is(false));
+        assertThat(searchFieldConfig.hasCorrespondingSortField("mnemonic_default"), is(false));
     }
 
     @Test
     void getField_retrievesFieldWhenPresent() {
-        assertThat(UniProtSearchFields.UNIPROTKB.getField("accession").getName(), is("accession"));
+        assertThat(
+                searchFieldConfig.getSearchFieldItemByName("accession").getFieldName(),
+                is("accession"));
     }
 
     @Test
     void getField_throwsExceptionWhenNotPresent() {
         assertThrows(
                 IllegalArgumentException.class,
-                () -> UniProtSearchFields.UNIPROTKB.getField("XXXXXXX"));
+                () -> searchFieldConfig.getSearchFieldItemByName("XXXXXXX"));
     }
 
     @Test
     void getSortFieldFor_retrievesSortFieldWhenPresent() {
         assertThat(
-                UniProtSearchFields.UNIPROTKB.getSortFieldFor("accession").getName(),
+                searchFieldConfig.getCorrespondingSortField("accession").getFieldName(),
                 is("accession_id"));
     }
 
@@ -55,18 +69,16 @@ class SearchFieldsTest {
     void getSortFieldFor_throwsExceptionWhenSortFieldNotPresent() {
         assertThrows(
                 IllegalArgumentException.class,
-                () -> UniProtSearchFields.UNIPROTKB.getSortFieldFor("mnemonic_default"));
+                () -> searchFieldConfig.getCorrespondingSortField("mnemonic_default"));
     }
 
     @Test
     void fieldValueIsValid_isTrueWhenValid() {
-        assertThat(
-                UniProtSearchFields.UNIPROTKB.fieldValueIsValid("accession", "P12345"), is(true));
+        assertThat(searchFieldConfig.isSearchFieldValueValid("accession", "P12345"), is(true));
     }
 
     @Test
     void fieldValueIsValid_isFalseWhenInvalid() {
-        assertThat(
-                UniProtSearchFields.UNIPROTKB.fieldValueIsValid("accession", "12345"), is(false));
+        assertThat(searchFieldConfig.isSearchFieldValueValid("accession", "12345"), is(false));
     }
 }
