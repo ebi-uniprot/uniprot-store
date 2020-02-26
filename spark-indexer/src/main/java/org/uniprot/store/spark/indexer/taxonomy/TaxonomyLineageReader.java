@@ -1,6 +1,5 @@
 package org.uniprot.store.spark.indexer.taxonomy;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -55,7 +54,7 @@ public class TaxonomyLineageReader {
         int numberPartition =
                 Integer.valueOf(applicationConfig.getString("database.lineage.partition"));
         int[][] ranges = getRanges(maxTaxId, numberPartition);
-        List<JavaPairRDD<String, List<TaxonomyLineage>>> datasets = new ArrayList<>();
+        JavaPairRDD<String, List<TaxonomyLineage>> result = null;
         for (int[] range : ranges) {
             String sql =
                     SELECT_TAXONOMY_LINEAGE_SQL
@@ -73,15 +72,13 @@ public class TaxonomyLineageReader {
                             .option("password", applicationConfig.getString("database.password"))
                             .option("query", sql)
                             .load();
-            datasets.add(mapToLineage(tableDataset, includeOrganism));
+            if (result == null) {
+                result = mapToLineage(tableDataset, includeOrganism);
+            } else {
+                result = result.union(mapToLineage(tableDataset, includeOrganism));
+            }
         }
-        return (JavaPairRDD<String, List<TaxonomyLineage>>)
-                datasets.stream()
-                        .reduce(JavaPairRDD::union)
-                        .orElseThrow(
-                                () ->
-                                        new IllegalStateException(
-                                                "Unable to union lineage datasets"));
+        return result;
     }
 
     static int[][] getRanges(int maxId, int numPartition) {
