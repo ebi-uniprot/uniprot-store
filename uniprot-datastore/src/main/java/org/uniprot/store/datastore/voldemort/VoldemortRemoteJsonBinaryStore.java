@@ -1,15 +1,13 @@
 package org.uniprot.store.datastore.voldemort;
 
-import java.io.IOException;
-import java.time.Duration;
-import java.util.*;
-
+import com.codahale.metrics.Timer;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.inject.Inject;
 import net.jodah.failsafe.Failsafe;
 import net.jodah.failsafe.RetryPolicy;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import voldemort.VoldemortException;
 import voldemort.client.ClientConfig;
 import voldemort.client.SocketStoreClientFactory;
@@ -17,10 +15,9 @@ import voldemort.client.StoreClient;
 import voldemort.client.StoreClientFactory;
 import voldemort.versioning.Versioned;
 
-import com.codahale.metrics.Timer;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.inject.Inject;
+import java.io.IOException;
+import java.time.Duration;
+import java.util.*;
 
 /**
  * @author lgonzales
@@ -32,9 +29,9 @@ public abstract class VoldemortRemoteJsonBinaryStore<T> implements VoldemortClie
             LoggerFactory.getLogger(VoldemortRemoteJsonBinaryStore.class);
     private static final int DEFAULT_MAX_CONNECTION = 20;
     private static final String TIME_OUT_MILLIS = "60000";
-    private final StoreClient<String, byte[]> client;
+    protected final StoreClient<String, byte[]> client;
     private final StoreClientFactory factory;
-    private final RetryPolicy<Object> retryPolicy;
+    protected final RetryPolicy<Object> retryPolicy;
     private final String storeName;
 
     public VoldemortRemoteJsonBinaryStore(String storeName, String... voldemortUrl) {
@@ -71,11 +68,22 @@ public abstract class VoldemortRemoteJsonBinaryStore<T> implements VoldemortClie
         }
         this.storeName = storeName;
         this.client = factory.getStoreClient(storeName);
-        retryPolicy =
-                new RetryPolicy<>()
-                        .handle(VoldemortException.class)
-                        .withDelay(Duration.ofMillis(1))
-                        .withMaxRetries(3);
+        this.retryPolicy =
+            createRetryPolicy();
+    }
+
+    VoldemortRemoteJsonBinaryStore(String storeName, StoreClient<String, byte[]> client) {
+        this.storeName = storeName;
+        this.client = client;
+        this.factory = null;
+        this.retryPolicy = createRetryPolicy();
+    }
+
+    private RetryPolicy<Object> createRetryPolicy() {
+        return new RetryPolicy<>()
+            .handle(VoldemortException.class)
+            .withDelay(Duration.ofMillis(1))
+            .withMaxRetries(3);
     }
 
     @Override
@@ -160,7 +168,7 @@ public abstract class VoldemortRemoteJsonBinaryStore<T> implements VoldemortClie
         this.factory.close();
     }
 
-    private T getEntryFromBinary(Versioned<byte[]> entryObjectVersioned) {
+    protected T getEntryFromBinary(Versioned<byte[]> entryObjectVersioned) {
         try {
             return getStoreObjectMapper()
                     .readValue(entryObjectVersioned.getValue(), getEntryClass());
