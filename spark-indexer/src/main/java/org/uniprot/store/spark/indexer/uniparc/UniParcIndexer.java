@@ -12,9 +12,9 @@ import org.uniprot.core.taxonomy.TaxonomyEntry;
 import org.uniprot.core.uniparc.UniParcEntry;
 import org.uniprot.store.search.document.uniparc.UniParcDocument;
 import org.uniprot.store.spark.indexer.taxonomy.TaxonomyRDDReader;
+import org.uniprot.store.spark.indexer.uniparc.mapper.UniParcEntryToDocument;
 import org.uniprot.store.spark.indexer.uniparc.mapper.UniParcTaxonomyJoin;
 import org.uniprot.store.spark.indexer.uniparc.mapper.UniParcTaxonomyMapper;
-import org.uniprot.store.spark.indexer.uniparc.mapper.UniParcToDocument;
 import org.uniprot.store.spark.indexer.util.SolrUtils;
 
 /**
@@ -45,17 +45,20 @@ public class UniParcIndexer {
         JavaPairRDD<String, Iterable<TaxonomyEntry>> uniparcJoin =
                 taxonomyJoin
                         .join(taxonomyEntryJavaPairRDD)
+                        // After Join RDD: JavaPairRDD<taxId,Tuple2<uniparcId,TaxonomyEntry>>
                         .mapToPair(tuple -> tuple._2)
                         .groupByKey();
 
         // JavaPairRDD<uniparcId,UniParcDocument>
         JavaPairRDD<String, UniParcDocument> uniparcDocumentRDD =
                 (JavaPairRDD<String, UniParcDocument>)
-                        uniparcRDD.mapToPair(new UniParcToDocument());
+                        uniparcRDD.mapToPair(new UniParcEntryToDocument());
 
         JavaRDD<UniParcDocument> uniParcDocumentRDD =
                 uniparcDocumentRDD
                         .leftOuterJoin(uniparcJoin)
+                        // After Join RDD:
+                        // JavaPairRDD<uniparcId,Tuple2<UniParcDocument,Iterable<TaxonomyEntry>>>
                         .mapValues(new UniParcTaxonomyJoin())
                         .values();
 

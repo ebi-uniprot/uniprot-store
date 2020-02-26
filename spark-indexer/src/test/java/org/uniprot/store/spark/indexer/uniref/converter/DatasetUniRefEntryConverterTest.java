@@ -18,13 +18,13 @@ import scala.collection.Seq;
  * @author lgonzales
  * @since 2019-11-22
  */
-class DatasetUnirefEntryConverterTest {
+class DatasetUniRefEntryConverterTest {
 
     @Test
     void testFullUniRefEntry() throws Exception {
         Row row = getFullUnirefRow();
 
-        DatasetUnirefEntryConverter mapper = new DatasetUnirefEntryConverter(UniRefType.UniRef100);
+        DatasetUniRefEntryConverter mapper = new DatasetUniRefEntryConverter(UniRefType.UniRef100);
 
         UniRefEntry entry = mapper.call(row);
 
@@ -97,9 +97,9 @@ class DatasetUnirefEntryConverterTest {
 
         Row row =
                 new GenericRowWithSchema(
-                        entryValues.toArray(), DatasetUnirefEntryConverter.getUniRefXMLSchema());
+                        entryValues.toArray(), DatasetUniRefEntryConverter.getUniRefXMLSchema());
 
-        DatasetUnirefEntryConverter mapper = new DatasetUnirefEntryConverter(UniRefType.UniRef90);
+        DatasetUniRefEntryConverter mapper = new DatasetUniRefEntryConverter(UniRefType.UniRef90);
         UniRefEntry entry = mapper.call(row);
 
         assertNotNull(entry);
@@ -137,7 +137,7 @@ class DatasetUnirefEntryConverterTest {
         entryValues.add(getRepresentativeMemberRow()); // representativeMember
 
         return new GenericRowWithSchema(
-                entryValues.toArray(), DatasetUnirefEntryConverter.getUniRefXMLSchema());
+                entryValues.toArray(), DatasetUniRefEntryConverter.getUniRefXMLSchema());
     }
 
     private Seq getMainPropertiesSeq() {
@@ -185,7 +185,7 @@ class DatasetUnirefEntryConverterTest {
 
         return new GenericRowWithSchema(
                 representativeMembers.toArray(),
-                DatasetUnirefEntryConverter.getRepresentativeMemberSchema());
+                DatasetUniRefEntryConverter.getRepresentativeMemberSchema());
     }
 
     private Row getPropertyRow(String name, Object value) {
@@ -200,7 +200,7 @@ class DatasetUnirefEntryConverterTest {
         Row dbReference = getDBReferenceRow(type, id, memberProperties);
         return new GenericRowWithSchema(
                 Collections.singletonList(dbReference).toArray(),
-                DatasetUnirefEntryConverter.getMemberSchema());
+                DatasetUniRefEntryConverter.getMemberSchema());
     }
 
     private Row getDBReferenceRow(String type, String id, Seq memberProperties) {

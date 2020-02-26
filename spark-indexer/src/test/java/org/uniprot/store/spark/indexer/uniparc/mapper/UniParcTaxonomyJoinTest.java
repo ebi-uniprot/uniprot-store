@@ -18,7 +18,7 @@ import scala.Tuple2;
  * @author lgonzales
  * @since 2020-02-20
  */
-class TaxonomiesJoinToDocumentTest {
+class UniParcTaxonomyJoinTest {
 
     @Test
     void testJoinTaxonomiesComplete() throws Exception {

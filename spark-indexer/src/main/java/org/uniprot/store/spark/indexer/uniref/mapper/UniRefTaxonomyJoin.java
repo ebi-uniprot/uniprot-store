@@ -31,7 +31,7 @@ public class UniRefTaxonomyJoin
                                 if (lineage.hasCommonName()) {
                                     builder.organismTaxon(lineage.getCommonName());
                                 }
-                                builder.taxLineageId(new Long(lineage.getTaxonId()).intValue());
+                                builder.taxLineageId(Long.valueOf(lineage.getTaxonId()).intValue());
                             });
             result = builder.build();
         }

@@ -14,7 +14,7 @@ import scala.Tuple2;
  * @author lgonzales
  * @since 2020-02-20
  */
-public class UniParcToDocument implements PairFunction<UniParcEntry, String, UniParcDocument> {
+public class UniParcEntryToDocument implements PairFunction<UniParcEntry, String, UniParcDocument> {
     private static final long serialVersionUID = 4491443919730778424L;
 
     @Override

@@ -18,7 +18,7 @@ class UniParcEntryToDocumentTest {
 
     @Test
     void testMapUniParcEntryToDocument() throws Exception {
-        UniParcToDocument mapper = new UniParcToDocument();
+        UniParcEntryToDocument mapper = new UniParcEntryToDocument();
         UniParcEntry entry =
                 new UniParcEntryBuilder()
                         .uniParcId("uniParcIdValue")

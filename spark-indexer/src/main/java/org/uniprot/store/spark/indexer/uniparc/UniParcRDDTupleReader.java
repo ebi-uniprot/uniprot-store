@@ -6,7 +6,7 @@ import org.apache.spark.SparkConf;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.sql.*;
 import org.uniprot.core.uniparc.UniParcEntry;
-import org.uniprot.store.spark.indexer.uniparc.converter.DatasetUniparcEntryConverter;
+import org.uniprot.store.spark.indexer.uniparc.converter.DatasetUniParcEntryConverter;
 
 import scala.Serializable;
 
@@ -32,7 +32,7 @@ public class UniParcRDDTupleReader implements Serializable {
         Encoder<UniParcEntry> entryEncoder =
                 (Encoder<UniParcEntry>) Encoders.kryo(UniParcEntry.class);
         return uniParcEntryDataset
-                .map(new DatasetUniparcEntryConverter(), entryEncoder)
+                .map(new DatasetUniParcEntryConverter(), entryEncoder)
                 .toJavaRDD();
     }
 
@@ -42,7 +42,7 @@ public class UniParcRDDTupleReader implements Serializable {
                 spark.read()
                         .format("com.databricks.spark.xml")
                         .option("rowTag", "entry")
-                        .schema(DatasetUniparcEntryConverter.getUniParcXMLSchema())
+                        .schema(DatasetUniParcEntryConverter.getUniParcXMLSchema())
                         .load(xmlFilePath);
         data.printSchema();
         return data;

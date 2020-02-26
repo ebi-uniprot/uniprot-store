@@ -20,12 +20,12 @@ import scala.collection.Seq;
  * @author lgonzales
  * @since 2020-02-16
  */
-class DatasetUniparcEntryConverterTest {
+class DatasetUniParcEntryConverterTest {
 
     @Test
     void testCompleteUniparcEntry() throws Exception {
         Row completeUniparcRow = getFullUniParcRow();
-        DatasetUniparcEntryConverter converter = new DatasetUniparcEntryConverter();
+        DatasetUniParcEntryConverter converter = new DatasetUniParcEntryConverter();
         UniParcEntry entry = converter.call(completeUniparcRow);
         assertNotNull(entry);
 
@@ -59,8 +59,8 @@ class DatasetUniparcEntryConverterTest {
 
         Row incompleteUniparcRow =
                 new GenericRowWithSchema(
-                        entryValues.toArray(), DatasetUniparcEntryConverter.getUniParcXMLSchema());
-        DatasetUniparcEntryConverter converter = new DatasetUniparcEntryConverter();
+                        entryValues.toArray(), DatasetUniParcEntryConverter.getUniParcXMLSchema());
+        DatasetUniParcEntryConverter converter = new DatasetUniParcEntryConverter();
         UniParcEntry entry = converter.call(incompleteUniparcRow);
         assertNotNull(entry);
 
@@ -125,7 +125,7 @@ class DatasetUniparcEntryConverterTest {
         entryValues.add(getSignatureSequenceMatchSeq()); // signatureSequenceMatch
 
         return new GenericRowWithSchema(
-                entryValues.toArray(), DatasetUniparcEntryConverter.getUniParcXMLSchema());
+                entryValues.toArray(), DatasetUniParcEntryConverter.getUniParcXMLSchema());
     }
 
     private Seq getDbReferenceSeq() {
@@ -142,7 +142,7 @@ class DatasetUniparcEntryConverterTest {
         Row dbReferenceRow =
                 new GenericRowWithSchema(
                         dbReferences.toArray(),
-                        DatasetUniparcEntryConverter.getDbReferenceSchema());
+                        DatasetUniParcEntryConverter.getDbReferenceSchema());
         List<Object> dbReferenceSeq = new ArrayList<>();
         dbReferenceSeq.add(dbReferenceRow);
 
@@ -203,7 +203,7 @@ class DatasetUniparcEntryConverterTest {
         Row signatureSequenceRow =
                 new GenericRowWithSchema(
                         signatureSequences.toArray(),
-                        DatasetUniparcEntryConverter.getSignatureSchema());
+                        DatasetUniParcEntryConverter.getSignatureSchema());
 
         List<Object> signatureSequenceSeq = new ArrayList<>();
         signatureSequenceSeq.add(signatureSequenceRow);
@@ -219,7 +219,7 @@ class DatasetUniparcEntryConverterTest {
         featureGroup.add("idValue"); // _id
         featureGroup.add("nameValue"); // _name
         return new GenericRowWithSchema(
-                featureGroup.toArray(), DatasetUniparcEntryConverter.getSeqFeatureGroupSchema());
+                featureGroup.toArray(), DatasetUniParcEntryConverter.getSeqFeatureGroupSchema());
     }
 
     private Seq getLocationSeq() {
@@ -229,7 +229,7 @@ class DatasetUniparcEntryConverterTest {
 
         Row locationRow =
                 new GenericRowWithSchema(
-                        location.toArray(), DatasetUniparcEntryConverter.getLocationSchema());
+                        location.toArray(), DatasetUniParcEntryConverter.getLocationSchema());
 
         List<Object> locationRowSeq = new ArrayList<>();
         locationRowSeq.add(locationRow);

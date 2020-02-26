@@ -31,7 +31,7 @@ import org.uniprot.store.spark.indexer.util.RowUtils;
  * @author lgonzales
  * @since 2019-10-01
  */
-public class DatasetUnirefEntryConverter implements MapFunction<Row, UniRefEntry>, Serializable {
+public class DatasetUniRefEntryConverter implements MapFunction<Row, UniRefEntry>, Serializable {
 
     private static final String PROPERTY_MEMBER_COUNT = "member count";
     private static final String PROPERTY_COMMON_TAXON = "common taxon";
@@ -39,10 +39,32 @@ public class DatasetUnirefEntryConverter implements MapFunction<Row, UniRefEntry
     private static final String PROPERTY_GO_FUNCTION = "GO Molecular Function";
     private static final String PROPERTY_GO_COMPONENT = "GO Cellular Component";
     private static final String PROPERTY_GO_PROCESS = "GO Biological Process";
+
+    private static final String PROPERTY_ACCESSION = "UniProtKB accession";
+    private static final String PROPERTY_UNIPARC_ID = "UniParc ID";
+    private static final String PROPERTY_UNIREF_50_ID = "UniRef50 ID";
+    private static final String PROPERTY_UNIREF_90_ID = "UniRef90 ID";
+    private static final String PROPERTY_UNIREF_100_ID = "UniRef100 ID";
+    private static final String PROPERTY_OVERLAP_REGION = "overlap region";
+    private static final String PROPERTY_PROTEIN_NAME = "protein name";
+    private static final String PROPERTY_ORGANISM = "source organism";
+    private static final String PROPERTY_TAXONOMY = "NCBI taxonomy";
+    private static final String PROPERTY_LENGTH = "length";
+    private static final String PROPERTY_IS_SEED = "isSeed";
+
+    private static final String DB_REFERENCE = "dbReference";
+    private static final String SEQUENCE = "sequence";
+    private static final String ID = "_id";
+    private static final String NAME = "name";
+    private static final String UPDATED = "_updated";
+    private static final String MEMBER = "member";
+    private static final String PROPERTY = "property";
+    private static final String REPRESENTATIVE_MEMBER = "representativeMember";
+
     private static final long serialVersionUID = -526130623950089875L;
     private final UniRefType uniRefType;
 
-    public DatasetUnirefEntryConverter(UniRefType uniRefType) {
+    public DatasetUniRefEntryConverter(UniRefType uniRefType) {
         this.uniRefType = uniRefType;
     }
 
@@ -54,19 +76,19 @@ public class DatasetUnirefEntryConverter implements MapFunction<Row, UniRefEntry
     public UniRefEntry call(Row rowValue) throws Exception {
         UniRefEntryBuilder builder = new UniRefEntryBuilder();
         builder.entryType(uniRefType);
-        builder.id(rowValue.getString(rowValue.fieldIndex("_id")));
+        builder.id(rowValue.getString(rowValue.fieldIndex(ID)));
         DateTimeFormatter formatter =
                 new DateTimeFormatterBuilder()
                         .parseCaseInsensitive()
                         .append(DateTimeFormatter.ofPattern("yyyy-MM-dd"))
                         .toFormatter();
-        String xmlUpdatedDate = rowValue.getString(rowValue.fieldIndex("_updated"));
+        String xmlUpdatedDate = rowValue.getString(rowValue.fieldIndex(UPDATED));
         builder.updated(LocalDate.parse(xmlUpdatedDate, formatter));
 
-        if (hasFieldName("name", rowValue)) {
-            builder.name(rowValue.getString(rowValue.fieldIndex("name")));
+        if (hasFieldName(NAME, rowValue)) {
+            builder.name(rowValue.getString(rowValue.fieldIndex(NAME)));
         }
-        if (hasFieldName("property", rowValue)) {
+        if (hasFieldName(PROPERTY, rowValue)) {
             Map<String, List<String>> propertyMap = RowUtils.convertProperties(rowValue);
             if (propertyMap.containsKey(PROPERTY_MEMBER_COUNT)) {
                 String memberCount = propertyMap.get(PROPERTY_MEMBER_COUNT).get(0);
@@ -97,18 +119,18 @@ public class DatasetUnirefEntryConverter implements MapFunction<Row, UniRefEntry
             }
         }
 
-        if (hasFieldName("member", rowValue)) {
-            List<Row> members = rowValue.getList(rowValue.fieldIndex("member"));
+        if (hasFieldName(MEMBER, rowValue)) {
+            List<Row> members = rowValue.getList(rowValue.fieldIndex(MEMBER));
             if (members == null) {
-                Row member = (Row) rowValue.get(rowValue.fieldIndex("member"));
+                Row member = (Row) rowValue.get(rowValue.fieldIndex(MEMBER));
                 members = Collections.singletonList(member);
             }
             members.stream().map(this::convertMember).forEach(builder::membersAdd);
         }
 
-        if (hasFieldName("representativeMember", rowValue)) {
+        if (hasFieldName(REPRESENTATIVE_MEMBER, rowValue)) {
             Row representativeMemberRow =
-                    (Row) rowValue.get(rowValue.fieldIndex("representativeMember"));
+                    (Row) rowValue.get(rowValue.fieldIndex(REPRESENTATIVE_MEMBER));
             builder.representativeMember(convertRepresentativeMember(representativeMemberRow));
         }
 
@@ -122,11 +144,11 @@ public class DatasetUnirefEntryConverter implements MapFunction<Row, UniRefEntry
     private RepresentativeMember convertRepresentativeMember(Row representativeMemberRow) {
         RepresentativeMemberBuilder builder =
                 RepresentativeMemberBuilder.from(convertMember(representativeMemberRow));
-        if (hasFieldName("sequence", representativeMemberRow)) {
+        if (hasFieldName(SEQUENCE, representativeMemberRow)) {
             Row sequence =
                     (Row)
                             representativeMemberRow.get(
-                                    representativeMemberRow.fieldIndex("sequence"));
+                                    representativeMemberRow.fieldIndex(SEQUENCE));
             builder.sequence(RowUtils.convertSequence(sequence));
         }
         return builder.build();
@@ -134,55 +156,55 @@ public class DatasetUnirefEntryConverter implements MapFunction<Row, UniRefEntry
 
     private UniRefMember convertMember(Row member) {
         UniRefMemberBuilder builder = new UniRefMemberBuilder();
-        if (hasFieldName("dbReference", member)) {
-            Row dbReference = (Row) member.get(member.fieldIndex("dbReference"));
-            builder.memberId(dbReference.getString(dbReference.fieldIndex("_id")));
+        if (hasFieldName(DB_REFERENCE, member)) {
+            Row dbReference = (Row) member.get(member.fieldIndex(DB_REFERENCE));
+            builder.memberId(dbReference.getString(dbReference.fieldIndex(ID)));
             String memberType = dbReference.getString(dbReference.fieldIndex("_type"));
             builder.memberIdType(UniRefMemberIdType.typeOf(memberType));
 
-            if (hasFieldName("property", dbReference)) {
+            if (hasFieldName(PROPERTY, dbReference)) {
                 Map<String, List<String>> propertyMap = RowUtils.convertProperties(dbReference);
-                if (propertyMap.containsKey("UniProtKB accession")) {
-                    propertyMap.get("UniProtKB accession").stream()
+                if (propertyMap.containsKey(PROPERTY_ACCESSION)) {
+                    propertyMap.get(PROPERTY_ACCESSION).stream()
                             .map(UniProtAccessionImpl::new)
                             .forEach(builder::accessionsAdd);
                 }
-                if (propertyMap.containsKey("UniParc ID")) {
-                    String uniparcId = propertyMap.get("UniParc ID").get(0);
+                if (propertyMap.containsKey(PROPERTY_UNIPARC_ID)) {
+                    String uniparcId = propertyMap.get(PROPERTY_UNIPARC_ID).get(0);
                     builder.uniparcId(new UniParcIdImpl(uniparcId));
                 }
-                if (propertyMap.containsKey("UniRef50 ID")) {
-                    String uniref50 = propertyMap.get("UniRef50 ID").get(0);
+                if (propertyMap.containsKey(PROPERTY_UNIREF_50_ID)) {
+                    String uniref50 = propertyMap.get(PROPERTY_UNIREF_50_ID).get(0);
                     builder.uniref50Id(new UniRefEntryIdImpl(uniref50));
                 }
-                if (propertyMap.containsKey("UniRef90 ID")) {
-                    String uniref90 = propertyMap.get("UniRef90 ID").get(0);
+                if (propertyMap.containsKey(PROPERTY_UNIREF_90_ID)) {
+                    String uniref90 = propertyMap.get(PROPERTY_UNIREF_90_ID).get(0);
                     builder.uniref90Id(new UniRefEntryIdImpl(uniref90));
                 }
-                if (propertyMap.containsKey("UniRef100 ID")) {
-                    String uniref100 = propertyMap.get("UniRef100 ID").get(0);
+                if (propertyMap.containsKey(PROPERTY_UNIREF_100_ID)) {
+                    String uniref100 = propertyMap.get(PROPERTY_UNIREF_100_ID).get(0);
                     builder.uniref100Id(new UniRefEntryIdImpl(uniref100));
                 }
-                if (propertyMap.containsKey("overlap region")) {
-                    String overlap = propertyMap.get("overlap region").get(0);
-                    int start = new Integer(overlap.substring(0, overlap.indexOf("-")));
-                    int end = new Integer(overlap.substring(overlap.indexOf("-") + 1));
+                if (propertyMap.containsKey(PROPERTY_OVERLAP_REGION)) {
+                    String overlap = propertyMap.get(PROPERTY_OVERLAP_REGION).get(0);
+                    int start = Integer.valueOf(overlap.substring(0, overlap.indexOf("-")));
+                    int end = Integer.valueOf(overlap.substring(overlap.indexOf("-") + 1));
                     builder.overlapRegion(new OverlapRegionImpl(start, end));
                 }
-                if (propertyMap.containsKey("protein name")) {
-                    builder.proteinName(propertyMap.get("protein name").get(0));
+                if (propertyMap.containsKey(PROPERTY_PROTEIN_NAME)) {
+                    builder.proteinName(propertyMap.get(PROPERTY_PROTEIN_NAME).get(0));
                 }
-                if (propertyMap.containsKey("source organism")) {
-                    builder.organismName(propertyMap.get("source organism").get(0));
+                if (propertyMap.containsKey(PROPERTY_ORGANISM)) {
+                    builder.organismName(propertyMap.get(PROPERTY_ORGANISM).get(0));
                 }
-                if (propertyMap.containsKey("NCBI taxonomy")) {
-                    builder.organismTaxId(Integer.valueOf(propertyMap.get("NCBI taxonomy").get(0)));
+                if (propertyMap.containsKey(PROPERTY_TAXONOMY)) {
+                    builder.organismTaxId(Long.valueOf(propertyMap.get(PROPERTY_TAXONOMY).get(0)));
                 }
-                if (propertyMap.containsKey("length")) {
-                    builder.sequenceLength(Integer.valueOf(propertyMap.get("length").get(0)));
+                if (propertyMap.containsKey(PROPERTY_LENGTH)) {
+                    builder.sequenceLength(Integer.valueOf(propertyMap.get(PROPERTY_LENGTH).get(0)));
                 }
-                if (propertyMap.containsKey("isSeed")) {
-                    builder.isSeed(Boolean.valueOf(propertyMap.get("isSeed").get(0)));
+                if (propertyMap.containsKey(PROPERTY_IS_SEED)) {
+                    builder.isSeed(Boolean.valueOf(propertyMap.get(PROPERTY_IS_SEED).get(0)));
                 }
             }
         }
@@ -191,27 +213,27 @@ public class DatasetUnirefEntryConverter implements MapFunction<Row, UniRefEntry
 
     public static StructType getUniRefXMLSchema() {
         StructType structType = new StructType();
-        structType = structType.add("_id", DataTypes.StringType, true);
-        structType = structType.add("_updated", DataTypes.StringType, true);
-        structType = structType.add("member", DataTypes.createArrayType(getMemberSchema()), true);
-        structType = structType.add("name", DataTypes.StringType, true);
+        structType = structType.add(ID, DataTypes.StringType, true);
+        structType = structType.add(UPDATED, DataTypes.StringType, true);
+        structType = structType.add(MEMBER, DataTypes.createArrayType(getMemberSchema()), true);
+        structType = structType.add(NAME, DataTypes.StringType, true);
         structType =
                 structType.add(
-                        "property", DataTypes.createArrayType(RowUtils.getPropertySchema()), true);
-        structType = structType.add("representativeMember", getRepresentativeMemberSchema(), true);
+                        PROPERTY, DataTypes.createArrayType(RowUtils.getPropertySchema()), true);
+        structType = structType.add(REPRESENTATIVE_MEMBER, getRepresentativeMemberSchema(), true);
         return structType;
     }
 
     static StructType getRepresentativeMemberSchema() {
         StructType representativeMember = getMemberSchema();
         representativeMember =
-                representativeMember.add("sequence", RowUtils.getSequenceSchema(), true);
+                representativeMember.add(SEQUENCE, RowUtils.getSequenceSchema(), true);
         return representativeMember;
     }
 
     static StructType getMemberSchema() {
         StructType member = new StructType();
-        member = member.add("dbReference", RowUtils.getDBReferenceSchema(), true);
+        member = member.add(DB_REFERENCE, RowUtils.getDBReferenceSchema(), true);
         return member;
     }
 }
