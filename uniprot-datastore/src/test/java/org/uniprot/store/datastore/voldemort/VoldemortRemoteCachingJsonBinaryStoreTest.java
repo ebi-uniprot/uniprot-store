@@ -11,6 +11,7 @@ import voldemort.client.StoreClient;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
+import static org.mockito.Mockito.when;
 
 /**
  * Created 26/02/2020
@@ -31,7 +32,8 @@ class VoldemortRemoteCachingJsonBinaryStoreTest {
 
     @Test
     void whenFetchingNonCachedEntry_thenFetchFromClient_andCacheEntry() {
-
+        Entry entry = Entry.builder().id("cacheable-1").value("1's data").build();
+        when(cache.get("cacheable-1")).thenReturn(() -> entry);
     }
 
     @Test
