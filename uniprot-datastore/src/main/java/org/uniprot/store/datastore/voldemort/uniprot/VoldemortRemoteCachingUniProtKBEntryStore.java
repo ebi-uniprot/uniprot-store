@@ -1,12 +1,13 @@
 package org.uniprot.store.datastore.voldemort.uniprot;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.inject.Inject;
-import com.google.inject.name.Named;
 import org.uniprot.core.json.parser.uniprot.UniprotJsonConfig;
 import org.uniprot.core.uniprot.UniProtEntry;
 import org.uniprot.core.uniprot.UniProtEntryType;
 import org.uniprot.store.datastore.voldemort.VoldemortRemoteCachingJsonBinaryStore;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.inject.Inject;
+import com.google.inject.name.Named;
 
 /**
  * This class contains methods to save UniProtKB entries to a remote Voldemort store, whilst caching

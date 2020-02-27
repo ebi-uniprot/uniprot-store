@@ -37,7 +37,6 @@ import static org.mockito.Mockito.*;
 class VoldemortRemoteCachingJsonBinaryStoreTest {
     @Mock private StoreClient<String, byte[]> client;
     @Mock private Cache cache;
-    private String storeName = "fakeStore";
     private FakeCachingJsonBinaryStore cachingStore;
 
     @BeforeEach
@@ -245,7 +244,7 @@ class VoldemortRemoteCachingJsonBinaryStoreTest {
     }
 
     private FakeCachingJsonBinaryStore createCachingStore() {
-        FakeCachingJsonBinaryStore store = new FakeCachingJsonBinaryStore(storeName, client);
+        FakeCachingJsonBinaryStore store = new FakeCachingJsonBinaryStore("fakeStore", client);
         store.setCache(cache);
         return store;
     }

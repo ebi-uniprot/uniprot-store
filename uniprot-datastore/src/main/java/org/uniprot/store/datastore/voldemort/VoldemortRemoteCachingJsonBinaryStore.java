@@ -9,7 +9,12 @@ import voldemort.versioning.Versioned;
 import java.util.*;
 
 /**
- * Created 26/02/2020
+ * This class extends a remote JSON Voldemort store with a caching layer. Caching criteria is based
+ * on properties of the items being stored. Concrete implementations of this class must define the
+ * {@link VoldemortRemoteCachingJsonBinaryStore#isCacheable(Object)} method, specifying the criteria
+ * for caching.
+ *
+ * <p>Created 26/02/2020
  *
  * @author Edd
  */
