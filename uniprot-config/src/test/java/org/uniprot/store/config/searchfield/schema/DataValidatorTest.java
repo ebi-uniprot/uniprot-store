@@ -17,8 +17,8 @@ import org.uniprot.store.config.searchfield.common.SearchFieldConfigLoader;
 import org.uniprot.store.config.searchfield.common.SearchFieldValidationException;
 import org.uniprot.store.config.searchfield.common.TestSearchFieldConfig;
 import org.uniprot.store.config.searchfield.impl.*;
-import org.uniprot.store.config.searchfield.model.FieldItem;
-import org.uniprot.store.config.searchfield.model.ItemType;
+import org.uniprot.store.config.searchfield.model.SearchFieldItem;
+import org.uniprot.store.config.searchfield.model.SearchFieldItemType;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 
@@ -35,17 +35,17 @@ public class DataValidatorTest {
 
     @Test
     void testParentIdIsValidId() {
-        List<FieldItem> fieldItems =
+        List<SearchFieldItem> fieldItems =
                 loader.loadAndGetFieldItems(UniProtKBSearchFieldConfig.CONFIG_FILE);
         Assertions.assertFalse(fieldItems.isEmpty());
-        Map<String, FieldItem> idFieldsMap = loader.buildIdFieldItemMap(fieldItems);
+        Map<String, SearchFieldItem> idFieldsMap = loader.buildIdFieldItemMap(fieldItems);
         Assertions.assertDoesNotThrow(
                 () -> DataValidator.validateParentExists(fieldItems, idFieldsMap));
     }
 
     @Test
     void testFieldItemsSeqNumbers() {
-        List<FieldItem> fieldItems =
+        List<SearchFieldItem> fieldItems =
                 loader.loadAndGetFieldItems(UniProtKBSearchFieldConfig.CONFIG_FILE);
         Assertions.assertFalse(fieldItems.isEmpty());
         Assertions.assertDoesNotThrow(() -> DataValidator.validateSeqNumbers(fieldItems));
@@ -53,7 +53,7 @@ public class DataValidatorTest {
 
     @Test
     void testFieldItemsChildNumbers() {
-        List<FieldItem> fieldItems =
+        List<SearchFieldItem> fieldItems =
                 loader.loadAndGetFieldItems(UniProtKBSearchFieldConfig.CONFIG_FILE);
         Assertions.assertFalse(fieldItems.isEmpty());
         Assertions.assertDoesNotThrow(() -> DataValidator.validateChildNumbers(fieldItems));
@@ -62,9 +62,9 @@ public class DataValidatorTest {
     @ParameterizedTest
     @MethodSource("provideSearchConfigFile")
     void testSortFieldIdIsValidId(String configFile) {
-        List<FieldItem> fieldItems = loader.loadAndGetFieldItems(configFile);
+        List<SearchFieldItem> fieldItems = loader.loadAndGetFieldItems(configFile);
         Assertions.assertFalse(fieldItems.isEmpty());
-        Map<String, FieldItem> idFieldsMap = loader.buildIdFieldItemMap(fieldItems);
+        Map<String, SearchFieldItem> idFieldsMap = loader.buildIdFieldItemMap(fieldItems);
         Assertions.assertDoesNotThrow(
                 () -> DataValidator.validateSortFieldIds(fieldItems, idFieldsMap));
     }
@@ -72,12 +72,12 @@ public class DataValidatorTest {
     @Test
     void testParentIdIsInvalidId() throws JsonProcessingException {
         // create few fields with non-existing parentId
-        FieldItem fi1 = getFieldItem("id1", "parentId");
-        FieldItem fi2 = getFieldItem("id2", "invalidParentId");
-        FieldItem fi3 = getFieldItem("id3", null);
-        FieldItem p1 = getFieldItem("parentId", null);
-        List<FieldItem> fieldItems = Arrays.asList(fi1, fi2, fi3, p1);
-        Map<String, FieldItem> idFieldsMap = loader.buildIdFieldItemMap(fieldItems);
+        SearchFieldItem fi1 = getFieldItem("id1", "parentId");
+        SearchFieldItem fi2 = getFieldItem("id2", "invalidParentId");
+        SearchFieldItem fi3 = getFieldItem("id3", null);
+        SearchFieldItem p1 = getFieldItem("parentId", null);
+        List<SearchFieldItem> fieldItems = Arrays.asList(fi1, fi2, fi3, p1);
+        Map<String, SearchFieldItem> idFieldsMap = loader.buildIdFieldItemMap(fieldItems);
         Assertions.assertThrows(
                 SearchFieldValidationException.class,
                 () -> DataValidator.validateParentExists(fieldItems, idFieldsMap));
@@ -85,11 +85,11 @@ public class DataValidatorTest {
 
     @Test
     void testNegativeSeqNumber() {
-        FieldItem fi1 = getFieldItem("id1", 0);
-        FieldItem fi2 = getFieldItem("id2", 1);
-        FieldItem fi3 = getFieldItem("id3", 2);
-        FieldItem fi4 = getFieldItem("id4", -3);
-        List<FieldItem> fieldItems = Arrays.asList(fi1, fi2, fi3, fi4);
+        SearchFieldItem fi1 = getFieldItem("id1", 0);
+        SearchFieldItem fi2 = getFieldItem("id2", 1);
+        SearchFieldItem fi3 = getFieldItem("id3", 2);
+        SearchFieldItem fi4 = getFieldItem("id4", -3);
+        List<SearchFieldItem> fieldItems = Arrays.asList(fi1, fi2, fi3, fi4);
         Assertions.assertThrows(
                 SearchFieldValidationException.class,
                 () -> DataValidator.validateSeqNumbers(fieldItems));
@@ -97,13 +97,13 @@ public class DataValidatorTest {
 
     @Test
     void testFieldItemsMissingChildNumbers() {
-        FieldItem p1 = getFieldItem("p1", null);
-        FieldItem p1Ch1 = getFieldItem("p1ch1", "p1");
-        FieldItem p1Ch2 = getFieldItem("p1ch2", "p1");
-        FieldItem p1Ch3 = getFieldItem("p1ch3", "p1");
+        SearchFieldItem p1 = getFieldItem("p1", null);
+        SearchFieldItem p1Ch1 = getFieldItem("p1ch1", "p1");
+        SearchFieldItem p1Ch2 = getFieldItem("p1ch2", "p1");
+        SearchFieldItem p1Ch3 = getFieldItem("p1ch3", "p1");
         p1Ch1.setChildNumber(0);
         p1Ch3.setChildNumber(1);
-        List<FieldItem> fieldItems = Arrays.asList(p1, p1Ch1, p1Ch2, p1Ch3);
+        List<SearchFieldItem> fieldItems = Arrays.asList(p1, p1Ch1, p1Ch2, p1Ch3);
         Assertions.assertThrows(
                 SearchFieldValidationException.class,
                 () -> DataValidator.validateChildNumbers(fieldItems));
@@ -111,14 +111,14 @@ public class DataValidatorTest {
 
     @Test
     void testFieldItemsInvalidChildNumbersSequence() {
-        FieldItem p1 = getFieldItem("p1", null);
-        FieldItem p1Ch1 = getFieldItem("p1ch1", "p1");
-        FieldItem p1Ch2 = getFieldItem("p1ch2", "p1");
-        FieldItem p1Ch3 = getFieldItem("p1ch3", "p1");
+        SearchFieldItem p1 = getFieldItem("p1", null);
+        SearchFieldItem p1Ch1 = getFieldItem("p1ch1", "p1");
+        SearchFieldItem p1Ch2 = getFieldItem("p1ch2", "p1");
+        SearchFieldItem p1Ch3 = getFieldItem("p1ch3", "p1");
         p1Ch1.setChildNumber(0);
         p1Ch2.setChildNumber(3);
         p1Ch3.setChildNumber(1);
-        List<FieldItem> fieldItems = Arrays.asList(p1, p1Ch1, p1Ch2, p1Ch3);
+        List<SearchFieldItem> fieldItems = Arrays.asList(p1, p1Ch1, p1Ch2, p1Ch3);
         Assertions.assertThrows(
                 SearchFieldValidationException.class,
                 () -> DataValidator.validateChildNumbers(fieldItems));
@@ -126,31 +126,31 @@ public class DataValidatorTest {
 
     @Test
     void testSortFieldIdIsInvalidId() {
-        FieldItem f1 = getFieldItem("f1", null);
+        SearchFieldItem f1 = getFieldItem("f1", null);
         f1.setSortFieldId("s1");
-        FieldItem f2 = getFieldItem("f2", null);
+        SearchFieldItem f2 = getFieldItem("f2", null);
         f2.setSortFieldId("s2"); // invalid sort id
-        FieldItem f3 = getFieldItem("f3", null);
-        FieldItem s1 = getFieldItem("s1", null);
-        List<FieldItem> fieldItems = Arrays.asList(f1, f2, f3, s1);
-        Map<String, FieldItem> idFieldsMap = loader.buildIdFieldItemMap(fieldItems);
+        SearchFieldItem f3 = getFieldItem("f3", null);
+        SearchFieldItem s1 = getFieldItem("s1", null);
+        List<SearchFieldItem> fieldItems = Arrays.asList(f1, f2, f3, s1);
+        Map<String, SearchFieldItem> idFieldsMap = loader.buildIdFieldItemMap(fieldItems);
         Assertions.assertThrows(
                 SearchFieldValidationException.class,
                 () -> DataValidator.validateSortFieldIds(fieldItems, idFieldsMap));
     }
 
-    private FieldItem getFieldItem(String id, int seqNumber) {
-        ItemType itemType = ItemType.group;
+    private SearchFieldItem getFieldItem(String id, int seqNumber) {
+        SearchFieldItemType itemType = SearchFieldItemType.group;
         String label = "Dummy Label";
-        FieldItem fi = getFieldItem(id, "");
+        SearchFieldItem fi = getFieldItem(id, "");
         fi.setSeqNumber(seqNumber);
         fi.setItemType(itemType);
         fi.setLabel(label);
         return fi;
     }
 
-    private FieldItem getFieldItem(String id, String parentId) {
-        FieldItem fi = new FieldItem();
+    private SearchFieldItem getFieldItem(String id, String parentId) {
+        SearchFieldItem fi = new SearchFieldItem();
         fi.setId(id);
         if (StringUtils.isNotEmpty(parentId)) {
             fi.setParentId(parentId);

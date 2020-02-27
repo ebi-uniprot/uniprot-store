@@ -11,7 +11,7 @@ import org.uniprot.core.flatfile.parser.impl.entry.EntryObjectConverter;
 import org.uniprot.core.uniprot.UniProtEntry;
 import org.uniprot.core.uniprot.comment.CommentType;
 import org.uniprot.core.uniprot.feature.FeatureType;
-import org.uniprot.store.config.searchfield.model.FieldItem;
+import org.uniprot.store.config.searchfield.model.SearchFieldItem;
 import org.uniprot.store.search.field.QueryBuilder;
 
 /** Contains utility methods that aid in testing */
@@ -81,7 +81,7 @@ final class TestUtils {
     private static final String COMMENT_DYNAMIC_PREFIX = "cc_";
     private static final String CC_EVIDENCE_DYNAMIC_PREFIX = "ccev_";
 
-    public static String query(FieldItem field, String fieldValue) {
+    public static String query(SearchFieldItem field, String fieldValue) {
         return QueryBuilder.query(field.getFieldName(), fieldValue);
     }
 

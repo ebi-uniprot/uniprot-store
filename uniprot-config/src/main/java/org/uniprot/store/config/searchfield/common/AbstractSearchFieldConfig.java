@@ -8,8 +8,8 @@ import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
 
 import org.apache.commons.lang3.StringUtils;
-import org.uniprot.store.config.searchfield.model.FieldItem;
-import org.uniprot.store.config.searchfield.model.FieldType;
+import org.uniprot.store.config.searchfield.model.SearchFieldItem;
+import org.uniprot.store.config.searchfield.model.SearchFieldType;
 import org.uniprot.store.config.searchfield.schema.DataValidator;
 import org.uniprot.store.config.searchfield.schema.SchemaValidator;
 
@@ -17,10 +17,10 @@ import org.uniprot.store.config.searchfield.schema.SchemaValidator;
 public abstract class AbstractSearchFieldConfig implements SearchFieldConfig {
     public static String SCHEMA_FILE = "schema/search-fields-schema.json";
 
-    private List<FieldItem> fieldItems;
-    private List<FieldItem> searchFieldItems;
-    private List<FieldItem> sortFieldItems;
-    private Map<String, FieldItem> idFieldItemMap;
+    private List<SearchFieldItem> fieldItems;
+    private List<SearchFieldItem> searchFieldItems;
+    private List<SearchFieldItem> sortFieldItems;
+    private Map<String, SearchFieldItem> idFieldItemMap;
     private String schemaFile;
     private String configFile;
     private SearchFieldConfigLoader loader;
@@ -39,11 +39,11 @@ public abstract class AbstractSearchFieldConfig implements SearchFieldConfig {
         this.idFieldItemMap = loader.buildIdFieldItemMap(this.fieldItems);
     }
 
-    public List<FieldItem> getAllFieldItems() {
+    public List<SearchFieldItem> getAllFieldItems() {
         return this.fieldItems;
     }
 
-    public List<FieldItem> getSearchFieldItems() {
+    public List<SearchFieldItem> getSearchFieldItems() {
         if (this.searchFieldItems == null) {
             this.searchFieldItems =
                     getAllFieldItems().stream()
@@ -53,7 +53,7 @@ public abstract class AbstractSearchFieldConfig implements SearchFieldConfig {
         return this.searchFieldItems;
     }
 
-    public FieldItem getSearchFieldItemByName(String fieldName) {
+    public SearchFieldItem getSearchFieldItemByName(String fieldName) {
         return this.getSearchFieldItems().stream()
                 .filter(fi -> fieldName.equals(fi.getFieldName()))
                 .findFirst()
@@ -62,7 +62,7 @@ public abstract class AbstractSearchFieldConfig implements SearchFieldConfig {
 
     @Override
     public Boolean isSearchFieldValueValid(String fieldName, String value) {
-        FieldItem searchField = this.getSearchFieldItemByName(fieldName);
+        SearchFieldItem searchField = this.getSearchFieldItemByName(fieldName);
         String validRegex = searchField.getValidRegex();
         if (StringUtils.isNotEmpty(validRegex)) {
             return value.matches(validRegex);
@@ -83,8 +83,8 @@ public abstract class AbstractSearchFieldConfig implements SearchFieldConfig {
     }
 
     @Override
-    public FieldItem getCorrespondingSortField(String searchFieldName) {
-        FieldItem searchField = getSearchFieldItemByName(searchFieldName);
+    public SearchFieldItem getCorrespondingSortField(String searchFieldName) {
+        SearchFieldItem searchField = getSearchFieldItemByName(searchFieldName);
         String sortFieldId = searchField.getSortFieldId();
         return getSortFieldItems().stream()
                 .filter(sortFieldItem -> sortFieldItem.getId().equals(sortFieldId))
@@ -108,7 +108,7 @@ public abstract class AbstractSearchFieldConfig implements SearchFieldConfig {
         return sortFieldExist;
     }
 
-    public List<FieldItem> getSortFieldItems() {
+    public List<SearchFieldItem> getSortFieldItems() {
         if (this.sortFieldItems == null) {
             this.sortFieldItems =
                     getAllFieldItems().stream()
@@ -118,27 +118,27 @@ public abstract class AbstractSearchFieldConfig implements SearchFieldConfig {
         return this.sortFieldItems;
     }
 
-    public FieldType getFieldTypeBySearchFieldName(String fieldName) {
-        FieldItem fieldItem = getSearchFieldItemByName(fieldName);
-        if (fieldItem.getFieldType() == FieldType.evidence) {
-            return FieldType.general;
+    public SearchFieldType getFieldTypeBySearchFieldName(String fieldName) {
+        SearchFieldItem fieldItem = getSearchFieldItemByName(fieldName);
+        if (fieldItem.getFieldType() == SearchFieldType.evidence) {
+            return SearchFieldType.general;
         }
         return fieldItem.getFieldType();
     }
 
-    protected void addSearchFieldItems(List<FieldItem> searchFieldItems) {
+    protected void addSearchFieldItems(List<SearchFieldItem> searchFieldItems) {
         if (this.searchFieldItems == null) {
             this.searchFieldItems = getSearchFieldItems();
         }
         this.searchFieldItems.addAll(searchFieldItems);
     }
 
-    private boolean isSearchFieldItem(FieldItem fieldItem) {
+    private boolean isSearchFieldItem(SearchFieldItem fieldItem) {
         return Objects.nonNull(fieldItem.getFieldType())
-                && FieldType.sort != fieldItem.getFieldType();
+                && SearchFieldType.sort != fieldItem.getFieldType();
     }
 
-    private boolean isSortFieldItem(FieldItem fieldItem) {
-        return FieldType.sort.equals(fieldItem.getFieldType());
+    private boolean isSortFieldItem(SearchFieldItem fieldItem) {
+        return SearchFieldType.sort.equals(fieldItem.getFieldType());
     }
 }
