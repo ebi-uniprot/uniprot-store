@@ -41,12 +41,10 @@ public class DataValidator {
     }
 
     private static List<Integer> extractSeqNumbers(List<SearchFieldItem> fieldItems) {
-        List<Integer> seqNumbers =
-                fieldItems.stream()
+        return fieldItems.stream()
                         .filter(fi -> fi.getSeqNumber() != null)
                         .map(SearchFieldItem::getSeqNumber)
                         .collect(Collectors.toList());
-        return seqNumbers;
     }
 
     public static void validateChildNumbers(List<SearchFieldItem> fieldItems) {
@@ -56,14 +54,13 @@ public class DataValidator {
                         .filter(fi -> StringUtils.isNotBlank(fi.getParentId()))
                         .collect(Collectors.groupingBy(SearchFieldItem::getParentId));
 
-        parentChildrenMap.entrySet().stream()
-                .forEach(pc -> validateChildNumbers(pc.getKey(), pc.getValue()));
+        parentChildrenMap.entrySet().forEach(pc -> validateChildNumbers(pc.getKey(), pc.getValue()));
     }
 
     public static void validateSortFieldIds(
             List<SearchFieldItem> fieldItems, Map<String, SearchFieldItem> idFieldMap) {
         fieldItems.stream()
-                .filter(fi -> hasSortFieldId(fi))
+                .filter(DataValidator::hasSortFieldId)
                 .forEach(
                         fi -> {
                             if (!idFieldMap.containsKey(fi.getSortFieldId())) {
@@ -75,7 +72,7 @@ public class DataValidator {
 
     private static void validateChildNumbers(String parentId, List<SearchFieldItem> children) {
         List<Integer> childNumbers =
-                children.stream().map(c -> c.getChildNumber()).collect(Collectors.toList());
+                children.stream().map(SearchFieldItem::getChildNumber).collect(Collectors.toList());
         String message = "childNumber for parentId '" + parentId + "'";
         validateNaturalNumbers(childNumbers, message);
     }

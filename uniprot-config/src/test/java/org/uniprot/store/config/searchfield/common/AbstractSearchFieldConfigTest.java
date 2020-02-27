@@ -119,8 +119,7 @@ public class AbstractSearchFieldConfigTest {
         List<SearchFieldItem> sortFields = testFieldConfig.getSortFieldItems();
         Assertions.assertNotNull(sortFields);
         Assertions.assertFalse(sortFields.isEmpty());
-        sortFields.stream()
-                .forEach(fi -> Assertions.assertTrue(SearchFieldType.sort == fi.getFieldType()));
+        sortFields.forEach(fi -> Assertions.assertTrue(SearchFieldType.sort == fi.getFieldType()));
     }
 
     @Test

@@ -1,10 +1,5 @@
 package org.uniprot.store.config.searchfield.schema;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Stream;
-
 import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
@@ -20,7 +15,10 @@ import org.uniprot.store.config.searchfield.impl.*;
 import org.uniprot.store.config.searchfield.model.SearchFieldItem;
 import org.uniprot.store.config.searchfield.model.SearchFieldItemType;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Stream;
 
 public class DataValidatorTest {
 
@@ -70,7 +68,7 @@ public class DataValidatorTest {
     }
 
     @Test
-    void testParentIdIsInvalidId() throws JsonProcessingException {
+    void testParentIdIsInvalidId() {
         // create few fields with non-existing parentId
         SearchFieldItem fi1 = getFieldItem("id1", "parentId");
         SearchFieldItem fi2 = getFieldItem("id2", "invalidParentId");

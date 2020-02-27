@@ -32,7 +32,7 @@ public class UniProtKBSearchFieldConfig extends AbstractSearchFieldConfig {
 
     private List<SearchFieldItem> getCrossRefCountSearchFieldItems() {
         return UniProtXDbTypes.INSTANCE.getAllDBXRefTypes().stream()
-                .map(db -> convertToFieldItem(db))
+                .map(this::convertToFieldItem)
                 .collect(Collectors.toList());
     }
 

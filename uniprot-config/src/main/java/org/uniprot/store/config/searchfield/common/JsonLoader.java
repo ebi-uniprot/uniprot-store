@@ -19,7 +19,7 @@ public class JsonLoader {
 
     public static <T> List<T> loadItems(String fileName, ObjectMapper mapper, JavaType type) {
         List<T> allItems;
-        try (InputStream is = JsonLoader.class.getClassLoader().getResourceAsStream(fileName); ) {
+        try (InputStream is = JsonLoader.class.getClassLoader().getResourceAsStream(fileName)) {
             allItems = mapper.readValue(is, type);
         } catch (Exception e) {
             throw new IllegalStateException(e);
