@@ -1,4 +1,4 @@
-package org.uniprot.store.search.domain2;
+package org.uniprot.store.config.searchfield.common;
 
 import java.io.InputStream;
 import java.util.List;
