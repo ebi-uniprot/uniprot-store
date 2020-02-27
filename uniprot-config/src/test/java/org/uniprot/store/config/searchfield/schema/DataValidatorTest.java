@@ -14,7 +14,7 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.uniprot.store.config.searchfield.common.SearchFieldConfig;
 import org.uniprot.store.config.searchfield.common.SearchFieldValidationException;
-import org.uniprot.store.config.searchfield.common.TestFieldConfiguration;
+import org.uniprot.store.config.searchfield.common.TestSearchFieldConfig;
 import org.uniprot.store.config.searchfield.impl.*;
 import org.uniprot.store.config.searchfield.model.FieldItem;
 import org.uniprot.store.config.searchfield.model.ItemType;
@@ -27,13 +27,13 @@ public class DataValidatorTest {
 
     @BeforeAll
     static void globalSetUp() {
-        fieldConfig = TestFieldConfiguration.getInstance();
+        fieldConfig = TestSearchFieldConfig.getInstance();
     }
 
     @Test
     void testParentIdIsValidId() {
         List<FieldItem> fieldItems =
-                fieldConfig.loadAndGetFieldItems(UniProtKBSearchFieldConfiguration.CONFIG_FILE);
+                fieldConfig.loadAndGetFieldItems(UniProtKBSearchFieldConfig.CONFIG_FILE);
         Assertions.assertFalse(fieldItems.isEmpty());
         Map<String, FieldItem> idFieldsMap = fieldConfig.buildIdFieldItemMap(fieldItems);
         Assertions.assertDoesNotThrow(
@@ -43,7 +43,7 @@ public class DataValidatorTest {
     @Test
     void testFieldItemsSeqNumbers() {
         List<FieldItem> fieldItems =
-                fieldConfig.loadAndGetFieldItems(UniProtKBSearchFieldConfiguration.CONFIG_FILE);
+                fieldConfig.loadAndGetFieldItems(UniProtKBSearchFieldConfig.CONFIG_FILE);
         Assertions.assertFalse(fieldItems.isEmpty());
         Assertions.assertDoesNotThrow(() -> DataValidator.validateSeqNumbers(fieldItems));
     }
@@ -51,7 +51,7 @@ public class DataValidatorTest {
     @Test
     void testFieldItemsChildNumbers() {
         List<FieldItem> fieldItems =
-                fieldConfig.loadAndGetFieldItems(UniProtKBSearchFieldConfiguration.CONFIG_FILE);
+                fieldConfig.loadAndGetFieldItems(UniProtKBSearchFieldConfig.CONFIG_FILE);
         Assertions.assertFalse(fieldItems.isEmpty());
         Assertions.assertDoesNotThrow(() -> DataValidator.validateChildNumbers(fieldItems));
     }
@@ -157,17 +157,17 @@ public class DataValidatorTest {
 
     private static Stream<Arguments> provideSearchConfigFile() {
         return Stream.of(
-                Arguments.of(CrossRefSearchFieldConfiguration.CONFIG_FILE),
-                Arguments.of(DiseaseSearchFieldConfiguration.CONFIG_FILE),
-                Arguments.of(GeneCentricSearchFieldConfiguration.CONFIG_FILE),
-                Arguments.of(KeywordSearchFieldConfiguration.CONFIG_FILE),
-                Arguments.of(LiteratureSearchFieldConfiguration.CONFIG_FILE),
-                Arguments.of(ProteomeSearchFieldConfiguration.CONFIG_FILE),
-                Arguments.of(SubcellLocationSearchFieldConfiguration.CONFIG_FILE),
-                Arguments.of(SuggestSearchFieldConfiguration.CONFIG_FILE),
-                Arguments.of(TaxonomySearchFieldConfiguration.CONFIG_FILE),
-                Arguments.of(UniParcSearchFieldConfiguration.CONFIG_FILE),
-                Arguments.of(UniProtKBSearchFieldConfiguration.CONFIG_FILE),
-                Arguments.of(UniRefSearchFieldConfiguration.CONFIG_FILE));
+                Arguments.of(CrossRefSearchFieldConfig.CONFIG_FILE),
+                Arguments.of(DiseaseSearchFieldConfig.CONFIG_FILE),
+                Arguments.of(GeneCentricSearchFieldConfig.CONFIG_FILE),
+                Arguments.of(KeywordSearchFieldConfig.CONFIG_FILE),
+                Arguments.of(LiteratureSearchFieldConfig.CONFIG_FILE),
+                Arguments.of(ProteomeSearchFieldConfig.CONFIG_FILE),
+                Arguments.of(SubcellLocationSearchFieldConfig.CONFIG_FILE),
+                Arguments.of(SuggestSearchFieldConfig.CONFIG_FILE),
+                Arguments.of(TaxonomySearchFieldConfig.CONFIG_FILE),
+                Arguments.of(UniParcSearchFieldConfig.CONFIG_FILE),
+                Arguments.of(UniProtKBSearchFieldConfig.CONFIG_FILE),
+                Arguments.of(UniRefSearchFieldConfig.CONFIG_FILE));
     }
 }

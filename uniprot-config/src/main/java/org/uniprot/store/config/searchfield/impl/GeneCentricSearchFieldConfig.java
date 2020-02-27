@@ -3,18 +3,18 @@ package org.uniprot.store.config.searchfield.impl;
 import org.uniprot.store.config.searchfield.common.AbstractSearchFieldConfig;
 import org.uniprot.store.config.searchfield.common.SearchFieldConfig;
 
-public class GeneCentricSearchFieldConfiguration extends AbstractSearchFieldConfig {
+public class GeneCentricSearchFieldConfig extends AbstractSearchFieldConfig {
     public static final String CONFIG_FILE = "search-fields-config/gene-search-fields.json";
 
-    private GeneCentricSearchFieldConfiguration() {
+    private GeneCentricSearchFieldConfig() {
         super(SCHEMA_FILE, CONFIG_FILE);
     }
 
-    private static class SearchFieldConfigurationHolder {
-        private static final SearchFieldConfig INSTANCE = new GeneCentricSearchFieldConfiguration();
+    private static class SearchFieldConfigHolder {
+        private static final SearchFieldConfig INSTANCE = new GeneCentricSearchFieldConfig();
     }
 
     public static SearchFieldConfig getInstance() {
-        return SearchFieldConfigurationHolder.INSTANCE;
+        return SearchFieldConfigHolder.INSTANCE;
     }
 }

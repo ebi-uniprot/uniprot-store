@@ -1,7 +1,10 @@
 package org.uniprot.store.config.searchfield.common;
 
 import java.io.*;
-import java.util.*;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 import lombok.NonNull;
@@ -116,11 +119,7 @@ public abstract class AbstractSearchFieldConfig implements SearchFieldConfig {
         return this.sortFieldItems;
     }
 
-    public FieldItem getFieldItemById(@NonNull String id) {
-        return this.idFieldItemMap.get(id);
-    }
-
-    public FieldType getFieldTypeByFieldName(String fieldName) {
+    public FieldType getFieldTypeBySearchFieldName(String fieldName) {
         FieldItem fieldItem = getSearchFieldItemByName(fieldName);
         if (fieldItem.getFieldType() == FieldType.evidence) {
             return FieldType.general;
@@ -164,6 +163,13 @@ public abstract class AbstractSearchFieldConfig implements SearchFieldConfig {
             }
         }
         return inputStream;
+    }
+
+    protected void addSearchFieldItems(List<FieldItem> searchFieldItems) {
+        if (this.searchFieldItems == null) {
+            this.searchFieldItems = getSearchFieldItems();
+        }
+        this.searchFieldItems.addAll(searchFieldItems);
     }
 
     private boolean isSearchFieldItem(FieldItem fieldItem) {

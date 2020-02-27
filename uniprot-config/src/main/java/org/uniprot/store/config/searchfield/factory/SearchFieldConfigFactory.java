@@ -1,54 +1,56 @@
 package org.uniprot.store.config.searchfield.factory;
 
+import lombok.NonNull;
+
 import org.uniprot.store.config.searchfield.common.SearchFieldConfig;
 import org.uniprot.store.config.searchfield.impl.*;
 
 public class SearchFieldConfigFactory {
 
-    public static SearchFieldConfig getSearchFieldConfig(UniProtDataType type) {
-        SearchFieldConfig fieldConfiguration;
+    public static SearchFieldConfig getSearchFieldConfig(@NonNull UniProtDataType type) {
+        SearchFieldConfig fieldConfig;
         switch (type) {
             case crossref:
-                fieldConfiguration = CrossRefSearchFieldConfiguration.getInstance();
+                fieldConfig = CrossRefSearchFieldConfig.getInstance();
                 break;
             case disease:
-                fieldConfiguration = DiseaseSearchFieldConfiguration.getInstance();
+                fieldConfig = DiseaseSearchFieldConfig.getInstance();
                 break;
             case genecentric:
-                fieldConfiguration = GeneCentricSearchFieldConfiguration.getInstance();
+                fieldConfig = GeneCentricSearchFieldConfig.getInstance();
                 break;
             case keyword:
-                fieldConfiguration = KeywordSearchFieldConfiguration.getInstance();
+                fieldConfig = KeywordSearchFieldConfig.getInstance();
                 break;
             case literature:
-                fieldConfiguration = LiteratureSearchFieldConfiguration.getInstance();
+                fieldConfig = LiteratureSearchFieldConfig.getInstance();
                 break;
             case proteome:
-                fieldConfiguration = ProteomeSearchFieldConfiguration.getInstance();
+                fieldConfig = ProteomeSearchFieldConfig.getInstance();
                 break;
             case subcelllocation:
-                fieldConfiguration = SubcellLocationSearchFieldConfiguration.getInstance();
+                fieldConfig = SubcellLocationSearchFieldConfig.getInstance();
                 break;
             case suggest:
-                fieldConfiguration = SuggestSearchFieldConfiguration.getInstance();
+                fieldConfig = SuggestSearchFieldConfig.getInstance();
                 break;
             case taxonomy:
-                fieldConfiguration = TaxonomySearchFieldConfiguration.getInstance();
+                fieldConfig = TaxonomySearchFieldConfig.getInstance();
                 break;
             case uniparc:
-                fieldConfiguration = UniParcSearchFieldConfiguration.getInstance();
+                fieldConfig = UniParcSearchFieldConfig.getInstance();
                 break;
             case uniprotkb:
-                fieldConfiguration = UniProtKBSearchFieldConfiguration.getInstance();
+                fieldConfig = UniProtKBSearchFieldConfig.getInstance();
                 break;
             case uniref:
-                fieldConfiguration = UniRefSearchFieldConfiguration.getInstance();
+                fieldConfig = UniRefSearchFieldConfig.getInstance();
                 break;
             default:
-                fieldConfiguration = null;
+                fieldConfig = null;
                 break;
         }
 
-        return fieldConfiguration;
+        return fieldConfig;
     }
 }
