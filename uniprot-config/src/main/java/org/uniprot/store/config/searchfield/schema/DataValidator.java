@@ -87,7 +87,7 @@ public class DataValidator {
 
         for (Integer number : numbers) {
             if (number == null) {
-                throw new SearchFieldValidationException(message + " " + number + " is null.");
+                throw new SearchFieldValidationException(message + " number is null.");
             }
             if (number >= inputSize) {
                 throw new SearchFieldValidationException(
