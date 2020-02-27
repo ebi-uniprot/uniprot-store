@@ -8,7 +8,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.uniprot.store.config.searchfield.common.SearchFieldConfig;
-import org.uniprot.store.config.searchfield.common.TestFieldConfiguration;
+import org.uniprot.store.config.searchfield.common.TestSearchFieldConfig;
 import org.uniprot.store.config.searchfield.impl.*;
 
 public class SchemaValidatorTest {
@@ -25,20 +25,20 @@ public class SchemaValidatorTest {
     private static Stream<Arguments> provideConfigFiles() {
         String schemaFile = SearchFieldConfig.SCHEMA_FILE;
         return Stream.of(
-                Arguments.of(CrossRefSearchFieldConfiguration.CONFIG_FILE, schemaFile),
-                Arguments.of(DiseaseSearchFieldConfiguration.CONFIG_FILE, schemaFile),
-                Arguments.of(GeneCentricSearchFieldConfiguration.CONFIG_FILE, schemaFile),
-                Arguments.of(KeywordSearchFieldConfiguration.CONFIG_FILE, schemaFile),
-                Arguments.of(LiteratureSearchFieldConfiguration.CONFIG_FILE, schemaFile),
-                Arguments.of(ProteomeSearchFieldConfiguration.CONFIG_FILE, schemaFile),
-                Arguments.of(SubcellLocationSearchFieldConfiguration.CONFIG_FILE, schemaFile),
-                Arguments.of(SuggestSearchFieldConfiguration.CONFIG_FILE, schemaFile),
-                Arguments.of(TaxonomySearchFieldConfiguration.CONFIG_FILE, schemaFile),
-                Arguments.of(UniParcSearchFieldConfiguration.CONFIG_FILE, schemaFile),
-                Arguments.of(UniProtKBSearchFieldConfiguration.CONFIG_FILE, schemaFile),
-                Arguments.of(UniRefSearchFieldConfiguration.CONFIG_FILE, schemaFile),
+                Arguments.of(CrossRefSearchFieldConfig.CONFIG_FILE, schemaFile),
+                Arguments.of(DiseaseSearchFieldConfig.CONFIG_FILE, schemaFile),
+                Arguments.of(GeneCentricSearchFieldConfig.CONFIG_FILE, schemaFile),
+                Arguments.of(KeywordSearchFieldConfig.CONFIG_FILE, schemaFile),
+                Arguments.of(LiteratureSearchFieldConfig.CONFIG_FILE, schemaFile),
+                Arguments.of(ProteomeSearchFieldConfig.CONFIG_FILE, schemaFile),
+                Arguments.of(SubcellLocationSearchFieldConfig.CONFIG_FILE, schemaFile),
+                Arguments.of(SuggestSearchFieldConfig.CONFIG_FILE, schemaFile),
+                Arguments.of(TaxonomySearchFieldConfig.CONFIG_FILE, schemaFile),
+                Arguments.of(UniParcSearchFieldConfig.CONFIG_FILE, schemaFile),
+                Arguments.of(UniProtKBSearchFieldConfig.CONFIG_FILE, schemaFile),
+                Arguments.of(UniRefSearchFieldConfig.CONFIG_FILE, schemaFile),
                 Arguments.of(
-                        TestFieldConfiguration.TEST_SEARCH_FIELDS_CONFIG,
-                        TestFieldConfiguration.TEST_SCHEMA_CONFIG));
+                        TestSearchFieldConfig.TEST_SEARCH_FIELDS_CONFIG,
+                        TestSearchFieldConfig.TEST_SCHEMA_CONFIG));
     }
 }

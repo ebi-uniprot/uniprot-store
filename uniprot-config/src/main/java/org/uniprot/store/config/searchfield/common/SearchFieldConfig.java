@@ -19,7 +19,8 @@ public interface SearchFieldConfig {
 
     // common methods
     List<FieldItem> getAllFieldItems();
-    FieldType getFieldTypeByFieldName(String fieldName);
+
+    FieldType getFieldTypeBySearchFieldName(String fieldName);
 
     // Search fields related methods
     List<FieldItem> getSearchFieldItems();

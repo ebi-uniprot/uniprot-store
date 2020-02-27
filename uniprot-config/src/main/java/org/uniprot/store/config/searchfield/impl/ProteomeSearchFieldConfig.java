@@ -3,18 +3,18 @@ package org.uniprot.store.config.searchfield.impl;
 import org.uniprot.store.config.searchfield.common.AbstractSearchFieldConfig;
 import org.uniprot.store.config.searchfield.common.SearchFieldConfig;
 
-public class ProteomeSearchFieldConfiguration extends AbstractSearchFieldConfig {
+public class ProteomeSearchFieldConfig extends AbstractSearchFieldConfig {
     public static final String CONFIG_FILE = "search-fields-config/proteome-search-fields.json";
 
-    private ProteomeSearchFieldConfiguration() {
+    private ProteomeSearchFieldConfig() {
         super(SCHEMA_FILE, CONFIG_FILE);
     }
 
-    private static class SearchFieldConfigurationHolder {
-        private static final SearchFieldConfig INSTANCE = new ProteomeSearchFieldConfiguration();
+    private static class SearchFieldConfigHolder {
+        private static final SearchFieldConfig INSTANCE = new ProteomeSearchFieldConfig();
     }
 
     public static SearchFieldConfig getInstance() {
-        return SearchFieldConfigurationHolder.INSTANCE;
+        return SearchFieldConfigHolder.INSTANCE;
     }
 }

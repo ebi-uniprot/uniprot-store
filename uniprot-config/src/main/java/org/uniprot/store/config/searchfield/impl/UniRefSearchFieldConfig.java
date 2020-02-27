@@ -3,18 +3,18 @@ package org.uniprot.store.config.searchfield.impl;
 import org.uniprot.store.config.searchfield.common.AbstractSearchFieldConfig;
 import org.uniprot.store.config.searchfield.common.SearchFieldConfig;
 
-public class UniRefSearchFieldConfiguration extends AbstractSearchFieldConfig {
+public class UniRefSearchFieldConfig extends AbstractSearchFieldConfig {
     public static final String CONFIG_FILE = "search-fields-config/uniref-search-fields.json";
 
-    private UniRefSearchFieldConfiguration() {
+    private UniRefSearchFieldConfig() {
         super(SCHEMA_FILE, CONFIG_FILE);
     }
 
-    private static class SearchFieldConfigurationHolder {
-        private static final SearchFieldConfig INSTANCE = new UniRefSearchFieldConfiguration();
+    private static class SearchFieldConfigHolder {
+        private static final SearchFieldConfig INSTANCE = new UniRefSearchFieldConfig();
     }
 
     public static SearchFieldConfig getInstance() {
-        return SearchFieldConfigurationHolder.INSTANCE;
+        return SearchFieldConfigHolder.INSTANCE;
     }
 }

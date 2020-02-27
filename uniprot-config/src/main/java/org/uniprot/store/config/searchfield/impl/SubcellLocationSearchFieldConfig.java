@@ -3,20 +3,19 @@ package org.uniprot.store.config.searchfield.impl;
 import org.uniprot.store.config.searchfield.common.AbstractSearchFieldConfig;
 import org.uniprot.store.config.searchfield.common.SearchFieldConfig;
 
-public class SubcellLocationSearchFieldConfiguration extends AbstractSearchFieldConfig {
+public class SubcellLocationSearchFieldConfig extends AbstractSearchFieldConfig {
     public static final String CONFIG_FILE =
             "search-fields-config/subcell-location-search-fields.json";
 
-    private SubcellLocationSearchFieldConfiguration() {
+    private SubcellLocationSearchFieldConfig() {
         super(SCHEMA_FILE, CONFIG_FILE);
     }
 
-    private static class SearchFieldConfigurationHolder {
-        private static final SearchFieldConfig INSTANCE =
-                new SubcellLocationSearchFieldConfiguration();
+    private static class SearchFieldConfigHolder {
+        private static final SearchFieldConfig INSTANCE = new SubcellLocationSearchFieldConfig();
     }
 
     public static SearchFieldConfig getInstance() {
-        return SearchFieldConfigurationHolder.INSTANCE;
+        return SearchFieldConfigHolder.INSTANCE;
     }
 }
