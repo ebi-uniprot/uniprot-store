@@ -15,11 +15,13 @@ import org.apache.spark.api.java.function.MapFunction;
 import org.apache.spark.sql.Row;
 import org.apache.spark.sql.types.DataTypes;
 import org.apache.spark.sql.types.StructType;
+import org.uniprot.core.cv.go.GeneOntologyEntry;
+import org.uniprot.core.cv.go.GoAspect;
+import org.uniprot.core.cv.go.builder.GeneOntologyEntryBuilder;
 import org.uniprot.core.impl.SequenceImpl;
 import org.uniprot.core.uniparc.impl.UniParcIdImpl;
 import org.uniprot.core.uniprot.impl.UniProtAccessionImpl;
 import org.uniprot.core.uniref.*;
-import org.uniprot.core.uniref.builder.GoTermBuilder;
 import org.uniprot.core.uniref.builder.RepresentativeMemberBuilder;
 import org.uniprot.core.uniref.builder.UniRefEntryBuilder;
 import org.uniprot.core.uniref.builder.UniRefMemberBuilder;
@@ -76,15 +78,15 @@ public class DatasetUnirefEntryConverter implements MapFunction<Row, UniRefEntry
                     Integer.valueOf(propertyMap.getOrDefault(PROPERTY_COMMON_TAXON_ID, "0")));
             if (propertyMap.containsKey(PROPERTY_GO_FUNCTION)) {
                 builder.goTermsAdd(
-                        createGoTerm(GoTermType.FUNCTION, propertyMap.get(PROPERTY_GO_FUNCTION)));
+                        createGoTerm(GoAspect.FUNCTION, propertyMap.get(PROPERTY_GO_FUNCTION)));
             }
             if (propertyMap.containsKey(PROPERTY_GO_COMPONENT)) {
                 builder.goTermsAdd(
-                        createGoTerm(GoTermType.COMPONENT, propertyMap.get(PROPERTY_GO_COMPONENT)));
+                        createGoTerm(GoAspect.COMPONENT, propertyMap.get(PROPERTY_GO_COMPONENT)));
             }
             if (propertyMap.containsKey(PROPERTY_GO_PROCESS)) {
                 builder.goTermsAdd(
-                        createGoTerm(GoTermType.PROCESS, propertyMap.get(PROPERTY_GO_PROCESS)));
+                        createGoTerm(GoAspect.PROCESS, propertyMap.get(PROPERTY_GO_PROCESS)));
             }
         }
 
@@ -106,8 +108,8 @@ public class DatasetUnirefEntryConverter implements MapFunction<Row, UniRefEntry
         return builder.build();
     }
 
-    private GoTerm createGoTerm(GoTermType type, String id) {
-        return new GoTermBuilder().type(type).id(id).build();
+    private GeneOntologyEntry createGoTerm(GoAspect aspect, String id) {
+        return new GeneOntologyEntryBuilder().aspect(aspect).id(id).build();
     }
 
     private RepresentativeMember convertRepresentativeMember(Row representativeMemberRow) {

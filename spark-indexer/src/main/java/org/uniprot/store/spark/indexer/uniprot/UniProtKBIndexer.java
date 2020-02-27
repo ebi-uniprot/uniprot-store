@@ -12,6 +12,7 @@ import org.apache.spark.SparkConf;
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
+import org.uniprot.core.cv.go.GeneOntologyEntry;
 import org.uniprot.core.cv.pathway.UniPathway;
 import org.uniprot.core.taxonomy.TaxonomyEntry;
 import org.uniprot.core.uniprot.UniProtEntry;
@@ -23,7 +24,6 @@ import org.uniprot.store.spark.indexer.go.evidence.GOEvidence;
 import org.uniprot.store.spark.indexer.go.evidence.GOEvidenceMapper;
 import org.uniprot.store.spark.indexer.go.evidence.GOEvidencesRDDReader;
 import org.uniprot.store.spark.indexer.go.relations.GORelationRDDReader;
-import org.uniprot.store.spark.indexer.go.relations.GOTerm;
 import org.uniprot.store.spark.indexer.literature.LiteratureMappedRDDReader;
 import org.uniprot.store.spark.indexer.taxonomy.TaxonomyRDDReader;
 import org.uniprot.store.spark.indexer.uniprot.mapper.*;
@@ -173,8 +173,7 @@ public class UniProtKBIndexer {
             ResourceBundle applicationConfig,
             JavaSparkContext sparkContext) {
 
-        // JavaPairRDD<goId, GoTerm>
-        JavaPairRDD<String, GOTerm> goRelationsRDD =
+        JavaPairRDD<String, GeneOntologyEntry> goRelationsRDD =
                 GORelationRDDReader.load(applicationConfig, sparkContext);
 
         // JavaPairRDD<goId,accession> goMapRDD --> extracted from flat file DR lines for GO
@@ -184,8 +183,8 @@ public class UniProtKBIndexer {
                                 .flatMapToPair(new GoRelationsJoinMapper());
 
         // JavaPairRDD<accession, Iterable<GoTerm>> joinRDD
-        JavaPairRDD<String, Iterable<GOTerm>> joinedRDD =
-                (JavaPairRDD<String, Iterable<GOTerm>>)
+        JavaPairRDD<String, Iterable<GeneOntologyEntry>> joinedRDD =
+                (JavaPairRDD<String, Iterable<GeneOntologyEntry>>)
                         JavaPairRDD.fromJavaRDD(goMapRDD.join(goRelationsRDD).values())
                                 .groupByKey();
 

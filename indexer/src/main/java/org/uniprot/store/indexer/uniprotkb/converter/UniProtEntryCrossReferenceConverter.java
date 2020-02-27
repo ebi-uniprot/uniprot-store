@@ -9,9 +9,9 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import org.uniprot.core.Property;
+import org.uniprot.core.cv.go.GeneOntologyEntry;
 import org.uniprot.core.uniprot.xdb.UniProtDBCrossReference;
 import org.uniprot.store.indexer.uniprot.go.GoRelationRepo;
-import org.uniprot.store.indexer.uniprot.go.GoTerm;
 import org.uniprot.store.search.document.suggest.SuggestDictionary;
 import org.uniprot.store.search.document.suggest.SuggestDocument;
 import org.uniprot.store.search.document.uniprot.UniProtDocument;
@@ -144,7 +144,8 @@ class UniProtEntryCrossReferenceConverter {
     }
 
     private void addAncestors(String evType, String goTerm, UniProtDocument doc) {
-        Set<GoTerm> ancestors = goRelationRepo.getAncestors(goTerm, asList(IS_A, PART_OF));
+        Set<GeneOntologyEntry> ancestors =
+                goRelationRepo.getAncestors(goTerm, asList(IS_A, PART_OF));
         if (ancestors != null)
             ancestors.forEach(
                     ancestor -> addGoterm(evType, ancestor.getId(), ancestor.getName(), doc));
