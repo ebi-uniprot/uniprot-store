@@ -1,13 +1,10 @@
 package org.uniprot.store.config.searchfield.common;
 
-import java.io.*;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 
 import org.apache.commons.lang3.StringUtils;
@@ -16,18 +13,20 @@ import org.uniprot.store.config.searchfield.model.FieldType;
 import org.uniprot.store.config.searchfield.schema.DataValidator;
 import org.uniprot.store.config.searchfield.schema.SchemaValidator;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 @Slf4j
 public abstract class AbstractSearchFieldConfig implements SearchFieldConfig {
+    public static String SCHEMA_FILE = "schema/search-fields-schema.json";
+
     private List<FieldItem> fieldItems;
     private List<FieldItem> searchFieldItems;
     private List<FieldItem> sortFieldItems;
     private Map<String, FieldItem> idFieldItemMap;
     private String schemaFile;
     private String configFile;
+    private SearchFieldConfigLoader loader;
 
     protected AbstractSearchFieldConfig(String schemaFile, String configFile) {
+        this.loader = new SearchFieldConfigLoader();
         SchemaValidator.validate(schemaFile, configFile);
         init(schemaFile, configFile);
         DataValidator.validateContent(this.fieldItems, idFieldItemMap);
@@ -36,8 +35,8 @@ public abstract class AbstractSearchFieldConfig implements SearchFieldConfig {
     private void init(String schemaFile, String configFile) {
         this.schemaFile = schemaFile;
         this.configFile = configFile;
-        this.fieldItems = loadAndGetFieldItems(this.configFile);
-        this.idFieldItemMap = buildIdFieldItemMap(this.fieldItems);
+        this.fieldItems = loader.loadAndGetFieldItems(this.configFile);
+        this.idFieldItemMap = loader.buildIdFieldItemMap(this.fieldItems);
     }
 
     public List<FieldItem> getAllFieldItems() {
@@ -125,44 +124,6 @@ public abstract class AbstractSearchFieldConfig implements SearchFieldConfig {
             return FieldType.general;
         }
         return fieldItem.getFieldType();
-    }
-
-    @Override
-    public List<FieldItem> loadAndGetFieldItems(@NonNull String configFile) {
-        ObjectMapper objectMapper = new ObjectMapper();
-        List<FieldItem> fieldItemList;
-        try (InputStream inputStream = readConfig(configFile)) {
-            if (inputStream == null) {
-                throw new IllegalArgumentException("File '" + configFile + "' not found");
-            }
-            fieldItemList = Arrays.asList(objectMapper.readValue(inputStream, FieldItem[].class));
-        } catch (IOException e) {
-            log.error(e.getMessage());
-            throw new IllegalArgumentException(
-                    "File '" + configFile + "' could not be be converted into list of FieldItem");
-        }
-        return fieldItemList;
-    }
-
-    @Override
-    public Map<String, FieldItem> buildIdFieldItemMap(@NonNull List<FieldItem> fieldItems) {
-        return fieldItems.stream()
-                .collect(Collectors.toMap(FieldItem::getId, fieldItem -> fieldItem));
-    }
-
-    @Override
-    public InputStream readConfig(String config) {
-        InputStream inputStream =
-                SearchFieldConfig.class.getClassLoader().getResourceAsStream(config);
-        if (inputStream == null) {
-            File file = new File(config);
-            try {
-                inputStream = new FileInputStream(file);
-            } catch (FileNotFoundException e) {
-                // Do nothing. The caller is throwing IAE
-            }
-        }
-        return inputStream;
     }
 
     protected void addSearchFieldItems(List<FieldItem> searchFieldItems) {

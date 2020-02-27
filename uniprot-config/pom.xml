@@ -15,12 +15,13 @@
 		<junit-jupiter.version>5.5.2</junit-jupiter.version>
 		<mbknor-jackson-jsonschema.version>1.0.36</mbknor-jackson-jsonschema.version>
 		<org.everit.json.schema.version>1.12.1</org.everit.json.schema.version>
+		<uniprot-core.version>0.1-SNAPSHOT</uniprot-core.version>
 	</properties>
 	<dependencies>
 		<dependency>
 			<groupId>org.uniprot</groupId>
 			<artifactId>controlled-vocabulary</artifactId>
-			<version>0.1-SNAPSHOT</version>
+			<version>${uniprot-core.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.projectlombok</groupId>

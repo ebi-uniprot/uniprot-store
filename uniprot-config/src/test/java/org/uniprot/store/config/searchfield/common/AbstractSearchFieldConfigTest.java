@@ -1,7 +1,6 @@
 package org.uniprot.store.config.searchfield.common;
 
 import java.util.List;
-import java.util.Map;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
@@ -24,39 +23,6 @@ public class AbstractSearchFieldConfigTest {
         Assertions.assertNotNull(fieldItems);
         Assertions.assertFalse(fieldItems.isEmpty());
         Assertions.assertEquals(432, fieldItems.size());
-    }
-
-    @Test
-    void testLoadSearchFields() {
-        List<FieldItem> fieldItems =
-                testFieldConfig.loadAndGetFieldItems(
-                        TestSearchFieldConfig.TEST_SEARCH_FIELDS_CONFIG);
-        Assertions.assertNotNull(fieldItems);
-        Assertions.assertFalse(fieldItems.isEmpty());
-        Assertions.assertEquals(432, fieldItems.size());
-    }
-
-    @Test
-    void testBuildIdFieldItemMap() {
-        List<FieldItem> fieldItems =
-                testFieldConfig.loadAndGetFieldItems(
-                        TestSearchFieldConfig.TEST_SEARCH_FIELDS_CONFIG);
-        Assertions.assertNotNull(fieldItems);
-        Map<String, FieldItem> idFieldItemMap = testFieldConfig.buildIdFieldItemMap(fieldItems);
-        Assertions.assertNotNull(idFieldItemMap);
-        Assertions.assertEquals(fieldItems.size(), idFieldItemMap.keySet().size());
-    }
-
-    @Test
-    void testLoadAndGetFieldItemsFail() {
-        Assertions.assertThrows(
-                IllegalArgumentException.class,
-                () -> testFieldConfig.loadAndGetFieldItems("random.json"));
-    }
-
-    @Test
-    void testSearchFieldsConfigReadFail() {
-        Assertions.assertNull(testFieldConfig.readConfig("random.json"));
     }
 
     @Test

@@ -7,7 +7,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
-import org.uniprot.store.config.searchfield.common.SearchFieldConfig;
+import org.uniprot.store.config.searchfield.common.AbstractSearchFieldConfig;
 import org.uniprot.store.config.searchfield.common.TestSearchFieldConfig;
 import org.uniprot.store.config.searchfield.impl.*;
 
@@ -23,7 +23,7 @@ public class SchemaValidatorTest {
     }
 
     private static Stream<Arguments> provideConfigFiles() {
-        String schemaFile = SearchFieldConfig.SCHEMA_FILE;
+        String schemaFile = AbstractSearchFieldConfig.SCHEMA_FILE;
         return Stream.of(
                 Arguments.of(CrossRefSearchFieldConfig.CONFIG_FILE, schemaFile),
                 Arguments.of(DiseaseSearchFieldConfig.CONFIG_FILE, schemaFile),
