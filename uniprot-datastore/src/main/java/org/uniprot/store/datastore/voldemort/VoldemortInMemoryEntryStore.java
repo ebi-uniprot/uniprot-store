@@ -2,8 +2,6 @@ package org.uniprot.store.datastore.voldemort;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import voldemort.client.MockStoreClientFactory;
-import voldemort.serialization.StringSerializer;
 import voldemort.store.StorageEngine;
 import voldemort.store.Store;
 import voldemort.store.memory.InMemoryStorageEngine;
@@ -27,8 +25,6 @@ public abstract class VoldemortInMemoryEntryStore<T> implements VoldemortClient<
 
     public VoldemortInMemoryEntryStore(String storeName) {
         this.storeName = storeName;
-        MockStoreClientFactory mockStoreClientFactory = new MockStoreClientFactory(new StringSerializer(), new StringSerializer(), new StringSerializer());
-        mockStoreClientFactory.getStoreClient(this.storeName);
         this.storageEngine = new InMemoryStorageEngine<>(this.storeName);
     }
 
