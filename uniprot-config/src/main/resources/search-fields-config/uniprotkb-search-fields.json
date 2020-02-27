@@ -2164,7 +2164,7 @@
     "fieldType": "range",
     "dataType": "integer",
     "description": "Search Feature natural variant within range",
-    "example": "[0 to 100]"
+    "example": "[0 TO 100]"
   },
   {
     "parentId": "natural variations-Natural variant",
@@ -4000,9 +4000,9 @@
     "itemType": "single",
     "fieldName": "ftlen_topo_dom",
     "fieldType": "range",
-    "dataType": "string",
+    "dataType": "integer",
     "description": "Search Topological domain with evidence type",
-    "example": "manual"
+    "example": "[0 TO 100]"
   },
   {
     "parentId": "Topological domain",
