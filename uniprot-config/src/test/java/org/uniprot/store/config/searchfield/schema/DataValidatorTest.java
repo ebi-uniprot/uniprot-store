@@ -13,6 +13,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.uniprot.store.config.searchfield.common.SearchFieldConfig;
+import org.uniprot.store.config.searchfield.common.SearchFieldConfigLoader;
 import org.uniprot.store.config.searchfield.common.SearchFieldValidationException;
 import org.uniprot.store.config.searchfield.common.TestSearchFieldConfig;
 import org.uniprot.store.config.searchfield.impl.*;
@@ -24,18 +25,20 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 public class DataValidatorTest {
 
     private static SearchFieldConfig fieldConfig;
+    private static SearchFieldConfigLoader loader;
 
     @BeforeAll
     static void globalSetUp() {
         fieldConfig = TestSearchFieldConfig.getInstance();
+        loader = new SearchFieldConfigLoader();
     }
 
     @Test
     void testParentIdIsValidId() {
         List<FieldItem> fieldItems =
-                fieldConfig.loadAndGetFieldItems(UniProtKBSearchFieldConfig.CONFIG_FILE);
+                loader.loadAndGetFieldItems(UniProtKBSearchFieldConfig.CONFIG_FILE);
         Assertions.assertFalse(fieldItems.isEmpty());
-        Map<String, FieldItem> idFieldsMap = fieldConfig.buildIdFieldItemMap(fieldItems);
+        Map<String, FieldItem> idFieldsMap = loader.buildIdFieldItemMap(fieldItems);
         Assertions.assertDoesNotThrow(
                 () -> DataValidator.validateParentExists(fieldItems, idFieldsMap));
     }
@@ -43,7 +46,7 @@ public class DataValidatorTest {
     @Test
     void testFieldItemsSeqNumbers() {
         List<FieldItem> fieldItems =
-                fieldConfig.loadAndGetFieldItems(UniProtKBSearchFieldConfig.CONFIG_FILE);
+                loader.loadAndGetFieldItems(UniProtKBSearchFieldConfig.CONFIG_FILE);
         Assertions.assertFalse(fieldItems.isEmpty());
         Assertions.assertDoesNotThrow(() -> DataValidator.validateSeqNumbers(fieldItems));
     }
@@ -51,7 +54,7 @@ public class DataValidatorTest {
     @Test
     void testFieldItemsChildNumbers() {
         List<FieldItem> fieldItems =
-                fieldConfig.loadAndGetFieldItems(UniProtKBSearchFieldConfig.CONFIG_FILE);
+                loader.loadAndGetFieldItems(UniProtKBSearchFieldConfig.CONFIG_FILE);
         Assertions.assertFalse(fieldItems.isEmpty());
         Assertions.assertDoesNotThrow(() -> DataValidator.validateChildNumbers(fieldItems));
     }
@@ -59,9 +62,9 @@ public class DataValidatorTest {
     @ParameterizedTest
     @MethodSource("provideSearchConfigFile")
     void testSortFieldIdIsValidId(String configFile) {
-        List<FieldItem> fieldItems = fieldConfig.loadAndGetFieldItems(configFile);
+        List<FieldItem> fieldItems = loader.loadAndGetFieldItems(configFile);
         Assertions.assertFalse(fieldItems.isEmpty());
-        Map<String, FieldItem> idFieldsMap = fieldConfig.buildIdFieldItemMap(fieldItems);
+        Map<String, FieldItem> idFieldsMap = loader.buildIdFieldItemMap(fieldItems);
         Assertions.assertDoesNotThrow(
                 () -> DataValidator.validateSortFieldIds(fieldItems, idFieldsMap));
     }
@@ -74,7 +77,7 @@ public class DataValidatorTest {
         FieldItem fi3 = getFieldItem("id3", null);
         FieldItem p1 = getFieldItem("parentId", null);
         List<FieldItem> fieldItems = Arrays.asList(fi1, fi2, fi3, p1);
-        Map<String, FieldItem> idFieldsMap = fieldConfig.buildIdFieldItemMap(fieldItems);
+        Map<String, FieldItem> idFieldsMap = loader.buildIdFieldItemMap(fieldItems);
         Assertions.assertThrows(
                 SearchFieldValidationException.class,
                 () -> DataValidator.validateParentExists(fieldItems, idFieldsMap));
@@ -130,7 +133,7 @@ public class DataValidatorTest {
         FieldItem f3 = getFieldItem("f3", null);
         FieldItem s1 = getFieldItem("s1", null);
         List<FieldItem> fieldItems = Arrays.asList(f1, f2, f3, s1);
-        Map<String, FieldItem> idFieldsMap = fieldConfig.buildIdFieldItemMap(fieldItems);
+        Map<String, FieldItem> idFieldsMap = loader.buildIdFieldItemMap(fieldItems);
         Assertions.assertThrows(
                 SearchFieldValidationException.class,
                 () -> DataValidator.validateSortFieldIds(fieldItems, idFieldsMap));
