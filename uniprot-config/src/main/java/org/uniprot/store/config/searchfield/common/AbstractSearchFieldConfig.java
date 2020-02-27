@@ -15,7 +15,7 @@ import org.uniprot.store.config.searchfield.schema.SchemaValidator;
 
 @Slf4j
 public abstract class AbstractSearchFieldConfig implements SearchFieldConfig {
-    public static String SCHEMA_FILE = "schema/search-fields-schema.json";
+    public static final String SCHEMA_FILE = "schema/search-fields-schema.json";
 
     private List<SearchFieldItem> fieldItems;
     private List<SearchFieldItem> searchFieldItems;
