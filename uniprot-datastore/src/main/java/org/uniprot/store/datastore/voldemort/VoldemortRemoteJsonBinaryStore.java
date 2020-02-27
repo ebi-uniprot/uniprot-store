@@ -68,8 +68,7 @@ public abstract class VoldemortRemoteJsonBinaryStore<T> implements VoldemortClie
         }
         this.storeName = storeName;
         this.client = factory.getStoreClient(storeName);
-        this.retryPolicy =
-            createRetryPolicy();
+        this.retryPolicy = createRetryPolicy();
     }
 
     VoldemortRemoteJsonBinaryStore(String storeName, StoreClient<String, byte[]> client) {
@@ -81,9 +80,9 @@ public abstract class VoldemortRemoteJsonBinaryStore<T> implements VoldemortClie
 
     private RetryPolicy<Object> createRetryPolicy() {
         return new RetryPolicy<>()
-            .handle(VoldemortException.class)
-            .withDelay(Duration.ofMillis(1))
-            .withMaxRetries(3);
+                .handle(VoldemortException.class)
+                .withDelay(Duration.ofMillis(1))
+                .withMaxRetries(3);
     }
 
     @Override

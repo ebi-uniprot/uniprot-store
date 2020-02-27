@@ -57,14 +57,14 @@ public abstract class VoldemortRemoteCachingJsonBinaryStore<T>
             Map<String, Versioned<byte[]>> notCachedBatch =
                     Failsafe.with(retryPolicy).get(() -> client.getAll(idsToFetchFromStore));
             idsToFetchFromStore.forEach(
-                id -> {
-                    Versioned<byte[]> versionedEntry = notCachedBatch.get(id);
-                    if (versionedEntry != null) {
-                        T entry = getEntryFromBinary(versionedEntry);
-                        entriesMap.put(id, entry);
-                        cacheEntry(id, entry);
-                    }
-                });
+                    id -> {
+                        Versioned<byte[]> versionedEntry = notCachedBatch.get(id);
+                        if (versionedEntry != null) {
+                            T entry = getEntryFromBinary(versionedEntry);
+                            entriesMap.put(id, entry);
+                            cacheEntry(id, entry);
+                        }
+                    });
         } catch (Exception e) {
             log.warn("Error getting entry from Voldemort.", e);
             throw new RetrievalException("Error getting entry from Voldemort", e);
@@ -76,18 +76,27 @@ public abstract class VoldemortRemoteCachingJsonBinaryStore<T>
         return toReturn;
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public Optional<T> getEntry(String id) {
         try {
-            Versioned<byte[]> versionedEntry = Failsafe.with(retryPolicy).get(() -> client.get(id));
-
-            if (versionedEntry != null) {
-                T entry = getEntryFromBinary(versionedEntry);
-                cacheEntry(id, entry);
-                return Optional.ofNullable(entry);
+            Optional<T> toReturn;
+            Cache.ValueWrapper valueWrapper = cache.get(id);
+            if (valueWrapper != null) {
+                toReturn = Optional.of((T) valueWrapper.get());
             } else {
-                return Optional.empty();
+                Versioned<byte[]> versionedEntry =
+                        Failsafe.with(retryPolicy).get(() -> client.get(id));
+
+                if (versionedEntry != null) {
+                    T entry = getEntryFromBinary(versionedEntry);
+                    cacheEntry(id, entry);
+                    toReturn = Optional.ofNullable(entry);
+                } else {
+                    toReturn = Optional.empty();
+                }
             }
+            return toReturn;
         } catch (Exception e) {
             log.warn("Error getting entry from Voldemort.", e);
             throw new RetrievalException("Error getting entry from Voldemort", e);
