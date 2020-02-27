@@ -16,14 +16,14 @@ public interface SearchFieldConfig {
 
     SearchFieldItem getSearchFieldItemByName(String fieldName);
 
-    Boolean isSearchFieldValueValid(String fieldName, String value);
+    boolean isSearchFieldValueValid(String fieldName, String value);
 
-    Boolean doesSearchFieldItemExist(String fieldName);
+    boolean doesSearchFieldItemExist(String fieldName);
 
     // sort related methods
     SearchFieldItem getCorrespondingSortField(String searchFieldName);
 
-    Boolean doesCorrespondingSortFieldExist(String searchFieldName);
+    boolean doesCorrespondingSortFieldExist(String searchFieldName);
 
     List<SearchFieldItem> getSortFieldItems();
 }

@@ -8,7 +8,9 @@ import com.kjetland.jackson.jsonSchema.JsonSchemaGenerator;
 
 public class SchemaGenerator {
 
-    public static String generateSchema(Class clazz) {
+    private SchemaGenerator(){}
+
+    public static String generateSchema(Class<?> clazz) {
         ObjectMapper objectMapper = new ObjectMapper();
         JsonSchemaConfig config =
                 JsonSchemaConfig.vanillaJsonSchemaDraft4().withFailOnUnknownProperties(true);

@@ -23,7 +23,7 @@ public abstract class AbstractSearchFieldConfig implements SearchFieldConfig {
     private Map<String, SearchFieldItem> idFieldItemMap;
     private String schemaFile;
     private String configFile;
-    private SearchFieldConfigLoader loader;
+    private final SearchFieldConfigLoader loader;
 
     protected AbstractSearchFieldConfig(String schemaFile, String configFile) {
         this.loader = new SearchFieldConfigLoader();
@@ -61,7 +61,7 @@ public abstract class AbstractSearchFieldConfig implements SearchFieldConfig {
     }
 
     @Override
-    public Boolean isSearchFieldValueValid(String fieldName, String value) {
+    public boolean isSearchFieldValueValid(String fieldName, String value) {
         SearchFieldItem searchField = this.getSearchFieldItemByName(fieldName);
         String validRegex = searchField.getValidRegex();
         if (StringUtils.isNotEmpty(validRegex)) {
@@ -72,8 +72,8 @@ public abstract class AbstractSearchFieldConfig implements SearchFieldConfig {
     }
 
     @Override
-    public Boolean doesSearchFieldItemExist(String fieldName) {
-        Boolean searchFieldExist = false;
+    public boolean doesSearchFieldItemExist(String fieldName) {
+        boolean searchFieldExist = false;
         try {
             searchFieldExist = Objects.nonNull(this.getSearchFieldItemByName(fieldName));
         } catch (IllegalArgumentException ile) {
@@ -98,8 +98,8 @@ public abstract class AbstractSearchFieldConfig implements SearchFieldConfig {
     }
 
     @Override
-    public Boolean doesCorrespondingSortFieldExist(String searchFieldName) {
-        Boolean sortFieldExist = false;
+    public boolean doesCorrespondingSortFieldExist(String searchFieldName) {
+        boolean sortFieldExist = false;
         try {
             sortFieldExist = Objects.nonNull(getCorrespondingSortField(searchFieldName));
         } catch (IllegalArgumentException ile) {
