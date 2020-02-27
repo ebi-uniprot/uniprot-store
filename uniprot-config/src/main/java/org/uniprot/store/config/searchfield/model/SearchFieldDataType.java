@@ -1,6 +1,6 @@
 package org.uniprot.store.config.searchfield.model;
 
-public enum DataType {
+public enum SearchFieldDataType {
     string,
     integer,
     enumeration,

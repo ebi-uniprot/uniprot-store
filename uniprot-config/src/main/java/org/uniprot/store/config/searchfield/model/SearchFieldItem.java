@@ -10,17 +10,17 @@ import lombok.Data;
 
 /** @author sahmad */
 @Data
-public class FieldItem implements Serializable {
+public class SearchFieldItem implements Serializable {
     private static final long serialVersionUID = -1835246966684124878L;
     @NotNull private String id;
     private String parentId;
     @PositiveOrZero private Integer childNumber;
     @NotNull @PositiveOrZero private Integer seqNumber;
-    @NotNull private ItemType itemType;
-    private FieldType fieldType;
+    @NotNull private SearchFieldItemType itemType;
+    private SearchFieldType fieldType;
     private String label;
     private String fieldName;
-    private DataType dataType;
+    private SearchFieldDataType dataType;
     private String description;
     private String example;
     private String validRegex;

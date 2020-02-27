@@ -1,6 +1,6 @@
 package org.uniprot.store.config.searchfield.model;
 
-public enum FieldType {
+public enum SearchFieldType {
     general,
     range,
     evidence,

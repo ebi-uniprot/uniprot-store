@@ -14,8 +14,8 @@ import org.junit.jupiter.api.extension.RegisterExtension;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
-import org.uniprot.store.config.searchfield.model.FieldItem;
-import org.uniprot.store.config.searchfield.model.ItemType;
+import org.uniprot.store.config.searchfield.model.SearchFieldItem;
+import org.uniprot.store.config.searchfield.model.SearchFieldItemType;
 
 /**
  * This class verifies example values against their associated fields, defined in {@code
@@ -42,9 +42,9 @@ class VerifyUniProtAdvancedSearchExamplesIT {
     }
 
     private static Stream<Arguments> provideSearchItems() {
-        List<FieldItem> items = searchEngine.getSearchFieldConfig().getSearchFieldItems();
+        List<SearchFieldItem> items = searchEngine.getSearchFieldConfig().getSearchFieldItems();
         return items.stream()
-                .filter(fieldItem -> ItemType.single.equals(fieldItem.getItemType()))
+                .filter(fieldItem -> SearchFieldItemType.single.equals(fieldItem.getItemType()))
                 .map(fi -> Arguments.of(fi.getFieldName(), fi.getExample()));
     }
 }

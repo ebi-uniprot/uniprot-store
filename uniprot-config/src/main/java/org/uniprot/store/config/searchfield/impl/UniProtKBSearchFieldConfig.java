@@ -7,9 +7,9 @@ import org.uniprot.core.cv.xdb.UniProtXDbTypeDetail;
 import org.uniprot.cv.xdb.UniProtXDbTypes;
 import org.uniprot.store.config.searchfield.common.AbstractSearchFieldConfig;
 import org.uniprot.store.config.searchfield.common.SearchFieldConfig;
-import org.uniprot.store.config.searchfield.model.DataType;
-import org.uniprot.store.config.searchfield.model.FieldItem;
-import org.uniprot.store.config.searchfield.model.FieldType;
+import org.uniprot.store.config.searchfield.model.SearchFieldDataType;
+import org.uniprot.store.config.searchfield.model.SearchFieldItem;
+import org.uniprot.store.config.searchfield.model.SearchFieldType;
 
 public class UniProtKBSearchFieldConfig extends AbstractSearchFieldConfig {
     public static final String CONFIG_FILE = "search-fields-config/uniprotkb-search-fields.json";
@@ -18,7 +18,7 @@ public class UniProtKBSearchFieldConfig extends AbstractSearchFieldConfig {
     private UniProtKBSearchFieldConfig() {
         super(SCHEMA_FILE, CONFIG_FILE);
         // add db xref related count fields
-        List<FieldItem> crossRefSearchItems = getCrossRefCountSearchFieldItems();
+        List<SearchFieldItem> crossRefSearchItems = getCrossRefCountSearchFieldItems();
         addSearchFieldItems(crossRefSearchItems);
     }
 
@@ -30,19 +30,19 @@ public class UniProtKBSearchFieldConfig extends AbstractSearchFieldConfig {
         return SearchFieldConfigHolder.INSTANCE;
     }
 
-    private List<FieldItem> getCrossRefCountSearchFieldItems() {
+    private List<SearchFieldItem> getCrossRefCountSearchFieldItems() {
         return UniProtXDbTypes.INSTANCE.getAllDBXRefTypes().stream()
                 .map(db -> convertToFieldItem(db))
                 .collect(Collectors.toList());
     }
 
-    private FieldItem convertToFieldItem(UniProtXDbTypeDetail db) {
+    private SearchFieldItem convertToFieldItem(UniProtXDbTypeDetail db) {
         String fieldName = XREF_COUNT_PREFIX + db.getName().toLowerCase();
-        FieldItem fieldItem = new FieldItem();
+        SearchFieldItem fieldItem = new SearchFieldItem();
         fieldItem.setId(fieldName);
         fieldItem.setFieldName(fieldName);
-        fieldItem.setFieldType(FieldType.range);
-        fieldItem.setDataType(DataType.integer);
+        fieldItem.setFieldType(SearchFieldType.range);
+        fieldItem.setDataType(SearchFieldDataType.integer);
         return fieldItem;
     }
 }

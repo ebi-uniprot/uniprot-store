@@ -6,7 +6,7 @@ import java.util.Map;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import org.uniprot.store.config.searchfield.model.FieldItem;
+import org.uniprot.store.config.searchfield.model.SearchFieldItem;
 
 public class SearchFieldConfigLoaderTest {
 
@@ -30,7 +30,7 @@ public class SearchFieldConfigLoaderTest {
 
     @Test
     void testLoadSearchFields() {
-        List<FieldItem> fieldItems =
+        List<SearchFieldItem> fieldItems =
                 loader.loadAndGetFieldItems(TestSearchFieldConfig.TEST_SEARCH_FIELDS_CONFIG);
         Assertions.assertNotNull(fieldItems);
         Assertions.assertFalse(fieldItems.isEmpty());
@@ -39,10 +39,10 @@ public class SearchFieldConfigLoaderTest {
 
     @Test
     void testBuildIdFieldItemMap() {
-        List<FieldItem> fieldItems =
+        List<SearchFieldItem> fieldItems =
                 loader.loadAndGetFieldItems(TestSearchFieldConfig.TEST_SEARCH_FIELDS_CONFIG);
         Assertions.assertNotNull(fieldItems);
-        Map<String, FieldItem> idFieldItemMap = loader.buildIdFieldItemMap(fieldItems);
+        Map<String, SearchFieldItem> idFieldItemMap = loader.buildIdFieldItemMap(fieldItems);
         Assertions.assertNotNull(idFieldItemMap);
         Assertions.assertEquals(fieldItems.size(), idFieldItemMap.keySet().size());
     }

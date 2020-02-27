@@ -14,7 +14,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;
 import org.uniprot.core.flatfile.writer.LineType;
-import org.uniprot.store.config.searchfield.model.FieldItem;
+import org.uniprot.store.config.searchfield.model.SearchFieldItem;
 import org.uniprot.store.search.field.QueryBuilder;
 
 class CCAPSearchIT {
@@ -373,7 +373,7 @@ class CCAPSearchIT {
         assertThat(retrievedAccessions, empty());
     }
 
-    private String query(FieldItem field, String fieldValue) {
+    private String query(SearchFieldItem field, String fieldValue) {
         return QueryBuilder.query(field.getFieldName(), fieldValue);
     }
 }

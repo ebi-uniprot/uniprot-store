@@ -5,8 +5,8 @@ import java.util.List;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import org.uniprot.store.config.searchfield.model.FieldItem;
-import org.uniprot.store.config.searchfield.model.FieldType;
+import org.uniprot.store.config.searchfield.model.SearchFieldItem;
+import org.uniprot.store.config.searchfield.model.SearchFieldType;
 
 public class AbstractSearchFieldConfigTest {
 
@@ -19,7 +19,7 @@ public class AbstractSearchFieldConfigTest {
 
     @Test
     void testGetAllFieldItems() {
-        List<FieldItem> fieldItems = testFieldConfig.getAllFieldItems();
+        List<SearchFieldItem> fieldItems = testFieldConfig.getAllFieldItems();
         Assertions.assertNotNull(fieldItems);
         Assertions.assertFalse(fieldItems.isEmpty());
         Assertions.assertEquals(432, fieldItems.size());
@@ -28,9 +28,9 @@ public class AbstractSearchFieldConfigTest {
     @Test
     void testGetSearchFieldItemByName() {
         String fieldName = "annotation_score";
-        FieldItem annotScore = testFieldConfig.getSearchFieldItemByName(fieldName);
+        SearchFieldItem annotScore = testFieldConfig.getSearchFieldItemByName(fieldName);
         Assertions.assertNotNull(annotScore);
-        Assertions.assertEquals(FieldType.general, annotScore.getFieldType());
+        Assertions.assertEquals(SearchFieldType.general, annotScore.getFieldType());
         Assertions.assertEquals(fieldName, annotScore.getFieldName());
     }
 
@@ -88,9 +88,9 @@ public class AbstractSearchFieldConfigTest {
     void testGetCorrespondingSortField() {
         String searchFieldName = "mnemonic";
         String expectedSortFieldName = "mnemonic_sort";
-        FieldItem sortField = testFieldConfig.getCorrespondingSortField(searchFieldName);
+        SearchFieldItem sortField = testFieldConfig.getCorrespondingSortField(searchFieldName);
         Assertions.assertNotNull(sortField);
-        Assertions.assertEquals(FieldType.sort, sortField.getFieldType());
+        Assertions.assertEquals(SearchFieldType.sort, sortField.getFieldType());
         Assertions.assertEquals(expectedSortFieldName, sortField.getFieldName());
     }
 
@@ -116,32 +116,32 @@ public class AbstractSearchFieldConfigTest {
 
     @Test
     void testGetSortFieldItems() {
-        List<FieldItem> sortFields = testFieldConfig.getSortFieldItems();
+        List<SearchFieldItem> sortFields = testFieldConfig.getSortFieldItems();
         Assertions.assertNotNull(sortFields);
         Assertions.assertFalse(sortFields.isEmpty());
         sortFields.stream()
-                .forEach(fi -> Assertions.assertTrue(FieldType.sort == fi.getFieldType()));
+                .forEach(fi -> Assertions.assertTrue(SearchFieldType.sort == fi.getFieldType()));
     }
 
     @Test
     void testGetFieldTypeByFieldNameOfEvidence() {
         String fieldName = "ccev_webresource";
-        FieldType fieldType = testFieldConfig.getFieldTypeBySearchFieldName(fieldName);
-        Assertions.assertEquals(FieldType.general, fieldType);
+        SearchFieldType fieldType = testFieldConfig.getFieldTypeBySearchFieldName(fieldName);
+        Assertions.assertEquals(SearchFieldType.general, fieldType);
     }
 
     @Test
     void testGetFieldTypeByFieldNameOfGeneral() {
         String fieldName = "ccev_webresource";
-        FieldType fieldType = testFieldConfig.getFieldTypeBySearchFieldName(fieldName);
-        Assertions.assertEquals(FieldType.general, fieldType);
+        SearchFieldType fieldType = testFieldConfig.getFieldTypeBySearchFieldName(fieldName);
+        Assertions.assertEquals(SearchFieldType.general, fieldType);
     }
 
     @Test
     void testGetFieldTypeByFieldNameOfRange() {
         String fieldName = "lit_pubdate";
-        FieldType fieldType = testFieldConfig.getFieldTypeBySearchFieldName(fieldName);
-        Assertions.assertEquals(FieldType.range, fieldType);
+        SearchFieldType fieldType = testFieldConfig.getFieldTypeBySearchFieldName(fieldName);
+        Assertions.assertEquals(SearchFieldType.range, fieldType);
     }
 
     @Test

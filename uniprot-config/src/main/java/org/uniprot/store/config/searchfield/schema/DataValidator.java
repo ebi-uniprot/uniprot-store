@@ -8,12 +8,12 @@ import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
 import org.uniprot.store.config.searchfield.common.SearchFieldValidationException;
-import org.uniprot.store.config.searchfield.model.FieldItem;
+import org.uniprot.store.config.searchfield.model.SearchFieldItem;
 
 public class DataValidator {
 
     public static void validateContent(
-            List<FieldItem> fieldItems, Map<String, FieldItem> idFieldMap) {
+            List<SearchFieldItem> fieldItems, Map<String, SearchFieldItem> idFieldMap) {
         validateParentExists(fieldItems, idFieldMap);
         validateSeqNumbers(fieldItems);
         validateChildNumbers(fieldItems);
@@ -21,7 +21,7 @@ public class DataValidator {
     }
 
     public static void validateParentExists(
-            List<FieldItem> fieldItems, Map<String, FieldItem> idFieldMap) {
+            List<SearchFieldItem> fieldItems, Map<String, SearchFieldItem> idFieldMap) {
         fieldItems.stream()
                 .filter(fi -> StringUtils.isNotBlank(fi.getParentId()))
                 .forEach(
@@ -35,33 +35,33 @@ public class DataValidator {
                         });
     }
 
-    public static void validateSeqNumbers(List<FieldItem> fieldItems) {
+    public static void validateSeqNumbers(List<SearchFieldItem> fieldItems) {
         List<Integer> seqNumbers = extractSeqNumbers(fieldItems);
         validateNaturalNumbers(seqNumbers, "seqNumber");
     }
 
-    private static List<Integer> extractSeqNumbers(List<FieldItem> fieldItems) {
+    private static List<Integer> extractSeqNumbers(List<SearchFieldItem> fieldItems) {
         List<Integer> seqNumbers =
                 fieldItems.stream()
                         .filter(fi -> fi.getSeqNumber() != null)
-                        .map(FieldItem::getSeqNumber)
+                        .map(SearchFieldItem::getSeqNumber)
                         .collect(Collectors.toList());
         return seqNumbers;
     }
 
-    public static void validateChildNumbers(List<FieldItem> fieldItems) {
+    public static void validateChildNumbers(List<SearchFieldItem> fieldItems) {
 
-        Map<String, List<FieldItem>> parentChildrenMap =
+        Map<String, List<SearchFieldItem>> parentChildrenMap =
                 fieldItems.stream()
                         .filter(fi -> StringUtils.isNotBlank(fi.getParentId()))
-                        .collect(Collectors.groupingBy(FieldItem::getParentId));
+                        .collect(Collectors.groupingBy(SearchFieldItem::getParentId));
 
         parentChildrenMap.entrySet().stream()
                 .forEach(pc -> validateChildNumbers(pc.getKey(), pc.getValue()));
     }
 
     public static void validateSortFieldIds(
-            List<FieldItem> fieldItems, Map<String, FieldItem> idFieldMap) {
+            List<SearchFieldItem> fieldItems, Map<String, SearchFieldItem> idFieldMap) {
         fieldItems.stream()
                 .filter(fi -> hasSortFieldId(fi))
                 .forEach(
@@ -73,7 +73,7 @@ public class DataValidator {
                         });
     }
 
-    private static void validateChildNumbers(String parentId, List<FieldItem> children) {
+    private static void validateChildNumbers(String parentId, List<SearchFieldItem> children) {
         List<Integer> childNumbers =
                 children.stream().map(c -> c.getChildNumber()).collect(Collectors.toList());
         String message = "childNumber for parentId '" + parentId + "'";
@@ -105,7 +105,7 @@ public class DataValidator {
         }
     }
 
-    private static boolean hasSortFieldId(FieldItem fi) {
+    private static boolean hasSortFieldId(SearchFieldItem fi) {
         return Objects.nonNull(fi.getSortFieldId());
     }
 }

@@ -9,7 +9,7 @@ import java.util.stream.Collectors;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 
-import org.uniprot.store.config.searchfield.model.FieldItem;
+import org.uniprot.store.config.searchfield.model.SearchFieldItem;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -30,24 +30,28 @@ public class SearchFieldConfigLoader {
         return inputStream;
     }
 
-    public List<FieldItem> loadAndGetFieldItems(@NonNull String configFile) {
+    public List<SearchFieldItem> loadAndGetFieldItems(@NonNull String configFile) {
         ObjectMapper objectMapper = new ObjectMapper();
-        List<FieldItem> fieldItemList;
+        List<SearchFieldItem> fieldItemList;
         try (InputStream inputStream = readConfig(configFile)) {
             if (inputStream == null) {
                 throw new IllegalArgumentException("File '" + configFile + "' not found");
             }
-            fieldItemList = Arrays.asList(objectMapper.readValue(inputStream, FieldItem[].class));
+            fieldItemList =
+                    Arrays.asList(objectMapper.readValue(inputStream, SearchFieldItem[].class));
         } catch (IOException e) {
             log.error(e.getMessage());
             throw new IllegalArgumentException(
-                    "File '" + configFile + "' could not be be converted into list of FieldItem");
+                    "File '"
+                            + configFile
+                            + "' could not be be converted into list of SearchFieldItem");
         }
         return fieldItemList;
     }
 
-    public Map<String, FieldItem> buildIdFieldItemMap(@NonNull List<FieldItem> fieldItems) {
+    public Map<String, SearchFieldItem> buildIdFieldItemMap(
+            @NonNull List<SearchFieldItem> fieldItems) {
         return fieldItems.stream()
-                .collect(Collectors.toMap(FieldItem::getId, fieldItem -> fieldItem));
+                .collect(Collectors.toMap(SearchFieldItem::getId, fieldItem -> fieldItem));
     }
 }

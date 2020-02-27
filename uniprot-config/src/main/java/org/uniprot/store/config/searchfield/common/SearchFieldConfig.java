@@ -2,28 +2,28 @@ package org.uniprot.store.config.searchfield.common;
 
 import java.util.List;
 
-import org.uniprot.store.config.searchfield.model.FieldItem;
-import org.uniprot.store.config.searchfield.model.FieldType;
+import org.uniprot.store.config.searchfield.model.SearchFieldItem;
+import org.uniprot.store.config.searchfield.model.SearchFieldType;
 
 public interface SearchFieldConfig {
     // common methods
-    List<FieldItem> getAllFieldItems();
+    List<SearchFieldItem> getAllFieldItems();
 
-    FieldType getFieldTypeBySearchFieldName(String fieldName);
+    SearchFieldType getFieldTypeBySearchFieldName(String fieldName);
 
     // Search fields related methods
-    List<FieldItem> getSearchFieldItems();
+    List<SearchFieldItem> getSearchFieldItems();
 
-    FieldItem getSearchFieldItemByName(String fieldName);
+    SearchFieldItem getSearchFieldItemByName(String fieldName);
 
     Boolean isSearchFieldValueValid(String fieldName, String value);
 
     Boolean doesSearchFieldItemExist(String fieldName);
 
     // sort related methods
-    FieldItem getCorrespondingSortField(String searchFieldName);
+    SearchFieldItem getCorrespondingSortField(String searchFieldName);
 
     Boolean doesCorrespondingSortFieldExist(String searchFieldName);
 
-    List<FieldItem> getSortFieldItems();
+    List<SearchFieldItem> getSortFieldItems();
 }

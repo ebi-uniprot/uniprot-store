@@ -15,7 +15,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.uniprot.store.config.searchfield.common.SearchFieldConfig;
-import org.uniprot.store.config.searchfield.model.FieldItem;
+import org.uniprot.store.config.searchfield.model.SearchFieldItem;
 
 /**
  * This class tests that all search fields known about via, {@link SearchFieldConfig}, can be
@@ -46,7 +46,7 @@ public abstract class AbstractValidateAllFieldsExist<T> {
         return Stream.concat(
                         getSearchFieldConfig().getSortFieldItems().stream(),
                         getSearchFieldConfig().getSearchFieldItems().stream())
-                .map(FieldItem::getFieldName)
+                .map(SearchFieldItem::getFieldName)
                 .map(Arguments::of);
     }
 

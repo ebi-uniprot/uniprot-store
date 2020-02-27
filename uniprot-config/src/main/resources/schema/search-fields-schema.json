@@ -4,10 +4,10 @@
   "type" : "array",
   "uniqueItems": true,
   "items" : {
-    "$ref" : "#/definitions/FieldItem"
+    "$ref" : "#/definitions/SearchFieldItem"
   },
   "definitions" : {
-    "FieldItem" : {
+    "SearchFieldItem" : {
       "type" : "object",
       "additionalProperties" : false,
       "properties" : {
