@@ -42,9 +42,9 @@ public class DataValidator {
 
     private static List<Integer> extractSeqNumbers(List<SearchFieldItem> fieldItems) {
         return fieldItems.stream()
-                        .filter(fi -> fi.getSeqNumber() != null)
-                        .map(SearchFieldItem::getSeqNumber)
-                        .collect(Collectors.toList());
+                .filter(fi -> fi.getSeqNumber() != null)
+                .map(SearchFieldItem::getSeqNumber)
+                .collect(Collectors.toList());
     }
 
     public static void validateChildNumbers(List<SearchFieldItem> fieldItems) {
@@ -54,7 +54,9 @@ public class DataValidator {
                         .filter(fi -> StringUtils.isNotBlank(fi.getParentId()))
                         .collect(Collectors.groupingBy(SearchFieldItem::getParentId));
 
-        parentChildrenMap.entrySet().forEach(pc -> validateChildNumbers(pc.getKey(), pc.getValue()));
+        parentChildrenMap
+                .entrySet()
+                .forEach(pc -> validateChildNumbers(pc.getKey(), pc.getValue()));
     }
 
     public static void validateSortFieldIds(
