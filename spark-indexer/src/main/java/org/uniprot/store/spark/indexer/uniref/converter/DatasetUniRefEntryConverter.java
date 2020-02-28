@@ -14,10 +14,12 @@ import org.apache.spark.api.java.function.MapFunction;
 import org.apache.spark.sql.Row;
 import org.apache.spark.sql.types.DataTypes;
 import org.apache.spark.sql.types.StructType;
+import org.uniprot.core.cv.go.GeneOntologyEntry;
+import org.uniprot.core.cv.go.GoAspect;
+import org.uniprot.core.cv.go.builder.GeneOntologyEntryBuilder;
 import org.uniprot.core.uniparc.impl.UniParcIdImpl;
 import org.uniprot.core.uniprot.impl.UniProtAccessionImpl;
 import org.uniprot.core.uniref.*;
-import org.uniprot.core.uniref.builder.GoTermBuilder;
 import org.uniprot.core.uniref.builder.RepresentativeMemberBuilder;
 import org.uniprot.core.uniref.builder.UniRefEntryBuilder;
 import org.uniprot.core.uniref.builder.UniRefMemberBuilder;
@@ -104,17 +106,17 @@ public class DatasetUniRefEntryConverter implements MapFunction<Row, UniRefEntry
             }
             if (propertyMap.containsKey(PROPERTY_GO_FUNCTION)) {
                 propertyMap.get(PROPERTY_GO_FUNCTION).stream()
-                        .map(goTerm -> createGoTerm(GoTermType.FUNCTION, goTerm))
+                        .map(goTerm -> createGoTerm(GoAspect.FUNCTION, goTerm))
                         .forEach(builder::goTermsAdd);
             }
             if (propertyMap.containsKey(PROPERTY_GO_COMPONENT)) {
                 propertyMap.get(PROPERTY_GO_COMPONENT).stream()
-                        .map(goTerm -> createGoTerm(GoTermType.FUNCTION, goTerm))
+                        .map(goTerm -> createGoTerm(GoAspect.FUNCTION, goTerm))
                         .forEach(builder::goTermsAdd);
             }
             if (propertyMap.containsKey(PROPERTY_GO_PROCESS)) {
                 propertyMap.get(PROPERTY_GO_PROCESS).stream()
-                        .map(goTerm -> createGoTerm(GoTermType.FUNCTION, goTerm))
+                        .map(goTerm -> createGoTerm(GoAspect.FUNCTION, goTerm))
                         .forEach(builder::goTermsAdd);
             }
         }
@@ -137,8 +139,8 @@ public class DatasetUniRefEntryConverter implements MapFunction<Row, UniRefEntry
         return builder.build();
     }
 
-    private GoTerm createGoTerm(GoTermType type, String id) {
-        return new GoTermBuilder().type(type).id(id).build();
+    private GeneOntologyEntry createGoTerm(GoAspect type, String id) {
+        return new GeneOntologyEntryBuilder().aspect(type).id(id).build();
     }
 
     private RepresentativeMember convertRepresentativeMember(Row representativeMemberRow) {
@@ -146,9 +148,7 @@ public class DatasetUniRefEntryConverter implements MapFunction<Row, UniRefEntry
                 RepresentativeMemberBuilder.from(convertMember(representativeMemberRow));
         if (hasFieldName(SEQUENCE, representativeMemberRow)) {
             Row sequence =
-                    (Row)
-                            representativeMemberRow.get(
-                                    representativeMemberRow.fieldIndex(SEQUENCE));
+                    (Row) representativeMemberRow.get(representativeMemberRow.fieldIndex(SEQUENCE));
             builder.sequence(RowUtils.convertSequence(sequence));
         }
         return builder.build();
@@ -201,7 +201,8 @@ public class DatasetUniRefEntryConverter implements MapFunction<Row, UniRefEntry
                     builder.organismTaxId(Long.valueOf(propertyMap.get(PROPERTY_TAXONOMY).get(0)));
                 }
                 if (propertyMap.containsKey(PROPERTY_LENGTH)) {
-                    builder.sequenceLength(Integer.valueOf(propertyMap.get(PROPERTY_LENGTH).get(0)));
+                    builder.sequenceLength(
+                            Integer.valueOf(propertyMap.get(PROPERTY_LENGTH).get(0)));
                 }
                 if (propertyMap.containsKey(PROPERTY_IS_SEED)) {
                     builder.isSeed(Boolean.valueOf(propertyMap.get(PROPERTY_IS_SEED).get(0)));
