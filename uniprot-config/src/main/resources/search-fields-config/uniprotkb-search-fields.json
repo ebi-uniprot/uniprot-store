@@ -702,7 +702,7 @@
   },
   {
     "label": "Web Resources",
-    "seqNumber": 8,
+    "seqNumber": 18,
     "itemType": "sibling_group",
     "id": "web_resources"
   },
@@ -729,7 +729,7 @@
     "example": "manual"
   },
   {
-    "seqNumber": 9,
+    "seqNumber": 20,
     "label": "Gene Ontology [GO]",
     "id": "gene_ontology",
     "itemType": "sibling_group"
@@ -759,7 +759,7 @@
     "example": "manual"
   },
   {
-    "seqNumber": 10,
+    "seqNumber": 21,
     "id": "keyword_field",
     "label": "Keyword [KW]",
     "fieldName": "keyword",
@@ -772,7 +772,7 @@
     "example": "chromosomal"
   },
   {
-    "seqNumber": 11,
+    "seqNumber": 22,
     "id": "literature_citation",
     "label": "Literature Citation",
     "itemType": "group"
@@ -838,7 +838,7 @@
     "example": "protein"
   },
   {
-    "seqNumber": 12,
+    "seqNumber": 23,
     "id": "proteomes",
     "label": "Proteomes",
     "itemType": "group"
@@ -869,7 +869,7 @@
     "example": "chromosome"
   },
   {
-    "seqNumber": 13,
+    "seqNumber": 24,
     "id": "cited_for",
     "label": "Cited for",
     "fieldName": "scope",
@@ -880,7 +880,7 @@
     "example": "microtubule"
   },
   {
-    "seqNumber": 14,
+    "seqNumber": 25,
     "id": "reviewed",
     "label": "Reviewed",
     "fieldName": "reviewed",
@@ -902,7 +902,7 @@
     "example": "true"
   },
   {
-    "seqNumber": 15,
+    "seqNumber": 26,
     "id": "active",
     "label": "Active",
     "fieldName": "active",
@@ -927,7 +927,7 @@
     "label": "Function",
     "itemType": "group",
     "id": "function",
-    "seqNumber": 16
+    "seqNumber": 8
   },
   {
     "parentId": "function",
@@ -1698,7 +1698,7 @@
     "label": "Sequence",
     "itemType": "group",
     "id": "sequence",
-    "seqNumber": 17
+    "seqNumber": 15
   },
   {
     "parentId": "sequence",
@@ -2610,7 +2610,7 @@
     "label": "PTM/Processing",
     "itemType": "group",
     "id": "ptm_processing",
-    "seqNumber": 18
+    "seqNumber": 11
   },
   {
     "parentId": "ptm_processing",
@@ -3132,7 +3132,7 @@
     "label": "Interaction",
     "itemType": "group",
     "id": "interaction",
-    "seqNumber": 19
+    "seqNumber": 13
   },
   {
     "parentId": "interaction",
@@ -3179,7 +3179,7 @@
     "label": "Family and Domains",
     "itemType": "group",
     "id": "family_domains",
-    "seqNumber": 20
+    "seqNumber": 16
   },
   {
     "parentId": "family_domains",
@@ -3535,7 +3535,7 @@
     "label": "Expression",
     "itemType": "group",
     "id": "expression",
-    "seqNumber": 21
+    "seqNumber": 12
   },
   {
     "parentId": "expression",
@@ -3628,7 +3628,7 @@
     "label": "Date Of",
     "itemType": "group",
     "id": "date_of",
-    "seqNumber": 22
+    "seqNumber": 19
   },
   {
     "parentId": "date_of",
@@ -3670,7 +3670,7 @@
     "label": "Structure",
     "itemType": "group",
     "id": "structure",
-    "seqNumber": 23
+    "seqNumber": 14
   },
   {
     "parentId": "structure",
@@ -3866,7 +3866,7 @@
     "label": "Subcellular location",
     "itemType": "group",
     "id": "subcellular",
-    "seqNumber": 24
+    "seqNumber": 9
   },
   {
     "parentId": "subcellular",
@@ -4059,7 +4059,7 @@
     "label": "Pathology & Biotech",
     "itemType": "group",
     "id": "pathology_biotech",
-    "seqNumber": 25
+    "seqNumber": 10
   },
   {
     "parentId": "pathology_biotech",
@@ -4280,6 +4280,6 @@
     "id": "cross_references",
     "dataType": "string",
     "itemType": "group",
-    "seqNumber": 26
+    "seqNumber": 17
   }
 ]
