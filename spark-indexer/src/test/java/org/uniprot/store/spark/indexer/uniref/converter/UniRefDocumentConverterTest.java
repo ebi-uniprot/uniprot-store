@@ -64,8 +64,10 @@ class UniRefDocumentConverterTest {
         UniRefDocument result = converter.convert(entry);
 
         assertNotNull(result);
-        assertTrue(result.getUniprotIds().contains("representativeMemberAccession"));
-        assertTrue(result.getUniprotIds().contains("memberAccession"));
+        assertTrue(result.getUniprotIds().contains("representativeMemberAccession1"));
+        assertTrue(result.getUniprotIds().contains("representativeMemberAccession2"));
+        assertTrue(result.getUniprotIds().contains("memberAccession1"));
+        assertTrue(result.getUniprotIds().contains("memberAccession2"));
 
         assertTrue(result.getUpis().contains("representativeMemberId"));
         assertTrue(result.getUpis().contains("representativeMemberUniparcId"));
@@ -82,9 +84,11 @@ class UniRefDocumentConverterTest {
         UniRefDocument result = converter.convert(entry);
 
         assertNotNull(result);
-        assertTrue(result.getUniprotIds().contains("representativeMemberAccession"));
+        assertTrue(result.getUniprotIds().contains("representativeMemberAccession1"));
+        assertTrue(result.getUniprotIds().contains("representativeMemberAccession2"));
         assertTrue(result.getUniprotIds().contains("representativeMemberId"));
-        assertTrue(result.getUniprotIds().contains("memberAccession"));
+        assertTrue(result.getUniprotIds().contains("memberAccession1"));
+        assertTrue(result.getUniprotIds().contains("memberAccession2"));
         assertTrue(result.getUniprotIds().contains("memberId"));
 
         assertTrue(result.getUpis().contains("representativeMemberUniparcId"));
@@ -141,7 +145,10 @@ class UniRefDocumentConverterTest {
                 .organismTaxId(1)
                 .sequenceLength(11)
                 .proteinName("representativeMemberProteinName")
-                .accessionsAdd(new UniProtAccessionBuilder("representativeMemberAccession").build())
+                .accessionsAdd(
+                        new UniProtAccessionBuilder("representativeMemberAccession1").build())
+                .accessionsAdd(
+                        new UniProtAccessionBuilder("representativeMemberAccession2").build())
                 .uniref50Id(new UniRefEntryIdImpl("representativeMemberUniref50Id"))
                 .uniref90Id(new UniRefEntryIdImpl("representativeMemberUniref90Id"))
                 .uniref100Id(new UniRefEntryIdImpl("representativeMemberUniref100Id"))
@@ -160,7 +167,8 @@ class UniRefDocumentConverterTest {
                 .organismTaxId(2)
                 .sequenceLength(10)
                 .proteinName("memberProteinName")
-                .accessionsAdd(new UniProtAccessionBuilder("memberAccession").build())
+                .accessionsAdd(new UniProtAccessionBuilder("memberAccession1").build())
+                .accessionsAdd(new UniProtAccessionBuilder("memberAccession2").build())
                 .uniref50Id(new UniRefEntryIdImpl("memberUniref50Id"))
                 .uniref90Id(new UniRefEntryIdImpl("memberUniref90Id"))
                 .uniref100Id(new UniRefEntryIdImpl("memberUniref100Id"))

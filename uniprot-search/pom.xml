@@ -38,6 +38,11 @@
 			<version>${uniprot-core.version}</version>
 		</dependency>
 		<dependency>
+			<groupId>org.uniprot</groupId>
+			<artifactId>uniprot-config</artifactId>
+			<version>${project.parent.version}</version>
+		</dependency>
+		<dependency>
 			<groupId>org.apache.solr</groupId>
 			<artifactId>solr-core</artifactId>
 			<version>${solr.version}</version>

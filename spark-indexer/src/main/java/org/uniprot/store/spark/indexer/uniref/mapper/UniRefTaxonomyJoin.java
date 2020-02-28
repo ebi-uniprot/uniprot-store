@@ -27,11 +27,11 @@ public class UniRefTaxonomyJoin
             organism.getLineages()
                     .forEach(
                             lineage -> {
-                                builder.taxLineageId(new Long(lineage.getTaxonId()).intValue());
                                 builder.organismTaxon(lineage.getScientificName());
                                 if (lineage.hasCommonName()) {
                                     builder.organismTaxon(lineage.getCommonName());
                                 }
+                                builder.taxLineageId(Long.valueOf(lineage.getTaxonId()).intValue());
                             });
             result = builder.build();
         }

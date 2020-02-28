@@ -10,11 +10,38 @@ import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 
 import org.uniprot.store.config.model.FieldItem;
+import org.uniprot.store.config.schema.DataValidator;
+import org.uniprot.store.config.schema.SchemaValidator;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Slf4j
 public abstract class AbstractFieldConfiguration implements FieldConfiguration {
+    private List<FieldItem> fieldItems;
+    private Map<String, FieldItem> idFieldItemMap;
+    private String schemaFile;
+    private String configFile;
+
+    protected AbstractFieldConfiguration(String schemaFile, String configFile) {
+        SchemaValidator.validate(schemaFile, configFile);
+        init(schemaFile, configFile);
+        DataValidator.validateContent(this.fieldItems, idFieldItemMap);
+    }
+
+    public void init(String schemaFile, String configFile) {
+        this.schemaFile = schemaFile;
+        this.configFile = configFile;
+        this.fieldItems = loadAndGetFieldItems(this.configFile);
+        this.idFieldItemMap = buildIdFieldItemMap(this.fieldItems);
+    }
+
+    public List<FieldItem> getAllFieldItems() {
+        return this.fieldItems;
+    }
+
+    public FieldItem getFieldItemById(@NonNull String id) {
+        return this.idFieldItemMap.get(id);
+    }
 
     public List<FieldItem> loadAndGetFieldItems(@NonNull String config) {
         ObjectMapper objectMapper = new ObjectMapper();

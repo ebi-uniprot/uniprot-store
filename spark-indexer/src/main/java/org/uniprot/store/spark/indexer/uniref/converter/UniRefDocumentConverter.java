@@ -56,7 +56,7 @@ public class UniRefDocumentConverter
     }
 
     private List<String> getUniParcIds(UniRefEntry entry) {
-        List<String> result = new ArrayList<>(getUniParcIds(entry.getRepresentativeMember()));
+        List<String> result = getUniParcIds(entry.getRepresentativeMember());
         entry.getMembers().forEach(val -> result.addAll(getUniParcIds(val)));
 
         return result;
@@ -74,7 +74,7 @@ public class UniRefDocumentConverter
     }
 
     private List<String> getUniProtIds(UniRefEntry entry) {
-        List<String> result = new ArrayList<>(getUniProtIds(entry.getRepresentativeMember()));
+        List<String> result = getUniProtIds(entry.getRepresentativeMember());
         entry.getMembers().forEach(val -> result.addAll(getUniProtIds(val)));
 
         return result;

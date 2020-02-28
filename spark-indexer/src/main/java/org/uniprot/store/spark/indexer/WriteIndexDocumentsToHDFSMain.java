@@ -5,6 +5,7 @@ import java.util.ResourceBundle;
 import org.apache.spark.api.java.JavaSparkContext;
 import org.uniprot.store.search.SolrCollection;
 import org.uniprot.store.spark.indexer.suggest.SuggestIndexer;
+import org.uniprot.store.spark.indexer.uniparc.UniParcIndexer;
 import org.uniprot.store.spark.indexer.uniprot.UniProtKBIndexer;
 import org.uniprot.store.spark.indexer.uniref.UniRefIndexer;
 import org.uniprot.store.spark.indexer.util.SparkUtils;
@@ -33,6 +34,9 @@ public class WriteIndexDocumentsToHDFSMain {
                     break;
                 case uniref:
                     UniRefIndexer.writeIndexDocumentsToHDFS(sparkContext, applicationConfig);
+                    break;
+                case uniparc:
+                    UniParcIndexer.writeIndexDocumentsToHDFS(sparkContext, applicationConfig);
                     break;
                 default:
                     throw new UnsupportedOperationException(

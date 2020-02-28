@@ -3,6 +3,7 @@ package org.uniprot.store.config.schema;
 import java.util.BitSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
@@ -16,6 +17,7 @@ public class DataValidator {
         validateParentExists(fieldItems, idFieldMap);
         validateSeqNumbers(fieldItems);
         validateChildNumbers(fieldItems);
+        validateSortFieldIds(fieldItems, idFieldMap);
     }
 
     private static void validateParentExists(
@@ -80,5 +82,22 @@ public class DataValidator {
             }
             visitedSet.set(number);
         }
+    }
+
+    private static void validateSortFieldIds(
+            List<FieldItem> fieldItems, Map<String, FieldItem> idFieldMap) {
+        fieldItems.stream()
+                .filter(fi -> hasSortFieldId(fi))
+                .forEach(
+                        fi -> {
+                            if (!idFieldMap.containsKey(fi.getSortFieldId())) {
+                                throw new FieldValidationException(
+                                        "No field item for sortId " + fi.getSortFieldId());
+                            }
+                        });
+    }
+
+    private static boolean hasSortFieldId(FieldItem fi) {
+        return Objects.nonNull(fi.getSortFieldId());
     }
 }
