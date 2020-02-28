@@ -4,7 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
 import org.uniprot.core.cv.ec.ECEntry;
-import org.uniprot.core.cv.ec.impl.ECEntryImpl;
+import org.uniprot.core.cv.ec.builder.ECEntryBuilder;
 
 import scala.Tuple2;
 
@@ -16,7 +16,7 @@ class ECFileMapperTest {
 
     @Test
     void testECFileMapper() throws Exception {
-        ECEntryImpl entry = new ECEntryImpl("ecID", "ecLabel");
+        ECEntry entry = new ECEntryBuilder().id("ecID").label("ecLabel").build();
 
         ECFileMapper mapper = new ECFileMapper();
         Tuple2<String, ECEntry> result = mapper.call(entry);

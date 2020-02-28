@@ -6,11 +6,13 @@ import lombok.extern.slf4j.Slf4j;
 
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaSparkContext;
+import org.uniprot.core.cv.go.GeneOntologyEntry;
+import org.uniprot.core.cv.go.builder.GeneOntologyEntryBuilder;
 
 import scala.Tuple2;
 
 /**
- * This class load GoRelation to a JavaPairRDD{key=goTermId, value={@link GOTerm with
+ * This class load GoRelation to a JavaPairRDD{key=goTermId, value={@link GeneOntologyEntry with
  * Ancestors(Relations)}}
  *
  * @author lgonzales
@@ -22,15 +24,15 @@ public class GORelationRDDReader {
     /**
      * load GO Relations to a JavaPairRDD
      *
-     * @return JavaPairRDD{key=goTermId, value={@link GOTerm with Ancestors(Relations)}}
+     * @return JavaPairRDD{key=goTermId, value={@link GeneOntologyEntry with Ancestors(Relations)}}
      */
-    public static JavaPairRDD<String, GOTerm> load(
+    public static JavaPairRDD<String, GeneOntologyEntry> load(
             ResourceBundle applicationConfig, JavaSparkContext sparkContext) {
 
         String goRelationsFolder = applicationConfig.getString("go.relations.dir.path");
         GOTermFileReader goTermFileReader =
                 new GOTermFileReader(goRelationsFolder, sparkContext.hadoopConfiguration());
-        List<GOTerm> goTerms = goTermFileReader.read();
+        List<GeneOntologyEntry> goTerms = goTermFileReader.read();
         log.info("Loaded " + goTerms.size() + " GO relations terms");
 
         GORelationFileReader goRelationFileReader =
@@ -38,32 +40,37 @@ public class GORelationRDDReader {
         Map<String, Set<String>> relations = goRelationFileReader.read();
         log.info("Loaded " + relations.size() + " GO relations map");
 
-        List<Tuple2<String, GOTerm>> pairs = new ArrayList<>();
+        List<Tuple2<String, GeneOntologyEntry>> pairs = new ArrayList<>();
         goTerms.stream()
                 .filter(Objects::nonNull)
                 .forEach(
                         goTerm -> {
-                            Set<GOTerm> ancestors = getAncestors(goTerm, goTerms, relations);
-                            GOTerm goTermWithRelations =
-                                    new GOTermImpl(goTerm.getId(), goTerm.getName(), ancestors);
+                            Set<GeneOntologyEntry> ancestors =
+                                    getAncestors(goTerm, goTerms, relations);
+                            GeneOntologyEntry goTermWithRelations =
+                                    GeneOntologyEntryBuilder.from(goTerm)
+                                            .ancestorsSet(ancestors)
+                                            .build();
                             pairs.add(
-                                    new Tuple2<String, GOTerm>(
+                                    new Tuple2<String, GeneOntologyEntry>(
                                             goTerm.getId(), goTermWithRelations));
                         });
         log.info("Loaded  GO relations" + pairs.size());
-        return (JavaPairRDD<String, GOTerm>) sparkContext.parallelizePairs(pairs);
+        return (JavaPairRDD<String, GeneOntologyEntry>) sparkContext.parallelizePairs(pairs);
     }
 
-    static Set<GOTerm> getAncestors(
-            GOTerm term, List<GOTerm> goTerms, Map<String, Set<String>> relations) {
-        Set<GOTerm> visited = new HashSet<>();
+    static Set<GeneOntologyEntry> getAncestors(
+            GeneOntologyEntry term,
+            List<GeneOntologyEntry> goTerms,
+            Map<String, Set<String>> relations) {
+        Set<GeneOntologyEntry> visited = new HashSet<>();
         Queue<String> queue = new LinkedList<>();
         queue.add(term.getId());
         visited.add(term);
         while (!queue.isEmpty()) {
             String vertex = queue.poll();
             for (String relatedGoId : relations.getOrDefault(vertex, Collections.emptySet())) {
-                GOTerm relatedGoTerm = getGoTermById(relatedGoId, goTerms);
+                GeneOntologyEntry relatedGoTerm = getGoTermById(relatedGoId, goTerms);
                 if (!visited.contains(relatedGoTerm)) {
                     visited.add(relatedGoTerm);
                     queue.add(relatedGoId);
@@ -73,8 +80,8 @@ public class GORelationRDDReader {
         return visited;
     }
 
-    static GOTerm getGoTermById(String goTermId, List<GOTerm> goTerms) {
-        GOTerm goTerm = new GOTermImpl(goTermId, null);
+    static GeneOntologyEntry getGoTermById(String goTermId, List<GeneOntologyEntry> goTerms) {
+        GeneOntologyEntry goTerm = new GeneOntologyEntryBuilder().id(goTermId).build();
         if (goTerms.contains(goTerm)) {
             return goTerms.get(goTerms.indexOf(goTerm));
         } else {

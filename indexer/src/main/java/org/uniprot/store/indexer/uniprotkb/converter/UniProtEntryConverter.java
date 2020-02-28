@@ -208,10 +208,10 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtEntry, Un
 
     private void updateKeyword(Keyword keyword, UniProtDocument document) {
         document.keywords.add(keyword.getId());
-        addValueToStringList(document.keywords, keyword);
+        document.keywords.add(keyword.getName());
         KeywordCategory kc = keyword.getCategory();
-        if (!document.keywords.contains(kc.getAccession())) {
-            document.keywords.add(kc.getAccession());
+        if (!document.keywords.contains(kc.getId())) {
+            document.keywords.add(kc.getId());
             document.keywords.add(kc.getName());
         }
 
@@ -219,14 +219,14 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtEntry, Un
                 createSuggestionMapKey(SuggestDictionary.KEYWORD, keyword.getId()),
                 SuggestDocument.builder()
                         .id(keyword.getId())
-                        .value(keyword.getValue())
+                        .value(keyword.getName())
                         .dictionary(SuggestDictionary.KEYWORD.name())
                         .build());
 
         suggestions.putIfAbsent(
-                createSuggestionMapKey(SuggestDictionary.KEYWORD, kc.getAccession()),
+                createSuggestionMapKey(SuggestDictionary.KEYWORD, kc.getId()),
                 SuggestDocument.builder()
-                        .id(kc.getAccession())
+                        .id(kc.getId())
                         .value(kc.getName())
                         .dictionary(SuggestDictionary.KEYWORD.name())
                         .build());

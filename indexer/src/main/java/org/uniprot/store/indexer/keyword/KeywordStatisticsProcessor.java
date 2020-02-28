@@ -6,7 +6,7 @@ import org.springframework.batch.item.ItemProcessor;
 import org.uniprot.core.Statistics;
 import org.uniprot.core.builder.StatisticsBuilder;
 import org.uniprot.core.cv.keyword.KeywordEntry;
-import org.uniprot.core.cv.keyword.impl.KeywordEntryImpl;
+import org.uniprot.core.cv.keyword.builder.KeywordEntryBuilder;
 import org.uniprot.core.json.parser.keyword.KeywordJsonConfig;
 import org.uniprot.store.search.document.keyword.KeywordDocument;
 
@@ -31,8 +31,7 @@ public class KeywordStatisticsProcessor
                         .reviewedProteinCount(keywordCount.getReviewedProteinCount())
                         .unreviewedProteinCount(keywordCount.getUnreviewedProteinCount())
                         .build();
-        KeywordEntryImpl keywordEntry = new KeywordEntryImpl();
-        keywordEntry.setStatistics(statistics);
+        KeywordEntry keywordEntry = new KeywordEntryBuilder().statistics(statistics).build();
 
         KeywordDocument.KeywordDocumentBuilder builder = KeywordDocument.builder();
         builder.id(keywordCount.getKeywordId());

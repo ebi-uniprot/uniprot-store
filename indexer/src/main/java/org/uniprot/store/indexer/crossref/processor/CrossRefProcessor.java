@@ -1,7 +1,7 @@
 package org.uniprot.store.indexer.crossref.processor;
 
 import org.springframework.batch.item.ItemProcessor;
-import org.uniprot.core.crossref.CrossRefEntry;
+import org.uniprot.core.cv.xdb.CrossRefEntry;
 import org.uniprot.store.search.document.dbxref.CrossRefDocument;
 
 public class CrossRefProcessor implements ItemProcessor<CrossRefEntry, CrossRefDocument> {

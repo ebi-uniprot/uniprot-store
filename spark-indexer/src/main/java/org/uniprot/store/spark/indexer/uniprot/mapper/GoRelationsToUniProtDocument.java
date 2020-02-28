@@ -7,9 +7,9 @@ import lombok.extern.slf4j.Slf4j;
 
 import org.apache.spark.api.java.Optional;
 import org.apache.spark.api.java.function.Function;
+import org.uniprot.core.cv.go.GeneOntologyEntry;
 import org.uniprot.core.util.Utils;
 import org.uniprot.store.search.document.uniprot.UniProtDocument;
-import org.uniprot.store.spark.indexer.go.relations.GOTerm;
 
 import scala.Tuple2;
 
@@ -21,7 +21,8 @@ import scala.Tuple2;
  */
 @Slf4j
 public class GoRelationsToUniProtDocument
-        implements Function<Tuple2<UniProtDocument, Optional<Iterable<GOTerm>>>, UniProtDocument> {
+        implements Function<
+                Tuple2<UniProtDocument, Optional<Iterable<GeneOntologyEntry>>>, UniProtDocument> {
     private static final long serialVersionUID = -5057000958468900711L;
 
     /**
@@ -29,8 +30,8 @@ public class GoRelationsToUniProtDocument
      * @return UniProtDocument with all extra go terms relations added to it.
      */
     @Override
-    public UniProtDocument call(Tuple2<UniProtDocument, Optional<Iterable<GOTerm>>> tuple)
-            throws Exception {
+    public UniProtDocument call(
+            Tuple2<UniProtDocument, Optional<Iterable<GeneOntologyEntry>>> tuple) throws Exception {
         UniProtDocument doc = tuple._1;
         if (tuple._2.isPresent()) {
             tuple._2

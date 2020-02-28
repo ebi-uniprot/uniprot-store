@@ -33,7 +33,7 @@ public class DiseaseProcessor implements ItemProcessor<DiseaseEntry, DiseaseDocu
         if (disease.getKeywords() != null) {
             kwIds =
                     disease.getKeywords().stream()
-                            .map(kw -> kw.getId())
+                            .map(kw -> kw.getName())
                             .collect(Collectors.toList());
         }
         // name is a combination of id, acronym, definition, synonyms, keywords

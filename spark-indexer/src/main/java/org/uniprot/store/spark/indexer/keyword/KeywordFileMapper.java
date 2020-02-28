@@ -26,6 +26,6 @@ public class KeywordFileMapper implements PairFunction<KeywordEntry, String, Key
      */
     @Override
     public Tuple2<String, KeywordEntry> call(KeywordEntry entry) throws Exception {
-        return new Tuple2<>(entry.getKeyword().getId().toLowerCase(), entry);
+        return new Tuple2<>(entry.getKeyword().getName().toLowerCase(), entry);
     }
 }

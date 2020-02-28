@@ -17,8 +17,8 @@ public class KeywordToSuggestDocument implements Function<KeywordEntry, SuggestD
     @Override
     public SuggestDocument call(KeywordEntry keyword) throws Exception {
         return SuggestDocument.builder()
-                .id(keyword.getKeyword().getAccession())
-                .value(keyword.getKeyword().getId())
+                .id(keyword.getKeyword().getId())
+                .value(keyword.getKeyword().getName())
                 .dictionary(SuggestDictionary.KEYWORD.name())
                 .build();
     }

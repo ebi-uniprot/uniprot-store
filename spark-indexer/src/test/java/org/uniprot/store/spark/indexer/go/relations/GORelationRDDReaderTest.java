@@ -5,6 +5,8 @@ import static org.junit.jupiter.api.Assertions.*;
 import java.util.*;
 
 import org.junit.jupiter.api.Test;
+import org.uniprot.core.cv.go.GeneOntologyEntry;
+import org.uniprot.core.cv.go.builder.GeneOntologyEntryBuilder;
 
 /**
  * @author lgonzales
@@ -14,13 +16,13 @@ class GORelationRDDReaderTest {
 
     @Test
     void getAncestorsWithAncestors() {
-        GOTerm goTerm1 = new GOTermImpl("GO1", "TERM1");
-        List<GOTerm> goTermList = new ArrayList<>();
+        GeneOntologyEntry goTerm1 = go("GO1", "TERM1");
+        List<GeneOntologyEntry> goTermList = new ArrayList<>();
         goTermList.add(goTerm1);
-        goTermList.add(new GOTermImpl("GO2", "TERM2"));
-        goTermList.add(new GOTermImpl("GO3", "TERM3"));
-        goTermList.add(new GOTermImpl("GO4", "TERM4"));
-        goTermList.add(new GOTermImpl("GO5", "TERM5"));
+        goTermList.add(go("GO2", "TERM2"));
+        goTermList.add(go("GO3", "TERM3"));
+        goTermList.add(go("GO4", "TERM4"));
+        goTermList.add(go("GO5", "TERM5"));
         Map<String, Set<String>> relations = new HashMap<>();
         relations.put("GO1", Collections.singleton("GO3"));
 
@@ -30,42 +32,42 @@ class GORelationRDDReaderTest {
         go3Relations.add("GO1");
         relations.put("GO3", go3Relations);
 
-        Set<GOTerm> goTermRelations =
+        Set<GeneOntologyEntry> goTermRelations =
                 GORelationRDDReader.getAncestors(goTerm1, goTermList, relations);
         assertNotNull(goTermRelations);
         assertEquals(4, goTermRelations.size());
-        assertTrue(goTermRelations.contains(new GOTermImpl("GO1", null)));
-        assertTrue(goTermRelations.contains(new GOTermImpl("GO3", null)));
-        assertTrue(goTermRelations.contains(new GOTermImpl("GO4", null)));
-        assertTrue(goTermRelations.contains(new GOTermImpl("GO5", null)));
+        assertTrue(goTermRelations.contains(go("GO1", null)));
+        assertTrue(goTermRelations.contains(go("GO3", null)));
+        assertTrue(goTermRelations.contains(go("GO4", null)));
+        assertTrue(goTermRelations.contains(go("GO5", null)));
     }
 
     @Test
     void getAncestorsWithoutAncestors() {
-        GOTerm goTerm1 = new GOTermImpl("GO1", "TERM1");
-        List<GOTerm> goTermList = Collections.singletonList(goTerm1);
-        Set<GOTerm> goTermRelations =
+        GeneOntologyEntry goTerm1 = go("GO1", "TERM1");
+        List<GeneOntologyEntry> goTermList = Collections.singletonList(goTerm1);
+        Set<GeneOntologyEntry> goTermRelations =
                 GORelationRDDReader.getAncestors(goTerm1, goTermList, new HashMap<>());
         assertNotNull(goTermRelations);
         assertEquals(1, goTermRelations.size());
-        assertTrue(goTermRelations.contains(new GOTermImpl("GO1", null)));
+        assertTrue(goTermRelations.contains(go("GO1", null)));
     }
 
     @Test
     void getAncestorsWithoutGoTermAndAncertors() {
-        GOTerm goTerm1 = new GOTermImpl("GO1", "TERM1");
-        Set<GOTerm> goTermRelations =
+        GeneOntologyEntry goTerm1 = go("GO1", "TERM1");
+        Set<GeneOntologyEntry> goTermRelations =
                 GORelationRDDReader.getAncestors(goTerm1, new ArrayList<>(), new HashMap<>());
         assertNotNull(goTermRelations);
         assertEquals(1, goTermRelations.size());
-        assertTrue(goTermRelations.contains(new GOTermImpl("GO1", null)));
+        assertTrue(goTermRelations.contains(go("GO1", null)));
     }
 
     @Test
     void getValidGoTermById() {
-        GOTerm goTerm1 = new GOTermImpl("GO1", "TERM1");
-        List<GOTerm> goTermList = Collections.singletonList(goTerm1);
-        GOTerm result = GORelationRDDReader.getGoTermById("GO1", goTermList);
+        GeneOntologyEntry goTerm1 = go("GO1", "TERM1");
+        List<GeneOntologyEntry> goTermList = Collections.singletonList(goTerm1);
+        GeneOntologyEntry result = GORelationRDDReader.getGoTermById("GO1", goTermList);
 
         assertNotNull(result);
         assertEquals(goTerm1, result);
@@ -73,12 +75,16 @@ class GORelationRDDReaderTest {
 
     @Test
     void getInValidGoTermById() {
-        GOTerm goTerm1 = new GOTermImpl("GO1", "TERM1");
-        List<GOTerm> goTermList = Collections.singletonList(goTerm1);
-        GOTerm result = GORelationRDDReader.getGoTermById("GO2", goTermList);
+        GeneOntologyEntry goTerm1 = go("GO1", "TERM1");
+        List<GeneOntologyEntry> goTermList = Collections.singletonList(goTerm1);
+        GeneOntologyEntry result = GORelationRDDReader.getGoTermById("GO2", goTermList);
 
         assertNotNull(result);
         assertEquals("GO2", result.getId());
         assertNull(result.getName());
+    }
+
+    private GeneOntologyEntry go(String id, String name) {
+        return new GeneOntologyEntryBuilder().id(id).name(name).build();
     }
 }
