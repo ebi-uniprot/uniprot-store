@@ -173,7 +173,7 @@ class UniProtEntryCommentsConverter {
                             val -> {
                                 document.cofactorChebi.add(val.getName());
                                 if (val.getCofactorReference().getDatabaseType()
-                                        == CofactorReferenceType.CHEBI) {
+                                        == CofactorDatabase.CHEBI) {
                                     String referenceId = val.getCofactorReference().getId();
                                     String id = referenceId;
                                     if (id.startsWith("CHEBI:"))
@@ -509,13 +509,13 @@ class UniProtEntryCommentsConverter {
 
         if (reaction.hasReactionReferences()) {
             String field = this.getCommentField(comment);
-            List<DBCrossReference<ReactionReferenceType>> reactionReferences =
+            List<DBCrossReference<ReactionDatabase>> reactionReferences =
                     reaction.getReactionReferences();
             reactionReferences.stream()
-                    .filter(ref -> ref.getDatabaseType() == ReactionReferenceType.CHEBI)
+                    .filter(ref -> ref.getDatabaseType() == ReactionDatabase.CHEBI)
                     .forEach(val -> addCatalyticSuggestions(doc, field, val));
             reactionReferences.stream()
-                    .filter(ref -> ref.getDatabaseType() != ReactionReferenceType.CHEBI)
+                    .filter(ref -> ref.getDatabaseType() != ReactionDatabase.CHEBI)
                     .forEach(
                             val -> {
                                 Collection<String> value =
@@ -544,8 +544,8 @@ class UniProtEntryCommentsConverter {
     private void addCatalyticSuggestions(
             UniProtDocument document,
             String field,
-            DBCrossReference<ReactionReferenceType> reactionReference) {
-        if (reactionReference.getDatabaseType() == ReactionReferenceType.CHEBI) {
+            DBCrossReference<ReactionDatabase> reactionReference) {
+        if (reactionReference.getDatabaseType() == ReactionDatabase.CHEBI) {
             String referenceId = reactionReference.getId();
             int firstColon = referenceId.indexOf(':');
             String fullId = referenceId.substring(firstColon + 1);

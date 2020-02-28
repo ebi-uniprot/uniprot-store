@@ -6,7 +6,7 @@ import java.util.Optional;
 import lombok.Builder;
 import lombok.Data;
 
-import org.uniprot.core.cv.xdb.UniProtXDbTypeDetail;
+import org.uniprot.core.cv.xdb.UniProtDatabaseDetail;
 import org.uniprot.store.config.model.FieldItem;
 import org.uniprot.store.config.model.FieldType;
 import org.uniprot.store.search.domain2.SearchField;
@@ -50,7 +50,7 @@ public class SearchFieldImpl implements SearchField {
         return builder.build();
     }
 
-    public static SearchField from(UniProtXDbTypeDetail db) {
+    public static SearchField from(UniProtDatabaseDetail db) {
         SearchFieldImplBuilder builder = SearchFieldImpl.builder();
         builder.name(XREF_COUNT_PREFIX + db.getName().toLowerCase()).type(SearchFieldType.RANGE);
         return builder.build();

@@ -40,13 +40,13 @@ public class FlatFileToCatalyticActivityChebi
                                         (CatalyticActivityComment) catalytic;
                                 Reaction reaction = comment.getReaction();
                                 if (reaction.hasReactionReferences()) {
-                                    List<DBCrossReference<ReactionReferenceType>> references =
+                                    List<DBCrossReference<ReactionDatabase>> references =
                                             reaction.getReactionReferences();
                                     references.stream()
                                             .filter(
                                                     ref ->
                                                             ref.getDatabaseType()
-                                                                    == ReactionReferenceType.CHEBI)
+                                                                    == ReactionDatabase.CHEBI)
                                             .forEach(
                                                     val -> {
                                                         String id = val.getId();

@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 import org.uniprot.core.DBCrossReference;
 import org.uniprot.core.builder.DBCrossReferenceBuilder;
 import org.uniprot.core.citation.Citation;
-import org.uniprot.core.citation.CitationXrefType;
+import org.uniprot.core.citation.CitationDatabase;
 import org.uniprot.core.citation.builder.JournalArticleBuilder;
 import org.uniprot.core.uniprot.ReferenceComment;
 import org.uniprot.core.uniprot.ReferenceCommentType;
@@ -132,9 +132,9 @@ class UniProtEntryReferencesConverterTest {
                         .databaseId(prefix + "-dbid")
                         .build();
 
-        DBCrossReference<CitationXrefType> xref =
-                new DBCrossReferenceBuilder<CitationXrefType>()
-                        .databaseType(CitationXrefType.PUBMED)
+        DBCrossReference<CitationDatabase> xref =
+                new DBCrossReferenceBuilder<CitationDatabase>()
+                        .databaseType(CitationDatabase.PUBMED)
                         .id(prefix + "id")
                         .build();
 

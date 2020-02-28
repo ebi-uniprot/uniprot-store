@@ -15,7 +15,7 @@ import org.uniprot.core.uniprot.evidence.EvidenceCode;
 import org.uniprot.core.uniprot.evidence.builder.EvidenceBuilder;
 import org.uniprot.core.uniprot.xdb.UniProtDBCrossReference;
 import org.uniprot.core.uniprot.xdb.builder.UniProtDBCrossReferenceBuilder;
-import org.uniprot.cv.xdb.UniProtXDbTypeImpl;
+import org.uniprot.cv.xdb.UniProtDatabaseImpl;
 
 import scala.Tuple2;
 
@@ -31,13 +31,13 @@ class GOEvidenceMapperTest {
         // given
         UniProtDBCrossReference goCrossReference =
                 new UniProtDBCrossReferenceBuilder()
-                        .databaseType(new UniProtXDbTypeImpl("GO"))
+                        .databaseType(new UniProtDatabaseImpl("GO"))
                         .id("GO:12345")
                         .build();
 
         UniProtDBCrossReference otherGoCrossReference =
                 new UniProtDBCrossReferenceBuilder()
-                        .databaseType(new UniProtXDbTypeImpl("GO"))
+                        .databaseType(new UniProtDatabaseImpl("GO"))
                         .id("GO:11111")
                         .build();
 
@@ -97,13 +97,13 @@ class GOEvidenceMapperTest {
         // given
         UniProtDBCrossReference goCrossReference =
                 new UniProtDBCrossReferenceBuilder()
-                        .databaseType(new UniProtXDbTypeImpl("GO"))
+                        .databaseType(new UniProtDatabaseImpl("GO"))
                         .id("GO:12345")
                         .build();
 
         UniProtDBCrossReference otherGoCrossReference =
                 new UniProtDBCrossReferenceBuilder()
-                        .databaseType(new UniProtXDbTypeImpl("PDB"))
+                        .databaseType(new UniProtDatabaseImpl("PDB"))
                         .id("PDB11111")
                         .build();
 
@@ -138,13 +138,13 @@ class GOEvidenceMapperTest {
         // given
         UniProtDBCrossReference goCrossReference =
                 new UniProtDBCrossReferenceBuilder()
-                        .databaseType(new UniProtXDbTypeImpl("GO"))
+                        .databaseType(new UniProtDatabaseImpl("GO"))
                         .id("GO:12345")
                         .build();
 
         UniProtDBCrossReference otherGoCrossReference =
                 new UniProtDBCrossReferenceBuilder()
-                        .databaseType(new UniProtXDbTypeImpl("GO"))
+                        .databaseType(new UniProtDatabaseImpl("GO"))
                         .id("GO:11111")
                         .build();
 

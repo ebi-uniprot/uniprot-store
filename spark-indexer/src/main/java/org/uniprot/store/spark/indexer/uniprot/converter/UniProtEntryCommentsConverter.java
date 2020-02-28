@@ -159,7 +159,7 @@ class UniProtEntryCommentsConverter implements Serializable {
                             val -> {
                                 document.cofactorChebi.add(val.getName());
                                 if (val.getCofactorReference().getDatabaseType()
-                                        == CofactorReferenceType.CHEBI) {
+                                        == CofactorDatabase.CHEBI) {
                                     String referenceId = val.getCofactorReference().getId();
                                     String id = referenceId;
                                     if (id.startsWith("CHEBI:"))
@@ -480,7 +480,7 @@ class UniProtEntryCommentsConverter implements Serializable {
 
         if (reaction.hasReactionReferences()) {
             String field = this.getCommentField(comment);
-            List<DBCrossReference<ReactionReferenceType>> reactionReferences =
+            List<DBCrossReference<ReactionDatabase>> reactionReferences =
                     reaction.getReactionReferences();
             reactionReferences.forEach(
                     val -> {

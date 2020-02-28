@@ -15,7 +15,7 @@ import javax.validation.constraints.NotNull;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import org.uniprot.core.cv.xdb.UniProtXDbTypeDetail;
+import org.uniprot.core.cv.xdb.UniProtDatabaseDetail;
 import org.uniprot.core.uniprot.comment.CommentType;
 import org.uniprot.core.uniprot.feature.FeatureCategory;
 import org.uniprot.cv.xdb.UniProtXDbTypes;
@@ -63,7 +63,7 @@ class SuggestionConfigTest {
     @Test
     void allDefaultDatabasesLoaded() {
         List<SuggestDocument> suggestions = extractSuggestDocuments("Database:");
-        List<UniProtXDbTypeDetail> dbxRefTypes =
+        List<UniProtDatabaseDetail> dbxRefTypes =
                 UniProtXDbTypes.INSTANCE.getAllDBXRefTypes().stream()
                         .filter(val -> !val.isImplicit())
                         .collect(Collectors.toList());

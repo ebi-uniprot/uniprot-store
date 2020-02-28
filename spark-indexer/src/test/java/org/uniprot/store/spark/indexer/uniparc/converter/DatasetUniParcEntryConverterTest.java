@@ -100,7 +100,7 @@ class DatasetUniParcEntryConverterTest {
     private void validateDbReference(UniParcDBCrossReference dbReference) {
         assertNotNull(dbReference);
         assertEquals("idValue", dbReference.getId());
-        assertEquals(UniParcDatabaseType.REFSEQ, dbReference.getDatabaseType());
+        assertEquals(UniParcDatabase.REFSEQ, dbReference.getDatabaseType());
         assertEquals(10, dbReference.getVersionI());
         assertEquals(11, dbReference.getVersion());
         assertTrue(dbReference.isActive());
@@ -131,7 +131,7 @@ class DatasetUniParcEntryConverterTest {
     private Seq getDbReferenceSeq() {
         List<Object> dbReferences = new ArrayList<>();
         dbReferences.add("idValue"); // _id
-        dbReferences.add(UniParcDatabaseType.REFSEQ.toDisplayName()); // _type
+        dbReferences.add(UniParcDatabase.REFSEQ.toDisplayName()); // _type
         dbReferences.add(10L); // _version_i
         dbReferences.add("Y"); // _active
         dbReferences.add(11L); // _version

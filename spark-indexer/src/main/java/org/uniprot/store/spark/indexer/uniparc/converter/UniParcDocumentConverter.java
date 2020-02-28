@@ -5,7 +5,7 @@ import java.util.stream.Collectors;
 
 import org.uniprot.core.Property;
 import org.uniprot.core.uniparc.UniParcDBCrossReference;
-import org.uniprot.core.uniparc.UniParcDatabaseType;
+import org.uniprot.core.uniparc.UniParcDatabase;
 import org.uniprot.core.uniparc.UniParcEntry;
 import org.uniprot.core.uniprot.taxonomy.Taxonomy;
 import org.uniprot.store.job.common.converter.DocumentConverter;
@@ -41,17 +41,17 @@ public class UniParcDocumentConverter implements DocumentConverter<UniParcEntry,
 
     private void processDbReference(
             UniParcDBCrossReference xref, UniParcDocument.UniParcDocumentBuilder builder) {
-        UniParcDatabaseType type = xref.getDatabaseType();
+        UniParcDatabase type = xref.getDatabaseType();
         if (xref.isActive()) {
             builder.active(type.toDisplayName());
         }
         builder.database(type.toDisplayName());
-        if ((type == UniParcDatabaseType.SWISSPROT) || (type == UniParcDatabaseType.TREMBL)) {
+        if ((type == UniParcDatabase.SWISSPROT) || (type == UniParcDatabase.TREMBL)) {
             builder.uniprotAccession(xref.getId());
             builder.uniprotIsoform(xref.getId());
         }
 
-        if (type == UniParcDatabaseType.SWISSPROT_VARSPLIC) {
+        if (type == UniParcDatabase.SWISSPROT_VARSPLIC) {
             builder.uniprotIsoform(xref.getId());
         }
 

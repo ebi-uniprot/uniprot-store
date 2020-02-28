@@ -7,7 +7,7 @@ import org.uniprot.core.Sequence;
 import org.uniprot.core.impl.SequenceImpl;
 import org.uniprot.core.uniparc.SequenceFeature;
 import org.uniprot.core.uniparc.UniParcDBCrossReference;
-import org.uniprot.core.uniparc.UniParcDatabaseType;
+import org.uniprot.core.uniparc.UniParcDatabase;
 import org.uniprot.core.uniparc.UniParcEntry;
 import org.uniprot.core.uniparc.builder.SequenceFeatureBuilder;
 import org.uniprot.core.uniparc.builder.UniParcDBCrossReferenceBuilder;
@@ -24,7 +24,7 @@ class UniParcDocumentConverterTest {
 
     @Test
     void convertSwissProt() {
-        UniParcEntry entry = getUniParcEntry(UniParcDatabaseType.SWISSPROT);
+        UniParcEntry entry = getUniParcEntry(UniParcDatabase.SWISSPROT);
         UniParcDocumentConverter converter = new UniParcDocumentConverter();
         UniParcDocument result = converter.convert(entry);
 
@@ -50,7 +50,7 @@ class UniParcDocumentConverterTest {
 
     @Test
     void convertIsoForm() {
-        UniParcEntry entry = getUniParcEntry(UniParcDatabaseType.SWISSPROT_VARSPLIC);
+        UniParcEntry entry = getUniParcEntry(UniParcDatabase.SWISSPROT_VARSPLIC);
         UniParcDocumentConverter converter = new UniParcDocumentConverter();
         UniParcDocument result = converter.convert(entry);
 
@@ -113,7 +113,7 @@ class UniParcDocumentConverterTest {
         assertTrue(result.getContent().containsAll(result.getUniprotIsoforms()));
     }
 
-    private UniParcEntry getUniParcEntry(UniParcDatabaseType type) {
+    private UniParcEntry getUniParcEntry(UniParcDatabase type) {
         return new UniParcEntryBuilder()
                 .uniParcId("uniParcIdValue")
                 .uniprotExclusionReason("")
@@ -129,7 +129,7 @@ class UniParcDocumentConverterTest {
         return new SequenceFeatureBuilder().signatureDbId("signatureDbIdValue").build();
     }
 
-    private UniParcDBCrossReference getDatabaseCrossReferences(UniParcDatabaseType type) {
+    private UniParcDBCrossReference getDatabaseCrossReferences(UniParcDatabase type) {
         return new UniParcDBCrossReferenceBuilder()
                 .id(type.getName() + "IdValue")
                 .databaseType(type)
@@ -143,7 +143,7 @@ class UniParcDocumentConverterTest {
     private UniParcDBCrossReference getInactiveDatabaseCrossReferences() {
         return new UniParcDBCrossReferenceBuilder()
                 .id("inactiveIdValue")
-                .databaseType(UniParcDatabaseType.EMBL)
+                .databaseType(UniParcDatabase.EMBL)
                 .version(99)
                 .versionI(199)
                 .active(false)

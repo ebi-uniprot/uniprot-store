@@ -18,7 +18,7 @@ import org.uniprot.core.gene.Gene;
 import org.uniprot.core.scorer.uniprotkb.UniProtEntryScored;
 import org.uniprot.core.uniprot.*;
 import org.uniprot.core.uniprot.evidence.Evidence;
-import org.uniprot.core.uniprot.evidence.EvidenceTypeCategory;
+import org.uniprot.core.uniprot.evidence.EvidenceDatabaseCategory;
 import org.uniprot.core.util.Utils;
 import org.uniprot.store.indexer.util.DateUtils;
 import org.uniprot.store.job.common.DocumentConversionException;
@@ -141,7 +141,7 @@ public class UniProtEntryConverter
                                 val ->
                                         (Utils.notNull(val))
                                                 && val.getDetail().getCategory()
-                                                        == EvidenceTypeCategory.A)
+                                                        == EvidenceDatabaseCategory.A)
                         .map(
                                 val -> {
                                     String data = val.getName();

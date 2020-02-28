@@ -3,7 +3,7 @@ package org.uniprot.store.indexer.literature.reader;
 import org.springframework.batch.item.*;
 import org.springframework.batch.item.file.FlatFileItemReader;
 import org.uniprot.core.DBCrossReference;
-import org.uniprot.core.citation.CitationXrefType;
+import org.uniprot.core.citation.CitationDatabase;
 import org.uniprot.core.literature.LiteratureStoreEntry;
 import org.uniprot.core.literature.builder.LiteratureStoreEntryBuilder;
 
@@ -26,7 +26,7 @@ public class LiteratureMappingItemReader implements ItemReader<LiteratureStoreEn
             String entryPubmedId =
                     entry.getLiteratureEntry()
                             .getCitation()
-                            .getCitationXrefsByType(CitationXrefType.PUBMED)
+                            .getCitationXrefsByType(CitationDatabase.PUBMED)
                             .map(DBCrossReference::getId)
                             .orElse("");
             LiteratureStoreEntryBuilder itemBuilder = LiteratureStoreEntryBuilder.from(entry);
@@ -35,7 +35,7 @@ public class LiteratureMappingItemReader implements ItemReader<LiteratureStoreEn
                         nextEntry
                                 .getLiteratureEntry()
                                 .getCitation()
-                                .getCitationXrefsByType(CitationXrefType.PUBMED)
+                                .getCitationXrefsByType(CitationDatabase.PUBMED)
                                 .map(DBCrossReference::getId)
                                 .orElse("");
                 if (entryPubmedId.equals(nextPubmedId)) {

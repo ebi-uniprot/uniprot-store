@@ -16,9 +16,9 @@ import org.uniprot.core.uniprot.evidence.EvidenceCode;
 import org.uniprot.core.uniprot.evidence.builder.EvidenceBuilder;
 import org.uniprot.core.uniprot.feature.AlternativeSequence;
 import org.uniprot.core.uniprot.feature.Feature;
+import org.uniprot.core.uniprot.feature.FeatureDatabase;
 import org.uniprot.core.uniprot.feature.FeatureLocation;
 import org.uniprot.core.uniprot.feature.FeatureType;
-import org.uniprot.core.uniprot.feature.FeatureXDbType;
 import org.uniprot.core.uniprot.feature.builder.AlternativeSequenceBuilder;
 import org.uniprot.core.uniprot.feature.builder.FeatureBuilder;
 import org.uniprot.store.search.document.uniprot.UniProtDocument;
@@ -93,9 +93,9 @@ class UniProtEntryFeatureConverterTest {
                         .alternativeSequencesAdd("alternative value")
                         .build();
 
-        DBCrossReference<FeatureXDbType> xrefs =
-                new DBCrossReferenceBuilder<FeatureXDbType>()
-                        .databaseType(FeatureXDbType.DBSNP)
+        DBCrossReference<FeatureDatabase> xrefs =
+                new DBCrossReferenceBuilder<FeatureDatabase>()
+                        .databaseType(FeatureDatabase.DBSNP)
                         .id("DBSNP-12345")
                         .build();
 

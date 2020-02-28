@@ -11,7 +11,7 @@ import org.apache.solr.client.solrj.response.QueryResponse;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;
-import org.uniprot.core.uniparc.UniParcDatabaseType;
+import org.uniprot.core.uniparc.UniParcDatabase;
 import org.uniprot.core.xml.jaxb.uniparc.DbReferenceType;
 import org.uniprot.core.xml.jaxb.uniparc.Entry;
 import org.uniprot.store.search.field.QueryBuilder;
@@ -35,7 +35,7 @@ class OrganismSearchIT {
             Entry entry = TestUtils.createDefaultUniParcEntry();
             entry.setAccession(ID_1);
             DbReferenceType xref =
-                    TestUtils.createXref(UniParcDatabaseType.TREMBL.getName(), "P47986", "Y");
+                    TestUtils.createXref(UniParcDatabase.TREMBL.getName(), "P47986", "Y");
             xref.getProperty().add(TestUtils.createProperty("NCBI_taxonomy_id", "" + HUMAN_TAX_ID));
             entry.getDbReference().add(xref);
             searchEngine.indexEntry(entry);
@@ -46,7 +46,7 @@ class OrganismSearchIT {
             Entry entry = TestUtils.createDefaultUniParcEntry();
             entry.setAccession(ID_2);
             DbReferenceType xref =
-                    TestUtils.createXref(UniParcDatabaseType.TREMBL.getName(), "P47986", "Y");
+                    TestUtils.createXref(UniParcDatabase.TREMBL.getName(), "P47986", "Y");
             xref.getProperty()
                     .add(TestUtils.createProperty("NCBI_taxonomy_id", "" + EGGPLANT_TAX_ID));
             entry.getDbReference().add(xref);

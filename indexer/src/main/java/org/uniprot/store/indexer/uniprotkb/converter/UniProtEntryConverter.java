@@ -17,7 +17,7 @@ import org.uniprot.core.gene.Gene;
 import org.uniprot.core.scorer.uniprotkb.UniProtEntryScored;
 import org.uniprot.core.uniprot.*;
 import org.uniprot.core.uniprot.evidence.Evidence;
-import org.uniprot.core.uniprot.evidence.EvidenceTypeCategory;
+import org.uniprot.core.uniprot.evidence.EvidenceDatabaseCategory;
 import org.uniprot.core.util.Utils;
 import org.uniprot.cv.chebi.ChebiRepo;
 import org.uniprot.cv.ec.ECRepo;
@@ -157,7 +157,7 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtEntry, Un
                                 val ->
                                         (val != null)
                                                 && val.getDetail().getCategory()
-                                                        == EvidenceTypeCategory.A)
+                                                        == EvidenceDatabaseCategory.A)
                         .map(
                                 val -> {
                                     String data = val.getName();

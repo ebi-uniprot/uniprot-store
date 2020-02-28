@@ -165,7 +165,7 @@ public class DatasetUniParcEntryConverter implements MapFunction<Row, UniParcEnt
         }
         if (hasFieldName(TYPE, rowValue)) {
             String databaseType = rowValue.getString(rowValue.fieldIndex(TYPE));
-            builder.databaseType(UniParcDatabaseType.typeOf(databaseType));
+            builder.databaseType(UniParcDatabase.typeOf(databaseType));
         }
         if (hasFieldName(VERSION_I, rowValue)) {
             builder.versionI((int) rowValue.getLong(rowValue.fieldIndex(VERSION_I)));

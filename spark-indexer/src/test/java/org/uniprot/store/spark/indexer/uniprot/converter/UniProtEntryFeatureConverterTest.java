@@ -89,9 +89,9 @@ class UniProtEntryFeatureConverterTest {
                         .alternativeSequencesAdd("alternative value")
                         .build();
 
-        DBCrossReference<FeatureXDbType> xrefs =
-                new DBCrossReferenceBuilder<FeatureXDbType>()
-                        .databaseType(FeatureXDbType.DBSNP)
+        DBCrossReference<FeatureDatabase> xrefs =
+                new DBCrossReferenceBuilder<FeatureDatabase>()
+                        .databaseType(FeatureDatabase.DBSNP)
                         .id("DBSNP-12345")
                         .build();
 
