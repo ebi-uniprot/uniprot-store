@@ -1,5 +1,10 @@
 package org.uniprot.store.config.searchfield.schema;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Stream;
+
 import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
@@ -14,11 +19,6 @@ import org.uniprot.store.config.searchfield.common.TestSearchFieldConfig;
 import org.uniprot.store.config.searchfield.impl.*;
 import org.uniprot.store.config.searchfield.model.SearchFieldItem;
 import org.uniprot.store.config.searchfield.model.SearchFieldItemType;
-
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Stream;
 
 public class DataValidatorTest {
 

@@ -99,7 +99,7 @@ public class UniProtKBSearchFieldConfigTest {
         // get Catalytic Activity children
         List<SearchFieldItem> catActChildren =
                 searchFieldConfig.getAllFieldItems().stream()
-                        .filter(fi -> "Catalytic Activity".equals(fi.getParentId()))
+                        .filter(fi -> "catalytic_activity".equals(fi.getParentId()))
                         .collect(Collectors.toList());
         assertEquals(2, catActChildren.size());
 
