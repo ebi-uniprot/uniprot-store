@@ -18,7 +18,7 @@ import org.uniprot.core.Property;
 import org.uniprot.core.uniparc.*;
 import org.uniprot.core.uniparc.builder.InterProGroupBuilder;
 import org.uniprot.core.uniparc.builder.SequenceFeatureBuilder;
-import org.uniprot.core.uniparc.builder.UniParcDBCrossReferenceBuilder;
+import org.uniprot.core.uniparc.builder.UniParcCrossReferenceBuilder;
 import org.uniprot.core.uniparc.builder.UniParcEntryBuilder;
 import org.uniprot.core.uniprot.taxonomy.builder.TaxonomyBuilder;
 import org.uniprot.store.spark.indexer.util.RowUtils;
@@ -67,7 +67,7 @@ public class DatasetUniParcEntryConverter implements MapFunction<Row, UniParcEnt
             List<Row> dbReferences = rowValue.getList(rowValue.fieldIndex(DB_REFERENCE));
             Set<Long> taxIds = new HashSet<>();
             for (Row dbReference : dbReferences) {
-                UniParcDBCrossReference xref = convertDbReference(dbReference);
+                UniParcCrossReference xref = convertDbReference(dbReference);
                 builder.databaseCrossReferencesAdd(xref);
                 xref.getProperties().stream()
                         .filter(property -> isTaxonomyProperty(property.getKey()))
@@ -97,7 +97,7 @@ public class DatasetUniParcEntryConverter implements MapFunction<Row, UniParcEnt
     }
 
     private boolean isTaxonomyProperty(String key) {
-        return key.equalsIgnoreCase(UniParcDBCrossReference.PROPERTY_NCBI_TAXONOMY_ID);
+        return key.equalsIgnoreCase(UniParcCrossReference.PROPERTY_NCBI_TAXONOMY_ID);
     }
 
     public static StructType getUniParcXMLSchema() {
@@ -157,8 +157,8 @@ public class DatasetUniParcEntryConverter implements MapFunction<Row, UniParcEnt
         return new Location(start.intValue(), end.intValue());
     }
 
-    private UniParcDBCrossReference convertDbReference(Row rowValue) {
-        UniParcDBCrossReferenceBuilder builder = new UniParcDBCrossReferenceBuilder();
+    private UniParcCrossReference convertDbReference(Row rowValue) {
+        UniParcCrossReferenceBuilder builder = new UniParcCrossReferenceBuilder();
 
         if (hasFieldName(ID, rowValue)) {
             builder.id(rowValue.getString(rowValue.fieldIndex(ID)));

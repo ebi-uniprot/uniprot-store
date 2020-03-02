@@ -5,8 +5,8 @@ import java.nio.ByteBuffer;
 import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.batch.item.ItemProcessor;
-import org.uniprot.core.DBCrossReference;
-import org.uniprot.core.builder.DBCrossReferenceBuilder;
+import org.uniprot.core.CrossReference;
+import org.uniprot.core.builder.CrossReferenceBuilder;
 import org.uniprot.core.citation.CitationDatabase;
 import org.uniprot.core.citation.Literature;
 import org.uniprot.core.citation.builder.LiteratureBuilder;
@@ -42,8 +42,8 @@ public class LiteratureStatisticsProcessor
                         .reviewedProteinCount(literatureCount.getReviewedProteinCount())
                         .unreviewedProteinCount(literatureCount.getUnreviewedProteinCount())
                         .build();
-        DBCrossReference<CitationDatabase> pubmedXref =
-                new DBCrossReferenceBuilder<CitationDatabase>()
+        CrossReference<CitationDatabase> pubmedXref =
+                new CrossReferenceBuilder<CitationDatabase>()
                         .databaseType(CitationDatabase.PUBMED)
                         .id(String.valueOf(literatureCount.getPubmedId()))
                         .build();

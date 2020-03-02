@@ -4,7 +4,7 @@ import java.nio.ByteBuffer;
 import java.util.List;
 
 import org.uniprot.core.json.parser.uniparc.UniParcJsonConfig;
-import org.uniprot.core.uniparc.UniParcDBCrossReference;
+import org.uniprot.core.uniparc.UniParcCrossReference;
 import org.uniprot.core.uniparc.UniParcDatabase;
 import org.uniprot.core.uniparc.UniParcEntry;
 import org.uniprot.core.uniprot.taxonomy.Taxonomy;
@@ -48,8 +48,8 @@ public class UniParcDocumentConverter implements DocumentConverter<Entry, UniPar
         return builder.build();
     }
 
-    private void processDbReference(UniParcDBCrossReference xref, UniParcDocumentBuilder builder) {
-        UniParcDatabase type = xref.getDatabaseType();
+    private void processDbReference(UniParcCrossReference xref, UniParcDocumentBuilder builder) {
+        UniParcDatabase type = xref.getDatabase();
         if (xref.isActive()) {
             builder.active(type.toDisplayName());
         }
@@ -63,17 +63,17 @@ public class UniParcDocumentConverter implements DocumentConverter<Entry, UniPar
             builder.uniprotIsoform(xref.getId());
         }
         xref.getProperties().stream()
-                .filter(val -> val.getKey().equals(UniParcDBCrossReference.PROPERTY_PROTEOME_ID))
+                .filter(val -> val.getKey().equals(UniParcCrossReference.PROPERTY_PROTEOME_ID))
                 .map(val -> val.getValue())
                 .forEach(val -> builder.upid(val));
 
         xref.getProperties().stream()
-                .filter(val -> val.getKey().equals(UniParcDBCrossReference.PROPERTY_PROTEIN_NAME))
+                .filter(val -> val.getKey().equals(UniParcCrossReference.PROPERTY_PROTEIN_NAME))
                 .map(val -> val.getValue())
                 .forEach(val -> builder.proteinName(val));
 
         xref.getProperties().stream()
-                .filter(val -> val.getKey().equals(UniParcDBCrossReference.PROPERTY_GENE_NAME))
+                .filter(val -> val.getKey().equals(UniParcCrossReference.PROPERTY_GENE_NAME))
                 .map(val -> val.getValue())
                 .forEach(val -> builder.geneName(val));
     }

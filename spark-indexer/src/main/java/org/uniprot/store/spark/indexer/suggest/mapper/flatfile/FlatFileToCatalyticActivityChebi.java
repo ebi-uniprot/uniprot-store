@@ -3,7 +3,7 @@ package org.uniprot.store.spark.indexer.suggest.mapper.flatfile;
 import java.util.*;
 
 import org.apache.spark.api.java.function.PairFlatMapFunction;
-import org.uniprot.core.DBCrossReference;
+import org.uniprot.core.CrossReference;
 import org.uniprot.core.uniprot.comment.*;
 import org.uniprot.core.util.Utils;
 import org.uniprot.store.spark.indexer.suggest.SuggesterUtil;
@@ -40,12 +40,12 @@ public class FlatFileToCatalyticActivityChebi
                                         (CatalyticActivityComment) catalytic;
                                 Reaction reaction = comment.getReaction();
                                 if (reaction.hasReactionReferences()) {
-                                    List<DBCrossReference<ReactionDatabase>> references =
+                                    List<CrossReference<ReactionDatabase>> references =
                                             reaction.getReactionReferences();
                                     references.stream()
                                             .filter(
                                                     ref ->
-                                                            ref.getDatabaseType()
+                                                            ref.getDatabase()
                                                                     == ReactionDatabase.CHEBI)
                                             .forEach(
                                                     val -> {

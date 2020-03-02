@@ -6,11 +6,11 @@ import org.junit.jupiter.api.Test;
 import org.uniprot.core.Sequence;
 import org.uniprot.core.impl.SequenceImpl;
 import org.uniprot.core.uniparc.SequenceFeature;
-import org.uniprot.core.uniparc.UniParcDBCrossReference;
+import org.uniprot.core.uniparc.UniParcCrossReference;
 import org.uniprot.core.uniparc.UniParcDatabase;
 import org.uniprot.core.uniparc.UniParcEntry;
 import org.uniprot.core.uniparc.builder.SequenceFeatureBuilder;
-import org.uniprot.core.uniparc.builder.UniParcDBCrossReferenceBuilder;
+import org.uniprot.core.uniparc.builder.UniParcCrossReferenceBuilder;
 import org.uniprot.core.uniparc.builder.UniParcEntryBuilder;
 import org.uniprot.core.uniprot.taxonomy.Taxonomy;
 import org.uniprot.core.uniprot.taxonomy.builder.TaxonomyBuilder;
@@ -129,19 +129,19 @@ class UniParcDocumentConverterTest {
         return new SequenceFeatureBuilder().signatureDbId("signatureDbIdValue").build();
     }
 
-    private UniParcDBCrossReference getDatabaseCrossReferences(UniParcDatabase type) {
-        return new UniParcDBCrossReferenceBuilder()
+    private UniParcCrossReference getDatabaseCrossReferences(UniParcDatabase type) {
+        return new UniParcCrossReferenceBuilder()
                 .id(type.getName() + "IdValue")
                 .databaseType(type)
-                .propertiesAdd(UniParcDBCrossReference.PROPERTY_GENE_NAME, "geneNameValue")
-                .propertiesAdd(UniParcDBCrossReference.PROPERTY_PROTEIN_NAME, "proteinNameValue")
-                .propertiesAdd(UniParcDBCrossReference.PROPERTY_PROTEOME_ID, "proteomeIdValue")
+                .propertiesAdd(UniParcCrossReference.PROPERTY_GENE_NAME, "geneNameValue")
+                .propertiesAdd(UniParcCrossReference.PROPERTY_PROTEIN_NAME, "proteinNameValue")
+                .propertiesAdd(UniParcCrossReference.PROPERTY_PROTEOME_ID, "proteomeIdValue")
                 .active(true)
                 .build();
     }
 
-    private UniParcDBCrossReference getInactiveDatabaseCrossReferences() {
-        return new UniParcDBCrossReferenceBuilder()
+    private UniParcCrossReference getInactiveDatabaseCrossReferences() {
+        return new UniParcCrossReferenceBuilder()
                 .id("inactiveIdValue")
                 .databaseType(UniParcDatabase.EMBL)
                 .version(99)

@@ -13,8 +13,8 @@ import org.uniprot.core.uniprot.builder.UniProtEntryBuilder;
 import org.uniprot.core.uniprot.evidence.Evidence;
 import org.uniprot.core.uniprot.evidence.EvidenceCode;
 import org.uniprot.core.uniprot.evidence.builder.EvidenceBuilder;
-import org.uniprot.core.uniprot.xdb.UniProtDBCrossReference;
-import org.uniprot.core.uniprot.xdb.builder.UniProtDBCrossReferenceBuilder;
+import org.uniprot.core.uniprot.xdb.UniProtCrossReference;
+import org.uniprot.core.uniprot.xdb.builder.UniProtCrossReferenceBuilder;
 import org.uniprot.cv.xdb.UniProtDatabaseImpl;
 
 import scala.Tuple2;
@@ -29,14 +29,14 @@ class GOEvidenceMapperTest {
     void testMapGoEvidences() throws Exception {
 
         // given
-        UniProtDBCrossReference goCrossReference =
-                new UniProtDBCrossReferenceBuilder()
+        UniProtCrossReference goCrossReference =
+                new UniProtCrossReferenceBuilder()
                         .databaseType(new UniProtDatabaseImpl("GO"))
                         .id("GO:12345")
                         .build();
 
-        UniProtDBCrossReference otherGoCrossReference =
-                new UniProtDBCrossReferenceBuilder()
+        UniProtCrossReference otherGoCrossReference =
+                new UniProtCrossReferenceBuilder()
                         .databaseType(new UniProtDatabaseImpl("GO"))
                         .id("GO:11111")
                         .build();
@@ -68,25 +68,25 @@ class GOEvidenceMapperTest {
         assertNotNull(result);
         assertEquals(2, result.getDatabaseCrossReferences().size());
 
-        java.util.Optional<UniProtDBCrossReference> withEvidence =
+        java.util.Optional<UniProtCrossReference> withEvidence =
                 result.getDatabaseCrossReferences().stream()
-                        .filter(UniProtDBCrossReference::hasEvidences)
+                        .filter(UniProtCrossReference::hasEvidences)
                         .findFirst();
 
         assertTrue(withEvidence.isPresent());
-        UniProtDBCrossReference xrefWithEvidence = withEvidence.get();
+        UniProtCrossReference xrefWithEvidence = withEvidence.get();
 
         assertEquals("GO:12345", xrefWithEvidence.getId());
         assertEquals(1, xrefWithEvidence.getEvidences().size());
         assertEquals(evidence, xrefWithEvidence.getEvidences().get(0));
 
-        java.util.Optional<UniProtDBCrossReference> withoutEvidence =
+        java.util.Optional<UniProtCrossReference> withoutEvidence =
                 result.getDatabaseCrossReferences().stream()
                         .filter(xref -> !xref.hasEvidences())
                         .findFirst();
 
         assertTrue(withoutEvidence.isPresent());
-        UniProtDBCrossReference xrefWithoutEvidence = withoutEvidence.get();
+        UniProtCrossReference xrefWithoutEvidence = withoutEvidence.get();
         assertEquals("GO:11111", xrefWithoutEvidence.getId());
         assertEquals(0, xrefWithoutEvidence.getEvidences().size());
     }
@@ -95,14 +95,14 @@ class GOEvidenceMapperTest {
     void testWithoutGoEvidencesEmptyList() throws Exception {
 
         // given
-        UniProtDBCrossReference goCrossReference =
-                new UniProtDBCrossReferenceBuilder()
+        UniProtCrossReference goCrossReference =
+                new UniProtCrossReferenceBuilder()
                         .databaseType(new UniProtDatabaseImpl("GO"))
                         .id("GO:12345")
                         .build();
 
-        UniProtDBCrossReference otherGoCrossReference =
-                new UniProtDBCrossReferenceBuilder()
+        UniProtCrossReference otherGoCrossReference =
+                new UniProtCrossReferenceBuilder()
                         .databaseType(new UniProtDatabaseImpl("PDB"))
                         .id("PDB11111")
                         .build();
@@ -124,9 +124,9 @@ class GOEvidenceMapperTest {
         assertNotNull(result);
         assertEquals(2, result.getDatabaseCrossReferences().size());
 
-        java.util.Optional<UniProtDBCrossReference> withEvidence =
+        java.util.Optional<UniProtCrossReference> withEvidence =
                 result.getDatabaseCrossReferences().stream()
-                        .filter(UniProtDBCrossReference::hasEvidences)
+                        .filter(UniProtCrossReference::hasEvidences)
                         .findFirst();
 
         assertFalse(withEvidence.isPresent());
@@ -136,14 +136,14 @@ class GOEvidenceMapperTest {
     void testWithoutGoEvidencesEmptyOptional() throws Exception {
 
         // given
-        UniProtDBCrossReference goCrossReference =
-                new UniProtDBCrossReferenceBuilder()
+        UniProtCrossReference goCrossReference =
+                new UniProtCrossReferenceBuilder()
                         .databaseType(new UniProtDatabaseImpl("GO"))
                         .id("GO:12345")
                         .build();
 
-        UniProtDBCrossReference otherGoCrossReference =
-                new UniProtDBCrossReferenceBuilder()
+        UniProtCrossReference otherGoCrossReference =
+                new UniProtCrossReferenceBuilder()
                         .databaseType(new UniProtDatabaseImpl("GO"))
                         .id("GO:11111")
                         .build();
@@ -165,9 +165,9 @@ class GOEvidenceMapperTest {
         assertNotNull(result);
         assertEquals(2, result.getDatabaseCrossReferences().size());
 
-        java.util.Optional<UniProtDBCrossReference> withEvidence =
+        java.util.Optional<UniProtCrossReference> withEvidence =
                 result.getDatabaseCrossReferences().stream()
-                        .filter(UniProtDBCrossReference::hasEvidences)
+                        .filter(UniProtCrossReference::hasEvidences)
                         .findFirst();
 
         assertFalse(withEvidence.isPresent());

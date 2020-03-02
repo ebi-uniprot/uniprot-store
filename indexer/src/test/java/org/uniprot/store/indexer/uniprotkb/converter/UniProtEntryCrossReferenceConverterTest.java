@@ -16,9 +16,9 @@ import org.uniprot.core.cv.go.builder.GeneOntologyEntryBuilder;
 import org.uniprot.core.uniprot.evidence.Evidence;
 import org.uniprot.core.uniprot.evidence.EvidenceCode;
 import org.uniprot.core.uniprot.evidence.builder.EvidenceBuilder;
-import org.uniprot.core.uniprot.xdb.UniProtDBCrossReference;
+import org.uniprot.core.uniprot.xdb.UniProtCrossReference;
 import org.uniprot.core.uniprot.xdb.UniProtDatabase;
-import org.uniprot.core.uniprot.xdb.builder.UniProtDBCrossReferenceBuilder;
+import org.uniprot.core.uniprot.xdb.builder.UniProtCrossReferenceBuilder;
 import org.uniprot.cv.xdb.UniProtDatabaseImpl;
 import org.uniprot.store.indexer.uniprot.go.GoRelationRepo;
 import org.uniprot.store.search.document.suggest.SuggestDocument;
@@ -40,12 +40,12 @@ class UniProtEntryCrossReferenceConverterTest {
         UniProtEntryCrossReferenceConverter converter =
                 new UniProtEntryCrossReferenceConverter(goRelationRepo, suggestDocuments);
 
-        UniProtDBCrossReference xref =
+        UniProtCrossReference xref =
                 getUniProtDBCrossReference(
                         new UniProtDatabaseImpl("Proteomes"),
                         "id value",
                         new Property("Component", "PC12345"));
-        List<UniProtDBCrossReference> references = Collections.singletonList(xref);
+        List<UniProtCrossReference> references = Collections.singletonList(xref);
 
         converter.convertCrossReferences(references, document);
 
@@ -86,13 +86,13 @@ class UniProtEntryCrossReferenceConverterTest {
         UniProtEntryCrossReferenceConverter converter =
                 new UniProtEntryCrossReferenceConverter(goRelationRepo, suggestDocuments);
 
-        UniProtDBCrossReference xref =
+        UniProtCrossReference xref =
                 getUniProtDBCrossReference(
                         new UniProtDatabaseImpl("GO"),
                         "GO:12345",
                         new Property("GoTerm", "C:apical dendrite"),
                         new Property("GoEvidenceType", "IDA:UniProtKB"));
-        List<UniProtDBCrossReference> references = Collections.singletonList(xref);
+        List<UniProtCrossReference> references = Collections.singletonList(xref);
 
         converter.convertCrossReferences(references, document);
 
@@ -130,10 +130,10 @@ class UniProtEntryCrossReferenceConverterTest {
         UniProtEntryCrossReferenceConverter converter =
                 new UniProtEntryCrossReferenceConverter(goRelationRepo, suggestDocuments);
 
-        UniProtDBCrossReference xref =
+        UniProtCrossReference xref =
                 getUniProtDBCrossReference(
                         new UniProtDatabaseImpl("PDB"), "id value", new Property("id", "PDB12345"));
-        List<UniProtDBCrossReference> references = Collections.singletonList(xref);
+        List<UniProtCrossReference> references = Collections.singletonList(xref);
 
         converter.convertCrossReferences(references, document);
 
@@ -161,13 +161,13 @@ class UniProtEntryCrossReferenceConverterTest {
         UniProtEntryCrossReferenceConverter converter =
                 new UniProtEntryCrossReferenceConverter(goRelationRepo, suggestDocuments);
 
-        UniProtDBCrossReference xref =
+        UniProtCrossReference xref =
                 getUniProtDBCrossReference(
                         new UniProtDatabaseImpl("EMBL"),
                         "id value",
                         new Property("ProteinId", "EMBL12345"),
                         new Property("NotProteinId", "notIndexed"));
-        List<UniProtDBCrossReference> references = Collections.singletonList(xref);
+        List<UniProtCrossReference> references = Collections.singletonList(xref);
 
         converter.convertCrossReferences(references, document);
 
@@ -203,12 +203,12 @@ class UniProtEntryCrossReferenceConverterTest {
         UniProtEntryCrossReferenceConverter converter =
                 new UniProtEntryCrossReferenceConverter(goRelationRepo, suggestDocuments);
 
-        UniProtDBCrossReference xref =
+        UniProtCrossReference xref =
                 getUniProtDBCrossReference(
                         new UniProtDatabaseImpl("Ensembl"),
                         "id value",
                         new Property("ProteinId", "E12345"));
-        List<UniProtDBCrossReference> references = Collections.singletonList(xref);
+        List<UniProtCrossReference> references = Collections.singletonList(xref);
 
         converter.convertCrossReferences(references, document);
 
@@ -234,9 +234,9 @@ class UniProtEntryCrossReferenceConverterTest {
         assertEquals(1L, document.xrefCountMap.get("xref_count_ensembl"));
     }
 
-    private static UniProtDBCrossReference getUniProtDBCrossReference(
+    private static UniProtCrossReference getUniProtDBCrossReference(
             UniProtDatabase dbType, String id, Property... property) {
-        return new UniProtDBCrossReferenceBuilder()
+        return new UniProtCrossReferenceBuilder()
                 .id(id)
                 .isoformId("Q9NXB0-1")
                 .propertiesSet(Arrays.asList(property))

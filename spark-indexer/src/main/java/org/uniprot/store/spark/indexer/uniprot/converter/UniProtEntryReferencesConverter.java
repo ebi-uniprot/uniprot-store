@@ -4,7 +4,7 @@ import java.util.List;
 
 import lombok.extern.slf4j.Slf4j;
 
-import org.uniprot.core.DBCrossReference;
+import org.uniprot.core.CrossReference;
 import org.uniprot.core.citation.Citation;
 import org.uniprot.core.citation.CitationDatabase;
 import org.uniprot.core.citation.JournalArticle;
@@ -56,7 +56,7 @@ class UniProtEntryReferencesConverter {
                 convertPublicationDate(citation.getPublicationDate().getValue(), document);
             }
             if (citation.getCitationXrefsByType(CitationDatabase.PUBMED).isPresent()) {
-                DBCrossReference<CitationDatabase> pubmed =
+                CrossReference<CitationDatabase> pubmed =
                         citation.getCitationXrefsByType(CitationDatabase.PUBMED).get();
                 document.referencePubmeds.add(pubmed.getId());
                 document.content.add(pubmed.getId());

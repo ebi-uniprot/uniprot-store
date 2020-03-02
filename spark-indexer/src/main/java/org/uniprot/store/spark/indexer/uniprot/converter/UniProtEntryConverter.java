@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 
 import lombok.extern.slf4j.Slf4j;
 
-import org.uniprot.core.DBCrossReference;
+import org.uniprot.core.CrossReference;
 import org.uniprot.core.Sequence;
 import org.uniprot.core.cv.keyword.KeywordCategory;
 import org.uniprot.core.gene.Gene;
@@ -136,7 +136,7 @@ public class UniProtEntryConverter
                 evidences.stream()
                         .map(Evidence::getSource)
                         .filter(Objects::nonNull)
-                        .map(DBCrossReference::getDatabaseType)
+                        .map(CrossReference::getDatabase)
                         .filter(
                                 val ->
                                         (Utils.notNull(val))

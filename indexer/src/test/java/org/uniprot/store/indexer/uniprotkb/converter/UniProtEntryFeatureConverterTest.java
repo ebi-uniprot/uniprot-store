@@ -9,8 +9,8 @@ import java.util.HashSet;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
-import org.uniprot.core.DBCrossReference;
-import org.uniprot.core.builder.DBCrossReferenceBuilder;
+import org.uniprot.core.CrossReference;
+import org.uniprot.core.builder.CrossReferenceBuilder;
 import org.uniprot.core.uniprot.evidence.Evidence;
 import org.uniprot.core.uniprot.evidence.EvidenceCode;
 import org.uniprot.core.uniprot.evidence.builder.EvidenceBuilder;
@@ -93,8 +93,8 @@ class UniProtEntryFeatureConverterTest {
                         .alternativeSequencesAdd("alternative value")
                         .build();
 
-        DBCrossReference<FeatureDatabase> xrefs =
-                new DBCrossReferenceBuilder<FeatureDatabase>()
+        CrossReference<FeatureDatabase> xrefs =
+                new CrossReferenceBuilder<FeatureDatabase>()
                         .databaseType(FeatureDatabase.DBSNP)
                         .id("DBSNP-12345")
                         .build();

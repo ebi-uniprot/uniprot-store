@@ -10,8 +10,8 @@ import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.batch.item.file.mapping.DefaultLineMapper;
-import org.uniprot.core.DBCrossReference;
-import org.uniprot.core.builder.DBCrossReferenceBuilder;
+import org.uniprot.core.CrossReference;
+import org.uniprot.core.builder.CrossReferenceBuilder;
 import org.uniprot.core.citation.CitationDatabase;
 import org.uniprot.core.citation.Literature;
 import org.uniprot.core.citation.builder.LiteratureBuilder;
@@ -58,8 +58,8 @@ public class LiteratureMappingLineMapper extends DefaultLineMapper<LiteratureSto
                             .sourceCategoriesSet(categories)
                             .build();
 
-            DBCrossReference<CitationDatabase> xref =
-                    new DBCrossReferenceBuilder<CitationDatabase>()
+            CrossReference<CitationDatabase> xref =
+                    new CrossReferenceBuilder<CitationDatabase>()
                             .databaseType(CitationDatabase.PUBMED)
                             .id(lineFields[2])
                             .build();

@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.uniprot.core.Property;
-import org.uniprot.core.uniparc.UniParcDBCrossReference;
+import org.uniprot.core.uniparc.UniParcCrossReference;
 import org.uniprot.core.uniparc.UniParcDatabase;
 import org.uniprot.core.uniparc.UniParcEntry;
 import org.uniprot.core.uniprot.taxonomy.Taxonomy;
@@ -40,8 +40,8 @@ public class UniParcDocumentConverter implements DocumentConverter<UniParcEntry,
     }
 
     private void processDbReference(
-            UniParcDBCrossReference xref, UniParcDocument.UniParcDocumentBuilder builder) {
-        UniParcDatabase type = xref.getDatabaseType();
+            UniParcCrossReference xref, UniParcDocument.UniParcDocumentBuilder builder) {
+        UniParcDatabase type = xref.getDatabase();
         if (xref.isActive()) {
             builder.active(type.toDisplayName());
         }
@@ -56,17 +56,17 @@ public class UniParcDocumentConverter implements DocumentConverter<UniParcEntry,
         }
 
         xref.getProperties().stream()
-                .filter(val -> val.getKey().equals(UniParcDBCrossReference.PROPERTY_PROTEOME_ID))
+                .filter(val -> val.getKey().equals(UniParcCrossReference.PROPERTY_PROTEOME_ID))
                 .map(Property::getValue)
                 .forEach(builder::upid);
 
         xref.getProperties().stream()
-                .filter(val -> val.getKey().equals(UniParcDBCrossReference.PROPERTY_PROTEIN_NAME))
+                .filter(val -> val.getKey().equals(UniParcCrossReference.PROPERTY_PROTEIN_NAME))
                 .map(Property::getValue)
                 .forEach(builder::proteinName);
 
         xref.getProperties().stream()
-                .filter(val -> val.getKey().equals(UniParcDBCrossReference.PROPERTY_GENE_NAME))
+                .filter(val -> val.getKey().equals(UniParcCrossReference.PROPERTY_GENE_NAME))
                 .map(Property::getValue)
                 .forEach(builder::geneName);
 
