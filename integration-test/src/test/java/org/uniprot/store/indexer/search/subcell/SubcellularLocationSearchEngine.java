@@ -15,7 +15,7 @@ class SubcellularLocationSearchEngine extends AbstractSearchEngine<SubcellularLo
 
     @Override
     protected SearchFieldConfig getSearchFieldConfig() {
-        return SearchFieldConfigFactory.getSearchFieldConfig(UniProtDataType.subcelllocation);
+        return SearchFieldConfigFactory.getSearchFieldConfig(UniProtDataType.SUBCELLLOCATION);
     }
 
     @Override

@@ -18,12 +18,12 @@ public interface SearchFieldConfig {
 
     boolean isSearchFieldValueValid(String fieldName, String value);
 
-    boolean doesSearchFieldItemExist(String fieldName);
+    boolean searchFieldItemExists(String fieldName);
 
     // sort related methods
     SearchFieldItem getCorrespondingSortField(String searchFieldName);
 
-    boolean doesCorrespondingSortFieldExist(String searchFieldName);
+    boolean correspondingSortFieldExists(String searchFieldName);
 
     List<SearchFieldItem> getSortFieldItems();
 }

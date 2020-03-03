@@ -75,13 +75,13 @@ public class AbstractSearchFieldConfigTest {
     @Test
     void testDoesSearchFieldItemExist() {
         String fieldName = "go";
-        Assertions.assertTrue(testFieldConfig.doesSearchFieldItemExist(fieldName));
+        Assertions.assertTrue(testFieldConfig.searchFieldItemExists(fieldName));
     }
 
     @Test
     void testDoesSearchFieldItemExistWithNonExistingField() {
         String fieldName = "some random non-existing field";
-        Assertions.assertFalse(testFieldConfig.doesSearchFieldItemExist(fieldName));
+        Assertions.assertFalse(testFieldConfig.searchFieldItemExists(fieldName));
     }
 
     @Test
@@ -105,13 +105,13 @@ public class AbstractSearchFieldConfigTest {
     @Test
     void testDoesCorrespondingSortFieldExist() {
         String searchFieldName = "mnemonic";
-        Assertions.assertTrue(testFieldConfig.doesCorrespondingSortFieldExist(searchFieldName));
+        Assertions.assertTrue(testFieldConfig.correspondingSortFieldExists(searchFieldName));
     }
 
     @Test
     void testDoesCorrespondingSortFieldExistWithNonExistingSortField() {
         String searchFieldName = "some random search field";
-        Assertions.assertFalse(testFieldConfig.doesCorrespondingSortFieldExist(searchFieldName));
+        Assertions.assertFalse(testFieldConfig.correspondingSortFieldExists(searchFieldName));
     }
 
     @Test

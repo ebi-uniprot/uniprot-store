@@ -6,28 +6,22 @@ import java.util.stream.Collectors;
 import org.uniprot.core.cv.xdb.UniProtXDbTypeDetail;
 import org.uniprot.cv.xdb.UniProtXDbTypes;
 import org.uniprot.store.config.searchfield.common.AbstractSearchFieldConfig;
-import org.uniprot.store.config.searchfield.common.SearchFieldConfig;
+import org.uniprot.store.config.searchfield.factory.UniProtDataType;
 import org.uniprot.store.config.searchfield.model.SearchFieldDataType;
 import org.uniprot.store.config.searchfield.model.SearchFieldItem;
 import org.uniprot.store.config.searchfield.model.SearchFieldType;
 
-public class UniProtKBSearchFieldConfig extends AbstractSearchFieldConfig {
-    public static final String CONFIG_FILE = "search-fields-config/uniprotkb-search-fields.json";
+public class SearchFieldConfigImpl extends AbstractSearchFieldConfig {
     private static final String XREF_COUNT_PREFIX = "xref_count_";
+    private UniProtDataType dataType;
 
-    private UniProtKBSearchFieldConfig() {
-        super(SCHEMA_FILE, CONFIG_FILE);
-        // add db xref related count fields
-        List<SearchFieldItem> crossRefSearchItems = getCrossRefCountSearchFieldItems();
-        addSearchFieldItems(crossRefSearchItems);
-    }
-
-    private static class SearchFieldConfigHolder {
-        private static final SearchFieldConfig INSTANCE = new UniProtKBSearchFieldConfig();
-    }
-
-    public static SearchFieldConfig getInstance() {
-        return SearchFieldConfigHolder.INSTANCE;
+    public SearchFieldConfigImpl(UniProtDataType dataType, String configFile) {
+        super(SCHEMA_FILE, configFile);
+        this.dataType = dataType;
+        if (UniProtDataType.UNIPROTKB == this.dataType) { // add db xref related count fields
+            List<SearchFieldItem> crossRefSearchItems = getCrossRefCountSearchFieldItems();
+            addSearchFieldItems(crossRefSearchItems);
+        }
     }
 
     private List<SearchFieldItem> getCrossRefCountSearchFieldItems() {

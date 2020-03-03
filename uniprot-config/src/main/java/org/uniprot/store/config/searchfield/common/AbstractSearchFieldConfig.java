@@ -72,7 +72,7 @@ public abstract class AbstractSearchFieldConfig implements SearchFieldConfig {
     }
 
     @Override
-    public boolean doesSearchFieldItemExist(String fieldName) {
+    public boolean searchFieldItemExists(String fieldName) {
         boolean searchFieldExist = false;
         try {
             searchFieldExist = Objects.nonNull(this.getSearchFieldItemByName(fieldName));
@@ -98,7 +98,7 @@ public abstract class AbstractSearchFieldConfig implements SearchFieldConfig {
     }
 
     @Override
-    public boolean doesCorrespondingSortFieldExist(String searchFieldName) {
+    public boolean correspondingSortFieldExists(String searchFieldName) {
         boolean sortFieldExist = false;
         try {
             sortFieldExist = Objects.nonNull(getCorrespondingSortField(searchFieldName));

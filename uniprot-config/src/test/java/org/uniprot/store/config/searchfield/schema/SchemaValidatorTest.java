@@ -9,7 +9,7 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.uniprot.store.config.searchfield.common.AbstractSearchFieldConfig;
 import org.uniprot.store.config.searchfield.common.TestSearchFieldConfig;
-import org.uniprot.store.config.searchfield.impl.*;
+import org.uniprot.store.config.searchfield.factory.SearchFieldConfigFactory;
 
 public class SchemaValidatorTest {
 
@@ -25,18 +25,18 @@ public class SchemaValidatorTest {
     private static Stream<Arguments> provideConfigFiles() {
         String schemaFile = AbstractSearchFieldConfig.SCHEMA_FILE;
         return Stream.of(
-                Arguments.of(CrossRefSearchFieldConfig.CONFIG_FILE, schemaFile),
-                Arguments.of(DiseaseSearchFieldConfig.CONFIG_FILE, schemaFile),
-                Arguments.of(GeneCentricSearchFieldConfig.CONFIG_FILE, schemaFile),
-                Arguments.of(KeywordSearchFieldConfig.CONFIG_FILE, schemaFile),
-                Arguments.of(LiteratureSearchFieldConfig.CONFIG_FILE, schemaFile),
-                Arguments.of(ProteomeSearchFieldConfig.CONFIG_FILE, schemaFile),
-                Arguments.of(SubcellLocationSearchFieldConfig.CONFIG_FILE, schemaFile),
-                Arguments.of(SuggestSearchFieldConfig.CONFIG_FILE, schemaFile),
-                Arguments.of(TaxonomySearchFieldConfig.CONFIG_FILE, schemaFile),
-                Arguments.of(UniParcSearchFieldConfig.CONFIG_FILE, schemaFile),
-                Arguments.of(UniProtKBSearchFieldConfig.CONFIG_FILE, schemaFile),
-                Arguments.of(UniRefSearchFieldConfig.CONFIG_FILE, schemaFile),
+                Arguments.of(SearchFieldConfigFactory.CROSSREF_CONFIG_FILE, schemaFile),
+                Arguments.of(SearchFieldConfigFactory.DISEASE_CONFIG_FILE, schemaFile),
+                Arguments.of(SearchFieldConfigFactory.GENECENTRIC_CONFIG_FILE, schemaFile),
+                Arguments.of(SearchFieldConfigFactory.KEYWORD_CONFIG_FILE, schemaFile),
+                Arguments.of(SearchFieldConfigFactory.LITERATURE_CONFIG_FILE, schemaFile),
+                Arguments.of(SearchFieldConfigFactory.PROTEOME_CONFIG_FILE, schemaFile),
+                Arguments.of(SearchFieldConfigFactory.SUBCELLLOCATION_CONFIG_FILE, schemaFile),
+                Arguments.of(SearchFieldConfigFactory.SUGGEST_CONFIG_FILE, schemaFile),
+                Arguments.of(SearchFieldConfigFactory.TAXONOMY_CONFIG_FILE, schemaFile),
+                Arguments.of(SearchFieldConfigFactory.UNIPARC_CONFIG_FILE, schemaFile),
+                Arguments.of(SearchFieldConfigFactory.UNIPROTKB_CONFIG_FILE, schemaFile),
+                Arguments.of(SearchFieldConfigFactory.UNIREF_CONFIG_FILE, schemaFile),
                 Arguments.of(
                         TestSearchFieldConfig.TEST_SEARCH_FIELDS_CONFIG,
                         TestSearchFieldConfig.TEST_SCHEMA_CONFIG));
