@@ -89,7 +89,7 @@ public class SparkUtils {
             // Allow fair scheduling for parallel jobs
             sparkConf = sparkConf.set("spark.scheduler.mode", "FAIR");
         }
-        JavaSparkContext sparkContext =  new JavaSparkContext(sparkConf);
+        JavaSparkContext sparkContext = new JavaSparkContext(sparkConf);
         sparkContext.setLocalProperty("spark.scheduler.pool", "uniprotIndexerWriter");
         return sparkContext;
     }
