@@ -1,5 +1,7 @@
 package org.uniprot.store.spark.indexer.go.relations;
 
+import static org.uniprot.store.spark.indexer.util.SparkUtils.getInputReleaseDirPath;
+
 import java.util.*;
 
 import lombok.extern.slf4j.Slf4j;
@@ -25,9 +27,11 @@ public class GORelationRDDReader {
      * @return JavaPairRDD{key=goTermId, value={@link GOTerm with Ancestors(Relations)}}
      */
     public static JavaPairRDD<String, GOTerm> load(
-            ResourceBundle applicationConfig, JavaSparkContext sparkContext) {
+            ResourceBundle applicationConfig, JavaSparkContext sparkContext, String releaseName) {
 
-        String goRelationsFolder = applicationConfig.getString("go.relations.dir.path");
+        String releaseInputDir = getInputReleaseDirPath(applicationConfig, releaseName);
+        String goRelationsFolder =
+                releaseInputDir + applicationConfig.getString("go.relations.dir.path");
         GOTermFileReader goTermFileReader =
                 new GOTermFileReader(goRelationsFolder, sparkContext.hadoopConfiguration());
         List<GOTerm> goTerms = goTermFileReader.read();

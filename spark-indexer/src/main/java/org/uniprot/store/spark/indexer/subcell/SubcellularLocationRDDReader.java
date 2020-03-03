@@ -1,5 +1,7 @@
 package org.uniprot.store.spark.indexer.subcell;
 
+import static org.uniprot.store.spark.indexer.util.SparkUtils.getInputReleaseDirPath;
+
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -19,8 +21,9 @@ public class SubcellularLocationRDDReader {
 
     /** @return JavaPairRDD{key=subcellId, value={@link SubcellularLocationEntry}} */
     public static JavaPairRDD<String, SubcellularLocationEntry> load(
-            JavaSparkContext jsc, ResourceBundle applicationConfig) {
-        String filePath = applicationConfig.getString("subcell.file.path");
+            JavaSparkContext jsc, ResourceBundle applicationConfig, String releaseName) {
+        String releaseInputDir = getInputReleaseDirPath(applicationConfig, releaseName);
+        String filePath = releaseInputDir + applicationConfig.getString("subcell.file.path");
         SubcellularLocationFileReader fileReader = new SubcellularLocationFileReader();
         List<String> lines = SparkUtils.readLines(filePath, jsc.hadoopConfiguration());
         List<SubcellularLocationEntry> entries = fileReader.parseLines(lines);

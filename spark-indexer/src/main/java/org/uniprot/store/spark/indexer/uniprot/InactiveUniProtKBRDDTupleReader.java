@@ -1,5 +1,7 @@
 package org.uniprot.store.spark.indexer.uniprot;
 
+import static org.uniprot.store.spark.indexer.util.SparkUtils.getInputReleaseDirPath;
+
 import java.util.Collections;
 import java.util.ResourceBundle;
 
@@ -21,12 +23,15 @@ public class InactiveUniProtKBRDDTupleReader {
 
     /** @return an JavaPairRDD with <accession, UniProtDocument> for Inactive UniProt Entries. */
     public static JavaPairRDD<String, UniProtDocument> load(
-            SparkConf sparkConf, ResourceBundle applicationConfig) {
+            SparkConf sparkConf, ResourceBundle applicationConfig, String releaseName) {
         SparkSession spark = SparkSession.builder().config(sparkConf).getOrCreate();
         InactiveEntryAggregationMapper aggregationMapper = new InactiveEntryAggregationMapper();
+        String releaseInputDir = getInputReleaseDirPath(applicationConfig, releaseName);
+        String inactiveFile =
+                releaseInputDir + applicationConfig.getString("uniprot.inactive.file.path");
         return (JavaPairRDD<String, UniProtDocument>)
                 spark.read()
-                        .textFile(applicationConfig.getString("uniprot.inactive.file.path"))
+                        .textFile(inactiveFile)
                         .toJavaRDD()
                         .mapToPair(new InactiveFileToInactiveEntry())
                         .aggregateByKey(null, aggregationMapper, aggregationMapper)

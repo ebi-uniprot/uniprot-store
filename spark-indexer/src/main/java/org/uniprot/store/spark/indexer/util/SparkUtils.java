@@ -22,6 +22,18 @@ import org.uniprot.store.spark.indexer.WriteIndexDocumentsToHDFSMain;
 @Slf4j
 public class SparkUtils {
 
+    public static String getInputReleaseDirPath(
+            ResourceBundle applicationConfig, String releaseName) {
+        String inputDir = applicationConfig.getString("input.directory.path");
+        return inputDir + File.separator + releaseName + File.separator;
+    }
+
+    public static String getOutputReleaseDirPath(
+            ResourceBundle applicationConfig, String releaseName) {
+        String inputDir = applicationConfig.getString("output.directory.path");
+        return inputDir + File.separator + releaseName + File.separator;
+    }
+
     public static List<String> readLines(String filePath, Configuration hadoopConfig) {
         List<String> lines = new ArrayList<>();
         try (BufferedReader br =
@@ -73,8 +85,13 @@ public class SparkUtils {
                         .setMaster(sparkMaster);
         if (sparkMaster.startsWith("local")) {
             sparkConf = sparkConf.set("spark.driver.host", "localhost");
+        } else {
+            // Allow fair scheduling for parallel jobs
+            sparkConf = sparkConf.set("spark.scheduler.mode", "FAIR");
         }
-        return new JavaSparkContext(sparkConf);
+        JavaSparkContext sparkContext =  new JavaSparkContext(sparkConf);
+        sparkContext.setLocalProperty("spark.scheduler.pool", "uniprotIndexerWriter");
+        return sparkContext;
     }
 
     public static SolrCollection getSolrCollection(String collectionName) {

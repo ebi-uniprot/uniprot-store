@@ -4,10 +4,8 @@ import java.util.ResourceBundle;
 
 import org.apache.spark.api.java.JavaSparkContext;
 import org.uniprot.store.search.SolrCollection;
-import org.uniprot.store.spark.indexer.suggest.SuggestIndexer;
-import org.uniprot.store.spark.indexer.uniparc.UniParcIndexer;
-import org.uniprot.store.spark.indexer.uniprot.UniProtKBIndexer;
-import org.uniprot.store.spark.indexer.uniref.UniRefIndexer;
+import org.uniprot.store.spark.indexer.common.writer.DocumentsToHDFSWriter;
+import org.uniprot.store.spark.indexer.common.writer.DocumentsToHDFSWriterFactory;
 import org.uniprot.store.spark.indexer.util.SparkUtils;
 
 /**
@@ -17,31 +15,22 @@ import org.uniprot.store.spark.indexer.util.SparkUtils;
 public class WriteIndexDocumentsToHDFSMain {
 
     public static void main(String[] args) throws Exception {
-        if (args == null || args.length != 1) {
+        if (args == null || args.length != 2) {
             throw new IllegalArgumentException(
-                    "Invalid arguments. Expected args[0]= collection name (for example: uniprot)");
+                    "Invalid arguments. Expected "
+                            + "args[0]= collection name (for example: uniprot, uniparc, uniref or suggest) "
+                            + "args[1]= release name ?(for example: 2020_01");
         }
 
         ResourceBundle applicationConfig = SparkUtils.loadApplicationProperty();
         try (JavaSparkContext sparkContext = SparkUtils.loadSparkContext(applicationConfig)) {
             SolrCollection solrCollection = SparkUtils.getSolrCollection(args[0]);
-            switch (solrCollection) {
-                case uniprot:
-                    UniProtKBIndexer.writeIndexDocumentsToHDFS(sparkContext, applicationConfig);
-                    break;
-                case suggest:
-                    SuggestIndexer.writeIndexDocumentsToHDFS(sparkContext, applicationConfig);
-                    break;
-                case uniref:
-                    UniRefIndexer.writeIndexDocumentsToHDFS(sparkContext, applicationConfig);
-                    break;
-                case uniparc:
-                    UniParcIndexer.writeIndexDocumentsToHDFS(sparkContext, applicationConfig);
-                    break;
-                default:
-                    throw new UnsupportedOperationException(
-                            "Collection not yet supported by spark indexer");
-            }
+            String releaseName = args[1];
+
+            DocumentsToHDFSWriterFactory factory = new DocumentsToHDFSWriterFactory();
+            DocumentsToHDFSWriter writer = factory.createDocumentsToHDFSWriter(solrCollection);
+            writer.writeIndexDocumentsToHDFS(sparkContext, releaseName);
+
         } catch (Exception e) {
             throw new Exception("Unexpected error during index", e);
         }

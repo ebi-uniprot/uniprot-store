@@ -146,9 +146,7 @@ public class DatasetUniRefEntryConverter implements MapFunction<Row, UniRefEntry
                 RepresentativeMemberBuilder.from(convertMember(representativeMemberRow));
         if (hasFieldName(SEQUENCE, representativeMemberRow)) {
             Row sequence =
-                    (Row)
-                            representativeMemberRow.get(
-                                    representativeMemberRow.fieldIndex(SEQUENCE));
+                    (Row) representativeMemberRow.get(representativeMemberRow.fieldIndex(SEQUENCE));
             builder.sequence(RowUtils.convertSequence(sequence));
         }
         return builder.build();
@@ -201,7 +199,8 @@ public class DatasetUniRefEntryConverter implements MapFunction<Row, UniRefEntry
                     builder.organismTaxId(Long.valueOf(propertyMap.get(PROPERTY_TAXONOMY).get(0)));
                 }
                 if (propertyMap.containsKey(PROPERTY_LENGTH)) {
-                    builder.sequenceLength(Integer.valueOf(propertyMap.get(PROPERTY_LENGTH).get(0)));
+                    builder.sequenceLength(
+                            Integer.valueOf(propertyMap.get(PROPERTY_LENGTH).get(0)));
                 }
                 if (propertyMap.containsKey(PROPERTY_IS_SEED)) {
                     builder.isSeed(Boolean.valueOf(propertyMap.get(PROPERTY_IS_SEED).get(0)));

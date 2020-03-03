@@ -1,5 +1,7 @@
 package org.uniprot.store.spark.indexer.suggest;
 
+import static org.uniprot.store.spark.indexer.util.SparkUtils.getOutputReleaseDirPath;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -17,6 +19,7 @@ import org.uniprot.store.indexer.uniprotkb.config.SuggestionConfig;
 import org.uniprot.store.search.document.suggest.SuggestDictionary;
 import org.uniprot.store.search.document.suggest.SuggestDocument;
 import org.uniprot.store.spark.indexer.chebi.ChebiRDDReader;
+import org.uniprot.store.spark.indexer.common.writer.DocumentsToHDFSWriter;
 import org.uniprot.store.spark.indexer.ec.ECRDDReader;
 import org.uniprot.store.spark.indexer.go.relations.GORelationRDDReader;
 import org.uniprot.store.spark.indexer.go.relations.GOTerm;
@@ -38,32 +41,40 @@ import scala.Tuple2;
  * @author lgonzales
  * @since 2020-01-15
  */
-public class SuggestIndexer {
+public class SuggestDocumentsToHDFSWriter implements DocumentsToHDFSWriter {
+
+    private final ResourceBundle applicationConfig;
+
+    public SuggestDocumentsToHDFSWriter(ResourceBundle applicationConfig) {
+        this.applicationConfig = applicationConfig;
+    }
 
     /**
      * load all the data for SuggestDocument and write it into HDFS (Hadoop File System)
      *
      * @param sparkContext spark configuration
-     * @param applicationConfig config
+     * @param releaseName release name
      */
-    public static void writeIndexDocumentsToHDFS(
-            JavaSparkContext sparkContext, ResourceBundle applicationConfig) {
-
+    @Override
+    public void writeIndexDocumentsToHDFS(JavaSparkContext sparkContext, String releaseName) {
         JavaRDD<String> flatFileRDD =
                 (JavaRDD<String>)
-                        UniProtKBRDDTupleReader.loadFlatFileToRDD(sparkContext, applicationConfig);
+                        UniProtKBRDDTupleReader.loadFlatFileToRDD(
+                                sparkContext, applicationConfig, releaseName);
         int suggestPartition =
                 Integer.parseInt(applicationConfig.getString("suggest.partition.size"));
         JavaRDD<SuggestDocument> suggestRDD =
                 getMain(sparkContext) // MAIN
-                        .union(getKeyword(sparkContext, applicationConfig))
-                        .union(getSubcell(sparkContext, applicationConfig))
-                        .union(getEC(flatFileRDD, sparkContext, applicationConfig))
-                        .union(getChebi(flatFileRDD, sparkContext, applicationConfig))
-                        .union(getGo(flatFileRDD, sparkContext, applicationConfig))
-                        .union(getOrganism(flatFileRDD, sparkContext, applicationConfig))
+                        .union(getKeyword(sparkContext, releaseName))
+                        .union(getSubcell(sparkContext, releaseName))
+                        .union(getEC(flatFileRDD, sparkContext, releaseName))
+                        .union(getChebi(flatFileRDD, sparkContext, releaseName))
+                        .union(getGo(flatFileRDD, sparkContext, releaseName))
+                        .union(getOrganism(flatFileRDD, sparkContext))
                         .repartition(suggestPartition);
-        String hdfsPath = applicationConfig.getString("suggest.solr.documents.path");
+        String releaseOutputDir = getOutputReleaseDirPath(applicationConfig, releaseName);
+        String hdfsPath =
+                releaseOutputDir + applicationConfig.getString("suggest.solr.documents.path");
         SolrUtils.saveSolrInputDocumentRDD(suggestRDD, hdfsPath);
     }
 
@@ -71,7 +82,7 @@ public class SuggestIndexer {
      * @param sparkContext spark configuration
      * @return JavaRDD of SuggestDocument for uniprotkb main text search field
      */
-    private static JavaRDD<SuggestDocument> getMain(JavaSparkContext sparkContext) {
+    private JavaRDD<SuggestDocument> getMain(JavaSparkContext sparkContext) {
         List<SuggestDocument> mainList = SuggestionConfig.databaseSuggestions();
         return (JavaRDD<SuggestDocument>) sparkContext.parallelize(mainList);
     }
@@ -79,18 +90,15 @@ public class SuggestIndexer {
     /**
      * @param flatFileRDD JavaRDD<flatFile entry in String format>
      * @param sparkContext spark configuration
-     * @param applicationConfig config
      * @return JavaRDD of SuggestDocument with GOTerms (including ancestors) mapped from UniprotKB
      *     flat file entries
      */
-    private static JavaRDD<SuggestDocument> getGo(
-            JavaRDD<String> flatFileRDD,
-            JavaSparkContext sparkContext,
-            ResourceBundle applicationConfig) {
+    private JavaRDD<SuggestDocument> getGo(
+            JavaRDD<String> flatFileRDD, JavaSparkContext sparkContext, String releaseName) {
 
         // JavaPairRDD<goId, GoTerm>
         JavaPairRDD<String, GOTerm> goRelationsRDD =
-                GORelationRDDReader.load(applicationConfig, sparkContext);
+                GORelationRDDReader.load(applicationConfig, sparkContext, releaseName);
 
         // JavaPairRDD<goId,accession> goMapRDD --> extracted from flat file DR lines for GO
         JavaPairRDD<String, String> goMapRDD =
@@ -110,18 +118,15 @@ public class SuggestIndexer {
     /**
      * @param flatFileRDD JavaRDD<flatFile entry in String format>
      * @param sparkContext spark configuration
-     * @param applicationConfig config
      * @return JavaRDD of SuggestDocument with ChebiEntry information mapped from UniprotKB flat
      *     file entries
      */
-    private static JavaRDD<SuggestDocument> getChebi(
-            JavaRDD<String> flatFileRDD,
-            JavaSparkContext sparkContext,
-            ResourceBundle applicationConfig) {
+    private JavaRDD<SuggestDocument> getChebi(
+            JavaRDD<String> flatFileRDD, JavaSparkContext sparkContext, String releaseName) {
 
         // JavaPairRDD<chebiId,ChebiEntry Entry> --> extracted from chebi.obo
         JavaPairRDD<String, ChebiEntry> chebiRDD =
-                ChebiRDDReader.load(sparkContext, applicationConfig);
+                ChebiRDDReader.load(sparkContext, applicationConfig, releaseName);
 
         // JavaPairRDD<chebiId,chebiId> flatFileCatalyticActivityRDD --> extracted from flat file
         // CC(CatalyticActivity) lines
@@ -164,14 +169,11 @@ public class SuggestIndexer {
     /**
      * @param flatFileRDD JavaRDD<flatFile entry in String format>
      * @param sparkContext spark configuration
-     * @param applicationConfig config
      * @return JavaRDD of SuggestDocument with ECEntry information mapped from UniprotKB flat file
      *     entries
      */
-    private static JavaRDD<SuggestDocument> getEC(
-            JavaRDD<String> flatFileRDD,
-            JavaSparkContext sparkContext,
-            ResourceBundle applicationConfig) {
+    private JavaRDD<SuggestDocument> getEC(
+            JavaRDD<String> flatFileRDD, JavaSparkContext sparkContext, String releaseName) {
 
         // JavaPairRDD<ecId,ecId> flatFileEcRDD --> extracted from flat file DE(with ECEntry) lines
         JavaPairRDD<String, String> flatFileEcRDD =
@@ -181,7 +183,8 @@ public class SuggestIndexer {
                                 .reduceByKey((ecId1, ecId2) -> ecId1);
 
         // JavaPairRDD<ecId,ECEntry entry> ecRDD --> extracted from ec files
-        JavaPairRDD<String, ECEntry> ecRDD = ECRDDReader.load(sparkContext, applicationConfig);
+        JavaPairRDD<String, ECEntry> ecRDD =
+                ECRDDReader.load(sparkContext, applicationConfig, releaseName);
 
         return (JavaRDD<SuggestDocument>)
                 flatFileEcRDD.join(ecRDD).mapValues(new ECToSuggestDocument()).values().distinct();
@@ -189,17 +192,15 @@ public class SuggestIndexer {
 
     /**
      * @param sparkContext spark configuration
-     * @param applicationConfig config
      * @return JavaRDD of SuggestDocument with Subcellular Location information mapped from
      *     subcell.txt file
      */
-    private static JavaRDD<SuggestDocument> getSubcell(
-            JavaSparkContext sparkContext, ResourceBundle applicationConfig) {
+    private JavaRDD<SuggestDocument> getSubcell(JavaSparkContext sparkContext, String releaseName) {
 
         // JavaPairRDD<subcellId,SubcellularLocationEntry> subcellularLocation --> extracted from
         // subcell.txt
         JavaPairRDD<String, SubcellularLocationEntry> subcellularLocation =
-                SubcellularLocationRDDReader.load(sparkContext, applicationConfig);
+                SubcellularLocationRDDReader.load(sparkContext, applicationConfig, releaseName);
 
         return (JavaRDD<SuggestDocument>)
                 subcellularLocation
@@ -210,15 +211,13 @@ public class SuggestIndexer {
 
     /**
      * @param sparkContext spark configuration
-     * @param applicationConfig config
      * @return JavaRDD of SuggestDocument with Keyword information mapped from keywlist.txt file
      */
-    private static JavaRDD<SuggestDocument> getKeyword(
-            JavaSparkContext sparkContext, ResourceBundle applicationConfig) {
+    private JavaRDD<SuggestDocument> getKeyword(JavaSparkContext sparkContext, String releaseName) {
 
         // JavaPairRDD<keywordId,KeywordEntry> keyword --> extracted from keywlist.txt
         JavaPairRDD<String, KeywordEntry> keyword =
-                KeywordRDDReader.load(sparkContext, applicationConfig);
+                KeywordRDDReader.load(sparkContext, applicationConfig, releaseName);
 
         return (JavaRDD<SuggestDocument>)
                 keyword.mapValues(new KeywordToSuggestDocument()).values().distinct();
@@ -227,14 +226,11 @@ public class SuggestIndexer {
     /**
      * @param flatFileRDD JavaRDD<flatFile entry in String format>
      * @param sparkContext spark configuration
-     * @param applicationConfig config
      * @return JavaRDD of SuggestDocument with Organism/Organism Host and Taxonomy information
      *     mapped from UniprotKB flat file entries
      */
-    private static JavaRDD<SuggestDocument> getOrganism(
-            JavaRDD<String> flatFileRDD,
-            JavaSparkContext sparkContext,
-            ResourceBundle applicationConfig) {
+    private JavaRDD<SuggestDocument> getOrganism(
+            JavaRDD<String> flatFileRDD, JavaSparkContext sparkContext) {
 
         JavaPairRDD<String, List<TaxonomyLineage>> organismWithLineage =
                 TaxonomyLineageReader.load(sparkContext, applicationConfig, true);
@@ -302,7 +298,7 @@ public class SuggestIndexer {
      * @param dictionary Suggest Dictionary
      * @return JavaPairRDD<organismId, SuggestDocument>
      */
-    private static JavaPairRDD<String, SuggestDocument> getDefaultHighImportantTaxon(
+    private JavaPairRDD<String, SuggestDocument> getDefaultHighImportantTaxon(
             JavaSparkContext sparkContext, SuggestDictionary dictionary) {
         SuggestionConfig config = new SuggestionConfig();
         List<SuggestDocument> suggestList = new ArrayList<>();
