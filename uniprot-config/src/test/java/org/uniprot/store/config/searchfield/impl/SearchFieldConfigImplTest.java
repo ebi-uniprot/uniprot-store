@@ -72,7 +72,7 @@ public class SearchFieldConfigImplTest {
                         .findFirst();
         assertTrue(item.isPresent());
         assertEquals("gene", item.orElse(new SearchFieldItem()).getFieldName());
-        assertEquals(SearchFieldDataType.string, item.orElse(new SearchFieldItem()).getDataType());
+        assertEquals(SearchFieldDataType.STRING, item.orElse(new SearchFieldItem()).getDataType());
     }
 
     @Test
@@ -83,7 +83,7 @@ public class SearchFieldConfigImplTest {
                         .findFirst();
         assertTrue(item.isPresent());
         assertEquals("organism_name", item.orElse(new SearchFieldItem()).getFieldName());
-        assertEquals(SearchFieldDataType.string, item.orElse(new SearchFieldItem()).getDataType());
+        assertEquals(SearchFieldDataType.STRING, item.orElse(new SearchFieldItem()).getDataType());
         assertNotNull(item.orElse(new SearchFieldItem()).getAutoComplete());
         assertEquals(
                 "/uniprot/api/suggester?dict=organism&query=?",
@@ -98,8 +98,7 @@ public class SearchFieldConfigImplTest {
                         .findFirst();
         assertTrue(item.isPresent());
         assertEquals("existence", item.orElse(new SearchFieldItem()).getFieldName());
-        assertEquals(
-                SearchFieldDataType.enumeration, item.orElse(new SearchFieldItem()).getDataType());
+        assertEquals(SearchFieldDataType.ENUM, item.orElse(new SearchFieldItem()).getDataType());
         assertNull(item.orElse(new SearchFieldItem()).getAutoComplete());
         assertNotNull(item.orElse(new SearchFieldItem()).getValues());
         assertEquals(5, item.orElse(new SearchFieldItem()).getValues().size());
@@ -119,7 +118,7 @@ public class SearchFieldConfigImplTest {
                         .findFirst();
         assertTrue(functionItem.isPresent());
         assertEquals(
-                SearchFieldItemType.group,
+                SearchFieldItemType.GROUP,
                 functionItem.orElse(new SearchFieldItem()).getItemType());
 
         // get function's child
@@ -145,6 +144,6 @@ public class SearchFieldConfigImplTest {
                         .filter(val -> "Cross-references".equals(val.getLabel()))
                         .findFirst();
         assertTrue(item.isPresent());
-        assertEquals(SearchFieldItemType.group, item.orElse(new SearchFieldItem()).getItemType());
+        assertEquals(SearchFieldItemType.GROUP, item.orElse(new SearchFieldItem()).getItemType());
     }
 }

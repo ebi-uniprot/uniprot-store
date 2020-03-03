@@ -138,7 +138,7 @@ public class DataValidatorTest {
     }
 
     private SearchFieldItem getFieldItem(String id, int seqNumber) {
-        SearchFieldItemType itemType = SearchFieldItemType.group;
+        SearchFieldItemType itemType = SearchFieldItemType.GROUP;
         String label = "Dummy Label";
         SearchFieldItem fi = getFieldItem(id, "");
         fi.setSeqNumber(seqNumber);

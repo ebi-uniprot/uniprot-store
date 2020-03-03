@@ -2,8 +2,8 @@
   {
     "id": "id",
     "fieldName": "id",
-    "fieldType": "general",
-    "dataType": "string",
+    "fieldType": "GENERAL",
+    "dataType": "STRING",
     "validRegex": "^[0-9]+$",
     "sortFieldId": "id_sort_id",
     "description": "Search by literature identifier",
@@ -12,16 +12,16 @@
   {
     "id": "id_sort_id",
     "fieldName": "id_sort",
-    "fieldType": "sort",
-    "dataType": "string",
+    "fieldType": "SORT",
+    "dataType": "STRING",
     "description": "Sort by literature accession",
     "example": "id_sort asc"
   },
   {
     "id": "title",
     "fieldName": "title",
-    "fieldType": "general",
-    "dataType": "string",
+    "fieldType": "GENERAL",
+    "dataType": "STRING",
     "sortFieldId": "title_sort_id",
     "description": "Search by title",
     "example": "sample title"
@@ -29,48 +29,48 @@
   {
     "id": "title_sort_id",
     "fieldName": "title_sort",
-    "fieldType": "sort",
-    "dataType": "string",
+    "fieldType": "SORT",
+    "dataType": "STRING",
     "description": "Sort by literature title",
     "example": "title_sort asc"
   },
   {
     "id": "doi",
     "fieldName": "doi",
-    "fieldType": "general",
-    "dataType": "string",
+    "fieldType": "GENERAL",
+    "dataType": "STRING",
     "description": "Search by data object identifier",
     "example": "10.1007/s11882-009-0055-9"
   },
   {
     "id": "author",
     "fieldName": "author",
-    "fieldType": "general",
-    "dataType": "string",
+    "fieldType": "GENERAL",
+    "dataType": "STRING",
     "description": "Search by author name",
     "example": "sample author name"
   },
   {
     "id": "journal",
     "fieldName": "journal",
-    "fieldType": "general",
-    "dataType": "string",
+    "fieldType": "GENERAL",
+    "dataType": "STRING",
     "description": "Search by journal",
     "example": "sample journal"
   },
   {
     "id": "published",
     "fieldName": "published",
-    "fieldType": "general",
-    "dataType": "string",
+    "fieldType": "GENERAL",
+    "dataType": "STRING",
     "description": "Search by published",
     "example": "sample"
   },
   {
     "id": "citedin",
     "fieldName": "citedin",
-    "fieldType": "general",
-    "dataType": "bool",
+    "fieldType": "GENERAL",
+    "dataType": "BOOLEAN",
     "validRegex": "^true|false$",
     "description": "Search if mapped in",
     "example": "false"
@@ -78,8 +78,8 @@
   {
     "id": "mappedin",
     "fieldName": "mappedin",
-    "fieldType": "general",
-    "dataType": "bool",
+    "fieldType": "GENERAL",
+    "dataType": "BOOLEAN",
     "validRegex": "^true|false$",
     "description": "Search if mapped in",
     "example": "true"
@@ -87,8 +87,8 @@
   {
     "id": "content",
     "fieldName": "content",
-    "fieldType": "general",
-    "dataType": "string",
+    "fieldType": "GENERAL",
+    "dataType": "STRING",
     "description": "Search by any content",
     "example": "sample"
   }

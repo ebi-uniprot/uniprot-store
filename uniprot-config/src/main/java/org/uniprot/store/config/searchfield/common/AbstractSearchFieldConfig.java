@@ -120,8 +120,8 @@ public abstract class AbstractSearchFieldConfig implements SearchFieldConfig {
 
     public SearchFieldType getFieldTypeBySearchFieldName(String fieldName) {
         SearchFieldItem fieldItem = getSearchFieldItemByName(fieldName);
-        if (fieldItem.getFieldType() == SearchFieldType.evidence) {
-            return SearchFieldType.general;
+        if (fieldItem.getFieldType() == SearchFieldType.EVIDENCE) {
+            return SearchFieldType.GENERAL;
         }
         return fieldItem.getFieldType();
     }
@@ -135,10 +135,10 @@ public abstract class AbstractSearchFieldConfig implements SearchFieldConfig {
 
     private boolean isSearchFieldItem(SearchFieldItem fieldItem) {
         return Objects.nonNull(fieldItem.getFieldType())
-                && SearchFieldType.sort != fieldItem.getFieldType();
+                && SearchFieldType.SORT != fieldItem.getFieldType();
     }
 
     private boolean isSortFieldItem(SearchFieldItem fieldItem) {
-        return SearchFieldType.sort.equals(fieldItem.getFieldType());
+        return SearchFieldType.SORT.equals(fieldItem.getFieldType());
     }
 }

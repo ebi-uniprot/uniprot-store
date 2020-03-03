@@ -2,8 +2,8 @@
   {
     "id": "upi",
     "fieldName": "upi",
-    "fieldType": "general",
-    "dataType": "string",
+    "fieldType": "GENERAL",
+    "dataType": "STRING",
     "sortFieldId": "upi_sort_id",
     "validRegex": "UPI[\\w]{10}",
     "description": "Search by uniparc id",
@@ -12,8 +12,8 @@
   {
     "id": "upi_sort_id",
     "fieldName": "upi",
-    "fieldType": "sort",
-    "dataType": "string",
+    "fieldType": "SORT",
+    "dataType": "STRING",
     "description": "Sort by uniparc id",
     "example": "upi asc"
   },
@@ -21,8 +21,8 @@
     "id": "accession",
     "fieldName": "accession",
     "validRegex": "([OPQ][0-9][A-Z0-9]{3}[0-9]|[A-NR-Z]([0-9][A-Z][A-Z0-9]{2}){1,2}[0-9])",
-    "fieldType": "general",
-    "dataType": "string",
+    "fieldType": "GENERAL",
+    "dataType": "STRING",
     "description": "Search by accession",
     "example": "P12345"
   },
@@ -30,8 +30,8 @@
     "id": "isoform",
     "fieldName": "isoform",
     "validRegex": "([OPQ][0-9][A-Z0-9]{3}[0-9]|[A-NR-Z]([0-9][A-Z][A-Z0-9]{2}){1,2}[0-9])(-[0-9]+)?",
-    "fieldType": "general",
-    "dataType": "string",
+    "fieldType": "GENERAL",
+    "dataType": "STRING",
     "description": "Search by isoform",
     "example": "P12345"
   },
@@ -39,8 +39,8 @@
     "id": "upid",
     "fieldName": "upid",
     "validRegex": "UP[0-9]{9}",
-    "fieldType": "general",
-    "dataType": "string",
+    "fieldType": "GENERAL",
+    "dataType": "STRING",
     "description": "Search by upid",
     "example": "UP123456789"
   },
@@ -48,64 +48,64 @@
     "id": "taxonomy_id",
     "fieldName": "taxonomy_id",
     "validRegex": "^[0-9]+$",
-    "fieldType": "general",
-    "dataType": "integer",
+    "fieldType": "GENERAL",
+    "dataType": "INTEGER",
     "description": "Search by taxonomy id",
     "example": "1234565"
   },
   {
     "id": "taxonomy_name",
     "fieldName": "taxonomy_name",
-    "fieldType": "general",
-    "dataType": "string",
+    "fieldType": "GENERAL",
+    "dataType": "STRING",
     "description": "Search by taxonomy name",
     "example": "sample name"
   },
   {
     "id": "gene",
     "fieldName": "gene",
-    "fieldType": "general",
-    "dataType": "string",
+    "fieldType": "GENERAL",
+    "dataType": "STRING",
     "description": "Search by gene name",
     "example": "sample gene"
   },
   {
     "id": "protein",
     "fieldName": "protein",
-    "fieldType": "general",
-    "dataType": "string",
+    "fieldType": "GENERAL",
+    "dataType": "STRING",
     "description": "Search by protein name",
     "example": "sample protein"
   },
   {
     "id": "database",
     "fieldName": "database",
-    "fieldType": "general",
-    "dataType": "string",
+    "fieldType": "GENERAL",
+    "dataType": "STRING",
     "description": "Search by database name",
     "example": "sample database"
   },
   {
     "id": "active",
     "fieldName": "active",
-    "fieldType": "general",
-    "dataType": "string",
+    "fieldType": "GENERAL",
+    "dataType": "STRING",
     "description": "Search by active name",
     "example": "sample active"
   },
   {
     "id": "checksum",
     "fieldName": "checksum",
-    "fieldType": "general",
-    "dataType": "string",
+    "fieldType": "GENERAL",
+    "dataType": "STRING",
     "description": "Search by checksum name",
     "example": "sample checksum"
   },
   {
     "id": "length",
     "fieldName": "length",
-    "fieldType": "range",
-    "dataType": "integer",
+    "fieldType": "RANGE",
+    "dataType": "INTEGER",
     "sortFieldId": "length_sort",
     "description": "Search by length",
     "example": "[100 TO 300]"
@@ -113,16 +113,16 @@
   {
     "id": "length_sort",
     "fieldName": "length",
-    "fieldType": "sort",
-    "dataType": "integer",
+    "fieldType": "SORT",
+    "dataType": "INTEGER",
     "description": "Sort by length",
     "example": "length asc"
   },
   {
     "id": "content",
     "fieldName": "content",
-    "fieldType": "general",
-    "dataType": "string",
+    "fieldType": "GENERAL",
+    "dataType": "STRING",
     "description": "Search by any content",
     "example": "sample content"
   }
