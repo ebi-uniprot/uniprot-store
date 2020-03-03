@@ -1,0 +1,1712 @@
+[
+  {
+    "groupName": "Names & Taxonomy",
+    "fields": [
+      {
+        "label": "Entry",
+        "name": "accession",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "Entry Name",
+        "name": "id",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "Gene Names",
+        "name": "gene_names",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "Gene Names (ordered locus)",
+        "name": "gene_oln",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "Gene Names (ORF)",
+        "name": "gene_orf",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "Gene Names (primary)",
+        "name": "gene_primary",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "Gene Names (synonym)",
+        "name": "gene_synonym",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "Organism",
+        "name": "organism",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "Organism (ID)",
+        "name": "organism_id",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "Protein names",
+        "name": "protein_name",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "Proteomes",
+        "name": "dr_proteomes",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "Taxonomic lineage",
+        "name": "lineage",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "Virus hosts",
+        "name": "organism_host",
+        "mandatoryJsonField": false
+      }
+    ],
+    "isDatabase": false
+  },
+  {
+    "groupName": "Sequences",
+    "fields": [
+      {
+        "label": "Alternative products (isoforms)",
+        "name": "cc_alternative_products",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "Alternative sequence",
+        "name": "ft_var_seq",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "Erroneous gene model prediction",
+        "name": "sc_epred",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "Fragment",
+        "name": "fragment",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "Gene encoded by",
+        "name": "organelle",
+        "javaFieldName": "geneLocation",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "Length",
+        "name": "length",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "Mass",
+        "name": "mass",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "Mass spectrometry",
+        "name": "cc_mass_spectrometry",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "Natural variant",
+        "name": "ft_variant",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "Non-adjacent residue",
+        "name": "ft_non_con",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "Non-standard residue",
+        "name": "ft_non_std",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "Non-terminal residue",
+        "name": "ft_non_ter",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "Polymorphism",
+        "name": "cc_polymorphism",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "RNA Editing",
+        "name": "cc_rna_editing",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "Sequence",
+        "name": "sequence",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "Sequence caution",
+        "name": "cc_sequence_caution",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "Sequence conflict",
+        "name": "ft_conflict",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "Sequence uncertainty",
+        "name": "ft_unsure",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "Sequence version",
+        "name": "sequence_version",
+        "mandatoryJsonField": false
+      }
+    ],
+    "isDatabase": false
+  },
+  {
+    "groupName": "Function",
+    "fields": [
+      {
+        "label": "Absorption",
+        "name": "absorption",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "Active site",
+        "name": "ft_act_site",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "Binding site",
+        "name": "ft_binding",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "Calcium binding",
+        "name": "ft_ca_bind",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "Catalytic activity",
+        "name": "cc_catalytic_activity",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "Cofactor",
+        "name": "cc_cofactor",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "DNA binding",
+        "name": "ft_dna_bind",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "EC number",
+        "name": "ec",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "Activity regulation",
+        "name": "cc_activity_regulation",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "Function [CC]",
+        "name": "cc_function",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "Kinetics",
+        "name": "kinetics",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "Metal binding",
+        "name": "ft_metal",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "Nucleotide binding",
+        "name": "ft_np_bind",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "Pathway",
+        "name": "cc_pathway",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "pH dependence",
+        "name": "ph_dependence",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "Redox potential",
+        "name": "redox_potential",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "Site",
+        "name": "ft_site",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "Temperature dependence",
+        "name": "temp_dependence",
+        "mandatoryJsonField": false
+      }
+    ],
+    "isDatabase": false
+  },
+  {
+    "groupName": "Miscellaneous",
+    "fields": [
+      {
+        "label": "Annotation",
+        "name": "score",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "Caution",
+        "name": "cc_caution",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "Features",
+        "name": "feature",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "Keywords",
+        "name": "keyword",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "Keyword ID",
+        "name": "keywordid",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "Matched text",
+        "name": "matched_text",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "Miscellaneous [CC]",
+        "name": "cc_miscellaneous",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "Protein existence",
+        "name": "protein_existence",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "Reviewed",
+        "name": "reviewed",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "Tools",
+        "name": "tools",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "UniParc",
+        "name": "uniparc_id",
+        "mandatoryJsonField": false
+      }
+    ],
+    "isDatabase": false
+  },
+  {
+    "groupName": "Interaction",
+    "fields": [
+      {
+        "label": "Interacts with",
+        "name": "cc_interaction",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "Subunit structure",
+        "name": "cc_subunit",
+        "mandatoryJsonField": false
+      }
+    ],
+    "isDatabase": false
+  },
+  {
+    "groupName": "Expression",
+    "fields": [
+      {
+        "label": "Developmental stage",
+        "name": "cc_developmental_stage",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "Induction",
+        "name": "cc_induction",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "Tissue specificity",
+        "name": "cc_tissue_specificity",
+        "mandatoryJsonField": false
+      }
+    ],
+    "isDatabase": false
+  },
+  {
+    "groupName": "Gene Ontology (GO)",
+    "fields": [
+      {
+        "label": "Gene Ontology (biological process)",
+        "name": "go_p",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "Gene Ontology (cellular component)",
+        "name": "go_c",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "Gene Ontology (GO)",
+        "name": "go",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "Gene Ontology (molecular function)",
+        "name": "go_f",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "Gene Ontology IDs",
+        "name": "go_id",
+        "mandatoryJsonField": false
+      }
+    ],
+    "isDatabase": false
+  },
+  {
+    "groupName": "Pathology & Biotech",
+    "fields": [
+      {
+        "label": "Allergenic Properties",
+        "name": "cc_allergen",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "Biotechnological use",
+        "name": "cc_biotechnology",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "Disruption phenotype",
+        "name": "cc_disruption_phenotype",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "Involvement in disease",
+        "name": "cc_disease",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "Mutagenesis",
+        "name": "ft_mutagen",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "Pharmaceutical use",
+        "name": "cc_pharmaceutical",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "Toxic dose",
+        "name": "cc_toxic_dose",
+        "mandatoryJsonField": false
+      }
+    ],
+    "isDatabase": false
+  },
+  {
+    "groupName": "Subcellular location",
+    "fields": [
+      {
+        "label": "Intramembrane",
+        "name": "ft_intramem",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "Subcellular location [CC]",
+        "name": "cc_subcellular_location",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "Topological domain",
+        "name": "ft_top_dom",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "Transmembrane",
+        "name": "ft_transmem",
+        "mandatoryJsonField": false
+      }
+    ],
+    "isDatabase": false
+  },
+  {
+    "groupName": "PTM / Processing",
+    "fields": [
+      {
+        "label": "Chain",
+        "name": "ft_chain",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "Cross-link",
+        "name": "ft_crosslnk",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "Disulfide bond",
+        "name": "ft_disulfide",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "Glycosylation",
+        "name": "ft_carbohyd",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "Initiator methionine",
+        "name": "ft_init_met",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "Lipidation",
+        "name": "ft_lipid",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "Modified residue",
+        "name": "ft_mod_res",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "Peptide",
+        "name": "ft_peptide",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "Post-translational modification",
+        "name": "cc_ptm",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "Propeptide",
+        "name": "ft_propep",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "Signal peptide",
+        "name": "ft_signal",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "Transit peptide",
+        "name": "ft_transit",
+        "mandatoryJsonField": false
+      }
+    ],
+    "isDatabase": false
+  },
+  {
+    "groupName": "Structure",
+    "fields": [
+      {
+        "label": "3D",
+        "name": "3d",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "Beta strand",
+        "name": "ft_strand",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "Helix",
+        "name": "ft_helix",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "Turn",
+        "name": "ft_turn",
+        "mandatoryJsonField": false
+      }
+    ],
+    "isDatabase": false
+  },
+  {
+    "groupName": "Publications",
+    "fields": [
+      {
+        "label": "Mapped PubMed ID",
+        "name": "mapped_pm_id",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "PubMed ID",
+        "name": "pm_id",
+        "mandatoryJsonField": false
+      }
+    ],
+    "isDatabase": false
+  },
+  {
+    "groupName": "Date of",
+    "fields": [
+      {
+        "label": "Date of creation",
+        "name": "date_create",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "Date of last modification",
+        "name": "date_mod",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "Date of last sequence modification",
+        "name": "date_seq_mod",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "Entry version",
+        "name": "version",
+        "mandatoryJsonField": false
+      }
+    ],
+    "isDatabase": false
+  },
+  {
+    "groupName": "Family & Domains",
+    "fields": [
+      {
+        "label": "Coiled coil",
+        "name": "ft_coiled",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "Compositional bias",
+        "name": "ft_compbias",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "Domain [CC]",
+        "name": "cc_domain",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "Domain [FT]",
+        "name": "ft_domain",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "Motif",
+        "name": "ft_motif",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "Protein families",
+        "name": "family",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "Region",
+        "name": "ft_region",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "Repeat",
+        "name": "ft_repeat",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "Sequence similarities",
+        "name": "similarity",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "Zinc finger",
+        "name": "ft_zn_fing",
+        "mandatoryJsonField": false
+      }
+    ],
+    "isDatabase": false
+  },
+  {
+    "groupName": "Taxonomic identifier",
+    "fields": [
+      {
+        "label": "Taxonomic lineage IDs",
+        "name": "tax_id",
+        "mandatoryJsonField": false
+      }
+    ],
+    "isDatabase": false
+  },
+  {
+    "groupName": "Sequence",
+    "fields": [
+      {
+        "label": "EMBL",
+        "name": "dr_embl",
+        "javaFieldName": "dr_embl",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "CCDS",
+        "name": "dr_ccds",
+        "javaFieldName": "dr_ccds",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "PIR",
+        "name": "dr_pir",
+        "javaFieldName": "dr_pir",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "RefSeq",
+        "name": "dr_refseq",
+        "javaFieldName": "dr_refseq",
+        "mandatoryJsonField": false
+      }
+    ],
+    "isDatabase": true
+  },
+  {
+    "groupName": "3D structure",
+    "fields": [
+      {
+        "label": "PDB",
+        "name": "dr_pdb",
+        "javaFieldName": "dr_pdb",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "PDBsum",
+        "name": "dr_pdbsum",
+        "javaFieldName": "dr_pdbsum",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "SMR",
+        "name": "dr_smr",
+        "javaFieldName": "dr_smr",
+        "mandatoryJsonField": false
+      }
+    ],
+    "isDatabase": true
+  },
+  {
+    "groupName": "Protein-protein interaction",
+    "fields": [
+      {
+        "label": "BioGrid",
+        "name": "dr_biogrid",
+        "javaFieldName": "dr_biogrid",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "ComplexPortal",
+        "name": "dr_complexportal",
+        "javaFieldName": "dr_complexportal",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "CORUM",
+        "name": "dr_corum",
+        "javaFieldName": "dr_corum",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "DIP",
+        "name": "dr_dip",
+        "javaFieldName": "dr_dip",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "ELM",
+        "name": "dr_elm",
+        "javaFieldName": "dr_elm",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "IntAct",
+        "name": "dr_intact",
+        "javaFieldName": "dr_intact",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "MINT",
+        "name": "dr_mint",
+        "javaFieldName": "dr_mint",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "STRING",
+        "name": "dr_string",
+        "javaFieldName": "dr_string",
+        "mandatoryJsonField": false
+      }
+    ],
+    "isDatabase": true
+  },
+  {
+    "groupName": "Chemistry",
+    "fields": [
+      {
+        "label": "BindingDB",
+        "name": "dr_bindingdb",
+        "javaFieldName": "dr_bindingdb",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "ChEMBL",
+        "name": "dr_chembl",
+        "javaFieldName": "dr_chembl",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "DrugBank",
+        "name": "dr_drugbank",
+        "javaFieldName": "dr_drugbank",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "GuidetoPHARMACOLOGY",
+        "name": "dr_guidetopharmacology",
+        "javaFieldName": "dr_guidetopharmacology",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "SwissLipids",
+        "name": "dr_swisslipids",
+        "javaFieldName": "dr_swisslipids",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "DrugCentral",
+        "name": "dr_drugcentral",
+        "javaFieldName": "dr_drugcentral",
+        "mandatoryJsonField": false
+      }
+    ],
+    "isDatabase": true
+  },
+  {
+    "groupName": "Protein family/group",
+    "fields": [
+      {
+        "label": "Allergome",
+        "name": "dr_allergome",
+        "javaFieldName": "dr_allergome",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "CAZy",
+        "name": "dr_cazy",
+        "javaFieldName": "dr_cazy",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "ESTHER",
+        "name": "dr_esther",
+        "javaFieldName": "dr_esther",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "IMGT_GENE-DB",
+        "name": "dr_imgt_gene-db",
+        "javaFieldName": "dr_imgt_gene-db",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "MEROPS",
+        "name": "dr_merops",
+        "javaFieldName": "dr_merops",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "MoonDB",
+        "name": "dr_moondb",
+        "javaFieldName": "dr_moondb",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "MoonProt",
+        "name": "dr_moonprot",
+        "javaFieldName": "dr_moonprot",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "mycoCLAP",
+        "name": "dr_mycoclap",
+        "javaFieldName": "dr_mycoclap",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "PeroxiBase",
+        "name": "dr_peroxibase",
+        "javaFieldName": "dr_peroxibase",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "REBASE",
+        "name": "dr_rebase",
+        "javaFieldName": "dr_rebase",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "TCDB",
+        "name": "dr_tcdb",
+        "javaFieldName": "dr_tcdb",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "UniLectin",
+        "name": "dr_unilectin",
+        "javaFieldName": "dr_unilectin",
+        "mandatoryJsonField": false
+      }
+    ],
+    "isDatabase": true
+  },
+  {
+    "groupName": "PTM",
+    "fields": [
+      {
+        "label": "CarbonylDB",
+        "name": "dr_carbonyldb",
+        "javaFieldName": "dr_carbonyldb",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "DEPOD",
+        "name": "dr_depod",
+        "javaFieldName": "dr_depod",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "GlyConnect",
+        "name": "dr_glyconnect",
+        "javaFieldName": "dr_glyconnect",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "iPTMnet",
+        "name": "dr_iptmnet",
+        "javaFieldName": "dr_iptmnet",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "PhosphoSitePlus",
+        "name": "dr_phosphositeplus",
+        "javaFieldName": "dr_phosphositeplus",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "SwissPalm",
+        "name": "dr_swisspalm",
+        "javaFieldName": "dr_swisspalm",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "UniCarbKB",
+        "name": "dr_unicarbkb",
+        "javaFieldName": "dr_unicarbkb",
+        "mandatoryJsonField": false
+      }
+    ],
+    "isDatabase": true
+  },
+  {
+    "groupName": "Polymorphism and mutation",
+    "fields": [
+      {
+        "label": "BioMuta",
+        "name": "dr_biomuta",
+        "javaFieldName": "dr_biomuta",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "DMDM",
+        "name": "dr_dmdm",
+        "javaFieldName": "dr_dmdm",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "dbSNP",
+        "name": "dr_dbsnp",
+        "javaFieldName": "dr_dbsnp",
+        "mandatoryJsonField": false
+      }
+    ],
+    "isDatabase": true
+  },
+  {
+    "groupName": "2D gel",
+    "fields": [
+      {
+        "label": "COMPLUYEAST-2DPAGE",
+        "name": "dr_compluyeast-2dpage",
+        "javaFieldName": "dr_compluyeast-2dpage",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "DOSAC-COBS-2DPAGE",
+        "name": "dr_dosac-cobs-2dpage",
+        "javaFieldName": "dr_dosac-cobs-2dpage",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "OGP",
+        "name": "dr_ogp",
+        "javaFieldName": "dr_ogp",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "REPRODUCTION-2DPAGE",
+        "name": "dr_reproduction-2dpage",
+        "javaFieldName": "dr_reproduction-2dpage",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "SWISS-2DPAGE",
+        "name": "dr_swiss-2dpage",
+        "javaFieldName": "dr_swiss-2dpage",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "UCD-2DPAGE",
+        "name": "dr_ucd-2dpage",
+        "javaFieldName": "dr_ucd-2dpage",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "World-2DPAGE",
+        "name": "dr_world-2dpage",
+        "javaFieldName": "dr_world-2dpage",
+        "mandatoryJsonField": false
+      }
+    ],
+    "isDatabase": true
+  },
+  {
+    "groupName": "Proteomic",
+    "fields": [
+      {
+        "label": "CPTAC",
+        "name": "dr_cptac",
+        "javaFieldName": "dr_cptac",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "EPD",
+        "name": "dr_epd",
+        "javaFieldName": "dr_epd",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "MaxQB",
+        "name": "dr_maxqb",
+        "javaFieldName": "dr_maxqb",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "PaxDb",
+        "name": "dr_paxdb",
+        "javaFieldName": "dr_paxdb",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "PeptideAtlas",
+        "name": "dr_peptideatlas",
+        "javaFieldName": "dr_peptideatlas",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "PRIDE",
+        "name": "dr_pride",
+        "javaFieldName": "dr_pride",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "ProMEX",
+        "name": "dr_promex",
+        "javaFieldName": "dr_promex",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "ProteomicsDB",
+        "name": "dr_proteomicsdb",
+        "javaFieldName": "dr_proteomicsdb",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "TopDownProteomics",
+        "name": "dr_topdownproteomics",
+        "javaFieldName": "dr_topdownproteomics",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "jPOST",
+        "name": "dr_jpost",
+        "javaFieldName": "dr_jpost",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "MassIVE",
+        "name": "dr_massive",
+        "javaFieldName": "dr_massive",
+        "mandatoryJsonField": false
+      }
+    ],
+    "isDatabase": true
+  },
+  {
+    "groupName": "Protocols and materials",
+    "fields": [
+      {
+        "label": "DNASU",
+        "name": "dr_dnasu",
+        "javaFieldName": "dr_dnasu",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "ABCD",
+        "name": "dr_abcd",
+        "javaFieldName": "dr_abcd",
+        "mandatoryJsonField": false
+      }
+    ],
+    "isDatabase": true
+  },
+  {
+    "groupName": "Genome annotation",
+    "fields": [
+      {
+        "label": "Ensembl",
+        "name": "dr_ensembl",
+        "javaFieldName": "dr_ensembl",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "EnsemblBacteria",
+        "name": "dr_ensemblbacteria",
+        "javaFieldName": "dr_ensemblbacteria",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "EnsemblFungi",
+        "name": "dr_ensemblfungi",
+        "javaFieldName": "dr_ensemblfungi",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "EnsemblMetazoa",
+        "name": "dr_ensemblmetazoa",
+        "javaFieldName": "dr_ensemblmetazoa",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "EnsemblPlants",
+        "name": "dr_ensemblplants",
+        "javaFieldName": "dr_ensemblplants",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "EnsemblProtists",
+        "name": "dr_ensemblprotists",
+        "javaFieldName": "dr_ensemblprotists",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "GeneDB",
+        "name": "dr_genedb",
+        "javaFieldName": "dr_genedb",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "GeneID",
+        "name": "dr_geneid",
+        "javaFieldName": "dr_geneid",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "Gramene",
+        "name": "dr_gramene",
+        "javaFieldName": "dr_gramene",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "KEGG",
+        "name": "dr_kegg",
+        "javaFieldName": "dr_kegg",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "PATRIC",
+        "name": "dr_patric",
+        "javaFieldName": "dr_patric",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "UCSC",
+        "name": "dr_ucsc",
+        "javaFieldName": "dr_ucsc",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "VectorBase",
+        "name": "dr_vectorbase",
+        "javaFieldName": "dr_vectorbase",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "WBParaSite",
+        "name": "dr_wbparasite",
+        "javaFieldName": "dr_wbparasite",
+        "mandatoryJsonField": false
+      }
+    ],
+    "isDatabase": true
+  },
+  {
+    "groupName": "Organism-specific",
+    "fields": [
+      {
+        "label": "ArachnoServer",
+        "name": "dr_arachnoserver",
+        "javaFieldName": "dr_arachnoserver",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "Araport",
+        "name": "dr_araport",
+        "javaFieldName": "dr_araport",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "CGD",
+        "name": "dr_cgd",
+        "javaFieldName": "dr_cgd",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "ConoServer",
+        "name": "dr_conoserver",
+        "javaFieldName": "dr_conoserver",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "CTD",
+        "name": "dr_ctd",
+        "javaFieldName": "dr_ctd",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "dictyBase",
+        "name": "dr_dictybase",
+        "javaFieldName": "dr_dictybase",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "DisGeNET",
+        "name": "dr_disgenet",
+        "javaFieldName": "dr_disgenet",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "EchoBASE",
+        "name": "dr_echobase",
+        "javaFieldName": "dr_echobase",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "euHCVdb",
+        "name": "dr_euhcvdb",
+        "javaFieldName": "dr_euhcvdb",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "EuPathDB",
+        "name": "dr_eupathdb",
+        "javaFieldName": "dr_eupathdb",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "FlyBase",
+        "name": "dr_flybase",
+        "javaFieldName": "dr_flybase",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "GeneCards",
+        "name": "dr_genecards",
+        "javaFieldName": "dr_genecards",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "GeneReviews",
+        "name": "dr_genereviews",
+        "javaFieldName": "dr_genereviews",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "HGNC",
+        "name": "dr_hgnc",
+        "javaFieldName": "dr_hgnc",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "HPA",
+        "name": "dr_hpa",
+        "javaFieldName": "dr_hpa",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "LegioList",
+        "name": "dr_legiolist",
+        "javaFieldName": "dr_legiolist",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "Leproma",
+        "name": "dr_leproma",
+        "javaFieldName": "dr_leproma",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "MaizeGDB",
+        "name": "dr_maizegdb",
+        "javaFieldName": "dr_maizegdb",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "MalaCards",
+        "name": "dr_malacards",
+        "javaFieldName": "dr_malacards",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "MGI",
+        "name": "dr_mgi",
+        "javaFieldName": "dr_mgi",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "MIM",
+        "name": "dr_mim",
+        "javaFieldName": "dr_mim",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "NIAGADS",
+        "name": "dr_niagads",
+        "javaFieldName": "dr_niagads",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "neXtProt",
+        "name": "dr_nextprot",
+        "javaFieldName": "dr_nextprot",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "OpenTargets",
+        "name": "dr_opentargets",
+        "javaFieldName": "dr_opentargets",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "Orphanet",
+        "name": "dr_orphanet",
+        "javaFieldName": "dr_orphanet",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "PharmGKB",
+        "name": "dr_pharmgkb",
+        "javaFieldName": "dr_pharmgkb",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "PomBase",
+        "name": "dr_pombase",
+        "javaFieldName": "dr_pombase",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "PseudoCAP",
+        "name": "dr_pseudocap",
+        "javaFieldName": "dr_pseudocap",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "RGD",
+        "name": "dr_rgd",
+        "javaFieldName": "dr_rgd",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "SGD",
+        "name": "dr_sgd",
+        "javaFieldName": "dr_sgd",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "TAIR",
+        "name": "dr_tair",
+        "javaFieldName": "dr_tair",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "TubercuList",
+        "name": "dr_tuberculist",
+        "javaFieldName": "dr_tuberculist",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "VGNC",
+        "name": "dr_vgnc",
+        "javaFieldName": "dr_vgnc",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "WormBase",
+        "name": "dr_wormbase",
+        "javaFieldName": "dr_wormbase",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "Xenbase",
+        "name": "dr_xenbase",
+        "javaFieldName": "dr_xenbase",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "ZFIN",
+        "name": "dr_zfin",
+        "javaFieldName": "dr_zfin",
+        "mandatoryJsonField": false
+      }
+    ],
+    "isDatabase": true
+  },
+  {
+    "groupName": "Phylogenomic",
+    "fields": [
+      {
+        "label": "eggNOG",
+        "name": "dr_eggnog",
+        "javaFieldName": "dr_eggnog",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "GeneTree",
+        "name": "dr_genetree",
+        "javaFieldName": "dr_genetree",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "HOGENOM",
+        "name": "dr_hogenom",
+        "javaFieldName": "dr_hogenom",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "InParanoid",
+        "name": "dr_inparanoid",
+        "javaFieldName": "dr_inparanoid",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "KO",
+        "name": "dr_ko",
+        "javaFieldName": "dr_ko",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "OMA",
+        "name": "dr_oma",
+        "javaFieldName": "dr_oma",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "OrthoDB",
+        "name": "dr_orthodb",
+        "javaFieldName": "dr_orthodb",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "PhylomeDB",
+        "name": "dr_phylomedb",
+        "javaFieldName": "dr_phylomedb",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "TreeFam",
+        "name": "dr_treefam",
+        "javaFieldName": "dr_treefam",
+        "mandatoryJsonField": false
+      }
+    ],
+    "isDatabase": true
+  },
+  {
+    "groupName": "Enzyme and pathway",
+    "fields": [
+      {
+        "label": "BioCyc",
+        "name": "dr_biocyc",
+        "javaFieldName": "dr_biocyc",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "BRENDA",
+        "name": "dr_brenda",
+        "javaFieldName": "dr_brenda",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "Reactome",
+        "name": "dr_reactome",
+        "javaFieldName": "dr_reactome",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "SABIO-RK",
+        "name": "dr_sabio-rk",
+        "javaFieldName": "dr_sabio-rk",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "SignaLink",
+        "name": "dr_signalink",
+        "javaFieldName": "dr_signalink",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "SIGNOR",
+        "name": "dr_signor",
+        "javaFieldName": "dr_signor",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "UniPathway",
+        "name": "dr_unipathway",
+        "javaFieldName": "dr_unipathway",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "PlantReactome",
+        "name": "dr_plantreactome",
+        "javaFieldName": "dr_plantreactome",
+        "mandatoryJsonField": false
+      }
+    ],
+    "isDatabase": true
+  },
+  {
+    "groupName": "Other",
+    "fields": [
+      {
+        "label": "ChiTaRS",
+        "name": "dr_chitars",
+        "javaFieldName": "dr_chitars",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "EvolutionaryTrace",
+        "name": "dr_evolutionarytrace",
+        "javaFieldName": "dr_evolutionarytrace",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "GeneWiki",
+        "name": "dr_genewiki",
+        "javaFieldName": "dr_genewiki",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "GenomeRNAi",
+        "name": "dr_genomernai",
+        "javaFieldName": "dr_genomernai",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "PRO",
+        "name": "dr_pro",
+        "javaFieldName": "dr_pro",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "Pharos",
+        "name": "dr_pharos",
+        "javaFieldName": "dr_pharos",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "RNAct",
+        "name": "dr_rnact",
+        "javaFieldName": "dr_rnact",
+        "mandatoryJsonField": false
+      }
+    ],
+    "isDatabase": true
+  },
+  {
+    "groupName": "Gene expression",
+    "fields": [
+      {
+        "label": "Bgee",
+        "name": "dr_bgee",
+        "javaFieldName": "dr_bgee",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "CleanEx",
+        "name": "dr_cleanex",
+        "javaFieldName": "dr_cleanex",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "CollecTF",
+        "name": "dr_collectf",
+        "javaFieldName": "dr_collectf",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "ExpressionAtlas",
+        "name": "dr_expressionatlas",
+        "javaFieldName": "dr_expressionatlas",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "Genevisible",
+        "name": "dr_genevisible",
+        "javaFieldName": "dr_genevisible",
+        "mandatoryJsonField": false
+      }
+    ],
+    "isDatabase": true
+  },
+  {
+    "groupName": "Family and domain",
+    "fields": [
+      {
+        "label": "CDD",
+        "name": "dr_cdd",
+        "javaFieldName": "dr_cdd",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "Gene3D",
+        "name": "dr_gene3d",
+        "javaFieldName": "dr_gene3d",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "HAMAP",
+        "name": "dr_hamap",
+        "javaFieldName": "dr_hamap",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "InterPro",
+        "name": "dr_interpro",
+        "javaFieldName": "dr_interpro",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "PANTHER",
+        "name": "dr_panther",
+        "javaFieldName": "dr_panther",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "Pfam",
+        "name": "dr_pfam",
+        "javaFieldName": "dr_pfam",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "PIRSF",
+        "name": "dr_pirsf",
+        "javaFieldName": "dr_pirsf",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "PRINTS",
+        "name": "dr_prints",
+        "javaFieldName": "dr_prints",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "ProDom",
+        "name": "dr_prodom",
+        "javaFieldName": "dr_prodom",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "SFLD",
+        "name": "dr_sfld",
+        "javaFieldName": "dr_sfld",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "SMART",
+        "name": "dr_smart",
+        "javaFieldName": "dr_smart",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "SUPFAM",
+        "name": "dr_supfam",
+        "javaFieldName": "dr_supfam",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "TIGRFAMs",
+        "name": "dr_tigrfams",
+        "javaFieldName": "dr_tigrfams",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "PROSITE",
+        "name": "dr_prosite",
+        "javaFieldName": "dr_prosite",
+        "mandatoryJsonField": false
+      },
+      {
+        "label": "DisProt",
+        "name": "dr_disprot",
+        "javaFieldName": "dr_disprot",
+        "mandatoryJsonField": false
+      }
+    ],
+    "isDatabase": true
+  }
+]

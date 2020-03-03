@@ -1,0 +1,96 @@
+{
+  "$schema" : "http://json-schema.org/draft-07/schema#",
+  "title" : "Field Item []",
+  "type" : "array",
+  "uniqueItems": true,
+  "items" : {
+    "$ref" : "#/definitions/FieldItem"
+  },
+  "definitions" : {
+    "FieldItem" : {
+      "type" : "object",
+      "additionalProperties" : false,
+      "properties" : {
+        "id" : {
+          "type" : "string"
+        },
+        "parentId" : {
+          "type" : "string"
+        },
+        "childNumber" : {
+          "type" : "integer"
+        },
+        "seqNumber" : {
+          "type" : "integer"
+        },
+        "itemType" : {
+          "type" : "string",
+          "enum" : [ "group", "single", "sibling_group" ]
+        },
+        "fieldType" : {
+          "type" : "string",
+          "enum" : [ "field", "range", "evidence", "sort" ]
+        },
+        "label" : {
+          "type" : "string"
+        },
+        "fieldName" : {
+          "type" : "string"
+        },
+        "dataType" : {
+          "type" : "string",
+          "enum" : [ "string", "integer", "enumeration", "date" ]
+        },
+        "description" : {
+          "type" : "string"
+        },
+        "example" : {
+          "type" : "string"
+        },
+        "validRegex" : {
+          "type" : "string"
+        },
+        "values" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/Value"
+          }
+        },
+        "autoComplete" : {
+          "type" : "string"
+        },
+        "autoCompleteQueryField" : {
+          "type" : "string"
+        },
+        "autoCompleteQueryFieldValidRegex" : {
+          "type" : "string"
+        },
+        "sortFieldId" : {
+          "type" : "string"
+        }
+      },
+      "required" : ["id"],
+      "dependencies": {
+        "childNumber": ["id", "parentId", "itemType"],
+        "fieldName": ["fieldType", "dataType", "example", "description"],
+        "fieldType": ["fieldName"],
+        "autoComplete": ["autoCompleteQueryField"],
+        "seqNumber": ["itemType", "label"],
+        "autoCompleteQueryField": ["autoComplete"],
+        "autoCompleteQueryFieldValidRegex": ["autoComplete"]
+      }
+    },
+    "Value" : {
+      "type" : "object",
+      "additionalProperties" : false,
+      "properties" : {
+        "name" : {
+          "type" : "string"
+        },
+        "value" : {
+          "type" : "string"
+        }
+      }
+    }
+  }
+}
