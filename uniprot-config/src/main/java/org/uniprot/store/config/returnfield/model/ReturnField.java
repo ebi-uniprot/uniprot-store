@@ -16,5 +16,4 @@ public class ReturnField implements Serializable {
     private String label;
     private String path;
     private String filter;
-
 }

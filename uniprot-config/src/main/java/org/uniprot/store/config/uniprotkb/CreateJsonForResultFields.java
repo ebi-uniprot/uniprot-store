@@ -4,8 +4,9 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import lombok.Builder;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import org.uniprot.store.config.returnfield.model.ReturnField;
 
 import java.io.File;
 import java.io.IOException;
@@ -19,8 +20,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  * @author Edd
  */
 public class CreateJsonForResultFields {
-
-    private static List<ResultField> fields;
+    private static List<InternalResultField> fields;
     private static ObjectMapper om;
 
     public static void main(String[] args) throws IOException {
@@ -40,14 +40,12 @@ public class CreateJsonForResultFields {
     private static void createFieldForGroup(JsonNode node, AtomicInteger itemPosition) {
         String groupName = node.get("groupName").asText();
         int position = itemPosition.getAndIncrement();
-        ResultField resultField =
-                ResultField.builder()
-                        .groupName(groupName)
-                        .itemType("group")
-                        .seqNumber(position)
-                        .isDatabaseGroup(node.get("isDatabase").asBoolean())
-                        .id(groupName.replace(" ", "_").toLowerCase())
-                        .build();
+        InternalResultField resultField = new InternalResultField();
+        resultField.setGroupName(groupName);
+        resultField.setItemType("group");
+        resultField.setSeqNumber(position);
+        resultField.setIsDatabaseGroup(node.get("isDatabase").asBoolean());
+        resultField.setId(groupName.replace(" ", "_").toLowerCase());
         fields.add(resultField);
 
         AtomicInteger childPosition = new AtomicInteger();
@@ -57,17 +55,15 @@ public class CreateJsonForResultFields {
     }
 
     private static void createFieldForChild(
-            JsonNode child, ResultField parent, AtomicInteger childPosition) {
+            JsonNode child, InternalResultField parent, AtomicInteger childPosition) {
         String label = child.get("label").asText();
-        ResultField resultField =
-                ResultField.builder()
-                        .name(child.get("name").asText())
-                        .label(label)
-                        .parentId(parent.getGroupName())
-                        .childNumber(childPosition.getAndIncrement())
-                        .itemType("single")
-                        .id(parent.getId()+"/"+label.replace(" ", "_").toLowerCase())
-                        .build();
+        InternalResultField resultField = new InternalResultField();
+        resultField.setName(child.get("name").asText());
+        resultField.setLabel(label);
+        resultField.setParentId(parent.getGroupName());
+        resultField.setChildNumber(childPosition.getAndIncrement());
+        resultField.setItemType("single");
+        resultField.setId(parent.getId() + "/" + label.replace(" ", "_").toLowerCase());
         fields.add(resultField);
     }
 
@@ -79,18 +75,14 @@ public class CreateJsonForResultFields {
         }
     }
 
-    @Builder
     @Data
+    @EqualsAndHashCode(callSuper = true)
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    static class ResultField {
+    public static class InternalResultField extends ReturnField {
         private Integer seqNumber;
         private String parentId;
         private Integer childNumber;
         private String itemType;
-        private String label;
-        private String name;
-        private String path;
-        private String filter;
         private String groupName;
         private Boolean isDatabaseGroup;
         private String id;
