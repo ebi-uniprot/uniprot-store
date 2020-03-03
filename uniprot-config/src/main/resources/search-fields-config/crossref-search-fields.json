@@ -3,8 +3,8 @@
     "id": "accession",
     "fieldName": "accession",
     "validRegex": "^DB-[0-9]{4}$",
-    "fieldType": "general",
-    "dataType": "string",
+    "fieldType": "GENERAL",
+    "dataType": "STRING",
     "sortFieldId": "accession_sort",
     "description": "Search by crossref accession",
     "example": "DB-0236"
@@ -12,49 +12,49 @@
   {
     "id": "accession_sort",
     "fieldName": "accession",
-    "fieldType": "sort",
-    "dataType": "string",
+    "fieldType": "SORT",
+    "dataType": "STRING",
     "description": "Sort by crossref accession",
     "example": "accession asc"
   },
   {
     "id": "category_str",
     "fieldName": "category_str",
-    "fieldType": "general",
+    "fieldType": "GENERAL",
     "sortFieldId": "category_str_sort",
-    "dataType": "string",
+    "dataType": "STRING",
     "description": "Search by crossref category",
     "example": "Organism-specific databases"
   },
   {
     "id": "category_str_sort",
     "fieldName": "category_str",
-    "fieldType": "sort",
-    "dataType": "string",
+    "fieldType": "SORT",
+    "dataType": "STRING",
     "description": "Sort by crossref category",
     "example": "category_str desc"
   },
   {
     "id": "name",
     "fieldName": "name",
-    "fieldType": "general",
-    "dataType": "string",
+    "fieldType": "GENERAL",
+    "dataType": "STRING",
     "description": "Search by crossref name",
     "example": "Arabidopsis Information Portal"
   },
   {
     "id": "category_facet",
     "fieldName": "category_facet",
-    "fieldType": "general",
-    "dataType": "string",
+    "fieldType": "GENERAL",
+    "dataType": "STRING",
     "description": "Search crossref by category facet",
     "example": "PTM databases"
   },
   {
     "id": "content",
     "fieldName": "content",
-    "fieldType": "general",
-    "dataType": "string",
+    "fieldType": "GENERAL",
+    "dataType": "STRING",
     "description": "Search by any content",
     "example": "PTM"
   }

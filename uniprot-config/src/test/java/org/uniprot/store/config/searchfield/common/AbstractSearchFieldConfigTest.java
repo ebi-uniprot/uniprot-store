@@ -30,7 +30,7 @@ public class AbstractSearchFieldConfigTest {
         String fieldName = "annotation_score";
         SearchFieldItem annotScore = testFieldConfig.getSearchFieldItemByName(fieldName);
         Assertions.assertNotNull(annotScore);
-        Assertions.assertEquals(SearchFieldType.general, annotScore.getFieldType());
+        Assertions.assertEquals(SearchFieldType.GENERAL, annotScore.getFieldType());
         Assertions.assertEquals(fieldName, annotScore.getFieldName());
     }
 
@@ -90,7 +90,7 @@ public class AbstractSearchFieldConfigTest {
         String expectedSortFieldName = "mnemonic_sort";
         SearchFieldItem sortField = testFieldConfig.getCorrespondingSortField(searchFieldName);
         Assertions.assertNotNull(sortField);
-        Assertions.assertEquals(SearchFieldType.sort, sortField.getFieldType());
+        Assertions.assertEquals(SearchFieldType.SORT, sortField.getFieldType());
         Assertions.assertEquals(expectedSortFieldName, sortField.getFieldName());
     }
 
@@ -119,28 +119,28 @@ public class AbstractSearchFieldConfigTest {
         List<SearchFieldItem> sortFields = testFieldConfig.getSortFieldItems();
         Assertions.assertNotNull(sortFields);
         Assertions.assertFalse(sortFields.isEmpty());
-        sortFields.forEach(fi -> Assertions.assertTrue(SearchFieldType.sort == fi.getFieldType()));
+        sortFields.forEach(fi -> Assertions.assertTrue(SearchFieldType.SORT == fi.getFieldType()));
     }
 
     @Test
     void testGetFieldTypeByFieldNameOfEvidence() {
         String fieldName = "ccev_webresource";
         SearchFieldType fieldType = testFieldConfig.getFieldTypeBySearchFieldName(fieldName);
-        Assertions.assertEquals(SearchFieldType.general, fieldType);
+        Assertions.assertEquals(SearchFieldType.GENERAL, fieldType);
     }
 
     @Test
     void testGetFieldTypeByFieldNameOfGeneral() {
         String fieldName = "ccev_webresource";
         SearchFieldType fieldType = testFieldConfig.getFieldTypeBySearchFieldName(fieldName);
-        Assertions.assertEquals(SearchFieldType.general, fieldType);
+        Assertions.assertEquals(SearchFieldType.GENERAL, fieldType);
     }
 
     @Test
     void testGetFieldTypeByFieldNameOfRange() {
         String fieldName = "lit_pubdate";
         SearchFieldType fieldType = testFieldConfig.getFieldTypeBySearchFieldName(fieldName);
-        Assertions.assertEquals(SearchFieldType.range, fieldType);
+        Assertions.assertEquals(SearchFieldType.RANGE, fieldType);
     }
 
     @Test

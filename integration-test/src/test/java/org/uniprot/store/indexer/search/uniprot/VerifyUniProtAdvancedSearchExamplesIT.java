@@ -44,7 +44,7 @@ class VerifyUniProtAdvancedSearchExamplesIT {
     private static Stream<Arguments> provideSearchItems() {
         List<SearchFieldItem> items = searchEngine.getSearchFieldConfig().getSearchFieldItems();
         return items.stream()
-                .filter(fieldItem -> SearchFieldItemType.single.equals(fieldItem.getItemType()))
+                .filter(fieldItem -> SearchFieldItemType.SINGLE.equals(fieldItem.getItemType()))
                 .map(fi -> Arguments.of(fi.getFieldName(), fi.getExample()));
     }
 }

@@ -2,24 +2,24 @@
   {
     "id": "id",
     "fieldName": "id",
-    "fieldType": "general",
-    "dataType": "string",
+    "fieldType": "GENERAL",
+    "dataType": "STRING",
     "description": "Search by id",
     "example": "sample id"
   },
   {
     "id": "dict",
     "fieldName": "dict",
-    "fieldType": "general",
-    "dataType": "string",
+    "fieldType": "GENERAL",
+    "dataType": "STRING",
     "description": "Search by dict",
     "example": "sample dict value"
   },
   {
     "id": "content",
     "fieldName": "content",
-    "fieldType": "general",
-    "dataType": "string",
+    "fieldType": "GENERAL",
+    "dataType": "STRING",
     "description": "Search by any content",
     "example": "cell"
   }

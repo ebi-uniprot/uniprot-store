@@ -35,8 +35,8 @@ public class SearchFieldConfigImpl extends AbstractSearchFieldConfig {
         SearchFieldItem fieldItem = new SearchFieldItem();
         fieldItem.setId(fieldName);
         fieldItem.setFieldName(fieldName);
-        fieldItem.setFieldType(SearchFieldType.range);
-        fieldItem.setDataType(SearchFieldDataType.integer);
+        fieldItem.setFieldType(SearchFieldType.RANGE);
+        fieldItem.setDataType(SearchFieldDataType.INTEGER);
         return fieldItem;
     }
 }

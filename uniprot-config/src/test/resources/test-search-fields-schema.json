@@ -25,11 +25,11 @@
         },
         "itemType" : {
           "type" : "string",
-          "enum" : [ "group", "single", "sibling_group" ]
+          "enum" : [ "GROUP", "SINGLE", "SIBLING_GROUP" ]
         },
         "fieldType" : {
           "type" : "string",
-          "enum" : [ "general", "range", "evidence", "sort" ]
+          "enum" : [ "GENERAL", "RANGE", "EVIDENCE", "SORT" ]
         },
         "label" : {
           "type" : "string"
@@ -39,7 +39,7 @@
         },
         "dataType" : {
           "type" : "string",
-          "enum" : [ "string", "integer", "enumeration", "date" ]
+          "enum" : [ "STRING", "INTEGER", "ENUM", "DATE", "BOOLEAN" ]
         },
         "description" : {
           "type" : "string"
