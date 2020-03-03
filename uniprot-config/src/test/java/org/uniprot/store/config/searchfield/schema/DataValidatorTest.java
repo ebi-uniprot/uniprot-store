@@ -16,7 +16,7 @@ import org.uniprot.store.config.searchfield.common.SearchFieldConfig;
 import org.uniprot.store.config.searchfield.common.SearchFieldConfigLoader;
 import org.uniprot.store.config.searchfield.common.SearchFieldValidationException;
 import org.uniprot.store.config.searchfield.common.TestSearchFieldConfig;
-import org.uniprot.store.config.searchfield.impl.*;
+import org.uniprot.store.config.searchfield.factory.SearchFieldConfigFactory;
 import org.uniprot.store.config.searchfield.model.SearchFieldItem;
 import org.uniprot.store.config.searchfield.model.SearchFieldItemType;
 
@@ -34,7 +34,7 @@ public class DataValidatorTest {
     @Test
     void testParentIdIsValidId() {
         List<SearchFieldItem> fieldItems =
-                loader.loadAndGetFieldItems(UniProtKBSearchFieldConfig.CONFIG_FILE);
+                loader.loadAndGetFieldItems(SearchFieldConfigFactory.UNIPROTKB_CONFIG_FILE);
         Assertions.assertFalse(fieldItems.isEmpty());
         Map<String, SearchFieldItem> idFieldsMap = loader.buildIdFieldItemMap(fieldItems);
         Assertions.assertDoesNotThrow(
@@ -44,7 +44,7 @@ public class DataValidatorTest {
     @Test
     void testFieldItemsSeqNumbers() {
         List<SearchFieldItem> fieldItems =
-                loader.loadAndGetFieldItems(UniProtKBSearchFieldConfig.CONFIG_FILE);
+                loader.loadAndGetFieldItems(SearchFieldConfigFactory.UNIPROTKB_CONFIG_FILE);
         Assertions.assertFalse(fieldItems.isEmpty());
         Assertions.assertDoesNotThrow(() -> DataValidator.validateSeqNumbers(fieldItems));
     }
@@ -52,7 +52,7 @@ public class DataValidatorTest {
     @Test
     void testFieldItemsChildNumbers() {
         List<SearchFieldItem> fieldItems =
-                loader.loadAndGetFieldItems(UniProtKBSearchFieldConfig.CONFIG_FILE);
+                loader.loadAndGetFieldItems(SearchFieldConfigFactory.UNIPROTKB_CONFIG_FILE);
         Assertions.assertFalse(fieldItems.isEmpty());
         Assertions.assertDoesNotThrow(() -> DataValidator.validateChildNumbers(fieldItems));
     }
@@ -158,17 +158,17 @@ public class DataValidatorTest {
 
     private static Stream<Arguments> provideSearchConfigFile() {
         return Stream.of(
-                Arguments.of(CrossRefSearchFieldConfig.CONFIG_FILE),
-                Arguments.of(DiseaseSearchFieldConfig.CONFIG_FILE),
-                Arguments.of(GeneCentricSearchFieldConfig.CONFIG_FILE),
-                Arguments.of(KeywordSearchFieldConfig.CONFIG_FILE),
-                Arguments.of(LiteratureSearchFieldConfig.CONFIG_FILE),
-                Arguments.of(ProteomeSearchFieldConfig.CONFIG_FILE),
-                Arguments.of(SubcellLocationSearchFieldConfig.CONFIG_FILE),
-                Arguments.of(SuggestSearchFieldConfig.CONFIG_FILE),
-                Arguments.of(TaxonomySearchFieldConfig.CONFIG_FILE),
-                Arguments.of(UniParcSearchFieldConfig.CONFIG_FILE),
-                Arguments.of(UniProtKBSearchFieldConfig.CONFIG_FILE),
-                Arguments.of(UniRefSearchFieldConfig.CONFIG_FILE));
+                Arguments.of(SearchFieldConfigFactory.CROSSREF_CONFIG_FILE),
+                Arguments.of(SearchFieldConfigFactory.DISEASE_CONFIG_FILE),
+                Arguments.of(SearchFieldConfigFactory.GENECENTRIC_CONFIG_FILE),
+                Arguments.of(SearchFieldConfigFactory.KEYWORD_CONFIG_FILE),
+                Arguments.of(SearchFieldConfigFactory.LITERATURE_CONFIG_FILE),
+                Arguments.of(SearchFieldConfigFactory.PROTEOME_CONFIG_FILE),
+                Arguments.of(SearchFieldConfigFactory.SUBCELLLOCATION_CONFIG_FILE),
+                Arguments.of(SearchFieldConfigFactory.SUGGEST_CONFIG_FILE),
+                Arguments.of(SearchFieldConfigFactory.TAXONOMY_CONFIG_FILE),
+                Arguments.of(SearchFieldConfigFactory.UNIPARC_CONFIG_FILE),
+                Arguments.of(SearchFieldConfigFactory.UNIPROTKB_CONFIG_FILE),
+                Arguments.of(SearchFieldConfigFactory.UNIREF_CONFIG_FILE));
     }
 }

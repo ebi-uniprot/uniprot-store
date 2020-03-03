@@ -44,7 +44,7 @@ class ProteomeSearchEngine extends AbstractSearchEngine<Proteome> {
 
     @Override
     protected SearchFieldConfig getSearchFieldConfig() {
-        return SearchFieldConfigFactory.getSearchFieldConfig(UniProtDataType.proteome);
+        return SearchFieldConfigFactory.getSearchFieldConfig(UniProtDataType.PROTEOME);
     }
 
     @Override

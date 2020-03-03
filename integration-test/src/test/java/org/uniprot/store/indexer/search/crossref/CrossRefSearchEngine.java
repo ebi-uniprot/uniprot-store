@@ -15,7 +15,7 @@ class CrossRefSearchEngine extends AbstractSearchEngine<CrossRefDocument> {
 
     @Override
     protected SearchFieldConfig getSearchFieldConfig() {
-        return SearchFieldConfigFactory.getSearchFieldConfig(UniProtDataType.crossref);
+        return SearchFieldConfigFactory.getSearchFieldConfig(UniProtDataType.CROSSREF);
     }
 
     @Override

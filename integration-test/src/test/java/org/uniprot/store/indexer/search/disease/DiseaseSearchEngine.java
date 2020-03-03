@@ -15,7 +15,7 @@ class DiseaseSearchEngine extends AbstractSearchEngine<DiseaseDocument> {
 
     @Override
     protected SearchFieldConfig getSearchFieldConfig() {
-        return SearchFieldConfigFactory.getSearchFieldConfig(UniProtDataType.disease);
+        return SearchFieldConfigFactory.getSearchFieldConfig(UniProtDataType.DISEASE);
     }
 
     @Override

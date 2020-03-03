@@ -15,7 +15,7 @@ class GeneCentricSearchEngine extends AbstractSearchEngine<GeneCentricDocument> 
 
     @Override
     protected SearchFieldConfig getSearchFieldConfig() {
-        return SearchFieldConfigFactory.getSearchFieldConfig(UniProtDataType.genecentric);
+        return SearchFieldConfigFactory.getSearchFieldConfig(UniProtDataType.GENECENTRIC);
     }
 
     @Override

@@ -15,7 +15,7 @@ class TaxonomySearchEngine extends AbstractSearchEngine<TaxonomyDocument> {
 
     @Override
     protected SearchFieldConfig getSearchFieldConfig() {
-        return SearchFieldConfigFactory.getSearchFieldConfig(UniProtDataType.taxonomy);
+        return SearchFieldConfigFactory.getSearchFieldConfig(UniProtDataType.TAXONOMY);
     }
 
     @Override

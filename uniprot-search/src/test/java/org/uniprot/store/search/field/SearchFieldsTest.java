@@ -21,28 +21,27 @@ class SearchFieldsTest {
     @BeforeAll
     static void setUp() {
         searchFieldConfig =
-                SearchFieldConfigFactory.getSearchFieldConfig(UniProtDataType.uniprotkb);
+                SearchFieldConfigFactory.getSearchFieldConfig(UniProtDataType.UNIPROTKB);
     }
 
     @Test
     void hasField_isTrueWhenPresent() {
-        assertThat(searchFieldConfig.doesSearchFieldItemExist("accession"), is(true));
+        assertThat(searchFieldConfig.searchFieldItemExists("accession"), is(true));
     }
 
     @Test
     void hasField_isFalseWhenNotPresent() {
-        assertThat(searchFieldConfig.doesSearchFieldItemExist("XXXXXXX"), is(false));
+        assertThat(searchFieldConfig.searchFieldItemExists("XXXXXXX"), is(false));
     }
 
     @Test
     void hasSortField_isTrueWhenPresent() {
-        assertThat(searchFieldConfig.doesCorrespondingSortFieldExist("accession"), is(true));
+        assertThat(searchFieldConfig.correspondingSortFieldExists("accession"), is(true));
     }
 
     @Test
     void hasSortField_isFalseWhenPresent() {
-        assertThat(
-                searchFieldConfig.doesCorrespondingSortFieldExist("mnemonic_default"), is(false));
+        assertThat(searchFieldConfig.correspondingSortFieldExists("mnemonic_default"), is(false));
     }
 
     @Test

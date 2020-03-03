@@ -12,11 +12,14 @@ import org.uniprot.store.config.searchfield.impl.*;
 
 public class SearchFieldConfigFactoryTest {
 
-    @ParameterizedTest
-    @MethodSource("provideTypeAndClass")
-    void testObjectionCreation(UniProtDataType dataType, Class<? extends SearchFieldConfig> clazz) {
-        Assertions.assertEquals(
-                clazz, SearchFieldConfigFactory.getSearchFieldConfig(dataType).getClass());
+    @ParameterizedTest(name = "[{index}] ItemCount({0}) == {1} ?")
+    @MethodSource("provideTypeAndItemCount")
+    void testObjectionCreation(UniProtDataType dataType, Integer itemCount) {
+        SearchFieldConfig searchFieldConfig =
+                SearchFieldConfigFactory.getSearchFieldConfig(dataType);
+        Assertions.assertEquals(SearchFieldConfigImpl.class, searchFieldConfig.getClass());
+        Assertions.assertNotNull(searchFieldConfig.getAllFieldItems());
+        Assertions.assertEquals(itemCount, searchFieldConfig.getAllFieldItems().size());
     }
 
     @Test
@@ -26,20 +29,19 @@ public class SearchFieldConfigFactoryTest {
                 () -> SearchFieldConfigFactory.getSearchFieldConfig(null));
     }
 
-    private static Stream<Arguments> provideTypeAndClass() {
+    private static Stream<Arguments> provideTypeAndItemCount() {
         return Stream.of(
-                Arguments.of(UniProtDataType.crossref, CrossRefSearchFieldConfig.class),
-                Arguments.of(UniProtDataType.disease, DiseaseSearchFieldConfig.class),
-                Arguments.of(UniProtDataType.genecentric, GeneCentricSearchFieldConfig.class),
-                Arguments.of(UniProtDataType.keyword, KeywordSearchFieldConfig.class),
-                Arguments.of(UniProtDataType.literature, LiteratureSearchFieldConfig.class),
-                Arguments.of(UniProtDataType.proteome, ProteomeSearchFieldConfig.class),
-                Arguments.of(
-                        UniProtDataType.subcelllocation, SubcellLocationSearchFieldConfig.class),
-                Arguments.of(UniProtDataType.suggest, SuggestSearchFieldConfig.class),
-                Arguments.of(UniProtDataType.taxonomy, TaxonomySearchFieldConfig.class),
-                Arguments.of(UniProtDataType.uniparc, UniParcSearchFieldConfig.class),
-                Arguments.of(UniProtDataType.uniprotkb, UniProtKBSearchFieldConfig.class),
-                Arguments.of(UniProtDataType.uniref, UniRefSearchFieldConfig.class));
+                Arguments.of(UniProtDataType.CROSSREF, 7),
+                Arguments.of(UniProtDataType.DISEASE, 4),
+                Arguments.of(UniProtDataType.GENECENTRIC, 8),
+                Arguments.of(UniProtDataType.KEYWORD, 7),
+                Arguments.of(UniProtDataType.LITERATURE, 11),
+                Arguments.of(UniProtDataType.PROTEOME, 18),
+                Arguments.of(UniProtDataType.SUBCELLLOCATION, 6),
+                Arguments.of(UniProtDataType.SUGGEST, 3),
+                Arguments.of(UniProtDataType.TAXONOMY, 16),
+                Arguments.of(UniProtDataType.UNIPARC, 15),
+                Arguments.of(UniProtDataType.UNIPROTKB, 432),
+                Arguments.of(UniProtDataType.UNIREF, 17));
     }
 }

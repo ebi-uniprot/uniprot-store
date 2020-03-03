@@ -16,7 +16,7 @@ class SuggestSearchEngine extends AbstractSearchEngine<SuggestDocument> {
 
     @Override
     protected SearchFieldConfig getSearchFieldConfig() {
-        return SearchFieldConfigFactory.getSearchFieldConfig(UniProtDataType.suggest);
+        return SearchFieldConfigFactory.getSearchFieldConfig(UniProtDataType.SUGGEST);
     }
 
     @Override

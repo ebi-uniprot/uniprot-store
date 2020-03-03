@@ -43,7 +43,7 @@ class UniParcSearchEngine extends AbstractSearchEngine<Entry> {
 
     @Override
     protected SearchFieldConfig getSearchFieldConfig() {
-        return SearchFieldConfigFactory.getSearchFieldConfig(UniProtDataType.uniparc);
+        return SearchFieldConfigFactory.getSearchFieldConfig(UniProtDataType.UNIPARC);
     }
 
     @SuppressWarnings("rawtypes")
