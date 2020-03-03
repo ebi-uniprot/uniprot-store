@@ -4,7 +4,7 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import org.uniprot.cv.xdb.UniProtXDbTypes;
+import org.uniprot.cv.xdb.UniProtDatabaseTypes;
 import org.uniprot.store.config.common.FieldConfiguration;
 import org.uniprot.store.config.model.FieldItem;
 import org.uniprot.store.config.model.FieldType;
@@ -67,7 +67,7 @@ public class UniProtKBSearchFields extends SearchFieldsLoader {
     }
 
     private Set<SearchField> getDbXrefsCountSearchFields() {
-        return UniProtXDbTypes.INSTANCE.getAllDBXRefTypes().stream()
+        return UniProtDatabaseTypes.INSTANCE.getAllDbTypes().stream()
                 .map(SearchFieldImpl::from)
                 .collect(Collectors.toSet());
     }

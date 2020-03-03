@@ -3,13 +3,13 @@ package org.uniprot.store.search.domain2;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.uniprot.cv.xdb.UniProtXDbTypes;
+import org.uniprot.cv.xdb.UniProtDatabaseTypes;
 import org.uniprot.store.search.domain2.impl.SearchFieldImpl;
 
 /**
  * UniProtKB search fields originate from both the {@code search-fields.json} file, and {@link
- * UniProtXDbTypes}. The latter is used to define a specific count field for all possible database
- * cross-references.
+ * UniProtDatabaseTypes}. The latter is used to define a specific count field for all possible
+ * database cross-references.
  *
  * <p>Created 20/01/20
  *
@@ -30,7 +30,7 @@ public class UniProtKBSearchFieldsLoader extends SearchFieldsLoader {
     }
 
     private List<SearchFieldImpl> getDbXrefsCountSearchFields() {
-        return UniProtXDbTypes.INSTANCE.getAllDBXRefTypes().stream()
+        return UniProtDatabaseTypes.INSTANCE.getAllDbTypes().stream()
                 .map(
                         db ->
                                 SearchFieldImpl.builder()

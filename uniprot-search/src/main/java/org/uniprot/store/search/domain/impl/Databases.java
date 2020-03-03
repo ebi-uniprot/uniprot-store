@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 
 import org.uniprot.core.cv.xdb.UniProtDatabaseCategory;
 import org.uniprot.core.cv.xdb.UniProtDatabaseDetail;
-import org.uniprot.cv.xdb.UniProtXDbTypes;
+import org.uniprot.cv.xdb.UniProtDatabaseTypes;
 import org.uniprot.store.search.domain.DatabaseGroup;
 import org.uniprot.store.search.domain.Field;
 import org.uniprot.store.search.domain.FieldGroup;
@@ -37,7 +37,7 @@ public enum Databases {
         for (UniProtDatabaseCategory category : UniProtDatabaseCategory.values()) {
             if (category != UniProtDatabaseCategory.UNKNOWN) {
                 List<UniProtDatabaseDetail> types =
-                        UniProtXDbTypes.INSTANCE.getDBTypesByCategory(category);
+                        UniProtDatabaseTypes.INSTANCE.getDBTypesByCategory(category);
                 List<Tuple> databaseTypes =
                         types.stream()
                                 .filter(val -> !val.isImplicit())

@@ -11,7 +11,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.uniprot.core.cv.xdb.UniProtDatabaseCategory;
 import org.uniprot.core.cv.xdb.UniProtDatabaseDetail;
-import org.uniprot.cv.xdb.UniProtXDbTypes;
+import org.uniprot.cv.xdb.UniProtDatabaseTypes;
 import org.uniprot.store.search.domain.impl.Databases;
 
 class DatabasesTest {
@@ -42,7 +42,7 @@ class DatabasesTest {
     @Test
     void testHasCorrectKnownCrossReferencesSize() {
         List<UniProtDatabaseDetail> allKnownCrossReferences =
-                UniProtXDbTypes.INSTANCE.getAllDBXRefTypes().stream()
+                UniProtDatabaseTypes.INSTANCE.getAllDbTypes().stream()
                         .filter(dbd -> !dbd.getCategory().equals(UniProtDatabaseCategory.UNKNOWN))
                         .filter(dbd -> !dbd.isImplicit())
                         .collect(Collectors.toList());
