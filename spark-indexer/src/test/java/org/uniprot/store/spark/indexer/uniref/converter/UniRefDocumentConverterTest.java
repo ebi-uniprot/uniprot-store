@@ -8,6 +8,8 @@ import java.util.Date;
 import org.junit.jupiter.api.Test;
 import org.uniprot.core.Sequence;
 import org.uniprot.core.builder.SequenceBuilder;
+import org.uniprot.core.cv.go.GoAspect;
+import org.uniprot.core.cv.go.builder.GeneOntologyEntryBuilder;
 import org.uniprot.core.impl.SequenceImpl;
 import org.uniprot.core.uniparc.impl.UniParcIdImpl;
 import org.uniprot.core.uniprot.builder.UniProtAccessionBuilder;
@@ -15,7 +17,6 @@ import org.uniprot.core.uniref.*;
 import org.uniprot.core.uniref.builder.RepresentativeMemberBuilder;
 import org.uniprot.core.uniref.builder.UniRefEntryBuilder;
 import org.uniprot.core.uniref.builder.UniRefMemberBuilder;
-import org.uniprot.core.uniref.impl.GoTermImpl;
 import org.uniprot.core.uniref.impl.OverlapRegionImpl;
 import org.uniprot.core.uniref.impl.UniRefEntryIdImpl;
 import org.uniprot.store.search.document.uniref.UniRefDocument;
@@ -128,7 +129,8 @@ class UniRefDocumentConverterTest {
                 .entryType(UniRefType.UniRef100)
                 .commonTaxonId(3)
                 .commonTaxon("UniRefCommonTaxon")
-                .goTermsAdd(new GoTermImpl(GoTermType.COMPONENT, "id"))
+                .goTermsAdd(
+                        new GeneOntologyEntryBuilder().aspect(GoAspect.COMPONENT).id("id").build())
                 .representativeMember(representativeMember)
                 .membersAdd(member)
                 .build();

@@ -7,7 +7,9 @@ import static org.hamcrest.collection.IsIterableContainingInOrder.contains;
 import static org.hamcrest.core.Is.is;
 import static org.uniprot.store.indexer.search.uniprot.IdentifierSearchIT.ACC_LINE;
 import static org.uniprot.store.indexer.search.uniprot.TestUtils.convertToUniProtEntry;
-import static org.uniprot.store.search.field.QueryBuilder.*;
+import static org.uniprot.store.search.field.QueryBuilder.after;
+import static org.uniprot.store.search.field.QueryBuilder.before;
+import static org.uniprot.store.search.field.QueryBuilder.rangeQuery;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -20,7 +22,6 @@ import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;
 import org.uniprot.core.flatfile.writer.LineType;
-import org.uniprot.store.search.field.UniProtSearchFields;
 
 /** Verifies if the creation and modification dates within the UniProt entry are indexed properly */
 class DatesSearchIT {
@@ -110,7 +111,12 @@ class DatesSearchIT {
         LocalDate creationDate = LocalDate.of(1989, 9, 30);
 
         String query =
-                before(UniProtSearchFields.UNIPROTKB.getField("created").getName(), creationDate);
+                before(
+                        searchEngine
+                                .getSearchFieldConfig()
+                                .getSearchFieldItemByName("created")
+                                .getFieldName(),
+                        creationDate);
 
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -123,7 +129,12 @@ class DatesSearchIT {
         LocalDate creationDate = LocalDate.of(1989, 10, 1);
 
         String query =
-                before(UniProtSearchFields.UNIPROTKB.getField("created").getName(), creationDate);
+                before(
+                        searchEngine
+                                .getSearchFieldConfig()
+                                .getSearchFieldItemByName("created")
+                                .getFieldName(),
+                        creationDate);
 
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -136,7 +147,12 @@ class DatesSearchIT {
         LocalDate creationDate = LocalDate.of(1999, 3, 15);
 
         String query =
-                before(UniProtSearchFields.UNIPROTKB.getField("created").getName(), creationDate);
+                before(
+                        searchEngine
+                                .getSearchFieldConfig()
+                                .getSearchFieldItemByName("created")
+                                .getFieldName(),
+                        creationDate);
 
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -149,7 +165,12 @@ class DatesSearchIT {
         LocalDate updateDate = LocalDate.of(2004, 10, 26);
 
         String query =
-                before(UniProtSearchFields.UNIPROTKB.getField("modified").getName(), updateDate);
+                before(
+                        searchEngine
+                                .getSearchFieldConfig()
+                                .getSearchFieldItemByName("modified")
+                                .getFieldName(),
+                        updateDate);
 
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -162,7 +183,12 @@ class DatesSearchIT {
         LocalDate updateDate = LocalDate.of(2004, 10, 27);
 
         String query =
-                before(UniProtSearchFields.UNIPROTKB.getField("modified").getName(), updateDate);
+                before(
+                        searchEngine
+                                .getSearchFieldConfig()
+                                .getSearchFieldItemByName("modified")
+                                .getFieldName(),
+                        updateDate);
 
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -175,7 +201,12 @@ class DatesSearchIT {
         LocalDate updateDate = LocalDate.of(2006, 2, 8);
 
         String query =
-                before(UniProtSearchFields.UNIPROTKB.getField("modified").getName(), updateDate);
+                before(
+                        searchEngine
+                                .getSearchFieldConfig()
+                                .getSearchFieldItemByName("modified")
+                                .getFieldName(),
+                        updateDate);
 
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -189,7 +220,12 @@ class DatesSearchIT {
         LocalDate creationDate = LocalDate.of(2014, 3, 30);
 
         String query =
-                after(UniProtSearchFields.UNIPROTKB.getField("created").getName(), creationDate);
+                after(
+                        searchEngine
+                                .getSearchFieldConfig()
+                                .getSearchFieldItemByName("created")
+                                .getFieldName(),
+                        creationDate);
 
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -202,7 +238,12 @@ class DatesSearchIT {
         LocalDate creationDate = LocalDate.of(2003, 7, 29);
 
         String query =
-                after(UniProtSearchFields.UNIPROTKB.getField("created").getName(), creationDate);
+                after(
+                        searchEngine
+                                .getSearchFieldConfig()
+                                .getSearchFieldItemByName("created")
+                                .getFieldName(),
+                        creationDate);
 
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -219,7 +260,12 @@ class DatesSearchIT {
         LocalDate creationDate = LocalDate.of(1999, 3, 15);
 
         String query =
-                after(UniProtSearchFields.UNIPROTKB.getField("created").getName(), creationDate);
+                after(
+                        searchEngine
+                                .getSearchFieldConfig()
+                                .getSearchFieldItemByName("created")
+                                .getFieldName(),
+                        creationDate);
 
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -239,7 +285,12 @@ class DatesSearchIT {
         LocalDate updateDate = LocalDate.of(2014, 4, 1);
 
         String query =
-                after(UniProtSearchFields.UNIPROTKB.getField("modified").getName(), updateDate);
+                after(
+                        searchEngine
+                                .getSearchFieldConfig()
+                                .getSearchFieldItemByName("modified")
+                                .getFieldName(),
+                        updateDate);
 
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -255,7 +306,12 @@ class DatesSearchIT {
         LocalDate updateDate = LocalDate.of(2013, 1, 1);
 
         String query =
-                after(UniProtSearchFields.UNIPROTKB.getField("modified").getName(), updateDate);
+                after(
+                        searchEngine
+                                .getSearchFieldConfig()
+                                .getSearchFieldItemByName("modified")
+                                .getFieldName(),
+                        updateDate);
 
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -271,7 +327,12 @@ class DatesSearchIT {
         LocalDate updateDate = LocalDate.of(2006, 2, 7);
 
         String query =
-                after(UniProtSearchFields.UNIPROTKB.getField("modified").getName(), updateDate);
+                after(
+                        searchEngine
+                                .getSearchFieldConfig()
+                                .getSearchFieldItemByName("modified")
+                                .getFieldName(),
+                        updateDate);
 
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -293,7 +354,10 @@ class DatesSearchIT {
 
         String query =
                 rangeQuery(
-                        UniProtSearchFields.UNIPROTKB.getField("created").getName(),
+                        searchEngine
+                                .getSearchFieldConfig()
+                                .getSearchFieldItemByName("created")
+                                .getFieldName(),
                         startDate,
                         endDate);
 
@@ -310,7 +374,10 @@ class DatesSearchIT {
 
         String query =
                 rangeQuery(
-                        UniProtSearchFields.UNIPROTKB.getField("created").getName(),
+                        searchEngine
+                                .getSearchFieldConfig()
+                                .getSearchFieldItemByName("created")
+                                .getFieldName(),
                         startDate,
                         endDate);
 
@@ -327,7 +394,10 @@ class DatesSearchIT {
 
         String query =
                 rangeQuery(
-                        UniProtSearchFields.UNIPROTKB.getField("created").getName(),
+                        searchEngine
+                                .getSearchFieldConfig()
+                                .getSearchFieldItemByName("created")
+                                .getFieldName(),
                         startDate,
                         endDate);
 
@@ -344,7 +414,10 @@ class DatesSearchIT {
 
         String query =
                 rangeQuery(
-                        UniProtSearchFields.UNIPROTKB.getField("modified").getName(),
+                        searchEngine
+                                .getSearchFieldConfig()
+                                .getSearchFieldItemByName("modified")
+                                .getFieldName(),
                         startDate,
                         endDate);
 
@@ -361,7 +434,10 @@ class DatesSearchIT {
 
         String query =
                 rangeQuery(
-                        UniProtSearchFields.UNIPROTKB.getField("modified").getName(),
+                        searchEngine
+                                .getSearchFieldConfig()
+                                .getSearchFieldItemByName("modified")
+                                .getFieldName(),
                         startDate,
                         endDate);
 
@@ -380,7 +456,10 @@ class DatesSearchIT {
 
         String query =
                 rangeQuery(
-                        UniProtSearchFields.UNIPROTKB.getField("modified").getName(),
+                        searchEngine
+                                .getSearchFieldConfig()
+                                .getSearchFieldItemByName("modified")
+                                .getFieldName(),
                         startDate,
                         endDate);
 
@@ -401,7 +480,10 @@ class DatesSearchIT {
 
         String query =
                 rangeQuery(
-                        UniProtSearchFields.UNIPROTKB.getField("created").getName(),
+                        searchEngine
+                                .getSearchFieldConfig()
+                                .getSearchFieldItemByName("created")
+                                .getFieldName(),
                         startDate,
                         endDate);
 
@@ -418,7 +500,10 @@ class DatesSearchIT {
 
         String query =
                 rangeQuery(
-                        UniProtSearchFields.UNIPROTKB.getField("created").getName(),
+                        searchEngine
+                                .getSearchFieldConfig()
+                                .getSearchFieldItemByName("created")
+                                .getFieldName(),
                         startDate,
                         endDate);
 
@@ -435,7 +520,10 @@ class DatesSearchIT {
 
         String query =
                 rangeQuery(
-                        UniProtSearchFields.UNIPROTKB.getField("created").getName(),
+                        searchEngine
+                                .getSearchFieldConfig()
+                                .getSearchFieldItemByName("created")
+                                .getFieldName(),
                         startDate,
                         endDate);
 
@@ -452,7 +540,10 @@ class DatesSearchIT {
 
         String query =
                 rangeQuery(
-                        UniProtSearchFields.UNIPROTKB.getField("created").getName(),
+                        searchEngine
+                                .getSearchFieldConfig()
+                                .getSearchFieldItemByName("created")
+                                .getFieldName(),
                         startDate,
                         endDate);
 
@@ -474,7 +565,10 @@ class DatesSearchIT {
 
         String query =
                 rangeQuery(
-                        UniProtSearchFields.UNIPROTKB.getField("created").getName(),
+                        searchEngine
+                                .getSearchFieldConfig()
+                                .getSearchFieldItemByName("created")
+                                .getFieldName(),
                         startDate,
                         endDate);
 
@@ -492,7 +586,10 @@ class DatesSearchIT {
 
         String query =
                 rangeQuery(
-                        UniProtSearchFields.UNIPROTKB.getField("created").getName(),
+                        searchEngine
+                                .getSearchFieldConfig()
+                                .getSearchFieldItemByName("created")
+                                .getFieldName(),
                         startDate,
                         endDate);
 
@@ -510,7 +607,10 @@ class DatesSearchIT {
 
         String query =
                 rangeQuery(
-                        UniProtSearchFields.UNIPROTKB.getField("created").getName(),
+                        searchEngine
+                                .getSearchFieldConfig()
+                                .getSearchFieldItemByName("created")
+                                .getFieldName(),
                         startDate,
                         endDate);
 
@@ -528,7 +628,10 @@ class DatesSearchIT {
 
         String query =
                 rangeQuery(
-                        UniProtSearchFields.UNIPROTKB.getField("created").getName(),
+                        searchEngine
+                                .getSearchFieldConfig()
+                                .getSearchFieldItemByName("created")
+                                .getFieldName(),
                         startDate,
                         endDate);
 
@@ -549,7 +652,10 @@ class DatesSearchIT {
 
         String query =
                 rangeQuery(
-                        UniProtSearchFields.UNIPROTKB.getField("created").getName(),
+                        searchEngine
+                                .getSearchFieldConfig()
+                                .getSearchFieldItemByName("created")
+                                .getFieldName(),
                         startDate,
                         endDate);
 
@@ -566,7 +672,10 @@ class DatesSearchIT {
 
         String query =
                 rangeQuery(
-                        UniProtSearchFields.UNIPROTKB.getField("created").getName(),
+                        searchEngine
+                                .getSearchFieldConfig()
+                                .getSearchFieldItemByName("created")
+                                .getFieldName(),
                         startDate,
                         endDate);
 
@@ -583,7 +692,10 @@ class DatesSearchIT {
 
         String query =
                 rangeQuery(
-                        UniProtSearchFields.UNIPROTKB.getField("created").getName(),
+                        searchEngine
+                                .getSearchFieldConfig()
+                                .getSearchFieldItemByName("created")
+                                .getFieldName(),
                         startDate,
                         endDate);
 
@@ -602,7 +714,10 @@ class DatesSearchIT {
 
         String query =
                 rangeQuery(
-                        UniProtSearchFields.UNIPROTKB.getField("created").getName(),
+                        searchEngine
+                                .getSearchFieldConfig()
+                                .getSearchFieldItemByName("created")
+                                .getFieldName(),
                         startDate,
                         endDate);
 
@@ -619,7 +734,10 @@ class DatesSearchIT {
 
         String query =
                 rangeQuery(
-                        UniProtSearchFields.UNIPROTKB.getField("sequence_modified").getName(),
+                        searchEngine
+                                .getSearchFieldConfig()
+                                .getSearchFieldItemByName("sequence_modified")
+                                .getFieldName(),
                         startDate,
                         endDate);
 

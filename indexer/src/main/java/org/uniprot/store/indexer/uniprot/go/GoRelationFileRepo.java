@@ -8,12 +8,13 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import org.springframework.cache.annotation.Cacheable;
+import org.uniprot.core.cv.go.GeneOntologyEntry;
 import org.uniprot.core.util.Utils;
 import org.uniprot.store.indexer.uniprotkb.UniProtKBJob;
 
 public class GoRelationFileRepo implements GoRelationRepo {
-    private final Map<String, Set<GoTerm>> isAMap;
-    private final Map<String, Set<GoTerm>> partOfMap;
+    private final Map<String, Set<GeneOntologyEntry>> isAMap;
+    private final Map<String, Set<GeneOntologyEntry>> partOfMap;
 
     public static GoRelationFileRepo create(
             GoRelationFileReader goRelationReader, GoTermFileReader goTermReader) {
@@ -26,7 +27,7 @@ public class GoRelationFileRepo implements GoRelationRepo {
 
         Map<String, Set<String>> isAMapStr = goRelationReader.getIsAMap();
         Map<String, Set<String>> isPartMapStr = goRelationReader.getIsPartMap();
-        Map<String, GoTerm> gotermMap = goTermReader.read();
+        Map<String, GeneOntologyEntry> gotermMap = goTermReader.read();
         isAMap =
                 isAMapStr.entrySet().stream()
                         .collect(
@@ -42,23 +43,24 @@ public class GoRelationFileRepo implements GoRelationRepo {
                                         val -> convert(val.getValue(), gotermMap)));
     }
 
-    public Set<GoTerm> getIsA(String goId) {
+    public Set<GeneOntologyEntry> getIsA(String goId) {
         return isAMap.getOrDefault(goId, Collections.emptySet());
     }
 
-    public Set<GoTerm> getPartOf(String goId) {
+    public Set<GeneOntologyEntry> getPartOf(String goId) {
         return partOfMap.getOrDefault(goId, Collections.emptySet());
     }
 
     @Cacheable(value = UniProtKBJob.GO_ANCESTORS_CACHE)
-    public Set<GoTerm> getAncestors(String fromGoTerm, List<Relationship> relationships) {
+    public Set<GeneOntologyEntry> getAncestors(
+            String fromGoTerm, List<Relationship> relationships) {
         List<Relationship> relationshipsToUse = relationships;
         if (Utils.nullOrEmpty(relationshipsToUse)) {
             relationshipsToUse = singletonList(IS_A);
         }
 
         if (Utils.notNull(fromGoTerm)) {
-            Set<GoTerm> ancestorsFound = new HashSet<>();
+            Set<GeneOntologyEntry> ancestorsFound = new HashSet<>();
             addAncestors(singleton(fromGoTerm), ancestorsFound, relationshipsToUse);
             return ancestorsFound;
         } else {
@@ -67,9 +69,11 @@ public class GoRelationFileRepo implements GoRelationRepo {
     }
 
     private void addAncestors(
-            Set<String> baseGoIds, Set<GoTerm> ancestors, List<Relationship> relationships) {
+            Set<String> baseGoIds,
+            Set<GeneOntologyEntry> ancestors,
+            List<Relationship> relationships) {
         for (String base : baseGoIds) {
-            Set<GoTerm> parents = new HashSet<>();
+            Set<GeneOntologyEntry> parents = new HashSet<>();
             if (relationships.contains(IS_A)) {
                 parents.addAll(getIsA(base));
             }
@@ -80,13 +84,14 @@ public class GoRelationFileRepo implements GoRelationRepo {
 
             ancestors.addAll(parents);
             addAncestors(
-                    parents.stream().map(GoTerm::getId).collect(Collectors.toSet()),
+                    parents.stream().map(GeneOntologyEntry::getId).collect(Collectors.toSet()),
                     ancestors,
                     relationships);
         }
     }
 
-    private Set<GoTerm> convert(Set<String> goIds, Map<String, GoTerm> gotermMap) {
+    private Set<GeneOntologyEntry> convert(
+            Set<String> goIds, Map<String, GeneOntologyEntry> gotermMap) {
         return goIds.stream()
                 .map(gotermMap::get)
                 .filter(Utils::notNull)

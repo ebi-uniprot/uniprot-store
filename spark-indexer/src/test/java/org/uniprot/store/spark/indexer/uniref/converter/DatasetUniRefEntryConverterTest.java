@@ -8,6 +8,8 @@ import java.util.*;
 import org.apache.spark.sql.Row;
 import org.apache.spark.sql.catalyst.expressions.GenericRowWithSchema;
 import org.junit.jupiter.api.Test;
+import org.uniprot.core.cv.go.GeneOntologyEntry;
+import org.uniprot.core.cv.go.GoAspect;
 import org.uniprot.core.uniref.*;
 import org.uniprot.store.spark.indexer.util.RowUtils;
 
@@ -40,8 +42,8 @@ class DatasetUniRefEntryConverterTest {
         assertEquals(9606, entry.getCommonTaxonId());
         assertEquals(10, entry.getMemberCount());
         assertEquals(3, entry.getGoTerms().size());
-        GoTerm goTerm = entry.getGoTerms().get(0);
-        assertEquals(GoTermType.FUNCTION, goTerm.getType());
+        GeneOntologyEntry goTerm = entry.getGoTerms().get(0);
+        assertEquals(GoAspect.FUNCTION, goTerm.getAspect());
         assertEquals("Function", goTerm.getId());
 
         // representative member

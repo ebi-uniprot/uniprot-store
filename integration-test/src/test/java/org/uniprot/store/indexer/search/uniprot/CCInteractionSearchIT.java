@@ -16,7 +16,6 @@ import org.junit.jupiter.api.extension.RegisterExtension;
 import org.uniprot.core.flatfile.writer.LineType;
 import org.uniprot.core.uniprot.comment.CommentType;
 import org.uniprot.store.search.field.QueryBuilder;
-import org.uniprot.store.search.field.UniProtSearchFields;
 
 class CCInteractionSearchIT {
     private static final String Q6GZX4 = "Q6GZX4";
@@ -58,7 +57,10 @@ class CCInteractionSearchIT {
 
     @Test
     void interactionFindOne() {
-        String query = query(UniProtSearchFields.UNIPROTKB.getField("interactor"), "Q8NB12");
+        String query =
+                query(
+                        searchEngine.getSearchFieldConfig().getSearchFieldItemByName("interactor"),
+                        "Q8NB12");
 
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -69,7 +71,10 @@ class CCInteractionSearchIT {
 
     @Test
     void interactionFindOne2() {
-        String query = query(UniProtSearchFields.UNIPROTKB.getField("interactor"), "EBI-1042898");
+        String query =
+                query(
+                        searchEngine.getSearchFieldConfig().getSearchFieldItemByName("interactor"),
+                        "EBI-1042898");
 
         QueryResponse response = searchEngine.getQueryResponse(query);
 

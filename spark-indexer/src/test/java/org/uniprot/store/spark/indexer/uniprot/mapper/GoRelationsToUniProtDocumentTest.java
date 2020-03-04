@@ -6,9 +6,9 @@ import java.util.*;
 
 import org.apache.spark.api.java.Optional;
 import org.junit.jupiter.api.Test;
+import org.uniprot.core.cv.go.GeneOntologyEntry;
+import org.uniprot.core.cv.go.builder.GeneOntologyEntryBuilder;
 import org.uniprot.store.search.document.uniprot.UniProtDocument;
-import org.uniprot.store.spark.indexer.go.relations.GOTerm;
-import org.uniprot.store.spark.indexer.go.relations.GOTermImpl;
 
 import scala.Tuple2;
 
@@ -22,11 +22,14 @@ class GoRelationsToUniProtDocumentTest {
     void testDocumentWithValidGoRelations() throws Exception {
         GoRelationsToUniProtDocument mapper = new GoRelationsToUniProtDocument();
 
-        Set<GOTerm> ancestors = new HashSet<>();
-        ancestors.add(new GOTermImpl("GO:0011111", "Ancestor 1"));
-        ancestors.add(new GOTermImpl("GO:0022222", "Ancestor 2"));
-        List<GOTerm> goTerms = new ArrayList<>();
-        goTerms.add(new GOTermImpl("GO:0012345", "Go Term", ancestors));
+        Set<GeneOntologyEntry> ancestors = new HashSet<>();
+        ancestors.add(go("GO:0011111", "Ancestor 1"));
+        ancestors.add(go("GO:0022222", "Ancestor 2"));
+        List<GeneOntologyEntry> goTerms = new ArrayList<>();
+        goTerms.add(
+                GeneOntologyEntryBuilder.from(go("GO:0012345", "Go Term"))
+                        .ancestorsSet(ancestors)
+                        .build());
 
         List<String> goValues = new ArrayList<>();
         goValues.add("0012345");
@@ -34,7 +37,7 @@ class GoRelationsToUniProtDocumentTest {
         UniProtDocument doc = new UniProtDocument();
         doc.goWithEvidenceMaps.put("ida", goValues);
 
-        Tuple2<UniProtDocument, Optional<Iterable<GOTerm>>> tuple =
+        Tuple2<UniProtDocument, Optional<Iterable<GeneOntologyEntry>>> tuple =
                 new Tuple2<>(doc, Optional.of(goTerms));
         UniProtDocument result = mapper.call(tuple);
 
@@ -64,7 +67,7 @@ class GoRelationsToUniProtDocumentTest {
     void testDocumentWithEmptyGoRelations() throws Exception {
         GoRelationsToUniProtDocument mapper = new GoRelationsToUniProtDocument();
 
-        Tuple2<UniProtDocument, Optional<Iterable<GOTerm>>> tuple =
+        Tuple2<UniProtDocument, Optional<Iterable<GeneOntologyEntry>>> tuple =
                 new Tuple2<>(new UniProtDocument(), Optional.empty());
         UniProtDocument result = mapper.call(tuple);
 
@@ -77,13 +80,16 @@ class GoRelationsToUniProtDocumentTest {
     void testDocumentWithInvalidGoMapRelations() throws Exception {
         GoRelationsToUniProtDocument mapper = new GoRelationsToUniProtDocument();
 
-        Set<GOTerm> ancestors = new HashSet<>();
-        ancestors.add(new GOTermImpl("GO:0011111", "Ancestor 1"));
-        ancestors.add(new GOTermImpl("GO:0022222", "Ancestor 2"));
-        List<GOTerm> goTerms = new ArrayList<>();
-        goTerms.add(new GOTermImpl("GO:0012345", "Go Term", ancestors));
+        Set<GeneOntologyEntry> ancestors = new HashSet<>();
+        ancestors.add(go("GO:0011111", "Ancestor 1"));
+        ancestors.add(go("GO:0022222", "Ancestor 2"));
+        List<GeneOntologyEntry> goTerms = new ArrayList<>();
+        goTerms.add(
+                GeneOntologyEntryBuilder.from(go("GO:0012345", "Go Term"))
+                        .ancestorsSet(ancestors)
+                        .build());
 
-        Tuple2<UniProtDocument, Optional<Iterable<GOTerm>>> tuple =
+        Tuple2<UniProtDocument, Optional<Iterable<GeneOntologyEntry>>> tuple =
                 new Tuple2<>(new UniProtDocument(), Optional.of(goTerms));
         UniProtDocument result = mapper.call(tuple);
 
@@ -101,5 +107,9 @@ class GoRelationsToUniProtDocumentTest {
 
         assertTrue(result.goWithEvidenceMaps.isEmpty());
         assertTrue(result.content.isEmpty());
+    }
+
+    private GeneOntologyEntry go(String id, String name) {
+        return new GeneOntologyEntryBuilder().id(id).name(name).build();
     }
 }

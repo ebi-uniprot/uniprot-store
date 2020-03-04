@@ -1,0 +1,4285 @@
+[
+  {
+    "id": "host_id",
+    "fieldName": "host_id",
+    "dataType": "STRING",
+    "fieldType": "GENERAL",
+    "validRegex": "^[0-9]+$",
+    "description": "Search by virus host id",
+    "example": "1234"
+  },
+  {
+    "id": "taxonomy_id",
+    "dataType": "STRING",
+    "fieldName": "taxonomy_id",
+    "fieldType": "GENERAL",
+    "validRegex": "^[0-9]+$",
+    "description": "Search by NCBI taxonomy id",
+    "example": "12345"
+  },
+  {
+    "id": "organism_id",
+    "dataType": "STRING",
+    "fieldName": "organism_id",
+    "fieldType": "GENERAL",
+    "validRegex": "^[0-9]+$",
+    "description": "Search by Organism id",
+    "example": "1234"
+  },
+  {
+    "id": "accession_sort",
+    "fieldName": "accession_id",
+    "fieldType": "SORT",
+    "dataType": "STRING",
+    "description": "Sort by UniProtKB Accession",
+    "example": "accession_id asc"
+  },
+  {
+    "id":"accession_id",
+    "fieldName": "accession_id",
+    "validRegex": "([OPQ][0-9][A-Z0-9]{3}[0-9]|[A-NR-Z]([0-9][A-Z][A-Z0-9]{2}){1,2}[0-9])(-[0-9]+)?",
+    "fieldType": "GENERAL",
+    "dataType": "STRING",
+    "example":  "P12345",
+    "description" : "Search by UniProtKB Accession"
+  },
+  {
+    "id":"proteins_with",
+    "fieldName": "proteins_with",
+    "fieldType": "GENERAL",
+    "dataType": "STRING",
+    "example":  "sample example",
+    "description" : "this is a dummy description"
+  },
+  {
+    "id":"annotation_score_field",
+    "fieldName": "annotation_score",
+    "dataType": "STRING",
+    "example":  "sample example",
+    "fieldType": "GENERAL",
+    "description" : "this is a dummy description",
+    "sortFieldId": "annotation_score_sort"
+  },
+  {
+    "id":"annotation_score_sort",
+    "fieldName": "annotation_score",
+    "fieldType": "SORT",
+    "dataType": "STRING",
+    "example":  "sample example",
+    "description" : "this is a dummy description"
+  },
+  {
+    "id":"mnemonic_default",
+    "fieldName": "mnemonic_default",
+    "dataType": "STRING",
+    "fieldType": "GENERAL",
+    "example":  "sample example",
+    "description" : "this is a dummy description"
+  },
+  {
+    "id":"sec_acc",
+    "fieldName": "sec_acc",
+    "dataType": "STRING",
+    "fieldType": "GENERAL",
+    "example":  "sample example",
+    "description" : "this is a dummy description"
+  },
+  {
+    "id":"content",
+    "fieldName": "content",
+    "dataType": "STRING",
+    "fieldType": "GENERAL",
+    "example":  "sample example",
+    "description" : "this is a dummy description"
+  },
+  {
+    "id":"ec_exact",
+    "fieldName": "ec_exact",
+    "dataType": "STRING",
+    "fieldType": "GENERAL",
+    "example":  "sample example",
+    "description" : "this is a dummy description"
+  },
+  {
+    "id":"protgene_default",
+    "fieldName": "protgene_default",
+    "dataType": "STRING",
+    "example":  "sample example",
+    "fieldType": "GENERAL",
+    "description" : "this is a dummy description"
+  },
+  {
+    "id":"gene_exact",
+    "fieldName": "gene_exact",
+    "dataType": "STRING",
+    "fieldType": "GENERAL",
+    "example":  "sample example",
+    "description" : "this is a dummy description"
+  },
+  {
+    "id":"popular_organism",
+    "fieldName": "popular_organism",
+    "dataType": "STRING",
+    "fieldType": "GENERAL",
+    "example":  "sample example",
+    "description" : "this is a dummy description"
+  },
+  {
+    "id":"other_organism",
+    "fieldName": "other_organism",
+    "dataType": "STRING",
+    "fieldType": "GENERAL",
+    "example":  "sample example",
+    "description" : "this is a dummy description"
+  },
+  {
+    "id":"source",
+    "fieldName": "source",
+    "dataType": "STRING",
+    "fieldType": "GENERAL",
+    "example":  "sample example",
+    "description" : "this is a dummy description"
+  },
+  {
+    "id":"xref",
+    "fieldName": "xref",
+    "dataType": "STRING",
+    "fieldType": "GENERAL",
+    "example":  "sample example",
+    "description" : "this is a dummy description"
+  },
+  {
+    "id":"database",
+    "fieldName": "database",
+    "dataType": "STRING",
+    "fieldType": "GENERAL",
+    "example":  "sample example",
+    "description" : "this is a dummy description"
+  },
+  {
+    "id":"lit_organisation",
+    "fieldName": "lit_organisation",
+    "dataType": "STRING",
+    "fieldType": "GENERAL",
+    "example":  "sample example",
+    "description" : "this is a dummy description"
+  },
+  {
+    "id":"is_isoform",
+    "fieldName": "is_isoform",
+    "validRegex": "^true|false$",
+    "dataType": "STRING",
+    "fieldType": "GENERAL",
+    "example":  "sample example",
+    "description" : "this is a dummy description"
+  },
+  {
+    "id":"cc_sc",
+    "fieldName": "cc_sc",
+    "dataType": "STRING",
+    "fieldType": "GENERAL",
+    "example":  "sample example",
+    "description" : "this is a dummy description"
+  },
+  {
+    "id":"ccev_sc",
+    "fieldName": "ccev_sc",
+    "dataType": "STRING",
+    "example":  "sample example",
+    "description" : "this is a dummy description",
+    "fieldType": "GENERAL"
+  },
+  {
+    "id":"cc_cofactor",
+    "fieldName": "cc_cofactor",
+    "dataType": "STRING",
+    "fieldType": "GENERAL",
+    "example":  "sample example",
+    "description" : "this is a dummy description"
+  },
+  {
+    "id":"ccev_cofactor",
+    "fieldName": "ccev_cofactor",
+    "fieldType": "GENERAL",
+    "dataType": "STRING",
+    "example":  "sample example",
+    "description" : "this is a dummy description"
+  },
+  {
+    "id":"cc_biophysicochemical_properties",
+    "fieldName": "cc_biophysicochemical_properties",
+    "dataType": "STRING",
+    "fieldType": "GENERAL",
+    "example":  "sample example",
+    "description" : "this is a dummy description"
+  },
+  {
+    "id":"ccev_biophysicochemical_properties",
+    "fieldName": "ccev_biophysicochemical_properties",
+    "dataType": "STRING",
+    "fieldType": "GENERAL",
+    "example":  "sample example",
+    "description" : "this is a dummy description"
+  },
+  {
+    "id":"cc_interaction",
+    "fieldName": "cc_interaction",
+    "dataType": "STRING",
+    "example":  "sample example",
+    "fieldType": "GENERAL",
+    "description" : "this is a dummy description"
+  },
+  {
+    "id":"ccev_interaction",
+    "fieldName": "ccev_interaction",
+    "dataType": "STRING",
+    "fieldType": "GENERAL",
+    "example":  "sample example",
+    "description" : "this is a dummy description"
+  },
+  {
+    "id":"cc_subcellular_location",
+    "fieldName": "cc_subcellular_location",
+    "dataType": "STRING",
+    "fieldType": "GENERAL",
+    "example":  "sample example",
+    "description" : "this is a dummy description"
+  },
+  {
+    "id":"ccev_subcellular_location",
+    "fieldName": "ccev_subcellular_location",
+    "dataType": "STRING",
+    "fieldType": "GENERAL",
+    "example":  "sample example",
+    "description" : "this is a dummy description"
+  },
+  {
+    "id":"cc_alternative_products",
+    "fieldName": "cc_alternative_products",
+    "dataType": "STRING",
+    "fieldType": "GENERAL",
+    "example":  "sample example",
+    "description" : "this is a dummy description"
+  },
+  {
+    "id":"ccev_alternative_products",
+    "fieldName": "ccev_alternative_products",
+    "dataType": "STRING",
+    "fieldType": "GENERAL",
+    "example":  "sample example",
+    "description" : "this is a dummy description"
+  },
+  {
+    "id":"cc_unknown",
+    "fieldName": "cc_unknown",
+    "dataType": "STRING",
+    "fieldType": "GENERAL",
+    "example":  "sample example",
+    "description" : "this is a dummy description"
+  },
+  {
+    "id":"ccev_unknown",
+    "fieldType": "GENERAL",
+    "fieldName": "ccev_unknown",
+    "dataType": "STRING",
+    "example":  "sample example",
+    "description" : "this is a dummy description"
+  },
+  {
+    "id":"go_manual",
+    "fieldType": "GENERAL",
+    "fieldName": "go_manual",
+    "dataType": "STRING",
+    "example":  "sample example",
+    "description" : "this is a dummy description"
+  },
+  {
+    "id":"go_automatic",
+    "fieldType": "GENERAL",
+    "fieldName": "go_automatic",
+    "dataType": "STRING",
+    "example":  "sample example",
+    "description" : "this is a dummy description"
+  },
+  {
+    "id":"go_ida",
+    "fieldType": "GENERAL",
+    "fieldName": "go_ida",
+    "dataType": "STRING",
+    "example":  "sample example",
+    "description" : "this is a dummy description"
+  },
+  {
+    "id":"go_imp",
+    "fieldType": "GENERAL",
+    "fieldName": "go_imp",
+    "dataType": "STRING",
+    "example":  "sample example",
+    "description" : "this is a dummy description"
+  },
+  {
+    "id":"go_igi",
+    "fieldType": "GENERAL",
+    "fieldName": "go_igi",
+    "dataType": "STRING",
+    "example":  "sample example",
+    "description" : "this is a dummy description"
+  },
+  {
+    "id":"go_ipi",
+    "fieldType": "GENERAL",
+    "fieldName": "go_ipi",
+    "dataType": "STRING",
+    "example":  "sample example",
+    "description" : "this is a dummy description"
+  },
+  {
+    "id":"go_iep",
+    "fieldType": "GENERAL",
+    "fieldName": "go_iep",
+    "dataType": "STRING",
+    "example":  "sample example",
+    "description" : "this is a dummy description"
+  },
+  {
+    "id":"go_tas",
+    "fieldType": "GENERAL",
+    "fieldName": "go_tas",
+    "dataType": "STRING",
+    "example":  "sample example",
+    "description" : "this is a dummy description"
+  },
+  {
+    "id":"go_nas",
+    "fieldType": "GENERAL",
+    "fieldName": "go_nas",
+    "dataType": "STRING",
+    "example":  "sample example",
+    "description" : "this is a dummy description"
+  },
+  {
+    "id":"go_ic",
+    "fieldType": "GENERAL",
+    "fieldName": "go_ic",
+    "dataType": "STRING",
+    "example":  "sample example",
+    "description" : "this is a dummy description"
+  },
+  {
+    "id":"go_iss",
+    "fieldType": "GENERAL",
+    "fieldName": "go_iss",
+    "dataType": "STRING",
+    "example":  "sample example",
+    "description" : "this is a dummy description"
+  },
+  {
+    "id":"go_iea",
+    "fieldType": "GENERAL",
+    "fieldName": "go_iea",
+    "dataType": "STRING",
+    "example":  "sample example",
+    "description" : "this is a dummy description"
+  },
+  {
+    "id":"go_igc",
+    "fieldType": "GENERAL",
+    "fieldName": "go_igc",
+    "dataType": "STRING",
+    "example":  "sample example",
+    "description" : "this is a dummy description"
+  },
+  {
+    "id":"go_rca",
+    "fieldType": "GENERAL",
+    "fieldName": "go_rca",
+    "dataType": "STRING",
+    "example":  "sample example",
+    "description" : "this is a dummy description"
+  },
+  {
+    "id":"go_nd",
+    "fieldName": "go_nd",
+    "fieldType": "GENERAL",
+    "dataType": "STRING",
+    "example":  "sample example",
+    "description" : "this is a dummy description"
+  },
+  {
+    "id":"go_exp",
+    "fieldName": "go_exp",
+    "fieldType": "GENERAL",
+    "dataType": "STRING",
+    "example":  "sample example",
+    "description" : "this is a dummy description"
+  },
+  {
+    "id":"go_iba",
+    "fieldType": "GENERAL",
+    "fieldName": "go_iba",
+    "dataType": "STRING",
+    "example":  "sample example",
+    "description" : "this is a dummy description"
+  },
+  {
+    "id":"go_ibd",
+    "fieldType": "GENERAL",
+    "fieldName": "go_ibd",
+    "dataType": "STRING",
+    "example":  "sample example",
+    "description" : "this is a dummy description"
+  },
+  {
+    "id":"go_ikr",
+    "fieldType": "GENERAL",
+    "fieldName": "go_ikr",
+    "dataType": "STRING",
+    "example":  "sample example",
+    "description" : "this is a dummy description"
+  },
+  {
+    "id":"go_ird",
+    "fieldType": "GENERAL",
+    "fieldName": "go_ird",
+    "dataType": "STRING",
+    "example":  "sample example",
+    "description" : "this is a dummy description"
+  },
+  {
+    "id":"go_iso",
+    "fieldType": "GENERAL",
+    "fieldName": "go_iso",
+    "dataType": "STRING",
+    "example":  "sample example",
+    "description" : "this is a dummy description"
+  },
+  {
+    "id":"go_isa",
+    "fieldType": "GENERAL",
+    "fieldName": "go_isa",
+    "dataType": "STRING",
+    "example":  "sample example",
+    "description" : "this is a dummy description"
+  },
+  {
+    "id":"go_ism",
+    "fieldType": "GENERAL",
+    "fieldName": "go_ism",
+    "dataType": "STRING",
+    "example":  "sample example",
+    "description" : "this is a dummy description"
+  },
+  {
+    "id":"go_hda",
+    "fieldType": "GENERAL",
+    "fieldName": "go_hda",
+    "dataType": "STRING",
+    "example":  "sample example",
+    "description" : "this is a dummy description"
+  },
+  {
+    "id":"go_hmp",
+    "fieldType": "GENERAL",
+    "fieldName": "go_hmp",
+    "dataType": "STRING",
+    "example":  "sample example",
+    "description" : "this is a dummy description"
+  },
+  {
+    "id":"go_hgi",
+    "fieldType": "GENERAL",
+    "fieldName": "go_hgi",
+    "dataType": "STRING",
+    "example":  "sample example",
+    "description" : "this is a dummy description"
+  },
+  {
+    "id":"go_hep",
+    "fieldType": "GENERAL",
+    "fieldName": "go_hep",
+    "dataType": "STRING",
+    "example":  "sample example",
+    "description" : "this is a dummy description"
+  },
+  {
+    "id":"go_htp",
+    "fieldType": "GENERAL",
+    "fieldName": "go_htp",
+    "dataType": "STRING",
+    "example":  "sample example",
+    "description" : "this is a dummy description"
+  },
+  {
+    "id": "go_unknown",
+    "fieldType": "GENERAL",
+    "fieldName": "go_unknown",
+    "dataType": "STRING",
+    "example":  "sample example",
+    "description" : "this is a dummy description"
+  },
+  {
+    "id": "mnemonic_sort",
+    "label": "Entry Name [ID]",
+    "fieldName": "mnemonic_sort",
+    "itemType": "SINGLE",
+    "fieldType": "SORT",
+    "dataType": "STRING",
+    "description": "Sort by UniProtKB entry name",
+    "example": "mnemonic_sort desc"
+  },
+  {
+    "id": "name_sort",
+    "label": "Protein Name [DE]",
+    "fieldName": "name_sort",
+    "fieldType": "SORT",
+    "dataType": "STRING",
+    "itemType": "SINGLE",
+    "description": "Sort by UniProtKB Protein name",
+    "example": "name_sort asc"
+  },
+  {
+    "id": "gene_sort",
+    "label": "Gene Name [GN]",
+    "fieldName": "gene_sort",
+    "fieldType": "SORT",
+    "dataType": "STRING",
+    "itemType": "SINGLE",
+    "description": "Sort by UniProtKB gene name",
+    "example": "gene_sort asc"
+  },
+  {
+    "id": "organism_sort",
+    "label": "Organism [OS]",
+    "dataType": "STRING",
+    "fieldName": "organism_sort",
+    "fieldType": "SORT",
+    "itemType": "SINGLE",
+    "description": "Sort by Organism name",
+    "example": "organism_sort asc"
+  },
+  {
+    "id": "mass_sort",
+    "itemType": "SINGLE",
+    "fieldName": "mass",
+    "fieldType": "SORT",
+    "dataType": "INTEGER",
+    "description": "Sort by Sequence mass",
+    "example": "mass asc"
+  },
+  {
+    "id": "length_sort",
+    "itemType": "SINGLE",
+    "fieldName": "length",
+    "fieldType": "SORT",
+    "dataType": "INTEGER",
+    "description": "Sort by Sequence length",
+    "example": "length desc"
+  },
+  {
+    "seqNumber": 0,
+    "id": "accession_field",
+    "fieldName": "accession",
+    "fieldType": "GENERAL",
+    "validRegex": "([OPQ][0-9][A-Z0-9]{3}[0-9]|[A-NR-Z]([0-9][A-Z][A-Z0-9]{2}){1,2}[0-9])(-[0-9]+)?",
+    "label": "UniProtKB AC",
+    "itemType": "SINGLE",
+    "dataType": "STRING",
+    "description": "Search by UniProtKB Accession",
+    "example": "P12345",
+    "sortFieldId": "accession_sort"
+  },
+  {
+    "seqNumber": 1,
+    "id": "mnemonic_field",
+    "label": "Entry Name [ID]",
+    "fieldName": "mnemonic",
+    "fieldType": "GENERAL",
+    "itemType": "SINGLE",
+    "dataType": "STRING",
+    "description": "Search by UniProtKB entry name",
+    "example": "P53_HUMAN",
+    "sortFieldId": "mnemonic_sort"
+  },
+  {
+    "seqNumber": 2,
+    "id": "name_field",
+    "label": "Protein Name [DE]",
+    "fieldName": "name",
+    "fieldType": "GENERAL",
+    "itemType": "SINGLE",
+    "dataType": "STRING",
+    "description": "Search by UniProtKB Protein name",
+    "example": "mas5",
+    "sortFieldId": "name_sort"
+  },
+  {
+    "seqNumber": 3,
+    "id": "gene_field",
+    "label": "Gene Name [GN]",
+    "fieldName": "gene",
+    "fieldType": "GENERAL",
+    "dataType": "STRING",
+    "itemType": "SINGLE",
+    "description": "Search by UniProtKB gene name",
+    "example": "ydj1",
+    "sortFieldId": "gene_sort"
+  },
+  {
+    "seqNumber": 4,
+    "id": "organism_name_field",
+    "label": "Organism [OS]",
+    "dataType": "STRING",
+    "fieldName": "organism_name",
+    "fieldType": "GENERAL",
+    "itemType": "SINGLE",
+    "autoComplete": "/uniprot/api/suggester?dict=organism&query=?",
+    "autoCompleteQueryField": "organism_id",
+    "autoCompleteQueryFieldValidRegex": "^[0-9]+$",
+    "description": "Search by Organism name",
+    "example": "saccharomyces",
+    "sortFieldId": "organism_sort"
+  },
+  {
+    "seqNumber": 5,
+    "id": "taxonomy_name",
+    "label": "Taxonomy [OC]",
+    "dataType": "STRING",
+    "fieldName": "taxonomy_name",
+    "fieldType": "GENERAL",
+    "autoComplete": "/uniprot/api/suggester?dict=taxonomy&query=?",
+    "autoCompleteQueryField": "taxonomy_id",
+    "autoCompleteQueryFieldValidRegex": "^[0-9]+$",
+    "itemType": "SINGLE",
+    "description": "Search by NCBI taxonomy",
+    "example": "human"
+  },
+  {
+    "seqNumber": 6,
+    "id": "host_name",
+    "label": "Virus host",
+    "dataType": "STRING",
+    "fieldName": "host_name",
+    "fieldType": "GENERAL",
+    "autoComplete": "/uniprot/api/suggester?dict=host&query=?",
+    "autoCompleteQueryField": "host_id",
+    "autoCompleteQueryFieldValidRegex": "^[0-9]+$",
+    "itemType": "SINGLE",
+    "description": "Search by virus host",
+    "example": "human"
+  },
+  {
+    "seqNumber": 7,
+    "id": "existence",
+    "label": "Protein Existence [PE]",
+    "fieldName": "existence",
+    "fieldType": "GENERAL",
+    "dataType": "ENUM",
+    "itemType": "SINGLE",
+    "description": "Search by protein existence",
+    "values": [
+      {
+        "name": "Evidence at protein level",
+        "value": "protein_level"
+      },
+      {
+        "name": "Evidence at transcript level",
+        "value": "transcript_level"
+      },
+      {
+        "name": "Inferred from homology",
+        "value": "homology"
+      },
+      {
+        "name": "Predicted",
+        "value": "predicted"
+      },
+      {
+        "name": "Uncertain",
+        "value": "uncertain"
+      }
+    ],
+    "example": "1"
+  },
+  {
+    "label": "Web Resources",
+    "seqNumber": 8,
+    "itemType": "SIBLING_GROUP",
+    "id": "web_resources"
+  },
+  {
+    "childNumber": 0,
+    "id": "cc_webresource",
+    "parentId": "web_resources",
+    "fieldName": "cc_webresource",
+    "fieldType": "GENERAL",
+    "dataType": "STRING",
+    "itemType": "SINGLE",
+    "description": "Search by comment Web resources",
+    "example": "lck"
+  },
+  {
+    "childNumber": 1,
+    "id": "ccev_webresource",
+    "parentId": "web_resources",
+    "fieldName": "ccev_webresource",
+    "fieldType": "EVIDENCE",
+    "dataType": "STRING",
+    "itemType": "SINGLE",
+    "description": "Search by comment Web resources",
+    "example": "manual"
+  },
+  {
+    "seqNumber": 9,
+    "label": "Gene Ontology [GO]",
+    "id": "gene_ontology",
+    "itemType": "SIBLING_GROUP"
+  },
+  {
+    "childNumber": 0,
+    "id": "go_field",
+    "parentId": "gene_ontology",
+    "itemType": "SINGLE",
+    "fieldName": "go",
+    "fieldType": "GENERAL",
+    "dataType": "STRING",
+    "autoComplete": "/uniprot/api/suggester?dict=go&query=?",
+    "autoCompleteQueryField": "go",
+    "description": "Search GO term with evidence type. If evidence is not provided, the term is 'go'. Otherwise, for an evidence source such as IEA, the term is 'go_iea'",
+    "example": "0009986"
+  },
+  {
+    "childNumber": 1,
+    "id": "go_evidence",
+    "parentId": "gene_ontology",
+    "itemType": "SINGLE",
+    "fieldName": "go",
+    "fieldType": "EVIDENCE",
+    "dataType": "STRING",
+    "description": "Search GO term with evidence type. If evidence is not provided, the term is 'go'. Otherwise, for an evidence source such as IEA, the term is 'go_iea'",
+    "example": "manual"
+  },
+  {
+    "seqNumber": 10,
+    "id": "keyword_field",
+    "label": "Keyword [KW]",
+    "fieldName": "keyword",
+    "fieldType": "GENERAL",
+    "dataType": "STRING",
+    "itemType": "SINGLE",
+    "autoComplete": "/uniprot/api/suggester?dict=keyword&query=?",
+    "autoCompleteQueryField": "keyword",
+    "description": "Search by keyword",
+    "example": "chromosomal"
+  },
+  {
+    "seqNumber": 11,
+    "id": "literature_citation",
+    "label": "Literature Citation",
+    "itemType": "GROUP"
+  },
+  {
+    "parentId": "literature_citation",
+    "childNumber": 0,
+    "itemType": "SINGLE",
+    "label": "Author",
+    "fieldName": "lit_author",
+    "id": "lit_author",
+    "fieldType": "GENERAL",
+    "dataType": "STRING",
+    "description": "Search by author",
+    "example": "smith"
+  },
+  {
+    "parentId": "literature_citation",
+    "childNumber": 1,
+    "itemType": "SINGLE",
+    "label": "Journal",
+    "fieldName": "lit_journal",
+    "id": "lit_journal",
+    "fieldType": "GENERAL",
+    "dataType": "STRING",
+    "description": "Search by journal name",
+    "example": "nature"
+  },
+  {
+    "parentId": "literature_citation",
+    "childNumber": 2,
+    "itemType": "SINGLE",
+    "label": "Published",
+    "dataType": "DATE",
+    "fieldType": "RANGE",
+    "description": "Search by published date",
+    "fieldName": "lit_pubdate",
+    "id": "lit_pubdate",
+    "example": "[2009-01-01 TO 2019-12-31]"
+  },
+  {
+    "parentId": "literature_citation",
+    "childNumber": 3,
+    "itemType": "SINGLE",
+    "label": "PubMed ID",
+    "fieldName": "lit_pubmed",
+    "id": "lit_pubmed",
+    "fieldType": "GENERAL",
+    "dataType": "STRING",
+    "description": "Search by PubMed ID",
+    "example": "15165820"
+  },
+  {
+    "parentId": "literature_citation",
+    "id": "lit_title",
+    "childNumber": 4,
+    "itemType": "SINGLE",
+    "label": "Title",
+    "fieldName": "lit_title",
+    "fieldType": "GENERAL",
+    "dataType": "STRING",
+    "description": "Search by title",
+    "example": "protein"
+  },
+  {
+    "seqNumber": 12,
+    "id": "proteomes",
+    "label": "Proteomes",
+    "itemType": "GROUP"
+  },
+  {
+    "parentId": "proteomes",
+    "childNumber": 0,
+    "fieldType": "GENERAL",
+    "itemType": "SINGLE",
+    "label": "Proteome ID",
+    "fieldName": "proteome",
+    "id": "proteome",
+    "validRegex": "^UP[0-9]{9}$",
+    "dataType": "STRING",
+    "description": "Search by Proteome ID",
+    "example": "UP000005640"
+  },
+  {
+    "parentId": "proteomes",
+    "childNumber": 1,
+    "fieldType": "GENERAL",
+    "itemType": "SINGLE",
+    "label": "Proteome Component",
+    "fieldName": "proteomecomponent",
+    "id": "proteome_component",
+    "dataType": "STRING",
+    "description": "Search by Proteome component",
+    "example": "chromosome"
+  },
+  {
+    "seqNumber": 13,
+    "id": "cited_for",
+    "label": "Cited for",
+    "fieldName": "scope",
+    "fieldType": "GENERAL",
+    "itemType": "SINGLE",
+    "dataType": "STRING",
+    "description": "Search by citation RP cited for",
+    "example": "microtubule"
+  },
+  {
+    "seqNumber": 14,
+    "id": "reviewed",
+    "label": "Reviewed",
+    "fieldName": "reviewed",
+    "fieldType": "GENERAL",
+    "validRegex": "^true|false$",
+    "dataType": "ENUM",
+    "itemType": "SINGLE",
+    "values": [
+      {
+        "name": "Yes",
+        "value": "true"
+      },
+      {
+        "name": "No",
+        "value": "false"
+      }
+    ],
+    "description": "Search by reviewed",
+    "example": "true"
+  },
+  {
+    "seqNumber": 15,
+    "id": "active",
+    "label": "Active",
+    "fieldName": "active",
+    "fieldType": "GENERAL",
+    "itemType": "SINGLE",
+    "validRegex": "^true|false$",
+    "dataType": "ENUM",
+    "values": [
+      {
+        "name": "Yes",
+        "value": "true"
+      },
+      {
+        "name": "No",
+        "value": "false"
+      }
+    ],
+    "description": "Search by active or not",
+    "example": "true"
+  },
+  {
+    "label": "Function",
+    "itemType": "GROUP",
+    "id": "function",
+    "seqNumber": 16
+  },
+  {
+    "parentId": "function",
+    "childNumber": 0,
+    "label": "Enzyme classification [EC]",
+    "id": "ec",
+    "fieldName": "ec",
+    "itemType": "SINGLE",
+    "fieldType": "GENERAL",
+    "dataType": "STRING",
+    "description": "Search by Enzyme EC number",
+    "autoComplete": "/uniprot/api/suggester?dict=ec&query=?",
+    "autoCompleteQueryField": "ec",
+    "example": "1.1.2.3"
+  },
+  {
+    "parentId": "function",
+    "childNumber": 1,
+    "label": "Cofactors",
+    "itemType": "GROUP",
+    "id": "cofactors"
+  },
+  {
+    "parentId": "cofactors",
+    "label": "ChEBI term",
+    "childNumber": 0,
+    "itemType": "SIBLING_GROUP",
+    "id": "chebi_term"
+  },
+  {
+    "parentId": "chebi_term",
+    "childNumber": 0,
+    "id": "cc_cofactor_chebi",
+    "fieldName": "cc_cofactor_chebi",
+    "itemType": "SINGLE",
+    "fieldType": "GENERAL",
+    "dataType": "STRING",
+    "description": "Search by cofactor chebi ",
+    "autoComplete": "/uniprot/api/suggester?dict=chebi&query=?",
+    "autoCompleteQueryField": "cc_cofactor_chebi",
+    "example": "29105"
+  },
+  {
+    "parentId": "chebi_term",
+    "childNumber": 1,
+    "id": "ccev_cofactor_chebi",
+    "fieldName": "ccev_cofactor_chebi",
+    "itemType": "SINGLE",
+    "fieldType": "EVIDENCE",
+    "dataType": "STRING",
+    "description": "Search chebi term with evidence type",
+    "example": "manual"
+  },
+  {
+    "parentId": "cofactors",
+    "label": "Note",
+    "childNumber": 1,
+    "itemType": "SIBLING_GROUP",
+    "id": "note"
+  },
+  {
+    "parentId": "note",
+    "childNumber": 0,
+    "id": "cc_cofactor_note",
+    "fieldName": "cc_cofactor_note",
+    "itemType": "SINGLE",
+    "fieldType": "GENERAL",
+    "dataType": "STRING",
+    "description": "Search by cofactor note",
+    "example": "subunit"
+  },
+  {
+    "parentId": "note",
+    "childNumber": 1,
+    "id": "ccev_cofactor_note",
+    "fieldName": "ccev_cofactor_note",
+    "itemType": "SINGLE",
+    "fieldType": "EVIDENCE",
+    "dataType": "STRING",
+    "description": "Search cofactor note with evidence type",
+    "example": "ECO_0000269"
+  },
+  {
+    "parentId": "function",
+    "childNumber": 2,
+    "label": "Biophysicochemical properties",
+    "itemType": "GROUP",
+    "id": "biophysicochemical_properties"
+  },
+  {
+    "parentId": "biophysicochemical_properties",
+    "label": "Any",
+    "childNumber": 0,
+    "itemType": "SIBLING_GROUP",
+    "id": "biophysicochemical_any"
+  },
+  {
+    "parentId": "biophysicochemical_any",
+    "childNumber": 0,
+    "id": "cc_bpcp",
+    "fieldName": "cc_bpcp",
+    "itemType": "SINGLE",
+    "fieldType": "GENERAL",
+    "dataType": "STRING",
+    "description": "Search by biophysicochemical properties",
+    "example": "\"some value\""
+  },
+  {
+    "parentId": "biophysicochemical_any",
+    "childNumber": 1,
+    "id": "ccev_bpcp",
+    "fieldName": "ccev_bpcp",
+    "fieldType": "EVIDENCE",
+    "itemType": "SINGLE",
+    "dataType": "STRING",
+    "description": "Search biophysicochemical properties with evidence type",
+    "example": "automatic"
+  },
+  {
+    "parentId": "biophysicochemical_properties",
+    "label": "Absorption",
+    "childNumber": 1,
+    "itemType": "SIBLING_GROUP",
+    "id": "biophysicochemical_absorption"
+  },
+  {
+    "parentId": "biophysicochemical_absorption",
+    "childNumber": 0,
+    "id": "cc_bpcp_absorption",
+    "fieldName": "cc_bpcp_absorption",
+    "fieldType": "GENERAL",
+    "itemType": "SINGLE",
+    "dataType": "STRING",
+    "description": "Search by biophysicochemical properties: absorption",
+    "example": "prosthetic"
+  },
+  {
+    "parentId": "biophysicochemical_absorption",
+    "childNumber": 1,
+    "id": "ccev_bpcp_absorption",
+    "fieldName": "ccev_bpcp_absorption",
+    "itemType": "SINGLE",
+    "fieldType": "EVIDENCE",
+    "dataType": "STRING",
+    "description": "Search biophysicochemical properties: absorption with evidence type",
+    "example": "ECO_0000213"
+  },
+  {
+    "parentId": "biophysicochemical_properties",
+    "label": "Kinetics",
+    "childNumber": 2,
+    "itemType": "SIBLING_GROUP",
+    "id": "biophysicochemical_kinetics"
+  },
+  {
+    "parentId": "biophysicochemical_kinetics",
+    "childNumber": 0,
+    "id": "cc_bpcp_kinetics",
+    "fieldName": "cc_bpcp_kinetics",
+    "itemType": "SINGLE",
+    "fieldType": "GENERAL",
+    "dataType": "STRING",
+    "description": "Search by biophysicochemical properties: kinetic parameters",
+    "example": "aspartate"
+  },
+  {
+    "parentId": "biophysicochemical_kinetics",
+    "childNumber": 1,
+    "id": "ccev_bpcp_kinetics",
+    "itemType": "SINGLE",
+    "fieldName": "ccev_bpcp_kinetics",
+    "fieldType": "EVIDENCE",
+    "dataType": "STRING",
+    "description": "Search biophysicochemical properties: kinetic parameters with evidence type",
+    "example": "experimental"
+  },
+  {
+    "parentId": "biophysicochemical_properties",
+    "label": "pH dependence",
+    "childNumber": 3,
+    "itemType": "SIBLING_GROUP",
+    "id": "biophysicochemical_ph_dependence"
+  },
+  {
+    "parentId": "biophysicochemical_ph_dependence",
+    "childNumber": 0,
+    "id": "cc_bpcp_ph_dependence",
+    "fieldName": "cc_bpcp_ph_dependence",
+    "itemType": "SINGLE",
+    "fieldType": "GENERAL",
+    "dataType": "STRING",
+    "description": "Search by biophysicochemical properties: pH dependence",
+    "example": "optimum"
+  },
+  {
+    "parentId": "biophysicochemical_ph_dependence",
+    "childNumber": 1,
+    "id": "ccev_bpcp_ph_dependence",
+    "fieldName": "ccev_bpcp_ph_dependence",
+    "itemType": "SINGLE",
+    "fieldType": "EVIDENCE",
+    "dataType": "STRING",
+    "description": "Search biophysicochemical properties: pH dependence with evidence type",
+    "example": "ECO_0000305"
+  },
+  {
+    "parentId": "biophysicochemical_properties",
+    "label": "Redox potential",
+    "childNumber": 4,
+    "itemType": "SIBLING_GROUP",
+    "id": "biophysicochemical_redox_potential"
+  },
+  {
+    "parentId": "biophysicochemical_redox_potential",
+    "childNumber": 0,
+    "id": "cc_bpcp_redox_potential",
+    "itemType": "SINGLE",
+    "fieldName": "cc_bpcp_redox_potential",
+    "fieldType": "GENERAL",
+    "dataType": "STRING",
+    "description": "Search by biophysicochemical properties: redox potential",
+    "example": "siroheme"
+  },
+  {
+    "parentId": "biophysicochemical_redox_potential",
+    "childNumber": 1,
+    "id": "ccev_bpcp_redox_potential",
+    "itemType": "SINGLE",
+    "fieldName": "ccev_bpcp_redox_potential",
+    "fieldType": "EVIDENCE",
+    "dataType": "STRING",
+    "description": "Search biophysicochemical properties: redox potential with evidence type",
+    "example": "manual"
+  },
+  {
+    "parentId": "biophysicochemical_properties",
+    "label": "Temperature dependence",
+    "childNumber": 5,
+    "itemType": "SIBLING_GROUP",
+    "id": "biophysicochemical_temperature_dependence"
+  },
+  {
+    "parentId": "biophysicochemical_temperature_dependence",
+    "childNumber": 0,
+    "id": "cc_bpcp_temp_dependence",
+    "fieldName": "cc_bpcp_temp_dependence",
+    "itemType": "SINGLE",
+    "fieldType": "GENERAL",
+    "dataType": "STRING",
+    "description": "Search by biophysicochemical properties: temperature dependence",
+    "example": "*"
+  },
+  {
+    "parentId": "biophysicochemical_temperature_dependence",
+    "childNumber": 1,
+    "id": "ccev_bpcp_temp_dependence",
+    "fieldName": "ccev_bpcp_temp_dependence",
+    "itemType": "SINGLE",
+    "fieldType": "EVIDENCE",
+    "dataType": "STRING",
+    "description": "Search biophysicochemical properties: temperature dependence with evidence type",
+    "example": "manual"
+  },
+  {
+    "parentId": "function",
+    "label": "Catalytic Activity",
+    "childNumber": 3,
+    "itemType": "SIBLING_GROUP",
+    "id": "catalytic_activity"
+  },
+  {
+    "parentId": "catalytic_activity",
+    "childNumber": 0,
+    "id": "cc_catalytic_activity_field",
+    "itemType": "SINGLE",
+    "fieldName": "cc_catalytic_activity",
+    "fieldType": "GENERAL",
+    "dataType": "STRING",
+    "autoComplete": "/uniprot/api/suggester?dict=catalytic_activity&query=?",
+    "autoCompleteQueryField": "cc_catalytic_activity",
+    "description": "Search by comment catalytic activity",
+    "example": "tyrosine"
+  },
+  {
+    "parentId": "catalytic_activity",
+    "childNumber": 1,
+    "id": "ccev_catalytic_activity",
+    "itemType": "SINGLE",
+    "fieldName": "ccev_catalytic_activity",
+    "fieldType": "EVIDENCE",
+    "dataType": "STRING",
+    "description": "Search comment catalytic activity with evidence type",
+    "example": "manual"
+  },
+  {
+    "parentId": "function",
+    "label": "Activity regulation",
+    "childNumber": 4,
+    "itemType": "SIBLING_GROUP",
+    "id": "activity_regulation"
+  },
+  {
+    "parentId": "activity_regulation",
+    "childNumber": 0,
+    "id": "cc_activity_regulation",
+    "itemType": "SINGLE",
+    "fieldName": "cc_activity_regulation",
+    "fieldType": "GENERAL",
+    "dataType": "STRING",
+    "description": "Search by comment activity regulation",
+    "example": "inhibited"
+  },
+  {
+    "parentId": "activity_regulation",
+    "childNumber": 1,
+    "id": "ccev_activity_regulation",
+    "itemType": "SINGLE",
+    "fieldName": "ccev_activity_regulation",
+    "fieldType": "EVIDENCE",
+    "dataType": "STRING",
+    "description": "Search comment activity regulation with evidence type",
+    "example": "manual"
+  },
+  {
+    "parentId": "function",
+    "label": "Function [CC]",
+    "childNumber": 5,
+    "itemType": "SIBLING_GROUP",
+    "id": "function_cc"
+  },
+  {
+    "parentId": "function_cc",
+    "childNumber": 0,
+    "id": "cc_function",
+    "itemType": "SINGLE",
+    "fieldName": "cc_function",
+    "fieldType": "GENERAL",
+    "dataType": "STRING",
+    "description": "Search by comment function",
+    "example": "enzyme"
+  },
+  {
+    "parentId": "function_cc",
+    "childNumber": 1,
+    "id": "ccev_function",
+    "itemType": "SINGLE",
+    "fieldName": "ccev_function",
+    "fieldType": "EVIDENCE",
+    "dataType": "STRING",
+    "description": "Search comment function with evidence type",
+    "example": "experimental"
+  },
+  {
+    "parentId": "function",
+    "label": "Caution",
+    "childNumber": 6,
+    "itemType": "SIBLING_GROUP",
+    "id": "caution"
+  },
+  {
+    "parentId": "caution",
+    "childNumber": 0,
+    "id": "cc_caution",
+    "itemType": "SINGLE",
+    "fieldName": "cc_caution",
+    "fieldType": "GENERAL",
+    "dataType": "STRING",
+    "description": "Search by caution comment",
+    "example": "kinase"
+  },
+  {
+    "parentId": "caution",
+    "childNumber": 1,
+    "id": "ccev_caution",
+    "itemType": "SINGLE",
+    "fieldName": "ccev_caution",
+    "fieldType": "EVIDENCE",
+    "dataType": "STRING",
+    "description": "Search caution comment with evidence type",
+    "example": "manual"
+  },
+  {
+    "parentId": "function",
+    "childNumber": 7,
+    "label": "Sites",
+    "id": "sites",
+    "itemType": "GROUP"
+  },
+  {
+    "parentId": "sites",
+    "childNumber": 0,
+    "label": "Any",
+    "id": "sites_any",
+    "itemType": "SIBLING_GROUP"
+  },
+  {
+    "parentId": "sites_any",
+    "childNumber": 0,
+    "id": "ft_sites",
+    "itemType": "SINGLE",
+    "fieldName": "ft_sites",
+    "fieldType": "GENERAL",
+    "dataType": "STRING",
+    "description": "Search by feature sites",
+    "example": "translocation"
+  },
+  {
+    "parentId": "sites_any",
+    "childNumber": 1,
+    "id": "ftlen_sites",
+    "itemType": "SINGLE",
+    "fieldName": "ftlen_sites",
+    "fieldType": "RANGE",
+    "dataType": "INTEGER",
+    "description": "Search feature sites within range",
+    "example": "[0 TO 100]"
+  },
+  {
+    "parentId": "sites_any",
+    "childNumber": 2,
+    "id": "ftev_sites",
+    "itemType": "SINGLE",
+    "fieldName": "ftev_sites",
+    "fieldType": "EVIDENCE",
+    "dataType": "STRING",
+    "description": "Search feature sites with evidence type",
+    "example": "manual"
+  },
+  {
+    "parentId": "sites",
+    "childNumber": 1,
+    "label": "Active site",
+    "id": "sites_active_site",
+    "itemType": "SIBLING_GROUP"
+  },
+  {
+    "parentId": "sites_active_site",
+    "childNumber": 0,
+    "id": "ft_act_site",
+    "itemType": "SINGLE",
+    "fieldName": "ft_act_site",
+    "dataType": "STRING",
+    "fieldType": "GENERAL",
+    "description": "Search by feature  active site",
+    "example": "phosphocysteine"
+  },
+  {
+    "parentId": "sites_active_site",
+    "childNumber": 1,
+    "id": "ftlen_act_site",
+    "itemType": "SINGLE",
+    "fieldName": "ftlen_act_site",
+    "dataType": "INTEGER",
+    "fieldType": "RANGE",
+    "description": "Search feature  active site within range",
+    "example": "[0 TO 100]"
+  },
+  {
+    "parentId": "sites_active_site",
+    "childNumber": 2,
+    "id": "ftev_act_site",
+    "itemType": "SINGLE",
+    "fieldName": "ftev_act_site",
+    "dataType": "STRING",
+    "fieldType": "EVIDENCE",
+    "description": "Search feature  active site with evidence type",
+    "example": "manual"
+  },
+  {
+    "parentId": "sites",
+    "childNumber": 2,
+    "label": "Metal binding",
+    "id": "sites_metal_binding",
+    "itemType": "SIBLING_GROUP"
+  },
+  {
+    "parentId": "sites_metal_binding",
+    "childNumber": 0,
+    "id": "ft_metal",
+    "itemType": "SINGLE",
+    "fieldName": "ft_metal",
+    "fieldType": "GENERAL",
+    "dataType": "STRING",
+    "description": "Search by feature metal binding",
+    "example": "phosphocysteine"
+  },
+  {
+    "parentId": "sites_metal_binding",
+    "childNumber": 1,
+    "id": "ftlen_metal",
+    "itemType": "SINGLE",
+    "fieldName": "ftlen_metal",
+    "fieldType": "RANGE",
+    "dataType": "INTEGER",
+    "description": "Search feature metal binding within range",
+    "example": "[0 TO 100]"
+  },
+  {
+    "parentId": "sites_metal_binding",
+    "childNumber": 2,
+    "id": "ftev_metal",
+    "itemType": "SINGLE",
+    "fieldName": "ftev_metal",
+    "fieldType": "EVIDENCE",
+    "dataType": "STRING",
+    "description": "Search feature metal binding with evidence type",
+    "example": "manual"
+  },
+  {
+    "parentId": "sites",
+    "childNumber": 3,
+    "label": "Binding site",
+    "id": "sites_binding_site",
+    "itemType": "SIBLING_GROUP"
+  },
+  {
+    "parentId": "sites_binding_site",
+    "childNumber": 0,
+    "id": "ft_binding",
+    "itemType": "SINGLE",
+    "fieldName": "ft_binding",
+    "fieldType": "GENERAL",
+    "dataType": "STRING",
+    "description": "Search by feature binding site",
+    "example": "phosphocysteine"
+  },
+  {
+    "parentId": "sites_binding_site",
+    "childNumber": 1,
+    "id": "ftlen_binding",
+    "itemType": "SINGLE",
+    "fieldName": "ftlen_binding",
+    "fieldType": "RANGE",
+    "dataType": "INTEGER",
+    "description": "Search feature binding site within range",
+    "example": "[0 TO 100]"
+  },
+  {
+    "parentId": "sites_binding_site",
+    "childNumber": 2,
+    "id": "ftev_binding",
+    "itemType": "SINGLE",
+    "fieldName": "ftev_binding",
+    "fieldType": "EVIDENCE",
+    "dataType": "STRING",
+    "description": "Search feature binding site with evidence type",
+    "example": "any"
+  },
+  {
+    "parentId": "sites",
+    "childNumber": 4,
+    "label": "Other",
+    "id": "sites_other",
+    "itemType": "SIBLING_GROUP"
+  },
+  {
+    "parentId": "sites_other",
+    "childNumber": 0,
+    "id": "ft_site",
+    "itemType": "SINGLE",
+    "fieldName": "ft_site",
+    "fieldType": "GENERAL",
+    "dataType": "STRING",
+    "description": "Search by feature other site",
+    "example": "phosphocysteine"
+  },
+  {
+    "parentId": "sites_other",
+    "childNumber": 1,
+    "id": "ftlen_site",
+    "itemType": "SINGLE",
+    "fieldName": "ftlen_site",
+    "fieldType": "RANGE",
+    "dataType": "INTEGER",
+    "description": "Search feature other site within range",
+    "example": "[0 TO 100]"
+  },
+  {
+    "parentId": "sites_other",
+    "childNumber": 2,
+    "id": "ftev_site",
+    "itemType": "SINGLE",
+    "fieldName": "ftev_site",
+    "fieldType": "EVIDENCE",
+    "dataType": "STRING",
+    "description": "Search feature other site with evidence type",
+    "example": "any"
+  },
+  {
+    "parentId": "function",
+    "childNumber": 8,
+    "label": "Calcium binding",
+    "id": "calcium_binding",
+    "itemType": "SIBLING_GROUP"
+  },
+  {
+    "parentId": "calcium_binding",
+    "childNumber": 0,
+    "id": "ft_ca_bind",
+    "itemType": "SINGLE",
+    "fieldName": "ft_ca_bind",
+    "fieldType": "GENERAL",
+    "dataType": "STRING",
+    "description": "Search by feature calcium binding",
+    "example": "site"
+  },
+  {
+    "parentId": "calcium_binding",
+    "childNumber": 1,
+    "id": "ftlen_ca_bind",
+    "itemType": "SINGLE",
+    "fieldName": "ftlen_ca_bind",
+    "fieldType": "RANGE",
+    "dataType": "INTEGER",
+    "description": "Search feature calcium binding within range",
+    "example": "[0 TO 100]"
+  },
+  {
+    "parentId": "calcium_binding",
+    "childNumber": 2,
+    "id": "ftev_ca_bind",
+    "itemType": "SINGLE",
+    "fieldName": "ftev_ca_bind",
+    "fieldType": "EVIDENCE",
+    "dataType": "STRING",
+    "description": "Search feature calcium binding with evidence type",
+    "example": "any"
+  },
+  {
+    "parentId": "function",
+    "childNumber": 9,
+    "label": "DNA binding",
+    "id": "dna_binding",
+    "itemType": "SIBLING_GROUP"
+  },
+  {
+    "parentId": "dna_binding",
+    "childNumber": 0,
+    "id": "ft_dna_bind",
+    "itemType": "SINGLE",
+    "fieldName": "ft_dna_bind",
+    "fieldType": "GENERAL",
+    "dataType": "STRING",
+    "description": "Search by feature DNA binding",
+    "example": "*"
+  },
+  {
+    "parentId": "dna_binding",
+    "childNumber": 1,
+    "id": "ftlen_dna_bind",
+    "itemType": "SINGLE",
+    "fieldName": "ftlen_dna_bind",
+    "fieldType": "RANGE",
+    "dataType": "INTEGER",
+    "description": "Search feature DNA binding within range",
+    "example": "[0 TO 100]"
+  },
+  {
+    "parentId": "dna_binding",
+    "childNumber": 2,
+    "id": "ftev_dna_bind",
+    "itemType": "SINGLE",
+    "fieldName": "ftev_dna_bind",
+    "fieldType": "EVIDENCE",
+    "dataType": "STRING",
+    "description": "Search feature DNA binding with evidence",
+    "example": "any"
+  },
+  {
+    "parentId": "function",
+    "childNumber": 10,
+    "label": "Nucleotide binding",
+    "id": "nucleotide_binding",
+    "itemType": "SIBLING_GROUP"
+  },
+  {
+    "parentId": "nucleotide_binding",
+    "childNumber": 0,
+    "id": "ft_np_bind",
+    "fieldName": "ft_np_bind",
+    "itemType": "SINGLE",
+    "dataType": "STRING",
+    "fieldType": "GENERAL",
+    "description": "Search by feature Nucleotide binding",
+    "example": "NADP"
+  },
+  {
+    "parentId": "nucleotide_binding",
+    "childNumber": 1,
+    "dataType": "INTEGER",
+    "id": "ftlen_np_bind",
+    "fieldName": "ftlen_np_bind",
+    "itemType": "SINGLE",
+    "fieldType": "RANGE",
+    "description": "Search feature Nucleotide binding within range",
+    "example": "[0 TO 100]"
+  },
+  {
+    "parentId": "nucleotide_binding",
+    "childNumber": 2,
+    "id": "ftev_np_bind",
+    "fieldName": "ftev_np_bind",
+    "itemType": "SINGLE",
+    "dataType": "STRING",
+    "fieldType": "EVIDENCE",
+    "description": "Search feature Nucleotide binding with evidence type",
+    "example": "any"
+  },
+  {
+    "parentId": "function",
+    "childNumber": 11,
+    "label": "Pathway",
+    "id": "pathway",
+    "itemType": "SIBLING_GROUP"
+  },
+  {
+    "parentId": "pathway",
+    "childNumber": 0,
+    "id": "cc_pathway",
+    "itemType": "SINGLE",
+    "fieldName": "cc_pathway",
+    "fieldType": "GENERAL",
+    "dataType": "STRING",
+    "description": "Search by comment pathway",
+    "example": "metabolism"
+  },
+  {
+    "parentId": "pathway",
+    "childNumber": 1,
+    "id": "ccev_pathway",
+    "itemType": "SINGLE",
+    "fieldName": "ccev_pathway",
+    "fieldType": "EVIDENCE",
+    "dataType": "STRING",
+    "description": "Search comment pathway with evidence type",
+    "example": "any"
+  },
+  {
+    "parentId": "function",
+    "childNumber": 12,
+    "label": "Miscellaneous [CC]",
+    "id": "miscellaneous_cc",
+    "itemType": "SIBLING_GROUP"
+  },
+  {
+    "parentId": "miscellaneous_cc",
+    "childNumber": 0,
+    "id": "cc_miscellaneous",
+    "itemType": "SINGLE",
+    "fieldName": "cc_miscellaneous",
+    "fieldType": "GENERAL",
+    "dataType": "STRING",
+    "description": "Search by comment Miscellaneous",
+    "example": "abscisic"
+  },
+  {
+    "parentId": "miscellaneous_cc",
+    "childNumber": 1,
+    "fieldType": "EVIDENCE",
+    "id": "ccev_miscellaneous",
+    "itemType": "SINGLE",
+    "fieldName": "ccev_miscellaneous",
+    "dataType": "STRING",
+    "description": "Search comment Miscellaneous with evidence type",
+    "example": "any"
+  },
+  {
+    "label": "Sequence",
+    "itemType": "GROUP",
+    "id": "sequence",
+    "seqNumber": 17
+  },
+  {
+    "parentId": "sequence",
+    "childNumber": 0,
+    "label": "Mass(Da)",
+    "id": "mass_range",
+    "itemType": "SINGLE",
+    "fieldName": "mass",
+    "fieldType": "RANGE",
+    "dataType": "INTEGER",
+    "description": "Search by Sequence mass range",
+    "example": "[441126 TO 441126]",
+    "sortFieldId": "mass_sort"
+  },
+  {
+    "parentId": "sequence",
+    "childNumber": 1,
+    "label": "Sequence length",
+    "id": "length_range",
+    "itemType": "SINGLE",
+    "fieldName": "length",
+    "fieldType": "RANGE",
+    "dataType": "INTEGER",
+    "description": "Search by Sequence length range",
+    "example": "[441 TO 450]",
+    "sortFieldId": "length_sort"
+  },
+  {
+    "parentId": "sequence",
+    "childNumber": 2,
+    "label": "Alternative products (isoforms)",
+    "itemType": "GROUP",
+    "id": "alt_product_isoform"
+  },
+  {
+    "parentId": "alt_product_isoform",
+    "childNumber": 0,
+    "label": "Any",
+    "id": "sequence_any",
+    "itemType": "SIBLING_GROUP"
+  },
+  {
+    "parentId": "sequence_any",
+    "childNumber": 0,
+    "id": "cc_ap",
+    "itemType": "SINGLE",
+    "fieldName": "cc_ap",
+    "fieldType": "GENERAL",
+    "dataType": "STRING",
+    "description": "Search by Comment alternative Products",
+    "example": "tissues"
+  },
+  {
+    "parentId": "sequence_any",
+    "childNumber": 1,
+    "id": "ccev_ap",
+    "fieldName": "ccev_ap",
+    "itemType": "SINGLE",
+    "fieldType": "EVIDENCE",
+    "dataType": "STRING",
+    "description": "Search Comment alternative Products with evidence type",
+    "example": "manual"
+  },
+  {
+    "parentId": "alt_product_isoform",
+    "childNumber": 1,
+    "label": "Alternative promoter usage",
+    "id": "alternative_promoter_usage",
+    "itemType": "SIBLING_GROUP"
+  },
+  {
+    "parentId": "alternative_promoter_usage",
+    "childNumber": 0,
+    "id": "cc_ap_apu",
+    "itemType": "SINGLE",
+    "fieldName": "cc_ap_apu",
+    "fieldType": "GENERAL",
+    "dataType": "STRING",
+    "description": "Search by Comment alternative Products: alternative promoter usage",
+    "example": "*"
+  },
+  {
+    "parentId": "alternative_promoter_usage",
+    "childNumber": 1,
+    "id": "ccev_ap_apu",
+    "itemType": "SINGLE",
+    "fieldName": "ccev_ap_apu",
+    "fieldType": "EVIDENCE",
+    "dataType": "STRING",
+    "description": "Search Comment alternative Products: alternative promoter usage with evidence type",
+    "example": "any"
+  },
+  {
+    "parentId": "alt_product_isoform",
+    "childNumber": 2,
+    "label": "Alternative splicing",
+    "id": "alternative_splicing",
+    "itemType": "SIBLING_GROUP"
+  },
+  {
+    "parentId": "alternative_splicing",
+    "childNumber": 0,
+    "id": "cc_ap_as",
+    "itemType": "SINGLE",
+    "fieldName": "cc_ap_as",
+    "fieldType": "GENERAL",
+    "dataType": "STRING",
+    "description": "Search by Comment alternative Products: alternative splicing",
+    "example": "experimental"
+  },
+  {
+    "parentId": "alternative_splicing",
+    "childNumber": 1,
+    "id": "ccev_ap_as",
+    "itemType": "SINGLE",
+    "fieldName": "ccev_ap_as",
+    "fieldType": "EVIDENCE",
+    "dataType": "STRING",
+    "description": "Search Comment alternative Products: alternative splicing with evidence type",
+    "example": "experimental"
+  },
+  {
+    "parentId": "alt_product_isoform",
+    "childNumber": 3,
+    "label": "Alternative initiation",
+    "id": "alternative_initiation",
+    "itemType": "SIBLING_GROUP"
+  },
+  {
+    "parentId": "alternative_initiation",
+    "childNumber": 0,
+    "id": "cc_ap_ai",
+    "itemType": "SINGLE",
+    "fieldName": "cc_ap_ai",
+    "fieldType": "GENERAL",
+    "dataType": "STRING",
+    "description": "Search by Comment alternative Products: alternative initiation",
+    "example": "acetylalanine"
+  },
+  {
+    "parentId": "alternative_initiation",
+    "childNumber": 1,
+    "id": "ccev_ap_ai",
+    "itemType": "SINGLE",
+    "fieldName": "ccev_ap_ai",
+    "fieldType": "EVIDENCE",
+    "dataType": "STRING",
+    "description": "Search by Comment alternative Products: alternative initiation with evidence type",
+    "example": "any"
+  },
+  {
+    "parentId": "alt_product_isoform",
+    "childNumber": 4,
+    "label": "Ribosomal frameshifting",
+    "id": "ribosomal_frameshifting",
+    "itemType": "SIBLING_GROUP"
+  },
+  {
+    "parentId": "ribosomal_frameshifting",
+    "childNumber": 0,
+    "id": "cc_ap_rf",
+    "itemType": "SINGLE",
+    "fieldName": "cc_ap_rf",
+    "fieldType": "GENERAL",
+    "dataType": "STRING",
+    "description": "Search by Comment alternative Products: ribosomal frameshifting",
+    "example": "translation"
+  },
+  {
+    "parentId": "ribosomal_frameshifting",
+    "childNumber": 1,
+    "id": "ccev_ap_rf",
+    "itemType": "SINGLE",
+    "fieldName": "ccev_ap_rf",
+    "fieldType": "EVIDENCE",
+    "dataType": "STRING",
+    "description": "Search Comment alternative Products: ribosomal frameshifting with evidence type",
+    "example": "manual"
+  },
+  {
+    "parentId": "sequence",
+    "childNumber": 3,
+    "label": "Sequence caution",
+    "itemType": "GROUP",
+    "id": "seq_caution"
+  },
+  {
+    "parentId": "seq_caution",
+    "childNumber": 0,
+    "label": "Any",
+    "id": "seq_caution_any",
+    "itemType": "SIBLING_GROUP"
+  },
+  {
+    "parentId": "seq_caution_any",
+    "childNumber": 0,
+    "id": "cc_sequence_caution",
+    "itemType": "SINGLE",
+    "fieldName": "cc_sequence_caution",
+    "fieldType": "GENERAL",
+    "dataType": "STRING",
+    "description": "Search by Comment Sequence caution",
+    "example": "translated"
+  },
+  {
+    "parentId": "seq_caution_any",
+    "childNumber": 1,
+    "id": "ccev_sequence_caution",
+    "itemType": "SINGLE",
+    "fieldName": "ccev_sequence_caution",
+    "fieldType": "EVIDENCE",
+    "dataType": "STRING",
+    "description": "Search Comment Sequence caution with evidence typee",
+    "example": "any"
+  },
+  {
+    "parentId": "seq_caution",
+    "childNumber": 1,
+    "label": "Frameshift",
+    "id": "cc_sc_framesh",
+    "itemType": "SINGLE",
+    "fieldName": "cc_sc_framesh",
+    "fieldType": "GENERAL",
+    "dataType": "STRING",
+    "description": "Search by Comment Sequence caution: frameshift",
+    "example": "*"
+  },
+  {
+    "parentId": "seq_caution",
+    "childNumber": 2,
+    "label": "Erroneous initiation",
+    "id": "cc_sc_einit",
+    "itemType": "SINGLE",
+    "fieldName": "cc_sc_einit",
+    "fieldType": "GENERAL",
+    "dataType": "STRING",
+    "description": "Search by Comment Sequence caution: erroneous initiation",
+    "example": "extended"
+  },
+  {
+    "parentId": "seq_caution",
+    "childNumber": 3,
+    "label": "Erroneous termination",
+    "id": "cc_sc_eterm",
+    "itemType": "SINGLE",
+    "fieldName": "cc_sc_eterm",
+    "fieldType": "GENERAL",
+    "dataType": "STRING",
+    "description": "Search by Comment Sequence caution: erroneous termination",
+    "example": "translated"
+  },
+  {
+    "parentId": "seq_caution",
+    "childNumber": 4,
+    "label": "Erroneous gene model prediction",
+    "id": "cc_sc_epred",
+    "itemType": "SINGLE",
+    "fieldName": "cc_sc_epred",
+    "fieldType": "GENERAL",
+    "dataType": "STRING",
+    "description": "Search by Comment Sequence caution: erroneous gene model prediction",
+    "example": "*"
+  },
+  {
+    "parentId": "seq_caution",
+    "childNumber": 5,
+    "label": "Erroneous translation",
+    "id": "cc_sc_etran",
+    "itemType": "SINGLE",
+    "fieldName": "cc_sc_etran",
+    "fieldType": "GENERAL",
+    "dataType": "STRING",
+    "description": "Search by Comment Sequence caution: erroneous translation",
+    "example": "choice"
+  },
+  {
+    "parentId": "seq_caution",
+    "childNumber": 6,
+    "label": "Miscellaneous Discrepancy",
+    "id": "miscellaneous_discrepancy",
+    "itemType": "SIBLING_GROUP"
+  },
+  {
+    "parentId": "miscellaneous_discrepancy",
+    "childNumber": 0,
+    "id": "cc_sc_misc",
+    "itemType": "SINGLE",
+    "fieldName": "cc_sc_misc",
+    "fieldType": "GENERAL",
+    "dataType": "STRING",
+    "description": "Search by Comment Sequence caution: miscellaneous discrepancy",
+    "example": "sequence"
+  },
+  {
+    "parentId": "miscellaneous_discrepancy",
+    "childNumber": 1,
+    "id": "ccev_sc_misc",
+    "itemType": "SINGLE",
+    "fieldName": "ccev_sc_misc",
+    "fieldType": "EVIDENCE",
+    "dataType": "STRING",
+    "description": "Search Comment Sequence caution: miscellaneous discrepancy with evidence",
+    "example": "any"
+  },
+  {
+    "parentId": "sequence",
+    "childNumber": 4,
+    "label": "Mass Spectrometry",
+    "id": "mass_spectrometry",
+    "itemType": "SIBLING_GROUP"
+  },
+  {
+    "parentId": "mass_spectrometry",
+    "childNumber": 0,
+    "id": "cc_mass_spectrometry",
+    "itemType": "SINGLE",
+    "fieldName": "cc_mass_spectrometry",
+    "fieldType": "GENERAL",
+    "dataType": "STRING",
+    "description": "Search by Comment Spectrometry",
+    "example": "electrospray"
+  },
+  {
+    "parentId": "mass_spectrometry",
+    "childNumber": 1,
+    "id": "ccev_mass_spectrometry",
+    "itemType": "SINGLE",
+    "fieldName": "ccev_mass_spectrometry",
+    "fieldType": "EVIDENCE",
+    "dataType": "STRING",
+    "description": "Search Comment Spectrometry with evidence type",
+    "example": "manual"
+  },
+  {
+    "parentId": "sequence",
+    "childNumber": 5,
+    "label": "Polymorphism",
+    "id": "polymorphism",
+    "itemType": "SIBLING_GROUP"
+  },
+  {
+    "parentId": "polymorphism",
+    "childNumber": 0,
+    "id": "cc_polymorphism",
+    "itemType": "SINGLE",
+    "fieldName": "cc_polymorphism",
+    "fieldType": "GENERAL",
+    "dataType": "STRING",
+    "description": "Search by Comment Polymorphism",
+    "example": "transcript"
+  },
+  {
+    "parentId": "polymorphism",
+    "childNumber": 1,
+    "id": "ccev_polymorphism",
+    "itemType": "SINGLE",
+    "fieldName": "ccev_polymorphism",
+    "fieldType": "EVIDENCE",
+    "dataType": "STRING",
+    "description": "Search Comment Polymorphism with evidence type",
+    "example": "manual"
+  },
+  {
+    "parentId": "sequence",
+    "childNumber": 6,
+    "label": "RNA Editing",
+    "id": "rna_editing",
+    "itemType": "SIBLING_GROUP"
+  },
+  {
+    "parentId": "rna_editing",
+    "childNumber": 0,
+    "id": "cc_rna_editing",
+    "itemType": "SINGLE",
+    "fieldName": "cc_rna_editing",
+    "fieldType": "GENERAL",
+    "dataType": "STRING",
+    "description": "Search by Comment RNA editing",
+    "example": "target"
+  },
+  {
+    "parentId": "rna_editing",
+    "childNumber": 1,
+    "id": "ccev_rna_editing",
+    "itemType": "SINGLE",
+    "fieldName": "ccev_rna_editing",
+    "fieldType": "EVIDENCE",
+    "dataType": "STRING",
+    "description": "Search Comment RNA editing with evidence type",
+    "example": "manual"
+  },
+  {
+    "parentId": "sequence",
+    "childNumber": 7,
+    "label": "Natural Variations",
+    "itemType": "GROUP",
+    "id": "natural_variations"
+  },
+  {
+    "parentId": "natural_variations",
+    "childNumber": 0,
+    "label": "Any",
+    "id": "natural_variations_any",
+    "itemType": "SIBLING_GROUP"
+  },
+  {
+    "parentId": "natural_variations_any",
+    "childNumber": 0,
+    "id": "ft_variants",
+    "itemType": "SINGLE",
+    "fieldName": "ft_variants",
+    "fieldType": "GENERAL",
+    "dataType": "STRING",
+    "description": "Search by Feature natural variations",
+    "example": "colorectal"
+  },
+  {
+    "parentId": "natural_variations_any",
+    "childNumber": 1,
+    "id": "ftlen_variants",
+    "itemType": "SINGLE",
+    "fieldName": "ftlen_variants",
+    "fieldType": "RANGE",
+    "dataType": "INTEGER",
+    "description": "Search Feature natural variations within range",
+    "example": "[0 TO 100]"
+  },
+  {
+    "parentId": "natural_variations_any",
+    "childNumber": 2,
+    "id": "ftev_variants",
+    "itemType": "SINGLE",
+    "fieldName": "ftev_variants",
+    "fieldType": "EVIDENCE",
+    "dataType": "STRING",
+    "description": "Search Feature natural variations with evidence type",
+    "example": "manual"
+  },
+  {
+    "parentId": "natural_variations",
+    "childNumber": 1,
+    "label": "Natural variant",
+    "id": "natural_variations_natural_variant",
+    "itemType": "SIBLING_GROUP"
+  },
+  {
+    "parentId": "natural_variations_natural_variant",
+    "childNumber": 0,
+    "id": "ft_variant",
+    "itemType": "SINGLE",
+    "fieldName": "ft_variant",
+    "fieldType": "GENERAL",
+    "dataType": "STRING",
+    "description": "Search by Feature natural variant",
+    "example": "colorectal"
+  },
+  {
+    "parentId": "natural_variations_natural_variant",
+    "childNumber": 1,
+    "id": "ftlen_variant",
+    "itemType": "SINGLE",
+    "fieldName": "ftlen_variant",
+    "fieldType": "RANGE",
+    "dataType": "INTEGER",
+    "description": "Search Feature natural variant within range",
+    "example": "[0 TO 100]"
+  },
+  {
+    "parentId": "natural_variations_natural_variant",
+    "childNumber": 2,
+    "id": "ftev_variant",
+    "itemType": "SINGLE",
+    "fieldName": "ftev_variant",
+    "fieldType": "EVIDENCE",
+    "dataType": "STRING",
+    "description": "Search Feature natural variant with evidence type",
+    "example": "manual"
+  },
+  {
+    "parentId": "natural_variations",
+    "childNumber": 2,
+    "label": "Alternative sequence",
+    "id": "natural_variations_alternative_sequence",
+    "itemType": "SIBLING_GROUP"
+  },
+  {
+    "parentId": "natural_variations_alternative_sequence",
+    "childNumber": 0,
+    "id": "ft_var_seq",
+    "itemType": "SINGLE",
+    "fieldName": "ft_var_seq",
+    "fieldType": "GENERAL",
+    "dataType": "STRING",
+    "description": "Search by Feature alternative sequence",
+    "example": "isoform"
+  },
+  {
+    "parentId": "natural_variations_alternative_sequence",
+    "childNumber": 1,
+    "id": "ftlen_var_seq",
+    "itemType": "SINGLE",
+    "fieldName": "ftlen_var_seq",
+    "fieldType": "RANGE",
+    "dataType": "INTEGER",
+    "description": "Search Feature alternative sequence within range",
+    "example": "[0 TO 100]"
+  },
+  {
+    "parentId": "natural_variations_alternative_sequence",
+    "childNumber": 2,
+    "id": "ftev_var_seq",
+    "itemType": "SINGLE",
+    "fieldName": "ftev_var_seq",
+    "fieldType": "EVIDENCE",
+    "dataType": "STRING",
+    "description": "Search Feature alternative sequence with evidence type",
+    "example": "manual"
+  },
+  {
+    "parentId": "sequence",
+    "childNumber": 8,
+    "label": "Non-standard residue",
+    "id": "non_standard_residue",
+    "itemType": "SIBLING_GROUP"
+  },
+  {
+    "parentId": "non_standard_residue",
+    "childNumber": 0,
+    "id": "ft_non_std",
+    "itemType": "SINGLE",
+    "fieldName": "ft_non_std",
+    "fieldType": "GENERAL",
+    "dataType": "STRING",
+    "description": "Search by feature non-standard residue",
+    "example": "selenocysteine"
+  },
+  {
+    "parentId": "non_standard_residue",
+    "childNumber": 1,
+    "id": "ftlen_non_std",
+    "itemType": "SINGLE",
+    "fieldName": "ftlen_non_std",
+    "fieldType": "RANGE",
+    "dataType": "INTEGER",
+    "description": "Search feature non-standard residue within range",
+    "example": "[0 TO 100]"
+  },
+  {
+    "parentId": "non_standard_residue",
+    "childNumber": 2,
+    "id": "ftev_non_std",
+    "itemType": "SINGLE",
+    "fieldName": "ftev_non_std",
+    "fieldType": "EVIDENCE",
+    "dataType": "STRING",
+    "description": "Search feature non-standard residue with evidence type",
+    "example": "manual"
+  },
+  {
+    "parentId": "sequence",
+    "childNumber": 9,
+    "label": "Non-terminal residue",
+    "id": "non_terminal_residue",
+    "itemType": "SIBLING_GROUP"
+  },
+  {
+    "parentId": "non_terminal_residue",
+    "childNumber": 0,
+    "id": "ft_non_ter",
+    "itemType": "SINGLE",
+    "fieldName": "ft_non_ter",
+    "fieldType": "GENERAL",
+    "dataType": "STRING",
+    "description": "Search by feature non-terminal residue",
+    "example": "*"
+  },
+  {
+    "parentId": "non_terminal_residue",
+    "childNumber": 1,
+    "id": "ftlen_non_ter",
+    "itemType": "SINGLE",
+    "fieldName": "ftlen_non_ter",
+    "fieldType": "RANGE",
+    "dataType": "INTEGER",
+    "description": "Search feature non-terminal residue within range",
+    "example": "[0 TO 100]"
+  },
+  {
+    "parentId": "non_terminal_residue",
+    "childNumber": 2,
+    "id": "ftev_non_ter",
+    "itemType": "SINGLE",
+    "fieldName": "ftev_non_ter",
+    "fieldType": "EVIDENCE",
+    "dataType": "STRING",
+    "description": "Search feature non-terminal residue with evidence type",
+    "example": "manual"
+  },
+  {
+    "parentId": "sequence",
+    "childNumber": 10,
+    "label": "Non-adjacent residue",
+    "id": "non_adjacent_residue",
+    "itemType": "SIBLING_GROUP"
+  },
+  {
+    "parentId": "non_adjacent_residue",
+    "childNumber": 0,
+    "id": "ft_non_cons",
+    "itemType": "SINGLE",
+    "fieldName": "ft_non_cons",
+    "fieldType": "GENERAL",
+    "dataType": "STRING",
+    "description": "Search by feature non-adjacent residue",
+    "example": "*"
+  },
+  {
+    "parentId": "non_adjacent_residue",
+    "childNumber": 1,
+    "id": "ftlen_non_cons",
+    "itemType": "SINGLE",
+    "fieldName": "ftlen_non_cons",
+    "fieldType": "RANGE",
+    "dataType": "INTEGER",
+    "description": "Search feature non-adjacent residue within range",
+    "example": "[0 TO 100]"
+  },
+  {
+    "parentId": "non_adjacent_residue",
+    "childNumber": 2,
+    "id": "ftev_non_cons",
+    "itemType": "SINGLE",
+    "fieldName": "ftev_non_cons",
+    "fieldType": "EVIDENCE",
+    "dataType": "STRING",
+    "description": "Search feature non-adjacent residue with evidence type",
+    "example": "manual"
+  },
+  {
+    "parentId": "sequence",
+    "childNumber": 11,
+    "label": "Sequence conflict",
+    "id": "sequence_conflict",
+    "itemType": "SIBLING_GROUP"
+  },
+  {
+    "parentId": "sequence_conflict",
+    "childNumber": 0,
+    "id": "ft_conflict",
+    "itemType": "SINGLE",
+    "fieldName": "ft_conflict",
+    "fieldType": "GENERAL",
+    "dataType": "STRING",
+    "description": "Search by feature Sequence conflict",
+    "example": "*"
+  },
+  {
+    "parentId": "sequence_conflict",
+    "childNumber": 1,
+    "id": "ftlen_conflict",
+    "itemType": "SINGLE",
+    "fieldName": "ftlen_conflict",
+    "fieldType": "RANGE",
+    "dataType": "INTEGER",
+    "description": "Search feature Sequence conflict within range",
+    "example": "[0 TO 100]"
+  },
+  {
+    "parentId": "sequence_conflict",
+    "childNumber": 2,
+    "id": "ftev_conflict",
+    "itemType": "SINGLE",
+    "fieldName": "ftev_conflict",
+    "fieldType": "EVIDENCE",
+    "dataType": "STRING",
+    "description": "Search feature Sequence conflict with evidence type",
+    "example": "manual"
+  },
+  {
+    "parentId": "sequence",
+    "childNumber": 12,
+    "label": "Sequence uncertainty",
+    "id": "sequence_uncertainty",
+    "itemType": "SIBLING_GROUP"
+  },
+  {
+    "parentId": "sequence_uncertainty",
+    "childNumber": 0,
+    "id": "ft_unsure",
+    "itemType": "SINGLE",
+    "fieldName": "ft_unsure",
+    "fieldType": "GENERAL",
+    "dataType": "STRING",
+    "description": "Search by feature Sequence uncertainty",
+    "example": "*"
+  },
+  {
+    "parentId": "sequence_uncertainty",
+    "childNumber": 1,
+    "id": "ftlen_unsure",
+    "itemType": "SINGLE",
+    "fieldName": "ftlen_unsure",
+    "fieldType": "RANGE",
+    "dataType": "INTEGER",
+    "description": "Search feature Sequence uncertainty within range",
+    "example": "[0 TO 100]"
+  },
+  {
+    "parentId": "sequence_uncertainty",
+    "childNumber": 2,
+    "id": "ftev_unsure",
+    "itemType": "SINGLE",
+    "fieldName": "ftev_unsure",
+    "fieldType": "EVIDENCE",
+    "dataType": "STRING",
+    "description": "Search feature Sequence uncertainty with evidence type",
+    "example": "manual"
+  },
+  {
+    "parentId": "sequence",
+    "childNumber": 13,
+    "label": "Sequence features [FT]",
+    "id": "sequence_features_ft",
+    "itemType": "SIBLING_GROUP"
+  },
+  {
+    "parentId": "sequence_features_ft",
+    "childNumber": 0,
+    "id": "ft_positional",
+    "itemType": "SINGLE",
+    "fieldName": "ft_positional",
+    "fieldType": "GENERAL",
+    "dataType": "STRING",
+    "description": "Search by sequence positional features",
+    "example": "colorectal"
+  },
+  {
+    "parentId": "sequence_features_ft",
+    "childNumber": 1,
+    "id": "ftlen_positional",
+    "itemType": "SINGLE",
+    "fieldName": "ftlen_positional",
+    "fieldType": "RANGE",
+    "dataType": "INTEGER",
+    "description": "Search sequence positional features within range",
+    "example": "[0 TO 100]"
+  },
+  {
+    "parentId": "sequence_features_ft",
+    "childNumber": 2,
+    "id": "ftev_positional",
+    "itemType": "SINGLE",
+    "fieldName": "ftev_positional",
+    "fieldType": "EVIDENCE",
+    "dataType": "STRING",
+    "description": "Search sequence positional features with evidence type",
+    "example": "manual"
+  },
+  {
+    "parentId": "sequence",
+    "childNumber": 14,
+    "label": "Fragment",
+    "id": "fragment",
+    "itemType": "SINGLE",
+    "fieldName": "fragment",
+    "fieldType": "GENERAL",
+    "dataType": "ENUM",
+    "values": [
+      {
+        "name": "Yes",
+        "value": "true"
+      },
+      {
+        "name": "No",
+        "value": "false"
+      }
+    ],
+    "description": "Search by fragment",
+    "example": "true"
+  },
+  {
+    "parentId": "sequence",
+    "childNumber": 15,
+    "label": "Encoded in",
+    "id": "organelle",
+    "itemType": "SINGLE",
+    "fieldName": "organelle",
+    "fieldType": "GENERAL",
+    "dataType": "ENUM",
+    "values": [
+      {
+        "name": "Mitochondrion",
+        "value": "mitochondrion"
+      },
+      {
+        "name": "Plastid",
+        "value": "plastid"
+      },
+      {
+        "name": "Chloroplast",
+        "value": "chloroplast"
+      },
+      {
+        "name": "Cyanelle",
+        "value": "cyanelle"
+      },
+      {
+        "name": "Apicoplast",
+        "value": "apicoplast"
+      },
+      {
+        "name": "Organellar chromatophore",
+        "value": "organellar chromatophore"
+      },
+      {
+        "name": "Non-photosynthetic plastid",
+        "value": "non-photosynthetic plastid"
+      },
+      {
+        "name": "Nucleomorph",
+        "value": "nucleomorph"
+      },
+      {
+        "name": "Hydrogenosome",
+        "value": "hydrogenosome"
+      }
+    ],
+    "description": "Search by organelle",
+    "example": "mitochondrion"
+  },
+  {
+    "parentId": "sequence",
+    "childNumber": 16,
+    "label": "Precursor",
+    "id": "precursor",
+    "itemType": "SINGLE",
+    "fieldName": "precursor",
+    "fieldType": "GENERAL",
+    "dataType": "ENUM",
+    "values": [
+      {
+        "name": "Yes",
+        "value": "true"
+      },
+      {
+        "name": "No",
+        "value": "false"
+      }
+    ],
+    "description": "Search by precursor",
+    "example": "true"
+  },
+  {
+    "parentId": "sequence",
+    "childNumber": 17,
+    "label": "Sequence from ... [RC]",
+    "itemType": "GROUP",
+    "id": "sequence_from_rc"
+  },
+  {
+    "parentId": "sequence_from_rc",
+    "childNumber": 0,
+    "label": "Tissue",
+    "id": "tissue",
+    "itemType": "SINGLE",
+    "fieldName": "tissue",
+    "fieldType": "GENERAL",
+    "dataType": "STRING",
+    "description": "Search by tissue",
+    "example": "head"
+  },
+  {
+    "parentId": "sequence_from_rc",
+    "childNumber": 1,
+    "label": "Strain",
+    "id": "strain",
+    "itemType": "SINGLE",
+    "fieldName": "strain",
+    "fieldType": "GENERAL",
+    "dataType": "STRING",
+    "description": "Search by strain",
+    "example": "berkeley"
+  },
+  {
+    "parentId": "sequence_from_rc",
+    "childNumber": 2,
+    "label": "Plasmid",
+    "id": "plasmid",
+    "itemType": "SINGLE",
+    "fieldName": "plasmid",
+    "fieldType": "GENERAL",
+    "dataType": "STRING",
+    "description": "Search by plasmid",
+    "example": "pO113"
+  },
+  {
+    "parentId": "sequence_from_rc",
+    "childNumber": 3,
+    "label": "Transposon",
+    "id": "transposon",
+    "itemType": "SINGLE",
+    "fieldName": "transposon",
+    "fieldType": "GENERAL",
+    "dataType": "STRING",
+    "description": "Search by transposon",
+    "example": "tn3"
+  },
+  {
+    "label": "PTM/Processing",
+    "itemType": "GROUP",
+    "id": "ptm_processing",
+    "seqNumber": 18
+  },
+  {
+    "parentId": "ptm_processing",
+    "itemType": "SIBLING_GROUP",
+    "label": "Post-translational modification [CC]",
+    "id": "post_translational_modification_cc",
+    "childNumber": 0
+  },
+  {
+    "parentId": "post_translational_modification_cc",
+    "childNumber": 0,
+    "id": "cc_ptm",
+    "itemType": "SINGLE",
+    "fieldName": "cc_ptm",
+    "fieldType": "GENERAL",
+    "dataType": "STRING",
+    "description": "Search by Comment Post-translational modification",
+    "example": "mitosis"
+  },
+  {
+    "parentId": "post_translational_modification_cc",
+    "childNumber": 1,
+    "id": "ccev_ptm",
+    "itemType": "SINGLE",
+    "fieldName": "ccev_ptm",
+    "fieldType": "EVIDENCE",
+    "dataType": "STRING",
+    "description": "Search Comment Post-translational modification with evidence type",
+    "example": "any"
+  },
+  {
+    "parentId": "ptm_processing",
+    "itemType": "SIBLING_GROUP",
+    "label": "Modified residue [FT]",
+    "id": "modified_residue_ft",
+    "childNumber": 1
+  },
+  {
+    "parentId": "modified_residue_ft",
+    "childNumber": 0,
+    "id": "ft_mod_res",
+    "itemType": "SINGLE",
+    "fieldName": "ft_mod_res",
+    "fieldType": "GENERAL",
+    "dataType": "STRING",
+    "description": "Search by Feature Modified residue",
+    "example": "phosphoserine"
+  },
+  {
+    "parentId": "modified_residue_ft",
+    "childNumber": 1,
+    "id": "ftlen_mod_res",
+    "itemType": "SINGLE",
+    "fieldName": "ftlen_mod_res",
+    "fieldType": "RANGE",
+    "dataType": "INTEGER",
+    "description": "Search Feature Modified residue within range",
+    "example": "[0 TO 100]"
+  },
+  {
+    "parentId": "modified_residue_ft",
+    "childNumber": 2,
+    "id": "ftev_mod_res",
+    "itemType": "SINGLE",
+    "fieldName": "ftev_mod_res",
+    "fieldType": "EVIDENCE",
+    "dataType": "STRING",
+    "description": "Search Feature Modified residue with eevidence type",
+    "example": "manual"
+  },
+  {
+    "parentId": "ptm_processing",
+    "itemType": "SIBLING_GROUP",
+    "label": "Lipidation [FT]",
+    "id": "lipidation_ft",
+    "childNumber": 2
+  },
+  {
+    "parentId": "lipidation_ft",
+    "childNumber": 0,
+    "id": "ft_lipid",
+    "itemType": "SINGLE",
+    "fieldName": "ft_lipid",
+    "fieldType": "GENERAL",
+    "dataType": "STRING",
+    "description": "Search by Feature Lipidation",
+    "example": "cysteine"
+  },
+  {
+    "parentId": "lipidation_ft",
+    "childNumber": 1,
+    "id": "ftlen_lipid",
+    "itemType": "SINGLE",
+    "fieldName": "ftlen_lipid",
+    "fieldType": "RANGE",
+    "dataType": "INTEGER",
+    "description": "Search Feature Lipidation within range",
+    "example": "[0 TO 100]"
+  },
+  {
+    "parentId": "lipidation_ft",
+    "childNumber": 2,
+    "id": "ftev_lipid",
+    "itemType": "SINGLE",
+    "fieldName": "ftev_lipid",
+    "fieldType": "EVIDENCE",
+    "dataType": "STRING",
+    "description": "Search Feature Lipidation with evidence type",
+    "example": "manual"
+  },
+  {
+    "parentId": "ptm_processing",
+    "itemType": "SIBLING_GROUP",
+    "label": "Glycosylation [FT]",
+    "id": "glycosylation_ft",
+    "childNumber": 3
+  },
+  {
+    "parentId": "glycosylation_ft",
+    "childNumber": 0,
+    "id": "ft_carbohyd",
+    "itemType": "SINGLE",
+    "fieldName": "ft_carbohyd",
+    "fieldType": "GENERAL",
+    "dataType": "STRING",
+    "description": "Search by Feature Glycosylation",
+    "example": "cysteine"
+  },
+  {
+    "parentId": "glycosylation_ft",
+    "childNumber": 1,
+    "id": "ftlen_carbohyd",
+    "itemType": "SINGLE",
+    "fieldName": "ftlen_carbohyd",
+    "fieldType": "RANGE",
+    "dataType": "INTEGER",
+    "description": "Search Feature Glycosylation within range",
+    "example": "[0 TO 100]"
+  },
+  {
+    "parentId": "glycosylation_ft",
+    "childNumber": 2,
+    "id": "ftev_carbohyd",
+    "itemType": "SINGLE",
+    "fieldName": "ftev_carbohyd",
+    "fieldType": "EVIDENCE",
+    "dataType": "STRING",
+    "description": "Search Feature Glycosylation with evidence type",
+    "example": "manual"
+  },
+  {
+    "parentId": "ptm_processing",
+    "itemType": "SIBLING_GROUP",
+    "label": "Disulfide bond [FT]",
+    "id": "disulfide_bond_ft",
+    "childNumber": 4
+  },
+  {
+    "parentId": "disulfide_bond_ft",
+    "childNumber": 0,
+    "id": "ft_disulfid",
+    "itemType": "SINGLE",
+    "fieldName": "ft_disulfid",
+    "fieldType": "GENERAL",
+    "dataType": "STRING",
+    "description": "Search by Feature Disulfide bond",
+    "example": "reversible"
+  },
+  {
+    "parentId": "disulfide_bond_ft",
+    "childNumber": 1,
+    "id": "ftlen_disulfid",
+    "itemType": "SINGLE",
+    "fieldName": "ftlen_disulfid",
+    "fieldType": "RANGE",
+    "dataType": "INTEGER",
+    "description": "Search Feature Disulfide bond within range",
+    "example": "[0 TO 100]"
+  },
+  {
+    "parentId": "disulfide_bond_ft",
+    "childNumber": 2,
+    "id": "ftev_disulfid",
+    "itemType": "SINGLE",
+    "fieldName": "ftev_disulfid",
+    "fieldType": "EVIDENCE",
+    "dataType": "STRING",
+    "description": "Search Feature Disulfide bond with evidence type",
+    "example": "manual"
+  },
+  {
+    "parentId": "ptm_processing",
+    "itemType": "SIBLING_GROUP",
+    "label": "Cross-link [FT]",
+    "id": "cross_link_ft",
+    "childNumber": 5
+  },
+  {
+    "parentId": "cross_link_ft",
+    "childNumber": 0,
+    "id": "ft_crosslnk",
+    "itemType": "SINGLE",
+    "fieldName": "ft_crosslnk",
+    "fieldType": "GENERAL",
+    "dataType": "STRING",
+    "description": "Search by Feature Cross-link",
+    "example": "lysine"
+  },
+  {
+    "parentId": "cross_link_ft",
+    "childNumber": 1,
+    "id": "ftlen_crosslnk",
+    "itemType": "SINGLE",
+    "fieldName": "ftlen_crosslnk",
+    "fieldType": "RANGE",
+    "dataType": "INTEGER",
+    "description": "Search Feature Cross-link within range",
+    "example": "[0 TO 100]"
+  },
+  {
+    "parentId": "cross_link_ft",
+    "childNumber": 2,
+    "id": "ftev_crosslnk",
+    "itemType": "SINGLE",
+    "fieldName": "ftev_crosslnk",
+    "fieldType": "EVIDENCE",
+    "dataType": "STRING",
+    "description": "Search Feature Cross-link with evidence type",
+    "example": "manual"
+  },
+  {
+    "parentId": "ptm_processing",
+    "childNumber": 6,
+    "label": "Molecule Processing [FT]",
+    "itemType": "GROUP",
+    "id": "molecule_processing"
+  },
+  {
+    "parentId": "molecule_processing",
+    "itemType": "SIBLING_GROUP",
+    "label": "Any molecule processing",
+    "id": "any_molecule_processing",
+    "childNumber": 0
+  },
+  {
+    "parentId": "any_molecule_processing",
+    "childNumber": 0,
+    "id": "ft_molecule_processing",
+    "itemType": "SINGLE",
+    "fieldName": "ft_molecule_processing",
+    "fieldType": "GENERAL",
+    "dataType": "STRING",
+    "description": "Search by Feature Molecule Processing",
+    "example": "disulfide"
+  },
+  {
+    "parentId": "any_molecule_processing",
+    "childNumber": 1,
+    "id": "ftlen_molecule_processing",
+    "itemType": "SINGLE",
+    "fieldName": "ftlen_molecule_processing",
+    "fieldType": "RANGE",
+    "dataType": "INTEGER",
+    "description": "Search Feature Molecule Processing within range",
+    "example": "[0 TO 100]"
+  },
+  {
+    "parentId": "any_molecule_processing",
+    "childNumber": 2,
+    "id": "ftev_molecule_processing",
+    "itemType": "SINGLE",
+    "fieldName": "ftev_molecule_processing",
+    "fieldType": "EVIDENCE",
+    "dataType": "STRING",
+    "description": "Search Feature Molecule Processing with evidence type",
+    "example": "manual"
+  },
+  {
+    "parentId": "molecule_processing",
+    "itemType": "SIBLING_GROUP",
+    "label": "Chain",
+    "id": "chain",
+    "childNumber": 1
+  },
+  {
+    "parentId": "chain",
+    "childNumber": 0,
+    "id": "ft_chain",
+    "itemType": "SINGLE",
+    "fieldName": "ft_chain",
+    "fieldType": "GENERAL",
+    "dataType": "STRING",
+    "description": "Search by Feature chain",
+    "example": "kinase"
+  },
+  {
+    "parentId": "chain",
+    "childNumber": 1,
+    "id": "ftlen_chain",
+    "itemType": "SINGLE",
+    "fieldName": "ftlen_chain",
+    "fieldType": "RANGE",
+    "dataType": "INTEGER",
+    "description": "Search Feature chain within range",
+    "example": "[0 TO 100]"
+  },
+  {
+    "parentId": "chain",
+    "childNumber": 2,
+    "id": "ftev_chain",
+    "itemType": "SINGLE",
+    "fieldName": "ftev_chain",
+    "fieldType": "EVIDENCE",
+    "dataType": "STRING",
+    "description": "Search Feature chain with evidence type",
+    "example": "manual"
+  },
+  {
+    "parentId": "molecule_processing",
+    "itemType": "SIBLING_GROUP",
+    "label": "Initiator methionine",
+    "id": "initiator_methionine",
+    "childNumber": 2
+  },
+  {
+    "parentId": "initiator_methionine",
+    "childNumber": 0,
+    "id": "ft_init_met",
+    "itemType": "SINGLE",
+    "fieldName": "ft_init_met",
+    "fieldType": "GENERAL",
+    "dataType": "STRING",
+    "description": "Search by Feature initiator methionine",
+    "example": "Removed"
+  },
+  {
+    "parentId": "initiator_methionine",
+    "childNumber": 1,
+    "id": "ftlen_init_met",
+    "itemType": "SINGLE",
+    "fieldName": "ftlen_init_met",
+    "fieldType": "RANGE",
+    "dataType": "INTEGER",
+    "description": "Search Feature initiator methionine within range",
+    "example": "[0 TO 100]"
+  },
+  {
+    "parentId": "initiator_methionine",
+    "childNumber": 2,
+    "id": "ftev_init_met",
+    "itemType": "SINGLE",
+    "fieldName": "ftev_init_met",
+    "fieldType": "EVIDENCE",
+    "dataType": "STRING",
+    "description": "Search Feature initiator methionine with evidence type",
+    "example": "manual"
+  },
+  {
+    "parentId": "molecule_processing",
+    "itemType": "SIBLING_GROUP",
+    "label": "Peptide",
+    "id": "peptide",
+    "childNumber": 3
+  },
+  {
+    "parentId": "peptide",
+    "childNumber": 0,
+    "id": "ft_peptide",
+    "itemType": "SINGLE",
+    "fieldName": "ft_peptide",
+    "fieldType": "GENERAL",
+    "dataType": "STRING",
+    "description": "Search by Feature peptide",
+    "example": "Removed"
+  },
+  {
+    "parentId": "peptide",
+    "childNumber": 1,
+    "id": "ftlen_peptide",
+    "itemType": "SINGLE",
+    "fieldName": "ftlen_peptide",
+    "fieldType": "RANGE",
+    "dataType": "INTEGER",
+    "description": "Search Feature peptide within range",
+    "example": "[0 TO 100]"
+  },
+  {
+    "parentId": "peptide",
+    "childNumber": 2,
+    "id": "ftev_peptide",
+    "itemType": "SINGLE",
+    "fieldName": "ftev_peptide",
+    "fieldType": "EVIDENCE",
+    "dataType": "STRING",
+    "description": "Search Feature peptide with evidence type",
+    "example": "any"
+  },
+  {
+    "parentId": "molecule_processing",
+    "itemType": "SIBLING_GROUP",
+    "label": "Signal Peptide",
+    "id": "signal_peptide",
+    "childNumber": 4
+  },
+  {
+    "parentId": "signal_peptide",
+    "childNumber": 0,
+    "id": "ft_signal",
+    "itemType": "SINGLE",
+    "fieldName": "ft_signal",
+    "fieldType": "GENERAL",
+    "dataType": "STRING",
+    "description": "Search by Feature signal peptide",
+    "example": "cleaved"
+  },
+  {
+    "parentId": "signal_peptide",
+    "childNumber": 1,
+    "id": "ftlen_signal",
+    "itemType": "SINGLE",
+    "fieldName": "ftlen_signal",
+    "fieldType": "RANGE",
+    "dataType": "INTEGER",
+    "description": "Search Feature signal peptide within range",
+    "example": "[0 TO 100]"
+  },
+  {
+    "parentId": "signal_peptide",
+    "childNumber": 2,
+    "id": "ftev_signal",
+    "itemType": "SINGLE",
+    "fieldName": "ftev_signal",
+    "fieldType": "EVIDENCE",
+    "dataType": "STRING",
+    "description": "Search Feature signal peptide with evidence type",
+    "example": "manual"
+  },
+  {
+    "parentId": "molecule_processing",
+    "itemType": "SIBLING_GROUP",
+    "label": "Propeptide",
+    "id": "propeptide",
+    "childNumber": 5
+  },
+  {
+    "parentId": "propeptide",
+    "childNumber": 0,
+    "id": "ft_propep",
+    "itemType": "SINGLE",
+    "fieldName": "ft_propep",
+    "fieldType": "GENERAL",
+    "dataType": "STRING",
+    "description": "Search by Feature signal peptide",
+    "example": "Activation peptide"
+  },
+  {
+    "parentId": "propeptide",
+    "childNumber": 1,
+    "id": "ftlen_propep",
+    "itemType": "SINGLE",
+    "fieldName": "ftlen_propep",
+    "fieldType": "RANGE",
+    "dataType": "INTEGER",
+    "description": "Search Feature signal peptide within range",
+    "example": "[0 TO 100]"
+  },
+  {
+    "parentId": "propeptide",
+    "childNumber": 2,
+    "id": "ftev_propep",
+    "itemType": "SINGLE",
+    "fieldName": "ftev_propep",
+    "fieldType": "EVIDENCE",
+    "dataType": "STRING",
+    "description": "Search Feature signal peptide with evidence type",
+    "example": "manual"
+  },
+  {
+    "parentId": "molecule_processing",
+    "itemType": "SIBLING_GROUP",
+    "label": "Transit Peptide",
+    "id": "transit_peptide",
+    "childNumber": 6
+  },
+  {
+    "parentId": "transit_peptide",
+    "childNumber": 0,
+    "id": "ft_transit",
+    "itemType": "SINGLE",
+    "fieldName": "ft_transit",
+    "fieldType": "GENERAL",
+    "dataType": "STRING",
+    "description": "Search by Feature signal peptide",
+    "example": "Mitochondrion"
+  },
+  {
+    "parentId": "transit_peptide",
+    "childNumber": 1,
+    "id": "ftlen_transit",
+    "itemType": "SINGLE",
+    "fieldName": "ftlen_transit",
+    "fieldType": "RANGE",
+    "dataType": "INTEGER",
+    "description": "Search Feature signal peptide within range",
+    "example": "[0 TO 100]"
+  },
+  {
+    "parentId": "transit_peptide",
+    "childNumber": 2,
+    "id": "ftev_transit",
+    "itemType": "SINGLE",
+    "fieldName": "ftev_transit",
+    "fieldType": "EVIDENCE",
+    "dataType": "STRING",
+    "description": "Search Feature signal peptide with evidence type",
+    "example": "manual"
+  },
+  {
+    "label": "Interaction",
+    "itemType": "GROUP",
+    "id": "interaction",
+    "seqNumber": 19
+  },
+  {
+    "parentId": "interaction",
+    "childNumber": 0,
+    "label": "Binary Interaction",
+    "id": "interactor",
+    "itemType": "SINGLE",
+    "fieldName": "interactor",
+    "fieldType": "GENERAL",
+    "dataType": "STRING",
+    "description": "Search by Comment Binary Interaction",
+    "example": "EBI-1042898"
+  },
+  {
+    "parentId": "interaction",
+    "itemType": "SIBLING_GROUP",
+    "label": "Subunit structure",
+    "id": "subunit_structure",
+    "childNumber": 1
+  },
+  {
+    "parentId": "subunit_structure",
+    "childNumber": 0,
+    "id": "cc_subunit",
+    "itemType": "SINGLE",
+    "fieldName": "cc_subunit",
+    "fieldType": "GENERAL",
+    "dataType": "STRING",
+    "description": "Search by Subunit structure",
+    "example": "homodimer"
+  },
+  {
+    "parentId": "subunit_structure",
+    "childNumber": 1,
+    "id": "ccev_subunit",
+    "itemType": "SINGLE",
+    "fieldName": "ccev_subunit",
+    "fieldType": "EVIDENCE",
+    "dataType": "STRING",
+    "description": "Search Subunit structure with evidence type",
+    "example": "manual"
+  },
+  {
+    "label": "Family and Domains",
+    "itemType": "GROUP",
+    "id": "family_domains",
+    "seqNumber": 20
+  },
+  {
+    "parentId": "family_domains",
+    "itemType": "SIBLING_GROUP",
+    "label": "Domain [FT]",
+    "id": "domain_ft",
+    "childNumber": 0
+  },
+  {
+    "parentId": "domain_ft",
+    "childNumber": 0,
+    "id": "ft_domain",
+    "itemType": "SINGLE",
+    "fieldName": "ft_domain",
+    "fieldType": "GENERAL",
+    "dataType": "STRING",
+    "description": "Search by feature domain",
+    "example": "phosphatase"
+  },
+  {
+    "parentId": "domain_ft",
+    "childNumber": 1,
+    "id": "ftlen_domain",
+    "itemType": "SINGLE",
+    "fieldName": "ftlen_domain",
+    "fieldType": "RANGE",
+    "dataType": "INTEGER",
+    "description": "Search feature domain within range",
+    "example": "[0 TO 100]"
+  },
+  {
+    "parentId": "domain_ft",
+    "childNumber": 2,
+    "id": "ftev_domain",
+    "itemType": "SINGLE",
+    "fieldName": "ftev_domain",
+    "fieldType": "EVIDENCE",
+    "dataType": "STRING",
+    "description": "Search feature domain with evidence type",
+    "example": "manual"
+  },
+  {
+    "parentId": "family_domains",
+    "itemType": "SIBLING_GROUP",
+    "label": "Domain Comments [CC]",
+    "id": "domain_comments_cc",
+    "childNumber": 1
+  },
+  {
+    "parentId": "domain_comments_cc",
+    "childNumber": 0,
+    "id": "cc_domain",
+    "itemType": "SINGLE",
+    "fieldName": "cc_domain",
+    "fieldType": "GENERAL",
+    "dataType": "STRING",
+    "description": "Search by comment domain",
+    "example": "conformation"
+  },
+  {
+    "parentId": "domain_comments_cc",
+    "childNumber": 1,
+    "id": "ccev_domain",
+    "itemType": "SINGLE",
+    "fieldName": "ccev_domain",
+    "fieldType": "EVIDENCE",
+    "dataType": "STRING",
+    "description": "Search comment domain with evidence type",
+    "example": "any"
+  },
+  {
+    "parentId": "family_domains",
+    "childNumber": 2,
+    "label": "Protein family",
+    "id": "family",
+    "itemType": "SINGLE",
+    "fieldName": "family",
+    "fieldType": "GENERAL",
+    "dataType": "STRING",
+    "description": "Search by protein belongs to a family",
+    "example": "pa28"
+  },
+  {
+    "parentId": "family_domains",
+    "itemType": "SIBLING_GROUP",
+    "label": "Coiled-coil",
+    "id": "coiled_coil",
+    "childNumber": 3
+  },
+  {
+    "parentId": "coiled_coil",
+    "childNumber": 0,
+    "id": "ft_coiled",
+    "itemType": "SINGLE",
+    "fieldName": "ft_coiled",
+    "fieldType": "GENERAL",
+    "dataType": "STRING",
+    "description": "Search by feature coiled coil",
+    "example": "*"
+  },
+  {
+    "parentId": "coiled_coil",
+    "childNumber": 1,
+    "id": "ftlen_coiled",
+    "itemType": "SINGLE",
+    "fieldName": "ftlen_coiled",
+    "fieldType": "RANGE",
+    "dataType": "INTEGER",
+    "description": "Search feature coiled coil within range",
+    "example": "[0 TO 100]"
+  },
+  {
+    "parentId": "coiled_coil",
+    "childNumber": 2,
+    "id": "ftev_coiled",
+    "itemType": "SINGLE",
+    "fieldName": "ftev_coiled",
+    "fieldType": "EVIDENCE",
+    "dataType": "STRING",
+    "description": "Search feature coiled coil with evidence type",
+    "example": "manual"
+  },
+  {
+    "parentId": "family_domains",
+    "itemType": "SIBLING_GROUP",
+    "label": "Compositional bias",
+    "id": "compositional_bias",
+    "childNumber": 4
+  },
+  {
+    "parentId": "compositional_bias",
+    "childNumber": 0,
+    "id": "ft_compbias",
+    "itemType": "SINGLE",
+    "fieldName": "ft_compbias",
+    "fieldType": "GENERAL",
+    "dataType": "STRING",
+    "description": "Search by feature compositional bias",
+    "example": "glu-rich"
+  },
+  {
+    "parentId": "compositional_bias",
+    "childNumber": 1,
+    "id": "ftlen_compbias",
+    "itemType": "SINGLE",
+    "fieldName": "ftlen_compbias",
+    "fieldType": "RANGE",
+    "dataType": "INTEGER",
+    "description": "Search feature compositional bias within range",
+    "example": "[0 TO 100]"
+  },
+  {
+    "parentId": "compositional_bias",
+    "childNumber": 2,
+    "id": "ftev_compbias",
+    "itemType": "SINGLE",
+    "fieldName": "ftev_compbias",
+    "fieldType": "EVIDENCE",
+    "dataType": "STRING",
+    "description": "Search feature compositional bias with evidence type",
+    "example": "manual"
+  },
+  {
+    "parentId": "family_domains",
+    "itemType": "SIBLING_GROUP",
+    "label": "Motif",
+    "id": "motif",
+    "childNumber": 5
+  },
+  {
+    "parentId": "motif",
+    "childNumber": 0,
+    "id": "ft_motif",
+    "itemType": "SINGLE",
+    "fieldName": "ft_motif",
+    "fieldType": "GENERAL",
+    "dataType": "STRING",
+    "description": "Search by feature motif",
+    "example": "motif"
+  },
+  {
+    "parentId": "motif",
+    "childNumber": 1,
+    "id": "ftlen_motif",
+    "itemType": "SINGLE",
+    "fieldName": "ftlen_motif",
+    "fieldType": "RANGE",
+    "dataType": "INTEGER",
+    "description": "Search feature motif within range",
+    "example": "[0 TO 100]"
+  },
+  {
+    "parentId": "motif",
+    "childNumber": 2,
+    "id": "ftev_motif",
+    "itemType": "SINGLE",
+    "fieldName": "ftev_motif",
+    "fieldType": "EVIDENCE",
+    "dataType": "STRING",
+    "description": "Search feature motif with evidence type",
+    "example": "manual"
+  },
+  {
+    "parentId": "family_domains",
+    "itemType": "SIBLING_GROUP",
+    "label": "Region",
+    "id": "region",
+    "childNumber": 6
+  },
+  {
+    "parentId": "region",
+    "childNumber": 0,
+    "id": "ft_region",
+    "itemType": "SINGLE",
+    "fieldName": "ft_region",
+    "fieldType": "GENERAL",
+    "dataType": "STRING",
+    "description": "Search by feature region",
+    "example": "motif"
+  },
+  {
+    "parentId": "region",
+    "childNumber": 1,
+    "id": "ftlen_region",
+    "itemType": "SINGLE",
+    "fieldName": "ftlen_region",
+    "fieldType": "RANGE",
+    "dataType": "INTEGER",
+    "description": "Search feature region within range",
+    "example": "[0 TO 100]"
+  },
+  {
+    "parentId": "region",
+    "childNumber": 2,
+    "id": "ftev_region",
+    "itemType": "SINGLE",
+    "fieldName": "ftev_region",
+    "fieldType": "EVIDENCE",
+    "dataType": "STRING",
+    "description": "Search feature region with evidence type",
+    "example": "manual"
+  },
+  {
+    "parentId": "family_domains",
+    "itemType": "SIBLING_GROUP",
+    "label": "Repeat",
+    "id": "repeat",
+    "childNumber": 7
+  },
+  {
+    "parentId": "repeat",
+    "childNumber": 0,
+    "id": "ft_repeat",
+    "itemType": "SINGLE",
+    "fieldName": "ft_repeat",
+    "fieldType": "GENERAL",
+    "dataType": "STRING",
+    "description": "Search by feature repeat",
+    "example": "motif"
+  },
+  {
+    "parentId": "repeat",
+    "childNumber": 1,
+    "id": "ftlen_repeat",
+    "itemType": "SINGLE",
+    "fieldName": "ftlen_repeat",
+    "fieldType": "RANGE",
+    "dataType": "INTEGER",
+    "description": "Search feature repeat within range",
+    "example": "[0 TO 100]"
+  },
+  {
+    "parentId": "repeat",
+    "childNumber": 2,
+    "id": "ftev_repeat",
+    "itemType": "SINGLE",
+    "fieldName": "ftev_repeat",
+    "fieldType": "EVIDENCE",
+    "dataType": "STRING",
+    "description": "Search feature repeat with evidence type",
+    "example": "manual"
+  },
+  {
+    "parentId": "family_domains",
+    "itemType": "SIBLING_GROUP",
+    "label": "Sequence similarity",
+    "id": "sequence_similarity",
+    "childNumber": 8
+  },
+  {
+    "parentId": "sequence_similarity",
+    "childNumber": 0,
+    "id": "cc_similarity",
+    "itemType": "SINGLE",
+    "fieldName": "cc_similarity",
+    "fieldType": "GENERAL",
+    "dataType": "STRING",
+    "description": "Search by comment similarity",
+    "example": "phosphatase"
+  },
+  {
+    "parentId": "sequence_similarity",
+    "childNumber": 1,
+    "id": "ccev_similarity",
+    "itemType": "SINGLE",
+    "fieldName": "ccev_similarity",
+    "fieldType": "EVIDENCE",
+    "dataType": "STRING",
+    "description": "Search comment similarity with evidence type",
+    "example": "manual"
+  },
+  {
+    "parentId": "family_domains",
+    "itemType": "SIBLING_GROUP",
+    "label": "Zinc finger",
+    "id": "zinc_finger",
+    "childNumber": 9
+  },
+  {
+    "parentId": "zinc_finger",
+    "childNumber": 0,
+    "id": "ft_zn_fing",
+    "itemType": "SINGLE",
+    "fieldName": "ft_zn_fing",
+    "fieldType": "GENERAL",
+    "dataType": "STRING",
+    "description": "Search by feature zinc finger",
+    "example": "UBP"
+  },
+  {
+    "parentId": "zinc_finger",
+    "childNumber": 1,
+    "id": "ftlen_zn_fing",
+    "itemType": "SINGLE",
+    "fieldName": "ftlen_zn_fing",
+    "fieldType": "RANGE",
+    "dataType": "INTEGER",
+    "description": "Search feature zinc finger within range",
+    "example": "[0 TO 100]"
+  },
+  {
+    "parentId": "zinc_finger",
+    "childNumber": 2,
+    "id": "ftev_zn_fing",
+    "itemType": "SINGLE",
+    "fieldName": "ftev_zn_fing",
+    "fieldType": "EVIDENCE",
+    "dataType": "STRING",
+    "description": "Search feature zinc finger with evidence type",
+    "example": "manual"
+  },
+  {
+    "label": "Expression",
+    "itemType": "GROUP",
+    "id": "expression",
+    "seqNumber": 21
+  },
+  {
+    "parentId": "expression",
+    "itemType": "SIBLING_GROUP",
+    "label": "Developmental stage",
+    "id": "developmental_stage",
+    "childNumber": 0
+  },
+  {
+    "parentId": "developmental_stage",
+    "childNumber": 0,
+    "id": "cc_developmental_stage",
+    "itemType": "SINGLE",
+    "fieldName": "cc_developmental_stage",
+    "fieldType": "GENERAL",
+    "dataType": "STRING",
+    "description": "Search by Comment Developmental stage",
+    "example": "brain"
+  },
+  {
+    "parentId": "developmental_stage",
+    "childNumber": 1,
+    "id": "ccev_developmental_stage",
+    "itemType": "SINGLE",
+    "fieldName": "ccev_developmental_stage",
+    "fieldType": "EVIDENCE",
+    "dataType": "STRING",
+    "description": "Search Comment Developmental stage with evidence type",
+    "example": "manual"
+  },
+  {
+    "parentId": "expression",
+    "itemType": "SIBLING_GROUP",
+    "label": "Induction",
+    "id": "induction",
+    "childNumber": 1
+  },
+  {
+    "parentId": "induction",
+    "childNumber": 0,
+    "id": "cc_induction",
+    "itemType": "SINGLE",
+    "fieldName": "cc_induction",
+    "fieldType": "GENERAL",
+    "dataType": "STRING",
+    "description": "Search by Comment Induction",
+    "example": "calcium"
+  },
+  {
+    "parentId": "induction",
+    "childNumber": 1,
+    "id": "ccev_induction",
+    "itemType": "SINGLE",
+    "fieldName": "ccev_induction",
+    "fieldType": "EVIDENCE",
+    "dataType": "STRING",
+    "description": "Search Comment Induction with evidence type",
+    "example": "manual"
+  },
+  {
+    "parentId": "expression",
+    "itemType": "SIBLING_GROUP",
+    "label": "Tissue specificity",
+    "id": "tissue_specificity",
+    "childNumber": 2
+  },
+  {
+    "parentId": "tissue_specificity",
+    "childNumber": 0,
+    "id": "cc_tissue_specificity",
+    "itemType": "SINGLE",
+    "fieldName": "cc_tissue_specificity",
+    "fieldType": "GENERAL",
+    "dataType": "STRING",
+    "description": "Search by Comment Tissue specificity",
+    "example": "pancreas"
+  },
+  {
+    "parentId": "tissue_specificity",
+    "childNumber": 1,
+    "dataType": "STRING",
+    "id": "ccev_tissue_specificity",
+    "itemType": "SINGLE",
+    "fieldName": "ccev_tissue_specificity",
+    "fieldType": "EVIDENCE",
+    "description": "Search Comment Tissue specificity with evidence type",
+    "example": "manual"
+  },
+  {
+    "label": "Date Of",
+    "itemType": "GROUP",
+    "id": "date_of",
+    "seqNumber": 22
+  },
+  {
+    "parentId": "date_of",
+    "childNumber": 0,
+    "label": "Date Of Creation",
+    "dataType": "DATE",
+    "id": "created",
+    "itemType": "SINGLE",
+    "fieldName": "created",
+    "fieldType": "RANGE",
+    "description": "Search by Date of creation",
+    "example": "[2018-03-04 TO 2018-03-08]"
+  },
+  {
+    "parentId": "date_of",
+    "childNumber": 1,
+    "label": "Date of last entry modification",
+    "dataType": "DATE",
+    "id": "modified",
+    "itemType": "SINGLE",
+    "fieldName": "modified",
+    "fieldType": "RANGE",
+    "description": "Search by Date of last entry modification",
+    "example": "[2018-03-04 TO 2018-03-08]"
+  },
+  {
+    "parentId": "date_of",
+    "childNumber": 2,
+    "label": "Date of last sequence modification",
+    "dataType": "DATE",
+    "id": "sequence_modified",
+    "itemType": "SINGLE",
+    "fieldName": "sequence_modified",
+    "fieldType": "RANGE",
+    "description": "Search by Date of last sequence modification",
+    "example": "[2018-03-04 TO 2018-03-08]"
+  },
+  {
+    "label": "Structure",
+    "itemType": "GROUP",
+    "id": "structure",
+    "seqNumber": 23
+  },
+  {
+    "parentId": "structure",
+    "childNumber": 0,
+    "label": "3D Structure",
+    "id": "d3structure",
+    "itemType": "SINGLE",
+    "fieldName": "d3structure",
+    "fieldType": "GENERAL",
+    "validRegex": "^true|false$",
+    "dataType": "ENUM",
+    "description": "Search by having PDB cross reference or not",
+    "values": [
+      {
+        "name": "Yes",
+        "value": "true"
+      },
+      {
+        "name": "No",
+        "value": "false"
+      }
+    ],
+    "example": "true"
+  },
+  {
+    "parentId": "structure",
+    "childNumber": 1,
+    "label": "Secondary structure",
+    "itemType": "GROUP",
+    "id": "secondary_structure"
+  },
+  {
+    "parentId": "secondary_structure",
+    "itemType": "SIBLING_GROUP",
+    "label": "Any",
+    "id": "secondary_structure_any",
+    "childNumber": 0
+  },
+  {
+    "parentId": "secondary_structure_any",
+    "childNumber": 1,
+    "id": "ftlen_secstruct",
+    "itemType": "SINGLE",
+    "fieldName": "ftlen_secstruct",
+    "fieldType": "RANGE",
+    "dataType": "INTEGER",
+    "description": "Search Feature Any secondary structure within range",
+    "example": "[0 TO 100]"
+  },
+  {
+    "parentId": "secondary_structure_any",
+    "childNumber": 0,
+    "id": "ft_secstruct",
+    "itemType": "SINGLE",
+    "fieldName": "ft_secstruct",
+    "fieldType": "GENERAL",
+    "dataType": "STRING",
+    "description": "Search by Feature Any secondary structure",
+    "example": "*"
+  },
+  {
+    "parentId": "secondary_structure_any",
+    "childNumber": 2,
+    "id": "ftev_secstruct",
+    "itemType": "SINGLE",
+    "fieldName": "ftev_secstruct",
+    "fieldType": "EVIDENCE",
+    "dataType": "STRING",
+    "description": "Search Feature Any secondary structure with evidence type",
+    "example": "manual"
+  },
+  {
+    "parentId": "secondary_structure",
+    "itemType": "SIBLING_GROUP",
+    "label": "Helix",
+    "id": "secondary_structure_helix",
+    "childNumber": 1
+  },
+  {
+    "parentId": "secondary_structure_helix",
+    "childNumber": 0,
+    "id": "ft_helix",
+    "itemType": "SINGLE",
+    "fieldName": "ft_helix",
+    "fieldType": "GENERAL",
+    "dataType": "STRING",
+    "description": "Search by Feature helix",
+    "example": "*"
+  },
+  {
+    "parentId": "secondary_structure_helix",
+    "childNumber": 1,
+    "id": "ftlen_helix",
+    "itemType": "SINGLE",
+    "fieldName": "ftlen_helix",
+    "fieldType": "RANGE",
+    "dataType": "INTEGER",
+    "description": "Search Feature helix within range",
+    "example": "[0 TO 100]"
+  },
+  {
+    "parentId": "secondary_structure_helix",
+    "childNumber": 2,
+    "id": "ftev_helix",
+    "itemType": "SINGLE",
+    "fieldName": "ftev_helix",
+    "fieldType": "EVIDENCE",
+    "dataType": "STRING",
+    "description": "Search Feature helix with evidence type",
+    "example": "manual"
+  },
+  {
+    "parentId": "secondary_structure",
+    "itemType": "SIBLING_GROUP",
+    "label": "Turn",
+    "id": "secondary_structure_turn",
+    "childNumber": 2
+  },
+  {
+    "parentId": "secondary_structure_turn",
+    "childNumber": 0,
+    "id": "ft_turn",
+    "itemType": "SINGLE",
+    "fieldName": "ft_turn",
+    "fieldType": "GENERAL",
+    "dataType": "STRING",
+    "description": "Search by Feature turn",
+    "example": "*"
+  },
+  {
+    "parentId": "secondary_structure_turn",
+    "childNumber": 1,
+    "id": "ftlen_turn",
+    "itemType": "SINGLE",
+    "fieldName": "ftlen_turn",
+    "fieldType": "RANGE",
+    "dataType": "INTEGER",
+    "description": "Search Feature turn within range",
+    "example": "[0 TO 100]"
+  },
+  {
+    "parentId": "secondary_structure_turn",
+    "childNumber": 2,
+    "id": "ftev_turn",
+    "itemType": "SINGLE",
+    "fieldName": "ftev_turn",
+    "fieldType": "EVIDENCE",
+    "dataType": "STRING",
+    "description": "Search Feature turn with evidence type",
+    "example": "manual"
+  },
+  {
+    "parentId": "secondary_structure",
+    "itemType": "SIBLING_GROUP",
+    "label": "Beta strand",
+    "id": "secondary_structure_beta_strand",
+    "childNumber": 3
+  },
+  {
+    "parentId": "secondary_structure_beta_strand",
+    "childNumber": 0,
+    "id": "ft_strand",
+    "itemType": "SINGLE",
+    "fieldName": "ft_strand",
+    "fieldType": "GENERAL",
+    "dataType": "STRING",
+    "description": "Search by Feature Beta strand",
+    "example": "*"
+  },
+  {
+    "parentId": "secondary_structure_beta_strand",
+    "childNumber": 1,
+    "id": "ftlen_strand",
+    "itemType": "SINGLE",
+    "fieldName": "ftlen_strand",
+    "fieldType": "RANGE",
+    "dataType": "INTEGER",
+    "description": "Search Feature Beta strand within range",
+    "example": "[0 TO 100]"
+  },
+  {
+    "parentId": "secondary_structure_beta_strand",
+    "childNumber": 2,
+    "id": "ftev_strand",
+    "itemType": "SINGLE",
+    "fieldName": "ftev_strand",
+    "fieldType": "EVIDENCE",
+    "dataType": "STRING",
+    "description": "Search Feature Beta strand with evidence type",
+    "example": "manual"
+  },
+  {
+    "label": "Subcellular location",
+    "itemType": "GROUP",
+    "id": "subcellular",
+    "seqNumber": 24
+  },
+  {
+    "parentId": "subcellular",
+    "childNumber": 0,
+    "id": "cc_subcellular",
+    "label": "Subcellular location [CC]",
+    "itemType": "GROUP"
+  },
+  {
+    "parentId": "cc_subcellular",
+    "itemType": "SIBLING_GROUP",
+    "label": "Subcellular location term",
+    "id": "subcellular_location_term",
+    "childNumber": 0
+  },
+  {
+    "parentId": "subcellular_location_term",
+    "childNumber": 0,
+    "id": "cc_scl_term_field",
+    "itemType": "SINGLE",
+    "fieldName": "cc_scl_term",
+    "fieldType": "GENERAL",
+    "dataType": "STRING",
+    "autoComplete": "/uniprot/api/suggester?dict=subcell&query=?",
+    "autoCompleteQueryField": "cc_scl_term",
+    "description": "Search by comment subcellular location term",
+    "example": "membrane"
+  },
+  {
+    "parentId": "subcellular_location_term",
+    "childNumber": 1,
+    "id": "ccev_scl_term",
+    "itemType": "SINGLE",
+    "fieldName": "ccev_scl_term",
+    "fieldType": "EVIDENCE",
+    "dataType": "STRING",
+    "description": "Search comment subcellular location term with evidence type",
+    "example": "manual"
+  },
+  {
+    "parentId": "cc_subcellular",
+    "itemType": "SIBLING_GROUP",
+    "label": "Subcellular location note",
+    "id": "subcellular_location_note",
+    "childNumber": 1
+  },
+  {
+    "parentId": "subcellular_location_note",
+    "childNumber": 0,
+    "id": "cc_scl_note",
+    "itemType": "SINGLE",
+    "fieldName": "cc_scl_note",
+    "fieldType": "GENERAL",
+    "dataType": "STRING",
+    "description": "Search by comment subcellular location note",
+    "example": "membrane"
+  },
+  {
+    "parentId": "subcellular_location_note",
+    "childNumber": 1,
+    "id": "ccev_scl_note",
+    "itemType": "SINGLE",
+    "fieldName": "ccev_scl_note",
+    "fieldType": "EVIDENCE",
+    "dataType": "STRING",
+    "description": "Search comment subcellular location note with evidence type",
+    "example": "manual"
+  },
+  {
+    "parentId": "subcellular",
+    "itemType": "SIBLING_GROUP",
+    "label": "Transmembrane",
+    "id": "transmembrane",
+    "childNumber": 1
+  },
+  {
+    "parentId": "transmembrane",
+    "childNumber": 0,
+    "id": "ft_transmem",
+    "itemType": "SINGLE",
+    "fieldName": "ft_transmem",
+    "fieldType": "GENERAL",
+    "dataType": "STRING",
+    "description": "Search by Transmembrane",
+    "example": "forming"
+  },
+  {
+    "parentId": "transmembrane",
+    "childNumber": 1,
+    "id": "ftlen_transmem",
+    "itemType": "SINGLE",
+    "fieldName": "ftlen_transmem",
+    "fieldType": "RANGE",
+    "dataType": "INTEGER",
+    "description": "Search Transmembrane within range",
+    "example": "[0 TO 100]"
+  },
+  {
+    "parentId": "transmembrane",
+    "childNumber": 2,
+    "id": "ftev_transmem",
+    "itemType": "SINGLE",
+    "fieldName": "ftev_transmem",
+    "fieldType": "EVIDENCE",
+    "dataType": "STRING",
+    "description": "Search Transmembrane with evidence type",
+    "example": "manual"
+  },
+  {
+    "parentId": "subcellular",
+    "itemType": "SIBLING_GROUP",
+    "label": "Topological domain",
+    "id": "topological_domain",
+    "childNumber": 2
+  },
+  {
+    "parentId": "topological_domain",
+    "childNumber": 0,
+    "id": "ft_topo_dom",
+    "itemType": "SINGLE",
+    "fieldName": "ft_topo_dom",
+    "fieldType": "GENERAL",
+    "dataType": "STRING",
+    "description": "Search by Topological domain",
+    "example": "forming"
+  },
+  {
+    "parentId": "topological_domain",
+    "childNumber": 1,
+    "id": "ftlen_topo_dom",
+    "itemType": "SINGLE",
+    "fieldName": "ftlen_topo_dom",
+    "fieldType": "RANGE",
+    "dataType": "INTEGER",
+    "description": "Search Topological domain with evidence type",
+    "example": "[0 TO 100]"
+  },
+  {
+    "parentId": "topological_domain",
+    "childNumber": 2,
+    "id": "ftev_topo_dom",
+    "itemType": "SINGLE",
+    "fieldName": "ftev_topo_dom",
+    "fieldType": "EVIDENCE",
+    "dataType": "STRING",
+    "description": "Search Topological domain with evidence type",
+    "example": "manual"
+  },
+  {
+    "parentId": "subcellular",
+    "itemType": "SIBLING_GROUP",
+    "label": "Intramembrane",
+    "id": "intramembrane",
+    "childNumber": 3
+  },
+  {
+    "parentId": "intramembrane",
+    "childNumber": 0,
+    "id": "ft_intramem",
+    "itemType": "SINGLE",
+    "fieldName": "ft_intramem",
+    "fieldType": "GENERAL",
+    "dataType": "STRING",
+    "description": "Search by Intramembrane",
+    "example": "forming"
+  },
+  {
+    "parentId": "intramembrane",
+    "childNumber": 1,
+    "id": "ftlen_intramem",
+    "itemType": "SINGLE",
+    "fieldName": "ftlen_intramem",
+    "fieldType": "RANGE",
+    "dataType": "INTEGER",
+    "description": "Search Intramembrane within range",
+    "example": "[0 TO 100]"
+  },
+  {
+    "parentId": "intramembrane",
+    "childNumber": 2,
+    "id": "ftev_intramem",
+    "itemType": "SINGLE",
+    "fieldName": "ftev_intramem",
+    "fieldType": "EVIDENCE",
+    "dataType": "STRING",
+    "description": "Search Intramembrane with evidence type",
+    "example": "manual"
+  },
+  {
+    "label": "Pathology & Biotech",
+    "itemType": "GROUP",
+    "id": "pathology_biotech",
+    "seqNumber": 25
+  },
+  {
+    "parentId": "pathology_biotech",
+    "itemType": "SIBLING_GROUP",
+    "label": "Disease",
+    "id": "disease",
+    "childNumber": 0
+  },
+  {
+    "parentId" : "disease",
+    "childNumber": 0,
+    "id": "cc_disease",
+    "itemType": "SINGLE",
+    "fieldName": "cc_disease",
+    "fieldType": "GENERAL",
+    "dataType": "STRING",
+    "description": "Search by Comment disease",
+    "example": "nephrotic"
+  },
+  {
+    "parentId" : "disease",
+    "childNumber": 1,
+    "id": "ccev_disease",
+    "itemType": "SINGLE",
+    "fieldName": "ccev_disease",
+    "fieldType": "EVIDENCE",
+    "dataType": "STRING",
+    "description": "Search Comment disease with evidence type",
+    "example": "manual"
+  },
+  {
+    "parentId": "pathology_biotech",
+    "itemType": "SIBLING_GROUP",
+    "label": "Alergenic properties",
+    "id": "alergenic_properties",
+    "childNumber": 1
+  },
+  {
+    "parentId" : "alergenic_properties",
+    "childNumber": 0,
+    "id": "cc_allergen",
+    "itemType": "SINGLE",
+    "fieldName": "cc_allergen",
+    "fieldType": "GENERAL",
+    "dataType": "STRING",
+    "description": "Search by Comment allergenic properties",
+    "example": "allergic"
+  },
+  {
+    "parentId" : "alergenic_properties",
+    "childNumber": 1,
+    "id": "ccev_allergen",
+    "itemType": "SINGLE",
+    "fieldName": "ccev_allergen",
+    "fieldType": "EVIDENCE",
+    "dataType": "STRING",
+    "description": "Search Comment allergenic properties with evidence type",
+    "example": "manual"
+  },
+  {
+    "parentId": "pathology_biotech",
+    "itemType": "SIBLING_GROUP",
+    "label": "Toxic dose",
+    "id": "toxic_dose",
+    "childNumber": 2
+  },
+  {
+    "parentId" : "toxic_dose",
+    "childNumber": 0,
+    "id": "cc_toxic_dose",
+    "fieldName": "cc_toxic_dose",
+    "itemType": "SINGLE",
+    "fieldType": "GENERAL",
+    "dataType": "STRING",
+    "description": "Search by Comment Toxic dose",
+    "example": "intracistenal"
+  },
+  {
+    "parentId" : "toxic_dose",
+    "childNumber": 1,
+    "id": "ccev_toxic_dose",
+    "itemType": "SINGLE",
+    "fieldName": "ccev_toxic_dose",
+    "fieldType": "EVIDENCE",
+    "dataType": "STRING",
+    "description": "Search Comment Toxic dose with evidence type",
+    "example": "manual"
+  },
+  {
+    "parentId": "pathology_biotech",
+    "itemType": "SIBLING_GROUP",
+    "label": "Biotechnological use",
+    "id": "biotechnological_use",
+    "childNumber": 3
+  },
+  {
+    "parentId" : "biotechnological_use",
+    "childNumber": 0,
+    "id": "cc_biotechnology",
+    "itemType": "SINGLE",
+    "fieldName": "cc_biotechnology",
+    "fieldType": "GENERAL",
+    "dataType": "STRING",
+    "description": "Search by Comment Biotechnological use",
+    "example": "vaccine"
+  },
+  {
+    "parentId" : "biotechnological_use",
+    "childNumber": 1,
+    "id": "ccev_biotechnology",
+    "itemType": "SINGLE",
+    "fieldName": "ccev_biotechnology",
+    "fieldType": "EVIDENCE",
+    "dataType": "STRING",
+    "description": "Search Comment Biotechnological use with evidence type",
+    "example": "manual"
+  },
+  {
+    "parentId": "pathology_biotech",
+    "itemType": "SIBLING_GROUP",
+    "label": "Pharmaceutical use",
+    "id": "pharmaceutical_use",
+    "childNumber": 4
+  },
+  {
+    "parentId" : "pharmaceutical_use",
+    "childNumber": 0,
+    "id": "cc_pharmaceutical",
+    "itemType": "SINGLE",
+    "fieldName": "cc_pharmaceutical",
+    "fieldType": "GENERAL",
+    "dataType": "STRING",
+    "description": "Search by Comment Pharmaceutical use",
+    "example": "peptide"
+  },
+  {
+    "parentId" : "pharmaceutical_use",
+    "childNumber": 1,
+    "id": "ccev_pharmaceutical",
+    "itemType": "SINGLE",
+    "fieldName": "ccev_pharmaceutical",
+    "fieldType": "EVIDENCE",
+    "dataType": "STRING",
+    "description": "Search Comment Pharmaceutical use with evidence type",
+    "example": "manual"
+  },
+  {
+    "parentId": "pathology_biotech",
+    "itemType": "SIBLING_GROUP",
+    "label": "Disruption phenotype",
+    "id": "disruption_phenotype",
+    "childNumber": 5
+  },
+  {
+    "parentId" : "disruption_phenotype",
+    "childNumber": 0,
+    "id": "cc_disruption_phenotype",
+    "itemType": "SINGLE",
+    "fieldName": "cc_disruption_phenotype",
+    "fieldType": "GENERAL",
+    "dataType": "STRING",
+    "description": "Search by Comment Disruption phenotype",
+    "example": "infected"
+  },
+  {
+    "parentId" : "disruption_phenotype",
+    "childNumber": 1,
+    "id": "ccev_disruption_phenotype",
+    "itemType": "SINGLE",
+    "fieldName": "ccev_disruption_phenotype",
+    "fieldType": "EVIDENCE",
+    "dataType": "STRING",
+    "description": "Search Comment Disruption phenotype with evidence type",
+    "example": "any"
+  },
+  {
+    "parentId": "pathology_biotech",
+    "itemType": "SIBLING_GROUP",
+    "label": "Mutagenesis",
+    "id": "mutagenesis",
+    "childNumber": 6
+  },
+  {
+    "parentId" : "mutagenesis",
+    "childNumber": 0,
+    "id": "ft_mutagen",
+    "itemType": "SINGLE",
+    "fieldName": "ft_mutagen",
+    "fieldType": "GENERAL",
+    "dataType": "STRING",
+    "description": "Search by Feature Mutagenesis",
+    "example": "phosphatase"
+  },
+  {
+    "parentId" : "mutagenesis",
+    "childNumber": 1,
+    "id": "ftlen_mutagen",
+    "itemType": "SINGLE",
+    "fieldName": "ftlen_mutagen",
+    "fieldType": "RANGE",
+    "dataType": "INTEGER",
+    "description": "Search Feature Mutagenesis within range",
+    "example": "[0 TO 100]"
+  },
+  {
+    "parentId" : "mutagenesis",
+    "childNumber": 2,
+    "id": "ftev_mutagen",
+    "itemType": "SINGLE",
+    "fieldName": "ftev_mutagen",
+    "fieldType": "EVIDENCE",
+    "dataType": "STRING",
+    "description": "Search Feature Mutagenesis with evidence type",
+    "example": "manual"
+  },
+  {
+    "label": "Cross-references",
+    "id": "cross_references",
+    "dataType": "STRING",
+    "itemType": "GROUP",
+    "seqNumber": 26
+  }
+]

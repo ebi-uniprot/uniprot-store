@@ -24,7 +24,7 @@ import org.springframework.data.solr.core.query.SimpleQuery;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.uniprot.core.cv.keyword.KeywordEntry;
-import org.uniprot.core.cv.keyword.impl.KeywordEntryImpl;
+import org.uniprot.core.cv.keyword.builder.KeywordEntryImpl;
 import org.uniprot.core.json.parser.keyword.KeywordJsonConfig;
 import org.uniprot.store.indexer.common.config.UniProtSolrOperations;
 import org.uniprot.store.indexer.common.utils.Constants;
@@ -140,9 +140,9 @@ class KeywordJobIT {
 
     private void validateKeywordDetail(KeywordEntry entry) {
         assertThat(entry.getKeyword(), is(notNullValue()));
-        assertThat(entry.getKeyword().getAccession(), is(notNullValue()));
-        assertThat(entry.getKeyword().getAccession(), is("KW-0540"));
         assertThat(entry.getKeyword().getId(), is(notNullValue()));
+        assertThat(entry.getKeyword().getId(), is("KW-0540"));
+        assertThat(entry.getKeyword().getName(), is(notNullValue()));
         assertThat(entry.getDefinition(), is(notNullValue()));
         assertThat(entry.getCategory(), is(notNullValue()));
         assertThat(entry.getGeneOntologies(), is(notNullValue()));

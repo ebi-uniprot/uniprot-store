@@ -25,8 +25,10 @@ import org.apache.commons.io.IOUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.uniprot.core.cv.chebi.ChebiEntry;
-import org.uniprot.core.cv.chebi.ChebiEntryBuilder;
-import org.uniprot.core.cv.ec.ECEntryBuilder;
+import org.uniprot.core.cv.chebi.builder.ChebiEntryBuilder;
+import org.uniprot.core.cv.ec.builder.ECEntryBuilder;
+import org.uniprot.core.cv.go.GeneOntologyEntry;
+import org.uniprot.core.cv.go.builder.GeneOntologyEntryBuilder;
 import org.uniprot.core.flatfile.parser.SupportingDataMap;
 import org.uniprot.core.flatfile.parser.impl.DefaultUniProtParser;
 import org.uniprot.core.flatfile.parser.impl.SupportingDataMapImpl;
@@ -36,8 +38,6 @@ import org.uniprot.cv.ec.ECRepo;
 import org.uniprot.cv.taxonomy.TaxonomicNode;
 import org.uniprot.cv.taxonomy.TaxonomyRepo;
 import org.uniprot.store.indexer.uniprot.go.GoRelationRepo;
-import org.uniprot.store.indexer.uniprot.go.GoTerm;
-import org.uniprot.store.indexer.uniprot.go.GoTermFileReader;
 import org.uniprot.store.indexer.uniprot.pathway.PathwayRepo;
 import org.uniprot.store.indexer.uniprotkb.processor.UniProtEntryDocumentPairProcessor;
 import org.uniprot.store.search.document.suggest.SuggestDictionary;
@@ -88,7 +88,7 @@ class UniProtEntryConverterIT {
     void testConvertFullA0PHU1Entry() throws Exception {
         when(repoMock.retrieveNodeUsingTaxID(anyInt()))
                 .thenReturn(getTaxonomyNode(172543, "Cichlasoma festae", null, null, null));
-        Set<GoTerm> ancestors = new HashSet<>();
+        Set<GeneOntologyEntry> ancestors = new HashSet<>();
         ancestors.addAll(getMockParentGoTerm());
         ancestors.addAll(getMockPartOfGoTerm());
         when(goRelationRepoMock.getAncestors("GO:0016021", asList(IS_A, PART_OF)))
@@ -656,18 +656,18 @@ class UniProtEntryConverterIT {
         return converter.convert(entry);
     }
 
-    private Set<GoTerm> getMockParentGoTerm() {
+    private Set<GeneOntologyEntry> getMockParentGoTerm() {
         return new HashSet<>(
                 asList(
-                        new GoTermFileReader.GoTermImpl("GO:123", "Go term 3"),
-                        new GoTermFileReader.GoTermImpl("GO:124", "Go term 4")));
+                        new GeneOntologyEntryBuilder().id("GO:123").name("Go term 3").build(),
+                        new GeneOntologyEntryBuilder().id("GO:124").name("Go term 4").build()));
     }
 
-    private Set<GoTerm> getMockPartOfGoTerm() {
+    private Set<GeneOntologyEntry> getMockPartOfGoTerm() {
         return new HashSet<>(
                 asList(
-                        new GoTermFileReader.GoTermImpl("GO:125", "Go term 5"),
-                        new GoTermFileReader.GoTermImpl("GO:126", "Go term 6")));
+                        new GeneOntologyEntryBuilder().id("GO:125").name("Go term 5").build(),
+                        new GeneOntologyEntryBuilder().id("GO:126").name("Go term 6").build()));
     }
 
     private Optional<TaxonomicNode> getTaxonomyNode(

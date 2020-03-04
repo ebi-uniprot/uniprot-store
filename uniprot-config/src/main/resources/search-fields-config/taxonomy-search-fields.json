@@ -1,0 +1,140 @@
+[
+  {
+    "id": "scientific",
+    "fieldName": "scientific",
+    "fieldType": "GENERAL",
+    "dataType": "STRING",
+    "sortFieldId": "name_sort_id",
+    "description": "Search by scientific name",
+    "example": "16SrII"
+  },
+  {
+    "id": "name_sort_id",
+    "fieldName": "name_sort",
+    "fieldType": "SORT",
+    "dataType": "STRING",
+    "description": "Sort by scientific name",
+    "example": "name_sort asc"
+  },
+  {
+    "id": "id",
+    "fieldName": "id",
+    "fieldType": "GENERAL",
+    "dataType": "STRING",
+    "validRegex": "^[0-9]+$",
+    "description": "Search by taxon identifier",
+    "example": "85621"
+  },
+  {
+    "id": "tax_id",
+    "fieldName": "tax_id",
+    "fieldType": "GENERAL",
+    "dataType": "INTEGER",
+    "validRegex": "^[0-9]+$",
+    "description": "Search by taxon identifier",
+    "example": "85621"
+  },
+  {
+    "id": "common",
+    "fieldName": "common",
+    "fieldType": "GENERAL",
+    "dataType": "STRING",
+    "description": "Search by common name",
+    "example": "sample name"
+  },
+  {
+    "id": "mnemonic",
+    "fieldName": "mnemonic",
+    "fieldType": "GENERAL",
+    "dataType": "STRING",
+    "description": "Search by mnemonic name",
+    "example": "sample mnemonic"
+  },
+  {
+    "id": "rank",
+    "fieldName": "rank",
+    "fieldType": "GENERAL",
+    "dataType": "STRING",
+    "description": "Search by rank name",
+    "example": "SPECIES_GROUP"
+  },
+  {
+    "id": "strain",
+    "fieldName": "strain",
+    "fieldType": "GENERAL",
+    "dataType": "STRING",
+    "description": "Search by rank name",
+    "example": "SPECIES_GROUP"
+  },
+  {
+    "id": "host",
+    "fieldName": "host",
+    "fieldType": "GENERAL",
+    "dataType": "INTEGER",
+    "validRegex": "^[0-9]+$",
+    "description": "Search by host identifier",
+    "example": "85621"
+  },
+  {
+    "id": "linked",
+    "fieldName": "linked",
+    "fieldType": "GENERAL",
+    "dataType": "BOOLEAN",
+    "validRegex": "^true|false$",
+    "description": "Search if taxonomy is linked",
+    "example": "true"
+  },
+  {
+    "id": "active",
+    "fieldName": "active",
+    "fieldType": "GENERAL",
+    "dataType": "BOOLEAN",
+    "validRegex": "^true|false$",
+    "description": "Search if taxonomy is active",
+    "example": "false"
+  },
+  {
+    "id": "proteome",
+    "fieldName": "proteome",
+    "fieldType": "GENERAL",
+    "dataType": "BOOLEAN",
+    "validRegex": "^true|false$",
+    "description": "Search if taxonomy is proteome",
+    "example": "false"
+  },
+  {
+    "id": "reference",
+    "fieldName": "reference",
+    "fieldType": "GENERAL",
+    "dataType": "BOOLEAN",
+    "validRegex": "^true|false$",
+    "description": "Search if taxonomy is referenced",
+    "example": "false"
+  },
+  {
+    "id": "reviewed",
+    "fieldName": "reviewed",
+    "fieldType": "GENERAL",
+    "dataType": "BOOLEAN",
+    "validRegex": "^true|false$",
+    "description": "Search if taxonomy is reviewed",
+    "example": "false"
+  },
+  {
+    "id": "annotated",
+    "fieldName": "annotated",
+    "fieldType": "GENERAL",
+    "dataType": "BOOLEAN",
+    "validRegex": "^true|false$",
+    "description": "Search if taxonomy is annotated",
+    "example": "false"
+  },
+  {
+    "id": "content",
+    "fieldName": "content",
+    "fieldType": "GENERAL",
+    "dataType": "STRING",
+    "description": "Search by any content",
+    "example": "sample text"
+  }
+]
