@@ -1,20 +1,18 @@
-package org.uniprot.store.config.searchfield.schema;
-
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.InputStream;
+package org.uniprot.store.config.schema;
 
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
-
 import org.everit.json.schema.Schema;
 import org.everit.json.schema.ValidationException;
 import org.everit.json.schema.loader.SchemaLoader;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONTokener;
-import org.uniprot.store.config.searchfield.common.SearchFieldValidationException;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 
 @Slf4j
 public class SchemaValidator {
@@ -39,7 +37,7 @@ public class SchemaValidator {
             schema.validate(jsonInput);
         } catch (ValidationException ve) {
             log.error(ve.getAllMessages().toString());
-            throw new SearchFieldValidationException("Schema validation failed", ve);
+            throw new SchemaValidationException("Schema validation failed", ve);
         }
     }
 

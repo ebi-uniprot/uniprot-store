@@ -1,4 +1,4 @@
-package org.uniprot.store.config.searchfield.factory;
+package org.uniprot.store.config;
 
 public enum UniProtDataType {
     CROSSREF,

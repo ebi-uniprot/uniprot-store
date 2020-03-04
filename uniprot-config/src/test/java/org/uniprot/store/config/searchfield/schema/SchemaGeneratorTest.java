@@ -1,9 +1,10 @@
-package org.uniprot.store.config.schema;
+package org.uniprot.store.config.searchfield.schema;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.uniprot.store.config.uniprotkb.CreateJsonForResultFields;
+import org.uniprot.store.config.returnfield.model.ReturnField;
+import org.uniprot.store.config.schema.SchemaGenerator;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -13,7 +14,7 @@ public class SchemaGeneratorTest {
     @Test
     void testSchemaGeneration() {
 //        String schema = SchemaGenerator.generateSchema(FieldItem[].class);
-        String schema = SchemaGenerator.generateSchema(CreateJsonForResultFields.InternalResultField[].class);
+        String schema = SchemaGenerator.generateSchema(ReturnField[].class);
         try {
             FileWriter myWriter = new FileWriter("filename.txt");
             myWriter.write(schema);

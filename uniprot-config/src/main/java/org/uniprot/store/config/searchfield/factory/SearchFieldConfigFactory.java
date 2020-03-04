@@ -6,6 +6,7 @@ import java.util.Map;
 
 import lombok.NonNull;
 
+import org.uniprot.store.config.UniProtDataType;
 import org.uniprot.store.config.searchfield.common.SearchFieldConfig;
 import org.uniprot.store.config.searchfield.impl.SearchFieldConfigImpl;
 

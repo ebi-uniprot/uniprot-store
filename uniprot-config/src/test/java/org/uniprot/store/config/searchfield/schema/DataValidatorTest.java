@@ -14,7 +14,7 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.uniprot.store.config.searchfield.common.SearchFieldConfig;
 import org.uniprot.store.config.searchfield.common.SearchFieldConfigLoader;
-import org.uniprot.store.config.searchfield.common.SearchFieldValidationException;
+import org.uniprot.store.config.schema.SchemaValidationException;
 import org.uniprot.store.config.searchfield.common.TestSearchFieldConfig;
 import org.uniprot.store.config.searchfield.factory.SearchFieldConfigFactory;
 import org.uniprot.store.config.searchfield.model.SearchFieldItem;
@@ -77,7 +77,7 @@ public class DataValidatorTest {
         List<SearchFieldItem> fieldItems = Arrays.asList(fi1, fi2, fi3, p1);
         Map<String, SearchFieldItem> idFieldsMap = loader.buildIdFieldItemMap(fieldItems);
         Assertions.assertThrows(
-                SearchFieldValidationException.class,
+                SchemaValidationException.class,
                 () -> DataValidator.validateParentExists(fieldItems, idFieldsMap));
     }
 
@@ -89,7 +89,7 @@ public class DataValidatorTest {
         SearchFieldItem fi4 = getFieldItem("id4", -3);
         List<SearchFieldItem> fieldItems = Arrays.asList(fi1, fi2, fi3, fi4);
         Assertions.assertThrows(
-                SearchFieldValidationException.class,
+                SchemaValidationException.class,
                 () -> DataValidator.validateSeqNumbers(fieldItems));
     }
 
@@ -103,7 +103,7 @@ public class DataValidatorTest {
         p1Ch3.setChildNumber(1);
         List<SearchFieldItem> fieldItems = Arrays.asList(p1, p1Ch1, p1Ch2, p1Ch3);
         Assertions.assertThrows(
-                SearchFieldValidationException.class,
+                SchemaValidationException.class,
                 () -> DataValidator.validateChildNumbers(fieldItems));
     }
 
@@ -118,7 +118,7 @@ public class DataValidatorTest {
         p1Ch3.setChildNumber(1);
         List<SearchFieldItem> fieldItems = Arrays.asList(p1, p1Ch1, p1Ch2, p1Ch3);
         Assertions.assertThrows(
-                SearchFieldValidationException.class,
+                SchemaValidationException.class,
                 () -> DataValidator.validateChildNumbers(fieldItems));
     }
 
@@ -133,7 +133,7 @@ public class DataValidatorTest {
         List<SearchFieldItem> fieldItems = Arrays.asList(f1, f2, f3, s1);
         Map<String, SearchFieldItem> idFieldsMap = loader.buildIdFieldItemMap(fieldItems);
         Assertions.assertThrows(
-                SearchFieldValidationException.class,
+                SchemaValidationException.class,
                 () -> DataValidator.validateSortFieldIds(fieldItems, idFieldsMap));
     }
 

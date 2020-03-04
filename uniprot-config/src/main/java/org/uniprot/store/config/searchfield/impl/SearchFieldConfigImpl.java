@@ -6,7 +6,7 @@ import java.util.stream.Collectors;
 import org.uniprot.core.cv.xdb.UniProtXDbTypeDetail;
 import org.uniprot.cv.xdb.UniProtXDbTypes;
 import org.uniprot.store.config.searchfield.common.AbstractSearchFieldConfig;
-import org.uniprot.store.config.searchfield.factory.UniProtDataType;
+import org.uniprot.store.config.UniProtDataType;
 import org.uniprot.store.config.searchfield.model.SearchFieldDataType;
 import org.uniprot.store.config.searchfield.model.SearchFieldItem;
 import org.uniprot.store.config.searchfield.model.SearchFieldType;

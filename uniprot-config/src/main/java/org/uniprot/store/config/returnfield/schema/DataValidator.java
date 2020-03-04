@@ -1,32 +1,31 @@
-package org.uniprot.store.config.searchfield.schema;
+package org.uniprot.store.config.returnfield.schema;
 
 import org.apache.commons.lang3.StringUtils;
+import org.uniprot.store.config.returnfield.model.ReturnField;
 import org.uniprot.store.config.schema.SchemaValidationException;
-import org.uniprot.store.config.searchfield.model.SearchFieldItem;
 
 import java.util.BitSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 public class DataValidator {
 
     public static void validateContent(
-            List<SearchFieldItem> fieldItems, Map<String, SearchFieldItem> idFieldMap) {
-        validateParentExists(fieldItems, idFieldMap);
+        List<ReturnField> fieldItems, Set<String> ids) {
+        validateParentExists(fieldItems, ids);
         validateSeqNumbers(fieldItems);
         validateChildNumbers(fieldItems);
-        validateSortFieldIds(fieldItems, idFieldMap);
     }
 
     public static void validateParentExists(
-            List<SearchFieldItem> fieldItems, Map<String, SearchFieldItem> idFieldMap) {
+        List<ReturnField> fieldItems, Set<String> ids) {
         fieldItems.stream()
                 .filter(fi -> StringUtils.isNotBlank(fi.getParentId()))
                 .forEach(
                         fieldItem -> {
-                            if (!idFieldMap.containsKey(fieldItem.getParentId())) {
+                            if (!ids.contains(fieldItem.getParentId())) {
                                 throw new SchemaValidationException(
                                         "Field Item doesn't exist for parentId '"
                                                 + fieldItem.getParentId()
@@ -35,50 +34,36 @@ public class DataValidator {
                         });
     }
 
-    public static void validateSeqNumbers(List<SearchFieldItem> fieldItems) {
+    public static void validateSeqNumbers(List<ReturnField> fieldItems) {
         List<Integer> seqNumbers = extractSeqNumbers(fieldItems);
         validateNaturalNumbers(seqNumbers, "seqNumber");
     }
 
-    private static List<Integer> extractSeqNumbers(List<SearchFieldItem> fieldItems) {
+    private static List<Integer> extractSeqNumbers(List<ReturnField> fieldItems) {
         return fieldItems.stream()
-                .filter(fi -> fi.getSeqNumber() != null)
-                .map(SearchFieldItem::getSeqNumber)
+                .filter(field -> field.getSeqNumber() != null)
+                .map(ReturnField::getSeqNumber)
                 .collect(Collectors.toList());
     }
 
-    public static void validateChildNumbers(List<SearchFieldItem> fieldItems) {
-
-        Map<String, List<SearchFieldItem>> parentChildrenMap =
+    public static void validateChildNumbers(List<ReturnField> fieldItems) {
+        Map<String, List<ReturnField>> parentChildrenMap =
                 fieldItems.stream()
                         .filter(fi -> StringUtils.isNotBlank(fi.getParentId()))
-                        .collect(Collectors.groupingBy(SearchFieldItem::getParentId));
+                        .collect(Collectors.groupingBy(ReturnField::getParentId));
 
         parentChildrenMap
-                .entrySet()
-                .forEach(pc -> validateChildNumbers(pc.getKey(), pc.getValue()));
+            .forEach(DataValidator::validateChildNumbers);
     }
 
-    public static void validateSortFieldIds(
-            List<SearchFieldItem> fieldItems, Map<String, SearchFieldItem> idFieldMap) {
-        fieldItems.stream()
-                .filter(DataValidator::hasSortFieldId)
-                .forEach(
-                        fi -> {
-                            if (!idFieldMap.containsKey(fi.getSortFieldId())) {
-                                throw new SchemaValidationException(
-                                        "No field item with id for sortId " + fi.getSortFieldId());
-                            }
-                        });
-    }
-
-    private static void validateChildNumbers(String parentId, List<SearchFieldItem> children) {
+    private static void validateChildNumbers(String parentId, List<ReturnField> children) {
         List<Integer> childNumbers =
-                children.stream().map(SearchFieldItem::getChildNumber).collect(Collectors.toList());
+                children.stream().map(ReturnField::getChildNumber).collect(Collectors.toList());
         String message = "childNumber for parentId '" + parentId + "'";
         validateNaturalNumbers(childNumbers, message);
     }
 
+    // TODO: 04/03/2020 extract to common class, e.g., in schema package (not the one in resultfield package)
     private static void validateNaturalNumbers(List<Integer> numbers, String message) {
         // check numbers are natural number including 0
         int inputSize = numbers.size();
@@ -102,10 +87,6 @@ public class DataValidator {
             }
             visitedSet.set(number);
         }
-    }
-
-    private static boolean hasSortFieldId(SearchFieldItem fi) {
-        return Objects.nonNull(fi.getSortFieldId());
     }
 
     private DataValidator() {}
