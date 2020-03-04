@@ -17,7 +17,6 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;
 import org.uniprot.core.flatfile.writer.LineType;
-import org.uniprot.store.search.field.UniProtSearchFields;
 
 /** Verifies if the protein keywords are indexed correctly */
 class KeywordSearchIT {
@@ -155,6 +154,7 @@ class KeywordSearchIT {
     }
 
     String keyword(String value) {
-        return query(UniProtSearchFields.UNIPROTKB.getField("keyword"), value);
+        return query(
+                searchEngine.getSearchFieldConfig().getSearchFieldItemByName("keyword"), value);
     }
 }

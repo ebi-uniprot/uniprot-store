@@ -14,6 +14,9 @@ import org.uniprot.cv.ec.ECRepoFactory;
 import org.uniprot.cv.taxonomy.FileNodeIterable;
 import org.uniprot.cv.taxonomy.TaxonomyRepo;
 import org.uniprot.cv.taxonomy.impl.TaxonomyMapRepo;
+import org.uniprot.store.config.searchfield.common.SearchFieldConfig;
+import org.uniprot.store.config.searchfield.factory.SearchFieldConfigFactory;
+import org.uniprot.store.config.searchfield.factory.UniProtDataType;
 import org.uniprot.store.indexer.search.AbstractSearchEngine;
 import org.uniprot.store.indexer.uniprot.go.GoRelationFileReader;
 import org.uniprot.store.indexer.uniprot.go.GoRelationFileRepo;
@@ -23,7 +26,6 @@ import org.uniprot.store.indexer.uniprot.pathway.PathwayFileRepo;
 import org.uniprot.store.indexer.uniprot.pathway.PathwayRepo;
 import org.uniprot.store.indexer.uniprotkb.converter.UniProtEntryConverter;
 import org.uniprot.store.job.common.converter.DocumentConverter;
-import org.uniprot.store.search.field.UniProtSearchFields;
 
 /** Concrete implementation of the UniProt search engine */
 public class UniProtSearchEngine extends AbstractSearchEngine<UniProtEntry> {
@@ -54,13 +56,18 @@ public class UniProtSearchEngine extends AbstractSearchEngine<UniProtEntry> {
     }
 
     @Override
+    protected SearchFieldConfig getSearchFieldConfig() {
+        return SearchFieldConfigFactory.getSearchFieldConfig(UniProtDataType.UNIPROTKB);
+    }
+
+    @Override
     protected String identifierQuery(String entryId) {
         return "accession_id:" + entryId;
     }
 
     @Override
     protected String identifierField() {
-        return UniProtSearchFields.UNIPROTKB.getSortFieldFor("accession").getName();
+        return getSearchFieldConfig().getCorrespondingSortField("accession").getFieldName();
     }
 
     static class TestDocumentProducer {

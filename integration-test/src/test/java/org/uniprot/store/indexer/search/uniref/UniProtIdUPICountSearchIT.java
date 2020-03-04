@@ -16,7 +16,6 @@ import org.uniprot.core.xml.jaxb.uniref.Entry;
 import org.uniprot.core.xml.jaxb.uniref.MemberType;
 import org.uniprot.core.xml.jaxb.uniref.PropertyType;
 import org.uniprot.store.search.field.QueryBuilder;
-import org.uniprot.store.search.field.UniProtSearchFields;
 
 class UniProtIdUPICountSearchIT {
     private static final String ID_1 = "UniRef100_A0A007";
@@ -242,11 +241,17 @@ class UniProtIdUPICountSearchIT {
 
     private String uniprotIdQuery(String uniprotId) {
         return QueryBuilder.query(
-                UniProtSearchFields.UNIREF.getField("uniprot_id").getName(), uniprotId);
+                searchEngine
+                        .getSearchFieldConfig()
+                        .getSearchFieldItemByName("uniprot_id")
+                        .getFieldName(),
+                uniprotId);
     }
 
     private String upiQuery(String upi) {
-        return QueryBuilder.query(UniProtSearchFields.UNIREF.getField("upi").getName(), upi);
+        return QueryBuilder.query(
+                searchEngine.getSearchFieldConfig().getSearchFieldItemByName("upi").getFieldName(),
+                upi);
     }
 
     static List<PropertyType> createUniProtAccProperty(String accession) {
@@ -262,11 +267,20 @@ class UniProtIdUPICountSearchIT {
 
     String countQuery(int count) {
         return QueryBuilder.query(
-                UniProtSearchFields.UNIREF.getField("count").getName(), "" + count);
+                searchEngine
+                        .getSearchFieldConfig()
+                        .getSearchFieldItemByName("count")
+                        .getFieldName(),
+                "" + count);
     }
 
     String countQuery(int start, int end) {
         return QueryBuilder.rangeQuery(
-                UniProtSearchFields.UNIREF.getField("count").getName(), start, end);
+                searchEngine
+                        .getSearchFieldConfig()
+                        .getSearchFieldItemByName("count")
+                        .getFieldName(),
+                start,
+                end);
     }
 }

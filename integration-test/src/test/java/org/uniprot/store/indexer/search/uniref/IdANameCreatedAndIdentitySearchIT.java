@@ -3,7 +3,6 @@ package org.uniprot.store.indexer.search.uniref;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.uniprot.store.search.field.QueryBuilder.rangeQuery;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -15,7 +14,6 @@ import org.junit.jupiter.api.extension.RegisterExtension;
 import org.uniprot.core.xml.jaxb.uniref.Entry;
 import org.uniprot.core.xml.uniprot.XmlConverterHelper;
 import org.uniprot.store.search.field.QueryBuilder;
-import org.uniprot.store.search.field.UniProtSearchFields;
 
 class IdANameCreatedAndIdentitySearchIT {
     private static final String ID_1 = "UniRef100_A0A007";
@@ -202,7 +200,13 @@ class IdANameCreatedAndIdentitySearchIT {
         LocalDate start = LocalDate.of(2015, 9, 11);
         LocalDate end = LocalDate.of(2015, 9, 12);
         String query =
-                rangeQuery(UniProtSearchFields.UNIREF.getField("created").getName(), start, end);
+                QueryBuilder.rangeQuery(
+                        searchEngine
+                                .getSearchFieldConfig()
+                                .getSearchFieldItemByName("created")
+                                .getFieldName(),
+                        start,
+                        end);
         QueryResponse queryResponse = searchEngine.getQueryResponse(query);
         List<String> retrievedAccessions = searchEngine.getIdentifiers(queryResponse);
 
@@ -215,7 +219,13 @@ class IdANameCreatedAndIdentitySearchIT {
         LocalDate start = LocalDate.of(2015, 8, 8);
         LocalDate end = LocalDate.of(2015, 10, 9);
         String query =
-                rangeQuery(UniProtSearchFields.UNIREF.getField("created").getName(), start, end);
+                QueryBuilder.rangeQuery(
+                        searchEngine
+                                .getSearchFieldConfig()
+                                .getSearchFieldItemByName("created")
+                                .getFieldName(),
+                        start,
+                        end);
         QueryResponse queryResponse = searchEngine.getQueryResponse(query);
         List<String> retrievedAccessions = searchEngine.getIdentifiers(queryResponse);
 
@@ -224,15 +234,23 @@ class IdANameCreatedAndIdentitySearchIT {
     }
 
     private String idQuery(String id) {
-        return QueryBuilder.query(UniProtSearchFields.UNIREF.getField("id").getName(), id);
+        return QueryBuilder.query(
+                searchEngine.getSearchFieldConfig().getSearchFieldItemByName("id").getFieldName(),
+                id);
     }
 
     private String nameQuery(String name) {
-        return QueryBuilder.query(UniProtSearchFields.UNIREF.getField("name").getName(), name);
+        return QueryBuilder.query(
+                searchEngine.getSearchFieldConfig().getSearchFieldItemByName("name").getFieldName(),
+                name);
     }
 
     private String identityQuery(String identity) {
         return QueryBuilder.query(
-                UniProtSearchFields.UNIREF.getField("identity").getName(), identity);
+                searchEngine
+                        .getSearchFieldConfig()
+                        .getSearchFieldItemByName("identity")
+                        .getFieldName(),
+                identity);
     }
 }
