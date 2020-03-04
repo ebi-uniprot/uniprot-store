@@ -39,7 +39,7 @@ public class UniParcStoreStep {
     }
 
     @Bean(name = "uniParcStoreMainStep")
-    public Step uniParcMainStep(
+    public Step uniParcStoreMainStep(
             WriteRetrierLogStepListener writeRetrierLogStepListener,
             @Qualifier("uniParcLogRateListener")
                     LogRateListener<UniParcEntry> uniParcLogRateListener,

@@ -25,8 +25,8 @@ public class UniParcStoreJob {
         this.jobBuilderFactory = jobBuilderFactory;
     }
 
-    @Bean
-    public Job uniParcStoreJob(
+    @Bean(name = "uniParcStoreMainJob")
+    public Job uniParcStoreMainJob(
             @Qualifier("uniParcStoreMainStep") Step uniParcStoreMainStep,
             WriteRetrierLogJobListener writeRetrierLogJobListener) {
         return this.jobBuilderFactory
