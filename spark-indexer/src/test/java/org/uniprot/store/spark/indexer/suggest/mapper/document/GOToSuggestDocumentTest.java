@@ -3,14 +3,12 @@ package org.uniprot.store.spark.indexer.suggest.mapper.document;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import org.junit.jupiter.api.Test;
+import org.uniprot.core.cv.go.GeneOntologyEntry;
+import org.uniprot.core.cv.go.builder.GeneOntologyEntryBuilder;
 import org.uniprot.store.search.document.suggest.SuggestDocument;
-import org.uniprot.store.spark.indexer.go.relations.GOTerm;
-import org.uniprot.store.spark.indexer.go.relations.GOTermImpl;
 
 import scala.Tuple2;
 
@@ -22,7 +20,7 @@ class GOToSuggestDocumentTest {
 
     @Test
     void testGOToSuggestDocumentWithoutAncestors() throws Exception {
-        GOTerm term = new GOTermImpl("goId", "goName");
+        GeneOntologyEntry term = new GeneOntologyEntryBuilder().id("goId").name("goName").build();
 
         GOToSuggestDocument mapper = new GOToSuggestDocument();
         Iterable<SuggestDocument> results = mapper.call(new Tuple2<>(term, "goIdId"));
@@ -42,10 +40,21 @@ class GOToSuggestDocumentTest {
 
     @Test
     void testGOToSuggestDocumentWithAncestors() throws Exception {
-        Set<GOTerm> ancestors = new HashSet<>();
-        ancestors.add(new GOTermImpl("goAncestor1", "goAncestorName1"));
-        ancestors.add(new GOTermImpl("goAncestor2", "goAncestorName2"));
-        GOTerm term = new GOTermImpl("goId", "goName", ancestors);
+        GeneOntologyEntry term =
+                new GeneOntologyEntryBuilder()
+                        .id("goId")
+                        .name("goName")
+                        .ancestorsAdd(
+                                new GeneOntologyEntryBuilder()
+                                        .id("goAncestor1")
+                                        .name("goAncestorName1")
+                                        .build())
+                        .ancestorsAdd(
+                                new GeneOntologyEntryBuilder()
+                                        .id("goAncestor2")
+                                        .name("goAncestorName2")
+                                        .build())
+                        .build();
 
         GOToSuggestDocument mapper = new GOToSuggestDocument();
         Iterable<SuggestDocument> results = mapper.call(new Tuple2<>(term, "goIdId"));

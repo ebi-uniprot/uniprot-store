@@ -234,7 +234,7 @@ class UniProtEntryConverterTest {
         Keyword keyword =
                 new KeywordBuilder()
                         .id("KW-1111")
-                        .value("keyword value")
+                        .name("keyword value")
                         .category(KeywordCategory.DOMAIN)
                         .evidencesAdd(createEvidence("50"))
                         .build();

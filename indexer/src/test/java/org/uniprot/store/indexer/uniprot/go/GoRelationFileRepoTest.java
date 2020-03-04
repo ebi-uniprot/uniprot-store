@@ -17,6 +17,8 @@ import java.util.stream.Collectors;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.uniprot.core.cv.go.GeneOntologyEntry;
+import org.uniprot.core.cv.go.builder.GeneOntologyEntryBuilder;
 
 /**
  * Created 05/07/19
@@ -102,7 +104,7 @@ class GoRelationFileRepoTest {
     }
 
     private void addTerms() {
-        Map<String, GoTerm> termMap = new HashMap<>();
+        Map<String, GeneOntologyEntry> termMap = new HashMap<>();
         termMap.put("1", go("1", "name 1"));
         termMap.put("2", go("2", "name 2"));
         termMap.put("3", go("3", "name 3"));
@@ -114,8 +116,8 @@ class GoRelationFileRepoTest {
         when(termsFileReader.read()).thenReturn(termMap);
     }
 
-    private GoTerm go(String id, String name) {
-        return new GoTermFileReader.GoTermImpl(id, name);
+    private GeneOntologyEntry go(String id, String name) {
+        return new GeneOntologyEntryBuilder().id(id).name(name).build();
     }
 
     private void addRelations() {
@@ -134,7 +136,7 @@ class GoRelationFileRepoTest {
         when(relationsFileReader.getIsPartMap()).thenReturn(partOfMap);
     }
 
-    private Set<String> extractIds(Set<GoTerm> terms) {
-        return terms.stream().map(GoTerm::getId).collect(Collectors.toSet());
+    private Set<String> extractIds(Set<GeneOntologyEntry> terms) {
+        return terms.stream().map(GeneOntologyEntry::getId).collect(Collectors.toSet());
     }
 }

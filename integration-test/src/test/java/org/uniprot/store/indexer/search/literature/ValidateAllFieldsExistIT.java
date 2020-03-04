@@ -4,7 +4,6 @@ import org.junit.jupiter.api.extension.RegisterExtension;
 import org.uniprot.store.indexer.search.AbstractSearchEngine;
 import org.uniprot.store.indexer.search.AbstractValidateAllFieldsExist;
 import org.uniprot.store.search.document.literature.LiteratureDocument;
-import org.uniprot.store.search.field.UniProtSearchFields;
 
 /**
  * This class tests that all literature search fields can be queried against.
@@ -18,9 +17,5 @@ class ValidateAllFieldsExistIT extends AbstractValidateAllFieldsExist<Literature
 
     protected AbstractSearchEngine<LiteratureDocument> getSearchEngine() {
         return searchEngine;
-    }
-
-    protected UniProtSearchFields getSearchFieldType() {
-        return UniProtSearchFields.LITERATURE;
     }
 }

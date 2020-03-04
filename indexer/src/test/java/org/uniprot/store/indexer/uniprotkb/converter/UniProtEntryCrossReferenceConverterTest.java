@@ -12,6 +12,7 @@ import java.util.*;
 
 import org.junit.jupiter.api.Test;
 import org.uniprot.core.Property;
+import org.uniprot.core.cv.go.builder.GeneOntologyEntryBuilder;
 import org.uniprot.core.uniprot.evidence.Evidence;
 import org.uniprot.core.uniprot.evidence.EvidenceCode;
 import org.uniprot.core.uniprot.evidence.builder.EvidenceBuilder;
@@ -20,7 +21,6 @@ import org.uniprot.core.uniprot.xdb.UniProtXDbType;
 import org.uniprot.core.uniprot.xdb.builder.UniProtDBCrossReferenceBuilder;
 import org.uniprot.cv.xdb.UniProtXDbTypeImpl;
 import org.uniprot.store.indexer.uniprot.go.GoRelationRepo;
-import org.uniprot.store.indexer.uniprot.go.GoTermFileReader;
 import org.uniprot.store.search.document.suggest.SuggestDocument;
 import org.uniprot.store.search.document.uniprot.UniProtDocument;
 
@@ -74,7 +74,10 @@ class UniProtEntryCrossReferenceConverterTest {
         when(goRelationRepo.getAncestors("GO:12345", asList(IS_A, PART_OF)))
                 .thenReturn(
                         Collections.singleton(
-                                new GoTermFileReader.GoTermImpl("GO:0097440", "GOTERM")));
+                                new GeneOntologyEntryBuilder()
+                                        .id("GO:0097440")
+                                        .name("GOTERM")
+                                        .build()));
 
         Map<String, SuggestDocument> suggestDocuments = new HashMap<>();
 

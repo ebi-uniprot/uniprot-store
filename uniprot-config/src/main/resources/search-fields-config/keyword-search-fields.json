@@ -1,0 +1,63 @@
+[
+  {
+    "id": "name",
+    "fieldName": "name",
+    "dataType": "STRING",
+    "fieldType": "GENERAL",
+    "sortFieldId": "name_sort_id",
+    "description": "Search by name",
+    "example": "2Fe-2S"
+
+  },
+  {
+    "id": "name_sort_id",
+    "fieldName": "name_sort",
+    "dataType": "STRING",
+    "fieldType": "SORT",
+    "description": "Sort by name",
+    "example": "name_sort desc"
+
+  },
+  {
+    "id": "id",
+    "fieldName": "id",
+    "validRegex": "^KW-[0-9]{4}$",
+    "fieldType": "GENERAL",
+    "dataType": "STRING",
+    "description": "Search by keyword id",
+    "example": "KW-0001"
+  },
+  {
+    "id": "keyword_id",
+    "fieldName": "keyword_id",
+    "validRegex": "^KW-[0-9]{4}$",
+    "fieldType": "GENERAL",
+    "dataType": "STRING",
+    "description": "Search by keyword id",
+    "example": "KW-0001"
+  },
+  {
+    "id": "ancestor",
+    "fieldName": "ancestor",
+    "fieldType": "GENERAL",
+    "dataType": "STRING",
+    "description": "Search by ancestor id",
+    "example": "KW-0001"
+  },
+  {
+    "id": "parent",
+    "fieldName": "parent",
+    "fieldType": "GENERAL",
+    "dataType": "STRING",
+    "description": "Search by parent id",
+    "example": "KW-0001"
+  },
+  {
+    "id": "content",
+    "fieldName": "content",
+    "fieldType": "GENERAL",
+    "dataType": "STRING",
+    "description": "Search by any content",
+    "example": "Fe2S2"
+  }
+]

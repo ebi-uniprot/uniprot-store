@@ -16,7 +16,6 @@ import org.junit.jupiter.api.extension.RegisterExtension;
 import org.uniprot.core.flatfile.writer.LineType;
 import org.uniprot.core.uniprot.feature.FeatureType;
 import org.uniprot.store.search.field.QueryBuilder;
-import org.uniprot.store.search.field.UniProtSearchFields;
 
 class FTSequenceSearchIT {
 
@@ -118,19 +117,29 @@ class FTSequenceSearchIT {
 
     @Test
     void variantsFindEntryWithLengthAndEvidence() {
-        String query = query(UniProtSearchFields.UNIPROTKB.getField("ft_variants"), "colorectal");
+        String query =
+                query(
+                        searchEngine.getSearchFieldConfig().getSearchFieldItemByName("ft_variants"),
+                        "colorectal");
         query =
                 QueryBuilder.and(
                         query,
                         QueryBuilder.rangeQuery(
-                                UniProtSearchFields.UNIPROTKB.getField("ftlen_variants").getName(),
+                                searchEngine
+                                        .getSearchFieldConfig()
+                                        .getSearchFieldItemByName("ftlen_variants")
+                                        .getFieldName(),
                                 1,
                                 21));
         String evidence = "ECO_0000269";
         query =
                 QueryBuilder.and(
                         query,
-                        query(UniProtSearchFields.UNIPROTKB.getField("ftev_variants"), evidence));
+                        query(
+                                searchEngine
+                                        .getSearchFieldConfig()
+                                        .getSearchFieldItemByName("ftev_variants"),
+                                evidence));
         QueryResponse response = searchEngine.getQueryResponse(query);
 
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
@@ -211,21 +220,31 @@ class FTSequenceSearchIT {
 
     @Test
     void positionFindEntryWithLengthAndEvidence() {
-        String query = query(UniProtSearchFields.UNIPROTKB.getField("ft_positional"), "colorectal");
+        String query =
+                query(
+                        searchEngine
+                                .getSearchFieldConfig()
+                                .getSearchFieldItemByName("ft_positional"),
+                        "colorectal");
         query =
                 QueryBuilder.and(
                         query,
                         QueryBuilder.rangeQuery(
-                                UniProtSearchFields.UNIPROTKB
-                                        .getField("ftlen_positional")
-                                        .getName(),
+                                searchEngine
+                                        .getSearchFieldConfig()
+                                        .getSearchFieldItemByName("ftlen_positional")
+                                        .getFieldName(),
                                 1,
                                 21));
         String evidence = "ECO_0000269";
         query =
                 QueryBuilder.and(
                         query,
-                        query(UniProtSearchFields.UNIPROTKB.getField("ftev_positional"), evidence));
+                        query(
+                                searchEngine
+                                        .getSearchFieldConfig()
+                                        .getSearchFieldItemByName("ftev_positional"),
+                                evidence));
         QueryResponse response = searchEngine.getQueryResponse(query);
 
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);

@@ -4,7 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
 import org.uniprot.core.cv.chebi.ChebiEntry;
-import org.uniprot.core.cv.chebi.ChebiEntryBuilder;
+import org.uniprot.core.cv.chebi.builder.ChebiEntryBuilder;
 import org.uniprot.store.search.document.suggest.SuggestDocument;
 
 import scala.Tuple2;

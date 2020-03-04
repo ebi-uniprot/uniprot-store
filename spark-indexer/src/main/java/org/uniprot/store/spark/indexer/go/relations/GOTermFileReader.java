@@ -12,6 +12,8 @@ import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 
 import org.apache.hadoop.conf.Configuration;
+import org.uniprot.core.cv.go.GeneOntologyEntry;
+import org.uniprot.core.cv.go.builder.GeneOntologyEntryBuilder;
 import org.uniprot.core.util.Utils;
 
 /**
@@ -34,16 +36,16 @@ class GOTermFileReader {
         this.hadoopConfig = hadoopConfig;
     }
 
-    List<GOTerm> read() {
+    List<GeneOntologyEntry> read() {
         String filename = filepath + File.separator + FILENAME;
-        List<GOTerm> lines = new ArrayList<>();
+        List<GeneOntologyEntry> lines = new ArrayList<>();
         try {
             try (BufferedReader br =
                     new BufferedReader(
                             new InputStreamReader(getInputStream(filename, hadoopConfig)))) {
                 String line;
                 while ((line = br.readLine()) != null) {
-                    GOTerm goTerm = readLine(line);
+                    GeneOntologyEntry goTerm = readLine(line);
                     if (Utils.notNull(goTerm)) {
                         lines.add(goTerm);
                     }
@@ -56,13 +58,13 @@ class GOTermFileReader {
         return lines;
     }
 
-    private GOTerm readLine(String line) {
-        GOTerm result = null;
+    private GeneOntologyEntry readLine(String line) {
+        GeneOntologyEntry result = null;
         if (!line.startsWith(COMMENT_PREFIX)) {
             String[] tokens = line.split(SEPARATOR);
             if (tokens.length == 4) {
                 if (tokens[1].equals(NOT_OBSOLETE)) {
-                    result = new GOTermImpl(tokens[0], tokens[2]);
+                    result = new GeneOntologyEntryBuilder().id(tokens[0]).name(tokens[2]).build();
                 }
             }
         }

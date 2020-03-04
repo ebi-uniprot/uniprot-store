@@ -16,7 +16,6 @@ import org.junit.jupiter.api.extension.RegisterExtension;
 import org.uniprot.core.flatfile.writer.LineType;
 import org.uniprot.core.uniprot.feature.FeatureType;
 import org.uniprot.store.search.field.QueryBuilder;
-import org.uniprot.store.search.field.UniProtSearchFields;
 
 class FTPtmProcessSearchIT {
     private static final String Q6GZX4 = "Q6GZX4";
@@ -272,7 +271,11 @@ class FTPtmProcessSearchIT {
     @Test
     void moleculeProcessFindTwoEntry() {
         String query =
-                query(UniProtSearchFields.UNIPROTKB.getField("ft_molecule_processing"), "peptide");
+                query(
+                        searchEngine
+                                .getSearchFieldConfig()
+                                .getSearchFieldItemByName("ft_molecule_processing"),
+                        "peptide");
         QueryResponse response = searchEngine.getQueryResponse(query);
 
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
@@ -283,14 +286,19 @@ class FTPtmProcessSearchIT {
     @Test
     void moleculeProcessFindTwoEntryWithLength() {
         String query =
-                query(UniProtSearchFields.UNIPROTKB.getField("ft_molecule_processing"), "peptide");
+                query(
+                        searchEngine
+                                .getSearchFieldConfig()
+                                .getSearchFieldItemByName("ft_molecule_processing"),
+                        "peptide");
         query =
                 QueryBuilder.and(
                         query,
                         QueryBuilder.rangeQuery(
-                                UniProtSearchFields.UNIPROTKB
-                                        .getField("ftlen_molecule_processing")
-                                        .getName(),
+                                searchEngine
+                                        .getSearchFieldConfig()
+                                        .getSearchFieldItemByName("ftlen_molecule_processing")
+                                        .getFieldName(),
                                 9,
                                 10));
 
@@ -305,14 +313,19 @@ class FTPtmProcessSearchIT {
     @Test
     void moleculeProcessFindEntryWithLengthAndEvidence() {
         String query =
-                query(UniProtSearchFields.UNIPROTKB.getField("ft_molecule_processing"), "peptide");
+                query(
+                        searchEngine
+                                .getSearchFieldConfig()
+                                .getSearchFieldItemByName("ft_molecule_processing"),
+                        "peptide");
         query =
                 QueryBuilder.and(
                         query,
                         QueryBuilder.rangeQuery(
-                                UniProtSearchFields.UNIPROTKB
-                                        .getField("ftlen_molecule_processing")
-                                        .getName(),
+                                searchEngine
+                                        .getSearchFieldConfig()
+                                        .getSearchFieldItemByName("ftlen_molecule_processing")
+                                        .getFieldName(),
                                 9,
                                 20));
         String evidence = "ECO_0000269";
@@ -320,7 +333,9 @@ class FTPtmProcessSearchIT {
                 QueryBuilder.and(
                         query,
                         query(
-                                UniProtSearchFields.UNIPROTKB.getField("ftev_molecule_processing"),
+                                searchEngine
+                                        .getSearchFieldConfig()
+                                        .getSearchFieldItemByName("ftev_molecule_processing"),
                                 evidence));
         QueryResponse response = searchEngine.getQueryResponse(query);
 

@@ -12,6 +12,7 @@ import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
 import org.uniprot.core.cv.chebi.ChebiEntry;
 import org.uniprot.core.cv.ec.ECEntry;
+import org.uniprot.core.cv.go.GeneOntologyEntry;
 import org.uniprot.core.cv.keyword.KeywordEntry;
 import org.uniprot.core.cv.subcell.SubcellularLocationEntry;
 import org.uniprot.core.taxonomy.TaxonomyLineage;
@@ -22,7 +23,6 @@ import org.uniprot.store.spark.indexer.chebi.ChebiRDDReader;
 import org.uniprot.store.spark.indexer.common.writer.DocumentsToHDFSWriter;
 import org.uniprot.store.spark.indexer.ec.ECRDDReader;
 import org.uniprot.store.spark.indexer.go.relations.GORelationRDDReader;
-import org.uniprot.store.spark.indexer.go.relations.GOTerm;
 import org.uniprot.store.spark.indexer.keyword.KeywordRDDReader;
 import org.uniprot.store.spark.indexer.subcell.SubcellularLocationRDDReader;
 import org.uniprot.store.spark.indexer.suggest.mapper.TaxonomyHighImportanceReduce;
@@ -97,7 +97,7 @@ public class SuggestDocumentsToHDFSWriter implements DocumentsToHDFSWriter {
             JavaRDD<String> flatFileRDD, JavaSparkContext sparkContext, String releaseName) {
 
         // JavaPairRDD<goId, GoTerm>
-        JavaPairRDD<String, GOTerm> goRelationsRDD =
+        JavaPairRDD<String, GeneOntologyEntry> goRelationsRDD =
                 GORelationRDDReader.load(applicationConfig, sparkContext, releaseName);
 
         // JavaPairRDD<goId,accession> goMapRDD --> extracted from flat file DR lines for GO

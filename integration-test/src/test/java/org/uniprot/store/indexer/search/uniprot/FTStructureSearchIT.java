@@ -16,7 +16,6 @@ import org.junit.jupiter.api.extension.RegisterExtension;
 import org.uniprot.core.flatfile.writer.LineType;
 import org.uniprot.core.uniprot.feature.FeatureType;
 import org.uniprot.store.search.field.QueryBuilder;
-import org.uniprot.store.search.field.UniProtSearchFields;
 
 class FTStructureSearchIT {
 
@@ -71,7 +70,10 @@ class FTStructureSearchIT {
 
     @Test
     void d3StructureFindEntry() {
-        String query = query(UniProtSearchFields.UNIPROTKB.getField("d3structure"), "true");
+        String query =
+                query(
+                        searchEngine.getSearchFieldConfig().getSearchFieldItemByName("d3structure"),
+                        "true");
         QueryResponse response = searchEngine.getQueryResponse(query);
 
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
@@ -82,7 +84,10 @@ class FTStructureSearchIT {
 
     @Test
     void note3StructureFindEntry() {
-        String query = query(UniProtSearchFields.UNIPROTKB.getField("d3structure"), "false");
+        String query =
+                query(
+                        searchEngine.getSearchFieldConfig().getSearchFieldItemByName("d3structure"),
+                        "false");
         QueryResponse response = searchEngine.getQueryResponse(query);
 
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
@@ -148,19 +153,31 @@ class FTStructureSearchIT {
 
     @Test
     void secstructFindTwoEntriesWithEvidenceLength() {
-        String query = query(UniProtSearchFields.UNIPROTKB.getField("ft_secstruct"), "*");
+        String query =
+                query(
+                        searchEngine
+                                .getSearchFieldConfig()
+                                .getSearchFieldItemByName("ft_secstruct"),
+                        "*");
         query =
                 QueryBuilder.and(
                         query,
                         QueryBuilder.rangeQuery(
-                                UniProtSearchFields.UNIPROTKB.getField("ftlen_secstruct").getName(),
+                                searchEngine
+                                        .getSearchFieldConfig()
+                                        .getSearchFieldItemByName("ftlen_secstruct")
+                                        .getFieldName(),
                                 1,
                                 25));
         String evidence = "ECO_0000244";
         query =
                 QueryBuilder.and(
                         query,
-                        query(UniProtSearchFields.UNIPROTKB.getField("ftev_secstruct"), evidence));
+                        query(
+                                searchEngine
+                                        .getSearchFieldConfig()
+                                        .getSearchFieldItemByName("ftev_secstruct"),
+                                evidence));
         QueryResponse response = searchEngine.getQueryResponse(query);
 
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);

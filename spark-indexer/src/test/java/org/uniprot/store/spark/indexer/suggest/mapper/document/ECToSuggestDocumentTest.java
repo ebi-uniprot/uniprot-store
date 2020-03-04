@@ -4,7 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
 import org.uniprot.core.cv.ec.ECEntry;
-import org.uniprot.core.cv.ec.impl.ECEntryImpl;
+import org.uniprot.core.cv.ec.builder.ECEntryBuilder;
 import org.uniprot.store.search.document.suggest.SuggestDocument;
 
 import scala.Tuple2;
@@ -18,7 +18,7 @@ class ECToSuggestDocumentTest {
     @Test
     void testECToSuggestDocument() throws Exception {
         ECToSuggestDocument mapper = new ECToSuggestDocument();
-        ECEntry ec = new ECEntryImpl("ecId", "ecLabel");
+        ECEntry ec = new ECEntryBuilder().id("ecId").label("ecLabel").build();
         SuggestDocument result = mapper.call(new Tuple2<>("ecId", ec));
 
         assertNotNull(result);

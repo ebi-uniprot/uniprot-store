@@ -8,10 +8,12 @@ import org.uniprot.core.xml.jaxb.uniref.Entry;
 import org.uniprot.cv.taxonomy.FileNodeIterable;
 import org.uniprot.cv.taxonomy.TaxonomyRepo;
 import org.uniprot.cv.taxonomy.impl.TaxonomyMapRepo;
+import org.uniprot.store.config.searchfield.common.SearchFieldConfig;
+import org.uniprot.store.config.searchfield.factory.SearchFieldConfigFactory;
+import org.uniprot.store.config.searchfield.factory.UniProtDataType;
 import org.uniprot.store.indexer.search.AbstractSearchEngine;
 import org.uniprot.store.indexer.uniref.UniRefDocumentConverter;
 import org.uniprot.store.job.common.converter.DocumentConverter;
-import org.uniprot.store.search.field.UniProtSearchFields;
 
 /**
  * @author jluo
@@ -44,13 +46,18 @@ class UniRefSearchEngine extends AbstractSearchEngine<Entry> {
     }
 
     @Override
+    protected SearchFieldConfig getSearchFieldConfig() {
+        return SearchFieldConfigFactory.getSearchFieldConfig(UniProtDataType.UNIREF);
+    }
+
+    @Override
     protected String identifierQuery(String entryId) {
-        return UniProtSearchFields.UNIREF.getField("id").getName() + ":" + entryId;
+        return getSearchFieldConfig().getSearchFieldItemByName("id").getFieldName() + ":" + entryId;
     }
 
     @SuppressWarnings("rawtypes")
     @Override
     protected String identifierField() {
-        return UniProtSearchFields.UNIREF.getField("id").getName();
+        return getSearchFieldConfig().getSearchFieldItemByName("id").getFieldName();
     }
 }

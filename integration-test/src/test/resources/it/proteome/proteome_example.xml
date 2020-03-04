@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<proteomes xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+<proteomes elementFormDefault="qualified">
 <proteome upid="UP000000718" modified="2018-11-09Z" taxonomy="289376" source="ENA/EMBL" sourceTaxonomy="289376" superregnum="bacteria">
     <name>Thermodesulfovibrio yellowstonii (strain ATCC 51303 / DSM 11347 / YP87)</name>
     <description>Thermodesulfovibrio yellowstonii (strain ATCC 51303 / DSM 11347 / YP87) is a thermophilic sulfate-reducing bacterium isolated from a thermal vent in Yellowstone Lake in Wyoming, USA. It has the ability to use sulfate, thiosulfate, and sulfite as terminal electron acceptors. Pyruvate can support fermentative growth.</description>
