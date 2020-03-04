@@ -57,4 +57,6 @@ public class SchemaValidator {
         }
         return inputStream;
     }
+
+    private SchemaValidator() {}
 }

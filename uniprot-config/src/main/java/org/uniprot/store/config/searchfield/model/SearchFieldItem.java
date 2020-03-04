@@ -31,7 +31,8 @@ public class SearchFieldItem implements Serializable {
     private String sortFieldId;
 
     @Data
-    public static class Value {
+    public static class Value implements Serializable {
+        private static final long serialVersionUID = -9202109334799936104L;
         private String name;
         private String value;
     }

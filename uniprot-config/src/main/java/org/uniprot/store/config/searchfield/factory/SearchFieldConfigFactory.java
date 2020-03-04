@@ -1,7 +1,7 @@
 package org.uniprot.store.config.searchfield.factory;
 
 import java.util.Collections;
-import java.util.HashMap;
+import java.util.EnumMap;
 import java.util.Map;
 
 import lombok.NonNull;
@@ -36,11 +36,11 @@ public class SearchFieldConfigFactory {
             "search-fields-config/uniref-search-fields.json";
 
     private static final Map<UniProtDataType, SearchFieldConfig> TYPE_SEARCHFIELDCONFIG_MAP =
-            new HashMap<>();
+            new EnumMap<>(UniProtDataType.class);
     private static final Map<UniProtDataType, String> TYPE_CONFIGFILE_MAP;
 
     static {
-        Map<UniProtDataType, String> typeConfigMap = new HashMap<>();
+        Map<UniProtDataType, String> typeConfigMap = new EnumMap<>(UniProtDataType.class);
         typeConfigMap.put(UniProtDataType.CROSSREF, CROSSREF_CONFIG_FILE);
         typeConfigMap.put(UniProtDataType.DISEASE, DISEASE_CONFIG_FILE);
         typeConfigMap.put(UniProtDataType.GENECENTRIC, GENECENTRIC_CONFIG_FILE);
@@ -66,4 +66,6 @@ public class SearchFieldConfigFactory {
 
         return searchFieldConfig;
     }
+
+    private SearchFieldConfigFactory() {}
 }

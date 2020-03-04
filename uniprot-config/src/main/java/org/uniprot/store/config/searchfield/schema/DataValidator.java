@@ -107,4 +107,6 @@ public class DataValidator {
     private static boolean hasSortFieldId(SearchFieldItem fi) {
         return Objects.nonNull(fi.getSortFieldId());
     }
+
+    private DataValidator() {}
 }
