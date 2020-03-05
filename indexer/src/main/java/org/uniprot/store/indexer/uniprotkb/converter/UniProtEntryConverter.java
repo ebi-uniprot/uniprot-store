@@ -112,7 +112,7 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtEntry, Un
             referencesConverter.convertReferences(source.getReferences(), document);
             commentsConverter.convertCommentToDocument(source.getComments(), document);
             crossReferenceConverter.convertCrossReferences(
-                    source.getDatabaseCrossReferences(), document);
+                    source.getUniProtCrossReferences(), document);
             featureConverter.convertFeature(source.getFeatures(), document);
             convertUniprotId(source.getUniProtId(), document);
             convertEntryAudit(source.getEntryAudit(), document);
@@ -150,13 +150,13 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtEntry, Un
         List<Evidence> evidences = uniProtEntry.gatherEvidences();
         document.sources =
                 evidences.stream()
-                        .map(Evidence::getSource)
+                        .map(Evidence::getEvidenceCrossReference)
                         .filter(Objects::nonNull)
                         .map(CrossReference::getDatabase)
                         .filter(
                                 val ->
                                         (val != null)
-                                                && val.getDetail().getCategory()
+                                                && val.getEvidenceDatabaseDetail().getCategory()
                                                         == EvidenceDatabaseCategory.A)
                         .map(
                                 val -> {

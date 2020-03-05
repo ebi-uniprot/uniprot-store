@@ -26,7 +26,7 @@ public class LiteratureMappingItemReader implements ItemReader<LiteratureStoreEn
             String entryPubmedId =
                     entry.getLiteratureEntry()
                             .getCitation()
-                            .getCitationXrefsByType(CitationDatabase.PUBMED)
+                            .getCitationCrossReferenceByType(CitationDatabase.PUBMED)
                             .map(CrossReference::getId)
                             .orElse("");
             LiteratureStoreEntryBuilder itemBuilder = LiteratureStoreEntryBuilder.from(entry);
@@ -35,7 +35,7 @@ public class LiteratureMappingItemReader implements ItemReader<LiteratureStoreEn
                         nextEntry
                                 .getLiteratureEntry()
                                 .getCitation()
-                                .getCitationXrefsByType(CitationDatabase.PUBMED)
+                                .getCitationCrossReferenceByType(CitationDatabase.PUBMED)
                                 .map(CrossReference::getId)
                                 .orElse("");
                 if (entryPubmedId.equals(nextPubmedId)) {

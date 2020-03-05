@@ -158,9 +158,9 @@ class UniProtEntryCommentsConverter implements Serializable {
                     .forEach(
                             val -> {
                                 document.cofactorChebi.add(val.getName());
-                                if (val.getCofactorReference().getDatabase()
+                                if (val.getCofactorCrossReference().getDatabase()
                                         == CofactorDatabase.CHEBI) {
-                                    String referenceId = val.getCofactorReference().getId();
+                                    String referenceId = val.getCofactorCrossReference().getId();
                                     String id = referenceId;
                                     if (id.startsWith("CHEBI:"))
                                         id = id.substring("CHEBI:".length());
@@ -478,10 +478,10 @@ class UniProtEntryCommentsConverter implements Serializable {
     private void convertCatalyticActivity(CatalyticActivityComment comment, UniProtDocument doc) {
         Reaction reaction = comment.getReaction();
 
-        if (reaction.hasReactionReferences()) {
+        if (reaction.hasReactionCrossReferences()) {
             String field = this.getCommentField(comment);
             List<CrossReference<ReactionDatabase>> reactionReferences =
-                    reaction.getReactionReferences();
+                    reaction.getReactionCrossReferences();
             reactionReferences.forEach(
                     val -> {
                         Collection<String> value =

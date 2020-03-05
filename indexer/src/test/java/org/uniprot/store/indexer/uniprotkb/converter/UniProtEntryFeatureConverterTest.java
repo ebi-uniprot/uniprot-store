@@ -95,7 +95,7 @@ class UniProtEntryFeatureConverterTest {
 
         CrossReference<FeatureDatabase> xrefs =
                 new CrossReferenceBuilder<FeatureDatabase>()
-                        .databaseType(FeatureDatabase.DBSNP)
+                        .database(FeatureDatabase.DBSNP)
                         .id("DBSNP-12345")
                         .build();
 
@@ -104,7 +104,7 @@ class UniProtEntryFeatureConverterTest {
         return new FeatureBuilder()
                 .type(FeatureType.CHAIN)
                 .alternativeSequence(alternativeSequence)
-                .dbXref(xrefs)
+                .featureCrossReference(xrefs)
                 .description("description value")
                 .evidencesSet(evidences)
                 .featureId("FT12345")

@@ -39,9 +39,9 @@ public class FlatFileToCatalyticActivityChebi
                                 CatalyticActivityComment comment =
                                         (CatalyticActivityComment) catalytic;
                                 Reaction reaction = comment.getReaction();
-                                if (reaction.hasReactionReferences()) {
+                                if (reaction.hasReactionCrossReferences()) {
                                     List<CrossReference<ReactionDatabase>> references =
-                                            reaction.getReactionReferences();
+                                            reaction.getReactionCrossReferences();
                                     references.stream()
                                             .filter(
                                                     ref ->

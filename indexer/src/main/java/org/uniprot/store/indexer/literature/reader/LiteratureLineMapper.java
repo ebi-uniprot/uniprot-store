@@ -95,18 +95,18 @@ public class LiteratureLineMapper extends DefaultLineMapper<LiteratureEntry> {
         String pubmedId = rxLineArray[0].substring(rxLineArray[0].indexOf('=') + 1);
         CrossReference<CitationDatabase> pubmedXref =
                 new CrossReferenceBuilder<CitationDatabase>()
-                        .databaseType(CitationDatabase.PUBMED)
+                        .database(CitationDatabase.PUBMED)
                         .id(pubmedId)
                         .build();
-        builder = builder.citationXrefsAdd(pubmedXref);
+        builder = builder.citationCrossReferencesAdd(pubmedXref);
         if (rxLineArray.length > 1) {
             String doiId = rxLineArray[1].substring(rxLineArray[1].indexOf('=') + 1);
             CrossReference<CitationDatabase> doiXref =
                     new CrossReferenceBuilder<CitationDatabase>()
-                            .databaseType(CitationDatabase.DOI)
+                            .database(CitationDatabase.DOI)
                             .id(doiId)
                             .build();
-            builder = builder.citationXrefsAdd(doiXref);
+            builder = builder.citationCrossReferencesAdd(doiXref);
         }
         return builder;
     }

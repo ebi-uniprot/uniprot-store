@@ -28,7 +28,7 @@ public class UniParcDocumentConverter implements DocumentConverter<UniParcEntry,
                 .sequenceChecksum(uniparcEntry.getSequence().getCrc64())
                 .taxLineageIds(getTaxonomies(uniparcEntry));
         getTaxonomies(uniparcEntry).stream().map(String::valueOf).forEach(builder::contentAdd);
-        uniparcEntry.getDbXReferences().forEach(val -> processDbReference(val, builder));
+        uniparcEntry.getUniParcCrossReferences().forEach(val -> processDbReference(val, builder));
         return builder.build();
     }
 

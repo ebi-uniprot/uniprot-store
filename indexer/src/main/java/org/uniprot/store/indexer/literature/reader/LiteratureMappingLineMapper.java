@@ -60,11 +60,12 @@ public class LiteratureMappingLineMapper extends DefaultLineMapper<LiteratureSto
 
             CrossReference<CitationDatabase> xref =
                     new CrossReferenceBuilder<CitationDatabase>()
-                            .databaseType(CitationDatabase.PUBMED)
+                            .database(CitationDatabase.PUBMED)
                             .id(lineFields[2])
                             .build();
 
-            Literature literature = new LiteratureBuilder().citationXrefsAdd(xref).build();
+            Literature literature =
+                    new LiteratureBuilder().citationCrossReferencesAdd(xref).build();
 
             LiteratureEntry entry = new LiteratureEntryBuilder().citation(literature).build();
 
