@@ -13,6 +13,7 @@ import java.io.Serializable;
  * @since 2020-02-25
  */
 @Data
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class ReturnField implements Field, Serializable {
     private static final long serialVersionUID = 606080616718758299L;
 
@@ -24,9 +25,7 @@ public class ReturnField implements Field, Serializable {
     private String label;
     private String path;
     private String filter;
-    @JsonInclude(JsonInclude.Include.NON_NULL)
     private String groupName;
-    @JsonInclude(JsonInclude.Include.NON_NULL)
     private Boolean isDatabaseGroup;
     @NotNull private String id;
 }

@@ -1,18 +1,17 @@
 {
-  "$schema" : "http://json-schema.org/draft-07/schema#",
-  "title" : "Field Item []",
+  "$schema" : "http://json-schema.org/draft-04/schema#",
+  "title" : "Return Field []",
   "type" : "array",
-  "uniqueItems": true,
   "items" : {
-    "$ref" : "#/definitions/FieldItem"
+    "$ref" : "#/definitions/ReturnField"
   },
   "definitions" : {
-    "FieldItem" : {
+    "ReturnField" : {
       "type" : "object",
       "additionalProperties" : false,
       "properties" : {
-        "id" : {
-          "type" : "string"
+        "seqNumber" : {
+          "type" : "integer"
         },
         "parentId" : {
           "type" : "string"
@@ -20,77 +19,33 @@
         "childNumber" : {
           "type" : "integer"
         },
-        "seqNumber" : {
-          "type" : "integer"
-        },
         "itemType" : {
           "type" : "string",
-          "enum" : [ "group", "single", "sibling_group" ]
+          "enum" : [ "GROUP", "SINGLE" ]
         },
-        "fieldType" : {
-          "type" : "string",
-          "enum" : [ "field", "range", "evidence", "sort" ]
+        "name" : {
+          "type" : "string"
         },
         "label" : {
           "type" : "string"
         },
-        "fieldName" : {
+        "path" : {
           "type" : "string"
         },
-        "dataType" : {
-          "type" : "string",
-          "enum" : [ "string", "integer", "enumeration", "date" ]
-        },
-        "description" : {
+        "filter" : {
           "type" : "string"
         },
-        "example" : {
+        "groupName" : {
           "type" : "string"
         },
-        "validRegex" : {
-          "type" : "string"
+        "isDatabaseGroup" : {
+          "type" : "boolean"
         },
-        "values" : {
-          "type" : "array",
-          "items" : {
-            "$ref" : "#/definitions/Value"
-          }
-        },
-        "autoComplete" : {
-          "type" : "string"
-        },
-        "autoCompleteQueryField" : {
-          "type" : "string"
-        },
-        "autoCompleteQueryFieldValidRegex" : {
-          "type" : "string"
-        },
-        "sortFieldId" : {
+        "id" : {
           "type" : "string"
         }
       },
-      "required" : ["id"],
-      "dependencies": {
-        "childNumber": ["id", "parentId", "itemType"],
-        "fieldName": ["fieldType", "dataType", "example", "description"],
-        "fieldType": ["fieldName"],
-        "autoComplete": ["autoCompleteQueryField"],
-        "seqNumber": ["itemType", "label"],
-        "autoCompleteQueryField": ["autoComplete"],
-        "autoCompleteQueryFieldValidRegex": ["autoComplete"]
-      }
-    },
-    "Value" : {
-      "type" : "object",
-      "additionalProperties" : false,
-      "properties" : {
-        "name" : {
-          "type" : "string"
-        },
-        "value" : {
-          "type" : "string"
-        }
-      }
+      "required" : [ "itemType", "id" ]
     }
   }
 }

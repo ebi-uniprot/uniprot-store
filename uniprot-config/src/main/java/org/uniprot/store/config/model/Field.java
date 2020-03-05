@@ -8,7 +8,9 @@ package org.uniprot.store.config.model;
 public interface Field {
     String getId();
 
-    Integer getChildNumber();
     Integer getSeqNumber();
+
     String getParentId();
+
+    Integer getChildNumber();
 }

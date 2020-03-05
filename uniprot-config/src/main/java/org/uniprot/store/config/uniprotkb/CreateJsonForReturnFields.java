@@ -56,9 +56,11 @@ public class CreateJsonForReturnFields {
             JsonNode child, ReturnField parent, AtomicInteger childPosition) {
         String label = child.get("label").asText();
         ReturnField returnField = new ReturnField();
+        returnField.setPath("fill me in!");
+        returnField.setFilter("fill me in if needed!");
         returnField.setName(child.get("name").asText());
         returnField.setLabel(label);
-        returnField.setParentId(parent.getGroupName());
+        returnField.setParentId(parent.getId());
         returnField.setChildNumber(childPosition.getAndIncrement());
         returnField.setItemType(ResultFieldItemType.SINGLE);
         returnField.setId(parent.getId() + "/" + label.replace(" ", "_").toLowerCase());

@@ -11,30 +11,27 @@ import org.uniprot.store.config.schema.SchemaValidator;
 
 import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 @Slf4j
-public class AbstractReturnFieldConfig implements ReturnFieldConfig {
+public class ReturnFieldConfigImpl implements ReturnFieldConfig {
     private static final String SCHEMA_FILE = "schema/result-fields-schema.json";
 
     private List<ReturnField> allFields;
     private List<ReturnField> returnFields;
-    private Set<String> ids;
 
-    protected AbstractReturnFieldConfig(String schemaFile, String configFile) {
-        SchemaValidator.validate(schemaFile, configFile);
-        init();
+    public ReturnFieldConfigImpl(String configFile) {
+        SchemaValidator.validate(SCHEMA_FILE, configFile);
+        init(configFile);
         new ReturnFieldDataValidator().validateContent(this.allFields);
     }
 
-    private void init() {
+    private void init(String configFile) {
         ObjectMapper mapper = new ObjectMapper();
         JavaType type =
                 mapper.getTypeFactory().constructCollectionType(List.class, ReturnField.class);
 
-        this.allFields = JsonLoader.loadItems(SCHEMA_FILE, mapper, type);
-        this.ids = this.allFields.stream().map(ReturnField::getId).collect(Collectors.toSet());
+        this.allFields = JsonLoader.loadItems(configFile, mapper, type);
     }
 
     @Override
@@ -54,7 +51,7 @@ public class AbstractReturnFieldConfig implements ReturnFieldConfig {
     }
 
     private boolean isReturnField(ReturnField returnField) {
-        return Utils.notNullNotEmpty(returnField.getGroupName());
+        return Utils.nullOrEmpty(returnField.getGroupName());
     }
 
     @Override
