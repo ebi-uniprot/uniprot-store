@@ -15,7 +15,6 @@ import org.uniprot.core.uniparc.UniParcDatabase;
 import org.uniprot.core.xml.jaxb.uniparc.DbReferenceType;
 import org.uniprot.core.xml.jaxb.uniparc.Entry;
 import org.uniprot.store.search.field.QueryBuilder;
-import org.uniprot.store.search.field.UniProtSearchFields;
 
 class OrganismSearchIT {
     @RegisterExtension static UniParcSearchEngine searchEngine = new UniParcSearchEngine();
@@ -130,11 +129,19 @@ class OrganismSearchIT {
 
     private String taxonId(int value) {
         return QueryBuilder.query(
-                UniProtSearchFields.UNIPARC.getField("taxonomy_id").getName(), "" + value);
+                searchEngine
+                        .getSearchFieldConfig()
+                        .getSearchFieldItemByName("taxonomy_id")
+                        .getFieldName(),
+                "" + value);
     }
 
     private String organismName(String value) {
         return QueryBuilder.query(
-                UniProtSearchFields.UNIPARC.getField("taxonomy_name").getName(), value);
+                searchEngine
+                        .getSearchFieldConfig()
+                        .getSearchFieldItemByName("taxonomy_name")
+                        .getFieldName(),
+                value);
     }
 }

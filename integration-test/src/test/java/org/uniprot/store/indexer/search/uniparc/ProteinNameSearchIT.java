@@ -15,7 +15,6 @@ import org.uniprot.core.uniparc.UniParcDatabase;
 import org.uniprot.core.xml.jaxb.uniparc.DbReferenceType;
 import org.uniprot.core.xml.jaxb.uniparc.Entry;
 import org.uniprot.store.search.field.QueryBuilder;
-import org.uniprot.store.search.field.UniProtSearchFields;
 
 class ProteinNameSearchIT {
     @RegisterExtension static UniParcSearchEngine searchEngine = new UniParcSearchEngine();
@@ -329,6 +328,11 @@ class ProteinNameSearchIT {
     }
 
     private String proteinName(String value) {
-        return QueryBuilder.query(UniProtSearchFields.UNIPARC.getField("protein").getName(), value);
+        return QueryBuilder.query(
+                searchEngine
+                        .getSearchFieldConfig()
+                        .getSearchFieldItemByName("protein")
+                        .getFieldName(),
+                value);
     }
 }

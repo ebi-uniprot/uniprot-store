@@ -1,0 +1,26 @@
+[
+  {
+    "id": "id",
+    "fieldName": "id",
+    "fieldType": "GENERAL",
+    "dataType": "STRING",
+    "description": "Search by id",
+    "example": "sample id"
+  },
+  {
+    "id": "dict",
+    "fieldName": "dict",
+    "fieldType": "GENERAL",
+    "dataType": "STRING",
+    "description": "Search by dict",
+    "example": "sample dict value"
+  },
+  {
+    "id": "content",
+    "fieldName": "content",
+    "fieldType": "GENERAL",
+    "dataType": "STRING",
+    "description": "Search by any content",
+    "example": "cell"
+  }
+]

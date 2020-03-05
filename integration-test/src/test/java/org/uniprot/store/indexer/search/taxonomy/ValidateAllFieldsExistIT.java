@@ -4,7 +4,6 @@ import org.junit.jupiter.api.extension.RegisterExtension;
 import org.uniprot.store.indexer.search.AbstractSearchEngine;
 import org.uniprot.store.indexer.search.AbstractValidateAllFieldsExist;
 import org.uniprot.store.search.document.taxonomy.TaxonomyDocument;
-import org.uniprot.store.search.field.UniProtSearchFields;
 
 /**
  * This class tests that all taxonomy search fields can be queried against.
@@ -18,9 +17,5 @@ class ValidateAllFieldsExistIT extends AbstractValidateAllFieldsExist<TaxonomyDo
 
     protected AbstractSearchEngine<TaxonomyDocument> getSearchEngine() {
         return searchEngine;
-    }
-
-    protected UniProtSearchFields getSearchFieldType() {
-        return UniProtSearchFields.TAXONOMY;
     }
 }

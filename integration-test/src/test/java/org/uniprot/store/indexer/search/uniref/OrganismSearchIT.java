@@ -14,7 +14,6 @@ import org.junit.jupiter.api.extension.RegisterExtension;
 import org.uniprot.core.xml.jaxb.uniref.Entry;
 import org.uniprot.core.xml.jaxb.uniref.PropertyType;
 import org.uniprot.store.search.field.QueryBuilder;
-import org.uniprot.store.search.field.UniProtSearchFields;
 
 class OrganismSearchIT {
     private static final String ID_1 = "UniRef100_A0A007";
@@ -76,12 +75,20 @@ class OrganismSearchIT {
 
     private String organismQuery(String organism) {
         return QueryBuilder.query(
-                UniProtSearchFields.UNIREF.getField("taxonomy_name").getName(), organism);
+                searchEngine
+                        .getSearchFieldConfig()
+                        .getSearchFieldItemByName("taxonomy_name")
+                        .getFieldName(),
+                organism);
     }
 
     private String taxIdQuery(String taxId) {
         return QueryBuilder.query(
-                UniProtSearchFields.UNIREF.getField("taxonomy_id").getName(), taxId);
+                searchEngine
+                        .getSearchFieldConfig()
+                        .getSearchFieldItemByName("taxonomy_id")
+                        .getFieldName(),
+                taxId);
     }
 
     static List<PropertyType> createEntryOrganismProperty(String organism, String taxId) {

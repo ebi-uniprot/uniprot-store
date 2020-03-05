@@ -13,7 +13,6 @@ import org.junit.jupiter.api.extension.RegisterExtension;
 import org.uniprot.core.uniparc.UniParcDatabase;
 import org.uniprot.core.xml.jaxb.uniparc.Entry;
 import org.uniprot.store.search.field.QueryBuilder;
-import org.uniprot.store.search.field.UniProtSearchFields;
 
 class DatabaseSearchIT {
     @RegisterExtension static UniParcSearchEngine searchEngine = new UniParcSearchEngine();
@@ -132,19 +131,38 @@ class DatabaseSearchIT {
     }
 
     private String active(String dbname) {
-        return QueryBuilder.query(UniProtSearchFields.UNIPARC.getField("active").getName(), dbname);
+        return QueryBuilder.query(
+                searchEngine
+                        .getSearchFieldConfig()
+                        .getSearchFieldItemByName("active")
+                        .getFieldName(),
+                dbname);
     }
 
     private String database(String dbname) {
         return QueryBuilder.query(
-                UniProtSearchFields.UNIPARC.getField("database").getName(), dbname);
+                searchEngine
+                        .getSearchFieldConfig()
+                        .getSearchFieldItemByName("database")
+                        .getFieldName(),
+                dbname);
     }
 
     String uniprot(String acc) {
-        return QueryBuilder.query(UniProtSearchFields.UNIPARC.getField("accession").getName(), acc);
+        return QueryBuilder.query(
+                searchEngine
+                        .getSearchFieldConfig()
+                        .getSearchFieldItemByName("accession")
+                        .getFieldName(),
+                acc);
     }
 
     String isoform(String acc) {
-        return QueryBuilder.query(UniProtSearchFields.UNIPARC.getField("isoform").getName(), acc);
+        return QueryBuilder.query(
+                searchEngine
+                        .getSearchFieldConfig()
+                        .getSearchFieldItemByName("isoform")
+                        .getFieldName(),
+                acc);
     }
 }

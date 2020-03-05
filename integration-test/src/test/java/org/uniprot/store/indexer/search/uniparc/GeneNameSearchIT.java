@@ -16,7 +16,6 @@ import org.uniprot.core.uniparc.UniParcDatabase;
 import org.uniprot.core.xml.jaxb.uniparc.DbReferenceType;
 import org.uniprot.core.xml.jaxb.uniparc.Entry;
 import org.uniprot.store.search.field.QueryBuilder;
-import org.uniprot.store.search.field.UniProtSearchFields;
 
 class GeneNameSearchIT {
     @RegisterExtension static UniParcSearchEngine searchEngine = new UniParcSearchEngine();
@@ -177,6 +176,8 @@ class GeneNameSearchIT {
     }
 
     private String gene(String value) {
-        return QueryBuilder.query(UniProtSearchFields.UNIPARC.getField("gene").getName(), value);
+        return QueryBuilder.query(
+                searchEngine.getSearchFieldConfig().getSearchFieldItemByName("gene").getFieldName(),
+                value);
     }
 }

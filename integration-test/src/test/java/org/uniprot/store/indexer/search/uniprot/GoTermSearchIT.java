@@ -17,7 +17,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;
 import org.uniprot.core.flatfile.writer.LineType;
 import org.uniprot.store.search.field.QueryBuilder;
-import org.uniprot.store.search.field.UniProtSearchFields;
 
 /** Test the behaviour of searching GO terms */
 class GoTermSearchIT {
@@ -123,7 +122,10 @@ class GoTermSearchIT {
 
     @Test
     void goExactlyCorrectTerms() {
-        String query = query(UniProtSearchFields.UNIPROTKB.getField("accession"), GO_1);
+        String query =
+                query(
+                        searchEngine.getSearchFieldConfig().getSearchFieldItemByName("accession"),
+                        GO_1);
         query = QueryBuilder.and(query, goTerm("host cell membrane"));
 
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -134,7 +136,10 @@ class GoTermSearchIT {
 
     @Test
     void goPartialTermListMiddleWordMissing() {
-        String query = query(UniProtSearchFields.UNIPROTKB.getField("accession"), GO_1);
+        String query =
+                query(
+                        searchEngine.getSearchFieldConfig().getSearchFieldItemByName("accession"),
+                        GO_1);
         query = QueryBuilder.and(QueryBuilder.and(query, goTerm("host")), goTerm("membrane"));
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -144,7 +149,10 @@ class GoTermSearchIT {
 
     @Test
     void goPartialTermList() {
-        String query = query(UniProtSearchFields.UNIPROTKB.getField("accession"), GO_1);
+        String query =
+                query(
+                        searchEngine.getSearchFieldConfig().getSearchFieldItemByName("accession"),
+                        GO_1);
         query = QueryBuilder.and(query, goTerm("cell membrane"));
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -154,7 +162,10 @@ class GoTermSearchIT {
 
     @Test
     void goExactTermsWhichUse5And3Prime() {
-        String query = query(UniProtSearchFields.UNIPROTKB.getField("accession"), GO_3);
+        String query =
+                query(
+                        searchEngine.getSearchFieldConfig().getSearchFieldItemByName("accession"),
+                        GO_3);
         query = QueryBuilder.and(query, goTerm("3'-5'-exoribonuclease activity"));
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -164,7 +175,10 @@ class GoTermSearchIT {
 
     @Test
     void goPartialWith5And3Prime() {
-        String query = query(UniProtSearchFields.UNIPROTKB.getField("accession"), GO_3);
+        String query =
+                query(
+                        searchEngine.getSearchFieldConfig().getSearchFieldItemByName("accession"),
+                        GO_3);
         query = QueryBuilder.and(query, goTerm("exoribonuclease"));
 
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -175,7 +189,10 @@ class GoTermSearchIT {
 
     @Test
     void goExact1Comma6() {
-        String query = query(UniProtSearchFields.UNIPROTKB.getField("accession"), GO_4);
+        String query =
+                query(
+                        searchEngine.getSearchFieldConfig().getSearchFieldItemByName("accession"),
+                        GO_4);
         query = QueryBuilder.and(query, goTerm("alpha-1,6-mannosyltransferase activity"));
 
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -246,7 +263,7 @@ class GoTermSearchIT {
     }
 
     private String goTerm(String term) {
-        return query(UniProtSearchFields.UNIPROTKB.getField("go"), term);
+        return query(searchEngine.getSearchFieldConfig().getSearchFieldItemByName("go"), term);
     }
 
     private static final String GO_DYNAMIC_PREFIX = "go_";

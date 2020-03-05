@@ -18,7 +18,6 @@ import org.uniprot.core.xml.XmlChainIterator;
 import org.uniprot.core.xml.jaxb.proteome.Proteome;
 import org.uniprot.store.search.document.proteome.ProteomeDocument;
 import org.uniprot.store.search.field.QueryBuilder;
-import org.uniprot.store.search.field.UniProtSearchFields;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -151,17 +150,27 @@ class ProteomeSearchIT {
     }
 
     private String upid(String upid) {
-        return QueryBuilder.query(UniProtSearchFields.PROTEOME.getField("upid").getName(), upid);
+        return QueryBuilder.query(
+                searchEngine.getSearchFieldConfig().getSearchFieldItemByName("upid").getFieldName(),
+                upid);
     }
 
     private String taxonomy(int taxId) {
         return QueryBuilder.query(
-                UniProtSearchFields.PROTEOME.getField("taxonomy_id").getName(), "" + taxId);
+                searchEngine
+                        .getSearchFieldConfig()
+                        .getSearchFieldItemByName("taxonomy_id")
+                        .getFieldName(),
+                "" + taxId);
     }
 
     private String isRedudant(Boolean b) {
 
         return QueryBuilder.query(
-                UniProtSearchFields.PROTEOME.getField("redundant").getName(), b.toString());
+                searchEngine
+                        .getSearchFieldConfig()
+                        .getSearchFieldItemByName("redundant")
+                        .getFieldName(),
+                b.toString());
     }
 }
