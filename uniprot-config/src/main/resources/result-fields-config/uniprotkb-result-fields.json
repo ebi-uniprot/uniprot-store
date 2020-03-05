@@ -12,8 +12,7 @@
     "itemType": "SINGLE",
     "name": "accession",
     "label": "Entry",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "primaryAccession",
     "id": "names_&_taxonomy/entry"
   },
   {
@@ -22,8 +21,7 @@
     "itemType": "SINGLE",
     "name": "id",
     "label": "Entry Name",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "uniProtId",
     "id": "names_&_taxonomy/entry_name"
   },
   {
@@ -32,8 +30,7 @@
     "itemType": "SINGLE",
     "name": "gene_names",
     "label": "Gene Names",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "genes",
     "id": "names_&_taxonomy/gene_names"
   },
   {
@@ -42,7 +39,7 @@
     "itemType": "SINGLE",
     "name": "gene_oln",
     "label": "Gene Names (ordered locus)",
-    "path": "fill me in!",
+    "path": "genes.*.orderedLocusNames.*.value",
     "filter": "fill me in if needed!",
     "id": "names_&_taxonomy/gene_names_(ordered_locus)"
   },
@@ -52,8 +49,7 @@
     "itemType": "SINGLE",
     "name": "gene_orf",
     "label": "Gene Names (ORF)",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "genes.*.orfNames.*.value",
     "id": "names_&_taxonomy/gene_names_(orf)"
   },
   {
