@@ -8,10 +8,10 @@ import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.batch.item.file.mapping.DefaultLineMapper;
-import org.uniprot.core.DBCrossReference;
-import org.uniprot.core.builder.DBCrossReferenceBuilder;
+import org.uniprot.core.CrossReference;
+import org.uniprot.core.builder.CrossReferenceBuilder;
 import org.uniprot.core.citation.Author;
-import org.uniprot.core.citation.CitationXrefType;
+import org.uniprot.core.citation.CitationDatabase;
 import org.uniprot.core.citation.Literature;
 import org.uniprot.core.citation.builder.LiteratureBuilder;
 import org.uniprot.core.citation.impl.AuthorImpl;
@@ -93,17 +93,17 @@ public class LiteratureLineMapper extends DefaultLineMapper<LiteratureEntry> {
         String rxLine = String.join("", rxLines);
         String[] rxLineArray = rxLine.split(ID_SEPARATOR);
         String pubmedId = rxLineArray[0].substring(rxLineArray[0].indexOf('=') + 1);
-        DBCrossReference<CitationXrefType> pubmedXref =
-                new DBCrossReferenceBuilder<CitationXrefType>()
-                        .databaseType(CitationXrefType.PUBMED)
+        CrossReference<CitationDatabase> pubmedXref =
+                new CrossReferenceBuilder<CitationDatabase>()
+                        .databaseType(CitationDatabase.PUBMED)
                         .id(pubmedId)
                         .build();
         builder = builder.citationXrefsAdd(pubmedXref);
         if (rxLineArray.length > 1) {
             String doiId = rxLineArray[1].substring(rxLineArray[1].indexOf('=') + 1);
-            DBCrossReference<CitationXrefType> doiXref =
-                    new DBCrossReferenceBuilder<CitationXrefType>()
-                            .databaseType(CitationXrefType.DOI)
+            CrossReference<CitationDatabase> doiXref =
+                    new CrossReferenceBuilder<CitationDatabase>()
+                            .databaseType(CitationDatabase.DOI)
                             .id(doiId)
                             .build();
             builder = builder.citationXrefsAdd(doiXref);

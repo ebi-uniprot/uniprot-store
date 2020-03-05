@@ -6,7 +6,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-import org.uniprot.core.DBCrossReference;
+import org.uniprot.core.CrossReference;
 import org.uniprot.core.Value;
 import org.uniprot.core.flatfile.parser.impl.cc.CCLineBuilderFactory;
 import org.uniprot.core.flatfile.writer.FFLineBuilder;
@@ -158,8 +158,8 @@ class UniProtEntryCommentsConverter implements Serializable {
                     .forEach(
                             val -> {
                                 document.cofactorChebi.add(val.getName());
-                                if (val.getCofactorReference().getDatabaseType()
-                                        == CofactorReferenceType.CHEBI) {
+                                if (val.getCofactorReference().getDatabase()
+                                        == CofactorDatabase.CHEBI) {
                                     String referenceId = val.getCofactorReference().getId();
                                     String id = referenceId;
                                     if (id.startsWith("CHEBI:"))
@@ -480,7 +480,7 @@ class UniProtEntryCommentsConverter implements Serializable {
 
         if (reaction.hasReactionReferences()) {
             String field = this.getCommentField(comment);
-            List<DBCrossReference<ReactionReferenceType>> reactionReferences =
+            List<CrossReference<ReactionDatabase>> reactionReferences =
                     reaction.getReactionReferences();
             reactionReferences.forEach(
                     val -> {

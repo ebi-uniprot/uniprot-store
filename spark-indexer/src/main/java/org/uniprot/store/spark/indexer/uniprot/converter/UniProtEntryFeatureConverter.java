@@ -40,7 +40,7 @@ class UniProtEntryFeatureConverter {
             }
             if (feature.hasDbXref()) {
                 String xrefId = feature.getDbXref().getId();
-                String dbName = feature.getDbXref().getDatabaseType().getName();
+                String dbName = feature.getDbXref().getDatabase().getName();
                 featuresOfTypeList.addAll(UniProtEntryConverterUtil.getXrefId(xrefId, dbName));
                 document.content.addAll(UniProtEntryConverterUtil.getXrefId(xrefId, dbName));
             }

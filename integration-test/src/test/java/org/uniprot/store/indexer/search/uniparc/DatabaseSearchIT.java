@@ -10,7 +10,7 @@ import org.apache.solr.client.solrj.response.QueryResponse;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;
-import org.uniprot.core.uniparc.UniParcDatabaseType;
+import org.uniprot.core.uniparc.UniParcDatabase;
 import org.uniprot.core.xml.jaxb.uniparc.Entry;
 import org.uniprot.store.search.field.QueryBuilder;
 
@@ -34,9 +34,7 @@ class DatabaseSearchIT {
             entry.setAccession(ID_1);
             entry.getDbReference().clear();
             entry.getDbReference()
-                    .add(
-                            TestUtils.createXref(
-                                    UniParcDatabaseType.TREMBL.getName(), ACC_P47986, "Y"));
+                    .add(TestUtils.createXref(UniParcDatabase.TREMBL.getName(), ACC_P47986, "Y"));
             searchEngine.indexEntry(entry);
         }
 
@@ -48,13 +46,13 @@ class DatabaseSearchIT {
             entry.getDbReference()
                     .add(
                             TestUtils.createXref(
-                                    UniParcDatabaseType.ENSEMBL_VERTEBRATE.getName(),
+                                    UniParcDatabase.ENSEMBL_VERTEBRATE.getName(),
                                     ACC_ENSP00000226587,
                                     "Y"));
             entry.getDbReference()
                     .add(
                             TestUtils.createXref(
-                                    UniParcDatabaseType.SWISSPROT_VARSPLIC.getName(),
+                                    UniParcDatabase.SWISSPROT_VARSPLIC.getName(),
                                     ACC_P47986_1,
                                     "Y"));
             searchEngine.indexEntry(entry);
@@ -66,15 +64,11 @@ class DatabaseSearchIT {
             entry.setAccession(ID_3);
             entry.getDbReference().clear();
             entry.getDbReference()
-                    .add(
-                            TestUtils.createXref(
-                                    UniParcDatabaseType.TREMBL.getName(), ACC_P47988, "N"));
+                    .add(TestUtils.createXref(UniParcDatabase.TREMBL.getName(), ACC_P47988, "N"));
             entry.getDbReference()
                     .add(
                             TestUtils.createXref(
-                                    UniParcDatabaseType.REFSEQ.getName(),
-                                    ACC_NC_000004_1185_0,
-                                    "Y"));
+                                    UniParcDatabase.REFSEQ.getName(), ACC_NC_000004_1185_0, "Y"));
             searchEngine.indexEntry(entry);
         }
 
@@ -105,7 +99,7 @@ class DatabaseSearchIT {
 
     @Test
     void testActiveTrembl() {
-        String query = active(UniParcDatabaseType.TREMBL.getName());
+        String query = active(UniParcDatabase.TREMBL.getName());
 
         QueryResponse queryResponse = searchEngine.getQueryResponse(query);
         List<String> retrievedAccessions = searchEngine.getIdentifiers(queryResponse);
@@ -116,7 +110,7 @@ class DatabaseSearchIT {
 
     @Test
     void testDBUniProt() {
-        String query = database(UniParcDatabaseType.TREMBL.getName());
+        String query = database(UniParcDatabase.TREMBL.getName());
 
         QueryResponse queryResponse = searchEngine.getQueryResponse(query);
         List<String> retrievedAccessions = searchEngine.getIdentifiers(queryResponse);
@@ -127,7 +121,7 @@ class DatabaseSearchIT {
 
     @Test
     void testDBREFSEQ() {
-        String query = database(UniParcDatabaseType.REFSEQ.getName());
+        String query = database(UniParcDatabase.REFSEQ.getName());
 
         QueryResponse queryResponse = searchEngine.getQueryResponse(query);
         List<String> retrievedAccessions = searchEngine.getIdentifiers(queryResponse);

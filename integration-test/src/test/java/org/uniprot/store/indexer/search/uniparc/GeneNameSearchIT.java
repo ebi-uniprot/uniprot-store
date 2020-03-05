@@ -12,7 +12,7 @@ import org.apache.solr.client.solrj.response.QueryResponse;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;
-import org.uniprot.core.uniparc.UniParcDatabaseType;
+import org.uniprot.core.uniparc.UniParcDatabase;
 import org.uniprot.core.xml.jaxb.uniparc.DbReferenceType;
 import org.uniprot.core.xml.jaxb.uniparc.Entry;
 import org.uniprot.store.search.field.QueryBuilder;
@@ -39,7 +39,7 @@ class GeneNameSearchIT {
             entry.getDbReference().clear();
 
             DbReferenceType xref =
-                    TestUtils.createXref(UniParcDatabaseType.TREMBL.getName(), "P47986", "Y");
+                    TestUtils.createXref(UniParcDatabase.TREMBL.getName(), "P47986", "Y");
             xref.getProperty().add(TestUtils.createProperty("gene_name", GN_ZNF705G));
             entry.getDbReference().add(xref);
             searchEngine.indexEntry(entry);
@@ -52,7 +52,7 @@ class GeneNameSearchIT {
             entry.getDbReference().clear();
 
             DbReferenceType xref =
-                    TestUtils.createXref(UniParcDatabaseType.TREMBL.getName(), "P47986", "Y");
+                    TestUtils.createXref(UniParcDatabase.TREMBL.getName(), "P47986", "Y");
             xref.getProperty().add(TestUtils.createProperty("gene_name", GN_HLA_A));
             entry.getDbReference().add(xref);
             searchEngine.indexEntry(entry);
@@ -65,7 +65,7 @@ class GeneNameSearchIT {
             entry.getDbReference().clear();
 
             DbReferenceType xref =
-                    TestUtils.createXref(UniParcDatabaseType.TREMBL.getName(), "P47986", "Y");
+                    TestUtils.createXref(UniParcDatabase.TREMBL.getName(), "P47986", "Y");
             xref.getProperty().add(TestUtils.createProperty("gene_name", GN_HLA_B));
             entry.getDbReference().add(xref);
             searchEngine.indexEntry(entry);
@@ -78,7 +78,7 @@ class GeneNameSearchIT {
             entry.getDbReference().clear();
 
             DbReferenceType xref =
-                    TestUtils.createXref(UniParcDatabaseType.TREMBL.getName(), "P47986", "Y");
+                    TestUtils.createXref(UniParcDatabase.TREMBL.getName(), "P47986", "Y");
             xref.getProperty().add(TestUtils.createProperty("gene_name", GN_LONG));
             entry.getDbReference().add(xref);
             searchEngine.indexEntry(entry);

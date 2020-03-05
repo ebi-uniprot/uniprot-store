@@ -9,9 +9,9 @@ import java.util.stream.Collectors;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import org.uniprot.core.cv.xdb.DatabaseCategory;
-import org.uniprot.core.cv.xdb.UniProtXDbTypeDetail;
-import org.uniprot.cv.xdb.UniProtXDbTypes;
+import org.uniprot.core.cv.xdb.UniProtDatabaseCategory;
+import org.uniprot.core.cv.xdb.UniProtDatabaseDetail;
+import org.uniprot.cv.xdb.UniProtDatabaseTypes;
 import org.uniprot.store.search.domain.impl.Databases;
 
 class DatabasesTest {
@@ -41,9 +41,9 @@ class DatabasesTest {
 
     @Test
     void testHasCorrectKnownCrossReferencesSize() {
-        List<UniProtXDbTypeDetail> allKnownCrossReferences =
-                UniProtXDbTypes.INSTANCE.getAllDBXRefTypes().stream()
-                        .filter(dbd -> !dbd.getCategory().equals(DatabaseCategory.UNKNOWN))
+        List<UniProtDatabaseDetail> allKnownCrossReferences =
+                UniProtDatabaseTypes.INSTANCE.getAllDbTypes().stream()
+                        .filter(dbd -> !dbd.getCategory().equals(UniProtDatabaseCategory.UNKNOWN))
                         .filter(dbd -> !dbd.isImplicit())
                         .collect(Collectors.toList());
 
@@ -68,7 +68,7 @@ class DatabasesTest {
                                 val ->
                                         val.getGroupName()
                                                 .equals(
-                                                        DatabaseCategory.typeOf("SEQ")
+                                                        UniProtDatabaseCategory.typeOf("SEQ")
                                                                 .getDisplayName())));
         assertFalse(groups.stream().anyMatch(val -> val.getGroupName().equals("GMA")));
         assertTrue(
@@ -84,7 +84,7 @@ class DatabasesTest {
                                 val ->
                                         val.getGroupName()
                                                 .equals(
-                                                        DatabaseCategory.typeOf("PFAM")
+                                                        UniProtDatabaseCategory.typeOf("PFAM")
                                                                 .getDisplayName()))
                         .findFirst();
 

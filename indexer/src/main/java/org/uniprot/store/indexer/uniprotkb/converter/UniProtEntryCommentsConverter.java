@@ -8,7 +8,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-import org.uniprot.core.DBCrossReference;
+import org.uniprot.core.CrossReference;
 import org.uniprot.core.Value;
 import org.uniprot.core.cv.chebi.ChebiEntry;
 import org.uniprot.core.cv.pathway.UniPathway;
@@ -172,8 +172,8 @@ class UniProtEntryCommentsConverter {
                     .forEach(
                             val -> {
                                 document.cofactorChebi.add(val.getName());
-                                if (val.getCofactorReference().getDatabaseType()
-                                        == CofactorReferenceType.CHEBI) {
+                                if (val.getCofactorReference().getDatabase()
+                                        == CofactorDatabase.CHEBI) {
                                     String referenceId = val.getCofactorReference().getId();
                                     String id = referenceId;
                                     if (id.startsWith("CHEBI:"))
@@ -509,13 +509,13 @@ class UniProtEntryCommentsConverter {
 
         if (reaction.hasReactionReferences()) {
             String field = this.getCommentField(comment);
-            List<DBCrossReference<ReactionReferenceType>> reactionReferences =
+            List<CrossReference<ReactionDatabase>> reactionReferences =
                     reaction.getReactionReferences();
             reactionReferences.stream()
-                    .filter(ref -> ref.getDatabaseType() == ReactionReferenceType.CHEBI)
+                    .filter(ref -> ref.getDatabase() == ReactionDatabase.CHEBI)
                     .forEach(val -> addCatalyticSuggestions(doc, field, val));
             reactionReferences.stream()
-                    .filter(ref -> ref.getDatabaseType() != ReactionReferenceType.CHEBI)
+                    .filter(ref -> ref.getDatabase() != ReactionDatabase.CHEBI)
                     .forEach(
                             val -> {
                                 Collection<String> value =
@@ -544,8 +544,8 @@ class UniProtEntryCommentsConverter {
     private void addCatalyticSuggestions(
             UniProtDocument document,
             String field,
-            DBCrossReference<ReactionReferenceType> reactionReference) {
-        if (reactionReference.getDatabaseType() == ReactionReferenceType.CHEBI) {
+            CrossReference<ReactionDatabase> reactionReference) {
+        if (reactionReference.getDatabase() == ReactionDatabase.CHEBI) {
             String referenceId = reactionReference.getId();
             int firstColon = referenceId.indexOf(':');
             String fullId = referenceId.substring(firstColon + 1);
