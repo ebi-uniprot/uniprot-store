@@ -5,6 +5,8 @@ import org.uniprot.store.config.returnfield.model.ReturnField;
 import java.util.List;
 
 public interface ReturnFieldConfig {
+    List<ReturnField> getAllFields();
+
     List<ReturnField> getReturnFields();
 
     ReturnField getReturnFieldByName(String fieldName);

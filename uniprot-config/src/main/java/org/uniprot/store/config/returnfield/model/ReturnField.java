@@ -2,6 +2,7 @@ package org.uniprot.store.config.returnfield.model;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
+import org.uniprot.store.config.model.Field;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PositiveOrZero;
@@ -12,7 +13,7 @@ import java.io.Serializable;
  * @since 2020-02-25
  */
 @Data
-public class ReturnField implements Serializable {
+public class ReturnField implements Field, Serializable {
     private static final long serialVersionUID = 606080616718758299L;
 
     @NotNull @PositiveOrZero private Integer seqNumber;

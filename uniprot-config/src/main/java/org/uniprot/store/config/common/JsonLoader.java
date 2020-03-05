@@ -1,10 +1,10 @@
-package org.uniprot.store.config.searchfield.common;
-
-import java.io.InputStream;
-import java.util.List;
+package org.uniprot.store.config.common;
 
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
+import java.io.InputStream;
+import java.util.List;
 
 /**
  * This class is responsible for loading JSON objects and creating an instance of the corresponding

@@ -4,10 +4,10 @@ import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.uniprot.core.util.Utils;
+import org.uniprot.store.config.common.JsonLoader;
 import org.uniprot.store.config.returnfield.model.ReturnField;
-import org.uniprot.store.config.returnfield.schema.DataValidator;
+import org.uniprot.store.config.returnfield.schema.ReturnFieldDataValidator;
 import org.uniprot.store.config.schema.SchemaValidator;
-import org.uniprot.store.config.searchfield.common.JsonLoader;
 
 import java.util.List;
 import java.util.Objects;
@@ -15,8 +15,8 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Slf4j
-public abstract class AbstractReturnFieldConfig implements ReturnFieldConfig {
-    public static final String SCHEMA_FILE = "schema/result-fields-schema.json";
+public class AbstractReturnFieldConfig implements ReturnFieldConfig {
+    private static final String SCHEMA_FILE = "schema/result-fields-schema.json";
 
     private List<ReturnField> allFields;
     private List<ReturnField> returnFields;
@@ -25,7 +25,7 @@ public abstract class AbstractReturnFieldConfig implements ReturnFieldConfig {
     protected AbstractReturnFieldConfig(String schemaFile, String configFile) {
         SchemaValidator.validate(schemaFile, configFile);
         init();
-        DataValidator.validateContent(this.allFields, ids);
+        new ReturnFieldDataValidator().validateContent(this.allFields);
     }
 
     private void init() {
@@ -34,10 +34,11 @@ public abstract class AbstractReturnFieldConfig implements ReturnFieldConfig {
                 mapper.getTypeFactory().constructCollectionType(List.class, ReturnField.class);
 
         this.allFields = JsonLoader.loadItems(SCHEMA_FILE, mapper, type);
-        ids = this.allFields.stream().map(ReturnField::getId).collect(Collectors.toSet());
+        this.ids = this.allFields.stream().map(ReturnField::getId).collect(Collectors.toSet());
     }
 
-    public List<ReturnField> getAllFieldItems() {
+    @Override
+    public List<ReturnField> getAllFields() {
         return this.allFields;
     }
 
@@ -45,7 +46,7 @@ public abstract class AbstractReturnFieldConfig implements ReturnFieldConfig {
     public List<ReturnField> getReturnFields() {
         if (this.returnFields == null) {
             this.returnFields =
-                    getAllFieldItems().stream()
+                    getAllFields().stream()
                             .filter(this::isReturnField)
                             .collect(Collectors.toList());
         }
@@ -70,7 +71,7 @@ public abstract class AbstractReturnFieldConfig implements ReturnFieldConfig {
         try {
             searchFieldExist = Objects.nonNull(this.getReturnFieldByName(fieldName));
         } catch (IllegalArgumentException ile) {
-            // it means, search field doesn't exist
+            // it means that the field doesn't exist
         }
         return searchFieldExist;
     }
