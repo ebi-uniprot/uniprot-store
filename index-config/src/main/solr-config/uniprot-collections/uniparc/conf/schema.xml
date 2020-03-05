@@ -305,8 +305,6 @@
 		stored="false" required="false" multiValued="true" />
 	<field name="length" type="int" indexed="true" stored="false"
 		required="false" multiValued="false" />
-	<field name="entry_stored" type="binary" indexed="false"
-		stored="true" required="true" multiValued="false" />
 
 	<field name="content" type="full_ci" indexed="true"
 		stored="false" multiValued="true" />

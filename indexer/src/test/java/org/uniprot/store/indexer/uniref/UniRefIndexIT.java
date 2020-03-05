@@ -38,7 +38,7 @@ import org.uniprot.store.search.document.uniref.UniRefDocument;
             UniRefIndexStep.class,
             ListenerConfig.class
         })
-public class UniRefIndexIT {
+class UniRefIndexIT {
     @Autowired private JobLauncherTestUtils jobLauncher;
     @Autowired private UniProtSolrOperations solrOperations;
 
@@ -54,13 +54,8 @@ public class UniRefIndexIT {
                 solrOperations.query(
                         SolrCollection.uniref.name(), new SimpleQuery("*:*"), UniRefDocument.class);
         assertThat(response, is(notNullValue()));
-        assertThat(response.getTotalElements(), is(2l));
-        response.forEach(val -> verifyEntry(val));
-    }
-
-    private void verifyEntry(UniRefDocument doc) {
-        String id = doc.getDocumentId();
-        System.out.println(id);
-        System.out.println(doc);
+        assertThat(response.getTotalElements(), is(2L));
+        assertThat(response.getContent().get(0).getId(), is("UniRef50_Q9EPS7"));
+        assertThat(response.getContent().get(1).getId(), is("UniRef50_Q95604"));
     }
 }

@@ -33,12 +33,31 @@ public class UniParcDataStoreIndexer {
 
         uniparcRDD.foreachPartition(
                 uniParcEntryIterator -> {
+                    int numNewConnection = 0;
                     VoldemortClient<UniParcEntry> client =
                             new VoldemortRemoteUniParcEntryStore(
                                     Integer.valueOf(numberOfConnections), storeName, connectionURL);
                     while (uniParcEntryIterator.hasNext()) {
                         UniParcEntry entry = uniParcEntryIterator.next();
-                        client.saveEntry(entry);
+                        try {
+                            client.saveEntry(entry);
+                        } catch (Exception e) {
+                            log.info("trying to reset voldemort connection...." + numNewConnection);
+                            Thread.sleep(4000);
+                            numNewConnection++;
+                            if (numNewConnection < 3) {
+                                client =
+                                        new VoldemortRemoteUniParcEntryStore(
+                                                Integer.valueOf(numberOfConnections),
+                                                storeName,
+                                                connectionURL);
+                                client.saveEntry(entry);
+                            } else {
+                                throw new Exception(
+                                        "Already tried to reset Voldemort connection twice and did not work",
+                                        e);
+                            }
+                        }
                     }
                 });
         log.info("Completed UniParc Data Store index");
