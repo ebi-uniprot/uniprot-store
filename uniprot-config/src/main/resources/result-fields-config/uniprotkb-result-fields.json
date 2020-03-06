@@ -137,8 +137,8 @@
     "itemType": "SINGLE",
     "name": "cc_alternative_products",
     "label": "Alternative products (isoforms)",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "comments",
+    "filter": "[?(@.commentType=='ALTERNATIVE PRODUCTS')]",
     "id": "sequences/alternative_products_(isoforms)"
   },
   {
@@ -147,8 +147,8 @@
     "itemType": "SINGLE",
     "name": "ft_var_seq",
     "label": "Alternative sequence",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "features",
+    "filter": "[?(@.type=='splice variant')]",
     "id": "sequences/alternative_sequence"
   },
   {
@@ -157,8 +157,8 @@
     "itemType": "SINGLE",
     "name": "sc_epred",
     "label": "Erroneous gene model prediction",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "comments",
+    "filter": "[?(@.sequenceCautionType=='Erroneous gene model prediction')]",
     "id": "sequences/erroneous_gene_model_prediction"
   },
   {
@@ -167,8 +167,7 @@
     "itemType": "SINGLE",
     "name": "fragment",
     "label": "Fragment",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "proteinDescription.flag",
     "id": "sequences/fragment"
   },
   {
@@ -177,8 +176,7 @@
     "itemType": "SINGLE",
     "name": "organelle",
     "label": "Gene encoded by",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "geneLocations",
     "id": "sequences/gene_encoded_by"
   },
   {
@@ -187,8 +185,7 @@
     "itemType": "SINGLE",
     "name": "length",
     "label": "Length",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "sequence.length",
     "id": "sequences/length"
   },
   {
@@ -197,8 +194,7 @@
     "itemType": "SINGLE",
     "name": "mass",
     "label": "Mass",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "sequence.molWeight",
     "id": "sequences/mass"
   },
   {
@@ -207,8 +203,8 @@
     "itemType": "SINGLE",
     "name": "cc_mass_spectrometry",
     "label": "Mass spectrometry",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "comments",
+    "filter": "[?(@.type=='MassSpectrometry')]",
     "id": "sequences/mass_spectrometry"
   },
   {
@@ -217,8 +213,8 @@
     "itemType": "SINGLE",
     "name": "ft_variant",
     "label": "Natural variant",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "features",
+    "filter": "[?(@.type=='Sequence variation')]",
     "id": "sequences/natural_variant"
   },
   {
@@ -227,8 +223,8 @@
     "itemType": "SINGLE",
     "name": "ft_non_con",
     "label": "Non-adjacent residue",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "features",
+    "filter": "[?(@.type=='non-consecutive residues')]",
     "id": "sequences/non-adjacent_residue"
   },
   {
@@ -237,8 +233,8 @@
     "itemType": "SINGLE",
     "name": "ft_non_std",
     "label": "Non-standard residue",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "features",
+    "filter": "[?(@.type=='non-standard amino acid')]",
     "id": "sequences/non-standard_residue"
   },
   {
@@ -247,8 +243,8 @@
     "itemType": "SINGLE",
     "name": "ft_non_ter",
     "label": "Non-terminal residue",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "features",
+    "filter": "[?(@.type=='non-terminal residue')]",
     "id": "sequences/non-terminal_residue"
   },
   {
@@ -257,8 +253,8 @@
     "itemType": "SINGLE",
     "name": "cc_polymorphism",
     "label": "Polymorphism",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "comments",
+    "filter": "[?(@.commentType=='POLYMORPHISM')]",
     "id": "sequences/polymorphism"
   },
   {
@@ -267,8 +263,8 @@
     "itemType": "SINGLE",
     "name": "cc_rna_editing",
     "label": "RNA Editing",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "comments",
+    "filter": "[?(@.commentType=='RNA EDITING')]",
     "id": "sequences/rna_editing"
   },
   {
@@ -277,8 +273,7 @@
     "itemType": "SINGLE",
     "name": "sequence",
     "label": "Sequence",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "sequence",
     "id": "sequences/sequence"
   },
   {
@@ -287,8 +282,8 @@
     "itemType": "SINGLE",
     "name": "cc_sequence_caution",
     "label": "Sequence caution",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "comments",
+    "filter": "[?(@.commentType=='SEQUENCE CAUTION')]",
     "id": "sequences/sequence_caution"
   },
   {
@@ -297,8 +292,8 @@
     "itemType": "SINGLE",
     "name": "ft_conflict",
     "label": "Sequence conflict",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "features",
+    "filter": "[?(@.type=='sequence conflict')]",
     "id": "sequences/sequence_conflict"
   },
   {
@@ -307,8 +302,8 @@
     "itemType": "SINGLE",
     "name": "ft_unsure",
     "label": "Sequence uncertainty",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "features",
+    "filter": "[?(@.type=='Uncertainty in sequence')]",
     "id": "sequences/sequence_uncertainty"
   },
   {
@@ -317,8 +312,7 @@
     "itemType": "SINGLE",
     "name": "sequence_version",
     "label": "Sequence version",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "entryAudit.sequenceVersion",
     "id": "sequences/sequence_version"
   },
   {
@@ -344,8 +338,8 @@
     "itemType": "SINGLE",
     "name": "ft_act_site",
     "label": "Active site",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "features",
+    "filter": "[?(@.type=='active site')]",
     "id": "function/active_site"
   },
   {
@@ -354,8 +348,8 @@
     "itemType": "SINGLE",
     "name": "ft_binding",
     "label": "Binding site",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "features",
+    "filter": "[?(@.type=='Other binding site')]",
     "id": "function/binding_site"
   },
   {
@@ -364,8 +358,8 @@
     "itemType": "SINGLE",
     "name": "ft_ca_bind",
     "label": "Calcium binding",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "features",
+    "filter": "[?(@.type=='calcium-binding region')]",
     "id": "function/calcium_binding"
   },
   {
@@ -394,8 +388,8 @@
     "itemType": "SINGLE",
     "name": "ft_dna_bind",
     "label": "DNA binding",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "features",
+    "filter": "[?(@.type=='DNA-binding region')]",
     "id": "function/dna_binding"
   },
   {
@@ -444,8 +438,8 @@
     "itemType": "SINGLE",
     "name": "ft_metal",
     "label": "Metal binding",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "features",
+    "filter": "[?(@.type=='metal ion-binding site')]",
     "id": "function/metal_binding"
   },
   {
@@ -454,8 +448,8 @@
     "itemType": "SINGLE",
     "name": "ft_np_bind",
     "label": "Nucleotide binding",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "features",
+    "filter": "[?(@.type=='Nucleotide-binding region')]",
     "id": "function/nucleotide_binding"
   },
   {
@@ -494,8 +488,8 @@
     "itemType": "SINGLE",
     "name": "ft_site",
     "label": "Site",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "features",
+    "filter": "[?(@.type=='Other site of interest')]",
     "id": "function/site"
   },
   {
@@ -541,8 +535,7 @@
     "itemType": "SINGLE",
     "name": "feature",
     "label": "Features",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "features",
     "id": "miscellaneous/features"
   },
   {
@@ -799,8 +792,8 @@
     "itemType": "SINGLE",
     "name": "ft_mutagen",
     "label": "Mutagenesis",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "features",
+    "filter": "[?(@.type=='mutagenesis site')]",
     "id": "pathology_&_biotech/mutagenesis"
   },
   {
@@ -836,8 +829,8 @@
     "itemType": "SINGLE",
     "name": "ft_intramem",
     "label": "Intramembrane",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "features",
+    "filter": "[?(@.type=='intramembrane region')]",
     "id": "subcellular_location/intramembrane"
   },
   {
@@ -856,8 +849,8 @@
     "itemType": "SINGLE",
     "name": "ft_top_dom",
     "label": "Topological domain",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "features",
+    "filter": "[?(@.type=='topological domain')]",
     "id": "subcellular_location/topological_domain"
   },
   {
@@ -866,8 +859,8 @@
     "itemType": "SINGLE",
     "name": "ft_transmem",
     "label": "Transmembrane",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "features",
+    "filter": "[?(@.type=='transmembrane region')]",
     "id": "subcellular_location/transmembrane"
   },
   {
@@ -883,8 +876,8 @@
     "itemType": "SINGLE",
     "name": "ft_chain",
     "label": "Chain",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "features",
+    "filter": "[?(@.type=='chain')]",
     "id": "ptm_/_processing/chain"
   },
   {
@@ -893,8 +886,8 @@
     "itemType": "SINGLE",
     "name": "ft_crosslnk",
     "label": "Cross-link",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "features",
+    "filter": "[?(@.type=='cross-link')]",
     "id": "ptm_/_processing/cross-link"
   },
   {
@@ -903,8 +896,8 @@
     "itemType": "SINGLE",
     "name": "ft_disulfide",
     "label": "Disulfide bond",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "features",
+    "filter": "[?(@.type=='disulfide bond')]",
     "id": "ptm_/_processing/disulfide_bond"
   },
   {
@@ -913,8 +906,8 @@
     "itemType": "SINGLE",
     "name": "ft_carbohyd",
     "label": "Glycosylation",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "features",
+    "filter": "[?(@.type=='glycosylation site')]",
     "id": "ptm_/_processing/glycosylation"
   },
   {
@@ -923,8 +916,8 @@
     "itemType": "SINGLE",
     "name": "ft_init_met",
     "label": "Initiator methionine",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "path",
+    "filter": "[?(@.type=='initiator methionine')]",
     "id": "ptm_/_processing/initiator_methionine"
   },
   {
@@ -933,8 +926,8 @@
     "itemType": "SINGLE",
     "name": "ft_lipid",
     "label": "Lipidation",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "features",
+    "filter": "[?(@.type=='lipid moiety-binding region')]",
     "id": "ptm_/_processing/lipidation"
   },
   {
@@ -943,8 +936,8 @@
     "itemType": "SINGLE",
     "name": "ft_mod_res",
     "label": "Modified residue",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "features",
+    "filter": "[?(@.type=='Post-translationally modified residue')]",
     "id": "ptm_/_processing/modified_residue"
   },
   {
@@ -953,8 +946,8 @@
     "itemType": "SINGLE",
     "name": "ft_peptide",
     "label": "Peptide",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "features",
+    "filter": "[?(@.type=='peptide')]",
     "id": "ptm_/_processing/peptide"
   },
   {
@@ -973,8 +966,8 @@
     "itemType": "SINGLE",
     "name": "ft_propep",
     "label": "Propeptide",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "features",
+    "filter": "[?(@.type=='propeptide')]",
     "id": "ptm_/_processing/propeptide"
   },
   {
@@ -983,8 +976,8 @@
     "itemType": "SINGLE",
     "name": "ft_signal",
     "label": "Signal peptide",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "features",
+    "filter": "[?(@.type=='signal peptide')]",
     "id": "ptm_/_processing/signal_peptide"
   },
   {
@@ -993,8 +986,8 @@
     "itemType": "SINGLE",
     "name": "ft_transit",
     "label": "Transit peptide",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "features",
+    "filter": "[?(@.type=='transit peptide')]",
     "id": "ptm_/_processing/transit_peptide"
   },
   {
@@ -1020,8 +1013,8 @@
     "itemType": "SINGLE",
     "name": "ft_strand",
     "label": "Beta strand",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "features",
+    "filter": "[?(@.type=='strand')]",
     "id": "structure/beta_strand"
   },
   {
@@ -1030,8 +1023,8 @@
     "itemType": "SINGLE",
     "name": "ft_helix",
     "label": "Helix",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "features",
+    "filter": "[?(@.type=='helix')]",
     "id": "structure/helix"
   },
   {
@@ -1040,8 +1033,8 @@
     "itemType": "SINGLE",
     "name": "ft_turn",
     "label": "Turn",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "features",
+    "filter": "[?(@.type=='turn')]",
     "id": "structure/turn"
   },
   {
@@ -1131,8 +1124,8 @@
     "itemType": "SINGLE",
     "name": "ft_coiled",
     "label": "Coiled coil",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "features",
+    "filter": "[?(@.type=='coiled-coil region')]",
     "id": "family_&_domains/coiled_coil"
   },
   {
@@ -1141,8 +1134,8 @@
     "itemType": "SINGLE",
     "name": "ft_compbias",
     "label": "Compositional bias",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "features",
+    "filter": "[?(@.type=='compositionally biased region')]",
     "id": "family_&_domains/compositional_bias"
   },
   {
@@ -1161,8 +1154,8 @@
     "itemType": "SINGLE",
     "name": "ft_domain",
     "label": "Domain [FT]",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "features",
+    "filter": "[?(@.type=='Other domain of region')]",
     "id": "family_&_domains/domain_[ft]"
   },
   {
@@ -1171,8 +1164,8 @@
     "itemType": "SINGLE",
     "name": "ft_motif",
     "label": "Motif",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "features",
+    "filter": "[?(@.type=='short sequence motif')]",
     "id": "family_&_domains/motif"
   },
   {
@@ -1191,8 +1184,8 @@
     "itemType": "SINGLE",
     "name": "ft_region",
     "label": "Region",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "features",
+    "filter": "[?(@.type=='region of interest')]",
     "id": "family_&_domains/region"
   },
   {
@@ -1201,8 +1194,8 @@
     "itemType": "SINGLE",
     "name": "ft_repeat",
     "label": "Repeat",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "features",
+    "filter": "[?(@.type=='repeat')]",
     "id": "family_&_domains/repeat"
   },
   {
@@ -1221,8 +1214,8 @@
     "itemType": "SINGLE",
     "name": "ft_zn_fing",
     "label": "Zinc finger",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "features",
+    "filter": "[?(@.type=='zinc finger region')]",
     "id": "family_&_domains/zinc_finger"
   },
   {
