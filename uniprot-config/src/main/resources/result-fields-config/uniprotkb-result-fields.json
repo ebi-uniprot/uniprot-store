@@ -39,8 +39,7 @@
     "itemType": "SINGLE",
     "name": "gene_oln",
     "label": "Gene Names (ordered locus)",
-    "path": "genes.*.orderedLocusNames.*.value",
-    "filter": "fill me in if needed!",
+    "path": "genes[*].orderedLocusNames[*]",
     "id": "names_&_taxonomy/gene_names_(ordered_locus)"
   },
   {
@@ -49,7 +48,7 @@
     "itemType": "SINGLE",
     "name": "gene_orf",
     "label": "Gene Names (ORF)",
-    "path": "genes.*.orfNames.*.value",
+    "path": "genes[*].orfNames[*]",
     "id": "names_&_taxonomy/gene_names_(orf)"
   },
   {
@@ -58,8 +57,7 @@
     "itemType": "SINGLE",
     "name": "gene_primary",
     "label": "Gene Names (primary)",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "genes[*].geneName",
     "id": "names_&_taxonomy/gene_names_(primary)"
   },
   {
@@ -68,8 +66,7 @@
     "itemType": "SINGLE",
     "name": "gene_synonym",
     "label": "Gene Names (synonym)",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "genes[*].synonyms[*]",
     "id": "names_&_taxonomy/gene_names_(synonym)"
   },
   {
@@ -78,8 +75,7 @@
     "itemType": "SINGLE",
     "name": "organism",
     "label": "Organism",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "organism",
     "id": "names_&_taxonomy/organism"
   },
   {
@@ -88,8 +84,7 @@
     "itemType": "SINGLE",
     "name": "organism_id",
     "label": "Organism (ID)",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "organism.taxonId",
     "id": "names_&_taxonomy/organism_(id)"
   },
   {
@@ -98,8 +93,7 @@
     "itemType": "SINGLE",
     "name": "protein_name",
     "label": "Protein names",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "proteinDescription",
     "id": "names_&_taxonomy/protein_names"
   },
   {
@@ -108,8 +102,8 @@
     "itemType": "SINGLE",
     "name": "dr_proteomes",
     "label": "Proteomes",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "databaseCrossReferences",
+    "filter": "[?(@.databaseType=='Proteomes')]",
     "id": "names_&_taxonomy/proteomes"
   },
   {
@@ -118,8 +112,7 @@
     "itemType": "SINGLE",
     "name": "lineage",
     "label": "Taxonomic lineage",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "organism.lineage",
     "id": "names_&_taxonomy/taxonomic_lineage"
   },
   {
@@ -128,8 +121,7 @@
     "itemType": "SINGLE",
     "name": "organism_host",
     "label": "Virus hosts",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "organismHosts",
     "id": "names_&_taxonomy/virus_hosts"
   },
   {
