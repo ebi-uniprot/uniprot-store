@@ -1,12 +1,11 @@
 package org.uniprot.store.datastore.uniprotkb.step;
 
 import static org.uniprot.store.datastore.utils.Constants.UNIPROTKB_STORE_STEP;
+import static org.uniprot.store.datastore.utils.DataStoreUtil.*;
 
 import lombok.extern.slf4j.Slf4j;
 import net.jodah.failsafe.RetryPolicy;
 
-import org.springframework.aop.framework.Advised;
-import org.springframework.aop.support.AopUtils;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
 import org.springframework.batch.core.listener.ExecutionContextPromotionListener;
@@ -100,22 +99,5 @@ public class UniProtKBStep {
     @Bean(name = "uniProtKB")
     public LogRateListener<UniProtEntry> uniProtKBLogRateListener() {
         return new LogRateListener<>(uniProtKBStoreProperties.getUniProtKBLogRateInterval());
-    }
-
-    // ---------------------- Source Data Access beans and helpers ----------------------
-
-    /**
-     * Checks if the given object is a proxy, and unwraps it if it is.
-     *
-     * @param bean The object to check
-     * @return The unwrapped object that was proxied, else the object
-     * @throws Exception any exception caused during unwrapping
-     */
-    private Object unwrapProxy(Object bean) throws Exception {
-        if (AopUtils.isAopProxy(bean) && bean instanceof Advised) {
-            Advised advised = (Advised) bean;
-            bean = advised.getTargetSource().getTarget();
-        }
-        return bean;
     }
 }

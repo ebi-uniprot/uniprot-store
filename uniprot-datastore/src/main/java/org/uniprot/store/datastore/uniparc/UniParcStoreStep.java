@@ -4,8 +4,6 @@ import static org.uniprot.store.datastore.utils.Constants.UNIPARC_STORE_STEP;
 
 import net.jodah.failsafe.RetryPolicy;
 
-import org.springframework.aop.framework.Advised;
-import org.springframework.aop.support.AopUtils;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
 import org.springframework.batch.core.listener.ExecutionContextPromotionListener;
@@ -19,6 +17,7 @@ import org.uniprot.core.uniparc.UniParcEntry;
 import org.uniprot.core.xml.jaxb.uniparc.Entry;
 import org.uniprot.store.datastore.UniProtStoreClient;
 import org.uniprot.store.datastore.uniparc.config.UniParcStoreProperties;
+import org.uniprot.store.datastore.utils.DataStoreUtil;
 import org.uniprot.store.job.common.listener.LogRateListener;
 import org.uniprot.store.job.common.listener.WriteRetrierLogStepListener;
 import org.uniprot.store.job.common.writer.ItemRetryWriter;
@@ -52,20 +51,20 @@ public class UniParcStoreStep {
         return this.stepBuilderFactory
                 .get(UNIPARC_STORE_STEP)
                 .listener(promotionListener)
-                .<Entry, UniParcEntry>chunk(uniParcStoreProperties.getChunkSize())
+                .<Entry, UniParcEntry>chunk(this.uniParcStoreProperties.getChunkSize())
                 .reader(entryItemReader)
                 .processor(uniParcEntryProcessor)
                 .writer(uniParcEntryItemWriter)
                 .listener(writeRetrierLogStepListener)
                 .listener(uniParcLogRateListener)
-                .listener(unwrapProxy(uniParcEntryItemWriter))
+                .listener(DataStoreUtil.unwrapProxy(uniParcEntryItemWriter))
                 .build();
     }
 
     // ---------------------- Readers ----------------------
     @Bean
     public ItemReader<Entry> uniParcEntryItemReader() {
-        return new UniParcXmlEntryReader(uniParcStoreProperties.getXmlFilePath());
+        return new UniParcXmlEntryReader(this.uniParcStoreProperties.getXmlFilePath());
     }
 
     // ---------------------- Processors ----------------------
@@ -86,14 +85,6 @@ public class UniParcStoreStep {
     // ---------------------- Listeners ----------------------
     @Bean(name = "uniParcLogRateListener")
     public LogRateListener<UniParcEntry> uniParcLogRateListener() {
-        return new LogRateListener<>(uniParcStoreProperties.getLogRateInterval());
-    }
-
-    private Object unwrapProxy(Object bean) throws Exception {
-        if (AopUtils.isAopProxy(bean) && bean instanceof Advised) {
-            Advised advised = (Advised) bean;
-            bean = advised.getTargetSource().getTarget();
-        }
-        return bean;
+        return new LogRateListener<>(this.uniParcStoreProperties.getLogRateInterval());
     }
 }

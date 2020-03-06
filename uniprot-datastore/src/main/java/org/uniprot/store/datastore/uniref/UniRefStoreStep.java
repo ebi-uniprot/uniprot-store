@@ -4,8 +4,6 @@ import static org.uniprot.store.datastore.utils.Constants.UNIREF_STORE_STEP;
 
 import net.jodah.failsafe.RetryPolicy;
 
-import org.springframework.aop.framework.Advised;
-import org.springframework.aop.support.AopUtils;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
 import org.springframework.batch.core.listener.ExecutionContextPromotionListener;
@@ -24,6 +22,7 @@ import org.uniprot.store.datastore.uniref.config.UniRefAsnycConfig;
 import org.uniprot.store.datastore.uniref.config.UniRefConfig;
 import org.uniprot.store.datastore.uniref.config.UniRefStoreConfig;
 import org.uniprot.store.datastore.uniref.config.UniRefStoreProperties;
+import org.uniprot.store.datastore.utils.DataStoreUtil;
 import org.uniprot.store.job.common.listener.LogRateListener;
 import org.uniprot.store.job.common.listener.WriteRetrierLogStepListener;
 import org.uniprot.store.job.common.writer.ItemRetryWriter;
@@ -64,7 +63,7 @@ public class UniRefStoreStep {
                 .writer(unirefEntryItemWriter)
                 .listener(writeRetrierLogStepListener)
                 .listener(unirefLogRateListener)
-                .listener(unwrapProxy(unirefEntryItemWriter))
+                .listener(DataStoreUtil.unwrapProxy(unirefEntryItemWriter))
                 .build();
     }
 
@@ -93,13 +92,5 @@ public class UniRefStoreStep {
     @Bean(name = "unirefLogRateListener")
     public LogRateListener<UniRefEntry> unirefLogRateListener() {
         return new LogRateListener<>(unirefStoreProperties.getLogRateInterval());
-    }
-    // g
-    private Object unwrapProxy(Object bean) throws Exception {
-        if (AopUtils.isAopProxy(bean) && bean instanceof Advised) {
-            Advised advised = (Advised) bean;
-            bean = advised.getTargetSource().getTarget();
-        }
-        return bean;
     }
 }
