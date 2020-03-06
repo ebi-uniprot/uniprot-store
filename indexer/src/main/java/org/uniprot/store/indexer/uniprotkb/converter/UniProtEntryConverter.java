@@ -191,7 +191,11 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtKBEntry, 
         UniProtEntryScored entryScored = new UniProtEntryScored(source);
         double score = entryScored.score();
         int q = (int) (score / 20d);
-        document.score = q > 4 ? 5 : q + 1;
+        if (!source.hasAnnotationScore()) {
+            document.score = q > 4 ? 5 : q + 1;
+        } else {
+            document.score = (int) source.getAnnotationScore();
+        }
     }
 
     private void convertSequence(Sequence seq, UniProtDocument document) {
