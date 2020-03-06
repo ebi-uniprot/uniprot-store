@@ -1,6 +1,6 @@
 package org.uniprot.store.spark.indexer.keyword;
 
-import static org.uniprot.store.spark.indexer.util.SparkUtils.getInputReleaseDirPath;
+import static org.uniprot.store.spark.indexer.util.SparkUtils.getInputReleaseMainThreadDirPath;
 
 import java.util.List;
 import java.util.ResourceBundle;
@@ -22,7 +22,7 @@ public class KeywordRDDReader {
     /** @return JavaPairRDD{key=keywordId, value={@link KeywordEntry}} */
     public static JavaPairRDD<String, KeywordEntry> load(
             JavaSparkContext jsc, ResourceBundle applicationConfig, String releaseName) {
-        String releaseInputDir = getInputReleaseDirPath(applicationConfig, releaseName);
+        String releaseInputDir = getInputReleaseMainThreadDirPath(applicationConfig, releaseName);
         String filePath = releaseInputDir + applicationConfig.getString("keyword.file.path");
         List<String> lines = SparkUtils.readLines(filePath, jsc.hadoopConfiguration());
         KeywordFileReader fileReader = new KeywordFileReader();

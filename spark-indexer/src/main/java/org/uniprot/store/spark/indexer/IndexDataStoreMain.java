@@ -4,6 +4,8 @@ import java.util.ResourceBundle;
 
 import org.apache.spark.api.java.JavaSparkContext;
 import org.uniprot.store.spark.indexer.uniparc.UniParcDataStoreIndexer;
+import org.uniprot.store.spark.indexer.uniprot.UniProtKBDataStoreIndexer;
+import org.uniprot.store.spark.indexer.uniref.UniRefDataStoreIndexer;
 import org.uniprot.store.spark.indexer.util.SparkUtils;
 
 /**
@@ -30,11 +32,13 @@ public class IndexDataStoreMain {
                             sparkContext, applicationConfig, releaseName);
                     break;
                 case "uniref":
-                    throw new UnsupportedOperationException(
-                            "uniref data store not yet supported by spark indexer");
+                    UniRefDataStoreIndexer.indexDataStore(
+                            sparkContext, applicationConfig, releaseName);
+                    break;
                 case "uniprot":
-                    throw new UnsupportedOperationException(
-                            "uniprot data store not yet supported by spark indexer");
+                    UniProtKBDataStoreIndexer.indexDataStore(
+                            sparkContext, applicationConfig, releaseName);
+                    break;
                 default:
                     throw new UnsupportedOperationException(
                             "Data Store '" + dataStore + "' not yet supported by spark indexer");

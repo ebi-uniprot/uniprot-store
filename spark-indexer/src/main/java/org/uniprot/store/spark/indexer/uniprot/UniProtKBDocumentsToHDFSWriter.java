@@ -1,7 +1,6 @@
 package org.uniprot.store.spark.indexer.uniprot;
 
-import static org.uniprot.store.spark.indexer.util.SparkUtils.getInputReleaseDirPath;
-import static org.uniprot.store.spark.indexer.util.SparkUtils.getOutputReleaseDirPath;
+import static org.uniprot.store.spark.indexer.util.SparkUtils.*;
 
 import java.util.List;
 import java.util.Map;
@@ -104,7 +103,7 @@ public class UniProtKBDocumentsToHDFSWriter implements DocumentsToHDFSWriter {
     }
 
     private Map<String, String> loadPathway(Configuration hadoopConfig, String releaseName) {
-        String releaseInputDir = getInputReleaseDirPath(applicationConfig, releaseName);
+        String releaseInputDir = getInputReleaseMainThreadDirPath(applicationConfig, releaseName);
         String filePath = releaseInputDir + applicationConfig.getString("pathway.file.path");
         UniPathwayFileReader uniPathwayFileReader = new UniPathwayFileReader();
         List<String> lines = SparkUtils.readLines(filePath, hadoopConfig);

@@ -28,6 +28,12 @@ public class SparkUtils {
         return inputDir + File.separator + releaseName + File.separator;
     }
 
+    public static String getInputReleaseMainThreadDirPath(
+            ResourceBundle applicationConfig, String releaseName) {
+        String inputDir = applicationConfig.getString("input.directory.main.thread.path");
+        return inputDir + File.separator + releaseName + File.separator;
+    }
+
     public static String getOutputReleaseDirPath(
             ResourceBundle applicationConfig, String releaseName) {
         String inputDir = applicationConfig.getString("output.directory.path");
@@ -89,7 +95,7 @@ public class SparkUtils {
             // Allow fair scheduling for parallel jobs
             sparkConf = sparkConf.set("spark.scheduler.mode", "FAIR");
         }
-        JavaSparkContext sparkContext =  new JavaSparkContext(sparkConf);
+        JavaSparkContext sparkContext = new JavaSparkContext(sparkConf);
         sparkContext.setLocalProperty("spark.scheduler.pool", "uniprotIndexerWriter");
         return sparkContext;
     }

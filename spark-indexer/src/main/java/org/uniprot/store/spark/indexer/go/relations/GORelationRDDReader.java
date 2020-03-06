@@ -1,6 +1,6 @@
 package org.uniprot.store.spark.indexer.go.relations;
 
-import static org.uniprot.store.spark.indexer.util.SparkUtils.getInputReleaseDirPath;
+import static org.uniprot.store.spark.indexer.util.SparkUtils.getInputReleaseMainThreadDirPath;
 
 import java.util.*;
 
@@ -31,7 +31,7 @@ public class GORelationRDDReader {
     public static JavaPairRDD<String, GeneOntologyEntry> load(
             ResourceBundle applicationConfig, JavaSparkContext sparkContext, String releaseName) {
 
-        String releaseInputDir = getInputReleaseDirPath(applicationConfig, releaseName);
+        String releaseInputDir = getInputReleaseMainThreadDirPath(applicationConfig, releaseName);
         String goRelationsFolder =
                 releaseInputDir + applicationConfig.getString("go.relations.dir.path");
         GOTermFileReader goTermFileReader =

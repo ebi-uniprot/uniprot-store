@@ -1,6 +1,6 @@
 package org.uniprot.store.spark.indexer.ec;
 
-import static org.uniprot.store.spark.indexer.util.SparkUtils.getInputReleaseDirPath;
+import static org.uniprot.store.spark.indexer.util.SparkUtils.getInputReleaseMainThreadDirPath;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -23,7 +23,7 @@ public class ECRDDReader {
     /** @return JavaPairRDD{key=ecId, value={@link ECEntry}} */
     public static JavaPairRDD<String, ECEntry> load(
             JavaSparkContext jsc, ResourceBundle applicationConfig, String releaseName) {
-        String releaseInputDir = getInputReleaseDirPath(applicationConfig, releaseName);
+        String releaseInputDir = getInputReleaseMainThreadDirPath(applicationConfig, releaseName);
         String dirPath = releaseInputDir + applicationConfig.getString("ec.dir.path");
         String ecClassPath = dirPath + File.separator + ECCache.ENZCLASS_TXT;
         List<String> ecClassLines = SparkUtils.readLines(ecClassPath, jsc.hadoopConfiguration());

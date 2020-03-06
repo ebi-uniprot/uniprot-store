@@ -1,6 +1,7 @@
 package org.uniprot.store.spark.indexer.uniprot;
 
 import static org.uniprot.store.spark.indexer.util.SparkUtils.getInputReleaseDirPath;
+import static org.uniprot.store.spark.indexer.util.SparkUtils.getInputReleaseMainThreadDirPath;
 
 import java.util.ResourceBundle;
 
@@ -26,7 +27,7 @@ public class UniProtKBRDDTupleReader {
     public static JavaPairRDD<String, UniProtEntry> load(
             JavaSparkContext jsc, ResourceBundle applicationConfig, String releaseName) {
 
-        String releaseInputDir = getInputReleaseDirPath(applicationConfig, releaseName);
+        String releaseInputDir = getInputReleaseMainThreadDirPath(applicationConfig, releaseName);
         String keywordFile = releaseInputDir + applicationConfig.getString("keyword.file.path");
         String diseaseFile = releaseInputDir + applicationConfig.getString("disease.file.path");
         String subcellularLocationFile =
