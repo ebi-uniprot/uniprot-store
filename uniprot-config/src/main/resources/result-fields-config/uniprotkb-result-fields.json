@@ -328,8 +328,7 @@
     "itemType": "SINGLE",
     "name": "absorption",
     "label": "Absorption",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "comments[*].absorption",
     "id": "function/absorption"
   },
   {
@@ -398,8 +397,7 @@
     "itemType": "SINGLE",
     "name": "ec",
     "label": "EC number",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "proteinDescription[*].ecNumbers[*]",
     "id": "function/ec_number"
   },
   {
@@ -428,8 +426,7 @@
     "itemType": "SINGLE",
     "name": "kinetics",
     "label": "Kinetics",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "comments[*].kineticParameters",
     "id": "function/kinetics"
   },
   {
@@ -468,8 +465,7 @@
     "itemType": "SINGLE",
     "name": "ph_dependence",
     "label": "pH dependence",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "comments[*].phDependence",
     "id": "function/ph_dependence"
   },
   {
@@ -478,8 +474,7 @@
     "itemType": "SINGLE",
     "name": "redox_potential",
     "label": "Redox potential",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "comments[*].redoxPotential",
     "id": "function/redox_potential"
   },
   {
@@ -498,8 +493,7 @@
     "itemType": "SINGLE",
     "name": "temp_dependence",
     "label": "Temperature dependence",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "comments[*].temperatureDependence",
     "id": "function/temperature_dependence"
   },
   {
@@ -515,8 +509,7 @@
     "itemType": "SINGLE",
     "name": "score",
     "label": "Annotation",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "annotationScore",
     "id": "miscellaneous/annotation"
   },
   {
@@ -544,8 +537,7 @@
     "itemType": "SINGLE",
     "name": "keyword",
     "label": "Keywords",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "keywords",
     "id": "miscellaneous/keywords"
   },
   {
@@ -554,8 +546,7 @@
     "itemType": "SINGLE",
     "name": "keywordid",
     "label": "Keyword ID",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "keywords[*].id",
     "id": "miscellaneous/keyword_id"
   },
   {
@@ -564,8 +555,8 @@
     "itemType": "SINGLE",
     "name": "matched_text",
     "label": "Matched text",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "TODO?",
+    "filter": "TODO?",
     "id": "miscellaneous/matched_text"
   },
   {
@@ -584,18 +575,16 @@
     "itemType": "SINGLE",
     "name": "protein_existence",
     "label": "Protein existence",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "proteinExistence",
     "id": "miscellaneous/protein_existence"
   },
   {
     "parentId": "miscellaneous",
     "childNumber": 8,
     "itemType": "SINGLE",
-    "name": "reviewed",
-    "label": "Reviewed",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "name": "entry_type",
+    "label": "Entry type",
+    "path": "entryType",
     "id": "miscellaneous/reviewed"
   },
   {
@@ -604,8 +593,7 @@
     "itemType": "SINGLE",
     "name": "tools",
     "label": "Tools",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "TODO?? I think not, because it doesn't get downloaded as a column, it's just links to tools in UI",
     "id": "miscellaneous/tools"
   },
   {
@@ -614,8 +602,8 @@
     "itemType": "SINGLE",
     "name": "uniparc_id",
     "label": "UniParc",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "TODO",
+    "filter": "TODO",
     "id": "miscellaneous/uniparc"
   },
   {
