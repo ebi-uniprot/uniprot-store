@@ -703,8 +703,8 @@
     "itemType": "SINGLE",
     "name": "go",
     "label": "Gene Ontology (GO)",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "databaseCrossReferences",
+    "filter": "[?(@.databaseType=='GO')]",
     "id": "gene_ontology_(go)/gene_ontology_(go)"
   },
   {
