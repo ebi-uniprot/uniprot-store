@@ -53,7 +53,7 @@ class UniProtEntryReferencesConverter {
             if (citation.hasPublicationDate()) {
                 convertPublicationDate(citation.getPublicationDate().getValue(), document);
             }
-            citation.getCitationXrefsByType(CitationDatabase.PUBMED)
+            citation.getCitationCrossReferenceByType(CitationDatabase.PUBMED)
                     .ifPresent(
                             pubmed -> {
                                 document.referencePubmeds.add(pubmed.getId());

@@ -33,9 +33,9 @@ class DatasetUniParcEntryConverterTest {
         assertEquals("accessionValue", entry.getUniParcId().getValue());
         assertEquals("UniProtKBExclusionValue", entry.getUniProtExclusionReason());
 
-        assertNotNull(entry.getDbXReferences());
-        assertEquals(1, entry.getDbXReferences().size());
-        UniParcCrossReference dbReference = entry.getDbXReferences().get(0);
+        assertNotNull(entry.getUniParcCrossReferences());
+        assertEquals(1, entry.getUniParcCrossReferences().size());
+        UniParcCrossReference dbReference = entry.getUniParcCrossReferences().get(0);
         validateDbReference(dbReference);
 
         assertNotNull(entry.getSequence());
@@ -68,8 +68,8 @@ class DatasetUniParcEntryConverterTest {
         assertEquals("accessionValue", entry.getUniParcId().getValue());
         assertNull(entry.getUniProtExclusionReason());
 
-        assertNotNull(entry.getDbXReferences());
-        assertTrue(entry.getDbXReferences().isEmpty());
+        assertNotNull(entry.getUniParcCrossReferences());
+        assertTrue(entry.getUniParcCrossReferences().isEmpty());
 
         assertNotNull(entry.getSequence());
         validateSequence(entry);

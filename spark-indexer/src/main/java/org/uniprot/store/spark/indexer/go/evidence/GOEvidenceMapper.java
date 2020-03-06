@@ -36,7 +36,7 @@ public class GOEvidenceMapper
             Map<String, List<Evidence>> goEvidenceMap = getGoEvidenceMap(tuple._2.get());
 
             List<UniProtCrossReference> xrefs =
-                    tuple._1.getDatabaseCrossReferences().stream()
+                    tuple._1.getUniProtCrossReferences().stream()
                             .map(
                                     xref -> {
                                         if (Objects.equals(xref.getDatabase().getName(), "GO")) {
@@ -46,7 +46,7 @@ public class GOEvidenceMapper
                                         }
                                     })
                             .collect(Collectors.toList());
-            entry.databaseCrossReferencesSet(xrefs);
+            entry.uniProtCrossReferencesSet(xrefs);
         }
         return entry.build();
     }
@@ -59,7 +59,7 @@ public class GOEvidenceMapper
             return xref;
         } else {
             return new UniProtCrossReferenceBuilder()
-                    .databaseType(xref.getDatabase())
+                    .database(xref.getDatabase())
                     .id(xref.getId())
                     .isoformId(xref.getIsoformId())
                     .evidencesSet(evidences)

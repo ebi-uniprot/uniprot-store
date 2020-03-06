@@ -117,8 +117,8 @@ class UniParcDocumentConverterTest {
         return new UniParcEntryBuilder()
                 .uniParcId("uniParcIdValue")
                 .uniprotExclusionReason("")
-                .databaseCrossReferencesAdd(getDatabaseCrossReferences(type))
-                .databaseCrossReferencesAdd(getInactiveDatabaseCrossReferences())
+                .uniParcCrossReferencesAdd(getDatabaseCrossReferences(type))
+                .uniParcCrossReferencesAdd(getInactiveDatabaseCrossReferences())
                 .sequence(getSequence())
                 .taxonomiesAdd(getTaxonomy())
                 .sequenceFeaturesAdd(getSequenceFeatures())
@@ -132,7 +132,7 @@ class UniParcDocumentConverterTest {
     private UniParcCrossReference getDatabaseCrossReferences(UniParcDatabase type) {
         return new UniParcCrossReferenceBuilder()
                 .id(type.getName() + "IdValue")
-                .databaseType(type)
+                .database(type)
                 .propertiesAdd(UniParcCrossReference.PROPERTY_GENE_NAME, "geneNameValue")
                 .propertiesAdd(UniParcCrossReference.PROPERTY_PROTEIN_NAME, "proteinNameValue")
                 .propertiesAdd(UniParcCrossReference.PROPERTY_PROTEOME_ID, "proteomeIdValue")
@@ -143,7 +143,7 @@ class UniParcDocumentConverterTest {
     private UniParcCrossReference getInactiveDatabaseCrossReferences() {
         return new UniParcCrossReferenceBuilder()
                 .id("inactiveIdValue")
-                .databaseType(UniParcDatabase.EMBL)
+                .database(UniParcDatabase.EMBL)
                 .version(99)
                 .versionI(199)
                 .active(false)

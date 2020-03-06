@@ -44,10 +44,11 @@ public class LiteratureStatisticsProcessor
                         .build();
         CrossReference<CitationDatabase> pubmedXref =
                 new CrossReferenceBuilder<CitationDatabase>()
-                        .databaseType(CitationDatabase.PUBMED)
+                        .database(CitationDatabase.PUBMED)
                         .id(String.valueOf(literatureCount.getPubmedId()))
                         .build();
-        Literature literature = new LiteratureBuilder().citationXrefsAdd(pubmedXref).build();
+        Literature literature =
+                new LiteratureBuilder().citationCrossReferencesAdd(pubmedXref).build();
         LiteratureEntry literatureEntry =
                 new LiteratureEntryBuilder().citation(literature).statistics(statistics).build();
 

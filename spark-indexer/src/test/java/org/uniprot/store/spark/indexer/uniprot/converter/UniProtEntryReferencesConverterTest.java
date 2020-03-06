@@ -134,7 +134,7 @@ class UniProtEntryReferencesConverterTest {
 
         CrossReference<CitationDatabase> xref =
                 new CrossReferenceBuilder<CitationDatabase>()
-                        .databaseType(CitationDatabase.PUBMED)
+                        .database(CitationDatabase.PUBMED)
                         .id(prefix + "id")
                         .build();
 
@@ -148,7 +148,7 @@ class UniProtEntryReferencesConverterTest {
                         .authoringGroupsAdd(prefix + " auth group")
                         .authorsAdd(prefix + "  author")
                         .title(prefix + "  tittle")
-                        .citationXrefsSet(Collections.singletonList(xref))
+                        .citationCrossReferencesSet(Collections.singletonList(xref))
                         .build();
 
         ReferenceComment referenceComment =

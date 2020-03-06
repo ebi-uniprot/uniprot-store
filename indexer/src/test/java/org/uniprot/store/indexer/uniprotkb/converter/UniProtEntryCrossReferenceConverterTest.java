@@ -240,7 +240,7 @@ class UniProtEntryCrossReferenceConverterTest {
                 .id(id)
                 .isoformId("Q9NXB0-1")
                 .propertiesSet(Arrays.asList(property))
-                .databaseType(dbType)
+                .database(dbType)
                 .evidencesAdd(createEvidence())
                 .build();
     }
