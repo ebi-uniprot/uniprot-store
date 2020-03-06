@@ -39,8 +39,8 @@ class GOEvidencesFileMapperTest {
         assertNotNull(evidence);
         assertEquals(EvidenceCode.ECO_0000269, evidence.getEvidenceCode());
 
-        assertEquals("PubMed", evidence.getSource().getDatabaseType().getName());
-        assertEquals("12573216", evidence.getSource().getId());
+        assertEquals("PubMed", evidence.getEvidenceCrossReference().getDatabase().getName());
+        assertEquals("12573216", evidence.getEvidenceCrossReference().getId());
     }
 
     @Test

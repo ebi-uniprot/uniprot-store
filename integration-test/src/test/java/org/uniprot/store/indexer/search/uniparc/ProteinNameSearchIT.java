@@ -11,7 +11,7 @@ import org.apache.solr.client.solrj.response.QueryResponse;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;
-import org.uniprot.core.uniparc.UniParcDatabaseType;
+import org.uniprot.core.uniparc.UniParcDatabase;
 import org.uniprot.core.xml.jaxb.uniparc.DbReferenceType;
 import org.uniprot.core.xml.jaxb.uniparc.Entry;
 import org.uniprot.store.search.field.QueryBuilder;
@@ -43,7 +43,7 @@ class ProteinNameSearchIT {
             entry.getDbReference().clear();
 
             DbReferenceType xref =
-                    TestUtils.createXref(UniParcDatabaseType.TREMBL.getName(), "P47986", "Y");
+                    TestUtils.createXref(UniParcDatabase.TREMBL.getName(), "P47986", "Y");
             xref.getProperty().add(TestUtils.createProperty("protein_name", NAME_1));
             entry.getDbReference().add(xref);
             searchEngine.indexEntry(entry);
@@ -56,7 +56,7 @@ class ProteinNameSearchIT {
             entry.getDbReference().clear();
 
             DbReferenceType xref =
-                    TestUtils.createXref(UniParcDatabaseType.TREMBL.getName(), "P47986", "Y");
+                    TestUtils.createXref(UniParcDatabase.TREMBL.getName(), "P47986", "Y");
             xref.getProperty().add(TestUtils.createProperty("protein_name", NAME_2));
             entry.getDbReference().add(xref);
             searchEngine.indexEntry(entry);
@@ -69,7 +69,7 @@ class ProteinNameSearchIT {
             entry.getDbReference().clear();
 
             DbReferenceType xref =
-                    TestUtils.createXref(UniParcDatabaseType.TREMBL.getName(), "P47986", "Y");
+                    TestUtils.createXref(UniParcDatabase.TREMBL.getName(), "P47986", "Y");
             xref.getProperty().add(TestUtils.createProperty("protein_name", NAME_3));
             entry.getDbReference().add(xref);
             searchEngine.indexEntry(entry);
@@ -82,7 +82,7 @@ class ProteinNameSearchIT {
             entry.getDbReference().clear();
 
             DbReferenceType xref =
-                    TestUtils.createXref(UniParcDatabaseType.TREMBL.getName(), "P47986", "Y");
+                    TestUtils.createXref(UniParcDatabase.TREMBL.getName(), "P47986", "Y");
             xref.getProperty().add(TestUtils.createProperty("protein_name", NAME_4));
             entry.getDbReference().add(xref);
             searchEngine.indexEntry(entry);
@@ -95,7 +95,7 @@ class ProteinNameSearchIT {
             entry.getDbReference().clear();
 
             DbReferenceType xref =
-                    TestUtils.createXref(UniParcDatabaseType.TREMBL.getName(), "P47986", "Y");
+                    TestUtils.createXref(UniParcDatabase.TREMBL.getName(), "P47986", "Y");
             xref.getProperty().add(TestUtils.createProperty("protein_name", NAME_5));
             entry.getDbReference().add(xref);
             searchEngine.indexEntry(entry);
@@ -108,7 +108,7 @@ class ProteinNameSearchIT {
             entry.getDbReference().clear();
 
             DbReferenceType xref =
-                    TestUtils.createXref(UniParcDatabaseType.TREMBL.getName(), "P47986", "Y");
+                    TestUtils.createXref(UniParcDatabase.TREMBL.getName(), "P47986", "Y");
             xref.getProperty().add(TestUtils.createProperty("protein_name", NAME_6));
             entry.getDbReference().add(xref);
             searchEngine.indexEntry(entry);

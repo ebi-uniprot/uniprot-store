@@ -8,7 +8,7 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import org.uniprot.core.Property;
-import org.uniprot.core.uniprot.xdb.UniProtDBCrossReference;
+import org.uniprot.core.uniprot.xdb.UniProtCrossReference;
 import org.uniprot.store.search.document.uniprot.UniProtDocument;
 
 /**
@@ -20,19 +20,18 @@ class UniProtEntryCrossReferenceConverter {
     private static final String GO = "go_";
     private static final String XREF_COUNT = "xref_count_";
 
-    void convertCrossReferences(
-            List<UniProtDBCrossReference> references, UniProtDocument document) {
+    void convertCrossReferences(List<UniProtCrossReference> references, UniProtDocument document) {
         convertXref(references, document);
         convertXrefCount(references, document);
     }
 
-    private void convertXref(List<UniProtDBCrossReference> references, UniProtDocument document) {
+    private void convertXref(List<UniProtCrossReference> references, UniProtDocument document) {
         boolean d3structure = false;
-        for (UniProtDBCrossReference xref : references) {
-            if (xref.getDatabaseType().getName().equalsIgnoreCase("PDB")) {
+        for (UniProtCrossReference xref : references) {
+            if (xref.getDatabase().getName().equalsIgnoreCase("PDB")) {
                 d3structure = true;
             }
-            String dbname = xref.getDatabaseType().getName().toLowerCase();
+            String dbname = xref.getDatabase().getName().toLowerCase();
             document.databases.add(dbname);
             document.content.add(dbname);
             String id = xref.getId();
@@ -105,14 +104,14 @@ class UniProtEntryCrossReferenceConverter {
     }
 
     private void convertXrefCount(
-            List<UniProtDBCrossReference> references, UniProtDocument document) {
+            List<UniProtCrossReference> references, UniProtDocument document) {
         document.xrefCountMap =
                 references.stream()
-                        .map(val -> XREF_COUNT + val.getDatabaseType().getName().toLowerCase())
+                        .map(val -> XREF_COUNT + val.getDatabase().getName().toLowerCase())
                         .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
     }
 
-    private void convertGoTerm(UniProtDBCrossReference go, UniProtDocument document) {
+    private void convertGoTerm(UniProtCrossReference go, UniProtDocument document) {
         String goTerm =
                 go.getProperties().stream()
                         .filter(property -> property.getKey().equalsIgnoreCase("GoTerm"))

@@ -9,16 +9,16 @@ import java.util.HashSet;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
-import org.uniprot.core.DBCrossReference;
-import org.uniprot.core.builder.DBCrossReferenceBuilder;
+import org.uniprot.core.CrossReference;
+import org.uniprot.core.builder.CrossReferenceBuilder;
 import org.uniprot.core.uniprot.evidence.Evidence;
 import org.uniprot.core.uniprot.evidence.EvidenceCode;
 import org.uniprot.core.uniprot.evidence.builder.EvidenceBuilder;
 import org.uniprot.core.uniprot.feature.AlternativeSequence;
 import org.uniprot.core.uniprot.feature.Feature;
+import org.uniprot.core.uniprot.feature.FeatureDatabase;
 import org.uniprot.core.uniprot.feature.FeatureLocation;
 import org.uniprot.core.uniprot.feature.FeatureType;
-import org.uniprot.core.uniprot.feature.FeatureXDbType;
 import org.uniprot.core.uniprot.feature.builder.AlternativeSequenceBuilder;
 import org.uniprot.core.uniprot.feature.builder.FeatureBuilder;
 import org.uniprot.store.search.document.uniprot.UniProtDocument;
@@ -93,9 +93,9 @@ class UniProtEntryFeatureConverterTest {
                         .alternativeSequencesAdd("alternative value")
                         .build();
 
-        DBCrossReference<FeatureXDbType> xrefs =
-                new DBCrossReferenceBuilder<FeatureXDbType>()
-                        .databaseType(FeatureXDbType.DBSNP)
+        CrossReference<FeatureDatabase> xrefs =
+                new CrossReferenceBuilder<FeatureDatabase>()
+                        .database(FeatureDatabase.DBSNP)
                         .id("DBSNP-12345")
                         .build();
 
@@ -104,7 +104,7 @@ class UniProtEntryFeatureConverterTest {
         return new FeatureBuilder()
                 .type(FeatureType.CHAIN)
                 .alternativeSequence(alternativeSequence)
-                .dbXref(xrefs)
+                .featureCrossReference(xrefs)
                 .description("description value")
                 .evidencesSet(evidences)
                 .featureId("FT12345")

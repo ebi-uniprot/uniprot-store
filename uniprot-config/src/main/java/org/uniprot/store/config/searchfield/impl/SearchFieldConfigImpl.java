@@ -3,8 +3,8 @@ package org.uniprot.store.config.searchfield.impl;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.uniprot.core.cv.xdb.UniProtXDbTypeDetail;
-import org.uniprot.cv.xdb.UniProtXDbTypes;
+import org.uniprot.core.cv.xdb.UniProtDatabaseDetail;
+import org.uniprot.cv.xdb.UniProtDatabaseTypes;
 import org.uniprot.store.config.searchfield.common.AbstractSearchFieldConfig;
 import org.uniprot.store.config.searchfield.factory.UniProtDataType;
 import org.uniprot.store.config.searchfield.model.SearchFieldDataType;
@@ -25,12 +25,12 @@ public class SearchFieldConfigImpl extends AbstractSearchFieldConfig {
     }
 
     private List<SearchFieldItem> getCrossRefCountSearchFieldItems() {
-        return UniProtXDbTypes.INSTANCE.getAllDBXRefTypes().stream()
+        return UniProtDatabaseTypes.INSTANCE.getAllDbTypes().stream()
                 .map(this::convertToFieldItem)
                 .collect(Collectors.toList());
     }
 
-    private SearchFieldItem convertToFieldItem(UniProtXDbTypeDetail db) {
+    private SearchFieldItem convertToFieldItem(UniProtDatabaseDetail db) {
         String fieldName = XREF_COUNT_PREFIX + db.getName().toLowerCase();
         SearchFieldItem fieldItem = new SearchFieldItem();
         fieldItem.setId(fieldName);

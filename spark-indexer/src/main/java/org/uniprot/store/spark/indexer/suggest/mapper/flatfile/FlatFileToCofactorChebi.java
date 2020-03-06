@@ -43,7 +43,7 @@ public class FlatFileToCofactorChebi implements PairFlatMapFunction<String, Stri
                                             .forEach(
                                                     cofactor -> {
                                                         String id =
-                                                                cofactor.getCofactorReference()
+                                                                cofactor.getCofactorCrossReference()
                                                                         .getId();
                                                         if (id.startsWith("CHEBI:")) {
                                                             id = id.substring("CHEBI:".length());
@@ -51,7 +51,7 @@ public class FlatFileToCofactorChebi implements PairFlatMapFunction<String, Stri
                                                         result.add(
                                                                 new Tuple2<>(
                                                                         id,
-                                                                        cofactor.getCofactorReference()
+                                                                        cofactor.getCofactorCrossReference()
                                                                                 .getId()));
                                                     });
                                 }

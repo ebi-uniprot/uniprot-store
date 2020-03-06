@@ -5,9 +5,9 @@ import java.nio.ByteBuffer;
 import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.batch.item.ItemProcessor;
-import org.uniprot.core.DBCrossReference;
-import org.uniprot.core.builder.DBCrossReferenceBuilder;
-import org.uniprot.core.citation.CitationXrefType;
+import org.uniprot.core.CrossReference;
+import org.uniprot.core.builder.CrossReferenceBuilder;
+import org.uniprot.core.citation.CitationDatabase;
 import org.uniprot.core.citation.Literature;
 import org.uniprot.core.citation.builder.LiteratureBuilder;
 import org.uniprot.core.json.parser.literature.LiteratureJsonConfig;
@@ -42,12 +42,13 @@ public class LiteratureStatisticsProcessor
                         .reviewedProteinCount(literatureCount.getReviewedProteinCount())
                         .unreviewedProteinCount(literatureCount.getUnreviewedProteinCount())
                         .build();
-        DBCrossReference<CitationXrefType> pubmedXref =
-                new DBCrossReferenceBuilder<CitationXrefType>()
-                        .databaseType(CitationXrefType.PUBMED)
+        CrossReference<CitationDatabase> pubmedXref =
+                new CrossReferenceBuilder<CitationDatabase>()
+                        .database(CitationDatabase.PUBMED)
                         .id(String.valueOf(literatureCount.getPubmedId()))
                         .build();
-        Literature literature = new LiteratureBuilder().citationXrefsAdd(pubmedXref).build();
+        Literature literature =
+                new LiteratureBuilder().citationCrossReferencesAdd(pubmedXref).build();
         LiteratureEntry literatureEntry =
                 new LiteratureEntryBuilder().citation(literature).statistics(statistics).build();
 
