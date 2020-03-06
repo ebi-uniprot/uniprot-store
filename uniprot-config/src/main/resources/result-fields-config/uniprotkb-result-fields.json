@@ -204,7 +204,7 @@
     "name": "cc_mass_spectrometry",
     "label": "Mass spectrometry",
     "path": "comments",
-    "filter": "[?(@.type=='MassSpectrometry')]",
+    "filter": "[?(@.commentType=='MASS SPECTROMETRY')]",
     "id": "sequences/mass_spectrometry"
   },
   {
@@ -368,8 +368,8 @@
     "itemType": "SINGLE",
     "name": "cc_catalytic_activity",
     "label": "Catalytic activity",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "comments",
+    "filter": "[?(@.commentType=='CATALYTIC ACTIVITY')]",
     "id": "function/catalytic_activity"
   },
   {
@@ -378,8 +378,8 @@
     "itemType": "SINGLE",
     "name": "cc_cofactor",
     "label": "Cofactor",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "comments",
+    "filter": "[?(@.commentType=='COFACTOR')]",
     "id": "function/cofactor"
   },
   {
@@ -408,8 +408,8 @@
     "itemType": "SINGLE",
     "name": "cc_activity_regulation",
     "label": "Activity regulation",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "comments",
+    "filter": "[?(@.commentType=='ACTIVITY REGULATION')]",
     "id": "function/activity_regulation"
   },
   {
@@ -418,8 +418,8 @@
     "itemType": "SINGLE",
     "name": "cc_function",
     "label": "Function [CC]",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "comments",
+    "filter": "[?(@.commentType=='FUNCTION')]",
     "id": "function/function_[cc]"
   },
   {
@@ -458,8 +458,8 @@
     "itemType": "SINGLE",
     "name": "cc_pathway",
     "label": "Pathway",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "comments",
+    "filter": "[?(@.commentType=='PATHWAY')]",
     "id": "function/pathway"
   },
   {
@@ -525,8 +525,8 @@
     "itemType": "SINGLE",
     "name": "cc_caution",
     "label": "Caution",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "comments",
+    "filter": "[?(@.commentType=='CAUTION')]",
     "id": "miscellaneous/caution"
   },
   {
@@ -574,8 +574,8 @@
     "itemType": "SINGLE",
     "name": "cc_miscellaneous",
     "label": "Miscellaneous [CC]",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "comments",
+    "filter": "[?(@.commentType=='MISCELLANEOUS')]",
     "id": "miscellaneous/miscellaneous_[cc]"
   },
   {
@@ -631,8 +631,8 @@
     "itemType": "SINGLE",
     "name": "cc_interaction",
     "label": "Interacts with",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "comments",
+    "filter": "[?(@.commentType=='INTERACTION')]",
     "id": "interaction/interacts_with"
   },
   {
@@ -641,8 +641,8 @@
     "itemType": "SINGLE",
     "name": "cc_subunit",
     "label": "Subunit structure",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "comments",
+    "filter": "[?(@.commentType=='SUBUNIT')]",
     "id": "interaction/subunit_structure"
   },
   {
@@ -658,8 +658,8 @@
     "itemType": "SINGLE",
     "name": "cc_developmental_stage",
     "label": "Developmental stage",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "comments",
+    "filter": "[?(@.commentType=='DEVELOPMENTAL STAGE')]",
     "id": "expression/developmental_stage"
   },
   {
@@ -668,8 +668,8 @@
     "itemType": "SINGLE",
     "name": "cc_induction",
     "label": "Induction",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "comments",
+    "filter": "[?(@.commentType=='INDUCTION')]",
     "id": "expression/induction"
   },
   {
@@ -678,8 +678,8 @@
     "itemType": "SINGLE",
     "name": "cc_tissue_specificity",
     "label": "Tissue specificity",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "comments",
+    "filter": "[?(@.commentType=='TISSUE SPECIFICITY')]",
     "id": "expression/tissue_specificity"
   },
   {
@@ -752,8 +752,8 @@
     "itemType": "SINGLE",
     "name": "cc_allergen",
     "label": "Allergenic Properties",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "comments",
+    "filter": "[?(@.commentType=='ALLERGEN')]",
     "id": "pathology_&_biotech/allergenic_properties"
   },
   {
@@ -762,8 +762,8 @@
     "itemType": "SINGLE",
     "name": "cc_biotechnology",
     "label": "Biotechnological use",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "comments",
+    "filter": "[?(@.commentType=='BIOTECHNOLOGY')]",
     "id": "pathology_&_biotech/biotechnological_use"
   },
   {
@@ -772,8 +772,8 @@
     "itemType": "SINGLE",
     "name": "cc_disruption_phenotype",
     "label": "Disruption phenotype",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "comments",
+    "filter": "[?(@.commentType=='DISRUPTION PHENOTYPE')]",
     "id": "pathology_&_biotech/disruption_phenotype"
   },
   {
@@ -782,8 +782,8 @@
     "itemType": "SINGLE",
     "name": "cc_disease",
     "label": "Involvement in disease",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "comments",
+    "filter": "[?(@.commentType=='DISEASE')]",
     "id": "pathology_&_biotech/involvement_in_disease"
   },
   {
@@ -802,8 +802,8 @@
     "itemType": "SINGLE",
     "name": "cc_pharmaceutical",
     "label": "Pharmaceutical use",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "comments",
+    "filter": "[?(@.commentType=='PHARMACEUTICAL')]",
     "id": "pathology_&_biotech/pharmaceutical_use"
   },
   {
@@ -812,8 +812,8 @@
     "itemType": "SINGLE",
     "name": "cc_toxic_dose",
     "label": "Toxic dose",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "comments",
+    "filter": "[?(@.commentType=='TOXIC DOSE')]",
     "id": "pathology_&_biotech/toxic_dose"
   },
   {
@@ -839,8 +839,8 @@
     "itemType": "SINGLE",
     "name": "cc_subcellular_location",
     "label": "Subcellular location [CC]",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "comments",
+    "filter": "[?(@.commentType=='SUBCELLULAR LOCATION')]",
     "id": "subcellular_location/subcellular_location_[cc]"
   },
   {
@@ -956,8 +956,8 @@
     "itemType": "SINGLE",
     "name": "cc_ptm",
     "label": "Post-translational modification",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "comments",
+    "filter": "[?(@.commentType=='PTM')]",
     "id": "ptm_/_processing/post-translational_modification"
   },
   {
@@ -1144,8 +1144,8 @@
     "itemType": "SINGLE",
     "name": "cc_domain",
     "label": "Domain [CC]",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "comments",
+    "filter": "[?(@.commentType=='DOMAIN')]",
     "id": "family_&_domains/domain_[cc]"
   },
   {
