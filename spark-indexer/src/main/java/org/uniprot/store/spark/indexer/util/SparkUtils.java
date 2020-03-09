@@ -84,19 +84,20 @@ public class SparkUtils {
     }
 
     public static JavaSparkContext loadSparkContext(ResourceBundle applicationConfig) {
+        String applicationName = applicationConfig.getString("spark.application.name");
         String sparkMaster = applicationConfig.getString("spark.master");
         SparkConf sparkConf =
                 new SparkConf()
-                        .setAppName(applicationConfig.getString("spark.application.name"))
-                        .setMaster(sparkMaster);
+                        .setAppName(applicationName)
+                        .setMaster(sparkMaster)
+                        .set("spark.scheduler.mode", "FAIR")
+                        .set("spark.scheduler.allocation.file", "uniprot-fair-scheduler.xml");
+
         if (sparkMaster.startsWith("local")) {
             sparkConf = sparkConf.set("spark.driver.host", "localhost");
-        } else {
-            // Allow fair scheduling for parallel jobs
-            sparkConf = sparkConf.set("spark.scheduler.mode", "FAIR");
         }
         JavaSparkContext sparkContext = new JavaSparkContext(sparkConf);
-        sparkContext.setLocalProperty("spark.scheduler.pool", "uniprotIndexerWriter");
+        sparkContext.setLocalProperty("spark.scheduler.pool", "uniprotPool");
         return sparkContext;
     }
 

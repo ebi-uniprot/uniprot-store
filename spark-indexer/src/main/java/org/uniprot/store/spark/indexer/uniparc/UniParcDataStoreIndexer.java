@@ -16,10 +16,21 @@ import org.uniprot.store.datastore.voldemort.uniparc.VoldemortRemoteUniParcEntry
  * @since 2020-02-26
  */
 @Slf4j
-public class UniParcDataStoreIndexer {
+public class UniParcDataStoreIndexer implements Runnable {
 
-    public static void indexDataStore(
+    private JavaSparkContext sparkContext;
+    private ResourceBundle applicationConfig;
+    private String releaseName;
+
+    public UniParcDataStoreIndexer(
             JavaSparkContext sparkContext, ResourceBundle applicationConfig, String releaseName) {
+        this.sparkContext = sparkContext;
+        this.applicationConfig = applicationConfig;
+        this.releaseName = releaseName;
+    }
+
+    @Override
+    public void run() {
         SparkConf sparkConf = sparkContext.sc().conf();
 
         JavaRDD<UniParcEntry> uniparcRDD =
@@ -36,9 +47,28 @@ public class UniParcDataStoreIndexer {
                     VoldemortClient<UniParcEntry> client =
                             new VoldemortRemoteUniParcEntryStore(
                                     Integer.valueOf(numberOfConnections), storeName, connectionURL);
+                    int numNewConnection = 0;
                     while (uniParcEntryIterator.hasNext()) {
                         UniParcEntry entry = uniParcEntryIterator.next();
-                        client.saveEntry(entry);
+                        try {
+                            client.saveEntry(entry);
+                        } catch (Exception e) {
+                            log.info("trying to reset voldemort connection...." + numNewConnection);
+                            Thread.sleep(4000);
+                            numNewConnection++;
+                            if (numNewConnection < 3) {
+                                client =
+                                        new VoldemortRemoteUniParcEntryStore(
+                                                Integer.valueOf(numberOfConnections),
+                                                storeName,
+                                                connectionURL);
+                                client.saveEntry(entry);
+                            } else {
+                                throw new Exception(
+                                        "Already tried to reset Voldemort connection twice and did not work",
+                                        e);
+                            }
+                        }
                     }
                 });
         log.info("Completed UniParc Data Store index");
