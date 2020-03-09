@@ -683,8 +683,8 @@
     "itemType": "SINGLE",
     "name": "go_p",
     "label": "Gene Ontology (biological process)",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "????",
+    "filter": "????",
     "id": "gene_ontology_(go)/gene_ontology_(biological_process)"
   },
   {
@@ -693,8 +693,8 @@
     "itemType": "SINGLE",
     "name": "go_c",
     "label": "Gene Ontology (cellular component)",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "????",
+    "filter": "????",
     "id": "gene_ontology_(go)/gene_ontology_(cellular_component)"
   },
   {
@@ -713,8 +713,8 @@
     "itemType": "SINGLE",
     "name": "go_f",
     "label": "Gene Ontology (molecular function)",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "????",
+    "filter": "????",
     "id": "gene_ontology_(go)/gene_ontology_(molecular_function)"
   },
   {
@@ -723,8 +723,8 @@
     "itemType": "SINGLE",
     "name": "go_id",
     "label": "Gene Ontology IDs",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "databaseCrossReferences???? not sure how to get IDs only",
+    "filter": "[?(@.databaseType=='GO')]",
     "id": "gene_ontology_(go)/gene_ontology_ids"
   },
   {
@@ -991,8 +991,8 @@
     "itemType": "SINGLE",
     "name": "3d",
     "label": "3D",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "databaseCrossReferences",
+    "filter": "[?(@.databaseType=='PDB')]",
     "id": "structure/3d"
   },
   {
@@ -1038,8 +1038,8 @@
     "itemType": "SINGLE",
     "name": "mapped_pm_id",
     "label": "Mapped PubMed ID",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "???? DATA COMES FROM EXTERNAL SERVICE",
+    "filter": "????",
     "id": "publications/mapped_pubmed_id"
   },
   {
@@ -1048,8 +1048,8 @@
     "itemType": "SINGLE",
     "name": "pm_id",
     "label": "PubMed ID",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "references[*].citation.citationXrefs[*][?(@.databaseType=='PubMed')].id",
+    "filter": "????",
     "id": "publications/pubmed_id"
   },
   {
