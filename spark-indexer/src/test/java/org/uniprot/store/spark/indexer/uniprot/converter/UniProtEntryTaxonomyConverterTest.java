@@ -10,8 +10,8 @@ import java.util.HashSet;
 import org.junit.jupiter.api.Test;
 import org.uniprot.core.uniprot.taxonomy.Organism;
 import org.uniprot.core.uniprot.taxonomy.OrganismHost;
-import org.uniprot.core.uniprot.taxonomy.builder.OrganismBuilder;
-import org.uniprot.core.uniprot.taxonomy.builder.OrganismHostBuilder;
+import org.uniprot.core.uniprot.taxonomy.impl.OrganismBuilder;
+import org.uniprot.core.uniprot.taxonomy.impl.OrganismHostBuilder;
 import org.uniprot.store.search.document.uniprot.UniProtDocument;
 
 /**

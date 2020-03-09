@@ -9,10 +9,10 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 import org.uniprot.core.uniprot.description.*;
-import org.uniprot.core.uniprot.description.builder.*;
+import org.uniprot.core.uniprot.description.impl.*;
 import org.uniprot.core.uniprot.evidence.Evidence;
 import org.uniprot.core.uniprot.evidence.EvidenceCode;
-import org.uniprot.core.uniprot.evidence.builder.EvidenceBuilder;
+import org.uniprot.core.uniprot.evidence.impl.EvidenceBuilder;
 import org.uniprot.store.search.document.uniprot.UniProtDocument;
 
 /**
@@ -200,10 +200,7 @@ class UniProtEntryProteinDescriptionConverterTest {
 
     private static List<EC> createECNumbers(String ec, int index) {
         return Collections.singletonList(
-                new org.uniprot.core.uniprot.description.builder.ECBuilder()
-                        .value(ec)
-                        .evidencesAdd(createEvidence(index))
-                        .build());
+                new ECBuilder().value(ec).evidencesAdd(createEvidence(index)).build());
     }
 
     private static Evidence createEvidence(int index) {

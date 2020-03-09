@@ -8,12 +8,12 @@ import java.util.List;
 import java.util.Map;
 
 import org.junit.jupiter.api.Test;
-import org.uniprot.core.builder.SequenceBuilder;
 import org.uniprot.core.flatfile.parser.impl.cc.CcLineTransformer;
+import org.uniprot.core.impl.SequenceBuilder;
 import org.uniprot.core.uniprot.UniProtEntry;
 import org.uniprot.core.uniprot.UniProtEntryType;
-import org.uniprot.core.uniprot.builder.UniProtEntryBuilder;
 import org.uniprot.core.uniprot.comment.Comment;
+import org.uniprot.core.uniprot.impl.UniProtEntryBuilder;
 import org.uniprot.store.search.document.uniprot.UniProtDocument;
 
 /**
