@@ -1,8 +1,8 @@
 package org.uniprot.store.config.returnfield.common;
 
-import org.uniprot.store.config.returnfield.model.ReturnField;
-
 import java.util.List;
+
+import org.uniprot.store.config.returnfield.model.ReturnField;
 
 public interface ReturnFieldConfig {
     List<ReturnField> getAllFields();

@@ -1,14 +1,14 @@
 package org.uniprot.store.config.searchfield.schema;
 
-import org.apache.commons.lang3.StringUtils;
-import org.uniprot.store.config.schema.SchemaValidationException;
-import org.uniprot.store.config.searchfield.model.SearchFieldItem;
-
 import java.util.BitSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
+
+import org.apache.commons.lang3.StringUtils;
+import org.uniprot.store.config.schema.SchemaValidationException;
+import org.uniprot.store.config.searchfield.model.SearchFieldItem;
 
 public class DataValidator {
 
@@ -93,12 +93,10 @@ public class DataValidator {
                         message + " " + number + " is bigger than available number.");
             }
             if (number < 0) {
-                throw new SchemaValidationException(
-                        message + " " + number + " is less than zero.");
+                throw new SchemaValidationException(message + " " + number + " is less than zero.");
             }
             if (visitedSet.get(number)) {
-                throw new SchemaValidationException(
-                        message + " " + number + " is already used.");
+                throw new SchemaValidationException(message + " " + number + " is already used.");
             }
             visitedSet.set(number);
         }
