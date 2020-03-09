@@ -7,12 +7,12 @@ import static org.mockito.Mockito.when;
 import java.util.*;
 
 import org.junit.jupiter.api.Test;
-import org.uniprot.core.cv.ec.builder.ECEntryBuilder;
+import org.uniprot.core.cv.ec.impl.ECEntryBuilder;
 import org.uniprot.core.uniprot.description.*;
-import org.uniprot.core.uniprot.description.builder.*;
+import org.uniprot.core.uniprot.description.impl.*;
 import org.uniprot.core.uniprot.evidence.Evidence;
 import org.uniprot.core.uniprot.evidence.EvidenceCode;
-import org.uniprot.core.uniprot.evidence.builder.EvidenceBuilder;
+import org.uniprot.core.uniprot.evidence.impl.EvidenceBuilder;
 import org.uniprot.cv.ec.ECRepo;
 import org.uniprot.store.search.document.suggest.SuggestDocument;
 import org.uniprot.store.search.document.uniprot.UniProtDocument;
@@ -238,10 +238,7 @@ class UniprotEntryProteinDescriptionConverterTest {
 
     private static List<EC> createECNumbers(String ec, int index) {
         return Collections.singletonList(
-                new org.uniprot.core.uniprot.description.builder.ECBuilder()
-                        .value(ec)
-                        .evidencesAdd(createEvidence(index))
-                        .build());
+                new ECBuilder().value(ec).evidencesAdd(createEvidence(index)).build());
     }
 
     private static Evidence createEvidence(int index) {

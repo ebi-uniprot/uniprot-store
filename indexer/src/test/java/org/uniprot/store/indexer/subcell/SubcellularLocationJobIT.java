@@ -25,7 +25,7 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.uniprot.core.cv.subcell.SubcellLocationCategory;
 import org.uniprot.core.cv.subcell.SubcellularLocationEntry;
-import org.uniprot.core.cv.subcell.builder.SubcellularLocationEntryImpl;
+import org.uniprot.core.cv.subcell.impl.SubcellularLocationEntryImpl;
 import org.uniprot.core.json.parser.subcell.SubcellularLocationJsonConfig;
 import org.uniprot.store.indexer.common.utils.Constants;
 import org.uniprot.store.indexer.test.config.FakeIndexerSpringBootApplication;

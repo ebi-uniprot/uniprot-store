@@ -5,9 +5,9 @@ import static org.junit.jupiter.api.Assertions.*;
 import java.util.Iterator;
 
 import org.junit.jupiter.api.Test;
-import org.uniprot.core.taxonomy.builder.TaxonomyEntryBuilder;
+import org.uniprot.core.taxonomy.impl.TaxonomyEntryBuilder;
 import org.uniprot.core.uniparc.UniParcEntry;
-import org.uniprot.core.uniparc.builder.UniParcEntryBuilder;
+import org.uniprot.core.uniparc.impl.UniParcEntryBuilder;
 
 import scala.Tuple2;
 

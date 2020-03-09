@@ -5,7 +5,7 @@ import org.springframework.batch.item.file.FlatFileItemReader;
 import org.uniprot.core.CrossReference;
 import org.uniprot.core.citation.CitationDatabase;
 import org.uniprot.core.literature.LiteratureStoreEntry;
-import org.uniprot.core.literature.builder.LiteratureStoreEntryBuilder;
+import org.uniprot.core.literature.impl.LiteratureStoreEntryBuilder;
 
 /** @author lgonzales */
 public class LiteratureMappingItemReader implements ItemReader<LiteratureStoreEntry>, ItemStream {

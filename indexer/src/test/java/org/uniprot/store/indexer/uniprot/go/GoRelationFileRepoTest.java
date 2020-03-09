@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.uniprot.core.cv.go.GeneOntologyEntry;
-import org.uniprot.core.cv.go.builder.GeneOntologyEntryBuilder;
+import org.uniprot.core.cv.go.impl.GeneOntologyEntryBuilder;
 
 /**
  * Created 05/07/19

@@ -7,12 +7,12 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
-import org.uniprot.core.uniparc.impl.UniParcIdImpl;
-import org.uniprot.core.uniprot.builder.UniProtAccessionBuilder;
+import org.uniprot.core.uniparc.impl.UniParcIdBuilder;
+import org.uniprot.core.uniprot.impl.UniProtAccessionBuilder;
 import org.uniprot.core.uniref.*;
-import org.uniprot.core.uniref.builder.RepresentativeMemberBuilder;
-import org.uniprot.core.uniref.builder.UniRefEntryBuilder;
-import org.uniprot.core.uniref.builder.UniRefMemberBuilder;
+import org.uniprot.core.uniref.impl.RepresentativeMemberBuilder;
+import org.uniprot.core.uniref.impl.UniRefEntryBuilder;
+import org.uniprot.core.uniref.impl.UniRefMemberBuilder;
 import org.uniprot.store.spark.indexer.uniprot.mapper.model.MappedUniRef;
 
 import scala.Tuple2;
@@ -31,7 +31,7 @@ class UniRefJoinMapperTest {
                 new RepresentativeMemberBuilder()
                         .memberIdType(UniRefMemberIdType.UNIPROTKB)
                         .accessionsAdd(new UniProtAccessionBuilder("P12345").build())
-                        .uniparcId(new UniParcIdImpl("UPI000000111"))
+                        .uniparcId(new UniParcIdBuilder("UPI000000111").build())
                         .build();
 
         UniRefMember member =
@@ -82,7 +82,7 @@ class UniRefJoinMapperTest {
                 new UniRefMemberBuilder()
                         .memberIdType(UniRefMemberIdType.UNIPROTKB)
                         .accessionsAdd(new UniProtAccessionBuilder("P12345").build())
-                        .uniparcId(new UniParcIdImpl("UPI000000111"))
+                        .uniparcId(new UniParcIdBuilder("UPI000000111").build())
                         .build();
 
         UniRefMember uniparcMember =

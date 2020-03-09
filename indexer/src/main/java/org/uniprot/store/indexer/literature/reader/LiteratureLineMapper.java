@@ -9,15 +9,15 @@ import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.batch.item.file.mapping.DefaultLineMapper;
 import org.uniprot.core.CrossReference;
-import org.uniprot.core.builder.CrossReferenceBuilder;
 import org.uniprot.core.citation.Author;
 import org.uniprot.core.citation.CitationDatabase;
 import org.uniprot.core.citation.Literature;
-import org.uniprot.core.citation.builder.LiteratureBuilder;
-import org.uniprot.core.citation.impl.AuthorImpl;
-import org.uniprot.core.citation.impl.PublicationDateImpl;
+import org.uniprot.core.citation.impl.AuthorBuilder;
+import org.uniprot.core.citation.impl.LiteratureBuilder;
+import org.uniprot.core.citation.impl.PublicationDateBuilder;
+import org.uniprot.core.impl.CrossReferenceBuilder;
 import org.uniprot.core.literature.LiteratureEntry;
-import org.uniprot.core.literature.builder.LiteratureEntryBuilder;
+import org.uniprot.core.literature.impl.LiteratureEntryBuilder;
 import org.uniprot.core.util.Utils;
 
 /** @author lgonzales */
@@ -119,7 +119,7 @@ public class LiteratureLineMapper extends DefaultLineMapper<LiteratureEntry> {
                     Arrays.stream(raLine.split(LINE_ITEM_SEPARATOR))
                             .filter(author -> !author.isEmpty())
                             .map(String::trim)
-                            .map(AuthorImpl::new)
+                            .map(aut -> new AuthorBuilder(aut).build())
                             .collect(Collectors.toList());
             builder = builder.authorsSet(authors);
         }
@@ -178,7 +178,7 @@ public class LiteratureLineMapper extends DefaultLineMapper<LiteratureEntry> {
         String publicationYear =
                 rlLinePagesAndYear.substring(
                         rlLinePagesAndYear.indexOf('(') + 1, rlLinePagesAndYear.indexOf(')'));
-        builder = builder.publicationDate(new PublicationDateImpl(publicationYear));
+        builder = builder.publicationDate(new PublicationDateBuilder(publicationYear).build());
         return builder;
     }
 

@@ -6,7 +6,7 @@ import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
 import org.uniprot.core.citation.Literature;
-import org.uniprot.core.citation.impl.AuthorImpl;
+import org.uniprot.core.citation.impl.AuthorBuilder;
 import org.uniprot.core.literature.LiteratureEntry;
 
 /**
@@ -53,7 +53,9 @@ class LiteratureLineMapperTest {
         assertTrue(literature.hasAuthors());
         MatcherAssert.assertThat(
                 literature.getAuthors(),
-                Matchers.contains(new AuthorImpl("Makar A.B."), new AuthorImpl("McMartin K.E.")));
+                Matchers.contains(
+                        new AuthorBuilder("Makar A.B.").build(),
+                        new AuthorBuilder("McMartin K.E.").build()));
 
         assertTrue(literature.hasFirstPage());
         assertEquals(literature.getFirstPage(), "117");
@@ -108,7 +110,8 @@ class LiteratureLineMapperTest {
 
         assertTrue(literature.hasAuthors());
         MatcherAssert.assertThat(
-                literature.getAuthors(), Matchers.contains(new AuthorImpl("Makar A.B.")));
+                literature.getAuthors(),
+                Matchers.contains(new AuthorBuilder("Makar A.B.").build()));
 
         assertTrue(literature.hasFirstPage());
         assertEquals(literature.getFirstPage(), "117");

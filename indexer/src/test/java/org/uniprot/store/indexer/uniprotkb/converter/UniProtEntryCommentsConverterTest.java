@@ -10,15 +10,15 @@ import java.util.List;
 import java.util.Map;
 
 import org.junit.jupiter.api.Test;
-import org.uniprot.core.builder.SequenceBuilder;
 import org.uniprot.core.cv.chebi.ChebiEntry;
-import org.uniprot.core.cv.chebi.builder.ChebiEntryBuilder;
+import org.uniprot.core.cv.chebi.impl.ChebiEntryBuilder;
 import org.uniprot.core.cv.pathway.UniPathway;
 import org.uniprot.core.flatfile.parser.impl.cc.CcLineTransformer;
+import org.uniprot.core.impl.SequenceBuilder;
 import org.uniprot.core.uniprot.UniProtEntry;
 import org.uniprot.core.uniprot.UniProtEntryType;
-import org.uniprot.core.uniprot.builder.UniProtEntryBuilder;
 import org.uniprot.core.uniprot.comment.Comment;
+import org.uniprot.core.uniprot.impl.UniProtEntryBuilder;
 import org.uniprot.cv.chebi.ChebiRepo;
 import org.uniprot.store.indexer.uniprot.pathway.PathwayRepo;
 import org.uniprot.store.search.document.suggest.SuggestDocument;

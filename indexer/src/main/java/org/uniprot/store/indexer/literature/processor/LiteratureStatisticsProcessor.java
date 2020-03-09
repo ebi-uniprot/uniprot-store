@@ -6,17 +6,17 @@ import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.batch.item.ItemProcessor;
 import org.uniprot.core.CrossReference;
-import org.uniprot.core.builder.CrossReferenceBuilder;
 import org.uniprot.core.citation.CitationDatabase;
 import org.uniprot.core.citation.Literature;
-import org.uniprot.core.citation.builder.LiteratureBuilder;
+import org.uniprot.core.citation.impl.LiteratureBuilder;
+import org.uniprot.core.impl.CrossReferenceBuilder;
 import org.uniprot.core.json.parser.literature.LiteratureJsonConfig;
 import org.uniprot.core.literature.LiteratureEntry;
 import org.uniprot.core.literature.LiteratureStatistics;
 import org.uniprot.core.literature.LiteratureStoreEntry;
-import org.uniprot.core.literature.builder.LiteratureEntryBuilder;
-import org.uniprot.core.literature.builder.LiteratureStatisticsBuilder;
-import org.uniprot.core.literature.builder.LiteratureStoreEntryBuilder;
+import org.uniprot.core.literature.impl.LiteratureEntryBuilder;
+import org.uniprot.core.literature.impl.LiteratureStatisticsBuilder;
+import org.uniprot.core.literature.impl.LiteratureStoreEntryBuilder;
 import org.uniprot.store.indexer.literature.reader.LiteratureStatisticsReader;
 import org.uniprot.store.search.document.literature.LiteratureDocument;
 

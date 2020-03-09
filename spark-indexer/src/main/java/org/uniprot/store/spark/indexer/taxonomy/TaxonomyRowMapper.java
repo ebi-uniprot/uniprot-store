@@ -9,7 +9,7 @@ import org.apache.spark.api.java.function.PairFunction;
 import org.apache.spark.sql.Row;
 import org.uniprot.core.taxonomy.TaxonomyEntry;
 import org.uniprot.core.taxonomy.TaxonomyRank;
-import org.uniprot.core.taxonomy.builder.TaxonomyEntryBuilder;
+import org.uniprot.core.taxonomy.impl.TaxonomyEntryBuilder;
 
 import scala.Tuple2;
 
