@@ -6,7 +6,7 @@ import org.apache.spark.sql.Row;
 import org.apache.spark.sql.types.DataTypes;
 import org.apache.spark.sql.types.StructType;
 import org.uniprot.core.Sequence;
-import org.uniprot.core.builder.SequenceBuilder;
+import org.uniprot.core.impl.SequenceBuilder;
 import org.uniprot.core.util.Utils;
 
 /**

@@ -3,9 +3,9 @@ package org.uniprot.store.spark.indexer.uniparc.mapper;
 import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
-import org.uniprot.core.impl.SequenceImpl;
+import org.uniprot.core.impl.SequenceBuilder;
 import org.uniprot.core.uniparc.UniParcEntry;
-import org.uniprot.core.uniparc.builder.UniParcEntryBuilder;
+import org.uniprot.core.uniparc.impl.UniParcEntryBuilder;
 import org.uniprot.store.search.document.uniparc.UniParcDocument;
 
 import scala.Tuple2;
@@ -22,7 +22,7 @@ class UniParcEntryToDocumentTest {
         UniParcEntry entry =
                 new UniParcEntryBuilder()
                         .uniParcId("uniParcIdValue")
-                        .sequence(new SequenceImpl("MVSWGRFICLVVVTMATLSLAR"))
+                        .sequence(new SequenceBuilder("MVSWGRFICLVVVTMATLSLAR").build())
                         .build();
         Tuple2<String, UniParcDocument> result = mapper.call(entry);
         assertNotNull(result);

@@ -5,7 +5,7 @@ import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 
 import org.uniprot.core.citation.Citation;
-import org.uniprot.core.citation.CitationXrefType;
+import org.uniprot.core.citation.CitationDatabase;
 import org.uniprot.core.citation.JournalArticle;
 import org.uniprot.core.uniprot.ReferenceComment;
 import org.uniprot.core.uniprot.UniProtReference;
@@ -53,7 +53,7 @@ class UniProtEntryReferencesConverter {
             if (citation.hasPublicationDate()) {
                 convertPublicationDate(citation.getPublicationDate().getValue(), document);
             }
-            citation.getCitationXrefsByType(CitationXrefType.PUBMED)
+            citation.getCitationCrossReferenceByType(CitationDatabase.PUBMED)
                     .ifPresent(
                             pubmed -> {
                                 document.referencePubmeds.add(pubmed.getId());

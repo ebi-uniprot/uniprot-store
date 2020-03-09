@@ -4,7 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
 import org.uniprot.core.cv.subcell.SubcellularLocationEntry;
-import org.uniprot.core.cv.subcell.impl.SubcellularLocationEntryImpl;
+import org.uniprot.core.cv.subcell.impl.SubcellularLocationEntryBuilder;
 
 import scala.Tuple2;
 
@@ -16,8 +16,7 @@ class SubcellularLocationMapperTest {
 
     @Test
     void testSubcellularLocationMapper() throws Exception {
-        SubcellularLocationEntryImpl entry = new SubcellularLocationEntryImpl();
-        entry.setId("ID");
+        SubcellularLocationEntry entry = new SubcellularLocationEntryBuilder().id("ID").build();
 
         SubcellularLocationMapper mapper = new SubcellularLocationMapper();
         Tuple2<String, SubcellularLocationEntry> result = mapper.call(entry);

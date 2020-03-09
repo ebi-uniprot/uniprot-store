@@ -4,9 +4,9 @@ import java.nio.ByteBuffer;
 
 import org.springframework.batch.item.ItemProcessor;
 import org.uniprot.core.Statistics;
-import org.uniprot.core.builder.StatisticsBuilder;
 import org.uniprot.core.cv.keyword.KeywordEntry;
-import org.uniprot.core.cv.keyword.builder.KeywordEntryBuilder;
+import org.uniprot.core.cv.keyword.impl.KeywordEntryBuilder;
+import org.uniprot.core.impl.StatisticsBuilder;
 import org.uniprot.core.json.parser.keyword.KeywordJsonConfig;
 import org.uniprot.store.search.document.keyword.KeywordDocument;
 

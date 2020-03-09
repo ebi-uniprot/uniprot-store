@@ -8,7 +8,7 @@ import net.jodah.failsafe.RetryPolicy;
 import org.uniprot.core.flatfile.writer.impl.UniProtFlatfileWriter;
 import org.uniprot.core.scorer.uniprotkb.UniProtEntryScored;
 import org.uniprot.core.uniprot.UniProtEntry;
-import org.uniprot.core.uniprot.builder.UniProtEntryBuilder;
+import org.uniprot.core.uniprot.impl.UniProtEntryBuilder;
 import org.uniprot.store.job.common.store.Store;
 import org.uniprot.store.job.common.writer.ItemRetryWriter;
 

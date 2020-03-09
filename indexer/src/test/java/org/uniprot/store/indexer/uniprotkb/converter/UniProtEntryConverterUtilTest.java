@@ -8,18 +8,18 @@ import java.util.Set;
 
 import org.junit.jupiter.api.Test;
 import org.uniprot.core.citation.Author;
-import org.uniprot.core.citation.impl.AuthorImpl;
+import org.uniprot.core.citation.impl.AuthorBuilder;
 import org.uniprot.core.uniprot.UniProtEntry;
 import org.uniprot.core.uniprot.UniProtEntryType;
-import org.uniprot.core.uniprot.builder.UniProtEntryBuilder;
 import org.uniprot.core.uniprot.comment.APIsoform;
 import org.uniprot.core.uniprot.comment.AlternativeProductsComment;
 import org.uniprot.core.uniprot.comment.IsoformSequenceStatus;
-import org.uniprot.core.uniprot.comment.builder.APCommentBuilder;
-import org.uniprot.core.uniprot.comment.builder.APIsoformBuilder;
+import org.uniprot.core.uniprot.comment.impl.APCommentBuilder;
+import org.uniprot.core.uniprot.comment.impl.APIsoformBuilder;
 import org.uniprot.core.uniprot.evidence.Evidence;
 import org.uniprot.core.uniprot.evidence.EvidenceCode;
-import org.uniprot.core.uniprot.evidence.builder.EvidenceBuilder;
+import org.uniprot.core.uniprot.evidence.impl.EvidenceBuilder;
+import org.uniprot.core.uniprot.impl.UniProtEntryBuilder;
 import org.uniprot.store.search.document.suggest.SuggestDictionary;
 
 /**
@@ -123,8 +123,8 @@ class UniProtEntryConverterUtilTest {
     @Test
     void addValueListToStringList() {
         List<Author> authors = new ArrayList<>();
-        authors.add(new AuthorImpl("Author name 1"));
-        authors.add(new AuthorImpl("Author name 2"));
+        authors.add(new AuthorBuilder("Author name 1").build());
+        authors.add(new AuthorBuilder("Author name 2").build());
         List<String> result = new ArrayList<>();
 
         UniProtEntryConverterUtil.addValueListToStringList(result, authors);
@@ -138,7 +138,8 @@ class UniProtEntryConverterUtilTest {
     void addValueToStringList() {
         List<String> result = new ArrayList<>();
 
-        UniProtEntryConverterUtil.addValueToStringList(result, new AuthorImpl("Author name"));
+        UniProtEntryConverterUtil.addValueToStringList(
+                result, new AuthorBuilder("Author name").build());
 
         assertEquals(1, result.size());
         assertEquals("Author name", result.get(0));

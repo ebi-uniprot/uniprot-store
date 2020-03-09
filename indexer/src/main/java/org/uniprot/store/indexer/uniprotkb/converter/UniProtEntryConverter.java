@@ -10,14 +10,14 @@ import java.util.stream.Collectors;
 
 import lombok.extern.slf4j.Slf4j;
 
-import org.uniprot.core.DBCrossReference;
+import org.uniprot.core.CrossReference;
 import org.uniprot.core.Sequence;
 import org.uniprot.core.cv.keyword.KeywordCategory;
 import org.uniprot.core.gene.Gene;
 import org.uniprot.core.scorer.uniprotkb.UniProtEntryScored;
 import org.uniprot.core.uniprot.*;
 import org.uniprot.core.uniprot.evidence.Evidence;
-import org.uniprot.core.uniprot.evidence.EvidenceTypeCategory;
+import org.uniprot.core.uniprot.evidence.EvidenceDatabaseCategory;
 import org.uniprot.core.util.Utils;
 import org.uniprot.cv.chebi.ChebiRepo;
 import org.uniprot.cv.ec.ECRepo;
@@ -112,7 +112,7 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtEntry, Un
             referencesConverter.convertReferences(source.getReferences(), document);
             commentsConverter.convertCommentToDocument(source.getComments(), document);
             crossReferenceConverter.convertCrossReferences(
-                    source.getDatabaseCrossReferences(), document);
+                    source.getUniProtCrossReferences(), document);
             featureConverter.convertFeature(source.getFeatures(), document);
             convertUniprotId(source.getUniProtId(), document);
             convertEntryAudit(source.getEntryAudit(), document);
@@ -150,14 +150,14 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtEntry, Un
         List<Evidence> evidences = uniProtEntry.gatherEvidences();
         document.sources =
                 evidences.stream()
-                        .map(Evidence::getSource)
+                        .map(Evidence::getEvidenceCrossReference)
                         .filter(Objects::nonNull)
-                        .map(DBCrossReference::getDatabaseType)
+                        .map(CrossReference::getDatabase)
                         .filter(
                                 val ->
                                         (val != null)
-                                                && val.getDetail().getCategory()
-                                                        == EvidenceTypeCategory.A)
+                                                && val.getEvidenceDatabaseDetail().getCategory()
+                                                        == EvidenceDatabaseCategory.A)
                         .map(
                                 val -> {
                                     String data = val.getName();

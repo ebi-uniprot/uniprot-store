@@ -6,7 +6,7 @@ import java.sql.SQLException;
 import org.springframework.jdbc.core.RowMapper;
 import org.uniprot.core.taxonomy.TaxonomyEntry;
 import org.uniprot.core.taxonomy.TaxonomyRank;
-import org.uniprot.core.taxonomy.builder.TaxonomyEntryBuilder;
+import org.uniprot.core.taxonomy.impl.TaxonomyEntryBuilder;
 import org.uniprot.core.util.Utils;
 import org.uniprot.store.indexer.taxonomy.steps.TaxonomyNodeStep;
 import org.uniprot.store.search.document.taxonomy.TaxonomyDocument;

@@ -6,7 +6,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-import org.uniprot.core.DBCrossReference;
+import org.uniprot.core.CrossReference;
 import org.uniprot.core.Value;
 import org.uniprot.core.flatfile.parser.impl.cc.CCLineBuilderFactory;
 import org.uniprot.core.flatfile.writer.FFLineBuilder;
@@ -158,9 +158,9 @@ class UniProtEntryCommentsConverter implements Serializable {
                     .forEach(
                             val -> {
                                 document.cofactorChebi.add(val.getName());
-                                if (val.getCofactorReference().getDatabaseType()
-                                        == CofactorReferenceType.CHEBI) {
-                                    String referenceId = val.getCofactorReference().getId();
+                                if (val.getCofactorCrossReference().getDatabase()
+                                        == CofactorDatabase.CHEBI) {
+                                    String referenceId = val.getCofactorCrossReference().getId();
                                     String id = referenceId;
                                     if (id.startsWith("CHEBI:"))
                                         id = id.substring("CHEBI:".length());
@@ -478,10 +478,10 @@ class UniProtEntryCommentsConverter implements Serializable {
     private void convertCatalyticActivity(CatalyticActivityComment comment, UniProtDocument doc) {
         Reaction reaction = comment.getReaction();
 
-        if (reaction.hasReactionReferences()) {
+        if (reaction.hasReactionCrossReferences()) {
             String field = this.getCommentField(comment);
-            List<DBCrossReference<ReactionReferenceType>> reactionReferences =
-                    reaction.getReactionReferences();
+            List<CrossReference<ReactionDatabase>> reactionReferences =
+                    reaction.getReactionCrossReferences();
             reactionReferences.forEach(
                     val -> {
                         Collection<String> value =

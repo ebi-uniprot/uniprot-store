@@ -3,7 +3,8 @@ package org.uniprot.store.spark.indexer.suggest.mapper.document;
 import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
-import org.uniprot.core.cv.subcell.impl.SubcellularLocationEntryImpl;
+import org.uniprot.core.cv.subcell.SubcellularLocationEntry;
+import org.uniprot.core.cv.subcell.impl.SubcellularLocationEntryBuilder;
 import org.uniprot.store.search.document.suggest.SuggestDocument;
 
 /**
@@ -14,9 +15,8 @@ class SubcellularLocationToSuggestDocumentTest {
 
     @Test
     void testSubcellularLocationToSuggestDocument() throws Exception {
-        SubcellularLocationEntryImpl entry = new SubcellularLocationEntryImpl();
-        entry.setId("slId");
-        entry.setAccession("slAcc");
+        SubcellularLocationEntry entry =
+                new SubcellularLocationEntryBuilder().id("slId").accession("slAcc").build();
         SubcellularLocationToSuggestDocument mapper = new SubcellularLocationToSuggestDocument();
 
         SuggestDocument result = mapper.call(entry);

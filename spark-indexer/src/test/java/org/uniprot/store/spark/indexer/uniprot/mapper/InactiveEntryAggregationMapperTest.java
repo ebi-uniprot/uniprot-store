@@ -6,8 +6,8 @@ import org.junit.jupiter.api.Test;
 import org.uniprot.core.uniprot.EntryInactiveReason;
 import org.uniprot.core.uniprot.InactiveReasonType;
 import org.uniprot.core.uniprot.UniProtEntry;
-import org.uniprot.core.uniprot.builder.EntryInactiveReasonBuilder;
-import org.uniprot.core.uniprot.builder.UniProtEntryBuilder;
+import org.uniprot.core.uniprot.impl.EntryInactiveReasonBuilder;
+import org.uniprot.core.uniprot.impl.UniProtEntryBuilder;
 
 /**
  * @author lgonzales

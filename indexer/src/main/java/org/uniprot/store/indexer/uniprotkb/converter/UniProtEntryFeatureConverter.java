@@ -38,9 +38,9 @@ class UniProtEntryFeatureConverter {
                 featuresOfTypeList.add(feature.getDescription().getValue());
                 document.content.add(feature.getDescription().getValue());
             }
-            if (feature.hasDbXref()) {
-                String xrefId = feature.getDbXref().getId();
-                String dbName = feature.getDbXref().getDatabaseType().getName();
+            if (feature.hasFeatureCrossReference()) {
+                String xrefId = feature.getFeatureCrossReference().getId();
+                String dbName = feature.getFeatureCrossReference().getDatabase().getName();
                 featuresOfTypeList.addAll(UniProtEntryConverterUtil.getXrefId(xrefId, dbName));
                 document.content.addAll(UniProtEntryConverterUtil.getXrefId(xrefId, dbName));
             }

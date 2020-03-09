@@ -6,10 +6,10 @@ import java.util.stream.Collectors;
 import org.apache.spark.api.java.Optional;
 import org.apache.spark.api.java.function.Function;
 import org.uniprot.core.uniprot.UniProtEntry;
-import org.uniprot.core.uniprot.builder.UniProtEntryBuilder;
 import org.uniprot.core.uniprot.evidence.Evidence;
-import org.uniprot.core.uniprot.xdb.UniProtDBCrossReference;
-import org.uniprot.core.uniprot.xdb.builder.UniProtDBCrossReferenceBuilder;
+import org.uniprot.core.uniprot.impl.UniProtEntryBuilder;
+import org.uniprot.core.uniprot.xdb.UniProtCrossReference;
+import org.uniprot.core.uniprot.xdb.impl.UniProtCrossReferenceBuilder;
 
 import scala.Tuple2;
 
@@ -35,32 +35,31 @@ public class GOEvidenceMapper
         if (tuple._2.isPresent()) {
             Map<String, List<Evidence>> goEvidenceMap = getGoEvidenceMap(tuple._2.get());
 
-            List<UniProtDBCrossReference> xrefs =
-                    tuple._1.getDatabaseCrossReferences().stream()
+            List<UniProtCrossReference> xrefs =
+                    tuple._1.getUniProtCrossReferences().stream()
                             .map(
                                     xref -> {
-                                        if (Objects.equals(
-                                                xref.getDatabaseType().getName(), "GO")) {
+                                        if (Objects.equals(xref.getDatabase().getName(), "GO")) {
                                             return addGoEvidences(xref, goEvidenceMap);
                                         } else {
                                             return xref;
                                         }
                                     })
                             .collect(Collectors.toList());
-            entry.databaseCrossReferencesSet(xrefs);
+            entry.uniProtCrossReferencesSet(xrefs);
         }
         return entry.build();
     }
 
-    private UniProtDBCrossReference addGoEvidences(
-            UniProtDBCrossReference xref, Map<String, List<Evidence>> goEvidenceMap) {
+    private UniProtCrossReference addGoEvidences(
+            UniProtCrossReference xref, Map<String, List<Evidence>> goEvidenceMap) {
         String id = xref.getId();
         List<Evidence> evidences = goEvidenceMap.get(id);
         if ((evidences == null) || (evidences.isEmpty())) {
             return xref;
         } else {
-            return new UniProtDBCrossReferenceBuilder()
-                    .databaseType(xref.getDatabaseType())
+            return new UniProtCrossReferenceBuilder()
+                    .database(xref.getDatabase())
                     .id(xref.getId())
                     .isoformId(xref.getIsoformId())
                     .evidencesSet(evidences)

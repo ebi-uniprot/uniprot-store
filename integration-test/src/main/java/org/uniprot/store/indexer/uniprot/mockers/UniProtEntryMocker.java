@@ -7,14 +7,14 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.io.IOUtils;
-import org.uniprot.core.builder.SequenceBuilder;
 import org.uniprot.core.flatfile.parser.UniProtParser;
 import org.uniprot.core.flatfile.parser.impl.DefaultUniProtParser;
 import org.uniprot.core.flatfile.parser.impl.SupportingDataMapImpl;
+import org.uniprot.core.impl.SequenceBuilder;
 import org.uniprot.core.uniprot.UniProtEntry;
 import org.uniprot.core.uniprot.UniProtEntryType;
-import org.uniprot.core.uniprot.builder.UniProtAccessionBuilder;
-import org.uniprot.core.uniprot.builder.UniProtEntryBuilder;
+import org.uniprot.core.uniprot.impl.UniProtAccessionBuilder;
+import org.uniprot.core.uniprot.impl.UniProtEntryBuilder;
 
 /**
  * Created 19/09/18

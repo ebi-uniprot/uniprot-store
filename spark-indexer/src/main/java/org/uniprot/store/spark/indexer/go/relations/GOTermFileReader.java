@@ -13,7 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import org.apache.hadoop.conf.Configuration;
 import org.uniprot.core.cv.go.GeneOntologyEntry;
-import org.uniprot.core.cv.go.builder.GeneOntologyEntryBuilder;
+import org.uniprot.core.cv.go.impl.GeneOntologyEntryBuilder;
 import org.uniprot.core.util.Utils;
 
 /**

@@ -7,8 +7,8 @@ import org.springframework.jdbc.core.RowMapper;
 import org.uniprot.core.taxonomy.TaxonomyEntry;
 import org.uniprot.core.taxonomy.TaxonomyInactiveReason;
 import org.uniprot.core.taxonomy.TaxonomyInactiveReasonType;
-import org.uniprot.core.taxonomy.builder.TaxonomyEntryBuilder;
-import org.uniprot.core.taxonomy.builder.TaxonomyInactiveReasonBuilder;
+import org.uniprot.core.taxonomy.impl.TaxonomyEntryBuilder;
+import org.uniprot.core.taxonomy.impl.TaxonomyInactiveReasonBuilder;
 
 /**
  * This class is mapping {@link ResultSet} returned by SQL executed in {@link

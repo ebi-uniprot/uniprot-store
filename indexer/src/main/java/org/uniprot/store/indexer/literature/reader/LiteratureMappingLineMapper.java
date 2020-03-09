@@ -10,17 +10,17 @@ import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.batch.item.file.mapping.DefaultLineMapper;
-import org.uniprot.core.DBCrossReference;
-import org.uniprot.core.builder.DBCrossReferenceBuilder;
-import org.uniprot.core.citation.CitationXrefType;
+import org.uniprot.core.CrossReference;
+import org.uniprot.core.citation.CitationDatabase;
 import org.uniprot.core.citation.Literature;
-import org.uniprot.core.citation.builder.LiteratureBuilder;
+import org.uniprot.core.citation.impl.LiteratureBuilder;
+import org.uniprot.core.impl.CrossReferenceBuilder;
 import org.uniprot.core.literature.LiteratureEntry;
 import org.uniprot.core.literature.LiteratureMappedReference;
 import org.uniprot.core.literature.LiteratureStoreEntry;
-import org.uniprot.core.literature.builder.LiteratureEntryBuilder;
-import org.uniprot.core.literature.builder.LiteratureMappedReferenceBuilder;
-import org.uniprot.core.literature.builder.LiteratureStoreEntryBuilder;
+import org.uniprot.core.literature.impl.LiteratureEntryBuilder;
+import org.uniprot.core.literature.impl.LiteratureMappedReferenceBuilder;
+import org.uniprot.core.literature.impl.LiteratureStoreEntryBuilder;
 
 /** @author lgonzales */
 @Slf4j
@@ -58,13 +58,14 @@ public class LiteratureMappingLineMapper extends DefaultLineMapper<LiteratureSto
                             .sourceCategoriesSet(categories)
                             .build();
 
-            DBCrossReference<CitationXrefType> xref =
-                    new DBCrossReferenceBuilder<CitationXrefType>()
-                            .databaseType(CitationXrefType.PUBMED)
+            CrossReference<CitationDatabase> xref =
+                    new CrossReferenceBuilder<CitationDatabase>()
+                            .database(CitationDatabase.PUBMED)
                             .id(lineFields[2])
                             .build();
 
-            Literature literature = new LiteratureBuilder().citationXrefsAdd(xref).build();
+            Literature literature =
+                    new LiteratureBuilder().citationCrossReferencesAdd(xref).build();
 
             LiteratureEntry entry = new LiteratureEntryBuilder().citation(literature).build();
 
