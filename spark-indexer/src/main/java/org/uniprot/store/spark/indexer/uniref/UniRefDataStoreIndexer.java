@@ -34,9 +34,9 @@ public class UniRefDataStoreIndexer implements Runnable {
     public void run() {
         SparkConf sparkConf = sparkContext.sc().conf();
         String numberOfConnections =
-                applicationConfig.getString("store.uniprot.numberOfConnections");
-        String storeName = applicationConfig.getString("store.uniprot.storeName");
-        String connectionURL = applicationConfig.getString("store.uniprot.host");
+                applicationConfig.getString("store.uniref.numberOfConnections");
+        String storeName = applicationConfig.getString("store.uniref.storeName");
+        String connectionURL = applicationConfig.getString("store.uniref.host");
 
         JavaRDD<UniRefEntry> uniRefRDD =
                 (JavaRDD<UniRefEntry>)
