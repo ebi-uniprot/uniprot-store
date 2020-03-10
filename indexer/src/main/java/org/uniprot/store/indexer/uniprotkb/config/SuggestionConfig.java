@@ -13,7 +13,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.uniprot.core.uniprot.comment.CommentType;
 import org.uniprot.core.uniprot.feature.FeatureCategory;
-import org.uniprot.cv.xdb.UniProtXDbTypes;
+import org.uniprot.cv.xdb.UniProtDatabaseTypes;
 import org.uniprot.store.search.document.suggest.SuggestDictionary;
 import org.uniprot.store.search.document.suggest.SuggestDocument;
 
@@ -104,7 +104,7 @@ public class SuggestionConfig {
     }
 
     public static List<SuggestDocument> databaseSuggestions() {
-        return UniProtXDbTypes.INSTANCE.getAllDBXRefTypes().stream()
+        return UniProtDatabaseTypes.INSTANCE.getAllDbTypes().stream()
                 .filter(val -> !val.isImplicit())
                 .map(
                         type -> {

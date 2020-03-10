@@ -1,10 +1,10 @@
 package org.uniprot.store.config.common;
 
-import com.fasterxml.jackson.databind.JavaType;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 import java.io.InputStream;
 import java.util.List;
+
+import com.fasterxml.jackson.databind.JavaType;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
  * This class is responsible for loading JSON objects and creating an instance of the corresponding

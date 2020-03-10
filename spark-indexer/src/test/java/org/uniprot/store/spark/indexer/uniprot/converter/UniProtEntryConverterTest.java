@@ -14,17 +14,17 @@ import java.util.HashSet;
 import org.junit.jupiter.api.Test;
 import org.uniprot.core.cv.keyword.KeywordCategory;
 import org.uniprot.core.gene.Gene;
-import org.uniprot.core.impl.SequenceImpl;
+import org.uniprot.core.impl.SequenceBuilder;
 import org.uniprot.core.uniprot.*;
-import org.uniprot.core.uniprot.builder.*;
 import org.uniprot.core.uniprot.comment.APIsoform;
 import org.uniprot.core.uniprot.comment.AlternativeProductsComment;
 import org.uniprot.core.uniprot.comment.IsoformSequenceStatus;
-import org.uniprot.core.uniprot.comment.builder.APCommentBuilder;
-import org.uniprot.core.uniprot.comment.builder.APIsoformBuilder;
+import org.uniprot.core.uniprot.comment.impl.APCommentBuilder;
+import org.uniprot.core.uniprot.comment.impl.APIsoformBuilder;
 import org.uniprot.core.uniprot.evidence.Evidence;
 import org.uniprot.core.uniprot.evidence.EvidenceCode;
-import org.uniprot.core.uniprot.evidence.builder.EvidenceBuilder;
+import org.uniprot.core.uniprot.evidence.impl.EvidenceBuilder;
+import org.uniprot.core.uniprot.impl.*;
 import org.uniprot.store.job.common.DocumentConversionException;
 import org.uniprot.store.search.document.uniprot.UniProtDocument;
 
@@ -51,7 +51,7 @@ class UniProtEntryConverterTest {
         // given
         UniProtEntry entry =
                 new UniProtEntryBuilder("P12345", "UNIPROT_ENTRYID", UniProtEntryType.TREMBL)
-                        .sequence(new SequenceImpl("AAAAA"))
+                        .sequence(new SequenceBuilder("AAAAA").build())
                         .build();
 
         // when
@@ -71,7 +71,7 @@ class UniProtEntryConverterTest {
         // given
         UniProtEntry entry =
                 new UniProtEntryBuilder("P12345-5", "UNIPROT_ENTRYID", UniProtEntryType.TREMBL)
-                        .sequence(new SequenceImpl("AAAAA"))
+                        .sequence(new SequenceBuilder("AAAAA").build())
                         .build();
 
         // when
@@ -102,7 +102,7 @@ class UniProtEntryConverterTest {
         UniProtEntry entry =
                 new UniProtEntryBuilder("P12345-1", "UNIPROT_ENTRYID", UniProtEntryType.SWISSPROT)
                         .commentsSet(Collections.singletonList(comment))
-                        .sequence(new SequenceImpl("AAAAA"))
+                        .sequence(new SequenceBuilder("AAAAA").build())
                         .build();
 
         // when
@@ -122,7 +122,7 @@ class UniProtEntryConverterTest {
         String species = "SPECIES";
         UniProtEntry entry =
                 new UniProtEntryBuilder("P12345", "ACCESSION_" + species, UniProtEntryType.TREMBL)
-                        .sequence(new SequenceImpl("AAAAA"))
+                        .sequence(new SequenceBuilder("AAAAA").build())
                         .build();
 
         // when
@@ -140,7 +140,7 @@ class UniProtEntryConverterTest {
         String id = "GENE_SPECIES";
         UniProtEntry entry =
                 new UniProtEntryBuilder("P12345", id, UniProtEntryType.SWISSPROT)
-                        .sequence(new SequenceImpl("AAAAA"))
+                        .sequence(new SequenceBuilder("AAAAA").build())
                         .build();
 
         // when
@@ -314,7 +314,8 @@ class UniProtEntryConverterTest {
     @Test
     void convertEntryScore() {
         // given
-        UniProtEntry entry = getBasicEntryBuilder().sequence(new SequenceImpl("AAAAA")).build();
+        UniProtEntry entry =
+                getBasicEntryBuilder().sequence(new SequenceBuilder("AAAAA").build()).build();
 
         // when
         UniProtEntryConverter converter = new UniProtEntryConverter(null);
@@ -356,7 +357,7 @@ class UniProtEntryConverterTest {
 
     private UniProtEntryBuilder getBasicEntryBuilder() {
         return new UniProtEntryBuilder("P12345", "UNIPROT_ENTRYID", UniProtEntryType.SWISSPROT)
-                .sequence(new SequenceImpl("AAAAA"));
+                .sequence(new SequenceBuilder("AAAAA").build());
     }
 
     private LocalDate getLocalDateFromDate(Date date) {

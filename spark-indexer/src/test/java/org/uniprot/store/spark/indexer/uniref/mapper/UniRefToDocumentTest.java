@@ -5,12 +5,12 @@ import static org.junit.jupiter.api.Assertions.*;
 import java.time.LocalDate;
 
 import org.junit.jupiter.api.Test;
-import org.uniprot.core.impl.SequenceImpl;
+import org.uniprot.core.impl.SequenceBuilder;
 import org.uniprot.core.uniref.RepresentativeMember;
 import org.uniprot.core.uniref.UniRefEntry;
 import org.uniprot.core.uniref.UniRefType;
-import org.uniprot.core.uniref.builder.RepresentativeMemberBuilder;
-import org.uniprot.core.uniref.builder.UniRefEntryBuilder;
+import org.uniprot.core.uniref.impl.RepresentativeMemberBuilder;
+import org.uniprot.core.uniref.impl.UniRefEntryBuilder;
 import org.uniprot.store.search.document.uniref.UniRefDocument;
 
 import scala.Tuple2;
@@ -27,7 +27,7 @@ class UniRefToDocumentTest {
                 new RepresentativeMemberBuilder()
                         .organismTaxId(1)
                         .organismName("name")
-                        .sequence(new SequenceImpl("AAAAA"))
+                        .sequence(new SequenceBuilder("AAAAA").build())
                         .build();
 
         UniRefEntry entry =

@@ -4,16 +4,16 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
 import org.uniprot.core.Sequence;
-import org.uniprot.core.impl.SequenceImpl;
+import org.uniprot.core.impl.SequenceBuilder;
 import org.uniprot.core.uniparc.SequenceFeature;
-import org.uniprot.core.uniparc.UniParcDBCrossReference;
-import org.uniprot.core.uniparc.UniParcDatabaseType;
+import org.uniprot.core.uniparc.UniParcCrossReference;
+import org.uniprot.core.uniparc.UniParcDatabase;
 import org.uniprot.core.uniparc.UniParcEntry;
-import org.uniprot.core.uniparc.builder.SequenceFeatureBuilder;
-import org.uniprot.core.uniparc.builder.UniParcDBCrossReferenceBuilder;
-import org.uniprot.core.uniparc.builder.UniParcEntryBuilder;
+import org.uniprot.core.uniparc.impl.SequenceFeatureBuilder;
+import org.uniprot.core.uniparc.impl.UniParcCrossReferenceBuilder;
+import org.uniprot.core.uniparc.impl.UniParcEntryBuilder;
 import org.uniprot.core.uniprot.taxonomy.Taxonomy;
-import org.uniprot.core.uniprot.taxonomy.builder.TaxonomyBuilder;
+import org.uniprot.core.uniprot.taxonomy.impl.TaxonomyBuilder;
 import org.uniprot.store.search.document.uniparc.UniParcDocument;
 
 /**
@@ -24,7 +24,7 @@ class UniParcDocumentConverterTest {
 
     @Test
     void convertSwissProt() {
-        UniParcEntry entry = getUniParcEntry(UniParcDatabaseType.SWISSPROT);
+        UniParcEntry entry = getUniParcEntry(UniParcDatabase.SWISSPROT);
         UniParcDocumentConverter converter = new UniParcDocumentConverter();
         UniParcDocument result = converter.convert(entry);
 
@@ -50,7 +50,7 @@ class UniParcDocumentConverterTest {
 
     @Test
     void convertIsoForm() {
-        UniParcEntry entry = getUniParcEntry(UniParcDatabaseType.SWISSPROT_VARSPLIC);
+        UniParcEntry entry = getUniParcEntry(UniParcDatabase.SWISSPROT_VARSPLIC);
         UniParcDocumentConverter converter = new UniParcDocumentConverter();
         UniParcDocument result = converter.convert(entry);
 
@@ -113,12 +113,12 @@ class UniParcDocumentConverterTest {
         assertTrue(result.getContent().containsAll(result.getUniprotIsoforms()));
     }
 
-    private UniParcEntry getUniParcEntry(UniParcDatabaseType type) {
+    private UniParcEntry getUniParcEntry(UniParcDatabase type) {
         return new UniParcEntryBuilder()
                 .uniParcId("uniParcIdValue")
                 .uniprotExclusionReason("")
-                .databaseCrossReferencesAdd(getDatabaseCrossReferences(type))
-                .databaseCrossReferencesAdd(getInactiveDatabaseCrossReferences())
+                .uniParcCrossReferencesAdd(getDatabaseCrossReferences(type))
+                .uniParcCrossReferencesAdd(getInactiveDatabaseCrossReferences())
                 .sequence(getSequence())
                 .taxonomiesAdd(getTaxonomy())
                 .sequenceFeaturesAdd(getSequenceFeatures())
@@ -129,21 +129,21 @@ class UniParcDocumentConverterTest {
         return new SequenceFeatureBuilder().signatureDbId("signatureDbIdValue").build();
     }
 
-    private UniParcDBCrossReference getDatabaseCrossReferences(UniParcDatabaseType type) {
-        return new UniParcDBCrossReferenceBuilder()
+    private UniParcCrossReference getDatabaseCrossReferences(UniParcDatabase type) {
+        return new UniParcCrossReferenceBuilder()
                 .id(type.getName() + "IdValue")
-                .databaseType(type)
-                .propertiesAdd(UniParcDBCrossReference.PROPERTY_GENE_NAME, "geneNameValue")
-                .propertiesAdd(UniParcDBCrossReference.PROPERTY_PROTEIN_NAME, "proteinNameValue")
-                .propertiesAdd(UniParcDBCrossReference.PROPERTY_PROTEOME_ID, "proteomeIdValue")
+                .database(type)
+                .propertiesAdd(UniParcCrossReference.PROPERTY_GENE_NAME, "geneNameValue")
+                .propertiesAdd(UniParcCrossReference.PROPERTY_PROTEIN_NAME, "proteinNameValue")
+                .propertiesAdd(UniParcCrossReference.PROPERTY_PROTEOME_ID, "proteomeIdValue")
                 .active(true)
                 .build();
     }
 
-    private UniParcDBCrossReference getInactiveDatabaseCrossReferences() {
-        return new UniParcDBCrossReferenceBuilder()
+    private UniParcCrossReference getInactiveDatabaseCrossReferences() {
+        return new UniParcCrossReferenceBuilder()
                 .id("inactiveIdValue")
-                .databaseType(UniParcDatabaseType.EMBL)
+                .database(UniParcDatabase.EMBL)
                 .version(99)
                 .versionI(199)
                 .active(false)
@@ -159,6 +159,6 @@ class UniParcDocumentConverterTest {
     }
 
     private Sequence getSequence() {
-        return new SequenceImpl("MVSWGRFICLVVVTMATLSLAR");
+        return new SequenceBuilder("MVSWGRFICLVVVTMATLSLAR").build();
     }
 }

@@ -5,8 +5,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.spark.api.java.function.PairFunction;
 import org.uniprot.core.uniprot.InactiveReasonType;
 import org.uniprot.core.uniprot.UniProtEntry;
-import org.uniprot.core.uniprot.builder.EntryInactiveReasonBuilder;
-import org.uniprot.core.uniprot.builder.UniProtEntryBuilder;
+import org.uniprot.core.uniprot.impl.EntryInactiveReasonBuilder;
+import org.uniprot.core.uniprot.impl.UniProtEntryBuilder;
 import org.uniprot.core.util.Utils;
 
 import scala.Serializable;

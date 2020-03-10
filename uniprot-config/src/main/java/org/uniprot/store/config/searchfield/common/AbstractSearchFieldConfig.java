@@ -1,16 +1,17 @@
 package org.uniprot.store.config.searchfield.common;
 
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.stream.Collectors;
+
 import lombok.extern.slf4j.Slf4j;
+
 import org.apache.commons.lang3.StringUtils;
 import org.uniprot.store.config.schema.SchemaValidator;
 import org.uniprot.store.config.searchfield.model.SearchFieldItem;
 import org.uniprot.store.config.searchfield.model.SearchFieldType;
 import org.uniprot.store.config.searchfield.schema.DataValidator;
-
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.stream.Collectors;
 
 @Slf4j
 public abstract class AbstractSearchFieldConfig implements SearchFieldConfig {

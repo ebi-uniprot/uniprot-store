@@ -5,18 +5,18 @@ import java.nio.ByteBuffer;
 import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.batch.item.ItemProcessor;
-import org.uniprot.core.DBCrossReference;
-import org.uniprot.core.builder.DBCrossReferenceBuilder;
-import org.uniprot.core.citation.CitationXrefType;
+import org.uniprot.core.CrossReference;
+import org.uniprot.core.citation.CitationDatabase;
 import org.uniprot.core.citation.Literature;
-import org.uniprot.core.citation.builder.LiteratureBuilder;
+import org.uniprot.core.citation.impl.LiteratureBuilder;
+import org.uniprot.core.impl.CrossReferenceBuilder;
 import org.uniprot.core.json.parser.literature.LiteratureJsonConfig;
 import org.uniprot.core.literature.LiteratureEntry;
 import org.uniprot.core.literature.LiteratureStatistics;
 import org.uniprot.core.literature.LiteratureStoreEntry;
-import org.uniprot.core.literature.builder.LiteratureEntryBuilder;
-import org.uniprot.core.literature.builder.LiteratureStatisticsBuilder;
-import org.uniprot.core.literature.builder.LiteratureStoreEntryBuilder;
+import org.uniprot.core.literature.impl.LiteratureEntryBuilder;
+import org.uniprot.core.literature.impl.LiteratureStatisticsBuilder;
+import org.uniprot.core.literature.impl.LiteratureStoreEntryBuilder;
 import org.uniprot.store.indexer.literature.reader.LiteratureStatisticsReader;
 import org.uniprot.store.search.document.literature.LiteratureDocument;
 
@@ -42,12 +42,13 @@ public class LiteratureStatisticsProcessor
                         .reviewedProteinCount(literatureCount.getReviewedProteinCount())
                         .unreviewedProteinCount(literatureCount.getUnreviewedProteinCount())
                         .build();
-        DBCrossReference<CitationXrefType> pubmedXref =
-                new DBCrossReferenceBuilder<CitationXrefType>()
-                        .databaseType(CitationXrefType.PUBMED)
+        CrossReference<CitationDatabase> pubmedXref =
+                new CrossReferenceBuilder<CitationDatabase>()
+                        .database(CitationDatabase.PUBMED)
                         .id(String.valueOf(literatureCount.getPubmedId()))
                         .build();
-        Literature literature = new LiteratureBuilder().citationXrefsAdd(pubmedXref).build();
+        Literature literature =
+                new LiteratureBuilder().citationCrossReferencesAdd(pubmedXref).build();
         LiteratureEntry literatureEntry =
                 new LiteratureEntryBuilder().citation(literature).statistics(statistics).build();
 

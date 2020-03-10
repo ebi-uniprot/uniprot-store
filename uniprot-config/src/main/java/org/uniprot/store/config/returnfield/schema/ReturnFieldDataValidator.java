@@ -1,10 +1,10 @@
 package org.uniprot.store.config.returnfield.schema;
 
-import org.uniprot.store.config.returnfield.model.ReturnField;
-import org.uniprot.store.config.schema.AbstractFieldValidator;
-
 import java.util.List;
 import java.util.Set;
+
+import org.uniprot.store.config.returnfield.model.ReturnField;
+import org.uniprot.store.config.schema.AbstractFieldValidator;
 
 public class ReturnFieldDataValidator extends AbstractFieldValidator<ReturnField> {
     @Override
