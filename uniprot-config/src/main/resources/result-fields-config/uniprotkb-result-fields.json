@@ -1204,10 +1204,9 @@
     "childNumber": 0,
     "itemType": "SINGLE",
     "name": "tax_id",
-    "label": "Taxonomic lineage IDs",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
-    "id": "taxonomic_identifier/taxonomic_lineage_ids"
+    "label": "Taxonomic lineage",
+    "path": "organism.lineage",
+    "id": "taxonomic_identifier/taxonomic_lineage"
   },
   {
     "seqNumber": 15,
@@ -1222,8 +1221,8 @@
     "itemType": "SINGLE",
     "name": "dr_embl",
     "label": "EMBL",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "databaseCrossReferences",
+    "filter": "[?(@.databaseType=='EMBL')]",
     "id": "sequence/embl"
   },
   {
@@ -1232,8 +1231,8 @@
     "itemType": "SINGLE",
     "name": "dr_ccds",
     "label": "CCDS",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "databaseCrossReferences",
+    "filter": "[?(@.databaseType=='CCDS')]",
     "id": "sequence/ccds"
   },
   {
@@ -1242,8 +1241,8 @@
     "itemType": "SINGLE",
     "name": "dr_pir",
     "label": "PIR",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "databaseCrossReferences",
+    "filter": "[?(@.databaseType=='PIR')]",
     "id": "sequence/pir"
   },
   {
@@ -1252,8 +1251,8 @@
     "itemType": "SINGLE",
     "name": "dr_refseq",
     "label": "RefSeq",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "databaseCrossReferences",
+    "filter": "[?(@.databaseType=='RefSeq')]",
     "id": "sequence/refseq"
   },
   {
@@ -1279,8 +1278,8 @@
     "itemType": "SINGLE",
     "name": "dr_pdbsum",
     "label": "PDBsum",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "databaseCrossReferences",
+    "filter": "[?(@.databaseType=='PDBsum')]",
     "id": "3d_structure/pdbsum"
   },
   {
@@ -1289,8 +1288,8 @@
     "itemType": "SINGLE",
     "name": "dr_smr",
     "label": "SMR",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "databaseCrossReferences",
+    "filter": "[?(@.databaseType=='SMR')]",
     "id": "3d_structure/smr"
   },
   {
@@ -1306,8 +1305,8 @@
     "itemType": "SINGLE",
     "name": "dr_biogrid",
     "label": "BioGrid",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "databaseCrossReferences",
+    "filter": "[?(@.databaseType=='BioGrid')]",
     "id": "protein-protein_interaction/biogrid"
   },
   {
@@ -1316,8 +1315,8 @@
     "itemType": "SINGLE",
     "name": "dr_complexportal",
     "label": "ComplexPortal",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "databaseCrossReferences",
+    "filter": "[?(@.databaseType=='BioGrid')]",
     "id": "protein-protein_interaction/complexportal"
   },
   {
@@ -1326,8 +1325,8 @@
     "itemType": "SINGLE",
     "name": "dr_corum",
     "label": "CORUM",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "databaseCrossReferences",
+    "filter": "[?(@.databaseType=='BioGrid')]",
     "id": "protein-protein_interaction/corum"
   },
   {
@@ -1336,8 +1335,8 @@
     "itemType": "SINGLE",
     "name": "dr_dip",
     "label": "DIP",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "databaseCrossReferences",
+    "filter": "[?(@.databaseType=='BioGrid')]",
     "id": "protein-protein_interaction/dip"
   },
   {
@@ -1346,8 +1345,8 @@
     "itemType": "SINGLE",
     "name": "dr_elm",
     "label": "ELM",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "databaseCrossReferences",
+    "filter": "[?(@.databaseType=='BioGrid')]",
     "id": "protein-protein_interaction/elm"
   },
   {
@@ -1356,8 +1355,8 @@
     "itemType": "SINGLE",
     "name": "dr_intact",
     "label": "IntAct",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "databaseCrossReferences",
+    "filter": "[?(@.databaseType=='BioGrid')]",
     "id": "protein-protein_interaction/intact"
   },
   {
@@ -1366,8 +1365,8 @@
     "itemType": "SINGLE",
     "name": "dr_mint",
     "label": "MINT",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "databaseCrossReferences",
+    "filter": "[?(@.databaseType=='BioGrid')]",
     "id": "protein-protein_interaction/mint"
   },
   {
@@ -1376,8 +1375,8 @@
     "itemType": "SINGLE",
     "name": "dr_string",
     "label": "STRING",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "databaseCrossReferences",
+    "filter": "[?(@.databaseType=='BioGrid')]",
     "id": "protein-protein_interaction/string"
   },
   {
@@ -1393,8 +1392,8 @@
     "itemType": "SINGLE",
     "name": "dr_bindingdb",
     "label": "BindingDB",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "databaseCrossReferences",
+    "filter": "[?(@.databaseType=='BioGrid')]",
     "id": "chemistry/bindingdb"
   },
   {
@@ -1403,8 +1402,8 @@
     "itemType": "SINGLE",
     "name": "dr_chembl",
     "label": "ChEMBL",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "databaseCrossReferences",
+    "filter": "[?(@.databaseType=='BioGrid')]",
     "id": "chemistry/chembl"
   },
   {
@@ -1413,8 +1412,8 @@
     "itemType": "SINGLE",
     "name": "dr_drugbank",
     "label": "DrugBank",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "databaseCrossReferences",
+    "filter": "[?(@.databaseType=='BioGrid')]",
     "id": "chemistry/drugbank"
   },
   {
@@ -1423,8 +1422,8 @@
     "itemType": "SINGLE",
     "name": "dr_guidetopharmacology",
     "label": "GuidetoPHARMACOLOGY",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "databaseCrossReferences",
+    "filter": "[?(@.databaseType=='BioGrid')]",
     "id": "chemistry/guidetopharmacology"
   },
   {
@@ -1433,8 +1432,8 @@
     "itemType": "SINGLE",
     "name": "dr_swisslipids",
     "label": "SwissLipids",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "databaseCrossReferences",
+    "filter": "[?(@.databaseType=='BioGrid')]",
     "id": "chemistry/swisslipids"
   },
   {
@@ -1443,8 +1442,8 @@
     "itemType": "SINGLE",
     "name": "dr_drugcentral",
     "label": "DrugCentral",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "databaseCrossReferences",
+    "filter": "[?(@.databaseType=='BioGrid')]",
     "id": "chemistry/drugcentral"
   },
   {
@@ -1460,8 +1459,8 @@
     "itemType": "SINGLE",
     "name": "dr_allergome",
     "label": "Allergome",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "databaseCrossReferences",
+    "filter": "[?(@.databaseType=='Allergome')]",
     "id": "protein_family/group/allergome"
   },
   {
@@ -1470,8 +1469,8 @@
     "itemType": "SINGLE",
     "name": "dr_cazy",
     "label": "CAZy",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "databaseCrossReferences",
+    "filter": "[?(@.databaseType=='CAZy')]",
     "id": "protein_family/group/cazy"
   },
   {
@@ -1480,8 +1479,8 @@
     "itemType": "SINGLE",
     "name": "dr_esther",
     "label": "ESTHER",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "databaseCrossReferences",
+    "filter": "[?(@.databaseType=='ESTHER')]",
     "id": "protein_family/group/esther"
   },
   {
