@@ -1268,8 +1268,8 @@
     "itemType": "SINGLE",
     "name": "dr_pdb",
     "label": "PDB",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "databaseCrossReferences",
+    "filter": "[?(@.databaseType=='PDB')]",
     "id": "3d_structure/pdb"
   },
   {
@@ -1316,7 +1316,7 @@
     "name": "dr_complexportal",
     "label": "ComplexPortal",
     "path": "databaseCrossReferences",
-    "filter": "[?(@.databaseType=='BioGrid')]",
+    "filter": "[?(@.databaseType=='ComplexPortal')]",
     "id": "protein-protein_interaction/complexportal"
   },
   {
@@ -1326,7 +1326,7 @@
     "name": "dr_corum",
     "label": "CORUM",
     "path": "databaseCrossReferences",
-    "filter": "[?(@.databaseType=='BioGrid')]",
+    "filter": "[?(@.databaseType=='CORUM')]",
     "id": "protein-protein_interaction/corum"
   },
   {
@@ -1336,7 +1336,7 @@
     "name": "dr_dip",
     "label": "DIP",
     "path": "databaseCrossReferences",
-    "filter": "[?(@.databaseType=='BioGrid')]",
+    "filter": "[?(@.databaseType=='DIP')]",
     "id": "protein-protein_interaction/dip"
   },
   {
@@ -1346,7 +1346,7 @@
     "name": "dr_elm",
     "label": "ELM",
     "path": "databaseCrossReferences",
-    "filter": "[?(@.databaseType=='BioGrid')]",
+    "filter": "[?(@.databaseType=='ELM')]",
     "id": "protein-protein_interaction/elm"
   },
   {
@@ -1356,7 +1356,7 @@
     "name": "dr_intact",
     "label": "IntAct",
     "path": "databaseCrossReferences",
-    "filter": "[?(@.databaseType=='BioGrid')]",
+    "filter": "[?(@.databaseType=='IntAct')]",
     "id": "protein-protein_interaction/intact"
   },
   {
@@ -1366,7 +1366,7 @@
     "name": "dr_mint",
     "label": "MINT",
     "path": "databaseCrossReferences",
-    "filter": "[?(@.databaseType=='BioGrid')]",
+    "filter": "[?(@.databaseType=='MINT')]",
     "id": "protein-protein_interaction/mint"
   },
   {
@@ -1376,7 +1376,7 @@
     "name": "dr_string",
     "label": "STRING",
     "path": "databaseCrossReferences",
-    "filter": "[?(@.databaseType=='BioGrid')]",
+    "filter": "[?(@.databaseType=='STRING')]",
     "id": "protein-protein_interaction/string"
   },
   {
@@ -1393,7 +1393,7 @@
     "name": "dr_bindingdb",
     "label": "BindingDB",
     "path": "databaseCrossReferences",
-    "filter": "[?(@.databaseType=='BioGrid')]",
+    "filter": "[?(@.databaseType=='BindingDB')]",
     "id": "chemistry/bindingdb"
   },
   {
@@ -1403,7 +1403,7 @@
     "name": "dr_chembl",
     "label": "ChEMBL",
     "path": "databaseCrossReferences",
-    "filter": "[?(@.databaseType=='BioGrid')]",
+    "filter": "[?(@.databaseType=='ChEMBL')]",
     "id": "chemistry/chembl"
   },
   {
@@ -1413,7 +1413,7 @@
     "name": "dr_drugbank",
     "label": "DrugBank",
     "path": "databaseCrossReferences",
-    "filter": "[?(@.databaseType=='BioGrid')]",
+    "filter": "[?(@.databaseType=='DrugBank')]",
     "id": "chemistry/drugbank"
   },
   {
@@ -1423,7 +1423,7 @@
     "name": "dr_guidetopharmacology",
     "label": "GuidetoPHARMACOLOGY",
     "path": "databaseCrossReferences",
-    "filter": "[?(@.databaseType=='BioGrid')]",
+    "filter": "[?(@.databaseType=='GuidetoPHARMACOLOGY')]",
     "id": "chemistry/guidetopharmacology"
   },
   {
@@ -1433,7 +1433,7 @@
     "name": "dr_swisslipids",
     "label": "SwissLipids",
     "path": "databaseCrossReferences",
-    "filter": "[?(@.databaseType=='BioGrid')]",
+    "filter": "[?(@.databaseType=='SwissLipids')]",
     "id": "chemistry/swisslipids"
   },
   {
@@ -1443,7 +1443,7 @@
     "name": "dr_drugcentral",
     "label": "DrugCentral",
     "path": "databaseCrossReferences",
-    "filter": "[?(@.databaseType=='BioGrid')]",
+    "filter": "[?(@.databaseType=='DrugCentral')]",
     "id": "chemistry/drugcentral"
   },
   {
@@ -1489,8 +1489,8 @@
     "itemType": "SINGLE",
     "name": "dr_imgt_gene-db",
     "label": "IMGT_GENE-DB",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "databaseCrossReferences",
+    "filter": "[?(@.databaseType=='IMGT_GENE-DB')]",
     "id": "protein_family/group/imgt_gene-db"
   },
   {
@@ -1499,8 +1499,8 @@
     "itemType": "SINGLE",
     "name": "dr_merops",
     "label": "MEROPS",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "databaseCrossReferences",
+    "filter": "[?(@.databaseType=='MEROPS')]",
     "id": "protein_family/group/merops"
   },
   {
@@ -1509,8 +1509,8 @@
     "itemType": "SINGLE",
     "name": "dr_moondb",
     "label": "MoonDB",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "databaseCrossReferences",
+    "filter": "[?(@.databaseType=='MoonDB')]",
     "id": "protein_family/group/moondb"
   },
   {
@@ -1519,8 +1519,8 @@
     "itemType": "SINGLE",
     "name": "dr_moonprot",
     "label": "MoonProt",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "databaseCrossReferences",
+    "filter": "[?(@.databaseType=='MoonProt')]",
     "id": "protein_family/group/moonprot"
   },
   {
@@ -1529,8 +1529,8 @@
     "itemType": "SINGLE",
     "name": "dr_mycoclap",
     "label": "mycoCLAP",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "databaseCrossReferences",
+    "filter": "[?(@.databaseType=='mycoCLAP')]",
     "id": "protein_family/group/mycoclap"
   },
   {
@@ -1539,8 +1539,8 @@
     "itemType": "SINGLE",
     "name": "dr_peroxibase",
     "label": "PeroxiBase",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "databaseCrossReferences",
+    "filter": "[?(@.databaseType=='PeroxiBase')]",
     "id": "protein_family/group/peroxibase"
   },
   {
@@ -1549,8 +1549,8 @@
     "itemType": "SINGLE",
     "name": "dr_rebase",
     "label": "REBASE",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "databaseCrossReferences",
+    "filter": "[?(@.databaseType=='REBASE')]",
     "id": "protein_family/group/rebase"
   },
   {
@@ -1559,8 +1559,8 @@
     "itemType": "SINGLE",
     "name": "dr_tcdb",
     "label": "TCDB",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "databaseCrossReferences",
+    "filter": "[?(@.databaseType=='TCDB')]",
     "id": "protein_family/group/tcdb"
   },
   {
@@ -1569,8 +1569,8 @@
     "itemType": "SINGLE",
     "name": "dr_unilectin",
     "label": "UniLectin",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "databaseCrossReferences",
+    "filter": "[?(@.databaseType=='UniLectin')]",
     "id": "protein_family/group/unilectin"
   },
   {
@@ -1586,8 +1586,8 @@
     "itemType": "SINGLE",
     "name": "dr_carbonyldb",
     "label": "CarbonylDB",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "databaseCrossReferences",
+    "filter": "[?(@.databaseType=='CarbonylDB')]",
     "id": "ptm/carbonyldb"
   },
   {
@@ -1596,8 +1596,8 @@
     "itemType": "SINGLE",
     "name": "dr_depod",
     "label": "DEPOD",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "databaseCrossReferences",
+    "filter": "[?(@.databaseType=='DEPOD')]",
     "id": "ptm/depod"
   },
   {
@@ -1606,8 +1606,8 @@
     "itemType": "SINGLE",
     "name": "dr_glyconnect",
     "label": "GlyConnect",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "databaseCrossReferences",
+    "filter": "[?(@.databaseType=='GlyConnect')]",
     "id": "ptm/glyconnect"
   },
   {
@@ -1616,8 +1616,8 @@
     "itemType": "SINGLE",
     "name": "dr_iptmnet",
     "label": "iPTMnet",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "databaseCrossReferences",
+    "filter": "[?(@.databaseType=='iPTMnet')]",
     "id": "ptm/iptmnet"
   },
   {
@@ -1626,8 +1626,8 @@
     "itemType": "SINGLE",
     "name": "dr_phosphositeplus",
     "label": "PhosphoSitePlus",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "databaseCrossReferences",
+    "filter": "[?(@.databaseType=='PhosphoSitePlus')]",
     "id": "ptm/phosphositeplus"
   },
   {
@@ -1636,8 +1636,8 @@
     "itemType": "SINGLE",
     "name": "dr_swisspalm",
     "label": "SwissPalm",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "databaseCrossReferences",
+    "filter": "[?(@.databaseType=='SwissPalm')]",
     "id": "ptm/swisspalm"
   },
   {
@@ -1646,8 +1646,8 @@
     "itemType": "SINGLE",
     "name": "dr_unicarbkb",
     "label": "UniCarbKB",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "databaseCrossReferences",
+    "filter": "[?(@.databaseType=='UniCarbKB')]",
     "id": "ptm/unicarbkb"
   },
   {
@@ -1663,8 +1663,8 @@
     "itemType": "SINGLE",
     "name": "dr_biomuta",
     "label": "BioMuta",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "databaseCrossReferences",
+    "filter": "[?(@.databaseType=='BioMuta')]",
     "id": "polymorphism_and_mutation/biomuta"
   },
   {
@@ -1673,8 +1673,8 @@
     "itemType": "SINGLE",
     "name": "dr_dmdm",
     "label": "DMDM",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "databaseCrossReferences",
+    "filter": "[?(@.databaseType=='DMDM')]",
     "id": "polymorphism_and_mutation/dmdm"
   },
   {
@@ -1683,8 +1683,8 @@
     "itemType": "SINGLE",
     "name": "dr_dbsnp",
     "label": "dbSNP",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "databaseCrossReferences",
+    "filter": "[?(@.databaseType=='dbSNP')]",
     "id": "polymorphism_and_mutation/dbsnp"
   },
   {
@@ -1700,8 +1700,8 @@
     "itemType": "SINGLE",
     "name": "dr_compluyeast-2dpage",
     "label": "COMPLUYEAST-2DPAGE",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "databaseCrossReferences",
+    "filter": "[?(@.databaseType=='COMPLUYEAST-2DPAGE')]",
     "id": "2d_gel/compluyeast-2dpage"
   },
   {
@@ -1710,8 +1710,8 @@
     "itemType": "SINGLE",
     "name": "dr_dosac-cobs-2dpage",
     "label": "DOSAC-COBS-2DPAGE",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "databaseCrossReferences",
+    "filter": "[?(@.databaseType=='DOSAC-COBS-2DPAGE')]",
     "id": "2d_gel/dosac-cobs-2dpage"
   },
   {
@@ -1720,8 +1720,8 @@
     "itemType": "SINGLE",
     "name": "dr_ogp",
     "label": "OGP",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "databaseCrossReferences",
+    "filter": "[?(@.databaseType=='OGP')]",
     "id": "2d_gel/ogp"
   },
   {
@@ -1730,8 +1730,8 @@
     "itemType": "SINGLE",
     "name": "dr_reproduction-2dpage",
     "label": "REPRODUCTION-2DPAGE",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "databaseCrossReferences",
+    "filter": "[?(@.databaseType=='REPRODUCTION-2DPAGE')]",
     "id": "2d_gel/reproduction-2dpage"
   },
   {
@@ -1740,8 +1740,8 @@
     "itemType": "SINGLE",
     "name": "dr_swiss-2dpage",
     "label": "SWISS-2DPAGE",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "databaseCrossReferences",
+    "filter": "[?(@.databaseType=='SWISS-2DPAGE')]",
     "id": "2d_gel/swiss-2dpage"
   },
   {
@@ -1750,8 +1750,8 @@
     "itemType": "SINGLE",
     "name": "dr_ucd-2dpage",
     "label": "UCD-2DPAGE",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "databaseCrossReferences",
+    "filter": "[?(@.databaseType=='UCD-2DPAGE')]",
     "id": "2d_gel/ucd-2dpage"
   },
   {
@@ -1760,8 +1760,8 @@
     "itemType": "SINGLE",
     "name": "dr_world-2dpage",
     "label": "World-2DPAGE",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "databaseCrossReferences",
+    "filter": "[?(@.databaseType=='World-2DPAGE')]",
     "id": "2d_gel/world-2dpage"
   },
   {
@@ -1777,8 +1777,8 @@
     "itemType": "SINGLE",
     "name": "dr_cptac",
     "label": "CPTAC",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "databaseCrossReferences",
+    "filter": "[?(@.databaseType=='CPTAC')]",
     "id": "proteomic/cptac"
   },
   {
@@ -1787,8 +1787,8 @@
     "itemType": "SINGLE",
     "name": "dr_epd",
     "label": "EPD",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "databaseCrossReferences",
+    "filter": "[?(@.databaseType=='EPD')]",
     "id": "proteomic/epd"
   },
   {
@@ -1797,8 +1797,8 @@
     "itemType": "SINGLE",
     "name": "dr_maxqb",
     "label": "MaxQB",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "databaseCrossReferences",
+    "filter": "[?(@.databaseType=='MaxQB')]",
     "id": "proteomic/maxqb"
   },
   {
@@ -1807,8 +1807,8 @@
     "itemType": "SINGLE",
     "name": "dr_paxdb",
     "label": "PaxDb",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "databaseCrossReferences",
+    "filter": "[?(@.databaseType=='PaxDb')]",
     "id": "proteomic/paxdb"
   },
   {
@@ -1817,8 +1817,8 @@
     "itemType": "SINGLE",
     "name": "dr_peptideatlas",
     "label": "PeptideAtlas",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "databaseCrossReferences",
+    "filter": "[?(@.databaseType=='PeptideAtlas')]",
     "id": "proteomic/peptideatlas"
   },
   {
@@ -1827,8 +1827,8 @@
     "itemType": "SINGLE",
     "name": "dr_pride",
     "label": "PRIDE",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "databaseCrossReferences",
+    "filter": "[?(@.databaseType=='PRIDE')]",
     "id": "proteomic/pride"
   },
   {
@@ -1837,8 +1837,8 @@
     "itemType": "SINGLE",
     "name": "dr_promex",
     "label": "ProMEX",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "databaseCrossReferences",
+    "filter": "[?(@.databaseType=='ProMEX')]",
     "id": "proteomic/promex"
   },
   {
@@ -1847,8 +1847,8 @@
     "itemType": "SINGLE",
     "name": "dr_proteomicsdb",
     "label": "ProteomicsDB",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "databaseCrossReferences",
+    "filter": "[?(@.databaseType=='ProteomicsDB')]",
     "id": "proteomic/proteomicsdb"
   },
   {
@@ -1857,8 +1857,8 @@
     "itemType": "SINGLE",
     "name": "dr_topdownproteomics",
     "label": "TopDownProteomics",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "databaseCrossReferences",
+    "filter": "[?(@.databaseType=='TopDownProteomics')]",
     "id": "proteomic/topdownproteomics"
   },
   {
@@ -1867,8 +1867,8 @@
     "itemType": "SINGLE",
     "name": "dr_jpost",
     "label": "jPOST",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "databaseCrossReferences",
+    "filter": "[?(@.databaseType=='jPOST')]",
     "id": "proteomic/jpost"
   },
   {
@@ -1877,8 +1877,8 @@
     "itemType": "SINGLE",
     "name": "dr_massive",
     "label": "MassIVE",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "databaseCrossReferences",
+    "filter": "[?(@.databaseType=='MassIVE')]",
     "id": "proteomic/massive"
   },
   {
@@ -1894,8 +1894,8 @@
     "itemType": "SINGLE",
     "name": "dr_dnasu",
     "label": "DNASU",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "databaseCrossReferences",
+    "filter": "[?(@.databaseType=='DNASU')]",
     "id": "protocols_and_materials/dnasu"
   },
   {
@@ -1904,8 +1904,8 @@
     "itemType": "SINGLE",
     "name": "dr_abcd",
     "label": "ABCD",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "databaseCrossReferences",
+    "filter": "[?(@.databaseType=='ABCD')]",
     "id": "protocols_and_materials/abcd"
   },
   {
@@ -1921,8 +1921,8 @@
     "itemType": "SINGLE",
     "name": "dr_ensembl",
     "label": "Ensembl",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "databaseCrossReferences",
+    "filter": "[?(@.databaseType=='Ensembl')]",
     "id": "genome_annotation/ensembl"
   },
   {
@@ -1931,8 +1931,8 @@
     "itemType": "SINGLE",
     "name": "dr_ensemblbacteria",
     "label": "EnsemblBacteria",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "databaseCrossReferences",
+    "filter": "[?(@.databaseType=='EnsemblBacteria')]",
     "id": "genome_annotation/ensemblbacteria"
   },
   {
@@ -1941,8 +1941,8 @@
     "itemType": "SINGLE",
     "name": "dr_ensemblfungi",
     "label": "EnsemblFungi",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "databaseCrossReferences",
+    "filter": "[?(@.databaseType=='EnsemblFungi')]",
     "id": "genome_annotation/ensemblfungi"
   },
   {
@@ -1951,8 +1951,8 @@
     "itemType": "SINGLE",
     "name": "dr_ensemblmetazoa",
     "label": "EnsemblMetazoa",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "databaseCrossReferences",
+    "filter": "[?(@.databaseType=='EnsemblMetazoa')]",
     "id": "genome_annotation/ensemblmetazoa"
   },
   {
@@ -1961,8 +1961,8 @@
     "itemType": "SINGLE",
     "name": "dr_ensemblplants",
     "label": "EnsemblPlants",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "databaseCrossReferences",
+    "filter": "[?(@.databaseType=='EnsemblPlants')]",
     "id": "genome_annotation/ensemblplants"
   },
   {
@@ -1971,8 +1971,8 @@
     "itemType": "SINGLE",
     "name": "dr_ensemblprotists",
     "label": "EnsemblProtists",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "databaseCrossReferences",
+    "filter": "[?(@.databaseType=='EnsemblProtists')]",
     "id": "genome_annotation/ensemblprotists"
   },
   {
@@ -1981,8 +1981,8 @@
     "itemType": "SINGLE",
     "name": "dr_genedb",
     "label": "GeneDB",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "databaseCrossReferences",
+    "filter": "[?(@.databaseType=='GeneDB')]",
     "id": "genome_annotation/genedb"
   },
   {
@@ -1991,8 +1991,8 @@
     "itemType": "SINGLE",
     "name": "dr_geneid",
     "label": "GeneID",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "databaseCrossReferences",
+    "filter": "[?(@.databaseType=='GeneID')]",
     "id": "genome_annotation/geneid"
   },
   {
@@ -2001,8 +2001,8 @@
     "itemType": "SINGLE",
     "name": "dr_gramene",
     "label": "Gramene",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "databaseCrossReferences",
+    "filter": "[?(@.databaseType=='Gramene')]",
     "id": "genome_annotation/gramene"
   },
   {
@@ -2011,8 +2011,8 @@
     "itemType": "SINGLE",
     "name": "dr_kegg",
     "label": "KEGG",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "databaseCrossReferences",
+    "filter": "[?(@.databaseType=='KEGG')]",
     "id": "genome_annotation/kegg"
   },
   {
@@ -2021,8 +2021,8 @@
     "itemType": "SINGLE",
     "name": "dr_patric",
     "label": "PATRIC",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "databaseCrossReferences",
+    "filter": "[?(@.databaseType=='PATRIC')]",
     "id": "genome_annotation/patric"
   },
   {
@@ -2031,8 +2031,8 @@
     "itemType": "SINGLE",
     "name": "dr_ucsc",
     "label": "UCSC",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "databaseCrossReferences",
+    "filter": "[?(@.databaseType=='UCSC')]",
     "id": "genome_annotation/ucsc"
   },
   {
@@ -2041,8 +2041,8 @@
     "itemType": "SINGLE",
     "name": "dr_vectorbase",
     "label": "VectorBase",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "databaseCrossReferences",
+    "filter": "[?(@.databaseType=='VectorBase')]",
     "id": "genome_annotation/vectorbase"
   },
   {
@@ -2051,8 +2051,8 @@
     "itemType": "SINGLE",
     "name": "dr_wbparasite",
     "label": "WBParaSite",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "databaseCrossReferences",
+    "filter": "[?(@.databaseType=='WBParaSite')]",
     "id": "genome_annotation/wbparasite"
   },
   {
@@ -2068,8 +2068,8 @@
     "itemType": "SINGLE",
     "name": "dr_arachnoserver",
     "label": "ArachnoServer",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "databaseCrossReferences",
+    "filter": "[?(@.databaseType=='ArachnoServer')]",
     "id": "organism-specific/arachnoserver"
   },
   {
@@ -2078,8 +2078,8 @@
     "itemType": "SINGLE",
     "name": "dr_araport",
     "label": "Araport",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "databaseCrossReferences",
+    "filter": "[?(@.databaseType=='Araport')]",
     "id": "organism-specific/araport"
   },
   {
@@ -2088,8 +2088,8 @@
     "itemType": "SINGLE",
     "name": "dr_cgd",
     "label": "CGD",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "databaseCrossReferences",
+    "filter": "[?(@.databaseType=='CGD')]",
     "id": "organism-specific/cgd"
   },
   {
@@ -2098,8 +2098,8 @@
     "itemType": "SINGLE",
     "name": "dr_conoserver",
     "label": "ConoServer",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "databaseCrossReferences",
+    "filter": "[?(@.databaseType=='ConoServer')]",
     "id": "organism-specific/conoserver"
   },
   {
@@ -2108,8 +2108,8 @@
     "itemType": "SINGLE",
     "name": "dr_ctd",
     "label": "CTD",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "databaseCrossReferences",
+    "filter": "[?(@.databaseType=='CTD')]",
     "id": "organism-specific/ctd"
   },
   {
@@ -2118,8 +2118,8 @@
     "itemType": "SINGLE",
     "name": "dr_dictybase",
     "label": "dictyBase",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "databaseCrossReferences",
+    "filter": "[?(@.databaseType=='dictyBase')]",
     "id": "organism-specific/dictybase"
   },
   {
@@ -2128,8 +2128,8 @@
     "itemType": "SINGLE",
     "name": "dr_disgenet",
     "label": "DisGeNET",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "databaseCrossReferences",
+    "filter": "[?(@.databaseType=='DisGeNET')]",
     "id": "organism-specific/disgenet"
   },
   {
@@ -2138,8 +2138,8 @@
     "itemType": "SINGLE",
     "name": "dr_echobase",
     "label": "EchoBASE",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "databaseCrossReferences",
+    "filter": "[?(@.databaseType=='EchoBASE')]",
     "id": "organism-specific/echobase"
   },
   {
@@ -2148,8 +2148,8 @@
     "itemType": "SINGLE",
     "name": "dr_euhcvdb",
     "label": "euHCVdb",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "databaseCrossReferences",
+    "filter": "[?(@.databaseType=='euHCVdb')]",
     "id": "organism-specific/euhcvdb"
   },
   {
@@ -2158,8 +2158,8 @@
     "itemType": "SINGLE",
     "name": "dr_eupathdb",
     "label": "EuPathDB",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "databaseCrossReferences",
+    "filter": "[?(@.databaseType=='EuPathDB')]",
     "id": "organism-specific/eupathdb"
   },
   {
@@ -2168,8 +2168,8 @@
     "itemType": "SINGLE",
     "name": "dr_flybase",
     "label": "FlyBase",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "databaseCrossReferences",
+    "filter": "[?(@.databaseType=='FlyBase')]",
     "id": "organism-specific/flybase"
   },
   {
@@ -2178,8 +2178,8 @@
     "itemType": "SINGLE",
     "name": "dr_genecards",
     "label": "GeneCards",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "databaseCrossReferences",
+    "filter": "[?(@.databaseType=='GeneCards')]",
     "id": "organism-specific/genecards"
   },
   {
@@ -2188,8 +2188,8 @@
     "itemType": "SINGLE",
     "name": "dr_genereviews",
     "label": "GeneReviews",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "databaseCrossReferences",
+    "filter": "[?(@.databaseType=='GeneReviews')]",
     "id": "organism-specific/genereviews"
   },
   {
@@ -2198,8 +2198,8 @@
     "itemType": "SINGLE",
     "name": "dr_hgnc",
     "label": "HGNC",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "databaseCrossReferences",
+    "filter": "[?(@.databaseType=='HGNC')]",
     "id": "organism-specific/hgnc"
   },
   {
@@ -2208,8 +2208,8 @@
     "itemType": "SINGLE",
     "name": "dr_hpa",
     "label": "HPA",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "databaseCrossReferences",
+    "filter": "[?(@.databaseType=='HPA')]",
     "id": "organism-specific/hpa"
   },
   {
@@ -2218,8 +2218,8 @@
     "itemType": "SINGLE",
     "name": "dr_legiolist",
     "label": "LegioList",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "databaseCrossReferences",
+    "filter": "[?(@.databaseType=='LegioList')]",
     "id": "organism-specific/legiolist"
   },
   {
@@ -2228,8 +2228,8 @@
     "itemType": "SINGLE",
     "name": "dr_leproma",
     "label": "Leproma",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "databaseCrossReferences",
+    "filter": "[?(@.databaseType=='Leproma')]",
     "id": "organism-specific/leproma"
   },
   {
@@ -2238,8 +2238,8 @@
     "itemType": "SINGLE",
     "name": "dr_maizegdb",
     "label": "MaizeGDB",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "databaseCrossReferences",
+    "filter": "[?(@.databaseType=='MaizeGDB')]",
     "id": "organism-specific/maizegdb"
   },
   {
@@ -2248,8 +2248,8 @@
     "itemType": "SINGLE",
     "name": "dr_malacards",
     "label": "MalaCards",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "databaseCrossReferences",
+    "filter": "[?(@.databaseType=='MalaCards')]",
     "id": "organism-specific/malacards"
   },
   {
@@ -2258,8 +2258,8 @@
     "itemType": "SINGLE",
     "name": "dr_mgi",
     "label": "MGI",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "databaseCrossReferences",
+    "filter": "[?(@.databaseType=='MGI')]",
     "id": "organism-specific/mgi"
   },
   {
@@ -2268,8 +2268,8 @@
     "itemType": "SINGLE",
     "name": "dr_mim",
     "label": "MIM",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "databaseCrossReferences",
+    "filter": "[?(@.databaseType=='MIM')]",
     "id": "organism-specific/mim"
   },
   {
@@ -2278,8 +2278,8 @@
     "itemType": "SINGLE",
     "name": "dr_niagads",
     "label": "NIAGADS",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "databaseCrossReferences",
+    "filter": "[?(@.databaseType=='NIAGADS')]",
     "id": "organism-specific/niagads"
   },
   {
@@ -2288,8 +2288,8 @@
     "itemType": "SINGLE",
     "name": "dr_nextprot",
     "label": "neXtProt",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "databaseCrossReferences",
+    "filter": "[?(@.databaseType=='neXtProt')]",
     "id": "organism-specific/nextprot"
   },
   {
@@ -2298,8 +2298,8 @@
     "itemType": "SINGLE",
     "name": "dr_opentargets",
     "label": "OpenTargets",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "databaseCrossReferences",
+    "filter": "[?(@.databaseType=='OpenTargets')]",
     "id": "organism-specific/opentargets"
   },
   {
@@ -2308,8 +2308,8 @@
     "itemType": "SINGLE",
     "name": "dr_orphanet",
     "label": "Orphanet",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "databaseCrossReferences",
+    "filter": "[?(@.databaseType=='Orphanet')]",
     "id": "organism-specific/orphanet"
   },
   {
@@ -2318,8 +2318,8 @@
     "itemType": "SINGLE",
     "name": "dr_pharmgkb",
     "label": "PharmGKB",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "databaseCrossReferences",
+    "filter": "[?(@.databaseType=='PharmGKB')]",
     "id": "organism-specific/pharmgkb"
   },
   {
@@ -2328,8 +2328,8 @@
     "itemType": "SINGLE",
     "name": "dr_pombase",
     "label": "PomBase",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "databaseCrossReferences",
+    "filter": "[?(@.databaseType=='PomBase')]",
     "id": "organism-specific/pombase"
   },
   {
@@ -2338,8 +2338,8 @@
     "itemType": "SINGLE",
     "name": "dr_pseudocap",
     "label": "PseudoCAP",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "databaseCrossReferences",
+    "filter": "[?(@.databaseType=='PseudoCAP')]",
     "id": "organism-specific/pseudocap"
   },
   {
@@ -2348,8 +2348,8 @@
     "itemType": "SINGLE",
     "name": "dr_rgd",
     "label": "RGD",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "databaseCrossReferences",
+    "filter": "[?(@.databaseType=='RGD')]",
     "id": "organism-specific/rgd"
   },
   {
@@ -2358,8 +2358,8 @@
     "itemType": "SINGLE",
     "name": "dr_sgd",
     "label": "SGD",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "databaseCrossReferences",
+    "filter": "[?(@.databaseType=='SGD')]",
     "id": "organism-specific/sgd"
   },
   {
@@ -2368,8 +2368,8 @@
     "itemType": "SINGLE",
     "name": "dr_tair",
     "label": "TAIR",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "databaseCrossReferences",
+    "filter": "[?(@.databaseType=='TAIR')]",
     "id": "organism-specific/tair"
   },
   {
@@ -2378,8 +2378,8 @@
     "itemType": "SINGLE",
     "name": "dr_tuberculist",
     "label": "TubercuList",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "databaseCrossReferences",
+    "filter": "[?(@.databaseType=='TubercuList')]",
     "id": "organism-specific/tuberculist"
   },
   {
@@ -2388,8 +2388,8 @@
     "itemType": "SINGLE",
     "name": "dr_vgnc",
     "label": "VGNC",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "databaseCrossReferences",
+    "filter": "[?(@.databaseType=='VGNC')]",
     "id": "organism-specific/vgnc"
   },
   {
@@ -2398,8 +2398,8 @@
     "itemType": "SINGLE",
     "name": "dr_wormbase",
     "label": "WormBase",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "databaseCrossReferences",
+    "filter": "[?(@.databaseType=='WormBase')]",
     "id": "organism-specific/wormbase"
   },
   {
@@ -2408,8 +2408,8 @@
     "itemType": "SINGLE",
     "name": "dr_xenbase",
     "label": "Xenbase",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "databaseCrossReferences",
+    "filter": "[?(@.databaseType=='Xenbase')]",
     "id": "organism-specific/xenbase"
   },
   {
@@ -2418,8 +2418,8 @@
     "itemType": "SINGLE",
     "name": "dr_zfin",
     "label": "ZFIN",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "databaseCrossReferences",
+    "filter": "[?(@.databaseType=='ZFIN')]",
     "id": "organism-specific/zfin"
   },
   {
@@ -2435,8 +2435,8 @@
     "itemType": "SINGLE",
     "name": "dr_eggnog",
     "label": "eggNOG",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "databaseCrossReferences",
+    "filter": "[?(@.databaseType=='eggNOG')]",
     "id": "phylogenomic/eggnog"
   },
   {
@@ -2445,8 +2445,8 @@
     "itemType": "SINGLE",
     "name": "dr_genetree",
     "label": "GeneTree",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "databaseCrossReferences",
+    "filter": "[?(@.databaseType=='GeneTree')]",
     "id": "phylogenomic/genetree"
   },
   {
@@ -2455,8 +2455,8 @@
     "itemType": "SINGLE",
     "name": "dr_hogenom",
     "label": "HOGENOM",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "databaseCrossReferences",
+    "filter": "[?(@.databaseType=='HOGENOM')]",
     "id": "phylogenomic/hogenom"
   },
   {
@@ -2465,8 +2465,8 @@
     "itemType": "SINGLE",
     "name": "dr_inparanoid",
     "label": "InParanoid",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "databaseCrossReferences",
+    "filter": "[?(@.databaseType=='InParanoid')]",
     "id": "phylogenomic/inparanoid"
   },
   {
@@ -2475,8 +2475,8 @@
     "itemType": "SINGLE",
     "name": "dr_ko",
     "label": "KO",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "databaseCrossReferences",
+    "filter": "[?(@.databaseType=='KO')]",
     "id": "phylogenomic/ko"
   },
   {
@@ -2485,8 +2485,8 @@
     "itemType": "SINGLE",
     "name": "dr_oma",
     "label": "OMA",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "databaseCrossReferences",
+    "filter": "[?(@.databaseType=='OMA')]",
     "id": "phylogenomic/oma"
   },
   {
@@ -2495,8 +2495,8 @@
     "itemType": "SINGLE",
     "name": "dr_orthodb",
     "label": "OrthoDB",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "databaseCrossReferences",
+    "filter": "[?(@.databaseType=='OrthoDB')]",
     "id": "phylogenomic/orthodb"
   },
   {
@@ -2505,8 +2505,8 @@
     "itemType": "SINGLE",
     "name": "dr_phylomedb",
     "label": "PhylomeDB",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "databaseCrossReferences",
+    "filter": "[?(@.databaseType=='PhylomeDB')]",
     "id": "phylogenomic/phylomedb"
   },
   {
@@ -2515,8 +2515,8 @@
     "itemType": "SINGLE",
     "name": "dr_treefam",
     "label": "TreeFam",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "databaseCrossReferences",
+    "filter": "[?(@.databaseType=='TreeFam')]",
     "id": "phylogenomic/treefam"
   },
   {
@@ -2532,8 +2532,8 @@
     "itemType": "SINGLE",
     "name": "dr_biocyc",
     "label": "BioCyc",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "databaseCrossReferences",
+    "filter": "[?(@.databaseType=='BioCyc')]",
     "id": "enzyme_and_pathway/biocyc"
   },
   {
@@ -2542,8 +2542,8 @@
     "itemType": "SINGLE",
     "name": "dr_brenda",
     "label": "BRENDA",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "databaseCrossReferences",
+    "filter": "[?(@.databaseType=='BRENDA')]",
     "id": "enzyme_and_pathway/brenda"
   },
   {
@@ -2552,8 +2552,8 @@
     "itemType": "SINGLE",
     "name": "dr_reactome",
     "label": "Reactome",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "databaseCrossReferences",
+    "filter": "[?(@.databaseType=='Reactome')]",
     "id": "enzyme_and_pathway/reactome"
   },
   {
@@ -2562,8 +2562,8 @@
     "itemType": "SINGLE",
     "name": "dr_sabio-rk",
     "label": "SABIO-RK",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "databaseCrossReferences",
+    "filter": "[?(@.databaseType=='SABIO-RK')]",
     "id": "enzyme_and_pathway/sabio-rk"
   },
   {
@@ -2572,8 +2572,8 @@
     "itemType": "SINGLE",
     "name": "dr_signalink",
     "label": "SignaLink",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "databaseCrossReferences",
+    "filter": "[?(@.databaseType=='SignaLink')]",
     "id": "enzyme_and_pathway/signalink"
   },
   {
@@ -2582,8 +2582,8 @@
     "itemType": "SINGLE",
     "name": "dr_signor",
     "label": "SIGNOR",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "databaseCrossReferences",
+    "filter": "[?(@.databaseType=='SIGNOR')]",
     "id": "enzyme_and_pathway/signor"
   },
   {
@@ -2592,8 +2592,8 @@
     "itemType": "SINGLE",
     "name": "dr_unipathway",
     "label": "UniPathway",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "databaseCrossReferences",
+    "filter": "[?(@.databaseType=='UniPathway')]",
     "id": "enzyme_and_pathway/unipathway"
   },
   {
@@ -2602,8 +2602,8 @@
     "itemType": "SINGLE",
     "name": "dr_plantreactome",
     "label": "PlantReactome",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "databaseCrossReferences",
+    "filter": "[?(@.databaseType=='PlantReactome')]",
     "id": "enzyme_and_pathway/plantreactome"
   },
   {
@@ -2619,8 +2619,8 @@
     "itemType": "SINGLE",
     "name": "dr_chitars",
     "label": "ChiTaRS",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "databaseCrossReferences",
+    "filter": "[?(@.databaseType=='ChiTaRS')]",
     "id": "other/chitars"
   },
   {
@@ -2629,8 +2629,8 @@
     "itemType": "SINGLE",
     "name": "dr_evolutionarytrace",
     "label": "EvolutionaryTrace",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "databaseCrossReferences",
+    "filter": "[?(@.databaseType=='EvolutionaryTrace')]",
     "id": "other/evolutionarytrace"
   },
   {
@@ -2639,8 +2639,8 @@
     "itemType": "SINGLE",
     "name": "dr_genewiki",
     "label": "GeneWiki",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "databaseCrossReferences",
+    "filter": "[?(@.databaseType=='GeneWiki')]",
     "id": "other/genewiki"
   },
   {
@@ -2649,8 +2649,8 @@
     "itemType": "SINGLE",
     "name": "dr_genomernai",
     "label": "GenomeRNAi",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "databaseCrossReferences",
+    "filter": "[?(@.databaseType=='GenomeRNAi')]",
     "id": "other/genomernai"
   },
   {
@@ -2659,8 +2659,8 @@
     "itemType": "SINGLE",
     "name": "dr_pro",
     "label": "PRO",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "databaseCrossReferences",
+    "filter": "[?(@.databaseType=='PRO')]",
     "id": "other/pro"
   },
   {
@@ -2669,8 +2669,8 @@
     "itemType": "SINGLE",
     "name": "dr_pharos",
     "label": "Pharos",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "databaseCrossReferences",
+    "filter": "[?(@.databaseType=='Pharos')]",
     "id": "other/pharos"
   },
   {
@@ -2679,8 +2679,8 @@
     "itemType": "SINGLE",
     "name": "dr_rnact",
     "label": "RNAct",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "databaseCrossReferences",
+    "filter": "[?(@.databaseType=='RNAct')]",
     "id": "other/rnact"
   },
   {
@@ -2696,8 +2696,8 @@
     "itemType": "SINGLE",
     "name": "dr_bgee",
     "label": "Bgee",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "databaseCrossReferences",
+    "filter": "[?(@.databaseType=='Bgee')]",
     "id": "gene_expression/bgee"
   },
   {
@@ -2706,8 +2706,8 @@
     "itemType": "SINGLE",
     "name": "dr_cleanex",
     "label": "CleanEx",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "databaseCrossReferences",
+    "filter": "[?(@.databaseType=='CleanEx')]",
     "id": "gene_expression/cleanex"
   },
   {
@@ -2716,8 +2716,8 @@
     "itemType": "SINGLE",
     "name": "dr_collectf",
     "label": "CollecTF",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "databaseCrossReferences",
+    "filter": "[?(@.databaseType=='CollecTF')]",
     "id": "gene_expression/collectf"
   },
   {
@@ -2726,8 +2726,8 @@
     "itemType": "SINGLE",
     "name": "dr_expressionatlas",
     "label": "ExpressionAtlas",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "databaseCrossReferences",
+    "filter": "[?(@.databaseType=='ExpressionAtlas')]",
     "id": "gene_expression/expressionatlas"
   },
   {
@@ -2736,8 +2736,8 @@
     "itemType": "SINGLE",
     "name": "dr_genevisible",
     "label": "Genevisible",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "databaseCrossReferences",
+    "filter": "[?(@.databaseType=='Genevisible')]",
     "id": "gene_expression/genevisible"
   },
   {
@@ -2753,8 +2753,8 @@
     "itemType": "SINGLE",
     "name": "dr_cdd",
     "label": "CDD",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "databaseCrossReferences",
+    "filter": "[?(@.databaseType=='CDD')]",
     "id": "family_and_domain/cdd"
   },
   {
@@ -2763,8 +2763,8 @@
     "itemType": "SINGLE",
     "name": "dr_gene3d",
     "label": "Gene3D",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "databaseCrossReferences",
+    "filter": "[?(@.databaseType=='Gene3D')]",
     "id": "family_and_domain/gene3d"
   },
   {
@@ -2773,8 +2773,8 @@
     "itemType": "SINGLE",
     "name": "dr_hamap",
     "label": "HAMAP",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "databaseCrossReferences",
+    "filter": "[?(@.databaseType=='HAMAP')]",
     "id": "family_and_domain/hamap"
   },
   {
@@ -2783,8 +2783,8 @@
     "itemType": "SINGLE",
     "name": "dr_interpro",
     "label": "InterPro",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "databaseCrossReferences",
+    "filter": "[?(@.databaseType=='InterPro')]",
     "id": "family_and_domain/interpro"
   },
   {
@@ -2793,8 +2793,8 @@
     "itemType": "SINGLE",
     "name": "dr_panther",
     "label": "PANTHER",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "databaseCrossReferences",
+    "filter": "[?(@.databaseType=='PANTHER')]",
     "id": "family_and_domain/panther"
   },
   {
@@ -2803,8 +2803,8 @@
     "itemType": "SINGLE",
     "name": "dr_pfam",
     "label": "Pfam",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "databaseCrossReferences",
+    "filter": "[?(@.databaseType=='Pfam')]",
     "id": "family_and_domain/pfam"
   },
   {
@@ -2813,8 +2813,8 @@
     "itemType": "SINGLE",
     "name": "dr_pirsf",
     "label": "PIRSF",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "databaseCrossReferences",
+    "filter": "[?(@.databaseType=='PIRSF')]",
     "id": "family_and_domain/pirsf"
   },
   {
@@ -2823,8 +2823,8 @@
     "itemType": "SINGLE",
     "name": "dr_prints",
     "label": "PRINTS",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "databaseCrossReferences",
+    "filter": "[?(@.databaseType=='PRINTS')]",
     "id": "family_and_domain/prints"
   },
   {
@@ -2833,8 +2833,8 @@
     "itemType": "SINGLE",
     "name": "dr_prodom",
     "label": "ProDom",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "databaseCrossReferences",
+    "filter": "[?(@.databaseType=='ProDom')]",
     "id": "family_and_domain/prodom"
   },
   {
@@ -2843,8 +2843,8 @@
     "itemType": "SINGLE",
     "name": "dr_sfld",
     "label": "SFLD",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "databaseCrossReferences",
+    "filter": "[?(@.databaseType=='SFLD')]",
     "id": "family_and_domain/sfld"
   },
   {
@@ -2853,8 +2853,8 @@
     "itemType": "SINGLE",
     "name": "dr_smart",
     "label": "SMART",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "databaseCrossReferences",
+    "filter": "[?(@.databaseType=='SMART')]",
     "id": "family_and_domain/smart"
   },
   {
@@ -2863,8 +2863,8 @@
     "itemType": "SINGLE",
     "name": "dr_supfam",
     "label": "SUPFAM",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "databaseCrossReferences",
+    "filter": "[?(@.databaseType=='SUPFAM')]",
     "id": "family_and_domain/supfam"
   },
   {
@@ -2873,8 +2873,8 @@
     "itemType": "SINGLE",
     "name": "dr_tigrfams",
     "label": "TIGRFAMs",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "databaseCrossReferences",
+    "filter": "[?(@.databaseType=='TIGRFAMs')]",
     "id": "family_and_domain/tigrfams"
   },
   {
@@ -2883,8 +2883,8 @@
     "itemType": "SINGLE",
     "name": "dr_prosite",
     "label": "PROSITE",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "databaseCrossReferences",
+    "filter": "[?(@.databaseType=='PROSITE')]",
     "id": "family_and_domain/prosite"
   },
   {
@@ -2893,8 +2893,8 @@
     "itemType": "SINGLE",
     "name": "dr_disprot",
     "label": "DisProt",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "databaseCrossReferences",
+    "filter": "[?(@.databaseType=='DisProt')]",
     "id": "family_and_domain/disprot"
   }
 ]
