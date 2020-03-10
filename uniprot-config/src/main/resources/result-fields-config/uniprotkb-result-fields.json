@@ -1184,16 +1184,6 @@
   },
   {
     "parentId": "family_&_domains",
-    "childNumber": 8,
-    "itemType": "SINGLE",
-    "name": "similarity",
-    "label": "Sequence similarities",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
-    "id": "family_&_domains/sequence_similarities"
-  },
-  {
-    "parentId": "family_&_domains",
     "childNumber": 9,
     "itemType": "SINGLE",
     "name": "ft_zn_fing",
