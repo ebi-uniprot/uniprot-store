@@ -1048,8 +1048,8 @@
     "itemType": "SINGLE",
     "name": "pm_id",
     "label": "PubMed ID",
-    "path": "references[*].citation.citationXrefs[*][?(@.databaseType=='PubMed')].id",
-    "filter": "????",
+    "path": "references[*].citation.citationXrefs[*]",
+    "filter": "[?(@.databaseType=='PubMed')]",
     "id": "publications/pubmed_id"
   },
   {
@@ -1065,8 +1065,7 @@
     "itemType": "SINGLE",
     "name": "date_create",
     "label": "Date of creation",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "entryAudit.firstPublicDate",
     "id": "date_of/date_of_creation"
   },
   {
@@ -1075,8 +1074,7 @@
     "itemType": "SINGLE",
     "name": "date_mod",
     "label": "Date of last modification",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "entryAudit.lastAnnotationUpdateDate",
     "id": "date_of/date_of_last_modification"
   },
   {
@@ -1085,8 +1083,7 @@
     "itemType": "SINGLE",
     "name": "date_seq_mod",
     "label": "Date of last sequence modification",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "entryAudit.lastSequenceUpdateDate",
     "id": "date_of/date_of_last_sequence_modification"
   },
   {
@@ -1095,8 +1092,7 @@
     "itemType": "SINGLE",
     "name": "version",
     "label": "Entry version",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "entryAudit.entryVersion",
     "id": "date_of/entry_version"
   },
   {
@@ -1162,8 +1158,8 @@
     "itemType": "SINGLE",
     "name": "family",
     "label": "Protein families",
-    "path": "fill me in!",
-    "filter": "fill me in if needed!",
+    "path": "comments",
+    "filter": "[?(@.commentType=='SIMILARITY')]",
     "id": "family_&_domains/protein_families"
   },
   {
