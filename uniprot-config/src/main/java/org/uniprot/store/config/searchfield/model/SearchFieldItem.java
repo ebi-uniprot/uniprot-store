@@ -1,16 +1,16 @@
 package org.uniprot.store.config.searchfield.model;
 
-import java.io.Serializable;
-import java.util.List;
+import lombok.Data;
+import org.uniprot.store.config.model.Field;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PositiveOrZero;
-
-import lombok.Data;
+import java.io.Serializable;
+import java.util.List;
 
 /** @author sahmad */
 @Data
-public class SearchFieldItem implements Serializable {
+public class SearchFieldItem implements Field, Serializable {
     private static final long serialVersionUID = -1835246966684124878L;
     @NotNull private String id;
     private String parentId;
