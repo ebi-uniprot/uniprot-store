@@ -555,8 +555,7 @@
     "itemType": "SINGLE",
     "name": "matched_text",
     "label": "Matched text",
-    "path": "TODO?",
-    "filter": "TODO?",
+    "path": "primaryAccession",
     "id": "miscellaneous/matched_text"
   },
   {
@@ -593,7 +592,7 @@
     "itemType": "SINGLE",
     "name": "tools",
     "label": "Tools",
-    "path": "TODO?? I think not, because it doesn't get downloaded as a column, it's just links to tools in UI",
+    "path": "primaryAccession",
     "id": "miscellaneous/tools"
   },
   {
@@ -602,8 +601,7 @@
     "itemType": "SINGLE",
     "name": "uniparc_id",
     "label": "UniParc",
-    "path": "TODO",
-    "filter": "TODO",
+    "path": "primaryAccession",
     "id": "miscellaneous/uniparc"
   },
   {
