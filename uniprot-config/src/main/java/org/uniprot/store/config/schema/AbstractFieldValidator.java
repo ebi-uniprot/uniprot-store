@@ -1,22 +1,22 @@
 package org.uniprot.store.config.schema;
 
+import org.apache.commons.lang3.StringUtils;
+import org.uniprot.store.config.model.Field;
+
 import java.util.BitSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import org.apache.commons.lang3.StringUtils;
-import org.uniprot.store.config.model.Field;
-
 public abstract class AbstractFieldValidator<T extends Field> {
     public abstract void validateContent(List<T> fieldItems);
 
-    protected Set<String> extractIds(List<T> returnFields) {
-        return returnFields.stream().map(Field::getId).collect(Collectors.toSet());
+    public Set<String> extractIds(List<T> fieldItems) {
+        return fieldItems.stream().map(Field::getId).collect(Collectors.toSet());
     }
 
-    protected void validateParentExists(List<T> fieldItems, Set<String> ids) {
+    public void validateParentExists(List<T> fieldItems, Set<String> ids) {
         fieldItems.stream()
                 .filter(fi -> StringUtils.isNotBlank(fi.getParentId()))
                 .forEach(
@@ -30,12 +30,12 @@ public abstract class AbstractFieldValidator<T extends Field> {
                         });
     }
 
-    protected void validateSeqNumbers(List<T> fieldItems) {
+    public void validateSeqNumbers(List<T> fieldItems) {
         List<Integer> seqNumbers = extractSeqNumbers(fieldItems);
         validateNaturalNumbers(seqNumbers, "seqNumber");
     }
 
-    protected void validateChildNumbers(List<T> fieldItems) {
+    public void validateChildNumbers(List<T> fieldItems) {
         Map<String, List<T>> parentChildrenMap =
                 fieldItems.stream()
                         .filter(fi -> StringUtils.isNotBlank(fi.getParentId()))
