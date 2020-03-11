@@ -1,12 +1,11 @@
 package org.uniprot.store.config.searchfield.common;
 
-import java.util.List;
-import java.util.Map;
-
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.uniprot.store.config.searchfield.model.SearchFieldItem;
+
+import java.util.List;
 
 public class SearchFieldConfigLoaderTest {
 
@@ -35,16 +34,6 @@ public class SearchFieldConfigLoaderTest {
         Assertions.assertNotNull(fieldItems);
         Assertions.assertFalse(fieldItems.isEmpty());
         Assertions.assertEquals(432, fieldItems.size());
-    }
-
-    @Test
-    void testBuildIdFieldItemMap() {
-        List<SearchFieldItem> fieldItems =
-                loader.loadAndGetFieldItems(TestSearchFieldConfig.TEST_SEARCH_FIELDS_CONFIG);
-        Assertions.assertNotNull(fieldItems);
-        Map<String, SearchFieldItem> idFieldItemMap = loader.buildIdFieldItemMap(fieldItems);
-        Assertions.assertNotNull(idFieldItemMap);
-        Assertions.assertEquals(fieldItems.size(), idFieldItemMap.keySet().size());
     }
 
     @Test
