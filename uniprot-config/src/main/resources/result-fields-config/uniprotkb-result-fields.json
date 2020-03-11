@@ -465,7 +465,8 @@
     "itemType": "SINGLE",
     "name": "ph_dependence",
     "label": "pH dependence",
-    "path": "comments[*].phDependence",
+    "path": "comments",
+    "filter": "[?(@.commentType=='BIOPHYSICOCHEMICAL PROPERTIES')]",
     "id": "function/ph_dependence"
   },
   {
@@ -474,7 +475,8 @@
     "itemType": "SINGLE",
     "name": "redox_potential",
     "label": "Redox potential",
-    "path": "comments[*].redoxPotential",
+    "path": "comments",
+    "filter": "[?(@.commentType=='BIOPHYSICOCHEMICAL PROPERTIES')]",
     "id": "function/redox_potential"
   },
   {
@@ -493,7 +495,8 @@
     "itemType": "SINGLE",
     "name": "temp_dependence",
     "label": "Temperature dependence",
-    "path": "comments[*].temperatureDependence",
+    "path": "comments",
+    "filter": "[?(@.commentType=='BIOPHYSICOCHEMICAL PROPERTIES')]",
     "id": "function/temperature_dependence"
   },
   {
@@ -1184,7 +1187,7 @@
   },
   {
     "parentId": "family_&_domains",
-    "childNumber": 9,
+    "childNumber": 8,
     "itemType": "SINGLE",
     "name": "ft_zn_fing",
     "label": "Zinc finger",
