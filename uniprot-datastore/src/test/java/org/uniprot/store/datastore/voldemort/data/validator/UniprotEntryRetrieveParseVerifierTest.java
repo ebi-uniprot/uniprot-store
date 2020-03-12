@@ -14,7 +14,7 @@ import org.uniprot.core.flatfile.parser.UniProtParser;
 import org.uniprot.core.flatfile.parser.impl.DefaultUniProtParser;
 import org.uniprot.core.flatfile.parser.impl.EntryBufferedReader2;
 import org.uniprot.core.flatfile.parser.impl.SupportingDataMapImpl;
-import org.uniprot.core.uniprot.UniProtEntry;
+import org.uniprot.core.uniprotkb.UniProtkbEntry;
 import org.uniprot.store.datastore.voldemort.uniprot.VoldemortInMemoryUniprotEntryStore;
 
 import com.codahale.metrics.Counter;
@@ -62,7 +62,7 @@ public class UniprotEntryRetrieveParseVerifierTest {
             if (next == null) {
                 break;
             } else {
-                UniProtEntry entry = parser.parse(next);
+                UniProtkbEntry entry = parser.parse(next);
                 voldemortInMemoryEntryStore.saveEntry(entry);
                 size++;
             }

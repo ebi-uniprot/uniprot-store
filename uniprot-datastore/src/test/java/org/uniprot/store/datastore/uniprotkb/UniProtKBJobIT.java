@@ -24,7 +24,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.uniprot.core.uniprot.UniProtEntry;
+import org.uniprot.core.uniprotkb.UniProtkbEntry;
 import org.uniprot.store.datastore.UniProtStoreClient;
 import org.uniprot.store.datastore.test.FakeStoreSpringBootApplication;
 import org.uniprot.store.datastore.uniprotkb.config.StoreTestConfig;
@@ -55,7 +55,7 @@ class UniProtKBJobIT {
 
     @Autowired private UniProtKBStoreProperties uniProtKBStoreProperties;
 
-    @Autowired private UniProtStoreClient<UniProtEntry> uniProtKBStoreClient;
+    @Autowired private UniProtStoreClient<UniProtkbEntry> uniProtKBStoreClient;
 
     @Test
     void testUniProtKBStoreJob() throws Exception {

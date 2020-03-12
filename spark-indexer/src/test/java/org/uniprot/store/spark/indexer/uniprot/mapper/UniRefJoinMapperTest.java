@@ -8,7 +8,7 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 import org.uniprot.core.uniparc.impl.UniParcIdBuilder;
-import org.uniprot.core.uniprot.impl.UniProtAccessionBuilder;
+import org.uniprot.core.uniprotkb.impl.UniProtkbAccessionBuilder;
 import org.uniprot.core.uniref.*;
 import org.uniprot.core.uniref.impl.RepresentativeMemberBuilder;
 import org.uniprot.core.uniref.impl.UniRefEntryBuilder;
@@ -30,14 +30,14 @@ class UniRefJoinMapperTest {
         RepresentativeMember representativeMember =
                 new RepresentativeMemberBuilder()
                         .memberIdType(UniRefMemberIdType.UNIPROTKB)
-                        .accessionsAdd(new UniProtAccessionBuilder("P12345").build())
+                        .accessionsAdd(new UniProtkbAccessionBuilder("P12345").build())
                         .uniparcId(new UniParcIdBuilder("UPI000000111").build())
                         .build();
 
         UniRefMember member =
                 new UniRefMemberBuilder()
                         .memberIdType(UniRefMemberIdType.UNIPARC)
-                        .accessionsAdd(new UniProtAccessionBuilder("UP1234567890").build())
+                        .accessionsAdd(new UniProtkbAccessionBuilder("UP1234567890").build())
                         .build();
 
         UniRefEntry entry =
@@ -75,20 +75,20 @@ class UniRefJoinMapperTest {
         RepresentativeMember representativeMember =
                 new RepresentativeMemberBuilder()
                         .memberIdType(UniRefMemberIdType.UNIPARC)
-                        .accessionsAdd(new UniProtAccessionBuilder("UP1234567890").build())
+                        .accessionsAdd(new UniProtkbAccessionBuilder("UP1234567890").build())
                         .build();
 
         UniRefMember member =
                 new UniRefMemberBuilder()
                         .memberIdType(UniRefMemberIdType.UNIPROTKB)
-                        .accessionsAdd(new UniProtAccessionBuilder("P12345").build())
+                        .accessionsAdd(new UniProtkbAccessionBuilder("P12345").build())
                         .uniparcId(new UniParcIdBuilder("UPI000000111").build())
                         .build();
 
         UniRefMember uniparcMember =
                 new UniRefMemberBuilder()
                         .memberIdType(UniRefMemberIdType.UNIPARC)
-                        .accessionsAdd(new UniProtAccessionBuilder("UP1234567899").build())
+                        .accessionsAdd(new UniProtkbAccessionBuilder("UP1234567899").build())
                         .build();
 
         UniRefEntry entry =

@@ -7,11 +7,11 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.apache.spark.api.java.function.PairFlatMapFunction;
-import org.uniprot.core.flatfile.parser.UniprotLineParser;
-import org.uniprot.core.flatfile.parser.impl.DefaultUniprotLineParserFactory;
+import org.uniprot.core.flatfile.parser.UniprotkbLineParser;
+import org.uniprot.core.flatfile.parser.impl.DefaultUniprotkbLineParserFactory;
 import org.uniprot.core.flatfile.parser.impl.de.DeLineConverter;
 import org.uniprot.core.flatfile.parser.impl.de.DeLineObject;
-import org.uniprot.core.uniprot.description.ProteinDescription;
+import org.uniprot.core.uniprotkb.description.ProteinDescription;
 import org.uniprot.core.util.Utils;
 import org.uniprot.store.spark.indexer.uniprot.converter.UniProtEntryProteinDescriptionConverter;
 
@@ -36,8 +36,8 @@ public class FlatFileToEC implements PairFlatMapFunction<String, String, String>
                         .collect(Collectors.joining("\n"));
 
         if (Utils.notNullNotEmpty(descriptionsLines)) {
-            final UniprotLineParser<DeLineObject> deParser =
-                    new DefaultUniprotLineParserFactory().createDeLineParser();
+            final UniprotkbLineParser<DeLineObject> deParser =
+                    new DefaultUniprotkbLineParserFactory().createDeLineParser();
 
             DeLineObject deLineObject = deParser.parse(descriptionsLines + "\n");
             DeLineConverter converter = new DeLineConverter();

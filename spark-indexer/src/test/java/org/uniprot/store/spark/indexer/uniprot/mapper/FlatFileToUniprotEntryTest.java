@@ -7,7 +7,7 @@ import java.nio.file.Paths;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
-import org.uniprot.core.uniprot.UniProtEntry;
+import org.uniprot.core.uniprotkb.UniProtkbEntry;
 import org.uniprot.store.spark.indexer.uniprot.converter.SupportingDataMapHDSFImpl;
 
 import scala.Tuple2;
@@ -30,7 +30,7 @@ class FlatFileToUniprotEntryTest {
 
         List<String> flatFileLines =
                 Files.readAllLines(Paths.get(ClassLoader.getSystemResource(flatFile).toURI()));
-        Tuple2<String, UniProtEntry> mappedEntry = mapper.call(String.join("\n", flatFileLines));
+        Tuple2<String, UniProtkbEntry> mappedEntry = mapper.call(String.join("\n", flatFileLines));
 
         assertNotNull(mappedEntry);
         assertNotNull(mappedEntry._1);

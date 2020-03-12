@@ -11,10 +11,10 @@ import org.uniprot.core.flatfile.parser.UniProtParser;
 import org.uniprot.core.flatfile.parser.impl.DefaultUniProtParser;
 import org.uniprot.core.flatfile.parser.impl.SupportingDataMapImpl;
 import org.uniprot.core.impl.SequenceBuilder;
-import org.uniprot.core.uniprot.UniProtEntry;
-import org.uniprot.core.uniprot.UniProtEntryType;
-import org.uniprot.core.uniprot.impl.UniProtAccessionBuilder;
-import org.uniprot.core.uniprot.impl.UniProtEntryBuilder;
+import org.uniprot.core.uniprotkb.UniProtkbEntry;
+import org.uniprot.core.uniprotkb.UniProtkbEntryType;
+import org.uniprot.core.uniprotkb.impl.UniProtkbAccessionBuilder;
+import org.uniprot.core.uniprotkb.impl.UniProtkbEntryBuilder;
 
 /**
  * Created 19/09/18
@@ -39,7 +39,7 @@ public class UniProtEntryMocker {
         }
     }
 
-    private static Map<Type, UniProtEntry> entryMap = new HashMap<>();
+    private static Map<Type, UniProtkbEntry> entryMap = new HashMap<>();
 
     static {
         for (Type type : Type.values()) {
@@ -47,7 +47,7 @@ public class UniProtEntryMocker {
                     UniProtEntryMocker.class.getResourceAsStream("/entry/" + type.fileName);
             try {
                 UniProtParser parser = new DefaultUniProtParser(new SupportingDataMapImpl(), true);
-                UniProtEntry entry = parser.parse(IOUtils.toString(is, Charset.defaultCharset()));
+                UniProtkbEntry entry = parser.parse(IOUtils.toString(is, Charset.defaultCharset()));
                 entryMap.put(type, entry);
             } catch (Exception e) {
                 throw new IllegalStateException(e);
@@ -55,20 +55,20 @@ public class UniProtEntryMocker {
         }
     }
 
-    public static UniProtEntry create(String accession) {
-        UniProtEntry entry = entryMap.get(Type.SP);
-        UniProtEntryBuilder builder = UniProtEntryBuilder.from(entry);
-        return builder.primaryAccession(new UniProtAccessionBuilder(accession).build())
-                .entryType(UniProtEntryType.TREMBL)
+    public static UniProtkbEntry create(String accession) {
+        UniProtkbEntry entry = entryMap.get(Type.SP);
+        UniProtkbEntryBuilder builder = UniProtkbEntryBuilder.from(entry);
+        return builder.primaryAccession(new UniProtkbAccessionBuilder(accession).build())
+                .entryType(UniProtkbEntryType.TREMBL)
                 .sequence(new SequenceBuilder("AAAAA").build())
                 .build();
     }
 
-    public static UniProtEntry create(Type type) {
-        return UniProtEntryBuilder.from(entryMap.get(type)).build();
+    public static UniProtkbEntry create(Type type) {
+        return UniProtkbEntryBuilder.from(entryMap.get(type)).build();
     }
 
-    public static Collection<UniProtEntry> createEntries() {
+    public static Collection<UniProtkbEntry> createEntries() {
         return entryMap.values();
     }
 }

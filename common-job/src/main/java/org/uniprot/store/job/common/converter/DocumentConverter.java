@@ -13,7 +13,7 @@ public interface DocumentConverter<S, T extends Document> {
 
     /**
      * It is necessary to return a list rather than just a single object. For example, if we want to
-     * index Feature from a UniProtEntry object, a list of features document will need to be
+     * index Feature from a UniProtkbEntry object, a list of features document will need to be
      * returned for that UniProtEntryObject.
      *
      * @param source the source object

@@ -1,4 +1,4 @@
-package org.uniprot.store.indexer.uniprotkb.converter;
+package org.uniprot.store.spark.indexer.uniprot.converter;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -9,24 +9,24 @@ import java.util.Set;
 import org.junit.jupiter.api.Test;
 import org.uniprot.core.citation.Author;
 import org.uniprot.core.citation.impl.AuthorBuilder;
-import org.uniprot.core.uniprot.UniProtEntry;
-import org.uniprot.core.uniprot.UniProtEntryType;
-import org.uniprot.core.uniprot.comment.APIsoform;
-import org.uniprot.core.uniprot.comment.AlternativeProductsComment;
-import org.uniprot.core.uniprot.comment.IsoformSequenceStatus;
-import org.uniprot.core.uniprot.comment.impl.APIsoformBuilder;
-import org.uniprot.core.uniprot.comment.impl.AlternativeProductsCommentBuilder;
-import org.uniprot.core.uniprot.evidence.Evidence;
-import org.uniprot.core.uniprot.evidence.EvidenceCode;
-import org.uniprot.core.uniprot.evidence.impl.EvidenceBuilder;
-import org.uniprot.core.uniprot.impl.UniProtEntryBuilder;
+import org.uniprot.core.uniprotkb.UniProtkbEntry;
+import org.uniprot.core.uniprotkb.UniProtkbEntryType;
+import org.uniprot.core.uniprotkb.comment.APIsoform;
+import org.uniprot.core.uniprotkb.comment.AlternativeProductsComment;
+import org.uniprot.core.uniprotkb.comment.IsoformSequenceStatus;
+import org.uniprot.core.uniprotkb.comment.impl.APIsoformBuilder;
+import org.uniprot.core.uniprotkb.comment.impl.AlternativeProductsCommentBuilder;
+import org.uniprot.core.uniprotkb.evidence.Evidence;
+import org.uniprot.core.uniprotkb.evidence.EvidenceCode;
+import org.uniprot.core.uniprotkb.evidence.impl.EvidenceBuilder;
+import org.uniprot.core.uniprotkb.impl.UniProtkbEntryBuilder;
 import org.uniprot.store.search.document.suggest.SuggestDictionary;
 
 /**
  * @author lgonzales
  * @since 2019-09-09
  */
-class UniProtEntryConverterUtilTest {
+class UniProtkbEntryConverterUtilTest {
 
     @Test
     void extractAutomaticEvidence() {
@@ -147,8 +147,9 @@ class UniProtEntryConverterUtilTest {
 
     @Test
     void isCanonicalIsoformNotCannonical() {
-        UniProtEntry entry =
-                new UniProtEntryBuilder("P12345", "id", UniProtEntryType.TREMBL).build();
+        UniProtkbEntry entry =
+                new UniProtkbEntryBuilder("P12345", "ID_P12345", UniProtkbEntryType.SWISSPROT)
+                        .build();
 
         boolean isCanonical = UniProtEntryConverterUtil.isCanonicalIsoform(entry);
         assertFalse(isCanonical);
@@ -165,8 +166,8 @@ class UniProtEntryConverterUtilTest {
         AlternativeProductsComment comment =
                 new AlternativeProductsCommentBuilder().isoformsAdd(isoform).build();
 
-        UniProtEntry entry =
-                new UniProtEntryBuilder("P12345", "id", UniProtEntryType.SWISSPROT)
+        UniProtkbEntry entry =
+                new UniProtkbEntryBuilder("P12345", "ID_P12345", UniProtkbEntryType.SWISSPROT)
                         .commentsAdd(comment)
                         .build();
 

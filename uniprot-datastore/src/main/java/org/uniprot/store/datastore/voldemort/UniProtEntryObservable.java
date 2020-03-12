@@ -6,13 +6,13 @@ import java.util.concurrent.atomic.AtomicLong;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.uniprot.core.flatfile.parser.UniprotLineParser;
-import org.uniprot.core.flatfile.parser.impl.DefaultUniprotLineParserFactory;
+import org.uniprot.core.flatfile.parser.UniprotkbLineParser;
+import org.uniprot.core.flatfile.parser.impl.DefaultUniprotkbLineParserFactory;
 import org.uniprot.core.flatfile.parser.impl.EntryBufferedReader2;
 import org.uniprot.core.flatfile.parser.impl.SupportingDataMapImpl;
 import org.uniprot.core.flatfile.parser.impl.entry.EntryObject;
 import org.uniprot.core.flatfile.parser.impl.entry.EntryObjectConverter;
-import org.uniprot.core.uniprot.UniProtEntry;
+import org.uniprot.core.uniprotkb.UniProtkbEntry;
 
 import rx.Observable;
 import rx.Subscriber;
@@ -31,8 +31,8 @@ public class UniProtEntryObservable {
 
     private static final Logger logger = LoggerFactory.getLogger(UniProtEntryObservable.class);
 
-    private static ThreadLocal<UniprotLineParser<EntryObject>> threadLocal =
-            new ThreadLocal<UniprotLineParser<EntryObject>>();
+    private static ThreadLocal<UniprotkbLineParser<EntryObject>> threadLocal =
+            new ThreadLocal<UniprotkbLineParser<EntryObject>>();
     private static EntryObjectConverter converter =
             new EntryObjectConverter(new SupportingDataMapImpl("", "", "", ""), true);
 
@@ -48,7 +48,8 @@ public class UniProtEntryObservable {
         reporter.start(1, TimeUnit.MINUTES);
     }
 
-    public static Observable<UniProtEntry> fromFile(String filePath) throws FileNotFoundException {
+    public static Observable<UniProtkbEntry> fromFile(String filePath)
+            throws FileNotFoundException {
 
         EntryBufferedReader2 entryBufferReader2 = new EntryBufferedReader2(filePath);
         EntryStringEmitter entryStringEmitter = new EntryStringEmitter(entryBufferReader2);
@@ -71,11 +72,11 @@ public class UniProtEntryObservable {
     }
 
     // the parser is not thread safe.
-    private static UniprotLineParser<EntryObject> getUniprotEntryParser() {
+    private static UniprotkbLineParser<EntryObject> getUniprotEntryParser() {
         if (threadLocal.get() == null) {
-            DefaultUniprotLineParserFactory defaultUniprotLineParserFactory =
-                    new DefaultUniprotLineParserFactory();
-            UniprotLineParser<EntryObject> entryParser =
+            DefaultUniprotkbLineParserFactory defaultUniprotLineParserFactory =
+                    new DefaultUniprotkbLineParserFactory();
+            UniprotkbLineParser<EntryObject> entryParser =
                     defaultUniprotLineParserFactory.createEntryParser();
             threadLocal.set(entryParser);
         }
@@ -131,7 +132,8 @@ public class UniProtEntryObservable {
     }
 
     public static void main(String[] args) throws FileNotFoundException {
-        Observable<UniProtEntry> uniProtEntryObservable = UniProtEntryObservable.fromFile(args[0]);
+        Observable<UniProtkbEntry> uniProtEntryObservable =
+                UniProtEntryObservable.fromFile(args[0]);
         AtomicLong counter = new AtomicLong(0);
         uniProtEntryObservable.subscribe(
                 i -> {

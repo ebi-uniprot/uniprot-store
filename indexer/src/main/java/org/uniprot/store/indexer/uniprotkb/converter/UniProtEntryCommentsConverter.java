@@ -14,9 +14,9 @@ import org.uniprot.core.cv.chebi.ChebiEntry;
 import org.uniprot.core.cv.pathway.UniPathway;
 import org.uniprot.core.flatfile.parser.impl.cc.CCLineBuilderFactory;
 import org.uniprot.core.flatfile.writer.FFLineBuilder;
-import org.uniprot.core.uniprot.comment.*;
-import org.uniprot.core.uniprot.evidence.Evidence;
-import org.uniprot.core.uniprot.evidence.EvidencedValue;
+import org.uniprot.core.uniprotkb.comment.*;
+import org.uniprot.core.uniprotkb.evidence.Evidence;
+import org.uniprot.core.uniprotkb.evidence.EvidencedValue;
 import org.uniprot.core.util.Utils;
 import org.uniprot.cv.chebi.ChebiRepo;
 import org.uniprot.store.indexer.uniprot.pathway.PathwayRepo;
@@ -499,7 +499,7 @@ class UniProtEntryCommentsConverter {
                             }
                             if (interaction.hasUniProtAccession()) {
                                 document.interactors.add(
-                                        interaction.getUniProtAccession().getValue());
+                                        interaction.getUniProtkbAccession().getValue());
                             }
                         });
     }

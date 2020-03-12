@@ -9,7 +9,7 @@ import joptsimple.internal.Strings;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.uniprot.core.flatfile.writer.impl.UniProtFlatfileWriter;
-import org.uniprot.core.uniprot.UniProtEntry;
+import org.uniprot.core.uniprotkb.UniProtkbEntry;
 import org.uniprot.store.datastore.voldemort.client.ClientFactory;
 import org.uniprot.store.datastore.voldemort.client.UniProtClient;
 
@@ -85,8 +85,8 @@ public class UniProtClientMain {
 
     private void write(UniProtClient client, Writer writer, List<String> accessions)
             throws Exception {
-        List<UniProtEntry> entries = client.getEntries(accessions);
-        for (UniProtEntry entry : entries) {
+        List<UniProtkbEntry> entries = client.getEntries(accessions);
+        for (UniProtkbEntry entry : entries) {
             try {
                 //   writer.write(entry.getPrimaryUniProtAccession().getValue() + "\n");
                 writer.write(UniProtFlatfileWriter.write(entry, true, false) + "\n");

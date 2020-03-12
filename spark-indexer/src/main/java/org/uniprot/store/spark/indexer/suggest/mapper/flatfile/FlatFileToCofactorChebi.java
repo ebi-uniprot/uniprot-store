@@ -5,7 +5,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.apache.spark.api.java.function.PairFlatMapFunction;
-import org.uniprot.core.uniprot.comment.*;
+import org.uniprot.core.uniprotkb.comment.*;
 import org.uniprot.core.util.Utils;
 import org.uniprot.store.spark.indexer.suggest.SuggesterUtil;
 

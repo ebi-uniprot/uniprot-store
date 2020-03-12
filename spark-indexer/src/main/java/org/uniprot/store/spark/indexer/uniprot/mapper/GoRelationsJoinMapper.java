@@ -7,8 +7,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.apache.spark.api.java.function.PairFlatMapFunction;
-import org.uniprot.core.flatfile.parser.UniprotLineParser;
-import org.uniprot.core.flatfile.parser.impl.DefaultUniprotLineParserFactory;
+import org.uniprot.core.flatfile.parser.UniprotkbLineParser;
+import org.uniprot.core.flatfile.parser.impl.DefaultUniprotkbLineParserFactory;
 import org.uniprot.core.flatfile.parser.impl.ac.AcLineObject;
 import org.uniprot.core.flatfile.parser.impl.dr.DrLineObject;
 import org.uniprot.core.util.Utils;
@@ -31,8 +31,8 @@ public class GoRelationsJoinMapper implements PairFlatMapFunction<String, String
      */
     @Override
     public Iterator<Tuple2<String, String>> call(String entryStr) throws Exception {
-        final UniprotLineParser<AcLineObject> acParser =
-                new DefaultUniprotLineParserFactory().createAcLineParser();
+        final UniprotkbLineParser<AcLineObject> acParser =
+                new DefaultUniprotkbLineParserFactory().createAcLineParser();
         List<Tuple2<String, String>> goTuple = new ArrayList<>();
 
         List<String> goLines =
@@ -50,8 +50,8 @@ public class GoRelationsJoinMapper implements PairFlatMapFunction<String, String
                         .filter(line -> line.startsWith("DR   GO;"))
                         .collect(Collectors.joining("\n"));
         if (Utils.notNullNotEmpty(drLine)) {
-            final UniprotLineParser<DrLineObject> drParser =
-                    new DefaultUniprotLineParserFactory().createDrLineParser();
+            final UniprotkbLineParser<DrLineObject> drParser =
+                    new DefaultUniprotkbLineParserFactory().createDrLineParser();
             DrLineObject drLineObject = drParser.parse(drLine + "\n");
             drLineObject.drObjects.forEach(
                     drValue -> {

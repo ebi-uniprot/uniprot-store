@@ -4,7 +4,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
-import org.uniprot.core.uniprot.UniProtEntry;
+import org.uniprot.core.uniprotkb.UniProtkbEntry;
 import org.uniprot.store.datastore.UniProtStoreClient;
 import org.uniprot.store.datastore.common.config.StoreProperties;
 import org.uniprot.store.datastore.voldemort.VoldemortClient;
@@ -25,9 +25,9 @@ public class StoreConfig {
     }
 
     @Bean
-    public UniProtStoreClient<UniProtEntry> uniProtKBStoreClient(
+    public UniProtStoreClient<UniProtkbEntry> uniProtKBStoreClient(
             StoreProperties uniprotKBStoreProperties) {
-        VoldemortClient<UniProtEntry> client =
+        VoldemortClient<UniProtkbEntry> client =
                 new VoldemortRemoteUniProtKBEntryStore(
                         uniprotKBStoreProperties.getNumberOfConnections(),
                         uniprotKBStoreProperties.getStoreName(),

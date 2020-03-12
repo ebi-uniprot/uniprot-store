@@ -10,31 +10,31 @@ import static org.uniprot.store.indexer.uniprot.mockers.UniProtEntryMocker.Type.
 import java.util.Collection;
 
 import org.junit.jupiter.api.Test;
-import org.uniprot.core.uniprot.UniProtEntry;
+import org.uniprot.core.uniprotkb.UniProtkbEntry;
 
 /**
  * Created 19/09/18
  *
  * @author Edd
  */
-public class UniProtEntryMockerTest {
+public class UniProtkbEntryMockerTest {
     @Test
     public void canCreateSP() {
-        UniProtEntry uniProtEntry = UniProtEntryMocker.create(SP);
-        assertThat(uniProtEntry, is(notNullValue()));
+        UniProtkbEntry uniProtkbEntry = UniProtEntryMocker.create(SP);
+        assertThat(uniProtkbEntry, is(notNullValue()));
     }
 
     @Test
     public void canCreateEntryWithAccession() {
         String accession = "P12345";
-        UniProtEntry uniProtEntry = UniProtEntryMocker.create(accession);
-        assertThat(uniProtEntry, is(notNullValue()));
-        assertThat(uniProtEntry.getPrimaryAccession().getValue(), is(accession));
+        UniProtkbEntry uniProtkbEntry = UniProtEntryMocker.create(accession);
+        assertThat(uniProtkbEntry, is(notNullValue()));
+        assertThat(uniProtkbEntry.getPrimaryAccession().getValue(), is(accession));
     }
 
     @Test
     public void canCreateEntries() {
-        Collection<UniProtEntry> entries = UniProtEntryMocker.createEntries();
+        Collection<UniProtkbEntry> entries = UniProtEntryMocker.createEntries();
         assertThat(entries, hasSize(greaterThan(0)));
     }
 }
