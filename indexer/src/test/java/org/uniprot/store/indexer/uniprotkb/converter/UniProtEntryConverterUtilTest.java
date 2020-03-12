@@ -14,8 +14,8 @@ import org.uniprot.core.uniprot.UniProtEntryType;
 import org.uniprot.core.uniprot.comment.APIsoform;
 import org.uniprot.core.uniprot.comment.AlternativeProductsComment;
 import org.uniprot.core.uniprot.comment.IsoformSequenceStatus;
-import org.uniprot.core.uniprot.comment.impl.AlternativeProductsCommentBuilder;
 import org.uniprot.core.uniprot.comment.impl.APIsoformBuilder;
+import org.uniprot.core.uniprot.comment.impl.AlternativeProductsCommentBuilder;
 import org.uniprot.core.uniprot.evidence.Evidence;
 import org.uniprot.core.uniprot.evidence.EvidenceCode;
 import org.uniprot.core.uniprot.evidence.impl.EvidenceBuilder;
@@ -162,7 +162,8 @@ class UniProtEntryConverterUtilTest {
                         .sequenceStatus(IsoformSequenceStatus.DISPLAYED)
                         .build();
 
-        AlternativeProductsComment comment = new AlternativeProductsCommentBuilder().isoformsAdd(isoform).build();
+        AlternativeProductsComment comment =
+                new AlternativeProductsCommentBuilder().isoformsAdd(isoform).build();
 
         UniProtEntry entry =
                 new UniProtEntryBuilder("P12345", "id", UniProtEntryType.SWISSPROT)
