@@ -1140,7 +1140,7 @@
     "name": "ft_domain",
     "label": "Domain [FT]",
     "path": "features",
-    "filter": "[?(@.type=='Other domain of region')]",
+    "filter": "[?(@.type=='Other domain of interest')]",
     "id": "family_&_domains/domain_[ft]"
   },
   {

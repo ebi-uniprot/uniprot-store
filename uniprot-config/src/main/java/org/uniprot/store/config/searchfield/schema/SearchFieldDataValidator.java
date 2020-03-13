@@ -1,12 +1,12 @@
 package org.uniprot.store.config.searchfield.schema;
 
-import org.uniprot.store.config.schema.AbstractFieldValidator;
-import org.uniprot.store.config.schema.SchemaValidationException;
-import org.uniprot.store.config.searchfield.model.SearchFieldItem;
-
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
+
+import org.uniprot.store.config.schema.AbstractFieldValidator;
+import org.uniprot.store.config.schema.SchemaValidationException;
+import org.uniprot.store.config.searchfield.model.SearchFieldItem;
 
 public class SearchFieldDataValidator extends AbstractFieldValidator<SearchFieldItem> {
     @Override
@@ -18,8 +18,7 @@ public class SearchFieldDataValidator extends AbstractFieldValidator<SearchField
         validateSortFieldIds(fieldItems, ids);
     }
 
-    public void validateSortFieldIds(
-        List<SearchFieldItem> fieldItems, Set<String> ids) {
+    public void validateSortFieldIds(List<SearchFieldItem> fieldItems, Set<String> ids) {
         fieldItems.stream()
                 .filter(SearchFieldDataValidator::hasSortFieldId)
                 .forEach(

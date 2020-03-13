@@ -1,5 +1,8 @@
 package org.uniprot.store.config.searchfield.impl;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.uniprot.core.cv.xdb.UniProtDatabaseDetail;
 import org.uniprot.cv.xdb.UniProtDatabaseTypes;
 import org.uniprot.store.config.UniProtDataType;
@@ -7,9 +10,6 @@ import org.uniprot.store.config.searchfield.common.AbstractSearchFieldConfig;
 import org.uniprot.store.config.searchfield.model.SearchFieldDataType;
 import org.uniprot.store.config.searchfield.model.SearchFieldItem;
 import org.uniprot.store.config.searchfield.model.SearchFieldType;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 public class SearchFieldConfigImpl extends AbstractSearchFieldConfig {
     private static final String XREF_COUNT_PREFIX = "xref_count_";
