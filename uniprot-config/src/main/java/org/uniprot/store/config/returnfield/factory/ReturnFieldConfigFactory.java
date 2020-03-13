@@ -1,17 +1,21 @@
 package org.uniprot.store.config.returnfield.factory;
 
-import lombok.NonNull;
 import org.uniprot.store.config.UniProtDataType;
+import org.uniprot.store.config.returnfield.config.AbstractReturnFieldConfig;
 import org.uniprot.store.config.returnfield.config.ReturnFieldConfig;
 import org.uniprot.store.config.returnfield.config.impl.UniProtKBReturnFieldConfigImpl;
+import org.uniprot.store.config.returnfield.model.ReturnField;
 
+import java.util.Collection;
 import java.util.Collections;
 import java.util.EnumMap;
 import java.util.Map;
 
+import static org.uniprot.store.config.UniProtDataType.CROSSREF;
+
 public class ReturnFieldConfigFactory {
     private static final String UNIPROTKB_CONFIG_FILE =
-            "result-fields-config/uniprotkb-return-fields.json";
+            "return-fields-config/uniprotkb-return-fields.json";
 
     private static final Map<UniProtDataType, ReturnFieldConfig> TYPE_FIELD_CONFIG_MAP =
             new EnumMap<>(UniProtDataType.class);
@@ -23,13 +27,15 @@ public class ReturnFieldConfigFactory {
         TYPE_CONFIG_FILE_MAP = Collections.unmodifiableMap(typeConfigMap);
     }
 
-    public static ReturnFieldConfig getReturnFieldConfig(@NonNull UniProtDataType type) {
+    public static ReturnFieldConfig getReturnFieldConfig(UniProtDataType type) {
         return TYPE_FIELD_CONFIG_MAP.computeIfAbsent(
                 type,
                 dataType -> {
                     // in future, can remove this line when handling return fields from all
                     // UniProtDataTypes.
-                    if (!dataType.equals(UniProtDataType.UNIPROTKB)) {
+                    if (dataType.equals(CROSSREF)) {
+                        return new X("return-fields-config/uniprotkb-return-fields2.json");
+                    } else if (!dataType.equals(UniProtDataType.UNIPROTKB)) {
                         throw new IllegalArgumentException("Unsupported type: " + type);
                     }
                     return new UniProtKBReturnFieldConfigImpl(TYPE_CONFIG_FILE_MAP.get(dataType));
@@ -37,4 +43,16 @@ public class ReturnFieldConfigFactory {
     }
 
     private ReturnFieldConfigFactory() {}
+
+    private static class X extends AbstractReturnFieldConfig{
+
+        public X(String configFile) {
+            super(configFile);
+        }
+
+        @Override
+        protected Collection<ReturnField> dynamicallyLoadFields() {
+            return Collections.emptyList();
+        }
+    }
 }

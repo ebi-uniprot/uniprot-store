@@ -1,0 +1,2901 @@
+[
+  {
+    "seqNumber": 0,
+    "itemType": "GROUP",
+    "groupName": "Names & Taxonomy",
+    "isDatabaseGroup": false,
+    "id": "names_&_taxonomy"
+  },
+  {
+    "parentId": "names_&_taxonomy",
+    "childNumber": 0,
+    "itemType": "SINGLE",
+    "name": "accession",
+    "label": "Entry",
+    "path": "primaryAccession",
+    "id": "names_&_taxonomy/entry"
+  },
+  {
+    "parentId": "names_&_taxonomy",
+    "childNumber": 1,
+    "itemType": "SINGLE",
+    "name": "id",
+    "label": "Entry Name",
+    "path": "uniProtId",
+    "id": "names_&_taxonomy/entry_name"
+  },
+  {
+    "parentId": "names_&_taxonomy",
+    "childNumber": 2,
+    "itemType": "SINGLE",
+    "name": "gene_names",
+    "label": "Gene Names",
+    "path": "genes",
+    "id": "names_&_taxonomy/gene_names"
+  },
+  {
+    "parentId": "names_&_taxonomy",
+    "childNumber": 3,
+    "itemType": "SINGLE",
+    "name": "gene_oln",
+    "label": "Gene Names (ordered locus)",
+    "path": "genes[*].orderedLocusNames[*]",
+    "id": "names_&_taxonomy/gene_names_(ordered_locus)"
+  },
+  {
+    "parentId": "names_&_taxonomy",
+    "childNumber": 4,
+    "itemType": "SINGLE",
+    "name": "gene_orf",
+    "label": "Gene Names (ORF)",
+    "path": "genes[*].orfNames[*]",
+    "id": "names_&_taxonomy/gene_names_(orf)"
+  },
+  {
+    "parentId": "names_&_taxonomy",
+    "childNumber": 5,
+    "itemType": "SINGLE",
+    "name": "gene_primary",
+    "label": "Gene Names (primary)",
+    "path": "genes[*].geneName",
+    "id": "names_&_taxonomy/gene_names_(primary)"
+  },
+  {
+    "parentId": "names_&_taxonomy",
+    "childNumber": 6,
+    "itemType": "SINGLE",
+    "name": "gene_synonym",
+    "label": "Gene Names (synonym)",
+    "path": "genes[*].synonyms[*]",
+    "id": "names_&_taxonomy/gene_names_(synonym)"
+  },
+  {
+    "parentId": "names_&_taxonomy",
+    "childNumber": 7,
+    "itemType": "SINGLE",
+    "name": "organism",
+    "label": "Organism",
+    "path": "organism",
+    "id": "names_&_taxonomy/organism"
+  },
+  {
+    "parentId": "names_&_taxonomy",
+    "childNumber": 8,
+    "itemType": "SINGLE",
+    "name": "organism_id",
+    "label": "Organism (ID)",
+    "path": "organism.taxonId",
+    "id": "names_&_taxonomy/organism_(id)"
+  },
+  {
+    "parentId": "names_&_taxonomy",
+    "childNumber": 9,
+    "itemType": "SINGLE",
+    "name": "protein_name",
+    "label": "Protein names",
+    "path": "proteinDescription",
+    "id": "names_&_taxonomy/protein_names"
+  },
+  {
+    "parentId": "names_&_taxonomy",
+    "childNumber": 10,
+    "itemType": "SINGLE",
+    "name": "dr_proteomes",
+    "label": "Proteomes",
+    "path": "uniProtCrossReferences",
+    "filter": "[?(@.database=='Proteomes')]",
+    "id": "names_&_taxonomy/proteomes"
+  },
+  {
+    "parentId": "names_&_taxonomy",
+    "childNumber": 11,
+    "itemType": "SINGLE",
+    "name": "lineage",
+    "label": "Taxonomic lineage",
+    "path": "organism.lineage",
+    "id": "names_&_taxonomy/taxonomic_lineage"
+  },
+  {
+    "parentId": "names_&_taxonomy",
+    "childNumber": 12,
+    "itemType": "SINGLE",
+    "name": "organism_host",
+    "label": "Virus hosts",
+    "path": "organismHosts",
+    "id": "names_&_taxonomy/virus_hosts"
+  },
+  {
+    "seqNumber": 1,
+    "itemType": "GROUP",
+    "groupName": "Sequences",
+    "isDatabaseGroup": false,
+    "id": "sequences"
+  },
+  {
+    "parentId": "sequences",
+    "childNumber": 0,
+    "itemType": "SINGLE",
+    "name": "cc_alternative_products",
+    "label": "Alternative products (isoforms)",
+    "path": "comments",
+    "filter": "[?(@.commentType=='ALTERNATIVE PRODUCTS')]",
+    "id": "sequences/alternative_products_(isoforms)"
+  },
+  {
+    "parentId": "sequences",
+    "childNumber": 1,
+    "itemType": "SINGLE",
+    "name": "ft_var_seq",
+    "label": "Alternative sequence",
+    "path": "features",
+    "filter": "[?(@.type=='splice variant')]",
+    "id": "sequences/alternative_sequence"
+  },
+  {
+    "parentId": "sequences",
+    "childNumber": 2,
+    "itemType": "SINGLE",
+    "name": "sc_epred",
+    "label": "Erroneous gene model prediction",
+    "path": "comments",
+    "filter": "[?(@.sequenceCautionType=='Erroneous gene model prediction')]",
+    "id": "sequences/erroneous_gene_model_prediction"
+  },
+  {
+    "parentId": "sequences",
+    "childNumber": 3,
+    "itemType": "SINGLE",
+    "name": "fragment",
+    "label": "Fragment",
+    "path": "proteinDescription.flag",
+    "id": "sequences/fragment"
+  },
+  {
+    "parentId": "sequences",
+    "childNumber": 4,
+    "itemType": "SINGLE",
+    "name": "organelle",
+    "label": "Gene encoded by",
+    "path": "geneLocations",
+    "id": "sequences/gene_encoded_by"
+  },
+  {
+    "parentId": "sequences",
+    "childNumber": 5,
+    "itemType": "SINGLE",
+    "name": "length",
+    "label": "Length",
+    "path": "sequence.length",
+    "id": "sequences/length"
+  },
+  {
+    "parentId": "sequences",
+    "childNumber": 6,
+    "itemType": "SINGLE",
+    "name": "mass",
+    "label": "Mass",
+    "path": "sequence.molWeight",
+    "id": "sequences/mass"
+  },
+  {
+    "parentId": "sequences",
+    "childNumber": 7,
+    "itemType": "SINGLE",
+    "name": "cc_mass_spectrometry",
+    "label": "Mass spectrometry",
+    "path": "comments",
+    "filter": "[?(@.commentType=='MASS SPECTROMETRY')]",
+    "id": "sequences/mass_spectrometry"
+  },
+  {
+    "parentId": "sequences",
+    "childNumber": 8,
+    "itemType": "SINGLE",
+    "name": "ft_variant",
+    "label": "Natural variant",
+    "path": "features",
+    "filter": "[?(@.type=='Sequence variation')]",
+    "id": "sequences/natural_variant"
+  },
+  {
+    "parentId": "sequences",
+    "childNumber": 9,
+    "itemType": "SINGLE",
+    "name": "ft_non_con",
+    "label": "Non-adjacent residue",
+    "path": "features",
+    "filter": "[?(@.type=='non-consecutive residues')]",
+    "id": "sequences/non-adjacent_residue"
+  },
+  {
+    "parentId": "sequences",
+    "childNumber": 10,
+    "itemType": "SINGLE",
+    "name": "ft_non_std",
+    "label": "Non-standard residue",
+    "path": "features",
+    "filter": "[?(@.type=='non-standard amino acid')]",
+    "id": "sequences/non-standard_residue"
+  },
+  {
+    "parentId": "sequences",
+    "childNumber": 11,
+    "itemType": "SINGLE",
+    "name": "ft_non_ter",
+    "label": "Non-terminal residue",
+    "path": "features",
+    "filter": "[?(@.type=='non-terminal residue')]",
+    "id": "sequences/non-terminal_residue"
+  },
+  {
+    "parentId": "sequences",
+    "childNumber": 12,
+    "itemType": "SINGLE",
+    "name": "cc_polymorphism",
+    "label": "Polymorphism",
+    "path": "comments",
+    "filter": "[?(@.commentType=='POLYMORPHISM')]",
+    "id": "sequences/polymorphism"
+  },
+  {
+    "parentId": "sequences",
+    "childNumber": 13,
+    "itemType": "SINGLE",
+    "name": "cc_rna_editing",
+    "label": "RNA Editing",
+    "path": "comments",
+    "filter": "[?(@.commentType=='RNA EDITING')]",
+    "id": "sequences/rna_editing"
+  },
+  {
+    "parentId": "sequences",
+    "childNumber": 14,
+    "itemType": "SINGLE",
+    "name": "sequence",
+    "label": "Sequence",
+    "path": "sequence",
+    "id": "sequences/sequence"
+  },
+  {
+    "parentId": "sequences",
+    "childNumber": 15,
+    "itemType": "SINGLE",
+    "name": "cc_sequence_caution",
+    "label": "Sequence caution",
+    "path": "comments",
+    "filter": "[?(@.commentType=='SEQUENCE CAUTION')]",
+    "id": "sequences/sequence_caution"
+  },
+  {
+    "parentId": "sequences",
+    "childNumber": 16,
+    "itemType": "SINGLE",
+    "name": "ft_conflict",
+    "label": "Sequence conflict",
+    "path": "features",
+    "filter": "[?(@.type=='sequence conflict')]",
+    "id": "sequences/sequence_conflict"
+  },
+  {
+    "parentId": "sequences",
+    "childNumber": 17,
+    "itemType": "SINGLE",
+    "name": "ft_unsure",
+    "label": "Sequence uncertainty",
+    "path": "features",
+    "filter": "[?(@.type=='Uncertainty in sequence')]",
+    "id": "sequences/sequence_uncertainty"
+  },
+  {
+    "parentId": "sequences",
+    "childNumber": 18,
+    "itemType": "SINGLE",
+    "name": "sequence_version",
+    "label": "Sequence version",
+    "path": "entryAudit.sequenceVersion",
+    "id": "sequences/sequence_version"
+  },
+  {
+    "seqNumber": 2,
+    "itemType": "GROUP",
+    "groupName": "Function",
+    "isDatabaseGroup": false,
+    "id": "function"
+  },
+  {
+    "parentId": "function",
+    "childNumber": 0,
+    "itemType": "SINGLE",
+    "name": "absorption",
+    "label": "Absorption",
+    "path": "comments",
+    "filter": "[?(@.commentType=='BIOPHYSICOCHEMICAL PROPERTIES')]",
+    "id": "function/absorption"
+  },
+  {
+    "parentId": "function",
+    "childNumber": 1,
+    "itemType": "SINGLE",
+    "name": "ft_act_site",
+    "label": "Active site",
+    "path": "features",
+    "filter": "[?(@.type=='active site')]",
+    "id": "function/active_site"
+  },
+  {
+    "parentId": "function",
+    "childNumber": 2,
+    "itemType": "SINGLE",
+    "name": "ft_binding",
+    "label": "Binding site",
+    "path": "features",
+    "filter": "[?(@.type=='Other binding site')]",
+    "id": "function/binding_site"
+  },
+  {
+    "parentId": "function",
+    "childNumber": 3,
+    "itemType": "SINGLE",
+    "name": "ft_ca_bind",
+    "label": "Calcium binding",
+    "path": "features",
+    "filter": "[?(@.type=='calcium-binding region')]",
+    "id": "function/calcium_binding"
+  },
+  {
+    "parentId": "function",
+    "childNumber": 4,
+    "itemType": "SINGLE",
+    "name": "cc_catalytic_activity",
+    "label": "Catalytic activity",
+    "path": "comments",
+    "filter": "[?(@.commentType=='CATALYTIC ACTIVITY')]",
+    "id": "function/catalytic_activity"
+  },
+  {
+    "parentId": "function",
+    "childNumber": 5,
+    "itemType": "SINGLE",
+    "name": "cc_cofactor",
+    "label": "Cofactor",
+    "path": "comments",
+    "filter": "[?(@.commentType=='COFACTOR')]",
+    "id": "function/cofactor"
+  },
+  {
+    "parentId": "function",
+    "childNumber": 6,
+    "itemType": "SINGLE",
+    "name": "ft_dna_bind",
+    "label": "DNA binding",
+    "path": "features",
+    "filter": "[?(@.type=='DNA-binding region')]",
+    "id": "function/dna_binding"
+  },
+  {
+    "parentId": "function",
+    "childNumber": 7,
+    "itemType": "SINGLE",
+    "name": "ec",
+    "label": "EC number",
+    "path": "proteinDescription",
+    "id": "function/ec_number"
+  },
+  {
+    "parentId": "function",
+    "childNumber": 8,
+    "itemType": "SINGLE",
+    "name": "cc_activity_regulation",
+    "label": "Activity regulation",
+    "path": "comments",
+    "filter": "[?(@.commentType=='ACTIVITY REGULATION')]",
+    "id": "function/activity_regulation"
+  },
+  {
+    "parentId": "function",
+    "childNumber": 9,
+    "itemType": "SINGLE",
+    "name": "cc_function",
+    "label": "Function [CC]",
+    "path": "comments",
+    "filter": "[?(@.commentType=='FUNCTION')]",
+    "id": "function/function_[cc]"
+  },
+  {
+    "parentId": "function",
+    "childNumber": 10,
+    "itemType": "SINGLE",
+    "name": "kinetics",
+    "label": "Kinetics",
+    "path": "comments",
+    "filter": "[?(@.commentType=='BIOPHYSICOCHEMICAL PROPERTIES')]",
+    "id": "function/kinetics"
+  },
+  {
+    "parentId": "function",
+    "childNumber": 11,
+    "itemType": "SINGLE",
+    "name": "ft_metal",
+    "label": "Metal binding",
+    "path": "features",
+    "filter": "[?(@.type=='metal ion-binding site')]",
+    "id": "function/metal_binding"
+  },
+  {
+    "parentId": "function",
+    "childNumber": 12,
+    "itemType": "SINGLE",
+    "name": "ft_np_bind",
+    "label": "Nucleotide binding",
+    "path": "features",
+    "filter": "[?(@.type=='Nucleotide-binding region')]",
+    "id": "function/nucleotide_binding"
+  },
+  {
+    "parentId": "function",
+    "childNumber": 13,
+    "itemType": "SINGLE",
+    "name": "cc_pathway",
+    "label": "Pathway",
+    "path": "comments",
+    "filter": "[?(@.commentType=='PATHWAY')]",
+    "id": "function/pathway"
+  },
+  {
+    "parentId": "function",
+    "childNumber": 14,
+    "itemType": "SINGLE",
+    "name": "ph_dependence",
+    "label": "pH dependence",
+    "path": "comments",
+    "filter": "[?(@.commentType=='BIOPHYSICOCHEMICAL PROPERTIES')]",
+    "id": "function/ph_dependence"
+  },
+  {
+    "parentId": "function",
+    "childNumber": 15,
+    "itemType": "SINGLE",
+    "name": "redox_potential",
+    "label": "Redox potential",
+    "path": "comments",
+    "filter": "[?(@.commentType=='BIOPHYSICOCHEMICAL PROPERTIES')]",
+    "id": "function/redox_potential"
+  },
+  {
+    "parentId": "function",
+    "childNumber": 16,
+    "itemType": "SINGLE",
+    "name": "ft_site",
+    "label": "Site",
+    "path": "features",
+    "filter": "[?(@.type=='Other site of interest')]",
+    "id": "function/site"
+  },
+  {
+    "parentId": "function",
+    "childNumber": 17,
+    "itemType": "SINGLE",
+    "name": "temp_dependence",
+    "label": "Temperature dependence",
+    "path": "comments",
+    "filter": "[?(@.commentType=='BIOPHYSICOCHEMICAL PROPERTIES')]",
+    "id": "function/temperature_dependence"
+  },
+  {
+    "seqNumber": 3,
+    "itemType": "GROUP",
+    "groupName": "Miscellaneous",
+    "isDatabaseGroup": false,
+    "id": "miscellaneous"
+  },
+  {
+    "parentId": "miscellaneous",
+    "childNumber": 0,
+    "itemType": "SINGLE",
+    "name": "score",
+    "label": "Annotation",
+    "path": "annotationScore",
+    "id": "miscellaneous/annotation"
+  },
+  {
+    "parentId": "miscellaneous",
+    "childNumber": 1,
+    "itemType": "SINGLE",
+    "name": "cc_caution",
+    "label": "Caution",
+    "path": "comments",
+    "filter": "[?(@.commentType=='CAUTION')]",
+    "id": "miscellaneous/caution"
+  },
+  {
+    "parentId": "miscellaneous",
+    "childNumber": 2,
+    "itemType": "SINGLE",
+    "name": "feature",
+    "label": "Features",
+    "path": "features",
+    "id": "miscellaneous/features"
+  },
+  {
+    "parentId": "miscellaneous",
+    "childNumber": 3,
+    "itemType": "SINGLE",
+    "name": "keyword",
+    "label": "Keywords",
+    "path": "keywords",
+    "id": "miscellaneous/keywords"
+  },
+  {
+    "parentId": "miscellaneous",
+    "childNumber": 4,
+    "itemType": "SINGLE",
+    "name": "keywordid",
+    "label": "Keyword ID",
+    "path": "keywords[*].id",
+    "id": "miscellaneous/keyword_id"
+  },
+  {
+    "parentId": "miscellaneous",
+    "childNumber": 5,
+    "itemType": "SINGLE",
+    "name": "matched_text",
+    "label": "Matched text",
+    "path": "primaryAccession",
+    "id": "miscellaneous/matched_text"
+  },
+  {
+    "parentId": "miscellaneous",
+    "childNumber": 6,
+    "itemType": "SINGLE",
+    "name": "cc_miscellaneous",
+    "label": "Miscellaneous [CC]",
+    "path": "comments",
+    "filter": "[?(@.commentType=='MISCELLANEOUS')]",
+    "id": "miscellaneous/miscellaneous_[cc]"
+  },
+  {
+    "parentId": "miscellaneous",
+    "childNumber": 7,
+    "itemType": "SINGLE",
+    "name": "protein_existence",
+    "label": "Protein existence",
+    "path": "proteinExistence",
+    "id": "miscellaneous/protein_existence"
+  },
+  {
+    "parentId": "miscellaneous",
+    "childNumber": 8,
+    "itemType": "SINGLE",
+    "name": "entry_type",
+    "label": "Entry type",
+    "path": "entryType",
+    "id": "miscellaneous/reviewed"
+  },
+  {
+    "parentId": "miscellaneous",
+    "childNumber": 9,
+    "itemType": "SINGLE",
+    "name": "tools",
+    "label": "Tools",
+    "path": "primaryAccession",
+    "id": "miscellaneous/tools"
+  },
+  {
+    "parentId": "miscellaneous",
+    "childNumber": 10,
+    "itemType": "SINGLE",
+    "name": "uniparc_id",
+    "label": "UniParc",
+    "path": "primaryAccession",
+    "id": "miscellaneous/uniparc"
+  },
+  {
+    "seqNumber": 4,
+    "itemType": "GROUP",
+    "groupName": "Interaction",
+    "isDatabaseGroup": false,
+    "id": "interaction"
+  },
+  {
+    "parentId": "interaction",
+    "childNumber": 0,
+    "itemType": "SINGLE",
+    "name": "cc_interaction",
+    "label": "Interacts with",
+    "path": "comments",
+    "filter": "[?(@.commentType=='INTERACTION')]",
+    "id": "interaction/interacts_with"
+  },
+  {
+    "parentId": "interaction",
+    "childNumber": 1,
+    "itemType": "SINGLE",
+    "name": "cc_subunit",
+    "label": "Subunit structure",
+    "path": "comments",
+    "filter": "[?(@.commentType=='SUBUNIT')]",
+    "id": "interaction/subunit_structure"
+  },
+  {
+    "seqNumber": 5,
+    "itemType": "GROUP",
+    "groupName": "Expression",
+    "isDatabaseGroup": false,
+    "id": "expression"
+  },
+  {
+    "parentId": "expression",
+    "childNumber": 0,
+    "itemType": "SINGLE",
+    "name": "cc_developmental_stage",
+    "label": "Developmental stage",
+    "path": "comments",
+    "filter": "[?(@.commentType=='DEVELOPMENTAL STAGE')]",
+    "id": "expression/developmental_stage"
+  },
+  {
+    "parentId": "expression",
+    "childNumber": 1,
+    "itemType": "SINGLE",
+    "name": "cc_induction",
+    "label": "Induction",
+    "path": "comments",
+    "filter": "[?(@.commentType=='INDUCTION')]",
+    "id": "expression/induction"
+  },
+  {
+    "parentId": "expression",
+    "childNumber": 2,
+    "itemType": "SINGLE",
+    "name": "cc_tissue_specificity",
+    "label": "Tissue specificity",
+    "path": "comments",
+    "filter": "[?(@.commentType=='TISSUE SPECIFICITY')]",
+    "id": "expression/tissue_specificity"
+  },
+  {
+    "seqNumber": 6,
+    "itemType": "GROUP",
+    "groupName": "Gene Ontology (GO)",
+    "isDatabaseGroup": false,
+    "id": "gene_ontology_(go)"
+  },
+  {
+    "parentId": "gene_ontology_(go)",
+    "childNumber": 0,
+    "itemType": "SINGLE",
+    "name": "go_p",
+    "label": "Gene Ontology (biological process)",
+    "path": "uniProtCrossReferences",
+    "filter": "[?(@.database=='GO')]",
+    "id": "gene_ontology_(go)/gene_ontology_(biological_process)"
+  },
+  {
+    "parentId": "gene_ontology_(go)",
+    "childNumber": 1,
+    "itemType": "SINGLE",
+    "name": "go_c",
+    "label": "Gene Ontology (cellular component)",
+    "path": "uniProtCrossReferences",
+    "filter": "[?(@.database=='GO')]",
+    "id": "gene_ontology_(go)/gene_ontology_(cellular_component)"
+  },
+  {
+    "parentId": "gene_ontology_(go)",
+    "childNumber": 2,
+    "itemType": "SINGLE",
+    "name": "go",
+    "label": "Gene Ontology (GO)",
+    "path": "uniProtCrossReferences",
+    "filter": "[?(@.database=='GO')]",
+    "id": "gene_ontology_(go)/gene_ontology_(go)"
+  },
+  {
+    "parentId": "gene_ontology_(go)",
+    "childNumber": 3,
+    "itemType": "SINGLE",
+    "name": "go_f",
+    "label": "Gene Ontology (molecular function)",
+    "path": "uniProtCrossReferences",
+    "filter": "[?(@.database=='GO')]",
+    "id": "gene_ontology_(go)/gene_ontology_(molecular_function)"
+  },
+  {
+    "parentId": "gene_ontology_(go)",
+    "childNumber": 4,
+    "itemType": "SINGLE",
+    "name": "go_id",
+    "label": "Gene Ontology IDs",
+    "path": "uniProtCrossReferences",
+    "filter": "[?(@.database=='GO')]",
+    "id": "gene_ontology_(go)/gene_ontology_ids"
+  },
+  {
+    "seqNumber": 7,
+    "itemType": "GROUP",
+    "groupName": "Pathology & Biotech",
+    "isDatabaseGroup": false,
+    "id": "pathology_&_biotech"
+  },
+  {
+    "parentId": "pathology_&_biotech",
+    "childNumber": 0,
+    "itemType": "SINGLE",
+    "name": "cc_allergen",
+    "label": "Allergenic Properties",
+    "path": "comments",
+    "filter": "[?(@.commentType=='ALLERGEN')]",
+    "id": "pathology_&_biotech/allergenic_properties"
+  },
+  {
+    "parentId": "pathology_&_biotech",
+    "childNumber": 1,
+    "itemType": "SINGLE",
+    "name": "cc_biotechnology",
+    "label": "Biotechnological use",
+    "path": "comments",
+    "filter": "[?(@.commentType=='BIOTECHNOLOGY')]",
+    "id": "pathology_&_biotech/biotechnological_use"
+  },
+  {
+    "parentId": "pathology_&_biotech",
+    "childNumber": 2,
+    "itemType": "SINGLE",
+    "name": "cc_disruption_phenotype",
+    "label": "Disruption phenotype",
+    "path": "comments",
+    "filter": "[?(@.commentType=='DISRUPTION PHENOTYPE')]",
+    "id": "pathology_&_biotech/disruption_phenotype"
+  },
+  {
+    "parentId": "pathology_&_biotech",
+    "childNumber": 3,
+    "itemType": "SINGLE",
+    "name": "cc_disease",
+    "label": "Involvement in disease",
+    "path": "comments",
+    "filter": "[?(@.commentType=='DISEASE')]",
+    "id": "pathology_&_biotech/involvement_in_disease"
+  },
+  {
+    "parentId": "pathology_&_biotech",
+    "childNumber": 4,
+    "itemType": "SINGLE",
+    "name": "ft_mutagen",
+    "label": "Mutagenesis",
+    "path": "features",
+    "filter": "[?(@.type=='mutagenesis site')]",
+    "id": "pathology_&_biotech/mutagenesis"
+  },
+  {
+    "parentId": "pathology_&_biotech",
+    "childNumber": 5,
+    "itemType": "SINGLE",
+    "name": "cc_pharmaceutical",
+    "label": "Pharmaceutical use",
+    "path": "comments",
+    "filter": "[?(@.commentType=='PHARMACEUTICAL')]",
+    "id": "pathology_&_biotech/pharmaceutical_use"
+  },
+  {
+    "parentId": "pathology_&_biotech",
+    "childNumber": 6,
+    "itemType": "SINGLE",
+    "name": "cc_toxic_dose",
+    "label": "Toxic dose",
+    "path": "comments",
+    "filter": "[?(@.commentType=='TOXIC DOSE')]",
+    "id": "pathology_&_biotech/toxic_dose"
+  },
+  {
+    "seqNumber": 8,
+    "itemType": "GROUP",
+    "groupName": "Subcellular location",
+    "isDatabaseGroup": false,
+    "id": "subcellular_location"
+  },
+  {
+    "parentId": "subcellular_location",
+    "childNumber": 0,
+    "itemType": "SINGLE",
+    "name": "ft_intramem",
+    "label": "Intramembrane",
+    "path": "features",
+    "filter": "[?(@.type=='intramembrane region')]",
+    "id": "subcellular_location/intramembrane"
+  },
+  {
+    "parentId": "subcellular_location",
+    "childNumber": 1,
+    "itemType": "SINGLE",
+    "name": "cc_subcellular_location",
+    "label": "Subcellular location [CC]",
+    "path": "comments",
+    "filter": "[?(@.commentType=='SUBCELLULAR LOCATION')]",
+    "id": "subcellular_location/subcellular_location_[cc]"
+  },
+  {
+    "parentId": "subcellular_location",
+    "childNumber": 2,
+    "itemType": "SINGLE",
+    "name": "ft_top_dom",
+    "label": "Topological domain",
+    "path": "features",
+    "filter": "[?(@.type=='topological domain')]",
+    "id": "subcellular_location/topological_domain"
+  },
+  {
+    "parentId": "subcellular_location",
+    "childNumber": 3,
+    "itemType": "SINGLE",
+    "name": "ft_transmem",
+    "label": "Transmembrane",
+    "path": "features",
+    "filter": "[?(@.type=='transmembrane region')]",
+    "id": "subcellular_location/transmembrane"
+  },
+  {
+    "seqNumber": 9,
+    "itemType": "GROUP",
+    "groupName": "PTM / Processing",
+    "isDatabaseGroup": false,
+    "id": "ptm_/_processing"
+  },
+  {
+    "parentId": "ptm_/_processing",
+    "childNumber": 0,
+    "itemType": "SINGLE",
+    "name": "ft_chain",
+    "label": "Chain",
+    "path": "features",
+    "filter": "[?(@.type=='chain')]",
+    "id": "ptm_/_processing/chain"
+  },
+  {
+    "parentId": "ptm_/_processing",
+    "childNumber": 1,
+    "itemType": "SINGLE",
+    "name": "ft_crosslnk",
+    "label": "Cross-link",
+    "path": "features",
+    "filter": "[?(@.type=='cross-link')]",
+    "id": "ptm_/_processing/cross-link"
+  },
+  {
+    "parentId": "ptm_/_processing",
+    "childNumber": 2,
+    "itemType": "SINGLE",
+    "name": "ft_disulfide",
+    "label": "Disulfide bond",
+    "path": "features",
+    "filter": "[?(@.type=='disulfide bond')]",
+    "id": "ptm_/_processing/disulfide_bond"
+  },
+  {
+    "parentId": "ptm_/_processing",
+    "childNumber": 3,
+    "itemType": "SINGLE",
+    "name": "ft_carbohyd",
+    "label": "Glycosylation",
+    "path": "features",
+    "filter": "[?(@.type=='glycosylation site')]",
+    "id": "ptm_/_processing/glycosylation"
+  },
+  {
+    "parentId": "ptm_/_processing",
+    "childNumber": 4,
+    "itemType": "SINGLE",
+    "name": "ft_init_met",
+    "label": "Initiator methionine",
+    "path": "features",
+    "filter": "[?(@.type=='initiator methionine')]",
+    "id": "ptm_/_processing/initiator_methionine"
+  },
+  {
+    "parentId": "ptm_/_processing",
+    "childNumber": 5,
+    "itemType": "SINGLE",
+    "name": "ft_lipid",
+    "label": "Lipidation",
+    "path": "features",
+    "filter": "[?(@.type=='lipid moiety-binding region')]",
+    "id": "ptm_/_processing/lipidation"
+  },
+  {
+    "parentId": "ptm_/_processing",
+    "childNumber": 6,
+    "itemType": "SINGLE",
+    "name": "ft_mod_res",
+    "label": "Modified residue",
+    "path": "features",
+    "filter": "[?(@.type=='Post-translationally modified residue')]",
+    "id": "ptm_/_processing/modified_residue"
+  },
+  {
+    "parentId": "ptm_/_processing",
+    "childNumber": 7,
+    "itemType": "SINGLE",
+    "name": "ft_peptide",
+    "label": "Peptide",
+    "path": "features",
+    "filter": "[?(@.type=='peptide')]",
+    "id": "ptm_/_processing/peptide"
+  },
+  {
+    "parentId": "ptm_/_processing",
+    "childNumber": 8,
+    "itemType": "SINGLE",
+    "name": "cc_ptm",
+    "label": "Post-translational modification",
+    "path": "comments",
+    "filter": "[?(@.commentType=='PTM')]",
+    "id": "ptm_/_processing/post-translational_modification"
+  },
+  {
+    "parentId": "ptm_/_processing",
+    "childNumber": 9,
+    "itemType": "SINGLE",
+    "name": "ft_propep",
+    "label": "Propeptide",
+    "path": "features",
+    "filter": "[?(@.type=='propeptide')]",
+    "id": "ptm_/_processing/propeptide"
+  },
+  {
+    "parentId": "ptm_/_processing",
+    "childNumber": 10,
+    "itemType": "SINGLE",
+    "name": "ft_signal",
+    "label": "Signal peptide",
+    "path": "features",
+    "filter": "[?(@.type=='signal peptide')]",
+    "id": "ptm_/_processing/signal_peptide"
+  },
+  {
+    "parentId": "ptm_/_processing",
+    "childNumber": 11,
+    "itemType": "SINGLE",
+    "name": "ft_transit",
+    "label": "Transit peptide",
+    "path": "features",
+    "filter": "[?(@.type=='transit peptide')]",
+    "id": "ptm_/_processing/transit_peptide"
+  },
+  {
+    "seqNumber": 10,
+    "itemType": "GROUP",
+    "groupName": "Structure",
+    "isDatabaseGroup": false,
+    "id": "structure"
+  },
+  {
+    "parentId": "structure",
+    "childNumber": 0,
+    "itemType": "SINGLE",
+    "name": "3d",
+    "label": "3D",
+    "path": "uniProtCrossReferences",
+    "filter": "[?(@.database=='PDB')]",
+    "id": "structure/3d"
+  },
+  {
+    "parentId": "structure",
+    "childNumber": 1,
+    "itemType": "SINGLE",
+    "name": "ft_strand",
+    "label": "Beta strand",
+    "path": "features",
+    "filter": "[?(@.type=='strand')]",
+    "id": "structure/beta_strand"
+  },
+  {
+    "parentId": "structure",
+    "childNumber": 2,
+    "itemType": "SINGLE",
+    "name": "ft_helix",
+    "label": "Helix",
+    "path": "features",
+    "filter": "[?(@.type=='helix')]",
+    "id": "structure/helix"
+  },
+  {
+    "parentId": "structure",
+    "childNumber": 3,
+    "itemType": "SINGLE",
+    "name": "ft_turn",
+    "label": "Turn",
+    "path": "features",
+    "filter": "[?(@.type=='turn')]",
+    "id": "structure/turn"
+  },
+  {
+    "seqNumber": 11,
+    "itemType": "GROUP",
+    "groupName": "Publications",
+    "isDatabaseGroup": false,
+    "id": "publications"
+  },
+  {
+    "parentId": "publications",
+    "childNumber": 0,
+    "itemType": "SINGLE",
+    "name": "mapped_pm_id",
+    "label": "Mapped PubMed ID",
+    "path": "primaryAccession",
+    "id": "publications/mapped_pubmed_id"
+  },
+  {
+    "parentId": "publications",
+    "childNumber": 1,
+    "itemType": "SINGLE",
+    "name": "pm_id",
+    "label": "PubMed ID",
+    "path": "references[*]",
+    "id": "publications/pubmed_id"
+  },
+  {
+    "seqNumber": 12,
+    "itemType": "GROUP",
+    "groupName": "Date of",
+    "isDatabaseGroup": false,
+    "id": "date_of"
+  },
+  {
+    "parentId": "date_of",
+    "childNumber": 0,
+    "itemType": "SINGLE",
+    "name": "date_create",
+    "label": "Date of creation",
+    "path": "entryAudit.firstPublicDate",
+    "id": "date_of/date_of_creation"
+  },
+  {
+    "parentId": "date_of",
+    "childNumber": 1,
+    "itemType": "SINGLE",
+    "name": "date_mod",
+    "label": "Date of last modification",
+    "path": "entryAudit.lastAnnotationUpdateDate",
+    "id": "date_of/date_of_last_modification"
+  },
+  {
+    "parentId": "date_of",
+    "childNumber": 2,
+    "itemType": "SINGLE",
+    "name": "date_seq_mod",
+    "label": "Date of last sequence modification",
+    "path": "entryAudit.lastSequenceUpdateDate",
+    "id": "date_of/date_of_last_sequence_modification"
+  },
+  {
+    "parentId": "date_of",
+    "childNumber": 3,
+    "itemType": "SINGLE",
+    "name": "version",
+    "label": "Entry version",
+    "path": "entryAudit.entryVersion",
+    "id": "date_of/entry_version"
+  },
+  {
+    "seqNumber": 13,
+    "itemType": "GROUP",
+    "groupName": "Family & Domains",
+    "isDatabaseGroup": false,
+    "id": "family_&_domains"
+  },
+  {
+    "parentId": "family_&_domains",
+    "childNumber": 0,
+    "itemType": "SINGLE",
+    "name": "ft_coiled",
+    "label": "Coiled coil",
+    "path": "features",
+    "filter": "[?(@.type=='coiled-coil region')]",
+    "id": "family_&_domains/coiled_coil"
+  },
+  {
+    "parentId": "family_&_domains",
+    "childNumber": 1,
+    "itemType": "SINGLE",
+    "name": "ft_compbias",
+    "label": "Compositional bias",
+    "path": "features",
+    "filter": "[?(@.type=='compositionally biased region')]",
+    "id": "family_&_domains/compositional_bias"
+  },
+  {
+    "parentId": "family_&_domains",
+    "childNumber": 2,
+    "itemType": "SINGLE",
+    "name": "cc_domain",
+    "label": "Domain [CC]",
+    "path": "comments",
+    "filter": "[?(@.commentType=='DOMAIN')]",
+    "id": "family_&_domains/domain_[cc]"
+  },
+  {
+    "parentId": "family_&_domains",
+    "childNumber": 3,
+    "itemType": "SINGLE",
+    "name": "ft_domain",
+    "label": "Domain [FT]",
+    "path": "features",
+    "filter": "[?(@.type=='Other domain of interest')]",
+    "id": "family_&_domains/domain_[ft]"
+  },
+  {
+    "parentId": "family_&_domains",
+    "childNumber": 4,
+    "itemType": "SINGLE",
+    "name": "ft_motif",
+    "label": "Motif",
+    "path": "features",
+    "filter": "[?(@.type=='short sequence motif')]",
+    "id": "family_&_domains/motif"
+  },
+  {
+    "parentId": "family_&_domains",
+    "childNumber": 5,
+    "itemType": "SINGLE",
+    "name": "family",
+    "label": "Protein families",
+    "path": "comments",
+    "filter": "[?(@.commentType=='SIMILARITY')]",
+    "id": "family_&_domains/protein_families"
+  },
+  {
+    "parentId": "family_&_domains",
+    "childNumber": 6,
+    "itemType": "SINGLE",
+    "name": "ft_region",
+    "label": "Region",
+    "path": "features",
+    "filter": "[?(@.type=='region of interest')]",
+    "id": "family_&_domains/region"
+  },
+  {
+    "parentId": "family_&_domains",
+    "childNumber": 7,
+    "itemType": "SINGLE",
+    "name": "ft_repeat",
+    "label": "Repeat",
+    "path": "features",
+    "filter": "[?(@.type=='repeat')]",
+    "id": "family_&_domains/repeat"
+  },
+  {
+    "parentId": "family_&_domains",
+    "childNumber": 8,
+    "itemType": "SINGLE",
+    "name": "ft_zn_fing",
+    "label": "Zinc finger",
+    "path": "features",
+    "filter": "[?(@.type=='zinc finger region')]",
+    "id": "family_&_domains/zinc_finger"
+  },
+  {
+    "seqNumber": 14,
+    "itemType": "GROUP",
+    "groupName": "Taxonomic identifier",
+    "isDatabaseGroup": false,
+    "id": "taxonomic_identifier"
+  },
+  {
+    "parentId": "taxonomic_identifier",
+    "childNumber": 0,
+    "itemType": "SINGLE",
+    "name": "tax_id",
+    "label": "Taxonomic lineage",
+    "path": "organism.lineage",
+    "id": "taxonomic_identifier/taxonomic_lineage"
+  },
+  {
+    "seqNumber": 15,
+    "itemType": "GROUP",
+    "groupName": "Sequence",
+    "isDatabaseGroup": true,
+    "id": "sequence"
+  },
+  {
+    "parentId": "sequence",
+    "childNumber": 0,
+    "itemType": "SINGLE",
+    "name": "dr_embl",
+    "label": "EMBL",
+    "path": "uniProtCrossReferences",
+    "filter": "[?(@.database=='EMBL')]",
+    "id": "sequence/embl"
+  },
+  {
+    "parentId": "sequence",
+    "childNumber": 1,
+    "itemType": "SINGLE",
+    "name": "dr_ccds",
+    "label": "CCDS",
+    "path": "uniProtCrossReferences",
+    "filter": "[?(@.database=='CCDS')]",
+    "id": "sequence/ccds"
+  },
+  {
+    "parentId": "sequence",
+    "childNumber": 2,
+    "itemType": "SINGLE",
+    "name": "dr_pir",
+    "label": "PIR",
+    "path": "uniProtCrossReferences",
+    "filter": "[?(@.database=='PIR')]",
+    "id": "sequence/pir"
+  },
+  {
+    "parentId": "sequence",
+    "childNumber": 3,
+    "itemType": "SINGLE",
+    "name": "dr_refseq",
+    "label": "RefSeq",
+    "path": "uniProtCrossReferences",
+    "filter": "[?(@.database=='RefSeq')]",
+    "id": "sequence/refseq"
+  },
+  {
+    "seqNumber": 16,
+    "itemType": "GROUP",
+    "groupName": "3D structure",
+    "isDatabaseGroup": true,
+    "id": "3d_structure"
+  },
+  {
+    "parentId": "3d_structure",
+    "childNumber": 0,
+    "itemType": "SINGLE",
+    "name": "dr_pdb",
+    "label": "PDB",
+    "path": "uniProtCrossReferences",
+    "filter": "[?(@.database=='PDB')]",
+    "id": "3d_structure/pdb"
+  },
+  {
+    "parentId": "3d_structure",
+    "childNumber": 1,
+    "itemType": "SINGLE",
+    "name": "dr_pdbsum",
+    "label": "PDBsum",
+    "path": "uniProtCrossReferences",
+    "filter": "[?(@.database=='PDBsum')]",
+    "id": "3d_structure/pdbsum"
+  },
+  {
+    "parentId": "3d_structure",
+    "childNumber": 2,
+    "itemType": "SINGLE",
+    "name": "dr_smr",
+    "label": "SMR",
+    "path": "uniProtCrossReferences",
+    "filter": "[?(@.database=='SMR')]",
+    "id": "3d_structure/smr"
+  },
+  {
+    "seqNumber": 17,
+    "itemType": "GROUP",
+    "groupName": "Protein-protein interaction",
+    "isDatabaseGroup": true,
+    "id": "protein-protein_interaction"
+  },
+  {
+    "parentId": "protein-protein_interaction",
+    "childNumber": 0,
+    "itemType": "SINGLE",
+    "name": "dr_biogrid",
+    "label": "BioGrid",
+    "path": "uniProtCrossReferences",
+    "filter": "[?(@.database=='BioGrid')]",
+    "id": "protein-protein_interaction/biogrid"
+  },
+  {
+    "parentId": "protein-protein_interaction",
+    "childNumber": 1,
+    "itemType": "SINGLE",
+    "name": "dr_complexportal",
+    "label": "ComplexPortal",
+    "path": "uniProtCrossReferences",
+    "filter": "[?(@.database=='ComplexPortal')]",
+    "id": "protein-protein_interaction/complexportal"
+  },
+  {
+    "parentId": "protein-protein_interaction",
+    "childNumber": 2,
+    "itemType": "SINGLE",
+    "name": "dr_corum",
+    "label": "CORUM",
+    "path": "uniProtCrossReferences",
+    "filter": "[?(@.database=='CORUM')]",
+    "id": "protein-protein_interaction/corum"
+  },
+  {
+    "parentId": "protein-protein_interaction",
+    "childNumber": 3,
+    "itemType": "SINGLE",
+    "name": "dr_dip",
+    "label": "DIP",
+    "path": "uniProtCrossReferences",
+    "filter": "[?(@.database=='DIP')]",
+    "id": "protein-protein_interaction/dip"
+  },
+  {
+    "parentId": "protein-protein_interaction",
+    "childNumber": 4,
+    "itemType": "SINGLE",
+    "name": "dr_elm",
+    "label": "ELM",
+    "path": "uniProtCrossReferences",
+    "filter": "[?(@.database=='ELM')]",
+    "id": "protein-protein_interaction/elm"
+  },
+  {
+    "parentId": "protein-protein_interaction",
+    "childNumber": 5,
+    "itemType": "SINGLE",
+    "name": "dr_intact",
+    "label": "IntAct",
+    "path": "uniProtCrossReferences",
+    "filter": "[?(@.database=='IntAct')]",
+    "id": "protein-protein_interaction/intact"
+  },
+  {
+    "parentId": "protein-protein_interaction",
+    "childNumber": 6,
+    "itemType": "SINGLE",
+    "name": "dr_mint",
+    "label": "MINT",
+    "path": "uniProtCrossReferences",
+    "filter": "[?(@.database=='MINT')]",
+    "id": "protein-protein_interaction/mint"
+  },
+  {
+    "parentId": "protein-protein_interaction",
+    "childNumber": 7,
+    "itemType": "SINGLE",
+    "name": "dr_string",
+    "label": "STRING",
+    "path": "uniProtCrossReferences",
+    "filter": "[?(@.database=='STRING')]",
+    "id": "protein-protein_interaction/string"
+  },
+  {
+    "seqNumber": 18,
+    "itemType": "GROUP",
+    "groupName": "Chemistry",
+    "isDatabaseGroup": true,
+    "id": "chemistry"
+  },
+  {
+    "parentId": "chemistry",
+    "childNumber": 0,
+    "itemType": "SINGLE",
+    "name": "dr_bindingdb",
+    "label": "BindingDB",
+    "path": "uniProtCrossReferences",
+    "filter": "[?(@.database=='BindingDB')]",
+    "id": "chemistry/bindingdb"
+  },
+  {
+    "parentId": "chemistry",
+    "childNumber": 1,
+    "itemType": "SINGLE",
+    "name": "dr_chembl",
+    "label": "ChEMBL",
+    "path": "uniProtCrossReferences",
+    "filter": "[?(@.database=='ChEMBL')]",
+    "id": "chemistry/chembl"
+  },
+  {
+    "parentId": "chemistry",
+    "childNumber": 2,
+    "itemType": "SINGLE",
+    "name": "dr_drugbank",
+    "label": "DrugBank",
+    "path": "uniProtCrossReferences",
+    "filter": "[?(@.database=='DrugBank')]",
+    "id": "chemistry/drugbank"
+  },
+  {
+    "parentId": "chemistry",
+    "childNumber": 3,
+    "itemType": "SINGLE",
+    "name": "dr_guidetopharmacology",
+    "label": "GuidetoPHARMACOLOGY",
+    "path": "uniProtCrossReferences",
+    "filter": "[?(@.database=='GuidetoPHARMACOLOGY')]",
+    "id": "chemistry/guidetopharmacology"
+  },
+  {
+    "parentId": "chemistry",
+    "childNumber": 4,
+    "itemType": "SINGLE",
+    "name": "dr_swisslipids",
+    "label": "SwissLipids",
+    "path": "uniProtCrossReferences",
+    "filter": "[?(@.database=='SwissLipids')]",
+    "id": "chemistry/swisslipids"
+  },
+  {
+    "parentId": "chemistry",
+    "childNumber": 5,
+    "itemType": "SINGLE",
+    "name": "dr_drugcentral",
+    "label": "DrugCentral",
+    "path": "uniProtCrossReferences",
+    "filter": "[?(@.database=='DrugCentral')]",
+    "id": "chemistry/drugcentral"
+  },
+  {
+    "seqNumber": 19,
+    "itemType": "GROUP",
+    "groupName": "Protein family/group",
+    "isDatabaseGroup": true,
+    "id": "protein_family/group"
+  },
+  {
+    "parentId": "protein_family/group",
+    "childNumber": 0,
+    "itemType": "SINGLE",
+    "name": "dr_allergome",
+    "label": "Allergome",
+    "path": "uniProtCrossReferences",
+    "filter": "[?(@.database=='Allergome')]",
+    "id": "protein_family/group/allergome"
+  },
+  {
+    "parentId": "protein_family/group",
+    "childNumber": 1,
+    "itemType": "SINGLE",
+    "name": "dr_cazy",
+    "label": "CAZy",
+    "path": "uniProtCrossReferences",
+    "filter": "[?(@.database=='CAZy')]",
+    "id": "protein_family/group/cazy"
+  },
+  {
+    "parentId": "protein_family/group",
+    "childNumber": 2,
+    "itemType": "SINGLE",
+    "name": "dr_esther",
+    "label": "ESTHER",
+    "path": "uniProtCrossReferences",
+    "filter": "[?(@.database=='ESTHER')]",
+    "id": "protein_family/group/esther"
+  },
+  {
+    "parentId": "protein_family/group",
+    "childNumber": 3,
+    "itemType": "SINGLE",
+    "name": "dr_imgt_gene-db",
+    "label": "IMGT_GENE-DB",
+    "path": "uniProtCrossReferences",
+    "filter": "[?(@.database=='IMGT_GENE-DB')]",
+    "id": "protein_family/group/imgt_gene-db"
+  },
+  {
+    "parentId": "protein_family/group",
+    "childNumber": 4,
+    "itemType": "SINGLE",
+    "name": "dr_merops",
+    "label": "MEROPS",
+    "path": "uniProtCrossReferences",
+    "filter": "[?(@.database=='MEROPS')]",
+    "id": "protein_family/group/merops"
+  },
+  {
+    "parentId": "protein_family/group",
+    "childNumber": 5,
+    "itemType": "SINGLE",
+    "name": "dr_moondb",
+    "label": "MoonDB",
+    "path": "uniProtCrossReferences",
+    "filter": "[?(@.database=='MoonDB')]",
+    "id": "protein_family/group/moondb"
+  },
+  {
+    "parentId": "protein_family/group",
+    "childNumber": 6,
+    "itemType": "SINGLE",
+    "name": "dr_moonprot",
+    "label": "MoonProt",
+    "path": "uniProtCrossReferences",
+    "filter": "[?(@.database=='MoonProt')]",
+    "id": "protein_family/group/moonprot"
+  },
+  {
+    "parentId": "protein_family/group",
+    "childNumber": 7,
+    "itemType": "SINGLE",
+    "name": "dr_mycoclap",
+    "label": "mycoCLAP",
+    "path": "uniProtCrossReferences",
+    "filter": "[?(@.database=='mycoCLAP')]",
+    "id": "protein_family/group/mycoclap"
+  },
+  {
+    "parentId": "protein_family/group",
+    "childNumber": 8,
+    "itemType": "SINGLE",
+    "name": "dr_peroxibase",
+    "label": "PeroxiBase",
+    "path": "uniProtCrossReferences",
+    "filter": "[?(@.database=='PeroxiBase')]",
+    "id": "protein_family/group/peroxibase"
+  },
+  {
+    "parentId": "protein_family/group",
+    "childNumber": 9,
+    "itemType": "SINGLE",
+    "name": "dr_rebase",
+    "label": "REBASE",
+    "path": "uniProtCrossReferences",
+    "filter": "[?(@.database=='REBASE')]",
+    "id": "protein_family/group/rebase"
+  },
+  {
+    "parentId": "protein_family/group",
+    "childNumber": 10,
+    "itemType": "SINGLE",
+    "name": "dr_tcdb",
+    "label": "TCDB",
+    "path": "uniProtCrossReferences",
+    "filter": "[?(@.database=='TCDB')]",
+    "id": "protein_family/group/tcdb"
+  },
+  {
+    "parentId": "protein_family/group",
+    "childNumber": 11,
+    "itemType": "SINGLE",
+    "name": "dr_unilectin",
+    "label": "UniLectin",
+    "path": "uniProtCrossReferences",
+    "filter": "[?(@.database=='UniLectin')]",
+    "id": "protein_family/group/unilectin"
+  },
+  {
+    "seqNumber": 20,
+    "itemType": "GROUP",
+    "groupName": "PTM",
+    "isDatabaseGroup": true,
+    "id": "ptm"
+  },
+  {
+    "parentId": "ptm",
+    "childNumber": 0,
+    "itemType": "SINGLE",
+    "name": "dr_carbonyldb",
+    "label": "CarbonylDB",
+    "path": "uniProtCrossReferences",
+    "filter": "[?(@.database=='CarbonylDB')]",
+    "id": "ptm/carbonyldb"
+  },
+  {
+    "parentId": "ptm",
+    "childNumber": 1,
+    "itemType": "SINGLE",
+    "name": "dr_depod",
+    "label": "DEPOD",
+    "path": "uniProtCrossReferences",
+    "filter": "[?(@.database=='DEPOD')]",
+    "id": "ptm/depod"
+  },
+  {
+    "parentId": "ptm",
+    "childNumber": 2,
+    "itemType": "SINGLE",
+    "name": "dr_glyconnect",
+    "label": "GlyConnect",
+    "path": "uniProtCrossReferences",
+    "filter": "[?(@.database=='GlyConnect')]",
+    "id": "ptm/glyconnect"
+  },
+  {
+    "parentId": "ptm",
+    "childNumber": 3,
+    "itemType": "SINGLE",
+    "name": "dr_iptmnet",
+    "label": "iPTMnet",
+    "path": "uniProtCrossReferences",
+    "filter": "[?(@.database=='iPTMnet')]",
+    "id": "ptm/iptmnet"
+  },
+  {
+    "parentId": "ptm",
+    "childNumber": 4,
+    "itemType": "SINGLE",
+    "name": "dr_phosphositeplus",
+    "label": "PhosphoSitePlus",
+    "path": "uniProtCrossReferences",
+    "filter": "[?(@.database=='PhosphoSitePlus')]",
+    "id": "ptm/phosphositeplus"
+  },
+  {
+    "parentId": "ptm",
+    "childNumber": 5,
+    "itemType": "SINGLE",
+    "name": "dr_swisspalm",
+    "label": "SwissPalm",
+    "path": "uniProtCrossReferences",
+    "filter": "[?(@.database=='SwissPalm')]",
+    "id": "ptm/swisspalm"
+  },
+  {
+    "parentId": "ptm",
+    "childNumber": 6,
+    "itemType": "SINGLE",
+    "name": "dr_unicarbkb",
+    "label": "UniCarbKB",
+    "path": "uniProtCrossReferences",
+    "filter": "[?(@.database=='UniCarbKB')]",
+    "id": "ptm/unicarbkb"
+  },
+  {
+    "seqNumber": 21,
+    "itemType": "GROUP",
+    "groupName": "Polymorphism and mutation",
+    "isDatabaseGroup": true,
+    "id": "polymorphism_and_mutation"
+  },
+  {
+    "parentId": "polymorphism_and_mutation",
+    "childNumber": 0,
+    "itemType": "SINGLE",
+    "name": "dr_biomuta",
+    "label": "BioMuta",
+    "path": "uniProtCrossReferences",
+    "filter": "[?(@.database=='BioMuta')]",
+    "id": "polymorphism_and_mutation/biomuta"
+  },
+  {
+    "parentId": "polymorphism_and_mutation",
+    "childNumber": 1,
+    "itemType": "SINGLE",
+    "name": "dr_dmdm",
+    "label": "DMDM",
+    "path": "uniProtCrossReferences",
+    "filter": "[?(@.database=='DMDM')]",
+    "id": "polymorphism_and_mutation/dmdm"
+  },
+  {
+    "parentId": "polymorphism_and_mutation",
+    "childNumber": 2,
+    "itemType": "SINGLE",
+    "name": "dr_dbsnp",
+    "label": "dbSNP",
+    "path": "uniProtCrossReferences",
+    "filter": "[?(@.database=='dbSNP')]",
+    "id": "polymorphism_and_mutation/dbsnp"
+  },
+  {
+    "seqNumber": 22,
+    "itemType": "GROUP",
+    "groupName": "2D gel",
+    "isDatabaseGroup": true,
+    "id": "2d_gel"
+  },
+  {
+    "parentId": "2d_gel",
+    "childNumber": 0,
+    "itemType": "SINGLE",
+    "name": "dr_compluyeast-2dpage",
+    "label": "COMPLUYEAST-2DPAGE",
+    "path": "uniProtCrossReferences",
+    "filter": "[?(@.database=='COMPLUYEAST-2DPAGE')]",
+    "id": "2d_gel/compluyeast-2dpage"
+  },
+  {
+    "parentId": "2d_gel",
+    "childNumber": 1,
+    "itemType": "SINGLE",
+    "name": "dr_dosac-cobs-2dpage",
+    "label": "DOSAC-COBS-2DPAGE",
+    "path": "uniProtCrossReferences",
+    "filter": "[?(@.database=='DOSAC-COBS-2DPAGE')]",
+    "id": "2d_gel/dosac-cobs-2dpage"
+  },
+  {
+    "parentId": "2d_gel",
+    "childNumber": 2,
+    "itemType": "SINGLE",
+    "name": "dr_ogp",
+    "label": "OGP",
+    "path": "uniProtCrossReferences",
+    "filter": "[?(@.database=='OGP')]",
+    "id": "2d_gel/ogp"
+  },
+  {
+    "parentId": "2d_gel",
+    "childNumber": 3,
+    "itemType": "SINGLE",
+    "name": "dr_reproduction-2dpage",
+    "label": "REPRODUCTION-2DPAGE",
+    "path": "uniProtCrossReferences",
+    "filter": "[?(@.database=='REPRODUCTION-2DPAGE')]",
+    "id": "2d_gel/reproduction-2dpage"
+  },
+  {
+    "parentId": "2d_gel",
+    "childNumber": 4,
+    "itemType": "SINGLE",
+    "name": "dr_swiss-2dpage",
+    "label": "SWISS-2DPAGE",
+    "path": "uniProtCrossReferences",
+    "filter": "[?(@.database=='SWISS-2DPAGE')]",
+    "id": "2d_gel/swiss-2dpage"
+  },
+  {
+    "parentId": "2d_gel",
+    "childNumber": 5,
+    "itemType": "SINGLE",
+    "name": "dr_ucd-2dpage",
+    "label": "UCD-2DPAGE",
+    "path": "uniProtCrossReferences",
+    "filter": "[?(@.database=='UCD-2DPAGE')]",
+    "id": "2d_gel/ucd-2dpage"
+  },
+  {
+    "parentId": "2d_gel",
+    "childNumber": 6,
+    "itemType": "SINGLE",
+    "name": "dr_world-2dpage",
+    "label": "World-2DPAGE",
+    "path": "uniProtCrossReferences",
+    "filter": "[?(@.database=='World-2DPAGE')]",
+    "id": "2d_gel/world-2dpage"
+  },
+  {
+    "seqNumber": 23,
+    "itemType": "GROUP",
+    "groupName": "Proteomic",
+    "isDatabaseGroup": true,
+    "id": "proteomic"
+  },
+  {
+    "parentId": "proteomic",
+    "childNumber": 0,
+    "itemType": "SINGLE",
+    "name": "dr_cptac",
+    "label": "CPTAC",
+    "path": "uniProtCrossReferences",
+    "filter": "[?(@.database=='CPTAC')]",
+    "id": "proteomic/cptac"
+  },
+  {
+    "parentId": "proteomic",
+    "childNumber": 1,
+    "itemType": "SINGLE",
+    "name": "dr_epd",
+    "label": "EPD",
+    "path": "uniProtCrossReferences",
+    "filter": "[?(@.database=='EPD')]",
+    "id": "proteomic/epd"
+  },
+  {
+    "parentId": "proteomic",
+    "childNumber": 2,
+    "itemType": "SINGLE",
+    "name": "dr_maxqb",
+    "label": "MaxQB",
+    "path": "uniProtCrossReferences",
+    "filter": "[?(@.database=='MaxQB')]",
+    "id": "proteomic/maxqb"
+  },
+  {
+    "parentId": "proteomic",
+    "childNumber": 3,
+    "itemType": "SINGLE",
+    "name": "dr_paxdb",
+    "label": "PaxDb",
+    "path": "uniProtCrossReferences",
+    "filter": "[?(@.database=='PaxDb')]",
+    "id": "proteomic/paxdb"
+  },
+  {
+    "parentId": "proteomic",
+    "childNumber": 4,
+    "itemType": "SINGLE",
+    "name": "dr_peptideatlas",
+    "label": "PeptideAtlas",
+    "path": "uniProtCrossReferences",
+    "filter": "[?(@.database=='PeptideAtlas')]",
+    "id": "proteomic/peptideatlas"
+  },
+  {
+    "parentId": "proteomic",
+    "childNumber": 5,
+    "itemType": "SINGLE",
+    "name": "dr_pride",
+    "label": "PRIDE",
+    "path": "uniProtCrossReferences",
+    "filter": "[?(@.database=='PRIDE')]",
+    "id": "proteomic/pride"
+  },
+  {
+    "parentId": "proteomic",
+    "childNumber": 6,
+    "itemType": "SINGLE",
+    "name": "dr_promex",
+    "label": "ProMEX",
+    "path": "uniProtCrossReferences",
+    "filter": "[?(@.database=='ProMEX')]",
+    "id": "proteomic/promex"
+  },
+  {
+    "parentId": "proteomic",
+    "childNumber": 7,
+    "itemType": "SINGLE",
+    "name": "dr_proteomicsdb",
+    "label": "ProteomicsDB",
+    "path": "uniProtCrossReferences",
+    "filter": "[?(@.database=='ProteomicsDB')]",
+    "id": "proteomic/proteomicsdb"
+  },
+  {
+    "parentId": "proteomic",
+    "childNumber": 8,
+    "itemType": "SINGLE",
+    "name": "dr_topdownproteomics",
+    "label": "TopDownProteomics",
+    "path": "uniProtCrossReferences",
+    "filter": "[?(@.database=='TopDownProteomics')]",
+    "id": "proteomic/topdownproteomics"
+  },
+  {
+    "parentId": "proteomic",
+    "childNumber": 9,
+    "itemType": "SINGLE",
+    "name": "dr_jpost",
+    "label": "jPOST",
+    "path": "uniProtCrossReferences",
+    "filter": "[?(@.database=='jPOST')]",
+    "id": "proteomic/jpost"
+  },
+  {
+    "parentId": "proteomic",
+    "childNumber": 10,
+    "itemType": "SINGLE",
+    "name": "dr_massive",
+    "label": "MassIVE",
+    "path": "uniProtCrossReferences",
+    "filter": "[?(@.database=='MassIVE')]",
+    "id": "proteomic/massive"
+  },
+  {
+    "seqNumber": 24,
+    "itemType": "GROUP",
+    "groupName": "Protocols and materials",
+    "isDatabaseGroup": true,
+    "id": "protocols_and_materials"
+  },
+  {
+    "parentId": "protocols_and_materials",
+    "childNumber": 0,
+    "itemType": "SINGLE",
+    "name": "dr_dnasu",
+    "label": "DNASU",
+    "path": "uniProtCrossReferences",
+    "filter": "[?(@.database=='DNASU')]",
+    "id": "protocols_and_materials/dnasu"
+  },
+  {
+    "parentId": "protocols_and_materials",
+    "childNumber": 1,
+    "itemType": "SINGLE",
+    "name": "dr_abcd",
+    "label": "ABCD",
+    "path": "uniProtCrossReferences",
+    "filter": "[?(@.database=='ABCD')]",
+    "id": "protocols_and_materials/abcd"
+  },
+  {
+    "seqNumber": 25,
+    "itemType": "GROUP",
+    "groupName": "Genome annotation",
+    "isDatabaseGroup": true,
+    "id": "genome_annotation"
+  },
+  {
+    "parentId": "genome_annotation",
+    "childNumber": 0,
+    "itemType": "SINGLE",
+    "name": "dr_ensembl",
+    "label": "Ensembl",
+    "path": "uniProtCrossReferences",
+    "filter": "[?(@.database=='Ensembl')]",
+    "id": "genome_annotation/ensembl"
+  },
+  {
+    "parentId": "genome_annotation",
+    "childNumber": 1,
+    "itemType": "SINGLE",
+    "name": "dr_ensemblbacteria",
+    "label": "EnsemblBacteria",
+    "path": "uniProtCrossReferences",
+    "filter": "[?(@.database=='EnsemblBacteria')]",
+    "id": "genome_annotation/ensemblbacteria"
+  },
+  {
+    "parentId": "genome_annotation",
+    "childNumber": 2,
+    "itemType": "SINGLE",
+    "name": "dr_ensemblfungi",
+    "label": "EnsemblFungi",
+    "path": "uniProtCrossReferences",
+    "filter": "[?(@.database=='EnsemblFungi')]",
+    "id": "genome_annotation/ensemblfungi"
+  },
+  {
+    "parentId": "genome_annotation",
+    "childNumber": 3,
+    "itemType": "SINGLE",
+    "name": "dr_ensemblmetazoa",
+    "label": "EnsemblMetazoa",
+    "path": "uniProtCrossReferences",
+    "filter": "[?(@.database=='EnsemblMetazoa')]",
+    "id": "genome_annotation/ensemblmetazoa"
+  },
+  {
+    "parentId": "genome_annotation",
+    "childNumber": 4,
+    "itemType": "SINGLE",
+    "name": "dr_ensemblplants",
+    "label": "EnsemblPlants",
+    "path": "uniProtCrossReferences",
+    "filter": "[?(@.database=='EnsemblPlants')]",
+    "id": "genome_annotation/ensemblplants"
+  },
+  {
+    "parentId": "genome_annotation",
+    "childNumber": 5,
+    "itemType": "SINGLE",
+    "name": "dr_ensemblprotists",
+    "label": "EnsemblProtists",
+    "path": "uniProtCrossReferences",
+    "filter": "[?(@.database=='EnsemblProtists')]",
+    "id": "genome_annotation/ensemblprotists"
+  },
+  {
+    "parentId": "genome_annotation",
+    "childNumber": 6,
+    "itemType": "SINGLE",
+    "name": "dr_genedb",
+    "label": "GeneDB",
+    "path": "uniProtCrossReferences",
+    "filter": "[?(@.database=='GeneDB')]",
+    "id": "genome_annotation/genedb"
+  },
+  {
+    "parentId": "genome_annotation",
+    "childNumber": 7,
+    "itemType": "SINGLE",
+    "name": "dr_geneid",
+    "label": "GeneID",
+    "path": "uniProtCrossReferences",
+    "filter": "[?(@.database=='GeneID')]",
+    "id": "genome_annotation/geneid"
+  },
+  {
+    "parentId": "genome_annotation",
+    "childNumber": 8,
+    "itemType": "SINGLE",
+    "name": "dr_gramene",
+    "label": "Gramene",
+    "path": "uniProtCrossReferences",
+    "filter": "[?(@.database=='Gramene')]",
+    "id": "genome_annotation/gramene"
+  },
+  {
+    "parentId": "genome_annotation",
+    "childNumber": 9,
+    "itemType": "SINGLE",
+    "name": "dr_kegg",
+    "label": "KEGG",
+    "path": "uniProtCrossReferences",
+    "filter": "[?(@.database=='KEGG')]",
+    "id": "genome_annotation/kegg"
+  },
+  {
+    "parentId": "genome_annotation",
+    "childNumber": 10,
+    "itemType": "SINGLE",
+    "name": "dr_patric",
+    "label": "PATRIC",
+    "path": "uniProtCrossReferences",
+    "filter": "[?(@.database=='PATRIC')]",
+    "id": "genome_annotation/patric"
+  },
+  {
+    "parentId": "genome_annotation",
+    "childNumber": 11,
+    "itemType": "SINGLE",
+    "name": "dr_ucsc",
+    "label": "UCSC",
+    "path": "uniProtCrossReferences",
+    "filter": "[?(@.database=='UCSC')]",
+    "id": "genome_annotation/ucsc"
+  },
+  {
+    "parentId": "genome_annotation",
+    "childNumber": 12,
+    "itemType": "SINGLE",
+    "name": "dr_vectorbase",
+    "label": "VectorBase",
+    "path": "uniProtCrossReferences",
+    "filter": "[?(@.database=='VectorBase')]",
+    "id": "genome_annotation/vectorbase"
+  },
+  {
+    "parentId": "genome_annotation",
+    "childNumber": 13,
+    "itemType": "SINGLE",
+    "name": "dr_wbparasite",
+    "label": "WBParaSite",
+    "path": "uniProtCrossReferences",
+    "filter": "[?(@.database=='WBParaSite')]",
+    "id": "genome_annotation/wbparasite"
+  },
+  {
+    "seqNumber": 26,
+    "itemType": "GROUP",
+    "groupName": "Organism-specific",
+    "isDatabaseGroup": true,
+    "id": "organism-specific"
+  },
+  {
+    "parentId": "organism-specific",
+    "childNumber": 0,
+    "itemType": "SINGLE",
+    "name": "dr_arachnoserver",
+    "label": "ArachnoServer",
+    "path": "uniProtCrossReferences",
+    "filter": "[?(@.database=='ArachnoServer')]",
+    "id": "organism-specific/arachnoserver"
+  },
+  {
+    "parentId": "organism-specific",
+    "childNumber": 1,
+    "itemType": "SINGLE",
+    "name": "dr_araport",
+    "label": "Araport",
+    "path": "uniProtCrossReferences",
+    "filter": "[?(@.database=='Araport')]",
+    "id": "organism-specific/araport"
+  },
+  {
+    "parentId": "organism-specific",
+    "childNumber": 2,
+    "itemType": "SINGLE",
+    "name": "dr_cgd",
+    "label": "CGD",
+    "path": "uniProtCrossReferences",
+    "filter": "[?(@.database=='CGD')]",
+    "id": "organism-specific/cgd"
+  },
+  {
+    "parentId": "organism-specific",
+    "childNumber": 3,
+    "itemType": "SINGLE",
+    "name": "dr_conoserver",
+    "label": "ConoServer",
+    "path": "uniProtCrossReferences",
+    "filter": "[?(@.database=='ConoServer')]",
+    "id": "organism-specific/conoserver"
+  },
+  {
+    "parentId": "organism-specific",
+    "childNumber": 4,
+    "itemType": "SINGLE",
+    "name": "dr_ctd",
+    "label": "CTD",
+    "path": "uniProtCrossReferences",
+    "filter": "[?(@.database=='CTD')]",
+    "id": "organism-specific/ctd"
+  },
+  {
+    "parentId": "organism-specific",
+    "childNumber": 5,
+    "itemType": "SINGLE",
+    "name": "dr_dictybase",
+    "label": "dictyBase",
+    "path": "uniProtCrossReferences",
+    "filter": "[?(@.database=='dictyBase')]",
+    "id": "organism-specific/dictybase"
+  },
+  {
+    "parentId": "organism-specific",
+    "childNumber": 6,
+    "itemType": "SINGLE",
+    "name": "dr_disgenet",
+    "label": "DisGeNET",
+    "path": "uniProtCrossReferences",
+    "filter": "[?(@.database=='DisGeNET')]",
+    "id": "organism-specific/disgenet"
+  },
+  {
+    "parentId": "organism-specific",
+    "childNumber": 7,
+    "itemType": "SINGLE",
+    "name": "dr_echobase",
+    "label": "EchoBASE",
+    "path": "uniProtCrossReferences",
+    "filter": "[?(@.database=='EchoBASE')]",
+    "id": "organism-specific/echobase"
+  },
+  {
+    "parentId": "organism-specific",
+    "childNumber": 8,
+    "itemType": "SINGLE",
+    "name": "dr_euhcvdb",
+    "label": "euHCVdb",
+    "path": "uniProtCrossReferences",
+    "filter": "[?(@.database=='euHCVdb')]",
+    "id": "organism-specific/euhcvdb"
+  },
+  {
+    "parentId": "organism-specific",
+    "childNumber": 9,
+    "itemType": "SINGLE",
+    "name": "dr_eupathdb",
+    "label": "EuPathDB",
+    "path": "uniProtCrossReferences",
+    "filter": "[?(@.database=='EuPathDB')]",
+    "id": "organism-specific/eupathdb"
+  },
+  {
+    "parentId": "organism-specific",
+    "childNumber": 10,
+    "itemType": "SINGLE",
+    "name": "dr_flybase",
+    "label": "FlyBase",
+    "path": "uniProtCrossReferences",
+    "filter": "[?(@.database=='FlyBase')]",
+    "id": "organism-specific/flybase"
+  },
+  {
+    "parentId": "organism-specific",
+    "childNumber": 11,
+    "itemType": "SINGLE",
+    "name": "dr_genecards",
+    "label": "GeneCards",
+    "path": "uniProtCrossReferences",
+    "filter": "[?(@.database=='GeneCards')]",
+    "id": "organism-specific/genecards"
+  },
+  {
+    "parentId": "organism-specific",
+    "childNumber": 12,
+    "itemType": "SINGLE",
+    "name": "dr_genereviews",
+    "label": "GeneReviews",
+    "path": "uniProtCrossReferences",
+    "filter": "[?(@.database=='GeneReviews')]",
+    "id": "organism-specific/genereviews"
+  },
+  {
+    "parentId": "organism-specific",
+    "childNumber": 13,
+    "itemType": "SINGLE",
+    "name": "dr_hgnc",
+    "label": "HGNC",
+    "path": "uniProtCrossReferences",
+    "filter": "[?(@.database=='HGNC')]",
+    "id": "organism-specific/hgnc"
+  },
+  {
+    "parentId": "organism-specific",
+    "childNumber": 14,
+    "itemType": "SINGLE",
+    "name": "dr_hpa",
+    "label": "HPA",
+    "path": "uniProtCrossReferences",
+    "filter": "[?(@.database=='HPA')]",
+    "id": "organism-specific/hpa"
+  },
+  {
+    "parentId": "organism-specific",
+    "childNumber": 15,
+    "itemType": "SINGLE",
+    "name": "dr_legiolist",
+    "label": "LegioList",
+    "path": "uniProtCrossReferences",
+    "filter": "[?(@.database=='LegioList')]",
+    "id": "organism-specific/legiolist"
+  },
+  {
+    "parentId": "organism-specific",
+    "childNumber": 16,
+    "itemType": "SINGLE",
+    "name": "dr_leproma",
+    "label": "Leproma",
+    "path": "uniProtCrossReferences",
+    "filter": "[?(@.database=='Leproma')]",
+    "id": "organism-specific/leproma"
+  },
+  {
+    "parentId": "organism-specific",
+    "childNumber": 17,
+    "itemType": "SINGLE",
+    "name": "dr_maizegdb",
+    "label": "MaizeGDB",
+    "path": "uniProtCrossReferences",
+    "filter": "[?(@.database=='MaizeGDB')]",
+    "id": "organism-specific/maizegdb"
+  },
+  {
+    "parentId": "organism-specific",
+    "childNumber": 18,
+    "itemType": "SINGLE",
+    "name": "dr_malacards",
+    "label": "MalaCards",
+    "path": "uniProtCrossReferences",
+    "filter": "[?(@.database=='MalaCards')]",
+    "id": "organism-specific/malacards"
+  },
+  {
+    "parentId": "organism-specific",
+    "childNumber": 19,
+    "itemType": "SINGLE",
+    "name": "dr_mgi",
+    "label": "MGI",
+    "path": "uniProtCrossReferences",
+    "filter": "[?(@.database=='MGI')]",
+    "id": "organism-specific/mgi"
+  },
+  {
+    "parentId": "organism-specific",
+    "childNumber": 20,
+    "itemType": "SINGLE",
+    "name": "dr_mim",
+    "label": "MIM",
+    "path": "uniProtCrossReferences",
+    "filter": "[?(@.database=='MIM')]",
+    "id": "organism-specific/mim"
+  },
+  {
+    "parentId": "organism-specific",
+    "childNumber": 21,
+    "itemType": "SINGLE",
+    "name": "dr_niagads",
+    "label": "NIAGADS",
+    "path": "uniProtCrossReferences",
+    "filter": "[?(@.database=='NIAGADS')]",
+    "id": "organism-specific/niagads"
+  },
+  {
+    "parentId": "organism-specific",
+    "childNumber": 22,
+    "itemType": "SINGLE",
+    "name": "dr_nextprot",
+    "label": "neXtProt",
+    "path": "uniProtCrossReferences",
+    "filter": "[?(@.database=='neXtProt')]",
+    "id": "organism-specific/nextprot"
+  },
+  {
+    "parentId": "organism-specific",
+    "childNumber": 23,
+    "itemType": "SINGLE",
+    "name": "dr_opentargets",
+    "label": "OpenTargets",
+    "path": "uniProtCrossReferences",
+    "filter": "[?(@.database=='OpenTargets')]",
+    "id": "organism-specific/opentargets"
+  },
+  {
+    "parentId": "organism-specific",
+    "childNumber": 24,
+    "itemType": "SINGLE",
+    "name": "dr_orphanet",
+    "label": "Orphanet",
+    "path": "uniProtCrossReferences",
+    "filter": "[?(@.database=='Orphanet')]",
+    "id": "organism-specific/orphanet"
+  },
+  {
+    "parentId": "organism-specific",
+    "childNumber": 25,
+    "itemType": "SINGLE",
+    "name": "dr_pharmgkb",
+    "label": "PharmGKB",
+    "path": "uniProtCrossReferences",
+    "filter": "[?(@.database=='PharmGKB')]",
+    "id": "organism-specific/pharmgkb"
+  },
+  {
+    "parentId": "organism-specific",
+    "childNumber": 26,
+    "itemType": "SINGLE",
+    "name": "dr_pombase",
+    "label": "PomBase",
+    "path": "uniProtCrossReferences",
+    "filter": "[?(@.database=='PomBase')]",
+    "id": "organism-specific/pombase"
+  },
+  {
+    "parentId": "organism-specific",
+    "childNumber": 27,
+    "itemType": "SINGLE",
+    "name": "dr_pseudocap",
+    "label": "PseudoCAP",
+    "path": "uniProtCrossReferences",
+    "filter": "[?(@.database=='PseudoCAP')]",
+    "id": "organism-specific/pseudocap"
+  },
+  {
+    "parentId": "organism-specific",
+    "childNumber": 28,
+    "itemType": "SINGLE",
+    "name": "dr_rgd",
+    "label": "RGD",
+    "path": "uniProtCrossReferences",
+    "filter": "[?(@.database=='RGD')]",
+    "id": "organism-specific/rgd"
+  },
+  {
+    "parentId": "organism-specific",
+    "childNumber": 29,
+    "itemType": "SINGLE",
+    "name": "dr_sgd",
+    "label": "SGD",
+    "path": "uniProtCrossReferences",
+    "filter": "[?(@.database=='SGD')]",
+    "id": "organism-specific/sgd"
+  },
+  {
+    "parentId": "organism-specific",
+    "childNumber": 30,
+    "itemType": "SINGLE",
+    "name": "dr_tair",
+    "label": "TAIR",
+    "path": "uniProtCrossReferences",
+    "filter": "[?(@.database=='TAIR')]",
+    "id": "organism-specific/tair"
+  },
+  {
+    "parentId": "organism-specific",
+    "childNumber": 31,
+    "itemType": "SINGLE",
+    "name": "dr_tuberculist",
+    "label": "TubercuList",
+    "path": "uniProtCrossReferences",
+    "filter": "[?(@.database=='TubercuList')]",
+    "id": "organism-specific/tuberculist"
+  },
+  {
+    "parentId": "organism-specific",
+    "childNumber": 32,
+    "itemType": "SINGLE",
+    "name": "dr_vgnc",
+    "label": "VGNC",
+    "path": "uniProtCrossReferences",
+    "filter": "[?(@.database=='VGNC')]",
+    "id": "organism-specific/vgnc"
+  },
+  {
+    "parentId": "organism-specific",
+    "childNumber": 33,
+    "itemType": "SINGLE",
+    "name": "dr_wormbase",
+    "label": "WormBase",
+    "path": "uniProtCrossReferences",
+    "filter": "[?(@.database=='WormBase')]",
+    "id": "organism-specific/wormbase"
+  },
+  {
+    "parentId": "organism-specific",
+    "childNumber": 34,
+    "itemType": "SINGLE",
+    "name": "dr_xenbase",
+    "label": "Xenbase",
+    "path": "uniProtCrossReferences",
+    "filter": "[?(@.database=='Xenbase')]",
+    "id": "organism-specific/xenbase"
+  },
+  {
+    "parentId": "organism-specific",
+    "childNumber": 35,
+    "itemType": "SINGLE",
+    "name": "dr_zfin",
+    "label": "ZFIN",
+    "path": "uniProtCrossReferences",
+    "filter": "[?(@.database=='ZFIN')]",
+    "id": "organism-specific/zfin"
+  },
+  {
+    "seqNumber": 27,
+    "itemType": "GROUP",
+    "groupName": "Phylogenomic",
+    "isDatabaseGroup": true,
+    "id": "phylogenomic"
+  },
+  {
+    "parentId": "phylogenomic",
+    "childNumber": 0,
+    "itemType": "SINGLE",
+    "name": "dr_eggnog",
+    "label": "eggNOG",
+    "path": "uniProtCrossReferences",
+    "filter": "[?(@.database=='eggNOG')]",
+    "id": "phylogenomic/eggnog"
+  },
+  {
+    "parentId": "phylogenomic",
+    "childNumber": 1,
+    "itemType": "SINGLE",
+    "name": "dr_genetree",
+    "label": "GeneTree",
+    "path": "uniProtCrossReferences",
+    "filter": "[?(@.database=='GeneTree')]",
+    "id": "phylogenomic/genetree"
+  },
+  {
+    "parentId": "phylogenomic",
+    "childNumber": 2,
+    "itemType": "SINGLE",
+    "name": "dr_hogenom",
+    "label": "HOGENOM",
+    "path": "uniProtCrossReferences",
+    "filter": "[?(@.database=='HOGENOM')]",
+    "id": "phylogenomic/hogenom"
+  },
+  {
+    "parentId": "phylogenomic",
+    "childNumber": 3,
+    "itemType": "SINGLE",
+    "name": "dr_inparanoid",
+    "label": "InParanoid",
+    "path": "uniProtCrossReferences",
+    "filter": "[?(@.database=='InParanoid')]",
+    "id": "phylogenomic/inparanoid"
+  },
+  {
+    "parentId": "phylogenomic",
+    "childNumber": 4,
+    "itemType": "SINGLE",
+    "name": "dr_ko",
+    "label": "KO",
+    "path": "uniProtCrossReferences",
+    "filter": "[?(@.database=='KO')]",
+    "id": "phylogenomic/ko"
+  },
+  {
+    "parentId": "phylogenomic",
+    "childNumber": 5,
+    "itemType": "SINGLE",
+    "name": "dr_oma",
+    "label": "OMA",
+    "path": "uniProtCrossReferences",
+    "filter": "[?(@.database=='OMA')]",
+    "id": "phylogenomic/oma"
+  },
+  {
+    "parentId": "phylogenomic",
+    "childNumber": 6,
+    "itemType": "SINGLE",
+    "name": "dr_orthodb",
+    "label": "OrthoDB",
+    "path": "uniProtCrossReferences",
+    "filter": "[?(@.database=='OrthoDB')]",
+    "id": "phylogenomic/orthodb"
+  },
+  {
+    "parentId": "phylogenomic",
+    "childNumber": 7,
+    "itemType": "SINGLE",
+    "name": "dr_phylomedb",
+    "label": "PhylomeDB",
+    "path": "uniProtCrossReferences",
+    "filter": "[?(@.database=='PhylomeDB')]",
+    "id": "phylogenomic/phylomedb"
+  },
+  {
+    "parentId": "phylogenomic",
+    "childNumber": 8,
+    "itemType": "SINGLE",
+    "name": "dr_treefam",
+    "label": "TreeFam",
+    "path": "uniProtCrossReferences",
+    "filter": "[?(@.database=='TreeFam')]",
+    "id": "phylogenomic/treefam"
+  },
+  {
+    "seqNumber": 28,
+    "itemType": "GROUP",
+    "groupName": "Enzyme and pathway",
+    "isDatabaseGroup": true,
+    "id": "enzyme_and_pathway"
+  },
+  {
+    "parentId": "enzyme_and_pathway",
+    "childNumber": 0,
+    "itemType": "SINGLE",
+    "name": "dr_biocyc",
+    "label": "BioCyc",
+    "path": "uniProtCrossReferences",
+    "filter": "[?(@.database=='BioCyc')]",
+    "id": "enzyme_and_pathway/biocyc"
+  },
+  {
+    "parentId": "enzyme_and_pathway",
+    "childNumber": 1,
+    "itemType": "SINGLE",
+    "name": "dr_brenda",
+    "label": "BRENDA",
+    "path": "uniProtCrossReferences",
+    "filter": "[?(@.database=='BRENDA')]",
+    "id": "enzyme_and_pathway/brenda"
+  },
+  {
+    "parentId": "enzyme_and_pathway",
+    "childNumber": 2,
+    "itemType": "SINGLE",
+    "name": "dr_reactome",
+    "label": "Reactome",
+    "path": "uniProtCrossReferences",
+    "filter": "[?(@.database=='Reactome')]",
+    "id": "enzyme_and_pathway/reactome"
+  },
+  {
+    "parentId": "enzyme_and_pathway",
+    "childNumber": 3,
+    "itemType": "SINGLE",
+    "name": "dr_sabio-rk",
+    "label": "SABIO-RK",
+    "path": "uniProtCrossReferences",
+    "filter": "[?(@.database=='SABIO-RK')]",
+    "id": "enzyme_and_pathway/sabio-rk"
+  },
+  {
+    "parentId": "enzyme_and_pathway",
+    "childNumber": 4,
+    "itemType": "SINGLE",
+    "name": "dr_signalink",
+    "label": "SignaLink",
+    "path": "uniProtCrossReferences",
+    "filter": "[?(@.database=='SignaLink')]",
+    "id": "enzyme_and_pathway/signalink"
+  },
+  {
+    "parentId": "enzyme_and_pathway",
+    "childNumber": 5,
+    "itemType": "SINGLE",
+    "name": "dr_signor",
+    "label": "SIGNOR",
+    "path": "uniProtCrossReferences",
+    "filter": "[?(@.database=='SIGNOR')]",
+    "id": "enzyme_and_pathway/signor"
+  },
+  {
+    "parentId": "enzyme_and_pathway",
+    "childNumber": 6,
+    "itemType": "SINGLE",
+    "name": "dr_unipathway",
+    "label": "UniPathway",
+    "path": "uniProtCrossReferences",
+    "filter": "[?(@.database=='UniPathway')]",
+    "id": "enzyme_and_pathway/unipathway"
+  },
+  {
+    "parentId": "enzyme_and_pathway",
+    "childNumber": 7,
+    "itemType": "SINGLE",
+    "name": "dr_plantreactome",
+    "label": "PlantReactome",
+    "path": "uniProtCrossReferences",
+    "filter": "[?(@.database=='PlantReactome')]",
+    "id": "enzyme_and_pathway/plantreactome"
+  },
+  {
+    "seqNumber": 29,
+    "itemType": "GROUP",
+    "groupName": "Other",
+    "isDatabaseGroup": true,
+    "id": "other"
+  },
+  {
+    "parentId": "other",
+    "childNumber": 0,
+    "itemType": "SINGLE",
+    "name": "dr_chitars",
+    "label": "ChiTaRS",
+    "path": "uniProtCrossReferences",
+    "filter": "[?(@.database=='ChiTaRS')]",
+    "id": "other/chitars"
+  },
+  {
+    "parentId": "other",
+    "childNumber": 1,
+    "itemType": "SINGLE",
+    "name": "dr_evolutionarytrace",
+    "label": "EvolutionaryTrace",
+    "path": "uniProtCrossReferences",
+    "filter": "[?(@.database=='EvolutionaryTrace')]",
+    "id": "other/evolutionarytrace"
+  },
+  {
+    "parentId": "other",
+    "childNumber": 2,
+    "itemType": "SINGLE",
+    "name": "dr_genewiki",
+    "label": "GeneWiki",
+    "path": "uniProtCrossReferences",
+    "filter": "[?(@.database=='GeneWiki')]",
+    "id": "other/genewiki"
+  },
+  {
+    "parentId": "other",
+    "childNumber": 3,
+    "itemType": "SINGLE",
+    "name": "dr_genomernai",
+    "label": "GenomeRNAi",
+    "path": "uniProtCrossReferences",
+    "filter": "[?(@.database=='GenomeRNAi')]",
+    "id": "other/genomernai"
+  },
+  {
+    "parentId": "other",
+    "childNumber": 4,
+    "itemType": "SINGLE",
+    "name": "dr_pro",
+    "label": "PRO",
+    "path": "uniProtCrossReferences",
+    "filter": "[?(@.database=='PRO')]",
+    "id": "other/pro"
+  },
+  {
+    "parentId": "other",
+    "childNumber": 5,
+    "itemType": "SINGLE",
+    "name": "dr_pharos",
+    "label": "Pharos",
+    "path": "uniProtCrossReferences",
+    "filter": "[?(@.database=='Pharos')]",
+    "id": "other/pharos"
+  },
+  {
+    "parentId": "other",
+    "childNumber": 6,
+    "itemType": "SINGLE",
+    "name": "dr_rnact",
+    "label": "RNAct",
+    "path": "uniProtCrossReferences",
+    "filter": "[?(@.database=='RNAct')]",
+    "id": "other/rnact"
+  },
+  {
+    "seqNumber": 30,
+    "itemType": "GROUP",
+    "groupName": "Gene expression",
+    "isDatabaseGroup": true,
+    "id": "gene_expression"
+  },
+  {
+    "parentId": "gene_expression",
+    "childNumber": 0,
+    "itemType": "SINGLE",
+    "name": "dr_bgee",
+    "label": "Bgee",
+    "path": "uniProtCrossReferences",
+    "filter": "[?(@.database=='Bgee')]",
+    "id": "gene_expression/bgee"
+  },
+  {
+    "parentId": "gene_expression",
+    "childNumber": 1,
+    "itemType": "SINGLE",
+    "name": "dr_cleanex",
+    "label": "CleanEx",
+    "path": "uniProtCrossReferences",
+    "filter": "[?(@.database=='CleanEx')]",
+    "id": "gene_expression/cleanex"
+  },
+  {
+    "parentId": "gene_expression",
+    "childNumber": 2,
+    "itemType": "SINGLE",
+    "name": "dr_collectf",
+    "label": "CollecTF",
+    "path": "uniProtCrossReferences",
+    "filter": "[?(@.database=='CollecTF')]",
+    "id": "gene_expression/collectf"
+  },
+  {
+    "parentId": "gene_expression",
+    "childNumber": 3,
+    "itemType": "SINGLE",
+    "name": "dr_expressionatlas",
+    "label": "ExpressionAtlas",
+    "path": "uniProtCrossReferences",
+    "filter": "[?(@.database=='ExpressionAtlas')]",
+    "id": "gene_expression/expressionatlas"
+  },
+  {
+    "parentId": "gene_expression",
+    "childNumber": 4,
+    "itemType": "SINGLE",
+    "name": "dr_genevisible",
+    "label": "Genevisible",
+    "path": "uniProtCrossReferences",
+    "filter": "[?(@.database=='Genevisible')]",
+    "id": "gene_expression/genevisible"
+  },
+  {
+    "seqNumber": 31,
+    "itemType": "GROUP",
+    "groupName": "Family and domain",
+    "isDatabaseGroup": true,
+    "id": "family_and_domain"
+  },
+  {
+    "parentId": "family_and_domain",
+    "childNumber": 0,
+    "itemType": "SINGLE",
+    "name": "dr_cdd",
+    "label": "CDD",
+    "path": "uniProtCrossReferences",
+    "filter": "[?(@.database=='CDD')]",
+    "id": "family_and_domain/cdd"
+  },
+  {
+    "parentId": "family_and_domain",
+    "childNumber": 1,
+    "itemType": "SINGLE",
+    "name": "dr_gene3d",
+    "label": "Gene3D",
+    "path": "uniProtCrossReferences",
+    "filter": "[?(@.database=='Gene3D')]",
+    "id": "family_and_domain/gene3d"
+  },
+  {
+    "parentId": "family_and_domain",
+    "childNumber": 2,
+    "itemType": "SINGLE",
+    "name": "dr_hamap",
+    "label": "HAMAP",
+    "path": "uniProtCrossReferences",
+    "filter": "[?(@.database=='HAMAP')]",
+    "id": "family_and_domain/hamap"
+  },
+  {
+    "parentId": "family_and_domain",
+    "childNumber": 3,
+    "itemType": "SINGLE",
+    "name": "dr_interpro",
+    "label": "InterPro",
+    "path": "uniProtCrossReferences",
+    "filter": "[?(@.database=='InterPro')]",
+    "id": "family_and_domain/interpro"
+  },
+  {
+    "parentId": "family_and_domain",
+    "childNumber": 4,
+    "itemType": "SINGLE",
+    "name": "dr_panther",
+    "label": "PANTHER",
+    "path": "uniProtCrossReferences",
+    "filter": "[?(@.database=='PANTHER')]",
+    "id": "family_and_domain/panther"
+  },
+  {
+    "parentId": "family_and_domain",
+    "childNumber": 5,
+    "itemType": "SINGLE",
+    "name": "dr_pfam",
+    "label": "Pfam",
+    "path": "uniProtCrossReferences",
+    "filter": "[?(@.database=='Pfam')]",
+    "id": "family_and_domain/pfam"
+  },
+  {
+    "parentId": "family_and_domain",
+    "childNumber": 6,
+    "itemType": "SINGLE",
+    "name": "dr_pirsf",
+    "label": "PIRSF",
+    "path": "uniProtCrossReferences",
+    "filter": "[?(@.database=='PIRSF')]",
+    "id": "family_and_domain/pirsf"
+  },
+  {
+    "parentId": "family_and_domain",
+    "childNumber": 7,
+    "itemType": "SINGLE",
+    "name": "dr_prints",
+    "label": "PRINTS",
+    "path": "uniProtCrossReferences",
+    "filter": "[?(@.database=='PRINTS')]",
+    "id": "family_and_domain/prints"
+  },
+  {
+    "parentId": "family_and_domain",
+    "childNumber": 8,
+    "itemType": "SINGLE",
+    "name": "dr_prodom",
+    "label": "ProDom",
+    "path": "uniProtCrossReferences",
+    "filter": "[?(@.database=='ProDom')]",
+    "id": "family_and_domain/prodom"
+  },
+  {
+    "parentId": "family_and_domain",
+    "childNumber": 9,
+    "itemType": "SINGLE",
+    "name": "dr_sfld",
+    "label": "SFLD",
+    "path": "uniProtCrossReferences",
+    "filter": "[?(@.database=='SFLD')]",
+    "id": "family_and_domain/sfld"
+  },
+  {
+    "parentId": "family_and_domain",
+    "childNumber": 10,
+    "itemType": "SINGLE",
+    "name": "dr_smart",
+    "label": "SMART",
+    "path": "uniProtCrossReferences",
+    "filter": "[?(@.database=='SMART')]",
+    "id": "family_and_domain/smart"
+  },
+  {
+    "parentId": "family_and_domain",
+    "childNumber": 11,
+    "itemType": "SINGLE",
+    "name": "dr_supfam",
+    "label": "SUPFAM",
+    "path": "uniProtCrossReferences",
+    "filter": "[?(@.database=='SUPFAM')]",
+    "id": "family_and_domain/supfam"
+  },
+  {
+    "parentId": "family_and_domain",
+    "childNumber": 12,
+    "itemType": "SINGLE",
+    "name": "dr_tigrfams",
+    "label": "TIGRFAMs",
+    "path": "uniProtCrossReferences",
+    "filter": "[?(@.database=='TIGRFAMs')]",
+    "id": "family_and_domain/tigrfams"
+  },
+  {
+    "parentId": "family_and_domain",
+    "childNumber": 13,
+    "itemType": "SINGLE",
+    "name": "dr_prosite",
+    "label": "PROSITE",
+    "path": "uniProtCrossReferences",
+    "filter": "[?(@.database=='PROSITE')]",
+    "id": "family_and_domain/prosite"
+  },
+  {
+    "parentId": "family_and_domain",
+    "childNumber": 14,
+    "itemType": "SINGLE",
+    "name": "dr_disprot",
+    "label": "DisProt",
+    "path": "uniProtCrossReferences",
+    "filter": "[?(@.database=='DisProt')]",
+    "id": "family_and_domain/disprot"
+  }
+]

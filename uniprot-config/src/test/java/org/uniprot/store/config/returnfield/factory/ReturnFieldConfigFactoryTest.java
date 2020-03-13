@@ -7,7 +7,10 @@ import org.junit.jupiter.params.provider.MethodSource;
 import org.uniprot.store.config.UniProtDataType;
 import org.uniprot.store.config.returnfield.config.ReturnFieldConfig;
 
+import javax.validation.constraints.NotNull;
 import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static org.hamcrest.CoreMatchers.is;
@@ -30,6 +33,25 @@ class ReturnFieldConfigFactoryTest {
         assertThat(config, is(notNullValue()));
         assertThat(config.getAllFields(), hasSize(greaterThan(0)));
         assertThat(config.getReturnFields(), hasSize(greaterThan(0)));
+
+        ReturnFieldConfig staticOne = ReturnFieldConfigFactory.getReturnFieldConfig(UniProtDataType.CROSSREF);
+                staticOne.getReturnFields();
+        List<@NotNull String> configIds = config.getAllFields().stream().map(f -> f.getId()).collect(Collectors.toList());
+        // config.getAllFields().stream().forEachOrdered(f -> System.out.println(f.getId()));
+        staticOne.getAllFields().stream().map(f -> f.getId())
+                .forEach(
+                        field -> {
+                            if (!configIds.contains(field)) {
+                                System.out.println(field);
+                            }
+                        });
+        staticOne.getAllFields().stream()
+                .forEach(
+                        field -> {
+                            if (!config.getAllFields().contains(field)) {
+                                System.out.println(field);
+                            }
+                        });
     }
 
     @ParameterizedTest(name = "{0}")

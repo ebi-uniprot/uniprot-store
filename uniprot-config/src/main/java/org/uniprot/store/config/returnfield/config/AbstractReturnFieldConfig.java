@@ -33,10 +33,10 @@ public abstract class AbstractReturnFieldConfig implements ReturnFieldConfig {
                 mapper.getTypeFactory().constructCollectionType(List.class, ReturnField.class);
 
         this.allFields = JsonLoader.loadItems(configFile, mapper, type);
-        this.allFields.addAll(loadDynamicFields());
+        this.allFields.addAll(dynamicallyLoadFields());
     }
 
-    protected abstract Collection<ReturnField> loadDynamicFields();
+    protected abstract Collection<ReturnField> dynamicallyLoadFields();
 
     @Override
     public List<ReturnField> getAllFields() {
