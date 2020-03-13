@@ -4,7 +4,7 @@ import org.uniprot.core.cv.xdb.UniProtDatabaseCategory;
 import org.uniprot.core.cv.xdb.UniProtDatabaseDetail;
 import org.uniprot.cv.xdb.UniProtDatabaseTypes;
 import org.uniprot.store.config.returnfield.config.AbstractReturnFieldConfig;
-import org.uniprot.store.config.returnfield.model.ResultFieldItemType;
+import org.uniprot.store.config.returnfield.model.ReturnFieldItemType;
 import org.uniprot.store.config.returnfield.model.ReturnField;
 
 import java.util.*;
@@ -50,7 +50,7 @@ public class UniProtKBReturnFieldConfigImpl extends AbstractReturnFieldConfig {
         ReturnField returnField = new ReturnField();
         returnField.setParentId(parent.getId());
         returnField.setChildNumber(childCounter.getAndIncrement());
-        returnField.setItemType(ResultFieldItemType.SINGLE);
+        returnField.setItemType(ReturnFieldItemType.SINGLE);
         String dbName = uniProtDatabaseDetail.getName();
         String databaseNameLowercase = dbName.toLowerCase();
         returnField.setName("dr_" + databaseNameLowercase);
@@ -59,6 +59,18 @@ public class UniProtKBReturnFieldConfigImpl extends AbstractReturnFieldConfig {
         returnField.setFilter("[?(@.database=='" + dbName + "')]");
         returnField.setId(parent.getId() + "/" + databaseNameLowercase);
         return returnField;
+    }
+
+    UniProtDatabaseCategory getDatabaseCategory(String groupName) {
+        String key;
+        if (databaseCategoryMap.containsKey(groupName + " databases")) {
+            key = groupName + " databases";
+        } else if (databaseCategoryMap.containsKey(groupName)) {
+            key = groupName;
+        } else {
+            throw new IllegalArgumentException("Unknown database category: " + groupName);
+        }
+        return databaseCategoryMap.get(key);
     }
 
     private void init() {
@@ -78,17 +90,5 @@ public class UniProtKBReturnFieldConfigImpl extends AbstractReturnFieldConfig {
                 .filter(database -> !database.isImplicit())
                 .map(database -> databaseToReturnField(database, databaseGroup, childCounter))
                 .collect(Collectors.toList());
-    }
-
-    private UniProtDatabaseCategory getDatabaseCategory(String groupName) {
-        String key;
-        if (databaseCategoryMap.containsKey(groupName + " databases")) {
-            key = groupName + " databases";
-        } else if (databaseCategoryMap.containsKey(groupName)) {
-            key = groupName;
-        } else {
-            throw new IllegalArgumentException("Unknown database category: " + groupName);
-        }
-        return databaseCategoryMap.get(key);
     }
 }

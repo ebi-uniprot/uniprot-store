@@ -20,7 +20,7 @@ public class ReturnField implements Field, Serializable {
     @NotNull @PositiveOrZero private Integer seqNumber;
     private String parentId;
     @PositiveOrZero private Integer childNumber;
-    @NotNull private ResultFieldItemType itemType;
+    @NotNull private ReturnFieldItemType itemType;
     private String name;
     private String label;
     private String path;

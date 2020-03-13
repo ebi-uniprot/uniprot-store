@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import org.uniprot.store.config.returnfield.model.ResultFieldItemType;
+import org.uniprot.store.config.returnfield.model.ReturnFieldItemType;
 import org.uniprot.store.config.returnfield.model.ReturnField;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -41,7 +41,7 @@ public class CreateJsonForReturnFields {
         int position = itemPosition.getAndIncrement();
         ReturnField returnField = new ReturnField();
         returnField.setGroupName(groupName);
-        returnField.setItemType(ResultFieldItemType.GROUP);
+        returnField.setItemType(ReturnFieldItemType.GROUP);
         returnField.setSeqNumber(position);
         returnField.setIsDatabaseGroup(node.get("isDatabase").asBoolean());
         returnField.setId(groupName.replace(" ", "_").toLowerCase());
@@ -63,7 +63,7 @@ public class CreateJsonForReturnFields {
         returnField.setLabel(label);
         returnField.setParentId(parent.getId());
         returnField.setChildNumber(childPosition.getAndIncrement());
-        returnField.setItemType(ResultFieldItemType.SINGLE);
+        returnField.setItemType(ReturnFieldItemType.SINGLE);
         returnField.setId(parent.getId() + "/" + label.replace(" ", "_").toLowerCase());
         fields.add(returnField);
     }

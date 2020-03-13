@@ -2,7 +2,7 @@ package org.uniprot.store.config.returnfield.config;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import org.uniprot.store.config.returnfield.model.ResultFieldItemType;
+import org.uniprot.store.config.returnfield.model.ReturnFieldItemType;
 import org.uniprot.store.config.returnfield.model.ReturnField;
 
 import java.util.Collection;
@@ -35,10 +35,12 @@ class AbstractReturnFieldConfigTest {
     void loadsExpectedGroups() {
         List<String> groupIds =
                 config.getAllFields().stream()
-                        .filter(field -> field.getItemType().equals(ResultFieldItemType.GROUP))
+                        .filter(field -> field.getItemType().equals(ReturnFieldItemType.GROUP))
                         .map(ReturnField::getId)
                         .collect(Collectors.toList());
-        assertThat(groupIds, contains("names_&_taxonomy", "sequences"));
+        assertThat(
+                groupIds,
+                contains("names_&_taxonomy", "sequences", "protein_family/group", "other"));
     }
 
     @Test
@@ -86,7 +88,7 @@ class AbstractReturnFieldConfigTest {
         protected Collection<ReturnField> dynamicallyLoadFields() {
             ReturnField field = new ReturnField();
             field.setId(DYNAMICALLY_ADDED_ID);
-            field.setItemType(ResultFieldItemType.SINGLE);
+            field.setItemType(ReturnFieldItemType.SINGLE);
             return singletonList(field);
         }
     }

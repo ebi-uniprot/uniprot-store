@@ -6,7 +6,7 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.uniprot.store.config.UniProtDataType;
 import org.uniprot.store.config.returnfield.config.ReturnFieldConfig;
-import org.uniprot.store.config.returnfield.model.ResultFieldItemType;
+import org.uniprot.store.config.returnfield.model.ReturnFieldItemType;
 import org.uniprot.store.config.returnfield.model.ReturnField;
 
 import java.util.Arrays;
@@ -36,11 +36,11 @@ class ReturnFieldConfigFactoryTest {
         assertThat(config.getReturnFields(), hasSize(greaterThan(0)));
 
         String[] groups = config.getAllFields().stream()
-                .filter(field -> field.getItemType().equals(ResultFieldItemType.GROUP))
+                .filter(field -> field.getItemType().equals(ReturnFieldItemType.GROUP))
                 .map(ReturnField::getId)
                 .toArray(String[]::new);
         Map<String, List<ReturnField>> groupToSingleFieldMap = config.getAllFields().stream()
-                .filter(field -> field.getItemType().equals(ResultFieldItemType.SINGLE))
+                .filter(field -> field.getItemType().equals(ReturnFieldItemType.SINGLE))
                 .collect(groupingBy(ReturnField::getParentId));
 
         // check the defined groups are the same as the union of all children's parents
