@@ -1,15 +1,15 @@
 package org.uniprot.store.config.uniprotkb;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ObjectNode;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 
 /**
  * Created 03/03/2020
@@ -39,7 +39,8 @@ public class AddCrossRefsForReturnFields {
             String name = node.get("name").asText();
             if (name.startsWith("dr_")) {
                 ((ObjectNode) node).put("path", "databaseCrossReferences");
-                ((ObjectNode) node).put("filter", "[?(@.databaseType=='" + node.get("label").asText() + "')]");
+                ((ObjectNode) node)
+                        .put("filter", "[?(@.databaseType=='" + node.get("label").asText() + "')]");
             }
         }
         fields.add(node);

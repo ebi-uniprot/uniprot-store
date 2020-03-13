@@ -13,12 +13,10 @@ import org.uniprot.store.config.searchfield.model.SearchFieldType;
 
 public class SearchFieldConfigImpl extends AbstractSearchFieldConfig {
     private static final String XREF_COUNT_PREFIX = "xref_count_";
-    private UniProtDataType dataType;
 
     public SearchFieldConfigImpl(UniProtDataType dataType, String configFile) {
         super(SCHEMA_FILE, configFile);
-        this.dataType = dataType;
-        if (UniProtDataType.UNIPROTKB == this.dataType) { // add db xref related count fields
+        if (UniProtDataType.UNIPROTKB == dataType) { // add db xref related count fields
             List<SearchFieldItem> crossRefSearchItems = getCrossRefCountSearchFieldItems();
             addSearchFieldItems(crossRefSearchItems);
         }

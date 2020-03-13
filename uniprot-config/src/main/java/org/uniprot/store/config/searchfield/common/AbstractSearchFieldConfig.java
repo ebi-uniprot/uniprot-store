@@ -1,17 +1,20 @@
 package org.uniprot.store.config.searchfield.common;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
 import lombok.extern.slf4j.Slf4j;
 
 import org.apache.commons.lang3.StringUtils;
+import org.uniprot.store.config.common.JsonLoader;
 import org.uniprot.store.config.schema.SchemaValidator;
 import org.uniprot.store.config.searchfield.model.SearchFieldItem;
 import org.uniprot.store.config.searchfield.model.SearchFieldType;
-import org.uniprot.store.config.searchfield.schema.DataValidator;
+import org.uniprot.store.config.searchfield.schema.SearchFieldDataValidator;
+
+import com.fasterxml.jackson.databind.JavaType;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Slf4j
 public abstract class AbstractSearchFieldConfig implements SearchFieldConfig {
@@ -20,23 +23,19 @@ public abstract class AbstractSearchFieldConfig implements SearchFieldConfig {
     private List<SearchFieldItem> fieldItems;
     private List<SearchFieldItem> searchFieldItems;
     private List<SearchFieldItem> sortFieldItems;
-    private Map<String, SearchFieldItem> idFieldItemMap;
-    private String schemaFile;
-    private String configFile;
-    private final SearchFieldConfigLoader loader;
 
     protected AbstractSearchFieldConfig(String schemaFile, String configFile) {
-        this.loader = new SearchFieldConfigLoader();
         SchemaValidator.validate(schemaFile, configFile);
-        init(schemaFile, configFile);
-        DataValidator.validateContent(this.fieldItems, idFieldItemMap);
+        init(configFile);
+        new SearchFieldDataValidator().validateContent(this.fieldItems);
     }
 
-    private void init(String schemaFile, String configFile) {
-        this.schemaFile = schemaFile;
-        this.configFile = configFile;
-        this.fieldItems = loader.loadAndGetFieldItems(this.configFile);
-        this.idFieldItemMap = loader.buildIdFieldItemMap(this.fieldItems);
+    private void init(String configFile) {
+        ObjectMapper mapper = new ObjectMapper();
+        JavaType type =
+                mapper.getTypeFactory().constructCollectionType(List.class, SearchFieldItem.class);
+
+        this.fieldItems = JsonLoader.loadItems(configFile, mapper, type);
     }
 
     public List<SearchFieldItem> getAllFieldItems() {
