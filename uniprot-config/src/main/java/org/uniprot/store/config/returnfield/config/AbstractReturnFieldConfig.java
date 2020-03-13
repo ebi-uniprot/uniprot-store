@@ -1,28 +1,27 @@
-package org.uniprot.store.config.returnfield.common;
+package org.uniprot.store.config.returnfield.config;
 
-import java.util.List;
-import java.util.Objects;
-import java.util.stream.Collectors;
-
+import com.fasterxml.jackson.databind.JavaType;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
-
 import org.uniprot.core.util.Utils;
 import org.uniprot.store.config.common.JsonLoader;
 import org.uniprot.store.config.returnfield.model.ReturnField;
 import org.uniprot.store.config.returnfield.schema.ReturnFieldDataValidator;
 import org.uniprot.store.config.schema.SchemaValidator;
 
-import com.fasterxml.jackson.databind.JavaType;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import java.util.Collection;
+import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Slf4j
-public class ReturnFieldConfigImpl implements ReturnFieldConfig {
-    private static final String SCHEMA_FILE = "schema/result-fields-schema.json";
+public abstract class AbstractReturnFieldConfig implements ReturnFieldConfig {
+    private static final String SCHEMA_FILE = "schema/return-fields-schema.json";
 
-    private List<ReturnField> allFields;
+    protected List<ReturnField> allFields;
     private List<ReturnField> returnFields;
 
-    public ReturnFieldConfigImpl(String configFile) {
+    public AbstractReturnFieldConfig(String configFile) {
         SchemaValidator.validate(SCHEMA_FILE, configFile);
         init(configFile);
         new ReturnFieldDataValidator().validateContent(this.allFields);
@@ -34,7 +33,10 @@ public class ReturnFieldConfigImpl implements ReturnFieldConfig {
                 mapper.getTypeFactory().constructCollectionType(List.class, ReturnField.class);
 
         this.allFields = JsonLoader.loadItems(configFile, mapper, type);
+        this.allFields.addAll(loadDynamicFields());
     }
+
+    protected abstract Collection<ReturnField> loadDynamicFields();
 
     @Override
     public List<ReturnField> getAllFields() {

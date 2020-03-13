@@ -1,4 +1,4 @@
-package org.uniprot.store.config.returnfield.common;
+package org.uniprot.store.config.returnfield.config;
 
 import java.util.List;
 
