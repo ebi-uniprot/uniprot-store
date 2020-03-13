@@ -27,17 +27,6 @@ public abstract class AbstractReturnFieldConfig implements ReturnFieldConfig {
         new ReturnFieldDataValidator().validateContent(this.allFields);
     }
 
-    private void init(String configFile) {
-        ObjectMapper mapper = new ObjectMapper();
-        JavaType type =
-                mapper.getTypeFactory().constructCollectionType(List.class, ReturnField.class);
-
-        this.allFields = JsonLoader.loadItems(configFile, mapper, type);
-        this.allFields.addAll(dynamicallyLoadFields());
-    }
-
-    protected abstract Collection<ReturnField> dynamicallyLoadFields();
-
     @Override
     public List<ReturnField> getAllFields() {
         return this.allFields;
@@ -52,10 +41,6 @@ public abstract class AbstractReturnFieldConfig implements ReturnFieldConfig {
                             .collect(Collectors.toList());
         }
         return this.returnFields;
-    }
-
-    private boolean isReturnField(ReturnField returnField) {
-        return Utils.nullOrEmpty(returnField.getGroupName());
     }
 
     @Override
@@ -75,5 +60,20 @@ public abstract class AbstractReturnFieldConfig implements ReturnFieldConfig {
             // it means that the field doesn't exist
         }
         return searchFieldExist;
+    }
+
+    protected abstract Collection<ReturnField> dynamicallyLoadFields();
+
+    private void init(String configFile) {
+        ObjectMapper mapper = new ObjectMapper();
+        JavaType type =
+                mapper.getTypeFactory().constructCollectionType(List.class, ReturnField.class);
+
+        this.allFields = JsonLoader.loadItems(configFile, mapper, type);
+        this.allFields.addAll(dynamicallyLoadFields());
+    }
+
+    private boolean isReturnField(ReturnField returnField) {
+        return Utils.nullOrEmpty(returnField.getGroupName());
     }
 }
