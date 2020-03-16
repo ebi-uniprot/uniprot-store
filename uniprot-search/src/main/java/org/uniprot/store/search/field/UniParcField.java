@@ -12,7 +12,7 @@ public interface UniParcField {
 
     enum ResultFields implements ReturnField {
         uniParcId,
-        databaseCrossReferences,
+        uniParcCrossReferences,
         sequence,
         uniprotExclusionReason,
         sequenceFeatures,
