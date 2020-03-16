@@ -40,7 +40,7 @@ public class UniProtKBEntryMockerTest {
 
     @Test
     public void canCloneEntries() {
-        List<UniProtEntry> entries = UniProtEntryMocker.cloneEntries(SP, 10);
+        List<UniProtkbEntry> entries = UniProtEntryMocker.cloneEntries(SP, 10);
         assertThat(entries, hasSize(10));
     }
 }
