@@ -1,16 +1,15 @@
 package org.uniprot.store.config.searchfield.common;
 
+import static java.util.Collections.singletonList;
+
+import java.util.Collection;
+
 import org.uniprot.store.config.UniProtDataType;
 import org.uniprot.store.config.searchfield.model.SearchFieldItem;
 import org.uniprot.store.config.searchfield.model.SearchFieldItemType;
 
-import java.util.Collection;
-
-import static java.util.Collections.singletonList;
-
 public class TestSearchFieldConfig extends AbstractSearchFieldConfig {
-    public static final String TEST_SEARCH_FIELDS_CONFIG =
-            "test-uniprotkb-search-fields.json";
+    public static final String TEST_SEARCH_FIELDS_CONFIG = "test-uniprotkb-search-fields.json";
 
     public static final String TEST_SCHEMA_CONFIG =
             "src/test/resources/test-search-fields-schema.json";

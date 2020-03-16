@@ -1,19 +1,20 @@
 package org.uniprot.store.config.schema;
 
-import lombok.Data;
-import org.apache.commons.lang3.StringUtils;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
-import org.uniprot.store.config.model.Field;
-import org.uniprot.store.config.searchfield.model.SearchFieldItemType;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import lombok.Data;
+
+import org.apache.commons.lang3.StringUtils;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
+import org.uniprot.store.config.model.Field;
+import org.uniprot.store.config.searchfield.model.SearchFieldItemType;
 
 /**
  * Created 11/03/2020

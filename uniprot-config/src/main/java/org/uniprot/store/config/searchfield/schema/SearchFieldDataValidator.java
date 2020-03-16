@@ -1,14 +1,14 @@
 package org.uniprot.store.config.searchfield.schema;
 
-import org.uniprot.store.config.schema.FieldDataValidator;
-import org.uniprot.store.config.schema.SchemaValidationException;
-import org.uniprot.store.config.searchfield.model.SearchFieldItem;
-import org.uniprot.store.config.searchfield.model.SearchFieldItemType;
-
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
+
+import org.uniprot.store.config.schema.FieldDataValidator;
+import org.uniprot.store.config.schema.SchemaValidationException;
+import org.uniprot.store.config.searchfield.model.SearchFieldItem;
+import org.uniprot.store.config.searchfield.model.SearchFieldItemType;
 
 public class SearchFieldDataValidator extends FieldDataValidator<SearchFieldItem> {
     @Override

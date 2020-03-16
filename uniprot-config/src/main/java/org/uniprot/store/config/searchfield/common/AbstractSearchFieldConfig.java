@@ -1,8 +1,12 @@
 package org.uniprot.store.config.searchfield.common;
 
-import com.fasterxml.jackson.databind.JavaType;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import java.util.Collection;
+import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
+
 import lombok.extern.slf4j.Slf4j;
+
 import org.apache.commons.lang3.StringUtils;
 import org.uniprot.store.config.UniProtDataType;
 import org.uniprot.store.config.common.JsonLoader;
@@ -11,10 +15,8 @@ import org.uniprot.store.config.searchfield.model.SearchFieldItem;
 import org.uniprot.store.config.searchfield.model.SearchFieldType;
 import org.uniprot.store.config.searchfield.schema.SearchFieldDataValidator;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.Objects;
-import java.util.stream.Collectors;
+import com.fasterxml.jackson.databind.JavaType;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Slf4j
 public abstract class AbstractSearchFieldConfig implements SearchFieldConfig {
@@ -25,7 +27,8 @@ public abstract class AbstractSearchFieldConfig implements SearchFieldConfig {
     private List<SearchFieldItem> searchFieldItems;
     private List<SearchFieldItem> sortFieldItems;
 
-    protected AbstractSearchFieldConfig(UniProtDataType dataType, String schemaFile, String configFile) {
+    protected AbstractSearchFieldConfig(
+            UniProtDataType dataType, String schemaFile, String configFile) {
         this.dataType = dataType;
         SchemaValidator.validate(schemaFile, configFile);
         init(configFile);

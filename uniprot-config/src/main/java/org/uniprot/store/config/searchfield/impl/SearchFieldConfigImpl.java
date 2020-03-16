@@ -1,5 +1,12 @@
 package org.uniprot.store.config.searchfield.impl;
 
+import static java.util.Collections.emptyList;
+
+import java.util.Collection;
+import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collectors;
+
 import org.uniprot.core.cv.xdb.UniProtDatabaseDetail;
 import org.uniprot.cv.xdb.UniProtDatabaseTypes;
 import org.uniprot.store.config.UniProtDataType;
@@ -7,13 +14,6 @@ import org.uniprot.store.config.searchfield.common.AbstractSearchFieldConfig;
 import org.uniprot.store.config.searchfield.model.SearchFieldDataType;
 import org.uniprot.store.config.searchfield.model.SearchFieldItem;
 import org.uniprot.store.config.searchfield.model.SearchFieldType;
-
-import java.util.Collection;
-import java.util.List;
-import java.util.concurrent.atomic.AtomicInteger;
-import java.util.stream.Collectors;
-
-import static java.util.Collections.emptyList;
 
 public class SearchFieldConfigImpl extends AbstractSearchFieldConfig {
     private static final String XREF_COUNT_PREFIX = "xref_count_";
@@ -38,7 +38,8 @@ public class SearchFieldConfigImpl extends AbstractSearchFieldConfig {
                 .collect(Collectors.toList());
     }
 
-    private SearchFieldItem convertToFieldItem(UniProtDatabaseDetail db, AtomicInteger childNumber) {
+    private SearchFieldItem convertToFieldItem(
+            UniProtDatabaseDetail db, AtomicInteger childNumber) {
         String fieldName = XREF_COUNT_PREFIX + db.getName().toLowerCase();
         SearchFieldItem fieldItem = new SearchFieldItem();
         fieldItem.setId(fieldName);

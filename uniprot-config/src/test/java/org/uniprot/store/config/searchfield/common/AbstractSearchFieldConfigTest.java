@@ -1,12 +1,12 @@
 package org.uniprot.store.config.searchfield.common;
 
-import java.util.List;
-
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.uniprot.store.config.searchfield.model.SearchFieldItem;
 import org.uniprot.store.config.searchfield.model.SearchFieldType;
+
+import java.util.List;
 
 public class AbstractSearchFieldConfigTest {
 

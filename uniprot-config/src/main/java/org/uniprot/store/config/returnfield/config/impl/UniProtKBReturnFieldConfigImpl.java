@@ -1,15 +1,15 @@
 package org.uniprot.store.config.returnfield.config.impl;
 
-import java.util.*;
-import java.util.concurrent.atomic.AtomicInteger;
-import java.util.stream.Collectors;
-
 import org.uniprot.core.cv.xdb.UniProtDatabaseCategory;
 import org.uniprot.core.cv.xdb.UniProtDatabaseDetail;
 import org.uniprot.cv.xdb.UniProtDatabaseTypes;
 import org.uniprot.store.config.returnfield.config.AbstractReturnFieldConfig;
 import org.uniprot.store.config.returnfield.model.ReturnField;
 import org.uniprot.store.config.returnfield.model.ReturnFieldItemType;
+
+import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collectors;
 
 /**
  * Loads a valid JSON definition of return field definitions, and adds dynamically database

@@ -1,12 +1,12 @@
 package org.uniprot.store.config.schema;
 
-import org.apache.commons.lang3.StringUtils;
-import org.uniprot.store.config.model.Field;
+import static java.util.Collections.emptyList;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static java.util.Collections.emptyList;
+import org.apache.commons.lang3.StringUtils;
+import org.uniprot.store.config.model.Field;
 
 public class FieldDataValidator<T extends Field> {
     public void validateContent(List<T> fieldItems) {

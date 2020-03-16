@@ -1,19 +1,19 @@
 package org.uniprot.store.config.returnfield.factory;
 
-import java.util.Collections;
-import java.util.EnumMap;
-import java.util.Map;
-
 import org.uniprot.store.config.UniProtDataType;
 import org.uniprot.store.config.returnfield.config.ReturnFieldConfig;
 import org.uniprot.store.config.returnfield.config.impl.UniProtKBReturnFieldConfigImpl;
 
+import java.util.Collections;
+import java.util.EnumMap;
+import java.util.Map;
+
 public class ReturnFieldConfigFactory {
-    public static final String UNIPROTKB_CONFIG_FILE =
+    private static final String UNIPROTKB_CONFIG_FILE =
             "return-fields-config/uniprotkb-return-fields.json";
-    public static final String UNIREF_CONFIG_FILE =
+    private static final String UNIREF_CONFIG_FILE =
             "return-fields-config/uniref-return-fields.json";
-    public static final String UNIPARC_CONFIG_FILE =
+    private static final String UNIPARC_CONFIG_FILE =
             "return-fields-config/uniparc-return-fields.json";
 
     private static final Map<UniProtDataType, ReturnFieldConfig> TYPE_FIELD_CONFIG_MAP =
