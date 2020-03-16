@@ -1,0 +1,147 @@
+[
+  {
+    "seqNumber": 0,
+    "itemType": "GROUP",
+    "groupName": "Names & Taxonomy",
+    "isDatabaseGroup": false,
+    "id": "names_&_taxonomy"
+  },
+  {
+    "parentId": "names_&_taxonomy",
+    "childNumber": 0,
+    "itemType": "SINGLE",
+    "name": "id",
+    "label": "Cluster ID",
+    "path": "xxxxx",
+    "id": "names_&_taxonomy/id"
+  },
+  {
+    "parentId": "names_&_taxonomy",
+    "childNumber": 1,
+    "itemType": "SINGLE",
+    "name": "name",
+    "label": "Cluster Name",
+    "path": "xxxxx",
+    "id": "names_&_taxonomy/name"
+  },
+  {
+    "parentId": "names_&_taxonomy",
+    "childNumber": 2,
+    "itemType": "SINGLE",
+    "name": "common_taxon",
+    "label": "Common taxon",
+    "path": "xxxxx",
+    "id": "names_&_taxonomy/common_taxon"
+  },
+  {
+    "parentId": "names_&_taxonomy",
+    "childNumber": 3,
+    "itemType": "SINGLE",
+    "name": "common_taxonid",
+    "label": "Common taxon ID",
+    "path": "xxxxx",
+    "id": "names_&_taxonomy/common_taxonid"
+  },
+  {
+    "parentId": "names_&_taxonomy",
+    "childNumber": 4,
+    "itemType": "SINGLE",
+    "name": "organism_id",
+    "label": "Organism IDs",
+    "path": "xxxxx",
+    "id": "names_&_taxonomy/organism_id"
+  },
+  {
+    "parentId": "names_&_taxonomy",
+    "childNumber": 5,
+    "itemType": "SINGLE",
+    "name": "organism",
+    "label": "Organisms",
+    "path": "xxxxx",
+    "id": "names_&_taxonomy/organism"
+  },
+  {
+    "seqNumber": 1,
+    "itemType": "GROUP",
+    "groupName": "Sequences",
+    "isDatabaseGroup": false,
+    "id": "sequences"
+  },
+  {
+    "parentId": "sequences",
+    "childNumber": 0,
+    "itemType": "SINGLE",
+    "name": "identity",
+    "label": "Identity",
+    "path": "xxxxx",
+    "id": "miscellaneous/identity"
+  },
+  {
+    "parentId": "sequences",
+    "childNumber": 1,
+    "itemType": "SINGLE",
+    "name": "length",
+    "label": "Length",
+    "path": "xxxxx",
+    "id": "miscellaneous/length"
+  },
+  {
+    "parentId": "sequences",
+    "childNumber": 2,
+    "itemType": "SINGLE",
+    "name": "sequence",
+    "label": "Reference sequence",
+    "path": "xxxxx",
+    "id": "miscellaneous/sequence"
+  },
+  {
+    "seqNumber": 2,
+    "itemType": "GROUP",
+    "groupName": "Miscellaneous",
+    "isDatabaseGroup": false,
+    "id": "miscellaneous"
+  },
+  {
+    "parentId": "miscellaneous",
+    "childNumber": 0,
+    "itemType": "SINGLE",
+    "name": "types",
+    "label": "TODO: Name For it",
+    "path": "xxxxx",
+    "id": "miscellaneous/types"
+  },
+  {
+    "parentId": "miscellaneous",
+    "childNumber": 1,
+    "itemType": "SINGLE",
+    "name": "members",
+    "label": "Cluster members",
+    "path": "xxxxx",
+    "id": "miscellaneous/members"
+  },
+  {
+    "parentId": "miscellaneous",
+    "childNumber": 2,
+    "itemType": "SINGLE",
+    "name": "size",
+    "label": "Size",
+    "path": "xxxxx",
+    "id": "miscellaneous/size"
+  },
+  {
+    "seqNumber": 3,
+    "itemType": "GROUP",
+    "groupName": "Date of",
+    "isDatabaseGroup": false,
+    "id": "date_of"
+  },
+  {
+    "parentId": "date_of",
+    "childNumber": 0,
+    "itemType": "SINGLE",
+    "name": "created",
+    "label": "Date of creation",
+    "path": "xxxxx",
+    "id": "date_of/created"
+  }
+]
