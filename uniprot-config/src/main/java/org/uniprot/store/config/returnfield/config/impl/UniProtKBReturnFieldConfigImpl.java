@@ -12,8 +12,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 /**
- * Loads a valid JSON definition of return field definitions, and adds dynamically database
- * information from {@link UniProtDatabaseTypes}.
+ * Loads a valid JSON definition of return field definitions for UniProtKB, and adds dynamically
+ * database information from {@link UniProtDatabaseTypes}.
  *
  * <p>The requirement for dynamic loading of database fields from {@link UniProtDatabaseTypes}, for
  * a specific {@link UniProtDatabaseCategory}, is that the database category is defined as one of
