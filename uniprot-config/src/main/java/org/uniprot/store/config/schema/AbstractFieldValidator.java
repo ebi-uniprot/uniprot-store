@@ -1,13 +1,13 @@
 package org.uniprot.store.config.schema;
 
-import org.apache.commons.lang3.StringUtils;
-import org.uniprot.store.config.model.Field;
-
 import java.util.BitSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
+
+import org.apache.commons.lang3.StringUtils;
+import org.uniprot.store.config.model.Field;
 
 public abstract class AbstractFieldValidator<T extends Field> {
     public abstract void validateContent(List<T> fieldItems);

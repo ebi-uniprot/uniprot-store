@@ -1,12 +1,12 @@
 package org.uniprot.store.config.returnfield.factory;
 
-import org.uniprot.store.config.UniProtDataType;
-import org.uniprot.store.config.returnfield.config.ReturnFieldConfig;
-import org.uniprot.store.config.returnfield.config.impl.UniProtKBReturnFieldConfigImpl;
-
 import java.util.Collections;
 import java.util.EnumMap;
 import java.util.Map;
+
+import org.uniprot.store.config.UniProtDataType;
+import org.uniprot.store.config.returnfield.config.ReturnFieldConfig;
+import org.uniprot.store.config.returnfield.config.impl.UniProtKBReturnFieldConfigImpl;
 
 public class ReturnFieldConfigFactory {
     public static final String UNIPROTKB_CONFIG_FILE =

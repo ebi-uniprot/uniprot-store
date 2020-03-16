@@ -1,20 +1,20 @@
 package org.uniprot.store.config.returnfield.config;
 
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
-import org.uniprot.store.config.returnfield.model.ReturnFieldItemType;
-import org.uniprot.store.config.returnfield.model.ReturnField;
-
-import java.util.Collection;
-import java.util.List;
-import java.util.stream.Collectors;
-
 import static java.util.Collections.singletonList;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.core.Is.is;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+
+import java.util.Collection;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
+import org.uniprot.store.config.returnfield.model.ReturnField;
+import org.uniprot.store.config.returnfield.model.ReturnFieldItemType;
 
 /**
  * Created 13/03/20

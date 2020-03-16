@@ -6,8 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import org.uniprot.store.config.returnfield.model.ReturnFieldItemType;
 import org.uniprot.store.config.returnfield.model.ReturnField;
+import org.uniprot.store.config.returnfield.model.ReturnFieldItemType;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;

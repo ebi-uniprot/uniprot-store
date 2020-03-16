@@ -1,12 +1,15 @@
 package org.uniprot.store.config.returnfield.model;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import lombok.Data;
-import org.uniprot.store.config.model.Field;
+import java.io.Serializable;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PositiveOrZero;
-import java.io.Serializable;
+
+import lombok.Data;
+
+import org.uniprot.store.config.model.Field;
+
+import com.fasterxml.jackson.annotation.JsonInclude;
 
 /**
  * @author lgonzales
