@@ -13,6 +13,7 @@
     "name": "accession",
     "label": "Entry",
     "path": "primaryAccession",
+    "sortField": "accession",
     "id": "names_&_taxonomy/entry"
   },
   {
@@ -22,6 +23,7 @@
     "name": "id",
     "label": "Entry Name",
     "path": "uniProtId",
+    "sortField": "mnemonic",
     "id": "names_&_taxonomy/entry_name"
   },
   {
@@ -31,6 +33,7 @@
     "name": "gene_names",
     "label": "Gene Names",
     "path": "genes",
+    "sortField": "gene",
     "id": "names_&_taxonomy/gene_names"
   },
   {
@@ -76,6 +79,7 @@
     "name": "organism",
     "label": "Organism",
     "path": "organism",
+    "sortField": "organism",
     "id": "names_&_taxonomy/organism"
   },
   {
@@ -94,6 +98,7 @@
     "name": "protein_name",
     "label": "Protein names",
     "path": "proteinDescription",
+    "sortField": "name",
     "id": "names_&_taxonomy/protein_names"
   },
   {
@@ -186,6 +191,7 @@
     "name": "length",
     "label": "Length",
     "path": "sequence.length",
+    "sortField": "length",
     "id": "sequences/length"
   },
   {
@@ -195,6 +201,7 @@
     "name": "mass",
     "label": "Mass",
     "path": "sequence.molWeight",
+    "sortField": "mass",
     "id": "sequences/mass"
   },
   {
@@ -515,6 +522,7 @@
     "name": "score",
     "label": "Annotation",
     "path": "annotationScore",
+    "sortField": "annotation_score",
     "id": "miscellaneous/annotation"
   },
   {

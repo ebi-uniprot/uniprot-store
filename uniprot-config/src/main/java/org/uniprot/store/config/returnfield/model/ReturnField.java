@@ -1,15 +1,12 @@
 package org.uniprot.store.config.returnfield.model;
 
-import java.io.Serializable;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import lombok.Data;
+import org.uniprot.store.config.model.Field;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PositiveOrZero;
-
-import lombok.Data;
-
-import org.uniprot.store.config.model.Field;
-
-import com.fasterxml.jackson.annotation.JsonInclude;
+import java.io.Serializable;
 
 /**
  * @author lgonzales
@@ -31,4 +28,5 @@ public class ReturnField implements Field, Serializable {
     private String groupName;
     private Boolean isDatabaseGroup = false;
     @NotNull private String id;
+    private String sortField;
 }

@@ -43,6 +43,9 @@
         },
         "id" : {
           "type" : "string"
+        },
+        "sortField" : {
+          "type" : "string"
         }
       },
       "required" : [ "itemType", "id" ]
