@@ -32,9 +32,7 @@ public class ReturnFieldConfigFactory {
         return TYPE_FIELD_CONFIG_MAP.computeIfAbsent(
                 type,
                 dataType -> {
-                    // in future, can remove this line when handling return fields from all
-                    // UniProtDataTypes.
-                    if (!dataType.equals(UniProtDataType.UNIPROTKB)) {
+                    if (!TYPE_CONFIG_FILE_MAP.containsKey(type)) {
                         throw new IllegalArgumentException("Unsupported type: " + type);
                     }
                     return new UniProtKBReturnFieldConfigImpl(TYPE_CONFIG_FILE_MAP.get(dataType));
