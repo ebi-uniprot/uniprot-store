@@ -1,6 +1,6 @@
 package org.uniprot.store.config.returnfield.model;
 
-public enum ResultFieldItemType {
+public enum ReturnFieldItemType {
     GROUP,
     SINGLE
 }

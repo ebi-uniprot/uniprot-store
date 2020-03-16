@@ -1,15 +1,12 @@
 package org.uniprot.store.config.returnfield.model;
 
-import java.io.Serializable;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import lombok.Data;
+import org.uniprot.store.config.model.Field;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PositiveOrZero;
-
-import lombok.Data;
-
-import org.uniprot.store.config.model.Field;
-
-import com.fasterxml.jackson.annotation.JsonInclude;
+import java.io.Serializable;
 
 /**
  * @author lgonzales
@@ -23,12 +20,12 @@ public class ReturnField implements Field, Serializable {
     @NotNull @PositiveOrZero private Integer seqNumber;
     private String parentId;
     @PositiveOrZero private Integer childNumber;
-    @NotNull private ResultFieldItemType itemType;
+    @NotNull private ReturnFieldItemType itemType;
     private String name;
     private String label;
     private String path;
     private String filter;
     private String groupName;
-    private Boolean isDatabaseGroup;
+    private Boolean isDatabaseGroup = false;
     @NotNull private String id;
 }
