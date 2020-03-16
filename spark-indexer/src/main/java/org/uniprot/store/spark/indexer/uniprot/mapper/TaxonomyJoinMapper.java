@@ -7,8 +7,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.apache.spark.api.java.function.PairFlatMapFunction;
-import org.uniprot.core.flatfile.parser.UniprotLineParser;
-import org.uniprot.core.flatfile.parser.impl.DefaultUniprotLineParserFactory;
+import org.uniprot.core.flatfile.parser.UniprotkbLineParser;
+import org.uniprot.core.flatfile.parser.impl.DefaultUniprotkbLineParserFactory;
 import org.uniprot.core.flatfile.parser.impl.ac.AcLineObject;
 import org.uniprot.core.flatfile.parser.impl.oh.OhLineObject;
 import org.uniprot.core.flatfile.parser.impl.ox.OxLineObject;
@@ -32,10 +32,10 @@ public class TaxonomyJoinMapper implements PairFlatMapFunction<String, String, S
      */
     @Override
     public Iterator<Tuple2<String, String>> call(String entryStr) throws Exception {
-        final UniprotLineParser<AcLineObject> acParser =
-                new DefaultUniprotLineParserFactory().createAcLineParser();
-        final UniprotLineParser<OxLineObject> oxParser =
-                new DefaultUniprotLineParserFactory().createOxLineParser();
+        final UniprotkbLineParser<AcLineObject> acParser =
+                new DefaultUniprotkbLineParserFactory().createAcLineParser();
+        final UniprotkbLineParser<OxLineObject> oxParser =
+                new DefaultUniprotkbLineParserFactory().createOxLineParser();
         List<Tuple2<String, String>> organismTuple = new ArrayList<>();
 
         List<String> taxonomyLines =
@@ -65,8 +65,8 @@ public class TaxonomyJoinMapper implements PairFlatMapFunction<String, String, S
                         .filter(line -> line.startsWith("OH  "))
                         .collect(Collectors.joining("\n"));
         if (Utils.notNullNotEmpty(ohLine)) {
-            final UniprotLineParser<OhLineObject> ohParser =
-                    new DefaultUniprotLineParserFactory().createOhLineParser();
+            final UniprotkbLineParser<OhLineObject> ohParser =
+                    new DefaultUniprotkbLineParserFactory().createOhLineParser();
             OhLineObject ohLineObject = ohParser.parse(ohLine + "\n");
             ohLineObject
                     .getHosts()

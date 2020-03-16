@@ -8,18 +8,18 @@ import java.util.HashSet;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
-import org.uniprot.core.uniprot.description.*;
-import org.uniprot.core.uniprot.description.impl.*;
-import org.uniprot.core.uniprot.evidence.Evidence;
-import org.uniprot.core.uniprot.evidence.EvidenceCode;
-import org.uniprot.core.uniprot.evidence.impl.EvidenceBuilder;
+import org.uniprot.core.uniprotkb.description.*;
+import org.uniprot.core.uniprotkb.description.impl.*;
+import org.uniprot.core.uniprotkb.evidence.Evidence;
+import org.uniprot.core.uniprotkb.evidence.EvidenceCode;
+import org.uniprot.core.uniprotkb.evidence.impl.EvidenceBuilder;
 import org.uniprot.store.search.document.uniprot.UniProtDocument;
 
 /**
  * @author lgonzales
  * @since 2019-09-11
  */
-class UniProtEntryProteinDescriptionConverterTest {
+class UniProtkbEntryProteinDescriptionConverterTest {
 
     @Test
     void convertCompleteProteinDescription() {

@@ -15,7 +15,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;
 import org.uniprot.core.flatfile.writer.LineType;
-import org.uniprot.core.uniprot.comment.CommentType;
+import org.uniprot.core.uniprotkb.comment.CommentType;
 
 class CCWebResourceSearchIT {
     private static final String Q6GZX4 = "Q6GZX4";

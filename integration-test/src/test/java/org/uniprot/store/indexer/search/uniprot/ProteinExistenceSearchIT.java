@@ -17,7 +17,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;
 import org.uniprot.core.flatfile.writer.LineType;
-import org.uniprot.core.uniprot.ProteinExistence;
+import org.uniprot.core.uniprotkb.ProteinExistence;
 import org.uniprot.store.search.field.QueryBuilder;
 
 /** Tests if the protein existence search is working correctly */

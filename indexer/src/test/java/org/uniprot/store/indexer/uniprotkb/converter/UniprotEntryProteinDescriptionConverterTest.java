@@ -8,11 +8,11 @@ import java.util.*;
 
 import org.junit.jupiter.api.Test;
 import org.uniprot.core.cv.ec.impl.ECEntryBuilder;
-import org.uniprot.core.uniprot.description.*;
-import org.uniprot.core.uniprot.description.impl.*;
-import org.uniprot.core.uniprot.evidence.Evidence;
-import org.uniprot.core.uniprot.evidence.EvidenceCode;
-import org.uniprot.core.uniprot.evidence.impl.EvidenceBuilder;
+import org.uniprot.core.uniprotkb.description.*;
+import org.uniprot.core.uniprotkb.description.impl.*;
+import org.uniprot.core.uniprotkb.evidence.Evidence;
+import org.uniprot.core.uniprotkb.evidence.EvidenceCode;
+import org.uniprot.core.uniprotkb.evidence.impl.EvidenceBuilder;
 import org.uniprot.cv.ec.ECRepo;
 import org.uniprot.store.search.document.suggest.SuggestDocument;
 import org.uniprot.store.search.document.uniprot.UniProtDocument;

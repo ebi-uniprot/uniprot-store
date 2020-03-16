@@ -5,8 +5,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.uniprot.core.uniprot.feature.Feature;
-import org.uniprot.core.uniprot.feature.FeatureType;
+import org.uniprot.core.uniprotkb.feature.Feature;
+import org.uniprot.core.uniprotkb.feature.FeatureType;
 import org.uniprot.store.search.document.uniprot.UniProtDocument;
 
 /**

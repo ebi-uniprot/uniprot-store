@@ -16,8 +16,8 @@ import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.uniprot.core.flatfile.parser.impl.EntryBufferedReader2;
-import org.uniprot.core.uniprot.UniProtEntry;
-import org.uniprot.core.uniprot.UniProtEntryType;
+import org.uniprot.core.uniprotkb.UniProtkbEntry;
+import org.uniprot.core.uniprotkb.UniProtkbEntryType;
 import org.uniprot.store.datastore.voldemort.MetricsUtil;
 import org.uniprot.store.datastore.voldemort.VoldemortClient;
 import org.uniprot.store.datastore.voldemort.VoldemortEntryStoreBuilder;
@@ -39,7 +39,7 @@ public class UniprotEntryRetrieveParseVerifier {
 
     private static final Logger logger =
             LoggerFactory.getLogger(UniprotEntryRetrieveParseVerifier.class);
-    private final VoldemortClient<UniProtEntry> remoteStore;
+    private final VoldemortClient<UniProtkbEntry> remoteStore;
     protected final Slf4jReporter reporter;
 
     private final Counter counter_parsed_sw;
@@ -49,7 +49,7 @@ public class UniprotEntryRetrieveParseVerifier {
     private final Counter counter_entry_total;
     private final Counter counter_not_found;
 
-    UniprotEntryRetrieveParseVerifier(VoldemortClient<UniProtEntry> store) {
+    UniprotEntryRetrieveParseVerifier(VoldemortClient<UniProtkbEntry> store) {
         this.remoteStore = store;
 
         Slf4jReporter reporter =
@@ -163,7 +163,7 @@ public class UniprotEntryRetrieveParseVerifier {
 
         logger.info("Loading from file: {}", uniprotFFPath);
         logger.info("voldemort server: {}", voldemortUrl);
-        VoldemortClient<UniProtEntry> store =
+        VoldemortClient<UniProtkbEntry> store =
                 new VoldemortRemoteUniProtKBEntryStore("avro-uniprot", voldemortUrl);
         UniprotEntryRetrieveParseVerifier dataVerification =
                 new UniprotEntryRetrieveParseVerifier(store);
@@ -187,12 +187,12 @@ public class UniprotEntryRetrieveParseVerifier {
         public void run() {
             counter_entry_total.inc();
             try {
-                Optional<UniProtEntry> voldemortResult = remoteStore.getEntry(this.accession);
+                Optional<UniProtkbEntry> voldemortResult = remoteStore.getEntry(this.accession);
                 if (voldemortResult.isPresent()) {
-                    UniProtEntry uniprotEntry = voldemortResult.get();
-                    if (uniprotEntry.getEntryType() == UniProtEntryType.TREMBL) {
+                    UniProtkbEntry uniprotEntry = voldemortResult.get();
+                    if (uniprotEntry.getEntryType() == UniProtkbEntryType.TREMBL) {
                         counter_parsed_tr.inc();
-                    } else if (uniprotEntry.getEntryType() == UniProtEntryType.SWISSPROT) {
+                    } else if (uniprotEntry.getEntryType() == UniProtkbEntryType.SWISSPROT) {
                         if (uniprotEntry.getPrimaryAccession().getValue().contains("-")) {
                             counter_parsed_isoform.inc();
                         } else {

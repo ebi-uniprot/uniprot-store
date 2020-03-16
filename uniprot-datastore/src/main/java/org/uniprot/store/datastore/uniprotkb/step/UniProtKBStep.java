@@ -19,7 +19,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
-import org.uniprot.core.uniprot.UniProtEntry;
+import org.uniprot.core.uniprotkb.UniProtkbEntry;
 import org.uniprot.store.datastore.UniProtStoreClient;
 import org.uniprot.store.datastore.uniprotkb.config.AsyncConfig;
 import org.uniprot.store.datastore.uniprotkb.config.StoreConfig;
@@ -55,17 +55,17 @@ public class UniProtKBStep {
     @Bean(name = "uniProtKBStoreMainStep")
     public Step uniProtKBStoreMainStep(
             WriteRetrierLogStepListener writeRetrierLogStepListener,
-            @Qualifier("uniProtKB") LogRateListener<UniProtEntry> uniProtKBLogRateListener,
-            ItemReader<UniProtEntry> entryItemReader,
-            ItemProcessor<UniProtEntry, UniProtEntry> uniProtEntryPassThroughProcessor,
-            ItemWriter<UniProtEntry> uniProtEntryItemWriter,
+            @Qualifier("uniProtKB") LogRateListener<UniProtkbEntry> uniProtKBLogRateListener,
+            ItemReader<UniProtkbEntry> entryItemReader,
+            ItemProcessor<UniProtkbEntry, UniProtkbEntry> uniProtEntryPassThroughProcessor,
+            ItemWriter<UniProtkbEntry> uniProtEntryItemWriter,
             ExecutionContextPromotionListener promotionListener)
             throws Exception {
 
         return this.stepBuilderFactory
                 .get(UNIPROTKB_STORE_STEP)
                 .listener(promotionListener)
-                .<UniProtEntry, UniProtEntry>chunk(uniProtKBStoreProperties.getChunkSize())
+                .<UniProtkbEntry, UniProtkbEntry>chunk(uniProtKBStoreProperties.getChunkSize())
                 .reader(entryItemReader)
                 .processor(uniProtEntryPassThroughProcessor)
                 .writer(uniProtEntryItemWriter)
@@ -77,20 +77,20 @@ public class UniProtKBStep {
 
     // ---------------------- Readers ----------------------
     @Bean
-    public ItemReader<UniProtEntry> entryItemReader() {
+    public ItemReader<UniProtkbEntry> entryItemReader() {
         return new UniProtEntryItemReader(uniProtKBStoreProperties);
     }
 
     // ---------------------- Processors ----------------------
     @Bean
-    public ItemProcessor<UniProtEntry, UniProtEntry> uniProtEntryPassThroughProcessor() {
+    public ItemProcessor<UniProtkbEntry, UniProtkbEntry> uniProtEntryPassThroughProcessor() {
         return new PassThroughItemProcessor<>();
     }
 
     // ---------------------- Writers ----------------------
     @Bean
-    public ItemWriter<UniProtEntry> uniProtEntryItemWriter(
-            UniProtStoreClient<UniProtEntry> uniProtKBStoreClient,
+    public ItemWriter<UniProtkbEntry> uniProtEntryItemWriter(
+            UniProtStoreClient<UniProtkbEntry> uniProtKBStoreClient,
             RetryPolicy<Object> writeRetryPolicy) {
         return new UniProtEntryRetryWriter(
                 entries -> entries.forEach(uniProtKBStoreClient::saveEntry), writeRetryPolicy);
@@ -98,7 +98,7 @@ public class UniProtKBStep {
 
     // ---------------------- Listeners ----------------------
     @Bean(name = "uniProtKB")
-    public LogRateListener<UniProtEntry> uniProtKBLogRateListener() {
+    public LogRateListener<UniProtkbEntry> uniProtKBLogRateListener() {
         return new LogRateListener<>(uniProtKBStoreProperties.getUniProtKBLogRateInterval());
     }
 

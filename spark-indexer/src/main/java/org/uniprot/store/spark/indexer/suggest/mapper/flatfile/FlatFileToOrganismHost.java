@@ -7,8 +7,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.apache.spark.api.java.function.PairFlatMapFunction;
-import org.uniprot.core.flatfile.parser.UniprotLineParser;
-import org.uniprot.core.flatfile.parser.impl.DefaultUniprotLineParserFactory;
+import org.uniprot.core.flatfile.parser.UniprotkbLineParser;
+import org.uniprot.core.flatfile.parser.impl.DefaultUniprotkbLineParserFactory;
 import org.uniprot.core.flatfile.parser.impl.oh.OhLineObject;
 import org.uniprot.core.util.Utils;
 
@@ -35,8 +35,8 @@ public class FlatFileToOrganismHost implements PairFlatMapFunction<String, Strin
 
         if (Utils.notNullNotEmpty(ohLine)) {
             try {
-                final UniprotLineParser<OhLineObject> ohParser =
-                        new DefaultUniprotLineParserFactory().createOhLineParser();
+                final UniprotkbLineParser<OhLineObject> ohParser =
+                        new DefaultUniprotkbLineParserFactory().createOhLineParser();
                 OhLineObject ohLineObject = ohParser.parse(ohLine + "\n");
                 ohLineObject
                         .getHosts()

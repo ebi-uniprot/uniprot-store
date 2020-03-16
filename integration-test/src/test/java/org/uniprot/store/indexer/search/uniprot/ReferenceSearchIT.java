@@ -18,7 +18,7 @@ import org.apache.solr.client.solrj.response.QueryResponse;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;
-import org.uniprot.core.flatfile.parser.impl.DefaultUniprotLineParserFactory;
+import org.uniprot.core.flatfile.parser.impl.DefaultUniprotkbLineParserFactory;
 import org.uniprot.core.flatfile.parser.impl.entry.EntryObject;
 import org.uniprot.core.flatfile.writer.LineType;
 import org.uniprot.store.search.field.QueryBuilder;
@@ -454,7 +454,8 @@ class ReferenceSearchIT {
             // ugly method, yes, but how else can we easily build reference objects?
 
             String[] lines = rawReference.split("\n");
-            DefaultUniprotLineParserFactory parserFactory = new DefaultUniprotLineParserFactory();
+            DefaultUniprotkbLineParserFactory parserFactory =
+                    new DefaultUniprotkbLineParserFactory();
 
             Map<LineType, StringBuilder> refMap = new HashMap<>();
             for (String line : lines) {

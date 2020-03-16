@@ -5,12 +5,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.uniprot.core.flatfile.parser.UniprotLineParser;
-import org.uniprot.core.flatfile.parser.impl.DefaultUniprotLineParserFactory;
+import org.uniprot.core.flatfile.parser.UniprotkbLineParser;
+import org.uniprot.core.flatfile.parser.impl.DefaultUniprotkbLineParserFactory;
 import org.uniprot.core.flatfile.parser.impl.cc.CcLineConverter;
 import org.uniprot.core.flatfile.parser.impl.cc.cclineobject.CcLineObject;
-import org.uniprot.core.uniprot.comment.Comment;
-import org.uniprot.core.uniprot.comment.CommentType;
+import org.uniprot.core.uniprotkb.comment.Comment;
+import org.uniprot.core.uniprotkb.comment.CommentType;
 
 /**
  * Utility class for Suggest index
@@ -38,8 +38,8 @@ public class SuggesterUtil {
     }
 
     public static List<Comment> getComments(String commentLines) {
-        final UniprotLineParser<CcLineObject> ccParser =
-                new DefaultUniprotLineParserFactory().createCcLineParser();
+        final UniprotkbLineParser<CcLineObject> ccParser =
+                new DefaultUniprotkbLineParserFactory().createCcLineParser();
         CcLineObject ccLineObject = ccParser.parse(commentLines + "\n");
         CcLineConverter converter = new CcLineConverter(new HashMap<>(), new HashMap<>());
         return converter.convert(ccLineObject);

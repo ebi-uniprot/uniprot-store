@@ -8,17 +8,17 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import java.util.HashSet;
 
 import org.junit.jupiter.api.Test;
-import org.uniprot.core.uniprot.taxonomy.Organism;
-import org.uniprot.core.uniprot.taxonomy.OrganismHost;
-import org.uniprot.core.uniprot.taxonomy.impl.OrganismBuilder;
-import org.uniprot.core.uniprot.taxonomy.impl.OrganismHostBuilder;
+import org.uniprot.core.uniprotkb.taxonomy.Organism;
+import org.uniprot.core.uniprotkb.taxonomy.OrganismHost;
+import org.uniprot.core.uniprotkb.taxonomy.impl.OrganismBuilder;
+import org.uniprot.core.uniprotkb.taxonomy.impl.OrganismHostBuilder;
 import org.uniprot.store.search.document.uniprot.UniProtDocument;
 
 /**
  * @author lgonzales
  * @since 2019-09-06
  */
-class UniProtEntryTaxonomyConverterTest {
+class UniProtkbEntryTaxonomyConverterTest {
 
     @Test
     void convertOrganism() {

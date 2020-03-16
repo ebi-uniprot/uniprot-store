@@ -5,38 +5,39 @@ import java.util.stream.Collectors;
 
 import org.apache.spark.api.java.Optional;
 import org.apache.spark.api.java.function.Function;
-import org.uniprot.core.uniprot.UniProtEntry;
-import org.uniprot.core.uniprot.evidence.Evidence;
-import org.uniprot.core.uniprot.impl.UniProtEntryBuilder;
-import org.uniprot.core.uniprot.xdb.UniProtCrossReference;
-import org.uniprot.core.uniprot.xdb.impl.UniProtCrossReferenceBuilder;
+import org.uniprot.core.uniprotkb.UniProtkbEntry;
+import org.uniprot.core.uniprotkb.evidence.Evidence;
+import org.uniprot.core.uniprotkb.impl.UniProtkbEntryBuilder;
+import org.uniprot.core.uniprotkb.xdb.UniProtkbCrossReference;
+import org.uniprot.core.uniprotkb.xdb.impl.UniProtCrossReferenceBuilder;
 
 import scala.Tuple2;
 
 /**
- * This class is responsible to map an Iterable of GOEvidence to an UniProtEntry
+ * This class is responsible to map an Iterable of GOEvidence to an UniProtkbEntry
  *
  * @author lgonzales
  * @since 2019-10-22
  */
 public class GOEvidenceMapper
-        implements Function<Tuple2<UniProtEntry, Optional<Iterable<GOEvidence>>>, UniProtEntry> {
+        implements Function<
+                Tuple2<UniProtkbEntry, Optional<Iterable<GOEvidence>>>, UniProtkbEntry> {
 
     private static final long serialVersionUID = 7478726902589041984L;
 
     /**
-     * @param tuple of <UniProtEntry, Iterable of GoEvidence>
-     * @return UniProtEntry with extra Go Evidences
+     * @param tuple of <UniProtkbEntry, Iterable of GoEvidence>
+     * @return UniProtkbEntry with extra Go Evidences
      */
     @Override
-    public UniProtEntry call(Tuple2<UniProtEntry, Optional<Iterable<GOEvidence>>> tuple)
+    public UniProtkbEntry call(Tuple2<UniProtkbEntry, Optional<Iterable<GOEvidence>>> tuple)
             throws Exception {
-        UniProtEntryBuilder entry = UniProtEntryBuilder.from(tuple._1);
+        UniProtkbEntryBuilder entry = UniProtkbEntryBuilder.from(tuple._1);
         if (tuple._2.isPresent()) {
             Map<String, List<Evidence>> goEvidenceMap = getGoEvidenceMap(tuple._2.get());
 
-            List<UniProtCrossReference> xrefs =
-                    tuple._1.getUniProtCrossReferences().stream()
+            List<UniProtkbCrossReference> xrefs =
+                    tuple._1.getUniProtkbCrossReferences().stream()
                             .map(
                                     xref -> {
                                         if (Objects.equals(xref.getDatabase().getName(), "GO")) {
@@ -51,8 +52,8 @@ public class GOEvidenceMapper
         return entry.build();
     }
 
-    private UniProtCrossReference addGoEvidences(
-            UniProtCrossReference xref, Map<String, List<Evidence>> goEvidenceMap) {
+    private UniProtkbCrossReference addGoEvidences(
+            UniProtkbCrossReference xref, Map<String, List<Evidence>> goEvidenceMap) {
         String id = xref.getId();
         List<Evidence> evidences = goEvidenceMap.get(id);
         if ((evidences == null) || (evidences.isEmpty())) {
