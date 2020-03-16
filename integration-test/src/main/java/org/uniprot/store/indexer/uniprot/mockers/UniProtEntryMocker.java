@@ -74,8 +74,8 @@ public class UniProtEntryMocker {
         return entryMap.values();
     }
 
-    public static List<UniProtEntry> cloneEntries(Type type, int count) {
-        UniProtEntry modelEntry = entryMap.get(type);
+    public static List<UniProtkbEntry> cloneEntries(Type type, int count) {
+        UniProtkbEntry modelEntry = entryMap.get(type);
         Set<String> accessions = new HashSet<>();
         return IntStream.range(0, count)
                 .mapToObj(index -> generateProteinAccession(accessions, PROTEIN_PREFIX[index % 3]))
@@ -83,9 +83,11 @@ public class UniProtEntryMocker {
                 .collect(Collectors.toList());
     }
 
-    private static UniProtEntry cloneUniProtEntry(String newAccession, UniProtEntry modelEntry) {
-        UniProtEntryBuilder builder = UniProtEntryBuilder.from(modelEntry);
-        return builder.primaryAccession(new UniProtAccessionBuilder(newAccession).build()).build();
+    private static UniProtkbEntry cloneUniProtEntry(
+            String newAccession, UniProtkbEntry modelEntry) {
+        UniProtkbEntryBuilder builder = UniProtkbEntryBuilder.from(modelEntry);
+        return builder.primaryAccession(new UniProtkbAccessionBuilder(newAccession).build())
+                .build();
     }
 
     private static String generateProteinAccession(Set<String> accessions, char prefix) {
