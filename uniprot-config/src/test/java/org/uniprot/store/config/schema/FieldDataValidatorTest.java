@@ -1,26 +1,26 @@
 package org.uniprot.store.config.schema;
 
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-
-import java.util.Arrays;
-import java.util.List;
-import java.util.Set;
-
 import lombok.Data;
-
 import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.uniprot.store.config.model.Field;
 import org.uniprot.store.config.searchfield.model.SearchFieldItemType;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
+
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 /**
  * Created 11/03/2020
  *
  * @author Edd
  */
-class AbstractFieldValidatorTest {
+class FieldDataValidatorTest {
     private static FakeValidator validator;
 
     @BeforeAll
@@ -71,7 +71,17 @@ class AbstractFieldValidatorTest {
         p1Ch2.setChildNumber(2);
         p1Ch3.setChildNumber(1);
         List<FakeFieldItem> fieldItems = Arrays.asList(p1, p1Ch1, p1Ch2, p1Ch3);
-        assertDoesNotThrow(() -> validator.validateChildNumbers(fieldItems));
+        assertDoesNotThrow(() -> validator.validateChildren(fieldItems));
+    }
+
+    @Test
+    void testThatParentsMustHaveChildren() {
+        FakeFieldItem p1 = getFieldItem("p1", null);
+        FakeFieldItem p2 = getFieldItem("p2", null);
+        FakeFieldItem p1Ch1 = getFieldItem("p1ch1", "p1");
+        p1Ch1.setChildNumber(0);
+        List<FakeFieldItem> fieldItems = Arrays.asList(p1, p1Ch1, p2);
+        assertThrows(SchemaValidationException.class, () -> validator.validateChildren(fieldItems));
     }
 
     @Test
@@ -108,8 +118,7 @@ class AbstractFieldValidatorTest {
         p1Ch1.setChildNumber(0);
         p1Ch3.setChildNumber(1);
         List<FakeFieldItem> fieldItems = Arrays.asList(p1, p1Ch1, p1Ch2, p1Ch3);
-        assertThrows(
-                SchemaValidationException.class, () -> validator.validateChildNumbers(fieldItems));
+        assertThrows(SchemaValidationException.class, () -> validator.validateChildren(fieldItems));
     }
 
     @Test
@@ -122,8 +131,7 @@ class AbstractFieldValidatorTest {
         p1Ch2.setChildNumber(3);
         p1Ch3.setChildNumber(1);
         List<FakeFieldItem> fieldItems = Arrays.asList(p1, p1Ch1, p1Ch2, p1Ch3);
-        assertThrows(
-                SchemaValidationException.class, () -> validator.validateChildNumbers(fieldItems));
+        assertThrows(SchemaValidationException.class, () -> validator.validateChildren(fieldItems));
     }
 
     private FakeFieldItem getFieldItem(String id, int seqNumber) {
@@ -141,15 +149,28 @@ class AbstractFieldValidatorTest {
         fi.setId(id);
         if (StringUtils.isNotEmpty(parentId)) {
             fi.setParentId(parentId);
+        } else {
+            fi.itemType = SearchFieldItemType.GROUP;
         }
         return fi;
     }
 
-    private static class FakeValidator extends AbstractFieldValidator<FakeFieldItem> {
+    private static class FakeValidator extends FieldDataValidator<FakeFieldItem> {
         @Override
         public void validateContent(List<FakeFieldItem> fieldItems) {
             throw new IllegalStateException(
                     "Not testing this method, because it is an aggregate of behaviour being tested");
+        }
+
+        @Override
+        protected List<FakeFieldItem> extractParentNodes(List<FakeFieldItem> fieldItems) {
+            return fieldItems.stream()
+                    .filter(
+                            field ->
+                                    field.getItemType() != null
+                                            && field.getItemType()
+                                                    .equals(SearchFieldItemType.GROUP))
+                    .collect(Collectors.toList());
         }
     }
 

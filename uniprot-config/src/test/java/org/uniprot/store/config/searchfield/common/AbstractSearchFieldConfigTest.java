@@ -22,7 +22,7 @@ public class AbstractSearchFieldConfigTest {
         List<SearchFieldItem> fieldItems = testFieldConfig.getAllFieldItems();
         Assertions.assertNotNull(fieldItems);
         Assertions.assertFalse(fieldItems.isEmpty());
-        Assertions.assertEquals(432, fieldItems.size());
+        Assertions.assertEquals(433, fieldItems.size());
     }
 
     @Test

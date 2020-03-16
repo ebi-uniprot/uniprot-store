@@ -1,17 +1,25 @@
 package org.uniprot.store.config.returnfield.schema;
 
-import java.util.List;
-import java.util.Set;
-
 import org.uniprot.store.config.returnfield.model.ReturnField;
-import org.uniprot.store.config.schema.AbstractFieldValidator;
+import org.uniprot.store.config.returnfield.model.ReturnFieldItemType;
+import org.uniprot.store.config.schema.FieldDataValidator;
 
-public class ReturnFieldDataValidator extends AbstractFieldValidator<ReturnField> {
+import java.util.List;
+import java.util.stream.Collectors;
+
+/**
+ * Created 16/03/20
+ *
+ * @author Edd
+ */
+public class ReturnFieldDataValidator extends FieldDataValidator<ReturnField> {
     @Override
-    public void validateContent(List<ReturnField> fieldItems) {
-        Set<String> ids = extractIds(fieldItems);
-        validateParentExists(fieldItems, ids);
-        validateSeqNumbers(fieldItems);
-        validateChildNumbers(fieldItems);
+    protected List<ReturnField> extractParentNodes(List<ReturnField> fieldItems) {
+        return fieldItems.stream()
+                .filter(
+                        field ->
+                                field.getItemType() != null
+                                        && field.getItemType().equals(ReturnFieldItemType.GROUP))
+                .collect(Collectors.toList());
     }
 }

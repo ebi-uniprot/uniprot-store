@@ -1,7 +1,5 @@
 package org.uniprot.store.config.searchfield.factory;
 
-import java.util.stream.Stream;
-
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -9,7 +7,9 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.uniprot.store.config.UniProtDataType;
 import org.uniprot.store.config.searchfield.common.SearchFieldConfig;
-import org.uniprot.store.config.searchfield.impl.*;
+import org.uniprot.store.config.searchfield.impl.SearchFieldConfigImpl;
+
+import java.util.stream.Stream;
 
 public class SearchFieldConfigFactoryTest {
 
@@ -42,7 +42,7 @@ public class SearchFieldConfigFactoryTest {
                 Arguments.of(UniProtDataType.SUGGEST, 3),
                 Arguments.of(UniProtDataType.TAXONOMY, 16),
                 Arguments.of(UniProtDataType.UNIPARC, 15),
-                Arguments.of(UniProtDataType.UNIPROTKB, 432),
+                Arguments.of(UniProtDataType.UNIPROTKB, 608),
                 Arguments.of(UniProtDataType.UNIREF, 17));
     }
 }

@@ -47,12 +47,5 @@
     "groupName": "Protein family/group",
     "isDatabaseGroup": true,
     "id": "protein_family/group"
-  },
-  {
-    "seqNumber": 3,
-    "itemType": "GROUP",
-    "groupName": "Other",
-    "isDatabaseGroup": true,
-    "id": "other"
   }
 ]
