@@ -79,7 +79,7 @@
     "name": "organism",
     "label": "Organism",
     "path": "organism",
-    "sortField": "organism",
+    "sortField": "organism_name",
     "id": "names_&_taxonomy/organism"
   },
   {
