@@ -6,7 +6,7 @@ import java.net.URL;
 import java.util.HashMap;
 
 import org.junit.jupiter.api.extension.ExtensionContext;
-import org.uniprot.core.uniprotkb.UniProtkbEntry;
+import org.uniprot.core.uniprotkb.UniProtKBEntry;
 import org.uniprot.cv.chebi.ChebiRepo;
 import org.uniprot.cv.chebi.ChebiRepoFactory;
 import org.uniprot.cv.ec.ECRepo;
@@ -28,7 +28,7 @@ import org.uniprot.store.indexer.uniprotkb.converter.UniProtEntryConverter;
 import org.uniprot.store.job.common.converter.DocumentConverter;
 
 /** Concrete implementation of the UniProt search engine */
-public class UniProtSearchEngine extends AbstractSearchEngine<UniProtkbEntry> {
+public class UniProtSearchEngine extends AbstractSearchEngine<UniProtKBEntry> {
     private static final String SEARCH_ENGINE_NAME = "uniprot";
     private static final String TAXONOMY_FILE_NAME = "taxonomy/taxonomy.dat";
 
@@ -36,7 +36,7 @@ public class UniProtSearchEngine extends AbstractSearchEngine<UniProtkbEntry> {
         super(SEARCH_ENGINE_NAME, TestDocumentProducer.createDefault());
     }
 
-    public UniProtSearchEngine(DocumentConverter<UniProtkbEntry, ?> documentProducer) {
+    public UniProtSearchEngine(DocumentConverter<UniProtKBEntry, ?> documentProducer) {
         super(SEARCH_ENGINE_NAME, documentProducer);
     }
 
@@ -71,11 +71,11 @@ public class UniProtSearchEngine extends AbstractSearchEngine<UniProtkbEntry> {
     }
 
     static class TestDocumentProducer {
-        static DocumentConverter<UniProtkbEntry, ?> createDefault() {
+        static DocumentConverter<UniProtKBEntry, ?> createDefault() {
             return new TestDocumentProducer().create();
         }
 
-        DocumentConverter<UniProtkbEntry, ?> create() {
+        DocumentConverter<UniProtKBEntry, ?> create() {
             try {
                 TaxonomyRepo taxRepo = createTaxRepo();
                 GoRelationRepo goRelation = createGoRelationRepo();

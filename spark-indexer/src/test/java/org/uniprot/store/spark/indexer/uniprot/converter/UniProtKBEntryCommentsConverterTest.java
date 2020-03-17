@@ -10,17 +10,17 @@ import java.util.Map;
 import org.junit.jupiter.api.Test;
 import org.uniprot.core.flatfile.parser.impl.cc.CcLineTransformer;
 import org.uniprot.core.impl.SequenceBuilder;
-import org.uniprot.core.uniprotkb.UniProtkbEntry;
-import org.uniprot.core.uniprotkb.UniProtkbEntryType;
+import org.uniprot.core.uniprotkb.UniProtKBEntry;
+import org.uniprot.core.uniprotkb.UniProtKBEntryType;
 import org.uniprot.core.uniprotkb.comment.Comment;
-import org.uniprot.core.uniprotkb.impl.UniProtkbEntryBuilder;
+import org.uniprot.core.uniprotkb.impl.UniProtKBEntryBuilder;
 import org.uniprot.store.search.document.uniprot.UniProtDocument;
 
 /**
  * @author lgonzales
  * @since 2019-09-11
  */
-class UniProtkbEntryCommentsConverterTest {
+class UniProtKBEntryCommentsConverterTest {
 
     private static final String CC_ALTERNATIVE_PRODUCTS_FIELD = "cc_alternative_products";
     private static final String CCEV_ALTERNATIVE_PRODUCTS_FIELD = "ccev_alternative_products";
@@ -50,7 +50,7 @@ class UniProtkbEntryCommentsConverterTest {
                         + "CC         ECO:0000269|PubMed:16844695, ECO:0000269|PubMed:18056630,\n"
                         + "CC         ECO:0000269|PubMed:19410646, ECO:0000269|PubMed:21454610};";
 
-        UniProtkbEntry entry = createUniProtEntryFromCommentLine(catalyticActivityLine);
+        UniProtKBEntry entry = createUniProtEntryFromCommentLine(catalyticActivityLine);
 
         UniProtEntryCommentsConverter converter =
                 new UniProtEntryCommentsConverter(new HashMap<>());
@@ -95,7 +95,7 @@ class UniProtkbEntryCommentsConverterTest {
                         + "CC   -!- PATHWAY: Protein modification; protein glycosylation.\n"
                         + "CC   -!- PATHWAY: Sphingolipid metabolism.";
 
-        UniProtkbEntry entry = createUniProtEntryFromCommentLine(pathwayLine);
+        UniProtKBEntry entry = createUniProtEntryFromCommentLine(pathwayLine);
 
         UniProtEntryCommentsConverter converter = new UniProtEntryCommentsConverter(pathway);
         UniProtDocument document = new UniProtDocument();
@@ -156,7 +156,7 @@ class UniProtkbEntryCommentsConverterTest {
                         + "Q02410:APBA1; NbExp=4; IntAct=EBI-77613, EBI-368690;\n"
                         + "Q99767:APBA2; NbExp=2; IntAct=EBI-77613, EBI-81711;";
 
-        UniProtkbEntry entry = createUniProtEntryFromCommentLine(interactionLine);
+        UniProtKBEntry entry = createUniProtEntryFromCommentLine(interactionLine);
 
         UniProtEntryCommentsConverter converter =
                 new UniProtEntryCommentsConverter(new HashMap<>());
@@ -198,7 +198,7 @@ class UniProtkbEntryCommentsConverterTest {
                 "SIMILARITY: Belongs to the potassium channel family. "
                         + "C (Shaw) (TC 1.A.1.2) subfamily. Kv3.2/KCNC2 sub-subfamily.";
 
-        UniProtkbEntry entry = createUniProtEntryFromCommentLine(similarityLine);
+        UniProtKBEntry entry = createUniProtEntryFromCommentLine(similarityLine);
 
         UniProtEntryCommentsConverter converter =
                 new UniProtEntryCommentsConverter(new HashMap<>());
@@ -253,7 +253,7 @@ class UniProtkbEntryCommentsConverterTest {
                         + "Name=Uncharacterized protein VP3;\n"
                         + "IsoId=Q672I0-1; Sequence=External;\n"
                         + "Note=Produced by alternative initiation from the subgenomic RNA.;";
-        UniProtkbEntry entry = createUniProtEntryFromCommentLine(alternativeLine);
+        UniProtKBEntry entry = createUniProtEntryFromCommentLine(alternativeLine);
 
         UniProtEntryCommentsConverter converter =
                 new UniProtEntryCommentsConverter(new HashMap<>());
@@ -312,7 +312,7 @@ class UniProtkbEntryCommentsConverterTest {
                         + "Name=2B*;\n"
                         + "IsoId=P0DJX8-1; Sequence=External;\n"
                         + "Note=Produced by -1 ribosomal frameshifting. The N-terminus is translated following a ribosomal skip event.;";
-        UniProtkbEntry entry = createUniProtEntryFromCommentLine(alternativeLine);
+        UniProtKBEntry entry = createUniProtEntryFromCommentLine(alternativeLine);
 
         UniProtEntryCommentsConverter converter =
                 new UniProtEntryCommentsConverter(new HashMap<>());
@@ -362,7 +362,7 @@ class UniProtkbEntryCommentsConverterTest {
                         + "Name=Mg(2+); Xref=ChEBI:CHEBI:18420;\n"
                         + "Note=Requires the presence of 3CDpro or 3CPro.;";
 
-        UniProtkbEntry entry = createUniProtEntryFromCommentLine(cofactorLine);
+        UniProtKBEntry entry = createUniProtEntryFromCommentLine(cofactorLine);
         UniProtEntryCommentsConverter converter =
                 new UniProtEntryCommentsConverter(new HashMap<>());
         UniProtDocument document = new UniProtDocument();
@@ -439,7 +439,7 @@ class UniProtkbEntryCommentsConverterTest {
                         + "pH dependence:\n"
                         + "Optimum pH is 5.0 for protease activity.;";
 
-        UniProtkbEntry entry = createUniProtEntryFromCommentLine(bpcpLine);
+        UniProtKBEntry entry = createUniProtEntryFromCommentLine(bpcpLine);
         UniProtEntryCommentsConverter converter =
                 new UniProtEntryCommentsConverter(new HashMap<>());
         UniProtDocument document = new UniProtDocument();
@@ -518,7 +518,7 @@ class UniProtkbEntryCommentsConverterTest {
 
         String sequenceCautionLineValue =
                 "SEQUENCE CAUTION:\n" + "Sequence=CAB59730.1; Type=Frameshift;";
-        UniProtkbEntry entry = createUniProtEntryFromCommentLine(sequenceCautionLine);
+        UniProtKBEntry entry = createUniProtEntryFromCommentLine(sequenceCautionLine);
 
         UniProtEntryCommentsConverter converter =
                 new UniProtEntryCommentsConverter(new HashMap<>());
@@ -594,7 +594,7 @@ class UniProtkbEntryCommentsConverterTest {
 
         String subcellularLocationLineValue =
                 "SUBCELLULAR LOCATION: [Capsid protein]: Virion. Host cytoplasm.";
-        UniProtkbEntry entry = createUniProtEntryFromCommentLine(subcellularLocationLine);
+        UniProtKBEntry entry = createUniProtEntryFromCommentLine(subcellularLocationLine);
 
         UniProtEntryCommentsConverter converter =
                 new UniProtEntryCommentsConverter(new HashMap<>());
@@ -653,7 +653,7 @@ class UniProtkbEntryCommentsConverterTest {
                         + "broad great toes with medial deviation and tarsal-metatarsal coalescence. Note=The disease is caused "
                         + "by mutations affecting the gene represented in this entry.";
 
-        UniProtkbEntry entry = createUniProtEntryFromCommentLine(diseaseCommentLine);
+        UniProtKBEntry entry = createUniProtEntryFromCommentLine(diseaseCommentLine);
 
         UniProtEntryCommentsConverter converter =
                 new UniProtEntryCommentsConverter(new HashMap<>());
@@ -697,7 +697,7 @@ class UniProtkbEntryCommentsConverterTest {
                         + "lacks the LDL-receptor region. The unedited version (apo B-100) is produced by the liver and "
                         + "is found in the VLDL and LDL (By similarity).;";
 
-        UniProtkbEntry entry = createUniProtEntryFromCommentLine(rnaEditingCommentLine);
+        UniProtKBEntry entry = createUniProtEntryFromCommentLine(rnaEditingCommentLine);
 
         UniProtEntryCommentsConverter converter =
                 new UniProtEntryCommentsConverter(new HashMap<>());
@@ -733,7 +733,7 @@ class UniProtkbEntryCommentsConverterTest {
                 "MASS SPECTROMETRY: Mass=8891.4; Method=Electrospray; "
                         + "Note=Strain BALB/c. Without methionine sulfoxide.; Evidence={ECO:0000269|PubMed:16876491};";
 
-        UniProtkbEntry entry = createUniProtEntryFromCommentLine(massSpectrometryCommentLine);
+        UniProtKBEntry entry = createUniProtEntryFromCommentLine(massSpectrometryCommentLine);
 
         UniProtEntryCommentsConverter converter =
                 new UniProtEntryCommentsConverter(new HashMap<>());
@@ -760,9 +760,9 @@ class UniProtkbEntryCommentsConverterTest {
         assertTrue(document.content.contains(indexedMassSpectrometryComment));
     }
 
-    private UniProtkbEntry createUniProtEntryFromCommentLine(String commentLine) {
+    private UniProtKBEntry createUniProtEntryFromCommentLine(String commentLine) {
         List<Comment> comments = ccLineTransformer.transformNoHeader(commentLine);
-        return new UniProtkbEntryBuilder("P12345", "P12345_ID", UniProtkbEntryType.TREMBL)
+        return new UniProtKBEntryBuilder("P12345", "P12345_ID", UniProtKBEntryType.TREMBL)
                 .commentsSet(comments)
                 .sequence(new SequenceBuilder("AAAA").build())
                 .build();

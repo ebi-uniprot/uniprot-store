@@ -5,7 +5,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 import org.uniprot.core.uniprotkb.EntryInactiveReason;
 import org.uniprot.core.uniprotkb.InactiveReasonType;
-import org.uniprot.core.uniprotkb.UniProtkbEntry;
+import org.uniprot.core.uniprotkb.UniProtKBEntry;
 
 import scala.Tuple2;
 
@@ -19,14 +19,14 @@ class InactiveFileToInactiveEntryTest {
     void testDeletedEntry() throws Exception {
         InactiveFileToInactiveEntry mapper = new InactiveFileToInactiveEntry();
 
-        Tuple2<String, UniProtkbEntry> result = mapper.call("I8FBX0,I8FBX0_MYCAB,deleted,-");
+        Tuple2<String, UniProtKBEntry> result = mapper.call("I8FBX0,I8FBX0_MYCAB,deleted,-");
         assertNotNull(result);
 
         assertNotNull(result._1);
         assertEquals("I8FBX0", result._1);
 
         assertNotNull(result._2);
-        UniProtkbEntry entry = result._2;
+        UniProtKBEntry entry = result._2;
 
         assertNotNull(entry);
         assertNotNull(entry.getPrimaryAccession());
@@ -48,14 +48,14 @@ class InactiveFileToInactiveEntryTest {
     void testMergedEntry() throws Exception {
         InactiveFileToInactiveEntry mapper = new InactiveFileToInactiveEntry();
 
-        Tuple2<String, UniProtkbEntry> result = mapper.call("Q00220,SOMA_HYPMO  ,merged ,P69159");
+        Tuple2<String, UniProtKBEntry> result = mapper.call("Q00220,SOMA_HYPMO  ,merged ,P69159");
         assertNotNull(result);
 
         assertNotNull(result._1);
         assertEquals("Q00220", result._1);
 
         assertNotNull(result._2);
-        UniProtkbEntry entry = result._2;
+        UniProtKBEntry entry = result._2;
 
         assertNotNull(entry);
         assertNotNull(entry.getPrimaryAccession());
@@ -78,14 +78,14 @@ class InactiveFileToInactiveEntryTest {
     void testEntryWithoutUniprotId() throws Exception {
         InactiveFileToInactiveEntry mapper = new InactiveFileToInactiveEntry();
 
-        Tuple2<String, UniProtkbEntry> result = mapper.call("Q00221,            ,merged ,P69160");
+        Tuple2<String, UniProtKBEntry> result = mapper.call("Q00221,            ,merged ,P69160");
         assertNotNull(result);
 
         assertNotNull(result._1);
         assertEquals("Q00221", result._1);
 
         assertNotNull(result._2);
-        UniProtkbEntry entry = result._2;
+        UniProtKBEntry entry = result._2;
 
         assertNotNull(entry);
         assertNotNull(entry.getPrimaryAccession());

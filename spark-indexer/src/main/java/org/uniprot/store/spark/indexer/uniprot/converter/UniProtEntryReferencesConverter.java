@@ -9,7 +9,7 @@ import org.uniprot.core.citation.Citation;
 import org.uniprot.core.citation.CitationDatabase;
 import org.uniprot.core.citation.JournalArticle;
 import org.uniprot.core.uniprotkb.ReferenceComment;
-import org.uniprot.core.uniprotkb.UniProtkbReference;
+import org.uniprot.core.uniprotkb.UniProtKBReference;
 import org.uniprot.core.util.PublicationDateFormatter;
 import org.uniprot.core.util.Utils;
 import org.uniprot.store.search.document.uniprot.UniProtDocument;
@@ -23,8 +23,8 @@ class UniProtEntryReferencesConverter {
 
     UniProtEntryReferencesConverter() {}
 
-    void convertReferences(List<UniProtkbReference> references, UniProtDocument document) {
-        for (UniProtkbReference reference : references) {
+    void convertReferences(List<UniProtKBReference> references, UniProtDocument document) {
+        for (UniProtKBReference reference : references) {
             Citation citation = reference.getCitation();
             if (reference.hasReferenceComments()) {
                 convertReferenceComments(reference.getReferenceComments(), document);
@@ -119,7 +119,7 @@ class UniProtEntryReferencesConverter {
     }
 
     private void convertReferencePositions(
-            UniProtkbReference uniProtkbReference, UniProtDocument document) {
+            UniProtKBReference uniProtkbReference, UniProtDocument document) {
         if (uniProtkbReference.hasReferencePositions()) {
             List<String> positions = uniProtkbReference.getReferencePositions();
             document.scopes.addAll(positions);

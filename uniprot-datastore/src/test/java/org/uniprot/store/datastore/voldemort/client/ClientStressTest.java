@@ -13,7 +13,7 @@ import java.util.concurrent.atomic.AtomicLong;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.uniprot.core.uniprotkb.UniProtkbEntry;
+import org.uniprot.core.uniprotkb.UniProtKBEntry;
 import org.uniprot.store.datastore.voldemort.VoldemortEntryStoreBuilder;
 import org.uniprot.store.datastore.voldemort.client.impl.DefaultClientFactory;
 
@@ -58,7 +58,7 @@ public class ClientStressTest {
                                     new Runnable() {
                                         @Override
                                         public void run() {
-                                            Optional<UniProtkbEntry> entry = this.getEntry(acc);
+                                            Optional<UniProtKBEntry> entry = this.getEntry(acc);
                                             if (entry.isPresent()) {
                                                 long l = counter.incrementAndGet();
                                                 if (l % 10000 == 0) {
@@ -67,7 +67,7 @@ public class ClientStressTest {
                                             }
                                         }
 
-                                        private Optional<UniProtkbEntry> getEntry(String acc) {
+                                        private Optional<UniProtKBEntry> getEntry(String acc) {
                                             if (acc != null && acc.length() > 2) {
                                                 try {
                                                     return uniProtClient.getEntry(acc);

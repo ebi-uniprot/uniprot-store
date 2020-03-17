@@ -8,7 +8,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.uniprot.core.Value;
-import org.uniprot.core.uniprotkb.UniProtkbEntry;
+import org.uniprot.core.uniprotkb.UniProtKBEntry;
 import org.uniprot.core.uniprotkb.comment.AlternativeProductsComment;
 import org.uniprot.core.uniprotkb.comment.CommentType;
 import org.uniprot.core.uniprotkb.comment.IsoformSequenceStatus;
@@ -82,7 +82,7 @@ public class UniProtEntryConverterUtil {
         }
     }
 
-    static boolean isCanonicalIsoform(UniProtkbEntry uniProtkbEntry) {
+    static boolean isCanonicalIsoform(UniProtKBEntry uniProtkbEntry) {
         return uniProtkbEntry.getCommentsByType(CommentType.ALTERNATIVE_PRODUCTS).stream()
                         .map(comment -> (AlternativeProductsComment) comment)
                         .flatMap(comment -> comment.getIsoforms().stream())

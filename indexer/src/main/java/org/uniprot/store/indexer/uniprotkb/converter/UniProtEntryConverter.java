@@ -37,7 +37,7 @@ import org.uniprot.store.search.document.uniprot.UniProtDocument;
  * @author Edd
  */
 @Slf4j
-public class UniProtEntryConverter implements DocumentConverter<UniProtkbEntry, UniProtDocument> {
+public class UniProtEntryConverter implements DocumentConverter<UniProtKBEntry, UniProtDocument> {
 
     private static final String DASH = "-";
     /** An enum set representing all of the organelles that are children of plastid */
@@ -54,7 +54,7 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtkbEntry, 
     private final UniProtEntryReferencesConverter referencesConverter;
     private final UniProtEntryCrossReferenceConverter crossReferenceConverter;
     private final UniProtEntryTaxonomyConverter taxonomyConverter;
-    private final UniprotEntryProteinDescriptionConverter proteinDescriptionConverter;
+    private final UniprotKBEntryProteinDescriptionConverter proteinDescriptionConverter;
 
     private Map<String, SuggestDocument> suggestions;
 
@@ -73,12 +73,12 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtkbEntry, 
         this.featureConverter = new UniProtEntryFeatureConverter();
         this.referencesConverter = new UniProtEntryReferencesConverter();
         this.proteinDescriptionConverter =
-                new UniprotEntryProteinDescriptionConverter(ecRepo, suggestDocuments);
+                new UniprotKBEntryProteinDescriptionConverter(ecRepo, suggestDocuments);
         this.suggestions = suggestDocuments;
     }
 
     @Override
-    public UniProtDocument convert(UniProtkbEntry source) {
+    public UniProtDocument convert(UniProtKBEntry source) {
         try {
             UniProtDocument document = new UniProtDocument();
 
@@ -100,7 +100,7 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtkbEntry, 
             } else {
                 document.isIsoform = false;
             }
-            document.reviewed = (source.getEntryType() == UniProtkbEntryType.SWISSPROT);
+            document.reviewed = (source.getEntryType() == UniProtKBEntryType.SWISSPROT);
             addValueListToStringList(document.secacc, source.getSecondaryAccessions());
             document.content.add(document.accession);
             document.content.addAll(document.secacc);
@@ -112,7 +112,7 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtkbEntry, 
             referencesConverter.convertReferences(source.getReferences(), document);
             commentsConverter.convertCommentToDocument(source.getComments(), document);
             crossReferenceConverter.convertCrossReferences(
-                    source.getUniProtkbCrossReferences(), document);
+                    source.getUniProtKBCrossReferences(), document);
             featureConverter.convertFeature(source.getFeatures(), document);
             convertUniprotId(source.getUniProtkbId(), document);
             convertEntryAudit(source.getEntryAudit(), document);
@@ -146,7 +146,7 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtkbEntry, 
         }
     }
 
-    private void convertEvidenceSources(UniProtkbEntry uniProtkbEntry, UniProtDocument document) {
+    private void convertEvidenceSources(UniProtKBEntry uniProtkbEntry, UniProtDocument document) {
         List<Evidence> evidences = uniProtkbEntry.gatherEvidences();
         document.sources =
                 evidences.stream()
@@ -168,7 +168,7 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtkbEntry, 
                         .collect(Collectors.toList());
     }
 
-    private void convertUniprotId(UniProtkbId uniProtkbId, UniProtDocument document) {
+    private void convertUniprotId(UniProtKBId uniProtkbId, UniProtDocument document) {
         document.id = uniProtkbId.getValue();
         document.content.add(document.id);
         String[] idParts = document.id.split("_");
@@ -187,7 +187,7 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtkbEntry, 
         }
     }
 
-    private void convertEntryScore(UniProtkbEntry source, UniProtDocument document) {
+    private void convertEntryScore(UniProtKBEntry source, UniProtDocument document) {
         UniProtEntryScored entryScored = new UniProtEntryScored(source);
         double score = entryScored.score();
         int q = (int) (score / 20d);

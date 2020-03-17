@@ -17,7 +17,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;
-import org.uniprot.core.uniprotkb.UniProtkbEntry;
+import org.uniprot.core.uniprotkb.UniProtKBEntry;
 import org.uniprot.cv.chebi.ChebiRepo;
 import org.uniprot.cv.ec.ECRepo;
 import org.uniprot.store.indexer.uniprot.mockers.*;
@@ -97,7 +97,7 @@ class DataStoreManagerTest {
     @Disabled
     @Test
     void canAddAndFetchEntriesInSolr() throws IOException, SolrServerException {
-        UniProtkbEntry entry = UniProtEntryMocker.create(UniProtEntryMocker.Type.SP);
+        UniProtKBEntry entry = UniProtEntryMocker.create(UniProtEntryMocker.Type.SP);
         String accession = entry.getPrimaryAccession().getValue();
         storeManager.saveEntriesInSolr(DataStoreManager.StoreType.UNIPROT, entry);
         QueryResponse response = storeManager.querySolr(DataStoreManager.StoreType.UNIPROT, "*:*");
@@ -110,10 +110,10 @@ class DataStoreManagerTest {
 
     //    @Test
     //    void canAddAndFetchEntriesInVoldemort() {
-    //        UniProtkbEntry entry = UniProtEntryMocker.create(UniProtEntryMocker.Type.SP);
+    //        UniProtKBEntry entry = UniProtEntryMocker.create(UniProtEntryMocker.Type.SP);
     //        String accession = entry.getPrimaryAccession().getValue();
     //        storeManager.saveToVoldemort(DataStoreManager.StoreType.UNIPROT, entry);
-    //        List<UniProtkbEntry> voldemortEntries =
+    //        List<UniProtKBEntry> voldemortEntries =
     // storeManager.getVoldemortEntries(DataStoreManager.StoreType.UNIPROT, accession);
     //        assertThat(voldemortEntries, hasSize(1));
     //        assertThat(voldemortEntries.get(0), Matchers.is(entry));
@@ -121,7 +121,7 @@ class DataStoreManagerTest {
     //
     //    @Test
     //    void canAddAndFetchEntriesInSolrAndVoldemort() throws IOException, SolrServerException {
-    //        UniProtkbEntry entry = UniProtEntryMocker.create(UniProtEntryMocker.Type.SP);
+    //        UniProtKBEntry entry = UniProtEntryMocker.create(UniProtEntryMocker.Type.SP);
     //        String accession = entry.getPrimaryAccession().getValue();
     //        storeManager.save(DataStoreManager.StoreType.UNIPROT, entry);
     //
@@ -132,15 +132,15 @@ class DataStoreManagerTest {
     //                .collect(Collectors.toList());
     //        assertThat(results, Matchers.contains(accession));
     //
-    //        List<UniProtkbEntry> voldemortEntries =
+    //        List<UniProtKBEntry> voldemortEntries =
     // storeManager.getVoldemortEntries(DataStoreManager.StoreType.UNIPROT, accession);
     //        assertThat(voldemortEntries, hasSize(1));
     //        assertThat(voldemortEntries.get(0), Matchers.is(entry));
     //    }
     //
-    //    private static class FakeStoreClient extends UUWStoreClient<UniProtkbEntry> {
+    //    private static class FakeStoreClient extends UUWStoreClient<UniProtKBEntry> {
     //
-    //        FakeStoreClient(VoldemortClient<UniProtkbEntry> client) {
+    //        FakeStoreClient(VoldemortClient<UniProtKBEntry> client) {
     //            super(client);
     //        }
     //    }

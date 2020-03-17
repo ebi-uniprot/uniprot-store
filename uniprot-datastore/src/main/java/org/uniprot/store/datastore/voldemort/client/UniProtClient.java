@@ -1,6 +1,6 @@
 package org.uniprot.store.datastore.voldemort.client;
 
-import org.uniprot.core.uniprotkb.UniProtkbEntry;
+import org.uniprot.core.uniprotkb.UniProtKBEntry;
 import org.uniprot.store.datastore.voldemort.VoldemortClient;
 
-public interface UniProtClient extends VoldemortClient<UniProtkbEntry> {}
+public interface UniProtClient extends VoldemortClient<UniProtKBEntry> {}

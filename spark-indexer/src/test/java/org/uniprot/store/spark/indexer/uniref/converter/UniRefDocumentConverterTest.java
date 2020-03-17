@@ -11,7 +11,7 @@ import org.uniprot.core.cv.go.GoAspect;
 import org.uniprot.core.cv.go.impl.GeneOntologyEntryBuilder;
 import org.uniprot.core.impl.SequenceBuilder;
 import org.uniprot.core.uniparc.impl.UniParcIdBuilder;
-import org.uniprot.core.uniprotkb.impl.UniProtkbAccessionBuilder;
+import org.uniprot.core.uniprotkb.impl.UniProtKBAccessionBuilder;
 import org.uniprot.core.uniref.*;
 import org.uniprot.core.uniref.impl.*;
 import org.uniprot.store.search.document.uniref.UniRefDocument;
@@ -141,9 +141,9 @@ class UniRefDocumentConverterTest {
                 .sequenceLength(11)
                 .proteinName("representativeMemberProteinName")
                 .accessionsAdd(
-                        new UniProtkbAccessionBuilder("representativeMemberAccession1").build())
+                        new UniProtKBAccessionBuilder("representativeMemberAccession1").build())
                 .accessionsAdd(
-                        new UniProtkbAccessionBuilder("representativeMemberAccession2").build())
+                        new UniProtKBAccessionBuilder("representativeMemberAccession2").build())
                 .uniref50Id(new UniRefEntryIdBuilder("representativeMemberUniref50Id").build())
                 .uniref90Id(new UniRefEntryIdBuilder("representativeMemberUniref90Id").build())
                 .uniref100Id(new UniRefEntryIdBuilder("representativeMemberUniref100Id").build())
@@ -162,8 +162,8 @@ class UniRefDocumentConverterTest {
                 .organismTaxId(2)
                 .sequenceLength(10)
                 .proteinName("memberProteinName")
-                .accessionsAdd(new UniProtkbAccessionBuilder("memberAccession1").build())
-                .accessionsAdd(new UniProtkbAccessionBuilder("memberAccession2").build())
+                .accessionsAdd(new UniProtKBAccessionBuilder("memberAccession1").build())
+                .accessionsAdd(new UniProtKBAccessionBuilder("memberAccession2").build())
                 .uniref50Id(new UniRefEntryIdBuilder("memberUniref50Id").build())
                 .uniref90Id(new UniRefEntryIdBuilder("memberUniref90Id").build())
                 .uniref100Id(new UniRefEntryIdBuilder("memberUniref100Id").build())

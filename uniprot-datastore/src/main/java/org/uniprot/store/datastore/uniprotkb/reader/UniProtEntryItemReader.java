@@ -5,7 +5,7 @@ import org.springframework.batch.core.annotation.BeforeStep;
 import org.springframework.batch.item.ExecutionContext;
 import org.springframework.batch.item.ItemReader;
 import org.uniprot.core.flatfile.parser.impl.DefaultUniProtEntryIterator;
-import org.uniprot.core.uniprotkb.UniProtkbEntry;
+import org.uniprot.core.uniprotkb.UniProtKBEntry;
 import org.uniprot.core.util.concurrency.OnZeroCountSleeper;
 import org.uniprot.store.datastore.uniprotkb.config.UniProtKBStoreProperties;
 import org.uniprot.store.job.common.util.CommonConstants;
@@ -15,7 +15,7 @@ import org.uniprot.store.job.common.util.CommonConstants;
  *
  * @author Edd
  */
-public class UniProtEntryItemReader implements ItemReader<UniProtkbEntry> {
+public class UniProtEntryItemReader implements ItemReader<UniProtKBEntry> {
     private final DefaultUniProtEntryIterator entryIterator;
     private final OnZeroCountSleeper sleeper;
 
@@ -36,7 +36,7 @@ public class UniProtEntryItemReader implements ItemReader<UniProtkbEntry> {
     }
 
     @Override
-    public UniProtkbEntry read() {
+    public UniProtKBEntry read() {
         if (entryIterator.hasNext()) {
             sleeper.increment();
             return entryIterator.next();

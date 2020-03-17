@@ -19,12 +19,12 @@ import org.uniprot.store.search.document.uniprot.UniProtDocument;
  * @author lgonzales
  * @since 2019-09-05
  */
-class UniprotEntryProteinDescriptionConverter {
+class UniprotKBEntryProteinDescriptionConverter {
 
     private final ECRepo ecRepo;
     private final Map<String, SuggestDocument> suggestions;
 
-    UniprotEntryProteinDescriptionConverter(
+    UniprotKBEntryProteinDescriptionConverter(
             ECRepo ecRepo, Map<String, SuggestDocument> suggestions) {
         this.ecRepo = ecRepo;
         this.suggestions = suggestions;

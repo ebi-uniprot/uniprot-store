@@ -1,47 +1,22 @@
-package org.uniprot.store.indexer.uniprotkb.converter;
+package org.uniprot.store.spark.indexer.uniprot.converter;
 
-import static java.util.Arrays.asList;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
-import static org.hamcrest.core.Is.is;
-import static org.hamcrest.core.IsNot.not;
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.anyInt;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
-import static org.uniprot.core.util.Utils.notNull;
-import static org.uniprot.store.indexer.uniprot.go.GoRelationFileRepo.Relationship.IS_A;
-import static org.uniprot.store.indexer.uniprot.go.GoRelationFileRepo.Relationship.PART_OF;
-import static org.uniprot.store.indexer.uniprotkb.converter.UniProtEntryConverterUtil.createSuggestionMapKey;
 
 import java.io.InputStream;
 import java.nio.charset.Charset;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
 import java.util.stream.Collectors;
 
 import org.apache.commons.io.IOUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.uniprot.core.cv.chebi.ChebiEntry;
-import org.uniprot.core.cv.chebi.impl.ChebiEntryBuilder;
-import org.uniprot.core.cv.ec.impl.ECEntryBuilder;
-import org.uniprot.core.cv.go.GeneOntologyEntry;
-import org.uniprot.core.cv.go.impl.GeneOntologyEntryBuilder;
 import org.uniprot.core.flatfile.parser.SupportingDataMap;
 import org.uniprot.core.flatfile.parser.impl.DefaultUniProtParser;
-import org.uniprot.core.flatfile.parser.impl.SupportingDataMapImpl;
-import org.uniprot.core.uniprotkb.UniProtkbEntry;
-import org.uniprot.cv.chebi.ChebiRepo;
-import org.uniprot.cv.ec.ECRepo;
-import org.uniprot.cv.taxonomy.TaxonomicNode;
-import org.uniprot.cv.taxonomy.TaxonomyRepo;
-import org.uniprot.store.indexer.uniprot.go.GoRelationRepo;
-import org.uniprot.store.indexer.uniprot.pathway.PathwayRepo;
-import org.uniprot.store.indexer.uniprotkb.processor.UniProtEntryDocumentPairProcessor;
-import org.uniprot.store.search.document.suggest.SuggestDictionary;
-import org.uniprot.store.search.document.suggest.SuggestDocument;
+import org.uniprot.core.uniprotkb.UniProtKBEntry;
 import org.uniprot.store.search.document.uniprot.UniProtDocument;
 
 /**
@@ -49,7 +24,7 @@ import org.uniprot.store.search.document.uniprot.UniProtDocument;
  *
  * @author Edd
  */
-class UniProtkbEntryConverterIT {
+class UniProtKBEntryConverterIT {
     private static final String CC_CATALYTIC_ACTIVITY = "cc_catalytic_activity";
     private static final String CC_ALTERNATIVE_PRODUCTS_FIELD = "cc_alternative_products";
     private static final String CC_SIMILARITY_FIELD = "cc_similarity";
@@ -60,41 +35,16 @@ class UniProtkbEntryConverterIT {
     private DateFormat dateFormat;
     private UniProtEntryConverter converter;
 
-    private TaxonomyRepo repoMock;
-    private GoRelationRepo goRelationRepoMock;
-    private ChebiRepo chebiRepoMock;
-    private HashMap<String, SuggestDocument> suggestions;
-    private ECRepo ecRepoMock;
-
     @BeforeEach
     void setUp() {
-        repoMock = mock(TaxonomyRepo.class);
-        goRelationRepoMock = mock(GoRelationRepo.class);
-        chebiRepoMock = mock(ChebiRepo.class);
-        ecRepoMock = mock(ECRepo.class);
-        suggestions = new HashMap<>();
-        converter =
-                new UniProtEntryConverter(
-                        repoMock,
-                        goRelationRepoMock,
-                        mock(PathwayRepo.class),
-                        chebiRepoMock,
-                        ecRepoMock,
-                        suggestions);
+        converter = new UniProtEntryConverter(new HashMap<>());
         dateFormat = new SimpleDateFormat("dd-MMM-yyyy");
     }
 
     @Test
     void testConvertFullA0PHU1Entry() throws Exception {
-        when(repoMock.retrieveNodeUsingTaxID(anyInt()))
-                .thenReturn(getTaxonomyNode(172543, "Cichlasoma festae", null, null, null));
-        Set<GeneOntologyEntry> ancestors = new HashSet<>();
-        ancestors.addAll(getMockParentGoTerm());
-        ancestors.addAll(getMockPartOfGoTerm());
-        when(goRelationRepoMock.getAncestors("GO:0016021", asList(IS_A, PART_OF)))
-                .thenReturn(ancestors);
-        String file = "A0PHU1.txl";
-        UniProtkbEntry entry = parse(file);
+        String file = "A0PHU1.trembl";
+        UniProtKBEntry entry = parse(file);
         assertNotNull(entry);
         UniProtDocument doc = convertEntry(entry);
         assertNotNull(doc);
@@ -113,27 +63,13 @@ class UniProtkbEntryConverterIT {
         assertEquals("KW-0249", doc.keywords.get(0));
         assertEquals("Electron transport", doc.keywords.get(1));
 
-        assertEquals(1, doc.organismName.size());
-        assertEquals("Cichlasoma festae", doc.organismName.get(0));
-        assertEquals("Cichlasoma festae", doc.organismSort);
         assertEquals(172543, doc.organismTaxId);
-        assertNull(doc.popularOrganism);
-        assertEquals("Cichlasoma festae", doc.otherOrganism);
-
-        assertEquals(1, doc.organismTaxon.size());
-        assertEquals("Cichlasoma festae", doc.organismTaxon.get(0));
-
-        assertEquals(1, doc.taxLineageIds.size());
-        assertEquals(172543L, doc.taxLineageIds.get(0).longValue());
 
         assertEquals(1, doc.organelles.size());
         assertEquals("mitochondrion", doc.organelles.get(0));
 
         assertEquals(1, doc.organismHostIds.size());
         assertEquals(9539, doc.organismHostIds.get(0).intValue());
-
-        assertEquals(1, doc.organismHostNames.size());
-        assertEquals("Cichlasoma festae", doc.organismHostNames.get(0));
 
         assertEquals(52, doc.xrefs.size());
         assertTrue(doc.xrefs.contains("embl-AAY21541.1"));
@@ -189,7 +125,7 @@ class UniProtkbEntryConverterIT {
                         .get(CC_SIMILARITY_FIELD)
                         .contains("SIMILARITY: Belongs to the cytochrome b family."));
 
-        assertEquals(2, doc.cofactorChebi.size());
+        assertEquals(3, doc.cofactorChebi.size());
         assertTrue(doc.cofactorChebi.contains("heme"));
 
         assertEquals(1, doc.cofactorNote.size());
@@ -210,8 +146,8 @@ class UniProtkbEntryConverterIT {
         assertEquals(1, doc.scopes.size());
         assertTrue(doc.scopes.contains("NUCLEOTIDE SEQUENCE"));
 
-        assertEquals(22, doc.goes.size());
-        assertTrue(doc.goes.contains("Go term 5"));
+        assertEquals(14, doc.goes.size());
+        assertTrue(doc.goes.contains("respiratory chain"));
 
         assertEquals(2, doc.goWithEvidenceMaps.size());
         assertTrue(doc.goWithEvidenceMaps.containsKey("go_ida"));
@@ -223,23 +159,8 @@ class UniProtkbEntryConverterIT {
 
     @Test
     void testConvertFullQ9EPI6Entry() throws Exception {
-        when(repoMock.retrieveNodeUsingTaxID(anyInt()))
-                .thenReturn(getTaxonomyNode(10116, "Rattus norvegicus", "Rat", null, null));
-        ChebiEntry chebiId1 =
-                new ChebiEntryBuilder()
-                        .id("15379")
-                        .name("ChebiEntry Name 15379")
-                        .inchiKey("inchikey 15379")
-                        .build();
-        ChebiEntry chebiId2 =
-                new ChebiEntryBuilder().id("16526").name("ChebiEntry Name 16526").build();
-        when(chebiRepoMock.getById("15379")).thenReturn(chebiId1);
-        when(chebiRepoMock.getById("16526")).thenReturn(chebiId2);
-        when(ecRepoMock.getEC("2.7.10.2"))
-                .thenReturn(Optional.of(new ECEntryBuilder().id("2.7.10.2").label("EC 1").build()));
-
         String file = "Q9EPI6.sp";
-        UniProtkbEntry entry = parse(file);
+        UniProtKBEntry entry = parse(file);
         assertNotNull(entry);
         UniProtDocument doc = convertEntry(entry);
         assertNotNull(doc);
@@ -266,7 +187,6 @@ class UniProtkbEntryConverterIT {
 
         assertEquals(1, doc.ecNumbers.size());
         assertEquals(1, doc.ecNumbersExact.size());
-        checkSuggestionsContain(SuggestDictionary.EC, doc.ecNumbersExact, false);
 
         assertEquals("29-OCT-2014", dateFormat.format(doc.lastModified).toUpperCase());
         assertEquals("19-JUL-2005", dateFormat.format(doc.firstCreated).toUpperCase());
@@ -279,26 +199,13 @@ class UniProtkbEntryConverterIT {
                 doc.keywords.stream()
                         .filter(val -> val.startsWith("KW-"))
                         .collect(Collectors.toList());
-        checkSuggestionsContain(SuggestDictionary.KEYWORD, keywordIds, false);
 
         assertEquals(3, doc.geneNames.size());
         assertEquals("Nsmf", doc.geneNames.get(0));
         assertEquals("Nsmf Jac Nelf", doc.geneNamesSort);
         assertEquals(3, doc.geneNamesExact.size());
 
-        assertEquals(2, doc.organismName.size());
-        assertEquals("Rat", doc.organismName.get(1));
-        assertEquals("Rattus norvegicus Rat", doc.organismSort);
         assertEquals(10116, doc.organismTaxId);
-        assertEquals("Rat", doc.popularOrganism);
-        assertNull(doc.otherOrganism);
-        assertEquals(2, doc.organismTaxon.size());
-        assertEquals(1, doc.taxLineageIds.size());
-        assertEquals(10116L, doc.taxLineageIds.get(0).longValue());
-        checkSuggestionsContain(
-                SuggestDictionary.TAXONOMY,
-                doc.taxLineageIds.stream().map(Object::toString).collect(Collectors.toList()),
-                false);
 
         assertEquals(0, doc.organelles.size());
         assertEquals(0, doc.organismHostNames.size());
@@ -378,10 +285,8 @@ class UniProtkbEntryConverterIT {
         assertFalse(doc.d3structure);
 
         assertTrue(doc.commentMap.containsKey(CC_CATALYTIC_ACTIVITY));
-        assertThat(
-                doc.commentMap.get(CC_CATALYTIC_ACTIVITY),
-                hasItems(containsString(chebiId1.getId()), containsString(chebiId2.getId())));
-        checkCatalyticChebiSuggestions(asList(chebiId1, chebiId2));
+        assertTrue(doc.commentMap.get(CC_CATALYTIC_ACTIVITY).contains("CHEBI:16526"));
+        assertTrue(doc.commentMap.get(CC_CATALYTIC_ACTIVITY).contains("RHEA:10732"));
 
         assertEquals(26, doc.subcellLocationTerm.size());
         assertTrue(doc.subcellLocationTerm.contains("Nucleus envelope"));
@@ -394,7 +299,6 @@ class UniProtkbEntryConverterIT {
                 doc.subcellLocationTerm.stream()
                         .filter(val -> !val.startsWith("SL-"))
                         .collect(Collectors.toList());
-        checkSuggestionsContain(SuggestDictionary.SUBCELL, subcellTerm, true);
 
         assertEquals(3, doc.ap.size());
         assertTrue(doc.ap.contains("Alternative splicing"));
@@ -421,27 +325,19 @@ class UniProtkbEntryConverterIT {
 
         assertEquals(50, doc.goes.size());
         assertTrue(doc.goes.contains("0030863"));
-        checkSuggestionsContain(SuggestDictionary.GO, doc.goIds, false);
-
-        //        assertEquals(50, doc.defaultGo.size());
-        //        assertTrue(doc.defaultGo.contains("membrane"));
 
         assertEquals(4, doc.goWithEvidenceMaps.size());
         assertTrue(doc.goWithEvidenceMaps.containsKey("go_ida"));
 
         assertEquals(5, doc.score);
-        //        assertNotNull(doc.avro_binary);
 
         assertFalse(doc.isIsoform);
     }
 
     @Test
     void testConvertIsoformEntry() throws Exception {
-        when(repoMock.retrieveNodeUsingTaxID(anyInt()))
-                .thenReturn(getTaxonomyNode(10116, "Rattus norvegicus", "Rat", null, null));
-
         String file = "Q9EPI6-2.sp";
-        UniProtkbEntry entry = parse(file);
+        UniProtKBEntry entry = parse(file);
         assertNotNull(entry);
         UniProtDocument doc = convertEntry(entry);
         assertNotNull(doc);
@@ -483,18 +379,9 @@ class UniProtkbEntryConverterIT {
         assertEquals("Nsmf Jac Nelf", doc.geneNamesSort);
         assertEquals(3, doc.geneNamesExact.size());
 
-        assertEquals(2, doc.organismName.size());
-        assertEquals("Rat", doc.organismName.get(1));
-        assertEquals("Rattus norvegicus Rat", doc.organismSort);
         assertEquals(10116, doc.organismTaxId);
-        assertEquals("Rat", doc.popularOrganism);
-        assertNull(doc.otherOrganism);
-        assertEquals(2, doc.organismTaxon.size());
-        assertEquals(1, doc.taxLineageIds.size());
-        assertEquals(10116L, doc.taxLineageIds.get(0).longValue());
 
         assertEquals(0, doc.organelles.size());
-        assertEquals(0, doc.organismHostNames.size());
         assertEquals(0, doc.organismHostIds.size());
 
         assertEquals(56, doc.xrefs.size());
@@ -589,10 +476,8 @@ class UniProtkbEntryConverterIT {
 
     @Test
     void testConvertIsoformCanonical() throws Exception {
-        when(repoMock.retrieveNodeUsingTaxID(anyInt())).thenReturn(Optional.<TaxonomicNode>empty());
-
         String file = "Q9EPI6-1.sp";
-        UniProtkbEntry entry = parse(file);
+        UniProtKBEntry entry = parse(file);
         assertNotNull(entry);
         UniProtDocument doc = convertEntry(entry);
         assertNotNull(doc);
@@ -602,112 +487,23 @@ class UniProtkbEntryConverterIT {
         assertNull(doc.reviewed);
     }
 
-    private void checkCatalyticChebiSuggestions(List<ChebiEntry> chebiList) {
-        for (ChebiEntry chebi : chebiList) {
-            String id = "CHEBI:" + chebi.getId();
-            SuggestDocument chebiDoc =
-                    suggestions.get(
-                            createSuggestionMapKey(SuggestDictionary.CATALYTIC_ACTIVITY, id));
-            assertThat(chebiDoc.id, is(id));
-            assertThat(chebiDoc.value, is(chebi.getName()));
-            if (notNull(chebi.getInchiKey())) {
-                assertThat(chebiDoc.altValues, contains(chebi.getInchiKey()));
-            }
-        }
-    }
-
-    private void checkSuggestionsContain(
-            SuggestDictionary dict, Collection<String> values, boolean sizeOnly) {
-        // the number of suggestions for this dictionary is the same size as values
-        List<String> foundSuggestions =
-                this.suggestions.keySet().stream()
-                        .filter(key -> key.startsWith(dict.name()))
-                        .collect(Collectors.toList());
-        assertThat(values, hasSize(foundSuggestions.size()));
-
-        if (!sizeOnly) {
-            // values are a subset of the suggestions for this dictionary
-            for (String value : values) {
-                String key = createSuggestionMapKey(dict, value);
-                assertTrue(this.suggestions.containsKey(key));
-                SuggestDocument document = this.suggestions.get(key);
-                assertThat(document.value, is(not(nullValue())));
-            }
-        }
-    }
-
-    private UniProtkbEntry parse(String file) throws Exception {
+    private UniProtKBEntry parse(String file) throws Exception {
         InputStream is =
-                UniProtEntryDocumentPairProcessor.class
+                UniProtKBEntryConverterIT.class
                         .getClassLoader()
                         .getResourceAsStream("uniprotkb/" + file);
         assertNotNull(is);
         SupportingDataMap supportingDataMap =
-                new SupportingDataMapImpl(
-                        "uniprotkb/keywlist.txt",
-                        "uniprotkb/humdisease.txt",
-                        "target/test-classes/uniprotkb/PMID.GO.dr_ext.txt",
-                        "uniprotkb/subcell.txt");
+                new SupportingDataMapHDSFImpl(
+                        "keyword/keywlist.txt",
+                        "disease/humdisease.txt",
+                        "subcell/subcell.txt",
+                        null);
         DefaultUniProtParser parser = new DefaultUniProtParser(supportingDataMap, false);
         return parser.parse(IOUtils.toString(is, Charset.defaultCharset()));
     }
 
-    private UniProtDocument convertEntry(UniProtkbEntry entry) {
+    private UniProtDocument convertEntry(UniProtKBEntry entry) {
         return converter.convert(entry);
-    }
-
-    private Set<GeneOntologyEntry> getMockParentGoTerm() {
-        return new HashSet<>(
-                asList(
-                        new GeneOntologyEntryBuilder().id("GO:123").name("Go term 3").build(),
-                        new GeneOntologyEntryBuilder().id("GO:124").name("Go term 4").build()));
-    }
-
-    private Set<GeneOntologyEntry> getMockPartOfGoTerm() {
-        return new HashSet<>(
-                asList(
-                        new GeneOntologyEntryBuilder().id("GO:125").name("Go term 5").build(),
-                        new GeneOntologyEntryBuilder().id("GO:126").name("Go term 6").build()));
-    }
-
-    private Optional<TaxonomicNode> getTaxonomyNode(
-            int id, String scientificName, String commonName, String synonym, String mnemonic) {
-        return Optional.of(
-                new TaxonomicNode() {
-                    @Override
-                    public int id() {
-                        return id;
-                    }
-
-                    @Override
-                    public String scientificName() {
-                        return scientificName;
-                    }
-
-                    @Override
-                    public String commonName() {
-                        return commonName;
-                    }
-
-                    @Override
-                    public String synonymName() {
-                        return synonym;
-                    }
-
-                    @Override
-                    public String mnemonic() {
-                        return mnemonic;
-                    }
-
-                    @Override
-                    public TaxonomicNode parent() {
-                        return null;
-                    }
-
-                    @Override
-                    public boolean hasParent() {
-                        return false;
-                    }
-                });
     }
 }

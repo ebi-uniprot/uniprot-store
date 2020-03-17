@@ -14,12 +14,12 @@ import org.uniprot.core.flatfile.parser.UniProtParser;
 import org.uniprot.core.flatfile.parser.impl.DefaultUniProtParser;
 import org.uniprot.core.flatfile.parser.impl.EntryBufferedReader2;
 import org.uniprot.core.flatfile.parser.impl.SupportingDataMapImpl;
-import org.uniprot.core.uniprotkb.UniProtkbEntry;
+import org.uniprot.core.uniprotkb.UniProtKBEntry;
 import org.uniprot.store.datastore.voldemort.uniprot.VoldemortInMemoryUniprotEntryStore;
 
 import com.codahale.metrics.Counter;
 
-public class UniprotEntryRetrieveParseVerifierTest {
+public class UniprotKBEntryRetrieveParseVerifierTest {
 
     private static String storeName = "avro-uniprot";
     private static VoldemortInMemoryUniprotEntryStore voldemortInMemoryEntryStore;
@@ -32,7 +32,7 @@ public class UniprotEntryRetrieveParseVerifierTest {
     @BeforeAll
     public static void loadData() throws Exception {
         URL resourcePath =
-                UniprotEntryRetrieveParseVerifierTest.class
+                UniprotKBEntryRetrieveParseVerifierTest.class
                         .getClassLoader()
                         .getResource("uniprot/flatFIleSample.txt");
         assert resourcePath != null;
@@ -62,7 +62,7 @@ public class UniprotEntryRetrieveParseVerifierTest {
             if (next == null) {
                 break;
             } else {
-                UniProtkbEntry entry = parser.parse(next);
+                UniProtKBEntry entry = parser.parse(next);
                 voldemortInMemoryEntryStore.saveEntry(entry);
                 size++;
             }
@@ -72,8 +72,8 @@ public class UniprotEntryRetrieveParseVerifierTest {
     @Test
     public void testSuccessVoldemortUniprotVerification() {
         try {
-            UniprotEntryRetrieveParseVerifier dataVerification =
-                    new UniprotEntryRetrieveParseVerifier(voldemortInMemoryEntryStore);
+            UniprotKBEntryRetrieveParseVerifier dataVerification =
+                    new UniprotKBEntryRetrieveParseVerifier(voldemortInMemoryEntryStore);
 
             URL flatFilePath =
                     getClass().getClassLoader().getResource("uniprot/flatFIleSample.txt");

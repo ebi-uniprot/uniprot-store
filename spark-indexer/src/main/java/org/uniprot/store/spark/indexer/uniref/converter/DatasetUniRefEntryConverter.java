@@ -18,7 +18,7 @@ import org.uniprot.core.cv.go.GeneOntologyEntry;
 import org.uniprot.core.cv.go.GoAspect;
 import org.uniprot.core.cv.go.impl.GeneOntologyEntryBuilder;
 import org.uniprot.core.uniparc.impl.UniParcIdBuilder;
-import org.uniprot.core.uniprotkb.impl.UniProtkbAccessionBuilder;
+import org.uniprot.core.uniprotkb.impl.UniProtKBAccessionBuilder;
 import org.uniprot.core.uniref.*;
 import org.uniprot.core.uniref.impl.*;
 import org.uniprot.store.spark.indexer.util.RowUtils;
@@ -162,7 +162,7 @@ public class DatasetUniRefEntryConverter implements MapFunction<Row, UniRefEntry
                 Map<String, List<String>> propertyMap = RowUtils.convertProperties(dbReference);
                 if (propertyMap.containsKey(PROPERTY_ACCESSION)) {
                     propertyMap.get(PROPERTY_ACCESSION).stream()
-                            .map(val -> new UniProtkbAccessionBuilder(val).build())
+                            .map(val -> new UniProtKBAccessionBuilder(val).build())
                             .forEach(builder::accessionsAdd);
                 }
                 if (propertyMap.containsKey(PROPERTY_UNIPARC_ID)) {

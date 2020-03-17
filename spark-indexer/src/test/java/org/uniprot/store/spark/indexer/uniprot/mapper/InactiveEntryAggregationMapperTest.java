@@ -5,9 +5,9 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 import org.uniprot.core.uniprotkb.EntryInactiveReason;
 import org.uniprot.core.uniprotkb.InactiveReasonType;
-import org.uniprot.core.uniprotkb.UniProtkbEntry;
+import org.uniprot.core.uniprotkb.UniProtKBEntry;
 import org.uniprot.core.uniprotkb.impl.EntryInactiveReasonBuilder;
-import org.uniprot.core.uniprotkb.impl.UniProtkbEntryBuilder;
+import org.uniprot.core.uniprotkb.impl.UniProtKBEntryBuilder;
 
 /**
  * @author lgonzales
@@ -19,14 +19,14 @@ class InactiveEntryAggregationMapperTest {
     void testEntryWithDemerged() throws Exception {
         EntryInactiveReason reason1 =
                 new EntryInactiveReasonBuilder().mergeDemergeTosAdd("P88888").build();
-        UniProtkbEntry entry1 = new UniProtkbEntryBuilder("P99999", "ID_99999", reason1).build();
+        UniProtKBEntry entry1 = new UniProtKBEntryBuilder("P99999", "ID_99999", reason1).build();
 
         EntryInactiveReason reason2 =
                 new EntryInactiveReasonBuilder().mergeDemergeTosAdd("P77777").build();
-        UniProtkbEntry entry2 = new UniProtkbEntryBuilder("P99999", "ID_99999", reason2).build();
+        UniProtKBEntry entry2 = new UniProtKBEntryBuilder("P99999", "ID_99999", reason2).build();
 
         InactiveEntryAggregationMapper mapper = new InactiveEntryAggregationMapper();
-        UniProtkbEntry result = mapper.call(entry1, entry2);
+        UniProtKBEntry result = mapper.call(entry1, entry2);
 
         assertNotNull(result);
         assertNotNull(result.getPrimaryAccession());
@@ -53,10 +53,10 @@ class InactiveEntryAggregationMapperTest {
                         .type(InactiveReasonType.MERGED)
                         .mergeDemergeTosAdd("P88888")
                         .build();
-        UniProtkbEntry entry1 = new UniProtkbEntryBuilder("P99999", "ID_99999", reason1).build();
+        UniProtKBEntry entry1 = new UniProtKBEntryBuilder("P99999", "ID_99999", reason1).build();
 
         InactiveEntryAggregationMapper mapper = new InactiveEntryAggregationMapper();
-        UniProtkbEntry result = mapper.call(entry1, null);
+        UniProtKBEntry result = mapper.call(entry1, null);
 
         assertNotNull(result);
         assertEquals(entry1, result);
@@ -69,10 +69,10 @@ class InactiveEntryAggregationMapperTest {
                         .type(InactiveReasonType.DELETED)
                         .mergeDemergeTosAdd("P88888")
                         .build();
-        UniProtkbEntry entry1 = new UniProtkbEntryBuilder("P99999", "ID_99999", reason1).build();
+        UniProtKBEntry entry1 = new UniProtKBEntryBuilder("P99999", "ID_99999", reason1).build();
 
         InactiveEntryAggregationMapper mapper = new InactiveEntryAggregationMapper();
-        UniProtkbEntry result = mapper.call(entry1, null);
+        UniProtKBEntry result = mapper.call(entry1, null);
 
         assertNotNull(result);
         assertEquals(entry1, result);

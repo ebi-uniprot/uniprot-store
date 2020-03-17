@@ -9,13 +9,13 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 import org.uniprot.core.flatfile.parser.SupportingDataMap;
-import org.uniprot.core.flatfile.parser.UniprotkbLineParser;
-import org.uniprot.core.flatfile.parser.impl.DefaultUniprotkbLineParserFactory;
+import org.uniprot.core.flatfile.parser.UniprotKBLineParser;
+import org.uniprot.core.flatfile.parser.impl.DefaultUniprotKBLineParserFactory;
 import org.uniprot.core.flatfile.parser.impl.entry.EntryObject;
 import org.uniprot.core.flatfile.parser.impl.entry.EntryObjectConverter;
-import org.uniprot.core.uniprotkb.UniProtkbEntry;
-import org.uniprot.core.uniprotkb.UniProtkbEntryType;
-import org.uniprot.core.uniprotkb.impl.UniProtkbEntryBuilder;
+import org.uniprot.core.uniprotkb.UniProtKBEntry;
+import org.uniprot.core.uniprotkb.UniProtKBEntryType;
+import org.uniprot.core.uniprotkb.impl.UniProtKBEntryBuilder;
 import org.uniprot.store.job.common.DocumentConversionException;
 import org.uniprot.store.search.document.uniprot.UniProtDocument;
 import org.uniprot.store.spark.indexer.uniprot.converter.SupportingDataMapHDSFImpl;
@@ -24,13 +24,13 @@ import org.uniprot.store.spark.indexer.uniprot.converter.SupportingDataMapHDSFIm
  * @author lgonzales
  * @since 2019-11-13
  */
-class UniProtkbEntryToSolrDocumentTest {
+class UniProtKBEntryToSolrDocumentTest {
 
     @Test
     void testMapUniprotEntryToDocument() throws Exception {
         SupportingDataMap supportingDataMap = new SupportingDataMapHDSFImpl(null, null, null, null);
-        UniprotkbLineParser<EntryObject> entryParser =
-                new DefaultUniprotkbLineParserFactory().createEntryParser();
+        UniprotKBLineParser<EntryObject> entryParser =
+                new DefaultUniprotKBLineParserFactory().createEntryParser();
         EntryObjectConverter entryObjectConverter =
                 new EntryObjectConverter(supportingDataMap, true);
 
@@ -38,7 +38,7 @@ class UniProtkbEntryToSolrDocumentTest {
                 Files.readAllLines(
                         Paths.get(ClassLoader.getSystemResource("uniprotkb/Q9EPI6.sp").toURI()));
         EntryObject parsed = entryParser.parse(String.join("\n", flatFileLines));
-        UniProtkbEntry uniProtkbEntry = entryObjectConverter.convert(parsed);
+        UniProtKBEntry uniProtkbEntry = entryObjectConverter.convert(parsed);
 
         UniProtEntryToSolrDocument mapper = new UniProtEntryToSolrDocument(new HashMap<>());
         UniProtDocument doc = mapper.call(uniProtkbEntry);
@@ -56,8 +56,8 @@ class UniProtkbEntryToSolrDocumentTest {
                 DocumentConversionException.class,
                 () -> {
                     mapper.call(
-                            new UniProtkbEntryBuilder(
-                                            "P12345", "ID_P12345", UniProtkbEntryType.SWISSPROT)
+                            new UniProtKBEntryBuilder(
+                                            "P12345", "ID_P12345", UniProtKBEntryType.SWISSPROT)
                                     .build());
                 },
                 "Error converting UniProt entry");

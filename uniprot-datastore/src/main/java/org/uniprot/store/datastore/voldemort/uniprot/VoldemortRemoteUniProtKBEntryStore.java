@@ -1,7 +1,7 @@
 package org.uniprot.store.datastore.voldemort.uniprot;
 
-import org.uniprot.core.json.parser.uniprot.UniprotkbJsonConfig;
-import org.uniprot.core.uniprotkb.UniProtkbEntry;
+import org.uniprot.core.json.parser.uniprot.UniprotKBJsonConfig;
+import org.uniprot.core.uniprotkb.UniProtKBEntry;
 import org.uniprot.store.datastore.voldemort.VoldemortRemoteJsonBinaryStore;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -16,7 +16,7 @@ import com.google.inject.name.Named;
  * @author lgonzales
  */
 public class VoldemortRemoteUniProtKBEntryStore
-        extends VoldemortRemoteJsonBinaryStore<UniProtkbEntry> {
+        extends VoldemortRemoteJsonBinaryStore<UniProtKBEntry> {
     public static final String UNIPROT_VOLDEMORT_URL = "uniprotVoldemortUrl";
     public static final String UNIPROT_VOLDEMORT_STORE_NAME = "uniprotVoldemortStoreName";
 
@@ -33,17 +33,17 @@ public class VoldemortRemoteUniProtKBEntryStore
     }
 
     @Override
-    public String getStoreId(UniProtkbEntry entry) {
+    public String getStoreId(UniProtKBEntry entry) {
         return entry.getPrimaryAccession().getValue();
     }
 
     @Override
     public ObjectMapper getStoreObjectMapper() {
-        return UniprotkbJsonConfig.getInstance().getFullObjectMapper();
+        return UniprotKBJsonConfig.getInstance().getFullObjectMapper();
     }
 
     @Override
-    public Class<UniProtkbEntry> getEntryClass() {
-        return UniProtkbEntry.class;
+    public Class<UniProtKBEntry> getEntryClass() {
+        return UniProtKBEntry.class;
     }
 }

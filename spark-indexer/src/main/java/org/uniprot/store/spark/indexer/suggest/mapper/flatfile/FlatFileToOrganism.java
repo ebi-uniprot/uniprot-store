@@ -4,8 +4,8 @@ import java.util.Arrays;
 import java.util.stream.Collectors;
 
 import org.apache.spark.api.java.function.PairFunction;
-import org.uniprot.core.flatfile.parser.UniprotkbLineParser;
-import org.uniprot.core.flatfile.parser.impl.DefaultUniprotkbLineParserFactory;
+import org.uniprot.core.flatfile.parser.UniprotKBLineParser;
+import org.uniprot.core.flatfile.parser.impl.DefaultUniprotKBLineParserFactory;
 import org.uniprot.core.flatfile.parser.impl.ox.OxLineObject;
 
 import scala.Tuple2;
@@ -26,8 +26,8 @@ public class FlatFileToOrganism implements PairFunction<String, String, String> 
                 Arrays.stream(entryStr.split("\n"))
                         .filter(line -> line.startsWith("OX  "))
                         .collect(Collectors.joining("\n"));
-        final UniprotkbLineParser<OxLineObject> oxParser =
-                new DefaultUniprotkbLineParserFactory().createOxLineParser();
+        final UniprotKBLineParser<OxLineObject> oxParser =
+                new DefaultUniprotKBLineParserFactory().createOxLineParser();
         String taxId = String.valueOf(oxParser.parse(oxLine + "\n").taxonomy_id);
         return new Tuple2<>(taxId, taxId);
     }
