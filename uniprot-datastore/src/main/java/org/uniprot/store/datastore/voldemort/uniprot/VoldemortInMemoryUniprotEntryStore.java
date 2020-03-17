@@ -2,7 +2,7 @@ package org.uniprot.store.datastore.voldemort.uniprot;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.uniprot.core.uniprotkb.UniProtkbEntry;
+import org.uniprot.core.uniprotkb.UniProtKBEntry;
 import org.uniprot.store.datastore.voldemort.VoldemortInMemoryEntryStore;
 
 import voldemort.store.StorageEngine;
@@ -15,14 +15,14 @@ import voldemort.store.StorageEngine;
  * @author lgonzales
  */
 public class VoldemortInMemoryUniprotEntryStore
-        extends VoldemortInMemoryEntryStore<UniProtkbEntry> {
+        extends VoldemortInMemoryEntryStore<UniProtKBEntry> {
 
     private static VoldemortInMemoryUniprotEntryStore instance;
 
     private static final Logger logger =
             LoggerFactory.getLogger(VoldemortInMemoryUniprotEntryStore.class);
 
-    private StorageEngine<String, UniProtkbEntry, String> storageEngine;
+    private StorageEngine<String, UniProtKBEntry, String> storageEngine;
 
     public static VoldemortInMemoryUniprotEntryStore getInstance(String storeName) {
         if (instance == null) {
@@ -36,7 +36,7 @@ public class VoldemortInMemoryUniprotEntryStore
     }
 
     @Override
-    public String getStoreId(UniProtkbEntry entry) {
+    public String getStoreId(UniProtKBEntry entry) {
         return entry.getPrimaryAccession().getValue();
     }
 }

@@ -1,6 +1,6 @@
 package org.uniprot.store.job.common.model;
 
-import org.uniprot.core.uniprotkb.UniProtkbEntry;
+import org.uniprot.core.uniprotkb.UniProtKBEntry;
 
 /**
  * Represents a pair of entry and document, with the purpose of recording this pair of entities
@@ -9,7 +9,7 @@ import org.uniprot.core.uniprotkb.UniProtkbEntry;
  * Step).
  *
  * <p>This means we can now, for example, when writing documents, if there is a write error, then we
- * can also write the corresponding {@link UniProtkbEntry} to a log file for future reference /
+ * can also write the corresponding {@link UniProtKBEntry} to a log file for future reference /
  * reprocessing.
  *
  * <p>Created 12/04/19

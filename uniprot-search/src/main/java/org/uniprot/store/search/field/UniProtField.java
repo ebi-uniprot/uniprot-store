@@ -20,7 +20,7 @@ public interface UniProtField {
         organelle("geneLocations"),
         keyword("keywords"),
         reference("references"),
-        crossReference("uniProtkbCrossReferences"),
+        crossReference("uniProtKBCrossReferences"),
         sequence("sequence"),
         internalSection_internal("internalSection"),
         inactiveReason_internal("inactiveReason", true),

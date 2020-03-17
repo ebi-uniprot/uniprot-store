@@ -5,13 +5,13 @@ import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.uniprot.core.uniprotkb.UniProtkbEntry;
+import org.uniprot.core.uniprotkb.UniProtKBEntry;
 import org.uniprot.store.datastore.voldemort.VoldemortInMemoryEntryStore;
 
 import voldemort.VoldemortException;
 
 public class FakeVoldemortInMemoryUniprotEntryStore
-        extends VoldemortInMemoryEntryStore<UniProtkbEntry> {
+        extends VoldemortInMemoryEntryStore<UniProtKBEntry> {
 
     private static FakeVoldemortInMemoryUniprotEntryStore instance;
     private static final Logger logger = LoggerFactory.getLogger(VoldemortInMemoryEntryStore.class);
@@ -35,12 +35,12 @@ public class FakeVoldemortInMemoryUniprotEntryStore
     }
 
     @Override
-    public String getStoreId(UniProtkbEntry entry) {
+    public String getStoreId(UniProtKBEntry entry) {
         return entry.getPrimaryAccession().getValue();
     }
 
     @Override
-    public void saveEntry(UniProtkbEntry entry) {
+    public void saveEntry(UniProtKBEntry entry) {
         counter++;
         if (counter % errorFactor == 0) {
             failedEntries.add(getStoreId(entry));

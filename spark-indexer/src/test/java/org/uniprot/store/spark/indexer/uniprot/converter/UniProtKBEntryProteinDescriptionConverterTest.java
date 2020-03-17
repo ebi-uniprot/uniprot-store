@@ -1,48 +1,34 @@
-package org.uniprot.store.indexer.uniprotkb.converter;
+package org.uniprot.store.spark.indexer.uniprot.converter;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
 
 import org.junit.jupiter.api.Test;
-import org.uniprot.core.cv.ec.impl.ECEntryBuilder;
 import org.uniprot.core.uniprotkb.description.*;
 import org.uniprot.core.uniprotkb.description.impl.*;
 import org.uniprot.core.uniprotkb.evidence.Evidence;
 import org.uniprot.core.uniprotkb.evidence.EvidenceCode;
 import org.uniprot.core.uniprotkb.evidence.impl.EvidenceBuilder;
-import org.uniprot.cv.ec.ECRepo;
-import org.uniprot.store.search.document.suggest.SuggestDocument;
 import org.uniprot.store.search.document.uniprot.UniProtDocument;
 
 /**
  * @author lgonzales
  * @since 2019-09-11
  */
-class UniprotEntryProteinDescriptionConverterTest {
+class UniProtKBEntryProteinDescriptionConverterTest {
 
     @Test
     void convertCompleteProteinDescription() {
         UniProtDocument document = new UniProtDocument();
-        Map<String, SuggestDocument> suggestions = new HashMap<>();
-
-        ECRepo ecRepo = mock(ECRepo.class);
-        when(ecRepo.getEC("1.2.3.3"))
-                .thenReturn(
-                        Optional.of(new ECEntryBuilder().label("Label 3").id("1.2.3.3").build()));
-        when(ecRepo.getEC("1.2.3.4"))
-                .thenReturn(
-                        Optional.of(new ECEntryBuilder().label("Label 4").id("1.2.3.4").build()));
-        when(ecRepo.getEC("1.2.3.5"))
-                .thenReturn(
-                        Optional.of(new ECEntryBuilder().label("Label 5").id("1.2.3.5").build()));
 
         ProteinDescription proteinDescription = getProteinDescription();
 
-        UniprotEntryProteinDescriptionConverter converter =
-                new UniprotEntryProteinDescriptionConverter(ecRepo, suggestions);
+        UniProtEntryProteinDescriptionConverter converter =
+                new UniProtEntryProteinDescriptionConverter();
         converter.convertProteinDescription(proteinDescription, document);
 
         List<String> indexedNames =
@@ -92,29 +78,11 @@ class UniprotEntryProteinDescriptionConverterTest {
 
         assertTrue(document.fragment);
         assertFalse(document.precursor);
-
-        assertEquals(3, suggestions.size());
-        assertTrue(suggestions.containsKey("EC:1.2.3.3"));
-        assertTrue(suggestions.containsKey("EC:1.2.3.4"));
-        assertTrue(suggestions.containsKey("EC:1.2.3.5"));
-
-        SuggestDocument suggestionDocument = suggestions.get("EC:1.2.3.3");
-        assertEquals(suggestionDocument.id, "1.2.3.3");
-        assertEquals(suggestionDocument.value, "Label 3");
-        assertTrue(suggestionDocument.altValues.isEmpty());
-        assertEquals(suggestionDocument.dictionary, "EC");
-        assertEquals(suggestionDocument.importance, "medium");
     }
 
     @Test
     void convertPrecursorProteinDescription() {
         UniProtDocument document = new UniProtDocument();
-        Map<String, SuggestDocument> suggestions = new HashMap<>();
-
-        ECRepo ecRepo = mock(ECRepo.class);
-        when(ecRepo.getEC("1.2.3.4"))
-                .thenReturn(
-                        Optional.of(new ECEntryBuilder().label("Label 4").id("1.2.3.4").build()));
 
         ProteinDescription description =
                 new ProteinDescriptionBuilder()
@@ -122,8 +90,8 @@ class UniprotEntryProteinDescriptionConverterTest {
                         .flag(FlagType.PRECURSOR)
                         .build();
 
-        UniprotEntryProteinDescriptionConverter converter =
-                new UniprotEntryProteinDescriptionConverter(ecRepo, suggestions);
+        UniProtEntryProteinDescriptionConverter converter =
+                new UniProtEntryProteinDescriptionConverter();
         converter.convertProteinDescription(description, document);
 
         assertFalse(document.fragment);
@@ -133,12 +101,6 @@ class UniprotEntryProteinDescriptionConverterTest {
     @Test
     void convertPrecursorAndFragmentProteinDescription() {
         UniProtDocument document = new UniProtDocument();
-        Map<String, SuggestDocument> suggestions = new HashMap<>();
-
-        ECRepo ecRepo = mock(ECRepo.class);
-        when(ecRepo.getEC("1.2.3.4"))
-                .thenReturn(
-                        Optional.of(new ECEntryBuilder().label("Label 4").id("1.2.3.4").build()));
 
         ProteinDescription description =
                 new ProteinDescriptionBuilder()
@@ -146,8 +108,8 @@ class UniprotEntryProteinDescriptionConverterTest {
                         .flag(FlagType.FRAGMENTS_PRECURSOR)
                         .build();
 
-        UniprotEntryProteinDescriptionConverter converter =
-                new UniprotEntryProteinDescriptionConverter(ecRepo, suggestions);
+        UniProtEntryProteinDescriptionConverter converter =
+                new UniProtEntryProteinDescriptionConverter();
         converter.convertProteinDescription(description, document);
 
         assertTrue(document.fragment);

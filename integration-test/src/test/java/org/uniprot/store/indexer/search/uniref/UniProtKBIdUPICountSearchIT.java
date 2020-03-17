@@ -17,7 +17,7 @@ import org.uniprot.core.xml.jaxb.uniref.MemberType;
 import org.uniprot.core.xml.jaxb.uniref.PropertyType;
 import org.uniprot.store.search.field.QueryBuilder;
 
-class UniProtkbIdUPICountSearchIT {
+class UniProtKBIdUPICountSearchIT {
     private static final String ID_1 = "UniRef100_A0A007";
     private static final String ID_2 = "UniRef100_A0A009DWI3";
     private static final String ID_3 = "UniRef90_A0A007";

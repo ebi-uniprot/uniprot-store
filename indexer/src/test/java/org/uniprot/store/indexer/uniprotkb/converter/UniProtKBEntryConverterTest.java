@@ -1,4 +1,4 @@
-package org.uniprot.store.spark.indexer.uniprot.converter;
+package org.uniprot.store.indexer.uniprotkb.converter;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -6,12 +6,10 @@ import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Date;
-import java.util.HashSet;
+import java.util.*;
 
 import org.junit.jupiter.api.Test;
+import org.uniprot.core.Sequence;
 import org.uniprot.core.cv.keyword.KeywordCategory;
 import org.uniprot.core.gene.Gene;
 import org.uniprot.core.impl.SequenceBuilder;
@@ -26,18 +24,20 @@ import org.uniprot.core.uniprotkb.evidence.EvidenceCode;
 import org.uniprot.core.uniprotkb.evidence.impl.EvidenceBuilder;
 import org.uniprot.core.uniprotkb.impl.*;
 import org.uniprot.store.job.common.DocumentConversionException;
+import org.uniprot.store.search.document.suggest.SuggestDocument;
 import org.uniprot.store.search.document.uniprot.UniProtDocument;
 
 /**
  * @author lgonzales
  * @since 2019-09-16
  */
-class UniProtkbEntryConverterTest {
+class UniProtKBEntryConverterTest {
 
     @Test
     void documentConversionException() {
         // when
-        UniProtEntryConverter converter = new UniProtEntryConverter(null);
+        UniProtEntryConverter converter =
+                new UniProtEntryConverter(null, null, null, null, null, null);
 
         assertThrows(
                 DocumentConversionException.class,
@@ -49,13 +49,14 @@ class UniProtkbEntryConverterTest {
     @Test
     void convertCanonicalAccessionEntry() {
         // given
-        UniProtkbEntry entry =
-                new UniProtkbEntryBuilder("P12345", "UNIPROT_ENTRYID", UniProtkbEntryType.TREMBL)
-                        .sequence(new SequenceBuilder("AAAAA").build())
+        UniProtKBEntry entry =
+                new UniProtKBEntryBuilder("P12345", "UNIPROT_ENTRYID", UniProtKBEntryType.TREMBL)
+                        .sequence(sq("AAAAA"))
                         .build();
 
         // when
-        UniProtEntryConverter converter = new UniProtEntryConverter(null);
+        UniProtEntryConverter converter =
+                new UniProtEntryConverter(null, null, null, null, null, null);
         UniProtDocument document = converter.convert(entry);
 
         // then
@@ -69,13 +70,14 @@ class UniProtkbEntryConverterTest {
     @Test
     void convertIsoformAccessionEntry() {
         // given
-        UniProtkbEntry entry =
-                new UniProtkbEntryBuilder("P12345-5", "UNIPROT_ENTRYID", UniProtkbEntryType.TREMBL)
-                        .sequence(new SequenceBuilder("AAAAA").build())
+        UniProtKBEntry entry =
+                new UniProtKBEntryBuilder("P12345-5", "UNIPROT_ENTRYID", UniProtKBEntryType.TREMBL)
+                        .sequence(sq("AAAAA"))
                         .build();
 
         // when
-        UniProtEntryConverter converter = new UniProtEntryConverter(null);
+        UniProtEntryConverter converter =
+                new UniProtEntryConverter(null, null, null, null, null, null);
         UniProtDocument document = converter.convert(entry);
 
         // then
@@ -100,15 +102,16 @@ class UniProtkbEntryConverterTest {
         AlternativeProductsComment comment =
                 new AlternativeProductsCommentBuilder().isoformsAdd(isoform).build();
 
-        UniProtkbEntry entry =
-                new UniProtkbEntryBuilder(
-                                "P12345-1", "UNIPROT_ENTRYID", UniProtkbEntryType.SWISSPROT)
+        UniProtKBEntry entry =
+                new UniProtKBEntryBuilder(
+                                "P12345-1", "UNIPROT_ENTRYID", UniProtKBEntryType.SWISSPROT)
                         .commentsSet(Collections.singletonList(comment))
-                        .sequence(new SequenceBuilder("AAAAA").build())
+                        .sequence(sq("AAAAA"))
                         .build();
 
         // when
-        UniProtEntryConverter converter = new UniProtEntryConverter(null);
+        UniProtEntryConverter converter =
+                new UniProtEntryConverter(null, null, null, null, null, null);
         UniProtDocument document = converter.convert(entry);
 
         // then
@@ -122,14 +125,15 @@ class UniProtkbEntryConverterTest {
     void convertIdDefaultForTrEMBLIncludesSpeciesButNotAccession() {
         // given
         String species = "SPECIES";
-        UniProtkbEntry entry =
-                new UniProtkbEntryBuilder(
-                                "P12345", "ACCESSION_" + species, UniProtkbEntryType.TREMBL)
-                        .sequence(new SequenceBuilder("AAAAA").build())
+        UniProtKBEntry entry =
+                new UniProtKBEntryBuilder(
+                                "P12345", "ACCESSION_" + species, UniProtKBEntryType.TREMBL)
+                        .sequence(sq("AAAAA"))
                         .build();
 
         // when
-        UniProtEntryConverter converter = new UniProtEntryConverter(null);
+        UniProtEntryConverter converter =
+                new UniProtEntryConverter(null, null, null, null, null, null);
         UniProtDocument document = converter.convert(entry);
 
         // then
@@ -141,13 +145,14 @@ class UniProtkbEntryConverterTest {
     void convertIdDefaultForSwissProtIncludesGeneAndSpecies() {
         // given
         String id = "GENE_SPECIES";
-        UniProtkbEntry entry =
-                new UniProtkbEntryBuilder("P12345", id, UniProtkbEntryType.SWISSPROT)
-                        .sequence(new SequenceBuilder("AAAAA").build())
+        UniProtKBEntry entry =
+                new UniProtKBEntryBuilder("P12345", id, UniProtKBEntryType.SWISSPROT)
+                        .sequence(sq("AAAAA"))
                         .build();
 
         // when
-        UniProtEntryConverter converter = new UniProtEntryConverter(null);
+        UniProtEntryConverter converter =
+                new UniProtEntryConverter(null, null, null, null, null, null);
         UniProtDocument document = converter.convert(entry);
 
         // then
@@ -171,10 +176,11 @@ class UniProtkbEntryConverterTest {
                         .lastSequenceUpdate(lastSequenceUpdate)
                         .build();
 
-        UniProtkbEntry entry = getBasicEntryBuilder().entryAudit(entryAudit).build();
+        UniProtKBEntry entry = getBasicEntryBuilder().entryAudit(entryAudit).build();
 
         // when
-        UniProtEntryConverter converter = new UniProtEntryConverter(null);
+        UniProtEntryConverter converter =
+                new UniProtEntryConverter(null, null, null, null, null, null);
         UniProtDocument document = converter.convert(entry);
 
         // then
@@ -197,11 +203,12 @@ class UniProtkbEntryConverterTest {
                         .orfNamesAdd(new ORFNameBuilder().value("some other orf").build())
                         .build();
 
-        UniProtkbEntry entry =
+        UniProtKBEntry entry =
                 getBasicEntryBuilder().genesSet(Collections.singletonList(gene)).build();
 
         // when
-        UniProtEntryConverter converter = new UniProtEntryConverter(null);
+        UniProtEntryConverter converter =
+                new UniProtEntryConverter(null, null, null, null, null, null);
         UniProtDocument document = converter.convert(entry);
 
         // then
@@ -236,10 +243,13 @@ class UniProtkbEntryConverterTest {
                         .evidencesAdd(createEvidence("50"))
                         .build();
 
-        UniProtkbEntry entry = getBasicEntryBuilder().keywordsAdd(keyword).build();
+        UniProtKBEntry entry = getBasicEntryBuilder().keywordsAdd(keyword).build();
+
+        Map<String, SuggestDocument> suggestions = new HashMap<>();
 
         // when
-        UniProtEntryConverter converter = new UniProtEntryConverter(null);
+        UniProtEntryConverter converter =
+                new UniProtEntryConverter(null, null, null, null, null, suggestions);
         UniProtDocument document = converter.convert(entry);
 
         // then
@@ -256,6 +266,18 @@ class UniProtkbEntryConverterTest {
                                 "KW-9994",
                                 "Domain")),
                 document.content);
+
+        // check suggestions
+        assertEquals(2, suggestions.size());
+        assertTrue(suggestions.containsKey("KEYWORD:KW-1111"));
+        assertTrue(suggestions.containsKey("KEYWORD:KW-9994"));
+
+        SuggestDocument suggestDocument = suggestions.get("KEYWORD:KW-1111");
+        assertEquals("KEYWORD", suggestDocument.dictionary);
+        assertEquals("KW-1111", suggestDocument.id);
+        assertEquals("keyword value", suggestDocument.value);
+        assertNotNull(suggestDocument.altValues);
+        assertEquals(0, suggestDocument.altValues.size());
     }
 
     @Test
@@ -268,10 +290,11 @@ class UniProtkbEntryConverterTest {
                         .evidencesAdd(createEvidence("60"))
                         .build();
 
-        UniProtkbEntry entry = getBasicEntryBuilder().geneLocationsAdd(geneLocation).build();
+        UniProtKBEntry entry = getBasicEntryBuilder().geneLocationsAdd(geneLocation).build();
 
         // when
-        UniProtEntryConverter converter = new UniProtEntryConverter(null);
+        UniProtEntryConverter converter =
+                new UniProtEntryConverter(null, null, null, null, null, null);
         UniProtDocument document = converter.convert(entry);
 
         // then
@@ -285,11 +308,12 @@ class UniProtkbEntryConverterTest {
     @Test
     void convertProteinExistenceFields() {
         // given
-        UniProtkbEntry entry =
+        UniProtKBEntry entry =
                 getBasicEntryBuilder().proteinExistence(ProteinExistence.PROTEIN_LEVEL).build();
 
         // when
-        UniProtEntryConverter converter = new UniProtEntryConverter(null);
+        UniProtEntryConverter converter =
+                new UniProtEntryConverter(null, null, null, null, null, null);
         UniProtDocument document = converter.convert(entry);
 
         // then
@@ -302,10 +326,11 @@ class UniProtkbEntryConverterTest {
     @Test
     void convertSequenceFields() {
         // given
-        UniProtkbEntry entry = getBasicEntryBuilder().build();
+        UniProtKBEntry entry = getBasicEntryBuilder().build();
 
         // when
-        UniProtEntryConverter converter = new UniProtEntryConverter(null);
+        UniProtEntryConverter converter =
+                new UniProtEntryConverter(null, null, null, null, null, null);
         UniProtDocument document = converter.convert(entry);
 
         // then
@@ -317,11 +342,11 @@ class UniProtkbEntryConverterTest {
     @Test
     void convertEntryScore() {
         // given
-        UniProtkbEntry entry =
-                getBasicEntryBuilder().sequence(new SequenceBuilder("AAAAA").build()).build();
+        UniProtKBEntry entry = getBasicEntryBuilder().sequence(sq("AAAAA")).build();
 
         // when
-        UniProtEntryConverter converter = new UniProtEntryConverter(null);
+        UniProtEntryConverter converter =
+                new UniProtEntryConverter(null, null, null, null, null, null);
         UniProtDocument document = converter.convert(entry);
 
         // then
@@ -347,10 +372,11 @@ class UniProtkbEntryConverterTest {
                                         .evidencesAdd(evidence)
                                         .build())
                         .build();
-        UniProtkbEntry entry = getBasicEntryBuilder().genesAdd(gene).build();
+        UniProtKBEntry entry = getBasicEntryBuilder().genesAdd(gene).build();
 
         // when
-        UniProtEntryConverter converter = new UniProtEntryConverter(null);
+        UniProtEntryConverter converter =
+                new UniProtEntryConverter(null, null, null, null, null, null);
         UniProtDocument document = converter.convert(entry);
 
         // then
@@ -358,9 +384,9 @@ class UniProtkbEntryConverterTest {
         assertEquals(Collections.singletonList("hamap"), document.sources);
     }
 
-    private UniProtkbEntryBuilder getBasicEntryBuilder() {
-        return new UniProtkbEntryBuilder("P12345", "UNIPROT_ENTRYID", UniProtkbEntryType.SWISSPROT)
-                .sequence(new SequenceBuilder("AAAAA").build());
+    private UniProtKBEntryBuilder getBasicEntryBuilder() {
+        return new UniProtKBEntryBuilder("P12345", "UNIPROT_ENTRYID", UniProtKBEntryType.SWISSPROT)
+                .sequence(sq("AAAAA"));
     }
 
     private LocalDate getLocalDateFromDate(Date date) {
@@ -375,5 +401,9 @@ class UniProtkbEntryConverterTest {
                 .databaseName("PubMed")
                 .databaseId("id" + posfix)
                 .build();
+    }
+
+    private Sequence sq(String seq) {
+        return new SequenceBuilder(seq).build();
     }
 }

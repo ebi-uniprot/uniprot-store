@@ -15,7 +15,7 @@ import org.apache.spark.api.java.JavaSparkContext;
 import org.uniprot.core.cv.go.GeneOntologyEntry;
 import org.uniprot.core.cv.pathway.UniPathway;
 import org.uniprot.core.taxonomy.TaxonomyEntry;
-import org.uniprot.core.uniprotkb.UniProtkbEntry;
+import org.uniprot.core.uniprotkb.UniProtKBEntry;
 import org.uniprot.core.uniref.UniRefEntry;
 import org.uniprot.core.uniref.UniRefType;
 import org.uniprot.cv.pathway.UniPathwayFileReader;
@@ -47,7 +47,7 @@ public class UniProtKBIndexer {
             JavaSparkContext sparkContext, ResourceBundle applicationConfig) {
         SparkConf sparkConf = sparkContext.sc().conf();
 
-        JavaPairRDD<String, UniProtkbEntry> uniProtEntryRDD =
+        JavaPairRDD<String, UniProtKBEntry> uniProtEntryRDD =
                 UniProtKBRDDTupleReader.load(sparkContext, applicationConfig);
 
         uniProtEntryRDD = joinGoEvidences(uniProtEntryRDD, applicationConfig, sparkConf);
@@ -78,11 +78,11 @@ public class UniProtKBIndexer {
     }
 
     /**
-     * @param uniProtEntryRDD JavaPairRDD<accesion, UniProtkbEntry>
-     * @return RDD of JavaPairRDD<accesion, UniProtDocument> with UniProtkbEntry mapped information
+     * @param uniProtEntryRDD JavaPairRDD<accesion, UniProtKBEntry>
+     * @return RDD of JavaPairRDD<accesion, UniProtDocument> with UniProtKBEntry mapped information
      */
     private static JavaPairRDD<String, UniProtDocument> convertToUniProtDocument(
-            JavaPairRDD<String, UniProtkbEntry> uniProtEntryRDD,
+            JavaPairRDD<String, UniProtKBEntry> uniProtEntryRDD,
             ResourceBundle applicationConfig,
             JavaSparkContext sparkContext) {
 
@@ -244,19 +244,19 @@ public class UniProtKBIndexer {
     }
 
     /**
-     * @param uniProtEntryRDD JavaPairRDD<accesion, UniProtkbEntry>
+     * @param uniProtEntryRDD JavaPairRDD<accesion, UniProtKBEntry>
      * @param applicationConfig config
      * @param sparkConf spark configuration
-     * @return RDD of JavaPairRDD<accesion, UniProtkbEntry> with extended GoEvidence mapped
+     * @return RDD of JavaPairRDD<accesion, UniProtKBEntry> with extended GoEvidence mapped
      *     information
      */
-    private static JavaPairRDD<String, UniProtkbEntry> joinGoEvidences(
-            JavaPairRDD<String, UniProtkbEntry> uniProtEntryRDD,
+    private static JavaPairRDD<String, UniProtKBEntry> joinGoEvidences(
+            JavaPairRDD<String, UniProtKBEntry> uniProtEntryRDD,
             ResourceBundle applicationConfig,
             SparkConf sparkConf) {
         JavaPairRDD<String, Iterable<GOEvidence>> goEvidenceRDD =
                 GOEvidencesRDDReader.load(sparkConf, applicationConfig);
-        return (JavaPairRDD<String, UniProtkbEntry>)
+        return (JavaPairRDD<String, UniProtKBEntry>)
                 uniProtEntryRDD.leftOuterJoin(goEvidenceRDD).mapValues(new GOEvidenceMapper());
     }
 

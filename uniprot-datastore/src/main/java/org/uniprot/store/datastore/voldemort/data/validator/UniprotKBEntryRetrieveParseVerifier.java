@@ -16,8 +16,8 @@ import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.uniprot.core.flatfile.parser.impl.EntryBufferedReader2;
-import org.uniprot.core.uniprotkb.UniProtkbEntry;
-import org.uniprot.core.uniprotkb.UniProtkbEntryType;
+import org.uniprot.core.uniprotkb.UniProtKBEntry;
+import org.uniprot.core.uniprotkb.UniProtKBEntryType;
 import org.uniprot.store.datastore.voldemort.MetricsUtil;
 import org.uniprot.store.datastore.voldemort.VoldemortClient;
 import org.uniprot.store.datastore.voldemort.VoldemortEntryStoreBuilder;
@@ -35,11 +35,11 @@ import com.codahale.metrics.Slf4jReporter;
  *
  * <p>Created By lgonzales
  */
-public class UniprotEntryRetrieveParseVerifier {
+public class UniprotKBEntryRetrieveParseVerifier {
 
     private static final Logger logger =
-            LoggerFactory.getLogger(UniprotEntryRetrieveParseVerifier.class);
-    private final VoldemortClient<UniProtkbEntry> remoteStore;
+            LoggerFactory.getLogger(UniprotKBEntryRetrieveParseVerifier.class);
+    private final VoldemortClient<UniProtKBEntry> remoteStore;
     protected final Slf4jReporter reporter;
 
     private final Counter counter_parsed_sw;
@@ -49,7 +49,7 @@ public class UniprotEntryRetrieveParseVerifier {
     private final Counter counter_entry_total;
     private final Counter counter_not_found;
 
-    UniprotEntryRetrieveParseVerifier(VoldemortClient<UniProtkbEntry> store) {
+    UniprotKBEntryRetrieveParseVerifier(VoldemortClient<UniProtKBEntry> store) {
         this.remoteStore = store;
 
         Slf4jReporter reporter =
@@ -99,7 +99,7 @@ public class UniprotEntryRetrieveParseVerifier {
                     } else {
                         final String accession = getAccession(next);
                         executorService.submit(
-                                new UniprotEntryRetrieveParseVerifier.DataVerificationJob(
+                                new UniprotKBEntryRetrieveParseVerifier.DataVerificationJob(
                                         accession, parsingFailed));
                     }
                 } while (true);
@@ -163,10 +163,10 @@ public class UniprotEntryRetrieveParseVerifier {
 
         logger.info("Loading from file: {}", uniprotFFPath);
         logger.info("voldemort server: {}", voldemortUrl);
-        VoldemortClient<UniProtkbEntry> store =
+        VoldemortClient<UniProtKBEntry> store =
                 new VoldemortRemoteUniProtKBEntryStore("avro-uniprot", voldemortUrl);
-        UniprotEntryRetrieveParseVerifier dataVerification =
-                new UniprotEntryRetrieveParseVerifier(store);
+        UniprotKBEntryRetrieveParseVerifier dataVerification =
+                new UniprotKBEntryRetrieveParseVerifier(store);
         dataVerification.executeVerification(uniprotFFPath);
 
         dataVerification.generateStatsFile(statsFilePath);
@@ -187,12 +187,12 @@ public class UniprotEntryRetrieveParseVerifier {
         public void run() {
             counter_entry_total.inc();
             try {
-                Optional<UniProtkbEntry> voldemortResult = remoteStore.getEntry(this.accession);
+                Optional<UniProtKBEntry> voldemortResult = remoteStore.getEntry(this.accession);
                 if (voldemortResult.isPresent()) {
-                    UniProtkbEntry uniprotEntry = voldemortResult.get();
-                    if (uniprotEntry.getEntryType() == UniProtkbEntryType.TREMBL) {
+                    UniProtKBEntry uniprotEntry = voldemortResult.get();
+                    if (uniprotEntry.getEntryType() == UniProtKBEntryType.TREMBL) {
                         counter_parsed_tr.inc();
-                    } else if (uniprotEntry.getEntryType() == UniProtkbEntryType.SWISSPROT) {
+                    } else if (uniprotEntry.getEntryType() == UniProtKBEntryType.SWISSPROT) {
                         if (uniprotEntry.getPrimaryAccession().getValue().contains("-")) {
                             counter_parsed_isoform.inc();
                         } else {

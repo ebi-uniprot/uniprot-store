@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.apache.spark.api.java.function.PairFlatMapFunction;
-import org.uniprot.core.uniprotkb.UniProtkbAccession;
+import org.uniprot.core.uniprotkb.UniProtKBAccession;
 import org.uniprot.core.uniref.*;
 import org.uniprot.core.util.Utils;
 import org.uniprot.store.spark.indexer.uniprot.mapper.model.MappedUniRef;
@@ -63,7 +63,7 @@ public class UniRefJoinMapper
             UniRefType type, String clusterId, UniRefMember uniRefMember) {
         List<String> accessions =
                 uniRefMember.getUniProtAccessions().stream()
-                        .map(UniProtkbAccession::getValue)
+                        .map(UniProtKBAccession::getValue)
                         .collect(Collectors.toList());
         MappedUniRef mappedUniRef =
                 MappedUniRef.builder()

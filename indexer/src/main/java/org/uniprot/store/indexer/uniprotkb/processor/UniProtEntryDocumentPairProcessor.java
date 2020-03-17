@@ -6,7 +6,7 @@ import org.springframework.batch.core.StepExecution;
 import org.springframework.batch.core.annotation.BeforeStep;
 import org.springframework.batch.item.ExecutionContext;
 import org.uniprot.core.flatfile.writer.impl.UniProtFlatfileWriter;
-import org.uniprot.core.uniprotkb.UniProtkbEntry;
+import org.uniprot.core.uniprotkb.UniProtKBEntry;
 import org.uniprot.store.indexer.common.utils.Constants;
 import org.uniprot.store.indexer.uniprotkb.converter.UniProtEntryConverter;
 import org.uniprot.store.indexer.uniprotkb.model.UniProtEntryDocumentPair;
@@ -21,7 +21,7 @@ import org.uniprot.store.search.document.uniprot.UniProtDocument;
 @Slf4j
 public class UniProtEntryDocumentPairProcessor
         extends EntryDocumentPairProcessor<
-                UniProtkbEntry, UniProtDocument, UniProtEntryDocumentPair> {
+                UniProtKBEntry, UniProtDocument, UniProtEntryDocumentPair> {
     private final UniProtEntryConverter converter;
 
     public UniProtEntryDocumentPairProcessor(UniProtEntryConverter converter) {
@@ -36,12 +36,12 @@ public class UniProtEntryDocumentPairProcessor
     }
 
     @Override
-    public String extractEntryId(UniProtkbEntry entry) {
+    public String extractEntryId(UniProtKBEntry entry) {
         return entry.getPrimaryAccession().getValue();
     }
 
     @Override
-    public String entryToString(UniProtkbEntry entry) {
+    public String entryToString(UniProtKBEntry entry) {
         return UniProtFlatfileWriter.write(entry);
     }
 }

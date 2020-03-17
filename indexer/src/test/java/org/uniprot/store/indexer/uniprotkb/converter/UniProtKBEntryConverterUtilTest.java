@@ -9,8 +9,8 @@ import java.util.Set;
 import org.junit.jupiter.api.Test;
 import org.uniprot.core.citation.Author;
 import org.uniprot.core.citation.impl.AuthorBuilder;
-import org.uniprot.core.uniprotkb.UniProtkbEntry;
-import org.uniprot.core.uniprotkb.UniProtkbEntryType;
+import org.uniprot.core.uniprotkb.UniProtKBEntry;
+import org.uniprot.core.uniprotkb.UniProtKBEntryType;
 import org.uniprot.core.uniprotkb.comment.APIsoform;
 import org.uniprot.core.uniprotkb.comment.AlternativeProductsComment;
 import org.uniprot.core.uniprotkb.comment.IsoformSequenceStatus;
@@ -19,14 +19,14 @@ import org.uniprot.core.uniprotkb.comment.impl.AlternativeProductsCommentBuilder
 import org.uniprot.core.uniprotkb.evidence.Evidence;
 import org.uniprot.core.uniprotkb.evidence.EvidenceCode;
 import org.uniprot.core.uniprotkb.evidence.impl.EvidenceBuilder;
-import org.uniprot.core.uniprotkb.impl.UniProtkbEntryBuilder;
+import org.uniprot.core.uniprotkb.impl.UniProtKBEntryBuilder;
 import org.uniprot.store.search.document.suggest.SuggestDictionary;
 
 /**
  * @author lgonzales
  * @since 2019-09-09
  */
-class UniProtkbEntryConverterUtilTest {
+class UniProtKBEntryConverterUtilTest {
 
     @Test
     void extractAutomaticEvidence() {
@@ -147,8 +147,8 @@ class UniProtkbEntryConverterUtilTest {
 
     @Test
     void isCanonicalIsoformNotCannonical() {
-        UniProtkbEntry entry =
-                new UniProtkbEntryBuilder("P12345", "id", UniProtkbEntryType.TREMBL).build();
+        UniProtKBEntry entry =
+                new UniProtKBEntryBuilder("P12345", "id", UniProtKBEntryType.TREMBL).build();
 
         boolean isCanonical = UniProtEntryConverterUtil.isCanonicalIsoform(entry);
         assertFalse(isCanonical);
@@ -165,8 +165,8 @@ class UniProtkbEntryConverterUtilTest {
         AlternativeProductsComment comment =
                 new AlternativeProductsCommentBuilder().isoformsAdd(isoform).build();
 
-        UniProtkbEntry entry =
-                new UniProtkbEntryBuilder("P12345", "id", UniProtkbEntryType.SWISSPROT)
+        UniProtKBEntry entry =
+                new UniProtKBEntryBuilder("P12345", "id", UniProtKBEntryType.SWISSPROT)
                         .commentsAdd(comment)
                         .build();
 

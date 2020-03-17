@@ -13,23 +13,23 @@ import org.uniprot.core.citation.impl.JournalArticleBuilder;
 import org.uniprot.core.impl.CrossReferenceBuilder;
 import org.uniprot.core.uniprotkb.ReferenceComment;
 import org.uniprot.core.uniprotkb.ReferenceCommentType;
-import org.uniprot.core.uniprotkb.UniProtkbReference;
+import org.uniprot.core.uniprotkb.UniProtKBReference;
 import org.uniprot.core.uniprotkb.evidence.Evidence;
 import org.uniprot.core.uniprotkb.evidence.EvidenceCode;
 import org.uniprot.core.uniprotkb.evidence.impl.EvidenceBuilder;
 import org.uniprot.core.uniprotkb.impl.ReferenceCommentBuilder;
-import org.uniprot.core.uniprotkb.impl.UniProtkbReferenceBuilder;
+import org.uniprot.core.uniprotkb.impl.UniProtKBReferenceBuilder;
 import org.uniprot.store.search.document.uniprot.UniProtDocument;
 
 /**
  * @author lgonzales
  * @since 2019-09-09
  */
-class UniProtkbEntryReferencesConverterTest {
+class UniProtKBEntryReferencesConverterTest {
 
     @Test
     void convertCompleteReference() {
-        List<UniProtkbReference> references = new ArrayList<>();
+        List<UniProtKBReference> references = new ArrayList<>();
         references.add(getUniProtReference(ReferenceCommentType.PLASMID, "one"));
         references.add(getUniProtReference(ReferenceCommentType.PLASMID, "two"));
         UniProtDocument document = new UniProtDocument();
@@ -76,7 +76,7 @@ class UniProtkbEntryReferencesConverterTest {
 
     @Test
     void convertReferencesForTissue() {
-        List<UniProtkbReference> references =
+        List<UniProtKBReference> references =
                 Collections.singletonList(getUniProtReference(ReferenceCommentType.TISSUE, "one"));
         UniProtDocument document = new UniProtDocument();
 
@@ -92,7 +92,7 @@ class UniProtkbEntryReferencesConverterTest {
 
     @Test
     void convertReferencesForStrain() {
-        List<UniProtkbReference> references =
+        List<UniProtKBReference> references =
                 Collections.singletonList(getUniProtReference(ReferenceCommentType.STRAIN, "one"));
         UniProtDocument document = new UniProtDocument();
 
@@ -108,7 +108,7 @@ class UniProtkbEntryReferencesConverterTest {
 
     @Test
     void convertReferencesForTransposon() {
-        List<UniProtkbReference> references =
+        List<UniProtKBReference> references =
                 Collections.singletonList(
                         getUniProtReference(ReferenceCommentType.TRANSPOSON, "one"));
         UniProtDocument document = new UniProtDocument();
@@ -123,7 +123,7 @@ class UniProtkbEntryReferencesConverterTest {
         assertTrue(document.content.contains("one reference comment"));
     }
 
-    private static UniProtkbReference getUniProtReference(
+    private static UniProtKBReference getUniProtReference(
             ReferenceCommentType referenceCommentType, String prefix) {
         Evidence evidence =
                 new EvidenceBuilder()
@@ -158,7 +158,7 @@ class UniProtkbEntryReferencesConverterTest {
                         .evidencesSet(Collections.singletonList(evidence))
                         .build();
 
-        return new UniProtkbReferenceBuilder()
+        return new UniProtKBReferenceBuilder()
                 .citation(citation)
                 .referenceCommentsAdd(referenceComment)
                 .referencePositionsAdd(prefix + " position")

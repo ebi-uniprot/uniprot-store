@@ -22,7 +22,7 @@ import org.uniprot.store.search.document.uniprot.UniProtDocument;
  * @author lgonzales
  * @since 2019-09-06
  */
-class UniProtkbEntryTaxonomyConverterTest {
+class UniProtKBEntryTaxonomyConverterTest {
 
     @Test
     void convertPopularOrganism() {
