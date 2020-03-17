@@ -1,0 +1,126 @@
+[
+  {
+    "seqNumber": 0,
+    "itemType": "GROUP",
+    "groupName": "Literature",
+    "isDatabaseGroup": false,
+    "id": "literature"
+  },
+  {
+    "parentId": "literature",
+    "childNumber": 0,
+    "itemType": "SINGLE",
+    "label": "PubMed ID",
+    "name": "pubmedId",
+    "paths" : ["citation.citationCrossReferences[?(@.database=='PubMed')]"],
+    "id": "literature/pubmedId"
+  },
+  {
+    "parentId": "literature",
+    "childNumber": 1,
+    "itemType": "SINGLE",
+    "label": "Doi",
+    "name": "doiId",
+    "paths" : ["citation.citationCrossReferences[?(@.database=='DOI')]"],
+    "id": "literature/doiId"
+  },
+  {
+    "parentId": "literature",
+    "childNumber": 2,
+    "itemType": "SINGLE",
+    "label": "Title",
+    "name": "title",
+    "paths" : ["citation.title"],
+    "id": "literature/title"
+  },
+  {
+    "parentId": "literature",
+    "childNumber": 3,
+    "itemType": "SINGLE",
+    "label": "Authoring Group",
+    "name": "authoring_group",
+    "paths" : ["citation.authoringGroup"],
+    "id": "literature/authoring_group"
+  },
+  {
+    "parentId": "literature",
+    "childNumber": 4,
+    "itemType": "SINGLE",
+    "label": "Journal",
+    "name": "journal",
+    "paths" : ["citation.journal"],
+    "id": "literature/journal"
+  },
+  {
+    "parentId": "literature",
+    "childNumber": 5,
+    "itemType": "SINGLE",
+    "label": "Publication date",
+    "name": "publication",
+    "paths" : ["citation.publicationDate"],
+    "id": "literature/publication"
+  },
+  {
+    "parentId": "literature",
+    "childNumber": 6,
+    "itemType": "SINGLE",
+    "label": "First page",
+    "name": "first_page",
+    "paths" : ["citation.firstPage"],
+    "id": "literature/first_page"
+  },
+  {
+    "parentId": "literature",
+    "childNumber": 7,
+    "itemType": "SINGLE",
+    "label": "Last page",
+    "name": "last_page",
+    "paths" : ["citation.lastPage"],
+    "id": "literature/last_page"
+  },
+  {
+    "parentId": "literature",
+    "childNumber": 8,
+    "itemType": "SINGLE",
+    "label": "Volume",
+    "name": "volume",
+    "paths" : ["citation.volume"],
+    "id": "literature/volume"
+  },
+  {
+    "parentId": "literature",
+    "childNumber": 9,
+    "itemType": "SINGLE",
+    "label": "Abstract/Summary",
+    "name": "lit_abstract",
+    "paths" : ["citation.literatureAbstract"],
+    "id": "literature/lit_abstract"
+  },
+  {
+    "parentId": "literature",
+    "childNumber": 10,
+    "itemType": "SINGLE",
+    "label": "Complete Author List",
+    "name": "complete_author_list",
+    "paths" : ["citation.completeAuthorList"],
+    "id": "literature/complete_author_list"
+  },
+  {
+    "parentId": "literature",
+    "childNumber": 11,
+    "itemType": "SINGLE",
+    "label": "Citation",
+    "name": "citation",
+    "paths" : ["citation"],
+    "id": "literature/citation"
+  },
+  {
+    "parentId": "literature",
+    "childNumber": 12,
+    "itemType": "SINGLE",
+    "label": "Statistics",
+    "name": "statistics",
+    "paths" : ["statistics"],
+    "id": "literature/statistics"
+  }
+]

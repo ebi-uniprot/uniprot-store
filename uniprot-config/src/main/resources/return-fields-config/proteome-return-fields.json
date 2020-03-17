@@ -1,0 +1,181 @@
+[
+  {
+    "seqNumber": 0,
+    "itemType": "GROUP",
+    "groupName": "Proteome",
+    "isDatabaseGroup": false,
+    "id": "proteome"
+  },
+  {
+    "parentId": "proteome",
+    "childNumber": 0,
+    "itemType": "SINGLE",
+    "label": "Proteome Id",
+    "name": "id",
+    "paths" : ["id"],
+    "id": "proteome/id"
+  },
+  {
+    "parentId": "proteome",
+    "childNumber": 1,
+    "itemType": "SINGLE",
+    "label": "Description",
+    "name": "description",
+    "paths" : ["description"],
+    "id": "proteome/description"
+  },
+  {
+    "parentId": "proteome",
+    "childNumber": 2,
+    "itemType": "SINGLE",
+    "label": "Taxonomy",
+    "name": "taxonomy",
+    "paths" : ["taxonomy"],
+    "id": "proteome/taxonomy"
+  },
+  {
+    "parentId": "proteome",
+    "childNumber": 3,
+    "itemType": "SINGLE",
+    "label": "Modified Date",
+    "name": "modified",
+    "paths" : ["modified"],
+    "id": "proteome/modified"
+  },
+  {
+    "parentId": "proteome",
+    "childNumber": 4,
+    "itemType": "SINGLE",
+    "label": "Type",
+    "name": "type",
+    "paths" : ["proteomeType"],
+    "id": "proteome/type"
+  },
+  {
+    "parentId": "proteome",
+    "childNumber": 5,
+    "itemType": "SINGLE",
+    "label": "Redundant To",
+    "name": "redundant_to",
+    "paths" : ["redundantTo"],
+    "id": "proteome/redundant_to"
+  },
+  {
+    "parentId": "proteome",
+    "childNumber": 6,
+    "itemType": "SINGLE",
+    "label": "Strain",
+    "name": "strain",
+    "paths" : ["strain"],
+    "id": "proteome/strain"
+  },
+
+  {
+    "parentId": "proteome",
+    "childNumber": 7,
+    "itemType": "SINGLE",
+    "label": "Isolate",
+    "name": "isolate",
+    "paths" : ["isolate"],
+    "id": "proteome/isolate"
+  },
+  {
+    "parentId": "proteome",
+    "childNumber": 8,
+    "itemType": "SINGLE",
+    "label": "Cross References",
+    "name": "cross_reference",
+    "paths" : ["proteomeCrossReferences"],
+    "id": "proteome/cross_reference"
+  },
+  {
+    "parentId": "proteome",
+    "childNumber": 9,
+    "itemType": "SINGLE",
+    "label": "Components",
+    "name": "components",
+    "paths" : ["components"],
+    "id": "proteome/components"
+  },
+  {
+    "parentId": "proteome",
+    "childNumber": 10,
+    "itemType": "SINGLE",
+    "label": "References",
+    "name": "references",
+    "paths" : ["references"],
+    "id": "proteome/references"
+  },
+  {
+    "parentId": "proteome",
+    "childNumber": 11,
+    "itemType": "SINGLE",
+    "label": "Redundant proteomes",
+    "name": "redundant_proteomes",
+    "paths" : ["redundantProteomes"],
+    "id": "proteome/redundant_proteomes"
+  },
+  {
+    "parentId": "proteome",
+    "childNumber": 12,
+    "itemType": "SINGLE",
+    "label": "Panproteome",
+    "name": "panproteome",
+    "paths" : ["panproteome"],
+    "id": "proteome/panproteome"
+  },
+  {
+    "parentId": "proteome",
+    "childNumber": 13,
+    "itemType": "SINGLE",
+    "label": "Annotation score",
+    "name": "annotation_score",
+    "paths" : ["annotationScore"],
+    "id": "proteome/annotation_score"
+  },
+  {
+    "parentId": "proteome",
+    "childNumber": 14,
+    "itemType": "SINGLE",
+    "label": "Super kingdom",
+    "name": "superkingdom",
+    "paths" : ["superkingdom"],
+    "id": "proteome/super_kingdom"
+  },
+  {
+    "parentId": "proteome",
+    "childNumber": 15,
+    "itemType": "SINGLE",
+    "label": "Gene Count",
+    "name": "gene_count",
+    "paths" : ["geneCount"],
+    "id": "proteome/gene_count"
+  },
+  {
+    "parentId": "proteome",
+    "childNumber": 16,
+    "itemType": "SINGLE",
+    "label": "Lineage",
+    "name": "lineage",
+    "paths" : ["taxonLineage"],
+    "id": "proteome/lineage"
+  },
+  {
+    "parentId": "proteome",
+    "childNumber": 17,
+    "itemType": "SINGLE",
+    "label": "Canonical proteins",
+    "name": "canonical_proteins",
+    "paths" : ["canonicalProteins"],
+    "id": "proteome/canonical_proteins"
+  },
+  {
+    "parentId": "proteome",
+    "childNumber": 18,
+    "itemType": "SINGLE",
+    "label": "Source database",
+    "name": "source_database",
+    "paths" : ["sourceDb"],
+    "id": "proteome/source_database"
+  }
+]

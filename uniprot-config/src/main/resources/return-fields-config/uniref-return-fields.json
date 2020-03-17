@@ -12,7 +12,7 @@
     "itemType": "SINGLE",
     "name": "id",
     "label": "Cluster ID",
-    "path": "xxxxx",
+    "path": "id",
     "id": "names_&_taxonomy/id"
   },
   {
@@ -21,7 +21,7 @@
     "itemType": "SINGLE",
     "name": "name",
     "label": "Cluster Name",
-    "path": "xxxxx",
+    "path": "name",
     "id": "names_&_taxonomy/name"
   },
   {
@@ -30,7 +30,7 @@
     "itemType": "SINGLE",
     "name": "common_taxon",
     "label": "Common taxon",
-    "path": "xxxxx",
+    "path": "commonTaxon",
     "id": "names_&_taxonomy/common_taxon"
   },
   {
@@ -39,7 +39,7 @@
     "itemType": "SINGLE",
     "name": "common_taxonid",
     "label": "Common taxon ID",
-    "path": "xxxxx",
+    "path": "commonTaxonId",
     "id": "names_&_taxonomy/common_taxonid"
   },
   {
@@ -48,7 +48,7 @@
     "itemType": "SINGLE",
     "name": "organism_id",
     "label": "Organism IDs",
-    "path": "xxxxx",
+    "path": "id",
     "id": "names_&_taxonomy/organism_id"
   },
   {
@@ -57,7 +57,7 @@
     "itemType": "SINGLE",
     "name": "organism",
     "label": "Organisms",
-    "path": "xxxxx",
+    "path": "id",
     "id": "names_&_taxonomy/organism"
   },
   {
@@ -73,7 +73,7 @@
     "itemType": "SINGLE",
     "name": "identity",
     "label": "Identity",
-    "path": "xxxxx",
+    "path": "entryType",
     "id": "miscellaneous/identity"
   },
   {
@@ -82,7 +82,7 @@
     "itemType": "SINGLE",
     "name": "length",
     "label": "Length",
-    "path": "xxxxx",
+    "path": "representativeMember.sequence.length",
     "id": "miscellaneous/length"
   },
   {
@@ -91,7 +91,7 @@
     "itemType": "SINGLE",
     "name": "sequence",
     "label": "Reference sequence",
-    "path": "xxxxx",
+    "path": "representativeMember.sequence.value",
     "id": "miscellaneous/sequence"
   },
   {
@@ -107,7 +107,7 @@
     "itemType": "SINGLE",
     "name": "types",
     "label": "TODO: Name For it",
-    "path": "xxxxx",
+    "path": "id",
     "id": "miscellaneous/types"
   },
   {
@@ -116,7 +116,7 @@
     "itemType": "SINGLE",
     "name": "members",
     "label": "Cluster members",
-    "path": "xxxxx",
+    "path": "members",
     "id": "miscellaneous/members"
   },
   {
@@ -125,7 +125,7 @@
     "itemType": "SINGLE",
     "name": "size",
     "label": "Size",
-    "path": "xxxxx",
+    "path": "memberCount",
     "id": "miscellaneous/size"
   },
   {
@@ -141,7 +141,7 @@
     "itemType": "SINGLE",
     "name": "created",
     "label": "Date of creation",
-    "path": "xxxxx",
+    "path": "updated",
     "id": "date_of/created"
   }
 ]

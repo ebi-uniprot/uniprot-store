@@ -1,0 +1,90 @@
+[
+  {
+    "seqNumber": 0,
+    "itemType": "GROUP",
+    "groupName": "Disease",
+    "isDatabaseGroup": false,
+    "id": "disease"
+  },
+  {
+    "parentId": "disease",
+    "childNumber": 0,
+    "itemType": "SINGLE",
+    "label": "Name",
+    "name": "name",
+    "paths" : ["id"],
+    "id": "disease/name"
+  },
+  {
+    "parentId": "disease",
+    "childNumber": 1,
+    "itemType": "SINGLE",
+    "label": "Disease Entry ID",
+    "name": "accession",
+    "paths" : ["accession"],
+    "id": "disease/accession"
+  },
+  {
+    "parentId": "disease",
+    "childNumber": 2,
+    "itemType": "SINGLE",
+    "label": "Acronym (Mnemonic)",
+    "name": "acronym",
+    "paths" : ["acronym"],
+    "id": "disease/acronym"
+  },
+  {
+    "parentId": "disease",
+    "childNumber": 3,
+    "itemType": "SINGLE",
+    "label": "Description",
+    "name": "definition",
+    "paths" : ["definition"],
+    "id": "disease/definition"
+  },
+  {
+    "parentId": "disease",
+    "childNumber": 4,
+    "itemType": "SINGLE",
+    "label": "Alternative Names",
+    "name": "alternative_names",
+    "paths" : ["alternativeNames"],
+    "id": "disease/alternative_names"
+  },
+  {
+    "parentId": "disease",
+    "childNumber": 5,
+    "itemType": "SINGLE",
+    "label": "Cross Reference",
+    "name": "cross_references",
+    "paths" : ["crossReferences"],
+    "id": "disease/cross_references"
+  },
+  {
+    "parentId": "disease",
+    "childNumber": 6,
+    "itemType": "SINGLE",
+    "label": "Keywords",
+    "name": "keywords",
+    "paths" : ["keywords"],
+    "id": "disease/keywords"
+  },
+  {
+    "parentId": "disease",
+    "childNumber": 7,
+    "itemType": "SINGLE",
+    "label": "UniProtKB reviewed (Swiss-Prot) protein count",
+    "name": "reviewed_protein_count",
+    "paths" : ["reviewedProteinCount"],
+    "id": "disease/reviewed_protein_count"
+  },
+  {
+    "parentId": "disease",
+    "childNumber": 8,
+    "itemType": "SINGLE",
+    "label": "UniProtKB unreviewed (TrEMBL) protein count",
+    "name": "unreviewed_protein_count",
+    "paths" : ["unreviewedProteinCount"],
+    "id": "disease/unreviewed_protein_count"
+  }
+]

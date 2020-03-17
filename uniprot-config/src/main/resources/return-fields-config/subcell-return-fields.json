@@ -1,0 +1,135 @@
+[
+  {
+    "seqNumber": 0,
+    "itemType": "GROUP",
+    "groupName": "Subcellular location",
+    "isDatabaseGroup": false,
+    "id": "subcellular_location"
+  },
+  {
+    "parentId": "subcellular_location",
+    "childNumber": 0,
+    "itemType": "SINGLE",
+    "label": "Alias",
+    "name": "id",
+    "paths" : ["id"],
+    "id": "subcellular_location/id"
+  },
+  {
+    "parentId": "subcellular_location",
+    "childNumber": 1,
+    "itemType": "SINGLE",
+    "label": "Subcellular location ID",
+    "name": "accession",
+    "paths" : ["accession"],
+    "id": "subcellular_location/accession"
+  },
+  {
+    "parentId": "subcellular_location",
+    "childNumber": 2,
+    "itemType": "SINGLE",
+    "label": "Definition",
+    "name": "definition",
+    "paths" : ["definition"],
+    "id": "subcellular_location/definition"
+  },
+  {
+    "parentId": "subcellular_location",
+    "childNumber": 3,
+    "itemType": "SINGLE",
+    "label": "Category",
+    "name": "category",
+    "paths" : ["category"],
+    "id": "subcellular_location/category"
+  },
+  {
+    "parentId": "subcellular_location",
+    "childNumber": 4,
+    "itemType": "SINGLE",
+    "label": "Keyword",
+    "name": "keyword",
+    "paths" : ["keyword"],
+    "id": "subcellular_location/keyword"
+  },
+  {
+    "parentId": "subcellular_location",
+    "childNumber": 5,
+    "itemType": "SINGLE",
+    "label": "Synonyms",
+    "name": "synonyms",
+    "paths" : ["synonyms"],
+    "id": "subcellular_location/synonyms"
+  },
+  {
+    "parentId": "subcellular_location",
+    "childNumber": 6,
+    "itemType": "SINGLE",
+    "label": "Content",
+    "name": "content",
+    "paths" : ["content"],
+    "id": "subcellular_location/content"
+  },
+  {
+    "parentId": "subcellular_location",
+    "childNumber": 7,
+    "itemType": "SINGLE",
+    "label": "Gene Ontologies",
+    "name": "gene_ontologies",
+    "paths" : ["geneOntologies"],
+    "id": "subcellular_location/gene_ontologies"
+  },
+  {
+    "parentId": "subcellular_location",
+    "childNumber": 8,
+    "itemType": "SINGLE",
+    "label": "Note",
+    "name": "note",
+    "paths" : ["note"],
+    "id": "subcellular_location/note"
+  },
+  {
+    "parentId": "subcellular_location",
+    "childNumber": 9,
+    "itemType": "SINGLE",
+    "label": "References",
+    "name": "references",
+    "paths" : ["references"],
+    "id": "subcellular_location/references"
+  },
+  {
+    "parentId": "subcellular_location",
+    "childNumber": 10,
+    "itemType": "SINGLE",
+    "label": "Links",
+    "name": "links",
+    "paths" : ["links"],
+    "id": "subcellular_location/links"
+  },
+  {
+    "parentId": "subcellular_location",
+    "childNumber": 11,
+    "itemType": "SINGLE",
+    "label": "Is a",
+    "name": "is_a",
+    "paths" : ["isA"],
+    "id": "subcellular_location/is_a"
+  },
+  {
+    "parentId": "subcellular_location",
+    "childNumber": 12,
+    "itemType": "SINGLE",
+    "label": "Is part of",
+    "name": "part_of",
+    "paths" : ["partOf"],
+    "id": "subcellular_location/part_of"
+  },
+  {
+    "parentId": "subcellular_location",
+    "childNumber": 13,
+    "itemType": "SINGLE",
+    "label": "Statistics",
+    "name": "statistics",
+    "paths" : ["statistics"],
+    "id": "subcellular_location/statistics"
+  }
+]

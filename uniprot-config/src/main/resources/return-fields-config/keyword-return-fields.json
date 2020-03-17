@@ -1,0 +1,108 @@
+[
+  {
+    "seqNumber": 0,
+    "itemType": "GROUP",
+    "groupName": "Keyword",
+    "isDatabaseGroup": false,
+    "id": "keyword"
+  },
+  {
+    "parentId": "keyword",
+    "childNumber": 0,
+    "itemType": "SINGLE",
+    "label": "Keyword ID",
+    "name": "id",
+    "paths" : ["keyword.id"],
+    "id": "keyword/"
+  },
+  {
+    "parentId": "keyword",
+    "childNumber": 1,
+    "itemType": "SINGLE",
+    "label": "Keyword",
+    "name": "keyword",
+    "paths" : ["keyword"],
+    "id": "keyword/keyword"
+  },
+  {
+    "parentId": "keyword",
+    "childNumber": 2,
+    "itemType": "SINGLE",
+    "label": "Name",
+    "name": "name",
+    "paths" : ["keyword.name"],
+    "id": "keyword/name"
+  },
+  {
+    "parentId": "keyword",
+    "childNumber": 3,
+    "itemType": "SINGLE",
+    "label": "Description",
+    "name": "definition",
+    "paths" : ["definition"],
+    "id": "keyword/definition"
+  },
+  {
+    "parentId": "keyword",
+    "childNumber": 4,
+    "itemType": "SINGLE",
+    "label": "Category",
+    "name": "category",
+    "paths" : ["category"],
+    "id": "keyword/category"
+  },
+  {
+    "parentId": "keyword",
+    "childNumber": 5,
+    "itemType": "SINGLE",
+    "label": "Synonyms",
+    "name": "synonym",
+    "paths" : ["synonyms"],
+    "id": "keyword/synonym"
+  },
+  {
+    "parentId": "keyword",
+    "childNumber": 6,
+    "itemType": "SINGLE",
+    "label": "Gene Ontology",
+    "name": "gene_ontology",
+    "paths" : ["geneOntologies"],
+    "id": "keyword/gene_ontology"
+  },
+  {
+    "parentId": "keyword",
+    "childNumber": 7,
+    "itemType": "SINGLE",
+    "label": "Sites",
+    "name": "sites",
+    "paths" : ["sites"],
+    "id": "keyword/sites"
+  },
+  {
+    "parentId": "keyword",
+    "childNumber": 8,
+    "itemType": "SINGLE",
+    "label": "Children",
+    "name": "children",
+    "paths" : ["children"],
+    "id": "keyword/children"
+  },
+  {
+    "parentId": "keyword",
+    "childNumber": 9,
+    "itemType": "SINGLE",
+    "label": "Parents",
+    "name": "parent",
+    "paths" : ["parent"],
+    "id": "keyword/parent"
+  },
+  {
+    "parentId": "keyword",
+    "childNumber": 10,
+    "itemType": "SINGLE",
+    "label": "Statistics",
+    "name": "statistics",
+    "paths" : ["statistics"],
+    "id": "keyword/statistics"
+  }
+]

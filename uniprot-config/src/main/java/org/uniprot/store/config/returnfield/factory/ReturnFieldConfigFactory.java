@@ -10,6 +10,25 @@ import java.util.EnumMap;
 import java.util.Map;
 
 public class ReturnFieldConfigFactory {
+
+    private static final String CROSS_REF_CONFIG_FILE =
+            "return-fields-config/crossref-return-fields.json";
+    private static final String GENE_CONFIG_FILE =
+            "return-fields-config/gene-return-fields.json";
+    private static final String LITERATURE_CONFIG_FILE =
+            "return-fields-config/literature-return-fields.json";
+    private static final String SUGGEST_CONFIG_FILE =
+            "return-fields-config/suggest-return-fields.json";
+    private static final String DISEASE_CONFIG_FILE =
+            "return-fields-config/disease-return-fields.json";
+    private static final String KEYWORD_CONFIG_FILE =
+            "return-fields-config/keyword-return-fields.json";
+    private static final String PROTEOME_CONFIG_FILE =
+            "return-fields-config/proteome-return-fields.json";
+    private static final String SUBCELL_CONFIG_FILE =
+            "return-fields-config/subcell-return-fields.json";
+    private static final String TAXONOMY_CONFIG_FILE =
+            "return-fields-config/taxonnomy-return-fields.json";
     private static final String UNIPROTKB_CONFIG_FILE =
             "return-fields-config/uniprotkb-return-fields.json";
     private static final String UNIREF_CONFIG_FILE =
@@ -23,6 +42,15 @@ public class ReturnFieldConfigFactory {
 
     static {
         Map<UniProtDataType, String> typeConfigMap = new EnumMap<>(UniProtDataType.class);
+        typeConfigMap.put(UniProtDataType.CROSSREF, CROSS_REF_CONFIG_FILE);
+        typeConfigMap.put(UniProtDataType.GENECENTRIC, GENE_CONFIG_FILE);
+        typeConfigMap.put(UniProtDataType.LITERATURE, LITERATURE_CONFIG_FILE);
+        typeConfigMap.put(UniProtDataType.SUGGEST, SUGGEST_CONFIG_FILE);
+        typeConfigMap.put(UniProtDataType.DISEASE, DISEASE_CONFIG_FILE);
+        typeConfigMap.put(UniProtDataType.KEYWORD, KEYWORD_CONFIG_FILE);
+        typeConfigMap.put(UniProtDataType.PROTEOME, PROTEOME_CONFIG_FILE);
+        typeConfigMap.put(UniProtDataType.SUBCELLLOCATION, SUBCELL_CONFIG_FILE);
+        typeConfigMap.put(UniProtDataType.TAXONOMY, TAXONOMY_CONFIG_FILE);
         typeConfigMap.put(UniProtDataType.UNIPROTKB, UNIPROTKB_CONFIG_FILE);
         typeConfigMap.put(UniProtDataType.UNIREF, UNIREF_CONFIG_FILE);
         typeConfigMap.put(UniProtDataType.UNIPARC, UNIPARC_CONFIG_FILE);
