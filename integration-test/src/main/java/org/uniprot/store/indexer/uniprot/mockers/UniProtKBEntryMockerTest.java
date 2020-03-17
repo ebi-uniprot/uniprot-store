@@ -1,7 +1,8 @@
 package org.uniprot.store.indexer.uniprot.mockers;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.greaterThan;
+import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.IsNull.notNullValue;
 import static org.uniprot.store.indexer.uniprot.mockers.UniProtEntryMocker.Type.SP;
@@ -40,7 +41,7 @@ public class UniProtKBEntryMockerTest {
 
     @Test
     public void canCloneEntries() {
-        List<UniProtkbEntry> entries = UniProtEntryMocker.cloneEntries(SP, 10);
+        List<UniProtKBEntry> entries = UniProtEntryMocker.cloneEntries(SP, 10);
         assertThat(entries, hasSize(10));
     }
 }
