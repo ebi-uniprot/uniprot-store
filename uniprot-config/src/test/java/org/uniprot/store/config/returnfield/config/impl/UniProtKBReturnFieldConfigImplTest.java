@@ -1,15 +1,5 @@
 package org.uniprot.store.config.returnfield.config.impl;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.greaterThan;
-import static org.hamcrest.Matchers.hasSize;
-import static org.hamcrest.core.Is.is;
-import static org.hamcrest.core.IsNull.nullValue;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-
-import java.util.concurrent.atomic.AtomicInteger;
-import java.util.stream.Collectors;
-
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.uniprot.core.cv.xdb.UniProtDatabaseCategory;
@@ -17,6 +7,17 @@ import org.uniprot.core.cv.xdb.UniProtDatabaseDetail;
 import org.uniprot.cv.xdb.UniProtDatabaseTypes;
 import org.uniprot.store.config.returnfield.model.ReturnField;
 import org.uniprot.store.config.returnfield.model.ReturnFieldItemType;
+
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collectors;
+
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.greaterThan;
+import static org.hamcrest.Matchers.hasItems;
+import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.core.Is.is;
+import static org.hamcrest.core.IsNull.nullValue;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * Created 13/03/20
@@ -74,8 +75,9 @@ class UniProtKBReturnFieldConfigImplTest {
         assertThat(returnField.getChildNumber(), is(childNumber));
         assertThat(returnField.getItemType(), is(ReturnFieldItemType.SINGLE));
         assertThat(returnField.getLabel(), is(dbName));
-        assertThat(returnField.getPath(), is("uniProtCrossReferences"));
-        assertThat(returnField.getFilter(), is("[?(@.database=='" + dbName + "')]"));
+        assertThat(
+                returnField.getPaths(),
+                hasItems("uniProtCrossReferences[?(@.database=='\" + dbName + \"')]"));
         assertThat(returnField.getGroupName(), is(nullValue()));
         assertThat(returnField.getIsDatabaseGroup(), is(false));
         assertThat(returnField.getId(), is(parent.getId() + "/" + dbNameLowercase));

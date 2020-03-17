@@ -55,8 +55,7 @@ public class UniProtKBReturnFieldConfigImpl extends AbstractReturnFieldConfig {
         String databaseNameLowercase = dbName.toLowerCase();
         returnField.setName("dr_" + databaseNameLowercase);
         returnField.setLabel(dbName);
-        returnField.setPath("uniProtCrossReferences");
-        returnField.setFilter("[?(@.database=='" + dbName + "')]");
+        returnField.addPath("uniProtCrossReferences[?(@.database=='\" + dbName + \"')]");
         returnField.setId(parent.getId() + "/" + databaseNameLowercase);
         return returnField;
     }
