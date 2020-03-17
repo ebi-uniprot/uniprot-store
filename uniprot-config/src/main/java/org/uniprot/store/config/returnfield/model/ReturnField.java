@@ -28,7 +28,6 @@ public class ReturnField implements Field, Serializable {
     private String name;
     private String label;
     private List<String> paths;
-    private String filter; // TODO: 17/03/20 remove this, keeping to let things compile for now
     private String groupName;
     private Boolean isDatabaseGroup = false;
     @NotNull private String id;
