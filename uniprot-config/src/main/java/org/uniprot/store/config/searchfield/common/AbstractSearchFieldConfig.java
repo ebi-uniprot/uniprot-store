@@ -1,12 +1,8 @@
 package org.uniprot.store.config.searchfield.common;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.Objects;
-import java.util.stream.Collectors;
-
+import com.fasterxml.jackson.databind.JavaType;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
-
 import org.apache.commons.lang3.StringUtils;
 import org.uniprot.store.config.UniProtDataType;
 import org.uniprot.store.config.common.JsonLoader;
@@ -15,8 +11,10 @@ import org.uniprot.store.config.searchfield.model.SearchFieldItem;
 import org.uniprot.store.config.searchfield.model.SearchFieldType;
 import org.uniprot.store.config.searchfield.schema.SearchFieldDataValidator;
 
-import com.fasterxml.jackson.databind.JavaType;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import java.util.Collection;
+import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Slf4j
 public abstract class AbstractSearchFieldConfig implements SearchFieldConfig {
@@ -123,13 +121,6 @@ public abstract class AbstractSearchFieldConfig implements SearchFieldConfig {
     }
 
     protected abstract Collection<SearchFieldItem> dynamicallyLoadFields();
-
-    protected void addSearchFieldItems(List<SearchFieldItem> searchFieldItems) {
-        if (this.searchFieldItems == null) {
-            this.searchFieldItems = getSearchFieldItems();
-        }
-        this.searchFieldItems.addAll(searchFieldItems);
-    }
 
     private void init(String configFile) {
         ObjectMapper mapper = new ObjectMapper();

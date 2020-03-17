@@ -1,15 +1,16 @@
 package org.uniprot.store.config.returnfield.model;
 
-import java.io.Serializable;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import lombok.Data;
+import org.uniprot.core.util.Utils;
+import org.uniprot.store.config.model.Field;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PositiveOrZero;
-
-import lombok.Data;
-
-import org.uniprot.store.config.model.Field;
-
-import com.fasterxml.jackson.annotation.JsonInclude;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 /**
  * @author lgonzales
@@ -26,9 +27,18 @@ public class ReturnField implements Field, Serializable {
     @NotNull private ReturnFieldItemType itemType;
     private String name;
     private String label;
-    private String path;
-    private String filter;
+    private List<String> paths;
     private String groupName;
     private Boolean isDatabaseGroup = false;
     @NotNull private String id;
+    private String sortField;
+
+    public void addPath(String path) {
+        if (Utils.notNullNotEmpty(path)) {
+            if (Objects.isNull(this.paths)) {
+                this.paths = new ArrayList<>();
+            }
+            this.paths.add(path);
+        }
+    }
 }

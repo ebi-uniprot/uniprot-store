@@ -1,51 +1,60 @@
 {
-  "$schema" : "http://json-schema.org/draft-04/schema#",
-  "title" : "Return Field []",
-  "type" : "array",
-  "items" : {
-    "$ref" : "#/definitions/ReturnField"
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "title": "Return Field []",
+  "type": "array",
+  "items": {
+    "$ref": "#/definitions/ReturnField"
   },
-  "definitions" : {
-    "ReturnField" : {
-      "type" : "object",
-      "additionalProperties" : false,
-      "properties" : {
-        "seqNumber" : {
-          "type" : "integer"
+  "definitions": {
+    "ReturnField": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "seqNumber": {
+          "type": "integer"
         },
-        "parentId" : {
-          "type" : "string"
+        "parentId": {
+          "type": "string"
         },
-        "childNumber" : {
-          "type" : "integer"
+        "childNumber": {
+          "type": "integer"
         },
-        "itemType" : {
-          "type" : "string",
-          "enum" : [ "GROUP", "SINGLE" ]
+        "itemType": {
+          "type": "string",
+          "enum": [
+            "GROUP",
+            "SINGLE"
+          ]
         },
-        "name" : {
-          "type" : "string"
+        "name": {
+          "type": "string"
         },
-        "label" : {
-          "type" : "string"
+        "label": {
+          "type": "string"
         },
-        "path" : {
-          "type" : "string"
+        "paths": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
         },
-        "filter" : {
-          "type" : "string"
+        "groupName": {
+          "type": "string"
         },
-        "groupName" : {
-          "type" : "string"
+        "isDatabaseGroup": {
+          "type": "boolean"
         },
-        "isDatabaseGroup" : {
-          "type" : "boolean"
+        "id": {
+          "type": "string"
         },
-        "id" : {
-          "type" : "string"
+        "sortField": {
+          "type": "string"
         }
       },
-      "required" : [ "itemType", "id" ]
+      "required": [
+        "itemType",
+        "id"
+      ]
     }
   }
 }
