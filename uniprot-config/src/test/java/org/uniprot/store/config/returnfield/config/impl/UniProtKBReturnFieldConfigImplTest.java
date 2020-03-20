@@ -77,7 +77,7 @@ class UniProtKBReturnFieldConfigImplTest {
         assertThat(returnField.getLabel(), is(dbName));
         assertThat(
                 returnField.getPaths(),
-                hasItems("uniProtCrossReferences[?(@.database=='" + dbName + "')]"));
+                hasItems("uniProtKBCrossReferences[?(@.database=='" + dbName + "')]"));
         assertThat(returnField.getGroupName(), is(nullValue()));
         assertThat(returnField.getIsDatabaseGroup(), is(false));
         assertThat(returnField.getId(), is(parent.getId() + "/" + dbNameLowercase));

@@ -28,7 +28,7 @@
     "sortField": "mnemonic",
     "id": "names_&_taxonomy/entry_name",
     "paths": [
-      "uniProtId"
+      "uniProtkbId"
     ]
   },
   {
@@ -130,7 +130,7 @@
     "label": "Proteomes",
     "id": "names_&_taxonomy/proteomes",
     "paths": [
-      "uniProtCrossReferences[?(@.database=='Proteomes')]"
+      "uniProtKBCrossReferences[?(@.database=='Proteomes')]"
     ]
   },
   {
@@ -791,7 +791,7 @@
     "label": "Gene Ontology (biological process)",
     "id": "gene_ontology_(go)/gene_ontology_(biological_process)",
     "paths": [
-      "uniProtCrossReferences[?(@.database=='GO')]"
+      "uniProtKBCrossReferences[?(@.database=='GO')]"
     ]
   },
   {
@@ -802,7 +802,7 @@
     "label": "Gene Ontology (cellular component)",
     "id": "gene_ontology_(go)/gene_ontology_(cellular_component)",
     "paths": [
-      "uniProtCrossReferences[?(@.database=='GO')]"
+      "uniProtKBCrossReferences[?(@.database=='GO')]"
     ]
   },
   {
@@ -813,7 +813,7 @@
     "label": "Gene Ontology (GO)",
     "id": "gene_ontology_(go)/gene_ontology_(go)",
     "paths": [
-      "uniProtCrossReferences[?(@.database=='GO')]"
+      "uniProtKBCrossReferences[?(@.database=='GO')]"
     ]
   },
   {
@@ -824,7 +824,7 @@
     "label": "Gene Ontology (molecular function)",
     "id": "gene_ontology_(go)/gene_ontology_(molecular_function)",
     "paths": [
-      "uniProtCrossReferences[?(@.database=='GO')]"
+      "uniProtKBCrossReferences[?(@.database=='GO')]"
     ]
   },
   {
@@ -835,7 +835,7 @@
     "label": "Gene Ontology IDs",
     "id": "gene_ontology_(go)/gene_ontology_ids",
     "paths": [
-      "uniProtCrossReferences[?(@.database=='GO')]"
+      "uniProtKBCrossReferences[?(@.database=='GO')]"
     ]
   },
   {
@@ -1127,7 +1127,7 @@
     "label": "3D",
     "id": "structure/3d",
     "paths": [
-      "uniProtCrossReferences[?(@.database=='PDB')]"
+      "uniProtKBCrossReferences[?(@.database=='PDB')]"
     ]
   },
   {
