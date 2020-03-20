@@ -10,19 +10,20 @@
     "parentId": "subcellular_location",
     "childNumber": 0,
     "itemType": "SINGLE",
-    "label": "Alias",
+    "isRequired": true,
+    "label": "Subcellular location ID",
     "name": "id",
-    "paths" : ["id"],
+    "paths" : ["accession"],
     "id": "subcellular_location/id"
   },
   {
     "parentId": "subcellular_location",
     "childNumber": 1,
     "itemType": "SINGLE",
-    "label": "Subcellular location ID",
-    "name": "accession",
-    "paths" : ["accession"],
-    "id": "subcellular_location/accession"
+    "label": "Name",
+    "name": "name",
+    "paths" : ["id"],
+    "id": "subcellular_location/name"
   },
   {
     "parentId": "subcellular_location",

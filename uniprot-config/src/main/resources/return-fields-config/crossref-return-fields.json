@@ -10,10 +10,11 @@
     "parentId": "cross_reference",
     "childNumber": 0,
     "itemType": "SINGLE",
-    "label": "Accession",
-    "name": "accession",
+    "label": "Cross Reference Id",
+    "isRequired": true,
+    "name": "id",
     "paths" : ["accession"],
-    "id": "cross_reference/accession"
+    "id": "cross_reference/id"
   },
   {
     "parentId": "cross_reference",

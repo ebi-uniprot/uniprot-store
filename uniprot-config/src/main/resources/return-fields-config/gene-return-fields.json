@@ -7,16 +7,17 @@
     "id": "gene_centric"
   },
   {
-    "parentId": "cross_reference",
+    "parentId": "gene_centric",
     "childNumber": 0,
     "itemType": "SINGLE",
+    "isRequired": true,
     "label": "Canonical protein accession",
     "name": "accession",
     "paths" : ["canonicalProtein.accession"],
     "id": "gene_centric/accession"
   },
   {
-    "parentId": "cross_reference",
+    "parentId": "gene_centric",
     "childNumber": 1,
     "itemType": "SINGLE",
     "label": "Canonical gene",
@@ -25,7 +26,7 @@
     "id": "gene_centric/gene_name"
   },
   {
-    "parentId": "cross_reference",
+    "parentId": "gene_centric",
     "childNumber": 2,
     "itemType": "SINGLE",
     "label": "Entry type",
@@ -34,7 +35,7 @@
     "id": "gene_centric/entry_type"
   },
   {
-    "parentId": "cross_reference",
+    "parentId": "gene_centric",
     "childNumber": 3,
     "itemType": "SINGLE",
     "label": "Related proteins",

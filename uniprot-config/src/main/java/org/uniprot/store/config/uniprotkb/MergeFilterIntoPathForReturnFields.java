@@ -1,10 +1,6 @@
 package org.uniprot.store.config.uniprotkb;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ArrayNode;
-import com.fasterxml.jackson.databind.node.ObjectNode;
+import static java.util.Collections.singletonList;
 
 import java.io.File;
 import java.io.IOException;
@@ -12,7 +8,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import static java.util.Collections.singletonList;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 
 /**
  * Created 03/03/2020
@@ -29,8 +29,9 @@ public class MergeFilterIntoPathForReturnFields {
         JsonNode rootNode =
                 om.readTree(
                         new File(
-                                "/home/edd/working/intellij/website/uniprot-store/uniprot-config/src/main/resources/return-fields-config/uniprotkb-return-fields.json"));
-//                                "/home/edd/working/intellij/website/uniprot-store/uniprot-config/src/test/resources/test-return-fields.json"));
+                                "/Users/lgonzales/IdeaProjects/uniProt-indexer/uniprot-config/src/main/resources/return-fields-config/uniref-return-fields.json"));
+        //
+        // "/home/edd/working/intellij/website/uniprot-store/uniprot-config/src/test/resources/test-return-fields.json"));
 
         AtomicInteger itemPosition = new AtomicInteger();
         rootNode.iterator().forEachRemaining(node -> convertFiltersToPath(node, itemPosition));
@@ -46,11 +47,11 @@ public class MergeFilterIntoPathForReturnFields {
             if (node.has("filter")) {
                 String filter = node.get("filter").asText();
                 newPath = oldPath + filter;
-//                ((ArrayNode) ((ObjectNode) node).putArray("paths"))
-//                        .addAll((ArrayNode) om.valueToTree(singletonList(newPath)));
+                //                ((ArrayNode) ((ObjectNode) node).putArray("paths"))
+                //                        .addAll((ArrayNode)
+                // om.valueToTree(singletonList(newPath)));
                 ((ObjectNode) node).remove("filter");
             }
-
 
             if (node.has("path")) {
                 ((ObjectNode) node).remove("path");

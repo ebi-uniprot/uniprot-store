@@ -10,19 +10,20 @@
     "parentId": "literature",
     "childNumber": 0,
     "itemType": "SINGLE",
+    "isRequired": true,
     "label": "PubMed ID",
-    "name": "pubmedId",
+    "name": "pubmed_id",
     "paths" : ["citation.citationCrossReferences[?(@.database=='PubMed')]"],
-    "id": "literature/pubmedId"
+    "id": "literature/pubmed_id"
   },
   {
     "parentId": "literature",
     "childNumber": 1,
     "itemType": "SINGLE",
     "label": "Doi",
-    "name": "doiId",
+    "name": "doi_id",
     "paths" : ["citation.citationCrossReferences[?(@.database=='DOI')]"],
-    "id": "literature/doiId"
+    "id": "literature/doi_id"
   },
   {
     "parentId": "literature",

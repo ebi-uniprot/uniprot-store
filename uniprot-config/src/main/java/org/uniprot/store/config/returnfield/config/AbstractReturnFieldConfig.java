@@ -18,7 +18,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Slf4j
 public abstract class AbstractReturnFieldConfig implements ReturnFieldConfig {
-    private static final String SCHEMA_FILE = "schema/return-fields-schema.json";
+    public static final String SCHEMA_FILE = "schema/return-fields-schema.json";
 
     protected List<ReturnField> allFields;
     private List<ReturnField> returnFields;

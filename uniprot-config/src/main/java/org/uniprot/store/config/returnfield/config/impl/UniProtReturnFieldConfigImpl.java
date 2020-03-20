@@ -1,11 +1,11 @@
 package org.uniprot.store.config.returnfield.config.impl;
 
-import org.uniprot.store.config.returnfield.config.AbstractReturnFieldConfig;
-import org.uniprot.store.config.returnfield.model.ReturnField;
+import static java.util.Collections.emptyList;
 
 import java.util.Collection;
 
-import static java.util.Collections.emptyList;
+import org.uniprot.store.config.returnfield.config.AbstractReturnFieldConfig;
+import org.uniprot.store.config.returnfield.model.ReturnField;
 
 /**
  * General purpose loading of a valid JSON definition of return field definitions, that does not add

@@ -10,19 +10,20 @@
     "parentId": "disease",
     "childNumber": 0,
     "itemType": "SINGLE",
-    "label": "Name",
-    "name": "name",
-    "paths" : ["id"],
-    "id": "disease/name"
+    "isRequired": true,
+    "label": "Disease Id",
+    "name": "id",
+    "paths" : ["accession"],
+    "id": "disease/id"
   },
   {
     "parentId": "disease",
     "childNumber": 1,
     "itemType": "SINGLE",
-    "label": "Disease Entry ID",
-    "name": "accession",
-    "paths" : ["accession"],
-    "id": "disease/accession"
+    "label": "Name",
+    "name": "name",
+    "paths" : ["id"],
+    "id": "disease/name"
   },
   {
     "parentId": "disease",

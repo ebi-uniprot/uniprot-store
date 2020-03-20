@@ -10,6 +10,7 @@
     "parentId": "proteome",
     "childNumber": 0,
     "itemType": "SINGLE",
+    "isRequired": true,
     "label": "Proteome Id",
     "name": "id",
     "paths" : ["id"],
@@ -103,7 +104,7 @@
     "itemType": "SINGLE",
     "label": "References",
     "name": "references",
-    "paths" : ["references"],
+    "paths" : ["citations"],
     "id": "proteome/references"
   },
   {

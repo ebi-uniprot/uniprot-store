@@ -1,15 +1,15 @@
 package org.uniprot.store.config.returnfield.schema;
 
+import static java.util.Arrays.asList;
+import static java.util.Collections.singletonList;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.uniprot.store.config.returnfield.model.ReturnField;
 import org.uniprot.store.config.returnfield.model.ReturnFieldItemType;
 import org.uniprot.store.config.schema.SchemaValidationException;
-
-import static java.util.Arrays.asList;
-import static java.util.Collections.singletonList;
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * Created 16/03/20

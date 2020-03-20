@@ -49,6 +49,9 @@
         },
         "sortField": {
           "type": "string"
+        },
+        "isRequired": {
+          "type": "boolean"
         }
       },
       "required": [

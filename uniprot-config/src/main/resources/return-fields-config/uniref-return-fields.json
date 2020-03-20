@@ -10,9 +10,10 @@
     "parentId": "names_&_taxonomy",
     "childNumber": 0,
     "itemType": "SINGLE",
+    "isRequired": true,
     "name": "id",
     "label": "Cluster ID",
-    "path": "id",
+    "paths": ["id"],
     "id": "names_&_taxonomy/id"
   },
   {
@@ -21,7 +22,7 @@
     "itemType": "SINGLE",
     "name": "name",
     "label": "Cluster Name",
-    "path": "name",
+    "paths": ["name"],
     "id": "names_&_taxonomy/name"
   },
   {
@@ -30,7 +31,7 @@
     "itemType": "SINGLE",
     "name": "common_taxon",
     "label": "Common taxon",
-    "path": "commonTaxon",
+    "paths": ["commonTaxon"],
     "id": "names_&_taxonomy/common_taxon"
   },
   {
@@ -39,7 +40,7 @@
     "itemType": "SINGLE",
     "name": "common_taxonid",
     "label": "Common taxon ID",
-    "path": "commonTaxonId",
+    "paths": ["commonTaxonId"],
     "id": "names_&_taxonomy/common_taxonid"
   },
   {
@@ -48,7 +49,7 @@
     "itemType": "SINGLE",
     "name": "organism_id",
     "label": "Organism IDs",
-    "path": "id",
+    "paths": ["id"],
     "id": "names_&_taxonomy/organism_id"
   },
   {
@@ -57,7 +58,7 @@
     "itemType": "SINGLE",
     "name": "organism",
     "label": "Organisms",
-    "path": "id",
+    "paths": ["id"],
     "id": "names_&_taxonomy/organism"
   },
   {
@@ -73,7 +74,7 @@
     "itemType": "SINGLE",
     "name": "identity",
     "label": "Identity",
-    "path": "entryType",
+    "paths": ["entryType"],
     "id": "miscellaneous/identity"
   },
   {
@@ -82,7 +83,7 @@
     "itemType": "SINGLE",
     "name": "length",
     "label": "Length",
-    "path": "representativeMember.sequence.length",
+    "paths": ["representativeMember.sequence.length"],
     "id": "miscellaneous/length"
   },
   {
@@ -91,7 +92,7 @@
     "itemType": "SINGLE",
     "name": "sequence",
     "label": "Reference sequence",
-    "path": "representativeMember.sequence.value",
+    "paths": ["representativeMember.sequence.value"],
     "id": "miscellaneous/sequence"
   },
   {
@@ -107,7 +108,7 @@
     "itemType": "SINGLE",
     "name": "types",
     "label": "TODO: Name For it",
-    "path": "id",
+    "paths": ["id"],
     "id": "miscellaneous/types"
   },
   {
@@ -116,7 +117,7 @@
     "itemType": "SINGLE",
     "name": "members",
     "label": "Cluster members",
-    "path": "members",
+    "paths": ["members"],
     "id": "miscellaneous/members"
   },
   {
@@ -125,7 +126,7 @@
     "itemType": "SINGLE",
     "name": "size",
     "label": "Size",
-    "path": "memberCount",
+    "paths": ["memberCount"],
     "id": "miscellaneous/size"
   },
   {
@@ -141,7 +142,7 @@
     "itemType": "SINGLE",
     "name": "created",
     "label": "Date of creation",
-    "path": "updated",
+    "paths": ["updated"],
     "id": "date_of/created"
   }
 ]

@@ -1,39 +1,38 @@
 package org.uniprot.store.config.returnfield.factory;
 
+import java.util.Collections;
+import java.util.EnumMap;
+import java.util.Map;
+
 import org.uniprot.store.config.UniProtDataType;
 import org.uniprot.store.config.returnfield.config.ReturnFieldConfig;
 import org.uniprot.store.config.returnfield.config.impl.UniProtKBReturnFieldConfigImpl;
 import org.uniprot.store.config.returnfield.config.impl.UniProtReturnFieldConfigImpl;
 
-import java.util.Collections;
-import java.util.EnumMap;
-import java.util.Map;
-
 public class ReturnFieldConfigFactory {
 
-    private static final String CROSS_REF_CONFIG_FILE =
+    public static final String CROSS_REF_CONFIG_FILE =
             "return-fields-config/crossref-return-fields.json";
-    private static final String GENE_CONFIG_FILE =
-            "return-fields-config/gene-return-fields.json";
-    private static final String LITERATURE_CONFIG_FILE =
+    public static final String GENE_CONFIG_FILE = "return-fields-config/gene-return-fields.json";
+    public static final String LITERATURE_CONFIG_FILE =
             "return-fields-config/literature-return-fields.json";
-    private static final String SUGGEST_CONFIG_FILE =
+    public static final String SUGGEST_CONFIG_FILE =
             "return-fields-config/suggest-return-fields.json";
-    private static final String DISEASE_CONFIG_FILE =
+    public static final String DISEASE_CONFIG_FILE =
             "return-fields-config/disease-return-fields.json";
-    private static final String KEYWORD_CONFIG_FILE =
+    public static final String KEYWORD_CONFIG_FILE =
             "return-fields-config/keyword-return-fields.json";
-    private static final String PROTEOME_CONFIG_FILE =
+    public static final String PROTEOME_CONFIG_FILE =
             "return-fields-config/proteome-return-fields.json";
-    private static final String SUBCELL_CONFIG_FILE =
+    public static final String SUBCELL_CONFIG_FILE =
             "return-fields-config/subcell-return-fields.json";
-    private static final String TAXONOMY_CONFIG_FILE =
-            "return-fields-config/taxonnomy-return-fields.json";
-    private static final String UNIPROTKB_CONFIG_FILE =
+    public static final String TAXONOMY_CONFIG_FILE =
+            "return-fields-config/taxonomy-return-fields.json";
+    public static final String UNIPROTKB_CONFIG_FILE =
             "return-fields-config/uniprotkb-return-fields.json";
-    private static final String UNIREF_CONFIG_FILE =
+    public static final String UNIREF_CONFIG_FILE =
             "return-fields-config/uniref-return-fields.json";
-    private static final String UNIPARC_CONFIG_FILE =
+    public static final String UNIPARC_CONFIG_FILE =
             "return-fields-config/uniparc-return-fields.json";
 
     private static final Map<UniProtDataType, ReturnFieldConfig> TYPE_FIELD_CONFIG_MAP =
@@ -64,7 +63,7 @@ public class ReturnFieldConfigFactory {
                     if (!TYPE_CONFIG_FILE_MAP.containsKey(type)) {
                         throw new IllegalArgumentException("Unsupported type: " + type);
                     }
-                    
+
                     String configFile = TYPE_CONFIG_FILE_MAP.get(dataType);
                     if (type.equals(UniProtDataType.UNIPROTKB)) {
                         return new UniProtKBReturnFieldConfigImpl(configFile);

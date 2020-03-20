@@ -1,13 +1,13 @@
 package org.uniprot.store.config.returnfield.schema;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.uniprot.core.util.Utils;
 import org.uniprot.store.config.returnfield.model.ReturnField;
 import org.uniprot.store.config.returnfield.model.ReturnFieldItemType;
 import org.uniprot.store.config.schema.FieldDataValidator;
 import org.uniprot.store.config.schema.SchemaValidationException;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * Created 16/03/20

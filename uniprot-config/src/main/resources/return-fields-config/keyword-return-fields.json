@@ -10,6 +10,7 @@
     "parentId": "keyword",
     "childNumber": 0,
     "itemType": "SINGLE",
+    "isRequired": true,
     "label": "Keyword ID",
     "name": "id",
     "paths" : ["keyword.id"],
@@ -19,19 +20,19 @@
     "parentId": "keyword",
     "childNumber": 1,
     "itemType": "SINGLE",
-    "label": "Keyword",
-    "name": "keyword",
-    "paths" : ["keyword"],
-    "id": "keyword/keyword"
+    "label": "Name",
+    "name": "name",
+    "paths" : ["keyword.name"],
+    "id": "keyword/name"
   },
   {
     "parentId": "keyword",
     "childNumber": 2,
     "itemType": "SINGLE",
-    "label": "Name",
-    "name": "name",
-    "paths" : ["keyword.name"],
-    "id": "keyword/name"
+    "label": "Keyword",
+    "name": "keyword",
+    "paths" : ["keyword"],
+    "id": "keyword/keyword"
   },
   {
     "parentId": "keyword",
@@ -93,7 +94,7 @@
     "itemType": "SINGLE",
     "label": "Parents",
     "name": "parent",
-    "paths" : ["parent"],
+    "paths" : ["parents"],
     "id": "keyword/parent"
   },
   {

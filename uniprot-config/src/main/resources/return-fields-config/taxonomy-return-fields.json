@@ -10,10 +10,11 @@
     "parentId": "taxonomy",
     "childNumber": 0,
     "itemType": "SINGLE",
+    "isRequired": true,
     "label": "Taxon Id",
-    "name": "taxon_id",
+    "name": "id",
     "paths" : ["taxonId"],
-    "id": "taxonomy/taxon_id"
+    "id": "taxonomy/id"
   },
   {
     "parentId": "taxonomy",
@@ -84,7 +85,7 @@
     "itemType": "SINGLE",
     "label": "Reviewed",
     "name": "reviewed",
-    "paths" : ["reviewed"],
+    "paths" : ["statistics"],
     "id": "taxonomy/reviewed"
   },
   {
@@ -116,7 +117,7 @@
   },
   {
     "parentId": "taxonomy",
-    "childNumber": 0,
+    "childNumber": 12,
     "itemType": "SINGLE",
     "label": "Links",
     "name": "links",
@@ -125,7 +126,7 @@
   },
   {
     "parentId": "taxonomy",
-    "childNumber": 12,
+    "childNumber": 13,
     "itemType": "SINGLE",
     "label": "Statistics",
     "name": "statistics",
@@ -134,7 +135,7 @@
   },
   {
     "parentId": "taxonomy",
-    "childNumber": 13,
+    "childNumber": 14,
     "itemType": "SINGLE",
     "label": "Active",
     "name": "active",
@@ -143,7 +144,7 @@
   },
   {
     "parentId": "taxonomy",
-    "childNumber": 14,
+    "childNumber": 15,
     "itemType": "SINGLE",
     "label": "Inactive Reason",
     "name": "inactive_reason",

@@ -10,9 +10,10 @@
     "parentId": "names_&_taxonomy",
     "childNumber": 0,
     "itemType": "SINGLE",
+    "isRequired": true,
     "label": "Entry",
     "name": "upi",
-    "path": "uniParcId",
+    "paths": ["uniParcId"],
     "id": "names_&_taxonomy/id"
   },
   {
@@ -21,8 +22,7 @@
     "itemType": "SINGLE",
     "label": "Gene names",
     "name": "gene",
-    "path": "uniParcCrossReferences[*].properties",
-    "filter": "[?(@.key=='gene_name')]",
+    "paths": ["uniParcCrossReferences[*].properties[?(@.key=='gene_name')]"],
     "id": "names_&_taxonomy/gene"
   },
   {
@@ -31,7 +31,7 @@
     "itemType": "SINGLE",
     "label": "Organism ID",
     "name": "organism_id",
-    "path": "taxonomies[*].taxonId",
+    "paths": ["taxonomies[*].taxonId"],
     "id": "names_&_taxonomy/organism_id"
   },
   {
@@ -40,7 +40,7 @@
     "itemType": "SINGLE",
     "label": "Organisms",
     "name": "organism",
-    "path": "taxonomies",
+    "paths": ["taxonomies"],
     "id": "names_&_taxonomy/organism"
   },
   {
@@ -49,8 +49,7 @@
     "itemType": "SINGLE",
     "label": "Protein names",
     "name": "protein",
-    "path": "uniParcCrossReferences[*].properties",
-    "filter": "[?(@.key=='protein_name')]",
+    "paths": ["uniParcCrossReferences[*].properties[?(@.key=='protein_name')]"],
     "id": "names_&_taxonomy/protein"
   },
   {
@@ -59,8 +58,7 @@
     "itemType": "SINGLE",
     "label": "Proteomes",
     "name": "proteome",
-    "path": "uniParcCrossReferences[*].properties",
-    "filter": "[?(@.key=='proteome_id')]",
+    "paths": ["uniParcCrossReferences[*].properties[?(@.key=='proteome_id')]"],
     "id": "names_&_taxonomy/proteome"
   },
   {
@@ -76,7 +74,7 @@
     "itemType": "SINGLE",
     "label": "Checksum",
     "name": "checksum",
-    "path": "sequence.crc64",
+    "paths": ["sequence.crc64"],
     "id": "sequences/checksum"
   },
   {
@@ -85,7 +83,7 @@
     "itemType": "SINGLE",
     "label": "Length",
     "name": "length",
-    "path": "sequence.length",
+    "paths": ["sequence.length"],
     "id": "sequences/length"
   },
 
@@ -95,7 +93,7 @@
     "itemType": "SINGLE",
     "label": "Sequence",
     "name": "sequence",
-    "path": "sequence.value",
+    "paths": ["sequence.value"],
     "id": "sequences/sequence"
   },
   {
@@ -111,7 +109,7 @@
     "itemType": "SINGLE",
     "label": "Matched text",
     "name": "matched",
-    "path": "uniParcId",
+    "paths": ["uniParcId"],
     "id": "miscellaneous/matched"
   },
   {
@@ -120,8 +118,7 @@
     "itemType": "SINGLE",
     "label": "UniProtKB",
     "name": "accession",
-    "path": "uniParcCrossReferences[*].properties",
-    "filter": "[?(@.key=='UniProtKB_accession')]",
+    "paths": ["uniParcCrossReferences[*].properties[?(@.key=='UniProtKB_accession')]"],
     "id": "miscellaneous/accession"
   },
   {
@@ -137,7 +134,7 @@
     "itemType": "SINGLE",
     "label": "First seen",
     "name": "first_seen",
-    "path": "uniParcCrossReferences[*].created",
+    "paths": ["uniParcCrossReferences[*].created"],
     "id": "date_of/first_seen"
   },
   {
@@ -146,7 +143,7 @@
     "itemType": "SINGLE",
     "label": "Last seen",
     "name": "last_seen",
-    "path": "uniParcCrossReferences[*].lastUpdated",
+    "paths": ["uniParcCrossReferences[*].lastUpdated"],
     "id": "date_of/last_seen"
   },
   {
@@ -162,8 +159,7 @@
     "itemType": "SINGLE",
     "label": "CDD",
     "name": "CDD",
-    "path": "sequenceFeatures",
-    "filter": "[?(@.database=='CDD')]",
+    "paths": ["sequenceFeatures[?(@.database=='CDD')]"],
     "id": "family_&_domains/CDD"
   },
   {
@@ -172,8 +168,7 @@
     "itemType": "SINGLE",
     "label": "Gene3D",
     "name": "Gene3D",
-    "path": "sequenceFeatures",
-    "filter": "[?(@.database=='Gene3D')]",
+    "paths": ["sequenceFeatures[?(@.database=='Gene3D')]"],
     "id": "family_&_domains/Gene3D"
   },
   {
@@ -182,8 +177,7 @@
     "itemType": "SINGLE",
     "label": "HAMAP",
     "name": "HAMAP",
-    "path": "sequenceFeatures",
-    "filter": "[?(@.database=='HAMAP')]",
+    "paths": ["sequenceFeatures[?(@.database=='HAMAP')]"],
     "id": "family_&_domains/HAMAP"
   },
   {
@@ -192,8 +186,7 @@
     "itemType": "SINGLE",
     "label": "PANTHER",
     "name": "PANTHER",
-    "path": "sequenceFeatures",
-    "filter": "[?(@.database=='PANTHER')]",
+    "paths": ["sequenceFeatures[?(@.database=='PANTHER')]"],
     "id": "family_&_domains/PANTHER"
   },
   {
@@ -202,8 +195,7 @@
     "itemType": "SINGLE",
     "label": "Pfam",
     "name": "Pfam",
-    "path": "sequenceFeatures",
-    "filter": "[?(@.database=='Pfam')]",
+    "paths": ["sequenceFeatures[?(@.database=='Pfam')]"],
     "id": "family_&_domains/Pfam"
   },
   {
@@ -212,8 +204,7 @@
     "itemType": "SINGLE",
     "label": "PIRSF",
     "name": "PIRSF",
-    "path": "sequenceFeatures",
-    "filter": "[?(@.database=='PIRSF')]",
+    "paths": ["sequenceFeatures[?(@.database=='PIRSF')]"],
     "id": "family_&_domains/PIRSF"
   },
   {
@@ -222,8 +213,7 @@
     "itemType": "SINGLE",
     "label": "PRINTS",
     "name": "PRINTS",
-    "path": "sequenceFeatures",
-    "filter": "[?(@.database=='PRINTS')]",
+    "paths": ["sequenceFeatures[?(@.database=='PRINTS')]"],
     "id": "family_&_domains/PRINTS"
   },
   {
@@ -232,8 +222,7 @@
     "itemType": "SINGLE",
     "label": "PROSITE",
     "name": "PROSITE",
-    "path": "sequenceFeatures",
-    "filter": "[?(@.database=='PROSITE')]",
+    "paths": ["sequenceFeatures[?(@.database=='PROSITE')]"],
     "id": "family_&_domains/PROSITE"
   },
   {
@@ -242,8 +231,7 @@
     "itemType": "SINGLE",
     "label": "SFLD",
     "name": "SFLD",
-    "path": "sequenceFeatures",
-    "filter": "[?(@.database=='SFLD')]",
+    "paths": ["sequenceFeatures[?(@.database=='SFLD')]"],
     "id": "family_&_domains/SFLD"
   },
   {
@@ -252,8 +240,7 @@
     "itemType": "SINGLE",
     "label": "SMART",
     "name": "SMART",
-    "path": "sequenceFeatures",
-    "filter": "[?(@.database=='SMART')]",
+    "paths": ["sequenceFeatures[?(@.database=='SMART')]"],
     "id": "family_&_domains/SMART"
   },
   {
@@ -262,8 +249,7 @@
     "itemType": "SINGLE",
     "label": "SUPFAM",
     "name": "SUPFAM",
-    "path": "sequenceFeatures",
-    "filter": "[?(@.database=='SUPFAM')]",
+    "paths": ["sequenceFeatures[?(@.database=='SUPFAM')]"],
     "id": "family_&_domains/SUPFAM"
   },
   {
@@ -272,8 +258,7 @@
     "itemType": "SINGLE",
     "label": "TIGRFAMs",
     "name": "TIGRFAMs",
-    "path": "sequenceFeatures",
-    "filter": "[?(@.database=='TIGRFAMs')]",
+    "paths": ["sequenceFeatures[?(@.database=='TIGRFAMs')]"],
     "id": "family_&_domains/TIGRFAMs"
   }
 ]

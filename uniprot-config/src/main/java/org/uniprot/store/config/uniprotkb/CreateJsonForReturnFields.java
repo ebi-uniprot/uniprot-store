@@ -1,16 +1,17 @@
 package org.uniprot.store.config.uniprotkb;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.uniprot.store.config.returnfield.model.ReturnField;
-import org.uniprot.store.config.returnfield.model.ReturnFieldItemType;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
+
+import org.uniprot.store.config.returnfield.model.ReturnField;
+import org.uniprot.store.config.returnfield.model.ReturnFieldItemType;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
  * Created 03/03/2020
@@ -57,7 +58,6 @@ public class CreateJsonForReturnFields {
         String label = child.get("label").asText();
         ReturnField returnField = new ReturnField();
         returnField.addPath("fill me in!");
-        returnField.setFilter("fill me in if needed!");
         returnField.setName(child.get("name").asText());
         returnField.setLabel(label);
         returnField.setParentId(parent.getId());

@@ -10,6 +10,7 @@
     "parentId": "names_&_taxonomy",
     "childNumber": 0,
     "itemType": "SINGLE",
+    "isRequired": true,
     "name": "accession",
     "label": "Entry",
     "sortField": "accession",
