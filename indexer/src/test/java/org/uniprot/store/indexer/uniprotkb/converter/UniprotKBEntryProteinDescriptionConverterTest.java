@@ -8,11 +8,11 @@ import java.util.*;
 
 import org.junit.jupiter.api.Test;
 import org.uniprot.core.cv.ec.impl.ECEntryBuilder;
-import org.uniprot.core.uniprot.description.*;
-import org.uniprot.core.uniprot.description.impl.*;
-import org.uniprot.core.uniprot.evidence.Evidence;
-import org.uniprot.core.uniprot.evidence.EvidenceCode;
-import org.uniprot.core.uniprot.evidence.impl.EvidenceBuilder;
+import org.uniprot.core.uniprotkb.description.*;
+import org.uniprot.core.uniprotkb.description.impl.*;
+import org.uniprot.core.uniprotkb.evidence.Evidence;
+import org.uniprot.core.uniprotkb.evidence.EvidenceCode;
+import org.uniprot.core.uniprotkb.evidence.impl.EvidenceBuilder;
 import org.uniprot.cv.ec.ECRepo;
 import org.uniprot.store.search.document.suggest.SuggestDocument;
 import org.uniprot.store.search.document.uniprot.UniProtDocument;
@@ -21,7 +21,7 @@ import org.uniprot.store.search.document.uniprot.UniProtDocument;
  * @author lgonzales
  * @since 2019-09-11
  */
-class UniprotEntryProteinDescriptionConverterTest {
+class UniprotKBEntryProteinDescriptionConverterTest {
 
     @Test
     void convertCompleteProteinDescription() {
@@ -41,8 +41,8 @@ class UniprotEntryProteinDescriptionConverterTest {
 
         ProteinDescription proteinDescription = getProteinDescription();
 
-        UniprotEntryProteinDescriptionConverter converter =
-                new UniprotEntryProteinDescriptionConverter(ecRepo, suggestions);
+        UniprotKBEntryProteinDescriptionConverter converter =
+                new UniprotKBEntryProteinDescriptionConverter(ecRepo, suggestions);
         converter.convertProteinDescription(proteinDescription, document);
 
         List<String> indexedNames =
@@ -122,8 +122,8 @@ class UniprotEntryProteinDescriptionConverterTest {
                         .flag(FlagType.PRECURSOR)
                         .build();
 
-        UniprotEntryProteinDescriptionConverter converter =
-                new UniprotEntryProteinDescriptionConverter(ecRepo, suggestions);
+        UniprotKBEntryProteinDescriptionConverter converter =
+                new UniprotKBEntryProteinDescriptionConverter(ecRepo, suggestions);
         converter.convertProteinDescription(description, document);
 
         assertFalse(document.fragment);
@@ -146,8 +146,8 @@ class UniprotEntryProteinDescriptionConverterTest {
                         .flag(FlagType.FRAGMENTS_PRECURSOR)
                         .build();
 
-        UniprotEntryProteinDescriptionConverter converter =
-                new UniprotEntryProteinDescriptionConverter(ecRepo, suggestions);
+        UniprotKBEntryProteinDescriptionConverter converter =
+                new UniprotKBEntryProteinDescriptionConverter(ecRepo, suggestions);
         converter.convertProteinDescription(description, document);
 
         assertTrue(document.fragment);

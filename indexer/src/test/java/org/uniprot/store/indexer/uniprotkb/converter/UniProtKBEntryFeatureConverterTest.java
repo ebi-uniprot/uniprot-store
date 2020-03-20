@@ -1,4 +1,4 @@
-package org.uniprot.store.spark.indexer.uniprot.converter;
+package org.uniprot.store.indexer.uniprotkb.converter;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -11,19 +11,23 @@ import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.uniprot.core.CrossReference;
 import org.uniprot.core.impl.CrossReferenceBuilder;
-import org.uniprot.core.uniprot.evidence.Evidence;
-import org.uniprot.core.uniprot.evidence.EvidenceCode;
-import org.uniprot.core.uniprot.evidence.impl.EvidenceBuilder;
-import org.uniprot.core.uniprot.feature.*;
-import org.uniprot.core.uniprot.feature.impl.AlternativeSequenceBuilder;
-import org.uniprot.core.uniprot.feature.impl.FeatureBuilder;
+import org.uniprot.core.uniprotkb.evidence.Evidence;
+import org.uniprot.core.uniprotkb.evidence.EvidenceCode;
+import org.uniprot.core.uniprotkb.evidence.impl.EvidenceBuilder;
+import org.uniprot.core.uniprotkb.feature.AlternativeSequence;
+import org.uniprot.core.uniprotkb.feature.Feature;
+import org.uniprot.core.uniprotkb.feature.FeatureDatabase;
+import org.uniprot.core.uniprotkb.feature.FeatureLocation;
+import org.uniprot.core.uniprotkb.feature.FeatureType;
+import org.uniprot.core.uniprotkb.feature.impl.AlternativeSequenceBuilder;
+import org.uniprot.core.uniprotkb.feature.impl.FeatureBuilder;
 import org.uniprot.store.search.document.uniprot.UniProtDocument;
 
 /**
  * @author lgonzales
  * @since 2019-09-11
  */
-class UniProtEntryFeatureConverterTest {
+class UniProtKBEntryFeatureConverterTest {
 
     @Test
     void convertFeatureWithFilteredProteinsWith() {

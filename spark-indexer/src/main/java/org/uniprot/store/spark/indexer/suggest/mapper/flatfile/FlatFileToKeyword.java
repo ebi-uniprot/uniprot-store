@@ -7,8 +7,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.apache.spark.api.java.function.PairFlatMapFunction;
-import org.uniprot.core.flatfile.parser.UniprotLineParser;
-import org.uniprot.core.flatfile.parser.impl.DefaultUniprotLineParserFactory;
+import org.uniprot.core.flatfile.parser.UniprotKBLineParser;
+import org.uniprot.core.flatfile.parser.impl.DefaultUniprotKBLineParserFactory;
 import org.uniprot.core.flatfile.parser.impl.kw.KwLineObject;
 import org.uniprot.core.util.Utils;
 
@@ -32,8 +32,8 @@ public class FlatFileToKeyword implements PairFlatMapFunction<String, String, St
                         .filter(line -> line.startsWith("KW  "))
                         .collect(Collectors.joining("\n"));
         if (Utils.notNullNotEmpty(keywordLines)) {
-            final UniprotLineParser<KwLineObject> kwParser =
-                    new DefaultUniprotLineParserFactory().createKwLineParser();
+            final UniprotKBLineParser<KwLineObject> kwParser =
+                    new DefaultUniprotKBLineParserFactory().createKwLineParser();
             KwLineObject kwLineObject = kwParser.parse(keywordLines + "\n");
             kwLineObject.keywords.forEach(
                     kw -> {

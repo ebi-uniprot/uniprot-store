@@ -16,7 +16,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;
 import org.uniprot.core.flatfile.writer.LineType;
-import org.uniprot.core.uniprot.description.FlagType;
+import org.uniprot.core.uniprotkb.description.FlagType;
 
 /** Tests if the fragment search is working correctly */
 class FragmentSearchIT {

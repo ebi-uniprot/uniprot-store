@@ -8,8 +8,8 @@ import org.uniprot.core.CrossReference;
 import org.uniprot.core.citation.Citation;
 import org.uniprot.core.citation.CitationDatabase;
 import org.uniprot.core.citation.JournalArticle;
-import org.uniprot.core.uniprot.ReferenceComment;
-import org.uniprot.core.uniprot.UniProtReference;
+import org.uniprot.core.uniprotkb.ReferenceComment;
+import org.uniprot.core.uniprotkb.UniProtKBReference;
 import org.uniprot.core.util.PublicationDateFormatter;
 import org.uniprot.core.util.Utils;
 import org.uniprot.store.search.document.uniprot.UniProtDocument;
@@ -23,8 +23,8 @@ class UniProtEntryReferencesConverter {
 
     UniProtEntryReferencesConverter() {}
 
-    void convertReferences(List<UniProtReference> references, UniProtDocument document) {
-        for (UniProtReference reference : references) {
+    void convertReferences(List<UniProtKBReference> references, UniProtDocument document) {
+        for (UniProtKBReference reference : references) {
             Citation citation = reference.getCitation();
             if (reference.hasReferenceComments()) {
                 convertReferenceComments(reference.getReferenceComments(), document);
@@ -119,9 +119,9 @@ class UniProtEntryReferencesConverter {
     }
 
     private void convertReferencePositions(
-            UniProtReference uniProtReference, UniProtDocument document) {
-        if (uniProtReference.hasReferencePositions()) {
-            List<String> positions = uniProtReference.getReferencePositions();
+            UniProtKBReference uniProtkbReference, UniProtDocument document) {
+        if (uniProtkbReference.hasReferencePositions()) {
+            List<String> positions = uniProtkbReference.getReferencePositions();
             document.scopes.addAll(positions);
             document.content.addAll(positions);
         }

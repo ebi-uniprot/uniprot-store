@@ -15,16 +15,16 @@ import org.junit.jupiter.api.Test;
 import org.uniprot.core.cv.keyword.KeywordCategory;
 import org.uniprot.core.gene.Gene;
 import org.uniprot.core.impl.SequenceBuilder;
-import org.uniprot.core.uniprot.*;
-import org.uniprot.core.uniprot.comment.APIsoform;
-import org.uniprot.core.uniprot.comment.AlternativeProductsComment;
-import org.uniprot.core.uniprot.comment.IsoformSequenceStatus;
-import org.uniprot.core.uniprot.comment.impl.APCommentBuilder;
-import org.uniprot.core.uniprot.comment.impl.APIsoformBuilder;
-import org.uniprot.core.uniprot.evidence.Evidence;
-import org.uniprot.core.uniprot.evidence.EvidenceCode;
-import org.uniprot.core.uniprot.evidence.impl.EvidenceBuilder;
-import org.uniprot.core.uniprot.impl.*;
+import org.uniprot.core.uniprotkb.*;
+import org.uniprot.core.uniprotkb.comment.APIsoform;
+import org.uniprot.core.uniprotkb.comment.AlternativeProductsComment;
+import org.uniprot.core.uniprotkb.comment.IsoformSequenceStatus;
+import org.uniprot.core.uniprotkb.comment.impl.APIsoformBuilder;
+import org.uniprot.core.uniprotkb.comment.impl.AlternativeProductsCommentBuilder;
+import org.uniprot.core.uniprotkb.evidence.Evidence;
+import org.uniprot.core.uniprotkb.evidence.EvidenceCode;
+import org.uniprot.core.uniprotkb.evidence.impl.EvidenceBuilder;
+import org.uniprot.core.uniprotkb.impl.*;
 import org.uniprot.store.job.common.DocumentConversionException;
 import org.uniprot.store.search.document.uniprot.UniProtDocument;
 
@@ -32,7 +32,7 @@ import org.uniprot.store.search.document.uniprot.UniProtDocument;
  * @author lgonzales
  * @since 2019-09-16
  */
-class UniProtEntryConverterTest {
+class UniProtKBEntryConverterTest {
 
     @Test
     void documentConversionException() {
@@ -49,8 +49,8 @@ class UniProtEntryConverterTest {
     @Test
     void convertCanonicalAccessionEntry() {
         // given
-        UniProtEntry entry =
-                new UniProtEntryBuilder("P12345", "UNIPROT_ENTRYID", UniProtEntryType.TREMBL)
+        UniProtKBEntry entry =
+                new UniProtKBEntryBuilder("P12345", "UNIPROT_ENTRYID", UniProtKBEntryType.TREMBL)
                         .sequence(new SequenceBuilder("AAAAA").build())
                         .build();
 
@@ -69,8 +69,8 @@ class UniProtEntryConverterTest {
     @Test
     void convertIsoformAccessionEntry() {
         // given
-        UniProtEntry entry =
-                new UniProtEntryBuilder("P12345-5", "UNIPROT_ENTRYID", UniProtEntryType.TREMBL)
+        UniProtKBEntry entry =
+                new UniProtKBEntryBuilder("P12345-5", "UNIPROT_ENTRYID", UniProtKBEntryType.TREMBL)
                         .sequence(new SequenceBuilder("AAAAA").build())
                         .build();
 
@@ -97,10 +97,12 @@ class UniProtEntryConverterTest {
                         .sequenceStatus(IsoformSequenceStatus.DISPLAYED)
                         .build();
 
-        AlternativeProductsComment comment = new APCommentBuilder().isoformsAdd(isoform).build();
+        AlternativeProductsComment comment =
+                new AlternativeProductsCommentBuilder().isoformsAdd(isoform).build();
 
-        UniProtEntry entry =
-                new UniProtEntryBuilder("P12345-1", "UNIPROT_ENTRYID", UniProtEntryType.SWISSPROT)
+        UniProtKBEntry entry =
+                new UniProtKBEntryBuilder(
+                                "P12345-1", "UNIPROT_ENTRYID", UniProtKBEntryType.SWISSPROT)
                         .commentsSet(Collections.singletonList(comment))
                         .sequence(new SequenceBuilder("AAAAA").build())
                         .build();
@@ -120,8 +122,9 @@ class UniProtEntryConverterTest {
     void convertIdDefaultForTrEMBLIncludesSpeciesButNotAccession() {
         // given
         String species = "SPECIES";
-        UniProtEntry entry =
-                new UniProtEntryBuilder("P12345", "ACCESSION_" + species, UniProtEntryType.TREMBL)
+        UniProtKBEntry entry =
+                new UniProtKBEntryBuilder(
+                                "P12345", "ACCESSION_" + species, UniProtKBEntryType.TREMBL)
                         .sequence(new SequenceBuilder("AAAAA").build())
                         .build();
 
@@ -138,8 +141,8 @@ class UniProtEntryConverterTest {
     void convertIdDefaultForSwissProtIncludesGeneAndSpecies() {
         // given
         String id = "GENE_SPECIES";
-        UniProtEntry entry =
-                new UniProtEntryBuilder("P12345", id, UniProtEntryType.SWISSPROT)
+        UniProtKBEntry entry =
+                new UniProtKBEntryBuilder("P12345", id, UniProtKBEntryType.SWISSPROT)
                         .sequence(new SequenceBuilder("AAAAA").build())
                         .build();
 
@@ -168,7 +171,7 @@ class UniProtEntryConverterTest {
                         .lastSequenceUpdate(lastSequenceUpdate)
                         .build();
 
-        UniProtEntry entry = getBasicEntryBuilder().entryAudit(entryAudit).build();
+        UniProtKBEntry entry = getBasicEntryBuilder().entryAudit(entryAudit).build();
 
         // when
         UniProtEntryConverter converter = new UniProtEntryConverter(null);
@@ -194,7 +197,7 @@ class UniProtEntryConverterTest {
                         .orfNamesAdd(new ORFNameBuilder().value("some other orf").build())
                         .build();
 
-        UniProtEntry entry =
+        UniProtKBEntry entry =
                 getBasicEntryBuilder().genesSet(Collections.singletonList(gene)).build();
 
         // when
@@ -233,7 +236,7 @@ class UniProtEntryConverterTest {
                         .evidencesAdd(createEvidence("50"))
                         .build();
 
-        UniProtEntry entry = getBasicEntryBuilder().keywordsAdd(keyword).build();
+        UniProtKBEntry entry = getBasicEntryBuilder().keywordsAdd(keyword).build();
 
         // when
         UniProtEntryConverter converter = new UniProtEntryConverter(null);
@@ -265,7 +268,7 @@ class UniProtEntryConverterTest {
                         .evidencesAdd(createEvidence("60"))
                         .build();
 
-        UniProtEntry entry = getBasicEntryBuilder().geneLocationsAdd(geneLocation).build();
+        UniProtKBEntry entry = getBasicEntryBuilder().geneLocationsAdd(geneLocation).build();
 
         // when
         UniProtEntryConverter converter = new UniProtEntryConverter(null);
@@ -282,7 +285,7 @@ class UniProtEntryConverterTest {
     @Test
     void convertProteinExistenceFields() {
         // given
-        UniProtEntry entry =
+        UniProtKBEntry entry =
                 getBasicEntryBuilder().proteinExistence(ProteinExistence.PROTEIN_LEVEL).build();
 
         // when
@@ -299,7 +302,7 @@ class UniProtEntryConverterTest {
     @Test
     void convertSequenceFields() {
         // given
-        UniProtEntry entry = getBasicEntryBuilder().build();
+        UniProtKBEntry entry = getBasicEntryBuilder().build();
 
         // when
         UniProtEntryConverter converter = new UniProtEntryConverter(null);
@@ -314,7 +317,7 @@ class UniProtEntryConverterTest {
     @Test
     void convertEntryScore() {
         // given
-        UniProtEntry entry =
+        UniProtKBEntry entry =
                 getBasicEntryBuilder().sequence(new SequenceBuilder("AAAAA").build()).build();
 
         // when
@@ -344,7 +347,7 @@ class UniProtEntryConverterTest {
                                         .evidencesAdd(evidence)
                                         .build())
                         .build();
-        UniProtEntry entry = getBasicEntryBuilder().genesAdd(gene).build();
+        UniProtKBEntry entry = getBasicEntryBuilder().genesAdd(gene).build();
 
         // when
         UniProtEntryConverter converter = new UniProtEntryConverter(null);
@@ -355,8 +358,8 @@ class UniProtEntryConverterTest {
         assertEquals(Collections.singletonList("hamap"), document.sources);
     }
 
-    private UniProtEntryBuilder getBasicEntryBuilder() {
-        return new UniProtEntryBuilder("P12345", "UNIPROT_ENTRYID", UniProtEntryType.SWISSPROT)
+    private UniProtKBEntryBuilder getBasicEntryBuilder() {
+        return new UniProtKBEntryBuilder("P12345", "UNIPROT_ENTRYID", UniProtKBEntryType.SWISSPROT)
                 .sequence(new SequenceBuilder("AAAAA").build());
     }
 

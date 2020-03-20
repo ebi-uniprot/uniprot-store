@@ -9,7 +9,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.uniprot.core.Value;
-import org.uniprot.core.uniprot.description.*;
+import org.uniprot.core.uniprotkb.description.*;
 import org.uniprot.cv.ec.ECRepo;
 import org.uniprot.store.search.document.suggest.SuggestDictionary;
 import org.uniprot.store.search.document.suggest.SuggestDocument;
@@ -19,12 +19,12 @@ import org.uniprot.store.search.document.uniprot.UniProtDocument;
  * @author lgonzales
  * @since 2019-09-05
  */
-class UniprotEntryProteinDescriptionConverter {
+class UniprotKBEntryProteinDescriptionConverter {
 
     private final ECRepo ecRepo;
     private final Map<String, SuggestDocument> suggestions;
 
-    UniprotEntryProteinDescriptionConverter(
+    UniprotKBEntryProteinDescriptionConverter(
             ECRepo ecRepo, Map<String, SuggestDocument> suggestions) {
         this.ecRepo = ecRepo;
         this.suggestions = suggestions;

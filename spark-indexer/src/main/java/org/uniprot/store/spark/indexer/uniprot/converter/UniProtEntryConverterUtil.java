@@ -8,11 +8,11 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.uniprot.core.Value;
-import org.uniprot.core.uniprot.UniProtEntry;
-import org.uniprot.core.uniprot.comment.AlternativeProductsComment;
-import org.uniprot.core.uniprot.comment.CommentType;
-import org.uniprot.core.uniprot.comment.IsoformSequenceStatus;
-import org.uniprot.core.uniprot.evidence.Evidence;
+import org.uniprot.core.uniprotkb.UniProtKBEntry;
+import org.uniprot.core.uniprotkb.comment.AlternativeProductsComment;
+import org.uniprot.core.uniprotkb.comment.CommentType;
+import org.uniprot.core.uniprotkb.comment.IsoformSequenceStatus;
+import org.uniprot.core.uniprotkb.evidence.Evidence;
 import org.uniprot.core.util.Utils;
 import org.uniprot.store.search.document.suggest.SuggestDictionary;
 
@@ -82,8 +82,8 @@ public class UniProtEntryConverterUtil {
         }
     }
 
-    static boolean isCanonicalIsoform(UniProtEntry uniProtEntry) {
-        return uniProtEntry.getCommentsByType(CommentType.ALTERNATIVE_PRODUCTS).stream()
+    static boolean isCanonicalIsoform(UniProtKBEntry uniProtkbEntry) {
+        return uniProtkbEntry.getCommentsByType(CommentType.ALTERNATIVE_PRODUCTS).stream()
                         .map(comment -> (AlternativeProductsComment) comment)
                         .flatMap(comment -> comment.getIsoforms().stream())
                         .filter(
@@ -96,7 +96,7 @@ public class UniProtEntryConverterUtil {
                                         isoformId
                                                 .getValue()
                                                 .equals(
-                                                        uniProtEntry
+                                                        uniProtkbEntry
                                                                 .getPrimaryAccession()
                                                                 .getValue()))
                         .count()
