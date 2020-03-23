@@ -1,18 +1,18 @@
 package org.uniprot.store.indexer.uniprot.pathway;
 
 import org.uniprot.core.cv.pathway.UniPathway;
-import org.uniprot.cv.pathway.UniPathwayService;
-import org.uniprot.cv.pathway.impl.UniPathwayServiceImpl;
+import org.uniprot.cv.pathway.UniPathwayRepo;
+import org.uniprot.cv.pathway.impl.UniPathwayRepoImpl;
 
 public class PathwayFileRepo implements PathwayRepo {
-    private final UniPathwayService unipathwayService;
+    private final UniPathwayRepo unipathwayRepo;
 
     public PathwayFileRepo(String filename) {
-        unipathwayService = new UniPathwayServiceImpl(filename);
+        unipathwayRepo = new UniPathwayRepoImpl(filename);
     }
 
     @Override
     public UniPathway getFromName(String name) {
-        return unipathwayService.getByName(name);
+        return unipathwayRepo.getByName(name);
     }
 }
