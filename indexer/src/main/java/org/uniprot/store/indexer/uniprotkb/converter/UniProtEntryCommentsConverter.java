@@ -491,7 +491,7 @@ class UniProtEntryCommentsConverter {
                 		 interaction -> {
                          	document.interactors.add(interaction.getInteractantOne().getIntActId());
                          	document.interactors.add(interaction.getInteractantTwo().getIntActId());
-                         	if(interaction.getInteractantTwo().getUniProtKBAccession() !=null) {
+                         	if(Utils.notNull(interaction.getInteractantTwo().getUniProtKBAccession())) {
                          		document.interactors.add(interaction.getInteractantTwo().getUniProtKBAccession().getValue());
                          	}  
                         });
