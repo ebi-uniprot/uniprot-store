@@ -11,7 +11,7 @@
     "childNumber": 0,
     "itemType": "SINGLE",
     "label": "Cross Reference Id",
-    "isRequired": true,
+    "isRequiredForJson": true,
     "name": "id",
     "paths" : ["accession"],
     "id": "cross_reference/id"

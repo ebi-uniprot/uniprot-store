@@ -33,7 +33,11 @@ public class ReturnField implements Field, Serializable {
     private List<String> paths;
     private String groupName;
     private Boolean isDatabaseGroup = false;
-    private Boolean isRequired = false;
+    private Boolean isRequiredForJson = false;
+
+    private Boolean isDefaultForTsv = false;
+    private Integer defaultForTsvOrder;
+
     @NotNull private String id;
     private String sortField;
 

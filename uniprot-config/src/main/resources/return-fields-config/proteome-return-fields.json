@@ -10,11 +10,13 @@
     "parentId": "proteome",
     "childNumber": 0,
     "itemType": "SINGLE",
-    "isRequired": true,
+    "isRequiredForJson": true,
+    "isDefaultForTsv": true,
+    "defaultForTsvOrder" : 0,
     "label": "Proteome Id",
-    "name": "id",
+    "name": "upid",
     "paths" : ["id"],
-    "id": "proteome/id"
+    "id": "proteome/upid"
   },
   {
     "parentId": "proteome",
@@ -29,14 +31,27 @@
     "parentId": "proteome",
     "childNumber": 2,
     "itemType": "SINGLE",
-    "label": "Taxonomy",
-    "name": "taxonomy",
+    "isDefaultForTsv": true,
+    "defaultForTsvOrder" : 1,
+    "label": "Organism",
+    "name": "organism",
     "paths" : ["taxonomy"],
-    "id": "proteome/taxonomy"
+    "id": "proteome/organism"
   },
   {
     "parentId": "proteome",
     "childNumber": 3,
+    "itemType": "SINGLE",
+    "isDefaultForTsv": true,
+    "defaultForTsvOrder" : 2,
+    "label": "Organism Id",
+    "name": "organism_id",
+    "paths" : ["taxonomy.taxonId"],
+    "id": "proteome/organism_id"
+  },
+  {
+    "parentId": "proteome",
+    "childNumber": 4,
     "itemType": "SINGLE",
     "label": "Modified Date",
     "name": "modified",
@@ -45,7 +60,7 @@
   },
   {
     "parentId": "proteome",
-    "childNumber": 4,
+    "childNumber": 5,
     "itemType": "SINGLE",
     "label": "Type",
     "name": "type",
@@ -54,7 +69,7 @@
   },
   {
     "parentId": "proteome",
-    "childNumber": 5,
+    "childNumber": 6,
     "itemType": "SINGLE",
     "label": "Redundant To",
     "name": "redundant_to",
@@ -63,7 +78,7 @@
   },
   {
     "parentId": "proteome",
-    "childNumber": 6,
+    "childNumber": 7,
     "itemType": "SINGLE",
     "label": "Strain",
     "name": "strain",
@@ -73,7 +88,7 @@
 
   {
     "parentId": "proteome",
-    "childNumber": 7,
+    "childNumber": 8,
     "itemType": "SINGLE",
     "label": "Isolate",
     "name": "isolate",
@@ -82,7 +97,7 @@
   },
   {
     "parentId": "proteome",
-    "childNumber": 8,
+    "childNumber": 9,
     "itemType": "SINGLE",
     "label": "Cross References",
     "name": "cross_reference",
@@ -91,7 +106,7 @@
   },
   {
     "parentId": "proteome",
-    "childNumber": 9,
+    "childNumber": 10,
     "itemType": "SINGLE",
     "label": "Components",
     "name": "components",
@@ -100,7 +115,7 @@
   },
   {
     "parentId": "proteome",
-    "childNumber": 10,
+    "childNumber": 11,
     "itemType": "SINGLE",
     "label": "References",
     "name": "references",
@@ -109,7 +124,7 @@
   },
   {
     "parentId": "proteome",
-    "childNumber": 11,
+    "childNumber": 12,
     "itemType": "SINGLE",
     "label": "Redundant proteomes",
     "name": "redundant_proteomes",
@@ -118,7 +133,7 @@
   },
   {
     "parentId": "proteome",
-    "childNumber": 12,
+    "childNumber": 13,
     "itemType": "SINGLE",
     "label": "Panproteome",
     "name": "panproteome",
@@ -127,7 +142,7 @@
   },
   {
     "parentId": "proteome",
-    "childNumber": 13,
+    "childNumber": 14,
     "itemType": "SINGLE",
     "label": "Annotation score",
     "name": "annotation_score",
@@ -136,7 +151,7 @@
   },
   {
     "parentId": "proteome",
-    "childNumber": 14,
+    "childNumber": 15,
     "itemType": "SINGLE",
     "label": "Super kingdom",
     "name": "superkingdom",
@@ -145,7 +160,7 @@
   },
   {
     "parentId": "proteome",
-    "childNumber": 15,
+    "childNumber": 16,
     "itemType": "SINGLE",
     "label": "Gene Count",
     "name": "gene_count",
@@ -154,7 +169,18 @@
   },
   {
     "parentId": "proteome",
-    "childNumber": 16,
+    "childNumber": 17,
+    "itemType": "SINGLE",
+    "isDefaultForTsv": true,
+    "defaultForTsvOrder" : 3,
+    "label": "Protein count",
+    "name": "protein_count",
+    "paths" : ["components[*].proteinCount"],
+    "id": "proteome/protein_count"
+  },
+  {
+    "parentId": "proteome",
+    "childNumber": 18,
     "itemType": "SINGLE",
     "label": "Lineage",
     "name": "lineage",
@@ -163,7 +189,7 @@
   },
   {
     "parentId": "proteome",
-    "childNumber": 17,
+    "childNumber": 19,
     "itemType": "SINGLE",
     "label": "Canonical proteins",
     "name": "canonical_proteins",
@@ -172,7 +198,7 @@
   },
   {
     "parentId": "proteome",
-    "childNumber": 18,
+    "childNumber": 20,
     "itemType": "SINGLE",
     "label": "Source database",
     "name": "source_database",

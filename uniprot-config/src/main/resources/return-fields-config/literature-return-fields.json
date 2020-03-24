@@ -10,11 +10,13 @@
     "parentId": "literature",
     "childNumber": 0,
     "itemType": "SINGLE",
-    "isRequired": true,
+    "isRequiredForJson": true,
+    "isDefaultForTsv": true,
+    "defaultForTsvOrder" : 0,
     "label": "PubMed ID",
-    "name": "pubmed_id",
+    "name": "id",
     "paths" : ["citation.citationCrossReferences[?(@.database=='PubMed')]"],
-    "id": "literature/pubmed_id"
+    "id": "literature/id"
   },
   {
     "parentId": "literature",
@@ -29,6 +31,8 @@
     "parentId": "literature",
     "childNumber": 2,
     "itemType": "SINGLE",
+    "isDefaultForTsv": true,
+    "defaultForTsvOrder" : 1,
     "label": "Title",
     "name": "title",
     "paths" : ["citation.title"],
@@ -92,6 +96,19 @@
     "parentId": "literature",
     "childNumber": 9,
     "itemType": "SINGLE",
+    "isDefaultForTsv": true,
+    "defaultForTsvOrder" : 2,
+    "label": "Reference",
+    "name": "reference",
+    "paths" : ["citation.journal","citation.volume", "citation.firstPage", "citation.lastPage", "citation.publicationDate" ],
+    "id": "literature/reference"
+  },
+  {
+    "parentId": "literature",
+    "childNumber": 10,
+    "itemType": "SINGLE",
+    "isDefaultForTsv": true,
+    "defaultForTsvOrder" : 3,
     "label": "Abstract/Summary",
     "name": "lit_abstract",
     "paths" : ["citation.literatureAbstract"],
@@ -99,7 +116,7 @@
   },
   {
     "parentId": "literature",
-    "childNumber": 10,
+    "childNumber": 11,
     "itemType": "SINGLE",
     "label": "Complete Author List",
     "name": "complete_author_list",
@@ -108,7 +125,7 @@
   },
   {
     "parentId": "literature",
-    "childNumber": 11,
+    "childNumber": 12,
     "itemType": "SINGLE",
     "label": "Citation",
     "name": "citation",
@@ -117,7 +134,7 @@
   },
   {
     "parentId": "literature",
-    "childNumber": 12,
+    "childNumber": 13,
     "itemType": "SINGLE",
     "label": "Statistics",
     "name": "statistics",

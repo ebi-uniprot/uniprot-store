@@ -9,6 +9,10 @@ public interface ReturnFieldConfig {
 
     List<ReturnField> getReturnFields();
 
+    List<ReturnField> getDefaultReturnFields();
+
+    List<ReturnField> getRequiredReturnFields();
+
     ReturnField getReturnFieldByName(String fieldName);
 
     boolean returnFieldExists(String fieldName);

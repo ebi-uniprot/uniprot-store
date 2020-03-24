@@ -10,7 +10,9 @@
     "parentId": "names_&_taxonomy",
     "childNumber": 0,
     "itemType": "SINGLE",
-    "isRequired": true,
+    "isRequiredForJson": true,
+    "isDefaultForTsv": true,
+    "defaultForTsvOrder" : 0,
     "name": "id",
     "label": "Cluster ID",
     "paths": ["id"],
@@ -20,6 +22,8 @@
     "parentId": "names_&_taxonomy",
     "childNumber": 1,
     "itemType": "SINGLE",
+    "isDefaultForTsv": true,
+    "defaultForTsvOrder" : 1,
     "name": "name",
     "label": "Cluster Name",
     "paths": ["name"],
@@ -29,6 +33,8 @@
     "parentId": "names_&_taxonomy",
     "childNumber": 2,
     "itemType": "SINGLE",
+    "isDefaultForTsv": true,
+    "defaultForTsvOrder" : 2,
     "name": "common_taxon",
     "label": "Common taxon",
     "paths": ["commonTaxon"],
@@ -49,7 +55,7 @@
     "itemType": "SINGLE",
     "name": "organism_id",
     "label": "Organism IDs",
-    "paths": ["id"],
+    "paths": ["representativeMember.organismTaxId","members[*].organismTaxId"],
     "id": "names_&_taxonomy/organism_id"
   },
   {
@@ -58,7 +64,7 @@
     "itemType": "SINGLE",
     "name": "organism",
     "label": "Organisms",
-    "paths": ["id"],
+    "paths": ["representativeMember.organismName","members[*].organismName"],
     "id": "names_&_taxonomy/organism"
   },
   {
@@ -107,8 +113,8 @@
     "childNumber": 0,
     "itemType": "SINGLE",
     "name": "types",
-    "label": "TODO: Name For it",
-    "paths": ["id"],
+    "label": "Types",
+    "paths": ["representativeMember.memberIdType","members[*].memberIdType"],
     "id": "miscellaneous/types"
   },
   {
@@ -124,10 +130,12 @@
     "parentId": "miscellaneous",
     "childNumber": 2,
     "itemType": "SINGLE",
-    "name": "size",
+    "isDefaultForTsv": true,
+    "defaultForTsvOrder" : 3,
+    "name": "count",
     "label": "Size",
     "paths": ["memberCount"],
-    "id": "miscellaneous/size"
+    "id": "miscellaneous/count"
   },
   {
     "seqNumber": 3,
@@ -140,6 +148,8 @@
     "parentId": "date_of",
     "childNumber": 0,
     "itemType": "SINGLE",
+    "isDefaultForTsv": true,
+    "defaultForTsvOrder" : 4,
     "name": "created",
     "label": "Date of creation",
     "paths": ["updated"],

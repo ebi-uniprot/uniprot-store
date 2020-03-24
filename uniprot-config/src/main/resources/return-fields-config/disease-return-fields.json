@@ -10,26 +10,32 @@
     "parentId": "disease",
     "childNumber": 0,
     "itemType": "SINGLE",
-    "isRequired": true,
-    "label": "Disease Id",
-    "name": "id",
+    "isRequiredForJson": true,
+    "isDefaultForTsv": true,
+    "defaultForTsvOrder" : 1,
+    "label": "DiseaseEntry ID",
+    "name": "accession",
     "paths" : ["accession"],
-    "id": "disease/id"
+    "id": "disease/accession"
   },
   {
     "parentId": "disease",
     "childNumber": 1,
     "itemType": "SINGLE",
+    "isDefaultForTsv": true,
+    "defaultForTsvOrder" : 0,
     "label": "Name",
-    "name": "name",
+    "name": "id",
     "paths" : ["id"],
-    "id": "disease/name"
+    "id": "disease/id"
   },
   {
     "parentId": "disease",
     "childNumber": 2,
     "itemType": "SINGLE",
-    "label": "Acronym (Mnemonic)",
+    "isDefaultForTsv": true,
+    "defaultForTsvOrder" : 2,
+    "label": "Mnemonic",
     "name": "acronym",
     "paths" : ["acronym"],
     "id": "disease/acronym"
@@ -38,6 +44,8 @@
     "parentId": "disease",
     "childNumber": 3,
     "itemType": "SINGLE",
+    "isDefaultForTsv": true,
+    "defaultForTsvOrder" : 3,
     "label": "Description",
     "name": "definition",
     "paths" : ["definition"],

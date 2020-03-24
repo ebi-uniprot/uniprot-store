@@ -10,26 +10,32 @@
     "parentId": "subcellular_location",
     "childNumber": 0,
     "itemType": "SINGLE",
-    "isRequired": true,
+    "isRequiredForJson": true,
+    "isDefaultForTsv": true,
+    "defaultForTsvOrder" : 0,
     "label": "Subcellular location ID",
-    "name": "id",
+    "name": "accession",
     "paths" : ["accession"],
-    "id": "subcellular_location/id"
+    "id": "subcellular_location/accession"
   },
   {
     "parentId": "subcellular_location",
     "childNumber": 1,
     "itemType": "SINGLE",
-    "label": "Name",
-    "name": "name",
+    "isDefaultForTsv": true,
+    "defaultForTsvOrder" : 3,
+    "label": "Alias",
+    "name": "id",
     "paths" : ["id"],
-    "id": "subcellular_location/name"
+    "id": "subcellular_location/id"
   },
   {
     "parentId": "subcellular_location",
     "childNumber": 2,
     "itemType": "SINGLE",
-    "label": "Definition",
+    "isDefaultForTsv": true,
+    "defaultForTsvOrder" : 1,
+    "label": "Description",
     "name": "definition",
     "paths" : ["definition"],
     "id": "subcellular_location/definition"
@@ -38,6 +44,8 @@
     "parentId": "subcellular_location",
     "childNumber": 3,
     "itemType": "SINGLE",
+    "isDefaultForTsv": true,
+    "defaultForTsvOrder" : 2,
     "label": "Category",
     "name": "category",
     "paths" : ["category"],

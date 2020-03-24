@@ -13,6 +13,9 @@
     "name": "accession",
     "label": "Entry",
     "id": "names_&_taxonomy/entry",
+    "isRequiredForJson" : true,
+    "isDefaultForTsv" : true,
+    "defaultForTsvOrder" : 0,
     "paths": [
       "primaryAccession"
     ]
@@ -24,6 +27,8 @@
     "name": "id",
     "label": "Entry Name",
     "id": "names_&_taxonomy/entry_name",
+    "isDefaultForTsv" : true,
+    "defaultForTsvOrder" : 1,
     "paths": [
       "uniProtId"
     ]

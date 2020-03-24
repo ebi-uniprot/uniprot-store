@@ -121,7 +121,7 @@ public class FieldDataValidator<T extends Field> {
         validateNaturalNumbers(childNumbers, message);
     }
 
-    private void validateNaturalNumbers(List<Integer> numbers, String message) {
+    public void validateNaturalNumbers(List<Integer> numbers, String message) {
         // check numbers are natural number including 0
         int inputSize = numbers.size();
         BitSet visitedSet = new BitSet(inputSize);

@@ -10,6 +10,7 @@
     "parentId": "names_&_taxonomy",
     "childNumber": 0,
     "itemType": "SINGLE",
+    "isRequiredForJson" : true,
     "name": "accession",
     "label": "Entry",
     "id": "names_&_taxonomy/entry",

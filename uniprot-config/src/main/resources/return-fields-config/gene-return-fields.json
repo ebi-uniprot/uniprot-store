@@ -10,7 +10,7 @@
     "parentId": "gene_centric",
     "childNumber": 0,
     "itemType": "SINGLE",
-    "isRequired": true,
+    "isRequiredForJson": true,
     "label": "Canonical protein accession",
     "name": "accession",
     "paths" : ["canonicalProtein.accession"],

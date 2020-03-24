@@ -1,6 +1,7 @@
 package org.uniprot.store.config.returnfield.config;
 
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -43,6 +44,21 @@ public abstract class AbstractReturnFieldConfig implements ReturnFieldConfig {
                             .collect(Collectors.toList());
         }
         return this.returnFields;
+    }
+
+    @Override
+    public List<ReturnField> getDefaultReturnFields() {
+        return this.getReturnFields().stream()
+                .filter(ReturnField::getIsDefaultForTsv)
+                .sorted(Comparator.comparing(ReturnField::getDefaultForTsvOrder))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<ReturnField> getRequiredReturnFields() {
+        return this.getReturnFields().stream()
+                .filter(ReturnField::getIsRequiredForJson)
+                .collect(Collectors.toList());
     }
 
     @Override

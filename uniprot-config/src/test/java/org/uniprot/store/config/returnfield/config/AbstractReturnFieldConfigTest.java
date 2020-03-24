@@ -5,7 +5,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.core.Is.is;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.Collection;
 import java.util.List;
@@ -63,6 +63,28 @@ class AbstractReturnFieldConfigTest {
     void canGetFieldByName() {
         ReturnField field = config.getReturnFieldByName("cc_alternative_products");
         assertThat(field, is(notNullValue()));
+    }
+
+    @Test
+    void canGetDefaultFields() {
+        List<ReturnField> field = config.getDefaultReturnFields();
+        assertThat(field, is(notNullValue()));
+        assertFalse(field.isEmpty());
+        field.forEach(
+                defaultField -> {
+                    assertTrue(defaultField.getIsDefaultForTsv());
+                });
+    }
+
+    @Test
+    void canGetRequiredFields() {
+        List<ReturnField> field = config.getRequiredReturnFields();
+        assertThat(field, is(notNullValue()));
+        assertFalse(field.isEmpty());
+        field.forEach(
+                requiredField -> {
+                    assertTrue(requiredField.getIsRequiredForJson());
+                });
     }
 
     @Test

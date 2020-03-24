@@ -50,8 +50,14 @@
         "sortField": {
           "type": "string"
         },
-        "isRequired": {
+        "isRequiredForJson": {
           "type": "boolean"
+        },
+        "isDefaultForTsv": {
+          "type": "boolean"
+        },
+        "defaultForTsvOrder": {
+          "type": "integer"
         }
       },
       "required": [

@@ -19,6 +19,30 @@ public class ReturnFieldDataValidator extends FieldDataValidator<ReturnField> {
     public void validateContent(List<ReturnField> fieldItems) {
         super.validateContent(fieldItems);
         onlySingleFieldsCanHaveSortFields(fieldItems);
+        mustHaveAtLeastOneRequiredJsonField(fieldItems);
+        defaultTsvFieldsMustHaveValidOrder(fieldItems);
+    }
+
+    private void defaultTsvFieldsMustHaveValidOrder(List<ReturnField> fieldItems) {
+        boolean hasTsvDefaultFields = fieldItems.stream().anyMatch(ReturnField::getIsDefaultForTsv);
+        if (hasTsvDefaultFields) { // gene centric do not have tsv
+            List<Integer> defaultOrder =
+                    fieldItems.stream()
+                            .filter(ReturnField::getIsDefaultForTsv)
+                            .map(ReturnField::getDefaultForTsvOrder)
+                            .collect(Collectors.toList());
+            validateNaturalNumbers(defaultOrder, "DefaultForTsvOrder order");
+        }
+    }
+
+    private void mustHaveAtLeastOneRequiredJsonField(List<ReturnField> fieldItems) {
+        fieldItems.stream()
+                .filter(ReturnField::getIsRequiredForJson)
+                .findAny()
+                .orElseThrow(
+                        () ->
+                                new SchemaValidationException(
+                                        "Must have at least one required json field"));
     }
 
     @Override
