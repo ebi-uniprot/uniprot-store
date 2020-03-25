@@ -58,7 +58,7 @@ public class SupportingDataMapHDSFImpl implements SupportingDataMap {
                             .collect(
                                     Collectors.toMap(
                                             SubcellularLocationEntry::getContent,
-                                            SubcellularLocationEntry::getAccession)));
+                                            SubcellularLocationEntry::getId)));
             log.info("Loaded " + subcellularLocationMap.size() + " Subcellular Location Map");
         } else {
             log.warn("Subcellular Location File was not loaded");
@@ -87,9 +87,7 @@ public class SupportingDataMapHDSFImpl implements SupportingDataMap {
             List<DiseaseEntry> entries = new DiseaseFileReader().parseLines(lines);
             diseaseMap.putAll(
                     entries.stream()
-                            .collect(
-                                    Collectors.toMap(
-                                            DiseaseEntry::getId, DiseaseEntry::getAccession)));
+                            .collect(Collectors.toMap(DiseaseEntry::getName, DiseaseEntry::getId)));
             log.info("Loaded " + diseaseMap.size() + " disease Map");
         } else {
             log.warn("diseaseFile path must not be null or empty");

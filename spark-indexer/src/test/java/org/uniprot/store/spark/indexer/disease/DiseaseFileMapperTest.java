@@ -38,7 +38,7 @@ class DiseaseFileMapperTest {
         assertEquals("Jackson-Weiss syndrome", tuple._1);
         DiseaseEntry disease = tuple._2;
         assertNotNull(disease);
-        assertEquals("DI-00602", disease.getAccession());
+        assertEquals("DI-00602", disease.getId());
     }
 
     @Test

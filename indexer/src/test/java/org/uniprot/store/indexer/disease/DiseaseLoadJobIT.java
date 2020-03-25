@@ -93,8 +93,8 @@ class DiseaseLoadJobIT {
         // convert the binary to disease object
         DiseaseEntry disease =
                 this.diseaseObjectMapper.readValue(diseaseByteBuffer.array(), DiseaseEntry.class);
-        assertThat(disease.getId(), is("Rheumatoid arthritis"));
-        assertThat(disease.getAccession(), is("DI-02692"));
+        assertThat(disease.getName(), is("Rheumatoid arthritis"));
+        assertThat(disease.getId(), is("DI-02692"));
         assertThat(disease.getAcronym(), is("RA"));
         assertThat(disease.getReviewedProteinCount(), is(8L));
         assertThat(disease.getUnreviewedProteinCount(), is(nullValue()));

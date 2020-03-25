@@ -157,7 +157,7 @@ public class CrossRefReader implements ItemReader<CrossRefEntry> {
         }
 
         CrossRefEntryBuilder builder = new CrossRefEntryBuilder();
-        builder.accession(acc).abbrev(abbr).name(name);
+        builder.id(acc).abbrev(abbr).name(name);
         builder.pubMedId(pubMedId).doiId(doiId).linkType(lType).server(server);
         builder.dbUrl(url).category(cat);
 
