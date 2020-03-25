@@ -279,7 +279,7 @@
     "parentId": "sequences",
     "childNumber": 9,
     "itemType": "SINGLE",
-    "name": "ft_non_con",
+    "name": "ft_non_cons",
     "label": "Non-adjacent residue",
     "id": "sequences/non-adjacent_residue",
     "paths": [
@@ -969,7 +969,7 @@
     "parentId": "subcellular_location",
     "childNumber": 2,
     "itemType": "SINGLE",
-    "name": "ft_top_dom",
+    "name": "ft_topo_dom",
     "label": "Topological domain",
     "id": "subcellular_location/topological_domain",
     "paths": [
@@ -1020,7 +1020,7 @@
     "parentId": "ptm_/_processing",
     "childNumber": 2,
     "itemType": "SINGLE",
-    "name": "ft_disulfide",
+    "name": "ft_disulfid",
     "label": "Disulfide bond",
     "id": "ptm_/_processing/disulfide_bond",
     "paths": [

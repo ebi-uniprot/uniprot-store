@@ -23,6 +23,7 @@ import org.uniprot.store.config.searchfield.factory.SearchFieldConfigFactory;
  * @author Edd
  */
 class UniProtKBReturnFieldConfigImplIT {
+
     private static ReturnFieldConfig returnFieldConfig;
     private static SearchFieldConfig searchFieldConfig;
 

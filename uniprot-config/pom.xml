@@ -82,6 +82,19 @@
 			<version>${junit-jupiter.version}</version>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>org.uniprot</groupId>
+			<artifactId>core-parser</artifactId>
+			<version>${uniprot-core.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.uniprot</groupId>
+			<artifactId>json-parser</artifactId>
+			<version>${uniprot-core.version}</version>
+			<type>test-jar</type>
+			<scope>test</scope>
+		</dependency>
 	</dependencies>
 	<build>
 		<plugins>
