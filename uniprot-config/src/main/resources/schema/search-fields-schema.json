@@ -67,17 +67,20 @@
         },
         "sortFieldId" : {
           "type" : "string"
+        },
+        "includeInSwagger" : {
+          "type" : "boolean"
         }
       },
       "required" : ["id"],
       "dependencies": {
         "childNumber": ["id", "parentId", "itemType"],
-        "fieldName": ["fieldType", "dataType", "example", "description"],
         "fieldType": ["fieldName"],
         "autoComplete": ["autoCompleteQueryField"],
         "seqNumber": ["itemType", "label"],
         "autoCompleteQueryField": ["autoComplete"],
-        "autoCompleteQueryFieldValidRegex": ["autoComplete"]
+        "autoCompleteQueryFieldValidRegex": ["autoComplete"],
+        "includeInSwagger": ["fieldName","fieldType", "dataType", "example", "description"]
       }
     },
     "Value" : {
