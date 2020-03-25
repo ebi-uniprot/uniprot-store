@@ -142,19 +142,19 @@ class UniProtKBEntryCommentsConverterTest {
     void testInteractionCommentConvertProperlyToDocument() {
         String interactionLine =
                 "CC   -!- INTERACTION:\n"
-                        + "CC       Self; NbExp=106; IntAct=EBI-77613, EBI-77613;\n"
-                        + "CC       Q306T3:- (xeno); NbExp=3; IntAct=EBI-77613, EBI-8294101;\n"
-                        + "CC       P31696:AGRN (xeno); NbExp=3; IntAct=EBI-2431589, EBI-457650;\n"
-                        + "CC       Q02410:APBA1; NbExp=4; IntAct=EBI-77613, EBI-368690;\n"
-                        + "CC       Q99767:APBA2; NbExp=2; IntAct=EBI-77613, EBI-81711;";
+                        + "CC       P12345; P12345-1; NbExp=106; IntAct=EBI-77613, EBI-77613;\n"
+                        + "CC       P12345; Q306T3; Xeno; NbExp=3; IntAct=EBI-77613, EBI-8294101;\n"
+                        + "CC       P12345; P31696: AGRN; Xeno; NbExp=3; IntAct=EBI-2431589, EBI-457650;\n"
+                        + "CC       P12345; Q02410: APBA1; NbExp=4; IntAct=EBI-77613, EBI-368690;\n"
+                        + "CC       P12345; Q99767: APBA2; NbExp=2; IntAct=EBI-77613, EBI-81711;";
 
         String interactionIndexedString =
                 "INTERACTION:\n"
-                        + "Self; NbExp=106; IntAct=EBI-77613, EBI-77613;\n"
-                        + "Q306T3:- (xeno); NbExp=3; IntAct=EBI-77613, EBI-8294101;\n"
-                        + "P31696:AGRN (xeno); NbExp=3; IntAct=EBI-2431589, EBI-457650;\n"
-                        + "Q02410:APBA1; NbExp=4; IntAct=EBI-77613, EBI-368690;\n"
-                        + "Q99767:APBA2; NbExp=2; IntAct=EBI-77613, EBI-81711;";
+                        + "P12345; P12345-1; NbExp=106; IntAct=EBI-77613, EBI-77613;\n"
+                        + "P12345; Q306T3; Xeno; NbExp=3; IntAct=EBI-77613, EBI-8294101;\n"
+                        + "P12345; P31696: AGRN; Xeno; NbExp=3; IntAct=EBI-2431589, EBI-457650;\n"
+                        + "P12345; Q02410: APBA1; NbExp=4; IntAct=EBI-77613, EBI-368690;\n"
+                        + "P12345; Q99767: APBA2; NbExp=2; IntAct=EBI-77613, EBI-81711;";
 
         UniProtKBEntry entry = createUniProtEntryFromCommentLine(interactionLine);
 
@@ -164,7 +164,7 @@ class UniProtKBEntryCommentsConverterTest {
         converter.convertCommentToDocument(entry.getComments(), document);
         assertNotNull(document);
 
-        assertEquals(10, document.interactors.size());
+        assertEquals(11, document.interactors.size());
         assertTrue(document.interactors.contains("EBI-2431589"));
         assertTrue(document.interactors.contains("EBI-368690"));
         assertTrue(document.interactors.contains("Q99767"));

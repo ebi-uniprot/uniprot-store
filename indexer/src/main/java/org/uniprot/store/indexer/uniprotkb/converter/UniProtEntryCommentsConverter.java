@@ -488,19 +488,12 @@ class UniProtEntryCommentsConverter {
     private void convertCommentInteraction(InteractionComment comment, UniProtDocument document) {
         comment.getInteractions()
                 .forEach(
-                        interaction -> {
-                            if (interaction.hasFirstInteractor()) {
-                                document.interactors.add(
-                                        interaction.getFirstInteractor().getValue());
-                            }
-                            if (interaction.hasSecondInteractor()) {
-                                document.interactors.add(
-                                        interaction.getSecondInteractor().getValue());
-                            }
-                            if (interaction.hasUniProtAccession()) {
-                                document.interactors.add(
-                                        interaction.getUniProtkbAccession().getValue());
-                            }
+                		 interaction -> {
+                         	document.interactors.add(interaction.getInteractantOne().getIntActId());
+                         	document.interactors.add(interaction.getInteractantTwo().getIntActId());
+                         	if(Utils.notNull(interaction.getInteractantTwo().getUniProtKBAccession())) {
+                         		document.interactors.add(interaction.getInteractantTwo().getUniProtKBAccession().getValue());
+                         	}  
                         });
     }
 

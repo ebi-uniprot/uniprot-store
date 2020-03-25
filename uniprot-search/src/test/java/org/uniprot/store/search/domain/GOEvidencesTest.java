@@ -11,7 +11,7 @@ import org.uniprot.store.search.domain.impl.EvidenceGroupImpl;
 import org.uniprot.store.search.domain.impl.EvidenceItemImpl;
 import org.uniprot.store.search.domain.impl.GoEvidences;
 
-class GoEvidencesTest {
+class GOEvidencesTest {
     private static GoEvidences instance;
 
     @BeforeAll
