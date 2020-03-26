@@ -1211,7 +1211,6 @@
     "parentId": "structure",
     "childNumber": 0,
     "itemType": "SINGLE", 
-    "includeInSwagger": true,
     "name": "3d",
     "label": "3D",
     "id": "structure/3d",

@@ -43,8 +43,7 @@
     "fieldType": "GENERAL",
     "dataType": "STRING",
     "example":  "P12345",
-    "description" : "Search by UniProtKB Accession",
-    "includeInSwagger": true
+    "description" : "Search by UniProtKB Accession"
   },
   {
     "id":"proteins_with",
@@ -156,7 +155,7 @@
     "id":"is_isoform",
     "fieldName": "is_isoform",
     "validRegex": "^true|false$",
-    "dataType": "STRING",
+    "dataType": "BOOLEAN",
     "fieldType": "GENERAL",
     "example":  "true",
     "description" : "Search if it has isoform",
@@ -168,8 +167,7 @@
     "dataType": "STRING",
     "fieldType": "GENERAL",
     "example":  "The sequence CAA55367 differs",
-    "description" : "Search by protein sequence caution or error",
-    "includeInSwagger": true
+    "description" : "Search by protein sequence caution or error"
   },
   {
     "id":"ccev_sc",
@@ -823,7 +821,7 @@
     "fieldName": "reviewed",
     "fieldType": "GENERAL",
     "validRegex": "^true|false$",
-    "dataType": "ENUM",
+    "dataType": "BOOLEAN",
     "itemType": "SINGLE",
     "values": [
       {
@@ -847,7 +845,7 @@
     "fieldType": "GENERAL",
     "itemType": "SINGLE",
     "validRegex": "^true|false$",
-    "dataType": "ENUM",
+    "dataType": "BOOLEAN",
     "values": [
       {
         "name": "Yes",
@@ -859,8 +857,7 @@
       }
     ],
     "description": "Search by active or not",
-    "example": "true",
-    "includeInSwagger": true
+    "example": "true"
   },
   {
     "label": "Function",
@@ -1317,8 +1314,7 @@
     "dataType": "STRING",
     "fieldType": "GENERAL",
     "description": "Search by feature  active site",
-    "example": "phosphocysteine",
-    "includeInSwagger": true
+    "example": "phosphocysteine"
   },
   {
     "parentId": "sites_active_site",
@@ -1358,8 +1354,7 @@
     "fieldType": "GENERAL",
     "dataType": "STRING",
     "description": "Search by feature metal binding",
-    "example": "phosphocysteine",
-    "includeInSwagger": true
+    "example": "phosphocysteine"
   },
   {
     "parentId": "sites_metal_binding",
@@ -1399,8 +1394,7 @@
     "fieldType": "GENERAL",
     "dataType": "STRING",
     "description": "Search by feature binding site",
-    "example": "phosphocysteine",
-    "includeInSwagger": true
+    "example": "phosphocysteine"
   },
   {
     "parentId": "sites_binding_site",
@@ -1440,8 +1434,7 @@
     "fieldType": "GENERAL",
     "dataType": "STRING",
     "description": "Search by feature other site",
-    "example": "phosphocysteine",
-    "includeInSwagger": true
+    "example": "phosphocysteine"
   },
   {
     "parentId": "sites_other",
@@ -1481,8 +1474,7 @@
     "fieldType": "GENERAL",
     "dataType": "STRING",
     "description": "Search by feature calcium binding",
-    "example": "site",
-    "includeInSwagger": true
+    "example": "site"
   },
   {
     "parentId": "calcium_binding",
@@ -1522,8 +1514,7 @@
     "fieldType": "GENERAL",
     "dataType": "STRING",
     "description": "Search by feature DNA binding",
-    "example": "*",
-    "includeInSwagger": true
+    "example": "*"
   },
   {
     "parentId": "dna_binding",
@@ -1563,8 +1554,7 @@
     "dataType": "STRING",
     "fieldType": "GENERAL",
     "description": "Search by feature Nucleotide binding",
-    "example": "NADP",
-    "includeInSwagger": true
+    "example": "NADP"
   },
   {
     "parentId": "nucleotide_binding",
@@ -1634,8 +1624,7 @@
     "fieldType": "GENERAL",
     "dataType": "STRING",
     "description": "Search by comment Miscellaneous",
-    "example": "abscisic",
-    "includeInSwagger": true
+    "example": "abscisic"
   },
   {
     "parentId": "miscellaneous_cc",
@@ -2113,8 +2102,7 @@
     "fieldType": "GENERAL",
     "dataType": "STRING",
     "description": "Search by Feature natural variant",
-    "example": "colorectal",
-    "includeInSwagger": true
+    "example": "colorectal"
   },
   {
     "parentId": "natural_variations_natural_variant",
@@ -2154,8 +2142,7 @@
     "fieldType": "GENERAL",
     "dataType": "STRING",
     "description": "Search by Feature alternative sequence",
-    "example": "isoform",
-    "includeInSwagger": true
+    "example": "isoform"
   },
   {
     "parentId": "natural_variations_alternative_sequence",
@@ -2195,8 +2182,7 @@
     "fieldType": "GENERAL",
     "dataType": "STRING",
     "description": "Search by feature non-standard residue",
-    "example": "selenocysteine",
-    "includeInSwagger": true
+    "example": "selenocysteine"
   },
   {
     "parentId": "non_standard_residue",
@@ -2236,8 +2222,7 @@
     "fieldType": "GENERAL",
     "dataType": "STRING",
     "description": "Search by feature non-terminal residue",
-    "example": "*",
-    "includeInSwagger": true
+    "example": "*"
   },
   {
     "parentId": "non_terminal_residue",
@@ -2277,8 +2262,7 @@
     "fieldType": "GENERAL",
     "dataType": "STRING",
     "description": "Search by feature non-adjacent residue",
-    "example": "*",
-    "includeInSwagger": true
+    "example": "*"
   },
   {
     "parentId": "non_adjacent_residue",
@@ -2318,8 +2302,7 @@
     "fieldType": "GENERAL",
     "dataType": "STRING",
     "description": "Search by feature Sequence conflict",
-    "example": "*",
-    "includeInSwagger": true
+    "example": "*"
   },
   {
     "parentId": "sequence_conflict",
@@ -2359,8 +2342,7 @@
     "fieldType": "GENERAL",
     "dataType": "STRING",
     "description": "Search by feature Sequence uncertainty",
-    "example": "*",
-    "includeInSwagger": true
+    "example": "*"
   },
   {
     "parentId": "sequence_uncertainty",
@@ -2400,8 +2382,7 @@
     "fieldType": "GENERAL",
     "dataType": "STRING",
     "description": "Search by sequence positional features",
-    "example": "colorectal",
-    "includeInSwagger": true
+    "example": "colorectal"
   },
   {
     "parentId": "sequence_features_ft",
@@ -2519,8 +2500,7 @@
       }
     ],
     "description": "Search by precursor",
-    "example": "true",
-    "includeInSwagger": true
+    "example": "true"
   },
   {
     "parentId": "sequence",
@@ -2630,8 +2610,7 @@
     "fieldType": "GENERAL",
     "dataType": "STRING",
     "description": "Search by Feature Modified residue",
-    "example": "phosphoserine",
-    "includeInSwagger": true
+    "example": "phosphoserine"
   },
   {
     "parentId": "modified_residue_ft",
@@ -2671,8 +2650,7 @@
     "fieldType": "GENERAL",
     "dataType": "STRING",
     "description": "Search by Feature Lipidation",
-    "example": "cysteine",
-    "includeInSwagger": true
+    "example": "cysteine"
   },
   {
     "parentId": "lipidation_ft",
@@ -2712,8 +2690,7 @@
     "fieldType": "GENERAL",
     "dataType": "STRING",
     "description": "Search by Feature Glycosylation",
-    "example": "cysteine",
-    "includeInSwagger": true
+    "example": "cysteine"
   },
   {
     "parentId": "glycosylation_ft",
@@ -2753,8 +2730,7 @@
     "fieldType": "GENERAL",
     "dataType": "STRING",
     "description": "Search by Feature Disulfide bond",
-    "example": "reversible",
-    "includeInSwagger": true
+    "example": "reversible"
   },
   {
     "parentId": "disulfide_bond_ft",
@@ -2794,8 +2770,7 @@
     "fieldType": "GENERAL",
     "dataType": "STRING",
     "description": "Search by Feature Cross-link",
-    "example": "lysine",
-    "includeInSwagger": true
+    "example": "lysine"
   },
   {
     "parentId": "cross_link_ft",
@@ -2842,8 +2817,7 @@
     "fieldType": "GENERAL",
     "dataType": "STRING",
     "description": "Search by Feature Molecule Processing",
-    "example": "disulfide",
-    "includeInSwagger": true
+    "example": "disulfide"
   },
   {
     "parentId": "any_molecule_processing",
@@ -2883,8 +2857,7 @@
     "fieldType": "GENERAL",
     "dataType": "STRING",
     "description": "Search by Feature chain",
-    "example": "kinase",
-    "includeInSwagger": true
+    "example": "kinase"
   },
   {
     "parentId": "chain",
@@ -2924,8 +2897,7 @@
     "fieldType": "GENERAL",
     "dataType": "STRING",
     "description": "Search by Feature initiator methionine",
-    "example": "Removed",
-    "includeInSwagger": true
+    "example": "Removed"
   },
   {
     "parentId": "initiator_methionine",
@@ -2965,8 +2937,7 @@
     "fieldType": "GENERAL",
     "dataType": "STRING",
     "description": "Search by Feature peptide",
-    "example": "Removed",
-    "includeInSwagger": true
+    "example": "Removed"
   },
   {
     "parentId": "peptide",
@@ -3006,8 +2977,7 @@
     "fieldType": "GENERAL",
     "dataType": "STRING",
     "description": "Search by Feature signal peptide",
-    "example": "cleaved",
-    "includeInSwagger": true
+    "example": "cleaved"
   },
   {
     "parentId": "signal_peptide",
@@ -3047,8 +3017,7 @@
     "fieldType": "GENERAL",
     "dataType": "STRING",
     "description": "Search by Feature signal peptide",
-    "example": "Activation peptide",
-    "includeInSwagger": true
+    "example": "Activation peptide"
   },
   {
     "parentId": "propeptide",
@@ -3088,8 +3057,7 @@
     "fieldType": "GENERAL",
     "dataType": "STRING",
     "description": "Search by Feature signal peptide",
-    "example": "Mitochondrion",
-    "includeInSwagger": true
+    "example": "Mitochondrion"
   },
   {
     "parentId": "transit_peptide",
@@ -3183,8 +3151,7 @@
     "fieldType": "GENERAL",
     "dataType": "STRING",
     "description": "Search by feature domain",
-    "example": "phosphatase",
-    "includeInSwagger": true
+    "example": "phosphatase"
   },
   {
     "parentId": "domain_ft",
@@ -3267,8 +3234,7 @@
     "fieldType": "GENERAL",
     "dataType": "STRING",
     "description": "Search by feature coiled coil",
-    "example": "*",
-    "includeInSwagger": true
+    "example": "*"
   },
   {
     "parentId": "coiled_coil",
@@ -3308,8 +3274,7 @@
     "fieldType": "GENERAL",
     "dataType": "STRING",
     "description": "Search by feature compositional bias",
-    "example": "glu-rich",
-    "includeInSwagger": true
+    "example": "glu-rich"
   },
   {
     "parentId": "compositional_bias",
@@ -3349,8 +3314,7 @@
     "fieldType": "GENERAL",
     "dataType": "STRING",
     "description": "Search by feature motif",
-    "example": "motif",
-    "includeInSwagger": true
+    "example": "motif"
   },
   {
     "parentId": "motif",
@@ -3390,8 +3354,7 @@
     "fieldType": "GENERAL",
     "dataType": "STRING",
     "description": "Search by feature region",
-    "example": "motif",
-    "includeInSwagger": true
+    "example": "motif"
   },
   {
     "parentId": "region",
@@ -3431,8 +3394,7 @@
     "fieldType": "GENERAL",
     "dataType": "STRING",
     "description": "Search by feature repeat",
-    "example": "motif",
-    "includeInSwagger": true
+    "example": "motif"
   },
   {
     "parentId": "repeat",
@@ -3502,8 +3464,7 @@
     "fieldType": "GENERAL",
     "dataType": "STRING",
     "description": "Search by feature zinc finger",
-    "example": "UBP",
-    "includeInSwagger": true
+    "example": "UBP"
   },
   {
     "parentId": "zinc_finger",
@@ -3682,7 +3643,7 @@
     "fieldName": "d3structure",
     "fieldType": "GENERAL",
     "validRegex": "^true|false$",
-    "dataType": "ENUM",
+    "dataType": "BOOLEAN",
     "description": "Search by having PDB cross reference or not",
     "values": [
       {
@@ -3731,8 +3692,7 @@
     "fieldType": "GENERAL",
     "dataType": "STRING",
     "description": "Search by Feature Any secondary structure",
-    "example": "*",
-    "includeInSwagger": true
+    "example": "*"
   },
   {
     "parentId": "secondary_structure_any",
@@ -3761,8 +3721,7 @@
     "fieldType": "GENERAL",
     "dataType": "STRING",
     "description": "Search by Feature helix",
-    "example": "*",
-    "includeInSwagger": true
+    "example": "*"
   },
   {
     "parentId": "secondary_structure_helix",
@@ -3802,8 +3761,7 @@
     "fieldType": "GENERAL",
     "dataType": "STRING",
     "description": "Search by Feature turn",
-    "example": "*",
-    "includeInSwagger": true
+    "example": "*"
   },
   {
     "parentId": "secondary_structure_turn",
@@ -3843,8 +3801,7 @@
     "fieldType": "GENERAL",
     "dataType": "STRING",
     "description": "Search by Feature Beta strand",
-    "example": "*",
-    "includeInSwagger": true
+    "example": "*"
   },
   {
     "parentId": "secondary_structure_beta_strand",
@@ -3957,8 +3914,7 @@
     "fieldType": "GENERAL",
     "dataType": "STRING",
     "description": "Search by Transmembrane",
-    "example": "forming",
-    "includeInSwagger": true
+    "example": "forming"
   },
   {
     "parentId": "transmembrane",
@@ -3998,8 +3954,7 @@
     "fieldType": "GENERAL",
     "dataType": "STRING",
     "description": "Search by Topological domain",
-    "example": "forming",
-    "includeInSwagger": true
+    "example": "forming"
   },
   {
     "parentId": "topological_domain",
@@ -4039,8 +3994,7 @@
     "fieldType": "GENERAL",
     "dataType": "STRING",
     "description": "Search by Intramembrane",
-    "example": "forming",
-    "includeInSwagger": true
+    "example": "forming"
   },
   {
     "parentId": "intramembrane",
@@ -4267,8 +4221,7 @@
     "fieldType": "GENERAL",
     "dataType": "STRING",
     "description": "Search by Feature Mutagenesis",
-    "example": "phosphatase",
-    "includeInSwagger": true
+    "example": "phosphatase"
   },
   {
     "parentId" : "mutagenesis",
