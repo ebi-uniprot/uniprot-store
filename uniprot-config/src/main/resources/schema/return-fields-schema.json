@@ -58,6 +58,9 @@
         },
         "defaultForTsvOrder": {
           "type": "integer"
+        },
+        "includeInSwagger": {
+          "type": "boolean"
         }
       },
       "required": [
