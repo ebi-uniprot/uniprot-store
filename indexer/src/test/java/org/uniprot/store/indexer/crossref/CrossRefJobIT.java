@@ -92,11 +92,8 @@ class CrossRefJobIT {
 
         // get one document
         CrossRefDocument xrefDoc =
-                response.get()
-                        .filter(xref -> "DB-0160".equals(xref.getAccession()))
-                        .findFirst()
-                        .get();
-        assertThat(xrefDoc.getAccession(), is("DB-0160"));
+                response.get().filter(xref -> "DB-0160".equals(xref.getId())).findFirst().get();
+        assertThat(xrefDoc.getId(), is("DB-0160"));
         assertThat(xrefDoc.getAbbrev(), is("Allergome"));
         assertThat(xrefDoc.getName(), is("Allergome; a platform for allergen knowledge"));
         assertThat(xrefDoc.getPubMedId(), is("19671381"));

@@ -14,7 +14,7 @@ import org.uniprot.store.search.document.Document;
 @AllArgsConstructor
 public class CrossRefDocument implements Document {
     private static final long serialVersionUID = -3873122856685299890L;
-    @Field private String accession;
+    @Field private String id;
     @Field private String abbrev;
 
     @Field("name_only")
@@ -48,6 +48,6 @@ public class CrossRefDocument implements Document {
 
     @Override
     public String getDocumentId() {
-        return accession;
+        return id;
     }
 }

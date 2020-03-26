@@ -85,7 +85,7 @@ class DiseaseLoadJobIT {
 
         // get one document
         DiseaseDocument disDoc = response.get().findFirst().get();
-        assertThat(disDoc.getAccession(), is("DI-02692"));
+        assertThat(disDoc.getId(), is("DI-02692"));
 
         ByteBuffer diseaseByteBuffer = disDoc.getDiseaseObj();
 

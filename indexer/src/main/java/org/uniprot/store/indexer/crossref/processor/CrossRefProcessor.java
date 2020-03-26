@@ -9,7 +9,7 @@ public class CrossRefProcessor implements ItemProcessor<CrossRefEntry, CrossRefD
     public CrossRefDocument process(CrossRefEntry crossRefEntry) throws Exception {
         CrossRefDocument.CrossRefDocumentBuilder builder = CrossRefDocument.builder();
         builder.category(crossRefEntry.getCategory());
-        builder.abbrev(crossRefEntry.getAbbrev()).accession(crossRefEntry.getId());
+        builder.abbrev(crossRefEntry.getAbbrev()).id(crossRefEntry.getId());
         builder.dbUrl(crossRefEntry.getDbUrl()).doiId(crossRefEntry.getDoiId());
         builder.linkType(crossRefEntry.getLinkType()).name(crossRefEntry.getName());
         builder.pubMedId(crossRefEntry.getPubMedId()).server(crossRefEntry.getServer());

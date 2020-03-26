@@ -51,7 +51,7 @@ public class DiseaseProcessor implements ItemProcessor<DiseaseEntry, DiseaseDocu
 
         // create disease document
         DiseaseDocument.DiseaseDocumentBuilder builder = DiseaseDocument.builder();
-        builder.accession(disease.getId());
+        builder.id(disease.getId());
         builder.name(name).content(content);
         byte[] diseaseByte = getDiseaseObjectBinary(disease);
         builder.diseaseObj(ByteBuffer.wrap(diseaseByte));
