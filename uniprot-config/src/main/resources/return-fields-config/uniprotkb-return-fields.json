@@ -198,7 +198,7 @@
     "parentId": "sequences",
     "childNumber": 2,
     "itemType": "SINGLE",
-    "name": "sc_epred",
+    "name": "error_gmodel_pred",
     "label": "Erroneous gene model prediction",
     "id": "sequences/erroneous_gene_model_prediction",
     "paths": [
@@ -1323,7 +1323,7 @@
     "parentId": "family_&_domains",
     "childNumber": 5,
     "itemType": "SINGLE",
-    "name": "family",
+    "name": "protein_families",
     "label": "Protein families",
     "id": "family_&_domains/protein_families",
     "paths": [
