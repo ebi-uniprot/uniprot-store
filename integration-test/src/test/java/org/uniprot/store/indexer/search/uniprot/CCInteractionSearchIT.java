@@ -37,7 +37,7 @@ class CCInteractionSearchIT {
         entryProxy.updateEntryObject(
                 LineType.CC,
                 "CC   -!- INTERACTION:\n"
-                        + "CC       Q8NB12:SMYD1; NbExp=2; IntAct=EBI-1042898, EBI-8463848;");
+                        + "CC       Q6GZX3; Q8NB12: SMYD1; NbExp=2; IntAct=EBI-1042898, EBI-8463848;");
         searchEngine.indexEntry(convertToUniProtEntry(entryProxy));
 
         // --------------
