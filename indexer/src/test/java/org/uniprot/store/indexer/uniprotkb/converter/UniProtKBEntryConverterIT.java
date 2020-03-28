@@ -25,14 +25,14 @@ import org.apache.commons.io.IOUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.uniprot.core.cv.chebi.ChebiEntry;
-import org.uniprot.core.cv.chebi.builder.ChebiEntryBuilder;
-import org.uniprot.core.cv.ec.builder.ECEntryBuilder;
+import org.uniprot.core.cv.chebi.impl.ChebiEntryBuilder;
+import org.uniprot.core.cv.ec.impl.ECEntryBuilder;
 import org.uniprot.core.cv.go.GeneOntologyEntry;
-import org.uniprot.core.cv.go.builder.GeneOntologyEntryBuilder;
+import org.uniprot.core.cv.go.impl.GeneOntologyEntryBuilder;
 import org.uniprot.core.flatfile.parser.SupportingDataMap;
 import org.uniprot.core.flatfile.parser.impl.DefaultUniProtParser;
 import org.uniprot.core.flatfile.parser.impl.SupportingDataMapImpl;
-import org.uniprot.core.uniprot.UniProtEntry;
+import org.uniprot.core.uniprotkb.UniProtKBEntry;
 import org.uniprot.cv.chebi.ChebiRepo;
 import org.uniprot.cv.ec.ECRepo;
 import org.uniprot.cv.taxonomy.TaxonomicNode;
@@ -49,7 +49,7 @@ import org.uniprot.store.search.document.uniprot.UniProtDocument;
  *
  * @author Edd
  */
-class UniProtEntryConverterIT {
+class UniProtKBEntryConverterIT {
     private static final String CC_CATALYTIC_ACTIVITY = "cc_catalytic_activity";
     private static final String CC_ALTERNATIVE_PRODUCTS_FIELD = "cc_alternative_products";
     private static final String CC_SIMILARITY_FIELD = "cc_similarity";
@@ -94,7 +94,7 @@ class UniProtEntryConverterIT {
         when(goRelationRepoMock.getAncestors("GO:0016021", asList(IS_A, PART_OF)))
                 .thenReturn(ancestors);
         String file = "A0PHU1.txl";
-        UniProtEntry entry = parse(file);
+        UniProtKBEntry entry = parse(file);
         assertNotNull(entry);
         UniProtDocument doc = convertEntry(entry);
         assertNotNull(doc);
@@ -239,7 +239,7 @@ class UniProtEntryConverterIT {
                 .thenReturn(Optional.of(new ECEntryBuilder().id("2.7.10.2").label("EC 1").build()));
 
         String file = "Q9EPI6.sp";
-        UniProtEntry entry = parse(file);
+        UniProtKBEntry entry = parse(file);
         assertNotNull(entry);
         UniProtDocument doc = convertEntry(entry);
         assertNotNull(doc);
@@ -441,7 +441,7 @@ class UniProtEntryConverterIT {
                 .thenReturn(getTaxonomyNode(10116, "Rattus norvegicus", "Rat", null, null));
 
         String file = "Q9EPI6-2.sp";
-        UniProtEntry entry = parse(file);
+        UniProtKBEntry entry = parse(file);
         assertNotNull(entry);
         UniProtDocument doc = convertEntry(entry);
         assertNotNull(doc);
@@ -592,7 +592,7 @@ class UniProtEntryConverterIT {
         when(repoMock.retrieveNodeUsingTaxID(anyInt())).thenReturn(Optional.<TaxonomicNode>empty());
 
         String file = "Q9EPI6-1.sp";
-        UniProtEntry entry = parse(file);
+        UniProtKBEntry entry = parse(file);
         assertNotNull(entry);
         UniProtDocument doc = convertEntry(entry);
         assertNotNull(doc);
@@ -636,7 +636,7 @@ class UniProtEntryConverterIT {
         }
     }
 
-    private UniProtEntry parse(String file) throws Exception {
+    private UniProtKBEntry parse(String file) throws Exception {
         InputStream is =
                 UniProtEntryDocumentPairProcessor.class
                         .getClassLoader()
@@ -652,7 +652,7 @@ class UniProtEntryConverterIT {
         return parser.parse(IOUtils.toString(is, Charset.defaultCharset()));
     }
 
-    private UniProtDocument convertEntry(UniProtEntry entry) {
+    private UniProtDocument convertEntry(UniProtKBEntry entry) {
         return converter.convert(entry);
     }
 

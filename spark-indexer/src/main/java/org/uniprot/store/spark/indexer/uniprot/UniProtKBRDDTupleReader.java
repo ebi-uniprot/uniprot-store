@@ -8,12 +8,12 @@ import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
 import org.apache.spark.api.java.function.PairFunction;
-import org.uniprot.core.uniprot.UniProtEntry;
+import org.uniprot.core.uniprotkb.UniProtKBEntry;
 import org.uniprot.store.spark.indexer.uniprot.converter.SupportingDataMapHDSFImpl;
 import org.uniprot.store.spark.indexer.uniprot.mapper.FlatFileToUniprotEntry;
 
 /**
- * This class load an JavaPairRDD with <accession, UniProtEntry>
+ * This class load an JavaPairRDD with <accession, UniProtKBEntry>
  *
  * @author lgonzales
  * @since 2019-10-16
@@ -23,7 +23,7 @@ public class UniProtKBRDDTupleReader {
     private static final String SPLITTER = "\n//\n";
 
     /** @return an JavaPairRDD with <accession, UniProtEntry> */
-    public static JavaPairRDD<String, UniProtEntry> load(
+    public static JavaPairRDD<String, UniProtKBEntry> load(
             JavaSparkContext jsc, ResourceBundle applicationConfig, String releaseName) {
 
         String releaseInputDir = getInputReleaseDirPath(applicationConfig, releaseName);
@@ -39,11 +39,11 @@ public class UniProtKBRDDTupleReader {
                         subcellularLocationFile,
                         jsc.hadoopConfiguration());
 
-        PairFunction<String, String, UniProtEntry> mapper =
+        PairFunction<String, String, UniProtKBEntry> mapper =
                 new FlatFileToUniprotEntry(supportingDataMap);
         JavaRDD<String> splittedFileRDD = loadFlatFileToRDD(jsc, applicationConfig, releaseName);
 
-        return (JavaPairRDD<String, UniProtEntry>)
+        return (JavaPairRDD<String, UniProtKBEntry>)
                 splittedFileRDD
                         // in the end when I save the document, it generate 3 times
                         // the number of partition, By doing it at the beginning it

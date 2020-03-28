@@ -8,15 +8,15 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-import org.uniprot.core.DBCrossReference;
+import org.uniprot.core.CrossReference;
 import org.uniprot.core.Value;
 import org.uniprot.core.cv.chebi.ChebiEntry;
 import org.uniprot.core.cv.pathway.UniPathway;
 import org.uniprot.core.flatfile.parser.impl.cc.CCLineBuilderFactory;
 import org.uniprot.core.flatfile.writer.FFLineBuilder;
-import org.uniprot.core.uniprot.comment.*;
-import org.uniprot.core.uniprot.evidence.Evidence;
-import org.uniprot.core.uniprot.evidence.EvidencedValue;
+import org.uniprot.core.uniprotkb.comment.*;
+import org.uniprot.core.uniprotkb.evidence.Evidence;
+import org.uniprot.core.uniprotkb.evidence.EvidencedValue;
 import org.uniprot.core.util.Utils;
 import org.uniprot.cv.chebi.ChebiRepo;
 import org.uniprot.store.indexer.uniprot.pathway.PathwayRepo;
@@ -172,9 +172,9 @@ class UniProtEntryCommentsConverter {
                     .forEach(
                             val -> {
                                 document.cofactorChebi.add(val.getName());
-                                if (val.getCofactorReference().getDatabaseType()
-                                        == CofactorReferenceType.CHEBI) {
-                                    String referenceId = val.getCofactorReference().getId();
+                                if (val.getCofactorCrossReference().getDatabase()
+                                        == CofactorDatabase.CHEBI) {
+                                    String referenceId = val.getCofactorCrossReference().getId();
                                     String id = referenceId;
                                     if (id.startsWith("CHEBI:"))
                                         id = id.substring("CHEBI:".length());
@@ -489,17 +489,15 @@ class UniProtEntryCommentsConverter {
         comment.getInteractions()
                 .forEach(
                         interaction -> {
-                            if (interaction.hasFirstInteractor()) {
+                            document.interactors.add(interaction.getInteractantOne().getIntActId());
+                            document.interactors.add(interaction.getInteractantTwo().getIntActId());
+                            if (Utils.notNull(
+                                    interaction.getInteractantTwo().getUniProtKBAccession())) {
                                 document.interactors.add(
-                                        interaction.getFirstInteractor().getValue());
-                            }
-                            if (interaction.hasSecondInteractor()) {
-                                document.interactors.add(
-                                        interaction.getSecondInteractor().getValue());
-                            }
-                            if (interaction.hasUniProtAccession()) {
-                                document.interactors.add(
-                                        interaction.getUniProtAccession().getValue());
+                                        interaction
+                                                .getInteractantTwo()
+                                                .getUniProtKBAccession()
+                                                .getValue());
                             }
                         });
     }
@@ -507,15 +505,15 @@ class UniProtEntryCommentsConverter {
     private void convertCatalyticActivity(CatalyticActivityComment comment, UniProtDocument doc) {
         Reaction reaction = comment.getReaction();
 
-        if (reaction.hasReactionReferences()) {
+        if (reaction.hasReactionCrossReferences()) {
             String field = this.getCommentField(comment);
-            List<DBCrossReference<ReactionReferenceType>> reactionReferences =
-                    reaction.getReactionReferences();
+            List<CrossReference<ReactionDatabase>> reactionReferences =
+                    reaction.getReactionCrossReferences();
             reactionReferences.stream()
-                    .filter(ref -> ref.getDatabaseType() == ReactionReferenceType.CHEBI)
+                    .filter(ref -> ref.getDatabase() == ReactionDatabase.CHEBI)
                     .forEach(val -> addCatalyticSuggestions(doc, field, val));
             reactionReferences.stream()
-                    .filter(ref -> ref.getDatabaseType() != ReactionReferenceType.CHEBI)
+                    .filter(ref -> ref.getDatabase() != ReactionDatabase.CHEBI)
                     .forEach(
                             val -> {
                                 Collection<String> value =
@@ -544,8 +542,8 @@ class UniProtEntryCommentsConverter {
     private void addCatalyticSuggestions(
             UniProtDocument document,
             String field,
-            DBCrossReference<ReactionReferenceType> reactionReference) {
-        if (reactionReference.getDatabaseType() == ReactionReferenceType.CHEBI) {
+            CrossReference<ReactionDatabase> reactionReference) {
+        if (reactionReference.getDatabase() == ReactionDatabase.CHEBI) {
             String referenceId = reactionReference.getId();
             int firstColon = referenceId.indexOf(':');
             String fullId = referenceId.substring(firstColon + 1);

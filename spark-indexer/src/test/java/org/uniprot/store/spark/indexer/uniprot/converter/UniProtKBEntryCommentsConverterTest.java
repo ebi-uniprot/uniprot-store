@@ -1,8 +1,6 @@
-package org.uniprot.store.indexer.uniprotkb.converter;
+package org.uniprot.store.spark.indexer.uniprot.converter;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -10,25 +8,19 @@ import java.util.List;
 import java.util.Map;
 
 import org.junit.jupiter.api.Test;
-import org.uniprot.core.builder.SequenceBuilder;
-import org.uniprot.core.cv.chebi.ChebiEntry;
-import org.uniprot.core.cv.chebi.builder.ChebiEntryBuilder;
-import org.uniprot.core.cv.pathway.UniPathway;
 import org.uniprot.core.flatfile.parser.impl.cc.CcLineTransformer;
-import org.uniprot.core.uniprot.UniProtEntry;
-import org.uniprot.core.uniprot.UniProtEntryType;
-import org.uniprot.core.uniprot.builder.UniProtEntryBuilder;
-import org.uniprot.core.uniprot.comment.Comment;
-import org.uniprot.cv.chebi.ChebiRepo;
-import org.uniprot.store.indexer.uniprot.pathway.PathwayRepo;
-import org.uniprot.store.search.document.suggest.SuggestDocument;
+import org.uniprot.core.impl.SequenceBuilder;
+import org.uniprot.core.uniprotkb.UniProtKBEntry;
+import org.uniprot.core.uniprotkb.UniProtKBEntryType;
+import org.uniprot.core.uniprotkb.comment.Comment;
+import org.uniprot.core.uniprotkb.impl.UniProtKBEntryBuilder;
 import org.uniprot.store.search.document.uniprot.UniProtDocument;
 
 /**
  * @author lgonzales
  * @since 2019-09-11
  */
-class UniProtEntryCommentsConverterTest {
+class UniProtKBEntryCommentsConverterTest {
 
     private static final String CC_ALTERNATIVE_PRODUCTS_FIELD = "cc_alternative_products";
     private static final String CCEV_ALTERNATIVE_PRODUCTS_FIELD = "ccev_alternative_products";
@@ -44,25 +36,10 @@ class UniProtEntryCommentsConverterTest {
     private static final String CCEV_SUBCELLULAR_LOCATION_FIELD = "ccev_subcellular_location";
     private static final String CCEV_CATALYTIC_ACTIVITY = "ccev_catalytic_activity";
     private static final CcLineTransformer ccLineTransformer =
-            new CcLineTransformer("uniprotkb/humdisease.txt", "uniprotkb/subcell.txt");
+            new CcLineTransformer("disease/humdisease.txt", "subcell/subcell.txt");
 
     @Test
     void testCatalyticActivityCommentConvertProperlyToDocument() {
-        PathwayRepo pathwayRepo = mock(PathwayRepo.class);
-        ChebiRepo chebiRepo = mock(ChebiRepo.class);
-        ChebiEntry chebiId1 =
-                new ChebiEntryBuilder()
-                        .id("30616")
-                        .name("ChebiEntry Name 30616")
-                        .inchiKey("inchikey 30616")
-                        .build();
-        ChebiEntry chebiId2 =
-                new ChebiEntryBuilder().id("456216").name("ChebiEntry Name 456216").build();
-        when(chebiRepo.getById("30616")).thenReturn(chebiId1);
-        when(chebiRepo.getById("456216")).thenReturn(chebiId2);
-
-        Map<String, SuggestDocument> suggestions = new HashMap<>();
-
         String catalyticActivityLine =
                 "CC   -!- CATALYTIC ACTIVITY:\n"
                         + "CC       Reaction=ATP + L-tyrosyl-[protein] = ADP + H(+) + O-phospho-L-\n"
@@ -73,10 +50,10 @@ class UniProtEntryCommentsConverterTest {
                         + "CC         ECO:0000269|PubMed:16844695, ECO:0000269|PubMed:18056630,\n"
                         + "CC         ECO:0000269|PubMed:19410646, ECO:0000269|PubMed:21454610};";
 
-        UniProtEntry entry = createUniProtEntryFromCommentLine(catalyticActivityLine);
+        UniProtKBEntry entry = createUniProtEntryFromCommentLine(catalyticActivityLine);
 
         UniProtEntryCommentsConverter converter =
-                new UniProtEntryCommentsConverter(chebiRepo, pathwayRepo, suggestions);
+                new UniProtEntryCommentsConverter(new HashMap<>());
         UniProtDocument document = new UniProtDocument();
         converter.convertCommentToDocument(entry.getComments(), document);
         assertNotNull(document);
@@ -87,7 +64,7 @@ class UniProtEntryCommentsConverterTest {
                         + "Rhea:RHEA-COMP:10136, Rhea:RHEA-COMP:10137, ChEBI:CHEBI:15378, ChEBI:CHEBI:30616, ChEBI:CHEBI:46858, "
                         + "ChEBI:CHEBI:82620, ChEBI:CHEBI:456216; EC=2.7.10.1;";
         assertTrue(document.commentMap.containsKey("cc_catalytic_activity"));
-        assertEquals(6, document.commentMap.get("cc_catalytic_activity").size());
+        assertEquals(9, document.commentMap.get("cc_catalytic_activity").size());
         assertTrue(document.commentMap.get("cc_catalytic_activity").contains(expectedIndexed));
         assertTrue(document.commentMap.get("cc_catalytic_activity").contains("RHEA-COMP:10136"));
         assertTrue(document.commentMap.get("cc_catalytic_activity").contains("RHEA:10596"));
@@ -104,31 +81,13 @@ class UniProtEntryCommentsConverterTest {
 
         assertEquals(1, document.proteinsWith.size());
         assertTrue(document.proteinsWith.contains("catalytic_activity"));
-
-        // check suggestions
-        // lgonzales: should we add ECEntry to catalytic activity suggestions?
-        assertEquals(2, suggestions.size());
-        assertTrue(suggestions.containsKey("CATALYTIC_ACTIVITY:CHEBI:30616"));
-        assertTrue(suggestions.containsKey("CATALYTIC_ACTIVITY:CHEBI:456216"));
-
-        SuggestDocument suggestDocument = suggestions.get("CATALYTIC_ACTIVITY:CHEBI:30616");
-        assertEquals("CATALYTIC_ACTIVITY", suggestDocument.dictionary);
-        assertEquals("CHEBI:30616", suggestDocument.id);
-        assertEquals("ChebiEntry Name 30616", suggestDocument.value);
-        assertNotNull(suggestDocument.altValues);
-        assertEquals(1, suggestDocument.altValues.size());
-        assertEquals("inchikey 30616", suggestDocument.altValues.get(0));
     }
 
     @Test
     void testPathwayCommentConvertProperlyToDocument() {
-        ChebiRepo chebiRepo = mock(ChebiRepo.class);
-        PathwayRepo pathwayRepo = mock(PathwayRepo.class);
-        when(pathwayRepo.getFromName("Lipid metabolism; glycerolipid metabolism"))
-                .thenReturn(new UniPathway("PW-1233", "Lipid metabolism; glycerolipid metabolism"));
-        when(pathwayRepo.getFromName("Sphingolipid metabolism"))
-                .thenReturn(new UniPathway("PW-1234", "Sphingolipid metabolism"));
-        Map<String, SuggestDocument> suggestions = new HashMap<>();
+        Map<String, String> pathway = new HashMap<>();
+        pathway.put("Lipid metabolism; glycerolipid metabolism", "PW-1233");
+        pathway.put("Sphingolipid metabolism", "PW-1234");
 
         String pathwayLine =
                 "CC   -!- PATHWAY: Lipid metabolism; glycerolipid metabolism.\n"
@@ -136,10 +95,9 @@ class UniProtEntryCommentsConverterTest {
                         + "CC   -!- PATHWAY: Protein modification; protein glycosylation.\n"
                         + "CC   -!- PATHWAY: Sphingolipid metabolism.";
 
-        UniProtEntry entry = createUniProtEntryFromCommentLine(pathwayLine);
+        UniProtKBEntry entry = createUniProtEntryFromCommentLine(pathwayLine);
 
-        UniProtEntryCommentsConverter converter =
-                new UniProtEntryCommentsConverter(chebiRepo, pathwayRepo, suggestions);
+        UniProtEntryCommentsConverter converter = new UniProtEntryCommentsConverter(pathway);
         UniProtDocument document = new UniProtDocument();
         converter.convertCommentToDocument(entry.getComments(), document);
         assertNotNull(document);
@@ -176,39 +134,37 @@ class UniProtEntryCommentsConverterTest {
         assertTrue(
                 document.content.contains("PATHWAY: Protein modification; protein glycosylation."));
         assertTrue(document.content.contains("PATHWAY: Sphingolipid metabolism."));
+        assertTrue(document.content.contains("PW-1233"));
+        assertTrue(document.content.contains("PW-1234"));
     }
 
     @Test
     void testInteractionCommentConvertProperlyToDocument() {
-        ChebiRepo chebiRepo = mock(ChebiRepo.class);
-        PathwayRepo pathwayRepo = mock(PathwayRepo.class);
-        Map<String, SuggestDocument> suggestions = new HashMap<>();
-
         String interactionLine =
                 "CC   -!- INTERACTION:\n"
-                        + "CC       Self; NbExp=106; IntAct=EBI-77613, EBI-77613;\n"
-                        + "CC       Q306T3:- (xeno); NbExp=3; IntAct=EBI-77613, EBI-8294101;\n"
-                        + "CC       P31696:AGRN (xeno); NbExp=3; IntAct=EBI-2431589, EBI-457650;\n"
-                        + "CC       Q02410:APBA1; NbExp=4; IntAct=EBI-77613, EBI-368690;\n"
-                        + "CC       Q99767:APBA2; NbExp=2; IntAct=EBI-77613, EBI-81711;";
+                        + "CC       P12345; P12345-1; NbExp=106; IntAct=EBI-77613, EBI-77613;\n"
+                        + "CC       P12345; Q306T3; Xeno; NbExp=3; IntAct=EBI-77613, EBI-8294101;\n"
+                        + "CC       P12345; P31696: AGRN; Xeno; NbExp=3; IntAct=EBI-2431589, EBI-457650;\n"
+                        + "CC       P12345; Q02410: APBA1; NbExp=4; IntAct=EBI-77613, EBI-368690;\n"
+                        + "CC       P12345; Q99767: APBA2; NbExp=2; IntAct=EBI-77613, EBI-81711;";
 
         String interactionIndexedString =
                 "INTERACTION:\n"
-                        + "Self; NbExp=106; IntAct=EBI-77613, EBI-77613;\n"
-                        + "Q306T3:- (xeno); NbExp=3; IntAct=EBI-77613, EBI-8294101;\n"
-                        + "P31696:AGRN (xeno); NbExp=3; IntAct=EBI-2431589, EBI-457650;\n"
-                        + "Q02410:APBA1; NbExp=4; IntAct=EBI-77613, EBI-368690;\n"
-                        + "Q99767:APBA2; NbExp=2; IntAct=EBI-77613, EBI-81711;";
+                        + "P12345; P12345-1; NbExp=106; IntAct=EBI-77613, EBI-77613;\n"
+                        + "P12345; Q306T3; Xeno; NbExp=3; IntAct=EBI-77613, EBI-8294101;\n"
+                        + "P12345; P31696: AGRN; Xeno; NbExp=3; IntAct=EBI-2431589, EBI-457650;\n"
+                        + "P12345; Q02410: APBA1; NbExp=4; IntAct=EBI-77613, EBI-368690;\n"
+                        + "P12345; Q99767: APBA2; NbExp=2; IntAct=EBI-77613, EBI-81711;";
 
-        UniProtEntry entry = createUniProtEntryFromCommentLine(interactionLine);
+        UniProtKBEntry entry = createUniProtEntryFromCommentLine(interactionLine);
 
         UniProtEntryCommentsConverter converter =
-                new UniProtEntryCommentsConverter(chebiRepo, pathwayRepo, suggestions);
+                new UniProtEntryCommentsConverter(new HashMap<>());
         UniProtDocument document = new UniProtDocument();
         converter.convertCommentToDocument(entry.getComments(), document);
         assertNotNull(document);
 
-        assertEquals(10, document.interactors.size());
+        assertEquals(11, document.interactors.size());
         assertTrue(document.interactors.contains("EBI-2431589"));
         assertTrue(document.interactors.contains("EBI-368690"));
         assertTrue(document.interactors.contains("Q99767"));
@@ -242,14 +198,10 @@ class UniProtEntryCommentsConverterTest {
                 "SIMILARITY: Belongs to the potassium channel family. "
                         + "C (Shaw) (TC 1.A.1.2) subfamily. Kv3.2/KCNC2 sub-subfamily.";
 
-        ChebiRepo chebiRepo = mock(ChebiRepo.class);
-        PathwayRepo pathwayRepo = mock(PathwayRepo.class);
-        Map<String, SuggestDocument> suggestions = new HashMap<>();
-
-        UniProtEntry entry = createUniProtEntryFromCommentLine(similarityLine);
+        UniProtKBEntry entry = createUniProtEntryFromCommentLine(similarityLine);
 
         UniProtEntryCommentsConverter converter =
-                new UniProtEntryCommentsConverter(chebiRepo, pathwayRepo, suggestions);
+                new UniProtEntryCommentsConverter(new HashMap<>());
         UniProtDocument document = new UniProtDocument();
         converter.convertCommentToDocument(entry.getComments(), document);
         assertNotNull(document);
@@ -274,10 +226,6 @@ class UniProtEntryCommentsConverterTest {
 
     @Test
     void testAlternativeProductsCommentConvertProperlyToDocument() {
-        ChebiRepo chebiRepo = mock(ChebiRepo.class);
-        PathwayRepo pathwayRepo = mock(PathwayRepo.class);
-        Map<String, SuggestDocument> suggestions = new HashMap<>();
-
         String alternativeLine =
                 "CC   -!- ALTERNATIVE PRODUCTS:\n"
                         + "CC       Event=Alternative promoter usage, Alternative initiation; Named isoforms=3;\n"
@@ -305,10 +253,10 @@ class UniProtEntryCommentsConverterTest {
                         + "Name=Uncharacterized protein VP3;\n"
                         + "IsoId=Q672I0-1; Sequence=External;\n"
                         + "Note=Produced by alternative initiation from the subgenomic RNA.;";
-        UniProtEntry entry = createUniProtEntryFromCommentLine(alternativeLine);
+        UniProtKBEntry entry = createUniProtEntryFromCommentLine(alternativeLine);
 
         UniProtEntryCommentsConverter converter =
-                new UniProtEntryCommentsConverter(chebiRepo, pathwayRepo, suggestions);
+                new UniProtEntryCommentsConverter(new HashMap<>());
         UniProtDocument document = new UniProtDocument();
         converter.convertCommentToDocument(entry.getComments(), document);
         assertNotNull(document);
@@ -342,10 +290,6 @@ class UniProtEntryCommentsConverterTest {
 
     @Test
     void testAlternativeProductsRibosomalFrameshiftingCommentConvertProperlyToDocument() {
-        ChebiRepo chebiRepo = mock(ChebiRepo.class);
-        PathwayRepo pathwayRepo = mock(PathwayRepo.class);
-        Map<String, SuggestDocument> suggestions = new HashMap<>();
-
         String alternativeLine =
                 "CC   -!- ALTERNATIVE PRODUCTS:\n"
                         + "CC       Event=Ribosomal frameshifting; Named isoforms=2;\n"
@@ -368,10 +312,10 @@ class UniProtEntryCommentsConverterTest {
                         + "Name=2B*;\n"
                         + "IsoId=P0DJX8-1; Sequence=External;\n"
                         + "Note=Produced by -1 ribosomal frameshifting. The N-terminus is translated following a ribosomal skip event.;";
-        UniProtEntry entry = createUniProtEntryFromCommentLine(alternativeLine);
+        UniProtKBEntry entry = createUniProtEntryFromCommentLine(alternativeLine);
 
         UniProtEntryCommentsConverter converter =
-                new UniProtEntryCommentsConverter(chebiRepo, pathwayRepo, suggestions);
+                new UniProtEntryCommentsConverter(new HashMap<>());
         UniProtDocument document = new UniProtDocument();
         converter.convertCommentToDocument(entry.getComments(), document);
         assertNotNull(document);
@@ -407,18 +351,6 @@ class UniProtEntryCommentsConverterTest {
 
     @Test
     void testCofactorCommentConvertProperlyToDocument() {
-        ChebiRepo chebiRepo = mock(ChebiRepo.class);
-        PathwayRepo pathwayRepo = mock(PathwayRepo.class);
-        Map<String, SuggestDocument> suggestions = new HashMap<>();
-
-        ChebiEntry chebiId1 =
-                new ChebiEntryBuilder()
-                        .id("18420")
-                        .name("ChebiEntry Name 18420")
-                        .inchiKey("inchikey 18420")
-                        .build();
-        when(chebiRepo.getById("18420")).thenReturn(chebiId1);
-
         String cofactorLine =
                 "CC   -!- COFACTOR: [RNA-directed RNA polymerase]:\n"
                         + "CC       Name=Mg(2+); Xref=ChEBI:CHEBI:18420;\n"
@@ -430,9 +362,9 @@ class UniProtEntryCommentsConverterTest {
                         + "Name=Mg(2+); Xref=ChEBI:CHEBI:18420;\n"
                         + "Note=Requires the presence of 3CDpro or 3CPro.;";
 
-        UniProtEntry entry = createUniProtEntryFromCommentLine(cofactorLine);
+        UniProtKBEntry entry = createUniProtEntryFromCommentLine(cofactorLine);
         UniProtEntryCommentsConverter converter =
-                new UniProtEntryCommentsConverter(chebiRepo, pathwayRepo, suggestions);
+                new UniProtEntryCommentsConverter(new HashMap<>());
         UniProtDocument document = new UniProtDocument();
         converter.convertCommentToDocument(entry.getComments(), document);
         assertNotNull(document);
@@ -458,18 +390,6 @@ class UniProtEntryCommentsConverterTest {
         assertEquals(2, document.cofactorNoteEv.size());
         assertTrue(document.cofactorNoteEv.contains("ECO_0000250"));
 
-        // check suggestions
-        assertEquals(1, suggestions.size());
-        assertTrue(suggestions.containsKey("CHEBI:CHEBI:18420"));
-
-        SuggestDocument suggestDocument = suggestions.get("CHEBI:CHEBI:18420");
-        assertEquals("CHEBI", suggestDocument.dictionary);
-        assertEquals("CHEBI:18420", suggestDocument.id);
-        assertEquals("ChebiEntry Name 18420", suggestDocument.value);
-        assertNotNull(suggestDocument.altValues);
-        assertEquals(1, suggestDocument.altValues.size());
-        assertEquals("inchikey 18420", suggestDocument.altValues.get(0));
-
         assertTrue(
                 document.content.contains(
                         "COFACTOR: [RNA-directed RNA polymerase]:\n"
@@ -479,10 +399,6 @@ class UniProtEntryCommentsConverterTest {
 
     @Test
     void testBPCPCommentConvertProperlyToDocument() {
-        ChebiRepo chebiRepo = mock(ChebiRepo.class);
-        PathwayRepo pathwayRepo = mock(PathwayRepo.class);
-        Map<String, SuggestDocument> suggestions = new HashMap<>();
-
         String bpcpLine =
                 "CC   -!- BIOPHYSICOCHEMICAL PROPERTIES:\n"
                         + "CC       pH dependence:\n"
@@ -523,9 +439,9 @@ class UniProtEntryCommentsConverterTest {
                         + "pH dependence:\n"
                         + "Optimum pH is 5.0 for protease activity.;";
 
-        UniProtEntry entry = createUniProtEntryFromCommentLine(bpcpLine);
+        UniProtKBEntry entry = createUniProtEntryFromCommentLine(bpcpLine);
         UniProtEntryCommentsConverter converter =
-                new UniProtEntryCommentsConverter(chebiRepo, pathwayRepo, suggestions);
+                new UniProtEntryCommentsConverter(new HashMap<>());
         UniProtDocument document = new UniProtDocument();
         converter.convertCommentToDocument(entry.getComments(), document);
         assertNotNull(document);
@@ -586,10 +502,6 @@ class UniProtEntryCommentsConverterTest {
 
     @Test
     void testSequenceCautionCommentConvertProperlyToDocument() throws Exception {
-        ChebiRepo chebiRepo = mock(ChebiRepo.class);
-        PathwayRepo pathwayRepo = mock(PathwayRepo.class);
-        Map<String, SuggestDocument> suggestions = new HashMap<>();
-
         String sequenceCautionLine =
                 "CC   -!- SEQUENCE CAUTION:\n"
                         + "CC       Sequence=CAB59730.1; Type=Frameshift; Evidence={ECO:0000305};\n"
@@ -606,10 +518,10 @@ class UniProtEntryCommentsConverterTest {
 
         String sequenceCautionLineValue =
                 "SEQUENCE CAUTION:\n" + "Sequence=CAB59730.1; Type=Frameshift;";
-        UniProtEntry entry = createUniProtEntryFromCommentLine(sequenceCautionLine);
+        UniProtKBEntry entry = createUniProtEntryFromCommentLine(sequenceCautionLine);
 
         UniProtEntryCommentsConverter converter =
-                new UniProtEntryCommentsConverter(chebiRepo, pathwayRepo, suggestions);
+                new UniProtEntryCommentsConverter(new HashMap<>());
         UniProtDocument document = new UniProtDocument();
         converter.convertCommentToDocument(entry.getComments(), document);
 
@@ -664,10 +576,6 @@ class UniProtEntryCommentsConverterTest {
 
     @Test
     void testSubcellularLocationCommentConvertProperlyToDocument() throws Exception {
-        ChebiRepo chebiRepo = mock(ChebiRepo.class);
-        PathwayRepo pathwayRepo = mock(PathwayRepo.class);
-        Map<String, SuggestDocument> suggestions = new HashMap<>();
-
         String subcellularLocationLine =
                 "CC   -!- SUBCELLULAR LOCATION: [Capsid protein]: Virion. Host cytoplasm.\n"
                         + "CC   -!- SUBCELLULAR LOCATION: [Small envelope protein M]: Virion membrane\n"
@@ -686,10 +594,10 @@ class UniProtEntryCommentsConverterTest {
 
         String subcellularLocationLineValue =
                 "SUBCELLULAR LOCATION: [Capsid protein]: Virion. Host cytoplasm.";
-        UniProtEntry entry = createUniProtEntryFromCommentLine(subcellularLocationLine);
+        UniProtKBEntry entry = createUniProtEntryFromCommentLine(subcellularLocationLine);
 
         UniProtEntryCommentsConverter converter =
-                new UniProtEntryCommentsConverter(chebiRepo, pathwayRepo, suggestions);
+                new UniProtEntryCommentsConverter(new HashMap<>());
         UniProtDocument document = new UniProtDocument();
         converter.convertCommentToDocument(entry.getComments(), document);
 
@@ -725,26 +633,10 @@ class UniProtEntryCommentsConverterTest {
 
         assertTrue(document.content.contains(subcellularLocationLineValue));
         assertTrue(document.content.contains("SL-0390"));
-
-        // check suggestions
-        assertEquals(9, suggestions.size());
-        assertTrue(suggestions.containsKey("SUBCELL:SL-0390"));
-        assertTrue(suggestions.containsKey("SUBCELL:SL-9909"));
-
-        SuggestDocument suggestDocument = suggestions.get("SUBCELL:SL-0390");
-        assertEquals("SUBCELL", suggestDocument.dictionary);
-        assertEquals("SL-0390", suggestDocument.id);
-        assertEquals("Host endoplasmic reticulum membrane", suggestDocument.value);
-        assertNotNull(suggestDocument.altValues);
-        assertEquals(0, suggestDocument.altValues.size());
     }
 
     @Test
     void testDiseaseCommentConvertProperlyToDocument() throws Exception {
-        ChebiRepo chebiRepo = mock(ChebiRepo.class);
-        PathwayRepo pathwayRepo = mock(PathwayRepo.class);
-        Map<String, SuggestDocument> suggestions = new HashMap<>();
-
         String diseaseCommentLine =
                 "CC   -!- DISEASE: Jackson-Weiss syndrome (JWS) [MIM:123150]: An autosomal\n"
                         + "CC       dominant craniosynostosis syndrome characterized by craniofacial\n"
@@ -761,10 +653,10 @@ class UniProtEntryCommentsConverterTest {
                         + "broad great toes with medial deviation and tarsal-metatarsal coalescence. Note=The disease is caused "
                         + "by mutations affecting the gene represented in this entry.";
 
-        UniProtEntry entry = createUniProtEntryFromCommentLine(diseaseCommentLine);
+        UniProtKBEntry entry = createUniProtEntryFromCommentLine(diseaseCommentLine);
 
         UniProtEntryCommentsConverter converter =
-                new UniProtEntryCommentsConverter(chebiRepo, pathwayRepo, suggestions);
+                new UniProtEntryCommentsConverter(new HashMap<>());
         UniProtDocument document = new UniProtDocument();
         converter.convertCommentToDocument(entry.getComments(), document);
         assertNotNull(document);
@@ -789,10 +681,6 @@ class UniProtEntryCommentsConverterTest {
 
     @Test
     void testRNACommentConvertProperlyToDocument() throws Exception {
-        ChebiRepo chebiRepo = mock(ChebiRepo.class);
-        PathwayRepo pathwayRepo = mock(PathwayRepo.class);
-        Map<String, SuggestDocument> suggestions = new HashMap<>();
-
         String rnaEditingCommentLine =
                 "CC   -!- RNA EDITING: Modified_positions=2179 {ECO:0000269}; Note=The stop\n"
                         + "CC       codon (UAA) at position 2179 is created by RNA editing. Apo B-48,\n"
@@ -809,10 +697,10 @@ class UniProtEntryCommentsConverterTest {
                         + "lacks the LDL-receptor region. The unedited version (apo B-100) is produced by the liver and "
                         + "is found in the VLDL and LDL (By similarity).;";
 
-        UniProtEntry entry = createUniProtEntryFromCommentLine(rnaEditingCommentLine);
+        UniProtKBEntry entry = createUniProtEntryFromCommentLine(rnaEditingCommentLine);
 
         UniProtEntryCommentsConverter converter =
-                new UniProtEntryCommentsConverter(chebiRepo, pathwayRepo, suggestions);
+                new UniProtEntryCommentsConverter(new HashMap<>());
         UniProtDocument document = new UniProtDocument();
         converter.convertCommentToDocument(entry.getComments(), document);
         assertNotNull(document);
@@ -836,10 +724,6 @@ class UniProtEntryCommentsConverterTest {
 
     @Test
     void testMassSpectometryCommentConvertProperlyToDocument() throws Exception {
-        ChebiRepo chebiRepo = mock(ChebiRepo.class);
-        PathwayRepo pathwayRepo = mock(PathwayRepo.class);
-        Map<String, SuggestDocument> suggestions = new HashMap<>();
-
         String massSpectrometryCommentLine =
                 "CC   -!- MASS SPECTROMETRY: Mass=8891.4; Method=Electrospray;\n"
                         + "CC       Note=Strain BALB/c. Without methionine sulfoxide.;\n"
@@ -849,10 +733,10 @@ class UniProtEntryCommentsConverterTest {
                 "MASS SPECTROMETRY: Mass=8891.4; Method=Electrospray; "
                         + "Note=Strain BALB/c. Without methionine sulfoxide.; Evidence={ECO:0000269|PubMed:16876491};";
 
-        UniProtEntry entry = createUniProtEntryFromCommentLine(massSpectrometryCommentLine);
+        UniProtKBEntry entry = createUniProtEntryFromCommentLine(massSpectrometryCommentLine);
 
         UniProtEntryCommentsConverter converter =
-                new UniProtEntryCommentsConverter(chebiRepo, pathwayRepo, suggestions);
+                new UniProtEntryCommentsConverter(new HashMap<>());
         UniProtDocument document = new UniProtDocument();
         converter.convertCommentToDocument(entry.getComments(), document);
         assertNotNull(document);
@@ -876,9 +760,9 @@ class UniProtEntryCommentsConverterTest {
         assertTrue(document.content.contains(indexedMassSpectrometryComment));
     }
 
-    private UniProtEntry createUniProtEntryFromCommentLine(String commentLine) {
+    private UniProtKBEntry createUniProtEntryFromCommentLine(String commentLine) {
         List<Comment> comments = ccLineTransformer.transformNoHeader(commentLine);
-        return new UniProtEntryBuilder("P12345", "P12345_ID", UniProtEntryType.TREMBL)
+        return new UniProtKBEntryBuilder("P12345", "P12345_ID", UniProtKBEntryType.TREMBL)
                 .commentsSet(comments)
                 .sequence(new SequenceBuilder("AAAA").build())
                 .build();

@@ -4,34 +4,34 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-import org.uniprot.core.uniprot.UniProtEntry;
+import org.uniprot.core.uniprotkb.UniProtKBEntry;
 import org.uniprot.store.datastore.voldemort.VoldemortClient;
 import org.uniprot.store.datastore.voldemort.client.UniProtClient;
 
 public class UniProtClientImpl implements UniProtClient {
-    private final VoldemortClient<UniProtEntry> client;
+    private final VoldemortClient<UniProtKBEntry> client;
 
-    UniProtClientImpl(VoldemortClient<UniProtEntry> client) {
+    UniProtClientImpl(VoldemortClient<UniProtKBEntry> client) {
         this.client = client;
     }
 
     @Override
-    public Optional<UniProtEntry> getEntry(String accession) {
+    public Optional<UniProtKBEntry> getEntry(String accession) {
         return client.getEntry(accession);
     }
 
     @Override
-    public List<UniProtEntry> getEntries(Iterable<String> accessions) {
+    public List<UniProtKBEntry> getEntries(Iterable<String> accessions) {
         return client.getEntries(accessions);
     }
 
     @Override
-    public Map<String, UniProtEntry> getEntryMap(Iterable<String> ids) {
+    public Map<String, UniProtKBEntry> getEntryMap(Iterable<String> ids) {
         return client.getEntryMap(ids);
     }
 
     @Override
-    public void saveEntry(UniProtEntry entry) {
+    public void saveEntry(UniProtKBEntry entry) {
         client.saveEntry(entry);
     }
 

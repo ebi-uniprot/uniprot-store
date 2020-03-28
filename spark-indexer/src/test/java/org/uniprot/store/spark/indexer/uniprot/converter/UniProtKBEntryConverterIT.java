@@ -16,7 +16,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.uniprot.core.flatfile.parser.SupportingDataMap;
 import org.uniprot.core.flatfile.parser.impl.DefaultUniProtParser;
-import org.uniprot.core.uniprot.UniProtEntry;
+import org.uniprot.core.uniprotkb.UniProtKBEntry;
 import org.uniprot.store.search.document.uniprot.UniProtDocument;
 
 /**
@@ -24,7 +24,7 @@ import org.uniprot.store.search.document.uniprot.UniProtDocument;
  *
  * @author Edd
  */
-class UniProtEntryConverterIT {
+class UniProtKBEntryConverterIT {
     private static final String CC_CATALYTIC_ACTIVITY = "cc_catalytic_activity";
     private static final String CC_ALTERNATIVE_PRODUCTS_FIELD = "cc_alternative_products";
     private static final String CC_SIMILARITY_FIELD = "cc_similarity";
@@ -44,7 +44,7 @@ class UniProtEntryConverterIT {
     @Test
     void testConvertFullA0PHU1Entry() throws Exception {
         String file = "A0PHU1.trembl";
-        UniProtEntry entry = parse(file);
+        UniProtKBEntry entry = parse(file);
         assertNotNull(entry);
         UniProtDocument doc = convertEntry(entry);
         assertNotNull(doc);
@@ -160,7 +160,7 @@ class UniProtEntryConverterIT {
     @Test
     void testConvertFullQ9EPI6Entry() throws Exception {
         String file = "Q9EPI6.sp";
-        UniProtEntry entry = parse(file);
+        UniProtKBEntry entry = parse(file);
         assertNotNull(entry);
         UniProtDocument doc = convertEntry(entry);
         assertNotNull(doc);
@@ -337,7 +337,7 @@ class UniProtEntryConverterIT {
     @Test
     void testConvertIsoformEntry() throws Exception {
         String file = "Q9EPI6-2.sp";
-        UniProtEntry entry = parse(file);
+        UniProtKBEntry entry = parse(file);
         assertNotNull(entry);
         UniProtDocument doc = convertEntry(entry);
         assertNotNull(doc);
@@ -477,7 +477,7 @@ class UniProtEntryConverterIT {
     @Test
     void testConvertIsoformCanonical() throws Exception {
         String file = "Q9EPI6-1.sp";
-        UniProtEntry entry = parse(file);
+        UniProtKBEntry entry = parse(file);
         assertNotNull(entry);
         UniProtDocument doc = convertEntry(entry);
         assertNotNull(doc);
@@ -487,9 +487,9 @@ class UniProtEntryConverterIT {
         assertNull(doc.reviewed);
     }
 
-    private UniProtEntry parse(String file) throws Exception {
+    private UniProtKBEntry parse(String file) throws Exception {
         InputStream is =
-                UniProtEntryConverterIT.class
+                UniProtKBEntryConverterIT.class
                         .getClassLoader()
                         .getResourceAsStream("uniprotkb/" + file);
         assertNotNull(is);
@@ -503,7 +503,7 @@ class UniProtEntryConverterIT {
         return parser.parse(IOUtils.toString(is, Charset.defaultCharset()));
     }
 
-    private UniProtDocument convertEntry(UniProtEntry entry) {
+    private UniProtDocument convertEntry(UniProtKBEntry entry) {
         return converter.convert(entry);
     }
 }

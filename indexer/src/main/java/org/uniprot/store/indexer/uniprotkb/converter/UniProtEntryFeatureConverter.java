@@ -5,8 +5,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.uniprot.core.uniprot.feature.Feature;
-import org.uniprot.core.uniprot.feature.FeatureType;
+import org.uniprot.core.uniprotkb.feature.Feature;
+import org.uniprot.core.uniprotkb.feature.FeatureType;
 import org.uniprot.store.search.document.uniprot.UniProtDocument;
 
 /**
@@ -38,9 +38,9 @@ class UniProtEntryFeatureConverter {
                 featuresOfTypeList.add(feature.getDescription().getValue());
                 document.content.add(feature.getDescription().getValue());
             }
-            if (feature.hasDbXref()) {
-                String xrefId = feature.getDbXref().getId();
-                String dbName = feature.getDbXref().getDatabaseType().getName();
+            if (feature.hasFeatureCrossReference()) {
+                String xrefId = feature.getFeatureCrossReference().getId();
+                String dbName = feature.getFeatureCrossReference().getDatabase().getName();
                 featuresOfTypeList.addAll(UniProtEntryConverterUtil.getXrefId(xrefId, dbName));
                 document.content.addAll(UniProtEntryConverterUtil.getXrefId(xrefId, dbName));
             }

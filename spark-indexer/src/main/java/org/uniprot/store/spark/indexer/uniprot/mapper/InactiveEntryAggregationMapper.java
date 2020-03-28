@@ -4,10 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.spark.api.java.function.Function2;
-import org.uniprot.core.uniprot.InactiveReasonType;
-import org.uniprot.core.uniprot.UniProtEntry;
-import org.uniprot.core.uniprot.builder.EntryInactiveReasonBuilder;
-import org.uniprot.core.uniprot.builder.UniProtEntryBuilder;
+import org.uniprot.core.uniprotkb.InactiveReasonType;
+import org.uniprot.core.uniprotkb.UniProtKBEntry;
+import org.uniprot.core.uniprotkb.impl.EntryInactiveReasonBuilder;
+import org.uniprot.core.uniprotkb.impl.UniProtKBEntryBuilder;
 
 /**
  * It aggregate Inactive UniprotEntry when is the DEMERGE scenario
@@ -16,7 +16,7 @@ import org.uniprot.core.uniprot.builder.UniProtEntryBuilder;
  * @since 2019-12-20
  */
 public class InactiveEntryAggregationMapper
-        implements Function2<UniProtEntry, UniProtEntry, UniProtEntry> {
+        implements Function2<UniProtKBEntry, UniProtKBEntry, UniProtKBEntry> {
 
     private static final long serialVersionUID = -7346523459708364644L;
 
@@ -26,8 +26,8 @@ public class InactiveEntryAggregationMapper
      * @return Uniprot Entry with an aggregation when is the DEMERGE scenario.
      */
     @Override
-    public UniProtEntry call(UniProtEntry entry1, UniProtEntry entry2) throws Exception {
-        UniProtEntry mergedEntry = null;
+    public UniProtKBEntry call(UniProtKBEntry entry1, UniProtKBEntry entry2) throws Exception {
+        UniProtKBEntry mergedEntry = null;
         if (isThereAnyNullEntry(entry1, entry2)) {
             mergedEntry = getNotNullEntry(entry1, entry2);
         } else {
@@ -41,9 +41,9 @@ public class InactiveEntryAggregationMapper
             inactiveReasonBuilder.type(InactiveReasonType.DEMERGED);
 
             mergedEntry =
-                    new UniProtEntryBuilder(
+                    new UniProtKBEntryBuilder(
                                     entry1.getPrimaryAccession(),
-                                    entry1.getUniProtId(),
+                                    entry1.getUniProtkbId(),
                                     inactiveReasonBuilder.build())
                             .build();
         }
@@ -51,15 +51,15 @@ public class InactiveEntryAggregationMapper
         return mergedEntry;
     }
 
-    private UniProtEntry getNotNullEntry(UniProtEntry entry1, UniProtEntry entry2) {
-        UniProtEntry result = entry1;
+    private UniProtKBEntry getNotNullEntry(UniProtKBEntry entry1, UniProtKBEntry entry2) {
+        UniProtKBEntry result = entry1;
         if (result == null) {
             result = entry2;
         }
         return result;
     }
 
-    private boolean isThereAnyNullEntry(UniProtEntry entry1, UniProtEntry entry2) {
+    private boolean isThereAnyNullEntry(UniProtKBEntry entry1, UniProtKBEntry entry2) {
         return entry1 == null || entry2 == null;
     }
 }

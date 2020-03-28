@@ -16,7 +16,7 @@ import org.uniprot.core.flatfile.parser.UniProtParser;
 import org.uniprot.core.flatfile.parser.impl.DefaultUniProtParser;
 import org.uniprot.core.flatfile.parser.impl.EntryBufferedReader2;
 import org.uniprot.core.flatfile.parser.impl.SupportingDataMapImpl;
-import org.uniprot.core.uniprot.UniProtEntry;
+import org.uniprot.core.uniprotkb.UniProtKBEntry;
 
 public class VoldemortInMemoryUniprotEntryStoreTest {
 
@@ -72,7 +72,7 @@ public class VoldemortInMemoryUniprotEntryStoreTest {
             if (next == null) {
                 break;
             } else {
-                UniProtEntry entry = parser.parse(next);
+                UniProtKBEntry entry = parser.parse(next);
                 voldemortInMemoryEntryStore.saveEntry(entry);
                 savedAccessions.add(entry.getPrimaryAccession().getValue());
             }
@@ -93,8 +93,9 @@ public class VoldemortInMemoryUniprotEntryStoreTest {
         assertThat(savedAccessions.size(), is(6));
         savedAccessions.forEach(
                 accession -> {
-                    Optional<UniProtEntry> entry = voldemortInMemoryEntryStore.getEntry(accession);
-                    UniProtEntry foundEntry = entry.orElseGet(null);
+                    Optional<UniProtKBEntry> entry =
+                            voldemortInMemoryEntryStore.getEntry(accession);
+                    UniProtKBEntry foundEntry = entry.orElseGet(null);
                     assertThat(foundEntry, notNullValue());
                     assertThat(foundEntry.getPrimaryAccession().getValue(), is(accession));
                     assertThat(foundEntry.getAnnotationScore(), not(0));
@@ -107,8 +108,8 @@ public class VoldemortInMemoryUniprotEntryStoreTest {
         assertThat(savedAccessions.size(), is(6));
 
         /*        savedAccessions.forEach(accession -> {
-            Optional<UniProtEntry> entry = voldemortInMemoryEntryStore.getEntry(accession);
-            UniProtEntry foundEntry = entry.orElseGet(null);
+            Optional<UniProtKBEntry> entry = voldemortInMemoryEntryStore.getEntry(accession);
+            UniProtKBEntry foundEntry = entry.orElseGet(null);
             assertThat(foundEntry, notNullValue());
             foundEntry.getEntryInfo().setName(foundEntry.getEntryInfo().getName()+ " UPDATED accession"+accession);
             voldemortInMemoryEntryStore.updateEntry(foundEntry);

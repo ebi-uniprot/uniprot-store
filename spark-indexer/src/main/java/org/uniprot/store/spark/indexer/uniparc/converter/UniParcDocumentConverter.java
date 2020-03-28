@@ -4,10 +4,10 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.uniprot.core.Property;
-import org.uniprot.core.uniparc.UniParcDBCrossReference;
-import org.uniprot.core.uniparc.UniParcDatabaseType;
+import org.uniprot.core.uniparc.UniParcCrossReference;
+import org.uniprot.core.uniparc.UniParcDatabase;
 import org.uniprot.core.uniparc.UniParcEntry;
-import org.uniprot.core.uniprot.taxonomy.Taxonomy;
+import org.uniprot.core.uniprotkb.taxonomy.Taxonomy;
 import org.uniprot.store.job.common.converter.DocumentConverter;
 import org.uniprot.store.search.document.uniparc.UniParcDocument;
 
@@ -28,7 +28,7 @@ public class UniParcDocumentConverter implements DocumentConverter<UniParcEntry,
                 .sequenceChecksum(uniparcEntry.getSequence().getCrc64())
                 .taxLineageIds(getTaxonomies(uniparcEntry));
         getTaxonomies(uniparcEntry).stream().map(String::valueOf).forEach(builder::contentAdd);
-        uniparcEntry.getDbXReferences().forEach(val -> processDbReference(val, builder));
+        uniparcEntry.getUniParcCrossReferences().forEach(val -> processDbReference(val, builder));
         return builder.build();
     }
 
@@ -40,33 +40,33 @@ public class UniParcDocumentConverter implements DocumentConverter<UniParcEntry,
     }
 
     private void processDbReference(
-            UniParcDBCrossReference xref, UniParcDocument.UniParcDocumentBuilder builder) {
-        UniParcDatabaseType type = xref.getDatabaseType();
+            UniParcCrossReference xref, UniParcDocument.UniParcDocumentBuilder builder) {
+        UniParcDatabase type = xref.getDatabase();
         if (xref.isActive()) {
             builder.active(type.toDisplayName());
         }
         builder.database(type.toDisplayName());
-        if ((type == UniParcDatabaseType.SWISSPROT) || (type == UniParcDatabaseType.TREMBL)) {
+        if ((type == UniParcDatabase.SWISSPROT) || (type == UniParcDatabase.TREMBL)) {
             builder.uniprotAccession(xref.getId());
             builder.uniprotIsoform(xref.getId());
         }
 
-        if (type == UniParcDatabaseType.SWISSPROT_VARSPLIC) {
+        if (type == UniParcDatabase.SWISSPROT_VARSPLIC) {
             builder.uniprotIsoform(xref.getId());
         }
 
         xref.getProperties().stream()
-                .filter(val -> val.getKey().equals(UniParcDBCrossReference.PROPERTY_PROTEOME_ID))
+                .filter(val -> val.getKey().equals(UniParcCrossReference.PROPERTY_PROTEOME_ID))
                 .map(Property::getValue)
                 .forEach(builder::upid);
 
         xref.getProperties().stream()
-                .filter(val -> val.getKey().equals(UniParcDBCrossReference.PROPERTY_PROTEIN_NAME))
+                .filter(val -> val.getKey().equals(UniParcCrossReference.PROPERTY_PROTEIN_NAME))
                 .map(Property::getValue)
                 .forEach(builder::proteinName);
 
         xref.getProperties().stream()
-                .filter(val -> val.getKey().equals(UniParcDBCrossReference.PROPERTY_GENE_NAME))
+                .filter(val -> val.getKey().equals(UniParcCrossReference.PROPERTY_GENE_NAME))
                 .map(Property::getValue)
                 .forEach(builder::geneName);
 
