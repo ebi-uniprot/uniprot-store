@@ -13,6 +13,7 @@
     "isRequiredForJson": true,
     "isDefaultForTsv": true,
     "defaultForTsvOrder" : 1,
+    "sortField": "accession",
     "label": "DiseaseEntry ID",
     "name": "accession",
     "paths" : ["accession"],

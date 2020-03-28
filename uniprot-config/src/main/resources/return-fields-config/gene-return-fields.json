@@ -11,6 +11,7 @@
     "childNumber": 0,
     "itemType": "SINGLE",
     "isRequiredForJson": true,
+    "sortField" : "accession_id",
     "label": "Canonical protein accession",
     "name": "accession",
     "paths" : ["canonicalProtein.accession"],

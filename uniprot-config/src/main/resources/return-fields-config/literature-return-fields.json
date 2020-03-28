@@ -13,6 +13,7 @@
     "isRequiredForJson": true,
     "isDefaultForTsv": true,
     "defaultForTsvOrder" : 0,
+    "sortField" : "id",
     "label": "PubMed ID",
     "name": "id",
     "paths" : ["citation.citationCrossReferences[?(@.database=='PubMed')]"],
@@ -23,7 +24,7 @@
     "childNumber": 1,
     "itemType": "SINGLE",
     "label": "Doi",
-    "name": "doi_id",
+    "name": "doi",
     "paths" : ["citation.citationCrossReferences[?(@.database=='DOI')]"],
     "id": "literature/doi_id"
   },
@@ -33,6 +34,7 @@
     "itemType": "SINGLE",
     "isDefaultForTsv": true,
     "defaultForTsvOrder" : 1,
+    "sortField" : "title",
     "label": "Title",
     "name": "title",
     "paths" : ["citation.title"],
@@ -117,24 +119,6 @@
   {
     "parentId": "literature",
     "childNumber": 11,
-    "itemType": "SINGLE",
-    "label": "Complete Author List",
-    "name": "complete_author_list",
-    "paths" : ["citation.completeAuthorList"],
-    "id": "literature/complete_author_list"
-  },
-  {
-    "parentId": "literature",
-    "childNumber": 12,
-    "itemType": "SINGLE",
-    "label": "Citation",
-    "name": "citation",
-    "paths" : ["citation"],
-    "id": "literature/citation"
-  },
-  {
-    "parentId": "literature",
-    "childNumber": 13,
     "itemType": "SINGLE",
     "label": "Statistics",
     "name": "statistics",

@@ -2,207 +2,99 @@
   {
     "seqNumber": 0,
     "itemType": "GROUP",
-    "groupName": "Proteome",
+    "groupName": "Names & Taxonomy",
     "isDatabaseGroup": false,
-    "id": "proteome"
+    "id": "names_&_taxonomy"
   },
   {
-    "parentId": "proteome",
+    "parentId": "names_&_taxonomy",
     "childNumber": 0,
     "itemType": "SINGLE",
     "isRequiredForJson": true,
     "isDefaultForTsv": true,
     "defaultForTsvOrder" : 0,
+    "sortField" : "upid",
     "label": "Proteome Id",
     "name": "upid",
-    "paths" : ["id"],
-    "id": "proteome/upid"
+    "paths" : ["id", "proteomeType"],
+    "id": "names_&_taxonomy/upid"
   },
   {
-    "parentId": "proteome",
+    "parentId": "names_&_taxonomy",
     "childNumber": 1,
-    "itemType": "SINGLE",
-    "label": "Description",
-    "name": "description",
-    "paths" : ["description"],
-    "id": "proteome/description"
-  },
-  {
-    "parentId": "proteome",
-    "childNumber": 2,
     "itemType": "SINGLE",
     "isDefaultForTsv": true,
     "defaultForTsvOrder" : 1,
+    "sortField" : "organism_sort",
     "label": "Organism",
     "name": "organism",
     "paths" : ["taxonomy"],
-    "id": "proteome/organism"
+    "id": "names_&_taxonomy/organism"
   },
   {
-    "parentId": "proteome",
-    "childNumber": 3,
+    "parentId": "names_&_taxonomy",
+    "childNumber": 2,
     "itemType": "SINGLE",
     "isDefaultForTsv": true,
     "defaultForTsvOrder" : 2,
     "label": "Organism Id",
     "name": "organism_id",
     "paths" : ["taxonomy.taxonId"],
-    "id": "proteome/organism_id"
+    "id": "names_&_taxonomy/organism_id"
   },
   {
-    "parentId": "proteome",
-    "childNumber": 4,
-    "itemType": "SINGLE",
-    "label": "Modified Date",
-    "name": "modified",
-    "paths" : ["modified"],
-    "id": "proteome/modified"
-  },
-  {
-    "parentId": "proteome",
-    "childNumber": 5,
-    "itemType": "SINGLE",
-    "label": "Type",
-    "name": "type",
-    "paths" : ["proteomeType"],
-    "id": "proteome/type"
-  },
-  {
-    "parentId": "proteome",
-    "childNumber": 6,
-    "itemType": "SINGLE",
-    "label": "Redundant To",
-    "name": "redundant_to",
-    "paths" : ["redundantTo"],
-    "id": "proteome/redundant_to"
-  },
-  {
-    "parentId": "proteome",
-    "childNumber": 7,
-    "itemType": "SINGLE",
-    "label": "Strain",
-    "name": "strain",
-    "paths" : ["strain"],
-    "id": "proteome/strain"
-  },
-
-  {
-    "parentId": "proteome",
-    "childNumber": 8,
-    "itemType": "SINGLE",
-    "label": "Isolate",
-    "name": "isolate",
-    "paths" : ["isolate"],
-    "id": "proteome/isolate"
-  },
-  {
-    "parentId": "proteome",
-    "childNumber": 9,
-    "itemType": "SINGLE",
-    "label": "Cross References",
-    "name": "cross_reference",
-    "paths" : ["proteomeCrossReferences"],
-    "id": "proteome/cross_reference"
-  },
-  {
-    "parentId": "proteome",
-    "childNumber": 10,
+    "parentId": "names_&_taxonomy",
+    "childNumber": 3,
     "itemType": "SINGLE",
     "label": "Components",
     "name": "components",
     "paths" : ["components"],
-    "id": "proteome/components"
+    "id": "names_&_taxonomy/components"
   },
   {
-    "parentId": "proteome",
-    "childNumber": 11,
+    "parentId": "names_&_taxonomy",
+    "childNumber": 4,
     "itemType": "SINGLE",
-    "label": "References",
-    "name": "references",
-    "paths" : ["citations"],
-    "id": "proteome/references"
+    "label": "Taxon mnemonic",
+    "name": "taxon_mnemonic",
+    "paths" : ["taxonomy.mnemonic"],
+    "id": "names_&_taxonomy/modified"
   },
   {
-    "parentId": "proteome",
-    "childNumber": 12,
+    "parentId": "names_&_taxonomy",
+    "childNumber": 5,
     "itemType": "SINGLE",
-    "label": "Redundant proteomes",
-    "name": "redundant_proteomes",
-    "paths" : ["redundantProteomes"],
-    "id": "proteome/redundant_proteomes"
+    "label": "Taxonomic lineage",
+    "name": "lineage",
+    "paths" : ["taxonLineage"],
+    "id": "names_&_taxonomy/lineage"
   },
   {
-    "parentId": "proteome",
-    "childNumber": 13,
+    "seqNumber": 1,
+    "itemType": "GROUP",
+    "groupName": "Miscellaneous",
+    "isDatabaseGroup": false,
+    "id": "miscellaneous"
+  },
+  {
+    "parentId": "miscellaneous",
+    "childNumber": 0,
     "itemType": "SINGLE",
-    "label": "Panproteome",
-    "name": "panproteome",
-    "paths" : ["panproteome"],
-    "id": "proteome/panproteome"
+    "label": "Genome assembly ID",
+    "name": "genome_assembly",
+    "paths" : ["proteomeCrossReferences[?(@.database=='GenomeAssembly')]"],
+    "id": "miscellaneous/genome_assembly"
   },
   {
-    "parentId": "proteome",
-    "childNumber": 14,
-    "itemType": "SINGLE",
-    "label": "Annotation score",
-    "name": "annotation_score",
-    "paths" : ["annotationScore"],
-    "id": "proteome/annotation_score"
-  },
-  {
-    "parentId": "proteome",
-    "childNumber": 15,
-    "itemType": "SINGLE",
-    "label": "Super kingdom",
-    "name": "superkingdom",
-    "paths" : ["superkingdom"],
-    "id": "proteome/super_kingdom"
-  },
-  {
-    "parentId": "proteome",
-    "childNumber": 16,
-    "itemType": "SINGLE",
-    "label": "Gene Count",
-    "name": "gene_count",
-    "paths" : ["geneCount"],
-    "id": "proteome/gene_count"
-  },
-  {
-    "parentId": "proteome",
-    "childNumber": 17,
+    "parentId": "miscellaneous",
+    "childNumber": 1,
     "itemType": "SINGLE",
     "isDefaultForTsv": true,
     "defaultForTsvOrder" : 3,
     "label": "Protein count",
     "name": "protein_count",
-    "paths" : ["components[*].proteinCount"],
-    "id": "proteome/protein_count"
-  },
-  {
-    "parentId": "proteome",
-    "childNumber": 18,
-    "itemType": "SINGLE",
-    "label": "Lineage",
-    "name": "lineage",
-    "paths" : ["taxonLineage"],
-    "id": "proteome/lineage"
-  },
-  {
-    "parentId": "proteome",
-    "childNumber": 19,
-    "itemType": "SINGLE",
-    "label": "Canonical proteins",
-    "name": "canonical_proteins",
-    "paths" : ["canonicalProteins"],
-    "id": "proteome/canonical_proteins"
-  },
-  {
-    "parentId": "proteome",
-    "childNumber": 20,
-    "itemType": "SINGLE",
-    "label": "Source database",
-    "name": "source_database",
-    "paths" : ["sourceDb"],
-    "id": "proteome/source_database"
+    "paths" : ["proteinCount"],
+    "id": "miscellaneous/protein_count"
   }
+
 ]

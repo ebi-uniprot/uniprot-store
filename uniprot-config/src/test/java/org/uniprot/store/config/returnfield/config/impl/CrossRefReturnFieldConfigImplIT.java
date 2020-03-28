@@ -4,8 +4,6 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
-import java.util.Collections;
-import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Stream;
 
@@ -13,9 +11,6 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
-import org.uniprot.core.json.parser.uniprot.UniProtKBEntryIT;
-import org.uniprot.core.parser.tsv.uniprot.UniProtKBEntryValueMapper;
-import org.uniprot.core.uniprotkb.UniProtKBEntry;
 import org.uniprot.core.util.Utils;
 import org.uniprot.store.config.UniProtDataType;
 import org.uniprot.store.config.returnfield.config.ReturnFieldConfig;
@@ -26,23 +21,18 @@ import org.uniprot.store.config.searchfield.factory.SearchFieldConfigFactory;
 import org.uniprot.store.config.searchfield.model.SearchFieldItem;
 
 /**
- * Created 17/03/20
- *
- * @author Edd
+ * @author lgonzales
+ * @since 2020-03-26
  */
-class UniProtKBReturnFieldConfigImplIT {
+class CrossRefReturnFieldConfigImplIT {
 
-    private static UniProtKBEntry entry;
     private static ReturnFieldConfig returnFieldConfig;
     private static SearchFieldConfig searchFieldConfig;
 
     @BeforeAll
     static void setUp() {
-        returnFieldConfig =
-                ReturnFieldConfigFactory.getReturnFieldConfig(UniProtDataType.UNIPROTKB);
-        searchFieldConfig =
-                SearchFieldConfigFactory.getSearchFieldConfig(UniProtDataType.UNIPROTKB);
-        entry = UniProtKBEntryIT.getCompleteColumnsUniProtEntry();
+        returnFieldConfig = ReturnFieldConfigFactory.getReturnFieldConfig(UniProtDataType.CROSSREF);
+        searchFieldConfig = SearchFieldConfigFactory.getSearchFieldConfig(UniProtDataType.CROSSREF);
     }
 
     @ParameterizedTest(
@@ -67,16 +57,6 @@ class UniProtKBReturnFieldConfigImplIT {
         assertTrue(found);
     }
 
-    @ParameterizedTest(name = "Return TSV column [{0}] for return field exists?")
-    @MethodSource("provideReturnFieldNames")
-    void validReturnFieldWithMappedEntryDefined(String returnFieldName) {
-        UniProtKBEntryValueMapper entityValueMapper = new UniProtKBEntryValueMapper();
-        Map<String, String> mappedField =
-                entityValueMapper.mapEntity(entry, Collections.singletonList(returnFieldName));
-        assertNotNull(mappedField.get(returnFieldName));
-        assertFalse(mappedField.get(returnFieldName).isEmpty());
-    }
-
     private static Stream<Arguments> provideSearchSortFields() {
         return searchFieldConfig.getSortFieldItems().stream()
                 .map(SearchFieldItem::getFieldName)
@@ -87,12 +67,6 @@ class UniProtKBReturnFieldConfigImplIT {
         return returnFieldConfig.getReturnFields().stream()
                 .filter(field -> Utils.notNullNotEmpty(field.getSortField()))
                 .map(ReturnField::getSortField)
-                .map(Arguments::of);
-    }
-
-    private static Stream<Arguments> provideReturnFieldNames() {
-        return returnFieldConfig.getReturnFields().stream()
-                .map(ReturnField::getName)
                 .map(Arguments::of);
     }
 }

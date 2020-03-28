@@ -12,6 +12,7 @@
     "itemType": "SINGLE",
     "label": "Cross Reference Id",
     "isRequiredForJson": true,
+    "sortField": "accession",
     "name": "id",
     "paths" : ["accession"],
     "id": "cross_reference/id"
@@ -83,6 +84,7 @@
     "parentId": "cross_reference",
     "childNumber": 8,
     "itemType": "SINGLE",
+    "sortField": "category_str",
     "label": "Category",
     "name": "category",
     "paths" : ["category"],

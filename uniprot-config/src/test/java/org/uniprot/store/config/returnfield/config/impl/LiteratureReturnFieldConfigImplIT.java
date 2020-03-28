@@ -13,9 +13,9 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
-import org.uniprot.core.json.parser.uniprot.UniProtKBEntryIT;
-import org.uniprot.core.parser.tsv.uniprot.UniProtKBEntryValueMapper;
-import org.uniprot.core.uniprotkb.UniProtKBEntry;
+import org.uniprot.core.json.parser.literature.LiteratureEntryTest;
+import org.uniprot.core.literature.LiteratureEntry;
+import org.uniprot.core.parser.tsv.literature.LiteratureEntryValueMapper;
 import org.uniprot.core.util.Utils;
 import org.uniprot.store.config.UniProtDataType;
 import org.uniprot.store.config.returnfield.config.ReturnFieldConfig;
@@ -26,23 +26,22 @@ import org.uniprot.store.config.searchfield.factory.SearchFieldConfigFactory;
 import org.uniprot.store.config.searchfield.model.SearchFieldItem;
 
 /**
- * Created 17/03/20
- *
- * @author Edd
+ * @author lgonzales
+ * @since 2020-03-26
  */
-class UniProtKBReturnFieldConfigImplIT {
+class LiteratureReturnFieldConfigImplIT {
 
-    private static UniProtKBEntry entry;
+    private static LiteratureEntry entry;
     private static ReturnFieldConfig returnFieldConfig;
     private static SearchFieldConfig searchFieldConfig;
 
     @BeforeAll
     static void setUp() {
         returnFieldConfig =
-                ReturnFieldConfigFactory.getReturnFieldConfig(UniProtDataType.UNIPROTKB);
+                ReturnFieldConfigFactory.getReturnFieldConfig(UniProtDataType.LITERATURE);
         searchFieldConfig =
-                SearchFieldConfigFactory.getSearchFieldConfig(UniProtDataType.UNIPROTKB);
-        entry = UniProtKBEntryIT.getCompleteColumnsUniProtEntry();
+                SearchFieldConfigFactory.getSearchFieldConfig(UniProtDataType.LITERATURE);
+        entry = LiteratureEntryTest.getCompleteLiteratureEntry();
     }
 
     @ParameterizedTest(
@@ -70,9 +69,10 @@ class UniProtKBReturnFieldConfigImplIT {
     @ParameterizedTest(name = "Return TSV column [{0}] for return field exists?")
     @MethodSource("provideReturnFieldNames")
     void validReturnFieldWithMappedEntryDefined(String returnFieldName) {
-        UniProtKBEntryValueMapper entityValueMapper = new UniProtKBEntryValueMapper();
+        LiteratureEntryValueMapper entityValueMapper = new LiteratureEntryValueMapper();
         Map<String, String> mappedField =
                 entityValueMapper.mapEntity(entry, Collections.singletonList(returnFieldName));
+        System.out.println(returnFieldName + " : " + mappedField.get(returnFieldName));
         assertNotNull(mappedField.get(returnFieldName));
         assertFalse(mappedField.get(returnFieldName).isEmpty());
     }

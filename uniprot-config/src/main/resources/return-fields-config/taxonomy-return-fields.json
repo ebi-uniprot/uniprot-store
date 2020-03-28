@@ -35,6 +35,7 @@
     "itemType": "SINGLE",
     "isDefaultForTsv": true,
     "defaultForTsvOrder" : 2,
+    "sortField": "scientific",
     "label": "Scientific name",
     "name": "scientific_name",
     "paths" : ["scientificName"],
@@ -152,23 +153,5 @@
     "name": "statistics",
     "paths" : ["statistics"],
     "id": "taxonomy/statistics"
-  },
-  {
-    "parentId": "taxonomy",
-    "childNumber": 14,
-    "itemType": "SINGLE",
-    "label": "Active",
-    "name": "active",
-    "paths" : ["active"],
-    "id": "taxonomy/active"
-  },
-  {
-    "parentId": "taxonomy",
-    "childNumber": 15,
-    "itemType": "SINGLE",
-    "label": "Inactive Reason",
-    "name": "inactive_reason",
-    "paths" : ["inactiveReason"],
-    "id": "taxonomy/inactive_reason"
   }
 ]
