@@ -2,10 +2,10 @@ package org.uniprot.store.indexer.literature.reader;
 
 import org.springframework.batch.item.*;
 import org.springframework.batch.item.file.FlatFileItemReader;
-import org.uniprot.core.DBCrossReference;
-import org.uniprot.core.citation.CitationXrefType;
+import org.uniprot.core.CrossReference;
+import org.uniprot.core.citation.CitationDatabase;
 import org.uniprot.core.literature.LiteratureStoreEntry;
-import org.uniprot.core.literature.builder.LiteratureStoreEntryBuilder;
+import org.uniprot.core.literature.impl.LiteratureStoreEntryBuilder;
 
 /** @author lgonzales */
 public class LiteratureMappingItemReader implements ItemReader<LiteratureStoreEntry>, ItemStream {
@@ -26,8 +26,8 @@ public class LiteratureMappingItemReader implements ItemReader<LiteratureStoreEn
             String entryPubmedId =
                     entry.getLiteratureEntry()
                             .getCitation()
-                            .getCitationXrefsByType(CitationXrefType.PUBMED)
-                            .map(DBCrossReference::getId)
+                            .getCitationCrossReferenceByType(CitationDatabase.PUBMED)
+                            .map(CrossReference::getId)
                             .orElse("");
             LiteratureStoreEntryBuilder itemBuilder = LiteratureStoreEntryBuilder.from(entry);
             while ((nextEntry = this.delegate.read()) != null) {
@@ -35,8 +35,8 @@ public class LiteratureMappingItemReader implements ItemReader<LiteratureStoreEn
                         nextEntry
                                 .getLiteratureEntry()
                                 .getCitation()
-                                .getCitationXrefsByType(CitationXrefType.PUBMED)
-                                .map(DBCrossReference::getId)
+                                .getCitationCrossReferenceByType(CitationDatabase.PUBMED)
+                                .map(CrossReference::getId)
                                 .orElse("");
                 if (entryPubmedId.equals(nextPubmedId)) {
                     itemBuilder.literatureMappedReferencesAdd(

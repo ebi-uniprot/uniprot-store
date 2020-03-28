@@ -9,9 +9,9 @@ import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import org.uniprot.core.cv.xdb.DatabaseCategory;
-import org.uniprot.core.cv.xdb.UniProtXDbTypeDetail;
-import org.uniprot.cv.xdb.UniProtXDbTypes;
+import org.uniprot.core.cv.xdb.UniProtDatabaseCategory;
+import org.uniprot.core.cv.xdb.UniProtDatabaseDetail;
+import org.uniprot.cv.xdb.UniProtDatabaseTypes;
 import org.uniprot.store.search.domain.DatabaseGroup;
 import org.uniprot.store.search.domain.Field;
 import org.uniprot.store.search.domain.FieldGroup;
@@ -34,10 +34,10 @@ public enum Databases {
 
     void init() {
         databases.add(getAnyGroup());
-        for (DatabaseCategory category : DatabaseCategory.values()) {
-            if (category != DatabaseCategory.UNKNOWN) {
-                List<UniProtXDbTypeDetail> types =
-                        UniProtXDbTypes.INSTANCE.getDBTypesByCategory(category);
+        for (UniProtDatabaseCategory category : UniProtDatabaseCategory.values()) {
+            if (category != UniProtDatabaseCategory.UNKNOWN) {
+                List<UniProtDatabaseDetail> types =
+                        UniProtDatabaseTypes.INSTANCE.getDBTypesByCategory(category);
                 List<Tuple> databaseTypes =
                         types.stream()
                                 .filter(val -> !val.isImplicit())
@@ -67,11 +67,11 @@ public enum Databases {
         } else return category;
     }
 
-    private Field convertField(UniProtXDbTypeDetail type) {
+    private Field convertField(UniProtDatabaseDetail type) {
         return new FieldImpl(type.getDisplayName(), DR + type.getName().toLowerCase());
     }
 
-    private Tuple convertTuple(UniProtXDbTypeDetail type) {
+    private Tuple convertTuple(UniProtDatabaseDetail type) {
         return new TupleImpl(type.getDisplayName(), type.getName().toLowerCase());
     }
 

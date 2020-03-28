@@ -5,8 +5,8 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 import org.uniprot.core.cv.keyword.KeywordEntry;
 import org.uniprot.core.cv.keyword.KeywordId;
-import org.uniprot.core.cv.keyword.builder.KeywordEntryBuilder;
-import org.uniprot.core.cv.keyword.builder.KeywordEntryKeywordBuilder;
+import org.uniprot.core.cv.keyword.impl.KeywordEntryBuilder;
+import org.uniprot.core.cv.keyword.impl.KeywordIdBuilder;
 import org.uniprot.store.search.document.suggest.SuggestDocument;
 
 /**
@@ -48,6 +48,6 @@ class KeywordToSuggestDocumentTest {
     }
 
     private KeywordId kw(String id, String accession) {
-        return new KeywordEntryKeywordBuilder().id(id).accession(accession).build();
+        return new KeywordIdBuilder().id(id).accession(accession).build();
     }
 }

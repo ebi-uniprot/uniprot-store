@@ -7,18 +7,13 @@ import java.util.Date;
 
 import org.junit.jupiter.api.Test;
 import org.uniprot.core.Sequence;
-import org.uniprot.core.builder.SequenceBuilder;
 import org.uniprot.core.cv.go.GoAspect;
-import org.uniprot.core.cv.go.builder.GeneOntologyEntryBuilder;
-import org.uniprot.core.impl.SequenceImpl;
-import org.uniprot.core.uniparc.impl.UniParcIdImpl;
-import org.uniprot.core.uniprot.builder.UniProtAccessionBuilder;
+import org.uniprot.core.cv.go.impl.GeneOntologyEntryBuilder;
+import org.uniprot.core.impl.SequenceBuilder;
+import org.uniprot.core.uniparc.impl.UniParcIdBuilder;
+import org.uniprot.core.uniprotkb.impl.UniProtKBAccessionBuilder;
 import org.uniprot.core.uniref.*;
-import org.uniprot.core.uniref.builder.RepresentativeMemberBuilder;
-import org.uniprot.core.uniref.builder.UniRefEntryBuilder;
-import org.uniprot.core.uniref.builder.UniRefMemberBuilder;
-import org.uniprot.core.uniref.impl.OverlapRegionImpl;
-import org.uniprot.core.uniref.impl.UniRefEntryIdImpl;
+import org.uniprot.core.uniref.impl.*;
 import org.uniprot.store.search.document.uniref.UniRefDocument;
 
 /**
@@ -33,7 +28,7 @@ class UniRefDocumentConverterTest {
                 new RepresentativeMemberBuilder()
                         .organismTaxId(1)
                         .organismName("organismName")
-                        .sequence(new SequenceImpl("AAAAA"))
+                        .sequence(new SequenceBuilder("AAAAA").build())
                         .build();
 
         UniRefEntry entry =
@@ -146,14 +141,14 @@ class UniRefDocumentConverterTest {
                 .sequenceLength(11)
                 .proteinName("representativeMemberProteinName")
                 .accessionsAdd(
-                        new UniProtAccessionBuilder("representativeMemberAccession1").build())
+                        new UniProtKBAccessionBuilder("representativeMemberAccession1").build())
                 .accessionsAdd(
-                        new UniProtAccessionBuilder("representativeMemberAccession2").build())
-                .uniref50Id(new UniRefEntryIdImpl("representativeMemberUniref50Id"))
-                .uniref90Id(new UniRefEntryIdImpl("representativeMemberUniref90Id"))
-                .uniref100Id(new UniRefEntryIdImpl("representativeMemberUniref100Id"))
-                .uniparcId(new UniParcIdImpl("representativeMemberUniparcId"))
-                .overlapRegion(new OverlapRegionImpl(30, 40))
+                        new UniProtKBAccessionBuilder("representativeMemberAccession2").build())
+                .uniref50Id(new UniRefEntryIdBuilder("representativeMemberUniref50Id").build())
+                .uniref90Id(new UniRefEntryIdBuilder("representativeMemberUniref90Id").build())
+                .uniref100Id(new UniRefEntryIdBuilder("representativeMemberUniref100Id").build())
+                .uniparcId(new UniParcIdBuilder("representativeMemberUniparcId").build())
+                .overlapRegion(new OverlapRegionBuilder().start(30).end(40).build())
                 .isSeed(true)
                 .sequence(sequence)
                 .build();
@@ -167,13 +162,13 @@ class UniRefDocumentConverterTest {
                 .organismTaxId(2)
                 .sequenceLength(10)
                 .proteinName("memberProteinName")
-                .accessionsAdd(new UniProtAccessionBuilder("memberAccession1").build())
-                .accessionsAdd(new UniProtAccessionBuilder("memberAccession2").build())
-                .uniref50Id(new UniRefEntryIdImpl("memberUniref50Id"))
-                .uniref90Id(new UniRefEntryIdImpl("memberUniref90Id"))
-                .uniref100Id(new UniRefEntryIdImpl("memberUniref100Id"))
-                .uniparcId(new UniParcIdImpl("memberUniparcId"))
-                .overlapRegion(new OverlapRegionImpl(10, 20))
+                .accessionsAdd(new UniProtKBAccessionBuilder("memberAccession1").build())
+                .accessionsAdd(new UniProtKBAccessionBuilder("memberAccession2").build())
+                .uniref50Id(new UniRefEntryIdBuilder("memberUniref50Id").build())
+                .uniref90Id(new UniRefEntryIdBuilder("memberUniref90Id").build())
+                .uniref100Id(new UniRefEntryIdBuilder("memberUniref100Id").build())
+                .uniparcId(new UniParcIdBuilder("memberUniparcId").build())
+                .overlapRegion(new OverlapRegionBuilder().start(10).end(20).build())
                 .isSeed(true)
                 .build();
     }

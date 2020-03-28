@@ -11,7 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import org.apache.spark.api.java.function.PairFunction;
 import org.uniprot.core.literature.LiteratureMappedReference;
-import org.uniprot.core.literature.builder.LiteratureMappedReferenceBuilder;
+import org.uniprot.core.literature.impl.LiteratureMappedReferenceBuilder;
 
 import scala.Tuple2;
 

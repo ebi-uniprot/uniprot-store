@@ -4,8 +4,8 @@ import static org.uniprot.core.util.Utils.*;
 
 import java.util.List;
 
-import org.uniprot.core.uniprot.taxonomy.Organism;
-import org.uniprot.core.uniprot.taxonomy.OrganismHost;
+import org.uniprot.core.uniprotkb.taxonomy.Organism;
+import org.uniprot.core.uniprotkb.taxonomy.OrganismHost;
 import org.uniprot.store.search.document.uniprot.UniProtDocument;
 
 /**

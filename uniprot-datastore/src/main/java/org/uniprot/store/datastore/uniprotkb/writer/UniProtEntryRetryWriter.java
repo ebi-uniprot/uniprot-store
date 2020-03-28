@@ -7,8 +7,8 @@ import net.jodah.failsafe.RetryPolicy;
 
 import org.uniprot.core.flatfile.writer.impl.UniProtFlatfileWriter;
 import org.uniprot.core.scorer.uniprotkb.UniProtEntryScored;
-import org.uniprot.core.uniprot.UniProtEntry;
-import org.uniprot.core.uniprot.builder.UniProtEntryBuilder;
+import org.uniprot.core.uniprotkb.UniProtKBEntry;
+import org.uniprot.core.uniprotkb.impl.UniProtKBEntryBuilder;
 import org.uniprot.store.job.common.store.Store;
 import org.uniprot.store.job.common.writer.ItemRetryWriter;
 
@@ -17,36 +17,36 @@ import org.uniprot.store.job.common.writer.ItemRetryWriter;
  *
  * @author Edd
  */
-public class UniProtEntryRetryWriter extends ItemRetryWriter<UniProtEntry, UniProtEntry> {
-    public UniProtEntryRetryWriter(Store<UniProtEntry> store, RetryPolicy<Object> retryPolicy) {
+public class UniProtEntryRetryWriter extends ItemRetryWriter<UniProtKBEntry, UniProtKBEntry> {
+    public UniProtEntryRetryWriter(Store<UniProtKBEntry> store, RetryPolicy<Object> retryPolicy) {
         super(store, retryPolicy);
     }
 
     @Override
-    public String extractItemId(UniProtEntry item) {
+    public String extractItemId(UniProtKBEntry item) {
         return null;
     }
 
     @Override
-    public String entryToString(UniProtEntry entry) {
+    public String entryToString(UniProtKBEntry entry) {
         return UniProtFlatfileWriter.write(entry);
     }
 
     @Override
-    public UniProtEntry itemToEntry(UniProtEntry item) {
+    public UniProtKBEntry itemToEntry(UniProtKBEntry item) {
         return item;
     }
 
     @Override
-    public void write(List<? extends UniProtEntry> items) {
+    public void write(List<? extends UniProtKBEntry> items) {
         super.write(items.stream().map(this::addAnnotationScore).collect(Collectors.toList()));
     }
 
     // TODO: 26/07/19 why don't we set the annotation score by default when we read the entry?
-    private UniProtEntry addAnnotationScore(UniProtEntry entry) {
+    private UniProtKBEntry addAnnotationScore(UniProtKBEntry entry) {
         UniProtEntryScored entryScored = new UniProtEntryScored(entry);
         double score = entryScored.score();
-        UniProtEntryBuilder builder = UniProtEntryBuilder.from(entry);
+        UniProtKBEntryBuilder builder = UniProtKBEntryBuilder.from(entry);
         builder.annotationScore(score);
         return builder.build();
     }

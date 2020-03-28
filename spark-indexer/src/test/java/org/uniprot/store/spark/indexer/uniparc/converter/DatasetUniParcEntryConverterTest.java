@@ -33,9 +33,9 @@ class DatasetUniParcEntryConverterTest {
         assertEquals("accessionValue", entry.getUniParcId().getValue());
         assertEquals("UniProtKBExclusionValue", entry.getUniProtExclusionReason());
 
-        assertNotNull(entry.getDbXReferences());
-        assertEquals(1, entry.getDbXReferences().size());
-        UniParcDBCrossReference dbReference = entry.getDbXReferences().get(0);
+        assertNotNull(entry.getUniParcCrossReferences());
+        assertEquals(1, entry.getUniParcCrossReferences().size());
+        UniParcCrossReference dbReference = entry.getUniParcCrossReferences().get(0);
         validateDbReference(dbReference);
 
         assertNotNull(entry.getSequence());
@@ -68,8 +68,8 @@ class DatasetUniParcEntryConverterTest {
         assertEquals("accessionValue", entry.getUniParcId().getValue());
         assertNull(entry.getUniProtExclusionReason());
 
-        assertNotNull(entry.getDbXReferences());
-        assertTrue(entry.getDbXReferences().isEmpty());
+        assertNotNull(entry.getUniParcCrossReferences());
+        assertTrue(entry.getUniParcCrossReferences().isEmpty());
 
         assertNotNull(entry.getSequence());
         validateSequence(entry);
@@ -97,10 +97,10 @@ class DatasetUniParcEntryConverterTest {
         assertEquals(20, location.getEnd());
     }
 
-    private void validateDbReference(UniParcDBCrossReference dbReference) {
+    private void validateDbReference(UniParcCrossReference dbReference) {
         assertNotNull(dbReference);
         assertEquals("idValue", dbReference.getId());
-        assertEquals(UniParcDatabaseType.REFSEQ, dbReference.getDatabaseType());
+        assertEquals(UniParcDatabase.REFSEQ, dbReference.getDatabase());
         assertEquals(10, dbReference.getVersionI());
         assertEquals(11, dbReference.getVersion());
         assertTrue(dbReference.isActive());
@@ -111,7 +111,7 @@ class DatasetUniParcEntryConverterTest {
         assertEquals(8, dbReference.getProperties().size());
 
         Property property = dbReference.getProperties().get(0);
-        assertEquals(UniParcDBCrossReference.PROPERTY_UNIPROT_KB_ACCESSION, property.getKey());
+        assertEquals(UniParcCrossReference.PROPERTY_UNIPROT_KB_ACCESSION, property.getKey());
         assertEquals("accessionIdValue", property.getValue());
     }
 
@@ -131,7 +131,7 @@ class DatasetUniParcEntryConverterTest {
     private Seq getDbReferenceSeq() {
         List<Object> dbReferences = new ArrayList<>();
         dbReferences.add("idValue"); // _id
-        dbReferences.add(UniParcDatabaseType.REFSEQ.toDisplayName()); // _type
+        dbReferences.add(UniParcDatabase.REFSEQ.toDisplayName()); // _type
         dbReferences.add(10L); // _version_i
         dbReferences.add("Y"); // _active
         dbReferences.add(11L); // _version
@@ -162,17 +162,16 @@ class DatasetUniParcEntryConverterTest {
         List<Object> properties = new ArrayList<>();
         properties.add(
                 getPropertyRow(
-                        UniParcDBCrossReference.PROPERTY_UNIPROT_KB_ACCESSION, "accessionIdValue"));
-        properties.add(getPropertyRow(UniParcDBCrossReference.PROPERTY_NCBI_TAXONOMY_ID, "100"));
-        properties.add(getPropertyRow(UniParcDBCrossReference.PROPERTY_GENE_NAME, "geneNameValue"));
+                        UniParcCrossReference.PROPERTY_UNIPROT_KB_ACCESSION, "accessionIdValue"));
+        properties.add(getPropertyRow(UniParcCrossReference.PROPERTY_NCBI_TAXONOMY_ID, "100"));
+        properties.add(getPropertyRow(UniParcCrossReference.PROPERTY_GENE_NAME, "geneNameValue"));
         properties.add(
-                getPropertyRow(UniParcDBCrossReference.PROPERTY_PROTEIN_NAME, "proteinNameValue"));
+                getPropertyRow(UniParcCrossReference.PROPERTY_PROTEIN_NAME, "proteinNameValue"));
         properties.add(
-                getPropertyRow(UniParcDBCrossReference.PROPERTY_PROTEOME_ID, "proteomeIdValue"));
-        properties.add(
-                getPropertyRow(UniParcDBCrossReference.PROPERTY_COMPONENT, "componentValue"));
-        properties.add(getPropertyRow(UniParcDBCrossReference.PROPERTY_CHAIN, "chainValue"));
-        properties.add(getPropertyRow(UniParcDBCrossReference.PROPERTY_NCBI_GI, "ncbiGiValue"));
+                getPropertyRow(UniParcCrossReference.PROPERTY_PROTEOME_ID, "proteomeIdValue"));
+        properties.add(getPropertyRow(UniParcCrossReference.PROPERTY_COMPONENT, "componentValue"));
+        properties.add(getPropertyRow(UniParcCrossReference.PROPERTY_CHAIN, "chainValue"));
+        properties.add(getPropertyRow(UniParcCrossReference.PROPERTY_NCBI_GI, "ncbiGiValue"));
         return (Seq)
                 JavaConverters.asScalaIteratorConverter(properties.iterator()).asScala().toSeq();
     }

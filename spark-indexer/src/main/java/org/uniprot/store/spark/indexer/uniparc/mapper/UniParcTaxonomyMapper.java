@@ -5,7 +5,7 @@ import java.util.stream.Collectors;
 
 import org.apache.spark.api.java.function.PairFlatMapFunction;
 import org.uniprot.core.uniparc.UniParcEntry;
-import org.uniprot.core.uniprot.taxonomy.Taxonomy;
+import org.uniprot.core.uniprotkb.taxonomy.Taxonomy;
 
 import scala.Tuple2;
 

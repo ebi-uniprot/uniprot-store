@@ -6,8 +6,8 @@ import org.springframework.batch.item.ItemProcessor;
 import org.uniprot.core.json.parser.taxonomy.TaxonomyJsonConfig;
 import org.uniprot.core.taxonomy.TaxonomyEntry;
 import org.uniprot.core.taxonomy.TaxonomyStatistics;
-import org.uniprot.core.taxonomy.builder.TaxonomyEntryBuilder;
-import org.uniprot.core.taxonomy.builder.TaxonomyStatisticsBuilder;
+import org.uniprot.core.taxonomy.impl.TaxonomyEntryBuilder;
+import org.uniprot.core.taxonomy.impl.TaxonomyStatisticsBuilder;
 import org.uniprot.store.indexer.taxonomy.readers.TaxonomyStatisticsReader;
 import org.uniprot.store.search.document.taxonomy.TaxonomyDocument;
 

@@ -3,10 +3,10 @@ package org.uniprot.store.spark.indexer.suggest.mapper.flatfile;
 import java.util.*;
 
 import org.apache.spark.api.java.function.PairFlatMapFunction;
-import org.uniprot.core.uniprot.comment.Comment;
-import org.uniprot.core.uniprot.comment.CommentType;
-import org.uniprot.core.uniprot.comment.SubcellularLocationComment;
-import org.uniprot.core.uniprot.comment.SubcellularLocationValue;
+import org.uniprot.core.uniprotkb.comment.Comment;
+import org.uniprot.core.uniprotkb.comment.CommentType;
+import org.uniprot.core.uniprotkb.comment.SubcellularLocationComment;
+import org.uniprot.core.uniprotkb.comment.SubcellularLocationValue;
 import org.uniprot.core.util.Utils;
 import org.uniprot.store.spark.indexer.suggest.SuggesterUtil;
 

@@ -10,14 +10,14 @@ import java.util.stream.Collectors;
 
 import lombok.extern.slf4j.Slf4j;
 
-import org.uniprot.core.DBCrossReference;
+import org.uniprot.core.CrossReference;
 import org.uniprot.core.Sequence;
 import org.uniprot.core.cv.keyword.KeywordCategory;
 import org.uniprot.core.gene.Gene;
 import org.uniprot.core.scorer.uniprotkb.UniProtEntryScored;
-import org.uniprot.core.uniprot.*;
-import org.uniprot.core.uniprot.evidence.Evidence;
-import org.uniprot.core.uniprot.evidence.EvidenceTypeCategory;
+import org.uniprot.core.uniprotkb.*;
+import org.uniprot.core.uniprotkb.evidence.Evidence;
+import org.uniprot.core.uniprotkb.evidence.EvidenceDatabaseCategory;
 import org.uniprot.core.util.Utils;
 import org.uniprot.cv.chebi.ChebiRepo;
 import org.uniprot.cv.ec.ECRepo;
@@ -37,7 +37,7 @@ import org.uniprot.store.search.document.uniprot.UniProtDocument;
  * @author Edd
  */
 @Slf4j
-public class UniProtEntryConverter implements DocumentConverter<UniProtEntry, UniProtDocument> {
+public class UniProtEntryConverter implements DocumentConverter<UniProtKBEntry, UniProtDocument> {
 
     private static final String DASH = "-";
     /** An enum set representing all of the organelles that are children of plastid */
@@ -54,7 +54,7 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtEntry, Un
     private final UniProtEntryReferencesConverter referencesConverter;
     private final UniProtEntryCrossReferenceConverter crossReferenceConverter;
     private final UniProtEntryTaxonomyConverter taxonomyConverter;
-    private final UniprotEntryProteinDescriptionConverter proteinDescriptionConverter;
+    private final UniprotKBEntryProteinDescriptionConverter proteinDescriptionConverter;
 
     private Map<String, SuggestDocument> suggestions;
 
@@ -73,12 +73,12 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtEntry, Un
         this.featureConverter = new UniProtEntryFeatureConverter();
         this.referencesConverter = new UniProtEntryReferencesConverter();
         this.proteinDescriptionConverter =
-                new UniprotEntryProteinDescriptionConverter(ecRepo, suggestDocuments);
+                new UniprotKBEntryProteinDescriptionConverter(ecRepo, suggestDocuments);
         this.suggestions = suggestDocuments;
     }
 
     @Override
-    public UniProtDocument convert(UniProtEntry source) {
+    public UniProtDocument convert(UniProtKBEntry source) {
         try {
             UniProtDocument document = new UniProtDocument();
 
@@ -100,7 +100,7 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtEntry, Un
             } else {
                 document.isIsoform = false;
             }
-            document.reviewed = (source.getEntryType() == UniProtEntryType.SWISSPROT);
+            document.reviewed = (source.getEntryType() == UniProtKBEntryType.SWISSPROT);
             addValueListToStringList(document.secacc, source.getSecondaryAccessions());
             document.content.add(document.accession);
             document.content.addAll(document.secacc);
@@ -112,9 +112,9 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtEntry, Un
             referencesConverter.convertReferences(source.getReferences(), document);
             commentsConverter.convertCommentToDocument(source.getComments(), document);
             crossReferenceConverter.convertCrossReferences(
-                    source.getDatabaseCrossReferences(), document);
+                    source.getUniProtKBCrossReferences(), document);
             featureConverter.convertFeature(source.getFeatures(), document);
-            convertUniprotId(source.getUniProtId(), document);
+            convertUniprotId(source.getUniProtkbId(), document);
             convertEntryAudit(source.getEntryAudit(), document);
             convertGeneNames(source.getGenes(), document);
             convertKeywords(source.getKeywords(), document);
@@ -146,18 +146,18 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtEntry, Un
         }
     }
 
-    private void convertEvidenceSources(UniProtEntry uniProtEntry, UniProtDocument document) {
-        List<Evidence> evidences = uniProtEntry.gatherEvidences();
+    private void convertEvidenceSources(UniProtKBEntry uniProtkbEntry, UniProtDocument document) {
+        List<Evidence> evidences = uniProtkbEntry.gatherEvidences();
         document.sources =
                 evidences.stream()
-                        .map(Evidence::getSource)
+                        .map(Evidence::getEvidenceCrossReference)
                         .filter(Objects::nonNull)
-                        .map(DBCrossReference::getDatabaseType)
+                        .map(CrossReference::getDatabase)
                         .filter(
                                 val ->
                                         (val != null)
-                                                && val.getDetail().getCategory()
-                                                        == EvidenceTypeCategory.A)
+                                                && val.getEvidenceDatabaseDetail().getCategory()
+                                                        == EvidenceDatabaseCategory.A)
                         .map(
                                 val -> {
                                     String data = val.getName();
@@ -168,8 +168,8 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtEntry, Un
                         .collect(Collectors.toList());
     }
 
-    private void convertUniprotId(UniProtId uniProtId, UniProtDocument document) {
-        document.id = uniProtId.getValue();
+    private void convertUniprotId(UniProtKBId uniProtkbId, UniProtDocument document) {
+        document.id = uniProtkbId.getValue();
         document.content.add(document.id);
         String[] idParts = document.id.split("_");
         if (idParts.length == 2) {
@@ -187,11 +187,15 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtEntry, Un
         }
     }
 
-    private void convertEntryScore(UniProtEntry source, UniProtDocument document) {
+    private void convertEntryScore(UniProtKBEntry source, UniProtDocument document) {
         UniProtEntryScored entryScored = new UniProtEntryScored(source);
         double score = entryScored.score();
         int q = (int) (score / 20d);
-        document.score = q > 4 ? 5 : q + 1;
+        if (!source.hasAnnotationScore()) {
+            document.score = q > 4 ? 5 : q + 1;
+        } else {
+            document.score = (int) source.getAnnotationScore();
+        }
     }
 
     private void convertSequence(Sequence seq, UniProtDocument document) {

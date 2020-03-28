@@ -8,7 +8,7 @@ import java.util.List;
 import org.springframework.jdbc.core.RowMapper;
 import org.uniprot.core.taxonomy.TaxonomyLineage;
 import org.uniprot.core.taxonomy.TaxonomyRank;
-import org.uniprot.core.taxonomy.builder.TaxonomyLineageBuilder;
+import org.uniprot.core.taxonomy.impl.TaxonomyLineageBuilder;
 import org.uniprot.core.util.Utils;
 
 /** @author lgonzales */
