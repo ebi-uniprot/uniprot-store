@@ -6,7 +6,7 @@ import java.util.List;
 import org.apache.spark.api.java.function.Function;
 import org.uniprot.core.taxonomy.TaxonomyEntry;
 import org.uniprot.core.taxonomy.TaxonomyLineage;
-import org.uniprot.core.taxonomy.builder.TaxonomyEntryBuilder;
+import org.uniprot.core.taxonomy.impl.TaxonomyEntryBuilder;
 
 import scala.Tuple2;
 

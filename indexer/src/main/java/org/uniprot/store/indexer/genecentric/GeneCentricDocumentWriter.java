@@ -8,7 +8,7 @@ import java.util.stream.Collectors;
 import org.springframework.batch.item.ItemWriter;
 import org.uniprot.core.json.parser.proteome.ProteomeJsonConfig;
 import org.uniprot.core.proteome.CanonicalProtein;
-import org.uniprot.core.uniprot.UniProtEntryType;
+import org.uniprot.core.uniprotkb.UniProtKBEntryType;
 import org.uniprot.core.xml.jaxb.proteome.Proteome;
 import org.uniprot.core.xml.proteome.ProteomeConverter;
 import org.uniprot.store.indexer.common.config.UniProtSolrOperations;
@@ -71,7 +71,8 @@ public class GeneCentricDocumentWriter implements ItemWriter<Proteome> {
                 .accessions(accessions)
                 .geneNames(genes)
                 .reviewed(
-                        protein.getCanonicalProtein().getEntryType() == UniProtEntryType.SWISSPROT)
+                        protein.getCanonicalProtein().getEntryType()
+                                == UniProtKBEntryType.SWISSPROT)
                 .upid(upid)
                 .organismTaxId(taxid);
         byte[] binaryEntry;

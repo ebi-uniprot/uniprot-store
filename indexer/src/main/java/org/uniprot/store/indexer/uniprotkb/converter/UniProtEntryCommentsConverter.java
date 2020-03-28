@@ -14,9 +14,9 @@ import org.uniprot.core.cv.chebi.ChebiEntry;
 import org.uniprot.core.cv.pathway.UniPathway;
 import org.uniprot.core.flatfile.parser.impl.cc.CCLineBuilderFactory;
 import org.uniprot.core.flatfile.writer.FFLineBuilder;
-import org.uniprot.core.uniprot.comment.*;
-import org.uniprot.core.uniprot.evidence.Evidence;
-import org.uniprot.core.uniprot.evidence.EvidencedValue;
+import org.uniprot.core.uniprotkb.comment.*;
+import org.uniprot.core.uniprotkb.evidence.Evidence;
+import org.uniprot.core.uniprotkb.evidence.EvidencedValue;
 import org.uniprot.core.util.Utils;
 import org.uniprot.cv.chebi.ChebiRepo;
 import org.uniprot.store.indexer.uniprot.pathway.PathwayRepo;
@@ -489,17 +489,15 @@ class UniProtEntryCommentsConverter {
         comment.getInteractions()
                 .forEach(
                         interaction -> {
-                            if (interaction.hasFirstInteractor()) {
+                            document.interactors.add(interaction.getInteractantOne().getIntActId());
+                            document.interactors.add(interaction.getInteractantTwo().getIntActId());
+                            if (Utils.notNull(
+                                    interaction.getInteractantTwo().getUniProtKBAccession())) {
                                 document.interactors.add(
-                                        interaction.getFirstInteractor().getValue());
-                            }
-                            if (interaction.hasSecondInteractor()) {
-                                document.interactors.add(
-                                        interaction.getSecondInteractor().getValue());
-                            }
-                            if (interaction.hasUniProtAccession()) {
-                                document.interactors.add(
-                                        interaction.getUniProtAccession().getValue());
+                                        interaction
+                                                .getInteractantTwo()
+                                                .getUniProtKBAccession()
+                                                .getValue());
                             }
                         });
     }

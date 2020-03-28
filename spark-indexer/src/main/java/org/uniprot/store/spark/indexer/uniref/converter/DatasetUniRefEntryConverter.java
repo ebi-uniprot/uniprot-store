@@ -16,15 +16,11 @@ import org.apache.spark.sql.types.DataTypes;
 import org.apache.spark.sql.types.StructType;
 import org.uniprot.core.cv.go.GeneOntologyEntry;
 import org.uniprot.core.cv.go.GoAspect;
-import org.uniprot.core.cv.go.builder.GeneOntologyEntryBuilder;
-import org.uniprot.core.uniparc.impl.UniParcIdImpl;
-import org.uniprot.core.uniprot.impl.UniProtAccessionImpl;
+import org.uniprot.core.cv.go.impl.GeneOntologyEntryBuilder;
+import org.uniprot.core.uniparc.impl.UniParcIdBuilder;
+import org.uniprot.core.uniprotkb.impl.UniProtKBAccessionBuilder;
 import org.uniprot.core.uniref.*;
-import org.uniprot.core.uniref.builder.RepresentativeMemberBuilder;
-import org.uniprot.core.uniref.builder.UniRefEntryBuilder;
-import org.uniprot.core.uniref.builder.UniRefMemberBuilder;
-import org.uniprot.core.uniref.impl.OverlapRegionImpl;
-import org.uniprot.core.uniref.impl.UniRefEntryIdImpl;
+import org.uniprot.core.uniref.impl.*;
 import org.uniprot.store.spark.indexer.util.RowUtils;
 
 /**
@@ -166,30 +162,30 @@ public class DatasetUniRefEntryConverter implements MapFunction<Row, UniRefEntry
                 Map<String, List<String>> propertyMap = RowUtils.convertProperties(dbReference);
                 if (propertyMap.containsKey(PROPERTY_ACCESSION)) {
                     propertyMap.get(PROPERTY_ACCESSION).stream()
-                            .map(UniProtAccessionImpl::new)
+                            .map(val -> new UniProtKBAccessionBuilder(val).build())
                             .forEach(builder::accessionsAdd);
                 }
                 if (propertyMap.containsKey(PROPERTY_UNIPARC_ID)) {
                     String uniparcId = propertyMap.get(PROPERTY_UNIPARC_ID).get(0);
-                    builder.uniparcId(new UniParcIdImpl(uniparcId));
+                    builder.uniparcId(new UniParcIdBuilder(uniparcId).build());
                 }
                 if (propertyMap.containsKey(PROPERTY_UNIREF_50_ID)) {
                     String uniref50 = propertyMap.get(PROPERTY_UNIREF_50_ID).get(0);
-                    builder.uniref50Id(new UniRefEntryIdImpl(uniref50));
+                    builder.uniref50Id(new UniRefEntryIdBuilder(uniref50).build());
                 }
                 if (propertyMap.containsKey(PROPERTY_UNIREF_90_ID)) {
                     String uniref90 = propertyMap.get(PROPERTY_UNIREF_90_ID).get(0);
-                    builder.uniref90Id(new UniRefEntryIdImpl(uniref90));
+                    builder.uniref90Id(new UniRefEntryIdBuilder(uniref90).build());
                 }
                 if (propertyMap.containsKey(PROPERTY_UNIREF_100_ID)) {
                     String uniref100 = propertyMap.get(PROPERTY_UNIREF_100_ID).get(0);
-                    builder.uniref100Id(new UniRefEntryIdImpl(uniref100));
+                    builder.uniref100Id(new UniRefEntryIdBuilder(uniref100).build());
                 }
                 if (propertyMap.containsKey(PROPERTY_OVERLAP_REGION)) {
                     String overlap = propertyMap.get(PROPERTY_OVERLAP_REGION).get(0);
                     int start = Integer.valueOf(overlap.substring(0, overlap.indexOf("-")));
                     int end = Integer.valueOf(overlap.substring(overlap.indexOf("-") + 1));
-                    builder.overlapRegion(new OverlapRegionImpl(start, end));
+                    builder.overlapRegion(new OverlapRegionBuilder().start(start).end(end).build());
                 }
                 if (propertyMap.containsKey(PROPERTY_PROTEIN_NAME)) {
                     builder.proteinName(propertyMap.get(PROPERTY_PROTEIN_NAME).get(0));

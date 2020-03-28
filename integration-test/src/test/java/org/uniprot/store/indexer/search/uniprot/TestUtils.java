@@ -8,9 +8,9 @@ import java.io.InputStreamReader;
 import org.uniprot.core.flatfile.parser.SupportingDataMap;
 import org.uniprot.core.flatfile.parser.impl.SupportingDataMapImpl;
 import org.uniprot.core.flatfile.parser.impl.entry.EntryObjectConverter;
-import org.uniprot.core.uniprot.UniProtEntry;
-import org.uniprot.core.uniprot.comment.CommentType;
-import org.uniprot.core.uniprot.feature.FeatureType;
+import org.uniprot.core.uniprotkb.UniProtKBEntry;
+import org.uniprot.core.uniprotkb.comment.CommentType;
+import org.uniprot.core.uniprotkb.feature.FeatureType;
 import org.uniprot.store.config.searchfield.model.SearchFieldItem;
 import org.uniprot.store.search.field.QueryBuilder;
 
@@ -23,7 +23,7 @@ final class TestUtils {
 
     private TestUtils() {}
 
-    public static UniProtEntry convertToUniProtEntry(UniProtEntryObjectProxy objectProxy) {
+    public static UniProtKBEntry convertToUniProtEntry(UniProtEntryObjectProxy objectProxy) {
         return objectProxy.convertToUniProtEntry(entryObjectConverter);
     }
 

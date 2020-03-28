@@ -1,4 +1,4 @@
-package org.uniprot.store.spark.indexer.uniprot.converter;
+package org.uniprot.store.indexer.uniprotkb.converter;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -8,25 +8,25 @@ import java.util.Set;
 
 import org.junit.jupiter.api.Test;
 import org.uniprot.core.citation.Author;
-import org.uniprot.core.citation.impl.AuthorImpl;
-import org.uniprot.core.uniprot.UniProtEntry;
-import org.uniprot.core.uniprot.UniProtEntryType;
-import org.uniprot.core.uniprot.builder.UniProtEntryBuilder;
-import org.uniprot.core.uniprot.comment.APIsoform;
-import org.uniprot.core.uniprot.comment.AlternativeProductsComment;
-import org.uniprot.core.uniprot.comment.IsoformSequenceStatus;
-import org.uniprot.core.uniprot.comment.builder.APCommentBuilder;
-import org.uniprot.core.uniprot.comment.builder.APIsoformBuilder;
-import org.uniprot.core.uniprot.evidence.Evidence;
-import org.uniprot.core.uniprot.evidence.EvidenceCode;
-import org.uniprot.core.uniprot.evidence.builder.EvidenceBuilder;
+import org.uniprot.core.citation.impl.AuthorBuilder;
+import org.uniprot.core.uniprotkb.UniProtKBEntry;
+import org.uniprot.core.uniprotkb.UniProtKBEntryType;
+import org.uniprot.core.uniprotkb.comment.APIsoform;
+import org.uniprot.core.uniprotkb.comment.AlternativeProductsComment;
+import org.uniprot.core.uniprotkb.comment.IsoformSequenceStatus;
+import org.uniprot.core.uniprotkb.comment.impl.APIsoformBuilder;
+import org.uniprot.core.uniprotkb.comment.impl.AlternativeProductsCommentBuilder;
+import org.uniprot.core.uniprotkb.evidence.Evidence;
+import org.uniprot.core.uniprotkb.evidence.EvidenceCode;
+import org.uniprot.core.uniprotkb.evidence.impl.EvidenceBuilder;
+import org.uniprot.core.uniprotkb.impl.UniProtKBEntryBuilder;
 import org.uniprot.store.search.document.suggest.SuggestDictionary;
 
 /**
  * @author lgonzales
  * @since 2019-09-09
  */
-class UniProtEntryConverterUtilTest {
+class UniProtKBEntryConverterUtilTest {
 
     @Test
     void extractAutomaticEvidence() {
@@ -123,8 +123,8 @@ class UniProtEntryConverterUtilTest {
     @Test
     void addValueListToStringList() {
         List<Author> authors = new ArrayList<>();
-        authors.add(new AuthorImpl("Author name 1"));
-        authors.add(new AuthorImpl("Author name 2"));
+        authors.add(new AuthorBuilder("Author name 1").build());
+        authors.add(new AuthorBuilder("Author name 2").build());
         List<String> result = new ArrayList<>();
 
         UniProtEntryConverterUtil.addValueListToStringList(result, authors);
@@ -138,7 +138,8 @@ class UniProtEntryConverterUtilTest {
     void addValueToStringList() {
         List<String> result = new ArrayList<>();
 
-        UniProtEntryConverterUtil.addValueToStringList(result, new AuthorImpl("Author name"));
+        UniProtEntryConverterUtil.addValueToStringList(
+                result, new AuthorBuilder("Author name").build());
 
         assertEquals(1, result.size());
         assertEquals("Author name", result.get(0));
@@ -146,8 +147,8 @@ class UniProtEntryConverterUtilTest {
 
     @Test
     void isCanonicalIsoformNotCannonical() {
-        UniProtEntry entry =
-                new UniProtEntryBuilder("P12345", "ID_P12345", UniProtEntryType.SWISSPROT).build();
+        UniProtKBEntry entry =
+                new UniProtKBEntryBuilder("P12345", "id", UniProtKBEntryType.TREMBL).build();
 
         boolean isCanonical = UniProtEntryConverterUtil.isCanonicalIsoform(entry);
         assertFalse(isCanonical);
@@ -161,10 +162,11 @@ class UniProtEntryConverterUtilTest {
                         .sequenceStatus(IsoformSequenceStatus.DISPLAYED)
                         .build();
 
-        AlternativeProductsComment comment = new APCommentBuilder().isoformsAdd(isoform).build();
+        AlternativeProductsComment comment =
+                new AlternativeProductsCommentBuilder().isoformsAdd(isoform).build();
 
-        UniProtEntry entry =
-                new UniProtEntryBuilder("P12345", "ID_P12345", UniProtEntryType.SWISSPROT)
+        UniProtKBEntry entry =
+                new UniProtKBEntryBuilder("P12345", "id", UniProtKBEntryType.SWISSPROT)
                         .commentsAdd(comment)
                         .build();
 

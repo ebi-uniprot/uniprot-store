@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.uniprot.core.Value;
-import org.uniprot.core.uniprot.description.*;
+import org.uniprot.core.uniprotkb.description.*;
 import org.uniprot.core.util.Utils;
 import org.uniprot.store.search.document.uniprot.UniProtDocument;
 

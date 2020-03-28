@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 
 import org.uniprot.core.Property;
 import org.uniprot.core.cv.go.GeneOntologyEntry;
-import org.uniprot.core.uniprot.xdb.UniProtCrossReference;
+import org.uniprot.core.uniprotkb.xdb.UniProtKBCrossReference;
 import org.uniprot.store.indexer.uniprot.go.GoRelationRepo;
 import org.uniprot.store.search.document.suggest.SuggestDictionary;
 import org.uniprot.store.search.document.suggest.SuggestDocument;
@@ -33,14 +33,15 @@ class UniProtEntryCrossReferenceConverter {
         this.suggestions = suggestDocuments;
     }
 
-    void convertCrossReferences(List<UniProtCrossReference> references, UniProtDocument document) {
+    void convertCrossReferences(
+            List<UniProtKBCrossReference> references, UniProtDocument document) {
         convertXref(references, document);
         convertXrefCount(references, document);
     }
 
-    private void convertXref(List<UniProtCrossReference> references, UniProtDocument document) {
+    private void convertXref(List<UniProtKBCrossReference> references, UniProtDocument document) {
         boolean d3structure = false;
-        for (UniProtCrossReference xref : references) {
+        for (UniProtKBCrossReference xref : references) {
             if (xref.getDatabase().getName().equalsIgnoreCase("PDB")) {
                 d3structure = true;
             }
@@ -117,14 +118,14 @@ class UniProtEntryCrossReferenceConverter {
     }
 
     private void convertXrefCount(
-            List<UniProtCrossReference> references, UniProtDocument document) {
+            List<UniProtKBCrossReference> references, UniProtDocument document) {
         document.xrefCountMap =
                 references.stream()
                         .map(val -> XREF_COUNT + val.getDatabase().getName().toLowerCase())
                         .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
     }
 
-    private void convertGoTerm(UniProtCrossReference go, UniProtDocument document) {
+    private void convertGoTerm(UniProtKBCrossReference go, UniProtDocument document) {
         String goTerm =
                 go.getProperties().stream()
                         .filter(property -> property.getKey().equalsIgnoreCase("GoTerm"))

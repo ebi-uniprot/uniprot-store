@@ -19,10 +19,10 @@ import org.uniprot.core.literature.LiteratureEntry;
 import org.uniprot.core.literature.LiteratureMappedReference;
 import org.uniprot.core.literature.LiteratureStatistics;
 import org.uniprot.core.literature.LiteratureStoreEntry;
-import org.uniprot.core.literature.builder.LiteratureEntryBuilder;
-import org.uniprot.core.literature.builder.LiteratureStoreEntryBuilder;
+import org.uniprot.core.literature.impl.LiteratureEntryBuilder;
+import org.uniprot.core.literature.impl.LiteratureStoreEntryBuilder;
 import org.uniprot.core.literature.impl.LiteratureStoreEntryImpl;
-import org.uniprot.core.uniprot.UniProtAccession;
+import org.uniprot.core.uniprotkb.UniProtKBAccession;
 import org.uniprot.store.indexer.common.config.UniProtSolrOperations;
 import org.uniprot.store.search.SolrCollection;
 import org.uniprot.store.search.document.literature.LiteratureDocument;
@@ -116,7 +116,7 @@ public class LiteratureLoadProcessor implements ItemProcessor<LiteratureEntry, L
                     entryStore.getLiteratureMappedReferences().stream()
                             .filter(LiteratureMappedReference::hasUniprotAccession)
                             .map(LiteratureMappedReference::getUniprotAccession)
-                            .map(UniProtAccession::getValue)
+                            .map(UniProtKBAccession::getValue)
                             .collect(Collectors.toSet());
             builder.mappedProteins(uniprotAccessions);
         }

@@ -3,7 +3,7 @@ package org.uniprot.store.spark.indexer.go.evidence;
 import lombok.extern.slf4j.Slf4j;
 
 import org.apache.spark.api.java.function.PairFunction;
-import org.uniprot.core.uniprot.evidence.Evidence;
+import org.uniprot.core.uniprotkb.evidence.Evidence;
 import org.uniprot.cv.evidence.EvidenceHelper;
 
 import scala.Tuple2;

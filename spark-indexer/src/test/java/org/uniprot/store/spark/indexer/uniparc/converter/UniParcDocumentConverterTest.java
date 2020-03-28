@@ -4,16 +4,16 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
 import org.uniprot.core.Sequence;
-import org.uniprot.core.impl.SequenceImpl;
+import org.uniprot.core.impl.SequenceBuilder;
 import org.uniprot.core.uniparc.SequenceFeature;
 import org.uniprot.core.uniparc.UniParcCrossReference;
 import org.uniprot.core.uniparc.UniParcDatabase;
 import org.uniprot.core.uniparc.UniParcEntry;
-import org.uniprot.core.uniparc.builder.SequenceFeatureBuilder;
-import org.uniprot.core.uniparc.builder.UniParcCrossReferenceBuilder;
-import org.uniprot.core.uniparc.builder.UniParcEntryBuilder;
-import org.uniprot.core.uniprot.taxonomy.Taxonomy;
-import org.uniprot.core.uniprot.taxonomy.builder.TaxonomyBuilder;
+import org.uniprot.core.uniparc.impl.SequenceFeatureBuilder;
+import org.uniprot.core.uniparc.impl.UniParcCrossReferenceBuilder;
+import org.uniprot.core.uniparc.impl.UniParcEntryBuilder;
+import org.uniprot.core.uniprotkb.taxonomy.Taxonomy;
+import org.uniprot.core.uniprotkb.taxonomy.impl.TaxonomyBuilder;
 import org.uniprot.store.search.document.uniparc.UniParcDocument;
 
 /**
@@ -159,6 +159,6 @@ class UniParcDocumentConverterTest {
     }
 
     private Sequence getSequence() {
-        return new SequenceImpl("MVSWGRFICLVVVTMATLSLAR");
+        return new SequenceBuilder("MVSWGRFICLVVVTMATLSLAR").build();
     }
 }

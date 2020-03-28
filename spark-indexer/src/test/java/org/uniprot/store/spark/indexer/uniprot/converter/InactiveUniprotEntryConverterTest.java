@@ -3,11 +3,11 @@ package org.uniprot.store.spark.indexer.uniprot.converter;
 import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
-import org.uniprot.core.uniprot.EntryInactiveReason;
-import org.uniprot.core.uniprot.InactiveReasonType;
-import org.uniprot.core.uniprot.UniProtEntry;
-import org.uniprot.core.uniprot.builder.EntryInactiveReasonBuilder;
-import org.uniprot.core.uniprot.builder.UniProtEntryBuilder;
+import org.uniprot.core.uniprotkb.EntryInactiveReason;
+import org.uniprot.core.uniprotkb.InactiveReasonType;
+import org.uniprot.core.uniprotkb.UniProtKBEntry;
+import org.uniprot.core.uniprotkb.impl.EntryInactiveReasonBuilder;
+import org.uniprot.core.uniprotkb.impl.UniProtKBEntryBuilder;
 import org.uniprot.store.search.document.uniprot.UniProtDocument;
 
 /**
@@ -21,7 +21,7 @@ class InactiveUniprotEntryConverterTest {
         InactiveUniprotEntryConverter converter = new InactiveUniprotEntryConverter();
         EntryInactiveReason inactiveReason =
                 new EntryInactiveReasonBuilder().type(InactiveReasonType.DELETED).build();
-        UniProtEntry entry = new UniProtEntryBuilder("P12345", inactiveReason).build();
+        UniProtKBEntry entry = new UniProtKBEntryBuilder("P12345", inactiveReason).build();
         UniProtDocument result = converter.convert(entry);
         assertNotNull(result);
 
@@ -39,7 +39,7 @@ class InactiveUniprotEntryConverterTest {
                         .type(InactiveReasonType.MERGED)
                         .mergeDemergeTosAdd("P11111")
                         .build();
-        UniProtEntry entry = new UniProtEntryBuilder("P12345", "ID1", inactiveReason).build();
+        UniProtKBEntry entry = new UniProtKBEntryBuilder("P12345", "ID1", inactiveReason).build();
         UniProtDocument result = converter.convert(entry);
         assertNotNull(result);
 
@@ -58,7 +58,7 @@ class InactiveUniprotEntryConverterTest {
                         .mergeDemergeTosAdd("P11111")
                         .mergeDemergeTosAdd("P22222")
                         .build();
-        UniProtEntry entry = new UniProtEntryBuilder("P12345", "ID1", inactiveReason).build();
+        UniProtKBEntry entry = new UniProtKBEntryBuilder("P12345", "ID1", inactiveReason).build();
         UniProtDocument result = converter.convert(entry);
         assertNotNull(result);
 

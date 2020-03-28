@@ -7,7 +7,7 @@ import java.util.*;
 import org.apache.spark.api.java.Optional;
 import org.junit.jupiter.api.Test;
 import org.uniprot.core.cv.go.GeneOntologyEntry;
-import org.uniprot.core.cv.go.builder.GeneOntologyEntryBuilder;
+import org.uniprot.core.cv.go.impl.GeneOntologyEntryBuilder;
 import org.uniprot.store.search.document.uniprot.UniProtDocument;
 
 import scala.Tuple2;

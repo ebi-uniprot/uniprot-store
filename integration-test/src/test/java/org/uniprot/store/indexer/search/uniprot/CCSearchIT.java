@@ -14,7 +14,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;
 import org.uniprot.core.flatfile.writer.LineType;
-import org.uniprot.core.uniprot.comment.CommentType;
+import org.uniprot.core.uniprotkb.comment.CommentType;
 import org.uniprot.store.search.field.QueryBuilder;
 
 /** Tests showing the behaviour of searching CC fields */
@@ -140,7 +140,7 @@ class CCSearchIT {
         entryProxy.updateEntryObject(
                 LineType.CC,
                 "CC   -!- INTERACTION:\n"
-                        + "CC       Q41009:TOC34 (xeno); NbExp=2; IntAct=EBI-1803304, EBI-638506;\n"
+                        + "CC       Q6GZX4; Q41009: TOC34; Xeno; NbExp=2; IntAct=EBI-1803304, EBI-638506;\n"
                         + "CC   -!- BIOPHYSICOCHEMICAL PROPERTIES:\n"
                         + "CC       Kinetic parameters:\n"
                         + "CC         KM=620 uM for O-phospho-L-serine (at 70 degrees Celsius and at\n"

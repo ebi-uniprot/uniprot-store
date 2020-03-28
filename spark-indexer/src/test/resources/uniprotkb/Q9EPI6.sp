@@ -97,8 +97,8 @@ CC       in a calcium-dependent manner after synaptic NMDA receptor
 CC       stimulation and prevents the nuclear import of NSMF. Cannot be
 CC       competed by calmodulin. {ECO:0000269|PubMed:18303947}.
 CC   -!- INTERACTION:
-CC       P23565:Ina; NbExp=5; IntAct=EBI-6899705, EBI-6899875;
-CC       P27361:MAPK3 (xeno); NbExp=2; IntAct=EBI-6899705, EBI-73995;
+CC       Q9EPI6; P23565: Ina; NbExp=5; IntAct=EBI-6899705, EBI-6899875;
+CC       Q9EPI6; P27361: MAPK3; Xeno; NbExp=2; IntAct=EBI-6899705, EBI-73995;
 CC   -!- SUBCELLULAR LOCATION: Nucleus. Nucleus envelope. Nucleus membrane.
 CC       Nucleus matrix. Cytoplasm, cell cortex. Cytoplasm, cytoskeleton.
 CC       Cell membrane; Peripheral membrane protein. Cell projection,
