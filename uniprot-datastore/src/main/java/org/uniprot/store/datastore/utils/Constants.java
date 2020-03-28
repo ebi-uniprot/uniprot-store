@@ -10,4 +10,7 @@ public class Constants {
 
     public static final String UNIREF_STORE_JOB = "UniRef_Store_Job";
     public static final String UNIREF_STORE_STEP = "UniRef_Store_Step";
+
+    public static final String UNIPARC_STORE_JOB = "UniParc_Store_Job";
+    public static final String UNIPARC_STORE_STEP = "UniParc_Store_Step";
 }

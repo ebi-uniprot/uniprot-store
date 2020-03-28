@@ -263,7 +263,7 @@ public class UniProtKBDocumentsToHDFSWriter implements DocumentsToHDFSWriter {
             SparkConf sparkConf,
             String releaseName) {
         JavaPairRDD<String, Iterable<GOEvidence>> goEvidenceRDD =
-                GOEvidencesRDDReader.load(sparkConf, applicationConfig);
+                GOEvidencesRDDReader.load(sparkConf, applicationConfig, releaseName);
         return (JavaPairRDD<String, UniProtKBEntry>)
                 uniProtEntryRDD.leftOuterJoin(goEvidenceRDD).mapValues(new GOEvidenceMapper());
     }

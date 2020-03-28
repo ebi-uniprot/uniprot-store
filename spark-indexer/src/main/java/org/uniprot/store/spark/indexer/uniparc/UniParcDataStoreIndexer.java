@@ -44,6 +44,7 @@ public class UniParcDataStoreIndexer implements Runnable {
 
         uniparcRDD.foreachPartition(
                 uniParcEntryIterator -> {
+                    int numNewConnection = 0;
                     VoldemortClient<UniParcEntry> client =
                             new VoldemortRemoteUniParcEntryStore(
                                     Integer.valueOf(numberOfConnections), storeName, connectionURL);

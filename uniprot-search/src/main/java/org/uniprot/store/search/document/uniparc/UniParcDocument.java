@@ -1,6 +1,5 @@
 package org.uniprot.store.search.document.uniparc;
 
-import java.nio.ByteBuffer;
 import java.util.List;
 import java.util.Set;
 
@@ -61,9 +60,6 @@ public class UniParcDocument implements Document {
     @Singular
     @Field("isoform")
     private List<String> uniprotIsoforms;
-
-    @Field("entry_stored")
-    private ByteBuffer entryStored;
 
     // DEFAULT SEARCH FIELD
     @Singular("contentAdd")
