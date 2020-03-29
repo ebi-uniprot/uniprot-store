@@ -6,7 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaSparkContext;
-import org.uniprot.core.uniprot.UniProtEntry;
+import org.uniprot.core.uniprotkb.UniProtKBEntry;
 import org.uniprot.store.datastore.voldemort.VoldemortClient;
 import org.uniprot.store.datastore.voldemort.uniprot.VoldemortRemoteUniProtKBEntryStore;
 
@@ -32,8 +32,8 @@ public class UniProtKBDataStoreIndexer implements Runnable {
 
     @Override
     public void run() {
-        JavaPairRDD<String, UniProtEntry> uniprotRDD =
-                (JavaPairRDD<String, UniProtEntry>)
+        JavaPairRDD<String, UniProtKBEntry> uniprotRDD =
+                (JavaPairRDD<String, UniProtKBEntry>)
                         UniProtKBRDDTupleReader.load(sparkContext, applicationConfig, releaseName);
 
         String numberOfConnections =
@@ -43,12 +43,12 @@ public class UniProtKBDataStoreIndexer implements Runnable {
 
         uniprotRDD.foreachPartition(
                 uniProtEntryIterator -> {
-                    VoldemortClient<UniProtEntry> client =
+                    VoldemortClient<UniProtKBEntry> client =
                             new VoldemortRemoteUniProtKBEntryStore(
                                     Integer.valueOf(numberOfConnections), storeName, connectionURL);
                     int numNewConnection = 0;
                     while (uniProtEntryIterator.hasNext()) {
-                        Tuple2<String, UniProtEntry> tuple2 = uniProtEntryIterator.next();
+                        Tuple2<String, UniProtKBEntry> tuple2 = uniProtEntryIterator.next();
                         try {
                             client.saveEntry(tuple2._2);
                         } catch (Exception e) {
