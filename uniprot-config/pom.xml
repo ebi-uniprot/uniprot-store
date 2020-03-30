@@ -5,17 +5,16 @@
 	<parent>
 		<artifactId>uniprot-store-parent</artifactId>
 		<groupId>org.uniprot</groupId>
-		<version>1.0-SNAPSHOT</version>
+		<version>1.0-covid-19-SNAPSHOT</version>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
 
 	<artifactId>uniprot-config</artifactId>
-	<version>1.0-SNAPSHOT</version>
+	<version>${project.parent.version}</version>
 	<properties>
 		<junit-jupiter.version>5.5.2</junit-jupiter.version>
 		<mbknor-jackson-jsonschema.version>1.0.36</mbknor-jackson-jsonschema.version>
 		<org.everit.json.schema.version>1.12.1</org.everit.json.schema.version>
-		<uniprot-core.version>0.1-SNAPSHOT</uniprot-core.version>
 	</properties>
 	<dependencies>
 		<dependency>

@@ -5,7 +5,7 @@
 	<parent>
 		<artifactId>uniprot-store-parent</artifactId>
 		<groupId>org.uniprot</groupId>
-		<version>1.0-SNAPSHOT</version>
+		<version>1.0-covid-19-SNAPSHOT</version>
 	</parent>
 	<properties>
 		<ojdbc.version>11.2.0.4</ojdbc.version>
@@ -14,6 +14,7 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<artifactId>spark-indexer</artifactId>
+	<version>${project.parent.version}</version>
 
 	<dependencies>
 		<dependency>
@@ -61,22 +62,22 @@
 		<dependency>
 			<groupId>org.uniprot</groupId>
 			<artifactId>core-domain</artifactId>
-			<version>0.1-SNAPSHOT</version>
+			<version>${uniprot-core.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.uniprot</groupId>
 			<artifactId>ff-parser</artifactId>
-			<version>0.1-SNAPSHOT</version>
+			<version>${uniprot-core.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.uniprot</groupId>
 			<artifactId>uniprot-search</artifactId>
-			<version>1.0-SNAPSHOT</version>
+			<version>${project.parent.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.uniprot</groupId>
 			<artifactId>uniprot-indexer</artifactId>
-			<version>1.0-SNAPSHOT</version>
+			<version>${project.parent.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.google.guava</groupId>
