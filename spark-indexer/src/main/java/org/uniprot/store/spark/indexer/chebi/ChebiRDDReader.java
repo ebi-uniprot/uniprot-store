@@ -1,8 +1,9 @@
 package org.uniprot.store.spark.indexer.chebi;
 
+import static org.uniprot.store.spark.indexer.util.SparkUtils.getInputReleaseDirPath;
+
 import java.util.ResourceBundle;
 
-import org.apache.hadoop.conf.Configuration;
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaSparkContext;
 import org.apache.spark.sql.SparkSession;
@@ -16,10 +17,10 @@ public class ChebiRDDReader {
 
     /** @return JavaPairRDD{key=chebiId, value={@link ChebiEntry}} */
     public static JavaPairRDD<String, ChebiEntry> load(
-            JavaSparkContext jsc, ResourceBundle applicationConfig) {
-        String filePath = applicationConfig.getString("chebi.file.path");
+            JavaSparkContext jsc, ResourceBundle applicationConfig, String releaseName) {
+        String releaseInputDir = getInputReleaseDirPath(applicationConfig, releaseName);
+        String filePath = releaseInputDir + applicationConfig.getString("chebi.file.path");
 
-        Configuration conf = new Configuration(jsc.hadoopConfiguration());
         jsc.hadoopConfiguration().set("textinputformat.record.delimiter", "\n\n");
         SparkSession spark = SparkSession.builder().config(jsc.getConf()).getOrCreate();
 

@@ -3,8 +3,7 @@ package org.uniprot.store.indexer.uniparc;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.fail;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.uniprot.store.indexer.common.utils.Constants.UNIPARC_INDEX_JOB;
 
 import org.hamcrest.CoreMatchers;
@@ -19,16 +18,12 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.solr.core.query.SimpleQuery;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.uniprot.core.json.parser.uniparc.UniParcJsonConfig;
-import org.uniprot.core.uniparc.UniParcEntry;
 import org.uniprot.store.indexer.common.config.UniProtSolrOperations;
 import org.uniprot.store.indexer.test.config.FakeIndexerSpringBootApplication;
 import org.uniprot.store.indexer.test.config.SolrTestConfig;
 import org.uniprot.store.job.common.listener.ListenerConfig;
 import org.uniprot.store.search.SolrCollection;
 import org.uniprot.store.search.document.uniparc.UniParcDocument;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
  * @author jluo
@@ -62,19 +57,9 @@ public class UniParcIndexIT {
                         new SimpleQuery("*:*"),
                         UniParcDocument.class);
         assertThat(response, is(notNullValue()));
-        assertThat(response.getTotalElements(), is(3l));
-        response.forEach(val -> verifyEntry(val));
-    }
-
-    private void verifyEntry(UniParcDocument doc) {
-        String upi = doc.getDocumentId();
-        ObjectMapper objectMapper = UniParcJsonConfig.getInstance().getFullObjectMapper();
-        byte[] obj = doc.getEntryStored().array();
-        try {
-            UniParcEntry uniparc = objectMapper.readValue(obj, UniParcEntry.class);
-            assertEquals(upi, uniparc.getUniParcId().getValue());
-        } catch (Exception e) {
-            fail(e.getMessage());
-        }
+        assertThat(response.getTotalElements(), is(3L));
+        assertThat(response.getContent().get(0).getUpi(), is("UPI0000127191"));
+        assertThat(response.getContent().get(1).getUpi(), is("UPI0000127192"));
+        assertThat(response.getContent().get(2).getUpi(), is("UPI0000127193"));
     }
 }

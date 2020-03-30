@@ -1,5 +1,7 @@
 package org.uniprot.store.spark.indexer.uniparc;
 
+import static org.uniprot.store.spark.indexer.util.SparkUtils.getInputReleaseDirPath;
+
 import java.util.ResourceBundle;
 
 import org.apache.spark.SparkConf;
@@ -20,9 +22,9 @@ public class UniParcRDDTupleReader implements Serializable {
     private static final long serialVersionUID = 9032437078231492159L;
 
     public static JavaRDD<UniParcEntry> load(
-            SparkConf sparkConf, ResourceBundle applicationConfig) {
-
-        String xmlFilePath = applicationConfig.getString("uniparc.xml.file");
+            SparkConf sparkConf, ResourceBundle applicationConfig, String releaseName) {
+        String releaseInputDir = getInputReleaseDirPath(applicationConfig, releaseName);
+        String xmlFilePath = releaseInputDir + applicationConfig.getString("uniparc.xml.file");
         Integer repartition = new Integer(applicationConfig.getString("uniparc.repartition"));
         Dataset<Row> uniParcEntryDataset = loadRawXml(sparkConf, xmlFilePath);
         if (repartition > 0) {

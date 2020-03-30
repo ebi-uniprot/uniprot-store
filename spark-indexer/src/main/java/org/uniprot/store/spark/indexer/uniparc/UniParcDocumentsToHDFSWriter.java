@@ -1,5 +1,7 @@
 package org.uniprot.store.spark.indexer.uniparc;
 
+import static org.uniprot.store.spark.indexer.util.SparkUtils.getOutputReleaseDirPath;
+
 import java.util.ResourceBundle;
 
 import lombok.extern.slf4j.Slf4j;
@@ -11,6 +13,7 @@ import org.apache.spark.api.java.JavaSparkContext;
 import org.uniprot.core.taxonomy.TaxonomyEntry;
 import org.uniprot.core.uniparc.UniParcEntry;
 import org.uniprot.store.search.document.uniparc.UniParcDocument;
+import org.uniprot.store.spark.indexer.common.writer.DocumentsToHDFSWriter;
 import org.uniprot.store.spark.indexer.taxonomy.TaxonomyRDDReader;
 import org.uniprot.store.spark.indexer.uniparc.mapper.UniParcEntryToDocument;
 import org.uniprot.store.spark.indexer.uniparc.mapper.UniParcTaxonomyJoin;
@@ -24,14 +27,21 @@ import org.uniprot.store.spark.indexer.util.SolrUtils;
  * @since 2020-02-13
  */
 @Slf4j
-public class UniParcIndexer {
+public class UniParcDocumentsToHDFSWriter implements DocumentsToHDFSWriter {
 
-    public static void writeIndexDocumentsToHDFS(
-            JavaSparkContext sparkContext, ResourceBundle applicationConfig) {
+    private final ResourceBundle applicationConfig;
+
+    public UniParcDocumentsToHDFSWriter(ResourceBundle applicationConfig) {
+        this.applicationConfig = applicationConfig;
+    }
+
+    @Override
+    public void writeIndexDocumentsToHDFS(JavaSparkContext sparkContext, String releaseName) {
         SparkConf sparkConf = sparkContext.sc().conf();
 
         JavaRDD<UniParcEntry> uniparcRDD =
-                (JavaRDD<UniParcEntry>) UniParcRDDTupleReader.load(sparkConf, applicationConfig);
+                (JavaRDD<UniParcEntry>)
+                        UniParcRDDTupleReader.load(sparkConf, applicationConfig, releaseName);
 
         // JavaPairRDD<taxId,TaxonomyEntry>
         JavaPairRDD<String, TaxonomyEntry> taxonomyEntryJavaPairRDD =
@@ -62,7 +72,9 @@ public class UniParcIndexer {
                         .mapValues(new UniParcTaxonomyJoin())
                         .values();
 
-        String hdfsPath = applicationConfig.getString("uniparc.solr.documents.path");
+        String releaseOutputDir = getOutputReleaseDirPath(applicationConfig, releaseName);
+        String hdfsPath =
+                releaseOutputDir + applicationConfig.getString("uniparc.solr.documents.path");
         SolrUtils.saveSolrInputDocumentRDD(uniParcDocumentRDD, hdfsPath);
 
         log.info("Completed UniParc prepare Solr index");

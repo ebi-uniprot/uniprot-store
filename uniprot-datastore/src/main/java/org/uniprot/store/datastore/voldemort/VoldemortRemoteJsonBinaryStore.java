@@ -15,6 +15,7 @@ import voldemort.client.ClientConfig;
 import voldemort.client.SocketStoreClientFactory;
 import voldemort.client.StoreClient;
 import voldemort.client.StoreClientFactory;
+import voldemort.versioning.ObsoleteVersionException;
 import voldemort.versioning.Versioned;
 
 import com.codahale.metrics.Timer;
@@ -86,10 +87,12 @@ public abstract class VoldemortRemoteJsonBinaryStore<T> implements VoldemortClie
         byte[] binaryEntry;
         try {
             binaryEntry = getStoreObjectMapper().writeValueAsBytes(entry);
+            client.put(acc, binaryEntry);
         } catch (JsonProcessingException e) {
             throw new RuntimeException("Unable to parse entry to binary json: ", e);
+        } catch (ObsoleteVersionException e) {
+            logger.warn(acc + " already saved in voldemort, ignoring it");
         }
-        client.put(acc, binaryEntry);
         time.stop();
     }
 

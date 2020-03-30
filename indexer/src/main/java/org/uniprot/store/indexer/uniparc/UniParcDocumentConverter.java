@@ -1,9 +1,7 @@
 package org.uniprot.store.indexer.uniparc;
 
-import java.nio.ByteBuffer;
 import java.util.List;
 
-import org.uniprot.core.json.parser.uniparc.UniParcJsonConfig;
 import org.uniprot.core.uniparc.UniParcCrossReference;
 import org.uniprot.core.uniparc.UniParcDatabase;
 import org.uniprot.core.uniparc.UniParcEntry;
@@ -17,21 +15,16 @@ import org.uniprot.store.job.common.converter.DocumentConverter;
 import org.uniprot.store.search.document.uniparc.UniParcDocument;
 import org.uniprot.store.search.document.uniparc.UniParcDocument.UniParcDocumentBuilder;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 /**
  * @author jluo
  * @date: 19 Jun 2019
  */
 public class UniParcDocumentConverter implements DocumentConverter<Entry, UniParcDocument> {
     private final UniParcEntryConverter converter;
-    private final ObjectMapper objectMapper;
     private final TaxonomyRepo taxonomyRepo;
 
     public UniParcDocumentConverter(TaxonomyRepo taxonomyRepo) {
         this.converter = new UniParcEntryConverter(taxonomyRepo);
-        this.objectMapper = UniParcJsonConfig.getInstance().getFullObjectMapper();
         this.taxonomyRepo = taxonomyRepo;
     }
 
@@ -43,7 +36,6 @@ public class UniParcDocumentConverter implements DocumentConverter<Entry, UniPar
                 .seqLength(item.getSequence().getLength())
                 .sequenceChecksum(item.getSequence().getChecksum());
         uniparcEntry.getUniParcCrossReferences().forEach(val -> processDbReference(val, builder));
-        builder.entryStored(ByteBuffer.wrap(getBinaryObject(uniparcEntry)));
         uniparcEntry.getTaxonomies().stream().forEach(taxon -> processTaxonomy(taxon, builder));
         return builder.build();
     }
@@ -90,15 +82,5 @@ public class UniParcDocumentConverter implements DocumentConverter<Entry, UniPar
                     List<String> names = TaxonomyRepoUtil.extractTaxonFromNode(node);
                     names.forEach(val -> builder.organismTaxon(val));
                 });
-    }
-
-    private byte[] getBinaryObject(UniParcEntry uniparcEntry) {
-        byte[] binaryEntry;
-        try {
-            binaryEntry = objectMapper.writeValueAsBytes(uniparcEntry);
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException("Unable to parse proteome to binary json: ", e);
-        }
-        return binaryEntry;
     }
 }

@@ -22,6 +22,24 @@ import org.uniprot.store.spark.indexer.WriteIndexDocumentsToHDFSMain;
 @Slf4j
 public class SparkUtils {
 
+    public static String getInputReleaseDirPath(
+            ResourceBundle applicationConfig, String releaseName) {
+        String inputDir = applicationConfig.getString("input.directory.path");
+        return inputDir + File.separator + releaseName + File.separator;
+    }
+
+    public static String getInputReleaseMainThreadDirPath(
+            ResourceBundle applicationConfig, String releaseName) {
+        String inputDir = applicationConfig.getString("input.directory.main.thread.path");
+        return inputDir + File.separator + releaseName + File.separator;
+    }
+
+    public static String getOutputReleaseDirPath(
+            ResourceBundle applicationConfig, String releaseName) {
+        String inputDir = applicationConfig.getString("output.directory.path");
+        return inputDir + File.separator + releaseName + File.separator;
+    }
+
     public static List<String> readLines(String filePath, Configuration hadoopConfig) {
         List<String> lines = new ArrayList<>();
         try (BufferedReader br =
@@ -66,15 +84,21 @@ public class SparkUtils {
     }
 
     public static JavaSparkContext loadSparkContext(ResourceBundle applicationConfig) {
+        String applicationName = applicationConfig.getString("spark.application.name");
         String sparkMaster = applicationConfig.getString("spark.master");
         SparkConf sparkConf =
                 new SparkConf()
-                        .setAppName(applicationConfig.getString("spark.application.name"))
-                        .setMaster(sparkMaster);
+                        .setAppName(applicationName)
+                        .setMaster(sparkMaster)
+                        .set("spark.scheduler.mode", "FAIR")
+                        .set("spark.scheduler.allocation.file", "uniprot-fair-scheduler.xml");
+
         if (sparkMaster.startsWith("local")) {
             sparkConf = sparkConf.set("spark.driver.host", "localhost");
         }
-        return new JavaSparkContext(sparkConf);
+        JavaSparkContext sparkContext = new JavaSparkContext(sparkConf);
+        sparkContext.setLocalProperty("spark.scheduler.pool", "uniprotPool");
+        return sparkContext;
     }
 
     public static SolrCollection getSolrCollection(String collectionName) {
