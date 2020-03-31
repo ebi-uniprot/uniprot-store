@@ -16,7 +16,7 @@ class SubcellularLocationToSuggestDocumentTest {
     @Test
     void testSubcellularLocationToSuggestDocument() throws Exception {
         SubcellularLocationEntry entry =
-                new SubcellularLocationEntryBuilder().id("slId").accession("slAcc").build();
+                new SubcellularLocationEntryBuilder().name("slId").id("slAcc").build();
         SubcellularLocationToSuggestDocument mapper = new SubcellularLocationToSuggestDocument();
 
         SuggestDocument result = mapper.call(entry);

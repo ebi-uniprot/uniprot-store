@@ -16,7 +16,7 @@ class SubcellularLocationMapperTest {
 
     @Test
     void testSubcellularLocationMapper() throws Exception {
-        SubcellularLocationEntry entry = new SubcellularLocationEntryBuilder().id("ID").build();
+        SubcellularLocationEntry entry = new SubcellularLocationEntryBuilder().name("ID").build();
 
         SubcellularLocationMapper mapper = new SubcellularLocationMapper();
         Tuple2<String, SubcellularLocationEntry> result = mapper.call(entry);

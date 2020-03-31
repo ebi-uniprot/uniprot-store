@@ -119,9 +119,9 @@ class SubcellularLocationJobIT {
 
     private void validateSubcellularLocationEntry(SubcellularLocationEntry entry) {
         assertThat(entry, is(notNullValue()));
-        assertThat(entry.getId(), is("Nucleolus"));
+        assertThat(entry.getName(), is("Nucleolus"));
         assertThat(entry.getCategory(), is(SubcellLocationCategory.LOCATION));
-        assertThat(entry.getAccession(), is("SL-0188"));
+        assertThat(entry.getId(), is("SL-0188"));
         assertThat(entry.getContent(), is("Nucleus, nucleolus"));
         assertThat(
                 entry.getDefinition(), startsWith("The nucleolus is a non-membrane bound nuclear"));

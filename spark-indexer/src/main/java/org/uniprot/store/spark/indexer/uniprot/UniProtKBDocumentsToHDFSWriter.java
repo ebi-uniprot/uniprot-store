@@ -109,7 +109,7 @@ public class UniProtKBDocumentsToHDFSWriter implements DocumentsToHDFSWriter {
         List<String> lines = SparkUtils.readLines(filePath, hadoopConfig);
         List<UniPathway> pathwayList = uniPathwayFileReader.parseLines(lines);
         return pathwayList.stream()
-                .collect(Collectors.toMap(UniPathway::getName, UniPathway::getAccession));
+                .collect(Collectors.toMap(UniPathway::getName, UniPathway::getId));
     }
 
     /**

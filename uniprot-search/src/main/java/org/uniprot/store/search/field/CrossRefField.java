@@ -6,7 +6,7 @@ public interface CrossRefField {
 
     enum ResultFields implements ReturnField {
         name("Name", "name", true),
-        accession("Accession", "accession", true),
+        id("Id", "id", true),
         abbrev("Abbrev", "abbrev", true),
         pub_med_id("Pub Med Id", "pubMedId", true),
         doi_id("DOI Id", "doiId", true),

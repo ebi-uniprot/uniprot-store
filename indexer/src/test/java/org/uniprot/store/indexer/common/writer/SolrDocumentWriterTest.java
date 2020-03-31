@@ -73,7 +73,7 @@ class SolrDocumentWriterTest {
     }
 
     private void verifyDBXRef(CrossRefDocument dbxRef) {
-        assertNotNull(dbxRef.getAccession(), "Accession is null");
+        assertNotNull(dbxRef.getId(), "id is null");
         assertNotNull(dbxRef.getAbbrev(), "Abbrev is null");
         assertNotNull(dbxRef.getName(), "Name is null");
         assertNotNull(dbxRef.getPubMedId(), "PUBMED ID is null");
@@ -99,7 +99,7 @@ class SolrDocumentWriterTest {
         contents.add(co);
 
         CrossRefDocument.CrossRefDocumentBuilder builder = CrossRefDocument.builder();
-        builder.abbrev(ab).accession(ac).category(ct).dbUrl(du);
+        builder.abbrev(ab).id(ac).category(ct).dbUrl(du);
         builder.doiId(di).linkType(lt).name(nm).pubMedId(pb).server(sr);
         return builder.build();
     }

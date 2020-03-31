@@ -37,7 +37,7 @@ public class DiseaseFileMapper implements PairFunction<String, String, DiseaseEn
         List<DiseaseEntry> diseases = fileReader.parseLines(diseaseLineList);
         if (Utils.notNullNotEmpty(diseases)) {
             DiseaseEntry disease = diseases.get(0);
-            return new Tuple2<String, DiseaseEntry>(disease.getId(), disease);
+            return new Tuple2<String, DiseaseEntry>(disease.getName(), disease);
         } else {
             log.info("ERROR PARSING DiseaseFileMapper WITH LINES: " + diseaseLines);
             throw new RuntimeException(

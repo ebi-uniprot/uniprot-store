@@ -420,7 +420,7 @@ class UniProtEntryCommentsConverter {
     private void updatePathway(String val, UniProtDocument document) {
         UniPathway unipathway = pathwayRepo.getFromName(val);
         if (unipathway != null) {
-            document.pathway.add(unipathway.getAccession());
+            document.pathway.add(unipathway.getId());
         }
     }
 

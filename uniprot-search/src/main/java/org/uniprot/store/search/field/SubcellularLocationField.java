@@ -9,8 +9,8 @@ import java.util.Arrays;
 public interface SubcellularLocationField {
 
     enum ResultFields implements ReturnField {
-        id("Alias", "id", true),
-        accession("Subcellular location ID", "accession"),
+        name("Name", "name"),
+        id("Subcellular location ID", "id", true),
         definition("Description", "definition"),
         category("Category", "category"),
         keyword("Keyword", "keyword"),

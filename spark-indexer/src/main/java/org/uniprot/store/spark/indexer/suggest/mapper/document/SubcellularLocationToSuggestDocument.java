@@ -18,8 +18,8 @@ public class SubcellularLocationToSuggestDocument
     @Override
     public SuggestDocument call(SubcellularLocationEntry subcell) throws Exception {
         return SuggestDocument.builder()
-                .id(subcell.getAccession())
-                .value(subcell.getId())
+                .id(subcell.getId())
+                .value(subcell.getName())
                 .dictionary(SuggestDictionary.SUBCELL.name())
                 .build();
     }
