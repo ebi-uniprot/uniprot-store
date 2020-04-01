@@ -43,9 +43,9 @@ public class UniParcDocumentConverter implements DocumentConverter<Entry, UniPar
     private void processDbReference(UniParcCrossReference xref, UniParcDocumentBuilder builder) {
         UniParcDatabase type = xref.getDatabase();
         if (xref.isActive()) {
-            builder.active(type.toDisplayName());
+            builder.active(type.getDisplayName());
         }
-        builder.database(type.toDisplayName());
+        builder.database(type.getDisplayName());
         if ((type == UniParcDatabase.SWISSPROT) || (type == UniParcDatabase.TREMBL)) {
             builder.uniprotAccession(xref.getId());
             builder.uniprotIsoform(xref.getId());

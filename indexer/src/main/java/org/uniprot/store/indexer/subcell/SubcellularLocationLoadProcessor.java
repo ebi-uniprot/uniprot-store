@@ -63,7 +63,7 @@ public class SubcellularLocationLoadProcessor
         return SubcellularLocationDocument.builder()
                 .id(entry.getId())
                 .name(entry.getName())
-                .category(entry.getCategory().getCategory())
+                .category(entry.getCategory().getName())
                 .content(getContent(entry))
                 .subcellularlocationObj(ByteBuffer.wrap(subcellularLocationByte))
                 .build();
@@ -74,7 +74,7 @@ public class SubcellularLocationLoadProcessor
         content.add(entry.getId());
         content.add(entry.getName());
         content.add(entry.getDefinition());
-        content.add(entry.getCategory().toDisplayName());
+        content.add(entry.getCategory().getDisplayName());
         if (entry.getSynonyms() != null) {
             content.addAll(entry.getSynonyms());
         }

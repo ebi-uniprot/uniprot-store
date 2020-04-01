@@ -43,9 +43,9 @@ public class UniParcDocumentConverter implements DocumentConverter<UniParcEntry,
             UniParcCrossReference xref, UniParcDocument.UniParcDocumentBuilder builder) {
         UniParcDatabase type = xref.getDatabase();
         if (xref.isActive()) {
-            builder.active(type.toDisplayName());
+            builder.active(type.getDisplayName());
         }
-        builder.database(type.toDisplayName());
+        builder.database(type.getDisplayName());
         if ((type == UniParcDatabase.SWISSPROT) || (type == UniParcDatabase.TREMBL)) {
             builder.uniprotAccession(xref.getId());
             builder.uniprotIsoform(xref.getId());
@@ -70,7 +70,7 @@ public class UniParcDocumentConverter implements DocumentConverter<UniParcEntry,
                 .map(Property::getValue)
                 .forEach(builder::geneName);
 
-        builder.contentAdd(type.toDisplayName());
+        builder.contentAdd(type.getDisplayName());
         builder.contentAdd(xref.getId());
         xref.getProperties().stream().map(Property::getValue).forEach(builder::contentAdd);
     }

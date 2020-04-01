@@ -36,19 +36,19 @@ class FragmentSearchIT {
         // Entry 1
         entryProxy.updateEntryObject(LineType.AC, String.format(ACC_LINE, ACCESSION1));
         entryProxy.updateEntryObject(
-                LineType.DE, createDELineWithFragment(FlagType.FRAGMENT.getValue()));
+                LineType.DE, createDELineWithFragment(FlagType.FRAGMENT.getName()));
         searchEngine.indexEntry(convertToUniProtEntry(entryProxy));
 
         // Entry 2
         entryProxy.updateEntryObject(LineType.AC, String.format(ACC_LINE, ACCESSION2));
         entryProxy.updateEntryObject(
-                LineType.DE, createDELineWithFragment(FlagType.FRAGMENTS.getValue()));
+                LineType.DE, createDELineWithFragment(FlagType.FRAGMENTS.getName()));
         searchEngine.indexEntry(convertToUniProtEntry(entryProxy));
 
         // Entry 3
         entryProxy.updateEntryObject(LineType.AC, String.format(ACC_LINE, ACCESSION3));
         entryProxy.updateEntryObject(
-                LineType.DE, createDELineWithFragment(FlagType.PRECURSOR.getValue()));
+                LineType.DE, createDELineWithFragment(FlagType.PRECURSOR.getName()));
         searchEngine.indexEntry(convertToUniProtEntry(entryProxy));
 
         searchEngine.printIndexContents();
