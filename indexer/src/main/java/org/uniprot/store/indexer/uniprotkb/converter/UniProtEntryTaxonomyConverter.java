@@ -18,24 +18,24 @@ import org.uniprot.store.search.document.uniprot.UniProtDocument;
  */
 class UniProtEntryTaxonomyConverter {
 
-    private static final Map<Integer, String> POPULAR_ORGANISMS_TAX_NAME;
+    private static final Map<Integer, String> MODEL_ORGANISMS_TAX_NAME;
 
     static {
-        HashMap<Integer, String> popularOrganismsTaxName = new HashMap<>();
-        popularOrganismsTaxName.put(9606, "Human");
-        popularOrganismsTaxName.put(10090, "Mouse");
-        popularOrganismsTaxName.put(10116, "Rat");
-        popularOrganismsTaxName.put(9913, "Bovine");
-        popularOrganismsTaxName.put(7955, "Zebrafish");
-        popularOrganismsTaxName.put(7227, "Fruit fly");
-        popularOrganismsTaxName.put(6239, "C. elegans");
-        popularOrganismsTaxName.put(44689, "Slime mold");
-        popularOrganismsTaxName.put(3702, "A. thaliana");
-        popularOrganismsTaxName.put(39947, "Rice");
-        popularOrganismsTaxName.put(83333, "E. coli K12");
-        popularOrganismsTaxName.put(224308, "B. subtilis");
-        popularOrganismsTaxName.put(559292, "S. cerevisiae");
-        POPULAR_ORGANISMS_TAX_NAME = Collections.unmodifiableMap(popularOrganismsTaxName);
+        HashMap<Integer, String> modelOrganismsTaxName = new HashMap<>();
+        modelOrganismsTaxName.put(9606, "Human");
+        modelOrganismsTaxName.put(10090, "Mouse");
+        modelOrganismsTaxName.put(10116, "Rat");
+        modelOrganismsTaxName.put(9913, "Bovine");
+        modelOrganismsTaxName.put(7955, "Zebrafish");
+        modelOrganismsTaxName.put(7227, "Fruit fly");
+        modelOrganismsTaxName.put(6239, "C. elegans");
+        modelOrganismsTaxName.put(44689, "Slime mold");
+        modelOrganismsTaxName.put(3702, "A. thaliana");
+        modelOrganismsTaxName.put(39947, "Rice");
+        modelOrganismsTaxName.put(83333, "E. coli K12");
+        modelOrganismsTaxName.put(224308, "B. subtilis");
+        modelOrganismsTaxName.put(559292, "S. cerevisiae");
+        MODEL_ORGANISMS_TAX_NAME = Collections.unmodifiableMap(modelOrganismsTaxName);
     }
 
     private final TaxonomyRepo taxonomyRepo;
@@ -63,9 +63,9 @@ class UniProtEntryTaxonomyConverter {
                             UniProtEntryConverterUtil.truncatedSortValue(
                                     String.join(" ", extractedTaxoNode));
 
-                    String popularOrgamism = POPULAR_ORGANISMS_TAX_NAME.get(taxonomyId);
-                    if (popularOrgamism != null) {
-                        document.popularOrganism = popularOrgamism;
+                    String modelOrgamism = MODEL_ORGANISMS_TAX_NAME.get(taxonomyId);
+                    if (modelOrgamism != null) {
+                        document.modelOrganism = modelOrgamism;
                     } else {
                         if (node.mnemonic() != null && !node.mnemonic().isEmpty()) {
                             document.otherOrganism = node.mnemonic();

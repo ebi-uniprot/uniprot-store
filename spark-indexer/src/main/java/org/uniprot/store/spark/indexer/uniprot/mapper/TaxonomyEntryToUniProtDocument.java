@@ -27,7 +27,7 @@ public class TaxonomyEntryToUniProtDocument
                 Tuple2<UniProtDocument, Optional<Iterable<TaxonomyEntry>>>, UniProtDocument> {
     private static final long serialVersionUID = -7030543979688452323L;
 
-    private static final Map<Long, String> POPULAR_ORGANIMS_TAX_NAME =
+    private static final Map<Long, String> MODEL_ORGANIMS_TAX_NAME =
             Collections.unmodifiableMap(
                     new HashMap<Long, String>() {
                         private static final long serialVersionUID = 7236156454194571508L;
@@ -131,9 +131,9 @@ public class TaxonomyEntryToUniProtDocument
                 doc.taxLineageIds.stream().map(String::valueOf).collect(Collectors.toList()));
         doc.content.addAll(doc.organismTaxon);
 
-        String popularOrgamism = POPULAR_ORGANIMS_TAX_NAME.get(organism.getTaxonId());
-        if (Utils.notNull(popularOrgamism)) {
-            doc.popularOrganism = popularOrgamism;
+        String modelOrgamism = MODEL_ORGANIMS_TAX_NAME.get(organism.getTaxonId());
+        if (Utils.notNull(modelOrgamism)) {
+            doc.modelOrganism = modelOrgamism;
         } else {
             if (organism.hasMnemonic()) {
                 doc.otherOrganism = organism.getMnemonic();

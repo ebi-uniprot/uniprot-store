@@ -25,7 +25,7 @@ import org.uniprot.store.search.document.uniprot.UniProtDocument;
 class UniProtKBEntryTaxonomyConverterTest {
 
     @Test
-    void convertPopularOrganism() {
+    void convertModelOrganism() {
         // given
         TaxonomicNode parentNode =
                 getTaxonomyNode(
@@ -64,7 +64,7 @@ class UniProtKBEntryTaxonomyConverterTest {
         assertEquals("Homo sapiens Human Homo sapian", uniProtDocument.organismSort);
 
         // organism facet fields
-        assertEquals("Human", uniProtDocument.popularOrganism);
+        assertEquals("Human", uniProtDocument.modelOrganism);
         assertNull(uniProtDocument.otherOrganism);
 
         // lineage fields
@@ -146,7 +146,7 @@ class UniProtKBEntryTaxonomyConverterTest {
 
         // organism facet fields
         assertEquals("other scientific", uniProtDocument.otherOrganism);
-        assertNull(uniProtDocument.popularOrganism);
+        assertNull(uniProtDocument.modelOrganism);
 
         // lineage fields
         assertEquals(asList(9000), uniProtDocument.taxLineageIds);

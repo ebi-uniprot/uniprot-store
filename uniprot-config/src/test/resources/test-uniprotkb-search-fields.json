@@ -117,8 +117,8 @@
     "description" : "this is a dummy description"
   },
   {
-    "id":"popular_organism",
-    "fieldName": "popular_organism",
+    "id":"model_organism",
+    "fieldName": "model_organism",
     "dataType": "STRING",
     "fieldType": "GENERAL",
     "example":  "sample example",

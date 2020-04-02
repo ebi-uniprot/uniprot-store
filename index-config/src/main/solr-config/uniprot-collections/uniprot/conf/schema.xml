@@ -574,7 +574,7 @@
 		stored="false" required="false" multiValued="true" />
 	<field name="host_id" type="int" indexed="true" stored="false"
 		required="false" multiValued="true" />
-	<field name="popular_organism" type="string" indexed="true"
+	<field name="model_organism" type="string" indexed="true"
 		stored="false" required="false" multiValued="false" />
 	<field name="other_organism" type="string" indexed="true"
 		stored="false" required="false" multiValued="false" />

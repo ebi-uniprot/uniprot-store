@@ -67,8 +67,8 @@ public class UniProtDocument implements Document {
     @Field("organism_id")
     public int organismTaxId;
 
-    @Field("popular_organism")
-    public String popularOrganism;
+    @Field("model_organism")
+    public String modelOrganism;
 
     @Field("other_organism")
     public String otherOrganism;
@@ -390,7 +390,7 @@ public class UniProtDocument implements Document {
                 && Objects.equals(geneNamesExact, document.geneNamesExact)
                 && Objects.equals(organismName, document.organismName)
                 && Objects.equals(organismSort, document.organismSort)
-                && Objects.equals(popularOrganism, document.popularOrganism)
+                && Objects.equals(modelOrganism, document.modelOrganism)
                 && Objects.equals(otherOrganism, document.otherOrganism)
                 && Objects.equals(organismTaxon, document.organismTaxon)
                 && Objects.equals(taxLineageIds, document.taxLineageIds)
@@ -503,7 +503,7 @@ public class UniProtDocument implements Document {
                         organismName,
                         organismSort,
                         organismTaxId,
-                        popularOrganism,
+                        modelOrganism,
                         otherOrganism,
                         organismTaxon,
                         taxLineageIds,
@@ -648,8 +648,8 @@ public class UniProtDocument implements Document {
                 + '\''
                 + ", organismTaxId="
                 + organismTaxId
-                + ", popularOrganism='"
-                + popularOrganism
+                + ", modelOrganism='"
+                + modelOrganism
                 + '\''
                 + ", otherOrganism='"
                 + otherOrganism
