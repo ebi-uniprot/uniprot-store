@@ -84,7 +84,7 @@ public class TaxonomyProcessor implements ItemProcessor<TaxonomyEntry, TaxonomyD
         documentBuilder.common(entry.getCommonName());
         documentBuilder.mnemonic(entry.getMnemonic());
         documentBuilder.synonym(String.join(", ", entry.getSynonyms()));
-        documentBuilder.rank(entry.getRank().toDisplayName());
+        documentBuilder.rank(entry.getRank().getDisplayName());
 
         documentBuilder.active(entry.isActive());
         documentBuilder.hidden(entry.isHidden());

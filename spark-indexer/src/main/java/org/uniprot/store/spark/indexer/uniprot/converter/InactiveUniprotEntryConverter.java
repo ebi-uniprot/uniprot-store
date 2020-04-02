@@ -21,7 +21,7 @@ public class InactiveUniprotEntryConverter
             document.id = source.getUniProtkbId().getValue();
         }
         document.inactiveReason =
-                source.getInactiveReason().getInactiveReasonType().toDisplayName();
+                source.getInactiveReason().getInactiveReasonType().getDisplayName();
         if (Utils.notNullNotEmpty(source.getInactiveReason().getMergeDemergeTos())) {
             document.inactiveReason +=
                     ":" + String.join(",", source.getInactiveReason().getMergeDemergeTos());

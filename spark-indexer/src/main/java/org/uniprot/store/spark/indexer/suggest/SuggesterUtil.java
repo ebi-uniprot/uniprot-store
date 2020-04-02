@@ -32,7 +32,7 @@ public class SuggesterUtil {
                         .collect(Collectors.joining("\n"));
 
         return Arrays.stream(commentLines.split("CC   -!- "))
-                .filter(cm -> cm.startsWith(type.toDisplayName()))
+                .filter(cm -> cm.startsWith(type.getDisplayName()))
                 .map(cm -> "CC   -!- " + cm)
                 .collect(Collectors.joining(""));
     }

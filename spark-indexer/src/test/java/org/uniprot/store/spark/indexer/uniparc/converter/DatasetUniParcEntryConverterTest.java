@@ -131,7 +131,7 @@ class DatasetUniParcEntryConverterTest {
     private Seq getDbReferenceSeq() {
         List<Object> dbReferences = new ArrayList<>();
         dbReferences.add("idValue"); // _id
-        dbReferences.add(UniParcDatabase.REFSEQ.toDisplayName()); // _type
+        dbReferences.add(UniParcDatabase.REFSEQ.getDisplayName()); // _type
         dbReferences.add(10L); // _version_i
         dbReferences.add("Y"); // _active
         dbReferences.add(11L); // _version
@@ -195,7 +195,7 @@ class DatasetUniParcEntryConverterTest {
     private Seq getSignatureSequenceMatchSeq() {
         List<Object> signatureSequences = new ArrayList<>();
         signatureSequences.add("idValue"); // _id
-        signatureSequences.add(SignatureDbType.PFAM.toDisplayName()); // _database
+        signatureSequences.add(SignatureDbType.PFAM.getDisplayName()); // _database
         signatureSequences.add(getFeatureGroupRow()); // ipr
         signatureSequences.add(getLocationSeq()); // lcn
 
