@@ -1499,5 +1499,27 @@
     "groupName": "Family and domain",
     "isDatabaseGroup": true,
     "id": "family_and_domain"
+  },
+  {
+    "parentId": "miscellaneous",
+    "childNumber": 11,
+    "itemType": "SINGLE",
+    "name": "comment_count",
+    "label": "Comments",
+    "id": "miscellaneous/comment_count",
+    "paths": [
+      "extraAttributes.countByCommentType"
+    ]
+  },
+  {
+    "parentId": "miscellaneous",
+    "childNumber": 12,
+    "itemType": "SINGLE",
+    "name": "feature_count",
+    "label": "Features",
+    "id": "miscellaneous/feature_count",
+    "paths": [
+      "extraAttributes.countByFeatureType"
+    ]
   }
 ]
