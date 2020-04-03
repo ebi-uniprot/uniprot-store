@@ -1,0 +1,47 @@
+[
+  {
+    "seqNumber": 0,
+    "itemType": "GROUP",
+    "groupName": "Gene Centric",
+    "isDatabaseGroup": false,
+    "id": "gene_centric"
+  },
+  {
+    "parentId": "gene_centric",
+    "childNumber": 0,
+    "itemType": "SINGLE",
+    "isRequiredForJson": true,
+    "sortField" : "accession_id",
+    "label": "Canonical protein accession",
+    "name": "accession",
+    "paths" : ["canonicalProtein.accession"],
+    "id": "gene_centric/accession"
+  },
+  {
+    "parentId": "gene_centric",
+    "childNumber": 1,
+    "itemType": "SINGLE",
+    "label": "Canonical gene",
+    "name": "gene_name",
+    "paths" : ["canonicalProtein.geneName"],
+    "id": "gene_centric/gene_name"
+  },
+  {
+    "parentId": "gene_centric",
+    "childNumber": 2,
+    "itemType": "SINGLE",
+    "label": "Entry type",
+    "name": "entry_type",
+    "paths" : ["canonicalProtein.entryType"],
+    "id": "gene_centric/entry_type"
+  },
+  {
+    "parentId": "gene_centric",
+    "childNumber": 3,
+    "itemType": "SINGLE",
+    "label": "Related proteins",
+    "name": "related_proteins",
+    "paths" : ["relatedProteins"],
+    "id": "gene_centric/related_proteins"
+  }
+]

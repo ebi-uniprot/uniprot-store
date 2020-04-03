@@ -1,42 +1,38 @@
 package org.uniprot.store.config.searchfield.common;
 
+import java.util.Collection;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
 import lombok.extern.slf4j.Slf4j;
 
 import org.apache.commons.lang3.StringUtils;
+import org.uniprot.store.config.UniProtDataType;
+import org.uniprot.store.config.common.JsonLoader;
+import org.uniprot.store.config.schema.SchemaValidator;
 import org.uniprot.store.config.searchfield.model.SearchFieldItem;
 import org.uniprot.store.config.searchfield.model.SearchFieldType;
-import org.uniprot.store.config.searchfield.schema.DataValidator;
-import org.uniprot.store.config.searchfield.schema.SchemaValidator;
+import org.uniprot.store.config.searchfield.schema.SearchFieldDataValidator;
+
+import com.fasterxml.jackson.databind.JavaType;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Slf4j
 public abstract class AbstractSearchFieldConfig implements SearchFieldConfig {
     public static final String SCHEMA_FILE = "schema/search-fields-schema.json";
+    protected UniProtDataType dataType;
 
     private List<SearchFieldItem> fieldItems;
     private List<SearchFieldItem> searchFieldItems;
     private List<SearchFieldItem> sortFieldItems;
-    private Map<String, SearchFieldItem> idFieldItemMap;
-    private String schemaFile;
-    private String configFile;
-    private final SearchFieldConfigLoader loader;
 
-    protected AbstractSearchFieldConfig(String schemaFile, String configFile) {
-        this.loader = new SearchFieldConfigLoader();
+    protected AbstractSearchFieldConfig(
+            UniProtDataType dataType, String schemaFile, String configFile) {
+        this.dataType = dataType;
         SchemaValidator.validate(schemaFile, configFile);
-        init(schemaFile, configFile);
-        DataValidator.validateContent(this.fieldItems, idFieldItemMap);
-    }
-
-    private void init(String schemaFile, String configFile) {
-        this.schemaFile = schemaFile;
-        this.configFile = configFile;
-        this.fieldItems = loader.loadAndGetFieldItems(this.configFile);
-        this.idFieldItemMap = loader.buildIdFieldItemMap(this.fieldItems);
+        init(configFile);
+        new SearchFieldDataValidator().validateContent(this.fieldItems);
     }
 
     public List<SearchFieldItem> getAllFieldItems() {
@@ -126,11 +122,15 @@ public abstract class AbstractSearchFieldConfig implements SearchFieldConfig {
         return fieldItem.getFieldType();
     }
 
-    protected void addSearchFieldItems(List<SearchFieldItem> searchFieldItems) {
-        if (this.searchFieldItems == null) {
-            this.searchFieldItems = getSearchFieldItems();
-        }
-        this.searchFieldItems.addAll(searchFieldItems);
+    protected abstract Collection<SearchFieldItem> dynamicallyLoadFields();
+
+    private void init(String configFile) {
+        ObjectMapper mapper = new ObjectMapper();
+        JavaType type =
+                mapper.getTypeFactory().constructCollectionType(List.class, SearchFieldItem.class);
+
+        this.fieldItems = JsonLoader.loadItems(configFile, mapper, type);
+        this.fieldItems.addAll(dynamicallyLoadFields());
     }
 
     private boolean isSearchFieldItem(SearchFieldItem fieldItem) {

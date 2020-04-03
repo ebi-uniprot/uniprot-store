@@ -1,0 +1,100 @@
+[
+  {
+    "seqNumber": 0,
+    "itemType": "GROUP",
+    "groupName": "Names & Taxonomy",
+    "isDatabaseGroup": false,
+    "id": "names_&_taxonomy"
+  },
+  {
+    "parentId": "names_&_taxonomy",
+    "childNumber": 0,
+    "itemType": "SINGLE",
+    "isRequiredForJson": true,
+    "isDefaultForTsv": true,
+    "defaultForTsvOrder" : 0,
+    "sortField" : "upid",
+    "label": "Proteome Id",
+    "name": "upid",
+    "paths" : ["id", "proteomeType"],
+    "id": "names_&_taxonomy/upid"
+  },
+  {
+    "parentId": "names_&_taxonomy",
+    "childNumber": 1,
+    "itemType": "SINGLE",
+    "isDefaultForTsv": true,
+    "defaultForTsvOrder" : 1,
+    "sortField" : "organism_sort",
+    "label": "Organism",
+    "name": "organism",
+    "paths" : ["taxonomy"],
+    "id": "names_&_taxonomy/organism"
+  },
+  {
+    "parentId": "names_&_taxonomy",
+    "childNumber": 2,
+    "itemType": "SINGLE",
+    "isDefaultForTsv": true,
+    "defaultForTsvOrder" : 2,
+    "label": "Organism Id",
+    "name": "organism_id",
+    "paths" : ["taxonomy.taxonId"],
+    "id": "names_&_taxonomy/organism_id"
+  },
+  {
+    "parentId": "names_&_taxonomy",
+    "childNumber": 3,
+    "itemType": "SINGLE",
+    "label": "Components",
+    "name": "components",
+    "paths" : ["components"],
+    "id": "names_&_taxonomy/components"
+  },
+  {
+    "parentId": "names_&_taxonomy",
+    "childNumber": 4,
+    "itemType": "SINGLE",
+    "label": "Taxon mnemonic",
+    "name": "taxon_mnemonic",
+    "paths" : ["taxonomy.mnemonic"],
+    "id": "names_&_taxonomy/modified"
+  },
+  {
+    "parentId": "names_&_taxonomy",
+    "childNumber": 5,
+    "itemType": "SINGLE",
+    "label": "Taxonomic lineage",
+    "name": "lineage",
+    "paths" : ["taxonLineage"],
+    "id": "names_&_taxonomy/lineage"
+  },
+  {
+    "seqNumber": 1,
+    "itemType": "GROUP",
+    "groupName": "Miscellaneous",
+    "isDatabaseGroup": false,
+    "id": "miscellaneous"
+  },
+  {
+    "parentId": "miscellaneous",
+    "childNumber": 0,
+    "itemType": "SINGLE",
+    "label": "Genome assembly ID",
+    "name": "genome_assembly",
+    "paths" : ["proteomeCrossReferences[?(@.database=='GenomeAssembly')]"],
+    "id": "miscellaneous/genome_assembly"
+  },
+  {
+    "parentId": "miscellaneous",
+    "childNumber": 1,
+    "itemType": "SINGLE",
+    "isDefaultForTsv": true,
+    "defaultForTsvOrder" : 3,
+    "label": "Protein count",
+    "name": "protein_count",
+    "paths" : ["proteinCount"],
+    "id": "miscellaneous/protein_count"
+  }
+
+]

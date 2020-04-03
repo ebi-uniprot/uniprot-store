@@ -7,8 +7,10 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
+import org.uniprot.cv.xdb.UniProtDatabaseTypes;
+import org.uniprot.store.config.UniProtDataType;
 import org.uniprot.store.config.searchfield.common.SearchFieldConfig;
-import org.uniprot.store.config.searchfield.impl.*;
+import org.uniprot.store.config.searchfield.impl.SearchFieldConfigImpl;
 
 public class SearchFieldConfigFactoryTest {
 
@@ -30,6 +32,7 @@ public class SearchFieldConfigFactoryTest {
     }
 
     private static Stream<Arguments> provideTypeAndItemCount() {
+        int uniProtKBDBTypesCount = UniProtDatabaseTypes.INSTANCE.getAllDbTypes().size();
         return Stream.of(
                 Arguments.of(UniProtDataType.CROSSREF, 7),
                 Arguments.of(UniProtDataType.DISEASE, 4),
@@ -41,7 +44,7 @@ public class SearchFieldConfigFactoryTest {
                 Arguments.of(UniProtDataType.SUGGEST, 3),
                 Arguments.of(UniProtDataType.TAXONOMY, 16),
                 Arguments.of(UniProtDataType.UNIPARC, 15),
-                Arguments.of(UniProtDataType.UNIPROTKB, 432),
+                Arguments.of(UniProtDataType.UNIPROTKB, 432 + uniProtKBDBTypesCount),
                 Arguments.of(UniProtDataType.UNIREF, 17));
     }
 }

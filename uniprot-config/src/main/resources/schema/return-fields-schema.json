@@ -1,0 +1,69 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "title": "Return Field []",
+  "type": "array",
+  "items": {
+    "$ref": "#/definitions/ReturnField"
+  },
+  "definitions": {
+    "ReturnField": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "seqNumber": {
+          "type": "integer"
+        },
+        "parentId": {
+          "type": "string"
+        },
+        "childNumber": {
+          "type": "integer"
+        },
+        "itemType": {
+          "type": "string",
+          "enum": [
+            "GROUP",
+            "SINGLE"
+          ]
+        },
+        "name": {
+          "type": "string"
+        },
+        "label": {
+          "type": "string"
+        },
+        "paths": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "groupName": {
+          "type": "string"
+        },
+        "isDatabaseGroup": {
+          "type": "boolean"
+        },
+        "id": {
+          "type": "string"
+        },
+        "sortField": {
+          "type": "string"
+        },
+        "isRequiredForJson": {
+          "type": "boolean"
+        },
+        "isDefaultForTsv": {
+          "type": "boolean"
+        },
+        "defaultForTsvOrder": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "itemType",
+        "id"
+      ]
+    }
+  }
+}

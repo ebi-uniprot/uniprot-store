@@ -1,0 +1,278 @@
+[
+  {
+    "seqNumber": 0,
+    "itemType": "GROUP",
+    "groupName": "Names & Taxonomy",
+    "isDatabaseGroup": false,
+    "id": "names_&_taxonomy"
+  },
+  {
+    "parentId": "names_&_taxonomy",
+    "childNumber": 0,
+    "itemType": "SINGLE",
+    "isRequiredForJson": true,
+    "isDefaultForTsv": true,
+    "defaultForTsvOrder" : 0,
+    "sortField" : "upi",
+    "label": "Entry",
+    "name": "upi",
+    "paths": ["uniParcId"],
+    "id": "names_&_taxonomy/id"
+  },
+  {
+    "parentId": "names_&_taxonomy",
+    "childNumber": 1,
+    "itemType": "SINGLE",
+    "label": "Gene names",
+    "name": "gene",
+    "paths": ["uniParcCrossReferences[*].properties[?(@.key=='gene_name')]"],
+    "id": "names_&_taxonomy/gene"
+  },
+  {
+    "parentId": "names_&_taxonomy",
+    "childNumber": 2,
+    "itemType": "SINGLE",
+    "label": "Organism ID",
+    "name": "organism_id",
+    "paths": ["taxonomies[*].taxonId"],
+    "id": "names_&_taxonomy/organism_id"
+  },
+  {
+    "parentId": "names_&_taxonomy",
+    "childNumber": 3,
+    "itemType": "SINGLE",
+    "isDefaultForTsv": true,
+    "defaultForTsvOrder" : 1,
+    "label": "Organisms",
+    "name": "organism",
+    "paths": ["taxonomies"],
+    "id": "names_&_taxonomy/organism"
+  },
+  {
+    "parentId": "names_&_taxonomy",
+    "childNumber": 4,
+    "itemType": "SINGLE",
+    "label": "Protein names",
+    "name": "protein",
+    "paths": ["uniParcCrossReferences[*].properties[?(@.key=='protein_name')]"],
+    "id": "names_&_taxonomy/protein"
+  },
+  {
+    "parentId": "names_&_taxonomy",
+    "childNumber": 5,
+    "itemType": "SINGLE",
+    "label": "Proteomes",
+    "name": "proteome",
+    "paths": ["uniParcCrossReferences[*].properties[?(@.key=='proteome_id')]"],
+    "id": "names_&_taxonomy/proteome"
+  },
+  {
+    "seqNumber": 1,
+    "itemType": "GROUP",
+    "groupName": "Sequences",
+    "isDatabaseGroup": false,
+    "id": "sequences"
+  },
+  {
+    "parentId": "sequences",
+    "childNumber": 0,
+    "itemType": "SINGLE",
+    "label": "Checksum",
+    "name": "checksum",
+    "paths": ["sequence.crc64"],
+    "id": "sequences/checksum"
+  },
+  {
+    "parentId": "sequences",
+    "childNumber": 1,
+    "itemType": "SINGLE",
+    "isDefaultForTsv": true,
+    "defaultForTsvOrder" : 5,
+    "sortField": "length",
+    "label": "Length",
+    "name": "length",
+    "paths": ["sequence.length"],
+    "id": "sequences/length"
+  },
+
+  {
+    "parentId": "sequences",
+    "childNumber": 2,
+    "itemType": "SINGLE",
+    "label": "Sequence",
+    "name": "sequence",
+    "paths": ["sequence.value"],
+    "id": "sequences/sequence"
+  },
+  {
+    "seqNumber": 2,
+    "itemType": "GROUP",
+    "groupName": "Miscellaneous",
+    "isDatabaseGroup": false,
+    "id": "miscellaneous"
+  },
+  {
+    "parentId": "miscellaneous",
+    "childNumber": 0,
+    "itemType": "SINGLE",
+    "label": "Matched text",
+    "name": "matched",
+    "paths": ["uniParcId"],
+    "id": "miscellaneous/matched"
+  },
+  {
+    "parentId": "miscellaneous",
+    "childNumber": 1,
+    "itemType": "SINGLE",
+    "isDefaultForTsv": true,
+    "defaultForTsvOrder" : 2,
+    "label": "UniProtKB",
+    "name": "accession",
+    "paths": ["uniParcCrossReferences[*].properties[?(@.key=='UniProtKB_accession')]"],
+    "id": "miscellaneous/accession"
+  },
+  {
+    "seqNumber": 3,
+    "itemType": "GROUP",
+    "groupName": "Date of",
+    "isDatabaseGroup": false,
+    "id": "date_of"
+  },
+  {
+    "parentId": "date_of",
+    "childNumber": 0,
+    "itemType": "SINGLE",
+    "isDefaultForTsv": true,
+    "defaultForTsvOrder" : 3,
+    "label": "First seen",
+    "name": "first_seen",
+    "paths": ["uniParcCrossReferences[*].created"],
+    "id": "date_of/first_seen"
+  },
+  {
+    "parentId": "date_of",
+    "childNumber": 1,
+    "itemType": "SINGLE",
+    "isDefaultForTsv": true,
+    "defaultForTsvOrder" : 4,
+    "label": "Last seen",
+    "name": "last_seen",
+    "paths": ["uniParcCrossReferences[*].lastUpdated"],
+    "id": "date_of/last_seen"
+  },
+  {
+    "seqNumber": 4,
+    "itemType": "GROUP",
+    "groupName": "Family & Domains",
+    "isDatabaseGroup": false,
+    "id": "family_&_domains"
+  },
+  {
+    "parentId": "family_&_domains",
+    "childNumber": 0,
+    "itemType": "SINGLE",
+    "label": "CDD",
+    "name": "CDD",
+    "paths": ["sequenceFeatures[?(@.database=='CDD')]"],
+    "id": "family_&_domains/CDD"
+  },
+  {
+    "parentId": "family_&_domains",
+    "childNumber": 1,
+    "itemType": "SINGLE",
+    "label": "Gene3D",
+    "name": "Gene3D",
+    "paths": ["sequenceFeatures[?(@.database=='Gene3D')]"],
+    "id": "family_&_domains/Gene3D"
+  },
+  {
+    "parentId": "family_&_domains",
+    "childNumber": 2,
+    "itemType": "SINGLE",
+    "label": "HAMAP",
+    "name": "HAMAP",
+    "paths": ["sequenceFeatures[?(@.database=='HAMAP')]"],
+    "id": "family_&_domains/HAMAP"
+  },
+  {
+    "parentId": "family_&_domains",
+    "childNumber": 3,
+    "itemType": "SINGLE",
+    "label": "PANTHER",
+    "name": "PANTHER",
+    "paths": ["sequenceFeatures[?(@.database=='PANTHER')]"],
+    "id": "family_&_domains/PANTHER"
+  },
+  {
+    "parentId": "family_&_domains",
+    "childNumber": 4,
+    "itemType": "SINGLE",
+    "label": "Pfam",
+    "name": "Pfam",
+    "paths": ["sequenceFeatures[?(@.database=='Pfam')]"],
+    "id": "family_&_domains/Pfam"
+  },
+  {
+    "parentId": "family_&_domains",
+    "childNumber": 5,
+    "itemType": "SINGLE",
+    "label": "PIRSF",
+    "name": "PIRSF",
+    "paths": ["sequenceFeatures[?(@.database=='PIRSF')]"],
+    "id": "family_&_domains/PIRSF"
+  },
+  {
+    "parentId": "family_&_domains",
+    "childNumber": 6,
+    "itemType": "SINGLE",
+    "label": "PRINTS",
+    "name": "PRINTS",
+    "paths": ["sequenceFeatures[?(@.database=='PRINTS')]"],
+    "id": "family_&_domains/PRINTS"
+  },
+  {
+    "parentId": "family_&_domains",
+    "childNumber": 7,
+    "itemType": "SINGLE",
+    "label": "PROSITE",
+    "name": "PROSITE",
+    "paths": ["sequenceFeatures[?(@.database=='PROSITE')]"],
+    "id": "family_&_domains/PROSITE"
+  },
+  {
+    "parentId": "family_&_domains",
+    "childNumber": 8,
+    "itemType": "SINGLE",
+    "label": "SFLD",
+    "name": "SFLD",
+    "paths": ["sequenceFeatures[?(@.database=='SFLD')]"],
+    "id": "family_&_domains/SFLD"
+  },
+  {
+    "parentId": "family_&_domains",
+    "childNumber": 9,
+    "itemType": "SINGLE",
+    "label": "SMART",
+    "name": "SMART",
+    "paths": ["sequenceFeatures[?(@.database=='SMART')]"],
+    "id": "family_&_domains/SMART"
+  },
+  {
+    "parentId": "family_&_domains",
+    "childNumber": 10,
+    "itemType": "SINGLE",
+    "label": "SUPFAM",
+    "name": "SUPFAM",
+    "paths": ["sequenceFeatures[?(@.database=='SUPFAM')]"],
+    "id": "family_&_domains/SUPFAM"
+  },
+  {
+    "parentId": "family_&_domains",
+    "childNumber": 11,
+    "itemType": "SINGLE",
+    "label": "TIGRFAMs",
+    "name": "TIGRFAMs",
+    "paths": ["sequenceFeatures[?(@.database=='TIGRFAMs')]"],
+    "id": "family_&_domains/TIGRFAMs"
+  }
+]

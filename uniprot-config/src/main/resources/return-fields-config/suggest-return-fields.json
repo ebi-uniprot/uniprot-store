@@ -1,0 +1,18 @@
+[
+  {
+    "seqNumber": 0,
+    "itemType": "GROUP",
+    "groupName": "Cross Reference",
+    "isDatabaseGroup": false,
+    "id": "cross_reference"
+  },
+  {
+    "parentId": "cross_reference",
+    "childNumber": 0,
+    "itemType": "SINGLE",
+    "label": "Accession",
+    "name": "accession",
+    "paths" : ["accession"],
+    "id": "cross_reference/accession"
+  }
+]

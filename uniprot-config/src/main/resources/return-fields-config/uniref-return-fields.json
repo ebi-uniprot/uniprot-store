@@ -1,0 +1,162 @@
+[
+  {
+    "seqNumber": 0,
+    "itemType": "GROUP",
+    "groupName": "Names & Taxonomy",
+    "isDatabaseGroup": false,
+    "id": "names_&_taxonomy"
+  },
+  {
+    "parentId": "names_&_taxonomy",
+    "childNumber": 0,
+    "itemType": "SINGLE",
+    "isRequiredForJson": true,
+    "isDefaultForTsv": true,
+    "defaultForTsvOrder" : 0,
+    "sortField": "id",
+    "name": "id",
+    "label": "Cluster ID",
+    "paths": ["id"],
+    "id": "names_&_taxonomy/id"
+  },
+  {
+    "parentId": "names_&_taxonomy",
+    "childNumber": 1,
+    "itemType": "SINGLE",
+    "isDefaultForTsv": true,
+    "defaultForTsvOrder" : 1,
+    "name": "name",
+    "label": "Cluster Name",
+    "paths": ["name"],
+    "id": "names_&_taxonomy/name"
+  },
+  {
+    "parentId": "names_&_taxonomy",
+    "childNumber": 2,
+    "itemType": "SINGLE",
+    "isDefaultForTsv": true,
+    "defaultForTsvOrder" : 2,
+    "name": "common_taxon",
+    "label": "Common taxon",
+    "paths": ["commonTaxon"],
+    "id": "names_&_taxonomy/common_taxon"
+  },
+  {
+    "parentId": "names_&_taxonomy",
+    "childNumber": 3,
+    "itemType": "SINGLE",
+    "name": "common_taxonid",
+    "label": "Common taxon ID",
+    "paths": ["commonTaxonId"],
+    "id": "names_&_taxonomy/common_taxonid"
+  },
+  {
+    "parentId": "names_&_taxonomy",
+    "childNumber": 4,
+    "itemType": "SINGLE",
+    "name": "organism_id",
+    "label": "Organism IDs",
+    "paths": ["representativeMember.organismTaxId","members[*].organismTaxId"],
+    "id": "names_&_taxonomy/organism_id"
+  },
+  {
+    "parentId": "names_&_taxonomy",
+    "childNumber": 5,
+    "itemType": "SINGLE",
+    "name": "organism",
+    "label": "Organisms",
+    "paths": ["representativeMember.organismName","members[*].organismName"],
+    "id": "names_&_taxonomy/organism"
+  },
+  {
+    "seqNumber": 1,
+    "itemType": "GROUP",
+    "groupName": "Sequences",
+    "isDatabaseGroup": false,
+    "id": "sequences"
+  },
+  {
+    "parentId": "sequences",
+    "childNumber": 0,
+    "itemType": "SINGLE",
+    "name": "identity",
+    "label": "Identity",
+    "paths": ["entryType"],
+    "id": "miscellaneous/identity"
+  },
+  {
+    "parentId": "sequences",
+    "childNumber": 1,
+    "itemType": "SINGLE",
+    "sortField": "length",
+    "name": "length",
+    "label": "Length",
+    "paths": ["representativeMember.sequence.length"],
+    "id": "miscellaneous/length"
+  },
+  {
+    "parentId": "sequences",
+    "childNumber": 2,
+    "itemType": "SINGLE",
+    "name": "sequence",
+    "label": "Reference sequence",
+    "paths": ["representativeMember.sequence.value"],
+    "id": "miscellaneous/sequence"
+  },
+  {
+    "seqNumber": 2,
+    "itemType": "GROUP",
+    "groupName": "Miscellaneous",
+    "isDatabaseGroup": false,
+    "id": "miscellaneous"
+  },
+  {
+    "parentId": "miscellaneous",
+    "childNumber": 0,
+    "itemType": "SINGLE",
+    "name": "types",
+    "label": "Types",
+    "paths": ["representativeMember.memberIdType","members[*].memberIdType"],
+    "id": "miscellaneous/types"
+  },
+  {
+    "parentId": "miscellaneous",
+    "childNumber": 1,
+    "itemType": "SINGLE",
+    "name": "members",
+    "label": "Cluster members",
+    "paths": ["members"],
+    "id": "miscellaneous/members"
+  },
+  {
+    "parentId": "miscellaneous",
+    "childNumber": 2,
+    "itemType": "SINGLE",
+    "isDefaultForTsv": true,
+    "defaultForTsvOrder" : 3,
+    "sortField": "count",
+    "name": "count",
+    "label": "Size",
+    "paths": ["memberCount"],
+    "id": "miscellaneous/count"
+  },
+  {
+    "seqNumber": 3,
+    "itemType": "GROUP",
+    "groupName": "Date of",
+    "isDatabaseGroup": false,
+    "id": "date_of"
+  },
+  {
+    "parentId": "date_of",
+    "childNumber": 0,
+    "itemType": "SINGLE",
+    "isDefaultForTsv": true,
+    "defaultForTsvOrder" : 4,
+    "sortField": "created",
+    "name": "created",
+    "label": "Date of creation",
+    "paths": ["updated"],
+    "id": "date_of/created"
+  }
+]

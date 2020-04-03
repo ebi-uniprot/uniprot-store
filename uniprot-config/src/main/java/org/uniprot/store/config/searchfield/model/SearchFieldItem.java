@@ -8,9 +8,11 @@ import javax.validation.constraints.PositiveOrZero;
 
 import lombok.Data;
 
+import org.uniprot.store.config.model.Field;
+
 /** @author sahmad */
 @Data
-public class SearchFieldItem implements Serializable {
+public class SearchFieldItem implements Field, Serializable {
     private static final long serialVersionUID = -1835246966684124878L;
     @NotNull private String id;
     private String parentId;

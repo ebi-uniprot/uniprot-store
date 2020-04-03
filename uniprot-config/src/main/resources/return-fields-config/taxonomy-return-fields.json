@@ -1,0 +1,157 @@
+[
+  {
+    "seqNumber": 0,
+    "itemType": "GROUP",
+    "groupName": "Taxonomy",
+    "isDatabaseGroup": false,
+    "id": "taxonomy"
+  },
+  {
+    "parentId": "taxonomy",
+    "childNumber": 0,
+    "itemType": "SINGLE",
+    "isRequiredForJson": true,
+    "isDefaultForTsv": true,
+    "defaultForTsvOrder" : 0,
+    "label": "Taxon Id",
+    "name": "id",
+    "paths" : ["taxonId"],
+    "id": "taxonomy/id"
+  },
+  {
+    "parentId": "taxonomy",
+    "childNumber": 1,
+    "itemType": "SINGLE",
+    "isDefaultForTsv": true,
+    "defaultForTsvOrder" : 1,
+    "label": "Mnemonic",
+    "name": "mnemonic",
+    "paths" : ["mnemonic"],
+    "id": "taxonomy/mnemonic"
+  },
+  {
+    "parentId": "taxonomy",
+    "childNumber": 2,
+    "itemType": "SINGLE",
+    "isDefaultForTsv": true,
+    "defaultForTsvOrder" : 2,
+    "sortField": "scientific",
+    "label": "Scientific name",
+    "name": "scientific_name",
+    "paths" : ["scientificName"],
+    "id": "taxonomy/scientific_name"
+  },
+  {
+    "parentId": "taxonomy",
+    "childNumber": 3,
+    "itemType": "SINGLE",
+    "isDefaultForTsv": true,
+    "defaultForTsvOrder" : 3,
+    "label": "Common name",
+    "name": "common_name",
+    "paths" : ["commonName"],
+    "id": "taxonomy/common_name"
+  },
+  {
+    "parentId": "taxonomy",
+    "childNumber": 4,
+    "itemType": "SINGLE",
+    "label": "Synonym",
+    "name": "synonym",
+    "paths" : ["synonyms"],
+    "id": "taxonomy/synonym"
+  },
+  {
+    "parentId": "taxonomy",
+    "childNumber": 5,
+    "itemType": "SINGLE",
+    "isDefaultForTsv": true,
+    "defaultForTsvOrder" : 4,
+    "label": "Other Names",
+    "name": "other_names",
+    "paths" : ["otherNames"],
+    "id": "taxonomy/other_names"
+  },
+  {
+    "parentId": "taxonomy",
+    "childNumber": 6,
+    "itemType": "SINGLE",
+    "isDefaultForTsv": true,
+    "defaultForTsvOrder" : 6,
+    "label": "Rank",
+    "name": "rank",
+    "paths" : ["rank"],
+    "id": "taxonomy/rank"
+  },
+  {
+    "parentId": "taxonomy",
+    "childNumber": 7,
+    "itemType": "SINGLE",
+    "isDefaultForTsv": true,
+    "defaultForTsvOrder" : 5,
+    "label": "Reviewed",
+    "name": "reviewed",
+    "paths" : ["statistics"],
+    "id": "taxonomy/reviewed"
+  },
+  {
+    "parentId": "taxonomy",
+    "childNumber": 8,
+    "itemType": "SINGLE",
+    "isDefaultForTsv": true,
+    "defaultForTsvOrder" : 7,
+    "label": "Lineage",
+    "name": "lineage",
+    "paths" : ["lineage"],
+    "id": "taxonomy/lineage"
+  },
+  {
+    "parentId": "taxonomy",
+    "childNumber": 9,
+    "itemType": "SINGLE",
+    "label": "Strain",
+    "name": "strain",
+    "paths" : ["strains"],
+    "id": "taxonomy/strain"
+  },
+  {
+    "parentId": "taxonomy",
+    "childNumber": 10,
+    "itemType": "SINGLE",
+    "isDefaultForTsv": true,
+    "defaultForTsvOrder" : 8,
+    "label": "Parent",
+    "name": "parent",
+    "paths" : ["parentId"],
+    "id": "taxonomy/parent"
+  },
+  {
+    "parentId": "taxonomy",
+    "childNumber": 11,
+    "itemType": "SINGLE",
+    "isDefaultForTsv": true,
+    "defaultForTsvOrder" : 9,
+    "label": "Virus hosts",
+    "name": "host",
+    "paths" : ["hosts"],
+    "id": "taxonomy/host"
+  },
+  {
+    "parentId": "taxonomy",
+    "childNumber": 12,
+    "itemType": "SINGLE",
+    "label": "Links",
+    "name": "links",
+    "paths" : ["links"],
+    "id": "taxonomy/links"
+  },
+  {
+    "parentId": "taxonomy",
+    "childNumber": 13,
+    "itemType": "SINGLE",
+    "label": "Statistics",
+    "name": "statistics",
+    "paths" : ["statistics"],
+    "id": "taxonomy/statistics"
+  }
+]

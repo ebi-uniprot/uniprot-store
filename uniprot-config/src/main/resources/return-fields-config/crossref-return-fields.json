@@ -1,0 +1,111 @@
+[
+  {
+    "seqNumber": 0,
+    "itemType": "GROUP",
+    "groupName": "Cross Reference",
+    "isDatabaseGroup": false,
+    "id": "cross_reference"
+  },
+  {
+    "parentId": "cross_reference",
+    "childNumber": 0,
+    "itemType": "SINGLE",
+    "label": "Cross Reference Id",
+    "isRequiredForJson": true,
+    "sortField": "id",
+    "name": "id",
+    "paths" : ["id"],
+    "id": "cross_reference/id"
+  },
+  {
+    "parentId": "cross_reference",
+    "childNumber": 1,
+    "itemType": "SINGLE",
+    "label": "Name",
+    "name": "name",
+    "paths" : ["name"],
+    "id": "cross_reference/name"
+  },
+  {
+    "parentId": "cross_reference",
+    "childNumber": 2,
+    "itemType": "SINGLE",
+    "label": "Database Abbreviation",
+    "name": "abbrev",
+    "paths" : ["abbrev"],
+    "id": "cross_reference/abbrev"
+  },
+  {
+    "parentId": "cross_reference",
+    "childNumber": 3,
+    "itemType": "SINGLE",
+    "label": "PubMed Id",
+    "name": "pubmed_id",
+    "paths" : ["pubMedId"],
+    "id": "cross_reference/pubmed_id"
+  },
+  {
+    "parentId": "cross_reference",
+    "childNumber": 4,
+    "itemType": "SINGLE",
+    "label": "DOI Id",
+    "name": "doi_id",
+    "paths" : ["doiId"],
+    "id": "cross_reference/doi_id"
+  },
+  {
+    "parentId": "cross_reference",
+    "childNumber": 5,
+    "itemType": "SINGLE",
+    "label": "Database Link Type",
+    "name": "link_type",
+    "paths" : ["linkType"],
+    "id": "cross_reference/link_type"
+  },
+  {
+    "parentId": "cross_reference",
+    "childNumber": 6,
+    "itemType": "SINGLE",
+    "label": "Database Server",
+    "name": "server",
+    "paths" : ["server"],
+    "id": "cross_reference/server"
+  },
+  {
+    "parentId": "cross_reference",
+    "childNumber": 7,
+    "itemType": "SINGLE",
+    "label": "Database URL",
+    "name": "dbUrl",
+    "paths" : ["dbUrl"],
+    "id": "cross_reference/db_url"
+  },
+  {
+    "parentId": "cross_reference",
+    "childNumber": 8,
+    "itemType": "SINGLE",
+    "sortField": "category_str",
+    "label": "Category",
+    "name": "category",
+    "paths" : ["category"],
+    "id": "cross_reference/category"
+  },
+  {
+    "parentId": "cross_reference",
+    "childNumber": 9,
+    "itemType": "SINGLE",
+    "label": "UniProtKB reviewed (Swiss-Prot) protein count",
+    "name": "reviewed_protein_count",
+    "paths" : ["reviewedProteinCount"],
+    "id": "cross_reference/reviewed_protein_count"
+  },
+  {
+    "parentId": "cross_reference",
+    "childNumber": 10,
+    "itemType": "SINGLE",
+    "label": "UniProtKB unreviewed (TrEMBL) protein count",
+    "name": "unreviewed_protein_count",
+    "paths" : ["unreviewedProteinCount"],
+    "id": "cross_reference/unreviewed_protein_count"
+  }
+]

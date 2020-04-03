@@ -1,0 +1,50 @@
+[
+  {
+    "seqNumber": 0,
+    "itemType": "GROUP",
+    "groupName": "Names & Taxonomy",
+    "isDatabaseGroup": false,
+    "id": "names_&_taxonomy"
+  },
+  {
+    "parentId": "names_&_taxonomy",
+    "childNumber": 0,
+    "itemType": "SINGLE",
+    "isRequiredForJson" : true,
+    "name": "accession",
+    "label": "Entry",
+    "id": "names_&_taxonomy/entry",
+    "paths": [
+      "primaryAccession"
+    ]
+  },
+  {
+    "parentId": "names_&_taxonomy",
+    "childNumber": 1,
+    "itemType": "SINGLE",
+    "name": "id",
+    "label": "Entry Name",
+    "id": "names_&_taxonomy/entry_name",
+    "paths": [
+      "uniProtId"
+    ]
+  },
+  {
+    "seqNumber": 1,
+    "itemType": "GROUP",
+    "groupName": "Sequences",
+    "isDatabaseGroup": false,
+    "id": "sequences"
+  },
+  {
+    "parentId": "sequences",
+    "childNumber": 0,
+    "itemType": "SINGLE",
+    "name": "cc_alternative_products",
+    "label": "Alternative products (isoforms)",
+    "id": "sequences/alternative_products_(isoforms)",
+    "paths": [
+      "comments[?(@.commentType=='ALTERNATIVE PRODUCTS')]"
+    ]
+  }
+]
