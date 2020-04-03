@@ -12,9 +12,9 @@
     "itemType": "SINGLE",
     "label": "Cross Reference Id",
     "isRequiredForJson": true,
-    "sortField": "accession",
+    "sortField": "id",
     "name": "id",
-    "paths" : ["accession"],
+    "paths" : ["id"],
     "id": "cross_reference/id"
   },
   {

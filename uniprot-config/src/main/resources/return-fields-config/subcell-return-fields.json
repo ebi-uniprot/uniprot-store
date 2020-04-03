@@ -15,9 +15,9 @@
     "defaultForTsvOrder" : 0,
     "sortField": "id",
     "label": "Subcellular location ID",
-    "name": "accession",
-    "paths" : ["accession"],
-    "id": "subcellular_location/accession"
+    "name": "id",
+    "paths" : ["id"],
+    "id": "subcellular_location/id"
   },
   {
     "parentId": "subcellular_location",
@@ -26,10 +26,10 @@
     "isDefaultForTsv": true,
     "defaultForTsvOrder" : 3,
     "sortField": "name",
-    "label": "Alias",
-    "name": "id",
-    "paths" : ["id"],
-    "id": "subcellular_location/id"
+    "label": "Name",
+    "name": "name",
+    "paths" : ["name"],
+    "id": "subcellular_location/name"
   },
   {
     "parentId": "subcellular_location",

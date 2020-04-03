@@ -13,11 +13,11 @@
     "isRequiredForJson": true,
     "isDefaultForTsv": true,
     "defaultForTsvOrder" : 1,
-    "sortField": "accession",
+    "sortField": "id",
     "label": "DiseaseEntry ID",
-    "name": "accession",
-    "paths" : ["accession"],
-    "id": "disease/accession"
+    "name": "id",
+    "paths" : ["id"],
+    "id": "disease/id"
   },
   {
     "parentId": "disease",
@@ -26,9 +26,9 @@
     "isDefaultForTsv": true,
     "defaultForTsvOrder" : 0,
     "label": "Name",
-    "name": "id",
-    "paths" : ["id"],
-    "id": "disease/id"
+    "name": "name",
+    "paths" : ["name"],
+    "id": "disease/name"
   },
   {
     "parentId": "disease",
