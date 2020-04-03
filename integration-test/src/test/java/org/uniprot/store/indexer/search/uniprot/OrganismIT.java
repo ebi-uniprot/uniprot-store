@@ -292,12 +292,12 @@ class OrganismIT {
     }
 
     @Test
-    void popularOrganismHuman() {
+    void modelOrganismHuman() {
         String query =
                 query(
                         searchEngine
                                 .getSearchFieldConfig()
-                                .getSearchFieldItemByName("popular_organism"),
+                                .getSearchFieldItemByName("model_organism"),
                         "Human");
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -306,12 +306,12 @@ class OrganismIT {
     }
 
     @Test
-    void popularOrganismNoMouse() {
+    void modelOrganismNoMouse() {
         String query =
                 query(
                         searchEngine
                                 .getSearchFieldConfig()
-                                .getSearchFieldItemByName("popular_organism"),
+                                .getSearchFieldItemByName("model_organism"),
                         "Mouse");
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -320,12 +320,12 @@ class OrganismIT {
     }
 
     @Test
-    void popularOrganismSOLMENotPopular() {
+    void modelOrganismSOLMENotModel() {
         String query =
                 query(
                         searchEngine
                                 .getSearchFieldConfig()
-                                .getSearchFieldItemByName("popular_organism"),
+                                .getSearchFieldItemByName("model_organism"),
                         "SOLME");
         QueryResponse response = searchEngine.getQueryResponse(query);
 

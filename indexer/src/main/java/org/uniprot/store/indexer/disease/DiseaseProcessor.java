@@ -38,7 +38,7 @@ public class DiseaseProcessor implements ItemProcessor<DiseaseEntry, DiseaseDocu
         }
         // name is a combination of id, acronym, definition, synonyms, keywords
         List<String> name = new ArrayList<>();
-        name.add(disease.getId());
+        name.add(disease.getName());
         name.add(disease.getAcronym());
         name.add(disease.getDefinition());
         name.addAll(kwIds);
@@ -47,11 +47,11 @@ public class DiseaseProcessor implements ItemProcessor<DiseaseEntry, DiseaseDocu
         // content is name + accession
         List<String> content = new ArrayList<>();
         content.addAll(name);
-        content.add(disease.getAccession());
+        content.add(disease.getId());
 
         // create disease document
         DiseaseDocument.DiseaseDocumentBuilder builder = DiseaseDocument.builder();
-        builder.accession(disease.getAccession());
+        builder.id(disease.getId());
         builder.name(name).content(content);
         byte[] diseaseByte = getDiseaseObjectBinary(disease);
         builder.diseaseObj(ByteBuffer.wrap(diseaseByte));
@@ -65,7 +65,7 @@ public class DiseaseProcessor implements ItemProcessor<DiseaseEntry, DiseaseDocu
 
             // get the protein count, reviewed and unreviewed
             DiseaseProteinCountReader.DiseaseProteinCount diseaseProteinCount =
-                    this.diseaseIdProteinCountMap.get(disease.getId());
+                    this.diseaseIdProteinCountMap.get(disease.getName());
 
             if (diseaseProteinCount != null) {
                 diseaseBuilder.reviewedProteinCount(diseaseProteinCount.getReviewedProteinCount());

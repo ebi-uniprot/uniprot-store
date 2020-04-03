@@ -11,10 +11,8 @@
 	language governing permissions and limitations under the License. -->
 <schema name="crossref" version="1.6">
 	<!-- =============================== cross references fields =============================== -->
-	<field name="id" type="string" indexed="true" stored="false"
-		required="true" />
-	<field name="accession" type="string" indexed="true"
-		stored="true" required="true" multiValued="false" docValues="true" />
+	<field name="id" type="string" indexed="true" stored="true"
+		required="true" multiValued="false" docValues="true" />
 	<field name="abbrev" type="string" indexed="false" stored="true"
 		multiValued="false" />
 	<field name="name_only" type="string" indexed="false"
@@ -43,15 +41,14 @@
 		indexed="false" stored="true" />
 
 	<!-- Field constraints -->
-	<uniqueKey>accession</uniqueKey>
-	<copyField source="accession" dest="id" />
+	<uniqueKey>id</uniqueKey>
 	<!-- <copyField source="category_str" dest="category_facet" /> -->
 	<copyField source="category_facet" dest="category_str" />
 	<!-- name = name_only + abbrev -->
 	<copyField source="abbrev" dest="name" />
 	<copyField source="name_only" dest="name" />
-	<!-- content = accession + abbrev + name_only + category_str -->
-	<copyField source="accession" dest="content" />
+	<!-- content = id + abbrev + name_only + category_str -->
+	<copyField source="id" dest="content" />
 	<copyField source="abbrev" dest="content" />
 	<copyField source="name_only" dest="content" />
 	<copyField source="category_str" dest="content" />

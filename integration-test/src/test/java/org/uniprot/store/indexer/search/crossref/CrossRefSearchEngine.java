@@ -20,13 +20,13 @@ class CrossRefSearchEngine extends AbstractSearchEngine<CrossRefDocument> {
 
     @Override
     protected String identifierField() {
-        return getSearchFieldConfig().getSearchFieldItemByName("accession").getFieldName();
+        return getSearchFieldConfig().getSearchFieldItemByName("id").getFieldName();
     }
 
     @Override
     protected String identifierQuery(String entryId) {
         return "("
-                + getSearchFieldConfig().getSearchFieldItemByName("accession").getFieldName()
+                + getSearchFieldConfig().getSearchFieldItemByName("id").getFieldName()
                 + ":\""
                 + entryId
                 + "\")";

@@ -1,21 +1,21 @@
 [
   {
-    "id": "accession",
-    "fieldName": "accession",
+    "id": "id",
+    "fieldName": "id",
     "validRegex": "^DB-[0-9]{4}$",
     "fieldType": "GENERAL",
     "dataType": "STRING",
-    "sortFieldId": "accession_sort",
-    "description": "Search by crossref accession",
+    "sortFieldId": "id_sort",
+    "description": "Search by crossref id which is accession",
     "example": "DB-0236"
   },
   {
-    "id": "accession_sort",
-    "fieldName": "accession",
+    "id": "id_sort",
+    "fieldName": "id",
     "fieldType": "SORT",
     "dataType": "STRING",
-    "description": "Sort by crossref accession",
-    "example": "accession asc"
+    "description": "Sort by crossref id which is accession",
+    "example": "id asc"
   },
   {
     "id": "category_str",

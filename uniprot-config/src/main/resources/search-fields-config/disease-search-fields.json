@@ -1,21 +1,21 @@
 [
   {
-    "id": "accession",
-    "fieldName": "accession",
+    "id": "id",
+    "fieldName": "id",
     "validRegex" : "^DI-[0-9]{5}$",
     "fieldType": "GENERAL",
     "dataType": "STRING",
-    "sortFieldId": "accession_sort_id",
-    "description": "Search by disease accession",
+    "sortFieldId": "id_sort",
+    "description": "Search by disease id which is accession",
     "example": "DI-12345"
   },
   {
-    "id": "accession_sort_id",
-    "fieldName": "accession",
+    "id": "id_sort",
+    "fieldName": "id",
     "fieldType": "SORT",
     "dataType": "STRING",
-    "description": "Sort by disease accession",
-    "example": "accession asc"
+    "description": "Sort by disease id which is accession",
+    "example": "id asc"
   },
   {
     "id": "name",

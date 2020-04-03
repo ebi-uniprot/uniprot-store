@@ -11,8 +11,8 @@
 	language governing permissions and limitations under the License. -->
 <schema name="disease" version="1.6">
 	<!-- =============================== cross references fields =============================== -->
-	<field name="accession" type="string" indexed="true"
-		stored="true" required="true" multiValued="false" docValues="true" /> <!-- AC -->
+	<field name="id" type="string" indexed="true" stored="true"
+		required="true" multiValued="false" docValues="true" /> <!-- AC -->
 	<field name="name" type="full_ci" indexed="true" stored="false"
 		multiValued="true" /> <!-- search field -->
 	<field name="content" type="full_ci" indexed="true"
@@ -22,7 +22,7 @@
 		stored="true" required="true" multiValued="false" />
 
 	<!-- Field constraints -->
-	<uniqueKey>accession</uniqueKey>
+	<uniqueKey>id</uniqueKey>
 
 	<!-- Meta fields -->
 	<!-- If you remove this field, you must _also_ disable the update log in 

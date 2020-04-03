@@ -1,5 +1,7 @@
 package org.uniprot.store.spark.indexer.literature;
 
+import static org.uniprot.store.spark.indexer.util.SparkUtils.getInputReleaseDirPath;
+
 import java.util.ResourceBundle;
 
 import org.apache.spark.SparkConf;
@@ -21,11 +23,14 @@ public class LiteratureMappedRDDReader {
      * @return JavaPairRDD{key=PubmedId, value=Iterable of LiteratureMappedReference}
      */
     public static JavaPairRDD<String, Iterable<LiteratureMappedReference>> load(
-            SparkConf sparkConf, ResourceBundle applicationConfig) {
+            SparkConf sparkConf, ResourceBundle applicationConfig, String releaseName) {
         SparkSession spark = SparkSession.builder().config(sparkConf).getOrCreate();
+        String releaseInputDir = getInputReleaseDirPath(applicationConfig, releaseName);
+        String literaturePath =
+                releaseInputDir + applicationConfig.getString("literature.map.file.path");
         return (JavaPairRDD<String, Iterable<LiteratureMappedReference>>)
                 spark.read()
-                        .textFile(applicationConfig.getString("literature.map.file.path"))
+                        .textFile(literaturePath)
                         .toJavaRDD()
                         .mapToPair(new LiteratureMappedFileMapper())
                         .groupByKey();
@@ -37,11 +42,14 @@ public class LiteratureMappedRDDReader {
      * @return JavaPairRDD{key=Uniprot accession, value=Iterable of PubmedId}
      */
     public static JavaPairRDD<String, Iterable<String>> loadAccessionPubMedRDD(
-            SparkConf sparkConf, ResourceBundle applicationConfig) {
+            SparkConf sparkConf, ResourceBundle applicationConfig, String releaseName) {
         SparkSession spark = SparkSession.builder().config(sparkConf).getOrCreate();
+        String releaseInputDir = getInputReleaseDirPath(applicationConfig, releaseName);
+        String literaturePath =
+                releaseInputDir + applicationConfig.getString("literature.map.file.path");
         return (JavaPairRDD<String, Iterable<String>>)
                 spark.read()
-                        .textFile(applicationConfig.getString("literature.map.file.path"))
+                        .textFile(literaturePath)
                         .toJavaRDD()
                         .mapToPair(new LiteraturePubmedFileMapper())
                         .groupByKey();

@@ -200,7 +200,7 @@ class UniProtEntryCommentsConverter {
     }
 
     private void convertCommentSC(SequenceCautionComment comment, UniProtDocument document) {
-        document.seqCaution.add(comment.getSequenceCautionType().toDisplayName());
+        document.seqCaution.add(comment.getSequenceCautionType().getDisplayName());
         String val =
                 "true"; // default value for the type when we do not have note, so the type can be
         // searched with '*'
@@ -420,7 +420,7 @@ class UniProtEntryCommentsConverter {
     private void updatePathway(String val, UniProtDocument document) {
         UniPathway unipathway = pathwayRepo.getFromName(val);
         if (unipathway != null) {
-            document.pathway.add(unipathway.getAccession());
+            document.pathway.add(unipathway.getId());
         }
     }
 

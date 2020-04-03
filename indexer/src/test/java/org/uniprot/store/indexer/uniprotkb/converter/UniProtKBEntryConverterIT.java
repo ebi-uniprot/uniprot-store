@@ -117,7 +117,7 @@ class UniProtKBEntryConverterIT {
         assertEquals("Cichlasoma festae", doc.organismName.get(0));
         assertEquals("Cichlasoma festae", doc.organismSort);
         assertEquals(172543, doc.organismTaxId);
-        assertNull(doc.popularOrganism);
+        assertNull(doc.modelOrganism);
         assertEquals("Cichlasoma festae", doc.otherOrganism);
 
         assertEquals(1, doc.organismTaxon.size());
@@ -290,7 +290,7 @@ class UniProtKBEntryConverterIT {
         assertEquals("Rat", doc.organismName.get(1));
         assertEquals("Rattus norvegicus Rat", doc.organismSort);
         assertEquals(10116, doc.organismTaxId);
-        assertEquals("Rat", doc.popularOrganism);
+        assertEquals("Rat", doc.modelOrganism);
         assertNull(doc.otherOrganism);
         assertEquals(2, doc.organismTaxon.size());
         assertEquals(1, doc.taxLineageIds.size());
@@ -487,7 +487,7 @@ class UniProtKBEntryConverterIT {
         assertEquals("Rat", doc.organismName.get(1));
         assertEquals("Rattus norvegicus Rat", doc.organismSort);
         assertEquals(10116, doc.organismTaxId);
-        assertEquals("Rat", doc.popularOrganism);
+        assertEquals("Rat", doc.modelOrganism);
         assertNull(doc.otherOrganism);
         assertEquals(2, doc.organismTaxon.size());
         assertEquals(1, doc.taxLineageIds.size());

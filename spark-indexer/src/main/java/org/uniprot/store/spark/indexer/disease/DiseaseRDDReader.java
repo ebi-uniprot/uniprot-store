@@ -1,5 +1,7 @@
 package org.uniprot.store.spark.indexer.disease;
 
+import static org.uniprot.store.spark.indexer.util.SparkUtils.getInputReleaseDirPath;
+
 import java.util.ResourceBundle;
 
 import org.apache.spark.api.java.JavaPairRDD;
@@ -18,8 +20,9 @@ public class DiseaseRDDReader {
 
     /** @return JavaPairRDD{key=diseaseId, value={@link DiseaseEntry}} */
     public static JavaPairRDD<String, DiseaseEntry> load(
-            JavaSparkContext jsc, ResourceBundle applicationConfig) {
-        String filePath = applicationConfig.getString("disease.file.path");
+            JavaSparkContext jsc, ResourceBundle applicationConfig, String releaseName) {
+        String releaseInputDir = getInputReleaseDirPath(applicationConfig, releaseName);
+        String filePath = releaseInputDir + applicationConfig.getString("disease.file.path");
         jsc.hadoopConfiguration().set("textinputformat.record.delimiter", SPLITTER);
 
         return (JavaPairRDD<String, DiseaseEntry>)

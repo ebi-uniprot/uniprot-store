@@ -1,5 +1,8 @@
 package org.uniprot.store.spark.indexer.uniprot;
 
+import static org.uniprot.store.spark.indexer.util.SparkUtils.getInputReleaseDirPath;
+import static org.uniprot.store.spark.indexer.util.SparkUtils.getInputReleaseMainThreadDirPath;
+
 import java.util.ResourceBundle;
 
 import org.apache.spark.api.java.JavaPairRDD;
@@ -22,10 +25,13 @@ public class UniProtKBRDDTupleReader {
 
     /** @return an JavaPairRDD with <accession, UniProtKBEntry> */
     public static JavaPairRDD<String, UniProtKBEntry> load(
-            JavaSparkContext jsc, ResourceBundle applicationConfig) {
-        String keywordFile = applicationConfig.getString("keyword.file.path");
-        String diseaseFile = applicationConfig.getString("disease.file.path");
-        String subcellularLocationFile = applicationConfig.getString("subcell.file.path");
+            JavaSparkContext jsc, ResourceBundle applicationConfig, String releaseName) {
+
+        String releaseInputDir = getInputReleaseMainThreadDirPath(applicationConfig, releaseName);
+        String keywordFile = releaseInputDir + applicationConfig.getString("keyword.file.path");
+        String diseaseFile = releaseInputDir + applicationConfig.getString("disease.file.path");
+        String subcellularLocationFile =
+                releaseInputDir + applicationConfig.getString("subcell.file.path");
 
         SupportingDataMapHDSFImpl supportingDataMap =
                 new SupportingDataMapHDSFImpl(
@@ -36,7 +42,7 @@ public class UniProtKBRDDTupleReader {
 
         PairFunction<String, String, UniProtKBEntry> mapper =
                 new FlatFileToUniprotEntry(supportingDataMap);
-        JavaRDD<String> splittedFileRDD = loadFlatFileToRDD(jsc, applicationConfig);
+        JavaRDD<String> splittedFileRDD = loadFlatFileToRDD(jsc, applicationConfig, releaseName);
 
         return (JavaPairRDD<String, UniProtKBEntry>)
                 splittedFileRDD
@@ -50,8 +56,9 @@ public class UniProtKBRDDTupleReader {
 
     /** @return Return an RDD with the entry in String format */
     public static JavaRDD<String> loadFlatFileToRDD(
-            JavaSparkContext jsc, ResourceBundle applicationConfig) {
-        String filePath = applicationConfig.getString("uniprot.flat.file");
+            JavaSparkContext jsc, ResourceBundle applicationConfig, String releaseName) {
+        String releaseInputDir = getInputReleaseDirPath(applicationConfig, releaseName);
+        String filePath = releaseInputDir + applicationConfig.getString("uniprot.flat.file");
         jsc.hadoopConfiguration().set("textinputformat.record.delimiter", SPLITTER);
         return jsc.textFile(filePath);
     }

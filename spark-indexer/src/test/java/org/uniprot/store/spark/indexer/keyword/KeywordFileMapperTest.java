@@ -18,7 +18,7 @@ class KeywordFileMapperTest {
 
     @Test
     void testECFileMapper() throws Exception {
-        KeywordId keyword = new KeywordIdBuilder().id("kwId").accession("kwAcc").build();
+        KeywordId keyword = new KeywordIdBuilder().name("kwId").id("kwAcc").build();
         KeywordEntry entry = new KeywordEntryBuilder().keyword(keyword).build();
 
         KeywordFileMapper mapper = new KeywordFileMapper();

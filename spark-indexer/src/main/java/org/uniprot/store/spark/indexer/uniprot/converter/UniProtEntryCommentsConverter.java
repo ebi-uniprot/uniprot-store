@@ -180,7 +180,7 @@ class UniProtEntryCommentsConverter implements Serializable {
     }
 
     private void convertCommentSC(SequenceCautionComment comment, UniProtDocument document) {
-        document.seqCaution.add(comment.getSequenceCautionType().toDisplayName());
+        document.seqCaution.add(comment.getSequenceCautionType().getDisplayName());
         String val =
                 "true"; // default value for the type when we do not have note, so the type can be
         // searched with '*'

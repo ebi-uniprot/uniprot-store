@@ -22,7 +22,7 @@ import scala.Tuple2;
 class TaxonomyEntryToUniProtDocumentTest {
 
     @Test
-    void testDocumentWithValidPopularOrganismsWithLineage() throws Exception {
+    void testDocumentWithValidModelOrganismsWithLineage() throws Exception {
         TaxonomyLineage lineage =
                 new TaxonomyLineageBuilder()
                         .taxonId(1111L)
@@ -71,7 +71,7 @@ class TaxonomyEntryToUniProtDocumentTest {
         assertTrue(result.organismName.contains("organism synonym"));
 
         assertEquals("organism scientific name organ", result.organismSort);
-        assertEquals("Human", result.popularOrganism);
+        assertEquals("Human", result.modelOrganism);
         assertNull(result.otherOrganism);
 
         assertEquals(4, result.organismTaxon.size());
@@ -115,7 +115,7 @@ class TaxonomyEntryToUniProtDocumentTest {
         assertNotNull(result);
 
         assertEquals("organism mnemonic", result.otherOrganism);
-        assertNull(result.popularOrganism);
+        assertNull(result.modelOrganism);
     }
 
     @Test
@@ -142,7 +142,7 @@ class TaxonomyEntryToUniProtDocumentTest {
         assertNotNull(result);
 
         assertEquals("organism common name", result.otherOrganism);
-        assertNull(result.popularOrganism);
+        assertNull(result.modelOrganism);
     }
 
     @Test
@@ -167,7 +167,7 @@ class TaxonomyEntryToUniProtDocumentTest {
         assertNotNull(result);
 
         assertEquals("organism scientific name", result.otherOrganism);
-        assertNull(result.popularOrganism);
+        assertNull(result.modelOrganism);
     }
 
     @Test
@@ -243,7 +243,7 @@ class TaxonomyEntryToUniProtDocumentTest {
         assertTrue(result.taxLineageIds.isEmpty());
         assertTrue(result.organismTaxon.isEmpty());
 
-        assertNull(result.popularOrganism);
+        assertNull(result.modelOrganism);
         assertNull(result.otherOrganism);
 
         assertTrue(result.content.isEmpty());

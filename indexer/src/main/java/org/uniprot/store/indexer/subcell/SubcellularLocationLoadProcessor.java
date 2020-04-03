@@ -42,9 +42,9 @@ public class SubcellularLocationLoadProcessor
     @Override
     public SubcellularLocationDocument process(SubcellularLocationEntry entry) throws Exception {
         SubcellularLocationEntry subcellularLocationEntry = entry;
-        if (subcellProteinCountMap.containsKey(entry.getId())) {
+        if (subcellProteinCountMap.containsKey(entry.getName())) {
             SubcellularLocationStatisticsReader.SubcellularLocationCount count =
-                    subcellProteinCountMap.get(entry.getId());
+                    subcellProteinCountMap.get(entry.getName());
             Statistics statistics =
                     new StatisticsBuilder()
                             .reviewedProteinCount(count.getReviewedProteinCount())
@@ -61,9 +61,9 @@ public class SubcellularLocationLoadProcessor
         byte[] subcellularLocationByte = getSubcellularLocationObjectBinary(entry);
 
         return SubcellularLocationDocument.builder()
-                .id(entry.getAccession())
-                .name(entry.getId())
-                .category(entry.getCategory().getCategory())
+                .id(entry.getId())
+                .name(entry.getName())
+                .category(entry.getCategory().getName())
                 .content(getContent(entry))
                 .subcellularlocationObj(ByteBuffer.wrap(subcellularLocationByte))
                 .build();
@@ -71,10 +71,10 @@ public class SubcellularLocationLoadProcessor
 
     private List<String> getContent(SubcellularLocationEntry entry) {
         List<String> content = new ArrayList<>();
-        content.add(entry.getAccession());
         content.add(entry.getId());
+        content.add(entry.getName());
         content.add(entry.getDefinition());
-        content.add(entry.getCategory().toDisplayName());
+        content.add(entry.getCategory().getDisplayName());
         if (entry.getSynonyms() != null) {
             content.addAll(entry.getSynonyms());
         }
