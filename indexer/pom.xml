@@ -5,7 +5,7 @@
 	<parent>
 		<artifactId>uniprot-store-parent</artifactId>
 		<groupId>org.uniprot</groupId>
-		<version>1.0-SNAPSHOT</version>
+		<version>1.0.0-SNAPSHOT</version>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
 
@@ -19,7 +19,6 @@
 		<chronicle-map.version>3.17.2</chronicle-map.version>
 		<ehcache.version>3.6.2</ehcache.version>
 		<cache-api.version>1.1.1</cache-api.version>
-		<uniprot-core.version>0.1-SNAPSHOT</uniprot-core.version>
 	</properties>
 
 	<dependencies>
@@ -224,17 +223,6 @@
 			<artifactId>h2</artifactId>
 			<scope>runtime</scope>
 		</dependency>
-		<!-- <dependency> -->
-		<!-- <groupId>net.openhft</groupId> -->
-		<!-- <artifactId>chronicle-map</artifactId> -->
-		<!-- <version>${chronicle-map.version}</version> -->
-		<!-- <exclusions> -->
-		<!-- <exclusion> -->
-
-
-		<!-- </exclusion> -->
-		<!-- </exclusions> -->
-		<!-- </dependency> -->
 
 		<dependency>
 			<groupId>net.jodah</groupId>
