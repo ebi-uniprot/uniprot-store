@@ -7,7 +7,7 @@
 	<parent>
 		<groupId>org.uniprot</groupId>
 		<artifactId>uniprot-store-parent</artifactId>
-		<version>1.0-SNAPSHOT</version>
+		<version>1.0-covid-19-SNAPSHOT</version>
 	</parent>
 	<artifactId>uniprot-datastore</artifactId>
 	<version>${project.parent.version}</version>
@@ -18,7 +18,6 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<failsafe.version>2.0.1</failsafe.version>
 		<metrics.version>3.2.6</metrics.version>
-		<uniprot-core.version>0.1-SNAPSHOT</uniprot-core.version>
 	</properties>
 
 	<dependencies>

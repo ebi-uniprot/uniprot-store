@@ -14,7 +14,7 @@
 	<name>UniProt Store Aggregator</name>
 
 	<packaging>pom</packaging>
-	<version>1.0-SNAPSHOT</version>
+	<version>1.0-covid-19-SNAPSHOT</version>
 
 	<modules>
 		<module>index-config</module>
@@ -254,6 +254,8 @@
 	</build>
 
 	<properties>
+		<uniprot-core.version>0.1-covid-19-SNAPSHOT</uniprot-core.version>
+
 		<junit-jupiter.version>5.4.1</junit-jupiter.version>
 		<jcommander.version>1.72</jcommander.version>
 		<http-uniprot-private-url>http://wwwdev.ebi.ac.uk/uniprot/artifactory</http-uniprot-private-url>
