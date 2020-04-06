@@ -460,11 +460,16 @@ class UniProtEntryCommentsConverter implements Serializable {
         comment.getInteractions()
                 .forEach(
                         interaction -> {
-                        	document.interactors.add(interaction.getInteractantOne().getIntActId());
-                        	document.interactors.add(interaction.getInteractantTwo().getIntActId());
-                        	if(Utils.notNull(interaction.getInteractantTwo().getUniProtKBAccession())) {
-                        		document.interactors.add(interaction.getInteractantTwo().getUniProtKBAccession().getValue());
-                        	}                       
+                            document.interactors.add(interaction.getInteractantOne().getIntActId());
+                            document.interactors.add(interaction.getInteractantTwo().getIntActId());
+                            if (Utils.notNull(
+                                    interaction.getInteractantTwo().getUniProtKBAccession())) {
+                                document.interactors.add(
+                                        interaction
+                                                .getInteractantTwo()
+                                                .getUniProtKBAccession()
+                                                .getValue());
+                            }
                         });
     }
 
