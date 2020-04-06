@@ -135,13 +135,7 @@ public class TaxonomyEntryToUniProtDocument
         if (Utils.notNull(modelOrgamism)) {
             doc.modelOrganism = modelOrgamism;
         } else {
-            if (organism.hasMnemonic()) {
-                doc.otherOrganism = organism.getMnemonic();
-            } else if (organism.hasCommonName()) {
-                doc.otherOrganism = organism.getCommonName();
-            } else {
-                doc.otherOrganism = organism.getScientificName();
-            }
+            doc.otherOrganism = organism.getScientificName();
         }
     }
 

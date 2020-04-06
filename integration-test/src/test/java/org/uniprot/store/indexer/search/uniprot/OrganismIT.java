@@ -334,14 +334,9 @@ class OrganismIT {
     }
 
     @Test
-    void otherOrganismSOLME() {
-        String query =
-                query(
-                        searchEngine
-                                .getSearchFieldConfig()
-                                .getSearchFieldItemByName("other_organism"),
-                        "SOLME");
-        QueryResponse response = searchEngine.getQueryResponse(query);
+    void otherOrganismSolanumMelongena() {
+        QueryResponse response =
+                searchEngine.getQueryResponse("(other_organism:\"Solanum melongena\")");
 
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
         assertThat(retrievedAccessions, contains(ACCESSION2));
