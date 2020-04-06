@@ -82,7 +82,7 @@
 		<dependency>
 			<groupId>org.uniprot</groupId>
 			<artifactId>uniprot-datastore</artifactId>
-			<version>1.0-SNAPSHOT</version>
+			<version>${project.parent.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.google.guava</groupId>
