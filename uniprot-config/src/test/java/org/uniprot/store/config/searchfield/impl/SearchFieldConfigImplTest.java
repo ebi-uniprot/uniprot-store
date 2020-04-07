@@ -17,7 +17,7 @@ import org.uniprot.store.config.searchfield.model.SearchFieldDataType;
 import org.uniprot.store.config.searchfield.model.SearchFieldItem;
 import org.uniprot.store.config.searchfield.model.SearchFieldItemType;
 
-public class SearchFieldConfigImplTest {
+class SearchFieldConfigImplTest {
     private static SearchFieldConfig searchFieldConfig;
 
     @BeforeAll
@@ -31,7 +31,7 @@ public class SearchFieldConfigImplTest {
     void testSize() {
         List<SearchFieldItem> items = searchFieldConfig.getSearchFieldItems();
         Assertions.assertNotNull(items);
-        assertEquals(493, items.size());
+        assertEquals(495, items.size());
     }
 
     @Test
@@ -46,7 +46,7 @@ public class SearchFieldConfigImplTest {
                                         StringUtils.isNotEmpty(i.getFieldName())
                                                 && i.getFieldName().startsWith("xref_count_"))
                         .count();
-        Assertions.assertEquals(177, xrefCountFieldsCount);
+        Assertions.assertEquals(179, xrefCountFieldsCount);
     }
 
     @Test

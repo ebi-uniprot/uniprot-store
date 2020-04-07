@@ -15,9 +15,14 @@ import org.springframework.batch.item.ItemWriter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 import org.uniprot.core.uniparc.UniParcEntry;
 import org.uniprot.core.xml.jaxb.uniparc.Entry;
 import org.uniprot.store.datastore.UniProtStoreClient;
+import org.uniprot.store.datastore.uniparc.config.UniParcAsnycConfig;
+import org.uniprot.store.datastore.uniparc.config.UniParcConfig;
+import org.uniprot.store.datastore.uniparc.config.UniParcStoreConfig;
 import org.uniprot.store.datastore.uniparc.config.UniParcStoreProperties;
 import org.uniprot.store.job.common.listener.LogRateListener;
 import org.uniprot.store.job.common.listener.WriteRetrierLogStepListener;
@@ -27,6 +32,8 @@ import org.uniprot.store.job.common.writer.ItemRetryWriter;
  * @author lgonzales
  * @since 2020-03-03
  */
+@Configuration
+@Import({UniParcStoreConfig.class, UniParcConfig.class, UniParcAsnycConfig.class})
 public class UniParcStoreStep {
     private final StepBuilderFactory stepBuilderFactory;
     private final UniParcStoreProperties uniParcStoreProperties;
