@@ -67,13 +67,7 @@ class UniProtEntryTaxonomyConverter {
                     if (modelOrgamism != null) {
                         document.modelOrganism = modelOrgamism;
                     } else {
-                        if (node.mnemonic() != null && !node.mnemonic().isEmpty()) {
-                            document.otherOrganism = node.mnemonic();
-                        } else if (node.commonName() != null && !node.commonName().isEmpty()) {
-                            document.otherOrganism = node.commonName();
-                        } else {
-                            document.otherOrganism = node.scientificName();
-                        }
+                        document.otherOrganism = node.scientificName();
                     }
                     addTaxonSuggestions(SuggestDictionary.ORGANISM, taxonomyId, extractedTaxoNode);
                 }

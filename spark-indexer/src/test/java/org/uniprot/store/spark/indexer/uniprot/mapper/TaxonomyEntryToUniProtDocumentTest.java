@@ -92,61 +92,7 @@ class TaxonomyEntryToUniProtDocumentTest {
     }
 
     @Test
-    void testDocumentOtherOrganismWithMnemonic() throws Exception {
-        TaxonomyEntry organismEntry =
-                new TaxonomyEntryBuilder()
-                        .taxonId(1000L)
-                        .commonName("organism common name")
-                        .scientificName("organism scientific name")
-                        .mnemonic("organism mnemonic")
-                        .build();
-
-        List<TaxonomyEntry> entries = new ArrayList<>();
-        entries.add(organismEntry);
-
-        UniProtDocument doc = new UniProtDocument();
-        doc.organismTaxId = 1000;
-
-        Tuple2<UniProtDocument, Optional<Iterable<TaxonomyEntry>>> tuple =
-                new Tuple2<>(doc, Optional.of(entries));
-        TaxonomyEntryToUniProtDocument mapper = new TaxonomyEntryToUniProtDocument();
-
-        UniProtDocument result = mapper.call(tuple);
-        assertNotNull(result);
-
-        assertEquals("organism mnemonic", result.otherOrganism);
-        assertNull(result.modelOrganism);
-    }
-
-    @Test
-    void testDocumentOtherOrganismWithCommon() throws Exception {
-        TaxonomyEntry organismEntry =
-                new TaxonomyEntryBuilder()
-                        .taxonId(1000L)
-                        .commonName("organism common name")
-                        .scientificName("organism scientific name")
-                        .synonymsAdd("organism synonym")
-                        .build();
-
-        List<TaxonomyEntry> entries = new ArrayList<>();
-        entries.add(organismEntry);
-
-        UniProtDocument doc = new UniProtDocument();
-        doc.organismTaxId = 1000;
-
-        Tuple2<UniProtDocument, Optional<Iterable<TaxonomyEntry>>> tuple =
-                new Tuple2<>(doc, Optional.of(entries));
-        TaxonomyEntryToUniProtDocument mapper = new TaxonomyEntryToUniProtDocument();
-
-        UniProtDocument result = mapper.call(tuple);
-        assertNotNull(result);
-
-        assertEquals("organism common name", result.otherOrganism);
-        assertNull(result.modelOrganism);
-    }
-
-    @Test
-    void testDocumentOtherOrganismWithScientific() throws Exception {
+    void testDocumentOtherOrganism() throws Exception {
         TaxonomyEntry organismEntry =
                 new TaxonomyEntryBuilder()
                         .taxonId(1000L)
