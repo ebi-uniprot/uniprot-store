@@ -8,10 +8,9 @@
 		<groupId>org.uniprot</groupId>
 		<artifactId>uniprot-store-parent</artifactId>
 		<version>1.0.0-SNAPSHOT</version>
+		<relativePath>../</relativePath>
 	</parent>
-
 	<artifactId>uniprot-search</artifactId>
-	<version>${project.parent.version}</version>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

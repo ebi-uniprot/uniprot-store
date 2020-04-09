@@ -8,11 +8,10 @@
 		<groupId>org.uniprot</groupId>
 		<artifactId>uniprot-store-parent</artifactId>
 		<version>1.0.0-SNAPSHOT</version>
+		<relativePath>../</relativePath>
 	</parent>
 	<artifactId>uniprot-datastore</artifactId>
-	<version>${project.parent.version}</version>
 	<name>uniprot-datastore</name>
-	<url>http://maven.apache.org</url>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
