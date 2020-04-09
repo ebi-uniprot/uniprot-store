@@ -18,7 +18,7 @@ import org.uniprot.store.search.document.uniprot.UniProtDocument;
 class UniProtEntryCrossReferenceConverter {
 
     private static final String GO = "go_";
-    private static final String XREF_COUNT = "xref_count_";
+    private static final String XREF_COUNT = "cross_ref_count_";
 
     void convertCrossReferences(
             List<UniProtKBCrossReference> references, UniProtDocument document) {
@@ -100,7 +100,7 @@ class UniProtEntryCrossReferenceConverter {
 
     private void convertXRefId(UniProtDocument document, String dbname, String s) {
         List<String> xrefIds = UniProtEntryConverterUtil.getXrefId(s, dbname);
-        document.xrefs.addAll(xrefIds);
+        document.crossRefs.addAll(xrefIds);
         document.content.addAll(xrefIds);
     }
 

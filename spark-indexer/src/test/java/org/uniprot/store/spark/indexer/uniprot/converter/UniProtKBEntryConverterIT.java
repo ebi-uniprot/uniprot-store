@@ -71,11 +71,11 @@ class UniProtKBEntryConverterIT {
         assertEquals(1, doc.organismHostIds.size());
         assertEquals(9539, doc.organismHostIds.get(0).intValue());
 
-        assertEquals(52, doc.xrefs.size());
-        assertTrue(doc.xrefs.contains("embl-AAY21541.1"));
-        assertTrue(doc.xrefs.contains("embl-AAY21541"));
-        assertTrue(doc.xrefs.contains("AAY21541.1"));
-        assertTrue(doc.xrefs.contains("AAY21541"));
+        assertEquals(52, doc.crossRefs.size());
+        assertTrue(doc.crossRefs.contains("embl-AAY21541.1"));
+        assertTrue(doc.crossRefs.contains("embl-AAY21541"));
+        assertTrue(doc.crossRefs.contains("AAY21541.1"));
+        assertTrue(doc.crossRefs.contains("AAY21541"));
 
         assertEquals(8, doc.databases.size());
         assertTrue(doc.databases.contains("go"));
@@ -211,11 +211,11 @@ class UniProtKBEntryConverterIT {
         assertEquals(0, doc.organismHostNames.size());
         assertEquals(0, doc.organismHostIds.size());
 
-        assertEquals(153, doc.xrefs.size());
-        assertTrue(doc.xrefs.contains("refseq-NM_001270626.1"));
-        assertTrue(doc.xrefs.contains("refseq-NM_001270626"));
-        assertTrue(doc.xrefs.contains("NM_001270626.1"));
-        assertTrue(doc.xrefs.contains("NM_001270626"));
+        assertEquals(153, doc.crossRefs.size());
+        assertTrue(doc.crossRefs.contains("refseq-NM_001270626.1"));
+        assertTrue(doc.crossRefs.contains("refseq-NM_001270626"));
+        assertTrue(doc.crossRefs.contains("NM_001270626.1"));
+        assertTrue(doc.crossRefs.contains("NM_001270626"));
 
         assertEquals(21, doc.databases.size());
         assertTrue(doc.databases.contains("refseq"));
@@ -384,11 +384,11 @@ class UniProtKBEntryConverterIT {
         assertEquals(0, doc.organelles.size());
         assertEquals(0, doc.organismHostIds.size());
 
-        assertEquals(56, doc.xrefs.size());
-        assertTrue(doc.xrefs.contains("embl-CAC20867.1"));
-        assertTrue(doc.xrefs.contains("embl-CAC20867"));
-        assertTrue(doc.xrefs.contains("CAC20867.1"));
-        assertTrue(doc.xrefs.contains("CAC20867"));
+        assertEquals(56, doc.crossRefs.size());
+        assertTrue(doc.crossRefs.contains("embl-CAC20867.1"));
+        assertTrue(doc.crossRefs.contains("embl-CAC20867"));
+        assertTrue(doc.crossRefs.contains("CAC20867.1"));
+        assertTrue(doc.crossRefs.contains("CAC20867"));
 
         assertEquals(2, doc.databases.size());
         assertTrue(doc.databases.contains("go"));

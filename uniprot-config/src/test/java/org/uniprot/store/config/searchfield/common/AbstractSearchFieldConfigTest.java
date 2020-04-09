@@ -86,8 +86,8 @@ public class AbstractSearchFieldConfigTest {
 
     @Test
     void testGetCorrespondingSortField() {
-        String searchFieldName = "mnemonic";
-        String expectedSortFieldName = "mnemonic_sort";
+        String searchFieldName = "id";
+        String expectedSortFieldName = "id_sort";
         SearchFieldItem sortField = testFieldConfig.getCorrespondingSortField(searchFieldName);
         Assertions.assertNotNull(sortField);
         Assertions.assertEquals(SearchFieldType.SORT, sortField.getFieldType());
@@ -104,7 +104,7 @@ public class AbstractSearchFieldConfigTest {
 
     @Test
     void testDoesCorrespondingSortFieldExist() {
-        String searchFieldName = "mnemonic";
+        String searchFieldName = "id";
         Assertions.assertTrue(testFieldConfig.correspondingSortFieldExists(searchFieldName));
     }
 

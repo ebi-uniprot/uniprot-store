@@ -159,7 +159,7 @@ class DRSearchIT {
 
     @Test
     void gene3dHitId() {
-        String query = xref("GENE3D", "1.10.533.10");
+        String query = crossRef("GENE3D", "1.10.533.10");
 
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -168,8 +168,8 @@ class DRSearchIT {
     }
 
     @Test
-    void findGene3dIdWithoutSpecifyingXrefType() {
-        String query = xref("1.10.533.10");
+    void findGene3dIdWithoutSpecifyingCrossRefType() {
+        String query = crossRef("1.10.533.10");
 
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -183,7 +183,7 @@ class DRSearchIT {
                 query(
                         searchEngine.getSearchFieldConfig().getSearchFieldItemByName("accession"),
                         GO_1);
-        query = QueryBuilder.and(query, xref("GO", "GO:0033644"));
+        query = QueryBuilder.and(query, crossRef("GO", "GO:0033644"));
 
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -197,7 +197,7 @@ class DRSearchIT {
                 query(
                         searchEngine.getSearchFieldConfig().getSearchFieldItemByName("accession"),
                         GO_1);
-        query = QueryBuilder.and(query, xref("GO", "go:0033644"));
+        query = QueryBuilder.and(query, crossRef("GO", "go:0033644"));
         QueryResponse response = searchEngine.getQueryResponse(query);
 
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
@@ -206,7 +206,7 @@ class DRSearchIT {
 
     @Test
     void refseqCommonWordFoundInBothEntries() {
-        String query = xref("REFSEQ", "*");
+        String query = crossRef("REFSEQ", "*");
 
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -216,7 +216,7 @@ class DRSearchIT {
 
     @Test
     void refseqSearchFindingNothing() {
-        String query = xref("REFSEQ", "SUPERMAN");
+        String query = crossRef("REFSEQ", "SUPERMAN");
 
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -230,7 +230,7 @@ class DRSearchIT {
                 query(
                         searchEngine.getSearchFieldConfig().getSearchFieldItemByName("accession"),
                         REF_SEQ_1);
-        query = QueryBuilder.and(query, xref("REFSEQ", "YP_654585"));
+        query = QueryBuilder.and(query, crossRef("REFSEQ", "YP_654585"));
 
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -244,7 +244,7 @@ class DRSearchIT {
                 query(
                         searchEngine.getSearchFieldConfig().getSearchFieldItemByName("accession"),
                         REF_SEQ_1);
-        query = QueryBuilder.and(query, xref("REFSEQ", "YP_654585.1"));
+        query = QueryBuilder.and(query, crossRef("REFSEQ", "YP_654585.1"));
 
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -258,7 +258,7 @@ class DRSearchIT {
                 query(
                         searchEngine.getSearchFieldConfig().getSearchFieldItemByName("accession"),
                         REF_SEQ_1);
-        query = QueryBuilder.and(query, xref("REFSEQ", "YP_654585.2"));
+        query = QueryBuilder.and(query, crossRef("REFSEQ", "YP_654585.2"));
 
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -272,7 +272,7 @@ class DRSearchIT {
                 query(
                         searchEngine.getSearchFieldConfig().getSearchFieldItemByName("accession"),
                         REF_SEQ_2);
-        query = QueryBuilder.and(query, xref("REFSEQ", "NC_008187.1"));
+        query = QueryBuilder.and(query, crossRef("REFSEQ", "NC_008187.1"));
 
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -286,7 +286,7 @@ class DRSearchIT {
                 query(
                         searchEngine.getSearchFieldConfig().getSearchFieldItemByName("accession"),
                         REF_SEQ_2);
-        query = QueryBuilder.and(query, xref("REFSEQ", "NC_008187.2"));
+        query = QueryBuilder.and(query, crossRef("REFSEQ", "NC_008187.2"));
 
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -296,7 +296,7 @@ class DRSearchIT {
 
     @Test
     void refseqFindIDWithNoVersionMultipleMatches() {
-        String query = xref("REFSEQ", "NC_008187");
+        String query = crossRef("REFSEQ", "NC_008187");
 
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -306,7 +306,7 @@ class DRSearchIT {
 
     @Test
     void emblFindIDWithNoVersionMultiMatch() {
-        String query = xref("EMBL", "AY548484");
+        String query = crossRef("EMBL", "AY548484");
 
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -316,7 +316,7 @@ class DRSearchIT {
 
     @Test
     void emblFindIDWithNoVersionSingleMatch() {
-        String query = xref("EMBL", "BY548484");
+        String query = crossRef("EMBL", "BY548484");
 
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -330,7 +330,7 @@ class DRSearchIT {
                 query(
                         searchEngine.getSearchFieldConfig().getSearchFieldItemByName("accession"),
                         EMBL_1);
-        query = QueryBuilder.and(query, xref("EMBL", "BY548484"));
+        query = QueryBuilder.and(query, crossRef("EMBL", "BY548484"));
 
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -344,7 +344,7 @@ class DRSearchIT {
                 query(
                         searchEngine.getSearchFieldConfig().getSearchFieldItemByName("accession"),
                         EMBL_3);
-        query = QueryBuilder.and(query, xref("EMBL", "BY548484"));
+        query = QueryBuilder.and(query, crossRef("EMBL", "BY548484"));
 
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -354,7 +354,7 @@ class DRSearchIT {
 
     @Test
     void emblWildCardEntry() {
-        String query = xref("EMBL", "*");
+        String query = crossRef("EMBL", "*");
 
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -364,7 +364,7 @@ class DRSearchIT {
 
     @Test
     void emblCount() {
-        String query = QueryBuilder.rangeQuery("xref_count_embl", 1, 2);
+        String query = QueryBuilder.rangeQuery("cross_ref_count_embl", 1, 2);
         QueryResponse response = searchEngine.getQueryResponse(query);
 
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
@@ -374,7 +374,7 @@ class DRSearchIT {
 
     @Test
     void emblCount2() {
-        String query = QueryBuilder.rangeQuery("xref_count_embl", 1, 1);
+        String query = QueryBuilder.rangeQuery("cross_ref_count_embl", 1, 1);
         QueryResponse response = searchEngine.getQueryResponse(query);
 
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
@@ -384,7 +384,7 @@ class DRSearchIT {
 
     @Test
     void emblCount3() {
-        String query = QueryBuilder.rangeQuery("xref_count_embl", 2, 3);
+        String query = QueryBuilder.rangeQuery("cross_ref_count_embl", 2, 3);
         QueryResponse response = searchEngine.getQueryResponse(query);
 
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
@@ -394,7 +394,7 @@ class DRSearchIT {
 
     @Test
     void emblFindProteinIDWithoutVersion() {
-        String query = xref("EMBL", "BAT09661");
+        String query = crossRef("EMBL", "BAT09661");
 
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -404,7 +404,7 @@ class DRSearchIT {
 
     @Test
     void emblFindProteinIDWithVersionNoVersion() {
-        String query = xref("EMBL", "AAT09661");
+        String query = crossRef("EMBL", "AAT09661");
 
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -415,7 +415,7 @@ class DRSearchIT {
 
     @Test
     void emblFindProteinIDWithVersion() {
-        String query = xref("EMBL", "AAT09661.1");
+        String query = crossRef("EMBL", "AAT09661.1");
 
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -426,7 +426,7 @@ class DRSearchIT {
 
     @Test
     void allergomeFindaccession() {
-        String query = xref("ALLERGOME", "10031");
+        String query = crossRef("ALLERGOME", "10031");
 
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -436,7 +436,7 @@ class DRSearchIT {
 
     @Test
     void allergomeFindNothingWrongaccession() {
-        String query = xref("ALLERGOME", "12.010");
+        String query = crossRef("ALLERGOME", "12.010");
 
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -446,7 +446,7 @@ class DRSearchIT {
 
     @Test
     void ccdsFindCCDSNoVersionaccession() {
-        String query = xref("CCDS", "CCDS10001");
+        String query = crossRef("CCDS", "CCDS10001");
 
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -456,7 +456,7 @@ class DRSearchIT {
 
     @Test
     void ccdsFindCCDSWithVersionaccession() {
-        String query = xref("CCDS", "CCDS10001.1");
+        String query = crossRef("CCDS", "CCDS10001.1");
 
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -466,7 +466,7 @@ class DRSearchIT {
 
     @Test
     void ccdsFindNoCCDSWithVersionaccession() {
-        String query = xref("CCDS", "CCDS10001.10");
+        String query = crossRef("CCDS", "CCDS10001.10");
 
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -476,7 +476,7 @@ class DRSearchIT {
 
     @Test
     void zfinFindExactSecond() {
-        String query = xref("ZFIN", "ZDB-GENE-091204-381");
+        String query = crossRef("ZFIN", "ZDB-GENE-091204-381");
 
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -487,7 +487,7 @@ class DRSearchIT {
     @Disabled
     @Test
     void tcdbFindWithPlus() {
-        String query = xref("TCDB", "na(+)");
+        String query = crossRef("TCDB", "na(+)");
 
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -497,7 +497,7 @@ class DRSearchIT {
 
     @Test
     void tcdbFindId() {
-        String query = xref("TCDB", "3.D.6.1.1");
+        String query = crossRef("TCDB", "3.D.6.1.1");
 
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -507,7 +507,7 @@ class DRSearchIT {
 
     @Test
     void findTcdbIdWithoutSpecifyingXrefType() {
-        String query = xref("3.D.6.1.1");
+        String query = crossRef("3.D.6.1.1");
 
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -518,7 +518,7 @@ class DRSearchIT {
     @Disabled
     @Test
     void tcdbFindWithPlusAndMore() {
-        String query = xref("TCDB", "na(+) translocating");
+        String query = crossRef("TCDB", "na(+) translocating");
 
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -529,7 +529,7 @@ class DRSearchIT {
     @Disabled
     @Test
     void tcdbFindBothPutative() {
-        String query = xref("TCDB", "putative");
+        String query = crossRef("TCDB", "putative");
 
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -540,7 +540,7 @@ class DRSearchIT {
     @Disabled
     @Test
     void tcdbFindBothThisIsOccurrences() {
-        String query = xref("TCDB", "zebra-is");
+        String query = crossRef("TCDB", "zebra-is");
 
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -551,7 +551,7 @@ class DRSearchIT {
     @Disabled
     @Test
     void tcdbFindOnlyOnePutativeInorganic() {
-        String query = xref("TCDB", "putative inorganic");
+        String query = crossRef("TCDB", "putative inorganic");
 
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -562,7 +562,7 @@ class DRSearchIT {
     @Disabled
     @Test
     void tcdbFindSingleThisIsAOccurrence() {
-        String query = xref("TCDB", "zebra-feather-brownian");
+        String query = crossRef("TCDB", "zebra-feather-brownian");
 
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -573,7 +573,7 @@ class DRSearchIT {
     @Disabled
     @Test
     void tcdbFindSingleThisIsAWordOccurrence() {
-        String query = xref("TCDB", "zebra-feather-brownian-monster");
+        String query = crossRef("TCDB", "zebra-feather-brownian-monster");
 
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -581,13 +581,14 @@ class DRSearchIT {
         assertThat(retrievedAccessions, contains(TCDB_2));
     }
 
-    private String xref(String type, String value) {
+    private String crossRef(String type, String value) {
         return query(
-                searchEngine.getSearchFieldConfig().getSearchFieldItemByName("xref"),
+                searchEngine.getSearchFieldConfig().getSearchFieldItemByName("cross_ref"),
                 type.toLowerCase() + "-" + value);
     }
 
-    private String xref(String value) {
-        return query(searchEngine.getSearchFieldConfig().getSearchFieldItemByName("xref"), value);
+    private String crossRef(String value) {
+        return query(
+                searchEngine.getSearchFieldConfig().getSearchFieldItemByName("cross_ref"), value);
     }
 }

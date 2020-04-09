@@ -41,7 +41,7 @@ class SearchFieldsTest {
 
     @Test
     void hasSortField_isFalseWhenPresent() {
-        assertThat(searchFieldConfig.correspondingSortFieldExists("mnemonic_default"), is(false));
+        assertThat(searchFieldConfig.correspondingSortFieldExists("id_default"), is(false));
     }
 
     @Test
@@ -69,7 +69,7 @@ class SearchFieldsTest {
     void getSortFieldFor_throwsExceptionWhenSortFieldNotPresent() {
         assertThrows(
                 IllegalArgumentException.class,
-                () -> searchFieldConfig.getCorrespondingSortField("mnemonic_default"));
+                () -> searchFieldConfig.getCorrespondingSortField("id_default"));
     }
 
     @Test

@@ -466,13 +466,13 @@
 	<field name="inactive_reason" type="string" indexed="false"
 		stored="true" required="false" multiValued="false" />
 
-	<field name="mnemonic" type="basic_ci" indexed="true"
-		stored="true" required="false" multiValued="false" />
-	<field name="mnemonic_sort" type="string" indexed="true"
-		stored="false" required="false" multiValued="false" docValues="true" />
-	<field name="mnemonic_default" type="full_ci" indexed="true"
+	<field name="id" type="basic_ci" indexed="true" stored="true"
+		required="false" multiValued="false" />
+	<field name="id_sort" type="string" indexed="true" stored="false"
+		required="false" multiValued="false" docValues="true" />
+	<field name="id_default" type="full_ci" indexed="true"
 		stored="false" required="false" multiValued="false" />
-	<copyField source="mnemonic" dest="mnemonic_sort" />
+	<copyField source="id" dest="id_sort" />
 
 	<field name="active" type="boolean" indexed="true" stored="true"
 		required="false" multiValued="false" />
@@ -678,11 +678,11 @@
 		required="false" multiValued="true" />
 
 	<!-- Cross-references -->
-	<field name="xref" type="lowercase" indexed="true" stored="false"
-		required="false" multiValued="true" />
+	<field name="cross_ref" type="lowercase" indexed="true"
+		stored="false" required="false" multiValued="true" />
 	<field name="database" type="lowercase" indexed="true"
 		stored="false" required="false" multiValued="true" />
-	<dynamicField name="xref_count_*" type="int"
+	<dynamicField name="cross_ref_count_*" type="int"
 		indexed="true" required="false" stored="false" multiValued="false" />
 
 	<!-- Citations -->

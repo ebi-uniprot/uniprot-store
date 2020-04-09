@@ -69,8 +69,8 @@
     "description": "this is a dummy description"
   },
   {
-    "id": "mnemonic_default",
-    "fieldName": "mnemonic_default",
+    "id": "id_default",
+    "fieldName": "id_default",
     "dataType": "STRING",
     "fieldType": "GENERAL",
     "example": "sample example",
@@ -518,14 +518,14 @@
     "description": "this is a dummy description"
   },
   {
-    "id": "mnemonic_sort",
+    "id": "id_sort",
     "label": "Entry Name [ID]",
-    "fieldName": "mnemonic_sort",
+    "fieldName": "id_sort",
     "itemType": "SINGLE",
     "fieldType": "SORT",
     "dataType": "STRING",
     "description": "Sort by UniProtKB entry name",
-    "example": "mnemonic_sort desc"
+    "example": "id_sort desc"
   },
   {
     "id": "name_sort",
@@ -590,15 +590,15 @@
   },
   {
     "seqNumber": 1,
-    "id": "mnemonic_field",
+    "id": "id_field",
     "label": "Entry Name [ID]",
-    "fieldName": "mnemonic",
+    "fieldName": "id",
     "fieldType": "GENERAL",
     "itemType": "SINGLE",
     "dataType": "STRING",
     "description": "Search by UniProtKB entry name",
     "example": "P53_HUMAN",
-    "sortFieldId": "mnemonic_sort"
+    "sortFieldId": "id_sort"
   },
   {
     "seqNumber": 2,

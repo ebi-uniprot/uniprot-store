@@ -16,10 +16,10 @@ public class UniProtDocument implements Document {
     @Field("sec_acc")
     public List<String> secacc = new ArrayList<>();
 
-    @Field("mnemonic")
+    @Field("id")
     public String id;
 
-    @Field("mnemonic_default")
+    @Field("id_default")
     public String idDefault;
 
     @Field("reviewed")
@@ -91,8 +91,8 @@ public class UniProtDocument implements Document {
     @Field("pathway")
     public List<String> pathway = new ArrayList<>();
 
-    @Field("xref")
-    public Set<String> xrefs = new HashSet<>();
+    @Field("cross_ref")
+    public Set<String> crossRefs = new HashSet<>();
 
     @Field("database")
     public Set<String> databases = new HashSet<>();
@@ -333,7 +333,7 @@ public class UniProtDocument implements Document {
     @Field("is_isoform")
     public Boolean isIsoform = false;
 
-    @Field("xref_count_*")
+    @Field("cross_ref_count_*")
     public Map<String, Long> xrefCountMap = new HashMap<>();
 
     @Field("source")
@@ -398,7 +398,7 @@ public class UniProtDocument implements Document {
                 && Objects.equals(organismHostNames, document.organismHostNames)
                 && Objects.equals(organismHostIds, document.organismHostIds)
                 && Objects.equals(pathway, document.pathway)
-                && Objects.equals(xrefs, document.xrefs)
+                && Objects.equals(crossRefs, document.crossRefs)
                 && Objects.equals(databases, document.databases)
                 && Objects.equals(referenceTitles, document.referenceTitles)
                 && Objects.equals(referenceAuthors, document.referenceAuthors)
@@ -511,7 +511,7 @@ public class UniProtDocument implements Document {
                         organismHostNames,
                         organismHostIds,
                         pathway,
-                        xrefs,
+                        crossRefs,
                         databases,
                         referenceTitles,
                         referenceAuthors,
@@ -666,8 +666,8 @@ public class UniProtDocument implements Document {
                 + organismHostIds
                 + ", pathway="
                 + pathway
-                + ", xrefs="
-                + xrefs
+                + ", crossRefs="
+                + crossRefs
                 + ", databases="
                 + databases
                 + ", referenceTitles="

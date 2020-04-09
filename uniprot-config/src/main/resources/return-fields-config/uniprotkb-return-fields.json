@@ -29,7 +29,7 @@
     "defaultForTsvOrder" : 1,
     "name": "id",
     "label": "Entry Name",
-    "sortField": "mnemonic",
+    "sortField": "id",
     "id": "names_&_taxonomy/entry_name",
     "paths": [
       "uniProtkbId"
@@ -136,7 +136,7 @@
     "parentId": "names_&_taxonomy",
     "childNumber": 10,
     "itemType": "SINGLE",
-    "name": "dr_proteomes",
+    "name": "cross_ref_proteomes",
     "label": "Proteomes",
     "id": "names_&_taxonomy/proteomes",
     "paths": [

@@ -48,12 +48,12 @@ class UniProtKBEntryCrossReferenceConverterTest {
                 document.content);
 
         assertEquals(
-                new HashSet<>(Arrays.asList("proteomes-id value", "id value")), document.xrefs);
+                new HashSet<>(Arrays.asList("proteomes-id value", "id value")), document.crossRefs);
 
         assertEquals(Collections.singleton("proteomes"), document.databases);
 
-        assertTrue(document.xrefCountMap.containsKey("xref_count_proteomes"));
-        assertEquals(1L, document.xrefCountMap.get("xref_count_proteomes"));
+        assertTrue(document.xrefCountMap.containsKey("cross_ref_count_proteomes"));
+        assertEquals(1L, document.xrefCountMap.get("cross_ref_count_proteomes"));
 
         assertEquals(Collections.singleton("id value"), document.proteomes);
         assertEquals(Collections.singleton("PC12345"), document.proteomeComponents);
@@ -81,12 +81,12 @@ class UniProtKBEntryCrossReferenceConverterTest {
                         Arrays.asList("go-GO:12345", "GO:12345", "go", "12345", "apical dendrite")),
                 document.content);
 
-        assertEquals(new HashSet<>(Arrays.asList("go-GO:12345", "GO:12345")), document.xrefs);
+        assertEquals(new HashSet<>(Arrays.asList("go-GO:12345", "GO:12345")), document.crossRefs);
 
         assertEquals(Collections.singleton("go"), document.databases);
 
-        assertTrue(document.xrefCountMap.containsKey("xref_count_go"));
-        assertEquals(1L, document.xrefCountMap.get("xref_count_go"));
+        assertTrue(document.xrefCountMap.containsKey("cross_ref_count_go"));
+        assertEquals(1L, document.xrefCountMap.get("cross_ref_count_go"));
 
         assertEquals(new HashSet<>(Arrays.asList("12345", "apical dendrite")), document.goes);
         assertEquals(new HashSet<>(Collections.singletonList("12345")), document.goIds);
@@ -116,12 +116,12 @@ class UniProtKBEntryCrossReferenceConverterTest {
         assertEquals(
                 new HashSet<>(Arrays.asList("pdb-id value", "pdb", "id value")), document.content);
 
-        assertEquals(new HashSet<>(Arrays.asList("pdb-id value", "id value")), document.xrefs);
+        assertEquals(new HashSet<>(Arrays.asList("pdb-id value", "id value")), document.crossRefs);
 
         assertEquals(Collections.singleton("pdb"), document.databases);
 
-        assertTrue(document.xrefCountMap.containsKey("xref_count_pdb"));
-        assertEquals(1L, document.xrefCountMap.get("xref_count_pdb"));
+        assertTrue(document.xrefCountMap.containsKey("cross_ref_count_pdb"));
+        assertEquals(1L, document.xrefCountMap.get("cross_ref_count_pdb"));
 
         assertTrue(document.d3structure);
     }
@@ -156,12 +156,12 @@ class UniProtKBEntryCrossReferenceConverterTest {
         assertEquals(
                 new HashSet<>(
                         Arrays.asList("embl-id value", "embl-EMBL12345", "EMBL12345", "id value")),
-                document.xrefs);
+                document.crossRefs);
 
         assertEquals(Collections.singleton("embl"), document.databases);
 
-        assertTrue(document.xrefCountMap.containsKey("xref_count_embl"));
-        assertEquals(1L, document.xrefCountMap.get("xref_count_embl"));
+        assertTrue(document.xrefCountMap.containsKey("cross_ref_count_embl"));
+        assertEquals(1L, document.xrefCountMap.get("cross_ref_count_embl"));
     }
 
     @Test
@@ -193,12 +193,12 @@ class UniProtKBEntryCrossReferenceConverterTest {
         assertEquals(
                 new HashSet<>(
                         Arrays.asList("ensembl-id value", "ensembl-E12345", "E12345", "id value")),
-                document.xrefs);
+                document.crossRefs);
 
         assertEquals(Collections.singleton("ensembl"), document.databases);
 
-        assertTrue(document.xrefCountMap.containsKey("xref_count_ensembl"));
-        assertEquals(1L, document.xrefCountMap.get("xref_count_ensembl"));
+        assertTrue(document.xrefCountMap.containsKey("cross_ref_count_ensembl"));
+        assertEquals(1L, document.xrefCountMap.get("cross_ref_count_ensembl"));
     }
 
     private static UniProtKBCrossReference getUniProtDBCrossReference(

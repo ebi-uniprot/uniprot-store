@@ -69,7 +69,7 @@ class UniProtKBReturnFieldConfigImplTest {
         String dbName = detail.getName();
         String dbNameLowercase = dbName.toLowerCase();
 
-        assertThat(returnField.getName(), is("dr_" + dbNameLowercase));
+        assertThat(returnField.getName(), is("cross_ref_" + dbNameLowercase));
         assertThat(returnField.getSeqNumber(), is(nullValue()));
         assertThat(returnField.getParentId(), is(parent.getId()));
         assertThat(returnField.getChildNumber(), is(childNumber));

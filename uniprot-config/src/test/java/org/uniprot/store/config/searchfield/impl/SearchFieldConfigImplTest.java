@@ -38,13 +38,13 @@ class SearchFieldConfigImplTest {
     void testXrefCountFields() {
         List<SearchFieldItem> items = searchFieldConfig.getSearchFieldItems();
         Assertions.assertNotNull(items);
-        // search fields with xref_count_ prefix
+        // search fields with cross_ref_count_ prefix
         long xrefCountFieldsCount =
                 items.stream()
                         .filter(
                                 i ->
                                         StringUtils.isNotEmpty(i.getFieldName())
-                                                && i.getFieldName().startsWith("xref_count_"))
+                                                && i.getFieldName().startsWith("cross_ref_count_"))
                         .count();
         Assertions.assertEquals(179, xrefCountFieldsCount);
     }
@@ -53,13 +53,14 @@ class SearchFieldConfigImplTest {
     void testNonXrefCountFields() {
         List<SearchFieldItem> items = searchFieldConfig.getSearchFieldItems();
         Assertions.assertNotNull(items);
-        // search fields with xref_count_ prefix
+        // search fields with cross_ref_count_ prefix
         long xrefCountFieldsCount =
                 items.stream()
                         .filter(
                                 i ->
                                         StringUtils.isNotEmpty(i.getFieldName())
-                                                && !(i.getFieldName().startsWith("xref_count_")))
+                                                && !(i.getFieldName()
+                                                        .startsWith("cross_ref_count_")))
                         .count();
         Assertions.assertEquals((492 - 176), xrefCountFieldsCount);
     }
