@@ -99,10 +99,10 @@
     "itemType": "SINGLE",
     "isDefaultForTsv": true,
     "defaultForTsvOrder" : 5,
-    "name": "organism",
+    "name": "organism_name",
     "label": "Organism",
     "sortField": "organism_name",
-    "id": "names_&_taxonomy/organism",
+    "id": "names_&_taxonomy/organism_name",
     "paths": [
       "organism"
     ]
@@ -1374,9 +1374,9 @@
     "parentId": "taxonomic_identifier",
     "childNumber": 0,
     "itemType": "SINGLE",
-    "name": "tax_id",
+    "name": "lineage",
     "label": "Taxonomic lineage",
-    "id": "taxonomic_identifier/taxonomic_lineage",
+    "id": "taxonomic_identifier/lineage",
     "paths": [
       "organism.lineage"
     ]

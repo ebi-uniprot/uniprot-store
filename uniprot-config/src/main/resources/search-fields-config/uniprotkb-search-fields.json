@@ -141,8 +141,8 @@
     "description" : "this is a dummy description"
   },
   {
-    "id":"xref",
-    "fieldName": "xref",
+    "id":"cross_ref",
+    "fieldName": "cross_ref",
     "dataType": "STRING",
     "fieldType": "GENERAL",
     "example":  "sample example",

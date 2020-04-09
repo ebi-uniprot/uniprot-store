@@ -16,7 +16,7 @@ import org.uniprot.store.config.searchfield.model.SearchFieldItem;
 import org.uniprot.store.config.searchfield.model.SearchFieldType;
 
 public class SearchFieldConfigImpl extends AbstractSearchFieldConfig {
-    private static final String XREF_COUNT_PREFIX = "xref_count_";
+    private static final String XREF_COUNT_PREFIX = "cross_ref_count_";
 
     public SearchFieldConfigImpl(UniProtDataType dataType, String configFile) {
         super(dataType, SCHEMA_FILE, configFile);
