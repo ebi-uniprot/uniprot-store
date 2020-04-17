@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.batch.item.ItemWriter;
 import org.uniprot.store.indexer.common.config.UniProtSolrOperations;
 import org.uniprot.store.search.SolrCollection;
@@ -25,12 +26,11 @@ public class SolrDocumentWriter<T extends Document> implements ItemWriter<T> {
         try {
             this.solrOperations.saveBeans(collection.name(), items);
             this.solrOperations.softCommit(collection.name());
-        }catch (Throwable error){
+        } catch (Throwable error) {
             log.error("Error writing to solr: ", error);
-            String ids = items.stream()
-                    .map(Document::getDocumentId)
-                    .collect(Collectors.joining(", "));
-            log.warn("Failed document ids: "+ids);
+            String ids =
+                    items.stream().map(Document::getDocumentId).collect(Collectors.joining(", "));
+            log.warn("Failed document ids: " + ids);
             throw error;
         }
     }

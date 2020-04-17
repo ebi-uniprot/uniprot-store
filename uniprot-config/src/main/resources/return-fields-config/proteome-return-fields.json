@@ -56,7 +56,7 @@
     "childNumber": 4,
     "itemType": "SINGLE",
     "label": "Taxon mnemonic",
-    "name": "taxon_mnemonic",
+    "name": "mnemonic",
     "paths" : ["taxonomy.mnemonic"],
     "id": "names_&_taxonomy/modified"
   },
@@ -80,6 +80,24 @@
     "parentId": "miscellaneous",
     "childNumber": 0,
     "itemType": "SINGLE",
+    "label": "BUSCO",
+    "name": "busco",
+    "paths" : ["proteomeCompletenessReport.buscoReport"],
+    "id": "miscellaneous/busco"
+  },
+  {
+    "parentId": "miscellaneous",
+    "childNumber": 1,
+    "itemType": "SINGLE",
+    "label": "CPD",
+    "name": "cpd",
+    "paths" : ["proteomeCompletenessReport.cpdReport"],
+    "id": "miscellaneous/cpd"
+  },
+  {
+    "parentId": "miscellaneous",
+    "childNumber": 2,
+    "itemType": "SINGLE",
     "label": "Genome assembly ID",
     "name": "genome_assembly",
     "paths" : ["proteomeCrossReferences[?(@.database=='GenomeAssembly')]"],
@@ -87,7 +105,7 @@
   },
   {
     "parentId": "miscellaneous",
-    "childNumber": 1,
+    "childNumber": 3,
     "itemType": "SINGLE",
     "isDefaultForTsv": true,
     "defaultForTsvOrder" : 3,
