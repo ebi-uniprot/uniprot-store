@@ -104,15 +104,6 @@
 	<build>
 		<plugins>
 			<plugin>
-				<artifactId>maven-surefire-plugin</artifactId>
-				<groupId>org.apache.maven.plugins</groupId>
-			</plugin>
-			<plugin>
-				<artifactId>maven-failsafe-plugin</artifactId>
-				<groupId>org.apache.maven.plugins</groupId>
-			</plugin>
-
-			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-dependency-plugin</artifactId>
 				<version>${maven-dependency-plugin.version}</version><!--$NO-MVN-MAN-VER$ -->
