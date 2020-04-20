@@ -329,8 +329,9 @@ class UniProtKBEntryConverterIT {
         assertEquals(1, doc.referenceOrganizations.size());
         assertTrue(doc.referenceOrganizations.contains("The MGC Project Team"));
 
+        Date d1Aug2000 = new Date(965084400000L);
         assertEquals(7, doc.referenceDates.size());
-        assertTrue(doc.referenceDates.contains(new Date(965084400000L)));
+        assertTrue(doc.referenceDates.contains(d1Aug2000), "not able to find "+d1Aug2000+" in "+doc.referenceDates);
 
         assertEquals(5, doc.referenceJournals.size());
         assertTrue(doc.referenceJournals.contains("Genome Res."));
@@ -522,8 +523,9 @@ class UniProtKBEntryConverterIT {
         assertEquals(1, doc.referenceOrganizations.size());
         assertTrue(doc.referenceOrganizations.contains("The MGC Project Team"));
 
+        Date d1Aug2000 = new Date(965084400000L);
         assertEquals(8, doc.referenceDates.size());
-        assertTrue(doc.referenceDates.contains(new Date(965084400000L)));
+        assertTrue(doc.referenceDates.contains(d1Aug2000), "not able to find "+d1Aug2000+" in "+doc.referenceDates);
 
         assertEquals(6, doc.referenceJournals.size());
         assertTrue(doc.referenceJournals.contains("Genome Res."));
