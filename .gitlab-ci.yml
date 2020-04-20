@@ -25,7 +25,7 @@ deploy:jdk8:
     - if [ ! -f ${MAVEN_SETTINGS} ];
         then echo "CI settings missing";
       fi
-    - 'mvn $MAVEN_CLI_OPTS $UNIPROT_RESOURCES -P coverage clean deploy -s ${MAVEN_SETTINGS} sonar:sonar -Dsonar.qualitygate.wait=true ${SONAR_PROPS}'
+    - 'mvn $MAVEN_CLI_OPTS -P coverage clean deploy -s ${MAVEN_SETTINGS} sonar:sonar -Dsonar.qualitygate.wait=true ${SONAR_PROPS}'
   after_script:
     - 'pwd'
     - 'ls -al'
