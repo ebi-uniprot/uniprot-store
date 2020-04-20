@@ -9,7 +9,8 @@
   {
     "parentId": "names_&_taxonomy",
     "childNumber": 0,
-    "itemType": "SINGLE",
+    "itemType": "SINGLE", 
+    "includeInSwagger": true,
     "isRequiredForJson": true,
     "isDefaultForTsv": true,
     "defaultForTsvOrder" : 0,
@@ -24,7 +25,8 @@
   {
     "parentId": "names_&_taxonomy",
     "childNumber": 1,
-    "itemType": "SINGLE",
+    "itemType": "SINGLE", 
+    "includeInSwagger": true,
     "isDefaultForTsv": true,
     "defaultForTsvOrder" : 1,
     "name": "id",
@@ -38,7 +40,8 @@
   {
     "parentId": "names_&_taxonomy",
     "childNumber": 2,
-    "itemType": "SINGLE",
+    "itemType": "SINGLE", 
+    "includeInSwagger": true,
     "isDefaultForTsv": true,
     "defaultForTsvOrder" : 4,
     "name": "gene_names",
@@ -96,7 +99,8 @@
   {
     "parentId": "names_&_taxonomy",
     "childNumber": 7,
-    "itemType": "SINGLE",
+    "itemType": "SINGLE", 
+    "includeInSwagger": true,
     "isDefaultForTsv": true,
     "defaultForTsvOrder" : 5,
     "name": "organism",
@@ -110,7 +114,8 @@
   {
     "parentId": "names_&_taxonomy",
     "childNumber": 8,
-    "itemType": "SINGLE",
+    "itemType": "SINGLE", 
+    "includeInSwagger": true,
     "name": "organism_id",
     "label": "Organism (ID)",
     "id": "names_&_taxonomy/organism_(id)",
@@ -121,7 +126,8 @@
   {
     "parentId": "names_&_taxonomy",
     "childNumber": 9,
-    "itemType": "SINGLE",
+    "itemType": "SINGLE", 
+    "includeInSwagger": true,
     "isDefaultForTsv": true,
     "defaultForTsvOrder" : 3,
     "name": "protein_name",
@@ -135,7 +141,8 @@
   {
     "parentId": "names_&_taxonomy",
     "childNumber": 10,
-    "itemType": "SINGLE",
+    "itemType": "SINGLE", 
+    "includeInSwagger": true,
     "name": "dr_proteomes",
     "label": "Proteomes",
     "id": "names_&_taxonomy/proteomes",
@@ -146,7 +153,8 @@
   {
     "parentId": "names_&_taxonomy",
     "childNumber": 11,
-    "itemType": "SINGLE",
+    "itemType": "SINGLE", 
+    "includeInSwagger": true,
     "name": "lineage",
     "label": "Taxonomic lineage",
     "id": "names_&_taxonomy/taxonomic_lineage",
@@ -157,7 +165,8 @@
   {
     "parentId": "names_&_taxonomy",
     "childNumber": 12,
-    "itemType": "SINGLE",
+    "itemType": "SINGLE", 
+    "includeInSwagger": true,
     "name": "organism_host",
     "label": "Virus hosts",
     "id": "names_&_taxonomy/virus_hosts",
@@ -175,7 +184,8 @@
   {
     "parentId": "sequences",
     "childNumber": 0,
-    "itemType": "SINGLE",
+    "itemType": "SINGLE", 
+    "includeInSwagger": true,
     "name": "cc_alternative_products",
     "label": "Alternative products (isoforms)",
     "id": "sequences/alternative_products_(isoforms)",
@@ -186,7 +196,8 @@
   {
     "parentId": "sequences",
     "childNumber": 1,
-    "itemType": "SINGLE",
+    "itemType": "SINGLE", 
+    "includeInSwagger": true,
     "name": "ft_var_seq",
     "label": "Alternative sequence",
     "id": "sequences/alternative_sequence",
@@ -219,7 +230,8 @@
   {
     "parentId": "sequences",
     "childNumber": 4,
-    "itemType": "SINGLE",
+    "itemType": "SINGLE", 
+    "includeInSwagger": true,
     "name": "organelle",
     "label": "Gene encoded by",
     "id": "sequences/gene_encoded_by",
@@ -230,7 +242,8 @@
   {
     "parentId": "sequences",
     "childNumber": 5,
-    "itemType": "SINGLE",
+    "itemType": "SINGLE", 
+    "includeInSwagger": true,
     "isDefaultForTsv": true,
     "defaultForTsvOrder" : 6,
     "name": "length",
@@ -244,7 +257,8 @@
   {
     "parentId": "sequences",
     "childNumber": 6,
-    "itemType": "SINGLE",
+    "itemType": "SINGLE", 
+    "includeInSwagger": true,
     "name": "mass",
     "label": "Mass",
     "sortField": "mass",
@@ -256,7 +270,8 @@
   {
     "parentId": "sequences",
     "childNumber": 7,
-    "itemType": "SINGLE",
+    "itemType": "SINGLE", 
+    "includeInSwagger": true,
     "name": "cc_mass_spectrometry",
     "label": "Mass spectrometry",
     "id": "sequences/mass_spectrometry",
@@ -267,7 +282,8 @@
   {
     "parentId": "sequences",
     "childNumber": 8,
-    "itemType": "SINGLE",
+    "itemType": "SINGLE", 
+    "includeInSwagger": true,
     "name": "ft_variant",
     "label": "Natural variant",
     "id": "sequences/natural_variant",
@@ -278,7 +294,8 @@
   {
     "parentId": "sequences",
     "childNumber": 9,
-    "itemType": "SINGLE",
+    "itemType": "SINGLE", 
+    "includeInSwagger": true,
     "name": "ft_non_cons",
     "label": "Non-adjacent residue",
     "id": "sequences/non-adjacent_residue",
@@ -289,7 +306,8 @@
   {
     "parentId": "sequences",
     "childNumber": 10,
-    "itemType": "SINGLE",
+    "itemType": "SINGLE", 
+    "includeInSwagger": true,
     "name": "ft_non_std",
     "label": "Non-standard residue",
     "id": "sequences/non-standard_residue",
@@ -300,7 +318,8 @@
   {
     "parentId": "sequences",
     "childNumber": 11,
-    "itemType": "SINGLE",
+    "itemType": "SINGLE", 
+    "includeInSwagger": true,
     "name": "ft_non_ter",
     "label": "Non-terminal residue",
     "id": "sequences/non-terminal_residue",
@@ -311,7 +330,8 @@
   {
     "parentId": "sequences",
     "childNumber": 12,
-    "itemType": "SINGLE",
+    "itemType": "SINGLE", 
+    "includeInSwagger": true,
     "name": "cc_polymorphism",
     "label": "Polymorphism",
     "id": "sequences/polymorphism",
@@ -322,7 +342,8 @@
   {
     "parentId": "sequences",
     "childNumber": 13,
-    "itemType": "SINGLE",
+    "itemType": "SINGLE", 
+    "includeInSwagger": true,
     "name": "cc_rna_editing",
     "label": "RNA Editing",
     "id": "sequences/rna_editing",
@@ -333,7 +354,8 @@
   {
     "parentId": "sequences",
     "childNumber": 14,
-    "itemType": "SINGLE",
+    "itemType": "SINGLE", 
+    "includeInSwagger": true,
     "name": "sequence",
     "label": "Sequence",
     "id": "sequences/sequence",
@@ -344,7 +366,8 @@
   {
     "parentId": "sequences",
     "childNumber": 15,
-    "itemType": "SINGLE",
+    "itemType": "SINGLE", 
+    "includeInSwagger": true,
     "name": "cc_sequence_caution",
     "label": "Sequence caution",
     "id": "sequences/sequence_caution",
@@ -355,7 +378,8 @@
   {
     "parentId": "sequences",
     "childNumber": 16,
-    "itemType": "SINGLE",
+    "itemType": "SINGLE", 
+    "includeInSwagger": true,
     "name": "ft_conflict",
     "label": "Sequence conflict",
     "id": "sequences/sequence_conflict",
@@ -366,7 +390,8 @@
   {
     "parentId": "sequences",
     "childNumber": 17,
-    "itemType": "SINGLE",
+    "itemType": "SINGLE", 
+    "includeInSwagger": true,
     "name": "ft_unsure",
     "label": "Sequence uncertainty",
     "id": "sequences/sequence_uncertainty",
@@ -377,7 +402,8 @@
   {
     "parentId": "sequences",
     "childNumber": 18,
-    "itemType": "SINGLE",
+    "itemType": "SINGLE", 
+    "includeInSwagger": true,
     "name": "sequence_version",
     "label": "Sequence version",
     "id": "sequences/sequence_version",
@@ -406,7 +432,8 @@
   {
     "parentId": "function",
     "childNumber": 1,
-    "itemType": "SINGLE",
+    "itemType": "SINGLE", 
+    "includeInSwagger": true,
     "name": "ft_act_site",
     "label": "Active site",
     "id": "function/active_site",
@@ -417,7 +444,8 @@
   {
     "parentId": "function",
     "childNumber": 2,
-    "itemType": "SINGLE",
+    "itemType": "SINGLE", 
+    "includeInSwagger": true,
     "name": "ft_binding",
     "label": "Binding site",
     "id": "function/binding_site",
@@ -428,7 +456,8 @@
   {
     "parentId": "function",
     "childNumber": 3,
-    "itemType": "SINGLE",
+    "itemType": "SINGLE", 
+    "includeInSwagger": true,
     "name": "ft_ca_bind",
     "label": "Calcium binding",
     "id": "function/calcium_binding",
@@ -439,7 +468,8 @@
   {
     "parentId": "function",
     "childNumber": 4,
-    "itemType": "SINGLE",
+    "itemType": "SINGLE", 
+    "includeInSwagger": true,
     "name": "cc_catalytic_activity",
     "label": "Catalytic activity",
     "id": "function/catalytic_activity",
@@ -450,7 +480,8 @@
   {
     "parentId": "function",
     "childNumber": 5,
-    "itemType": "SINGLE",
+    "itemType": "SINGLE", 
+    "includeInSwagger": true,
     "name": "cc_cofactor",
     "label": "Cofactor",
     "id": "function/cofactor",
@@ -461,7 +492,8 @@
   {
     "parentId": "function",
     "childNumber": 6,
-    "itemType": "SINGLE",
+    "itemType": "SINGLE", 
+    "includeInSwagger": true,
     "name": "ft_dna_bind",
     "label": "DNA binding",
     "id": "function/dna_binding",
@@ -472,7 +504,8 @@
   {
     "parentId": "function",
     "childNumber": 7,
-    "itemType": "SINGLE",
+    "itemType": "SINGLE", 
+    "includeInSwagger": true,
     "name": "ec",
     "label": "EC number",
     "id": "function/ec_number",
@@ -483,7 +516,8 @@
   {
     "parentId": "function",
     "childNumber": 8,
-    "itemType": "SINGLE",
+    "itemType": "SINGLE", 
+    "includeInSwagger": true,
     "name": "cc_activity_regulation",
     "label": "Activity regulation",
     "id": "function/activity_regulation",
@@ -494,7 +528,8 @@
   {
     "parentId": "function",
     "childNumber": 9,
-    "itemType": "SINGLE",
+    "itemType": "SINGLE", 
+    "includeInSwagger": true,
     "name": "cc_function",
     "label": "Function [CC]",
     "id": "function/function_[cc]",
@@ -516,7 +551,8 @@
   {
     "parentId": "function",
     "childNumber": 11,
-    "itemType": "SINGLE",
+    "itemType": "SINGLE", 
+    "includeInSwagger": true,
     "name": "ft_metal",
     "label": "Metal binding",
     "id": "function/metal_binding",
@@ -527,7 +563,8 @@
   {
     "parentId": "function",
     "childNumber": 12,
-    "itemType": "SINGLE",
+    "itemType": "SINGLE", 
+    "includeInSwagger": true,
     "name": "ft_np_bind",
     "label": "Nucleotide binding",
     "id": "function/nucleotide_binding",
@@ -538,7 +575,8 @@
   {
     "parentId": "function",
     "childNumber": 13,
-    "itemType": "SINGLE",
+    "itemType": "SINGLE", 
+    "includeInSwagger": true,
     "name": "cc_pathway",
     "label": "Pathway",
     "id": "function/pathway",
@@ -571,7 +609,8 @@
   {
     "parentId": "function",
     "childNumber": 16,
-    "itemType": "SINGLE",
+    "itemType": "SINGLE", 
+    "includeInSwagger": true,
     "name": "ft_site",
     "label": "Site",
     "id": "function/site",
@@ -600,7 +639,8 @@
   {
     "parentId": "miscellaneous",
     "childNumber": 0,
-    "itemType": "SINGLE",
+    "itemType": "SINGLE", 
+    "includeInSwagger": true,
     "name": "score",
     "label": "Annotation",
     "sortField": "annotation_score",
@@ -612,7 +652,8 @@
   {
     "parentId": "miscellaneous",
     "childNumber": 1,
-    "itemType": "SINGLE",
+    "itemType": "SINGLE", 
+    "includeInSwagger": true,
     "name": "cc_caution",
     "label": "Caution",
     "id": "miscellaneous/caution",
@@ -634,7 +675,8 @@
   {
     "parentId": "miscellaneous",
     "childNumber": 3,
-    "itemType": "SINGLE",
+    "itemType": "SINGLE", 
+    "includeInSwagger": true,
     "name": "keyword",
     "label": "Keywords",
     "id": "miscellaneous/keywords",
@@ -667,7 +709,8 @@
   {
     "parentId": "miscellaneous",
     "childNumber": 6,
-    "itemType": "SINGLE",
+    "itemType": "SINGLE", 
+    "includeInSwagger": true,
     "name": "cc_miscellaneous",
     "label": "Miscellaneous [CC]",
     "id": "miscellaneous/miscellaneous_[cc]",
@@ -678,7 +721,8 @@
   {
     "parentId": "miscellaneous",
     "childNumber": 7,
-    "itemType": "SINGLE",
+    "itemType": "SINGLE", 
+    "includeInSwagger": true,
     "name": "protein_existence",
     "label": "Protein existence",
     "id": "miscellaneous/protein_existence",
@@ -689,7 +733,8 @@
   {
     "parentId": "miscellaneous",
     "childNumber": 8,
-    "itemType": "SINGLE",
+    "itemType": "SINGLE", 
+    "includeInSwagger": true,
     "isDefaultForTsv": true,
     "defaultForTsvOrder" : 2,
     "name": "reviewed",
@@ -731,7 +776,8 @@
   {
     "parentId": "interaction",
     "childNumber": 0,
-    "itemType": "SINGLE",
+    "itemType": "SINGLE", 
+    "includeInSwagger": true,
     "name": "cc_interaction",
     "label": "Interacts with",
     "id": "interaction/interacts_with",
@@ -742,7 +788,8 @@
   {
     "parentId": "interaction",
     "childNumber": 1,
-    "itemType": "SINGLE",
+    "itemType": "SINGLE", 
+    "includeInSwagger": true,
     "name": "cc_subunit",
     "label": "Subunit structure",
     "id": "interaction/subunit_structure",
@@ -760,7 +807,8 @@
   {
     "parentId": "expression",
     "childNumber": 0,
-    "itemType": "SINGLE",
+    "itemType": "SINGLE", 
+    "includeInSwagger": true,
     "name": "cc_developmental_stage",
     "label": "Developmental stage",
     "id": "expression/developmental_stage",
@@ -771,7 +819,8 @@
   {
     "parentId": "expression",
     "childNumber": 1,
-    "itemType": "SINGLE",
+    "itemType": "SINGLE", 
+    "includeInSwagger": true,
     "name": "cc_induction",
     "label": "Induction",
     "id": "expression/induction",
@@ -782,7 +831,8 @@
   {
     "parentId": "expression",
     "childNumber": 2,
-    "itemType": "SINGLE",
+    "itemType": "SINGLE", 
+    "includeInSwagger": true,
     "name": "cc_tissue_specificity",
     "label": "Tissue specificity",
     "id": "expression/tissue_specificity",
@@ -822,7 +872,8 @@
   {
     "parentId": "gene_ontology_(go)",
     "childNumber": 2,
-    "itemType": "SINGLE",
+    "itemType": "SINGLE", 
+    "includeInSwagger": true,
     "name": "go",
     "label": "Gene Ontology (GO)",
     "id": "gene_ontology_(go)/gene_ontology_(go)",
@@ -862,7 +913,8 @@
   {
     "parentId": "pathology_&_biotech",
     "childNumber": 0,
-    "itemType": "SINGLE",
+    "itemType": "SINGLE", 
+    "includeInSwagger": true,
     "name": "cc_allergen",
     "label": "Allergenic Properties",
     "id": "pathology_&_biotech/allergenic_properties",
@@ -873,7 +925,8 @@
   {
     "parentId": "pathology_&_biotech",
     "childNumber": 1,
-    "itemType": "SINGLE",
+    "itemType": "SINGLE", 
+    "includeInSwagger": true,
     "name": "cc_biotechnology",
     "label": "Biotechnological use",
     "id": "pathology_&_biotech/biotechnological_use",
@@ -884,7 +937,8 @@
   {
     "parentId": "pathology_&_biotech",
     "childNumber": 2,
-    "itemType": "SINGLE",
+    "itemType": "SINGLE", 
+    "includeInSwagger": true,
     "name": "cc_disruption_phenotype",
     "label": "Disruption phenotype",
     "id": "pathology_&_biotech/disruption_phenotype",
@@ -895,7 +949,8 @@
   {
     "parentId": "pathology_&_biotech",
     "childNumber": 3,
-    "itemType": "SINGLE",
+    "itemType": "SINGLE", 
+    "includeInSwagger": true,
     "name": "cc_disease",
     "label": "Involvement in disease",
     "id": "pathology_&_biotech/involvement_in_disease",
@@ -906,7 +961,8 @@
   {
     "parentId": "pathology_&_biotech",
     "childNumber": 4,
-    "itemType": "SINGLE",
+    "itemType": "SINGLE", 
+    "includeInSwagger": true,
     "name": "ft_mutagen",
     "label": "Mutagenesis",
     "id": "pathology_&_biotech/mutagenesis",
@@ -917,7 +973,8 @@
   {
     "parentId": "pathology_&_biotech",
     "childNumber": 5,
-    "itemType": "SINGLE",
+    "itemType": "SINGLE", 
+    "includeInSwagger": true,
     "name": "cc_pharmaceutical",
     "label": "Pharmaceutical use",
     "id": "pathology_&_biotech/pharmaceutical_use",
@@ -928,7 +985,8 @@
   {
     "parentId": "pathology_&_biotech",
     "childNumber": 6,
-    "itemType": "SINGLE",
+    "itemType": "SINGLE", 
+    "includeInSwagger": true,
     "name": "cc_toxic_dose",
     "label": "Toxic dose",
     "id": "pathology_&_biotech/toxic_dose",
@@ -946,7 +1004,8 @@
   {
     "parentId": "subcellular_location",
     "childNumber": 0,
-    "itemType": "SINGLE",
+    "itemType": "SINGLE", 
+    "includeInSwagger": true,
     "name": "ft_intramem",
     "label": "Intramembrane",
     "id": "subcellular_location/intramembrane",
@@ -957,7 +1016,8 @@
   {
     "parentId": "subcellular_location",
     "childNumber": 1,
-    "itemType": "SINGLE",
+    "itemType": "SINGLE", 
+    "includeInSwagger": true,
     "name": "cc_subcellular_location",
     "label": "Subcellular location [CC]",
     "id": "subcellular_location/subcellular_location_[cc]",
@@ -968,7 +1028,8 @@
   {
     "parentId": "subcellular_location",
     "childNumber": 2,
-    "itemType": "SINGLE",
+    "itemType": "SINGLE", 
+    "includeInSwagger": true,
     "name": "ft_topo_dom",
     "label": "Topological domain",
     "id": "subcellular_location/topological_domain",
@@ -979,7 +1040,8 @@
   {
     "parentId": "subcellular_location",
     "childNumber": 3,
-    "itemType": "SINGLE",
+    "itemType": "SINGLE", 
+    "includeInSwagger": true,
     "name": "ft_transmem",
     "label": "Transmembrane",
     "id": "subcellular_location/transmembrane",
@@ -997,7 +1059,8 @@
   {
     "parentId": "ptm_/_processing",
     "childNumber": 0,
-    "itemType": "SINGLE",
+    "itemType": "SINGLE", 
+    "includeInSwagger": true,
     "name": "ft_chain",
     "label": "Chain",
     "id": "ptm_/_processing/chain",
@@ -1008,7 +1071,8 @@
   {
     "parentId": "ptm_/_processing",
     "childNumber": 1,
-    "itemType": "SINGLE",
+    "itemType": "SINGLE", 
+    "includeInSwagger": true,
     "name": "ft_crosslnk",
     "label": "Cross-link",
     "id": "ptm_/_processing/cross-link",
@@ -1019,7 +1083,8 @@
   {
     "parentId": "ptm_/_processing",
     "childNumber": 2,
-    "itemType": "SINGLE",
+    "itemType": "SINGLE", 
+    "includeInSwagger": true,
     "name": "ft_disulfid",
     "label": "Disulfide bond",
     "id": "ptm_/_processing/disulfide_bond",
@@ -1030,7 +1095,8 @@
   {
     "parentId": "ptm_/_processing",
     "childNumber": 3,
-    "itemType": "SINGLE",
+    "itemType": "SINGLE", 
+    "includeInSwagger": true,
     "name": "ft_carbohyd",
     "label": "Glycosylation",
     "id": "ptm_/_processing/glycosylation",
@@ -1041,7 +1107,8 @@
   {
     "parentId": "ptm_/_processing",
     "childNumber": 4,
-    "itemType": "SINGLE",
+    "itemType": "SINGLE", 
+    "includeInSwagger": true,
     "name": "ft_init_met",
     "label": "Initiator methionine",
     "id": "ptm_/_processing/initiator_methionine",
@@ -1052,7 +1119,8 @@
   {
     "parentId": "ptm_/_processing",
     "childNumber": 5,
-    "itemType": "SINGLE",
+    "itemType": "SINGLE", 
+    "includeInSwagger": true,
     "name": "ft_lipid",
     "label": "Lipidation",
     "id": "ptm_/_processing/lipidation",
@@ -1063,7 +1131,8 @@
   {
     "parentId": "ptm_/_processing",
     "childNumber": 6,
-    "itemType": "SINGLE",
+    "itemType": "SINGLE", 
+    "includeInSwagger": true,
     "name": "ft_mod_res",
     "label": "Modified residue",
     "id": "ptm_/_processing/modified_residue",
@@ -1074,7 +1143,8 @@
   {
     "parentId": "ptm_/_processing",
     "childNumber": 7,
-    "itemType": "SINGLE",
+    "itemType": "SINGLE", 
+    "includeInSwagger": true,
     "name": "ft_peptide",
     "label": "Peptide",
     "id": "ptm_/_processing/peptide",
@@ -1085,7 +1155,8 @@
   {
     "parentId": "ptm_/_processing",
     "childNumber": 8,
-    "itemType": "SINGLE",
+    "itemType": "SINGLE", 
+    "includeInSwagger": true,
     "name": "cc_ptm",
     "label": "Post-translational modification",
     "id": "ptm_/_processing/post-translational_modification",
@@ -1096,7 +1167,8 @@
   {
     "parentId": "ptm_/_processing",
     "childNumber": 9,
-    "itemType": "SINGLE",
+    "itemType": "SINGLE", 
+    "includeInSwagger": true,
     "name": "ft_propep",
     "label": "Propeptide",
     "id": "ptm_/_processing/propeptide",
@@ -1107,7 +1179,8 @@
   {
     "parentId": "ptm_/_processing",
     "childNumber": 10,
-    "itemType": "SINGLE",
+    "itemType": "SINGLE", 
+    "includeInSwagger": true,
     "name": "ft_signal",
     "label": "Signal peptide",
     "id": "ptm_/_processing/signal_peptide",
@@ -1118,7 +1191,8 @@
   {
     "parentId": "ptm_/_processing",
     "childNumber": 11,
-    "itemType": "SINGLE",
+    "itemType": "SINGLE", 
+    "includeInSwagger": true,
     "name": "ft_transit",
     "label": "Transit peptide",
     "id": "ptm_/_processing/transit_peptide",
@@ -1136,7 +1210,7 @@
   {
     "parentId": "structure",
     "childNumber": 0,
-    "itemType": "SINGLE",
+    "itemType": "SINGLE", 
     "name": "3d",
     "label": "3D",
     "id": "structure/3d",
@@ -1147,7 +1221,8 @@
   {
     "parentId": "structure",
     "childNumber": 1,
-    "itemType": "SINGLE",
+    "itemType": "SINGLE", 
+    "includeInSwagger": true,
     "name": "ft_strand",
     "label": "Beta strand",
     "id": "structure/beta_strand",
@@ -1158,7 +1233,8 @@
   {
     "parentId": "structure",
     "childNumber": 2,
-    "itemType": "SINGLE",
+    "itemType": "SINGLE", 
+    "includeInSwagger": true,
     "name": "ft_helix",
     "label": "Helix",
     "id": "structure/helix",
@@ -1169,7 +1245,8 @@
   {
     "parentId": "structure",
     "childNumber": 3,
-    "itemType": "SINGLE",
+    "itemType": "SINGLE", 
+    "includeInSwagger": true,
     "name": "ft_turn",
     "label": "Turn",
     "id": "structure/turn",
@@ -1198,7 +1275,8 @@
   {
     "parentId": "publications",
     "childNumber": 1,
-    "itemType": "SINGLE",
+    "itemType": "SINGLE", 
+    "includeInSwagger": true,
     "name": "pm_id",
     "label": "PubMed ID",
     "id": "publications/pubmed_id",
@@ -1216,7 +1294,8 @@
   {
     "parentId": "date_of",
     "childNumber": 0,
-    "itemType": "SINGLE",
+    "itemType": "SINGLE", 
+    "includeInSwagger": true,
     "name": "date_create",
     "label": "Date of creation",
     "id": "date_of/date_of_creation",
@@ -1227,7 +1306,8 @@
   {
     "parentId": "date_of",
     "childNumber": 1,
-    "itemType": "SINGLE",
+    "itemType": "SINGLE", 
+    "includeInSwagger": true,
     "name": "date_mod",
     "label": "Date of last modification",
     "id": "date_of/date_of_last_modification",
@@ -1238,7 +1318,8 @@
   {
     "parentId": "date_of",
     "childNumber": 2,
-    "itemType": "SINGLE",
+    "itemType": "SINGLE", 
+    "includeInSwagger": true,
     "name": "date_seq_mod",
     "label": "Date of last sequence modification",
     "id": "date_of/date_of_last_sequence_modification",
@@ -1249,7 +1330,7 @@
   {
     "parentId": "date_of",
     "childNumber": 3,
-    "itemType": "SINGLE",
+    "itemType": "SINGLE", 
     "name": "version",
     "label": "Entry version",
     "id": "date_of/entry_version",
@@ -1267,7 +1348,8 @@
   {
     "parentId": "family_&_domains",
     "childNumber": 0,
-    "itemType": "SINGLE",
+    "itemType": "SINGLE", 
+    "includeInSwagger": true,
     "name": "ft_coiled",
     "label": "Coiled coil",
     "id": "family_&_domains/coiled_coil",
@@ -1278,7 +1360,8 @@
   {
     "parentId": "family_&_domains",
     "childNumber": 1,
-    "itemType": "SINGLE",
+    "itemType": "SINGLE", 
+    "includeInSwagger": true,
     "name": "ft_compbias",
     "label": "Compositional bias",
     "id": "family_&_domains/compositional_bias",
@@ -1289,7 +1372,8 @@
   {
     "parentId": "family_&_domains",
     "childNumber": 2,
-    "itemType": "SINGLE",
+    "itemType": "SINGLE", 
+    "includeInSwagger": true,
     "name": "cc_domain",
     "label": "Domain [CC]",
     "id": "family_&_domains/domain_[cc]",
@@ -1300,7 +1384,8 @@
   {
     "parentId": "family_&_domains",
     "childNumber": 3,
-    "itemType": "SINGLE",
+    "itemType": "SINGLE", 
+    "includeInSwagger": true,
     "name": "ft_domain",
     "label": "Domain [FT]",
     "id": "family_&_domains/domain_[ft]",
@@ -1311,7 +1396,8 @@
   {
     "parentId": "family_&_domains",
     "childNumber": 4,
-    "itemType": "SINGLE",
+    "itemType": "SINGLE", 
+    "includeInSwagger": true,
     "name": "ft_motif",
     "label": "Motif",
     "id": "family_&_domains/motif",
@@ -1333,7 +1419,8 @@
   {
     "parentId": "family_&_domains",
     "childNumber": 6,
-    "itemType": "SINGLE",
+    "itemType": "SINGLE", 
+    "includeInSwagger": true,
     "name": "ft_region",
     "label": "Region",
     "id": "family_&_domains/region",
@@ -1344,7 +1431,8 @@
   {
     "parentId": "family_&_domains",
     "childNumber": 7,
-    "itemType": "SINGLE",
+    "itemType": "SINGLE", 
+    "includeInSwagger": true,
     "name": "ft_repeat",
     "label": "Repeat",
     "id": "family_&_domains/repeat",
@@ -1355,7 +1443,8 @@
   {
     "parentId": "family_&_domains",
     "childNumber": 8,
-    "itemType": "SINGLE",
+    "itemType": "SINGLE", 
+    "includeInSwagger": true,
     "name": "ft_zn_fing",
     "label": "Zinc finger",
     "id": "family_&_domains/zinc_finger",
@@ -1504,6 +1593,7 @@
     "parentId": "miscellaneous",
     "childNumber": 11,
     "itemType": "SINGLE",
+    "includeInSwagger": true,
     "name": "comment_count",
     "label": "Comments",
     "id": "miscellaneous/comment_count",
@@ -1515,6 +1605,7 @@
     "parentId": "miscellaneous",
     "childNumber": 12,
     "itemType": "SINGLE",
+    "includeInSwagger": true,
     "name": "feature_count",
     "label": "Features",
     "id": "miscellaneous/feature_count",
