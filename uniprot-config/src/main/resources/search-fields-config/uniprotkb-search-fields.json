@@ -15,7 +15,8 @@
     "fieldType": "GENERAL",
     "validRegex": "^[0-9]+$",
     "description": "Search by NCBI taxonomy id",
-    "example": "12345"
+    "example": "12345",
+    "includeInSwagger": true
   },
   {
     "id": "organism_id",
@@ -24,7 +25,8 @@
     "fieldType": "GENERAL",
     "validRegex": "^[0-9]+$",
     "description": "Search by Organism id",
-    "example": "1234"
+    "example": "1234",
+    "includeInSwagger": true
   },
   {
     "id": "accession_sort",
@@ -48,16 +50,16 @@
     "fieldName": "proteins_with",
     "fieldType": "GENERAL",
     "dataType": "STRING",
-    "example":  "sample example",
-    "description" : "this is a dummy description"
+    "example":  "3D structure",
+    "description" : "Search proteins with certain attribute"
   },
   {
     "id":"annotation_score_field",
     "fieldName": "annotation_score",
     "dataType": "STRING",
-    "example":  "sample example",
+    "example":  "5",
     "fieldType": "GENERAL",
-    "description" : "this is a dummy description",
+    "description" : "Search by programmatically computed annotation score of protein",
     "sortFieldId": "annotation_score_sort"
   },
   {
@@ -66,127 +68,111 @@
     "fieldType": "SORT",
     "dataType": "STRING",
     "example":  "sample example",
-    "description" : "this is a dummy description"
+    "description" : "Sort by annotation score of protein"
   },
   {
     "id":"id_default",
     "fieldName": "id_default",
     "dataType": "STRING",
-    "fieldType": "GENERAL",
-    "example":  "sample example",
-    "description" : "this is a dummy description"
+    "fieldType": "GENERAL"
   },
   {
     "id":"sec_acc",
     "fieldName": "sec_acc",
     "dataType": "STRING",
-    "fieldType": "GENERAL",
-    "example":  "sample example",
-    "description" : "this is a dummy description"
+    "fieldType": "GENERAL"
   },
   {
     "id":"content",
     "fieldName": "content",
     "dataType": "STRING",
-    "fieldType": "GENERAL",
-    "example":  "sample example",
-    "description" : "this is a dummy description"
+    "fieldType": "GENERAL"
   },
   {
     "id":"ec_exact",
     "fieldName": "ec_exact",
     "dataType": "STRING",
-    "fieldType": "GENERAL",
-    "example":  "sample example",
-    "description" : "this is a dummy description"
+    "fieldType": "GENERAL"
   },
   {
     "id":"protgene_default",
     "fieldName": "protgene_default",
     "dataType": "STRING",
-    "example":  "sample example",
-    "fieldType": "GENERAL",
-    "description" : "this is a dummy description"
+    "fieldType": "GENERAL"
   },
   {
     "id":"gene_exact",
     "fieldName": "gene_exact",
     "dataType": "STRING",
     "fieldType": "GENERAL",
-    "example":  "sample example",
-    "description" : "this is a dummy description"
+    "example":  "HLA-A",
+    "description" : "Search by exact gene",
+    "includeInSwagger": true
   },
   {
     "id":"model_organism",
     "fieldName": "model_organism",
     "dataType": "STRING",
-    "fieldType": "GENERAL",
-    "example":  "sample example",
-    "description" : "this is a dummy description"
+    "fieldType": "GENERAL"
   },
   {
     "id":"other_organism",
     "fieldName": "other_organism",
     "dataType": "STRING",
-    "fieldType": "GENERAL",
-    "example":  "sample example",
-    "description" : "this is a dummy description"
+    "fieldType": "GENERAL"
   },
   {
     "id":"source",
     "fieldName": "source",
     "dataType": "STRING",
-    "fieldType": "GENERAL",
-    "example":  "sample example",
-    "description" : "this is a dummy description"
+    "fieldType": "GENERAL"
   },
   {
     "id":"cross_ref",
     "fieldName": "cross_ref",
     "dataType": "STRING",
     "fieldType": "GENERAL",
-    "example":  "sample example",
-    "description" : "this is a dummy description"
+    "example":  "DDBJ",
+    "description" : "Search by cross ref",
+    "includeInSwagger": true
   },
   {
     "id":"database",
     "fieldName": "database",
     "dataType": "STRING",
     "fieldType": "GENERAL",
-    "example":  "sample example",
-    "description" : "this is a dummy description"
+    "example":  "Bgee",
+    "description" : "Search by database aka cross reference",
+    "includeInSwagger": true
   },
   {
     "id":"lit_organisation",
     "fieldName": "lit_organisation",
     "dataType": "STRING",
-    "fieldType": "GENERAL",
-    "example":  "sample example",
-    "description" : "this is a dummy description"
+    "fieldType": "GENERAL"
   },
   {
     "id":"is_isoform",
     "fieldName": "is_isoform",
     "validRegex": "^true|false$",
-    "dataType": "STRING",
+    "dataType": "BOOLEAN",
     "fieldType": "GENERAL",
-    "example":  "sample example",
-    "description" : "this is a dummy description"
+    "example":  "true",
+    "description" : "Search if it has isoform",
+    "includeInSwagger": true
   },
   {
     "id":"cc_sc",
     "fieldName": "cc_sc",
     "dataType": "STRING",
     "fieldType": "GENERAL",
-    "example":  "sample example",
-    "description" : "this is a dummy description"
+    "example":  "The sequence CAA55367 differs",
+    "description" : "Search by protein sequence caution or error"
   },
   {
     "id":"ccev_sc",
     "fieldName": "ccev_sc",
     "dataType": "STRING",
-    "example":  "sample example",
-    "description" : "this is a dummy description",
     "fieldType": "GENERAL"
   },
   {
@@ -194,328 +180,261 @@
     "fieldName": "cc_cofactor",
     "dataType": "STRING",
     "fieldType": "GENERAL",
-    "example":  "sample example",
-    "description" : "this is a dummy description"
+    "example":  "Zinc",
+    "description" : "Search by cofactor, any non-protein substance",
+    "includeInSwagger": true
   },
   {
     "id":"ccev_cofactor",
     "fieldName": "ccev_cofactor",
     "fieldType": "GENERAL",
-    "dataType": "STRING",
-    "example":  "sample example",
-    "description" : "this is a dummy description"
+    "dataType": "STRING"
   },
   {
     "id":"cc_biophysicochemical_properties",
     "fieldName": "cc_biophysicochemical_properties",
     "dataType": "STRING",
     "fieldType": "GENERAL",
-    "example":  "sample example",
-    "description" : "this is a dummy description"
+    "example":  "pH dependence",
+    "description" : "Search by biophysical and chemical properties",
+    "includeInSwagger": true
   },
   {
     "id":"ccev_biophysicochemical_properties",
     "fieldName": "ccev_biophysicochemical_properties",
     "dataType": "STRING",
-    "fieldType": "GENERAL",
-    "example":  "sample example",
-    "description" : "this is a dummy description"
+    "fieldType": "GENERAL"
   },
   {
     "id":"cc_interaction",
     "fieldName": "cc_interaction",
     "dataType": "STRING",
-    "example":  "sample example",
+    "example":  "Homodimer",
     "fieldType": "GENERAL",
-    "description" : "this is a dummy description"
+    "description" : "Search by comment interaction",
+    "includeInSwagger": true
   },
   {
     "id":"ccev_interaction",
     "fieldName": "ccev_interaction",
     "dataType": "STRING",
-    "fieldType": "GENERAL",
-    "example":  "sample example",
-    "description" : "this is a dummy description"
+    "fieldType": "GENERAL"
   },
   {
     "id":"cc_subcellular_location",
     "fieldName": "cc_subcellular_location",
     "dataType": "STRING",
     "fieldType": "GENERAL",
-    "example":  "sample example",
-    "description" : "this is a dummy description"
+    "description": "Search by comment subcellular location",
+    "example": "A band",
+    "includeInSwagger": true
   },
   {
     "id":"ccev_subcellular_location",
     "fieldName": "ccev_subcellular_location",
     "dataType": "STRING",
-    "fieldType": "GENERAL",
-    "example":  "sample example",
-    "description" : "this is a dummy description"
+    "fieldType": "GENERAL"
   },
   {
     "id":"cc_alternative_products",
     "fieldName": "cc_alternative_products",
     "dataType": "STRING",
     "fieldType": "GENERAL",
-    "example":  "sample example",
-    "description" : "this is a dummy description"
+    "example":  "P04150-5",
+    "description" : "Search by alternative protein sequences",
+    "includeInSwagger": true
   },
   {
     "id":"ccev_alternative_products",
     "fieldName": "ccev_alternative_products",
     "dataType": "STRING",
-    "fieldType": "GENERAL",
-    "example":  "sample example",
-    "description" : "this is a dummy description"
+    "fieldType": "GENERAL"
   },
   {
     "id":"cc_unknown",
     "fieldName": "cc_unknown",
     "dataType": "STRING",
-    "fieldType": "GENERAL",
-    "example":  "sample example",
-    "description" : "this is a dummy description"
+    "fieldType": "GENERAL"
   },
   {
     "id":"ccev_unknown",
     "fieldType": "GENERAL",
     "fieldName": "ccev_unknown",
-    "dataType": "STRING",
-    "example":  "sample example",
-    "description" : "this is a dummy description"
+    "dataType": "STRING"
   },
   {
     "id":"go_manual",
     "fieldType": "GENERAL",
     "fieldName": "go_manual",
-    "dataType": "STRING",
-    "example":  "sample example",
-    "description" : "this is a dummy description"
+    "dataType": "STRING"
   },
   {
     "id":"go_automatic",
     "fieldType": "GENERAL",
     "fieldName": "go_automatic",
-    "dataType": "STRING",
-    "example":  "sample example",
-    "description" : "this is a dummy description"
+    "dataType": "STRING"
   },
   {
     "id":"go_ida",
     "fieldType": "GENERAL",
     "fieldName": "go_ida",
-    "dataType": "STRING",
-    "example":  "sample example",
-    "description" : "this is a dummy description"
+    "dataType": "STRING"
   },
   {
     "id":"go_imp",
     "fieldType": "GENERAL",
     "fieldName": "go_imp",
-    "dataType": "STRING",
-    "example":  "sample example",
-    "description" : "this is a dummy description"
+    "dataType": "STRING"
   },
   {
     "id":"go_igi",
     "fieldType": "GENERAL",
     "fieldName": "go_igi",
-    "dataType": "STRING",
-    "example":  "sample example",
-    "description" : "this is a dummy description"
+    "dataType": "STRING"
   },
   {
     "id":"go_ipi",
     "fieldType": "GENERAL",
     "fieldName": "go_ipi",
-    "dataType": "STRING",
-    "example":  "sample example",
-    "description" : "this is a dummy description"
+    "dataType": "STRING"
   },
   {
     "id":"go_iep",
     "fieldType": "GENERAL",
     "fieldName": "go_iep",
-    "dataType": "STRING",
-    "example":  "sample example",
-    "description" : "this is a dummy description"
+    "dataType": "STRING"
   },
   {
     "id":"go_tas",
     "fieldType": "GENERAL",
     "fieldName": "go_tas",
-    "dataType": "STRING",
-    "example":  "sample example",
-    "description" : "this is a dummy description"
+    "dataType": "STRING"
   },
   {
     "id":"go_nas",
     "fieldType": "GENERAL",
     "fieldName": "go_nas",
-    "dataType": "STRING",
-    "example":  "sample example",
-    "description" : "this is a dummy description"
+    "dataType": "STRING"
   },
   {
     "id":"go_ic",
     "fieldType": "GENERAL",
     "fieldName": "go_ic",
-    "dataType": "STRING",
-    "example":  "sample example",
-    "description" : "this is a dummy description"
+    "dataType": "STRING"
   },
   {
     "id":"go_iss",
     "fieldType": "GENERAL",
     "fieldName": "go_iss",
-    "dataType": "STRING",
-    "example":  "sample example",
-    "description" : "this is a dummy description"
+    "dataType": "STRING"
   },
   {
     "id":"go_iea",
     "fieldType": "GENERAL",
     "fieldName": "go_iea",
-    "dataType": "STRING",
-    "example":  "sample example",
-    "description" : "this is a dummy description"
+    "dataType": "STRING"
   },
   {
     "id":"go_igc",
     "fieldType": "GENERAL",
     "fieldName": "go_igc",
-    "dataType": "STRING",
-    "example":  "sample example",
-    "description" : "this is a dummy description"
+    "dataType": "STRING"
   },
   {
     "id":"go_rca",
     "fieldType": "GENERAL",
     "fieldName": "go_rca",
-    "dataType": "STRING",
-    "example":  "sample example",
-    "description" : "this is a dummy description"
+    "dataType": "STRING"
   },
   {
     "id":"go_nd",
     "fieldName": "go_nd",
     "fieldType": "GENERAL",
-    "dataType": "STRING",
-    "example":  "sample example",
-    "description" : "this is a dummy description"
+    "dataType": "STRING"
   },
   {
     "id":"go_exp",
     "fieldName": "go_exp",
     "fieldType": "GENERAL",
-    "dataType": "STRING",
-    "example":  "sample example",
-    "description" : "this is a dummy description"
+    "dataType": "STRING"
   },
   {
     "id":"go_iba",
     "fieldType": "GENERAL",
     "fieldName": "go_iba",
-    "dataType": "STRING",
-    "example":  "sample example",
-    "description" : "this is a dummy description"
+    "dataType": "STRING"
   },
   {
     "id":"go_ibd",
     "fieldType": "GENERAL",
     "fieldName": "go_ibd",
-    "dataType": "STRING",
-    "example":  "sample example",
-    "description" : "this is a dummy description"
+    "dataType": "STRING"
   },
   {
     "id":"go_ikr",
     "fieldType": "GENERAL",
     "fieldName": "go_ikr",
-    "dataType": "STRING",
-    "example":  "sample example",
-    "description" : "this is a dummy description"
+    "dataType": "STRING"
   },
   {
     "id":"go_ird",
     "fieldType": "GENERAL",
     "fieldName": "go_ird",
-    "dataType": "STRING",
-    "example":  "sample example",
-    "description" : "this is a dummy description"
+    "dataType": "STRING"
   },
   {
     "id":"go_iso",
     "fieldType": "GENERAL",
     "fieldName": "go_iso",
-    "dataType": "STRING",
-    "example":  "sample example",
-    "description" : "this is a dummy description"
+    "dataType": "STRING"
   },
   {
     "id":"go_isa",
     "fieldType": "GENERAL",
     "fieldName": "go_isa",
-    "dataType": "STRING",
-    "example":  "sample example",
-    "description" : "this is a dummy description"
+    "dataType": "STRING"
   },
   {
     "id":"go_ism",
     "fieldType": "GENERAL",
     "fieldName": "go_ism",
-    "dataType": "STRING",
-    "example":  "sample example",
-    "description" : "this is a dummy description"
+    "dataType": "STRING"
   },
   {
     "id":"go_hda",
     "fieldType": "GENERAL",
     "fieldName": "go_hda",
-    "dataType": "STRING",
-    "example":  "sample example",
-    "description" : "this is a dummy description"
+    "dataType": "STRING"
   },
   {
     "id":"go_hmp",
     "fieldType": "GENERAL",
     "fieldName": "go_hmp",
-    "dataType": "STRING",
-    "example":  "sample example",
-    "description" : "this is a dummy description"
+    "dataType": "STRING"
   },
   {
     "id":"go_hgi",
     "fieldType": "GENERAL",
     "fieldName": "go_hgi",
-    "dataType": "STRING",
-    "example":  "sample example",
-    "description" : "this is a dummy description"
+    "dataType": "STRING"
   },
   {
     "id":"go_hep",
     "fieldType": "GENERAL",
     "fieldName": "go_hep",
-    "dataType": "STRING",
-    "example":  "sample example",
-    "description" : "this is a dummy description"
+    "dataType": "STRING"
   },
   {
     "id":"go_htp",
     "fieldType": "GENERAL",
     "fieldName": "go_htp",
-    "dataType": "STRING",
-    "example":  "sample example",
-    "description" : "this is a dummy description"
+    "dataType": "STRING"
   },
   {
     "id": "go_unknown",
     "fieldType": "GENERAL",
     "fieldName": "go_unknown",
-    "dataType": "STRING",
-    "example":  "sample example",
-    "description" : "this is a dummy description"
+    "dataType": "STRING"
   },
   {
     "id": "id_sort",
@@ -564,7 +483,8 @@
     "fieldType": "SORT",
     "dataType": "INTEGER",
     "description": "Sort by Sequence mass",
-    "example": "mass asc"
+    "example": "mass asc",
+    "includeInSwagger": true
   },
   {
     "id": "length_sort",
@@ -586,7 +506,8 @@
     "dataType": "STRING",
     "description": "Search by UniProtKB Accession",
     "example": "P12345",
-    "sortFieldId": "accession_sort"
+    "sortFieldId": "accession_sort",
+    "includeInSwagger": true
   },
   {
     "seqNumber": 1,
@@ -598,7 +519,8 @@
     "dataType": "STRING",
     "description": "Search by UniProtKB entry name",
     "example": "P53_HUMAN",
-    "sortFieldId": "id_sort"
+    "sortFieldId": "id_sort",
+    "includeInSwagger": true
   },
   {
     "seqNumber": 2,
@@ -610,7 +532,8 @@
     "dataType": "STRING",
     "description": "Search by UniProtKB Protein name",
     "example": "mas5",
-    "sortFieldId": "name_sort"
+    "sortFieldId": "name_sort",
+    "includeInSwagger": true
   },
   {
     "seqNumber": 3,
@@ -622,7 +545,8 @@
     "itemType": "SINGLE",
     "description": "Search by UniProtKB gene name",
     "example": "ydj1",
-    "sortFieldId": "gene_sort"
+    "sortFieldId": "gene_sort",
+    "includeInSwagger": true
   },
   {
     "seqNumber": 4,
@@ -637,7 +561,8 @@
     "autoCompleteQueryFieldValidRegex": "^[0-9]+$",
     "description": "Search by Organism name",
     "example": "saccharomyces",
-    "sortFieldId": "organism_sort"
+    "sortFieldId": "organism_sort",
+    "includeInSwagger": true
   },
   {
     "seqNumber": 5,
@@ -651,7 +576,8 @@
     "autoCompleteQueryFieldValidRegex": "^[0-9]+$",
     "itemType": "SINGLE",
     "description": "Search by NCBI taxonomy",
-    "example": "human"
+    "example": "human",
+    "includeInSwagger": true
   },
   {
     "seqNumber": 6,
@@ -665,7 +591,8 @@
     "autoCompleteQueryFieldValidRegex": "^[0-9]+$",
     "itemType": "SINGLE",
     "description": "Search by virus host",
-    "example": "human"
+    "example": "human",
+    "includeInSwagger": true
   },
   {
     "seqNumber": 7,
@@ -698,7 +625,8 @@
         "value": "uncertain"
       }
     ],
-    "example": "1"
+    "example": "1",
+    "includeInSwagger": true
   },
   {
     "label": "Web Resources",
@@ -715,7 +643,8 @@
     "dataType": "STRING",
     "itemType": "SINGLE",
     "description": "Search by comment Web resources",
-    "example": "lck"
+    "example": "lck",
+    "includeInSwagger": true
   },
   {
     "childNumber": 1,
@@ -756,7 +685,8 @@
     "fieldType": "EVIDENCE",
     "dataType": "STRING",
     "description": "Search GO term with evidence type. If evidence is not provided, the term is 'go'. Otherwise, for an evidence source such as IEA, the term is 'go_iea'",
-    "example": "manual"
+    "example": "manual",
+    "includeInSwagger": true
   },
   {
     "seqNumber": 21,
@@ -769,7 +699,8 @@
     "autoComplete": "/uniprot/api/suggester?dict=keyword&query=?",
     "autoCompleteQueryField": "keyword",
     "description": "Search by keyword",
-    "example": "chromosomal"
+    "example": "chromosomal",
+    "includeInSwagger": true
   },
   {
     "seqNumber": 22,
@@ -787,7 +718,8 @@
     "fieldType": "GENERAL",
     "dataType": "STRING",
     "description": "Search by author",
-    "example": "smith"
+    "example": "smith",
+    "includeInSwagger": true
   },
   {
     "parentId": "literature_citation",
@@ -823,7 +755,8 @@
     "fieldType": "GENERAL",
     "dataType": "STRING",
     "description": "Search by PubMed ID",
-    "example": "15165820"
+    "example": "15165820",
+    "includeInSwagger": true
   },
   {
     "parentId": "literature_citation",
@@ -835,7 +768,8 @@
     "fieldType": "GENERAL",
     "dataType": "STRING",
     "description": "Search by title",
-    "example": "protein"
+    "example": "protein",
+    "includeInSwagger": true
   },
   {
     "seqNumber": 23,
@@ -854,7 +788,8 @@
     "validRegex": "^UP[0-9]{9}$",
     "dataType": "STRING",
     "description": "Search by Proteome ID",
-    "example": "UP000005640"
+    "example": "UP000005640",
+    "includeInSwagger": true
   },
   {
     "parentId": "proteomes",
@@ -886,7 +821,7 @@
     "fieldName": "reviewed",
     "fieldType": "GENERAL",
     "validRegex": "^true|false$",
-    "dataType": "ENUM",
+    "dataType": "BOOLEAN",
     "itemType": "SINGLE",
     "values": [
       {
@@ -899,7 +834,8 @@
       }
     ],
     "description": "Search by reviewed",
-    "example": "true"
+    "example": "true",
+    "includeInSwagger": true
   },
   {
     "seqNumber": 26,
@@ -909,7 +845,7 @@
     "fieldType": "GENERAL",
     "itemType": "SINGLE",
     "validRegex": "^true|false$",
-    "dataType": "ENUM",
+    "dataType": "BOOLEAN",
     "values": [
       {
         "name": "Yes",
@@ -941,7 +877,8 @@
     "description": "Search by Enzyme EC number",
     "autoComplete": "/uniprot/api/suggester?dict=ec&query=?",
     "autoCompleteQueryField": "ec",
-    "example": "1.1.2.3"
+    "example": "1.1.2.3",
+    "includeInSwagger": true
   },
   {
     "parentId": "function",
@@ -1209,7 +1146,8 @@
     "autoComplete": "/uniprot/api/suggester?dict=catalytic_activity&query=?",
     "autoCompleteQueryField": "cc_catalytic_activity",
     "description": "Search by comment catalytic activity",
-    "example": "tyrosine"
+    "example": "tyrosine",
+    "includeInSwagger": true
   },
   {
     "parentId": "catalytic_activity",
@@ -1238,7 +1176,8 @@
     "fieldType": "GENERAL",
     "dataType": "STRING",
     "description": "Search by comment activity regulation",
-    "example": "inhibited"
+    "example": "inhibited",
+    "includeInSwagger": true
   },
   {
     "parentId": "activity_regulation",
@@ -1249,7 +1188,8 @@
     "fieldType": "EVIDENCE",
     "dataType": "STRING",
     "description": "Search comment activity regulation with evidence type",
-    "example": "manual"
+    "example": "manual",
+    "includeInSwagger": true
   },
   {
     "parentId": "function",
@@ -1267,7 +1207,8 @@
     "fieldType": "GENERAL",
     "dataType": "STRING",
     "description": "Search by comment function",
-    "example": "enzyme"
+    "example": "enzyme",
+    "includeInSwagger": true
   },
   {
     "parentId": "function_cc",
@@ -1296,7 +1237,8 @@
     "fieldType": "GENERAL",
     "dataType": "STRING",
     "description": "Search by caution comment",
-    "example": "kinase"
+    "example": "kinase",
+    "includeInSwagger": true
   },
   {
     "parentId": "caution",
@@ -1652,7 +1594,8 @@
     "fieldType": "GENERAL",
     "dataType": "STRING",
     "description": "Search by comment pathway",
-    "example": "metabolism"
+    "example": "metabolism",
+    "includeInSwagger": true
   },
   {
     "parentId": "pathway",
@@ -1711,7 +1654,8 @@
     "dataType": "INTEGER",
     "description": "Search by Sequence mass range",
     "example": "[441126 TO 441126]",
-    "sortFieldId": "mass_sort"
+    "sortFieldId": "mass_sort",
+    "includeInSwagger": true
   },
   {
     "parentId": "sequence",
@@ -1724,7 +1668,8 @@
     "dataType": "INTEGER",
     "description": "Search by Sequence length range",
     "example": "[441 TO 450]",
-    "sortFieldId": "length_sort"
+    "sortFieldId": "length_sort",
+    "includeInSwagger": true
   },
   {
     "parentId": "sequence",
@@ -1900,8 +1845,9 @@
     "fieldName": "cc_sequence_caution",
     "fieldType": "GENERAL",
     "dataType": "STRING",
-    "description": "Search by Comment Sequence caution",
-    "example": "translated"
+    "description": "Search by Comment Sequence caution or error",
+    "example": "translated",
+    "includeInSwagger": true
   },
   {
     "parentId": "seq_caution_any",
@@ -2019,7 +1965,8 @@
     "fieldType": "GENERAL",
     "dataType": "STRING",
     "description": "Search by Comment Spectrometry",
-    "example": "electrospray"
+    "example": "electrospray",
+    "includeInSwagger": true
   },
   {
     "parentId": "mass_spectrometry",
@@ -2048,7 +1995,8 @@
     "fieldType": "GENERAL",
     "dataType": "STRING",
     "description": "Search by Comment Polymorphism",
-    "example": "transcript"
+    "example": "transcript",
+    "includeInSwagger": true
   },
   {
     "parentId": "polymorphism",
@@ -2077,7 +2025,8 @@
     "fieldType": "GENERAL",
     "dataType": "STRING",
     "description": "Search by Comment RNA editing",
-    "example": "target"
+    "example": "target",
+    "includeInSwagger": true
   },
   {
     "parentId": "rna_editing",
@@ -2477,7 +2426,8 @@
       }
     ],
     "description": "Search by fragment",
-    "example": "true"
+    "example": "true",
+    "includeInSwagger": true
   },
   {
     "parentId": "sequence",
@@ -2527,7 +2477,8 @@
       }
     ],
     "description": "Search by organelle",
-    "example": "mitochondrion"
+    "example": "mitochondrion",
+    "includeInSwagger": true
   },
   {
     "parentId": "sequence",
@@ -2592,7 +2543,8 @@
     "fieldType": "GENERAL",
     "dataType": "STRING",
     "description": "Search by plasmid",
-    "example": "pO113"
+    "example": "pO113",
+    "includeInSwagger": true
   },
   {
     "parentId": "sequence_from_rc",
@@ -2628,7 +2580,8 @@
     "fieldType": "GENERAL",
     "dataType": "STRING",
     "description": "Search by Comment Post-translational modification",
-    "example": "mitosis"
+    "example": "mitosis",
+    "includeInSwagger": true
   },
   {
     "parentId": "post_translational_modification_cc",
@@ -3162,7 +3115,8 @@
     "fieldType": "GENERAL",
     "dataType": "STRING",
     "description": "Search by Subunit structure",
-    "example": "homodimer"
+    "example": "homodimer",
+    "includeInSwagger": true
   },
   {
     "parentId": "subunit_structure",
@@ -3237,7 +3191,8 @@
     "fieldType": "GENERAL",
     "dataType": "STRING",
     "description": "Search by comment domain",
-    "example": "conformation"
+    "example": "conformation",
+    "includeInSwagger": true
   },
   {
     "parentId": "domain_comments_cc",
@@ -3260,7 +3215,8 @@
     "fieldType": "GENERAL",
     "dataType": "STRING",
     "description": "Search by protein belongs to a family",
-    "example": "pa28"
+    "example": "pa28",
+    "includeInSwagger": true
   },
   {
     "parentId": "family_domains",
@@ -3478,7 +3434,8 @@
     "fieldType": "GENERAL",
     "dataType": "STRING",
     "description": "Search by comment similarity",
-    "example": "phosphatase"
+    "example": "phosphatase",
+    "includeInSwagger": true
   },
   {
     "parentId": "sequence_similarity",
@@ -3553,7 +3510,8 @@
     "fieldType": "GENERAL",
     "dataType": "STRING",
     "description": "Search by Comment Developmental stage",
-    "example": "brain"
+    "example": "brain",
+    "includeInSwagger": true
   },
   {
     "parentId": "developmental_stage",
@@ -3582,7 +3540,8 @@
     "fieldType": "GENERAL",
     "dataType": "STRING",
     "description": "Search by Comment Induction",
-    "example": "calcium"
+    "example": "calcium",
+    "includeInSwagger": true
   },
   {
     "parentId": "induction",
@@ -3611,7 +3570,8 @@
     "fieldType": "GENERAL",
     "dataType": "STRING",
     "description": "Search by Comment Tissue specificity",
-    "example": "pancreas"
+    "example": "pancreas",
+    "includeInSwagger": true
   },
   {
     "parentId": "tissue_specificity",
@@ -3640,7 +3600,8 @@
     "fieldName": "created",
     "fieldType": "RANGE",
     "description": "Search by Date of creation",
-    "example": "[2018-03-04 TO 2018-03-08]"
+    "example": "[2018-03-04 TO 2018-03-08]",
+    "includeInSwagger": true
   },
   {
     "parentId": "date_of",
@@ -3652,7 +3613,8 @@
     "fieldName": "modified",
     "fieldType": "RANGE",
     "description": "Search by Date of last entry modification",
-    "example": "[2018-03-04 TO 2018-03-08]"
+    "example": "[2018-03-04 TO 2018-03-08]",
+    "includeInSwagger": true
   },
   {
     "parentId": "date_of",
@@ -3681,7 +3643,7 @@
     "fieldName": "d3structure",
     "fieldType": "GENERAL",
     "validRegex": "^true|false$",
-    "dataType": "ENUM",
+    "dataType": "BOOLEAN",
     "description": "Search by having PDB cross reference or not",
     "values": [
       {
@@ -3693,7 +3655,8 @@
         "value": "false"
       }
     ],
-    "example": "true"
+    "example": "true",
+    "includeInSwagger": true
   },
   {
     "parentId": "structure",
@@ -4077,7 +4040,8 @@
     "fieldType": "GENERAL",
     "dataType": "STRING",
     "description": "Search by Comment disease",
-    "example": "nephrotic"
+    "example": "nephrotic",
+    "includeInSwagger": true
   },
   {
     "parentId" : "disease",
@@ -4106,7 +4070,8 @@
     "fieldType": "GENERAL",
     "dataType": "STRING",
     "description": "Search by Comment allergenic properties",
-    "example": "allergic"
+    "example": "allergic",
+    "includeInSwagger": true
   },
   {
     "parentId" : "alergenic_properties",
@@ -4117,7 +4082,8 @@
     "fieldType": "EVIDENCE",
     "dataType": "STRING",
     "description": "Search Comment allergenic properties with evidence type",
-    "example": "manual"
+    "example": "manual",
+    "includeInSwagger": true
   },
   {
     "parentId": "pathology_biotech",
@@ -4135,7 +4101,8 @@
     "fieldType": "GENERAL",
     "dataType": "STRING",
     "description": "Search by Comment Toxic dose",
-    "example": "intracistenal"
+    "example": "intracistenal",
+    "includeInSwagger": true
   },
   {
     "parentId" : "toxic_dose",
@@ -4164,7 +4131,8 @@
     "fieldType": "GENERAL",
     "dataType": "STRING",
     "description": "Search by Comment Biotechnological use",
-    "example": "vaccine"
+    "example": "vaccine",
+    "includeInSwagger": true
   },
   {
     "parentId" : "biotechnological_use",
@@ -4193,7 +4161,8 @@
     "fieldType": "GENERAL",
     "dataType": "STRING",
     "description": "Search by Comment Pharmaceutical use",
-    "example": "peptide"
+    "example": "peptide",
+    "includeInSwagger": true
   },
   {
     "parentId" : "pharmaceutical_use",
@@ -4222,7 +4191,8 @@
     "fieldType": "GENERAL",
     "dataType": "STRING",
     "description": "Search by Comment Disruption phenotype",
-    "example": "infected"
+    "example": "infected",
+    "includeInSwagger": true
   },
   {
     "parentId" : "disruption_phenotype",

@@ -3,6 +3,9 @@ package org.uniprot.store.indexer.uniprotkb.converter;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.time.LocalDate;
+import java.time.Month;
+import java.time.ZoneId;
 import java.util.*;
 
 import org.junit.jupiter.api.Test;
@@ -40,9 +43,7 @@ class UniProtKBEntryReferencesConverterTest {
         // reference fields
         assertEquals(Arrays.asList("one  author", "two  author"), document.referenceAuthors);
         assertEquals(Arrays.asList("one  tittle", "two  tittle"), document.referenceTitles);
-        assertEquals(
-                Arrays.asList(new Date(1861920000000L), new Date(1861920000000L)),
-                document.referenceDates);
+        assertEquals(Arrays.asList(get1Jan2029(), get1Jan2029()), document.referenceDates);
         assertEquals(
                 Arrays.asList("one journal name", "two journal name"), document.referenceJournals);
         assertEquals(
@@ -164,5 +165,10 @@ class UniProtKBEntryReferencesConverterTest {
                 .referencePositionsAdd(prefix + " position")
                 .evidencesSet(Collections.singletonList(evidence))
                 .build();
+    }
+
+    private Date get1Jan2029(){
+        return Date.from(LocalDate.of(2029, Month.JANUARY, 1)
+          .atStartOfDay(ZoneId.systemDefault()).toInstant());
     }
 }

@@ -1,7 +1,6 @@
 package org.uniprot.store.indexer.uniparc;
 
 import java.io.File;
-import java.io.IOException;
 
 import org.springframework.batch.core.ChunkListener;
 import org.springframework.batch.core.Step;
@@ -32,8 +31,8 @@ import org.uniprot.store.search.document.uniparc.UniParcDocument;
 @Configuration
 public class UniParcIndexStep {
 
-    @Value(("${solr.indexing.chunkSize}"))
-    private int chunkSize = 100;
+    @Value(("${uniparc.indexing.chunkSize}"))
+    private int chunkSize = 1000;
 
     @Value(("${uniparc.indexing.xml.file}"))
     private String uniparcXmlFilename;
@@ -68,7 +67,7 @@ public class UniParcIndexStep {
     }
 
     @Bean
-    public ItemReader<Entry> uniparcReader() throws IOException {
+    public ItemReader<Entry> uniparcReader() {
         return new UniParcXmlEntryReader(uniparcXmlFilename);
     }
 

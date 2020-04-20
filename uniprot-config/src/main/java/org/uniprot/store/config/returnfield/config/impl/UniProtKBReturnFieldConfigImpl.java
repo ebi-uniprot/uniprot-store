@@ -57,6 +57,7 @@ public class UniProtKBReturnFieldConfigImpl extends AbstractReturnFieldConfig {
         returnField.setLabel(dbName);
         returnField.addPath("uniProtKBCrossReferences[?(@.database=='" + dbName + "')]");
         returnField.setId(parent.getId() + "/" + databaseNameLowercase);
+        returnField.setIncludeInSwagger(true);
         return returnField;
     }
 

@@ -31,6 +31,7 @@ public class SearchFieldItem implements Field, Serializable {
     private String autoCompleteQueryField;
     private String autoCompleteQueryFieldValidRegex;
     private String sortFieldId;
+    private boolean includeInSwagger;
 
     @Data
     public static class Value implements Serializable {

@@ -18,6 +18,9 @@ import java.io.InputStream;
 import java.nio.charset.Charset;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.Month;
+import java.time.ZoneId;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -57,6 +60,8 @@ class UniProtKBEntryConverterIT {
     private static final String FT_CONFLICT_FIELD = "ft_conflict";
     private static final String FTEV_CONFLICT_FIELD = "ftev_conflict";
     private static final String FTLEN_CHAIN_FIELD = "ftlen_chain";
+    private static final Date d1Aug2000 = Date.from(LocalDate.of(2000, Month.AUGUST, 1)
+      .atStartOfDay(ZoneId.systemDefault()).toInstant());
     private DateFormat dateFormat;
     private UniProtEntryConverter converter;
 
@@ -330,7 +335,7 @@ class UniProtKBEntryConverterIT {
         assertTrue(doc.referenceOrganizations.contains("The MGC Project Team"));
 
         assertEquals(7, doc.referenceDates.size());
-        assertTrue(doc.referenceDates.contains(new Date(965084400000L)));
+        assertTrue(doc.referenceDates.contains(d1Aug2000), "not able to find "+d1Aug2000+" in "+doc.referenceDates);
 
         assertEquals(5, doc.referenceJournals.size());
         assertTrue(doc.referenceJournals.contains("Genome Res."));
@@ -523,7 +528,7 @@ class UniProtKBEntryConverterIT {
         assertTrue(doc.referenceOrganizations.contains("The MGC Project Team"));
 
         assertEquals(8, doc.referenceDates.size());
-        assertTrue(doc.referenceDates.contains(new Date(965084400000L)));
+        assertTrue(doc.referenceDates.contains(d1Aug2000), "not able to find "+d1Aug2000+" in "+doc.referenceDates);
 
         assertEquals(6, doc.referenceJournals.size());
         assertTrue(doc.referenceJournals.contains("Genome Res."));
