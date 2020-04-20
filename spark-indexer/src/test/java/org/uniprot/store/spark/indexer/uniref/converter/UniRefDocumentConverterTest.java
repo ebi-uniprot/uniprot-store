@@ -3,6 +3,8 @@ package org.uniprot.store.spark.indexer.uniref.converter;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.time.LocalDate;
+import java.time.Month;
+import java.time.ZoneId;
 import java.util.Date;
 
 import org.junit.jupiter.api.Test;
@@ -21,6 +23,9 @@ import org.uniprot.store.search.document.uniref.UniRefDocument;
  * @since 2020-02-10
  */
 class UniRefDocumentConverterTest {
+
+    private static final Date d22Feb2020 = Date.from(LocalDate.of(2020, Month.FEBRUARY, 22)
+      .atStartOfDay(ZoneId.systemDefault()).toInstant());
 
     @Test
     void testConverterWithMinimalEntry() {
@@ -98,7 +103,7 @@ class UniRefDocumentConverterTest {
         assertEquals("cluster name", result.getName());
         assertEquals(2, result.getCount());
         assertEquals(11, result.getLength());
-        assertEquals(new Date(1582329600000L), result.getCreated());
+        assertEquals(d22Feb2020, result.getCreated());
         assertEquals(
                 "representativeMemberOrganismName memberorganismName", result.getOrganismSort());
         assertTrue(result.getTaxLineageIds().contains(1));
