@@ -26,7 +26,7 @@ public class SolrDocumentWriter<T extends Document> implements ItemWriter<T> {
         try {
             this.solrOperations.saveBeans(collection.name(), items);
             this.solrOperations.softCommit(collection.name());
-        } catch (Throwable error) {
+        } catch (Exception error) {
             log.error("Error writing to solr: ", error);
             String ids =
                     items.stream().map(Document::getDocumentId).collect(Collectors.joining(", "));
