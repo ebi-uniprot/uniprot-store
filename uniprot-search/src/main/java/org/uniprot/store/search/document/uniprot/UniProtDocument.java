@@ -37,13 +37,13 @@ public class UniProtDocument implements Document {
     @Field("ec_exact")
     public List<String> ecNumbersExact = new ArrayList<>();
 
-    @Field("modified")
+    @Field("date_modified")
     public Date lastModified;
 
-    @Field("created")
+    @Field("date_created")
     public Date firstCreated;
 
-    @Field("sequence_modified")
+    @Field("date_sequence_modified")
     public Date sequenceUpdated;
 
     @Field("keyword")

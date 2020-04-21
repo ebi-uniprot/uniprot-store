@@ -1296,7 +1296,7 @@
     "childNumber": 0,
     "itemType": "SINGLE",
     "includeInSwagger": true,
-    "name": "date_create",
+    "name": "date_created",
     "label": "Date of creation",
     "id": "date_of/date_of_creation",
     "paths": [
@@ -1308,7 +1308,7 @@
     "childNumber": 1,
     "itemType": "SINGLE",
     "includeInSwagger": true,
-    "name": "date_mod",
+    "name": "date_modified",
     "label": "Date of last modification",
     "id": "date_of/date_of_last_modification",
     "paths": [
@@ -1320,7 +1320,7 @@
     "childNumber": 2,
     "itemType": "SINGLE",
     "includeInSwagger": true,
-    "name": "date_seq_mod",
+    "name": "date_sequence_modified",
     "label": "Date of last sequence modification",
     "id": "date_of/date_of_last_sequence_modification",
     "paths": [

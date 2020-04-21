@@ -24,8 +24,11 @@ import org.uniprot.store.search.document.uniref.UniRefDocument;
  */
 class UniRefDocumentConverterTest {
 
-    private static final Date d22Feb2020 = Date.from(LocalDate.of(2020, Month.FEBRUARY, 22)
-      .atStartOfDay(ZoneId.systemDefault()).toInstant());
+    private static final Date d22Feb2020 =
+            Date.from(
+                    LocalDate.of(2020, Month.FEBRUARY, 22)
+                            .atStartOfDay(ZoneId.systemDefault())
+                            .toInstant());
 
     @Test
     void testConverterWithMinimalEntry() {

@@ -35,8 +35,11 @@ class UniProtKBEntryConverterIT {
     private static final String FT_CONFLICT_FIELD = "ft_conflict";
     private static final String FTEV_CONFLICT_FIELD = "ftev_conflict";
     private static final String FTLEN_CHAIN_FIELD = "ftlen_chain";
-    private static final Date d1Aug2000 = Date.from(LocalDate.of(2000, Month.AUGUST, 1)
-      .atStartOfDay(ZoneId.systemDefault()).toInstant());
+    private static final Date d1Aug2000 =
+            Date.from(
+                    LocalDate.of(2000, Month.AUGUST, 1)
+                            .atStartOfDay(ZoneId.systemDefault())
+                            .toInstant());
     private DateFormat dateFormat;
     private UniProtEntryConverter converter;
 

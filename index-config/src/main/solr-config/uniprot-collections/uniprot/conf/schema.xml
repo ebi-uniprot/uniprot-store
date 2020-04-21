@@ -481,11 +481,11 @@
 		stored="false" required="false" multiValued="false" />
 	<field name="reviewed" type="boolean" indexed="true"
 		stored="false" required="false" multiValued="false" />
-	<field name="modified" type="rdates" indexed="true"
+	<field name="date_modified" type="rdates" indexed="true"
 		stored="false" required="false" />
-	<field name="created" type="rdates" indexed="true" stored="false"
-		required="false" />
-	<field name="sequence_modified" type="rdates" indexed="true"
+	<field name="date_created" type="rdates" indexed="true"
+		stored="false" required="false" />
+	<field name="date_sequence_modified" type="rdates" indexed="true"
 		stored="false" required="false" />
 
 	<field name="source" type="lowercase" indexed="true"

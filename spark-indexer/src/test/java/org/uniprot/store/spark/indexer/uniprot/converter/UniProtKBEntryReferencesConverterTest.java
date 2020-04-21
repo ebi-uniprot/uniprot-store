@@ -167,8 +167,10 @@ class UniProtKBEntryReferencesConverterTest {
                 .build();
     }
 
-    private Date get1Jan2029(){
-        return Date.from(LocalDate.of(2029, Month.JANUARY, 1)
-          .atStartOfDay(ZoneId.systemDefault()).toInstant());
+    private Date get1Jan2029() {
+        return Date.from(
+                LocalDate.of(2029, Month.JANUARY, 1)
+                        .atStartOfDay(ZoneId.systemDefault())
+                        .toInstant());
     }
 }
