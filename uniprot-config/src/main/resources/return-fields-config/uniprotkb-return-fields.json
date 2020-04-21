@@ -641,7 +641,7 @@
     "childNumber": 0,
     "itemType": "SINGLE",
     "includeInSwagger": true,
-    "name": "score",
+    "name": "annotation_score",
     "label": "Annotation",
     "sortField": "annotation_score",
     "id": "miscellaneous/annotation",
