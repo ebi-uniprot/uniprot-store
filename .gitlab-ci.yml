@@ -36,3 +36,8 @@ deploy:jdk8:
     - 'mvn versions:revert'
   only:
     - master
+
+downstream:uniprot-rest-api:
+  stage: .post
+  trigger: uniprot/deployment/uniprot-rest-api-mirror
+  when: on_success
