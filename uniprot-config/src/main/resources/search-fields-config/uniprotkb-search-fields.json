@@ -1,7 +1,7 @@
 [
   {
-    "id": "host_id",
-    "fieldName": "host_id",
+    "id": "virus_host_id",
+    "fieldName": "virus_host_id",
     "dataType": "STRING",
     "fieldType": "GENERAL",
     "validRegex": "^[0-9]+$",
@@ -581,13 +581,13 @@
   },
   {
     "seqNumber": 6,
-    "id": "host_name",
+    "id": "virus_host_name",
     "label": "Virus host",
     "dataType": "STRING",
-    "fieldName": "host_name",
+    "fieldName": "virus_host_name",
     "fieldType": "GENERAL",
     "autoComplete": "/uniprot/api/suggester?dict=host&query=?",
-    "autoCompleteQueryField": "host_id",
+    "autoCompleteQueryField": "virus_host_id",
     "autoCompleteQueryFieldValidRegex": "^[0-9]+$",
     "itemType": "SINGLE",
     "description": "Search by virus host",

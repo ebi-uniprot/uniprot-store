@@ -82,10 +82,10 @@ public class UniProtDocument implements Document {
     @Field("organelle")
     public List<String> organelles = new ArrayList<>();
 
-    @Field("host_name")
+    @Field("virus_host_name")
     public List<String> organismHostNames = new ArrayList<>();
 
-    @Field("host_id")
+    @Field("virus_host_id")
     public List<Integer> organismHostIds = new ArrayList<>();
 
     @Field("pathway")

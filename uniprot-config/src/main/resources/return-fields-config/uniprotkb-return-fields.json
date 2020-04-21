@@ -167,7 +167,7 @@
     "childNumber": 12,
     "itemType": "SINGLE",
     "includeInSwagger": true,
-    "name": "organism_host",
+    "name": "virus_hosts",
     "label": "Virus hosts",
     "id": "names_&_taxonomy/virus_hosts",
     "paths": [
