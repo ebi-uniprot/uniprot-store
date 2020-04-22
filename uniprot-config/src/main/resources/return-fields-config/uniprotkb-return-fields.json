@@ -132,7 +132,7 @@
     "defaultForTsvOrder" : 3,
     "name": "protein_name",
     "label": "Protein names",
-    "sortField": "name",
+    "sortField": "protein_name",
     "id": "names_&_taxonomy/protein_names",
     "paths": [
       "proteinDescription"

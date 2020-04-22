@@ -595,7 +595,7 @@ class FullCIAnalysisSearchIT {
         organism_name(STRING_LIST_FUNCTION),
         taxonomy_name(STRING_LIST_FUNCTION),
         virus_host_name(STRING_LIST_FUNCTION),
-        name(STRING_LIST_FUNCTION);
+        protein_name(STRING_LIST_FUNCTION);
 
         private Function<String, ?> field;
 

@@ -492,9 +492,9 @@
 		stored="false" required="false" multiValued="true" />
 
 	<!-- Protein name section -->
-	<field name="name" type="full_ci" indexed="true" stored="false"
-		required="false" multiValued="true" />
-	<field name="name_sort" type="string" indexed="true"
+	<field name="protein_name" type="full_ci" indexed="true"
+		stored="false" required="false" multiValued="true" />
+	<field name="protein_name_sort" type="string" indexed="true"
 		stored="false" required="false" multiValued="false" docValues="true" />
 
 	<field name="fragment" type="boolean" indexed="true"
@@ -557,7 +557,7 @@
 	<field name="protgene_default" type="full_ci" indexed="true"
 		stored="false" required="false" multiValued="true" />
 	<copyField source="gene" dest="protgene_default" />
-	<copyField source="name" dest="protgene_default" />
+	<copyField source="protein_name" dest="protgene_default" />
 
 	<!-- Taxonomy -->
 	<field name="organism_sort" type="string" indexed="true"

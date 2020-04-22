@@ -447,14 +447,14 @@
     "example": "id_sort desc"
   },
   {
-    "id": "name_sort",
+    "id": "protein_name_sort",
     "label": "Protein Name [DE]",
-    "fieldName": "name_sort",
+    "fieldName": "protein_name_sort",
     "fieldType": "SORT",
     "dataType": "STRING",
     "itemType": "SINGLE",
     "description": "Sort by UniProtKB Protein name",
-    "example": "name_sort asc"
+    "example": "protein_name_sort asc"
   },
   {
     "id": "gene_sort",
@@ -524,15 +524,15 @@
   },
   {
     "seqNumber": 2,
-    "id": "name_field",
+    "id": "protein_name_field",
     "label": "Protein Name [DE]",
-    "fieldName": "name",
+    "fieldName": "protein_name",
     "fieldType": "GENERAL",
     "itemType": "SINGLE",
     "dataType": "STRING",
     "description": "Search by UniProtKB Protein name",
     "example": "mas5",
-    "sortFieldId": "name_sort",
+    "sortFieldId": "protein_name_sort",
     "includeInSwagger": true
   },
   {

@@ -25,10 +25,10 @@ public class UniProtDocument implements Document {
     @Field("reviewed")
     public Boolean reviewed;
 
-    @Field("name")
+    @Field("protein_name")
     public List<String> proteinNames = new ArrayList<>();
 
-    @Field("name_sort")
+    @Field("protein_name_sort")
     public String proteinsNamesSort;
 
     @Field("ec")
