@@ -501,7 +501,7 @@
 		stored="false" required="false" multiValued="false" />
 	<field name="precursor" type="boolean" indexed="true"
 		stored="false" required="false" multiValued="false" />
-	<field name="d3structure" type="boolean" indexed="true"
+	<field name="structure_3d" type="boolean" indexed="true"
 		stored="false" required="false" multiValued="false" />
 	<field name="proteins_with" type="string" indexed="true"
 		stored="false" required="false" multiValued="true" />

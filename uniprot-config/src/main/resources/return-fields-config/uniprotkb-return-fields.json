@@ -1211,9 +1211,9 @@
     "parentId": "structure",
     "childNumber": 0,
     "itemType": "SINGLE",
-    "name": "3d",
+    "name": "structure_3d",
     "label": "3D",
-    "id": "structure/3d",
+    "id": "structure/structure_3d",
     "paths": [
       "uniProtKBCrossReferences[?(@.database=='PDB')]"
     ]

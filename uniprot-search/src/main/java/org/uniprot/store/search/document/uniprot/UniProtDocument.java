@@ -146,7 +146,7 @@ public class UniProtDocument implements Document {
     @Field("active")
     public boolean active = true;
 
-    @Field("d3structure")
+    @Field("structure_3d")
     public boolean d3structure = false;
 
     @Field("proteins_with")
