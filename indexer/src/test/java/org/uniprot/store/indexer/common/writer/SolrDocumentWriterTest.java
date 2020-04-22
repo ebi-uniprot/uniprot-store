@@ -1,10 +1,8 @@
 package org.uniprot.store.indexer.common.writer;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -26,11 +24,13 @@ import org.uniprot.store.indexer.test.config.SolrTestConfig;
 import org.uniprot.store.search.SolrCollection;
 import org.uniprot.store.search.document.dbxref.CrossRefDocument;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = {FakeIndexerSpringBootApplication.class, SolrTestConfig.class})
 class SolrDocumentWriterTest {
 
-    private SolrDocumentWriter solrDocumentWriter;
+    private SolrDocumentWriter<CrossRefDocument> solrDocumentWriter;
 
     @Autowired private UniProtSolrOperations solrOperations;
 
@@ -43,7 +43,7 @@ class SolrDocumentWriterTest {
 
     @BeforeEach
     void initDocumentWriter() {
-        solrDocumentWriter = new SolrDocumentWriter(solrOperations, SolrCollection.crossref);
+        solrDocumentWriter = new SolrDocumentWriter<>(solrOperations, SolrCollection.crossref);
     }
 
     @AfterEach
@@ -53,9 +53,16 @@ class SolrDocumentWriterTest {
     }
 
     @Test
-    void testWriteCrossRefs() throws Exception {
+    void testWriteThrowsException() {
+        List<CrossRefDocument> dbxrefList = Collections.singletonList(createDBXRef(1));
+        SolrDocumentWriter<CrossRefDocument> wrongWriter = new SolrDocumentWriter<>(null,null);
+        assertThrows(Exception.class, () -> wrongWriter.write(dbxrefList));
+    }
+
+    @Test
+    void testWriteCrossRefs() {
         List<CrossRefDocument> dbxrefList =
-                IntStream.range(0, 10).mapToObj(i -> createDBXRef(i)).collect(Collectors.toList());
+                IntStream.range(0, 10).mapToObj(this::createDBXRef).collect(Collectors.toList());
         // write the cross refs to the solr
         solrDocumentWriter.write(dbxrefList);
         // get the cross refs and verify
@@ -69,7 +76,7 @@ class SolrDocumentWriterTest {
         List<CrossRefDocument> results = response.getContent();
         assertNotNull(results);
         assertEquals(dbxrefList.size(), results.size());
-        results.stream().forEach(dbXref -> verifyDBXRef(dbXref));
+        results.forEach(this::verifyDBXRef);
     }
 
     private void verifyDBXRef(CrossRefDocument dbxRef) {
@@ -95,8 +102,6 @@ class SolrDocumentWriterTest {
         String du = random + "-DU-" + suffix;
         String ct = random + "-CT-" + suffix;
         String co = random + "-CO-" + suffix;
-        List<String> contents = new ArrayList<>();
-        contents.add(co);
 
         CrossRefDocument.CrossRefDocumentBuilder builder = CrossRefDocument.builder();
         builder.abbrev(ab).id(ac).category(ct).dbUrl(du);
