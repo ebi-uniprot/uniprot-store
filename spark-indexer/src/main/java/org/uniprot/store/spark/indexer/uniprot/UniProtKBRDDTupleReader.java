@@ -1,7 +1,7 @@
 package org.uniprot.store.spark.indexer.uniprot;
 
-import static org.uniprot.store.spark.indexer.util.SparkUtils.getInputReleaseDirPath;
-import static org.uniprot.store.spark.indexer.util.SparkUtils.getInputReleaseMainThreadDirPath;
+import static org.uniprot.store.spark.indexer.common.util.SparkUtils.getInputReleaseDirPath;
+import static org.uniprot.store.spark.indexer.common.util.SparkUtils.getInputReleaseMainThreadDirPath;
 
 import java.util.ResourceBundle;
 
@@ -20,6 +20,8 @@ import org.uniprot.store.spark.indexer.uniprot.mapper.FlatFileToUniprotEntry;
  * @since 2019-10-16
  */
 public class UniProtKBRDDTupleReader {
+
+    private UniProtKBRDDTupleReader() {}
 
     private static final String SPLITTER = "\n//\n";
 

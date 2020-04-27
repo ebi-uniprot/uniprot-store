@@ -1,6 +1,6 @@
 package org.uniprot.store.spark.indexer.go.relations;
 
-import static org.uniprot.store.spark.indexer.util.SparkUtils.getInputReleaseMainThreadDirPath;
+import static org.uniprot.store.spark.indexer.common.util.SparkUtils.getInputReleaseMainThreadDirPath;
 
 import java.util.*;
 
@@ -22,6 +22,8 @@ import scala.Tuple2;
  */
 @Slf4j
 public class GORelationRDDReader {
+
+    private GORelationRDDReader() {}
 
     /**
      * load GO Relations to a JavaPairRDD

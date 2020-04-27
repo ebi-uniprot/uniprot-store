@@ -4,9 +4,10 @@ import java.util.ResourceBundle;
 
 import org.apache.spark.api.java.JavaSparkContext;
 import org.uniprot.store.search.SolrCollection;
+import org.uniprot.store.spark.indexer.common.exception.IndexHDFSDocumentsException;
+import org.uniprot.store.spark.indexer.common.util.SparkUtils;
 import org.uniprot.store.spark.indexer.common.writer.DocumentsToHDFSWriter;
 import org.uniprot.store.spark.indexer.common.writer.DocumentsToHDFSWriterFactory;
-import org.uniprot.store.spark.indexer.util.SparkUtils;
 
 /**
  * @author lgonzales
@@ -32,7 +33,7 @@ public class WriteIndexDocumentsToHDFSMain {
             writer.writeIndexDocumentsToHDFS(sparkContext, releaseName);
 
         } catch (Exception e) {
-            throw new Exception("Unexpected error during index", e);
+            throw new IndexHDFSDocumentsException("Unexpected error during index", e);
         }
     }
 }

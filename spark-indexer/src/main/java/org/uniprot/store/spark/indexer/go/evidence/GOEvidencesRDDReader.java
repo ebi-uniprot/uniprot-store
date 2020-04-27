@@ -1,6 +1,6 @@
 package org.uniprot.store.spark.indexer.go.evidence;
 
-import static org.uniprot.store.spark.indexer.util.SparkUtils.getInputReleaseDirPath;
+import static org.uniprot.store.spark.indexer.common.util.SparkUtils.getInputReleaseDirPath;
 
 import java.util.ResourceBundle;
 
@@ -19,6 +19,8 @@ import org.apache.spark.sql.SparkSession;
  */
 @Slf4j
 public class GOEvidencesRDDReader {
+
+    private GOEvidencesRDDReader() {}
 
     /** @return JavaPairRDD of {key=uniprot accession, value=Iterable of GoEvidence} */
     public static JavaPairRDD<String, Iterable<GOEvidence>> load(

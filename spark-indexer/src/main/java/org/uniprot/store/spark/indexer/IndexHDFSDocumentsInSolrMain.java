@@ -6,8 +6,8 @@ import org.apache.solr.common.SolrInputDocument;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
 import org.uniprot.store.search.SolrCollection;
-import org.uniprot.store.spark.indexer.util.SolrUtils;
-import org.uniprot.store.spark.indexer.util.SparkUtils;
+import org.uniprot.store.spark.indexer.common.util.SolrUtils;
+import org.uniprot.store.spark.indexer.common.util.SparkUtils;
 
 /**
  * This class is responsible to load data from saved SolrDocuments and Index in Solr
@@ -31,13 +31,7 @@ public class IndexHDFSDocumentsInSolrMain {
 
         String hdfsFilePath = getHDFSFilePath(args, applicationConfig);
         JavaRDD<SolrInputDocument> solrInputDocumentRDD =
-                (JavaRDD<SolrInputDocument>)
-                        sparkContext
-                                .objectFile(hdfsFilePath)
-                                .map(
-                                        obj -> {
-                                            return (SolrInputDocument) obj;
-                                        });
+                sparkContext.objectFile(hdfsFilePath).map(obj -> (SolrInputDocument) obj);
 
         SolrCollection solrCollection = SparkUtils.getSolrCollection(args[1]);
         SolrUtils.indexDocuments(solrInputDocumentRDD, solrCollection, applicationConfig);
@@ -48,7 +42,6 @@ public class IndexHDFSDocumentsInSolrMain {
     private static String getHDFSFilePath(String[] args, ResourceBundle applicationConfig) {
         try {
             return applicationConfig.getString(args[0]);
-            // applicationConfig.getString("uniprot.solr.documents.path");
         } catch (Exception e) {
             throw new IllegalArgumentException(
                     "Invalid hdfsFilePath parameter name: "

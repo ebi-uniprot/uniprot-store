@@ -1,4 +1,4 @@
-package org.uniprot.store.spark.indexer.util;
+package org.uniprot.store.spark.indexer.common.util;
 
 import java.io.*;
 import java.net.URL;
@@ -21,6 +21,10 @@ import org.uniprot.store.spark.indexer.WriteIndexDocumentsToHDFSMain;
  */
 @Slf4j
 public class SparkUtils {
+
+    private static final String SPARK_MASTER = "spark.master";
+
+    private SparkUtils() {}
 
     public static String getInputReleaseDirPath(
             ResourceBundle applicationConfig, String releaseName) {
@@ -53,9 +57,10 @@ public class SparkUtils {
         return lines;
     }
 
+    @SuppressWarnings("squid:S2095")
     public static InputStream getInputStream(String filePath, Configuration hadoopConfig)
             throws IOException {
-        InputStream inputStream = SparkUtils.class.getClassLoader().getResourceAsStream(filePath);
+        InputStream inputStream = ClassLoader.getSystemResourceAsStream(filePath);
         if (inputStream == null) {
             if (filePath.startsWith("hdfs:")) {
                 FileSystem fs = FileSystem.get(hadoopConfig);
@@ -68,34 +73,49 @@ public class SparkUtils {
     }
 
     public static ResourceBundle loadApplicationProperty() {
-        try {
+        URL resourceURL =
+                WriteIndexDocumentsToHDFSMain.class
+                        .getProtectionDomain()
+                        .getCodeSource()
+                        .getLocation();
+        try (URLClassLoader urlLoader = new URLClassLoader(new java.net.URL[] {resourceURL})) {
             // try to load from the directory that the application is being executed
-            URL resourceURL =
-                    WriteIndexDocumentsToHDFSMain.class
-                            .getProtectionDomain()
-                            .getCodeSource()
-                            .getLocation();
-            URLClassLoader urlLoader = new URLClassLoader(new java.net.URL[] {resourceURL});
             return ResourceBundle.getBundle("application", Locale.getDefault(), urlLoader);
-        } catch (MissingResourceException e) {
+        } catch (MissingResourceException | IOException e) {
             // load from the classpath
             return ResourceBundle.getBundle("application");
         }
     }
 
     public static JavaSparkContext loadSparkContext(ResourceBundle applicationConfig) {
+        String sparkMaster = applicationConfig.getString(SPARK_MASTER);
+        if (sparkMaster.startsWith("local")) {
+            return getLocalSparkContext(applicationConfig);
+        } else {
+            return getRemoteSparkContext(applicationConfig);
+        }
+    }
+
+    private static JavaSparkContext getLocalSparkContext(ResourceBundle applicationConfig) {
         String applicationName = applicationConfig.getString("spark.application.name");
-        String sparkMaster = applicationConfig.getString("spark.master");
+        String sparkMaster = applicationConfig.getString(SPARK_MASTER);
+        SparkConf sparkConf =
+                new SparkConf()
+                        .setAppName(applicationName)
+                        .setMaster(sparkMaster)
+                        .set("spark.driver.host", "localhost");
+        return new JavaSparkContext(sparkConf);
+    }
+
+    private static JavaSparkContext getRemoteSparkContext(ResourceBundle applicationConfig) {
+        String applicationName = applicationConfig.getString("spark.application.name");
+        String sparkMaster = applicationConfig.getString(SPARK_MASTER);
         SparkConf sparkConf =
                 new SparkConf()
                         .setAppName(applicationName)
                         .setMaster(sparkMaster)
                         .set("spark.scheduler.mode", "FAIR")
                         .set("spark.scheduler.allocation.file", "uniprot-fair-scheduler.xml");
-
-        if (sparkMaster.startsWith("local")) {
-            sparkConf = sparkConf.set("spark.driver.host", "localhost");
-        }
         JavaSparkContext sparkContext = new JavaSparkContext(sparkConf);
         sparkContext.setLocalProperty("spark.scheduler.pool", "uniprotPool");
         return sparkContext;
@@ -105,7 +125,7 @@ public class SparkUtils {
         try {
             return SolrCollection.valueOf(collectionName);
         } catch (Exception e) {
-            throw new RuntimeException("Invalid solr collection name: " + collectionName);
+            throw new IllegalArgumentException("Invalid solr collection name: " + collectionName);
         }
     }
 }

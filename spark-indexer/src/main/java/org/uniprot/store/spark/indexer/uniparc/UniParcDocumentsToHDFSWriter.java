@@ -1,6 +1,6 @@
 package org.uniprot.store.spark.indexer.uniparc;
 
-import static org.uniprot.store.spark.indexer.util.SparkUtils.getOutputReleaseDirPath;
+import static org.uniprot.store.spark.indexer.common.util.SparkUtils.getOutputReleaseDirPath;
 
 import java.util.ResourceBundle;
 
@@ -13,12 +13,12 @@ import org.apache.spark.api.java.JavaSparkContext;
 import org.uniprot.core.taxonomy.TaxonomyEntry;
 import org.uniprot.core.uniparc.UniParcEntry;
 import org.uniprot.store.search.document.uniparc.UniParcDocument;
+import org.uniprot.store.spark.indexer.common.util.SolrUtils;
 import org.uniprot.store.spark.indexer.common.writer.DocumentsToHDFSWriter;
 import org.uniprot.store.spark.indexer.taxonomy.TaxonomyRDDReader;
 import org.uniprot.store.spark.indexer.uniparc.mapper.UniParcEntryToDocument;
 import org.uniprot.store.spark.indexer.uniparc.mapper.UniParcTaxonomyJoin;
 import org.uniprot.store.spark.indexer.uniparc.mapper.UniParcTaxonomyMapper;
-import org.uniprot.store.spark.indexer.util.SolrUtils;
 
 /**
  * This class is responsible to load all the data for UniParcDocument and save it into HDFS

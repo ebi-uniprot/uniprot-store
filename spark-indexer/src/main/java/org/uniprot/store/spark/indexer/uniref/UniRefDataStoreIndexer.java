@@ -6,11 +6,12 @@ import lombok.extern.slf4j.Slf4j;
 
 import org.apache.spark.SparkConf;
 import org.apache.spark.api.java.JavaRDD;
-import org.apache.spark.api.java.JavaSparkContext;
 import org.uniprot.core.uniref.UniRefEntry;
 import org.uniprot.core.uniref.UniRefType;
 import org.uniprot.store.datastore.voldemort.VoldemortClient;
 import org.uniprot.store.datastore.voldemort.uniref.VoldemortRemoteUniRefEntryStore;
+import org.uniprot.store.spark.indexer.common.JobParameter;
+import org.uniprot.store.spark.indexer.common.writer.DataStoreWriter;
 
 /**
  * @author lgonzales
@@ -19,73 +20,39 @@ import org.uniprot.store.datastore.voldemort.uniref.VoldemortRemoteUniRefEntrySt
 @Slf4j
 public class UniRefDataStoreIndexer implements Runnable {
 
-    private JavaSparkContext sparkContext;
-    private ResourceBundle applicationConfig;
-    private String releaseName;
+    private final JobParameter jobParameter;
 
-    public UniRefDataStoreIndexer(
-            JavaSparkContext sparkContext, ResourceBundle applicationConfig, String releaseName) {
-        this.sparkContext = sparkContext;
-        this.applicationConfig = applicationConfig;
-        this.releaseName = releaseName;
+    public UniRefDataStoreIndexer(JobParameter jobParameter) {
+        this.jobParameter = jobParameter;
     }
 
     @Override
     public void run() {
-        SparkConf sparkConf = sparkContext.sc().conf();
-        String numberOfConnections =
-                applicationConfig.getString("store.uniref.numberOfConnections");
-        String storeName = applicationConfig.getString("store.uniref.storeName");
-        String connectionURL = applicationConfig.getString("store.uniref.host");
+        indexUniRef(UniRefType.UniRef50, jobParameter);
+        indexUniRef(UniRefType.UniRef90, jobParameter);
+        indexUniRef(UniRefType.UniRef100, jobParameter);
+    }
+
+    private void indexUniRef(UniRefType type, JobParameter jobParameter) {
+        SparkConf sparkConf = jobParameter.getSparkContext().sc().conf();
+        ResourceBundle config = jobParameter.getApplicationConfig();
+        String releaseName = jobParameter.getReleaseName();
+
+        String numberOfConnections = config.getString("store.uniref.numberOfConnections");
+        String storeName = config.getString("store.uniref.storeName");
+        String connectionURL = config.getString("store.uniref.host");
 
         JavaRDD<UniRefEntry> uniRefRDD =
-                (JavaRDD<UniRefEntry>)
-                        UniRefRDDTupleReader.load(
-                                        UniRefType.UniRef50,
-                                        sparkConf,
-                                        applicationConfig,
-                                        releaseName)
-                                .union(
-                                        UniRefRDDTupleReader.load(
-                                                UniRefType.UniRef90,
-                                                sparkConf,
-                                                applicationConfig,
-                                                releaseName))
-                                .union(
-                                        UniRefRDDTupleReader.load(
-                                                UniRefType.UniRef100,
-                                                sparkConf,
-                                                applicationConfig,
-                                                releaseName));
-
+                UniRefRDDTupleReader.load(type, sparkConf, config, releaseName);
         uniRefRDD.foreachPartition(
                 uniProtEntryIterator -> {
                     VoldemortClient<UniRefEntry> client =
                             new VoldemortRemoteUniRefEntryStore(
-                                    Integer.valueOf(numberOfConnections), storeName, connectionURL);
-                    int numNewConnection = 0;
-                    while (uniProtEntryIterator.hasNext()) {
-                        UniRefEntry entry = uniProtEntryIterator.next();
-                        try {
-                            client.saveEntry(entry);
-                        } catch (Exception e) {
-                            log.info("trying to reset voldemort connection...." + numNewConnection);
-                            Thread.sleep(4000);
-                            numNewConnection++;
-                            if (numNewConnection < 3) {
-                                client =
-                                        new VoldemortRemoteUniRefEntryStore(
-                                                Integer.valueOf(numberOfConnections),
-                                                storeName,
-                                                connectionURL);
-                                client.saveEntry(entry);
-                            } else {
-                                throw new Exception(
-                                        "Already tried to reset Voldemort connection twice and did not work",
-                                        e);
-                            }
-                        }
-                    }
+                                    Integer.parseInt(numberOfConnections),
+                                    storeName,
+                                    connectionURL);
+                    DataStoreWriter<UniRefEntry> writer = new DataStoreWriter<>(client);
+                    writer.indexInStore(uniProtEntryIterator);
                 });
         log.info("Completed UniRef Data Store index");
     }

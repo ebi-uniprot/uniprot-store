@@ -1,6 +1,6 @@
 package org.uniprot.store.spark.indexer.literature;
 
-import static org.uniprot.store.spark.indexer.util.SparkUtils.getInputReleaseDirPath;
+import static org.uniprot.store.spark.indexer.common.util.SparkUtils.getInputReleaseDirPath;
 
 import java.util.ResourceBundle;
 
@@ -16,6 +16,8 @@ import org.uniprot.core.literature.LiteratureMappedReference;
  * @since 2019-12-02
  */
 public class LiteratureMappedRDDReader {
+
+    private LiteratureMappedRDDReader() {}
 
     /**
      * load LiteratureMappedReference to a JavaPairRDD

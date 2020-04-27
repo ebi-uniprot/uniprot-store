@@ -1,6 +1,6 @@
 package org.uniprot.store.spark.indexer.uniprot;
 
-import static org.uniprot.store.spark.indexer.util.SparkUtils.getInputReleaseDirPath;
+import static org.uniprot.store.spark.indexer.common.util.SparkUtils.getInputReleaseDirPath;
 
 import java.util.Collections;
 import java.util.ResourceBundle;
@@ -20,6 +20,8 @@ import org.uniprot.store.spark.indexer.uniprot.mapper.UniProtEntryToSolrDocument
  * @since 2019-12-02
  */
 public class InactiveUniProtKBRDDTupleReader {
+
+    private InactiveUniProtKBRDDTupleReader() {}
 
     /** @return an JavaPairRDD with <accession, UniProtDocument> for Inactive UniProt Entries. */
     public static JavaPairRDD<String, UniProtDocument> load(

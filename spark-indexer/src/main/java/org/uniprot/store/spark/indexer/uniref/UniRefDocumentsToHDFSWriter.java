@@ -11,11 +11,11 @@ import org.apache.spark.api.java.JavaSparkContext;
 import org.uniprot.core.taxonomy.TaxonomyEntry;
 import org.uniprot.core.uniref.UniRefType;
 import org.uniprot.store.search.document.uniref.UniRefDocument;
+import org.uniprot.store.spark.indexer.common.util.SolrUtils;
 import org.uniprot.store.spark.indexer.common.writer.DocumentsToHDFSWriter;
 import org.uniprot.store.spark.indexer.taxonomy.TaxonomyRDDReader;
 import org.uniprot.store.spark.indexer.uniref.mapper.UniRefTaxonomyJoin;
 import org.uniprot.store.spark.indexer.uniref.mapper.UniRefToDocument;
-import org.uniprot.store.spark.indexer.util.SolrUtils;
 
 /**
  * This class is responsible to load all the data for UniRefDocument and save it into HDFS

@@ -6,10 +6,11 @@ import lombok.extern.slf4j.Slf4j;
 
 import org.apache.spark.SparkConf;
 import org.apache.spark.api.java.JavaRDD;
-import org.apache.spark.api.java.JavaSparkContext;
 import org.uniprot.core.uniparc.UniParcEntry;
 import org.uniprot.store.datastore.voldemort.VoldemortClient;
 import org.uniprot.store.datastore.voldemort.uniparc.VoldemortRemoteUniParcEntryStore;
+import org.uniprot.store.spark.indexer.common.JobParameter;
+import org.uniprot.store.spark.indexer.common.writer.DataStoreWriter;
 
 /**
  * @author lgonzales
@@ -18,58 +19,32 @@ import org.uniprot.store.datastore.voldemort.uniparc.VoldemortRemoteUniParcEntry
 @Slf4j
 public class UniParcDataStoreIndexer implements Runnable {
 
-    private JavaSparkContext sparkContext;
-    private ResourceBundle applicationConfig;
-    private String releaseName;
+    private final JobParameter jobParameter;
 
-    public UniParcDataStoreIndexer(
-            JavaSparkContext sparkContext, ResourceBundle applicationConfig, String releaseName) {
-        this.sparkContext = sparkContext;
-        this.applicationConfig = applicationConfig;
-        this.releaseName = releaseName;
+    public UniParcDataStoreIndexer(JobParameter jobParameter) {
+        this.jobParameter = jobParameter;
     }
 
     @Override
     public void run() {
-        SparkConf sparkConf = sparkContext.sc().conf();
-
+        SparkConf sparkConf = jobParameter.getSparkContext().sc().conf();
+        ResourceBundle config = jobParameter.getApplicationConfig();
         JavaRDD<UniParcEntry> uniparcRDD =
-                (JavaRDD<UniParcEntry>)
-                        UniParcRDDTupleReader.load(sparkConf, applicationConfig, releaseName);
+                UniParcRDDTupleReader.load(sparkConf, config, jobParameter.getReleaseName());
 
-        String numberOfConnections =
-                applicationConfig.getString("store.uniparc.numberOfConnections");
-        String storeName = applicationConfig.getString("store.uniparc.storeName");
-        String connectionURL = applicationConfig.getString("store.uniparc.host");
+        String numberOfConnections = config.getString("store.uniparc.numberOfConnections");
+        String storeName = config.getString("store.uniparc.storeName");
+        String connectionURL = config.getString("store.uniparc.host");
 
         uniparcRDD.foreachPartition(
-                uniParcEntryIterator -> {
+                uniProtEntryIterator -> {
                     VoldemortClient<UniParcEntry> client =
                             new VoldemortRemoteUniParcEntryStore(
-                                    Integer.valueOf(numberOfConnections), storeName, connectionURL);
-                    int numNewConnection = 0;
-                    while (uniParcEntryIterator.hasNext()) {
-                        UniParcEntry entry = uniParcEntryIterator.next();
-                        try {
-                            client.saveEntry(entry);
-                        } catch (Exception e) {
-                            log.info("trying to reset voldemort connection...." + numNewConnection);
-                            Thread.sleep(4000);
-                            numNewConnection++;
-                            if (numNewConnection < 3) {
-                                client =
-                                        new VoldemortRemoteUniParcEntryStore(
-                                                Integer.valueOf(numberOfConnections),
-                                                storeName,
-                                                connectionURL);
-                                client.saveEntry(entry);
-                            } else {
-                                throw new Exception(
-                                        "Already tried to reset Voldemort connection twice and did not work",
-                                        e);
-                            }
-                        }
-                    }
+                                    Integer.parseInt(numberOfConnections),
+                                    storeName,
+                                    connectionURL);
+                    DataStoreWriter<UniParcEntry> writer = new DataStoreWriter<>(client);
+                    writer.indexInStore(uniProtEntryIterator);
                 });
         log.info("Completed UniParc Data Store index");
     }

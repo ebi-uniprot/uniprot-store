@@ -1,6 +1,6 @@
 package org.uniprot.store.spark.indexer.uniref.converter;
 
-import static org.uniprot.store.spark.indexer.util.RowUtils.hasFieldName;
+import static org.uniprot.store.spark.indexer.common.util.RowUtils.hasFieldName;
 
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -21,7 +21,7 @@ import org.uniprot.core.uniparc.impl.UniParcIdBuilder;
 import org.uniprot.core.uniprotkb.impl.UniProtKBAccessionBuilder;
 import org.uniprot.core.uniref.*;
 import org.uniprot.core.uniref.impl.*;
-import org.uniprot.store.spark.indexer.util.RowUtils;
+import org.uniprot.store.spark.indexer.common.util.RowUtils;
 
 /**
  * This class convert XML Row result to a UniRefEntry
@@ -90,7 +90,7 @@ public class DatasetUniRefEntryConverter implements MapFunction<Row, UniRefEntry
             Map<String, List<String>> propertyMap = RowUtils.convertProperties(rowValue);
             if (propertyMap.containsKey(PROPERTY_MEMBER_COUNT)) {
                 String memberCount = propertyMap.get(PROPERTY_MEMBER_COUNT).get(0);
-                builder.memberCount(Integer.valueOf(memberCount));
+                builder.memberCount(Integer.parseInt(memberCount));
             }
             if (propertyMap.containsKey(PROPERTY_COMMON_TAXON)) {
                 String commonTaxon = propertyMap.get(PROPERTY_COMMON_TAXON).get(0);
@@ -98,7 +98,7 @@ public class DatasetUniRefEntryConverter implements MapFunction<Row, UniRefEntry
             }
             if (propertyMap.containsKey(PROPERTY_COMMON_TAXON_ID)) {
                 String commonTaxonId = propertyMap.get(PROPERTY_COMMON_TAXON_ID).get(0);
-                builder.commonTaxonId(Integer.valueOf(commonTaxonId));
+                builder.commonTaxonId(Integer.parseInt(commonTaxonId));
             }
             if (propertyMap.containsKey(PROPERTY_GO_FUNCTION)) {
                 propertyMap.get(PROPERTY_GO_FUNCTION).stream()
@@ -183,8 +183,8 @@ public class DatasetUniRefEntryConverter implements MapFunction<Row, UniRefEntry
                 }
                 if (propertyMap.containsKey(PROPERTY_OVERLAP_REGION)) {
                     String overlap = propertyMap.get(PROPERTY_OVERLAP_REGION).get(0);
-                    int start = Integer.valueOf(overlap.substring(0, overlap.indexOf("-")));
-                    int end = Integer.valueOf(overlap.substring(overlap.indexOf("-") + 1));
+                    int start = Integer.parseInt(overlap.substring(0, overlap.indexOf('-')));
+                    int end = Integer.parseInt(overlap.substring(overlap.indexOf('-') + 1));
                     builder.overlapRegion(new OverlapRegionBuilder().start(start).end(end).build());
                 }
                 if (propertyMap.containsKey(PROPERTY_PROTEIN_NAME)) {
@@ -194,11 +194,12 @@ public class DatasetUniRefEntryConverter implements MapFunction<Row, UniRefEntry
                     builder.organismName(propertyMap.get(PROPERTY_ORGANISM).get(0));
                 }
                 if (propertyMap.containsKey(PROPERTY_TAXONOMY)) {
-                    builder.organismTaxId(Long.valueOf(propertyMap.get(PROPERTY_TAXONOMY).get(0)));
+                    builder.organismTaxId(
+                            Long.parseLong(propertyMap.get(PROPERTY_TAXONOMY).get(0)));
                 }
                 if (propertyMap.containsKey(PROPERTY_LENGTH)) {
                     builder.sequenceLength(
-                            Integer.valueOf(propertyMap.get(PROPERTY_LENGTH).get(0)));
+                            Integer.parseInt(propertyMap.get(PROPERTY_LENGTH).get(0)));
                 }
                 if (propertyMap.containsKey(PROPERTY_IS_SEED)) {
                     builder.isSeed(Boolean.valueOf(propertyMap.get(PROPERTY_IS_SEED).get(0)));

@@ -3,11 +3,11 @@ package org.uniprot.store.spark.indexer.common.writer;
 import java.util.ResourceBundle;
 
 import org.uniprot.store.search.SolrCollection;
+import org.uniprot.store.spark.indexer.common.util.SparkUtils;
 import org.uniprot.store.spark.indexer.suggest.SuggestDocumentsToHDFSWriter;
 import org.uniprot.store.spark.indexer.uniparc.UniParcDocumentsToHDFSWriter;
 import org.uniprot.store.spark.indexer.uniprot.UniProtKBDocumentsToHDFSWriter;
 import org.uniprot.store.spark.indexer.uniref.UniRefDocumentsToHDFSWriter;
-import org.uniprot.store.spark.indexer.util.SparkUtils;
 
 /**
  * @author lgonzales

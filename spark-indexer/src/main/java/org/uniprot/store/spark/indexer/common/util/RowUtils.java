@@ -1,4 +1,4 @@
-package org.uniprot.store.spark.indexer.util;
+package org.uniprot.store.spark.indexer.common.util;
 
 import java.util.*;
 
@@ -15,6 +15,13 @@ import org.uniprot.core.util.Utils;
  */
 public class RowUtils {
 
+    private static final String TYPE = "_type";
+    private static final String PROPERTY = "property";
+    private static final String VALUE = "_VALUE";
+    private static final String VALUE_ATTRIBUTE = "_value";
+
+    private RowUtils() {}
+
     public static boolean hasFieldName(String fieldName, Row row) {
         try {
             return Utils.notNull(row.get(row.fieldIndex(fieldName)));
@@ -26,40 +33,40 @@ public class RowUtils {
     public static StructType getDBReferenceSchema() {
         StructType dbReference = new StructType();
         dbReference = dbReference.add("_id", DataTypes.StringType, true);
-        dbReference = dbReference.add("_type", DataTypes.StringType, true);
+        dbReference = dbReference.add(TYPE, DataTypes.StringType, true);
         dbReference =
-                dbReference.add("property", DataTypes.createArrayType(getPropertySchema()), true);
+                dbReference.add(PROPERTY, DataTypes.createArrayType(getPropertySchema()), true);
         return dbReference;
     }
 
     public static StructType getPropertySchema() {
         StructType structType = new StructType();
-        structType = structType.add("_VALUE", DataTypes.StringType, true);
-        structType = structType.add("_type", DataTypes.StringType, true);
-        structType = structType.add("_value", DataTypes.StringType, true);
+        structType = structType.add(VALUE, DataTypes.StringType, true);
+        structType = structType.add(TYPE, DataTypes.StringType, true);
+        structType = structType.add(VALUE_ATTRIBUTE, DataTypes.StringType, true);
         return structType;
     }
 
     public static StructType getSequenceSchema() {
         StructType structType = new StructType();
-        structType = structType.add("_VALUE", DataTypes.StringType, true);
+        structType = structType.add(VALUE, DataTypes.StringType, true);
         structType = structType.add("_checksum", DataTypes.StringType, true);
         structType = structType.add("_length", DataTypes.LongType, true);
         return structType;
     }
 
     public static Map<String, List<String>> convertProperties(Row rowValue) {
-        List<Row> properties = rowValue.getList(rowValue.fieldIndex("property"));
+        List<Row> properties = rowValue.getList(rowValue.fieldIndex(PROPERTY));
         if (properties == null) {
-            Row member = (Row) rowValue.get(rowValue.fieldIndex("property"));
+            Row member = (Row) rowValue.get(rowValue.fieldIndex(PROPERTY));
             properties = Collections.singletonList(member);
         }
         Map<String, List<String>> propertyMap = new HashMap<>();
         properties.forEach(
                 property -> {
-                    if (hasFieldName("_type", property) && hasFieldName("_value", property)) {
-                        String type = property.getString(property.fieldIndex("_type"));
-                        String value = property.getString(property.fieldIndex("_value"));
+                    if (hasFieldName(TYPE, property) && hasFieldName(VALUE_ATTRIBUTE, property)) {
+                        String type = property.getString(property.fieldIndex(TYPE));
+                        String value = property.getString(property.fieldIndex(VALUE_ATTRIBUTE));
                         propertyMap.putIfAbsent(type, new ArrayList<>());
                         propertyMap.get(type).add(value);
                     }
@@ -68,8 +75,8 @@ public class RowUtils {
     }
 
     public static Sequence convertSequence(Row row) {
-        if (hasFieldName("_VALUE", row)) {
-            String sequenceValue = row.getString(row.fieldIndex("_VALUE"));
+        if (hasFieldName(VALUE, row)) {
+            String sequenceValue = row.getString(row.fieldIndex(VALUE));
             SequenceBuilder builder = new SequenceBuilder(sequenceValue);
             return builder.build();
         }

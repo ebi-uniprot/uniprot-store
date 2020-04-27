@@ -1,6 +1,6 @@
 package org.uniprot.store.spark.indexer.taxonomy;
 
-import static org.uniprot.store.spark.indexer.util.RowUtils.hasFieldName;
+import static org.uniprot.store.spark.indexer.common.util.RowUtils.hasFieldName;
 
 import java.io.Serializable;
 import java.math.BigDecimal;

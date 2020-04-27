@@ -7,7 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.solr.common.SolrInputDocument;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
-import org.uniprot.store.spark.indexer.util.SparkUtils;
+import org.uniprot.store.spark.indexer.common.util.SparkUtils;
 
 /**
  * This class is used to print first 200 solr document saved in HDFS. it is helpful during the
@@ -26,12 +26,7 @@ public class ValidateHDFSDocumentsMain {
         String hdfsFilePath = applicationConfig.getString(args[0]);
         JavaRDD<SolrInputDocument> solrInputDocumentRDD =
                 (JavaRDD<SolrInputDocument>)
-                        sparkContext
-                                .objectFile(hdfsFilePath)
-                                .map(
-                                        obj -> {
-                                            return (SolrInputDocument) obj;
-                                        });
+                        sparkContext.objectFile(hdfsFilePath).map(obj -> (SolrInputDocument) obj);
 
         solrInputDocumentRDD
                 .take(200)

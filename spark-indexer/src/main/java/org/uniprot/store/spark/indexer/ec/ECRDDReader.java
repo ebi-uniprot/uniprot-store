@@ -1,6 +1,6 @@
 package org.uniprot.store.spark.indexer.ec;
 
-import static org.uniprot.store.spark.indexer.util.SparkUtils.getInputReleaseMainThreadDirPath;
+import static org.uniprot.store.spark.indexer.common.util.SparkUtils.getInputReleaseMainThreadDirPath;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -12,13 +12,15 @@ import org.apache.spark.api.java.JavaSparkContext;
 import org.uniprot.core.cv.ec.ECEntry;
 import org.uniprot.cv.ec.ECCache;
 import org.uniprot.cv.ec.ECFileReader;
-import org.uniprot.store.spark.indexer.util.SparkUtils;
+import org.uniprot.store.spark.indexer.common.util.SparkUtils;
 
 /**
  * @author lgonzales
  * @since 2020-01-17
  */
 public class ECRDDReader {
+
+    private ECRDDReader() {}
 
     /** @return JavaPairRDD{key=ecId, value={@link ECEntry}} */
     public static JavaPairRDD<String, ECEntry> load(

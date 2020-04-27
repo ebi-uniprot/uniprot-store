@@ -1,4 +1,4 @@
-package org.uniprot.store.spark.indexer.util;
+package org.uniprot.store.spark.indexer.common.util;
 
 import java.util.ResourceBundle;
 
@@ -11,6 +11,7 @@ import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
 import org.uniprot.store.search.SolrCollection;
 import org.uniprot.store.search.document.Document;
+import org.uniprot.store.spark.indexer.common.exception.SolrIndexException;
 
 import com.lucidworks.spark.util.SolrSupport;
 
@@ -20,6 +21,8 @@ import com.lucidworks.spark.util.SolrSupport;
  */
 @Slf4j
 public class SolrUtils {
+
+    private SolrUtils() {}
 
     public static void saveSolrInputDocumentRDD(
             JavaPairRDD<String, ? extends Document> docRDD, String savePath) {
@@ -46,13 +49,15 @@ public class SolrUtils {
         log.info("Starting solr index for collection: " + collectionName + " in zkHost " + zkHost);
         try {
 
-            int solrBatchSize = Integer.valueOf(config.getString("solr.batch.size"));
+            int solrBatchSize = Integer.parseInt(config.getString("solr.batch.size"));
             SolrSupport.indexDocs(
                     zkHost, collectionName, solrBatchSize, solrInputDocumentRDD.rdd());
             log.info("Completed solr index for collection " + collectionName);
         } catch (Exception e) {
-            log.error("Exception indexing data to solr, for collection " + collectionName, e);
-            throw new RuntimeException("Exception: ", e);
+            String errorMessage =
+                    "Exception indexing data to solr, for collection " + collectionName;
+            log.error(errorMessage, e);
+            throw new SolrIndexException(errorMessage, e);
         }
         log.info("Completed solr index for collection " + collectionName);
 
@@ -83,7 +88,7 @@ public class SolrUtils {
             try {
                 solrClient.commit(collection, true, true);
             } catch (Exception ce) {
-                throw new RuntimeException("Unable to commit in solr after two tentatives: ", ce);
+                throw new SolrIndexException("Unable to commit in solr after two tentatives: ", ce);
             }
         }
     }

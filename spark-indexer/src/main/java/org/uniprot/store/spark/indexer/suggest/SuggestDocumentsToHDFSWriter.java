@@ -1,6 +1,6 @@
 package org.uniprot.store.spark.indexer.suggest;
 
-import static org.uniprot.store.spark.indexer.util.SparkUtils.getOutputReleaseDirPath;
+import static org.uniprot.store.spark.indexer.common.util.SparkUtils.getOutputReleaseDirPath;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,6 +20,7 @@ import org.uniprot.store.indexer.uniprotkb.config.SuggestionConfig;
 import org.uniprot.store.search.document.suggest.SuggestDictionary;
 import org.uniprot.store.search.document.suggest.SuggestDocument;
 import org.uniprot.store.spark.indexer.chebi.ChebiRDDReader;
+import org.uniprot.store.spark.indexer.common.util.SolrUtils;
 import org.uniprot.store.spark.indexer.common.writer.DocumentsToHDFSWriter;
 import org.uniprot.store.spark.indexer.ec.ECRDDReader;
 import org.uniprot.store.spark.indexer.go.relations.GORelationRDDReader;
@@ -31,7 +32,6 @@ import org.uniprot.store.spark.indexer.suggest.mapper.flatfile.*;
 import org.uniprot.store.spark.indexer.taxonomy.TaxonomyLineageReader;
 import org.uniprot.store.spark.indexer.uniprot.UniProtKBRDDTupleReader;
 import org.uniprot.store.spark.indexer.uniprot.mapper.GoRelationsJoinMapper;
-import org.uniprot.store.spark.indexer.util.SolrUtils;
 
 import scala.Tuple2;
 
@@ -314,10 +314,7 @@ public class SuggestDocumentsToHDFSWriter implements DocumentsToHDFSWriter {
         }
         List<Tuple2<String, SuggestDocument>> tupleList =
                 suggestList.stream()
-                        .map(
-                                suggest -> {
-                                    return new Tuple2<>(suggest.id, suggest);
-                                })
+                        .map(suggest -> new Tuple2<>(suggest.id, suggest))
                         .collect(Collectors.toList());
         return (JavaPairRDD<String, SuggestDocument>) sparkContext.parallelizePairs(tupleList);
     }

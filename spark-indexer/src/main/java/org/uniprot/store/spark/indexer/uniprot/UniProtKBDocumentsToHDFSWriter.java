@@ -1,6 +1,6 @@
 package org.uniprot.store.spark.indexer.uniprot;
 
-import static org.uniprot.store.spark.indexer.util.SparkUtils.*;
+import static org.uniprot.store.spark.indexer.common.util.SparkUtils.*;
 
 import java.util.List;
 import java.util.Map;
@@ -22,6 +22,8 @@ import org.uniprot.core.uniref.UniRefEntry;
 import org.uniprot.core.uniref.UniRefType;
 import org.uniprot.cv.pathway.UniPathwayFileReader;
 import org.uniprot.store.search.document.uniprot.UniProtDocument;
+import org.uniprot.store.spark.indexer.common.util.SolrUtils;
+import org.uniprot.store.spark.indexer.common.util.SparkUtils;
 import org.uniprot.store.spark.indexer.common.writer.DocumentsToHDFSWriter;
 import org.uniprot.store.spark.indexer.go.evidence.GOEvidence;
 import org.uniprot.store.spark.indexer.go.evidence.GOEvidenceMapper;
@@ -34,8 +36,6 @@ import org.uniprot.store.spark.indexer.uniprot.mapper.UniRefJoinMapper;
 import org.uniprot.store.spark.indexer.uniprot.mapper.UniRefMappedToUniprotDocument;
 import org.uniprot.store.spark.indexer.uniprot.mapper.model.MappedUniRef;
 import org.uniprot.store.spark.indexer.uniref.UniRefRDDTupleReader;
-import org.uniprot.store.spark.indexer.util.SolrUtils;
-import org.uniprot.store.spark.indexer.util.SparkUtils;
 
 /**
  * This class is responsible to load all the data for UniProtDocument and save it into HDFS

@@ -1,6 +1,6 @@
 package org.uniprot.store.spark.indexer.disease;
 
-import static org.uniprot.store.spark.indexer.util.SparkUtils.getInputReleaseDirPath;
+import static org.uniprot.store.spark.indexer.common.util.SparkUtils.getInputReleaseDirPath;
 
 import java.util.ResourceBundle;
 
@@ -15,6 +15,8 @@ import org.uniprot.core.cv.disease.DiseaseEntry;
  * @since 2019-10-13
  */
 public class DiseaseRDDReader {
+
+    private DiseaseRDDReader() {}
 
     private static final String SPLITTER = "\n//\n";
 

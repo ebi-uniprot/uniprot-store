@@ -1,6 +1,6 @@
 package org.uniprot.store.spark.indexer.subcell;
 
-import static org.uniprot.store.spark.indexer.util.SparkUtils.getInputReleaseMainThreadDirPath;
+import static org.uniprot.store.spark.indexer.common.util.SparkUtils.getInputReleaseMainThreadDirPath;
 
 import java.util.List;
 import java.util.ResourceBundle;
@@ -9,7 +9,7 @@ import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaSparkContext;
 import org.uniprot.core.cv.subcell.SubcellularLocationEntry;
 import org.uniprot.cv.subcell.SubcellularLocationFileReader;
-import org.uniprot.store.spark.indexer.util.SparkUtils;
+import org.uniprot.store.spark.indexer.common.util.SparkUtils;
 
 /**
  * @author lgonzales
@@ -17,7 +17,7 @@ import org.uniprot.store.spark.indexer.util.SparkUtils;
  */
 public class SubcellularLocationRDDReader {
 
-    private static final String SPLITTER = "\n//\n";
+    private SubcellularLocationRDDReader() {}
 
     /** @return JavaPairRDD{key=subcellId, value={@link SubcellularLocationEntry}} */
     public static JavaPairRDD<String, SubcellularLocationEntry> load(
