@@ -11,6 +11,7 @@ import org.uniprot.core.uniref.UniRefType;
 import org.uniprot.store.datastore.voldemort.VoldemortClient;
 import org.uniprot.store.datastore.voldemort.uniref.VoldemortRemoteUniRefEntryStore;
 import org.uniprot.store.spark.indexer.common.JobParameter;
+import org.uniprot.store.spark.indexer.common.store.DataStoreIndexer;
 import org.uniprot.store.spark.indexer.common.writer.DataStoreWriter;
 
 /**
@@ -18,7 +19,7 @@ import org.uniprot.store.spark.indexer.common.writer.DataStoreWriter;
  * @since 2020-03-06
  */
 @Slf4j
-public class UniRefDataStoreIndexer implements Runnable {
+public class UniRefDataStoreIndexer implements DataStoreIndexer {
 
     private final JobParameter jobParameter;
 
@@ -27,9 +28,9 @@ public class UniRefDataStoreIndexer implements Runnable {
     }
 
     @Override
-    public void run() {
-        indexUniRef(UniRefType.UniRef50, jobParameter);
+    public void indexInDataStore() {
         indexUniRef(UniRefType.UniRef90, jobParameter);
+        indexUniRef(UniRefType.UniRef50, jobParameter);
         indexUniRef(UniRefType.UniRef100, jobParameter);
     }
 

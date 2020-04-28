@@ -6,10 +6,12 @@ import lombok.extern.slf4j.Slf4j;
 
 import org.apache.spark.SparkConf;
 import org.apache.spark.api.java.JavaRDD;
+import org.apache.spark.api.java.JavaSparkContext;
 import org.uniprot.core.uniparc.UniParcEntry;
 import org.uniprot.store.datastore.voldemort.VoldemortClient;
 import org.uniprot.store.datastore.voldemort.uniparc.VoldemortRemoteUniParcEntryStore;
 import org.uniprot.store.spark.indexer.common.JobParameter;
+import org.uniprot.store.spark.indexer.common.store.DataStoreIndexer;
 import org.uniprot.store.spark.indexer.common.writer.DataStoreWriter;
 
 /**
@@ -17,20 +19,23 @@ import org.uniprot.store.spark.indexer.common.writer.DataStoreWriter;
  * @since 2020-02-26
  */
 @Slf4j
-public class UniParcDataStoreIndexer implements Runnable {
+public class UniParcDataStoreIndexer implements DataStoreIndexer {
 
-    private final JobParameter jobParameter;
+    private final ResourceBundle config;
+    private final String releaseName;
+    private final JavaSparkContext sparkContext;
 
-    public UniParcDataStoreIndexer(JobParameter jobParameter) {
-        this.jobParameter = jobParameter;
+    public UniParcDataStoreIndexer(JobParameter parameter) {
+        this.config = parameter.getApplicationConfig();
+        this.releaseName = parameter.getReleaseName();
+        this.sparkContext = parameter.getSparkContext();
     }
 
     @Override
-    public void run() {
-        SparkConf sparkConf = jobParameter.getSparkContext().sc().conf();
-        ResourceBundle config = jobParameter.getApplicationConfig();
+    public void indexInDataStore() {
+        SparkConf sparkConf = sparkContext.sc().conf();
         JavaRDD<UniParcEntry> uniparcRDD =
-                UniParcRDDTupleReader.load(sparkConf, config, jobParameter.getReleaseName());
+                UniParcRDDTupleReader.load(sparkConf, config, releaseName);
 
         String numberOfConnections = config.getString("store.uniparc.numberOfConnections");
         String storeName = config.getString("store.uniparc.storeName");

@@ -22,14 +22,16 @@ import org.uniprot.store.search.document.suggest.SuggestDictionary;
  */
 public class UniProtEntryConverterUtil {
 
+    private UniProtEntryConverterUtil(){
+        
+    }
+
     private static final int SORT_FIELD_MAX_LENGTH = 30;
 
     static Set<String> extractEvidence(List<Evidence> evidences) {
-        Set<String> extractedEvidence =
-                evidences.stream()
-                        .flatMap(UniProtEntryConverterUtil::addExtractedEvidenceItem)
-                        .collect(Collectors.toSet());
-        return extractedEvidence;
+        return evidences.stream()
+                .flatMap(UniProtEntryConverterUtil::addExtractedEvidenceItem)
+                .collect(Collectors.toSet());
     }
 
     private static Stream<String> addExtractedEvidenceItem(Evidence evidence) {
@@ -52,8 +54,8 @@ public class UniProtEntryConverterUtil {
         List<String> values = new ArrayList<>();
         values.add(id);
         values.add(dbname + "-" + id);
-        if (id.indexOf(".") > 0) {
-            String idMain = id.substring(0, id.indexOf("."));
+        if (id.indexOf('.') >= 0) {
+            String idMain = id.substring(0, id.indexOf('.'));
             values.add(idMain);
             values.add(dbname + "-" + idMain);
         }

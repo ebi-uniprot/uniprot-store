@@ -10,7 +10,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.spark.api.java.function.MapFunction;
+import org.apache.spark.api.java.function.Function;
 import org.apache.spark.sql.Row;
 import org.apache.spark.sql.types.DataTypes;
 import org.apache.spark.sql.types.StructType;
@@ -29,7 +29,7 @@ import org.uniprot.store.spark.indexer.common.util.RowUtils;
  * @author lgonzales
  * @since 2019-10-01
  */
-public class DatasetUniRefEntryConverter implements MapFunction<Row, UniRefEntry>, Serializable {
+public class DatasetUniRefEntryConverter implements Function<Row, UniRefEntry>, Serializable {
 
     private static final String PROPERTY_MEMBER_COUNT = "member count";
     private static final String PROPERTY_COMMON_TAXON = "common taxon";

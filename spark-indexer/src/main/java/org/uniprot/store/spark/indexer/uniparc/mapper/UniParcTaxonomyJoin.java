@@ -37,8 +37,7 @@ public class UniParcTaxonomyJoin
                             organism.getLineages()
                                     .forEach(
                                             lineage -> {
-                                                builder.taxLineageId(
-                                                        new Long(lineage.getTaxonId()).intValue());
+                                                builder.taxLineageId((int) lineage.getTaxonId());
                                                 builder.organismTaxon(lineage.getScientificName());
                                                 if (lineage.hasCommonName()) {
                                                     builder.organismTaxon(lineage.getCommonName());

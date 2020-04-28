@@ -20,6 +20,8 @@ import org.uniprot.core.uniprotkb.comment.CommentType;
  */
 public class SuggesterUtil {
 
+    private SuggesterUtil() {}
+
     public static String getCommentLinesByType(String entryStr, CommentType type) {
         String commentLines =
                 Arrays.stream(entryStr.split("\n"))

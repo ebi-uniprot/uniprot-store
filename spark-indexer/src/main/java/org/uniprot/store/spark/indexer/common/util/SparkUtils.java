@@ -13,7 +13,8 @@ import org.apache.hadoop.fs.Path;
 import org.apache.spark.SparkConf;
 import org.apache.spark.api.java.JavaSparkContext;
 import org.uniprot.store.search.SolrCollection;
-import org.uniprot.store.spark.indexer.WriteIndexDocumentsToHDFSMain;
+import org.uniprot.store.spark.indexer.common.store.DataStore;
+import org.uniprot.store.spark.indexer.main.WriteIndexDocumentsToHDFSMain;
 
 /**
  * @author lgonzales
@@ -22,6 +23,7 @@ import org.uniprot.store.spark.indexer.WriteIndexDocumentsToHDFSMain;
 @Slf4j
 public class SparkUtils {
 
+    private static final String COMMA_SEPARATOR = ",";
     private static final String SPARK_MASTER = "spark.master";
 
     private SparkUtils() {}
@@ -42,6 +44,11 @@ public class SparkUtils {
             ResourceBundle applicationConfig, String releaseName) {
         String inputDir = applicationConfig.getString("output.directory.path");
         return inputDir + File.separator + releaseName + File.separator;
+    }
+
+    public static String getCollectionOutputReleaseDirPath(
+            ResourceBundle config, String releaseName, SolrCollection collection) {
+        return getOutputReleaseDirPath(config, releaseName) + collection.toString();
     }
 
     public static List<String> readLines(String filePath, Configuration hadoopConfig) {
@@ -121,11 +128,34 @@ public class SparkUtils {
         return sparkContext;
     }
 
-    public static SolrCollection getSolrCollection(String collectionName) {
-        try {
-            return SolrCollection.valueOf(collectionName);
-        } catch (Exception e) {
-            throw new IllegalArgumentException("Invalid solr collection name: " + collectionName);
+    public static List<SolrCollection> getSolrCollection(String collectionsName) {
+        List<SolrCollection> result = new ArrayList<>();
+        String[] collectionsNameList = collectionsName.toLowerCase().split(COMMA_SEPARATOR);
+        for (String collectionName : collectionsNameList) {
+            try {
+                result.add(SolrCollection.valueOf(collectionName));
+            } catch (Exception e) {
+                throw new IllegalArgumentException(
+                        "Invalid solr collection name: " + collectionName);
+            }
         }
+        return result;
+    }
+
+    public static List<DataStore> getDataStores(String dataStore) {
+        List<DataStore> result = new ArrayList<>();
+        String[] dataStoreList = dataStore.toLowerCase().split(COMMA_SEPARATOR);
+        for (String store : dataStoreList) {
+            DataStore storeItem =
+                    Arrays.stream(DataStore.values())
+                            .filter(item -> item.getName().equalsIgnoreCase(store.trim()))
+                            .findFirst()
+                            .orElseThrow(
+                                    () ->
+                                            new IllegalArgumentException(
+                                                    "Invalid data store name: " + dataStore));
+            result.add(storeItem);
+        }
+        return result;
     }
 }

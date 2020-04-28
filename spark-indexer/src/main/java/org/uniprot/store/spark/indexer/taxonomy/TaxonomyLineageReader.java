@@ -3,6 +3,8 @@ package org.uniprot.store.spark.indexer.taxonomy;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import lombok.extern.slf4j.Slf4j;
+
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaSparkContext;
 import org.apache.spark.sql.Dataset;
@@ -25,7 +27,10 @@ import org.uniprot.core.taxonomy.TaxonomyLineage;
  * @author lgonzales
  * @since 2019-10-11
  */
+@Slf4j
 public class TaxonomyLineageReader {
+
+    private TaxonomyLineageReader() {}
 
     private static final String SELECT_TAXONOMY_LINEAGE_SQL =
             "SELECT "
@@ -47,12 +52,12 @@ public class TaxonomyLineageReader {
             ResourceBundle applicationConfig,
             boolean includeOrganism) {
         int maxTaxId = TaxonomyRDDReader.getMaxTaxId(sparkContext, applicationConfig);
-        System.out.println("Max tax id: " + maxTaxId);
+        log.info("Max tax id: " + maxTaxId);
 
         SparkSession spark = SparkSession.builder().sparkContext(sparkContext.sc()).getOrCreate();
 
         int numberPartition =
-                Integer.valueOf(applicationConfig.getString("database.lineage.partition"));
+                Integer.parseInt(applicationConfig.getString("database.lineage.partition"));
         int[][] ranges = getRanges(maxTaxId, numberPartition);
         JavaPairRDD<String, List<TaxonomyLineage>> result = null;
         for (int[] range : ranges) {
@@ -61,7 +66,7 @@ public class TaxonomyLineageReader {
                             .replace("{start}", "" + range[0])
                             .replace("{end}", "" + range[1]);
 
-            System.out.println("SQL: " + sql);
+            log.info("SQL: " + sql);
 
             Dataset<Row> tableDataset =
                     spark.read()

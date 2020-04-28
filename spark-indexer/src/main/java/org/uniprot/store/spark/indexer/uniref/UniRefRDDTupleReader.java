@@ -31,16 +31,11 @@ public class UniRefRDDTupleReader implements Serializable {
         String propertyPrefix = uniRefType.toString().toLowerCase();
         String xmlFilePath =
                 releaseInputDir + applicationConfig.getString(propertyPrefix + ".xml.file");
-        int repartition =
-                Integer.parseInt(applicationConfig.getString(propertyPrefix + ".repartition"));
-        Dataset<Row> uniRefEntryDataset = loadRawXml(sparkConf, xmlFilePath);
-        if (repartition > 0) {
-            uniRefEntryDataset = uniRefEntryDataset.repartition(repartition);
-        }
-        Encoder<UniRefEntry> entryEncoder = (Encoder<UniRefEntry>) Encoders.kryo(UniRefEntry.class);
+        JavaRDD<Row> uniRefEntryDataset = loadRawXml(sparkConf, xmlFilePath).toJavaRDD();
+
         return uniRefEntryDataset
-                .map(new DatasetUniRefEntryConverter(uniRefType), entryEncoder)
-                .toJavaRDD();
+                .repartition(uniRefEntryDataset.getNumPartitions() * 7)
+                .map(new DatasetUniRefEntryConverter(uniRefType));
     }
 
     private static Dataset<Row> loadRawXml(SparkConf sparkConf, String xmlFilePath) {

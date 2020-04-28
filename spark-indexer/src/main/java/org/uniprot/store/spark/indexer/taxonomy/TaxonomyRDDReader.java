@@ -19,6 +19,8 @@ import org.uniprot.core.taxonomy.TaxonomyLineage;
  */
 public class TaxonomyRDDReader {
 
+    private TaxonomyRDDReader() {}
+
     /** @return return a JavaPairRDD{key=taxId, value=TaxonomyEntry} */
     public static JavaPairRDD<String, TaxonomyEntry> load(
             JavaSparkContext sparkContext, ResourceBundle applicationConfig) {
@@ -44,7 +46,7 @@ public class TaxonomyRDDReader {
             JavaSparkContext sparkContext, ResourceBundle applicationConfig) {
         long maxTaxId = getMaxTaxId(sparkContext, applicationConfig);
         int numberPartition =
-                Integer.valueOf(applicationConfig.getString("database.taxonomy.partition"));
+                Integer.parseInt(applicationConfig.getString("database.taxonomy.partition"));
         SparkSession spark = SparkSession.builder().sparkContext(sparkContext.sc()).getOrCreate();
         return spark.read()
                 .format("jdbc")

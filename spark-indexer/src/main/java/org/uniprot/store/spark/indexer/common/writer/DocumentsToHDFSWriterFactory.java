@@ -1,9 +1,7 @@
 package org.uniprot.store.spark.indexer.common.writer;
 
-import java.util.ResourceBundle;
-
 import org.uniprot.store.search.SolrCollection;
-import org.uniprot.store.spark.indexer.common.util.SparkUtils;
+import org.uniprot.store.spark.indexer.common.JobParameter;
 import org.uniprot.store.spark.indexer.suggest.SuggestDocumentsToHDFSWriter;
 import org.uniprot.store.spark.indexer.uniparc.UniParcDocumentsToHDFSWriter;
 import org.uniprot.store.spark.indexer.uniprot.UniProtKBDocumentsToHDFSWriter;
@@ -15,21 +13,21 @@ import org.uniprot.store.spark.indexer.uniref.UniRefDocumentsToHDFSWriter;
  */
 public class DocumentsToHDFSWriterFactory {
 
-    public DocumentsToHDFSWriter createDocumentsToHDFSWriter(SolrCollection collection) {
+    public DocumentsToHDFSWriter createDocumentsToHDFSWriter(
+            SolrCollection collection, JobParameter jobParameter) {
         DocumentsToHDFSWriter writer = null;
-        ResourceBundle applicationConfig = SparkUtils.loadApplicationProperty();
         switch (collection) {
             case uniprot:
-                writer = new UniProtKBDocumentsToHDFSWriter(applicationConfig);
+                writer = new UniProtKBDocumentsToHDFSWriter(jobParameter);
                 break;
             case suggest:
-                writer = new SuggestDocumentsToHDFSWriter(applicationConfig);
+                writer = new SuggestDocumentsToHDFSWriter(jobParameter);
                 break;
             case uniref:
-                writer = new UniRefDocumentsToHDFSWriter(applicationConfig);
+                writer = new UniRefDocumentsToHDFSWriter(jobParameter);
                 break;
             case uniparc:
-                writer = new UniParcDocumentsToHDFSWriter(applicationConfig);
+                writer = new UniParcDocumentsToHDFSWriter(jobParameter);
                 break;
             default:
                 throw new UnsupportedOperationException(

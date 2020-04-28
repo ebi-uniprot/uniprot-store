@@ -71,11 +71,11 @@ public class TaxonomyJoinMapper implements PairFlatMapFunction<String, String, S
             ohLineObject
                     .getHosts()
                     .forEach(
-                            ohValue -> {
-                                organismTuple.add(
-                                        new Tuple2<String, String>(
-                                                String.valueOf(ohValue.getTax_id()), accession));
-                            });
+                            ohValue ->
+                                    organismTuple.add(
+                                            new Tuple2<String, String>(
+                                                    String.valueOf(ohValue.getTax_id()),
+                                                    accession)));
         }
         return (Iterator<Tuple2<String, String>>) organismTuple.iterator();
     }

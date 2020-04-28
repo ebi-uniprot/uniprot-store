@@ -93,12 +93,12 @@ class UniProtEntryCommentsConverter implements Serializable {
 
     private String getCommentField(Comment c) {
         String field = COMMENT + c.getCommentType().name().toLowerCase();
-        return field.replaceAll(" ", "_");
+        return field.replace(' ', '_');
     }
 
     private String getCommentEvField(Comment c) {
         String field = CC_EV + c.getCommentType().name().toLowerCase();
-        return field.replaceAll(" ", "_");
+        return field.replace(' ', '_');
     }
 
     private void convertCommentAP(AlternativeProductsComment comment, UniProtDocument document) {
@@ -452,6 +452,9 @@ class UniProtEntryCommentsConverter implements Serializable {
                             UniProtEntryConverterUtil.extractEvidence(
                                     caComment.getReaction().getEvidences()));
                 }
+                break;
+            default:
+                break;
         }
         return evidences;
     }

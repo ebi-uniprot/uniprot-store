@@ -1,4 +1,4 @@
-package org.uniprot.store.spark.indexer;
+package org.uniprot.store.spark.indexer.main.verifiers;
 
 import java.util.ResourceBundle;
 

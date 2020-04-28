@@ -9,6 +9,7 @@ import org.apache.spark.api.java.function.PairFunction;
 import org.uniprot.core.cv.disease.DiseaseEntry;
 import org.uniprot.core.util.Utils;
 import org.uniprot.cv.disease.DiseaseFileReader;
+import org.uniprot.store.spark.indexer.common.exception.SparkIndexException;
 
 import scala.Tuple2;
 
@@ -40,7 +41,7 @@ public class DiseaseFileMapper implements PairFunction<String, String, DiseaseEn
             return new Tuple2<String, DiseaseEntry>(disease.getName(), disease);
         } else {
             log.info("ERROR PARSING DiseaseFileMapper WITH LINES: " + diseaseLines);
-            throw new RuntimeException(
+            throw new SparkIndexException(
                     "ERROR PARSING DiseaseFileMapper WITH LINES: " + diseaseLines);
         }
     }

@@ -15,7 +15,7 @@ import org.apache.spark.api.java.JavaSparkContext;
 @Builder
 public class JobParameter {
 
-    private volatile JavaSparkContext sparkContext;
+    private final JavaSparkContext sparkContext;
 
     private final String releaseName;
 

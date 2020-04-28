@@ -31,13 +31,12 @@ public class SolrUtils {
 
     public static void saveSolrInputDocumentRDD(
             JavaRDD<? extends Document> docRDD, String savePath) {
-        docRDD.map(
-                        doc -> {
-                            DocumentObjectBinder binder = new DocumentObjectBinder();
-                            return binder.toSolrInputDocument(doc);
-                        })
-                .rdd()
-                .saveAsObjectFile(savePath);
+        docRDD.map(SolrUtils::convertToSolrInputDocument).rdd().saveAsObjectFile(savePath);
+    }
+
+    private static SolrInputDocument convertToSolrInputDocument(Document doc) {
+        DocumentObjectBinder binder = new DocumentObjectBinder();
+        return binder.toSolrInputDocument(doc);
     }
 
     public static void indexDocuments(

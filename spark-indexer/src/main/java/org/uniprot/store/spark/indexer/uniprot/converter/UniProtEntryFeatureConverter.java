@@ -66,7 +66,7 @@ class UniProtEntryFeatureConverter {
 
     private String getFeatureField(Feature feature, String type) {
         String field = type + feature.getType().name().toLowerCase();
-        return field.replaceAll(" ", "_");
+        return field.replace(' ', '_');
     }
 
     private boolean filterUnnecessaryProteinsWithFeatureTypes(String featureType) {

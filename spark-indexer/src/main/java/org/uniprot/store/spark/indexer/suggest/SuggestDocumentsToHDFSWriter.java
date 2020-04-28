@@ -1,6 +1,6 @@
 package org.uniprot.store.spark.indexer.suggest;
 
-import static org.uniprot.store.spark.indexer.common.util.SparkUtils.getOutputReleaseDirPath;
+import static org.uniprot.store.spark.indexer.common.util.SparkUtils.getCollectionOutputReleaseDirPath;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,9 +17,11 @@ import org.uniprot.core.cv.keyword.KeywordEntry;
 import org.uniprot.core.cv.subcell.SubcellularLocationEntry;
 import org.uniprot.core.taxonomy.TaxonomyLineage;
 import org.uniprot.store.indexer.uniprotkb.config.SuggestionConfig;
+import org.uniprot.store.search.SolrCollection;
 import org.uniprot.store.search.document.suggest.SuggestDictionary;
 import org.uniprot.store.search.document.suggest.SuggestDocument;
 import org.uniprot.store.spark.indexer.chebi.ChebiRDDReader;
+import org.uniprot.store.spark.indexer.common.JobParameter;
 import org.uniprot.store.spark.indexer.common.util.SolrUtils;
 import org.uniprot.store.spark.indexer.common.writer.DocumentsToHDFSWriter;
 import org.uniprot.store.spark.indexer.ec.ECRDDReader;
@@ -43,62 +45,53 @@ import scala.Tuple2;
  */
 public class SuggestDocumentsToHDFSWriter implements DocumentsToHDFSWriter {
 
-    private final ResourceBundle applicationConfig;
+    private final JavaSparkContext sparkContext;
+    private final String releaseName;
+    private final ResourceBundle config;
 
-    public SuggestDocumentsToHDFSWriter(ResourceBundle applicationConfig) {
-        this.applicationConfig = applicationConfig;
+    public SuggestDocumentsToHDFSWriter(JobParameter jobParameter) {
+        this.config = jobParameter.getApplicationConfig();
+        this.releaseName = jobParameter.getReleaseName();
+        this.sparkContext = jobParameter.getSparkContext();
     }
-
-    /**
-     * load all the data for SuggestDocument and write it into HDFS (Hadoop File System)
-     *
-     * @param sparkContext spark configuration
-     * @param releaseName release name
-     */
+    /** load all the data for SuggestDocument and write it into HDFS (Hadoop File System) */
     @Override
-    public void writeIndexDocumentsToHDFS(JavaSparkContext sparkContext, String releaseName) {
+    public void writeIndexDocumentsToHDFS() {
         JavaRDD<String> flatFileRDD =
                 (JavaRDD<String>)
                         UniProtKBRDDTupleReader.loadFlatFileToRDD(
-                                sparkContext, applicationConfig, releaseName);
-        int suggestPartition =
-                Integer.parseInt(applicationConfig.getString("suggest.partition.size"));
+                                sparkContext, config, releaseName);
+        int suggestPartition = Integer.parseInt(config.getString("suggest.partition.size"));
         JavaRDD<SuggestDocument> suggestRDD =
-                getMain(sparkContext) // MAIN
-                        .union(getKeyword(sparkContext, releaseName))
-                        .union(getSubcell(sparkContext, releaseName))
-                        .union(getEC(flatFileRDD, sparkContext, releaseName))
-                        .union(getChebi(flatFileRDD, sparkContext, releaseName))
-                        .union(getGo(flatFileRDD, sparkContext, releaseName))
-                        .union(getOrganism(flatFileRDD, sparkContext))
+                getMain()
+                        .union(getKeyword())
+                        .union(getSubcell())
+                        .union(getEC(flatFileRDD))
+                        .union(getChebi(flatFileRDD))
+                        .union(getGo(flatFileRDD))
+                        .union(getOrganism(flatFileRDD))
                         .repartition(suggestPartition);
-        String releaseOutputDir = getOutputReleaseDirPath(applicationConfig, releaseName);
         String hdfsPath =
-                releaseOutputDir + applicationConfig.getString("suggest.solr.documents.path");
+                getCollectionOutputReleaseDirPath(config, releaseName, SolrCollection.suggest);
         SolrUtils.saveSolrInputDocumentRDD(suggestRDD, hdfsPath);
     }
 
-    /**
-     * @param sparkContext spark configuration
-     * @return JavaRDD of SuggestDocument for uniprotkb main text search field
-     */
-    private JavaRDD<SuggestDocument> getMain(JavaSparkContext sparkContext) {
+    /** @return JavaRDD of SuggestDocument for uniprotkb main text search field */
+    private JavaRDD<SuggestDocument> getMain() {
         List<SuggestDocument> mainList = SuggestionConfig.databaseSuggestions();
         return (JavaRDD<SuggestDocument>) sparkContext.parallelize(mainList);
     }
 
     /**
      * @param flatFileRDD JavaRDD<flatFile entry in String format>
-     * @param sparkContext spark configuration
      * @return JavaRDD of SuggestDocument with GOTerms (including ancestors) mapped from UniprotKB
      *     flat file entries
      */
-    private JavaRDD<SuggestDocument> getGo(
-            JavaRDD<String> flatFileRDD, JavaSparkContext sparkContext, String releaseName) {
+    private JavaRDD<SuggestDocument> getGo(JavaRDD<String> flatFileRDD) {
 
         // JavaPairRDD<goId, GoTerm>
         JavaPairRDD<String, GeneOntologyEntry> goRelationsRDD =
-                GORelationRDDReader.load(applicationConfig, sparkContext, releaseName);
+                GORelationRDDReader.load(config, sparkContext, releaseName);
 
         // JavaPairRDD<goId,accession> goMapRDD --> extracted from flat file DR lines for GO
         JavaPairRDD<String, String> goMapRDD =
@@ -117,16 +110,14 @@ public class SuggestDocumentsToHDFSWriter implements DocumentsToHDFSWriter {
 
     /**
      * @param flatFileRDD JavaRDD<flatFile entry in String format>
-     * @param sparkContext spark configuration
      * @return JavaRDD of SuggestDocument with ChebiEntry information mapped from UniprotKB flat
      *     file entries
      */
-    private JavaRDD<SuggestDocument> getChebi(
-            JavaRDD<String> flatFileRDD, JavaSparkContext sparkContext, String releaseName) {
+    private JavaRDD<SuggestDocument> getChebi(JavaRDD<String> flatFileRDD) {
 
         // JavaPairRDD<chebiId,ChebiEntry Entry> --> extracted from chebi.obo
         JavaPairRDD<String, ChebiEntry> chebiRDD =
-                ChebiRDDReader.load(sparkContext, applicationConfig, releaseName);
+                ChebiRDDReader.load(sparkContext, config, releaseName);
 
         // JavaPairRDD<chebiId,chebiId> flatFileCatalyticActivityRDD --> extracted from flat file
         // CC(CatalyticActivity) lines
@@ -168,12 +159,10 @@ public class SuggestDocumentsToHDFSWriter implements DocumentsToHDFSWriter {
 
     /**
      * @param flatFileRDD JavaRDD<flatFile entry in String format>
-     * @param sparkContext spark configuration
      * @return JavaRDD of SuggestDocument with ECEntry information mapped from UniprotKB flat file
      *     entries
      */
-    private JavaRDD<SuggestDocument> getEC(
-            JavaRDD<String> flatFileRDD, JavaSparkContext sparkContext, String releaseName) {
+    private JavaRDD<SuggestDocument> getEC(JavaRDD<String> flatFileRDD) {
 
         // JavaPairRDD<ecId,ecId> flatFileEcRDD --> extracted from flat file DE(with ECEntry) lines
         JavaPairRDD<String, String> flatFileEcRDD =
@@ -183,24 +172,22 @@ public class SuggestDocumentsToHDFSWriter implements DocumentsToHDFSWriter {
                                 .reduceByKey((ecId1, ecId2) -> ecId1);
 
         // JavaPairRDD<ecId,ECEntry entry> ecRDD --> extracted from ec files
-        JavaPairRDD<String, ECEntry> ecRDD =
-                ECRDDReader.load(sparkContext, applicationConfig, releaseName);
+        JavaPairRDD<String, ECEntry> ecRDD = ECRDDReader.load(sparkContext, config, releaseName);
 
         return (JavaRDD<SuggestDocument>)
                 flatFileEcRDD.join(ecRDD).mapValues(new ECToSuggestDocument()).values().distinct();
     }
 
     /**
-     * @param sparkContext spark configuration
      * @return JavaRDD of SuggestDocument with Subcellular Location information mapped from
      *     subcell.txt file
      */
-    private JavaRDD<SuggestDocument> getSubcell(JavaSparkContext sparkContext, String releaseName) {
+    private JavaRDD<SuggestDocument> getSubcell() {
 
         // JavaPairRDD<subcellId,SubcellularLocationEntry> subcellularLocation --> extracted from
         // subcell.txt
         JavaPairRDD<String, SubcellularLocationEntry> subcellularLocation =
-                SubcellularLocationRDDReader.load(sparkContext, applicationConfig, releaseName);
+                SubcellularLocationRDDReader.load(sparkContext, config, releaseName);
 
         return (JavaRDD<SuggestDocument>)
                 subcellularLocation
@@ -209,15 +196,12 @@ public class SuggestDocumentsToHDFSWriter implements DocumentsToHDFSWriter {
                         .distinct();
     }
 
-    /**
-     * @param sparkContext spark configuration
-     * @return JavaRDD of SuggestDocument with Keyword information mapped from keywlist.txt file
-     */
-    private JavaRDD<SuggestDocument> getKeyword(JavaSparkContext sparkContext, String releaseName) {
+    /** @return JavaRDD of SuggestDocument with Keyword information mapped from keywlist.txt file */
+    private JavaRDD<SuggestDocument> getKeyword() {
 
         // JavaPairRDD<keywordId,KeywordEntry> keyword --> extracted from keywlist.txt
         JavaPairRDD<String, KeywordEntry> keyword =
-                KeywordRDDReader.load(sparkContext, applicationConfig, releaseName);
+                KeywordRDDReader.load(sparkContext, config, releaseName);
 
         return (JavaRDD<SuggestDocument>)
                 keyword.mapValues(new KeywordToSuggestDocument()).values().distinct();
@@ -225,15 +209,13 @@ public class SuggestDocumentsToHDFSWriter implements DocumentsToHDFSWriter {
 
     /**
      * @param flatFileRDD JavaRDD<flatFile entry in String format>
-     * @param sparkContext spark configuration
      * @return JavaRDD of SuggestDocument with Organism/Organism Host and Taxonomy information
      *     mapped from UniprotKB flat file entries
      */
-    private JavaRDD<SuggestDocument> getOrganism(
-            JavaRDD<String> flatFileRDD, JavaSparkContext sparkContext) {
+    private JavaRDD<SuggestDocument> getOrganism(JavaRDD<String> flatFileRDD) {
 
         JavaPairRDD<String, List<TaxonomyLineage>> organismWithLineage =
-                TaxonomyLineageReader.load(sparkContext, applicationConfig, true);
+                TaxonomyLineageReader.load(sparkContext, config, true);
         organismWithLineage.repartition(organismWithLineage.getNumPartitions());
 
         // ORGANISM
@@ -251,9 +233,7 @@ public class SuggestDocumentsToHDFSWriter implements DocumentsToHDFSWriter {
                                 .mapValues(
                                         new OrganismToSuggestDocument(
                                                 SuggestDictionary.ORGANISM.name()))
-                                .union(
-                                        getDefaultHighImportantTaxon(
-                                                sparkContext, SuggestDictionary.ORGANISM))
+                                .union(getDefaultHighImportantTaxon(SuggestDictionary.ORGANISM))
                                 .reduceByKey(new TaxonomyHighImportanceReduce())
                                 .values();
         // TAXONOMY
@@ -262,9 +242,7 @@ public class SuggestDocumentsToHDFSWriter implements DocumentsToHDFSWriter {
                         flatFileOrganismRDD
                                 .join(organismWithLineage)
                                 .flatMapToPair(new TaxonomyToSuggestDocument())
-                                .union(
-                                        getDefaultHighImportantTaxon(
-                                                sparkContext, SuggestDictionary.TAXONOMY))
+                                .union(getDefaultHighImportantTaxon(SuggestDictionary.TAXONOMY))
                                 .reduceByKey(new TaxonomyHighImportanceReduce())
                                 .values();
 
@@ -282,9 +260,7 @@ public class SuggestDocumentsToHDFSWriter implements DocumentsToHDFSWriter {
                                 .mapValues(
                                         new OrganismToSuggestDocument(
                                                 SuggestDictionary.HOST.name()))
-                                .union(
-                                        getDefaultHighImportantTaxon(
-                                                sparkContext, SuggestDictionary.HOST))
+                                .union(getDefaultHighImportantTaxon(SuggestDictionary.HOST))
                                 .reduceByKey(new TaxonomyHighImportanceReduce())
                                 .values();
 
@@ -294,22 +270,21 @@ public class SuggestDocumentsToHDFSWriter implements DocumentsToHDFSWriter {
     /**
      * Load High Important Organism documents from a config file defined by Curators
      *
-     * @param sparkContext spark config
      * @param dictionary Suggest Dictionary
      * @return JavaPairRDD<organismId, SuggestDocument>
      */
     private JavaPairRDD<String, SuggestDocument> getDefaultHighImportantTaxon(
-            JavaSparkContext sparkContext, SuggestDictionary dictionary) {
-        SuggestionConfig config = new SuggestionConfig();
+            SuggestDictionary dictionary) {
+        SuggestionConfig suggestionConfig = new SuggestionConfig();
         List<SuggestDocument> suggestList = new ArrayList<>();
         if (dictionary.equals(SuggestDictionary.TAXONOMY)
                 || dictionary.equals(SuggestDictionary.ORGANISM)) {
             suggestList.addAll(
-                    config.loadDefaultTaxonSynonymSuggestions(
+                    suggestionConfig.loadDefaultTaxonSynonymSuggestions(
                             dictionary, SuggestionConfig.DEFAULT_TAXON_SYNONYMS_FILE));
         } else if (dictionary.equals(SuggestDictionary.HOST)) {
             suggestList.addAll(
-                    config.loadDefaultTaxonSynonymSuggestions(
+                    suggestionConfig.loadDefaultTaxonSynonymSuggestions(
                             dictionary, SuggestionConfig.DEFAULT_HOST_SYNONYMS_FILE));
         }
         List<Tuple2<String, SuggestDocument>> tupleList =
