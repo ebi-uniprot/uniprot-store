@@ -878,7 +878,7 @@ DR   PDB; 3EU7; X-ray; 2.20 A; X=21-39.
 DR   PDBsum; 1N0W; -.
 DR   PDBsum; 3EU7; -.
 DR   SMR; P51587; -.
-DR   BioGrid; 107142; 191.
+DR   BioGRID; 107142; 191.
 DR   ComplexPortal; CPX-955; BRCC ubiquitin ligase complex.
 DR   CORUM; P51587; -.
 DR   DIP; DIP-24214N; -.

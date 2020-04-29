@@ -1,7 +1,8 @@
 package org.uniprot.store.indexer.common.writer;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
@@ -23,8 +24,6 @@ import org.uniprot.store.indexer.test.config.FakeIndexerSpringBootApplication;
 import org.uniprot.store.indexer.test.config.SolrTestConfig;
 import org.uniprot.store.search.SolrCollection;
 import org.uniprot.store.search.document.dbxref.CrossRefDocument;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = {FakeIndexerSpringBootApplication.class, SolrTestConfig.class})
@@ -55,7 +54,7 @@ class SolrDocumentWriterTest {
     @Test
     void testWriteThrowsException() {
         List<CrossRefDocument> dbxrefList = Collections.singletonList(createDBXRef(1));
-        SolrDocumentWriter<CrossRefDocument> wrongWriter = new SolrDocumentWriter<>(null,null);
+        SolrDocumentWriter<CrossRefDocument> wrongWriter = new SolrDocumentWriter<>(null, null);
         assertThrows(Exception.class, () -> wrongWriter.write(dbxrefList));
     }
 
