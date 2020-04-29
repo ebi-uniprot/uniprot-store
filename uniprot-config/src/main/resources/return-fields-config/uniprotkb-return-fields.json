@@ -1265,7 +1265,7 @@
     "parentId": "publications",
     "childNumber": 0,
     "itemType": "SINGLE",
-    "name": "mapped_pm_id",
+    "name": "mapped_pubmed_id",
     "label": "Mapped PubMed ID",
     "id": "publications/mapped_pubmed_id",
     "paths": [
@@ -1277,9 +1277,9 @@
     "childNumber": 1,
     "itemType": "SINGLE",
     "includeInSwagger": true,
-    "name": "pm_id",
+    "name": "lit_pubmed_id",
     "label": "PubMed ID",
-    "id": "publications/pubmed_id",
+    "id": "publications/lit_pubmed_id",
     "paths": [
       "references[*]"
     ]
