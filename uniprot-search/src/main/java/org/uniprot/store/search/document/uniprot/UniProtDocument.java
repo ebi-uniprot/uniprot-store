@@ -91,7 +91,7 @@ public class UniProtDocument implements Document {
     @Field("pathway")
     public List<String> pathway = new ArrayList<>();
 
-    @Field("cross_ref")
+    @Field("xref")
     public Set<String> crossRefs = new HashSet<>();
 
     @Field("database")
@@ -333,7 +333,7 @@ public class UniProtDocument implements Document {
     @Field("is_isoform")
     public Boolean isIsoform = false;
 
-    @Field("cross_ref_count_*")
+    @Field("xref_count_*")
     public Map<String, Long> xrefCountMap = new HashMap<>();
 
     @Field("source")

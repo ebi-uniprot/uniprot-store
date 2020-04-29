@@ -678,11 +678,11 @@
 		required="false" multiValued="true" />
 
 	<!-- Cross-references -->
-	<field name="cross_ref" type="lowercase" indexed="true"
-		stored="false" required="false" multiValued="true" />
+	<field name="xref" type="lowercase" indexed="true" stored="false"
+		required="false" multiValued="true" />
 	<field name="database" type="lowercase" indexed="true"
 		stored="false" required="false" multiValued="true" />
-	<dynamicField name="cross_ref_count_*" type="int"
+	<dynamicField name="xref_count_*" type="int"
 		indexed="true" required="false" stored="false" multiValued="false" />
 
 	<!-- Citations -->

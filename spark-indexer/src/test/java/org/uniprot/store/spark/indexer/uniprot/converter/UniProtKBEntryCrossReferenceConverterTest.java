@@ -52,8 +52,8 @@ class UniProtKBEntryCrossReferenceConverterTest {
 
         assertEquals(Collections.singleton("proteomes"), document.databases);
 
-        assertTrue(document.xrefCountMap.containsKey("cross_ref_count_proteomes"));
-        assertEquals(1L, document.xrefCountMap.get("cross_ref_count_proteomes"));
+        assertTrue(document.xrefCountMap.containsKey("xref_count_proteomes"));
+        assertEquals(1L, document.xrefCountMap.get("xref_count_proteomes"));
 
         assertEquals(Collections.singleton("id value"), document.proteomes);
         assertEquals(Collections.singleton("PC12345"), document.proteomeComponents);
@@ -85,8 +85,8 @@ class UniProtKBEntryCrossReferenceConverterTest {
 
         assertEquals(Collections.singleton("go"), document.databases);
 
-        assertTrue(document.xrefCountMap.containsKey("cross_ref_count_go"));
-        assertEquals(1L, document.xrefCountMap.get("cross_ref_count_go"));
+        assertTrue(document.xrefCountMap.containsKey("xref_count_go"));
+        assertEquals(1L, document.xrefCountMap.get("xref_count_go"));
 
         assertEquals(new HashSet<>(Arrays.asList("12345", "apical dendrite")), document.goes);
         assertEquals(new HashSet<>(Collections.singletonList("12345")), document.goIds);
@@ -120,8 +120,8 @@ class UniProtKBEntryCrossReferenceConverterTest {
 
         assertEquals(Collections.singleton("pdb"), document.databases);
 
-        assertTrue(document.xrefCountMap.containsKey("cross_ref_count_pdb"));
-        assertEquals(1L, document.xrefCountMap.get("cross_ref_count_pdb"));
+        assertTrue(document.xrefCountMap.containsKey("xref_count_pdb"));
+        assertEquals(1L, document.xrefCountMap.get("xref_count_pdb"));
 
         assertTrue(document.d3structure);
     }
@@ -160,8 +160,8 @@ class UniProtKBEntryCrossReferenceConverterTest {
 
         assertEquals(Collections.singleton("embl"), document.databases);
 
-        assertTrue(document.xrefCountMap.containsKey("cross_ref_count_embl"));
-        assertEquals(1L, document.xrefCountMap.get("cross_ref_count_embl"));
+        assertTrue(document.xrefCountMap.containsKey("xref_count_embl"));
+        assertEquals(1L, document.xrefCountMap.get("xref_count_embl"));
     }
 
     @Test
@@ -197,8 +197,8 @@ class UniProtKBEntryCrossReferenceConverterTest {
 
         assertEquals(Collections.singleton("ensembl"), document.databases);
 
-        assertTrue(document.xrefCountMap.containsKey("cross_ref_count_ensembl"));
-        assertEquals(1L, document.xrefCountMap.get("cross_ref_count_ensembl"));
+        assertTrue(document.xrefCountMap.containsKey("xref_count_ensembl"));
+        assertEquals(1L, document.xrefCountMap.get("xref_count_ensembl"));
     }
 
     private static UniProtKBCrossReference getUniProtDBCrossReference(

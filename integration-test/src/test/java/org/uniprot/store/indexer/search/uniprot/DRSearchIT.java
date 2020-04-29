@@ -364,7 +364,7 @@ class DRSearchIT {
 
     @Test
     void emblCount() {
-        String query = QueryBuilder.rangeQuery("cross_ref_count_embl", 1, 2);
+        String query = QueryBuilder.rangeQuery("xref_count_embl", 1, 2);
         QueryResponse response = searchEngine.getQueryResponse(query);
 
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
@@ -374,7 +374,7 @@ class DRSearchIT {
 
     @Test
     void emblCount2() {
-        String query = QueryBuilder.rangeQuery("cross_ref_count_embl", 1, 1);
+        String query = QueryBuilder.rangeQuery("xref_count_embl", 1, 1);
         QueryResponse response = searchEngine.getQueryResponse(query);
 
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
@@ -384,7 +384,7 @@ class DRSearchIT {
 
     @Test
     void emblCount3() {
-        String query = QueryBuilder.rangeQuery("cross_ref_count_embl", 2, 3);
+        String query = QueryBuilder.rangeQuery("xref_count_embl", 2, 3);
         QueryResponse response = searchEngine.getQueryResponse(query);
 
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
@@ -583,12 +583,11 @@ class DRSearchIT {
 
     private String crossRef(String type, String value) {
         return query(
-                searchEngine.getSearchFieldConfig().getSearchFieldItemByName("cross_ref"),
+                searchEngine.getSearchFieldConfig().getSearchFieldItemByName("xref"),
                 type.toLowerCase() + "-" + value);
     }
 
     private String crossRef(String value) {
-        return query(
-                searchEngine.getSearchFieldConfig().getSearchFieldItemByName("cross_ref"), value);
+        return query(searchEngine.getSearchFieldConfig().getSearchFieldItemByName("xref"), value);
     }
 }

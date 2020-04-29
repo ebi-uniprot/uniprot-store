@@ -128,8 +128,8 @@
     "fieldType": "GENERAL"
   },
   {
-    "id":"cross_ref",
-    "fieldName": "cross_ref",
+    "id":"xref",
+    "fieldName": "xref",
     "dataType": "STRING",
     "fieldType": "GENERAL",
     "example":  "DDBJ",

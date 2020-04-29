@@ -143,7 +143,7 @@
     "childNumber": 10,
     "itemType": "SINGLE",
     "includeInSwagger": true,
-    "name": "cross_ref_proteomes",
+    "name": "xref_proteomes",
     "label": "Proteomes",
     "id": "names_&_taxonomy/proteomes",
     "paths": [
