@@ -114,10 +114,7 @@ class IdentifierSearchIT {
 
     private String id(String id) {
         return QueryBuilder.query(
-                searchEngine
-                        .getSearchFieldConfig()
-                        .getSearchFieldItemByName("mnemonic")
-                        .getFieldName(),
+                searchEngine.getSearchFieldConfig().getSearchFieldItemByName("id").getFieldName(),
                 id);
     }
 

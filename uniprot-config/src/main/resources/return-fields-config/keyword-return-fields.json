@@ -16,7 +16,7 @@
     "label": "Keyword ID",
     "name": "id",
     "paths" : ["keyword.id"],
-    "id": "keyword/"
+    "id": "keyword/id"
   },
   {
     "parentId": "keyword",
