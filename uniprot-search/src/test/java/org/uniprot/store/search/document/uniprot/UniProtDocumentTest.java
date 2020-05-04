@@ -1,11 +1,10 @@
 package org.uniprot.store.search.document.uniprot;
 
-import org.apache.solr.client.solrj.beans.Field;
-import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.*;
 
-import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.Test;
 
 /**
  * @author lgonzales
@@ -33,9 +32,8 @@ class UniProtDocumentTest {
         assertEquals("P21802", doc.getDocumentId());
     }
 
-
     private UniProtDocument getCompleteDocument(Date date) {
-        UniProtDocument doc =new UniProtDocument();
+        UniProtDocument doc = new UniProtDocument();
         doc.accession = "P21802";
         doc.id = "1";
         doc.idDefault = "1";
