@@ -10,6 +10,7 @@ import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaSparkContext;
 import org.uniprot.core.cv.go.GeneOntologyEntry;
 import org.uniprot.core.cv.go.impl.GeneOntologyEntryBuilder;
+import org.uniprot.store.spark.indexer.common.JobParameter;
 
 import scala.Tuple2;
 
@@ -30,12 +31,13 @@ public class GORelationRDDReader {
      *
      * @return JavaPairRDD{key=goTermId, value={@link GeneOntologyEntry with Ancestors(Relations)}}
      */
-    public static JavaPairRDD<String, GeneOntologyEntry> load(
-            ResourceBundle applicationConfig, JavaSparkContext sparkContext, String releaseName) {
+    public static JavaPairRDD<String, GeneOntologyEntry> load(JobParameter jobParameter) {
+        ResourceBundle config = jobParameter.getApplicationConfig();
+        JavaSparkContext sparkContext = jobParameter.getSparkContext();
 
-        String releaseInputDir = getInputReleaseMainThreadDirPath(applicationConfig, releaseName);
-        String goRelationsFolder =
-                releaseInputDir + applicationConfig.getString("go.relations.dir.path");
+        String releaseInputDir =
+                getInputReleaseMainThreadDirPath(config, jobParameter.getReleaseName());
+        String goRelationsFolder = releaseInputDir + config.getString("go.relations.dir.path");
         GOTermFileReader goTermFileReader =
                 new GOTermFileReader(goRelationsFolder, sparkContext.hadoopConfiguration());
         List<GeneOntologyEntry> goTerms = goTermFileReader.read();

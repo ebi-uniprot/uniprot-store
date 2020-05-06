@@ -6,9 +6,11 @@ import java.util.ResourceBundle;
 
 import org.apache.spark.SparkConf;
 import org.apache.spark.api.java.JavaRDD;
+import org.apache.spark.api.java.JavaSparkContext;
 import org.apache.spark.sql.*;
 import org.uniprot.core.uniref.UniRefEntry;
 import org.uniprot.core.uniref.UniRefType;
+import org.uniprot.store.spark.indexer.common.JobParameter;
 import org.uniprot.store.spark.indexer.uniref.converter.DatasetUniRefEntryConverter;
 
 import scala.Serializable;
@@ -23,19 +25,21 @@ public class UniRefRDDTupleReader implements Serializable {
     private static final long serialVersionUID = -4292235298850285242L;
 
     public static JavaRDD<UniRefEntry> load(
-            UniRefType uniRefType,
-            SparkConf sparkConf,
-            ResourceBundle applicationConfig,
-            String releaseName) {
-        String releaseInputDir = getInputReleaseDirPath(applicationConfig, releaseName);
-        String propertyPrefix = uniRefType.toString().toLowerCase();
-        String xmlFilePath =
-                releaseInputDir + applicationConfig.getString(propertyPrefix + ".xml.file");
-        JavaRDD<Row> uniRefEntryDataset = loadRawXml(sparkConf, xmlFilePath).toJavaRDD();
+            UniRefType uniRefType, JobParameter jobParameter, boolean shouldRepartition) {
+        ResourceBundle config = jobParameter.getApplicationConfig();
+        JavaSparkContext jsc = jobParameter.getSparkContext();
 
-        return uniRefEntryDataset
-                .repartition(uniRefEntryDataset.getNumPartitions() * 7)
-                .map(new DatasetUniRefEntryConverter(uniRefType));
+        String releaseInputDir = getInputReleaseDirPath(config, jobParameter.getReleaseName());
+        String propertyPrefix = uniRefType.toString().toLowerCase();
+        String xmlFilePath = releaseInputDir + config.getString(propertyPrefix + ".xml.file");
+        JavaRDD<Row> uniRefEntryDataset = loadRawXml(jsc.getConf(), xmlFilePath).toJavaRDD();
+
+        if (shouldRepartition) {
+            uniRefEntryDataset =
+                    uniRefEntryDataset.repartition(uniRefEntryDataset.getNumPartitions() * 7);
+        }
+
+        return uniRefEntryDataset.map(new DatasetUniRefEntryConverter(uniRefType));
     }
 
     private static Dataset<Row> loadRawXml(SparkConf sparkConf, String xmlFilePath) {

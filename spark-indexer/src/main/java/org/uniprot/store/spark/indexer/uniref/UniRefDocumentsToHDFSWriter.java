@@ -6,7 +6,6 @@ import java.util.ResourceBundle;
 
 import lombok.extern.slf4j.Slf4j;
 
-import org.apache.spark.SparkConf;
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
@@ -30,19 +29,16 @@ import org.uniprot.store.spark.indexer.uniref.mapper.UniRefToDocument;
 @Slf4j
 public class UniRefDocumentsToHDFSWriter implements DocumentsToHDFSWriter {
 
-    private final ResourceBundle config;
-    private final JavaSparkContext sparkContext;
-    private final String releaseName;
+    private final JobParameter parameter;
 
     public UniRefDocumentsToHDFSWriter(JobParameter parameter) {
-        this.config = parameter.getApplicationConfig();
-        this.releaseName = parameter.getReleaseName();
-        this.sparkContext = parameter.getSparkContext();
+        this.parameter = parameter;
     }
 
     @Override
     public void writeIndexDocumentsToHDFS() {
-        SparkConf sparkConf = sparkContext.sc().conf();
+        JavaSparkContext sparkContext = parameter.getSparkContext();
+        ResourceBundle config = parameter.getApplicationConfig();
 
         // JavaPairRDD<taxId,TaxonomyEntry>
         JavaPairRDD<String, TaxonomyEntry> taxonomyEntryJavaPairRDD =
@@ -51,22 +47,19 @@ public class UniRefDocumentsToHDFSWriter implements DocumentsToHDFSWriter {
         // JavaPairRDD<taxId,UniRefDocument>
         JavaPairRDD<String, UniRefDocument> uniref50DocRDD =
                 (JavaPairRDD<String, UniRefDocument>)
-                        UniRefRDDTupleReader.load(
-                                        UniRefType.UniRef50, sparkConf, config, releaseName)
+                        UniRefRDDTupleReader.load(UniRefType.UniRef50, parameter, true)
                                 .mapToPair(new UniRefToDocument());
 
         // JavaPairRDD<taxId,UniRefDocument>
         JavaPairRDD<String, UniRefDocument> uniref90DocRDD =
                 (JavaPairRDD<String, UniRefDocument>)
-                        UniRefRDDTupleReader.load(
-                                        UniRefType.UniRef90, sparkConf, config, releaseName)
+                        UniRefRDDTupleReader.load(UniRefType.UniRef90, parameter, true)
                                 .mapToPair(new UniRefToDocument());
 
         // JavaPairRDD<taxId,UniRefDocument>
         JavaPairRDD<String, UniRefDocument> uniref100DocRDD =
                 (JavaPairRDD<String, UniRefDocument>)
-                        UniRefRDDTupleReader.load(
-                                        UniRefType.UniRef100, sparkConf, config, releaseName)
+                        UniRefRDDTupleReader.load(UniRefType.UniRef100, parameter, true)
                                 .mapToPair(new UniRefToDocument());
 
         JavaRDD<UniRefDocument> unirefDocumentRDD =
@@ -75,7 +68,8 @@ public class UniRefDocumentsToHDFSWriter implements DocumentsToHDFSWriter {
                         .union(joinTaxonomy(uniref100DocRDD, taxonomyEntryJavaPairRDD));
 
         String hdfsPath =
-                getCollectionOutputReleaseDirPath(config, releaseName, SolrCollection.uniref);
+                getCollectionOutputReleaseDirPath(
+                        config, parameter.getReleaseName(), SolrCollection.uniref);
         SolrUtils.saveSolrInputDocumentRDD(unirefDocumentRDD, hdfsPath);
 
         log.info("Completed UniRef (100, 90 and 50) prepare Solr index");

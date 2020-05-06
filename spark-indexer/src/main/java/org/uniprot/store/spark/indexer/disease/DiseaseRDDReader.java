@@ -5,8 +5,8 @@ import static org.uniprot.store.spark.indexer.common.util.SparkUtils.getInputRel
 import java.util.ResourceBundle;
 
 import org.apache.spark.api.java.JavaPairRDD;
-import org.apache.spark.api.java.JavaSparkContext;
 import org.uniprot.core.cv.disease.DiseaseEntry;
+import org.uniprot.store.spark.indexer.common.JobParameter;
 
 /**
  * This class load Diseases to a JavaPairRDD{key=diseaseId, value={@link DiseaseEntry}}
@@ -21,14 +21,19 @@ public class DiseaseRDDReader {
     private static final String SPLITTER = "\n//\n";
 
     /** @return JavaPairRDD{key=diseaseId, value={@link DiseaseEntry}} */
-    public static JavaPairRDD<String, DiseaseEntry> load(
-            JavaSparkContext jsc, ResourceBundle applicationConfig, String releaseName) {
-        String releaseInputDir = getInputReleaseDirPath(applicationConfig, releaseName);
-        String filePath = releaseInputDir + applicationConfig.getString("disease.file.path");
-        jsc.hadoopConfiguration().set("textinputformat.record.delimiter", SPLITTER);
+    public static JavaPairRDD<String, DiseaseEntry> load(JobParameter jobParameter) {
+        ResourceBundle config = jobParameter.getApplicationConfig();
+        String releaseInputDir = getInputReleaseDirPath(config, jobParameter.getReleaseName());
+        String filePath = releaseInputDir + config.getString("disease.file.path");
+        jobParameter
+                .getSparkContext()
+                .hadoopConfiguration()
+                .set("textinputformat.record.delimiter", SPLITTER);
 
         return (JavaPairRDD<String, DiseaseEntry>)
-                jsc.textFile(filePath)
+                jobParameter
+                        .getSparkContext()
+                        .textFile(filePath)
                         .map(e -> "______\n" + e + SPLITTER)
                         .mapToPair(new DiseaseFileMapper());
     }

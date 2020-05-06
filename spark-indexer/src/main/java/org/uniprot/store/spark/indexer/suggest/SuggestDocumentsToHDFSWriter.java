@@ -46,21 +46,19 @@ import scala.Tuple2;
 public class SuggestDocumentsToHDFSWriter implements DocumentsToHDFSWriter {
 
     private final JavaSparkContext sparkContext;
-    private final String releaseName;
     private final ResourceBundle config;
+    private final JobParameter jobParameter;
 
     public SuggestDocumentsToHDFSWriter(JobParameter jobParameter) {
         this.config = jobParameter.getApplicationConfig();
-        this.releaseName = jobParameter.getReleaseName();
         this.sparkContext = jobParameter.getSparkContext();
+        this.jobParameter = jobParameter;
     }
     /** load all the data for SuggestDocument and write it into HDFS (Hadoop File System) */
     @Override
     public void writeIndexDocumentsToHDFS() {
         JavaRDD<String> flatFileRDD =
-                (JavaRDD<String>)
-                        UniProtKBRDDTupleReader.loadFlatFileToRDD(
-                                sparkContext, config, releaseName);
+                (JavaRDD<String>) UniProtKBRDDTupleReader.loadFlatFileToRDD(jobParameter);
         int suggestPartition = Integer.parseInt(config.getString("suggest.partition.size"));
         JavaRDD<SuggestDocument> suggestRDD =
                 getMain()
@@ -72,7 +70,8 @@ public class SuggestDocumentsToHDFSWriter implements DocumentsToHDFSWriter {
                         .union(getOrganism(flatFileRDD))
                         .repartition(suggestPartition);
         String hdfsPath =
-                getCollectionOutputReleaseDirPath(config, releaseName, SolrCollection.suggest);
+                getCollectionOutputReleaseDirPath(
+                        config, jobParameter.getReleaseName(), SolrCollection.suggest);
         SolrUtils.saveSolrInputDocumentRDD(suggestRDD, hdfsPath);
     }
 
@@ -91,7 +90,7 @@ public class SuggestDocumentsToHDFSWriter implements DocumentsToHDFSWriter {
 
         // JavaPairRDD<goId, GoTerm>
         JavaPairRDD<String, GeneOntologyEntry> goRelationsRDD =
-                GORelationRDDReader.load(config, sparkContext, releaseName);
+                GORelationRDDReader.load(jobParameter);
 
         // JavaPairRDD<goId,accession> goMapRDD --> extracted from flat file DR lines for GO
         JavaPairRDD<String, String> goMapRDD =
@@ -116,8 +115,7 @@ public class SuggestDocumentsToHDFSWriter implements DocumentsToHDFSWriter {
     private JavaRDD<SuggestDocument> getChebi(JavaRDD<String> flatFileRDD) {
 
         // JavaPairRDD<chebiId,ChebiEntry Entry> --> extracted from chebi.obo
-        JavaPairRDD<String, ChebiEntry> chebiRDD =
-                ChebiRDDReader.load(sparkContext, config, releaseName);
+        JavaPairRDD<String, ChebiEntry> chebiRDD = ChebiRDDReader.load(jobParameter);
 
         // JavaPairRDD<chebiId,chebiId> flatFileCatalyticActivityRDD --> extracted from flat file
         // CC(CatalyticActivity) lines
@@ -172,7 +170,7 @@ public class SuggestDocumentsToHDFSWriter implements DocumentsToHDFSWriter {
                                 .reduceByKey((ecId1, ecId2) -> ecId1);
 
         // JavaPairRDD<ecId,ECEntry entry> ecRDD --> extracted from ec files
-        JavaPairRDD<String, ECEntry> ecRDD = ECRDDReader.load(sparkContext, config, releaseName);
+        JavaPairRDD<String, ECEntry> ecRDD = ECRDDReader.load(jobParameter);
 
         return (JavaRDD<SuggestDocument>)
                 flatFileEcRDD.join(ecRDD).mapValues(new ECToSuggestDocument()).values().distinct();
@@ -187,7 +185,7 @@ public class SuggestDocumentsToHDFSWriter implements DocumentsToHDFSWriter {
         // JavaPairRDD<subcellId,SubcellularLocationEntry> subcellularLocation --> extracted from
         // subcell.txt
         JavaPairRDD<String, SubcellularLocationEntry> subcellularLocation =
-                SubcellularLocationRDDReader.load(sparkContext, config, releaseName);
+                SubcellularLocationRDDReader.load(jobParameter);
 
         return (JavaRDD<SuggestDocument>)
                 subcellularLocation
@@ -200,8 +198,7 @@ public class SuggestDocumentsToHDFSWriter implements DocumentsToHDFSWriter {
     private JavaRDD<SuggestDocument> getKeyword() {
 
         // JavaPairRDD<keywordId,KeywordEntry> keyword --> extracted from keywlist.txt
-        JavaPairRDD<String, KeywordEntry> keyword =
-                KeywordRDDReader.load(sparkContext, config, releaseName);
+        JavaPairRDD<String, KeywordEntry> keyword = KeywordRDDReader.load(jobParameter);
 
         return (JavaRDD<SuggestDocument>)
                 keyword.mapValues(new KeywordToSuggestDocument()).values().distinct();

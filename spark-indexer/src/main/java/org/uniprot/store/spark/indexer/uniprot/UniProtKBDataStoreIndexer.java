@@ -5,7 +5,6 @@ import java.util.ResourceBundle;
 import lombok.extern.slf4j.Slf4j;
 
 import org.apache.spark.api.java.JavaPairRDD;
-import org.apache.spark.api.java.JavaSparkContext;
 import org.uniprot.core.uniprotkb.UniProtKBEntry;
 import org.uniprot.store.datastore.voldemort.VoldemortClient;
 import org.uniprot.store.datastore.voldemort.uniprot.VoldemortRemoteUniProtKBEntryStore;
@@ -20,20 +19,17 @@ import org.uniprot.store.spark.indexer.common.writer.DataStoreWriter;
 @Slf4j
 public class UniProtKBDataStoreIndexer implements DataStoreIndexer {
 
-    private final ResourceBundle config;
-    private final String releaseName;
-    private final JavaSparkContext sparkContext;
+    private final JobParameter parameter;
 
     public UniProtKBDataStoreIndexer(JobParameter parameter) {
-        this.config = parameter.getApplicationConfig();
-        this.releaseName = parameter.getReleaseName();
-        this.sparkContext = parameter.getSparkContext();
+        this.parameter = parameter;
     }
 
     @Override
     public void indexInDataStore() {
+        ResourceBundle config = parameter.getApplicationConfig();
         JavaPairRDD<String, UniProtKBEntry> uniprotRDD =
-                UniProtKBRDDTupleReader.load(sparkContext, config, releaseName);
+                UniProtKBRDDTupleReader.load(parameter, false);
 
         String numberOfConnections = config.getString("store.uniprot.numberOfConnections");
         String storeName = config.getString("store.uniprot.storeName");

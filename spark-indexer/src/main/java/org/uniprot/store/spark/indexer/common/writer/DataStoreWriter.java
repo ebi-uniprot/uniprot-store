@@ -3,6 +3,7 @@ package org.uniprot.store.spark.indexer.common.writer;
 import java.time.Duration;
 import java.util.Iterator;
 
+import lombok.extern.slf4j.Slf4j;
 import net.jodah.failsafe.Failsafe;
 import net.jodah.failsafe.RetryPolicy;
 
@@ -14,6 +15,7 @@ import voldemort.VoldemortException;
  * @author lgonzales
  * @since 26/04/2020
  */
+@Slf4j
 public class DataStoreWriter<T> {
 
     private final VoldemortClient<T> client;
@@ -25,6 +27,7 @@ public class DataStoreWriter<T> {
                 new RetryPolicy<>()
                         .handle(VoldemortException.class)
                         .withDelay(Duration.ofMillis(4000))
+                        .onFailedAttempt(e -> log.warn("voldemort save attempt failed"))
                         .withMaxRetries(3);
     }
 

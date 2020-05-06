@@ -4,9 +4,7 @@ import java.util.ResourceBundle;
 
 import lombok.extern.slf4j.Slf4j;
 
-import org.apache.spark.SparkConf;
 import org.apache.spark.api.java.JavaRDD;
-import org.apache.spark.api.java.JavaSparkContext;
 import org.uniprot.core.uniparc.UniParcEntry;
 import org.uniprot.store.datastore.voldemort.VoldemortClient;
 import org.uniprot.store.datastore.voldemort.uniparc.VoldemortRemoteUniParcEntryStore;
@@ -21,21 +19,16 @@ import org.uniprot.store.spark.indexer.common.writer.DataStoreWriter;
 @Slf4j
 public class UniParcDataStoreIndexer implements DataStoreIndexer {
 
-    private final ResourceBundle config;
-    private final String releaseName;
-    private final JavaSparkContext sparkContext;
+    private final JobParameter parameter;
 
     public UniParcDataStoreIndexer(JobParameter parameter) {
-        this.config = parameter.getApplicationConfig();
-        this.releaseName = parameter.getReleaseName();
-        this.sparkContext = parameter.getSparkContext();
+        this.parameter = parameter;
     }
 
     @Override
     public void indexInDataStore() {
-        SparkConf sparkConf = sparkContext.sc().conf();
-        JavaRDD<UniParcEntry> uniparcRDD =
-                UniParcRDDTupleReader.load(sparkConf, config, releaseName);
+        ResourceBundle config = parameter.getApplicationConfig();
+        JavaRDD<UniParcEntry> uniparcRDD = UniParcRDDTupleReader.load(parameter, false);
 
         String numberOfConnections = config.getString("store.uniparc.numberOfConnections");
         String storeName = config.getString("store.uniparc.storeName");
@@ -43,13 +36,16 @@ public class UniParcDataStoreIndexer implements DataStoreIndexer {
 
         uniparcRDD.foreachPartition(
                 uniProtEntryIterator -> {
-                    VoldemortClient<UniParcEntry> client =
+                    try (VoldemortClient<UniParcEntry> client =
                             new VoldemortRemoteUniParcEntryStore(
                                     Integer.parseInt(numberOfConnections),
                                     storeName,
-                                    connectionURL);
-                    DataStoreWriter<UniParcEntry> writer = new DataStoreWriter<>(client);
-                    writer.indexInStore(uniProtEntryIterator);
+                                    connectionURL)) {
+                        DataStoreWriter<UniParcEntry> writer = new DataStoreWriter<>(client);
+                        writer.indexInStore(uniProtEntryIterator);
+                    } finally {
+                        log.info("Closed voldemort connection");
+                    }
                 });
         log.info("Completed UniParc Data Store index");
     }

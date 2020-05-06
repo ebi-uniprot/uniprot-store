@@ -4,7 +4,6 @@ import java.util.ResourceBundle;
 
 import lombok.extern.slf4j.Slf4j;
 
-import org.apache.spark.SparkConf;
 import org.apache.spark.api.java.JavaRDD;
 import org.uniprot.core.uniref.UniRefEntry;
 import org.uniprot.core.uniref.UniRefType;
@@ -35,16 +34,13 @@ public class UniRefDataStoreIndexer implements DataStoreIndexer {
     }
 
     private void indexUniRef(UniRefType type, JobParameter jobParameter) {
-        SparkConf sparkConf = jobParameter.getSparkContext().sc().conf();
         ResourceBundle config = jobParameter.getApplicationConfig();
-        String releaseName = jobParameter.getReleaseName();
 
         String numberOfConnections = config.getString("store.uniref.numberOfConnections");
         String storeName = config.getString("store.uniref.storeName");
         String connectionURL = config.getString("store.uniref.host");
 
-        JavaRDD<UniRefEntry> uniRefRDD =
-                UniRefRDDTupleReader.load(type, sparkConf, config, releaseName);
+        JavaRDD<UniRefEntry> uniRefRDD = UniRefRDDTupleReader.load(type, jobParameter, false);
         uniRefRDD.foreachPartition(
                 uniProtEntryIterator -> {
                     VoldemortClient<UniRefEntry> client =

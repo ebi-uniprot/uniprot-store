@@ -5,10 +5,10 @@ import static org.uniprot.store.spark.indexer.common.util.SparkUtils.getInputRel
 import java.util.Collections;
 import java.util.ResourceBundle;
 
-import org.apache.spark.SparkConf;
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.sql.SparkSession;
 import org.uniprot.store.search.document.uniprot.UniProtDocument;
+import org.uniprot.store.spark.indexer.common.JobParameter;
 import org.uniprot.store.spark.indexer.uniprot.mapper.InactiveEntryAggregationMapper;
 import org.uniprot.store.spark.indexer.uniprot.mapper.InactiveFileToInactiveEntry;
 import org.uniprot.store.spark.indexer.uniprot.mapper.UniProtEntryToSolrDocument;
@@ -24,13 +24,16 @@ public class InactiveUniProtKBRDDTupleReader {
     private InactiveUniProtKBRDDTupleReader() {}
 
     /** @return an JavaPairRDD with <accession, UniProtDocument> for Inactive UniProt Entries. */
-    public static JavaPairRDD<String, UniProtDocument> load(
-            SparkConf sparkConf, ResourceBundle applicationConfig, String releaseName) {
-        SparkSession spark = SparkSession.builder().config(sparkConf).getOrCreate();
+    public static JavaPairRDD<String, UniProtDocument> load(JobParameter jobParameter) {
+        ResourceBundle config = jobParameter.getApplicationConfig();
+
+        SparkSession spark =
+                SparkSession.builder()
+                        .config(jobParameter.getSparkContext().getConf())
+                        .getOrCreate();
         InactiveEntryAggregationMapper aggregationMapper = new InactiveEntryAggregationMapper();
-        String releaseInputDir = getInputReleaseDirPath(applicationConfig, releaseName);
-        String inactiveFile =
-                releaseInputDir + applicationConfig.getString("uniprot.inactive.file.path");
+        String releaseInputDir = getInputReleaseDirPath(config, jobParameter.getReleaseName());
+        String inactiveFile = releaseInputDir + config.getString("uniprot.inactive.file.path");
         return (JavaPairRDD<String, UniProtDocument>)
                 spark.read()
                         .textFile(inactiveFile)

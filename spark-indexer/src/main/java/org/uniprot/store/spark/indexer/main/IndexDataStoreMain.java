@@ -42,6 +42,7 @@ public class IndexDataStoreMain {
             DataStoreIndexerFactory factory = new DataStoreIndexerFactory();
             List<DataStore> dataStores = SparkUtils.getDataStores(args[1]);
             for (DataStore dataStore : dataStores) {
+                log.info("Indexing data store: " + dataStore.getName());
                 DataStoreIndexer dataStoreIndexer =
                         factory.createDataStoreIndexer(dataStore, jobParameter);
                 dataStoreIndexer.indexInDataStore();

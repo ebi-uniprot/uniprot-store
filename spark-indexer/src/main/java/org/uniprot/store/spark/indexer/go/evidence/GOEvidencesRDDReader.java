@@ -6,9 +6,10 @@ import java.util.ResourceBundle;
 
 import lombok.extern.slf4j.Slf4j;
 
-import org.apache.spark.SparkConf;
 import org.apache.spark.api.java.JavaPairRDD;
+import org.apache.spark.api.java.JavaSparkContext;
 import org.apache.spark.sql.SparkSession;
+import org.uniprot.store.spark.indexer.common.JobParameter;
 
 /**
  * This class load extended GO Evidences into an JavaPairRDD of {key=uniprot accession,
@@ -23,12 +24,13 @@ public class GOEvidencesRDDReader {
     private GOEvidencesRDDReader() {}
 
     /** @return JavaPairRDD of {key=uniprot accession, value=Iterable of GoEvidence} */
-    public static JavaPairRDD<String, Iterable<GOEvidence>> load(
-            SparkConf sparkConf, ResourceBundle applicationConfig, String releaseName) {
-        SparkSession spark = SparkSession.builder().config(sparkConf).getOrCreate();
-        String releaseInputDir = getInputReleaseDirPath(applicationConfig, releaseName);
-        String goEvidencePath =
-                releaseInputDir + applicationConfig.getString("go.evidence.file.path");
+    public static JavaPairRDD<String, Iterable<GOEvidence>> load(JobParameter jobParameter) {
+        ResourceBundle config = jobParameter.getApplicationConfig();
+        JavaSparkContext jsc = jobParameter.getSparkContext();
+
+        SparkSession spark = SparkSession.builder().sparkContext(jsc.sc()).getOrCreate();
+        String releaseInputDir = getInputReleaseDirPath(config, jobParameter.getReleaseName());
+        String goEvidencePath = releaseInputDir + config.getString("go.evidence.file.path");
         return (JavaPairRDD<String, Iterable<GOEvidence>>)
                 spark.read()
                         .textFile(goEvidencePath)

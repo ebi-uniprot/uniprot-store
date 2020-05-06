@@ -31,11 +31,13 @@ import org.uniprot.store.spark.indexer.uniparc.mapper.UniParcTaxonomyMapper;
 @Slf4j
 public class UniParcDocumentsToHDFSWriter implements DocumentsToHDFSWriter {
 
+    private final JobParameter parameter;
     private final ResourceBundle config;
     private final JavaSparkContext sparkContext;
     private final String releaseName;
 
     public UniParcDocumentsToHDFSWriter(JobParameter parameter) {
+        this.parameter = parameter;
         this.config = parameter.getApplicationConfig();
         this.releaseName = parameter.getReleaseName();
         this.sparkContext = parameter.getSparkContext();
@@ -47,7 +49,7 @@ public class UniParcDocumentsToHDFSWriter implements DocumentsToHDFSWriter {
         SparkConf sparkConf = sparkContext.sc().conf();
 
         JavaRDD<UniParcEntry> uniparcRDD =
-                (JavaRDD<UniParcEntry>) UniParcRDDTupleReader.load(sparkConf, config, releaseName);
+                (JavaRDD<UniParcEntry>) UniParcRDDTupleReader.load(parameter, true);
 
         // JavaPairRDD<taxId,TaxonomyEntry>
         JavaPairRDD<String, TaxonomyEntry> taxonomyEntryJavaPairRDD =
