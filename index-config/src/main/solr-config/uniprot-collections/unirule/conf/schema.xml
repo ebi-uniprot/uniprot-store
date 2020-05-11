@@ -13,9 +13,9 @@
     <!-- =============================== UniRule fields =============================== -->
     <field name="unirule_id" type="string" indexed="true" stored="true" required="true" docValues="true"/>
     <field name="condition_value" type="full_ci" indexed="true" stored="false" required="true" multiValued="true"/>
-    <field name="keyword" type="basic_ci" indexed="true" stored="false" required="false" multiValued="true"/>
+    <field name="keyword" type="full_ci" indexed="true" stored="false" required="false" multiValued="true"/>
     <field name="gene" type="full_ci" indexed="true" stored="false" required="false" multiValued="true"/>
-    <dynamicField name="go_*" type="lowercase" indexed="true" required="false" stored="false" multiValued="true"/>
+    <field name="go" type="full_ci" indexed="true" required="false" stored="false" multiValued="true"/>
     <field name="protein_name" type="full_ci" indexed="true" stored="false" required="false" multiValued="true"/>
     <field name="organism" type="full_ci" indexed="true" stored="false" required="true" multiValued="true"/>
     <field name="taxonomy" type="full_ci" indexed="true" stored="false" required="true" multiValued="true"/>
@@ -28,7 +28,7 @@
     <copyField source="condition_value" dest="content"/>
     <copyField source="keyword" dest="content"/>
     <copyField source="gene" dest="content"/>
-    <copyField source="go_*" dest="content"/>
+    <copyField source="go" dest="content"/>
     <copyField source="protein_name" dest="content"/>
     <copyField source="organism" dest="content"/>
     <copyField source="taxonomy" dest="content"/>
