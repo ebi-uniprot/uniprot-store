@@ -14,7 +14,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;
 import org.uniprot.core.flatfile.writer.LineType;
-import org.uniprot.core.uniprotkb.feature.FeatureType;
+import org.uniprot.core.uniprotkb.feature.UniprotKBFeatureType;
 import org.uniprot.store.search.field.QueryBuilder;
 
 class FTFunctionSearchIT {
@@ -152,7 +152,7 @@ class FTFunctionSearchIT {
 
     @Test
     void siteFindEntry() {
-        String query = features(FeatureType.SITE, "translocation.");
+        String query = features(UniprotKBFeatureType.SITE, "translocation.");
 
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -162,9 +162,9 @@ class FTFunctionSearchIT {
 
     @Test
     void activeSiteFindEntry() {
-        String query = features(FeatureType.ACT_SITE, "intermediate.");
+        String query = features(UniprotKBFeatureType.ACT_SITE, "intermediate.");
         String evidence = "ECO_0000250";
-        query = QueryBuilder.and(query, featureEvidence(FeatureType.ACT_SITE, evidence));
+        query = QueryBuilder.and(query, featureEvidence(UniprotKBFeatureType.ACT_SITE, evidence));
         QueryResponse response = searchEngine.getQueryResponse(query);
 
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
@@ -173,8 +173,8 @@ class FTFunctionSearchIT {
 
     @Test
     void metalSiteFindEntry() {
-        String query = features(FeatureType.METAL, "Magnesium.");
-        query = QueryBuilder.and(query, featureLength(FeatureType.METAL, 1, 2));
+        String query = features(UniprotKBFeatureType.METAL, "Magnesium.");
+        query = QueryBuilder.and(query, featureLength(UniprotKBFeatureType.METAL, 1, 2));
         QueryResponse response = searchEngine.getQueryResponse(query);
 
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
@@ -183,8 +183,8 @@ class FTFunctionSearchIT {
 
     @Test
     void metalSiteFindNonEntry() {
-        String query = features(FeatureType.METAL, "Magnesium.");
-        query = QueryBuilder.and(query, featureLength(FeatureType.METAL, 3, 5));
+        String query = features(UniprotKBFeatureType.METAL, "Magnesium.");
+        query = QueryBuilder.and(query, featureLength(UniprotKBFeatureType.METAL, 3, 5));
         QueryResponse response = searchEngine.getQueryResponse(query);
 
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
@@ -193,10 +193,10 @@ class FTFunctionSearchIT {
 
     @Test
     void bindingSiteFindEntry() {
-        String query = features(FeatureType.BINDING, "Substrate.");
-        query = QueryBuilder.and(query, featureLength(FeatureType.BINDING, 1, 2));
+        String query = features(UniprotKBFeatureType.BINDING, "Substrate.");
+        query = QueryBuilder.and(query, featureLength(UniprotKBFeatureType.BINDING, 1, 2));
         String evidence = "ECO_0000250";
-        query = QueryBuilder.and(query, featureEvidence(FeatureType.BINDING, evidence));
+        query = QueryBuilder.and(query, featureEvidence(UniprotKBFeatureType.BINDING, evidence));
         QueryResponse response = searchEngine.getQueryResponse(query);
 
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
@@ -205,10 +205,10 @@ class FTFunctionSearchIT {
 
     @Test
     void caBindFindEntry() {
-        String query = features(FeatureType.CA_BIND, "site");
-        query = QueryBuilder.and(query, featureLength(FeatureType.CA_BIND, 1, 2));
+        String query = features(UniprotKBFeatureType.CA_BIND, "site");
+        query = QueryBuilder.and(query, featureLength(UniprotKBFeatureType.CA_BIND, 1, 2));
         String evidence = "ECO_0000250";
-        query = QueryBuilder.and(query, featureEvidence(FeatureType.CA_BIND, evidence));
+        query = QueryBuilder.and(query, featureEvidence(UniprotKBFeatureType.CA_BIND, evidence));
         QueryResponse response = searchEngine.getQueryResponse(query);
 
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
@@ -217,10 +217,10 @@ class FTFunctionSearchIT {
 
     @Test
     void dnaBindFindEntry() {
-        String query = features(FeatureType.DNA_BIND, "*");
-        query = QueryBuilder.and(query, featureLength(FeatureType.DNA_BIND, 1, 6));
+        String query = features(UniprotKBFeatureType.DNA_BIND, "*");
+        query = QueryBuilder.and(query, featureLength(UniprotKBFeatureType.DNA_BIND, 1, 6));
         String evidence = "ECO_0000250";
-        query = QueryBuilder.and(query, featureEvidence(FeatureType.DNA_BIND, evidence));
+        query = QueryBuilder.and(query, featureEvidence(UniprotKBFeatureType.DNA_BIND, evidence));
         QueryResponse response = searchEngine.getQueryResponse(query);
 
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
@@ -229,10 +229,10 @@ class FTFunctionSearchIT {
 
     @Test
     void npBindFindEntry() {
-        String query = features(FeatureType.NP_BIND, "NADP");
-        query = QueryBuilder.and(query, featureLength(FeatureType.NP_BIND, 1, 6));
+        String query = features(UniprotKBFeatureType.NP_BIND, "NADP");
+        query = QueryBuilder.and(query, featureLength(UniprotKBFeatureType.NP_BIND, 1, 6));
         String evidence = "ECO_0000250";
-        query = QueryBuilder.and(query, featureEvidence(FeatureType.NP_BIND, evidence));
+        query = QueryBuilder.and(query, featureEvidence(UniprotKBFeatureType.NP_BIND, evidence));
         QueryResponse response = searchEngine.getQueryResponse(query);
 
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
