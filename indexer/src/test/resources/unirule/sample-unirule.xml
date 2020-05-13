@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<unirules xmlns="http://uniprot.org/unirule" xmlns:uniprot="http://uniprot.org/uniprot">
+    <unirule status="APPLY" id="UR001229753" creator="wangq" created="2019-07-19+01:00" modifiedBy="arighi"
+             modified="2019-07-29+01:00">
+        <information>
+            <version>0</version>
+            <oldRuleNum>PIRNR018063</oldRuleNum>
+            <dataClass>Domain</dataClass>
+            <template>
+                <value>P95855</value>
+                <value>Q8U1L3</value>
+            </template>
+        </information>
+        <main>
+            <conditionSets>
+                <conditionSet>
+                    <condition type="PIR superfamily id">
+                        <value>PIRSF018063</value>
+                    </condition>
+                    <condition type="sequence length">
+                        <range start="160" end="196"/>
+                    </condition>
+                    <condition type="taxon">
+                        <value cvId="2157">Archaea</value>
+                    </condition>
+                    <condition type="fragment" negative="true"/>
+                </conditionSet>
+                <conditionSet>
+                    <condition type="scientific organism">
+                        <value>Human adenovirus</value>
+                    </condition>
+                </conditionSet>
+                <conditionSet>
+                    <condition type="scientific organism">
+                        <value>Human mastadenovirus</value>
+                    </condition>
+                    <condition type="taxon">
+                        <value cvId="2157">Archaea</value>
+                        <value cvId="2">Bacteria</value>
+                    </condition>
+                </conditionSet>
+            </conditionSets>
+            <annotations>
+                <annotation>
+                    <comment type="cofactor">
+                        <uniprot:cofactor>
+                            <uniprot:name>Mg(2+)</uniprot:name>
+                            <uniprot:dbReference type="ChEBI" id="CHEBI:18420"/>
+                        </uniprot:cofactor>
+                        <uniprot:cofactor>
+                            <uniprot:name>Ca(2+)</uniprot:name>
+                            <uniprot:dbReference type="ChEBI" id="CHEBI:29108"/>
+                        </uniprot:cofactor>
+                        <uniprot:cofactor>
+                            <uniprot:name>Mn(2+)</uniprot:name>
+                            <uniprot:dbReference type="ChEBI" id="CHEBI:29035"/>
+                        </uniprot:cofactor>
+                        <uniprot:cofactor>
+                            <uniprot:name>Co(2+)</uniprot:name>
+                            <uniprot:dbReference type="ChEBI" id="CHEBI:48828"/>
+                        </uniprot:cofactor>
+                        <uniprot:text>Binds 1 Mg(2+) ion per subunit. Can also utilize other divalent metal cations, such as Ca(2+), Mn(2+) and Co(2+).</uniprot:text>
+                    </comment>
+                </annotation>
+                <annotation>
+                    <comment type="subcellular location">
+                        <uniprot:subcellularLocation>
+                            <uniprot:location>Cytoplasm</uniprot:location>
+                        </uniprot:subcellularLocation>
+                        <uniprot:subcellularLocation>
+                            <uniprot:location>Golgi apparatus membrane</uniprot:location>
+                            <uniprot:topology>Peripheral membrane protein</uniprot:topology>
+                            <uniprot:orientation>Cytoplasmic side</uniprot:orientation>
+                        </uniprot:subcellularLocation>
+                        <uniprot:subcellularLocation>
+                            <uniprot:location>Cytoplasmic vesicle</uniprot:location>
+                            <uniprot:location>COPI-coated vesicle membrane</uniprot:location>
+                            <uniprot:topology>Peripheral membrane protein</uniprot:topology>
+                            <uniprot:orientation>Cytoplasmic side</uniprot:orientation>
+                        </uniprot:subcellularLocation>
+                    </comment>
+                </annotation>
+                <annotation>
+                    <protein>
+                        <recommendedName>
+                            <fullName>O-phosphoseryl-tRNA(Sec) selenium transferase</fullName>
+                            <ecNumber>2.9.1.2</ecNumber>
+                        </recommendedName>
+                        <alternativeName>
+                            <fullName>Selenocysteine synthase</fullName>
+                        </alternativeName>
+                        <alternativeName>
+                            <fullName>Selenocysteinyl-tRNA(Sec) synthase</fullName>
+                        </alternativeName>
+                        <alternativeName>
+                            <fullName>Sep-tRNA:Sec-tRNA synthase</fullName>
+                        </alternativeName>
+                    </protein>
+                </annotation>
+                <annotation>
+                    <comment type="catalytic activity">
+                        <uniprot:reaction>
+                            <uniprot:text>2 Fe(2+) + 2 H(+) + H2O2 = 2 Fe(3+) + 2 H2O</uniprot:text>
+                            <uniprot:dbReference type="Rhea" id="RHEA:48712"/>
+                            <uniprot:dbReference type="ChEBI" id="CHEBI:15377"/>
+                            <uniprot:dbReference type="ChEBI" id="CHEBI:15378"/>
+                            <uniprot:dbReference type="ChEBI" id="CHEBI:16240"/>
+                            <uniprot:dbReference type="ChEBI" id="CHEBI:29033"/>
+                            <uniprot:dbReference type="ChEBI" id="CHEBI:29034"/>
+                        </uniprot:reaction>
+                    </comment>
+                </annotation>
+                <annotation>
+                    <comment type="function">
+                        <uniprot:text>Protects DNA from oxidative damage by sequestering intracellular Fe2+ ion and
+                            storing it in the form of Fe3+ oxyhydroxide mineral. One hydrogen peroxide oxidizes two Fe2+
+                            ions, which prevents hydroxyl radical production by the Fenton reaction.
+                        </uniprot:text>
+                    </comment>
+                </annotation>
+                <annotation>
+                    <comment type="similarity">
+                        <uniprot:text>Belongs to the Dps family.</uniprot:text>
+                    </comment>
+                </annotation>
+                <annotation>
+                    <comment type="subunit">
+                        <uniprot:text>Homododecamer. The 12 identical subunits form a hollow sphere into which the
+                            mineral iron core of up to 300 Fe(3+) can be deposited.
+                        </uniprot:text>
+                    </comment>
+                </annotation>
+                <annotation>
+                    <gene>
+                        <uniprot:name type="primary">MP</uniprot:name>
+                    </gene>
+                </annotation>
+                <annotation>
+                    <gene>
+                        <uniprot:name type="primary">atpA</uniprot:name>
+                    </gene>
+                </annotation>
+                <annotation>
+                    <keyword id="KW-0963">Cytoplasm</keyword>
+                </annotation>
+                <annotation>
+                    <keyword id="KW-0408">Iron</keyword>
+                </annotation>
+                <annotation>
+                    <keyword id="KW-0409">Iron storage</keyword>
+                </annotation>
+                <annotation>
+                    <keyword id="KW-0479">Metal-binding</keyword>
+                </annotation>
+                <annotation>
+                    <keyword id="KW-0560">Oxidoreductase</keyword>
+                </annotation>
+                <annotation>
+                    <dbReference type="GO" id="GO:0005737"/>
+                </annotation>
+                <annotation>
+                    <dbReference type="GO" id="GO:0006879"/>
+                </annotation>
+                <annotation>
+                    <dbReference type="GO" id="GO:0008199"/>
+                </annotation>
+                <annotation>
+                    <dbReference type="GO" id="GO:0009295"/>
+                </annotation>
+                <annotation>
+                    <dbReference type="GO" id="GO:0016491"/>
+                </annotation>
+            </annotations>
+            <ruleExceptions>
+                <ruleException>
+                    <category>Known exception</category>
+                    <annotation>
+                        <comment type="subunit">
+                            <uniprot:text>Homododecamer. The 12 identical subunits form a hollow sphere into which the
+                                mineral iron core of up to 300 Fe(3+) can be deposited.
+                            </uniprot:text>
+                        </comment>
+                    </annotation>
+                    <accession>Q8U1L3</accession>
+                </ruleException>
+            </ruleExceptions>
+        </main>
+        <samFeatureSet>
+            <samTrigger>
+                <signal>
+                    <expectedHits start="1" end="1"/>
+                </signal>
+            </samTrigger>
+        </samFeatureSet>
+        <samFeatureSet>
+            <samTrigger>
+                <transmembrane>
+                    <expectedHits start="5" end="unlimited"/>
+                </transmembrane>
+            </samTrigger>
+        </samFeatureSet>
+        <positionalFeatureSet template="P04629" alignmentSignature="SRHMM620777-52">
+            <conditionSet>
+                <condition type="SRHMM id">
+                    <value>SRHMM620777-52</value>
+                </condition>
+            </conditionSet>
+            <positionalFeature inGroup="true">
+                <positionalCondition>
+                    <position start="496" end="496"/>
+                    <pattern>Y</pattern>
+                </positionalCondition>
+                <positionalAnnotation type="site">Interaction with SHC1</positionalAnnotation>
+            </positionalFeature>
+            <positionalFeature inGroup="true">
+                <positionalCondition>
+                    <position start="791" end="791"/>
+                    <pattern>Y</pattern>
+                </positionalCondition>
+                <positionalAnnotation type="site">Interaction with PLC-gamma-1</positionalAnnotation>
+            </positionalFeature>
+        </positionalFeatureSet>
+    </unirule>
+    <unirule status="APPLY" id="UR001330252" creator="CRV" created="2019-03-11Z" modifiedBy="CRV"
+             modified="2019-03-11Z">
+        <information>
+            <version>1</version>
+            <oldRuleNum>PIRSR006661-1</oldRuleNum>
+            <dataClass>Domain</dataClass>
+        </information>
+        <main>
+            <conditionSets>
+                <conditionSet>
+                    <condition type="PIR superfamily id">
+                        <value>PIRSF006661</value>
+                    </condition>
+                    <condition type="taxon">
+                        <value cvId="2">Bacteria</value>
+                    </condition>
+                </conditionSet>
+            </conditionSets>
+        </main>
+        <positionalFeatureSet template="F9UST4" alignmentSignature="SRHMM006661-1">
+            <conditionSet>
+                <condition type="SRHMM id">
+                    <value>SRHMM006661-1</value>
+                </condition>
+            </conditionSet>
+            <positionalFeature inGroup="true">
+                <positionalCondition>
+                    <position start="176" end="176"/>
+                    <pattern>C</pattern>
+                </positionalCondition>
+                <positionalAnnotation type="active site">Nucleophile and sulfur donor</positionalAnnotation>
+            </positionalFeature>
+        </positionalFeatureSet>
+    </unirule>
+</unirules>
