@@ -17,5 +17,6 @@ public enum SolrCollection {
     literature,
     suggest,
     genecentric,
-    subcellularlocation
+    subcellularlocation,
+    unirule
 }
