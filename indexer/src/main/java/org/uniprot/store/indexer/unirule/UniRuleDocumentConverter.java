@@ -76,7 +76,7 @@ public class UniRuleDocumentConverter implements DocumentConverter<UniRuleType, 
         content.addAll(proteinNames);
         content.addAll(organismNames);
         content.addAll(taxonomyNames);
-        content.addAll(getCommentsStringValues(uniRuleDocComments));
+        content.addAll(getCommentsValues(uniRuleDocComments));
         ByteBuffer uniRuleObj = ByteBuffer.wrap(getUniRuleObj(uniObj));
 
         // build the solr document
@@ -225,9 +225,10 @@ public class UniRuleDocumentConverter implements DocumentConverter<UniRuleType, 
                                 }));
     }
 
-    private Set<String> getCommentsStringValues(List<UniRuleDocumentComment> docComments) {
+    private Set<String> getCommentsValues(List<UniRuleDocumentComment> docComments) {
         return docComments.stream()
-                .map(UniRuleDocumentComment::getStringValue)
+                .map(UniRuleDocumentComment::getValues)
+                .flatMap(Collection::stream)
                 .collect(Collectors.toSet());
     }
 

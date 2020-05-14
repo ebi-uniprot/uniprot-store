@@ -145,12 +145,11 @@ public class UniRuleCommentConverter {
 
     private static UniRuleDocumentComment createDocumentComment(
             Comment comment, Set<String> values) {
-        String stringValue = getStringValue(comment);
         String field = getCommentField(comment);
         UniRuleDocumentComment.UniRuleDocumentCommentBuilder builder =
                 UniRuleDocumentComment.builder();
         builder.name(field);
-        builder.values(values).stringValue(stringValue);
+        builder.values(values);
         return builder.build();
     }
 
@@ -158,10 +157,5 @@ public class UniRuleCommentConverter {
         StringBuilder builder = new StringBuilder(CC_UNDERSCORE);
         builder.append(c.getCommentType().toXmlDisplayName());
         return builder.toString().replace(SINGLE_SPACE, UNDERSCORE);
-    }
-
-    private static String getStringValue(Comment comment) {
-        FFLineBuilder<Comment> builder = CCLineBuilderFactory.create(comment);
-        return builder.buildString(comment);
     }
 }

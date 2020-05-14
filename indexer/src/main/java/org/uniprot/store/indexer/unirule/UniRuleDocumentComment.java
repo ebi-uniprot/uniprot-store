@@ -16,5 +16,4 @@ import lombok.Data;
 public class UniRuleDocumentComment {
     private String name;
     private Set<String> values;
-    private String stringValue; // for content field
 }
