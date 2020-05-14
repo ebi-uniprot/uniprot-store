@@ -1,11 +1,13 @@
 package org.uniprot.store.indexer.unirule;
 
-import java.util.concurrent.ThreadLocalRandom;
-
 import org.springframework.batch.item.ItemProcessor;
 import org.uniprot.core.xml.jaxb.unirule.UniRuleType;
 import org.uniprot.store.search.document.unirule.UniRuleDocument;
 
+/**
+ * @author sahmad
+ * @date: 14 May 2020
+ */
 public class UniRuleProcessor implements ItemProcessor<UniRuleType, UniRuleDocument> {
     private final UniRuleDocumentConverter documentConverter;
 
@@ -14,12 +16,7 @@ public class UniRuleProcessor implements ItemProcessor<UniRuleType, UniRuleDocum
     }
 
     @Override
-    public UniRuleDocument process(UniRuleType uniRuleType) throws Exception {
-        this.documentConverter.setProteinsAnnotatedCount(getProteinsAnnotationCount(uniRuleType));
+    public UniRuleDocument process(UniRuleType uniRuleType) {
         return this.documentConverter.convert(uniRuleType);
-    }
-
-    private Long getProteinsAnnotationCount(UniRuleType uniRuleType) {
-        return ThreadLocalRandom.current().nextLong(); // FIXME
     }
 }

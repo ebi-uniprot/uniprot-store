@@ -1,8 +1,8 @@
 package org.uniprot.store.indexer.unirule;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.uniprot.core.CrossReference;
@@ -11,24 +11,20 @@ import org.uniprot.core.flatfile.parser.impl.cc.CCLineBuilderFactory;
 import org.uniprot.core.flatfile.writer.FFLineBuilder;
 import org.uniprot.core.uniprotkb.comment.*;
 import org.uniprot.core.uniprotkb.evidence.EvidencedValue;
-import org.uniprot.core.util.Utils;
 
+/**
+ * @author sahmad
+ * @date: 14 May 2020
+ * Converts the {@link Comment} to intermediate form of {@link
+ *     UniRuleDocumentComment} before being set to {@link
+ *     org.uniprot.store.search.document.unirule.UniRuleDocument}'s commentTypeValues
+ */
 public class UniRuleCommentConverter {
     private static final String CC_UNDERSCORE = "cc_";
     private static final String SINGLE_SPACE = " ";
     private static final String UNDERSCORE = "_";
 
-    public static List<UniRuleDocumentComment> convertToDocumentComments(List<Comment> comments) {
-        List<UniRuleDocumentComment> docComments = new ArrayList<>();
-        if (Utils.notNullNotEmpty(comments)) {
-            docComments =
-                    comments.stream()
-                            .map(UniRuleCommentConverter::convertToDocumentComment)
-                            .collect(Collectors.toList());
-        }
-
-        return docComments;
-    }
+    private UniRuleCommentConverter() {}
 
     public static UniRuleDocumentComment convertToDocumentComment(Comment comment) {
         UniRuleDocumentComment docComment;
@@ -39,6 +35,7 @@ public class UniRuleCommentConverter {
             case DOMAIN:
             case FUNCTION:
             case INDUCTION:
+            case MISCELLANEOUS:
             case PATHWAY:
             case PTM:
             case SIMILARITY:
@@ -62,20 +59,20 @@ public class UniRuleCommentConverter {
     }
 
     private static UniRuleDocumentComment convertFreeTextComment(FreeTextComment comment) {
-        Collection<String> values =
-                comment.getTexts().stream().map(Value::getValue).collect(Collectors.toList());
+        Set<String> values =
+                comment.getTexts().stream().map(Value::getValue).collect(Collectors.toSet());
         return createDocumentComment(comment, values);
     }
 
     private static UniRuleDocumentComment convertCatalyticActivity(
             CatalyticActivityComment comment) {
         Reaction reaction = comment.getReaction();
-        List<String> values = new ArrayList<>();
+        Set<String> values = new HashSet<>();
         if (reaction.hasReactionCrossReferences()) {
             values =
                     reaction.getReactionCrossReferences().stream()
                             .map(CrossReference::getId)
-                            .collect(Collectors.toList());
+                            .collect(Collectors.toSet());
         }
 
         if (reaction.hasName()) {
@@ -86,28 +83,28 @@ public class UniRuleCommentConverter {
     }
 
     private static UniRuleDocumentComment convertCofactor(CofactorComment comment) {
-        List<String> values = new ArrayList<>();
+        Set<String> values = new HashSet<>();
 
         if (comment.hasCofactors()) {
             values =
                     comment.getCofactors().stream()
                             .map(UniRuleCommentConverter::extractCofactorValues)
                             .flatMap(Collection::stream)
-                            .collect(Collectors.toList());
+                            .collect(Collectors.toSet());
         }
 
         if ((comment.hasNote()) && (comment.getNote().hasTexts())) {
-            List<String> notes =
+            Set<String> notes =
                     comment.getNote().getTexts().stream()
                             .map(EvidencedValue::getValue)
-                            .collect(Collectors.toList());
+                            .collect(Collectors.toSet());
             values.addAll(notes);
         }
         return createDocumentComment(comment, values);
     }
 
-    private static List<String> extractCofactorValues(Cofactor cofactor) {
-        List<String> nameRefs = new ArrayList<>();
+    private static Set<String> extractCofactorValues(Cofactor cofactor) {
+        Set<String> nameRefs = new HashSet<>();
         if (cofactor.hasName()) {
             nameRefs.add(cofactor.getName());
         }
@@ -122,18 +119,18 @@ public class UniRuleCommentConverter {
             SubcellularLocationComment comment) {
         UniRuleDocumentComment docComment = null;
         if (comment.hasSubcellularLocations()) {
-            Collection<String> values =
+            Set<String> values =
                     comment.getSubcellularLocations().stream()
                             .map(UniRuleCommentConverter::extractSubcellLocationValues)
                             .flatMap(Collection::stream)
-                            .collect(Collectors.toList());
+                            .collect(Collectors.toSet());
             docComment = createDocumentComment(comment, values);
         }
         return docComment;
     }
 
-    private static List<String> extractSubcellLocationValues(SubcellularLocation subcellLocation) {
-        List<String> values = new ArrayList<>();
+    private static Set<String> extractSubcellLocationValues(SubcellularLocation subcellLocation) {
+        Set<String> values = new HashSet<>();
         if (subcellLocation.hasLocation()) {
             values.add(subcellLocation.getLocation().getValue());
         }
@@ -147,7 +144,7 @@ public class UniRuleCommentConverter {
     }
 
     private static UniRuleDocumentComment createDocumentComment(
-            Comment comment, Collection<String> values) {
+            Comment comment, Set<String> values) {
         String stringValue = getStringValue(comment);
         String field = getCommentField(comment);
         UniRuleDocumentComment.UniRuleDocumentCommentBuilder builder =

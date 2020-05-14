@@ -26,6 +26,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 /**
  * @author sahmad
  * @date: 12 May 2020
+ * Converts the xml type {@link UniRuleType} to {@link UniRuleDocument}
  */
 public class UniRuleDocumentConverter implements DocumentConverter<UniRuleType, UniRuleDocument> {
     private static final String CONDITION_TYPE_TAXON = "taxon";
@@ -56,17 +57,17 @@ public class UniRuleDocumentConverter implements DocumentConverter<UniRuleType, 
                 uniRuleBuilder.proteinsAnnotatedCount(this.proteinsAnnotatedCount).build();
         // extract values from uniObj to create solr document
         String uniRuleId = uniObj.getUniRuleId().getValue();
-        List<String> conditionValues = getConditionValues(uniObj);
-        List<String> featureTypes = getFeatureTypes(uniObj);
-        List<String> keywords = getKeywords(uniObj);
-        List<String> geneNames = getGeneNames(uniObj);
-        List<String> goTerms = getGoTerms(uniObj);
-        List<String> proteinNames = getProteinNames(uniObj);
-        List<String> organismNames = getOrganismNames(uniObj);
-        List<String> taxonomyNames = getTaxonomyNames(uniObj);
+        Set<String> conditionValues = getConditionValues(uniObj);
+        Set<String> featureTypes = getFeatureTypes(uniObj);
+        Set<String> keywords = getKeywords(uniObj);
+        Set<String> geneNames = getGeneNames(uniObj);
+        Set<String> goTerms = getGoTerms(uniObj);
+        Set<String> proteinNames = getProteinNames(uniObj);
+        Set<String> organismNames = getOrganismNames(uniObj);
+        Set<String> taxonomyNames = getTaxonomyNames(uniObj);
         List<UniRuleDocumentComment> uniRuleDocComments = convertToUniRuleDocumentComments(uniObj);
-        Map<String, Collection<String>> commentTypeValues = getComments(uniRuleDocComments);
-        List<String> content = new ArrayList<>(conditionValues);
+        Map<String, Set<String>> commentTypeValues = getComments(uniRuleDocComments);
+        Set<String> content = new HashSet<>(conditionValues);
         content.add(uniRuleId);
         content.addAll(featureTypes);
         content.addAll(keywords);
@@ -90,18 +91,18 @@ public class UniRuleDocumentConverter implements DocumentConverter<UniRuleType, 
         return builder.build();
     }
 
-    private List<String> getConditionValues(UniRuleEntry uniObj) {
+    private Set<String> getConditionValues(UniRuleEntry uniObj) {
         return uniObj.getMainRule().getConditionSets().stream()
                 .map(ConditionSet::getConditions)
                 .flatMap(Collection::stream)
                 .map(Condition::getConditionValues)
                 .flatMap(Collection::stream)
                 .map(Value::getValue)
-                .collect(Collectors.toList());
+                .collect(Collectors.toSet());
     }
 
-    private List<String> getFeatureTypes(UniRuleEntry uniObj) {
-        List<String> featureTypes = new ArrayList<>();
+    private Set<String> getFeatureTypes(UniRuleEntry uniObj) {
+        Set<String> featureTypes = new HashSet<>();
 
         if (Utils.notNullNotEmpty(uniObj.getSamFeatureSets())) {
             featureTypes =
@@ -110,16 +111,16 @@ public class UniRuleDocumentConverter implements DocumentConverter<UniRuleType, 
                             .map(SamTrigger::getSamTriggerType)
                             .filter(Objects::nonNull)
                             .map(EnumDisplay::getDisplayName)
-                            .collect(Collectors.toList());
+                            .collect(Collectors.toSet());
         }
 
         if (Utils.notNullNotEmpty(uniObj.getPositionFeatureSets())) {
-            List<String> positionalFeatureTypes =
+            Set<String> positionalFeatureTypes =
                     uniObj.getPositionFeatureSets().stream()
                             .map(PositionFeatureSet::getPositionalFeatures)
                             .flatMap(Collection::stream)
                             .map(PositionalFeature::getType)
-                            .collect(Collectors.toList());
+                            .collect(Collectors.toSet());
 
             featureTypes.addAll(positionalFeatureTypes);
         }
@@ -127,8 +128,8 @@ public class UniRuleDocumentConverter implements DocumentConverter<UniRuleType, 
         return featureTypes;
     }
 
-    private List<String> getKeywords(UniRuleEntry uniObj) {
-        List<String> keywords = new ArrayList<>();
+    private Set<String> getKeywords(UniRuleEntry uniObj) {
+        Set<String> keywords = new HashSet<>();
         List<Annotation> annotations = uniObj.getMainRule().getAnnotations();
         if (Utils.notNullNotEmpty(annotations)) {
             keywords =
@@ -137,14 +138,14 @@ public class UniRuleDocumentConverter implements DocumentConverter<UniRuleType, 
                             .filter(Objects::nonNull)
                             .map(this::extractKeywords)
                             .flatMap(Collection::stream)
-                            .collect(Collectors.toList());
+                            .collect(Collectors.toSet());
         }
 
         return keywords;
     }
 
-    private List<String> getGeneNames(UniRuleEntry uniObj) {
-        List<String> geneNames = new ArrayList<>();
+    private Set<String> getGeneNames(UniRuleEntry uniObj) {
+        Set<String> geneNames = new HashSet<>();
         List<Annotation> annotations = uniObj.getMainRule().getAnnotations();
         if (Utils.notNullNotEmpty(annotations)) {
             geneNames =
@@ -153,13 +154,13 @@ public class UniRuleDocumentConverter implements DocumentConverter<UniRuleType, 
                             .filter(Objects::nonNull)
                             .map(this::extractGeneNames)
                             .flatMap(Collection::stream)
-                            .collect(Collectors.toList());
+                            .collect(Collectors.toSet());
         }
         return geneNames;
     }
 
-    private List<String> getGoTerms(UniRuleEntry uniObj) {
-        List<String> goTerms = new ArrayList<>();
+    private Set<String> getGoTerms(UniRuleEntry uniObj) {
+        Set<String> goTerms = new HashSet<>();
         List<Annotation> annotations = uniObj.getMainRule().getAnnotations();
         if (Utils.notNullNotEmpty(annotations)) {
             goTerms =
@@ -167,14 +168,14 @@ public class UniRuleDocumentConverter implements DocumentConverter<UniRuleType, 
                             .map(Annotation::getDbReference)
                             .filter(Objects::nonNull)
                             .map(CrossReference::getId)
-                            .collect(Collectors.toList());
+                            .collect(Collectors.toSet());
         }
 
         return goTerms;
     }
 
-    private List<String> getProteinNames(UniRuleEntry uniObj) {
-        List<String> proteinNames = new ArrayList<>();
+    private Set<String> getProteinNames(UniRuleEntry uniObj) {
+        Set<String> proteinNames = new HashSet<>();
         List<Annotation> annotations = uniObj.getMainRule().getAnnotations();
         if (Utils.notNullNotEmpty(annotations)) {
             proteinNames =
@@ -183,17 +184,17 @@ public class UniRuleDocumentConverter implements DocumentConverter<UniRuleType, 
                             .filter(Objects::nonNull)
                             .map(UniProtEntryConverterUtil::extractProteinDescriptionValues)
                             .flatMap(Collection::stream)
-                            .collect(Collectors.toList());
+                            .collect(Collectors.toSet());
         }
         return proteinNames;
     }
 
-    private List<String> getOrganismNames(UniRuleEntry uniObj) {
+    private Set<String> getOrganismNames(UniRuleEntry uniObj) {
         return extractConditionValues(
                 CONDITION_TYPE_SCIENTIFIC_ORGANISM, uniObj.getMainRule().getConditionSets());
     }
 
-    private List<String> getTaxonomyNames(UniRuleEntry uniObj) {
+    private Set<String> getTaxonomyNames(UniRuleEntry uniObj) {
         return extractConditionValues(
                 CONDITION_TYPE_TAXON, uniObj.getMainRule().getConditionSets());
     }
@@ -212,18 +213,22 @@ public class UniRuleDocumentConverter implements DocumentConverter<UniRuleType, 
         return docComments;
     }
 
-    private Map<String, Collection<String>> getComments(List<UniRuleDocumentComment> docComments) {
+    private Map<String, Set<String>> getComments(List<UniRuleDocumentComment> docComments) {
         return docComments.stream()
                 .collect(
                         Collectors.toMap(
                                 UniRuleDocumentComment::getName,
-                                UniRuleDocumentComment::getValues));
+                                UniRuleDocumentComment::getValues,
+                                (list1, list2) -> {
+                                    list1.addAll(list2);
+                                    return list1;
+                                }));
     }
 
-    private List<String> getCommentsStringValues(List<UniRuleDocumentComment> docComments) {
+    private Set<String> getCommentsStringValues(List<UniRuleDocumentComment> docComments) {
         return docComments.stream()
                 .map(UniRuleDocumentComment::getStringValue)
-                .collect(Collectors.toList());
+                .collect(Collectors.toSet());
     }
 
     private byte[] getUniRuleObj(UniRuleEntry uniRuleEntry) {
@@ -234,7 +239,7 @@ public class UniRuleDocumentConverter implements DocumentConverter<UniRuleType, 
         }
     }
 
-    private List<String> extractConditionValues(String type, List<ConditionSet> conditionSets) {
+    private Set<String> extractConditionValues(String type, List<ConditionSet> conditionSets) {
         return conditionSets.stream()
                 .map(ConditionSet::getConditions)
                 .flatMap(Collection::stream)
@@ -244,11 +249,11 @@ public class UniRuleDocumentConverter implements DocumentConverter<UniRuleType, 
                                         && Utils.notNullNotEmpty(condition.getConditionValues()))
                 .map(condition -> extractValues(condition.getConditionValues()))
                 .flatMap(Collection::stream)
-                .collect(Collectors.toList());
+                .collect(Collectors.toSet());
     }
 
-    private List<String> extractGeneNames(Gene gene) {
-        List<String> geneNames = new ArrayList<>();
+    private Set<String> extractGeneNames(Gene gene) {
+        Set<String> geneNames = new HashSet<>();
 
         if (Objects.nonNull(gene.getGeneName())) {
             geneNames.add(gene.getGeneName().getValue());
@@ -261,21 +266,21 @@ public class UniRuleDocumentConverter implements DocumentConverter<UniRuleType, 
         return geneNames;
     }
 
-    private <T extends Value> List<String> extractValues(List<T> values) {
-        List<String> names = new ArrayList<>();
+    private <T extends Value> Set<String> extractValues(List<T> values) {
+        Set<String> names = new HashSet<>();
 
         if (Utils.notNullNotEmpty(values)) {
             names.addAll(
                     values.stream()
                             .map(Value::getValue)
                             .filter(Objects::nonNull)
-                            .collect(Collectors.toList()));
+                            .collect(Collectors.toSet()));
         }
         return names;
     }
 
-    private List<String> extractKeywords(Keyword keyword) {
-        List<String> keywords = new ArrayList<>();
+    private Set<String> extractKeywords(Keyword keyword) {
+        Set<String> keywords = new HashSet<>();
         keywords.add(keyword.getId());
         keywords.add(keyword.getName());
         KeywordCategory kc = keyword.getCategory();

@@ -1,7 +1,10 @@
 package org.uniprot.store.search.document.unirule;
 
 import java.nio.ByteBuffer;
-import java.util.*;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -21,34 +24,34 @@ public class UniRuleDocument implements Document {
     private String uniRuleId;
 
     @Field("condition_value")
-    private List<String> conditionValues = new ArrayList<>();
+    private Set<String> conditionValues = new HashSet<>();
 
     @Field("feature_type")
-    private List<String> featureTypes;
+    private Set<String> featureTypes = new HashSet<>();
 
     @Field("keyword")
-    private List<String> keywords = new ArrayList<>();
+    private Set<String> keywords = new HashSet<>();
 
     @Field("gene")
-    private List<String> geneNames = new ArrayList<>();
+    private Set<String> geneNames = new HashSet<>();
 
     @Field("go")
-    private List<String> goTerms = new ArrayList<>();
+    private Set<String> goTerms = new HashSet<>();
 
     @Field("protein_name")
-    private List<String> proteinNames = new ArrayList<>();
+    private Set<String> proteinNames = new HashSet<>();
 
     @Field("organism")
-    private List<String> organismNames = new ArrayList<>();
+    private Set<String> organismNames = new HashSet<>();
 
     @Field("taxonomy")
-    private List<String> taxonomyNames = new ArrayList<>();
+    private Set<String> taxonomyNames = new HashSet<>();
 
     @Field("cc_*")
-    private Map<String, Collection<String>> commentTypeValues = new HashMap<>();
+    private Map<String, Set<String>> commentTypeValues = new HashMap<>();
 
     @Field("content")
-    private List<String> content = new ArrayList<>();
+    private Set<String> content = new HashSet<>();
 
     @Field("unirule_obj")
     private ByteBuffer uniRuleObj;

@@ -26,9 +26,9 @@ public class UniRuleDocumentConverterTest {
 
     @Test
     void testConvert() throws Exception {
+        UniRuleType xmlObj = reader.read();
         long proteinCount = ThreadLocalRandom.current().nextLong();
         docConverter.setProteinsAnnotatedCount(proteinCount);
-        UniRuleType xmlObj = reader.read();
         UniRuleDocument solrDoc = docConverter.convert(xmlObj);
         verifySolrDoc(solrDoc, proteinCount);
     }
@@ -36,37 +36,37 @@ public class UniRuleDocumentConverterTest {
     private void verifySolrDoc(UniRuleDocument solrDoc, long proteinCount) throws IOException {
         assertNotNull(solrDoc);
         assertEquals("UR001229753", solrDoc.getUniRuleId());
-        assertEquals(6, solrDoc.getConditionValues().size());
+        assertEquals(5, solrDoc.getConditionValues().size());
         assertEquals(
-                "[PIRSF018063, Archaea, Human adenovirus, Human mastadenovirus, Archaea, Bacteria]",
+                "[Archaea, Human adenovirus, Bacteria, Human mastadenovirus, PIRSF018063]",
                 solrDoc.getConditionValues().toString());
-        assertEquals(4, solrDoc.getFeatureTypes().size());
-        assertEquals("[signal, transmembrane, site, site]", solrDoc.getFeatureTypes().toString());
-        assertEquals(20, solrDoc.getKeywords().size());
+        assertEquals(3, solrDoc.getFeatureTypes().size());
+        assertEquals("[site, transmembrane, signal]", solrDoc.getFeatureTypes().toString());
+        assertEquals(12, solrDoc.getKeywords().size());
         assertEquals(
-                "[KW-0963, Cytoplasm, KW-0000, Unknown, KW-0408, Iron, KW-0000, Unknown, KW-0409, Iron storage, KW-0000, Unknown, KW-0479, Metal-binding, KW-0000, Unknown, KW-0560, Oxidoreductase, KW-0000, Unknown]",
+                "[Unknown, KW-0408, Oxidoreductase, Iron storage, KW-0409, KW-0000, KW-0560, Iron, Metal-binding, KW-0963, Cytoplasm, KW-0479]",
                 solrDoc.getKeywords().toString());
         assertEquals(2, solrDoc.getGeneNames().size());
         assertEquals("[MP, atpA]", solrDoc.getGeneNames().toString());
         assertEquals(5, solrDoc.getGoTerms().size());
         assertEquals(
-                "[GO:0005737, GO:0006879, GO:0008199, GO:0009295, GO:0016491]",
+                "[GO:0006879, GO:0009295, GO:0008199, GO:0005737, GO:0016491]",
                 solrDoc.getGoTerms().toString());
         assertEquals(4, solrDoc.getProteinNames().size());
         assertEquals(
-                "[O-phosphoseryl-tRNA(Sec) selenium transferase, Selenocysteine synthase, Selenocysteinyl-tRNA(Sec) synthase, Sep-tRNA:Sec-tRNA synthase]",
+                "[Sep-tRNA:Sec-tRNA synthase, Selenocysteine synthase, O-phosphoseryl-tRNA(Sec) selenium transferase, Selenocysteinyl-tRNA(Sec) synthase]",
                 solrDoc.getProteinNames().toString());
         assertEquals(2, solrDoc.getOrganismNames().size());
         assertEquals(
                 "[Human adenovirus, Human mastadenovirus]", solrDoc.getOrganismNames().toString());
-        assertEquals(3, solrDoc.getTaxonomyNames().size());
-        assertEquals("[Archaea, Archaea, Bacteria]", solrDoc.getTaxonomyNames().toString());
+        assertEquals(2, solrDoc.getTaxonomyNames().size());
+        assertEquals("[Archaea, Bacteria]", solrDoc.getTaxonomyNames().toString());
         assertEquals(6, solrDoc.getCommentTypeValues().size());
         assertEquals(
-                "[Cytoplasm, Golgi apparatus membrane, Cytoplasmic side, Peripheral membrane protein, Cytoplasmic vesicle, COPI-coated vesicle membrane, Cytoplasmic side, Peripheral membrane protein]",
+                "[Golgi apparatus membrane, Cytoplasmic side, Cytoplasmic vesicle, COPI-coated vesicle membrane, Peripheral membrane protein, Cytoplasm]",
                 solrDoc.getCommentTypeValues().get("cc_subcellular_location").toString());
         assertEquals(
-                "[RHEA:48712, CHEBI:15377, CHEBI:15378, CHEBI:16240, CHEBI:29033, CHEBI:29034, 2 Fe(2+) + 2 H(+) + H2O2 = 2 Fe(3+) + 2 H2O]",
+                "[CHEBI:15378, CHEBI:15377, 2 Fe(2+) + 2 H(+) + H2O2 = 2 Fe(3+) + 2 H2O, RHEA:48712, CHEBI:29034, CHEBI:16240, CHEBI:29033]",
                 solrDoc.getCommentTypeValues().get("cc_catalytic_activity").toString());
         assertEquals(
                 "[Homododecamer. The 12 identical subunits form a hollow sphere into which the\n"
@@ -74,7 +74,7 @@ public class UniRuleDocumentConverterTest {
                         + "                        ]",
                 solrDoc.getCommentTypeValues().get("cc_subunit").toString());
         assertEquals(
-                "[Mg(2+), CHEBI:18420, Ca(2+), CHEBI:29108, Mn(2+), CHEBI:29035, Co(2+), CHEBI:48828, Binds 1 Mg(2+) ion per subunit. Can also utilize other divalent metal cations, such as Ca(2+), Mn(2+) and Co(2+)]",
+                "[Mg(2+), Binds 1 Mg(2+) ion per subunit. Can also utilize other divalent metal cations, such as Ca(2+), Mn(2+) and Co(2+), CHEBI:29108, CHEBI:29035, CHEBI:18420, Co(2+), Ca(2+), CHEBI:48828, Mn(2+)]",
                 solrDoc.getCommentTypeValues().get("cc_cofactor").toString());
         assertEquals(
                 "[Belongs to the Dps family]",
@@ -86,7 +86,7 @@ public class UniRuleDocumentConverterTest {
                         + "                        ]",
                 solrDoc.getCommentTypeValues().get("cc_function").toString());
 
-        assertEquals(53, solrDoc.getContent().size());
+        assertEquals(38, solrDoc.getContent().size());
         verifyUniRuleObject(solrDoc.getUniRuleObj(), proteinCount);
     }
 
