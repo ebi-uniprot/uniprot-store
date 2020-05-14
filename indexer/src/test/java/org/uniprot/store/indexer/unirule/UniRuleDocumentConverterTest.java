@@ -86,7 +86,7 @@ public class UniRuleDocumentConverterTest {
                         + "                        ]",
                 solrDoc.getCommentTypeValues().get("cc_function").toString());
 
-        assertEquals(38, solrDoc.getContent().size());
+        assertEquals(55, solrDoc.getContent().size());
         verifyUniRuleObject(solrDoc.getUniRuleObj(), proteinCount);
     }
 
