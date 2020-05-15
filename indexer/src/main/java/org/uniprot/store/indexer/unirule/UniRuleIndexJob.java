@@ -15,9 +15,10 @@ import org.uniprot.store.indexer.common.utils.Constants;
 import org.uniprot.store.job.common.listener.WriteRetrierLogJobListener;
 import org.uniprot.store.search.SolrCollection;
 
-/** @author sahmad
+/**
+ * @author sahmad
  * @date: 14 May 2020
- * */
+ */
 @Configuration
 @Import({SolrRepositoryConfig.class})
 public class UniRuleIndexJob {
