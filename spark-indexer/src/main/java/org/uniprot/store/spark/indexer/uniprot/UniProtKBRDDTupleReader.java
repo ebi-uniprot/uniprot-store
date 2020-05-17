@@ -55,8 +55,7 @@ public class UniProtKBRDDTupleReader {
             splittedFileRDD = splittedFileRDD.repartition(splittedFileRDD.getNumPartitions() * 3);
         }
 
-        return (JavaPairRDD<String, UniProtKBEntry>)
-                splittedFileRDD.map(e -> e + SPLITTER).mapToPair(mapper);
+        return splittedFileRDD.map(e -> e + SPLITTER).mapToPair(mapper);
     }
 
     /** @return Return an RDD with the entry in String format */

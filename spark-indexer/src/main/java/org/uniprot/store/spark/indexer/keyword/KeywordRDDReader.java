@@ -34,7 +34,6 @@ public class KeywordRDDReader {
         KeywordFileReader fileReader = new KeywordFileReader();
         List<KeywordEntry> entries = fileReader.parseLines(lines);
 
-        return (JavaPairRDD<String, KeywordEntry>)
-                jsc.parallelize(entries).mapToPair(new KeywordFileMapper());
+        return jsc.parallelize(entries).mapToPair(new KeywordFileMapper());
     }
 }

@@ -14,14 +14,14 @@ class TaxonomyLineageReaderTest {
     void getRangesRoundDown() {
         int[][] ranges = TaxonomyLineageReader.getRanges(999, 10);
         assertNotNull(ranges);
-        assertEquals(ranges[0][0], 1);
-        assertEquals(ranges[0][1], 100);
+        assertEquals(1, ranges[0][0]);
+        assertEquals(100, ranges[0][1]);
 
-        assertEquals(ranges[1][0], 101);
-        assertEquals(ranges[1][1], 200);
+        assertEquals(101, ranges[1][0]);
+        assertEquals(200, ranges[1][1]);
 
-        assertEquals(ranges[9][0], 901);
-        assertEquals(ranges[9][1], 999);
+        assertEquals(901, ranges[9][0]);
+        assertEquals(999, ranges[9][1]);
     }
 
     @Test
@@ -29,14 +29,14 @@ class TaxonomyLineageReaderTest {
         int[][] ranges = TaxonomyLineageReader.getRanges(1000, 10);
         assertNotNull(ranges);
 
-        assertEquals(ranges[0][0], 1);
-        assertEquals(ranges[0][1], 100);
+        assertEquals(1, ranges[0][0]);
+        assertEquals(100, ranges[0][1]);
 
-        assertEquals(ranges[1][0], 101);
-        assertEquals(ranges[1][1], 200);
+        assertEquals(101, ranges[1][0]);
+        assertEquals(200, ranges[1][1]);
 
-        assertEquals(ranges[9][0], 901);
-        assertEquals(ranges[9][1], 1000);
+        assertEquals(901, ranges[9][0]);
+        assertEquals(1000, ranges[9][1]);
     }
 
     @Test
@@ -44,13 +44,13 @@ class TaxonomyLineageReaderTest {
         int[][] ranges = TaxonomyLineageReader.getRanges(1001, 10);
         assertNotNull(ranges);
 
-        assertEquals(ranges[0][0], 1);
-        assertEquals(ranges[0][1], 101);
+        assertEquals(1, ranges[0][0]);
+        assertEquals(101, ranges[0][1]);
 
-        assertEquals(ranges[1][0], 102);
-        assertEquals(ranges[1][1], 202);
+        assertEquals(102, ranges[1][0]);
+        assertEquals(202, ranges[1][1]);
 
-        assertEquals(ranges[9][0], 910);
-        assertEquals(ranges[9][1], 1001);
+        assertEquals(910, ranges[9][0]);
+        assertEquals(1001, ranges[9][1]);
     }
 }

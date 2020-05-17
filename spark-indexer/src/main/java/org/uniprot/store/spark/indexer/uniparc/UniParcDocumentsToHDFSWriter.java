@@ -6,7 +6,6 @@ import java.util.ResourceBundle;
 
 import lombok.extern.slf4j.Slf4j;
 
-import org.apache.spark.SparkConf;
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
@@ -46,8 +45,7 @@ public class UniParcDocumentsToHDFSWriter implements DocumentsToHDFSWriter {
     /** load all the data for UniParcDocument and write it into HDFS (Hadoop File System) */
     @Override
     public void writeIndexDocumentsToHDFS() {
-        JavaRDD<UniParcEntry> uniparcRDD =
-                (JavaRDD<UniParcEntry>) UniParcRDDTupleReader.load(parameter, true);
+        JavaRDD<UniParcEntry> uniparcRDD = UniParcRDDTupleReader.load(parameter, true);
 
         // JavaPairRDD<taxId,TaxonomyEntry>
         JavaPairRDD<String, TaxonomyEntry> taxonomyEntryJavaPairRDD =
@@ -55,7 +53,7 @@ public class UniParcDocumentsToHDFSWriter implements DocumentsToHDFSWriter {
 
         // JavaPairRDD<taxId,uniparcId>
         JavaPairRDD<String, String> taxonomyJoin =
-                (JavaPairRDD<String, String>) uniparcRDD.flatMapToPair(new UniParcTaxonomyMapper());
+                uniparcRDD.flatMapToPair(new UniParcTaxonomyMapper());
 
         // JavaPairRDD<uniparcId,Iterable<Taxonomy with lineage>>
         JavaPairRDD<String, Iterable<TaxonomyEntry>> uniparcJoin =
@@ -67,8 +65,7 @@ public class UniParcDocumentsToHDFSWriter implements DocumentsToHDFSWriter {
 
         // JavaPairRDD<uniparcId,UniParcDocument>
         JavaPairRDD<String, UniParcDocument> uniparcDocumentRDD =
-                (JavaPairRDD<String, UniParcDocument>)
-                        uniparcRDD.mapToPair(new UniParcEntryToDocument());
+                uniparcRDD.mapToPair(new UniParcEntryToDocument());
 
         JavaRDD<UniParcDocument> uniParcDocumentRDD =
                 uniparcDocumentRDD

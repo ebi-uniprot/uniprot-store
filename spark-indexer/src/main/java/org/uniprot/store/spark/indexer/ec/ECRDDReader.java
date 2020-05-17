@@ -43,7 +43,6 @@ public class ECRDDReader {
         ECFileReader.ECDatFileReader ecDatFileReader = new ECFileReader.ECDatFileReader();
         entries.addAll(ecDatFileReader.parseLines(ecDatLines));
         ecDatLines.clear();
-        return (JavaPairRDD<String, ECEntry>)
-                jsc.parallelize(entries).mapToPair(new ECFileMapper());
+        return jsc.parallelize(entries).mapToPair(new ECFileMapper());
     }
 }

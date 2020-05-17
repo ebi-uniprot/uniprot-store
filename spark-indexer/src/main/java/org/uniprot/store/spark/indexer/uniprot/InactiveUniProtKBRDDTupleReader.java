@@ -34,12 +34,11 @@ public class InactiveUniProtKBRDDTupleReader {
         InactiveEntryAggregationMapper aggregationMapper = new InactiveEntryAggregationMapper();
         String releaseInputDir = getInputReleaseDirPath(config, jobParameter.getReleaseName());
         String inactiveFile = releaseInputDir + config.getString("uniprot.inactive.file.path");
-        return (JavaPairRDD<String, UniProtDocument>)
-                spark.read()
-                        .textFile(inactiveFile)
-                        .toJavaRDD()
-                        .mapToPair(new InactiveFileToInactiveEntry())
-                        .aggregateByKey(null, aggregationMapper, aggregationMapper)
-                        .mapValues(new UniProtEntryToSolrDocument(Collections.emptyMap()));
+        return spark.read()
+                .textFile(inactiveFile)
+                .toJavaRDD()
+                .mapToPair(new InactiveFileToInactiveEntry())
+                .aggregateByKey(null, aggregationMapper, aggregationMapper)
+                .mapValues(new UniProtEntryToSolrDocument(Collections.emptyMap()));
     }
 }

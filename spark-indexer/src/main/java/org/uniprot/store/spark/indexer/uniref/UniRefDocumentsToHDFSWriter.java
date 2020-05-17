@@ -46,21 +46,18 @@ public class UniRefDocumentsToHDFSWriter implements DocumentsToHDFSWriter {
 
         // JavaPairRDD<taxId,UniRefDocument>
         JavaPairRDD<String, UniRefDocument> uniref50DocRDD =
-                (JavaPairRDD<String, UniRefDocument>)
-                        UniRefRDDTupleReader.load(UniRefType.UniRef50, parameter, true)
-                                .mapToPair(new UniRefToDocument());
+                UniRefRDDTupleReader.load(UniRefType.UniRef50, parameter, true)
+                        .mapToPair(new UniRefToDocument());
 
         // JavaPairRDD<taxId,UniRefDocument>
         JavaPairRDD<String, UniRefDocument> uniref90DocRDD =
-                (JavaPairRDD<String, UniRefDocument>)
-                        UniRefRDDTupleReader.load(UniRefType.UniRef90, parameter, true)
-                                .mapToPair(new UniRefToDocument());
+                UniRefRDDTupleReader.load(UniRefType.UniRef90, parameter, true)
+                        .mapToPair(new UniRefToDocument());
 
         // JavaPairRDD<taxId,UniRefDocument>
         JavaPairRDD<String, UniRefDocument> uniref100DocRDD =
-                (JavaPairRDD<String, UniRefDocument>)
-                        UniRefRDDTupleReader.load(UniRefType.UniRef100, parameter, true)
-                                .mapToPair(new UniRefToDocument());
+                UniRefRDDTupleReader.load(UniRefType.UniRef100, parameter, true)
+                        .mapToPair(new UniRefToDocument());
 
         JavaRDD<UniRefDocument> unirefDocumentRDD =
                 joinTaxonomy(uniref50DocRDD, taxonomyEntryJavaPairRDD)

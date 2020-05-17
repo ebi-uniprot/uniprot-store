@@ -64,7 +64,7 @@ public class GORelationRDDReader {
                                             goTerm.getId(), goTermWithRelations));
                         });
         log.info("Loaded  GO relations" + pairs.size());
-        return (JavaPairRDD<String, GeneOntologyEntry>) sparkContext.parallelizePairs(pairs);
+        return sparkContext.parallelizePairs(pairs);
     }
 
     static Set<GeneOntologyEntry> getAncestors(

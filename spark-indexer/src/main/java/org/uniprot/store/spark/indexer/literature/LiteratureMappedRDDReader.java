@@ -33,12 +33,11 @@ public class LiteratureMappedRDDReader {
         SparkSession spark = SparkSession.builder().config(jsc.getConf()).getOrCreate();
         String releaseInputDir = getInputReleaseDirPath(config, jobParameter.getReleaseName());
         String literaturePath = releaseInputDir + config.getString("literature.map.file.path");
-        return (JavaPairRDD<String, Iterable<LiteratureMappedReference>>)
-                spark.read()
-                        .textFile(literaturePath)
-                        .toJavaRDD()
-                        .mapToPair(new LiteratureMappedFileMapper())
-                        .groupByKey();
+        return spark.read()
+                .textFile(literaturePath)
+                .toJavaRDD()
+                .mapToPair(new LiteratureMappedFileMapper())
+                .groupByKey();
     }
 
     /**
@@ -54,11 +53,10 @@ public class LiteratureMappedRDDReader {
         SparkSession spark = SparkSession.builder().config(jsc.getConf()).getOrCreate();
         String releaseInputDir = getInputReleaseDirPath(config, jobParameter.getReleaseName());
         String literaturePath = releaseInputDir + config.getString("literature.map.file.path");
-        return (JavaPairRDD<String, Iterable<String>>)
-                spark.read()
-                        .textFile(literaturePath)
-                        .toJavaRDD()
-                        .mapToPair(new LiteraturePubmedFileMapper())
-                        .groupByKey();
+        return spark.read()
+                .textFile(literaturePath)
+                .toJavaRDD()
+                .mapToPair(new LiteraturePubmedFileMapper())
+                .groupByKey();
     }
 }

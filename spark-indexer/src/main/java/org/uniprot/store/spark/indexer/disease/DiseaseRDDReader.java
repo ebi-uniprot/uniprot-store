@@ -30,11 +30,10 @@ public class DiseaseRDDReader {
                 .hadoopConfiguration()
                 .set("textinputformat.record.delimiter", SPLITTER);
 
-        return (JavaPairRDD<String, DiseaseEntry>)
-                jobParameter
-                        .getSparkContext()
-                        .textFile(filePath)
-                        .map(e -> "______\n" + e + SPLITTER)
-                        .mapToPair(new DiseaseFileMapper());
+        return jobParameter
+                .getSparkContext()
+                .textFile(filePath)
+                .map(e -> "______\n" + e + SPLITTER)
+                .mapToPair(new DiseaseFileMapper());
     }
 }

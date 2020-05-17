@@ -70,6 +70,6 @@ class TaxonomyRowMapper implements PairFunction<Row, String, TaxonomyEntry>, Ser
 
         builder.active(true);
 
-        return new Tuple2<String, TaxonomyEntry>(String.valueOf(taxId), builder.build());
+        return new Tuple2<>(String.valueOf(taxId), builder.build());
     }
 }

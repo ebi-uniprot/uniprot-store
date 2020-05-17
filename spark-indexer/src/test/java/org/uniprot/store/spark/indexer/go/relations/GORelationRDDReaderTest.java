@@ -11,8 +11,7 @@ import org.uniprot.core.cv.go.GeneOntologyEntry;
 import org.uniprot.core.cv.go.impl.GeneOntologyEntryBuilder;
 import org.uniprot.store.spark.indexer.common.JobParameter;
 import org.uniprot.store.spark.indexer.common.util.SparkUtils;
-import org.uniprot.store.spark.indexer.go.evidence.GOEvidence;
-import org.uniprot.store.spark.indexer.go.evidence.GOEvidencesRDDReader;
+
 import scala.Tuple2;
 
 /**
@@ -32,7 +31,8 @@ class GORelationRDDReaderTest {
                             .sparkContext(sparkContext)
                             .build();
 
-            JavaPairRDD<String, GeneOntologyEntry> goRelationRDD = GORelationRDDReader.load(parameter);
+            JavaPairRDD<String, GeneOntologyEntry> goRelationRDD =
+                    GORelationRDDReader.load(parameter);
             assertNotNull(goRelationRDD);
             long count = goRelationRDD.count();
             assertEquals(7L, count);

@@ -33,7 +33,7 @@ public class UniParcTaxonomyJoin
             if (Utils.notNull(tuple._2) && tuple._2.isPresent()) {
                 Iterable<TaxonomyEntry> organismList = tuple._2.get();
                 organismList.forEach(
-                        organism -> {
+                        organism ->
                             organism.getLineages()
                                     .forEach(
                                             lineage -> {
@@ -42,8 +42,8 @@ public class UniParcTaxonomyJoin
                                                 if (lineage.hasCommonName()) {
                                                     builder.organismTaxon(lineage.getCommonName());
                                                 }
-                                            });
-                        });
+                                            })
+                        );
             }
             result = builder.build();
         }

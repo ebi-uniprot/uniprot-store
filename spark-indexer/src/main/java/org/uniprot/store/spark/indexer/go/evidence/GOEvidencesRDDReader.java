@@ -31,11 +31,10 @@ public class GOEvidencesRDDReader {
         SparkSession spark = SparkSession.builder().sparkContext(jsc.sc()).getOrCreate();
         String releaseInputDir = getInputReleaseDirPath(config, jobParameter.getReleaseName());
         String goEvidencePath = releaseInputDir + config.getString("go.evidence.file.path");
-        return (JavaPairRDD<String, Iterable<GOEvidence>>)
-                spark.read()
-                        .textFile(goEvidencePath)
-                        .toJavaRDD()
-                        .mapToPair(new GOEvidencesFileMapper())
-                        .groupByKey();
+        return spark.read()
+                .textFile(goEvidencePath)
+                .toJavaRDD()
+                .mapToPair(new GOEvidencesFileMapper())
+                .groupByKey();
     }
 }

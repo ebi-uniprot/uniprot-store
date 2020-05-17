@@ -25,8 +25,7 @@ public class ValidateHDFSDocumentsMain {
 
         String hdfsFilePath = applicationConfig.getString(args[0]);
         JavaRDD<SolrInputDocument> solrInputDocumentRDD =
-                (JavaRDD<SolrInputDocument>)
-                        sparkContext.objectFile(hdfsFilePath).map(obj -> (SolrInputDocument) obj);
+                sparkContext.objectFile(hdfsFilePath).map(obj -> (SolrInputDocument) obj);
 
         solrInputDocumentRDD
                 .take(200)

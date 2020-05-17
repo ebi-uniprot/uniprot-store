@@ -1,6 +1,7 @@
 package org.uniprot.store.spark.indexer.uniprot.converter;
 
 import java.util.List;
+import java.util.Optional;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -55,9 +56,10 @@ class UniProtEntryReferencesConverter {
             if (citation.hasPublicationDate()) {
                 convertPublicationDate(citation.getPublicationDate().getValue(), document);
             }
-            if (citation.getCitationCrossReferenceByType(CitationDatabase.PUBMED).isPresent()) {
-                CrossReference<CitationDatabase> pubmed =
-                        citation.getCitationCrossReferenceByType(CitationDatabase.PUBMED).get();
+            Optional<CrossReference<CitationDatabase>> pubmedCitation =
+                    citation.getCitationCrossReferenceByType(CitationDatabase.PUBMED);
+            if (pubmedCitation.isPresent()) {
+                CrossReference<CitationDatabase> pubmed = pubmedCitation.get();
                 document.referencePubmeds.add(pubmed.getId());
                 document.content.add(pubmed.getId());
             }

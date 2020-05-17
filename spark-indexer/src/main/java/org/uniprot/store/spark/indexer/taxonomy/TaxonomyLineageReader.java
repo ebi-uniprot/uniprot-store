@@ -102,7 +102,6 @@ public class TaxonomyLineageReader {
 
     private static JavaPairRDD<String, List<TaxonomyLineage>> mapToLineage(
             Dataset<Row> tableDataset, boolean includeOrganism) {
-        return (JavaPairRDD<String, List<TaxonomyLineage>>)
-                tableDataset.toJavaRDD().mapToPair(new TaxonomyLineageRowMapper(includeOrganism));
+        return tableDataset.toJavaRDD().mapToPair(new TaxonomyLineageRowMapper(includeOrganism));
     }
 }

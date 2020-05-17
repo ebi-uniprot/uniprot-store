@@ -1,20 +1,16 @@
 package org.uniprot.store.spark.indexer.uniref;
 
-import org.apache.spark.api.java.JavaPairRDD;
+import static org.junit.jupiter.api.Assertions.*;
+
+import java.util.ResourceBundle;
+
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
 import org.junit.jupiter.api.Test;
-import org.uniprot.core.cv.disease.DiseaseEntry;
 import org.uniprot.core.uniref.UniRefEntry;
 import org.uniprot.core.uniref.UniRefType;
 import org.uniprot.store.spark.indexer.common.JobParameter;
 import org.uniprot.store.spark.indexer.common.util.SparkUtils;
-import org.uniprot.store.spark.indexer.disease.DiseaseRDDReader;
-import scala.Tuple2;
-
-import java.util.ResourceBundle;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * @author lgonzales
@@ -33,7 +29,8 @@ class UniRefRDDTupleReaderTest {
                             .sparkContext(sparkContext)
                             .build();
 
-            JavaRDD<UniRefEntry> uniref50Rdd = UniRefRDDTupleReader.load(UniRefType.UniRef50, parameter, true);
+            JavaRDD<UniRefEntry> uniref50Rdd =
+                    UniRefRDDTupleReader.load(UniRefType.UniRef50, parameter, true);
             assertNotNull(uniref50Rdd);
             long count = uniref50Rdd.count();
             assertEquals(1L, count);
@@ -56,7 +53,8 @@ class UniRefRDDTupleReaderTest {
                             .sparkContext(sparkContext)
                             .build();
 
-            JavaRDD<UniRefEntry> uniref50Rdd = UniRefRDDTupleReader.load(UniRefType.UniRef100, parameter, false);
+            JavaRDD<UniRefEntry> uniref50Rdd =
+                    UniRefRDDTupleReader.load(UniRefType.UniRef100, parameter, false);
             assertNotNull(uniref50Rdd);
             long count = uniref50Rdd.count();
             assertEquals(1L, count);

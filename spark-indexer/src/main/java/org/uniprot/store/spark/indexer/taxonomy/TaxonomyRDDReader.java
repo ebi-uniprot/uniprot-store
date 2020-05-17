@@ -24,10 +24,9 @@ public class TaxonomyRDDReader {
     /** @return return a JavaPairRDD{key=taxId, value=TaxonomyEntry} */
     public static JavaPairRDD<String, TaxonomyEntry> load(
             JavaSparkContext sparkContext, ResourceBundle applicationConfig) {
-        return (JavaPairRDD<String, TaxonomyEntry>)
-                loadTaxonomyNodeRow(sparkContext, applicationConfig)
-                        .toJavaRDD()
-                        .mapToPair(new TaxonomyRowMapper());
+        return loadTaxonomyNodeRow(sparkContext, applicationConfig)
+                .toJavaRDD()
+                .mapToPair(new TaxonomyRowMapper());
     }
 
     /** @return return a JavaPairRDD{key=taxId, value=TaxonomyEntry} including lineage data */
@@ -38,8 +37,7 @@ public class TaxonomyRDDReader {
         JavaPairRDD<String, List<TaxonomyLineage>> taxonomyLineage =
                 TaxonomyLineageReader.load(sparkContext, applicationConfig, false);
 
-        return (JavaPairRDD<String, TaxonomyEntry>)
-                taxonomyNode.join(taxonomyLineage).mapValues(new TaxonomyJoinMapper());
+        return taxonomyNode.join(taxonomyLineage).mapValues(new TaxonomyJoinMapper());
     }
 
     private static Dataset<Row> loadTaxonomyNodeRow(

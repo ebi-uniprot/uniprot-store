@@ -1,18 +1,17 @@
 package org.uniprot.store.spark.indexer.ec;
 
-import org.apache.spark.api.java.JavaPairRDD;
-import org.apache.spark.api.java.JavaSparkContext;
-import org.junit.jupiter.api.Test;
-import org.uniprot.core.cv.disease.DiseaseEntry;
-import org.uniprot.core.cv.ec.ECEntry;
-import org.uniprot.store.spark.indexer.common.JobParameter;
-import org.uniprot.store.spark.indexer.common.util.SparkUtils;
-import org.uniprot.store.spark.indexer.disease.DiseaseRDDReader;
-import scala.Tuple2;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.ResourceBundle;
 
-import static org.junit.jupiter.api.Assertions.*;
+import org.apache.spark.api.java.JavaPairRDD;
+import org.apache.spark.api.java.JavaSparkContext;
+import org.junit.jupiter.api.Test;
+import org.uniprot.core.cv.ec.ECEntry;
+import org.uniprot.store.spark.indexer.common.JobParameter;
+import org.uniprot.store.spark.indexer.common.util.SparkUtils;
+
+import scala.Tuple2;
 
 /**
  * @author lgonzales

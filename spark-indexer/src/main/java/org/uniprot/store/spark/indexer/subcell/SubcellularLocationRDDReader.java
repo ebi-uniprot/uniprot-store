@@ -32,7 +32,6 @@ public class SubcellularLocationRDDReader {
         List<String> lines = SparkUtils.readLines(filePath, jsc.hadoopConfiguration());
         List<SubcellularLocationEntry> entries = fileReader.parseLines(lines);
 
-        return (JavaPairRDD<String, SubcellularLocationEntry>)
-                jsc.parallelize(entries).mapToPair(new SubcellularLocationMapper());
+        return jsc.parallelize(entries).mapToPair(new SubcellularLocationMapper());
     }
 }

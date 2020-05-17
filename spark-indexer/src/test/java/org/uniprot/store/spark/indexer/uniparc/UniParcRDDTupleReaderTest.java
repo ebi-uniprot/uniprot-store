@@ -1,18 +1,15 @@
 package org.uniprot.store.spark.indexer.uniparc;
 
+import static org.junit.jupiter.api.Assertions.*;
+
+import java.util.ResourceBundle;
+
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
 import org.junit.jupiter.api.Test;
 import org.uniprot.core.uniparc.UniParcEntry;
-import org.uniprot.core.uniref.UniRefEntry;
-import org.uniprot.core.uniref.UniRefType;
 import org.uniprot.store.spark.indexer.common.JobParameter;
 import org.uniprot.store.spark.indexer.common.util.SparkUtils;
-import org.uniprot.store.spark.indexer.uniref.UniRefRDDTupleReader;
-
-import java.util.ResourceBundle;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * @author lgonzales

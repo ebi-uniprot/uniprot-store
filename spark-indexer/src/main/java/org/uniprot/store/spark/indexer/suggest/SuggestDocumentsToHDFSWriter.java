@@ -1,5 +1,6 @@
 package org.uniprot.store.spark.indexer.suggest;
 
+import static org.uniprot.store.search.document.suggest.SuggestDictionary.*;
 import static org.uniprot.store.spark.indexer.common.util.SparkUtils.getCollectionOutputReleaseDirPath;
 
 import java.util.ArrayList;
@@ -57,8 +58,7 @@ public class SuggestDocumentsToHDFSWriter implements DocumentsToHDFSWriter {
     /** load all the data for SuggestDocument and write it into HDFS (Hadoop File System) */
     @Override
     public void writeIndexDocumentsToHDFS() {
-        JavaRDD<String> flatFileRDD =
-                (JavaRDD<String>) UniProtKBRDDTupleReader.loadFlatFileToRDD(jobParameter);
+        JavaRDD<String> flatFileRDD = UniProtKBRDDTupleReader.loadFlatFileToRDD(jobParameter);
         int suggestPartition = Integer.parseInt(config.getString("suggest.partition.size"));
         JavaRDD<SuggestDocument> suggestRDD =
                 getMain()
@@ -78,7 +78,7 @@ public class SuggestDocumentsToHDFSWriter implements DocumentsToHDFSWriter {
     /** @return JavaRDD of SuggestDocument for uniprotkb main text search field */
     private JavaRDD<SuggestDocument> getMain() {
         List<SuggestDocument> mainList = SuggestionConfig.databaseSuggestions();
-        return (JavaRDD<SuggestDocument>) sparkContext.parallelize(mainList);
+        return sparkContext.parallelize(mainList);
     }
 
     /**
@@ -94,17 +94,15 @@ public class SuggestDocumentsToHDFSWriter implements DocumentsToHDFSWriter {
 
         // JavaPairRDD<goId,accession> goMapRDD --> extracted from flat file DR lines for GO
         JavaPairRDD<String, String> goMapRDD =
-                (JavaPairRDD<String, String>)
-                        flatFileRDD
-                                .flatMapToPair(new GoRelationsJoinMapper())
-                                .reduceByKey((goTermId1, goTermId2) -> goTermId1);
+                flatFileRDD
+                        .flatMapToPair(new GoRelationsJoinMapper())
+                        .reduceByKey((goTermId1, goTermId2) -> goTermId1);
 
-        return (JavaRDD<SuggestDocument>)
-                goRelationsRDD
-                        .join(goMapRDD)
-                        .flatMapValues(new GOToSuggestDocument())
-                        .values()
-                        .distinct();
+        return goRelationsRDD
+                .join(goMapRDD)
+                .flatMapValues(new GOToSuggestDocument())
+                .values()
+                .distinct();
     }
 
     /**
@@ -120,37 +118,30 @@ public class SuggestDocumentsToHDFSWriter implements DocumentsToHDFSWriter {
         // JavaPairRDD<chebiId,chebiId> flatFileCatalyticActivityRDD --> extracted from flat file
         // CC(CatalyticActivity) lines
         JavaPairRDD<String, String> flatFileCatalyticActivityRDD =
-                (JavaPairRDD<String, String>)
-                        flatFileRDD
-                                .flatMapToPair(new FlatFileToCatalyticActivityChebi())
-                                .reduceByKey((chebiId1, chebiId2) -> chebiId1);
+                flatFileRDD
+                        .flatMapToPair(new FlatFileToCatalyticActivityChebi())
+                        .reduceByKey((chebiId1, chebiId2) -> chebiId1);
 
         JavaRDD<SuggestDocument> catalyticActivitySuggest =
-                (JavaRDD<SuggestDocument>)
-                        flatFileCatalyticActivityRDD
-                                .join(chebiRDD)
-                                .mapValues(
-                                        new ChebiToSuggestDocument(
-                                                SuggestDictionary.CATALYTIC_ACTIVITY.name()))
-                                .values()
-                                .distinct();
+                flatFileCatalyticActivityRDD
+                        .join(chebiRDD)
+                        .mapValues(new ChebiToSuggestDocument(CATALYTIC_ACTIVITY.name()))
+                        .values()
+                        .distinct();
 
         // JavaPairRDD<chebiId,chebiId> flatFileCofactorRDD --> extracted from flat file
         // CC(Cofactor) lines
         JavaPairRDD<String, String> flatFileCofactorRDD =
-                (JavaPairRDD<String, String>)
-                        flatFileRDD
-                                .flatMapToPair(new FlatFileToCofactorChebi())
-                                .reduceByKey((chebiId1, chebiId2) -> chebiId1);
+                flatFileRDD
+                        .flatMapToPair(new FlatFileToCofactorChebi())
+                        .reduceByKey((chebiId1, chebiId2) -> chebiId1);
 
         JavaRDD<SuggestDocument> cofactorSuggest =
-                (JavaRDD<SuggestDocument>)
-                        flatFileCofactorRDD
-                                .join(chebiRDD)
-                                .mapValues(
-                                        new ChebiToSuggestDocument(SuggestDictionary.CHEBI.name()))
-                                .values()
-                                .distinct();
+                flatFileCofactorRDD
+                        .join(chebiRDD)
+                        .mapValues(new ChebiToSuggestDocument(CHEBI.name()))
+                        .values()
+                        .distinct();
 
         return catalyticActivitySuggest.union(cofactorSuggest);
     }
@@ -164,16 +155,12 @@ public class SuggestDocumentsToHDFSWriter implements DocumentsToHDFSWriter {
 
         // JavaPairRDD<ecId,ecId> flatFileEcRDD --> extracted from flat file DE(with ECEntry) lines
         JavaPairRDD<String, String> flatFileEcRDD =
-                (JavaPairRDD<String, String>)
-                        flatFileRDD
-                                .flatMapToPair(new FlatFileToEC())
-                                .reduceByKey((ecId1, ecId2) -> ecId1);
+                flatFileRDD.flatMapToPair(new FlatFileToEC()).reduceByKey((ecId1, ecId2) -> ecId1);
 
         // JavaPairRDD<ecId,ECEntry entry> ecRDD --> extracted from ec files
         JavaPairRDD<String, ECEntry> ecRDD = ECRDDReader.load(jobParameter);
 
-        return (JavaRDD<SuggestDocument>)
-                flatFileEcRDD.join(ecRDD).mapValues(new ECToSuggestDocument()).values().distinct();
+        return flatFileEcRDD.join(ecRDD).mapValues(new ECToSuggestDocument()).values().distinct();
     }
 
     /**
@@ -187,11 +174,10 @@ public class SuggestDocumentsToHDFSWriter implements DocumentsToHDFSWriter {
         JavaPairRDD<String, SubcellularLocationEntry> subcellularLocation =
                 SubcellularLocationRDDReader.load(jobParameter);
 
-        return (JavaRDD<SuggestDocument>)
-                subcellularLocation
-                        .mapValues(new SubcellularLocationToSuggestDocument())
-                        .values()
-                        .distinct();
+        return subcellularLocation
+                .mapValues(new SubcellularLocationToSuggestDocument())
+                .values()
+                .distinct();
     }
 
     /** @return JavaRDD of SuggestDocument with Keyword information mapped from keywlist.txt file */
@@ -200,8 +186,7 @@ public class SuggestDocumentsToHDFSWriter implements DocumentsToHDFSWriter {
         // JavaPairRDD<keywordId,KeywordEntry> keyword --> extracted from keywlist.txt
         JavaPairRDD<String, KeywordEntry> keyword = KeywordRDDReader.load(jobParameter);
 
-        return (JavaRDD<SuggestDocument>)
-                keyword.mapValues(new KeywordToSuggestDocument()).values().distinct();
+        return keyword.mapValues(new KeywordToSuggestDocument()).values().distinct();
     }
 
     /**
@@ -218,48 +203,39 @@ public class SuggestDocumentsToHDFSWriter implements DocumentsToHDFSWriter {
         // ORGANISM
         // JavaPairRDD<taxId, taxId> flatFileOrganismRDD -> extract from flat file OX line
         JavaPairRDD<String, String> flatFileOrganismRDD =
-                (JavaPairRDD<String, String>)
-                        flatFileRDD
-                                .mapToPair(new FlatFileToOrganism())
-                                .reduceByKey((taxId1, taxId2) -> taxId1);
+                flatFileRDD
+                        .mapToPair(new FlatFileToOrganism())
+                        .reduceByKey((taxId1, taxId2) -> taxId1);
 
         JavaRDD<SuggestDocument> organismSuggester =
-                (JavaRDD<SuggestDocument>)
-                        flatFileOrganismRDD
-                                .join(organismWithLineage)
-                                .mapValues(
-                                        new OrganismToSuggestDocument(
-                                                SuggestDictionary.ORGANISM.name()))
-                                .union(getDefaultHighImportantTaxon(SuggestDictionary.ORGANISM))
-                                .reduceByKey(new TaxonomyHighImportanceReduce())
-                                .values();
+                flatFileOrganismRDD
+                        .join(organismWithLineage)
+                        .mapValues(new OrganismToSuggestDocument(ORGANISM.name()))
+                        .union(getDefaultHighImportantTaxon(ORGANISM))
+                        .reduceByKey(new TaxonomyHighImportanceReduce())
+                        .values();
         // TAXONOMY
         JavaRDD<SuggestDocument> taxonomySuggester =
-                (JavaRDD<SuggestDocument>)
-                        flatFileOrganismRDD
-                                .join(organismWithLineage)
-                                .flatMapToPair(new TaxonomyToSuggestDocument())
-                                .union(getDefaultHighImportantTaxon(SuggestDictionary.TAXONOMY))
-                                .reduceByKey(new TaxonomyHighImportanceReduce())
-                                .values();
+                flatFileOrganismRDD
+                        .join(organismWithLineage)
+                        .flatMapToPair(new TaxonomyToSuggestDocument())
+                        .union(getDefaultHighImportantTaxon(TAXONOMY))
+                        .reduceByKey(new TaxonomyHighImportanceReduce())
+                        .values();
 
         // JavaPairRDD<taxId, taxId> flatFileOrganismHostRDD -> extract from flat file OH lines
         JavaPairRDD<String, String> flatFileOrganismHostRDD =
-                (JavaPairRDD<String, String>)
-                        flatFileRDD
-                                .flatMapToPair(new FlatFileToOrganismHost())
-                                .reduceByKey((taxId1, taxId2) -> taxId1);
+                flatFileRDD
+                        .flatMapToPair(new FlatFileToOrganismHost())
+                        .reduceByKey((taxId1, taxId2) -> taxId1);
         // ORGANISM HOST
         JavaRDD<SuggestDocument> organismHostSuggester =
-                (JavaRDD<SuggestDocument>)
-                        flatFileOrganismHostRDD
-                                .join(organismWithLineage)
-                                .mapValues(
-                                        new OrganismToSuggestDocument(
-                                                SuggestDictionary.HOST.name()))
-                                .union(getDefaultHighImportantTaxon(SuggestDictionary.HOST))
-                                .reduceByKey(new TaxonomyHighImportanceReduce())
-                                .values();
+                flatFileOrganismHostRDD
+                        .join(organismWithLineage)
+                        .mapValues(new OrganismToSuggestDocument(HOST.name()))
+                        .union(getDefaultHighImportantTaxon(HOST))
+                        .reduceByKey(new TaxonomyHighImportanceReduce())
+                        .values();
 
         return organismSuggester.union(taxonomySuggester).union(organismHostSuggester);
     }
@@ -274,12 +250,11 @@ public class SuggestDocumentsToHDFSWriter implements DocumentsToHDFSWriter {
             SuggestDictionary dictionary) {
         SuggestionConfig suggestionConfig = new SuggestionConfig();
         List<SuggestDocument> suggestList = new ArrayList<>();
-        if (dictionary.equals(SuggestDictionary.TAXONOMY)
-                || dictionary.equals(SuggestDictionary.ORGANISM)) {
+        if (dictionary.equals(TAXONOMY) || dictionary.equals(ORGANISM)) {
             suggestList.addAll(
                     suggestionConfig.loadDefaultTaxonSynonymSuggestions(
                             dictionary, SuggestionConfig.DEFAULT_TAXON_SYNONYMS_FILE));
-        } else if (dictionary.equals(SuggestDictionary.HOST)) {
+        } else if (dictionary.equals(HOST)) {
             suggestList.addAll(
                     suggestionConfig.loadDefaultTaxonSynonymSuggestions(
                             dictionary, SuggestionConfig.DEFAULT_HOST_SYNONYMS_FILE));
@@ -288,6 +263,6 @@ public class SuggestDocumentsToHDFSWriter implements DocumentsToHDFSWriter {
                 suggestList.stream()
                         .map(suggest -> new Tuple2<>(suggest.id, suggest))
                         .collect(Collectors.toList());
-        return (JavaPairRDD<String, SuggestDocument>) sparkContext.parallelizePairs(tupleList);
+        return sparkContext.parallelizePairs(tupleList);
     }
 }

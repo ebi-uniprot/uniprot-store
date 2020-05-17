@@ -1,19 +1,18 @@
 package org.uniprot.store.spark.indexer.go.evidence;
 
-import org.apache.spark.api.java.JavaPairRDD;
-import org.apache.spark.api.java.JavaSparkContext;
-import org.junit.jupiter.api.Test;
-import org.uniprot.core.cv.disease.DiseaseEntry;
-import org.uniprot.store.spark.indexer.common.JobParameter;
-import org.uniprot.store.spark.indexer.common.util.SparkUtils;
-import org.uniprot.store.spark.indexer.disease.DiseaseRDDReader;
-import scala.Tuple2;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
-import static org.junit.jupiter.api.Assertions.*;
+import org.apache.spark.api.java.JavaPairRDD;
+import org.apache.spark.api.java.JavaSparkContext;
+import org.junit.jupiter.api.Test;
+import org.uniprot.store.spark.indexer.common.JobParameter;
+import org.uniprot.store.spark.indexer.common.util.SparkUtils;
+
+import scala.Tuple2;
 
 /**
  * @author lgonzales
@@ -32,7 +31,8 @@ class GOEvidencesRDDReaderTest {
                             .sparkContext(sparkContext)
                             .build();
 
-            JavaPairRDD<String, Iterable<GOEvidence>> goEvidenceRDD = GOEvidencesRDDReader.load(parameter);
+            JavaPairRDD<String, Iterable<GOEvidence>> goEvidenceRDD =
+                    GOEvidencesRDDReader.load(parameter);
             assertNotNull(goEvidenceRDD);
             long count = goEvidenceRDD.count();
             assertEquals(3L, count);

@@ -60,6 +60,6 @@ public class GoRelationsJoinMapper implements PairFlatMapFunction<String, String
                     });
         }
 
-        return (Iterator<Tuple2<String, String>>) goTuple.iterator();
+        return goTuple.iterator();
     }
 }

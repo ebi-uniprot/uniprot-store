@@ -2,19 +2,18 @@ package org.uniprot.store.spark.indexer.literature;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import org.apache.spark.api.java.JavaPairRDD;
-import org.apache.spark.api.java.JavaSparkContext;
-import org.junit.jupiter.api.Test;
-import org.uniprot.core.cv.disease.DiseaseEntry;
-import org.uniprot.core.literature.LiteratureMappedReference;
-import org.uniprot.store.spark.indexer.common.JobParameter;
-import org.uniprot.store.spark.indexer.common.util.SparkUtils;
-import org.uniprot.store.spark.indexer.disease.DiseaseRDDReader;
-import scala.Tuple2;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+
+import org.apache.spark.api.java.JavaPairRDD;
+import org.apache.spark.api.java.JavaSparkContext;
+import org.junit.jupiter.api.Test;
+import org.uniprot.core.literature.LiteratureMappedReference;
+import org.uniprot.store.spark.indexer.common.JobParameter;
+import org.uniprot.store.spark.indexer.common.util.SparkUtils;
+
+import scala.Tuple2;
 
 /**
  * @author lgonzales
@@ -33,7 +32,8 @@ class LiteratureMappedRDDReaderTest {
                             .sparkContext(sparkContext)
                             .build();
 
-            JavaPairRDD<String, Iterable<LiteratureMappedReference>> mappedReferenceRdd = LiteratureMappedRDDReader.load(parameter);
+            JavaPairRDD<String, Iterable<LiteratureMappedReference>> mappedReferenceRdd =
+                    LiteratureMappedRDDReader.load(parameter);
             assertNotNull(mappedReferenceRdd);
             long count = mappedReferenceRdd.count();
             assertEquals(5L, count);
@@ -65,7 +65,8 @@ class LiteratureMappedRDDReaderTest {
                             .sparkContext(sparkContext)
                             .build();
 
-            JavaPairRDD<String, Iterable<String>> mappedReferenceRdd = LiteratureMappedRDDReader.loadAccessionPubMedRDD(parameter);
+            JavaPairRDD<String, Iterable<String>> mappedReferenceRdd =
+                    LiteratureMappedRDDReader.loadAccessionPubMedRDD(parameter);
             assertNotNull(mappedReferenceRdd);
             long count = mappedReferenceRdd.count();
             assertEquals(43L, count);
