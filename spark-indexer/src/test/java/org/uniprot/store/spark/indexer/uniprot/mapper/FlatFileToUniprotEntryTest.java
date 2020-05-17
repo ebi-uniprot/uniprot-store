@@ -20,10 +20,10 @@ class FlatFileToUniprotEntryTest {
 
     @Test
     void testValidEntry() throws Exception {
-        String keywordFile = "keyword/keywlist.txt";
-        String diseaseFile = "disease/humdisease.txt";
-        String subcellFile = "subcell/subcell.txt";
-        String flatFile = "uniprotkb/Q9EPI6.sp";
+        String keywordFile = "2020_02/keyword/keywlist.txt";
+        String diseaseFile = "2020_02/disease/humdisease.txt";
+        String subcellFile = "2020_02/subcell/subcell.txt";
+        String flatFile = "2020_02/uniprotkb/Q9EPI6.sp";
         SupportingDataMapHDSFImpl supportingDataMap =
                 new SupportingDataMapHDSFImpl(keywordFile, diseaseFile, subcellFile, null);
         FlatFileToUniprotEntry mapper = new FlatFileToUniprotEntry(supportingDataMap);
@@ -34,9 +34,9 @@ class FlatFileToUniprotEntryTest {
 
         assertNotNull(mappedEntry);
         assertNotNull(mappedEntry._1);
-        assertEquals(mappedEntry._1, "Q9EPI6");
+        assertEquals("Q9EPI6", mappedEntry._1);
         assertNotNull(mappedEntry._2);
-        assertEquals(mappedEntry._2.getPrimaryAccession().getValue(), "Q9EPI6");
+        assertEquals("Q9EPI6", mappedEntry._2.getPrimaryAccession().getValue());
         // Entry converter has its own test, here we just make sure that the mapper is working as
         // expected..
     }

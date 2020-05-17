@@ -1,10 +1,9 @@
-ID   NSMF_RAT                Reviewed;         532 AA.
-AC   Q9EPI6; Q5PPF6; Q7TSC6; Q7TSC8; Q9EPI4; Q9EPI5;
+ID   NSMF_RAT_1                Reviewed;         532 AA.
+AC   Q9EPI6-1; Q5PPF6; Q7TSC6; Q7TSC8; Q9EPI4; Q9EPI5;
 DT   19-JUL-2005, integrated into UniProtKB/Swiss-Prot.
 DT   01-MAR-2001, sequence version 1.
 DT   29-OCT-2014, entry version 74.
 DE   RecName: Full=NMDA receptor synaptonuclear signaling and neuronal migration factor;
-DE            EC=2.7.10.2;
 DE   AltName: Full=Juxtasynaptic attractor of caldendrin on dendritic boutons protein;
 DE            Short=Jacob protein;
 DE   AltName: Full=Nasal embryonic luteinizing hormone-releasing hormone factor;
@@ -83,11 +82,6 @@ CC       signaling pathway. Stimulates outgrowth of olfactory axons and
 CC       migration of gonadotropin-releasing hormone (GnRH) and
 CC       luteinizing-hormone-releasing hormone (LHRH) neuronal cells.
 CC       {ECO:0000269|PubMed:18303947}.
-CC   -!- CATALYTIC ACTIVITY:
-CC       Reaction=ATP + firefly D-luciferin + O2 = AMP + CO2 + diphosphate
-CC         + firefly oxyluciferin + hnu; Xref=Rhea:RHEA:10732,
-CC         ChEBI:CHEBI:15379, ChEBI:CHEBI:16526; EC=1.13.12.7;
-CC         Evidence={ECO:0000269|PubMed:2801227};
 CC   -!- SUBUNIT: Interacts with KPNA1; the interaction occurs in a
 CC       calcium-independent manner after synaptic NMDA receptor
 CC       stimulation and is required for nuclear import of NSMF but is
@@ -97,8 +91,8 @@ CC       in a calcium-dependent manner after synaptic NMDA receptor
 CC       stimulation and prevents the nuclear import of NSMF. Cannot be
 CC       competed by calmodulin. {ECO:0000269|PubMed:18303947}.
 CC   -!- INTERACTION:
-CC       Q9EPI6; P23565: Ina; NbExp=5; IntAct=EBI-6899705, EBI-6899875;
-CC       Q9EPI6; P27361: MAPK3; Xeno; NbExp=2; IntAct=EBI-6899705, EBI-73995;
+CC       Q9EPI6-1; P23565: Ina; NbExp=5; IntAct=EBI-6899705, EBI-6899875;
+CC       Q9EPI6-1; P27361: MAPK3; Xeno; NbExp=2; IntAct=EBI-6899705, EBI-73995;
 CC   -!- SUBCELLULAR LOCATION: Nucleus. Nucleus envelope. Nucleus membrane.
 CC       Nucleus matrix. Cytoplasm, cell cortex. Cytoplasm, cytoskeleton.
 CC       Cell membrane; Peripheral membrane protein. Cell projection,
@@ -209,72 +203,7 @@ DR   GO; GO:0048814; P:regulation of dendrite morphogenesis; IMP:UniProtKB.
 DR   GO; GO:0043523; P:regulation of neuron apoptotic process; IMP:UniProtKB.
 DR   GO; GO:0048168; P:regulation of neuronal synaptic plasticity; IMP:UniProtKB.
 PE   1: Evidence at protein level;
-KW   Alternative splicing; Cell junction; Cell membrane; Cell projection;
-KW   Cytoplasm; Cytoskeleton; Lipoprotein; Membrane;
-KW   Myristate; Nucleus; Postsynaptic cell membrane; Reference proteome;
-KW   Synapse; Synaptosome.
-FT   INIT_MET        1
-FT                   /note="Removed"
-FT   CHAIN           2..532
-FT                   /note="NMDA receptor synaptonuclear signaling and neuronal
-FT                   migration factor"
-FT                   /id="PRO_0000096780"
-FT   REGION          2..235
-FT                   /note="Necessary and sufficient to elicit dendritic
-FT                   processes and synaptic contacts"
-FT   MOTIF           247..252
-FT                   /note="Nuclear localization signal"
-FT   MOD_RES         206
-FT                   /note="Phosphoserine"
-FT                   /evidence="ECO:0000250|UniProtKB:Q99NF2"
-FT   MOD_RES         292
-FT                   /note="Phosphoserine"
-FT                   /evidence="ECO:0000244|PubMed:22673903"
-FT   MOD_RES         294
-FT                   /note="Phosphoserine"
-FT                   /evidence="ECO:0000244|PubMed:22673903"
-FT   LIPID           2
-FT                   /note="N-myristoyl glycine"
-FT                   /evidence="ECO:0000269|PubMed:18303947"
-FT   VAR_SEQ         238..262
-FT                   /note="Missing (in isoform 3)"
-FT                   /evidence="ECO:0000303|Ref.2"
-FT                   /id="VSP_014770"
-FT   VAR_SEQ         240..262
-FT                   /note="Missing (in isoform 2 and isoform 4)"
-FT                   /evidence="ECO:0000303|Ref.1"
-FT                   /id="VSP_014771"
-FT   VAR_SEQ         280..309
-FT                   /note="Missing (in isoform 4)"
-FT                   /evidence="ECO:0000303|Ref.1"
-FT                   /id="VSP_014772"
-FT   VAR_SEQ         310..336
-FT                   /note="SSDLQSSHCTLDEACEDLDWDTEKGLE -> TNLLQGAQGRVHPNHHPQRRP
-FT                   IHHPHP (in isoform 5)"
-FT                   /evidence="ECO:0000303|Ref.2"
-FT                   /id="VSP_014773"
-FT   VAR_SEQ         337..532
-FT                   /note="Missing (in isoform 5)"
-FT                   /evidence="ECO:0000303|Ref.2"
-FT                   /id="VSP_014774"
-FT   MUTAGEN         2
-FT                   /note="G->A: Exclusive nuclear localization. Shows a
-FT                   reduction in synaptic contacts and dendritic processes"
-FT                   /evidence="ECO:0000269|PubMed:18303947"
-FT   MUTAGEN         241
-FT                   /note="F->E: Loss of CABP1 binding"
-FT                   /evidence="ECO:0000269|PubMed:18303947"
-FT   MUTAGEN         247..252
-FT                   /note="Missing: Extranuclear localization and reduced CABP1
-FT                   and KPNA1 binding. Shows a reduction in synaptic contacts
-FT                   and dendritic processes"
-FT                   /evidence="ECO:0000269|PubMed:18303947"
-FT   MUTAGEN         260..261
-FT                   /note="IQ->GG: No effect on CABP1 binding"
-FT                   /evidence="ECO:0000269|PubMed:18303947"
-FT   CONFLICT        174
-FT                   /note="K -> Q (in Ref. 3; AAH87719)"
-FT                   /evidence="ECO:0000305"
+KW   Alternative splicing.
 SQ   SEQUENCE   532 AA;  60282 MW;  01AEF4B6A09EB753 CRC64;
      MGAAASRRRA LRSEAMSSVA AKVRAARAFG EYLSQSHPEN RNGADHLLAD AYSGHEGSPE
      MQPAPHNKRR LSLVSNGRYE GSISDEAVSG KTATEGPQPR VYTISREPAL LPGSEAEAIE

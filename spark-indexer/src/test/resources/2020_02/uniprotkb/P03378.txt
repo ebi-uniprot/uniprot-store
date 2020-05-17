@@ -273,17 +273,7 @@ DR   Pfam; PF00516; GP120; 1.
 DR   Pfam; PF00517; GP41; 1.
 DR   SUPFAM; SSF56502; SSF56502; 2.
 PE   1: Evidence at protein level;
-KW   3D-structure; AIDS; Apoptosis;
-KW   Clathrin-mediated endocytosis of virus by host;
-KW   Cleavage on pair of basic residues; Coiled coil; Complete proteome;
-KW   Disulfide bond; Fusion of virus membrane with host endosomal membrane;
-KW   Fusion of virus membrane with host membrane; Glycoprotein;
-KW   Host cell membrane; Host endosome; Host membrane;
-KW   Host-virus interaction; Lipoprotein; Membrane; Palmitate;
-KW   Reference proteome; Signal; Transmembrane; Transmembrane helix;
-KW   Viral attachment to host cell; Viral envelope protein;
-KW   Viral immunoevasion; Viral penetration into host cytoplasm; Virion;
-KW   Virus endocytosis by host; Virus entry into host cell.
+KW   3D-structure.
 FT   SIGNAL        1     31       {ECO:0000255|HAMAP-Rule:MF_04083}.
 FT   CHAIN        32    855       Envelope glycoprotein gp160.
 FT                                {ECO:0000255|HAMAP-Rule:MF_04083}.

@@ -31,19 +31,19 @@ public class SparkUtils {
     public static String getInputReleaseDirPath(
             ResourceBundle applicationConfig, String releaseName) {
         String inputDir = applicationConfig.getString("input.directory.path");
-        return inputDir + File.separator + releaseName + File.separator;
+        return inputDir + releaseName + File.separator;
     }
 
     public static String getInputReleaseMainThreadDirPath(
             ResourceBundle applicationConfig, String releaseName) {
         String inputDir = applicationConfig.getString("input.directory.main.thread.path");
-        return inputDir + File.separator + releaseName + File.separator;
+        return inputDir + releaseName + File.separator;
     }
 
     public static String getOutputReleaseDirPath(
             ResourceBundle applicationConfig, String releaseName) {
         String inputDir = applicationConfig.getString("output.directory.path");
-        return inputDir + File.separator + releaseName + File.separator;
+        return inputDir + releaseName + File.separator;
     }
 
     public static String getCollectionOutputReleaseDirPath(

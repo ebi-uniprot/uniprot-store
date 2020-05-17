@@ -46,8 +46,6 @@ public class UniParcDocumentsToHDFSWriter implements DocumentsToHDFSWriter {
     /** load all the data for UniParcDocument and write it into HDFS (Hadoop File System) */
     @Override
     public void writeIndexDocumentsToHDFS() {
-        SparkConf sparkConf = sparkContext.sc().conf();
-
         JavaRDD<UniParcEntry> uniparcRDD =
                 (JavaRDD<UniParcEntry>) UniParcRDDTupleReader.load(parameter, true);
 

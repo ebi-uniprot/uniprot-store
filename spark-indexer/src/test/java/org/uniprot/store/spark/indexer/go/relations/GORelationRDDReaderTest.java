@@ -4,15 +4,46 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.*;
 
+import org.apache.spark.api.java.JavaPairRDD;
+import org.apache.spark.api.java.JavaSparkContext;
 import org.junit.jupiter.api.Test;
 import org.uniprot.core.cv.go.GeneOntologyEntry;
 import org.uniprot.core.cv.go.impl.GeneOntologyEntryBuilder;
+import org.uniprot.store.spark.indexer.common.JobParameter;
+import org.uniprot.store.spark.indexer.common.util.SparkUtils;
+import org.uniprot.store.spark.indexer.go.evidence.GOEvidence;
+import org.uniprot.store.spark.indexer.go.evidence.GOEvidencesRDDReader;
+import scala.Tuple2;
 
 /**
  * @author lgonzales
  * @since 2019-11-21
  */
 class GORelationRDDReaderTest {
+
+    @Test
+    void testLoadGORelation() {
+        ResourceBundle application = SparkUtils.loadApplicationProperty();
+        try (JavaSparkContext sparkContext = SparkUtils.loadSparkContext(application)) {
+            JobParameter parameter =
+                    JobParameter.builder()
+                            .applicationConfig(application)
+                            .releaseName("2020_02")
+                            .sparkContext(sparkContext)
+                            .build();
+
+            JavaPairRDD<String, GeneOntologyEntry> goRelationRDD = GORelationRDDReader.load(parameter);
+            assertNotNull(goRelationRDD);
+            long count = goRelationRDD.count();
+            assertEquals(7L, count);
+            Tuple2<String, GeneOntologyEntry> tuple =
+                    goRelationRDD.filter(tuple2 -> tuple2._1.equals("GO:0000001")).first();
+
+            assertNotNull(tuple);
+            assertEquals("GO:0000001", tuple._1);
+            assertEquals("mitochondrion inheritance", tuple._2.getName());
+        }
+    }
 
     @Test
     void getAncestorsWithAncestors() {

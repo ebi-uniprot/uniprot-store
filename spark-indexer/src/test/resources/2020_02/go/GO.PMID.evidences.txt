@@ -1,0 +1,21 @@
+A0A060WT98	GO:0002523	P	leukocyte migration involved in inflammatory response	ECO:0000314	IDA	PMID:18068225	AgBase
+A0A060WT98	GO:0005615	C	extracellular space	ECO:0000314	IDA	PMID:26363237	AgBase
+A0A060WT98	GO:0005623	C	cell	ECO:0000314	IDA	PMID:26363237	AgBase
+A0A060WT98	GO:0032930	P	positive regulation of superoxide anion generation	ECO:0000314	IDA	PMID:18068225	AgBase
+A0A060WT98	GO:1902624	P	positive regulation of neutrophil migration	ECO:0000314	IDA	PMID:18068225	AgBase
+A0A060WTK5	GO:0001934	P	positive regulation of protein phosphorylation	ECO:0000314	IDA	PMID:16713284	AgBase
+A0A060WTK5	GO:0002690	P	positive regulation of leukocyte chemotaxis	ECO:0000314	IDA	PMID:11759040	AgBase
+A0A060WTK5	GO:0010628	P	positive regulation of gene expression	ECO:0000314	IDA	PMID:11498242	AgBase
+A0A060WTK5	GO:0010628	P	positive regulation of gene expression	ECO:0000314	IDA	PMID:21704380	AgBase
+A0A060WTK5	GO:0042098	P	T cell proliferation	ECO:0000315	IMP	PMID:11498242	AgBase
+A0A060WTK5	GO:0043400	P	cortisol secretion	ECO:0000314	IDA	PMID:12379511	AgBase
+A0A060WTK5	GO:0050766	P	positive regulation of phagocytosis	ECO:0000314	IDA	PMID:11498242	AgBase
+P21802	GO:0005007	F	fibroblast growth factor-activated receptor activity	ECO:0000314	IDA	PMID:15629145	UniProtKB
+P21802	GO:0005007	F	fibroblast growth factor-activated receptor activity	ECO:0000314	IDA	PMID:8663044	UniProtKB
+P21802	GO:0005634	C	nucleus	ECO:0000314	IDA	PMID:16597614	UniProtKB
+P21802	GO:0005634	C	nucleus	ECO:0000314	IDA	PMID:17471512	UniProtKB
+P21802	GO:0005737	C	cytoplasm	ECO:0000314	IDA	PMID:16597614	UniProtKB
+P21802	GO:0005737	C	cytoplasm	ECO:0000314	IDA	PMID:17471512	UniProtKB
+P21802	GO:0005887	C	integral component of plasma membrane	ECO:0000314	IDA	PMID:15629145	UniProtKB
+P21802	GO:0005887	C	integral component of plasma membrane	ECO:0000314	IDA	PMID:16844695	UniProtKB
+P21802	GO:0005938	C	cell cortex	ECO:0000314	IDA	PMID:17471512	UniProtKB

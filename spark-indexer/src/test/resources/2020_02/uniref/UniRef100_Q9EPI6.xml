@@ -1,0 +1,23 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<UniRef xmlns="http://uniprot.org/uniref" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://uniprot.org/uniref http://www.uniprot.org/docs/uniref.xsd" version="2020_02" releaseDate="2020-04-22">
+<entry id="UniRef100_Q9EPI6" updated="2013-04-03">
+<name>Cluster: NMDA receptor synaptonuclear signaling and neuronal migration factor</name>
+<property type="member count" value="1"/>
+<property type="common taxon" value="Rattus norvegicus"/>
+<property type="common taxon ID" value="10116"/>
+<representativeMember>
+<dbReference type="UniProtKB ID" id="NSMF_RAT">
+<property type="UniProtKB accession" value="Q9EPI6"/>
+<property type="UniParc ID" value="UPI00000E8551"/>
+<property type="UniRef90 ID" value="UniRef90_Q9EPI6"/>
+<property type="UniRef50 ID" value="UniRef50_Q9EPI6"/>
+<property type="protein name" value="NMDA receptor synaptonuclear signaling and neuronal migration factor"/>
+<property type="source organism" value="Rattus norvegicus (Rat)"/>
+<property type="NCBI taxonomy" value="10116"/>
+<property type="length" value="532"/>
+<property type="isSeed" value="true"/>
+</dbReference>
+<sequence length="532" checksum="01AEF4B6A09EB753">MGAAASRRRALRSEAMSSVAAKVRAARAFGEYLSQSHPENRNGADHLLADAYSGHEGSPEMQPAPHNKRRLSLVSNGRYEGSISDEAVSGKTATEGPQPRVYTISREPALLPGSEAEAIELAVVKGRRQRERHPHHHSQPLRASPGSSREDISRPCQSWAGSRQGSKECPGCAKLVPGPSPRAFGLEQPPLPEASGRHKKLERMYSVDGVSDDVPIRTWFPKENPFSFQTATTTMQAISVFRGYAERKRRKRENDSASVIQRNFRKHLRMVGSRRVKAQTFAERRERSFSRSWSDPTPMKADTSHDSRDSSDLQSSHCTLDEACEDLDWDTEKGLEATACDTEGFLPPKVMLISSKVPKAEYIPTIIRRDDPSIIPILYDHEHATFEDILEEIEKKLNIYHKGAKIWKMLIFCQGGPGHLYLLKNKVATFAKVEKEEDMIHFWKRLSRLMSKVNPEPNVIHIMGCYILGNPNGEKLFQNLRTLMTPYKVTFESPLELSAQGKQMIETYFDFRLYRLWKSRQHSKLLDFDDVL</sequence>
+</representativeMember>
+</entry>
+</UniRef>

@@ -16,17 +16,17 @@ class GOTermFileReaderTest {
 
     @Test
     void testReadValidGoTermsFile() {
-        GOTermFileReader termFileReader = new GOTermFileReader("go", null);
+        GOTermFileReader termFileReader = new GOTermFileReader("2020_02/go", null);
 
         List<GeneOntologyEntry> goTermList = termFileReader.read();
 
         assertNotNull(goTermList);
-        assertEquals(747, goTermList.size(), "Number of expected terms read from test go terms");
+        assertEquals(7, goTermList.size(), "Number of expected terms read from test go terms");
 
-        GeneOntologyEntry validGoTerm = new GeneOntologyEntryBuilder().id("GO:0015464").build();
+        GeneOntologyEntry validGoTerm = new GeneOntologyEntryBuilder().id("GO:0000001").build();
         assertTrue(goTermList.contains(validGoTerm), "Valid go term not found");
 
-        GeneOntologyEntry obsoleteGoTerm = new GeneOntologyEntryBuilder().id("GO:0015465").build();
+        GeneOntologyEntry obsoleteGoTerm = new GeneOntologyEntryBuilder().id("GO:0000008").build();
         assertFalse(goTermList.contains(obsoleteGoTerm), "Obsolete go term found");
     }
 

@@ -67,9 +67,9 @@ class UniProtKBEntryConverterIT {
         assertEquals("09-JAN-2007", dateFormat.format(doc.firstCreated).toUpperCase());
         assertEquals("07-JAN-2015", dateFormat.format(doc.lastModified).toUpperCase());
 
-        assertEquals(24, doc.keywords.size());
-        assertEquals("KW-0249", doc.keywords.get(0));
-        assertEquals("Electron transport", doc.keywords.get(1));
+        assertEquals(4, doc.keywords.size());
+        assertEquals("KW-9990", doc.keywords.get(0));
+        assertEquals("Iron", doc.keywords.get(1));
 
         assertEquals(172543, doc.organismTaxId);
 
@@ -200,7 +200,7 @@ class UniProtKBEntryConverterIT {
         assertEquals("19-JUL-2005", dateFormat.format(doc.firstCreated).toUpperCase());
         assertEquals("01-MAR-2001", dateFormat.format(doc.sequenceUpdated).toUpperCase());
 
-        assertEquals(36, doc.keywords.size());
+        assertEquals(4, doc.keywords.size());
         assertEquals("KW-0025", doc.keywords.get(0));
         assertEquals("Alternative splicing", doc.keywords.get(1));
         List<String> keywordIds =
@@ -378,7 +378,7 @@ class UniProtKBEntryConverterIT {
         assertEquals("19-JUL-2005", dateFormat.format(doc.firstCreated).toUpperCase());
         assertEquals("01-MAR-2001", dateFormat.format(doc.sequenceUpdated).toUpperCase());
 
-        assertEquals(36, doc.keywords.size());
+        assertEquals(4, doc.keywords.size());
         assertEquals("KW-0025", doc.keywords.get(0));
         assertEquals("Alternative splicing", doc.keywords.get(1));
 
@@ -499,13 +499,13 @@ class UniProtKBEntryConverterIT {
         InputStream is =
                 UniProtKBEntryConverterIT.class
                         .getClassLoader()
-                        .getResourceAsStream("uniprotkb/" + file);
+                        .getResourceAsStream("2020_02/uniprotkb/" + file);
         assertNotNull(is);
         SupportingDataMap supportingDataMap =
                 new SupportingDataMapHDSFImpl(
-                        "keyword/keywlist.txt",
-                        "disease/humdisease.txt",
-                        "subcell/subcell.txt",
+                        "2020_02/keyword/keywlist.txt",
+                        "2020_02/disease/humdisease.txt",
+                        "2020_02/subcell/subcell.txt",
                         null);
         DefaultUniProtParser parser = new DefaultUniProtParser(supportingDataMap, false);
         return parser.parse(IOUtils.toString(is, Charset.defaultCharset()));

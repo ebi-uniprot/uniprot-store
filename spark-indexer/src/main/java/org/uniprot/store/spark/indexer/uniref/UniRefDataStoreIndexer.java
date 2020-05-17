@@ -4,12 +4,14 @@ import java.util.ResourceBundle;
 
 import lombok.extern.slf4j.Slf4j;
 
+import org.apache.spark.api.java.JavaFutureAction;
 import org.apache.spark.api.java.JavaRDD;
 import org.uniprot.core.uniref.UniRefEntry;
 import org.uniprot.core.uniref.UniRefType;
 import org.uniprot.store.datastore.voldemort.VoldemortClient;
 import org.uniprot.store.datastore.voldemort.uniref.VoldemortRemoteUniRefEntryStore;
 import org.uniprot.store.spark.indexer.common.JobParameter;
+import org.uniprot.store.spark.indexer.common.exception.IndexDataStoreException;
 import org.uniprot.store.spark.indexer.common.store.DataStoreIndexer;
 import org.uniprot.store.spark.indexer.common.writer.DataStoreWriter;
 
@@ -28,29 +30,37 @@ public class UniRefDataStoreIndexer implements DataStoreIndexer {
 
     @Override
     public void indexInDataStore() {
-        indexUniRef(UniRefType.UniRef90, jobParameter);
-        indexUniRef(UniRefType.UniRef50, jobParameter);
-        indexUniRef(UniRefType.UniRef100, jobParameter);
+        try {
+            JavaFutureAction<Void> uniref100 = indexUniRef(UniRefType.UniRef100, jobParameter);
+            JavaFutureAction<Void> uniref90 = indexUniRef(UniRefType.UniRef90, jobParameter);
+            JavaFutureAction<Void> uniref50 = indexUniRef(UniRefType.UniRef50, jobParameter);
+            uniref50.get();
+            uniref90.get();
+            uniref100.get();
+        } catch (Exception e) {
+            throw new IndexDataStoreException("Execution error during DataStore index", e);
+        } finally {
+            log.info("Completed UniRef Data Store index");
+        }
     }
 
-    private void indexUniRef(UniRefType type, JobParameter jobParameter) {
+    private JavaFutureAction<Void> indexUniRef(UniRefType type, JobParameter jobParameter) {
         ResourceBundle config = jobParameter.getApplicationConfig();
 
-        String numberOfConnections = config.getString("store.uniref.numberOfConnections");
-        String storeName = config.getString("store.uniref.storeName");
-        String connectionURL = config.getString("store.uniref.host");
+        final String numberOfConnections = config.getString("store.uniref.numberOfConnections");
+        final String storeName = config.getString("store.uniref.storeName");
+        final String connectionURL = config.getString("store.uniref.host");
 
         JavaRDD<UniRefEntry> uniRefRDD = UniRefRDDTupleReader.load(type, jobParameter, false);
-        uniRefRDD.foreachPartition(
-                uniProtEntryIterator -> {
+        return uniRefRDD.foreachPartitionAsync(
+                entryIterator -> {
                     VoldemortClient<UniRefEntry> client =
                             new VoldemortRemoteUniRefEntryStore(
                                     Integer.parseInt(numberOfConnections),
                                     storeName,
                                     connectionURL);
                     DataStoreWriter<UniRefEntry> writer = new DataStoreWriter<>(client);
-                    writer.indexInStore(uniProtEntryIterator);
+                    writer.indexInStore(entryIterator);
                 });
-        log.info("Completed UniRef Data Store index");
     }
 }

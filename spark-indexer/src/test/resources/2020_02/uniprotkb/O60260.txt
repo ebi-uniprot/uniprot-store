@@ -1355,13 +1355,7 @@ DR   SUPFAM; SSF54236; SSF54236; 1.
 DR   PROSITE; PS51873; TRIAD; 1.
 DR   PROSITE; PS50053; UBIQUITIN_2; 1.
 PE   1: Evidence at protein level;
-KW   3D-structure; Alternative splicing; Autophagy; Complete proteome;
-KW   Cytoplasm; Disease mutation; Endoplasmic reticulum; Metal-binding;
-KW   Mitochondrion; Neurodegeneration; Nucleus; Parkinson disease;
-KW   Parkinsonism; Phosphoprotein; Polymorphism; Reference proteome;
-KW   Repeat; S-nitrosylation; Transcription; Transcription regulation;
-KW   Transferase; Ubl conjugation; Ubl conjugation pathway; Zinc;
-KW   Zinc-finger.
+KW   3D-structure.
 FT   CHAIN         1    465       E3 ubiquitin-protein ligase parkin.
 FT                                /FTId=PRO_0000058576.
 FT   DOMAIN        1     76       Ubiquitin-like. {ECO:0000255|PROSITE-
