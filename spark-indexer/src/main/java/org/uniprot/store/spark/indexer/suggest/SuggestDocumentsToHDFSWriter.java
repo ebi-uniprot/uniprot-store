@@ -76,7 +76,7 @@ public class SuggestDocumentsToHDFSWriter implements DocumentsToHDFSWriter {
     }
 
     /** @return JavaRDD of SuggestDocument for uniprotkb main text search field */
-    private JavaRDD<SuggestDocument> getMain() {
+    JavaRDD<SuggestDocument> getMain() {
         List<SuggestDocument> mainList = SuggestionConfig.databaseSuggestions();
         return sparkContext.parallelize(mainList);
     }
@@ -86,7 +86,7 @@ public class SuggestDocumentsToHDFSWriter implements DocumentsToHDFSWriter {
      * @return JavaRDD of SuggestDocument with GOTerms (including ancestors) mapped from UniprotKB
      *     flat file entries
      */
-    private JavaRDD<SuggestDocument> getGo(JavaRDD<String> flatFileRDD) {
+    JavaRDD<SuggestDocument> getGo(JavaRDD<String> flatFileRDD) {
 
         // JavaPairRDD<goId, GoTerm>
         JavaPairRDD<String, GeneOntologyEntry> goRelationsRDD =
@@ -110,7 +110,7 @@ public class SuggestDocumentsToHDFSWriter implements DocumentsToHDFSWriter {
      * @return JavaRDD of SuggestDocument with ChebiEntry information mapped from UniprotKB flat
      *     file entries
      */
-    private JavaRDD<SuggestDocument> getChebi(JavaRDD<String> flatFileRDD) {
+    JavaRDD<SuggestDocument> getChebi(JavaRDD<String> flatFileRDD) {
 
         // JavaPairRDD<chebiId,ChebiEntry Entry> --> extracted from chebi.obo
         JavaPairRDD<String, ChebiEntry> chebiRDD = ChebiRDDReader.load(jobParameter);
@@ -151,7 +151,7 @@ public class SuggestDocumentsToHDFSWriter implements DocumentsToHDFSWriter {
      * @return JavaRDD of SuggestDocument with ECEntry information mapped from UniprotKB flat file
      *     entries
      */
-    private JavaRDD<SuggestDocument> getEC(JavaRDD<String> flatFileRDD) {
+    JavaRDD<SuggestDocument> getEC(JavaRDD<String> flatFileRDD) {
 
         // JavaPairRDD<ecId,ecId> flatFileEcRDD --> extracted from flat file DE(with ECEntry) lines
         JavaPairRDD<String, String> flatFileEcRDD =
@@ -167,7 +167,7 @@ public class SuggestDocumentsToHDFSWriter implements DocumentsToHDFSWriter {
      * @return JavaRDD of SuggestDocument with Subcellular Location information mapped from
      *     subcell.txt file
      */
-    private JavaRDD<SuggestDocument> getSubcell() {
+    JavaRDD<SuggestDocument> getSubcell() {
 
         // JavaPairRDD<subcellId,SubcellularLocationEntry> subcellularLocation --> extracted from
         // subcell.txt
@@ -181,7 +181,7 @@ public class SuggestDocumentsToHDFSWriter implements DocumentsToHDFSWriter {
     }
 
     /** @return JavaRDD of SuggestDocument with Keyword information mapped from keywlist.txt file */
-    private JavaRDD<SuggestDocument> getKeyword() {
+    JavaRDD<SuggestDocument> getKeyword() {
 
         // JavaPairRDD<keywordId,KeywordEntry> keyword --> extracted from keywlist.txt
         JavaPairRDD<String, KeywordEntry> keyword = KeywordRDDReader.load(jobParameter);
@@ -194,7 +194,7 @@ public class SuggestDocumentsToHDFSWriter implements DocumentsToHDFSWriter {
      * @return JavaRDD of SuggestDocument with Organism/Organism Host and Taxonomy information
      *     mapped from UniprotKB flat file entries
      */
-    private JavaRDD<SuggestDocument> getOrganism(JavaRDD<String> flatFileRDD) {
+    JavaRDD<SuggestDocument> getOrganism(JavaRDD<String> flatFileRDD) {
 
         JavaPairRDD<String, List<TaxonomyLineage>> organismWithLineage =
                 TaxonomyLineageReader.load(sparkContext, config, true);
@@ -246,7 +246,7 @@ public class SuggestDocumentsToHDFSWriter implements DocumentsToHDFSWriter {
      * @param dictionary Suggest Dictionary
      * @return JavaPairRDD<organismId, SuggestDocument>
      */
-    private JavaPairRDD<String, SuggestDocument> getDefaultHighImportantTaxon(
+    JavaPairRDD<String, SuggestDocument> getDefaultHighImportantTaxon(
             SuggestDictionary dictionary) {
         SuggestionConfig suggestionConfig = new SuggestionConfig();
         List<SuggestDocument> suggestList = new ArrayList<>();

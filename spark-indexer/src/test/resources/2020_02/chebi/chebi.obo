@@ -57,6 +57,156 @@ synonym: "monoatomic ions" RELATED [ChEBI]
 is_a: CHEBI:24870
 is_a: CHEBI:33238
 
+[Term]
+id: CHEBI:16526
+name: carbon dioxide
+alt_id: CHEBI:48829
+alt_id: CHEBI:13282
+alt_id: CHEBI:23011
+alt_id: CHEBI:13285
+alt_id: CHEBI:13283
+alt_id: CHEBI:13284
+alt_id: CHEBI:3283
+subset: 3_STAR
+def: "A one-carbon compound with formula CO2 in which the carbon is attached to each oxygen atom by a double bond. A colourless, odourless gas under normal conditions, it is produced during respiration by all animals, fungi and microorganisms that depend directly or indirectly on living or decaying plants for food." []
+synonym: "carbonic anhydride" RELATED [UM-BBD]
+synonym: "E 290" RELATED [ChEBI]
+synonym: "E-290" RELATED [ChEBI]
+synonym: "R-744" RELATED [ChEBI]
+synonym: "carbon dioxide" EXACT IUPAC_NAME [IUPAC]
+synonym: "E290" RELATED [ChEBI]
+synonym: "dioxidocarbon" EXACT IUPAC_NAME [IUPAC]
+synonym: "methanedione" EXACT IUPAC_NAME [IUPAC]
+synonym: "[CO2]" RELATED [MolBase]
+synonym: "CO2" RELATED [UniProt]
+synonym: "CARBON DIOXIDE" EXACT [PDBeChem]
+synonym: "CO2" RELATED [KEGG_COMPOUND]
+synonym: "Carbon dioxide" EXACT [KEGG_COMPOUND]
+property_value: http://purl.obolibrary.org/obo/chebi/formula "CO2" xsd:string
+property_value: http://purl.obolibrary.org/obo/chebi/monoisotopicmass "43.98983" xsd:string
+property_value: http://purl.obolibrary.org/obo/chebi/mass "44.010" xsd:string
+property_value: http://purl.obolibrary.org/obo/chebi/charge "0" xsd:string
+property_value: http://purl.obolibrary.org/obo/chebi/smiles "O=C=O" xsd:string
+property_value: http://purl.obolibrary.org/obo/chebi/inchikey "CURLTUGMZLYLDI-UHFFFAOYSA-N" xsd:string
+property_value: http://purl.obolibrary.org/obo/chebi/inchi "InChI=1S/CO2/c2-1-3" xsd:string
+xref: PMID:19854893 "Europe PMC"
+xref: PMID:15050588 "Europe PMC"
+xref: PMID:17448243 "Europe PMC"
+xref: MetaCyc:CARBON-DIOXIDE
+xref: PMID:16656478 "Europe PMC"
+xref: CAS:124-38-9 "ChemIDplus"
+xref: PPDB:119
+xref: Reaxys:1900390 "Reaxys"
+xref: PMID:16659660 "Europe PMC"
+xref: PMID:11584085 "Europe PMC"
+xref: PMID:17190796 "Europe PMC"
+xref: PMID:11094503 "Europe PMC"
+xref: PMID:24258718 "Europe PMC"
+xref: Gmelin:989 "Gmelin"
+xref: PMID:9611769 "Europe PMC"
+xref: PMID:23384758 "Europe PMC"
+xref: Drug_Central:4256 "DrugCentral"
+xref: Wikipedia:Carbon_dioxide
+xref: PMID:11802652 "Europe PMC"
+xref: PMID:17884085 "Europe PMC"
+xref: PMID:16591971 "Europe PMC"
+xref: CAS:124-38-9 "NIST Chemistry WebBook"
+xref: PMID:8869828 "Europe PMC"
+xref: PMID:14639145 "Europe PMC"
+xref: PMID:8482095 "Europe PMC"
+xref: PMID:17878298 "Europe PMC"
+xref: PMID:19043767 "Europe PMC"
+xref: PMID:19259576 "Europe PMC"
+xref: UM-BBD_compID:c0131 "UM-BBD"
+xref: PMID:23828359 "Europe PMC"
+xref: KEGG:D00004
+xref: HMDB:HMDB0001967
+xref: PMID:8818713 "Europe PMC"
+xref: PMID:9730350 "Europe PMC"
+xref: PMID:10826146 "Europe PMC"
+xref: Beilstein:1900390 "Beilstein"
+xref: MolBase:752
+xref: PDBeChem:CO2
+xref: CAS:124-38-9 "KEGG COMPOUND"
+xref: KEGG:C00011
+is_a: CHEBI:64708
+relationship: has_role CHEBI:46787
+relationship: has_role CHEBI:35620
+relationship: has_role CHEBI:38867
+relationship: has_role CHEBI:48706
+relationship: has_role CHEBI:76413
+relationship: has_role CHEBI:77746
+relationship: has_role CHEBI:77974
+relationship: has_role CHEBI:78017
+relationship: has_role CHEBI:78433
+relationship: has_role CHEBI:75772
+relationship: has_role CHEBI:76971
+relationship: has_role CHEBI:75771
+is_a: CHEBI:138675
+is_a: CHEBI:23014
+
+[Term]
+id: CHEBI:15379
+name: dioxygen
+alt_id: CHEBI:7860
+alt_id: CHEBI:30491
+alt_id: CHEBI:10745
+alt_id: CHEBI:13416
+alt_id: CHEBI:25366
+alt_id: CHEBI:44742
+alt_id: CHEBI:23833
+subset: 3_STAR
+synonym: "E948" RELATED [ChEBI]
+synonym: "[OO]" RELATED [MolBase]
+synonym: "O2" RELATED [IUPAC]
+synonym: "dioxygen" EXACT IUPAC_NAME [IUPAC]
+synonym: "E 948" RELATED [ChEBI]
+synonym: "Disauerstoff" RELATED [ChEBI]
+synonym: "dioxygene" RELATED [ChEBI]
+synonym: "E-948" RELATED [ChEBI]
+synonym: "O2" RELATED [UniProt]
+synonym: "Oxygen" RELATED [KEGG_COMPOUND]
+synonym: "O2" RELATED [KEGG_COMPOUND]
+synonym: "molecular oxygen" RELATED [ChEBI]
+synonym: "OXYGEN MOLECULE" RELATED [PDBeChem]
+property_value: http://purl.obolibrary.org/obo/chebi/monoisotopicmass "31.98983" xsd:string
+property_value: http://purl.obolibrary.org/obo/chebi/mass "31.99880" xsd:string
+property_value: http://purl.obolibrary.org/obo/chebi/charge "0" xsd:string
+property_value: http://purl.obolibrary.org/obo/chebi/formula "O2" xsd:string
+property_value: http://purl.obolibrary.org/obo/chebi/inchikey "MYMOFIZGZYHOMD-UHFFFAOYSA-N" xsd:string
+property_value: http://purl.obolibrary.org/obo/chebi/inchi "InChI=1S/O2/c1-2" xsd:string
+property_value: http://purl.obolibrary.org/obo/chebi/smiles "O=O" xsd:string
+xref: HMDB:HMDB0001377
+xref: MetaCyc:OXYGEN-MOLECULE
+xref: PMID:18638417 "Europe PMC"
+xref: PMID:19840863 "Europe PMC"
+xref: PMID:7710549 "Europe PMC"
+xref: MolBase:750
+xref: Gmelin:485 "Gmelin"
+xref: PMID:10906528 "Europe PMC"
+xref: PMID:16977326 "Europe PMC"
+xref: PMID:9463773 "Europe PMC"
+xref: CAS:7782-44-7 "NIST Chemistry WebBook"
+xref: Wikipedia:Oxygen
+xref: KEGG:D00003
+xref: PMID:18210929 "Europe PMC"
+xref: CAS:7782-44-7 "ChemIDplus"
+xref: KEGG:C00007
+xref: CAS:7782-44-7 "KEGG COMPOUND"
+xref: PDBeChem:OXY
+is_a: CHEBI:33263
+relationship: is_conjugate_base_of CHEBI:29793
+relationship: has_role CHEBI:35472
+relationship: has_role CHEBI:33893
+relationship: has_role CHEBI:33284
+relationship: has_role CHEBI:27027
+relationship: has_role CHEBI:63248
+relationship: has_role CHEBI:77746
+relationship: has_role CHEBI:77974
+relationship: has_role CHEBI:75772
+is_a: CHEBI:138675
+is_a: CHEBI:25362
+
 [Typedef]
 id: has_part
 name: has part

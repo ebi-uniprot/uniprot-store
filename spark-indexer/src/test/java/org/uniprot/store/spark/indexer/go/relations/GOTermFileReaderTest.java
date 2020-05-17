@@ -21,7 +21,7 @@ class GOTermFileReaderTest {
         List<GeneOntologyEntry> goTermList = termFileReader.read();
 
         assertNotNull(goTermList);
-        assertEquals(7, goTermList.size(), "Number of expected terms read from test go terms");
+        assertEquals(12, goTermList.size(), "Number of expected terms read from test go terms");
 
         GeneOntologyEntry validGoTerm = new GeneOntologyEntryBuilder().id("GO:0000001").build();
         assertTrue(goTermList.contains(validGoTerm), "Valid go term not found");

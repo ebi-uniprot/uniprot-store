@@ -35,7 +35,7 @@ class GORelationRDDReaderTest {
                     GORelationRDDReader.load(parameter);
             assertNotNull(goRelationRDD);
             long count = goRelationRDD.count();
-            assertEquals(7L, count);
+            assertEquals(12L, count);
             Tuple2<String, GeneOntologyEntry> tuple =
                     goRelationRDD.filter(tuple2 -> tuple2._1.equals("GO:0000001")).first();
 

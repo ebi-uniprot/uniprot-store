@@ -22,7 +22,7 @@ class GORelationFileReaderTest {
 
         assertNotNull(goRelations);
         assertEquals(
-                7,
+                11,
                 goRelations.size(),
                 "Number of expected relations read from test go relation file");
 

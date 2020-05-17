@@ -33,7 +33,7 @@ class ChebiRDDReaderTest {
             JavaPairRDD<String, ChebiEntry> chebiRdd = ChebiRDDReader.load(parameter);
             assertNotNull(chebiRdd);
             long count = chebiRdd.count();
-            assertEquals(4L, count);
+            assertEquals(6L, count);
             Tuple2<String, ChebiEntry> tuple =
                     chebiRdd.filter(tuple2 -> tuple2._1.equals("24431")).first();
 

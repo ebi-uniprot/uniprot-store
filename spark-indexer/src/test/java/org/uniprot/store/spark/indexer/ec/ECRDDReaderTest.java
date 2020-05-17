@@ -33,7 +33,7 @@ class ECRDDReaderTest {
             JavaPairRDD<String, ECEntry> ecRdd = ECRDDReader.load(parameter);
             assertNotNull(ecRdd);
             long count = ecRdd.count();
-            assertEquals(12L, count);
+            assertEquals(13L, count);
             Tuple2<String, ECEntry> tuple =
                     ecRdd.filter(tuple2 -> tuple2._1.equals("1.-.-.-")).first();
 
