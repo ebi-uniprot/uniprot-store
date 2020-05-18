@@ -169,7 +169,7 @@ public class UniProtKBDocumentsToHDFSWriter implements DocumentsToHDFSWriter {
      * @param uniProtDocumentRDD JavaPairRDD<accession, UniProtDocument>
      * @return JavaPairRDD<accession, UniProtDocument> with added GoRelations
      */
-    private JavaPairRDD<String, UniProtDocument> joinGoRelations(
+    JavaPairRDD<String, UniProtDocument> joinGoRelations(
             JavaPairRDD<String, UniProtDocument> uniProtDocumentRDD) {
 
         // JavaPairRDD<goId, GoTerm>
@@ -193,7 +193,7 @@ public class UniProtKBDocumentsToHDFSWriter implements DocumentsToHDFSWriter {
      * @param uniProtDocumentRDD current JavaPairRDD<accesion, UniProtDocument>
      * @return RDD of JavaPairRDD<accesion, UniProtDocument> with mapped UniRef information
      */
-    private JavaPairRDD<String, UniProtDocument> joinAllUniRefs(
+    JavaPairRDD<String, UniProtDocument> joinAllUniRefs(
             JavaPairRDD<String, UniProtDocument> uniProtDocumentRDD) {
         JavaPairRDD<String, MappedUniRef> uniref50EntryRDD = loadUniRefMap(UniRefType.UniRef50);
         uniProtDocumentRDD = joinUniRef(uniProtDocumentRDD, uniref50EntryRDD);
@@ -233,7 +233,7 @@ public class UniProtKBDocumentsToHDFSWriter implements DocumentsToHDFSWriter {
      * @return RDD of JavaPairRDD<accesion, UniProtKBEntry> with extended GoEvidence mapped
      *     information
      */
-    private JavaPairRDD<String, UniProtKBEntry> joinGoEvidences(
+    JavaPairRDD<String, UniProtKBEntry> joinGoEvidences(
             JavaPairRDD<String, UniProtKBEntry> uniProtEntryRDD) {
         JavaPairRDD<String, Iterable<GOEvidence>> goEvidenceRDD =
                 GOEvidencesRDDReader.load(parameter);
@@ -245,7 +245,7 @@ public class UniProtKBDocumentsToHDFSWriter implements DocumentsToHDFSWriter {
      * @return JavaPairRDD<accesion, UniProtDocument> with mapped PIR Computationally mapped pubmed
      *     ids
      */
-    private JavaPairRDD<String, UniProtDocument> joinLiteratureMapped(
+    JavaPairRDD<String, UniProtDocument> joinLiteratureMapped(
             JavaPairRDD<String, UniProtDocument> uniProtDocumentRDD) {
         JavaPairRDD<String, Iterable<String>> literatureMappedRDD =
                 LiteratureMappedRDDReader.loadAccessionPubMedRDD(parameter);

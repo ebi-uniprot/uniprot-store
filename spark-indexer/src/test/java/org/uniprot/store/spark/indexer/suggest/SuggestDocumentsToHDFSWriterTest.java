@@ -7,15 +7,10 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
-import org.uniprot.core.cv.disease.DiseaseEntry;
 import org.uniprot.store.search.document.suggest.SuggestDocument;
 import org.uniprot.store.spark.indexer.common.JobParameter;
 import org.uniprot.store.spark.indexer.common.util.SparkUtils;
-import org.uniprot.store.spark.indexer.disease.DiseaseRDDReader;
 import org.uniprot.store.spark.indexer.uniprot.UniProtKBRDDTupleReader;
-import scala.Tuple2;
-
-import java.util.Dictionary;
 import java.util.ResourceBundle;
 
 import static org.junit.jupiter.api.Assertions.*;
