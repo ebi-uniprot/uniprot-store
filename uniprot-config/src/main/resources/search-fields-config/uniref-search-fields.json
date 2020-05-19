@@ -7,7 +7,8 @@
     "validRegex": "(UniRef100|UniRef90|UniRef50)\\w*",
     "sortFieldId": "id_sort",
     "description": "Search by uniref id",
-    "example": "UniRef100_A0A001"
+    "example": "UniRef100_A0A001",
+    "includeInSwagger": true
   },
   {
     "id": "id_sort",
@@ -40,7 +41,8 @@
     "fieldType": "GENERAL",
     "dataType": "STRING",
     "description": "Search by name",
-    "example": "sample name"
+    "example": "sample name",
+    "includeInSwagger": true
   },
   {
     "id": "identity",
@@ -48,7 +50,8 @@
     "fieldType": "GENERAL",
     "dataType": "STRING",
     "description": "Search by identity",
-    "example": "sample identity"
+    "example": "sample identity",
+    "includeInSwagger": true
   },
   {
     "id": "count",
@@ -57,7 +60,8 @@
     "dataType": "INTEGER",
     "sortFieldId": "count_sort",
     "description": "Search by count",
-    "example": "[100 TO 300]"
+    "example": "[100 TO 300]",
+    "includeInSwagger": true
   },
   {
     "id": "count_sort",
@@ -74,7 +78,8 @@
     "dataType": "INTEGER",
     "sortFieldId": "length_sort",
     "description": "Search by length",
-    "example": "[100 TO 300]"
+    "example": "[100 TO 300]",
+    "includeInSwagger": true
   },
   {
     "id": "length_sort",
@@ -91,7 +96,8 @@
     "dataType": "DATE",
     "sortFieldId": "created_sort",
     "description": "Search by created",
-    "example": "[2011-10-10 TO 2019-10-10]"
+    "example": "[2011-10-10 TO 2019-10-10]",
+    "includeInSwagger": true
   },
   {
     "id": "created_sort",
@@ -107,7 +113,8 @@
     "fieldType": "GENERAL",
     "dataType": "STRING",
     "description": "Search by uniprot id",
-    "example": "sample uniprot id"
+    "example": "sample uniprot id",
+    "includeInSwagger": true
   },
   {
     "id": "upi",
@@ -116,7 +123,8 @@
     "fieldType": "GENERAL",
     "dataType": "STRING",
     "description": "Search by upi",
-    "example": "UPI0123456789"
+    "example": "UPI0123456789",
+    "includeInSwagger": true
   },
   {
     "id": "taxonomy_id",
@@ -125,7 +133,8 @@
     "fieldType": "GENERAL",
     "dataType": "INTEGER",
     "description": "Search by taxonomy id",
-    "example": "1234565"
+    "example": "1234565",
+    "includeInSwagger": true
   },
   {
     "id": "taxonomy_name",
@@ -133,7 +142,8 @@
     "fieldType": "GENERAL",
     "dataType": "STRING",
     "description": "Search by taxonomy name",
-    "example": "sample name"
+    "example": "sample name",
+    "includeInSwagger": true
   },
   {
     "id": "content",
@@ -141,6 +151,7 @@
     "fieldType": "GENERAL",
     "dataType": "STRING",
     "description": "Search by any content",
-    "example": "sample content"
+    "example": "sample content",
+    "includeInSwagger": true
   }
 ]
