@@ -7,6 +7,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
 import static org.uniprot.store.indexer.common.utils.Constants.PROTEOME_INDEX_JOB;
 
+import java.util.List;
+
+import org.apache.solr.client.solrj.SolrQuery;
 import org.hamcrest.CoreMatchers;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -15,13 +18,11 @@ import org.springframework.batch.core.JobExecution;
 import org.springframework.batch.test.JobLauncherTestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.domain.Page;
-import org.springframework.data.solr.core.query.SimpleQuery;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.uniprot.core.json.parser.proteome.ProteomeJsonConfig;
 import org.uniprot.core.proteome.ProteomeEntry;
-import org.uniprot.store.indexer.common.config.UniProtSolrOperations;
+import org.uniprot.store.indexer.common.config.UniProtSolrClient;
 import org.uniprot.store.indexer.test.config.FakeIndexerSpringBootApplication;
 import org.uniprot.store.indexer.test.config.SolrTestConfig;
 import org.uniprot.store.job.common.listener.ListenerConfig;
@@ -48,7 +49,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
         })
 class ProteomeIndexIT {
     @Autowired private JobLauncherTestUtils jobLauncher;
-    @Autowired private UniProtSolrOperations solrOperations;
+    @Autowired private UniProtSolrClient solrOperations;
 
     @Test
     void testIndexJob() throws Exception {
@@ -58,23 +59,21 @@ class ProteomeIndexIT {
         BatchStatus status = jobExecution.getStatus();
         assertThat(status, is(BatchStatus.COMPLETED));
 
-        Page<ProteomeDocument> response =
+        List<ProteomeDocument> response =
                 solrOperations.query(
-                        SolrCollection.proteome.name(),
-                        new SimpleQuery("*:*"),
-                        ProteomeDocument.class);
+                        SolrCollection.proteome, new SolrQuery("*:*"), ProteomeDocument.class);
         assertThat(response, is(notNullValue()));
-        assertThat(response.getTotalElements(), is(6l));
+        assertThat(response.size(), is(6));
 
         response.forEach(val -> verifyProteome(val));
 
-        Page<GeneCentricDocument> response2 =
+        List<GeneCentricDocument> response2 =
                 solrOperations.query(
-                        SolrCollection.genecentric.name(),
-                        new SimpleQuery("*:*"),
+                        SolrCollection.genecentric,
+                        new SolrQuery("*:*").setRows(2500),
                         GeneCentricDocument.class);
         assertThat(response2, is(notNullValue()));
-        assertThat(response2.getTotalElements(), is(2192L));
+        assertThat(response2.size(), is(2192));
     }
 
     private void verifyProteome(ProteomeDocument doc) {

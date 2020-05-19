@@ -14,7 +14,7 @@ import org.springframework.context.annotation.Profile;
 @Import(RepositoryConfigProperties.class)
 public class SolrRepositoryConfig {
     @Bean
-    public UniProtSolrOperations solrOperations(RepositoryConfigProperties configProperties) {
-        return new UniProtSolrOperations(configProperties);
+    public UniProtSolrClient solrClient(RepositoryConfigProperties configProperties) {
+        return new UniProtSolrClient(configProperties);
     }
 }

@@ -22,7 +22,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
-import org.uniprot.store.indexer.common.config.UniProtSolrOperations;
+import org.uniprot.store.indexer.common.config.UniProtSolrClient;
 import org.uniprot.store.indexer.uniprot.inactiveentry.FFInactiveUniProtEntryIterator;
 import org.uniprot.store.indexer.uniprot.inactiveentry.InactiveEntryIterator;
 import org.uniprot.store.indexer.uniprotkb.config.AsyncConfig;
@@ -46,15 +46,15 @@ import org.uniprot.store.search.SolrCollection;
 public class InactiveEntryStep {
     private final StepBuilderFactory stepBuilderFactory;
     private final UniProtKBIndexingProperties uniProtKBIndexingProperties;
-    private final UniProtSolrOperations solrOperations;
+    private final UniProtSolrClient solrClient;
 
     @Autowired
     public InactiveEntryStep(
             StepBuilderFactory stepBuilderFactory,
-            UniProtSolrOperations solrOperations,
+            UniProtSolrClient solrClient,
             UniProtKBIndexingProperties indexingProperties) {
         this.stepBuilderFactory = stepBuilderFactory;
-        this.solrOperations = solrOperations;
+        this.solrClient = solrClient;
         this.uniProtKBIndexingProperties = indexingProperties;
     }
 
@@ -124,7 +124,7 @@ public class InactiveEntryStep {
     public ItemWriter<InactiveEntryDocumentPair> uniProtDocumentItemWriter(
             RetryPolicy<Object> writeRetryPolicy) {
         return new InactiveEntryDocumentPairWriter(
-                this.solrOperations, SolrCollection.uniprot, writeRetryPolicy);
+                this.solrClient, SolrCollection.uniprot, writeRetryPolicy);
     }
 
     @Bean("inactiveEntryAsyncWriter")

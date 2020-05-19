@@ -17,7 +17,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.uniprot.core.taxonomy.TaxonomyEntry;
-import org.uniprot.store.indexer.common.config.UniProtSolrOperations;
+import org.uniprot.store.indexer.common.config.UniProtSolrClient;
 import org.uniprot.store.indexer.common.listener.SolrCommitStepListener;
 import org.uniprot.store.indexer.common.utils.Constants;
 import org.uniprot.store.indexer.common.writer.SolrDocumentWriter;
@@ -42,7 +42,7 @@ public class TaxonomyNodeStep {
             ItemReader<TaxonomyEntry> itemTaxonomyNodeReader,
             ItemProcessor<TaxonomyEntry, TaxonomyDocument> itemTaxonomyNodeProcessor,
             ItemWriter<TaxonomyDocument> itemTaxonomyNodeWriter,
-            UniProtSolrOperations solrOperations) {
+            UniProtSolrClient solrOperations) {
         return stepBuilders
                 .get(Constants.TAXONOMY_LOAD_NODE_STEP_NAME)
                 .<TaxonomyEntry, TaxonomyDocument>chunk(chunkSize)
@@ -69,13 +69,12 @@ public class TaxonomyNodeStep {
     @Bean(name = "itemTaxonomyNodeProcessor")
     public ItemProcessor<TaxonomyEntry, TaxonomyDocument> itemTaxonomyNodeProcessor(
             @Qualifier("readDataSource") DataSource readDataSource,
-            UniProtSolrOperations solrOperations) {
+            UniProtSolrClient solrOperations) {
         return new TaxonomyProcessor(readDataSource, solrOperations);
     }
 
     @Bean(name = "itemTaxonomyNodeWriter")
-    public ItemWriter<TaxonomyDocument> itemTaxonomyNodeWriter(
-            UniProtSolrOperations solrOperations) {
+    public ItemWriter<TaxonomyDocument> itemTaxonomyNodeWriter(UniProtSolrClient solrOperations) {
         return new SolrDocumentWriter<>(solrOperations, SolrCollection.taxonomy);
     }
 }

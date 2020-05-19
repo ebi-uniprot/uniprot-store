@@ -18,7 +18,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.Resource;
 import org.uniprot.core.literature.LiteratureEntry;
-import org.uniprot.store.indexer.common.config.UniProtSolrOperations;
+import org.uniprot.store.indexer.common.config.UniProtSolrClient;
 import org.uniprot.store.indexer.common.listener.SolrCommitStepListener;
 import org.uniprot.store.indexer.common.utils.Constants;
 import org.uniprot.store.indexer.common.writer.SolrDocumentWriter;
@@ -34,7 +34,7 @@ public class LiteratureLoadStep {
 
     @Autowired private StepBuilderFactory steps;
 
-    @Autowired private UniProtSolrOperations solrOperations;
+    @Autowired private UniProtSolrClient solrClient;
 
     @Value(("${ds.import.chunk.size}"))
     private Integer chunkSize;
@@ -50,7 +50,7 @@ public class LiteratureLoadStep {
             @Qualifier("LiteratureProcessor")
                     ItemProcessor<LiteratureEntry, LiteratureDocument> literatureProcessor,
             @Qualifier("LiteratureWriter") ItemWriter<LiteratureDocument> literatureWriter,
-            UniProtSolrOperations solrOperations) {
+            UniProtSolrClient solrOperations) {
         return this.steps
                 .get(Constants.LITERATURE_INDEX_STEP)
                 .<LiteratureEntry, LiteratureDocument>chunk(this.chunkSize)
@@ -76,13 +76,13 @@ public class LiteratureLoadStep {
 
     @Bean(name = "LiteratureWriter")
     public ItemWriter<LiteratureDocument> literatureWriter() {
-        return new SolrDocumentWriter<>(this.solrOperations, SolrCollection.literature);
+        return new SolrDocumentWriter<>(this.solrClient, SolrCollection.literature);
     }
 
     @Bean(name = "LiteratureProcessor")
     public ItemProcessor<LiteratureEntry, LiteratureDocument> literatureProcessor()
             throws SQLException {
-        return new LiteratureLoadProcessor(solrOperations);
+        return new LiteratureLoadProcessor(solrClient);
     }
 
     private LiteratureRecordSeparatorPolicy getLiteratureRecordSeparatorPolice() {

@@ -4,9 +4,11 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 
 import java.nio.ByteBuffer;
+import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import org.apache.solr.client.solrj.SolrQuery;
 import org.hamcrest.CoreMatchers;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -17,16 +19,13 @@ import org.springframework.batch.test.JobLauncherTestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.solr.core.SolrTemplate;
-import org.springframework.data.solr.core.query.SimpleQuery;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.uniprot.core.cv.subcell.SubcellLocationCategory;
 import org.uniprot.core.cv.subcell.SubcellularLocationEntry;
 import org.uniprot.core.cv.subcell.impl.SubcellularLocationEntryImpl;
 import org.uniprot.core.json.parser.subcell.SubcellularLocationJsonConfig;
+import org.uniprot.store.indexer.common.config.UniProtSolrClient;
 import org.uniprot.store.indexer.common.utils.Constants;
 import org.uniprot.store.indexer.test.config.FakeIndexerSpringBootApplication;
 import org.uniprot.store.indexer.test.config.FakeReadDatabaseConfig;
@@ -60,7 +59,7 @@ class SubcellularLocationJobIT {
 
     @Autowired private JobLauncherTestUtils jobLauncher;
 
-    @Autowired private SolrTemplate template;
+    @Autowired private UniProtSolrClient solrClient;
 
     @Test
     void testSubcellularLocationIndexingJob() throws Exception {
@@ -87,27 +86,27 @@ class SubcellularLocationJobIT {
         assertThat(step.getWriteCount(), is(520));
 
         // Validating if solr document was written correctly
-        SimpleQuery solrQuery = new SimpleQuery("*:*");
-        solrQuery.addSort(new Sort(Sort.Direction.ASC, "id"));
-        Page<SubcellularLocationDocument> response =
-                template.query(
-                        SolrCollection.subcellularlocation.name(),
+        SolrQuery solrQuery = new SolrQuery("*:*").setRows(600);
+        solrQuery.addSort(SolrQuery.SortClause.asc("id"));
+        List<SubcellularLocationDocument> response =
+                solrClient.query(
+                        SolrCollection.subcellularlocation,
                         solrQuery,
                         SubcellularLocationDocument.class);
         assertThat(response, is(notNullValue()));
-        assertThat(response.getTotalElements(), is(520L));
+        assertThat(response.size(), is(520));
 
         // validating if can search one single entry with mapped and cited items
-        solrQuery = new SimpleQuery("id:SL-0188");
+        solrQuery = new SolrQuery("id:SL-0188");
         response =
-                template.query(
-                        SolrCollection.subcellularlocation.name(),
+                solrClient.query(
+                        SolrCollection.subcellularlocation,
                         solrQuery,
                         SubcellularLocationDocument.class);
         assertThat(response, is(notNullValue()));
-        assertThat(response.getTotalElements(), is(1L));
+        assertThat(response.size(), is(1));
 
-        SubcellularLocationDocument subcellularLocationDocument = response.getContent().get(0);
+        SubcellularLocationDocument subcellularLocationDocument = response.get(0);
         validateSubcellularLocationDocument(subcellularLocationDocument);
 
         ByteBuffer byteBuffer = subcellularLocationDocument.getSubcellularlocationObj();

@@ -11,10 +11,12 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Collection;
+import java.util.List;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
+import org.apache.solr.client.solrj.SolrQuery;
 import org.hamcrest.CoreMatchers;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -24,12 +26,10 @@ import org.springframework.batch.core.StepExecution;
 import org.springframework.batch.test.JobLauncherTestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.domain.Page;
-import org.springframework.data.solr.core.query.SimpleQuery;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.uniprot.store.indexer.common.config.UniProtSolrOperations;
+import org.uniprot.store.indexer.common.config.UniProtSolrClient;
 import org.uniprot.store.indexer.test.config.FakeIndexerSpringBootApplication;
 import org.uniprot.store.indexer.test.config.SolrTestConfig;
 import org.uniprot.store.indexer.uniprotkb.config.UniProtKBIndexingProperties;
@@ -62,7 +62,7 @@ import org.uniprot.store.search.document.uniprot.UniProtDocument;
         })
 class UniProtKBJobIT {
     @Autowired private JobLauncherTestUtils jobLauncher;
-    @Autowired private UniProtSolrOperations solrOperations;
+    @Autowired private UniProtSolrClient solrClient;
     @Autowired private UniProtKBIndexingProperties indexingProperties;
 
     @Test
@@ -100,14 +100,12 @@ class UniProtKBJobIT {
         Set<String> sourceAccessions = readSourceAccessions();
         assertThat(sourceAccessions, hasSize(5));
 
-        Page<UniProtDocument> response =
-                solrOperations.query(
-                        SolrCollection.uniprot.name(),
-                        new SimpleQuery("*:*"),
-                        UniProtDocument.class);
+        List<UniProtDocument> response =
+                solrClient.query(
+                        SolrCollection.uniprot, new SolrQuery("*:*"), UniProtDocument.class);
 
         assertThat(response, is(notNullValue()));
-        assertThat(response.getTotalElements(), is(5L));
+        assertThat(response.size(), is(5));
 
         assertThat(
                 response.stream().map(doc -> doc.accession).collect(Collectors.toSet()),
@@ -128,13 +126,13 @@ class UniProtKBJobIT {
         assertThat(suggestionIndexingStep.getSkipCount(), is(0));
         assertThat(suggestionIndexingStep.getFailureExceptions(), hasSize(0));
 
-        Page<SuggestDocument> response =
-                solrOperations.query(
-                        SolrCollection.suggest.name(),
-                        new SimpleQuery("*:*"),
+        List<SuggestDocument> response =
+                solrClient.query(
+                        SolrCollection.suggest,
+                        new SolrQuery("*:*").setRows(300),
                         SuggestDocument.class);
         assertThat(response, is(notNullValue()));
-        assertThat(response.getTotalElements(), is((long) reportedWriteCount));
+        assertThat(response.size(), is(reportedWriteCount));
     }
 
     private Set<String> readSourceAccessions() throws IOException {

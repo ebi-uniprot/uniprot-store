@@ -14,7 +14,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.uniprot.core.xml.jaxb.unirule.UniRuleType;
-import org.uniprot.store.indexer.common.config.UniProtSolrOperations;
+import org.uniprot.store.indexer.common.config.UniProtSolrClient;
 import org.uniprot.store.indexer.common.writer.SolrDocumentWriter;
 import org.uniprot.store.job.common.listener.LogRateListener;
 import org.uniprot.store.search.SolrCollection;
@@ -69,7 +69,7 @@ public class UniRuleIndexStep {
     }
 
     @Bean
-    public ItemWriter<UniRuleDocument> uniRuleWriter(UniProtSolrOperations solrOperations) {
+    public ItemWriter<UniRuleDocument> uniRuleWriter(UniProtSolrClient solrOperations) {
         return new SolrDocumentWriter<>(solrOperations, SolrCollection.unirule);
     }
 }

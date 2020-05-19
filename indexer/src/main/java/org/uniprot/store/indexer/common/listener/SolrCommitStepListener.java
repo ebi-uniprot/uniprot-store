@@ -5,7 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.ExitStatus;
 import org.springframework.batch.core.StepExecution;
 import org.springframework.batch.core.StepExecutionListener;
-import org.uniprot.store.indexer.common.config.UniProtSolrOperations;
+import org.uniprot.store.indexer.common.config.UniProtSolrClient;
 import org.uniprot.store.search.SolrCollection;
 
 /**
@@ -15,10 +15,10 @@ import org.uniprot.store.search.SolrCollection;
 @Slf4j
 public class SolrCommitStepListener implements StepExecutionListener {
 
-    private UniProtSolrOperations solrOperations;
+    private UniProtSolrClient solrClient;
 
-    public SolrCommitStepListener(UniProtSolrOperations solrOperations) {
-        this.solrOperations = solrOperations;
+    public SolrCommitStepListener(UniProtSolrClient solrClient) {
+        this.solrClient = solrClient;
     }
 
     @Override
@@ -27,7 +27,7 @@ public class SolrCommitStepListener implements StepExecutionListener {
     @Override
     public ExitStatus afterStep(StepExecution stepExecution) {
         log.info("I am about to commit in Solr");
-        solrOperations.commit(SolrCollection.literature.name());
+        solrClient.commit(SolrCollection.literature);
         log.info("Just committed in Solr");
         return stepExecution.getExitStatus();
     }

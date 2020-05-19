@@ -4,11 +4,13 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 
 import java.nio.ByteBuffer;
+import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
 import javax.sql.DataSource;
 
+import org.apache.solr.client.solrj.SolrQuery;
 import org.hamcrest.CoreMatchers;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -22,16 +24,13 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.solr.core.query.SimpleQuery;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.uniprot.core.json.parser.taxonomy.TaxonomyJsonConfig;
 import org.uniprot.core.taxonomy.*;
 import org.uniprot.core.taxonomy.impl.TaxonomyEntryImpl;
 import org.uniprot.core.uniprotkb.taxonomy.Taxonomy;
-import org.uniprot.store.indexer.common.config.UniProtSolrOperations;
+import org.uniprot.store.indexer.common.config.UniProtSolrClient;
 import org.uniprot.store.indexer.common.utils.Constants;
 import org.uniprot.store.indexer.taxonomy.processor.TaxonomyProcessor;
 import org.uniprot.store.indexer.taxonomy.steps.TaxonomyDeletedStep;
@@ -65,7 +64,7 @@ class TaxonomyJobIT {
 
     @Autowired private JobLauncherTestUtils jobLauncher;
 
-    @Autowired private UniProtSolrOperations solrOperations;
+    @Autowired private UniProtSolrClient solrClient;
 
     @Test
     void testTaxonomyIndexingJob() throws Exception {
@@ -97,15 +96,14 @@ class TaxonomyJobIT {
         assertThat(step.getWriteCount(), is(2));
 
         // Validating if solr document was written correctly
-        SimpleQuery solrQuery = new SimpleQuery("*:*");
-        solrQuery.addSort(new Sort(Sort.Direction.ASC, "id"));
-        Page<TaxonomyDocument> response =
-                solrOperations.query(
-                        SolrCollection.taxonomy.name(), solrQuery, TaxonomyDocument.class);
+        SolrQuery solrQuery = new SolrQuery("*:*");
+        solrQuery.addSort(SolrQuery.SortClause.asc("id"));
+        List<TaxonomyDocument> response =
+                solrClient.query(SolrCollection.taxonomy, solrQuery, TaxonomyDocument.class);
         assertThat(response, is(notNullValue()));
-        assertThat(response.getTotalElements(), is(9L));
+        assertThat(response.size(), is(9));
 
-        TaxonomyDocument taxonomyDocument = response.getContent().get(6);
+        TaxonomyDocument taxonomyDocument = response.get(6);
         validateTaxonomyDocument(taxonomyDocument);
 
         assertThat(taxonomyDocument.getTaxonomyObj(), is(notNullValue()));
@@ -115,36 +113,28 @@ class TaxonomyJobIT {
         TaxonomyEntry entry = jsonMapper.readValue(byteBuffer.array(), TaxonomyEntryImpl.class);
         validateTaxonomyEntry(entry);
 
-        solrQuery = new SimpleQuery("reviewed:true");
-        response =
-                solrOperations.query(
-                        SolrCollection.taxonomy.name(), solrQuery, TaxonomyDocument.class);
+        solrQuery = new SolrQuery("reviewed:true");
+        response = solrClient.query(SolrCollection.taxonomy, solrQuery, TaxonomyDocument.class);
         assertThat(response, is(notNullValue()));
-        assertThat(response.getTotalElements(), is(2L));
+        assertThat(response.size(), is(2));
 
-        solrQuery = new SimpleQuery("host:4");
-        response =
-                solrOperations.query(
-                        SolrCollection.taxonomy.name(), solrQuery, TaxonomyDocument.class);
+        solrQuery = new SolrQuery("host:4");
+        response = solrClient.query(SolrCollection.taxonomy, solrQuery, TaxonomyDocument.class);
         assertThat(response, is(notNullValue()));
-        assertThat(response.getTotalElements(), is(2L));
+        assertThat(response.size(), is(2));
 
-        solrQuery = new SimpleQuery("content:Sptr_Scientific_5");
-        response =
-                solrOperations.query(
-                        SolrCollection.taxonomy.name(), solrQuery, TaxonomyDocument.class);
+        solrQuery = new SolrQuery("content:Sptr_Scientific_5");
+        response = solrClient.query(SolrCollection.taxonomy, solrQuery, TaxonomyDocument.class);
         assertThat(response, is(notNullValue()));
-        assertThat(response.getTotalElements(), is(1L));
+        assertThat(response.size(), is(1));
 
-        solrQuery = new SimpleQuery("active:false");
-        response =
-                solrOperations.query(
-                        SolrCollection.taxonomy.name(), solrQuery, TaxonomyDocument.class);
+        solrQuery = new SolrQuery("active:false");
+        response = solrClient.query(SolrCollection.taxonomy, solrQuery, TaxonomyDocument.class);
         assertThat(response, is(notNullValue()));
-        assertThat(response.getTotalElements(), is(4L));
+        assertThat(response.size(), is(4));
 
         // verify deleted
-        taxonomyDocument = response.getContent().get(0);
+        taxonomyDocument = response.get(0);
         byteBuffer = taxonomyDocument.getTaxonomyObj();
         entry = jsonMapper.readValue(byteBuffer.array(), TaxonomyEntryImpl.class);
         assertThat(entry.hasInactiveReason(), is(true));
@@ -155,7 +145,7 @@ class TaxonomyJobIT {
         assertThat(entry.getInactiveReason().hasMergedTo(), is(false));
 
         // verify merged
-        taxonomyDocument = response.getContent().get(2);
+        taxonomyDocument = response.get(2);
         byteBuffer = taxonomyDocument.getTaxonomyObj();
         entry = jsonMapper.readValue(byteBuffer.array(), TaxonomyEntryImpl.class);
         assertThat(entry.hasInactiveReason(), is(true));
@@ -245,7 +235,7 @@ class TaxonomyJobIT {
         @Bean(name = "itemTaxonomyNodeProcessor")
         public ItemProcessor<TaxonomyEntry, TaxonomyDocument> itemTaxonomyNodeProcessor(
                 @Qualifier("readDataSource") DataSource readDataSource,
-                UniProtSolrOperations solrOperations) {
+                UniProtSolrClient solrOperations) {
             return new TaxonomyProcessorFake(readDataSource, solrOperations);
         }
     }
@@ -261,8 +251,7 @@ class TaxonomyJobIT {
 
     private static class TaxonomyProcessorFake extends TaxonomyProcessor {
 
-        public TaxonomyProcessorFake(
-                DataSource readDataSource, UniProtSolrOperations solrOperations) {
+        public TaxonomyProcessorFake(DataSource readDataSource, UniProtSolrClient solrOperations) {
             super(readDataSource, solrOperations);
         }
 

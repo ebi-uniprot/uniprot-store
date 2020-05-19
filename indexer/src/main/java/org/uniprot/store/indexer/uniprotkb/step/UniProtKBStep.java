@@ -30,7 +30,7 @@ import org.uniprot.cv.ec.ECRepoFactory;
 import org.uniprot.cv.taxonomy.FileNodeIterable;
 import org.uniprot.cv.taxonomy.TaxonomyRepo;
 import org.uniprot.cv.taxonomy.impl.TaxonomyMapRepo;
-import org.uniprot.store.indexer.common.config.UniProtSolrOperations;
+import org.uniprot.store.indexer.common.config.UniProtSolrClient;
 import org.uniprot.store.indexer.uniprot.go.GoRelationFileReader;
 import org.uniprot.store.indexer.uniprot.go.GoRelationFileRepo;
 import org.uniprot.store.indexer.uniprot.go.GoTermFileReader;
@@ -62,15 +62,15 @@ import org.uniprot.store.search.document.suggest.SuggestDocument;
 public class UniProtKBStep {
     private final StepBuilderFactory stepBuilderFactory;
     private final UniProtKBIndexingProperties uniProtKBIndexingProperties;
-    private final UniProtSolrOperations solrOperations;
+    private final UniProtSolrClient solrClient;
 
     @Autowired
     public UniProtKBStep(
             StepBuilderFactory stepBuilderFactory,
-            UniProtSolrOperations solrOperations,
+            UniProtSolrClient solrClient,
             UniProtKBIndexingProperties indexingProperties) {
         this.stepBuilderFactory = stepBuilderFactory;
-        this.solrOperations = solrOperations;
+        this.solrClient = solrClient;
         this.uniProtKBIndexingProperties = indexingProperties;
     }
 
@@ -143,7 +143,7 @@ public class UniProtKBStep {
     public ItemWriter<UniProtEntryDocumentPair> uniProtDocumentItemWriter(
             RetryPolicy<Object> writeRetryPolicy) {
         return new UniProtEntryDocumentPairWriter(
-                this.solrOperations, SolrCollection.uniprot, writeRetryPolicy);
+                this.solrClient, SolrCollection.uniprot, writeRetryPolicy);
     }
 
     @Bean("uniprotkbAsyncWriter")

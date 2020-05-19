@@ -13,7 +13,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.uniprot.store.indexer.common.config.SolrRepositoryConfig;
-import org.uniprot.store.indexer.common.config.UniProtSolrOperations;
+import org.uniprot.store.indexer.common.config.UniProtSolrClient;
 import org.uniprot.store.job.common.listener.WriteRetrierLogJobListener;
 import org.uniprot.store.search.SolrCollection;
 
@@ -25,13 +25,13 @@ import org.uniprot.store.search.SolrCollection;
 @Import({SolrRepositoryConfig.class})
 public class InactiveEntryIndexJob {
     private final JobBuilderFactory jobBuilderFactory;
-    private final UniProtSolrOperations solrOperations;
+    private final UniProtSolrClient solrClient;
 
     @Autowired
     public InactiveEntryIndexJob(
-            JobBuilderFactory jobBuilderFactory, UniProtSolrOperations solrOperations) {
+            JobBuilderFactory jobBuilderFactory, UniProtSolrClient solrClient) {
         this.jobBuilderFactory = jobBuilderFactory;
-        this.solrOperations = solrOperations;
+        this.solrClient = solrClient;
     }
 
     @Bean
@@ -53,7 +53,7 @@ public class InactiveEntryIndexJob {
                             // Delegate all other commits to 'autoCommit' element of solrconfig.xml
                             @Override
                             public void afterJob(JobExecution jobExecution) {
-                                solrOperations.commit(SolrCollection.uniprot.name());
+                                solrClient.commit(SolrCollection.uniprot);
                             }
                         })
                 .build();

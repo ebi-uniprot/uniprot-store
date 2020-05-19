@@ -8,16 +8,14 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import org.apache.solr.client.solrj.SolrQuery;
 import org.springframework.batch.item.ItemProcessor;
-import org.springframework.data.solr.core.query.Criteria;
-import org.springframework.data.solr.core.query.Query;
-import org.springframework.data.solr.core.query.SimpleQuery;
 import org.uniprot.core.cv.keyword.KeywordEntry;
 import org.uniprot.core.cv.keyword.impl.KeywordEntryBuilder;
 import org.uniprot.core.cv.keyword.impl.KeywordEntryImpl;
 import org.uniprot.core.json.parser.keyword.KeywordJsonConfig;
 import org.uniprot.core.util.Utils;
-import org.uniprot.store.indexer.common.config.UniProtSolrOperations;
+import org.uniprot.store.indexer.common.config.UniProtSolrClient;
 import org.uniprot.store.search.SolrCollection;
 import org.uniprot.store.search.document.keyword.KeywordDocument;
 
@@ -28,20 +26,18 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public class KeywordLoadProcessor implements ItemProcessor<KeywordEntry, KeywordDocument> {
 
     private final ObjectMapper keywordObjectMapper;
-    private final UniProtSolrOperations solrOperations;
+    private final UniProtSolrClient solrClient;
 
-    public KeywordLoadProcessor(UniProtSolrOperations solrOperations) throws SQLException {
-        this.solrOperations = solrOperations;
+    public KeywordLoadProcessor(UniProtSolrClient solrClient) throws SQLException {
+        this.solrClient = solrClient;
         this.keywordObjectMapper = KeywordJsonConfig.getInstance().getFullObjectMapper();
     }
 
     @Override
     public KeywordDocument process(KeywordEntry entry) throws Exception {
-        Query query =
-                new SimpleQuery().addCriteria(Criteria.where("id").is(entry.getKeyword().getId()));
+        SolrQuery query = new SolrQuery("id:" + entry.getKeyword().getId());
         Optional<KeywordDocument> optionalDocument =
-                solrOperations.queryForObject(
-                        SolrCollection.keyword.name(), query, KeywordDocument.class);
+                solrClient.queryForObject(SolrCollection.keyword, query, KeywordDocument.class);
         if (optionalDocument.isPresent()) {
             KeywordDocument document = optionalDocument.get();
 

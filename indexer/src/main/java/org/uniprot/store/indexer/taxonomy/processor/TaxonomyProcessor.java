@@ -10,10 +10,8 @@ import java.util.stream.Collectors;
 
 import javax.sql.DataSource;
 
+import org.apache.solr.client.solrj.SolrQuery;
 import org.springframework.batch.item.ItemProcessor;
-import org.springframework.data.solr.core.query.Criteria;
-import org.springframework.data.solr.core.query.Query;
-import org.springframework.data.solr.core.query.SimpleQuery;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.uniprot.core.json.parser.taxonomy.TaxonomyJsonConfig;
 import org.uniprot.core.taxonomy.TaxonomyEntry;
@@ -25,7 +23,7 @@ import org.uniprot.core.taxonomy.impl.TaxonomyEntryImpl;
 import org.uniprot.core.taxonomy.impl.TaxonomyStrainBuilder;
 import org.uniprot.core.uniprotkb.taxonomy.Taxonomy;
 import org.uniprot.core.util.Utils;
-import org.uniprot.store.indexer.common.config.UniProtSolrOperations;
+import org.uniprot.store.indexer.common.config.UniProtSolrClient;
 import org.uniprot.store.indexer.taxonomy.readers.*;
 import org.uniprot.store.search.SolrCollection;
 import org.uniprot.store.search.document.taxonomy.TaxonomyDocument;
@@ -37,11 +35,11 @@ public class TaxonomyProcessor implements ItemProcessor<TaxonomyEntry, TaxonomyD
 
     private final JdbcTemplate jdbcTemplate;
     private final ObjectMapper jsonMapper;
-    private final UniProtSolrOperations solrOperations;
+    private final UniProtSolrClient solrClient;
 
-    public TaxonomyProcessor(DataSource readDataSource, UniProtSolrOperations solrOperations) {
+    public TaxonomyProcessor(DataSource readDataSource, UniProtSolrClient solrClient) {
         this.jdbcTemplate = new JdbcTemplate(readDataSource);
-        this.solrOperations = solrOperations;
+        this.solrClient = solrClient;
         jsonMapper = TaxonomyJsonConfig.getInstance().getFullObjectMapper();
     }
 
@@ -49,10 +47,9 @@ public class TaxonomyProcessor implements ItemProcessor<TaxonomyEntry, TaxonomyD
     public TaxonomyDocument process(TaxonomyEntry entry) throws Exception {
         long taxonId = entry.getTaxonId();
         TaxonomyEntryBuilder entryBuilder = TaxonomyEntryBuilder.from(entry);
-        Query query = new SimpleQuery().addCriteria(Criteria.where("id").is(taxonId));
+        SolrQuery query = new SolrQuery("id:" + taxonId);
         Optional<TaxonomyDocument> optionalDocument =
-                solrOperations.queryForObject(
-                        SolrCollection.taxonomy.name(), query, TaxonomyDocument.class);
+                solrClient.queryForObject(SolrCollection.taxonomy, query, TaxonomyDocument.class);
         if (optionalDocument.isPresent()) {
             TaxonomyDocument document = optionalDocument.get();
 

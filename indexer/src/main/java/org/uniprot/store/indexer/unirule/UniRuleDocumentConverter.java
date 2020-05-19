@@ -25,8 +25,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
  * @author sahmad
- * @date: 12 May 2020
- * Converts the xml type {@link UniRuleType} to {@link UniRuleDocument}
+ * @date: 12 May 2020 Converts the xml type {@link UniRuleType} to {@link UniRuleDocument}
  */
 public class UniRuleDocumentConverter implements DocumentConverter<UniRuleType, UniRuleDocument> {
     private static final String CONDITION_TYPE_TAXON = "taxon";

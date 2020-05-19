@@ -16,7 +16,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.uniprot.core.cv.keyword.KeywordEntry;
-import org.uniprot.store.indexer.common.config.UniProtSolrOperations;
+import org.uniprot.store.indexer.common.config.UniProtSolrClient;
 import org.uniprot.store.indexer.common.listener.SolrCommitStepListener;
 import org.uniprot.store.indexer.common.utils.Constants;
 import org.uniprot.store.indexer.common.writer.SolrDocumentWriter;
@@ -29,7 +29,7 @@ public class KeywordLoadStep {
 
     @Autowired private StepBuilderFactory steps;
 
-    @Autowired private UniProtSolrOperations solrOperations;
+    @Autowired private UniProtSolrClient solrClient;
 
     @Value(("${ds.import.chunk.size}"))
     private Integer chunkSize;
@@ -45,7 +45,7 @@ public class KeywordLoadStep {
             @Qualifier("KeywordProcessor")
                     ItemProcessor<KeywordEntry, KeywordDocument> keywordProcessor,
             @Qualifier("KeywordWriter") ItemWriter<KeywordDocument> keywordWriter,
-            UniProtSolrOperations solrOperations) {
+            UniProtSolrClient solrOperations) {
         return this.steps
                 .get(Constants.KEYWORD_INDEX_STEP)
                 .<KeywordEntry, KeywordDocument>chunk(this.chunkSize)
@@ -65,11 +65,11 @@ public class KeywordLoadStep {
 
     @Bean(name = "KeywordWriter")
     public ItemWriter<KeywordDocument> keywordWriter() {
-        return new SolrDocumentWriter<>(this.solrOperations, SolrCollection.keyword);
+        return new SolrDocumentWriter<>(this.solrClient, SolrCollection.keyword);
     }
 
     @Bean(name = "KeywordProcessor")
     public ItemProcessor<KeywordEntry, KeywordDocument> keywordProcessor() throws SQLException {
-        return new KeywordLoadProcessor(this.solrOperations);
+        return new KeywordLoadProcessor(this.solrClient);
     }
 }

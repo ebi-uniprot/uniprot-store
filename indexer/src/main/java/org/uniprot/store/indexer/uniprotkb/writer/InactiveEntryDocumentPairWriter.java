@@ -2,7 +2,7 @@ package org.uniprot.store.indexer.uniprotkb.writer;
 
 import net.jodah.failsafe.RetryPolicy;
 
-import org.uniprot.store.indexer.common.config.UniProtSolrOperations;
+import org.uniprot.store.indexer.common.config.UniProtSolrClient;
 import org.uniprot.store.indexer.uniprotkb.model.InactiveEntryDocumentPair;
 import org.uniprot.store.job.common.writer.ItemRetryWriter;
 import org.uniprot.store.search.SolrCollection;
@@ -16,10 +16,10 @@ public class InactiveEntryDocumentPairWriter
         extends ItemRetryWriter<InactiveEntryDocumentPair, UniProtDocument> {
 
     public InactiveEntryDocumentPairWriter(
-            UniProtSolrOperations solrOperations,
+            UniProtSolrClient solrOperations,
             SolrCollection collection,
             RetryPolicy<Object> retryPolicy) {
-        super(items -> solrOperations.saveBeans(collection.name(), items), retryPolicy);
+        super(items -> solrOperations.saveBeans(collection, items), retryPolicy);
     }
 
     @Override

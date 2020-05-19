@@ -1,14 +1,6 @@
 package org.uniprot.store.indexer.common.config;
 
-import static java.util.Arrays.asList;
-
-import java.io.IOException;
-import java.util.Collection;
-import java.util.List;
-import java.util.Optional;
-
 import lombok.extern.slf4j.Slf4j;
-
 import org.apache.http.client.HttpClient;
 import org.apache.solr.client.solrj.SolrClient;
 import org.apache.solr.client.solrj.SolrQuery;
@@ -22,6 +14,13 @@ import org.apache.solr.common.params.ModifiableSolrParams;
 import org.uniprot.store.search.SolrCollection;
 import org.uniprot.store.search.document.Document;
 
+import java.io.IOException;
+import java.util.Collection;
+import java.util.List;
+import java.util.Optional;
+
+import static java.util.Arrays.asList;
+
 /**
  * A wrapper of {@link SolrClient} which creates a {@link SolrClient} instance for each thread that
  * it is used on. The purpose of this is to ensure that multi-threaded applications have multiple
@@ -33,14 +32,11 @@ import org.uniprot.store.search.document.Document;
  */
 @Slf4j
 public class UniProtSolrClient {
-    //    private final ThreadLocal<SolrOperations> threadLocalSolrOperations;
     private final ThreadLocal<SolrClient> threadLocalSolrClients;
     private final RepositoryConfigProperties config;
 
     UniProtSolrClient(RepositoryConfigProperties config) {
         this.config = config;
-        //        this.threadLocalSolrOperations =
-        // ThreadLocal.withInitial(this::createSolrOperations);
         this.threadLocalSolrClients = ThreadLocal.withInitial(this::uniProtSolrClient);
     }
 
@@ -61,10 +57,6 @@ public class UniProtSolrClient {
         }
     }
 
-    //    public <T, S extends Page<T>> S query(String var1, Query var2, Class<T> var3) {
-    //        return threadLocalSolrOperations.get().query(var1, var2, var3);
-    //    }
-
     public UpdateResponse saveBeans(SolrCollection collection, Collection<?> beans) {
         String collectionString = collection.name();
         try {
@@ -74,10 +66,6 @@ public class UniProtSolrClient {
                     "Could not write documents to Solr collection [" + collectionString + "]", e);
         }
     }
-
-    //    public UpdateResponse saveBeans(String collection, Collection<?> beans) {
-    //        return threadLocalSolrOperations.get().saveBeans(collection, beans);
-    //    }
 
     public <T> Optional<T> queryForObject(
             SolrCollection collection, SolrQuery solrQuery, Class<T> returnType) {
@@ -97,10 +85,6 @@ public class UniProtSolrClient {
         }
     }
 
-    //    public <T> Optional<T> queryForObject(String var1, Query var2, Class<T> var3) {
-    //        return threadLocalSolrOperations.get().queryForObject(var1, var2, var3);
-    //    }
-
     public void commit(SolrCollection collection) {
         String collectionString = collection.name();
         try {
@@ -110,10 +94,6 @@ public class UniProtSolrClient {
                     "Could not commit contents of Solr collection [" + collectionString + "]", e);
         }
     }
-
-    //    public void commit(String var1) {
-    //        threadLocalSolrOperations.get().commit(var1);
-    //    }
 
     public void softCommit(SolrCollection collection) {
         String collectionString = collection.name();
@@ -126,11 +106,6 @@ public class UniProtSolrClient {
         }
     }
 
-    //
-    //    public void softCommit(String var1) {
-    //        threadLocalSolrOperations.get().softCommit(var1);
-    //    }
-
     public void delete(SolrCollection collection, String query) {
         String collectionString = collection.name();
         try {
@@ -140,17 +115,6 @@ public class UniProtSolrClient {
                     "Could not delete by query for Solr collection [" + collectionString + "]", e);
         }
     }
-
-    //    public UpdateResponse delete(String collection, SolrDataQuery query) {
-    //        return threadLocalSolrOperations.get().delete(collection, query);
-    //    }
-
-    //    private SolrOperations createSolrOperations() {
-    //        log.info("Created thread local SolrOperations");
-    //        SolrTemplate solrTemplate = new SolrTemplate(uniProtSolrClient());
-    //        solrTemplate.afterPropertiesSet();
-    //        return solrTemplate;
-    //    }
 
     private SolrClient uniProtSolrClient() {
         String zookeeperhost = config.getZkHost();

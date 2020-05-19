@@ -16,7 +16,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.uniprot.store.indexer.common.config.UniProtSolrOperations;
+import org.uniprot.store.indexer.common.config.UniProtSolrClient;
 import org.uniprot.store.indexer.common.listener.SolrCommitStepListener;
 import org.uniprot.store.indexer.common.utils.Constants;
 import org.uniprot.store.indexer.common.writer.SolrDocumentWriter;
@@ -42,7 +42,7 @@ public class TaxonomyStatisticsStep {
             ItemProcessor<TaxonomyStatisticsReader.TaxonomyCount, TaxonomyDocument>
                     itemTaxonomyStatisticsProcessor,
             ItemWriter<TaxonomyDocument> itemTaxonomyStatisticsWriter,
-            UniProtSolrOperations solrOperations) {
+            UniProtSolrClient solrOperations) {
         return stepBuilders
                 .get(Constants.TAXONOMY_LOAD_STATISTICS_STEP_NAME)
                 .<TaxonomyStatisticsReader.TaxonomyCount, TaxonomyDocument>chunk(chunkSize)
@@ -75,7 +75,7 @@ public class TaxonomyStatisticsStep {
 
     @Bean(name = "itemTaxonomyStatisticsWriter")
     public ItemWriter<TaxonomyDocument> itemTaxonomyStatisticsWriter(
-            UniProtSolrOperations solrOperations) {
+            UniProtSolrClient solrOperations) {
         return new SolrDocumentWriter<>(solrOperations, SolrCollection.taxonomy);
     }
 
