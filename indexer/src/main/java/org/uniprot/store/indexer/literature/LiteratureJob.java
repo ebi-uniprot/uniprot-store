@@ -27,8 +27,8 @@ public class LiteratureJob {
             JobExecutionListener jobListener) {
         return this.jobs
                 .get(Constants.LITERATURE_LOAD_JOB_NAME)
-                .start(literatureStatistics) // index all protein counts for literature
-                .next(literatureMappingStep) // update all pir mappings
+                // .start(literatureStatistics) // DO NOT MERGE TO MASTER COVID-19 CODE
+                .start(literatureMappingStep) // update all pir mappings
                 .next(indexLiterature) // index literature entry
                 .listener(jobListener)
                 .build();

@@ -16,19 +16,19 @@ public class UniProtDocument implements Document {
     @Field("sec_acc")
     public List<String> secacc = new ArrayList<>();
 
-    @Field("mnemonic")
+    @Field("id")
     public String id;
 
-    @Field("mnemonic_default")
+    @Field("id_default")
     public String idDefault;
 
     @Field("reviewed")
     public Boolean reviewed;
 
-    @Field("name")
+    @Field("protein_name")
     public List<String> proteinNames = new ArrayList<>();
 
-    @Field("name_sort")
+    @Field("protein_name_sort")
     public String proteinsNamesSort;
 
     @Field("ec")
@@ -37,13 +37,13 @@ public class UniProtDocument implements Document {
     @Field("ec_exact")
     public List<String> ecNumbersExact = new ArrayList<>();
 
-    @Field("modified")
+    @Field("date_modified")
     public Date lastModified;
 
-    @Field("created")
+    @Field("date_created")
     public Date firstCreated;
 
-    @Field("sequence_modified")
+    @Field("date_sequence_modified")
     public Date sequenceUpdated;
 
     @Field("keyword")
@@ -82,17 +82,17 @@ public class UniProtDocument implements Document {
     @Field("organelle")
     public List<String> organelles = new ArrayList<>();
 
-    @Field("host_name")
+    @Field("virus_host_name")
     public List<String> organismHostNames = new ArrayList<>();
 
-    @Field("host_id")
+    @Field("virus_host_id")
     public List<Integer> organismHostIds = new ArrayList<>();
 
     @Field("pathway")
     public List<String> pathway = new ArrayList<>();
 
     @Field("xref")
-    public Set<String> xrefs = new HashSet<>();
+    public Set<String> crossRefs = new HashSet<>();
 
     @Field("database")
     public Set<String> databases = new HashSet<>();
@@ -146,7 +146,7 @@ public class UniProtDocument implements Document {
     @Field("active")
     public boolean active = true;
 
-    @Field("d3structure")
+    @Field("structure_3d")
     public boolean d3structure = false;
 
     @Field("proteins_with")
@@ -398,7 +398,7 @@ public class UniProtDocument implements Document {
                 && Objects.equals(organismHostNames, document.organismHostNames)
                 && Objects.equals(organismHostIds, document.organismHostIds)
                 && Objects.equals(pathway, document.pathway)
-                && Objects.equals(xrefs, document.xrefs)
+                && Objects.equals(crossRefs, document.crossRefs)
                 && Objects.equals(databases, document.databases)
                 && Objects.equals(referenceTitles, document.referenceTitles)
                 && Objects.equals(referenceAuthors, document.referenceAuthors)
@@ -511,7 +511,7 @@ public class UniProtDocument implements Document {
                         organismHostNames,
                         organismHostIds,
                         pathway,
-                        xrefs,
+                        crossRefs,
                         databases,
                         referenceTitles,
                         referenceAuthors,
@@ -666,8 +666,8 @@ public class UniProtDocument implements Document {
                 + organismHostIds
                 + ", pathway="
                 + pathway
-                + ", xrefs="
-                + xrefs
+                + ", crossRefs="
+                + crossRefs
                 + ", databases="
                 + databases
                 + ", referenceTitles="

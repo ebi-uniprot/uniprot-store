@@ -57,7 +57,7 @@ class UniProtKBEntryCrossReferenceConverterTest {
                 document.content);
 
         assertEquals(
-                new HashSet<>(Arrays.asList("proteomes-id value", "id value")), document.xrefs);
+                new HashSet<>(Arrays.asList("proteomes-id value", "id value")), document.crossRefs);
 
         assertEquals(Collections.singleton("proteomes"), document.databases);
 
@@ -102,7 +102,7 @@ class UniProtKBEntryCrossReferenceConverterTest {
                         Arrays.asList("go-GO:12345", "GO:12345", "go", "12345", "apical dendrite")),
                 document.content);
 
-        assertEquals(new HashSet<>(Arrays.asList("go-GO:12345", "GO:12345")), document.xrefs);
+        assertEquals(new HashSet<>(Arrays.asList("go-GO:12345", "GO:12345")), document.crossRefs);
 
         assertEquals(Collections.singleton("go"), document.databases);
 
@@ -143,7 +143,7 @@ class UniProtKBEntryCrossReferenceConverterTest {
         assertEquals(
                 new HashSet<>(Arrays.asList("pdb-id value", "pdb", "id value")), document.content);
 
-        assertEquals(new HashSet<>(Arrays.asList("pdb-id value", "id value")), document.xrefs);
+        assertEquals(new HashSet<>(Arrays.asList("pdb-id value", "id value")), document.crossRefs);
 
         assertEquals(Collections.singleton("pdb"), document.databases);
 
@@ -187,7 +187,7 @@ class UniProtKBEntryCrossReferenceConverterTest {
         assertEquals(
                 new HashSet<>(
                         Arrays.asList("embl-id value", "embl-EMBL12345", "EMBL12345", "id value")),
-                document.xrefs);
+                document.crossRefs);
 
         assertEquals(Collections.singleton("embl"), document.databases);
 
@@ -228,7 +228,7 @@ class UniProtKBEntryCrossReferenceConverterTest {
         assertEquals(
                 new HashSet<>(
                         Arrays.asList("ensembl-id value", "ensembl-E12345", "E12345", "id value")),
-                document.xrefs);
+                document.crossRefs);
 
         assertEquals(Collections.singleton("ensembl"), document.databases);
 

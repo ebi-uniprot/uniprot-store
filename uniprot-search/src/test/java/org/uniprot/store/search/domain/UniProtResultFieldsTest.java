@@ -13,8 +13,6 @@ import org.uniprot.store.search.domain.impl.FieldGroupImpl;
 import org.uniprot.store.search.domain.impl.FieldImpl;
 import org.uniprot.store.search.domain.impl.UniProtResultFields;
 
-import com.google.common.base.Strings;
-
 class UniProtResultFieldsTest {
     private static UniProtResultFields instance;
 
@@ -109,72 +107,6 @@ class UniProtResultFieldsTest {
         verifyField(groups, "Date of", "Date of creation", "date_create");
         verifyField(groups, "Family & Domains", "Compositional bias", "ft_compbias");
         verifyField(groups, "Taxonomic identifier", "Taxonomic lineage IDs", "tax_id");
-    }
-
-    @Test
-    void allFields() {
-        List<FieldGroup> groups = instance.getResultFields();
-        groups.stream()
-                .flatMap(val -> val.getFields().stream())
-                .map(val -> val.getName())
-                .distinct()
-                .filter(val -> !val.startsWith("ft_"))
-                .filter(val -> !val.startsWith("cc_"))
-                .filter(val -> !val.startsWith("dr_"))
-                .filter(val -> !Strings.isNullOrEmpty(val))
-                .forEach(System.out::println);
-    }
-
-    @Test
-    void testOrganelle() {
-        Optional<Field> field = instance.getField("organelle");
-        System.out.println(field.get().getJavaFieldName());
-    }
-
-    void testDatabaseFieldSize() {
-        List<FieldGroup> groups = instance.getDatabaseFields();
-        assertEquals(19, groups.size());
-        verifyGroupSize(groups, "SEQ", 4);
-        verifyGroupSize(groups, "3DS", 3);
-        verifyGroupSize(groups, "PPI", 8);
-        verifyGroupSize(groups, "CHEMISTRY", 5);
-        verifyGroupSize(groups, "PFAM", 12);
-        verifyGroupSize(groups, "PTM", 7);
-        verifyGroupSize(groups, "PMD", 3);
-        verifyGroupSize(groups, "2DG", 7);
-        verifyGroupSize(groups, "PROTEOMIC", 11);
-        verifyGroupSize(groups, "PAM", 2);
-        verifyGroupSize(groups, "GMA", 14);
-        verifyGroupSize(groups, "ORG", 38);
-        verifyGroupSize(groups, "PLG", 9);
-        verifyGroupSize(groups, "EAP", 7);
-        verifyGroupSize(groups, "OTHER", 7);
-        verifyGroupSize(groups, "GEP", 5);
-        verifyGroupSize(groups, "FMD", 15);
-        verifyGroupSize(groups, "OTG", 1);
-        verifyGroupSize(groups, "PRM", 0);
-    }
-
-    void testDatabaseField() {
-        List<FieldGroup> groups = instance.getDatabaseFields();
-        assertEquals(19, groups.size());
-        verifyField(groups, "SEQ", "EMBL", "dr_embl");
-        verifyField(groups, "3DS", "PDB", "dr_pdb");
-        verifyField(groups, "PPI", "CORUM", "dr_corum");
-        verifyField(groups, "CHEMISTRY", "ChEMBL", "dr_chembl");
-        verifyField(groups, "PFAM", "IMGT_GENE-DB", "dr_imgt_gene-db");
-        verifyField(groups, "PTM", "GlyConnect", "dr_glyconnect");
-        verifyField(groups, "PMD", "dbSNP", "dr_dbsnp");
-        verifyField(groups, "2DG", "SWISS-2DPAGE", "dr_swiss-2dpage");
-        verifyField(groups, "PROTEOMIC", "PRIDE", "dr_pride");
-        verifyField(groups, "PAM", "DNASU", "dr_dnasu");
-        verifyField(groups, "GMA", "Ensembl", "dr_ensembl");
-        verifyField(groups, "ORG", "DisGeNET", "dr_disgenet");
-        verifyField(groups, "PLG", "KO", "dr_ko");
-        verifyField(groups, "EAP", "BRENDA", "dr_brenda");
-        verifyField(groups, "OTHER", "GeneWiki", "dr_genewiki");
-        verifyField(groups, "GEP", "Bgee", "dr_bgee");
-        verifyField(groups, "FMD", "HAMAP", "dr_hamap");
     }
 
     private void verifyField(List<FieldGroup> groups, String groupName, String label, String name) {

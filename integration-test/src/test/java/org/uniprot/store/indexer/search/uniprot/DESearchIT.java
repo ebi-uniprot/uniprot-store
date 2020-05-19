@@ -603,6 +603,8 @@ class DESearchIT {
     }
 
     private String proteinName(String value) {
-        return query(searchEngine.getSearchFieldConfig().getSearchFieldItemByName("name"), value);
+        return query(
+                searchEngine.getSearchFieldConfig().getSearchFieldItemByName("protein_name"),
+                value);
     }
 }

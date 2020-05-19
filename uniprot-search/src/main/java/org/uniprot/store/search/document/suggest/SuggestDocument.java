@@ -3,14 +3,14 @@ package org.uniprot.store.search.document.suggest;
 import java.io.Serializable;
 import java.util.List;
 
-import lombok.Builder;
-import lombok.EqualsAndHashCode;
-import lombok.Singular;
+import lombok.*;
 
 import org.apache.solr.client.solrj.beans.Field;
 import org.uniprot.store.search.document.Document;
 
 @EqualsAndHashCode
+@AllArgsConstructor
+@NoArgsConstructor
 @Builder(builderClassName = "SuggestDocumentBuilder")
 public class SuggestDocument implements Document {
     public static final String DEFAULT_IMPORTANCE = "medium";

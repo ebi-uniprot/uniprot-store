@@ -69,10 +69,12 @@ class FTStructureSearchIT {
     }
 
     @Test
-    void d3StructureFindEntry() {
+    void Structure3dFindEntry() {
         String query =
                 query(
-                        searchEngine.getSearchFieldConfig().getSearchFieldItemByName("d3structure"),
+                        searchEngine
+                                .getSearchFieldConfig()
+                                .getSearchFieldItemByName("structure_3d"),
                         "true");
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -86,7 +88,9 @@ class FTStructureSearchIT {
     void note3StructureFindEntry() {
         String query =
                 query(
-                        searchEngine.getSearchFieldConfig().getSearchFieldItemByName("d3structure"),
+                        searchEngine
+                                .getSearchFieldConfig()
+                                .getSearchFieldItemByName("structure_3d"),
                         "false");
         QueryResponse response = searchEngine.getQueryResponse(query);
 

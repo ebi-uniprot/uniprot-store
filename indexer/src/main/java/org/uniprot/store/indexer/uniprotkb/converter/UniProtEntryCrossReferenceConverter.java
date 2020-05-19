@@ -113,7 +113,7 @@ class UniProtEntryCrossReferenceConverter {
 
     private void convertXRefId(UniProtDocument document, String dbname, String s) {
         List<String> xrefIds = UniProtEntryConverterUtil.getXrefId(s, dbname);
-        document.xrefs.addAll(xrefIds);
+        document.crossRefs.addAll(xrefIds);
         document.content.addAll(xrefIds);
     }
 

@@ -159,7 +159,7 @@ public class UniProtEntryConverter
         if (idParts.length == 2) {
             if (document.reviewed) {
                 // first component of swiss-prot id is gene, which we want searchable in the
-                // mnemonic
+                // id
                 document.idDefault = document.id;
             } else {
                 // don't add first component for trembl entries, since this is the accession,

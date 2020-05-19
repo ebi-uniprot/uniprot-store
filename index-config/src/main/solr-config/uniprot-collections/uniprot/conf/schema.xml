@@ -466,13 +466,13 @@
 	<field name="inactive_reason" type="string" indexed="false"
 		stored="true" required="false" multiValued="false" />
 
-	<field name="mnemonic" type="basic_ci" indexed="true"
-		stored="true" required="false" multiValued="false" />
-	<field name="mnemonic_sort" type="string" indexed="true"
-		stored="false" required="false" multiValued="false" docValues="true" />
-	<field name="mnemonic_default" type="full_ci" indexed="true"
+	<field name="id" type="basic_ci" indexed="true" stored="true"
+		required="false" multiValued="false" />
+	<field name="id_sort" type="string" indexed="true" stored="false"
+		required="false" multiValued="false" docValues="true" />
+	<field name="id_default" type="full_ci" indexed="true"
 		stored="false" required="false" multiValued="false" />
-	<copyField source="mnemonic" dest="mnemonic_sort" />
+	<copyField source="id" dest="id_sort" />
 
 	<field name="active" type="boolean" indexed="true" stored="true"
 		required="false" multiValued="false" />
@@ -481,27 +481,27 @@
 		stored="false" required="false" multiValued="false" />
 	<field name="reviewed" type="boolean" indexed="true"
 		stored="false" required="false" multiValued="false" />
-	<field name="modified" type="rdates" indexed="true"
+	<field name="date_modified" type="rdates" indexed="true"
 		stored="false" required="false" />
-	<field name="created" type="rdates" indexed="true" stored="false"
-		required="false" />
-	<field name="sequence_modified" type="rdates" indexed="true"
+	<field name="date_created" type="rdates" indexed="true"
+		stored="false" required="false" />
+	<field name="date_sequence_modified" type="rdates" indexed="true"
 		stored="false" required="false" />
 
 	<field name="source" type="lowercase" indexed="true"
 		stored="false" required="false" multiValued="true" />
 
 	<!-- Protein name section -->
-	<field name="name" type="full_ci" indexed="true" stored="false"
-		required="false" multiValued="true" />
-	<field name="name_sort" type="string" indexed="true"
+	<field name="protein_name" type="full_ci" indexed="true"
+		stored="false" required="false" multiValued="true" />
+	<field name="protein_name_sort" type="string" indexed="true"
 		stored="false" required="false" multiValued="false" docValues="true" />
 
 	<field name="fragment" type="boolean" indexed="true"
 		stored="false" required="false" multiValued="false" />
 	<field name="precursor" type="boolean" indexed="true"
 		stored="false" required="false" multiValued="false" />
-	<field name="d3structure" type="boolean" indexed="true"
+	<field name="structure_3d" type="boolean" indexed="true"
 		stored="false" required="false" multiValued="false" />
 	<field name="proteins_with" type="string" indexed="true"
 		stored="false" required="false" multiValued="true" />
@@ -557,7 +557,7 @@
 	<field name="protgene_default" type="full_ci" indexed="true"
 		stored="false" required="false" multiValued="true" />
 	<copyField source="gene" dest="protgene_default" />
-	<copyField source="name" dest="protgene_default" />
+	<copyField source="protein_name" dest="protgene_default" />
 
 	<!-- Taxonomy -->
 	<field name="organism_sort" type="string" indexed="true"
@@ -570,10 +570,10 @@
 		stored="false" required="false" multiValued="true" />
 	<field name="taxonomy_id" type="int" indexed="true"
 		stored="false" required="false" multiValued="true" />
-	<field name="host_name" type="full_ci" indexed="true"
+	<field name="virus_host_name" type="full_ci" indexed="true"
 		stored="false" required="false" multiValued="true" />
-	<field name="host_id" type="int" indexed="true" stored="false"
-		required="false" multiValued="true" />
+	<field name="virus_host_id" type="int" indexed="true"
+		stored="false" required="false" multiValued="true" />
 	<field name="model_organism" type="string" indexed="true"
 		stored="false" required="false" multiValued="false" />
 	<field name="other_organism" type="string" indexed="true"

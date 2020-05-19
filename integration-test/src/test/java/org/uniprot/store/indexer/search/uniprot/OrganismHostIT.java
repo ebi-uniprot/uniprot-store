@@ -251,12 +251,13 @@ class OrganismHostIT {
 
     String organismHostName(String name) {
         return query(
-                searchEngine.getSearchFieldConfig().getSearchFieldItemByName("host_name"), name);
+                searchEngine.getSearchFieldConfig().getSearchFieldItemByName("virus_host_name"),
+                name);
     }
 
     String organismHostID(int tax) {
         return query(
-                searchEngine.getSearchFieldConfig().getSearchFieldItemByName("host_id"),
+                searchEngine.getSearchFieldConfig().getSearchFieldItemByName("virus_host_id"),
                 String.valueOf(tax));
     }
 }

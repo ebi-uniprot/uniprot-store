@@ -114,7 +114,7 @@ class DatesSearchIT {
                 before(
                         searchEngine
                                 .getSearchFieldConfig()
-                                .getSearchFieldItemByName("created")
+                                .getSearchFieldItemByName("date_created")
                                 .getFieldName(),
                         creationDate);
 
@@ -132,7 +132,7 @@ class DatesSearchIT {
                 before(
                         searchEngine
                                 .getSearchFieldConfig()
-                                .getSearchFieldItemByName("created")
+                                .getSearchFieldItemByName("date_created")
                                 .getFieldName(),
                         creationDate);
 
@@ -150,7 +150,7 @@ class DatesSearchIT {
                 before(
                         searchEngine
                                 .getSearchFieldConfig()
-                                .getSearchFieldItemByName("created")
+                                .getSearchFieldItemByName("date_created")
                                 .getFieldName(),
                         creationDate);
 
@@ -168,7 +168,7 @@ class DatesSearchIT {
                 before(
                         searchEngine
                                 .getSearchFieldConfig()
-                                .getSearchFieldItemByName("modified")
+                                .getSearchFieldItemByName("date_modified")
                                 .getFieldName(),
                         updateDate);
 
@@ -186,7 +186,7 @@ class DatesSearchIT {
                 before(
                         searchEngine
                                 .getSearchFieldConfig()
-                                .getSearchFieldItemByName("modified")
+                                .getSearchFieldItemByName("date_modified")
                                 .getFieldName(),
                         updateDate);
 
@@ -204,7 +204,7 @@ class DatesSearchIT {
                 before(
                         searchEngine
                                 .getSearchFieldConfig()
-                                .getSearchFieldItemByName("modified")
+                                .getSearchFieldItemByName("date_modified")
                                 .getFieldName(),
                         updateDate);
 
@@ -223,7 +223,7 @@ class DatesSearchIT {
                 after(
                         searchEngine
                                 .getSearchFieldConfig()
-                                .getSearchFieldItemByName("created")
+                                .getSearchFieldItemByName("date_created")
                                 .getFieldName(),
                         creationDate);
 
@@ -241,7 +241,7 @@ class DatesSearchIT {
                 after(
                         searchEngine
                                 .getSearchFieldConfig()
-                                .getSearchFieldItemByName("created")
+                                .getSearchFieldItemByName("date_created")
                                 .getFieldName(),
                         creationDate);
 
@@ -263,7 +263,7 @@ class DatesSearchIT {
                 after(
                         searchEngine
                                 .getSearchFieldConfig()
-                                .getSearchFieldItemByName("created")
+                                .getSearchFieldItemByName("date_created")
                                 .getFieldName(),
                         creationDate);
 
@@ -288,7 +288,7 @@ class DatesSearchIT {
                 after(
                         searchEngine
                                 .getSearchFieldConfig()
-                                .getSearchFieldItemByName("modified")
+                                .getSearchFieldItemByName("date_modified")
                                 .getFieldName(),
                         updateDate);
 
@@ -309,7 +309,7 @@ class DatesSearchIT {
                 after(
                         searchEngine
                                 .getSearchFieldConfig()
-                                .getSearchFieldItemByName("modified")
+                                .getSearchFieldItemByName("date_modified")
                                 .getFieldName(),
                         updateDate);
 
@@ -330,7 +330,7 @@ class DatesSearchIT {
                 after(
                         searchEngine
                                 .getSearchFieldConfig()
-                                .getSearchFieldItemByName("modified")
+                                .getSearchFieldItemByName("date_modified")
                                 .getFieldName(),
                         updateDate);
 
@@ -356,7 +356,7 @@ class DatesSearchIT {
                 rangeQuery(
                         searchEngine
                                 .getSearchFieldConfig()
-                                .getSearchFieldItemByName("created")
+                                .getSearchFieldItemByName("date_created")
                                 .getFieldName(),
                         startDate,
                         endDate);
@@ -376,7 +376,7 @@ class DatesSearchIT {
                 rangeQuery(
                         searchEngine
                                 .getSearchFieldConfig()
-                                .getSearchFieldItemByName("created")
+                                .getSearchFieldItemByName("date_created")
                                 .getFieldName(),
                         startDate,
                         endDate);
@@ -396,7 +396,7 @@ class DatesSearchIT {
                 rangeQuery(
                         searchEngine
                                 .getSearchFieldConfig()
-                                .getSearchFieldItemByName("created")
+                                .getSearchFieldItemByName("date_created")
                                 .getFieldName(),
                         startDate,
                         endDate);
@@ -416,7 +416,7 @@ class DatesSearchIT {
                 rangeQuery(
                         searchEngine
                                 .getSearchFieldConfig()
-                                .getSearchFieldItemByName("modified")
+                                .getSearchFieldItemByName("date_modified")
                                 .getFieldName(),
                         startDate,
                         endDate);
@@ -436,7 +436,7 @@ class DatesSearchIT {
                 rangeQuery(
                         searchEngine
                                 .getSearchFieldConfig()
-                                .getSearchFieldItemByName("modified")
+                                .getSearchFieldItemByName("date_modified")
                                 .getFieldName(),
                         startDate,
                         endDate);
@@ -458,7 +458,7 @@ class DatesSearchIT {
                 rangeQuery(
                         searchEngine
                                 .getSearchFieldConfig()
-                                .getSearchFieldItemByName("modified")
+                                .getSearchFieldItemByName("date_modified")
                                 .getFieldName(),
                         startDate,
                         endDate);
@@ -482,7 +482,7 @@ class DatesSearchIT {
                 rangeQuery(
                         searchEngine
                                 .getSearchFieldConfig()
-                                .getSearchFieldItemByName("created")
+                                .getSearchFieldItemByName("date_created")
                                 .getFieldName(),
                         startDate,
                         endDate);
@@ -502,7 +502,7 @@ class DatesSearchIT {
                 rangeQuery(
                         searchEngine
                                 .getSearchFieldConfig()
-                                .getSearchFieldItemByName("created")
+                                .getSearchFieldItemByName("date_created")
                                 .getFieldName(),
                         startDate,
                         endDate);
@@ -522,7 +522,7 @@ class DatesSearchIT {
                 rangeQuery(
                         searchEngine
                                 .getSearchFieldConfig()
-                                .getSearchFieldItemByName("created")
+                                .getSearchFieldItemByName("date_created")
                                 .getFieldName(),
                         startDate,
                         endDate);
@@ -542,7 +542,7 @@ class DatesSearchIT {
                 rangeQuery(
                         searchEngine
                                 .getSearchFieldConfig()
-                                .getSearchFieldItemByName("created")
+                                .getSearchFieldItemByName("date_created")
                                 .getFieldName(),
                         startDate,
                         endDate);
@@ -567,7 +567,7 @@ class DatesSearchIT {
                 rangeQuery(
                         searchEngine
                                 .getSearchFieldConfig()
-                                .getSearchFieldItemByName("created")
+                                .getSearchFieldItemByName("date_created")
                                 .getFieldName(),
                         startDate,
                         endDate);
@@ -588,7 +588,7 @@ class DatesSearchIT {
                 rangeQuery(
                         searchEngine
                                 .getSearchFieldConfig()
-                                .getSearchFieldItemByName("created")
+                                .getSearchFieldItemByName("date_created")
                                 .getFieldName(),
                         startDate,
                         endDate);
@@ -609,7 +609,7 @@ class DatesSearchIT {
                 rangeQuery(
                         searchEngine
                                 .getSearchFieldConfig()
-                                .getSearchFieldItemByName("created")
+                                .getSearchFieldItemByName("date_created")
                                 .getFieldName(),
                         startDate,
                         endDate);
@@ -630,7 +630,7 @@ class DatesSearchIT {
                 rangeQuery(
                         searchEngine
                                 .getSearchFieldConfig()
-                                .getSearchFieldItemByName("created")
+                                .getSearchFieldItemByName("date_created")
                                 .getFieldName(),
                         startDate,
                         endDate);
@@ -654,7 +654,7 @@ class DatesSearchIT {
                 rangeQuery(
                         searchEngine
                                 .getSearchFieldConfig()
-                                .getSearchFieldItemByName("created")
+                                .getSearchFieldItemByName("date_created")
                                 .getFieldName(),
                         startDate,
                         endDate);
@@ -674,7 +674,7 @@ class DatesSearchIT {
                 rangeQuery(
                         searchEngine
                                 .getSearchFieldConfig()
-                                .getSearchFieldItemByName("created")
+                                .getSearchFieldItemByName("date_created")
                                 .getFieldName(),
                         startDate,
                         endDate);
@@ -694,7 +694,7 @@ class DatesSearchIT {
                 rangeQuery(
                         searchEngine
                                 .getSearchFieldConfig()
-                                .getSearchFieldItemByName("created")
+                                .getSearchFieldItemByName("date_created")
                                 .getFieldName(),
                         startDate,
                         endDate);
@@ -716,7 +716,7 @@ class DatesSearchIT {
                 rangeQuery(
                         searchEngine
                                 .getSearchFieldConfig()
-                                .getSearchFieldItemByName("created")
+                                .getSearchFieldItemByName("date_created")
                                 .getFieldName(),
                         startDate,
                         endDate);
@@ -736,7 +736,7 @@ class DatesSearchIT {
                 rangeQuery(
                         searchEngine
                                 .getSearchFieldConfig()
-                                .getSearchFieldItemByName("sequence_modified")
+                                .getSearchFieldItemByName("date_sequence_modified")
                                 .getFieldName(),
                         startDate,
                         endDate);

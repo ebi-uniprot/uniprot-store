@@ -224,7 +224,7 @@ class BasicCIAnalysisSearchIT {
         accession_id(STRING_FUNCTION),
         gene_exact(STRING_LIST_FUNCTION),
         existence(STRING_FUNCTION),
-        mnemonic(STRING_FUNCTION),
+        id(STRING_FUNCTION),
         sec_acc(STRING_LIST_FUNCTION);
 
         private Function<String, ?> field;

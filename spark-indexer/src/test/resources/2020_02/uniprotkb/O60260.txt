@@ -1118,7 +1118,7 @@ DR   PDBsum; 6GLC; -.
 DR   PDBsum; 6HUE; -.
 DR   PDBsum; 6N13; -.
 DR   SMR; O60260; -.
-DR   BioGrid; 111105; 472.
+DR   BioGRID; 111105; 472.
 DR   CORUM; O60260; -.
 DR   DIP; DIP-37655N; -.
 DR   IntAct; O60260; 130.
