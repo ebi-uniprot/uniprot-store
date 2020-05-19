@@ -1,6 +1,14 @@
 package org.uniprot.store.indexer.common.config;
 
+import static java.util.Arrays.asList;
+
+import java.io.IOException;
+import java.util.Collection;
+import java.util.List;
+import java.util.Optional;
+
 import lombok.extern.slf4j.Slf4j;
+
 import org.apache.http.client.HttpClient;
 import org.apache.solr.client.solrj.SolrClient;
 import org.apache.solr.client.solrj.SolrQuery;
@@ -13,13 +21,6 @@ import org.apache.solr.client.solrj.response.UpdateResponse;
 import org.apache.solr.common.params.ModifiableSolrParams;
 import org.uniprot.store.search.SolrCollection;
 import org.uniprot.store.search.document.Document;
-
-import java.io.IOException;
-import java.util.Collection;
-import java.util.List;
-import java.util.Optional;
-
-import static java.util.Arrays.asList;
 
 /**
  * A wrapper of {@link SolrClient} which creates a {@link SolrClient} instance for each thread that
