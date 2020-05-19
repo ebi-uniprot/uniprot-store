@@ -1,6 +1,10 @@
 package org.uniprot.store.spark.indexer.suggest;
 
-import org.apache.spark.api.java.JavaPairRDD;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.uniprot.store.search.document.suggest.SuggestDictionary.*;
+
+import java.util.ResourceBundle;
+
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
 import org.junit.jupiter.api.AfterAll;
@@ -11,10 +15,6 @@ import org.uniprot.store.search.document.suggest.SuggestDocument;
 import org.uniprot.store.spark.indexer.common.JobParameter;
 import org.uniprot.store.spark.indexer.common.util.SparkUtils;
 import org.uniprot.store.spark.indexer.uniprot.UniProtKBRDDTupleReader;
-import java.util.ResourceBundle;
-
-import static org.junit.jupiter.api.Assertions.*;
-import static org.uniprot.store.search.document.suggest.SuggestDictionary.*;
 
 /**
  * @author lgonzales
@@ -30,16 +30,17 @@ class SuggestDocumentsToHDFSWriterTest {
     void setUpWriter() {
         ResourceBundle application = SparkUtils.loadApplicationProperty();
         JavaSparkContext sparkContext = SparkUtils.loadSparkContext(application);
-        parameter = JobParameter.builder()
-                .applicationConfig(application)
-                .releaseName("2020_02")
-                .sparkContext(sparkContext)
-                .build();
+        parameter =
+                JobParameter.builder()
+                        .applicationConfig(application)
+                        .releaseName("2020_02")
+                        .sparkContext(sparkContext)
+                        .build();
         flatFileRDD = UniProtKBRDDTupleReader.loadFlatFileToRDD(parameter);
     }
 
     @AfterAll
-    void closeWriter(){
+    void closeWriter() {
         parameter.getSparkContext().close();
     }
 
