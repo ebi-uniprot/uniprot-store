@@ -1,14 +1,12 @@
 package org.uniprot.store.indexer.uniprotkb.converter;
 
-import static org.uniprot.store.indexer.uniprotkb.converter.UniProtEntryConverterUtil.createSuggestionMapKey;
-import static org.uniprot.store.indexer.uniprotkb.converter.UniProtEntryConverterUtil.truncatedSortValue;
+import static org.uniprot.store.indexer.uniprotkb.converter.UniProtEntryConverterUtil.*;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import org.uniprot.core.Value;
 import org.uniprot.core.uniprotkb.description.*;
 import org.uniprot.cv.ec.ECRepo;
 import org.uniprot.store.search.document.suggest.SuggestDictionary;
@@ -89,101 +87,6 @@ class UniprotKBEntryProteinDescriptionConverter {
 
     private List<String> getEcs(List<EC> ecs) {
         return ecs.stream().map(EC::getValue).collect(Collectors.toList());
-    }
-
-    private List<String> extractProteinDescriptionValues(ProteinDescription description) {
-        List<String> values = new ArrayList<>();
-        if (description.hasRecommendedName()) {
-            values.addAll(getProteinRecNameNames(description.getRecommendedName()));
-        }
-        if (description.hasSubmissionNames()) {
-            description.getSubmissionNames().stream()
-                    .map(this::getProteinSubNameNames)
-                    .forEach(values::addAll);
-        }
-        if (description.hasAlternativeNames()) {
-            description.getAlternativeNames().stream()
-                    .map(this::getProteinAltNameNames)
-                    .forEach(values::addAll);
-        }
-        if (description.hasContains()) {
-            description.getContains().stream()
-                    .map(this::getProteinSectionValues)
-                    .forEach(values::addAll);
-        }
-        if (description.hasIncludes()) {
-            description.getIncludes().stream()
-                    .map(this::getProteinSectionValues)
-                    .forEach(values::addAll);
-        }
-        if (description.hasAllergenName()) {
-            values.add(description.getAllergenName().getValue());
-        }
-        if (description.hasBiotechName()) {
-            values.add(description.getBiotechName().getValue());
-        }
-        if (description.hasCdAntigenNames()) {
-            description.getCdAntigenNames().stream().map(Value::getValue).forEach(values::add);
-        }
-        if (description.hasInnNames()) {
-            description.getInnNames().stream().map(Value::getValue).forEach(values::add);
-        }
-        return values;
-    }
-
-    private List<String> getProteinSectionValues(ProteinSection proteinSection) {
-        List<String> names = new ArrayList<>();
-        if (proteinSection.hasRecommendedName()) {
-            names.addAll(getProteinRecNameNames(proteinSection.getRecommendedName()));
-        }
-        if (proteinSection.hasAlternativeNames()) {
-            proteinSection.getAlternativeNames().stream()
-                    .map(this::getProteinAltNameNames)
-                    .forEach(names::addAll);
-        }
-        if (proteinSection.hasCdAntigenNames()) {
-            proteinSection.getCdAntigenNames().stream().map(Value::getValue).forEach(names::add);
-        }
-        if (proteinSection.hasAllergenName()) {
-            names.add(proteinSection.getAllergenName().getValue());
-        }
-        if (proteinSection.hasInnNames()) {
-            proteinSection.getInnNames().stream().map(Value::getValue).forEach(names::add);
-        }
-        if (proteinSection.hasBiotechName()) {
-            names.add(proteinSection.getBiotechName().getValue());
-        }
-        return names;
-    }
-
-    private List<String> getProteinRecNameNames(ProteinRecName proteinRecName) {
-        List<String> names = new ArrayList<>();
-        if (proteinRecName.hasFullName()) {
-            names.add(proteinRecName.getFullName().getValue());
-        }
-        if (proteinRecName.hasShortNames()) {
-            proteinRecName.getShortNames().stream().map(Name::getValue).forEach(names::add);
-        }
-        return names;
-    }
-
-    private List<String> getProteinAltNameNames(ProteinAltName proteinAltName) {
-        List<String> names = new ArrayList<>();
-        if (proteinAltName.hasShortNames()) {
-            proteinAltName.getShortNames().stream().map(Name::getValue).forEach(names::add);
-        }
-        if (proteinAltName.hasFullName()) {
-            names.add(proteinAltName.getFullName().getValue());
-        }
-        return names;
-    }
-
-    private List<String> getProteinSubNameNames(ProteinSubName proteinAltName) {
-        List<String> names = new ArrayList<>();
-        if (proteinAltName.hasFullName()) {
-            names.add(proteinAltName.getFullName().getValue());
-        }
-        return names;
     }
 
     private List<String> extractProteinDescriptionEcs(ProteinDescription proteinDescription) {

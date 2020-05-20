@@ -7,7 +7,8 @@
     "dataType": "STRING",
     "sortFieldId": "id_sort",
     "description": "Search by crossref id which is accession",
-    "example": "DB-0236"
+    "example": "DB-0236",
+    "includeInSwagger": true
   },
   {
     "id": "id_sort",
@@ -24,7 +25,8 @@
     "sortFieldId": "category_str_sort",
     "dataType": "STRING",
     "description": "Search by crossref category",
-    "example": "Organism-specific databases"
+    "example": "Organism-specific databases",
+    "includeInSwagger": true
   },
   {
     "id": "category_str_sort",
@@ -40,7 +42,8 @@
     "fieldType": "GENERAL",
     "dataType": "STRING",
     "description": "Search by crossref name",
-    "example": "Arabidopsis Information Portal"
+    "example": "Arabidopsis Information Portal",
+    "includeInSwagger": true
   },
   {
     "id": "category_facet",
