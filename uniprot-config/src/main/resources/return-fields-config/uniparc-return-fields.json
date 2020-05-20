@@ -17,7 +17,8 @@
     "label": "Entry",
     "name": "upi",
     "paths": ["uniParcId"],
-    "id": "names_&_taxonomy/id"
+    "id": "names_&_taxonomy/id",
+    "includeInSwagger": true
   },
   {
     "parentId": "names_&_taxonomy",
@@ -26,7 +27,8 @@
     "label": "Gene names",
     "name": "gene",
     "paths": ["uniParcCrossReferences[*].properties[?(@.key=='gene_name')]"],
-    "id": "names_&_taxonomy/gene"
+    "id": "names_&_taxonomy/gene",
+    "includeInSwagger": true
   },
   {
     "parentId": "names_&_taxonomy",
@@ -35,7 +37,8 @@
     "label": "Organism ID",
     "name": "organism_id",
     "paths": ["taxonomies[*].taxonId"],
-    "id": "names_&_taxonomy/organism_id"
+    "id": "names_&_taxonomy/organism_id",
+    "includeInSwagger": true
   },
   {
     "parentId": "names_&_taxonomy",
@@ -46,7 +49,8 @@
     "label": "Organisms",
     "name": "organism",
     "paths": ["taxonomies"],
-    "id": "names_&_taxonomy/organism"
+    "id": "names_&_taxonomy/organism",
+    "includeInSwagger": true
   },
   {
     "parentId": "names_&_taxonomy",
@@ -55,7 +59,8 @@
     "label": "Protein names",
     "name": "protein",
     "paths": ["uniParcCrossReferences[*].properties[?(@.key=='protein_name')]"],
-    "id": "names_&_taxonomy/protein"
+    "id": "names_&_taxonomy/protein",
+    "includeInSwagger": true
   },
   {
     "parentId": "names_&_taxonomy",
@@ -64,7 +69,8 @@
     "label": "Proteomes",
     "name": "proteome",
     "paths": ["uniParcCrossReferences[*].properties[?(@.key=='proteome_id')]"],
-    "id": "names_&_taxonomy/proteome"
+    "id": "names_&_taxonomy/proteome",
+    "includeInSwagger": true
   },
   {
     "seqNumber": 1,
@@ -80,7 +86,8 @@
     "label": "Checksum",
     "name": "checksum",
     "paths": ["sequence.crc64"],
-    "id": "sequences/checksum"
+    "id": "sequences/checksum",
+    "includeInSwagger": true
   },
   {
     "parentId": "sequences",
@@ -92,7 +99,8 @@
     "label": "Length",
     "name": "length",
     "paths": ["sequence.length"],
-    "id": "sequences/length"
+    "id": "sequences/length",
+    "includeInSwagger": true
   },
 
   {
@@ -102,7 +110,8 @@
     "label": "Sequence",
     "name": "sequence",
     "paths": ["sequence.value"],
-    "id": "sequences/sequence"
+    "id": "sequences/sequence",
+    "includeInSwagger": true
   },
   {
     "seqNumber": 2,
@@ -118,7 +127,8 @@
     "label": "Matched text",
     "name": "matched",
     "paths": ["uniParcId"],
-    "id": "miscellaneous/matched"
+    "id": "miscellaneous/matched",
+    "includeInSwagger": true
   },
   {
     "parentId": "miscellaneous",
@@ -129,7 +139,8 @@
     "label": "UniProtKB",
     "name": "accession",
     "paths": ["uniParcCrossReferences[*].properties[?(@.key=='UniProtKB_accession')]"],
-    "id": "miscellaneous/accession"
+    "id": "miscellaneous/accession",
+    "includeInSwagger": true
   },
   {
     "seqNumber": 3,
@@ -147,7 +158,8 @@
     "label": "First seen",
     "name": "first_seen",
     "paths": ["uniParcCrossReferences[*].created"],
-    "id": "date_of/first_seen"
+    "id": "date_of/first_seen",
+    "includeInSwagger": true
   },
   {
     "parentId": "date_of",
@@ -158,7 +170,8 @@
     "label": "Last seen",
     "name": "last_seen",
     "paths": ["uniParcCrossReferences[*].lastUpdated"],
-    "id": "date_of/last_seen"
+    "id": "date_of/last_seen",
+    "includeInSwagger": true
   },
   {
     "seqNumber": 4,
@@ -174,7 +187,8 @@
     "label": "CDD",
     "name": "CDD",
     "paths": ["sequenceFeatures[?(@.database=='CDD')]"],
-    "id": "family_&_domains/CDD"
+    "id": "family_&_domains/CDD",
+    "includeInSwagger": true
   },
   {
     "parentId": "family_&_domains",
@@ -183,7 +197,8 @@
     "label": "Gene3D",
     "name": "Gene3D",
     "paths": ["sequenceFeatures[?(@.database=='Gene3D')]"],
-    "id": "family_&_domains/Gene3D"
+    "id": "family_&_domains/Gene3D",
+    "includeInSwagger": true
   },
   {
     "parentId": "family_&_domains",
@@ -192,7 +207,8 @@
     "label": "HAMAP",
     "name": "HAMAP",
     "paths": ["sequenceFeatures[?(@.database=='HAMAP')]"],
-    "id": "family_&_domains/HAMAP"
+    "id": "family_&_domains/HAMAP",
+    "includeInSwagger": true
   },
   {
     "parentId": "family_&_domains",
@@ -201,7 +217,8 @@
     "label": "PANTHER",
     "name": "PANTHER",
     "paths": ["sequenceFeatures[?(@.database=='PANTHER')]"],
-    "id": "family_&_domains/PANTHER"
+    "id": "family_&_domains/PANTHER",
+    "includeInSwagger": true
   },
   {
     "parentId": "family_&_domains",
@@ -210,7 +227,8 @@
     "label": "Pfam",
     "name": "Pfam",
     "paths": ["sequenceFeatures[?(@.database=='Pfam')]"],
-    "id": "family_&_domains/Pfam"
+    "id": "family_&_domains/Pfam",
+    "includeInSwagger": true
   },
   {
     "parentId": "family_&_domains",
@@ -219,7 +237,8 @@
     "label": "PIRSF",
     "name": "PIRSF",
     "paths": ["sequenceFeatures[?(@.database=='PIRSF')]"],
-    "id": "family_&_domains/PIRSF"
+    "id": "family_&_domains/PIRSF",
+    "includeInSwagger": true
   },
   {
     "parentId": "family_&_domains",
@@ -228,7 +247,8 @@
     "label": "PRINTS",
     "name": "PRINTS",
     "paths": ["sequenceFeatures[?(@.database=='PRINTS')]"],
-    "id": "family_&_domains/PRINTS"
+    "id": "family_&_domains/PRINTS",
+    "includeInSwagger": true
   },
   {
     "parentId": "family_&_domains",
@@ -237,7 +257,8 @@
     "label": "PROSITE",
     "name": "PROSITE",
     "paths": ["sequenceFeatures[?(@.database=='PROSITE')]"],
-    "id": "family_&_domains/PROSITE"
+    "id": "family_&_domains/PROSITE",
+    "includeInSwagger": true
   },
   {
     "parentId": "family_&_domains",
@@ -246,7 +267,8 @@
     "label": "SFLD",
     "name": "SFLD",
     "paths": ["sequenceFeatures[?(@.database=='SFLD')]"],
-    "id": "family_&_domains/SFLD"
+    "id": "family_&_domains/SFLD",
+    "includeInSwagger": true
   },
   {
     "parentId": "family_&_domains",
@@ -255,7 +277,8 @@
     "label": "SMART",
     "name": "SMART",
     "paths": ["sequenceFeatures[?(@.database=='SMART')]"],
-    "id": "family_&_domains/SMART"
+    "id": "family_&_domains/SMART",
+    "includeInSwagger": true
   },
   {
     "parentId": "family_&_domains",
@@ -264,7 +287,8 @@
     "label": "SUPFAM",
     "name": "SUPFAM",
     "paths": ["sequenceFeatures[?(@.database=='SUPFAM')]"],
-    "id": "family_&_domains/SUPFAM"
+    "id": "family_&_domains/SUPFAM",
+    "includeInSwagger": true
   },
   {
     "parentId": "family_&_domains",
@@ -273,6 +297,7 @@
     "label": "TIGRFAMs",
     "name": "TIGRFAMs",
     "paths": ["sequenceFeatures[?(@.database=='TIGRFAMs')]"],
-    "id": "family_&_domains/TIGRFAMs"
+    "id": "family_&_domains/TIGRFAMs",
+    "includeInSwagger": true
   }
 ]
