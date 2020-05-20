@@ -7,7 +7,8 @@
     "validRegex": "^[0-9]+$",
     "sortFieldId": "id_sort_id",
     "description": "Search by literature identifier",
-    "example": "12345"
+    "example": "12345",
+    "includeInSwagger": true
   },
   {
     "id": "id_sort_id",
@@ -24,7 +25,8 @@
     "dataType": "STRING",
     "sortFieldId": "title_sort_id",
     "description": "Search by title",
-    "example": "sample title"
+    "example": "sample title",
+    "includeInSwagger": true
   },
   {
     "id": "title_sort_id",
@@ -40,7 +42,8 @@
     "fieldType": "GENERAL",
     "dataType": "STRING",
     "description": "Search by data object identifier",
-    "example": "10.1007/s11882-009-0055-9"
+    "example": "10.1007/s11882-009-0055-9",
+    "includeInSwagger": true
   },
   {
     "id": "author",
@@ -48,7 +51,8 @@
     "fieldType": "GENERAL",
     "dataType": "STRING",
     "description": "Search by author name",
-    "example": "sample author name"
+    "example": "sample author name",
+    "includeInSwagger": true
   },
   {
     "id": "journal",
@@ -56,7 +60,8 @@
     "fieldType": "GENERAL",
     "dataType": "STRING",
     "description": "Search by journal",
-    "example": "sample journal"
+    "example": "sample journal",
+    "includeInSwagger": true
   },
   {
     "id": "published",
@@ -64,7 +69,8 @@
     "fieldType": "GENERAL",
     "dataType": "STRING",
     "description": "Search by published",
-    "example": "sample"
+    "example": "sample",
+    "includeInSwagger": true
   },
   {
     "id": "citedin",

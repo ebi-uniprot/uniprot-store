@@ -6,8 +6,8 @@
     "fieldType": "GENERAL",
     "sortFieldId": "name_sort_id",
     "description": "Search by name",
-    "example": "2Fe-2S"
-
+    "example": "2Fe-2S",
+    "includeInSwagger": true
   },
   {
     "id": "name_sort_id",
@@ -16,7 +16,6 @@
     "fieldType": "SORT",
     "description": "Sort by name",
     "example": "name_sort desc"
-
   },
   {
     "id": "id",
@@ -34,7 +33,8 @@
     "fieldType": "GENERAL",
     "dataType": "STRING",
     "description": "Search by keyword id",
-    "example": "KW-0001"
+    "example": "KW-0001",
+    "includeInSwagger": true
   },
   {
     "id": "ancestor",
@@ -42,7 +42,8 @@
     "fieldType": "GENERAL",
     "dataType": "STRING",
     "description": "Search by ancestor id",
-    "example": "KW-0001"
+    "example": "KW-0001",
+    "includeInSwagger": true
   },
   {
     "id": "parent",
@@ -50,7 +51,8 @@
     "fieldType": "GENERAL",
     "dataType": "STRING",
     "description": "Search by parent id",
-    "example": "KW-0001"
+    "example": "KW-0001",
+    "includeInSwagger": true
   },
   {
     "id": "content",
