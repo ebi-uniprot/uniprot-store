@@ -19,6 +19,7 @@ import org.apache.solr.client.solrj.impl.HttpSolrClient;
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.client.solrj.response.UpdateResponse;
 import org.apache.solr.common.params.ModifiableSolrParams;
+import org.uniprot.core.util.Utils;
 import org.uniprot.store.search.SolrCollection;
 import org.uniprot.store.search.document.Document;
 
@@ -82,7 +83,10 @@ public class UniProtSolrClient {
             }
         } catch (SolrServerException | IOException e) {
             throw new SolrQueryRetrievalException(
-                    "Could not write documents to Solr collection [" + collectionString + "]", e);
+                    "Query to collection '"
+                            + collectionString
+                            + "' returned multiple documents, but only one was expected",
+                    e);
         }
     }
 
@@ -138,7 +142,7 @@ public class UniProtSolrClient {
                     .build();
         } else {
             throw new IllegalStateException(
-                    "make sure your application.properties has eight solr zookeeperhost or httphost properties");
+                    "make sure your application.properties has solr zookeeperhost or httphost properties");
         }
     }
 
@@ -147,10 +151,8 @@ public class UniProtSolrClient {
         // CloudSolrClient.Builder,
         // but here I am just adding Credentials
         ModifiableSolrParams param = null;
-        if (config.getUsername() != null
-                && !config.getUsername().isEmpty()
-                && config.getPassword() != null
-                && !config.getPassword().isEmpty()) {
+        if (Utils.notNullNotEmpty(config.getUsername())
+                && Utils.notNullNotEmpty(config.getPassword())) {
             param = new ModifiableSolrParams();
             param.add(HttpClientUtil.PROP_BASIC_AUTH_USER, config.getUsername());
             param.add(HttpClientUtil.PROP_BASIC_AUTH_PASS, config.getPassword());
