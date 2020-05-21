@@ -33,10 +33,13 @@ public class UniRuleIndexJob {
 
     @Bean
     public Job indexJob(
-            Step indexUniRuleStep, WriteRetrierLogJobListener writeRetrierLogJobListener) {
+            Step uniRuleProteinCountSQLStep,
+            Step indexUniRuleStep,
+            WriteRetrierLogJobListener writeRetrierLogJobListener) {
         return this.jobBuilderFactory
                 .get(Constants.UNIRULE_INDEX_JOB)
-                .start(indexUniRuleStep) // index uniRule entry
+                .start(uniRuleProteinCountSQLStep) // load protein count from DB
+                .next(indexUniRuleStep) // index uniRule entry
                 .listener(writeRetrierLogJobListener)
                 .listener(
                         new JobExecutionListener() {
