@@ -30,6 +30,7 @@ import org.uniprot.core.literature.LiteratureStoreEntry;
 import org.uniprot.core.literature.impl.LiteratureStoreEntryImpl;
 import org.uniprot.store.indexer.common.config.UniProtSolrClient;
 import org.uniprot.store.indexer.common.utils.Constants;
+import org.uniprot.store.indexer.literature.reader.LiteratureStatisticsReader;
 import org.uniprot.store.indexer.literature.steps.LiteratureLoadStep;
 import org.uniprot.store.indexer.literature.steps.LiteratureMappingStep;
 import org.uniprot.store.indexer.literature.steps.LiteratureStatisticsStep;
@@ -197,7 +198,7 @@ class LiteratureJobIT {
 
         @Override
         protected String getStatisticsSQL() {
-            return LiteratureSQLConstants.LITERATURE_STATISTICS_SQL.replaceAll(
+            return LiteratureStatisticsReader.LITERATURE_STATISTICS_SQL.replaceAll(
                     "FULL JOIN", "INNER JOIN");
         }
     }

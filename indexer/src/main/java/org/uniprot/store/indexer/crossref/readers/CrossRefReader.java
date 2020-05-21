@@ -162,22 +162,16 @@ public class CrossRefReader implements ItemReader<CrossRefEntry> {
         builder.dbUrl(url).category(cat);
 
         // update the reviewed and unreviewed protein count
-        CrossRefUniProtCountReader.CrossRefProteinCount reviewedProtCount =
-                this.crossRefProteinCountMap.get(abbr + UNDER_ZERO);
-        CrossRefUniProtCountReader.CrossRefProteinCount unreviewedProtCount =
-                this.crossRefProteinCountMap.get(abbr + UNDER_ONE);
+        CrossRefUniProtCountReader.CrossRefProteinCount crossRefProteinCount =
+                this.crossRefProteinCountMap.get(abbr);
 
-        if (reviewedProtCount != null) {
-            builder.reviewedProteinCount(reviewedProtCount.getProteinCount());
+        if (crossRefProteinCount != null) {
+            builder.reviewedProteinCount(crossRefProteinCount.getReviewedProteinCount());
+            builder.unreviewedProteinCount(crossRefProteinCount.getUnreviewedProteinCount());
         } else {
-            log.warn("Cross ref with abbreviation {} not in the uniprot db reviewed", abbr);
+            log.warn("Cross ref with abbreviation {} not in the uniprot db", abbr);
         }
 
-        if (unreviewedProtCount != null) {
-            builder.unreviewedProteinCount(unreviewedProtCount.getProteinCount());
-        } else {
-            log.warn("Cross ref with abbreviation {} not in the uniprot db unreviewed", abbr);
-        }
         return builder.build();
     }
 }

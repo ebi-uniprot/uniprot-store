@@ -19,24 +19,8 @@ import org.uniprot.store.indexer.common.utils.Constants;
 @Configuration
 public class DiseaseProteinCountStep {
     private static final String QUERY_TO_GET_COUNT_PER_DISEASE =
-            "SELECT DISEASE_IDENTIFIER as diseaseId, COUNT(ACCESSION) as proteinCount"
-                    + "  FROM"
-                    + "  (   "
-                    + "    SELECT DISTINCT db.ACCESSION, db.ENTRY_TYPE, TRIM(SUBSTR(css.TEXT, 0, INSTR(css.TEXT, ' (') )) DISEASE_IDENTIFIER"
-                    + "    FROM"
-                    + "      SPTR.DBENTRY db "
-                    + "      JOIN SPTR.COMMENT_BLOCK cb ON db.DBENTRY_ID = cb.DBENTRY_ID"
-                    + "      JOIN SPTR.CV_COMMENT_TOPICS ct ON ct.COMMENT_TOPICS_ID = cb.COMMENT_TOPICS_ID"
-                    + "      JOIN SPTR.COMMENT_STRUCTURE cs ON cb.COMMENT_BLOCK_ID = cs.COMMENT_BLOCK_ID"
-                    + "      JOIN SPTR.CV_CC_STRUCTURE_TYPE cst ON cs.CC_STRUCTURE_TYPE_ID = cst.CC_STRUCTURE_TYPE_ID"
-                    + "      JOIN SPTR.COMMENT_SUBSTRUCTURE css ON cs.COMMENT_STRUCTURE_ID = css.COMMENT_STRUCTURE_ID"
-                    + "    WHERE ct.TOPIC = 'DISEASE'"
-                    + "      AND cst.\"TYPE\" = 'DISEASE'"
-                    + "      AND db.ENTRY_TYPE = 0 "
-                    + "      AND db.DELETED = 'N'"
-                    + "      AND db.MERGE_STATUS <> 'R'"
-                    + "  )"
-                    + "  GROUP BY DISEASE_IDENTIFIER";
+            "SELECT ID as diseaseId, REVIEWED_PROTEIN_COUNT as proteinCount "
+                    + "FROM SPTR.MV_DATA_SOURCE_STATS WHERE DATA_TYPE = 'Disease'";
 
     @Value(("${database.chunk.size}"))
     private Integer chunkSize;

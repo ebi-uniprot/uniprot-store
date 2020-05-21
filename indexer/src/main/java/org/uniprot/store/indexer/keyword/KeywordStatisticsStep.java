@@ -26,7 +26,6 @@ import org.uniprot.store.search.document.keyword.KeywordDocument;
 /** @author lgonzales */
 @Configuration
 public class KeywordStatisticsStep {
-
     @Value(("${database.chunk.size}"))
     private Integer chunkSize;
 
@@ -77,6 +76,6 @@ public class KeywordStatisticsStep {
     }
 
     protected String getStatisticsSQL() {
-        return KeywordSQLConstants.KEYWORD_STATISTICS_URL;
+        return KeywordStatisticsReader.KEYWORD_STATISTICS_URL;
     }
 }
