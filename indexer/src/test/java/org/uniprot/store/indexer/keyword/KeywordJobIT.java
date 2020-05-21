@@ -154,7 +154,8 @@ class KeywordJobIT {
 
         @Override
         protected String getStatisticsSQL() {
-            return KeywordSQLConstants.KEYWORD_STATISTICS_URL.replaceAll("FULL JOIN", "INNER JOIN");
+            return KeywordStatisticsReader.KEYWORD_STATISTICS_URL.replaceAll(
+                    "FULL JOIN", "INNER JOIN");
         }
     }
 }

@@ -23,15 +23,9 @@ import org.uniprot.store.indexer.crossref.writers.CrossRefUniProtCountWriter;
 public class CrossRefUniProtCountStep {
 
     private static final String QUERY_TO_GET_XREF_PROTEIN_COUNT =
-            "select dn.abbreviation AS abbrev, db.entry_type AS entryType, count(distinct db.accession) AS proteinCount "
-                    + "from sptr.dbentry db JOIN  "
-                    + "sptr.dbentry_2_database d2d ON db.dbentry_id = d2d.dbentry_id "
-                    + "join sptr.database_name dn ON dn.database_id = d2d.database_id "
-                    + "where "
-                    + "db.entry_type in (0,1) "
-                    + "and db.deleted = 'N' "
-                    + "and db.merge_status <>'R' "
-                    + "group by dn.abbreviation, db.entry_type ";
+            "SELECT ID as abbrev, REVIEWED_PROTEIN_COUNT as proteinCount as reviewedProteinCount, "
+                    + "UNREVIEWED_PROTEIN_COUNT as proteinCount as unreviewedProteinCount,"
+                    + "FROM SPTR.MV_DATA_SOURCE_STATS WHERE DATA_TYPE = 'Cross Ref'";
 
     @Value(("${database.chunk.size}"))
     private Integer chunkSize;

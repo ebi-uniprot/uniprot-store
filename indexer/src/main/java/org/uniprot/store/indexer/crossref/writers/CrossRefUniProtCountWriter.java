@@ -2,6 +2,7 @@ package org.uniprot.store.indexer.crossref.writers;
 
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import org.springframework.batch.core.JobExecution;
@@ -16,7 +17,6 @@ import org.uniprot.store.indexer.crossref.readers.CrossRefUniProtCountReader;
 public class CrossRefUniProtCountWriter
         implements ItemWriter<CrossRefUniProtCountReader.CrossRefProteinCount> {
     private StepExecution stepExecution;
-    private static final String UNDERSCORE = "_";
 
     @Override
     public void write(
@@ -38,11 +38,9 @@ public class CrossRefUniProtCountWriter
                         xrefProtCountList.stream()
                                 .collect(
                                         Collectors.toMap(
-                                                xrefProtCount ->
-                                                        xrefProtCount.getAbbreviation()
-                                                                + UNDERSCORE
-                                                                + xrefProtCount.getEntryType(),
-                                                xrefProtCount -> xrefProtCount));
+                                                CrossRefUniProtCountReader.CrossRefProteinCount
+                                                        ::getAbbreviation,
+                                                Function.identity()));
 
             } else { // update the existing map
 
@@ -54,11 +52,9 @@ public class CrossRefUniProtCountWriter
                         xrefProtCountList.stream()
                                 .collect(
                                         Collectors.toMap(
-                                                xrefProtCount ->
-                                                        xrefProtCount.getAbbreviation()
-                                                                + UNDERSCORE
-                                                                + xrefProtCount.getEntryType(),
-                                                xrefProtCount -> xrefProtCount)));
+                                                CrossRefUniProtCountReader.CrossRefProteinCount
+                                                        ::getAbbreviation,
+                                                Function.identity())));
             }
 
             executionContext.put(Constants.CROSS_REF_PROTEIN_COUNT_KEY, xrefProteinCountMap);
