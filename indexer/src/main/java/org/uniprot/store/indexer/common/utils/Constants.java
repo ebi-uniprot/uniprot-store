@@ -54,4 +54,5 @@ public class Constants {
     public static final String UNIRULE_INDEX_JOB = "UniRule Indexing Job";
     public static final String UNIRULE_INDEX_STEP = "UniRule Indexing Step";
     public static final String UNIRULE_PROTEIN_COUNT_STEP = "UniRule protein count step";
+    public static final String UNIRULE_PROTEIN_COUNT_CACHE_KEY = "UniRule Protein Count Cache Key";
 }
