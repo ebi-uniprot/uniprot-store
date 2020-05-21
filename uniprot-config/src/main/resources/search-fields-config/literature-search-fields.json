@@ -16,7 +16,7 @@
     "fieldType": "SORT",
     "dataType": "STRING",
     "description": "Sort by literature accession",
-    "example": "id_sort asc"
+    "example": "id desc"
   },
   {
     "id": "title",
@@ -34,7 +34,7 @@
     "fieldType": "SORT",
     "dataType": "STRING",
     "description": "Sort by literature title",
-    "example": "title_sort asc"
+    "example": "title asc"
   },
   {
     "id": "doi",

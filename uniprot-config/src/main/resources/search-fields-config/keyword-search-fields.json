@@ -15,7 +15,7 @@
     "dataType": "STRING",
     "fieldType": "SORT",
     "description": "Sort by name",
-    "example": "name_sort desc"
+    "example": "name desc"
   },
   {
     "id": "id",

@@ -15,7 +15,7 @@
     "fieldType": "SORT",
     "dataType": "STRING",
     "description": "Sort by subcellular location name",
-    "example": "name_sort asc"
+    "example": "name asc"
   },
   {
     "id": "category",

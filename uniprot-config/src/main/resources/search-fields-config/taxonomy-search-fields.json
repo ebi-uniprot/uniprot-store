@@ -15,7 +15,7 @@
     "fieldType": "SORT",
     "dataType": "STRING",
     "description": "Sort by scientific name",
-    "example": "name_sort asc"
+    "example": "scientific asc"
   },
   {
     "id": "id",
