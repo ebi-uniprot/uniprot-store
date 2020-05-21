@@ -7,7 +7,8 @@
     "sortFieldId": "upi_sort_id",
     "validRegex": "UPI[\\w]{10}",
     "description": "Search by uniparc id",
-    "example": "UPI0000000001"
+    "example": "UPI0000000001",
+    "includeInSwagger": true
   },
   {
     "id": "upi_sort_id",
@@ -24,7 +25,8 @@
     "fieldType": "GENERAL",
     "dataType": "STRING",
     "description": "Search by accession",
-    "example": "P12345"
+    "example": "P12345",
+    "includeInSwagger": true
   },
   {
     "id": "isoform",
@@ -33,7 +35,8 @@
     "fieldType": "GENERAL",
     "dataType": "STRING",
     "description": "Search by isoform",
-    "example": "P12345"
+    "example": "P12345",
+    "includeInSwagger": true
   },
   {
     "id": "upid",
@@ -42,7 +45,8 @@
     "fieldType": "GENERAL",
     "dataType": "STRING",
     "description": "Search by upid",
-    "example": "UP123456789"
+    "example": "UP123456789",
+    "includeInSwagger": true
   },
   {
     "id": "taxonomy_id",
@@ -51,7 +55,8 @@
     "fieldType": "GENERAL",
     "dataType": "INTEGER",
     "description": "Search by taxonomy id",
-    "example": "1234565"
+    "example": "1234565",
+    "includeInSwagger": true
   },
   {
     "id": "taxonomy_name",
@@ -59,7 +64,8 @@
     "fieldType": "GENERAL",
     "dataType": "STRING",
     "description": "Search by taxonomy name",
-    "example": "sample name"
+    "example": "sample name",
+    "includeInSwagger": true
   },
   {
     "id": "gene",
@@ -67,7 +73,8 @@
     "fieldType": "GENERAL",
     "dataType": "STRING",
     "description": "Search by gene name",
-    "example": "sample gene"
+    "example": "sample gene",
+    "includeInSwagger": true
   },
   {
     "id": "protein",
@@ -75,7 +82,8 @@
     "fieldType": "GENERAL",
     "dataType": "STRING",
     "description": "Search by protein name",
-    "example": "sample protein"
+    "example": "sample protein",
+    "includeInSwagger": true
   },
   {
     "id": "database",
@@ -83,7 +91,8 @@
     "fieldType": "GENERAL",
     "dataType": "STRING",
     "description": "Search by database name",
-    "example": "sample database"
+    "example": "sample database",
+    "includeInSwagger": true
   },
   {
     "id": "active",
@@ -91,7 +100,8 @@
     "fieldType": "GENERAL",
     "dataType": "STRING",
     "description": "Search by active name",
-    "example": "sample active"
+    "example": "sample active",
+    "includeInSwagger": true
   },
   {
     "id": "checksum",
@@ -99,7 +109,8 @@
     "fieldType": "GENERAL",
     "dataType": "STRING",
     "description": "Search by checksum name",
-    "example": "sample checksum"
+    "example": "sample checksum",
+    "includeInSwagger": true
   },
   {
     "id": "length",
@@ -108,7 +119,8 @@
     "dataType": "INTEGER",
     "sortFieldId": "length_sort",
     "description": "Search by length",
-    "example": "[100 TO 300]"
+    "example": "[100 TO 300]",
+    "includeInSwagger": true
   },
   {
     "id": "length_sort",
@@ -124,6 +136,7 @@
     "fieldType": "GENERAL",
     "dataType": "STRING",
     "description": "Search by any content",
-    "example": "sample content"
+    "example": "sample content",
+    "includeInSwagger": true
   }
 ]

@@ -10,17 +10,17 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 import org.uniprot.core.CrossReference;
+import org.uniprot.core.feature.FeatureLocation;
 import org.uniprot.core.impl.CrossReferenceBuilder;
 import org.uniprot.core.uniprotkb.evidence.Evidence;
 import org.uniprot.core.uniprotkb.evidence.EvidenceCode;
 import org.uniprot.core.uniprotkb.evidence.impl.EvidenceBuilder;
 import org.uniprot.core.uniprotkb.feature.AlternativeSequence;
-import org.uniprot.core.uniprotkb.feature.Feature;
-import org.uniprot.core.uniprotkb.feature.FeatureDatabase;
-import org.uniprot.core.uniprotkb.feature.FeatureLocation;
-import org.uniprot.core.uniprotkb.feature.FeatureType;
+import org.uniprot.core.uniprotkb.feature.UniProtKBFeature;
+import org.uniprot.core.uniprotkb.feature.UniprotKBFeatureDatabase;
+import org.uniprot.core.uniprotkb.feature.UniprotKBFeatureType;
 import org.uniprot.core.uniprotkb.feature.impl.AlternativeSequenceBuilder;
-import org.uniprot.core.uniprotkb.feature.impl.FeatureBuilder;
+import org.uniprot.core.uniprotkb.feature.impl.UniProtKBFeatureBuilder;
 import org.uniprot.store.search.document.uniprot.UniProtDocument;
 
 /**
@@ -35,9 +35,13 @@ class UniProtKBEntryFeatureConverterTest {
         UniProtEntryFeatureConverter converter = new UniProtEntryFeatureConverter();
 
         FeatureLocation location = new FeatureLocation(2, 8);
-        Feature feature = new FeatureBuilder().type(FeatureType.NON_TER).location(location).build();
+        UniProtKBFeature feature =
+                new UniProtKBFeatureBuilder()
+                        .type(UniprotKBFeatureType.NON_TER)
+                        .location(location)
+                        .build();
 
-        List<Feature> features = Collections.singletonList(feature);
+        List<UniProtKBFeature> features = Collections.singletonList(feature);
 
         converter.convertFeature(features, document);
 
@@ -49,7 +53,7 @@ class UniProtKBEntryFeatureConverterTest {
         UniProtDocument document = new UniProtDocument();
         UniProtEntryFeatureConverter converter = new UniProtEntryFeatureConverter();
 
-        List<Feature> features = Collections.singletonList(getFeature());
+        List<UniProtKBFeature> features = Collections.singletonList(getFeature());
 
         converter.convertFeature(features, document);
 
@@ -86,23 +90,23 @@ class UniProtKBEntryFeatureConverterTest {
         assertEquals(Collections.singleton("chain"), document.proteinsWith);
     }
 
-    private static Feature getFeature() {
+    private static UniProtKBFeature getFeature() {
         AlternativeSequence alternativeSequence =
                 new AlternativeSequenceBuilder()
                         .original("original value")
                         .alternativeSequencesAdd("alternative value")
                         .build();
 
-        CrossReference<FeatureDatabase> xrefs =
-                new CrossReferenceBuilder<FeatureDatabase>()
-                        .database(FeatureDatabase.DBSNP)
+        CrossReference<UniprotKBFeatureDatabase> xrefs =
+                new CrossReferenceBuilder<UniprotKBFeatureDatabase>()
+                        .database(UniprotKBFeatureDatabase.DBSNP)
                         .id("DBSNP-12345")
                         .build();
 
         FeatureLocation location = new FeatureLocation(2, 8);
         List<Evidence> evidences = Collections.singletonList(createEvidence());
-        return new FeatureBuilder()
-                .type(FeatureType.CHAIN)
+        return new UniProtKBFeatureBuilder()
+                .type(UniprotKBFeatureType.CHAIN)
                 .alternativeSequence(alternativeSequence)
                 .featureCrossReference(xrefs)
                 .description("description value")

@@ -67,7 +67,7 @@
     "fieldName": "annotation_score",
     "fieldType": "SORT",
     "dataType": "STRING",
-    "example":  "sample example",
+    "example":  "annotation_score desc",
     "description" : "Sort by annotation score of protein"
   },
   {

@@ -28,6 +28,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  * @date: 12 May 2020 Converts the xml type {@link UniRuleType} to {@link UniRuleDocument}
  */
 public class UniRuleDocumentConverter implements DocumentConverter<UniRuleType, UniRuleDocument> {
+    private static final String CC_UNDERSCORE = "cc_";
+    private static final String SINGLE_SPACE = " ";
+    private static final String UNDERSCORE = "_";
     private static final String CONDITION_TYPE_TAXON = "taxon";
     private static final String CONDITION_TYPE_SCIENTIFIC_ORGANISM = "scientific organism";
     private final UniRuleEntryConverter converter;
@@ -216,7 +219,9 @@ public class UniRuleDocumentConverter implements DocumentConverter<UniRuleType, 
         return docComments.stream()
                 .collect(
                         Collectors.toMap(
-                                UniRuleDocumentComment::getName,
+                                docComment ->
+                                        convertCommentDisplayNameToSolrField(
+                                                docComment.getName()), // cc_xyz format
                                 UniRuleDocumentComment::getValues,
                                 (list1, list2) -> {
                                     list1.addAll(list2);
@@ -224,11 +229,23 @@ public class UniRuleDocumentConverter implements DocumentConverter<UniRuleType, 
                                 }));
     }
 
+    private static String convertCommentDisplayNameToSolrField(String displayName) {
+        StringBuilder builder = new StringBuilder(CC_UNDERSCORE);
+        builder.append(displayName);
+        return builder.toString().replace(SINGLE_SPACE, UNDERSCORE);
+    }
+
     private Set<String> getCommentsValues(List<UniRuleDocumentComment> docComments) {
         return docComments.stream()
-                .map(UniRuleDocumentComment::getValues)
+                .map(this::mergeCommentNameValues)
                 .flatMap(Collection::stream)
                 .collect(Collectors.toSet());
+    }
+
+    private Set<String> mergeCommentNameValues(UniRuleDocumentComment uniRuleDocumentComment) {
+        Set<String> values = new HashSet<>(uniRuleDocumentComment.getValues());
+        values.add(uniRuleDocumentComment.getName());
+        return values;
     }
 
     private byte[] getUniRuleObj(UniRuleEntry uniRuleEntry) {

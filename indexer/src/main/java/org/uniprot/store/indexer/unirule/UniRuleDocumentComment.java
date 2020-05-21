@@ -13,6 +13,6 @@ import lombok.Data;
 @Builder
 @Data
 public class UniRuleDocumentComment {
-    private String name;
+    private String name; // comment display name
     private Set<String> values;
 }

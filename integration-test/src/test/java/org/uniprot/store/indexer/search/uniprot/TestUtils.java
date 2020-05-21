@@ -10,7 +10,7 @@ import org.uniprot.core.flatfile.parser.impl.SupportingDataMapImpl;
 import org.uniprot.core.flatfile.parser.impl.entry.EntryObjectConverter;
 import org.uniprot.core.uniprotkb.UniProtKBEntry;
 import org.uniprot.core.uniprotkb.comment.CommentType;
-import org.uniprot.core.uniprotkb.feature.FeatureType;
+import org.uniprot.core.uniprotkb.feature.UniprotKBFeatureType;
 import org.uniprot.store.config.searchfield.model.SearchFieldItem;
 import org.uniprot.store.search.field.QueryBuilder;
 
@@ -101,19 +101,19 @@ final class TestUtils {
     private static final String FT_EV_DYNAMIC_PREFIX = "ftev_";
     private static final String FT_LENGTH_DYNAMIC_PREFIX = "ftlen_";
 
-    public static String features(FeatureType featureType, String value) {
+    public static String features(UniprotKBFeatureType featureType, String value) {
         String field =
                 FEATURE_DYNAMIC_PREFIX + featureType.getName().toLowerCase().replaceAll(" ", "_");
         return QueryBuilder.query(field, value, true, false);
     }
 
-    public static String featureLength(FeatureType featureType, int start, int end) {
+    public static String featureLength(UniprotKBFeatureType featureType, int start, int end) {
         String field =
                 FT_LENGTH_DYNAMIC_PREFIX + featureType.getName().toLowerCase().replaceAll(" ", "_");
         return QueryBuilder.rangeQuery(field, start, end);
     }
 
-    public static String featureEvidence(FeatureType featureType, String value) {
+    public static String featureEvidence(UniprotKBFeatureType featureType, String value) {
         String field =
                 FT_EV_DYNAMIC_PREFIX + featureType.getName().toLowerCase().replaceAll(" ", "_");
         return QueryBuilder.query(field, value);

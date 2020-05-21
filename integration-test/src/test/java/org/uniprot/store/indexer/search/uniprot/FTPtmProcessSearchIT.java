@@ -14,7 +14,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;
 import org.uniprot.core.flatfile.writer.LineType;
-import org.uniprot.core.uniprotkb.feature.FeatureType;
+import org.uniprot.core.uniprotkb.feature.UniprotKBFeatureType;
 import org.uniprot.store.search.field.QueryBuilder;
 
 class FTPtmProcessSearchIT {
@@ -114,10 +114,10 @@ class FTPtmProcessSearchIT {
 
     @Test
     void modResFindEntryWithEvidenceLength() {
-        String query = features(FeatureType.MOD_RES, "phosphoserine");
-        query = QueryBuilder.and(query, featureLength(FeatureType.MOD_RES, 1, 1));
+        String query = features(UniprotKBFeatureType.MOD_RES, "phosphoserine");
+        query = QueryBuilder.and(query, featureLength(UniprotKBFeatureType.MOD_RES, 1, 1));
         String evidence = "ECO_0000244";
-        query = QueryBuilder.and(query, featureEvidence(FeatureType.MOD_RES, evidence));
+        query = QueryBuilder.and(query, featureEvidence(UniprotKBFeatureType.MOD_RES, evidence));
         QueryResponse response = searchEngine.getQueryResponse(query);
 
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
@@ -128,10 +128,10 @@ class FTPtmProcessSearchIT {
 
     @Test
     void lipidFindEntryWithEvidenceLength() {
-        String query = features(FeatureType.LIPID, "cysteine");
-        query = QueryBuilder.and(query, featureLength(FeatureType.LIPID, 1, 1));
+        String query = features(UniprotKBFeatureType.LIPID, "cysteine");
+        query = QueryBuilder.and(query, featureLength(UniprotKBFeatureType.LIPID, 1, 1));
         String evidence = "ECO_0000250";
-        query = QueryBuilder.and(query, featureEvidence(FeatureType.LIPID, evidence));
+        query = QueryBuilder.and(query, featureEvidence(UniprotKBFeatureType.LIPID, evidence));
         QueryResponse response = searchEngine.getQueryResponse(query);
 
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
@@ -142,10 +142,10 @@ class FTPtmProcessSearchIT {
 
     @Test
     void carbohydFindEntryWithEvidenceLength() {
-        String query = features(FeatureType.CARBOHYD, "cysteine");
-        query = QueryBuilder.and(query, featureLength(FeatureType.CARBOHYD, 1, 1));
+        String query = features(UniprotKBFeatureType.CARBOHYD, "cysteine");
+        query = QueryBuilder.and(query, featureLength(UniprotKBFeatureType.CARBOHYD, 1, 1));
         String evidence = "ECO_0000255";
-        query = QueryBuilder.and(query, featureEvidence(FeatureType.CARBOHYD, evidence));
+        query = QueryBuilder.and(query, featureEvidence(UniprotKBFeatureType.CARBOHYD, evidence));
         QueryResponse response = searchEngine.getQueryResponse(query);
 
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
@@ -156,10 +156,10 @@ class FTPtmProcessSearchIT {
 
     @Test
     void disulfidFindEntryWithEvidenceLength() {
-        String query = features(FeatureType.DISULFID, "reversible");
-        query = QueryBuilder.and(query, featureLength(FeatureType.DISULFID, 100, 150));
+        String query = features(UniprotKBFeatureType.DISULFID, "reversible");
+        query = QueryBuilder.and(query, featureLength(UniprotKBFeatureType.DISULFID, 100, 150));
         String evidence = "ECO_0000250";
-        query = QueryBuilder.and(query, featureEvidence(FeatureType.DISULFID, evidence));
+        query = QueryBuilder.and(query, featureEvidence(UniprotKBFeatureType.DISULFID, evidence));
         QueryResponse response = searchEngine.getQueryResponse(query);
 
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
@@ -170,10 +170,10 @@ class FTPtmProcessSearchIT {
 
     @Test
     void crosslinkFindEntryWithEvidenceLength() {
-        String query = features(FeatureType.CROSSLNK, "lysine");
-        query = QueryBuilder.and(query, featureLength(FeatureType.CROSSLNK, 1, 1));
+        String query = features(UniprotKBFeatureType.CROSSLNK, "lysine");
+        query = QueryBuilder.and(query, featureLength(UniprotKBFeatureType.CROSSLNK, 1, 1));
         String evidence = "ECO_0000269";
-        query = QueryBuilder.and(query, featureEvidence(FeatureType.CROSSLNK, evidence));
+        query = QueryBuilder.and(query, featureEvidence(UniprotKBFeatureType.CROSSLNK, evidence));
         QueryResponse response = searchEngine.getQueryResponse(query);
 
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
@@ -184,10 +184,10 @@ class FTPtmProcessSearchIT {
 
     @Test
     void chainFindEntryWithEvidenceLength() {
-        String query = features(FeatureType.CHAIN, "disulfide");
-        query = QueryBuilder.and(query, featureLength(FeatureType.CHAIN, 200, 400));
+        String query = features(UniprotKBFeatureType.CHAIN, "disulfide");
+        query = QueryBuilder.and(query, featureLength(UniprotKBFeatureType.CHAIN, 200, 400));
         String evidence = "ECO_0000255";
-        query = QueryBuilder.and(query, featureEvidence(FeatureType.CHAIN, evidence));
+        query = QueryBuilder.and(query, featureEvidence(UniprotKBFeatureType.CHAIN, evidence));
         QueryResponse response = searchEngine.getQueryResponse(query);
 
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
@@ -198,10 +198,10 @@ class FTPtmProcessSearchIT {
 
     @Test
     void initMetFindEntryWithEvidenceLength() {
-        String query = features(FeatureType.INIT_MET, "removed");
-        query = QueryBuilder.and(query, featureLength(FeatureType.INIT_MET, 1, 1));
+        String query = features(UniprotKBFeatureType.INIT_MET, "removed");
+        query = QueryBuilder.and(query, featureLength(UniprotKBFeatureType.INIT_MET, 1, 1));
         String evidence = "ECO_0000244";
-        query = QueryBuilder.and(query, featureEvidence(FeatureType.INIT_MET, evidence));
+        query = QueryBuilder.and(query, featureEvidence(UniprotKBFeatureType.INIT_MET, evidence));
 
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -213,10 +213,10 @@ class FTPtmProcessSearchIT {
 
     @Test
     void peptideFindEntryWithEvidenceLength() {
-        String query = features(FeatureType.PEPTIDE, "peptide");
-        query = QueryBuilder.and(query, featureLength(FeatureType.PEPTIDE, 10, 20));
+        String query = features(UniprotKBFeatureType.PEPTIDE, "peptide");
+        query = QueryBuilder.and(query, featureLength(UniprotKBFeatureType.PEPTIDE, 10, 20));
         String evidence = "ECO_0000305";
-        query = QueryBuilder.and(query, featureEvidence(FeatureType.PEPTIDE, evidence));
+        query = QueryBuilder.and(query, featureEvidence(UniprotKBFeatureType.PEPTIDE, evidence));
         QueryResponse response = searchEngine.getQueryResponse(query);
 
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
@@ -227,10 +227,10 @@ class FTPtmProcessSearchIT {
 
     @Test
     void signalFindEntryWithEvidenceLength() {
-        String query = features(FeatureType.SIGNAL, "*");
-        query = QueryBuilder.and(query, featureLength(FeatureType.SIGNAL, 10, 20));
+        String query = features(UniprotKBFeatureType.SIGNAL, "*");
+        query = QueryBuilder.and(query, featureLength(UniprotKBFeatureType.SIGNAL, 10, 20));
         String evidence = "ECO_0000269";
-        query = QueryBuilder.and(query, featureEvidence(FeatureType.SIGNAL, evidence));
+        query = QueryBuilder.and(query, featureEvidence(UniprotKBFeatureType.SIGNAL, evidence));
         QueryResponse response = searchEngine.getQueryResponse(query);
 
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
@@ -241,10 +241,10 @@ class FTPtmProcessSearchIT {
 
     @Test
     void propepFindEntryWithEvidenceLength() {
-        String query = features(FeatureType.PROPEP, "peptide");
-        query = QueryBuilder.and(query, featureLength(FeatureType.PROPEP, 5, 20));
+        String query = features(UniprotKBFeatureType.PROPEP, "peptide");
+        query = QueryBuilder.and(query, featureLength(UniprotKBFeatureType.PROPEP, 5, 20));
         String evidence = "ECO_0000250";
-        query = QueryBuilder.and(query, featureEvidence(FeatureType.PROPEP, evidence));
+        query = QueryBuilder.and(query, featureEvidence(UniprotKBFeatureType.PROPEP, evidence));
         QueryResponse response = searchEngine.getQueryResponse(query);
 
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
@@ -255,10 +255,10 @@ class FTPtmProcessSearchIT {
 
     @Test
     void transitFindEntryWithEvidenceLength() {
-        String query = features(FeatureType.TRANSIT, "chloroplast");
-        query = QueryBuilder.and(query, featureLength(FeatureType.TRANSIT, 5, 20));
+        String query = features(UniprotKBFeatureType.TRANSIT, "chloroplast");
+        query = QueryBuilder.and(query, featureLength(UniprotKBFeatureType.TRANSIT, 5, 20));
         String evidence = "ECO_0000255";
-        query = QueryBuilder.and(query, featureEvidence(FeatureType.TRANSIT, evidence));
+        query = QueryBuilder.and(query, featureEvidence(UniprotKBFeatureType.TRANSIT, evidence));
 
         QueryResponse response = searchEngine.getQueryResponse(query);
 

@@ -7,7 +7,8 @@
     "dataType": "STRING",
     "sortFieldId": "id_sort",
     "description": "Search by disease id which is accession",
-    "example": "DI-12345"
+    "example": "DI-12345",
+    "includeInSwagger": true
   },
   {
     "id": "id_sort",
@@ -23,7 +24,8 @@
     "fieldType": "GENERAL",
     "dataType": "STRING",
     "description": "Search by disease name",
-    "example": "alzheimer disease"
+    "example": "alzheimer disease",
+    "includeInSwagger": true
   },
   {
     "id": "content",

@@ -17,10 +17,6 @@ import org.uniprot.core.uniprotkb.evidence.EvidencedValue;
  *     org.uniprot.store.search.document.unirule.UniRuleDocument}'s commentTypeValues
  */
 public class UniRuleCommentConverter {
-    private static final String CC_UNDERSCORE = "cc_";
-    private static final String SINGLE_SPACE = " ";
-    private static final String UNDERSCORE = "_";
-
     private UniRuleCommentConverter() {}
 
     public static UniRuleDocumentComment convertToDocumentComment(Comment comment) {
@@ -142,17 +138,11 @@ public class UniRuleCommentConverter {
 
     private static UniRuleDocumentComment createDocumentComment(
             Comment comment, Set<String> values) {
-        String field = getCommentField(comment);
+        String name = comment.getCommentType().toXmlDisplayName();
         UniRuleDocumentComment.UniRuleDocumentCommentBuilder builder =
                 UniRuleDocumentComment.builder();
-        builder.name(field);
+        builder.name(name);
         builder.values(values);
         return builder.build();
-    }
-
-    private static String getCommentField(Comment c) {
-        StringBuilder builder = new StringBuilder(CC_UNDERSCORE);
-        builder.append(c.getCommentType().toXmlDisplayName());
-        return builder.toString().replace(SINGLE_SPACE, UNDERSCORE);
     }
 }

@@ -17,7 +17,8 @@
     "name": "id",
     "label": "Cluster ID",
     "paths": ["id"],
-    "id": "names_&_taxonomy/id"
+    "id": "names_&_taxonomy/id",
+    "includeInSwagger": true
   },
   {
     "parentId": "names_&_taxonomy",
@@ -28,7 +29,8 @@
     "name": "name",
     "label": "Cluster Name",
     "paths": ["name"],
-    "id": "names_&_taxonomy/name"
+    "id": "names_&_taxonomy/name",
+    "includeInSwagger": true
   },
   {
     "parentId": "names_&_taxonomy",
@@ -39,7 +41,8 @@
     "name": "common_taxon",
     "label": "Common taxon",
     "paths": ["commonTaxon"],
-    "id": "names_&_taxonomy/common_taxon"
+    "id": "names_&_taxonomy/common_taxon",
+    "includeInSwagger": true
   },
   {
     "parentId": "names_&_taxonomy",
@@ -48,7 +51,8 @@
     "name": "common_taxonid",
     "label": "Common taxon ID",
     "paths": ["commonTaxonId"],
-    "id": "names_&_taxonomy/common_taxonid"
+    "id": "names_&_taxonomy/common_taxonid",
+    "includeInSwagger": true
   },
   {
     "parentId": "names_&_taxonomy",
@@ -57,7 +61,8 @@
     "name": "organism_id",
     "label": "Organism IDs",
     "paths": ["representativeMember.organismTaxId","members[*].organismTaxId"],
-    "id": "names_&_taxonomy/organism_id"
+    "id": "names_&_taxonomy/organism_id",
+    "includeInSwagger": true
   },
   {
     "parentId": "names_&_taxonomy",
@@ -66,7 +71,8 @@
     "name": "organism",
     "label": "Organisms",
     "paths": ["representativeMember.organismName","members[*].organismName"],
-    "id": "names_&_taxonomy/organism"
+    "id": "names_&_taxonomy/organism",
+    "includeInSwagger": true
   },
   {
     "seqNumber": 1,
@@ -82,7 +88,8 @@
     "name": "identity",
     "label": "Identity",
     "paths": ["entryType"],
-    "id": "miscellaneous/identity"
+    "id": "miscellaneous/identity",
+    "includeInSwagger": true
   },
   {
     "parentId": "sequences",
@@ -92,7 +99,8 @@
     "name": "length",
     "label": "Length",
     "paths": ["representativeMember.sequence.length"],
-    "id": "miscellaneous/length"
+    "id": "miscellaneous/length",
+    "includeInSwagger": true
   },
   {
     "parentId": "sequences",
@@ -101,7 +109,8 @@
     "name": "sequence",
     "label": "Reference sequence",
     "paths": ["representativeMember.sequence.value"],
-    "id": "miscellaneous/sequence"
+    "id": "miscellaneous/sequence",
+    "includeInSwagger": true
   },
   {
     "seqNumber": 2,
@@ -117,7 +126,8 @@
     "name": "types",
     "label": "Types",
     "paths": ["representativeMember.memberIdType","members[*].memberIdType"],
-    "id": "miscellaneous/types"
+    "id": "miscellaneous/types",
+    "includeInSwagger": true
   },
   {
     "parentId": "miscellaneous",
@@ -126,7 +136,8 @@
     "name": "members",
     "label": "Cluster members",
     "paths": ["members"],
-    "id": "miscellaneous/members"
+    "id": "miscellaneous/members",
+    "includeInSwagger": true
   },
   {
     "parentId": "miscellaneous",
@@ -138,7 +149,8 @@
     "name": "count",
     "label": "Size",
     "paths": ["memberCount"],
-    "id": "miscellaneous/count"
+    "id": "miscellaneous/count",
+    "includeInSwagger": true
   },
   {
     "seqNumber": 3,
@@ -157,6 +169,7 @@
     "name": "created",
     "label": "Date of creation",
     "paths": ["updated"],
-    "id": "date_of/created"
+    "id": "date_of/created",
+    "includeInSwagger": true
   }
 ]
