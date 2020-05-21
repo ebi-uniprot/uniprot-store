@@ -4,7 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import net.jodah.failsafe.RetryPolicy;
 
 import org.uniprot.core.flatfile.writer.impl.UniProtFlatfileWriter;
-import org.uniprot.store.indexer.common.config.UniProtSolrOperations;
+import org.uniprot.store.indexer.common.config.UniProtSolrClient;
 import org.uniprot.store.indexer.uniprotkb.model.UniProtEntryDocumentPair;
 import org.uniprot.store.job.common.writer.ItemRetryWriter;
 import org.uniprot.store.search.SolrCollection;
@@ -19,10 +19,10 @@ import org.uniprot.store.search.document.uniprot.UniProtDocument;
 public class UniProtEntryDocumentPairWriter
         extends ItemRetryWriter<UniProtEntryDocumentPair, UniProtDocument> {
     public UniProtEntryDocumentPairWriter(
-            UniProtSolrOperations solrOperations,
+            UniProtSolrClient solrOperations,
             SolrCollection collection,
             RetryPolicy<Object> retryPolicy) {
-        super(items -> solrOperations.saveBeans(collection.name(), items), retryPolicy);
+        super(items -> solrOperations.saveBeans(collection, items), retryPolicy);
     }
 
     @Override

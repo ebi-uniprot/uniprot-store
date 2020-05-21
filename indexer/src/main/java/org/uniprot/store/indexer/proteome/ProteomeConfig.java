@@ -23,7 +23,7 @@ import org.uniprot.core.xml.jaxb.proteome.Proteome;
 import org.uniprot.cv.taxonomy.FileNodeIterable;
 import org.uniprot.cv.taxonomy.TaxonomyRepo;
 import org.uniprot.cv.taxonomy.impl.TaxonomyMapRepo;
-import org.uniprot.store.indexer.common.config.UniProtSolrOperations;
+import org.uniprot.store.indexer.common.config.UniProtSolrClient;
 import org.uniprot.store.indexer.genecentric.GeneCentricDocumentWriter;
 import org.uniprot.store.job.common.converter.DocumentConverter;
 import org.uniprot.store.search.document.proteome.ProteomeDocument;
@@ -69,12 +69,12 @@ public class ProteomeConfig {
     }
 
     @Bean(name = "proteomeItemWriter")
-    public ItemWriter<Proteome> proteomeItemWriter(UniProtSolrOperations solrOperations) {
+    public ItemWriter<Proteome> proteomeItemWriter(UniProtSolrClient solrOperations) {
         return new ProteomeDocumentWriter(proteomeEntryProcessor(), solrOperations);
     }
 
     @Bean(name = "geneCentricItemWriter")
-    public ItemWriter<Proteome> geneCentricItemWriter(UniProtSolrOperations solrOperations) {
+    public ItemWriter<Proteome> geneCentricItemWriter(UniProtSolrClient solrOperations) {
         return new GeneCentricDocumentWriter(solrOperations);
     }
 
@@ -87,8 +87,7 @@ public class ProteomeConfig {
     }
 
     @Bean(name = "proteomeGeneCentricItemWriter")
-    public CompositeItemWriter<Proteome> proteomeCompositeWriter(
-            UniProtSolrOperations solrOperations) {
+    public CompositeItemWriter<Proteome> proteomeCompositeWriter(UniProtSolrClient solrOperations) {
         CompositeItemWriter<Proteome> compositeWriter = new CompositeItemWriter<>();
         ItemWriter<Proteome> proteomeWriter = proteomeItemWriter(solrOperations);
         ItemWriter<Proteome> geneCentricWriter = geneCentricItemWriter(solrOperations);

@@ -6,9 +6,11 @@ import static org.hamcrest.Matchers.notNullValue;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.nio.ByteBuffer;
+import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import org.apache.solr.client.solrj.SolrQuery;
 import org.hamcrest.CoreMatchers;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -19,10 +21,6 @@ import org.springframework.batch.test.JobLauncherTestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.solr.core.SolrTemplate;
-import org.springframework.data.solr.core.query.SimpleQuery;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.uniprot.core.citation.Literature;
@@ -30,6 +28,7 @@ import org.uniprot.core.json.parser.literature.LiteratureJsonConfig;
 import org.uniprot.core.literature.LiteratureEntry;
 import org.uniprot.core.literature.LiteratureStoreEntry;
 import org.uniprot.core.literature.impl.LiteratureStoreEntryImpl;
+import org.uniprot.store.indexer.common.config.UniProtSolrClient;
 import org.uniprot.store.indexer.common.utils.Constants;
 import org.uniprot.store.indexer.literature.steps.LiteratureLoadStep;
 import org.uniprot.store.indexer.literature.steps.LiteratureMappingStep;
@@ -61,7 +60,7 @@ class LiteratureJobIT {
 
     @Autowired private JobLauncherTestUtils jobLauncher;
 
-    @Autowired private SolrTemplate template;
+    @Autowired private UniProtSolrClient solrClient;
 
     @Test
     void testLiteratureIndexingJob() throws Exception {
@@ -88,51 +87,42 @@ class LiteratureJobIT {
         assertThat(step.getWriteCount(), is(18));
 
         // Validating if solr document was written correctly
-        SimpleQuery solrQuery = new SimpleQuery("*:*");
-        solrQuery.addSort(new Sort(Sort.Direction.ASC, "id"));
-        Page<LiteratureDocument> response =
-                template.query(
-                        SolrCollection.literature.name(), solrQuery, LiteratureDocument.class);
+        SolrQuery solrQuery = new SolrQuery("*:*").setRows(20);
+        solrQuery.addSort(SolrQuery.SortClause.asc("id"));
+        List<LiteratureDocument> response =
+                solrClient.query(SolrCollection.literature, solrQuery, LiteratureDocument.class);
         assertThat(response, is(notNullValue()));
-        assertThat(response.getTotalElements(), is(18L));
+        assertThat(response.size(), is(18));
 
         // Validating if solr document was written correctly
-        solrQuery = new SimpleQuery("author:Hendrickson W.A.");
-        solrQuery.addSort(new Sort(Sort.Direction.ASC, "id"));
-        response =
-                template.query(
-                        SolrCollection.literature.name(), solrQuery, LiteratureDocument.class);
+        solrQuery = new SolrQuery("author:Hendrickson W.A.");
+        solrQuery.addSort(SolrQuery.SortClause.asc("id"));
+        response = solrClient.query(SolrCollection.literature, solrQuery, LiteratureDocument.class);
         assertThat(response, is(notNullValue()));
-        assertThat(response.getTotalElements(), is(1L));
+        assertThat(response.size(), is(1));
 
         // Validating if solr document was written correctly
         solrQuery =
-                new SimpleQuery(
+                new SolrQuery(
                         "title:Glutamine synthetase in newborn mice homozygous for lethal albino alleles");
-        solrQuery.addSort(new Sort(Sort.Direction.ASC, "id"));
-        response =
-                template.query(
-                        SolrCollection.literature.name(), solrQuery, LiteratureDocument.class);
+        solrQuery.addSort(SolrQuery.SortClause.asc("id"));
+        response = solrClient.query(SolrCollection.literature, solrQuery, LiteratureDocument.class);
         assertThat(response, is(notNullValue()));
-        assertThat(response.getTotalElements(), is(1L));
+        assertThat(response.size(), is(1));
 
         // Validating if solr document was written correctly
-        solrQuery = new SimpleQuery("mapped_protein:Q15423");
-        response =
-                template.query(
-                        SolrCollection.literature.name(), solrQuery, LiteratureDocument.class);
+        solrQuery = new SolrQuery("mapped_protein:Q15423");
+        response = solrClient.query(SolrCollection.literature, solrQuery, LiteratureDocument.class);
         assertThat(response, is(notNullValue()));
-        assertThat(response.getTotalElements(), is(1L));
+        assertThat(response.size(), is(1));
 
         // validating if can search one single entry with mapped and cited items
-        solrQuery = new SimpleQuery("id:11203701");
-        response =
-                template.query(
-                        SolrCollection.literature.name(), solrQuery, LiteratureDocument.class);
+        solrQuery = new SolrQuery("id:11203701");
+        response = solrClient.query(SolrCollection.literature, solrQuery, LiteratureDocument.class);
         assertThat(response, is(notNullValue()));
-        assertThat(response.getTotalElements(), is(1L));
+        assertThat(response.size(), is(1));
 
-        LiteratureDocument literatureDocument = response.getContent().get(0);
+        LiteratureDocument literatureDocument = response.get(0);
         validateLiteratureDocument(literatureDocument);
 
         ByteBuffer byteBuffer = literatureDocument.getLiteratureObj();

@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.uniprot.store.indexer.common.config.SolrRepositoryConfig;
-import org.uniprot.store.indexer.common.config.UniProtSolrOperations;
+import org.uniprot.store.indexer.common.config.UniProtSolrClient;
 import org.uniprot.store.indexer.common.utils.Constants;
 import org.uniprot.store.job.common.listener.WriteRetrierLogJobListener;
 import org.uniprot.store.search.SolrCollection;
@@ -23,13 +23,12 @@ import org.uniprot.store.search.SolrCollection;
 @Import({SolrRepositoryConfig.class})
 public class UniRuleIndexJob {
     private final JobBuilderFactory jobBuilderFactory;
-    private final UniProtSolrOperations solrOperations;
+    private final UniProtSolrClient solrClient;
 
     @Autowired
-    public UniRuleIndexJob(
-            JobBuilderFactory jobBuilderFactory, UniProtSolrOperations solrOperations) {
+    public UniRuleIndexJob(JobBuilderFactory jobBuilderFactory, UniProtSolrClient solrClient) {
         this.jobBuilderFactory = jobBuilderFactory;
-        this.solrOperations = solrOperations;
+        this.solrClient = solrClient;
     }
 
     @Bean
@@ -48,7 +47,7 @@ public class UniRuleIndexJob {
 
                             @Override
                             public void afterJob(JobExecution jobExecution) {
-                                solrOperations.commit(SolrCollection.unirule.name());
+                                solrClient.commit(SolrCollection.unirule);
                             }
                         })
                 .build();

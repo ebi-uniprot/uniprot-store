@@ -4,8 +4,10 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 
 import java.nio.ByteBuffer;
+import java.util.List;
 import java.util.stream.Collectors;
 
+import org.apache.solr.client.solrj.SolrQuery;
 import org.hamcrest.CoreMatchers;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -16,15 +18,13 @@ import org.springframework.batch.core.StepExecution;
 import org.springframework.batch.test.JobLauncherTestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.domain.Page;
-import org.springframework.data.solr.core.query.SimpleQuery;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.uniprot.core.cv.disease.DiseaseCrossReference;
 import org.uniprot.core.cv.disease.DiseaseEntry;
 import org.uniprot.core.cv.keyword.KeywordId;
 import org.uniprot.core.json.parser.disease.DiseaseJsonConfig;
-import org.uniprot.store.indexer.common.config.UniProtSolrOperations;
+import org.uniprot.store.indexer.common.config.UniProtSolrClient;
 import org.uniprot.store.indexer.common.utils.Constants;
 import org.uniprot.store.indexer.test.config.FakeIndexerSpringBootApplication;
 import org.uniprot.store.indexer.test.config.FakeReadDatabaseConfig;
@@ -54,7 +54,7 @@ class DiseaseLoadJobIT {
 
     @Autowired private JobLauncherTestUtils jobLauncher;
 
-    @Autowired private UniProtSolrOperations solrOperations;
+    @Autowired private UniProtSolrClient solrClient;
 
     @Test
     void testDiseaseLoadJob() throws Exception {
@@ -75,16 +75,14 @@ class DiseaseLoadJobIT {
         assertThat(indexingStep.getReadCount(), is(5));
         assertThat(indexingStep.getWriteCount(), is(5));
 
-        Page<DiseaseDocument> response =
-                solrOperations.query(
-                        SolrCollection.disease.name(),
-                        new SimpleQuery("*:*"),
-                        DiseaseDocument.class);
+        List<DiseaseDocument> response =
+                solrClient.query(
+                        SolrCollection.disease, new SolrQuery("*:*"), DiseaseDocument.class);
         assertThat(response, is(notNullValue()));
-        assertThat(response.getTotalElements(), is(5L));
+        assertThat(response.size(), is(5));
 
         // get one document
-        DiseaseDocument disDoc = response.get().findFirst().get();
+        DiseaseDocument disDoc = response.get(0);
         assertThat(disDoc.getId(), is("DI-02692"));
 
         ByteBuffer diseaseByteBuffer = disDoc.getDiseaseObj();
@@ -109,8 +107,8 @@ class DiseaseLoadJobIT {
         disease.getKeywords().forEach(kw -> verifyKeyword(kw));
         disease.getAlternativeNames().forEach(nm -> assertThat(nm, notNullValue()));
         // clean up
-        solrOperations.delete(SolrCollection.disease.name(), new SimpleQuery("*:*"));
-        solrOperations.commit(SolrCollection.disease.name());
+        solrClient.delete(SolrCollection.disease, "*:*");
+        solrClient.commit(SolrCollection.disease);
     }
 
     private void verifyCrossRef(DiseaseCrossReference xref) {

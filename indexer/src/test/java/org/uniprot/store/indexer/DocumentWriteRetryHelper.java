@@ -1,7 +1,6 @@
 package org.uniprot.store.indexer;
 
-import static org.mockito.Mockito.doReturn;
-import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.*;
 
 import java.util.Collection;
 import java.util.List;
@@ -9,7 +8,7 @@ import java.util.List;
 import org.apache.solr.client.solrj.impl.HttpSolrClient;
 import org.apache.solr.client.solrj.response.UpdateResponse;
 import org.mockito.stubbing.Stubber;
-import org.uniprot.store.indexer.common.config.UniProtSolrOperations;
+import org.uniprot.store.indexer.common.config.UniProtSolrClient;
 
 /**
  * Utility methods to help testing the retry logic associated with writing documents to an index, in
@@ -26,8 +25,8 @@ public class DocumentWriteRetryHelper {
     private static final int CODE = 1;
 
     /**
-     * Stubs successive {@link UniProtSolrOperations#saveBeans(String, Collection)} calls, based on
-     * a given list of {@link SolrResponse} values. {@link SolrResponse#OK} simulates that Solr was
+     * Stubs successive {@link UniProtSolrClient#saveBeans(String, Collection)} calls, based on a
+     * given list of {@link SolrResponse} values. {@link SolrResponse#OK} simulates that Solr was
      * able to write the documents it received; {@link SolrResponse#REMOTE_EXCEPTION} simulates Solr
      * being busy and responding with a {@link HttpSolrClient.RemoteSolrException}, meaning the
      * documents could not be written

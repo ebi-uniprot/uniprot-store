@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
-import org.uniprot.store.indexer.common.config.UniProtSolrOperations;
+import org.uniprot.store.indexer.common.config.UniProtSolrClient;
 import org.uniprot.store.indexer.common.writer.SolrDocumentWriter;
 import org.uniprot.store.indexer.uniprotkb.config.SuggestionConfig;
 import org.uniprot.store.indexer.uniprotkb.config.UniProtKBConfig;
@@ -31,16 +31,16 @@ import org.uniprot.store.search.document.suggest.SuggestDocument;
 public class SuggestionStep {
     private final StepBuilderFactory stepBuilderFactory;
     private final UniProtKBIndexingProperties indexingProperties;
-    private final UniProtSolrOperations solrOperations;
+    private final UniProtSolrClient solrClient;
 
     @Autowired
     public SuggestionStep(
             StepBuilderFactory stepBuilderFactory,
             UniProtKBIndexingProperties indexingProperties,
-            UniProtSolrOperations solrOperations) {
+            UniProtSolrClient solrClient) {
         this.stepBuilderFactory = stepBuilderFactory;
         this.indexingProperties = indexingProperties;
-        this.solrOperations = solrOperations;
+        this.solrClient = solrClient;
     }
 
     @Bean(name = "suggestionIndexingStep")
@@ -53,7 +53,7 @@ public class SuggestionStep {
                 .listener(promotionListener)
                 .<SuggestDocument, SuggestDocument>chunk(indexingProperties.getChunkSize())
                 .reader(suggestionItemReader)
-                .writer(new SolrDocumentWriter<>(solrOperations, SolrCollection.suggest))
+                .writer(new SolrDocumentWriter<>(solrClient, SolrCollection.suggest))
                 .listener(new LogStepListener())
                 .listener(suggestionLogRateListener)
                 .build();

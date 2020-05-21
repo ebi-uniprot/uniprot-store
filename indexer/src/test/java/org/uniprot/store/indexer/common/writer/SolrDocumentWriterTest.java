@@ -9,6 +9,7 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+import org.apache.solr.client.solrj.SolrQuery;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -16,10 +17,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.domain.Page;
-import org.springframework.data.solr.core.query.SimpleQuery;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.uniprot.store.indexer.common.config.UniProtSolrOperations;
+import org.uniprot.store.indexer.common.config.UniProtSolrClient;
 import org.uniprot.store.indexer.test.config.FakeIndexerSpringBootApplication;
 import org.uniprot.store.indexer.test.config.SolrTestConfig;
 import org.uniprot.store.search.SolrCollection;
@@ -31,7 +30,7 @@ class SolrDocumentWriterTest {
 
     private SolrDocumentWriter<CrossRefDocument> solrDocumentWriter;
 
-    @Autowired private UniProtSolrOperations solrOperations;
+    @Autowired private UniProtSolrClient solrClient;
 
     private static String random;
 
@@ -42,13 +41,13 @@ class SolrDocumentWriterTest {
 
     @BeforeEach
     void initDocumentWriter() {
-        solrDocumentWriter = new SolrDocumentWriter<>(solrOperations, SolrCollection.crossref);
+        solrDocumentWriter = new SolrDocumentWriter<>(solrClient, SolrCollection.crossref);
     }
 
     @AfterEach
     void stopSolrClient() {
-        solrOperations.delete(SolrCollection.crossref.name(), new SimpleQuery("*:*"));
-        solrOperations.commit(SolrCollection.crossref.name());
+        solrClient.delete(SolrCollection.crossref, "*:*");
+        solrClient.commit(SolrCollection.crossref);
     }
 
     @Test
@@ -65,17 +64,13 @@ class SolrDocumentWriterTest {
         // write the cross refs to the solr
         solrDocumentWriter.write(dbxrefList);
         // get the cross refs and verify
-        Page<CrossRefDocument> response =
-                solrOperations.query(
-                        SolrCollection.crossref.name(),
-                        new SimpleQuery("*:*"),
-                        CrossRefDocument.class);
+        List<CrossRefDocument> response =
+                solrClient.query(
+                        SolrCollection.crossref, new SolrQuery("*:*"), CrossRefDocument.class);
         assertNotNull(response);
-        assertEquals(10, response.getTotalElements());
-        List<CrossRefDocument> results = response.getContent();
-        assertNotNull(results);
-        assertEquals(dbxrefList.size(), results.size());
-        results.forEach(this::verifyDBXRef);
+        assertEquals(10, response.size());
+        assertEquals(dbxrefList.size(), response.size());
+        response.forEach(this::verifyDBXRef);
     }
 
     private void verifyDBXRef(CrossRefDocument dbxRef) {

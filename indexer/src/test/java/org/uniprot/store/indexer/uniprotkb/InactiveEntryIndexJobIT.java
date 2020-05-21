@@ -12,10 +12,12 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Collection;
+import java.util.List;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
+import org.apache.solr.client.solrj.SolrQuery;
 import org.hamcrest.CoreMatchers;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -25,13 +27,10 @@ import org.springframework.batch.core.StepExecution;
 import org.springframework.batch.test.JobLauncherTestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.solr.core.query.SimpleQuery;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.uniprot.store.indexer.common.config.UniProtSolrOperations;
+import org.uniprot.store.indexer.common.config.UniProtSolrClient;
 import org.uniprot.store.indexer.test.config.FakeIndexerSpringBootApplication;
 import org.uniprot.store.indexer.test.config.SolrTestConfig;
 import org.uniprot.store.indexer.uniprotkb.config.UniProtKBIndexingProperties;
@@ -64,7 +63,7 @@ import org.uniprot.store.search.document.uniprot.UniProtDocument;
         })
 public class InactiveEntryIndexJobIT {
     @Autowired private JobLauncherTestUtils jobLauncher;
-    @Autowired private UniProtSolrOperations solrOperations;
+    @Autowired private UniProtSolrClient solrClient;
     @Autowired private UniProtKBIndexingProperties indexingProperties;
 
     @Test
@@ -102,14 +101,13 @@ public class InactiveEntryIndexJobIT {
         Set<String> sourceAccessions = readSourceAccessions();
         assertThat(sourceAccessions, hasSize(22));
 
-        SimpleQuery query = new SimpleQuery("*:*");
+        SolrQuery query = new SolrQuery("*:*").setRows(25);
 
-        query.setPageRequest(PageRequest.of(0, 30));
-        Page<UniProtDocument> response =
-                solrOperations.query(SolrCollection.uniprot.name(), query, UniProtDocument.class);
+        List<UniProtDocument> response =
+                solrClient.query(SolrCollection.uniprot, query, UniProtDocument.class);
 
         assertThat(response, is(notNullValue()));
-        assertThat(response.getTotalElements(), is(22L));
+        assertThat(response.size(), is(22));
         Set<String> results =
                 response.stream().map(doc -> doc.accession).collect(Collectors.toSet());
         results.forEach(accession -> assertThat(sourceAccessions, hasItem(accession)));

@@ -5,9 +5,11 @@ import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
 
 import java.nio.ByteBuffer;
+import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import org.apache.solr.client.solrj.SolrQuery;
 import org.hamcrest.CoreMatchers;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -18,15 +20,12 @@ import org.springframework.batch.test.JobLauncherTestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.solr.core.query.SimpleQuery;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.uniprot.core.cv.keyword.KeywordEntry;
 import org.uniprot.core.cv.keyword.impl.KeywordEntryImpl;
 import org.uniprot.core.json.parser.keyword.KeywordJsonConfig;
-import org.uniprot.store.indexer.common.config.UniProtSolrOperations;
+import org.uniprot.store.indexer.common.config.UniProtSolrClient;
 import org.uniprot.store.indexer.common.utils.Constants;
 import org.uniprot.store.indexer.test.config.FakeIndexerSpringBootApplication;
 import org.uniprot.store.indexer.test.config.FakeReadDatabaseConfig;
@@ -54,7 +53,7 @@ class KeywordJobIT {
 
     @Autowired private JobLauncherTestUtils jobLauncher;
 
-    @Autowired private UniProtSolrOperations solrOperations;
+    @Autowired private UniProtSolrClient solrClient;
 
     @Test
     void testKeywordIndexingJob() throws Exception {
@@ -81,39 +80,32 @@ class KeywordJobIT {
         assertThat(step.getWriteCount(), is(1199));
 
         // Validating if solr document was written correctly
-        SimpleQuery solrQuery = new SimpleQuery("*:*");
-        solrQuery.addSort(new Sort(Sort.Direction.ASC, "id"));
-        Page<KeywordDocument> response =
-                solrOperations.query(
-                        SolrCollection.keyword.name(), solrQuery, KeywordDocument.class);
+        SolrQuery solrQuery = new SolrQuery("*:*").setRows(2000);
+        solrQuery.addSort(SolrQuery.SortClause.asc("id"));
+        List<KeywordDocument> response =
+                solrClient.query(SolrCollection.keyword, solrQuery, KeywordDocument.class);
         assertThat(response, is(notNullValue()));
-        assertThat(response.getTotalElements(), is(1199L));
+        assertThat(response.size(), is(1199));
 
         // validating if can search one single entry
-        solrQuery = new SimpleQuery("name:2Fe-2S");
-        response =
-                solrOperations.query(
-                        SolrCollection.keyword.name(), solrQuery, KeywordDocument.class);
+        solrQuery = new SolrQuery("name:2Fe-2S");
+        response = solrClient.query(SolrCollection.keyword, solrQuery, KeywordDocument.class);
         assertThat(response, is(notNullValue()));
-        assertThat(response.getTotalElements(), is(1L));
+        assertThat(response.size(), is(1));
 
         // validating if can search one single entry
-        solrQuery = new SimpleQuery("content:2Fe-2S");
-        response =
-                solrOperations.query(
-                        SolrCollection.keyword.name(), solrQuery, KeywordDocument.class);
+        solrQuery = new SolrQuery("content:2Fe-2S");
+        response = solrClient.query(SolrCollection.keyword, solrQuery, KeywordDocument.class);
         assertThat(response, is(notNullValue()));
-        assertThat(response.getTotalElements(), is(2L));
+        assertThat(response.size(), is(2));
 
         // validating if can search one single entry
-        solrQuery = new SimpleQuery("id:KW-0540");
-        response =
-                solrOperations.query(
-                        SolrCollection.keyword.name(), solrQuery, KeywordDocument.class);
+        solrQuery = new SolrQuery("id:KW-0540");
+        response = solrClient.query(SolrCollection.keyword, solrQuery, KeywordDocument.class);
         assertThat(response, is(notNullValue()));
-        assertThat(response.getTotalElements(), is(1L));
+        assertThat(response.size(), is(1));
 
-        KeywordDocument keywordDocument = response.getContent().get(0);
+        KeywordDocument keywordDocument = response.get(0);
         validateKeywordDocument(keywordDocument);
 
         ByteBuffer byteBuffer = keywordDocument.getKeywordObj();
@@ -122,14 +114,12 @@ class KeywordJobIT {
         validateKeywordDetail(entry);
 
         // validating if can search one category entry
-        solrQuery = new SimpleQuery("id:KW-9993");
-        response =
-                solrOperations.query(
-                        SolrCollection.keyword.name(), solrQuery, KeywordDocument.class);
+        solrQuery = new SolrQuery("id:KW-9993");
+        response = solrClient.query(SolrCollection.keyword, solrQuery, KeywordDocument.class);
         assertThat(response, is(notNullValue()));
-        assertThat(response.getTotalElements(), is(1L));
+        assertThat(response.size(), is(1));
 
-        keywordDocument = response.getContent().get(0);
+        keywordDocument = response.get(0);
         byteBuffer = keywordDocument.getKeywordObj();
         entry = jsonMapper.readValue(byteBuffer.array(), KeywordEntryImpl.class);
         assertThat(entry, is(notNullValue()));

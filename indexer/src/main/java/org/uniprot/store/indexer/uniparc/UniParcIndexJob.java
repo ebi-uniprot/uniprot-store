@@ -13,7 +13,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.uniprot.store.indexer.common.config.SolrRepositoryConfig;
-import org.uniprot.store.indexer.common.config.UniProtSolrOperations;
+import org.uniprot.store.indexer.common.config.UniProtSolrClient;
 import org.uniprot.store.job.common.listener.WriteRetrierLogJobListener;
 import org.uniprot.store.search.SolrCollection;
 
@@ -25,13 +25,12 @@ import org.uniprot.store.search.SolrCollection;
 @Import({SolrRepositoryConfig.class})
 public class UniParcIndexJob {
     private final JobBuilderFactory jobBuilderFactory;
-    private final UniProtSolrOperations solrOperations;
+    private final UniProtSolrClient solrClient;
 
     @Autowired
-    public UniParcIndexJob(
-            JobBuilderFactory jobBuilderFactory, UniProtSolrOperations solrOperations) {
+    public UniParcIndexJob(JobBuilderFactory jobBuilderFactory, UniProtSolrClient solrClient) {
         this.jobBuilderFactory = jobBuilderFactory;
-        this.solrOperations = solrOperations;
+        this.solrClient = solrClient;
     }
 
     @Bean
@@ -51,7 +50,7 @@ public class UniParcIndexJob {
 
                             @Override
                             public void afterJob(JobExecution jobExecution) {
-                                solrOperations.commit(SolrCollection.uniparc.name());
+                                solrClient.commit(SolrCollection.uniparc);
                             }
                         })
                 .build();

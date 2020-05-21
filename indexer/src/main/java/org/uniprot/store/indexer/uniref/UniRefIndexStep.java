@@ -20,7 +20,7 @@ import org.uniprot.core.xml.jaxb.uniref.Entry;
 import org.uniprot.cv.taxonomy.FileNodeIterable;
 import org.uniprot.cv.taxonomy.TaxonomyRepo;
 import org.uniprot.cv.taxonomy.impl.TaxonomyMapRepo;
-import org.uniprot.store.indexer.common.config.UniProtSolrOperations;
+import org.uniprot.store.indexer.common.config.UniProtSolrClient;
 import org.uniprot.store.indexer.common.writer.SolrDocumentWriter;
 import org.uniprot.store.job.common.converter.DocumentConverter;
 import org.uniprot.store.job.common.listener.LogRateListener;
@@ -83,7 +83,7 @@ public class UniRefIndexStep {
     }
 
     @Bean
-    public ItemWriter<UniRefDocument> unirefItemWriter(UniProtSolrOperations solrOperations) {
+    public ItemWriter<UniRefDocument> unirefItemWriter(UniProtSolrClient solrOperations) {
         return new SolrDocumentWriter<>(solrOperations, SolrCollection.uniref);
     }
 
