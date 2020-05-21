@@ -24,7 +24,7 @@ public class SearchFieldConfigFactory {
     public static final String PROTEOME_CONFIG_FILE =
             "search-fields-config/proteome-search-fields.json";
     public static final String SUBCELLLOCATION_CONFIG_FILE =
-            "search-fields-config/subcelllocation-return-fields.json";
+            "search-fields-config/subcelllocation-search-fields.json";
     public static final String SUGGEST_CONFIG_FILE =
             "search-fields-config/suggest-search-fields.json";
     public static final String TAXONOMY_CONFIG_FILE =
