@@ -121,6 +121,10 @@ public class UniProtSolrClient {
         }
     }
 
+    public void cleanUp() {
+        threadLocalSolrClients.remove();
+    }
+
     private SolrClient uniProtSolrClient() {
         String zookeeperhost = config.getZkHost();
         if (zookeeperhost != null && !zookeeperhost.isEmpty()) {

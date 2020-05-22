@@ -55,8 +55,6 @@ public class SolrTestConfig implements DisposableBean {
     public SolrClient apacheSolrClient() throws Exception {
         System.setProperty(SOLR_DATA_DIR, file.getAbsolutePath());
         return new EmbeddedSolrServer(createCoreContainer(solrHome), "collection1");
-        //        EmbeddedSolrServerFactory factory = new EmbeddedSolrServerFactory(solrHome);
-        //        return factory.getSolrClient();
     }
 
     private CoreContainer createCoreContainer(String solrHomeDirectory)
@@ -65,7 +63,7 @@ public class SolrTestConfig implements DisposableBean {
         return CoreContainer.createAndLoad(FileSystems.getDefault().getPath(solrHomeDirectory));
     }
 
-    @Bean
+    @Bean(destroyMethod = "cleanUp")
     @Profile("offline")
     public UniProtSolrClient solrClient(SolrClient apacheSolrClient) {
         return new UniProtSolrClient(apacheSolrClient);

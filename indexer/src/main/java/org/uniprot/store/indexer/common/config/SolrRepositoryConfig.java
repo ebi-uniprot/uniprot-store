@@ -13,7 +13,7 @@ import org.springframework.context.annotation.Profile;
 @Profile("online")
 @Import(RepositoryConfigProperties.class)
 public class SolrRepositoryConfig {
-    @Bean
+    @Bean(destroyMethod = "cleanUp")
     public UniProtSolrClient solrClient(RepositoryConfigProperties configProperties) {
         return new UniProtSolrClient(configProperties);
     }
