@@ -6,7 +6,8 @@
     "dataType": "STRING",
     "sortFieldId": "name_sort_id",
     "description": "Search by subcellular location name",
-    "example": "A band"
+    "example": "A band",
+    "includeInSwagger": true
   },
   {
     "id": "name_sort_id",
@@ -14,7 +15,7 @@
     "fieldType": "SORT",
     "dataType": "STRING",
     "description": "Sort by subcellular location name",
-    "example": "name_sort asc"
+    "example": "name asc"
   },
   {
     "id": "category",
@@ -22,7 +23,8 @@
     "fieldType": "GENERAL",
     "dataType": "STRING",
     "description": "Search by category",
-    "example": "Cellular"
+    "example": "Cellular",
+    "includeInSwagger": true
   },
   {
     "id": "id",
@@ -32,7 +34,8 @@
     "dataType": "STRING",
     "sortFieldId": "id_sort",
     "description": "Search by subcellular location id",
-    "example": "SL-0476"
+    "example": "SL-0476",
+    "includeInSwagger": true
   },
   {
     "id": "id_sort",

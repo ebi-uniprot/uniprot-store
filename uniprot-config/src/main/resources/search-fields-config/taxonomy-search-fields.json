@@ -6,7 +6,8 @@
     "dataType": "STRING",
     "sortFieldId": "name_sort_id",
     "description": "Search by scientific name",
-    "example": "16SrII"
+    "example": "16SrII",
+    "includeInSwagger": true
   },
   {
     "id": "name_sort_id",
@@ -14,7 +15,7 @@
     "fieldType": "SORT",
     "dataType": "STRING",
     "description": "Sort by scientific name",
-    "example": "name_sort asc"
+    "example": "scientific asc"
   },
   {
     "id": "id",
@@ -32,7 +33,8 @@
     "dataType": "INTEGER",
     "validRegex": "^[0-9]+$",
     "description": "Search by taxon identifier",
-    "example": "85621"
+    "example": "85621",
+    "includeInSwagger": true
   },
   {
     "id": "common",
@@ -40,7 +42,8 @@
     "fieldType": "GENERAL",
     "dataType": "STRING",
     "description": "Search by common name",
-    "example": "sample name"
+    "example": "sample name",
+    "includeInSwagger": true
   },
   {
     "id": "mnemonic",
@@ -48,7 +51,8 @@
     "fieldType": "GENERAL",
     "dataType": "STRING",
     "description": "Search by mnemonic name",
-    "example": "sample mnemonic"
+    "example": "sample mnemonic",
+    "includeInSwagger": true
   },
   {
     "id": "rank",
@@ -56,7 +60,8 @@
     "fieldType": "GENERAL",
     "dataType": "STRING",
     "description": "Search by rank name",
-    "example": "SPECIES_GROUP"
+    "example": "SPECIES_GROUP",
+    "includeInSwagger": true
   },
   {
     "id": "strain",
@@ -64,7 +69,8 @@
     "fieldType": "GENERAL",
     "dataType": "STRING",
     "description": "Search by rank name",
-    "example": "SPECIES_GROUP"
+    "example": "SPECIES_GROUP",
+    "includeInSwagger": true
   },
   {
     "id": "host",
@@ -73,7 +79,8 @@
     "dataType": "INTEGER",
     "validRegex": "^[0-9]+$",
     "description": "Search by host identifier",
-    "example": "85621"
+    "example": "85621",
+    "includeInSwagger": true
   },
   {
     "id": "linked",
@@ -82,7 +89,8 @@
     "dataType": "BOOLEAN",
     "validRegex": "^true|false$",
     "description": "Search if taxonomy is linked",
-    "example": "true"
+    "example": "true",
+    "includeInSwagger": true
   },
   {
     "id": "active",
@@ -91,7 +99,8 @@
     "dataType": "BOOLEAN",
     "validRegex": "^true|false$",
     "description": "Search if taxonomy is active",
-    "example": "false"
+    "example": "true",
+    "includeInSwagger": true
   },
   {
     "id": "proteome",
@@ -100,7 +109,8 @@
     "dataType": "BOOLEAN",
     "validRegex": "^true|false$",
     "description": "Search if taxonomy is proteome",
-    "example": "false"
+    "example": "false",
+    "includeInSwagger": true
   },
   {
     "id": "reference",
@@ -109,7 +119,8 @@
     "dataType": "BOOLEAN",
     "validRegex": "^true|false$",
     "description": "Search if taxonomy is referenced",
-    "example": "false"
+    "example": "false",
+    "includeInSwagger": true
   },
   {
     "id": "reviewed",
@@ -118,7 +129,8 @@
     "dataType": "BOOLEAN",
     "validRegex": "^true|false$",
     "description": "Search if taxonomy is reviewed",
-    "example": "false"
+    "example": "false",
+    "includeInSwagger": true
   },
   {
     "id": "annotated",
@@ -127,7 +139,8 @@
     "dataType": "BOOLEAN",
     "validRegex": "^true|false$",
     "description": "Search if taxonomy is annotated",
-    "example": "false"
+    "example": "false",
+    "includeInSwagger": true
   },
   {
     "id": "content",
