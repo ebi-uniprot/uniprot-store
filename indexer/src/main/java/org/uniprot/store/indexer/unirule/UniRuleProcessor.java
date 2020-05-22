@@ -45,8 +45,8 @@ public class UniRuleProcessor implements ItemProcessor<UniRuleType, UniRuleDocum
                                 .get(Constants.UNIRULE_PROTEIN_COUNT_CACHE_KEY);
     }
 
-    private Long computeProteinsAnnotatedCount(UniRuleType uniRuleType) {
-        Long totalProteinCount = 0L;
+    private long computeProteinsAnnotatedCount(UniRuleType uniRuleType) {
+        long totalProteinCount = 0L;
         String oldRuleId = uniRuleType.getInformation().getOldRuleNum();
         if (Objects.nonNull(oldRuleId)) {
             UniRuleProteinCountReader.UniRuleProteinCount ruleProteinCount =
@@ -60,7 +60,7 @@ public class UniRuleProcessor implements ItemProcessor<UniRuleType, UniRuleDocum
             }
 
         } else {
-            log.warn("No old Rule Id for UniRule Id {}", uniRuleType.getId());
+            log.warn("No old rule id found for UniRule Id {}", uniRuleType.getId());
         }
 
         return totalProteinCount;

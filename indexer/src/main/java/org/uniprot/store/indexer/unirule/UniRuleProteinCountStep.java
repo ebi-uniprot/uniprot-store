@@ -32,22 +32,22 @@ public class UniRuleProteinCountStep {
             StepBuilderFactory stepBuilders,
             StepExecutionListener stepListener,
             ChunkListener chunkListener,
-            ItemReader<UniRuleProteinCountReader.UniRuleProteinCount> reader,
-            ItemWriter<UniRuleProteinCountReader.UniRuleProteinCount> writer) {
+            ItemReader<UniRuleProteinCountReader.UniRuleProteinCount> uniRuleProteinCountReader,
+            ItemWriter<UniRuleProteinCountReader.UniRuleProteinCount> uniRuleProteinCountWriter) {
         return stepBuilders
                 .get(Constants.UNIRULE_PROTEIN_COUNT_STEP)
                 .<UniRuleProteinCountReader.UniRuleProteinCount,
                         UniRuleProteinCountReader.UniRuleProteinCount>
                         chunk(chunkSize)
-                .reader(reader)
-                .writer(writer)
+                .reader(uniRuleProteinCountReader)
+                .writer(uniRuleProteinCountWriter)
                 .listener(stepListener)
                 .listener(chunkListener)
                 .build();
     }
 
     @Bean
-    public ItemReader<UniRuleProteinCountReader.UniRuleProteinCount> reader(
+    public ItemReader<UniRuleProteinCountReader.UniRuleProteinCount> uniRuleProteinCountReader(
             @Qualifier("readDataSource") DataSource readDataSource) throws SQLException {
 
         JdbcCursorItemReader<UniRuleProteinCountReader.UniRuleProteinCount> itemReader =
@@ -60,7 +60,7 @@ public class UniRuleProteinCountStep {
     }
 
     @Bean
-    public ItemWriter<UniRuleProteinCountReader.UniRuleProteinCount> writer() {
+    public ItemWriter<UniRuleProteinCountReader.UniRuleProteinCount> uniRuleProteinCountWriter() {
         return new UniRuleProteinCountWriter();
     }
 
