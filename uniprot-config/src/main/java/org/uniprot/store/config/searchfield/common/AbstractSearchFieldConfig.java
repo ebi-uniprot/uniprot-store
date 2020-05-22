@@ -1,8 +1,6 @@
 package org.uniprot.store.config.searchfield.common;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import lombok.extern.slf4j.Slf4j;
@@ -21,10 +19,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @Slf4j
 public abstract class AbstractSearchFieldConfig implements SearchFieldConfig {
     public static final String SCHEMA_FILE = "schema/search-fields-schema.json";
+    private final List<SearchFieldItem> searchFieldItems;
+    private final Map<String, SearchFieldItem> searchFieldItemMap = new HashMap<>();
     protected UniProtDataType dataType;
-
     private List<SearchFieldItem> fieldItems;
-    private List<SearchFieldItem> searchFieldItems;
     private List<SearchFieldItem> sortFieldItems;
 
     protected AbstractSearchFieldConfig(
@@ -33,6 +31,13 @@ public abstract class AbstractSearchFieldConfig implements SearchFieldConfig {
         SchemaValidator.validate(schemaFile, configFile);
         init(configFile);
         new SearchFieldDataValidator().validateContent(this.fieldItems);
+
+        this.searchFieldItems =
+                getAllFieldItems().stream()
+                        .filter(this::isSearchFieldItem)
+                        .collect(Collectors.toList());
+        this.getSearchFieldItems()
+                .forEach(field -> searchFieldItemMap.put(field.getFieldName(), field));
     }
 
     public List<SearchFieldItem> getAllFieldItems() {
@@ -40,20 +45,15 @@ public abstract class AbstractSearchFieldConfig implements SearchFieldConfig {
     }
 
     public List<SearchFieldItem> getSearchFieldItems() {
-        if (this.searchFieldItems == null) {
-            this.searchFieldItems =
-                    getAllFieldItems().stream()
-                            .filter(this::isSearchFieldItem)
-                            .collect(Collectors.toList());
-        }
         return this.searchFieldItems;
     }
 
     public SearchFieldItem getSearchFieldItemByName(String fieldName) {
-        return this.getSearchFieldItems().stream()
-                .filter(fi -> fieldName.equals(fi.getFieldName()))
-                .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("Unknown field: " + fieldName));
+        if (this.searchFieldItemMap.containsKey(fieldName)) {
+            return this.searchFieldItemMap.get(fieldName);
+        } else {
+            throw new IllegalArgumentException("Unknown field: " + fieldName);
+        }
     }
 
     @Override
