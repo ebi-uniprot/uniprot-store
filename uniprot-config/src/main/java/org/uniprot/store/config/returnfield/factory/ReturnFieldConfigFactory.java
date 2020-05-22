@@ -25,7 +25,7 @@ public class ReturnFieldConfigFactory {
     public static final String PROTEOME_CONFIG_FILE =
             "return-fields-config/proteome-return-fields.json";
     public static final String SUBCELL_CONFIG_FILE =
-            "return-fields-config/subcell-return-fields.json";
+            "return-fields-config/subcelllocation-return-fields.json";
     public static final String TAXONOMY_CONFIG_FILE =
             "return-fields-config/taxonomy-return-fields.json";
     public static final String UNIPROTKB_CONFIG_FILE =
