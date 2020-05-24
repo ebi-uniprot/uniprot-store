@@ -34,16 +34,18 @@ public class UniParcTaxonomyJoin
                 Iterable<TaxonomyEntry> organismList = tuple._2.get();
                 organismList.forEach(
                         organism ->
-                            organism.getLineages()
-                                    .forEach(
-                                            lineage -> {
-                                                builder.taxLineageId((int) lineage.getTaxonId());
-                                                builder.organismTaxon(lineage.getScientificName());
-                                                if (lineage.hasCommonName()) {
-                                                    builder.organismTaxon(lineage.getCommonName());
-                                                }
-                                            })
-                        );
+                                organism.getLineages()
+                                        .forEach(
+                                                lineage -> {
+                                                    builder.taxLineageId(
+                                                            (int) lineage.getTaxonId());
+                                                    builder.organismTaxon(
+                                                            lineage.getScientificName());
+                                                    if (lineage.hasCommonName()) {
+                                                        builder.organismTaxon(
+                                                                lineage.getCommonName());
+                                                    }
+                                                }));
             }
             result = builder.build();
         }

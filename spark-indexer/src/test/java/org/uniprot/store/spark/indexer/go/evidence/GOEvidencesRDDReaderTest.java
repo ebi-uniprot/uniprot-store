@@ -35,7 +35,7 @@ class GOEvidencesRDDReaderTest {
                     GOEvidencesRDDReader.load(parameter);
             assertNotNull(goEvidenceRDD);
             long count = goEvidenceRDD.count();
-            assertEquals(3L, count);
+            assertEquals(4L, count);
             Tuple2<String, Iterable<GOEvidence>> tuple =
                     goEvidenceRDD.filter(tuple2 -> tuple2._1.equals("P21802")).first();
 
