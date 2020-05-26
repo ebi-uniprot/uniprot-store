@@ -20,7 +20,6 @@ import org.springframework.batch.core.StepExecution;
 import org.springframework.batch.test.JobLauncherTestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.uniprot.core.citation.Literature;
@@ -30,7 +29,6 @@ import org.uniprot.core.literature.LiteratureStoreEntry;
 import org.uniprot.core.literature.impl.LiteratureStoreEntryImpl;
 import org.uniprot.store.indexer.common.config.UniProtSolrClient;
 import org.uniprot.store.indexer.common.utils.Constants;
-import org.uniprot.store.indexer.literature.reader.LiteratureStatisticsReader;
 import org.uniprot.store.indexer.literature.steps.LiteratureLoadStep;
 import org.uniprot.store.indexer.literature.steps.LiteratureMappingStep;
 import org.uniprot.store.indexer.literature.steps.LiteratureStatisticsStep;
@@ -55,7 +53,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
             LiteratureJob.class,
             LiteratureLoadStep.class,
             LiteratureMappingStep.class,
-            LiteratureJobIT.KeywordStatisticsStepFake.class
+            LiteratureStatisticsStep.class
         })
 class LiteratureJobIT {
 
@@ -177,9 +175,9 @@ class LiteratureJobIT {
 
         assertThat(entry.hasStatistics(), is(true));
         assertThat(entry.getStatistics().getMappedProteinCount(), is(19L));
-        // assertThat(entry.getStatistics().getReviewedProteinCount(), is(1L)); COVID-19 CHANGE DO
+        assertThat(entry.getStatistics().getReviewedProteinCount(), is(1L)); // COVID-19 CHANGE DO
         // NOT MERGE
-        // assertThat(entry.getStatistics().getUnreviewedProteinCount(), is(1L)); COVID-19 CHANGE DO
+        assertThat(entry.getStatistics().getUnreviewedProteinCount(), is(1L)); // COVID-19 CHANGE DO
         // NOT MERGE
     }
 
@@ -191,15 +189,5 @@ class LiteratureJobIT {
         // assertThat(literatureDocument.isCitedin(), is(true)); COVID-19 CHANGE DO NOT MERGE
         assertThat(literatureDocument.isMappedin(), is(true));
         assertThat(literatureDocument.getLiteratureObj(), is(notNullValue()));
-    }
-
-    @Configuration
-    static class KeywordStatisticsStepFake extends LiteratureStatisticsStep {
-
-        @Override
-        protected String getStatisticsSQL() {
-            return LiteratureStatisticsReader.LITERATURE_STATISTICS_SQL.replaceAll(
-                    "FULL JOIN", "INNER JOIN");
-        }
     }
 }

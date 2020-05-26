@@ -19,7 +19,6 @@ import org.springframework.batch.core.StepExecution;
 import org.springframework.batch.test.JobLauncherTestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.uniprot.core.cv.keyword.KeywordEntry;
@@ -47,7 +46,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
             ListenerConfig.class,
             KeywordJob.class,
             KeywordLoadStep.class,
-            KeywordJobIT.KeywordStatisticsStepFake.class
+            KeywordStatisticsStep.class
         })
 class KeywordJobIT {
 
@@ -147,15 +146,5 @@ class KeywordJobIT {
         assertThat(keywordDocument.getId(), is(notNullValue()));
         assertThat(keywordDocument.getId(), is("KW-0540"));
         assertThat(keywordDocument.getKeywordObj(), is(notNullValue()));
-    }
-
-    @Configuration
-    static class KeywordStatisticsStepFake extends KeywordStatisticsStep {
-
-        @Override
-        protected String getStatisticsSQL() {
-            return KeywordStatisticsReader.KEYWORD_STATISTICS_URL.replaceAll(
-                    "FULL JOIN", "INNER JOIN");
-        }
     }
 }
