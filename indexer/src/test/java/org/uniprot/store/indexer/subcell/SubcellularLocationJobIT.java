@@ -18,7 +18,6 @@ import org.springframework.batch.core.StepExecution;
 import org.springframework.batch.test.JobLauncherTestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.uniprot.core.cv.subcell.SubcellLocationCategory;
@@ -50,8 +49,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
             ListenerConfig.class,
             SubcellularLocationJob.class,
             SubcellularLocationLoadStep.class,
-            SubcellularLocationJobIT.SubcellularLocationStatisticsStepFake.class,
-            SubcellularLocationStatisticsWriter.class,
+            SubcellularLocationStatisticsStep.class,
             SubcellularLocationLoadProcessor.class
         })
 // to inject job execution...
@@ -142,19 +140,5 @@ class SubcellularLocationJobIT {
         assertThat(subcellularLocationDocument.getId(), is(notNullValue()));
         assertThat(subcellularLocationDocument.getId(), is("SL-0188"));
         assertThat(subcellularLocationDocument.getSubcellularlocationObj(), is(notNullValue()));
-    }
-
-    @Configuration
-    static class SubcellularLocationStatisticsStepFake extends SubcellularLocationStatisticsStep {
-
-        @Override
-        protected String getStatisticsSQL() {
-            return "SELECT 'Acidocalcisome lumen' as identifier, 10 as reviewedProteinCount, 20  as unreviewedProteinCount from SPTR.DBENTRY where DBENTRY_ID=221555878"
-                    + "UNION ALL SELECT 'Nucleolus' as identifier, 5 as reviewedProteinCount, 6  as unreviewedProteinCount  from SPTR.DBENTRY where DBENTRY_ID=221555878 "
-                    + "UNION ALL SELECT 'Nucleus lamina' as identifier, 6 as reviewedProteinCount, null  as unreviewedProteinCount  from SPTR.DBENTRY where DBENTRY_ID=221555878 "
-                    + "UNION ALL SELECT 'Nucleus matrix' as identifier, 7 as reviewedProteinCount, 8  as unreviewedProteinCount  from SPTR.DBENTRY where DBENTRY_ID=221555878 "
-                    + "UNION ALL SELECT 'Perinuclear region' as identifier, 8 as reviewedProteinCount, 9  as unreviewedProteinCount  from SPTR.DBENTRY where DBENTRY_ID=221555878 "
-                    + "UNION ALL SELECT 'Nucleoplasm' as identifier, 9 as reviewedProteinCount, 10  as unreviewedProteinCount  from SPTR.DBENTRY where DBENTRY_ID=221555878 ";
-        }
     }
 }
