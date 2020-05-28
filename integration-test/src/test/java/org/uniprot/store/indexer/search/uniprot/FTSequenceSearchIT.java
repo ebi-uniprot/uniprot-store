@@ -14,7 +14,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;
 import org.uniprot.core.flatfile.writer.LineType;
-import org.uniprot.core.uniprotkb.feature.FeatureType;
+import org.uniprot.core.uniprotkb.feature.UniprotKBFeatureType;
 import org.uniprot.store.search.field.QueryBuilder;
 
 class FTSequenceSearchIT {
@@ -89,10 +89,10 @@ class FTSequenceSearchIT {
 
     @Test
     void varSeqFindEntryWithEvidenceLength() {
-        String query = features(FeatureType.VAR_SEQ, "isoform");
-        query = QueryBuilder.and(query, featureLength(FeatureType.VAR_SEQ, 10, 20));
+        String query = features(UniprotKBFeatureType.VAR_SEQ, "isoform");
+        query = QueryBuilder.and(query, featureLength(UniprotKBFeatureType.VAR_SEQ, 10, 20));
         String evidence = "ECO_0000305";
-        query = QueryBuilder.and(query, featureEvidence(FeatureType.VAR_SEQ, evidence));
+        query = QueryBuilder.and(query, featureEvidence(UniprotKBFeatureType.VAR_SEQ, evidence));
         QueryResponse response = searchEngine.getQueryResponse(query);
 
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
@@ -103,10 +103,10 @@ class FTSequenceSearchIT {
 
     @Test
     void variantFindEntryWithEvidenceLength() {
-        String query = features(FeatureType.VARIANT, "colorectal");
-        query = QueryBuilder.and(query, featureLength(FeatureType.VARIANT, 1, 1));
+        String query = features(UniprotKBFeatureType.VARIANT, "colorectal");
+        query = QueryBuilder.and(query, featureLength(UniprotKBFeatureType.VARIANT, 1, 1));
         String evidence = "ECO_0000269";
-        query = QueryBuilder.and(query, featureEvidence(FeatureType.VARIANT, evidence));
+        query = QueryBuilder.and(query, featureEvidence(UniprotKBFeatureType.VARIANT, evidence));
         QueryResponse response = searchEngine.getQueryResponse(query);
 
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
@@ -150,10 +150,10 @@ class FTSequenceSearchIT {
 
     @Test
     void nonStdFindEntryWithEvidenceLength() {
-        String query = features(FeatureType.NON_STD, "selenocysteine");
-        query = QueryBuilder.and(query, featureLength(FeatureType.NON_STD, 1, 1));
+        String query = features(UniprotKBFeatureType.NON_STD, "selenocysteine");
+        query = QueryBuilder.and(query, featureLength(UniprotKBFeatureType.NON_STD, 1, 1));
         String evidence = "ECO_0000250";
-        query = QueryBuilder.and(query, featureEvidence(FeatureType.NON_STD, evidence));
+        query = QueryBuilder.and(query, featureEvidence(UniprotKBFeatureType.NON_STD, evidence));
         QueryResponse response = searchEngine.getQueryResponse(query);
 
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
@@ -164,10 +164,10 @@ class FTSequenceSearchIT {
 
     @Test
     void nonTerFindEntryWithEvidenceLength() {
-        String query = features(FeatureType.NON_TER, "*");
-        query = QueryBuilder.and(query, featureLength(FeatureType.NON_TER, 1, 1));
+        String query = features(UniprotKBFeatureType.NON_TER, "*");
+        query = QueryBuilder.and(query, featureLength(UniprotKBFeatureType.NON_TER, 1, 1));
         String evidence = "ECO_0000303";
-        query = QueryBuilder.and(query, featureEvidence(FeatureType.NON_TER, evidence));
+        query = QueryBuilder.and(query, featureEvidence(UniprotKBFeatureType.NON_TER, evidence));
         QueryResponse response = searchEngine.getQueryResponse(query);
 
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
@@ -178,10 +178,10 @@ class FTSequenceSearchIT {
 
     @Test
     void nonConsFindEntryWithEvidenceLength() {
-        String query = features(FeatureType.NON_CONS, "*");
-        query = QueryBuilder.and(query, featureLength(FeatureType.NON_CONS, 1, 2));
+        String query = features(UniprotKBFeatureType.NON_CONS, "*");
+        query = QueryBuilder.and(query, featureLength(UniprotKBFeatureType.NON_CONS, 1, 2));
         String evidence = "ECO_0000305";
-        query = QueryBuilder.and(query, featureEvidence(FeatureType.NON_CONS, evidence));
+        query = QueryBuilder.and(query, featureEvidence(UniprotKBFeatureType.NON_CONS, evidence));
         QueryResponse response = searchEngine.getQueryResponse(query);
 
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
@@ -192,10 +192,10 @@ class FTSequenceSearchIT {
 
     @Test
     void conflictFindEntryWithEvidenceLength() {
-        String query = features(FeatureType.CONFLICT, "*");
-        query = QueryBuilder.and(query, featureLength(FeatureType.CONFLICT, 1, 2));
+        String query = features(UniprotKBFeatureType.CONFLICT, "*");
+        query = QueryBuilder.and(query, featureLength(UniprotKBFeatureType.CONFLICT, 1, 2));
         String evidence = "ECO_0000305";
-        query = QueryBuilder.and(query, featureEvidence(FeatureType.CONFLICT, evidence));
+        query = QueryBuilder.and(query, featureEvidence(UniprotKBFeatureType.CONFLICT, evidence));
         QueryResponse response = searchEngine.getQueryResponse(query);
 
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
@@ -206,10 +206,10 @@ class FTSequenceSearchIT {
 
     @Test
     void unsureFindEntryWithEvidenceLength() {
-        String query = features(FeatureType.UNSURE, "*");
-        query = QueryBuilder.and(query, featureLength(FeatureType.UNSURE, 1, 2));
+        String query = features(UniprotKBFeatureType.UNSURE, "*");
+        query = QueryBuilder.and(query, featureLength(UniprotKBFeatureType.UNSURE, 1, 2));
         String evidence = "ECO_0000269";
-        query = QueryBuilder.and(query, featureEvidence(FeatureType.UNSURE, evidence));
+        query = QueryBuilder.and(query, featureEvidence(UniprotKBFeatureType.UNSURE, evidence));
         QueryResponse response = searchEngine.getQueryResponse(query);
 
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);

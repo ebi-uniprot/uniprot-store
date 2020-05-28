@@ -8,10 +8,11 @@ import java.util.stream.Collectors;
 import org.springframework.batch.item.ItemWriter;
 import org.uniprot.core.json.parser.proteome.ProteomeJsonConfig;
 import org.uniprot.core.proteome.CanonicalProtein;
+import org.uniprot.core.proteome.Protein;
 import org.uniprot.core.uniprotkb.UniProtKBEntryType;
 import org.uniprot.core.xml.jaxb.proteome.Proteome;
 import org.uniprot.core.xml.proteome.ProteomeConverter;
-import org.uniprot.store.indexer.common.config.UniProtSolrOperations;
+import org.uniprot.store.indexer.common.config.UniProtSolrClient;
 import org.uniprot.store.search.SolrCollection;
 import org.uniprot.store.search.document.proteome.GeneCentricDocument;
 import org.uniprot.store.search.document.proteome.GeneCentricDocument.GeneCentricDocumentBuilder;
@@ -24,13 +25,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  * @date: 16 May 2019
  */
 public class GeneCentricDocumentWriter implements ItemWriter<Proteome> {
-    private final UniProtSolrOperations solrOperations;
+    private final UniProtSolrClient solrClient;
     private final SolrCollection collection;
     private final ProteomeConverter proteomeConverter;
     private final ObjectMapper objectMapper;
 
-    public GeneCentricDocumentWriter(UniProtSolrOperations solrOperations) {
-        this.solrOperations = solrOperations;
+    public GeneCentricDocumentWriter(UniProtSolrClient solrClient) {
+        this.solrClient = solrClient;
         this.collection = SolrCollection.genecentric;
         this.proteomeConverter = new ProteomeConverter();
         this.objectMapper = ProteomeJsonConfig.getInstance().getFullObjectMapper();
@@ -49,9 +50,9 @@ public class GeneCentricDocumentWriter implements ItemWriter<Proteome> {
                                                     proteome.getUpid(),
                                                     proteome.getTaxonomy().intValue()))
                             .collect(Collectors.toList());
-            if (!documents.isEmpty()) this.solrOperations.saveBeans(collection.name(), documents);
+            if (!documents.isEmpty()) this.solrClient.saveBeans(collection, documents);
         }
-        this.solrOperations.softCommit(collection.name());
+        this.solrClient.softCommit(collection);
     }
 
     private GeneCentricDocument convert(CanonicalProtein protein, String upid, int taxid) {
@@ -60,12 +61,10 @@ public class GeneCentricDocumentWriter implements ItemWriter<Proteome> {
         accessions.add(protein.getCanonicalProtein().getAccession().getValue());
         protein.getRelatedProteins().stream()
                 .map(val -> val.getAccession().getValue())
-                .forEach(val -> accessions.add(val));
+                .forEach(accessions::add);
         List<String> genes = new ArrayList<>();
         genes.add(protein.getCanonicalProtein().getGeneName());
-        protein.getRelatedProteins().stream()
-                .map(val -> val.getGeneName())
-                .forEach(val -> genes.add(val));
+        protein.getRelatedProteins().stream().map(Protein::getGeneName).forEach(genes::add);
 
         builder.accession(protein.getCanonicalProtein().getAccession().getValue())
                 .accessions(accessions)

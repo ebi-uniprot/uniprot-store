@@ -18,7 +18,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.uniprot.core.taxonomy.TaxonomyEntry;
-import org.uniprot.store.indexer.common.config.UniProtSolrOperations;
+import org.uniprot.store.indexer.common.config.UniProtSolrClient;
 import org.uniprot.store.indexer.common.listener.SolrCommitStepListener;
 import org.uniprot.store.indexer.common.utils.Constants;
 import org.uniprot.store.indexer.common.writer.SolrDocumentWriter;
@@ -43,7 +43,7 @@ public class TaxonomyMergedStep {
             ItemReader<TaxonomyEntry> itemTaxonomyMergedReader,
             ItemProcessor<TaxonomyEntry, TaxonomyDocument> itemTaxonomyMergedProcessor,
             ItemWriter<TaxonomyDocument> itemTaxonomyMergedWriter,
-            UniProtSolrOperations solrOperations)
+            UniProtSolrClient solrOperations)
             throws SQLException, IOException {
         return stepBuilders
                 .get(Constants.TAXONOMY_LOAD_MERGED_STEP_NAME)
@@ -74,8 +74,7 @@ public class TaxonomyMergedStep {
     }
 
     @Bean(name = "itemTaxonomyMergedWriter")
-    public ItemWriter<TaxonomyDocument> itemTaxonomyMergedWriter(
-            UniProtSolrOperations solrOperations) {
+    public ItemWriter<TaxonomyDocument> itemTaxonomyMergedWriter(UniProtSolrClient solrOperations) {
         return new SolrDocumentWriter<>(solrOperations, SolrCollection.taxonomy);
     }
 }

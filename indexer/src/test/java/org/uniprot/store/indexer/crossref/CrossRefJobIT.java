@@ -4,8 +4,10 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
 
+import java.util.List;
 import java.util.stream.Collectors;
 
+import org.apache.solr.client.solrj.SolrQuery;
 import org.hamcrest.CoreMatchers;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -15,11 +17,9 @@ import org.springframework.batch.core.StepExecution;
 import org.springframework.batch.test.JobLauncherTestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.domain.Page;
-import org.springframework.data.solr.core.query.SimpleQuery;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.uniprot.store.indexer.common.config.UniProtSolrOperations;
+import org.uniprot.store.indexer.common.config.UniProtSolrClient;
 import org.uniprot.store.indexer.common.utils.Constants;
 import org.uniprot.store.indexer.crossref.steps.CrossRefStep;
 import org.uniprot.store.indexer.crossref.steps.CrossRefUniProtCountStep;
@@ -45,7 +45,7 @@ import org.uniprot.store.search.document.dbxref.CrossRefDocument;
 class CrossRefJobIT {
     @Autowired private JobLauncherTestUtils jobLauncher;
 
-    @Autowired private UniProtSolrOperations solrOperations;
+    @Autowired private UniProtSolrClient solrClient;
 
     @Test
     void testDiseaseLoadJob() throws Exception {
@@ -81,18 +81,16 @@ class CrossRefJobIT {
         assertThat(countStep.getWriteCount(), is(2));
 
         // get all the index docs
-        Page<CrossRefDocument> response =
-                this.solrOperations.query(
-                        SolrCollection.crossref.name(),
-                        new SimpleQuery("*:*"),
-                        CrossRefDocument.class);
+        List<CrossRefDocument> response =
+                this.solrClient.query(
+                        SolrCollection.crossref, new SolrQuery("*:*"), CrossRefDocument.class);
 
         assertThat(response, is(notNullValue()));
-        assertThat(response.getTotalElements(), is(5L));
+        assertThat(response.size(), is(5));
 
         // get one document
         CrossRefDocument xrefDoc =
-                response.get().filter(xref -> "DB-0160".equals(xref.getId())).findFirst().get();
+                response.stream().filter(xref -> "DB-0160".equals(xref.getId())).findFirst().get();
         assertThat(xrefDoc.getId(), is("DB-0160"));
         assertThat(xrefDoc.getAbbrev(), is("Allergome"));
         assertThat(xrefDoc.getName(), is("Allergome; a platform for allergen knowledge"));
@@ -108,7 +106,7 @@ class CrossRefJobIT {
         assertThat(xrefDoc.getUnreviewedProteinCount(), is(3L));
 
         // clean up
-        this.solrOperations.delete(SolrCollection.disease.name(), new SimpleQuery("*:*"));
-        this.solrOperations.commit(SolrCollection.disease.name());
+        this.solrClient.delete(SolrCollection.disease, "*:*");
+        this.solrClient.commit(SolrCollection.disease);
     }
 }

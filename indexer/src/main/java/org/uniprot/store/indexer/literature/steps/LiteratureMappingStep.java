@@ -17,7 +17,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.Resource;
 import org.uniprot.core.literature.LiteratureStoreEntry;
-import org.uniprot.store.indexer.common.config.UniProtSolrOperations;
+import org.uniprot.store.indexer.common.config.UniProtSolrClient;
 import org.uniprot.store.indexer.common.listener.SolrCommitStepListener;
 import org.uniprot.store.indexer.common.utils.Constants;
 import org.uniprot.store.indexer.common.writer.SolrDocumentWriter;
@@ -40,7 +40,7 @@ public class LiteratureMappingStep {
 
     @Autowired private StepBuilderFactory steps;
 
-    @Autowired private UniProtSolrOperations solrOperations;
+    @Autowired private UniProtSolrClient solrClient;
 
     @Value(("${ds.import.chunk.size}"))
     private Integer chunkSize;
@@ -59,7 +59,7 @@ public class LiteratureMappingStep {
                             literatureMappingProcessor,
             @Qualifier("LiteratureMappingWriter")
                     ItemWriter<LiteratureDocument> literatureMappingWriter,
-            UniProtSolrOperations solrOperations) {
+            UniProtSolrClient solrOperations) {
         return this.steps
                 .get(Constants.LITERATURE_MAPPING_INDEX_STEP)
                 .<LiteratureStoreEntry, LiteratureDocument>chunk(chunkSize)
@@ -85,11 +85,11 @@ public class LiteratureMappingStep {
 
     @Bean(name = "LiteratureMappingWriter")
     public ItemWriter<LiteratureDocument> literatureMappingWriter() {
-        return new SolrDocumentWriter<>(this.solrOperations, SolrCollection.literature);
+        return new SolrDocumentWriter<>(this.solrClient, SolrCollection.literature);
     }
 
     @Bean(name = "LiteratureMappingProcessor")
     public ItemProcessor<LiteratureStoreEntry, LiteratureDocument> literatureMappingProcessor() {
-        return new LiteratureMappingProcessor(this.solrOperations);
+        return new LiteratureMappingProcessor(this.solrClient);
     }
 }

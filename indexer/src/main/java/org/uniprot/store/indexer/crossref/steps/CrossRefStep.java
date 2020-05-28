@@ -15,7 +15,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.uniprot.core.cv.xdb.CrossRefEntry;
-import org.uniprot.store.indexer.common.config.UniProtSolrOperations;
+import org.uniprot.store.indexer.common.config.UniProtSolrClient;
 import org.uniprot.store.indexer.common.utils.Constants;
 import org.uniprot.store.indexer.common.writer.SolrDocumentWriter;
 import org.uniprot.store.indexer.crossref.processor.CrossRefProcessor;
@@ -28,7 +28,7 @@ public class CrossRefStep {
 
     @Autowired private StepBuilderFactory steps;
 
-    @Autowired private UniProtSolrOperations solrOperations;
+    @Autowired private UniProtSolrClient solrClient;
 
     @Value(("${ds.import.chunk.size}"))
     private Integer chunkSize;
@@ -62,7 +62,7 @@ public class CrossRefStep {
 
     @Bean(name = "crossRefWriter")
     public ItemWriter<CrossRefDocument> xrefWriter() {
-        return new SolrDocumentWriter<>(this.solrOperations, SolrCollection.crossref);
+        return new SolrDocumentWriter<>(this.solrClient, SolrCollection.crossref);
     }
 
     @Bean(name = "crossRefProcessor")

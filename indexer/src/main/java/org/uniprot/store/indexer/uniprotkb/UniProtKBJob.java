@@ -14,7 +14,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.uniprot.store.indexer.common.config.CacheConfig;
 import org.uniprot.store.indexer.common.config.SolrRepositoryConfig;
-import org.uniprot.store.indexer.common.config.UniProtSolrOperations;
+import org.uniprot.store.indexer.common.config.UniProtSolrClient;
 import org.uniprot.store.job.common.listener.WriteRetrierLogJobListener;
 import org.uniprot.store.search.SolrCollection;
 
@@ -30,12 +30,12 @@ import org.uniprot.store.search.SolrCollection;
 public class UniProtKBJob {
     public static final String GO_ANCESTORS_CACHE = "goAncestorsCache";
     private final JobBuilderFactory jobBuilderFactory;
-    private final UniProtSolrOperations solrOperations;
+    private final UniProtSolrClient solrClient;
 
     @Autowired
-    public UniProtKBJob(JobBuilderFactory jobBuilderFactory, UniProtSolrOperations solrOperations) {
+    public UniProtKBJob(JobBuilderFactory jobBuilderFactory, UniProtSolrClient solrClient) {
         this.jobBuilderFactory = jobBuilderFactory;
-        this.solrOperations = solrOperations;
+        this.solrClient = solrClient;
     }
 
     @Bean
@@ -59,7 +59,7 @@ public class UniProtKBJob {
                             // Delegate all other commits to 'autoCommit' element of solrconfig.xml
                             @Override
                             public void afterJob(JobExecution jobExecution) {
-                                solrOperations.commit(SolrCollection.uniprot.name());
+                                solrClient.commit(SolrCollection.uniprot);
                             }
                         })
                 .build();

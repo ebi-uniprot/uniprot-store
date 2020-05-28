@@ -5,10 +5,8 @@ import java.util.Optional;
 
 import lombok.extern.slf4j.Slf4j;
 
+import org.apache.solr.client.solrj.SolrQuery;
 import org.springframework.batch.item.ItemProcessor;
-import org.springframework.data.solr.core.query.Criteria;
-import org.springframework.data.solr.core.query.Query;
-import org.springframework.data.solr.core.query.SimpleQuery;
 import org.uniprot.core.citation.Literature;
 import org.uniprot.core.json.parser.literature.LiteratureJsonConfig;
 import org.uniprot.core.literature.LiteratureStoreEntry;
@@ -16,7 +14,7 @@ import org.uniprot.core.literature.impl.LiteratureEntryBuilder;
 import org.uniprot.core.literature.impl.LiteratureStatisticsBuilder;
 import org.uniprot.core.literature.impl.LiteratureStoreEntryBuilder;
 import org.uniprot.core.literature.impl.LiteratureStoreEntryImpl;
-import org.uniprot.store.indexer.common.config.UniProtSolrOperations;
+import org.uniprot.store.indexer.common.config.UniProtSolrClient;
 import org.uniprot.store.search.SolrCollection;
 import org.uniprot.store.search.document.literature.LiteratureDocument;
 
@@ -28,22 +26,21 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public class LiteratureMappingProcessor
         implements ItemProcessor<LiteratureStoreEntry, LiteratureDocument> {
 
-    private final UniProtSolrOperations solrOperations;
+    private final UniProtSolrClient solrClient;
     private final ObjectMapper literatureObjectMapper;
 
-    public LiteratureMappingProcessor(UniProtSolrOperations solrOperations) {
-        this.solrOperations = solrOperations;
+    public LiteratureMappingProcessor(UniProtSolrClient solrClient) {
+        this.solrClient = solrClient;
         this.literatureObjectMapper = LiteratureJsonConfig.getInstance().getFullObjectMapper();
     }
 
     @Override
     public LiteratureDocument process(LiteratureStoreEntry mappedEntry) throws Exception {
         Literature literature = (Literature) mappedEntry.getLiteratureEntry().getCitation();
-        Query query =
-                new SimpleQuery().addCriteria(Criteria.where("id").is(literature.getPubmedId()));
+        SolrQuery query = new SolrQuery("id:" + literature.getPubmedId());
         Optional<LiteratureDocument> optionalDocument =
-                solrOperations.queryForObject(
-                        SolrCollection.literature.name(), query, LiteratureDocument.class);
+                solrClient.queryForObject(
+                        SolrCollection.literature, query, LiteratureDocument.class);
         LiteratureStatisticsBuilder statisticsBuilder = new LiteratureStatisticsBuilder();
         if (optionalDocument.isPresent()) {
             LiteratureDocument document = optionalDocument.get();

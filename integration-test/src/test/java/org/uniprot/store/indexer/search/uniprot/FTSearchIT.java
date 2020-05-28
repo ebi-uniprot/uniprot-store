@@ -17,7 +17,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;
 import org.uniprot.core.flatfile.writer.LineType;
-import org.uniprot.core.uniprotkb.feature.FeatureType;
+import org.uniprot.core.uniprotkb.feature.UniprotKBFeatureType;
 import org.uniprot.store.search.field.QueryBuilder;
 
 /** Tests showing the behaviour of searching FT fields */
@@ -59,7 +59,7 @@ class FTSearchIT {
 
     @Test
     void coiledFindEntrysWithEcoExactFF() {
-        String query = featureEvidence(FeatureType.COILED, "ECO_0000255");
+        String query = featureEvidence(UniprotKBFeatureType.COILED, "ECO_0000255");
 
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -69,7 +69,7 @@ class FTSearchIT {
 
     @Test
     void coiledFindEntrysWithEcoInExact() {
-        String query = featureEvidence(FeatureType.COILED, "ECO_0000255");
+        String query = featureEvidence(UniprotKBFeatureType.COILED, "ECO_0000255");
 
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -83,7 +83,7 @@ class FTSearchIT {
                 query(
                         searchEngine.getSearchFieldConfig().getSearchFieldItemByName("accession"),
                         Q6GZX4);
-        query = QueryBuilder.and(query, features(FeatureType.CHAIN, "*"));
+        query = QueryBuilder.and(query, features(UniprotKBFeatureType.CHAIN, "*"));
 
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -93,7 +93,7 @@ class FTSearchIT {
 
     @Test
     void chainFindEntryWithChain() {
-        String query = features(FeatureType.CHAIN, "*");
+        String query = features(UniprotKBFeatureType.CHAIN, "*");
 
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -103,7 +103,7 @@ class FTSearchIT {
 
     @Test
     void chainFindEntryContainingPutativeTranscription() {
-        String query = features(FeatureType.CHAIN, "Putative transcription");
+        String query = features(UniprotKBFeatureType.CHAIN, "Putative transcription");
 
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -113,7 +113,7 @@ class FTSearchIT {
 
     @Test
     void chainFindEntryContainingFtId() {
-        String query = features(FeatureType.CHAIN, "PRO_0000410512");
+        String query = features(UniprotKBFeatureType.CHAIN, "PRO_0000410512");
 
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -123,7 +123,7 @@ class FTSearchIT {
 
     @Test
     void chainFindNoEntryContainingFtId() {
-        String query = features(FeatureType.CHAIN, "/FTId=PRO_000041051");
+        String query = features(UniprotKBFeatureType.CHAIN, "/FTId=PRO_000041051");
 
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -133,7 +133,7 @@ class FTSearchIT {
 
     @Test
     void chainFindEntryContainingFtIdOnly() {
-        String query = features(FeatureType.CHAIN, "PRO_0000410512");
+        String query = features(UniprotKBFeatureType.CHAIN, "PRO_0000410512");
 
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -143,7 +143,7 @@ class FTSearchIT {
 
     @Test
     void chainFindEntryCopyPaste1FtLine() {
-        String query = features(FeatureType.CHAIN, "Putative transcription factor 001R.");
+        String query = features(UniprotKBFeatureType.CHAIN, "Putative transcription factor 001R.");
 
         QueryResponse response = searchEngine.getQueryResponse(query);
 

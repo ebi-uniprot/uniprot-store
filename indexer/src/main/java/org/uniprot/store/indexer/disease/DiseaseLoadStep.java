@@ -15,7 +15,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.uniprot.core.cv.disease.DiseaseEntry;
-import org.uniprot.store.indexer.common.config.UniProtSolrOperations;
+import org.uniprot.store.indexer.common.config.UniProtSolrClient;
 import org.uniprot.store.indexer.common.utils.Constants;
 import org.uniprot.store.indexer.common.writer.SolrDocumentWriter;
 import org.uniprot.store.search.SolrCollection;
@@ -26,7 +26,7 @@ public class DiseaseLoadStep {
 
     @Autowired private StepBuilderFactory steps;
 
-    @Autowired private UniProtSolrOperations solrOperations;
+    @Autowired private UniProtSolrClient solrClient;
 
     @Value(("${ds.import.chunk.size}"))
     private Integer chunkSize;
@@ -60,7 +60,7 @@ public class DiseaseLoadStep {
 
     @Bean(name = "DiseaseWriter")
     public ItemWriter<DiseaseDocument> diseaseWriter() {
-        return new SolrDocumentWriter<>(this.solrOperations, SolrCollection.disease);
+        return new SolrDocumentWriter<>(this.solrClient, SolrCollection.disease);
     }
 
     @Bean(name = "DiseaseProcessor")
