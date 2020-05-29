@@ -1,7 +1,10 @@
 [
   {
+    "seqNumber": 0,
     "id": "upi",
     "fieldName": "upi",
+    "label": "UniParc ID",
+    "itemType": "SINGLE",
     "fieldType": "GENERAL",
     "dataType": "STRING",
     "sortFieldId": "upi_sort_id",
@@ -19,8 +22,11 @@
     "example": "upi asc"
   },
   {
+    "seqNumber": 1,
     "id": "accession",
     "fieldName": "accession",
+    "label": "UniProtKB AC",
+    "itemType": "SINGLE",
     "validRegex": "([OPQ][0-9][A-Z0-9]{3}[0-9]|[A-NR-Z]([0-9][A-Z][A-Z0-9]{2}){1,2}[0-9])",
     "fieldType": "GENERAL",
     "dataType": "STRING",
@@ -29,8 +35,11 @@
     "includeInSwagger": true
   },
   {
+    "seqNumber": 2,
     "id": "isoform",
     "fieldName": "isoform",
+    "label": "UniProtKB isoform ID",
+    "itemType": "SINGLE",
     "validRegex": "([OPQ][0-9][A-Z0-9]{3}[0-9]|[A-NR-Z]([0-9][A-Z][A-Z0-9]{2}){1,2}[0-9])(-[0-9]+)?",
     "fieldType": "GENERAL",
     "dataType": "STRING",
@@ -39,8 +48,11 @@
     "includeInSwagger": true
   },
   {
+    "seqNumber": 3,
     "id": "upid",
     "fieldName": "upid",
+    "label": "Proteome ID",
+    "itemType": "SINGLE",
     "validRegex": "UP[0-9]{9}",
     "fieldType": "GENERAL",
     "dataType": "STRING",
@@ -59,8 +71,11 @@
     "includeInSwagger": true
   },
   {
+    "seqNumber": 4,
     "id": "taxonomy_name",
     "fieldName": "taxonomy_name",
+    "label": "Taxonomy [OC]",
+    "itemType": "SINGLE",
     "fieldType": "GENERAL",
     "dataType": "STRING",
     "description": "Search by taxonomy name",
@@ -68,8 +83,11 @@
     "includeInSwagger": true
   },
   {
+    "seqNumber": 5,
     "id": "gene",
     "fieldName": "gene",
+    "label": "Gene name [GN]",
+    "itemType": "SINGLE",
     "fieldType": "GENERAL",
     "dataType": "STRING",
     "description": "Search by gene name",
@@ -77,8 +95,11 @@
     "includeInSwagger": true
   },
   {
+    "seqNumber": 6,
     "id": "protein",
     "fieldName": "protein",
+    "label": "Protein name",
+    "itemType": "SINGLE",
     "fieldType": "GENERAL",
     "dataType": "STRING",
     "description": "Search by protein name",
@@ -86,8 +107,11 @@
     "includeInSwagger": true
   },
   {
+    "seqNumber": 7,
     "id": "database",
     "fieldName": "database",
+    "label": "Database",
+    "itemType": "SINGLE",
     "fieldType": "GENERAL",
     "dataType": "STRING",
     "description": "Search by database name",
@@ -95,8 +119,11 @@
     "includeInSwagger": true
   },
   {
+    "seqNumber": 8,
     "id": "active",
     "fieldName": "active",
+    "label": "Active",
+    "itemType": "SINGLE",
     "fieldType": "GENERAL",
     "dataType": "STRING",
     "description": "Search by active name",
@@ -104,8 +131,11 @@
     "includeInSwagger": true
   },
   {
+    "seqNumber": 9,
     "id": "checksum",
     "fieldName": "checksum",
+    "label": "Checksum (CRC64/MD5)",
+    "itemType": "SINGLE",
     "fieldType": "GENERAL",
     "dataType": "STRING",
     "description": "Search by checksum name",
@@ -113,8 +143,11 @@
     "includeInSwagger": true
   },
   {
+    "seqNumber": 10,
     "id": "length",
     "fieldName": "length",
+    "label": "Sequence length",
+    "itemType": "SINGLE",
     "fieldType": "RANGE",
     "dataType": "INTEGER",
     "sortFieldId": "length_sort",
