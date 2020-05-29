@@ -15,11 +15,6 @@ import org.springframework.jdbc.core.RowMapper;
 public class CrossRefUniProtCountReader
         implements RowMapper<CrossRefUniProtCountReader.CrossRefProteinCount> {
 
-    public static final String QUERY_TO_GET_XREF_PROTEIN_COUNT =
-            "SELECT ID as abbrev, REVIEWED_PROTEIN_COUNT as reviewedProteinCount, "
-                    + "UNREVIEWED_PROTEIN_COUNT as unreviewedProteinCount "
-                    + "FROM SPTR.MV_DATA_SOURCE_STATS WHERE DATA_TYPE = 'Cross Ref'";
-
     @Override
     public CrossRefProteinCount mapRow(ResultSet resultSet, int rowIndex) throws SQLException {
         String abbrev = resultSet.getString("abbrev");

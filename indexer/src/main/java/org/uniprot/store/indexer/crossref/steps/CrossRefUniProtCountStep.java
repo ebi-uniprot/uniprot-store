@@ -1,7 +1,5 @@
 package org.uniprot.store.indexer.crossref.steps;
 
-import static org.uniprot.store.indexer.crossref.readers.CrossRefUniProtCountReader.QUERY_TO_GET_XREF_PROTEIN_COUNT;
-
 import javax.sql.DataSource;
 
 import org.springframework.batch.core.ChunkListener;
@@ -23,6 +21,12 @@ import org.uniprot.store.indexer.crossref.writers.CrossRefUniProtCountWriter;
 /** @author sahmad */
 @Configuration
 public class CrossRefUniProtCountStep {
+
+    private static final String QUERY_TO_GET_XREF_PROTEIN_COUNT =
+            "SELECT ID as abbrev, REVIEWED_PROTEIN_COUNT as reviewedProteinCount, "
+                    + "UNREVIEWED_PROTEIN_COUNT as unreviewedProteinCount "
+                    + "FROM SPTR.MV_DATA_SOURCE_STATS WHERE DATA_TYPE = 'Cross Ref'";
+
     @Value(("${database.chunk.size}"))
     private Integer chunkSize;
 

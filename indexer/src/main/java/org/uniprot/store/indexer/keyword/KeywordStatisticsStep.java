@@ -26,6 +26,11 @@ import org.uniprot.store.search.document.keyword.KeywordDocument;
 /** @author lgonzales */
 @Configuration
 public class KeywordStatisticsStep {
+    private static final String KEYWORD_STATISTICS_URL =
+            "SELECT ID as accession, REVIEWED_PROTEIN_COUNT as reviewedProteinCount, "
+                    + "UNREVIEWED_PROTEIN_COUNT as unreviewedProteinCount "
+                    + "FROM SPTR.MV_DATA_SOURCE_STATS WHERE DATA_TYPE = 'Keyword'";
+
     @Value(("${database.chunk.size}"))
     private Integer chunkSize;
 
@@ -76,6 +81,6 @@ public class KeywordStatisticsStep {
     }
 
     protected String getStatisticsSQL() {
-        return KeywordStatisticsReader.KEYWORD_STATISTICS_URL;
+        return KEYWORD_STATISTICS_URL;
     }
 }

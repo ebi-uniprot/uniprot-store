@@ -175,12 +175,8 @@ class LiteratureJobIT {
 
         assertThat(entry.hasStatistics(), is(true));
         assertThat(entry.getStatistics().getMappedProteinCount(), is(19L));
-        //        assertThat(entry.getStatistics().getReviewedProteinCount(), is(1L)); // COVID-19
-        // CHANGE DO
-        // NOT MERGE
-        //        assertThat(entry.getStatistics().getUnreviewedProteinCount(), is(1L)); // COVID-19
-        // CHANGE DO
-        // NOT MERGE
+        assertThat(entry.getStatistics().getReviewedProteinCount(), is(1L));
+        assertThat(entry.getStatistics().getUnreviewedProteinCount(), is(1L));
     }
 
     private void validateLiteratureDocument(LiteratureDocument literatureDocument) {

@@ -17,11 +17,6 @@ import org.springframework.jdbc.core.RowMapper;
 public class SubcellularLocationStatisticsReader
         implements RowMapper<SubcellularLocationStatisticsReader.SubcellularLocationCount> {
 
-    public static final String SUBCELLULAR_LOCATION_STATISTICS_QUERY =
-            "SELECT ID as identifier, REVIEWED_PROTEIN_COUNT as reviewedProteinCount, "
-                    + "UNREVIEWED_PROTEIN_COUNT as unreviewedProteinCount "
-                    + "FROM SPTR.MV_DATA_SOURCE_STATS WHERE DATA_TYPE = 'Subcellular Location'";
-
     @Override
     public SubcellularLocationCount mapRow(ResultSet resultSet, int rowIndex) throws SQLException {
         String subcellularLocationId = resultSet.getString("identifier");

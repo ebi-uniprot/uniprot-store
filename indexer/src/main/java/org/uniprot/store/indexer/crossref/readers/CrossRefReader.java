@@ -45,8 +45,6 @@ public class CrossRefReader implements ItemReader<CrossRefEntry> {
     private static final String REF_SEPARATOR = " ";
     private static final Pattern NEWLINE_PATTERN = Pattern.compile("^\\s*$", Pattern.MULTILINE);
     private static final String FTP_PREFIX = "ftp://";
-    private static final String UNDER_ZERO = "_0";
-    private static final String UNDER_ONE = "_1";
 
     private Scanner reader;
     private boolean dataRegionStarted;
