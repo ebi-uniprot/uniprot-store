@@ -9,11 +9,6 @@ import org.springframework.jdbc.core.RowMapper;
 
 /** @author lgonzales */
 public class KeywordStatisticsReader implements RowMapper<KeywordStatisticsReader.KeywordCount> {
-    public static final String KEYWORD_STATISTICS_URL =
-            "SELECT ID as accession, REVIEWED_PROTEIN_COUNT as reviewedProteinCount, "
-                    + "UNREVIEWED_PROTEIN_COUNT as unreviewedProteinCount "
-                    + "FROM SPTR.MV_DATA_SOURCE_STATS WHERE DATA_TYPE = 'Keyword'";
-
     @Override
     public KeywordCount mapRow(ResultSet resultSet, int rowIndex) throws SQLException {
         String keywordId = resultSet.getString("accession");

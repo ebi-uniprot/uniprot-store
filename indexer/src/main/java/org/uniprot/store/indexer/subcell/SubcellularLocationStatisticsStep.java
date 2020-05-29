@@ -23,6 +23,10 @@ import org.uniprot.store.indexer.common.utils.Constants;
  */
 @Configuration
 public class SubcellularLocationStatisticsStep {
+    private static final String SUBCELLULAR_LOCATION_STATISTICS_QUERY =
+            "SELECT ID as identifier, REVIEWED_PROTEIN_COUNT as reviewedProteinCount, "
+                    + "UNREVIEWED_PROTEIN_COUNT as unreviewedProteinCount "
+                    + "FROM SPTR.MV_DATA_SOURCE_STATS WHERE DATA_TYPE = 'Subcellular Location'";
 
     @Value(("${database.chunk.size}"))
     private Integer chunkSize;
@@ -68,6 +72,6 @@ public class SubcellularLocationStatisticsStep {
     }
 
     protected String getStatisticsSQL() {
-        return SubcellularLocationStatisticsReader.SUBCELLULAR_LOCATION_STATISTICS_QUERY;
+        return SUBCELLULAR_LOCATION_STATISTICS_QUERY;
     }
 }
