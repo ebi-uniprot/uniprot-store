@@ -13,7 +13,8 @@ public class ReturnFieldConfigFactory {
 
     public static final String CROSS_REF_CONFIG_FILE =
             "return-fields-config/crossref-return-fields.json";
-    public static final String GENE_CONFIG_FILE = "return-fields-config/gene-return-fields.json";
+    public static final String GENE_CONFIG_FILE =
+            "return-fields-config/genecentric-return-fields.json";
     public static final String LITERATURE_CONFIG_FILE =
             "return-fields-config/literature-return-fields.json";
     public static final String SUGGEST_CONFIG_FILE =
