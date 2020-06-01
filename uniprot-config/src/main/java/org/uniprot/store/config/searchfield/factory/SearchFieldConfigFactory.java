@@ -16,7 +16,7 @@ public class SearchFieldConfigFactory {
     public static final String DISEASE_CONFIG_FILE =
             "search-fields-config/disease-search-fields.json";
     public static final String GENECENTRIC_CONFIG_FILE =
-            "search-fields-config/gene-search-fields.json";
+            "search-fields-config/genecentric-search-fields.json";
     public static final String KEYWORD_CONFIG_FILE =
             "search-fields-config/keyword-search-fields.json";
     public static final String LITERATURE_CONFIG_FILE =
