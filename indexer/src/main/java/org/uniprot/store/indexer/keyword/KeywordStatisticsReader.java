@@ -9,7 +9,6 @@ import org.springframework.jdbc.core.RowMapper;
 
 /** @author lgonzales */
 public class KeywordStatisticsReader implements RowMapper<KeywordStatisticsReader.KeywordCount> {
-
     @Override
     public KeywordCount mapRow(ResultSet resultSet, int rowIndex) throws SQLException {
         String keywordId = resultSet.getString("accession");

@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
+import org.uniprot.store.indexer.common.config.DataSourceConfig;
 import org.uniprot.store.indexer.common.config.SolrRepositoryConfig;
 import org.uniprot.store.indexer.common.config.UniProtSolrClient;
 import org.uniprot.store.indexer.common.utils.Constants;
@@ -20,7 +21,7 @@ import org.uniprot.store.search.SolrCollection;
  * @date: 14 May 2020
  */
 @Configuration
-@Import({SolrRepositoryConfig.class})
+@Import({DataSourceConfig.class, SolrRepositoryConfig.class})
 public class UniRuleIndexJob {
     private final JobBuilderFactory jobBuilderFactory;
     private final UniProtSolrClient solrClient;
@@ -33,10 +34,13 @@ public class UniRuleIndexJob {
 
     @Bean
     public Job indexJob(
-            Step indexUniRuleStep, WriteRetrierLogJobListener writeRetrierLogJobListener) {
+            Step uniRuleProteinCountSQLStep,
+            Step indexUniRuleStep,
+            WriteRetrierLogJobListener writeRetrierLogJobListener) {
         return this.jobBuilderFactory
                 .get(Constants.UNIRULE_INDEX_JOB)
-                .start(indexUniRuleStep) // index uniRule entry
+                .start(uniRuleProteinCountSQLStep) // load protein count from DB
+                .next(indexUniRuleStep) // index uniRule entry
                 .listener(writeRetrierLogJobListener)
                 .listener(
                         new JobExecutionListener() {

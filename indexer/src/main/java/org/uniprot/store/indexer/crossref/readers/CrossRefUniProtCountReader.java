@@ -18,9 +18,9 @@ public class CrossRefUniProtCountReader
     @Override
     public CrossRefProteinCount mapRow(ResultSet resultSet, int rowIndex) throws SQLException {
         String abbrev = resultSet.getString("abbrev");
-        long proteinCount = resultSet.getLong("proteinCount");
-        long entryType = resultSet.getLong("entryType");
-        return new CrossRefProteinCount(abbrev, entryType, proteinCount);
+        long reviewedProteinCount = resultSet.getLong("reviewedProteinCount");
+        long unreviewedProteinCount = resultSet.getLong("unreviewedProteinCount");
+        return new CrossRefProteinCount(abbrev, reviewedProteinCount, unreviewedProteinCount);
     }
 
     @Getter
@@ -28,7 +28,7 @@ public class CrossRefUniProtCountReader
     @AllArgsConstructor
     public class CrossRefProteinCount {
         private final String abbreviation;
-        private final long entryType;
-        private final long proteinCount;
+        private final long reviewedProteinCount;
+        private final long unreviewedProteinCount;
     }
 }

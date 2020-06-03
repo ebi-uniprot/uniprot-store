@@ -20,7 +20,6 @@ import org.uniprot.store.indexer.common.config.UniProtSolrClient;
 import org.uniprot.store.indexer.common.listener.SolrCommitStepListener;
 import org.uniprot.store.indexer.common.utils.Constants;
 import org.uniprot.store.indexer.common.writer.SolrDocumentWriter;
-import org.uniprot.store.indexer.literature.LiteratureSQLConstants;
 import org.uniprot.store.indexer.literature.processor.LiteratureStatisticsProcessor;
 import org.uniprot.store.indexer.literature.reader.LiteratureStatisticsReader;
 import org.uniprot.store.search.SolrCollection;
@@ -80,6 +79,6 @@ public class LiteratureStatisticsStep {
     }
 
     protected String getStatisticsSQL() {
-        return LiteratureSQLConstants.LITERATURE_STATISTICS_SQL;
+        return LiteratureStatisticsReader.LITERATURE_STATISTICS_SQL;
     }
 }

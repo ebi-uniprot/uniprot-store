@@ -45,8 +45,6 @@ public class CrossRefReader implements ItemReader<CrossRefEntry> {
     private static final String REF_SEPARATOR = " ";
     private static final Pattern NEWLINE_PATTERN = Pattern.compile("^\\s*$", Pattern.MULTILINE);
     private static final String FTP_PREFIX = "ftp://";
-    private static final String UNDER_ZERO = "_0";
-    private static final String UNDER_ONE = "_1";
 
     private Scanner reader;
     private boolean dataRegionStarted;
@@ -162,22 +160,16 @@ public class CrossRefReader implements ItemReader<CrossRefEntry> {
         builder.dbUrl(url).category(cat);
 
         // update the reviewed and unreviewed protein count
-        CrossRefUniProtCountReader.CrossRefProteinCount reviewedProtCount =
-                this.crossRefProteinCountMap.get(abbr + UNDER_ZERO);
-        CrossRefUniProtCountReader.CrossRefProteinCount unreviewedProtCount =
-                this.crossRefProteinCountMap.get(abbr + UNDER_ONE);
+        CrossRefUniProtCountReader.CrossRefProteinCount crossRefProteinCount =
+                this.crossRefProteinCountMap.get(abbr);
 
-        if (reviewedProtCount != null) {
-            builder.reviewedProteinCount(reviewedProtCount.getProteinCount());
+        if (crossRefProteinCount != null) {
+            builder.reviewedProteinCount(crossRefProteinCount.getReviewedProteinCount());
+            builder.unreviewedProteinCount(crossRefProteinCount.getUnreviewedProteinCount());
         } else {
-            log.warn("Cross ref with abbreviation {} not in the uniprot db reviewed", abbr);
+            log.warn("Cross ref with abbreviation {} not in the uniprot db", abbr);
         }
 
-        if (unreviewedProtCount != null) {
-            builder.unreviewedProteinCount(unreviewedProtCount.getProteinCount());
-        } else {
-            log.warn("Cross ref with abbreviation {} not in the uniprot db unreviewed", abbr);
-        }
         return builder.build();
     }
 }

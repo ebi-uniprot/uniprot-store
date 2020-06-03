@@ -3,12 +3,11 @@ package org.uniprot.store.indexer.unirule;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.fail;
-import static org.uniprot.store.indexer.common.utils.Constants.UNIRULE_INDEX_JOB;
-import static org.uniprot.store.indexer.common.utils.Constants.UNIRULE_INDEX_STEP;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.uniprot.store.indexer.common.utils.Constants.*;
 
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 
 import org.apache.solr.client.solrj.SolrQuery;
@@ -30,6 +29,7 @@ import org.uniprot.core.json.parser.unirule.UniRuleJsonConfig;
 import org.uniprot.core.unirule.UniRuleEntry;
 import org.uniprot.store.indexer.common.config.UniProtSolrClient;
 import org.uniprot.store.indexer.test.config.FakeIndexerSpringBootApplication;
+import org.uniprot.store.indexer.test.config.FakeReadDatabaseConfig;
 import org.uniprot.store.indexer.test.config.SolrTestConfig;
 import org.uniprot.store.job.common.listener.ListenerConfig;
 import org.uniprot.store.search.SolrCollection;
@@ -46,8 +46,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @SpringBootTest(
         classes = {
             FakeIndexerSpringBootApplication.class,
+            FakeReadDatabaseConfig.class,
             SolrTestConfig.class,
             UniRuleIndexJob.class,
+            UniRuleProteinCountStep.class,
             UniRuleIndexStep.class,
             ListenerConfig.class
         })
@@ -90,22 +92,20 @@ class UniRuleIndexJobIT {
         assertThat(response.size(), is(2));
         assertThat(response.get(0).getUniRuleId(), is("UR001229753"));
         assertThat(response.get(1).getUniRuleId(), is("UR001330252"));
-        // verify the rule ids from the serialised object
+        //         verify the rule ids from the serialised object
         response.forEach(this::verifyRule);
     }
 
     private void verifySteps(Collection<StepExecution> steps) {
         Assertions.assertNotNull(steps);
-        assertEquals(1, steps.size());
-        StepExecution step = steps.iterator().next();
-        assertEquals(UNIRULE_INDEX_STEP, step.getStepName());
-        assertEquals(BatchStatus.COMPLETED, step.getStatus());
-        assertEquals(2, step.getReadCount());
-        assertEquals(2, step.getWriteCount());
-        assertEquals(0, step.getReadSkipCount());
-        assertEquals(0, step.getWriteSkipCount());
-        assertEquals(0, step.getProcessSkipCount());
-        assertEquals(0, step.getRollbackCount());
+        assertEquals(2, steps.size());
+        Iterator<StepExecution> iter = steps.iterator();
+        StepExecution step1 = iter.next();
+        StepExecution step2 = iter.next();
+        assertEquals(UNIRULE_PROTEIN_COUNT_STEP, step1.getStepName());
+        assertEquals(BatchStatus.COMPLETED, step2.getStatus());
+        assertEquals(UNIRULE_INDEX_STEP, step2.getStepName());
+        assertEquals(BatchStatus.COMPLETED, step2.getStatus());
     }
 
     private void verifyRule(UniRuleDocument uniRuleDocument) {
@@ -114,6 +114,7 @@ class UniRuleIndexJobIT {
         try {
             UniRuleEntry uniRuleEntry = objectMapper.readValue(obj, UniRuleEntry.class);
             assertEquals(uniRuleId, uniRuleEntry.getUniRuleId().getValue());
+            assertTrue(uniRuleEntry.getProteinsAnnotatedCount() > 0);
         } catch (Exception e) {
             fail(e.getMessage());
         }

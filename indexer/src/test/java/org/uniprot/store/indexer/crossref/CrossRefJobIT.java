@@ -77,8 +77,8 @@ class CrossRefJobIT {
                         .collect(Collectors.toList())
                         .get(0);
 
-        assertThat(countStep.getReadCount(), is(2));
-        assertThat(countStep.getWriteCount(), is(2));
+        assertThat(countStep.getReadCount(), is(5));
+        assertThat(countStep.getWriteCount(), is(5));
 
         // get all the index docs
         List<CrossRefDocument> response =
@@ -102,8 +102,8 @@ class CrossRefJobIT {
                 xrefDoc.getDbUrl(),
                 is("http://www.allergome.org/script/dettaglio.php?id_molecule=%s"));
         assertThat(xrefDoc.getCategory(), is("Protein family/group databases"));
-        assertThat(xrefDoc.getReviewedProteinCount(), is(7L));
-        assertThat(xrefDoc.getUnreviewedProteinCount(), is(3L));
+        assertThat(xrefDoc.getReviewedProteinCount(), is(1283L));
+        assertThat(xrefDoc.getUnreviewedProteinCount(), is(3167L));
 
         // clean up
         this.solrClient.delete(SolrCollection.disease, "*:*");

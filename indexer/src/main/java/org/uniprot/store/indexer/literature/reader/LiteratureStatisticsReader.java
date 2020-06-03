@@ -11,6 +11,11 @@ import org.springframework.jdbc.core.RowMapper;
 public class LiteratureStatisticsReader
         implements RowMapper<LiteratureStatisticsReader.LiteratureCount> {
 
+    public static final String LITERATURE_STATISTICS_SQL =
+            "SELECT ID as pubmed_id, REVIEWED_PROTEIN_COUNT as reviewedProteinCount, "
+                    + "UNREVIEWED_PROTEIN_COUNT as unreviewedProteinCount "
+                    + "FROM SPTR.MV_DATA_SOURCE_STATS WHERE DATA_TYPE = 'Literature'";
+
     @Override
     public LiteratureCount mapRow(ResultSet resultSet, int rowIndex) throws SQLException {
         long pubmedId = resultSet.getLong("pubmed_id");

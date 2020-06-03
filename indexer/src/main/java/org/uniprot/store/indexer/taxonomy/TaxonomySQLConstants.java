@@ -8,23 +8,9 @@ public class TaxonomySQLConstants {
                     + " FROM taxonomy.v_public_node";
 
     public static final String COUNT_PROTEINS_SQL =
-            "SELECT COALESCE(r.TAX_ID,u.TAX_ID) as TAX_ID, r.reviewedProteinCount, u.unreviewedProteinCount, pr.referenceProteomeCount, pc.proteomeCount"
-                    + " FROM (SELECT tax_id, count(1) as reviewedProteinCount"
-                    + "               FROM SPTR.dbentry"
-                    + "               WHERE entry_type = 0 and deleted ='N' and merge_status<>'R'"
-                    + "               GROUP BY tax_id) r"
-                    + " FULL JOIN (SELECT tax_id, count(1) as unreviewedProteinCount"
-                    + "                 FROM SPTR.dbentry"
-                    + "                 WHERE entry_type = 1 and deleted ='N' and merge_status<>'R'"
-                    + "                 GROUP BY tax_id) u ON r.TAX_ID = u.TAX_ID"
-                    + " LEFT JOIN (SELECT proteome_Taxid, count(*) as referenceProteomeCount"
-                    + "                 FROM SPTR.proteome"
-                    + "                 WHERE publish=1 and IS_REFERENCE = 1"
-                    + "                 GROUP BY proteome_Taxid) pr ON pr.proteome_Taxid = u.TAX_ID"
-                    + " LEFT JOIN (SELECT proteome_Taxid, count(*) as proteomeCount"
-                    + "                 FROM SPTR.proteome"
-                    + "                 WHERE publish=1 and ((IS_REDUNDANT=0 OR COVERABLE_BY_REDUNDANCY=0)  and IS_EXCLUDED=0)"
-                    + "                 GROUP BY proteome_Taxid) pc ON pc.proteome_Taxid = u.TAX_ID";
+            "SELECT ID as TAX_ID, REVIEWED_PROTEIN_COUNT as reviewedProteinCount, UNREVIEWED_PROTEIN_COUNT as unreviewedProteinCount, "
+                    + "REFERENCED_PROTEOME_COUNT as referenceProteomeCount, PROTEOME_COUNT as proteomeCount "
+                    + "FROM SPTR.MV_DATA_SOURCE_STATS WHERE DATA_TYPE = 'Taxonomy'";
 
     public static final String SELECT_TAXONOMY_STRAINS_SQL =
             "SELECT STRAIN_ID, NAME, NAME_CLASS"

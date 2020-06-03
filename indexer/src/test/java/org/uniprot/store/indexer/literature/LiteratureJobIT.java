@@ -20,7 +20,6 @@ import org.springframework.batch.core.StepExecution;
 import org.springframework.batch.test.JobLauncherTestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.uniprot.core.citation.Literature;
@@ -54,7 +53,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
             LiteratureJob.class,
             LiteratureLoadStep.class,
             LiteratureMappingStep.class,
-            LiteratureJobIT.KeywordStatisticsStepFake.class
+            LiteratureStatisticsStep.class
         })
 class LiteratureJobIT {
 
@@ -176,10 +175,8 @@ class LiteratureJobIT {
 
         assertThat(entry.hasStatistics(), is(true));
         assertThat(entry.getStatistics().getMappedProteinCount(), is(19L));
-        // assertThat(entry.getStatistics().getReviewedProteinCount(), is(1L)); COVID-19 CHANGE DO
-        // NOT MERGE
-        // assertThat(entry.getStatistics().getUnreviewedProteinCount(), is(1L)); COVID-19 CHANGE DO
-        // NOT MERGE
+        assertThat(entry.getStatistics().getReviewedProteinCount(), is(1L));
+        assertThat(entry.getStatistics().getUnreviewedProteinCount(), is(1L));
     }
 
     private void validateLiteratureDocument(LiteratureDocument literatureDocument) {
@@ -190,15 +187,5 @@ class LiteratureJobIT {
         // assertThat(literatureDocument.isCitedin(), is(true)); COVID-19 CHANGE DO NOT MERGE
         assertThat(literatureDocument.isMappedin(), is(true));
         assertThat(literatureDocument.getLiteratureObj(), is(notNullValue()));
-    }
-
-    @Configuration
-    static class KeywordStatisticsStepFake extends LiteratureStatisticsStep {
-
-        @Override
-        protected String getStatisticsSQL() {
-            return LiteratureSQLConstants.LITERATURE_STATISTICS_SQL.replaceAll(
-                    "FULL JOIN", "INNER JOIN");
-        }
     }
 }
