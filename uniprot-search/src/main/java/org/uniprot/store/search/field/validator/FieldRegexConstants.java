@@ -15,5 +15,6 @@ public class FieldRegexConstants {
             "([OPQ][0-9][A-Z0-9]{3}[0-9]|[A-NR-Z]([0-9][A-Z][A-Z0-9]{2}){1,2}[0-9])(-[0-9]+)?";
     public static final String PROTEOME_ID_REGEX = "UP[0-9]{9}";
     public static final String UNIPARC_UPI_REGEX = "UPI[\\w]{10}";
-    public static final String UNIREF_CLUSTER_ID_REGEX = "(UniRef100|UniRef90|UniRef50)_\\w+";
+    public static final String UNIREF_CLUSTER_ID_REGEX =
+            "(UniRef100|UniRef90|UniRef50)_\\w+(-[0-9]+)?";
 }
