@@ -28,7 +28,7 @@ public class CrossRefStep {
 
     @Autowired private StepBuilderFactory steps;
 
-    @Autowired private UniProtSolrClient solrClient;
+    @Autowired private UniProtSolrClient uniProtSolrClient;
 
     @Value(("${ds.import.chunk.size}"))
     private Integer chunkSize;
@@ -62,7 +62,7 @@ public class CrossRefStep {
 
     @Bean(name = "crossRefWriter")
     public ItemWriter<CrossRefDocument> xrefWriter() {
-        return new SolrDocumentWriter<>(this.solrClient, SolrCollection.crossref);
+        return new SolrDocumentWriter<>(this.uniProtSolrClient, SolrCollection.crossref);
     }
 
     @Bean(name = "crossRefProcessor")

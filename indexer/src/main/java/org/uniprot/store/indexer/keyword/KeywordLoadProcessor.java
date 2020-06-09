@@ -26,10 +26,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public class KeywordLoadProcessor implements ItemProcessor<KeywordEntry, KeywordDocument> {
 
     private final ObjectMapper keywordObjectMapper;
-    private final UniProtSolrClient solrClient;
+    private final UniProtSolrClient uniProtSolrClient;
 
-    public KeywordLoadProcessor(UniProtSolrClient solrClient) throws SQLException {
-        this.solrClient = solrClient;
+    public KeywordLoadProcessor(UniProtSolrClient uniProtSolrClient) throws SQLException {
+        this.uniProtSolrClient = uniProtSolrClient;
         this.keywordObjectMapper = KeywordJsonConfig.getInstance().getFullObjectMapper();
     }
 
@@ -37,7 +37,8 @@ public class KeywordLoadProcessor implements ItemProcessor<KeywordEntry, Keyword
     public KeywordDocument process(KeywordEntry entry) throws Exception {
         SolrQuery query = new SolrQuery("id:" + entry.getKeyword().getId());
         Optional<KeywordDocument> optionalDocument =
-                solrClient.queryForObject(SolrCollection.keyword, query, KeywordDocument.class);
+                uniProtSolrClient.queryForObject(
+                        SolrCollection.keyword, query, KeywordDocument.class);
         if (optionalDocument.isPresent()) {
             KeywordDocument document = optionalDocument.get();
 

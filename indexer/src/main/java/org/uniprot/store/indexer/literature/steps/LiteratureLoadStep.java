@@ -34,7 +34,7 @@ public class LiteratureLoadStep {
 
     @Autowired private StepBuilderFactory steps;
 
-    @Autowired private UniProtSolrClient solrClient;
+    @Autowired private UniProtSolrClient uniProtSolrClient;
 
     @Value(("${ds.import.chunk.size}"))
     private Integer chunkSize;
@@ -76,13 +76,13 @@ public class LiteratureLoadStep {
 
     @Bean(name = "LiteratureWriter")
     public ItemWriter<LiteratureDocument> literatureWriter() {
-        return new SolrDocumentWriter<>(this.solrClient, SolrCollection.literature);
+        return new SolrDocumentWriter<>(this.uniProtSolrClient, SolrCollection.literature);
     }
 
     @Bean(name = "LiteratureProcessor")
     public ItemProcessor<LiteratureEntry, LiteratureDocument> literatureProcessor()
             throws SQLException {
-        return new LiteratureLoadProcessor(solrClient);
+        return new LiteratureLoadProcessor(uniProtSolrClient);
     }
 
     private LiteratureRecordSeparatorPolicy getLiteratureRecordSeparatorPolice() {

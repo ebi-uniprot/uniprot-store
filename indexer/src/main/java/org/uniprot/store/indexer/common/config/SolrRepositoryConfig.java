@@ -14,7 +14,7 @@ import org.springframework.context.annotation.Profile;
 @Import(RepositoryConfigProperties.class)
 public class SolrRepositoryConfig {
     @Bean(destroyMethod = "cleanUp")
-    public UniProtSolrClient solrClient(RepositoryConfigProperties configProperties) {
+    public UniProtSolrClient uniProtSolrClient(RepositoryConfigProperties configProperties) {
         return new UniProtSolrClient(configProperties);
     }
 }
