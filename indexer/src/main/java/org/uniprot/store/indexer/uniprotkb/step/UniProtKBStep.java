@@ -62,15 +62,15 @@ import org.uniprot.store.search.document.suggest.SuggestDocument;
 public class UniProtKBStep {
     private final StepBuilderFactory stepBuilderFactory;
     private final UniProtKBIndexingProperties uniProtKBIndexingProperties;
-    private final UniProtSolrClient solrClient;
+    private final UniProtSolrClient uniProtSolrClient;
 
     @Autowired
     public UniProtKBStep(
             StepBuilderFactory stepBuilderFactory,
-            UniProtSolrClient solrClient,
+            UniProtSolrClient uniProtSolrClient,
             UniProtKBIndexingProperties indexingProperties) {
         this.stepBuilderFactory = stepBuilderFactory;
-        this.solrClient = solrClient;
+        this.uniProtSolrClient = uniProtSolrClient;
         this.uniProtKBIndexingProperties = indexingProperties;
     }
 
@@ -143,7 +143,7 @@ public class UniProtKBStep {
     public ItemWriter<UniProtEntryDocumentPair> uniProtDocumentItemWriter(
             RetryPolicy<Object> writeRetryPolicy) {
         return new UniProtEntryDocumentPairWriter(
-                this.solrClient, SolrCollection.uniprot, writeRetryPolicy);
+                this.uniProtSolrClient, SolrCollection.uniprot, writeRetryPolicy);
     }
 
     @Bean("uniprotkbAsyncWriter")

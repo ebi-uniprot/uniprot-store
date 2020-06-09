@@ -24,12 +24,13 @@ import org.uniprot.store.search.SolrCollection;
 @Import({DataSourceConfig.class, SolrRepositoryConfig.class})
 public class UniRuleIndexJob {
     private final JobBuilderFactory jobBuilderFactory;
-    private final UniProtSolrClient solrClient;
+    private final UniProtSolrClient uniProtSolrClient;
 
     @Autowired
-    public UniRuleIndexJob(JobBuilderFactory jobBuilderFactory, UniProtSolrClient solrClient) {
+    public UniRuleIndexJob(
+            JobBuilderFactory jobBuilderFactory, UniProtSolrClient uniProtSolrClient) {
         this.jobBuilderFactory = jobBuilderFactory;
-        this.solrClient = solrClient;
+        this.uniProtSolrClient = uniProtSolrClient;
     }
 
     @Bean
@@ -51,7 +52,7 @@ public class UniRuleIndexJob {
 
                             @Override
                             public void afterJob(JobExecution jobExecution) {
-                                solrClient.commit(SolrCollection.unirule);
+                                uniProtSolrClient.commit(SolrCollection.unirule);
                             }
                         })
                 .build();

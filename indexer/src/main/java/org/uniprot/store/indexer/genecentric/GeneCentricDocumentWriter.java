@@ -25,13 +25,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  * @date: 16 May 2019
  */
 public class GeneCentricDocumentWriter implements ItemWriter<Proteome> {
-    private final UniProtSolrClient solrClient;
+    private final UniProtSolrClient uniProtSolrClient;
     private final SolrCollection collection;
     private final ProteomeConverter proteomeConverter;
     private final ObjectMapper objectMapper;
 
-    public GeneCentricDocumentWriter(UniProtSolrClient solrClient) {
-        this.solrClient = solrClient;
+    public GeneCentricDocumentWriter(UniProtSolrClient uniProtSolrClient) {
+        this.uniProtSolrClient = uniProtSolrClient;
         this.collection = SolrCollection.genecentric;
         this.proteomeConverter = new ProteomeConverter();
         this.objectMapper = ProteomeJsonConfig.getInstance().getFullObjectMapper();
@@ -50,9 +50,9 @@ public class GeneCentricDocumentWriter implements ItemWriter<Proteome> {
                                                     proteome.getUpid(),
                                                     proteome.getTaxonomy().intValue()))
                             .collect(Collectors.toList());
-            if (!documents.isEmpty()) this.solrClient.saveBeans(collection, documents);
+            if (!documents.isEmpty()) this.uniProtSolrClient.saveBeans(collection, documents);
         }
-        this.solrClient.softCommit(collection);
+        this.uniProtSolrClient.softCommit(collection);
     }
 
     private GeneCentricDocument convert(CanonicalProtein protein, String upid, int taxid) {

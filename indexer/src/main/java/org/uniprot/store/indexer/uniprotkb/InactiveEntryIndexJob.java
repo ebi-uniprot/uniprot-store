@@ -25,13 +25,13 @@ import org.uniprot.store.search.SolrCollection;
 @Import({SolrRepositoryConfig.class})
 public class InactiveEntryIndexJob {
     private final JobBuilderFactory jobBuilderFactory;
-    private final UniProtSolrClient solrClient;
+    private final UniProtSolrClient uniProtSolrClient;
 
     @Autowired
     public InactiveEntryIndexJob(
-            JobBuilderFactory jobBuilderFactory, UniProtSolrClient solrClient) {
+            JobBuilderFactory jobBuilderFactory, UniProtSolrClient uniProtSolrClient) {
         this.jobBuilderFactory = jobBuilderFactory;
-        this.solrClient = solrClient;
+        this.uniProtSolrClient = uniProtSolrClient;
     }
 
     @Bean
@@ -53,7 +53,7 @@ public class InactiveEntryIndexJob {
                             // Delegate all other commits to 'autoCommit' element of solrconfig.xml
                             @Override
                             public void afterJob(JobExecution jobExecution) {
-                                solrClient.commit(SolrCollection.uniprot);
+                                uniProtSolrClient.commit(SolrCollection.uniprot);
                             }
                         })
                 .build();

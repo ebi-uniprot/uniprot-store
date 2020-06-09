@@ -46,15 +46,15 @@ import org.uniprot.store.search.SolrCollection;
 public class InactiveEntryStep {
     private final StepBuilderFactory stepBuilderFactory;
     private final UniProtKBIndexingProperties uniProtKBIndexingProperties;
-    private final UniProtSolrClient solrClient;
+    private final UniProtSolrClient uniProtSolrClient;
 
     @Autowired
     public InactiveEntryStep(
             StepBuilderFactory stepBuilderFactory,
-            UniProtSolrClient solrClient,
+            UniProtSolrClient uniProtSolrClient,
             UniProtKBIndexingProperties indexingProperties) {
         this.stepBuilderFactory = stepBuilderFactory;
-        this.solrClient = solrClient;
+        this.uniProtSolrClient = uniProtSolrClient;
         this.uniProtKBIndexingProperties = indexingProperties;
     }
 
@@ -124,7 +124,7 @@ public class InactiveEntryStep {
     public ItemWriter<InactiveEntryDocumentPair> uniProtDocumentItemWriter(
             RetryPolicy<Object> writeRetryPolicy) {
         return new InactiveEntryDocumentPairWriter(
-                this.solrClient, SolrCollection.uniprot, writeRetryPolicy);
+                this.uniProtSolrClient, SolrCollection.uniprot, writeRetryPolicy);
     }
 
     @Bean("inactiveEntryAsyncWriter")

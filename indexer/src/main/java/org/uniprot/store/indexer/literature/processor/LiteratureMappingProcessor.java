@@ -26,11 +26,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public class LiteratureMappingProcessor
         implements ItemProcessor<LiteratureStoreEntry, LiteratureDocument> {
 
-    private final UniProtSolrClient solrClient;
+    private final UniProtSolrClient uniProtSolrClient;
     private final ObjectMapper literatureObjectMapper;
 
-    public LiteratureMappingProcessor(UniProtSolrClient solrClient) {
-        this.solrClient = solrClient;
+    public LiteratureMappingProcessor(UniProtSolrClient uniProtSolrClient) {
+        this.uniProtSolrClient = uniProtSolrClient;
         this.literatureObjectMapper = LiteratureJsonConfig.getInstance().getFullObjectMapper();
     }
 
@@ -39,7 +39,7 @@ public class LiteratureMappingProcessor
         Literature literature = (Literature) mappedEntry.getLiteratureEntry().getCitation();
         SolrQuery query = new SolrQuery("id:" + literature.getPubmedId());
         Optional<LiteratureDocument> optionalDocument =
-                solrClient.queryForObject(
+                uniProtSolrClient.queryForObject(
                         SolrCollection.literature, query, LiteratureDocument.class);
         LiteratureStatisticsBuilder statisticsBuilder = new LiteratureStatisticsBuilder();
         if (optionalDocument.isPresent()) {

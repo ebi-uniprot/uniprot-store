@@ -40,7 +40,7 @@ public class LiteratureMappingStep {
 
     @Autowired private StepBuilderFactory steps;
 
-    @Autowired private UniProtSolrClient solrClient;
+    @Autowired private UniProtSolrClient uniProtSolrClient;
 
     @Value(("${ds.import.chunk.size}"))
     private Integer chunkSize;
@@ -85,11 +85,11 @@ public class LiteratureMappingStep {
 
     @Bean(name = "LiteratureMappingWriter")
     public ItemWriter<LiteratureDocument> literatureMappingWriter() {
-        return new SolrDocumentWriter<>(this.solrClient, SolrCollection.literature);
+        return new SolrDocumentWriter<>(this.uniProtSolrClient, SolrCollection.literature);
     }
 
     @Bean(name = "LiteratureMappingProcessor")
     public ItemProcessor<LiteratureStoreEntry, LiteratureDocument> literatureMappingProcessor() {
-        return new LiteratureMappingProcessor(this.solrClient);
+        return new LiteratureMappingProcessor(this.uniProtSolrClient);
     }
 }

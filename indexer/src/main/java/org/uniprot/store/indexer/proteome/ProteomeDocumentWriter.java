@@ -16,13 +16,14 @@ import org.uniprot.store.search.document.proteome.ProteomeDocument;
  */
 public class ProteomeDocumentWriter implements ItemWriter<Proteome> {
     private final ItemProcessor<Proteome, ProteomeDocument> itemProcessor;
-    private final UniProtSolrClient solrClient;
+    private final UniProtSolrClient uniProtSolrClient;
     private final SolrCollection collection;
 
     public ProteomeDocumentWriter(
-            ItemProcessor<Proteome, ProteomeDocument> itemProcessor, UniProtSolrClient solrClient) {
+            ItemProcessor<Proteome, ProteomeDocument> itemProcessor,
+            UniProtSolrClient uniProtSolrClient) {
         this.itemProcessor = itemProcessor;
-        this.solrClient = solrClient;
+        this.uniProtSolrClient = uniProtSolrClient;
         this.collection = SolrCollection.proteome;
     }
 
@@ -32,7 +33,7 @@ public class ProteomeDocumentWriter implements ItemWriter<Proteome> {
         for (Proteome proteome : items) {
             documents.add(itemProcessor.process(proteome));
         }
-        solrClient.saveBeans(collection, documents);
-        solrClient.softCommit(collection);
+        uniProtSolrClient.saveBeans(collection, documents);
+        uniProtSolrClient.softCommit(collection);
     }
 }

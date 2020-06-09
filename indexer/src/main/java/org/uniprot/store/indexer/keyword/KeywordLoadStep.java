@@ -29,7 +29,7 @@ public class KeywordLoadStep {
 
     @Autowired private StepBuilderFactory steps;
 
-    @Autowired private UniProtSolrClient solrClient;
+    @Autowired private UniProtSolrClient uniProtSolrClient;
 
     @Value(("${ds.import.chunk.size}"))
     private Integer chunkSize;
@@ -65,11 +65,11 @@ public class KeywordLoadStep {
 
     @Bean(name = "KeywordWriter")
     public ItemWriter<KeywordDocument> keywordWriter() {
-        return new SolrDocumentWriter<>(this.solrClient, SolrCollection.keyword);
+        return new SolrDocumentWriter<>(this.uniProtSolrClient, SolrCollection.keyword);
     }
 
     @Bean(name = "KeywordProcessor")
     public ItemProcessor<KeywordEntry, KeywordDocument> keywordProcessor() throws SQLException {
-        return new KeywordLoadProcessor(this.solrClient);
+        return new KeywordLoadProcessor(this.uniProtSolrClient);
     }
 }

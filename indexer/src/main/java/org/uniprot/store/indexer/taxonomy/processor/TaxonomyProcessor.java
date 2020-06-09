@@ -35,11 +35,11 @@ public class TaxonomyProcessor implements ItemProcessor<TaxonomyEntry, TaxonomyD
 
     private final JdbcTemplate jdbcTemplate;
     private final ObjectMapper jsonMapper;
-    private final UniProtSolrClient solrClient;
+    private final UniProtSolrClient uniProtSolrClient;
 
-    public TaxonomyProcessor(DataSource readDataSource, UniProtSolrClient solrClient) {
+    public TaxonomyProcessor(DataSource readDataSource, UniProtSolrClient uniProtSolrClient) {
         this.jdbcTemplate = new JdbcTemplate(readDataSource);
-        this.solrClient = solrClient;
+        this.uniProtSolrClient = uniProtSolrClient;
         jsonMapper = TaxonomyJsonConfig.getInstance().getFullObjectMapper();
     }
 
@@ -49,7 +49,8 @@ public class TaxonomyProcessor implements ItemProcessor<TaxonomyEntry, TaxonomyD
         TaxonomyEntryBuilder entryBuilder = TaxonomyEntryBuilder.from(entry);
         SolrQuery query = new SolrQuery("id:" + taxonId);
         Optional<TaxonomyDocument> optionalDocument =
-                solrClient.queryForObject(SolrCollection.taxonomy, query, TaxonomyDocument.class);
+                uniProtSolrClient.queryForObject(
+                        SolrCollection.taxonomy, query, TaxonomyDocument.class);
         if (optionalDocument.isPresent()) {
             TaxonomyDocument document = optionalDocument.get();
 

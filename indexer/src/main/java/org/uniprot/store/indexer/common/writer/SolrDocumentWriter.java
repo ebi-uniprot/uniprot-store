@@ -13,19 +13,19 @@ import org.uniprot.store.search.document.Document;
 /** @author lgonzales */
 @Slf4j
 public class SolrDocumentWriter<T extends Document> implements ItemWriter<T> {
-    private final UniProtSolrClient solrClient;
+    private final UniProtSolrClient uniProtSolrClient;
     private final SolrCollection collection;
 
-    public SolrDocumentWriter(UniProtSolrClient solrClient, SolrCollection collection) {
-        this.solrClient = solrClient;
+    public SolrDocumentWriter(UniProtSolrClient uniProtSolrClient, SolrCollection collection) {
+        this.uniProtSolrClient = uniProtSolrClient;
         this.collection = collection;
     }
 
     @Override
     public void write(List<? extends T> items) {
         try {
-            this.solrClient.saveBeans(collection, items);
-            this.solrClient.softCommit(collection);
+            this.uniProtSolrClient.saveBeans(collection, items);
+            this.uniProtSolrClient.softCommit(collection);
         } catch (Exception error) {
             log.error("Error writing to solr: ", error);
             String ids =

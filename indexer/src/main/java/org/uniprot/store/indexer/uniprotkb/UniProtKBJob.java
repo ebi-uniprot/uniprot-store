@@ -30,12 +30,12 @@ import org.uniprot.store.search.SolrCollection;
 public class UniProtKBJob {
     public static final String GO_ANCESTORS_CACHE = "goAncestorsCache";
     private final JobBuilderFactory jobBuilderFactory;
-    private final UniProtSolrClient solrClient;
+    private final UniProtSolrClient uniProtSolrClient;
 
     @Autowired
-    public UniProtKBJob(JobBuilderFactory jobBuilderFactory, UniProtSolrClient solrClient) {
+    public UniProtKBJob(JobBuilderFactory jobBuilderFactory, UniProtSolrClient uniProtSolrClient) {
         this.jobBuilderFactory = jobBuilderFactory;
-        this.solrClient = solrClient;
+        this.uniProtSolrClient = uniProtSolrClient;
     }
 
     @Bean
@@ -59,7 +59,7 @@ public class UniProtKBJob {
                             // Delegate all other commits to 'autoCommit' element of solrconfig.xml
                             @Override
                             public void afterJob(JobExecution jobExecution) {
-                                solrClient.commit(SolrCollection.uniprot);
+                                uniProtSolrClient.commit(SolrCollection.uniprot);
                             }
                         })
                 .build();
