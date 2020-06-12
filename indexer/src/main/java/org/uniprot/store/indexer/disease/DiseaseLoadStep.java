@@ -26,7 +26,7 @@ public class DiseaseLoadStep {
 
     @Autowired private StepBuilderFactory steps;
 
-    @Autowired private UniProtSolrClient solrClient;
+    @Autowired private UniProtSolrClient uniProtSolrClient;
 
     @Value(("${ds.import.chunk.size}"))
     private Integer chunkSize;
@@ -60,7 +60,7 @@ public class DiseaseLoadStep {
 
     @Bean(name = "DiseaseWriter")
     public ItemWriter<DiseaseDocument> diseaseWriter() {
-        return new SolrDocumentWriter<>(this.solrClient, SolrCollection.disease);
+        return new SolrDocumentWriter<>(this.uniProtSolrClient, SolrCollection.disease);
     }
 
     @Bean(name = "DiseaseProcessor")

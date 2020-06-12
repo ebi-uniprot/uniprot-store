@@ -31,16 +31,16 @@ import org.uniprot.store.search.document.suggest.SuggestDocument;
 public class SuggestionStep {
     private final StepBuilderFactory stepBuilderFactory;
     private final UniProtKBIndexingProperties indexingProperties;
-    private final UniProtSolrClient solrClient;
+    private final UniProtSolrClient uniProtSolrClient;
 
     @Autowired
     public SuggestionStep(
             StepBuilderFactory stepBuilderFactory,
             UniProtKBIndexingProperties indexingProperties,
-            UniProtSolrClient solrClient) {
+            UniProtSolrClient uniProtSolrClient) {
         this.stepBuilderFactory = stepBuilderFactory;
         this.indexingProperties = indexingProperties;
-        this.solrClient = solrClient;
+        this.uniProtSolrClient = uniProtSolrClient;
     }
 
     @Bean(name = "suggestionIndexingStep")
@@ -53,7 +53,7 @@ public class SuggestionStep {
                 .listener(promotionListener)
                 .<SuggestDocument, SuggestDocument>chunk(indexingProperties.getChunkSize())
                 .reader(suggestionItemReader)
-                .writer(new SolrDocumentWriter<>(solrClient, SolrCollection.suggest))
+                .writer(new SolrDocumentWriter<>(uniProtSolrClient, SolrCollection.suggest))
                 .listener(new LogStepListener())
                 .listener(suggestionLogRateListener)
                 .build();

@@ -1,7 +1,10 @@
 [
   {
+    "seqNumber": 0,
     "id": "id",
     "fieldName": "id",
+    "label": "UniRef ID",
+    "itemType": "SINGLE",
     "fieldType": "GENERAL",
     "dataType": "STRING",
     "validRegex": "(UniRef100|UniRef90|UniRef50)\\w*",
@@ -36,8 +39,11 @@
     "example": "organism_sort asc"
   },
   {
+    "seqNumber": 1,
     "id": "name",
     "fieldName": "name",
+    "label": "Cluster name",
+    "itemType": "SINGLE",
     "fieldType": "GENERAL",
     "dataType": "STRING",
     "description": "Search by name",
@@ -45,17 +51,37 @@
     "includeInSwagger": true
   },
   {
+    "seqNumber": 2,
     "id": "identity",
     "fieldName": "identity",
+    "label": "Sequence identity",
+    "itemType": "SINGLE",
     "fieldType": "GENERAL",
     "dataType": "STRING",
     "description": "Search by identity",
     "example": "sample identity",
-    "includeInSwagger": true
+    "includeInSwagger": true,
+    "values": [
+      {
+        "name": "100%",
+        "value": "1.0"
+      },
+      {
+        "name": "90%",
+        "value": "0.9"
+      },
+      {
+        "name": "50%",
+        "value": "0.5"
+      }
+    ]
   },
   {
+    "seqNumber": 3,
     "id": "count",
     "fieldName": "count",
+    "label": "Cluster size",
+    "itemType": "SINGLE",
     "fieldType": "RANGE",
     "dataType": "INTEGER",
     "sortFieldId": "count_sort",
@@ -72,8 +98,11 @@
     "example": "count asc"
   },
   {
+    "seqNumber": 4,
     "id": "length",
     "fieldName": "length",
+    "label": "Sequence length",
+    "itemType": "SINGLE",
     "fieldType": "RANGE",
     "dataType": "INTEGER",
     "sortFieldId": "length_sort",
@@ -90,8 +119,11 @@
     "example": "length asc"
   },
   {
+    "seqNumber": 5,
     "id": "created",
     "fieldName": "created",
+    "label": "Date published",
+    "itemType": "SINGLE",
     "fieldType": "RANGE",
     "dataType": "DATE",
     "sortFieldId": "created_sort",
@@ -108,8 +140,11 @@
     "example": "created asc"
   },
   {
+    "seqNumber": 6,
     "id": "uniprot_id",
     "fieldName": "uniprot_id",
+    "label": "UniProtKB ID/AC",
+    "itemType": "SINGLE",
     "fieldType": "GENERAL",
     "dataType": "STRING",
     "description": "Search by uniprot id",
@@ -117,8 +152,11 @@
     "includeInSwagger": true
   },
   {
+    "seqNumber": 7,
     "id": "upi",
     "fieldName": "upi",
+    "label": "UniParc ID",
+    "itemType": "SINGLE",
     "validRegex": "UPI[\\w]{10}",
     "fieldType": "GENERAL",
     "dataType": "STRING",
@@ -137,8 +175,11 @@
     "includeInSwagger": true
   },
   {
+    "seqNumber": 8,
     "id": "taxonomy_name",
     "fieldName": "taxonomy_name",
+    "label": "Taxonomy [OC]",
+    "itemType": "SINGLE",
     "fieldType": "GENERAL",
     "dataType": "STRING",
     "description": "Search by taxonomy name",

@@ -1,8 +1,11 @@
 [
   {
+    "seqNumber": 0,
     "id": "upid",
     "fieldName": "upid",
+    "label": "Proteome ID",
     "fieldType": "GENERAL",
+    "itemType": "SINGLE",
     "dataType": "STRING",
     "sortFieldId": "upid_sort",
     "validRegex": "UP[0-9]{9}",
@@ -18,13 +21,34 @@
     "example": "upid desc"
   },
   {
+    "seqNumber": 1,
     "id": "proteome_type",
     "fieldName": "proteome_type",
+    "label": "Proteome Type",
     "fieldType": "GENERAL",
+    "itemType": "SINGLE",
     "dataType": "INTEGER",
     "sortFieldId": "proteome_type_sort",
     "description": "search by proteome type",
-    "example": "123"
+    "example": "1",
+    "values": [
+      {
+        "name": "Reference proteome",
+        "value": "1"
+      },
+      {
+        "name": "Representative proteome",
+        "value": "2"
+      },
+      {
+        "name": "Complete proteome",
+        "value": "3"
+      },
+      {
+        "name": "Redundant proteome",
+        "value": "4"
+      }
+    ]
   },
   {
     "id": "proteome_type_sort",
@@ -87,9 +111,12 @@
     "example": "false"
   },
   {
+    "seqNumber": 2,
     "id": "organism_name",
     "fieldName": "organism_name",
+    "label": "Organism [OS]",
     "fieldType": "GENERAL",
+    "itemType": "SINGLE",
     "dataType": "STRING",
     "description": "search by organism",
     "example": "sample organism name"
@@ -104,9 +131,12 @@
     "example": "12345"
   },
   {
+    "seqNumber": 3,
     "id": "taxonomy_name",
     "fieldName": "taxonomy_name",
+    "label": "Taxonomy [OC]",
     "fieldType": "GENERAL",
+    "itemType": "SINGLE",
     "dataType": "STRING",
     "description": "search by taxonomy name",
     "example": "sample taxonomy  name"
@@ -129,17 +159,23 @@
     "example": "sample superkingdom  name"
   },
   {
+    "seqNumber": 4,
     "id": "genome_accession",
     "fieldName": "genome_accession",
+    "label": "Genome Accession",
     "fieldType": "GENERAL",
+    "itemType": "SINGLE",
     "dataType": "STRING",
     "description": "search by genome accession ",
     "example": "sample genome accession"
   },
   {
+    "seqNumber": 5,
     "id": "genome_assembly",
     "fieldName": "genome_assembly",
+    "label": "Genome Assembly",
     "fieldType": "GENERAL",
+    "itemType": "SINGLE",
     "dataType": "STRING",
     "description": "search by genome_assembly ",
     "example": "sample genome_assembly"
