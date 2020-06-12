@@ -84,11 +84,8 @@
 			<artifactId>uniprot-datastore</artifactId>
 			<version>${project.parent.version}</version>
 		</dependency>
-		<dependency>
-			<groupId>com.google.guava</groupId>
-			<artifactId>guava</artifactId>
-			<version>15.0</version>
-		</dependency>
+		<!-- <dependency> <groupId>com.google.guava</groupId> <artifactId>guava</artifactId> 
+			<version>15.0</version> </dependency> -->
 		<dependency>
 			<groupId>com.lucidworks.spark</groupId>
 			<artifactId>spark-solr</artifactId>
@@ -100,13 +97,8 @@
 			<optional>true</optional>
 		</dependency>
 
-		<!-- tests -->
-		<dependency>
-			<groupId>com.h2database</groupId>
-			<artifactId>h2</artifactId>
-			<version>1.4.197</version>
-			<scope>test</scope>
-		</dependency>
+		<!-- tests <dependency> <groupId>com.h2database</groupId> <artifactId>h2</artifactId> 
+			<version>1.4.197</version> <scope>test</scope> </dependency> -->
 
 	</dependencies>
 
