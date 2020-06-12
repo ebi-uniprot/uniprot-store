@@ -504,7 +504,7 @@
 	<field name="structure_3d" type="boolean" indexed="true"
 		stored="false" required="false" multiValued="false" />
 	<field name="proteins_with" type="string" indexed="true"
-		stored="false" required="false" multiValued="true" />
+		stored="false" required="false" multiValued="true"  docValues="true" />
 
 	<!-- Uniprot Entry Fields optional -->
 	<field name="sec_acc" type="basic_ci" indexed="true"
@@ -575,9 +575,9 @@
 	<field name="virus_host_id" type="int" indexed="true"
 		stored="false" required="false" multiValued="true" />
 	<field name="model_organism" type="string" indexed="true"
-		stored="false" required="false" multiValued="false" />
+		stored="false" required="false" multiValued="false"  docValues="true" />
 	<field name="other_organism" type="string" indexed="true"
-		stored="false" required="false" multiValued="false" />
+		stored="false" required="false" multiValued="false"  docValues="true" />
 
 	<!-- Comments -->
 	<dynamicField name="cc_*" type="full_ci" indexed="true"
@@ -845,7 +845,7 @@
 
 	<!-- Protein Existence -->
 	<field name="existence" type="basic_ci" indexed="true"
-		stored="false" required="false" multiValued="false" />
+		stored="false" required="false" multiValued="false"  docValues="true" />
 
 
 	<!-- Sequence -->
