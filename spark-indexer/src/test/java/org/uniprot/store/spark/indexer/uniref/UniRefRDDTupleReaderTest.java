@@ -29,8 +29,9 @@ class UniRefRDDTupleReaderTest {
                             .sparkContext(sparkContext)
                             .build();
 
-            JavaRDD<UniRefEntry> uniref50Rdd =
-                    UniRefRDDTupleReader.load(UniRefType.UniRef50, parameter, true);
+            UniRefRDDTupleReader reader =
+                    new UniRefRDDTupleReader(UniRefType.UniRef50, parameter, true);
+            JavaRDD<UniRefEntry> uniref50Rdd = reader.load();
             assertNotNull(uniref50Rdd);
             long count = uniref50Rdd.count();
             assertEquals(1L, count);
@@ -53,8 +54,9 @@ class UniRefRDDTupleReaderTest {
                             .sparkContext(sparkContext)
                             .build();
 
-            JavaRDD<UniRefEntry> uniref50Rdd =
-                    UniRefRDDTupleReader.load(UniRefType.UniRef100, parameter, false);
+            UniRefRDDTupleReader reader =
+                    new UniRefRDDTupleReader(UniRefType.UniRef100, parameter, false);
+            JavaRDD<UniRefEntry> uniref50Rdd = reader.load();
             assertNotNull(uniref50Rdd);
             long count = uniref50Rdd.count();
             assertEquals(1L, count);

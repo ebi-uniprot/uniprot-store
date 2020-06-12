@@ -3,7 +3,6 @@ package org.uniprot.store.spark.indexer.uniprot;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -50,8 +49,8 @@ class UniProtKBDocumentsToHDFSWriterTest {
     @Test
     void canJoinGoEvidences() {
         UniProtKBDocumentsToHDFSWriter writer = new UniProtKBDocumentsToHDFSWriter(parameter);
-        JavaPairRDD<String, UniProtKBEntry> uniProtRDD =
-                UniProtKBRDDTupleReader.load(parameter, false);
+        UniProtKBRDDTupleReader reader = new UniProtKBRDDTupleReader(parameter, false);
+        JavaPairRDD<String, UniProtKBEntry> uniProtRDD = reader.load();
 
         JavaPairRDD<String, UniProtKBEntry> mergedUniProtRDD = writer.joinGoEvidences(uniProtRDD);
         assertNotNull(mergedUniProtRDD);
@@ -65,21 +64,24 @@ class UniProtKBDocumentsToHDFSWriterTest {
 
         assertEquals("Q9EPI6", mergedEntry.getPrimaryAccession().getValue());
 
-        List<UniProtKBCrossReference> goReferences = mergedEntry.getUniProtCrossReferencesByType("GO");
+        List<UniProtKBCrossReference> goReferences =
+                mergedEntry.getUniProtCrossReferencesByType("GO");
         assertNotNull(goReferences);
 
-        UniProtKBCrossReference go5635 = goReferences.stream()
-                .filter(crossRef -> crossRef.getId().equals("GO:0005635"))
-                .findFirst()
-                .orElseThrow(AssertionError::new);
+        UniProtKBCrossReference go5635 =
+                goReferences.stream()
+                        .filter(crossRef -> crossRef.getId().equals("GO:0005635"))
+                        .findFirst()
+                        .orElseThrow(AssertionError::new);
 
         assertTrue(go5635.hasEvidences());
         assertEquals(1, go5635.getEvidences().size());
 
-        UniProtKBCrossReference go5634 = goReferences.stream()
-                .filter(crossRef -> crossRef.getId().equals("GO:0005634"))
-                .findFirst()
-                .orElseThrow(AssertionError::new);
+        UniProtKBCrossReference go5634 =
+                goReferences.stream()
+                        .filter(crossRef -> crossRef.getId().equals("GO:0005634"))
+                        .findFirst()
+                        .orElseThrow(AssertionError::new);
 
         assertTrue(go5634.hasEvidences());
         assertEquals(3, go5634.getEvidences().size());
@@ -94,7 +96,8 @@ class UniProtKBDocumentsToHDFSWriterTest {
         tuples.add(new Tuple2<>("P12345", new UniProtDocument()));
         tuples.add(new Tuple2<>("F7B8J7", new UniProtDocument()));
 
-        JavaPairRDD<String, UniProtDocument> uniprotDocRDD = parameter.getSparkContext().parallelizePairs(tuples);
+        JavaPairRDD<String, UniProtDocument> uniprotDocRDD =
+                parameter.getSparkContext().parallelizePairs(tuples);
         uniprotDocRDD = writer.joinAllUniRefs(uniprotDocRDD);
 
         List<UniProtDocument> result = uniprotDocRDD.values().take(10);
@@ -122,8 +125,8 @@ class UniProtKBDocumentsToHDFSWriterTest {
         tuples.add(new Tuple2<>("Q9EPI6", new UniProtDocument()));
         tuples.add(new Tuple2<>("P21802", new UniProtDocument()));
 
-
-        JavaPairRDD<String, UniProtDocument> uniprotDocRDD = parameter.getSparkContext().parallelizePairs(tuples);
+        JavaPairRDD<String, UniProtDocument> uniprotDocRDD =
+                parameter.getSparkContext().parallelizePairs(tuples);
         uniprotDocRDD = writer.joinGoRelations(uniprotDocRDD);
         List<UniProtDocument> result = uniprotDocRDD.values().take(10);
         assertNotNull(result);
@@ -148,8 +151,8 @@ class UniProtKBDocumentsToHDFSWriterTest {
         tuples.add(new Tuple2<>("P21802", new UniProtDocument()));
         tuples.add(new Tuple2<>("B5U9V4", new UniProtDocument()));
 
-
-        JavaPairRDD<String, UniProtDocument> uniprotDocRDD = parameter.getSparkContext().parallelizePairs(tuples);
+        JavaPairRDD<String, UniProtDocument> uniprotDocRDD =
+                parameter.getSparkContext().parallelizePairs(tuples);
         uniprotDocRDD = writer.joinLiteratureMapped(uniprotDocRDD);
         List<UniProtDocument> result = uniprotDocRDD.values().take(10);
         assertNotNull(result);

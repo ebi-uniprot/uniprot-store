@@ -30,7 +30,8 @@ class ECRDDReaderTest {
                             .sparkContext(sparkContext)
                             .build();
 
-            JavaPairRDD<String, ECEntry> ecRdd = ECRDDReader.load(parameter);
+            ECRDDReader reader = new ECRDDReader(parameter);
+            JavaPairRDD<String, ECEntry> ecRdd = reader.load();
             assertNotNull(ecRdd);
             long count = ecRdd.count();
             assertEquals(13L, count);

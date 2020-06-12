@@ -34,7 +34,7 @@ public class SolrUtils {
         docRDD.map(SolrUtils::convertToSolrInputDocument).rdd().saveAsObjectFile(savePath);
     }
 
-    private static SolrInputDocument convertToSolrInputDocument(Document doc) {
+    public static SolrInputDocument convertToSolrInputDocument(Document doc) {
         DocumentObjectBinder binder = new DocumentObjectBinder();
         return binder.toSolrInputDocument(doc);
     }

@@ -110,6 +110,7 @@ public class SparkUtils {
                 new SparkConf()
                         .setAppName(applicationName)
                         .setMaster(sparkMaster)
+                        .set("spark.driver.allowMultipleContexts", "true")
                         .set("spark.driver.host", "localhost");
         return new JavaSparkContext(sparkConf);
     }

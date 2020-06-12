@@ -11,6 +11,7 @@ import org.apache.spark.api.java.JavaSparkContext;
 import org.uniprot.core.cv.go.GeneOntologyEntry;
 import org.uniprot.core.cv.go.impl.GeneOntologyEntryBuilder;
 import org.uniprot.store.spark.indexer.common.JobParameter;
+import org.uniprot.store.spark.indexer.common.reader.PairRDDReader;
 
 import scala.Tuple2;
 
@@ -22,16 +23,21 @@ import scala.Tuple2;
  * @since 2019-11-09
  */
 @Slf4j
-public class GORelationRDDReader {
+public class GORelationRDDReader implements PairRDDReader<String, GeneOntologyEntry> {
 
-    private GORelationRDDReader() {}
+    private final JobParameter jobParameter;
+
+    public GORelationRDDReader(JobParameter jobParameter) {
+        this.jobParameter = jobParameter;
+    }
 
     /**
      * load GO Relations to a JavaPairRDD
      *
      * @return JavaPairRDD{key=goTermId, value={@link GeneOntologyEntry with Ancestors(Relations)}}
      */
-    public static JavaPairRDD<String, GeneOntologyEntry> load(JobParameter jobParameter) {
+    @Override
+    public JavaPairRDD<String, GeneOntologyEntry> load() {
         ResourceBundle config = jobParameter.getApplicationConfig();
         JavaSparkContext sparkContext = jobParameter.getSparkContext();
 
@@ -67,7 +73,7 @@ public class GORelationRDDReader {
         return sparkContext.parallelizePairs(pairs);
     }
 
-    static Set<GeneOntologyEntry> getAncestors(
+    Set<GeneOntologyEntry> getAncestors(
             GeneOntologyEntry term,
             List<GeneOntologyEntry> goTerms,
             Map<String, Set<String>> relations) {
@@ -88,7 +94,7 @@ public class GORelationRDDReader {
         return visited;
     }
 
-    static GeneOntologyEntry getGoTermById(String goTermId, List<GeneOntologyEntry> goTerms) {
+    GeneOntologyEntry getGoTermById(String goTermId, List<GeneOntologyEntry> goTerms) {
         GeneOntologyEntry goTerm = new GeneOntologyEntryBuilder().id(goTermId).build();
         if (goTerms.contains(goTerm)) {
             return goTerms.get(goTerms.indexOf(goTerm));

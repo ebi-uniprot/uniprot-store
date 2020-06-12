@@ -28,7 +28,8 @@ public class UniParcDataStoreIndexer implements DataStoreIndexer {
     @Override
     public void indexInDataStore() {
         ResourceBundle config = parameter.getApplicationConfig();
-        JavaRDD<UniParcEntry> uniparcRDD = UniParcRDDTupleReader.load(parameter, false);
+        UniParcRDDTupleReader reader = new UniParcRDDTupleReader(parameter, false);
+        JavaRDD<UniParcEntry> uniparcRDD = reader.load();
 
         String numberOfConnections = config.getString("store.uniparc.numberOfConnections");
         String storeName = config.getString("store.uniparc.storeName");

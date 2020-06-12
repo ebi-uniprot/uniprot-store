@@ -107,12 +107,12 @@ public class DatasetUniRefEntryConverter implements Function<Row, UniRefEntry>, 
             }
             if (propertyMap.containsKey(PROPERTY_GO_COMPONENT)) {
                 propertyMap.get(PROPERTY_GO_COMPONENT).stream()
-                        .map(goTerm -> createGoTerm(GoAspect.FUNCTION, goTerm))
+                        .map(goTerm -> createGoTerm(GoAspect.COMPONENT, goTerm))
                         .forEach(builder::goTermsAdd);
             }
             if (propertyMap.containsKey(PROPERTY_GO_PROCESS)) {
                 propertyMap.get(PROPERTY_GO_PROCESS).stream()
-                        .map(goTerm -> createGoTerm(GoAspect.FUNCTION, goTerm))
+                        .map(goTerm -> createGoTerm(GoAspect.PROCESS, goTerm))
                         .forEach(builder::goTermsAdd);
             }
         }

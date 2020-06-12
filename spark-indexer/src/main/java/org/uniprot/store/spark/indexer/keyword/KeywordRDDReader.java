@@ -10,6 +10,7 @@ import org.apache.spark.api.java.JavaSparkContext;
 import org.uniprot.core.cv.keyword.KeywordEntry;
 import org.uniprot.cv.keyword.KeywordFileReader;
 import org.uniprot.store.spark.indexer.common.JobParameter;
+import org.uniprot.store.spark.indexer.common.reader.PairRDDReader;
 import org.uniprot.store.spark.indexer.common.util.SparkUtils;
 
 /**
@@ -18,12 +19,17 @@ import org.uniprot.store.spark.indexer.common.util.SparkUtils;
  * @author lgonzales
  * @since 2020-10-13
  */
-public class KeywordRDDReader {
+public class KeywordRDDReader implements PairRDDReader<String, KeywordEntry> {
 
-    private KeywordRDDReader() {}
+    private final JobParameter jobParameter;
+
+    public KeywordRDDReader(JobParameter jobParameter) {
+        this.jobParameter = jobParameter;
+    }
 
     /** @return JavaPairRDD{key=keywordId, value={@link KeywordEntry}} */
-    public static JavaPairRDD<String, KeywordEntry> load(JobParameter jobParameter) {
+    @Override
+    public JavaPairRDD<String, KeywordEntry> load() {
         ResourceBundle config = jobParameter.getApplicationConfig();
         JavaSparkContext jsc = jobParameter.getSparkContext();
 

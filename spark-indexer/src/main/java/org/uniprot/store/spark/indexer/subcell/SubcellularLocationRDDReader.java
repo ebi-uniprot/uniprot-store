@@ -10,18 +10,25 @@ import org.apache.spark.api.java.JavaSparkContext;
 import org.uniprot.core.cv.subcell.SubcellularLocationEntry;
 import org.uniprot.cv.subcell.SubcellularLocationFileReader;
 import org.uniprot.store.spark.indexer.common.JobParameter;
+import org.uniprot.store.spark.indexer.common.reader.PairRDDReader;
 import org.uniprot.store.spark.indexer.common.util.SparkUtils;
 
 /**
  * @author lgonzales
  * @since 2020-01-16
  */
-public class SubcellularLocationRDDReader {
+public class SubcellularLocationRDDReader
+        implements PairRDDReader<String, SubcellularLocationEntry> {
 
-    private SubcellularLocationRDDReader() {}
+    private final JobParameter jobParameter;
+
+    public SubcellularLocationRDDReader(JobParameter jobParameter) {
+        this.jobParameter = jobParameter;
+    }
 
     /** @return JavaPairRDD{key=subcellId, value={@link SubcellularLocationEntry}} */
-    public static JavaPairRDD<String, SubcellularLocationEntry> load(JobParameter jobParameter) {
+    @Override
+    public JavaPairRDD<String, SubcellularLocationEntry> load() {
         ResourceBundle config = jobParameter.getApplicationConfig();
         JavaSparkContext jsc = jobParameter.getSparkContext();
 

@@ -10,6 +10,7 @@ import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaSparkContext;
 import org.apache.spark.sql.SparkSession;
 import org.uniprot.store.spark.indexer.common.JobParameter;
+import org.uniprot.store.spark.indexer.common.reader.PairRDDReader;
 
 /**
  * This class load extended GO Evidences into an JavaPairRDD of {key=uniprot accession,
@@ -19,12 +20,16 @@ import org.uniprot.store.spark.indexer.common.JobParameter;
  * @since 2019-10-13
  */
 @Slf4j
-public class GOEvidencesRDDReader {
+public class GOEvidencesRDDReader implements PairRDDReader<String, Iterable<GOEvidence>> {
 
-    private GOEvidencesRDDReader() {}
+    private final JobParameter jobParameter;
+
+    public GOEvidencesRDDReader(JobParameter jobParameter) {
+        this.jobParameter = jobParameter;
+    }
 
     /** @return JavaPairRDD of {key=uniprot accession, value=Iterable of GoEvidence} */
-    public static JavaPairRDD<String, Iterable<GOEvidence>> load(JobParameter jobParameter) {
+    public JavaPairRDD<String, Iterable<GOEvidence>> load() {
         ResourceBundle config = jobParameter.getApplicationConfig();
         JavaSparkContext jsc = jobParameter.getSparkContext();
 

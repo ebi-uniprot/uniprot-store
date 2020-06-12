@@ -30,7 +30,8 @@ class KeywordRDDReaderTest {
                             .sparkContext(sparkContext)
                             .build();
 
-            JavaPairRDD<String, KeywordEntry> keywordRdd = KeywordRDDReader.load(parameter);
+            KeywordRDDReader reader = new KeywordRDDReader(parameter);
+            JavaPairRDD<String, KeywordEntry> keywordRdd = reader.load();
             assertNotNull(keywordRdd);
             long count = keywordRdd.count();
             assertEquals(8L, count);

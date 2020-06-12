@@ -30,7 +30,8 @@ class ChebiRDDReaderTest {
                             .sparkContext(sparkContext)
                             .build();
 
-            JavaPairRDD<String, ChebiEntry> chebiRdd = ChebiRDDReader.load(parameter);
+            ChebiRDDReader reader = new ChebiRDDReader(parameter);
+            JavaPairRDD<String, ChebiEntry> chebiRdd = reader.load();
             assertNotNull(chebiRdd);
             long count = chebiRdd.count();
             assertEquals(6L, count);

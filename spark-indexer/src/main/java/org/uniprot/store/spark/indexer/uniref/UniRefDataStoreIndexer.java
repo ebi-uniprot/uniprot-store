@@ -51,7 +51,8 @@ public class UniRefDataStoreIndexer implements DataStoreIndexer {
         final String storeName = config.getString("store.uniref.storeName");
         final String connectionURL = config.getString("store.uniref.host");
 
-        JavaRDD<UniRefEntry> uniRefRDD = UniRefRDDTupleReader.load(type, jobParameter, false);
+        UniRefRDDTupleReader reader = new UniRefRDDTupleReader(type, jobParameter, false);
+        JavaRDD<UniRefEntry> uniRefRDD = reader.load();
         return uniRefRDD.foreachPartitionAsync(
                 entryIterator -> {
                     VoldemortClient<UniRefEntry> client =

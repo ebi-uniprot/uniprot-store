@@ -13,18 +13,24 @@ import org.uniprot.core.cv.ec.ECEntry;
 import org.uniprot.cv.ec.ECCache;
 import org.uniprot.cv.ec.ECFileReader;
 import org.uniprot.store.spark.indexer.common.JobParameter;
+import org.uniprot.store.spark.indexer.common.reader.PairRDDReader;
 import org.uniprot.store.spark.indexer.common.util.SparkUtils;
 
 /**
  * @author lgonzales
  * @since 2020-01-17
  */
-public class ECRDDReader {
+public class ECRDDReader implements PairRDDReader<String, ECEntry> {
 
-    private ECRDDReader() {}
+    private final JobParameter jobParameter;
+
+    public ECRDDReader(JobParameter jobParameter) {
+        this.jobParameter = jobParameter;
+    }
 
     /** @return JavaPairRDD{key=ecId, value={@link ECEntry}} */
-    public static JavaPairRDD<String, ECEntry> load(JobParameter jobParameter) {
+    @Override
+    public JavaPairRDD<String, ECEntry> load() {
         ResourceBundle config = jobParameter.getApplicationConfig();
         JavaSparkContext jsc = jobParameter.getSparkContext();
 

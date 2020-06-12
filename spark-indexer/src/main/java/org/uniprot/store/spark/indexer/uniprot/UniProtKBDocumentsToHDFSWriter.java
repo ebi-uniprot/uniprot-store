@@ -51,18 +51,19 @@ public class UniProtKBDocumentsToHDFSWriter implements DocumentsToHDFSWriter {
     private final String releaseName;
     private final ResourceBundle config;
     private final JobParameter parameter;
+    private final UniProtKBRDDTupleReader reader;
 
     public UniProtKBDocumentsToHDFSWriter(JobParameter jobParameter) {
         this.config = jobParameter.getApplicationConfig();
         this.releaseName = jobParameter.getReleaseName();
         this.sparkContext = jobParameter.getSparkContext();
         this.parameter = jobParameter;
+        this.reader = new UniProtKBRDDTupleReader(parameter, true);
     }
     /** load all the data for UniProtDocument and write it into HDFS (Hadoop File System) */
     @Override
     public void writeIndexDocumentsToHDFS() {
-        JavaPairRDD<String, UniProtKBEntry> uniProtEntryRDD =
-                UniProtKBRDDTupleReader.load(parameter, true);
+        JavaPairRDD<String, UniProtKBEntry> uniProtEntryRDD = reader.load();
 
         uniProtEntryRDD = joinGoEvidences(uniProtEntryRDD);
 
@@ -136,13 +137,13 @@ public class UniProtKBDocumentsToHDFSWriter implements DocumentsToHDFSWriter {
             JavaPairRDD<String, UniProtDocument> uniProtDocumentRDD) {
 
         // JavaPairRDD<taxId,TaxonomyEntry>
+        TaxonomyRDDReader taxonomyReader = new TaxonomyRDDReader(parameter);
         JavaPairRDD<String, TaxonomyEntry> taxonomyEntryJavaPairRDD =
-                TaxonomyRDDReader.loadWithLineage(sparkContext, config);
+                taxonomyReader.loadWithLineage();
 
         // JavaPairRDD<taxId,accession> taxonomyMapRDD --> extracted from flat file OX and OH lines
         JavaPairRDD<String, String> taxonomyMapRDD =
-                UniProtKBRDDTupleReader.loadFlatFileToRDD(parameter)
-                        .flatMapToPair(new TaxonomyJoinMapper());
+                reader.loadFlatFileToRDD().flatMapToPair(new TaxonomyJoinMapper());
 
         // JavaPairRDD<accession, Iterable<taxonomy>> joinRDD
         JavaPairRDD<String, Iterable<TaxonomyEntry>> joinedRDD =
@@ -173,12 +174,12 @@ public class UniProtKBDocumentsToHDFSWriter implements DocumentsToHDFSWriter {
             JavaPairRDD<String, UniProtDocument> uniProtDocumentRDD) {
 
         // JavaPairRDD<goId, GoTerm>
-        JavaPairRDD<String, GeneOntologyEntry> goRelationsRDD = GORelationRDDReader.load(parameter);
+        GORelationRDDReader goReader = new GORelationRDDReader(parameter);
+        JavaPairRDD<String, GeneOntologyEntry> goRelationsRDD = goReader.load();
 
         // JavaPairRDD<goId,accession> goMapRDD --> extracted from flat file DR lines for GO
         JavaPairRDD<String, String> goMapRDD =
-                UniProtKBRDDTupleReader.loadFlatFileToRDD(parameter)
-                        .flatMapToPair(new GoRelationsJoinMapper());
+                reader.loadFlatFileToRDD().flatMapToPair(new GoRelationsJoinMapper());
 
         // JavaPairRDD<accession, Iterable<GoTerm>> joinRDD
         JavaPairRDD<String, Iterable<GeneOntologyEntry>> joinedRDD =
@@ -209,8 +210,8 @@ public class UniProtKBDocumentsToHDFSWriter implements DocumentsToHDFSWriter {
 
     /** @return JavaPairRDD{Key=accession, value=MappedUniRef} for UniRefType.UniRef90 */
     private JavaPairRDD<String, MappedUniRef> loadUniRefMap(UniRefType uniRefType) {
-        JavaRDD<UniRefEntry> uniRefEntryJavaRDD =
-                UniRefRDDTupleReader.load(uniRefType, parameter, true);
+        UniRefRDDTupleReader unirefReader = new UniRefRDDTupleReader(uniRefType, parameter, true);
+        JavaRDD<UniRefEntry> uniRefEntryJavaRDD = unirefReader.load();
         return uniRefEntryJavaRDD.flatMapToPair(new UniRefJoinMapper());
     }
 
@@ -235,8 +236,8 @@ public class UniProtKBDocumentsToHDFSWriter implements DocumentsToHDFSWriter {
      */
     JavaPairRDD<String, UniProtKBEntry> joinGoEvidences(
             JavaPairRDD<String, UniProtKBEntry> uniProtEntryRDD) {
-        JavaPairRDD<String, Iterable<GOEvidence>> goEvidenceRDD =
-                GOEvidencesRDDReader.load(parameter);
+        GOEvidencesRDDReader goEvidencesReader = new GOEvidencesRDDReader(parameter);
+        JavaPairRDD<String, Iterable<GOEvidence>> goEvidenceRDD = goEvidencesReader.load();
         return uniProtEntryRDD.leftOuterJoin(goEvidenceRDD).mapValues(new GOEvidenceMapper());
     }
 
@@ -247,8 +248,9 @@ public class UniProtKBDocumentsToHDFSWriter implements DocumentsToHDFSWriter {
      */
     JavaPairRDD<String, UniProtDocument> joinLiteratureMapped(
             JavaPairRDD<String, UniProtDocument> uniProtDocumentRDD) {
+        LiteratureMappedRDDReader literatureReader = new LiteratureMappedRDDReader(parameter);
         JavaPairRDD<String, Iterable<String>> literatureMappedRDD =
-                LiteratureMappedRDDReader.loadAccessionPubMedRDD(parameter);
+                literatureReader.loadAccessionPubMedRDD();
         return uniProtDocumentRDD
                 .leftOuterJoin(literatureMappedRDD)
                 .mapValues(new LiteratureMappedToUniProtDocument());

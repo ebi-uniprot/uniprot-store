@@ -11,6 +11,9 @@ import org.uniprot.store.datastore.voldemort.uniprot.VoldemortRemoteUniProtKBEnt
 import org.uniprot.store.spark.indexer.common.JobParameter;
 import org.uniprot.store.spark.indexer.common.store.DataStoreIndexer;
 import org.uniprot.store.spark.indexer.common.writer.DataStoreWriter;
+import org.uniprot.store.spark.indexer.go.evidence.GOEvidence;
+import org.uniprot.store.spark.indexer.go.evidence.GOEvidenceMapper;
+import org.uniprot.store.spark.indexer.go.evidence.GOEvidencesRDDReader;
 
 /**
  * @author lgonzales
@@ -28,8 +31,12 @@ public class UniProtKBDataStoreIndexer implements DataStoreIndexer {
     @Override
     public void indexInDataStore() {
         ResourceBundle config = parameter.getApplicationConfig();
-        JavaPairRDD<String, UniProtKBEntry> uniprotRDD =
-                UniProtKBRDDTupleReader.load(parameter, false);
+        GOEvidencesRDDReader goEvidencesReader = new GOEvidencesRDDReader(parameter);
+        UniProtKBRDDTupleReader uniprotkbReader = new UniProtKBRDDTupleReader(parameter, false);
+
+        JavaPairRDD<String, UniProtKBEntry> uniprotRDD = uniprotkbReader.load();
+        JavaPairRDD<String, Iterable<GOEvidence>> goEvidenceRDD = goEvidencesReader.load();
+        uniprotRDD = uniprotRDD.leftOuterJoin(goEvidenceRDD).mapValues(new GOEvidenceMapper());
 
         String numberOfConnections = config.getString("store.uniprot.numberOfConnections");
         String storeName = config.getString("store.uniprot.storeName");

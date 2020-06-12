@@ -28,7 +28,8 @@ class UniParcRDDTupleReaderTest {
                             .sparkContext(sparkContext)
                             .build();
 
-            JavaRDD<UniParcEntry> uniParcRdd = UniParcRDDTupleReader.load(parameter, true);
+            UniParcRDDTupleReader reader = new UniParcRDDTupleReader(parameter, true);
+            JavaRDD<UniParcEntry> uniParcRdd = reader.load();
             assertNotNull(uniParcRdd);
             long count = uniParcRdd.count();
             assertEquals(1L, count);

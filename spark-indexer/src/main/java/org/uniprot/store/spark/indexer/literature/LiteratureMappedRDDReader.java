@@ -9,6 +9,7 @@ import org.apache.spark.api.java.JavaSparkContext;
 import org.apache.spark.sql.SparkSession;
 import org.uniprot.core.literature.LiteratureMappedReference;
 import org.uniprot.store.spark.indexer.common.JobParameter;
+import org.uniprot.store.spark.indexer.common.reader.PairRDDReader;
 
 /**
  * Class responsible to load JavaPairRDD from PIR mapped files.
@@ -16,17 +17,22 @@ import org.uniprot.store.spark.indexer.common.JobParameter;
  * @author lgonzales
  * @since 2019-12-02
  */
-public class LiteratureMappedRDDReader {
+public class LiteratureMappedRDDReader
+        implements PairRDDReader<String, Iterable<LiteratureMappedReference>> {
 
-    private LiteratureMappedRDDReader() {}
+    private final JobParameter jobParameter;
+
+    public LiteratureMappedRDDReader(JobParameter jobParameter) {
+        this.jobParameter = jobParameter;
+    }
 
     /**
      * load LiteratureMappedReference to a JavaPairRDD
      *
      * @return JavaPairRDD{key=PubmedId, value=Iterable of LiteratureMappedReference}
      */
-    public static JavaPairRDD<String, Iterable<LiteratureMappedReference>> load(
-            JobParameter jobParameter) {
+    @Override
+    public JavaPairRDD<String, Iterable<LiteratureMappedReference>> load() {
         ResourceBundle config = jobParameter.getApplicationConfig();
         JavaSparkContext jsc = jobParameter.getSparkContext();
 
@@ -45,8 +51,7 @@ public class LiteratureMappedRDDReader {
      *
      * @return JavaPairRDD{key=Uniprot accession, value=Iterable of PubmedId}
      */
-    public static JavaPairRDD<String, Iterable<String>> loadAccessionPubMedRDD(
-            JobParameter jobParameter) {
+    public JavaPairRDD<String, Iterable<String>> loadAccessionPubMedRDD() {
         ResourceBundle config = jobParameter.getApplicationConfig();
         JavaSparkContext jsc = jobParameter.getSparkContext();
 

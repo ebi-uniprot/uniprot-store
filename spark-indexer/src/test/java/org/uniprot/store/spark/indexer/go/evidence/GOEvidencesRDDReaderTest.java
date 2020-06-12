@@ -31,8 +31,8 @@ class GOEvidencesRDDReaderTest {
                             .sparkContext(sparkContext)
                             .build();
 
-            JavaPairRDD<String, Iterable<GOEvidence>> goEvidenceRDD =
-                    GOEvidencesRDDReader.load(parameter);
+            GOEvidencesRDDReader reader = new GOEvidencesRDDReader(parameter);
+            JavaPairRDD<String, Iterable<GOEvidence>> goEvidenceRDD = reader.load();
             assertNotNull(goEvidenceRDD);
             long count = goEvidenceRDD.count();
             assertEquals(4L, count);

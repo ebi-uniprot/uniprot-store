@@ -58,7 +58,8 @@ public class SuggestDocumentsToHDFSWriter implements DocumentsToHDFSWriter {
     /** load all the data for SuggestDocument and write it into HDFS (Hadoop File System) */
     @Override
     public void writeIndexDocumentsToHDFS() {
-        JavaRDD<String> flatFileRDD = UniProtKBRDDTupleReader.loadFlatFileToRDD(jobParameter);
+        UniProtKBRDDTupleReader flatFileReader = new UniProtKBRDDTupleReader(jobParameter, false);
+        JavaRDD<String> flatFileRDD = flatFileReader.loadFlatFileToRDD();
         int suggestPartition = Integer.parseInt(config.getString("suggest.partition.size"));
         JavaRDD<SuggestDocument> suggestRDD =
                 getMain()
@@ -89,8 +90,8 @@ public class SuggestDocumentsToHDFSWriter implements DocumentsToHDFSWriter {
     JavaRDD<SuggestDocument> getGo(JavaRDD<String> flatFileRDD) {
 
         // JavaPairRDD<goId, GoTerm>
-        JavaPairRDD<String, GeneOntologyEntry> goRelationsRDD =
-                GORelationRDDReader.load(jobParameter);
+        GORelationRDDReader goReader = new GORelationRDDReader(jobParameter);
+        JavaPairRDD<String, GeneOntologyEntry> goRelationsRDD = goReader.load();
 
         // JavaPairRDD<goId,accession> goMapRDD --> extracted from flat file DR lines for GO
         JavaPairRDD<String, String> goMapRDD =
@@ -113,7 +114,8 @@ public class SuggestDocumentsToHDFSWriter implements DocumentsToHDFSWriter {
     JavaRDD<SuggestDocument> getChebi(JavaRDD<String> flatFileRDD) {
 
         // JavaPairRDD<chebiId,ChebiEntry Entry> --> extracted from chebi.obo
-        JavaPairRDD<String, ChebiEntry> chebiRDD = ChebiRDDReader.load(jobParameter);
+        ChebiRDDReader chebiReader = new ChebiRDDReader(jobParameter);
+        JavaPairRDD<String, ChebiEntry> chebiRDD = chebiReader.load();
 
         // JavaPairRDD<chebiId,chebiId> flatFileCatalyticActivityRDD --> extracted from flat file
         // CC(CatalyticActivity) lines
@@ -158,7 +160,8 @@ public class SuggestDocumentsToHDFSWriter implements DocumentsToHDFSWriter {
                 flatFileRDD.flatMapToPair(new FlatFileToEC()).reduceByKey((ecId1, ecId2) -> ecId1);
 
         // JavaPairRDD<ecId,ECEntry entry> ecRDD --> extracted from ec files
-        JavaPairRDD<String, ECEntry> ecRDD = ECRDDReader.load(jobParameter);
+        ECRDDReader ecReader = new ECRDDReader(jobParameter);
+        JavaPairRDD<String, ECEntry> ecRDD = ecReader.load();
 
         return flatFileEcRDD.join(ecRDD).mapValues(new ECToSuggestDocument()).values().distinct();
     }
@@ -171,8 +174,8 @@ public class SuggestDocumentsToHDFSWriter implements DocumentsToHDFSWriter {
 
         // JavaPairRDD<subcellId,SubcellularLocationEntry> subcellularLocation --> extracted from
         // subcell.txt
-        JavaPairRDD<String, SubcellularLocationEntry> subcellularLocation =
-                SubcellularLocationRDDReader.load(jobParameter);
+        SubcellularLocationRDDReader subReader = new SubcellularLocationRDDReader(jobParameter);
+        JavaPairRDD<String, SubcellularLocationEntry> subcellularLocation = subReader.load();
 
         return subcellularLocation
                 .mapValues(new SubcellularLocationToSuggestDocument())
@@ -184,7 +187,8 @@ public class SuggestDocumentsToHDFSWriter implements DocumentsToHDFSWriter {
     JavaRDD<SuggestDocument> getKeyword() {
 
         // JavaPairRDD<keywordId,KeywordEntry> keyword --> extracted from keywlist.txt
-        JavaPairRDD<String, KeywordEntry> keyword = KeywordRDDReader.load(jobParameter);
+        KeywordRDDReader keywordReader = new KeywordRDDReader(jobParameter);
+        JavaPairRDD<String, KeywordEntry> keyword = keywordReader.load();
 
         return keyword.mapValues(new KeywordToSuggestDocument()).values().distinct();
     }
@@ -196,8 +200,8 @@ public class SuggestDocumentsToHDFSWriter implements DocumentsToHDFSWriter {
      */
     JavaRDD<SuggestDocument> getOrganism(JavaRDD<String> flatFileRDD) {
 
-        JavaPairRDD<String, List<TaxonomyLineage>> organismWithLineage =
-                TaxonomyLineageReader.load(sparkContext, config, true);
+        TaxonomyLineageReader lineageReader = new TaxonomyLineageReader(jobParameter, true);
+        JavaPairRDD<String, List<TaxonomyLineage>> organismWithLineage = lineageReader.load();
         organismWithLineage.repartition(organismWithLineage.getNumPartitions());
 
         // ORGANISM

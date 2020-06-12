@@ -30,8 +30,8 @@ class SubcellularLocationRDDReaderTest {
                             .sparkContext(sparkContext)
                             .build();
 
-            JavaPairRDD<String, SubcellularLocationEntry> subcellRdd =
-                    SubcellularLocationRDDReader.load(parameter);
+            SubcellularLocationRDDReader reader = new SubcellularLocationRDDReader(parameter);
+            JavaPairRDD<String, SubcellularLocationEntry> subcellRdd = reader.load();
             assertNotNull(subcellRdd);
             long count = subcellRdd.count();
             assertEquals(520L, count);

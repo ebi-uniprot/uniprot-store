@@ -32,8 +32,9 @@ class LiteratureMappedRDDReaderTest {
                             .sparkContext(sparkContext)
                             .build();
 
+            LiteratureMappedRDDReader reader = new LiteratureMappedRDDReader(parameter);
             JavaPairRDD<String, Iterable<LiteratureMappedReference>> mappedReferenceRdd =
-                    LiteratureMappedRDDReader.load(parameter);
+                    reader.load();
             assertNotNull(mappedReferenceRdd);
             long count = mappedReferenceRdd.count();
             assertEquals(5L, count);
@@ -65,8 +66,9 @@ class LiteratureMappedRDDReaderTest {
                             .sparkContext(sparkContext)
                             .build();
 
+            LiteratureMappedRDDReader reader = new LiteratureMappedRDDReader(parameter);
             JavaPairRDD<String, Iterable<String>> mappedReferenceRdd =
-                    LiteratureMappedRDDReader.loadAccessionPubMedRDD(parameter);
+                    reader.loadAccessionPubMedRDD();
             assertNotNull(mappedReferenceRdd);
             long count = mappedReferenceRdd.count();
             assertEquals(43L, count);

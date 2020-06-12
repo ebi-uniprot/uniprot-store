@@ -8,7 +8,6 @@ import lombok.extern.slf4j.Slf4j;
 
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
-import org.apache.spark.api.java.JavaSparkContext;
 import org.uniprot.core.taxonomy.TaxonomyEntry;
 import org.uniprot.core.uniparc.UniParcEntry;
 import org.uniprot.store.search.SolrCollection;
@@ -32,24 +31,23 @@ public class UniParcDocumentsToHDFSWriter implements DocumentsToHDFSWriter {
 
     private final JobParameter parameter;
     private final ResourceBundle config;
-    private final JavaSparkContext sparkContext;
     private final String releaseName;
 
     public UniParcDocumentsToHDFSWriter(JobParameter parameter) {
         this.parameter = parameter;
         this.config = parameter.getApplicationConfig();
         this.releaseName = parameter.getReleaseName();
-        this.sparkContext = parameter.getSparkContext();
     }
 
     /** load all the data for UniParcDocument and write it into HDFS (Hadoop File System) */
     @Override
     public void writeIndexDocumentsToHDFS() {
-        JavaRDD<UniParcEntry> uniparcRDD = UniParcRDDTupleReader.load(parameter, true);
+        UniParcRDDTupleReader uniparcReader = new UniParcRDDTupleReader(parameter, true);
+        JavaRDD<UniParcEntry> uniparcRDD = uniparcReader.load();
 
         // JavaPairRDD<taxId,TaxonomyEntry>
-        JavaPairRDD<String, TaxonomyEntry> taxonomyEntryJavaPairRDD =
-                TaxonomyRDDReader.loadWithLineage(sparkContext, config);
+        TaxonomyRDDReader taxReader = new TaxonomyRDDReader(parameter);
+        JavaPairRDD<String, TaxonomyEntry> taxonomyEntryJavaPairRDD = taxReader.loadWithLineage();
 
         // JavaPairRDD<taxId,uniparcId>
         JavaPairRDD<String, String> taxonomyJoin =

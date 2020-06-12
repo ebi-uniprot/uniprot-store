@@ -30,8 +30,8 @@ class UniProtKBRDDTupleReaderTest {
                             .sparkContext(sparkContext)
                             .build();
 
-            JavaPairRDD<String, UniProtKBEntry> uniprotRdd =
-                    UniProtKBRDDTupleReader.load(parameter, true);
+            UniProtKBRDDTupleReader reader = new UniProtKBRDDTupleReader(parameter, true);
+            JavaPairRDD<String, UniProtKBEntry> uniprotRdd = reader.load();
             assertNotNull(uniprotRdd);
 
             assertEquals(1L, uniprotRdd.count());

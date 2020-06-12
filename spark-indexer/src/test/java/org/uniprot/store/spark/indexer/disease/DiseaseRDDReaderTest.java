@@ -30,7 +30,8 @@ class DiseaseRDDReaderTest {
                             .sparkContext(sparkContext)
                             .build();
 
-            JavaPairRDD<String, DiseaseEntry> diseaseRdd = DiseaseRDDReader.load(parameter);
+            DiseaseRDDReader reader = new DiseaseRDDReader(parameter);
+            JavaPairRDD<String, DiseaseEntry> diseaseRdd = reader.load();
             assertNotNull(diseaseRdd);
             long count = diseaseRdd.count();
             assertEquals(4L, count);

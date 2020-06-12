@@ -12,7 +12,8 @@ class TaxonomyLineageReaderTest {
 
     @Test
     void getRangesRoundDown() {
-        int[][] ranges = TaxonomyLineageReader.getRanges(999, 10);
+        TaxonomyLineageReader reader = new TaxonomyLineageReader(null, false);
+        int[][] ranges = reader.getRanges(999, 10);
         assertNotNull(ranges);
         assertEquals(1, ranges[0][0]);
         assertEquals(100, ranges[0][1]);
@@ -26,7 +27,8 @@ class TaxonomyLineageReaderTest {
 
     @Test
     void getRangesExact() {
-        int[][] ranges = TaxonomyLineageReader.getRanges(1000, 10);
+        TaxonomyLineageReader reader = new TaxonomyLineageReader(null, false);
+        int[][] ranges = reader.getRanges(1000, 10);
         assertNotNull(ranges);
 
         assertEquals(1, ranges[0][0]);
@@ -41,7 +43,8 @@ class TaxonomyLineageReaderTest {
 
     @Test
     void getRangesRoundUp() {
-        int[][] ranges = TaxonomyLineageReader.getRanges(1001, 10);
+        TaxonomyLineageReader reader = new TaxonomyLineageReader(null, false);
+        int[][] ranges = reader.getRanges(1001, 10);
         assertNotNull(ranges);
 
         assertEquals(1, ranges[0][0]);

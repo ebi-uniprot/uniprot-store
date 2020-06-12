@@ -8,7 +8,6 @@ import lombok.extern.slf4j.Slf4j;
 
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
-import org.apache.spark.api.java.JavaSparkContext;
 import org.uniprot.core.taxonomy.TaxonomyEntry;
 import org.uniprot.core.uniref.UniRefType;
 import org.uniprot.store.search.SolrCollection;
@@ -37,27 +36,29 @@ public class UniRefDocumentsToHDFSWriter implements DocumentsToHDFSWriter {
 
     @Override
     public void writeIndexDocumentsToHDFS() {
-        JavaSparkContext sparkContext = parameter.getSparkContext();
         ResourceBundle config = parameter.getApplicationConfig();
 
         // JavaPairRDD<taxId,TaxonomyEntry>
-        JavaPairRDD<String, TaxonomyEntry> taxonomyEntryJavaPairRDD =
-                TaxonomyRDDReader.loadWithLineage(sparkContext, config);
+        TaxonomyRDDReader taxReader = new TaxonomyRDDReader(parameter);
+        JavaPairRDD<String, TaxonomyEntry> taxonomyEntryJavaPairRDD = taxReader.loadWithLineage();
 
         // JavaPairRDD<taxId,UniRefDocument>
+        UniRefRDDTupleReader reader50 =
+                new UniRefRDDTupleReader(UniRefType.UniRef50, parameter, true);
         JavaPairRDD<String, UniRefDocument> uniref50DocRDD =
-                UniRefRDDTupleReader.load(UniRefType.UniRef50, parameter, true)
-                        .mapToPair(new UniRefToDocument());
+                reader50.load().mapToPair(new UniRefToDocument());
 
         // JavaPairRDD<taxId,UniRefDocument>
+        UniRefRDDTupleReader reader90 =
+                new UniRefRDDTupleReader(UniRefType.UniRef90, parameter, true);
         JavaPairRDD<String, UniRefDocument> uniref90DocRDD =
-                UniRefRDDTupleReader.load(UniRefType.UniRef90, parameter, true)
-                        .mapToPair(new UniRefToDocument());
+                reader90.load().mapToPair(new UniRefToDocument());
 
         // JavaPairRDD<taxId,UniRefDocument>
+        UniRefRDDTupleReader reader100 =
+                new UniRefRDDTupleReader(UniRefType.UniRef100, parameter, true);
         JavaPairRDD<String, UniRefDocument> uniref100DocRDD =
-                UniRefRDDTupleReader.load(UniRefType.UniRef100, parameter, true)
-                        .mapToPair(new UniRefToDocument());
+                reader100.load().mapToPair(new UniRefToDocument());
 
         JavaRDD<UniRefDocument> unirefDocumentRDD =
                 joinTaxonomy(uniref50DocRDD, taxonomyEntryJavaPairRDD)

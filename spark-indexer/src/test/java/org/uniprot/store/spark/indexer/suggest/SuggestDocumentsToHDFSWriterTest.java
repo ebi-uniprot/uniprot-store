@@ -36,7 +36,8 @@ class SuggestDocumentsToHDFSWriterTest {
                         .releaseName("2020_02")
                         .sparkContext(sparkContext)
                         .build();
-        flatFileRDD = UniProtKBRDDTupleReader.loadFlatFileToRDD(parameter);
+        UniProtKBRDDTupleReader reader = new UniProtKBRDDTupleReader(parameter, false);
+        flatFileRDD = reader.loadFlatFileToRDD();
     }
 
     @AfterAll

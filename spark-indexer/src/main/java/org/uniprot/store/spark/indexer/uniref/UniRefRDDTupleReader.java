@@ -4,16 +4,14 @@ import static org.uniprot.store.spark.indexer.common.util.SparkUtils.getInputRel
 
 import java.util.ResourceBundle;
 
-import org.apache.spark.SparkConf;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
 import org.apache.spark.sql.*;
 import org.uniprot.core.uniref.UniRefEntry;
 import org.uniprot.core.uniref.UniRefType;
 import org.uniprot.store.spark.indexer.common.JobParameter;
+import org.uniprot.store.spark.indexer.common.reader.RDDReader;
 import org.uniprot.store.spark.indexer.uniref.converter.DatasetUniRefEntryConverter;
-
-import scala.Serializable;
 
 /**
  * Responsible to Load JavaRDD{UniRefEntry} for a specific UniRefType
@@ -21,19 +19,21 @@ import scala.Serializable;
  * @author lgonzales
  * @since 2019-10-16
  */
-public class UniRefRDDTupleReader implements Serializable {
-    private static final long serialVersionUID = -4292235298850285242L;
+public class UniRefRDDTupleReader implements RDDReader<UniRefEntry> {
 
-    public static JavaRDD<UniRefEntry> load(
+    private final JobParameter jobParameter;
+    private final UniRefType uniRefType;
+    private final boolean shouldRepartition;
+
+    public UniRefRDDTupleReader(
             UniRefType uniRefType, JobParameter jobParameter, boolean shouldRepartition) {
-        ResourceBundle config = jobParameter.getApplicationConfig();
-        JavaSparkContext jsc = jobParameter.getSparkContext();
+        this.uniRefType = uniRefType;
+        this.jobParameter = jobParameter;
+        this.shouldRepartition = shouldRepartition;
+    }
 
-        String releaseInputDir = getInputReleaseDirPath(config, jobParameter.getReleaseName());
-        String propertyPrefix = uniRefType.toString().toLowerCase();
-        String xmlFilePath = releaseInputDir + config.getString(propertyPrefix + ".xml.file");
-        JavaRDD<Row> uniRefEntryDataset = loadRawXml(jsc.getConf(), xmlFilePath).toJavaRDD();
-
+    public JavaRDD<UniRefEntry> load() {
+        JavaRDD<Row> uniRefEntryDataset = loadRawXml().toJavaRDD();
         if (shouldRepartition) {
             uniRefEntryDataset =
                     uniRefEntryDataset.repartition(uniRefEntryDataset.getNumPartitions() * 7);
@@ -42,8 +42,14 @@ public class UniRefRDDTupleReader implements Serializable {
         return uniRefEntryDataset.map(new DatasetUniRefEntryConverter(uniRefType));
     }
 
-    private static Dataset<Row> loadRawXml(SparkConf sparkConf, String xmlFilePath) {
-        SparkSession spark = SparkSession.builder().config(sparkConf).getOrCreate();
+    private Dataset<Row> loadRawXml() {
+        ResourceBundle config = jobParameter.getApplicationConfig();
+        JavaSparkContext jsc = jobParameter.getSparkContext();
+        String releaseInputDir = getInputReleaseDirPath(config, jobParameter.getReleaseName());
+        String propertyPrefix = uniRefType.toString().toLowerCase();
+        String xmlFilePath = releaseInputDir + config.getString(propertyPrefix + ".xml.file");
+
+        SparkSession spark = SparkSession.builder().config(jsc.getConf()).getOrCreate();
         Dataset<Row> data =
                 spark.read()
                         .format("com.databricks.spark.xml")
