@@ -844,7 +844,7 @@
 	<copyField source="go_iea" dest="go_automatic" />
 
 	<!-- Protein Existence -->
-	<field name="existence" type="basic_ci" indexed="true"
+	<field name="existence" type="string" indexed="true"
 		stored="false" required="false" multiValued="false"  docValues="true" />
 
 
