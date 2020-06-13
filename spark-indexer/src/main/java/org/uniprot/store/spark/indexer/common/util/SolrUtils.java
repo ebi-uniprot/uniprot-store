@@ -62,10 +62,10 @@ public class SolrUtils {
 
         CloudSolrClient solrClient = SolrSupport.getCachedCloudClient(zkHost);
         commit(collectionName, solrClient);
-        optimize(collectionName, solrClient);
+        //optimise(collectionName, solrClient);
     }
 
-    private static void optimize(String collection, CloudSolrClient solrClient) {
+    private static void optimise(String collection, CloudSolrClient solrClient) {
         log.info("Optimizing the data for collection " + collection);
         try {
             solrClient.optimize(collection, true, true);
