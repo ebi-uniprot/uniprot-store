@@ -1,14 +1,6 @@
 package org.uniprot.store.datastore.voldemort.data;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.extern.slf4j.Slf4j;
-import net.jodah.failsafe.Failsafe;
-import net.jodah.failsafe.RetryPolicy;
-import org.uniprot.store.datastore.voldemort.VoldemortClient;
-import org.uniprot.store.datastore.voldemort.uniparc.VoldemortRemoteUniParcEntryStore;
-import org.uniprot.store.datastore.voldemort.uniprot.VoldemortRemoteUniProtKBEntryStore;
-import org.uniprot.store.datastore.voldemort.uniref.VoldemortRemoteUniRefEntryStore;
+import static java.util.Arrays.asList;
 
 import java.io.*;
 import java.time.Duration;
@@ -24,7 +16,16 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.stream.Stream;
 
-import static java.util.Arrays.asList;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
+import net.jodah.failsafe.Failsafe;
+import net.jodah.failsafe.RetryPolicy;
+
+import org.uniprot.store.datastore.voldemort.VoldemortClient;
+import org.uniprot.store.datastore.voldemort.uniparc.VoldemortRemoteUniParcEntryStore;
+import org.uniprot.store.datastore.voldemort.uniprot.VoldemortRemoteUniProtKBEntryStore;
+import org.uniprot.store.datastore.voldemort.uniref.VoldemortRemoteUniRefEntryStore;
 
 /**
  * Created 12/06/2020
