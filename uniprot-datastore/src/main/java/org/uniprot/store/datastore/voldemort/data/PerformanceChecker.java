@@ -1,6 +1,14 @@
 package org.uniprot.store.datastore.voldemort.data;
 
-import static java.util.Arrays.asList;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
+import net.jodah.failsafe.Failsafe;
+import net.jodah.failsafe.RetryPolicy;
+import org.uniprot.store.datastore.voldemort.VoldemortClient;
+import org.uniprot.store.datastore.voldemort.uniparc.VoldemortRemoteUniParcEntryStore;
+import org.uniprot.store.datastore.voldemort.uniprot.VoldemortRemoteUniProtKBEntryStore;
+import org.uniprot.store.datastore.voldemort.uniref.VoldemortRemoteUniRefEntryStore;
 
 import java.io.*;
 import java.time.Duration;
@@ -16,16 +24,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.stream.Stream;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.extern.slf4j.Slf4j;
-import net.jodah.failsafe.Failsafe;
-import net.jodah.failsafe.RetryPolicy;
-
-import org.uniprot.store.datastore.voldemort.VoldemortClient;
-import org.uniprot.store.datastore.voldemort.uniparc.VoldemortRemoteUniParcEntryStore;
-import org.uniprot.store.datastore.voldemort.uniprot.VoldemortRemoteUniProtKBEntryStore;
-import org.uniprot.store.datastore.voldemort.uniref.VoldemortRemoteUniRefEntryStore;
+import static java.util.Arrays.asList;
 
 /**
  * Created 12/06/2020
@@ -225,16 +224,25 @@ public class PerformanceChecker {
                                                 + client.getStoreName()
                                                 + ", id="
                                                 + id
-                                                + "]",
-                                        throwable);
+                                                + "]");
                             })
                     .onSuccess(
                             listener -> {
                                 summary.getTotalRetrieved(client.getStoreName()).getAndIncrement();
+                                long duration =
+                                        Duration.between(start, LocalDateTime.now()).toMillis();
                                 summary.getTotalFetchDuration(client.getStoreName())
-                                        .getAndAdd(
-                                                Duration.between(start, LocalDateTime.now())
-                                                        .toMillis());
+                                        .getAndAdd(duration);
+                                if (duration > 5000) {
+                                    log.info(
+                                            "Slow fetch [store="
+                                                    + client.getStoreName()
+                                                    + ", id="
+                                                    + id
+                                                    + "]: "
+                                                    + duration
+                                                    + " ms");
+                                }
                             })
                     .run(
                             () ->
@@ -288,12 +296,22 @@ public class PerformanceChecker {
 
             for (Map.Entry<String, AtomicInteger> entry : totalRetrievedForStore.entrySet()) {
                 String storeName = entry.getKey();
+                double failedPercentage =
+                        (double) (100 * totalFailedForStore.get(storeName).get())
+                                / (totalRetrievedForStore.get(storeName).get()
+                                        + totalFailedForStore.get(storeName).get());
                 log.info("\t" + storeName);
                 log.info("\t\tTotal retrieved successfully = " + entry.getValue().get());
-                log.info("\t\tTotal failed = " + totalFailedForStore.get(storeName));
+                log.info(
+                        "\t\tTotal failed = "
+                                + totalFailedForStore.get(storeName)
+                                + " ("
+                                + failedPercentage
+                                + " %)");
                 if (totalRetrievedForStore.get(storeName).get() != 0) {
                     log.info(
-                            "\t\tAve successful request duration (ms) = "
+                            totalFetchDurationForStore.get(storeName).get()
+                                    + "\t\tAve successful request duration (ms) = "
                                     + totalFetchDurationForStore.get(storeName).get()
                                             / totalRetrievedForStore.get(storeName).get());
                 }
