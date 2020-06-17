@@ -28,13 +28,16 @@ import java.util.stream.Stream;
 import static java.util.Arrays.asList;
 
 /**
- * Created 12/06/2020
+ * This class is responsible for testing directly the performance of a Voldemort client to
+ * uniprotkb, uniref, uniparc. Gatling stress testing tool cannot be used, unlike with REST
+ * applications, because the connection to Voldemort is TCP.
+ *
+ * <p>Created 12/06/2020
  *
  * @author Edd
  */
 @Slf4j
 public class PerformanceChecker {
-
     private static final List<String> PROPERTY_KEYS =
             asList(
                     "sleepDurationBeforeRequest",
