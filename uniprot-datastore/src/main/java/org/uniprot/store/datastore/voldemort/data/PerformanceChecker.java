@@ -1,6 +1,15 @@
 package org.uniprot.store.datastore.voldemort.data;
 
-import static java.util.Arrays.asList;
+import lombok.Builder;
+import lombok.Data;
+import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
+import net.jodah.failsafe.Failsafe;
+import net.jodah.failsafe.RetryPolicy;
+import org.uniprot.store.datastore.voldemort.VoldemortClient;
+import org.uniprot.store.datastore.voldemort.uniparc.VoldemortRemoteUniParcEntryStore;
+import org.uniprot.store.datastore.voldemort.uniprot.VoldemortRemoteUniProtKBEntryStore;
+import org.uniprot.store.datastore.voldemort.uniref.VoldemortRemoteUniRefEntryStore;
 
 import java.io.*;
 import java.time.Duration;
@@ -16,16 +25,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.stream.Stream;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.extern.slf4j.Slf4j;
-import net.jodah.failsafe.Failsafe;
-import net.jodah.failsafe.RetryPolicy;
-
-import org.uniprot.store.datastore.voldemort.VoldemortClient;
-import org.uniprot.store.datastore.voldemort.uniparc.VoldemortRemoteUniParcEntryStore;
-import org.uniprot.store.datastore.voldemort.uniprot.VoldemortRemoteUniProtKBEntryStore;
-import org.uniprot.store.datastore.voldemort.uniref.VoldemortRemoteUniRefEntryStore;
+import static java.util.Arrays.asList;
 
 /**
  * Created 12/06/2020
@@ -45,15 +45,21 @@ public class PerformanceChecker {
                     "keepAliveTime",
                     "storesCSV",
                     "filePath");
+
     private static String propertiesFile;
 
-    private static RetryPolicy<Object> retryPolicy;
-    private static List<String> stores;
-    private static ExecutorService executorService;
-    private static Map<String, VoldemortClient<?>> clientMap;
-    private static Stream<String> lines;
+    @Data
+    private static class Config {
+        private ExecutorService executorService;
+        private RetryPolicy<Object> retryPolicy;
+        private List<String> stores;
+        private Map<String, VoldemortClient<?>> clientMap;
+        private Stream<String> lines;
+        private int sleepDurationBeforeRequest;
+    }
 
     public static void main(String[] args) throws InterruptedException {
+
         if (args.length != 1) {
             log.error("Please supply " + propertiesFile);
             System.exit(1);
@@ -61,23 +67,26 @@ public class PerformanceChecker {
             propertiesFile = args[0];
         }
 
+        Config config = new Config();
+
+        PerformanceChecker checker = new PerformanceChecker();
+
         // initialise properties
         final Properties properties = new Properties();
-        init(properties);
+        checker.init(properties, config);
 
         // do requests
-        RequestDispatcher dispatcher =
-                new RequestDispatcher(
-                        Integer.parseInt(properties.getProperty("sleepDurationBeforeRequest")));
+        RequestDispatcher dispatcher = new RequestDispatcher(config);
         dispatcher.go();
-        executorService.shutdown();
-        executorService.awaitTermination(2, TimeUnit.DAYS);
+
+        config.getExecutorService().shutdown();
+        config.getExecutorService().awaitTermination(2, TimeUnit.DAYS);
 
         // show statistics
         dispatcher.printStatisticsSummary();
     }
 
-    private static void init(Properties properties) {
+    private void init(Properties properties, Config config) {
         try (InputStream stream = new FileInputStream(propertiesFile)) {
             properties.load(stream);
 
@@ -90,7 +99,10 @@ public class PerformanceChecker {
                         }
                     });
 
-            retryPolicy =
+            config.setSleepDurationBeforeRequest(
+                    Integer.parseInt(properties.getProperty("sleepDurationBeforeRequest")));
+
+            config.setRetryPolicy(
                     new RetryPolicy<>()
                             .handle(IOException.class)
                             .withDelay(
@@ -100,18 +112,18 @@ public class PerformanceChecker {
                                                             "storeFetchRetryDelayMillis"))))
                             .withMaxRetries(
                                     Integer.parseInt(
-                                            properties.getProperty("storeFetchMaxRetries")));
+                                            properties.getProperty("storeFetchMaxRetries"))));
 
-            executorService = createExecutor(properties);
+            config.setStores(asList(properties.getProperty("storesCSV").split(",")));
 
-            stores = asList(properties.getProperty("storesCSV").split(","));
+            config.setExecutorService(createExecutor(properties));
 
-            clientMap = createClientMap(properties);
+            config.setClientMap(createClientMap(properties));
 
             InputStream requestsInputStream =
                     new FileInputStream(properties.getProperty("filePath"));
 
-            lines = new BufferedReader(new InputStreamReader(requestsInputStream)).lines();
+            config.setLines(new BufferedReader(new InputStreamReader(requestsInputStream)).lines());
         } catch (IOException e) {
             log.error("Problem loading " + propertiesFile, e);
             System.exit(1);
@@ -175,34 +187,42 @@ public class PerformanceChecker {
 
     private static class RequestDispatcher {
         private final StatisticsSummary statisticsSummary;
-        private final int sleepDurationBeforeRequest;
+        private final PerformanceChecker.Config config;
 
-        RequestDispatcher(int sleepDurationBeforeRequest) {
-            this.sleepDurationBeforeRequest = sleepDurationBeforeRequest;
-            this.statisticsSummary = new StatisticsSummary(stores);
+        RequestDispatcher(Config config) {
+            this.statisticsSummary = new StatisticsSummary(config.getStores());
+            this.config = config;
         }
 
         void go() {
 
             // get
-            lines.map(this::parseLine)
+            config.getLines()
+                    .map(this::parseLine)
                     .forEach(
                             storeRequestInfo ->
-                                    executorService.execute(
-                                            () -> {
-                                                try {
-                                                    Thread.sleep(sleepDurationBeforeRequest);
-                                                } catch (InterruptedException e) {
-                                                    Thread.currentThread().interrupt();
-                                                    log.warn("Problem whilst sleeping");
-                                                }
-                                                VoldemortClient<?> client =
-                                                        clientMap.get(storeRequestInfo.getStore());
-                                                RequestExecutor.performRequest(
-                                                        client,
-                                                        storeRequestInfo.getId(),
-                                                        statisticsSummary);
-                                            }));
+                                    config.getExecutorService()
+                                            .execute(
+                                                    () -> {
+                                                        try {
+                                                            Thread.sleep(
+                                                                    config
+                                                                            .getSleepDurationBeforeRequest());
+                                                        } catch (InterruptedException e) {
+                                                            Thread.currentThread().interrupt();
+                                                            log.warn("Problem whilst sleeping");
+                                                        }
+                                                        VoldemortClient<?> client =
+                                                                config.getClientMap()
+                                                                        .get(
+                                                                                storeRequestInfo
+                                                                                        .getStore());
+                                                        RequestExecutor.performRequest(
+                                                                client,
+                                                                storeRequestInfo.getId(),
+                                                                statisticsSummary,
+                                                                config.getRetryPolicy());
+                                                    }));
         }
 
         void printStatisticsSummary() {
@@ -229,7 +249,10 @@ public class PerformanceChecker {
 
     private static class RequestExecutor {
         static void performRequest(
-                VoldemortClient<?> client, String id, StatisticsSummary summary) {
+                VoldemortClient<?> client,
+                String id,
+                StatisticsSummary summary,
+                RetryPolicy<Object> retryPolicy) {
             LocalDateTime start = LocalDateTime.now();
             Failsafe.with(retryPolicy)
                     .onFailure(
