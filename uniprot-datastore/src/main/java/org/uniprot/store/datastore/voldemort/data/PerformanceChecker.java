@@ -36,6 +36,7 @@ public class PerformanceChecker {
 
     private static final List<String> PROPERTY_KEYS =
             asList(
+                    "sleepDurationBeforeRequest",
                     "storeFetchRetryDelayMillis",
                     "storeFetchMaxRetries",
                     "corePoolSize",
@@ -59,8 +60,23 @@ public class PerformanceChecker {
             propertiesFile = args[0];
         }
 
+        // initialise properties
         final Properties properties = new Properties();
+        init(properties);
 
+        // do requests
+        RequestDispatcher dispatcher =
+                new RequestDispatcher(
+                        Integer.parseInt(properties.getProperty("sleepDurationBeforeRequest")));
+        dispatcher.go();
+        executorService.shutdown();
+        executorService.awaitTermination(2, TimeUnit.DAYS);
+
+        // show statistics
+        dispatcher.printStatisticsSummary();
+    }
+
+    private static void init(Properties properties) {
         try (InputStream stream = new FileInputStream(propertiesFile)) {
             properties.load(stream);
 
@@ -99,15 +115,6 @@ public class PerformanceChecker {
             log.error("Problem loading " + propertiesFile, e);
             System.exit(1);
         }
-
-        // do requests
-        RequestDispatcher dispatcher = new RequestDispatcher();
-        dispatcher.go();
-        executorService.shutdown();
-        executorService.awaitTermination(48, TimeUnit.DAYS);
-
-        // show statistics
-        dispatcher.printStatisticsSummary();
     }
 
     private static Map<String, VoldemortClient<?>> createClientMap(Properties properties) {
@@ -167,8 +174,10 @@ public class PerformanceChecker {
 
     private static class RequestDispatcher {
         private final StatisticsSummary statisticsSummary;
+        private final int sleepDurationBeforeRequest;
 
-        RequestDispatcher() {
+        RequestDispatcher(int sleepDurationBeforeRequest) {
+            this.sleepDurationBeforeRequest = sleepDurationBeforeRequest;
             this.statisticsSummary = new StatisticsSummary(stores);
         }
 
@@ -180,6 +189,12 @@ public class PerformanceChecker {
                             storeRequestInfo ->
                                     executorService.execute(
                                             () -> {
+                                                try {
+                                                    Thread.sleep(sleepDurationBeforeRequest);
+                                                } catch (InterruptedException e) {
+                                                    Thread.currentThread().interrupt();
+                                                    log.warn("Problem whilst sleeping");
+                                                }
                                                 VoldemortClient<?> client =
                                                         clientMap.get(storeRequestInfo.getStore());
                                                 RequestExecutor.performRequest(
@@ -310,8 +325,7 @@ public class PerformanceChecker {
                                 + " %)");
                 if (totalRetrievedForStore.get(storeName).get() != 0) {
                     log.info(
-                            totalFetchDurationForStore.get(storeName).get()
-                                    + "\t\tAve successful request duration (ms) = "
+                            "\t\tAve successful request duration (ms) = "
                                     + totalFetchDurationForStore.get(storeName).get()
                                             / totalRetrievedForStore.get(storeName).get());
                 }
