@@ -41,6 +41,7 @@ public class PerformanceChecker {
     private static final List<String> PROPERTY_KEYS =
             asList(
                     "sleepDurationBeforeRequest",
+                    "logInterval",
                     "storeFetchRetryDelayMillis",
                     "storeFetchMaxRetries",
                     "corePoolSize",
@@ -59,19 +60,19 @@ public class PerformanceChecker {
         private Map<String, VoldemortClient<?>> clientMap;
         private Stream<String> lines;
         private int sleepDurationBeforeRequest;
+        private StatisticsSummary statisticsSummary;
+        private int logInterval;
     }
 
     public static void main(String[] args) throws InterruptedException {
-
         if (args.length != 1) {
-            log.error("Please supply " + propertiesFile);
+            log.error("Please supply properties file as single program argument");
             System.exit(1);
         } else {
             propertiesFile = args[0];
         }
 
         Config config = new Config();
-
         PerformanceChecker checker = new PerformanceChecker();
 
         // initialise properties
@@ -104,6 +105,8 @@ public class PerformanceChecker {
 
             config.setSleepDurationBeforeRequest(
                     Integer.parseInt(properties.getProperty("sleepDurationBeforeRequest")));
+
+            config.setLogInterval(Integer.parseInt(properties.getProperty("logInterval")));
 
             config.setRetryPolicy(
                     new RetryPolicy<>()
@@ -189,11 +192,10 @@ public class PerformanceChecker {
     }
 
     private static class RequestDispatcher {
-        private final StatisticsSummary statisticsSummary;
         private final PerformanceChecker.Config config;
 
         RequestDispatcher(Config config) {
-            this.statisticsSummary = new StatisticsSummary(config.getStores());
+            config.setStatisticsSummary(new StatisticsSummary(config.getStores()));
             this.config = config;
         }
 
@@ -215,21 +217,13 @@ public class PerformanceChecker {
                                                             Thread.currentThread().interrupt();
                                                             log.warn("Problem whilst sleeping");
                                                         }
-                                                        VoldemortClient<?> client =
-                                                                config.getClientMap()
-                                                                        .get(
-                                                                                storeRequestInfo
-                                                                                        .getStore());
                                                         RequestExecutor.performRequest(
-                                                                client,
-                                                                storeRequestInfo.getId(),
-                                                                statisticsSummary,
-                                                                config.getRetryPolicy());
+                                                                config, storeRequestInfo);
                                                     }));
         }
 
         void printStatisticsSummary() {
-            statisticsSummary.print();
+            config.getStatisticsSummary().print();
         }
 
         private StoreRequestInfo parseLine(String line) {
@@ -251,34 +245,49 @@ public class PerformanceChecker {
     }
 
     private static class RequestExecutor {
-        static void performRequest(
-                VoldemortClient<?> client,
-                String id,
-                StatisticsSummary summary,
-                RetryPolicy<Object> retryPolicy) {
+        static void logProgress(Config config) {
+            StatisticsSummary summary = config.getStatisticsSummary();
+            int totalProcessed =
+                    summary.getTotalRetrievedForStore().values().stream()
+                                    .mapToInt(AtomicInteger::get)
+                                    .sum()
+                            + summary.getTotalFailedForStore().values().stream()
+                                    .mapToInt(AtomicInteger::get)
+                                    .sum();
+            if (totalProcessed % config.getLogInterval() == 0) {
+                log.info("Processed: " + totalProcessed);
+            }
+        }
+
+        static void performRequest(Config config, RequestDispatcher.StoreRequestInfo requestInfo) {
             LocalDateTime start = LocalDateTime.now();
-            Failsafe.with(retryPolicy)
+            StatisticsSummary summary = config.getStatisticsSummary();
+            VoldemortClient<?> client = config.getClientMap().get(requestInfo.getStore());
+            String id = requestInfo.getId();
+            String storeName = client.getStoreName();
+            Failsafe.with(config.getRetryPolicy())
                     .onFailure(
                             throwable -> {
-                                summary.getTotalFailed(client.getStoreName()).getAndIncrement();
+                                summary.getTotalFailed(storeName).getAndIncrement();
+                                logProgress(config);
                                 log.error(
                                         "Failed to fetch id [store="
-                                                + client.getStoreName()
+                                                + storeName
                                                 + ", id="
                                                 + id
                                                 + "]");
                             })
                     .onSuccess(
                             listener -> {
-                                summary.getTotalRetrieved(client.getStoreName()).getAndIncrement();
+                                summary.getTotalRetrieved(storeName).getAndIncrement();
+                                logProgress(config);
                                 long duration =
                                         Duration.between(start, LocalDateTime.now()).toMillis();
-                                summary.getTotalFetchDuration(client.getStoreName())
-                                        .getAndAdd(duration);
+                                summary.getTotalFetchDuration(storeName).getAndAdd(duration);
                                 if (duration > 5000) {
                                     log.info(
                                             "Slow fetch [store="
-                                                    + client.getStoreName()
+                                                    + storeName
                                                     + ", id="
                                                     + id
                                                     + "]: "
