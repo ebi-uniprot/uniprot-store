@@ -223,6 +223,14 @@
 			<artifactId>metrics-core</artifactId>
 			<version>${metrics.version}</version>
 		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/com.github.jbellis/jamm -->
+		<dependency>
+			<groupId>com.github.jbellis</groupId>
+			<artifactId>jamm</artifactId>
+			<version>0.3.3</version>
+		</dependency>
+
 	</dependencies>
 
 	<repositories>
@@ -272,6 +280,5 @@
 				</plugins>
 			</build>
 		</profile>
-
 	</profiles>
 </project>

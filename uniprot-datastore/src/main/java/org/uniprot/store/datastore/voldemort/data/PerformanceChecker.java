@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import net.jodah.failsafe.Failsafe;
 import net.jodah.failsafe.RetryPolicy;
+import org.github.jamm.MemoryMeter;
 import org.uniprot.store.datastore.voldemort.VoldemortClient;
 import org.uniprot.store.datastore.voldemort.uniparc.VoldemortRemoteUniParcEntryStore;
 import org.uniprot.store.datastore.voldemort.uniprot.VoldemortRemoteUniProtKBEntryStore;
@@ -41,7 +42,9 @@ public class PerformanceChecker {
     private static final List<String> PROPERTY_KEYS =
             asList(
                     "sleepDurationBeforeRequest",
+                    "reportSizeIfGreaterThanMbs",
                     "logInterval",
+                    "reportSlowFetchTimeout",
                     "storeFetchRetryDelayMillis",
                     "storeFetchMaxRetries",
                     "corePoolSize",
@@ -62,6 +65,8 @@ public class PerformanceChecker {
         private int sleepDurationBeforeRequest;
         private StatisticsSummary statisticsSummary;
         private int logInterval;
+        private int reportSlowFetchTimeout;
+        private int reportSizeIfGreaterThanMbs;
     }
 
     public static void main(String[] args) throws InterruptedException {
@@ -105,6 +110,11 @@ public class PerformanceChecker {
 
             config.setSleepDurationBeforeRequest(
                     Integer.parseInt(properties.getProperty("sleepDurationBeforeRequest")));
+            config.setReportSizeIfGreaterThanMbs(
+                    Integer.parseInt(properties.getProperty("reportSizeIfGreaterThanMbs")));
+
+            config.setReportSlowFetchTimeout(
+                    Integer.parseInt(properties.getProperty("reportSlowFetchTimeout")));
 
             config.setLogInterval(Integer.parseInt(properties.getProperty("logInterval")));
 
@@ -284,7 +294,7 @@ public class PerformanceChecker {
                                 long duration =
                                         Duration.between(start, LocalDateTime.now()).toMillis();
                                 summary.getTotalFetchDuration(storeName).getAndAdd(duration);
-                                if (duration > 5000) {
+                                if (duration > config.getReportSlowFetchTimeout()) {
                                     log.info(
                                             "Slow fetch [store="
                                                     + storeName
@@ -294,8 +304,10 @@ public class PerformanceChecker {
                                                     + duration
                                                     + " ms");
                                 }
+
+                                printSizeIfBig(config, id, listener.getResult());
                             })
-                    .run(
+                    .get(
                             () ->
                                     client.getEntry(id)
                                             .orElseThrow(
@@ -303,6 +315,16 @@ public class PerformanceChecker {
                                                             new IOException(
                                                                     "Could not retrieve entry: "
                                                                             + id)));
+        }
+
+        private static void printSizeIfBig(Config config, String id, Object o) {
+            MemoryMeter meter = new MemoryMeter();
+            long bytes = meter.measureDeep(o);
+            double mbs = (double) bytes / (1024 * 1000);
+
+            if (mbs > config.getReportSizeIfGreaterThanMbs()) {
+                log.info("Size of " + id + " = " + mbs + " mb");
+            }
         }
     }
 
