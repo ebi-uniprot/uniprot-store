@@ -1,9 +1,10 @@
 package org.uniprot.store.datastore.voldemort.data.performance;
 
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.io.TempDir;
-import org.uniprot.store.datastore.voldemort.VoldemortClient;
-import org.uniprot.store.datastore.voldemort.uniprot.VoldemortRemoteUniProtKBEntryStore;
+import static java.util.Arrays.asList;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.*;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.mock;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -12,12 +13,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
-import static java.util.Arrays.asList;
-import static java.util.Collections.singletonList;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.Mockito.mock;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
+import org.uniprot.store.datastore.voldemort.VoldemortClient;
 
 /**
  * Created 19/06/2020
@@ -86,7 +84,8 @@ class PerformanceCheckerTest {
         Properties props = new Properties();
 
         assertThrows(
-                IllegalStateException.class, () -> new TestablePerformanceChecker().createClientMap(props));
+                IllegalStateException.class,
+                () -> new TestablePerformanceChecker().createClientMap(props));
     }
 
     @Test
@@ -96,7 +95,8 @@ class PerformanceCheckerTest {
         props.setProperty("store.uniprotkb.numberOfConnections", "1");
         props.setProperty("store.uniprotkb.host", "url");
 
-        Map<String, VoldemortClient<?>> clientMap = new TestablePerformanceChecker().createClientMap(props);
+        Map<String, VoldemortClient<?>> clientMap =
+                new TestablePerformanceChecker().createClientMap(props);
 
         assertThat(clientMap.get("uniprotkb"), is(notNullValue()));
     }
@@ -108,7 +108,8 @@ class PerformanceCheckerTest {
         props.setProperty("store.uniref.numberOfConnections", "1");
         props.setProperty("store.uniref.host", "url");
 
-        Map<String, VoldemortClient<?>> clientMap = new TestablePerformanceChecker().createClientMap(props);
+        Map<String, VoldemortClient<?>> clientMap =
+                new TestablePerformanceChecker().createClientMap(props);
 
         assertThat(clientMap.get("uniref"), is(notNullValue()));
     }
@@ -120,32 +121,30 @@ class PerformanceCheckerTest {
         props.setProperty("store.uniparc.numberOfConnections", "1");
         props.setProperty("store.uniparc.host", "url");
 
-        Map<String, VoldemortClient<?>> clientMap = new TestablePerformanceChecker().createClientMap(props);
+        Map<String, VoldemortClient<?>> clientMap =
+                new TestablePerformanceChecker().createClientMap(props);
 
         assertThat(clientMap.get("uniparc"), is(notNullValue()));
     }
 
     static class TestablePerformanceChecker extends PerformanceChecker {
-//        @Override
-//        Map<String, VoldemortClient<?>> createClientMap(Properties properties) {
-//            return null;
-//        }
+        //        @Override
+        //        Map<String, VoldemortClient<?>> createClientMap(Properties properties) {
+        //            return null;
+        //        }
 
         @Override
-        VoldemortClient<?> createUniProtKBStore(
-                int connections, String storeName, String host) {
+        VoldemortClient<?> createUniProtKBStore(int connections, String storeName, String host) {
             return mock(VoldemortClient.class);
         }
 
         @Override
-        VoldemortClient<?> createUniRefStore(
-                int connections, String storeName, String host) {
+        VoldemortClient<?> createUniRefStore(int connections, String storeName, String host) {
             return mock(VoldemortClient.class);
         }
 
         @Override
-        VoldemortClient<?> createUniParcStore(
-                int connections, String storeName, String host) {
+        VoldemortClient<?> createUniParcStore(int connections, String storeName, String host) {
             return mock(VoldemortClient.class);
         }
     }

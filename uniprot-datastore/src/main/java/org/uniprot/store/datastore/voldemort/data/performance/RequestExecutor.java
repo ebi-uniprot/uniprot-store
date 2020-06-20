@@ -1,14 +1,15 @@
 package org.uniprot.store.datastore.voldemort.data.performance;
 
-import lombok.extern.slf4j.Slf4j;
-import net.jodah.failsafe.Failsafe;
-import org.github.jamm.MemoryMeter;
-import org.uniprot.store.datastore.voldemort.VoldemortClient;
-
 import java.io.IOException;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.Objects;
+
+import lombok.extern.slf4j.Slf4j;
+import net.jodah.failsafe.Failsafe;
+
+import org.github.jamm.MemoryMeter;
+import org.uniprot.store.datastore.voldemort.VoldemortClient;
 
 /**
  * Created 19/06/2020

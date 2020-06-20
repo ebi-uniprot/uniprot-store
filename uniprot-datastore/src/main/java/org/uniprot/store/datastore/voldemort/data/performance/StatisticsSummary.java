@@ -1,8 +1,5 @@
 package org.uniprot.store.datastore.voldemort.data.performance;
 
-import lombok.Getter;
-import lombok.extern.slf4j.Slf4j;
-
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -12,6 +9,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
+
+import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * Created 19/06/2020
