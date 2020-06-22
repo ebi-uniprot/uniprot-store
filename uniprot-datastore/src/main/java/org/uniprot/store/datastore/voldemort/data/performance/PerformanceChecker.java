@@ -1,6 +1,12 @@
 package org.uniprot.store.datastore.voldemort.data.performance;
 
-import static java.util.Arrays.asList;
+import lombok.Data;
+import lombok.extern.slf4j.Slf4j;
+import net.jodah.failsafe.RetryPolicy;
+import org.uniprot.store.datastore.voldemort.VoldemortClient;
+import org.uniprot.store.datastore.voldemort.uniparc.VoldemortRemoteUniParcEntryStore;
+import org.uniprot.store.datastore.voldemort.uniprot.VoldemortRemoteUniProtKBEntryStore;
+import org.uniprot.store.datastore.voldemort.uniref.VoldemortRemoteUniRefEntryStore;
 
 import java.io.*;
 import java.time.Duration;
@@ -11,19 +17,40 @@ import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Stream;
 
-import lombok.Data;
-import lombok.extern.slf4j.Slf4j;
-import net.jodah.failsafe.RetryPolicy;
-
-import org.uniprot.store.datastore.voldemort.VoldemortClient;
-import org.uniprot.store.datastore.voldemort.uniparc.VoldemortRemoteUniParcEntryStore;
-import org.uniprot.store.datastore.voldemort.uniprot.VoldemortRemoteUniProtKBEntryStore;
-import org.uniprot.store.datastore.voldemort.uniref.VoldemortRemoteUniRefEntryStore;
+import static java.util.Arrays.asList;
 
 /**
  * This class is responsible for testing directly the performance of a Voldemort client to
  * uniprotkb, uniref, uniparc. Gatling stress testing tool cannot be used, unlike with REST
  * applications, because the connection to Voldemort is TCP.
+ *
+ * <p>Example properties file:
+ *
+ * <ul>
+ *   <li>reportSizeIfGreaterThanBytes=1000 -- report if an entry is greater than a certain size. -1
+ *       => no reporting
+ *   <li>sleepDurationBeforeRequest=1000 -- how long to wait before each request (e.g., to prevent
+ *       saturating Voldemort)
+ *   <li>reportSlowFetchTimeout=2000 -- report if an entry takes longer than a the specified time
+ *   <li>logInterval=10000 -- progress report interval of, e.g., 10000 entries
+ *   <li>storeFetchRetryDelayMillis=500 -- how long to wait if an entry could not be retrieved
+ *   <li>storeFetchMaxRetries=3 -- how many times to retry
+ *   <li>corePoolSize=5 -- executor service core pool size
+ *   <li>maxPoolSize=50 -- executor service max pool size
+ *   <li>keepAliveTime=100000 -- executor service thread keep alive time
+ *   <li>storesCSV=uniprotkb,uniref,uniparc -- the names of the stores
+ *   <li>filePath=/home/edd/working/intellij/website/uniprot-store/uniprot-datastore/requests.txt --
+ *       the path to the request file
+ *   <li>store.uniprotkb.storeName=uniprotkb -- Voldemort connection details
+ *   <li>store.uniprotkb.numberOfConnections=20 -- Voldemort connection details
+ *   <li>store.uniprotkb.host=tcp://????.ebi.ac.uk:8666 -- Voldemort connection details
+ *   <li>store.uniparc.storeName=uniparc -- Voldemort connection details
+ *   <li>store.uniparc.numberOfConnections=20 -- Voldemort connection details
+ *   <li>store.uniparc.host=tcp://????.ebi.ac.uk:8666 -- Voldemort connection details
+ *   <li>store.uniref.storeName=uniref -- Voldemort connection details
+ *   <li>store.uniref.numberOfConnections=20 -- Voldemort connection details
+ *   <li>store.uniref.host=tcp://????.ebi.ac.uk:8666 -- Voldemort connection details
+ * </ul>
  *
  * <p>Created 12/06/2020
  *
