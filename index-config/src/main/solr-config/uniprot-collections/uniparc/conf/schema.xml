@@ -282,7 +282,7 @@
 	<!-- =============================== uniparc configurations =============================== -->
 	<!-- ====================================================================================== -->
 	<field name="upi" type="string" indexed="true" stored="true"
-		required="true" multiValued="false" />
+		required="true" multiValued="false" docValues="true" />
 	<field name="taxonomy_name" type="full_ci" indexed="true"
 		stored="false" required="false" multiValued="true" />
 	<field name="taxonomy_id" type="int" indexed="true"
