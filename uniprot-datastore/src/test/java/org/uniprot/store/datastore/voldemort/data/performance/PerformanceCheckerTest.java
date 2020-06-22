@@ -128,11 +128,6 @@ class PerformanceCheckerTest {
     }
 
     static class TestablePerformanceChecker extends PerformanceChecker {
-        //        @Override
-        //        Map<String, VoldemortClient<?>> createClientMap(Properties properties) {
-        //            return null;
-        //        }
-
         @Override
         VoldemortClient<?> createUniProtKBStore(int connections, String storeName, String host) {
             return mock(VoldemortClient.class);
