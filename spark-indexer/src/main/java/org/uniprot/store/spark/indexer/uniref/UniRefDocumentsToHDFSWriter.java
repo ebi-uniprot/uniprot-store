@@ -2,8 +2,6 @@ package org.uniprot.store.spark.indexer.uniref;
 
 import static org.uniprot.store.spark.indexer.common.util.SparkUtils.*;
 
-import java.util.ResourceBundle;
-
 import lombok.extern.slf4j.Slf4j;
 
 import org.apache.spark.api.java.JavaPairRDD;
@@ -36,11 +34,9 @@ public class UniRefDocumentsToHDFSWriter implements DocumentsToHDFSWriter {
 
     @Override
     public void writeIndexDocumentsToHDFS() {
-        ResourceBundle config = parameter.getApplicationConfig();
-
         // JavaPairRDD<taxId,TaxonomyEntry>
-        TaxonomyRDDReader taxReader = new TaxonomyRDDReader(parameter, true);
-        JavaPairRDD<String, TaxonomyEntry> taxonomyEntryJavaPairRDD = taxReader.load();
+        JavaPairRDD<String, TaxonomyEntry> taxonomyEntryJavaPairRDD =
+                loadTaxonomyEntryJavaPairRDD();
 
         // JavaPairRDD<taxId,UniRefDocument>
         UniRefRDDTupleReader reader50 =
@@ -65,12 +61,21 @@ public class UniRefDocumentsToHDFSWriter implements DocumentsToHDFSWriter {
                         .union(joinTaxonomy(uniref90DocRDD, taxonomyEntryJavaPairRDD))
                         .union(joinTaxonomy(uniref100DocRDD, taxonomyEntryJavaPairRDD));
 
-        String hdfsPath =
-                getCollectionOutputReleaseDirPath(
-                        config, parameter.getReleaseName(), SolrCollection.uniref);
-        SolrUtils.saveSolrInputDocumentRDD(unirefDocumentRDD, hdfsPath);
+        saveToHDFS(unirefDocumentRDD);
 
         log.info("Completed UniRef (100, 90 and 50) prepare Solr index");
+    }
+
+    void saveToHDFS(JavaRDD<UniRefDocument> unirefDocumentRDD) {
+        String hdfsPath =
+                getCollectionOutputReleaseDirPath(
+                        parameter.getApplicationConfig(), parameter.getReleaseName(), SolrCollection.uniref);
+        SolrUtils.saveSolrInputDocumentRDD(unirefDocumentRDD, hdfsPath);
+    }
+
+    JavaPairRDD<String, TaxonomyEntry> loadTaxonomyEntryJavaPairRDD() {
+        TaxonomyRDDReader taxReader = new TaxonomyRDDReader(parameter, true);
+        return taxReader.load();
     }
 
     private JavaRDD<UniRefDocument> joinTaxonomy(

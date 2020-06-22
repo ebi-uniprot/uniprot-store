@@ -46,8 +46,7 @@ public class UniParcDocumentsToHDFSWriter implements DocumentsToHDFSWriter {
         JavaRDD<UniParcEntry> uniparcRDD = uniparcReader.load();
 
         // JavaPairRDD<taxId,TaxonomyEntry>
-        TaxonomyRDDReader taxReader = new TaxonomyRDDReader(parameter, true);
-        JavaPairRDD<String, TaxonomyEntry> taxonomyEntryJavaPairRDD = taxReader.load();
+        JavaPairRDD<String, TaxonomyEntry> taxonomyEntryJavaPairRDD = loadTaxonomyEntryJavaPairRDD();
 
         // JavaPairRDD<taxId,uniparcId>
         JavaPairRDD<String, String> taxonomyJoin =
@@ -73,10 +72,19 @@ public class UniParcDocumentsToHDFSWriter implements DocumentsToHDFSWriter {
                         .mapValues(new UniParcTaxonomyJoin())
                         .values();
 
+        saveToHDFS(uniParcDocumentRDD);
+
+        log.info("Completed UniParc prepare Solr index");
+    }
+
+    void saveToHDFS(JavaRDD<UniParcDocument> uniParcDocumentRDD) {
         String hdfsPath =
                 getCollectionOutputReleaseDirPath(config, releaseName, SolrCollection.uniparc);
         SolrUtils.saveSolrInputDocumentRDD(uniParcDocumentRDD, hdfsPath);
+    }
 
-        log.info("Completed UniParc prepare Solr index");
+    JavaPairRDD<String, TaxonomyEntry> loadTaxonomyEntryJavaPairRDD() {
+        TaxonomyRDDReader taxReader = new TaxonomyRDDReader(parameter, true);
+        return taxReader.load();
     }
 }
