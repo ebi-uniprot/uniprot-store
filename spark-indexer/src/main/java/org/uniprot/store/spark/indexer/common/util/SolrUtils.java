@@ -62,28 +62,14 @@ public class SolrUtils {
 
         CloudSolrClient solrClient = SolrSupport.getCachedCloudClient(zkHost);
         commit(collectionName, solrClient);
-        //optimise(collectionName, solrClient);
-    }
-
-    private static void optimise(String collection, CloudSolrClient solrClient) {
-        log.info("Optimizing the data for collection " + collection);
-        try {
-            solrClient.optimize(collection, true, true);
-        } catch (Exception e) {
-            try {
-                solrClient.optimize(collection, true, true);
-            } catch (Exception ce) {
-                log.error("Unable to optimize the data for collection " + collection, ce);
-            }
-        }
     }
 
     private static void commit(String collection, CloudSolrClient solrClient) {
-        log.info("Commiting the data for collection " + collection);
+        log.info("Committing the data for collection " + collection);
         try {
             solrClient.commit(collection, true, true);
         } catch (Exception e) {
-            log.error("Error commiting the data for collection, tentative 1 " + collection, e);
+            log.error("Error committing the data for collection, tentative 1 " + collection, e);
             try {
                 solrClient.commit(collection, true, true);
             } catch (Exception ce) {

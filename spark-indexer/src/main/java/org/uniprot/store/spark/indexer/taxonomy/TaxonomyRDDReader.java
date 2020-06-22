@@ -23,24 +23,28 @@ public class TaxonomyRDDReader implements PairRDDReader<String, TaxonomyEntry> {
 
     private final JobParameter jobParameter;
     private final TaxonomyLineageReader taxonomyLineageReader;
+    private final boolean withLineage;
 
-    public TaxonomyRDDReader(JobParameter jobParameter) {
+    public TaxonomyRDDReader(JobParameter jobParameter, boolean withLineage) {
         this.jobParameter = jobParameter;
+        this.withLineage = withLineage;
         this.taxonomyLineageReader = new TaxonomyLineageReader(jobParameter, false);
     }
 
     /** @return return a JavaPairRDD{key=taxId, value=TaxonomyEntry} */
     public JavaPairRDD<String, TaxonomyEntry> load() {
-        return loadTaxonomyNodeRow().toJavaRDD().mapToPair(new TaxonomyRowMapper());
+        JavaPairRDD<String, TaxonomyEntry> taxonomy =
+                loadTaxonomyNodeRow().toJavaRDD().mapToPair(new TaxonomyRowMapper());
+        if (withLineage) {
+            JavaPairRDD<String, List<TaxonomyLineage>> taxonomyLineage = loadTaxonomyLineage();
+            return taxonomy.join(taxonomyLineage).mapValues(new TaxonomyJoinMapper());
+        } else {
+            return taxonomy;
+        }
     }
 
-    /** @return return a JavaPairRDD{key=taxId, value=TaxonomyEntry} including lineage data */
-    public JavaPairRDD<String, TaxonomyEntry> loadWithLineage() {
-        JavaPairRDD<String, TaxonomyEntry> taxonomyNode = load();
-
-        JavaPairRDD<String, List<TaxonomyLineage>> taxonomyLineage = taxonomyLineageReader.load();
-
-        return taxonomyNode.join(taxonomyLineage).mapValues(new TaxonomyJoinMapper());
+    protected JavaPairRDD<String, List<TaxonomyLineage>> loadTaxonomyLineage() {
+        return taxonomyLineageReader.load();
     }
 
     private Dataset<Row> loadTaxonomyNodeRow() {

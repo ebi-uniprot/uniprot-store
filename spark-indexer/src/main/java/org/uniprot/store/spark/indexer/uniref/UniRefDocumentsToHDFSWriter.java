@@ -39,8 +39,8 @@ public class UniRefDocumentsToHDFSWriter implements DocumentsToHDFSWriter {
         ResourceBundle config = parameter.getApplicationConfig();
 
         // JavaPairRDD<taxId,TaxonomyEntry>
-        TaxonomyRDDReader taxReader = new TaxonomyRDDReader(parameter);
-        JavaPairRDD<String, TaxonomyEntry> taxonomyEntryJavaPairRDD = taxReader.loadWithLineage();
+        TaxonomyRDDReader taxReader = new TaxonomyRDDReader(parameter, true);
+        JavaPairRDD<String, TaxonomyEntry> taxonomyEntryJavaPairRDD = taxReader.load();
 
         // JavaPairRDD<taxId,UniRefDocument>
         UniRefRDDTupleReader reader50 =
@@ -73,7 +73,7 @@ public class UniRefDocumentsToHDFSWriter implements DocumentsToHDFSWriter {
         log.info("Completed UniRef (100, 90 and 50) prepare Solr index");
     }
 
-    private static JavaRDD<UniRefDocument> joinTaxonomy(
+    private JavaRDD<UniRefDocument> joinTaxonomy(
             JavaPairRDD<String, UniRefDocument> uniRefRDD,
             JavaPairRDD<String, TaxonomyEntry> taxonomyRDD) {
         return uniRefRDD.leftOuterJoin(taxonomyRDD).mapValues(new UniRefTaxonomyJoin()).values();

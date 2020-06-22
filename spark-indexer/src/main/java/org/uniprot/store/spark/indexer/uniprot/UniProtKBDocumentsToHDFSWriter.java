@@ -137,9 +137,8 @@ public class UniProtKBDocumentsToHDFSWriter implements DocumentsToHDFSWriter {
             JavaPairRDD<String, UniProtDocument> uniProtDocumentRDD) {
 
         // JavaPairRDD<taxId,TaxonomyEntry>
-        TaxonomyRDDReader taxonomyReader = new TaxonomyRDDReader(parameter);
-        JavaPairRDD<String, TaxonomyEntry> taxonomyEntryJavaPairRDD =
-                taxonomyReader.loadWithLineage();
+        TaxonomyRDDReader taxonomyReader = new TaxonomyRDDReader(parameter, true);
+        JavaPairRDD<String, TaxonomyEntry> taxonomyEntryJavaPairRDD = taxonomyReader.load();
 
         // JavaPairRDD<taxId,accession> taxonomyMapRDD --> extracted from flat file OX and OH lines
         JavaPairRDD<String, String> taxonomyMapRDD =

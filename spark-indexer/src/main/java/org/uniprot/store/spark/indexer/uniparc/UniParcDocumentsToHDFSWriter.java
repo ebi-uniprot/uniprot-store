@@ -46,8 +46,8 @@ public class UniParcDocumentsToHDFSWriter implements DocumentsToHDFSWriter {
         JavaRDD<UniParcEntry> uniparcRDD = uniparcReader.load();
 
         // JavaPairRDD<taxId,TaxonomyEntry>
-        TaxonomyRDDReader taxReader = new TaxonomyRDDReader(parameter);
-        JavaPairRDD<String, TaxonomyEntry> taxonomyEntryJavaPairRDD = taxReader.loadWithLineage();
+        TaxonomyRDDReader taxReader = new TaxonomyRDDReader(parameter, true);
+        JavaPairRDD<String, TaxonomyEntry> taxonomyEntryJavaPairRDD = taxReader.load();
 
         // JavaPairRDD<taxId,uniparcId>
         JavaPairRDD<String, String> taxonomyJoin =

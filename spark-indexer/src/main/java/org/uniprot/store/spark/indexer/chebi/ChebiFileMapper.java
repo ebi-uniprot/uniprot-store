@@ -29,7 +29,6 @@ public class ChebiFileMapper implements PairFunction<String, String, ChebiEntry>
             ChebiEntry chebi = result.get(0);
             return new Tuple2<>(chebi.getId(), chebi);
         } else {
-            log.info("ERROR PARSING ChebiFileMapper WITH LINES: " + chebiLines);
             throw new SparkIndexException(
                     "ERROR PARSING ChebiFileMapper WITH LINES: " + chebiLines);
         }

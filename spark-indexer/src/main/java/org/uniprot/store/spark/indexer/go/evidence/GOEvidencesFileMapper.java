@@ -34,7 +34,6 @@ public class GOEvidencesFileMapper implements PairFunction<String, String, GOEvi
             Evidence evidence = EvidenceHelper.parseEvidenceLine(evidenceValue);
             return new Tuple2<>(accession, new GOEvidence(goId, evidence));
         } else {
-            log.info("unable to parse line: '" + line + "' in go evidence file");
             throw new IllegalArgumentException(
                     "unable to parse line: '" + line + "' in go evidence file");
         }
