@@ -18,7 +18,7 @@ import org.uniprot.store.datastore.voldemort.VoldemortClient;
  */
 @Slf4j
 class RequestExecutor {
-    private static final int BYTES_IN_ONE_MEGABYTE = 1024 * 1000;
+    private static final int BYTES_IN_ONE_MEGABYTE = 1000 * 1000;
     private final PerformanceChecker.Config config;
 
     RequestExecutor(PerformanceChecker.Config config) {
