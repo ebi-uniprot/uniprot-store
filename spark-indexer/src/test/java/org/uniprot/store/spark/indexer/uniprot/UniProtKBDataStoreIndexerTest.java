@@ -1,5 +1,11 @@
 package org.uniprot.store.spark.indexer.uniprot;
 
+import static org.junit.jupiter.api.Assertions.*;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.ResourceBundle;
+
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaSparkContext;
 import org.junit.jupiter.api.Test;
@@ -8,13 +14,8 @@ import org.uniprot.core.uniprotkb.impl.UniProtKBEntryBuilder;
 import org.uniprot.core.uniprotkb.xdb.UniProtKBCrossReference;
 import org.uniprot.store.spark.indexer.common.JobParameter;
 import org.uniprot.store.spark.indexer.common.util.SparkUtils;
+
 import scala.Tuple2;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.ResourceBundle;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * @author lgonzales
@@ -23,7 +24,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class UniProtKBDataStoreIndexerTest {
 
     @Test
-    void testIndexInDataStore(){
+    void testIndexInDataStore() {
         ResourceBundle application = SparkUtils.loadApplicationProperty();
         try (JavaSparkContext sparkContext = SparkUtils.loadSparkContext(application)) {
             JobParameter parameter =
@@ -37,12 +38,14 @@ class UniProtKBDataStoreIndexerTest {
             assertEquals(1, indexer.savedEntries.size());
             UniProtKBEntry entry = indexer.savedEntries.get(0);
 
-            //Join UniParc correctly
+            // Join UniParc correctly
             assertNotNull(entry.getExtraAttributes());
             assertEquals(3, entry.getExtraAttributes().size());
-            assertEquals("UPI00000E8551", entry.getExtraAttributes().get(UniProtKBEntryBuilder.UNIPARC_ID_ATTRIB));
+            assertEquals(
+                    "UPI00000E8551",
+                    entry.getExtraAttributes().get(UniProtKBEntryBuilder.UNIPARC_ID_ATTRIB));
 
-            //Join go Evidences correctly
+            // Join go Evidences correctly
             assertNotNull(entry.getUniProtCrossReferencesByType("GO"));
 
             List<UniProtKBCrossReference> goEvidences = entry.getUniProtCrossReferencesByType("GO");
@@ -68,7 +71,7 @@ class UniProtKBDataStoreIndexerTest {
         }
     }
 
-    private static class FakeUniProtKBDataStoreIndexer extends UniProtKBDataStoreIndexer{
+    private static class FakeUniProtKBDataStoreIndexer extends UniProtKBDataStoreIndexer {
 
         List<UniProtKBEntry> savedEntries = new ArrayList<>();
 
@@ -78,8 +81,7 @@ class UniProtKBDataStoreIndexerTest {
 
         @Override
         void saveInDataStore(JavaPairRDD<String, UniProtKBEntry> uniprotRDD) {
-           uniprotRDD.collect().stream().map(Tuple2::_2).forEach(savedEntries::add);
+            uniprotRDD.collect().stream().map(Tuple2::_2).forEach(savedEntries::add);
         }
     }
-
 }

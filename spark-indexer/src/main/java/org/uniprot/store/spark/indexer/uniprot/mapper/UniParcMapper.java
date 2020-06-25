@@ -9,6 +9,7 @@ import scala.Tuple2;
 
 /**
  * This class is Responsible to Map Optional<UniParcId> into UniProtKBEntry extraAttributes
+ *
  * @author lgonzales
  * @since 24/06/2020
  */

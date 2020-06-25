@@ -63,7 +63,8 @@ public class UniProtKBDataStoreIndexer implements DataStoreIndexer {
         log.info("Completed UniProtKb Data Store index");
     }
 
-    private JavaPairRDD<String, UniProtKBEntry> joinUniParcId(JavaPairRDD<String, UniProtKBEntry> uniprotRDD) {
+    private JavaPairRDD<String, UniProtKBEntry> joinUniParcId(
+            JavaPairRDD<String, UniProtKBEntry> uniprotRDD) {
         UniParcRDDTupleReader uniparcReader = new UniParcRDDTupleReader(parameter, false);
         // JavaPairRDD<accession, UniParcId>
         JavaPairRDD<String, String> uniparcJoinRdd =
@@ -72,7 +73,8 @@ public class UniProtKBDataStoreIndexer implements DataStoreIndexer {
         return uniprotRDD;
     }
 
-    private JavaPairRDD<String, UniProtKBEntry> joinGoEvidences(JavaPairRDD<String, UniProtKBEntry> uniprotRDD) {
+    private JavaPairRDD<String, UniProtKBEntry> joinGoEvidences(
+            JavaPairRDD<String, UniProtKBEntry> uniprotRDD) {
         GOEvidencesRDDReader goEvidencesReader = new GOEvidencesRDDReader(parameter);
         JavaPairRDD<String, Iterable<GOEvidence>> goEvidenceRDD = goEvidencesReader.load();
         uniprotRDD = uniprotRDD.leftOuterJoin(goEvidenceRDD).mapValues(new GOEvidenceMapper());
