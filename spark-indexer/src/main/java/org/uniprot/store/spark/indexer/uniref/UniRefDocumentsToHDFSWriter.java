@@ -69,7 +69,9 @@ public class UniRefDocumentsToHDFSWriter implements DocumentsToHDFSWriter {
     void saveToHDFS(JavaRDD<UniRefDocument> unirefDocumentRDD) {
         String hdfsPath =
                 getCollectionOutputReleaseDirPath(
-                        parameter.getApplicationConfig(), parameter.getReleaseName(), SolrCollection.uniref);
+                        parameter.getApplicationConfig(),
+                        parameter.getReleaseName(),
+                        SolrCollection.uniref);
         SolrUtils.saveSolrInputDocumentRDD(unirefDocumentRDD, hdfsPath);
     }
 

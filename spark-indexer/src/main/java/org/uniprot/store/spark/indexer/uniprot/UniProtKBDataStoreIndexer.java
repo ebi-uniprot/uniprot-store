@@ -14,6 +14,9 @@ import org.uniprot.store.spark.indexer.common.writer.DataStoreWriter;
 import org.uniprot.store.spark.indexer.go.evidence.GOEvidence;
 import org.uniprot.store.spark.indexer.go.evidence.GOEvidenceMapper;
 import org.uniprot.store.spark.indexer.go.evidence.GOEvidencesRDDReader;
+import org.uniprot.store.spark.indexer.uniparc.UniParcRDDTupleReader;
+import org.uniprot.store.spark.indexer.uniprot.mapper.UniParcJoinMapper;
+import org.uniprot.store.spark.indexer.uniprot.mapper.UniParcMapper;
 
 /**
  * @author lgonzales
@@ -30,14 +33,17 @@ public class UniProtKBDataStoreIndexer implements DataStoreIndexer {
 
     @Override
     public void indexInDataStore() {
-        ResourceBundle config = parameter.getApplicationConfig();
-        GOEvidencesRDDReader goEvidencesReader = new GOEvidencesRDDReader(parameter);
         UniProtKBRDDTupleReader uniprotkbReader = new UniProtKBRDDTupleReader(parameter, false);
-
         JavaPairRDD<String, UniProtKBEntry> uniprotRDD = uniprotkbReader.load();
-        JavaPairRDD<String, Iterable<GOEvidence>> goEvidenceRDD = goEvidencesReader.load();
-        uniprotRDD = uniprotRDD.leftOuterJoin(goEvidenceRDD).mapValues(new GOEvidenceMapper());
 
+        uniprotRDD = joinGoEvidences(uniprotRDD);
+        uniprotRDD = joinUniParcId(uniprotRDD);
+
+        saveInDataStore(uniprotRDD);
+    }
+
+    void saveInDataStore(JavaPairRDD<String, UniProtKBEntry> uniprotRDD) {
+        ResourceBundle config = parameter.getApplicationConfig();
         String numberOfConnections = config.getString("store.uniprot.numberOfConnections");
         String storeName = config.getString("store.uniprot.storeName");
         String connectionURL = config.getString("store.uniprot.host");
@@ -55,5 +61,21 @@ public class UniProtKBDataStoreIndexer implements DataStoreIndexer {
                             writer.indexInStore(uniProtEntryIterator);
                         });
         log.info("Completed UniProtKb Data Store index");
+    }
+
+    private JavaPairRDD<String, UniProtKBEntry> joinUniParcId(JavaPairRDD<String, UniProtKBEntry> uniprotRDD) {
+        UniParcRDDTupleReader uniparcReader = new UniParcRDDTupleReader(parameter, false);
+        // JavaPairRDD<accession, UniParcId>
+        JavaPairRDD<String, String> uniparcJoinRdd =
+                uniparcReader.load().flatMapToPair(new UniParcJoinMapper());
+        uniprotRDD = uniprotRDD.leftOuterJoin(uniparcJoinRdd).mapValues(new UniParcMapper());
+        return uniprotRDD;
+    }
+
+    private JavaPairRDD<String, UniProtKBEntry> joinGoEvidences(JavaPairRDD<String, UniProtKBEntry> uniprotRDD) {
+        GOEvidencesRDDReader goEvidencesReader = new GOEvidencesRDDReader(parameter);
+        JavaPairRDD<String, Iterable<GOEvidence>> goEvidenceRDD = goEvidencesReader.load();
+        uniprotRDD = uniprotRDD.leftOuterJoin(goEvidenceRDD).mapValues(new GOEvidenceMapper());
+        return uniprotRDD;
     }
 }
