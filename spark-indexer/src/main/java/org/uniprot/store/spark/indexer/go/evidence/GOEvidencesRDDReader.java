@@ -1,14 +1,16 @@
 package org.uniprot.store.spark.indexer.go.evidence;
 
-import static org.uniprot.store.spark.indexer.util.SparkUtils.getInputReleaseDirPath;
+import static org.uniprot.store.spark.indexer.common.util.SparkUtils.getInputReleaseDirPath;
 
 import java.util.ResourceBundle;
 
 import lombok.extern.slf4j.Slf4j;
 
-import org.apache.spark.SparkConf;
 import org.apache.spark.api.java.JavaPairRDD;
+import org.apache.spark.api.java.JavaSparkContext;
 import org.apache.spark.sql.SparkSession;
+import org.uniprot.store.spark.indexer.common.JobParameter;
+import org.uniprot.store.spark.indexer.common.reader.PairRDDReader;
 
 /**
  * This class load extended GO Evidences into an JavaPairRDD of {key=uniprot accession,
@@ -18,20 +20,26 @@ import org.apache.spark.sql.SparkSession;
  * @since 2019-10-13
  */
 @Slf4j
-public class GOEvidencesRDDReader {
+public class GOEvidencesRDDReader implements PairRDDReader<String, Iterable<GOEvidence>> {
+
+    private final JobParameter jobParameter;
+
+    public GOEvidencesRDDReader(JobParameter jobParameter) {
+        this.jobParameter = jobParameter;
+    }
 
     /** @return JavaPairRDD of {key=uniprot accession, value=Iterable of GoEvidence} */
-    public static JavaPairRDD<String, Iterable<GOEvidence>> load(
-            SparkConf sparkConf, ResourceBundle applicationConfig, String releaseName) {
-        SparkSession spark = SparkSession.builder().config(sparkConf).getOrCreate();
-        String releaseInputDir = getInputReleaseDirPath(applicationConfig, releaseName);
-        String goEvidencePath =
-                releaseInputDir + applicationConfig.getString("go.evidence.file.path");
-        return (JavaPairRDD<String, Iterable<GOEvidence>>)
-                spark.read()
-                        .textFile(goEvidencePath)
-                        .toJavaRDD()
-                        .mapToPair(new GOEvidencesFileMapper())
-                        .groupByKey();
+    public JavaPairRDD<String, Iterable<GOEvidence>> load() {
+        ResourceBundle config = jobParameter.getApplicationConfig();
+        JavaSparkContext jsc = jobParameter.getSparkContext();
+
+        SparkSession spark = SparkSession.builder().sparkContext(jsc.sc()).getOrCreate();
+        String releaseInputDir = getInputReleaseDirPath(config, jobParameter.getReleaseName());
+        String goEvidencePath = releaseInputDir + config.getString("go.evidence.file.path");
+        return spark.read()
+                .textFile(goEvidencePath)
+                .toJavaRDD()
+                .mapToPair(new GOEvidencesFileMapper())
+                .groupByKey();
     }
 }

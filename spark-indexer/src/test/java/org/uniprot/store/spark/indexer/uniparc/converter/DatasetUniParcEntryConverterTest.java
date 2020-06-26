@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Test;
 import org.uniprot.core.Location;
 import org.uniprot.core.Property;
 import org.uniprot.core.uniparc.*;
-import org.uniprot.store.spark.indexer.util.RowUtils;
+import org.uniprot.store.spark.indexer.common.util.RowUtils;
 
 import scala.collection.JavaConverters;
 import scala.collection.Seq;

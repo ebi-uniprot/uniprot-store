@@ -35,10 +35,7 @@ public class FlatFileToKeyword implements PairFlatMapFunction<String, String, St
             final UniprotKBLineParser<KwLineObject> kwParser =
                     new DefaultUniprotKBLineParserFactory().createKwLineParser();
             KwLineObject kwLineObject = kwParser.parse(keywordLines + "\n");
-            kwLineObject.keywords.forEach(
-                    kw -> {
-                        result.add(new Tuple2<>(kw.toLowerCase(), kw));
-                    });
+            kwLineObject.keywords.forEach(kw -> result.add(new Tuple2<>(kw.toLowerCase(), kw)));
         }
 
         return result.iterator();

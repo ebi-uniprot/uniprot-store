@@ -58,7 +58,7 @@ public class TaxonomyJoinMapper implements PairFlatMapFunction<String, String, S
                         .filter(line -> line.startsWith("OX  "))
                         .collect(Collectors.joining("\n"));
         String taxId = String.valueOf(oxParser.parse(oxLine + "\n").taxonomy_id);
-        organismTuple.add(new Tuple2<String, String>(taxId, accession));
+        organismTuple.add(new Tuple2<>(taxId, accession));
 
         String ohLine =
                 taxonomyLines.stream()
@@ -71,12 +71,12 @@ public class TaxonomyJoinMapper implements PairFlatMapFunction<String, String, S
             ohLineObject
                     .getHosts()
                     .forEach(
-                            ohValue -> {
-                                organismTuple.add(
-                                        new Tuple2<String, String>(
-                                                String.valueOf(ohValue.getTax_id()), accession));
-                            });
+                            ohValue ->
+                                    organismTuple.add(
+                                            new Tuple2<>(
+                                                    String.valueOf(ohValue.getTax_id()),
+                                                    accession)));
         }
-        return (Iterator<Tuple2<String, String>>) organismTuple.iterator();
+        return organismTuple.iterator();
     }
 }

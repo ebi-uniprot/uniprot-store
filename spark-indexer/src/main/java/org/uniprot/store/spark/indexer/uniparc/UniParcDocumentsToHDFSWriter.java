@@ -1,24 +1,24 @@
 package org.uniprot.store.spark.indexer.uniparc;
 
-import static org.uniprot.store.spark.indexer.util.SparkUtils.getOutputReleaseDirPath;
+import static org.uniprot.store.spark.indexer.common.util.SparkUtils.getCollectionOutputReleaseDirPath;
 
 import java.util.ResourceBundle;
 
 import lombok.extern.slf4j.Slf4j;
 
-import org.apache.spark.SparkConf;
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
-import org.apache.spark.api.java.JavaSparkContext;
 import org.uniprot.core.taxonomy.TaxonomyEntry;
 import org.uniprot.core.uniparc.UniParcEntry;
+import org.uniprot.store.search.SolrCollection;
 import org.uniprot.store.search.document.uniparc.UniParcDocument;
+import org.uniprot.store.spark.indexer.common.JobParameter;
+import org.uniprot.store.spark.indexer.common.util.SolrUtils;
 import org.uniprot.store.spark.indexer.common.writer.DocumentsToHDFSWriter;
 import org.uniprot.store.spark.indexer.taxonomy.TaxonomyRDDReader;
 import org.uniprot.store.spark.indexer.uniparc.mapper.UniParcEntryToDocument;
 import org.uniprot.store.spark.indexer.uniparc.mapper.UniParcTaxonomyJoin;
 import org.uniprot.store.spark.indexer.uniparc.mapper.UniParcTaxonomyMapper;
-import org.uniprot.store.spark.indexer.util.SolrUtils;
 
 /**
  * This class is responsible to load all the data for UniParcDocument and save it into HDFS
@@ -29,27 +29,28 @@ import org.uniprot.store.spark.indexer.util.SolrUtils;
 @Slf4j
 public class UniParcDocumentsToHDFSWriter implements DocumentsToHDFSWriter {
 
-    private final ResourceBundle applicationConfig;
+    private final JobParameter parameter;
+    private final ResourceBundle config;
+    private final String releaseName;
 
-    public UniParcDocumentsToHDFSWriter(ResourceBundle applicationConfig) {
-        this.applicationConfig = applicationConfig;
+    public UniParcDocumentsToHDFSWriter(JobParameter parameter) {
+        this.parameter = parameter;
+        this.config = parameter.getApplicationConfig();
+        this.releaseName = parameter.getReleaseName();
     }
 
+    /** load all the data for UniParcDocument and write it into HDFS (Hadoop File System) */
     @Override
-    public void writeIndexDocumentsToHDFS(JavaSparkContext sparkContext, String releaseName) {
-        SparkConf sparkConf = sparkContext.sc().conf();
-
-        JavaRDD<UniParcEntry> uniparcRDD =
-                (JavaRDD<UniParcEntry>)
-                        UniParcRDDTupleReader.load(sparkConf, applicationConfig, releaseName);
+    public void writeIndexDocumentsToHDFS() {
+        UniParcRDDTupleReader uniparcReader = new UniParcRDDTupleReader(parameter, true);
+        JavaRDD<UniParcEntry> uniparcRDD = uniparcReader.load();
 
         // JavaPairRDD<taxId,TaxonomyEntry>
-        JavaPairRDD<String, TaxonomyEntry> taxonomyEntryJavaPairRDD =
-                TaxonomyRDDReader.loadWithLineage(sparkContext, applicationConfig);
+        JavaPairRDD<String, TaxonomyEntry> taxonomyEntryJavaPairRDD = loadTaxonomyEntryJavaPairRDD();
 
         // JavaPairRDD<taxId,uniparcId>
         JavaPairRDD<String, String> taxonomyJoin =
-                (JavaPairRDD<String, String>) uniparcRDD.flatMapToPair(new UniParcTaxonomyMapper());
+                uniparcRDD.flatMapToPair(new UniParcTaxonomyMapper());
 
         // JavaPairRDD<uniparcId,Iterable<Taxonomy with lineage>>
         JavaPairRDD<String, Iterable<TaxonomyEntry>> uniparcJoin =
@@ -61,8 +62,7 @@ public class UniParcDocumentsToHDFSWriter implements DocumentsToHDFSWriter {
 
         // JavaPairRDD<uniparcId,UniParcDocument>
         JavaPairRDD<String, UniParcDocument> uniparcDocumentRDD =
-                (JavaPairRDD<String, UniParcDocument>)
-                        uniparcRDD.mapToPair(new UniParcEntryToDocument());
+                uniparcRDD.mapToPair(new UniParcEntryToDocument());
 
         JavaRDD<UniParcDocument> uniParcDocumentRDD =
                 uniparcDocumentRDD
@@ -72,11 +72,19 @@ public class UniParcDocumentsToHDFSWriter implements DocumentsToHDFSWriter {
                         .mapValues(new UniParcTaxonomyJoin())
                         .values();
 
-        String releaseOutputDir = getOutputReleaseDirPath(applicationConfig, releaseName);
-        String hdfsPath =
-                releaseOutputDir + applicationConfig.getString("uniparc.solr.documents.path");
-        SolrUtils.saveSolrInputDocumentRDD(uniParcDocumentRDD, hdfsPath);
+        saveToHDFS(uniParcDocumentRDD);
 
         log.info("Completed UniParc prepare Solr index");
+    }
+
+    void saveToHDFS(JavaRDD<UniParcDocument> uniParcDocumentRDD) {
+        String hdfsPath =
+                getCollectionOutputReleaseDirPath(config, releaseName, SolrCollection.uniparc);
+        SolrUtils.saveSolrInputDocumentRDD(uniParcDocumentRDD, hdfsPath);
+    }
+
+    JavaPairRDD<String, TaxonomyEntry> loadTaxonomyEntryJavaPairRDD() {
+        TaxonomyRDDReader taxReader = new TaxonomyRDDReader(parameter, true);
+        return taxReader.load();
     }
 }

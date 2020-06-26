@@ -1,6 +1,6 @@
 package org.uniprot.store.spark.indexer.go.relations;
 
-import static org.uniprot.store.spark.indexer.util.SparkUtils.getInputReleaseMainThreadDirPath;
+import static org.uniprot.store.spark.indexer.common.util.SparkUtils.getInputReleaseMainThreadDirPath;
 
 import java.util.*;
 
@@ -10,6 +10,8 @@ import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaSparkContext;
 import org.uniprot.core.cv.go.GeneOntologyEntry;
 import org.uniprot.core.cv.go.impl.GeneOntologyEntryBuilder;
+import org.uniprot.store.spark.indexer.common.JobParameter;
+import org.uniprot.store.spark.indexer.common.reader.PairRDDReader;
 
 import scala.Tuple2;
 
@@ -21,19 +23,27 @@ import scala.Tuple2;
  * @since 2019-11-09
  */
 @Slf4j
-public class GORelationRDDReader {
+public class GORelationRDDReader implements PairRDDReader<String, GeneOntologyEntry> {
+
+    private final JobParameter jobParameter;
+
+    public GORelationRDDReader(JobParameter jobParameter) {
+        this.jobParameter = jobParameter;
+    }
 
     /**
      * load GO Relations to a JavaPairRDD
      *
      * @return JavaPairRDD{key=goTermId, value={@link GeneOntologyEntry with Ancestors(Relations)}}
      */
-    public static JavaPairRDD<String, GeneOntologyEntry> load(
-            ResourceBundle applicationConfig, JavaSparkContext sparkContext, String releaseName) {
+    @Override
+    public JavaPairRDD<String, GeneOntologyEntry> load() {
+        ResourceBundle config = jobParameter.getApplicationConfig();
+        JavaSparkContext sparkContext = jobParameter.getSparkContext();
 
-        String releaseInputDir = getInputReleaseMainThreadDirPath(applicationConfig, releaseName);
-        String goRelationsFolder =
-                releaseInputDir + applicationConfig.getString("go.relations.dir.path");
+        String releaseInputDir =
+                getInputReleaseMainThreadDirPath(config, jobParameter.getReleaseName());
+        String goRelationsFolder = releaseInputDir + config.getString("go.relations.dir.path");
         GOTermFileReader goTermFileReader =
                 new GOTermFileReader(goRelationsFolder, sparkContext.hadoopConfiguration());
         List<GeneOntologyEntry> goTerms = goTermFileReader.read();
@@ -60,10 +70,10 @@ public class GORelationRDDReader {
                                             goTerm.getId(), goTermWithRelations));
                         });
         log.info("Loaded  GO relations" + pairs.size());
-        return (JavaPairRDD<String, GeneOntologyEntry>) sparkContext.parallelizePairs(pairs);
+        return sparkContext.parallelizePairs(pairs);
     }
 
-    static Set<GeneOntologyEntry> getAncestors(
+    Set<GeneOntologyEntry> getAncestors(
             GeneOntologyEntry term,
             List<GeneOntologyEntry> goTerms,
             Map<String, Set<String>> relations) {
@@ -84,7 +94,7 @@ public class GORelationRDDReader {
         return visited;
     }
 
-    static GeneOntologyEntry getGoTermById(String goTermId, List<GeneOntologyEntry> goTerms) {
+    GeneOntologyEntry getGoTermById(String goTermId, List<GeneOntologyEntry> goTerms) {
         GeneOntologyEntry goTerm = new GeneOntologyEntryBuilder().id(goTermId).build();
         if (goTerms.contains(goTerm)) {
             return goTerms.get(goTerms.indexOf(goTerm));

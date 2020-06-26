@@ -53,10 +53,7 @@ class UniProtEntryCrossReferenceConverter {
                                                         !property.getValue().equalsIgnoreCase("-"))
                                         .map(Property::getValue)
                                         .findFirst();
-                        proteinId.ifPresent(
-                                s -> {
-                                    convertXRefId(document, dbname, s);
-                                });
+                        proteinId.ifPresent(s -> convertXRefId(document, dbname, s));
                     }
                     break;
                 case "refseq":
@@ -71,10 +68,7 @@ class UniProtEntryCrossReferenceConverter {
                                                         !property.getValue().equalsIgnoreCase("-"))
                                         .map(Property::getValue)
                                         .collect(Collectors.toList());
-                        properties.forEach(
-                                s -> {
-                                    convertXRefId(document, dbname, s);
-                                });
+                        properties.forEach(s -> convertXRefId(document, dbname, s));
                     }
                     break;
                 case "proteomes":

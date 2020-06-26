@@ -5,71 +5,55 @@ import java.util.ResourceBundle;
 import lombok.extern.slf4j.Slf4j;
 
 import org.apache.spark.api.java.JavaPairRDD;
-import org.apache.spark.api.java.JavaSparkContext;
 import org.uniprot.core.uniprotkb.UniProtKBEntry;
 import org.uniprot.store.datastore.voldemort.VoldemortClient;
 import org.uniprot.store.datastore.voldemort.uniprot.VoldemortRemoteUniProtKBEntryStore;
-
-import scala.Tuple2;
+import org.uniprot.store.spark.indexer.common.JobParameter;
+import org.uniprot.store.spark.indexer.common.store.DataStoreIndexer;
+import org.uniprot.store.spark.indexer.common.writer.DataStoreWriter;
+import org.uniprot.store.spark.indexer.go.evidence.GOEvidence;
+import org.uniprot.store.spark.indexer.go.evidence.GOEvidenceMapper;
+import org.uniprot.store.spark.indexer.go.evidence.GOEvidencesRDDReader;
 
 /**
  * @author lgonzales
  * @since 2020-03-06
  */
 @Slf4j
-public class UniProtKBDataStoreIndexer implements Runnable {
+public class UniProtKBDataStoreIndexer implements DataStoreIndexer {
 
-    private JavaSparkContext sparkContext;
-    private ResourceBundle applicationConfig;
-    private String releaseName;
+    private final JobParameter parameter;
 
-    public UniProtKBDataStoreIndexer(
-            JavaSparkContext sparkContext, ResourceBundle applicationConfig, String releaseName) {
-        this.sparkContext = sparkContext;
-        this.applicationConfig = applicationConfig;
-        this.releaseName = releaseName;
+    public UniProtKBDataStoreIndexer(JobParameter parameter) {
+        this.parameter = parameter;
     }
 
     @Override
-    public void run() {
-        JavaPairRDD<String, UniProtKBEntry> uniprotRDD =
-                (JavaPairRDD<String, UniProtKBEntry>)
-                        UniProtKBRDDTupleReader.load(sparkContext, applicationConfig, releaseName);
+    public void indexInDataStore() {
+        ResourceBundle config = parameter.getApplicationConfig();
+        GOEvidencesRDDReader goEvidencesReader = new GOEvidencesRDDReader(parameter);
+        UniProtKBRDDTupleReader uniprotkbReader = new UniProtKBRDDTupleReader(parameter, false);
 
-        String numberOfConnections =
-                applicationConfig.getString("store.uniprot.numberOfConnections");
-        String storeName = applicationConfig.getString("store.uniprot.storeName");
-        String connectionURL = applicationConfig.getString("store.uniprot.host");
+        JavaPairRDD<String, UniProtKBEntry> uniprotRDD = uniprotkbReader.load();
+        JavaPairRDD<String, Iterable<GOEvidence>> goEvidenceRDD = goEvidencesReader.load();
+        uniprotRDD = uniprotRDD.leftOuterJoin(goEvidenceRDD).mapValues(new GOEvidenceMapper());
 
-        uniprotRDD.foreachPartition(
-                uniProtEntryIterator -> {
-                    VoldemortClient<UniProtKBEntry> client =
-                            new VoldemortRemoteUniProtKBEntryStore(
-                                    Integer.valueOf(numberOfConnections), storeName, connectionURL);
-                    int numNewConnection = 0;
-                    while (uniProtEntryIterator.hasNext()) {
-                        Tuple2<String, UniProtKBEntry> tuple2 = uniProtEntryIterator.next();
-                        try {
-                            client.saveEntry(tuple2._2);
-                        } catch (Exception e) {
-                            log.info("trying to reset voldemort connection...." + numNewConnection);
-                            Thread.sleep(4000);
-                            numNewConnection++;
-                            if (numNewConnection < 3) {
-                                client =
-                                        new VoldemortRemoteUniProtKBEntryStore(
-                                                Integer.valueOf(numberOfConnections),
-                                                storeName,
-                                                connectionURL);
-                                client.saveEntry(tuple2._2);
-                            } else {
-                                throw new Exception(
-                                        "Already tried to reset Voldemort connection twice and did not work",
-                                        e);
-                            }
-                        }
-                    }
-                });
+        String numberOfConnections = config.getString("store.uniprot.numberOfConnections");
+        String storeName = config.getString("store.uniprot.storeName");
+        String connectionURL = config.getString("store.uniprot.host");
+
+        uniprotRDD
+                .values()
+                .foreachPartition(
+                        uniProtEntryIterator -> {
+                            VoldemortClient<UniProtKBEntry> client =
+                                    new VoldemortRemoteUniProtKBEntryStore(
+                                            Integer.parseInt(numberOfConnections),
+                                            storeName,
+                                            connectionURL);
+                            DataStoreWriter<UniProtKBEntry> writer = new DataStoreWriter<>(client);
+                            writer.indexInStore(uniProtEntryIterator);
+                        });
         log.info("Completed UniProtKb Data Store index");
     }
 }

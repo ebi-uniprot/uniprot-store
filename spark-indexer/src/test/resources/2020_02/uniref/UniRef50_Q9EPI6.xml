@@ -1,0 +1,858 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<UniRef xmlns="http://uniprot.org/uniref" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://uniprot.org/uniref http://www.uniprot.org/docs/uniref.xsd" version="2020_02" releaseDate="2020-04-22">
+<entry id="UniRef50_Q9EPI6" updated="2020-04-22">
+<name>Cluster: NMDA receptor synaptonuclear signaling and neuronal migration factor</name>
+<property type="member count" value="78"/>
+<property type="common taxon" value="Boreoeutheria"/>
+<property type="common taxon ID" value="1437010"/>
+<property type="GO Molecular Function" value="GO:0048306"/>
+<property type="GO Biological Process" value="GO:0048168"/>
+<property type="GO Cellular Component" value="GO:0005737"/>
+<representativeMember>
+<dbReference type="UniProtKB ID" id="NSMF_RAT">
+<property type="UniProtKB accession" value="Q9EPI6"/>
+<property type="UniParc ID" value="UPI00000E8551"/>
+<property type="UniRef100 ID" value="UniRef100_Q9EPI6"/>
+<property type="UniRef90 ID" value="UniRef90_Q9EPI6"/>
+<property type="protein name" value="NMDA receptor synaptonuclear signaling and neuronal migration factor"/>
+<property type="source organism" value="Rattus norvegicus (Rat)"/>
+<property type="NCBI taxonomy" value="10116"/>
+<property type="length" value="532"/>
+</dbReference>
+<sequence length="532" checksum="01AEF4B6A09EB753">MGAAASRRRALRSEAMSSVAAKVRAARAFGEYLSQSHPENRNGADHLLADAYSGHEGSPEMQPAPHNKRRLSLVSNGRYEGSISDEAVSGKTATEGPQPRVYTISREPALLPGSEAEAIELAVVKGRRQRERHPHHHSQPLRASPGSSREDISRPCQSWAGSRQGSKECPGCAKLVPGPSPRAFGLEQPPLPEASGRHKKLERMYSVDGVSDDVPIRTWFPKENPFSFQTATTTMQAISVFRGYAERKRRKRENDSASVIQRNFRKHLRMVGSRRVKAQTFAERRERSFSRSWSDPTPMKADTSHDSRDSSDLQSSHCTLDEACEDLDWDTEKGLEATACDTEGFLPPKVMLISSKVPKAEYIPTIIRRDDPSIIPILYDHEHATFEDILEEIEKKLNIYHKGAKIWKMLIFCQGGPGHLYLLKNKVATFAKVEKEEDMIHFWKRLSRLMSKVNPEPNVIHIMGCYILGNPNGEKLFQNLRTLMTPYKVTFESPLELSAQGKQMIETYFDFRLYRLWKSRQHSKLLDFDDVL</sequence>
+</representativeMember>
+<member>
+<dbReference type="UniProtKB ID" id="NSMF_MOUSE">
+<property type="UniProtKB accession" value="Q99NF2"/>
+<property type="UniParc ID" value="UPI0000028091"/>
+<property type="UniRef100 ID" value="UniRef100_Q99NF2"/>
+<property type="UniRef90 ID" value="UniRef90_Q9EPI6"/>
+<property type="protein name" value="NMDA receptor synaptonuclear signaling and neuronal migration factor"/>
+<property type="source organism" value="Mus musculus (Mouse)"/>
+<property type="NCBI taxonomy" value="10090"/>
+<property type="length" value="532"/>
+</dbReference>
+</member>
+<member>
+<dbReference type="UniProtKB ID" id="A0A2K6KET6_RHIBE">
+<property type="UniProtKB accession" value="A0A2K6KET6"/>
+<property type="UniParc ID" value="UPI0005330618"/>
+<property type="UniRef100 ID" value="UniRef100_A0A2K6KET6"/>
+<property type="UniRef90 ID" value="UniRef90_Q9EPI6"/>
+<property type="protein name" value="NMDA receptor synaptonuclear signaling and neuronal migration factor"/>
+<property type="source organism" value="Rhinopithecus bieti (Black snub-nosed monkey) (Pygathrix bieti)"/>
+<property type="NCBI taxonomy" value="61621"/>
+<property type="length" value="561"/>
+</dbReference>
+</member>
+<member>
+<dbReference type="UniProtKB ID" id="A0A5F7ZXE6_MACMU">
+<property type="UniProtKB accession" value="A0A5F7ZXE6"/>
+<property type="UniParc ID" value="UPI0003AB53D0"/>
+<property type="UniRef100 ID" value="UniRef100_A0A5F7ZXE6"/>
+<property type="UniRef90 ID" value="UniRef90_Q9EPI6"/>
+<property type="protein name" value="NMDA receptor synaptonuclear signaling and neuronal migration factor"/>
+<property type="source organism" value="Macaca mulatta (Rhesus macaque)"/>
+<property type="NCBI taxonomy" value="9544"/>
+<property type="length" value="561"/>
+</dbReference>
+</member>
+<member>
+<dbReference type="UniProtKB ID" id="H9FAM6_MACMU">
+<property type="UniProtKB accession" value="H9FAM6"/>
+<property type="UniParc ID" value="UPI0002576DD6"/>
+<property type="UniRef100 ID" value="UniRef100_A0A5F7ZXE6"/>
+<property type="UniRef90 ID" value="UniRef90_Q9EPI6"/>
+<property type="protein name" value="Nasal embryonic luteinizing hormone-releasing hormone factor isoform b (Fragment)"/>
+<property type="source organism" value="Macaca mulatta (Rhesus macaque)"/>
+<property type="NCBI taxonomy" value="9544"/>
+<property type="length" value="303"/>
+</dbReference>
+</member>
+<member>
+<dbReference type="UniProtKB ID" id="A0A2K6BBS5_MACNE">
+<property type="UniProtKB accession" value="A0A2K6BBS5"/>
+<property type="UniParc ID" value="UPI0005F4B78B"/>
+<property type="UniRef100 ID" value="UniRef100_A0A2K6BBS5"/>
+<property type="UniRef90 ID" value="UniRef90_Q9EPI6"/>
+<property type="protein name" value="NMDA receptor synaptonuclear signaling and neuronal migration factor"/>
+<property type="source organism" value="Macaca nemestrina (Pig-tailed macaque)"/>
+<property type="NCBI taxonomy" value="9545"/>
+<property type="length" value="538"/>
+</dbReference>
+</member>
+<member>
+<dbReference type="UniProtKB ID" id="A0A2Y9J8R2_ENHLU">
+<property type="UniProtKB accession" value="A0A2Y9J8R2"/>
+<property type="UniParc ID" value="UPI000BB4DD93"/>
+<property type="UniRef100 ID" value="UniRef100_A0A2Y9J8R2"/>
+<property type="UniRef90 ID" value="UniRef90_Q9EPI6"/>
+<property type="protein name" value="NMDA receptor synaptonuclear signaling and neuronal migration factor isoform X1"/>
+<property type="source organism" value="Enhydra lutris kenyoni"/>
+<property type="NCBI taxonomy" value="391180"/>
+<property type="length" value="533"/>
+</dbReference>
+</member>
+<member>
+<dbReference type="UniProtKB ID" id="D4AAJ2_RAT">
+<property type="UniProtKB accession" value="D4AAJ2"/>
+<property type="UniParc ID" value="UPI0000497A37"/>
+<property type="UniRef100 ID" value="UniRef100_D4AAJ2"/>
+<property type="UniRef90 ID" value="UniRef90_Q9EPI6"/>
+<property type="protein name" value="NMDA receptor synaptonuclear-signaling and neuronal migration factor"/>
+<property type="source organism" value="Rattus norvegicus (Rat)"/>
+<property type="NCBI taxonomy" value="10116"/>
+<property type="length" value="532"/>
+</dbReference>
+</member>
+<member>
+<dbReference type="UniProtKB ID" id="A0A1U7QYJ9_MESAU">
+<property type="UniProtKB accession" value="A0A1U7QYJ9"/>
+<property type="UniParc ID" value="UPI000359EEDC"/>
+<property type="UniRef100 ID" value="UniRef100_A0A1U7QYJ9"/>
+<property type="UniRef90 ID" value="UniRef90_Q9EPI6"/>
+<property type="protein name" value="NMDA receptor synaptonuclear signaling and neuronal migration factor isoform X1"/>
+<property type="source organism" value="Mesocricetus auratus (Golden hamster)"/>
+<property type="NCBI taxonomy" value="10036"/>
+<property type="length" value="532"/>
+</dbReference>
+</member>
+<member>
+<dbReference type="UniProtKB ID" id="A0A3Q7RED3_VULVU">
+<property type="UniProtKB accession" value="A0A3Q7RED3"/>
+<property type="UniParc ID" value="UPI000DF6DD34"/>
+<property type="UniRef100 ID" value="UniRef100_A0A3Q7RED3"/>
+<property type="UniRef90 ID" value="UniRef90_Q9EPI6"/>
+<property type="protein name" value="NMDA receptor synaptonuclear signaling and neuronal migration factor isoform X6"/>
+<property type="source organism" value="Vulpes vulpes (Red fox)"/>
+<property type="NCBI taxonomy" value="9627"/>
+<property type="length" value="532"/>
+</dbReference>
+</member>
+<member>
+<dbReference type="UniProtKB ID" id="A0A2Y9SZ40_PHYMC">
+<property type="UniProtKB accession" value="A0A2Y9SZ40"/>
+<property type="UniParc ID" value="UPI000CEAED90"/>
+<property type="UniRef100 ID" value="UniRef100_A0A2Y9SZ40"/>
+<property type="UniRef90 ID" value="UniRef90_Q9EPI6"/>
+<property type="protein name" value="NMDA receptor synaptonuclear signaling and neuronal migration factor isoform X1"/>
+<property type="source organism" value="Physeter macrocephalus (Sperm whale) (Physeter catodon)"/>
+<property type="NCBI taxonomy" value="9755"/>
+<property type="length" value="531"/>
+</dbReference>
+</member>
+<member>
+<dbReference type="UniProtKB ID" id="F7B8J7_MACMU">
+<property type="UniProtKB accession" value="F7B8J7"/>
+<property type="UniParc ID" value="UPI0003ABCC0C"/>
+<property type="UniRef100 ID" value="UniRef100_F7B8J7"/>
+<property type="UniRef90 ID" value="UniRef90_Q9EPI6"/>
+<property type="protein name" value="NMDA receptor synaptonuclear signaling and neuronal migration factor"/>
+<property type="source organism" value="Macaca mulatta (Rhesus macaque)"/>
+<property type="NCBI taxonomy" value="9544"/>
+<property type="length" value="530"/>
+</dbReference>
+</member>
+<member>
+<dbReference type="UniProtKB ID" id="A0A2K6NE23_RHIRO">
+<property type="UniProtKB accession" value="A0A2K6NE23"/>
+<property type="UniParc ID" value="UPI0003ABCC0C"/>
+<property type="UniRef100 ID" value="UniRef100_F7B8J7"/>
+<property type="UniRef90 ID" value="UniRef90_Q9EPI6"/>
+<property type="protein name" value="NMDA receptor synaptonuclear signaling and neuronal migration factor"/>
+<property type="source organism" value="Rhinopithecus roxellana (Golden snub-nosed monkey) (Pygathrix roxellana)"/>
+<property type="NCBI taxonomy" value="61622"/>
+<property type="length" value="530"/>
+</dbReference>
+</member>
+<member>
+<dbReference type="UniProtKB ID" id="A0A2K5LPC2_CERAT">
+<property type="UniProtKB accession" value="A0A2K5LPC2"/>
+<property type="UniParc ID" value="UPI0003ABCC0C"/>
+<property type="UniRef100 ID" value="UniRef100_F7B8J7"/>
+<property type="UniRef90 ID" value="UniRef90_Q9EPI6"/>
+<property type="protein name" value="NMDA receptor synaptonuclear signaling and neuronal migration factor"/>
+<property type="source organism" value="Cercocebus atys (Sooty mangabey) (Cercocebus torquatus atys)"/>
+<property type="NCBI taxonomy" value="9531"/>
+<property type="length" value="530"/>
+</dbReference>
+</member>
+<member>
+<dbReference type="UniProtKB ID" id="A0A2I3NI98_PAPAN">
+<property type="UniProtKB accession" value="A0A2I3NI98"/>
+<property type="UniParc ID" value="UPI0003ABCC0C"/>
+<property type="UniRef100 ID" value="UniRef100_F7B8J7"/>
+<property type="UniRef90 ID" value="UniRef90_Q9EPI6"/>
+<property type="protein name" value="NMDA receptor synaptonuclear signaling and neuronal migration factor"/>
+<property type="source organism" value="Papio anubis (Olive baboon)"/>
+<property type="NCBI taxonomy" value="9555"/>
+<property type="length" value="530"/>
+</dbReference>
+</member>
+<member>
+<dbReference type="UniProtKB ID" id="A0A0D9RW40_CHLSB">
+<property type="UniProtKB accession" value="A0A0D9RW40"/>
+<property type="UniParc ID" value="UPI0003ABCC0C"/>
+<property type="UniRef100 ID" value="UniRef100_F7B8J7"/>
+<property type="UniRef90 ID" value="UniRef90_Q9EPI6"/>
+<property type="protein name" value="NMDA receptor synaptonuclear signaling and neuronal migration factor"/>
+<property type="source organism" value="Chlorocebus sabaeus (Green monkey) (Cercopithecus sabaeus)"/>
+<property type="NCBI taxonomy" value="60711"/>
+<property type="length" value="530"/>
+</dbReference>
+</member>
+<member>
+<dbReference type="UniProtKB ID" id="A0A2K5X136_MACFA">
+<property type="UniProtKB accession" value="A0A2K5X136"/>
+<property type="UniParc ID" value="UPI0003ABCC0C"/>
+<property type="UniRef100 ID" value="UniRef100_F7B8J7"/>
+<property type="UniRef90 ID" value="UniRef90_Q9EPI6"/>
+<property type="protein name" value="NMDA receptor synaptonuclear signaling and neuronal migration factor"/>
+<property type="source organism" value="Macaca fascicularis (Crab-eating macaque) (Cynomolgus monkey)"/>
+<property type="NCBI taxonomy" value="9541"/>
+<property type="length" value="530"/>
+</dbReference>
+</member>
+<member>
+<dbReference type="UniProtKB ID" id="A0A2K6KEX3_RHIBE">
+<property type="UniProtKB accession" value="A0A2K6KEX3"/>
+<property type="UniParc ID" value="UPI0003ABCC0C"/>
+<property type="UniRef100 ID" value="UniRef100_F7B8J7"/>
+<property type="UniRef90 ID" value="UniRef90_Q9EPI6"/>
+<property type="protein name" value="NMDA receptor synaptonuclear signaling and neuronal migration factor"/>
+<property type="source organism" value="Rhinopithecus bieti (Black snub-nosed monkey) (Pygathrix bieti)"/>
+<property type="NCBI taxonomy" value="61621"/>
+<property type="length" value="530"/>
+</dbReference>
+</member>
+<member>
+<dbReference type="UniProtKB ID" id="A0A2K5XMF0_MANLE">
+<property type="UniProtKB accession" value="A0A2K5XMF0"/>
+<property type="UniParc ID" value="UPI000C7277C7"/>
+<property type="UniRef100 ID" value="UniRef100_F7B8J7"/>
+<property type="UniRef90 ID" value="UniRef90_Q9EPI6"/>
+<property type="protein name" value="NMDA receptor synaptonuclear signaling and neuronal migration factor"/>
+<property type="source organism" value="Mandrillus leucophaeus (Drill) (Papio leucophaeus)"/>
+<property type="NCBI taxonomy" value="9568"/>
+<property type="length" value="485"/>
+</dbReference>
+</member>
+<member>
+<dbReference type="UniProtKB ID" id="A0A2K6BBZ8_MACNE">
+<property type="UniProtKB accession" value="A0A2K6BBZ8"/>
+<property type="UniParc ID" value="UPI0005F42071"/>
+<property type="UniRef100 ID" value="UniRef100_A0A2K6BBZ8"/>
+<property type="UniRef90 ID" value="UniRef90_Q9EPI6"/>
+<property type="protein name" value="NMDA receptor synaptonuclear signaling and neuronal migration factor"/>
+<property type="source organism" value="Macaca nemestrina (Pig-tailed macaque)"/>
+<property type="NCBI taxonomy" value="9545"/>
+<property type="length" value="530"/>
+</dbReference>
+</member>
+<member>
+<dbReference type="UniProtKB ID" id="H9FAM7_MACMU">
+<property type="UniProtKB accession" value="H9FAM7"/>
+<property type="UniParc ID" value="UPI0002576DD7"/>
+<property type="UniRef100 ID" value="UniRef100_H9FAM7"/>
+<property type="UniRef90 ID" value="UniRef90_Q9EPI6"/>
+<property type="protein name" value="Nasal embryonic luteinizing hormone-releasing hormone factor isoform d (Fragment)"/>
+<property type="source organism" value="Macaca mulatta (Rhesus macaque)"/>
+<property type="NCBI taxonomy" value="9544"/>
+<property type="length" value="280"/>
+</dbReference>
+</member>
+<member>
+<dbReference type="UniProtKB ID" id="A8K7L5_HUMAN">
+<property type="UniProtKB accession" value="A8K7L5"/>
+<property type="UniParc ID" value="UPI0000072C6C"/>
+<property type="UniRef100 ID" value="UniRef100_A8K7L5"/>
+<property type="UniRef90 ID" value="UniRef90_Q9EPI6"/>
+<property type="protein name" value="Nasal embryonic LHRH factor, isoform CRA_b"/>
+<property type="source organism" value="Homo sapiens (Human)"/>
+<property type="NCBI taxonomy" value="9606"/>
+<property type="length" value="263"/>
+</dbReference>
+</member>
+<member>
+<dbReference type="UniProtKB ID" id="A0A2J8N9F1_PANTR">
+<property type="UniProtKB accession" value="A0A2J8N9F1"/>
+<property type="UniParc ID" value="UPI000CB8E3E4"/>
+<property type="UniRef100 ID" value="UniRef100_A8K7L5"/>
+<property type="UniRef90 ID" value="UniRef90_Q9EPI6"/>
+<property type="protein name" value="NSMF isoform 1 (Fragment)"/>
+<property type="source organism" value="Pan troglodytes (Chimpanzee)"/>
+<property type="NCBI taxonomy" value="9598"/>
+<property type="length" value="293"/>
+</dbReference>
+</member>
+<member>
+<dbReference type="UniProtKB ID" id="Q96AQ0_HUMAN">
+<property type="UniProtKB accession" value="Q96AQ0"/>
+<property type="UniParc ID" value="UPI00001C1CEF"/>
+<property type="UniRef100 ID" value="UniRef100_A8K7L5"/>
+<property type="UniRef90 ID" value="UniRef90_Q9EPI6"/>
+<property type="protein name" value="NELF protein (Fragment)"/>
+<property type="source organism" value="Homo sapiens (Human)"/>
+<property type="NCBI taxonomy" value="9606"/>
+<property type="length" value="287"/>
+</dbReference>
+</member>
+<member>
+<dbReference type="UniProtKB ID" id="A0A2J8N9F7_PANTR">
+<property type="UniProtKB accession" value="A0A2J8N9F7"/>
+<property type="UniParc ID" value="UPI000CC4C933"/>
+<property type="UniRef100 ID" value="UniRef100_A8K7L5"/>
+<property type="UniRef90 ID" value="UniRef90_Q9EPI6"/>
+<property type="protein name" value="NSMF isoform 6 (Fragment)"/>
+<property type="source organism" value="Pan troglodytes (Chimpanzee)"/>
+<property type="NCBI taxonomy" value="9598"/>
+<property type="length" value="270"/>
+</dbReference>
+</member>
+<member>
+<dbReference type="UniProtKB ID" id="A0A2J8N9F9_PANTR">
+<property type="UniProtKB accession" value="A0A2J8N9F9"/>
+<property type="UniParc ID" value="UPI000CBFEB6C"/>
+<property type="UniRef100 ID" value="UniRef100_A0A2J8N9F9"/>
+<property type="UniRef90 ID" value="UniRef90_Q9EPI6"/>
+<property type="protein name" value="NSMF isoform 3 (Fragment)"/>
+<property type="source organism" value="Pan troglodytes (Chimpanzee)"/>
+<property type="NCBI taxonomy" value="9598"/>
+<property type="length" value="263"/>
+</dbReference>
+</member>
+<member>
+<dbReference type="UniProtKB ID" id="Q9BT66_HUMAN">
+<property type="UniProtKB accession" value="Q9BT66"/>
+<property type="UniParc ID" value="UPI0000071C4D"/>
+<property type="UniRef100 ID" value="UniRef100_Q9BT66"/>
+<property type="UniRef90 ID" value="UniRef90_Q9EPI6"/>
+<property type="protein name" value="NELF protein (Fragment)"/>
+<property type="source organism" value="Homo sapiens (Human)"/>
+<property type="NCBI taxonomy" value="9606"/>
+<property type="length" value="163"/>
+</dbReference>
+</member>
+<member>
+<dbReference type="UniProtKB ID" id="A0A485NM71_LYNPA">
+<property type="UniProtKB accession" value="A0A485NM71"/>
+<property type="UniParc ID" value="UPI0010B16B71"/>
+<property type="UniRef100 ID" value="UniRef100_A0A485NM71"/>
+<property type="UniRef90 ID" value="UniRef90_A0A485NSI7"/>
+<property type="protein name" value="Nasal embryonic luteinizing"/>
+<property type="source organism" value="Lynx pardinus (Iberian lynx) (Felis pardina)"/>
+<property type="NCBI taxonomy" value="191816"/>
+<property type="length" value="748"/>
+</dbReference>
+</member>
+<member>
+<dbReference type="UniProtKB ID" id="A0A485NSI7_LYNPA">
+<property type="UniProtKB accession" value="A0A485NSI7"/>
+<property type="UniParc ID" value="UPI0010B36C59"/>
+<property type="UniRef100 ID" value="UniRef100_A0A485NSI7"/>
+<property type="UniRef90 ID" value="UniRef90_A0A485NSI7"/>
+<property type="protein name" value="Uncharacterized protein"/>
+<property type="source organism" value="Lynx pardinus (Iberian lynx) (Felis pardina)"/>
+<property type="NCBI taxonomy" value="191816"/>
+<property type="length" value="778"/>
+<property type="isSeed" value="true"/>
+</dbReference>
+</member>
+<member>
+<dbReference type="UniProtKB ID" id="A0A485NPL2_LYNPA">
+<property type="UniProtKB accession" value="A0A485NPL2"/>
+<property type="UniParc ID" value="UPI0010B026BE"/>
+<property type="UniRef100 ID" value="UniRef100_A0A485NPL2"/>
+<property type="UniRef90 ID" value="UniRef90_A0A485NPL2"/>
+<property type="protein name" value="Nasal embryonic luteinizing hormone-releasing"/>
+<property type="source organism" value="Lynx pardinus (Iberian lynx) (Felis pardina)"/>
+<property type="NCBI taxonomy" value="191816"/>
+<property type="length" value="702"/>
+</dbReference>
+</member>
+<member>
+<dbReference type="UniProtKB ID" id="A0A485NQU4_LYNPA">
+<property type="UniProtKB accession" value="A0A485NQU4"/>
+<property type="UniParc ID" value="UPI0010B3E92E"/>
+<property type="UniRef100 ID" value="UniRef100_A0A485NQU4"/>
+<property type="UniRef90 ID" value="UniRef90_A0A485NQU4"/>
+<property type="protein name" value="Nasal embryonic luteinizing hormone-releasing"/>
+<property type="source organism" value="Lynx pardinus (Iberian lynx) (Felis pardina)"/>
+<property type="NCBI taxonomy" value="191816"/>
+<property type="length" value="770"/>
+</dbReference>
+</member>
+<member>
+<dbReference type="UniProtKB ID" id="A0A485NR98_LYNPA">
+<property type="UniProtKB accession" value="A0A485NR98"/>
+<property type="UniParc ID" value="UPI0010B94E97"/>
+<property type="UniRef100 ID" value="UniRef100_A0A485NR98"/>
+<property type="UniRef90 ID" value="UniRef90_A0A485NR98"/>
+<property type="protein name" value="Nasal embryonic luteinizing hormone-releasing"/>
+<property type="source organism" value="Lynx pardinus (Iberian lynx) (Felis pardina)"/>
+<property type="NCBI taxonomy" value="191816"/>
+<property type="length" value="740"/>
+</dbReference>
+</member>
+<member>
+<dbReference type="UniParc ID" id="UPI00083C7E28">
+<property type="UniRef100 ID" value="UniRef100_UPI00083C7E28"/>
+<property type="UniRef90 ID" value="UniRef90_Q9EPI6"/>
+<property type="protein name" value="NMDA receptor synaptonuclear signaling and neuronal migration factor isoform X2"/>
+<property type="source organism" value="Rhinopithecus bieti"/>
+<property type="NCBI taxonomy" value="61621"/>
+<property type="length" value="640"/>
+</dbReference>
+</member>
+<member>
+<dbReference type="UniParc ID" id="UPI00083BAC60">
+<property type="UniRef100 ID" value="UniRef100_UPI00083BAC60"/>
+<property type="UniRef90 ID" value="UniRef90_Q9EPI6"/>
+<property type="protein name" value="NMDA receptor synaptonuclear signaling and neuronal migration factor isoform X3"/>
+<property type="source organism" value="Rhinopithecus bieti"/>
+<property type="NCBI taxonomy" value="61621"/>
+<property type="length" value="617"/>
+</dbReference>
+</member>
+<member>
+<dbReference type="UniParc ID" id="UPI00083BD99D">
+<property type="UniRef100 ID" value="UniRef100_UPI00083BD99D"/>
+<property type="UniRef90 ID" value="UniRef90_Q9EPI6"/>
+<property type="protein name" value="NMDA receptor synaptonuclear signaling and neuronal migration factor isoform X4"/>
+<property type="source organism" value="Rhinopithecus bieti"/>
+<property type="NCBI taxonomy" value="61621"/>
+<property type="length" value="609"/>
+</dbReference>
+</member>
+<member>
+<dbReference type="UniParc ID" id="UPI00083BDF79">
+<property type="UniRef100 ID" value="UniRef100_UPI00083BDF79"/>
+<property type="UniRef90 ID" value="UniRef90_Q9EPI6"/>
+<property type="protein name" value="NMDA receptor synaptonuclear signaling and neuronal migration factor isoform X5"/>
+<property type="source organism" value="Rhinopithecus bieti"/>
+<property type="NCBI taxonomy" value="61621"/>
+<property type="length" value="607"/>
+</dbReference>
+</member>
+<member>
+<dbReference type="UniParc ID" id="UPI00083BD5B6">
+<property type="UniRef100 ID" value="UniRef100_UPI00083BD5B6"/>
+<property type="UniRef90 ID" value="UniRef90_Q9EPI6"/>
+<property type="protein name" value="NMDA receptor synaptonuclear signaling and neuronal migration factor isoform X6"/>
+<property type="source organism" value="Rhinopithecus bieti"/>
+<property type="NCBI taxonomy" value="61621"/>
+<property type="length" value="586"/>
+</dbReference>
+</member>
+<member>
+<dbReference type="UniParc ID" id="UPI00083C86E7">
+<property type="UniRef100 ID" value="UniRef100_UPI00083C86E7"/>
+<property type="UniRef90 ID" value="UniRef90_Q9EPI6"/>
+<property type="protein name" value="NMDA receptor synaptonuclear signaling and neuronal migration factor isoform X7"/>
+<property type="source organism" value="Rhinopithecus bieti"/>
+<property type="NCBI taxonomy" value="61621"/>
+<property type="length" value="584"/>
+</dbReference>
+</member>
+<member>
+<dbReference type="UniParc ID" id="UPI0005334114">
+<property type="UniRef100 ID" value="UniRef100_UPI0005334114"/>
+<property type="UniRef90 ID" value="UniRef90_Q9EPI6"/>
+<property type="protein name" value="NMDA receptor synaptonuclear signaling and neuronal migration factor isoform X7"/>
+<property type="source organism" value="Rhinopithecus roxellana"/>
+<property type="NCBI taxonomy" value="61622"/>
+<property type="length" value="563"/>
+</dbReference>
+</member>
+<member>
+<dbReference type="UniParc ID" id="UPI0005F47583">
+<property type="UniRef100 ID" value="UniRef100_UPI0005F47583"/>
+<property type="UniRef90 ID" value="UniRef90_Q9EPI6"/>
+<property type="protein name" value="NMDA receptor synaptonuclear signaling and neuronal migration factor isoform X1"/>
+<property type="source organism" value="Macaca nemestrina"/>
+<property type="NCBI taxonomy" value="9545"/>
+<property type="length" value="563"/>
+</dbReference>
+</member>
+<member>
+<dbReference type="UniParc ID" id="UPI0005F49CDD">
+<property type="UniRef100 ID" value="UniRef100_UPI0005F49CDD"/>
+<property type="UniRef90 ID" value="UniRef90_Q9EPI6"/>
+<property type="protein name" value="NMDA receptor synaptonuclear signaling and neuronal migration factor isoform X2"/>
+<property type="source organism" value="Macaca nemestrina"/>
+<property type="NCBI taxonomy" value="9545"/>
+<property type="length" value="561"/>
+</dbReference>
+</member>
+<member>
+<dbReference type="UniParc ID" id="UPI00045E4349">
+<property type="UniRef100 ID" value="UniRef100_UPI00045E4349"/>
+<property type="UniRef90 ID" value="UniRef90_Q9EPI6"/>
+<property type="protein name" value="NMDA receptor synaptonuclear signaling and neuronal migration factor isoform X2"/>
+<property type="source organism" value="Chlorocebus sabaeus"/>
+<property type="NCBI taxonomy" value="60711"/>
+<property type="length" value="561"/>
+</dbReference>
+</member>
+<member>
+<dbReference type="UniParc ID" id="UPI0003ABA57D">
+<property type="UniRef100 ID" value="UniRef100_UPI0003ABA57D"/>
+<property type="UniRef90 ID" value="UniRef90_Q9EPI6"/>
+<property type="protein name" value="NMDA receptor synaptonuclear signaling and neuronal migration factor isoform X3"/>
+<property type="source organism" value="Macaca fascicularis"/>
+<property type="NCBI taxonomy" value="9541"/>
+<property type="length" value="540"/>
+</dbReference>
+</member>
+<member>
+<dbReference type="UniParc ID" id="UPI00045D5A63">
+<property type="UniRef100 ID" value="UniRef100_UPI00045D5A63"/>
+<property type="UniRef90 ID" value="UniRef90_Q9EPI6"/>
+<property type="protein name" value="NMDA receptor synaptonuclear signaling and neuronal migration factor isoform X3"/>
+<property type="source organism" value="Chlorocebus sabaeus"/>
+<property type="NCBI taxonomy" value="60711"/>
+<property type="length" value="540"/>
+</dbReference>
+</member>
+<member>
+<dbReference type="UniParc ID" id="UPI0005F5752D">
+<property type="UniRef100 ID" value="UniRef100_UPI0005F5752D"/>
+<property type="UniRef90 ID" value="UniRef90_Q9EPI6"/>
+<property type="protein name" value="NMDA receptor synaptonuclear signaling and neuronal migration factor isoform X3"/>
+<property type="source organism" value="Macaca nemestrina"/>
+<property type="NCBI taxonomy" value="9545"/>
+<property type="length" value="540"/>
+</dbReference>
+</member>
+<member>
+<dbReference type="UniParc ID" id="UPI00053318E9">
+<property type="UniRef100 ID" value="UniRef100_UPI00053318E9"/>
+<property type="UniRef90 ID" value="UniRef90_Q9EPI6"/>
+<property type="protein name" value="NMDA receptor synaptonuclear signaling and neuronal migration factor isoform X9"/>
+<property type="source organism" value="Rhinopithecus roxellana"/>
+<property type="NCBI taxonomy" value="61622"/>
+<property type="length" value="538"/>
+</dbReference>
+</member>
+<member>
+<dbReference type="UniParc ID" id="UPI00045E0997">
+<property type="UniRef100 ID" value="UniRef100_UPI00045E0997"/>
+<property type="UniRef90 ID" value="UniRef90_Q9EPI6"/>
+<property type="protein name" value="NMDA receptor synaptonuclear signaling and neuronal migration factor isoform X4"/>
+<property type="source organism" value="Chlorocebus sabaeus"/>
+<property type="NCBI taxonomy" value="60711"/>
+<property type="length" value="538"/>
+</dbReference>
+</member>
+<member>
+<dbReference type="UniParc ID" id="UPI000F4242C1">
+<property type="UniRef100 ID" value="UniRef100_UPI000F4242C1"/>
+<property type="UniRef90 ID" value="UniRef90_Q9EPI6"/>
+<property type="protein name" value="NMDA receptor synaptonuclear signaling and neuronal migration factor isoform X3"/>
+<property type="source organism" value="Acinonyx jubatus"/>
+<property type="NCBI taxonomy" value="32536"/>
+<property type="length" value="534"/>
+</dbReference>
+</member>
+<member>
+<dbReference type="UniParc ID" id="UPI000F810C3A">
+<property type="UniRef100 ID" value="UniRef100_UPI000F810C3A"/>
+<property type="UniRef90 ID" value="UniRef90_Q9EPI6"/>
+<property type="protein name" value="NMDA receptor synaptonuclear signaling and neuronal migration factor isoform X4"/>
+<property type="source organism" value="Zalophus californianus"/>
+<property type="NCBI taxonomy" value="9704"/>
+<property type="length" value="534"/>
+</dbReference>
+</member>
+<member>
+<dbReference type="UniParc ID" id="UPI0002C665FF">
+<property type="UniRef100 ID" value="UniRef100_UPI0002C665FF"/>
+<property type="UniRef90 ID" value="UniRef90_Q9EPI6"/>
+<property type="protein name" value="NMDA receptor synaptonuclear signaling and neuronal migration factor isoform X1"/>
+<property type="source organism" value="Ceratotherium simum simum"/>
+<property type="NCBI taxonomy" value="73337"/>
+<property type="length" value="534"/>
+</dbReference>
+</member>
+<member>
+<dbReference type="UniParc ID" id="UPI00045D99EA">
+<property type="UniRef100 ID" value="UniRef100_UPI00045D99EA"/>
+<property type="UniRef90 ID" value="UniRef90_Q9EPI6"/>
+<property type="protein name" value="NMDA receptor synaptonuclear signaling and neuronal migration factor isoform X5"/>
+<property type="source organism" value="Chlorocebus sabaeus"/>
+<property type="NCBI taxonomy" value="60711"/>
+<property type="length" value="533"/>
+</dbReference>
+</member>
+<member>
+<dbReference type="UniParc ID" id="UPI00032AF3D8">
+<property type="UniRef100 ID" value="UniRef100_UPI00032AF3D8"/>
+<property type="UniRef90 ID" value="UniRef90_Q9EPI6"/>
+<property type="protein name" value="NMDA receptor synaptonuclear signaling and neuronal migration factor isoform X1"/>
+<property type="source organism" value="Ochotona princeps"/>
+<property type="NCBI taxonomy" value="9978"/>
+<property type="length" value="533"/>
+</dbReference>
+</member>
+<member>
+<dbReference type="UniParc ID" id="UPI00083BD8AA">
+<property type="UniRef100 ID" value="UniRef100_UPI00083BD8AA"/>
+<property type="UniRef90 ID" value="UniRef90_Q9EPI6"/>
+<property type="protein name" value="NMDA receptor synaptonuclear signaling and neuronal migration factor isoform X11"/>
+<property type="source organism" value="Rhinopithecus bieti"/>
+<property type="NCBI taxonomy" value="61621"/>
+<property type="length" value="533"/>
+</dbReference>
+</member>
+<member>
+<dbReference type="UniParc ID" id="UPI0005F3CDFF">
+<property type="UniRef100 ID" value="UniRef100_UPI0005F3CDFF"/>
+<property type="UniRef90 ID" value="UniRef90_Q9EPI6"/>
+<property type="protein name" value="NMDA receptor synaptonuclear signaling and neuronal migration factor isoform X5"/>
+<property type="source organism" value="Macaca nemestrina"/>
+<property type="NCBI taxonomy" value="9545"/>
+<property type="length" value="533"/>
+</dbReference>
+</member>
+<member>
+<dbReference type="UniParc ID" id="UPI00042A9D56">
+<property type="UniRef100 ID" value="UniRef100_UPI00042A9D56"/>
+<property type="UniRef90 ID" value="UniRef90_Q9EPI6"/>
+<property type="protein name" value="NMDA receptor synaptonuclear signaling and neuronal migration factor isoform X1"/>
+<property type="source organism" value="Peromyscus maniculatus bairdii"/>
+<property type="NCBI taxonomy" value="230844"/>
+<property type="length" value="532"/>
+</dbReference>
+</member>
+<member>
+<dbReference type="UniParc ID" id="UPI00077DD87A">
+<property type="UniRef100 ID" value="UniRef100_UPI00042A9D56"/>
+<property type="UniRef90 ID" value="UniRef90_Q9EPI6"/>
+<property type="protein name" value="NMDA receptor synaptonuclear signaling and neuronal migration factor isoform X5"/>
+<property type="source organism" value="Peromyscus maniculatus bairdii"/>
+<property type="NCBI taxonomy" value="230844"/>
+<property type="length" value="472"/>
+</dbReference>
+</member>
+<member>
+<dbReference type="UniParc ID" id="UPI000F4273E7">
+<property type="UniRef100 ID" value="UniRef100_UPI000F4273E7"/>
+<property type="UniRef90 ID" value="UniRef90_Q9EPI6"/>
+<property type="protein name" value="NMDA receptor synaptonuclear signaling and neuronal migration factor isoform X4"/>
+<property type="source organism" value="Acinonyx jubatus"/>
+<property type="NCBI taxonomy" value="32536"/>
+<property type="length" value="532"/>
+</dbReference>
+</member>
+<member>
+<dbReference type="UniParc ID" id="UPI000642DE23">
+<property type="UniRef100 ID" value="UniRef100_UPI000642DE23"/>
+<property type="UniRef90 ID" value="UniRef90_Q9EPI6"/>
+<property type="protein name" value="NMDA receptor synaptonuclear signaling and neuronal migration factor isoform X2"/>
+<property type="source organism" value="Microcebus murinus"/>
+<property type="NCBI taxonomy" value="30608"/>
+<property type="length" value="532"/>
+</dbReference>
+</member>
+<member>
+<dbReference type="UniParc ID" id="UPI001261FD98">
+<property type="UniRef100 ID" value="UniRef100_UPI001261FD98"/>
+<property type="UniRef90 ID" value="UniRef90_Q9EPI6"/>
+<property type="protein name" value="NMDA receptor synaptonuclear signaling and neuronal migration factor isoform X1"/>
+<property type="source organism" value="Mastomys coucha"/>
+<property type="NCBI taxonomy" value="35658"/>
+<property type="length" value="532"/>
+</dbReference>
+</member>
+<member>
+<dbReference type="UniParc ID" id="UPI000A3076A1">
+<property type="UniRef100 ID" value="UniRef100_UPI000A3076A1"/>
+<property type="UniRef90 ID" value="UniRef90_Q9EPI6"/>
+<property type="protein name" value="NMDA receptor synaptonuclear signaling and neuronal migration factor isoform X1"/>
+<property type="source organism" value="Mus pahari"/>
+<property type="NCBI taxonomy" value="10093"/>
+<property type="length" value="532"/>
+</dbReference>
+</member>
+<member>
+<dbReference type="UniParc ID" id="UPI00038BBE50">
+<property type="UniRef100 ID" value="UniRef100_UPI00038BBE50"/>
+<property type="UniRef90 ID" value="UniRef90_Q9EPI6"/>
+<property type="protein name" value="NMDA receptor synaptonuclear signaling and neuronal migration factor isoform X1"/>
+<property type="source organism" value="Microtus ochrogaster"/>
+<property type="NCBI taxonomy" value="79684"/>
+<property type="length" value="532"/>
+</dbReference>
+</member>
+<member>
+<dbReference type="UniParc ID" id="UPI0010A1431A">
+<property type="UniRef100 ID" value="UniRef100_UPI0010A1431A"/>
+<property type="UniRef90 ID" value="UniRef90_Q9EPI6"/>
+<property type="protein name" value="NMDA receptor synaptonuclear signaling and neuronal migration factor isoform X1"/>
+<property type="source organism" value="Peromyscus leucopus"/>
+<property type="NCBI taxonomy" value="10041"/>
+<property type="length" value="532"/>
+</dbReference>
+</member>
+<member>
+<dbReference type="UniParc ID" id="UPI000FC93C04">
+<property type="UniRef100 ID" value="UniRef100_UPI000FC93C04"/>
+<property type="UniRef90 ID" value="UniRef90_Q9EPI6"/>
+<property type="protein name" value="NMDA receptor synaptonuclear signaling and neuronal migration factor isoform X1"/>
+<property type="source organism" value="Mus caroli"/>
+<property type="NCBI taxonomy" value="10089"/>
+<property type="length" value="532"/>
+</dbReference>
+</member>
+<member>
+<dbReference type="UniParc ID" id="UPI000B4EBC6B">
+<property type="UniRef100 ID" value="UniRef100_UPI000B4EBC6B"/>
+<property type="UniRef90 ID" value="UniRef90_Q9EPI6"/>
+<property type="protein name" value="NMDA receptor synaptonuclear signaling and neuronal migration factor isoform X1"/>
+<property type="source organism" value="Meriones unguiculatus"/>
+<property type="NCBI taxonomy" value="10047"/>
+<property type="length" value="532"/>
+</dbReference>
+</member>
+<member>
+<dbReference type="UniParc ID" id="UPI0002C63DE6">
+<property type="UniRef100 ID" value="UniRef100_UPI0002C63DE6"/>
+<property type="UniRef90 ID" value="UniRef90_Q9EPI6"/>
+<property type="protein name" value="NMDA receptor synaptonuclear signaling and neuronal migration factor isoform X2"/>
+<property type="source organism" value="Ceratotherium simum simum"/>
+<property type="NCBI taxonomy" value="73337"/>
+<property type="length" value="532"/>
+</dbReference>
+</member>
+<member>
+<dbReference type="UniParc ID" id="UPI0004ED4FE9">
+<property type="UniRef100 ID" value="UniRef100_UPI0004ED4FE9"/>
+<property type="UniRef90 ID" value="UniRef90_Q9EPI6"/>
+<property type="protein name" value="NMDA receptor synaptonuclear signaling and neuronal migration factor isoform X1"/>
+<property type="source organism" value="Nannospalax galili"/>
+<property type="NCBI taxonomy" value="1026970"/>
+<property type="length" value="531"/>
+</dbReference>
+</member>
+<member>
+<dbReference type="UniParc ID" id="UPI00073296ED">
+<property type="UniRef100 ID" value="UniRef100_UPI00073296ED"/>
+<property type="UniRef90 ID" value="UniRef90_Q9EPI6"/>
+<property type="protein name" value="NMDA receptor synaptonuclear signaling and neuronal migration factor isoform X6"/>
+<property type="source organism" value="Macaca mulatta"/>
+<property type="NCBI taxonomy" value="9544"/>
+<property type="length" value="531"/>
+</dbReference>
+</member>
+<member>
+<dbReference type="UniParc ID" id="UPI00032B01E2">
+<property type="UniRef100 ID" value="UniRef100_UPI00032B01E2"/>
+<property type="UniRef90 ID" value="UniRef90_Q9EPI6"/>
+<property type="protein name" value="NMDA receptor synaptonuclear signaling and neuronal migration factor isoform X2"/>
+<property type="source organism" value="Ochotona princeps"/>
+<property type="NCBI taxonomy" value="9978"/>
+<property type="length" value="531"/>
+</dbReference>
+</member>
+<member>
+<dbReference type="UniParc ID" id="UPI00083C7F7D">
+<property type="UniRef100 ID" value="UniRef100_UPI00083C7F7D"/>
+<property type="UniRef90 ID" value="UniRef90_Q9EPI6"/>
+<property type="protein name" value="NMDA receptor synaptonuclear signaling and neuronal migration factor isoform X12"/>
+<property type="source organism" value="Rhinopithecus bieti"/>
+<property type="NCBI taxonomy" value="61621"/>
+<property type="length" value="531"/>
+</dbReference>
+</member>
+<member>
+<dbReference type="UniParc ID" id="UPI0005F4C750">
+<property type="UniRef100 ID" value="UniRef100_UPI0005F4C750"/>
+<property type="UniRef90 ID" value="UniRef90_Q9EPI6"/>
+<property type="protein name" value="NMDA receptor synaptonuclear signaling and neuronal migration factor isoform X6"/>
+<property type="source organism" value="Macaca nemestrina"/>
+<property type="NCBI taxonomy" value="9545"/>
+<property type="length" value="531"/>
+</dbReference>
+</member>
+<member>
+<dbReference type="UniParc ID" id="UPI00093F9BB6">
+<property type="UniRef100 ID" value="UniRef100_UPI00093F9BB6"/>
+<property type="UniRef90 ID" value="UniRef90_Q9EPI6"/>
+<property type="protein name" value="NMDA receptor synaptonuclear signaling and neuronal migration factor isoform X2"/>
+<property type="source organism" value="Hipposideros armiger"/>
+<property type="NCBI taxonomy" value="186990"/>
+<property type="length" value="530"/>
+</dbReference>
+</member>
+<member>
+<dbReference type="UniParc ID" id="UPI00032B08E3">
+<property type="UniRef100 ID" value="UniRef100_UPI00032B08E3"/>
+<property type="UniRef90 ID" value="UniRef90_Q9EPI6"/>
+<property type="protein name" value="NMDA receptor synaptonuclear signaling and neuronal migration factor isoform X3"/>
+<property type="source organism" value="Ochotona princeps"/>
+<property type="NCBI taxonomy" value="9978"/>
+<property type="length" value="528"/>
+</dbReference>
+</member>
+<member>
+<dbReference type="UniParc ID" id="UPI000947B744">
+<property type="UniRef100 ID" value="UniRef100_UPI000947B744"/>
+<property type="UniRef90 ID" value="UniRef90_Q9EPI6"/>
+<property type="protein name" value="NMDA receptor synaptonuclear signaling and neuronal migration factor"/>
+<property type="source organism" value="Ailuropoda melanoleuca"/>
+<property type="NCBI taxonomy" value="9646"/>
+<property type="length" value="525"/>
+</dbReference>
+</member>
+<member>
+<dbReference type="UniParc ID" id="UPI0003AB53C5">
+<property type="UniRef100 ID" value="UniRef100_H9FAM7"/>
+<property type="UniRef90 ID" value="UniRef90_Q9EPI6"/>
+<property type="protein name" value="NMDA receptor synaptonuclear signaling and neuronal migration factor isoform X4"/>
+<property type="source organism" value="Macaca fascicularis"/>
+<property type="NCBI taxonomy" value="9541"/>
+<property type="length" value="538"/>
+</dbReference>
+</member>
+<member>
+<dbReference type="UniParc ID" id="UPI0003ABB50E">
+<property type="UniRef100 ID" value="UniRef100_A8K7L5"/>
+<property type="UniRef90 ID" value="UniRef90_Q9EPI6"/>
+<property type="protein name" value="NMDA receptor synaptonuclear signaling and neuronal migration factor isoform X1"/>
+<property type="source organism" value="Macaca fascicularis"/>
+<property type="NCBI taxonomy" value="9541"/>
+<property type="length" value="563"/>
+</dbReference>
+</member>
+<member>
+<dbReference type="UniParc ID" id="UPI0010A22E68">
+<property type="UniRef100 ID" value="UniRef100_A8K7L5"/>
+<property type="UniRef90 ID" value="UniRef90_Q9EPI6"/>
+<property type="protein name" value="NMDA receptor synaptonuclear signaling and neuronal migration factor isoform X13"/>
+<property type="source organism" value="Macaca mulatta"/>
+<property type="NCBI taxonomy" value="9544"/>
+<property type="length" value="503"/>
+</dbReference>
+</member>
+<member>
+<dbReference type="UniParc ID" id="UPI0003AB7010">
+<property type="UniRef100 ID" value="UniRef100_A0A2J8N9F9"/>
+<property type="UniRef90 ID" value="UniRef90_Q9EPI6"/>
+<property type="protein name" value="NMDA receptor synaptonuclear signaling and neuronal migration factor isoform X5"/>
+<property type="source organism" value="Macaca fascicularis"/>
+<property type="NCBI taxonomy" value="9541"/>
+<property type="length" value="533"/>
+</dbReference>
+</member>
+<member>
+<dbReference type="UniParc ID" id="UPI00083C40A8">
+<property type="UniRef100 ID" value="UniRef100_Q9BT66"/>
+<property type="UniRef90 ID" value="UniRef90_Q9EPI6"/>
+<property type="protein name" value="NMDA receptor synaptonuclear signaling and neuronal migration factor isoform X1"/>
+<property type="source organism" value="Rhinopithecus bieti"/>
+<property type="NCBI taxonomy" value="61621"/>
+<property type="length" value="642"/>
+</dbReference>
+</member>
+</entry>
+</UniRef>

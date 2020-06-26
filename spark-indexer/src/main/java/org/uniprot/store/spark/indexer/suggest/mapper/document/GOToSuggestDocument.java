@@ -28,11 +28,7 @@ public class GOToSuggestDocument
         GeneOntologyEntry goTerm = tuple._1;
         result.add(buildSuggestDocument(goTerm));
         if (Utils.notNullNotEmpty(goTerm.getAncestors())) {
-            goTerm.getAncestors()
-                    .forEach(
-                            ancestor -> {
-                                result.add(buildSuggestDocument(ancestor));
-                            });
+            goTerm.getAncestors().forEach(ancestor -> result.add(buildSuggestDocument(ancestor)));
         }
         return result;
     }

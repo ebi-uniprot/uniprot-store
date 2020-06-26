@@ -1,0 +1,50 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<uniparc xmlns="http://uniprot.org/uniparc" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://uniprot.org/uniparc http://www.uniprot.org/docs/uniparc.xsd" version="2020_02">
+<entry dataset="uniparc">
+<accession>UPI00000E8551</accession>
+<dbReference type="UniProtKB/Swiss-Prot" id="Q9EPI6" version_i="1" active="Y" version="1" created="2005-07-19" last="2020-04-22">
+<property type="NCBI_GI" value="71152013"/>
+<property type="NCBI_taxonomy_id" value="10116"/>
+<property type="protein_name" value="NMDA receptor synaptonuclear signaling and neuronal migration factor"/>
+<property type="gene_name" value="Nsmf"/>
+</dbReference>
+<dbReference type="UniProtKB/Swiss-Prot protein isoforms" id="Q9EPI6-1" version_i="1" active="Y" created="2005-07-07" last="2020-04-22">
+<property type="NCBI_taxonomy_id" value="10116"/>
+<property type="protein_name" value="Isoform 1 of NMDA receptor synaptonuclear signaling and neuronal migration factor"/>
+<property type="gene_name" value="Nsmf"/>
+</dbReference>
+<dbReference type="UniProtKB/TrEMBL" id="Q9EPI6" version_i="1" active="N" version="1" created="2001-03-01" last="2005-07-05">
+<property type="NCBI_GI" value="71152013"/>
+</dbReference>
+<dbReference type="RefSeq" id="NP_476538" version_i="1" active="N" version="1" created="2004-07-08" last="2012-07-20">
+<property type="NCBI_GI" value="17105342"/>
+<property type="NCBI_taxonomy_id" value="10116"/>
+</dbReference>
+<dbReference type="EMBL" id="CAC20866" version_i="1" active="Y" version="1" created="2017-05-26" last="2019-11-25">
+<property type="NCBI_taxonomy_id" value="10116"/>
+<property type="protein_name" value="Jacob protein"/>
+<property type="gene_name" value="jac"/>
+</dbReference>
+<dbReference type="EMBL" id="CAC20866" version_i="1" active="N" version="1" created="2003-03-12" last="2017-02-22">
+<property type="NCBI_GI" value="12055374"/>
+<property type="NCBI_taxonomy_id" value="10116"/>
+<property type="protein_name" value="Jacob protein"/>
+<property type="gene_name" value="jac"/>
+</dbReference>
+<dbReference type="IPI" id="IPI00199691" version_i="2" active="N" version="2" created="2003-08-06" last="2003-08-06">
+<property type="NCBI_taxonomy_id" value="10116"/>
+</dbReference>
+<dbReference type="IPI" id="IPI00199691" version_i="4" active="N" version="4" created="2003-11-19" last="2005-01-06">
+<property type="NCBI_taxonomy_id" value="10116"/>
+</dbReference>
+<dbReference type="IPI" id="IPI00199691" version_i="6" active="N" version="6" created="2005-07-12" last="2011-09-27">
+<property type="NCBI_taxonomy_id" value="10116"/>
+</dbReference>
+<sequence length="532" checksum="01AEF4B6A09EB753">MGAAASRRRALRSEAMSSVAAKVRAARAFGEYLSQSHPENRNGADHLLADAYSGHEGSPEMQPAPHNKRRLSLVSNGRYEGSISDEAVSGKTATEGPQPRVYTISREPALLPGSEAEAIELAVVKGRRQRERHPHHHSQPLRASPGSSREDISRPCQSWAGSRQGSKECPGCAKLVPGPSPRAFGLEQPPLPEASGRHKKLERMYSVDGVSDDVPIRTWFPKENPFSFQTATTTMQAISVFRGYAERKRRKRENDSASVIQRNFRKHLRMVGSRRVKAQTFAERRERSFSRSWSDPTPMKADTSHDSRDSSDLQSSHCTLDEACEDLDWDTEKGLEATACDTEGFLPPKVMLISSKVPKAEYIPTIIRRDDPSIIPILYDHEHATFEDILEEIEKKLNIYHKGAKIWKMLIFCQGGPGHLYLLKNKVATFAKVEKEEDMIHFWKRLSRLMSKVNPEPNVIHIMGCYILGNPNGEKLFQNLRTLMTPYKVTFESPLELSAQGKQMIETYFDFRLYRLWKSRQHSKLLDFDDVL</sequence>
+<signatureSequenceMatch database="PANTHER" id="PTHR32061">
+<ipr id="IPR033374" name="NMDA receptor synaptonuclear signalling and neuronal migration factor"/>
+<lcn start="1" end="532"/>
+</signatureSequenceMatch>
+</entry>
+<copyright>UniProt Consortium 2002-2020</copyright>
+</uniparc>

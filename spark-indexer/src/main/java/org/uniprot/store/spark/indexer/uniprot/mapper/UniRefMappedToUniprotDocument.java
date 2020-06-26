@@ -28,7 +28,7 @@ public class UniRefMappedToUniprotDocument
             throws Exception {
         UniProtDocument document = tuple._1;
         if (tuple._2.isPresent()) {
-            MappedUniRef uniRef = (MappedUniRef) tuple._2.get();
+            MappedUniRef uniRef = tuple._2.get();
             switch (uniRef.getUniRefType()) {
                 case UniRef50:
                     document.unirefCluster50 = uniRef.getClusterID();

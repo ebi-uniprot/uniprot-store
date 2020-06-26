@@ -21,7 +21,7 @@ class GoRelationsJoinMapperTest {
     @Test
     void testValidEntryWithGoCrossReferences() throws Exception {
         GoRelationsJoinMapper mapper = new GoRelationsJoinMapper();
-        String flatFile = "uniprotkb/O60260.txt";
+        String flatFile = "2020_02/uniprotkb/O60260.txt";
         List<String> flatFileLines =
                 Files.readAllLines(Paths.get(ClassLoader.getSystemResource(flatFile).toURI()));
         Iterator<Tuple2<String, String>> result = mapper.call(String.join("\n", flatFileLines));
@@ -41,7 +41,7 @@ class GoRelationsJoinMapperTest {
     @Test
     void testValidEntryWithoutGoCrossReferences() throws Exception {
         GoRelationsJoinMapper mapper = new GoRelationsJoinMapper();
-        String flatFile = "uniprotkb/O60260.txt";
+        String flatFile = "2020_02/uniprotkb/O60260.txt";
         List<String> flatFileLines =
                 Files.readAllLines(Paths.get(ClassLoader.getSystemResource(flatFile).toURI()));
 

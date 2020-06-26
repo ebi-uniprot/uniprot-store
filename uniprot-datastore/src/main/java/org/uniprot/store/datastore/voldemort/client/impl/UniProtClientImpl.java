@@ -43,4 +43,9 @@ public class UniProtClientImpl implements UniProtClient {
     public void truncate() {
         client.truncate();
     }
+
+    @Override
+    public void close() {
+        client.close();
+    }
 }

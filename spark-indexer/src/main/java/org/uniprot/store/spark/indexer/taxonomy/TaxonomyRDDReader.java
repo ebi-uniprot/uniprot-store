@@ -10,6 +10,8 @@ import org.apache.spark.sql.Row;
 import org.apache.spark.sql.SparkSession;
 import org.uniprot.core.taxonomy.TaxonomyEntry;
 import org.uniprot.core.taxonomy.TaxonomyLineage;
+import org.uniprot.store.spark.indexer.common.JobParameter;
+import org.uniprot.store.spark.indexer.common.reader.PairRDDReader;
 
 /**
  * This class is Responsible to load JavaPairRDD{key=taxId, value=TaxonomyEntry}
@@ -17,38 +19,44 @@ import org.uniprot.core.taxonomy.TaxonomyLineage;
  * @author lgonzales
  * @since 2019-10-08
  */
-public class TaxonomyRDDReader {
+public class TaxonomyRDDReader implements PairRDDReader<String, TaxonomyEntry> {
+
+    private final JobParameter jobParameter;
+    private final TaxonomyLineageReader taxonomyLineageReader;
+    private final boolean withLineage;
+
+    public TaxonomyRDDReader(JobParameter jobParameter, boolean withLineage) {
+        this.jobParameter = jobParameter;
+        this.withLineage = withLineage;
+        this.taxonomyLineageReader = new TaxonomyLineageReader(jobParameter, false);
+    }
 
     /** @return return a JavaPairRDD{key=taxId, value=TaxonomyEntry} */
-    public static JavaPairRDD<String, TaxonomyEntry> load(
-            JavaSparkContext sparkContext, ResourceBundle applicationConfig) {
-        return (JavaPairRDD<String, TaxonomyEntry>)
-                loadTaxonomyNodeRow(sparkContext, applicationConfig)
-                        .toJavaRDD()
-                        .mapToPair(new TaxonomyRowMapper());
+    public JavaPairRDD<String, TaxonomyEntry> load() {
+        JavaPairRDD<String, TaxonomyEntry> taxonomy =
+                loadTaxonomyNodeRow().toJavaRDD().mapToPair(new TaxonomyRowMapper());
+        if (withLineage) {
+            JavaPairRDD<String, List<TaxonomyLineage>> taxonomyLineage = loadTaxonomyLineage();
+            return taxonomy.join(taxonomyLineage).mapValues(new TaxonomyJoinMapper());
+        } else {
+            return taxonomy;
+        }
     }
 
-    /** @return return a JavaPairRDD{key=taxId, value=TaxonomyEntry} including lineage data */
-    public static JavaPairRDD<String, TaxonomyEntry> loadWithLineage(
-            JavaSparkContext sparkContext, ResourceBundle applicationConfig) {
-        JavaPairRDD<String, TaxonomyEntry> taxonomyNode = load(sparkContext, applicationConfig);
-
-        JavaPairRDD<String, List<TaxonomyLineage>> taxonomyLineage =
-                TaxonomyLineageReader.load(sparkContext, applicationConfig, false);
-
-        return (JavaPairRDD<String, TaxonomyEntry>)
-                taxonomyNode.join(taxonomyLineage).mapValues(new TaxonomyJoinMapper());
+    protected JavaPairRDD<String, List<TaxonomyLineage>> loadTaxonomyLineage() {
+        return taxonomyLineageReader.load();
     }
 
-    private static Dataset<Row> loadTaxonomyNodeRow(
-            JavaSparkContext sparkContext, ResourceBundle applicationConfig) {
-        long maxTaxId = getMaxTaxId(sparkContext, applicationConfig);
+    private Dataset<Row> loadTaxonomyNodeRow() {
+        JavaSparkContext sparkContext = jobParameter.getSparkContext();
+        ResourceBundle applicationConfig = jobParameter.getApplicationConfig();
+        long maxTaxId = TaxonomyUtil.getMaxTaxId(sparkContext, applicationConfig);
         int numberPartition =
-                Integer.valueOf(applicationConfig.getString("database.taxonomy.partition"));
+                Integer.parseInt(applicationConfig.getString("database.taxonomy.partition"));
         SparkSession spark = SparkSession.builder().sparkContext(sparkContext.sc()).getOrCreate();
         return spark.read()
                 .format("jdbc")
-                .option("driver", "oracle.jdbc.driver.OracleDriver")
+                .option("driver", applicationConfig.getString("database.driver"))
                 .option("url", applicationConfig.getString("database.url"))
                 .option("user", applicationConfig.getString("database.user.name"))
                 .option("password", applicationConfig.getString("database.password"))
@@ -59,24 +67,5 @@ public class TaxonomyRDDReader {
                 .option("lowerBound", 1)
                 .option("upperBound", maxTaxId)
                 .load();
-    }
-
-    static int getMaxTaxId(JavaSparkContext sparkContext, ResourceBundle applicationConfig) {
-        SparkSession spark = SparkSession.builder().sparkContext(sparkContext.sc()).getOrCreate();
-
-        Dataset<Row> max =
-                spark.read()
-                        .format("jdbc")
-                        .option("driver", "oracle.jdbc.driver.OracleDriver")
-                        .option("url", applicationConfig.getString("database.url"))
-                        .option("user", applicationConfig.getString("database.user.name"))
-                        .option("password", applicationConfig.getString("database.password"))
-                        .option(
-                                "query",
-                                "SELECT MAX(TAX_ID) AS MAX_TAX_ID FROM TAXONOMY.V_PUBLIC_NODE")
-                        .load();
-
-        Row result = max.head();
-        return result.getDecimal(result.fieldIndex("MAX_TAX_ID")).intValue();
     }
 }

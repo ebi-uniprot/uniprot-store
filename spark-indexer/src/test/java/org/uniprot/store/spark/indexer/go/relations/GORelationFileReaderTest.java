@@ -16,24 +16,22 @@ class GORelationFileReaderTest {
 
     @Test
     void testReadValidGoRelationsFile() {
-        GORelationFileReader relationFileReader = new GORelationFileReader("go", null);
+        GORelationFileReader relationFileReader = new GORelationFileReader("2020_02/go", null);
 
         Map<String, Set<String>> goRelations = relationFileReader.read();
 
         assertNotNull(goRelations);
         assertEquals(
-                881,
+                11,
                 goRelations.size(),
                 "Number of expected relations read from test go relation file");
 
-        assertNotNull(goRelations.get("GO:0006853"), "Has a valid relation");
-        Set<String> relationSet = goRelations.get("GO:0006853");
-        assertEquals(4, relationSet.size(), "Expected Number of relations of GO:0006853");
+        assertNotNull(goRelations.get("GO:0000010"), "Has a valid relation");
+        Set<String> relationSet = goRelations.get("GO:0000001");
+        assertEquals(2, relationSet.size(), "Expected Number of relations of GO:0006853");
 
-        assertTrue(relationSet.contains("GO:1990542"));
-        assertTrue(relationSet.contains("GO:0015909"));
-        assertTrue(relationSet.contains("GO:1902001"));
-        assertTrue(relationSet.contains("GO:0032365"));
+        assertTrue(relationSet.contains("GO:0048311"));
+        assertTrue(relationSet.contains("GO:0048308"));
     }
 
     @Test

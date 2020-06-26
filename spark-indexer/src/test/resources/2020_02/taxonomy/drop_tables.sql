@@ -1,0 +1,1 @@
+DROP TABLE taxonomy.v_public_node;

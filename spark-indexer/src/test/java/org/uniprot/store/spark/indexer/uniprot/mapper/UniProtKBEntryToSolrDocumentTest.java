@@ -36,7 +36,9 @@ class UniProtKBEntryToSolrDocumentTest {
 
         List<String> flatFileLines =
                 Files.readAllLines(
-                        Paths.get(ClassLoader.getSystemResource("uniprotkb/Q9EPI6.sp").toURI()));
+                        Paths.get(
+                                ClassLoader.getSystemResource("2020_02/uniprotkb/Q9EPI6.sp")
+                                        .toURI()));
         EntryObject parsed = entryParser.parse(String.join("\n", flatFileLines));
         UniProtKBEntry uniProtkbEntry = entryObjectConverter.convert(parsed);
 

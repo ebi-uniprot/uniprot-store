@@ -23,7 +23,7 @@ class TaxonomyJoinMapperTest {
 
         TaxonomyJoinMapper mapper = new TaxonomyJoinMapper();
 
-        String flatFile = "uniprotkb/O60260.txt";
+        String flatFile = "2020_02/uniprotkb/O60260.txt";
         List<String> flatFileLines =
                 Files.readAllLines(Paths.get(ClassLoader.getSystemResource(flatFile).toURI()));
         Iterator<Tuple2<String, String>> result = mapper.call(String.join("\n", flatFileLines));
@@ -45,7 +45,7 @@ class TaxonomyJoinMapperTest {
 
         TaxonomyJoinMapper mapper = new TaxonomyJoinMapper();
 
-        String flatFile = "uniprotkb/P03378.txt";
+        String flatFile = "2020_02/uniprotkb/P03378.txt";
         List<String> flatFileLines =
                 Files.readAllLines(Paths.get(ClassLoader.getSystemResource(flatFile).toURI()));
         Iterator<Tuple2<String, String>> result = mapper.call(String.join("\n", flatFileLines));

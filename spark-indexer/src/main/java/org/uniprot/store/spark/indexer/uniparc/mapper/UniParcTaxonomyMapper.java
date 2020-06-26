@@ -25,10 +25,7 @@ public class UniParcTaxonomyMapper implements PairFlatMapFunction<UniParcEntry, 
         return uniParcEntry.getTaxonomies().stream()
                 .map(Taxonomy::getTaxonId)
                 .map(String::valueOf)
-                .map(
-                        taxId -> {
-                            return new Tuple2<>(taxId, uniParcEntry.getUniParcId().getValue());
-                        })
+                .map(taxId -> new Tuple2<>(taxId, uniParcEntry.getUniParcId().getValue()))
                 .collect(Collectors.toList())
                 .iterator();
     }

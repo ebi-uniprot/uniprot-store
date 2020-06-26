@@ -22,7 +22,7 @@ public class UniProtClientMain {
 
         ClientConfigure configure = ClientConfigureImpl.fromCommandLine(args);
         if (!configure.validate()) {
-            System.out.println(configure.getUsage());
+            logger.error(configure.getUsage());
             System.exit(1);
         }
 
@@ -31,27 +31,10 @@ public class UniProtClientMain {
             voldemortUrl = configure.getVoldemortUrl();
         }
 
-        try (ClientFactory factory = new DefaultClientFactory(voldemortUrl, 20)) {
-            UniProtClient client = factory.createUniProtClient();
+        try (ClientFactory factory = new DefaultClientFactory(voldemortUrl, 20);
+             UniProtClient client = factory.createUniProtClient()) {
             UniProtClientMain main = new UniProtClientMain();
             main.execute(configure, client);
-        }
-    }
-
-    private void executeByList(ClientConfigure configure, UniProtClient client) {
-        List<String> accessions = configure.getAccession();
-        if (accessions == null) {
-            accessions = new ArrayList<>();
-        }
-        if (!Strings.isNullOrEmpty(configure.getInputAccessionfile())) {
-            accessions.addAll(getAccessionFromFile(configure.getInputAccessionfile()));
-        }
-        try (Writer writer = new BufferedWriter(new FileWriter(configure.getOutputFile()))) {
-
-            write(client, writer, accessions);
-
-        } catch (Exception e) {
-            logger.error("executeByList", e);
         }
     }
 
@@ -72,7 +55,7 @@ public class UniProtClientMain {
                     write(client, writer, accList);
                     accList.clear();
                 }
-                Thread.sleep(61l);
+                Thread.sleep(61L);
             }
             if (!accList.isEmpty()) {
                 write(client, writer, accList);
@@ -88,7 +71,6 @@ public class UniProtClientMain {
         List<UniProtKBEntry> entries = client.getEntries(accessions);
         for (UniProtKBEntry entry : entries) {
             try {
-                //   writer.write(entry.getPrimaryUniProtAccession().getValue() + "\n");
                 writer.write(UniProtFlatfileWriter.write(entry, true, false) + "\n");
                 logger.info("Fetch entry: " + entry.getPrimaryAccession().getValue() + " done.");
             } catch (Exception e) {
@@ -102,7 +84,7 @@ public class UniProtClientMain {
     }
 
     private List<String> getAccessionFromFile(String accessionfile) {
-        List<String> accessions = new ArrayList<String>();
+        List<String> accessions = new ArrayList<>();
         try (BufferedReader inputStream = new BufferedReader(new FileReader(accessionfile))) {
             String line;
             while ((line = inputStream.readLine()) != null) {

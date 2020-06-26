@@ -1,6 +1,6 @@
 package org.uniprot.store.spark.indexer.go.relations;
 
-import static org.uniprot.store.spark.indexer.util.SparkUtils.getInputStream;
+import static org.uniprot.store.spark.indexer.common.util.SparkUtils.getInputStream;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -14,6 +14,7 @@ import java.util.Set;
 import lombok.extern.slf4j.Slf4j;
 
 import org.apache.hadoop.conf.Configuration;
+import org.uniprot.store.spark.indexer.common.exception.SparkIndexException;
 
 /**
  * Class responsible to Load GO Terms Relations from Hadoop File System
@@ -50,7 +51,7 @@ class GORelationFileReader {
             }
         } catch (IOException e) {
             log.error("IOException loading file: " + filename, e);
-            throw new RuntimeException("IOException loading file: " + filename, e);
+            throw new SparkIndexException("IOException loading file: " + filename, e);
         }
         return lines;
     }

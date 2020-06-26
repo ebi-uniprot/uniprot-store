@@ -9,10 +9,12 @@ import org.uniprot.store.datastore.common.StoreService;
  *
  * @param <T> the entity type being stored in Voldemort.
  */
-public interface VoldemortClient<T> extends StoreService<T> {
+public interface VoldemortClient<T> extends StoreService<T>, AutoCloseable {
     Map<String, T> getEntryMap(Iterable<String> ids);
 
     void saveEntry(T entry);
 
     void truncate();
+
+    void close();
 }

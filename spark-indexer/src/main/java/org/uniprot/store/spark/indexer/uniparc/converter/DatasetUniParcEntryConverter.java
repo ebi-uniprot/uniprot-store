@@ -1,6 +1,6 @@
 package org.uniprot.store.spark.indexer.uniparc.converter;
 
-import static org.uniprot.store.spark.indexer.util.RowUtils.hasFieldName;
+import static org.uniprot.store.spark.indexer.common.util.RowUtils.hasFieldName;
 
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -21,7 +21,7 @@ import org.uniprot.core.uniparc.impl.SequenceFeatureBuilder;
 import org.uniprot.core.uniparc.impl.UniParcCrossReferenceBuilder;
 import org.uniprot.core.uniparc.impl.UniParcEntryBuilder;
 import org.uniprot.core.uniprotkb.taxonomy.impl.TaxonomyBuilder;
-import org.uniprot.store.spark.indexer.util.RowUtils;
+import org.uniprot.store.spark.indexer.common.util.RowUtils;
 
 /**
  * This class convert XML Row result to a UniParcEntry
@@ -76,10 +76,7 @@ public class DatasetUniParcEntryConverter implements MapFunction<Row, UniParcEnt
                         .forEach(taxIds::add);
             }
             taxIds.stream()
-                    .map(
-                            taxId -> {
-                                return new TaxonomyBuilder().taxonId(taxId).build();
-                            })
+                    .map(taxId -> new TaxonomyBuilder().taxonId(taxId).build())
                     .forEach(builder::taxonomiesAdd);
         }
         if (hasFieldName(SIGNATURE_SEQUENCE_MATCH, rowValue)) {
@@ -193,9 +190,9 @@ public class DatasetUniParcEntryConverter implements MapFunction<Row, UniParcEnt
         if (hasFieldName(PROPERTY, rowValue)) {
             RowUtils.convertProperties(rowValue)
                     .forEach(
-                            (key, value) -> {
-                                value.forEach(valueItem -> builder.propertiesAdd(key, valueItem));
-                            });
+                            (key, value) ->
+                                    value.forEach(
+                                            valueItem -> builder.propertiesAdd(key, valueItem)));
         }
 
         return builder.build();

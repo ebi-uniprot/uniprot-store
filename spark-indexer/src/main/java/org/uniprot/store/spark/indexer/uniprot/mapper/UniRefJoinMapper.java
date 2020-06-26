@@ -73,10 +73,7 @@ public class UniRefJoinMapper
                         .build();
 
         return accessions.stream()
-                .map(
-                        accession -> {
-                            return new Tuple2<>(accession, mappedUniRef);
-                        })
+                .map(accession -> new Tuple2<>(accession, mappedUniRef))
                 .collect(Collectors.toList());
     }
 

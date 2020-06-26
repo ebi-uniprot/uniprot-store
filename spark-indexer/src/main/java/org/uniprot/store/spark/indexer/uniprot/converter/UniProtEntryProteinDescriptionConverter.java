@@ -17,8 +17,6 @@ import org.uniprot.store.search.document.uniprot.UniProtDocument;
  */
 public class UniProtEntryProteinDescriptionConverter {
 
-    public UniProtEntryProteinDescriptionConverter() {}
-
     void convertProteinDescription(
             ProteinDescription proteinDescription, UniProtDocument document) {
         if (Utils.notNull(proteinDescription)) {

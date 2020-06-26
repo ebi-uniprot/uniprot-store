@@ -99,4 +99,9 @@ public abstract class VoldemortInMemoryEntryStore<T> implements VoldemortClient<
     }
 
     public abstract String getStoreId(T entry);
+
+    @Override
+    public void close() {
+        storageEngine.close();
+    }
 }

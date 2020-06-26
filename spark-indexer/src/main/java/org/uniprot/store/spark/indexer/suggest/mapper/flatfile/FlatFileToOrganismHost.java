@@ -11,6 +11,7 @@ import org.uniprot.core.flatfile.parser.UniprotKBLineParser;
 import org.uniprot.core.flatfile.parser.impl.DefaultUniprotKBLineParserFactory;
 import org.uniprot.core.flatfile.parser.impl.oh.OhLineObject;
 import org.uniprot.core.util.Utils;
+import org.uniprot.store.spark.indexer.common.exception.SparkIndexException;
 
 import scala.Tuple2;
 
@@ -46,7 +47,7 @@ public class FlatFileToOrganismHost implements PairFlatMapFunction<String, Strin
                                     result.add(new Tuple2<String, String>(taxId, taxId));
                                 });
             } catch (Exception e) {
-                throw new RuntimeException("Unable to parse ohline: " + ohLine, e);
+                throw new SparkIndexException("Unable to parse ohline: " + ohLine, e);
             }
         }
         return result.iterator();

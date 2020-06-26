@@ -21,9 +21,9 @@ public class GOEvidence implements Serializable {
 
     private static final long serialVersionUID = 5783511629897468712L;
 
-    private String goId;
+    private final String goId;
 
-    private Evidence evidence;
+    private final Evidence evidence;
 
     public GOEvidence(String goId, Evidence evidence) {
         this.goId = goId;

@@ -1,0 +1,76 @@
+CC   -----------------------------------------------------------------------
+CC
+CC   ENZYME nomenclature database
+CC
+CC   -----------------------------------------------------------------------
+CC   Release of 13-Feb-2019
+CC   -----------------------------------------------------------------------
+CC
+CC   Alan Bridge and Kristian Axelsen
+CC   SIB Swiss Institute of Bioinformatics
+CC   Centre Medical Universitaire (CMU)
+CC   1, rue Michel Servet
+CC   1211 Geneva 4
+CC   Switzerland
+CC
+CC   Email: enzyme@expasy.org
+CC
+CC   WWW server: http://enzyme.expasy.org/
+CC
+CC   -----------------------------------------------------------------------
+CC   Copyrighted by the SIB Swiss Institute of Bioinformatics.
+CC   There are no restrictions on its use by any institutions as long as
+CC   its content is in no way modified.
+CC   -----------------------------------------------------------------------
+//
+ID   1.1.1.1
+DE   Alcohol dehydrogenase.
+AN   Aldehyde reductase.
+CA   (1) A primary alcohol + NAD(+) = an aldehyde + NADH.
+CA   (2) A secondary alcohol + NAD(+) = a ketone + NADH.
+CF   Zn(2+) or Fe cation.
+CC   -!- Acts on primary or secondary alcohols or hemi-acetals with very broad
+CC       specificity; however the enzyme oxidizes methanol much more poorly
+CC       than ethanol.
+CC   -!- The animal, but not the yeast, enzyme acts also on cyclic secondary
+CC       alcohols.
+PR   PROSITE; PDOC00058;
+PR   PROSITE; PDOC00059;
+PR   PROSITE; PDOC00060;
+DR   P07327, ADH1A_HUMAN;  P28469, ADH1A_MACMU;  Q5RBP7, ADH1A_PONAB;
+DR   P25405, ADH1A_SAAHA;  P00325, ADH1B_HUMAN;  Q5R1W2, ADH1B_PANTR;
+DR   P14139, ADH1B_PAPHA;  P25406, ADH1B_SAAHA;  P00327, ADH1E_HORSE;
+//
+ID   1.1.1.2
+DE   Alcohol dehydrogenase (NADP(+)).
+AN   Aldehyde reductase (NADPH).
+CA   An alcohol + NADP(+) = an aldehyde + NADPH.
+CF   Zn(2+).
+CC   -!- Some members of this group oxidize only primary alcohols; others act
+CC       also on secondary alcohols.
+CC   -!- May be identical with EC 1.1.1.19, EC 1.1.1.33 and EC 1.1.1.55.
+CC   -!- Re-specific with respect to NADPH.
+PR   PROSITE; PDOC00061;
+DR   Q6AZW2, A1A1A_DANRE;  Q568L5, A1A1B_DANRE;  Q24857, ADH3_ENTHI ;
+DR   Q04894, ADH6_YEAST ;  P25377, ADH7_YEAST ;  O57380, ADH8_PELPE ;
+DR   Q9F282, ADHA_THEET ;  P0CH36, ADHC1_MYCS2;  P0CH37, ADHC2_MYCS2;
+DR   P0A4X1, ADHC_MYCBO ;  P9WQC4, ADHC_MYCTO ;  P9WQC5, ADHC_MYCTU ;
+DR   P27250, AHR_ECOLI  ;  Q3ZCJ2, AK1A1_BOVIN;  Q5ZK84, AK1A1_CHICK;
+DR   O70473, AK1A1_CRIGR;  P14550, AK1A1_HUMAN;  Q9JII6, AK1A1_MOUSE;
+DR   P50578, AK1A1_PIG  ;  Q5R5D5, AK1A1_PONAB;  P51635, AK1A1_RAT  ;
+DR   Q6GMC7, AK1A1_XENLA;  Q28FD1, AK1A1_XENTR;  Q9UUN9, ALD2_SPOSA ;
+DR   P27800, ALDX_SPOSA ;  P75691, YAHK_ECOLI ;
+//
+ID   2.7.10.2
+DE   Non-specific protein-tyrosine kinase.
+AN   Cytoplasmic protein tyrosine kinase.
+CA   ATP + a [protein]-L-tyrosine = ADP + a [protein]-L-tyrosine phosphate.
+CC   -!- Unlike EC 2.7.10.1, this protein-tyrosine kinase does not have a
+CC       transmembrane domain.
+CC   -!- In the human genome, 32 non-specific protein-tyrosine kinases have
+CC       been identified and these can be divided into 10 families.
+CC   -!- Formerly EC 2.7.1.112.
+PR   PROSITE; PDOC00100;
+DR   P03949-2  , ABL1-2_CAEEL;  P00519-2  , ABL1-2_HUMAN;  P00520-2  , ABL1-2_MOUSE;
+DR   P03949-3  , ABL1-3_CAEEL;  P00520-3  , ABL1-3_MOUSE;  Q9EPI6    , NSMF_RAT;
+//

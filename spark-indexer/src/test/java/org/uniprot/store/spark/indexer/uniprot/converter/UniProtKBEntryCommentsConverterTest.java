@@ -36,7 +36,7 @@ class UniProtKBEntryCommentsConverterTest {
     private static final String CCEV_SUBCELLULAR_LOCATION_FIELD = "ccev_subcellular_location";
     private static final String CCEV_CATALYTIC_ACTIVITY = "ccev_catalytic_activity";
     private static final CcLineTransformer ccLineTransformer =
-            new CcLineTransformer("disease/humdisease.txt", "subcell/subcell.txt");
+            new CcLineTransformer("2020_02/disease/humdisease.txt", "2020_02/subcell/subcell.txt");
 
     @Test
     void testCatalyticActivityCommentConvertProperlyToDocument() {

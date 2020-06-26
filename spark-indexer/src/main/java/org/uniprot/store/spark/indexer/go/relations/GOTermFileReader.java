@@ -1,6 +1,6 @@
 package org.uniprot.store.spark.indexer.go.relations;
 
-import static org.uniprot.store.spark.indexer.util.SparkUtils.getInputStream;
+import static org.uniprot.store.spark.indexer.common.util.SparkUtils.getInputStream;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -15,6 +15,7 @@ import org.apache.hadoop.conf.Configuration;
 import org.uniprot.core.cv.go.GeneOntologyEntry;
 import org.uniprot.core.cv.go.impl.GeneOntologyEntryBuilder;
 import org.uniprot.core.util.Utils;
+import org.uniprot.store.spark.indexer.common.exception.SparkIndexException;
 
 /**
  * Class responsible to Load GO Terms from Hadoop File System
@@ -53,7 +54,7 @@ class GOTermFileReader {
             }
         } catch (IOException e) {
             log.error("IOException loading file: " + filename, e);
-            throw new RuntimeException("IOException loading file: " + filename, e);
+            throw new SparkIndexException("IOException loading file: " + filename, e);
         }
         return lines;
     }
@@ -62,10 +63,8 @@ class GOTermFileReader {
         GeneOntologyEntry result = null;
         if (!line.startsWith(COMMENT_PREFIX)) {
             String[] tokens = line.split(SEPARATOR);
-            if (tokens.length == 4) {
-                if (tokens[1].equals(NOT_OBSOLETE)) {
-                    result = new GeneOntologyEntryBuilder().id(tokens[0]).name(tokens[2]).build();
-                }
+            if (tokens.length == 4 && tokens[1].equals(NOT_OBSOLETE)) {
+                result = new GeneOntologyEntryBuilder().id(tokens[0]).name(tokens[2]).build();
             }
         }
         return result;

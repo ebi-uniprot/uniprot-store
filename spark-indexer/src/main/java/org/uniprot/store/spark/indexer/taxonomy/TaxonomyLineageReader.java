@@ -3,12 +3,16 @@ package org.uniprot.store.spark.indexer.taxonomy;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import lombok.extern.slf4j.Slf4j;
+
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaSparkContext;
 import org.apache.spark.sql.Dataset;
 import org.apache.spark.sql.Row;
 import org.apache.spark.sql.SparkSession;
 import org.uniprot.core.taxonomy.TaxonomyLineage;
+import org.uniprot.store.spark.indexer.common.JobParameter;
+import org.uniprot.store.spark.indexer.common.reader.PairRDDReader;
 
 /**
  * This class is responsible to read values from Lineage into an a JavaPairRDD{key=taxId, value=List
@@ -25,7 +29,16 @@ import org.uniprot.core.taxonomy.TaxonomyLineage;
  * @author lgonzales
  * @since 2019-10-11
  */
-public class TaxonomyLineageReader {
+@Slf4j
+public class TaxonomyLineageReader implements PairRDDReader<String, List<TaxonomyLineage>> {
+
+    private final JobParameter jobParameter;
+    private final boolean includeOrganism;
+
+    public TaxonomyLineageReader(JobParameter jobParameter, boolean includeOrganism) {
+        this.jobParameter = jobParameter;
+        this.includeOrganism = includeOrganism;
+    }
 
     private static final String SELECT_TAXONOMY_LINEAGE_SQL =
             "SELECT "
@@ -42,17 +55,17 @@ public class TaxonomyLineageReader {
                     + " CONNECT BY PRIOR PARENT_ID = TAX_ID";
 
     /** @return JavaPairRDD{key=taxId, value=List of TaxonomyLineage} */
-    public static JavaPairRDD<String, List<TaxonomyLineage>> load(
-            JavaSparkContext sparkContext,
-            ResourceBundle applicationConfig,
-            boolean includeOrganism) {
-        int maxTaxId = TaxonomyRDDReader.getMaxTaxId(sparkContext, applicationConfig);
-        System.out.println("Max tax id: " + maxTaxId);
+    public JavaPairRDD<String, List<TaxonomyLineage>> load() {
+        JavaSparkContext sparkContext = jobParameter.getSparkContext();
+        ResourceBundle applicationConfig = jobParameter.getApplicationConfig();
+
+        int maxTaxId = TaxonomyUtil.getMaxTaxId(sparkContext, applicationConfig);
+        log.info("Max tax id: " + maxTaxId);
 
         SparkSession spark = SparkSession.builder().sparkContext(sparkContext.sc()).getOrCreate();
 
         int numberPartition =
-                Integer.valueOf(applicationConfig.getString("database.lineage.partition"));
+                Integer.parseInt(applicationConfig.getString("database.lineage.partition"));
         int[][] ranges = getRanges(maxTaxId, numberPartition);
         JavaPairRDD<String, List<TaxonomyLineage>> result = null;
         for (int[] range : ranges) {
@@ -61,12 +74,12 @@ public class TaxonomyLineageReader {
                             .replace("{start}", "" + range[0])
                             .replace("{end}", "" + range[1]);
 
-            System.out.println("SQL: " + sql);
+            log.info("SQL: " + sql);
 
             Dataset<Row> tableDataset =
                     spark.read()
                             .format("jdbc")
-                            .option("driver", "oracle.jdbc.driver.OracleDriver")
+                            .option("driver", applicationConfig.getString("database.driver"))
                             .option("url", applicationConfig.getString("database.url"))
                             .option("user", applicationConfig.getString("database.user.name"))
                             .option("password", applicationConfig.getString("database.password"))
@@ -81,7 +94,7 @@ public class TaxonomyLineageReader {
         return result;
     }
 
-    static int[][] getRanges(int maxId, int numPartition) {
+    int[][] getRanges(int maxId, int numPartition) {
         int rangeSize = (int) Math.ceil((double) maxId / numPartition);
         int start = 0;
         int[][] range = new int[numPartition][2];
@@ -95,9 +108,8 @@ public class TaxonomyLineageReader {
         return range;
     }
 
-    private static JavaPairRDD<String, List<TaxonomyLineage>> mapToLineage(
+    private JavaPairRDD<String, List<TaxonomyLineage>> mapToLineage(
             Dataset<Row> tableDataset, boolean includeOrganism) {
-        return (JavaPairRDD<String, List<TaxonomyLineage>>)
-                tableDataset.toJavaRDD().mapToPair(new TaxonomyLineageRowMapper(includeOrganism));
+        return tableDataset.toJavaRDD().mapToPair(new TaxonomyLineageRowMapper(includeOrganism));
     }
 }

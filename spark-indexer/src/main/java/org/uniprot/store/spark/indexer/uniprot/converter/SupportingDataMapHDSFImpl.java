@@ -1,6 +1,6 @@
 package org.uniprot.store.spark.indexer.uniprot.converter;
 
-import static org.uniprot.store.spark.indexer.util.SparkUtils.readLines;
+import static org.uniprot.store.spark.indexer.common.util.SparkUtils.readLines;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -33,9 +33,10 @@ import org.uniprot.cv.subcell.SubcellularLocationFileReader;
 public class SupportingDataMapHDSFImpl implements SupportingDataMap {
 
     private static final long serialVersionUID = -1947869915492700469L;
-    private Map<String, Pair<String, KeywordCategory>> keywordMap = new HashMap<>();
-    private Map<String, String> diseaseMap = new HashMap<>();
-    private Map<String, String> subcellularLocationMap = new HashMap<>();
+    private static final String LOADED = "Loaded ";
+    private final Map<String, Pair<String, KeywordCategory>> keywordMap = new HashMap<>();
+    private final Map<String, String> diseaseMap = new HashMap<>();
+    private final Map<String, String> subcellularLocationMap = new HashMap<>();
 
     public SupportingDataMapHDSFImpl(
             String keywordFile,
@@ -59,7 +60,7 @@ public class SupportingDataMapHDSFImpl implements SupportingDataMap {
                                     Collectors.toMap(
                                             SubcellularLocationEntry::getContent,
                                             SubcellularLocationEntry::getId)));
-            log.info("Loaded " + subcellularLocationMap.size() + " Subcellular Location Map");
+            log.info(LOADED + subcellularLocationMap.size() + " Subcellular Location Map");
         } else {
             log.warn("Subcellular Location File was not loaded");
         }
@@ -75,7 +76,7 @@ public class SupportingDataMapHDSFImpl implements SupportingDataMap {
                                     Collectors.toMap(
                                             KeywordFileReader::getId,
                                             KeywordFileReader::getAccessionCategoryPair)));
-            log.info("Loaded " + keywordMap.size() + " keyword Map");
+            log.info(LOADED + keywordMap.size() + " keyword Map");
         } else {
             log.warn("Keyword File was not loaded");
         }
@@ -88,7 +89,7 @@ public class SupportingDataMapHDSFImpl implements SupportingDataMap {
             diseaseMap.putAll(
                     entries.stream()
                             .collect(Collectors.toMap(DiseaseEntry::getName, DiseaseEntry::getId)));
-            log.info("Loaded " + diseaseMap.size() + " disease Map");
+            log.info(LOADED + diseaseMap.size() + " disease Map");
         } else {
             log.warn("diseaseFile path must not be null or empty");
         }

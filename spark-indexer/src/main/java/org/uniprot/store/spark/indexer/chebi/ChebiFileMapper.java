@@ -9,6 +9,7 @@ import org.apache.spark.api.java.function.PairFunction;
 import org.uniprot.core.cv.chebi.ChebiEntry;
 import org.uniprot.core.util.Utils;
 import org.uniprot.cv.chebi.ChebiFileReader;
+import org.uniprot.store.spark.indexer.common.exception.SparkIndexException;
 
 import scala.Tuple2;
 
@@ -28,8 +29,8 @@ public class ChebiFileMapper implements PairFunction<String, String, ChebiEntry>
             ChebiEntry chebi = result.get(0);
             return new Tuple2<>(chebi.getId(), chebi);
         } else {
-            log.info("ERROR PARSING ChebiFileMapper WITH LINES: " + chebiLines);
-            throw new RuntimeException("ERROR PARSING ChebiFileMapper WITH LINES: " + chebiLines);
+            throw new SparkIndexException(
+                    "ERROR PARSING ChebiFileMapper WITH LINES: " + chebiLines);
         }
     }
 }

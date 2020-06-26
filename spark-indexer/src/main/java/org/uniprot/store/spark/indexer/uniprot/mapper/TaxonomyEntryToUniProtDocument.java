@@ -62,9 +62,9 @@ public class TaxonomyEntryToUniProtDocument
             tuple._2
                     .get()
                     .forEach(
-                            taxonomyEntry -> {
-                                taxonomyEntryMap.put(taxonomyEntry.getTaxonId(), taxonomyEntry);
-                            });
+                            taxonomyEntry ->
+                                    taxonomyEntryMap.put(
+                                            taxonomyEntry.getTaxonId(), taxonomyEntry));
 
             TaxonomyEntry organism = taxonomyEntryMap.get((long) doc.organismTaxId);
             if (Utils.notNull(organism)) {
@@ -117,7 +117,7 @@ public class TaxonomyEntryToUniProtDocument
             organism.getLineages()
                     .forEach(
                             lineage -> {
-                                doc.taxLineageIds.add(new Long(lineage.getTaxonId()).intValue());
+                                doc.taxLineageIds.add((int) lineage.getTaxonId());
                                 doc.organismTaxon.add(lineage.getScientificName());
                                 if (lineage.hasCommonName()) {
                                     doc.organismTaxon.add(lineage.getCommonName());

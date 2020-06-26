@@ -1,6 +1,6 @@
 package org.uniprot.store.spark.indexer.taxonomy;
 
-import static org.uniprot.store.spark.indexer.util.RowUtils.hasFieldName;
+import static org.uniprot.store.spark.indexer.common.util.RowUtils.hasFieldName;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -70,6 +70,6 @@ class TaxonomyRowMapper implements PairFunction<Row, String, TaxonomyEntry>, Ser
 
         builder.active(true);
 
-        return new Tuple2<String, TaxonomyEntry>(String.valueOf(taxId), builder.build());
+        return new Tuple2<>(String.valueOf(taxId), builder.build());
     }
 }
