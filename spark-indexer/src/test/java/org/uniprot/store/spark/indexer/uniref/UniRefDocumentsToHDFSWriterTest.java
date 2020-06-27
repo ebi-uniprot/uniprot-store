@@ -42,11 +42,15 @@ class UniRefDocumentsToHDFSWriterTest {
             List<UniRefDocument> savedDocuments = writer.getSavedDocuments();
             assertNotNull(savedDocuments);
             assertEquals(3, savedDocuments.size());
-            UniRefDocument uniref50 = savedDocuments.stream().filter(doc -> doc.getId().equals("UniRef50_Q9EPI6"))
-                    .findFirst()
-                    .orElseThrow(AssertionError::new);
+            UniRefDocument uniref50 =
+                    savedDocuments.stream()
+                            .filter(doc -> doc.getId().equals("UniRef50_Q9EPI6"))
+                            .findFirst()
+                            .orElseThrow(AssertionError::new);
             assertEquals("UniRef50_Q9EPI6", uniref50.getId());
-            assertEquals("Cluster: NMDA receptor synaptonuclear signaling and neuronal migration factor", uniref50.getName());
+            assertEquals(
+                    "Cluster: NMDA receptor synaptonuclear signaling and neuronal migration factor",
+                    uniref50.getName());
             assertTrue(uniref50.getTaxLineageIds().contains(100));
             assertTrue(uniref50.getOrganismTaxons().contains("lineageSC"));
         }
@@ -69,8 +73,14 @@ class UniRefDocumentsToHDFSWriterTest {
                     new TaxonomyEntryBuilder().taxonId(337687).scientificName("sn337687").build();
             tuple2List.add(new Tuple2<>("337687", tax));
 
-            TaxonomyLineage lineage = new TaxonomyLineageBuilder().taxonId(100).scientificName("lineageSC").build();
-            tax = new TaxonomyEntryBuilder().taxonId(10116).scientificName("sn10116").lineagesAdd(lineage).build();
+            TaxonomyLineage lineage =
+                    new TaxonomyLineageBuilder().taxonId(100).scientificName("lineageSC").build();
+            tax =
+                    new TaxonomyEntryBuilder()
+                            .taxonId(10116)
+                            .scientificName("sn10116")
+                            .lineagesAdd(lineage)
+                            .build();
             tuple2List.add(new Tuple2<>("10116", tax));
 
             return parameter.getSparkContext().parallelizePairs(tuple2List);
@@ -81,7 +91,7 @@ class UniRefDocumentsToHDFSWriterTest {
             documents = unirefDocumentRDD.collect();
         }
 
-        List<UniRefDocument> getSavedDocuments(){
+        List<UniRefDocument> getSavedDocuments() {
             return documents;
         }
     }

@@ -61,7 +61,7 @@ import org.uniprot.store.search.SolrCollection;
  *
  * @author Edd
  */
-@ActiveProfiles(profiles = {"manySolrRemoteHostErrors, offline", "job"})
+@ActiveProfiles(profiles = {"manySolrRemoteHostErrors", "offline", "job"})
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(
         classes = {
@@ -96,7 +96,6 @@ class UniProtKBJobWriteSolrRetriesToLogFileThenFailIT {
                     SolrResponse.REMOTE_EXCEPTION); // .. chunk 3 failed to write
 
     @Test
-    //    @Disabled
     void tooManyRetriesCauseAFailedIndexingJob() throws Exception {
         Path logFileForErrors = truncateErrorLogFileBeforeTest();
 

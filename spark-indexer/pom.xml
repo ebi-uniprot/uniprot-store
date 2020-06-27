@@ -23,6 +23,11 @@
 			<version>2.12.8</version>
 		</dependency>
 		<dependency>
+			<groupId>org.codehaus.janino</groupId>
+			<artifactId>janino</artifactId>
+			<version>3.0.12</version>
+		</dependency>
+		<dependency>
 			<groupId>org.apache.spark</groupId>
 			<artifactId>spark-sql_2.12</artifactId>
 			<version>${spark.version}</version>

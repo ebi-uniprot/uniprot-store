@@ -359,7 +359,7 @@ class DRSearchIT {
         QueryResponse response = searchEngine.getQueryResponse(query);
 
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
-        assertThat(retrievedAccessions, contains(EMBL_1, EMBL_2, EMBL_3));
+        assertThat(retrievedAccessions, containsInAnyOrder(EMBL_1, EMBL_2, EMBL_3));
     }
 
     @Test
@@ -369,7 +369,7 @@ class DRSearchIT {
 
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
         System.out.println(retrievedAccessions);
-        assertThat(retrievedAccessions, contains(EMBL_1, EMBL_2, EMBL_3));
+        assertThat(retrievedAccessions, containsInAnyOrder(EMBL_1, EMBL_2, EMBL_3));
     }
 
     @Test
@@ -379,7 +379,7 @@ class DRSearchIT {
 
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
         System.out.println(retrievedAccessions);
-        assertThat(retrievedAccessions, contains(EMBL_2, EMBL_3));
+        assertThat(retrievedAccessions, containsInAnyOrder(EMBL_2, EMBL_3));
     }
 
     @Test
