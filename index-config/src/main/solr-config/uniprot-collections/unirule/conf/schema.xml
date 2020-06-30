@@ -53,8 +53,7 @@
 	<field name="_version_" type="plong" indexed="true" stored="true" />
 
 	<!-- =============================== field types =============================== -->
-	<fieldType name="pdate" class="solr.DatePointField"
-		docValues="true" />
+
 	<fieldType name="plong" class="solr.LongPointField"
 		docValues="true" />
 	<fieldType name="string" class="solr.StrField"
