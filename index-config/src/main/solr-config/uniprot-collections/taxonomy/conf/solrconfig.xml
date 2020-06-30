@@ -16,7 +16,7 @@
 
 	<luceneMatchVersion>8.5.2</luceneMatchVersion>
 
-	<dataDir>${solr.data.dir}/${solr.core.name}/data</dataDir>
+	<dataDir>${solr.data.home}/${solr.core.name}/data</dataDir>
 
 	<directoryFactory name="DirectoryFactory"
 		class="${solr.directoryFactory:solr.NRTCachingDirectoryFactory}" />

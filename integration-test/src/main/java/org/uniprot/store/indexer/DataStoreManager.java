@@ -65,7 +65,7 @@ public class DataStoreManager implements AfterAllCallback, BeforeAllCallback {
     public void beforeAll(ExtensionContext extensionContext) throws Exception {
         loadPropertiesAndSetAsSystemProperties();
         temporaryFolder = Files.createTempDirectory("solr");
-        System.setProperty("solr.data.dir", temporaryFolder.toString());
+        System.setProperty("solr.data.home", temporaryFolder.toString());
         File solrHome = new File(System.getProperty(ClosableEmbeddedSolrClient.SOLR_HOME));
         container = new CoreContainer(solrHome.getAbsolutePath());
         container.load();
@@ -74,7 +74,7 @@ public class DataStoreManager implements AfterAllCallback, BeforeAllCallback {
     @Override
     public void afterAll(ExtensionContext extensionContext) throws Exception {
         close();
-        System.setProperty("solr.data.dir", "");
+        System.setProperty("solr.data.home", "");
         FileSystemUtils.deleteRecursively(temporaryFolder);
     }
 
