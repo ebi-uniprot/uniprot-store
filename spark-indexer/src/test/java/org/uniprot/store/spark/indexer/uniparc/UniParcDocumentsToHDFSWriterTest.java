@@ -1,5 +1,11 @@
 package org.uniprot.store.spark.indexer.uniparc;
 
+import static org.junit.jupiter.api.Assertions.*;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.ResourceBundle;
+
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
@@ -9,17 +15,10 @@ import org.uniprot.core.taxonomy.TaxonomyLineage;
 import org.uniprot.core.taxonomy.impl.TaxonomyEntryBuilder;
 import org.uniprot.core.taxonomy.impl.TaxonomyLineageBuilder;
 import org.uniprot.store.search.document.uniparc.UniParcDocument;
-import org.uniprot.store.search.document.uniref.UniRefDocument;
 import org.uniprot.store.spark.indexer.common.JobParameter;
 import org.uniprot.store.spark.indexer.common.util.SparkUtils;
-import org.uniprot.store.spark.indexer.uniref.UniRefDocumentsToHDFSWriter;
+
 import scala.Tuple2;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.ResourceBundle;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * @author lgonzales
@@ -38,7 +37,9 @@ class UniParcDocumentsToHDFSWriterTest {
                             .sparkContext(sparkContext)
                             .build();
 
-            UniParcDocumentsToHDFSWriterTest.UniParcDocumentsToHDFSWriterFake writer = new UniParcDocumentsToHDFSWriterTest.UniParcDocumentsToHDFSWriterFake(parameter);
+            UniParcDocumentsToHDFSWriterTest.UniParcDocumentsToHDFSWriterFake writer =
+                    new UniParcDocumentsToHDFSWriterTest.UniParcDocumentsToHDFSWriterFake(
+                            parameter);
             writer.writeIndexDocumentsToHDFS();
             List<UniParcDocument> savedDocuments = writer.getSavedDocuments();
             assertNotNull(savedDocuments);
@@ -68,8 +69,14 @@ class UniParcDocumentsToHDFSWriterTest {
                     new TaxonomyEntryBuilder().taxonId(337687).scientificName("sn337687").build();
             tuple2List.add(new Tuple2<>("337687", tax));
 
-            TaxonomyLineage lineage = new TaxonomyLineageBuilder().taxonId(100).scientificName("lineageSC").build();
-            tax = new TaxonomyEntryBuilder().taxonId(10116).scientificName("sn10116").lineagesAdd(lineage).build();
+            TaxonomyLineage lineage =
+                    new TaxonomyLineageBuilder().taxonId(100).scientificName("lineageSC").build();
+            tax =
+                    new TaxonomyEntryBuilder()
+                            .taxonId(10116)
+                            .scientificName("sn10116")
+                            .lineagesAdd(lineage)
+                            .build();
             tuple2List.add(new Tuple2<>("10116", tax));
 
             return parameter.getSparkContext().parallelizePairs(tuple2List);
@@ -80,7 +87,7 @@ class UniParcDocumentsToHDFSWriterTest {
             documents = uniParcDocumentRDD.collect();
         }
 
-        List<UniParcDocument> getSavedDocuments(){
+        List<UniParcDocument> getSavedDocuments() {
             return documents;
         }
     }
