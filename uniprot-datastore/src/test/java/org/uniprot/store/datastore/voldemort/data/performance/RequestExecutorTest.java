@@ -108,7 +108,7 @@ class RequestExecutorTest {
 
         config.setReportSizeIfGreaterThanBytes(10);
         String message =
-                new TestableRequestExecutor(config, 1024L * 1000)
+                new TestableRequestExecutor(config, 1000L * 1000)
                         .getSizeIfBigMessage("anything", null);
 
         assertThat(message, is("Size of anything = 1.0 mb"));
