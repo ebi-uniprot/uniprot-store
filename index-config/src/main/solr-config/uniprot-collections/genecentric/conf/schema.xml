@@ -6,18 +6,35 @@
 
 	<field name="_version_" type="plong" indexed="true" stored="true" />
 
-	<fieldType name="plong" class="solr.LongPointField"
-		docValues="true" />
+	<!-- ====================================================================================== -->
+	<!-- =============================== genecentric configurations =============================== -->
+	<!-- ====================================================================================== -->
+	<field name="accession_id" type="string" indexed="true"
+		   stored="true" required="true" multiValued="false" />
+	<field name="accession" type="basic_ci" indexed="true"
+		   stored="false" required="true" multiValued="true" />
+	<field name="upid" type="basic_ci" indexed="true" stored="false"
+		   required="true" multiValued="false" />
+	<field name="reviewed" type="boolean" indexed="true"
+		   stored="false" required="false" multiValued="false" />
+	<field name="organism_id" type="int" indexed="true"
+		   stored="false" required="false" multiValued="false" />
+	<field name="gene" type="full_ci" indexed="true" stored="false"
+		   required="false" multiValued="true" />
+	<field name="genecentric_stored" type="binary" indexed="false"
+		   stored="true" required="true" multiValued="false" />
+	<field name="content" type="full_ci" indexed="true"
+		   stored="false" multiValued="true" />
+	<copyField source="accession" dest="content" />
+	<copyField source="upid" dest="content" />
+	<copyField source="organism_id" dest="content" />
+	<copyField source="gene" dest="content" />
 
-	<fieldType name="string" class="solr.StrField"
-		sortMissingLast="true" />
-
-	<fieldType name="boolean" class="solr.BoolField"
-		sortMissingLast="true" />
-
-	<fieldType name="int" class="solr.IntPointField"
-		docValues="true" />
-
+	<!-- =============================== field types =============================== -->
+	<fieldType name="plong" class="solr.LongPointField" docValues="true" />
+	<fieldType name="string" class="solr.StrField" sortMissingLast="true" />
+	<fieldType name="boolean" class="solr.BoolField" sortMissingLast="true" />
+	<fieldType name="int" class="solr.IntPointField" docValues="true" />
 	<fieldType name="binary" class="solr.BinaryField" />
 
 	<fieldType name="basic_ci" class="solr.TextField"
@@ -57,27 +74,4 @@
 		</analyzer>
 	</fieldType>
 
-	<!-- ====================================================================================== -->
-	<!-- =============================== genecentric configurations =============================== -->
-	<!-- ====================================================================================== -->
-	<field name="accession_id" type="string" indexed="true"
-		stored="true" required="true" multiValued="false" />
-	<field name="accession" type="basic_ci" indexed="true"
-		stored="false" required="true" multiValued="true" />
-	<field name="upid" type="basic_ci" indexed="true" stored="false"
-		required="true" multiValued="false" />
-	<field name="reviewed" type="boolean" indexed="true"
-		stored="false" required="false" multiValued="false" />
-	<field name="organism_id" type="int" indexed="true"
-		stored="false" required="false" multiValued="false" />
-	<field name="gene" type="full_ci" indexed="true" stored="false"
-		required="false" multiValued="true" />
-	<field name="genecentric_stored" type="binary" indexed="false"
-		stored="true" required="true" multiValued="false" />
-	<field name="content" type="full_ci" indexed="true"
-		stored="false" multiValued="true" />
-	<copyField source="accession" dest="content" />
-	<copyField source="upid" dest="content" />
-	<copyField source="organism_id" dest="content" />
-	<copyField source="gene" dest="content" />
 </schema>

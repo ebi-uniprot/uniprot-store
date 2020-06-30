@@ -6,18 +6,46 @@
 
 	<field name="_version_" type="plong" indexed="true" stored="true" />
 
-	<fieldType name="plong" class="solr.LongPointField"
-		docValues="true" />
+	<!-- =============================== proteome configurations =============================== -->
+	<field name="upid" type="string" indexed="true" stored="true"
+		   required="true" multiValued="false" />
+	<field name="organism_sort" type="string" indexed="true"
+		   stored="false" required="false" multiValued="false" docValues="true" />
+	<field name="organism_name" type="full_ci" indexed="true"
+		   stored="false" required="false" multiValued="true" />
+	<field name="organism_id" type="int" indexed="true"
+		   stored="false" required="false" multiValued="false" />
+	<field name="taxonomy_name" type="full_ci" indexed="true"
+		   stored="false" required="false" multiValued="true" />
+	<field name="taxonomy_id" type="int" indexed="true"
+		   stored="false" required="false" multiValued="true" />
+	<field name="superkingdom" type="string" indexed="true"
+		   stored="false" required="false" multiValued="false" docValues="true" />
+	<field name="reference" type="boolean" indexed="true"
+		   stored="false" required="true" multiValued="false" />
+	<field name="redundant" type="boolean" indexed="true"
+		   stored="false" required="true" multiValued="false" />
+	<field name="genome_accession" type="basic_ci" indexed="true"
+		   stored="false" required="false" multiValued="true" />
+	<field name="genome_assembly" type="basic_ci" indexed="true"
+		   stored="false" required="false" multiValued="true" />
+	<field name="proteome_stored" type="binary" indexed="false"
+		   stored="true" required="true" multiValued="false" />
+	<!-- Default field -->
+	<field name="content" type="full_ci" indexed="true"
+		   stored="false" required="false" multiValued="true" />
 
-	<fieldType name="string" class="solr.StrField"
-		sortMissingLast="true" />
+	<field name="annotation_score" type="int" indexed="true"
+		   stored="true" required="false" multiValued="false" docValues="true" />
+	<field name="proteome_type" type="int" indexed="true"
+		   stored="true" required="false" multiValued="false" docValues="true" />
 
-	<fieldType name="boolean" class="solr.BoolField"
-		sortMissingLast="true" />
 
-	<fieldType name="int" class="solr.IntPointField"
-		docValues="true" />
-
+	<!-- =============================== field types =============================== -->
+	<fieldType name="plong" class="solr.LongPointField" docValues="true" />
+	<fieldType name="string" class="solr.StrField" sortMissingLast="true" />
+	<fieldType name="boolean" class="solr.BoolField" sortMissingLast="true" />
+	<fieldType name="int" class="solr.IntPointField" docValues="true" />
 	<fieldType name="binary" class="solr.BinaryField" />
 
 	<fieldType name="basic_ci" class="solr.TextField"
@@ -56,41 +84,4 @@
 			<filter class="solr.LowerCaseFilterFactory" />
 		</analyzer>
 	</fieldType>
-
-	<!-- ====================================================================================== -->
-	<!-- =============================== proteome configurations =============================== -->
-	<!-- ====================================================================================== -->
-	<field name="upid" type="string" indexed="true" stored="true"
-		required="true" multiValued="false" />
-	<field name="organism_sort" type="string" indexed="true"
-		stored="false" required="false" multiValued="false" docValues="true" />
-	<field name="organism_name" type="full_ci" indexed="true"
-		stored="false" required="false" multiValued="true" />
-	<field name="organism_id" type="int" indexed="true"
-		stored="false" required="false" multiValued="false" />
-	<field name="taxonomy_name" type="full_ci" indexed="true"
-		stored="false" required="false" multiValued="true" />
-	<field name="taxonomy_id" type="int" indexed="true"
-		stored="false" required="false" multiValued="true" />
-	<field name="superkingdom" type="string" indexed="true"
-		stored="false" required="false" multiValued="false" docValues="true" />
-	<field name="reference" type="boolean" indexed="true"
-		stored="false" required="true" multiValued="false" />
-	<field name="redundant" type="boolean" indexed="true"
-		stored="false" required="true" multiValued="false" />
-	<field name="genome_accession" type="basic_ci" indexed="true"
-		stored="false" required="false" multiValued="true" />
-	<field name="genome_assembly" type="basic_ci" indexed="true"
-		stored="false" required="false" multiValued="true" />
-	<field name="proteome_stored" type="binary" indexed="false"
-		stored="true" required="true" multiValued="false" />
-	<!-- Default field -->
-	<field name="content" type="full_ci" indexed="true"
-		stored="false" required="false" multiValued="true" />
-
-	<field name="annotation_score" type="int" indexed="true"
-		stored="true" required="false" multiValued="false" docValues="true" />
-	<field name="proteome_type" type="int" indexed="true"
-		stored="true" required="false" multiValued="false" docValues="true" />
-
 </schema>

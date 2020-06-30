@@ -10,6 +10,12 @@
 	OF ANY KIND, either express or implied. See the License for the specific 
 	language governing permissions and limitations under the License. -->
 <schema name="crossref" version="1.6">
+
+	<!-- Field constraints -->
+	<uniqueKey>id</uniqueKey>
+
+	<field name="_version_" type="plong" indexed="true" stored="true" />
+
 	<!-- =============================== cross references fields =============================== -->
 	<field name="id" type="string" indexed="true" stored="true"
 		required="true" multiValued="false" docValues="true" />
@@ -40,8 +46,6 @@
 	<field name="unreviewed_protein_count" type="plong"
 		indexed="false" stored="true" />
 
-	<!-- Field constraints -->
-	<uniqueKey>id</uniqueKey>
 	<!-- <copyField source="category_str" dest="category_facet" /> -->
 	<copyField source="category_facet" dest="category_str" />
 	<!-- name = name_only + abbrev -->
@@ -53,20 +57,13 @@
 	<copyField source="name_only" dest="content" />
 	<copyField source="category_str" dest="content" />
 
-	<!-- Meta fields -->
-	<!-- If you remove this field, you must _also_ disable the update log in 
-		solrconfig.xml or Solr won't start. _version_ and update log are required 
-		for SolrCloud -->
-	<field name="_version_" type="plong" indexed="true" stored="true" />
 
 	<!-- =============================== field types =============================== -->
-	<fieldType name="plong" class="solr.LongPointField"
-		docValues="true" />
-	<fieldType name="string" class="solr.StrField"
-		sortMissingLast="true" />
+	<fieldType name="plong" class="solr.LongPointField" docValues="true" />
+	<fieldType name="string" class="solr.StrField" sortMissingLast="true" />
 
 	<fieldType name="basic_ci" class="solr.TextField"
-		sortMissingLast="true" omitNorms="true" positionIncrementGap="100">
+			   sortMissingLast="true" omitNorms="true" positionIncrementGap="100">
 		<analyzer type="index">
 			<tokenizer class="solr.WhitespaceTokenizerFactory" />
 			<filter class="solr.LowerCaseFilterFactory" />
@@ -77,26 +74,26 @@
 		</analyzer>
 	</fieldType>
 	<fieldType name="full_ci" class="solr.TextField"
-		sortMissingLast="true" omitNorms="true" positionIncrementGap="100">
+			   sortMissingLast="true" omitNorms="true" positionIncrementGap="100">
 		<analyzer type="index">
 			<tokenizer class="solr.WhitespaceTokenizerFactory" />
 			<filter class="solr.ASCIIFoldingFilterFactory"
-				preserveOriginal="false" />
+					preserveOriginal="false" />
 			<filter class="solr.WordDelimiterGraphFilterFactory"
-				generateWordParts="1" generateNumberParts="1" catenateWords="1"
-				catenateNumbers="1" catenateAll="1" splitOnCaseChange="1"
-				preserveOriginal="1" splitOnNumerics="0" stemEnglishPossessive="1" />
+					generateWordParts="1" generateNumberParts="1" catenateWords="1"
+					catenateNumbers="1" catenateAll="1" splitOnCaseChange="1"
+					preserveOriginal="1" splitOnNumerics="0" stemEnglishPossessive="1" />
 			<filter class="solr.FlattenGraphFilterFactory" />
 			<filter class="solr.LowerCaseFilterFactory" />
 		</analyzer>
 		<analyzer type="query">
 			<tokenizer class="solr.WhitespaceTokenizerFactory" />
 			<filter class="solr.ASCIIFoldingFilterFactory"
-				preserveOriginal="false" />
+					preserveOriginal="false" />
 			<filter class="solr.WordDelimiterGraphFilterFactory"
-				generateWordParts="1" generateNumberParts="1" catenateWords="1"
-				catenateNumbers="1" catenateAll="1" splitOnCaseChange="1"
-				preserveOriginal="1" splitOnNumerics="0" stemEnglishPossessive="1" />
+					generateWordParts="1" generateNumberParts="1" catenateWords="1"
+					catenateNumbers="1" catenateAll="1" splitOnCaseChange="1"
+					preserveOriginal="1" splitOnNumerics="0" stemEnglishPossessive="1" />
 			<filter class="solr.LowerCaseFilterFactory" />
 		</analyzer>
 	</fieldType>

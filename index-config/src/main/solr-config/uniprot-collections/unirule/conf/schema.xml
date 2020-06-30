@@ -10,6 +10,11 @@
 	OF ANY KIND, either express or implied. See the License for the specific 
 	language governing permissions and limitations under the License. -->
 <schema name="unirule" version="1.6">
+
+	<uniqueKey>unirule_id</uniqueKey>
+
+	<field name="_version_" type="plong" indexed="true" stored="true" />
+
 	<!-- =============================== UniRule fields =============================== -->
 	<field name="unirule_id" type="string" indexed="true"
 		stored="true" required="true" docValues="true" />
@@ -35,7 +40,6 @@
 		stored="false" required="true" multiValued="true" />
 	<field name="unirule_obj" type="binary" indexed="false"
 		stored="true" required="true" />
-	<uniqueKey>unirule_id</uniqueKey>
 	<copyField source="unirule_id" dest="content" />
 	<copyField source="condition_value" dest="content" />
 	<copyField source="keyword" dest="content" />
@@ -46,20 +50,12 @@
 	<copyField source="taxonomy" dest="content" />
 	<copyField source="feature_type" dest="content" />
 	<copyField source="cc_*" dest="content" />
-	<!-- Meta fields -->
-	<!-- If you remove this field, you must _also_ disable the update log in 
-		solrconfig.xml or Solr won't start. _version_ and update log are required 
-		for SolrCloud -->
-	<field name="_version_" type="plong" indexed="true" stored="true" />
+
 
 	<!-- =============================== field types =============================== -->
-
-	<fieldType name="plong" class="solr.LongPointField"
-		docValues="true" />
-	<fieldType name="string" class="solr.StrField"
-		sortMissingLast="true" />
-	<fieldType name="boolean" class="solr.BoolField"
-		sortMissingLast="true" />
+	<fieldType name="plong" class="solr.LongPointField" docValues="true" />
+	<fieldType name="string" class="solr.StrField" sortMissingLast="true" />
+	<fieldType name="boolean" class="solr.BoolField" sortMissingLast="true" />
 	<fieldType name="binary" class="solr.BinaryField" />
 
 	<fieldType name="basic_ci" class="solr.TextField"

@@ -2,65 +2,12 @@
 
 <schema name="uniref" version="1.6">
 
-	<field name="_version_" type="plong" indexed="true" stored="true" />
-
 	<uniqueKey>id</uniqueKey>
 
-	<fieldType name="plong" class="solr.LongPointField"
-		docValues="true" />
+	<field name="_version_" type="plong" indexed="true" stored="true" />
 
-	<fieldType name="string" class="solr.StrField"
-		sortMissingLast="true" />
 
-	<fieldType name="boolean" class="solr.BoolField"
-		sortMissingLast="true" />
-
-	<fieldType name="int" class="solr.IntPointField"
-		docValues="true" />
-
-	<fieldType name="date" class="solr.DatePointField"
-		docValues="true" />
-
-	<fieldType name="basic_ci" class="solr.TextField"
-		sortMissingLast="true" omitNorms="true" positionIncrementGap="100">
-		<analyzer type="index">
-			<tokenizer class="solr.WhitespaceTokenizerFactory" />
-			<filter class="solr.LowerCaseFilterFactory" />
-		</analyzer>
-		<analyzer type="query">
-			<tokenizer class="solr.WhitespaceTokenizerFactory" />
-			<filter class="solr.LowerCaseFilterFactory" />
-		</analyzer>
-	</fieldType>
-
-	<fieldType name="full_ci" class="solr.TextField"
-		sortMissingLast="true" omitNorms="true" positionIncrementGap="100">
-		<analyzer type="index">
-			<tokenizer class="solr.WhitespaceTokenizerFactory" />
-			<filter class="solr.ASCIIFoldingFilterFactory"
-				preserveOriginal="false" />
-			<filter class="solr.WordDelimiterGraphFilterFactory"
-				generateWordParts="1" generateNumberParts="1" catenateWords="1"
-				catenateNumbers="1" catenateAll="1" splitOnCaseChange="1"
-				preserveOriginal="1" splitOnNumerics="1" stemEnglishPossessive="1" />
-			<filter class="solr.FlattenGraphFilterFactory" />
-			<filter class="solr.LowerCaseFilterFactory" />
-		</analyzer>
-		<analyzer type="query">
-			<tokenizer class="solr.WhitespaceTokenizerFactory" />
-			<filter class="solr.ASCIIFoldingFilterFactory"
-				preserveOriginal="false" />
-			<filter class="solr.WordDelimiterGraphFilterFactory"
-				generateWordParts="1" generateNumberParts="1" catenateWords="1"
-				catenateNumbers="1" catenateAll="1" splitOnCaseChange="1"
-				preserveOriginal="1" splitOnNumerics="1" stemEnglishPossessive="1" />
-			<filter class="solr.LowerCaseFilterFactory" />
-		</analyzer>
-	</fieldType>
-
-	<!-- ====================================================================================== -->
-	<!-- =============================== uniref configurations =============================== -->
-	<!-- ====================================================================================== -->
+	<!-- =============================== uniref fields =============================== -->
 	<field name="id" type="string" indexed="true" stored="true"
 		required="true" multiValued="false" docValues="true" />
 	<field name="name" type="full_ci" indexed="true" stored="true"
@@ -95,4 +42,49 @@
 	<copyField source="taxonomy_name" dest="content" />
 	<copyField source="taxonomy_id" dest="content" />
 
+
+
+	<!-- =============================== field types =============================== -->
+	<fieldType name="plong" class="solr.LongPointField" docValues="true" />
+	<fieldType name="string" class="solr.StrField" sortMissingLast="true" />
+	<fieldType name="boolean" class="solr.BoolField" sortMissingLast="true" />
+	<fieldType name="int" class="solr.IntPointField" docValues="true" />
+	<fieldType name="date" class="solr.DatePointField" docValues="true" />
+
+	<fieldType name="basic_ci" class="solr.TextField"
+			   sortMissingLast="true" omitNorms="true" positionIncrementGap="100">
+		<analyzer type="index">
+			<tokenizer class="solr.WhitespaceTokenizerFactory" />
+			<filter class="solr.LowerCaseFilterFactory" />
+		</analyzer>
+		<analyzer type="query">
+			<tokenizer class="solr.WhitespaceTokenizerFactory" />
+			<filter class="solr.LowerCaseFilterFactory" />
+		</analyzer>
+	</fieldType>
+
+	<fieldType name="full_ci" class="solr.TextField"
+			   sortMissingLast="true" omitNorms="true" positionIncrementGap="100">
+		<analyzer type="index">
+			<tokenizer class="solr.WhitespaceTokenizerFactory" />
+			<filter class="solr.ASCIIFoldingFilterFactory"
+					preserveOriginal="false" />
+			<filter class="solr.WordDelimiterGraphFilterFactory"
+					generateWordParts="1" generateNumberParts="1" catenateWords="1"
+					catenateNumbers="1" catenateAll="1" splitOnCaseChange="1"
+					preserveOriginal="1" splitOnNumerics="1" stemEnglishPossessive="1" />
+			<filter class="solr.FlattenGraphFilterFactory" />
+			<filter class="solr.LowerCaseFilterFactory" />
+		</analyzer>
+		<analyzer type="query">
+			<tokenizer class="solr.WhitespaceTokenizerFactory" />
+			<filter class="solr.ASCIIFoldingFilterFactory"
+					preserveOriginal="false" />
+			<filter class="solr.WordDelimiterGraphFilterFactory"
+					generateWordParts="1" generateNumberParts="1" catenateWords="1"
+					catenateNumbers="1" catenateAll="1" splitOnCaseChange="1"
+					preserveOriginal="1" splitOnNumerics="1" stemEnglishPossessive="1" />
+			<filter class="solr.LowerCaseFilterFactory" />
+		</analyzer>
+	</fieldType>
 </schema>

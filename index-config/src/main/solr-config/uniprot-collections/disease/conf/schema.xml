@@ -10,7 +10,12 @@
 	OF ANY KIND, either express or implied. See the License for the specific 
 	language governing permissions and limitations under the License. -->
 <schema name="disease" version="1.6">
-	<!-- =============================== cross references fields =============================== -->
+	<!-- Field constraints -->
+	<uniqueKey>id</uniqueKey>
+
+	<field name="_version_" type="plong" indexed="true" stored="true" />
+
+	<!-- =============================== disease fields =============================== -->
 	<field name="id" type="string" indexed="true" stored="true"
 		required="true" multiValued="false" docValues="true" /> <!-- AC -->
 	<field name="name" type="full_ci" indexed="true" stored="false"
@@ -21,21 +26,12 @@
 	<field name="disease_obj" type="binary" indexed="false"
 		stored="true" required="true" multiValued="false" />
 
-	<!-- Field constraints -->
-	<uniqueKey>id</uniqueKey>
 
-	<!-- Meta fields -->
-	<!-- If you remove this field, you must _also_ disable the update log in 
-		solrconfig.xml or Solr won't start. _version_ and update log are required 
-		for SolrCloud -->
-	<field name="_version_" type="plong" indexed="true" stored="true" />
 
 	<!-- =============================== field types =============================== -->
 	<fieldType name="binary" class="solr.BinaryField" />
-	<fieldType name="plong" class="solr.LongPointField"
-		docValues="true" />
-	<fieldType name="string" class="solr.StrField"
-		sortMissingLast="true" />
+	<fieldType name="plong" class="solr.LongPointField" docValues="true" />
+	<fieldType name="string" class="solr.StrField" sortMissingLast="true" />
 
 	<fieldType name="basic_ci" class="solr.TextField"
 		sortMissingLast="true" omitNorms="true" positionIncrementGap="100">

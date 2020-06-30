@@ -6,14 +6,47 @@
 
 	<field name="_version_" type="plong" indexed="true" stored="true" />
 
-	<fieldType name="plong" class="solr.LongPointField"
-		docValues="true" />
+	<!-- =============================== uniparc fields =============================== -->
+	<field name="upi" type="string" indexed="true" stored="true"
+		   required="true" multiValued="false" docValues="true" />
+	<field name="taxonomy_name" type="full_ci" indexed="true"
+		   stored="false" required="false" multiValued="true" />
+	<field name="taxonomy_id" type="int" indexed="true"
+		   stored="false" required="false" multiValued="true" />
+	<field name="database" type="basic_ci" indexed="true"
+		   stored="false" required="false" multiValued="true" />
+	<field name="active" type="basic_ci" indexed="true"
+		   stored="false" required="false" multiValued="true" />
+	<field name="gene" type="full_ci" indexed="true" stored="false"
+		   required="false" multiValued="true" />
+	<field name="protein" type="full_ci" indexed="true"
+		   stored="false" required="false" multiValued="true" />
+	<field name="upid" type="basic_ci" indexed="true" stored="false"
+		   required="false" multiValued="true" />
+	<field name="accession" type="basic_ci" indexed="true"
+		   stored="false" required="false" multiValued="true" />
+	<field name="isoform" type="basic_ci" indexed="true"
+		   stored="false" required="false" multiValued="true" />
+	<field name="checksum" type="basic_ci" indexed="true"
+		   stored="false" required="false" multiValued="true" />
+	<field name="length" type="int" indexed="true" stored="false"
+		   required="false" multiValued="false" />
 
-	<fieldType name="string" class="solr.StrField"
-		sortMissingLast="true" />
+	<field name="content" type="full_ci" indexed="true"
+		   stored="false" multiValued="true" />
+	<copyField source="accession" dest="content" />
+	<copyField source="upid" dest="content" />
+	<copyField source="taxonomy_name" dest="content" />
+	<copyField source="taxonomy_id" dest="content" />
+	<copyField source="gene" dest="content" />
+	<copyField source="protein" dest="content" />
+	<copyField source="upi" dest="content" />
 
-	<fieldType name="int" class="solr.IntPointField"
-		docValues="true" />
+
+	<!-- =============================== field types =============================== -->
+	<fieldType name="plong" class="solr.LongPointField" docValues="true" />
+	<fieldType name="string" class="solr.StrField" sortMissingLast="true" />
+	<fieldType name="int" class="solr.IntPointField" docValues="true" />
 
 	<fieldType name="basic_ci" class="solr.TextField"
 		sortMissingLast="true" omitNorms="true" positionIncrementGap="100">
@@ -51,42 +84,4 @@
 			<filter class="solr.LowerCaseFilterFactory" />
 		</analyzer>
 	</fieldType>
-
-	<!-- ====================================================================================== -->
-	<!-- =============================== uniparc configurations =============================== -->
-	<!-- ====================================================================================== -->
-	<field name="upi" type="string" indexed="true" stored="true"
-		required="true" multiValued="false" docValues="true" />
-	<field name="taxonomy_name" type="full_ci" indexed="true"
-		stored="false" required="false" multiValued="true" />
-	<field name="taxonomy_id" type="int" indexed="true"
-		stored="false" required="false" multiValued="true" />
-	<field name="database" type="basic_ci" indexed="true"
-		stored="false" required="false" multiValued="true" />
-	<field name="active" type="basic_ci" indexed="true"
-		stored="false" required="false" multiValued="true" />
-	<field name="gene" type="full_ci" indexed="true" stored="false"
-		required="false" multiValued="true" />
-	<field name="protein" type="full_ci" indexed="true"
-		stored="false" required="false" multiValued="true" />
-	<field name="upid" type="basic_ci" indexed="true" stored="false"
-		required="false" multiValued="true" />
-	<field name="accession" type="basic_ci" indexed="true"
-		stored="false" required="false" multiValued="true" />
-	<field name="isoform" type="basic_ci" indexed="true"
-		stored="false" required="false" multiValued="true" />
-	<field name="checksum" type="basic_ci" indexed="true"
-		stored="false" required="false" multiValued="true" />
-	<field name="length" type="int" indexed="true" stored="false"
-		required="false" multiValued="false" />
-
-	<field name="content" type="full_ci" indexed="true"
-		stored="false" multiValued="true" />
-	<copyField source="accession" dest="content" />
-	<copyField source="upid" dest="content" />
-	<copyField source="taxonomy_name" dest="content" />
-	<copyField source="taxonomy_id" dest="content" />
-	<copyField source="gene" dest="content" />
-	<copyField source="protein" dest="content" />
-	<copyField source="upi" dest="content" />
 </schema>

@@ -19,40 +19,11 @@
 
 <schema name="uniprot" version="1.6">
 
-	<field name="_version_" type="plong" indexed="true" stored="true" />
-
 	<uniqueKey>accession_id</uniqueKey>
 
-	<fieldType name="string" class="solr.StrField"
-		sortMissingLast="true" />
+	<field name="_version_" type="plong" indexed="true" stored="true" />
 
-	<fieldType name="boolean" class="solr.BoolField"
-		sortMissingLast="true" />
-	<fieldType name="int" class="solr.IntPointField"
-		docValues="true" />
-	<fieldType name="plong" class="solr.LongPointField"
-		docValues="true" />
-
-	<fieldType name="rdates" class="solr.DateRangeField"
-		multiValued="true" />
-
-	<!-- lowercases the entire field value, keeping it as a single token. -->
-	<fieldType name="lowercase" class="solr.TextField"
-		positionIncrementGap="100">
-		<analyzer>
-			<tokenizer class="solr.KeywordTokenizerFactory" />
-			<filter class="solr.LowerCaseFilterFactory" />
-		</analyzer>
-	</fieldType>
-
-	<!-- ====================================================================================== -->
-	<!-- =============================== UniProt configurations =============================== -->
-	<!-- ====================================================================================== -->
-
-	<!-- points to the root document of a block of nested documents. Required 
-		for nested document support, may be removed otherwise -->
-
-	<!--The Uniprot Accession, used as ID, defined in uniqueKey -->
+	<!-- =============================== UniProt fields =============================== -->
 
 	<field name="accession_id" type="string" indexed="true"
 		stored="true" required="true" multiValued="false" docValues="true" />
@@ -466,6 +437,22 @@
 	<field name="uniparc" type="string" indexed="true" stored="false"
 		required="false" multiValued="false" />
 
+
+	<!-- =============================== field types =============================== -->
+	<fieldType name="string" class="solr.StrField" sortMissingLast="true" />
+	<fieldType name="boolean" class="solr.BoolField" sortMissingLast="true" />
+	<fieldType name="int" class="solr.IntPointField" docValues="true" />
+	<fieldType name="plong" class="solr.LongPointField" docValues="true" />
+	<fieldType name="rdates" class="solr.DateRangeField" multiValued="true" />
+
+	<!-- lowercases the entire field value, keeping it as a single token. -->
+	<fieldType name="lowercase" class="solr.TextField"
+			   positionIncrementGap="100">
+		<analyzer>
+			<tokenizer class="solr.KeywordTokenizerFactory" />
+			<filter class="solr.LowerCaseFilterFactory" />
+		</analyzer>
+	</fieldType>
 	<!-- Start of UJDK type definitions -->
 
 	<!-- standard analysis for text fields -->
