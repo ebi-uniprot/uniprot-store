@@ -37,8 +37,10 @@
 
 
 	<!-- =============================== field types =============================== -->
-	<fieldType name="plong" class="solr.LongPointField" docValues="true" />
-	<fieldType name="string" class="solr.StrField" sortMissingLast="true" />
+	<fieldType name="plong" class="solr.LongPointField"
+		docValues="true" />
+	<fieldType name="string" class="solr.StrField"
+		sortMissingLast="true" />
 	<fieldType name="binary" class="solr.BinaryField" />
 
 	<fieldType name="basic_ci" class="solr.TextField"

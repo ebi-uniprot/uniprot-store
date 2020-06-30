@@ -42,8 +42,10 @@
 		enumsConfig="enumsConfig.xml" enumName="importance" />
 
 	<!-- =============================== field types =============================== -->
-	<fieldType name="plong" class="solr.LongPointField" docValues="true" />
-	<fieldType name="string" class="solr.StrField" sortMissingLast="true" />
+	<fieldType name="plong" class="solr.LongPointField"
+		docValues="true" />
+	<fieldType name="string" class="solr.StrField"
+		sortMissingLast="true" />
 
 	<fieldType name="basic_ci" class="solr.TextField"
 		sortMissingLast="true" omitNorms="false" omitPositions="false"

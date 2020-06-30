@@ -439,15 +439,20 @@
 
 
 	<!-- =============================== field types =============================== -->
-	<fieldType name="string" class="solr.StrField" sortMissingLast="true" />
-	<fieldType name="boolean" class="solr.BoolField" sortMissingLast="true" />
-	<fieldType name="int" class="solr.IntPointField" docValues="true" />
-	<fieldType name="plong" class="solr.LongPointField" docValues="true" />
-	<fieldType name="rdates" class="solr.DateRangeField" multiValued="true" />
+	<fieldType name="string" class="solr.StrField"
+		sortMissingLast="true" />
+	<fieldType name="boolean" class="solr.BoolField"
+		sortMissingLast="true" />
+	<fieldType name="int" class="solr.IntPointField"
+		docValues="true" />
+	<fieldType name="plong" class="solr.LongPointField"
+		docValues="true" />
+	<fieldType name="rdates" class="solr.DateRangeField"
+		multiValued="true" />
 
 	<!-- lowercases the entire field value, keeping it as a single token. -->
 	<fieldType name="lowercase" class="solr.TextField"
-			   positionIncrementGap="100">
+		positionIncrementGap="100">
 		<analyzer>
 			<tokenizer class="solr.KeywordTokenizerFactory" />
 			<filter class="solr.LowerCaseFilterFactory" />

@@ -59,11 +59,13 @@
 
 
 	<!-- =============================== field types =============================== -->
-	<fieldType name="plong" class="solr.LongPointField" docValues="true" />
-	<fieldType name="string" class="solr.StrField" sortMissingLast="true" />
+	<fieldType name="plong" class="solr.LongPointField"
+		docValues="true" />
+	<fieldType name="string" class="solr.StrField"
+		sortMissingLast="true" />
 
 	<fieldType name="basic_ci" class="solr.TextField"
-			   sortMissingLast="true" omitNorms="true" positionIncrementGap="100">
+		sortMissingLast="true" omitNorms="true" positionIncrementGap="100">
 		<analyzer type="index">
 			<tokenizer class="solr.WhitespaceTokenizerFactory" />
 			<filter class="solr.LowerCaseFilterFactory" />
@@ -74,26 +76,26 @@
 		</analyzer>
 	</fieldType>
 	<fieldType name="full_ci" class="solr.TextField"
-			   sortMissingLast="true" omitNorms="true" positionIncrementGap="100">
+		sortMissingLast="true" omitNorms="true" positionIncrementGap="100">
 		<analyzer type="index">
 			<tokenizer class="solr.WhitespaceTokenizerFactory" />
 			<filter class="solr.ASCIIFoldingFilterFactory"
-					preserveOriginal="false" />
+				preserveOriginal="false" />
 			<filter class="solr.WordDelimiterGraphFilterFactory"
-					generateWordParts="1" generateNumberParts="1" catenateWords="1"
-					catenateNumbers="1" catenateAll="1" splitOnCaseChange="1"
-					preserveOriginal="1" splitOnNumerics="0" stemEnglishPossessive="1" />
+				generateWordParts="1" generateNumberParts="1" catenateWords="1"
+				catenateNumbers="1" catenateAll="1" splitOnCaseChange="1"
+				preserveOriginal="1" splitOnNumerics="0" stemEnglishPossessive="1" />
 			<filter class="solr.FlattenGraphFilterFactory" />
 			<filter class="solr.LowerCaseFilterFactory" />
 		</analyzer>
 		<analyzer type="query">
 			<tokenizer class="solr.WhitespaceTokenizerFactory" />
 			<filter class="solr.ASCIIFoldingFilterFactory"
-					preserveOriginal="false" />
+				preserveOriginal="false" />
 			<filter class="solr.WordDelimiterGraphFilterFactory"
-					generateWordParts="1" generateNumberParts="1" catenateWords="1"
-					catenateNumbers="1" catenateAll="1" splitOnCaseChange="1"
-					preserveOriginal="1" splitOnNumerics="0" stemEnglishPossessive="1" />
+				generateWordParts="1" generateNumberParts="1" catenateWords="1"
+				catenateNumbers="1" catenateAll="1" splitOnCaseChange="1"
+				preserveOriginal="1" splitOnNumerics="0" stemEnglishPossessive="1" />
 			<filter class="solr.LowerCaseFilterFactory" />
 		</analyzer>
 	</fieldType>
