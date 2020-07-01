@@ -1,6 +1,12 @@
 package org.uniprot.store.datastore.voldemort.data.performance;
 
-import static java.util.Arrays.asList;
+import lombok.Data;
+import lombok.extern.slf4j.Slf4j;
+import net.jodah.failsafe.RetryPolicy;
+import org.uniprot.store.datastore.voldemort.VoldemortClient;
+import org.uniprot.store.datastore.voldemort.uniparc.VoldemortRemoteUniParcEntryStore;
+import org.uniprot.store.datastore.voldemort.uniprot.VoldemortRemoteUniProtKBEntryStore;
+import org.uniprot.store.datastore.voldemort.uniref.VoldemortRemoteUniRefEntryStore;
 
 import java.io.*;
 import java.time.Duration;
@@ -11,14 +17,7 @@ import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Stream;
 
-import lombok.Data;
-import lombok.extern.slf4j.Slf4j;
-import net.jodah.failsafe.RetryPolicy;
-
-import org.uniprot.store.datastore.voldemort.VoldemortClient;
-import org.uniprot.store.datastore.voldemort.uniparc.VoldemortRemoteUniParcEntryStore;
-import org.uniprot.store.datastore.voldemort.uniprot.VoldemortRemoteUniProtKBEntryStore;
-import org.uniprot.store.datastore.voldemort.uniref.VoldemortRemoteUniRefEntryStore;
+import static java.util.Arrays.asList;
 
 /**
  * This class is responsible for testing directly the performance of a Voldemort client to
@@ -75,7 +74,7 @@ public class PerformanceChecker {
 
     static String propertiesFile;
 
-    public static void main(String[] args) throws InterruptedException {
+    public static void main(String[] args) throws InterruptedException, IOException {
         if (args.length != 1) {
             log.error("Please supply properties file as single program argument");
             System.exit(1);
@@ -96,15 +95,20 @@ public class PerformanceChecker {
             System.exit(1);
         }
 
-        // do requests
-        RequestDispatcher dispatcher = new RequestDispatcher(config);
-        dispatcher.run();
+        // do the fetching and printing of performance statistics
+        try {
+            // do requests
+            RequestDispatcher dispatcher = new RequestDispatcher(config);
+            dispatcher.run();
 
-        config.getExecutorService().shutdown();
-        config.getExecutorService().awaitTermination(2, TimeUnit.DAYS);
+            config.getExecutorService().shutdown();
+            config.getExecutorService().awaitTermination(2, TimeUnit.DAYS);
 
-        // show statistics
-        dispatcher.printStatisticsSummary();
+            // show statistics
+            dispatcher.printStatisticsSummary();
+        } finally {
+            config.getLinesReader().close();
+        }
     }
 
     Map<String, VoldemortClient<?>> createClientMap(Properties properties) {
@@ -174,6 +178,7 @@ public class PerformanceChecker {
                 new LinkedBlockingQueue<>());
     }
 
+    @SuppressWarnings("squid:S2095")
     void init(Properties properties, Config config) throws FileNotFoundException {
         PROPERTY_KEYS.forEach(
                 key -> {
@@ -214,12 +219,12 @@ public class PerformanceChecker {
         config.setStatisticsSummary(new StatisticsSummary(config.getStores()));
 
         InputStream requestsInputStream = new FileInputStream(properties.getProperty("filePath"));
-
-        config.setLines(new BufferedReader(new InputStreamReader(requestsInputStream)).lines());
+        config.setLinesReader(new BufferedReader(new InputStreamReader(requestsInputStream)));
     }
 
     @Data
     static class Config {
+        private BufferedReader linesReader;
         private ExecutorService executorService;
         private RetryPolicy<Object> retryPolicy;
         private List<String> stores;
@@ -230,5 +235,9 @@ public class PerformanceChecker {
         private int logInterval;
         private int reportSlowFetchTimeout;
         private int reportSizeIfGreaterThanBytes;
+
+        public Stream<String> lines() {
+            return linesReader.lines();
+        }
     }
 }

@@ -1,10 +1,7 @@
 package org.uniprot.store.indexer.search;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
+import com.google.common.base.Preconditions;
+import com.google.common.io.Files;
 import org.apache.solr.client.solrj.SolrClient;
 import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.SolrServerException;
@@ -22,8 +19,10 @@ import org.uniprot.store.config.searchfield.common.SearchFieldConfig;
 import org.uniprot.store.job.common.converter.DocumentConverter;
 import org.uniprot.store.search.document.Document;
 
-import com.google.common.base.Preconditions;
-import com.google.common.io.Files;
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Class that sets up a search engine for testing purposes.
@@ -192,7 +191,7 @@ public abstract class AbstractSearchEngine<E> implements BeforeAllCallback, Afte
         CoreContainer container = new CoreContainer(solrConfigDir.getAbsolutePath());
 
         container.load();
-        container.waitForLoadingCoresToFinish(60 * 1000);
+        container.waitForLoadingCoresToFinish((long) 60 * 1000);
 
         if (!container.isLoaded(searchEngineName)) {
             container

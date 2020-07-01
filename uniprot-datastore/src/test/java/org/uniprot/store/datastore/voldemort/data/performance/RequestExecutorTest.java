@@ -11,6 +11,8 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicLong;
 
 import net.jodah.failsafe.FailsafeException;
 import net.jodah.failsafe.RetryPolicy;
@@ -40,9 +42,13 @@ class RequestExecutorTest {
         config.setStatisticsSummary(mockSummary);
 
         config.setReportSizeIfGreaterThanBytes(-1);
+        config.setLogInterval(1);
 
         Map<String, VoldemortClient<?>> clientMap = new HashMap<>();
         String storeName = "uniprotkb";
+        when(mockSummary.getTotalRequested()).thenReturn(new AtomicInteger());
+        when(mockSummary.getTotalRetrieved(storeName)).thenReturn(new AtomicInteger());
+        when(mockSummary.getTotalFetchDuration(storeName)).thenReturn(new AtomicLong());
         when(mockClient.getStoreName()).thenReturn(storeName);
         String id = "P12345";
         when(mockClient.getEntry(id)).thenReturn(Optional.of("hello world"));
