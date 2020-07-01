@@ -236,7 +236,7 @@ public class PerformanceChecker {
         private int reportSlowFetchTimeout;
         private int reportSizeIfGreaterThanBytes;
 
-        public Stream<String> lines() {
+        public Stream<String> getLines() {
             return linesReader.lines();
         }
     }
