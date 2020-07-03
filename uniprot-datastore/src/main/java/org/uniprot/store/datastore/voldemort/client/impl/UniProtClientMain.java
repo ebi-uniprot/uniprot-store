@@ -32,7 +32,7 @@ public class UniProtClientMain {
         }
 
         try (ClientFactory factory = new DefaultClientFactory(voldemortUrl, 20);
-             UniProtClient client = factory.createUniProtClient()) {
+                UniProtClient client = factory.createUniProtClient()) {
             UniProtClientMain main = new UniProtClientMain();
             main.execute(configure, client);
         }
