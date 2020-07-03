@@ -1,4 +1,4 @@
-package org.uniprot.store.indexer.uniprot.mockers;
+package org.uniprot.store.indexer.mockers;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.greaterThan;
@@ -12,6 +12,7 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 import org.uniprot.core.uniprotkb.UniProtKBEntry;
+import org.uniprot.store.indexer.uniprot.mockers.UniProtEntryMocker;
 
 /**
  * Created 19/09/18
