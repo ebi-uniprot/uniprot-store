@@ -24,7 +24,7 @@
 		<module>spark-indexer</module>
 		<module>integration-test</module>
 		<module>uniprot-config</module>
-		<module>jacoco-aggregate-report-store</module>
+		<module>jacoco-aggregate-report</module>
 	</modules>
 
 	<properties>
