@@ -36,7 +36,7 @@ public abstract class VoldemortInMemoryEntryStore<T> implements VoldemortClient<
     @Override
     public void saveEntry(T entry) {
         String id = getStoreId(entry);
-        logger.info("Saving entry: {}", id);
+        logger.debug("Saving entry: {}", id);
 
         Store<String, T, String> store = this.getStore();
         Versioned<T> versionedEntry = new Versioned<>(entry);
@@ -62,7 +62,7 @@ public abstract class VoldemortInMemoryEntryStore<T> implements VoldemortClient<
     }
 
     public Optional<T> getEntry(String id) {
-        logger.info("Getting entry: {}", id);
+        logger.debug("Getting entry: {}", id);
         Store<String, T, String> store = this.getStore();
 
         Optional<T> result = Optional.empty();

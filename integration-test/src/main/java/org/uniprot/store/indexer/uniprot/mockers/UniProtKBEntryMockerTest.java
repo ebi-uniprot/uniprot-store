@@ -1,18 +1,17 @@
 package org.uniprot.store.indexer.uniprot.mockers;
 
-import org.junit.jupiter.api.Test;
-import org.uniprot.core.uniprotkb.UniProtKBEntry;
-import org.uniprot.store.indexer.uniprot.mockers.UniProtEntryMocker;
-
-import java.util.Collection;
-import java.util.List;
-
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.IsNull.notNullValue;
 import static org.uniprot.store.indexer.uniprot.mockers.UniProtEntryMocker.Type.SP;
+
+import java.util.Collection;
+import java.util.List;
+
+import org.junit.jupiter.api.Test;
+import org.uniprot.core.uniprotkb.UniProtKBEntry;
 
 /**
  * Created 19/09/18

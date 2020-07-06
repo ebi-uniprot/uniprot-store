@@ -44,7 +44,10 @@ class UniProtEntryFeatureConverter {
                 featuresOfTypeList.addAll(UniProtEntryConverterUtil.getXrefId(xrefId, dbName));
                 document.content.addAll(UniProtEntryConverterUtil.getXrefId(xrefId, dbName));
             }
-            document.proteinsWith.add(feature.getType().name().toLowerCase());
+
+            if (!document.proteinsWith.contains(feature.getType().name().toLowerCase())) {
+                document.proteinsWith.add(feature.getType().name().toLowerCase());
+            }
 
             // start and end of location
             int length =
