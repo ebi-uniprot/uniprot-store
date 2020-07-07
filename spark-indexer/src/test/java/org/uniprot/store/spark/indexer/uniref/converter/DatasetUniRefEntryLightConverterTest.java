@@ -2,8 +2,10 @@ package org.uniprot.store.spark.indexer.uniref.converter;
 
 import org.apache.spark.sql.Row;
 import org.apache.spark.sql.catalyst.expressions.GenericRowWithSchema;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.uniprot.core.uniref.UniRefEntryLight;
+import org.uniprot.core.uniref.UniRefMemberIdType;
 import org.uniprot.core.uniref.UniRefType;
 import org.uniprot.store.spark.indexer.common.util.RowUtils;
 import scala.collection.JavaConverters;
@@ -14,9 +16,9 @@ import java.util.Collections;
 import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.contains;
-import static org.hamcrest.Matchers.is;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.hamcrest.Matchers.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 /**
  * Created 07/07/2020
@@ -24,12 +26,17 @@ import static org.junit.jupiter.api.Assertions.*;
  * @author Edd
  */
 class DatasetUniRefEntryLightConverterTest {
+
+    private DatasetUniRefEntryLightConverter mapper;
+
+    @BeforeEach
+    void setUp(){
+        mapper = new DatasetUniRefEntryLightConverter(UniRefType.UniRef100);
+    }
+
     @Test
     void testFullUniRefEntry() throws Exception {
         Row row = getFullUnirefRow();
-
-        DatasetUniRefEntryLightConverter mapper =
-                new DatasetUniRefEntryLightConverter(UniRefType.UniRef100);
 
         UniRefEntryLight entry = mapper.call(row);
 
@@ -56,7 +63,22 @@ class DatasetUniRefEntryLightConverterTest {
         assertThat(entry.getOrganisms(), contains("Homo sapiens (Human)"));
 
         // uniparc presence
-        assertTrue(entry.hasMemberUniParcIDs());
+        assertThat(
+                entry.getMemberIdTypes(),
+                containsInAnyOrder(
+                        UniRefMemberIdType.UNIPARC, UniRefMemberIdType.UNIPROTKB_SWISSPROT));
+    }
+
+    @Test
+    void getsSwissProtIdType() {
+        UniRefMemberIdType type = mapper.getUniProtKBIdType("FGFR2_HUMAN", "P21802");
+        assertThat(type, is(UniRefMemberIdType.UNIPROTKB_SWISSPROT));
+    }
+
+    @Test
+    void getsTrEMBLIdType() {
+        UniRefMemberIdType type = mapper.getUniProtKBIdType("A0A510U5A0_9GAMM", "A0A510U5A0");
+        assertThat(type, is(UniRefMemberIdType.UNIPROTKB_TREMBL));
     }
 
     private Row getFullUnirefRow() {

@@ -145,9 +145,10 @@ public class DatasetUniRefEntryLightConverter
             uniparcId = member.getMemberId();
         }
         if (Utils.notNullNotEmpty(uniparcId)) {
-            builder.hasMemberUniParcIds(true);
             builder.membersAdd(uniparcId);
         }
+
+        builder.memberIdTypesAdd(member.getMemberIdType());
     }
 
     private RepresentativeMember convertRepresentativeMember(Row representativeMemberRow) {
@@ -165,16 +166,24 @@ public class DatasetUniRefEntryLightConverter
         UniRefMemberBuilder builder = new UniRefMemberBuilder();
         if (hasFieldName(DB_REFERENCE, member)) {
             Row dbReference = (Row) member.get(member.fieldIndex(DB_REFERENCE));
-            builder.memberId(dbReference.getString(dbReference.fieldIndex(ID)));
+            String memberId = dbReference.getString(dbReference.fieldIndex(ID));
+            builder.memberId(memberId);
+
             String memberType = dbReference.getString(dbReference.fieldIndex("_type"));
-            builder.memberIdType(UniRefMemberIdType.typeOf(memberType));
+            if (UniRefMemberIdType.typeOf(memberType) == UniRefMemberIdType.UNIPARC) {
+                builder.memberIdType(UniRefMemberIdType.UNIPARC);
+            }
 
             if (hasFieldName(PROPERTY, dbReference)) {
                 Map<String, List<String>> propertyMap = RowUtils.convertProperties(dbReference);
                 if (propertyMap.containsKey(PROPERTY_ACCESSION)) {
                     propertyMap.get(PROPERTY_ACCESSION).stream()
                             .map(val -> new UniProtKBAccessionBuilder(val).build())
-                            .forEach(builder::accessionsAdd);
+                            .forEach(
+                                    acc -> {
+                                        builder.accessionsAdd(acc);
+                                        builder.memberIdType(getUniProtKBIdType(memberId, acc.getValue()));
+                                    });
                 }
                 if (propertyMap.containsKey(PROPERTY_TAXONOMY)) {
                     builder.organismTaxId(
@@ -186,6 +195,15 @@ public class DatasetUniRefEntryLightConverter
             }
         }
         return builder.build();
+    }
+
+    UniRefMemberIdType getUniProtKBIdType(String memberId, String accession) {
+        UniRefMemberIdType type = UniRefMemberIdType.UNIPROTKB_SWISSPROT;
+        if (memberId.startsWith(accession + "_")) {
+            type = UniRefMemberIdType.UNIPROTKB_TREMBL;
+        }
+
+        return type;
     }
 
     public static StructType getUniRefXMLSchema() {
