@@ -37,21 +37,10 @@ public class DatasetUniRefEntryLightConverter
     private static final String PROPERTY_MEMBER_COUNT = "member count";
     private static final String PROPERTY_COMMON_TAXON = "common taxon";
     private static final String PROPERTY_COMMON_TAXON_ID = "common taxon ID";
-    private static final String PROPERTY_GO_FUNCTION = "GO Molecular Function";
-    private static final String PROPERTY_GO_COMPONENT = "GO Cellular Component";
-    private static final String PROPERTY_GO_PROCESS = "GO Biological Process";
 
     private static final String PROPERTY_ACCESSION = "UniProtKB accession";
-    private static final String PROPERTY_UNIPARC_ID = "UniParc ID";
-    private static final String PROPERTY_UNIREF_50_ID = "UniRef50 ID";
-    private static final String PROPERTY_UNIREF_90_ID = "UniRef90 ID";
-    private static final String PROPERTY_UNIREF_100_ID = "UniRef100 ID";
-    private static final String PROPERTY_OVERLAP_REGION = "overlap region";
-    private static final String PROPERTY_PROTEIN_NAME = "protein name";
     private static final String PROPERTY_ORGANISM = "source organism";
     private static final String PROPERTY_TAXONOMY = "NCBI taxonomy";
-    private static final String PROPERTY_LENGTH = "length";
-    private static final String PROPERTY_IS_SEED = "isSeed";
 
     private static final String DB_REFERENCE = "dbReference";
     private static final String SEQUENCE = "sequence";
@@ -125,9 +114,6 @@ public class DatasetUniRefEntryLightConverter
             RepresentativeMember representativeMember =
                     convertRepresentativeMember(representativeMemberRow);
             // member accessions
-            representativeMember.getUniProtAccessions().stream()
-                    .map(Value::getValue)
-                    .forEach(builder::membersAdd);
             builder.representativeSequence(representativeMember.getSequence().getValue());
 
             addMemberInfo(builder, representativeMember);
@@ -138,18 +124,29 @@ public class DatasetUniRefEntryLightConverter
 
     private void addMemberInfo(UniRefEntryLightBuilder builder, UniRefMember member) {
         // member accessions
-        member.getUniProtAccessions().stream().map(Value::getValue).forEach(builder::membersAdd);
-
-        // uniparc id presence
-        if (Utils.notNull(member.getUniParcId())) {
-            builder.hasMemberUniParcIds(true);
-        }
+        member.getUniProtAccessions().stream()
+                .map(Value::getValue)
+                .findFirst()
+                .ifPresent(builder::membersAdd);
 
         // organism name and id
-        builder.organismIdsAdd(member.getOrganismTaxId());
-        if (organismsCount.get() < ORGANISMS_COUNT_MAX) {
+        if (member.getOrganismTaxId() > 0) {
+            builder.organismIdsAdd(member.getOrganismTaxId());
+        }
+        if (organismsCount.get() < ORGANISMS_COUNT_MAX
+                && Utils.notNullNotEmpty(member.getOrganismName())) {
             builder.organismsAdd(member.getOrganismName());
             organismsCount.getAndIncrement();
+        }
+
+        // uniparc id presence
+        String uniparcId = member.getUniParcId() == null? null : member.getUniParcId().getValue();
+        if(member.getMemberIdType() == UniRefMemberIdType.UNIPARC){
+            uniparcId = member.getMemberId();
+        }
+        if (Utils.notNullNotEmpty(uniparcId)) {
+            builder.hasMemberUniParcIds(true);
+            builder.membersAdd(uniparcId);
         }
     }
 
@@ -182,6 +179,9 @@ public class DatasetUniRefEntryLightConverter
                 if (propertyMap.containsKey(PROPERTY_TAXONOMY)) {
                     builder.organismTaxId(
                             Long.parseLong(propertyMap.get(PROPERTY_TAXONOMY).get(0)));
+                }
+                if (propertyMap.containsKey(PROPERTY_ORGANISM)) {
+                    builder.organismName(propertyMap.get(PROPERTY_ORGANISM).get(0));
                 }
             }
         }
