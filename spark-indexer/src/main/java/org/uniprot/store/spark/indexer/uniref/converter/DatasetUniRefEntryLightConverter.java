@@ -140,8 +140,8 @@ public class DatasetUniRefEntryLightConverter
         }
 
         // uniparc id presence
-        String uniparcId = member.getUniParcId() == null? null : member.getUniParcId().getValue();
-        if(member.getMemberIdType() == UniRefMemberIdType.UNIPARC){
+        String uniparcId = member.getUniParcId() == null ? null : member.getUniParcId().getValue();
+        if (member.getMemberIdType() == UniRefMemberIdType.UNIPARC) {
             uniparcId = member.getMemberId();
         }
         if (Utils.notNullNotEmpty(uniparcId)) {
