@@ -1,5 +1,16 @@
 package org.uniprot.store.spark.indexer.uniref.converter;
 
+import static org.uniprot.store.spark.indexer.common.util.RowUtils.hasFieldName;
+
+import java.io.Serializable;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
+
 import org.apache.spark.api.java.function.Function;
 import org.apache.spark.sql.Row;
 import org.apache.spark.sql.types.DataTypes;
@@ -12,17 +23,6 @@ import org.uniprot.core.uniref.impl.UniRefEntryLightBuilder;
 import org.uniprot.core.uniref.impl.UniRefMemberBuilder;
 import org.uniprot.core.util.Utils;
 import org.uniprot.store.spark.indexer.common.util.RowUtils;
-
-import java.io.Serializable;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeFormatterBuilder;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.atomic.AtomicInteger;
-
-import static org.uniprot.store.spark.indexer.common.util.RowUtils.hasFieldName;
 
 /**
  * Converts XML {@link Row} instances to {@link UniRefEntryLight} instances.
@@ -182,7 +182,8 @@ public class DatasetUniRefEntryLightConverter
                             .forEach(
                                     acc -> {
                                         builder.accessionsAdd(acc);
-                                        builder.memberIdType(getUniProtKBIdType(memberId, acc.getValue()));
+                                        builder.memberIdType(
+                                                getUniProtKBIdType(memberId, acc.getValue()));
                                     });
                 }
                 if (propertyMap.containsKey(PROPERTY_TAXONOMY)) {
