@@ -1,5 +1,14 @@
 package org.uniprot.store.spark.indexer.uniref.converter;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 import org.apache.spark.sql.Row;
 import org.apache.spark.sql.catalyst.expressions.GenericRowWithSchema;
 import org.junit.jupiter.api.BeforeEach;
@@ -8,17 +17,9 @@ import org.uniprot.core.uniref.UniRefEntryLight;
 import org.uniprot.core.uniref.UniRefMemberIdType;
 import org.uniprot.core.uniref.UniRefType;
 import org.uniprot.store.spark.indexer.common.util.RowUtils;
+
 import scala.collection.JavaConverters;
 import scala.collection.Seq;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 /**
  * Created 07/07/2020
@@ -30,7 +31,7 @@ class DatasetUniRefEntryLightConverterTest {
     private DatasetUniRefEntryLightConverter mapper;
 
     @BeforeEach
-    void setUp(){
+    void setUp() {
         mapper = new DatasetUniRefEntryLightConverter(UniRefType.UniRef100);
     }
 
