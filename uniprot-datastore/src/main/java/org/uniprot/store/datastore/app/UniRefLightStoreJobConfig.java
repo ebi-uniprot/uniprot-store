@@ -11,5 +11,4 @@ import org.springframework.context.annotation.Configuration;
 @ConditionalOnProperty(prefix = "uniprot.job", name = "name", havingValue = "uniref-light")
 @ComponentScan(basePackages = {"org.uniprot.store.datastore.light.uniref"})
 @Configuration
-public class UniRefLightStoreJobConfig {
-}
+public class UniRefLightStoreJobConfig {}

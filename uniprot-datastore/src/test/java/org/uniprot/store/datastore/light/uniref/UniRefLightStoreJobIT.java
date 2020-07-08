@@ -25,11 +25,12 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.uniprot.core.uniref.UniRefEntryLight;
 import org.uniprot.store.datastore.UniProtStoreClient;
+import org.uniprot.store.datastore.light.uniref.config.UniRefLightStoreProperties;
 import org.uniprot.store.datastore.test.FakeStoreSpringBootApplication;
 import org.uniprot.store.job.common.TestUtils;
 import org.uniprot.store.job.common.listener.ListenerConfig;
 import org.uniprot.store.job.common.util.CommonConstants;
-import org.uniprot.store.datastore.light.uniref.config.*;
+
 /**
  * @author jluo
  * @date: 20 Aug 2019

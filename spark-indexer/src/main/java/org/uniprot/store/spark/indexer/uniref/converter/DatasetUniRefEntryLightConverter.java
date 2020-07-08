@@ -1,5 +1,6 @@
 package org.uniprot.store.spark.indexer.uniref.converter;
 
+import static org.uniprot.core.uniref.UniRefUtils.*;
 import static org.uniprot.store.spark.indexer.common.util.RowUtils.hasFieldName;
 
 import java.io.Serializable;
@@ -196,15 +197,6 @@ public class DatasetUniRefEntryLightConverter
             }
         }
         return builder.build();
-    }
-
-    UniRefMemberIdType getUniProtKBIdType(String memberId, String accession) {
-        UniRefMemberIdType type = UniRefMemberIdType.UNIPROTKB_SWISSPROT;
-        if (memberId.startsWith(accession + "_")) {
-            type = UniRefMemberIdType.UNIPROTKB_TREMBL;
-        }
-
-        return type;
     }
 
     public static StructType getUniRefXMLSchema() {
