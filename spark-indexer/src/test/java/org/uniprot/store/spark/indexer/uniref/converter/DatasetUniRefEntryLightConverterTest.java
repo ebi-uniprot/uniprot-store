@@ -70,18 +70,6 @@ class DatasetUniRefEntryLightConverterTest {
                         UniRefMemberIdType.UNIPARC, UniRefMemberIdType.UNIPROTKB_SWISSPROT));
     }
 
-    @Test
-    void getsSwissProtIdType() {
-        UniRefMemberIdType type = mapper.getUniProtKBIdType("FGFR2_HUMAN", "P21802");
-        assertThat(type, is(UniRefMemberIdType.UNIPROTKB_SWISSPROT));
-    }
-
-    @Test
-    void getsTrEMBLIdType() {
-        UniRefMemberIdType type = mapper.getUniProtKBIdType("A0A510U5A0_9GAMM", "A0A510U5A0");
-        assertThat(type, is(UniRefMemberIdType.UNIPROTKB_TREMBL));
-    }
-
     private Row getFullUnirefRow() {
         List<Object> entryValues = new ArrayList<>();
         entryValues.add("UniRef100_P21802"); // _id
