@@ -1,7 +1,7 @@
 package org.uniprot.store.spark.indexer.uniref.converter;
 
-import static org.uniprot.core.uniref.UniRefUtils.*;
 import static org.uniprot.store.spark.indexer.common.util.RowUtils.hasFieldName;
+import static org.uniprot.core.uniref.UniRefUtils.*;
 
 import java.io.Serializable;
 import java.time.LocalDate;
