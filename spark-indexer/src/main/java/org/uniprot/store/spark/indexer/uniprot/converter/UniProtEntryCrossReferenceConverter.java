@@ -87,7 +87,7 @@ class UniProtEntryCrossReferenceConverter {
             }
         }
         document.d3structure = d3structure;
-        if (d3structure) {
+        if (d3structure && !document.proteinsWith.contains("3dstructure")) {
             document.proteinsWith.add("3dstructure");
         }
     }
