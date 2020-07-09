@@ -42,6 +42,7 @@ public class DatasetUniRefEntryLightConverter
     private static final String PROPERTY_ACCESSION = "UniProtKB accession";
     private static final String PROPERTY_ORGANISM = "source organism";
     private static final String PROPERTY_TAXONOMY = "NCBI taxonomy";
+    private static final String PROPERTY_PROTEIN_NAME = "protein name";
 
     private static final String DB_REFERENCE = "dbReference";
     private static final String SEQUENCE = "sequence";
@@ -116,6 +117,9 @@ public class DatasetUniRefEntryLightConverter
                     convertRepresentativeMember(representativeMemberRow);
             // member accessions
             builder.representativeSequence(representativeMember.getSequence().getValue());
+
+            builder.representativeId(representativeMember.getMemberId());
+            builder.representativeProteinName(representativeMember.getProteinName());
 
             addMemberInfo(builder, representativeMember);
         }
@@ -193,6 +197,9 @@ public class DatasetUniRefEntryLightConverter
                 }
                 if (propertyMap.containsKey(PROPERTY_ORGANISM)) {
                     builder.organismName(propertyMap.get(PROPERTY_ORGANISM).get(0));
+                }
+                if (propertyMap.containsKey(PROPERTY_PROTEIN_NAME)) {
+                    builder.proteinName(propertyMap.get(PROPERTY_PROTEIN_NAME).get(0));
                 }
             }
         }
