@@ -56,7 +56,9 @@ class DatasetUniRefEntryLightConverterTest {
         // members
         assertThat(entry.getMembers(), contains("P12345", "UPI0003447082", "R12345"));
 
-        // representative sequence
+        // representative
+        assertThat(entry.getRepresentativeId(), is("FGFR2_HUMAN"));
+        assertThat(entry.getRepresentativeProteinName(), is("Fibroblast growth factor receptor 2"));
         assertThat(entry.getRepresentativeSequence(), is("MVSWGRFICLVVVTMATLSLAR"));
 
         // organism info
