@@ -77,3 +77,12 @@ LinkTp: Explicit
 Server: http://www.bindingdb.org/
 Db_URL: http://www.bindingdb.org/uniprot/%s
 Cat   : Chemistry
+
+AC    : DB-0133
+Abbrev: Bgee
+Name  : Bgee dataBase for Gene Expression Evolution
+Ref   : DOI=10.1007/978-3-540-69828-9;
+LinkTp: Explicit
+Server: https://bgee.org
+Db_URL: https://bgee.org/?page=gene&gene_id=%s
+Cat   : Gene expression databases
