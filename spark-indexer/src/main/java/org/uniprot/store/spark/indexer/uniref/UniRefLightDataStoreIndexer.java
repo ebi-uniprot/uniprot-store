@@ -8,9 +8,12 @@ import org.apache.spark.api.java.JavaFutureAction;
 import org.apache.spark.api.java.JavaRDD;
 import org.uniprot.core.uniref.UniRefEntryLight;
 import org.uniprot.core.uniref.UniRefType;
+import org.uniprot.store.datastore.voldemort.VoldemortClient;
+import org.uniprot.store.datastore.voldemort.light.uniref.VoldemortRemoteUniRefEntryLightStore;
 import org.uniprot.store.spark.indexer.common.JobParameter;
 import org.uniprot.store.spark.indexer.common.exception.IndexDataStoreException;
 import org.uniprot.store.spark.indexer.common.store.DataStoreIndexer;
+import org.uniprot.store.spark.indexer.common.writer.DataStoreWriter;
 
 /**
  * Created 08/07/2020
@@ -45,22 +48,21 @@ public class UniRefLightDataStoreIndexer implements DataStoreIndexer {
     private JavaFutureAction<Void> indexUniRef(UniRefType type, JobParameter jobParameter) {
         ResourceBundle config = jobParameter.getApplicationConfig();
 
-        final String numberOfConnections = config.getString("store.uniref.numberOfConnections");
-        final String storeName = config.getString("store.uniref.storeName");
-        final String connectionURL = config.getString("store.uniref.host");
+        final String numberOfConnections = config.getString("store.unirefLight.numberOfConnections");
+        final String storeName = config.getString("store.unirefLight.storeName");
+        final String connectionURL = config.getString("store.unirefLight.host");
 
         UniRefLightRDDTupleReader reader = new UniRefLightRDDTupleReader(type, jobParameter, false);
         JavaRDD<UniRefEntryLight> uniRefRDD = reader.load();
         return uniRefRDD.foreachPartitionAsync(
                 entryIterator -> {
-                    //                    VoldemortClient<UniRefEntryLight> client =
-                    //                            new VoldemortRemoteUniRefEntryLightStore(
-                    //                                    Integer.parseInt(numberOfConnections),
-                    //                                    storeName,
-                    //                                    connectionURL);
-                    //                    DataStoreWriter<UniRefEntryLight> writer = new
-                    // DataStoreWriter<>(client);
-                    //                    writer.indexInStore(entryIterator);
+                    VoldemortClient<UniRefEntryLight> client =
+                            new VoldemortRemoteUniRefEntryLightStore(
+                                    Integer.parseInt(numberOfConnections),
+                                    storeName,
+                                    connectionURL);
+                    DataStoreWriter<UniRefEntryLight> writer = new DataStoreWriter<>(client);
+                    writer.indexInStore(entryIterator);
                 });
     }
 }
