@@ -60,7 +60,7 @@
     "itemType": "SINGLE",
     "name": "organism_id",
     "label": "Organism IDs",
-    "paths": ["representativeMember.organismTaxId","members[*].organismTaxId"],
+    "paths": ["representativeMember.organismTaxId","members[*].organismTaxId","organismIds"],
     "id": "names_&_taxonomy/organism_id",
     "includeInSwagger": true
   },
@@ -70,7 +70,7 @@
     "itemType": "SINGLE",
     "name": "organism",
     "label": "Organisms",
-    "paths": ["representativeMember.organismName","members[*].organismName"],
+    "paths": ["representativeMember.organismName","members[*].organismName","organisms"],
     "id": "names_&_taxonomy/organism",
     "includeInSwagger": true
   },
@@ -98,7 +98,7 @@
     "sortField": "length",
     "name": "length",
     "label": "Length",
-    "paths": ["representativeMember.sequence.length"],
+    "paths": ["representativeMember.sequence.length","sequenceLength"],
     "id": "miscellaneous/length",
     "includeInSwagger": true
   },
@@ -108,7 +108,7 @@
     "itemType": "SINGLE",
     "name": "sequence",
     "label": "Reference sequence",
-    "paths": ["representativeMember.sequence.value"],
+    "paths": ["representativeMember.sequence.value","sequence"],
     "id": "miscellaneous/sequence",
     "includeInSwagger": true
   },
@@ -125,7 +125,7 @@
     "itemType": "SINGLE",
     "name": "types",
     "label": "Types",
-    "paths": ["representativeMember.memberIdType","members[*].memberIdType"],
+    "paths": ["representativeMember.memberIdType","members[*].memberIdType","memberIdTypes"],
     "id": "miscellaneous/types",
     "includeInSwagger": true
   },
