@@ -44,7 +44,7 @@ class DatasetUniRefEntryLightConverterTest {
         assertNotNull(entry);
 
         assertEquals("UniRef100_P21802", entry.getId().getValue());
-        assertEquals("Cluster Name", entry.getName());
+        assertEquals("Cluster: Fibroblast growth factor receptor 2", entry.getName());
         assertEquals(UniRefType.UniRef100, entry.getEntryType());
         assertEquals("2019-10-01", entry.getUpdated().toString());
 
@@ -58,8 +58,9 @@ class DatasetUniRefEntryLightConverterTest {
 
         // representative
         assertThat(entry.getRepresentativeId(), is("FGFR2_HUMAN"));
+        assertThat(entry.getName(), is("Cluster: Fibroblast growth factor receptor 2"));
         assertThat(entry.getRepresentativeProteinName(), is("Fibroblast growth factor receptor 2"));
-        assertThat(entry.getRepresentativeSequence(), is("MVSWGRFICLVVVTMATLSLAR"));
+        assertThat(entry.getSequence(), is("MVSWGRFICLVVVTMATLSLAR"));
 
         // organism info
         assertThat(entry.getOrganismIds(), contains(9606L));
@@ -77,7 +78,7 @@ class DatasetUniRefEntryLightConverterTest {
         entryValues.add("UniRef100_P21802"); // _id
         entryValues.add("2019-10-01"); // _updated
         entryValues.add(getMemberRowSeq()); // member
-        entryValues.add("Cluster Name"); // name
+        entryValues.add("Cluster: Fibroblast growth factor receptor 2"); // name
         entryValues.add(getMainPropertiesSeq()); // property
         entryValues.add(getRepresentativeMemberRow()); // representativeMember
 
