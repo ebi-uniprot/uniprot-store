@@ -116,10 +116,9 @@ public class DatasetUniRefEntryLightConverter
             RepresentativeMember representativeMember =
                     convertRepresentativeMember(representativeMemberRow);
             // member accessions
-            builder.representativeSequence(representativeMember.getSequence().getValue());
+            builder.sequence(representativeMember.getSequence().getValue());
 
             builder.representativeId(representativeMember.getMemberId());
-            builder.representativeProteinName(representativeMember.getProteinName());
 
             addMemberInfo(builder, representativeMember);
         }
