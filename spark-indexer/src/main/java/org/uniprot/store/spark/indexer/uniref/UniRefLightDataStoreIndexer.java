@@ -48,7 +48,8 @@ public class UniRefLightDataStoreIndexer implements DataStoreIndexer {
     private JavaFutureAction<Void> indexUniRef(UniRefType type, JobParameter jobParameter) {
         ResourceBundle config = jobParameter.getApplicationConfig();
 
-        final String numberOfConnections = config.getString("store.unirefLight.numberOfConnections");
+        final String numberOfConnections =
+                config.getString("store.unirefLight.numberOfConnections");
         final String storeName = config.getString("store.unirefLight.storeName");
         final String connectionURL = config.getString("store.unirefLight.host");
 
