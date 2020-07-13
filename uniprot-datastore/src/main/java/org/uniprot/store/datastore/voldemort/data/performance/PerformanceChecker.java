@@ -1,6 +1,13 @@
 package org.uniprot.store.datastore.voldemort.data.performance;
 
-import static java.util.Arrays.asList;
+import lombok.Data;
+import lombok.extern.slf4j.Slf4j;
+import net.jodah.failsafe.RetryPolicy;
+import org.uniprot.store.datastore.voldemort.VoldemortClient;
+import org.uniprot.store.datastore.voldemort.light.uniref.VoldemortRemoteUniRefEntryLightStore;
+import org.uniprot.store.datastore.voldemort.uniparc.VoldemortRemoteUniParcEntryStore;
+import org.uniprot.store.datastore.voldemort.uniprot.VoldemortRemoteUniProtKBEntryStore;
+import org.uniprot.store.datastore.voldemort.uniref.VoldemortRemoteUniRefEntryStore;
 
 import java.io.*;
 import java.time.Duration;
@@ -11,14 +18,7 @@ import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Stream;
 
-import lombok.Data;
-import lombok.extern.slf4j.Slf4j;
-import net.jodah.failsafe.RetryPolicy;
-
-import org.uniprot.store.datastore.voldemort.VoldemortClient;
-import org.uniprot.store.datastore.voldemort.uniparc.VoldemortRemoteUniParcEntryStore;
-import org.uniprot.store.datastore.voldemort.uniprot.VoldemortRemoteUniProtKBEntryStore;
-import org.uniprot.store.datastore.voldemort.uniref.VoldemortRemoteUniRefEntryStore;
+import static java.util.Arrays.asList;
 
 /**
  * This class is responsible for testing directly the performance of a Voldemort client to
@@ -163,7 +163,11 @@ public class PerformanceChecker {
     }
 
     VoldemortClient<?> createUniRefStore(int connections, String storeName, String host) {
-        return new VoldemortRemoteUniRefEntryStore(connections, storeName, host);
+        if (storeName.equals("uniref-light")) {
+            return new VoldemortRemoteUniRefEntryLightStore(connections, storeName, host);
+        } else {
+            return new VoldemortRemoteUniRefEntryStore(connections, storeName, host);
+        }
     }
 
     VoldemortClient<?> createUniParcStore(int connections, String storeName, String host) {
