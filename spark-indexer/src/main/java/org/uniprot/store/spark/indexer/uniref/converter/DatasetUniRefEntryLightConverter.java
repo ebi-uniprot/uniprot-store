@@ -1,6 +1,6 @@
 package org.uniprot.store.spark.indexer.uniref.converter;
 
-import static org.uniprot.core.uniref.UniRefUtils.*;
+import static org.uniprot.core.uniref.UniRefUtils.getUniProtKBIdType;
 import static org.uniprot.store.spark.indexer.common.util.RowUtils.hasFieldName;
 
 import java.io.Serializable;
@@ -10,7 +10,6 @@ import java.time.format.DateTimeFormatterBuilder;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.atomic.AtomicInteger;
 
 import org.apache.spark.api.java.function.Function;
 import org.apache.spark.sql.Row;
@@ -56,11 +55,9 @@ public class DatasetUniRefEntryLightConverter
     private static final long serialVersionUID = -5612011317846388428L;
     private static final int ORGANISMS_COUNT_MAX = 10;
     private final UniRefType uniRefType;
-    private final AtomicInteger organismsCount;
 
     public DatasetUniRefEntryLightConverter(UniRefType uniRefType) {
         this.uniRefType = uniRefType;
-        this.organismsCount = new AtomicInteger();
     }
 
     /**
@@ -99,17 +96,6 @@ public class DatasetUniRefEntryLightConverter
             }
         }
 
-        if (hasFieldName(MEMBER, rowValue)) {
-            List<Row> members = rowValue.getList(rowValue.fieldIndex(MEMBER));
-            if (members == null) {
-                Row member = (Row) rowValue.get(rowValue.fieldIndex(MEMBER));
-                members = Collections.singletonList(member);
-            }
-            members.stream()
-                    .map(this::convertMember)
-                    .forEach(member -> addMemberInfo(builder, member));
-        }
-
         if (hasFieldName(REPRESENTATIVE_MEMBER, rowValue)) {
             Row representativeMemberRow =
                     (Row) rowValue.get(rowValue.fieldIndex(REPRESENTATIVE_MEMBER));
@@ -121,6 +107,17 @@ public class DatasetUniRefEntryLightConverter
             builder.representativeId(representativeMember.getMemberId());
 
             addMemberInfo(builder, representativeMember);
+        }
+
+        if (hasFieldName(MEMBER, rowValue)) {
+            List<Row> members = rowValue.getList(rowValue.fieldIndex(MEMBER));
+            if (members == null) {
+                Row member = (Row) rowValue.get(rowValue.fieldIndex(MEMBER));
+                members = Collections.singletonList(member);
+            }
+            members.stream()
+                    .map(this::convertMember)
+                    .forEach(member -> addMemberInfo(builder, member));
         }
 
         return builder.build();
@@ -137,10 +134,8 @@ public class DatasetUniRefEntryLightConverter
         if (member.getOrganismTaxId() > 0) {
             builder.organismIdsAdd(member.getOrganismTaxId());
         }
-        if (organismsCount.get() < ORGANISMS_COUNT_MAX
-                && Utils.notNullNotEmpty(member.getOrganismName())) {
+        if (Utils.notNullNotEmpty(member.getOrganismName())) {
             builder.organismsAdd(member.getOrganismName());
-            organismsCount.getAndIncrement();
         }
 
         // uniparc id presence
