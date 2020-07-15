@@ -1,5 +1,9 @@
 package org.uniprot.store.spark.indexer.uniref;
 
+import static org.uniprot.store.spark.indexer.common.util.SparkUtils.getInputReleaseDirPath;
+
+import java.util.ResourceBundle;
+
 import org.apache.spark.api.java.JavaSparkContext;
 import org.apache.spark.sql.Dataset;
 import org.apache.spark.sql.Row;
@@ -9,10 +13,6 @@ import org.apache.spark.sql.types.StructType;
 import org.uniprot.core.uniref.UniRefType;
 import org.uniprot.store.spark.indexer.common.JobParameter;
 import org.uniprot.store.spark.indexer.common.util.RowUtils;
-
-import java.util.ResourceBundle;
-
-import static org.uniprot.store.spark.indexer.common.util.SparkUtils.getInputReleaseDirPath;
 
 /**
  * @author lgonzales
@@ -48,9 +48,7 @@ public class UniRefXmlUtils {
     public static final String PROPERTY = "property";
     public static final String REPRESENTATIVE_MEMBER = "representativeMember";
 
-    private UniRefXmlUtils(){
-
-    }
+    private UniRefXmlUtils() {}
 
     static Dataset<Row> loadRawXml(UniRefType uniRefType, JobParameter jobParameter) {
         ResourceBundle config = jobParameter.getApplicationConfig();

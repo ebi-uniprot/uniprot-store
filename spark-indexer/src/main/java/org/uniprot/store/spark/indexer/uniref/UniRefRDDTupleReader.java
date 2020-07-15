@@ -38,6 +38,4 @@ public class UniRefRDDTupleReader implements RDDReader<UniRefEntry> {
 
         return uniRefEntryDataset.map(new DatasetUniRefEntryConverter(uniRefType));
     }
-
-
 }

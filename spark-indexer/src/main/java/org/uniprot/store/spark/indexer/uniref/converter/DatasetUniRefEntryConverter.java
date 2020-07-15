@@ -30,8 +30,6 @@ import org.uniprot.store.spark.indexer.common.util.RowUtils;
  */
 public class DatasetUniRefEntryConverter implements Function<Row, UniRefEntry>, Serializable {
 
-
-
     private static final long serialVersionUID = -526130623950089875L;
     private final UniRefType uniRefType;
 
@@ -181,6 +179,4 @@ public class DatasetUniRefEntryConverter implements Function<Row, UniRefEntry>, 
         }
         return builder.build();
     }
-
-
 }

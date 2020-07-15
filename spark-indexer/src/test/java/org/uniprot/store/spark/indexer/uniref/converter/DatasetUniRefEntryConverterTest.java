@@ -12,8 +12,8 @@ import org.uniprot.core.cv.go.GeneOntologyEntry;
 import org.uniprot.core.cv.go.GoAspect;
 import org.uniprot.core.uniref.*;
 import org.uniprot.store.spark.indexer.common.util.RowUtils;
-
 import org.uniprot.store.spark.indexer.uniref.UniRefXmlUtils;
+
 import scala.collection.JavaConverters;
 import scala.collection.Seq;
 
@@ -139,8 +139,7 @@ class DatasetUniRefEntryConverterTest {
         entryValues.add(getMainPropertiesSeq()); // property
         entryValues.add(getRepresentativeMemberRow()); // representativeMember
 
-        return new GenericRowWithSchema(
-                entryValues.toArray(), UniRefXmlUtils.getUniRefXMLSchema());
+        return new GenericRowWithSchema(entryValues.toArray(), UniRefXmlUtils.getUniRefXMLSchema());
     }
 
     private Seq getMainPropertiesSeq() {
@@ -187,8 +186,7 @@ class DatasetUniRefEntryConverterTest {
         representativeMembers.add(sequenceRow);
 
         return new GenericRowWithSchema(
-                representativeMembers.toArray(),
-                UniRefXmlUtils.getRepresentativeMemberSchema());
+                representativeMembers.toArray(), UniRefXmlUtils.getRepresentativeMemberSchema());
     }
 
     private Row getPropertyRow(String name, Object value) {
@@ -202,8 +200,7 @@ class DatasetUniRefEntryConverterTest {
     private Row getMemberRowSeq(String type, String id, Seq memberProperties) {
         Row dbReference = getDBReferenceRow(type, id, memberProperties);
         return new GenericRowWithSchema(
-                Collections.singletonList(dbReference).toArray(),
-                UniRefXmlUtils.getMemberSchema());
+                Collections.singletonList(dbReference).toArray(), UniRefXmlUtils.getMemberSchema());
     }
 
     private Row getDBReferenceRow(String type, String id, Seq memberProperties) {
