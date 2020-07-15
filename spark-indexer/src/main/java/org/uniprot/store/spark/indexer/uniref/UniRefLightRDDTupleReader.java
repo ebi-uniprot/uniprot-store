@@ -1,19 +1,13 @@
 package org.uniprot.store.spark.indexer.uniref;
 
-import static org.uniprot.store.spark.indexer.common.util.SparkUtils.getInputReleaseDirPath;
-
-import java.util.ResourceBundle;
+import static org.uniprot.store.spark.indexer.uniref.UniRefXmlUtils.*;
 
 import org.apache.spark.api.java.JavaRDD;
-import org.apache.spark.api.java.JavaSparkContext;
-import org.apache.spark.sql.Dataset;
 import org.apache.spark.sql.Row;
-import org.apache.spark.sql.SparkSession;
 import org.uniprot.core.uniref.UniRefEntryLight;
 import org.uniprot.core.uniref.UniRefType;
 import org.uniprot.store.spark.indexer.common.JobParameter;
 import org.uniprot.store.spark.indexer.common.reader.RDDReader;
-import org.uniprot.store.spark.indexer.uniref.converter.DatasetUniRefEntryConverter;
 import org.uniprot.store.spark.indexer.uniref.converter.DatasetUniRefEntryLightConverter;
 
 /**
@@ -37,7 +31,7 @@ public class UniRefLightRDDTupleReader implements RDDReader<UniRefEntryLight> {
     }
 
     public JavaRDD<UniRefEntryLight> load() {
-        JavaRDD<Row> uniRefEntryDataset = loadRawXml().toJavaRDD();
+        JavaRDD<Row> uniRefEntryDataset = loadRawXml(uniRefType, jobParameter).toJavaRDD();
         if (shouldRepartition) {
             uniRefEntryDataset =
                     uniRefEntryDataset.repartition(uniRefEntryDataset.getNumPartitions() * 7);
@@ -46,21 +40,5 @@ public class UniRefLightRDDTupleReader implements RDDReader<UniRefEntryLight> {
         return uniRefEntryDataset.map(new DatasetUniRefEntryLightConverter(uniRefType));
     }
 
-    private Dataset<Row> loadRawXml() {
-        ResourceBundle config = jobParameter.getApplicationConfig();
-        JavaSparkContext jsc = jobParameter.getSparkContext();
-        String releaseInputDir = getInputReleaseDirPath(config, jobParameter.getReleaseName());
-        String propertyPrefix = uniRefType.toString().toLowerCase();
-        String xmlFilePath = releaseInputDir + config.getString(propertyPrefix + ".xml.file");
 
-        SparkSession spark = SparkSession.builder().config(jsc.getConf()).getOrCreate();
-        Dataset<Row> data =
-                spark.read()
-                        .format("com.databricks.spark.xml")
-                        .option("rowTag", "entry")
-                        .schema(DatasetUniRefEntryConverter.getUniRefXMLSchema())
-                        .load(xmlFilePath);
-        data.printSchema();
-        return data;
-    }
 }

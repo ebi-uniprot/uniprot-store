@@ -2,6 +2,7 @@ package org.uniprot.store.spark.indexer.uniref.converter;
 
 import static org.uniprot.core.uniref.UniRefUtils.*;
 import static org.uniprot.store.spark.indexer.common.util.RowUtils.hasFieldName;
+import static org.uniprot.store.spark.indexer.uniref.UniRefXmlUtils.*;
 
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -34,24 +35,6 @@ import org.uniprot.store.spark.indexer.common.util.RowUtils;
  */
 public class DatasetUniRefEntryLightConverter
         implements Function<Row, UniRefEntryLight>, Serializable {
-
-    private static final String PROPERTY_MEMBER_COUNT = "member count";
-    private static final String PROPERTY_COMMON_TAXON = "common taxon";
-    private static final String PROPERTY_COMMON_TAXON_ID = "common taxon ID";
-
-    private static final String PROPERTY_ACCESSION = "UniProtKB accession";
-    private static final String PROPERTY_ORGANISM = "source organism";
-    private static final String PROPERTY_TAXONOMY = "NCBI taxonomy";
-    private static final String PROPERTY_PROTEIN_NAME = "protein name";
-
-    private static final String DB_REFERENCE = "dbReference";
-    private static final String SEQUENCE = "sequence";
-    private static final String ID = "_id";
-    private static final String NAME = "name";
-    private static final String UPDATED = "_updated";
-    private static final String MEMBER = "member";
-    private static final String PROPERTY = "property";
-    private static final String REPRESENTATIVE_MEMBER = "representativeMember";
 
     private static final long serialVersionUID = -5612011317846388428L;
     private static final int ORGANISMS_COUNT_MAX = 10;

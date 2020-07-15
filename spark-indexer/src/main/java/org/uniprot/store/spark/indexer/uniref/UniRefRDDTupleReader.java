@@ -1,11 +1,8 @@
 package org.uniprot.store.spark.indexer.uniref;
 
-import static org.uniprot.store.spark.indexer.common.util.SparkUtils.getInputReleaseDirPath;
-
-import java.util.ResourceBundle;
+import static org.uniprot.store.spark.indexer.uniref.UniRefXmlUtils.*;
 
 import org.apache.spark.api.java.JavaRDD;
-import org.apache.spark.api.java.JavaSparkContext;
 import org.apache.spark.sql.*;
 import org.uniprot.core.uniref.UniRefEntry;
 import org.uniprot.core.uniref.UniRefType;
@@ -33,7 +30,7 @@ public class UniRefRDDTupleReader implements RDDReader<UniRefEntry> {
     }
 
     public JavaRDD<UniRefEntry> load() {
-        JavaRDD<Row> uniRefEntryDataset = loadRawXml().toJavaRDD();
+        JavaRDD<Row> uniRefEntryDataset = loadRawXml(uniRefType, jobParameter).toJavaRDD();
         if (shouldRepartition) {
             uniRefEntryDataset =
                     uniRefEntryDataset.repartition(uniRefEntryDataset.getNumPartitions() * 7);
@@ -42,21 +39,5 @@ public class UniRefRDDTupleReader implements RDDReader<UniRefEntry> {
         return uniRefEntryDataset.map(new DatasetUniRefEntryConverter(uniRefType));
     }
 
-    private Dataset<Row> loadRawXml() {
-        ResourceBundle config = jobParameter.getApplicationConfig();
-        JavaSparkContext jsc = jobParameter.getSparkContext();
-        String releaseInputDir = getInputReleaseDirPath(config, jobParameter.getReleaseName());
-        String propertyPrefix = uniRefType.toString().toLowerCase();
-        String xmlFilePath = releaseInputDir + config.getString(propertyPrefix + ".xml.file");
 
-        SparkSession spark = SparkSession.builder().config(jsc.getConf()).getOrCreate();
-        Dataset<Row> data =
-                spark.read()
-                        .format("com.databricks.spark.xml")
-                        .option("rowTag", "entry")
-                        .schema(DatasetUniRefEntryConverter.getUniRefXMLSchema())
-                        .load(xmlFilePath);
-        data.printSchema();
-        return data;
-    }
 }
