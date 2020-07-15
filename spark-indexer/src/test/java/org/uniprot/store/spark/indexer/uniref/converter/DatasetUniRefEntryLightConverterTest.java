@@ -55,7 +55,7 @@ class DatasetUniRefEntryLightConverterTest {
         assertEquals(10, entry.getMemberCount());
 
         // members
-        assertThat(entry.getMembers(), contains("P12345", "UPI0003447082", "R12345"));
+        assertThat(entry.getMembers(), contains("R12345", "P12345", "UPI0003447082"));
 
         // representative
         assertThat(entry.getRepresentativeId(), is("FGFR2_HUMAN"));
