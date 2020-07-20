@@ -24,6 +24,7 @@
 		<module>spark-indexer</module>
 		<module>integration-test</module>
 		<module>uniprot-config</module>
+		<module>jacoco-aggregate-report</module>
 	</modules>
 
 	<properties>
@@ -33,14 +34,14 @@
 		<jackson.version>2.11.0</jackson.version>
 		<solr.version>8.5.2</solr.version>
 		<http-uniprot-private-url>http://wwwdev.ebi.ac.uk/uniprot/artifactory</http-uniprot-private-url>
-		<jacoco.version>0.7.8</jacoco.version>
+		<jacoco.version>0.8.5</jacoco.version>
 		<jacoco.outputDir>${project.basedir}/../target</jacoco.outputDir>
 		<jacoco.out.ut.file>jacoco-ut.exec</jacoco.out.ut.file>
 		<jacoco.reportPath>${jacoco.outputDir}/${jacoco.out.ut.file}</jacoco.reportPath>
 		<jacoco.out.it.file>jacoco-it.exec</jacoco.out.it.file>
 		<jacoco.itReportPath>${jacoco.outputDir}/${jacoco.out.it.file}</jacoco.itReportPath>
 		<surefire-version>2.22.2</surefire-version>
-		<jacoco.maven.version>0.8.4</jacoco.maven.version>
+		<jacoco.version>0.8.5</jacoco.version>
 		<skipITs>false</skipITs>
 		<skipUTs>false</skipUTs>
 		<java.version>1.8</java.version>
@@ -223,32 +224,6 @@
 				</plugins>
 			</build>
 		</profile>
-		<profile>
-			<id>coverage</id>
-			<build>
-				<plugins>
-					<plugin>
-						<groupId>org.jacoco</groupId>
-						<artifactId>jacoco-maven-plugin</artifactId>
-						<version>${jacoco.maven.version}</version>
-						<executions>
-							<execution>
-								<id>prepare-agent</id>
-								<goals>
-									<goal>prepare-agent</goal>
-								</goals>
-							</execution>
-							<execution>
-								<id>report</id>
-								<goals>
-									<goal>report</goal>
-								</goals>
-							</execution>
-						</executions>
-					</plugin>
-				</plugins>
-			</build>
-		</profile>
 	</profiles>
 	<build>
 		<plugins>
@@ -307,6 +282,19 @@
 						<phase>compile</phase>
 						<goals>
 							<goal>apply</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+				<version>${jacoco.version}</version>
+				<executions>
+					<execution>
+						<id>prepare-agent</id>
+						<goals>
+							<goal>prepare-agent</goal>
 						</goals>
 					</execution>
 				</executions>

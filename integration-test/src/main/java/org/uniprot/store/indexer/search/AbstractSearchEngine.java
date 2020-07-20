@@ -187,7 +187,7 @@ public abstract class AbstractSearchEngine<E> implements BeforeAllCallback, Afte
         CoreContainer container = new CoreContainer(solrConfigDir.getAbsolutePath());
 
         container.load();
-        container.waitForLoadingCoresToFinish(60 * 1000);
+        container.waitForLoadingCoresToFinish((long) 60 * 1000);
 
         if (!container.isLoaded(searchEngineName)) {
             container

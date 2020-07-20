@@ -71,6 +71,7 @@ class UniProtEntryReferencesConverter {
         }
     }
 
+    @SuppressWarnings("squid:S2259")
     private void convertPublicationDate(String publicationDate, UniProtDocument document) {
         try {
             PublicationDateFormatter dateFormatter = null;

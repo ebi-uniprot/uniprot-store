@@ -150,7 +150,7 @@ public class UniProtDocument implements Document {
     public boolean d3structure = false;
 
     @Field("proteins_with")
-    public Set<String> proteinsWith = new HashSet<>();
+    public List<String> proteinsWith = new ArrayList<>();
 
     @Field("cc_scl_term")
     public Set<String> subcellLocationTerm = new HashSet<>();

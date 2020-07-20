@@ -39,7 +39,7 @@ class CrossRefReaderTest {
             count++;
         }
 
-        assertEquals(count, 5);
+        assertEquals(count, 6);
     }
 
     private void verifyDBXRef(CrossRefEntry dbxRef) {
