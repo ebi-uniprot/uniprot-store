@@ -16,6 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 import net.jodah.failsafe.RetryPolicy;
 
 import org.uniprot.store.datastore.voldemort.VoldemortClient;
+import org.uniprot.store.datastore.voldemort.light.uniref.VoldemortRemoteUniRefEntryLightStore;
 import org.uniprot.store.datastore.voldemort.uniparc.VoldemortRemoteUniParcEntryStore;
 import org.uniprot.store.datastore.voldemort.uniprot.VoldemortRemoteUniProtKBEntryStore;
 import org.uniprot.store.datastore.voldemort.uniref.VoldemortRemoteUniRefEntryStore;
@@ -163,7 +164,11 @@ public class PerformanceChecker {
     }
 
     VoldemortClient<?> createUniRefStore(int connections, String storeName, String host) {
-        return new VoldemortRemoteUniRefEntryStore(connections, storeName, host);
+        if (storeName.equals("uniref-light")) {
+            return new VoldemortRemoteUniRefEntryLightStore(connections, storeName, host);
+        } else {
+            return new VoldemortRemoteUniRefEntryStore(connections, storeName, host);
+        }
     }
 
     VoldemortClient<?> createUniParcStore(int connections, String storeName, String host) {
