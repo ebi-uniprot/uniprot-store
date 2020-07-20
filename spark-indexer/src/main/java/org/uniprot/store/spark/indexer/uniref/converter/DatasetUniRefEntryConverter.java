@@ -13,9 +13,6 @@ import java.util.Map;
 
 import org.apache.spark.api.java.function.Function;
 import org.apache.spark.sql.Row;
-import org.uniprot.core.cv.go.GeneOntologyEntry;
-import org.uniprot.core.cv.go.GoAspect;
-import org.uniprot.core.cv.go.impl.GeneOntologyEntryBuilder;
 import org.uniprot.core.uniparc.impl.UniParcIdBuilder;
 import org.uniprot.core.uniprotkb.impl.UniProtKBAccessionBuilder;
 import org.uniprot.core.uniref.*;
@@ -71,21 +68,7 @@ public class DatasetUniRefEntryConverter implements Function<Row, UniRefEntry>, 
                 String commonTaxonId = propertyMap.get(PROPERTY_COMMON_TAXON_ID).get(0);
                 builder.commonTaxonId(Integer.parseInt(commonTaxonId));
             }
-            if (propertyMap.containsKey(PROPERTY_GO_FUNCTION)) {
-                propertyMap.get(PROPERTY_GO_FUNCTION).stream()
-                        .map(goTerm -> createGoTerm(GoAspect.FUNCTION, goTerm))
-                        .forEach(builder::goTermsAdd);
-            }
-            if (propertyMap.containsKey(PROPERTY_GO_COMPONENT)) {
-                propertyMap.get(PROPERTY_GO_COMPONENT).stream()
-                        .map(goTerm -> createGoTerm(GoAspect.COMPONENT, goTerm))
-                        .forEach(builder::goTermsAdd);
-            }
-            if (propertyMap.containsKey(PROPERTY_GO_PROCESS)) {
-                propertyMap.get(PROPERTY_GO_PROCESS).stream()
-                        .map(goTerm -> createGoTerm(GoAspect.PROCESS, goTerm))
-                        .forEach(builder::goTermsAdd);
-            }
+            builder.goTermsSet(convertUniRefGoTermsProperties(propertyMap));
         }
 
         if (hasFieldName(MEMBER, rowValue)) {
@@ -104,10 +87,6 @@ public class DatasetUniRefEntryConverter implements Function<Row, UniRefEntry>, 
         }
 
         return builder.build();
-    }
-
-    private GeneOntologyEntry createGoTerm(GoAspect type, String id) {
-        return new GeneOntologyEntryBuilder().aspect(type).id(id).build();
     }
 
     private RepresentativeMember convertRepresentativeMember(Row representativeMemberRow) {

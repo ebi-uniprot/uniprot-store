@@ -2,6 +2,9 @@ package org.uniprot.store.spark.indexer.uniref;
 
 import static org.uniprot.store.spark.indexer.common.util.SparkUtils.getInputReleaseDirPath;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 import java.util.ResourceBundle;
 
 import org.apache.spark.api.java.JavaSparkContext;
@@ -10,6 +13,9 @@ import org.apache.spark.sql.Row;
 import org.apache.spark.sql.SparkSession;
 import org.apache.spark.sql.types.DataTypes;
 import org.apache.spark.sql.types.StructType;
+import org.uniprot.core.cv.go.GeneOntologyEntry;
+import org.uniprot.core.cv.go.GoAspect;
+import org.uniprot.core.cv.go.impl.GeneOntologyEntryBuilder;
 import org.uniprot.core.uniref.UniRefType;
 import org.uniprot.store.spark.indexer.common.JobParameter;
 import org.uniprot.store.spark.indexer.common.util.RowUtils;
@@ -92,5 +98,30 @@ public class UniRefXmlUtils {
         StructType member = new StructType();
         member = member.add(DB_REFERENCE, RowUtils.getDBReferenceSchema(), true);
         return member;
+    }
+
+    public static List<GeneOntologyEntry> convertUniRefGoTermsProperties(
+            Map<String, List<String>> propertyMap) {
+        List<GeneOntologyEntry> goTerms = new ArrayList<>();
+        if (propertyMap.containsKey(PROPERTY_GO_FUNCTION)) {
+            propertyMap.get(PROPERTY_GO_FUNCTION).stream()
+                    .map(goTerm -> createGoTerm(GoAspect.FUNCTION, goTerm))
+                    .forEach(goTerms::add);
+        }
+        if (propertyMap.containsKey(PROPERTY_GO_COMPONENT)) {
+            propertyMap.get(PROPERTY_GO_COMPONENT).stream()
+                    .map(goTerm -> createGoTerm(GoAspect.COMPONENT, goTerm))
+                    .forEach(goTerms::add);
+        }
+        if (propertyMap.containsKey(PROPERTY_GO_PROCESS)) {
+            propertyMap.get(PROPERTY_GO_PROCESS).stream()
+                    .map(goTerm -> createGoTerm(GoAspect.PROCESS, goTerm))
+                    .forEach(goTerms::add);
+        }
+        return goTerms;
+    }
+
+    public static GeneOntologyEntry createGoTerm(GoAspect type, String id) {
+        return new GeneOntologyEntryBuilder().aspect(type).id(id).build();
     }
 }

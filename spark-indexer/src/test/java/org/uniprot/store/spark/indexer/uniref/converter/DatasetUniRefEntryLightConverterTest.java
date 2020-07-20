@@ -13,6 +13,8 @@ import org.apache.spark.sql.Row;
 import org.apache.spark.sql.catalyst.expressions.GenericRowWithSchema;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.uniprot.core.cv.go.GeneOntologyEntry;
+import org.uniprot.core.cv.go.GoAspect;
 import org.uniprot.core.uniref.UniRefEntryLight;
 import org.uniprot.core.uniref.UniRefMemberIdType;
 import org.uniprot.core.uniref.UniRefType;
@@ -53,6 +55,10 @@ class DatasetUniRefEntryLightConverterTest {
         assertEquals("common taxon Value", entry.getCommonTaxon());
         assertEquals(9606, entry.getCommonTaxonId());
         assertEquals(10, entry.getMemberCount());
+        assertEquals(3, entry.getGoTerms().size());
+        GeneOntologyEntry goTerm = entry.getGoTerms().get(0);
+        assertEquals(GoAspect.FUNCTION, goTerm.getAspect());
+        assertEquals("Function", goTerm.getId());
 
         // members
         assertThat(entry.getMembers(), contains("R12345", "P12345", "UPI0003447082"));

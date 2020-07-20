@@ -14,8 +14,6 @@ import java.util.Map;
 
 import org.apache.spark.api.java.function.Function;
 import org.apache.spark.sql.Row;
-import org.apache.spark.sql.types.DataTypes;
-import org.apache.spark.sql.types.StructType;
 import org.uniprot.core.Value;
 import org.uniprot.core.uniprotkb.impl.UniProtKBAccessionBuilder;
 import org.uniprot.core.uniref.*;
@@ -36,7 +34,6 @@ public class DatasetUniRefEntryLightConverter
         implements Function<Row, UniRefEntryLight>, Serializable {
 
     private static final long serialVersionUID = -5612011317846388428L;
-    private static final int ORGANISMS_COUNT_MAX = 10;
     private final UniRefType uniRefType;
 
     public DatasetUniRefEntryLightConverter(UniRefType uniRefType) {
@@ -77,6 +74,7 @@ public class DatasetUniRefEntryLightConverter
                 String commonTaxon = propertyMap.get(PROPERTY_COMMON_TAXON).get(0);
                 builder.commonTaxon(commonTaxon);
             }
+            builder.goTermsSet(convertUniRefGoTermsProperties(propertyMap));
         }
 
         if (hasFieldName(REPRESENTATIVE_MEMBER, rowValue)) {
@@ -181,31 +179,5 @@ public class DatasetUniRefEntryLightConverter
             }
         }
         return builder.build();
-    }
-
-    public static StructType getUniRefXMLSchema() {
-        StructType structType = new StructType();
-        structType = structType.add(ID, DataTypes.StringType, true);
-        structType = structType.add(UPDATED, DataTypes.StringType, true);
-        structType = structType.add(MEMBER, DataTypes.createArrayType(getMemberSchema()), true);
-        structType = structType.add(NAME, DataTypes.StringType, true);
-        structType =
-                structType.add(
-                        PROPERTY, DataTypes.createArrayType(RowUtils.getPropertySchema()), true);
-        structType = structType.add(REPRESENTATIVE_MEMBER, getRepresentativeMemberSchema(), true);
-        return structType;
-    }
-
-    static StructType getRepresentativeMemberSchema() {
-        StructType representativeMember = getMemberSchema();
-        representativeMember =
-                representativeMember.add(SEQUENCE, RowUtils.getSequenceSchema(), true);
-        return representativeMember;
-    }
-
-    static StructType getMemberSchema() {
-        StructType member = new StructType();
-        member = member.add(DB_REFERENCE, RowUtils.getDBReferenceSchema(), true);
-        return member;
     }
 }
