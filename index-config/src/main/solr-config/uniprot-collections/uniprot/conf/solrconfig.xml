@@ -275,7 +275,7 @@
 			a global Lucene property that will affect all SolrCores. If multiple solrconfig.xml 
 			files disagree on this property, the value at any given moment will be based 
 			on the last SolrCore to be initialized. -->
-		<maxBooleanClauses>1024</maxBooleanClauses>
+		<maxBooleanClauses>10240</maxBooleanClauses>
 
 
 		<!-- Solr Internal Query Caches There are two implementations of cache 
