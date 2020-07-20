@@ -22,6 +22,12 @@ public class UniRefLightXmlEntryReader extends XmlItemReader<Entry> {
         this.sleeper = new OnZeroCountSleeper();
     }
 
+    @BeforeStep
+    public void setStepExecution(final StepExecution stepExecution) {
+        ExecutionContext executionContext = stepExecution.getJobExecution().getExecutionContext();
+        executionContext.put(CommonConstants.ENTRIES_TO_WRITE_COUNTER, sleeper);
+    }
+
     @Override
     public Entry read() {
         if (entryIterator.hasNext()) {
@@ -30,11 +36,5 @@ public class UniRefLightXmlEntryReader extends XmlItemReader<Entry> {
         } else {
             return null;
         }
-    }
-
-    @BeforeStep
-    public void setStepExecution(final StepExecution stepExecution) {
-        ExecutionContext executionContext = stepExecution.getJobExecution().getExecutionContext();
-        executionContext.put(CommonConstants.ENTRIES_TO_WRITE_COUNTER, sleeper);
     }
 }
