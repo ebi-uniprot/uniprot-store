@@ -61,20 +61,7 @@ public class DatasetUniRefEntryLightConverter
             builder.name(rowValue.getString(rowValue.fieldIndex(NAME)));
         }
         if (hasFieldName(PROPERTY, rowValue)) {
-            Map<String, List<String>> propertyMap = RowUtils.convertProperties(rowValue);
-            if (propertyMap.containsKey(PROPERTY_MEMBER_COUNT)) {
-                String memberCount = propertyMap.get(PROPERTY_MEMBER_COUNT).get(0);
-                builder.memberCount(Integer.parseInt(memberCount));
-            }
-            if (propertyMap.containsKey(PROPERTY_COMMON_TAXON_ID)) {
-                String commonTaxonId = propertyMap.get(PROPERTY_COMMON_TAXON_ID).get(0);
-                builder.commonTaxonId(Integer.parseInt(commonTaxonId));
-            }
-            if (propertyMap.containsKey(PROPERTY_COMMON_TAXON)) {
-                String commonTaxon = propertyMap.get(PROPERTY_COMMON_TAXON).get(0);
-                builder.commonTaxon(commonTaxon);
-            }
-            builder.goTermsSet(convertUniRefGoTermsProperties(propertyMap));
+            convertCommonProperties(rowValue, builder);
         }
 
         if (hasFieldName(REPRESENTATIVE_MEMBER, rowValue)) {
@@ -104,6 +91,23 @@ public class DatasetUniRefEntryLightConverter
         return builder.build();
     }
 
+    private void convertCommonProperties(Row rowValue, UniRefEntryLightBuilder builder) {
+        Map<String, List<String>> propertyMap = RowUtils.convertProperties(rowValue);
+        if (propertyMap.containsKey(PROPERTY_MEMBER_COUNT)) {
+            String memberCount = propertyMap.get(PROPERTY_MEMBER_COUNT).get(0);
+            builder.memberCount(Integer.parseInt(memberCount));
+        }
+        if (propertyMap.containsKey(PROPERTY_COMMON_TAXON_ID)) {
+            String commonTaxonId = propertyMap.get(PROPERTY_COMMON_TAXON_ID).get(0);
+            builder.commonTaxonId(Integer.parseInt(commonTaxonId));
+        }
+        if (propertyMap.containsKey(PROPERTY_COMMON_TAXON)) {
+            String commonTaxon = propertyMap.get(PROPERTY_COMMON_TAXON).get(0);
+            builder.commonTaxon(commonTaxon);
+        }
+        builder.goTermsSet(convertUniRefGoTermsProperties(propertyMap));
+    }
+
     private void addMemberInfo(UniRefEntryLightBuilder builder, UniRefMember member) {
         // member accessions
         member.getUniProtAccessions().stream()
@@ -126,6 +130,9 @@ public class DatasetUniRefEntryLightConverter
         }
         if (Utils.notNullNotEmpty(uniparcId)) {
             builder.membersAdd(uniparcId);
+        }
+        if(Utils.notNull(member.isSeed()) && member.isSeed()){
+            builder.seedId(member.getMemberId());
         }
 
         builder.memberIdTypesAdd(member.getMemberIdType());
@@ -155,29 +162,36 @@ public class DatasetUniRefEntryLightConverter
             }
 
             if (hasFieldName(PROPERTY, dbReference)) {
-                Map<String, List<String>> propertyMap = RowUtils.convertProperties(dbReference);
-                if (propertyMap.containsKey(PROPERTY_ACCESSION)) {
-                    propertyMap.get(PROPERTY_ACCESSION).stream()
-                            .map(val -> new UniProtKBAccessionBuilder(val).build())
-                            .forEach(
-                                    acc -> {
-                                        builder.accessionsAdd(acc);
-                                        builder.memberIdType(
-                                                getUniProtKBIdType(memberId, acc.getValue()));
-                                    });
-                }
-                if (propertyMap.containsKey(PROPERTY_TAXONOMY)) {
-                    builder.organismTaxId(
-                            Long.parseLong(propertyMap.get(PROPERTY_TAXONOMY).get(0)));
-                }
-                if (propertyMap.containsKey(PROPERTY_ORGANISM)) {
-                    builder.organismName(propertyMap.get(PROPERTY_ORGANISM).get(0));
-                }
-                if (propertyMap.containsKey(PROPERTY_PROTEIN_NAME)) {
-                    builder.proteinName(propertyMap.get(PROPERTY_PROTEIN_NAME).get(0));
-                }
+                convertMemberProperties(builder, dbReference, memberId);
             }
         }
         return builder.build();
+    }
+
+    private void convertMemberProperties(UniRefMemberBuilder builder, Row dbReference, String memberId) {
+        Map<String, List<String>> propertyMap = RowUtils.convertProperties(dbReference);
+        if (propertyMap.containsKey(PROPERTY_ACCESSION)) {
+            propertyMap.get(PROPERTY_ACCESSION).stream()
+                    .map(val -> new UniProtKBAccessionBuilder(val).build())
+                    .forEach(
+                            acc -> {
+                                builder.accessionsAdd(acc);
+                                builder.memberIdType(
+                                        getUniProtKBIdType(memberId, acc.getValue()));
+                            });
+        }
+        if (propertyMap.containsKey(PROPERTY_TAXONOMY)) {
+            builder.organismTaxId(
+                    Long.parseLong(propertyMap.get(PROPERTY_TAXONOMY).get(0)));
+        }
+        if (propertyMap.containsKey(PROPERTY_ORGANISM)) {
+            builder.organismName(propertyMap.get(PROPERTY_ORGANISM).get(0));
+        }
+        if (propertyMap.containsKey(PROPERTY_PROTEIN_NAME)) {
+            builder.proteinName(propertyMap.get(PROPERTY_PROTEIN_NAME).get(0));
+        }
+        if (propertyMap.containsKey(PROPERTY_IS_SEED)) {
+            builder.isSeed(Boolean.parseBoolean(propertyMap.get(PROPERTY_IS_SEED).get(0)));
+        }
     }
 }

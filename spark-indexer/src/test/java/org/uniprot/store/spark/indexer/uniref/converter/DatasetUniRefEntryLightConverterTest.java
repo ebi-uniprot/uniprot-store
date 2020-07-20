@@ -55,6 +55,8 @@ class DatasetUniRefEntryLightConverterTest {
         assertEquals("common taxon Value", entry.getCommonTaxon());
         assertEquals(9606, entry.getCommonTaxonId());
         assertEquals(10, entry.getMemberCount());
+        assertEquals("FGFR2_HUMAN", entry.getSeedId());
+
         assertEquals(3, entry.getGoTerms().size());
         GeneOntologyEntry goTerm = entry.getGoTerms().get(0);
         assertEquals(GoAspect.FUNCTION, goTerm.getAspect());
