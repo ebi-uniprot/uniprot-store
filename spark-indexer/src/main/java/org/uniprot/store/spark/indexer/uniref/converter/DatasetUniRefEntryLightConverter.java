@@ -138,17 +138,6 @@ public class DatasetUniRefEntryLightConverter
         builder.memberIdTypesAdd(member.getMemberIdType());
     }
 
-    private RepresentativeMember convertRepresentativeMember(Row representativeMemberRow) {
-        RepresentativeMemberBuilder builder =
-                RepresentativeMemberBuilder.from(convertMember(representativeMemberRow));
-        if (hasFieldName(SEQUENCE, representativeMemberRow)) {
-            Row sequence =
-                    (Row) representativeMemberRow.get(representativeMemberRow.fieldIndex(SEQUENCE));
-            builder.sequence(RowUtils.convertSequence(sequence));
-        }
-        return builder.build();
-    }
-
     private UniRefMember convertMember(Row member) {
         UniRefMemberBuilder builder = new UniRefMemberBuilder();
         if (hasFieldName(DB_REFERENCE, member)) {
@@ -164,6 +153,17 @@ public class DatasetUniRefEntryLightConverter
             if (hasFieldName(PROPERTY, dbReference)) {
                 convertMemberProperties(builder, dbReference, memberId);
             }
+        }
+        return builder.build();
+    }
+
+    private RepresentativeMember convertRepresentativeMember(Row representativeMemberRow) {
+        UniRefMember member = convertMember(representativeMemberRow);
+        RepresentativeMemberBuilder builder = RepresentativeMemberBuilder.from(member);
+        if (hasFieldName(SEQUENCE, representativeMemberRow)) {
+            Row sequence =
+                    (Row) representativeMemberRow.get(representativeMemberRow.fieldIndex(SEQUENCE));
+            builder.sequence(RowUtils.convertSequence(sequence));
         }
         return builder.build();
     }
