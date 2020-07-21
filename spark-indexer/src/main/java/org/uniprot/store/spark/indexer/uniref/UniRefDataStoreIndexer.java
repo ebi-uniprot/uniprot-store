@@ -51,15 +51,14 @@ public class UniRefDataStoreIndexer implements DataStoreIndexer {
         final String numberOfConnections = config.getString("store.uniref.numberOfConnections");
         final String storeName = config.getString("store.uniref.storeName");
 
-
         UniRefRDDTupleReader reader = new UniRefRDDTupleReader(type, jobParameter, false);
         JavaRDD<UniRefEntry> uniRefRDD = reader.load();
         return uniRefRDD.foreachPartitionAsync(
                 getWriter(numberOfConnections, storeName, connectionURL));
     }
 
-    VoidFunction<Iterator<UniRefEntry>> getWriter(String numberOfConnections, String storeName, String connectionURL) {
+    VoidFunction<Iterator<UniRefEntry>> getWriter(
+            String numberOfConnections, String storeName, String connectionURL) {
         return new UniRefDataStoreWriter(numberOfConnections, storeName, connectionURL);
     }
-
 }

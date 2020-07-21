@@ -59,9 +59,8 @@ public class UniRefLightDataStoreIndexer implements DataStoreIndexer {
                 getWriter(numberOfConnections, storeName, connectionURL));
     }
 
-    VoidFunction<Iterator<UniRefEntryLight>> getWriter(String numberOfConnections, String storeName, String connectionURL) {
+    VoidFunction<Iterator<UniRefEntryLight>> getWriter(
+            String numberOfConnections, String storeName, String connectionURL) {
         return new UniRefLightDataStoreWriter(numberOfConnections, storeName, connectionURL);
     }
-
-
 }

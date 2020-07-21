@@ -5,6 +5,7 @@ import org.uniprot.store.spark.indexer.uniparc.UniParcDataStoreIndexer;
 import org.uniprot.store.spark.indexer.uniprot.UniProtKBDataStoreIndexer;
 import org.uniprot.store.spark.indexer.uniref.UniRefDataStoreIndexer;
 import org.uniprot.store.spark.indexer.uniref.UniRefLightDataStoreIndexer;
+import org.uniprot.store.spark.indexer.uniref.UniRefMembersDataStoreIndexer;
 
 /**
  * @author lgonzales
@@ -26,6 +27,9 @@ public class DataStoreIndexerFactory {
                 break;
             case UNIPARC:
                 result = new UniParcDataStoreIndexer(jobParameter);
+                break;
+            case UNIREF_MEMBER:
+                result = new UniRefMembersDataStoreIndexer(jobParameter);
                 break;
             default:
                 throw new UnsupportedOperationException(

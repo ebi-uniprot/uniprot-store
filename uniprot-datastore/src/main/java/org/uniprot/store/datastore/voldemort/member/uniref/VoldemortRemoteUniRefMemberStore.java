@@ -1,6 +1,6 @@
 package org.uniprot.store.datastore.voldemort.member.uniref;
 
-import org.uniprot.core.json.parser.uniref.UniRefRepresentativeMemberJsonConfig;
+import org.uniprot.core.json.parser.uniref.UniRefEntryJsonConfig;
 import org.uniprot.core.uniref.RepresentativeMember;
 import org.uniprot.core.uniref.UniRefMember;
 import org.uniprot.core.uniref.UniRefMemberIdType;
@@ -27,7 +27,7 @@ public class VoldemortRemoteUniRefMemberStore
 
     @Override
     public ObjectMapper getStoreObjectMapper() {
-        return UniRefRepresentativeMemberJsonConfig.getInstance().getFullObjectMapper();
+        return UniRefEntryJsonConfig.getInstance().getFullObjectMapper();
     }
 
     @Override

@@ -1,12 +1,14 @@
 package org.uniprot.store.spark.indexer.common.store;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 import org.uniprot.store.spark.indexer.uniparc.UniParcDataStoreIndexer;
 import org.uniprot.store.spark.indexer.uniprot.UniProtKBDataStoreIndexer;
 import org.uniprot.store.spark.indexer.uniref.UniRefDataStoreIndexer;
 import org.uniprot.store.spark.indexer.uniref.UniRefLightDataStoreIndexer;
+import org.uniprot.store.spark.indexer.uniref.UniRefMembersDataStoreIndexer;
 
 /**
  * @author lgonzales
@@ -44,5 +46,13 @@ class DataStoreIndexerFactoryTest {
         DataStoreIndexer indexer = factory.createDataStoreIndexer(DataStore.UNIREF_LIGHT, null);
         assertNotNull(indexer);
         assertTrue(indexer instanceof UniRefLightDataStoreIndexer);
+    }
+
+    @Test
+    void createUniRefMemberDataStoreIndexer() {
+        DataStoreIndexerFactory factory = new DataStoreIndexerFactory();
+        DataStoreIndexer indexer = factory.createDataStoreIndexer(DataStore.UNIREF_MEMBER, null);
+        assertNotNull(indexer);
+        assertTrue(indexer instanceof UniRefMembersDataStoreIndexer);
     }
 }
