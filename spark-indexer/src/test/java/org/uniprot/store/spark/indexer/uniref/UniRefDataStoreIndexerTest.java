@@ -1,26 +1,20 @@
 package org.uniprot.store.spark.indexer.uniref;
 
+import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
+import java.util.Iterator;
+import java.util.ResourceBundle;
+
 import lombok.extern.slf4j.Slf4j;
+
 import org.apache.spark.api.java.JavaSparkContext;
 import org.apache.spark.api.java.function.VoidFunction;
 import org.junit.jupiter.api.Test;
 import org.uniprot.core.uniref.UniRefEntry;
-import org.uniprot.store.datastore.voldemort.VoldemortClient;
-import org.uniprot.store.datastore.voldemort.light.uniref.VoldemortInMemoryUniRefEntryLightStore;
-import org.uniprot.store.datastore.voldemort.uniref.VoldemortInMemoryUniRefEntryStore;
-import org.uniprot.store.datastore.voldemort.uniref.VoldemortRemoteUniRefEntryStore;
 import org.uniprot.store.spark.indexer.common.JobParameter;
 import org.uniprot.store.spark.indexer.common.exception.IndexDataStoreException;
 import org.uniprot.store.spark.indexer.common.util.SparkUtils;
-
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.ResourceBundle;
-
-import static org.junit.jupiter.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 /**
  * @author lgonzales
@@ -54,7 +48,8 @@ class UniRefDataStoreIndexerTest {
     @Test
     void canGetWriter() {
         UniRefDataStoreIndexer indexer = new UniRefDataStoreIndexer(null);
-        VoidFunction<Iterator<UniRefEntry>> result = indexer.getWriter("5", "uniref", "tcp://localhost");
+        VoidFunction<Iterator<UniRefEntry>> result =
+                indexer.getWriter("5", "uniref", "tcp://localhost");
         assertNotNull(result);
     }
 
@@ -65,12 +60,12 @@ class UniRefDataStoreIndexerTest {
         }
 
         @Override
-        VoidFunction<Iterator<UniRefEntry>> getWriter(String numberOfConnections, String storeName, String connectionURL) {
+        VoidFunction<Iterator<UniRefEntry>> getWriter(
+                String numberOfConnections, String storeName, String connectionURL) {
             return entryIterator -> {
                 assertNotNull(entryIterator);
                 assertTrue(entryIterator.hasNext());
             };
         }
-
     }
 }

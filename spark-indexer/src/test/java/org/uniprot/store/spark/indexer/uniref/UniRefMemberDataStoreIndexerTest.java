@@ -8,16 +8,17 @@ import java.util.ResourceBundle;
 import org.apache.spark.api.java.JavaSparkContext;
 import org.apache.spark.api.java.function.VoidFunction;
 import org.junit.jupiter.api.Test;
+import org.uniprot.core.uniref.RepresentativeMember;
 import org.uniprot.core.uniref.UniRefEntryLight;
 import org.uniprot.store.spark.indexer.common.JobParameter;
 import org.uniprot.store.spark.indexer.common.exception.IndexDataStoreException;
 import org.uniprot.store.spark.indexer.common.util.SparkUtils;
 
 /**
- * @author lgonzales
- * @since 20/07/2020
+ * @author sahmad
+ * @since 21/07/2020
  */
-class UniRefLightDataStoreIndexerTest {
+class UniRefMemberDataStoreIndexerTest {
 
     @Test
     void indexInDataStore() {
@@ -29,8 +30,9 @@ class UniRefLightDataStoreIndexerTest {
                             .releaseName("2020_02")
                             .sparkContext(sparkContext)
                             .build();
-            UniRefLightDataStoreIndexerTest.FakeUniRefLightDataStoreIndexer indexer =
-                    new UniRefLightDataStoreIndexerTest.FakeUniRefLightDataStoreIndexer(parameter);
+            UniRefMemberDataStoreIndexerTest.FakeUniRefMembersDataStoreIndexer indexer =
+                    new UniRefMemberDataStoreIndexerTest.FakeUniRefMembersDataStoreIndexer(
+                            parameter);
             assertNotNull(indexer);
             indexer.indexInDataStore();
         }
@@ -38,7 +40,7 @@ class UniRefLightDataStoreIndexerTest {
 
     @Test
     void indexInDataStoreWithError() {
-        UniRefLightDataStoreIndexer indexer = new UniRefLightDataStoreIndexer(null);
+        UniRefMembersDataStoreIndexer indexer = new UniRefMembersDataStoreIndexer(null);
         assertThrows(IndexDataStoreException.class, indexer::indexInDataStore);
     }
 
@@ -46,18 +48,18 @@ class UniRefLightDataStoreIndexerTest {
     void canGetWriter() {
         UniRefLightDataStoreIndexer indexer = new UniRefLightDataStoreIndexer(null);
         VoidFunction<Iterator<UniRefEntryLight>> result =
-                indexer.getWriter("5", "uniref-light", "tcp://localhost");
+                indexer.getWriter("5", "uniref-member", "tcp://localhost");
         assertNotNull(result);
     }
 
-    private static class FakeUniRefLightDataStoreIndexer extends UniRefLightDataStoreIndexer {
+    private static class FakeUniRefMembersDataStoreIndexer extends UniRefMembersDataStoreIndexer {
 
-        public FakeUniRefLightDataStoreIndexer(JobParameter jobParameter) {
+        public FakeUniRefMembersDataStoreIndexer(JobParameter jobParameter) {
             super(jobParameter);
         }
 
         @Override
-        VoidFunction<Iterator<UniRefEntryLight>> getWriter(
+        VoidFunction<Iterator<RepresentativeMember>> getWriter(
                 String numberOfConnections, String storeName, String connectionURL) {
             return entryIterator -> {
                 assertNotNull(entryIterator);
