@@ -23,7 +23,11 @@ public class UniRefMemberMerger
     public RepresentativeMember call(Tuple2<RepresentativeMember, RepresentativeMember> memberPair)
             throws Exception {
 
-        if (Objects.nonNull(memberPair._1.getSequence())) {
+        if (Objects.isNull(memberPair._1)) {
+            return memberPair._2;
+        } else if (Objects.isNull(memberPair._2)) {
+            return memberPair._1;
+        } else if (Objects.nonNull(memberPair._1.getSequence())) {
             RepresentativeMember source = memberPair._2;
             RepresentativeMember target = memberPair._1;
             return mergeSourceToTarget(source, target);
