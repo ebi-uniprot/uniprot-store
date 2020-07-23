@@ -73,6 +73,7 @@ public class UniRefMembersDataStoreIndexer implements DataStoreIndexer {
                             .join(memberIdMember50RDD)
                             .mapValues(new UniRefMemberMerger());
 
+            // write to the store
             memberIdMemberRDD
                     .values()
                     .foreachPartition(getWriter(numberOfConnections, storeName, connectionURL));
