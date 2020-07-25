@@ -123,7 +123,7 @@ class UniRefDocumentConverterTest {
                 .memberCount(2)
                 .updated(LocalDate.of(2020, 2, 22))
                 .entryType(UniRefType.UniRef100)
-                .commonTaxonId(3)
+                .commonTaxonId(3L)
                 .commonTaxon("UniRefCommonTaxon")
                 .goTermsAdd(
                         new GeneOntologyEntryBuilder().aspect(GoAspect.COMPONENT).id("id").build())
