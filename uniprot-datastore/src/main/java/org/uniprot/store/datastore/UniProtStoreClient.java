@@ -46,4 +46,9 @@ public class UniProtStoreClient<S> {
     public void truncate() {
         client.truncate();
     }
+
+    public void saveOrUpdateEntry(S s) {
+        client.saveOrUpdateEntry(s);
+    }
+
 }

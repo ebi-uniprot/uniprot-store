@@ -1,0 +1,702 @@
+<UniRef xmlns="http://uniprot.org/uniref" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://uniprot.org/uniref http://www.uniprot.org/docs/uniref.xsd" version="2020_03" releaseDate="2020-06-17">
+    <entry id="UniRef90_A0A0H3AR18" updated="2020-06-17">
+        <name>Cluster: Endonuclease III</name>
+        <property type="member count" value="67"/>
+        <property type="common taxon" value="Rhizobiales"/>
+        <property type="common taxon ID" value="356"/>
+        <property type="GO Molecular Function" value="GO:0016787"/>
+        <property type="GO Biological Process" value="GO:0006284"/>
+        <representativeMember>
+            <dbReference type="UniProtKB ID" id="A0A0H3AR18_BRUO2">
+                <property type="UniProtKB accession" value="A0A0H3AR18"/>
+                <property type="UniParc ID" value="UPI0001533963"/>
+                <property type="UniRef100 ID" value="UniRef100_A0A0H3AR18"/>
+                <property type="UniRef50 ID" value="UniRef50_A9W094"/>
+                <property type="protein name" value="Endonuclease III"/>
+                <property type="source organism" value="Brucella ovis (strain ATCC 25840 / 63/290 / NCTC 10512)"/>
+                <property type="NCBI taxonomy" value="444178"/>
+                <property type="length" value="260"/>
+                <property type="isSeed" value="true"/>
+            </dbReference>
+            <sequence length="260" checksum="559D52A9AC84C340">MSSEDGTEYRQGMQETKIKSAVNGSTSPVRRPRRVAGTLYTADEIHEIFRRFSIQRPEPKGELEHVNAFTLLVAVVLSAQATDAGVNKATRALFAVADTPQKMLALGEEKVGEYIRTIGLWRNKAKNVILLSEALIRDYGGEVPGDRDELVKLPGVGRKTANVVLNMAFGQPTMAVDTHILRIGNRIGLAPGKTPEAVEAILVRVIPREYMLHAHHWLILHGRYVCKARKPECEKCVIADLCKYPAKTCDIPAALVPLAP</sequence>
+        </representativeMember>
+        <member>
+            <dbReference type="UniProtKB ID" id="C0G3T8_9RHIZ">
+                <property type="UniProtKB accession" value="C0G3T8"/>
+                <property type="UniParc ID" value="UPI0001533963"/>
+                <property type="UniRef100 ID" value="UniRef100_A0A0H3AR18"/>
+                <property type="protein name" value="Endonuclease III"/>
+                <property type="source organism" value="Brucella ceti str. Cudo"/>
+                <property type="NCBI taxonomy" value="595497"/>
+                <property type="length" value="260"/>
+            </dbReference>
+        </member>
+        <member>
+            <dbReference type="UniProtKB ID" id="D1CVA3_9RHIZ">
+                <property type="UniProtKB accession" value="D1CVA3"/>
+                <property type="UniParc ID" value="UPI00000581DA"/>
+                <property type="UniRef100 ID" value="UniRef100_A0A0H3AR18"/>
+                <property type="protein name" value="Endonuclease III"/>
+                <property type="source organism" value="Brucella sp. 83/13"/>
+                <property type="NCBI taxonomy" value="520449"/>
+                <property type="length" value="248"/>
+            </dbReference>
+        </member>
+        <member>
+            <dbReference type="UniProtKB ID" id="A0A1M4LEH4_9RHIZ">
+                <property type="UniProtKB accession" value="A0A1M4LEH4"/>
+                <property type="UniParc ID" value="UPI00000581DA"/>
+                <property type="UniRef100 ID" value="UniRef100_A0A0H3AR18"/>
+                <property type="protein name" value="Endonuclease III"/>
+                <property type="source organism" value="Brucella sp. 10RB9215"/>
+                <property type="NCBI taxonomy" value="1149953"/>
+                <property type="length" value="248"/>
+            </dbReference>
+        </member>
+        <member>
+            <dbReference type="UniProtKB ID" id="C0RGM0_BRUMB">
+                <property type="UniProtKB accession" value="C0RGM0"/>
+                <property type="UniParc ID" value="UPI00000581DA"/>
+                <property type="UniRef100 ID" value="UniRef100_A0A0H3AR18"/>
+                <property type="protein name" value="Endonuclease III"/>
+                <property type="source organism" value="Brucella melitensis biotype 2 (strain ATCC 23457)"/>
+                <property type="NCBI taxonomy" value="546272"/>
+                <property type="length" value="248"/>
+            </dbReference>
+        </member>
+        <member>
+            <dbReference type="UniProtKB ID" id="A0A1P8S2U8_9RHIZ">
+                <property type="UniProtKB accession" value="A0A1P8S2U8"/>
+                <property type="UniParc ID" value="UPI00000581DA"/>
+                <property type="UniRef100 ID" value="UniRef100_A0A0H3AR18"/>
+                <property type="protein name" value="Endonuclease III"/>
+                <property type="source organism" value="Brucella sp. 09RB8910"/>
+                <property type="NCBI taxonomy" value="1844051"/>
+                <property type="length" value="248"/>
+            </dbReference>
+        </member>
+        <member>
+            <dbReference type="UniProtKB ID" id="N8NDC3_BRUOV">
+                <property type="UniProtKB accession" value="N8NDC3"/>
+                <property type="UniParc ID" value="UPI00000581DA"/>
+                <property type="UniRef100 ID" value="UniRef100_A0A0H3AR18"/>
+                <property type="protein name" value="Endonuclease III"/>
+                <property type="source organism" value="Brucella ovis IntaBari-2002-82-58"/>
+                <property type="NCBI taxonomy" value="1293916"/>
+                <property type="length" value="248"/>
+            </dbReference>
+        </member>
+        <member>
+            <dbReference type="UniProtKB ID" id="A0A381B4X0_BRUNE">
+                <property type="UniProtKB accession" value="A0A381B4X0"/>
+                <property type="UniParc ID" value="UPI00000581DA"/>
+                <property type="UniRef100 ID" value="UniRef100_A0A0H3AR18"/>
+                <property type="protein name" value="Endonuclease III"/>
+                <property type="source organism" value="Brucella neotomae"/>
+                <property type="NCBI taxonomy" value="29460"/>
+                <property type="length" value="248"/>
+            </dbReference>
+        </member>
+        <member>
+            <dbReference type="UniProtKB ID" id="A0A5P3L1N5_BRUML">
+                <property type="UniProtKB accession" value="A0A5P3L1N5"/>
+                <property type="UniParc ID" value="UPI00000581DA"/>
+                <property type="UniRef100 ID" value="UniRef100_A0A0H3AR18"/>
+                <property type="protein name" value="Endonuclease III"/>
+                <property type="source organism" value="Brucella melitensis"/>
+                <property type="NCBI taxonomy" value="29459"/>
+                <property type="length" value="248"/>
+            </dbReference>
+        </member>
+        <member>
+            <dbReference type="UniProtKB ID" id="D0RLG1_9RHIZ">
+                <property type="UniProtKB accession" value="D0RLG1"/>
+                <property type="UniParc ID" value="UPI00000581DA"/>
+                <property type="UniRef100 ID" value="UniRef100_A0A0H3AR18"/>
+                <property type="protein name" value="Endonuclease III"/>
+                <property type="source organism" value="Brucella sp. F5/99"/>
+                <property type="NCBI taxonomy" value="437701"/>
+                <property type="length" value="248"/>
+            </dbReference>
+        </member>
+        <member>
+            <dbReference type="UniProtKB ID" id="Q8YEU5_BRUME">
+                <property type="UniProtKB accession" value="Q8YEU5"/>
+                <property type="UniParc ID" value="UPI00000581DA"/>
+                <property type="UniRef100 ID" value="UniRef100_A0A0H3AR18"/>
+                <property type="protein name" value="Endonuclease III"/>
+                <property type="source organism" value="Brucella melitensis biotype 1 (strain 16M / ATCC 23456 / NCTC 10094)"/>
+                <property type="NCBI taxonomy" value="224914"/>
+                <property type="length" value="248"/>
+            </dbReference>
+        </member>
+        <member>
+            <dbReference type="UniProtKB ID" id="A0A0E1X2G4_9RHIZ">
+                <property type="UniProtKB accession" value="A0A0E1X2G4"/>
+                <property type="UniParc ID" value="UPI00000581DA"/>
+                <property type="UniRef100 ID" value="UniRef100_A0A0H3AR18"/>
+                <property type="protein name" value="Endonuclease III"/>
+                <property type="source organism" value="Brucella pinnipedialis M292/94/1"/>
+                <property type="NCBI taxonomy" value="520462"/>
+                <property type="length" value="248"/>
+            </dbReference>
+        </member>
+        <member>
+            <dbReference type="UniProtKB ID" id="C4INX7_BRUAO">
+                <property type="UniProtKB accession" value="C4INX7"/>
+                <property type="UniParc ID" value="UPI0001A48D23"/>
+                <property type="UniRef100 ID" value="UniRef100_C4INX7"/>
+                <property type="protein name" value="Endonuclease III"/>
+                <property type="source organism" value="Brucella abortus str. 2308 A"/>
+                <property type="NCBI taxonomy" value="641140"/>
+                <property type="length" value="260"/>
+            </dbReference>
+        </member>
+        <member>
+            <dbReference type="UniProtKB ID" id="Q57FL0_BRUAB">
+                <property type="UniProtKB accession" value="Q57FL0"/>
+                <property type="UniParc ID" value="UPI00004F8E83"/>
+                <property type="UniRef100 ID" value="UniRef100_C4INX7"/>
+                <property type="protein name" value="Endonuclease III"/>
+                <property type="source organism" value="Brucella abortus biovar 1 (strain 9-941)"/>
+                <property type="NCBI taxonomy" value="262698"/>
+                <property type="length" value="248"/>
+            </dbReference>
+        </member>
+        <member>
+            <dbReference type="UniProtKB ID" id="A0A0M1WCY0_BRUAO">
+                <property type="UniProtKB accession" value="A0A0M1WCY0"/>
+                <property type="UniParc ID" value="UPI00004F8E83"/>
+                <property type="UniRef100 ID" value="UniRef100_C4INX7"/>
+                <property type="protein name" value="Endonuclease III"/>
+                <property type="source organism" value="Brucella abortus NCTC 8038"/>
+                <property type="NCBI taxonomy" value="575591"/>
+                <property type="length" value="248"/>
+            </dbReference>
+        </member>
+        <member>
+            <dbReference type="UniProtKB ID" id="A0A0F6ANS2_BRUA1">
+                <property type="UniProtKB accession" value="A0A0F6ANS2"/>
+                <property type="UniParc ID" value="UPI00004F8E83"/>
+                <property type="UniRef100 ID" value="UniRef100_C4INX7"/>
+                <property type="protein name" value="Endonuclease III"/>
+                <property type="source organism" value="Brucella abortus (strain S19)"/>
+                <property type="NCBI taxonomy" value="430066"/>
+                <property type="length" value="248"/>
+            </dbReference>
+        </member>
+        <member>
+            <dbReference type="UniProtKB ID" id="A0A4Q2SPT6_BRUAO">
+                <property type="UniProtKB accession" value="A0A4Q2SPT6"/>
+                <property type="UniParc ID" value="UPI00004F8E83"/>
+                <property type="UniRef100 ID" value="UniRef100_C4INX7"/>
+                <property type="protein name" value="Endonuclease III"/>
+                <property type="source organism" value="Brucella abortus"/>
+                <property type="NCBI taxonomy" value="235"/>
+                <property type="length" value="248"/>
+            </dbReference>
+        </member>
+        <member>
+            <dbReference type="UniProtKB ID" id="D7H181_BRUAO">
+                <property type="UniProtKB accession" value="D7H181"/>
+                <property type="UniParc ID" value="UPI00004F8E83"/>
+                <property type="UniRef100 ID" value="UniRef100_C4INX7"/>
+                <property type="protein name" value="Endonuclease III"/>
+                <property type="source organism" value="Brucella abortus bv. 5 str. B3196"/>
+                <property type="NCBI taxonomy" value="520453"/>
+                <property type="length" value="248"/>
+            </dbReference>
+        </member>
+        <member>
+            <dbReference type="UniProtKB ID" id="Q2YP05_BRUA2">
+                <property type="UniProtKB accession" value="Q2YP05"/>
+                <property type="UniParc ID" value="UPI00004F8E83"/>
+                <property type="UniRef100 ID" value="UniRef100_C4INX7"/>
+                <property type="protein name" value="Endonuclease III"/>
+                <property type="source organism" value="Brucella abortus (strain 2308)"/>
+                <property type="NCBI taxonomy" value="359391"/>
+                <property type="length" value="248"/>
+            </dbReference>
+        </member>
+        <member>
+            <dbReference type="UniProtKB ID" id="U4VHE8_9RHIZ">
+                <property type="UniProtKB accession" value="U4VHE8"/>
+                <property type="UniParc ID" value="UPI0003B1D6BB"/>
+                <property type="UniRef100 ID" value="UniRef100_U4VHE8"/>
+                <property type="protein name" value="Endonuclease III"/>
+                <property type="source organism" value="Ochrobactrum intermedium 229E"/>
+                <property type="NCBI taxonomy" value="1337887"/>
+                <property type="length" value="250"/>
+            </dbReference>
+        </member>
+        <member>
+            <dbReference type="UniProtKB ID" id="A0A317LLC2_9RHIZ">
+                <property type="UniProtKB accession" value="A0A317LLC2"/>
+                <property type="UniParc ID" value="UPI000D707A13"/>
+                <property type="UniRef100 ID" value="UniRef100_A0A317LLC2"/>
+                <property type="protein name" value="Endonuclease III"/>
+                <property type="source organism" value="Ochrobactrum sp. POC9"/>
+                <property type="NCBI taxonomy" value="2203419"/>
+                <property type="length" value="249"/>
+            </dbReference>
+        </member>
+        <member>
+            <dbReference type="UniProtKB ID" id="A0A1J6HUD3_9RHIZ">
+                <property type="UniProtKB accession" value="A0A1J6HUD3"/>
+                <property type="UniParc ID" value="UPI0008FCCF36"/>
+                <property type="UniRef100 ID" value="UniRef100_A0A1J6HUD3"/>
+                <property type="protein name" value="Endonuclease III"/>
+                <property type="source organism" value="Ochrobactrum cytisi"/>
+                <property type="NCBI taxonomy" value="407152"/>
+                <property type="length" value="249"/>
+            </dbReference>
+        </member>
+        <member>
+            <dbReference type="UniProtKB ID" id="A0A427JZ65_OCHAN">
+                <property type="UniProtKB accession" value="A0A427JZ65"/>
+                <property type="UniParc ID" value="UPI000B9965F3"/>
+                <property type="UniRef100 ID" value="UniRef100_A0A427JZ65"/>
+                <property type="protein name" value="Endonuclease III"/>
+                <property type="source organism" value="Ochrobactrum anthropi"/>
+                <property type="NCBI taxonomy" value="529"/>
+                <property type="length" value="249"/>
+            </dbReference>
+        </member>
+        <member>
+            <dbReference type="UniProtKB ID" id="A0A256GQ22_9RHIZ">
+                <property type="UniProtKB accession" value="A0A256GQ22"/>
+                <property type="UniParc ID" value="UPI000B9965F3"/>
+                <property type="UniRef100 ID" value="UniRef100_A0A427JZ65"/>
+                <property type="protein name" value="Endonuclease III"/>
+                <property type="source organism" value="Ochrobactrum lupini"/>
+                <property type="NCBI taxonomy" value="255457"/>
+                <property type="length" value="249"/>
+            </dbReference>
+        </member>
+        <member>
+            <dbReference type="UniProtKB ID" id="A0A011T7B9_OCHAN">
+                <property type="UniProtKB accession" value="A0A011T7B9"/>
+                <property type="UniParc ID" value="UPI00045038A0"/>
+                <property type="UniRef100 ID" value="UniRef100_A0A011T7B9"/>
+                <property type="protein name" value="Endonuclease III"/>
+                <property type="source organism" value="Ochrobactrum anthropi"/>
+                <property type="NCBI taxonomy" value="529"/>
+                <property type="length" value="249"/>
+            </dbReference>
+        </member>
+        <member>
+            <dbReference type="UniProtKB ID" id="A0A2S7IVN8_9RHIZ">
+                <property type="UniProtKB accession" value="A0A2S7IVN8"/>
+                <property type="UniParc ID" value="UPI000CF0DBF5"/>
+                <property type="UniRef100 ID" value="UniRef100_A0A2S7IVN8"/>
+                <property type="protein name" value="Endonuclease III"/>
+                <property type="source organism" value="Ochrobactrum oryzae"/>
+                <property type="NCBI taxonomy" value="335286"/>
+                <property type="length" value="249"/>
+            </dbReference>
+        </member>
+        <member>
+            <dbReference type="UniProtKB ID" id="A0A5C5CR95_9RHIZ">
+                <property type="UniProtKB accession" value="A0A5C5CR95"/>
+                <property type="UniParc ID" value="UPI00111E9C38"/>
+                <property type="UniRef100 ID" value="UniRef100_A0A5C5CR95"/>
+                <property type="protein name" value="Endonuclease III"/>
+                <property type="source organism" value="Ochrobactrum pecoris"/>
+                <property type="NCBI taxonomy" value="867683"/>
+                <property type="length" value="249"/>
+            </dbReference>
+        </member>
+        <member>
+            <dbReference type="UniProtKB ID" id="A0A137Y0S3_OCHAN">
+                <property type="UniProtKB accession" value="A0A137Y0S3"/>
+                <property type="UniParc ID" value="UPI000774F5D3"/>
+                <property type="UniRef100 ID" value="UniRef100_A0A137Y0S3"/>
+                <property type="protein name" value="Endonuclease III"/>
+                <property type="source organism" value="Ochrobactrum anthropi"/>
+                <property type="NCBI taxonomy" value="529"/>
+                <property type="length" value="249"/>
+            </dbReference>
+        </member>
+        <member>
+            <dbReference type="UniProtKB ID" id="A0A2M9S2D1_9RHIZ">
+                <property type="UniProtKB accession" value="A0A2M9S2D1"/>
+                <property type="UniParc ID" value="UPI0007C28F04"/>
+                <property type="UniRef100 ID" value="UniRef100_A0A2M9S2D1"/>
+                <property type="protein name" value="Endonuclease III"/>
+                <property type="source organism" value="Ochrobactrum sp. 27A/999/2015"/>
+                <property type="NCBI taxonomy" value="2038110"/>
+                <property type="length" value="248"/>
+            </dbReference>
+        </member>
+        <member>
+            <dbReference type="UniProtKB ID" id="C7LFM2_BRUMC">
+                <property type="UniProtKB accession" value="C7LFM2"/>
+                <property type="UniParc ID" value="UPI0001B1E518"/>
+                <property type="UniRef100 ID" value="UniRef100_C7LFM2"/>
+                <property type="protein name" value="Endonuclease III"/>
+                <property type="source organism" value="Brucella microti (strain CCM 4915)"/>
+                <property type="NCBI taxonomy" value="568815"/>
+                <property type="length" value="248"/>
+            </dbReference>
+        </member>
+        <member>
+            <dbReference type="UniProtKB ID" id="A0A5N7NTX6_9RHIZ">
+                <property type="UniProtKB accession" value="A0A5N7NTX6"/>
+                <property type="UniParc ID" value="UPI000396A550"/>
+                <property type="UniRef100 ID" value="UniRef100_A0A5N7NTX6"/>
+                <property type="protein name" value="Endonuclease III"/>
+                <property type="source organism" value="Ochrobactrum intermedium"/>
+                <property type="NCBI taxonomy" value="94625"/>
+                <property type="length" value="248"/>
+            </dbReference>
+        </member>
+        <member>
+            <dbReference type="UniProtKB ID" id="U1X2F2_9RHIZ">
+                <property type="UniProtKB accession" value="U1X2F2"/>
+                <property type="UniParc ID" value="UPI000396A550"/>
+                <property type="UniRef100 ID" value="UniRef100_A0A5N7NTX6"/>
+                <property type="protein name" value="Endonuclease III"/>
+                <property type="source organism" value="Ochrobactrum sp. EGD-AQ16"/>
+                <property type="NCBI taxonomy" value="1390361"/>
+                <property type="length" value="248"/>
+            </dbReference>
+        </member>
+        <member>
+            <dbReference type="UniProtKB ID" id="A0A562CSK8_9RHIZ">
+                <property type="UniProtKB accession" value="A0A562CSK8"/>
+                <property type="UniParc ID" value="UPI000EFCF605"/>
+                <property type="UniRef100 ID" value="UniRef100_A0A562CSK8"/>
+                <property type="protein name" value="Endonuclease III"/>
+                <property type="source organism" value="Ochrobactrum sp. J50"/>
+                <property type="NCBI taxonomy" value="936132"/>
+                <property type="length" value="248"/>
+            </dbReference>
+        </member>
+        <member>
+            <dbReference type="UniProtKB ID" id="D6LL97_9RHIZ">
+                <property type="UniProtKB accession" value="D6LL97"/>
+                <property type="UniParc ID" value="UPI0001D0C547"/>
+                <property type="UniRef100 ID" value="UniRef100_D6LL97"/>
+                <property type="protein name" value="Endonuclease III"/>
+                <property type="source organism" value="Brucella sp. NVSL 07-0026"/>
+                <property type="NCBI taxonomy" value="520448"/>
+                <property type="length" value="248"/>
+            </dbReference>
+        </member>
+        <member>
+            <dbReference type="UniProtKB ID" id="A0A5Q0SQW7_9RHIZ">
+                <property type="UniProtKB accession" value="A0A5Q0SQW7"/>
+                <property type="UniParc ID" value="UPI001297D9BA"/>
+                <property type="UniRef100 ID" value="UniRef100_A0A5Q0SQW7"/>
+                <property type="protein name" value="Endonuclease III"/>
+                <property type="source organism" value="Brucella sp. 2280"/>
+                <property type="NCBI taxonomy" value="2592625"/>
+                <property type="length" value="248"/>
+            </dbReference>
+        </member>
+        <member>
+            <dbReference type="UniProtKB ID" id="A9M7B1_BRUC2">
+                <property type="UniProtKB accession" value="A9M7B1"/>
+                <property type="UniParc ID" value="UPI00000DD1FC"/>
+                <property type="UniRef100 ID" value="UniRef100_A9M7B1"/>
+                <property type="protein name" value="Endonuclease III"/>
+                <property type="source organism" value="Brucella canis (strain ATCC 23365 / NCTC 10854)"/>
+                <property type="NCBI taxonomy" value="483179"/>
+                <property type="length" value="248"/>
+            </dbReference>
+        </member>
+        <member>
+            <dbReference type="UniProtKB ID" id="A0A5P8MCK2_BRUSS">
+                <property type="UniProtKB accession" value="A0A5P8MCK2"/>
+                <property type="UniParc ID" value="UPI00000DD1FC"/>
+                <property type="UniRef100 ID" value="UniRef100_A9M7B1"/>
+                <property type="protein name" value="Endonuclease III"/>
+                <property type="source organism" value="Brucella suis bv. 1"/>
+                <property type="NCBI taxonomy" value="644346"/>
+                <property type="length" value="248"/>
+            </dbReference>
+        </member>
+        <member>
+            <dbReference type="UniProtKB ID" id="A0A4Z0F3L4_BRUSS">
+                <property type="UniProtKB accession" value="A0A4Z0F3L4"/>
+                <property type="UniParc ID" value="UPI00000DD1FC"/>
+                <property type="UniRef100 ID" value="UniRef100_A9M7B1"/>
+                <property type="protein name" value="Endonuclease III"/>
+                <property type="source organism" value="Brucella suis"/>
+                <property type="NCBI taxonomy" value="29461"/>
+                <property type="length" value="248"/>
+            </dbReference>
+        </member>
+        <member>
+            <dbReference type="UniProtKB ID" id="A0A0H3G1I8_BRUSU">
+                <property type="UniProtKB accession" value="A0A0H3G1I8"/>
+                <property type="UniParc ID" value="UPI00000DD1FC"/>
+                <property type="UniRef100 ID" value="UniRef100_A9M7B1"/>
+                <property type="protein name" value="Endonuclease III"/>
+                <property type="source organism" value="Brucella suis biovar 1 (strain 1330)"/>
+                <property type="NCBI taxonomy" value="204722"/>
+                <property type="length" value="248"/>
+            </dbReference>
+        </member>
+        <member>
+            <dbReference type="UniProtKB ID" id="B0CJ25_BRUSI">
+                <property type="UniProtKB accession" value="B0CJ25"/>
+                <property type="UniParc ID" value="UPI00000DD1FC"/>
+                <property type="UniRef100 ID" value="UniRef100_A9M7B1"/>
+                <property type="protein name" value="Endonuclease III"/>
+                <property type="source organism" value="Brucella suis (strain ATCC 23445 / NCTC 10510)"/>
+                <property type="NCBI taxonomy" value="470137"/>
+                <property type="length" value="248"/>
+            </dbReference>
+        </member>
+        <member>
+            <dbReference type="UniProtKB ID" id="C4WGY1_9RHIZ">
+                <property type="UniProtKB accession" value="C4WGY1"/>
+                <property type="UniParc ID" value="UPI0001A751AA"/>
+                <property type="UniRef100 ID" value="UniRef100_C4WGY1"/>
+                <property type="protein name" value="Endonuclease III"/>
+                <property type="source organism" value="Ochrobactrum intermedium LMG 3301"/>
+                <property type="NCBI taxonomy" value="641118"/>
+                <property type="length" value="248"/>
+            </dbReference>
+        </member>
+        <member>
+            <dbReference type="UniProtKB ID" id="M5JRF7_9RHIZ">
+                <property type="UniProtKB accession" value="M5JRF7"/>
+                <property type="UniParc ID" value="UPI0001A751AA"/>
+                <property type="UniRef100 ID" value="UniRef100_C4WGY1"/>
+                <property type="protein name" value="Endonuclease III"/>
+                <property type="source organism" value="Ochrobactrum intermedium M86"/>
+                <property type="NCBI taxonomy" value="1234597"/>
+                <property type="length" value="248"/>
+            </dbReference>
+        </member>
+        <member>
+            <dbReference type="UniProtKB ID" id="A0A3D2D1Q4_9RHIZ">
+                <property type="UniProtKB accession" value="A0A3D2D1Q4"/>
+                <property type="UniParc ID" value="UPI000EE6B9A1"/>
+                <property type="UniRef100 ID" value="UniRef100_A0A3D2D1Q4"/>
+                <property type="protein name" value="Endonuclease III (Fragment)"/>
+                <property type="source organism" value="Ochrobactrum sp."/>
+                <property type="NCBI taxonomy" value="42190"/>
+                <property type="length" value="209"/>
+            </dbReference>
+        </member>
+        <member>
+            <dbReference type="UniParc ID" id="UPI00124E37B3">
+                <property type="UniRef100 ID" value="UniRef100_UPI00124E37B3"/>
+                <property type="protein name" value="endonuclease III"/>
+                <property type="source organism" value="Ochrobactrum anthropi"/>
+                <property type="NCBI taxonomy" value="529"/>
+                <property type="length" value="249"/>
+            </dbReference>
+        </member>
+        <member>
+            <dbReference type="UniParc ID" id="UPI00124DDCDB">
+                <property type="UniRef100 ID" value="UniRef100_UPI00124DDCDB"/>
+                <property type="protein name" value="endonuclease III"/>
+                <property type="source organism" value="Ochrobactrum tritici"/>
+                <property type="NCBI taxonomy" value="94626"/>
+                <property type="length" value="249"/>
+            </dbReference>
+        </member>
+        <member>
+            <dbReference type="UniParc ID" id="UPI000DEFFDD4">
+                <property type="UniRef100 ID" value="UniRef100_UPI000DEFFDD4"/>
+                <property type="protein name" value="endonuclease III"/>
+                <property type="source organism" value="Ochrobactrum sp. 3-3"/>
+                <property type="NCBI taxonomy" value="1830124"/>
+                <property type="length" value="249"/>
+            </dbReference>
+        </member>
+        <member>
+            <dbReference type="UniParc ID" id="UPI000EFC06F6">
+                <property type="UniRef100 ID" value="UniRef100_UPI000EFC06F6"/>
+                <property type="protein name" value="endonuclease III"/>
+                <property type="source organism" value="Rhizobiales bacterium"/>
+                <property type="NCBI taxonomy" value="1909294"/>
+                <property type="length" value="249"/>
+            </dbReference>
+        </member>
+        <member>
+            <dbReference type="UniParc ID" id="UPI00124C9E8B">
+                <property type="UniRef100 ID" value="UniRef100_UPI00124C9E8B"/>
+                <property type="protein name" value="endonuclease III"/>
+                <property type="source organism" value="Ochrobactrum tritici"/>
+                <property type="NCBI taxonomy" value="94626"/>
+                <property type="length" value="249"/>
+            </dbReference>
+        </member>
+        <member>
+            <dbReference type="UniParc ID" id="UPI00112138FF">
+                <property type="UniRef100 ID" value="UniRef100_UPI00112138FF"/>
+                <property type="protein name" value="endonuclease III"/>
+                <property type="source organism" value="Ochrobactrum sp. CGA5"/>
+                <property type="NCBI taxonomy" value="2583453"/>
+                <property type="length" value="249"/>
+            </dbReference>
+        </member>
+        <member>
+            <dbReference type="UniParc ID" id="UPI000288BB9F">
+                <property type="UniRef100 ID" value="UniRef100_UPI000288BB9F"/>
+                <property type="protein name" value="endonuclease III"/>
+                <property type="source organism" value="Ochrobactrum"/>
+                <property type="NCBI taxonomy" value="528"/>
+                <property type="length" value="249"/>
+            </dbReference>
+        </member>
+        <member>
+            <dbReference type="UniParc ID" id="UPI000DD5454A">
+                <property type="UniRef100 ID" value="UniRef100_UPI000DD5454A"/>
+                <property type="protein name" value="endonuclease III"/>
+                <property type="source organism" value="Rhizobiales bacterium"/>
+                <property type="NCBI taxonomy" value="1909294"/>
+                <property type="length" value="249"/>
+            </dbReference>
+        </member>
+        <member>
+            <dbReference type="UniParc ID" id="UPI00124CCDBC">
+                <property type="UniRef100 ID" value="UniRef100_UPI00124CCDBC"/>
+                <property type="protein name" value="endonuclease III"/>
+                <property type="source organism" value="Ochrobactrum tritici"/>
+                <property type="NCBI taxonomy" value="94626"/>
+                <property type="length" value="249"/>
+            </dbReference>
+        </member>
+        <member>
+            <dbReference type="UniParc ID" id="UPI00084F9A45">
+                <property type="UniRef100 ID" value="UniRef100_UPI00084F9A45"/>
+                <property type="protein name" value="endonuclease III"/>
+                <property type="source organism" value="Brucella sp. B13-0095"/>
+                <property type="NCBI taxonomy" value="1867845"/>
+                <property type="length" value="248"/>
+            </dbReference>
+        </member>
+        <member>
+            <dbReference type="UniParc ID" id="UPI0012ADC336">
+                <property type="UniRef100 ID" value="UniRef100_UPI0012ADC336"/>
+                <property type="protein name" value="endonuclease III"/>
+                <property type="source organism" value="unclassified Brucella"/>
+                <property type="NCBI taxonomy" value="2632610"/>
+                <property type="length" value="248"/>
+            </dbReference>
+        </member>
+        <member>
+            <dbReference type="UniParc ID" id="UPI001443AAE9">
+                <property type="UniRef100 ID" value="UniRef100_UPI001443AAE9"/>
+                <property type="protein name" value="endonuclease III"/>
+                <property type="source organism" value="Ochrobactrum pecoris"/>
+                <property type="NCBI taxonomy" value="867683"/>
+                <property type="length" value="248"/>
+            </dbReference>
+        </member>
+        <member>
+            <dbReference type="UniParc ID" id="UPI0002D1122B">
+                <property type="UniRef100 ID" value="UniRef100_UPI0002D1122B"/>
+                <property type="protein name" value="endonuclease III"/>
+                <property type="source organism" value="Brucella sp. 63/311"/>
+                <property type="NCBI taxonomy" value="1160235"/>
+                <property type="length" value="248"/>
+            </dbReference>
+        </member>
+        <member>
+            <dbReference type="UniParc ID" id="UPI0001E16612">
+                <property type="UniRef100 ID" value="UniRef100_UPI0001E16612"/>
+                <property type="protein name" value="endonuclease III"/>
+                <property type="source organism" value="Brucella"/>
+                <property type="NCBI taxonomy" value="234"/>
+                <property type="length" value="248"/>
+            </dbReference>
+        </member>
+        <member>
+            <dbReference type="UniParc ID" id="UPI0003B9934A">
+                <property type="UniRef100 ID" value="UniRef100_UPI0003B9934A"/>
+                <property type="protein name" value="endonuclease III"/>
+                <property type="source organism" value="Brucella suis"/>
+                <property type="NCBI taxonomy" value="29461"/>
+                <property type="length" value="248"/>
+            </dbReference>
+        </member>
+        <member>
+            <dbReference type="UniParc ID" id="UPI000DE523D3">
+                <property type="UniRef100 ID" value="UniRef100_UPI000DE523D3"/>
+                <property type="protein name" value="endonuclease III"/>
+                <property type="source organism" value="Rhizobiales bacterium"/>
+                <property type="NCBI taxonomy" value="1909294"/>
+                <property type="length" value="248"/>
+            </dbReference>
+        </member>
+        <member>
+            <dbReference type="UniParc ID" id="UPI000870D29E">
+                <property type="UniRef100 ID" value="UniRef100_UPI000870D29E"/>
+                <property type="protein name" value="endonuclease III"/>
+                <property type="source organism" value="Brucella sp. 141012304"/>
+                <property type="NCBI taxonomy" value="1885919"/>
+                <property type="length" value="248"/>
+            </dbReference>
+        </member>
+        <member>
+            <dbReference type="UniParc ID" id="UPI00125CA9A4">
+                <property type="UniRef100 ID" value="UniRef100_UPI00125CA9A4"/>
+                <property type="protein name" value="endonuclease III"/>
+                <property type="source organism" value="Brucella melitensis"/>
+                <property type="NCBI taxonomy" value="29459"/>
+                <property type="length" value="248"/>
+            </dbReference>
+        </member>
+        <member>
+            <dbReference type="UniParc ID" id="UPI000DE4EA66">
+                <property type="UniRef100 ID" value="UniRef100_UPI000DE4EA66"/>
+                <property type="protein name" value="endonuclease III"/>
+                <property type="source organism" value="Rhizobiales bacterium"/>
+                <property type="NCBI taxonomy" value="1909294"/>
+                <property type="length" value="248"/>
+            </dbReference>
+        </member>
+        <member>
+            <dbReference type="UniParc ID" id="UPI0001B58DED">
+                <property type="UniRef100 ID" value="UniRef100_UPI0001B58DED"/>
+                <property type="protein name" value="endonuclease III"/>
+                <property type="source organism" value="Brucella melitensis"/>
+                <property type="NCBI taxonomy" value="29459"/>
+                <property type="length" value="248"/>
+            </dbReference>
+        </member>
+        <member>
+            <dbReference type="UniParc ID" id="UPI000DDACBC5">
+                <property type="UniRef100 ID" value="UniRef100_UPI000DDACBC5"/>
+                <property type="protein name" value="endonuclease III"/>
+                <property type="source organism" value="Rhizobiales bacterium"/>
+                <property type="NCBI taxonomy" value="1909294"/>
+                <property type="length" value="248"/>
+            </dbReference>
+        </member>
+        <member>
+            <dbReference type="UniParc ID" id="UPI00124D7D5F">
+                <property type="UniRef100 ID" value="UniRef100_UPI00124D7D5F"/>
+                <property type="protein name" value="endonuclease III"/>
+                <property type="source organism" value="Ochrobactrum intermedium"/>
+                <property type="NCBI taxonomy" value="94625"/>
+                <property type="length" value="248"/>
+            </dbReference>
+        </member>
+        <member>
+            <dbReference type="UniParc ID" id="UPI0001B48225">
+                <property type="UniRef100 ID" value="UniRef100_UPI0001B48225"/>
+                <property type="protein name" value="endonuclease III"/>
+                <property type="source organism" value="Brucella suis"/>
+                <property type="NCBI taxonomy" value="29461"/>
+                <property type="length" value="248"/>
+            </dbReference>
+        </member>
+        <member>
+            <dbReference type="UniParc ID" id="UPI0004CDFF29">
+                <property type="UniRef100 ID" value="UniRef100_UPI0004CDFF29"/>
+                <property type="protein name" value="endonuclease III"/>
+                <property type="source organism" value="Brucella melitensis"/>
+                <property type="NCBI taxonomy" value="29459"/>
+                <property type="length" value="243"/>
+            </dbReference>
+        </member>
+    </entry>
+</UniRef>

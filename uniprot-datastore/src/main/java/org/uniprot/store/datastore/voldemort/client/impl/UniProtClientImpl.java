@@ -48,4 +48,9 @@ public class UniProtClientImpl implements UniProtClient {
     public void close() {
         client.close();
     }
+
+    @Override
+    public void saveOrUpdateEntry(UniProtKBEntry entry) {
+        client.saveOrUpdateEntry(entry);
+    }
 }
