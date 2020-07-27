@@ -66,7 +66,7 @@ public class DatasetUniRefEntryConverter implements Function<Row, UniRefEntry>, 
             }
             if (propertyMap.containsKey(PROPERTY_COMMON_TAXON_ID)) {
                 String commonTaxonId = propertyMap.get(PROPERTY_COMMON_TAXON_ID).get(0);
-                builder.commonTaxonId(Integer.parseInt(commonTaxonId));
+                builder.commonTaxonId(Long.valueOf(commonTaxonId));
             }
             builder.goTermsSet(convertUniRefGoTermsProperties(propertyMap));
         }
