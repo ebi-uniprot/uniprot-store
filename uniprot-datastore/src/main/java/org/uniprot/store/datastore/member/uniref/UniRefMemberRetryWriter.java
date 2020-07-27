@@ -48,10 +48,8 @@ public class UniRefMemberRetryWriter
 
     @Override
     protected String entryToString(RepresentativeMember entry) {
-
         MemberType xmlEntry = converter.toXml(entry);
         StringWriter writer = new StringWriter();
-
         try {
             this.marshaller.marshal(xmlEntry, writer);
             writer.write("\n");

@@ -17,6 +17,8 @@ public class UniRefMemberStoreProperties {
     private int writeRetryBackOffFromMillis = 50;
     private int writeRetryBackOffToMillis = 3000;
     private int logRateInterval = 10000;
-    private String xmlFilePath;
+    private String uniref100XmlFilePath;
+    private String uniref90XmlFilePath;
+    private String uniref50XmlFilePath;
     private TaskExecutorProperties itemWriterTaskExecutor = new TaskExecutorProperties();
 }

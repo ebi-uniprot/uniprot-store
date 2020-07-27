@@ -11,13 +11,13 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
 public class UniRefMemberProcessorTest {
-    private static UniRefMemberProcessor memberProcessor;
+    private static UniRef100MemberProcessor memberProcessor;
     private static final String filePath = "src/test/resources/uniref/50_Q9EPS7_Q95604.xml";
     private static UniRefMemberXmlEntryReader reader;
 
     @BeforeAll
     static void setUp() {
-        memberProcessor = new UniRefMemberProcessor();
+        memberProcessor = new UniRef100MemberProcessor();
         reader = new UniRefMemberXmlEntryReader(filePath);
     }
 

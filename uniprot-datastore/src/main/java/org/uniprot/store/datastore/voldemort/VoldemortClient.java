@@ -17,4 +17,6 @@ public interface VoldemortClient<T> extends StoreService<T>, AutoCloseable {
     void truncate();
 
     void close();
+
+    void saveOrUpdateEntry(T entry);
 }

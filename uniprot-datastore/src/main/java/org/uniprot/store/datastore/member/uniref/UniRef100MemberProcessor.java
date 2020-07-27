@@ -15,11 +15,11 @@ import java.util.Objects;
  * @author sahmad
  * @since 23/07/2020
  */
-public class UniRefMemberProcessor implements ItemProcessor<MemberType, RepresentativeMember> {
+public class UniRef100MemberProcessor implements ItemProcessor<MemberType, RepresentativeMember> {
     private final RepresentativeMemberConverter repMemberConverter;
     private final MemberConverter memberConverter;
 
-    public UniRefMemberProcessor() {
+    public UniRef100MemberProcessor() {
         repMemberConverter = new RepresentativeMemberConverter();
         memberConverter = new MemberConverter();
     }
