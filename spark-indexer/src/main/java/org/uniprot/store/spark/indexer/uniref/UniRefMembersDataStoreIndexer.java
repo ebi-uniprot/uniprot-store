@@ -1,6 +1,10 @@
 package org.uniprot.store.spark.indexer.uniref;
 
+import java.util.Iterator;
+import java.util.ResourceBundle;
+
 import lombok.extern.slf4j.Slf4j;
+
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.function.VoidFunction;
@@ -13,9 +17,6 @@ import org.uniprot.store.spark.indexer.common.store.DataStoreIndexer;
 import org.uniprot.store.spark.indexer.uniref.mapper.UniRefMemberMerger;
 import org.uniprot.store.spark.indexer.uniref.mapper.UniRefToMembers;
 import org.uniprot.store.spark.indexer.uniref.writer.UniRefMemberDataStoreWriter;
-
-import java.util.Iterator;
-import java.util.ResourceBundle;
 
 /**
  * @author sahmad

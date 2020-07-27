@@ -1,5 +1,14 @@
 package org.uniprot.store.datastore.member.uniref;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.*;
+import static org.uniprot.store.datastore.utils.Constants.*;
+
+import java.io.IOException;
+import java.util.Collection;
+import java.util.Optional;
+import java.util.concurrent.atomic.AtomicInteger;
+
 import org.hamcrest.CoreMatchers;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -21,15 +30,6 @@ import org.uniprot.store.job.common.TestUtils;
 import org.uniprot.store.job.common.listener.ListenerConfig;
 import org.uniprot.store.job.common.util.CommonConstants;
 
-import java.io.IOException;
-import java.util.Collection;
-import java.util.Optional;
-import java.util.concurrent.atomic.AtomicInteger;
-
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
-import static org.uniprot.store.datastore.utils.Constants.*;
-
 /**
  * @author sahmad
  * @date: 27 July 2020
@@ -38,25 +38,22 @@ import static org.uniprot.store.datastore.utils.Constants.*;
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(
         classes = {
-                UniRefMemberStoreTestConfig.class,
-                TestUtils.class,
-                FakeStoreSpringBootApplication.class,
-                UniRefMemberStoreJob.class,
-                UniRef100MembersStoreStep.class,
-                UniRef90MembersStoreStep.class,
-                UniRef50MembersStoreStep.class,
-                ListenerConfig.class
+            UniRefMemberStoreTestConfig.class,
+            TestUtils.class,
+            FakeStoreSpringBootApplication.class,
+            UniRefMemberStoreJob.class,
+            UniRef100MembersStoreStep.class,
+            UniRef90MembersStoreStep.class,
+            UniRef50MembersStoreStep.class,
+            ListenerConfig.class
         })
 @EnableConfigurationProperties({UniRefMemberStoreProperties.class})
 class UniRefMemberStoreJobIT {
-    @Autowired
-    private JobLauncherTestUtils jobLauncher;
+    @Autowired private JobLauncherTestUtils jobLauncher;
 
-    @Autowired
-    private UniRefMemberStoreProperties unirefMemberStoreProperties;
+    @Autowired private UniRefMemberStoreProperties unirefMemberStoreProperties;
 
-    @Autowired
-    private UniProtStoreClient<RepresentativeMember> unirefMemberStoreClient;
+    @Autowired private UniProtStoreClient<RepresentativeMember> unirefMemberStoreClient;
 
     @Test
     void testUniRefMemberStoreJob() throws Exception {
@@ -85,7 +82,8 @@ class UniRefMemberStoreJobIT {
         verifyVoldemortData();
     }
 
-    private void verifyUniRef100MemberStoreStep(JobExecution jobExecution, Collection<StepExecution> stepExecutions) {
+    private void verifyUniRef100MemberStoreStep(
+            JobExecution jobExecution, Collection<StepExecution> stepExecutions) {
         StepExecution uniref100Step =
                 stepExecutions.stream()
                         .filter(step -> step.getStepName().equals(UNIREF100_MEMBER_STORE_STEP))
@@ -96,7 +94,8 @@ class UniRefMemberStoreJobIT {
         assertThat(uniref100Step.getWriteCount(), is(12));
     }
 
-    private void verifyUniRef90MemberStoreStep(JobExecution jobExecution, Collection<StepExecution> stepExecutions) {
+    private void verifyUniRef90MemberStoreStep(
+            JobExecution jobExecution, Collection<StepExecution> stepExecutions) {
         StepExecution uniref100Step =
                 stepExecutions.stream()
                         .filter(step -> step.getStepName().equals(UNIREF90_MEMBER_STORE_STEP))
@@ -105,10 +104,10 @@ class UniRefMemberStoreJobIT {
 
         assertThat(uniref100Step.getReadCount(), is(67));
         assertThat(uniref100Step.getWriteCount(), is(67));
-
     }
 
-    private void verifyUniRef50MemberStoreStep(JobExecution jobExecution, Collection<StepExecution> stepExecutions) {
+    private void verifyUniRef50MemberStoreStep(
+            JobExecution jobExecution, Collection<StepExecution> stepExecutions) {
         StepExecution uniref100Step =
                 stepExecutions.stream()
                         .filter(step -> step.getStepName().equals(UNIREF50_MEMBER_STORE_STEP))

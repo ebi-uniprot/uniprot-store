@@ -96,7 +96,6 @@ public abstract class VoldemortRemoteJsonBinaryStore<T> implements VoldemortClie
         time.stop();
     }
 
-
     @Override
     public void saveOrUpdateEntry(T entry) {
         saveEntry(entry);

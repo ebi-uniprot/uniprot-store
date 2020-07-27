@@ -1,6 +1,10 @@
 package org.uniprot.store.datastore.member.uniref;
 
+import java.util.Objects;
+import java.util.Optional;
+
 import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.batch.item.ItemProcessor;
 import org.uniprot.core.uniref.RepresentativeMember;
 import org.uniprot.core.uniref.UniRefMember;
@@ -12,20 +16,19 @@ import org.uniprot.core.xml.uniref.MemberConverter;
 import org.uniprot.core.xml.uniref.RepresentativeMemberConverter;
 import org.uniprot.store.datastore.UniProtStoreClient;
 
-import java.util.Objects;
-import java.util.Optional;
-
 /**
  * @author sahmad
  * @since 23/07/2020
  */
 @Slf4j
-public class UniRef90And50MemberProcessor implements ItemProcessor<MemberType, RepresentativeMember> {
+public class UniRef90And50MemberProcessor
+        implements ItemProcessor<MemberType, RepresentativeMember> {
     private final RepresentativeMemberConverter repMemberConverter;
     private final MemberConverter memberConverter;
     private final UniProtStoreClient<RepresentativeMember> unirefMemberStoreClient;
 
-    public UniRef90And50MemberProcessor(UniProtStoreClient<RepresentativeMember> unirefMemberStoreClient) {
+    public UniRef90And50MemberProcessor(
+            UniProtStoreClient<RepresentativeMember> unirefMemberStoreClient) {
         repMemberConverter = new RepresentativeMemberConverter();
         memberConverter = new MemberConverter();
         this.unirefMemberStoreClient = unirefMemberStoreClient;
@@ -35,7 +38,7 @@ public class UniRef90And50MemberProcessor implements ItemProcessor<MemberType, R
     public RepresentativeMember process(MemberType memberType) throws Exception {
         RepresentativeMemberBuilder builder;
 
-        if(Objects.nonNull(memberType.getSequence())) {
+        if (Objects.nonNull(memberType.getSequence())) {
             RepresentativeMember repMember = repMemberConverter.fromXml(memberType);
             builder = RepresentativeMemberBuilder.from(repMember).memberId(getMemberId(repMember));
         } else {
@@ -46,8 +49,9 @@ public class UniRef90And50MemberProcessor implements ItemProcessor<MemberType, R
         RepresentativeMember repMember = builder.isSeed(null).build();
 
         // get from voldemort store and enrich it with repMember(uniref90/uniref50 member)
-        Optional<RepresentativeMember> existingMember = this.unirefMemberStoreClient.getEntry(repMember.getMemberId());
-        if(existingMember.isPresent()){
+        Optional<RepresentativeMember> existingMember =
+                this.unirefMemberStoreClient.getEntry(repMember.getMemberId());
+        if (existingMember.isPresent()) {
             log.info("Member {} exists in Voldemort store", repMember.getMemberId());
             return mergeSourceToTarget(repMember, existingMember.get());
         }

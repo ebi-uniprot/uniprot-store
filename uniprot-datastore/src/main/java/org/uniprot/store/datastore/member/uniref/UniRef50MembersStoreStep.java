@@ -1,6 +1,9 @@
 package org.uniprot.store.datastore.member.uniref;
 
+import static org.uniprot.store.datastore.utils.Constants.UNIREF50_MEMBER_STORE_STEP;
+
 import net.jodah.failsafe.RetryPolicy;
+
 import org.springframework.aop.framework.Advised;
 import org.springframework.aop.support.AopUtils;
 import org.springframework.batch.core.Step;
@@ -24,8 +27,6 @@ import org.uniprot.store.datastore.member.uniref.config.UniRefMemberStorePropert
 import org.uniprot.store.job.common.listener.LogRateListener;
 import org.uniprot.store.job.common.listener.WriteRetrierLogStepListener;
 import org.uniprot.store.job.common.writer.ItemRetryWriter;
-
-import static org.uniprot.store.datastore.utils.Constants.UNIREF50_MEMBER_STORE_STEP;
 
 /**
  * @author sahmad
@@ -77,7 +78,8 @@ public class UniRef50MembersStoreStep {
 
     // ---------------------- Processors ----------------------
     @Bean(name = "uniref50MemberProcessor")
-    public ItemProcessor<MemberType, RepresentativeMember> uniref50MemberProcessor(UniProtStoreClient<RepresentativeMember> unirefMemberStoreClient) {
+    public ItemProcessor<MemberType, RepresentativeMember> uniref50MemberProcessor(
+            UniProtStoreClient<RepresentativeMember> unirefMemberStoreClient) {
         return new UniRef90And50MemberProcessor(unirefMemberStoreClient);
     }
 
@@ -87,7 +89,8 @@ public class UniRef50MembersStoreStep {
             UniProtStoreClient<RepresentativeMember> unirefMemberStoreClient,
             RetryPolicy<Object> writeRetryPolicy) {
         return new UniRefMemberRetryWriter(
-                entries -> entries.forEach(unirefMemberStoreClient::saveOrUpdateEntry), writeRetryPolicy);
+                entries -> entries.forEach(unirefMemberStoreClient::saveOrUpdateEntry),
+                writeRetryPolicy);
     }
 
     private Object unwrapProxy(Object bean) throws Exception {
