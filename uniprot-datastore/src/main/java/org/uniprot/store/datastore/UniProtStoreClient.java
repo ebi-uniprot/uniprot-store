@@ -50,5 +50,4 @@ public class UniProtStoreClient<S> {
     public void saveOrUpdateEntry(S s) {
         client.saveOrUpdateEntry(s);
     }
-
 }

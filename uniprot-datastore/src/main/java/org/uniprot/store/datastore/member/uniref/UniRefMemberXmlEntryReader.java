@@ -1,5 +1,8 @@
 package org.uniprot.store.datastore.member.uniref;
 
+import java.util.LinkedList;
+import java.util.Queue;
+
 import org.springframework.batch.core.StepExecution;
 import org.springframework.batch.core.annotation.BeforeStep;
 import org.springframework.batch.item.ExecutionContext;
@@ -10,9 +13,6 @@ import org.uniprot.core.xml.jaxb.uniref.Entry;
 import org.uniprot.core.xml.jaxb.uniref.MemberType;
 import org.uniprot.store.job.common.reader.XmlItemReader;
 import org.uniprot.store.job.common.util.CommonConstants;
-
-import java.util.LinkedList;
-import java.util.Queue;
 
 /**
  * @author sahmad

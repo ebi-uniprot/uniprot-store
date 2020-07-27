@@ -1,14 +1,14 @@
 package org.uniprot.store.datastore.member.uniref;
 
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+
+import java.io.IOException;
+
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.uniprot.core.uniref.RepresentativeMember;
 import org.uniprot.core.xml.jaxb.uniref.MemberType;
-
-import java.io.IOException;
-
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
 
 public class UniRefMemberProcessorTest {
     private static UniRef100MemberProcessor memberProcessor;
@@ -29,7 +29,8 @@ public class UniRefMemberProcessorTest {
         verifyUniObj(uniObj, xmlObj);
     }
 
-    private void verifyUniObj(RepresentativeMember uniObj, MemberType memberType) throws IOException {
+    private void verifyUniObj(RepresentativeMember uniObj, MemberType memberType)
+            throws IOException {
         assertNotNull(uniObj);
         assertNull(uniObj.isSeed(), "seed is not null");
         assertNotNull(uniObj.getMemberIdType());

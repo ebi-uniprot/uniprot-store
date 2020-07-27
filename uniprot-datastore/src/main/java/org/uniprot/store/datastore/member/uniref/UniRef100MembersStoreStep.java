@@ -1,6 +1,9 @@
 package org.uniprot.store.datastore.member.uniref;
 
+import static org.uniprot.store.datastore.utils.Constants.UNIREF100_MEMBER_STORE_STEP;
+
 import net.jodah.failsafe.RetryPolicy;
+
 import org.springframework.aop.framework.Advised;
 import org.springframework.aop.support.AopUtils;
 import org.springframework.batch.core.Step;
@@ -25,8 +28,6 @@ import org.uniprot.store.job.common.listener.LogRateListener;
 import org.uniprot.store.job.common.listener.WriteRetrierLogStepListener;
 import org.uniprot.store.job.common.writer.ItemRetryWriter;
 
-import static org.uniprot.store.datastore.utils.Constants.UNIREF100_MEMBER_STORE_STEP;
-
 /**
  * @author sahmad
  * @since 23/07/2020
@@ -50,7 +51,8 @@ public class UniRef100MembersStoreStep {
             WriteRetrierLogStepListener writeRetrierLogStepListener,
             @Qualifier("unirefMemberLogRateListener")
                     LogRateListener<RepresentativeMember> unirefMemberLogRateListener,
-            @Qualifier("uniref100MemberItemReader") ItemReader<MemberType> uniref100MemberItemReader,
+            @Qualifier("uniref100MemberItemReader")
+                    ItemReader<MemberType> uniref100MemberItemReader,
             ItemProcessor<MemberType, RepresentativeMember> uniref100MemberProcessor,
             ItemWriter<RepresentativeMember> uniref100MemberItemWriter,
             ExecutionContextPromotionListener promotionListener)
@@ -72,7 +74,8 @@ public class UniRef100MembersStoreStep {
     // ---------------------- Readers ----------------------
     @Bean
     public ItemReader<MemberType> uniref100MemberItemReader() {
-        return new UniRefMemberXmlEntryReader(unirefMemberStoreProperties.getUniref100XmlFilePath());
+        return new UniRefMemberXmlEntryReader(
+                unirefMemberStoreProperties.getUniref100XmlFilePath());
     }
 
     // ---------------------- Processors ----------------------

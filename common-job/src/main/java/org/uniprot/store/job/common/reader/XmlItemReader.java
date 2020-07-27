@@ -68,7 +68,7 @@ public class XmlItemReader<T> implements ItemReader<T> {
         else return null;
     }
 
-    public XmlChainIterator<T, T> getEntryIterator(){
+    public XmlChainIterator<T, T> getEntryIterator() {
         return this.entryIterator;
     }
 }

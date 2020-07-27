@@ -1,16 +1,18 @@
 package org.uniprot.store.datastore.member.uniref;
 
+import java.io.StringWriter;
+
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.Marshaller;
+
 import lombok.extern.slf4j.Slf4j;
 import net.jodah.failsafe.RetryPolicy;
+
 import org.uniprot.core.uniref.RepresentativeMember;
 import org.uniprot.core.xml.jaxb.uniref.MemberType;
 import org.uniprot.core.xml.uniref.RepresentativeMemberConverter;
 import org.uniprot.store.job.common.store.Store;
 import org.uniprot.store.job.common.writer.ItemRetryWriter;
-
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.Marshaller;
-import java.io.StringWriter;
 
 /**
  * @author sahmad

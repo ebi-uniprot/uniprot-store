@@ -1,5 +1,7 @@
 package org.uniprot.store.datastore.member.uniref;
 
+import java.util.Objects;
+
 import org.springframework.batch.item.ItemProcessor;
 import org.uniprot.core.uniref.RepresentativeMember;
 import org.uniprot.core.uniref.UniRefMember;
@@ -8,8 +10,6 @@ import org.uniprot.core.uniref.impl.RepresentativeMemberBuilder;
 import org.uniprot.core.xml.jaxb.uniref.MemberType;
 import org.uniprot.core.xml.uniref.MemberConverter;
 import org.uniprot.core.xml.uniref.RepresentativeMemberConverter;
-
-import java.util.Objects;
 
 /**
  * @author sahmad
@@ -28,7 +28,7 @@ public class UniRef100MemberProcessor implements ItemProcessor<MemberType, Repre
     public RepresentativeMember process(MemberType memberType) throws Exception {
         RepresentativeMemberBuilder builder;
 
-        if(Objects.nonNull(memberType.getSequence())) {
+        if (Objects.nonNull(memberType.getSequence())) {
             RepresentativeMember repMember = repMemberConverter.fromXml(memberType);
             builder = RepresentativeMemberBuilder.from(repMember).memberId(getMemberId(repMember));
         } else {
