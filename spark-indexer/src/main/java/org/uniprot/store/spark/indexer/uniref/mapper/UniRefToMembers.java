@@ -30,7 +30,11 @@ public class UniRefToMembers
     public Iterator<Tuple2<String, RepresentativeMember>> call(UniRefEntry entry) throws Exception {
         List<Tuple2<String, RepresentativeMember>> results = new ArrayList<>();
 
-        RepresentativeMember representativeMember = entry.getRepresentativeMember();
+        RepresentativeMember representativeMember =
+                RepresentativeMemberBuilder.from(entry.getRepresentativeMember())
+                        .isSeed(null)
+                        .build();
+
         // representative member
         results.add(new Tuple2<>(getMemberId(representativeMember), representativeMember));
 
@@ -53,6 +57,6 @@ public class UniRefToMembers
     }
 
     private RepresentativeMember convertToRepMember(UniRefMember member) {
-        return RepresentativeMemberBuilder.from(member).build();
+        return RepresentativeMemberBuilder.from(member).isSeed(null).build();
     }
 }
