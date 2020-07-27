@@ -2,6 +2,7 @@ package org.uniprot.store.spark.indexer.uniref.mapper;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import org.apache.spark.api.java.Optional;
 import org.junit.jupiter.api.Test;
 import org.uniprot.core.impl.SequenceBuilder;
 import org.uniprot.core.uniprotkb.impl.UniProtKBAccessionBuilder;
@@ -36,8 +37,8 @@ class UniRefMemberMergerTest {
                         .sequenceLength(12)
                         .organismName("name1")
                         .build();
-        Tuple2<RepresentativeMember, RepresentativeMember> tuple =
-                new Tuple2<>(representativeMember, memberWithoutSeq);
+        Tuple2<RepresentativeMember, Optional<RepresentativeMember>> tuple =
+                new Tuple2<>(representativeMember, Optional.fromNullable(memberWithoutSeq));
 
         UniRefMemberMerger mapper = new UniRefMemberMerger();
         RepresentativeMember mergedMember = mapper.call(tuple);
@@ -64,8 +65,8 @@ class UniRefMemberMergerTest {
                         .organismTaxId(2)
                         .organismName("name1")
                         .build();
-        Tuple2<RepresentativeMember, RepresentativeMember> tuple =
-                new Tuple2<>(memberWithoutSeq1, memberWithoutSeq2);
+        Tuple2<RepresentativeMember, Optional<RepresentativeMember>> tuple =
+                new Tuple2<>(memberWithoutSeq1, Optional.fromNullable(memberWithoutSeq2));
 
         UniRefMemberMerger mapper = new UniRefMemberMerger();
         RepresentativeMember mergedMember = mapper.call(tuple);
