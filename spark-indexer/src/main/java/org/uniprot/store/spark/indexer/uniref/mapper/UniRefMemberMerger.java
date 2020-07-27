@@ -2,6 +2,9 @@ package org.uniprot.store.spark.indexer.uniref.mapper;
 
 import java.util.Objects;
 
+import lombok.extern.slf4j.Slf4j;
+
+import org.apache.spark.api.java.Optional;
 import org.apache.spark.api.java.function.Function;
 import org.uniprot.core.uniref.RepresentativeMember;
 import org.uniprot.core.uniref.impl.RepresentativeMemberBuilder;
@@ -16,24 +19,23 @@ import scala.Tuple2;
  * @author sahmad
  * @created 21/07/2020
  */
+@Slf4j
 public class UniRefMemberMerger
         implements Function<
-                Tuple2<RepresentativeMember, RepresentativeMember>, RepresentativeMember> {
+                Tuple2<RepresentativeMember, Optional<RepresentativeMember>>,
+                RepresentativeMember> {
     @Override
-    public RepresentativeMember call(Tuple2<RepresentativeMember, RepresentativeMember> memberPair)
+    public RepresentativeMember call(
+            Tuple2<RepresentativeMember, Optional<RepresentativeMember>> memberPair)
             throws Exception {
-
-        if (Objects.isNull(memberPair._1)) {
-            return memberPair._2;
-        } else if (Objects.isNull(memberPair._2)) {
+        if (!memberPair._2.isPresent()) {
+            log.error(
+                    "Member {} is not there in either UniRef90 and/or UniRef50",
+                    memberPair._1.getMemberId());
             return memberPair._1;
-        } else if (Objects.nonNull(memberPair._1.getSequence())) {
-            RepresentativeMember source = memberPair._2;
-            RepresentativeMember target = memberPair._1;
-            return mergeSourceToTarget(source, target);
         } else {
-            RepresentativeMember source = memberPair._1;
-            RepresentativeMember target = memberPair._2;
+            RepresentativeMember source = memberPair._2.get();
+            RepresentativeMember target = memberPair._1;
             return mergeSourceToTarget(source, target);
         }
     }
@@ -92,10 +94,6 @@ public class UniRefMemberMerger
         if (Objects.isNull(target.getOverlapRegion())
                 && Objects.nonNull(source.getOverlapRegion())) {
             builder.overlapRegion(source.getOverlapRegion());
-        }
-
-        if (Objects.isNull(target.isSeed()) && Objects.nonNull(source.isSeed())) {
-            builder.isSeed(source.isSeed());
         }
 
         return builder.build();

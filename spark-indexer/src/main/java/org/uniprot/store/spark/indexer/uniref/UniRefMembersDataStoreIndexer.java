@@ -1,10 +1,6 @@
 package org.uniprot.store.spark.indexer.uniref;
 
-import java.util.Iterator;
-import java.util.ResourceBundle;
-
 import lombok.extern.slf4j.Slf4j;
-
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.function.VoidFunction;
@@ -17,6 +13,9 @@ import org.uniprot.store.spark.indexer.common.store.DataStoreIndexer;
 import org.uniprot.store.spark.indexer.uniref.mapper.UniRefMemberMerger;
 import org.uniprot.store.spark.indexer.uniref.mapper.UniRefToMembers;
 import org.uniprot.store.spark.indexer.uniref.writer.UniRefMemberDataStoreWriter;
+
+import java.util.Iterator;
+import java.util.ResourceBundle;
 
 /**
  * @author sahmad
@@ -68,9 +67,9 @@ public class UniRefMembersDataStoreIndexer implements DataStoreIndexer {
             // join the members and merge
             JavaPairRDD<String, RepresentativeMember> memberIdMemberRDD =
                     memberIdMember100RDD
-                            .join(memberIdMember90RDD)
+                            .leftOuterJoin(memberIdMember90RDD)
                             .mapValues(new UniRefMemberMerger())
-                            .join(memberIdMember50RDD)
+                            .leftOuterJoin(memberIdMember50RDD)
                             .mapValues(new UniRefMemberMerger());
 
             // write to the store
