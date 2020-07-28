@@ -14,8 +14,11 @@ import org.uniprot.core.util.Utils;
  */
 public class UniRefRepMemberPairMerger
         implements BiFunction<RepresentativeMember, RepresentativeMember, RepresentativeMember> {
+
+    // set value from source to target if target doesnt have already set
     @Override
     public RepresentativeMember apply(RepresentativeMember source, RepresentativeMember target) {
+
         RepresentativeMemberBuilder builder = RepresentativeMemberBuilder.from(target);
 
         if (Objects.isNull(target.getMemberIdType()) && Objects.nonNull(source.getMemberIdType())) {
