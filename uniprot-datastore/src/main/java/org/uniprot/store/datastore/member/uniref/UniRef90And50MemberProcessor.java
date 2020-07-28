@@ -52,11 +52,11 @@ public class UniRef90And50MemberProcessor
         Optional<RepresentativeMember> existingMember =
                 this.unirefMemberStoreClient.getEntry(repMember.getMemberId());
         if (existingMember.isPresent()) {
-            log.info("Member {} exist in Voldemort store", repMember.getMemberId());
+            log.debug("Member {} exist in Voldemort store", repMember.getMemberId());
             return mergeSourceToTarget(repMember, existingMember.get());
         }
 
-        log.warn("Member {} doesn't exist in Voldemort store", repMember.getMemberId());
+        log.debug("Member {} doesn't exist in Voldemort store", repMember.getMemberId());
         return repMember;
     }
 
