@@ -1,14 +1,11 @@
 package org.uniprot.store.spark.indexer.uniref.mapper;
 
-import java.util.Objects;
-
 import lombok.extern.slf4j.Slf4j;
 
 import org.apache.spark.api.java.Optional;
 import org.apache.spark.api.java.function.Function;
 import org.uniprot.core.uniref.RepresentativeMember;
-import org.uniprot.core.uniref.impl.RepresentativeMemberBuilder;
-import org.uniprot.core.util.Utils;
+import org.uniprot.store.datastore.member.uniref.UniRefRepMemberPairMerger;
 
 import scala.Tuple2;
 
@@ -36,66 +33,7 @@ public class UniRefMemberMerger
         } else {
             RepresentativeMember source = memberPair._2.get();
             RepresentativeMember target = memberPair._1;
-            return mergeSourceToTarget(source, target);
+            return new UniRefRepMemberPairMerger().apply(source, target);
         }
-    }
-
-    // set value from source to target if target doesnt have already set
-    private RepresentativeMember mergeSourceToTarget(
-            RepresentativeMember source, RepresentativeMember target) {
-        RepresentativeMemberBuilder builder = RepresentativeMemberBuilder.from(target);
-
-        if (Objects.isNull(target.getMemberIdType()) && Objects.nonNull(source.getMemberIdType())) {
-            builder.memberIdType(source.getMemberIdType());
-        }
-
-        if (Utils.nullOrEmpty(target.getMemberId())
-                && Utils.notNullNotEmpty(source.getMemberId())) {
-            builder.memberId(source.getMemberId());
-        }
-
-        if (Utils.nullOrEmpty(target.getOrganismName())
-                && Utils.notNullNotEmpty(source.getOrganismName())) {
-            builder.organismName(source.getOrganismName());
-        }
-
-        if (target.getOrganismTaxId() == 0l && source.getOrganismTaxId() != 0l) {
-            builder.organismTaxId(source.getOrganismTaxId());
-        }
-
-        if (target.getSequenceLength() == 0 && source.getSequenceLength() != 0) {
-            builder.sequenceLength(source.getSequenceLength());
-        }
-
-        if (Utils.nullOrEmpty(target.getProteinName())
-                && Utils.notNullNotEmpty(source.getProteinName())) {
-            builder.proteinName(source.getProteinName());
-        }
-
-        if (Utils.nullOrEmpty(target.getUniProtAccessions())
-                && Utils.notNullNotEmpty(source.getUniProtAccessions())) {
-            builder.accessionsSet(source.getUniProtAccessions());
-        }
-        if (Objects.isNull(target.getUniRef50Id()) && Objects.nonNull(source.getUniRef50Id())) {
-            builder.uniref50Id(source.getUniRef50Id());
-        }
-        if (Objects.isNull(target.getUniRef90Id()) && Objects.nonNull(source.getUniRef90Id())) {
-            builder.uniref90Id(source.getUniRef90Id());
-        }
-
-        if (Objects.isNull(target.getUniRef100Id()) && Objects.nonNull(source.getUniRef100Id())) {
-            builder.uniref100Id(source.getUniRef100Id());
-        }
-
-        if (Objects.isNull(target.getUniParcId()) && Objects.nonNull(source.getUniParcId())) {
-            builder.uniparcId(source.getUniParcId());
-        }
-
-        if (Objects.isNull(target.getOverlapRegion())
-                && Objects.nonNull(source.getOverlapRegion())) {
-            builder.overlapRegion(source.getOverlapRegion());
-        }
-
-        return builder.build();
     }
 }
