@@ -1,16 +1,8 @@
 package org.uniprot.store.datastore.member.uniref;
 
-import java.io.StringWriter;
-
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.Marshaller;
-
 import lombok.extern.slf4j.Slf4j;
 import net.jodah.failsafe.RetryPolicy;
-
 import org.uniprot.core.uniref.RepresentativeMember;
-import org.uniprot.core.xml.jaxb.uniref.MemberType;
-import org.uniprot.core.xml.uniref.RepresentativeMemberConverter;
 import org.uniprot.store.job.common.store.Store;
 import org.uniprot.store.job.common.writer.ItemRetryWriter;
 
@@ -22,25 +14,9 @@ import org.uniprot.store.job.common.writer.ItemRetryWriter;
 public class UniRefMemberRetryWriter
         extends ItemRetryWriter<RepresentativeMember, RepresentativeMember> {
 
-    private final RepresentativeMemberConverter converter;
-    private Marshaller marshaller;
-
     public UniRefMemberRetryWriter(
             Store<RepresentativeMember> store, RetryPolicy<Object> retryPolicy) {
         super(store, retryPolicy);
-        this.converter = new RepresentativeMemberConverter();
-        initMarshaller("org.uniprot.core.xml.jaxb.uniref");
-    }
-
-    private void initMarshaller(String jaxbPackage) {
-        try {
-            JAXBContext jaxbContext = JAXBContext.newInstance(jaxbPackage);
-            marshaller = jaxbContext.createMarshaller();
-            marshaller.setProperty(Marshaller.JAXB_FRAGMENT, Boolean.TRUE);
-            marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
-        } catch (Exception e) {
-            log.error("JAXB initialisation failed", e);
-        }
     }
 
     @Override
@@ -50,17 +26,7 @@ public class UniRefMemberRetryWriter
 
     @Override
     protected String entryToString(RepresentativeMember entry) {
-        MemberType xmlEntry = converter.toXml(entry);
-        StringWriter writer = new StringWriter();
-        try {
-            this.marshaller.marshal(xmlEntry, writer);
-            writer.write("\n");
-            return writer.toString();
-        } catch (Exception e) {
-            log.error("Writing xml entry failed {}", e.getMessage());
-        }
-
-        return "";
+        return entry.getMemberId();
     }
 
     @Override
