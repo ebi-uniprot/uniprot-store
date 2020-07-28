@@ -147,24 +147,19 @@ class UniRefMemberStoreJobIT {
         assertThat(member100.get().getUniRef90Id(), is(notNullValue()));
         assertThat(member100.get().getUniRef50Id(), is(nullValue()));
 
-        // check a member in uniref90
-        Optional<RepresentativeMember> member90 = unirefMemberStoreClient.getEntry("UPI000DD5454A");
-        assertThat(member90.isPresent(), is(true));
-        assertThat(member90.get().getMemberId(), equalTo("UPI000DD5454A"));
-        assertThat(member90.get().getSequence(), is(nullValue()));
-        assertThat(member90.get().getMemberIdType(), is(UniRefMemberIdType.UNIPARC));
-        assertThat(member90.get().getUniRef100Id(), is(notNullValue()));
-        assertThat(member90.get().getUniRef90Id(), is(notNullValue()));
-        assertThat(member90.get().getUniRef50Id(), is(nullValue()));
-
-        // check a member in uniref50
-        Optional<RepresentativeMember> member50 = unirefMemberStoreClient.getEntry("UPI0004AE23BE");
-        assertThat(member50.isPresent(), is(true));
-        assertThat(member50.get().getMemberId(), equalTo("UPI0004AE23BE"));
-        assertThat(member50.get().getMemberIdType(), is(UniRefMemberIdType.UNIPARC));
-        assertThat(member50.get().getSequence(), is(nullValue()));
-        assertThat(member50.get().getUniRef100Id(), is(notNullValue()));
-        assertThat(member50.get().getUniRef90Id(), is(notNullValue()));
-        assertThat(member50.get().getUniRef50Id(), is(nullValue()));
+        // check a uniparc member in uniref50 and uniref 90 member
+        Optional<RepresentativeMember> member9050 =
+                unirefMemberStoreClient.getEntry("UPI000288BB9F");
+        assertThat(member9050.isPresent(), is(true));
+        assertThat(member9050.get().getMemberId(), equalTo("UPI000288BB9F"));
+        assertThat(member9050.get().getMemberIdType(), is(UniRefMemberIdType.UNIPARC));
+        assertThat(member9050.get().getSequence(), is(nullValue()));
+        assertThat(member9050.get().getUniRef100Id(), is(notNullValue()));
+        assertThat(member9050.get().getUniRef90Id(), is(notNullValue()));
+        assertThat(member9050.get().getUniRef50Id(), is(nullValue()));
+        assertThat(member9050.get().getProteinName(), equalTo("endonuclease III"));
+        assertThat(member9050.get().getOrganismName(), equalTo("Ochrobactrum"));
+        assertThat(member9050.get().getOrganismTaxId(), equalTo(528l));
+        assertThat(member9050.get().getSequenceLength(), equalTo(249));
     }
 }
