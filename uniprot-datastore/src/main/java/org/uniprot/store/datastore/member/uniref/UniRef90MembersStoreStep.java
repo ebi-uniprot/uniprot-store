@@ -1,6 +1,13 @@
 package org.uniprot.store.datastore.member.uniref;
 
+import static org.uniprot.store.datastore.member.uniref.UniRefMemberStoreJob.unwrapProxy;
+import static org.uniprot.store.datastore.utils.Constants.UNIREF90_MEMBER_STORE_STEP;
+
+import java.util.Collection;
+import java.util.List;
+
 import net.jodah.failsafe.RetryPolicy;
+
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
 import org.springframework.batch.core.listener.ExecutionContextPromotionListener;
@@ -22,12 +29,6 @@ import org.uniprot.store.datastore.member.uniref.config.UniRefMemberStorePropert
 import org.uniprot.store.job.common.listener.LogRateListener;
 import org.uniprot.store.job.common.listener.WriteRetrierLogStepListener;
 import org.uniprot.store.job.common.writer.ItemRetryWriter;
-
-import java.util.Collection;
-import java.util.List;
-
-import static org.uniprot.store.datastore.member.uniref.UniRefMemberStoreJob.unwrapProxy;
-import static org.uniprot.store.datastore.utils.Constants.UNIREF90_MEMBER_STORE_STEP;
 
 /**
  * @author sahmad
@@ -54,7 +55,8 @@ public class UniRef90MembersStoreStep {
                     LogRateListener<List<RepresentativeMember>> uniref90And50MemberLogRateListener,
             @Qualifier("uniref90MemberItemReader")
                     ItemReader<List<MemberType>> uniref90MemberItemReader,
-            ItemProcessor<List<MemberType>, List<RepresentativeMember>> uniref90And50MemberProcessor,
+            ItemProcessor<List<MemberType>, List<RepresentativeMember>>
+                    uniref90And50MemberProcessor,
             ItemWriter<List<RepresentativeMember>> uniref90MemberItemWriter,
             ExecutionContextPromotionListener promotionListener)
             throws Exception {
@@ -84,9 +86,9 @@ public class UniRef90MembersStoreStep {
     // ---------------------- Writers ----------------------
     @Bean(name = "uniref90MemberItemWriter")
     public ItemRetryWriter<List<RepresentativeMember>, List<RepresentativeMember>>
-    uniref90MemberItemWriter(
-            UniProtStoreClient<RepresentativeMember> unirefMemberStoreClient,
-            RetryPolicy<Object> writeRetryPolicy) {
+            uniref90MemberItemWriter(
+                    UniProtStoreClient<RepresentativeMember> unirefMemberStoreClient,
+                    RetryPolicy<Object> writeRetryPolicy) {
         return new UniRef90And50MemberRetryWriter(
                 entriesList ->
                         entriesList.stream()
