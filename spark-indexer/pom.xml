@@ -88,11 +88,11 @@
 			<artifactId>uniprot-datastore</artifactId>
 			<version>${project.parent.version}</version>
 		</dependency>
-		<!-- <dependency> -->
-		<!-- <groupId>com.google.guava</groupId> -->
-		<!-- <artifactId>guava</artifactId> -->
-		<!-- <version>15.0</version> -->
-		<!-- </dependency> -->
+		 <dependency>
+		 <groupId>com.google.guava</groupId>
+		 <artifactId>guava</artifactId>
+		 <version>15.0</version>
+		 </dependency>
 		<dependency>
 			<groupId>com.lucidworks.spark</groupId>
 			<artifactId>spark-solr</artifactId>
@@ -102,6 +102,21 @@
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
 			<optional>true</optional>
+		</dependency>
+		<dependency>
+			<groupId>org.uniprot</groupId>
+			<artifactId>tools-entry-scorer</artifactId>
+			<version>${uniprot-core.version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.slf4j</groupId>
+					<artifactId>*</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>ch.qos.logback</groupId>
+					<artifactId>*</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 	</dependencies>
 

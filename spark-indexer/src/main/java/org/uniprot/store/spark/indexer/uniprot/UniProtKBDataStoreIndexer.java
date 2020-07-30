@@ -1,19 +1,20 @@
 package org.uniprot.store.spark.indexer.uniprot;
 
+import java.util.Iterator;
 import java.util.ResourceBundle;
 
 import lombok.extern.slf4j.Slf4j;
 
 import org.apache.spark.api.java.JavaPairRDD;
+import org.apache.spark.api.java.function.VoidFunction;
 import org.uniprot.core.uniprotkb.UniProtKBEntry;
-import org.uniprot.store.datastore.voldemort.VoldemortClient;
-import org.uniprot.store.datastore.voldemort.uniprot.VoldemortRemoteUniProtKBEntryStore;
 import org.uniprot.store.spark.indexer.common.JobParameter;
 import org.uniprot.store.spark.indexer.common.store.DataStoreIndexer;
-import org.uniprot.store.spark.indexer.common.writer.DataStoreWriter;
 import org.uniprot.store.spark.indexer.go.evidence.GOEvidence;
 import org.uniprot.store.spark.indexer.go.evidence.GOEvidenceMapper;
 import org.uniprot.store.spark.indexer.go.evidence.GOEvidencesRDDReader;
+import org.uniprot.store.spark.indexer.uniprot.mapper.AnnotationScoreMapper;
+import org.uniprot.store.spark.indexer.uniprot.writer.UniProtKBDataStoreWriter;
 
 /**
  * @author lgonzales
@@ -36,24 +37,23 @@ public class UniProtKBDataStoreIndexer implements DataStoreIndexer {
 
         JavaPairRDD<String, UniProtKBEntry> uniprotRDD = uniprotkbReader.load();
         JavaPairRDD<String, Iterable<GOEvidence>> goEvidenceRDD = goEvidencesReader.load();
-        uniprotRDD = uniprotRDD.leftOuterJoin(goEvidenceRDD).mapValues(new GOEvidenceMapper());
 
         String numberOfConnections = config.getString("store.uniprot.numberOfConnections");
         String storeName = config.getString("store.uniprot.storeName");
         String connectionURL = config.getString("store.uniprot.host");
 
         uniprotRDD
+                .mapValues(new AnnotationScoreMapper())
+                .leftOuterJoin(goEvidenceRDD)
+                .mapValues(new GOEvidenceMapper())
                 .values()
-                .foreachPartition(
-                        uniProtEntryIterator -> {
-                            VoldemortClient<UniProtKBEntry> client =
-                                    new VoldemortRemoteUniProtKBEntryStore(
-                                            Integer.parseInt(numberOfConnections),
-                                            storeName,
-                                            connectionURL);
-                            DataStoreWriter<UniProtKBEntry> writer = new DataStoreWriter<>(client);
-                            writer.indexInStore(uniProtEntryIterator);
-                        });
+                .foreachPartition(getWriter(numberOfConnections, storeName, connectionURL));
+
         log.info("Completed UniProtKb Data Store index");
+    }
+
+    VoidFunction<Iterator<UniProtKBEntry>> getWriter(
+            String numberOfConnections, String storeName, String connectionURL) {
+        return new UniProtKBDataStoreWriter(numberOfConnections, storeName, connectionURL);
     }
 }
