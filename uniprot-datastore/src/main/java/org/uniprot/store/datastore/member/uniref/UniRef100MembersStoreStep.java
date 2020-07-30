@@ -1,11 +1,6 @@
 package org.uniprot.store.datastore.member.uniref;
 
-import static org.uniprot.store.datastore.utils.Constants.UNIREF100_MEMBER_STORE_STEP;
-
 import net.jodah.failsafe.RetryPolicy;
-
-import org.springframework.aop.framework.Advised;
-import org.springframework.aop.support.AopUtils;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
 import org.springframework.batch.core.listener.ExecutionContextPromotionListener;
@@ -27,6 +22,9 @@ import org.uniprot.store.datastore.member.uniref.config.UniRefMemberStorePropert
 import org.uniprot.store.job.common.listener.LogRateListener;
 import org.uniprot.store.job.common.listener.WriteRetrierLogStepListener;
 import org.uniprot.store.job.common.writer.ItemRetryWriter;
+
+import static org.uniprot.store.datastore.member.uniref.UniRefMemberStoreJob.unwrapProxy;
+import static org.uniprot.store.datastore.utils.Constants.UNIREF100_MEMBER_STORE_STEP;
 
 /**
  * @author sahmad
@@ -91,13 +89,5 @@ public class UniRef100MembersStoreStep {
             RetryPolicy<Object> writeRetryPolicy) {
         return new UniRefMemberRetryWriter(
                 entries -> entries.forEach(unirefMemberStoreClient::saveEntry), writeRetryPolicy);
-    }
-
-    private Object unwrapProxy(Object bean) throws Exception {
-        if (AopUtils.isAopProxy(bean) && bean instanceof Advised) {
-            Advised advised = (Advised) bean;
-            bean = advised.getTargetSource().getTarget();
-        }
-        return bean;
     }
 }
