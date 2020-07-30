@@ -1,5 +1,9 @@
 package org.uniprot.store.datastore.member.uniref;
 
+import static org.uniprot.store.datastore.utils.Constants.UNIREF_MEMBER_STORE_JOB;
+
+import java.util.List;
+
 import org.springframework.aop.framework.Advised;
 import org.springframework.aop.support.AopUtils;
 import org.springframework.batch.core.Job;
@@ -16,10 +20,6 @@ import org.uniprot.store.datastore.UniProtStoreClient;
 import org.uniprot.store.datastore.member.uniref.config.UniRefMemberStoreProperties;
 import org.uniprot.store.job.common.listener.LogRateListener;
 import org.uniprot.store.job.common.listener.WriteRetrierLogJobListener;
-
-import java.util.List;
-
-import static org.uniprot.store.datastore.utils.Constants.UNIREF_MEMBER_STORE_JOB;
 
 /**
  * @author sahmad
