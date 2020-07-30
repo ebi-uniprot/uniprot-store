@@ -1,6 +1,8 @@
 package org.uniprot.store.datastore.member.uniref;
 
-import java.util.Optional;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -13,7 +15,8 @@ import org.uniprot.store.datastore.UniProtStoreClient;
  * @since 23/07/2020
  */
 @Slf4j
-public class UniRef90And50MemberProcessor extends BaseUniRefMemberProcessor {
+public class UniRef90And50MemberProcessor
+        extends BaseUniRefMemberProcessor<List<MemberType>, List<RepresentativeMember>> {
     private final UniProtStoreClient<RepresentativeMember> unirefMemberStoreClient;
     private final UniRefRepMemberPairMerger uniRefRepMemberPairMerger;
 
@@ -25,18 +28,28 @@ public class UniRef90And50MemberProcessor extends BaseUniRefMemberProcessor {
     }
 
     @Override
-    public RepresentativeMember process(MemberType memberType) throws Exception {
-        RepresentativeMember repMember = convert(memberType);
+    public List<RepresentativeMember> process(List<MemberType> memberTypes) throws Exception {
+        List<RepresentativeMember> members = convert(memberTypes);
 
-        // get from voldemort store and enrich it with repMember(uniref90/uniref50 member)
-        Optional<RepresentativeMember> existingMember =
-                this.unirefMemberStoreClient.getEntry(repMember.getMemberId());
-        if (existingMember.isPresent()) {
-            log.debug("Member {} exist in Voldemort store", repMember.getMemberId());
-            return this.uniRefRepMemberPairMerger.apply(repMember, existingMember.get());
-        }
+        List<RepresentativeMember> existingMembers =
+                this.unirefMemberStoreClient.getEntries(
+                        members.stream()
+                                .map(RepresentativeMember::getMemberId)
+                                .collect(Collectors.toList()));
 
-        log.debug("Member {} doesn't exist in Voldemort store", repMember.getMemberId());
-        return repMember;
+        Map<String, RepresentativeMember> existingMemberIdMember =
+                existingMembers.stream()
+                        .collect(
+                                Collectors.toMap(
+                                        RepresentativeMember::getMemberId, eMember -> eMember));
+
+        return members.stream()
+                .map(
+                        member ->
+                                uniRefRepMemberPairMerger.apply(
+                                        member,
+                                        existingMemberIdMember.getOrDefault(
+                                                member.getMemberId(), member)))
+                .collect(Collectors.toList());
     }
 }

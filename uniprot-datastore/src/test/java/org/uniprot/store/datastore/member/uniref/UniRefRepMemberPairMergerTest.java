@@ -11,12 +11,13 @@ import org.uniprot.core.uniref.impl.UniRefEntryIdBuilder;
 
 /**
  * @@author sahmad
+ *
  * @created 28/07/2020
  */
 public class UniRefRepMemberPairMergerTest {
 
     @Test
-    void testMerge(){
+    void testMerge() {
         String seq = "MVSWGRFICLVVVTMATLSLARPSFSLVED";
         Sequence sequence = new SequenceBuilder(seq).build();
         String memberId = "P12345";
@@ -30,7 +31,7 @@ public class UniRefRepMemberPairMergerTest {
                         .organismTaxId(9606)
                         .sequence(sequence)
                         .build();
-        
+
         Assertions.assertNull(rm1.getUniRef50Id());
 
         RepresentativeMember rm2 =

@@ -1,7 +1,7 @@
 package org.uniprot.store.datastore.member.uniref;
 
 import java.util.Objects;
-import java.util.function.BiFunction;
+import java.util.function.BinaryOperator;
 
 import org.uniprot.core.uniref.RepresentativeMember;
 import org.uniprot.core.uniref.impl.RepresentativeMemberBuilder;
@@ -12,8 +12,7 @@ import org.uniprot.core.util.Utils;
  *
  * @created 28/07/2020
  */
-public class UniRefRepMemberPairMerger
-        implements BiFunction<RepresentativeMember, RepresentativeMember, RepresentativeMember> {
+public class UniRefRepMemberPairMerger implements BinaryOperator<RepresentativeMember> {
 
     // set value from source to target if target doesnt have already set
     @Override

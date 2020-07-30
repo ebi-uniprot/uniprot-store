@@ -10,12 +10,13 @@ import org.uniprot.core.uniref.impl.RepresentativeMemberBuilder;
 
 /**
  * @@author sahmad
+ *
  * @created 28/07/2020
  */
 public class UniRefRepMemberRetryWriterTest {
 
     @Test
-    void testEntryToString(){
+    void testEntryToString() {
         String seq = "MVSWGRFICLVVVTMATLSLARPSFSLVED";
         Sequence sequence = new SequenceBuilder(seq).build();
         String memberId = "P12345";

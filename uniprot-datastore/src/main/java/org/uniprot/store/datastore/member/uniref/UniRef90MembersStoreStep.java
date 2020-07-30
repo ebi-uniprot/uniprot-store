@@ -2,6 +2,9 @@ package org.uniprot.store.datastore.member.uniref;
 
 import static org.uniprot.store.datastore.utils.Constants.UNIREF90_MEMBER_STORE_STEP;
 
+import java.util.Collection;
+import java.util.List;
+
 import net.jodah.failsafe.RetryPolicy;
 
 import org.springframework.aop.framework.Advised;
@@ -49,48 +52,62 @@ public class UniRef90MembersStoreStep {
     @Bean(name = "uniref90MembersStoreStep")
     public Step uniref90MembersStoreStep(
             WriteRetrierLogStepListener writeRetrierLogStepListener,
-            @Qualifier("unirefMemberLogRateListener")
-                    LogRateListener<RepresentativeMember> unirefMemberLogRateListener,
-            @Qualifier("uniref90MemberItemReader") ItemReader<MemberType> uniref90MemberItemReader,
-            ItemProcessor<MemberType, RepresentativeMember> uniref90MemberProcessor,
-            ItemWriter<RepresentativeMember> uniref90MemberItemWriter,
+            @Qualifier("uniref90MemberLogRateListener")
+                    LogRateListener<List<RepresentativeMember>> uniref90MemberLogRateListener,
+            @Qualifier("uniref90MemberItemReader")
+                    ItemReader<List<MemberType>> uniref90MemberItemReader,
+            ItemProcessor<List<MemberType>, List<RepresentativeMember>> uniref90MemberProcessor,
+            ItemWriter<List<RepresentativeMember>> uniref90MemberItemWriter,
             ExecutionContextPromotionListener promotionListener)
             throws Exception {
 
         return this.stepBuilderFactory
                 .get(UNIREF90_MEMBER_STORE_STEP)
                 .listener(promotionListener)
-                .<MemberType, RepresentativeMember>chunk(unirefMemberStoreProperties.getChunkSize())
+                .<List<MemberType>, List<RepresentativeMember>>chunk(
+                        unirefMemberStoreProperties.getBatchCount())
                 .reader(uniref90MemberItemReader)
                 .processor(uniref90MemberProcessor)
                 .writer(uniref90MemberItemWriter)
                 .listener(writeRetrierLogStepListener)
-                .listener(unirefMemberLogRateListener)
+                .listener(uniref90MemberLogRateListener)
                 .listener(unwrapProxy(uniref90MemberItemWriter))
                 .build();
     }
 
     // ---------------------- Readers ----------------------
     @Bean(name = "uniref90MemberItemReader")
-    public ItemReader<MemberType> uniref90MemberItemReader() {
-        return new UniRefMemberXmlEntryReader(unirefMemberStoreProperties.getUniref90XmlFilePath());
+    public ItemReader<List<MemberType>> uniref90MemberItemReader() {
+        return new UniRef90And50MembersXmlEntryReader(
+                unirefMemberStoreProperties.getUniref90XmlFilePath(),
+                unirefMemberStoreProperties.getBatchSize());
     }
 
     // ---------------------- Processors ----------------------
     @Bean(name = "uniref90MemberProcessor")
-    public ItemProcessor<MemberType, RepresentativeMember> uniref90MemberProcessor(
+    public ItemProcessor<List<MemberType>, List<RepresentativeMember>> uniref90MemberProcessor(
             UniProtStoreClient<RepresentativeMember> unirefMemberStoreClient) {
         return new UniRef90And50MemberProcessor(unirefMemberStoreClient);
     }
 
     // ---------------------- Writers ----------------------
     @Bean(name = "uniref90MemberItemWriter")
-    public ItemRetryWriter<RepresentativeMember, RepresentativeMember> uniref90MemberItemWriter(
-            UniProtStoreClient<RepresentativeMember> unirefMemberStoreClient,
-            RetryPolicy<Object> writeRetryPolicy) {
-        return new UniRefMemberRetryWriter(
-                entries -> entries.forEach(unirefMemberStoreClient::saveOrUpdateEntry),
+    public ItemRetryWriter<List<RepresentativeMember>, List<RepresentativeMember>>
+            uniref90MemberItemWriter(
+                    UniProtStoreClient<RepresentativeMember> unirefMemberStoreClient,
+                    RetryPolicy<Object> writeRetryPolicy) {
+        return new UniRef90And50MemberRetryWriter(
+                entriesList ->
+                        entriesList.stream()
+                                .flatMap(Collection::stream)
+                                .forEach(unirefMemberStoreClient::saveOrUpdateEntry),
                 writeRetryPolicy);
+    }
+
+    @Bean(name = "uniref90MemberLogRateListener")
+    public LogRateListener<List<RepresentativeMember>> uniref90MemberLogRateListener() {
+        return new UniRef90And50MemberLogRateListener(
+                unirefMemberStoreProperties.getLogRateInterval());
     }
 
     private Object unwrapProxy(Object bean) throws Exception {
