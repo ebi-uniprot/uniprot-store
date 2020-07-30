@@ -58,12 +58,25 @@ public class WriteRetrierLogStepListener implements StepExecutionListener {
         if (writtenCountAtomicInteger != null) {
             writtenCount = writtenCountAtomicInteger.get();
         }
+        int readCount;
+        if (stepExecution
+                .getExecutionContext()
+                .containsKey(CommonConstants.READ_ENTRIES_COUNT_KEY)) {
+            AtomicInteger readAtomic =
+                    (AtomicInteger)
+                            stepExecution
+                                    .getExecutionContext()
+                                    .get(CommonConstants.READ_ENTRIES_COUNT_KEY);
+            readCount = readAtomic.get();
+        } else {
+            readCount = stepExecution.getReadCount();
+        }
 
         log.info("=====================================================");
         log.info("                   Step Statistics                   ");
         log.info("Step name      : {}", stepExecution.getStepName());
         log.info("Exit status    : {}", stepExecution.getExitStatus().getExitCode());
-        log.info("Read count     : {}", stepExecution.getReadCount());
+        log.info("Read count     : {}", readCount);
         log.info("Write count    : {}", writtenCount);
         log.info("Failed count   : {}", failedCount);
         log.info("=====================================================");

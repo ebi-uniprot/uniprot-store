@@ -96,25 +96,25 @@ class UniRefMemberStoreJobIT {
 
     private void verifyUniRef90MemberStoreStep(
             JobExecution jobExecution, Collection<StepExecution> stepExecutions) {
-        StepExecution uniref100Step =
+        StepExecution uniref90Step =
                 stepExecutions.stream()
                         .filter(step -> step.getStepName().equals(UNIREF90_MEMBER_STORE_STEP))
                         .findFirst()
                         .get();
 
-        assertThat(uniref100Step.getReadCount(), is(67));
-        assertThat(uniref100Step.getWriteCount(), is(67));
+        assertThat(getReadCount(uniref90Step), is(67));
+        assertThat(getWriteCount(uniref90Step), is(67));
     }
 
     private void verifyUniRef50MemberStoreStep(
             JobExecution jobExecution, Collection<StepExecution> stepExecutions) {
-        StepExecution uniref100Step =
+        StepExecution uniref50Step =
                 stepExecutions.stream()
                         .filter(step -> step.getStepName().equals(UNIREF50_MEMBER_STORE_STEP))
                         .findFirst()
                         .get();
-        assertThat(uniref100Step.getReadCount(), is(378));
-        assertThat(uniref100Step.getWriteCount(), is(378));
+        assertThat(getReadCount(uniref50Step), is(378));
+        assertThat(getWriteCount(uniref50Step), is(378));
     }
 
     private void checkWriteCount(
@@ -161,5 +161,23 @@ class UniRefMemberStoreJobIT {
         assertThat(member9050.get().getOrganismName(), equalTo("Ochrobactrum"));
         assertThat(member9050.get().getOrganismTaxId(), equalTo(528l));
         assertThat(member9050.get().getSequenceLength(), equalTo(249));
+    }
+
+    private int getReadCount(StepExecution stepExecution) {
+        AtomicInteger readAtomic =
+                (AtomicInteger)
+                        stepExecution
+                                .getExecutionContext()
+                                .get(CommonConstants.READ_ENTRIES_COUNT_KEY);
+        return readAtomic.get();
+    }
+
+    private int getWriteCount(StepExecution stepExecution) {
+        AtomicInteger writeAtomic =
+                (AtomicInteger)
+                        stepExecution
+                                .getExecutionContext()
+                                .get(CommonConstants.WRITTEN_ENTRIES_COUNT_KEY);
+        return writeAtomic.get();
     }
 }

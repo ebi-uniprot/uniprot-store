@@ -13,6 +13,8 @@ import org.uniprot.core.util.concurrency.TaskExecutorProperties;
 @ConfigurationProperties(prefix = "uniref.member.store")
 public class UniRefMemberStoreProperties {
     private int chunkSize = 200;
+    private int batchCount = 10;
+    private int batchSize = 100;
     private int writeRetryLimit = 3;
     private int writeRetryBackOffFromMillis = 50;
     private int writeRetryBackOffToMillis = 3000;
