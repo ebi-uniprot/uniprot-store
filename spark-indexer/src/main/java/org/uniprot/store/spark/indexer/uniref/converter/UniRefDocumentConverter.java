@@ -40,7 +40,6 @@ public class UniRefDocumentConverter
                 .organismSort(getOrganismNameForSort(entry))
                 .taxLineageId((int) entry.getRepresentativeMember().getOrganismTaxId())
                 .organismTaxon(entry.getRepresentativeMember().getOrganismName())
-                .content(getContent(entry))
                 .build();
     }
 
@@ -87,17 +86,6 @@ public class UniRefDocumentConverter
         }
         member.getUniProtAccessions().forEach(val -> result.add(val.getValue()));
 
-        return result;
-    }
-
-    private List<String> getContent(UniRefEntry entry) {
-        List<String> result = new ArrayList<>();
-        result.add(entry.getId().getValue());
-        result.add(entry.getName());
-        result.add(String.valueOf(entry.getRepresentativeMember().getOrganismTaxId()));
-        result.add(entry.getRepresentativeMember().getOrganismName());
-        result.addAll(getUniParcIds(entry));
-        result.addAll(getUniProtIds(entry));
         return result;
     }
 }

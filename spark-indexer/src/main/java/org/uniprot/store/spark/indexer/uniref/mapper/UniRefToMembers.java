@@ -1,5 +1,7 @@
 package org.uniprot.store.spark.indexer.uniref.mapper;
 
+import static org.uniprot.store.datastore.voldemort.member.uniref.VoldemortInMemoryUniRefMemberStore.getMemberId;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -9,7 +11,6 @@ import org.apache.spark.api.java.function.PairFlatMapFunction;
 import org.uniprot.core.uniref.RepresentativeMember;
 import org.uniprot.core.uniref.UniRefEntry;
 import org.uniprot.core.uniref.UniRefMember;
-import org.uniprot.core.uniref.UniRefMemberIdType;
 import org.uniprot.core.uniref.impl.RepresentativeMemberBuilder;
 
 import scala.Tuple2;
@@ -45,15 +46,6 @@ public class UniRefToMembers
                 .forEach(results::add);
 
         return results.iterator();
-    }
-
-    // get accession id if memberType is UniRefMemberIdType.UNIPROTKB
-    private String getMemberId(UniRefMember member) {
-        if (member.getMemberIdType() == UniRefMemberIdType.UNIPARC) {
-            return member.getMemberId();
-        } else {
-            return member.getUniProtAccessions().get(0).getValue();
-        }
     }
 
     private RepresentativeMember convertToRepMember(UniRefMember member) {

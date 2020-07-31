@@ -7,7 +7,6 @@ import java.util.stream.Collectors;
 import org.springframework.batch.item.ItemProcessor;
 import org.uniprot.core.uniref.RepresentativeMember;
 import org.uniprot.core.uniref.UniRefMember;
-import org.uniprot.core.uniref.UniRefMemberIdType;
 import org.uniprot.core.uniref.impl.RepresentativeMemberBuilder;
 import org.uniprot.core.xml.jaxb.uniref.MemberType;
 import org.uniprot.core.xml.uniref.MemberConverter;
@@ -32,10 +31,10 @@ public abstract class BaseUniRefMemberProcessor<I, O> implements ItemProcessor<I
 
         if (Objects.nonNull(memberType.getSequence())) {
             RepresentativeMember repMember = repMemberConverter.fromXml(memberType);
-            builder = RepresentativeMemberBuilder.from(repMember).memberId(getMemberId(repMember));
+            builder = RepresentativeMemberBuilder.from(repMember);
         } else {
             UniRefMember member = memberConverter.fromXml(memberType);
-            builder = RepresentativeMemberBuilder.from(member).memberId(getMemberId(member));
+            builder = RepresentativeMemberBuilder.from(member);
         }
         // update seed to null
         return builder.isSeed(null).build();
@@ -43,14 +42,5 @@ public abstract class BaseUniRefMemberProcessor<I, O> implements ItemProcessor<I
 
     protected List<RepresentativeMember> convert(List<MemberType> memberTypes) {
         return memberTypes.stream().map(this::convert).collect(Collectors.toList());
-    }
-
-    // get accession id if memberType is UniRefMemberIdType.UNIPROTKB
-    private String getMemberId(UniRefMember member) {
-        if (member.getMemberIdType() == UniRefMemberIdType.UNIPARC) {
-            return member.getMemberId();
-        } else {
-            return member.getUniProtAccessions().get(0).getValue();
-        }
     }
 }

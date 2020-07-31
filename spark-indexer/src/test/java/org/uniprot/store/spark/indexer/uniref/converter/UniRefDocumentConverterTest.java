@@ -111,13 +111,6 @@ class UniRefDocumentConverterTest {
                 "representativeMemberOrganismName memberorganismName", result.getOrganismSort());
         assertTrue(result.getTaxLineageIds().contains(1));
         assertTrue(result.getOrganismTaxons().contains("representativeMemberOrganismName"));
-
-        assertTrue(result.getContent().containsAll(result.getUpis()));
-        assertTrue(result.getContent().containsAll(result.getUniprotIds()));
-        assertTrue(result.getContent().contains("1"));
-        assertTrue(result.getContent().containsAll(result.getOrganismTaxons()));
-        assertTrue(result.getContent().contains(result.getId()));
-        assertTrue(result.getContent().contains(result.getName()));
     }
 
     private UniRefEntry getUniRefEntry(UniRefMemberIdType type) {
