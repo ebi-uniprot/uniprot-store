@@ -1,6 +1,6 @@
 package org.uniprot.store.datastore.member.uniref;
 
-import static org.uniprot.store.datastore.voldemort.member.uniref.VoldemortInMemoryUniRefMemberStore.getMemberId;
+import static org.uniprot.store.datastore.voldemort.member.uniref.VoldemortInMemoryUniRefMemberStore.getVoldemortKey;
 
 import lombok.extern.slf4j.Slf4j;
 import net.jodah.failsafe.RetryPolicy;
@@ -24,12 +24,12 @@ public class UniRefMemberRetryWriter
 
     @Override
     protected String extractItemId(RepresentativeMember item) {
-        return getMemberId(item);
+        return getVoldemortKey(item);
     }
 
     @Override
     protected String entryToString(RepresentativeMember entry) {
-        return getMemberId(entry);
+        return getVoldemortKey(entry);
     }
 
     @Override

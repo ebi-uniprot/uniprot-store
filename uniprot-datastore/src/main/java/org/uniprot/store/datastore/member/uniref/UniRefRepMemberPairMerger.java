@@ -20,53 +20,49 @@ public class UniRefRepMemberPairMerger implements BinaryOperator<RepresentativeM
 
         RepresentativeMemberBuilder builder = RepresentativeMemberBuilder.from(target);
 
-        if (Objects.isNull(target.getMemberIdType()) && Objects.nonNull(source.getMemberIdType())) {
+        if (Objects.isNull(target.getMemberIdType())) {
             builder.memberIdType(source.getMemberIdType());
         }
 
-        if (Utils.nullOrEmpty(target.getOrganismName())
-                && Utils.notNullNotEmpty(source.getOrganismName())) {
+        if (Utils.nullOrEmpty(target.getOrganismName())) {
             builder.organismName(source.getOrganismName());
         }
 
-        if (target.getOrganismTaxId() == 0l && source.getOrganismTaxId() != 0l) {
+        if (target.getOrganismTaxId() == 0L) {
             builder.organismTaxId(source.getOrganismTaxId());
         }
 
-        if (Objects.isNull(target.getSequence()) && Objects.nonNull(source.getSequence())) {
+        if (Objects.isNull(target.getSequence())) {
             builder.sequence(source.getSequence());
         }
 
-        if (target.getSequenceLength() == 0 && source.getSequenceLength() != 0) {
+        if (target.getSequenceLength() == 0) {
             builder.sequenceLength(source.getSequenceLength());
         }
 
-        if (Utils.nullOrEmpty(target.getProteinName())
-                && Utils.notNullNotEmpty(source.getProteinName())) {
+        if (Utils.nullOrEmpty(target.getProteinName())) {
             builder.proteinName(source.getProteinName());
         }
 
-        if (Utils.nullOrEmpty(target.getUniProtAccessions())
-                && Utils.notNullNotEmpty(source.getUniProtAccessions())) {
+        if (Utils.nullOrEmpty(target.getUniProtAccessions())) {
             builder.accessionsSet(source.getUniProtAccessions());
         }
-        if (Objects.isNull(target.getUniRef50Id()) && Objects.nonNull(source.getUniRef50Id())) {
+        if (Objects.isNull(target.getUniRef50Id())) {
             builder.uniref50Id(source.getUniRef50Id());
         }
-        if (Objects.isNull(target.getUniRef90Id()) && Objects.nonNull(source.getUniRef90Id())) {
+        if (Objects.isNull(target.getUniRef90Id())) {
             builder.uniref90Id(source.getUniRef90Id());
         }
 
-        if (Objects.isNull(target.getUniRef100Id()) && Objects.nonNull(source.getUniRef100Id())) {
+        if (Objects.isNull(target.getUniRef100Id())) {
             builder.uniref100Id(source.getUniRef100Id());
         }
 
-        if (Objects.isNull(target.getUniParcId()) && Objects.nonNull(source.getUniParcId())) {
+        if (Objects.isNull(target.getUniParcId())) {
             builder.uniparcId(source.getUniParcId());
         }
 
-        if (Objects.isNull(target.getOverlapRegion())
-                && Objects.nonNull(source.getOverlapRegion())) {
+        if (Objects.isNull(target.getOverlapRegion())) {
             builder.overlapRegion(source.getOverlapRegion());
         }
 

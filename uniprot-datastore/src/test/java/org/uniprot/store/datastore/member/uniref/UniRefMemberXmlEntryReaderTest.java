@@ -6,7 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import org.junit.jupiter.api.Test;
 import org.uniprot.core.xml.jaxb.uniref.MemberType;
 
-public class UniRefMemberXmlEntryReaderTest {
+class UniRefMemberXmlEntryReaderTest {
 
     @Test
     void testReadXmlFile() throws Exception {

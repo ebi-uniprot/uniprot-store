@@ -74,4 +74,24 @@ class UniRefMemberMergerTest {
         assertNull(memberWithoutSeq2.getProteinName());
         assertEquals(memberWithoutSeq1.getProteinName(), mergedMember.getProteinName());
     }
+
+    @Test
+    void testUniRefMemberAndEmptyMemberMerge() throws Exception {
+        RepresentativeMember memberWithoutSeq1 =
+                new RepresentativeMemberBuilder()
+                        .memberIdType(UniRefMemberIdType.UNIPROTKB)
+                        .accessionsAdd(new UniProtKBAccessionBuilder("P12345").build())
+                        .organismTaxId(1)
+                        .organismName("name")
+                        .proteinName("new protein name")
+                        .build();
+
+        Tuple2<RepresentativeMember, Optional<RepresentativeMember>> tuple =
+                new Tuple2<>(memberWithoutSeq1, Optional.fromNullable(null));
+
+        UniRefMemberMerger mapper = new UniRefMemberMerger();
+        RepresentativeMember mergedMember = mapper.call(tuple);
+        assertNotNull(mergedMember);
+        assertEquals(memberWithoutSeq1.getProteinName(), mergedMember.getProteinName());
+    }
 }

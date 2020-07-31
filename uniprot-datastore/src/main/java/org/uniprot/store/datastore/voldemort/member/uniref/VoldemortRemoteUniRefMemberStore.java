@@ -1,6 +1,6 @@
 package org.uniprot.store.datastore.voldemort.member.uniref;
 
-import static org.uniprot.store.datastore.voldemort.member.uniref.VoldemortInMemoryUniRefMemberStore.getMemberId;
+import static org.uniprot.store.datastore.voldemort.member.uniref.VoldemortInMemoryUniRefMemberStore.getVoldemortKey;
 
 import org.uniprot.core.json.parser.uniref.UniRefEntryJsonConfig;
 import org.uniprot.core.uniref.RepresentativeMember;
@@ -22,7 +22,7 @@ public class VoldemortRemoteUniRefMemberStore
 
     @Override
     public String getStoreId(RepresentativeMember entry) {
-        return getMemberId(entry);
+        return getVoldemortKey(entry);
     }
 
     @Override

@@ -27,10 +27,10 @@ public class VoldemortInMemoryUniRefMemberStore
 
     @Override
     public String getStoreId(RepresentativeMember entry) {
-        return getMemberId(entry);
+        return getVoldemortKey(entry);
     }
 
-    public static String getMemberId(UniRefMember member) {
+    public static String getVoldemortKey(UniRefMember member) {
         if (member.getMemberIdType() == UniRefMemberIdType.UNIPARC) {
             return member.getMemberId();
         } else {

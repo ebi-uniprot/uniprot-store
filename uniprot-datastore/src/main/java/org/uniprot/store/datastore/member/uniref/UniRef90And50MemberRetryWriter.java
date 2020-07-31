@@ -33,14 +33,14 @@ public class UniRef90And50MemberRetryWriter
     @Override
     protected String extractItemId(List<RepresentativeMember> items) {
         return items.stream()
-                .map(VoldemortInMemoryUniRefMemberStore::getMemberId)
+                .map(VoldemortInMemoryUniRefMemberStore::getVoldemortKey)
                 .collect(Collectors.joining(","));
     }
 
     @Override
     protected String entryToString(List<RepresentativeMember> entries) {
         return entries.stream()
-                .map(VoldemortInMemoryUniRefMemberStore::getMemberId)
+                .map(VoldemortInMemoryUniRefMemberStore::getVoldemortKey)
                 .collect(Collectors.joining(","));
     }
 

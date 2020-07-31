@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test;
 import org.uniprot.core.uniref.RepresentativeMember;
 import org.uniprot.core.xml.jaxb.uniref.MemberType;
 
-public class UniRefMemberProcessorTest {
+class UniRefMemberProcessorTest {
     private static UniRef100MemberProcessor memberProcessor;
     private static final String filePath = "src/test/resources/uniref/50_Q9EPS7_Q95604.xml";
     private static UniRefMemberXmlEntryReader reader;

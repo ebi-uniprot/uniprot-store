@@ -1,6 +1,6 @@
 package org.uniprot.store.datastore.member.uniref;
 
-import static org.uniprot.store.datastore.voldemort.member.uniref.VoldemortInMemoryUniRefMemberStore.getMemberId;
+import static org.uniprot.store.datastore.voldemort.member.uniref.VoldemortInMemoryUniRefMemberStore.getVoldemortKey;
 
 import java.util.List;
 import java.util.Map;
@@ -37,14 +37,14 @@ public class UniRef90And50MemberProcessor
         List<RepresentativeMember> existingMembers =
                 this.unirefMemberStoreClient.getEntries(
                         members.stream()
-                                .map(VoldemortInMemoryUniRefMemberStore::getMemberId)
+                                .map(VoldemortInMemoryUniRefMemberStore::getVoldemortKey)
                                 .collect(Collectors.toList()));
 
         Map<String, RepresentativeMember> existingMemberIdMember =
                 existingMembers.stream()
                         .collect(
                                 Collectors.toMap(
-                                        VoldemortInMemoryUniRefMemberStore::getMemberId,
+                                        VoldemortInMemoryUniRefMemberStore::getVoldemortKey,
                                         eMember -> eMember));
 
         return members.stream()
@@ -53,7 +53,7 @@ public class UniRef90And50MemberProcessor
                                 uniRefRepMemberPairMerger.apply(
                                         member,
                                         existingMemberIdMember.getOrDefault(
-                                                getMemberId(member), member)))
+                                                getVoldemortKey(member), member)))
                 .collect(Collectors.toList());
     }
 }

@@ -3,7 +3,7 @@ package org.uniprot.store.datastore.member.uniref;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 import static org.uniprot.store.datastore.utils.Constants.*;
-import static org.uniprot.store.datastore.voldemort.member.uniref.VoldemortInMemoryUniRefMemberStore.getMemberId;
+import static org.uniprot.store.datastore.voldemort.member.uniref.VoldemortInMemoryUniRefMemberStore.getVoldemortKey;
 
 import java.io.IOException;
 import java.util.Collection;
@@ -131,7 +131,7 @@ class UniRefMemberStoreJobIT {
         // check a rep member
         Optional<RepresentativeMember> repMember = unirefMemberStoreClient.getEntry("A0A0H3AR18");
         assertThat(repMember.isPresent(), is(true));
-        assertThat(getMemberId(repMember.get()), equalTo("A0A0H3AR18"));
+        assertThat(getVoldemortKey(repMember.get()), equalTo("A0A0H3AR18"));
         assertThat(repMember.get().getMemberId(), equalTo("A0A0H3AR18_BRUO2"));
         assertThat(repMember.get().getSequence(), is(notNullValue()));
         assertThat(repMember.get().getMemberIdType(), is(UniRefMemberIdType.UNIPROTKB));
@@ -143,7 +143,7 @@ class UniRefMemberStoreJobIT {
         Optional<RepresentativeMember> member100 = unirefMemberStoreClient.getEntry("A0A0E1X2G4");
         assertThat(member100.isPresent(), is(true));
         assertThat(member100.get().getMemberId(), equalTo("A0A0E1X2G4_9RHIZ"));
-        assertThat(getMemberId(member100.get()), equalTo("A0A0E1X2G4"));
+        assertThat(getVoldemortKey(member100.get()), equalTo("A0A0E1X2G4"));
         assertThat(member100.get().getSequence(), is(nullValue()));
         assertThat(member100.get().getMemberIdType(), is(UniRefMemberIdType.UNIPROTKB));
         assertThat(member100.get().getUniRef100Id(), is(notNullValue()));

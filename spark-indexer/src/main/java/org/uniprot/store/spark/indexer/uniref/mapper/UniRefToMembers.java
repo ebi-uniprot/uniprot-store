@@ -1,6 +1,6 @@
 package org.uniprot.store.spark.indexer.uniref.mapper;
 
-import static org.uniprot.store.datastore.voldemort.member.uniref.VoldemortInMemoryUniRefMemberStore.getMemberId;
+import static org.uniprot.store.datastore.voldemort.member.uniref.VoldemortInMemoryUniRefMemberStore.getVoldemortKey;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -17,7 +17,10 @@ import scala.Tuple2;
 
 /**
  * This class gets an UniRefEntry and extract the list of members and returns an iterator of list of
- * Tuple{key=memberId, value=member}.
+ * Tuple{key=voldemortKey, value=member}. The voldemortKey we use to join the members of 3 clusters
+ * is either UniProt Accession Id or UniParc Id. See {@link
+ * org.uniprot.store.datastore.voldemort.member.uniref.VoldemortInMemoryUniRefMemberStore#getVoldemortKey(UniRefMember)}
+ * to find how we extract the voldemortKey from member
  *
  * @author sahmad
  * @since 2020-07-21
@@ -37,12 +40,12 @@ public class UniRefToMembers
                         .build();
 
         // representative member
-        results.add(new Tuple2<>(getMemberId(representativeMember), representativeMember));
+        results.add(new Tuple2<>(getVoldemortKey(representativeMember), representativeMember));
 
         // get other members
         entry.getMembers().stream()
                 .map(this::convertToRepMember)
-                .map(repMember -> new Tuple2<>(getMemberId(repMember), repMember))
+                .map(repMember -> new Tuple2<>(getVoldemortKey(repMember), repMember))
                 .forEach(results::add);
 
         return results.iterator();

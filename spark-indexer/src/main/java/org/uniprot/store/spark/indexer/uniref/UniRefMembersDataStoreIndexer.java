@@ -10,6 +10,7 @@ import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.function.VoidFunction;
 import org.uniprot.core.uniref.RepresentativeMember;
 import org.uniprot.core.uniref.UniRefEntry;
+import org.uniprot.core.uniref.UniRefMember;
 import org.uniprot.core.uniref.UniRefType;
 import org.uniprot.store.spark.indexer.common.JobParameter;
 import org.uniprot.store.spark.indexer.common.exception.IndexDataStoreException;
@@ -19,6 +20,16 @@ import org.uniprot.store.spark.indexer.uniref.mapper.UniRefToMembers;
 import org.uniprot.store.spark.indexer.uniref.writer.UniRefMemberDataStoreWriter;
 
 /**
+ * This class stores the members including representative member from UniRef100, UniRef90 and
+ * UniRef50 clusters. The key(voldemortKey) we use to join the members of 3 clusters is either
+ * UniProt Accession Id or UniParc Id. See {@link
+ * org.uniprot.store.datastore.voldemort.member.uniref.VoldemortInMemoryUniRefMemberStore#getVoldemortKey(UniRefMember)}
+ * to find how we extract the key from member 1. We left join UniRef100 members including
+ * representative member to UniRef90 members including representative member on either UniProt
+ * Accession Id or UniParc Id of the member. 2. Then we merge the members from UniRef100 and
+ * UniRef90 and get a resultant table, lets say MergedUniRef100AndUniRef90. After that we repeat the
+ * above 2 steps for table MergedUniRef100AndUniRef90 and UniRef50
+ *
  * @author sahmad
  * @since 2020-07-21
  */
@@ -65,7 +76,7 @@ public class UniRefMembersDataStoreIndexer implements DataStoreIndexer {
             // flat the members of uniref50
             JavaPairRDD<String, RepresentativeMember> memberIdMember50RDD =
                     uniRef50RDD.flatMapToPair(new UniRefToMembers());
-            // join the members and merge
+            // join the members on voldemortKey and merge
             JavaPairRDD<String, RepresentativeMember> memberIdMemberRDD =
                     memberIdMember100RDD
                             .leftOuterJoin(memberIdMember90RDD)
