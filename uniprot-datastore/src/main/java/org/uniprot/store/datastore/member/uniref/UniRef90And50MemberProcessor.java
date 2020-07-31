@@ -1,5 +1,7 @@
 package org.uniprot.store.datastore.member.uniref;
 
+import static org.uniprot.store.datastore.voldemort.member.uniref.VoldemortInMemoryUniRefMemberStore.getMemberId;
+
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -9,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.uniprot.core.uniref.RepresentativeMember;
 import org.uniprot.core.xml.jaxb.uniref.MemberType;
 import org.uniprot.store.datastore.UniProtStoreClient;
+import org.uniprot.store.datastore.voldemort.member.uniref.VoldemortInMemoryUniRefMemberStore;
 
 /**
  * @author sahmad
@@ -34,14 +37,15 @@ public class UniRef90And50MemberProcessor
         List<RepresentativeMember> existingMembers =
                 this.unirefMemberStoreClient.getEntries(
                         members.stream()
-                                .map(RepresentativeMember::getMemberId)
+                                .map(VoldemortInMemoryUniRefMemberStore::getMemberId)
                                 .collect(Collectors.toList()));
 
         Map<String, RepresentativeMember> existingMemberIdMember =
                 existingMembers.stream()
                         .collect(
                                 Collectors.toMap(
-                                        RepresentativeMember::getMemberId, eMember -> eMember));
+                                        VoldemortInMemoryUniRefMemberStore::getMemberId,
+                                        eMember -> eMember));
 
         return members.stream()
                 .map(
@@ -49,7 +53,7 @@ public class UniRef90And50MemberProcessor
                                 uniRefRepMemberPairMerger.apply(
                                         member,
                                         existingMemberIdMember.getOrDefault(
-                                                member.getMemberId(), member)))
+                                                getMemberId(member), member)))
                 .collect(Collectors.toList());
     }
 }

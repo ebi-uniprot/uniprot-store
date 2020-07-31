@@ -33,6 +33,10 @@ public class UniRefRepMemberPairMerger implements BinaryOperator<RepresentativeM
             builder.organismTaxId(source.getOrganismTaxId());
         }
 
+        if (Objects.isNull(target.getSequence()) && Objects.nonNull(source.getSequence())) {
+            builder.sequence(source.getSequence());
+        }
+
         if (target.getSequenceLength() == 0 && source.getSequenceLength() != 0) {
             builder.sequenceLength(source.getSequenceLength());
         }

@@ -30,7 +30,7 @@ public class VoldemortInMemoryUniRefMemberStore
         return getMemberId(entry);
     }
 
-    private String getMemberId(UniRefMember member) {
+    public static String getMemberId(UniRefMember member) {
         if (member.getMemberIdType() == UniRefMemberIdType.UNIPARC) {
             return member.getMemberId();
         } else {
