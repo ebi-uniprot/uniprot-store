@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.batch.core.StepExecution;
 import org.springframework.batch.core.annotation.BeforeStep;
 import org.springframework.batch.item.ExecutionContext;
@@ -19,6 +21,7 @@ import org.uniprot.store.job.common.util.CommonConstants;
  * @author sahmad
  * @since 23/07/2020
  */
+@Slf4j
 public class UniRef90And50MembersXmlEntryReader implements ItemReader<List<MemberType>> {
 
     public static final String UNIREF_ROOT_ELEMENT = "entry";
@@ -60,15 +63,17 @@ public class UniRef90And50MembersXmlEntryReader implements ItemReader<List<Membe
                 currentBatch = new ArrayList<>(members.subList(0, batchSize));
                 members.subList(0, batchSize).clear();
             } else {
-                this.sleeper.add(members.size());
-                this.readEntriesCount.addAndGet(members.size());
+                int size = members.size();
+                this.sleeper.add(size);
+                this.readEntriesCount.addAndGet(size);
                 currentBatch = new ArrayList<>(members);
                 members.clear();
             }
             return currentBatch;
         } else if (entryReader.getEntryIterator().hasNext()) {
             Entry entry = entryReader.getEntryIterator().next();
-            members = getAllMembers(entry);
+            log.info(entry.getId());
+            members.addAll(getAllMembers(entry));
             return read();
         } else {
             return null;
