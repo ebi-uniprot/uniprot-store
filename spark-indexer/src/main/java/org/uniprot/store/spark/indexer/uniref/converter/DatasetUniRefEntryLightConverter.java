@@ -11,6 +11,7 @@ import java.time.format.DateTimeFormatterBuilder;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import org.apache.spark.api.java.function.Function;
 import org.apache.spark.sql.Row;
@@ -177,7 +178,9 @@ public class DatasetUniRefEntryLightConverter
                     .forEach(
                             acc -> {
                                 builder.accessionsAdd(acc);
-                                builder.memberIdType(getUniProtKBIdType(memberId, acc.getValue()));
+                                if(Objects.isNull(builder.build().getMemberIdType())) {
+                                    builder.memberIdType(getUniProtKBIdType(memberId, acc.getValue()));
+                                }
                             });
         }
         if (propertyMap.containsKey(PROPERTY_TAXONOMY)) {
