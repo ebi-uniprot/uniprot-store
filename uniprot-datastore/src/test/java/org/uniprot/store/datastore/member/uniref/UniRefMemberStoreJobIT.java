@@ -3,7 +3,7 @@ package org.uniprot.store.datastore.member.uniref;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 import static org.uniprot.store.datastore.utils.Constants.*;
-import static org.uniprot.store.datastore.voldemort.member.uniref.VoldemortInMemoryUniRefMemberStore.getVoldemortKey;
+import static org.uniprot.store.datastore.voldemort.member.uniref.VoldemortRemoteUniRefMemberStore.getVoldemortKey;
 
 import java.io.IOException;
 import java.util.Collection;

@@ -11,7 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import net.jodah.failsafe.RetryPolicy;
 
 import org.uniprot.core.uniref.RepresentativeMember;
-import org.uniprot.store.datastore.voldemort.member.uniref.VoldemortInMemoryUniRefMemberStore;
+import org.uniprot.store.datastore.voldemort.member.uniref.VoldemortRemoteUniRefMemberStore;
 import org.uniprot.store.job.common.store.Store;
 import org.uniprot.store.job.common.writer.ItemRetryWriter;
 
@@ -33,14 +33,14 @@ public class UniRef90And50MemberRetryWriter
     @Override
     protected String extractItemId(List<RepresentativeMember> items) {
         return items.stream()
-                .map(VoldemortInMemoryUniRefMemberStore::getVoldemortKey)
+                .map(VoldemortRemoteUniRefMemberStore::getVoldemortKey)
                 .collect(Collectors.joining(","));
     }
 
     @Override
     protected String entryToString(List<RepresentativeMember> entries) {
         return entries.stream()
-                .map(VoldemortInMemoryUniRefMemberStore::getVoldemortKey)
+                .map(VoldemortRemoteUniRefMemberStore::getVoldemortKey)
                 .collect(Collectors.joining(","));
     }
 

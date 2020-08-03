@@ -1,6 +1,6 @@
 package org.uniprot.store.datastore.member.uniref;
 
-import static org.uniprot.store.datastore.voldemort.member.uniref.VoldemortInMemoryUniRefMemberStore.getVoldemortKey;
+import static org.uniprot.store.datastore.voldemort.member.uniref.VoldemortRemoteUniRefMemberStore.getVoldemortKey;
 
 import java.util.List;
 import java.util.Map;
@@ -11,7 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.uniprot.core.uniref.RepresentativeMember;
 import org.uniprot.core.xml.jaxb.uniref.MemberType;
 import org.uniprot.store.datastore.UniProtStoreClient;
-import org.uniprot.store.datastore.voldemort.member.uniref.VoldemortInMemoryUniRefMemberStore;
+import org.uniprot.store.datastore.voldemort.member.uniref.VoldemortRemoteUniRefMemberStore;
 
 /**
  * @author sahmad
@@ -37,14 +37,14 @@ public class UniRef90And50MemberProcessor
         List<RepresentativeMember> existingMembers =
                 this.unirefMemberStoreClient.getEntries(
                         members.stream()
-                                .map(VoldemortInMemoryUniRefMemberStore::getVoldemortKey)
+                                .map(VoldemortRemoteUniRefMemberStore::getVoldemortKey)
                                 .collect(Collectors.toList()));
 
         Map<String, RepresentativeMember> existingMemberIdMember =
                 existingMembers.stream()
                         .collect(
                                 Collectors.toMap(
-                                        VoldemortInMemoryUniRefMemberStore::getVoldemortKey,
+                                        VoldemortRemoteUniRefMemberStore::getVoldemortKey,
                                         eMember -> eMember));
 
         return members.stream()

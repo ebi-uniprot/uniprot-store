@@ -1,6 +1,6 @@
 package org.uniprot.store.spark.indexer.uniref.mapper;
 
-import static org.uniprot.store.datastore.voldemort.member.uniref.VoldemortInMemoryUniRefMemberStore.getVoldemortKey;
+import static org.uniprot.store.datastore.voldemort.member.uniref.VoldemortRemoteUniRefMemberStore.getVoldemortKey;
 
 import java.io.Serializable;
 import java.util.ArrayList;

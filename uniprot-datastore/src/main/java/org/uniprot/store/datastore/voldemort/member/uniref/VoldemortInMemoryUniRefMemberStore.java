@@ -1,8 +1,8 @@
 package org.uniprot.store.datastore.voldemort.member.uniref;
 
+import static org.uniprot.store.datastore.voldemort.member.uniref.VoldemortRemoteUniRefMemberStore.getVoldemortKey;
+
 import org.uniprot.core.uniref.RepresentativeMember;
-import org.uniprot.core.uniref.UniRefMember;
-import org.uniprot.core.uniref.UniRefMemberIdType;
 import org.uniprot.store.datastore.voldemort.VoldemortInMemoryEntryStore;
 
 /**
@@ -28,13 +28,5 @@ public class VoldemortInMemoryUniRefMemberStore
     @Override
     public String getStoreId(RepresentativeMember entry) {
         return getVoldemortKey(entry);
-    }
-
-    public static String getVoldemortKey(UniRefMember member) {
-        if (member.getMemberIdType() == UniRefMemberIdType.UNIPARC) {
-            return member.getMemberId();
-        } else {
-            return member.getUniProtAccessions().get(0).getValue();
-        }
     }
 }

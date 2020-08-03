@@ -1,13 +1,13 @@
 package org.uniprot.store.datastore.member.uniref;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 import java.io.IOException;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.uniprot.core.uniref.RepresentativeMember;
 import org.uniprot.core.xml.jaxb.uniref.MemberType;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class UniRefMemberProcessorTest {
     private static UniRef100MemberProcessor memberProcessor;

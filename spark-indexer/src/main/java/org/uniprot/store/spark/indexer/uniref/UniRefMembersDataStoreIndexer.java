@@ -23,7 +23,7 @@ import org.uniprot.store.spark.indexer.uniref.writer.UniRefMemberDataStoreWriter
  * This class stores the members including representative member from UniRef100, UniRef90 and
  * UniRef50 clusters. The key(voldemortKey) we use to join the members of 3 clusters is either
  * UniProt Accession Id or UniParc Id. See {@link
- * org.uniprot.store.datastore.voldemort.member.uniref.VoldemortInMemoryUniRefMemberStore#getVoldemortKey(UniRefMember)}
+ * org.uniprot.store.datastore.voldemort.member.uniref.VoldemortRemoteUniRefMemberStore#getVoldemortKey(UniRefMember)}
  * to find how we extract the key from member 1. We left join UniRef100 members including
  * representative member to UniRef90 members including representative member on either UniProt
  * Accession Id or UniParc Id of the member. 2. Then we merge the members from UniRef100 and
