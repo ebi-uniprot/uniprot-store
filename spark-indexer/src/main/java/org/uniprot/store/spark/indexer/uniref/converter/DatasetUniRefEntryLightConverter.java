@@ -178,8 +178,9 @@ public class DatasetUniRefEntryLightConverter
                     .forEach(
                             acc -> {
                                 builder.accessionsAdd(acc);
-                                if(Objects.isNull(builder.build().getMemberIdType())) {
-                                    builder.memberIdType(getUniProtKBIdType(memberId, acc.getValue()));
+                                if (Objects.isNull(builder.getMemberIdType())) {
+                                    builder.memberIdType(
+                                            getUniProtKBIdType(memberId, acc.getValue()));
                                 }
                             });
         }
