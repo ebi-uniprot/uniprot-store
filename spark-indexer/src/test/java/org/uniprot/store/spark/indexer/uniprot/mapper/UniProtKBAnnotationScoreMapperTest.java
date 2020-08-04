@@ -18,7 +18,7 @@ import org.uniprot.store.spark.indexer.uniprot.converter.SupportingDataMapHDSFIm
  * @author lgonzales
  * @since 30/07/2020
  */
-class AnnotationScoreMapperTest {
+class UniProtKBAnnotationScoreMapperTest {
 
     @Test
     void testMinimalProtein() throws Exception {
@@ -28,7 +28,7 @@ class AnnotationScoreMapperTest {
         assertNotNull(entry);
         assertEquals(0.0d, entry.getAnnotationScore());
 
-        AnnotationScoreMapper mapper = new AnnotationScoreMapper();
+        UniProtKBAnnotationScoreMapper mapper = new UniProtKBAnnotationScoreMapper();
         entry = mapper.call(entry);
         assertEquals(0.0d, entry.getAnnotationScore());
     }
@@ -39,14 +39,14 @@ class AnnotationScoreMapperTest {
         assertNotNull(entry);
         assertEquals(0.0d, entry.getAnnotationScore());
 
-        AnnotationScoreMapper mapper = new AnnotationScoreMapper();
+        UniProtKBAnnotationScoreMapper mapper = new UniProtKBAnnotationScoreMapper();
         entry = mapper.call(entry);
         assertEquals(262.0d, entry.getAnnotationScore());
     }
 
     private UniProtKBEntry getEntryFromFile() throws Exception {
         InputStream is =
-                AnnotationScoreMapperTest.class
+                UniProtKBAnnotationScoreMapperTest.class
                         .getClassLoader()
                         .getResourceAsStream("2020_02/uniprotkb/Q9EPI6.sp");
         assertNotNull(is);

@@ -11,7 +11,7 @@ import org.uniprot.core.uniprotkb.impl.UniProtKBEntryBuilder;
  * @author lgonzales
  * @since 30/07/2020
  */
-public class AnnotationScoreMapper
+public class UniProtKBAnnotationScoreMapper
         implements Serializable, Function<UniProtKBEntry, UniProtKBEntry> {
     private static final long serialVersionUID = -4999658812951835083L;
 

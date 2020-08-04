@@ -13,7 +13,7 @@ import org.uniprot.store.spark.indexer.common.store.DataStoreIndexer;
 import org.uniprot.store.spark.indexer.go.evidence.GOEvidence;
 import org.uniprot.store.spark.indexer.go.evidence.GOEvidenceMapper;
 import org.uniprot.store.spark.indexer.go.evidence.GOEvidencesRDDReader;
-import org.uniprot.store.spark.indexer.uniprot.mapper.AnnotationScoreMapper;
+import org.uniprot.store.spark.indexer.uniprot.mapper.UniProtKBAnnotationScoreMapper;
 import org.uniprot.store.spark.indexer.uniprot.writer.UniProtKBDataStoreWriter;
 
 /**
@@ -43,7 +43,7 @@ public class UniProtKBDataStoreIndexer implements DataStoreIndexer {
         String connectionURL = config.getString("store.uniprot.host");
 
         uniprotRDD
-                .mapValues(new AnnotationScoreMapper())
+                .mapValues(new UniProtKBAnnotationScoreMapper())
                 .leftOuterJoin(goEvidenceRDD)
                 .mapValues(new GOEvidenceMapper())
                 .values()

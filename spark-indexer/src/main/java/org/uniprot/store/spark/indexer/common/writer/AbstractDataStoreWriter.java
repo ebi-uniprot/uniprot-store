@@ -6,6 +6,7 @@ import org.apache.spark.api.java.function.VoidFunction;
 import org.uniprot.store.datastore.voldemort.VoldemortClient;
 
 /**
+ * This class is responsible to write an RDD partition (Entry Iterator) into our DataStore
  * @author lgonzales
  * @since 30/07/2020
  */
