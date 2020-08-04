@@ -34,7 +34,7 @@ public class GOToSuggestDocument
     }
 
     private SuggestDocument buildSuggestDocument(GeneOntologyEntry goTerm) {
-        String idOnly = goTerm.getId().substring(3);
+        String idOnly = goTerm.getId().substring(3); //remove "GO:" prefix
         return SuggestDocument.builder()
                 .id(idOnly)
                 .value(goTerm.getName())
