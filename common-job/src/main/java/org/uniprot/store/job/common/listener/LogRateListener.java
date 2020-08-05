@@ -71,7 +71,7 @@ public class LogRateListener<O> implements ItemWriteListener<O> {
      * @param now the time point at which the statistics should be computed
      * @return a {@link StatsInfo} instance representing the write rate statistics
      */
-    StatsInfo computeWriteRateStats(Instant now) {
+    protected StatsInfo computeWriteRateStats(Instant now) {
         totalWriteCount.addAndGet(deltaWriteCount.get());
 
         StatsInfo statsInfo = new StatsInfo();
@@ -83,12 +83,12 @@ public class LogRateListener<O> implements ItemWriteListener<O> {
         return statsInfo;
     }
 
-    private void resetDelta() {
+    protected void resetDelta() {
         deltaWriteCount.set(0);
         startOfDelta = Instant.now();
     }
 
-    static class StatsInfo {
+    public static class StatsInfo {
         private static final int SECONDS_IN_AN_HOUR = 3600;
 
         int deltaWriteCount;
@@ -118,5 +118,13 @@ public class LogRateListener<O> implements ItemWriteListener<O> {
                             totalDocsPerSecond * SECONDS_IN_AN_HOUR)
                     + "\t}\n";
         }
+    }
+
+    protected AtomicInteger getDeltaWriteCount() {
+        return this.deltaWriteCount;
+    }
+
+    protected int getWriteRateDocumentInterval() {
+        return this.writeRateDocumentInterval;
     }
 }

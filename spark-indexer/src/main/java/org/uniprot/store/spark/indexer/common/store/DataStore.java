@@ -8,6 +8,7 @@ public enum DataStore {
     UNIPROT("uniprot"),
     UNIREF("uniref"),
     UNIREF_LIGHT("uniref-light"),
+    UNIREF_MEMBER("uniref-member"),
     UNIPARC("uniparc");
 
     private final String name;

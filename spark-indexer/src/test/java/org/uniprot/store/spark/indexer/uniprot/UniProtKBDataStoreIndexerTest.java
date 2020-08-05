@@ -1,17 +1,16 @@
 package org.uniprot.store.spark.indexer.uniprot;
 
+import static org.junit.jupiter.api.Assertions.*;
+
+import java.util.Iterator;
+import java.util.ResourceBundle;
+
 import org.apache.spark.api.java.JavaSparkContext;
 import org.apache.spark.api.java.function.VoidFunction;
 import org.junit.jupiter.api.Test;
 import org.uniprot.core.uniprotkb.UniProtKBEntry;
 import org.uniprot.store.spark.indexer.common.JobParameter;
-import org.uniprot.store.spark.indexer.common.exception.IndexDataStoreException;
 import org.uniprot.store.spark.indexer.common.util.SparkUtils;
-
-import java.util.Iterator;
-import java.util.ResourceBundle;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * @author lgonzales
@@ -29,7 +28,8 @@ class UniProtKBDataStoreIndexerTest {
                             .releaseName("2020_02")
                             .sparkContext(sparkContext)
                             .build();
-            UniProtKBDataStoreIndexerTest.FakeUniProtKBDataStoreIndexer indexer = new UniProtKBDataStoreIndexerTest.FakeUniProtKBDataStoreIndexer(parameter);
+            UniProtKBDataStoreIndexerTest.FakeUniProtKBDataStoreIndexer indexer =
+                    new UniProtKBDataStoreIndexerTest.FakeUniProtKBDataStoreIndexer(parameter);
             assertNotNull(indexer);
             indexer.indexInDataStore();
         }
