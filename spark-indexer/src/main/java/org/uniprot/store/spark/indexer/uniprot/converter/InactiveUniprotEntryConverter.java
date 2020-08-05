@@ -1,5 +1,7 @@
 package org.uniprot.store.spark.indexer.uniprot.converter;
 
+import org.uniprot.core.uniprotkb.EntryInactiveReason;
+import org.uniprot.core.uniprotkb.InactiveReasonType;
 import org.uniprot.core.uniprotkb.UniProtKBEntry;
 import org.uniprot.core.util.Utils;
 import org.uniprot.store.job.common.converter.DocumentConverter;
@@ -20,11 +22,13 @@ public class InactiveUniprotEntryConverter
         if (Utils.notNull(source.getUniProtkbId())) {
             document.id = source.getUniProtkbId().getValue();
         }
-        document.inactiveReason =
-                source.getInactiveReason().getInactiveReasonType().getDisplayName();
-        if (Utils.notNullNotEmpty(source.getInactiveReason().getMergeDemergeTos())) {
-            document.inactiveReason +=
-                    ":" + String.join(",", source.getInactiveReason().getMergeDemergeTos());
+        EntryInactiveReason inactiveReason = source.getInactiveReason();
+        if (inactiveReason.getInactiveReasonType().equals(InactiveReasonType.DELETED)) {
+            document.content.add(source.getPrimaryAccession().getValue());
+        }
+        document.inactiveReason = inactiveReason.getInactiveReasonType().getDisplayName();
+        if (Utils.notNullNotEmpty(inactiveReason.getMergeDemergeTos())) {
+            document.inactiveReason += ":" + String.join(",", inactiveReason.getMergeDemergeTos());
         }
         document.active = false;
 

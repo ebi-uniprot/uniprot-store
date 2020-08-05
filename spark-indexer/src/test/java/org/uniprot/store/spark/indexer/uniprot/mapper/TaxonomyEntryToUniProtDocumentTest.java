@@ -74,17 +74,22 @@ class TaxonomyEntryToUniProtDocumentTest {
         assertEquals("Human", result.modelOrganism);
         assertNull(result.otherOrganism);
 
-        assertEquals(4, result.organismTaxon.size());
+        assertEquals(8, result.organismTaxon.size());
         assertTrue(result.organismTaxon.contains("lineage common 1111"));
         assertTrue(result.organismTaxon.contains("lineage scientific 1111"));
         assertTrue(result.organismTaxon.contains("lineage common 2222"));
         assertTrue(result.organismTaxon.contains("lineage scientific 2222"));
+        assertTrue(result.organismTaxon.contains("organism scientific name"));
+        assertTrue(result.organismTaxon.contains("organism common name"));
+        assertTrue(result.organismTaxon.contains("organism mnemonic"));
+        assertTrue(result.organismTaxon.contains("organism synonym"));
 
-        assertEquals(2, result.taxLineageIds.size());
+        assertEquals(3, result.taxLineageIds.size());
+        assertTrue(result.taxLineageIds.contains(9606));
         assertTrue(result.taxLineageIds.contains(1111));
         assertTrue(result.taxLineageIds.contains(2222));
 
-        assertEquals(10, result.content.size());
+        assertEquals(11, result.content.size());
         assertTrue(result.content.containsAll(result.organismTaxon));
         assertTrue(result.content.containsAll(result.organismName));
         assertTrue(result.content.contains("1111"));
