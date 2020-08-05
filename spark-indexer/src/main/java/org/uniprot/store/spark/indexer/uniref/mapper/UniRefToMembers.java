@@ -19,7 +19,7 @@ import scala.Tuple2;
  * This class gets an UniRefEntry and extract the list of members and returns an iterator of list of
  * Tuple{key=voldemortKey, value=member}. The voldemortKey we use to join the members of 3 clusters
  * is either UniProt Accession Id or UniParc Id. See {@link
- * org.uniprot.store.datastore.voldemort.member.uniref.VoldemortInMemoryUniRefMemberStore#getVoldemortKey(UniRefMember)}
+ * org.uniprot.store.datastore.voldemort.member.uniref.VoldemortRemoteUniRefMemberStore#getVoldemortKey(UniRefMember)}
  * to find how we extract the voldemortKey from member
  *
  * @author sahmad
