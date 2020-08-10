@@ -29,6 +29,10 @@ public class UniParcDocument implements Document {
     @Singular
     private Set<String> databases;
 
+    @Field("dbid")
+    @Singular
+    private Set<String> dbIds;
+
     @Singular
     @Field("active")
     private Set<String> actives;

@@ -156,6 +156,18 @@
     "includeInSwagger": true
   },
   {
+    "seqNumber": 11,
+    "id": "dbid",
+    "fieldName": "dbid",
+    "label": "Database Id",
+    "itemType": "SINGLE",
+    "fieldType": "GENERAL",
+    "dataType": "STRING",
+    "description": "Search by database id",
+    "example": "AAC02967",
+    "includeInSwagger": true
+  },
+  {
     "id": "length_sort",
     "fieldName": "length",
     "fieldType": "SORT",

@@ -42,6 +42,9 @@ public class UniParcDocumentConverter implements DocumentConverter<Entry, UniPar
 
     private void processDbReference(UniParcCrossReference xref, UniParcDocumentBuilder builder) {
         UniParcDatabase type = xref.getDatabase();
+
+        builder.dbId(xref.getId());
+
         if (xref.isActive()) {
             builder.active(type.getDisplayName());
         }

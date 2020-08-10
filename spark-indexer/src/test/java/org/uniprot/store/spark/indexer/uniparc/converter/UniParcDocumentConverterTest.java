@@ -41,11 +41,16 @@ class UniParcDocumentConverterTest {
         assertTrue(result.getDatabases().contains("UniProtKB/Swiss-Prot"));
         assertTrue(result.getDatabases().contains("EMBL"));
 
+        assertNotNull(result.getDbIds());
+        assertEquals(2, result.getDbIds().size());
+        assertTrue(result.getDbIds().contains("UniProtKB/Swiss-ProtIdValue"));
+        assertTrue(result.getDbIds().contains("inactiveIdValue"));
+
         assertNotNull(result.getActives());
         assertEquals(1, result.getActives().size());
         assertTrue(result.getActives().contains("UniProtKB/Swiss-Prot"));
 
-        validataDocumentCommonValues(result);
+        validateDocumentCommonValues(result);
     }
 
     @Test
@@ -74,10 +79,15 @@ class UniParcDocumentConverterTest {
         assertEquals(1, result.getActives().size());
         assertTrue(result.getActives().contains("UniProtKB/Swiss-Prot protein isoforms"));
 
-        validataDocumentCommonValues(result);
+        assertNotNull(result.getDbIds());
+        assertEquals(2, result.getDbIds().size());
+        assertTrue(result.getDbIds().contains("UniProtKB/Swiss-Prot protein isoformsIdValue"));
+        assertTrue(result.getDbIds().contains("inactiveIdValue"));
+
+        validateDocumentCommonValues(result);
     }
 
-    private void validataDocumentCommonValues(UniParcDocument result) {
+    private void validateDocumentCommonValues(UniParcDocument result) {
         assertNotNull(result);
         assertEquals("uniParcIdValue", result.getUpi());
 
@@ -105,6 +115,7 @@ class UniParcDocumentConverterTest {
 
         assertTrue(result.getContent().contains(result.getUpi()));
         assertTrue(result.getContent().containsAll(result.getDatabases()));
+        assertTrue(result.getContent().containsAll(result.getDbIds()));
         assertTrue(result.getContent().containsAll(result.getActives()));
         assertTrue(result.getContent().containsAll(result.getGeneNames()));
         assertTrue(result.getContent().containsAll(result.getProteinNames()));
