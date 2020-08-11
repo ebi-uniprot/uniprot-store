@@ -77,8 +77,9 @@ class SuggestDocumentsToHDFSWriterTest {
 
         assertNotNull(document);
         assertEquals(GO.name(), document.dictionary);
-        assertEquals("GO:0005719", document.id);
+        assertEquals("0005719", document.id);
         assertEquals("nuclear euchromatin", document.value);
+        assertTrue(document.altValues.contains("GO:0005719"));
     }
 
     @Test

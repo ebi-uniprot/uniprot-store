@@ -7,7 +7,7 @@
     "itemType": "SINGLE",
     "fieldType": "GENERAL",
     "dataType": "STRING",
-    "validRegex": "(UniRef100|UniRef90|UniRef50)\\w*",
+    "validRegex": "(UniRef100|UniRef90|UniRef50)_\\w+",
     "sortFieldId": "id_sort",
     "description": "Search by uniref id",
     "example": "UniRef100_A0A001",

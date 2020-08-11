@@ -1,19 +1,19 @@
 package org.uniprot.store.spark.indexer.uniref;
 
+import java.util.Iterator;
 import java.util.ResourceBundle;
 
 import lombok.extern.slf4j.Slf4j;
 
 import org.apache.spark.api.java.JavaFutureAction;
 import org.apache.spark.api.java.JavaRDD;
+import org.apache.spark.api.java.function.VoidFunction;
 import org.uniprot.core.uniref.UniRefEntryLight;
 import org.uniprot.core.uniref.UniRefType;
-import org.uniprot.store.datastore.voldemort.VoldemortClient;
-import org.uniprot.store.datastore.voldemort.light.uniref.VoldemortRemoteUniRefEntryLightStore;
 import org.uniprot.store.spark.indexer.common.JobParameter;
 import org.uniprot.store.spark.indexer.common.exception.IndexDataStoreException;
 import org.uniprot.store.spark.indexer.common.store.DataStoreIndexer;
-import org.uniprot.store.spark.indexer.common.writer.DataStoreWriter;
+import org.uniprot.store.spark.indexer.uniref.writer.UniRefLightDataStoreWriter;
 
 /**
  * Created 08/07/2020
@@ -56,14 +56,11 @@ public class UniRefLightDataStoreIndexer implements DataStoreIndexer {
         UniRefLightRDDTupleReader reader = new UniRefLightRDDTupleReader(type, jobParameter, false);
         JavaRDD<UniRefEntryLight> uniRefRDD = reader.load();
         return uniRefRDD.foreachPartitionAsync(
-                entryIterator -> {
-                    VoldemortClient<UniRefEntryLight> client =
-                            new VoldemortRemoteUniRefEntryLightStore(
-                                    Integer.parseInt(numberOfConnections),
-                                    storeName,
-                                    connectionURL);
-                    DataStoreWriter<UniRefEntryLight> writer = new DataStoreWriter<>(client);
-                    writer.indexInStore(entryIterator);
-                });
+                getWriter(numberOfConnections, storeName, connectionURL));
+    }
+
+    VoidFunction<Iterator<UniRefEntryLight>> getWriter(
+            String numberOfConnections, String storeName, String connectionURL) {
+        return new UniRefLightDataStoreWriter(numberOfConnections, storeName, connectionURL);
     }
 }

@@ -81,19 +81,17 @@ public abstract class VoldemortRemoteJsonBinaryStore<T> implements VoldemortClie
 
     @Override
     public void saveEntry(T entry) {
-        Timer.Context time =
-                MetricsUtil.getMetricRegistryInstance().timer("voldemort-save-entry-time").time();
         String acc = getStoreId(entry);
-        byte[] binaryEntry;
         try {
-            binaryEntry = getStoreObjectMapper().writeValueAsBytes(entry);
-            client.put(acc, binaryEntry);
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException("Unable to parse entry to binary json: ", e);
+            doSave(entry);
         } catch (ObsoleteVersionException e) {
             logger.warn(acc + " already saved in voldemort, ignoring it");
         }
-        time.stop();
+    }
+
+    @Override
+    public void saveOrUpdateEntry(T entry) {
+        doSave(entry);
     }
 
     @Override
@@ -170,5 +168,19 @@ public abstract class VoldemortRemoteJsonBinaryStore<T> implements VoldemortClie
         } catch (IOException e) {
             throw new RuntimeException("Error getting entry from BDB store.", e);
         }
+    }
+
+    private void doSave(T entry) {
+        Timer.Context time =
+                MetricsUtil.getMetricRegistryInstance().timer("voldemort-save-entry-time").time();
+        String acc = getStoreId(entry);
+        byte[] binaryEntry;
+        try {
+            binaryEntry = getStoreObjectMapper().writeValueAsBytes(entry);
+            client.put(acc, binaryEntry);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException("Unable to parse entry to binary json: ", e);
+        }
+        time.stop();
     }
 }

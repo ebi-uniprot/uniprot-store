@@ -39,8 +39,8 @@ public class UniRefEntryLightRetryWriter
         try {
             JAXBContext jaxbContext = JAXBContext.newInstance(jaxbPackage);
             marshaller = jaxbContext.createMarshaller();
-            marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
             marshaller.setProperty(Marshaller.JAXB_FRAGMENT, Boolean.TRUE);
+            marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
         } catch (Exception e) {
             log.error("JAXB initiallation failed", e);
         }

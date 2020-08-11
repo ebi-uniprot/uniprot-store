@@ -11,6 +11,7 @@ import java.time.format.DateTimeFormatterBuilder;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import org.apache.spark.api.java.function.Function;
 import org.apache.spark.sql.Row;
@@ -138,17 +139,6 @@ public class DatasetUniRefEntryLightConverter
         builder.memberIdTypesAdd(member.getMemberIdType());
     }
 
-    private RepresentativeMember convertRepresentativeMember(Row representativeMemberRow) {
-        RepresentativeMemberBuilder builder =
-                RepresentativeMemberBuilder.from(convertMember(representativeMemberRow));
-        if (hasFieldName(SEQUENCE, representativeMemberRow)) {
-            Row sequence =
-                    (Row) representativeMemberRow.get(representativeMemberRow.fieldIndex(SEQUENCE));
-            builder.sequence(RowUtils.convertSequence(sequence));
-        }
-        return builder.build();
-    }
-
     private UniRefMember convertMember(Row member) {
         UniRefMemberBuilder builder = new UniRefMemberBuilder();
         if (hasFieldName(DB_REFERENCE, member)) {
@@ -168,6 +158,17 @@ public class DatasetUniRefEntryLightConverter
         return builder.build();
     }
 
+    private RepresentativeMember convertRepresentativeMember(Row representativeMemberRow) {
+        UniRefMember member = convertMember(representativeMemberRow);
+        RepresentativeMemberBuilder builder = RepresentativeMemberBuilder.from(member);
+        if (hasFieldName(SEQUENCE, representativeMemberRow)) {
+            Row sequence =
+                    (Row) representativeMemberRow.get(representativeMemberRow.fieldIndex(SEQUENCE));
+            builder.sequence(RowUtils.convertSequence(sequence));
+        }
+        return builder.build();
+    }
+
     private void convertMemberProperties(
             UniRefMemberBuilder builder, Row dbReference, String memberId) {
         Map<String, List<String>> propertyMap = RowUtils.convertProperties(dbReference);
@@ -177,11 +178,15 @@ public class DatasetUniRefEntryLightConverter
                     .forEach(
                             acc -> {
                                 builder.accessionsAdd(acc);
-                                builder.memberIdType(getUniProtKBIdType(memberId, acc.getValue()));
+                                if (Objects.isNull(builder.getMemberIdType())) {
+                                    builder.memberIdType(
+                                            getUniProtKBIdType(memberId, acc.getValue()));
+                                }
                             });
         }
         if (propertyMap.containsKey(PROPERTY_TAXONOMY)) {
-            builder.organismTaxId(Long.parseLong(propertyMap.get(PROPERTY_TAXONOMY).get(0)));
+            builder.organismTaxId(
+                    Long.parseLong(propertyMap.get(PROPERTY_TAXONOMY).get(0)));
         }
         if (propertyMap.containsKey(PROPERTY_ORGANISM)) {
             builder.organismName(propertyMap.get(PROPERTY_ORGANISM).get(0));

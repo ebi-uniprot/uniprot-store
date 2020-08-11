@@ -113,11 +113,13 @@ public class TaxonomyEntryToUniProtDocument
         doc.organismName.addAll(organismNames);
         doc.organismSort =
                 UniProtEntryConverterUtil.truncatedSortValue(String.join(" ", organismNames));
+        doc.taxLineageIds.add(Math.toIntExact(organism.getTaxonId()));
+        doc.organismTaxon.addAll(organismNames);
         if (organism.hasLineage()) {
             organism.getLineages()
                     .forEach(
                             lineage -> {
-                                doc.taxLineageIds.add((int) lineage.getTaxonId());
+                                doc.taxLineageIds.add(Math.toIntExact(lineage.getTaxonId()));
                                 doc.organismTaxon.add(lineage.getScientificName());
                                 if (lineage.hasCommonName()) {
                                     doc.organismTaxon.add(lineage.getCommonName());
