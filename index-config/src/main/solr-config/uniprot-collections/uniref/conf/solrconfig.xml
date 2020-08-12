@@ -1034,8 +1034,8 @@
 	<!-- ====================================================================================== -->
 	<slowQueryThresholdMillis>${slow.query.time.millis:15000}</slowQueryThresholdMillis>
 	<initParams path="/query,/select">
-		<lst name="defaults">
-			<str name="df">content</str>
-		</lst>
+<!--		<lst name="defaults">-->
+<!--			<str name="df">content</str>-->
+<!--		</lst>-->
 	</initParams>
 </config>
