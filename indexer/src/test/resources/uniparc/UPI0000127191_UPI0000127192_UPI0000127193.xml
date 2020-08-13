@@ -56,6 +56,10 @@
                      last="2013-03-19">
             <property type="NCBI_taxonomy_id" value="99287"/>
         </dbReference>
+        <dbReference type="UniProtKB/TrEMBL" id="A0A038DI37" version_i="1" active="N" version="1" created="2014-07-09"
+                     last="2014-10-29">
+            <property type="NCBI_taxonomy_id" value="1387339"/>
+        </dbReference>
         <sequence length="263" checksum="79E8A4FC5967031C">
             MNEGDVLVVGGTSDARALCRQLDAANVAYTLSVATPAGKALAGDIKGQVRCGRLEYGQMV
             AWLKENRTRWVIDASHPYAEMVSHNLLRACETAGVLLSRYQRPEQLSNLTHPLLYTARSI
