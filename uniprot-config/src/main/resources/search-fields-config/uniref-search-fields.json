@@ -185,14 +185,5 @@
     "description": "Search by taxonomy name",
     "example": "sample name",
     "includeInSwagger": true
-  },
-  {
-    "id": "content",
-    "fieldName": "content",
-    "fieldType": "GENERAL",
-    "dataType": "STRING",
-    "description": "Search by any content",
-    "example": "sample content",
-    "includeInSwagger": true
   }
 ]
