@@ -30,11 +30,11 @@ class UniParcDocumentConverterTest {
 
         assertNotNull(result.getUniprotAccessions());
         assertEquals(1, result.getUniprotAccessions().size());
-        assertTrue(result.getUniprotAccessions().contains("UniProtKB/Swiss-ProtIdValue"));
+        assertTrue(result.getUniprotAccessions().contains("UniProtKB/Swiss-ProtIdValue-true"));
 
         assertNotNull(result.getUniprotIsoforms());
         assertEquals(1, result.getUniprotIsoforms().size());
-        assertTrue(result.getUniprotIsoforms().contains("UniProtKB/Swiss-ProtIdValue"));
+        assertTrue(result.getUniprotIsoforms().contains("UniProtKB/Swiss-ProtIdValue-true"));
 
         assertNotNull(result.getDatabases());
         assertEquals(2, result.getDatabases().size());
@@ -42,8 +42,9 @@ class UniParcDocumentConverterTest {
         assertTrue(result.getDatabases().contains("EMBL"));
 
         assertNotNull(result.getDbIds());
-        assertEquals(2, result.getDbIds().size());
-        assertTrue(result.getDbIds().contains("UniProtKB/Swiss-ProtIdValue"));
+        assertEquals(3, result.getDbIds().size());
+        assertTrue(result.getDbIds().contains("UniProtKB/Swiss-ProtIdValue-true"));
+        assertTrue(result.getDbIds().contains("UniProtKB/Swiss-ProtIdValue-false"));
         assertTrue(result.getDbIds().contains("inactiveIdValue"));
 
         assertNotNull(result.getActives());
@@ -68,7 +69,7 @@ class UniParcDocumentConverterTest {
         assertEquals(1, result.getUniprotIsoforms().size());
         assertTrue(
                 result.getUniprotIsoforms()
-                        .contains("UniProtKB/Swiss-Prot protein isoformsIdValue"));
+                        .contains("UniProtKB/Swiss-Prot protein isoformsIdValue-true"));
 
         assertNotNull(result.getDatabases());
         assertEquals(2, result.getDatabases().size());
@@ -80,8 +81,9 @@ class UniParcDocumentConverterTest {
         assertTrue(result.getActives().contains("UniProtKB/Swiss-Prot protein isoforms"));
 
         assertNotNull(result.getDbIds());
-        assertEquals(2, result.getDbIds().size());
-        assertTrue(result.getDbIds().contains("UniProtKB/Swiss-Prot protein isoformsIdValue"));
+        assertEquals(3, result.getDbIds().size());
+        assertTrue(result.getDbIds().contains("UniProtKB/Swiss-Prot protein isoformsIdValue-true"));
+        assertTrue(result.getDbIds().contains("UniProtKB/Swiss-Prot protein isoformsIdValue-false"));
         assertTrue(result.getDbIds().contains("inactiveIdValue"));
 
         validateDocumentCommonValues(result);
@@ -100,7 +102,7 @@ class UniParcDocumentConverterTest {
         assertTrue(result.getProteinNames().contains("proteinNameValue"));
 
         assertNotNull(result.getUpids());
-        assertEquals(1, result.getUpids().size());
+        assertEquals(2, result.getUpids().size());
         assertTrue(result.getUpids().contains("proteomeIdValue"));
 
         assertNotNull(result.getOrganismTaxons());
@@ -129,6 +131,7 @@ class UniParcDocumentConverterTest {
                 .uniParcId("uniParcIdValue")
                 .uniprotExclusionReason("")
                 .uniParcCrossReferencesAdd(getDatabaseCrossReferences(type))
+                .uniParcCrossReferencesAdd(getDatabaseCrossReferences(type, false))
                 .uniParcCrossReferencesAdd(getInactiveDatabaseCrossReferences())
                 .sequence(getSequence())
                 .taxonomiesAdd(getTaxonomy())
@@ -141,13 +144,17 @@ class UniParcDocumentConverterTest {
     }
 
     private UniParcCrossReference getDatabaseCrossReferences(UniParcDatabase type) {
+        return getDatabaseCrossReferences(type, true);
+    }
+
+    private UniParcCrossReference getDatabaseCrossReferences(UniParcDatabase type, boolean active) {
         return new UniParcCrossReferenceBuilder()
-                .id(type.getName() + "IdValue")
+                .id(type.getName() + "IdValue-" + active)
                 .database(type)
                 .propertiesAdd(UniParcCrossReference.PROPERTY_GENE_NAME, "geneNameValue")
                 .propertiesAdd(UniParcCrossReference.PROPERTY_PROTEIN_NAME, "proteinNameValue")
                 .propertiesAdd(UniParcCrossReference.PROPERTY_PROTEOME_ID, "proteomeIdValue")
-                .active(true)
+                .active(active)
                 .build();
     }
 

@@ -45,7 +45,7 @@ class UniParcDocumentConverterTest {
         UniParcDocument uniParcDocument = converter.convert(entry);
         Assertions.assertNotNull(uniParcDocument);
         Assertions.assertEquals("UPI0000127191", uniParcDocument.getUpi());
-        Assertions.assertEquals(12, uniParcDocument.getDbIds().size());
+        Assertions.assertEquals(13, uniParcDocument.getDbIds().size());
         MatcherAssert.assertThat(
                 uniParcDocument.getDbIds(),
                 CoreMatchers.hasItems(
@@ -60,6 +60,14 @@ class UniParcDocumentConverterTest {
                         "ETC11569",
                         "fig|1218145.3.peg.2041",
                         "fig|99287.1.peg.1951",
-                        "fig|99287.12.peg.2148"));
+                        "fig|99287.12.peg.2148",
+                        "A0A038DI37"));
+        // verify that document has only active proteins accession
+        Assertions.assertEquals(2, uniParcDocument.getUniprotAccessions().size());
+        MatcherAssert.assertThat(
+                uniParcDocument.getUniprotAccessions(),
+                CoreMatchers.hasItems(
+                        "A0A038DI27",
+                        "A0A038DND5"));
     }
 }
