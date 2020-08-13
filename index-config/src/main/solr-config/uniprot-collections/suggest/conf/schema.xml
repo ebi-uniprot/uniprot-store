@@ -10,6 +10,11 @@
 	OF ANY KIND, either express or implied. See the License for the specific 
 	language governing permissions and limitations under the License. -->
 <schema name="suggest" version="1.6">
+
+	<field name="_version_" type="plong" indexed="true" stored="true" />
+
+	<!-- ========================== ??? uniqueKey??? =============================== -->
+
 	<!-- =============================== suggestion fields =============================== -->
 	<field name="id" type="basic_ci" indexed="true" stored="true"
 		multiValued="false" />
@@ -31,22 +36,12 @@
 	<copyField source="value" dest="content" />
 	<copyField source="altValue" dest="content" />
 
-	<!--<copyField source="id" dest="basic_content"/> -->
-	<!--<copyField source="value" dest="basic_content"/> -->
-	<!--<copyField source="altValue" dest="basic_content"/> -->
-
-	<!-- Meta fields -->
-	<!-- If you remove this field, you must _also_ disable the update log in 
-		solrconfig.xml or Solr won't start. _version_ and update log are required 
-		for SolrCloud -->
-	<field name="_version_" type="plong" indexed="true" stored="true" />
 	<fieldType name="pint" class="solr.IntPointField"
 		docValues="true" />
 	<fieldType name="importanceLevel" class="solr.EnumField"
 		enumsConfig="enumsConfig.xml" enumName="importance" />
 
 	<!-- =============================== field types =============================== -->
-	<fieldType name="binary" class="solr.BinaryField" />
 	<fieldType name="plong" class="solr.LongPointField"
 		docValues="true" />
 	<fieldType name="string" class="solr.StrField"

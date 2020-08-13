@@ -185,7 +185,8 @@ public class DatasetUniRefEntryLightConverter
                             });
         }
         if (propertyMap.containsKey(PROPERTY_TAXONOMY)) {
-            builder.organismTaxId(Long.parseLong(propertyMap.get(PROPERTY_TAXONOMY).get(0)));
+            builder.organismTaxId(
+                    Long.parseLong(propertyMap.get(PROPERTY_TAXONOMY).get(0)));
         }
         if (propertyMap.containsKey(PROPERTY_ORGANISM)) {
             builder.organismName(propertyMap.get(PROPERTY_ORGANISM).get(0));

@@ -109,7 +109,7 @@ public class UniRefDocumentConverter implements DocumentConverter<Entry, UniRefD
                 node -> {
                     builder.taxLineageId(node.id());
                     List<String> names = TaxonomyRepoUtil.extractTaxonFromNode(node);
-                    names.forEach(val -> builder.organismTaxon(val));
+                    names.forEach(builder::organismTaxon);
                 });
     }
 }

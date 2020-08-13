@@ -177,14 +177,9 @@ public abstract class AbstractSearchEngine<E> implements BeforeAllCallback, Afte
 
     private void createServer() {
         // properties used by solrconfig.xml files in the cores' conf directories
-        System.setProperty("solr.data.dir", indexHome.getAbsolutePath() + "/solr/data");
+        System.setProperty("solr.data.home", indexHome.getAbsolutePath() + "/solr/data");
         System.setProperty("solr.core.name", "uniprot");
         System.setProperty("solr.ulog.dir", indexHome.getAbsolutePath() + "/tlog");
-        //   System.setProperty("solr.lib.ujdk.location", ".");
-        //        System.setProperty("uniprot.voldemort.url", "inMemoryStore");
-        //        System.setProperty("uniprot.voldemort.store", "avro-uniprot");
-        //        System.setProperty("uniparc.voldemort.url", "inMemoryStore");
-        //        System.setProperty("uniparc.voldemort.store", "avro-uniparc");
 
         File solrConfigDir = new File(SOLR_CONFIG_DIR);
 

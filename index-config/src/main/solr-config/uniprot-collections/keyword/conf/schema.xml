@@ -10,6 +10,10 @@
 	OF ANY KIND, either express or implied. See the License for the specific 
 	language governing permissions and limitations under the License. -->
 <schema name="keyword" version="1.6">
+	<uniqueKey>id</uniqueKey>
+
+	<field name="_version_" type="plong" indexed="true" stored="true" />
+
 	<!-- =============================== keyword fields =============================== -->
 	<field name="id" type="string" indexed="true" stored="true"
 		required="true" docValues="true" />
@@ -30,20 +34,12 @@
 	<!-- Field constraints -->
 	<copyField source="id" dest="keyword_id" />
 	<copyField source="name" dest="name_sort" />
-	<uniqueKey>id</uniqueKey>
 
-	<!-- Meta fields -->
-	<!-- If you remove this field, you must _also_ disable the update log in 
-		solrconfig.xml or Solr won't start. _version_ and update log are required 
-		for SolrCloud -->
-	<field name="_version_" type="plong" indexed="true" stored="true" />
 
 	<!-- =============================== field types =============================== -->
 	<fieldType name="plong" class="solr.LongPointField"
 		docValues="true" />
 	<fieldType name="string" class="solr.StrField"
-		sortMissingLast="true" />
-	<fieldType name="boolean" class="solr.BoolField"
 		sortMissingLast="true" />
 	<fieldType name="binary" class="solr.BinaryField" />
 
