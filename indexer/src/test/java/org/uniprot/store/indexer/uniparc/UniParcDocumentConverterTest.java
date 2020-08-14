@@ -66,8 +66,6 @@ class UniParcDocumentConverterTest {
         Assertions.assertEquals(2, uniParcDocument.getUniprotAccessions().size());
         MatcherAssert.assertThat(
                 uniParcDocument.getUniprotAccessions(),
-                CoreMatchers.hasItems(
-                        "A0A038DI27",
-                        "A0A038DND5"));
+                CoreMatchers.hasItems("A0A038DI27", "A0A038DND5"));
     }
 }
