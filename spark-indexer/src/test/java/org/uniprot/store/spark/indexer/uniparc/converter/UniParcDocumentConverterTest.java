@@ -83,7 +83,8 @@ class UniParcDocumentConverterTest {
         assertNotNull(result.getDbIds());
         assertEquals(3, result.getDbIds().size());
         assertTrue(result.getDbIds().contains("UniProtKB/Swiss-Prot protein isoformsIdValue-true"));
-        assertTrue(result.getDbIds().contains("UniProtKB/Swiss-Prot protein isoformsIdValue-false"));
+        assertTrue(
+                result.getDbIds().contains("UniProtKB/Swiss-Prot protein isoformsIdValue-false"));
         assertTrue(result.getDbIds().contains("inactiveIdValue"));
 
         validateDocumentCommonValues(result);

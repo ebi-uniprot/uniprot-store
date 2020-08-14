@@ -49,7 +49,8 @@ public class UniParcDocumentConverter implements DocumentConverter<Entry, UniPar
             builder.active(type.getDisplayName());
         }
         builder.database(type.getDisplayName());
-        if (xref.isActive() &&  (type == UniParcDatabase.SWISSPROT || type == UniParcDatabase.TREMBL)) {
+        if (xref.isActive()
+                && (type == UniParcDatabase.SWISSPROT || type == UniParcDatabase.TREMBL)) {
             builder.uniprotAccession(xref.getId());
             builder.uniprotIsoform(xref.getId());
         }
