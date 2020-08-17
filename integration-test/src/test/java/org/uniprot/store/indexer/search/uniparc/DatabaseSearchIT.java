@@ -82,8 +82,8 @@ class DatabaseSearchIT {
         QueryResponse queryResponse = searchEngine.getQueryResponse(query);
         List<String> retrievedAccessions = searchEngine.getIdentifiers(queryResponse);
 
-        assertEquals(2, retrievedAccessions.size());
-        assertThat(retrievedAccessions, containsInAnyOrder(ID_1, ID_3));
+        assertEquals(1, retrievedAccessions.size());// no inactive entry
+        assertThat(retrievedAccessions, containsInAnyOrder(ID_1));
     }
 
     @Test
@@ -93,8 +93,8 @@ class DatabaseSearchIT {
         QueryResponse queryResponse = searchEngine.getQueryResponse(query);
         List<String> retrievedAccessions = searchEngine.getIdentifiers(queryResponse);
 
-        assertEquals(3, retrievedAccessions.size());
-        assertThat(retrievedAccessions, containsInAnyOrder(ID_1, ID_2, ID_3));
+        assertEquals(2, retrievedAccessions.size());
+        assertThat(retrievedAccessions, containsInAnyOrder(ID_1, ID_2));
     }
 
     @Test
