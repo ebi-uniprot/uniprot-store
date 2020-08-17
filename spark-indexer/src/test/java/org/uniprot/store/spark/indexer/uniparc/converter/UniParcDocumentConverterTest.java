@@ -2,6 +2,8 @@ package org.uniprot.store.spark.indexer.uniparc.converter;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.util.UUID;
+
 import org.junit.jupiter.api.Test;
 import org.uniprot.core.Sequence;
 import org.uniprot.core.impl.SequenceBuilder;
@@ -92,7 +94,7 @@ class UniParcDocumentConverterTest {
 
     private void validateDocumentCommonValues(UniParcDocument result) {
         assertNotNull(result);
-        assertEquals("uniParcIdValue", result.getUpi());
+        assertTrue(result.getUpi().startsWith("uniParcIdValue"));
 
         assertNotNull(result.getGeneNames());
         assertEquals(1, result.getGeneNames().size());
@@ -103,7 +105,7 @@ class UniParcDocumentConverterTest {
         assertTrue(result.getProteinNames().contains("proteinNameValue"));
 
         assertNotNull(result.getUpids());
-        assertEquals(2, result.getUpids().size());
+        assertEquals(1, result.getUpids().size());
         assertTrue(result.getUpids().contains("proteomeIdValue"));
 
         assertNotNull(result.getOrganismTaxons());
@@ -129,7 +131,7 @@ class UniParcDocumentConverterTest {
 
     private UniParcEntry getUniParcEntry(UniParcDatabase type) {
         return new UniParcEntryBuilder()
-                .uniParcId("uniParcIdValue")
+                .uniParcId("uniParcIdValue" + UUID.randomUUID().toString())
                 .uniprotExclusionReason("")
                 .uniParcCrossReferencesAdd(getDatabaseCrossReferences(type))
                 .uniParcCrossReferencesAdd(getDatabaseCrossReferences(type, false))
