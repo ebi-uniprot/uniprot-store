@@ -82,7 +82,7 @@ class DatabaseSearchIT {
         QueryResponse queryResponse = searchEngine.getQueryResponse(query);
         List<String> retrievedAccessions = searchEngine.getIdentifiers(queryResponse);
 
-        assertEquals(1, retrievedAccessions.size());// no inactive entry
+        assertEquals(1, retrievedAccessions.size()); // no inactive entry
         assertThat(retrievedAccessions, containsInAnyOrder(ID_1));
     }
 

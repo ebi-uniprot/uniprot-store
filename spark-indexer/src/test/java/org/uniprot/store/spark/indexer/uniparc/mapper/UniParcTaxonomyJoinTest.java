@@ -96,6 +96,6 @@ class UniParcTaxonomyJoinTest {
         UniParcTaxonomyJoin mapper = new UniParcTaxonomyJoin();
         UniParcDocument result = mapper.call(tuple);
         assertNotNull(result);
-        assertNull(result.getOrganismTaxons());
+        assertTrue(result.getOrganismTaxons().isEmpty());
     }
 }

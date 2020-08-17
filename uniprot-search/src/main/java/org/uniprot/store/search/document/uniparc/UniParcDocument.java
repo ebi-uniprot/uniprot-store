@@ -1,5 +1,6 @@
 package org.uniprot.store.search.document.uniparc;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -47,15 +48,13 @@ public class UniParcDocument implements Document {
 
     @Singular
     @Field("upid")
-    private List<String> upids;
+    private Set<String> upids = new HashSet<>();
 
     @Singular
     @Field("taxonomy_name")
-    private List<String> organismTaxons;
+    private Set<String> organismTaxons = new HashSet<>();
 
-    @Singular
-    @Field("taxonomy_id")
-    private List<Integer> taxLineageIds;
+    @Singular private Set<Integer> taxLineageIds = new HashSet<>();
 
     @Singular
     @Field("accession")
@@ -73,5 +72,10 @@ public class UniParcDocument implements Document {
     @Override
     public String getDocumentId() {
         return upi;
+    }
+
+    @Field("taxonomy_id")
+    public void setTaxLineageIds(List<Integer> taxLineageIds) {
+        this.taxLineageIds = new HashSet<>(taxLineageIds);
     }
 }
