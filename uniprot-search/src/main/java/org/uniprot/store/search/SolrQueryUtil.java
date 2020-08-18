@@ -18,14 +18,12 @@ import org.uniprot.core.util.Utils;
  */
 public class SolrQueryUtil {
 
-    private SolrQueryUtil(){
-
-    }
+    private SolrQueryUtil() {}
 
     public static String getTermValue(String inputQuery, String term) {
         String result = "";
         List<String> results = getTermValues(inputQuery, term);
-        if(!results.isEmpty()){
+        if (!results.isEmpty()) {
             result = results.get(0);
         }
         return result;
@@ -47,7 +45,7 @@ public class SolrQueryUtil {
     public static String getTermValue(Query inputQuery, String term) {
         String result = "";
         List<String> results = getTermValues(inputQuery, term);
-        if(!results.isEmpty()){
+        if (!results.isEmpty()) {
             result = results.get(0);
         }
         return result;
