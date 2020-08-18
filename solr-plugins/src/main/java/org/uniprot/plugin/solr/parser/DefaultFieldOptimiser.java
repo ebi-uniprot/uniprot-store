@@ -23,17 +23,17 @@ import static org.uniprot.core.util.Utils.notNullNotEmpty;
  */
 @Builder
 @Slf4j
-public class Optimiser implements Consumer<Query> {
+public class DefaultFieldOptimiser implements Consumer<Query> {
     @Singular
     private final List<SearchFieldItem> optimisedFields;
     private final Field reflectedTermText;
     private final Field reflectedTermField;
     private final boolean optimisePossible;
 
-    public static OptimiserBuilder builder() {
-        return new OptimiserBuilder() {
+    public static DefaultFieldOptimiserBuilder builder() {
+        return new DefaultFieldOptimiserBuilder() {
             @Override
-            public Optimiser build() {
+            public DefaultFieldOptimiser build() {
                 init();
                 return super.build();
             }
@@ -57,7 +57,7 @@ public class Optimiser implements Consumer<Query> {
                         reflectedTermField.set(term, field.getFieldName());
                         reflectedTermText.set(term, new BytesRef(term.text()));
                     } catch (IllegalAccessException e) {
-                        e.printStackTrace();
+                        log.error("Could not access field", e);
                     }
                     break;
                 }
@@ -65,7 +65,7 @@ public class Optimiser implements Consumer<Query> {
         }
     }
 
-    public static class OptimiserBuilder {
+    public static class DefaultFieldOptimiserBuilder {
         private Field reflectedTermText;
         private Field reflectedTermField;
         private boolean optimisePossible;

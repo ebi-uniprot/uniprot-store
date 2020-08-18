@@ -27,7 +27,7 @@ public class UniRefEdisMaxQueryPlugin extends QParserPlugin {
     private QueryTransformer init() {
         return QueryTransformer.builder()
                 .queryTransformer(
-                        Optimiser.builder()
+                        DefaultFieldOptimiser.builder()
                                 .optimisedField(
                                         SearchFieldConfigFactory.getSearchFieldConfig(
                                                         UniProtDataType.UNIREF)
