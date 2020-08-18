@@ -1,10 +1,10 @@
 package org.uniprot.store.search;
 
-import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.Test;
 
 /** @author lgonzales */
 class SolrQueryUtilTest {
@@ -79,7 +79,7 @@ class SolrQueryUtilTest {
     }
 
     @Test
-    void getTermValuesManyValues(){
+    void getTermValuesManyValues() {
         String inputQuery = "(organism:\"homo sapiens\") OR (organism:rat)";
         List<String> values = SolrQueryUtil.getTermValues(inputQuery, "organism");
         assertNotNull(values);
@@ -89,7 +89,7 @@ class SolrQueryUtilTest {
     }
 
     @Test
-    void getTermValuesOneValue(){
+    void getTermValuesOneValue() {
         String inputQuery = "(organism:human) OR (length:[1 TO 10})";
         List<String> values = SolrQueryUtil.getTermValues(inputQuery, "organism");
         assertNotNull(values);
@@ -98,7 +98,7 @@ class SolrQueryUtilTest {
     }
 
     @Test
-    void getTermValuesNoValue(){
+    void getTermValuesNoValue() {
         String inputQuery = "organism:*";
         List<String> values = SolrQueryUtil.getTermValues(inputQuery, "keyword");
         assertNotNull(values);
@@ -106,7 +106,7 @@ class SolrQueryUtilTest {
     }
 
     @Test
-    void getTermValue(){
+    void getTermValue() {
         String inputQuery = "length:[1 TO 10]";
         String value = SolrQueryUtil.getTermValue(inputQuery, "length");
         assertNotNull(value);
