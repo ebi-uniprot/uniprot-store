@@ -1,6 +1,7 @@
 package org.uniprot.store.spark.indexer.uniparc.converter;
 
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.uniprot.core.Property;
@@ -10,6 +11,7 @@ import org.uniprot.core.uniparc.UniParcDatabase;
 import org.uniprot.core.uniparc.UniParcEntry;
 import org.uniprot.core.uniprotkb.taxonomy.Taxonomy;
 import org.uniprot.core.util.Utils;
+import org.uniprot.store.config.uniparc.UniParcConfigUtil;
 import org.uniprot.store.job.common.converter.DocumentConverter;
 import org.uniprot.store.search.document.uniparc.UniParcDocument;
 
@@ -47,10 +49,11 @@ public class UniParcDocumentConverter implements DocumentConverter<UniParcEntry,
 
         builder.dbId(xref.getId());
 
+        Map.Entry<String, String> dbTypeData = UniParcConfigUtil.uniparcDatabaseToSearchField(type);
         if (xref.isActive()) {
-            builder.active(type.getDisplayName());
+            builder.active(dbTypeData.getValue());
         }
-        builder.database(type.getDisplayName());
+        builder.database(dbTypeData.getValue());
         if (xref.isActive()
                 && (type == UniParcDatabase.SWISSPROT || type == UniParcDatabase.TREMBL)) {
             builder.uniprotAccession(xref.getId());

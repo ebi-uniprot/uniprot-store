@@ -168,6 +168,18 @@
     "includeInSwagger": true
   },
   {
+    "seqNumber": 12,
+    "id": "featureid",
+    "fieldName": "featureid",
+    "label": "feature Id",
+    "itemType": "SINGLE",
+    "fieldType": "GENERAL",
+    "dataType": "STRING",
+    "description": "Search by feature domain id",
+    "example": "IPR004251",
+    "includeInSwagger": true
+  },
+  {
     "id": "length_sort",
     "fieldName": "length",
     "fieldType": "SORT",
