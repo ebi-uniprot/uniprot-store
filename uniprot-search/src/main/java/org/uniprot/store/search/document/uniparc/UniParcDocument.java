@@ -23,6 +23,9 @@ public class UniParcDocument implements Document {
     @Field("checksum")
     private String sequenceChecksum;
 
+    @Field("md5")
+    private String sequenceMd5;
+
     @Field("length")
     private int seqLength;
 
@@ -54,6 +57,12 @@ public class UniParcDocument implements Document {
     @Field("taxonomy_name")
     private Set<String> organismTaxons = new HashSet<>();
 
+    @Singular private Set<String> organismNames = new HashSet<>();
+
+    @Singular
+    @Field("feature_id")
+    private Set<String> featureIds = new HashSet<>();
+
     @Singular private Set<Integer> taxLineageIds = new HashSet<>();
 
     @Singular
@@ -77,5 +86,10 @@ public class UniParcDocument implements Document {
     @Field("taxonomy_id")
     public void setTaxLineageIds(List<Integer> taxLineageIds) {
         this.taxLineageIds = new HashSet<>(taxLineageIds);
+    }
+
+    @Field("organism_name")
+    public void setOrganismNames(List<String> organismNames) {
+        this.organismNames = new HashSet<>(organismNames);
     }
 }

@@ -2,10 +2,13 @@ package org.uniprot.store.indexer.uniparc;
 
 import java.util.List;
 
+import org.uniprot.core.Property;
+import org.uniprot.core.uniparc.SequenceFeature;
 import org.uniprot.core.uniparc.UniParcCrossReference;
 import org.uniprot.core.uniparc.UniParcDatabase;
 import org.uniprot.core.uniparc.UniParcEntry;
 import org.uniprot.core.uniprotkb.taxonomy.Taxonomy;
+import org.uniprot.core.util.Utils;
 import org.uniprot.core.xml.jaxb.uniparc.Entry;
 import org.uniprot.core.xml.uniparc.UniParcEntryConverter;
 import org.uniprot.cv.taxonomy.TaxonomicNode;
@@ -34,9 +37,13 @@ public class UniParcDocumentConverter implements DocumentConverter<Entry, UniPar
         UniParcDocumentBuilder builder = UniParcDocument.builder();
         builder.upi(item.getAccession())
                 .seqLength(item.getSequence().getLength())
-                .sequenceChecksum(item.getSequence().getChecksum());
+                .sequenceChecksum(item.getSequence().getChecksum())
+                .sequenceMd5(uniparcEntry.getSequence().getMd5());
         uniparcEntry.getUniParcCrossReferences().forEach(val -> processDbReference(val, builder));
-        uniparcEntry.getTaxonomies().stream().forEach(taxon -> processTaxonomy(taxon, builder));
+        uniparcEntry.getTaxonomies().forEach(taxon -> processTaxonomy(taxon, builder));
+        uniparcEntry
+                .getSequenceFeatures()
+                .forEach(sequenceFeature -> processSequenceFeature(sequenceFeature, builder));
         return builder.build();
     }
 
@@ -60,31 +67,42 @@ public class UniParcDocumentConverter implements DocumentConverter<Entry, UniPar
         }
         xref.getProperties().stream()
                 .filter(val -> val.getKey().equals(UniParcCrossReference.PROPERTY_PROTEOME_ID))
-                .map(val -> val.getValue())
-                .forEach(val -> builder.upid(val));
+                .map(Property::getValue)
+                .forEach(builder::upid);
 
         xref.getProperties().stream()
                 .filter(val -> val.getKey().equals(UniParcCrossReference.PROPERTY_PROTEIN_NAME))
-                .map(val -> val.getValue())
-                .forEach(val -> builder.proteinName(val));
+                .map(Property::getValue)
+                .forEach(builder::proteinName);
 
         xref.getProperties().stream()
                 .filter(val -> val.getKey().equals(UniParcCrossReference.PROPERTY_GENE_NAME))
-                .map(val -> val.getValue())
-                .forEach(val -> builder.geneName(val));
+                .map(Property::getValue)
+                .forEach(builder::geneName);
+    }
+
+    private void processSequenceFeature(
+            SequenceFeature sequenceFeature, UniParcDocument.UniParcDocumentBuilder builder) {
+        if (Utils.notNull(sequenceFeature.getSignatureDbId())) {
+            builder.featureId(sequenceFeature.getSignatureDbId());
+        }
+        if (Utils.notNull(sequenceFeature.getInterProDomain())) {
+            builder.featureId(sequenceFeature.getInterProDomain().getId());
+        }
     }
 
     private void processTaxonomy(Taxonomy taxon, UniParcDocumentBuilder builder) {
 
         builder.taxLineageId((int) taxon.getTaxonId());
         builder.organismTaxon(taxon.getScientificName());
+        builder.organismName(taxon.getScientificName());
         List<TaxonomicNode> nodes =
                 TaxonomyRepoUtil.getTaxonomyLineage(taxonomyRepo, (int) taxon.getTaxonId());
         nodes.forEach(
                 node -> {
                     builder.taxLineageId(node.id());
                     List<String> names = TaxonomyRepoUtil.extractTaxonFromNode(node);
-                    names.forEach(val -> builder.organismTaxon(val));
+                    names.forEach(builder::organismTaxon);
                 });
     }
 }

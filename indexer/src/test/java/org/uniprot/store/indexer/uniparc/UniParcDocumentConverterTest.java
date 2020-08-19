@@ -67,5 +67,17 @@ class UniParcDocumentConverterTest {
         MatcherAssert.assertThat(
                 uniParcDocument.getUniprotAccessions(),
                 CoreMatchers.hasItems("A0A038DI27", "A0A038DND5"));
+
+        Assertions.assertEquals(
+                "9A48E062FF6285782553081B4EDEF768", uniParcDocument.getSequenceMd5());
+        Assertions.assertEquals("79E8A4FC5967031C", uniParcDocument.getSequenceChecksum());
+        Assertions.assertEquals(263, uniParcDocument.getSeqLength());
+
+        Assertions.assertNotNull(uniParcDocument.getFeatureIds());
+        Assertions.assertEquals(4, uniParcDocument.getFeatureIds().size());
+        Assertions.assertTrue(uniParcDocument.getFeatureIds().contains("G3DSA:3.10.100.10"));
+        Assertions.assertTrue(uniParcDocument.getFeatureIds().contains("IPR016186"));
+        Assertions.assertTrue(uniParcDocument.getFeatureIds().contains("PF05966"));
+        Assertions.assertTrue(uniParcDocument.getFeatureIds().contains("IPR009238"));
     }
 }

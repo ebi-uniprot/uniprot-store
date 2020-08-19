@@ -39,7 +39,7 @@ import org.uniprot.store.search.document.uniparc.UniParcDocument;
             UniParcIndexStep.class,
             ListenerConfig.class
         })
-public class UniParcIndexIT {
+class UniParcIndexIT {
     @Autowired private JobLauncherTestUtils jobLauncher;
     @Autowired private UniProtSolrClient solrClient;
 

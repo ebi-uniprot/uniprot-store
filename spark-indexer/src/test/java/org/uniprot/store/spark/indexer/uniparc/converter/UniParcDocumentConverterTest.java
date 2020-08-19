@@ -11,6 +11,7 @@ import org.uniprot.core.uniparc.SequenceFeature;
 import org.uniprot.core.uniparc.UniParcCrossReference;
 import org.uniprot.core.uniparc.UniParcDatabase;
 import org.uniprot.core.uniparc.UniParcEntry;
+import org.uniprot.core.uniparc.impl.InterProGroupBuilder;
 import org.uniprot.core.uniparc.impl.SequenceFeatureBuilder;
 import org.uniprot.core.uniparc.impl.UniParcCrossReferenceBuilder;
 import org.uniprot.core.uniparc.impl.UniParcEntryBuilder;
@@ -111,22 +112,23 @@ class UniParcDocumentConverterTest {
         assertNotNull(result.getOrganismTaxons());
         assertTrue(result.getOrganismTaxons().isEmpty());
 
+        assertNotNull(result.getOrganismNames());
+        assertTrue(result.getOrganismNames().isEmpty());
+
         assertNotNull(result.getTaxLineageIds());
         assertEquals(1, result.getTaxLineageIds().size());
         assertTrue(result.getTaxLineageIds().contains(10));
 
         assertEquals("62C549AB5E41E99D", result.getSequenceChecksum());
+        assertEquals("4F6304DA8CC16779B3B5CCDDBC663292", result.getSequenceMd5());
+
+        assertEquals(2, result.getFeatureIds().size());
+        assertTrue(result.getFeatureIds().contains("signatureDbIdValue"));
+        assertTrue(result.getFeatureIds().contains("interProDbId"));
+
         assertEquals(22, result.getSeqLength());
 
-        assertTrue(result.getContent().contains(result.getUpi()));
-        assertTrue(result.getContent().containsAll(result.getDatabases()));
-        assertTrue(result.getContent().containsAll(result.getDbIds()));
-        assertTrue(result.getContent().containsAll(result.getActives()));
-        assertTrue(result.getContent().containsAll(result.getGeneNames()));
-        assertTrue(result.getContent().containsAll(result.getProteinNames()));
-        assertTrue(result.getContent().containsAll(result.getUpids()));
-        assertTrue(result.getContent().containsAll(result.getUniprotAccessions()));
-        assertTrue(result.getContent().containsAll(result.getUniprotIsoforms()));
+        assertTrue(result.getContent().isEmpty());
     }
 
     private UniParcEntry getUniParcEntry(UniParcDatabase type) {
@@ -143,7 +145,10 @@ class UniParcDocumentConverterTest {
     }
 
     private SequenceFeature getSequenceFeatures() {
-        return new SequenceFeatureBuilder().signatureDbId("signatureDbIdValue").build();
+        return new SequenceFeatureBuilder()
+                .interproGroup(new InterProGroupBuilder().id("interProDbId").build())
+                .signatureDbId("signatureDbIdValue")
+                .build();
     }
 
     private UniParcCrossReference getDatabaseCrossReferences(UniParcDatabase type) {

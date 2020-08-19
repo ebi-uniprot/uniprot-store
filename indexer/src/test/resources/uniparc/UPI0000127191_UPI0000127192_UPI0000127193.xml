@@ -60,6 +60,14 @@
                      last="2014-10-29">
             <property type="NCBI_taxonomy_id" value="1387339"/>
         </dbReference>
+        <signatureSequenceMatch database="Gene3D" id="G3DSA:3.10.100.10">
+            <ipr id="IPR016186" name="C-type lectin-like/link domain superfamily"/>
+            <lcn start="89" end="185"/>
+        </signatureSequenceMatch>
+        <signatureSequenceMatch database="Pfam" id="PF05966">
+            <ipr id="IPR009238" name="Chordopoxvirus A33R"/>
+            <lcn start="6" end="184"/>
+        </signatureSequenceMatch>
         <sequence length="263" checksum="79E8A4FC5967031C">
             MNEGDVLVVGGTSDARALCRQLDAANVAYTLSVATPAGKALAGDIKGQVRCGRLEYGQMV
             AWLKENRTRWVIDASHPYAEMVSHNLLRACETAGVLLSRYQRPEQLSNLTHPLLYTARSI
