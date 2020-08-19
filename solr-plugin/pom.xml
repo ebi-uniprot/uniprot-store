@@ -9,7 +9,8 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>solr-plugins</artifactId>
+    <artifactId>solr-plugin</artifactId>
+    <description>Module defining all Solr plugins required by the UniProt website</description>
 
     <dependencies>
         <dependency>
