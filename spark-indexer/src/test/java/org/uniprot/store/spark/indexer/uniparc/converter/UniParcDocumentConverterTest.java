@@ -41,8 +41,8 @@ class UniParcDocumentConverterTest {
 
         assertNotNull(result.getDatabases());
         assertEquals(2, result.getDatabases().size());
-        assertTrue(result.getDatabases().contains("UniProtKB/Swiss-Prot"));
-        assertTrue(result.getDatabases().contains("EMBL"));
+        assertTrue(result.getDatabases().contains("Uniprot"));
+        assertTrue(result.getDatabases().contains("embl-cds"));
 
         assertNotNull(result.getDbIds());
         assertEquals(3, result.getDbIds().size());
@@ -52,7 +52,7 @@ class UniParcDocumentConverterTest {
 
         assertNotNull(result.getActives());
         assertEquals(1, result.getActives().size());
-        assertTrue(result.getActives().contains("UniProtKB/Swiss-Prot"));
+        assertTrue(result.getActives().contains("Uniprot"));
 
         validateDocumentCommonValues(result);
     }
@@ -76,12 +76,12 @@ class UniParcDocumentConverterTest {
 
         assertNotNull(result.getDatabases());
         assertEquals(2, result.getDatabases().size());
-        assertTrue(result.getDatabases().contains("UniProtKB/Swiss-Prot protein isoforms"));
-        assertTrue(result.getDatabases().contains("EMBL"));
+        assertTrue(result.getDatabases().contains("isoforms"));
+        assertTrue(result.getDatabases().contains("embl-cds"));
 
         assertNotNull(result.getActives());
         assertEquals(1, result.getActives().size());
-        assertTrue(result.getActives().contains("UniProtKB/Swiss-Prot protein isoforms"));
+        assertTrue(result.getActives().contains("isoforms"));
 
         assertNotNull(result.getDbIds());
         assertEquals(3, result.getDbIds().size());
