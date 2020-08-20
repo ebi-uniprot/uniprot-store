@@ -66,7 +66,7 @@ public class UniParcDocument implements Document {
     @Singular private Set<Integer> taxLineageIds = new HashSet<>();
 
     @Singular
-    @Field("accession")
+    @Field("uniprotkb")
     private List<String> uniprotAccessions;
 
     @Singular

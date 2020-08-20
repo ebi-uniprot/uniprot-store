@@ -28,7 +28,7 @@
 		stored="false" required="false" multiValued="true" />
 	<field name="upid" type="basic_ci" indexed="true" stored="false"
 		required="false" multiValued="true" />
-	<field name="accession" type="basic_ci" indexed="true"
+	<field name="uniprotkb" type="basic_ci" indexed="true"
 		stored="false" required="false" multiValued="true" />
 	<field name="isoform" type="basic_ci" indexed="true"
 		stored="false" required="false" multiValued="true" />
