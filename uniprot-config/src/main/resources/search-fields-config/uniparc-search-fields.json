@@ -169,8 +169,8 @@
   },
   {
     "seqNumber": 12,
-    "id": "featureid",
-    "fieldName": "featureid",
+    "id": "feature_id",
+    "fieldName": "feature_id",
     "label": "feature Id",
     "itemType": "SINGLE",
     "fieldType": "GENERAL",
