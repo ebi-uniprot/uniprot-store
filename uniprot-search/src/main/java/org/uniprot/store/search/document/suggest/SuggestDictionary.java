@@ -15,5 +15,6 @@ public enum SuggestDictionary {
     CATALYTIC_ACTIVITY,
     ORGANISM,
     HOST,
-    CHEBI;
+    CHEBI,
+    PROTEOME_UPID
 }
