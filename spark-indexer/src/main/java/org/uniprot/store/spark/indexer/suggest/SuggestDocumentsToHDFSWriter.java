@@ -16,6 +16,7 @@ import org.uniprot.core.cv.ec.ECEntry;
 import org.uniprot.core.cv.go.GeneOntologyEntry;
 import org.uniprot.core.cv.keyword.KeywordEntry;
 import org.uniprot.core.cv.subcell.SubcellularLocationEntry;
+import org.uniprot.core.proteome.ProteomeEntry;
 import org.uniprot.core.taxonomy.TaxonomyLineage;
 import org.uniprot.store.indexer.uniprotkb.config.SuggestionConfig;
 import org.uniprot.store.search.SolrCollection;
@@ -28,6 +29,7 @@ import org.uniprot.store.spark.indexer.common.writer.DocumentsToHDFSWriter;
 import org.uniprot.store.spark.indexer.ec.ECRDDReader;
 import org.uniprot.store.spark.indexer.go.relations.GORelationRDDReader;
 import org.uniprot.store.spark.indexer.keyword.KeywordRDDReader;
+import org.uniprot.store.spark.indexer.proteome.ProteomeRDDReader;
 import org.uniprot.store.spark.indexer.subcell.SubcellularLocationRDDReader;
 import org.uniprot.store.spark.indexer.suggest.mapper.TaxonomyHighImportanceReduce;
 import org.uniprot.store.spark.indexer.suggest.mapper.document.*;
@@ -69,6 +71,7 @@ public class SuggestDocumentsToHDFSWriter implements DocumentsToHDFSWriter {
                         .union(getChebi(flatFileRDD))
                         .union(getGo(flatFileRDD))
                         .union(getOrganism(flatFileRDD))
+                        .union(getProteome())
                         .repartition(suggestPartition);
         String hdfsPath =
                 getCollectionOutputReleaseDirPath(
@@ -242,6 +245,16 @@ public class SuggestDocumentsToHDFSWriter implements DocumentsToHDFSWriter {
                         .values();
 
         return organismSuggester.union(taxonomySuggester).union(organismHostSuggester);
+    }
+
+    /** @return JavaRDD of SuggestDocument with Keyword information mapped from keywlist.txt file */
+    JavaRDD<SuggestDocument> getProteome() {
+
+        // JavaPairRDD<keywordId,KeywordEntry> keyword --> extracted from keywlist.txt
+        ProteomeRDDReader proteomeRDDReader = new ProteomeRDDReader(jobParameter, false);
+        JavaPairRDD<String, ProteomeEntry> proteomeEntryJavaPairRDD = proteomeRDDReader.load();
+
+        return proteomeEntryJavaPairRDD.mapValues(new ProteomeToSuggestDocument()).values().distinct();
     }
 
     /**

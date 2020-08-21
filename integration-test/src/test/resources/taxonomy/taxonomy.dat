@@ -61,6 +61,6 @@
 11034	1	1	0	species	1	0	Sindbis virus	\N	Sindbis virus	SINV	\N	SINDV	1	2
 9536	1	1	0	species	1	2	Cercopithecus hamlyni	owl-faced monkey	Cercopithecus hamlyni	Owl-faced monkey	Hamlyn's monkey	CERHA	1	2
 9481	1	0	0	genus	1	2	Callithrix	\N	Callithrix	\N	\N	\N	1	2
-9615	1	1	0	subspecies	1	2	Canis lupus familiaris	dog	Canis lupus familiaris	Dog	Canis familiaris	CANLF	1	2
+    9615	1	1	0	subspecies	1	2	Canis lupus familiaris	dog	Canis lupus familiaris	Dog	Canis familiaris	CANLF	1	2
 9519	1	1	0	species	1	2	Lagothrix lagotricha	brown woolly monkey	Lagothrix lagotricha	Brown woolly monkey	Humboldt's woolly monkey	LAGLA	1	2
 9606	1	1	0	species	1	2	Homo sapiens	human	Homo sapiens	Human	\N	HUMAN	1	2
