@@ -1,6 +1,5 @@
 package org.uniprot.store.spark.indexer.proteome.converter;
 
-import org.apache.spark.api.java.function.MapFunction;
 import org.apache.spark.api.java.function.PairFunction;
 import org.uniprot.core.proteome.ProteomeEntry;
 

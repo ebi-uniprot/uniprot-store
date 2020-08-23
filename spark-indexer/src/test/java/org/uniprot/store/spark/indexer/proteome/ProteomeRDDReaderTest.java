@@ -1,23 +1,18 @@
 package org.uniprot.store.spark.indexer.proteome;
 
-import org.apache.spark.api.java.JavaPairRDD;
-import org.apache.spark.api.java.JavaRDD;
-import org.apache.spark.api.java.JavaSparkContext;
-import org.junit.jupiter.api.Test;
-import org.uniprot.core.proteome.ProteomeEntry;
-import org.uniprot.core.uniref.UniRefEntryLight;
-import org.uniprot.core.uniref.UniRefType;
-import org.uniprot.store.spark.indexer.common.JobParameter;
-import org.uniprot.store.spark.indexer.common.util.SparkUtils;
-import org.uniprot.store.spark.indexer.uniref.UniRefLightRDDTupleReader;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.util.ResourceBundle;
 
-import scala.Tuple2;
+import org.apache.spark.api.java.JavaPairRDD;
+import org.apache.spark.api.java.JavaSparkContext;
+import org.junit.jupiter.api.Test;
+import org.uniprot.core.proteome.ProteomeEntry;
+import org.uniprot.store.spark.indexer.common.JobParameter;
+import org.uniprot.store.spark.indexer.common.util.SparkUtils;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import scala.Tuple2;
 
 /**
  * @author sahmad
@@ -34,8 +29,7 @@ class ProteomeRDDReaderTest {
                             .releaseName("2020_02")
                             .sparkContext(sparkContext)
                             .build();
-            ProteomeRDDReader reader =
-                    new ProteomeRDDReader(parameter, false);
+            ProteomeRDDReader reader = new ProteomeRDDReader(parameter, false);
             JavaPairRDD<String, ProteomeEntry> javaPairRDD = reader.load();
             assertNotNull(javaPairRDD);
             long count = javaPairRDD.count();
