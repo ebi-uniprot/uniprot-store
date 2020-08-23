@@ -14,7 +14,7 @@ public class ProteomeToSuggestDocument implements Function<ProteomeEntry, Sugges
     public SuggestDocument call(ProteomeEntry entry) throws Exception {
         return SuggestDocument.builder()
                 .id(entry.getId().getValue())
-                .value(entry.getId().getValue())//TODO is value correct
+                .value(entry.getId().getValue()) // TODO is value correct
                 .dictionary(SuggestDictionary.PROTEOME_UPID.name())
                 .build();
     }

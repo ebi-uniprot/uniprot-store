@@ -254,7 +254,10 @@ public class SuggestDocumentsToHDFSWriter implements DocumentsToHDFSWriter {
         ProteomeRDDReader proteomeRDDReader = new ProteomeRDDReader(jobParameter, false);
         JavaPairRDD<String, ProteomeEntry> proteomeEntryJavaPairRDD = proteomeRDDReader.load();
 
-        return proteomeEntryJavaPairRDD.mapValues(new ProteomeToSuggestDocument()).values().distinct();
+        return proteomeEntryJavaPairRDD
+                .mapValues(new ProteomeToSuggestDocument())
+                .values()
+                .distinct();
     }
 
     /**

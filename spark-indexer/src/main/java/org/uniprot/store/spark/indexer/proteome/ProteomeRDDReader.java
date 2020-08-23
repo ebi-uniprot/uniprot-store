@@ -1,5 +1,9 @@
 package org.uniprot.store.spark.indexer.proteome;
 
+import static org.uniprot.store.spark.indexer.common.util.SparkUtils.getInputReleaseDirPath;
+
+import java.util.ResourceBundle;
+
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.sql.Dataset;
@@ -12,10 +16,6 @@ import org.uniprot.store.spark.indexer.proteome.converter.ProteomEntryToPair;
 import org.uniprot.store.spark.indexer.proteome.converter.ProteomeXMLSchema;
 import org.uniprot.store.spark.indexer.proteome.converter.RowProteomeEntryConverter;
 
-import java.util.ResourceBundle;
-
-import static org.uniprot.store.spark.indexer.common.util.SparkUtils.getInputReleaseDirPath;
-
 /**
  * @author sahmad
  * @created 21/08/2020
@@ -25,7 +25,7 @@ public class ProteomeRDDReader implements PairRDDReader<String, ProteomeEntry> {
     private final JobParameter jobParameter;
     private final boolean shouldRepartition;
 
-    public ProteomeRDDReader(JobParameter jobParameter, boolean shouldRepartition){
+    public ProteomeRDDReader(JobParameter jobParameter, boolean shouldRepartition) {
         this.jobParameter = jobParameter;
         this.shouldRepartition = shouldRepartition;
     }
@@ -40,7 +40,9 @@ public class ProteomeRDDReader implements PairRDDReader<String, ProteomeEntry> {
             proteomeEntryDataset = proteomeEntryDataset.repartition(repartition);
         }
 
-        return proteomeEntryDataset.map(new RowProteomeEntryConverter()).mapToPair(new ProteomEntryToPair());
+        return proteomeEntryDataset
+                .map(new RowProteomeEntryConverter())
+                .mapToPair(new ProteomEntryToPair());
     }
 
     private Dataset<Row> loadRawXml() {
