@@ -19,6 +19,5 @@ public class FieldRegexConstants {
             "(UniRef100|UniRef90|UniRef50)_\\w+(-[0-9]+)?";
     public static final String SEQUENCE_REGEX = "^[A-Z]+$|^NULL$";
 
-    private FieldRegexConstants(){
-    }
+    private FieldRegexConstants() {}
 }
