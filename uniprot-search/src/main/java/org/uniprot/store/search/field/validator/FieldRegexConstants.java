@@ -18,6 +18,7 @@ public class FieldRegexConstants {
     public static final String UNIREF_CLUSTER_ID_REGEX =
             "(UniRef100|UniRef90|UniRef50)_\\w+(-[0-9]+)?";
     public static final String SEQUENCE_REGEX = "^[A-Z]+$|^NULL$";
+    public static final String COMMA_SEPARATED_REGEX = "\\s*,\\s*";
 
     private FieldRegexConstants() {}
 }
