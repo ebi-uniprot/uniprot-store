@@ -99,7 +99,7 @@ class DatabaseSearchIT {
 
     @Test
     void testActiveTrembl() {
-        String query = active(UniParcDatabase.TREMBL.getName());
+        String query = active("Uniprot");
 
         QueryResponse queryResponse = searchEngine.getQueryResponse(query);
         List<String> retrievedAccessions = searchEngine.getIdentifiers(queryResponse);
@@ -110,7 +110,7 @@ class DatabaseSearchIT {
 
     @Test
     void testDBUniProt() {
-        String query = database(UniParcDatabase.TREMBL.getName());
+        String query = database("Uniprot");
 
         QueryResponse queryResponse = searchEngine.getQueryResponse(query);
         List<String> retrievedAccessions = searchEngine.getIdentifiers(queryResponse);
@@ -152,7 +152,7 @@ class DatabaseSearchIT {
         return QueryBuilder.query(
                 searchEngine
                         .getSearchFieldConfig()
-                        .getSearchFieldItemByName("accession")
+                        .getSearchFieldItemByName("uniprotkb")
                         .getFieldName(),
                 acc);
     }
