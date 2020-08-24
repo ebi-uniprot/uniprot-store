@@ -247,10 +247,8 @@ public class SuggestDocumentsToHDFSWriter implements DocumentsToHDFSWriter {
         return organismSuggester.union(taxonomySuggester).union(organismHostSuggester);
     }
 
-    /** @return JavaRDD of SuggestDocument with Keyword information mapped from keywlist.txt file */
+    /** @return JavaRDD of SuggestDocument built from Proteome input file */
     JavaRDD<SuggestDocument> getProteome() {
-
-        // JavaPairRDD<keywordId,KeywordEntry> keyword --> extracted from keywlist.txt
         ProteomeRDDReader proteomeRDDReader = new ProteomeRDDReader(jobParameter, false);
         JavaPairRDD<String, ProteomeEntry> proteomeEntryJavaPairRDD = proteomeRDDReader.load();
 

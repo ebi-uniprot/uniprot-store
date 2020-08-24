@@ -37,10 +37,12 @@ public class ProteomeIndexJob {
     @Bean
     public Job proteomeIndexingJob(
             @Qualifier("ProteomeIndexStep") Step proteomeIndexStep,
+            @Qualifier("suggestionProteomeIndexingStep") Step proteomeSuggestionStep,
             WriteRetrierLogJobListener writeRetrierLogJobListener) {
         return this.jobBuilderFactory
                 .get(PROTEOME_INDEX_JOB)
                 .start(proteomeIndexStep)
+                .next(proteomeSuggestionStep)
                 .listener(writeRetrierLogJobListener)
                 .listener(
                         new JobExecutionListener() {

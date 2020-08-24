@@ -148,6 +148,27 @@ class SuggestDocumentsToHDFSWriterTest {
         assertEquals("Coding sequence diversity", resultMap.get("KW-9997").get(0).value);
     }
 
+    @Test
+    void getProteome() {
+        SuggestDocumentsToHDFSWriter writer = new SuggestDocumentsToHDFSWriter(parameter);
+        JavaRDD<SuggestDocument> suggestRdd = writer.getProteome();
+        assertNotNull(suggestRdd);
+        int count = (int) suggestRdd.count();
+        assertEquals(6, count);
+
+        Map<String, List<SuggestDocument>> resultMap =
+                getResultMap(suggestRdd.take(count), doc -> doc.id);
+
+        assertThat(resultMap.containsKey("UP000008687"), is(true));
+        assertThat(resultMap.get("UP000008687").size(), is(1));
+        assertNotNull(resultMap.get("UP000008687").get(0));
+        assertEquals(PROTEOME_UPID.name(), resultMap.get("UP000008687").get(0).dictionary);
+        assertEquals("UP000008687", resultMap.get("UP000008687").get(0).id);
+        assertEquals("Potato virus X (strain X3) (PVX)", resultMap.get("UP000008687").get(0).value);
+        assertEquals(1, resultMap.get("UP000008687").get(0).altValues.size());
+        assertEquals("UP000008687", resultMap.get("UP000008687").get(0).altValues.get(0));
+    }
+
     private <T> Map<String, List<T>> getResultMap(
             List<T> result, Function<T, String> mappingFunction) {
         Map<String, List<T>> map = result.stream().collect(Collectors.groupingBy(mappingFunction));

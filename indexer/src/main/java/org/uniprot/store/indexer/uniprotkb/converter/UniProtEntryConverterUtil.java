@@ -44,7 +44,7 @@ public class UniProtEntryConverterUtil {
         return result.stream();
     }
 
-    static String createSuggestionMapKey(SuggestDictionary dict, String id) {
+    public static String createSuggestionMapKey(SuggestDictionary dict, String id) {
         return dict.name() + ":" + id;
     }
 

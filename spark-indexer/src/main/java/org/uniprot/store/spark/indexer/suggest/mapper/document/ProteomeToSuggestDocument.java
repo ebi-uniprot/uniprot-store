@@ -12,10 +12,13 @@ import org.uniprot.store.search.document.suggest.SuggestDocument;
 public class ProteomeToSuggestDocument implements Function<ProteomeEntry, SuggestDocument> {
     @Override
     public SuggestDocument call(ProteomeEntry entry) throws Exception {
-        return SuggestDocument.builder()
-                .id(entry.getId().getValue())
-                .value(entry.getId().getValue()) // TODO is value correct
-                .dictionary(SuggestDictionary.PROTEOME_UPID.name())
-                .build();
+        SuggestDocument.SuggestDocumentBuilder builder =
+                SuggestDocument.builder()
+                        .id(entry.getId().getValue())
+                        .value(entry.getDescription()) // it is name actually since there is no
+                        // field for name in ProteomeEntry
+                        .altValue(entry.getId().getValue())
+                        .dictionary(SuggestDictionary.PROTEOME_UPID.name());
+        return builder.build();
     }
 }
