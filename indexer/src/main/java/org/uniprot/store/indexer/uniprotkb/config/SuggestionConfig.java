@@ -71,7 +71,7 @@ public class SuggestionConfig {
         return defaultSuggestions;
     }
 
-    public List<SuggestDocument> loadDefaultTaxonSynonymSuggestions(
+    public static List<SuggestDocument> loadDefaultTaxonSynonymSuggestions(
             SuggestDictionary dict, String taxonSynonymFile) {
         List<SuggestDocument> taxonSuggestions = new ArrayList<>();
         InputStream inputStream =
@@ -88,7 +88,7 @@ public class SuggestionConfig {
         return taxonSuggestions;
     }
 
-    private SuggestDocument createDefaultTaxonomySuggestion(
+    private static SuggestDocument createDefaultTaxonomySuggestion(
             String csvLine, SuggestDictionary dict) {
         String[] lineParts = csvLine.split("\t");
         if (!csvLine.startsWith(COMMENT_LINE_PREFIX) && lineParts.length == 3) {

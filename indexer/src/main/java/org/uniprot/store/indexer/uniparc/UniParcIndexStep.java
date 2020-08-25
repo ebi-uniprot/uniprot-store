@@ -1,6 +1,12 @@
 package org.uniprot.store.indexer.uniparc;
 
+import static org.uniprot.store.indexer.uniprotkb.config.SuggestionConfig.DEFAULT_TAXON_SYNONYMS_FILE;
+import static org.uniprot.store.indexer.uniprotkb.config.SuggestionConfig.loadDefaultTaxonSynonymSuggestions;
+
 import java.io.File;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.springframework.batch.core.ChunkListener;
 import org.springframework.batch.core.Step;
@@ -19,9 +25,10 @@ import org.uniprot.cv.taxonomy.TaxonomyRepo;
 import org.uniprot.cv.taxonomy.impl.TaxonomyMapRepo;
 import org.uniprot.store.indexer.common.config.UniProtSolrClient;
 import org.uniprot.store.indexer.common.writer.SolrDocumentWriter;
-import org.uniprot.store.job.common.converter.DocumentConverter;
 import org.uniprot.store.job.common.listener.LogRateListener;
 import org.uniprot.store.search.SolrCollection;
+import org.uniprot.store.search.document.suggest.SuggestDictionary;
+import org.uniprot.store.search.document.suggest.SuggestDocument;
 import org.uniprot.store.search.document.uniparc.UniParcDocument;
 
 /**
@@ -76,8 +83,23 @@ public class UniParcIndexStep {
         return new UniParcEntryProcessor(uniparcEntryConverter());
     }
 
-    private DocumentConverter<Entry, UniParcDocument> uniparcEntryConverter() {
-        return new UniParcDocumentConverter(createTaxonomyRepo());
+    private UniParcDocumentConverter uniparcEntryConverter() {
+        return new UniParcDocumentConverter(createTaxonomyRepo(), commonTaxonomySuggestions());
+    }
+
+    private Map<String, SuggestDocument> commonTaxonomySuggestions() {
+        Map<String, SuggestDocument> suggestionMap = new ConcurrentHashMap<>();
+
+        List<SuggestDocument> defaultDocs =
+                loadDefaultTaxonSynonymSuggestions(
+                        SuggestDictionary.UNIPARC_TAXONOMY, DEFAULT_TAXON_SYNONYMS_FILE);
+
+        defaultDocs.forEach(
+                suggestion ->
+                        suggestionMap.put(
+                                SuggestDictionary.UNIPARC_TAXONOMY.name() + ":" + suggestion.id,
+                                suggestion));
+        return suggestionMap;
     }
 
     @Bean

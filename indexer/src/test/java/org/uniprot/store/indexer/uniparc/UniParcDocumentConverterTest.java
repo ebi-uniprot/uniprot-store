@@ -3,6 +3,7 @@ package org.uniprot.store.indexer.uniparc;
 import java.io.File;
 import java.net.URL;
 import java.nio.file.Paths;
+import java.util.HashMap;
 import java.util.Optional;
 
 import org.hamcrest.CoreMatchers;
@@ -38,7 +39,8 @@ class UniParcDocumentConverterTest {
         Mockito.when(this.taxonomyRepo.retrieveNodeUsingTaxID(Mockito.anyInt()))
                 .thenReturn(Optional.empty());
 
-        UniParcDocumentConverter converter = new UniParcDocumentConverter(this.taxonomyRepo);
+        UniParcDocumentConverter converter =
+                new UniParcDocumentConverter(this.taxonomyRepo, new HashMap<>());
         UniParcXmlEntryReader reader = new UniParcXmlEntryReader(absolutePath);
         Entry entry = reader.read();
         Assertions.assertNotNull(entry);
