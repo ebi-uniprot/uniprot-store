@@ -1,5 +1,8 @@
 package org.uniprot.store.indexer.uniparc;
 
+import static org.uniprot.store.indexer.uniprotkb.converter.UniProtEntryConverterUtil.createSuggestionMapKey;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -14,9 +17,12 @@ import org.uniprot.core.xml.jaxb.uniparc.Entry;
 import org.uniprot.core.xml.uniparc.UniParcEntryConverter;
 import org.uniprot.cv.taxonomy.TaxonomicNode;
 import org.uniprot.cv.taxonomy.TaxonomyRepo;
+import org.uniprot.cv.taxonomy.impl.TaxonomicNodeImpl;
 import org.uniprot.store.config.uniparc.UniParcConfigUtil;
 import org.uniprot.store.indexer.util.TaxonomyRepoUtil;
 import org.uniprot.store.job.common.converter.DocumentConverter;
+import org.uniprot.store.search.document.suggest.SuggestDictionary;
+import org.uniprot.store.search.document.suggest.SuggestDocument;
 import org.uniprot.store.search.document.uniparc.UniParcDocument;
 import org.uniprot.store.search.document.uniparc.UniParcDocument.UniParcDocumentBuilder;
 
@@ -27,10 +33,13 @@ import org.uniprot.store.search.document.uniparc.UniParcDocument.UniParcDocument
 public class UniParcDocumentConverter implements DocumentConverter<Entry, UniParcDocument> {
     private final UniParcEntryConverter converter;
     private final TaxonomyRepo taxonomyRepo;
+    private Map<String, SuggestDocument> suggestions;
 
-    public UniParcDocumentConverter(TaxonomyRepo taxonomyRepo) {
+    public UniParcDocumentConverter(
+            TaxonomyRepo taxonomyRepo, Map<String, SuggestDocument> suggestions) {
         this.converter = new UniParcEntryConverter(taxonomyRepo);
         this.taxonomyRepo = taxonomyRepo;
+        this.suggestions = suggestions;
     }
 
     @Override
@@ -46,7 +55,14 @@ public class UniParcDocumentConverter implements DocumentConverter<Entry, UniPar
         uniparcEntry
                 .getSequenceFeatures()
                 .forEach(sequenceFeature -> processSequenceFeature(sequenceFeature, builder));
+
+        populateSuggestions(uniparcEntry.getTaxonomies());
+
         return builder.build();
+    }
+
+    public Object getSuggestions() {
+        return this.suggestions;
     }
 
     private void processDbReference(UniParcCrossReference xref, UniParcDocumentBuilder builder) {
@@ -107,5 +123,54 @@ public class UniParcDocumentConverter implements DocumentConverter<Entry, UniPar
                     List<String> names = TaxonomyRepoUtil.extractTaxonFromNode(node);
                     names.forEach(builder::organismTaxon);
                 });
+    }
+
+    private void populateSuggestions(List<Taxonomy> taxonomies) {
+        taxonomies.stream()
+                .flatMap(
+                        taxon -> {
+                            List<TaxonomicNode> nodes =
+                                    TaxonomyRepoUtil.getTaxonomyLineage(
+                                            taxonomyRepo, (int) taxon.getTaxonId());
+                            if (nodes.isEmpty()) { // if taxonomy is not in db
+                                TaxonomicNodeImpl.Builder builder =
+                                        new TaxonomicNodeImpl.Builder(
+                                                (int) taxon.getTaxonId(), null);
+                                nodes.add(builder.build());
+                            }
+                            return nodes.stream();
+                        })
+                .forEach(
+                        node -> {
+                            String key =
+                                    createSuggestionMapKey(
+                                            SuggestDictionary.UNIPARC_TAXONOMY,
+                                            String.valueOf(node.id()));
+                            this.suggestions.putIfAbsent(key, createSuggestDoc(node));
+                        });
+    }
+
+    private SuggestDocument createSuggestDoc(TaxonomicNode taxonNode) {
+        SuggestDocument.SuggestDocumentBuilder builder = SuggestDocument.builder();
+        builder.id(String.valueOf(taxonNode.id()))
+                .dictionary(SuggestDictionary.UNIPARC_TAXONOMY.name())
+                .altValues(extractAltValuesFromOrganism(taxonNode));
+
+        if (Utils.notNullNotEmpty(taxonNode.scientificName())) {
+            builder.value(taxonNode.scientificName());
+        }
+
+        return builder.build();
+    }
+
+    private static List<String> extractAltValuesFromOrganism(TaxonomicNode taxonNode) {
+        List<String> altValues = new ArrayList<>();
+        if (Utils.notNullNotEmpty(taxonNode.commonName())) {
+            altValues.add(taxonNode.commonName());
+        }
+        if (Utils.notNullNotEmpty(taxonNode.synonymName())) {
+            altValues.add(taxonNode.synonymName());
+        }
+        return altValues;
     }
 }
