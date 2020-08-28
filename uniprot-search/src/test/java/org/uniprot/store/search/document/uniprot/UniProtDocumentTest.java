@@ -56,9 +56,6 @@ class UniProtDocumentTest {
         doc.seqLength = 1;
         doc.seqAA = "1";
         doc.score = 1;
-        doc.avroBinary = "1".getBytes();
-        doc.avroBin = "1";
-        doc.avroJson = "1";
         doc.inactiveReason = "1";
         doc.isIsoform = false;
         doc.unirefCluster50 = "1";

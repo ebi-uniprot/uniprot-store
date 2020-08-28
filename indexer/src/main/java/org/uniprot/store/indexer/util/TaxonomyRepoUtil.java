@@ -1,11 +1,11 @@
 package org.uniprot.store.indexer.util;
 
+import org.uniprot.cv.taxonomy.TaxonomicNode;
+import org.uniprot.cv.taxonomy.TaxonomyRepo;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-
-import org.uniprot.cv.taxonomy.TaxonomicNode;
-import org.uniprot.cv.taxonomy.TaxonomyRepo;
 
 /**
  * @author jluo
@@ -40,6 +40,20 @@ public class TaxonomyRepoUtil {
         }
         if (node.mnemonic() != null && !node.mnemonic().isEmpty()) {
             taxonmyItems.add(node.mnemonic());
+        }
+        return taxonmyItems;
+    }
+
+    public static List<String> extractTaxonFromNodeNoMnemonic(TaxonomicNode node) {
+        List<String> taxonmyItems = new ArrayList<>();
+        if (node.scientificName() != null && !node.scientificName().isEmpty()) {
+            taxonmyItems.add(node.scientificName());
+        }
+        if (node.commonName() != null && !node.commonName().isEmpty()) {
+            taxonmyItems.add(node.commonName());
+        }
+        if (node.synonymName() != null && !node.synonymName().isEmpty()) {
+            taxonmyItems.add(node.synonymName());
         }
         return taxonmyItems;
     }

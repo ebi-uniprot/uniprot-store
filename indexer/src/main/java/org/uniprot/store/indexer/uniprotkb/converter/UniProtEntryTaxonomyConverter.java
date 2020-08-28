@@ -95,11 +95,11 @@ class UniProtEntryTaxonomyConverter {
                     }
                 });
 
-        document.content.addAll(document.organismHostNames);
-        document.content.addAll(
-                document.organismHostIds.stream()
-                        .map(String::valueOf)
-                        .collect(Collectors.toList()));
+//        document.content.addAll(document.organismHostNames);
+//        document.content.addAll(
+//                document.organismHostIds.stream()
+//                        .map(String::valueOf)
+//                        .collect(Collectors.toList()));
     }
 
     private void convertLineageTaxon(int taxId, UniProtDocument document) {
@@ -109,14 +109,17 @@ class UniProtEntryTaxonomyConverter {
                     node -> {
                         int id = node.id();
                         document.taxLineageIds.add(id);
-                        List<String> taxons = TaxonomyRepoUtil.extractTaxonFromNode(node);
-                        document.organismTaxon.addAll(taxons);
-                        addTaxonSuggestions(SuggestDictionary.TAXONOMY, id, taxons);
+                        if (!node.scientificName().equals("root")) {
+                            List<String> taxons = TaxonomyRepoUtil.extractTaxonFromNodeNoMnemonic(node);
+                            // not index mnemonic for taxonomy_name
+                            document.organismTaxon.addAll(taxons);
+                            addTaxonSuggestions(SuggestDictionary.TAXONOMY, id, taxons);
+                        }
                     });
         }
-        document.content.addAll(document.organismTaxon);
-        document.content.addAll(
-                document.taxLineageIds.stream().map(String::valueOf).collect(Collectors.toList()));
+//        document.content.addAll(document.organismTaxon);
+//        document.content.addAll(
+//                document.taxLineageIds.stream().map(String::valueOf).collect(Collectors.toList()));
     }
 
     private void addTaxonSuggestions(SuggestDictionary dicType, int id, List<String> taxons) {
