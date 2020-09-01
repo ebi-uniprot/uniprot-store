@@ -41,7 +41,7 @@ class UniParcDocumentConverterTest {
 
         assertNotNull(result.getDatabases());
         assertEquals(2, result.getDatabases().size());
-        assertTrue(result.getDatabases().contains("Uniprot"));
+        assertTrue(result.getDatabases().contains("UniProt"));
         assertTrue(result.getDatabases().contains("embl-cds"));
 
         assertNotNull(result.getDbIds());
@@ -52,7 +52,7 @@ class UniParcDocumentConverterTest {
 
         assertNotNull(result.getActives());
         assertEquals(1, result.getActives().size());
-        assertTrue(result.getActives().contains("Uniprot"));
+        assertTrue(result.getActives().contains("UniProt"));
 
         validateDocumentCommonValues(result);
     }
