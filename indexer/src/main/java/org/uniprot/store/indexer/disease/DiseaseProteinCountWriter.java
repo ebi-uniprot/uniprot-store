@@ -28,7 +28,7 @@ public class DiseaseProteinCountWriter
             JobExecution jobExecution = this.stepExecution.getJobExecution();
             ExecutionContext executionContext = jobExecution.getExecutionContext();
 
-            Map<String, DiseaseProteinCountReader.DiseaseProteinCount> diseaseIdProteinCountMap = new HashMap<>();
+            Map<String, DiseaseProteinCountReader.DiseaseProteinCount> diseaseIdProteinCountMap;
 
             if (executionContext.get(Constants.DISEASE_PROTEIN_COUNT_KEY) == null) { // create a map
 
@@ -45,12 +45,14 @@ public class DiseaseProteinCountWriter
                         (Map<String, DiseaseProteinCountReader.DiseaseProteinCount>)
                                 executionContext.get(Constants.DISEASE_PROTEIN_COUNT_KEY);
 
-                diseaseIdProteinCountMap.putAll(
-                        disProtCountList.stream()
-                                .collect(
-                                        Collectors.toMap(
-                                                disProtCount -> disProtCount.getDiseaseId(),
-                                                disProtCount -> disProtCount)));
+                if (diseaseIdProteinCountMap != null) {
+                    diseaseIdProteinCountMap.putAll(
+                            disProtCountList.stream()
+                                    .collect(
+                                            Collectors.toMap(
+                                                    disProtCount -> disProtCount.getDiseaseId(),
+                                                    disProtCount -> disProtCount)));
+                }
             }
 
             executionContext.put(Constants.DISEASE_PROTEIN_COUNT_KEY, diseaseIdProteinCountMap);
