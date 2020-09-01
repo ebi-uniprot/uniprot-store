@@ -1,5 +1,6 @@
 package org.uniprot.store.indexer.disease;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -27,7 +28,7 @@ public class DiseaseProteinCountWriter
             JobExecution jobExecution = this.stepExecution.getJobExecution();
             ExecutionContext executionContext = jobExecution.getExecutionContext();
 
-            Map<String, DiseaseProteinCountReader.DiseaseProteinCount> diseaseIdProteinCountMap;
+            Map<String, DiseaseProteinCountReader.DiseaseProteinCount> diseaseIdProteinCountMap = new HashMap<>();
 
             if (executionContext.get(Constants.DISEASE_PROTEIN_COUNT_KEY) == null) { // create a map
 
