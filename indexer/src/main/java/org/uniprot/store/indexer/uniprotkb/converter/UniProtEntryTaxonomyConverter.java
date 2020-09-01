@@ -95,11 +95,11 @@ class UniProtEntryTaxonomyConverter {
                     }
                 });
 
-//        document.content.addAll(document.organismHostNames);
-//        document.content.addAll(
-//                document.organismHostIds.stream()
-//                        .map(String::valueOf)
-//                        .collect(Collectors.toList()));
+////        document.content.addAll(document.organismHostNames);
+////        document.content.addAll(
+////                document.organismHostIds.stream()
+////                        .map(String::valueOf)
+////                        .collect(Collectors.toList()));
     }
 
     private void convertLineageTaxon(int taxId, UniProtDocument document) {

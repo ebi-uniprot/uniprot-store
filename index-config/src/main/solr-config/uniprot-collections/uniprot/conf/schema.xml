@@ -103,7 +103,8 @@
            stored="false" required="false" multiValued="true"/>
 
     <!-- Gene -->
-    <field name="gene" type="full_ci" indexed="true" stored="false"
+    <!--  do not index gene, but instead just copy it to protgene_default  -->
+    <field name="gene" type="full_ci" indexed="false" stored="false"
            required="false" multiValued="true"/>
     <field name="gene_exact" type="basic_ci" indexed="true"
            stored="false" required="false" multiValued="true"/>
@@ -111,7 +112,6 @@
            stored="false" required="false" multiValued="false" docValues="true"/>
 
     <!-- Default field -->
-
     <!--  content will contain only dynamic fields, comments + features  -->
     <field name="content" type="full_ci" indexed="true"
            stored="false" required="false" multiValued="true" omitNorms="false"/>
