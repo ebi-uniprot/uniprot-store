@@ -10,14 +10,21 @@ import org.uniprot.core.uniparc.UniParcDatabase;
  * @date: 19-Aug-2020
  */
 public class UniParcConfigUtil {
-    public static Map.Entry<String, String> uniparcDatabaseToSearchField(UniParcDatabase database) {
+
+    /**
+     * Map the dbname to match with UniParc names
+     *
+     * @param database
+     * @return
+     */
+    public static Map.Entry<String, String> getDBNameValue(UniParcDatabase database) {
         String name = database.getDisplayName();
         String value = database.getDisplayName();
         switch (database) {
             case SWISSPROT:
             case TREMBL:
                 name = "UniProtKB";
-                value = "Uniprot";
+                value = "UniProt";
                 break;
             case SWISSPROT_VARSPLIC:
                 name = "UniProtKB/Swiss-Prot isoforms";
@@ -28,8 +35,6 @@ public class UniParcConfigUtil {
                 value = "embl-cds";
                 break;
             default:
-                name = database.getDisplayName();
-                value = database.getDisplayName();
                 break;
         }
         return new AbstractMap.SimpleEntry<>(name, value);
