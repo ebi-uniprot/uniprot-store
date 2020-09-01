@@ -23,7 +23,7 @@ public class UniProtEntryProteinDescriptionConverter {
             List<String> names = extractProteinDescriptionValues(proteinDescription);
             document.proteinNames.addAll(names);
             document.proteinsNamesSort = truncatedSortValue(String.join(" ", names));
-            document.content.addAll(document.proteinNames);
+//            document.content.addAll(document.proteinNames);
 
             convertECNumbers(proteinDescription, document);
             convertFragmentNPrecursor(proteinDescription, document);

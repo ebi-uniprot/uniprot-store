@@ -34,7 +34,7 @@ class UniProtEntryCrossReferenceConverter {
             }
             String dbname = xref.getDatabase().getName().toLowerCase();
             document.databases.add(dbname);
-            document.content.add(dbname);
+//            document.content.add(dbname);
             String id = xref.getId();
             if (!dbname.equalsIgnoreCase("PIR")) {
                 convertXRefId(document, dbname, id);
@@ -95,7 +95,7 @@ class UniProtEntryCrossReferenceConverter {
     private void convertXRefId(UniProtDocument document, String dbname, String s) {
         List<String> xrefIds = UniProtEntryConverterUtil.getXrefId(s, dbname);
         document.crossRefs.addAll(xrefIds);
-        document.content.addAll(xrefIds);
+//        document.content.addAll(xrefIds);
     }
 
     private void convertXrefCount(
@@ -119,8 +119,8 @@ class UniProtEntryCrossReferenceConverter {
                         .collect(Collectors.joining());
 
         addGoterm(evType, go.getId(), goTerm, document);
-        document.content.add(go.getId().substring(3)); // id
-        document.content.add(goTerm); // term
+//        document.content.add(go.getId().substring(3)); // id
+//        document.content.add(goTerm); // term
     }
 
     private void addGoterm(String evType, String goId, String term, UniProtDocument document) {
