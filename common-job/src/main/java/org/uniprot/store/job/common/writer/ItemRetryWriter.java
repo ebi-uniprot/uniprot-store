@@ -4,6 +4,7 @@ import static org.slf4j.LoggerFactory.getLogger;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
@@ -105,7 +106,9 @@ public abstract class ItemRetryWriter<E, S> implements ItemWriter<E> {
                     (OnZeroCountSleeper)
                             executionContext.get(CommonConstants.ENTRIES_TO_WRITE_COUNTER);
         }
-        sleeper.minus(numberOfItemsProcessed);
+        if (Objects.nonNull(sleeper)) {
+            sleeper.minus(numberOfItemsProcessed);
+        }
     }
 
     protected abstract String extractItemId(E item);

@@ -7,6 +7,7 @@
 
 package org.uniprot.store.job.common.listener;
 
+import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import lombok.extern.slf4j.Slf4j;
@@ -16,7 +17,6 @@ import org.springframework.batch.core.ExitStatus;
 import org.springframework.batch.core.StepExecution;
 import org.springframework.batch.core.StepExecutionListener;
 import org.springframework.batch.item.ExecutionContext;
-import org.uniprot.core.util.Utils;
 import org.uniprot.core.util.concurrency.OnZeroCountSleeper;
 import org.uniprot.store.job.common.util.CommonConstants;
 
@@ -34,7 +34,7 @@ public class WriteRetrierLogStepListener implements StepExecutionListener {
             OnZeroCountSleeper sleeper =
                     (OnZeroCountSleeper)
                             executionContext.get(CommonConstants.ENTRIES_TO_WRITE_COUNTER);
-            if (Utils.notNull(sleeper)) {
+            if (Objects.nonNull(sleeper)) {
                 sleeper.sleepUntilZero();
             }
         }
@@ -58,7 +58,7 @@ public class WriteRetrierLogStepListener implements StepExecutionListener {
         if (writtenCountAtomicInteger != null) {
             writtenCount = writtenCountAtomicInteger.get();
         }
-        int readCount;
+        int readCount = 0;
         if (stepExecution
                 .getExecutionContext()
                 .containsKey(CommonConstants.READ_ENTRIES_COUNT_KEY)) {
@@ -67,7 +67,9 @@ public class WriteRetrierLogStepListener implements StepExecutionListener {
                             stepExecution
                                     .getExecutionContext()
                                     .get(CommonConstants.READ_ENTRIES_COUNT_KEY);
-            readCount = readAtomic.get();
+            if (Objects.nonNull(readAtomic)) {
+                readCount = readAtomic.get();
+            }
         } else {
             readCount = stepExecution.getReadCount();
         }
