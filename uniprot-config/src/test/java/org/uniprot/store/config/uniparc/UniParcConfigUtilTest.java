@@ -19,7 +19,7 @@ public class UniParcConfigUtilTest {
     @ParameterizedTest
     @MethodSource("setData")
     void uniparcDatabaseToSearchField(UniParcDatabase db, String name, String value) {
-        Map.Entry<String, String> entry = UniParcConfigUtil.uniparcDatabaseToSearchField(db);
+        Map.Entry<String, String> entry = UniParcConfigUtil.getDBNameValue(db);
         Assertions.assertEquals(name, entry.getKey());
         Assertions.assertEquals(value, entry.getValue());
     }
@@ -30,7 +30,7 @@ public class UniParcConfigUtilTest {
             if (db == UniParcDatabase.EMBL) {
                 result.add(Arguments.of(db, "EMBL CDS", "embl-cds"));
             } else if ((db == UniParcDatabase.SWISSPROT) || (db == UniParcDatabase.TREMBL)) {
-                result.add(Arguments.of(db, "UniProtKB", "Uniprot"));
+                result.add(Arguments.of(db, "UniProtKB", "UniProt"));
             } else if (db == UniParcDatabase.SWISSPROT_VARSPLIC) {
                 result.add(Arguments.of(db, "UniProtKB/Swiss-Prot isoforms", "isoforms"));
             } else {

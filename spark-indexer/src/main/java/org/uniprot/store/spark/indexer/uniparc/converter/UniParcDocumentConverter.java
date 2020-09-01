@@ -49,7 +49,7 @@ public class UniParcDocumentConverter implements DocumentConverter<UniParcEntry,
 
         builder.dbId(xref.getId());
 
-        Map.Entry<String, String> dbTypeData = UniParcConfigUtil.uniparcDatabaseToSearchField(type);
+        Map.Entry<String, String> dbTypeData = UniParcConfigUtil.getDBNameValue(type);
         if (xref.isActive()) {
             builder.active(dbTypeData.getValue());
         }

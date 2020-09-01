@@ -16,7 +16,6 @@ import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.uniprot.store.search.document.suggest.SuggestDocument;
@@ -168,16 +167,6 @@ class SuggestDocumentsToHDFSWriterTest {
         assertEquals("Potato virus X (strain X3) (PVX)", resultMap.get("UP000008687").get(0).value);
         assertEquals(1, resultMap.get("UP000008687").get(0).altValues.size());
         assertEquals("UP000008687", resultMap.get("UP000008687").get(0).altValues.get(0));
-    }
-
-    @Disabled
-    @Test
-    void getUniParcTaxonomy() {
-        // FIXME: 25/08/2020 Update lineage query to be supported by H2 or pass another equivalent
-        // query
-        SuggestDocumentsToHDFSWriter writer = new SuggestDocumentsToHDFSWriter(parameter);
-        JavaRDD<SuggestDocument> taxonomyRDD = writer.getUniParcTaxonomy();
-        assertNotNull(taxonomyRDD);
     }
 
     private <T> Map<String, List<T>> getResultMap(
