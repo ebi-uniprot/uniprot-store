@@ -1,5 +1,8 @@
 package org.uniprot.store.spark.indexer.common.util;
 
+import static java.util.Collections.*;
+
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 import lombok.extern.slf4j.Slf4j;
@@ -12,8 +15,6 @@ import org.apache.spark.api.java.JavaRDD;
 import org.uniprot.store.search.SolrCollection;
 import org.uniprot.store.search.document.Document;
 import org.uniprot.store.spark.indexer.common.exception.SolrIndexException;
-
-import com.lucidworks.spark.util.SolrSupport;
 
 /**
  * @author lgonzales
@@ -46,35 +47,31 @@ public class SolrUtils {
         String collectionName = collection.toString();
         String zkHost = config.getString("solr.zkhost");
         log.info("Starting solr index for collection: " + collectionName + " in zkHost " + zkHost);
-        try {
-
-            int solrBatchSize = Integer.parseInt(config.getString("solr.batch.size"));
-            SolrSupport.indexDocs(
-                    zkHost, collectionName, solrBatchSize, solrInputDocumentRDD.rdd());
-            log.info("Completed solr index for collection " + collectionName);
-        } catch (Exception e) {
-            String errorMessage =
-                    "Exception indexing data to solr, for collection " + collectionName;
-            log.error(errorMessage, e);
-            throw new SolrIndexException(errorMessage, e);
-        }
-        log.info("Completed solr index for collection " + collectionName);
-
-        CloudSolrClient solrClient = SolrSupport.getCachedCloudClient(zkHost);
-        commit(collectionName, solrClient);
+        solrInputDocumentRDD.foreachPartition(
+                docs -> {
+                    try (CloudSolrClient client =
+                            new CloudSolrClient.Builder(singletonList(zkHost), Optional.empty())
+                                    .build()) {
+                        client.add(collectionName, docs);
+                    } catch (Exception e) {
+                        String errorMessage =
+                                "Exception indexing data to solr, for collection " + collectionName;
+                        log.error(errorMessage, e);
+                        throw new SolrIndexException(errorMessage, e);
+                    }
+                });
+        log.info("Completed solr index for collection: " + collectionName + " in zkHost " + zkHost);
+        commit(collectionName, zkHost);
     }
 
-    private static void commit(String collection, CloudSolrClient solrClient) {
+    private static void commit(String collection, String zkHost) {
         log.info("Committing the data for collection " + collection);
-        try {
-            solrClient.commit(collection, true, true);
+        try (CloudSolrClient client =
+                new CloudSolrClient.Builder(singletonList(zkHost), Optional.empty()).build()) {
+            client.commit(collection, true, true);
         } catch (Exception e) {
-            log.error("Error committing the data for collection, tentative 1 " + collection, e);
-            try {
-                solrClient.commit(collection, true, true);
-            } catch (Exception ce) {
-                throw new SolrIndexException("Unable to commit in solr after two tentatives: ", ce);
-            }
+            log.error("Error committing the data for collection" + collection, e);
         }
+        log.info("Completed commit the data for collection " + collection);
     }
 }
