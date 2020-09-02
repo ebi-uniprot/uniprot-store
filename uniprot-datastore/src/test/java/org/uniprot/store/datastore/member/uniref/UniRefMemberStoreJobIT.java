@@ -134,7 +134,7 @@ class UniRefMemberStoreJobIT {
         assertThat(getVoldemortKey(repMember.get()), equalTo("A0A0H3AR18"));
         assertThat(repMember.get().getMemberId(), equalTo("A0A0H3AR18_BRUO2"));
         assertThat(repMember.get().getSequence(), is(notNullValue()));
-        assertThat(repMember.get().getMemberIdType(), is(UniRefMemberIdType.UNIPROTKB));
+        assertThat(repMember.get().getMemberIdType(), is(UniRefMemberIdType.UNIPROTKB_TREMBL));
         assertThat(repMember.get().getUniRef100Id().getValue(), equalTo("UniRef100_A0A0H3AR18"));
         assertThat(repMember.get().getUniRef90Id().getValue(), equalTo("UniRef90_A0A0H3AR18"));
         assertThat(repMember.get().getUniRef50Id().getValue(), equalTo("UniRef50_A9W094"));
@@ -145,7 +145,7 @@ class UniRefMemberStoreJobIT {
         assertThat(member100.get().getMemberId(), equalTo("A0A0E1X2G4_9RHIZ"));
         assertThat(getVoldemortKey(member100.get()), equalTo("A0A0E1X2G4"));
         assertThat(member100.get().getSequence(), is(nullValue()));
-        assertThat(member100.get().getMemberIdType(), is(UniRefMemberIdType.UNIPROTKB));
+        assertThat(member100.get().getMemberIdType(), is(UniRefMemberIdType.UNIPROTKB_TREMBL));
         assertThat(member100.get().getUniRef100Id(), is(notNullValue()));
         assertThat(member100.get().getUniRef90Id(), is(notNullValue()));
         assertThat(member100.get().getUniRef50Id(), is(nullValue()));
