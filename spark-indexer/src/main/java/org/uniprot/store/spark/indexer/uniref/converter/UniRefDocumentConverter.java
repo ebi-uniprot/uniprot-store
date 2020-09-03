@@ -81,7 +81,7 @@ public class UniRefDocumentConverter
 
     private List<String> getUniProtIds(UniRefMember member) {
         List<String> result = new ArrayList<>();
-        if (member.getMemberIdType() == UniRefMemberIdType.UNIPROTKB) {
+        if (member.getMemberIdType() != UniRefMemberIdType.UNIPARC) {
             result.add(member.getMemberId());
         }
         member.getUniProtAccessions().forEach(val -> result.add(val.getValue()));
