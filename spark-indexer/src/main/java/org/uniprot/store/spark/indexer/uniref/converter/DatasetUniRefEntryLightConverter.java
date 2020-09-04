@@ -111,9 +111,14 @@ public class DatasetUniRefEntryLightConverter
 
     private void addMemberInfo(UniRefEntryLightBuilder builder, UniRefMember member) {
         // member accessions
+        int memberType = member.getMemberIdType().getMemberIdTypeId();
         member.getUniProtAccessions().stream()
                 .map(Value::getValue)
                 .findFirst()
+                .map(id -> id + "," + memberType) // We save members as
+                // "DatabaseId,UniRefMemberIdType", this way,
+                // we can apply facet filter at
+                // UniRefEntryFacetConfig.java
                 .ifPresent(builder::membersAdd);
 
         // organism name and id
@@ -130,7 +135,7 @@ public class DatasetUniRefEntryLightConverter
             uniparcId = member.getMemberId();
         }
         if (Utils.notNullNotEmpty(uniparcId)) {
-            builder.membersAdd(uniparcId);
+            builder.membersAdd(uniparcId + "," + memberType);
         }
         if (Utils.notNull(member.isSeed()) && member.isSeed()) {
             builder.seedId(member.getMemberId());
