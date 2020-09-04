@@ -55,9 +55,6 @@ public class UniRefDocument implements Document {
     @Singular
     @Field("taxonomy_id")
     private List<Integer> taxLineageIds;
-    // DEFAULT SEARCH FIELD
-    @Field("content")
-    public List<String> content;
 
     @Override
     public String getDocumentId() {
