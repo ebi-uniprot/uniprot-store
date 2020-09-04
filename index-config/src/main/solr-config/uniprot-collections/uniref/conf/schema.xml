@@ -6,11 +6,10 @@
 
 	<field name="_version_" type="plong" indexed="true" stored="true" />
 
-
 	<!-- =============================== uniref fields =============================== -->
 	<field name="id" type="string" indexed="true" stored="true"
 		required="true" multiValued="false" docValues="true" />
-	<field name="name" type="full_ci" indexed="true" stored="true"
+	<field name="name" type="full_ci" indexed="true" stored="false"
 		required="false" multiValued="false" />
 	<field name="identity" type="basic_ci" indexed="true"
 		stored="false" required="false" multiValued="false" />
@@ -21,8 +20,8 @@
 	<field name="created" type="date" indexed="true" stored="false"
 		required="false" docValues="true" />
 	<field name="uniprot_id" type="basic_ci" indexed="true"
-		stored="true" required="false" multiValued="true" />
-	<field name="upi" type="basic_ci" indexed="true" stored="true"
+		stored="false" required="false" multiValued="true" />
+	<field name="upi" type="basic_ci" indexed="true" stored="false"
 		required="false" multiValued="true" />
 	<field name="taxonomy_name" type="full_ci" indexed="true"
 		stored="false" required="false" multiValued="true" />
@@ -30,19 +29,6 @@
 		stored="false" required="false" multiValued="true" />
 	<field name="organism_sort" type="string" indexed="true"
 		stored="false" required="false" multiValued="false" docValues="true" />
-
-
-	<field name="content" type="full_ci" indexed="true"
-		stored="false" multiValued="true" />
-	<copyField source="id" dest="content" />
-	<copyField source="name" dest="content" />
-	<copyField source="identity" dest="content" />
-	<copyField source="uniprot_id" dest="content" />
-	<copyField source="upi" dest="content" />
-	<copyField source="taxonomy_name" dest="content" />
-	<copyField source="taxonomy_id" dest="content" />
-
-
 
 	<!-- =============================== field types =============================== -->
 	<fieldType name="plong" class="solr.LongPointField"

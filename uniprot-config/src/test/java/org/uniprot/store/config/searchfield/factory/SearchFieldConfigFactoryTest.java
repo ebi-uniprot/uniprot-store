@@ -12,7 +12,7 @@ import org.uniprot.store.config.UniProtDataType;
 import org.uniprot.store.config.searchfield.common.SearchFieldConfig;
 import org.uniprot.store.config.searchfield.impl.SearchFieldConfigImpl;
 
-public class SearchFieldConfigFactoryTest {
+class SearchFieldConfigFactoryTest {
 
     @ParameterizedTest(name = "[{index}] ItemCount({0}) == {1} ?")
     @MethodSource("provideTypeAndItemCount")
@@ -45,6 +45,6 @@ public class SearchFieldConfigFactoryTest {
                 Arguments.of(UniProtDataType.TAXONOMY, 16),
                 Arguments.of(UniProtDataType.UNIPARC, 17),
                 Arguments.of(UniProtDataType.UNIPROTKB, 432 + uniProtKBDBTypesCount),
-                Arguments.of(UniProtDataType.UNIREF, 17));
+                Arguments.of(UniProtDataType.UNIREF, 16));
     }
 }
