@@ -1,5 +1,6 @@
 package org.uniprot.store.search;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -17,12 +18,24 @@ import org.uniprot.core.util.Utils;
  */
 public class SolrQueryUtil {
 
+    private SolrQueryUtil() {}
+
     public static String getTermValue(String inputQuery, String term) {
         String result = "";
+        List<String> results = getTermValues(inputQuery, term);
+        if (!results.isEmpty()) {
+            result = results.get(0);
+        }
+        return result;
+    }
+
+    public static List<String> getTermValues(String inputQuery, String term) {
+        List<String> result = new ArrayList<>();
         try {
             QueryParser qp = new QueryParser("", new StandardAnalyzer());
+            qp.setAllowLeadingWildcard(true);
             Query query = qp.parse(inputQuery);
-            result = getTermValue(query, term);
+            result.addAll(getTermValues(query, term));
         } catch (Exception e) {
             // Syntax error is validated by ValidSolrQuerySyntax
         }
@@ -31,40 +44,48 @@ public class SolrQueryUtil {
 
     public static String getTermValue(Query inputQuery, String term) {
         String result = "";
+        List<String> results = getTermValues(inputQuery, term);
+        if (!results.isEmpty()) {
+            result = results.get(0);
+        }
+        return result;
+    }
+
+    public static List<String> getTermValues(Query inputQuery, String term) {
+        List<String> result = new ArrayList<>();
         if (inputQuery instanceof TermQuery) {
             TermQuery termQuery = (TermQuery) inputQuery;
             String fieldName = termQuery.getTerm().field();
             if (fieldName.equals(term)) {
-                result = termQuery.getTerm().text();
+                result.add(termQuery.getTerm().text());
             }
         } else if (inputQuery instanceof WildcardQuery) {
             WildcardQuery wildcardQuery = (WildcardQuery) inputQuery;
             String fieldName = wildcardQuery.getTerm().field();
             if (fieldName.equals(term)) {
-                result = wildcardQuery.getTerm().text();
+                result.add(wildcardQuery.getTerm().text());
             }
         } else if (inputQuery instanceof TermRangeQuery) {
             TermRangeQuery rangeQuery = (TermRangeQuery) inputQuery;
             String fieldName = rangeQuery.getField();
             if (fieldName.equals(term)) {
-                result = rangeQuery.toString("");
+                result.add(rangeQuery.toString(fieldName));
             }
         } else if (inputQuery instanceof PhraseQuery) {
             PhraseQuery phraseQuery = (PhraseQuery) inputQuery;
             String fieldName = phraseQuery.getTerms()[0].field();
             if (fieldName.equals(term)) {
-                result =
+                result.add(
                         Arrays.stream(phraseQuery.getTerms())
                                 .map(Term::text)
-                                .collect(Collectors.joining(" "));
+                                .collect(Collectors.joining(" ")));
             }
         } else if (inputQuery instanceof BooleanQuery) {
             BooleanQuery booleanQuery = (BooleanQuery) inputQuery;
             for (BooleanClause clause : booleanQuery.clauses()) {
                 String value = getTermValue(clause.getQuery(), term);
                 if (Utils.notNullNotEmpty(value)) {
-                    result = value;
-                    break;
+                    result.add(value);
                 }
             }
         }
@@ -75,6 +96,7 @@ public class SolrQueryUtil {
         boolean isValid = false;
         try {
             QueryParser qp = new QueryParser("", new StandardAnalyzer());
+            qp.setAllowLeadingWildcard(true);
             Query query = qp.parse(inputQuery);
             isValid = hasFieldTerms(query, terms);
         } catch (Exception e) {

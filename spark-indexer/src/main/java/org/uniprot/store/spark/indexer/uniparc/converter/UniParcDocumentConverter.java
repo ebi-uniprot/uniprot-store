@@ -1,13 +1,17 @@
 package org.uniprot.store.spark.indexer.uniparc.converter;
 
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.uniprot.core.Property;
+import org.uniprot.core.uniparc.SequenceFeature;
 import org.uniprot.core.uniparc.UniParcCrossReference;
 import org.uniprot.core.uniparc.UniParcDatabase;
 import org.uniprot.core.uniparc.UniParcEntry;
 import org.uniprot.core.uniprotkb.taxonomy.Taxonomy;
+import org.uniprot.core.util.Utils;
+import org.uniprot.store.config.uniparc.UniParcConfigUtil;
 import org.uniprot.store.job.common.converter.DocumentConverter;
 import org.uniprot.store.search.document.uniparc.UniParcDocument;
 
@@ -23,12 +27,12 @@ public class UniParcDocumentConverter implements DocumentConverter<UniParcEntry,
     public UniParcDocument convert(UniParcEntry uniparcEntry) {
         UniParcDocument.UniParcDocumentBuilder builder = UniParcDocument.builder();
         builder.upi(uniparcEntry.getUniParcId().getValue())
-                .contentAdd(uniparcEntry.getUniParcId().getValue())
                 .seqLength(uniparcEntry.getSequence().getLength())
                 .sequenceChecksum(uniparcEntry.getSequence().getCrc64())
+                .sequenceMd5(uniparcEntry.getSequence().getMd5())
                 .taxLineageIds(getTaxonomies(uniparcEntry));
-        getTaxonomies(uniparcEntry).stream().map(String::valueOf).forEach(builder::contentAdd);
         uniparcEntry.getUniParcCrossReferences().forEach(val -> processDbReference(val, builder));
+        uniparcEntry.getSequenceFeatures().forEach(val -> processSequenceFeature(val, builder));
         return builder.build();
     }
 
@@ -42,16 +46,21 @@ public class UniParcDocumentConverter implements DocumentConverter<UniParcEntry,
     private void processDbReference(
             UniParcCrossReference xref, UniParcDocument.UniParcDocumentBuilder builder) {
         UniParcDatabase type = xref.getDatabase();
+
+        builder.dbId(xref.getId());
+
+        Map.Entry<String, String> dbTypeData = UniParcConfigUtil.getDBNameValue(type);
         if (xref.isActive()) {
-            builder.active(type.getDisplayName());
+            builder.active(dbTypeData.getValue());
         }
-        builder.database(type.getDisplayName());
-        if ((type == UniParcDatabase.SWISSPROT) || (type == UniParcDatabase.TREMBL)) {
+        builder.database(dbTypeData.getValue());
+        if (xref.isActive()
+                && (type == UniParcDatabase.SWISSPROT || type == UniParcDatabase.TREMBL)) {
             builder.uniprotAccession(xref.getId());
             builder.uniprotIsoform(xref.getId());
         }
 
-        if (type == UniParcDatabase.SWISSPROT_VARSPLIC) {
+        if (xref.isActive() && type == UniParcDatabase.SWISSPROT_VARSPLIC) {
             builder.uniprotIsoform(xref.getId());
         }
 
@@ -69,9 +78,15 @@ public class UniParcDocumentConverter implements DocumentConverter<UniParcEntry,
                 .filter(val -> val.getKey().equals(UniParcCrossReference.PROPERTY_GENE_NAME))
                 .map(Property::getValue)
                 .forEach(builder::geneName);
+    }
 
-        builder.contentAdd(type.getDisplayName());
-        builder.contentAdd(xref.getId());
-        xref.getProperties().stream().map(Property::getValue).forEach(builder::contentAdd);
+    private void processSequenceFeature(
+            SequenceFeature sequenceFeature, UniParcDocument.UniParcDocumentBuilder builder) {
+        if (Utils.notNull(sequenceFeature.getInterProDomain())) {
+            builder.featureId(sequenceFeature.getInterProDomain().getId());
+        }
+        if (Utils.notNull(sequenceFeature.getSignatureDbId())) {
+            builder.featureId(sequenceFeature.getSignatureDbId());
+        }
     }
 }

@@ -3,6 +3,7 @@ package org.uniprot.store.indexer.search.uniparc;
 import java.io.File;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.util.HashMap;
 
 import org.uniprot.core.xml.jaxb.uniparc.Entry;
 import org.uniprot.cv.taxonomy.FileNodeIterable;
@@ -27,7 +28,7 @@ class UniParcSearchEngine extends AbstractSearchEngine<Entry> {
 
     private static DocumentConverter<Entry, ?> createDocumentProducer() {
         TaxonomyRepo taxRepo = createTaxRepo();
-        return new UniParcDocumentConverter(taxRepo);
+        return new UniParcDocumentConverter(taxRepo, new HashMap<>());
     }
 
     private static TaxonomyRepo createTaxRepo() {

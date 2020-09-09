@@ -35,8 +35,7 @@ public class UniRefJoinMapper
         List<Tuple2<String, MappedUniRef>> mappedAccessions = new ArrayList<>();
         UniRefType type = uniRefEntry.getEntryType();
         String clusterId = uniRefEntry.getId().getValue();
-        if (uniRefEntry.getRepresentativeMember().getMemberIdType()
-                == UniRefMemberIdType.UNIPROTKB) {
+        if (uniRefEntry.getRepresentativeMember().getMemberIdType() != UniRefMemberIdType.UNIPARC) {
             mappedAccessions.addAll(
                     getMappedUnirefsForMember(
                             type, clusterId, uniRefEntry.getRepresentativeMember()));
@@ -47,8 +46,7 @@ public class UniRefJoinMapper
                     .getMembers()
                     .forEach(
                             uniRefMember -> {
-                                if (uniRefMember.getMemberIdType()
-                                        == UniRefMemberIdType.UNIPROTKB) {
+                                if (uniRefMember.getMemberIdType() != UniRefMemberIdType.UNIPARC) {
                                     mappedAccessions.addAll(
                                             getMappedUnirefsForMember(
                                                     type, clusterId, uniRefMember));

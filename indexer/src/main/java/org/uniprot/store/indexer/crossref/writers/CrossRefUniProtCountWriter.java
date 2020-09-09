@@ -2,6 +2,7 @@ package org.uniprot.store.indexer.crossref.writers;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -48,13 +49,15 @@ public class CrossRefUniProtCountWriter
                         (Map<String, CrossRefUniProtCountReader.CrossRefProteinCount>)
                                 executionContext.get(Constants.DISEASE_PROTEIN_COUNT_KEY);
 
-                xrefProteinCountMap.putAll(
-                        xrefProtCountList.stream()
-                                .collect(
-                                        Collectors.toMap(
-                                                CrossRefUniProtCountReader.CrossRefProteinCount
-                                                        ::getAbbreviation,
-                                                Function.identity())));
+                if (Objects.nonNull(xrefProteinCountMap)) {
+                    xrefProteinCountMap.putAll(
+                            xrefProtCountList.stream()
+                                    .collect(
+                                            Collectors.toMap(
+                                                    CrossRefUniProtCountReader.CrossRefProteinCount
+                                                            ::getAbbreviation,
+                                                    Function.identity())));
+                }
             }
 
             executionContext.put(Constants.CROSS_REF_PROTEIN_COUNT_KEY, xrefProteinCountMap);

@@ -11,10 +11,15 @@
 		required="true" multiValued="false" docValues="true" />
 	<field name="taxonomy_name" type="full_ci" indexed="true"
 		stored="false" required="false" multiValued="true" />
+	<!-- organism_name used for facet only -->
+	<field name="organism_name" type="string" indexed="true"
+		stored="false" required="false" multiValued="true" docValues="true" />
 	<field name="taxonomy_id" type="int" indexed="true"
 		stored="false" required="false" multiValued="true" />
 	<field name="database" type="basic_ci" indexed="true"
 		stored="false" required="false" multiValued="true" />
+	<field name="dbid" type="basic_ci" indexed="true" stored="false"
+		required="false" multiValued="true" />
 	<field name="active" type="basic_ci" indexed="true"
 		stored="false" required="false" multiValued="true" />
 	<field name="gene" type="full_ci" indexed="true" stored="false"
@@ -23,18 +28,22 @@
 		stored="false" required="false" multiValued="true" />
 	<field name="upid" type="basic_ci" indexed="true" stored="false"
 		required="false" multiValued="true" />
-	<field name="accession" type="basic_ci" indexed="true"
+	<field name="uniprotkb" type="basic_ci" indexed="true"
 		stored="false" required="false" multiValued="true" />
 	<field name="isoform" type="basic_ci" indexed="true"
 		stored="false" required="false" multiValued="true" />
 	<field name="checksum" type="basic_ci" indexed="true"
+		stored="false" required="false" multiValued="false" />
+	<field name="md5" type="basic_ci" indexed="true" stored="false"
+		required="false" multiValued="false" />
+	<field name="feature_id" type="basic_ci" indexed="true"
 		stored="false" required="false" multiValued="true" />
 	<field name="length" type="int" indexed="true" stored="false"
 		required="false" multiValued="false" />
 
 	<field name="content" type="full_ci" indexed="true"
 		stored="false" multiValued="true" />
-	<copyField source="accession" dest="content" />
+	<copyField source="uniprotkb" dest="content" />
 	<copyField source="upid" dest="content" />
 	<copyField source="taxonomy_name" dest="content" />
 	<copyField source="taxonomy_id" dest="content" />

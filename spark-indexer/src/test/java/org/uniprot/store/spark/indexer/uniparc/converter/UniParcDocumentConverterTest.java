@@ -2,6 +2,8 @@ package org.uniprot.store.spark.indexer.uniparc.converter;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.util.UUID;
+
 import org.junit.jupiter.api.Test;
 import org.uniprot.core.Sequence;
 import org.uniprot.core.impl.SequenceBuilder;
@@ -9,6 +11,7 @@ import org.uniprot.core.uniparc.SequenceFeature;
 import org.uniprot.core.uniparc.UniParcCrossReference;
 import org.uniprot.core.uniparc.UniParcDatabase;
 import org.uniprot.core.uniparc.UniParcEntry;
+import org.uniprot.core.uniparc.impl.InterProGroupBuilder;
 import org.uniprot.core.uniparc.impl.SequenceFeatureBuilder;
 import org.uniprot.core.uniparc.impl.UniParcCrossReferenceBuilder;
 import org.uniprot.core.uniparc.impl.UniParcEntryBuilder;
@@ -30,22 +33,28 @@ class UniParcDocumentConverterTest {
 
         assertNotNull(result.getUniprotAccessions());
         assertEquals(1, result.getUniprotAccessions().size());
-        assertTrue(result.getUniprotAccessions().contains("UniProtKB/Swiss-ProtIdValue"));
+        assertTrue(result.getUniprotAccessions().contains("UniProtKB/Swiss-ProtIdValue-true"));
 
         assertNotNull(result.getUniprotIsoforms());
         assertEquals(1, result.getUniprotIsoforms().size());
-        assertTrue(result.getUniprotIsoforms().contains("UniProtKB/Swiss-ProtIdValue"));
+        assertTrue(result.getUniprotIsoforms().contains("UniProtKB/Swiss-ProtIdValue-true"));
 
         assertNotNull(result.getDatabases());
         assertEquals(2, result.getDatabases().size());
-        assertTrue(result.getDatabases().contains("UniProtKB/Swiss-Prot"));
-        assertTrue(result.getDatabases().contains("EMBL"));
+        assertTrue(result.getDatabases().contains("UniProt"));
+        assertTrue(result.getDatabases().contains("embl-cds"));
+
+        assertNotNull(result.getDbIds());
+        assertEquals(3, result.getDbIds().size());
+        assertTrue(result.getDbIds().contains("UniProtKB/Swiss-ProtIdValue-true"));
+        assertTrue(result.getDbIds().contains("UniProtKB/Swiss-ProtIdValue-false"));
+        assertTrue(result.getDbIds().contains("inactiveIdValue"));
 
         assertNotNull(result.getActives());
         assertEquals(1, result.getActives().size());
-        assertTrue(result.getActives().contains("UniProtKB/Swiss-Prot"));
+        assertTrue(result.getActives().contains("UniProt"));
 
-        validataDocumentCommonValues(result);
+        validateDocumentCommonValues(result);
     }
 
     @Test
@@ -63,23 +72,30 @@ class UniParcDocumentConverterTest {
         assertEquals(1, result.getUniprotIsoforms().size());
         assertTrue(
                 result.getUniprotIsoforms()
-                        .contains("UniProtKB/Swiss-Prot protein isoformsIdValue"));
+                        .contains("UniProtKB/Swiss-Prot protein isoformsIdValue-true"));
 
         assertNotNull(result.getDatabases());
         assertEquals(2, result.getDatabases().size());
-        assertTrue(result.getDatabases().contains("UniProtKB/Swiss-Prot protein isoforms"));
-        assertTrue(result.getDatabases().contains("EMBL"));
+        assertTrue(result.getDatabases().contains("isoforms"));
+        assertTrue(result.getDatabases().contains("embl-cds"));
 
         assertNotNull(result.getActives());
         assertEquals(1, result.getActives().size());
-        assertTrue(result.getActives().contains("UniProtKB/Swiss-Prot protein isoforms"));
+        assertTrue(result.getActives().contains("isoforms"));
 
-        validataDocumentCommonValues(result);
+        assertNotNull(result.getDbIds());
+        assertEquals(3, result.getDbIds().size());
+        assertTrue(result.getDbIds().contains("UniProtKB/Swiss-Prot protein isoformsIdValue-true"));
+        assertTrue(
+                result.getDbIds().contains("UniProtKB/Swiss-Prot protein isoformsIdValue-false"));
+        assertTrue(result.getDbIds().contains("inactiveIdValue"));
+
+        validateDocumentCommonValues(result);
     }
 
-    private void validataDocumentCommonValues(UniParcDocument result) {
+    private void validateDocumentCommonValues(UniParcDocument result) {
         assertNotNull(result);
-        assertEquals("uniParcIdValue", result.getUpi());
+        assertTrue(result.getUpi().startsWith("uniParcIdValue"));
 
         assertNotNull(result.getGeneNames());
         assertEquals(1, result.getGeneNames().size());
@@ -96,28 +112,31 @@ class UniParcDocumentConverterTest {
         assertNotNull(result.getOrganismTaxons());
         assertTrue(result.getOrganismTaxons().isEmpty());
 
+        assertNotNull(result.getOrganismNames());
+        assertTrue(result.getOrganismNames().isEmpty());
+
         assertNotNull(result.getTaxLineageIds());
         assertEquals(1, result.getTaxLineageIds().size());
         assertTrue(result.getTaxLineageIds().contains(10));
 
         assertEquals("62C549AB5E41E99D", result.getSequenceChecksum());
+        assertEquals("4F6304DA8CC16779B3B5CCDDBC663292", result.getSequenceMd5());
+
+        assertEquals(2, result.getFeatureIds().size());
+        assertTrue(result.getFeatureIds().contains("signatureDbIdValue"));
+        assertTrue(result.getFeatureIds().contains("interProDbId"));
+
         assertEquals(22, result.getSeqLength());
 
-        assertTrue(result.getContent().contains(result.getUpi()));
-        assertTrue(result.getContent().containsAll(result.getDatabases()));
-        assertTrue(result.getContent().containsAll(result.getActives()));
-        assertTrue(result.getContent().containsAll(result.getGeneNames()));
-        assertTrue(result.getContent().containsAll(result.getProteinNames()));
-        assertTrue(result.getContent().containsAll(result.getUpids()));
-        assertTrue(result.getContent().containsAll(result.getUniprotAccessions()));
-        assertTrue(result.getContent().containsAll(result.getUniprotIsoforms()));
+        assertTrue(result.getContent().isEmpty());
     }
 
     private UniParcEntry getUniParcEntry(UniParcDatabase type) {
         return new UniParcEntryBuilder()
-                .uniParcId("uniParcIdValue")
+                .uniParcId("uniParcIdValue" + UUID.randomUUID().toString())
                 .uniprotExclusionReason("")
                 .uniParcCrossReferencesAdd(getDatabaseCrossReferences(type))
+                .uniParcCrossReferencesAdd(getDatabaseCrossReferences(type, false))
                 .uniParcCrossReferencesAdd(getInactiveDatabaseCrossReferences())
                 .sequence(getSequence())
                 .taxonomiesAdd(getTaxonomy())
@@ -126,17 +145,24 @@ class UniParcDocumentConverterTest {
     }
 
     private SequenceFeature getSequenceFeatures() {
-        return new SequenceFeatureBuilder().signatureDbId("signatureDbIdValue").build();
+        return new SequenceFeatureBuilder()
+                .interproGroup(new InterProGroupBuilder().id("interProDbId").build())
+                .signatureDbId("signatureDbIdValue")
+                .build();
     }
 
     private UniParcCrossReference getDatabaseCrossReferences(UniParcDatabase type) {
+        return getDatabaseCrossReferences(type, true);
+    }
+
+    private UniParcCrossReference getDatabaseCrossReferences(UniParcDatabase type, boolean active) {
         return new UniParcCrossReferenceBuilder()
-                .id(type.getName() + "IdValue")
+                .id(type.getName() + "IdValue-" + active)
                 .database(type)
                 .propertiesAdd(UniParcCrossReference.PROPERTY_GENE_NAME, "geneNameValue")
                 .propertiesAdd(UniParcCrossReference.PROPERTY_PROTEIN_NAME, "proteinNameValue")
                 .propertiesAdd(UniParcCrossReference.PROPERTY_PROTEOME_ID, "proteomeIdValue")
-                .active(true)
+                .active(active)
                 .build();
     }
 

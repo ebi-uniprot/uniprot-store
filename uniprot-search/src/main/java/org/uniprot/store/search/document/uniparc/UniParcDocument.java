@@ -1,5 +1,6 @@
 package org.uniprot.store.search.document.uniparc;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -22,12 +23,19 @@ public class UniParcDocument implements Document {
     @Field("checksum")
     private String sequenceChecksum;
 
+    @Field("md5")
+    private String sequenceMd5;
+
     @Field("length")
     private int seqLength;
 
     @Field("database")
     @Singular
     private Set<String> databases;
+
+    @Field("dbid")
+    @Singular
+    private Set<String> dbIds;
 
     @Singular
     @Field("active")
@@ -43,18 +51,22 @@ public class UniParcDocument implements Document {
 
     @Singular
     @Field("upid")
-    private List<String> upids;
+    private Set<String> upids = new HashSet<>();
 
     @Singular
     @Field("taxonomy_name")
-    private List<String> organismTaxons;
+    private Set<String> organismTaxons = new HashSet<>();
+
+    @Singular private Set<String> organismNames = new HashSet<>();
 
     @Singular
-    @Field("taxonomy_id")
-    private List<Integer> taxLineageIds;
+    @Field("feature_id")
+    private Set<String> featureIds = new HashSet<>();
+
+    @Singular private Set<Integer> taxLineageIds = new HashSet<>();
 
     @Singular
-    @Field("accession")
+    @Field("uniprotkb")
     private List<String> uniprotAccessions;
 
     @Singular
@@ -69,5 +81,15 @@ public class UniParcDocument implements Document {
     @Override
     public String getDocumentId() {
         return upi;
+    }
+
+    @Field("taxonomy_id")
+    public void setTaxLineageIds(List<Integer> taxLineageIds) {
+        this.taxLineageIds = new HashSet<>(taxLineageIds);
+    }
+
+    @Field("organism_name")
+    public void setOrganismNames(List<String> organismNames) {
+        this.organismNames = new HashSet<>(organismNames);
     }
 }
