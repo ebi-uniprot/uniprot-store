@@ -1,7 +1,6 @@
 package org.uniprot.store.indexer.uniprotkb.converter;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 import org.uniprot.core.uniprotkb.taxonomy.Organism;
 import org.uniprot.core.uniprotkb.taxonomy.OrganismHost;
@@ -95,11 +94,11 @@ class UniProtEntryTaxonomyConverter {
                     }
                 });
 
-////        document.content.addAll(document.organismHostNames);
-////        document.content.addAll(
-////                document.organismHostIds.stream()
-////                        .map(String::valueOf)
-////                        .collect(Collectors.toList()));
+        ////        document.content.addAll(document.organismHostNames);
+        ////        document.content.addAll(
+        ////                document.organismHostIds.stream()
+        ////                        .map(String::valueOf)
+        ////                        .collect(Collectors.toList()));
     }
 
     private void convertLineageTaxon(int taxId, UniProtDocument document) {
@@ -110,16 +109,20 @@ class UniProtEntryTaxonomyConverter {
                         int id = node.id();
                         document.taxLineageIds.add(id);
                         if (!node.scientificName().equals("root")) {
-                            List<String> taxons = TaxonomyRepoUtil.extractTaxonFromNodeNoMnemonic(node);
+                            List<String> taxons =
+                                    TaxonomyRepoUtil.extractTaxonFromNodeNoMnemonic(node);
+                            //
+                            // TaxonomyRepoUtil.extractTaxonFromNode(node);
                             // not index mnemonic for taxonomy_name
                             document.organismTaxon.addAll(taxons);
                             addTaxonSuggestions(SuggestDictionary.TAXONOMY, id, taxons);
                         }
                     });
         }
-//        document.content.addAll(document.organismTaxon);
-//        document.content.addAll(
-//                document.taxLineageIds.stream().map(String::valueOf).collect(Collectors.toList()));
+        //        document.content.addAll(document.organismTaxon);
+        //        document.content.addAll(
+        //
+        // document.taxLineageIds.stream().map(String::valueOf).collect(Collectors.toList()));
     }
 
     private void addTaxonSuggestions(SuggestDictionary dicType, int id, List<String> taxons) {

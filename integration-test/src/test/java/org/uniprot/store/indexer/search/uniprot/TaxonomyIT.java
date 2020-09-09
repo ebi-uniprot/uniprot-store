@@ -83,15 +83,10 @@ class TaxonomyIT {
     void lineageNameMatchesEntry1() {
         String query = taxonName("Tetronarce californica");
         query = QueryBuilder.and(query, taxonName("Pacific electric ray"));
-        query = QueryBuilder.and(query, taxonName("Torpedo californica"));
-        query = QueryBuilder.and(query, taxonName("TETCF")); // 7787
-        query = QueryBuilder.and(query, taxonName("Chordata"));
-        query = QueryBuilder.and(query, taxonName("9CHOR")); // 7711
-        query = QueryBuilder.and(query, taxonName("Metazoa"));
-        query = QueryBuilder.and(query, taxonName("9METZ")); // 33208
-        query = QueryBuilder.and(query, taxonName("Eukaryota"));
-        query = QueryBuilder.and(query, taxonName("9EUKA")); // 2759
-        query = QueryBuilder.and(query, taxonName("root")); // 1
+        query = QueryBuilder.and(query, taxonName("Torpedo californica")); // 7787
+        query = QueryBuilder.and(query, taxonName("Chordata")); // 7711
+        query = QueryBuilder.and(query, taxonName("Metazoa")); // 33208
+        query = QueryBuilder.and(query, taxonName("Eukaryota")); // 2759
 
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -101,13 +96,10 @@ class TaxonomyIT {
 
     @Test
     void lineageNameMatchesEntry2() {
-        String query = taxonName("Influenza C virus (strain C/Johannesburg/1/1966)\n");
-        query = QueryBuilder.and(query, taxonName("INCJH")); // 100673
+        String query = taxonName("Influenza C virus (strain C/Johannesburg/1/1966)\n"); // 100673
         query = QueryBuilder.and(query, taxonName("Influenza C virus")); // 11552
         query = QueryBuilder.and(query, taxonName("Gammainfluenzavirus")); // 197913
-        query = QueryBuilder.and(query, taxonName("Orthomyxoviridae"));
-        query = QueryBuilder.and(query, taxonName("9ORTO")); // 11308
-        query = QueryBuilder.and(query, taxonName("root")); // 1
+        query = QueryBuilder.and(query, taxonName("Orthomyxoviridae")); // 11308
 
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -120,13 +112,9 @@ class TaxonomyIT {
         String query =
                 taxonName(
                         "Influenza A virus (strain A/Goose/Guangdong/1/1996 H5N1 genotype Gs/Gd)");
-        query = QueryBuilder.and(query, taxonName("I96A0"));
         query = QueryBuilder.and(query, taxonName("Influenza A virus"));
-        query = QueryBuilder.and(query, taxonName("9INFA"));
         query = QueryBuilder.and(query, taxonName("Alphainfluenzavirus"));
         query = QueryBuilder.and(query, taxonName("Orthomyxoviridae"));
-        query = QueryBuilder.and(query, taxonName("9ORTO"));
-        query = QueryBuilder.and(query, taxonName("root")); // 1
 
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -137,7 +125,7 @@ class TaxonomyIT {
     @Test
     void commonLineageNameMatchesEntry2And3() {
         String query = taxonName("Orthomyxoviridae");
-        query = QueryBuilder.and(query, taxonName("9ORTO")); // ID: 11308
+        //        query = QueryBuilder.and(query, taxonName("9ORTO")); // ID: 11308
 
         QueryResponse response = searchEngine.getQueryResponse(query);
 

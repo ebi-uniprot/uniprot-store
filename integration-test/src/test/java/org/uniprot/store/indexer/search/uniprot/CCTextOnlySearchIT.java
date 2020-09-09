@@ -494,7 +494,27 @@ class CCTextOnlySearchIT {
 
     @Test
     void shouldFindOneCataEntryQuery() {
-        String query = comments(CommentType.CATALYTIC_ACTIVITY, "O(2)");
+        String query = comments(CommentType.CATALYTIC_ACTIVITY, "O2");
+
+        QueryResponse response = searchEngine.getQueryResponse(query);
+
+        List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
+        assertThat(retrievedAccessions, hasItems(Q6GZN7));
+    }
+
+    @Test
+    void shouldFindOneCataEntryFromPartialChecmicalFormula() {
+        String query = comments(CommentType.CATALYTIC_ACTIVITY, "H2O2 + R'C(R)S-S(R)CR'");
+
+        QueryResponse response = searchEngine.getQueryResponse(query);
+
+        List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
+        assertThat(retrievedAccessions, hasItems(Q6GZN7));
+    }
+
+    @Test
+    void shouldFindOneCataEntryFromSmallPartOfChecmicalFormula() {
+        String query = comments(CommentType.CATALYTIC_ACTIVITY, "(R)S");
 
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -504,7 +524,7 @@ class CCTextOnlySearchIT {
 
     @Test
     void shouldFindOneCataEntryQueryEvidence() {
-        String query = comments(CommentType.CATALYTIC_ACTIVITY, "O(2)");
+        String query = comments(CommentType.CATALYTIC_ACTIVITY, "O2");
         String evidence = "ECO_0000255";
         query = QueryBuilder.and(query, commentEvidence(CommentType.CATALYTIC_ACTIVITY, evidence));
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -516,7 +536,7 @@ class CCTextOnlySearchIT {
 
     @Test
     void shouldFindNonCataEntryQueryEvidence() {
-        String query = comments(CommentType.CATALYTIC_ACTIVITY, "O(2)");
+        String query = comments(CommentType.CATALYTIC_ACTIVITY, "O2");
         String evidence = "ECO_0000269";
         query = QueryBuilder.and(query, commentEvidence(CommentType.CATALYTIC_ACTIVITY, evidence));
 

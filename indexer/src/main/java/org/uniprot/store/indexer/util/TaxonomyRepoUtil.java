@@ -1,11 +1,11 @@
 package org.uniprot.store.indexer.util;
 
-import org.uniprot.cv.taxonomy.TaxonomicNode;
-import org.uniprot.cv.taxonomy.TaxonomyRepo;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
+import org.uniprot.cv.taxonomy.TaxonomicNode;
+import org.uniprot.cv.taxonomy.TaxonomyRepo;
 
 /**
  * @author jluo

@@ -46,7 +46,7 @@ class FullCIAnalysisSearchIT {
             asList("P0A377.43", "P51587", "Q6GZV4.23", "Q197D8.25", "Q197F8.16");
     private static UniProtEntryObjectProxy entryProxy;
     private static int accessionId = 0;
-    private List<String> tempSavedEntries = new ArrayList<>();
+    private final List<String> tempSavedEntries = new ArrayList<>();
 
     @BeforeAll
     static void populateIndexWithTestData() throws IOException {
@@ -84,7 +84,6 @@ class FullCIAnalysisSearchIT {
                 .canBeFound(field);
     }
 
-    @Disabled
     @ParameterizedTest
     @EnumSource(FieldType.class)
     void canFindExactPhraseContainingCommasNumbersBracesAndSlashes(FieldType field) {
@@ -100,7 +99,6 @@ class FullCIAnalysisSearchIT {
                 .canBeFound(field);
     }
 
-    @Disabled
     @ParameterizedTest
     @EnumSource(FieldType.class)
     void canFindPhraseContainingCommasNumbersBracesAndSlashes(FieldType field) {
@@ -548,6 +546,52 @@ class FullCIAnalysisSearchIT {
         String accession = newAccession();
         String indexFieldValue = "this was bill's";
         String queryFieldValue = "this was bill";
+        String query = fieldQuery(field.getQueryField(), queryFieldValue);
+
+        new EntryCheck()
+                .withAccession(accession)
+                .withFieldValue(indexFieldValue)
+                .usingQuery(query)
+                .canBeFound(field);
+    }
+
+    @ParameterizedTest
+    @EnumSource(FieldType.class)
+    void canFindExactPhraseWithDash(FieldType field) {
+        String accession = newAccession();
+        String fieldValue = "LAGE-1, a new gene with tumor specificity.";
+        String query = fieldPhraseQuery(field.getQueryField(), fieldValue);
+
+        new EntryCheck()
+                .withAccession(accession)
+                .withFieldValue(fieldValue)
+                .usingQuery(query)
+                .canBeFound(field);
+    }
+
+    @ParameterizedTest
+    @EnumSource(FieldType.class)
+    void canFindExactPhraseWithDash2(FieldType field) {
+        String accession = newAccession();
+
+        String indexFieldValue = "Cys-tRNA(Pro)/cys-tRNA(Cys) deacylae";
+        String queryFieldValue = "Cys-tRNA(Pro)";
+        String query = fieldQuery(field.getQueryField(), queryFieldValue);
+
+        new EntryCheck()
+                .withAccession(accession)
+                .withFieldValue(indexFieldValue)
+                .usingQuery(query)
+                .canBeFound(field);
+    }
+
+    @ParameterizedTest
+    @EnumSource(FieldType.class)
+    void canFindExactPhraseWithDash3(FieldType field) {
+        String accession = newAccession();
+
+        String indexFieldValue = "Cys-tRNA(Pro)/cys-tRNA(Cys) deacylae";
+        String queryFieldValue = "Cys-tRNA(Pro)/cys-tRNA(Cys) deacylae";
         String query = fieldQuery(field.getQueryField(), queryFieldValue);
 
         new EntryCheck()

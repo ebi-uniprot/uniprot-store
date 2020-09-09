@@ -355,239 +355,475 @@ public class UniProtDocument implements Document {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         UniProtDocument that = (UniProtDocument) o;
-        return organismTaxId == that.organismTaxId &&
-                fragment == that.fragment &&
-                precursor == that.precursor &&
-                active == that.active &&
-                d3structure == that.d3structure &&
-                seqMass == that.seqMass &&
-                seqLength == that.seqLength &&
-                score == that.score &&
-                Objects.equals(accession, that.accession) &&
-                Objects.equals(secacc, that.secacc) &&
-                Objects.equals(id, that.id) &&
-                Objects.equals(idDefault, that.idDefault) &&
-                Objects.equals(reviewed, that.reviewed) &&
-                Objects.equals(proteinNames, that.proteinNames) &&
-                Objects.equals(proteinsNamesSort, that.proteinsNamesSort) &&
-                Objects.equals(ecNumbers, that.ecNumbers) &&
-                Objects.equals(ecNumbersExact, that.ecNumbersExact) &&
-                Objects.equals(lastModified, that.lastModified) &&
-                Objects.equals(firstCreated, that.firstCreated) &&
-                Objects.equals(sequenceUpdated, that.sequenceUpdated) &&
-                Objects.equals(keywords, that.keywords) &&
-                Objects.equals(geneNames, that.geneNames) &&
-                Objects.equals(geneNamesSort, that.geneNamesSort) &&
-                Objects.equals(geneNamesExact, that.geneNamesExact) &&
-                Objects.equals(organismName, that.organismName) &&
-                Objects.equals(organismSort, that.organismSort) &&
-                Objects.equals(modelOrganism, that.modelOrganism) &&
-                Objects.equals(otherOrganism, that.otherOrganism) &&
-                Objects.equals(organismTaxon, that.organismTaxon) &&
-                Objects.equals(taxLineageIds, that.taxLineageIds) &&
-                Objects.equals(organelles, that.organelles) &&
-                Objects.equals(organismHostNames, that.organismHostNames) &&
-                Objects.equals(organismHostIds, that.organismHostIds) &&
-                Objects.equals(pathway, that.pathway) &&
-                Objects.equals(crossRefs, that.crossRefs) &&
-                Objects.equals(databases, that.databases) &&
-                Objects.equals(referenceTitles, that.referenceTitles) &&
-                Objects.equals(referenceAuthors, that.referenceAuthors) &&
-                Objects.equals(referencePubmeds, that.referencePubmeds) &&
-                Objects.equals(referenceOrganizations, that.referenceOrganizations) &&
-                Objects.equals(referenceDates, that.referenceDates) &&
-                Objects.equals(referenceJournals, that.referenceJournals) &&
-                Objects.equals(commentMap, that.commentMap) &&
-                Objects.equals(commentEvMap, that.commentEvMap) &&
-                Objects.equals(content, that.content) &&
-                Objects.equals(featuresMap, that.featuresMap) &&
-                Objects.equals(featureEvidenceMap, that.featureEvidenceMap) &&
-                Objects.equals(featureLengthMap, that.featureLengthMap) &&
-                Objects.equals(proteinExistence, that.proteinExistence) &&
-                Objects.equals(proteinsWith, that.proteinsWith) &&
-                Objects.equals(subcellLocationTerm, that.subcellLocationTerm) &&
-                Objects.equals(subcellLocationTermEv, that.subcellLocationTermEv) &&
-                Objects.equals(subcellLocationNote, that.subcellLocationNote) &&
-                Objects.equals(subcellLocationNoteEv, that.subcellLocationNoteEv) &&
-                Objects.equals(ap, that.ap) &&
-                Objects.equals(apEv, that.apEv) &&
-                Objects.equals(apApu, that.apApu) &&
-                Objects.equals(apApuEv, that.apApuEv) &&
-                Objects.equals(apAs, that.apAs) &&
-                Objects.equals(apAsEv, that.apAsEv) &&
-                Objects.equals(apAi, that.apAi) &&
-                Objects.equals(apAiEv, that.apAiEv) &&
-                Objects.equals(apRf, that.apRf) &&
-                Objects.equals(apRfEv, that.apRfEv) &&
-                Objects.equals(bpcp, that.bpcp) &&
-                Objects.equals(bpcpAbsorption, that.bpcpAbsorption) &&
-                Objects.equals(bpcpKinetics, that.bpcpKinetics) &&
-                Objects.equals(bpcpPhDependence, that.bpcpPhDependence) &&
-                Objects.equals(bpcpRedoxPotential, that.bpcpRedoxPotential) &&
-                Objects.equals(bpcpTempDependence, that.bpcpTempDependence) &&
-                Objects.equals(bpcpEv, that.bpcpEv) &&
-                Objects.equals(bpcpAbsorptionEv, that.bpcpAbsorptionEv) &&
-                Objects.equals(bpcpKineticsEv, that.bpcpKineticsEv) &&
-                Objects.equals(bpcpPhDependenceEv, that.bpcpPhDependenceEv) &&
-                Objects.equals(bpcpRedoxPotentialEv, that.bpcpRedoxPotentialEv) &&
-                Objects.equals(bpcpTempDependenceEv, that.bpcpTempDependenceEv) &&
-                Objects.equals(cofactorChebi, that.cofactorChebi) &&
-                Objects.equals(cofactorNote, that.cofactorNote) &&
-                Objects.equals(cofactorChebiEv, that.cofactorChebiEv) &&
-                Objects.equals(cofactorNoteEv, that.cofactorNoteEv) &&
-                Objects.equals(seqCaution, that.seqCaution) &&
-                Objects.equals(seqCautionFrameshift, that.seqCautionFrameshift) &&
-                Objects.equals(seqCautionErInit, that.seqCautionErInit) &&
-                Objects.equals(seqCautionErTerm, that.seqCautionErTerm) &&
-                Objects.equals(seqCautionErPred, that.seqCautionErPred) &&
-                Objects.equals(seqCautionErTran, that.seqCautionErTran) &&
-                Objects.equals(seqCautionMisc, that.seqCautionMisc) &&
-                Objects.equals(seqCautionEv, that.seqCautionEv) &&
-                Objects.equals(seqCautionMiscEv, that.seqCautionMiscEv) &&
-                Objects.equals(interactors, that.interactors) &&
-                Objects.equals(familyInfo, that.familyInfo) &&
-                Objects.equals(seqAA, that.seqAA) &&
-                Objects.equals(rcTissue, that.rcTissue) &&
-                Objects.equals(rcStrain, that.rcStrain) &&
-                Objects.equals(rcPlasmid, that.rcPlasmid) &&
-                Objects.equals(rcTransposon, that.rcTransposon) &&
-                Objects.equals(scopes, that.scopes) &&
-                Objects.equals(proteomes, that.proteomes) &&
-                Objects.equals(proteomeComponents, that.proteomeComponents) &&
-                Objects.equals(goes, that.goes) &&
-                Objects.equals(goIds, that.goIds) &&
-                Objects.equals(goWithEvidenceMaps, that.goWithEvidenceMaps) &&
-                Objects.equals(inactiveReason, that.inactiveReason) &&
-                Objects.equals(isIsoform, that.isIsoform) &&
-                Objects.equals(xrefCountMap, that.xrefCountMap) &&
-                Objects.equals(sources, that.sources) &&
-                Objects.equals(unirefCluster50, that.unirefCluster50) &&
-                Objects.equals(unirefCluster90, that.unirefCluster90) &&
-                Objects.equals(unirefCluster100, that.unirefCluster100) &&
-                Objects.equals(mappedCitation, that.mappedCitation) &&
-                Objects.equals(uniparc, that.uniparc);
+        return organismTaxId == that.organismTaxId
+                && fragment == that.fragment
+                && precursor == that.precursor
+                && active == that.active
+                && d3structure == that.d3structure
+                && seqMass == that.seqMass
+                && seqLength == that.seqLength
+                && score == that.score
+                && Objects.equals(accession, that.accession)
+                && Objects.equals(secacc, that.secacc)
+                && Objects.equals(id, that.id)
+                && Objects.equals(idDefault, that.idDefault)
+                && Objects.equals(reviewed, that.reviewed)
+                && Objects.equals(proteinNames, that.proteinNames)
+                && Objects.equals(proteinsNamesSort, that.proteinsNamesSort)
+                && Objects.equals(ecNumbers, that.ecNumbers)
+                && Objects.equals(ecNumbersExact, that.ecNumbersExact)
+                && Objects.equals(lastModified, that.lastModified)
+                && Objects.equals(firstCreated, that.firstCreated)
+                && Objects.equals(sequenceUpdated, that.sequenceUpdated)
+                && Objects.equals(keywords, that.keywords)
+                && Objects.equals(geneNames, that.geneNames)
+                && Objects.equals(geneNamesSort, that.geneNamesSort)
+                && Objects.equals(geneNamesExact, that.geneNamesExact)
+                && Objects.equals(organismName, that.organismName)
+                && Objects.equals(organismSort, that.organismSort)
+                && Objects.equals(modelOrganism, that.modelOrganism)
+                && Objects.equals(otherOrganism, that.otherOrganism)
+                && Objects.equals(organismTaxon, that.organismTaxon)
+                && Objects.equals(taxLineageIds, that.taxLineageIds)
+                && Objects.equals(organelles, that.organelles)
+                && Objects.equals(organismHostNames, that.organismHostNames)
+                && Objects.equals(organismHostIds, that.organismHostIds)
+                && Objects.equals(pathway, that.pathway)
+                && Objects.equals(crossRefs, that.crossRefs)
+                && Objects.equals(databases, that.databases)
+                && Objects.equals(referenceTitles, that.referenceTitles)
+                && Objects.equals(referenceAuthors, that.referenceAuthors)
+                && Objects.equals(referencePubmeds, that.referencePubmeds)
+                && Objects.equals(referenceOrganizations, that.referenceOrganizations)
+                && Objects.equals(referenceDates, that.referenceDates)
+                && Objects.equals(referenceJournals, that.referenceJournals)
+                && Objects.equals(commentMap, that.commentMap)
+                && Objects.equals(commentEvMap, that.commentEvMap)
+                && Objects.equals(content, that.content)
+                && Objects.equals(featuresMap, that.featuresMap)
+                && Objects.equals(featureEvidenceMap, that.featureEvidenceMap)
+                && Objects.equals(featureLengthMap, that.featureLengthMap)
+                && Objects.equals(proteinExistence, that.proteinExistence)
+                && Objects.equals(proteinsWith, that.proteinsWith)
+                && Objects.equals(subcellLocationTerm, that.subcellLocationTerm)
+                && Objects.equals(subcellLocationTermEv, that.subcellLocationTermEv)
+                && Objects.equals(subcellLocationNote, that.subcellLocationNote)
+                && Objects.equals(subcellLocationNoteEv, that.subcellLocationNoteEv)
+                && Objects.equals(ap, that.ap)
+                && Objects.equals(apEv, that.apEv)
+                && Objects.equals(apApu, that.apApu)
+                && Objects.equals(apApuEv, that.apApuEv)
+                && Objects.equals(apAs, that.apAs)
+                && Objects.equals(apAsEv, that.apAsEv)
+                && Objects.equals(apAi, that.apAi)
+                && Objects.equals(apAiEv, that.apAiEv)
+                && Objects.equals(apRf, that.apRf)
+                && Objects.equals(apRfEv, that.apRfEv)
+                && Objects.equals(bpcp, that.bpcp)
+                && Objects.equals(bpcpAbsorption, that.bpcpAbsorption)
+                && Objects.equals(bpcpKinetics, that.bpcpKinetics)
+                && Objects.equals(bpcpPhDependence, that.bpcpPhDependence)
+                && Objects.equals(bpcpRedoxPotential, that.bpcpRedoxPotential)
+                && Objects.equals(bpcpTempDependence, that.bpcpTempDependence)
+                && Objects.equals(bpcpEv, that.bpcpEv)
+                && Objects.equals(bpcpAbsorptionEv, that.bpcpAbsorptionEv)
+                && Objects.equals(bpcpKineticsEv, that.bpcpKineticsEv)
+                && Objects.equals(bpcpPhDependenceEv, that.bpcpPhDependenceEv)
+                && Objects.equals(bpcpRedoxPotentialEv, that.bpcpRedoxPotentialEv)
+                && Objects.equals(bpcpTempDependenceEv, that.bpcpTempDependenceEv)
+                && Objects.equals(cofactorChebi, that.cofactorChebi)
+                && Objects.equals(cofactorNote, that.cofactorNote)
+                && Objects.equals(cofactorChebiEv, that.cofactorChebiEv)
+                && Objects.equals(cofactorNoteEv, that.cofactorNoteEv)
+                && Objects.equals(seqCaution, that.seqCaution)
+                && Objects.equals(seqCautionFrameshift, that.seqCautionFrameshift)
+                && Objects.equals(seqCautionErInit, that.seqCautionErInit)
+                && Objects.equals(seqCautionErTerm, that.seqCautionErTerm)
+                && Objects.equals(seqCautionErPred, that.seqCautionErPred)
+                && Objects.equals(seqCautionErTran, that.seqCautionErTran)
+                && Objects.equals(seqCautionMisc, that.seqCautionMisc)
+                && Objects.equals(seqCautionEv, that.seqCautionEv)
+                && Objects.equals(seqCautionMiscEv, that.seqCautionMiscEv)
+                && Objects.equals(interactors, that.interactors)
+                && Objects.equals(familyInfo, that.familyInfo)
+                && Objects.equals(seqAA, that.seqAA)
+                && Objects.equals(rcTissue, that.rcTissue)
+                && Objects.equals(rcStrain, that.rcStrain)
+                && Objects.equals(rcPlasmid, that.rcPlasmid)
+                && Objects.equals(rcTransposon, that.rcTransposon)
+                && Objects.equals(scopes, that.scopes)
+                && Objects.equals(proteomes, that.proteomes)
+                && Objects.equals(proteomeComponents, that.proteomeComponents)
+                && Objects.equals(goes, that.goes)
+                && Objects.equals(goIds, that.goIds)
+                && Objects.equals(goWithEvidenceMaps, that.goWithEvidenceMaps)
+                && Objects.equals(inactiveReason, that.inactiveReason)
+                && Objects.equals(isIsoform, that.isIsoform)
+                && Objects.equals(xrefCountMap, that.xrefCountMap)
+                && Objects.equals(sources, that.sources)
+                && Objects.equals(unirefCluster50, that.unirefCluster50)
+                && Objects.equals(unirefCluster90, that.unirefCluster90)
+                && Objects.equals(unirefCluster100, that.unirefCluster100)
+                && Objects.equals(mappedCitation, that.mappedCitation)
+                && Objects.equals(uniparc, that.uniparc);
     }
 
     @Override
     public int hashCode() {
-        return Objects
-                .hash(accession, secacc, id, idDefault, reviewed, proteinNames, proteinsNamesSort, ecNumbers, ecNumbersExact, lastModified, firstCreated, sequenceUpdated, keywords, geneNames, geneNamesSort, geneNamesExact, organismName, organismSort, organismTaxId, modelOrganism, otherOrganism, organismTaxon, taxLineageIds, organelles, organismHostNames, organismHostIds, pathway, crossRefs, databases, referenceTitles, referenceAuthors, referencePubmeds, referenceOrganizations, referenceDates, referenceJournals, commentMap, commentEvMap, content, featuresMap, featureEvidenceMap, featureLengthMap, proteinExistence, fragment, precursor, active, d3structure, proteinsWith, subcellLocationTerm, subcellLocationTermEv, subcellLocationNote, subcellLocationNoteEv, ap, apEv, apApu, apApuEv, apAs, apAsEv, apAi, apAiEv, apRf, apRfEv, bpcp, bpcpAbsorption, bpcpKinetics, bpcpPhDependence, bpcpRedoxPotential, bpcpTempDependence, bpcpEv, bpcpAbsorptionEv, bpcpKineticsEv, bpcpPhDependenceEv, bpcpRedoxPotentialEv, bpcpTempDependenceEv, cofactorChebi, cofactorNote, cofactorChebiEv, cofactorNoteEv, seqCaution, seqCautionFrameshift, seqCautionErInit, seqCautionErTerm, seqCautionErPred, seqCautionErTran, seqCautionMisc, seqCautionEv, seqCautionMiscEv, interactors, familyInfo, seqMass, seqLength, seqAA, rcTissue, rcStrain, rcPlasmid, rcTransposon, scopes, proteomes, proteomeComponents, goes, goIds, goWithEvidenceMaps, score, inactiveReason, isIsoform, xrefCountMap, sources, unirefCluster50, unirefCluster90, unirefCluster100, mappedCitation, uniparc);
+        return Objects.hash(
+                accession,
+                secacc,
+                id,
+                idDefault,
+                reviewed,
+                proteinNames,
+                proteinsNamesSort,
+                ecNumbers,
+                ecNumbersExact,
+                lastModified,
+                firstCreated,
+                sequenceUpdated,
+                keywords,
+                geneNames,
+                geneNamesSort,
+                geneNamesExact,
+                organismName,
+                organismSort,
+                organismTaxId,
+                modelOrganism,
+                otherOrganism,
+                organismTaxon,
+                taxLineageIds,
+                organelles,
+                organismHostNames,
+                organismHostIds,
+                pathway,
+                crossRefs,
+                databases,
+                referenceTitles,
+                referenceAuthors,
+                referencePubmeds,
+                referenceOrganizations,
+                referenceDates,
+                referenceJournals,
+                commentMap,
+                commentEvMap,
+                content,
+                featuresMap,
+                featureEvidenceMap,
+                featureLengthMap,
+                proteinExistence,
+                fragment,
+                precursor,
+                active,
+                d3structure,
+                proteinsWith,
+                subcellLocationTerm,
+                subcellLocationTermEv,
+                subcellLocationNote,
+                subcellLocationNoteEv,
+                ap,
+                apEv,
+                apApu,
+                apApuEv,
+                apAs,
+                apAsEv,
+                apAi,
+                apAiEv,
+                apRf,
+                apRfEv,
+                bpcp,
+                bpcpAbsorption,
+                bpcpKinetics,
+                bpcpPhDependence,
+                bpcpRedoxPotential,
+                bpcpTempDependence,
+                bpcpEv,
+                bpcpAbsorptionEv,
+                bpcpKineticsEv,
+                bpcpPhDependenceEv,
+                bpcpRedoxPotentialEv,
+                bpcpTempDependenceEv,
+                cofactorChebi,
+                cofactorNote,
+                cofactorChebiEv,
+                cofactorNoteEv,
+                seqCaution,
+                seqCautionFrameshift,
+                seqCautionErInit,
+                seqCautionErTerm,
+                seqCautionErPred,
+                seqCautionErTran,
+                seqCautionMisc,
+                seqCautionEv,
+                seqCautionMiscEv,
+                interactors,
+                familyInfo,
+                seqMass,
+                seqLength,
+                seqAA,
+                rcTissue,
+                rcStrain,
+                rcPlasmid,
+                rcTransposon,
+                scopes,
+                proteomes,
+                proteomeComponents,
+                goes,
+                goIds,
+                goWithEvidenceMaps,
+                score,
+                inactiveReason,
+                isIsoform,
+                xrefCountMap,
+                sources,
+                unirefCluster50,
+                unirefCluster90,
+                unirefCluster100,
+                mappedCitation,
+                uniparc);
     }
 
     @Override
     public String toString() {
-        return "UniProtDocument{" +
-                "accession='" + accession + '\'' +
-                ", secacc=" + secacc +
-                ", id='" + id + '\'' +
-                ", idDefault='" + idDefault + '\'' +
-                ", reviewed=" + reviewed +
-                ", proteinNames=" + proteinNames +
-                ", proteinsNamesSort='" + proteinsNamesSort + '\'' +
-                ", ecNumbers=" + ecNumbers +
-                ", ecNumbersExact=" + ecNumbersExact +
-                ", lastModified=" + lastModified +
-                ", firstCreated=" + firstCreated +
-                ", sequenceUpdated=" + sequenceUpdated +
-                ", keywords=" + keywords +
-                ", geneNames=" + geneNames +
-                ", geneNamesSort='" + geneNamesSort + '\'' +
-                ", geneNamesExact=" + geneNamesExact +
-                ", organismName=" + organismName +
-                ", organismSort='" + organismSort + '\'' +
-                ", organismTaxId=" + organismTaxId +
-                ", modelOrganism='" + modelOrganism + '\'' +
-                ", otherOrganism='" + otherOrganism + '\'' +
-                ", organismTaxon=" + organismTaxon +
-                ", taxLineageIds=" + taxLineageIds +
-                ", organelles=" + organelles +
-                ", organismHostNames=" + organismHostNames +
-                ", organismHostIds=" + organismHostIds +
-                ", pathway=" + pathway +
-                ", crossRefs=" + crossRefs +
-                ", databases=" + databases +
-                ", referenceTitles=" + referenceTitles +
-                ", referenceAuthors=" + referenceAuthors +
-                ", referencePubmeds=" + referencePubmeds +
-                ", referenceOrganizations=" + referenceOrganizations +
-                ", referenceDates=" + referenceDates +
-                ", referenceJournals=" + referenceJournals +
-                ", commentMap=" + commentMap +
-                ", commentEvMap=" + commentEvMap +
-                ", content=" + content +
-                ", featuresMap=" + featuresMap +
-                ", featureEvidenceMap=" + featureEvidenceMap +
-                ", featureLengthMap=" + featureLengthMap +
-                ", proteinExistence='" + proteinExistence + '\'' +
-                ", fragment=" + fragment +
-                ", precursor=" + precursor +
-                ", active=" + active +
-                ", d3structure=" + d3structure +
-                ", proteinsWith=" + proteinsWith +
-                ", subcellLocationTerm=" + subcellLocationTerm +
-                ", subcellLocationTermEv=" + subcellLocationTermEv +
-                ", subcellLocationNote=" + subcellLocationNote +
-                ", subcellLocationNoteEv=" + subcellLocationNoteEv +
-                ", ap=" + ap +
-                ", apEv=" + apEv +
-                ", apApu=" + apApu +
-                ", apApuEv=" + apApuEv +
-                ", apAs=" + apAs +
-                ", apAsEv=" + apAsEv +
-                ", apAi=" + apAi +
-                ", apAiEv=" + apAiEv +
-                ", apRf=" + apRf +
-                ", apRfEv=" + apRfEv +
-                ", bpcp=" + bpcp +
-                ", bpcpAbsorption=" + bpcpAbsorption +
-                ", bpcpKinetics=" + bpcpKinetics +
-                ", bpcpPhDependence=" + bpcpPhDependence +
-                ", bpcpRedoxPotential=" + bpcpRedoxPotential +
-                ", bpcpTempDependence=" + bpcpTempDependence +
-                ", bpcpEv=" + bpcpEv +
-                ", bpcpAbsorptionEv=" + bpcpAbsorptionEv +
-                ", bpcpKineticsEv=" + bpcpKineticsEv +
-                ", bpcpPhDependenceEv=" + bpcpPhDependenceEv +
-                ", bpcpRedoxPotentialEv=" + bpcpRedoxPotentialEv +
-                ", bpcpTempDependenceEv=" + bpcpTempDependenceEv +
-                ", cofactorChebi=" + cofactorChebi +
-                ", cofactorNote=" + cofactorNote +
-                ", cofactorChebiEv=" + cofactorChebiEv +
-                ", cofactorNoteEv=" + cofactorNoteEv +
-                ", seqCaution=" + seqCaution +
-                ", seqCautionFrameshift=" + seqCautionFrameshift +
-                ", seqCautionErInit=" + seqCautionErInit +
-                ", seqCautionErTerm=" + seqCautionErTerm +
-                ", seqCautionErPred=" + seqCautionErPred +
-                ", seqCautionErTran=" + seqCautionErTran +
-                ", seqCautionMisc=" + seqCautionMisc +
-                ", seqCautionEv=" + seqCautionEv +
-                ", seqCautionMiscEv=" + seqCautionMiscEv +
-                ", interactors=" + interactors +
-                ", familyInfo=" + familyInfo +
-                ", seqMass=" + seqMass +
-                ", seqLength=" + seqLength +
-                ", seqAA='" + seqAA + '\'' +
-                ", rcTissue=" + rcTissue +
-                ", rcStrain=" + rcStrain +
-                ", rcPlasmid=" + rcPlasmid +
-                ", rcTransposon=" + rcTransposon +
-                ", scopes=" + scopes +
-                ", proteomes=" + proteomes +
-                ", proteomeComponents=" + proteomeComponents +
-                ", goes=" + goes +
-                ", goIds=" + goIds +
-                ", goWithEvidenceMaps=" + goWithEvidenceMaps +
-                ", score=" + score +
-                ", inactiveReason='" + inactiveReason + '\'' +
-                ", isIsoform=" + isIsoform +
-                ", xrefCountMap=" + xrefCountMap +
-                ", sources=" + sources +
-                ", unirefCluster50='" + unirefCluster50 + '\'' +
-                ", unirefCluster90='" + unirefCluster90 + '\'' +
-                ", unirefCluster100='" + unirefCluster100 + '\'' +
-                ", mappedCitation=" + mappedCitation +
-                ", uniparc='" + uniparc + '\'' +
-                '}';
+        return "UniProtDocument{"
+                + "accession='"
+                + accession
+                + '\''
+                + ", secacc="
+                + secacc
+                + ", id='"
+                + id
+                + '\''
+                + ", idDefault='"
+                + idDefault
+                + '\''
+                + ", reviewed="
+                + reviewed
+                + ", proteinNames="
+                + proteinNames
+                + ", proteinsNamesSort='"
+                + proteinsNamesSort
+                + '\''
+                + ", ecNumbers="
+                + ecNumbers
+                + ", ecNumbersExact="
+                + ecNumbersExact
+                + ", lastModified="
+                + lastModified
+                + ", firstCreated="
+                + firstCreated
+                + ", sequenceUpdated="
+                + sequenceUpdated
+                + ", keywords="
+                + keywords
+                + ", geneNames="
+                + geneNames
+                + ", geneNamesSort='"
+                + geneNamesSort
+                + '\''
+                + ", geneNamesExact="
+                + geneNamesExact
+                + ", organismName="
+                + organismName
+                + ", organismSort='"
+                + organismSort
+                + '\''
+                + ", organismTaxId="
+                + organismTaxId
+                + ", modelOrganism='"
+                + modelOrganism
+                + '\''
+                + ", otherOrganism='"
+                + otherOrganism
+                + '\''
+                + ", organismTaxon="
+                + organismTaxon
+                + ", taxLineageIds="
+                + taxLineageIds
+                + ", organelles="
+                + organelles
+                + ", organismHostNames="
+                + organismHostNames
+                + ", organismHostIds="
+                + organismHostIds
+                + ", pathway="
+                + pathway
+                + ", crossRefs="
+                + crossRefs
+                + ", databases="
+                + databases
+                + ", referenceTitles="
+                + referenceTitles
+                + ", referenceAuthors="
+                + referenceAuthors
+                + ", referencePubmeds="
+                + referencePubmeds
+                + ", referenceOrganizations="
+                + referenceOrganizations
+                + ", referenceDates="
+                + referenceDates
+                + ", referenceJournals="
+                + referenceJournals
+                + ", commentMap="
+                + commentMap
+                + ", commentEvMap="
+                + commentEvMap
+                + ", content="
+                + content
+                + ", featuresMap="
+                + featuresMap
+                + ", featureEvidenceMap="
+                + featureEvidenceMap
+                + ", featureLengthMap="
+                + featureLengthMap
+                + ", proteinExistence='"
+                + proteinExistence
+                + '\''
+                + ", fragment="
+                + fragment
+                + ", precursor="
+                + precursor
+                + ", active="
+                + active
+                + ", d3structure="
+                + d3structure
+                + ", proteinsWith="
+                + proteinsWith
+                + ", subcellLocationTerm="
+                + subcellLocationTerm
+                + ", subcellLocationTermEv="
+                + subcellLocationTermEv
+                + ", subcellLocationNote="
+                + subcellLocationNote
+                + ", subcellLocationNoteEv="
+                + subcellLocationNoteEv
+                + ", ap="
+                + ap
+                + ", apEv="
+                + apEv
+                + ", apApu="
+                + apApu
+                + ", apApuEv="
+                + apApuEv
+                + ", apAs="
+                + apAs
+                + ", apAsEv="
+                + apAsEv
+                + ", apAi="
+                + apAi
+                + ", apAiEv="
+                + apAiEv
+                + ", apRf="
+                + apRf
+                + ", apRfEv="
+                + apRfEv
+                + ", bpcp="
+                + bpcp
+                + ", bpcpAbsorption="
+                + bpcpAbsorption
+                + ", bpcpKinetics="
+                + bpcpKinetics
+                + ", bpcpPhDependence="
+                + bpcpPhDependence
+                + ", bpcpRedoxPotential="
+                + bpcpRedoxPotential
+                + ", bpcpTempDependence="
+                + bpcpTempDependence
+                + ", bpcpEv="
+                + bpcpEv
+                + ", bpcpAbsorptionEv="
+                + bpcpAbsorptionEv
+                + ", bpcpKineticsEv="
+                + bpcpKineticsEv
+                + ", bpcpPhDependenceEv="
+                + bpcpPhDependenceEv
+                + ", bpcpRedoxPotentialEv="
+                + bpcpRedoxPotentialEv
+                + ", bpcpTempDependenceEv="
+                + bpcpTempDependenceEv
+                + ", cofactorChebi="
+                + cofactorChebi
+                + ", cofactorNote="
+                + cofactorNote
+                + ", cofactorChebiEv="
+                + cofactorChebiEv
+                + ", cofactorNoteEv="
+                + cofactorNoteEv
+                + ", seqCaution="
+                + seqCaution
+                + ", seqCautionFrameshift="
+                + seqCautionFrameshift
+                + ", seqCautionErInit="
+                + seqCautionErInit
+                + ", seqCautionErTerm="
+                + seqCautionErTerm
+                + ", seqCautionErPred="
+                + seqCautionErPred
+                + ", seqCautionErTran="
+                + seqCautionErTran
+                + ", seqCautionMisc="
+                + seqCautionMisc
+                + ", seqCautionEv="
+                + seqCautionEv
+                + ", seqCautionMiscEv="
+                + seqCautionMiscEv
+                + ", interactors="
+                + interactors
+                + ", familyInfo="
+                + familyInfo
+                + ", seqMass="
+                + seqMass
+                + ", seqLength="
+                + seqLength
+                + ", seqAA='"
+                + seqAA
+                + '\''
+                + ", rcTissue="
+                + rcTissue
+                + ", rcStrain="
+                + rcStrain
+                + ", rcPlasmid="
+                + rcPlasmid
+                + ", rcTransposon="
+                + rcTransposon
+                + ", scopes="
+                + scopes
+                + ", proteomes="
+                + proteomes
+                + ", proteomeComponents="
+                + proteomeComponents
+                + ", goes="
+                + goes
+                + ", goIds="
+                + goIds
+                + ", goWithEvidenceMaps="
+                + goWithEvidenceMaps
+                + ", score="
+                + score
+                + ", inactiveReason='"
+                + inactiveReason
+                + '\''
+                + ", isIsoform="
+                + isIsoform
+                + ", xrefCountMap="
+                + xrefCountMap
+                + ", sources="
+                + sources
+                + ", unirefCluster50='"
+                + unirefCluster50
+                + '\''
+                + ", unirefCluster90='"
+                + unirefCluster90
+                + '\''
+                + ", unirefCluster100='"
+                + unirefCluster100
+                + '\''
+                + ", mappedCitation="
+                + mappedCitation
+                + ", uniparc='"
+                + uniparc
+                + '\''
+                + '}';
     }
 }

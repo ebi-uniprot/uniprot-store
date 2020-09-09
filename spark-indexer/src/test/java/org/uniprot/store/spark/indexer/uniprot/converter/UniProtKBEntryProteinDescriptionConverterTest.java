@@ -4,7 +4,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
@@ -61,10 +60,6 @@ class UniProtKBEntryProteinDescriptionConverterTest {
 
         assertEquals(25, document.proteinNames.size());
         assertEquals(indexedNames, document.proteinNames);
-
-        // Should we add ECEntry numbers to the content field?
-        assertEquals(25, document.content.size());
-        assertEquals(new HashSet<>(indexedNames), document.content);
 
         assertEquals(30, document.proteinsNamesSort.length());
         assertEquals("rec full Name recommended shor", document.proteinsNamesSort);

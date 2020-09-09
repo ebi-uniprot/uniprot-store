@@ -52,7 +52,7 @@ class CCSearchIT {
         entryProxy.updateEntryObject(LineType.AC, String.format(ACC_LINE, Q6GZX3));
         entryProxy.updateEntryObject(
                 LineType.CC,
-                "CC   -!- SUBCELLULAR LOCATION: This-is-a-word Host membrane extraWord {ECO:0000305}; Single-pass\n"
+                "CC   -!- SUBCELLULAR LOCATION: Protein-fish-monkey-word Host membrane extraWord {ECO:0000305}; Single-pass\n"
                         + "CC       membrane protein {ECO:0000305}.\n"
                         + "CC   -!- BIOPHYSICOCHEMICAL PROPERTIES:\n"
                         + "CC       Absorption:\n"
@@ -64,7 +64,7 @@ class CCSearchIT {
         entryProxy.updateEntryObject(LineType.AC, String.format(ACC_LINE, Q6GZY3));
         entryProxy.updateEntryObject(
                 LineType.CC,
-                "CC   -!- SUBCELLULAR LOCATION: This-is-a Host membrane; Single-pass\n"
+                "CC   -!- SUBCELLULAR LOCATION: Protein-fish-monkey Host membrane; Single-pass\n"
                         + "CC       membrane protein. Note=Localizes at mid-cell.");
         searchEngine.indexEntry(convertToUniProtEntry(entryProxy));
 
@@ -201,7 +201,7 @@ class CCSearchIT {
     @Test
     void catalyticActivFindCopyAndPastedEquation() {
         String query =
-                comments(CommentType.CATALYTIC_ACTIVITY, "2 R'C(R)SH + O(2) = R'C(R)S-S(R)CR'");
+                comments(CommentType.CATALYTIC_ACTIVITY, "2 R'C(R)SH = H2O2 + R'C(R)S-S(R)CR'");
 
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -220,6 +220,16 @@ class CCSearchIT {
     }
 
     @Test
+    void doNotFindHydrInCatalyticActiv() {
+        String query = comments(CommentType.CATALYTIC_ACTIVITY, "Hydr");
+
+        QueryResponse response = searchEngine.getQueryResponse(query);
+
+        List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
+        assertThat(retrievedAccessions, is(empty()));
+    }
+
+    @Test
     void catalyticActivFindHydroxygeraniolExact() {
         String query = comments(CommentType.CATALYTIC_ACTIVITY, "hydroxygeraniol");
 
@@ -231,7 +241,7 @@ class CCSearchIT {
 
     @Test
     void catalyticActivFindO2() {
-        String query = comments(CommentType.CATALYTIC_ACTIVITY, "O(2)");
+        String query = comments(CommentType.CATALYTIC_ACTIVITY, "O2");
 
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -321,7 +331,7 @@ class CCSearchIT {
 
     @Test
     void subcellularFindOneEntryFromSpecificHyphenatedTerm() {
-        String query = comments(CommentType.SUBCELLULAR_LOCATION, "this-is-a-word");
+        String query = comments(CommentType.SUBCELLULAR_LOCATION, "protein-monkey-fish-word");
 
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -331,7 +341,7 @@ class CCSearchIT {
 
     @Test
     void subcellularFindBothEntriesFromHyphenatedTerm() {
-        String query = comments(CommentType.SUBCELLULAR_LOCATION, "this-is");
+        String query = comments(CommentType.SUBCELLULAR_LOCATION, "protein-monkey");
 
         QueryResponse response = searchEngine.getQueryResponse(query);
 

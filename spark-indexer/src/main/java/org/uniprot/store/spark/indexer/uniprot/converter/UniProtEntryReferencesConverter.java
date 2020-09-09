@@ -35,14 +35,15 @@ class UniProtEntryReferencesConverter {
             }
             if (citation.hasTitle()) {
                 document.referenceTitles.add(citation.getTitle());
-//                document.content.add(citation.getTitle());
+                //                document.content.add(citation.getTitle());
             }
             if (citation.hasAuthors()) {
                 citation.getAuthors()
                         .forEach(
                                 author -> {
                                     document.referenceAuthors.add(author.getValue());
-//                                    document.content.add(author.getValue());
+                                    //
+                                    // document.content.add(author.getValue());
                                 });
             }
             if (citation.hasAuthoringGroup()) {
@@ -50,7 +51,8 @@ class UniProtEntryReferencesConverter {
                         .forEach(
                                 authGroup -> {
                                     document.referenceOrganizations.add(authGroup);
-//                                    document.content.add(authGroup);
+                                    //
+                                    // document.content.add(authGroup);
                                 });
             }
             if (citation.hasPublicationDate()) {
@@ -61,12 +63,12 @@ class UniProtEntryReferencesConverter {
             if (pubmedCitation.isPresent()) {
                 CrossReference<CitationDatabase> pubmed = pubmedCitation.get();
                 document.referencePubmeds.add(pubmed.getId());
-//                document.content.add(pubmed.getId());
+                //                document.content.add(pubmed.getId());
             }
             if (citation instanceof JournalArticle) {
                 JournalArticle ja = (JournalArticle) citation;
                 document.referenceJournals.add(ja.getJournal().getName());
-//                document.content.add(ja.getJournal().getName());
+                //                document.content.add(ja.getJournal().getName());
             }
         }
     }
@@ -116,7 +118,7 @@ class UniProtEntryReferencesConverter {
                                 document.rcTransposon.add(commentValue);
                                 break;
                         }
-//                        document.content.add(commentValue);
+                        //                        document.content.add(commentValue);
                     }
                 });
     }
@@ -126,7 +128,7 @@ class UniProtEntryReferencesConverter {
         if (uniProtkbReference.hasReferencePositions()) {
             List<String> positions = uniProtkbReference.getReferencePositions();
             document.scopes.addAll(positions);
-//            document.content.addAll(positions);
+            //            document.content.addAll(positions);
         }
     }
 }

@@ -102,8 +102,8 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtKBEntry, 
             }
             document.reviewed = (source.getEntryType() == UniProtKBEntryType.SWISSPROT);
             addValueListToStringList(document.secacc, source.getSecondaryAccessions());
-////            document.content.add(document.accession);
-////            document.content.addAll(document.secacc);
+            ////            document.content.add(document.accession);
+            ////            document.content.addAll(document.secacc);
 
             proteinDescriptionConverter.convertProteinDescription(
                     source.getProteinDescription(), document);
@@ -170,7 +170,7 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtKBEntry, 
 
     private void convertUniprotId(UniProtKBId uniProtkbId, UniProtDocument document) {
         document.id = uniProtkbId.getValue();
-        ////document.content.add(document.id);
+        //// document.content.add(document.id);
         String[] idParts = document.id.split("_");
         if (idParts.length == 2) {
             if (document.reviewed) {
@@ -206,7 +206,7 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtKBEntry, 
     private void convertKeywords(List<Keyword> keywords, UniProtDocument document) {
         if (Utils.notNullNotEmpty(keywords)) {
             keywords.forEach(keyword -> updateKeyword(keyword, document));
-            ////document.content.addAll(document.keywords);
+            //// document.content.addAll(document.keywords);
         }
     }
 
@@ -244,8 +244,8 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtKBEntry, 
                 addValueListToStringList(document.geneNamesExact, gene.getOrderedLocusNames());
                 addValueListToStringList(document.geneNamesExact, gene.getOrfNames());
             }
-//            document.geneNames.addAll(document.geneNamesExact);
-            ////document.content.addAll(document.geneNamesExact);
+            document.geneNames.addAll(document.geneNamesExact);
+            //// document.content.addAll(document.geneNamesExact);
             document.geneNamesSort = truncatedSortValue(String.join(" ", document.geneNames));
         }
     }
@@ -260,7 +260,7 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtKBEntry, 
                 }
                 document.organelles.add(geneEncodingType.getName().toLowerCase());
             }
-            ////document.content.addAll(document.organelles);
+            //// document.content.addAll(document.organelles);
         }
     }
 

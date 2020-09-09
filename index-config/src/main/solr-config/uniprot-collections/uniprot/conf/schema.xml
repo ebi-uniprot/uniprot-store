@@ -19,414 +19,425 @@
 
 <schema name="uniprot" version="1.6">
 
-    <uniqueKey>accession_id</uniqueKey>
+	<uniqueKey>accession_id</uniqueKey>
 
-    <field name="_version_" type="plong" indexed="true" stored="true"/>
+	<field name="_version_" type="plong" indexed="true" stored="true" />
 
-    <!-- =============================== UniProt fields =============================== -->
-    <field name="accession_id" type="string" indexed="true"
-           stored="true" required="true" multiValued="false" docValues="true"/>
+	<!-- =============================== UniProt fields =============================== -->
+	<field name="accession_id" type="string" indexed="true"
+		stored="true" required="true" multiValued="false" docValues="true" />
 
-    <field name="inactive_reason" type="string" indexed="false"
-           stored="true" required="false" multiValued="false"/>
+	<field name="inactive_reason" type="string" indexed="false"
+		stored="true" required="false" multiValued="false" />
 
-    <field name="id" type="basic_ci" indexed="true" stored="true"
-           required="false" multiValued="false"/>
-    <field name="id_sort" type="string" indexed="true" stored="false"
-           required="false" multiValued="false" docValues="true"/>
-    <field name="id_default" type="full_ci" indexed="true"
-           stored="false" required="false" multiValued="false"/>
-    <copyField source="id" dest="id_sort"/>
+	<field name="id" type="basic_ci" indexed="true" stored="true"
+		required="false" multiValued="false" />
+	<field name="id_sort" type="string" indexed="true" stored="false"
+		required="false" multiValued="false" docValues="true" />
+	<field name="id_default" type="full_ci" indexed="true"
+		stored="false" required="false" multiValued="false" />
+	<copyField source="id" dest="id_sort" />
 
-    <field name="active" type="boolean" indexed="true" stored="false"
-           required="false" multiValued="false"/>
+	<field name="active" type="boolean" indexed="true" stored="false"
+		required="false" multiValued="false" />
 
-    <field name="is_isoform" type="boolean" indexed="true"
-           stored="false" required="false" multiValued="false"/>
-    <field name="reviewed" type="boolean" indexed="true"
-           stored="false" required="false" multiValued="false"/>
-    <field name="date_modified" type="rdates" indexed="true"
-           stored="false" required="false"/>
-    <field name="date_created" type="rdates" indexed="true"
-           stored="false" required="false"/>
-    <field name="date_sequence_modified" type="rdates" indexed="true"
-           stored="false" required="false"/>
+	<field name="is_isoform" type="boolean" indexed="true"
+		stored="false" required="false" multiValued="false" />
+	<field name="reviewed" type="boolean" indexed="true"
+		stored="false" required="false" multiValued="false" />
+	<field name="date_modified" type="rdates" indexed="true"
+		stored="false" required="false" />
+	<field name="date_created" type="rdates" indexed="true"
+		stored="false" required="false" />
+	<field name="date_sequence_modified" type="rdates" indexed="true"
+		stored="false" required="false" />
 
-    <field name="source" type="lowercase" indexed="true"
-           stored="false" required="false" multiValued="true"/>
+	<field name="source" type="lowercase" indexed="true"
+		stored="false" required="false" multiValued="true" />
 
-    <!-- Protein name section -->
-    <field name="protein_name" type="full_ci" indexed="true"
-           stored="false" required="false" multiValued="true"/>
-    <field name="protein_name_sort" type="string" indexed="true"
-           stored="false" required="false" multiValued="false" docValues="true"/>
+	<!-- Protein name section -->
+	<!-- access protein name via protgene_default for default search -->
+	<field name="protein_name" type="full_ci" indexed="true"
+		stored="false" required="false" multiValued="true" />
+	<field name="protein_name_sort" type="string" indexed="true"
+		stored="false" required="false" multiValued="false" docValues="true" />
 
-    <field name="fragment" type="boolean" indexed="true"
-           stored="false" required="false" multiValued="false"/>
-    <field name="precursor" type="boolean" indexed="true"
-           stored="false" required="false" multiValued="false"/>
-    <field name="structure_3d" type="boolean" indexed="true"
-           stored="false" required="false" multiValued="false"/>
-    <field name="proteins_with" type="string" indexed="true"
-           stored="false" required="false" multiValued="true" docValues="true"/>
+	<field name="fragment" type="boolean" indexed="true"
+		stored="false" required="false" multiValued="false" />
+	<field name="precursor" type="boolean" indexed="true"
+		stored="false" required="false" multiValued="false" />
+	<field name="structure_3d" type="boolean" indexed="true"
+		stored="false" required="false" multiValued="false" />
+	<field name="proteins_with" type="string" indexed="true"
+		stored="false" required="false" multiValued="true" docValues="true" />
 
-    <!-- Uniprot Entry Fields optional -->
-    <field name="sec_acc" type="basic_ci" indexed="true"
-           stored="false" required="false" multiValued="true"/>
+	<!-- Uniprot Entry Fields optional -->
+	<field name="sec_acc" type="basic_ci" indexed="true"
+		stored="false" required="false" multiValued="true" />
 
-    <field name="accession" type="basic_ci" indexed="true"
-           stored="false" required="true" multiValued="true"/>
-    <copyField source="sec_acc" dest="accession"/>
-    <copyField source="accession_id" dest="accession"/>
+	<field name="accession" type="basic_ci" indexed="true"
+		stored="false" required="true" multiValued="true" />
+	<copyField source="sec_acc" dest="accession" />
+	<copyField source="accession_id" dest="accession" />
 
-    <!-- go used the advanced with everything -->
-    <field name="go" type="full_ci" indexed="true" stored="false"
-           required="false" multiValued="true"/>
-    <field name="go_id" type="string" indexed="true" stored="false"
-           required="false" multiValued="true"/>
+	<!-- go used the advanced with everything -->
+	<field name="go" type="full_ci" indexed="true" stored="false"
+		required="false" multiValued="true" />
+	<field name="go_id" type="string" indexed="true" stored="false"
+		required="false" multiValued="true" />
 
-    <dynamicField name="go_*" type="lowercase" indexed="true"
-                  required="false" stored="false" multiValued="true"/>
+	<dynamicField name="go_*" type="lowercase" indexed="true"
+		required="false" stored="false" multiValued="true" />
 
-    <field name="keyword" type="basic_ci" indexed="true"
-           stored="false" required="false" multiValued="true"/>
+	<field name="keyword" type="basic_ci" indexed="true"
+		stored="false" required="false" multiValued="true" />
 
-    <field name="ec" type="ec" indexed="true" stored="false"
-           required="false" multiValued="true"/>
-    <field name="ec_exact" type="lowercase" indexed="true"
-           stored="false" required="false" multiValued="true"/>
+	<field name="ec" type="ec" indexed="true" stored="false"
+		required="false" multiValued="true" />
+	<field name="ec_exact" type="lowercase" indexed="true"
+		stored="false" required="false" multiValued="true" />
 
-    <field name="pathway" type="ec" indexed="true" stored="false"
-           required="false" multiValued="true"/>
+	<field name="pathway" type="ec" indexed="true" stored="false"
+		required="false" multiValued="true" />
 
-    <field name="organelle" type="basic_ci" indexed="true"
-           stored="false" required="false" multiValued="true"/>
+	<field name="organelle" type="basic_ci" indexed="true"
+		stored="false" required="false" multiValued="true" />
 
-    <!-- Gene -->
-    <!--  do not index gene, but instead just copy it to protgene_default  -->
-    <field name="gene" type="full_ci" indexed="false" stored="false"
-           required="false" multiValued="true"/>
-    <field name="gene_exact" type="basic_ci" indexed="true"
-           stored="false" required="false" multiValued="true"/>
-    <field name="gene_sort" type="string" indexed="true"
-           stored="false" required="false" multiValued="false" docValues="true"/>
+	<!-- Gene -->
+	<!-- access gene name via protgene_default for default search -->
+	<field name="gene" type="full_ci" indexed="true" stored="false"
+		required="false" multiValued="true" />
+	<field name="gene_exact" type="basic_ci" indexed="true"
+		stored="false" required="false" multiValued="true" />
+	<field name="gene_sort" type="string" indexed="true"
+		stored="false" required="false" multiValued="false" docValues="true" />
 
-    <!-- Default field -->
-    <!--  content will contain only dynamic fields, comments + features  -->
-    <field name="content" type="full_ci" indexed="true"
-           stored="false" required="false" multiValued="true" omitNorms="false"/>
+	<!-- Default field -->
+	<!-- content will contain only dynamic fields, comments + features -->
+	<field name="content" type="full_ci" indexed="true"
+		stored="false" required="false" multiValued="true" omitNorms="false" />
 
-    <!-- Field to aid default search -->
-    <field name="protgene_default" type="full_ci" indexed="true"
-           stored="false" required="false" multiValued="true"/>
-    <copyField source="gene" dest="protgene_default"/>
-    <copyField source="protein_name" dest="protgene_default"/>
+	<!-- Field to aid default search -->
+	<field name="protgene_default" type="full_ci" indexed="true"
+		stored="false" required="false" multiValued="true" />
+	<copyField source="gene" dest="protgene_default" />
+	<copyField source="protein_name" dest="protgene_default" />
 
-    <!-- Taxonomy -->
-    <field name="organism_sort" type="string" indexed="true"
-           stored="false" required="false" multiValued="false" docValues="true"/>
-    <field name="organism_name" type="full_ci" indexed="true"
-           stored="false" required="false" multiValued="true"/>
-    <field name="organism_id" type="int" indexed="true"
-           stored="false" required="false" multiValued="false"/>
-    <field name="taxonomy_name" type="full_ci" indexed="true"
-           stored="false" required="false" multiValued="true"/>
-    <field name="taxonomy_id" type="int" indexed="true"
-           stored="false" required="false" multiValued="true"/>
-    <field name="virus_host_name" type="full_ci" indexed="true"
-           stored="false" required="false" multiValued="true"/>
-    <field name="virus_host_id" type="int" indexed="true"
-           stored="false" required="false" multiValued="true"/>
-    <field name="model_organism" type="string" indexed="true"
-           stored="false" required="false" multiValued="false" docValues="true"/>
-    <field name="other_organism" type="string" indexed="true"
-           stored="false" required="false" multiValued="false" docValues="true"/>
+	<!-- Taxonomy -->
+	<field name="organism_sort" type="string" indexed="true"
+		stored="false" required="false" multiValued="false" docValues="true" />
+	<field name="organism_name" type="full_ci" indexed="true"
+		stored="false" required="false" multiValued="true" />
+	<field name="organism_id" type="int" indexed="true"
+		stored="false" required="false" multiValued="false" />
+	<field name="taxonomy_name" type="full_ci" indexed="true"
+		stored="false" required="false" multiValued="true" />
+	<field name="taxonomy_id" type="int" indexed="true"
+		stored="false" required="false" multiValued="true" />
+	<field name="virus_host_name" type="full_ci" indexed="true"
+		stored="false" required="false" multiValued="true" />
+	<field name="virus_host_id" type="int" indexed="true"
+		stored="false" required="false" multiValued="true" />
+	<field name="model_organism" type="string" indexed="true"
+		stored="false" required="false" multiValued="false" docValues="true" />
+	<field name="other_organism" type="string" indexed="true"
+		stored="false" required="false" multiValued="false" docValues="true" />
 
-    <!-- Comments -->
-    <dynamicField name="cc_*" type="full_ci" indexed="true"
-                  required="false" stored="false" multiValued="true"/>
-    <dynamicField name="ccev_*" type="lowercase"
-                  indexed="true" required="false" stored="false" multiValued="true"/>
+	<!-- Comments -->
+	<dynamicField name="cc_*" type="full_ci" indexed="true"
+		required="false" stored="false" multiValued="true" />
+	<dynamicField name="ccev_*" type="lowercase"
+		indexed="true" required="false" stored="false" multiValued="true" />
 
-    <field name="interactor" type="lowercase" indexed="true"
-           stored="false" required="false" multiValued="true"/>
-    <field name="family" type="full_ci" indexed="true" stored="false"
-           required="false" multiValued="true"/>
+	<field name="interactor" type="lowercase" indexed="true"
+		stored="false" required="false" multiValued="true" />
+	<field name="family" type="full_ci" indexed="true" stored="false"
+		required="false" multiValued="true" />
 
-    <!-- Cross-references -->
-    <field name="xref" type="lowercase" indexed="true" stored="false"
-           required="false" multiValued="true"/>
-    <field name="database" type="lowercase" indexed="true"
-           stored="false" required="false" multiValued="true"/>
-    <dynamicField name="xref_count_*" type="int"
-                  indexed="true" required="false" stored="false" multiValued="false"/>
+	<!-- Cross-references -->
+	<field name="xref" type="lowercase" indexed="true" stored="false"
+		required="false" multiValued="true" />
+	<field name="database" type="lowercase" indexed="true"
+		stored="false" required="false" multiValued="true" />
+	<dynamicField name="xref_count_*" type="int"
+		indexed="true" required="false" stored="false" multiValued="false" />
 
-    <!-- Citations -->
-    <field name="lit_author" type="full_ci" indexed="true"
-           stored="false" required="false" multiValued="true"/>
-    <field name="lit_organisation" type="full_ci" indexed="true"
-           stored="false" required="false" multiValued="true"/>
+	<!-- Citations -->
+	<field name="lit_author" type="full_ci" indexed="true"
+		stored="false" required="false" multiValued="true" />
+	<field name="lit_organisation" type="full_ci" indexed="true"
+		stored="false" required="false" multiValued="true" />
 
-    <field name="lit_title" type="full_ci" indexed="true"
-           stored="false" required="false" multiValued="true"/>
-    <field name="lit_pubdate" type="rdates" indexed="true"
-           stored="false" required="false" multiValued="true"/>
+	<field name="lit_title" type="full_ci" indexed="true"
+		stored="false" required="false" multiValued="true" />
+	<field name="lit_pubdate" type="rdates" indexed="true"
+		stored="false" required="false" multiValued="true" />
 
-    <field name="lit_pubmed" type="string" indexed="true"
-           stored="false" required="false" multiValued="true"/>
-    <field name="lit_journal" type="basic_ci" indexed="true"
-           stored="false" required="false" multiValued="true"/>
-    <field name="mapped_citation" type="string" indexed="true"
-           stored="false" required="false" multiValued="true"/>
+	<field name="lit_pubmed" type="string" indexed="true"
+		stored="false" required="false" multiValued="true" />
+	<field name="lit_journal" type="basic_ci" indexed="true"
+		stored="false" required="false" multiValued="true" />
+	<field name="mapped_citation" type="string" indexed="true"
+		stored="false" required="false" multiValued="true" />
 
-    <field name="tissue" type="basic_ci" indexed="true"
-           stored="false" required="false" multiValued="true"/>
-    <field name="strain" type="basic_ci" indexed="true"
-           stored="false" required="false" multiValued="true"/>
-    <field name="plasmid" type="basic_ci" indexed="true"
-           stored="false" required="false" multiValued="true"/>
-    <field name="transposon" type="basic_ci" indexed="true"
-           stored="false" required="false" multiValued="true"/>
-    <field name="scope" type="basic_ci" indexed="true" stored="false"
-           required="false" multiValued="true"/>
-    <field name="proteomecomponent" type="basic_ci" indexed="true"
-           stored="false" required="false" multiValued="true"/>
-    <field name="proteome" type="lowercase" indexed="true"
-           stored="false" required="false" multiValued="true"/>
+	<field name="tissue" type="basic_ci" indexed="true"
+		stored="false" required="false" multiValued="true" />
+	<field name="strain" type="basic_ci" indexed="true"
+		stored="false" required="false" multiValued="true" />
+	<field name="plasmid" type="basic_ci" indexed="true"
+		stored="false" required="false" multiValued="true" />
+	<field name="transposon" type="basic_ci" indexed="true"
+		stored="false" required="false" multiValued="true" />
+	<field name="scope" type="basic_ci" indexed="true" stored="false"
+		required="false" multiValued="true" />
+	<field name="proteomecomponent" type="basic_ci" indexed="true"
+		stored="false" required="false" multiValued="true" />
+	<field name="proteome" type="lowercase" indexed="true"
+		stored="false" required="false" multiValued="true" />
 
-    <!-- Feature types -->
-    <dynamicField name="ft_*" type="full_ci" indexed="true"
-                  required="false" stored="false" multiValued="true"/>
-    <dynamicField name="ftev_*" type="lowercase"
-                  indexed="true" required="false" stored="false" multiValued="true"/>
-    <dynamicField name="ftlen_*" type="int" indexed="true"
-                  required="false" stored="false" multiValued="true"/>
-    
-    <copyField source="ft_site" dest="ft_sites"/>
-    <copyField source="ft_metal" dest="ft_sites"/>
-    <copyField source="ft_act_site" dest="ft_sites"/>
-    <copyField source="ft_binding" dest="ft_sites"/>
+	<!-- Feature types -->
+	<dynamicField name="ft_*" type="full_ci" indexed="true"
+		required="false" stored="false" multiValued="true" />
+	<dynamicField name="ftev_*" type="lowercase"
+		indexed="true" required="false" stored="false" multiValued="true" />
+	<dynamicField name="ftlen_*" type="int" indexed="true"
+		required="false" stored="false" multiValued="true" />
 
-    <copyField source="ftev_site" dest="ftev_sites"/>
-    <copyField source="ftev_metal" dest="ftev_sites"/>
-    <copyField source="ftev_site" dest="ftev_sites"/>
-    <copyField source="ftev_binding" dest="ftev_sites"/>
+	<copyField source="ft_site" dest="ft_sites" />
+	<copyField source="ft_metal" dest="ft_sites" />
+	<copyField source="ft_act_site" dest="ft_sites" />
+	<copyField source="ft_binding" dest="ft_sites" />
 
-    <copyField source="ftlen_site" dest="ftlen_sites"/>
-    <copyField source="ftlen_metal" dest="ftlen_sites"/>
-    <copyField source="ftlen_site" dest="ftlen_sites"/>
-    <copyField source="ftlen_binding" dest="ftlen_sites"/>
+	<copyField source="ftev_site" dest="ftev_sites" />
+	<copyField source="ftev_metal" dest="ftev_sites" />
+	<copyField source="ftev_site" dest="ftev_sites" />
+	<copyField source="ftev_binding" dest="ftev_sites" />
 
-    <copyField source="ft_chain" dest="ft_molecule_processing"/>
-    <copyField source="ft_init_met" dest="ft_molecule_processing"/>
-    <copyField source="ft_peptide" dest="ft_molecule_processing"/>
-    <copyField source="ft_signal" dest="ft_molecule_processing"/>
-    <copyField source="ft_propep" dest="ft_molecule_processing"/>
-    <copyField source="ft_transit" dest="ft_molecule_processing"/>
-    <copyField source="ftev_chain"
-               dest="ftev_molecule_processing"/>
-    <copyField source="ftev_init_met"
-               dest="ftev_molecule_processing"/>
-    <copyField source="ftev_peptide"
-               dest="ftev_molecule_processing"/>
-    <copyField source="ftev_signal"
-               dest="ftev_molecule_processing"/>
-    <copyField source="ftev_chain"
-               dest="ftev_molecule_processing"/>
-    <copyField source="ftev_propep"
-               dest="ftev_molecule_processing"/>
-    <copyField source="ftlen_chain"
-               dest="ftlen_molecule_processing"/>
-    <copyField source="ftlen_init_met"
-               dest="ftlen_molecule_processing"/>
-    <copyField source="ftlen_peptide"
-               dest="ftlen_molecule_processing"/>
-    <copyField source="ftlen_signal"
-               dest="ftlen_molecule_processing"/>
-    <copyField source="ftlen_chain"
-               dest="ftlen_molecule_processing"/>
-    <copyField source="ftlen_propep"
-               dest="ftlen_molecule_processing"/>
+	<copyField source="ftlen_site" dest="ftlen_sites" />
+	<copyField source="ftlen_metal" dest="ftlen_sites" />
+	<copyField source="ftlen_site" dest="ftlen_sites" />
+	<copyField source="ftlen_binding" dest="ftlen_sites" />
 
-    <copyField source="ft_variant" dest="ft_variants"/>
-    <copyField source="ft_var_seq" dest="ft_variants"/>
-    <copyField source="ftev_variant" dest="ftev_variants"/>
-    <copyField source="ftev_var_seq" dest="ftev_variants"/>
-    <copyField source="ftlen_variant" dest="ftlen_variants"/>
-    <copyField source="ftlen_var_seq" dest="ftlen_variants"/>
+	<copyField source="ft_chain" dest="ft_molecule_processing" />
+	<copyField source="ft_init_met" dest="ft_molecule_processing" />
+	<copyField source="ft_peptide" dest="ft_molecule_processing" />
+	<copyField source="ft_signal" dest="ft_molecule_processing" />
+	<copyField source="ft_propep" dest="ft_molecule_processing" />
+	<copyField source="ft_transit" dest="ft_molecule_processing" />
+	<copyField source="ftev_chain"
+		dest="ftev_molecule_processing" />
+	<copyField source="ftev_init_met"
+		dest="ftev_molecule_processing" />
+	<copyField source="ftev_peptide"
+		dest="ftev_molecule_processing" />
+	<copyField source="ftev_signal"
+		dest="ftev_molecule_processing" />
+	<copyField source="ftev_chain"
+		dest="ftev_molecule_processing" />
+	<copyField source="ftev_propep"
+		dest="ftev_molecule_processing" />
+	<copyField source="ftlen_chain"
+		dest="ftlen_molecule_processing" />
+	<copyField source="ftlen_init_met"
+		dest="ftlen_molecule_processing" />
+	<copyField source="ftlen_peptide"
+		dest="ftlen_molecule_processing" />
+	<copyField source="ftlen_signal"
+		dest="ftlen_molecule_processing" />
+	<copyField source="ftlen_chain"
+		dest="ftlen_molecule_processing" />
+	<copyField source="ftlen_propep"
+		dest="ftlen_molecule_processing" />
 
-    <copyField source="ft_variant" dest="ft_positional"/>
-    <copyField source="ft_var_seq" dest="ft_positional"/>
-    <copyField source="ft_non_std" dest="ft_positional"/>
-    <copyField source="ft_non_ter" dest="ft_positional"/>
-    <copyField source="ft_non_cons" dest="ft_positional"/>
-    <copyField source="ft_conflict" dest="ft_positional"/>
-    <copyField source="ft_unsure" dest="ft_positional"/>
-    <copyField source="ftev_variant" dest="ftev_positional"/>
-    <copyField source="ftev_var_seq" dest="ftev_positional"/>
-    <copyField source="ftev_non_std" dest="ftev_positional"/>
-    <copyField source="ftev_non_ter" dest="ftev_positional"/>
-    <copyField source="ftev_non_cons" dest="ftev_positional"/>
-    <copyField source="ftev_conflict" dest="ftev_positional"/>
-    <copyField source="ftev_unsure" dest="ftev_positional"/>
-    <copyField source="ftlen_variant" dest="ftlen_positional"/>
-    <copyField source="ftlen_var_seq" dest="ftlen_positional"/>
-    <copyField source="ftlen_non_std" dest="ftlen_positional"/>
-    <copyField source="ftlen_non_ter" dest="ftlen_positional"/>
-    <copyField source="ftlen_non_cons" dest="ftlen_positional"/>
-    <copyField source="ftlen_conflict" dest="ftlen_positional"/>
-    <copyField source="ftlen_unsure" dest="ftlen_positional"/>
+	<copyField source="ft_variant" dest="ft_variants" />
+	<copyField source="ft_var_seq" dest="ft_variants" />
+	<copyField source="ftev_variant" dest="ftev_variants" />
+	<copyField source="ftev_var_seq" dest="ftev_variants" />
+	<copyField source="ftlen_variant" dest="ftlen_variants" />
+	<copyField source="ftlen_var_seq" dest="ftlen_variants" />
 
-    <copyField source="ft_helix" dest="ft_secstruct"/>
-    <copyField source="ft_turn" dest="ft_secstruct"/>
-    <copyField source="ft_strand" dest="ft_secstruct"/>
-    <copyField source="ftev_helix" dest="ftev_secstruct"/>
-    <copyField source="ftev_turn" dest="ftev_secstruct"/>
-    <copyField source="ftev_strand" dest="ftev_secstruct"/>
-    <copyField source="ftlen_helix" dest="ftlen_secstruct"/>
-    <copyField source="ftlen_turn" dest="ftlen_secstruct"/>
-    <copyField source="ftlen_strand" dest="ftlen_secstruct"/>
+	<copyField source="ft_variant" dest="ft_positional" />
+	<copyField source="ft_var_seq" dest="ft_positional" />
+	<copyField source="ft_non_std" dest="ft_positional" />
+	<copyField source="ft_non_ter" dest="ft_positional" />
+	<copyField source="ft_non_cons" dest="ft_positional" />
+	<copyField source="ft_conflict" dest="ft_positional" />
+	<copyField source="ft_unsure" dest="ft_positional" />
+	<copyField source="ftev_variant" dest="ftev_positional" />
+	<copyField source="ftev_var_seq" dest="ftev_positional" />
+	<copyField source="ftev_non_std" dest="ftev_positional" />
+	<copyField source="ftev_non_ter" dest="ftev_positional" />
+	<copyField source="ftev_non_cons" dest="ftev_positional" />
+	<copyField source="ftev_conflict" dest="ftev_positional" />
+	<copyField source="ftev_unsure" dest="ftev_positional" />
+	<copyField source="ftlen_variant" dest="ftlen_positional" />
+	<copyField source="ftlen_var_seq" dest="ftlen_positional" />
+	<copyField source="ftlen_non_std" dest="ftlen_positional" />
+	<copyField source="ftlen_non_ter" dest="ftlen_positional" />
+	<copyField source="ftlen_non_cons" dest="ftlen_positional" />
+	<copyField source="ftlen_conflict" dest="ftlen_positional" />
+	<copyField source="ftlen_unsure" dest="ftlen_positional" />
 
-    <copyField source="go_exp" dest="go_manual"/>
-    <copyField source="go_iba" dest="go_manual"/>
-    <copyField source="go_ic" dest="go_manual"/>
-    <copyField source="go_ida" dest="go_manual"/>
-    <copyField source="go_iep" dest="go_manual"/>
-    <copyField source="go_igc" dest="go_manual"/>
-    <copyField source="go_igi" dest="go_manual"/>
-    <copyField source="go_imp" dest="go_manual"/>
-    <copyField source="go_ipi" dest="go_manual"/>
-    <copyField source="go_isa" dest="go_manual"/>
-    <copyField source="go_ism" dest="go_manual"/>
-    <copyField source="go_iso" dest="go_manual"/>
-    <copyField source="go_iss" dest="go_manual"/>
-    <copyField source="go_nas" dest="go_manual"/>
-    <copyField source="go_tas" dest="go_manual"/>
-    <copyField source="go_hda" dest="go_manual"/>
-    <copyField source="go_hmp" dest="go_manual"/>
-    <copyField source="go_hgi" dest="go_manual"/>
-    <copyField source="go_hep" dest="go_manual"/>
-    <copyField source="go_htp" dest="go_manual"/>
-    <copyField source="go_iea" dest="go_automatic"/>
+	<copyField source="ft_helix" dest="ft_secstruct" />
+	<copyField source="ft_turn" dest="ft_secstruct" />
+	<copyField source="ft_strand" dest="ft_secstruct" />
+	<copyField source="ftev_helix" dest="ftev_secstruct" />
+	<copyField source="ftev_turn" dest="ftev_secstruct" />
+	<copyField source="ftev_strand" dest="ftev_secstruct" />
+	<copyField source="ftlen_helix" dest="ftlen_secstruct" />
+	<copyField source="ftlen_turn" dest="ftlen_secstruct" />
+	<copyField source="ftlen_strand" dest="ftlen_secstruct" />
 
-    <!-- Protein Existence -->
-    <field name="existence" type="string" indexed="true"
-           stored="false" required="false" multiValued="false" docValues="true"/>
+	<copyField source="go_exp" dest="go_manual" />
+	<copyField source="go_iba" dest="go_manual" />
+	<copyField source="go_ic" dest="go_manual" />
+	<copyField source="go_ida" dest="go_manual" />
+	<copyField source="go_iep" dest="go_manual" />
+	<copyField source="go_igc" dest="go_manual" />
+	<copyField source="go_igi" dest="go_manual" />
+	<copyField source="go_imp" dest="go_manual" />
+	<copyField source="go_ipi" dest="go_manual" />
+	<copyField source="go_isa" dest="go_manual" />
+	<copyField source="go_ism" dest="go_manual" />
+	<copyField source="go_iso" dest="go_manual" />
+	<copyField source="go_iss" dest="go_manual" />
+	<copyField source="go_nas" dest="go_manual" />
+	<copyField source="go_tas" dest="go_manual" />
+	<copyField source="go_hda" dest="go_manual" />
+	<copyField source="go_hmp" dest="go_manual" />
+	<copyField source="go_hgi" dest="go_manual" />
+	<copyField source="go_hep" dest="go_manual" />
+	<copyField source="go_htp" dest="go_manual" />
+	<copyField source="go_iea" dest="go_automatic" />
 
-    <!-- Sequence -->
-    <field name="mass" type="int" indexed="true" stored="false"
-           required="false" multiValued="false"/>
-    <field name="length" type="int" indexed="true" stored="false"
-           required="false" multiValued="false"/>
+	<!-- Protein Existence -->
+	<field name="existence" type="string" indexed="true"
+		stored="false" required="false" multiValued="false" docValues="true" />
 
-    <field name="annotation_score" type="int" indexed="true"
-           stored="false" required="false" multiValued="false" docValues="true"/>
+	<!-- Sequence -->
+	<field name="mass" type="int" indexed="true" stored="false"
+		required="false" multiValued="false" />
+	<field name="length" type="int" indexed="true" stored="false"
+		required="false" multiValued="false" />
 
-    <!-- UniRef clusters -->
-    <field name="uniref_cluster_50" type="string" indexed="true"
-           stored="false" required="false" multiValued="false"/>
-    <field name="uniref_cluster_90" type="string" indexed="true"
-           stored="false" required="false" multiValued="false"/>
-    <field name="uniref_cluster_100" type="string" indexed="true"
-           stored="false" required="false" multiValued="false"/>
+	<field name="annotation_score" type="int" indexed="true"
+		stored="false" required="false" multiValued="false" docValues="true" />
 
-    <!-- UniParc -->
-    <field name="uniparc" type="string" indexed="true" stored="false"
-           required="false" multiValued="false"/>
-    <!-- =============================== field types =============================== -->
-    <fieldType name="string" class="solr.StrField"
-               sortMissingLast="true"/>
-    <fieldType name="boolean" class="solr.BoolField"
-               sortMissingLast="true"/>
-    <fieldType name="int" class="solr.IntPointField"
-               docValues="true"/>
-    <fieldType name="plong" class="solr.LongPointField"
-               docValues="true"/>
-    <fieldType name="rdates" class="solr.DateRangeField"
-               multiValued="true"/>
+	<!-- UniRef clusters -->
+	<field name="uniref_cluster_50" type="string" indexed="true"
+		stored="false" required="false" multiValued="false" />
+	<field name="uniref_cluster_90" type="string" indexed="true"
+		stored="false" required="false" multiValued="false" />
+	<field name="uniref_cluster_100" type="string" indexed="true"
+		stored="false" required="false" multiValued="false" />
 
-    <!-- lowercases the entire field value, keeping it as a single token. -->
-    <fieldType name="lowercase" class="solr.TextField"
-               positionIncrementGap="100">
-        <analyzer>
-            <tokenizer class="solr.KeywordTokenizerFactory"/>
-            <filter class="solr.LowerCaseFilterFactory"/>
-        </analyzer>
-    </fieldType>
-    <!-- Start of UJDK type definitions -->
+	<!-- UniParc -->
+	<field name="uniparc" type="string" indexed="true" stored="false"
+		required="false" multiValued="false" />
+	<!-- =============================== field types =============================== -->
+	<fieldType name="string" class="solr.StrField"
+		sortMissingLast="true" />
+	<fieldType name="boolean" class="solr.BoolField"
+		sortMissingLast="true" />
+	<fieldType name="int" class="solr.IntPointField"
+		docValues="true" />
+	<fieldType name="plong" class="solr.LongPointField"
+		docValues="true" />
+	<fieldType name="rdates" class="solr.DateRangeField"
+		multiValued="true" />
 
-    <!-- standard analysis for text fields -->
-    <!-- ## Currently, the combination of multiple *Graph* analysers does not
-        work; we needed this for ## word filtering followed by synonym filtering.
-        - http://lucene.472066.n3.nabble.com/SynonymGraphFilterFactory-with-WordDelimiterGraphFilterFactory-usage-td4373974.html
-        ## We raised an issue on StackOverflow, but that didn't help. - https://stackoverflow.com/questions/51208018/solr-phrase-query-issue-for-worddelimitergraphfilterfactory
-        ## THEREFORE: We use deprecated factories for white space and synonym filtering.
-        ## UPDATE: Found that solr result streaming does not work with deprecated
-        filter factories. Therefore, we now have removed synonyms handling, and use
-        of deprecated filters. -->
-    <fieldType name="full_ci" class="solr.TextField"
-               sortMissingLast="true" omitNorms="true" positionIncrementGap="100">
-        <analyzer type="index">
-            <tokenizer class="solr.WhitespaceTokenizerFactory"/>
-            <filter class="solr.StopFilterFactory" words="stopwords.txt" ignoreCase="true"/>
-            <filter class="solr.ASCIIFoldingFilterFactory"
-                    preserveOriginal="false"/>
-            <filter class="solr.WordDelimiterGraphFilterFactory"
-                    generateWordParts="1" generateNumberParts="1" catenateWords="1"
-                    catenateNumbers="0" catenateAll="1" splitOnCaseChange="1"
-                    preserveOriginal="0" splitOnNumerics="0" stemEnglishPossessive="1"/>
-            <filter class="solr.FlattenGraphFilterFactory"/>
-            <filter class="solr.LowerCaseFilterFactory"/>
-        </analyzer>
-        <analyzer type="query">
-            <tokenizer class="solr.WhitespaceTokenizerFactory"/>
-            <filter class="solr.StopFilterFactory" words="stopwords.txt" ignoreCase="true"/>
-            <filter class="solr.ASCIIFoldingFilterFactory"
-                    preserveOriginal="false"/>
-            <filter class="solr.WordDelimiterGraphFilterFactory"
-                    generateWordParts="1" generateNumberParts="1" catenateWords="1"
-                    catenateNumbers="0" catenateAll="1" splitOnCaseChange="1"
-                    preserveOriginal="0" splitOnNumerics="0" stemEnglishPossessive="1"/>
-            <filter class="solr.LowerCaseFilterFactory"/>
-        </analyzer>
-    </fieldType>
+	<!-- lowercases the entire field value, keeping it as a single token. -->
+	<fieldType name="lowercase" class="solr.TextField"
+		positionIncrementGap="100">
+		<analyzer>
+			<tokenizer class="solr.KeywordTokenizerFactory" />
+			<filter class="solr.LowerCaseFilterFactory" />
+		</analyzer>
+	</fieldType>
+	<!-- Start of UJDK type definitions -->
 
-    <!-- basic analysis for fields that require no splitting -->
-    <fieldType name="basic_ci" class="solr.TextField"
-               sortMissingLast="true" omitNorms="true" positionIncrementGap="100">
-        <analyzer type="index">
-            <tokenizer class="solr.WhitespaceTokenizerFactory"/>
-            <filter class="solr.StopFilterFactory" words="stopwords.txt" ignoreCase="true"/>
-            <filter class="solr.LowerCaseFilterFactory"/>
-        </analyzer>
-        <analyzer type="query">
-            <tokenizer class="solr.WhitespaceTokenizerFactory"/>
-            <filter class="solr.StopFilterFactory" words="stopwords.txt" ignoreCase="true"/>
-            <filter class="solr.LowerCaseFilterFactory"/>
-        </analyzer>
-    </fieldType>
+	<!-- standard analysis for text fields -->
+	<!-- ## Currently, the combination of multiple *Graph* analysers does not 
+		work; we needed this for ## word filtering followed by synonym filtering. 
+		- http://lucene.472066.n3.nabble.com/SynonymGraphFilterFactory-with-WordDelimiterGraphFilterFactory-usage-td4373974.html 
+		## We raised an issue on StackOverflow, but that didn't help. - https://stackoverflow.com/questions/51208018/solr-phrase-query-issue-for-worddelimitergraphfilterfactory 
+		## THEREFORE: We use deprecated factories for white space and synonym filtering. 
+		## UPDATE: Found that solr result streaming does not work with deprecated 
+		filter factories. Therefore, we now have removed synonyms handling, and use 
+		of deprecated filters. -->
+	<fieldType name="full_ci" class="solr.TextField"
+		sortMissingLast="true" omitNorms="true" positionIncrementGap="100">
+		<analyzer type="index">
+			<!-- <tokenizer class="solr.WhitespaceTokenizerFactory"/> -->
+			<tokenizer class="solr.SimplePatternSplitTokenizerFactory"
+				pattern="[- /()]+" />
+			<!-- <tokenizer class="solr.LetterTokenizerFactory"/> -->
+			<filter class="solr.StopFilterFactory" words="stopwords.txt"
+				ignoreCase="true" />
+			<filter class="solr.ASCIIFoldingFilterFactory"
+				preserveOriginal="false" />
+			<filter class="solr.WordDelimiterGraphFilterFactory"
+				generateNumberParts="1" splitOnCaseChange="1" preserveOriginal="0"
+				splitOnNumerics="0" stemEnglishPossessive="1" generateWordParts="1"
+				catenateNumbers="0" catenateWords="1" catenateAll="1" />
+			<filter class="solr.FlattenGraphFilterFactory" />
+			<filter class="solr.LowerCaseFilterFactory" />
+		</analyzer>
+		<analyzer type="query">
+			<!-- <tokenizer class="solr.WhitespaceTokenizerFactory"/> -->
+			<tokenizer class="solr.SimplePatternSplitTokenizerFactory"
+				pattern="[- /()]+" />
+			<!-- <tokenizer class="solr.LetterTokenizerFactory"/> -->
+			<filter class="solr.StopFilterFactory" words="stopwords.txt"
+				ignoreCase="true" />
+			<filter class="solr.ASCIIFoldingFilterFactory"
+				preserveOriginal="false" />
+			<filter class="solr.WordDelimiterGraphFilterFactory"
+				generateNumberParts="1" splitOnCaseChange="0" preserveOriginal="0"
+				splitOnNumerics="0" stemEnglishPossessive="1" generateWordParts="1"
+				catenateNumbers="0" catenateWords="0" catenateAll="0" />
+			<filter class="solr.LowerCaseFilterFactory" />
+		</analyzer>
+	</fieldType>
 
-    <!-- EC fields have special handling, e.g., this field allows search "1.1"
-        to match "1.1*" without explicit need for wildcard. -->
-    <fieldType name="ec" class="solr.TextField"
-               sortMissingLast="true" omitNorms="true">
-        <analyzer type="index">
-            <charFilter class="solr.PatternReplaceCharFilterFactory"
-                        pattern="-" replacement=""/>
-            <charFilter class="solr.PatternReplaceCharFilterFactory"
-                        pattern="((\.)(?!([0-9]|n)+))+" replacement=""/>
-            <tokenizer class="solr.PathHierarchyTokenizerFactory"
-                       delimiter="."/>
-            <!--<filter class="solr.PatternReplaceFilterFactory" pattern="((\.)(?!([0-9]|n)+))+"/> -->
-        </analyzer>
-        <analyzer type="query">
-            <charFilter class="solr.PatternReplaceCharFilterFactory"
-                        pattern="-" replacement=""/>
-            <charFilter class="solr.PatternReplaceCharFilterFactory"
-                        pattern="((\.)(?!([0-9]|n)+))+" replacement=""/>
-            <tokenizer class="solr.KeywordTokenizerFactory"/>
-            <!--<filter class="solr.PatternReplaceFilterFactory" pattern="((\.)(?!([0-9]|n)+))+"/> -->
-        </analyzer>
-    </fieldType>
-    <!-- End of UJDK type definitions -->
+	<!-- basic analysis for fields that require no splitting -->
+	<fieldType name="basic_ci" class="solr.TextField"
+		sortMissingLast="true" omitNorms="true" positionIncrementGap="100">
+		<analyzer type="index">
+			<tokenizer class="solr.WhitespaceTokenizerFactory" />
+			<filter class="solr.StopFilterFactory" words="stopwords.txt"
+				ignoreCase="true" />
+			<filter class="solr.LowerCaseFilterFactory" />
+		</analyzer>
+		<analyzer type="query">
+			<tokenizer class="solr.WhitespaceTokenizerFactory" />
+			<filter class="solr.StopFilterFactory" words="stopwords.txt"
+				ignoreCase="true" />
+			<filter class="solr.LowerCaseFilterFactory" />
+		</analyzer>
+	</fieldType>
+
+	<!-- EC fields have special handling, e.g., this field allows search "1.1" 
+		to match "1.1*" without explicit need for wildcard. -->
+	<fieldType name="ec" class="solr.TextField"
+		sortMissingLast="true" omitNorms="true">
+		<analyzer type="index">
+			<charFilter class="solr.PatternReplaceCharFilterFactory"
+				pattern="-" replacement="" />
+			<charFilter class="solr.PatternReplaceCharFilterFactory"
+				pattern="((\.)(?!([0-9]|n)+))+" replacement="" />
+			<tokenizer class="solr.PathHierarchyTokenizerFactory"
+				delimiter="." />
+			<!--<filter class="solr.PatternReplaceFilterFactory" pattern="((\.)(?!([0-9]|n)+))+"/> -->
+		</analyzer>
+		<analyzer type="query">
+			<charFilter class="solr.PatternReplaceCharFilterFactory"
+				pattern="-" replacement="" />
+			<charFilter class="solr.PatternReplaceCharFilterFactory"
+				pattern="((\.)(?!([0-9]|n)+))+" replacement="" />
+			<tokenizer class="solr.KeywordTokenizerFactory" />
+			<!--<filter class="solr.PatternReplaceFilterFactory" pattern="((\.)(?!([0-9]|n)+))+"/> -->
+		</analyzer>
+	</fieldType>
+	<!-- End of UJDK type definitions -->
 </schema>
