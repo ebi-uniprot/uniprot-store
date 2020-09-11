@@ -1,8 +1,6 @@
 package org.uniprot.store.datastore.voldemort;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.time.Duration;
 import java.util.*;
