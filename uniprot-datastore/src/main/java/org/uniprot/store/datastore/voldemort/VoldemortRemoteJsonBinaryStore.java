@@ -1,6 +1,9 @@
 package org.uniprot.store.datastore.voldemort;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.time.Duration;
 import java.util.*;
 
@@ -163,7 +166,7 @@ public abstract class VoldemortRemoteJsonBinaryStore<T> implements VoldemortClie
 
     private T getEntryFromBinary(Versioned<byte[]> entryObjectVersioned) {
         try {
-            String jsonString = new String(entryObjectVersioned.getValue());
+            String jsonString = new String(entryObjectVersioned.getValue(), StandardCharsets.UTF_8);
             return getStoreObjectMapper().readValue(jsonString, getEntryClass());
         } catch (IOException e) {
             throw new RuntimeException("Error getting entry from BDB store.", e);
@@ -176,7 +179,7 @@ public abstract class VoldemortRemoteJsonBinaryStore<T> implements VoldemortClie
         String acc = getStoreId(entry);
         try {
             String jsonEntry = getStoreObjectMapper().writeValueAsString(entry);
-            client.put(acc, jsonEntry.getBytes());
+            client.put(acc, jsonEntry.getBytes(StandardCharsets.UTF_8));
         } catch (JsonProcessingException e) {
             throw new RuntimeException("Unable to parse entry to binary json: ", e);
         }
