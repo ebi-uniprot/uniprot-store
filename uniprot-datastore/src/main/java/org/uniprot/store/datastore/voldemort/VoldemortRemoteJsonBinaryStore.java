@@ -163,8 +163,8 @@ public abstract class VoldemortRemoteJsonBinaryStore<T> implements VoldemortClie
 
     private T getEntryFromBinary(Versioned<byte[]> entryObjectVersioned) {
         try {
-            return getStoreObjectMapper()
-                    .readValue(entryObjectVersioned.getValue(), getEntryClass());
+            String jsonString = new String(entryObjectVersioned.getValue());
+            return getStoreObjectMapper().readValue(jsonString, getEntryClass());
         } catch (IOException e) {
             throw new RuntimeException("Error getting entry from BDB store.", e);
         }
@@ -174,10 +174,9 @@ public abstract class VoldemortRemoteJsonBinaryStore<T> implements VoldemortClie
         Timer.Context time =
                 MetricsUtil.getMetricRegistryInstance().timer("voldemort-save-entry-time").time();
         String acc = getStoreId(entry);
-        byte[] binaryEntry;
         try {
-            binaryEntry = getStoreObjectMapper().writeValueAsBytes(entry);
-            client.put(acc, binaryEntry);
+            String jsonEntry = getStoreObjectMapper().writeValueAsString(entry);
+            client.put(acc, jsonEntry.getBytes());
         } catch (JsonProcessingException e) {
             throw new RuntimeException("Unable to parse entry to binary json: ", e);
         }
