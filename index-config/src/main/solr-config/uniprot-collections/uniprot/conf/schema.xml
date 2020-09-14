@@ -376,12 +376,12 @@
 				ignoreCase="true" />
 			<filter class="solr.ASCIIFoldingFilterFactory"
 				preserveOriginal="false" />
+			<filter class="solr.LowerCaseFilterFactory" />
 			<filter class="solr.WordDelimiterGraphFilterFactory"
-				generateNumberParts="1" splitOnCaseChange="1" preserveOriginal="0"
+				generateNumberParts="1" splitOnCaseChange="0" preserveOriginal="0"
 				splitOnNumerics="0" stemEnglishPossessive="1" generateWordParts="1"
 				catenateNumbers="0" catenateWords="1" catenateAll="1" />
 			<filter class="solr.FlattenGraphFilterFactory" />
-			<filter class="solr.LowerCaseFilterFactory" />
 		</analyzer>
 		<analyzer type="query">
 			<!-- <tokenizer class="solr.WhitespaceTokenizerFactory"/> -->
@@ -392,11 +392,12 @@
 				ignoreCase="true" />
 			<filter class="solr.ASCIIFoldingFilterFactory"
 				preserveOriginal="false" />
+			<filter class="solr.LowerCaseFilterFactory" />
 			<filter class="solr.WordDelimiterGraphFilterFactory"
-				generateNumberParts="1" splitOnCaseChange="1" preserveOriginal="0"
+				generateNumberParts="1" splitOnCaseChange="0" preserveOriginal="0"
 				splitOnNumerics="0" stemEnglishPossessive="1" generateWordParts="1"
 				catenateNumbers="0" catenateWords="0" catenateAll="0" />
-			<filter class="solr.LowerCaseFilterFactory" />
+
 		</analyzer>
 	</fieldType>
 
