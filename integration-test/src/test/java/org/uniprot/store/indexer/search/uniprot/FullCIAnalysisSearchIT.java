@@ -118,6 +118,38 @@ class FullCIAnalysisSearchIT {
 
     @ParameterizedTest
     @EnumSource(FieldType.class)
+    void canFindPhraseContainingExactCamelCaseQuery(FieldType field) {
+        String accession = newAccession();
+
+        String fieldValue = "Keratin, type I microfibrillar 48 kDa, component 8C-1";
+        String query = fieldPhraseQuery(field.getQueryField(), fieldValue);
+
+        new EntryCheck()
+                .withAccession(accession)
+                .withFieldValue(fieldValue)
+                .usingQuery(query)
+                .canBeFound(field);
+    }
+
+    @ParameterizedTest
+    @EnumSource(FieldType.class)
+    void canFindPhraseContainingCamelCaseQuery(FieldType field) {
+        String accession = newAccession();
+
+        String indexFieldValue = "Keratin, type I microfibrillar 48 kDa, component 8C-1";
+        String queryFieldValue = "Keratin, type I microfibrillar 48 kDa, component";
+
+        String query = fieldPhraseQuery(field.getQueryField(), queryFieldValue);
+
+        new EntryCheck()
+                .withAccession(accession)
+                .withFieldValue(indexFieldValue)
+                .usingQuery(query)
+                .canBeFound(field);
+    }
+
+    @ParameterizedTest
+    @EnumSource(FieldType.class)
     void canFindProblematicBaseCasePhraseQuery(FieldType field) {
         String accession = newAccession();
         String fieldValue = "1a b2";
