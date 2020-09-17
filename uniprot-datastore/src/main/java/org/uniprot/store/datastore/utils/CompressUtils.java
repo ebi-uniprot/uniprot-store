@@ -25,7 +25,7 @@ public class CompressUtils {
         if (BrotliLoader.isBrotliAvailable()) {
             return brotliCompress(in);
         } else {
-            return gzipDecompress(in);
+            return gZipCompress(in);
         }
     }
 
@@ -33,7 +33,7 @@ public class CompressUtils {
         if (BrotliLoader.isBrotliAvailable()) {
             return brotliDecompress(in);
         } else {
-            return gZipCompress(in);
+            return gzipDecompress(in);
         }
     }
 
