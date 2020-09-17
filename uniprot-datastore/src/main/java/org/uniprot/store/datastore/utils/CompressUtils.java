@@ -38,7 +38,7 @@ public class CompressUtils {
     }
 
     static byte[] brotliCompress(byte[] in) throws IOException {
-        Encoder.Parameters params = new Encoder.Parameters().setQuality(9);
+        Encoder.Parameters params = new Encoder.Parameters();
         try (ByteArrayOutputStream dst = new ByteArrayOutputStream()) {
             try (WritableByteChannel encoder =
                     new BrotliEncoderChannel(Channels.newChannel(dst), params)) {
