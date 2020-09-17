@@ -41,17 +41,6 @@
 	<field name="length" type="int" indexed="true" stored="false"
 		required="false" multiValued="false" />
 
-	<field name="content" type="full_ci" indexed="true"
-		stored="false" multiValued="true" />
-	<copyField source="uniprotkb" dest="content" />
-	<copyField source="upid" dest="content" />
-	<copyField source="taxonomy_name" dest="content" />
-	<copyField source="taxonomy_id" dest="content" />
-	<copyField source="gene" dest="content" />
-	<copyField source="protein" dest="content" />
-	<copyField source="upi" dest="content" />
-
-
 	<!-- =============================== field types =============================== -->
 	<fieldType name="plong" class="solr.LongPointField"
 		docValues="true" />

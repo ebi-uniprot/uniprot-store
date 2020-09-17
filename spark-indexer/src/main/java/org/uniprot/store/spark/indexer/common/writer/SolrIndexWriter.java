@@ -1,16 +1,17 @@
 package org.uniprot.store.spark.indexer.common.writer;
 
+import static java.util.Collections.singletonList;
+
+import java.util.Iterator;
+import java.util.Optional;
+
 import lombok.extern.slf4j.Slf4j;
+
 import org.apache.solr.client.solrj.SolrClient;
 import org.apache.solr.client.solrj.impl.CloudSolrClient;
 import org.apache.solr.common.SolrInputDocument;
 import org.apache.spark.api.java.function.VoidFunction;
 import org.uniprot.store.spark.indexer.common.exception.SolrIndexException;
-
-import java.util.Iterator;
-import java.util.Optional;
-
-import static java.util.Collections.singletonList;
 
 /**
  * @author lgonzales
@@ -40,8 +41,7 @@ public class SolrIndexWriter implements VoidFunction<Iterator<SolrInputDocument>
         }
     }
 
-    protected SolrClient getSolrClient(){
-        return new CloudSolrClient.Builder(singletonList(zkHost), Optional.empty())
-                        .build();
+    protected SolrClient getSolrClient() {
+        return new CloudSolrClient.Builder(singletonList(zkHost), Optional.empty()).build();
     }
 }
