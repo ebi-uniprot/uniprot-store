@@ -37,10 +37,12 @@ public class UniParcIndexJob {
     @Bean
     public Job uniparcIndexingJob(
             @Qualifier("UniParcIndexStep") Step uniparcIndexStep,
+            Step uniparcTaxonomySuggestionStep,
             WriteRetrierLogJobListener writeRetrierLogJobListener) {
         return this.jobBuilderFactory
                 .get(UNIPARC_INDEX_JOB)
                 .start(uniparcIndexStep)
+                .next(uniparcTaxonomySuggestionStep)
                 .listener(writeRetrierLogJobListener)
                 .listener(
                         new JobExecutionListener() {

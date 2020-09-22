@@ -16,14 +16,14 @@ import org.uniprot.store.search.document.uniprot.UniProtDocument;
 class UniProtEntryFeatureConverter {
 
     private static final String FEATURE = "ft_";
-    private static final String FT_EV = "ftev_";
     private static final String FT_LENGTH = "ftlen_";
+    private static final String FT_EV = "ftev_";
 
     void convertFeature(List<UniProtKBFeature> features, UniProtDocument document) {
         for (UniProtKBFeature feature : features) {
             String field = getFeatureField(feature, FEATURE);
-            String evField = getFeatureField(feature, FT_EV);
             String lengthField = getFeatureField(feature, FT_LENGTH);
+            String evField = getFeatureField(feature, FT_EV);
             Collection<String> featuresOfTypeList =
                     document.featuresMap.computeIfAbsent(field, k -> new HashSet<>());
 
@@ -38,13 +38,17 @@ class UniProtEntryFeatureConverter {
                 featuresOfTypeList.add(feature.getDescription().getValue());
                 document.content.add(feature.getDescription().getValue());
             }
+
+            if (!document.proteinsWith.contains(feature.getType().name().toLowerCase())) {
+                document.proteinsWith.add(feature.getType().name().toLowerCase());
+            }
+
             if (feature.hasFeatureCrossReference()) {
                 String xrefId = feature.getFeatureCrossReference().getId();
                 String dbName = feature.getFeatureCrossReference().getDatabase().getName();
                 featuresOfTypeList.addAll(UniProtEntryConverterUtil.getXrefId(xrefId, dbName));
                 document.content.addAll(UniProtEntryConverterUtil.getXrefId(xrefId, dbName));
             }
-            document.proteinsWith.add(feature.getType().name().toLowerCase());
 
             // start and end of location
             int length =
@@ -71,9 +75,9 @@ class UniProtEntryFeatureConverter {
 
     private boolean filterUnnecessaryProteinsWithFeatureTypes(String featureType) {
         return featureType.equalsIgnoreCase(UniprotKBFeatureType.SITE.toString())
-                || featureType.equalsIgnoreCase(UniprotKBFeatureType.UNSURE.toString())
-                || featureType.equalsIgnoreCase(UniprotKBFeatureType.CONFLICT.toString())
                 || featureType.equalsIgnoreCase(UniprotKBFeatureType.NON_CONS.toString())
+                || featureType.equalsIgnoreCase(UniprotKBFeatureType.CONFLICT.toString())
+                || featureType.equalsIgnoreCase(UniprotKBFeatureType.UNSURE.toString())
                 || featureType.equalsIgnoreCase(UniprotKBFeatureType.NON_TER.toString());
     }
 }

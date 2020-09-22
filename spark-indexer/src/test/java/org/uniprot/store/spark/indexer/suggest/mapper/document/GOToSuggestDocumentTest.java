@@ -3,6 +3,7 @@ package org.uniprot.store.spark.indexer.suggest.mapper.document;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
@@ -20,21 +21,22 @@ class GOToSuggestDocumentTest {
 
     @Test
     void testGOToSuggestDocumentWithoutAncestors() throws Exception {
-        GeneOntologyEntry term = new GeneOntologyEntryBuilder().id("goId").name("goName").build();
+        GeneOntologyEntry term =
+                new GeneOntologyEntryBuilder().id("GO:goId").name("goName").build();
 
         GOToSuggestDocument mapper = new GOToSuggestDocument();
-        Iterable<SuggestDocument> results = mapper.call(new Tuple2<>(term, "goIdId"));
+        Iterator<SuggestDocument> results = mapper.call(new Tuple2<>(term, "goIdId"));
 
         assertNotNull(results);
         List<SuggestDocument> resultList = new ArrayList<>();
-        results.forEach(resultList::add);
+        results.forEachRemaining(resultList::add);
         assertEquals(1, resultList.size());
 
         SuggestDocument result = resultList.get(0);
         assertEquals("GO", result.dictionary);
         assertEquals("goId", result.id);
         assertEquals("goName", result.value);
-        assertTrue(result.altValues.isEmpty());
+        assertTrue(result.altValues.contains("GO:goId"));
         assertEquals("medium", result.importance);
     }
 
@@ -42,40 +44,40 @@ class GOToSuggestDocumentTest {
     void testGOToSuggestDocumentWithAncestors() throws Exception {
         GeneOntologyEntry term =
                 new GeneOntologyEntryBuilder()
-                        .id("goId")
+                        .id("GO:goId")
                         .name("goName")
                         .ancestorsAdd(
                                 new GeneOntologyEntryBuilder()
-                                        .id("goAncestor1")
+                                        .id("GO:goAncestor1")
                                         .name("goAncestorName1")
                                         .build())
                         .ancestorsAdd(
                                 new GeneOntologyEntryBuilder()
-                                        .id("goAncestor2")
+                                        .id("GO:goAncestor2")
                                         .name("goAncestorName2")
                                         .build())
                         .build();
 
         GOToSuggestDocument mapper = new GOToSuggestDocument();
-        Iterable<SuggestDocument> results = mapper.call(new Tuple2<>(term, "goIdId"));
+        Iterator<SuggestDocument> results = mapper.call(new Tuple2<>(term, "goIdId"));
 
         assertNotNull(results);
         List<SuggestDocument> resultList = new ArrayList<>();
-        results.forEach(resultList::add);
+        results.forEachRemaining(resultList::add);
         assertEquals(3, resultList.size());
 
         SuggestDocument result = resultList.get(0);
         assertEquals("GO", result.dictionary);
         assertEquals("goId", result.id);
         assertEquals("goName", result.value);
-        assertTrue(result.altValues.isEmpty());
+        assertTrue(result.altValues.contains("GO:goId"));
         assertEquals("medium", result.importance);
 
         result = resultList.get(1);
         assertEquals("GO", result.dictionary);
         assertEquals("goAncestor2", result.id);
         assertEquals("goAncestorName2", result.value);
-        assertTrue(result.altValues.isEmpty());
+        assertTrue(result.altValues.contains("GO:goAncestor2"));
         assertEquals("medium", result.importance);
     }
 }

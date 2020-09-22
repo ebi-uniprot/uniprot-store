@@ -51,7 +51,9 @@ class UniProtEntryCommentsConverter implements Serializable {
             Set<String> evidences = fetchEvidences(comment);
             evValue.addAll(evidences);
 
-            document.proteinsWith.add(comment.getCommentType().name().toLowerCase());
+            if (!document.proteinsWith.contains(comment.getCommentType().name().toLowerCase())) {
+                document.proteinsWith.add(comment.getCommentType().name().toLowerCase());
+            }
 
             switch (comment.getCommentType()) {
                 case CATALYTIC_ACTIVITY:

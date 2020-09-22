@@ -43,7 +43,7 @@ class UniProtKBEntryFeatureConverterTest {
 
         converter.convertFeature(features, document);
 
-        assertEquals(Collections.emptySet(), document.proteinsWith);
+        assertEquals(Collections.emptyList(), document.proteinsWith);
     }
 
     @Test
@@ -85,7 +85,7 @@ class UniProtKBEntryFeatureConverterTest {
                                 "DBSNP-12345")),
                 document.content);
 
-        assertEquals(Collections.singleton("chain"), document.proteinsWith);
+        assertEquals(Collections.singletonList("chain"), document.proteinsWith);
     }
 
     private static UniProtKBFeature getFeature() {

@@ -45,6 +45,8 @@ public class CrossRefReader implements ItemReader<CrossRefEntry> {
     private static final String REF_SEPARATOR = " ";
     private static final Pattern NEWLINE_PATTERN = Pattern.compile("^\\s*$", Pattern.MULTILINE);
     private static final String FTP_PREFIX = "ftp://";
+    private static final String REF_TYPE_DOI = "DOI";
+    private static final String REF_TYPE_PUBMED = "PubMed";
 
     private Scanner reader;
     private boolean dataRegionStarted;
@@ -126,17 +128,33 @@ public class CrossRefReader implements ItemReader<CrossRefEntry> {
                     break;
                 case REF_STR:
                     String[] refIdPairs = keyVal[1].trim().split(REF_SEPARATOR);
-                    assert refIdPairs.length == 2;
-                    pubMedId =
-                            refIdPairs[0]
-                                    .split(EQUAL_CHAR)[1]
-                                    .replace(SEMI_COLON, EMPTY_CHAR)
-                                    .trim();
-                    doiId =
-                            refIdPairs[1]
-                                    .split(EQUAL_CHAR)[1]
-                                    .replace(SEMI_COLON, EMPTY_CHAR)
-                                    .trim();
+                    if (refIdPairs.length == 2) {
+                        pubMedId =
+                                refIdPairs[0]
+                                        .split(EQUAL_CHAR)[1]
+                                        .replace(SEMI_COLON, EMPTY_CHAR)
+                                        .trim();
+                        doiId =
+                                refIdPairs[1]
+                                        .split(EQUAL_CHAR)[1]
+                                        .replace(SEMI_COLON, EMPTY_CHAR)
+                                        .trim();
+                    } else if (refIdPairs.length == 1) {
+                        String refIdType = refIdPairs[0].split(EQUAL_CHAR)[0].trim();
+                        if (REF_TYPE_DOI.equalsIgnoreCase(refIdType)) {
+                            doiId =
+                                    refIdPairs[0]
+                                            .split(EQUAL_CHAR)[1]
+                                            .replace(SEMI_COLON, EMPTY_CHAR)
+                                            .trim();
+                        } else if (REF_TYPE_PUBMED.equalsIgnoreCase(refIdType)) {
+                            pubMedId =
+                                    refIdPairs[0]
+                                            .split(EQUAL_CHAR)[1]
+                                            .replace(SEMI_COLON, EMPTY_CHAR)
+                                            .trim();
+                        }
+                    }
                     break;
                 case LINK_TP_STR:
                     lType = keyVal[1].trim();

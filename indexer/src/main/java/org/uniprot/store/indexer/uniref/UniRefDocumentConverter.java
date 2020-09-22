@@ -2,7 +2,6 @@ package org.uniprot.store.indexer.uniref;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.uniprot.core.uniref.UniRefEntry;
 import org.uniprot.core.uniref.UniRefMember;
@@ -56,11 +55,11 @@ public class UniRefDocumentConverter implements DocumentConverter<Entry, UniRefD
         List<String> result = new ArrayList<>();
         result.add(entry.getRepresentativeMember().getOrganismName());
         entry.getMembers().stream()
-                .map(val -> val.getOrganismName())
+                .map(UniRefMember::getOrganismName)
                 .distinct()
                 .limit(5)
-                .forEach(val -> result.add(val));
-        return result.stream().collect(Collectors.joining(" "));
+                .forEach(result::add);
+        return String.join(" ", result);
     }
 
     private List<String> getUniParcIds(UniRefEntry entry) {
@@ -92,7 +91,7 @@ public class UniRefDocumentConverter implements DocumentConverter<Entry, UniRefD
 
     private List<String> getUniProtIds(UniRefMember member) {
         List<String> result = new ArrayList<>();
-        if (member.getMemberIdType() == UniRefMemberIdType.UNIPROTKB) {
+        if (member.getMemberIdType() != UniRefMemberIdType.UNIPARC) {
             result.add(member.getMemberId());
         }
         member.getUniProtAccessions().forEach(val -> result.add(val.getValue()));
@@ -109,7 +108,7 @@ public class UniRefDocumentConverter implements DocumentConverter<Entry, UniRefD
                 node -> {
                     builder.taxLineageId(node.id());
                     List<String> names = TaxonomyRepoUtil.extractTaxonFromNode(node);
-                    names.forEach(val -> builder.organismTaxon(val));
+                    names.forEach(builder::organismTaxon);
                 });
     }
 }

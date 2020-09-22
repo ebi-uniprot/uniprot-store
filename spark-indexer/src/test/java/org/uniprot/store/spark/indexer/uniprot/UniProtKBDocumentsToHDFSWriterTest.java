@@ -1,10 +1,15 @@
 package org.uniprot.store.spark.indexer.uniprot;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.hasSize;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaSparkContext;
@@ -92,9 +97,14 @@ class UniProtKBDocumentsToHDFSWriterTest {
         UniProtKBDocumentsToHDFSWriter writer = new UniProtKBDocumentsToHDFSWriter(parameter);
 
         List<Tuple2<String, UniProtDocument>> tuples = new ArrayList<>();
-        tuples.add(new Tuple2<>("Q9EPI6", new UniProtDocument()));
-        tuples.add(new Tuple2<>("P12345", new UniProtDocument()));
-        tuples.add(new Tuple2<>("F7B8J7", new UniProtDocument()));
+
+        String acc1 = "Q9EPI6";
+        String acc2 = "P12345";
+        String acc3 = "F7B8J7";
+
+        tuples.add(new Tuple2<>(acc1, createUniProtDoc(acc1)));
+        tuples.add(new Tuple2<>(acc2, createUniProtDoc(acc2)));
+        tuples.add(new Tuple2<>(acc3, createUniProtDoc(acc3)));
 
         JavaPairRDD<String, UniProtDocument> uniprotDocRDD =
                 parameter.getSparkContext().parallelizePairs(tuples);
@@ -103,18 +113,21 @@ class UniProtKBDocumentsToHDFSWriterTest {
         List<UniProtDocument> result = uniprotDocRDD.values().take(10);
         assertNotNull(result);
         assertEquals(3, result.size());
-        assertEquals("UniRef50_Q9EPI6", result.get(0).unirefCluster50);
-        assertEquals("UniRef90_Q9EPI6", result.get(0).unirefCluster90);
-        assertEquals("UniRef100_Q9EPI6", result.get(0).unirefCluster100);
-        assertEquals("UPI00000E8551", result.get(0).uniparc);
 
-        assertNull(result.get(1).unirefCluster50);
-        assertNull(result.get(1).unirefCluster90);
-        assertNull(result.get(1).uniparc);
+        Map<String, List<UniProtDocument>> docMap = getResultMap(result, doc -> doc.accession);
 
-        assertEquals("UniRef50_Q9EPI6", result.get(2).unirefCluster50);
-        assertEquals("UniRef90_Q9EPI6", result.get(2).unirefCluster90);
-        assertEquals("UPI0003ABCC0C", result.get(2).uniparc);
+        assertEquals("UniRef50_Q9EPI6", docMap.get(acc1).get(0).unirefCluster50);
+        assertEquals("UniRef90_Q9EPI6", docMap.get(acc1).get(0).unirefCluster90);
+        assertEquals("UniRef100_Q9EPI6", docMap.get(acc1).get(0).unirefCluster100);
+        assertEquals("UPI00000E8551", docMap.get(acc1).get(0).uniparc);
+
+        assertNull(docMap.get(acc2).get(0).unirefCluster50);
+        assertNull(docMap.get(acc2).get(0).unirefCluster90);
+        assertNull(docMap.get(acc2).get(0).uniparc);
+
+        assertEquals("UniRef50_Q9EPI6", docMap.get(acc3).get(0).unirefCluster50);
+        assertEquals("UniRef90_Q9EPI6", docMap.get(acc3).get(0).unirefCluster90);
+        assertEquals("UPI0003ABCC0C", docMap.get(acc3).get(0).uniparc);
     }
 
     @Test
@@ -165,5 +178,20 @@ class UniProtKBDocumentsToHDFSWriterTest {
         assertEquals("11203701", result.get(1).mappedCitation.get(0));
         assertEquals("1358782", result.get(1).mappedCitation.get(1));
         assertEquals("5312045", result.get(1).mappedCitation.get(2));
+    }
+
+    private UniProtDocument createUniProtDoc(String accession) {
+        UniProtDocument document = new UniProtDocument();
+        document.accession = accession;
+        return document;
+    }
+
+    private <T> Map<String, List<T>> getResultMap(
+            List<T> result, Function<T, String> mappingFunction) {
+        Map<String, List<T>> map = result.stream().collect(Collectors.groupingBy(mappingFunction));
+        for (Map.Entry<String, List<T>> stringListEntry : map.entrySet()) {
+            assertThat(stringListEntry.getValue(), hasSize(1));
+        }
+        return map;
     }
 }

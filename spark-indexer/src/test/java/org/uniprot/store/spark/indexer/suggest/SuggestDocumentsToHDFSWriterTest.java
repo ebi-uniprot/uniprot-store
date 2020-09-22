@@ -1,9 +1,16 @@
 package org.uniprot.store.spark.indexer.suggest;
 
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.hasSize;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.uniprot.store.search.document.suggest.SuggestDictionary.*;
 
+import java.util.List;
+import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
@@ -70,8 +77,9 @@ class SuggestDocumentsToHDFSWriterTest {
 
         assertNotNull(document);
         assertEquals(GO.name(), document.dictionary);
-        assertEquals("GO:0005719", document.id);
+        assertEquals("0005719", document.id);
         assertEquals("nuclear euchromatin", document.value);
+        assertTrue(document.altValues.contains("GO:0005719"));
     }
 
     @Test
@@ -109,14 +117,17 @@ class SuggestDocumentsToHDFSWriterTest {
         SuggestDocumentsToHDFSWriter writer = new SuggestDocumentsToHDFSWriter(parameter);
         JavaRDD<SuggestDocument> suggestRdd = writer.getSubcell();
         assertNotNull(suggestRdd);
-        long count = suggestRdd.count();
-        assertEquals(520L, count);
-        SuggestDocument document = suggestRdd.first();
+        int count = (int) suggestRdd.count();
+        assertEquals(520, count);
 
-        assertNotNull(document);
-        assertEquals(SUBCELL.name(), document.dictionary);
-        assertEquals("SL-0187", document.id);
-        assertEquals("Nucleoid", document.value);
+        Map<String, List<SuggestDocument>> resultMap =
+                getResultMap(suggestRdd.take(count), doc -> doc.id);
+
+        assertThat(resultMap.containsKey("SL-0187"), is(true));
+        assertNotNull(resultMap.get("SL-0187").get(0));
+        assertEquals(SUBCELL.name(), resultMap.get("SL-0187").get(0).dictionary);
+        assertEquals("SL-0187", resultMap.get("SL-0187").get(0).id);
+        assertEquals("Nucleoid", resultMap.get("SL-0187").get(0).value);
     }
 
     @Test
@@ -124,13 +135,46 @@ class SuggestDocumentsToHDFSWriterTest {
         SuggestDocumentsToHDFSWriter writer = new SuggestDocumentsToHDFSWriter(parameter);
         JavaRDD<SuggestDocument> suggestRdd = writer.getKeyword();
         assertNotNull(suggestRdd);
-        long count = suggestRdd.count();
-        assertEquals(8L, count);
-        SuggestDocument document = suggestRdd.first();
+        int count = (int) suggestRdd.count();
+        assertEquals(8, count);
 
-        assertNotNull(document);
-        assertEquals(KEYWORD.name(), document.dictionary);
-        assertEquals("KW-9997", document.id);
-        assertEquals("Coding sequence diversity", document.value);
+        Map<String, List<SuggestDocument>> resultMap =
+                getResultMap(suggestRdd.take(count), doc -> doc.id);
+
+        assertThat(resultMap.containsKey("KW-9997"), is(true));
+        assertNotNull(resultMap.get("KW-9997").get(0));
+        assertEquals(KEYWORD.name(), resultMap.get("KW-9997").get(0).dictionary);
+        assertEquals("KW-9997", resultMap.get("KW-9997").get(0).id);
+        assertEquals("Coding sequence diversity", resultMap.get("KW-9997").get(0).value);
+    }
+
+    @Test
+    void getProteome() {
+        SuggestDocumentsToHDFSWriter writer = new SuggestDocumentsToHDFSWriter(parameter);
+        JavaRDD<SuggestDocument> suggestRdd = writer.getProteome();
+        assertNotNull(suggestRdd);
+        int count = (int) suggestRdd.count();
+        assertEquals(6, count);
+
+        Map<String, List<SuggestDocument>> resultMap =
+                getResultMap(suggestRdd.take(count), doc -> doc.id);
+
+        assertThat(resultMap.containsKey("UP000008687"), is(true));
+        assertThat(resultMap.get("UP000008687").size(), is(1));
+        assertNotNull(resultMap.get("UP000008687").get(0));
+        assertEquals(PROTEOME_UPID.name(), resultMap.get("UP000008687").get(0).dictionary);
+        assertEquals("UP000008687", resultMap.get("UP000008687").get(0).id);
+        assertEquals("Potato virus X (strain X3) (PVX)", resultMap.get("UP000008687").get(0).value);
+        assertEquals(1, resultMap.get("UP000008687").get(0).altValues.size());
+        assertEquals("UP000008687", resultMap.get("UP000008687").get(0).altValues.get(0));
+    }
+
+    private <T> Map<String, List<T>> getResultMap(
+            List<T> result, Function<T, String> mappingFunction) {
+        Map<String, List<T>> map = result.stream().collect(Collectors.groupingBy(mappingFunction));
+        for (Map.Entry<String, List<T>> stringListEntry : map.entrySet()) {
+            assertThat(stringListEntry.getValue(), hasSize(1));
+        }
+        return map;
     }
 }

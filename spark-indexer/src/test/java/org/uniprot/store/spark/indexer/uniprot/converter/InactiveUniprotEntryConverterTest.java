@@ -29,6 +29,7 @@ class InactiveUniprotEntryConverterTest {
         assertNull(result.id);
         assertEquals("DELETED", result.inactiveReason);
         assertFalse(result.active);
+        assertTrue(result.content.contains("P12345"));
     }
 
     @Test
@@ -47,6 +48,7 @@ class InactiveUniprotEntryConverterTest {
         assertEquals("ID1", result.id);
         assertEquals("MERGED:P11111", result.inactiveReason);
         assertFalse(result.active);
+        assertTrue(result.content.isEmpty());
     }
 
     @Test
@@ -66,5 +68,6 @@ class InactiveUniprotEntryConverterTest {
         assertEquals("ID1", result.id);
         assertEquals("DEMERGED:P11111,P22222", result.inactiveReason);
         assertFalse(result.active);
+        assertTrue(result.content.isEmpty());
     }
 }

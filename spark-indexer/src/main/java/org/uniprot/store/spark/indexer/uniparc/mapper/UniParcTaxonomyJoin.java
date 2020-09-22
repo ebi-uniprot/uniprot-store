@@ -5,6 +5,7 @@ import java.io.Serializable;
 import org.apache.spark.api.java.Optional;
 import org.apache.spark.api.java.function.Function;
 import org.uniprot.core.taxonomy.TaxonomyEntry;
+import org.uniprot.core.taxonomy.TaxonomyLineage;
 import org.uniprot.core.util.Utils;
 import org.uniprot.store.search.document.uniparc.UniParcDocument;
 
@@ -32,23 +33,29 @@ public class UniParcTaxonomyJoin
             UniParcDocument.UniParcDocumentBuilder builder = result.toBuilder();
             if (Utils.notNull(tuple._2) && tuple._2.isPresent()) {
                 Iterable<TaxonomyEntry> organismList = tuple._2.get();
-                organismList.forEach(
-                        organism ->
-                                organism.getLineages()
-                                        .forEach(
-                                                lineage -> {
-                                                    builder.taxLineageId(
-                                                            (int) lineage.getTaxonId());
-                                                    builder.organismTaxon(
-                                                            lineage.getScientificName());
-                                                    if (lineage.hasCommonName()) {
-                                                        builder.organismTaxon(
-                                                                lineage.getCommonName());
-                                                    }
-                                                }));
+                organismList.forEach(organism -> mapTaxonomy(builder, organism));
             }
             result = builder.build();
         }
         return result;
+    }
+
+    private void mapTaxonomy(
+            UniParcDocument.UniParcDocumentBuilder builder, TaxonomyEntry organism) {
+        builder.organismName(organism.getScientificName()); // facet field
+        builder.organismTaxon(organism.getScientificName());
+        if (organism.hasCommonName()) {
+            builder.organismTaxon(organism.getCommonName());
+        }
+        organism.getLineages().forEach(lineage -> mapLineage(builder, lineage));
+    }
+
+    private void mapLineage(
+            UniParcDocument.UniParcDocumentBuilder builder, TaxonomyLineage lineage) {
+        builder.taxLineageId((int) lineage.getTaxonId());
+        builder.organismTaxon(lineage.getScientificName());
+        if (lineage.hasCommonName()) {
+            builder.organismTaxon(lineage.getCommonName());
+        }
     }
 }

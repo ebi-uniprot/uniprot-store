@@ -44,12 +44,14 @@ public class DiseaseProteinCountWriter
                         (Map<String, DiseaseProteinCountReader.DiseaseProteinCount>)
                                 executionContext.get(Constants.DISEASE_PROTEIN_COUNT_KEY);
 
-                diseaseIdProteinCountMap.putAll(
-                        disProtCountList.stream()
-                                .collect(
-                                        Collectors.toMap(
-                                                disProtCount -> disProtCount.getDiseaseId(),
-                                                disProtCount -> disProtCount)));
+                if (diseaseIdProteinCountMap != null) {
+                    diseaseIdProteinCountMap.putAll(
+                            disProtCountList.stream()
+                                    .collect(
+                                            Collectors.toMap(
+                                                    disProtCount -> disProtCount.getDiseaseId(),
+                                                    disProtCount -> disProtCount)));
+                }
             }
 
             executionContext.put(Constants.DISEASE_PROTEIN_COUNT_KEY, diseaseIdProteinCountMap);

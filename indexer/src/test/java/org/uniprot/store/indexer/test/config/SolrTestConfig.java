@@ -33,7 +33,7 @@ import org.uniprot.store.indexer.common.config.UniProtSolrClient;
 @TestConfiguration
 @Slf4j
 public class SolrTestConfig implements DisposableBean {
-    private static final String SOLR_DATA_DIR = "solr.data.dir";
+    private static final String SOLR_DATA_DIR = "solr.data.home";
     private static final String TEMP_DIR_PREFIX = "test-solr-data-dir";
     private final File file;
 

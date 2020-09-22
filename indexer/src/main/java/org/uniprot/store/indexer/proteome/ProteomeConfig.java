@@ -7,6 +7,7 @@ import java.util.List;
 
 import lombok.Data;
 
+import org.springframework.batch.core.listener.ExecutionContextPromotionListener;
 import org.springframework.batch.item.ItemProcessor;
 import org.springframework.batch.item.ItemReader;
 import org.springframework.batch.item.ItemWriter;
@@ -24,8 +25,10 @@ import org.uniprot.cv.taxonomy.FileNodeIterable;
 import org.uniprot.cv.taxonomy.TaxonomyRepo;
 import org.uniprot.cv.taxonomy.impl.TaxonomyMapRepo;
 import org.uniprot.store.indexer.common.config.UniProtSolrClient;
+import org.uniprot.store.indexer.common.utils.Constants;
 import org.uniprot.store.indexer.genecentric.GeneCentricDocumentWriter;
 import org.uniprot.store.job.common.converter.DocumentConverter;
+import org.uniprot.store.job.common.util.CommonConstants;
 import org.uniprot.store.search.document.proteome.ProteomeDocument;
 
 /**
@@ -96,5 +99,18 @@ public class ProteomeConfig {
         writers.add(geneCentricWriter);
         compositeWriter.setDelegates(writers);
         return compositeWriter;
+    }
+
+    @Bean
+    public ExecutionContextPromotionListener promotionListener() {
+        ExecutionContextPromotionListener executionContextPromotionListener =
+                new ExecutionContextPromotionListener();
+        executionContextPromotionListener.setKeys(
+                new String[] {
+                    CommonConstants.FAILED_ENTRIES_COUNT_KEY,
+                    CommonConstants.WRITTEN_ENTRIES_COUNT_KEY,
+                    Constants.SUGGESTIONS_MAP
+                });
+        return executionContextPromotionListener;
     }
 }

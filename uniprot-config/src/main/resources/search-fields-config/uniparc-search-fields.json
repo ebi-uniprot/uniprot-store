@@ -1,4 +1,4 @@
-[
+  [
   {
     "seqNumber": 0,
     "id": "upi",
@@ -23,8 +23,8 @@
   },
   {
     "seqNumber": 1,
-    "id": "accession",
-    "fieldName": "accession",
+    "id": "uniprotkb",
+    "fieldName": "uniprotkb",
     "label": "UniProtKB AC",
     "itemType": "SINGLE",
     "validRegex": "([OPQ][0-9][A-Z0-9]{3}[0-9]|[A-NR-Z]([0-9][A-Z][A-Z0-9]{2}){1,2}[0-9])",
@@ -156,20 +156,35 @@
     "includeInSwagger": true
   },
   {
+    "seqNumber": 11,
+    "id": "dbid",
+    "fieldName": "dbid",
+    "label": "Database Id",
+    "itemType": "SINGLE",
+    "fieldType": "GENERAL",
+    "dataType": "STRING",
+    "description": "Search by database id",
+    "example": "AAC02967",
+    "includeInSwagger": true
+  },
+  {
+    "seqNumber": 12,
+    "id": "feature_id",
+    "fieldName": "feature_id",
+    "label": "feature Id",
+    "itemType": "SINGLE",
+    "fieldType": "GENERAL",
+    "dataType": "STRING",
+    "description": "Search by feature domain id",
+    "example": "IPR004251",
+    "includeInSwagger": true
+  },
+  {
     "id": "length_sort",
     "fieldName": "length",
     "fieldType": "SORT",
     "dataType": "INTEGER",
     "description": "Sort by length",
     "example": "length asc"
-  },
-  {
-    "id": "content",
-    "fieldName": "content",
-    "fieldType": "GENERAL",
-    "dataType": "STRING",
-    "description": "Search by any content",
-    "example": "sample content",
-    "includeInSwagger": true
   }
 ]

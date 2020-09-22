@@ -27,6 +27,8 @@ class UniParcTaxonomyJoinTest {
         TaxonomyEntry entry1 =
                 new TaxonomyEntryBuilder()
                         .taxonId(10)
+                        .scientificName("scientificName10")
+                        .commonName("commonName10")
                         .lineagesAdd(
                                 new TaxonomyLineageBuilder()
                                         .taxonId(101)
@@ -44,6 +46,8 @@ class UniParcTaxonomyJoinTest {
         TaxonomyEntry entry2 =
                 new TaxonomyEntryBuilder()
                         .taxonId(11)
+                        .scientificName("scientificName11")
+                        .commonName("commonName11")
                         .lineagesAdd(
                                 new TaxonomyLineageBuilder()
                                         .taxonId(111)
@@ -60,10 +64,14 @@ class UniParcTaxonomyJoinTest {
         UniParcDocument result = mapper.call(tuple);
         assertNotNull(result);
         assertNotNull(result.getOrganismTaxons());
-        assertEquals(5, result.getOrganismTaxons().size());
+        assertEquals(9, result.getOrganismTaxons().size());
+        assertTrue(result.getOrganismTaxons().contains("scientificName10"));
+        assertTrue(result.getOrganismTaxons().contains("commonName10"));
         assertTrue(result.getOrganismTaxons().contains("scientificName101"));
         assertTrue(result.getOrganismTaxons().contains("commonName101"));
         assertTrue(result.getOrganismTaxons().contains("scientificName102"));
+        assertTrue(result.getOrganismTaxons().contains("scientificName11"));
+        assertTrue(result.getOrganismTaxons().contains("commonName11"));
         assertTrue(result.getOrganismTaxons().contains("scientificName111"));
         assertTrue(result.getOrganismTaxons().contains("commonName111"));
 
@@ -96,6 +104,6 @@ class UniParcTaxonomyJoinTest {
         UniParcTaxonomyJoin mapper = new UniParcTaxonomyJoin();
         UniParcDocument result = mapper.call(tuple);
         assertNotNull(result);
-        assertNull(result.getOrganismTaxons());
+        assertTrue(result.getOrganismTaxons().isEmpty());
     }
 }

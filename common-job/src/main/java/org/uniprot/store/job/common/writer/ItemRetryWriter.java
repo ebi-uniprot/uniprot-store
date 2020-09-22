@@ -4,6 +4,7 @@ import static org.slf4j.LoggerFactory.getLogger;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
@@ -56,8 +57,9 @@ import com.google.common.base.Strings;
 @Slf4j
 public abstract class ItemRetryWriter<E, S> implements ItemWriter<E> {
     public static final String ITEM_WRITER_TASK_EXECUTOR = "itemWriterTaskExecutor";
-    private static final Logger STORE_FAILED_LOGGER = getLogger("store-write-failed-entries");
-    private static final String ERROR_WRITING_ENTRIES_TO_STORE = "Error writing entries to Store: ";
+    protected static final Logger STORE_FAILED_LOGGER = getLogger("store-write-failed-entries");
+    protected static final String ERROR_WRITING_ENTRIES_TO_STORE =
+            "Error writing entries to Store: ";
     private final Store<S> store;
     private final RetryPolicy<Object> retryPolicy;
     private AtomicInteger failedWritingEntriesCount;
@@ -92,15 +94,21 @@ public abstract class ItemRetryWriter<E, S> implements ItemWriter<E> {
         executionContext.put(
                 CommonConstants.FAILED_ENTRIES_COUNT_KEY, this.failedWritingEntriesCount);
         executionContext.put(CommonConstants.WRITTEN_ENTRIES_COUNT_KEY, this.writtenEntriesCount);
+        // put in step to be used in testing
+        stepExecution
+                .getExecutionContext()
+                .put(CommonConstants.WRITTEN_ENTRIES_COUNT_KEY, this.writtenEntriesCount);
     }
 
-    private void recordItemsWereProcessed(int numberOfItemsProcessed) {
+    protected void recordItemsWereProcessed(int numberOfItemsProcessed) {
         if (!Utils.notNull(sleeper)) {
             this.sleeper =
                     (OnZeroCountSleeper)
                             executionContext.get(CommonConstants.ENTRIES_TO_WRITE_COUNTER);
         }
-        sleeper.minus(numberOfItemsProcessed);
+        if (Objects.nonNull(sleeper)) {
+            sleeper.minus(numberOfItemsProcessed);
+        }
     }
 
     protected abstract String extractItemId(E item);
@@ -117,14 +125,14 @@ public abstract class ItemRetryWriter<E, S> implements ItemWriter<E> {
 
     public abstract S itemToEntry(E item);
 
-    private void writeEntriesToStore(List<? extends E> items) {
+    protected void writeEntriesToStore(List<? extends E> items) {
         List<S> convertedItems = items.stream().map(this::itemToEntry).collect(Collectors.toList());
         store.save(convertedItems);
         writtenEntriesCount.addAndGet(convertedItems.size());
         recordItemsWereProcessed(convertedItems.size());
     }
 
-    private void logFailedEntriesToFile(List<? extends E> items, Throwable throwable) {
+    protected void logFailedEntriesToFile(List<? extends E> items, Throwable throwable) {
         List<String> accessions = new ArrayList<>();
         if (!Strings.isNullOrEmpty(getHeader())) STORE_FAILED_LOGGER.error(getHeader());
         for (E item : items) {
@@ -136,5 +144,21 @@ public abstract class ItemRetryWriter<E, S> implements ItemWriter<E> {
         log.error(ERROR_WRITING_ENTRIES_TO_STORE + accessions, throwable);
         failedWritingEntriesCount.addAndGet(items.size());
         recordItemsWereProcessed(items.size());
+    }
+
+    protected RetryPolicy<Object> getRetryPolicy() {
+        return this.retryPolicy;
+    }
+
+    protected Store<S> getStore() {
+        return this.store;
+    }
+
+    protected AtomicInteger getWrittenEntriesCount() {
+        return this.writtenEntriesCount;
+    }
+
+    protected AtomicInteger getFailedWritingEntriesCount() {
+        return this.failedWritingEntriesCount;
     }
 }

@@ -36,23 +36,26 @@ public abstract class VoldemortInMemoryEntryStore<T> implements VoldemortClient<
     @Override
     public void saveEntry(T entry) {
         String id = getStoreId(entry);
-        logger.info("Saving entry: {}", id);
+        logger.debug("Saving entry: {}", id);
 
         Store<String, T, String> store = this.getStore();
         Versioned<T> versionedEntry = new Versioned<>(entry);
         store.put(id, versionedEntry, this.storeName);
     }
 
-    public void updateEntry(T entry) {
+    @Override
+    public void saveOrUpdateEntry(T entry) {
         String id = getStoreId(entry);
-        logger.info("Updating entry: {}", id);
         Store<String, T, String> store = this.getStore();
         List<Versioned<T>> listVersionedEntry = store.get(id, this.storeName);
         if (listVersionedEntry != null && !listVersionedEntry.isEmpty()) {
+            logger.info("Updating entry: {}", id);
             Versioned<T> currentEntry = listVersionedEntry.get(0);
             currentEntry.setObject(entry);
             store.delete(id, currentEntry.getVersion());
             store.put(id, currentEntry, this.storeName);
+        } else {
+            saveEntry(entry);
         }
     }
 
@@ -62,7 +65,7 @@ public abstract class VoldemortInMemoryEntryStore<T> implements VoldemortClient<
     }
 
     public Optional<T> getEntry(String id) {
-        logger.info("Getting entry: {}", id);
+        logger.debug("Getting entry: {}", id);
         Store<String, T, String> store = this.getStore();
 
         Optional<T> result = Optional.empty();

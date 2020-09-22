@@ -14,7 +14,6 @@
 	<properties>
 		<ojdbc.version>11.2.0.4</ojdbc.version>
 		<failsafe.version>2.0.1</failsafe.version>
-		<solr.version>7.5.0</solr.version>
 		<chronicle-map.version>3.17.2</chronicle-map.version>
 		<ehcache.version>3.6.2</ehcache.version>
 		<cache-api.version>1.1.1</cache-api.version>
@@ -192,8 +191,8 @@
 			<scope>test</scope>
 			<exclusions>
 				<exclusion>
-					<groupId>junit</groupId>
-					<artifactId>junit</artifactId>
+					<groupId>org.junit.vintage</groupId>
+					<artifactId>junit-vintage-engine</artifactId>
 				</exclusion>
 			</exclusions>
 		</dependency>
@@ -203,17 +202,13 @@
 			<scope>test</scope>
 			<exclusions>
 				<exclusion>
-					<groupId>junit</groupId>
-					<artifactId>junit</artifactId>
+					<groupId>org.junit.vintage</groupId>
+					<artifactId>junit-vintage-engine</artifactId>
 				</exclusion>
 			</exclusions>
 		</dependency>
-		<dependency>
-			<groupId>io.dropwizard.metrics</groupId>
-			<artifactId>metrics-core</artifactId>
-			<version>3.2.6</version>
-			<scope>test</scope>
-		</dependency>
+		<!-- <dependency> <groupId>io.dropwizard.metrics</groupId> <artifactId>metrics-core</artifactId> 
+			<version>3.2.6</version> <scope>test</scope> </dependency> -->
 		<dependency>
 			<groupId>com.h2database</groupId>
 			<artifactId>h2</artifactId>

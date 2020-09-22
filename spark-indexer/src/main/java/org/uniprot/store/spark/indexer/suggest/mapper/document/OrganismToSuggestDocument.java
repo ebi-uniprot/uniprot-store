@@ -34,12 +34,18 @@ public class OrganismToSuggestDocument
 
     static SuggestDocument getOrganismSuggestDocument(
             TaxonomyLineage organism, String dictionaryName) {
-        return SuggestDocument.builder()
-                .id(String.valueOf(organism.getTaxonId()))
-                .value(organism.getScientificName())
-                .altValues(extractAltValuesFromOrganism(organism))
-                .dictionary(dictionaryName)
-                .build();
+
+        SuggestDocument.SuggestDocumentBuilder builder =
+                SuggestDocument.builder()
+                        .id(String.valueOf(organism.getTaxonId()))
+                        .altValues(extractAltValuesFromOrganism(organism))
+                        .dictionary(dictionaryName);
+
+        if (Utils.notNullNotEmpty(organism.getScientificName())) {
+            builder.value(organism.getScientificName());
+        }
+
+        return builder.build();
     }
 
     private static List<String> extractAltValuesFromOrganism(TaxonomyLineage organism) {

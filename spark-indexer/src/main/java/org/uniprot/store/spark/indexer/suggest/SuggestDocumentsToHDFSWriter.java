@@ -1,6 +1,11 @@
 package org.uniprot.store.spark.indexer.suggest;
 
-import static org.uniprot.store.search.document.suggest.SuggestDictionary.*;
+import static org.uniprot.store.search.document.suggest.SuggestDictionary.CATALYTIC_ACTIVITY;
+import static org.uniprot.store.search.document.suggest.SuggestDictionary.CHEBI;
+import static org.uniprot.store.search.document.suggest.SuggestDictionary.HOST;
+import static org.uniprot.store.search.document.suggest.SuggestDictionary.ORGANISM;
+import static org.uniprot.store.search.document.suggest.SuggestDictionary.TAXONOMY;
+import static org.uniprot.store.search.document.suggest.SuggestDictionary.UNIPARC_TAXONOMY;
 import static org.uniprot.store.spark.indexer.common.util.SparkUtils.getCollectionOutputReleaseDirPath;
 
 import java.util.ArrayList;
@@ -16,7 +21,9 @@ import org.uniprot.core.cv.ec.ECEntry;
 import org.uniprot.core.cv.go.GeneOntologyEntry;
 import org.uniprot.core.cv.keyword.KeywordEntry;
 import org.uniprot.core.cv.subcell.SubcellularLocationEntry;
+import org.uniprot.core.proteome.ProteomeEntry;
 import org.uniprot.core.taxonomy.TaxonomyLineage;
+import org.uniprot.core.uniparc.UniParcEntry;
 import org.uniprot.store.indexer.uniprotkb.config.SuggestionConfig;
 import org.uniprot.store.search.SolrCollection;
 import org.uniprot.store.search.document.suggest.SuggestDictionary;
@@ -28,11 +35,25 @@ import org.uniprot.store.spark.indexer.common.writer.DocumentsToHDFSWriter;
 import org.uniprot.store.spark.indexer.ec.ECRDDReader;
 import org.uniprot.store.spark.indexer.go.relations.GORelationRDDReader;
 import org.uniprot.store.spark.indexer.keyword.KeywordRDDReader;
+import org.uniprot.store.spark.indexer.proteome.ProteomeRDDReader;
 import org.uniprot.store.spark.indexer.subcell.SubcellularLocationRDDReader;
 import org.uniprot.store.spark.indexer.suggest.mapper.TaxonomyHighImportanceReduce;
-import org.uniprot.store.spark.indexer.suggest.mapper.document.*;
-import org.uniprot.store.spark.indexer.suggest.mapper.flatfile.*;
+import org.uniprot.store.spark.indexer.suggest.mapper.document.ChebiToSuggestDocument;
+import org.uniprot.store.spark.indexer.suggest.mapper.document.ECToSuggestDocument;
+import org.uniprot.store.spark.indexer.suggest.mapper.document.GOToSuggestDocument;
+import org.uniprot.store.spark.indexer.suggest.mapper.document.KeywordToSuggestDocument;
+import org.uniprot.store.spark.indexer.suggest.mapper.document.OrganismToSuggestDocument;
+import org.uniprot.store.spark.indexer.suggest.mapper.document.ProteomeToSuggestDocument;
+import org.uniprot.store.spark.indexer.suggest.mapper.document.SubcellularLocationToSuggestDocument;
+import org.uniprot.store.spark.indexer.suggest.mapper.document.TaxonomyToSuggestDocument;
+import org.uniprot.store.spark.indexer.suggest.mapper.document.UniParcTaxonomyToSuggestDocument;
+import org.uniprot.store.spark.indexer.suggest.mapper.flatfile.FlatFileToCatalyticActivityChebi;
+import org.uniprot.store.spark.indexer.suggest.mapper.flatfile.FlatFileToCofactorChebi;
+import org.uniprot.store.spark.indexer.suggest.mapper.flatfile.FlatFileToEC;
+import org.uniprot.store.spark.indexer.suggest.mapper.flatfile.FlatFileToOrganism;
+import org.uniprot.store.spark.indexer.suggest.mapper.flatfile.FlatFileToOrganismHost;
 import org.uniprot.store.spark.indexer.taxonomy.TaxonomyLineageReader;
+import org.uniprot.store.spark.indexer.uniparc.UniParcRDDTupleReader;
 import org.uniprot.store.spark.indexer.uniprot.UniProtKBRDDTupleReader;
 import org.uniprot.store.spark.indexer.uniprot.mapper.GoRelationsJoinMapper;
 
@@ -69,6 +90,8 @@ public class SuggestDocumentsToHDFSWriter implements DocumentsToHDFSWriter {
                         .union(getChebi(flatFileRDD))
                         .union(getGo(flatFileRDD))
                         .union(getOrganism(flatFileRDD))
+                        .union(getProteome())
+                        .union(getUniParcTaxonomy())
                         .repartition(suggestPartition);
         String hdfsPath =
                 getCollectionOutputReleaseDirPath(
@@ -244,6 +267,51 @@ public class SuggestDocumentsToHDFSWriter implements DocumentsToHDFSWriter {
         return organismSuggester.union(taxonomySuggester).union(organismHostSuggester);
     }
 
+    /** @return JavaRDD of SuggestDocument built from Proteome input file */
+    JavaRDD<SuggestDocument> getProteome() {
+        ProteomeRDDReader proteomeRDDReader = new ProteomeRDDReader(jobParameter, false);
+        JavaPairRDD<String, ProteomeEntry> proteomeEntryJavaPairRDD = proteomeRDDReader.load();
+
+        return proteomeEntryJavaPairRDD
+                .mapValues(new ProteomeToSuggestDocument())
+                .values()
+                .distinct();
+    }
+
+    JavaRDD<SuggestDocument> getUniParcTaxonomy() {
+        // load the uniparc input file
+        UniParcRDDTupleReader uniParcRDDReader = new UniParcRDDTupleReader(jobParameter, false);
+        JavaRDD<UniParcEntry> uniParcRDD = uniParcRDDReader.load();
+
+        // compute the lineage of the taxonomy ids in the format <2, <2,131567,1>> using db
+        TaxonomyLineageReader lineageReader = new TaxonomyLineageReader(jobParameter, true);
+        JavaPairRDD<String, List<TaxonomyLineage>> organismWithLineage = lineageReader.load();
+        organismWithLineage.repartition(organismWithLineage.getNumPartitions());
+
+        // JavaPairRDD<taxId, taxId> get taxonomies from uniparcRDDs, flat it, get unique only
+        JavaPairRDD<String, String> taxonIdTaxonIdPair =
+                uniParcRDD
+                        .flatMap(entry -> entry.getTaxonomies().iterator())
+                        .mapToPair(
+                                taxonomy ->
+                                        new Tuple2<>(
+                                                String.valueOf(taxonomy.getTaxonId()),
+                                                String.valueOf(taxonomy.getTaxonId())))
+                        .reduceByKey((taxId1, taxId2) -> taxId1);
+
+        // TAXONOMY is the node along with its ancestors
+        JavaRDD<SuggestDocument> taxonomySuggester =
+                taxonIdTaxonIdPair
+                        .leftOuterJoin(organismWithLineage)
+                        .flatMapToPair(new UniParcTaxonomyToSuggestDocument())
+                        .reduceByKey((taxId, suggestDoc) -> taxId)
+                        .union(getDefaultHighImportantTaxon(UNIPARC_TAXONOMY))
+                        .reduceByKey(new TaxonomyHighImportanceReduce())
+                        .values();
+
+        return taxonomySuggester;
+    }
+
     /**
      * Load High Important Organism documents from a config file defined by Curators
      *
@@ -254,7 +322,9 @@ public class SuggestDocumentsToHDFSWriter implements DocumentsToHDFSWriter {
             SuggestDictionary dictionary) {
         SuggestionConfig suggestionConfig = new SuggestionConfig();
         List<SuggestDocument> suggestList = new ArrayList<>();
-        if (dictionary.equals(TAXONOMY) || dictionary.equals(ORGANISM)) {
+        if (dictionary.equals(UNIPARC_TAXONOMY)
+                || dictionary.equals(TAXONOMY)
+                || dictionary.equals(ORGANISM)) {
             suggestList.addAll(
                     suggestionConfig.loadDefaultTaxonSynonymSuggestions(
                             dictionary, SuggestionConfig.DEFAULT_TAXON_SYNONYMS_FILE));

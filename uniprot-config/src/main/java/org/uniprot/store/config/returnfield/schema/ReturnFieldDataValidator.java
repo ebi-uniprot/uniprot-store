@@ -35,6 +35,7 @@ public class ReturnFieldDataValidator extends FieldDataValidator<ReturnField> {
         }
     }
 
+    @SuppressWarnings("squid:S2201")
     private void mustHaveAtLeastOneRequiredJsonField(List<ReturnField> fieldItems) {
         fieldItems.stream()
                 .filter(ReturnField::getIsRequiredForJson)
