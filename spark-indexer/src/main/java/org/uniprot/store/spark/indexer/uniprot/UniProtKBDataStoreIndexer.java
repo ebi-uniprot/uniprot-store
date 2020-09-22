@@ -13,11 +13,11 @@ import org.uniprot.store.spark.indexer.common.store.DataStoreIndexer;
 import org.uniprot.store.spark.indexer.go.evidence.GOEvidence;
 import org.uniprot.store.spark.indexer.go.evidence.GOEvidenceMapper;
 import org.uniprot.store.spark.indexer.go.evidence.GOEvidencesRDDReader;
-import org.uniprot.store.spark.indexer.uniprot.mapper.UniProtKBAnnotationScoreMapper;
-import org.uniprot.store.spark.indexer.uniprot.writer.UniProtKBDataStoreWriter;
 import org.uniprot.store.spark.indexer.uniparc.UniParcRDDTupleReader;
 import org.uniprot.store.spark.indexer.uniprot.mapper.UniParcJoinMapper;
 import org.uniprot.store.spark.indexer.uniprot.mapper.UniParcMapper;
+import org.uniprot.store.spark.indexer.uniprot.mapper.UniProtKBAnnotationScoreMapper;
+import org.uniprot.store.spark.indexer.uniprot.writer.UniProtKBDataStoreWriter;
 
 /**
  * @author lgonzales
@@ -40,7 +40,6 @@ public class UniProtKBDataStoreIndexer implements DataStoreIndexer {
 
         uniprotRDD = joinGoEvidences(uniprotRDD);
         uniprotRDD = joinUniParcId(uniprotRDD);
-
 
         String numberOfConnections = config.getString("store.uniprot.numberOfConnections");
         String storeName = config.getString("store.uniprot.storeName");
