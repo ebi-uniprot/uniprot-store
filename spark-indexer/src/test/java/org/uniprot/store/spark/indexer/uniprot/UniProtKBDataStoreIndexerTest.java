@@ -4,17 +4,14 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.Iterator;
 import java.util.List;
-import java.util.Optional;
 import java.util.ResourceBundle;
 
 import org.apache.spark.api.java.JavaSparkContext;
 import org.apache.spark.api.java.function.VoidFunction;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.uniprot.core.uniprotkb.UniProtKBEntry;
 import org.uniprot.core.uniprotkb.impl.UniProtKBEntryBuilder;
 import org.uniprot.core.uniprotkb.xdb.UniProtKBCrossReference;
-import org.uniprot.store.datastore.voldemort.VoldemortInMemoryEntryStore;
 import org.uniprot.store.datastore.voldemort.uniprot.VoldemortInMemoryUniprotEntryStore;
 import org.uniprot.store.spark.indexer.common.JobParameter;
 import org.uniprot.store.spark.indexer.common.util.SparkUtils;
@@ -39,10 +36,10 @@ class UniProtKBDataStoreIndexerTest {
                     new UniProtKBDataStoreIndexerTest.FakeUniProtKBDataStoreIndexer(parameter);
             assertNotNull(indexer);
             indexer.indexInDataStore();
-            VoldemortInMemoryUniprotEntryStore client = VoldemortInMemoryUniprotEntryStore.getInstance("uniprotkb");
+            VoldemortInMemoryUniprotEntryStore client =
+                    VoldemortInMemoryUniprotEntryStore.getInstance("uniprotkb");
             assertNotNull(client);
-            UniProtKBEntry entry = client.getEntry("Q9EPI6")
-                    .orElseThrow(AssertionError::new);
+            UniProtKBEntry entry = client.getEntry("Q9EPI6").orElseThrow(AssertionError::new);
             assertNotNull(entry);
 
             // Join UniParc correctly
@@ -97,8 +94,9 @@ class UniProtKBDataStoreIndexerTest {
                 String numberOfConnections, String storeName, String connectionURL) {
             return entryIterator -> {
                 assertNotNull(entryIterator);
-                while(entryIterator.hasNext()) {
-                    VoldemortInMemoryUniprotEntryStore.getInstance("uniprotkb").saveEntry(entryIterator.next());
+                while (entryIterator.hasNext()) {
+                    VoldemortInMemoryUniprotEntryStore.getInstance("uniprotkb")
+                            .saveEntry(entryIterator.next());
                 }
             };
         }
