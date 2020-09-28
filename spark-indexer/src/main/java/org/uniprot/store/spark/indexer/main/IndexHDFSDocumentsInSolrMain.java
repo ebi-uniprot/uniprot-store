@@ -40,7 +40,6 @@ public class IndexHDFSDocumentsInSolrMain {
             for (SolrCollection collection : solrCollections) {
                 String hdfsFilePath =
                         getCollectionOutputReleaseDirPath(applicationConfig, args[0], collection);
-                log.info("Checking brotli. isBrotliAvailable: {}", BrotliLoader.isBrotliAvailable());
                 log.info(
                         "Started solr index for collection: "
                                 + collection.name()

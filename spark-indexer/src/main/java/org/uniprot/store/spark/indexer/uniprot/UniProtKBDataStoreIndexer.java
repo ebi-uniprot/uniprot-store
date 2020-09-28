@@ -3,6 +3,7 @@ package org.uniprot.store.spark.indexer.uniprot;
 import java.util.Iterator;
 import java.util.ResourceBundle;
 
+import com.nixxcode.jvmbrotli.common.BrotliLoader;
 import lombok.extern.slf4j.Slf4j;
 
 import org.apache.spark.api.java.JavaPairRDD;
@@ -42,6 +43,7 @@ public class UniProtKBDataStoreIndexer implements DataStoreIndexer {
         String storeName = config.getString("store.uniprot.storeName");
         String connectionURL = config.getString("store.uniprot.host");
 
+        log.info("Checking brotli. isBrotliAvailable: {}", BrotliLoader.isBrotliAvailable());
         uniprotRDD
                 .mapValues(new UniProtKBAnnotationScoreMapper())
                 .leftOuterJoin(goEvidenceRDD)
@@ -49,7 +51,7 @@ public class UniProtKBDataStoreIndexer implements DataStoreIndexer {
                 .values()
                 .foreachPartition(getWriter(numberOfConnections, storeName, connectionURL));
 
-        log.info("Completed UniProtKb Data Store index");
+        log.info("Completed UniProtKb Data Store index. and brotli {}",BrotliLoader.isBrotliAvailable());
     }
 
     VoidFunction<Iterator<UniProtKBEntry>> getWriter(
