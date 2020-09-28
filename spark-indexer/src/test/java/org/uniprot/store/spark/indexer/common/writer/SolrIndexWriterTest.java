@@ -1,25 +1,23 @@
 package org.uniprot.store.spark.indexer.common.writer;
 
+import static org.junit.jupiter.api.Assertions.*;
+
+import java.util.Collections;
+import java.util.Iterator;
+
 import org.apache.solr.client.solrj.SolrClient;
 import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.common.SolrInputDocument;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.uniprot.store.spark.indexer.common.exception.SolrIndexException;
-
-import java.util.Collections;
-import java.util.Iterator;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * @author lgonzales
  * @since 03/09/2020
  */
 class SolrIndexWriterTest {
-
 
     private static Iterator<SolrInputDocument> iterator = Collections.emptyIterator();
 
@@ -32,14 +30,18 @@ class SolrIndexWriterTest {
     @Test
     void callWriterFail() {
         SolrIndexWriter writer = new FakeSolrIndexWriter(true);
-        SolrIndexException response = assertThrows(SolrIndexException.class, () -> writer.call(iterator));
-        assertEquals("Exception indexing data to solr, for collection collectionName", response.getMessage());
+        SolrIndexException response =
+                assertThrows(SolrIndexException.class, () -> writer.call(iterator));
+        assertEquals(
+                "Exception indexing data to solr, for collection collectionName",
+                response.getMessage());
     }
 
-    private static class FakeSolrIndexWriter extends SolrIndexWriter{
+    private static class FakeSolrIndexWriter extends SolrIndexWriter {
 
         private static final long serialVersionUID = 7351466400932705045L;
         private final boolean throwException;
+
         public FakeSolrIndexWriter(boolean throwException) {
             super("host", "collectionName");
             this.throwException = throwException;
@@ -49,7 +51,7 @@ class SolrIndexWriterTest {
         protected SolrClient getSolrClient() {
             SolrClient solrClient = Mockito.mock(SolrClient.class);
             try {
-                if(throwException) {
+                if (throwException) {
                     Mockito.when(solrClient.add(Mockito.anyString(), Mockito.eq(iterator)))
                             .thenThrow(new SolrServerException("ErrorMessage"));
                 } else {

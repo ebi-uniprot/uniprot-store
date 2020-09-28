@@ -73,11 +73,6 @@ public class UniParcDocument implements Document {
     @Field("isoform")
     private List<String> uniprotIsoforms;
 
-    // DEFAULT SEARCH FIELD
-    @Singular("contentAdd")
-    @Field("content")
-    public List<String> content;
-
     @Override
     public String getDocumentId() {
         return upi;

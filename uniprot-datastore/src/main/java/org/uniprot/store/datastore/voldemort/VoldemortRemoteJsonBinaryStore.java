@@ -1,15 +1,13 @@
 package org.uniprot.store.datastore.voldemort;
 
-import java.io.IOException;
-import java.time.Duration;
-import java.util.*;
-
+import com.codahale.metrics.Timer;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.inject.Inject;
 import net.jodah.failsafe.Failsafe;
 import net.jodah.failsafe.RetryPolicy;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import voldemort.VoldemortException;
 import voldemort.client.ClientConfig;
 import voldemort.client.SocketStoreClientFactory;
@@ -18,10 +16,9 @@ import voldemort.client.StoreClientFactory;
 import voldemort.versioning.ObsoleteVersionException;
 import voldemort.versioning.Versioned;
 
-import com.codahale.metrics.Timer;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.inject.Inject;
+import java.io.IOException;
+import java.time.Duration;
+import java.util.*;
 
 /**
  * @author lgonzales
@@ -65,10 +62,10 @@ public abstract class VoldemortRemoteJsonBinaryStore<T> implements VoldemortClie
         factory = new SocketStoreClientFactory(clientConfig);
         try {
             if (factory.getFailureDetector().getAvailableNodeCount() == 0) {
-                throw new RuntimeException("Voldemort server is not available");
+                throw new RetrievalException("Voldemort server is not available");
             }
         } catch (Exception e) {
-            throw new RuntimeException("Voldemort server is not available");
+            throw new RetrievalException("Voldemort server is not available");
         }
         this.storeName = storeName;
         this.client = factory.getStoreClient(storeName);
@@ -119,7 +116,7 @@ public abstract class VoldemortRemoteJsonBinaryStore<T> implements VoldemortClie
             }
         } catch (Exception e) {
             logger.warn("Error getting entry from BDB store.", e);
-            throw new RuntimeException("Error getting entry from BDB store", e);
+            throw new RetrievalException("Error getting entry from BDB store", e);
         }
     }
 
@@ -134,12 +131,16 @@ public abstract class VoldemortRemoteJsonBinaryStore<T> implements VoldemortClie
                         if (versionedEntry != null) {
                             T entry = getEntryFromBinary(versionedEntry);
                             toReturn.add(entry);
+                        } else {
+                            throw new RetrievalException(
+                                    "Could not fetch entry " + acc + " from Voldemort.");
                         }
                     });
+
             return toReturn;
         } catch (Exception e) {
-            logger.warn("Error getting entry from BDB store.", e);
-            throw new RuntimeException("Error getting entry from BDB store", e);
+            logger.warn("Error getting entries from BDB store.", e);
+            throw new RetrievalException("Error getting entry from BDB store", e);
         }
     }
 
@@ -166,7 +167,7 @@ public abstract class VoldemortRemoteJsonBinaryStore<T> implements VoldemortClie
             return getStoreObjectMapper()
                     .readValue(entryObjectVersioned.getValue(), getEntryClass());
         } catch (IOException e) {
-            throw new RuntimeException("Error getting entry from BDB store.", e);
+            throw new RetrievalException("Error getting entry from BDB store.", e);
         }
     }
 
@@ -179,7 +180,7 @@ public abstract class VoldemortRemoteJsonBinaryStore<T> implements VoldemortClie
             binaryEntry = getStoreObjectMapper().writeValueAsBytes(entry);
             client.put(acc, binaryEntry);
         } catch (JsonProcessingException e) {
-            throw new RuntimeException("Unable to parse entry to binary json: ", e);
+            throw new RetrievalException("Unable to parse entry to binary json: ", e);
         }
         time.stop();
     }
