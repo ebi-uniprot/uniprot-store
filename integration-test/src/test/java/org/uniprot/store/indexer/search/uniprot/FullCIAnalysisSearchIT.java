@@ -89,7 +89,7 @@ class FullCIAnalysisSearchIT {
     void canFindExactPhraseContainingCommasNumbersBracesAndSlashes(FieldType field) {
         String accession = newAccession();
         String fieldValue =
-                "Influenza A, virus (strain A/Goose/Guangdong/1/1996 H5N1 genotype Gs/Gd)";
+                "Putative tRNA-(Ms(2)io(6)a)-hydroxylase";
         String query = fieldPhraseQuery(field.getQueryField(), fieldValue);
 
         new EntryCheck()
@@ -188,6 +188,50 @@ class FullCIAnalysisSearchIT {
         new EntryCheck()
                 .withAccession(accession)
                 .withFieldValue(fieldValue)
+                .usingQuery(query)
+                .canBeFound(field);
+    }
+
+    @ParameterizedTest
+    @EnumSource(FieldType.class)
+    void canFindComplexBracketeProteinName(FieldType field) {
+        String accession = newAccession();
+        String fieldValue = "Putative tRNA-(Ms(2)io(6)a)-hydroxylase";
+        String query = fieldQuery(field.getQueryField(), fieldValue);
+
+        new EntryCheck()
+                .withAccession(accession)
+                .withFieldValue(fieldValue)
+                .usingQuery(query)
+                .canBeFound(field);
+    }
+
+    @ParameterizedTest
+    @EnumSource(FieldType.class)
+    void canFindComplexBracketeProteinNameViaBracketedPart(FieldType field) {
+        String accession = newAccession();
+        String indexFieldValue = "Putative tRNA-(Ms(2)io(6)a)-hydroxylase";
+        String queryFieldValue = "(Ms(2)io(6)a)";
+        String query = fieldQuery(field.getQueryField(), queryFieldValue);
+
+        new EntryCheck()
+                .withAccession(accession)
+                .withFieldValue(indexFieldValue)
+                .usingQuery(query)
+                .canBeFound(field);
+    }
+
+    @ParameterizedTest
+    @EnumSource(FieldType.class)
+    void canFindComplexBracketeProteinNameViaLastPart(FieldType field) {
+        String accession = newAccession();
+        String indexFieldValue = "Putative tRNA-(Ms(2)io(6)a)-hydroxylase";
+        String queryFieldValue = "hydroxylase";
+        String query = fieldQuery(field.getQueryField(), queryFieldValue);
+
+        new EntryCheck()
+                .withAccession(accession)
+                .withFieldValue(indexFieldValue)
                 .usingQuery(query)
                 .canBeFound(field);
     }
