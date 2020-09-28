@@ -124,16 +124,6 @@
     "parentId": "miscellaneous",
     "childNumber": 0,
     "itemType": "SINGLE",
-    "label": "Matched text",
-    "name": "matched",
-    "paths": ["uniParcId"],
-    "id": "miscellaneous/matched",
-    "includeInSwagger": true
-  },
-  {
-    "parentId": "miscellaneous",
-    "childNumber": 1,
-    "itemType": "SINGLE",
     "isDefaultForTsv": true,
     "defaultForTsvOrder" : 2,
     "label": "UniProtKB",
