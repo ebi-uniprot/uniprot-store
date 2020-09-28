@@ -699,17 +699,6 @@
     "parentId": "miscellaneous",
     "childNumber": 5,
     "itemType": "SINGLE",
-    "name": "matched_text",
-    "label": "Matched text",
-    "id": "miscellaneous/matched_text",
-    "paths": [
-      "primaryAccession"
-    ]
-  },
-  {
-    "parentId": "miscellaneous",
-    "childNumber": 6,
-    "itemType": "SINGLE",
     "includeInSwagger": true,
     "name": "cc_miscellaneous",
     "label": "Miscellaneous [CC]",
@@ -720,7 +709,7 @@
   },
   {
     "parentId": "miscellaneous",
-    "childNumber": 7,
+    "childNumber": 6,
     "itemType": "SINGLE",
     "includeInSwagger": true,
     "name": "protein_existence",
@@ -732,7 +721,7 @@
   },
   {
     "parentId": "miscellaneous",
-    "childNumber": 8,
+    "childNumber": 7,
     "itemType": "SINGLE",
     "includeInSwagger": true,
     "isDefaultForTsv": true,
@@ -746,7 +735,7 @@
   },
   {
     "parentId": "miscellaneous",
-    "childNumber": 9,
+    "childNumber": 8,
     "itemType": "SINGLE",
     "name": "tools",
     "label": "Tools",
@@ -757,13 +746,37 @@
   },
   {
     "parentId": "miscellaneous",
-    "childNumber": 10,
+    "childNumber": 9,
     "itemType": "SINGLE",
     "name": "uniparc_id",
     "label": "UniParc",
     "id": "miscellaneous/uniparc",
     "paths": [
-      "primaryAccession"
+      "extraAttributes.uniParcId"
+    ]
+  },
+  {
+    "parentId": "miscellaneous",
+    "childNumber": 10,
+    "itemType": "SINGLE",
+    "includeInSwagger": true,
+    "name": "comment_count",
+    "label": "Comments",
+    "id": "miscellaneous/comment_count",
+    "paths": [
+      "extraAttributes.countByCommentType"
+    ]
+  },
+  {
+    "parentId": "miscellaneous",
+    "childNumber": 11,
+    "itemType": "SINGLE",
+    "includeInSwagger": true,
+    "name": "feature_count",
+    "label": "Features",
+    "id": "miscellaneous/feature_count",
+    "paths": [
+      "extraAttributes.countByFeatureType"
     ]
   },
   {
@@ -1265,17 +1278,6 @@
     "parentId": "publications",
     "childNumber": 0,
     "itemType": "SINGLE",
-    "name": "mapped_pubmed_id",
-    "label": "Mapped PubMed ID",
-    "id": "publications/mapped_pubmed_id",
-    "paths": [
-      "primaryAccession"
-    ]
-  },
-  {
-    "parentId": "publications",
-    "childNumber": 1,
-    "itemType": "SINGLE",
     "includeInSwagger": true,
     "name": "lit_pubmed_id",
     "label": "PubMed ID",
@@ -1588,29 +1590,5 @@
     "groupName": "Family and domain",
     "isDatabaseGroup": true,
     "id": "family_and_domain"
-  },
-  {
-    "parentId": "miscellaneous",
-    "childNumber": 11,
-    "itemType": "SINGLE",
-    "includeInSwagger": true,
-    "name": "comment_count",
-    "label": "Comments",
-    "id": "miscellaneous/comment_count",
-    "paths": [
-      "extraAttributes.countByCommentType"
-    ]
-  },
-  {
-    "parentId": "miscellaneous",
-    "childNumber": 12,
-    "itemType": "SINGLE",
-    "includeInSwagger": true,
-    "name": "feature_count",
-    "label": "Features",
-    "id": "miscellaneous/feature_count",
-    "paths": [
-      "extraAttributes.countByFeatureType"
-    ]
   }
 ]

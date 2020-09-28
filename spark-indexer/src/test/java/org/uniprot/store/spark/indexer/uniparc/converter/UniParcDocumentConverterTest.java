@@ -127,8 +127,6 @@ class UniParcDocumentConverterTest {
         assertTrue(result.getFeatureIds().contains("interProDbId"));
 
         assertEquals(22, result.getSeqLength());
-
-        assertTrue(result.getContent().isEmpty());
     }
 
     private UniParcEntry getUniParcEntry(UniParcDatabase type) {

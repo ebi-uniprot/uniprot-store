@@ -8,11 +8,11 @@ import java.util.ResourceBundle;
 import lombok.extern.slf4j.Slf4j;
 
 import org.apache.solr.common.SolrInputDocument;
-import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
 import org.uniprot.store.search.SolrCollection;
 import org.uniprot.store.spark.indexer.common.exception.SolrIndexException;
 import org.uniprot.store.spark.indexer.common.util.SolrUtils;
+import org.uniprot.store.spark.indexer.common.writer.SolrIndexWriter;
 
 /**
  * This class is responsible to load data from saved SolrDocuments and Index in Solr
@@ -32,16 +32,30 @@ public class IndexHDFSDocumentsInSolrMain {
         }
 
         ResourceBundle applicationConfig = loadApplicationProperty();
+        String zkHost = applicationConfig.getString("solr.zkhost");
         try (JavaSparkContext sparkContext = loadSparkContext(applicationConfig)) {
 
             List<SolrCollection> solrCollections = getSolrCollection(args[1]);
             for (SolrCollection collection : solrCollections) {
                 String hdfsFilePath =
                         getCollectionOutputReleaseDirPath(applicationConfig, args[0], collection);
-                JavaRDD<SolrInputDocument> solrInputDocumentRDD =
-                        sparkContext.objectFile(hdfsFilePath).map(obj -> (SolrInputDocument) obj);
 
-                SolrUtils.indexDocuments(solrInputDocumentRDD, collection, applicationConfig);
+                log.info(
+                        "Started solr index for collection: "
+                                + collection.name()
+                                + " in zkHost "
+                                + zkHost);
+                sparkContext
+                        .objectFile(hdfsFilePath)
+                        .map(obj -> (SolrInputDocument) obj)
+                        .foreachPartition(new SolrIndexWriter(zkHost, collection.name()));
+                log.info(
+                        "Completed solr index for collection: "
+                                + collection.name()
+                                + " in zkHost "
+                                + zkHost);
+
+                SolrUtils.commit(collection.name(), zkHost);
             }
         } catch (Exception e) {
             throw new SolrIndexException("Unexpected error while index in solr", e);

@@ -3,6 +3,7 @@ package org.uniprot.store.spark.indexer.suggest.mapper.document;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
@@ -24,11 +25,11 @@ class GOToSuggestDocumentTest {
                 new GeneOntologyEntryBuilder().id("GO:goId").name("goName").build();
 
         GOToSuggestDocument mapper = new GOToSuggestDocument();
-        Iterable<SuggestDocument> results = mapper.call(new Tuple2<>(term, "goIdId"));
+        Iterator<SuggestDocument> results = mapper.call(new Tuple2<>(term, "goIdId"));
 
         assertNotNull(results);
         List<SuggestDocument> resultList = new ArrayList<>();
-        results.forEach(resultList::add);
+        results.forEachRemaining(resultList::add);
         assertEquals(1, resultList.size());
 
         SuggestDocument result = resultList.get(0);
@@ -58,11 +59,11 @@ class GOToSuggestDocumentTest {
                         .build();
 
         GOToSuggestDocument mapper = new GOToSuggestDocument();
-        Iterable<SuggestDocument> results = mapper.call(new Tuple2<>(term, "goIdId"));
+        Iterator<SuggestDocument> results = mapper.call(new Tuple2<>(term, "goIdId"));
 
         assertNotNull(results);
         List<SuggestDocument> resultList = new ArrayList<>();
-        results.forEach(resultList::add);
+        results.forEachRemaining(resultList::add);
         assertEquals(3, resultList.size());
 
         SuggestDocument result = resultList.get(0);

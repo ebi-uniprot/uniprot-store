@@ -73,8 +73,10 @@ class UniProtKBReturnFieldConfigImplIT {
         UniProtKBEntryValueMapper entityValueMapper = new UniProtKBEntryValueMapper();
         Map<String, String> mappedField =
                 entityValueMapper.mapEntity(entry, Collections.singletonList(returnFieldName));
-        assertNotNull(mappedField.get(returnFieldName));
-        assertFalse(mappedField.get(returnFieldName).isEmpty());
+        if (!returnFieldName.equals("tools")) { // Tools is the only one not supported by TSV
+            assertNotNull(mappedField.get(returnFieldName));
+            assertFalse(mappedField.get(returnFieldName).isEmpty());
+        }
     }
 
     private static Stream<Arguments> provideSearchSortFields() {
