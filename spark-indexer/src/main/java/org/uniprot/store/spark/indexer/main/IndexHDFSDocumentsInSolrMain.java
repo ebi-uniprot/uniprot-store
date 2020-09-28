@@ -5,6 +5,7 @@ import static org.uniprot.store.spark.indexer.common.util.SparkUtils.*;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import com.nixxcode.jvmbrotli.common.BrotliLoader;
 import lombok.extern.slf4j.Slf4j;
 
 import org.apache.solr.common.SolrInputDocument;
@@ -39,12 +40,21 @@ public class IndexHDFSDocumentsInSolrMain {
             for (SolrCollection collection : solrCollections) {
                 String hdfsFilePath =
                         getCollectionOutputReleaseDirPath(applicationConfig, args[0], collection);
-
-                log.info("Started solr index for collection: " + collection.name() + " in zkHost " + zkHost);
-                sparkContext.objectFile(hdfsFilePath)
+                log.info("Checking brotli. isBrotliAvailable: {}", BrotliLoader.isBrotliAvailable());
+                log.info(
+                        "Started solr index for collection: "
+                                + collection.name()
+                                + " in zkHost "
+                                + zkHost);
+                sparkContext
+                        .objectFile(hdfsFilePath)
                         .map(obj -> (SolrInputDocument) obj)
                         .foreachPartition(new SolrIndexWriter(zkHost, collection.name()));
-                log.info("Completed solr index for collection: " + collection.name() + " in zkHost " + zkHost);
+                log.info(
+                        "Completed solr index for collection: "
+                                + collection.name()
+                                + " in zkHost "
+                                + zkHost);
 
                 SolrUtils.commit(collection.name(), zkHost);
             }
