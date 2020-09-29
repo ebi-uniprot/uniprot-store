@@ -32,7 +32,7 @@ public class DataStoreWriter<T> {
     }
 
     public void indexInStore(Iterator<T> uniProtEntryIterator) {
-        System.getenv().forEach((key, value) -> log.info("RDD_VAR: "+key + ": " + value));
+        System.getenv().forEach((key, value) -> System.out.println("RDD_VAR: "+key + ": " + value));
         while (uniProtEntryIterator.hasNext()) {
             final T entry = uniProtEntryIterator.next();
             Failsafe.with(retryPolicy).run(() -> client.saveEntry(entry));
