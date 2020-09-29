@@ -40,8 +40,7 @@ public class CrossRefUniProtCountWriter
                                 .collect(
                                         Collectors.toMap(
                                                 CrossRefUniProtCountReader.CrossRefProteinCount
-                                                        ::getAbbreviation,
-                                                Function.identity()));
+                                                        ::getAbbreviation, Function.identity()));
 
             } else { // update the existing map
 
