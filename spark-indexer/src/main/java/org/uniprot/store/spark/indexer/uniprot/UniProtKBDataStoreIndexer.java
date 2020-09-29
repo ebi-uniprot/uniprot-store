@@ -44,6 +44,7 @@ public class UniProtKBDataStoreIndexer implements DataStoreIndexer {
         String connectionURL = config.getString("store.uniprot.host");
 
         log.info("Checking brotli. isBrotliAvailable: {}", BrotliLoader.isBrotliAvailable());
+        System.getenv().forEach((key, value) -> log.info("ENV_VAR: "+key + ": " + value));
         uniprotRDD
                 .mapValues(new UniProtKBAnnotationScoreMapper())
                 .leftOuterJoin(goEvidenceRDD)
