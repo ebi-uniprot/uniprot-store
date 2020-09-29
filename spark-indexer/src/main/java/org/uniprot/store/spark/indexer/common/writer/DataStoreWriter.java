@@ -3,6 +3,7 @@ package org.uniprot.store.spark.indexer.common.writer;
 import java.time.Duration;
 import java.util.Iterator;
 
+import com.nixxcode.jvmbrotli.common.BrotliLoader;
 import lombok.extern.slf4j.Slf4j;
 import net.jodah.failsafe.Failsafe;
 import net.jodah.failsafe.RetryPolicy;
@@ -32,10 +33,13 @@ public class DataStoreWriter<T> {
     }
 
     public void indexInStore(Iterator<T> uniProtEntryIterator) {
-        System.getenv().forEach((key, value) -> System.out.println("RDD_VAR: "+key + ": " + value));
-        while (uniProtEntryIterator.hasNext()) {
+        StringBuilder builder = new StringBuilder();
+        builder.append("BROTLI: ").append(BrotliLoader.isBrotliAvailable());
+        System.getenv().forEach((key, value) -> builder.append("RDD_VAR: ").append(key).append(": ").append(value).append("\n"));
+        throw new RuntimeException("NOW I CAN SEE THE MESSAGE: "+ builder.toString());
+/*        while (uniProtEntryIterator.hasNext()) {
             final T entry = uniProtEntryIterator.next();
             Failsafe.with(retryPolicy).run(() -> client.saveEntry(entry));
-        }
+        }*/
     }
 }
