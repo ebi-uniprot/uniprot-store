@@ -37,7 +37,8 @@ public class DiseaseProteinCountWriter
                                 .collect(
                                         Collectors.toMap(
                                                 DiseaseProteinCountReader.DiseaseProteinCount
-                                                        ::getDiseaseId, Function.identity()));
+                                                        ::getDiseaseId,
+                                                Function.identity()));
 
             } else { // update the existing map
 
