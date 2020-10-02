@@ -27,4 +27,9 @@ class SolrUtilsTest {
     void convertToSolrInputDocumentNull() {
         assertThrows(NullPointerException.class, () -> SolrUtils.convertToSolrInputDocument(null));
     }
+
+    @Test
+    void commit() {
+        assertDoesNotThrow(() -> SolrUtils.commit("uniprot", "myHost:2191"));
+    }
 }

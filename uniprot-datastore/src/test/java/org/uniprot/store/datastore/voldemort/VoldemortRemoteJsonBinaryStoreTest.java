@@ -45,8 +45,8 @@ class VoldemortRemoteJsonBinaryStoreTest {
     }
 
     @Test
-    void closeThrowsException() {
-        Assertions.assertThrows( NullPointerException.class, () -> voldemort.close());
+    void close() {
+        Assertions.assertDoesNotThrow(() ->voldemort.close());
     }
 
     @Test
