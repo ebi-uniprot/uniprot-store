@@ -10,6 +10,7 @@ import org.uniprot.core.cv.keyword.KeywordEntry;
 import org.uniprot.core.cv.keyword.impl.KeywordEntryBuilder;
 import org.uniprot.core.cv.keyword.impl.KeywordIdBuilder;
 import org.uniprot.core.json.parser.keyword.KeywordJsonConfig;
+import org.uniprot.store.datastore.voldemort.uniparc.VoldemortRemoteUniParcEntryStore;
 import voldemort.client.ClientConfig;
 import voldemort.client.SocketStoreClientFactory;
 import voldemort.client.StoreClient;
@@ -36,6 +37,16 @@ class VoldemortRemoteJsonBinaryStoreTest {
         client = Mockito.mock(StoreClient.class);
         voldemort = new FakeVoldemortRemoteJsonBinaryStore(STORE_NAME, "tcp://localhost:1010");
         entry = new KeywordEntryBuilder().keyword(new KeywordIdBuilder().id(KEYWORD_ID).build()).build();
+    }
+
+    @Test
+    void usingVoldemortRemoteUniParcEntryStoreConstructorThrowsException() {
+        Assertions.assertThrows( RetrievalException.class, () -> new VoldemortRemoteUniParcEntryStore(10, "uniparc", "tcp://localhost:1010"));
+    }
+
+    @Test
+    void closeThrowsException() {
+        Assertions.assertThrows( NullPointerException.class, () -> voldemort.close());
     }
 
     @Test
