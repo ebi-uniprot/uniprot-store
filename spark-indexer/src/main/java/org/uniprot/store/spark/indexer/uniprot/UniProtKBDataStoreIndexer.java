@@ -250,9 +250,10 @@ public class UniProtKBDataStoreIndexer implements DataStoreIndexer {
 
             try {
                 log.info("BEFORE LOAD: {}", temp.getAbsolutePath());
+                log.info("CHECKING IF TEMP PATH EXIST: {}", temp.exists());
                 System.load(temp.getAbsolutePath());
                 log.info("AFTER LOAD: {}", temp.getAbsolutePath());
-            } catch (Exception e) {
+            } catch (Throwable e) {
                 log.error("LOAD ERROR: ", e);
             }finally {
                 if (isPosixCompliant()) {
