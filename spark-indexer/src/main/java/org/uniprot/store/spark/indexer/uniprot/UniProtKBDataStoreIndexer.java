@@ -55,6 +55,8 @@ public class UniProtKBDataStoreIndexer implements DataStoreIndexer {
 
         System.getenv().forEach((key, value) -> log.info("ENV_VAR_KEY: {} ENV_VAR_VALUE: {}", key ,value));
 
+        log.info("Checking brotli. isBrotliAvailable: {}", BrotliLoader.isBrotliAvailable());
+
         ResourceBundle config = parameter.getApplicationConfig();
         GOEvidencesRDDReader goEvidencesReader = new GOEvidencesRDDReader(parameter);
         UniProtKBRDDTupleReader uniprotkbReader = new UniProtKBRDDTupleReader(parameter, false);
@@ -65,8 +67,6 @@ public class UniProtKBDataStoreIndexer implements DataStoreIndexer {
         String numberOfConnections = config.getString("store.uniprot.numberOfConnections");
         String storeName = config.getString("store.uniprot.storeName");
         String connectionURL = config.getString("store.uniprot.host");
-
-        log.info("Checking brotli. isBrotliAvailable: {}", BrotliLoader.isBrotliAvailable());
         uniprotRDD
                 .mapValues(new UniProtKBAnnotationScoreMapper())
                 .leftOuterJoin(goEvidenceRDD)
