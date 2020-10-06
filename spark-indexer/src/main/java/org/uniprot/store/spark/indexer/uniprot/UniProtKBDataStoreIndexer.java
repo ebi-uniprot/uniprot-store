@@ -6,11 +6,12 @@ import java.util.Iterator;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
-import com.nixxcode.jvmbrotli.common.BrotliLoader;
+
 import lombok.extern.slf4j.Slf4j;
 
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.function.VoidFunction;
+import org.tukaani.xz.simple.X86;
 import org.uniprot.core.uniprotkb.UniProtKBEntry;
 import org.uniprot.store.spark.indexer.common.JobParameter;
 import org.uniprot.store.spark.indexer.common.store.DataStoreIndexer;
@@ -20,8 +21,8 @@ import org.uniprot.store.spark.indexer.go.evidence.GOEvidencesRDDReader;
 import org.uniprot.store.spark.indexer.uniprot.mapper.UniProtKBAnnotationScoreMapper;
 import org.uniprot.store.spark.indexer.uniprot.writer.UniProtKBDataStoreWriter;
 
-import static org.uniprot.store.spark.indexer.uniprot.UniProtKBDataStoreIndexer.OS.*;
 import static org.uniprot.store.spark.indexer.uniprot.UniProtKBDataStoreIndexer.Arch.*;
+import static org.uniprot.store.spark.indexer.uniprot.UniProtKBDataStoreIndexer.OS.*;
 
 /**
  * @author lgonzales
@@ -38,30 +39,6 @@ public class UniProtKBDataStoreIndexer implements DataStoreIndexer {
 
     @Override
     public void indexInDataStore() {
-
-        try{
-            log.info("OS_NAME: {}", determineOS());
-            log.info("ARCH_NAME: {}", determineArch());
-        }catch ( Exception e){
-            log.error("Exception from indexInDataStore:", e);
-        }
-
-        try { // Try system lib path first
-            System.loadLibrary("brotli");
-        } catch (UnsatisfiedLinkError linkError) {
-            log.error("UnsatisfiedLinkError from indexInDataStore:", linkError);
-        }
-
-        try {
-            String nativeLibName = System.mapLibraryName("brotli");
-            String libPath = "/lib/" + determineOS()+"-" +determineArch()+ "/" + nativeLibName;
-            NativeUtils.loadLibraryFromJar("jvmbrotli", libPath);
-        } catch (Exception ioException) {
-            log.error("Upss:",ioException);
-            throw new RuntimeException(ioException);
-        }
-
-        System.getenv().forEach((key, value) -> log.info("ENV_VAR_KEY: {} ENV_VAR_VALUE: {}", key ,value));
 
         log.info("Checking brotli. isBrotliAvailable: {}", BrotliLoader.isBrotliAvailable());
 
@@ -90,20 +67,94 @@ public class UniProtKBDataStoreIndexer implements DataStoreIndexer {
         return new UniProtKBDataStoreWriter(numberOfConnections, storeName, connectionURL);
     }
 
-    private static String determineOS() {
-        String osName = System.getProperty("os.name").toLowerCase(Locale.US);
-        if (LINUX.matches(osName)) return LINUX.name;
-        if (WIN32.matches(osName)) return WIN32.name;
-        if (OSX.matches(osName)) return OSX.name;
-        return null;
-    }
+    private static class BrotliLoader {
 
-    private static String determineArch() {
-        String osArch = System.getProperty("os.arch").toLowerCase(Locale.US);
-        if (X86_AMD64.matches(osArch)) return X86_AMD64.name;
-        if (X86.matches(osArch)) return X86.name;
-        if (ARM32_VFP_HFLT.matches(osArch)) return ARM32_VFP_HFLT.name;
-        return null;
+        /**
+         * Base name of the Brotli library as compiled by CMake. This constant should NOT be changed.
+         *
+         * This is morphed according to OS by using System.mapLibraryName(). So for example:
+         * Windows: brotli.dll
+         * Linux:   libbrotli.so
+         * Mac:     libbrotli.dylib
+         */
+        private static final String LIBNAME = "brotli";
+
+        /**
+         * Name of directory we create in the system temp folder when unpacking and loading the native library
+         *
+         * Must be at least 3 characters long, and should be unique to prevent clashing with existing folders in temp
+         */
+        private static final String DIR_PREFIX = "jvmbrotli";
+
+        /**
+         * Have we already loaded the native library? Used to avoid multiple load attempts in the same JVM instance
+         */
+        private static boolean libLoaded = false;
+
+        /**
+         * No sense trying to load again if we failed the first time
+         */
+        private static boolean loadAttempted = false;
+
+        public static boolean isBrotliAvailable() {
+            if(loadAttempted) {
+                return libLoaded;
+            }
+            else {
+                try {
+                    loadBrotli();
+                } catch (RuntimeException e) {
+                    e.printStackTrace();
+                } finally {
+                    return libLoaded;
+                }
+            }
+        }
+
+        @Deprecated // Use isBrotliAvailable() instead. Will be made private in version 1.0.0.
+        public static void loadBrotli() {
+            if(loadAttempted) return;
+            try { // Try system lib path first
+                System.loadLibrary(LIBNAME);
+                libLoaded = true;
+            } catch (UnsatisfiedLinkError linkError) { // If system load fails, attempt to unpack from jar and then load
+                try {
+                    String nativeLibName = System.mapLibraryName(LIBNAME);
+                    String libPath = "/lib/" + determineOsArchName() + "/" + nativeLibName;
+                    NativeUtils.loadLibraryFromJar(DIR_PREFIX, libPath);
+                    libLoaded = true;
+                } catch (Exception ioException) {
+                    log.error("NativeUtils.loadLibraryFromJar fail", ioException);
+                    throw new RuntimeException(ioException);
+                }
+            } finally {
+                loadAttempted = true;
+            }
+        }
+
+        private static String determineOsArchName() {
+            String os = determineOS();
+            String arch = determineArch();
+            if(os == null) throw new RuntimeException("Unsupported operating system");
+            if(arch == null) throw new RuntimeException("Unsupported architecture");
+            return os + "-" + arch;
+        }
+
+        private static String determineOS() {
+            String osName = System.getProperty("os.name").toLowerCase(Locale.US);
+            if (LINUX.matches(osName)) return LINUX.name;
+            if (WIN32.matches(osName)) return WIN32.name;
+            if (OSX.matches(osName)) return OSX.name;
+            return null;
+        }
+
+        private static String determineArch() {
+            String osArch = System.getProperty("os.arch").toLowerCase(Locale.US);
+            if (X86_AMD64.matches(osArch)) return X86_AMD64.name;
+            if (X86.matches(osArch)) return X86.name;
+            if (ARM32_VFP_HFLT.matches(osArch)) return ARM32_VFP_HFLT.name;
+            return null;
+        }
     }
 
     enum OS {
