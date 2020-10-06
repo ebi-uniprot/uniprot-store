@@ -1,6 +1,7 @@
 package org.uniprot.store.spark.indexer.uniprot;
 
 import java.util.Iterator;
+import java.util.Locale;
 import java.util.ResourceBundle;
 
 import com.nixxcode.jvmbrotli.common.BrotliLoader;
@@ -17,6 +18,9 @@ import org.uniprot.store.spark.indexer.go.evidence.GOEvidencesRDDReader;
 import org.uniprot.store.spark.indexer.uniprot.mapper.UniProtKBAnnotationScoreMapper;
 import org.uniprot.store.spark.indexer.uniprot.writer.UniProtKBDataStoreWriter;
 
+import static org.uniprot.store.spark.indexer.uniprot.UniProtKBDataStoreIndexer.OS.*;
+import static org.uniprot.store.spark.indexer.uniprot.UniProtKBDataStoreIndexer.Arch.*;
+
 /**
  * @author lgonzales
  * @since 2020-03-06
@@ -32,6 +36,14 @@ public class UniProtKBDataStoreIndexer implements DataStoreIndexer {
 
     @Override
     public void indexInDataStore() {
+
+        try{
+            log.info("OS_NAME: {}", determineOS());
+            log.info("ARCH_NAME: {}", determineArch());
+        }catch ( Exception e){
+            log.error("Exception from indexInDataStore:", e);
+        }
+
         try { // Try system lib path first
             System.loadLibrary("brotli");
         } catch (UnsatisfiedLinkError linkError) {
@@ -68,5 +80,65 @@ public class UniProtKBDataStoreIndexer implements DataStoreIndexer {
     VoidFunction<Iterator<UniProtKBEntry>> getWriter(
             String numberOfConnections, String storeName, String connectionURL) {
         return new UniProtKBDataStoreWriter(numberOfConnections, storeName, connectionURL);
+    }
+
+    private static String determineOS() {
+        String osName = System.getProperty("os.name").toLowerCase(Locale.US);
+        if (LINUX.matches(osName)) return LINUX.name;
+        if (WIN32.matches(osName)) return WIN32.name;
+        if (OSX.matches(osName)) return OSX.name;
+        return null;
+    }
+
+    private static String determineArch() {
+        String osArch = System.getProperty("os.arch").toLowerCase(Locale.US);
+        if (X86_AMD64.matches(osArch)) return X86_AMD64.name;
+        if (X86.matches(osArch)) return X86.name;
+        if (ARM32_VFP_HFLT.matches(osArch)) return ARM32_VFP_HFLT.name;
+        return null;
+    }
+
+    enum OS {
+        WIN32("win32", "win32", "windows"),
+        LINUX("linux", "linux", "unix"),
+        OSX("darwin", "darwin", "mac os x", "mac", "osx");
+
+        final String name;
+        final String[] aliases;
+
+        OS(String name, String... aliases) {
+            this.name = name;
+            this.aliases = aliases;
+        }
+
+        boolean matches(String aName) {
+            for (String alias : aliases) {
+                if (aName.contains(alias)) return true;
+            }
+            return false;
+        }
+
+    }
+
+    enum Arch {
+        ARM32_VFP_HFLT("arm32-vfp-hflt", "arm32-vfp-hflt", "arm"),
+        X86("x86", "x86", "i386", "i486", "i586", "i686", "pentium"),
+        X86_AMD64("x86-amd64", "x86-amd64", "x86_64", "amd64", "em64t", "universal");
+
+        final String name;
+        final String[] aliases;
+
+        Arch(String name, String... aliases) {
+            this.name = name;
+            this.aliases = aliases;
+        }
+
+        boolean matches(String aName) {
+            for (String alias : aliases) {
+                if (aName.contains(alias)) return true;
+            }
+            return false;
+        }
+
     }
 }
