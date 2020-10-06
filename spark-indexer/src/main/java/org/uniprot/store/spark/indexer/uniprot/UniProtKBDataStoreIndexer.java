@@ -32,6 +32,17 @@ public class UniProtKBDataStoreIndexer implements DataStoreIndexer {
 
     @Override
     public void indexInDataStore() {
+        try { // Try system lib path first
+            System.loadLibrary("brotli");
+        } catch (UnsatisfiedLinkError linkError) {
+            log.error("UnsatisfiedLinkError from indexInDataStore:", linkError);
+        }
+
+        String mappedLibrary = System.mapLibraryName("brotli");
+        log.info("System.mapLibraryName: {}",mappedLibrary);
+
+        System.getenv().forEach((key, value) -> log.info("ENV_VAR_KEY: {} ENV_VAR_VALUE: {}", key ,value));
+
         ResourceBundle config = parameter.getApplicationConfig();
         GOEvidencesRDDReader goEvidencesReader = new GOEvidencesRDDReader(parameter);
         UniProtKBRDDTupleReader uniprotkbReader = new UniProtKBRDDTupleReader(parameter, false);
