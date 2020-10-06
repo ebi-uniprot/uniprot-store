@@ -1,5 +1,7 @@
 package org.uniprot.store.spark.indexer.uniprot;
 
+import java.io.*;
+import java.nio.file.*;
 import java.util.Iterator;
 import java.util.Locale;
 import java.util.ResourceBundle;
@@ -50,8 +52,14 @@ public class UniProtKBDataStoreIndexer implements DataStoreIndexer {
             log.error("UnsatisfiedLinkError from indexInDataStore:", linkError);
         }
 
-        String mappedLibrary = System.mapLibraryName("brotli");
-        log.info("System.mapLibraryName: {}",mappedLibrary);
+        try {
+            String nativeLibName = System.mapLibraryName("brotli");
+            String libPath = "/lib/" + determineOS()+"-" +determineArch()+ "/" + nativeLibName;
+            NativeUtils.loadLibraryFromJar("jvmbrotli", libPath);
+        } catch (Exception ioException) {
+            log.error("Upss:",ioException);
+            throw new RuntimeException(ioException);
+        }
 
         System.getenv().forEach((key, value) -> log.info("ENV_VAR_KEY: {} ENV_VAR_VALUE: {}", key ,value));
 
@@ -140,5 +148,124 @@ public class UniProtKBDataStoreIndexer implements DataStoreIndexer {
             return false;
         }
 
+    }
+
+    private static class NativeUtils {
+
+        /**
+         * The minimum length a prefix for a file has to have according to {@link File#createTempFile(String, String)}}.
+         */
+        private static final int MIN_PREFIX_LENGTH = 3;
+
+        /**
+         * Private constructor - this class will never be instanced
+         */
+        private NativeUtils() { }
+
+        public static void loadLibraryFromJar(String dirPrefix, String path) throws IOException {
+            log.info("loadLibraryFromJar( {}, {} )", dirPrefix, path);
+            if(dirPrefix.length() < MIN_PREFIX_LENGTH) {
+                throw new IllegalArgumentException("The temp dir prefix has to be at least 3 characters long.");
+            }
+
+            if (null == path || !path.startsWith("/")) {
+                throw new IllegalArgumentException("The path has to be absolute (start with '/').");
+            }
+
+            // Obtain filename from path
+            String[] parts = path.split("/");
+            String filename = (parts.length > 1) ? parts[parts.length - 1] : null;
+
+            // Check if the filename is okay
+            if (filename == null || filename.length() < MIN_PREFIX_LENGTH) {
+                throw new IllegalArgumentException("The filename has to be at least 3 characters long.");
+            }
+
+            File temporaryDir = createTempDirectory(dirPrefix);
+            temporaryDir.deleteOnExit();
+
+            File temp = new File(temporaryDir, filename);
+            log.info("TEMP PATH: {}", temp.getAbsolutePath());
+            log.info("getResourceAsStream PATH: {}", path);
+            try (InputStream is = NativeUtils.class.getResourceAsStream(path)) {
+                Files.copy(is, temp.toPath(), StandardCopyOption.REPLACE_EXISTING);
+            } catch (IOException e) {
+                temp.delete();
+                throw e;
+            } catch (NullPointerException e) {
+                temp.delete();
+                throw new FileNotFoundException("File " + path + " was not found inside JAR.");
+            }
+
+            try {
+                log.info("BEFORE LOAD: {}", temp.getAbsolutePath());
+                System.load(temp.getAbsolutePath());
+                log.info("AFTER LOAD: {}", temp.getAbsolutePath());
+            } catch (Exception e) {
+                log.error("LOAD ERROR: ", e);
+            }finally {
+                if (isPosixCompliant()) {
+                    // Assume POSIX compliant file system, can be deleted after loading
+                    temp.delete();
+                } else {
+                    // Assume non-POSIX, and don't delete until last file descriptor closed
+                    temp.deleteOnExit();
+                }
+            }
+
+            // create lock file
+            final File lock = new File( temp.getAbsolutePath() + ".lock");
+            lock.createNewFile();
+            lock.deleteOnExit();
+
+            cleanUnusedCopies(dirPrefix, filename);
+        }
+
+
+
+        private static boolean isPosixCompliant() {
+            try {
+                return FileSystems.getDefault()
+                        .supportedFileAttributeViews()
+                        .contains("posix");
+            } catch (FileSystemNotFoundException
+                    | ProviderNotFoundException
+                    | SecurityException e) {
+                return false;
+            }
+        }
+
+        private static File createTempDirectory(String prefix) throws IOException {
+            String tempDir = System.getProperty("java.io.tmpdir");
+            File generatedDir = new File(tempDir, prefix + System.nanoTime());
+
+            if (!generatedDir.mkdir())
+                throw new IOException("Failed to create temp directory " + generatedDir.getName());
+
+            return generatedDir;
+        }
+
+        private static void cleanUnusedCopies(String dirPrefix, String fileName) {
+            // Find dir names starting with our prefix
+            FileFilter tmpDirFilter = pathname -> pathname.getName().startsWith(dirPrefix);
+
+            // Get all folders from system temp dir that match our filter
+            String tmpDirName = System.getProperty("java.io.tmpdir");
+            File[] tmpDirs = new File(tmpDirName).listFiles(tmpDirFilter);
+
+            for (File tDir : tmpDirs) {
+                // Create a file to represent the lock and test.
+                File lockFile = new File( tDir.getAbsolutePath() + "/" + fileName + ".lock");
+
+                // If lock file doesn't exist, it means this directory and lib file are no longer in use, so delete them
+                if (!lockFile.exists()) {
+                    File[] tmpFiles = tDir.listFiles();
+                    for(File tFile : tmpFiles) {
+                        tFile.delete();
+                    }
+                    tDir.delete();
+                }
+            }
+        }
     }
 }
