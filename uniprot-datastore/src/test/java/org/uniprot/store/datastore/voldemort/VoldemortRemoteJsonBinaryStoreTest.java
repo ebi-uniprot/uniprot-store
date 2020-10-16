@@ -11,9 +11,11 @@ import org.uniprot.core.cv.keyword.impl.KeywordEntryBuilder;
 import org.uniprot.core.cv.keyword.impl.KeywordIdBuilder;
 import org.uniprot.core.json.parser.keyword.KeywordJsonConfig;
 import org.uniprot.store.datastore.voldemort.uniparc.VoldemortRemoteUniParcEntryStore;
+import voldemort.VoldemortException;
 import voldemort.client.ClientConfig;
 import voldemort.client.SocketStoreClientFactory;
 import voldemort.client.StoreClient;
+import voldemort.versioning.ObsoleteVersionException;
 import voldemort.versioning.Versioned;
 
 import java.util.*;
@@ -29,13 +31,15 @@ class VoldemortRemoteJsonBinaryStoreTest {
     StoreClient<String, byte[]> client;
     public static final String STORE_NAME = "storeName";
     public static final String KEYWORD_ID = "KW-123";
-    private VoldemortRemoteJsonBinaryStore<KeywordEntry> voldemort;
+    private FakeVoldemortRemoteJsonBinaryStore voldemort;
     private KeywordEntry entry;
 
     @BeforeEach
     void setupVoldemort(){
         client = Mockito.mock(StoreClient.class);
-        voldemort = new FakeVoldemortRemoteJsonBinaryStore(STORE_NAME, "tcp://localhost:1010");
+        Mockito.when(client.put(Mockito.eq("KW-111"),Mockito.any(byte[].class)))
+                .thenThrow(new ObsoleteVersionException("Error"));
+        voldemort = new FakeVoldemortRemoteJsonBinaryStore(STORE_NAME, "tcp://localhost:99999999");
         entry = new KeywordEntryBuilder().keyword(new KeywordIdBuilder().id(KEYWORD_ID).build()).build();
     }
 
@@ -50,6 +54,12 @@ class VoldemortRemoteJsonBinaryStoreTest {
     }
 
     @Test
+    void getSuperStoreClientWillThrowsError() {
+        StoreClient<String, byte[]> result = voldemort.callSuperStoreClient(STORE_NAME);
+        assertNotNull(result);
+    }
+
+    @Test
     void canGetVoldemortProperties() {
         Properties result = voldemort.getVoldemortProperties(10);
         assertNotNull(result);
@@ -60,6 +70,14 @@ class VoldemortRemoteJsonBinaryStoreTest {
     @Test
     void saveEntry() {
         Assertions.assertDoesNotThrow(() -> voldemort.saveEntry(entry));
+    }
+
+    @Test
+    void saveObsoleteIgnored(){
+        KeywordEntry obsolete = new KeywordEntryBuilder()
+                .keyword(new KeywordIdBuilder().id("KW-111").build())
+                .build();
+        Assertions.assertDoesNotThrow(() -> voldemort.saveEntry(obsolete));
     }
 
     @Test
@@ -101,6 +119,12 @@ class VoldemortRemoteJsonBinaryStoreTest {
         Mockito.when(client.get(Mockito.same(KEYWORD_ID))).thenReturn(versioned);
         Optional<KeywordEntry> result = voldemort.getEntry("INVALID");
         assertFalse(result.isPresent());
+    }
+
+    @Test
+    void getEntryReturnRetrievalException() throws Exception{
+        Mockito.when(client.get(Mockito.eq("ERROR_ID"))).thenThrow(new RuntimeException("Mocked Exception"));
+        assertThrows(RetrievalException.class, () -> voldemort.getEntry("ERROR_ID"));
     }
 
     @Test
@@ -195,6 +219,10 @@ class VoldemortRemoteJsonBinaryStoreTest {
         @Override
         StoreClient<String, byte[]> getStoreClient(String storeName) {
             return client;
+        }
+
+        StoreClient<String, byte[]> callSuperStoreClient(String storeName) {
+            return super.getStoreClient(storeName);
         }
     }
 
