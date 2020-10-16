@@ -15,6 +15,7 @@ import voldemort.VoldemortException;
 import voldemort.client.ClientConfig;
 import voldemort.client.SocketStoreClientFactory;
 import voldemort.client.StoreClient;
+import voldemort.cluster.failuredetector.FailureDetector;
 import voldemort.versioning.ObsoleteVersionException;
 import voldemort.versioning.Versioned;
 
@@ -46,6 +47,40 @@ class VoldemortRemoteJsonBinaryStoreTest {
     @Test
     void usingVoldemortRemoteUniParcEntryStoreConstructorThrowsException() {
         Assertions.assertThrows( RetrievalException.class, () -> new VoldemortRemoteUniParcEntryStore(10, "uniparc", "tcp://localhost:1010"));
+    }
+
+    @Test
+    void getSocketClientFactoryMockingValidValuesDoesNotThrowException() {
+        FailureDetector mockedDetector = Mockito.mock(FailureDetector.class);
+        Mockito.when(mockedDetector.getAvailableNodeCount()).thenReturn(2);
+        SocketStoreClientFactory mockedFactory = Mockito.mock(SocketStoreClientFactory.class);
+        Mockito.when(mockedFactory.getFailureDetector()).thenReturn(mockedDetector);
+
+        ClientConfig clientConfig = new ClientConfig(voldemort.getVoldemortProperties(2));
+        clientConfig.setSocketBufferSize(1024 * 1204);
+        clientConfig.setBootstrapUrls("tcp://localhost:1010");
+
+        FakeVoldemortRemoteJsonBinaryStore mockedVoldemort = Mockito.mock(FakeVoldemortRemoteJsonBinaryStore.class);
+        Mockito.when(mockedVoldemort.callSuperGetSocketClientFactory(Mockito.any())).thenCallRealMethod();
+        Mockito.when(mockedVoldemort.getClientFactory(Mockito.any())).thenReturn(mockedFactory);
+        Assertions.assertDoesNotThrow( () -> mockedVoldemort.callSuperGetSocketClientFactory(clientConfig));
+    }
+
+    @Test
+    void getSocketClientFactoryThrows() {
+        FailureDetector mockedDetector = Mockito.mock(FailureDetector.class);
+        Mockito.when(mockedDetector.getAvailableNodeCount()).thenReturn(0);
+        SocketStoreClientFactory mockedFactory = Mockito.mock(SocketStoreClientFactory.class);
+        Mockito.when(mockedFactory.getFailureDetector()).thenReturn(mockedDetector);
+
+        ClientConfig clientConfig = new ClientConfig(voldemort.getVoldemortProperties(2));
+        clientConfig.setSocketBufferSize(1024 * 1204);
+        clientConfig.setBootstrapUrls("tcp://localhost:1010");
+
+        FakeVoldemortRemoteJsonBinaryStore mockedVoldemort = Mockito.mock(FakeVoldemortRemoteJsonBinaryStore.class);
+        Mockito.when(mockedVoldemort.callSuperGetSocketClientFactory(Mockito.any())).thenCallRealMethod();
+        Mockito.when(mockedVoldemort.getClientFactory(Mockito.any())).thenReturn(mockedFactory);
+        assertThrows(RetrievalException.class, () -> mockedVoldemort.callSuperGetSocketClientFactory(clientConfig));
     }
 
     @Test
@@ -214,6 +249,10 @@ class VoldemortRemoteJsonBinaryStoreTest {
         @Override
         SocketStoreClientFactory getSocketClientFactory(ClientConfig clientConfig) {
             return new SocketStoreClientFactory(clientConfig);
+        }
+
+        SocketStoreClientFactory callSuperGetSocketClientFactory(ClientConfig clientConfig) {
+            return super.getSocketClientFactory(clientConfig);
         }
 
         @Override
