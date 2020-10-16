@@ -1,6 +1,9 @@
 package org.uniprot.store.datastore.voldemort;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import static org.junit.jupiter.api.Assertions.*;
+
+import java.util.*;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -11,14 +14,13 @@ import org.uniprot.core.cv.keyword.impl.KeywordEntryBuilder;
 import org.uniprot.core.cv.keyword.impl.KeywordIdBuilder;
 import org.uniprot.core.json.parser.keyword.KeywordJsonConfig;
 import org.uniprot.store.datastore.voldemort.uniparc.VoldemortRemoteUniParcEntryStore;
+
 import voldemort.client.ClientConfig;
 import voldemort.client.SocketStoreClientFactory;
 import voldemort.client.StoreClient;
 import voldemort.versioning.Versioned;
 
-import java.util.*;
-
-import static org.junit.jupiter.api.Assertions.*;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
  * @author lgonzales
@@ -33,20 +35,25 @@ class VoldemortRemoteJsonBinaryStoreTest {
     private KeywordEntry entry;
 
     @BeforeEach
-    void setupVoldemort(){
+    void setupVoldemort() {
         client = Mockito.mock(StoreClient.class);
         voldemort = new FakeVoldemortRemoteJsonBinaryStore(STORE_NAME, "tcp://localhost:1010");
-        entry = new KeywordEntryBuilder().keyword(new KeywordIdBuilder().id(KEYWORD_ID).build()).build();
+        entry =
+                new KeywordEntryBuilder()
+                        .keyword(new KeywordIdBuilder().id(KEYWORD_ID).build())
+                        .build();
     }
 
     @Test
     void usingVoldemortRemoteUniParcEntryStoreConstructorThrowsException() {
-        Assertions.assertThrows( RetrievalException.class, () -> new VoldemortRemoteUniParcEntryStore(10, "uniparc", "tcp://localhost:1010"));
+        Assertions.assertThrows(
+                RetrievalException.class,
+                () -> new VoldemortRemoteUniParcEntryStore(10, "uniparc", "tcp://localhost:1010"));
     }
 
     @Test
     void close() {
-        Assertions.assertDoesNotThrow(() ->voldemort.close());
+        Assertions.assertDoesNotThrow(() -> voldemort.close());
     }
 
     @Test
@@ -87,8 +94,9 @@ class VoldemortRemoteJsonBinaryStoreTest {
     }
 
     @Test
-    void getEntryValidAccession() throws Exception{
-        Versioned<byte[]> versioned = new Versioned<>(voldemort.getStoreObjectMapper().writeValueAsBytes(entry));
+    void getEntryValidAccession() throws Exception {
+        Versioned<byte[]> versioned =
+                new Versioned<>(voldemort.getStoreObjectMapper().writeValueAsBytes(entry));
         Mockito.when(client.get(Mockito.anyString())).thenReturn(versioned);
         Optional<KeywordEntry> result = voldemort.getEntry(KEYWORD_ID);
         assertTrue(result.isPresent());
@@ -96,8 +104,9 @@ class VoldemortRemoteJsonBinaryStoreTest {
     }
 
     @Test
-    void getEntryValidInvalidAccession() throws Exception{
-        Versioned<byte[]> versioned = new Versioned<>(voldemort.getStoreObjectMapper().writeValueAsBytes(entry));
+    void getEntryValidInvalidAccession() throws Exception {
+        Versioned<byte[]> versioned =
+                new Versioned<>(voldemort.getStoreObjectMapper().writeValueAsBytes(entry));
         Mockito.when(client.get(Mockito.same(KEYWORD_ID))).thenReturn(versioned);
         Optional<KeywordEntry> result = voldemort.getEntry("INVALID");
         assertFalse(result.isPresent());
@@ -105,7 +114,8 @@ class VoldemortRemoteJsonBinaryStoreTest {
 
     @Test
     void getEntriesValidAccessions() throws Exception {
-        Versioned<byte[]> versioned = new Versioned<>(voldemort.getStoreObjectMapper().writeValueAsBytes(entry));
+        Versioned<byte[]> versioned =
+                new Versioned<>(voldemort.getStoreObjectMapper().writeValueAsBytes(entry));
         Map<String, Versioned<byte[]>> entryMap = new HashMap<>();
         entryMap.put(KEYWORD_ID, versioned);
         Mockito.when(client.getAll(Mockito.anyIterable())).thenReturn(entryMap);
@@ -117,23 +127,27 @@ class VoldemortRemoteJsonBinaryStoreTest {
 
     @Test
     void getEntriesInvalidAccessions() throws Exception {
-        Versioned<byte[]> versioned = new Versioned<>(voldemort.getStoreObjectMapper().writeValueAsBytes(entry));
+        Versioned<byte[]> versioned =
+                new Versioned<>(voldemort.getStoreObjectMapper().writeValueAsBytes(entry));
         Map<String, Versioned<byte[]>> entryMap = new HashMap<>();
         entryMap.put(KEYWORD_ID, versioned);
         Mockito.when(client.getAll(Mockito.anyIterable())).thenReturn(entryMap);
         List<String> accessions = Arrays.asList(KEYWORD_ID, "INVALID");
-        RetrievalException result = assertThrows(RetrievalException.class, () -> voldemort.getEntries(accessions));
+        RetrievalException result =
+                assertThrows(RetrievalException.class, () -> voldemort.getEntries(accessions));
         assertNotNull(result);
         assertEquals("Error getting entry from BDB store", result.getMessage());
     }
 
     @Test
-    void getEntryMapValidAccession() throws Exception{
-        Versioned<byte[]> versioned = new Versioned<>(voldemort.getStoreObjectMapper().writeValueAsBytes(entry));
+    void getEntryMapValidAccession() throws Exception {
+        Versioned<byte[]> versioned =
+                new Versioned<>(voldemort.getStoreObjectMapper().writeValueAsBytes(entry));
         Map<String, Versioned<byte[]>> entryMap = new HashMap<>();
         entryMap.put(KEYWORD_ID, versioned);
         Mockito.when(client.getAll(Mockito.anyIterable())).thenReturn(entryMap);
-        Map<String, KeywordEntry> result = voldemort.getEntryMap(Collections.singletonList(KEYWORD_ID));
+        Map<String, KeywordEntry> result =
+                voldemort.getEntryMap(Collections.singletonList(KEYWORD_ID));
         assertNotNull(result);
         assertEquals(1, result.size());
         assertTrue(result.containsKey(KEYWORD_ID));
@@ -141,8 +155,9 @@ class VoldemortRemoteJsonBinaryStoreTest {
     }
 
     @Test
-    void getEntryMapInvalidAccession() throws Exception{
-        Versioned<byte[]> versioned = new Versioned<>(voldemort.getStoreObjectMapper().writeValueAsBytes(entry));
+    void getEntryMapInvalidAccession() throws Exception {
+        Versioned<byte[]> versioned =
+                new Versioned<>(voldemort.getStoreObjectMapper().writeValueAsBytes(entry));
         Map<String, Versioned<byte[]>> entryMap = new HashMap<>();
         entryMap.put(KEYWORD_ID, versioned);
         Mockito.when(client.getAll(Mockito.anyIterable())).thenReturn(entryMap);
@@ -154,10 +169,12 @@ class VoldemortRemoteJsonBinaryStoreTest {
     }
 
     @Test
-    void truncateIsUnsupportedOperation() throws Exception{
-        UnsupportedOperationException result = assertThrows(UnsupportedOperationException.class, () -> voldemort.truncate());
+    void truncateIsUnsupportedOperation() throws Exception {
+        UnsupportedOperationException result =
+                assertThrows(UnsupportedOperationException.class, () -> voldemort.truncate());
         assertNotNull(result);
-        assertEquals("Truncate remove voldemort is not a supported operation.", result.getMessage());
+        assertEquals(
+                "Truncate remove voldemort is not a supported operation.", result.getMessage());
     }
 
     @Test
@@ -165,7 +182,8 @@ class VoldemortRemoteJsonBinaryStoreTest {
         assertEquals(STORE_NAME, voldemort.getStoreName());
     }
 
-    private class FakeVoldemortRemoteJsonBinaryStore extends VoldemortRemoteJsonBinaryStore<KeywordEntry>{
+    private class FakeVoldemortRemoteJsonBinaryStore
+            extends VoldemortRemoteJsonBinaryStore<KeywordEntry> {
 
         public FakeVoldemortRemoteJsonBinaryStore(String storeName, String... voldemortUrl) {
             super(storeName, voldemortUrl);
@@ -197,5 +215,4 @@ class VoldemortRemoteJsonBinaryStoreTest {
             return client;
         }
     }
-
 }

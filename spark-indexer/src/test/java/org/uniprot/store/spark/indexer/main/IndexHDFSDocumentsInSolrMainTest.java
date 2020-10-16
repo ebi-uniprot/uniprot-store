@@ -26,7 +26,7 @@ class IndexHDFSDocumentsInSolrMainTest {
 
     @Test
     void testIndexHDFSDocumentsInSolrMainThrowExceptions() {
-        //valid arguments, but it will fail because we do not have the serialized document files.
+        // valid arguments, but it will fail because we do not have the serialized document files.
         String[] args = {"2020_04", "uniparc"};
         assertThrows(SolrIndexException.class, () -> IndexHDFSDocumentsInSolrMain.main(args));
     }
