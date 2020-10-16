@@ -4248,8 +4248,7 @@
   {
     "label": "Cross-references",
     "id": "cross_references",
-    "dataType": "STRING",
-    "itemType": "GROUP",
+    "itemType": "SINGLE",
     "seqNumber": 17
   }
 ]
