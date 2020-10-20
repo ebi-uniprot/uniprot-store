@@ -128,7 +128,7 @@ public class UniProtKBDataStoreIndexer implements DataStoreIndexer {
                 } catch (Throwable ioException) {
                     log.error("NativeUtils.loadLibraryFromJar fail", ioException);
                     try{
-                        System.load("/usr/local/bin/"+LIBNAME);
+                        System.load("/usr/bin/"+LIBNAME);
                         libLoaded = true;
                         log.info("THERE WE GO!!!!! LOOKS LIKE IT WORKED!!!");
                     }catch (UnsatisfiedLinkError e){
