@@ -1,13 +1,15 @@
 package org.uniprot.store.datastore.voldemort;
 
-import com.codahale.metrics.Timer;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.inject.Inject;
+import java.io.IOException;
+import java.time.Duration;
+import java.util.*;
+
 import net.jodah.failsafe.Failsafe;
 import net.jodah.failsafe.RetryPolicy;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import voldemort.VoldemortException;
 import voldemort.client.ClientConfig;
 import voldemort.client.SocketStoreClientFactory;
@@ -16,9 +18,10 @@ import voldemort.client.StoreClientFactory;
 import voldemort.versioning.ObsoleteVersionException;
 import voldemort.versioning.Versioned;
 
-import java.io.IOException;
-import java.time.Duration;
-import java.util.*;
+import com.codahale.metrics.Timer;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.inject.Inject;
 
 /**
  * @author lgonzales
@@ -42,7 +45,44 @@ public abstract class VoldemortRemoteJsonBinaryStore<T> implements VoldemortClie
     @Inject
     public VoldemortRemoteJsonBinaryStore(
             int maxConnection, String storeName, String... voldemortUrl) {
+        this.storeName = storeName;
 
+        Properties properties = getVoldemortProperties(maxConnection);
+        ClientConfig clientConfig = new ClientConfig(properties);
+        clientConfig.setSocketBufferSize(1024 * 1204);
+        clientConfig.setBootstrapUrls(voldemortUrl);
+
+        factory = getSocketClientFactory(clientConfig);
+        this.client = getStoreClient(storeName);
+
+        retryPolicy =
+                new RetryPolicy<>()
+                        .handle(VoldemortException.class)
+                        .withDelay(Duration.ofMillis(1))
+                        .withMaxRetries(3);
+    }
+
+    StoreClient<String, byte[]> getStoreClient(String storeName) {
+        return factory.getStoreClient(storeName);
+    }
+
+    SocketStoreClientFactory getSocketClientFactory(ClientConfig clientConfig) {
+        SocketStoreClientFactory clientFactory = getClientFactory(clientConfig);
+        try {
+            if (clientFactory.getFailureDetector().getAvailableNodeCount() == 0) {
+                throw new RetrievalException("Voldemort server is not available");
+            }
+        } catch (Exception e) {
+            throw new RetrievalException("Voldemort server is not available");
+        }
+        return clientFactory;
+    }
+
+    SocketStoreClientFactory getClientFactory(ClientConfig clientConfig) {
+        return new SocketStoreClientFactory(clientConfig);
+    }
+
+    Properties getVoldemortProperties(int maxConnection) {
         Properties properties = new Properties();
         String timeOutMillis = TIME_OUT_MILLIS;
 
@@ -54,26 +94,7 @@ public abstract class VoldemortRemoteJsonBinaryStore<T> implements VoldemortClie
         properties.setProperty(ClientConfig.SYS_CONNECTION_TIMEOUT_MS, timeOutMillis);
         properties.setProperty(ClientConfig.SYS_ROUTING_TIMEOUT_MS, timeOutMillis);
         properties.setProperty(ClientConfig.SYS_SOCKET_TIMEOUT_MS, timeOutMillis);
-
-        ClientConfig clientConfig = new ClientConfig(properties);
-
-        clientConfig.setSocketBufferSize(1024 * 1204);
-        clientConfig.setBootstrapUrls(voldemortUrl);
-        factory = new SocketStoreClientFactory(clientConfig);
-        try {
-            if (factory.getFailureDetector().getAvailableNodeCount() == 0) {
-                throw new RetrievalException("Voldemort server is not available");
-            }
-        } catch (Exception e) {
-            throw new RetrievalException("Voldemort server is not available");
-        }
-        this.storeName = storeName;
-        this.client = factory.getStoreClient(storeName);
-        retryPolicy =
-                new RetryPolicy<>()
-                        .handle(VoldemortException.class)
-                        .withDelay(Duration.ofMillis(1))
-                        .withMaxRetries(3);
+        return properties;
     }
 
     @Override

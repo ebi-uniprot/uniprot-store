@@ -14,8 +14,9 @@ class UniProtDocumentTest {
 
     @Test
     void testEquals() {
-        UniProtDocument doc = getCompleteDocument(new Date());
-        UniProtDocument doc2 = getCompleteDocument(new Date());
+        Date date = new Date();
+        UniProtDocument doc = getCompleteDocument(date);
+        UniProtDocument doc2 = getCompleteDocument(date);
         assertEquals(doc, doc2);
         assertEquals(doc.hashCode(), doc2.hashCode());
     }
