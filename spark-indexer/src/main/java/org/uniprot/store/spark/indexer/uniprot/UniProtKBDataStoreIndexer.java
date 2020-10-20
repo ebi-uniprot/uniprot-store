@@ -125,8 +125,15 @@ public class UniProtKBDataStoreIndexer implements DataStoreIndexer {
                     String libPath = "/lib/" + determineOsArchName() + "/" + nativeLibName;
                     NativeUtils.loadLibraryFromJar(DIR_PREFIX, libPath);
                     libLoaded = true;
-                } catch (Exception ioException) {
+                } catch (Throwable ioException) {
                     log.error("NativeUtils.loadLibraryFromJar fail", ioException);
+                    try{
+                        System.load("/usr/local/bin/"+LIBNAME);
+                        libLoaded = true;
+                        log.info("THERE WE GO!!!!! LOOKS LIKE IT WORKED!!!");
+                    }catch (UnsatisfiedLinkError e){
+                        log.error("/usr/local/bin/"+LIBNAME + "load failed as well", e);
+                    }
                     throw new RuntimeException(ioException);
                 }
             } finally {
@@ -251,12 +258,8 @@ public class UniProtKBDataStoreIndexer implements DataStoreIndexer {
             }
 
             try {
-                log.info("BEFORE LOAD: {}", temp.getAbsolutePath());
-                log.info("CHECKING IF TEMP PATH EXIST: {}", temp.exists());
                 System.load(temp.getAbsolutePath());
                 log.info("AFTER LOAD: {}", temp.getAbsolutePath());
-            } catch (Throwable e) {
-                log.error("LOAD ERROR: ", e);
             }finally {
                 if (isPosixCompliant()) {
                     // Assume POSIX compliant file system, can be deleted after loading
