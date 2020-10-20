@@ -144,7 +144,7 @@ public class UniProtDocument implements Document {
     public boolean precursor;
 
     @Field("active")
-    public boolean active = true;
+    public Boolean active = true;
 
     @Field("structure_3d")
     public boolean d3structure = false;

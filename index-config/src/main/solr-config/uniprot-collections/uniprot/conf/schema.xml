@@ -38,7 +38,7 @@
 		stored="false" required="false" multiValued="false" />
 	<copyField source="id" dest="id_sort" />
 
-	<field name="active" type="boolean" indexed="true" stored="false"
+	<field name="active" type="boolean" indexed="true" stored="true"
 		required="false" multiValued="false" />
 
 	<field name="is_isoform" type="boolean" indexed="true"
