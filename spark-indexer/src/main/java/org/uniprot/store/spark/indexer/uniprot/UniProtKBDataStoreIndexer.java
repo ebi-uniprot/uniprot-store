@@ -128,7 +128,7 @@ public class UniProtKBDataStoreIndexer implements DataStoreIndexer {
                 } catch (Throwable ioException) {
                     log.error("NativeUtils.loadLibraryFromJar fail", ioException);
                     try{
-                        System.load("/usr/lib/x86_64-linux-gnu/libbrotlicommon.so.1");
+                        System.load("/usr/lib/x86_64-linux-gnu/libbrotlicommon.so.5");
                         libLoaded = true;
                         log.info("THERE WE GO!!!!! LOOKS LIKE IT WORKED!!!");
                     }catch (UnsatisfiedLinkError e){
