@@ -93,12 +93,6 @@ class UniProtEntryTaxonomyConverter {
                         }
                     }
                 });
-
-        ////        document.content.addAll(document.organismHostNames);
-        ////        document.content.addAll(
-        ////                document.organismHostIds.stream()
-        ////                        .map(String::valueOf)
-        ////                        .collect(Collectors.toList()));
     }
 
     private void convertLineageTaxon(int taxId, UniProtDocument document) {
@@ -119,10 +113,6 @@ class UniProtEntryTaxonomyConverter {
                         }
                     });
         }
-        //        document.content.addAll(document.organismTaxon);
-        //        document.content.addAll(
-        //
-        // document.taxLineageIds.stream().map(String::valueOf).collect(Collectors.toList()));
     }
 
     private void addTaxonSuggestions(SuggestDictionary dicType, int id, List<String> taxons) {
