@@ -19,6 +19,7 @@ class UniProtDocumentTest {
         UniProtDocument doc2 = getCompleteDocument(date);
         assertEquals(doc, doc2);
         assertEquals(doc.hashCode(), doc2.hashCode());
+        assertTrue(doc.active);
     }
 
     @Test
