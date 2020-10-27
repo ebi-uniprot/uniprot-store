@@ -1,6 +1,5 @@
 package org.uniprot.store.indexer.genecentric;
 
-import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -80,7 +79,7 @@ public class GeneCentricDocumentWriter implements ItemWriter<Proteome> {
         } catch (JsonProcessingException e) {
             throw new RuntimeException("Unable to parse proteome to binary json: ", e);
         }
-        builder.geneCentricStored(ByteBuffer.wrap(binaryEntry));
+        builder.geneCentricStored(binaryEntry);
 
         return builder.build();
     }

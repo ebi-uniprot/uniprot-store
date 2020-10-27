@@ -14,7 +14,7 @@
     "sortField" : "accession_id",
     "label": "Canonical protein accession",
     "name": "accession",
-    "paths" : ["canonicalProtein.accession"],
+    "paths" : ["canonicalProtein.id"],
     "id": "gene_centric/accession"
   },
   {

@@ -47,11 +47,19 @@ public class GeneCentricDocument implements Document {
     @Field("organism_id")
     private int organismTaxId;
 
-    @Field("genecentric_stored")
-    public ByteBuffer geneCentricStored;
+    public byte[] geneCentricStored;
 
     @Override
     public String getDocumentId() {
         return accession;
+    }
+
+    public ByteBuffer getGeneCentricStore() {
+        return ByteBuffer.wrap(geneCentricStored);
+    }
+
+    @Field("genecentric_stored")
+    public void setGeneCentricStore(ByteBuffer geneCentricStore) {
+        geneCentricStored = geneCentricStore.array();
     }
 }
