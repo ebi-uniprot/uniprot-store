@@ -27,6 +27,7 @@ public class FastaToRelatedGeneCentricEntry extends FastaToGeneCentricEntry {
     @Override
     Tuple2<String, GeneCentricEntry> parseEntry(
             String proteomeId, Tuple2<LongWritable, Text> fastaTuple) {
+        Tuple2<String, GeneCentricEntry> result = null;
         String fastaInput = fastaTuple._2.toString();
 
         UniProtKBFasta uniProtKBFasta = UniProtKBFastaParser.fromFasta(fastaInput);
@@ -37,24 +38,28 @@ public class FastaToRelatedGeneCentricEntry extends FastaToGeneCentricEntry {
 
         String prefix = splitProteinName[0];
         String canonicalAccession = prefix.substring(prefix.lastIndexOf(" ") + 1);
-        UniProtKBAccession accession = new UniProtKBAccessionBuilder(canonicalAccession).build();
-        if (!accession.isValidAccession()) {
-            throw new IllegalArgumentException(
-                    "Related protein fasta file must have valid prefix \"Isoform of <Accession>,\", proteomeId: "+proteomeId+", id: "+protein.getId()+", protein name: "+protein.getProteinName());
+
+        if(!canonicalAccession.equalsIgnoreCase("readthrough")) {
+            UniProtKBAccession accession = new UniProtKBAccessionBuilder(canonicalAccession).build();
+            if (!accession.isValidAccession()) {
+                throw new IllegalArgumentException(
+                        "Related protein fasta file must have valid prefix \"Isoform of <Accession>,\", proteomeId: " + proteomeId + ", id: " + protein.getId() + ", protein name: " + protein.getProteinName());
+            }
+            Protein canonicalProtein = new ProteinBuilder().id(canonicalAccession).build();
+
+            // creating related protein name without Protein Name Prefix
+            Protein relatedProtein = getRelatedProteinWithoutPrefix(protein, splitProteinName);
+
+            GeneCentricEntry entry =
+                    new GeneCentricEntryBuilder()
+                            .proteomeId(proteomeId)
+                            .canonicalProtein(canonicalProtein)
+                            .relatedProteinsAdd(relatedProtein)
+                            .build();
+
+            result = new Tuple2<>(canonicalAccession, entry);
         }
-        Protein canonicalProtein = new ProteinBuilder().id(canonicalAccession).build();
-
-        // creating related protein name without Protein Name Prefix
-        Protein relatedProtein = getRelatedProteinWithoutPrefix(protein, splitProteinName);
-
-        GeneCentricEntry entry =
-                new GeneCentricEntryBuilder()
-                        .proteomeId(proteomeId)
-                        .canonicalProtein(canonicalProtein)
-                        .relatedProteinsAdd(relatedProtein)
-                        .build();
-
-        return new Tuple2<>(canonicalAccession, entry);
+        return result;
     }
 
     private Protein getRelatedProteinWithoutPrefix(

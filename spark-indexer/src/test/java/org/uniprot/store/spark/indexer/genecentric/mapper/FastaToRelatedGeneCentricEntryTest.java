@@ -72,4 +72,22 @@ class FastaToRelatedGeneCentricEntryTest {
                 "protein name: Endoplasmic reticulum chaperone BiP";
         assertEquals(errorMessage, exception.getMessage());
     }
+
+    @Test
+    void readThroughEntryReturnNull() {
+        String fastaInput =
+                ">tr|A0A0G2KK10|A0A0G2KK10_DANRE ENSDARG00000104558 readthrough, Uncharacterized protein (Fragment) OS=Danio rerio (Zebrafish) (Brachydanio rerio) OX=7955 GN=ENSDARG00000104558 PE=4 SV=1\n"
+                        + "DEIVLVGGSTRIPKIQQLVKEFFNGKEPSRGINPDEAVAYGAAVQAGVLSGDQDTGDLVL\n"
+                        + "LDVCPLTLGIETVGGVMTKLIPRNTVVPTKKSQIFSTASDNQPTVTIKVYEGERPLTKDN\n"
+                        + "HLLGTFDLTGIPPAPRGVPQIEVTFEIDVNGILRVTAEDKGTGNKNKITITNDQNRLTPE\n"
+                        + "EIERMVNDAEKFAEEDKKLKERIDTRNELESYAYCLKNQIGDKEKLGGKLSSEDKETMEK\n"
+                        + "AVEEKIEWLESHQDADIEDFKA";
+
+        FastaToRelatedGeneCentricEntry mapper = new FastaToRelatedGeneCentricEntry();
+        String proteomeId = "UP000000554";
+        Tuple2<LongWritable, Text> tuple = new Tuple2<>(new LongWritable(), new Text(fastaInput));
+        Tuple2<String, GeneCentricEntry> result = mapper.parseEntry(proteomeId, tuple);
+        assertNull(result);
+
+    }
 }
