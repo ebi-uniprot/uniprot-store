@@ -66,8 +66,10 @@ class FastaToRelatedGeneCentricEntryTest {
                 assertThrows(
                         IllegalArgumentException.class, () -> mapper.parseEntry(proteomeId, tuple));
         assertNotNull(exception);
-        assertEquals(
-                "Related protein fasta file must have a prefix \"Isoform of <Accession>,\"",
-                exception.getMessage());
+        String errorMessage = "Related protein fasta file must have valid " +
+                "prefix \"Isoform of <Accession>,\", " +
+                "proteomeId: UP000000554, id: P34935, " +
+                "protein name: Endoplasmic reticulum chaperone BiP";
+        assertEquals(errorMessage, exception.getMessage());
     }
 }
