@@ -76,7 +76,7 @@ class FastaToRelatedGeneCentricEntryTest {
     @Test
     void readThroughEntryReturnNull() {
         String fastaInput =
-                ">tr|A0A0G2KK10|A0A0G2KK10_DANRE ENSDARG00000104558 readthrough, Uncharacterized protein (Fragment) OS=Danio rerio (Zebrafish) (Brachydanio rerio) OX=7955 GN=ENSDARG00000104558 PE=4 SV=1\n"
+                ">tr|A0A0G2KK10|A0A0G2KK10_DANRE ATP6V1G2-DDX39B readthrough, V-type proton ATPase subunit G OS=Danio rerio (Zebrafish) (Brachydanio rerio) OX=7955 GN=ENSDARG00000104558 PE=4 SV=1\n"
                         + "DEIVLVGGSTRIPKIQQLVKEFFNGKEPSRGINPDEAVAYGAAVQAGVLSGDQDTGDLVL\n"
                         + "LDVCPLTLGIETVGGVMTKLIPRNTVVPTKKSQIFSTASDNQPTVTIKVYEGERPLTKDN\n"
                         + "HLLGTFDLTGIPPAPRGVPQIEVTFEIDVNGILRVTAEDKGTGNKNKITITNDQNRLTPE\n"
