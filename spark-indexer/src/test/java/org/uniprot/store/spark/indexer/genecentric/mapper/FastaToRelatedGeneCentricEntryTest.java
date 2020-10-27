@@ -87,7 +87,9 @@ class FastaToRelatedGeneCentricEntryTest {
         String proteomeId = "UP000000554";
         Tuple2<LongWritable, Text> tuple = new Tuple2<>(new LongWritable(), new Text(fastaInput));
         Tuple2<String, GeneCentricEntry> result = mapper.parseEntry(proteomeId, tuple);
-        assertNull(result);
+        assertNotNull(result);
+        assertEquals("readthrough", result._1);
+        assertNull(result._2);
 
     }
 }

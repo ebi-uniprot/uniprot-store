@@ -58,6 +58,8 @@ public class FastaToRelatedGeneCentricEntry extends FastaToGeneCentricEntry {
                             .build();
 
             result = new Tuple2<>(canonicalAccession, entry);
+        } else {
+            result = new Tuple2<>(canonicalAccession, null);
         }
         return result;
     }
