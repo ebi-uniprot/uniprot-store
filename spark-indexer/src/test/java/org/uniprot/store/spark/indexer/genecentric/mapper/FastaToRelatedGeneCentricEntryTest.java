@@ -66,10 +66,11 @@ class FastaToRelatedGeneCentricEntryTest {
                 assertThrows(
                         IllegalArgumentException.class, () -> mapper.parseEntry(proteomeId, tuple));
         assertNotNull(exception);
-        String errorMessage = "Related protein fasta file must have valid " +
-                "prefix \"Isoform of <Accession>,\", " +
-                "proteomeId: UP000000554, id: P34935, " +
-                "protein name: Endoplasmic reticulum chaperone BiP";
+        String errorMessage =
+                "Related protein fasta file must have valid "
+                        + "prefix \"Isoform of <Accession>,\", "
+                        + "proteomeId: UP000000554, id: P34935, "
+                        + "protein name: Endoplasmic reticulum chaperone BiP";
         assertEquals(errorMessage, exception.getMessage());
     }
 
@@ -90,6 +91,5 @@ class FastaToRelatedGeneCentricEntryTest {
         assertNotNull(result);
         assertEquals("readthrough", result._1);
         assertNull(result._2);
-
     }
 }

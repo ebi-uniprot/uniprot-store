@@ -39,11 +39,17 @@ public class FastaToRelatedGeneCentricEntry extends FastaToGeneCentricEntry {
         String prefix = splitProteinName[0];
         String canonicalAccession = prefix.substring(prefix.lastIndexOf(" ") + 1);
 
-        if(!canonicalAccession.equalsIgnoreCase("readthrough")) {
-            UniProtKBAccession accession = new UniProtKBAccessionBuilder(canonicalAccession).build();
+        if (!canonicalAccession.equalsIgnoreCase("readthrough")) {
+            UniProtKBAccession accession =
+                    new UniProtKBAccessionBuilder(canonicalAccession).build();
             if (!accession.isValidAccession()) {
                 throw new IllegalArgumentException(
-                        "Related protein fasta file must have valid prefix \"Isoform of <Accession>,\", proteomeId: " + proteomeId + ", id: " + protein.getId() + ", protein name: " + protein.getProteinName());
+                        "Related protein fasta file must have valid prefix \"Isoform of <Accession>,\", proteomeId: "
+                                + proteomeId
+                                + ", id: "
+                                + protein.getId()
+                                + ", protein name: "
+                                + protein.getProteinName());
             }
             Protein canonicalProtein = new ProteinBuilder().id(canonicalAccession).build();
 

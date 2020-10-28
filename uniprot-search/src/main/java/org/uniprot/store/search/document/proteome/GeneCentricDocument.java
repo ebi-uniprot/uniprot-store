@@ -1,6 +1,5 @@
 package org.uniprot.store.search.document.proteome;
 
-import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -47,6 +46,7 @@ public class GeneCentricDocument implements Document {
     @Field("organism_id")
     private int organismTaxId;
 
+    @Field("genecentric_stored")
     public byte[] geneCentricStored;
 
     @Override
@@ -54,12 +54,11 @@ public class GeneCentricDocument implements Document {
         return accession;
     }
 
-    public ByteBuffer getGeneCentricStore() {
+    /*    public ByteBuffer getGeneCentricStore() {
         return ByteBuffer.wrap(geneCentricStored);
     }
 
-    @Field("genecentric_stored")
     public void setGeneCentricStore(ByteBuffer geneCentricStore) {
         geneCentricStored = geneCentricStore.array();
-    }
+    }*/
 }
