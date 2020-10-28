@@ -38,7 +38,7 @@ public class GeneCentricDocument implements Document {
 
     // DEFAULT SEARCH FIELD
     @Field("content")
-    public Set<String> content = new HashSet<>();
+    private Set<String> content = new HashSet<>();
 
     @Field("upid")
     private String upid;
@@ -47,18 +47,10 @@ public class GeneCentricDocument implements Document {
     private int organismTaxId;
 
     @Field("genecentric_stored")
-    public byte[] geneCentricStored;
+    private byte[] geneCentricStored;
 
     @Override
     public String getDocumentId() {
         return accession;
     }
-
-    /*    public ByteBuffer getGeneCentricStore() {
-        return ByteBuffer.wrap(geneCentricStored);
-    }
-
-    public void setGeneCentricStore(ByteBuffer geneCentricStore) {
-        geneCentricStored = geneCentricStore.array();
-    }*/
 }

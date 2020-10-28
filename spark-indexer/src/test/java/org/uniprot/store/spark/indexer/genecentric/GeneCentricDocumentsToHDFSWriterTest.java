@@ -66,9 +66,9 @@ class GeneCentricDocumentsToHDFSWriterTest {
                         .orElseThrow(AssertionFailedError::new);
 
         assertEquals("O51971", document.getAccession());
-        assertNotNull(document.geneCentricStored);
+        assertNotNull(document.getGeneCentricStored());
 
-        GeneCentricEntry entry = getGeneCentricEntry(objectMapper, document.geneCentricStored);
+        GeneCentricEntry entry = getGeneCentricEntry(objectMapper, document.getGeneCentricStored());
         assertNotNull(entry.getCanonicalProtein());
         assertEquals("UP000000554", entry.getProteomeId());
         assertEquals("O51971", entry.getCanonicalProtein().getId());
@@ -88,9 +88,9 @@ class GeneCentricDocumentsToHDFSWriterTest {
                         .orElseThrow(AssertionFailedError::new);
 
         assertEquals("A0A6G0Z6X6", document.getAccession());
-        assertNotNull(document.geneCentricStored);
+        assertNotNull(document.getGeneCentricStored());
 
-        GeneCentricEntry entry = getGeneCentricEntry(objectMapper, document.geneCentricStored);
+        GeneCentricEntry entry = getGeneCentricEntry(objectMapper, document.getGeneCentricStored());
         assertNotNull(entry.getCanonicalProtein());
         assertEquals("UP000478052", entry.getProteomeId());
         assertEquals("A0A6G0Z6X6", entry.getCanonicalProtein().getId());
@@ -114,9 +114,9 @@ class GeneCentricDocumentsToHDFSWriterTest {
                         .orElseThrow(AssertionFailedError::new);
 
         assertEquals("A0A6G0ZDD9", document.getAccession());
-        assertNotNull(document.geneCentricStored);
+        assertNotNull(document.getGeneCentricStored());
 
-        GeneCentricEntry entry = getGeneCentricEntry(objectMapper, document.geneCentricStored);
+        GeneCentricEntry entry = getGeneCentricEntry(objectMapper, document.getGeneCentricStored());
         assertNotNull(entry.getCanonicalProtein());
         assertEquals("UP000478052", entry.getProteomeId());
         assertEquals("A0A6G0ZDD9", entry.getCanonicalProtein().getId());

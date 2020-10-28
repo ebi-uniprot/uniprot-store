@@ -53,7 +53,7 @@ class GeneCentricToDocumentTest {
 
         assertEquals(9606, result.getOrganismTaxId());
 
-        assertNotNull(result.geneCentricStored);
-        assertTrue(result.geneCentricStored.length > 0);
+        assertNotNull(result.getGeneCentricStored());
+        assertTrue(result.getGeneCentricStored().length > 0);
     }
 }
