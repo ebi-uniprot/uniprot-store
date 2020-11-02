@@ -68,6 +68,8 @@ class UniProtKBEntryCrossReferenceConverterTest {
 
         converter.convertCrossReferences(references, document);
 
+        assertEquals(new HashSet<>(Collections.singletonList("apical dendrite")), document.content);
+
         assertEquals(new HashSet<>(Arrays.asList("go-GO:12345", "GO:12345")), document.crossRefs);
 
         assertEquals(Collections.singleton("go"), document.databases);

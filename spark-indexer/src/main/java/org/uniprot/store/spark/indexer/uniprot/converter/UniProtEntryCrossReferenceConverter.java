@@ -1,15 +1,15 @@
 package org.uniprot.store.spark.indexer.uniprot.converter;
 
+import org.uniprot.core.Property;
+import org.uniprot.core.uniprotkb.xdb.UniProtKBCrossReference;
+import org.uniprot.store.search.document.uniprot.UniProtDocument;
+
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
-
-import org.uniprot.core.Property;
-import org.uniprot.core.uniprotkb.xdb.UniProtKBCrossReference;
-import org.uniprot.store.search.document.uniprot.UniProtDocument;
 
 /**
  * @author lgonzales
@@ -116,6 +116,11 @@ class UniProtEntryCrossReferenceConverter {
                         .map(property -> property.getValue().split(":")[0].toLowerCase())
                         .collect(Collectors.joining());
 
+        // For default searches, GO ID is covered by document.xrefs. But we still need to add go
+        // term to content for default searches.
+        document.content.add(goTerm);
+
+        // add go id and term to specific doc fields for advanced search
         addGoterm(evType, go.getId(), goTerm, document);
     }
 

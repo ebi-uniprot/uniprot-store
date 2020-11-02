@@ -135,7 +135,13 @@ class UniProtEntryCrossReferenceConverter {
                         .map(property -> property.getValue().split(":")[0].toLowerCase())
                         .collect(Collectors.joining());
 
+        // For default searches, GO ID is covered by document.xrefs. But we still need to add go
+        // term to content for default searches.
+        document.content.add(goTerm);
+
+        // add go id and term to specific doc fields for advanced search
         addGoterm(evType, go.getId(), goTerm, document);
+        
         addAncestors(evType, go.getId(), document);
     }
 
