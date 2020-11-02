@@ -67,7 +67,7 @@ public abstract class VoldemortRemoteJsonBinaryStore<T> implements VoldemortClie
     }
 
     SocketStoreClientFactory getSocketClientFactory(ClientConfig clientConfig) {
-        SocketStoreClientFactory clientFactory = new SocketStoreClientFactory(clientConfig);
+        SocketStoreClientFactory clientFactory = getClientFactory(clientConfig);
         try {
             if (clientFactory.getFailureDetector().getAvailableNodeCount() == 0) {
                 throw new RetrievalException("Voldemort server is not available");
@@ -76,6 +76,10 @@ public abstract class VoldemortRemoteJsonBinaryStore<T> implements VoldemortClie
             throw new RetrievalException("Voldemort server is not available");
         }
         return clientFactory;
+    }
+
+    SocketStoreClientFactory getClientFactory(ClientConfig clientConfig) {
+        return new SocketStoreClientFactory(clientConfig);
     }
 
     Properties getVoldemortProperties(int maxConnection) {
