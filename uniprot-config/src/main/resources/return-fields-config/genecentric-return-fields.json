@@ -39,6 +39,24 @@
     "parentId": "gene_centric",
     "childNumber": 3,
     "itemType": "SINGLE",
+    "label": "Proteome Id",
+    "name": "proteome_id",
+    "paths" : ["proteomeId"],
+    "id": "gene_centric/proteome_id"
+  },
+  {
+    "parentId": "gene_centric",
+    "childNumber": 4,
+    "itemType": "SINGLE",
+    "label": "Sequence",
+    "name": "sequence",
+    "paths" : ["canonicalProtein.sequence"],
+    "id": "gene_centric/sequence"
+  },
+  {
+    "parentId": "gene_centric",
+    "childNumber": 5,
+    "itemType": "SINGLE",
     "label": "Related proteins",
     "name": "related_proteins",
     "paths" : ["relatedProteins"],
