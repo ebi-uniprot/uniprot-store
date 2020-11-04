@@ -1,6 +1,10 @@
 package org.uniprot.store.indexer.uniprotkb.converter;
 
+import static org.uniprot.store.indexer.util.TaxonomyRepoUtil.extractMnemonic;
+import static org.uniprot.store.indexer.util.TaxonomyRepoUtil.extractTaxonFromNodeNoMnemonic;
+
 import java.util.*;
+import java.util.function.Consumer;
 
 import org.uniprot.core.uniprotkb.taxonomy.Organism;
 import org.uniprot.core.uniprotkb.taxonomy.OrganismHost;
@@ -56,19 +60,30 @@ class UniProtEntryTaxonomyConverter {
                 if (taxonomicNode.isPresent()) {
 
                     TaxonomicNode node = taxonomicNode.get();
-                    List<String> extractedTaxoNode = TaxonomyRepoUtil.extractTaxonFromNode(node);
-                    document.organismName.addAll(extractedTaxoNode);
-                    document.organismSort =
-                            UniProtEntryConverterUtil.truncatedSortValue(
-                                    String.join(" ", extractedTaxoNode));
 
-                    String modelOrgamism = MODEL_ORGANISMS_TAX_NAME.get(taxonomyId);
-                    if (modelOrgamism != null) {
-                        document.modelOrganism = modelOrgamism;
-                    } else {
-                        document.otherOrganism = node.scientificName();
-                    }
-                    addTaxonSuggestions(SuggestDictionary.ORGANISM, taxonomyId, extractedTaxoNode);
+                    actionIfNotRoot(
+                            node,
+                            n -> {
+                                List<String> extractedTaxoNode =
+                                        extractTaxonFromNodeNoMnemonic(node);
+
+                                document.organismName.addAll(extractedTaxoNode);
+                                document.organismSort =
+                                        UniProtEntryConverterUtil.truncatedSortValue(
+                                                String.join(" ", extractedTaxoNode));
+
+                                String modelOrgamism = MODEL_ORGANISMS_TAX_NAME.get(taxonomyId);
+                                if (modelOrgamism != null) {
+                                    document.modelOrganism = modelOrgamism;
+                                } else {
+                                    document.otherOrganism = node.scientificName();
+                                }
+                                addTaxonSuggestions(
+                                        SuggestDictionary.ORGANISM,
+                                        taxonomyId,
+                                        extractedTaxoNode,
+                                        extractMnemonic(node));
+                            });
                 }
             }
             convertLineageTaxon(taxonomyId, document);
@@ -85,11 +100,19 @@ class UniProtEntryTaxonomyConverter {
                                 taxonomyRepo.retrieveNodeUsingTaxID(taxonomyId);
                         if (taxonomicNode.isPresent()) {
                             TaxonomicNode node = taxonomicNode.get();
-                            List<String> extractedTaxoNode =
-                                    TaxonomyRepoUtil.extractTaxonFromNode(node);
-                            document.organismHostNames.addAll(extractedTaxoNode);
-                            addTaxonSuggestions(
-                                    SuggestDictionary.HOST, taxonomyId, extractedTaxoNode);
+
+                            actionIfNotRoot(
+                                    node,
+                                    n -> {
+                                        List<String> extractedTaxoNode =
+                                                extractTaxonFromNodeNoMnemonic(node);
+                                        document.organismHostNames.addAll(extractedTaxoNode);
+                                        addTaxonSuggestions(
+                                                SuggestDictionary.HOST,
+                                                taxonomyId,
+                                                extractedTaxoNode,
+                                                extractMnemonic(node));
+                                    });
                         }
                     }
                 });
@@ -102,20 +125,30 @@ class UniProtEntryTaxonomyConverter {
                     node -> {
                         int id = node.id();
                         document.taxLineageIds.add(id);
-                        if (!node.scientificName().equals("root")) {
-                            List<String> taxons =
-                                    TaxonomyRepoUtil.extractTaxonFromNodeNoMnemonic(node);
-                            //
-                            // TaxonomyRepoUtil.extractTaxonFromNode(node);
-                            // not index mnemonic for taxonomy_name
-                            document.organismTaxon.addAll(taxons);
-                            addTaxonSuggestions(SuggestDictionary.TAXONOMY, id, taxons);
-                        }
+
+                        actionIfNotRoot(
+                                node,
+                                n -> {
+                                    List<String> taxons = extractTaxonFromNodeNoMnemonic(node);
+                                    document.organismTaxon.addAll(taxons);
+                                    addTaxonSuggestions(
+                                            SuggestDictionary.TAXONOMY,
+                                            id,
+                                            taxons,
+                                            extractMnemonic(node));
+                                });
                     });
         }
     }
 
-    private void addTaxonSuggestions(SuggestDictionary dicType, int id, List<String> taxons) {
+    private void actionIfNotRoot(TaxonomicNode node, Consumer<TaxonomicNode> nodeConsumer) {
+        if (!node.scientificName().equals("root")) {
+            nodeConsumer.accept(node);
+        }
+    }
+
+    private void addTaxonSuggestions(
+            SuggestDictionary dicType, int id, List<String> taxons, String mnemonic) {
         Iterator<String> taxonIterator = taxons.iterator();
         if (taxonIterator.hasNext()) {
             String idStr = Integer.toString(id);
@@ -135,6 +168,9 @@ class UniProtEntryTaxonomyConverter {
                     }
                 }
                 doc.altValues = currentSynonyms;
+                if (mnemonic != null) {
+                    doc.altValues.add(mnemonic);
+                }
             } else {
                 SuggestDocument.SuggestDocumentBuilder documentBuilder =
                         SuggestDocument.builder()
@@ -143,6 +179,9 @@ class UniProtEntryTaxonomyConverter {
                                 .value(taxonIterator.next());
                 while (taxonIterator.hasNext()) {
                     documentBuilder.altValue(taxonIterator.next());
+                }
+                if (mnemonic != null) {
+                    documentBuilder.altValue(mnemonic);
                 }
                 suggestions.put(key, documentBuilder.build());
             }

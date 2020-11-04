@@ -57,4 +57,10 @@ public class TaxonomyRepoUtil {
         }
         return taxonmyItems;
     }
+
+    public static String extractMnemonic(TaxonomicNode node) {
+        if (node.mnemonic() != null && !node.mnemonic().isEmpty()) {
+            return node.mnemonic();
+        } else return null;
+    }
 }

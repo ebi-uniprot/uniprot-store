@@ -57,9 +57,7 @@ class UniProtKBEntryTaxonomyConverterTest {
         assertEquals(9606, uniProtDocument.organismTaxId);
 
         // organism fields
-        assertEquals(
-                asList("Homo sapiens", "Human", "Homo sapian", "HUMAN"),
-                uniProtDocument.organismName);
+        assertEquals(asList("Homo sapiens", "Human", "Homo sapian"), uniProtDocument.organismName);
         assertEquals(30, uniProtDocument.organismSort.length());
         assertEquals("Homo sapiens Human Homo sapian", uniProtDocument.organismSort);
 
@@ -74,13 +72,9 @@ class UniProtKBEntryTaxonomyConverterTest {
                         "Homo sapiens",
                         "Human",
                         "Homo sapian",
-                        //                        "HUMAN",
                         "scientific parent",
                         "common parent",
-                        "synonym parent"
-                        //                        ,
-                        //                        "mnemonic parent"
-                        ),
+                        "synonym parent"),
                 uniProtDocument.organismTaxon);
 
         // suggestion documents for organism and taxonomy lineage...
@@ -176,8 +170,7 @@ class UniProtKBEntryTaxonomyConverterTest {
 
         // organism fields
         assertEquals(
-                asList("Homo sapiens", "Human", "Homo sapian", "HUMAN"),
-                uniProtDocument.organismHostNames);
+                asList("Homo sapiens", "Human", "Homo sapian"), uniProtDocument.organismHostNames);
 
         // suggestion documents for organism host...
         assertEquals(1, suggestions.size());
@@ -224,11 +217,9 @@ class UniProtKBEntryTaxonomyConverterTest {
                         "Homo sapiens",
                         "Human",
                         "Homo sapian",
-                        "HUMAN",
                         "other scientific",
                         "other common",
-                        "other synonym",
-                        "OTHER"),
+                        "other synonym"),
                 uniProtDocument.organismHostNames);
 
         // suggestion documents for organism host...
