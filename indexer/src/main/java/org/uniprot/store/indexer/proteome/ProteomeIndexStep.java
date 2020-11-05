@@ -5,7 +5,7 @@ import org.springframework.batch.core.Step;
 import org.springframework.batch.core.StepExecutionListener;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
 import org.springframework.batch.item.ItemReader;
-import org.springframework.batch.item.support.CompositeItemWriter;
+import org.springframework.batch.item.ItemWriter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -36,7 +36,7 @@ public class ProteomeIndexStep {
             StepExecutionListener stepListener,
             ChunkListener chunkListener,
             @Qualifier("proteomeXmlReader") ItemReader<Proteome> itemReader,
-            @Qualifier("proteomeGeneCentricItemWriter") CompositeItemWriter<Proteome> itemWriter) {
+            @Qualifier("proteomeItemWriter") ItemWriter<Proteome> itemWriter) {
         return this.stepBuilderFactory
                 .get("Proteome_Index_Step")
                 .<Proteome, Proteome>chunk(chunkSize)

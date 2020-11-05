@@ -1,6 +1,11 @@
 package org.uniprot.store.indexer.common.utils;
 
 public class Constants {
+
+    private Constants(){
+
+    }
+
     public static final String SUPPORTING_DATA_INDEX_JOB = "Supporting data indexing job";
 
     public static final String UNIPROTKB_INDEX_JOB = "UniProtKB_Indexing_Job";
@@ -21,6 +26,7 @@ public class Constants {
     public static final String TAXONOMY_LOAD_MERGED_STEP_NAME = "TAXONOMY_LOAD_MERGED";
     public static final String TAXONOMY_LOAD_DELETED_STEP_NAME = "TAXONOMY_LOAD_DELETED";
 
+    public static final String GENE_CENTRIC_INDEX_JOB = "Gene_Centric_Indexing_Job";
     public static final String PROTEOME_INDEX_JOB = "Proteome_Indexing_Job";
     public static final String DISEASE_LOAD_JOB_NAME = "DiseaseEntry indexing job";
     public static final String DISEASE_PROTEIN_COUNT_STEP = "DiseaseEntry protein count step";
