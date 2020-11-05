@@ -74,12 +74,15 @@ public class GeneCentricRelatedStep {
 
     @Bean("geneCentricRelatedProcessor")
     public ItemProcessor<GeneCentricEntry, GeneCentricDocument> geneCentricRelatedProcessor(
-            UniProtSolrClient uniProtSolrClient, GeneCentricDocumentConverter geneCentricDocumentConverter) {
+            UniProtSolrClient uniProtSolrClient,
+            GeneCentricDocumentConverter geneCentricDocumentConverter) {
         return new GeneCentricRelatedProcessor(uniProtSolrClient, geneCentricDocumentConverter);
     }
 
     @Bean(name = "geneCentricRelatedWriter")
-    public ItemWriter<GeneCentricDocument> geneCentricRelatedWriter(UniProtSolrClient solrOperations, GeneCentricDocumentConverter geneCentricDocumentConverter) {
+    public ItemWriter<GeneCentricDocument> geneCentricRelatedWriter(
+            UniProtSolrClient solrOperations,
+            GeneCentricDocumentConverter geneCentricDocumentConverter) {
         return new GeneCentricRelatedWriter(solrOperations, geneCentricDocumentConverter);
     }
 }

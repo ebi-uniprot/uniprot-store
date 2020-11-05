@@ -13,7 +13,8 @@ public class GeneCentricCanonicalProcessor
 
     private final GeneCentricDocumentConverter converter;
 
-    public GeneCentricCanonicalProcessor(GeneCentricDocumentConverter geneCentricDocumentConverter) {
+    public GeneCentricCanonicalProcessor(
+            GeneCentricDocumentConverter geneCentricDocumentConverter) {
         converter = geneCentricDocumentConverter;
     }
 

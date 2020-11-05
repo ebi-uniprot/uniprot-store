@@ -18,10 +18,10 @@ import org.uniprot.store.job.common.listener.WriteRetrierLogJobListener;
 import org.uniprot.store.search.SolrCollection;
 
 /**
- * This Job will index Gene Centric data into solr in 2 steps.
- * Step1: load canonical proteins gene centric fasta files and index it in solr (geneCentricCanonicalIndexStep)
- * Step2: load related proteins gene centric fasta files, in the processor, it will fetch previously saved
- * canonical entry and add the related protein to its canonical entry and update the solr document in solr.
+ * This Job will index Gene Centric data into solr in 2 steps. Step1: load canonical proteins gene
+ * centric fasta files and index it in solr (geneCentricCanonicalIndexStep) Step2: load related
+ * proteins gene centric fasta files, in the processor, it will fetch previously saved canonical
+ * entry and add the related protein to its canonical entry and update the solr document in solr.
  *
  * @author lgonzales
  * @since 02/11/2020

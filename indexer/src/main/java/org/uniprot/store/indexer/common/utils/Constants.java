@@ -2,9 +2,7 @@ package org.uniprot.store.indexer.common.utils;
 
 public class Constants {
 
-    private Constants(){
-
-    }
+    private Constants() {}
 
     public static final String SUPPORTING_DATA_INDEX_JOB = "Supporting data indexing job";
 

@@ -9,7 +9,6 @@ import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.solr.client.solrj.SolrQuery;
 import org.hamcrest.CoreMatchers;
 import org.junit.jupiter.api.Test;
@@ -32,6 +31,8 @@ import org.uniprot.store.indexer.test.config.SolrTestConfig;
 import org.uniprot.store.job.common.listener.ListenerConfig;
 import org.uniprot.store.search.SolrCollection;
 import org.uniprot.store.search.document.proteome.GeneCentricDocument;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
  * @author lgonzales
@@ -81,9 +82,7 @@ class GeneCentricJobIT {
         returnsCanonicalWithRelated(objectMapper, response);
 
         returnCanonicalWithMultipleRelated(objectMapper, response);
-
     }
-
 
     private void returnsCanonicalWithRelated(
             ObjectMapper objectMapper, List<GeneCentricDocument> savedDocuments) {

@@ -57,8 +57,7 @@ public class GeneCentricDocumentConverter
         return builder.build();
     }
 
-    public GeneCentricEntry getCanonicalEntryFromDocument(
-            GeneCentricDocument geneCentricDocument) {
+    public GeneCentricEntry getCanonicalEntryFromDocument(GeneCentricDocument geneCentricDocument) {
         try {
             return objectMapper.readValue(
                     geneCentricDocument.getGeneCentricStored(), GeneCentricEntry.class);
@@ -78,5 +77,4 @@ public class GeneCentricDocumentConverter
         }
         return binaryEntry;
     }
-
 }

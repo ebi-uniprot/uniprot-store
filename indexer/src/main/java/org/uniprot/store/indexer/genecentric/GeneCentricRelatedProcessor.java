@@ -24,7 +24,9 @@ public class GeneCentricRelatedProcessor
     private final UniProtSolrClient uniProtSolrClient;
     private final GeneCentricDocumentConverter converter;
 
-    public GeneCentricRelatedProcessor(UniProtSolrClient uniProtSolrClient, GeneCentricDocumentConverter geneCentricDocumentConverter) {
+    public GeneCentricRelatedProcessor(
+            UniProtSolrClient uniProtSolrClient,
+            GeneCentricDocumentConverter geneCentricDocumentConverter) {
         this.uniProtSolrClient = uniProtSolrClient;
         this.converter = geneCentricDocumentConverter;
     }

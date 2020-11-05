@@ -58,18 +58,19 @@ public class GeneCentricCanonicalStep {
                 .listener(stepListener)
                 .listener(chunkListener)
                 .listener(new LogRateListener<GeneCentricDocument>())
-                .listener(new StepExecutionListener() {
-                    @Override
-                    public void beforeStep(StepExecution stepExecution) {
-                        //no ops
-                    }
+                .listener(
+                        new StepExecutionListener() {
+                            @Override
+                            public void beforeStep(StepExecution stepExecution) {
+                                // no ops
+                            }
 
-                    @Override
-                    public ExitStatus afterStep(StepExecution stepExecution) {
-                        uniProtSolrClient.commit(SolrCollection.genecentric);
-                        return stepExecution.getExitStatus();
-                    }
-                })
+                            @Override
+                            public ExitStatus afterStep(StepExecution stepExecution) {
+                                uniProtSolrClient.commit(SolrCollection.genecentric);
+                                return stepExecution.getExitStatus();
+                            }
+                        })
                 .build();
     }
 
@@ -85,12 +86,14 @@ public class GeneCentricCanonicalStep {
     }
 
     @Bean("geneCentricCanonicalProcessor")
-    public ItemProcessor<GeneCentricEntry, GeneCentricDocument> geneCentricCanonicalProcessor(GeneCentricDocumentConverter geneCentricDocumentConverter) {
+    public ItemProcessor<GeneCentricEntry, GeneCentricDocument> geneCentricCanonicalProcessor(
+            GeneCentricDocumentConverter geneCentricDocumentConverter) {
         return new GeneCentricCanonicalProcessor(geneCentricDocumentConverter);
     }
 
     @Bean(name = "geneCentricCanonicalWriter")
-    public ItemWriter<GeneCentricDocument> geneCentricCanonicalWriter(UniProtSolrClient solrOperations) {
+    public ItemWriter<GeneCentricDocument> geneCentricCanonicalWriter(
+            UniProtSolrClient solrOperations) {
         return new GeneCentricCanonicalWriter(solrOperations);
     }
 }
