@@ -47,6 +47,10 @@
       {
         "name": "Redundant proteome",
         "value": "4"
+      },
+      {
+        "name": "Excluded",
+        "value": "5"
       }
     ]
   },
@@ -108,6 +112,15 @@
     "validRegex": "^true|false$",
     "dataType": "BOOLEAN",
     "description": "search  if redundant",
+    "example": "false"
+  },
+  {
+    "id": "excluded",
+    "fieldName": "excluded",
+    "fieldType": "GENERAL",
+    "validRegex": "^true|false$",
+    "dataType": "BOOLEAN",
+    "description": "search  if excluded",
     "example": "false"
   },
   {

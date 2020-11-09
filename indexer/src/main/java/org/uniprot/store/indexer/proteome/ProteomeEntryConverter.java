@@ -1,6 +1,9 @@
 package org.uniprot.store.indexer.proteome;
 
+import static org.uniprot.core.util.Utils.*;
+
 import java.nio.ByteBuffer;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -13,12 +16,14 @@ import org.uniprot.core.taxonomy.TaxonomyLineage;
 import org.uniprot.core.taxonomy.impl.TaxonomyLineageBuilder;
 import org.uniprot.core.uniprotkb.taxonomy.Taxonomy;
 import org.uniprot.core.uniprotkb.taxonomy.impl.TaxonomyBuilder;
+import org.uniprot.core.xml.jaxb.proteome.ComponentType;
 import org.uniprot.core.xml.jaxb.proteome.DbReferenceType;
 import org.uniprot.core.xml.jaxb.proteome.Proteome;
 import org.uniprot.core.xml.proteome.ProteomeConverter;
 import org.uniprot.cv.taxonomy.TaxonomicNode;
 import org.uniprot.cv.taxonomy.TaxonomyRepo;
 import org.uniprot.store.indexer.util.TaxonomyRepoUtil;
+import org.uniprot.store.job.common.DocumentConversionException;
 import org.uniprot.store.job.common.converter.DocumentConverter;
 import org.uniprot.store.search.document.proteome.ProteomeDocument;
 
@@ -48,10 +53,12 @@ public class ProteomeEntryConverter implements DocumentConverter<Proteome, Prote
         ProteomeDocument document = new ProteomeDocument();
         document.upid = source.getUpid();
         setOrganism(source, document);
-        setLineageTaxon(source.getTaxonomy().intValue(), document);
+        setLineageTaxon(source.getTaxonomy(), document);
         updateProteomeType(document, source);
         document.genomeAccession = fetchGenomeAccessions(source);
-        document.superkingdom = source.getSuperregnum().name();
+        if (notNull(source.getSuperregnum())) {
+            document.superkingdom = source.getSuperregnum().name();
+        }
         document.genomeAssembly = fetchGenomeAssemblyId(source);
         document.content.add(document.upid);
         document.content.add(source.getDescription());
@@ -70,37 +77,54 @@ public class ProteomeEntryConverter implements DocumentConverter<Proteome, Prote
     }
 
     private void updateProteomeType(ProteomeDocument document, Proteome source) {
-        if (source.isIsReferenceProteome()) {
+        if ((source.getExcluded() != null)
+                && (source.getExcluded().getExclusionReason() != null)
+                && (!source.getExcluded().getExclusionReason().isEmpty())) {
+            document.proteomeType = 5;
+            document.isExcluded = true;
+        } else if ((source.getRedundantTo() != null) && (!source.getRedundantTo().isEmpty())) {
+            document.proteomeType = 4;
+            document.isRedundant = true;
+        } else if (source.isIsReferenceProteome()) {
+            // if Representative And Reference it will be marked as reference proteomeType at the
+            // end.
+            // should we make this field multiple values?
             document.proteomeType = 1;
             document.isReferenceProteome = true;
         } else if (source.isIsRepresentativeProteome()) {
             document.proteomeType = 2;
+            // representative is also flagged as reference proteomes
             document.isReferenceProteome = true;
-        } else if ((source.getRedundantTo() != null) && (!source.getRedundantTo().isEmpty())) {
-            document.proteomeType = 4;
-            document.isRedundant = true;
-        } else document.proteomeType = 3;
-    }
-
-    private void setOrganism(Proteome source, ProteomeDocument document) {
-        int taxonomyId = source.getTaxonomy().intValue();
-        document.organismTaxId = taxonomyId;
-        document.taxLineageIds.add(taxonomyId);
-        Optional<TaxonomicNode> taxonomicNode = taxonomyRepo.retrieveNodeUsingTaxID(taxonomyId);
-        if (taxonomicNode.isPresent()) {
-            TaxonomicNode node = taxonomicNode.get();
-            List<String> extractedTaxoNode = TaxonomyRepoUtil.extractTaxonFromNode(node);
-            document.organismName.addAll(extractedTaxoNode);
-            document.organismTaxon.addAll(extractedTaxoNode);
         } else {
-            document.organismName.add(source.getName());
-            document.organismTaxon.add(source.getName());
+            // Normal Proteome
+            document.proteomeType = 3;
         }
     }
 
-    private void setLineageTaxon(int taxId, ProteomeDocument document) {
-        if (taxId > 0) {
-            List<TaxonomicNode> nodes = TaxonomyRepoUtil.getTaxonomyLineage(taxonomyRepo, taxId);
+    private void setOrganism(Proteome source, ProteomeDocument document) {
+        if (source.getTaxonomy() != null) {
+            int taxonomyId = source.getTaxonomy().intValue();
+            document.organismTaxId = taxonomyId;
+            document.taxLineageIds.add(taxonomyId);
+            Optional<TaxonomicNode> taxonomicNode = taxonomyRepo.retrieveNodeUsingTaxID(taxonomyId);
+            if (taxonomicNode.isPresent()) {
+                TaxonomicNode node = taxonomicNode.get();
+                List<String> extractedTaxoNode = TaxonomyRepoUtil.extractTaxonFromNode(node);
+                document.organismName.addAll(extractedTaxoNode);
+                document.organismSort = node.scientificName();
+                document.organismTaxon.addAll(extractedTaxoNode);
+            } else {
+                document.organismName.add(source.getName());
+                document.organismSort = source.getName();
+                document.organismTaxon.add(source.getName());
+            }
+        }
+    }
+
+    private void setLineageTaxon(Long taxId, ProteomeDocument document) {
+        if (taxId != null) {
+            List<TaxonomicNode> nodes =
+                    TaxonomyRepoUtil.getTaxonomyLineage(taxonomyRepo, taxId.intValue());
             nodes.forEach(
                     node -> {
                         int id = node.id();
@@ -122,18 +146,21 @@ public class ProteomeEntryConverter implements DocumentConverter<Proteome, Prote
         ProteomeEntry proteome = this.proteomeConverter.fromXml(source);
         ProteomeEntryBuilder builder = ProteomeEntryBuilder.from(proteome);
         builder.canonicalProteinsSet(Collections.emptyList());
-        Optional<TaxonomicNode> taxonomicNode =
-                taxonomyRepo.retrieveNodeUsingTaxID((int) proteome.getTaxonomy().getTaxonId());
-        if (taxonomicNode.isPresent()) {
-            builder.taxonomy(getTaxonomy(taxonomicNode.get(), proteome.getTaxonomy().getTaxonId()));
-            builder.taxonLineagesSet(getLineage(taxonomicNode.get().id()));
+        if (notNull(proteome.getTaxonomy())) {
+            Optional<TaxonomicNode> taxonomicNode =
+                    taxonomyRepo.retrieveNodeUsingTaxID((int) proteome.getTaxonomy().getTaxonId());
+            if (taxonomicNode.isPresent()) {
+                builder.taxonomy(
+                        getTaxonomy(taxonomicNode.get(), proteome.getTaxonomy().getTaxonId()));
+                builder.taxonLineagesSet(getLineage(taxonomicNode.get().id()));
+            }
         }
         ProteomeEntry modifiedProteome = builder.build();
         byte[] binaryEntry;
         try {
             binaryEntry = objectMapper.writeValueAsBytes(modifiedProteome);
         } catch (JsonProcessingException e) {
-            throw new RuntimeException("Unable to parse proteome to binary json: ", e);
+            throw new DocumentConversionException("Unable to parse proteome to binary json: ", e);
         }
         return binaryEntry;
     }
@@ -167,8 +194,8 @@ public class ProteomeEntryConverter implements DocumentConverter<Proteome, Prote
 
     private List<String> fetchGenomeAccessions(Proteome source) {
         return source.getComponent().stream()
-                .map(val -> val.getGenomeAccession())
-                .flatMap(val -> val.stream())
+                .map(ComponentType::getGenomeAccession)
+                .flatMap(Collection::stream)
                 .collect(Collectors.toList());
     }
 }

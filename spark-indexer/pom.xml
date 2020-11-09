@@ -80,6 +80,11 @@
 		</dependency>
 		<dependency>
 			<groupId>org.uniprot</groupId>
+			<artifactId>core-parser</artifactId>
+			<version>${uniprot-core.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.uniprot</groupId>
 			<artifactId>uniprot-search</artifactId>
 			<version>${project.parent.version}</version>
 		</dependency>

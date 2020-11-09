@@ -37,6 +37,9 @@ public class ProteomeDocument implements Document {
     @Field("redundant")
     public boolean isRedundant;
 
+    @Field("excluded")
+    public boolean isExcluded;
+
     @Field("superkingdom")
     public String superkingdom;
 
