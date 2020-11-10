@@ -184,6 +184,9 @@
     "dataType": "STRING",
     "description": "Search by taxonomy name",
     "example": "sample name",
-    "includeInSwagger": true
+    "includeInSwagger": true,
+    "autoComplete": "/uniprot/api/suggester?dict=taxonomy&query=?",
+    "autoCompleteQueryField": "taxonomy_id",
+    "autoCompleteQueryFieldValidRegex": "^[0-9]+$"
   }
 ]

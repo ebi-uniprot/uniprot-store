@@ -2414,7 +2414,7 @@
     "itemType": "SINGLE",
     "fieldName": "fragment",
     "fieldType": "GENERAL",
-    "dataType": "ENUM",
+    "dataType": "BOOLEAN",
     "values": [
       {
         "name": "Yes",
@@ -2488,7 +2488,7 @@
     "itemType": "SINGLE",
     "fieldName": "precursor",
     "fieldType": "GENERAL",
-    "dataType": "ENUM",
+    "dataType": "BOOLEAN",
     "values": [
       {
         "name": "Yes",
