@@ -368,12 +368,8 @@
 	<fieldType name="full_ci" class="solr.TextField"
 		sortMissingLast="true" omitNorms="true" positionIncrementGap="100">
 		<analyzer type="index">
-			<!-- <tokenizer class="solr.WhitespaceTokenizerFactory"/> -->
 			<tokenizer class="solr.SimplePatternSplitTokenizerFactory"
 				pattern="[- /()]+" />
-			<!-- <tokenizer class="solr.LetterTokenizerFactory"/> -->
-			<filter class="solr.StopFilterFactory" words="stopwords.txt"
-				ignoreCase="true" />
 			<filter class="solr.ASCIIFoldingFilterFactory"
 				preserveOriginal="false" />
 			<filter class="solr.LowerCaseFilterFactory" />
@@ -384,12 +380,8 @@
 			<filter class="solr.FlattenGraphFilterFactory" />
 		</analyzer>
 		<analyzer type="query">
-			<!-- <tokenizer class="solr.WhitespaceTokenizerFactory"/> -->
 			<tokenizer class="solr.SimplePatternSplitTokenizerFactory"
 				pattern="[- /()]+" />
-			<!-- <tokenizer class="solr.LetterTokenizerFactory"/> -->
-			<filter class="solr.StopFilterFactory" words="stopwords.txt"
-				ignoreCase="true" />
 			<filter class="solr.ASCIIFoldingFilterFactory"
 				preserveOriginal="false" />
 			<filter class="solr.LowerCaseFilterFactory" />
