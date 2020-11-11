@@ -50,7 +50,8 @@ public class DataStoreManager implements AfterAllCallback, BeforeAllCallback {
         KEYWORD,
         LITERATURE,
         SUBCELLULAR_LOCATION,
-        SUGGEST
+        SUGGEST,
+        UNIRULE
     }
 
     private static final String SOLR_SYSTEM_PROPERTIES = "solr-system.properties";

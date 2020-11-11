@@ -58,6 +58,10 @@ public class UniRuleDocumentConverter implements DocumentConverter<UniRuleType, 
                 UniRuleEntryBuilder.from(this.converter.fromXml(xmlObj));
         UniRuleEntry uniObj =
                 uniRuleBuilder.proteinsAnnotatedCount(this.proteinsAnnotatedCount).build();
+        return convertToDocument(uniObj);
+    }
+
+    public UniRuleDocument convertToDocument(UniRuleEntry uniObj) {
         // extract values from uniObj to create solr document
         String uniRuleId = uniObj.getUniRuleId().getValue();
         Set<String> conditionValues = getConditionValues(uniObj);
