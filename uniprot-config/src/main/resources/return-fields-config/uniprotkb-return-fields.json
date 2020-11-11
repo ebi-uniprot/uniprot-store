@@ -202,7 +202,7 @@
     "label": "Alternative sequence",
     "id": "sequences/alternative_sequence",
     "paths": [
-      "features[?(@.type=='splice variant')]"
+      "features[?(@.type=='Alternative sequence')]"
     ]
   },
   {
@@ -288,7 +288,7 @@
     "label": "Natural variant",
     "id": "sequences/natural_variant",
     "paths": [
-      "features[?(@.type=='Sequence variation')]"
+      "features[?(@.type=='Natural variant')]"
     ]
   },
   {
@@ -297,10 +297,10 @@
     "itemType": "SINGLE",
     "includeInSwagger": true,
     "name": "ft_non_cons",
-    "label": "Non-adjacent residue",
-    "id": "sequences/non-adjacent_residue",
+    "label": "Non-adjacent residues",
+    "id": "sequences/non-adjacent_residues",
     "paths": [
-      "features[?(@.type=='non-consecutive residues')]"
+      "features[?(@.type=='Non-adjacent residues')]"
     ]
   },
   {
@@ -312,7 +312,7 @@
     "label": "Non-standard residue",
     "id": "sequences/non-standard_residue",
     "paths": [
-      "features[?(@.type=='non-standard amino acid')]"
+      "features[?(@.type=='Non-standard residue')]"
     ]
   },
   {
@@ -324,7 +324,7 @@
     "label": "Non-terminal residue",
     "id": "sequences/non-terminal_residue",
     "paths": [
-      "features[?(@.type=='non-terminal residue')]"
+      "features[?(@.type=='Non-terminal residue')]"
     ]
   },
   {
@@ -384,7 +384,7 @@
     "label": "Sequence conflict",
     "id": "sequences/sequence_conflict",
     "paths": [
-      "features[?(@.type=='sequence conflict')]"
+      "features[?(@.type=='Sequence conflict')]"
     ]
   },
   {
@@ -396,7 +396,7 @@
     "label": "Sequence uncertainty",
     "id": "sequences/sequence_uncertainty",
     "paths": [
-      "features[?(@.type=='Uncertainty in sequence')]"
+      "features[?(@.type=='Sequence uncertainty')]"
     ]
   },
   {
@@ -438,7 +438,7 @@
     "label": "Active site",
     "id": "function/active_site",
     "paths": [
-      "features[?(@.type=='active site')]"
+      "features[?(@.type=='Active site')]"
     ]
   },
   {
@@ -450,7 +450,7 @@
     "label": "Binding site",
     "id": "function/binding_site",
     "paths": [
-      "features[?(@.type=='Other binding site')]"
+      "features[?(@.type=='Binding site')]"
     ]
   },
   {
@@ -462,7 +462,7 @@
     "label": "Calcium binding",
     "id": "function/calcium_binding",
     "paths": [
-      "features[?(@.type=='calcium-binding region')]"
+      "features[?(@.type=='Calcium binding')]"
     ]
   },
   {
@@ -498,7 +498,7 @@
     "label": "DNA binding",
     "id": "function/dna_binding",
     "paths": [
-      "features[?(@.type=='DNA-binding region')]"
+      "features[?(@.type=='DNA binding')]"
     ]
   },
   {
@@ -557,7 +557,7 @@
     "label": "Metal binding",
     "id": "function/metal_binding",
     "paths": [
-      "features[?(@.type=='metal ion-binding site')]"
+      "features[?(@.type=='Metal binding')]"
     ]
   },
   {
@@ -569,7 +569,7 @@
     "label": "Nucleotide binding",
     "id": "function/nucleotide_binding",
     "paths": [
-      "features[?(@.type=='Nucleotide-binding region')]"
+      "features[?(@.type=='Nucleotide binding')]"
     ]
   },
   {
@@ -615,7 +615,7 @@
     "label": "Site",
     "id": "function/site",
     "paths": [
-      "features[?(@.type=='Other site of interest')]"
+      "features[?(@.type=='Site')]"
     ]
   },
   {
@@ -980,7 +980,7 @@
     "label": "Mutagenesis",
     "id": "pathology_&_biotech/mutagenesis",
     "paths": [
-      "features[?(@.type=='mutagenesis site')]"
+      "features[?(@.type=='Mutagenesis')]"
     ]
   },
   {
@@ -1023,7 +1023,7 @@
     "label": "Intramembrane",
     "id": "subcellular_location/intramembrane",
     "paths": [
-      "features[?(@.type=='intramembrane region')]"
+      "features[?(@.type=='Intramembrane')]"
     ]
   },
   {
@@ -1047,7 +1047,7 @@
     "label": "Topological domain",
     "id": "subcellular_location/topological_domain",
     "paths": [
-      "features[?(@.type=='topological domain')]"
+      "features[?(@.type=='Topological domain')]"
     ]
   },
   {
@@ -1059,7 +1059,7 @@
     "label": "Transmembrane",
     "id": "subcellular_location/transmembrane",
     "paths": [
-      "features[?(@.type=='transmembrane region')]"
+      "features[?(@.type=='Transmembrane')]"
     ]
   },
   {
@@ -1078,7 +1078,7 @@
     "label": "Chain",
     "id": "ptm_/_processing/chain",
     "paths": [
-      "features[?(@.type=='chain')]"
+      "features[?(@.type=='Chain')]"
     ]
   },
   {
@@ -1090,7 +1090,7 @@
     "label": "Cross-link",
     "id": "ptm_/_processing/cross-link",
     "paths": [
-      "features[?(@.type=='cross-link')]"
+      "features[?(@.type=='Cross-link')]"
     ]
   },
   {
@@ -1102,7 +1102,7 @@
     "label": "Disulfide bond",
     "id": "ptm_/_processing/disulfide_bond",
     "paths": [
-      "features[?(@.type=='disulfide bond')]"
+      "features[?(@.type=='Disulfide bond')]"
     ]
   },
   {
@@ -1114,7 +1114,7 @@
     "label": "Glycosylation",
     "id": "ptm_/_processing/glycosylation",
     "paths": [
-      "features[?(@.type=='glycosylation site')]"
+      "features[?(@.type=='Glycosylation')]"
     ]
   },
   {
@@ -1126,7 +1126,7 @@
     "label": "Initiator methionine",
     "id": "ptm_/_processing/initiator_methionine",
     "paths": [
-      "features[?(@.type=='initiator methionine')]"
+      "features[?(@.type=='Initiator methionine')]"
     ]
   },
   {
@@ -1138,7 +1138,7 @@
     "label": "Lipidation",
     "id": "ptm_/_processing/lipidation",
     "paths": [
-      "features[?(@.type=='lipid moiety-binding region')]"
+      "features[?(@.type=='Lipidation')]"
     ]
   },
   {
@@ -1150,7 +1150,7 @@
     "label": "Modified residue",
     "id": "ptm_/_processing/modified_residue",
     "paths": [
-      "features[?(@.type=='Post-translationally modified residue')]"
+      "features[?(@.type=='Modified residue')]"
     ]
   },
   {
@@ -1162,7 +1162,7 @@
     "label": "Peptide",
     "id": "ptm_/_processing/peptide",
     "paths": [
-      "features[?(@.type=='peptide')]"
+      "features[?(@.type=='Peptide')]"
     ]
   },
   {
@@ -1186,7 +1186,7 @@
     "label": "Propeptide",
     "id": "ptm_/_processing/propeptide",
     "paths": [
-      "features[?(@.type=='propeptide')]"
+      "features[?(@.type=='Propeptide')]"
     ]
   },
   {
@@ -1198,7 +1198,7 @@
     "label": "Signal peptide",
     "id": "ptm_/_processing/signal_peptide",
     "paths": [
-      "features[?(@.type=='signal peptide')]"
+      "features[?(@.type=='Signal')]"
     ]
   },
   {
@@ -1210,7 +1210,7 @@
     "label": "Transit peptide",
     "id": "ptm_/_processing/transit_peptide",
     "paths": [
-      "features[?(@.type=='transit peptide')]"
+      "features[?(@.type=='Transit peptide')]"
     ]
   },
   {
@@ -1240,7 +1240,7 @@
     "label": "Beta strand",
     "id": "structure/beta_strand",
     "paths": [
-      "features[?(@.type=='strand')]"
+      "features[?(@.type=='Beta strand')]"
     ]
   },
   {
@@ -1252,7 +1252,7 @@
     "label": "Helix",
     "id": "structure/helix",
     "paths": [
-      "features[?(@.type=='helix')]"
+      "features[?(@.type=='Helix')]"
     ]
   },
   {
@@ -1264,7 +1264,7 @@
     "label": "Turn",
     "id": "structure/turn",
     "paths": [
-      "features[?(@.type=='turn')]"
+      "features[?(@.type=='Turn')]"
     ]
   },
   {
@@ -1356,7 +1356,7 @@
     "label": "Coiled coil",
     "id": "family_&_domains/coiled_coil",
     "paths": [
-      "features[?(@.type=='coiled-coil region')]"
+      "features[?(@.type=='Coiled coil')]"
     ]
   },
   {
@@ -1368,7 +1368,7 @@
     "label": "Compositional bias",
     "id": "family_&_domains/compositional_bias",
     "paths": [
-      "features[?(@.type=='compositionally biased region')]"
+      "features[?(@.type=='Compositional bias')]"
     ]
   },
   {
@@ -1392,7 +1392,7 @@
     "label": "Domain [FT]",
     "id": "family_&_domains/domain_[ft]",
     "paths": [
-      "features[?(@.type=='Other domain of interest')]"
+      "features[?(@.type=='Domain')]"
     ]
   },
   {
@@ -1404,7 +1404,7 @@
     "label": "Motif",
     "id": "family_&_domains/motif",
     "paths": [
-      "features[?(@.type=='short sequence motif')]"
+      "features[?(@.type=='Motif')]"
     ]
   },
   {
@@ -1427,7 +1427,7 @@
     "label": "Region",
     "id": "family_&_domains/region",
     "paths": [
-      "features[?(@.type=='region of interest')]"
+      "features[?(@.type=='Region')]"
     ]
   },
   {
@@ -1439,7 +1439,7 @@
     "label": "Repeat",
     "id": "family_&_domains/repeat",
     "paths": [
-      "features[?(@.type=='repeat')]"
+      "features[?(@.type=='Repeat')]"
     ]
   },
   {
@@ -1451,7 +1451,7 @@
     "label": "Zinc finger",
     "id": "family_&_domains/zinc_finger",
     "paths": [
-      "features[?(@.type=='zinc finger region')]"
+      "features[?(@.type=='Zinc finger')]"
     ]
   },
   {
