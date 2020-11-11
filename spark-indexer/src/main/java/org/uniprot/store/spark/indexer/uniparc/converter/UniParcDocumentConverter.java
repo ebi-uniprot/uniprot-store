@@ -12,7 +12,7 @@ import org.uniprot.core.uniparc.UniParcEntry;
 import org.uniprot.core.uniprotkb.taxonomy.Taxonomy;
 import org.uniprot.core.util.Utils;
 import org.uniprot.store.config.uniparc.UniParcConfigUtil;
-import org.uniprot.store.job.common.converter.DocumentConverter;
+import org.uniprot.store.search.document.DocumentConverter;
 import org.uniprot.store.search.document.uniparc.UniParcDocument;
 
 /**

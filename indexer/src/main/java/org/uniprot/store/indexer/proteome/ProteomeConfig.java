@@ -22,8 +22,8 @@ import org.uniprot.cv.taxonomy.TaxonomyRepo;
 import org.uniprot.cv.taxonomy.impl.TaxonomyMapRepo;
 import org.uniprot.store.indexer.common.config.UniProtSolrClient;
 import org.uniprot.store.indexer.common.utils.Constants;
-import org.uniprot.store.job.common.converter.DocumentConverter;
 import org.uniprot.store.job.common.util.CommonConstants;
+import org.uniprot.store.search.document.DocumentConverter;
 import org.uniprot.store.search.document.proteome.ProteomeDocument;
 
 /**

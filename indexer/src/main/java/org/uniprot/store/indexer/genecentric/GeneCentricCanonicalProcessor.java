@@ -2,7 +2,8 @@ package org.uniprot.store.indexer.genecentric;
 
 import org.springframework.batch.item.ItemProcessor;
 import org.uniprot.core.genecentric.GeneCentricEntry;
-import org.uniprot.store.search.document.proteome.GeneCentricDocument;
+import org.uniprot.store.search.document.genecentric.GeneCentricDocument;
+import org.uniprot.store.search.document.genecentric.GeneCentricDocumentConverter;
 
 /**
  * @author lgonzales

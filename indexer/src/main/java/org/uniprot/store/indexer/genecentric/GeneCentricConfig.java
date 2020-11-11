@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.uniprot.core.json.parser.genecentric.GeneCentricJsonConfig;
 import org.uniprot.store.indexer.common.config.PeekableResourceAwareItemReader;
+import org.uniprot.store.search.document.genecentric.GeneCentricDocumentConverter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 

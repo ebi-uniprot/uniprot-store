@@ -13,7 +13,7 @@ import org.uniprot.store.config.searchfield.common.SearchFieldConfig;
 import org.uniprot.store.config.searchfield.factory.SearchFieldConfigFactory;
 import org.uniprot.store.indexer.proteome.ProteomeEntryConverter;
 import org.uniprot.store.indexer.search.AbstractSearchEngine;
-import org.uniprot.store.job.common.converter.DocumentConverter;
+import org.uniprot.store.search.document.DocumentConverter;
 
 class ProteomeSearchEngine extends AbstractSearchEngine<Proteome> {
 

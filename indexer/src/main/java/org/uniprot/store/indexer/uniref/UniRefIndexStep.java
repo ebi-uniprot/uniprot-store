@@ -3,7 +3,6 @@ package org.uniprot.store.indexer.uniref;
 import static org.uniprot.store.indexer.common.utils.Constants.UNIREF_INDEX_STEP;
 
 import java.io.File;
-import java.io.IOException;
 
 import org.springframework.batch.core.ChunkListener;
 import org.springframework.batch.core.Step;
@@ -22,9 +21,9 @@ import org.uniprot.cv.taxonomy.TaxonomyRepo;
 import org.uniprot.cv.taxonomy.impl.TaxonomyMapRepo;
 import org.uniprot.store.indexer.common.config.UniProtSolrClient;
 import org.uniprot.store.indexer.common.writer.SolrDocumentWriter;
-import org.uniprot.store.job.common.converter.DocumentConverter;
 import org.uniprot.store.job.common.listener.LogRateListener;
 import org.uniprot.store.search.SolrCollection;
+import org.uniprot.store.search.document.DocumentConverter;
 import org.uniprot.store.search.document.uniref.UniRefDocument;
 
 /**
@@ -69,7 +68,7 @@ public class UniRefIndexStep {
     }
 
     @Bean
-    public ItemReader<Entry> unirefReader() throws IOException {
+    public ItemReader<Entry> unirefReader() {
         return new UniRefXmlEntryReader(unirefXmlFilename);
     }
 

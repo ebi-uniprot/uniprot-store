@@ -9,7 +9,7 @@ import org.uniprot.core.genecentric.impl.GeneCentricEntryBuilder;
 import org.uniprot.core.genecentric.impl.ProteinBuilder;
 import org.uniprot.core.uniprotkb.UniProtKBEntryType;
 import org.uniprot.core.uniprotkb.taxonomy.impl.OrganismBuilder;
-import org.uniprot.store.search.document.proteome.GeneCentricDocument;
+import org.uniprot.store.search.document.genecentric.GeneCentricDocument;
 
 /**
  * @author lgonzales

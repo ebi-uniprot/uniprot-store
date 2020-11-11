@@ -17,8 +17,8 @@ import org.uniprot.core.util.Utils;
 import org.uniprot.core.xml.jaxb.unirule.UniRuleType;
 import org.uniprot.core.xml.unirule.UniRuleEntryConverter;
 import org.uniprot.store.indexer.uniprotkb.converter.UniProtEntryConverterUtil;
-import org.uniprot.store.job.common.DocumentConversionException;
-import org.uniprot.store.job.common.converter.DocumentConverter;
+import org.uniprot.store.search.document.DocumentConversionException;
+import org.uniprot.store.search.document.DocumentConverter;
 import org.uniprot.store.search.document.unirule.UniRuleDocument;
 
 import com.fasterxml.jackson.core.JsonProcessingException;

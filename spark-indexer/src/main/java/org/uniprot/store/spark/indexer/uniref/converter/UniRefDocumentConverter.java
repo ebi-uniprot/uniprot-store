@@ -11,7 +11,7 @@ import org.uniprot.core.uniref.UniRefMember;
 import org.uniprot.core.uniref.UniRefMemberIdType;
 import org.uniprot.core.util.Utils;
 import org.uniprot.store.indexer.util.DateUtils;
-import org.uniprot.store.job.common.converter.DocumentConverter;
+import org.uniprot.store.search.document.DocumentConverter;
 import org.uniprot.store.search.document.uniref.UniRefDocument;
 
 /**

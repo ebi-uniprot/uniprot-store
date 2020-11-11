@@ -22,16 +22,16 @@ public class GeneCentricFastaItemReader
 
     @Override
     public GeneCentricEntry read() throws Exception {
-        String fastaEntry = "";
+        StringBuilder fastaEntry = new StringBuilder();
         for (String nextLine; (nextLine = delegate.peek()) != null; ) {
-            if (nextLine.startsWith(">") && !fastaEntry.isEmpty()) {
-                return buildGeneCentricEntry(fastaEntry);
+            if (nextLine.startsWith(">") && (fastaEntry.length() > 0)) {
+                return buildGeneCentricEntry(fastaEntry.toString());
             } else {
-                fastaEntry += this.delegate.read() + "\n";
+                fastaEntry.append(this.delegate.read()).append("\n");
             }
         }
-        if (!fastaEntry.isEmpty()) {
-            return buildGeneCentricEntry(fastaEntry);
+        if (fastaEntry.length() > 0) {
+            return buildGeneCentricEntry(fastaEntry.toString());
         }
         return null;
     }

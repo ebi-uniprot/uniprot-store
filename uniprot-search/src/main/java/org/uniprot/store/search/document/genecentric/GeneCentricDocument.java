@@ -1,4 +1,4 @@
-package org.uniprot.store.search.document.proteome;
+package org.uniprot.store.search.document.genecentric;
 
 import java.util.ArrayList;
 import java.util.HashSet;

@@ -5,7 +5,6 @@ import static org.hamcrest.Matchers.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.uniprot.store.indexer.common.utils.Constants.GENE_CENTRIC_INDEX_JOB;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -30,7 +29,8 @@ import org.uniprot.store.indexer.test.config.FakeIndexerSpringBootApplication;
 import org.uniprot.store.indexer.test.config.SolrTestConfig;
 import org.uniprot.store.job.common.listener.ListenerConfig;
 import org.uniprot.store.search.SolrCollection;
-import org.uniprot.store.search.document.proteome.GeneCentricDocument;
+import org.uniprot.store.search.document.genecentric.GeneCentricDocument;
+import org.uniprot.store.search.document.genecentric.GeneCentricDocumentConverter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -76,16 +76,17 @@ class GeneCentricJobIT {
         assertThat(response.size(), is(40));
 
         ObjectMapper objectMapper = GeneCentricJsonConfig.getInstance().getFullObjectMapper();
+        GeneCentricDocumentConverter converter = new GeneCentricDocumentConverter(objectMapper);
 
-        returnsCanonicalWithoutRelated(objectMapper, response);
+        returnsCanonicalWithoutRelated(converter, response);
 
-        returnsCanonicalWithRelated(objectMapper, response);
+        returnsCanonicalWithRelated(converter, response);
 
-        returnCanonicalWithMultipleRelated(objectMapper, response);
+        returnCanonicalWithMultipleRelated(converter, response);
     }
 
     private void returnsCanonicalWithRelated(
-            ObjectMapper objectMapper, List<GeneCentricDocument> savedDocuments) {
+            GeneCentricDocumentConverter converter, List<GeneCentricDocument> savedDocuments) {
         GeneCentricDocument document =
                 savedDocuments.stream()
                         .filter(doc -> doc.getAccession().equals("O51971"))
@@ -95,7 +96,7 @@ class GeneCentricJobIT {
         assertEquals("O51971", document.getAccession());
         assertNotNull(document.getGeneCentricStored());
 
-        GeneCentricEntry entry = getGeneCentricEntry(objectMapper, document.getGeneCentricStored());
+        GeneCentricEntry entry = converter.getCanonicalEntryFromDocument(document);
         assertNotNull(entry.getCanonicalProtein());
         assertEquals("UP000000554", entry.getProteomeId());
         assertEquals("O51971", entry.getCanonicalProtein().getId());
@@ -107,7 +108,7 @@ class GeneCentricJobIT {
     }
 
     private void returnCanonicalWithMultipleRelated(
-            ObjectMapper objectMapper, List<GeneCentricDocument> savedDocuments) {
+            GeneCentricDocumentConverter converter, List<GeneCentricDocument> savedDocuments) {
         GeneCentricDocument document =
                 savedDocuments.stream()
                         .filter(doc -> doc.getAccession().equals("A0A6G0Z6X6"))
@@ -117,7 +118,7 @@ class GeneCentricJobIT {
         assertEquals("A0A6G0Z6X6", document.getAccession());
         assertNotNull(document.getGeneCentricStored());
 
-        GeneCentricEntry entry = getGeneCentricEntry(objectMapper, document.getGeneCentricStored());
+        GeneCentricEntry entry = converter.getCanonicalEntryFromDocument(document);
         assertNotNull(entry.getCanonicalProtein());
         assertEquals("UP000478052", entry.getProteomeId());
         assertEquals("A0A6G0Z6X6", entry.getCanonicalProtein().getId());
@@ -134,7 +135,7 @@ class GeneCentricJobIT {
     }
 
     private void returnsCanonicalWithoutRelated(
-            ObjectMapper objectMapper, List<GeneCentricDocument> savedDocuments) {
+            GeneCentricDocumentConverter converter, List<GeneCentricDocument> savedDocuments) {
         GeneCentricDocument document =
                 savedDocuments.stream()
                         .filter(doc -> doc.getAccession().equals("A0A6G0ZDD9"))
@@ -144,24 +145,12 @@ class GeneCentricJobIT {
         assertEquals("A0A6G0ZDD9", document.getAccession());
         assertNotNull(document.getGeneCentricStored());
 
-        GeneCentricEntry entry = getGeneCentricEntry(objectMapper, document.getGeneCentricStored());
+        GeneCentricEntry entry = converter.getCanonicalEntryFromDocument(document);
         assertNotNull(entry.getCanonicalProtein());
         assertEquals("UP000478052", entry.getProteomeId());
         assertEquals("A0A6G0ZDD9", entry.getCanonicalProtein().getId());
 
         assertNotNull(entry.getRelatedProteins());
         assertTrue(entry.getRelatedProteins().isEmpty());
-    }
-
-    private GeneCentricEntry getGeneCentricEntry(
-            ObjectMapper objectMapper, byte[] geneCentricStored) {
-        // convert the binary to disease object
-        GeneCentricEntry entry = null;
-        try {
-            entry = objectMapper.readValue(geneCentricStored, GeneCentricEntry.class);
-        } catch (IOException e) {
-            fail("Unable to parse gene centric json");
-        }
-        return entry;
     }
 }

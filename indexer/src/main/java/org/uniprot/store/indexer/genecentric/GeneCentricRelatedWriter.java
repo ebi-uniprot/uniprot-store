@@ -7,9 +7,10 @@ import org.springframework.batch.item.ItemWriter;
 import org.uniprot.core.genecentric.GeneCentricEntry;
 import org.uniprot.core.genecentric.impl.GeneCentricEntryBuilder;
 import org.uniprot.store.indexer.common.config.UniProtSolrClient;
-import org.uniprot.store.job.common.DocumentConversionException;
 import org.uniprot.store.search.SolrCollection;
-import org.uniprot.store.search.document.proteome.GeneCentricDocument;
+import org.uniprot.store.search.document.DocumentConversionException;
+import org.uniprot.store.search.document.genecentric.GeneCentricDocument;
+import org.uniprot.store.search.document.genecentric.GeneCentricDocumentConverter;
 
 /**
  * @author lgonzales

@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.batch.item.ItemWriter;
 import org.uniprot.store.indexer.common.config.UniProtSolrClient;
 import org.uniprot.store.search.SolrCollection;
-import org.uniprot.store.search.document.proteome.GeneCentricDocument;
+import org.uniprot.store.search.document.genecentric.GeneCentricDocument;
 
 /**
  * @author jluo
