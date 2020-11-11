@@ -1,9 +1,9 @@
-package org.uniprot.store.indexer.literature.reader;
+package org.uniprot.store.indexer.common.config;
 
 import org.springframework.batch.item.file.separator.SuffixRecordSeparatorPolicy;
 
 /** @author lgonzales */
-public class LiteratureRecordSeparatorPolicy extends SuffixRecordSeparatorPolicy {
+public class FlatFileRecordSeparatorPolicy extends SuffixRecordSeparatorPolicy {
 
     private String suffix;
 

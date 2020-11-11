@@ -23,8 +23,8 @@ import org.uniprot.core.xml.proteome.ProteomeConverter;
 import org.uniprot.cv.taxonomy.TaxonomicNode;
 import org.uniprot.cv.taxonomy.TaxonomyRepo;
 import org.uniprot.store.indexer.util.TaxonomyRepoUtil;
-import org.uniprot.store.job.common.DocumentConversionException;
-import org.uniprot.store.job.common.converter.DocumentConverter;
+import org.uniprot.store.search.document.DocumentConversionException;
+import org.uniprot.store.search.document.DocumentConverter;
 import org.uniprot.store.search.document.proteome.ProteomeDocument;
 
 import com.fasterxml.jackson.core.JsonProcessingException;

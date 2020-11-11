@@ -25,7 +25,7 @@ import org.uniprot.core.uniprotkb.evidence.Evidence;
 import org.uniprot.core.uniprotkb.evidence.EvidenceCode;
 import org.uniprot.core.uniprotkb.evidence.impl.EvidenceBuilder;
 import org.uniprot.core.uniprotkb.impl.*;
-import org.uniprot.store.job.common.DocumentConversionException;
+import org.uniprot.store.search.document.DocumentConversionException;
 import org.uniprot.store.search.document.uniprot.UniProtDocument;
 
 /**

@@ -33,7 +33,6 @@ import org.uniprot.store.indexer.test.config.FakeIndexerSpringBootApplication;
 import org.uniprot.store.indexer.test.config.SolrTestConfig;
 import org.uniprot.store.job.common.listener.ListenerConfig;
 import org.uniprot.store.search.SolrCollection;
-import org.uniprot.store.search.document.proteome.GeneCentricDocument;
 import org.uniprot.store.search.document.proteome.ProteomeDocument;
 import org.uniprot.store.search.document.suggest.SuggestDocument;
 
@@ -75,14 +74,6 @@ class ProteomeIndexIT {
         assertThat(response.size(), is(6));
 
         response.forEach(val -> verifyProteome(val));
-
-        List<GeneCentricDocument> response2 =
-                solrOperations.query(
-                        SolrCollection.genecentric,
-                        new SolrQuery("*:*").setRows(2500),
-                        GeneCentricDocument.class);
-        assertThat(response2, is(notNullValue()));
-        assertThat(response2.size(), is(2192));
 
         checkSuggestionIndexingStep(jobExecution.getStepExecutions());
     }

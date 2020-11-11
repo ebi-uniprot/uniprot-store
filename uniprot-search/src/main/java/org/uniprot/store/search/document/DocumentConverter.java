@@ -1,7 +1,4 @@
-package org.uniprot.store.job.common.converter;
-
-import org.uniprot.store.job.common.DocumentConversionException;
-import org.uniprot.store.search.document.Document;
+package org.uniprot.store.search.document;
 
 /**
  * Convert from the source object to ONE type of the Document.
