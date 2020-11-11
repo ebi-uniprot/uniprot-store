@@ -12,5 +12,6 @@ public enum UniProtDataType {
     TAXONOMY,
     UNIPARC,
     UNIPROTKB,
-    UNIREF
+    UNIREF,
+    UNIRULE
 }
