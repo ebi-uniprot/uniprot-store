@@ -1,7 +1,7 @@
 [
   {
     "id": "id",
-    "fieldName": "id",
+    "fieldName": "unirule_id",
     "fieldType": "GENERAL",
     "dataType": "STRING",
     "validRegex": "^UR[0-9]{9}$",
@@ -29,20 +29,20 @@
     "example": "ydj1"
   },
   {
-    "id": "organism_name_field",
+    "id": "organism_field",
     "label": "Organism [OS]",
     "dataType": "STRING",
-    "fieldName": "organism_name",
+    "fieldName": "organism",
     "fieldType": "GENERAL",
     "itemType": "SINGLE",
     "description": "Search by Organism name",
     "example": "saccharomyces"
   },
   {
-    "id": "taxonomy_name_field",
+    "id": "taxonomy_field",
     "label": "Taxonomy [OC]",
     "dataType": "STRING",
-    "fieldName": "taxonomy_name",
+    "fieldName": "taxonomy",
     "fieldType": "GENERAL",
     "itemType": "SINGLE",
     "description": "Search by NCBI taxonomy",
@@ -87,232 +87,6 @@
     "dataType": "STRING",
     "description": "Search by condition value",
     "example": "sample condition value"
-  },
-  {
-    "label": "Function",
-    "itemType": "GROUP",
-    "id": "function"
-  },
-  {
-    "parentId": "function",
-    "childNumber": 0,
-    "label": "Enzyme classification [EC]",
-    "id": "ec",
-    "fieldName": "ec",
-    "itemType": "SINGLE",
-    "fieldType": "GENERAL",
-    "dataType": "STRING",
-    "description": "Search by Enzyme EC number",
-    "autoComplete": "/uniprot/api/suggester?dict=ec&query=?",
-    "autoCompleteQueryField": "ec",
-    "example": "1.1.2.3"
-  },
-  {
-    "parentId": "function",
-    "childNumber": 1,
-    "label": "Cofactors",
-    "itemType": "GROUP",
-    "id": "cofactors"
-  },
-  {
-    "parentId": "cofactors",
-    "childNumber": 0,
-    "id": "cc_cofactor_chebi",
-    "fieldName": "cc_cofactor_chebi",
-    "itemType": "SINGLE",
-    "fieldType": "GENERAL",
-    "dataType": "STRING",
-    "description": "Search by cofactor chebi ",
-    "autoComplete": "/uniprot/api/suggester?dict=chebi&query=?",
-    "autoCompleteQueryField": "cc_cofactor_chebi",
-    "example": "29105"
-  },
-  {
-    "parentId": "cofactors",
-    "childNumber": 1,
-    "id": "cc_cofactor_note",
-    "fieldName": "cc_cofactor_note",
-    "itemType": "SINGLE",
-    "fieldType": "GENERAL",
-    "dataType": "STRING",
-    "description": "Search by cofactor note",
-    "example": "subunit"
-  },
-  {
-    "parentId": "function",
-    "childNumber": 2,
-    "id": "cc_catalytic_activity_field",
-    "itemType": "SINGLE",
-    "fieldName": "cc_catalytic_activity",
-    "fieldType": "GENERAL",
-    "dataType": "STRING",
-    "autoComplete": "/uniprot/api/suggester?dict=catalytic_activity&query=?",
-    "autoCompleteQueryField": "cc_catalytic_activity",
-    "description": "Search by comment catalytic activity",
-    "example": "tyrosine"
-  },
-  {
-    "parentId": "function",
-    "childNumber": 3,
-    "id": "cc_activity_regulation",
-    "itemType": "SINGLE",
-    "fieldName": "cc_activity_regulation",
-    "fieldType": "GENERAL",
-    "dataType": "STRING",
-    "description": "Search by comment activity regulation",
-    "example": "inhibited"
-  },
-  {
-    "parentId": "function",
-    "childNumber": 4,
-    "label": "Sites",
-    "id": "sites",
-    "itemType": "GROUP"
-  },
-  {
-    "parentId": "sites",
-    "childNumber": 0,
-    "label": "Any",
-    "id": "sites_any",
-    "itemType": "SIBLING_GROUP"
-  },
-  {
-    "parentId": "sites_any",
-    "childNumber": 0,
-    "id": "ft_sites",
-    "itemType": "SINGLE",
-    "fieldName": "ft_sites",
-    "fieldType": "GENERAL",
-    "dataType": "STRING",
-    "description": "Search by feature sites",
-    "example": "translocation"
-  },
-  {
-    "parentId": "sites_any",
-    "childNumber": 1,
-    "id": "ftlen_sites",
-    "itemType": "SINGLE",
-    "fieldName": "ftlen_sites",
-    "fieldType": "RANGE",
-    "dataType": "INTEGER",
-    "description": "Search feature sites within range",
-    "example": "[0 TO 100]"
-  },
-  {
-    "parentId": "sites",
-    "childNumber": 1,
-    "label": "Active site",
-    "id": "sites_active_site",
-    "itemType": "SIBLING_GROUP"
-  },
-  {
-    "parentId": "sites_active_site",
-    "childNumber": 0,
-    "id": "ft_act_site",
-    "itemType": "SINGLE",
-    "fieldName": "ft_act_site",
-    "dataType": "STRING",
-    "fieldType": "GENERAL",
-    "description": "Search by feature  active site",
-    "example": "phosphocysteine"
-  },
-  {
-    "parentId": "sites_active_site",
-    "childNumber": 1,
-    "id": "ftlen_act_site",
-    "itemType": "SINGLE",
-    "fieldName": "ftlen_act_site",
-    "dataType": "INTEGER",
-    "fieldType": "RANGE",
-    "description": "Search feature  active site within range",
-    "example": "[0 TO 100]"
-  },
-  {
-    "parentId": "sites",
-    "childNumber": 2,
-    "label": "Metal binding",
-    "id": "sites_metal_binding",
-    "itemType": "SIBLING_GROUP"
-  },
-  {
-    "parentId": "sites_metal_binding",
-    "childNumber": 0,
-    "id": "ft_metal",
-    "itemType": "SINGLE",
-    "fieldName": "ft_metal",
-    "fieldType": "GENERAL",
-    "dataType": "STRING",
-    "description": "Search by feature metal binding",
-    "example": "phosphocysteine"
-  },
-  {
-    "parentId": "sites_metal_binding",
-    "childNumber": 1,
-    "id": "ftlen_metal",
-    "itemType": "SINGLE",
-    "fieldName": "ftlen_metal",
-    "fieldType": "RANGE",
-    "dataType": "INTEGER",
-    "description": "Search feature metal binding within range",
-    "example": "[0 TO 100]"
-  },
-  {
-    "parentId": "sites",
-    "childNumber": 3,
-    "label": "Binding site",
-    "id": "sites_binding_site",
-    "itemType": "SIBLING_GROUP"
-  },
-  {
-    "parentId": "sites_binding_site",
-    "childNumber": 0,
-    "id": "ft_binding",
-    "itemType": "SINGLE",
-    "fieldName": "ft_binding",
-    "fieldType": "GENERAL",
-    "dataType": "STRING",
-    "description": "Search by feature binding site",
-    "example": "phosphocysteine"
-  },
-  {
-    "parentId": "sites_binding_site",
-    "childNumber": 1,
-    "id": "ftlen_binding",
-    "itemType": "SINGLE",
-    "fieldName": "ftlen_binding",
-    "fieldType": "RANGE",
-    "dataType": "INTEGER",
-    "description": "Search feature binding site within range",
-    "example": "[0 TO 100]"
-  },
-  {
-    "parentId": "sites",
-    "childNumber": 4,
-    "label": "Other",
-    "id": "sites_other",
-    "itemType": "SIBLING_GROUP"
-  },
-  {
-    "parentId": "sites_other",
-    "childNumber": 0,
-    "id": "ft_site",
-    "itemType": "SINGLE",
-    "fieldName": "ft_site",
-    "fieldType": "GENERAL",
-    "dataType": "STRING",
-    "description": "Search by feature other site",
-    "example": "phosphocysteine"
-  },
-  {
-    "parentId": "sites_other",
-    "childNumber": 1,
-    "id": "ftlen_site",
-    "itemType": "SINGLE",
-    "fieldName": "ftlen_site",
-    "fieldType": "RANGE",
-    "dataType": "INTEGER",
-    "description": "Search feature other site within range",
-    "example": "[0 TO 100]"
   },
   {
     "id": "content",

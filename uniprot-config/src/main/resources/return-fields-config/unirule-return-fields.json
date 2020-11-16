@@ -1,0 +1,128 @@
+[
+  {
+    "seqNumber": 0,
+    "itemType": "GROUP",
+    "groupName": "UniRule",
+    "isDatabaseGroup": false,
+    "id": "unirule"
+  },
+  {
+    "parentId": "unirule",
+    "childNumber": 0,
+    "itemType": "SINGLE",
+    "includeInSwagger": true,
+    "isRequiredForJson": true,
+    "isDefaultForTsv": true,
+    "defaultForTsvOrder" : 1,
+    "label": "UniRule ID",
+    "name": "uniRuleId",
+    "paths" : ["uniRuleId"],
+    "id": "unirule_id"
+  },
+  {
+    "parentId": "unirule",
+    "childNumber": 1,
+    "itemType": "SINGLE",
+    "includeInSwagger": true,
+    "isDefaultForTsv": true,
+    "defaultForTsvOrder" : 0,
+    "label": "Information",
+    "name": "information",
+    "paths" : ["information"],
+    "id": "unirule/information"
+  },
+  {
+    "parentId": "unirule",
+    "childNumber": 2,
+    "itemType": "SINGLE",
+    "includeInSwagger": true,
+    "isDefaultForTsv": true,
+    "defaultForTsvOrder" : 2,
+    "label": "Rule Status",
+    "name": "ruleStatus",
+    "paths" : ["ruleStatus"],
+    "id": "unirule/status"
+  },
+  {
+    "parentId": "unirule",
+    "childNumber": 3,
+    "itemType": "SINGLE",
+    "includeInSwagger": true,
+    "isDefaultForTsv": true,
+    "defaultForTsvOrder" : 3,
+    "label": "Main Rule",
+    "name": "mainRule",
+    "paths" : ["mainRule"],
+    "id": "unirule/mainRule"
+  },
+  {
+    "parentId": "unirule",
+    "childNumber": 4,
+    "itemType": "SINGLE",
+    "includeInSwagger": true,
+    "label": "Other Rules",
+    "name": "otherRules",
+    "paths" : ["otherRules"],
+    "id": "unirule/otherRules"
+  },
+  {
+    "parentId": "unirule",
+    "childNumber": 5,
+    "itemType": "SINGLE",
+    "includeInSwagger": true,
+    "label": "SAM Feature Sets",
+    "name": "samFeatureSets",
+    "paths" : ["samFeatureSets"],
+    "id": "unirule/samFeatureSets"
+  },
+  {
+    "parentId": "unirule",
+    "childNumber": 6,
+    "itemType": "SINGLE",
+    "includeInSwagger": true,
+    "label": "positionFeatureSets",
+    "name": "positionFeatureSets",
+    "paths" : ["positionFeatureSets"],
+    "id": "unirule/positionFeatureSets"
+  },
+  {
+    "parentId": "unirule",
+    "childNumber": 7,
+    "itemType": "SINGLE",
+    "includeInSwagger": true,
+    "label": "Created By",
+    "name": "createdBy",
+    "paths" : ["createdBy"],
+    "id": "unirule/createdBy"
+  },
+  {
+    "parentId": "unirule",
+    "childNumber": 8,
+    "itemType": "SINGLE",
+    "includeInSwagger": true,
+    "label": "Modified By",
+    "name": "modifiedBy",
+    "paths" : ["modifiedBy"],
+    "id": "unirule/modifiedBy"
+  },
+  {
+    "parentId": "unirule",
+    "childNumber": 9,
+    "itemType": "SINGLE",
+    "includeInSwagger": true,
+    "label": "Created Date",
+    "name": "createdDate",
+    "paths" : ["createdDate"],
+    "id": "unirule/createdDate"
+  },
+  {
+    "parentId": "unirule",
+    "childNumber": 10,
+    "itemType": "SINGLE",
+    "includeInSwagger": true,
+    "label": "Modified Date",
+    "name": "modifiedDate",
+    "paths" : ["modifiedDate"],
+    "id": "unirule/modifiedDate"
+  }
+]

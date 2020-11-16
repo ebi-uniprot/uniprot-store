@@ -47,4 +47,13 @@ class ReturnFieldConfigFactoryTest {
                 .values()
                 .forEach((fields) -> assertThat(fields, hasSize(greaterThan(0))));
     }
+
+    @Test
+    void canCreateUniRuleReturnFieldConfig() {
+        ReturnFieldConfig config =
+                ReturnFieldConfigFactory.getReturnFieldConfig(UniProtDataType.UNIRULE);
+        assertThat(config, is(notNullValue()));
+        assertThat(config.getAllFields(), hasSize(12));
+        assertThat(config.getReturnFields(), hasSize(11));
+    }
 }
