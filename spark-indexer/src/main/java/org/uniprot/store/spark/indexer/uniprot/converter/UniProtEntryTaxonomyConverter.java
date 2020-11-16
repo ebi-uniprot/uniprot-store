@@ -1,12 +1,12 @@
 package org.uniprot.store.spark.indexer.uniprot.converter;
 
-import static org.uniprot.core.util.Utils.*;
-
-import java.util.List;
-
 import org.uniprot.core.uniprotkb.taxonomy.Organism;
 import org.uniprot.core.uniprotkb.taxonomy.OrganismHost;
 import org.uniprot.store.search.document.uniprot.UniProtDocument;
+
+import java.util.List;
+
+import static org.uniprot.core.util.Utils.notNull;
 
 /**
  * @author lgonzales
@@ -18,7 +18,6 @@ class UniProtEntryTaxonomyConverter {
         if (notNull(organism)) {
             int taxonomyId = Math.toIntExact(organism.getTaxonId());
             document.organismTaxId = taxonomyId;
-            document.content.add(String.valueOf(taxonomyId));
         }
     }
 
@@ -27,7 +26,6 @@ class UniProtEntryTaxonomyConverter {
                 host -> {
                     int taxonomyId = Math.toIntExact(host.getTaxonId());
                     document.organismHostIds.add(taxonomyId);
-                    document.content.add(String.valueOf(taxonomyId));
                 });
     }
 }

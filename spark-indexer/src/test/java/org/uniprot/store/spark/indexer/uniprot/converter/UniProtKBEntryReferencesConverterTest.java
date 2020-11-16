@@ -1,7 +1,6 @@
 package org.uniprot.store.spark.indexer.uniprot.converter;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.time.LocalDate;
 import java.time.Month;
@@ -53,26 +52,6 @@ class UniProtKBEntryReferencesConverterTest {
                 new HashSet<>(Arrays.asList("one reference comment", "two reference comment")),
                 document.rcPlasmid);
         assertEquals(new HashSet<>(Arrays.asList("one position", "two position")), document.scopes);
-
-        // content field
-        assertEquals(
-                new HashSet<>(
-                        Arrays.asList(
-                                "one  author",
-                                "two  author",
-                                "one  tittle",
-                                "two  tittle",
-                                "one journal name",
-                                "two journal name",
-                                "one auth group",
-                                "two auth group",
-                                "oneid",
-                                "twoid",
-                                "one reference comment",
-                                "two reference comment",
-                                "one position",
-                                "two position")),
-                document.content);
     }
 
     @Test
@@ -88,7 +67,6 @@ class UniProtKBEntryReferencesConverterTest {
         assertEquals(
                 new HashSet<>(Collections.singletonList("one reference comment")),
                 document.rcTissue);
-        assertTrue(document.content.contains("one reference comment"));
     }
 
     @Test
@@ -104,7 +82,6 @@ class UniProtKBEntryReferencesConverterTest {
         assertEquals(
                 new HashSet<>(Collections.singletonList("one reference comment")),
                 document.rcStrain);
-        assertTrue(document.content.contains("one reference comment"));
     }
 
     @Test
@@ -121,7 +98,6 @@ class UniProtKBEntryReferencesConverterTest {
         assertEquals(
                 new HashSet<>(Collections.singletonList("one reference comment")),
                 document.rcTransposon);
-        assertTrue(document.content.contains("one reference comment"));
     }
 
     private static UniProtKBReference getUniProtReference(

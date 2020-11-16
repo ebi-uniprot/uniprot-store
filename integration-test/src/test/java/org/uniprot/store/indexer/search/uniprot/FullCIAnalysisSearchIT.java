@@ -46,7 +46,7 @@ class FullCIAnalysisSearchIT {
             asList("P0A377.43", "P51587", "Q6GZV4.23", "Q197D8.25", "Q197F8.16");
     private static UniProtEntryObjectProxy entryProxy;
     private static int accessionId = 0;
-    private List<String> tempSavedEntries = new ArrayList<>();
+    private final List<String> tempSavedEntries = new ArrayList<>();
 
     @BeforeAll
     static void populateIndexWithTestData() throws IOException {
@@ -75,7 +75,7 @@ class FullCIAnalysisSearchIT {
         String accession = newAccession();
         String fieldValue = "hello world";
 
-        String query = fieldPhraseQuery(field.name(), fieldValue);
+        String query = fieldPhraseQuery(field.getQueryField(), fieldValue);
 
         new EntryCheck()
                 .withAccession(accession)
@@ -84,14 +84,13 @@ class FullCIAnalysisSearchIT {
                 .canBeFound(field);
     }
 
-    @Disabled
     @ParameterizedTest
     @EnumSource(FieldType.class)
     void canFindExactPhraseContainingCommasNumbersBracesAndSlashes(FieldType field) {
         String accession = newAccession();
         String fieldValue =
-                "Influenza A, virus (strain A/Goose/Guangdong/1/1996 H5N1 genotype Gs/Gd)";
-        String query = fieldPhraseQuery(field.name(), fieldValue);
+                "Putative tRNA-(Ms(2)io(6)a)-hydroxylase";
+        String query = fieldPhraseQuery(field.getQueryField(), fieldValue);
 
         new EntryCheck()
                 .withAccession(accession)
@@ -100,7 +99,6 @@ class FullCIAnalysisSearchIT {
                 .canBeFound(field);
     }
 
-    @Disabled
     @ParameterizedTest
     @EnumSource(FieldType.class)
     void canFindPhraseContainingCommasNumbersBracesAndSlashes(FieldType field) {
@@ -109,7 +107,39 @@ class FullCIAnalysisSearchIT {
         String indexFieldValue = "Influenza A, virus (strain A/Goose/Guangdong/1/1996 H5N1";
         String queryFieldValue = "strain A/Goose/Guangdong/1/1996 H5N1";
 
-        String query = fieldPhraseQuery(field.name(), queryFieldValue);
+        String query = fieldPhraseQuery(field.getQueryField(), queryFieldValue);
+
+        new EntryCheck()
+                .withAccession(accession)
+                .withFieldValue(indexFieldValue)
+                .usingQuery(query)
+                .canBeFound(field);
+    }
+
+    @ParameterizedTest
+    @EnumSource(FieldType.class)
+    void canFindPhraseContainingExactCamelCaseQuery(FieldType field) {
+        String accession = newAccession();
+
+        String fieldValue = "Keratin, type I microfibrillar 48 kDa, component 8C-1";
+        String query = fieldPhraseQuery(field.getQueryField(), fieldValue);
+
+        new EntryCheck()
+                .withAccession(accession)
+                .withFieldValue(fieldValue)
+                .usingQuery(query)
+                .canBeFound(field);
+    }
+
+    @ParameterizedTest
+    @EnumSource(FieldType.class)
+    void canFindPhraseContainingCamelCaseQuery(FieldType field) {
+        String accession = newAccession();
+
+        String indexFieldValue = "Keratin, type I microfibrillar 48 kDa, component 8C-1";
+        String queryFieldValue = "Keratin, type I microfibrillar 48 kDa, component";
+
+        String query = fieldPhraseQuery(field.getQueryField(), queryFieldValue);
 
         new EntryCheck()
                 .withAccession(accession)
@@ -123,7 +153,7 @@ class FullCIAnalysisSearchIT {
     void canFindProblematicBaseCasePhraseQuery(FieldType field) {
         String accession = newAccession();
         String fieldValue = "1a b2";
-        String query = fieldPhraseQuery(field.name(), fieldValue);
+        String query = fieldPhraseQuery(field.getQueryField(), fieldValue);
 
         new EntryCheck()
                 .withAccession(accession)
@@ -138,7 +168,7 @@ class FullCIAnalysisSearchIT {
         String accession = newAccession();
         String indexFieldValue = "Note=Translated";
         String queryFieldValue = "Translated";
-        String query = fieldPhraseQuery(field.name(), queryFieldValue);
+        String query = fieldPhraseQuery(field.getQueryField(), queryFieldValue);
 
         new EntryCheck()
                 .withAccession(accession)
@@ -153,7 +183,7 @@ class FullCIAnalysisSearchIT {
     void canFindSingleExactValue(FieldType field) {
         String accession = newAccession();
         String fieldValue = "Aspartate";
-        String query = fieldQuery(field.name(), fieldValue);
+        String query = fieldQuery(field.getQueryField(), fieldValue);
 
         new EntryCheck()
                 .withAccession(accession)
@@ -164,10 +194,54 @@ class FullCIAnalysisSearchIT {
 
     @ParameterizedTest
     @EnumSource(FieldType.class)
+    void canFindComplexBracketeProteinName(FieldType field) {
+        String accession = newAccession();
+        String fieldValue = "Putative tRNA-(Ms(2)io(6)a)-hydroxylase";
+        String query = fieldQuery(field.getQueryField(), fieldValue);
+
+        new EntryCheck()
+                .withAccession(accession)
+                .withFieldValue(fieldValue)
+                .usingQuery(query)
+                .canBeFound(field);
+    }
+
+    @ParameterizedTest
+    @EnumSource(FieldType.class)
+    void canFindComplexBracketeProteinNameViaBracketedPart(FieldType field) {
+        String accession = newAccession();
+        String indexFieldValue = "Putative tRNA-(Ms(2)io(6)a)-hydroxylase";
+        String queryFieldValue = "(Ms(2)io(6)a)";
+        String query = fieldQuery(field.getQueryField(), queryFieldValue);
+
+        new EntryCheck()
+                .withAccession(accession)
+                .withFieldValue(indexFieldValue)
+                .usingQuery(query)
+                .canBeFound(field);
+    }
+
+    @ParameterizedTest
+    @EnumSource(FieldType.class)
+    void canFindComplexBracketeProteinNameViaLastPart(FieldType field) {
+        String accession = newAccession();
+        String indexFieldValue = "Putative tRNA-(Ms(2)io(6)a)-hydroxylase";
+        String queryFieldValue = "hydroxylase";
+        String query = fieldQuery(field.getQueryField(), queryFieldValue);
+
+        new EntryCheck()
+                .withAccession(accession)
+                .withFieldValue(indexFieldValue)
+                .usingQuery(query)
+                .canBeFound(field);
+    }
+
+    @ParameterizedTest
+    @EnumSource(FieldType.class)
     void canFindSingleExactValueWithTerminatingSemiColon(FieldType field) {
         String accession = newAccession();
         String fieldValue = "Aspartate;";
-        String query = fieldQuery(field.name(), fieldValue);
+        String query = fieldQuery(field.getQueryField(), fieldValue);
 
         new EntryCheck()
                 .withAccession(accession)
@@ -182,7 +256,7 @@ class FullCIAnalysisSearchIT {
         String accession = newAccession();
         String indexFieldValue = "Aspartate;";
         String queryFieldValue = "Aspartate";
-        String query = fieldQuery(field.name(), queryFieldValue);
+        String query = fieldQuery(field.getQueryField(), queryFieldValue);
 
         new EntryCheck()
                 .withAccession(accession)
@@ -197,7 +271,7 @@ class FullCIAnalysisSearchIT {
         String accession = newAccession();
         String indexFieldValue = "Aspartate";
         String queryFieldValue = "Aspartate;";
-        String query = fieldQuery(field.name(), queryFieldValue);
+        String query = fieldQuery(field.getQueryField(), queryFieldValue);
 
         new EntryCheck()
                 .withAccession(accession)
@@ -212,7 +286,7 @@ class FullCIAnalysisSearchIT {
     void canFindExactValue(FieldType field) {
         String accession = newAccession();
         String fieldValue = "Aspartate aminotransferase";
-        String query = fieldQuery(field.name(), fieldValue);
+        String query = fieldQuery(field.getQueryField(), fieldValue);
 
         new EntryCheck()
                 .withAccession(accession)
@@ -226,7 +300,7 @@ class FullCIAnalysisSearchIT {
     void canFindComplexFieldUsingExactValue(FieldType field) {
         String accession = newAccession();
         String fieldValue = "(+)-car-3-ene synthase";
-        String query = fieldQuery(field.name(), fieldValue);
+        String query = fieldQuery(field.getQueryField(), fieldValue);
 
         new EntryCheck()
                 .withAccession(accession)
@@ -241,7 +315,7 @@ class FullCIAnalysisSearchIT {
         String accession = newAccession();
         String indexFieldValue = "(+)-car-3-ene synthase";
         String queryFieldValue = "3-ene synthase";
-        String query = fieldQuery(field.name(), queryFieldValue);
+        String query = fieldQuery(field.getQueryField(), queryFieldValue);
 
         new EntryCheck()
                 .withAccession(accession)
@@ -255,7 +329,7 @@ class FullCIAnalysisSearchIT {
     void canFindExactValueWithTerminatingSemiColon(FieldType field) {
         String accession = newAccession();
         String fieldValue = "Aspartate aminotransferase;";
-        String query = fieldQuery(field.name(), fieldValue);
+        String query = fieldQuery(field.getQueryField(), fieldValue);
 
         new EntryCheck()
                 .withAccession(accession)
@@ -270,7 +344,7 @@ class FullCIAnalysisSearchIT {
         String accession = newAccession();
         String indexFieldValue = "Aspartate aminotransferase;";
         String queryFieldValue = "Aspartate aminotransferase";
-        String query = fieldQuery(field.name(), queryFieldValue);
+        String query = fieldQuery(field.getQueryField(), queryFieldValue);
 
         new EntryCheck()
                 .withAccession(accession)
@@ -285,7 +359,7 @@ class FullCIAnalysisSearchIT {
         String accession = newAccession();
         String indexFieldValue = "Aspartate aminotransferase";
         String queryFieldValue = "aminotransferase Aspartate";
-        String query = fieldQuery(field.name(), queryFieldValue);
+        String query = fieldQuery(field.getQueryField(), queryFieldValue);
 
         new EntryCheck()
                 .withAccession(accession)
@@ -300,7 +374,7 @@ class FullCIAnalysisSearchIT {
         String accession = newAccession();
         String indexFieldValue = "Aspartate aminotransferase";
         String queryFieldValue = "Aspartate aminotransferase;";
-        String query = fieldQuery(field.name(), queryFieldValue);
+        String query = fieldQuery(field.getQueryField(), queryFieldValue);
 
         new EntryCheck()
                 .withAccession(accession)
@@ -315,7 +389,7 @@ class FullCIAnalysisSearchIT {
         String accession = newAccession();
         String indexFieldValue = "Aspartate aminotransferase";
         String queryFieldValue = "Aspartate";
-        String query = fieldQuery(field.name(), queryFieldValue);
+        String query = fieldQuery(field.getQueryField(), queryFieldValue);
 
         new EntryCheck()
                 .withAccession(accession)
@@ -330,7 +404,7 @@ class FullCIAnalysisSearchIT {
         String accession = newAccession();
         String indexFieldValue = "Aspartate aminotransferase;";
         String queryFieldValue = "Aspartate";
-        String query = fieldQuery(field.name(), queryFieldValue);
+        String query = fieldQuery(field.getQueryField(), queryFieldValue);
 
         new EntryCheck()
                 .withAccession(accession)
@@ -345,7 +419,7 @@ class FullCIAnalysisSearchIT {
     void canFindExactValueContainingComma(FieldType field) {
         String accession = newAccession();
         String fieldValue = "Aspartate aminotransferase, mitochondrial";
-        String query = fieldQuery(field.name(), fieldValue);
+        String query = fieldQuery(field.getQueryField(), fieldValue);
 
         new EntryCheck()
                 .withAccession(accession)
@@ -360,7 +434,7 @@ class FullCIAnalysisSearchIT {
         String accession = newAccession();
         String indexFieldValue = "L-topaquinone(1-) residue [79027]";
         String queryFieldValue = "L-topaquinone(1-)";
-        String query = fieldQuery(field.name(), queryFieldValue);
+        String query = fieldQuery(field.getQueryField(), queryFieldValue);
 
         new EntryCheck()
                 .withAccession(accession)
@@ -376,7 +450,7 @@ class FullCIAnalysisSearchIT {
         String accession = newAccession();
         String indexFieldValue = "Aspartate, aminotransferase;";
         String queryFieldValue = "Aspartate";
-        String query = fieldQuery(field.name(), queryFieldValue);
+        String query = fieldQuery(field.getQueryField(), queryFieldValue);
 
         new EntryCheck()
                 .withAccession(accession)
@@ -392,7 +466,7 @@ class FullCIAnalysisSearchIT {
         String accession = newAccession();
         String fieldValue =
                 "Influenza A virus (strain A/Goose/Guangdong/1/1996 H5N1 genotype Gs/Gd)";
-        String query = fieldQuery(field.name(), fieldValue);
+        String query = fieldQuery(field.getQueryField(), fieldValue);
 
         new EntryCheck()
                 .withAccession(accession)
@@ -407,7 +481,7 @@ class FullCIAnalysisSearchIT {
     void canFindValueWithUnderScore(FieldType field) {
         String accession = newAccession();
         String fieldValue = "VARV_IND64_vel4_019";
-        String query = fieldQuery(field.name(), fieldValue);
+        String query = fieldQuery(field.getQueryField(), fieldValue);
 
         new EntryCheck()
                 .withAccession(accession)
@@ -421,7 +495,7 @@ class FullCIAnalysisSearchIT {
     void caseInsensitiveFindValueWithUnderScores(FieldType field) {
         String accession = newAccession();
         String fieldValue = "VARV_IND64_vel4_019";
-        String query = fieldQuery(field.name(), fieldValue.toLowerCase());
+        String query = fieldQuery(field.getQueryField(), fieldValue.toLowerCase());
 
         new EntryCheck()
                 .withAccession(accession)
@@ -435,7 +509,7 @@ class FullCIAnalysisSearchIT {
     void canUseFirstPartOfValueToFindValueWithUnderScores(FieldType field) {
         String accession = newAccession();
         String fieldValue = "VARV_IND64_vel4_019";
-        String query = fieldQuery(field.name(), "VARV");
+        String query = fieldQuery(field.getQueryField(), "VARV");
 
         new EntryCheck()
                 .withAccession(accession)
@@ -449,7 +523,7 @@ class FullCIAnalysisSearchIT {
     void canUseMiddlePartOfValueToFindValueWithUnderScores(FieldType field) {
         String accession = newAccession();
         String fieldValue = "VARV_IND64_vel4_019";
-        String query = fieldQuery(field.name(), "vel4");
+        String query = fieldQuery(field.getQueryField(), "vel4");
 
         new EntryCheck()
                 .withAccession(accession)
@@ -463,7 +537,7 @@ class FullCIAnalysisSearchIT {
     void canUseMiddlePartsOfValueToFindValueWithUnderScores(FieldType field) {
         String accession = newAccession();
         String fieldValue = "VARV_IND64_vel4_019";
-        String query = fieldQuery(field.name(), "IND64_vel4");
+        String query = fieldQuery(field.getQueryField(), "IND64_vel4");
 
         new EntryCheck()
                 .withAccession(accession)
@@ -477,7 +551,7 @@ class FullCIAnalysisSearchIT {
     void canFindValueThatIsOnlyANumber(FieldType field) {
         String accession = newAccession();
         String fieldValue = "62";
-        String query = fieldQuery(field.name(), fieldValue);
+        String query = fieldQuery(field.getQueryField(), fieldValue);
         System.out.println(query);
         new EntryCheck()
                 .withAccession(accession)
@@ -511,7 +585,7 @@ class FullCIAnalysisSearchIT {
         for (String toEscape : valuesThatRequireEscaping) {
             String accession = newAccession();
             String fieldValue = "hi" + toEscape + "world";
-            String query = fieldQuery(field.name(), fieldValue);
+            String query = fieldQuery(field.getQueryField(), fieldValue);
 
             new EntryCheck()
                     .withAccession(accession)
@@ -533,7 +607,7 @@ class FullCIAnalysisSearchIT {
         String accession = newAccession();
         String indexFieldValue = "hemoglobin tumor";
         String queryFieldValue = "haemoglobin tumour";
-        String query = fieldQuery(field.name(), queryFieldValue);
+        String query = fieldQuery(field.getQueryField(), queryFieldValue);
 
         new EntryCheck()
                 .withAccession(accession)
@@ -548,7 +622,53 @@ class FullCIAnalysisSearchIT {
         String accession = newAccession();
         String indexFieldValue = "this was bill's";
         String queryFieldValue = "this was bill";
-        String query = fieldQuery(field.name(), queryFieldValue);
+        String query = fieldQuery(field.getQueryField(), queryFieldValue);
+
+        new EntryCheck()
+                .withAccession(accession)
+                .withFieldValue(indexFieldValue)
+                .usingQuery(query)
+                .canBeFound(field);
+    }
+
+    @ParameterizedTest
+    @EnumSource(FieldType.class)
+    void canFindExactPhraseWithDash(FieldType field) {
+        String accession = newAccession();
+        String fieldValue = "LAGE-1, a new gene with tumor specificity.";
+        String query = fieldPhraseQuery(field.getQueryField(), fieldValue);
+
+        new EntryCheck()
+                .withAccession(accession)
+                .withFieldValue(fieldValue)
+                .usingQuery(query)
+                .canBeFound(field);
+    }
+
+    @ParameterizedTest
+    @EnumSource(FieldType.class)
+    void canFindExactPhraseWithDash2(FieldType field) {
+        String accession = newAccession();
+
+        String indexFieldValue = "Cys-tRNA(Pro)/cys-tRNA(Cys) deacylae";
+        String queryFieldValue = "Cys-tRNA(Pro)";
+        String query = fieldQuery(field.getQueryField(), queryFieldValue);
+
+        new EntryCheck()
+                .withAccession(accession)
+                .withFieldValue(indexFieldValue)
+                .usingQuery(query)
+                .canBeFound(field);
+    }
+
+    @ParameterizedTest
+    @EnumSource(FieldType.class)
+    void canFindExactPhraseWithDash3(FieldType field) {
+        String accession = newAccession();
+
+        String indexFieldValue = "Cys-tRNA(Pro)/cys-tRNA(Cys) deacylae";
+        String queryFieldValue = "Cys-tRNA(Pro)/cys-tRNA(Cys) deacylae";
+        String query = fieldQuery(field.getQueryField(), queryFieldValue);
 
         new EntryCheck()
                 .withAccession(accession)
@@ -591,16 +711,23 @@ class FullCIAnalysisSearchIT {
     }
 
     enum FieldType {
-        gene(STRING_LIST_FUNCTION),
-        organism_name(STRING_LIST_FUNCTION),
-        taxonomy_name(STRING_LIST_FUNCTION),
-        virus_host_name(STRING_LIST_FUNCTION),
-        protein_name(STRING_LIST_FUNCTION);
+        gene(STRING_LIST_FUNCTION, "protgene_default"),
+        organism_name(STRING_LIST_FUNCTION, "organism_name"),
+        taxonomy_name(STRING_LIST_FUNCTION, "taxonomy_name"),
+        virus_host_name(STRING_LIST_FUNCTION, "virus_host_name"),
+        protein_name(STRING_LIST_FUNCTION, "protgene_default");
 
-        private Function<String, ?> field;
+        private final Function<String, ?> field;
 
-        FieldType(Function<String, ?> field) {
+        public String getQueryField() {
+            return queryField;
+        }
+
+        private final String queryField;
+
+        FieldType(Function<String, ?> field, String queryField) {
             this.field = field;
+            this.queryField = queryField;
         }
 
         public Function<String, ?> getType() {

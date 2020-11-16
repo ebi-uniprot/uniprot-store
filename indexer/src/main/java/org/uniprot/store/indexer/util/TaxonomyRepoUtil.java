@@ -43,4 +43,24 @@ public class TaxonomyRepoUtil {
         }
         return taxonmyItems;
     }
+
+    public static List<String> extractTaxonFromNodeNoMnemonic(TaxonomicNode node) {
+        List<String> taxonmyItems = new ArrayList<>();
+        if (node.scientificName() != null && !node.scientificName().isEmpty()) {
+            taxonmyItems.add(node.scientificName());
+        }
+        if (node.commonName() != null && !node.commonName().isEmpty()) {
+            taxonmyItems.add(node.commonName());
+        }
+        if (node.synonymName() != null && !node.synonymName().isEmpty()) {
+            taxonmyItems.add(node.synonymName());
+        }
+        return taxonmyItems;
+    }
+
+    public static String extractMnemonic(TaxonomicNode node) {
+        if (node.mnemonic() != null && !node.mnemonic().isEmpty()) {
+            return node.mnemonic();
+        } else return null;
+    }
 }

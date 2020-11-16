@@ -64,24 +64,22 @@ class TaxonomyEntryToUniProtDocumentTest {
 
         assertNotNull(result);
 
-        assertEquals(4, result.organismName.size());
+        assertEquals(3, result.organismName.size());
         assertTrue(result.organismName.contains("organism scientific name"));
         assertTrue(result.organismName.contains("organism common name"));
-        assertTrue(result.organismName.contains("organism mnemonic"));
         assertTrue(result.organismName.contains("organism synonym"));
 
         assertEquals("organism scientific name organ", result.organismSort);
         assertEquals("Human", result.modelOrganism);
         assertNull(result.otherOrganism);
 
-        assertEquals(8, result.organismTaxon.size());
+        assertEquals(7, result.organismTaxon.size());
         assertTrue(result.organismTaxon.contains("lineage common 1111"));
         assertTrue(result.organismTaxon.contains("lineage scientific 1111"));
         assertTrue(result.organismTaxon.contains("lineage common 2222"));
         assertTrue(result.organismTaxon.contains("lineage scientific 2222"));
         assertTrue(result.organismTaxon.contains("organism scientific name"));
         assertTrue(result.organismTaxon.contains("organism common name"));
-        assertTrue(result.organismTaxon.contains("organism mnemonic"));
         assertTrue(result.organismTaxon.contains("organism synonym"));
 
         assertEquals(3, result.taxLineageIds.size());
@@ -89,7 +87,8 @@ class TaxonomyEntryToUniProtDocumentTest {
         assertTrue(result.taxLineageIds.contains(1111));
         assertTrue(result.taxLineageIds.contains(2222));
 
-        assertEquals(11, result.content.size());
+        assertEquals(10, result.content.size());
+        assertFalse(result.content.contains("organism mnemonic"));
         assertTrue(result.content.containsAll(result.organismTaxon));
         assertTrue(result.content.containsAll(result.organismName));
         assertTrue(result.content.contains("1111"));
@@ -158,18 +157,16 @@ class TaxonomyEntryToUniProtDocumentTest {
 
         assertNotNull(result);
 
-        assertEquals(8, result.content.size());
+        assertEquals(6, result.content.size());
         assertTrue(result.content.containsAll(result.organismHostNames));
         // organism hosts ids is already added to content in entry converter
 
         assertTrue(result.organismHostNames.contains("organism synonym 9000"));
         assertTrue(result.organismHostNames.contains("organism common name 9000"));
-        assertTrue(result.organismHostNames.contains("organism mnemonic 9000"));
         assertTrue(result.organismHostNames.contains("organism scientific name 9000"));
 
         assertTrue(result.organismHostNames.contains("organism synonym 9606"));
         assertTrue(result.organismHostNames.contains("organism common name 9606"));
-        assertTrue(result.organismHostNames.contains("organism mnemonic 9606"));
         assertTrue(result.organismHostNames.contains("organism scientific name 9606"));
     }
 
