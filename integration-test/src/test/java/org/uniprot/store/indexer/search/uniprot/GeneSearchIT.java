@@ -173,7 +173,7 @@ class GeneSearchIT {
         QueryResponse response = searchEngine.getQueryResponse(query);
 
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
-        assertThat(retrievedAccessions, containsInAnyOrder(ACCESSION1, ACCESSION2));
+        assertThat(retrievedAccessions, containsInAnyOrder(ACCESSION1));
     }
 
     @Test
