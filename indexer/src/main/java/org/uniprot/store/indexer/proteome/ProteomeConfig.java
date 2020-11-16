@@ -1,9 +1,6 @@
 package org.uniprot.store.indexer.proteome;
 
 import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 import lombok.Data;
 
@@ -11,7 +8,6 @@ import org.springframework.batch.core.listener.ExecutionContextPromotionListener
 import org.springframework.batch.item.ItemProcessor;
 import org.springframework.batch.item.ItemReader;
 import org.springframework.batch.item.ItemWriter;
-import org.springframework.batch.item.support.CompositeItemWriter;
 import org.springframework.batch.item.xml.StaxEventItemReader;
 import org.springframework.batch.item.xml.builder.StaxEventItemReaderBuilder;
 import org.springframework.beans.factory.annotation.Value;
@@ -26,9 +22,8 @@ import org.uniprot.cv.taxonomy.TaxonomyRepo;
 import org.uniprot.cv.taxonomy.impl.TaxonomyMapRepo;
 import org.uniprot.store.indexer.common.config.UniProtSolrClient;
 import org.uniprot.store.indexer.common.utils.Constants;
-import org.uniprot.store.indexer.genecentric.GeneCentricDocumentWriter;
-import org.uniprot.store.job.common.converter.DocumentConverter;
 import org.uniprot.store.job.common.util.CommonConstants;
+import org.uniprot.store.search.document.DocumentConverter;
 import org.uniprot.store.search.document.proteome.ProteomeDocument;
 
 /**
@@ -45,12 +40,12 @@ public class ProteomeConfig {
     private String taxonomyFile;
 
     @Bean(name = "proteomeXmlReader")
-    public ItemReader<Proteome> proteomeReader() throws IOException {
+    public ItemReader<Proteome> proteomeReader() {
         return new ProteomeXmlEntryReader(proteomeXmlFilename);
     }
 
     @Bean(name = "proteomeXmlReader2")
-    public StaxEventItemReader<Proteome> proteomeReader2() throws IOException {
+    public StaxEventItemReader<Proteome> proteomeReader2() {
         return new StaxEventItemReaderBuilder<Proteome>()
                 .name("proteomeXmlReader2")
                 .resource(new FileSystemResource(proteomeXmlFilename))
@@ -76,29 +71,12 @@ public class ProteomeConfig {
         return new ProteomeDocumentWriter(proteomeEntryProcessor(), solrOperations);
     }
 
-    @Bean(name = "geneCentricItemWriter")
-    public ItemWriter<Proteome> geneCentricItemWriter(UniProtSolrClient solrOperations) {
-        return new GeneCentricDocumentWriter(solrOperations);
-    }
-
     private DocumentConverter<Proteome, ProteomeDocument> proteomeEntryConverter() {
         return new ProteomeEntryConverter(createTaxonomyRepo());
     }
 
     private TaxonomyRepo createTaxonomyRepo() {
         return new TaxonomyMapRepo(new FileNodeIterable(new File(taxonomyFile)));
-    }
-
-    @Bean(name = "proteomeGeneCentricItemWriter")
-    public CompositeItemWriter<Proteome> proteomeCompositeWriter(UniProtSolrClient solrOperations) {
-        CompositeItemWriter<Proteome> compositeWriter = new CompositeItemWriter<>();
-        ItemWriter<Proteome> proteomeWriter = proteomeItemWriter(solrOperations);
-        ItemWriter<Proteome> geneCentricWriter = geneCentricItemWriter(solrOperations);
-        List<ItemWriter<? super Proteome>> writers = new ArrayList<>();
-        writers.add(proteomeWriter);
-        writers.add(geneCentricWriter);
-        compositeWriter.setDelegates(writers);
-        return compositeWriter;
     }
 
     @Bean

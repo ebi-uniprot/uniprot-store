@@ -15,7 +15,8 @@ import org.uniprot.core.fasta.ProteinFasta;
 import org.uniprot.core.genecentric.GeneCentricEntry;
 import org.uniprot.core.genecentric.Protein;
 import org.uniprot.core.json.parser.genecentric.GeneCentricJsonConfig;
-import org.uniprot.store.search.document.proteome.GeneCentricDocument;
+import org.uniprot.store.search.document.genecentric.GeneCentricDocument;
+import org.uniprot.store.search.document.genecentric.GeneCentricDocumentConverter;
 import org.uniprot.store.spark.indexer.common.JobParameter;
 import org.uniprot.store.spark.indexer.common.util.SparkUtils;
 
@@ -30,6 +31,7 @@ class GeneCentricDocumentsToHDFSWriterTest {
     @Test
     void writeIndexDocumentsToHDFS() throws IOException {
         ObjectMapper objectMapper = GeneCentricJsonConfig.getInstance().getFullObjectMapper();
+        GeneCentricDocumentConverter converter = new GeneCentricDocumentConverter(objectMapper);
         ResourceBundle application = SparkUtils.loadApplicationProperty();
         try (JavaSparkContext sparkContext = SparkUtils.loadSparkContext(application)) {
             JobParameter parameter =
@@ -47,18 +49,18 @@ class GeneCentricDocumentsToHDFSWriterTest {
             assertEquals(40, savedDocuments.size());
 
             // UP000000554 join worked canonical: O51971 related: O51971
-            returnsCanonicalWithRelated(objectMapper, savedDocuments);
+            returnsCanonicalWithRelated(converter, savedDocuments);
 
             // UP000478052 join worked canonical: A0A6G0Z6X6, related:A0A6G0Z6T5, A0A6G0Z7D3
-            returnCanonicalWithMultipleRelated(objectMapper, savedDocuments);
+            returnCanonicalWithMultipleRelated(converter, savedDocuments);
 
             // Left Join Worked: canonical:A0A6G0ZDD9  no Related
-            returnsCanonicalWithoutRelated(objectMapper, savedDocuments);
+            returnsCanonicalWithoutRelated(converter, savedDocuments);
         }
     }
 
     private void returnsCanonicalWithRelated(
-            ObjectMapper objectMapper, List<GeneCentricDocument> savedDocuments) {
+            GeneCentricDocumentConverter converter, List<GeneCentricDocument> savedDocuments) {
         GeneCentricDocument document =
                 savedDocuments.stream()
                         .filter(doc -> doc.getAccession().equals("O51971"))
@@ -68,7 +70,7 @@ class GeneCentricDocumentsToHDFSWriterTest {
         assertEquals("O51971", document.getAccession());
         assertNotNull(document.getGeneCentricStored());
 
-        GeneCentricEntry entry = getGeneCentricEntry(objectMapper, document.getGeneCentricStored());
+        GeneCentricEntry entry = converter.getCanonicalEntryFromDocument(document);
         assertNotNull(entry.getCanonicalProtein());
         assertEquals("UP000000554", entry.getProteomeId());
         assertEquals("O51971", entry.getCanonicalProtein().getId());
@@ -80,7 +82,7 @@ class GeneCentricDocumentsToHDFSWriterTest {
     }
 
     private void returnCanonicalWithMultipleRelated(
-            ObjectMapper objectMapper, List<GeneCentricDocument> savedDocuments) {
+            GeneCentricDocumentConverter converter, List<GeneCentricDocument> savedDocuments) {
         GeneCentricDocument document =
                 savedDocuments.stream()
                         .filter(doc -> doc.getAccession().equals("A0A6G0Z6X6"))
@@ -90,7 +92,7 @@ class GeneCentricDocumentsToHDFSWriterTest {
         assertEquals("A0A6G0Z6X6", document.getAccession());
         assertNotNull(document.getGeneCentricStored());
 
-        GeneCentricEntry entry = getGeneCentricEntry(objectMapper, document.getGeneCentricStored());
+        GeneCentricEntry entry = converter.getCanonicalEntryFromDocument(document);
         assertNotNull(entry.getCanonicalProtein());
         assertEquals("UP000478052", entry.getProteomeId());
         assertEquals("A0A6G0Z6X6", entry.getCanonicalProtein().getId());
@@ -106,7 +108,7 @@ class GeneCentricDocumentsToHDFSWriterTest {
     }
 
     private void returnsCanonicalWithoutRelated(
-            ObjectMapper objectMapper, List<GeneCentricDocument> savedDocuments) {
+            GeneCentricDocumentConverter converter, List<GeneCentricDocument> savedDocuments) {
         GeneCentricDocument document =
                 savedDocuments.stream()
                         .filter(doc -> doc.getAccession().equals("A0A6G0ZDD9"))
@@ -116,25 +118,13 @@ class GeneCentricDocumentsToHDFSWriterTest {
         assertEquals("A0A6G0ZDD9", document.getAccession());
         assertNotNull(document.getGeneCentricStored());
 
-        GeneCentricEntry entry = getGeneCentricEntry(objectMapper, document.getGeneCentricStored());
+        GeneCentricEntry entry = converter.getCanonicalEntryFromDocument(document);
         assertNotNull(entry.getCanonicalProtein());
         assertEquals("UP000478052", entry.getProteomeId());
         assertEquals("A0A6G0ZDD9", entry.getCanonicalProtein().getId());
 
         assertNotNull(entry.getRelatedProteins());
         assertTrue(entry.getRelatedProteins().isEmpty());
-    }
-
-    private GeneCentricEntry getGeneCentricEntry(
-            ObjectMapper objectMapper, byte[] geneCentricStored) {
-        // convert the binary to disease object
-        GeneCentricEntry entry = null;
-        try {
-            entry = objectMapper.readValue(geneCentricStored, GeneCentricEntry.class);
-        } catch (IOException e) {
-            fail("Unable to parse gene centric json");
-        }
-        return entry;
     }
 
     private static class GeneCentricDocumentsToHDFSWriterFake

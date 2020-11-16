@@ -13,7 +13,7 @@ import org.uniprot.cv.taxonomy.TaxonomicNode;
 import org.uniprot.cv.taxonomy.TaxonomyRepo;
 import org.uniprot.store.indexer.util.DateUtils;
 import org.uniprot.store.indexer.util.TaxonomyRepoUtil;
-import org.uniprot.store.job.common.converter.DocumentConverter;
+import org.uniprot.store.search.document.DocumentConverter;
 import org.uniprot.store.search.document.uniref.UniRefDocument;
 import org.uniprot.store.search.document.uniref.UniRefDocument.UniRefDocumentBuilder;
 

@@ -25,7 +25,7 @@ import org.uniprot.store.indexer.uniprot.go.GoTermFileReader;
 import org.uniprot.store.indexer.uniprot.pathway.PathwayFileRepo;
 import org.uniprot.store.indexer.uniprot.pathway.PathwayRepo;
 import org.uniprot.store.indexer.uniprotkb.converter.UniProtEntryConverter;
-import org.uniprot.store.job.common.converter.DocumentConverter;
+import org.uniprot.store.search.document.DocumentConverter;
 
 /** Concrete implementation of the UniProt search engine */
 public class UniProtSearchEngine extends AbstractSearchEngine<UniProtKBEntry> {

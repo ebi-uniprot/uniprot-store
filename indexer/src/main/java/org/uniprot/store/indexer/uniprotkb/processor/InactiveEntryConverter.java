@@ -1,7 +1,7 @@
 package org.uniprot.store.indexer.uniprotkb.processor;
 
 import org.uniprot.store.indexer.uniprot.inactiveentry.InactiveUniProtEntry;
-import org.uniprot.store.job.common.converter.DocumentConverter;
+import org.uniprot.store.search.document.DocumentConverter;
 import org.uniprot.store.search.document.uniprot.UniProtDocument;
 
 /**

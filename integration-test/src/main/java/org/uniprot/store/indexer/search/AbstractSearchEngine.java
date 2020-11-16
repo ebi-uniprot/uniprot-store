@@ -19,8 +19,8 @@ import org.junit.jupiter.api.extension.ExtensionContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.uniprot.store.config.searchfield.common.SearchFieldConfig;
-import org.uniprot.store.job.common.converter.DocumentConverter;
 import org.uniprot.store.search.document.Document;
+import org.uniprot.store.search.document.DocumentConverter;
 
 import com.google.common.base.Preconditions;
 import com.google.common.io.Files;
@@ -148,9 +148,7 @@ public abstract class AbstractSearchEngine<E> implements BeforeAllCallback, Afte
         try {
             queryResponse = server.query(allQuery);
             results = queryResponse.getResults();
-        } catch (SolrServerException e) {
-            logger.error("Failed query: ", e);
-        } catch (IOException e) {
+        } catch (SolrServerException | IOException e) {
             logger.error("Failed query: ", e);
         }
 
@@ -183,7 +181,7 @@ public abstract class AbstractSearchEngine<E> implements BeforeAllCallback, Afte
 
         File solrConfigDir = new File(SOLR_CONFIG_DIR);
 
-        System.out.println(solrConfigDir.getAbsolutePath());
+        logger.info(solrConfigDir.getAbsolutePath());
         CoreContainer container = new CoreContainer(solrConfigDir.getAbsolutePath());
 
         container.load();
@@ -193,10 +191,10 @@ public abstract class AbstractSearchEngine<E> implements BeforeAllCallback, Afte
             container
                     .getCoreInitFailures()
                     .forEach(
-                            (key, value) -> {
+                            (key, value) ->
                                 logger.error(
-                                        "Search engine " + key + ", has failed: ", value.exception);
-                            });
+                                        "Search engine " + key + ", has failed: ", value.exception)
+                            );
             throw new IllegalStateException(
                     "Search engine " + searchEngineName + ", has not loaded properly");
         }

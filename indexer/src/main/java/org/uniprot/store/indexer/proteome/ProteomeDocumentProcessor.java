@@ -2,7 +2,7 @@ package org.uniprot.store.indexer.proteome;
 
 import org.springframework.batch.item.ItemProcessor;
 import org.uniprot.core.xml.jaxb.proteome.Proteome;
-import org.uniprot.store.job.common.converter.DocumentConverter;
+import org.uniprot.store.search.document.DocumentConverter;
 import org.uniprot.store.search.document.proteome.ProteomeDocument;
 
 /** @author jluo */
