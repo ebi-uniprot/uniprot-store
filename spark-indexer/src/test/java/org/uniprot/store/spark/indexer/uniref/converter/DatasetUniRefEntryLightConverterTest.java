@@ -55,7 +55,7 @@ class DatasetUniRefEntryLightConverterTest {
         assertEquals("common taxon Value", entry.getCommonTaxon());
         assertEquals(9606, entry.getCommonTaxonId());
         assertEquals(10, entry.getMemberCount());
-        assertEquals("FGFR2_HUMAN", entry.getSeedId());
+        assertEquals("FGFR2_HUMAN,P12345", entry.getSeedId());
 
         assertEquals(3, entry.getGoTerms().size());
         GeneOntologyEntry goTerm = entry.getGoTerms().get(0);
@@ -66,7 +66,7 @@ class DatasetUniRefEntryLightConverterTest {
         assertThat(entry.getMembers(), contains("R12345,0", "P12345,0", "UPI0003447082,3"));
 
         // representative
-        assertThat(entry.getRepresentativeId(), is("FGFR2_HUMAN"));
+        assertThat(entry.getRepresentativeId(), is("FGFR2_HUMAN,R12345"));
         assertThat(entry.getName(), is("Cluster: Fibroblast growth factor receptor 2"));
         assertThat(entry.getRepresentativeProteinName(), is("Fibroblast growth factor receptor 2"));
         assertThat(entry.getSequence(), is("MVSWGRFICLVVVTMATLSLAR"));

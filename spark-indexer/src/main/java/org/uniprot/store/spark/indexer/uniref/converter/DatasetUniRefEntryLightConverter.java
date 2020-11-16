@@ -8,10 +8,7 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 import org.apache.spark.api.java.function.Function;
 import org.apache.spark.sql.Row;
@@ -73,7 +70,11 @@ public class DatasetUniRefEntryLightConverter
             // member accessions
             builder.sequence(representativeMember.getSequence().getValue());
 
-            builder.representativeId(representativeMember.getMemberId());
+            String representativeId = representativeMember.getMemberId();
+            if (Utils.notNullNotEmpty(representativeMember.getUniProtAccessions())) {
+                representativeId += "," + representativeMember.getUniProtAccessions().get(0);
+            }
+            builder.representativeId(representativeId);
 
             addMemberInfo(builder, representativeMember);
         }
@@ -138,7 +139,7 @@ public class DatasetUniRefEntryLightConverter
             builder.membersAdd(uniparcId + "," + memberType);
         }
         if (Utils.notNull(member.isSeed()) && member.isSeed()) {
-            builder.seedId(member.getMemberId());
+            builder.seedId(getSeedIdFromMember(member));
         }
 
         builder.memberIdTypesAdd(member.getMemberIdType());
@@ -201,5 +202,14 @@ public class DatasetUniRefEntryLightConverter
         if (propertyMap.containsKey(PROPERTY_IS_SEED)) {
             builder.isSeed(Boolean.parseBoolean(propertyMap.get(PROPERTY_IS_SEED).get(0)));
         }
+    }
+
+    private String getSeedIdFromMember(UniRefMember member) {
+        String seedId = member.getMemberId();
+        if (Utils.notNullNotEmpty(member.getUniProtAccessions())) {
+            String accession = member.getUniProtAccessions().get(0).getValue();
+            seedId += "," + accession;
+        }
+        return seedId;
     }
 }
