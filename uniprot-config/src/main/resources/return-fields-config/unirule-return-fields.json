@@ -13,7 +13,7 @@
     "includeInSwagger": true,
     "isRequiredForJson": true,
     "isDefaultForTsv": true,
-    "defaultForTsvOrder" : 1,
+    "defaultForTsvOrder" : 0,
     "label": "UniRule ID",
     "name": "uniRuleId",
     "paths" : ["uniRuleId"],
@@ -24,8 +24,6 @@
     "childNumber": 1,
     "itemType": "SINGLE",
     "includeInSwagger": true,
-    "isDefaultForTsv": true,
-    "defaultForTsvOrder" : 0,
     "label": "Information",
     "name": "information",
     "paths" : ["information"],
@@ -36,8 +34,6 @@
     "childNumber": 2,
     "itemType": "SINGLE",
     "includeInSwagger": true,
-    "isDefaultForTsv": true,
-    "defaultForTsvOrder" : 2,
     "label": "Rule Status",
     "name": "ruleStatus",
     "paths" : ["ruleStatus"],
@@ -48,8 +44,6 @@
     "childNumber": 3,
     "itemType": "SINGLE",
     "includeInSwagger": true,
-    "isDefaultForTsv": true,
-    "defaultForTsvOrder" : 3,
     "label": "Main Rule",
     "name": "mainRule",
     "paths" : ["mainRule"],
@@ -124,5 +118,18 @@
     "name": "modifiedDate",
     "paths" : ["modifiedDate"],
     "id": "unirule/modifiedDate"
+  },
+  {
+    "parentId": "unirule",
+    "childNumber": 11,
+    "itemType": "SINGLE",
+    "name": "template_entries",
+    "label": "Template Entries",
+    "id": "template_entries",
+    "isDefaultForTsv": true,
+    "defaultForTsvOrder" : 1,
+    "paths": [
+      "information.uniProtAccessions[*]"
+    ]
   }
 ]
