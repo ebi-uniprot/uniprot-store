@@ -3,6 +3,7 @@ package org.uniprot.store.indexer.proteome;
 import static org.uniprot.store.indexer.common.utils.Constants.SUGGESTIONS_INDEX_STEP;
 
 import org.springframework.batch.core.Step;
+import org.springframework.batch.core.StepExecutionListener;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
 import org.springframework.batch.core.listener.ExecutionContextPromotionListener;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +16,6 @@ import org.uniprot.store.indexer.common.config.UniProtSolrClient;
 import org.uniprot.store.indexer.common.writer.SolrDocumentWriter;
 import org.uniprot.store.indexer.uniprotkb.reader.SuggestionItemReader;
 import org.uniprot.store.job.common.listener.LogRateListener;
-import org.uniprot.store.job.common.listener.LogStepListener;
 import org.uniprot.store.search.SolrCollection;
 import org.uniprot.store.search.document.suggest.SuggestDocument;
 
@@ -41,6 +41,7 @@ public class ProteomeSuggestionStep {
 
     @Bean(name = "suggestionProteomeIndexingStep")
     public Step proteomeSuggestionStep(
+            StepExecutionListener stepListener,
             SuggestionItemReader suggestionItemReader,
             ExecutionContextPromotionListener promotionListener,
             @Qualifier("suggestionProteome")
@@ -51,7 +52,7 @@ public class ProteomeSuggestionStep {
                 .<SuggestDocument, SuggestDocument>chunk(chunkSize)
                 .reader(suggestionItemReader)
                 .writer(new SolrDocumentWriter<>(uniProtSolrClient, SolrCollection.suggest))
-                .listener(new LogStepListener())
+                .listener(stepListener)
                 .listener(suggestionLogRateListener)
                 .build();
     }
