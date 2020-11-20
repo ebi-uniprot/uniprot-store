@@ -60,7 +60,7 @@ class ProteomeIndexIT {
     @Autowired private UniProtSolrClient solrClient;
 
     @Test
-    void  testIndexJob() throws Exception {
+    void testIndexJob() throws Exception {
         JobExecution jobExecution = jobLauncher.launchJob();
         assertThat(jobExecution.getJobInstance().getJobName(), CoreMatchers.is(PROTEOME_INDEX_JOB));
 
@@ -71,7 +71,7 @@ class ProteomeIndexIT {
                 solrOperations.query(
                         SolrCollection.proteome, new SolrQuery("*:*"), ProteomeDocument.class);
         assertThat(response, is(notNullValue()));
-        assertThat(response.size(), is(6));
+        assertThat(response.size(), is(5));
 
         response.forEach(this::verifyProteome);
 
@@ -107,9 +107,9 @@ class ProteomeIndexIT {
         List<SuggestDocument> response =
                 solrClient.query(
                         SolrCollection.suggest,
-                        new SolrQuery("dict:"+SuggestDictionary.PROTEOME_UPID),
+                        new SolrQuery("dict:" + SuggestDictionary.PROTEOME_UPID),
                         SuggestDocument.class);
-        assertThat(response.size(),CoreMatchers.is(6));
+        assertThat(response.size(), CoreMatchers.is(5));
         assertThat(response, CoreMatchers.is(CoreMatchers.notNullValue()));
         assertThat(response.size(), CoreMatchers.is(reportedWriteCount));
 

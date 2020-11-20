@@ -37,7 +37,8 @@ public class ProteomeIndexStep {
             StepExecutionListener stepListener,
             ChunkListener chunkListener,
             @Qualifier("proteomeXmlReader") ItemReader<ProteomeType> itemReader,
-            @Qualifier("ProteomeDocumentProcessor") ItemProcessor<ProteomeType, ProteomeDocument> proteomeEntryProcessor,
+            @Qualifier("ProteomeDocumentProcessor")
+                    ItemProcessor<ProteomeType, ProteomeDocument> proteomeEntryProcessor,
             @Qualifier("proteomeItemWriter") ItemWriter<ProteomeDocument> itemWriter) {
         return this.stepBuilderFactory
                 .get("Proteome_Index_Step")

@@ -4,22 +4,18 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 
 import java.io.File;
-import java.util.Optional;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.uniprot.core.proteome.ExclusionReason;
 import org.uniprot.core.xml.jaxb.proteome.*;
 import org.uniprot.cv.taxonomy.FileNodeIterable;
-import org.uniprot.cv.taxonomy.TaxonomicNode;
 import org.uniprot.cv.taxonomy.TaxonomyRepo;
-import org.uniprot.cv.taxonomy.impl.TaxonomicNodeImpl;
 import org.uniprot.cv.taxonomy.impl.TaxonomyMapRepo;
 import org.uniprot.store.search.document.proteome.ProteomeDocument;
 
@@ -38,7 +34,7 @@ class ProteomeEntryConverterTest {
     private TaxonomyMapRepo taxonomyRepo;
 
     @BeforeAll
-    void setupTaxonomyRepo(){
+    void setupTaxonomyRepo() {
         taxonomyRepo = new TaxonomyMapRepo(new FileNodeIterable(new File(taxonomyFile)));
     }
 
@@ -55,7 +51,7 @@ class ProteomeEntryConverterTest {
 
         // then
         TaxonomyRepo repoMock = mock(TaxonomyRepo.class);
-        ProteomeEntryConverter converter = new ProteomeEntryConverter(repoMock);
+        ProteomeDocumentConverter converter = new ProteomeDocumentConverter(repoMock);
         ProteomeDocument result = converter.convert(proteome);
         assertNotNull(result);
         assertEquals("UP123456", result.upid);
@@ -76,7 +72,7 @@ class ProteomeEntryConverterTest {
 
         // then
         TaxonomyRepo repoMock = mock(TaxonomyRepo.class);
-        ProteomeEntryConverter converter = new ProteomeEntryConverter(repoMock);
+        ProteomeDocumentConverter converter = new ProteomeDocumentConverter(repoMock);
         ProteomeDocument result = converter.convert(proteome);
         assertNotNull(result);
         assertEquals("UP123456", result.upid);
@@ -97,7 +93,7 @@ class ProteomeEntryConverterTest {
 
         // then
         TaxonomyRepo repoMock = mock(TaxonomyRepo.class);
-        ProteomeEntryConverter converter = new ProteomeEntryConverter(repoMock);
+        ProteomeDocumentConverter converter = new ProteomeDocumentConverter(repoMock);
         ProteomeDocument result = converter.convert(proteome);
         assertNotNull(result);
         assertEquals("UP123456", result.upid);
@@ -119,7 +115,7 @@ class ProteomeEntryConverterTest {
 
         // then
         TaxonomyRepo repoMock = mock(TaxonomyRepo.class);
-        ProteomeEntryConverter converter = new ProteomeEntryConverter(repoMock);
+        ProteomeDocumentConverter converter = new ProteomeDocumentConverter(repoMock);
         ProteomeDocument result = converter.convert(proteome);
         assertNotNull(result);
         assertEquals("UP123456", result.upid);
@@ -140,7 +136,7 @@ class ProteomeEntryConverterTest {
 
         // then
         TaxonomyRepo repoMock = mock(TaxonomyRepo.class);
-        ProteomeEntryConverter converter = new ProteomeEntryConverter(repoMock);
+        ProteomeDocumentConverter converter = new ProteomeDocumentConverter(repoMock);
         ProteomeDocument result = converter.convert(proteome);
         assertNotNull(result);
         assertEquals("UP123456", result.upid);
@@ -180,7 +176,7 @@ class ProteomeEntryConverterTest {
         genomeAssembly.setGenomeRepresentation("full");
         proteome.setGenomeAssembly(genomeAssembly);
 
-        ProteomeEntryConverter converter = new ProteomeEntryConverter(taxonomyRepo);
+        ProteomeDocumentConverter converter = new ProteomeDocumentConverter(taxonomyRepo);
         ProteomeDocument result = converter.convert(proteome);
         assertNotNull(result);
         assertEquals("UP123456", result.upid);
@@ -191,14 +187,20 @@ class ProteomeEntryConverterTest {
 
         assertNotNull(result.organismName);
         assertEquals(2, result.organismName.size());
-        assertTrue(result.organismName.contains("Thermodesulfovibrio yellowstonii (strain ATCC 51303 / DSM 11347 / YP87)"));
+        assertTrue(
+                result.organismName.contains(
+                        "Thermodesulfovibrio yellowstonii (strain ATCC 51303 / DSM 11347 / YP87)"));
         assertTrue(result.organismName.contains("THEYD"));
 
-        assertEquals("Thermodesulfovibrio yellowstonii (strain ATCC 51303 / DSM 11347 / YP87)", result.organismSort);
+        assertEquals(
+                "Thermodesulfovibrio yellowstonii (strain ATCC 51303 / DSM 11347 / YP87)",
+                result.organismSort);
         assertEquals(289376, result.organismTaxId);
 
         assertEquals(8, result.organismTaxon.size());
-        assertTrue(result.organismTaxon.contains("Thermodesulfovibrio yellowstonii (strain ATCC 51303 / DSM 11347 / YP87)"));
+        assertTrue(
+                result.organismTaxon.contains(
+                        "Thermodesulfovibrio yellowstonii (strain ATCC 51303 / DSM 11347 / YP87)"));
         assertTrue(result.organismTaxon.contains("THEYD"));
         assertTrue(result.organismTaxon.contains("Bacteria"));
         assertTrue(result.organismTaxon.contains("cellular organisms"));

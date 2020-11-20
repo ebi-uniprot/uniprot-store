@@ -15,7 +15,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;
 import org.uniprot.core.json.parser.proteome.ProteomeJsonConfig;
 import org.uniprot.core.xml.XmlChainIterator;
-import org.uniprot.core.xml.jaxb.proteome.Proteome;
+import org.uniprot.core.xml.jaxb.proteome.ProteomeType;
 import org.uniprot.store.search.document.proteome.ProteomeDocument;
 import org.uniprot.store.search.field.QueryBuilder;
 
@@ -29,21 +29,21 @@ class ProteomeSearchIT {
     static void populateIndexWithTestData() {
         List<String> files = Collections.singletonList("it/proteome/proteome_example.xml");
 
-        XmlChainIterator<Proteome, Proteome> chainingIterators =
+        XmlChainIterator<ProteomeType, ProteomeType> chainingIterators =
                 new XmlChainIterator<>(
                         new XmlChainIterator.FileInputStreamIterator(files),
-                        Proteome.class,
+                        ProteomeType.class,
                         PROTEOME_ROOT_ELEMENT,
                         Function.identity());
 
         new XmlChainIterator<>(
                 new XmlChainIterator.FileInputStreamIterator(files),
-                Proteome.class,
+                ProteomeType.class,
                 PROTEOME_ROOT_ELEMENT,
                 Function.identity());
 
         while (chainingIterators.hasNext()) {
-            Proteome next = chainingIterators.next();
+            ProteomeType next = chainingIterators.next();
             searchEngine.indexEntry(next);
         }
     }
@@ -66,7 +66,7 @@ class ProteomeSearchIT {
         QueryResponse queryResponse = searchEngine.getQueryResponse(query);
 
         SolrDocumentList results = queryResponse.getResults();
-        assertEquals(6, results.size());
+        assertEquals(5, results.size());
     }
 
     @Test
@@ -100,14 +100,14 @@ class ProteomeSearchIT {
 
     @Test
     void searchTaxId() {
-        int taxId = 60714;
+        int taxId = 11049;
         String query = taxonomy(taxId);
 
         QueryResponse queryResponse = searchEngine.getQueryResponse(query);
 
         SolrDocumentList results = queryResponse.getResults();
         assertEquals(1, results.size());
-        assertTrue(results.get(0).containsValue("UP000029766"));
+        assertTrue(results.get(0).containsValue("UP000006687"));
     }
 
     @Test
@@ -118,7 +118,7 @@ class ProteomeSearchIT {
         QueryResponse queryResponse = searchEngine.getQueryResponse(query);
 
         SolrDocumentList results = queryResponse.getResults();
-        assertEquals(6, results.size());
+        assertEquals(5, results.size());
     }
 
     @Test

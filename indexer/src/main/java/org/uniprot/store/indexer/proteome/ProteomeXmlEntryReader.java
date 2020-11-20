@@ -10,5 +10,4 @@ public class ProteomeXmlEntryReader extends XmlItemReader<ProteomeType> {
     public ProteomeXmlEntryReader(String filepath) {
         super(filepath, ProteomeType.class, PROTEOME_ROOT_ELEMENT);
     }
-
 }

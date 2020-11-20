@@ -18,7 +18,6 @@ import org.uniprot.cv.taxonomy.impl.TaxonomyMapRepo;
 import org.uniprot.store.indexer.common.config.UniProtSolrClient;
 import org.uniprot.store.indexer.common.utils.Constants;
 import org.uniprot.store.job.common.util.CommonConstants;
-import org.uniprot.store.search.document.DocumentConverter;
 import org.uniprot.store.search.document.proteome.ProteomeDocument;
 
 /**
@@ -34,6 +33,12 @@ public class ProteomeConfig {
     @Value(("${uniprotkb.indexing.taxonomyFile}"))
     private String taxonomyFile;
 
+    @Value(("${proteome.genecentric.canonical.dir.path}"))
+    private String geneCentricDir;
+
+    @Value(("${proteome.genecentric.canonical.file.suffix}"))
+    private String geneCentricFileSuffix;
+
     @Bean(name = "proteomeXmlReader")
     public ItemReader<ProteomeType> proteomeReader() {
         return new ProteomeXmlEntryReader(proteomeXmlFilename);
@@ -41,8 +46,9 @@ public class ProteomeConfig {
 
     @Bean("ProteomeDocumentProcessor")
     public ItemProcessor<ProteomeType, ProteomeDocument> proteomeEntryProcessor(
-            DocumentConverter<ProteomeType, ProteomeDocument> proteomeEntryConverter) {
-        return new ProteomeDocumentProcessor(proteomeEntryConverter);
+            ProteomeDocumentConverter proteomeEntryConverter,
+            ProteomeEntryAdapter proteomeEntryAdapter) {
+        return new ProteomeItemProcessor(proteomeEntryConverter, proteomeEntryAdapter);
     }
 
     @Bean(name = "proteomeItemWriter")
@@ -51,9 +57,13 @@ public class ProteomeConfig {
     }
 
     @Bean(name = "proteomeEntryConverter")
-    public DocumentConverter<ProteomeType, ProteomeDocument> proteomeEntryConverter(
-            TaxonomyRepo taxonomyRepo) {
-        return new ProteomeEntryConverter(taxonomyRepo);
+    public ProteomeDocumentConverter proteomeEntryConverter(TaxonomyRepo taxonomyRepo) {
+        return new ProteomeDocumentConverter(taxonomyRepo);
+    }
+
+    @Bean("ProteomeEntryAdapter")
+    public ProteomeEntryAdapter proteomeEntryAdapter(TaxonomyRepo taxonomyRepo) {
+        return new ProteomeEntryAdapter(taxonomyRepo, geneCentricDir, geneCentricFileSuffix);
     }
 
     @Bean("TaxonomyRepo")

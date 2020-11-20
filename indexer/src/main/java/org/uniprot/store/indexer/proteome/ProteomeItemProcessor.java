@@ -1,38 +1,45 @@
 package org.uniprot.store.indexer.proteome;
 
-import org.springframework.batch.core.StepExecution;
-import org.springframework.batch.core.annotation.BeforeStep;
-import org.springframework.batch.item.ExecutionContext;
-import org.springframework.batch.item.ItemProcessor;
-import org.uniprot.core.xml.jaxb.proteome.ProteomeType;
-import org.uniprot.store.indexer.common.utils.Constants;
-import org.uniprot.store.search.document.DocumentConverter;
-import org.uniprot.store.search.document.proteome.ProteomeDocument;
-import org.uniprot.store.search.document.suggest.SuggestDictionary;
-import org.uniprot.store.search.document.suggest.SuggestDocument;
+import static org.uniprot.store.indexer.uniprotkb.converter.UniProtEntryConverterUtil.createSuggestionMapKey;
 
+import java.nio.ByteBuffer;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
-import static org.uniprot.store.indexer.uniprotkb.converter.UniProtEntryConverterUtil.createSuggestionMapKey;
+import org.springframework.batch.core.StepExecution;
+import org.springframework.batch.core.annotation.BeforeStep;
+import org.springframework.batch.item.ExecutionContext;
+import org.springframework.batch.item.ItemProcessor;
+import org.uniprot.core.proteome.ProteomeEntry;
+import org.uniprot.core.xml.jaxb.proteome.ProteomeType;
+import org.uniprot.store.indexer.common.utils.Constants;
+import org.uniprot.store.search.document.proteome.ProteomeDocument;
+import org.uniprot.store.search.document.suggest.SuggestDictionary;
+import org.uniprot.store.search.document.suggest.SuggestDocument;
 
 /** @author jluo */
-public class ProteomeDocumentProcessor implements ItemProcessor<ProteomeType, ProteomeDocument> {
-    private final DocumentConverter<ProteomeType, ProteomeDocument> documentConverter;
+public class ProteomeItemProcessor implements ItemProcessor<ProteomeType, ProteomeDocument> {
+    private final ProteomeDocumentConverter documentConverter;
+    private final ProteomeEntryAdapter entryAdapter;
     private final Map<String, SuggestDocument> suggestions;
 
-    public ProteomeDocumentProcessor(
-            DocumentConverter<ProteomeType, ProteomeDocument> documentConverter) {
+    public ProteomeItemProcessor(
+            ProteomeDocumentConverter documentConverter, ProteomeEntryAdapter entryAdapter) {
         this.documentConverter = documentConverter;
+        this.entryAdapter = entryAdapter;
         this.suggestions = new HashMap<>();
     }
 
     @Override
     public ProteomeDocument process(ProteomeType source) throws Exception {
-        ProteomeDocument result = documentConverter.convert(source);
-        addProteomeToMap(result.upid, result.organismSort);
-        return result;
+        ProteomeDocument document = documentConverter.convert(source);
+
+        ProteomeEntry entry = entryAdapter.adaptEntry(source);
+        document.proteomeStored = ByteBuffer.wrap(documentConverter.getBinaryObject(entry));
+
+        addProteomeToSuggestMap(document.upid, document.organismSort);
+        return document;
     }
 
     @BeforeStep
@@ -41,10 +48,9 @@ public class ProteomeDocumentProcessor implements ItemProcessor<ProteomeType, Pr
         executionContext.put(Constants.SUGGESTIONS_MAP, this.suggestions);
     }
 
-    private void addProteomeToMap(String upid, String organismName) {
+    private void addProteomeToSuggestMap(String upid, String organismName) {
         if (Objects.nonNull(upid) && Objects.nonNull(organismName)) {
-            String key =
-                    createSuggestionMapKey(SuggestDictionary.PROTEOME_UPID, upid);
+            String key = createSuggestionMapKey(SuggestDictionary.PROTEOME_UPID, upid);
             this.suggestions.putIfAbsent(key, createSuggestDoc(upid, organismName));
         }
     }

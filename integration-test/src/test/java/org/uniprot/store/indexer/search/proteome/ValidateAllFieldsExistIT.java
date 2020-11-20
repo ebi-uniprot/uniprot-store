@@ -1,6 +1,7 @@
 package org.uniprot.store.indexer.search.proteome;
 
 import org.junit.jupiter.api.extension.RegisterExtension;
+import org.uniprot.core.xml.jaxb.proteome.ProteomeType;
 import org.uniprot.store.indexer.search.AbstractSearchEngine;
 import org.uniprot.store.indexer.search.AbstractValidateAllFieldsExist;
 
@@ -11,11 +12,10 @@ import org.uniprot.store.indexer.search.AbstractValidateAllFieldsExist;
  *
  * @author Edd
  */
-class ValidateAllFieldsExistIT
-        extends AbstractValidateAllFieldsExist<org.uniprot.core.xml.jaxb.proteome.Proteome> {
+class ValidateAllFieldsExistIT extends AbstractValidateAllFieldsExist<ProteomeType> {
     @RegisterExtension static ProteomeSearchEngine searchEngine = new ProteomeSearchEngine();
 
-    protected AbstractSearchEngine<org.uniprot.core.xml.jaxb.proteome.Proteome> getSearchEngine() {
+    protected AbstractSearchEngine<ProteomeType> getSearchEngine() {
         return searchEngine;
     }
 }
