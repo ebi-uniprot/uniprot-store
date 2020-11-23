@@ -12,7 +12,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.uniprot.core.xml.jaxb.proteome.ProteomeType;
+import org.uniprot.core.xml.jaxb.proteome.Proteome;
 import org.uniprot.store.job.common.listener.LogRateListener;
 import org.uniprot.store.search.document.proteome.ProteomeDocument;
 
@@ -36,13 +36,13 @@ public class ProteomeIndexStep {
     public Step proteomeIndexViaXmlStep(
             StepExecutionListener stepListener,
             ChunkListener chunkListener,
-            @Qualifier("proteomeXmlReader") ItemReader<ProteomeType> itemReader,
+            @Qualifier("proteomeXmlReader") ItemReader<Proteome> itemReader,
             @Qualifier("ProteomeDocumentProcessor")
-                    ItemProcessor<ProteomeType, ProteomeDocument> proteomeEntryProcessor,
+                    ItemProcessor<Proteome, ProteomeDocument> proteomeEntryProcessor,
             @Qualifier("proteomeItemWriter") ItemWriter<ProteomeDocument> itemWriter) {
         return this.stepBuilderFactory
                 .get("Proteome_Index_Step")
-                .<ProteomeType, ProteomeDocument>chunk(chunkSize)
+                .<Proteome, ProteomeDocument>chunk(chunkSize)
                 .reader(itemReader)
                 .processor(proteomeEntryProcessor)
                 .writer(itemWriter)

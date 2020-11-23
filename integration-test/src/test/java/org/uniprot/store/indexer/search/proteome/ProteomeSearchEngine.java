@@ -6,7 +6,7 @@ import java.net.URL;
 import java.nio.ByteBuffer;
 
 import org.uniprot.core.proteome.ProteomeEntry;
-import org.uniprot.core.xml.jaxb.proteome.ProteomeType;
+import org.uniprot.core.xml.jaxb.proteome.Proteome;
 import org.uniprot.core.xml.proteome.ProteomeConverter;
 import org.uniprot.cv.taxonomy.FileNodeIterable;
 import org.uniprot.cv.taxonomy.TaxonomyRepo;
@@ -18,7 +18,7 @@ import org.uniprot.store.indexer.proteome.ProteomeDocumentConverter;
 import org.uniprot.store.indexer.search.AbstractSearchEngine;
 import org.uniprot.store.search.document.proteome.ProteomeDocument;
 
-class ProteomeSearchEngine extends AbstractSearchEngine<ProteomeType> {
+class ProteomeSearchEngine extends AbstractSearchEngine<Proteome> {
 
     private final ProteomeConverter entryConverter;
     private static final String SEARCH_ENGINE_NAME = "proteome";
@@ -47,7 +47,7 @@ class ProteomeSearchEngine extends AbstractSearchEngine<ProteomeType> {
     }
 
     @Override
-    public void indexEntry(ProteomeType entry) {
+    public void indexEntry(Proteome entry) {
         if (entry == null) {
             throw new IllegalArgumentException("Entry is null");
         }

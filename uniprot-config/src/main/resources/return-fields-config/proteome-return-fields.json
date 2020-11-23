@@ -100,7 +100,7 @@
     "itemType": "SINGLE",
     "label": "Genome assembly ID",
     "name": "genome_assembly",
-    "paths" : ["proteomeCrossReferences[?(@.database=='GenomeAssembly')]"],
+    "paths" : ["genomeAssembly"],
     "id": "miscellaneous/genome_assembly"
   },
   {

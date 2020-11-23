@@ -9,7 +9,7 @@ import org.uniprot.core.json.parser.proteome.ProteomeJsonConfig;
 import org.uniprot.core.proteome.ProteomeEntry;
 import org.uniprot.core.proteome.Superkingdom;
 import org.uniprot.core.xml.jaxb.proteome.ComponentType;
-import org.uniprot.core.xml.jaxb.proteome.ProteomeType;
+import org.uniprot.core.xml.jaxb.proteome.Proteome;
 import org.uniprot.cv.taxonomy.TaxonomicNode;
 import org.uniprot.cv.taxonomy.TaxonomyRepo;
 import org.uniprot.store.indexer.util.TaxonomyRepoUtil;
@@ -24,8 +24,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  * @author jluo
  * @date: 23 Apr 2019
  */
-public class ProteomeDocumentConverter
-        implements DocumentConverter<ProteomeType, ProteomeDocument> {
+public class ProteomeDocumentConverter implements DocumentConverter<Proteome, ProteomeDocument> {
     private final TaxonomyRepo taxonomyRepo;
     private final ObjectMapper objectMapper;
 
@@ -35,12 +34,12 @@ public class ProteomeDocumentConverter
     }
 
     @Override
-    public ProteomeDocument convert(ProteomeType source) {
+    public ProteomeDocument convert(Proteome source) {
         ProteomeDocument document = new ProteomeDocument();
         document.upid = source.getUpid();
         setOrganism(source, document);
         setLineageTaxon(source.getTaxonomy(), document);
-        updateProteomeType(document, source);
+        updateProteome(document, source);
         document.genomeAccession = fetchGenomeAccessions(source);
         document.genomeAssembly = fetchGenomeAssemblyId(source);
         document.content.add(document.upid);
@@ -53,11 +52,11 @@ public class ProteomeDocumentConverter
         return document;
     }
 
-    private void updateAnnotationScore(ProteomeDocument document, ProteomeType source) {
+    private void updateAnnotationScore(ProteomeDocument document, Proteome source) {
         document.score = source.getAnnotationScore().getNormalizedAnnotationScore();
     }
 
-    private void updateProteomeType(ProteomeDocument document, ProteomeType source) {
+    private void updateProteome(ProteomeDocument document, Proteome source) {
         if ((source.getExcluded() != null)
                 && (source.getExcluded().getExclusionReason() != null)
                 && (!source.getExcluded().getExclusionReason().isEmpty())) {
@@ -81,7 +80,7 @@ public class ProteomeDocumentConverter
         }
     }
 
-    private void setOrganism(ProteomeType source, ProteomeDocument document) {
+    private void setOrganism(Proteome source, ProteomeDocument document) {
         int taxonomyId = (int) source.getTaxonomy();
         if (taxonomyId > 0) {
             document.organismTaxId = taxonomyId;
@@ -113,7 +112,7 @@ public class ProteomeDocumentConverter
                 .ifPresent(superKingdom -> document.superkingdom = superKingdom);
     }
 
-    private List<String> fetchGenomeAssemblyId(ProteomeType source) {
+    private List<String> fetchGenomeAssemblyId(Proteome source) {
         List<String> result = new ArrayList<>();
         if (notNull(source.getGenomeAssembly())) {
             result.add(source.getGenomeAssembly().getGenomeAssembly());
@@ -121,7 +120,7 @@ public class ProteomeDocumentConverter
         return result;
     }
 
-    private List<String> fetchGenomeAccessions(ProteomeType source) {
+    private List<String> fetchGenomeAccessions(Proteome source) {
         return source.getComponent().stream()
                 .map(ComponentType::getGenomeAccession)
                 .flatMap(Collection::stream)

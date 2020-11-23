@@ -18,7 +18,7 @@ import org.uniprot.core.taxonomy.TaxonomyLineage;
 import org.uniprot.core.taxonomy.impl.TaxonomyLineageBuilder;
 import org.uniprot.core.uniprotkb.taxonomy.Taxonomy;
 import org.uniprot.core.uniprotkb.taxonomy.impl.TaxonomyBuilder;
-import org.uniprot.core.xml.jaxb.proteome.ProteomeType;
+import org.uniprot.core.xml.jaxb.proteome.Proteome;
 import org.uniprot.core.xml.proteome.ProteomeConverter;
 import org.uniprot.cv.taxonomy.TaxonomicNode;
 import org.uniprot.cv.taxonomy.TaxonomyRepo;
@@ -48,7 +48,7 @@ public class ProteomeEntryAdapter {
         this.proteomeConverter = new ProteomeConverter();
     }
 
-    public ProteomeEntry adaptEntry(ProteomeType source) {
+    public ProteomeEntry adaptEntry(Proteome source) {
         ProteomeEntry proteome = this.proteomeConverter.fromXml(source);
         ProteomeEntryBuilder builder = ProteomeEntryBuilder.from(proteome);
         if (notNull(proteome.getTaxonomy())) {

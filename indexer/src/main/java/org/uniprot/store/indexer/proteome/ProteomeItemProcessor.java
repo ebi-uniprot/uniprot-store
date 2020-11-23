@@ -12,14 +12,14 @@ import org.springframework.batch.core.annotation.BeforeStep;
 import org.springframework.batch.item.ExecutionContext;
 import org.springframework.batch.item.ItemProcessor;
 import org.uniprot.core.proteome.ProteomeEntry;
-import org.uniprot.core.xml.jaxb.proteome.ProteomeType;
+import org.uniprot.core.xml.jaxb.proteome.Proteome;
 import org.uniprot.store.indexer.common.utils.Constants;
 import org.uniprot.store.search.document.proteome.ProteomeDocument;
 import org.uniprot.store.search.document.suggest.SuggestDictionary;
 import org.uniprot.store.search.document.suggest.SuggestDocument;
 
 /** @author jluo */
-public class ProteomeItemProcessor implements ItemProcessor<ProteomeType, ProteomeDocument> {
+public class ProteomeItemProcessor implements ItemProcessor<Proteome, ProteomeDocument> {
     private final ProteomeDocumentConverter documentConverter;
     private final ProteomeEntryAdapter entryAdapter;
     private final Map<String, SuggestDocument> suggestions;
@@ -32,7 +32,7 @@ public class ProteomeItemProcessor implements ItemProcessor<ProteomeType, Proteo
     }
 
     @Override
-    public ProteomeDocument process(ProteomeType source) throws Exception {
+    public ProteomeDocument process(Proteome source) throws Exception {
         ProteomeDocument document = documentConverter.convert(source);
 
         ProteomeEntry entry = entryAdapter.adaptEntry(source);

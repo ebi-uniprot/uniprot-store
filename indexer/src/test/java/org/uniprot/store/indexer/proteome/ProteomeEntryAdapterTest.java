@@ -17,7 +17,7 @@ import org.uniprot.core.proteome.Superkingdom;
 import org.uniprot.core.taxonomy.TaxonomyLineage;
 import org.uniprot.core.uniprotkb.taxonomy.Taxonomy;
 import org.uniprot.core.xml.jaxb.proteome.ObjectFactory;
-import org.uniprot.core.xml.jaxb.proteome.ProteomeType;
+import org.uniprot.core.xml.jaxb.proteome.Proteome;
 import org.uniprot.cv.taxonomy.FileNodeIterable;
 import org.uniprot.cv.taxonomy.impl.TaxonomyMapRepo;
 import org.uniprot.store.job.common.StoringException;
@@ -49,7 +49,7 @@ class ProteomeEntryAdapterTest {
 
     @Test
     void adaptValidEntry() {
-        ProteomeType proteomeType = getProteomeType();
+        Proteome proteomeType = getProteome();
         ProteomeEntryAdapter entryAdapter =
                 new ProteomeEntryAdapter(taxonomyRepo, geneCentricDir, geneCentricFileSuffix);
         ProteomeEntry entry = entryAdapter.adaptEntry(proteomeType);
@@ -76,15 +76,15 @@ class ProteomeEntryAdapterTest {
 
     @Test
     void adaptInvalidEntry() {
-        ProteomeType proteomeType = getProteomeType();
+        Proteome proteomeType = getProteome();
         ProteomeEntryAdapter entryAdapter =
                 new ProteomeEntryAdapter(taxonomyRepo, "theDir", "suffix.fasta");
         assertThrows(StoringException.class, () -> entryAdapter.adaptEntry(proteomeType));
     }
 
-    private ProteomeType getProteomeType() {
+    private Proteome getProteome() {
         ObjectFactory xmlFactory = new ObjectFactory();
-        ProteomeType proteomeType = xmlFactory.createProteomeType();
+        Proteome proteomeType = xmlFactory.createProteome();
         proteomeType.setUpid("UP000000718");
         proteomeType.setDescription("Proteome Description");
         proteomeType.setTaxonomy(289376L);

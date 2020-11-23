@@ -15,7 +15,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;
 import org.uniprot.core.json.parser.proteome.ProteomeJsonConfig;
 import org.uniprot.core.xml.XmlChainIterator;
-import org.uniprot.core.xml.jaxb.proteome.ProteomeType;
+import org.uniprot.core.xml.jaxb.proteome.Proteome;
 import org.uniprot.store.search.document.proteome.ProteomeDocument;
 import org.uniprot.store.search.field.QueryBuilder;
 
@@ -29,21 +29,21 @@ class ProteomeSearchIT {
     static void populateIndexWithTestData() {
         List<String> files = Collections.singletonList("it/proteome/proteome_example.xml");
 
-        XmlChainIterator<ProteomeType, ProteomeType> chainingIterators =
+        XmlChainIterator<Proteome, Proteome> chainingIterators =
                 new XmlChainIterator<>(
                         new XmlChainIterator.FileInputStreamIterator(files),
-                        ProteomeType.class,
+                        Proteome.class,
                         PROTEOME_ROOT_ELEMENT,
                         Function.identity());
 
         new XmlChainIterator<>(
                 new XmlChainIterator.FileInputStreamIterator(files),
-                ProteomeType.class,
+                Proteome.class,
                 PROTEOME_ROOT_ELEMENT,
                 Function.identity());
 
         while (chainingIterators.hasNext()) {
-            ProteomeType next = chainingIterators.next();
+            Proteome next = chainingIterators.next();
             searchEngine.indexEntry(next);
         }
     }

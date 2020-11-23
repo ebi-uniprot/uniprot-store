@@ -42,7 +42,7 @@ class ProteomeEntryConverterTest {
     void convertExcludedChangeIsExcludedTrue() {
         // when
         ObjectFactory xmlFactory = new ObjectFactory();
-        ProteomeType proteome = xmlFactory.createProteomeType();
+        Proteome proteome = xmlFactory.createProteome();
         proteome.setUpid("UP123456");
         proteome.setDescription("Proteome Description");
         ExclusionType exclusionType = xmlFactory.createExclusionType();
@@ -65,7 +65,7 @@ class ProteomeEntryConverterTest {
     void convertReferenceChangeIsReferenceTrue() {
         // when
         ObjectFactory xmlFactory = new ObjectFactory();
-        ProteomeType proteome = xmlFactory.createProteomeType();
+        Proteome proteome = xmlFactory.createProteome();
         proteome.setUpid("UP123456");
         proteome.setDescription("Proteome Description");
         proteome.setIsReferenceProteome(true);
@@ -86,7 +86,7 @@ class ProteomeEntryConverterTest {
     void convertRepresentativeChangeIsReferenceTrue() {
         // when
         ObjectFactory xmlFactory = new ObjectFactory();
-        ProteomeType proteome = xmlFactory.createProteomeType();
+        Proteome proteome = xmlFactory.createProteome();
         proteome.setUpid("UP123456");
         proteome.setDescription("Proteome Description");
         proteome.setIsRepresentativeProteome(true);
@@ -107,7 +107,7 @@ class ProteomeEntryConverterTest {
     void convertReferenceAndRepresentativeChangeIsReferenceTrue() {
         // when
         ObjectFactory xmlFactory = new ObjectFactory();
-        ProteomeType proteome = xmlFactory.createProteomeType();
+        Proteome proteome = xmlFactory.createProteome();
         proteome.setUpid("UP123456");
         proteome.setDescription("Proteome Description");
         proteome.setIsRepresentativeProteome(true);
@@ -129,7 +129,7 @@ class ProteomeEntryConverterTest {
     void convertRedundantChangeIsRedundantTrue() {
         // when
         ObjectFactory xmlFactory = new ObjectFactory();
-        ProteomeType proteome = xmlFactory.createProteomeType();
+        Proteome proteome = xmlFactory.createProteome();
         proteome.setUpid("UP123456");
         proteome.setDescription("Proteome Description");
         proteome.setRedundantTo("UP123457");
@@ -150,7 +150,7 @@ class ProteomeEntryConverterTest {
     void convertCompleteProteome() {
         // when
         ObjectFactory xmlFactory = new ObjectFactory();
-        ProteomeType proteome = xmlFactory.createProteomeType();
+        Proteome proteome = xmlFactory.createProteome();
         proteome.setUpid("UP123456");
         proteome.setDescription("Proteome Description");
         proteome.setTaxonomy(289376L);

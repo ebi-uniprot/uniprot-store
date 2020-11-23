@@ -11,7 +11,7 @@ import org.springframework.batch.item.ItemWriter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.uniprot.core.xml.jaxb.proteome.ProteomeType;
+import org.uniprot.core.xml.jaxb.proteome.Proteome;
 import org.uniprot.cv.taxonomy.FileNodeIterable;
 import org.uniprot.cv.taxonomy.TaxonomyRepo;
 import org.uniprot.cv.taxonomy.impl.TaxonomyMapRepo;
@@ -40,12 +40,12 @@ public class ProteomeConfig {
     private String geneCentricFileSuffix;
 
     @Bean(name = "proteomeXmlReader")
-    public ItemReader<ProteomeType> proteomeReader() {
+    public ItemReader<Proteome> proteomeReader() {
         return new ProteomeXmlEntryReader(proteomeXmlFilename);
     }
 
     @Bean("ProteomeDocumentProcessor")
-    public ItemProcessor<ProteomeType, ProteomeDocument> proteomeEntryProcessor(
+    public ItemProcessor<Proteome, ProteomeDocument> proteomeEntryProcessor(
             ProteomeDocumentConverter proteomeEntryConverter,
             ProteomeEntryAdapter proteomeEntryAdapter) {
         return new ProteomeItemProcessor(proteomeEntryConverter, proteomeEntryAdapter);
