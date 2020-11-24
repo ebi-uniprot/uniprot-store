@@ -57,7 +57,7 @@
     "label": "Sequence identity",
     "itemType": "SINGLE",
     "fieldType": "GENERAL",
-    "dataType": "STRING",
+    "dataType": "ENUM",
     "description": "Search by identity",
     "example": "sample identity",
     "includeInSwagger": true,
