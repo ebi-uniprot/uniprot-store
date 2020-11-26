@@ -66,8 +66,8 @@ public class ProteomeRDDReader implements PairRDDReader<String, ProteomeEntry> {
 
     private StructType geProteomeXMLSchema() {
         StructType structType = new StructType();
-        structType = structType.add("_upid", DataTypes.StringType, true);
-        structType = structType.add("name", DataTypes.StringType, true);
+        structType = structType.add("upid", DataTypes.StringType, true);
+        structType = structType.add("taxonomy", DataTypes.IntegerType, true);
         return structType;
     }
 }

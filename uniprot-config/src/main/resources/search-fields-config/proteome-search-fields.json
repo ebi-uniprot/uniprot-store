@@ -28,7 +28,6 @@
     "fieldType": "GENERAL",
     "itemType": "SINGLE",
     "dataType": "INTEGER",
-    "sortFieldId": "proteome_type_sort",
     "description": "search by proteome type",
     "example": "1",
     "values": [
@@ -55,41 +54,66 @@
     ]
   },
   {
-    "id": "proteome_type_sort",
-    "fieldName": "proteome_type",
-    "fieldType": "SORT",
-    "dataType": "INTEGER",
-    "description": "sort by proteome type",
-    "example": "proteome_type desc"
-  },
-  {
     "id": "annotation_score",
     "fieldName": "annotation_score",
     "fieldType": "GENERAL",
     "dataType": "INTEGER",
-    "sortFieldId": "annotation_score_sort",
     "description": "search by annotation_score ",
     "example": "1"
   },
   {
-    "id": "annotation_score_sort",
-    "fieldName": "annotation_score",
+    "id": "cpd",
+    "fieldName": "cpd",
+    "fieldType": "GENERAL",
+    "dataType": "INTEGER",
+    "sortFieldId": "cpd_sort",
+    "description": "search by cpd ",
+    "example": "1"
+  },
+  {
+    "id": "cpd_sort",
+    "fieldName": "cpd",
     "fieldType": "SORT",
     "dataType": "INTEGER",
-    "description": "sort by annotation_score",
-    "example": "annotation_score asc"
+    "description": "sort by cpd score",
+    "example": "cpd asc"
+  },
+  {
+    "id": "busco",
+    "fieldName": "busco",
+    "fieldType": "GENERAL",
+    "dataType": "INTEGER",
+    "sortFieldId": "busco_sort",
+    "description": "search by busco",
+    "example": "97"
+  },
+  {
+    "id": "busco_sort",
+    "fieldName": "busco",
+    "fieldType": "SORT",
+    "dataType": "INTEGER",
+    "description": "busco by cpd score",
+    "example": "busco asc"
+  },
+  {
+    "id": "protein_count",
+    "fieldName": "protein_count",
+    "fieldType": "GENERAL",
+    "dataType": "INTEGER",
+    "sortFieldId": "protein_count_sort",
+    "description": "search by protein_count",
+    "example": "97"
+  },
+  {
+    "id": "protein_count_sort",
+    "fieldName": "protein_count",
+    "fieldType": "SORT",
+    "dataType": "INTEGER",
+    "description": "sort by protein_count",
+    "example": "protein_count asc"
   },
   {
     "id": "organism_sort",
-    "fieldName": "organism_sort",
-    "fieldType": "GENERAL",
-    "dataType": "STRING",
-    "sortFieldId": "organism_sort_id",
-    "description": "search by organism",
-    "example": "sample organism name"
-  },
-  {
-    "id": "organism_sort_id",
     "fieldName": "organism_sort",
     "fieldType": "SORT",
     "dataType": "STRING",
@@ -131,6 +155,7 @@
     "fieldType": "GENERAL",
     "itemType": "SINGLE",
     "dataType": "STRING",
+    "sortFieldId": "organism_sort",
     "description": "search by organism",
     "example": "sample organism name"
   },
@@ -192,13 +217,5 @@
     "dataType": "STRING",
     "description": "search by genome_assembly ",
     "example": "sample genome_assembly"
-  },
-  {
-    "id": "content",
-    "fieldName": "content",
-    "fieldType": "GENERAL",
-    "dataType": "STRING",
-    "description": "Search by any content",
-    "example": "sample"
   }
 ]

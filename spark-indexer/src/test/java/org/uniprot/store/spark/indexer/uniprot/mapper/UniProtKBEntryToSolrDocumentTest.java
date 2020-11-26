@@ -54,9 +54,9 @@ class UniProtKBEntryToSolrDocumentTest {
     @Test
     void testInvalidUniprotEntry() throws Exception {
         UniProtEntryToSolrDocument mapper = new UniProtEntryToSolrDocument(new HashMap<>());
-        UniProtKBEntry entry = new UniProtKBEntryBuilder(
-                "P12345", "ID_P12345", UniProtKBEntryType.SWISSPROT)
-                .build();
+        UniProtKBEntry entry =
+                new UniProtKBEntryBuilder("P12345", "ID_P12345", UniProtKBEntryType.SWISSPROT)
+                        .build();
         assertThrows(
                 DocumentConversionException.class,
                 () -> mapper.call(entry),

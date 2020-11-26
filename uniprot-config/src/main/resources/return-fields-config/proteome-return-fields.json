@@ -25,7 +25,7 @@
     "itemType": "SINGLE",
     "isDefaultForTsv": true,
     "defaultForTsvOrder" : 1,
-    "sortField" : "organism_sort",
+    "sortField" : "organism_name",
     "label": "Organism",
     "name": "organism",
     "paths" : ["taxonomy"],
@@ -82,6 +82,7 @@
     "itemType": "SINGLE",
     "label": "BUSCO",
     "name": "busco",
+    "sortField" : "busco",
     "paths" : ["proteomeCompletenessReport.buscoReport"],
     "id": "miscellaneous/busco"
   },
@@ -91,6 +92,7 @@
     "itemType": "SINGLE",
     "label": "CPD",
     "name": "cpd",
+    "sortField" : "cpd",
     "paths" : ["proteomeCompletenessReport.cpdReport"],
     "id": "miscellaneous/cpd"
   },
@@ -107,6 +109,7 @@
     "parentId": "miscellaneous",
     "childNumber": 3,
     "itemType": "SINGLE",
+    "sortField" : "protein_count",
     "isDefaultForTsv": true,
     "defaultForTsvOrder" : 3,
     "label": "Protein count",

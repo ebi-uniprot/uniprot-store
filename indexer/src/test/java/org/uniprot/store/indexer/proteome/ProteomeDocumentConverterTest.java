@@ -2,6 +2,8 @@ package org.uniprot.store.indexer.proteome;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
+import static org.uniprot.core.xml.proteome.ScoreBuscoConverter.*;
+import static org.uniprot.core.xml.proteome.ScoreCPDConverter.*;
 
 import java.io.File;
 
@@ -12,8 +14,11 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.uniprot.core.proteome.CPDStatus;
 import org.uniprot.core.proteome.ExclusionReason;
 import org.uniprot.core.xml.jaxb.proteome.*;
+import org.uniprot.core.xml.proteome.ScoreBuscoConverter;
+import org.uniprot.core.xml.proteome.ScoreCPDConverter;
 import org.uniprot.cv.taxonomy.FileNodeIterable;
 import org.uniprot.cv.taxonomy.TaxonomyRepo;
 import org.uniprot.cv.taxonomy.impl.TaxonomyMapRepo;
@@ -26,7 +31,7 @@ import org.uniprot.store.search.document.proteome.ProteomeDocument;
 @ExtendWith(SpringExtension.class)
 @TestPropertySource(locations = "classpath:application.properties")
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-class ProteomeEntryConverterTest {
+class ProteomeDocumentConverterTest {
 
     @Value(("${uniprotkb.indexing.taxonomyFile}"))
     private String taxonomyFile;
@@ -160,6 +165,8 @@ class ProteomeEntryConverterTest {
         genomeAnnotation.setGenomeAnnotationUrl("GAUrl");
 
         ComponentType component = xmlFactory.createComponentType();
+        component.setName("component Name");
+        component.setProteinCount(10);
         component.getGenomeAccession().add("P21802");
         component.setBiosampleId("GCSetAccValue");
         component.setGenomeAnnotation(genomeAnnotation);
@@ -175,7 +182,8 @@ class ProteomeEntryConverterTest {
         genomeAssembly.setGenomeAssemblySource("EnsemblMetazoa");
         genomeAssembly.setGenomeRepresentation("full");
         proteome.setGenomeAssembly(genomeAssembly);
-
+        proteome.getScores().add(getBuscoScore());
+        proteome.getScores().add(getCPDScore());
         ProteomeDocumentConverter converter = new ProteomeDocumentConverter(taxonomyRepo);
         ProteomeDocument result = converter.convert(proteome);
         assertNotNull(result);
@@ -222,5 +230,42 @@ class ProteomeEntryConverterTest {
         assertTrue(result.genomeAssembly.contains("GAValue"));
 
         assertEquals(2, result.score);
+        assertEquals(1, result.cpd);
+        assertEquals(91, result.busco);
+        assertEquals(10, result.proteinCount);
+    }
+
+    private ScoreType getCPDScore() {
+        ObjectFactory xmlFactory = new ObjectFactory();
+        ScoreType scoreType = xmlFactory.createScoreType();
+        scoreType.setName(ScoreCPDConverter.NAME);
+        ScorePropertyType property = createProperty(PROPERTY_AVERAGE_CDS, "10");
+        scoreType.getProperty().add(property);
+        property = createProperty(PROPERTY_STATUS, CPDStatus.STANDARD.getDisplayName());
+        scoreType.getProperty().add(property);
+        property = createProperty(PROPERTY_STD_CDSS, "14");
+        scoreType.getProperty().add(property);
+        return scoreType;
+    }
+
+    private ScoreType getBuscoScore() {
+        ObjectFactory xmlFactory = new ObjectFactory();
+        ScoreType scoreType = xmlFactory.createScoreType();
+        scoreType.setName(ScoreBuscoConverter.NAME);
+        ScorePropertyType property = createProperty(PROPERTY_TOTAL, "10");
+        scoreType.getProperty().add(property);
+        property = createProperty(PROPERTY_SCORE, "91");
+        scoreType.getProperty().add(property);
+        property = createProperty(PROPERTY_LINEAGE, "lineage value");
+        scoreType.getProperty().add(property);
+        return scoreType;
+    }
+
+    private ScorePropertyType createProperty(String name, String value) {
+        ObjectFactory xmlFactory = new ObjectFactory();
+        ScorePropertyType property = xmlFactory.createScorePropertyType();
+        property.setName(name);
+        property.setValue(value);
+        return property;
     }
 }

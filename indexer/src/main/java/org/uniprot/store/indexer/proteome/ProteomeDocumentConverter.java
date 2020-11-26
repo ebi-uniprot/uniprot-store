@@ -6,10 +6,16 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import org.uniprot.core.json.parser.proteome.ProteomeJsonConfig;
+import org.uniprot.core.proteome.CPDStatus;
 import org.uniprot.core.proteome.ProteomeEntry;
 import org.uniprot.core.proteome.Superkingdom;
+import org.uniprot.core.util.Utils;
 import org.uniprot.core.xml.jaxb.proteome.ComponentType;
 import org.uniprot.core.xml.jaxb.proteome.Proteome;
+import org.uniprot.core.xml.jaxb.proteome.ScorePropertyType;
+import org.uniprot.core.xml.jaxb.proteome.ScoreType;
+import org.uniprot.core.xml.proteome.ScoreBuscoConverter;
+import org.uniprot.core.xml.proteome.ScoreCPDConverter;
 import org.uniprot.cv.taxonomy.TaxonomicNode;
 import org.uniprot.cv.taxonomy.TaxonomyRepo;
 import org.uniprot.store.indexer.util.TaxonomyRepoUtil;
@@ -42,14 +48,43 @@ public class ProteomeDocumentConverter implements DocumentConverter<Proteome, Pr
         updateProteome(document, source);
         document.genomeAccession = fetchGenomeAccessions(source);
         document.genomeAssembly = fetchGenomeAssemblyId(source);
-        document.content.add(document.upid);
-        document.content.add(source.getDescription());
-        document.content.addAll(document.organismTaxon);
-        document.taxLineageIds.forEach(val -> document.content.add(val.toString()));
+        document.proteinCount = fetchProteinCount(source.getComponent());
+        document.busco = fetchBusco(source.getScores());
+        document.cpd = fetchCPD(source.getScores());
         if (source.getAnnotationScore() != null) {
             updateAnnotationScore(document, source);
         }
         return document;
+    }
+
+    private int fetchCPD(List<ScoreType> scores) {
+        return scores.stream()
+                .filter(scoreType -> scoreType.getName().equalsIgnoreCase(ScoreCPDConverter.NAME))
+                .flatMap(busco -> busco.getProperty().stream())
+                .filter(prop -> ScoreCPDConverter.PROPERTY_STATUS.equals(prop.getName()))
+                .map(ScorePropertyType::getValue)
+                .map(CPDStatus::fromValue)
+                .map(CPDStatus::getId)
+                .findFirst()
+                .orElse(CPDStatus.UNKNOWN.getId());
+    }
+
+    private int fetchBusco(List<ScoreType> scores) {
+        return scores.stream()
+                .filter(scoreType -> scoreType.getName().equalsIgnoreCase(ScoreBuscoConverter.NAME))
+                .flatMap(busco -> busco.getProperty().stream())
+                .filter(prop -> ScoreBuscoConverter.PROPERTY_SCORE.equals(prop.getName()))
+                .map(ScorePropertyType::getValue)
+                .map(Integer::parseInt)
+                .findFirst()
+                .orElse(0);
+    }
+
+    private int fetchProteinCount(List<ComponentType> component) {
+        return component.stream()
+                .filter(c -> Utils.notNull(c.getProteinCount()))
+                .mapToInt(ComponentType::getProteinCount)
+                .sum();
     }
 
     private void updateAnnotationScore(ProteomeDocument document, Proteome source) {

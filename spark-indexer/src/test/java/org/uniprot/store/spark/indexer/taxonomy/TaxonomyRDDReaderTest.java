@@ -3,8 +3,6 @@ package org.uniprot.store.spark.indexer.taxonomy;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -58,7 +56,7 @@ class TaxonomyRDDReaderTest {
             JavaPairRDD<String, TaxonomyEntry> taxonomyRDD = reader.load();
             assertNotNull(taxonomyRDD);
             long count = taxonomyRDD.count();
-            assertEquals(6, count);
+            assertEquals(11, count);
 
             Tuple2<String, TaxonomyEntry> tuple = taxonomyRDD.first();
             assertNotNull(tuple);
@@ -111,39 +109,14 @@ class TaxonomyRDDReaderTest {
     @AfterAll
     public void teardown() throws SQLException, IOException {
         Statement statement = this.dbConnection.createStatement();
-        dropTables(statement);
+        TaxonomyH2Utils.dropTables(statement);
         dbConnection.close();
     }
 
     private void fillDatabase() throws SQLException, IOException {
         Statement statement = this.dbConnection.createStatement();
-        createTables(statement);
-        insertData(statement);
-    }
-
-    private void createTables(Statement statement) throws IOException, SQLException {
-        String getCreateTablesSql =
-                new String(
-                        Files.readAllBytes(
-                                Paths.get(
-                                        "src/test/resources/2020_02/taxonomy/create_tables.sql")));
-        statement.execute(getCreateTablesSql);
-    }
-
-    private void insertData(Statement statement) throws SQLException, IOException {
-        String getInsertDataSql =
-                new String(
-                        Files.readAllBytes(
-                                Paths.get("src/test/resources/2020_02/taxonomy/insert_data.sql")));
-        statement.execute(getInsertDataSql);
-    }
-
-    private void dropTables(Statement statement) throws IOException, SQLException {
-        String getDropTablesSql =
-                new String(
-                        Files.readAllBytes(
-                                Paths.get("src/test/resources/2020_02/taxonomy/drop_tables.sql")));
-        statement.execute(getDropTablesSql);
+        TaxonomyH2Utils.createTables(statement);
+        TaxonomyH2Utils.insertData(statement);
     }
 
     private static class TaxonomyRDDReaderFake extends TaxonomyRDDReader {
