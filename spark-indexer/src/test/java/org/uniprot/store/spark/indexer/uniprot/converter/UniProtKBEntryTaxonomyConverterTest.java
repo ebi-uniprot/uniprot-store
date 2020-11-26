@@ -1,11 +1,8 @@
 package org.uniprot.store.spark.indexer.uniprot.converter;
 
 import static java.util.Arrays.asList;
-import static java.util.Collections.singleton;
 import static java.util.Collections.singletonList;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-
-import java.util.HashSet;
 
 import org.junit.jupiter.api.Test;
 import org.uniprot.core.uniprotkb.taxonomy.Organism;
@@ -33,9 +30,6 @@ class UniProtKBEntryTaxonomyConverterTest {
 
         // then
         assertEquals(9606, uniProtDocument.organismTaxId);
-
-        // content for default search
-        assertEquals(singleton("9606"), uniProtDocument.content);
     }
 
     @Test
@@ -52,9 +46,6 @@ class UniProtKBEntryTaxonomyConverterTest {
 
         // then
         assertEquals(singletonList(9606), uniProtDocument.organismHostIds);
-
-        // content for default search
-        assertEquals(singleton("9606"), uniProtDocument.content);
     }
 
     @Test
@@ -72,8 +63,5 @@ class UniProtKBEntryTaxonomyConverterTest {
 
         // then
         assertEquals(asList(9606, 9000), uniProtDocument.organismHostIds);
-
-        // content for default search
-        assertEquals(new HashSet<>(asList("9606", "9000")), uniProtDocument.content);
     }
 }

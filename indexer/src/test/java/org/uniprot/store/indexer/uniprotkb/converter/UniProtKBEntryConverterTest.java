@@ -61,10 +61,10 @@ class UniProtKBEntryConverterTest {
 
         // then
         assertEquals("P12345", document.accession);
+        assertEquals("UNIPROT_ENTRYID", document.id);
         assertFalse(document.isIsoform);
         assertTrue(document.active);
         assertTrue(document.secacc.isEmpty());
-        assertEquals(new HashSet<>(Arrays.asList("P12345", "UNIPROT_ENTRYID")), document.content);
     }
 
     @Test
@@ -85,9 +85,7 @@ class UniProtKBEntryConverterTest {
         assertTrue(document.isIsoform);
         assertTrue(document.active);
         assertEquals(Collections.singletonList("P12345"), document.secacc);
-        assertEquals(
-                new HashSet<>(Arrays.asList("P12345-5", "P12345", "UNIPROT_ENTRYID")),
-                document.content);
+        assertEquals("UNIPROT_ENTRYID", document.id);
     }
 
     @Test
@@ -138,7 +136,6 @@ class UniProtKBEntryConverterTest {
 
         // then
         assertEquals(species, document.idDefault);
-        assertEquals(new HashSet<>(Arrays.asList("P12345", "ACCESSION_SPECIES")), document.content);
     }
 
     @Test
@@ -157,7 +154,6 @@ class UniProtKBEntryConverterTest {
 
         // then
         assertEquals(id, document.idDefault);
-        assertEquals(new HashSet<>(Arrays.asList("P12345", "GENE_SPECIES")), document.content);
     }
 
     @Test
@@ -219,17 +215,6 @@ class UniProtKBEntryConverterTest {
                 document.geneNamesExact);
         assertEquals(document.geneNamesExact, document.geneNames);
         assertEquals("some Gene name some Syn some l", document.geneNamesSort);
-        assertEquals(
-                new HashSet<>(
-                        Arrays.asList(
-                                "P12345",
-                                "UNIPROT_ENTRYID",
-                                "some Gene name",
-                                "some Syn",
-                                "some locus",
-                                "some orf",
-                                "some other orf")),
-                document.content);
     }
 
     @Test
@@ -256,16 +241,6 @@ class UniProtKBEntryConverterTest {
         assertEquals("P12345", document.accession);
         assertEquals(
                 Arrays.asList("KW-1111", "keyword value", "KW-9994", "Domain"), document.keywords);
-        assertEquals(
-                new HashSet<>(
-                        Arrays.asList(
-                                "P12345",
-                                "UNIPROT_ENTRYID",
-                                "KW-1111",
-                                "keyword value",
-                                "KW-9994",
-                                "Domain")),
-                document.content);
 
         // check suggestions
         assertEquals(2, suggestions.size());
@@ -300,9 +275,7 @@ class UniProtKBEntryConverterTest {
         // then
         assertEquals("P12345", document.accession);
         assertEquals(Arrays.asList("plastid", "cyanelle"), document.organelles);
-        assertEquals(
-                new HashSet<>(Arrays.asList("P12345", "UNIPROT_ENTRYID", "cyanelle", "plastid")),
-                document.content);
+        assertEquals("UNIPROT_ENTRYID", document.id);
     }
 
     @Test

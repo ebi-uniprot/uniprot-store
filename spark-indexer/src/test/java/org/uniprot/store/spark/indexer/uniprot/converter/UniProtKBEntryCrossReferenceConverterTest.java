@@ -40,13 +40,6 @@ class UniProtKBEntryCrossReferenceConverterTest {
 
         converter.convertCrossReferences(references, document);
 
-        // Proteomes and proteomes components are not being saved in the content (default field),
-        // should it be?
-        assertEquals(3, document.content.size());
-        assertEquals(
-                new HashSet<>(Arrays.asList("proteomes-id value", "proteomes", "id value")),
-                document.content);
-
         assertEquals(
                 new HashSet<>(Arrays.asList("proteomes-id value", "id value")), document.crossRefs);
 
@@ -75,11 +68,7 @@ class UniProtKBEntryCrossReferenceConverterTest {
 
         converter.convertCrossReferences(references, document);
 
-        assertEquals(5, document.content.size());
-        assertEquals(
-                new HashSet<>(
-                        Arrays.asList("go-GO:12345", "GO:12345", "go", "12345", "apical dendrite")),
-                document.content);
+        assertEquals(new HashSet<>(Collections.singletonList("apical dendrite")), document.content);
 
         assertEquals(new HashSet<>(Arrays.asList("go-GO:12345", "GO:12345")), document.crossRefs);
 
@@ -112,10 +101,6 @@ class UniProtKBEntryCrossReferenceConverterTest {
 
         converter.convertCrossReferences(references, document);
 
-        assertEquals(3, document.content.size());
-        assertEquals(
-                new HashSet<>(Arrays.asList("pdb-id value", "pdb", "id value")), document.content);
-
         assertEquals(new HashSet<>(Arrays.asList("pdb-id value", "id value")), document.crossRefs);
 
         assertEquals(Collections.singleton("pdb"), document.databases);
@@ -142,17 +127,6 @@ class UniProtKBEntryCrossReferenceConverterTest {
 
         converter.convertCrossReferences(references, document);
 
-        assertEquals(5, document.content.size());
-        assertEquals(
-                new HashSet<>(
-                        Arrays.asList(
-                                "embl-id value",
-                                "embl",
-                                "embl-EMBL12345",
-                                "EMBL12345",
-                                "id value")),
-                document.content);
-
         assertEquals(
                 new HashSet<>(
                         Arrays.asList("embl-id value", "embl-EMBL12345", "EMBL12345", "id value")),
@@ -178,17 +152,6 @@ class UniProtKBEntryCrossReferenceConverterTest {
         List<UniProtKBCrossReference> references = Collections.singletonList(xref);
 
         converter.convertCrossReferences(references, document);
-
-        assertEquals(5, document.content.size());
-        assertEquals(
-                new HashSet<>(
-                        Arrays.asList(
-                                "ensembl-id value",
-                                "ensembl",
-                                "ensembl-E12345",
-                                "E12345",
-                                "id value")),
-                document.content);
 
         assertEquals(
                 new HashSet<>(

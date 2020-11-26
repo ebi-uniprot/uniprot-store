@@ -39,7 +39,7 @@ class UniProtKBEntryTaxonomyConverterTest {
                 getTaxonomyNode(9606, "Homo sapiens", "Human", "Homo sapian", "HUMAN", parentNode);
         Organism organism = new OrganismBuilder().taxonId(9606L).build();
 
-        // objects that will be updated in the convertion method
+        // objects that will be updated in the conversion method
         UniProtDocument uniProtDocument = new UniProtDocument();
         Map<String, SuggestDocument> suggestions = new HashMap<>();
 
@@ -57,9 +57,7 @@ class UniProtKBEntryTaxonomyConverterTest {
         assertEquals(9606, uniProtDocument.organismTaxId);
 
         // organism fields
-        assertEquals(
-                asList("Homo sapiens", "Human", "Homo sapian", "HUMAN"),
-                uniProtDocument.organismName);
+        assertEquals(asList("Homo sapiens", "Human", "Homo sapian"), uniProtDocument.organismName);
         assertEquals(30, uniProtDocument.organismSort.length());
         assertEquals("Homo sapiens Human Homo sapian", uniProtDocument.organismSort);
 
@@ -74,28 +72,10 @@ class UniProtKBEntryTaxonomyConverterTest {
                         "Homo sapiens",
                         "Human",
                         "Homo sapian",
-                        "HUMAN",
                         "scientific parent",
                         "common parent",
-                        "synonym parent",
-                        "mnemonic parent"),
+                        "synonym parent"),
                 uniProtDocument.organismTaxon);
-
-        // content for default search
-        assertEquals(
-                new HashSet<>(
-                        asList(
-                                "Human",
-                                "HUMAN",
-                                "mnemonic parent",
-                                "common parent",
-                                "synonym parent",
-                                "9605",
-                                "Homo sapiens",
-                                "9606",
-                                "scientific parent",
-                                "Homo sapian")),
-                uniProtDocument.content);
 
         // suggestion documents for organism and taxonomy lineage...
         assertEquals(3, suggestions.size());
@@ -152,11 +132,6 @@ class UniProtKBEntryTaxonomyConverterTest {
         assertEquals(asList(9000), uniProtDocument.taxLineageIds);
         assertEquals(asList("other scientific", "other synonym"), uniProtDocument.organismTaxon);
 
-        // content for default search
-        assertEquals(
-                new HashSet<>(asList("other synonym", "9000", "other scientific")),
-                uniProtDocument.content);
-
         // suggestion documents for organism and taxonomy lineage...
         assertEquals(2, suggestions.size());
         assertTrue(suggestions.containsKey("ORGANISM:9000"));
@@ -195,13 +170,7 @@ class UniProtKBEntryTaxonomyConverterTest {
 
         // organism fields
         assertEquals(
-                asList("Homo sapiens", "Human", "Homo sapian", "HUMAN"),
-                uniProtDocument.organismHostNames);
-
-        // content for default search
-        assertEquals(
-                new HashSet<>(asList("Human", "HUMAN", "Homo sapiens", "9606", "Homo sapian")),
-                uniProtDocument.content);
+                asList("Homo sapiens", "Human", "Homo sapian"), uniProtDocument.organismHostNames);
 
         // suggestion documents for organism host...
         assertEquals(1, suggestions.size());
@@ -248,28 +217,10 @@ class UniProtKBEntryTaxonomyConverterTest {
                         "Homo sapiens",
                         "Human",
                         "Homo sapian",
-                        "HUMAN",
                         "other scientific",
                         "other common",
-                        "other synonym",
-                        "OTHER"),
+                        "other synonym"),
                 uniProtDocument.organismHostNames);
-
-        // content for default search
-        assertEquals(
-                new HashSet<>(
-                        asList(
-                                "Human",
-                                "OTHER",
-                                "other common",
-                                "other synonym",
-                                "HUMAN",
-                                "Homo sapiens",
-                                "9606",
-                                "Homo sapian",
-                                "9000",
-                                "other scientific")),
-                uniProtDocument.content);
 
         // suggestion documents for organism host...
         assertEquals(2, suggestions.size());

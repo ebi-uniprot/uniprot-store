@@ -1,15 +1,15 @@
 package org.uniprot.store.spark.indexer.uniprot.converter;
 
+import org.uniprot.core.Property;
+import org.uniprot.core.uniprotkb.xdb.UniProtKBCrossReference;
+import org.uniprot.store.search.document.uniprot.UniProtDocument;
+
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
-
-import org.uniprot.core.Property;
-import org.uniprot.core.uniprotkb.xdb.UniProtKBCrossReference;
-import org.uniprot.store.search.document.uniprot.UniProtDocument;
 
 /**
  * @author lgonzales
@@ -34,7 +34,6 @@ class UniProtEntryCrossReferenceConverter {
             }
             String dbname = xref.getDatabase().getName().toLowerCase();
             document.databases.add(dbname);
-            document.content.add(dbname);
             String id = xref.getId();
             if (!dbname.equalsIgnoreCase("PIR")) {
                 convertXRefId(document, dbname, id);
@@ -95,7 +94,6 @@ class UniProtEntryCrossReferenceConverter {
     private void convertXRefId(UniProtDocument document, String dbname, String s) {
         List<String> xrefIds = UniProtEntryConverterUtil.getXrefId(s, dbname);
         document.crossRefs.addAll(xrefIds);
-        document.content.addAll(xrefIds);
     }
 
     private void convertXrefCount(
@@ -118,9 +116,12 @@ class UniProtEntryCrossReferenceConverter {
                         .map(property -> property.getValue().split(":")[0].toLowerCase())
                         .collect(Collectors.joining());
 
+        // For default searches, GO ID is covered by document.xrefs. But we still need to add go
+        // term to content for default searches.
+        document.content.add(goTerm);
+
+        // add go id and term to specific doc fields for advanced search
         addGoterm(evType, go.getId(), goTerm, document);
-        document.content.add(go.getId().substring(3)); // id
-        document.content.add(goTerm); // term
     }
 
     private void addGoterm(String evType, String goId, String term, UniProtDocument document) {
