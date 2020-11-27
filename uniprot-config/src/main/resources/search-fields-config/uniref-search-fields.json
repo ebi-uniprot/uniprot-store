@@ -22,6 +22,14 @@
     "example": "id asc"
   },
   {
+    "id": "cluster",
+    "fieldName": "cluster",
+    "fieldType": "GENERAL",
+    "dataType": "STRING",
+    "description": "Search by related clusters",
+    "example": "UniRef100_A0A001"
+  },
+  {
     "id": "organism_sort",
     "fieldName": "organism_sort",
     "sortFieldId": "organism_sort_id",
