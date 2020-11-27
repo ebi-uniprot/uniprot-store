@@ -20,7 +20,6 @@ import org.uniprot.core.xml.jaxb.proteome.ObjectFactory;
 import org.uniprot.core.xml.jaxb.proteome.Proteome;
 import org.uniprot.cv.taxonomy.FileNodeIterable;
 import org.uniprot.cv.taxonomy.impl.TaxonomyMapRepo;
-import org.uniprot.store.job.common.StoringException;
 
 /**
  * @author lgonzales
