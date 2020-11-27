@@ -2,6 +2,7 @@ package org.uniprot.store.search.document.uniref;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 import lombok.*;
 
@@ -42,11 +43,16 @@ public class UniRefDocument implements Document {
     @Field("uniprot_id")
     private List<String> uniprotIds;
 
+    @Singular
+    @Field("cluster")
+    private Set<String> clusters;
+
     @Field("organism_sort")
     public String organismSort;
 
+    @Singular
     @Field("upi")
-    private List<String> upis;
+    private List<String> upids;
 
     @Singular
     @Field("taxonomy_name")

@@ -1,7 +1,9 @@
 package org.uniprot.store.indexer.uniref;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.uniprot.core.uniref.UniRefEntry;
 import org.uniprot.core.uniref.UniRefMember;
@@ -42,7 +44,8 @@ public class UniRefDocumentConverter implements DocumentConverter<Entry, UniRefD
                 .length(entry.getRepresentativeMember().getSequence().getLength())
                 .created(DateUtils.convertLocalDateToDate(entry.getUpdated()))
                 .uniprotIds(getUniProtIds(entry))
-                .upis(getUniParcIds(entry))
+                .upids(getUniParcIds(entry))
+                .clusters(getClusterIds(entry))
                 .organismSort(getOrganismNameForSort(entry));
         processTaxonomy(
                 entry.getRepresentativeMember().getOrganismName(),
@@ -96,6 +99,27 @@ public class UniRefDocumentConverter implements DocumentConverter<Entry, UniRefD
         }
         member.getUniProtAccessions().forEach(val -> result.add(val.getValue()));
 
+        return result;
+    }
+
+    private Set<String> getClusterIds(UniRefEntry entry) {
+        Set<String> result = getClusterIds(entry.getRepresentativeMember());
+        entry.getMembers().forEach(val -> result.addAll(getClusterIds(val)));
+        return result;
+    }
+
+    private Set<String> getClusterIds(UniRefMember member) {
+        Set<String> result = new HashSet<>();
+
+        if (Utils.notNull(member.getUniRef50Id())) {
+            result.add(member.getUniRef50Id().getValue());
+        }
+        if (Utils.notNull(member.getUniRef90Id())) {
+            result.add(member.getUniRef90Id().getValue());
+        }
+        if (Utils.notNull(member.getUniRef100Id())) {
+            result.add(member.getUniRef100Id().getValue());
+        }
         return result;
     }
 

@@ -13,6 +13,8 @@
 		required="false" multiValued="false" />
 	<field name="identity" type="basic_ci" indexed="true"
 		stored="false" required="false" multiValued="false" />
+	<field name="cluster" type="basic_ci" indexed="true"
+		stored="false" required="false" multiValued="true" />
 	<field name="count" type="int" indexed="true" stored="false"
 		required="false" multiValued="false" />
 	<field name="length" type="int" indexed="true" stored="false"
