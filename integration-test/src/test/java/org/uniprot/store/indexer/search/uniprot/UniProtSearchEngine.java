@@ -1,16 +1,13 @@
 package org.uniprot.store.indexer.search.uniprot;
 
-import java.io.File;
-import java.net.URISyntaxException;
-import java.net.URL;
-import java.util.HashMap;
-
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.uniprot.core.uniprotkb.UniProtKBEntry;
 import org.uniprot.cv.chebi.ChebiRepo;
 import org.uniprot.cv.chebi.ChebiRepoFactory;
 import org.uniprot.cv.ec.ECRepo;
 import org.uniprot.cv.ec.ECRepoFactory;
+import org.uniprot.cv.go.GORepo;
+import org.uniprot.cv.go.GORepoFactory;
 import org.uniprot.cv.taxonomy.FileNodeIterable;
 import org.uniprot.cv.taxonomy.TaxonomyRepo;
 import org.uniprot.cv.taxonomy.impl.TaxonomyMapRepo;
@@ -18,14 +15,15 @@ import org.uniprot.store.config.UniProtDataType;
 import org.uniprot.store.config.searchfield.common.SearchFieldConfig;
 import org.uniprot.store.config.searchfield.factory.SearchFieldConfigFactory;
 import org.uniprot.store.indexer.search.AbstractSearchEngine;
-import org.uniprot.store.indexer.uniprot.go.GoRelationFileReader;
-import org.uniprot.store.indexer.uniprot.go.GoRelationFileRepo;
-import org.uniprot.store.indexer.uniprot.go.GoRelationRepo;
-import org.uniprot.store.indexer.uniprot.go.GoTermFileReader;
 import org.uniprot.store.indexer.uniprot.pathway.PathwayFileRepo;
 import org.uniprot.store.indexer.uniprot.pathway.PathwayRepo;
 import org.uniprot.store.indexer.uniprotkb.converter.UniProtEntryConverter;
 import org.uniprot.store.search.document.DocumentConverter;
+
+import java.io.File;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.util.HashMap;
 
 /** Concrete implementation of the UniProt search engine */
 public class UniProtSearchEngine extends AbstractSearchEngine<UniProtKBEntry> {
@@ -78,7 +76,7 @@ public class UniProtSearchEngine extends AbstractSearchEngine<UniProtKBEntry> {
         DocumentConverter<UniProtKBEntry, ?> create() {
             try {
                 TaxonomyRepo taxRepo = createTaxRepo();
-                GoRelationRepo goRelation = createGoRelationRepo();
+                GORepo goRelation = createGORepo();
 
                 return new UniProtEntryConverter(
                         taxRepo,
@@ -107,10 +105,8 @@ public class UniProtSearchEngine extends AbstractSearchEngine<UniProtKBEntry> {
             return new TaxonomyMapRepo(taxonomicNodeIterable);
         }
 
-        GoRelationRepo createGoRelationRepo() {
-            String gotermPath = ClassLoader.getSystemClassLoader().getResource("goterm").getFile();
-            return GoRelationFileRepo.create(
-                    new GoRelationFileReader(gotermPath), new GoTermFileReader(gotermPath));
+        GORepo createGORepo() {
+            return GORepoFactory.createRepo("./goterm");
         }
 
         PathwayRepo createPathwayRepo() {
