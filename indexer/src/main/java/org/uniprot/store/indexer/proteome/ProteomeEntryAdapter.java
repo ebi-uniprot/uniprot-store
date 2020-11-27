@@ -23,7 +23,6 @@ import org.uniprot.core.xml.proteome.ProteomeConverter;
 import org.uniprot.cv.taxonomy.TaxonomicNode;
 import org.uniprot.cv.taxonomy.TaxonomyRepo;
 import org.uniprot.store.indexer.util.TaxonomyRepoUtil;
-import org.uniprot.store.job.common.StoringException;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
@@ -84,7 +83,7 @@ public class ProteomeEntryAdapter {
                 }
             }
         } catch (IOException e) {
-            throw new StoringException(
+            log.warn(
                     "Unable to load genecentric fasta file, please check genecentric file dir config: "
                             + filePath);
         }

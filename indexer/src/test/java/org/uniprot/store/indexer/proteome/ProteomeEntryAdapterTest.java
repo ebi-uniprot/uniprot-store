@@ -75,11 +75,12 @@ class ProteomeEntryAdapterTest {
     }
 
     @Test
-    void adaptInvalidEntry() {
+    void adaptWithoutGeneEntry() {
         Proteome proteomeType = getProteome();
         ProteomeEntryAdapter entryAdapter =
                 new ProteomeEntryAdapter(taxonomyRepo, "theDir", "suffix.fasta");
-        assertThrows(StoringException.class, () -> entryAdapter.adaptEntry(proteomeType));
+        ProteomeEntry entry = entryAdapter.adaptEntry(proteomeType);
+        assertEquals(0, entry.getGeneCount());
     }
 
     private Proteome getProteome() {
