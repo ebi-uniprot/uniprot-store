@@ -161,6 +161,12 @@
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-surefire-plugin</artifactId>
 						<configuration>
+							<systemProperties>
+								<property>
+									<name>cv.dr.ord.location</name>
+									<value>${project.build.directory}/../../uniprot-config/src/test/resources/uniprotkb/xdb/dr_ord</value>
+								</property>
+							</systemProperties>
 							<!-- Exclude integration tests from unit test run -->
 							<excludes>
 								<skipITs>${skipUTs}</skipITs>
@@ -175,6 +181,12 @@
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-failsafe-plugin</artifactId>
 						<configuration>
+							<systemProperties>
+								<property>
+									<name>cv.dr.ord.location</name>
+									<value>${project.build.directory}/../../uniprot-config/src/test/resources/uniprotkb/xdb/dr_ord</value>
+								</property>
+							</systemProperties>
 							<forkCount>1</forkCount>
 							<reuseForks>false</reuseForks>
 							<skipITs>${skipITs}</skipITs>
