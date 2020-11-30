@@ -53,7 +53,7 @@ class ReturnFieldConfigFactoryTest {
         ReturnFieldConfig config =
                 ReturnFieldConfigFactory.getReturnFieldConfig(UniProtDataType.UNIRULE);
         assertThat(config, is(notNullValue()));
-        assertThat(config.getAllFields(), hasSize(12));
-        assertThat(config.getReturnFields(), hasSize(11));
+        assertThat(config.getAllFields(), hasSize(7));
+        assertThat(config.getReturnFields(), hasSize(6));
     }
 }
