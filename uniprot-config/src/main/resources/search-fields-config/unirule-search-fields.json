@@ -2,11 +2,20 @@
   {
     "id": "id",
     "fieldName": "unirule_id",
+    "sortFieldId": "id_sort",
     "fieldType": "GENERAL",
     "dataType": "STRING",
     "validRegex": "^UR[0-9]{9}$",
     "description": "Search by UniRule identifier",
     "example": "UR000100241"
+  },
+  {
+    "id": "id_sort",
+    "fieldName": "id",
+    "fieldType": "SORT",
+    "dataType": "STRING",
+    "description": "Sort by UniRule id",
+    "example": "id asc"
   },
   {
     "id": "protein_name_field",
