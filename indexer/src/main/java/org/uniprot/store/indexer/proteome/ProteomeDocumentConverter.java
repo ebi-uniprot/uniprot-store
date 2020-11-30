@@ -69,15 +69,19 @@ public class ProteomeDocumentConverter implements DocumentConverter<Proteome, Pr
                 .orElse(CPDStatus.UNKNOWN.getId());
     }
 
-    private int fetchBusco(List<ScoreType> scores) {
-        return scores.stream()
+    private float fetchBusco(List<ScoreType> scores) {
+        Map<String, String> buscoProperties = scores.stream()
                 .filter(scoreType -> scoreType.getName().equalsIgnoreCase(ScoreBuscoConverter.NAME))
                 .flatMap(busco -> busco.getProperty().stream())
-                .filter(prop -> ScoreBuscoConverter.PROPERTY_SCORE.equals(prop.getName()))
-                .map(ScorePropertyType::getValue)
-                .map(Integer::parseInt)
-                .findFirst()
-                .orElse(0);
+                .collect(Collectors.toMap(ScorePropertyType::getName, ScorePropertyType::getValue));
+        float buscoCompletedPercentage = 0f;
+        if(buscoProperties.containsKey(ScoreBuscoConverter.PROPERTY_TOTAL) &&
+                buscoProperties.containsKey(ScoreBuscoConverter.PROPERTY_COMPLETED)){
+            int total = Integer.parseInt(buscoProperties.get(ScoreBuscoConverter.PROPERTY_TOTAL));
+            int completed = Integer.parseInt(buscoProperties.get(ScoreBuscoConverter.PROPERTY_COMPLETED));
+            buscoCompletedPercentage = completed * 100f / total;
+        }
+        return buscoCompletedPercentage;
     }
 
     private int fetchProteinCount(List<ComponentType> component) {

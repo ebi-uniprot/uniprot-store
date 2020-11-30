@@ -37,7 +37,7 @@
 	<!-- Sort Fields -->
 	<field name="organism_sort" type="string" indexed="true"
 		stored="false" required="false" multiValued="false" docValues="true" />
-	<field name="busco" type="int" indexed="true" stored="true"
+	<field name="busco" type="float" indexed="true" stored="true"
 		required="false" multiValued="false" docValues="true" />
 	<field name="cpd" type="int" indexed="true" stored="true"
 		required="false" multiValued="false" docValues="true" />
@@ -57,6 +57,8 @@
 		sortMissingLast="true" />
 	<fieldType name="int" class="solr.IntPointField"
 		docValues="true" />
+	<fieldType name="float" class="solr.FloatPointField"
+			   docValues="true" />
 	<fieldType name="binary" class="solr.BinaryField" />
 
 	<!-- basic analysis for fields that require no splitting -->

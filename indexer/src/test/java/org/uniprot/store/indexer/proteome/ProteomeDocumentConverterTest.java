@@ -231,7 +231,7 @@ class ProteomeDocumentConverterTest {
 
         assertEquals(2, result.score);
         assertEquals(1, result.cpd);
-        assertEquals(91, result.busco);
+        assertEquals(75.0f, result.busco);
         assertEquals(10, result.proteinCount);
     }
 
@@ -252,9 +252,9 @@ class ProteomeDocumentConverterTest {
         ObjectFactory xmlFactory = new ObjectFactory();
         ScoreType scoreType = xmlFactory.createScoreType();
         scoreType.setName(ScoreBuscoConverter.NAME);
-        ScorePropertyType property = createProperty(PROPERTY_TOTAL, "10");
+        ScorePropertyType property = createProperty(PROPERTY_TOTAL, "20");
         scoreType.getProperty().add(property);
-        property = createProperty(PROPERTY_SCORE, "91");
+        property = createProperty(PROPERTY_COMPLETED, "15");
         scoreType.getProperty().add(property);
         property = createProperty(PROPERTY_LINEAGE, "lineage value");
         scoreType.getProperty().add(property);

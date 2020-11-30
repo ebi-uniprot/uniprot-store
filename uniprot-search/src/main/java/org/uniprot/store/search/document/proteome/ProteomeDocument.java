@@ -57,7 +57,7 @@ public class ProteomeDocument implements Document {
     public int proteomeType; // reference=1, representative =2, complete=3, redundant=4
 
     @Field("busco")
-    public int busco;
+    public float busco;
 
     @Field("cpd")
     public int cpd;
