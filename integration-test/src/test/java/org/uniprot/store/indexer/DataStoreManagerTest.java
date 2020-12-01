@@ -1,14 +1,5 @@
 package org.uniprot.store.indexer;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.jupiter.api.Assertions.fail;
-import static org.mockito.Mockito.mock;
-
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.stream.Collectors;
-
 import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.hamcrest.Matchers;
@@ -20,10 +11,23 @@ import org.junit.jupiter.api.extension.RegisterExtension;
 import org.uniprot.core.uniprotkb.UniProtKBEntry;
 import org.uniprot.cv.chebi.ChebiRepo;
 import org.uniprot.cv.ec.ECRepo;
-import org.uniprot.store.indexer.uniprot.mockers.*;
+import org.uniprot.cv.go.GORepo;
+import org.uniprot.store.indexer.uniprot.mockers.PathwayRepoMocker;
+import org.uniprot.store.indexer.uniprot.mockers.TaxonomyRepoMocker;
+import org.uniprot.store.indexer.uniprot.mockers.UniProtDocMocker;
+import org.uniprot.store.indexer.uniprot.mockers.UniProtEntryMocker;
 import org.uniprot.store.indexer.uniprotkb.converter.UniProtEntryConverter;
 import org.uniprot.store.search.SolrCollection;
 import org.uniprot.store.search.document.uniprot.UniProtDocument;
+
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.jupiter.api.Assertions.fail;
+import static org.mockito.Mockito.mock;
 
 class DataStoreManagerTest {
     private static final String P12345 = "P12345";
@@ -45,7 +49,7 @@ class DataStoreManagerTest {
                     DataStoreManager.StoreType.UNIPROT,
                     new UniProtEntryConverter(
                             TaxonomyRepoMocker.getTaxonomyRepo(),
-                            GoRelationsRepoMocker.getGoRelationRepo(),
+                            mock(GORepo.class),
                             PathwayRepoMocker.getPathwayRepo(),
                             chebiRepoMock,
                             mock(ECRepo.class),

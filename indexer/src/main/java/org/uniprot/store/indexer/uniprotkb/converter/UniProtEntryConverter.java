@@ -21,8 +21,8 @@ import org.uniprot.core.uniprotkb.evidence.EvidenceDatabaseCategory;
 import org.uniprot.core.util.Utils;
 import org.uniprot.cv.chebi.ChebiRepo;
 import org.uniprot.cv.ec.ECRepo;
+import org.uniprot.cv.go.GORepo;
 import org.uniprot.cv.taxonomy.TaxonomyRepo;
-import org.uniprot.store.indexer.uniprot.go.GoRelationRepo;
 import org.uniprot.store.indexer.uniprot.pathway.PathwayRepo;
 import org.uniprot.store.indexer.util.DateUtils;
 import org.uniprot.store.search.document.DocumentConversionException;
@@ -60,14 +60,14 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtKBEntry, 
 
     public UniProtEntryConverter(
             TaxonomyRepo taxonomyRepo,
-            GoRelationRepo goRelationRepo,
+            GORepo goRepo,
             PathwayRepo pathwayRepo,
             ChebiRepo chebiRepo,
             ECRepo ecRepo,
             Map<String, SuggestDocument> suggestDocuments) {
         this.taxonomyConverter = new UniProtEntryTaxonomyConverter(taxonomyRepo, suggestDocuments);
         this.crossReferenceConverter =
-                new UniProtEntryCrossReferenceConverter(goRelationRepo, suggestDocuments);
+                new UniProtEntryCrossReferenceConverter(goRepo, suggestDocuments);
         this.commentsConverter =
                 new UniProtEntryCommentsConverter(chebiRepo, pathwayRepo, suggestDocuments);
         this.featureConverter = new UniProtEntryFeatureConverter();
