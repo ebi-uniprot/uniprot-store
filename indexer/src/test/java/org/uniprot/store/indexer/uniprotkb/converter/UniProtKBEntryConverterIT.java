@@ -10,8 +10,8 @@ import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.uniprot.core.util.Utils.notNull;
-import static org.uniprot.store.indexer.uniprot.go.GoRelationFileRepo.Relationship.IS_A;
-import static org.uniprot.store.indexer.uniprot.go.GoRelationFileRepo.Relationship.PART_OF;
+import static org.uniprot.cv.go.RelationshipType.IS_A;
+import static org.uniprot.cv.go.RelationshipType.PART_OF;
 import static org.uniprot.store.indexer.uniprotkb.converter.UniProtEntryConverterUtil.createSuggestionMapKey;
 
 import java.io.InputStream;
@@ -38,9 +38,9 @@ import org.uniprot.core.flatfile.parser.impl.SupportingDataMapImpl;
 import org.uniprot.core.uniprotkb.UniProtKBEntry;
 import org.uniprot.cv.chebi.ChebiRepo;
 import org.uniprot.cv.ec.ECRepo;
+import org.uniprot.cv.go.GORepo;
 import org.uniprot.cv.taxonomy.TaxonomicNode;
 import org.uniprot.cv.taxonomy.TaxonomyRepo;
-import org.uniprot.store.indexer.uniprot.go.GoRelationRepo;
 import org.uniprot.store.indexer.uniprot.pathway.PathwayRepo;
 import org.uniprot.store.indexer.uniprotkb.processor.UniProtEntryDocumentPairProcessor;
 import org.uniprot.store.search.document.suggest.SuggestDictionary;
@@ -69,7 +69,7 @@ class UniProtKBEntryConverterIT {
     private UniProtEntryConverter converter;
 
     private TaxonomyRepo repoMock;
-    private GoRelationRepo goRelationRepoMock;
+    private GORepo goRelationRepoMock;
     private ChebiRepo chebiRepoMock;
     private HashMap<String, SuggestDocument> suggestions;
     private ECRepo ecRepoMock;
@@ -77,7 +77,7 @@ class UniProtKBEntryConverterIT {
     @BeforeEach
     void setUp() {
         repoMock = mock(TaxonomyRepo.class);
-        goRelationRepoMock = mock(GoRelationRepo.class);
+        goRelationRepoMock = mock(GORepo.class);
         chebiRepoMock = mock(ChebiRepo.class);
         ecRepoMock = mock(ECRepo.class);
         suggestions = new HashMap<>();
