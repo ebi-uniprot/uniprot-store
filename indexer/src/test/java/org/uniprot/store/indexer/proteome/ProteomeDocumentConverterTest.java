@@ -63,7 +63,7 @@ class ProteomeDocumentConverterTest {
         assertTrue(result.isExcluded);
         assertFalse(result.isReferenceProteome);
         assertFalse(result.isRedundant);
-        assertEquals(5, result.proteomeType);
+        assertEquals(4, result.proteomeType);
     }
 
     @Test
@@ -105,7 +105,7 @@ class ProteomeDocumentConverterTest {
         assertFalse(result.isExcluded);
         assertTrue(result.isReferenceProteome);
         assertFalse(result.isRedundant);
-        assertEquals(2, result.proteomeType);
+        assertEquals(1, result.proteomeType);
     }
 
     @Test
@@ -148,7 +148,7 @@ class ProteomeDocumentConverterTest {
         assertFalse(result.isExcluded);
         assertFalse(result.isReferenceProteome);
         assertTrue(result.isRedundant);
-        assertEquals(4, result.proteomeType);
+        assertEquals(3, result.proteomeType);
     }
 
     @Test
@@ -191,7 +191,7 @@ class ProteomeDocumentConverterTest {
         assertFalse(result.isExcluded);
         assertFalse(result.isReferenceProteome);
         assertFalse(result.isRedundant);
-        assertEquals(3, result.proteomeType);
+        assertEquals(2, result.proteomeType);
 
         assertNotNull(result.organismName);
         assertEquals(2, result.organismName.size());

@@ -54,10 +54,10 @@ public class ProteomeDocument implements Document {
     public int score = 0;
 
     @Field("proteome_type")
-    public int proteomeType; // reference=1, representative =2, complete=3, redundant=4
+    public int proteomeType; // reference=1, complete=2, redundant=3,  excluded=4
 
     @Field("busco")
-    public float busco;
+    public Float busco;
 
     @Field("cpd")
     public int cpd;

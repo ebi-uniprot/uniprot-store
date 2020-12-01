@@ -58,7 +58,7 @@
 	<fieldType name="int" class="solr.IntPointField"
 		docValues="true" />
 	<fieldType name="float" class="solr.FloatPointField"
-			   docValues="true" />
+		docValues="true" />
 	<fieldType name="binary" class="solr.BinaryField" />
 
 	<!-- basic analysis for fields that require no splitting -->

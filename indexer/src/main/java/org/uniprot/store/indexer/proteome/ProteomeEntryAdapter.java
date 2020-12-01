@@ -24,10 +24,10 @@ import org.uniprot.core.xml.proteome.ProteomeConverter;
 import org.uniprot.cv.taxonomy.TaxonomicNode;
 import org.uniprot.cv.taxonomy.TaxonomyRepo;
 import org.uniprot.store.indexer.util.TaxonomyRepoUtil;
+import org.uniprot.store.job.common.StoringException;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
-import org.uniprot.store.job.common.StoringException;
 
 /**
  * @author lgonzales
@@ -87,7 +87,7 @@ public class ProteomeEntryAdapter {
         } catch (FileNotFoundException e) {
             log.debug("Genecentric fasta file not found" + filePath);
         } catch (IOException e) {
-           throw new StoringException("Unable to read gene centric file: "+ filePath, e);
+            throw new StoringException("Unable to read gene centric file: " + filePath, e);
         }
 
         return geneCount;

@@ -69,16 +69,24 @@ public class ProteomeDocumentConverter implements DocumentConverter<Proteome, Pr
                 .orElse(CPDStatus.UNKNOWN.getId());
     }
 
-    private float fetchBusco(List<ScoreType> scores) {
-        Map<String, String> buscoProperties = scores.stream()
-                .filter(scoreType -> scoreType.getName().equalsIgnoreCase(ScoreBuscoConverter.NAME))
-                .flatMap(busco -> busco.getProperty().stream())
-                .collect(Collectors.toMap(ScorePropertyType::getName, ScorePropertyType::getValue));
-        float buscoCompletedPercentage = 0f;
-        if(buscoProperties.containsKey(ScoreBuscoConverter.PROPERTY_TOTAL) &&
-                buscoProperties.containsKey(ScoreBuscoConverter.PROPERTY_COMPLETED)){
+    private Float fetchBusco(List<ScoreType> scores) {
+        Map<String, String> buscoProperties =
+                scores.stream()
+                        .filter(
+                                scoreType ->
+                                        scoreType
+                                                .getName()
+                                                .equalsIgnoreCase(ScoreBuscoConverter.NAME))
+                        .flatMap(busco -> busco.getProperty().stream())
+                        .collect(
+                                Collectors.toMap(
+                                        ScorePropertyType::getName, ScorePropertyType::getValue));
+        Float buscoCompletedPercentage = null;
+        if (buscoProperties.containsKey(ScoreBuscoConverter.PROPERTY_TOTAL)
+                && buscoProperties.containsKey(ScoreBuscoConverter.PROPERTY_COMPLETED)) {
             int total = Integer.parseInt(buscoProperties.get(ScoreBuscoConverter.PROPERTY_TOTAL));
-            int completed = Integer.parseInt(buscoProperties.get(ScoreBuscoConverter.PROPERTY_COMPLETED));
+            int completed =
+                    Integer.parseInt(buscoProperties.get(ScoreBuscoConverter.PROPERTY_COMPLETED));
             buscoCompletedPercentage = completed * 100f / total;
         }
         return buscoCompletedPercentage;
@@ -95,27 +103,24 @@ public class ProteomeDocumentConverter implements DocumentConverter<Proteome, Pr
         document.score = source.getAnnotationScore().getNormalizedAnnotationScore();
     }
 
+    // proteomeType: reference=1, complete=2, redundant=3,  excluded=4
     private void updateProteome(ProteomeDocument document, Proteome source) {
         if ((source.getExcluded() != null)
                 && (source.getExcluded().getExclusionReason() != null)
                 && (!source.getExcluded().getExclusionReason().isEmpty())) {
-            document.proteomeType = 5;
+            document.proteomeType = 4;
             document.isExcluded = true;
         } else if ((source.getRedundantTo() != null) && (!source.getRedundantTo().isEmpty())) {
-            document.proteomeType = 4;
+            document.proteomeType = 3;
             document.isRedundant = true;
-        } else if (source.isIsReferenceProteome()) {
-            // if Representative And Reference it will be marked as reference proteomeType at the
-            // end. should we make this field multiple values?
+        } else if (source.isIsReferenceProteome() || source.isIsRepresentativeProteome()) {
+            // if Representative OR Reference
+            // it will be marked as reference proteomeType
             document.proteomeType = 1;
             document.isReferenceProteome = true;
-        } else if (source.isIsRepresentativeProteome()) {
-            document.proteomeType = 2;
-            // representative is also flagged as reference proteomes
-            document.isReferenceProteome = true;
         } else {
-            // Normal Proteome
-            document.proteomeType = 3;
+            // Others Proteomes
+            document.proteomeType = 2;
         }
     }
 
