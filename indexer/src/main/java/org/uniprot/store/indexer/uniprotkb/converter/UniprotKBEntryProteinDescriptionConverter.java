@@ -102,7 +102,7 @@ class UniprotKBEntryProteinDescriptionConverter {
         }
         if (proteinDescription.hasAlternativeNames()) {
             proteinDescription.getAlternativeNames().stream()
-                    .filter(ProteinAltName::hasEcNumbers)
+                    .filter(ProteinName::hasEcNumbers)
                     .flatMap(proteinAltName -> getEcs(proteinAltName.getEcNumbers()).stream())
                     .forEach(ecs::add);
         }
@@ -127,7 +127,7 @@ class UniprotKBEntryProteinDescriptionConverter {
         }
         if (proteinSection.hasAlternativeNames()) {
             proteinSection.getAlternativeNames().stream()
-                    .filter(ProteinAltName::hasEcNumbers)
+                    .filter(ProteinName::hasEcNumbers)
                     .flatMap(proteinAltName -> getEcs(proteinAltName.getEcNumbers()).stream())
                     .forEach(ecs::add);
         }

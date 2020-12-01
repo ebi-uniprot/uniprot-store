@@ -88,8 +88,7 @@ class FullCIAnalysisSearchIT {
     @EnumSource(FieldType.class)
     void canFindExactPhraseContainingCommasNumbersBracesAndSlashes(FieldType field) {
         String accession = newAccession();
-        String fieldValue =
-                "Putative tRNA-(Ms(2)io(6)a)-hydroxylase";
+        String fieldValue = "Putative tRNA-(Ms(2)io(6)a)-hydroxylase";
         String query = fieldPhraseQuery(field.getQueryField(), fieldValue);
 
         new EntryCheck()

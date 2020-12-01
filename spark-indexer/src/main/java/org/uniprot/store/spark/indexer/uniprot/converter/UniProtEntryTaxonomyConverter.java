@@ -1,12 +1,12 @@
 package org.uniprot.store.spark.indexer.uniprot.converter;
 
-import org.uniprot.core.uniprotkb.taxonomy.Organism;
-import org.uniprot.core.uniprotkb.taxonomy.OrganismHost;
-import org.uniprot.store.search.document.uniprot.UniProtDocument;
+import static org.uniprot.core.util.Utils.notNull;
 
 import java.util.List;
 
-import static org.uniprot.core.util.Utils.notNull;
+import org.uniprot.core.uniprotkb.taxonomy.Organism;
+import org.uniprot.core.uniprotkb.taxonomy.OrganismHost;
+import org.uniprot.store.search.document.uniprot.UniProtDocument;
 
 /**
  * @author lgonzales
