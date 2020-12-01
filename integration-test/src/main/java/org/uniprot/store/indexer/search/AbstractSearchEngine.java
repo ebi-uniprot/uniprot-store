@@ -192,9 +192,9 @@ public abstract class AbstractSearchEngine<E> implements BeforeAllCallback, Afte
                     .getCoreInitFailures()
                     .forEach(
                             (key, value) ->
-                                logger.error(
-                                        "Search engine " + key + ", has failed: ", value.exception)
-                            );
+                                    logger.error(
+                                            "Search engine " + key + ", has failed: ",
+                                            value.exception));
             throw new IllegalStateException(
                     "Search engine " + searchEngineName + ", has not loaded properly");
         }

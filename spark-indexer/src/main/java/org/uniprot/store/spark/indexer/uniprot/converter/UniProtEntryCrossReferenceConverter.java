@@ -1,15 +1,15 @@
 package org.uniprot.store.spark.indexer.uniprot.converter;
 
-import org.uniprot.core.Property;
-import org.uniprot.core.uniprotkb.xdb.UniProtKBCrossReference;
-import org.uniprot.store.search.document.uniprot.UniProtDocument;
-
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+
+import org.uniprot.core.Property;
+import org.uniprot.core.uniprotkb.xdb.UniProtKBCrossReference;
+import org.uniprot.store.search.document.uniprot.UniProtDocument;
 
 /**
  * @author lgonzales

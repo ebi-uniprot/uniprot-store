@@ -35,20 +35,20 @@ class UniProtKBEntryProteinDescriptionConverterTest {
                         "rec full Name",
                         "recommended short name",
                         "sub full Name",
-                        "short alt name1",
                         "a full alt Name",
+                        "short alt name1",
                         "containsrec full Name",
                         "containsrecommended short name",
-                        "containsshort alt name1",
                         "containsa full alt Name",
+                        "containsshort alt name1",
                         "contains cd antigen",
                         "contains allergen",
                         "contains inn antigen",
                         "contains biotech",
                         "includesrec full Name",
                         "includesrecommended short name",
-                        "includesshort alt name1",
                         "includesa full alt Name",
+                        "includesshort alt name1",
                         "includes cd antigen",
                         "includes allergen",
                         "includes inn antigen",
@@ -132,8 +132,8 @@ class UniProtKBEntryProteinDescriptionConverterTest {
                         .cdAntigenNamesAdd(createName("contains cd antigen", "PRU10025"))
                         .build();
 
-        ProteinRecName recommendedName = getRecommendedName("");
-        List<ProteinAltName> proteinAltNames = createAltName("");
+        ProteinName recommendedName = getRecommendedName("");
+        List<ProteinName> proteinAltNames = createAltName("");
         List<ProteinSubName> subNames = getSubmissionName();
 
         return new ProteinDescriptionBuilder()
@@ -150,12 +150,12 @@ class UniProtKBEntryProteinDescriptionConverterTest {
                 .build();
     }
 
-    private static ProteinRecName getRecommendedName(String from) {
+    private static ProteinName getRecommendedName(String from) {
         Name fullName = createName(from + "rec full Name", "PRU10026");
         List<Name> shortNames = createNameList(from + "recommended short name", "PRU10020");
         List<EC> ecNumbers = createECNumbers("1.2.3.4", 10);
 
-        return new ProteinRecNameBuilder()
+        return new ProteinNameBuilder()
                 .fullName(fullName)
                 .shortNamesSet(shortNames)
                 .ecNumbersSet(ecNumbers)
@@ -171,13 +171,13 @@ class UniProtKBEntryProteinDescriptionConverterTest {
         return Collections.singletonList(subName);
     }
 
-    private static List<ProteinAltName> createAltName(String from) {
+    private static List<ProteinName> createAltName(String from) {
         Name fullName = createName(from + "a full alt Name", "PRU10022");
         List<Name> shortNames = createNameList(from + "short alt name1", "PRU10028");
         List<EC> ecNumbers = createECNumbers("1.2.3.3", 9);
 
-        ProteinAltName alternativeName =
-                new ProteinAltNameBuilder()
+        ProteinName alternativeName =
+                new ProteinNameBuilder()
                         .fullName(fullName)
                         .shortNamesSet(shortNames)
                         .ecNumbersSet(ecNumbers)

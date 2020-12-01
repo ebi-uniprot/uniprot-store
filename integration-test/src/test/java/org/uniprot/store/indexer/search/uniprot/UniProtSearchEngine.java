@@ -1,5 +1,10 @@
 package org.uniprot.store.indexer.search.uniprot;
 
+import java.io.File;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.util.HashMap;
+
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.uniprot.core.uniprotkb.UniProtKBEntry;
 import org.uniprot.cv.chebi.ChebiRepo;
@@ -19,11 +24,6 @@ import org.uniprot.store.indexer.uniprot.pathway.PathwayFileRepo;
 import org.uniprot.store.indexer.uniprot.pathway.PathwayRepo;
 import org.uniprot.store.indexer.uniprotkb.converter.UniProtEntryConverter;
 import org.uniprot.store.search.document.DocumentConverter;
-
-import java.io.File;
-import java.net.URISyntaxException;
-import java.net.URL;
-import java.util.HashMap;
 
 /** Concrete implementation of the UniProt search engine */
 public class UniProtSearchEngine extends AbstractSearchEngine<UniProtKBEntry> {
