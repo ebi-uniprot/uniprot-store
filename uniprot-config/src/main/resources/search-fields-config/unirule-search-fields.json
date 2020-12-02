@@ -11,11 +11,11 @@
   },
   {
     "id": "id_sort",
-    "fieldName": "id",
+    "fieldName": "unirule_id",
     "fieldType": "SORT",
     "dataType": "STRING",
     "description": "Sort by UniRule id",
-    "example": "id asc"
+    "example": "unirule_id asc"
   },
   {
     "id": "protein_name_field",
