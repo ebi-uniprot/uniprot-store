@@ -1,16 +1,16 @@
 package org.uniprot.store.spark.indexer.uniparc;
 
+import java.util.Iterator;
 import java.util.ResourceBundle;
 
 import lombok.extern.slf4j.Slf4j;
 
 import org.apache.spark.api.java.JavaRDD;
+import org.apache.spark.api.java.function.VoidFunction;
 import org.uniprot.core.uniparc.UniParcEntry;
-import org.uniprot.store.datastore.voldemort.VoldemortClient;
-import org.uniprot.store.datastore.voldemort.uniparc.VoldemortRemoteUniParcEntryStore;
 import org.uniprot.store.spark.indexer.common.JobParameter;
 import org.uniprot.store.spark.indexer.common.store.DataStoreIndexer;
-import org.uniprot.store.spark.indexer.common.writer.DataStoreWriter;
+import org.uniprot.store.spark.indexer.common.store.DataStoreParameter;
 
 /**
  * @author lgonzales
@@ -31,23 +31,26 @@ public class UniParcDataStoreIndexer implements DataStoreIndexer {
         UniParcRDDTupleReader reader = new UniParcRDDTupleReader(parameter, false);
         JavaRDD<UniParcEntry> uniparcRDD = reader.load();
 
-        String numberOfConnections = config.getString("store.uniparc.numberOfConnections");
-        String storeName = config.getString("store.uniparc.storeName");
-        String connectionURL = config.getString("store.uniparc.host");
+        DataStoreParameter dataStoreParameter = getDataStoreParameter(config);
 
-        uniparcRDD.foreachPartition(
-                uniProtEntryIterator -> {
-                    try (VoldemortClient<UniParcEntry> client =
-                            new VoldemortRemoteUniParcEntryStore(
-                                    Integer.parseInt(numberOfConnections),
-                                    storeName,
-                                    connectionURL)) {
-                        DataStoreWriter<UniParcEntry> writer = new DataStoreWriter<>(client);
-                        writer.indexInStore(uniProtEntryIterator);
-                    } finally {
-                        log.info("Closed voldemort connection");
-                    }
-                });
+        uniparcRDD.foreachPartition(getWriter(dataStoreParameter));
         log.info("Completed UniParc Data Store index");
+    }
+
+    VoidFunction<Iterator<UniParcEntry>> getWriter(DataStoreParameter parameter) {
+        return new UniParcDataStoreWriter(parameter);
+    }
+
+    private DataStoreParameter getDataStoreParameter(ResourceBundle config) {
+        String numberOfConnections = config.getString("store.uniparc.numberOfConnections");
+        String maxRetry = config.getString("store.uniparc.retry");
+        String delay = config.getString("store.uniparc.delay");
+        return DataStoreParameter.builder()
+                .connectionURL(config.getString("store.uniparc.host"))
+                .storeName(config.getString("store.uniparc.storeName"))
+                .numberOfConnections(Integer.parseInt(numberOfConnections))
+                .maxRetry(Integer.parseInt(maxRetry))
+                .delay(Long.parseLong(delay))
+                .build();
     }
 }

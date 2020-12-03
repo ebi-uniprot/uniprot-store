@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Test;
 import org.uniprot.core.uniref.UniRefEntryLight;
 import org.uniprot.store.spark.indexer.common.JobParameter;
 import org.uniprot.store.spark.indexer.common.exception.IndexDataStoreException;
+import org.uniprot.store.spark.indexer.common.store.DataStoreParameter;
 import org.uniprot.store.spark.indexer.common.util.SparkUtils;
 
 /**
@@ -44,9 +45,16 @@ class UniRefLightDataStoreIndexerTest {
 
     @Test
     void canGetWriter() {
+        DataStoreParameter parameter =
+                DataStoreParameter.builder()
+                        .maxRetry(1)
+                        .delay(1)
+                        .connectionURL("tcp://localhost")
+                        .numberOfConnections(5)
+                        .storeName("uniref-light")
+                        .build();
         UniRefLightDataStoreIndexer indexer = new UniRefLightDataStoreIndexer(null);
-        VoidFunction<Iterator<UniRefEntryLight>> result =
-                indexer.getWriter("5", "uniref-light", "tcp://localhost");
+        VoidFunction<Iterator<UniRefEntryLight>> result = indexer.getWriter(parameter);
         assertNotNull(result);
     }
 
@@ -57,8 +65,7 @@ class UniRefLightDataStoreIndexerTest {
         }
 
         @Override
-        VoidFunction<Iterator<UniRefEntryLight>> getWriter(
-                String numberOfConnections, String storeName, String connectionURL) {
+        VoidFunction<Iterator<UniRefEntryLight>> getWriter(DataStoreParameter parameter) {
             return entryIterator -> {
                 assertNotNull(entryIterator);
                 assertTrue(entryIterator.hasNext());

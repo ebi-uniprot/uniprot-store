@@ -13,6 +13,7 @@ import org.uniprot.core.uniref.UniRefType;
 import org.uniprot.store.spark.indexer.common.JobParameter;
 import org.uniprot.store.spark.indexer.common.exception.IndexDataStoreException;
 import org.uniprot.store.spark.indexer.common.store.DataStoreIndexer;
+import org.uniprot.store.spark.indexer.common.store.DataStoreParameter;
 import org.uniprot.store.spark.indexer.uniref.writer.UniRefLightDataStoreWriter;
 
 /**
@@ -47,20 +48,27 @@ public class UniRefLightDataStoreIndexer implements DataStoreIndexer {
 
     private JavaFutureAction<Void> indexUniRef(UniRefType type, JobParameter jobParameter) {
         ResourceBundle config = jobParameter.getApplicationConfig();
-
-        final String numberOfConnections =
-                config.getString("store.unirefLight.numberOfConnections");
-        final String storeName = config.getString("store.unirefLight.storeName");
-        final String connectionURL = config.getString("store.unirefLight.host");
+        DataStoreParameter parameter = getDataStoreParameter(config);
 
         UniRefLightRDDTupleReader reader = new UniRefLightRDDTupleReader(type, jobParameter, false);
         JavaRDD<UniRefEntryLight> uniRefRDD = reader.load();
-        return uniRefRDD.foreachPartitionAsync(
-                getWriter(numberOfConnections, storeName, connectionURL));
+        return uniRefRDD.foreachPartitionAsync(getWriter(parameter));
     }
 
-    VoidFunction<Iterator<UniRefEntryLight>> getWriter(
-            String numberOfConnections, String storeName, String connectionURL) {
-        return new UniRefLightDataStoreWriter(numberOfConnections, storeName, connectionURL);
+    private DataStoreParameter getDataStoreParameter(ResourceBundle config) {
+        String numberOfConnections = config.getString("store.uniref.light.numberOfConnections");
+        String maxRetry = config.getString("store.uniref.light.retry");
+        String delay = config.getString("store.uniref.light.delay");
+        return DataStoreParameter.builder()
+                .connectionURL(config.getString("store.uniref.light.host"))
+                .storeName(config.getString("store.uniref.light.storeName"))
+                .numberOfConnections(Integer.parseInt(numberOfConnections))
+                .maxRetry(Integer.parseInt(maxRetry))
+                .delay(Long.parseLong(delay))
+                .build();
+    }
+
+    VoidFunction<Iterator<UniRefEntryLight>> getWriter(DataStoreParameter parameter) {
+        return new UniRefLightDataStoreWriter(parameter);
     }
 }

@@ -15,6 +15,7 @@ import org.uniprot.core.uniref.UniRefType;
 import org.uniprot.store.spark.indexer.common.JobParameter;
 import org.uniprot.store.spark.indexer.common.exception.IndexDataStoreException;
 import org.uniprot.store.spark.indexer.common.store.DataStoreIndexer;
+import org.uniprot.store.spark.indexer.common.store.DataStoreParameter;
 import org.uniprot.store.spark.indexer.uniref.mapper.UniRefMemberMerger;
 import org.uniprot.store.spark.indexer.uniref.mapper.UniRefToMembers;
 import org.uniprot.store.spark.indexer.uniref.writer.UniRefMemberDataStoreWriter;
@@ -46,10 +47,7 @@ public class UniRefMembersDataStoreIndexer implements DataStoreIndexer {
     public void indexInDataStore() {
         try {
             ResourceBundle config = jobParameter.getApplicationConfig();
-            final String connectionURL = config.getString("store.uniref.members.host");
-            final String numberOfConnections =
-                    config.getString("store.uniref.members.numberOfConnections");
-            final String storeName = config.getString("store.uniref.members.storeName");
+            DataStoreParameter parameter = getDataStoreParameter(config);
             // load the uniref100
             UniRefRDDTupleReader uniref100Reader =
                     new UniRefRDDTupleReader(UniRefType.UniRef100, jobParameter, false);
@@ -85,9 +83,7 @@ public class UniRefMembersDataStoreIndexer implements DataStoreIndexer {
                             .mapValues(new UniRefMemberMerger());
 
             // write to the store
-            memberIdMemberRDD
-                    .values()
-                    .foreachPartition(getWriter(numberOfConnections, storeName, connectionURL));
+            memberIdMemberRDD.values().foreachPartition(getWriter(parameter));
         } catch (Exception e) {
             throw new IndexDataStoreException(
                     "Execution error during uniref members data store index", e);
@@ -96,8 +92,20 @@ public class UniRefMembersDataStoreIndexer implements DataStoreIndexer {
         }
     }
 
-    VoidFunction<Iterator<RepresentativeMember>> getWriter(
-            String numberOfConnections, String storeName, String connectionURL) {
-        return new UniRefMemberDataStoreWriter(numberOfConnections, storeName, connectionURL);
+    private DataStoreParameter getDataStoreParameter(ResourceBundle config) {
+        String numberOfConnections = config.getString("store.uniref.members.numberOfConnections");
+        String maxRetry = config.getString("store.uniref.members.retry");
+        String delay = config.getString("store.uniref.members.delay");
+        return DataStoreParameter.builder()
+                .connectionURL(config.getString("store.uniref.members.host"))
+                .storeName(config.getString("store.uniref.members.storeName"))
+                .numberOfConnections(Integer.parseInt(numberOfConnections))
+                .maxRetry(Integer.parseInt(maxRetry))
+                .delay(Long.parseLong(delay))
+                .build();
+    }
+
+    VoidFunction<Iterator<RepresentativeMember>> getWriter(DataStoreParameter parameter) {
+        return new UniRefMemberDataStoreWriter(parameter);
     }
 }

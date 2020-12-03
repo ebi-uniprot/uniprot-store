@@ -14,6 +14,7 @@ import org.uniprot.core.uniprotkb.impl.UniProtKBEntryBuilder;
 import org.uniprot.core.uniprotkb.xdb.UniProtKBCrossReference;
 import org.uniprot.store.datastore.voldemort.uniprot.VoldemortInMemoryUniprotEntryStore;
 import org.uniprot.store.spark.indexer.common.JobParameter;
+import org.uniprot.store.spark.indexer.common.store.DataStoreParameter;
 import org.uniprot.store.spark.indexer.common.util.SparkUtils;
 
 /**
@@ -77,9 +78,16 @@ class UniProtKBDataStoreIndexerTest {
 
     @Test
     void canGetWriter() {
+        DataStoreParameter parameter =
+                DataStoreParameter.builder()
+                        .maxRetry(1)
+                        .delay(1)
+                        .connectionURL("tcp://localhost")
+                        .numberOfConnections(5)
+                        .storeName("uniprot")
+                        .build();
         UniProtKBDataStoreIndexer indexer = new UniProtKBDataStoreIndexer(null);
-        VoidFunction<Iterator<UniProtKBEntry>> result =
-                indexer.getWriter("5", "uniprot", "tcp://localhost");
+        VoidFunction<Iterator<UniProtKBEntry>> result = indexer.getWriter(parameter);
         assertNotNull(result);
     }
 
@@ -90,8 +98,7 @@ class UniProtKBDataStoreIndexerTest {
         }
 
         @Override
-        VoidFunction<Iterator<UniProtKBEntry>> getWriter(
-                String numberOfConnections, String storeName, String connectionURL) {
+        VoidFunction<Iterator<UniProtKBEntry>> getWriter(DataStoreParameter parameter) {
             return entryIterator -> {
                 assertNotNull(entryIterator);
                 while (entryIterator.hasNext()) {
