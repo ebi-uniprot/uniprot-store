@@ -4,9 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.uniprot.core.publication.MappedReference;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -27,7 +25,7 @@ abstract class AbstractMappedReferenceMapper<T extends MappedReference>
         String[] lineFields = line.split("\t");
         RawMappedReference rawMappedReference = new RawMappedReference();
         if (lineFields.length >= 4) {
-            List<String> categories = new ArrayList<>();
+            Set<String> categories = new HashSet<>();
             String rawAnnotation = "";
             if (lineFields.length >= 5) {
                 Matcher matcher = CATEGORY_PATTERN.matcher(lineFields[4]);
