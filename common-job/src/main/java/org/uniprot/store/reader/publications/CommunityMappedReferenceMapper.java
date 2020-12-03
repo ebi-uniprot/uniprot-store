@@ -2,8 +2,11 @@ package org.uniprot.store.reader.publications;
 
 import org.uniprot.core.publication.CommunityAnnotation;
 import org.uniprot.core.publication.CommunityMappedReference;
+import org.uniprot.core.publication.impl.CommunityAnnotationBuilder;
 import org.uniprot.core.publication.impl.CommunityMappedReferenceBuilder;
+import org.uniprot.core.publication.impl.MappedSourceBuilder;
 
+import java.util.function.BiConsumer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -28,14 +31,17 @@ public class CommunityMappedReferenceMapper
                             + DISEASE_DELIMITER
                             + ")|("
                             + COMMENT_DELIMITER
-                            + "))(.*)");
+                            + "))");
 
     @Override
     CommunityMappedReference convertRawMappedReference(RawMappedReference reference) {
         return new CommunityMappedReferenceBuilder()
                 .uniProtKBAccession(reference.accession)
-                .source(reference.source)
-                .sourceId(reference.sourceId)
+                .sourcesAdd(
+                        new MappedSourceBuilder()
+                                .source(reference.source)
+                                .sourceIdsAdd(reference.sourceId)
+                                .build())
                 .pubMedId(reference.pubMedId)
                 .sourceCategoriesSet(reference.categories)
                 .communityAnnotation(convertAnnotation(reference.annotation))
@@ -43,14 +49,68 @@ public class CommunityMappedReferenceMapper
     }
 
     private CommunityAnnotation convertAnnotation(String rawAnnotation) {
-        // Protein/gene_name: BraC3; RL3540. Function: BraC3 is an alternative substrate binding
-        // component of the ABC transporter braDEFGC. BraC3 supports the transport of leucine,
-        // isoleucine, valine, or alanine, but not glutamate or aspartate. Comments: Transport of
-        // branched amino acids by either BraC3 (with BraDEFG) or AapJQMP is required for symbiosis
-        // with peas.
-        rawAnnotation.indexOf("");
         Matcher matcher = SECTION_DELIMITER_PATTERN.matcher(rawAnnotation);
-//        matcher.matches()
-        return null;
+        int prevMatchEnd = 0;
+
+        CommunityAnnotationBuilder builder = new CommunityAnnotationBuilder();
+        CommunityAnnotationCommentType commentType = null;
+        String commentValue;
+
+        while (matcher.find()) {
+            if (prevMatchEnd != 0) {
+                commentValue = rawAnnotation.substring(prevMatchEnd, matcher.start());
+                updateCommunityAnnotationBuilder(commentType, builder, commentValue);
+            }
+            commentType =
+                    CommunityAnnotationCommentType.getCommentType(
+                            rawAnnotation.substring(matcher.start(), matcher.end()));
+
+            prevMatchEnd = matcher.end();
+        }
+        updateCommunityAnnotationBuilder(
+                commentType, builder, rawAnnotation.substring(prevMatchEnd));
+
+        return builder.build();
+    }
+
+    private void updateCommunityAnnotationBuilder(
+            CommunityAnnotationCommentType commentType,
+            CommunityAnnotationBuilder builder,
+            String value) {
+        if (commentType != null) {
+            commentType.updateCommunityAnnotationBuilder(builder, value.trim());
+        }
+    }
+
+    private enum CommunityAnnotationCommentType {
+        PROTEIN_GENE(CommunityAnnotationBuilder::proteinOrGene),
+        FUNCTION(CommunityAnnotationBuilder::function),
+        DISEASE(CommunityAnnotationBuilder::disease),
+        COMMENT(CommunityAnnotationBuilder::comment);
+        private final BiConsumer<CommunityAnnotationBuilder, String> annotationBuilderSetter;
+
+        CommunityAnnotationCommentType(BiConsumer<CommunityAnnotationBuilder, String> annotation) {
+            this.annotationBuilderSetter = annotation;
+        }
+
+        static CommunityAnnotationCommentType getCommentType(String typeAsString) {
+            switch (typeAsString) {
+                case PROTEIN_GENE_DELIMITER:
+                    return PROTEIN_GENE;
+                case FUNCTION_DELIMITER:
+                    return FUNCTION;
+                case DISEASE_DELIMITER:
+                    return DISEASE;
+                case COMMENT_DELIMITER:
+                    return COMMENT;
+                default:
+                    throw new IllegalArgumentException("Unknown comment type: " + typeAsString);
+            }
+        }
+
+        void updateCommunityAnnotationBuilder(
+                CommunityAnnotationBuilder builder, String annotation) {
+            annotationBuilderSetter.accept(builder, annotation);
+        }
     }
 }

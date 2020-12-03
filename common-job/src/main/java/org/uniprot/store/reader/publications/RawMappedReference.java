@@ -1,6 +1,7 @@
 package org.uniprot.store.reader.publications;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created 02/12/2020
@@ -12,6 +13,6 @@ public class RawMappedReference {
     String source;
     String sourceId;
     String pubMedId;
-    List<String> categories;
+    Set<String> categories;
     String annotation;
 }
