@@ -1,5 +1,10 @@
 package org.uniprot.store.spark.indexer.uniparc;
 
+import static org.junit.jupiter.api.Assertions.*;
+
+import java.util.Iterator;
+import java.util.ResourceBundle;
+
 import org.apache.spark.api.java.JavaSparkContext;
 import org.apache.spark.api.java.function.VoidFunction;
 import org.junit.jupiter.api.Test;
@@ -7,10 +12,6 @@ import org.uniprot.core.uniparc.UniParcEntry;
 import org.uniprot.store.spark.indexer.common.JobParameter;
 import org.uniprot.store.spark.indexer.common.store.DataStoreParameter;
 import org.uniprot.store.spark.indexer.common.util.SparkUtils;
-import java.util.Iterator;
-import java.util.ResourceBundle;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * @author lgonzales
@@ -65,5 +66,4 @@ class UniParcDataStoreIndexerTest {
             };
         }
     }
-
 }
