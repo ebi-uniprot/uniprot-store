@@ -85,14 +85,6 @@ public class UniRuleDocumentConverterTest {
                         + "                        ]",
                 solrDoc.getCommentTypeValues().get("cc_function").toString());
 
-        assertEquals(61, solrDoc.getContent().size());
-        // verify the comment type display name is also indexed
-        assertTrue(solrDoc.getContent().contains("function"));
-        assertTrue(solrDoc.getContent().contains("similarity"));
-        assertTrue(solrDoc.getContent().contains("cofactor"));
-        assertTrue(solrDoc.getContent().contains("subunit"));
-        assertTrue(solrDoc.getContent().contains("catalytic activity"));
-        assertTrue(solrDoc.getContent().contains("subcellular location"));
         verifyUniRuleObject(solrDoc.getUniRuleObj(), proteinCount);
     }
 
