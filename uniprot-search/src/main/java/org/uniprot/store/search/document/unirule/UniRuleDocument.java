@@ -50,9 +50,6 @@ public class UniRuleDocument implements Document {
     @Field("cc_*")
     private Map<String, Set<String>> commentTypeValues = new HashMap<>();
 
-    @Field("content")
-    private Set<String> content = new HashSet<>();
-
     @Field("unirule_obj")
     private ByteBuffer uniRuleObj;
 

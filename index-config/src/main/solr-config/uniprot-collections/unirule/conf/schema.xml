@@ -36,21 +36,8 @@
 		stored="false" required="false" multiValued="true" />
 	<dynamicField name="cc_*" type="full_ci" indexed="true"
 		required="false" stored="false" multiValued="true" />
-	<field name="content" type="full_ci" indexed="true"
-		stored="false" required="true" multiValued="true" />
 	<field name="unirule_obj" type="binary" indexed="false"
 		stored="true" required="true" />
-	<copyField source="unirule_id" dest="content" />
-	<copyField source="condition_value" dest="content" />
-	<copyField source="keyword" dest="content" />
-	<copyField source="gene" dest="content" />
-	<copyField source="go" dest="content" />
-	<copyField source="protein_name" dest="content" />
-	<copyField source="organism" dest="content" />
-	<copyField source="taxonomy" dest="content" />
-	<copyField source="feature_type" dest="content" />
-	<copyField source="cc_*" dest="content" />
-
 
 	<!-- =============================== field types =============================== -->
 	<fieldType name="plong" class="solr.LongPointField"

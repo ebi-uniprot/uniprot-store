@@ -1,7 +1,13 @@
 package org.uniprot.store.indexer.unirule;
 
 import java.nio.ByteBuffer;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.uniprot.core.CrossReference;
@@ -10,7 +16,14 @@ import org.uniprot.core.cv.keyword.KeywordCategory;
 import org.uniprot.core.gene.Gene;
 import org.uniprot.core.json.parser.unirule.UniRuleJsonConfig;
 import org.uniprot.core.uniprotkb.Keyword;
-import org.uniprot.core.unirule.*;
+import org.uniprot.core.unirule.Annotation;
+import org.uniprot.core.unirule.Condition;
+import org.uniprot.core.unirule.ConditionSet;
+import org.uniprot.core.unirule.PositionFeatureSet;
+import org.uniprot.core.unirule.PositionalFeature;
+import org.uniprot.core.unirule.SamFeatureSet;
+import org.uniprot.core.unirule.SamTrigger;
+import org.uniprot.core.unirule.UniRuleEntry;
 import org.uniprot.core.unirule.impl.UniRuleEntryBuilder;
 import org.uniprot.core.util.EnumDisplay;
 import org.uniprot.core.util.Utils;
@@ -74,16 +87,6 @@ public class UniRuleDocumentConverter implements DocumentConverter<UniRuleType, 
         Set<String> taxonomyNames = getTaxonomyNames(uniObj);
         List<UniRuleDocumentComment> uniRuleDocComments = convertToUniRuleDocumentComments(uniObj);
         Map<String, Set<String>> commentTypeValues = getComments(uniRuleDocComments);
-        Set<String> content = new HashSet<>(conditionValues);
-        content.add(uniRuleId);
-        content.addAll(featureTypes);
-        content.addAll(keywords);
-        content.addAll(geneNames);
-        content.addAll(goTerms);
-        content.addAll(proteinNames);
-        content.addAll(organismNames);
-        content.addAll(taxonomyNames);
-        content.addAll(getCommentsValues(uniRuleDocComments));
         ByteBuffer uniRuleObj = ByteBuffer.wrap(getUniRuleObj(uniObj));
 
         // build the solr document
@@ -94,7 +97,7 @@ public class UniRuleDocumentConverter implements DocumentConverter<UniRuleType, 
         builder.goTerms(goTerms).proteinNames(proteinNames);
         builder.organismNames(organismNames).taxonomyNames(taxonomyNames);
         builder.commentTypeValues(commentTypeValues);
-        builder.content(content).uniRuleObj(uniRuleObj);
+        builder.uniRuleObj(uniRuleObj);
         return builder.build();
     }
 
