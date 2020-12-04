@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<schema name="publication" version="1.6">
+
+	<uniqueKey>id</uniqueKey>
+
+	<field name="_version_" type="plong" indexed="true" stored="true" />
+
+	<!-- =============================== publication fields =============================== -->
+    <field name="id" type="string" indexed="false" stored="false"
+           required="true" multiValued="false" docValues="true" />
+	<field name="accession" type="string" indexed="true" stored="true"
+		required="true" multiValued="false" docValues="true" />
+    <field name="pubmed_id" type="string" indexed="true"
+           stored="false" required="false" multiValued="true" />
+    <field name="publication_obj" type="binary" indexed="false"
+           stored="true" required="true" />
+	<!-- =============================== field types =============================== -->
+	<fieldType name="plong" class="solr.LongPointField"
+		docValues="true" />
+	<fieldType name="string" class="solr.StrField"
+		sortMissingLast="true" />
+	<fieldType name="boolean" class="solr.BoolField"
+		sortMissingLast="true" />
+	<fieldType name="int" class="solr.IntPointField"
+		docValues="true" />
+	<fieldType name="date" class="solr.DatePointField"
+		docValues="true" />
+
+	<fieldType name="basic_ci" class="solr.TextField"
+		sortMissingLast="true" omitNorms="true" positionIncrementGap="100">
+		<analyzer type="index">
+			<tokenizer class="solr.WhitespaceTokenizerFactory" />
+			<filter class="solr.LowerCaseFilterFactory" />
+		</analyzer>
+		<analyzer type="query">
+			<tokenizer class="solr.WhitespaceTokenizerFactory" />
+			<filter class="solr.LowerCaseFilterFactory" />
+		</analyzer>
+	</fieldType>
+
+	<fieldType name="full_ci" class="solr.TextField"
+		sortMissingLast="true" omitNorms="true" positionIncrementGap="100">
+		<analyzer type="index">
+			<tokenizer class="solr.SimplePatternSplitTokenizerFactory"
+				pattern="[- /()]+" />
+			<filter class="solr.StopFilterFactory" words="stopwords.txt"
+				ignoreCase="true" />
+			<filter class="solr.ASCIIFoldingFilterFactory"
+				preserveOriginal="false" />
+			<filter class="solr.WordDelimiterGraphFilterFactory"
+				generateNumberParts="1" splitOnCaseChange="0" preserveOriginal="0"
+				splitOnNumerics="0" stemEnglishPossessive="1" generateWordParts="1"
+				catenateNumbers="0" catenateWords="1" catenateAll="1" />
+			<filter class="solr.FlattenGraphFilterFactory" />
+			<filter class="solr.LowerCaseFilterFactory" />
+		</analyzer>
+		<analyzer type="query">
+			<tokenizer class="solr.SimplePatternSplitTokenizerFactory"
+				pattern="[- /()]+" />
+			<filter class="solr.StopFilterFactory" words="stopwords.txt"
+				ignoreCase="true" />
+			<filter class="solr.ASCIIFoldingFilterFactory"
+				preserveOriginal="false" />
+			<filter class="solr.LowerCaseFilterFactory" />
+			<filter class="solr.WordDelimiterGraphFilterFactory"
+				generateNumberParts="1" splitOnCaseChange="0" preserveOriginal="0"
+				splitOnNumerics="0" stemEnglishPossessive="1" generateWordParts="1"
+				catenateNumbers="0" catenateWords="0" catenateAll="0" />
+		</analyzer>
+	</fieldType>
+</schema>
