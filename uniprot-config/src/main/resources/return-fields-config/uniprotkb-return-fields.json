@@ -159,7 +159,7 @@
     "label": "Taxonomic lineage",
     "id": "names_&_taxonomy/taxonomic_lineage",
     "paths": [
-      "organism.lineage"
+      "lineages"
     ]
   },
   {
@@ -1457,135 +1457,117 @@
   {
     "seqNumber": 14,
     "itemType": "GROUP",
-    "groupName": "Taxonomic identifier",
-    "isDatabaseGroup": false,
-    "id": "taxonomic_identifier"
-  },
-  {
-    "parentId": "taxonomic_identifier",
-    "childNumber": 0,
-    "itemType": "SINGLE",
-    "name": "lineage",
-    "label": "Taxonomic lineage",
-    "id": "taxonomic_identifier/lineage",
-    "paths": [
-      "organism.lineage"
-    ]
-  },
-  {
-    "seqNumber": 15,
-    "itemType": "GROUP",
     "groupName": "Sequence",
     "isDatabaseGroup": true,
     "id": "sequence"
   },
   {
-    "seqNumber": 16,
+    "seqNumber": 15,
     "itemType": "GROUP",
     "groupName": "3D structure",
     "isDatabaseGroup": true,
     "id": "3d_structure"
   },
   {
-    "seqNumber": 17,
+    "seqNumber": 16,
     "itemType": "GROUP",
     "groupName": "Protein-protein interaction",
     "isDatabaseGroup": true,
     "id": "protein-protein_interaction"
   },
   {
-    "seqNumber": 18,
+    "seqNumber": 17,
     "itemType": "GROUP",
     "groupName": "Chemistry",
     "isDatabaseGroup": true,
     "id": "chemistry"
   },
   {
-    "seqNumber": 19,
+    "seqNumber": 18,
     "itemType": "GROUP",
     "groupName": "Protein family/group",
     "isDatabaseGroup": true,
     "id": "protein_family/group"
   },
   {
-    "seqNumber": 20,
+    "seqNumber": 19,
     "itemType": "GROUP",
     "groupName": "PTM",
     "isDatabaseGroup": true,
     "id": "ptm"
   },
   {
-    "seqNumber": 21,
+    "seqNumber": 20,
     "itemType": "GROUP",
     "groupName": "Polymorphism and mutation",
     "isDatabaseGroup": true,
     "id": "polymorphism_and_mutation"
   },
   {
-    "seqNumber": 22,
+    "seqNumber": 21,
     "itemType": "GROUP",
     "groupName": "2D gel",
     "isDatabaseGroup": true,
     "id": "2d_gel"
   },
   {
-    "seqNumber": 23,
+    "seqNumber": 22,
     "itemType": "GROUP",
     "groupName": "Proteomic",
     "isDatabaseGroup": true,
     "id": "proteomic"
   },
   {
-    "seqNumber": 24,
+    "seqNumber": 23,
     "itemType": "GROUP",
     "groupName": "Protocols and materials",
     "isDatabaseGroup": true,
     "id": "protocols_and_materials"
   },
   {
-    "seqNumber": 25,
+    "seqNumber": 24,
     "itemType": "GROUP",
     "groupName": "Genome annotation",
     "isDatabaseGroup": true,
     "id": "genome_annotation"
   },
   {
-    "seqNumber": 26,
+    "seqNumber": 25,
     "itemType": "GROUP",
     "groupName": "Organism-specific",
     "isDatabaseGroup": true,
     "id": "organism-specific"
   },
   {
-    "seqNumber": 27,
+    "seqNumber": 26,
     "itemType": "GROUP",
     "groupName": "Phylogenomic",
     "isDatabaseGroup": true,
     "id": "phylogenomic"
   },
   {
-    "seqNumber": 28,
+    "seqNumber": 27,
     "itemType": "GROUP",
     "groupName": "Enzyme and pathway",
     "isDatabaseGroup": true,
     "id": "enzyme_and_pathway"
   },
   {
-    "seqNumber": 29,
+    "seqNumber": 28,
     "itemType": "GROUP",
     "groupName": "Other",
     "isDatabaseGroup": true,
     "id": "other"
   },
   {
-    "seqNumber": 30,
+    "seqNumber": 29,
     "itemType": "GROUP",
     "groupName": "Gene expression",
     "isDatabaseGroup": true,
     "id": "gene_expression"
   },
   {
-    "seqNumber": 31,
+    "seqNumber": 30,
     "itemType": "GROUP",
     "groupName": "Family and domain",
     "isDatabaseGroup": true,
