@@ -3,6 +3,7 @@ package org.uniprot.store.reader.publications;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.uniprot.core.publication.MappedReference;
+import org.uniprot.core.util.Utils;
 
 import java.util.*;
 import java.util.regex.Matcher;
@@ -14,10 +15,8 @@ import java.util.stream.Collectors;
  *
  * @author Edd
  */
-abstract class AbstractMappedReferenceMapper<T extends MappedReference>
-        implements MappedReferenceMapper<T> {
-    private static final Logger LOGGER =
-            LoggerFactory.getLogger(AbstractMappedReferenceMapper.class);
+abstract class AbstractMappedReferenceConverter<T extends MappedReference>
+        implements MappedReferenceConverter<T> {
     private static final Pattern CATEGORY_PATTERN = Pattern.compile("^(\\[.*])(.*)");
 
     @Override
@@ -38,6 +37,13 @@ abstract class AbstractMappedReferenceMapper<T extends MappedReference>
                 }
             }
 
+            if (!Utils.notNullNotEmpty(lineFields[0])) {
+                throw new RawMappedReferenceException("Missing accession");
+            }
+            if (!Utils.notNullNotEmpty(lineFields[2])) {
+                throw new RawMappedReferenceException("Missing reference ID");
+            }
+
             rawMappedReference.accession = lineFields[0];
             rawMappedReference.source = lineFields[1];
             rawMappedReference.sourceId = lineFields[3];
@@ -47,8 +53,7 @@ abstract class AbstractMappedReferenceMapper<T extends MappedReference>
 
             return convertRawMappedReference(rawMappedReference);
         } else {
-            LOGGER.warn("Unable to parse mapped reference line correctly [{}]", line);
-            return null;
+            throw new RawMappedReferenceException("Could not parse mapped references file: "+line);
         }
     }
 

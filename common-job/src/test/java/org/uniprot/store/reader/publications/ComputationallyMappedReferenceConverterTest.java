@@ -14,10 +14,10 @@ import static org.hamcrest.core.Is.is;
  *
  * @author Edd
  */
-class ComputationallyMappedReferenceMapperTest {
+class ComputationallyMappedReferenceConverterTest {
     @Test
     void convertsCorrectly() {
-        ComputationallyMappedReferenceMapper mapper = new ComputationallyMappedReferenceMapper();
+        ComputationallyMappedReferenceConverter mapper = new ComputationallyMappedReferenceConverter();
         ComputationallyMappedReference reference =
                 mapper.convert(
                         "Q1MDE9\tORCID\t19597156\t0000-0002-4251-0362\t[Function][Pathology & Biotech]Protein/gene_name: BraC3; RL3540. Function: BraC3 is an alternative substrate binding component of the ABC transporter braDEFGC. BraC3 supports the transport of leucine, isoleucine, valine, or alanine, but not glutamate or aspartate. Comments: Transport of branched amino acids by either BraC3 (with BraDEFG) or AapJQMP is required for symbiosis with peas.");
