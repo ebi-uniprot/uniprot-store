@@ -9,8 +9,8 @@ import org.uniprot.core.publication.impl.MappedSourceBuilder;
  *
  * @author Edd
  */
-public class ComputationallyMappedReferenceMapper
-        extends AbstractMappedReferenceMapper<ComputationallyMappedReference> {
+public class ComputationallyMappedReferenceConverter
+        extends AbstractMappedReferenceConverter<ComputationallyMappedReference> {
     @Override
     ComputationallyMappedReference convertRawMappedReference(RawMappedReference reference) {
         return new ComputationallyMappedReferenceBuilder()

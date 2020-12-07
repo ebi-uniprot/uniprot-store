@@ -15,8 +15,8 @@ import java.util.regex.Pattern;
  *
  * @author Edd
  */
-public class CommunityMappedReferenceMapper
-        extends AbstractMappedReferenceMapper<CommunityMappedReference> {
+public class CommunityMappedReferenceConverter
+        extends AbstractMappedReferenceConverter<CommunityMappedReference> {
     private static final String PROTEIN_GENE_DELIMITER = "Protein/gene_name: ";
     private static final String FUNCTION_DELIMITER = "Function: ";
     private static final String DISEASE_DELIMITER = "Disease: ";
