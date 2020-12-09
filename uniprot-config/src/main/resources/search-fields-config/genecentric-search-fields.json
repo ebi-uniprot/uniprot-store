@@ -60,13 +60,5 @@
     "validRegex": "^UP[0-9]{9}$",
     "description": "Search by upid",
     "example": "UP123456789"
-  },
-  {
-    "id": "content",
-    "fieldName": "content",
-    "fieldType": "GENERAL",
-    "dataType": "STRING",
-    "description": "Search by any content",
-    "example": "some gene"
   }
 ]
