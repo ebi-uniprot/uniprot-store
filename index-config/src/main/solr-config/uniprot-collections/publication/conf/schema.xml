@@ -12,7 +12,7 @@
 	<field name="accession" type="string" indexed="true" stored="true"
 		required="true" multiValued="false" docValues="true" />
     <field name="pubmed_id" type="string" indexed="true"
-           stored="false" required="false" multiValued="true" />
+           stored="false" required="false" multiValued="false" />
     <field name="publication_obj" type="binary" indexed="false"
            stored="true" required="true" />
 	<!-- =============================== field types =============================== -->
