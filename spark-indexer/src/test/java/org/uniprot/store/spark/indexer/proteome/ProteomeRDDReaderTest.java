@@ -33,10 +33,12 @@ class ProteomeRDDReaderTest {
             JavaPairRDD<String, ProteomeEntry> javaPairRDD = reader.load();
             assertNotNull(javaPairRDD);
             long count = javaPairRDD.count();
-            assertEquals(6L, count);
+            assertEquals(5L, count);
             Tuple2<String, ProteomeEntry> firstTuple = javaPairRDD.first();
             assertNotNull(firstTuple);
             assertEquals("UP000000718", firstTuple._1);
+            assertNotNull(firstTuple._2.getTaxonomy());
+            assertEquals(289376L, firstTuple._2.getTaxonomy().getTaxonId());
             javaPairRDD.foreach(tuple -> assertEquals(tuple._2.getId().getValue(), tuple._1));
         }
     }
@@ -55,10 +57,12 @@ class ProteomeRDDReaderTest {
             JavaPairRDD<String, ProteomeEntry> javaPairRDD = reader.load();
             assertNotNull(javaPairRDD);
             long count = javaPairRDD.count();
-            assertEquals(6L, count);
+            assertEquals(5L, count);
             Tuple2<String, ProteomeEntry> firstTuple = javaPairRDD.first();
             assertNotNull(firstTuple);
             assertEquals("UP000000718", firstTuple._1);
+            assertNotNull(firstTuple._2.getTaxonomy());
+            assertEquals(289376L, firstTuple._2.getTaxonomy().getTaxonId());
             javaPairRDD.foreach(tuple -> assertEquals(tuple._2.getId().getValue(), tuple._1));
         }
     }

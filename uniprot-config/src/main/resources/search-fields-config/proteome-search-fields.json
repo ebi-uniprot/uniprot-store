@@ -27,9 +27,8 @@
     "label": "Proteome Type",
     "fieldType": "GENERAL",
     "itemType": "SINGLE",
-    "dataType": "INTEGER",
-    "sortFieldId": "proteome_type_sort",
-    "description": "search by proteome type",
+    "dataType": "ENUM",
+    "description": "Search by proteome type",
     "example": "1",
     "values": [
       {
@@ -37,64 +36,51 @@
         "value": "1"
       },
       {
-        "name": "Representative proteome",
+        "name": "Complete proteome",
         "value": "2"
       },
       {
-        "name": "Complete proteome",
+        "name": "Redundant proteome",
         "value": "3"
       },
       {
-        "name": "Redundant proteome",
-        "value": "4"
-      },
-      {
         "name": "Excluded",
-        "value": "5"
+        "value": "4"
       }
     ]
-  },
-  {
-    "id": "proteome_type_sort",
-    "fieldName": "proteome_type",
-    "fieldType": "SORT",
-    "dataType": "INTEGER",
-    "description": "sort by proteome type",
-    "example": "proteome_type desc"
   },
   {
     "id": "annotation_score",
     "fieldName": "annotation_score",
     "fieldType": "GENERAL",
     "dataType": "INTEGER",
-    "sortFieldId": "annotation_score_sort",
-    "description": "search by annotation_score ",
+    "description": "Search by annotation score ",
     "example": "1"
   },
   {
-    "id": "annotation_score_sort",
-    "fieldName": "annotation_score",
+    "id": "protein_count",
+    "fieldName": "protein_count",
+    "fieldType": "GENERAL",
+    "dataType": "INTEGER",
+    "sortFieldId": "protein_count_sort",
+    "description": "Search by protein count",
+    "example": "97"
+  },
+  {
+    "id": "protein_count_sort",
+    "fieldName": "protein_count",
     "fieldType": "SORT",
     "dataType": "INTEGER",
-    "description": "sort by annotation_score",
-    "example": "annotation_score asc"
+    "description": "Sort by protein count",
+    "example": "protein_count asc"
   },
   {
     "id": "organism_sort",
     "fieldName": "organism_sort",
-    "fieldType": "GENERAL",
-    "dataType": "STRING",
-    "sortFieldId": "organism_sort_id",
-    "description": "search by organism",
-    "example": "sample organism name"
-  },
-  {
-    "id": "organism_sort_id",
-    "fieldName": "organism_sort",
     "fieldType": "SORT",
     "dataType": "STRING",
-    "description": "sort by organism_sort",
-    "example": "organism_sort asc"
+    "description": "Sort by organism",
+    "example": "organism asc"
   },
   {
     "id": "reference",
@@ -111,7 +97,7 @@
     "fieldType": "GENERAL",
     "validRegex": "^true|false$",
     "dataType": "BOOLEAN",
-    "description": "search  if redundant",
+    "description": "Search if redundant",
     "example": "false"
   },
   {
@@ -120,7 +106,7 @@
     "fieldType": "GENERAL",
     "validRegex": "^true|false$",
     "dataType": "BOOLEAN",
-    "description": "search  if excluded",
+    "description": "Search if excluded",
     "example": "false"
   },
   {
@@ -131,8 +117,9 @@
     "fieldType": "GENERAL",
     "itemType": "SINGLE",
     "dataType": "STRING",
-    "description": "search by organism",
-    "example": "sample organism name"
+    "sortFieldId": "organism_sort",
+    "description": "Search by organism",
+    "example": "Human"
   },
   {
     "id": "organism_id",
@@ -140,8 +127,8 @@
     "validRegex": "^[0-9]+$",
     "fieldType": "GENERAL",
     "dataType": "INTEGER",
-    "description": "search by organism id",
-    "example": "12345"
+    "description": "Search by organism id",
+    "example": "9606"
   },
   {
     "seqNumber": 3,
@@ -151,8 +138,8 @@
     "fieldType": "GENERAL",
     "itemType": "SINGLE",
     "dataType": "STRING",
-    "description": "search by taxonomy name",
-    "example": "sample taxonomy  name"
+    "description": "Search by taxonomy name",
+    "example": "Human"
   },
   {
     "id": "taxonomy_id",
@@ -161,7 +148,7 @@
     "fieldType": "GENERAL",
     "dataType": "INTEGER",
     "description": "search by taxonomy id",
-    "example": "12345"
+    "example": "9606"
   },
   {
     "id": "superkingdom",
@@ -169,7 +156,7 @@
     "fieldType": "GENERAL",
     "dataType": "STRING",
     "description": "search by superkingdom name",
-    "example": "sample superkingdom  name"
+    "example": "bacteria"
   },
   {
     "seqNumber": 4,
@@ -180,7 +167,7 @@
     "itemType": "SINGLE",
     "dataType": "STRING",
     "description": "search by genome accession ",
-    "example": "sample genome accession"
+    "example": "CM000663"
   },
   {
     "seqNumber": 5,
@@ -191,14 +178,64 @@
     "itemType": "SINGLE",
     "dataType": "STRING",
     "description": "search by genome_assembly ",
-    "example": "sample genome_assembly"
+    "example": "GCA_000001405.27"
   },
   {
-    "id": "content",
-    "fieldName": "content",
+    "id": "cpd_sort",
+    "fieldName": "cpd",
+    "fieldType": "SORT",
+    "dataType": "INTEGER",
+    "description": "Sort by cpd score",
+    "example": "cpd asc"
+  },
+  {
+    "seqNumber": 6,
+    "id": "cpd",
+    "label": "CPD (Complete Proteome Detector)",
+    "fieldName": "cpd",
+    "itemType": "SINGLE",
     "fieldType": "GENERAL",
-    "dataType": "STRING",
-    "description": "Search by any content",
-    "example": "sample"
+    "dataType": "ENUM",
+    "sortFieldId": "cpd_sort",
+    "description": "search by cpd ",
+    "example": "1",
+    "values": [
+      {
+        "name": "Standard",
+        "value": "1"
+      },
+      {
+        "name": "Close to Standard",
+        "value": "2"
+      },
+      {
+        "name": "Outlier",
+        "value": "3"
+      },
+      {
+        "name": "Unknown",
+        "value": "4"
+      }
+    ]
+  },
+  {
+    "id": "busco_sort",
+    "fieldName": "busco",
+    "fieldType": "SORT",
+    "dataType": "INTEGER",
+    "description": "busco by cpd score",
+    "example": "busco asc"
+  },
+  {
+    "seqNumber": 7,
+    "id": "busco",
+    "label": "BUSCO (Complete %)",
+    "fieldName": "busco",
+    "fieldType": "RANGE",
+    "itemType": "SINGLE",
+    "dataType": "INTEGER",
+    "sortFieldId": "busco_sort",
+    "description": "Search by BUSCO",
+    "example": "97"
   }
 ]

@@ -66,7 +66,7 @@ class ProteomeSearchIT {
         QueryResponse queryResponse = searchEngine.getQueryResponse(query);
 
         SolrDocumentList results = queryResponse.getResults();
-        assertEquals(6, results.size());
+        assertEquals(5, results.size());
     }
 
     @Test
@@ -100,14 +100,14 @@ class ProteomeSearchIT {
 
     @Test
     void searchTaxId() {
-        int taxId = 60714;
+        int taxId = 11049;
         String query = taxonomy(taxId);
 
         QueryResponse queryResponse = searchEngine.getQueryResponse(query);
 
         SolrDocumentList results = queryResponse.getResults();
         assertEquals(1, results.size());
-        assertTrue(results.get(0).containsValue("UP000029766"));
+        assertTrue(results.get(0).containsValue("UP000006687"));
     }
 
     @Test
@@ -118,7 +118,7 @@ class ProteomeSearchIT {
         QueryResponse queryResponse = searchEngine.getQueryResponse(query);
 
         SolrDocumentList results = queryResponse.getResults();
-        assertEquals(6, results.size());
+        assertEquals(5, results.size());
     }
 
     @Test
