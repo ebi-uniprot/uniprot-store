@@ -3,7 +3,6 @@ package org.uniprot.store.spark.indexer.common.store;
 import org.uniprot.store.spark.indexer.common.JobParameter;
 import org.uniprot.store.spark.indexer.uniparc.UniParcDataStoreIndexer;
 import org.uniprot.store.spark.indexer.uniprot.UniProtKBDataStoreIndexer;
-import org.uniprot.store.spark.indexer.uniref.UniRefDataStoreIndexer;
 import org.uniprot.store.spark.indexer.uniref.UniRefLightDataStoreIndexer;
 import org.uniprot.store.spark.indexer.uniref.UniRefMembersDataStoreIndexer;
 
@@ -18,9 +17,6 @@ public class DataStoreIndexerFactory {
         switch (dataStore) {
             case UNIPROT:
                 result = new UniProtKBDataStoreIndexer(jobParameter);
-                break;
-            case UNIREF:
-                result = new UniRefDataStoreIndexer(jobParameter);
                 break;
             case UNIREF_LIGHT:
                 result = new UniRefLightDataStoreIndexer(jobParameter);

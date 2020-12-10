@@ -3,6 +3,7 @@ package org.uniprot.store.spark.indexer.uniprot.writer;
 import org.uniprot.core.uniprotkb.UniProtKBEntry;
 import org.uniprot.store.datastore.voldemort.VoldemortClient;
 import org.uniprot.store.datastore.voldemort.uniprot.VoldemortRemoteUniProtKBEntryStore;
+import org.uniprot.store.spark.indexer.common.store.DataStoreParameter;
 import org.uniprot.store.spark.indexer.common.writer.AbstractDataStoreWriter;
 
 /**
@@ -13,14 +14,15 @@ public class UniProtKBDataStoreWriter extends AbstractDataStoreWriter<UniProtKBE
 
     private static final long serialVersionUID = -7667879045351247007L;
 
-    public UniProtKBDataStoreWriter(
-            String numberOfConnections, String storeName, String connectionURL) {
-        super(numberOfConnections, storeName, connectionURL);
+    public UniProtKBDataStoreWriter(DataStoreParameter parameter) {
+        super(parameter);
     }
 
     @Override
     protected VoldemortClient<UniProtKBEntry> getDataStoreClient() {
         return new VoldemortRemoteUniProtKBEntryStore(
-                numberOfConnections, storeName, connectionURL);
+                parameter.getNumberOfConnections(),
+                parameter.getStoreName(),
+                parameter.getConnectionURL());
     }
 }

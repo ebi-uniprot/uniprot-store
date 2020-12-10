@@ -1,5 +1,6 @@
 package org.uniprot.store.spark.indexer.uniref.converter;
 
+import static org.uniprot.core.uniref.UniRefUtils.*;
 import static org.uniprot.core.uniref.UniRefUtils.getUniProtKBIdType;
 import static org.uniprot.store.spark.indexer.common.util.RowUtils.hasFieldName;
 import static org.uniprot.store.spark.indexer.uniref.UniRefXmlUtils.*;
@@ -14,6 +15,7 @@ import org.apache.spark.api.java.function.Function;
 import org.apache.spark.sql.Row;
 import org.uniprot.core.Value;
 import org.uniprot.core.uniprotkb.impl.UniProtKBAccessionBuilder;
+import org.uniprot.core.uniprotkb.taxonomy.impl.OrganismBuilder;
 import org.uniprot.core.uniref.*;
 import org.uniprot.core.uniref.impl.RepresentativeMemberBuilder;
 import org.uniprot.core.uniref.impl.UniRefEntryLightBuilder;
@@ -100,12 +102,15 @@ public class DatasetUniRefEntryLightConverter
             builder.memberCount(Integer.parseInt(memberCount));
         }
         if (propertyMap.containsKey(PROPERTY_COMMON_TAXON_ID)) {
+            OrganismBuilder organismBuilder = new OrganismBuilder();
             String commonTaxonId = propertyMap.get(PROPERTY_COMMON_TAXON_ID).get(0);
-            builder.commonTaxonId(Integer.parseInt(commonTaxonId));
-        }
-        if (propertyMap.containsKey(PROPERTY_COMMON_TAXON)) {
-            String commonTaxon = propertyMap.get(PROPERTY_COMMON_TAXON).get(0);
-            builder.commonTaxon(commonTaxon);
+            organismBuilder.taxonId(Long.parseLong(commonTaxonId));
+            if (propertyMap.containsKey(PROPERTY_COMMON_TAXON)) {
+                String commonTaxon = propertyMap.get(PROPERTY_COMMON_TAXON).get(0);
+                organismBuilder.scientificName(getOrganismScientificName(commonTaxon));
+                organismBuilder.commonName(getOrganismCommonName(commonTaxon));
+            }
+            builder.commonTaxon(organismBuilder.build());
         }
         builder.goTermsSet(convertUniRefGoTermsProperties(propertyMap));
     }
@@ -124,10 +129,17 @@ public class DatasetUniRefEntryLightConverter
 
         // organism name and id
         if (member.getOrganismTaxId() > 0) {
-            builder.organismIdsAdd(member.getOrganismTaxId());
-        }
-        if (Utils.notNullNotEmpty(member.getOrganismName())) {
-            builder.organismsAdd(member.getOrganismName());
+            OrganismBuilder organismBuilder = new OrganismBuilder();
+            organismBuilder.taxonId(member.getOrganismTaxId());
+            if (Utils.notNullNotEmpty(member.getOrganismName())) {
+                String organismName = member.getOrganismName();
+
+                String scientificName = getOrganismScientificName(organismName);
+                organismBuilder.scientificName(scientificName);
+                String commonName = getOrganismCommonName(organismName);
+                organismBuilder.commonName(commonName);
+            }
+            builder.organismsAdd(organismBuilder.build());
         }
 
         // uniparc id presence

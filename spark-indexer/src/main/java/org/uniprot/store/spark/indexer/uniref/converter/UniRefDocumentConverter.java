@@ -28,19 +28,46 @@ public class UniRefDocumentConverter
 
     @Override
     public UniRefDocument convert(UniRefEntry entry) {
-        return UniRefDocument.builder()
-                .id(entry.getId().getValue())
+        UniRefDocument.UniRefDocumentBuilder builder = UniRefDocument.builder();
+        builder.id(entry.getId().getValue())
                 .identity(entry.getEntryType().getIdentity())
                 .name(entry.getName())
                 .count(entry.getMembers().size() + 1)
                 .length(entry.getRepresentativeMember().getSequence().getLength())
                 .created(DateUtils.convertLocalDateToDate(entry.getUpdated()))
-                .uniprotIds(getUniProtIds(entry))
-                .upis(getUniParcIds(entry))
                 .organismSort(getOrganismNameForSort(entry))
                 .taxLineageId((int) entry.getRepresentativeMember().getOrganismTaxId())
-                .organismTaxon(entry.getRepresentativeMember().getOrganismName())
-                .build();
+                .organismTaxon(entry.getRepresentativeMember().getOrganismName());
+
+        convertMember(entry.getRepresentativeMember(), builder);
+        entry.getMembers().forEach(member -> convertMember(member, builder));
+
+        return builder.build();
+    }
+
+    private void convertMember(UniRefMember member, UniRefDocument.UniRefDocumentBuilder builder) {
+        // cluster
+        if (Utils.notNull(member.getUniRef50Id())) {
+            builder.cluster(member.getUniRef50Id().getValue());
+        }
+        if (Utils.notNull(member.getUniRef90Id())) {
+            builder.cluster(member.getUniRef90Id().getValue());
+        }
+        if (Utils.notNull(member.getUniRef100Id())) {
+            builder.cluster(member.getUniRef100Id().getValue());
+        }
+
+        if (member.getMemberIdType() == UniRefMemberIdType.UNIPARC) {
+            builder.upid(member.getMemberId());
+        } else {
+            builder.uniprotId(member.getMemberId());
+        }
+        if (Utils.notNull(member.getUniParcId())) {
+            builder.upid(member.getUniParcId().getValue());
+        }
+        if (Utils.notNull(member.getUniProtAccessions())) {
+            member.getUniProtAccessions().forEach(val -> builder.uniprotId(val.getValue()));
+        }
     }
 
     private String getOrganismNameForSort(UniRefEntry entry) {
@@ -52,40 +79,5 @@ public class UniRefDocumentConverter
                 .limit(5)
                 .forEach(result::add);
         return String.join(" ", result);
-    }
-
-    private List<String> getUniParcIds(UniRefEntry entry) {
-        List<String> result = getUniParcIds(entry.getRepresentativeMember());
-        entry.getMembers().forEach(val -> result.addAll(getUniParcIds(val)));
-
-        return result;
-    }
-
-    private List<String> getUniParcIds(UniRefMember member) {
-        List<String> result = new ArrayList<>();
-        if (member.getMemberIdType() == UniRefMemberIdType.UNIPARC) {
-            result.add(member.getMemberId());
-        }
-        if (Utils.notNull(member.getUniParcId())) {
-            result.add(member.getUniParcId().getValue());
-        }
-        return result;
-    }
-
-    private List<String> getUniProtIds(UniRefEntry entry) {
-        List<String> result = getUniProtIds(entry.getRepresentativeMember());
-        entry.getMembers().forEach(val -> result.addAll(getUniProtIds(val)));
-
-        return result;
-    }
-
-    private List<String> getUniProtIds(UniRefMember member) {
-        List<String> result = new ArrayList<>();
-        if (member.getMemberIdType() != UniRefMemberIdType.UNIPARC) {
-            result.add(member.getMemberId());
-        }
-        member.getUniProtAccessions().forEach(val -> result.add(val.getValue()));
-
-        return result;
     }
 }

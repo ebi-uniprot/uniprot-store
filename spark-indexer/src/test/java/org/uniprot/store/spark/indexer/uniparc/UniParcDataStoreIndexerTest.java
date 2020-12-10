@@ -1,27 +1,23 @@
-package org.uniprot.store.spark.indexer.uniref;
+package org.uniprot.store.spark.indexer.uniparc;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.util.Iterator;
 import java.util.ResourceBundle;
 
-import lombok.extern.slf4j.Slf4j;
-
 import org.apache.spark.api.java.JavaSparkContext;
 import org.apache.spark.api.java.function.VoidFunction;
 import org.junit.jupiter.api.Test;
-import org.uniprot.core.uniref.UniRefEntry;
+import org.uniprot.core.uniparc.UniParcEntry;
 import org.uniprot.store.spark.indexer.common.JobParameter;
-import org.uniprot.store.spark.indexer.common.exception.IndexDataStoreException;
+import org.uniprot.store.spark.indexer.common.store.DataStoreParameter;
 import org.uniprot.store.spark.indexer.common.util.SparkUtils;
 
 /**
  * @author lgonzales
- * @since 20/07/2020
+ * @since 03/12/2020
  */
-@Slf4j
-class UniRefDataStoreIndexerTest {
+class UniParcDataStoreIndexerTest {
 
     @Test
     void indexInDataStore() {
@@ -33,35 +29,37 @@ class UniRefDataStoreIndexerTest {
                             .releaseName("2020_02")
                             .sparkContext(sparkContext)
                             .build();
-            FakeUniRefDataStoreIndexer indexer = new FakeUniRefDataStoreIndexer(parameter);
+            UniParcDataStoreIndexerTest.FakeUniParcDataStoreIndexer indexer =
+                    new UniParcDataStoreIndexerTest.FakeUniParcDataStoreIndexer(parameter);
             assertNotNull(indexer);
             indexer.indexInDataStore();
         }
     }
 
     @Test
-    void indexInDataStoreWithError() {
-        UniRefDataStoreIndexer indexer = new UniRefDataStoreIndexer(null);
-        assertThrows(IndexDataStoreException.class, indexer::indexInDataStore);
-    }
-
-    @Test
     void canGetWriter() {
-        UniRefDataStoreIndexer indexer = new UniRefDataStoreIndexer(null);
-        VoidFunction<Iterator<UniRefEntry>> result =
-                indexer.getWriter("5", "uniref", "tcp://localhost");
+        DataStoreParameter parameter =
+                DataStoreParameter.builder()
+                        .maxRetry(1)
+                        .delay(1)
+                        .connectionURL("tcp://localhost")
+                        .numberOfConnections(5)
+                        .storeName("uniparc")
+                        .build();
+        UniParcDataStoreIndexer indexer = new UniParcDataStoreIndexer(null);
+        VoidFunction<Iterator<UniParcEntry>> result = indexer.getWriter(parameter);
         assertNotNull(result);
     }
 
-    private static class FakeUniRefDataStoreIndexer extends UniRefDataStoreIndexer {
+    private static class FakeUniParcDataStoreIndexer extends UniParcDataStoreIndexer {
 
-        public FakeUniRefDataStoreIndexer(JobParameter jobParameter) {
+        public FakeUniParcDataStoreIndexer(JobParameter jobParameter) {
             super(jobParameter);
         }
 
         @Override
-        VoidFunction<Iterator<UniRefEntry>> getWriter(
-                String numberOfConnections, String storeName, String connectionURL) {
+        VoidFunction<Iterator<UniParcEntry>> getWriter(DataStoreParameter parameter) {
+            assertNotNull(parameter);
             return entryIterator -> {
                 assertNotNull(entryIterator);
                 assertTrue(entryIterator.hasNext());

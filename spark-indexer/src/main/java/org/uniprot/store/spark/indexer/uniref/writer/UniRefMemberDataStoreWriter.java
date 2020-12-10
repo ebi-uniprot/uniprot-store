@@ -1,12 +1,10 @@
 package org.uniprot.store.spark.indexer.uniref.writer;
 
-import java.util.Iterator;
-
-import org.apache.spark.api.java.function.VoidFunction;
 import org.uniprot.core.uniref.RepresentativeMember;
 import org.uniprot.store.datastore.voldemort.VoldemortClient;
 import org.uniprot.store.datastore.voldemort.member.uniref.VoldemortRemoteUniRefMemberStore;
-import org.uniprot.store.spark.indexer.common.writer.DataStoreWriter;
+import org.uniprot.store.spark.indexer.common.store.DataStoreParameter;
+import org.uniprot.store.spark.indexer.common.writer.AbstractDataStoreWriter;
 import org.uniprot.store.spark.indexer.uniref.UniRefMembersDataStoreIndexer;
 
 /**
@@ -16,27 +14,19 @@ import org.uniprot.store.spark.indexer.uniref.UniRefMembersDataStoreIndexer;
  * @author sahmad
  * @since 21/07/2020
  */
-public class UniRefMemberDataStoreWriter implements VoidFunction<Iterator<RepresentativeMember>> {
+public class UniRefMemberDataStoreWriter extends AbstractDataStoreWriter<RepresentativeMember> {
 
-    private final int numberOfConnections;
-    private final String storeName;
-    private final String connectionURL;
+    private static final long serialVersionUID = -4513569352067190426L;
 
-    public UniRefMemberDataStoreWriter(
-            String numberOfConnections, String storeName, String connectionURL) {
-        this.numberOfConnections = Integer.parseInt(numberOfConnections);
-        this.connectionURL = connectionURL;
-        this.storeName = storeName;
+    public UniRefMemberDataStoreWriter(DataStoreParameter parameter) {
+        super(parameter);
     }
 
     @Override
-    public void call(Iterator<RepresentativeMember> entryIterator) throws Exception {
-        VoldemortClient<RepresentativeMember> client = getDataStoreClient();
-        DataStoreWriter<RepresentativeMember> writer = new DataStoreWriter<>(client);
-        writer.indexInStore(entryIterator);
-    }
-
-    VoldemortClient<RepresentativeMember> getDataStoreClient() {
-        return new VoldemortRemoteUniRefMemberStore(numberOfConnections, storeName, connectionURL);
+    public VoldemortClient<RepresentativeMember> getDataStoreClient() {
+        return new VoldemortRemoteUniRefMemberStore(
+                parameter.getNumberOfConnections(),
+                parameter.getStoreName(),
+                parameter.getConnectionURL());
     }
 }

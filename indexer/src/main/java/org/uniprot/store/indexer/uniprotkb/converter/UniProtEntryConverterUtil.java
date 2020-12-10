@@ -22,7 +22,7 @@ import org.uniprot.store.search.document.suggest.SuggestDictionary;
  */
 public class UniProtEntryConverterUtil {
 
-    private UniProtEntryConverterUtil(){}
+    private UniProtEntryConverterUtil() {}
 
     private static final int SORT_FIELD_MAX_LENGTH = 30;
 

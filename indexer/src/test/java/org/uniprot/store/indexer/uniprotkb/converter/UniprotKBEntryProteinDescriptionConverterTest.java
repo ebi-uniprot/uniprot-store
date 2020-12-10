@@ -95,7 +95,7 @@ class UniprotKBEntryProteinDescriptionConverterTest {
         assertTrue(suggestions.containsKey("EC:1.2.3.5"));
 
         SuggestDocument suggestionDocument = suggestions.get("EC:1.2.3.3");
-        assertEquals("1.2.3.3", suggestionDocument.id );
+        assertEquals("1.2.3.3", suggestionDocument.id);
         assertEquals("Label 3", suggestionDocument.value);
         assertTrue(suggestionDocument.altValues.isEmpty());
         assertEquals("EC", suggestionDocument.dictionary);

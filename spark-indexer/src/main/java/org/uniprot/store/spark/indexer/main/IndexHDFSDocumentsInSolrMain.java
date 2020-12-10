@@ -12,6 +12,7 @@ import org.apache.spark.api.java.JavaSparkContext;
 import org.uniprot.store.search.SolrCollection;
 import org.uniprot.store.spark.indexer.common.exception.SolrIndexException;
 import org.uniprot.store.spark.indexer.common.util.SolrUtils;
+import org.uniprot.store.spark.indexer.common.writer.SolrIndexParameter;
 import org.uniprot.store.spark.indexer.common.writer.SolrIndexWriter;
 
 /**
@@ -45,10 +46,12 @@ public class IndexHDFSDocumentsInSolrMain {
                                 + collection.name()
                                 + " in zkHost "
                                 + zkHost);
+                SolrIndexParameter indexParameter =
+                        getSolrIndexParameter(collection, applicationConfig);
                 sparkContext
                         .objectFile(hdfsFilePath)
                         .map(obj -> (SolrInputDocument) obj)
-                        .foreachPartition(new SolrIndexWriter(zkHost, collection.name()));
+                        .foreachPartition(new SolrIndexWriter(indexParameter));
                 log.info(
                         "Completed solr index for collection: "
                                 + collection.name()
@@ -62,5 +65,17 @@ public class IndexHDFSDocumentsInSolrMain {
         } finally {
             log.info("Finished the job!!");
         }
+    }
+
+    static SolrIndexParameter getSolrIndexParameter(
+            SolrCollection collection, ResourceBundle config) {
+        String delay = config.getString("solr.retry.delay");
+        String maxRetry = config.getString("solr.max.retry");
+        return SolrIndexParameter.builder()
+                .collectionName(collection.name())
+                .zkHost(config.getString("solr.zkhost"))
+                .delay(Long.parseLong(delay))
+                .maxRetry(Integer.parseInt(maxRetry))
+                .build();
     }
 }

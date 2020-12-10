@@ -15,6 +15,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.uniprot.core.cv.go.GeneOntologyEntry;
 import org.uniprot.core.cv.go.GoAspect;
+import org.uniprot.core.uniprotkb.taxonomy.Organism;
 import org.uniprot.core.uniref.UniRefEntryLight;
 import org.uniprot.core.uniref.UniRefMemberIdType;
 import org.uniprot.core.uniref.UniRefType;
@@ -52,8 +53,8 @@ class DatasetUniRefEntryLightConverterTest {
         assertEquals("2019-10-01", entry.getUpdated().toString());
 
         // properties
-        assertEquals("common taxon Value", entry.getCommonTaxon());
-        assertEquals(9606, entry.getCommonTaxonId());
+        assertEquals("common taxon Value", entry.getCommonTaxon().getScientificName());
+        assertEquals(9606, entry.getCommonTaxon().getTaxonId());
         assertEquals(10, entry.getMemberCount());
         assertEquals("FGFR2_HUMAN,P12345", entry.getSeedId());
 
@@ -72,8 +73,13 @@ class DatasetUniRefEntryLightConverterTest {
         assertThat(entry.getSequence(), is("MVSWGRFICLVVVTMATLSLAR"));
 
         // organism info
-        assertThat(entry.getOrganismIds(), contains(9606L));
-        assertThat(entry.getOrganisms(), contains("Homo sapiens (Human)"));
+        assertNotNull(entry.getOrganisms());
+        assertThat(entry.getOrganisms().size(), is(1));
+        Organism result =
+                entry.getOrganisms().stream().findFirst().orElseThrow(AssertionError::new);
+        assertThat(result.getTaxonId(), is(9606L));
+        assertThat(result.getScientificName(), is("Homo sapiens"));
+        assertThat(result.getCommonName(), is("Human"));
 
         // uniparc presence
         assertThat(

@@ -10,6 +10,7 @@ import org.uniprot.core.uniref.UniRefEntryLight;
 import org.uniprot.core.uniref.impl.UniRefEntryLightBuilder;
 import org.uniprot.store.datastore.voldemort.VoldemortClient;
 import org.uniprot.store.datastore.voldemort.light.uniref.VoldemortInMemoryUniRefEntryLightStore;
+import org.uniprot.store.spark.indexer.common.store.DataStoreParameter;
 
 /**
  * @author lgonzales
@@ -20,8 +21,9 @@ class UniRefLightDataStoreWriterTest {
     @Test
     void canWriteInDataStore() throws Exception {
         UniRefEntryLight light = new UniRefEntryLightBuilder().id("ID").build();
-        FakeUniRefLightDataStoreWriter writer =
-                new FakeUniRefLightDataStoreWriter("5", "light", "url");
+
+        DataStoreParameter parameter = DataStoreParameter.builder().delay(10L).maxRetry(1).build();
+        FakeUniRefLightDataStoreWriter writer = new FakeUniRefLightDataStoreWriter(parameter);
         writer.call(Collections.singleton(light).iterator());
 
         Optional<UniRefEntryLight> result = writer.getDataStoreClient().getEntry("ID");
@@ -30,13 +32,14 @@ class UniRefLightDataStoreWriterTest {
 
     private static class FakeUniRefLightDataStoreWriter extends UniRefLightDataStoreWriter {
 
-        public FakeUniRefLightDataStoreWriter(
-                String numberOfConnections, String storeName, String connectionURL) {
-            super(numberOfConnections, storeName, connectionURL);
+        private static final long serialVersionUID = 2605332021532353301L;
+
+        public FakeUniRefLightDataStoreWriter(DataStoreParameter parameter) {
+            super(parameter);
         }
 
         @Override
-        VoldemortClient<UniRefEntryLight> getDataStoreClient() {
+        public VoldemortClient<UniRefEntryLight> getDataStoreClient() {
             return VoldemortInMemoryUniRefEntryLightStore.getInstance("uniref-light");
         }
     }

@@ -10,6 +10,7 @@ import org.apache.spark.api.java.function.VoidFunction;
 import org.uniprot.core.uniprotkb.UniProtKBEntry;
 import org.uniprot.store.spark.indexer.common.JobParameter;
 import org.uniprot.store.spark.indexer.common.store.DataStoreIndexer;
+import org.uniprot.store.spark.indexer.common.store.DataStoreParameter;
 import org.uniprot.store.spark.indexer.go.evidence.GOEvidence;
 import org.uniprot.store.spark.indexer.go.evidence.GOEvidenceMapper;
 import org.uniprot.store.spark.indexer.go.evidence.GOEvidencesRDDReader;
@@ -41,14 +42,12 @@ public class UniProtKBDataStoreIndexer implements DataStoreIndexer {
         uniprotRDD = joinGoEvidences(uniprotRDD);
         uniprotRDD = joinUniParcId(uniprotRDD);
 
-        String numberOfConnections = config.getString("store.uniprot.numberOfConnections");
-        String storeName = config.getString("store.uniprot.storeName");
-        String connectionURL = config.getString("store.uniprot.host");
+        DataStoreParameter dataStoreParameter = getDataStoreParameter(config);
 
         uniprotRDD
                 .mapValues(new UniProtKBAnnotationScoreMapper())
                 .values()
-                .foreachPartition(getWriter(numberOfConnections, storeName, connectionURL));
+                .foreachPartition(getWriter(dataStoreParameter));
 
         log.info("Completed UniProtKb Data Store index");
     }
@@ -71,8 +70,20 @@ public class UniProtKBDataStoreIndexer implements DataStoreIndexer {
         return uniprotRDD;
     }
 
-    VoidFunction<Iterator<UniProtKBEntry>> getWriter(
-            String numberOfConnections, String storeName, String connectionURL) {
-        return new UniProtKBDataStoreWriter(numberOfConnections, storeName, connectionURL);
+    private DataStoreParameter getDataStoreParameter(ResourceBundle config) {
+        String numberOfConnections = config.getString("store.uniprot.numberOfConnections");
+        String maxRetry = config.getString("store.uniprot.retry");
+        String delay = config.getString("store.uniprot.delay");
+        return DataStoreParameter.builder()
+                .connectionURL(config.getString("store.uniprot.host"))
+                .storeName(config.getString("store.uniprot.storeName"))
+                .numberOfConnections(Integer.parseInt(numberOfConnections))
+                .maxRetry(Integer.parseInt(maxRetry))
+                .delay(Long.parseLong(delay))
+                .build();
+    }
+
+    VoidFunction<Iterator<UniProtKBEntry>> getWriter(DataStoreParameter parameter) {
+        return new UniProtKBDataStoreWriter(parameter);
     }
 }
