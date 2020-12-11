@@ -4,6 +4,7 @@ import static org.uniprot.core.uniref.UniRefUtils.*;
 import static org.uniprot.core.uniref.UniRefUtils.getUniProtKBIdType;
 import static org.uniprot.store.spark.indexer.common.util.RowUtils.hasFieldName;
 import static org.uniprot.store.spark.indexer.uniref.UniRefXmlUtils.*;
+import static org.uniprot.store.spark.indexer.uniref.converter.DatasetUniRefConverterUtil.*;
 
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -17,7 +18,6 @@ import org.uniprot.core.Value;
 import org.uniprot.core.uniprotkb.impl.UniProtKBAccessionBuilder;
 import org.uniprot.core.uniprotkb.taxonomy.impl.OrganismBuilder;
 import org.uniprot.core.uniref.*;
-import org.uniprot.core.uniref.impl.RepresentativeMemberBuilder;
 import org.uniprot.core.uniref.impl.UniRefEntryLightBuilder;
 import org.uniprot.core.uniref.impl.UniRefMemberBuilder;
 import org.uniprot.core.util.Utils;
@@ -70,13 +70,7 @@ public class DatasetUniRefEntryLightConverter
             RepresentativeMember representativeMember =
                     convertRepresentativeMember(representativeMemberRow);
             // member accessions
-            builder.sequence(representativeMember.getSequence().getValue());
-
-            String representativeId = representativeMember.getMemberId();
-            if (Utils.notNullNotEmpty(representativeMember.getUniProtAccessions())) {
-                representativeId += "," + representativeMember.getUniProtAccessions().get(0);
-            }
-            builder.representativeId(representativeId);
+            builder.representativeMember(representativeMember);
 
             addMemberInfo(builder, representativeMember);
         }
@@ -116,17 +110,6 @@ public class DatasetUniRefEntryLightConverter
     }
 
     private void addMemberInfo(UniRefEntryLightBuilder builder, UniRefMember member) {
-        // member accessions
-        int memberType = member.getMemberIdType().getMemberIdTypeId();
-        member.getUniProtAccessions().stream()
-                .map(Value::getValue)
-                .findFirst()
-                .map(id -> id + "," + memberType) // We save members as
-                // "DatabaseId,UniRefMemberIdType", this way,
-                // we can apply facet filter at
-                // UniRefEntryFacetConfig.java
-                .ifPresent(builder::membersAdd);
-
         // organism name and id
         if (member.getOrganismTaxId() > 0) {
             OrganismBuilder organismBuilder = new OrganismBuilder();
@@ -143,18 +126,27 @@ public class DatasetUniRefEntryLightConverter
         }
 
         // uniparc id presence
-        String uniparcId = member.getUniParcId() == null ? null : member.getUniParcId().getValue();
         if (member.getMemberIdType() == UniRefMemberIdType.UNIPARC) {
-            uniparcId = member.getMemberId();
-        }
-        if (Utils.notNullNotEmpty(uniparcId)) {
+            String uniparcId = member.getMemberId();
+            int memberType = member.getMemberIdType().getMemberIdTypeId();
             builder.membersAdd(uniparcId + "," + memberType);
+            builder.memberIdTypesAdd(member.getMemberIdType());
+        } else {
+            // member accessions
+            // We save members as "Accession,UniRefMemberIdType", this way,
+            // we can apply facet filter at UniRefEntryFacetConfig.java
+            Optional<String> accession =
+                    member.getUniProtAccessions().stream().map(Value::getValue).findFirst();
+            if (accession.isPresent()) {
+                String acc = accession.get();
+                UniRefMemberIdType type = getUniProtKBIdType(member.getMemberId(), acc);
+                builder.membersAdd(acc + "," + type.getMemberIdTypeId());
+                builder.memberIdTypesAdd(type);
+            }
         }
         if (Utils.notNull(member.isSeed()) && member.isSeed()) {
             builder.seedId(getSeedIdFromMember(member));
         }
-
-        builder.memberIdTypesAdd(member.getMemberIdType());
     }
 
     private UniRefMember convertMember(Row member) {
@@ -172,17 +164,6 @@ public class DatasetUniRefEntryLightConverter
             if (hasFieldName(PROPERTY, dbReference)) {
                 convertMemberProperties(builder, dbReference, memberId);
             }
-        }
-        return builder.build();
-    }
-
-    private RepresentativeMember convertRepresentativeMember(Row representativeMemberRow) {
-        UniRefMember member = convertMember(representativeMemberRow);
-        RepresentativeMemberBuilder builder = RepresentativeMemberBuilder.from(member);
-        if (hasFieldName(SEQUENCE, representativeMemberRow)) {
-            Row sequence =
-                    (Row) representativeMemberRow.get(representativeMemberRow.fieldIndex(SEQUENCE));
-            builder.sequence(RowUtils.convertSequence(sequence));
         }
         return builder.build();
     }
