@@ -1,9 +1,7 @@
 package org.uniprot.store.search.document.genecentric;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -35,10 +33,6 @@ public class GeneCentricDocument implements Document {
 
     @Field("gene")
     private List<String> geneNames = new ArrayList<>();
-
-    // DEFAULT SEARCH FIELD
-    @Field("content")
-    private Set<String> content = new HashSet<>();
 
     @Field("upid")
     private String upid;

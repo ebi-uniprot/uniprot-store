@@ -36,7 +36,7 @@ class SearchFieldConfigFactoryTest {
         return Stream.of(
                 Arguments.of(UniProtDataType.CROSSREF, 7),
                 Arguments.of(UniProtDataType.DISEASE, 4),
-                Arguments.of(UniProtDataType.GENECENTRIC, 8),
+                Arguments.of(UniProtDataType.GENECENTRIC, 7),
                 Arguments.of(UniProtDataType.KEYWORD, 7),
                 Arguments.of(UniProtDataType.LITERATURE, 11),
                 Arguments.of(UniProtDataType.PROTEOME, 21),
