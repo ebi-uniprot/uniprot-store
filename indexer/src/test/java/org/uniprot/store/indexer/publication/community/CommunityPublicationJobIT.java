@@ -1,6 +1,13 @@
 package org.uniprot.store.indexer.publication.community;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.*;
+
+import java.io.IOException;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
 import org.apache.solr.client.solrj.SolrQuery;
 import org.hamcrest.CoreMatchers;
 import org.junit.jupiter.api.Test;
@@ -15,6 +22,7 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.uniprot.core.json.parser.publication.CommunityMappedReferenceJsonConfig;
 import org.uniprot.core.publication.CommunityMappedReference;
+import org.uniprot.core.publication.MappedReferenceType;
 import org.uniprot.store.indexer.common.config.UniProtSolrClient;
 import org.uniprot.store.indexer.common.utils.Constants;
 import org.uniprot.store.indexer.test.config.FakeIndexerSpringBootApplication;
@@ -23,13 +31,7 @@ import org.uniprot.store.job.common.listener.ListenerConfig;
 import org.uniprot.store.search.SolrCollection;
 import org.uniprot.store.search.document.publication.PublicationDocument;
 
-import java.io.IOException;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
-
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 @ActiveProfiles(profiles = {"job", "offline"})
 @ExtendWith(SpringExtension.class)
@@ -73,6 +75,18 @@ class CommunityPublicationJobIT {
         assertThat(step.getReadCount(), is(41));
         assertThat(step.getWriteCount(), is(41));
 
+        // ---------- check "type" field
+        SolrQuery allCommunityPubs =
+                new SolrQuery("type:" + MappedReferenceType.COMMUNITY.getIntValue());
+        allCommunityPubs.set("rows", 50);
+        assertThat(
+                solrClient.query(
+                        SolrCollection.publication,
+                        allCommunityPubs,
+                        PublicationDocument.class),
+                hasSize(41));
+
+        // ---------- check "id" field
         List<PublicationDocument> documents =
                 solrClient.query(
                         SolrCollection.publication,
@@ -85,6 +99,7 @@ class CommunityPublicationJobIT {
 
         CommunityMappedReference reference = extractObject(document);
 
+        // ----------- check contents of stored object
         assertThat(reference.getPubMedId(), is("27190215"));
         assertThat(reference.getUniProtKBAccession().getValue(), is("D4GVJ3"));
         assertThat(reference.getSource().getName(), is("ORCID"));

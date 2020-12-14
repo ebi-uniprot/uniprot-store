@@ -15,6 +15,8 @@
 		stored="false" required="false" multiValued="false" />
 	<field name="publication_obj" type="binary" indexed="false"
 		stored="true" required="true" />
+	<field name="type" type="int" indexed="true" stored="false"
+		required="false" multiValued="false" />
 	<!-- =============================== field types =============================== -->
 	<fieldType name="plong" class="solr.LongPointField"
 		docValues="true" />

@@ -31,7 +31,7 @@ public class PublicationDocument implements Document {
     private String pubMedId;
 
     @Field("type")
-    private String type;
+    private int type;
 
     // to be MappedReference
     @Field("publication_obj")
