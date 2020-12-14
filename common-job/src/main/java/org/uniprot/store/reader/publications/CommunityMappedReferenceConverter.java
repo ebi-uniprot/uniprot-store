@@ -1,14 +1,14 @@
 package org.uniprot.store.reader.publications;
 
+import java.util.function.BiConsumer;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import org.uniprot.core.publication.CommunityAnnotation;
 import org.uniprot.core.publication.CommunityMappedReference;
 import org.uniprot.core.publication.impl.CommunityAnnotationBuilder;
 import org.uniprot.core.publication.impl.CommunityMappedReferenceBuilder;
 import org.uniprot.core.publication.impl.MappedSourceBuilder;
-
-import java.util.function.BiConsumer;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * Created 02/12/2020

@@ -58,14 +58,8 @@ class CommunityMappedReferenceConverterTest {
 
         CommunityAnnotation communityAnnotation = reference.getCommunityAnnotation();
         assertThat(communityAnnotation.getProteinOrGene(), is("RL3540"));
-        assertThat(
-                communityAnnotation.getFunction(),
-                is(
-                        "BraC3"));
-        assertThat(
-                communityAnnotation.getComment(),
-                is(
-                        "Peas"));
+        assertThat(communityAnnotation.getFunction(), is("BraC3"));
+        assertThat(communityAnnotation.getComment(), is("Peas"));
         assertThat(communityAnnotation.getDisease(), is("This is a disease."));
     }
 }

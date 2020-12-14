@@ -1,5 +1,7 @@
 package org.uniprot.store.indexer.publication.community;
 
+import static org.uniprot.core.publication.MappedReferenceType.COMMUNITY;
+
 import java.nio.ByteBuffer;
 
 import org.springframework.batch.item.ItemProcessor;
@@ -26,6 +28,7 @@ public class CommunityPublicationProcessor
         builder.pubMedId(reference.getPubMedId())
                 .accession(reference.getUniProtKBAccession().getValue())
                 .id(computeId(reference))
+                .type(COMMUNITY.getIntValue())
                 .publicationMappedReference(ByteBuffer.wrap(getObjectBinary(reference)));
 
         return builder.build();
@@ -43,7 +46,8 @@ public class CommunityPublicationProcessor
         try {
             return this.objectMapper.writeValueAsBytes(reference);
         } catch (JsonProcessingException e) {
-            throw new RuntimeException("Unable to parse CommunityMappedReference to binary json: ", e);
+            throw new RuntimeException(
+                    "Unable to parse CommunityMappedReference to binary json: ", e);
         }
     }
 }
