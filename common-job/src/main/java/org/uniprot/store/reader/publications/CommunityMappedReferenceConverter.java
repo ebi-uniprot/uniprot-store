@@ -37,10 +37,10 @@ public class CommunityMappedReferenceConverter
     CommunityMappedReference convertRawMappedReference(RawMappedReference reference) {
         return new CommunityMappedReferenceBuilder()
                 .uniProtKBAccession(reference.accession)
-                .sourcesAdd(
+                .source(
                         new MappedSourceBuilder()
-                                .source(reference.source)
-                                .sourceIdsAdd(reference.sourceId)
+                                .name(reference.source)
+                                .id(reference.sourceId)
                                 .build())
                 .pubMedId(reference.pubMedId)
                 .sourceCategoriesSet(reference.categories)
@@ -78,7 +78,12 @@ public class CommunityMappedReferenceConverter
             CommunityAnnotationBuilder builder,
             String value) {
         if (commentType != null) {
-            commentType.updateCommunityAnnotationBuilder(builder, value.trim());
+            String trimmed = value.trim();
+            if (trimmed.indexOf(' ') == -1 && trimmed.charAt(trimmed.length() - 1) == '.') {
+                trimmed = trimmed.substring(0, trimmed.length() - 1);
+            }
+
+            commentType.updateCommunityAnnotationBuilder(builder, trimmed);
         }
     }
 

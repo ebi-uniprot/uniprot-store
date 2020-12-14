@@ -1,14 +1,12 @@
 package org.uniprot.store.reader.publications;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.uniprot.core.publication.MappedReference;
-import org.uniprot.core.util.Utils;
-
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
+
+import org.uniprot.core.publication.MappedReference;
+import org.uniprot.core.util.Utils;
 
 /**
  * Created 02/12/2020
@@ -53,7 +51,8 @@ abstract class AbstractMappedReferenceConverter<T extends MappedReference>
 
             return convertRawMappedReference(rawMappedReference);
         } else {
-            throw new RawMappedReferenceException("Could not parse mapped references file: "+line);
+            throw new RawMappedReferenceException(
+                    "Could not parse mapped references file: " + line);
         }
     }
 

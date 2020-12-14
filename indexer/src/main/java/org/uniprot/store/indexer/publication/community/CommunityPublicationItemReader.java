@@ -1,13 +1,13 @@
 package org.uniprot.store.indexer.publication.community;
 
-import org.springframework.batch.item.ItemReader;
-import org.uniprot.core.publication.CommunityMappedReference;
-import org.uniprot.store.reader.publications.CommunityMappedReferenceConverter;
-
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Iterator;
+
+import org.springframework.batch.item.ItemReader;
+import org.uniprot.core.publication.CommunityMappedReference;
+import org.uniprot.store.reader.publications.CommunityMappedReferenceConverter;
 
 public class CommunityPublicationItemReader implements ItemReader<CommunityMappedReference> {
     private final Iterator<String> lines;

@@ -1,14 +1,14 @@
 package org.uniprot.store.search.document.publication;
 
-import org.apache.solr.client.solrj.beans.Field;
-import org.uniprot.store.search.document.Document;
-
 import java.nio.ByteBuffer;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import org.apache.solr.client.solrj.beans.Field;
+import org.uniprot.store.search.document.Document;
 
 /**
  * @author sahmad
@@ -20,8 +20,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class PublicationDocument implements Document {
 
+    // note: thinking to keep flat so that easier to have different release cycles in future
     @Field("id")
-    private String id;// unique id composed of accession and pmid
+    private String id; // unique id composed of accession and pmid & orchid (if present)
 
     @Field("accession")
     private String accession;
@@ -29,8 +30,12 @@ public class PublicationDocument implements Document {
     @Field("pubmed_id")
     private String pubMedId;
 
+    @Field("type")
+    private String type;
+
+    // to be MappedReference
     @Field("publication_obj")
-    private ByteBuffer publicationObj;
+    private ByteBuffer publicationMappedReference;
 
     @Override
     public String getDocumentId() {
