@@ -15,10 +15,10 @@ public class ComputationallyMappedReferenceConverter
     ComputationallyMappedReference convertRawMappedReference(RawMappedReference reference) {
         return new ComputationallyMappedReferenceBuilder()
                 .uniProtKBAccession(reference.accession)
-                .sourcesAdd(
+                .source(
                         new MappedSourceBuilder()
-                                .source(reference.source)
-                                .sourceIdsAdd(reference.sourceId)
+                                .name(reference.source)
+                                .id(reference.sourceId)
                                 .build())
                 .pubMedId(reference.pubMedId)
                 .sourceCategoriesSet(reference.categories)

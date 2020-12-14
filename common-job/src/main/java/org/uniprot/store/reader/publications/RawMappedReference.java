@@ -1,6 +1,5 @@
 package org.uniprot.store.reader.publications;
 
-import java.util.List;
 import java.util.Set;
 
 /**

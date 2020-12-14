@@ -1,19 +1,18 @@
 package org.uniprot.store.reader.publications;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.hasItems;
+import static org.hamcrest.Matchers.is;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
+import java.util.Set;
+
 import org.junit.jupiter.api.Test;
 import org.uniprot.core.publication.MappedReference;
 import org.uniprot.core.publication.MappedSource;
 import org.uniprot.core.publication.impl.MappedSourceBuilder;
 import org.uniprot.core.uniprotkb.UniProtKBAccession;
 import org.uniprot.core.uniprotkb.impl.UniProtKBAccessionBuilder;
-
-import java.util.HashSet;
-import java.util.Set;
-
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.hasItems;
-import static org.hamcrest.Matchers.is;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * Created 07/12/2020
@@ -30,12 +29,8 @@ class AbstractMappedReferenceConverterTest {
         assertThat(mappedReference.acc.getValue(), is("Q1MDE9"));
         assertThat(mappedReference.pubmed, is("19597156"));
         assertThat(
-                mappedReference.getSources(),
-                hasItems(
-                        new MappedSourceBuilder()
-                                .source("ORCID")
-                                .sourceIdsAdd("0000-0002-4251-0362")
-                                .build()));
+                mappedReference.getSource(),
+                is(new MappedSourceBuilder().name("ORCID").id("0000-0002-4251-0362").build()));
         assertThat(mappedReference.cats, hasItems("Function", "Pathology & Biotech"));
     }
 
@@ -76,13 +71,8 @@ class AbstractMappedReferenceConverterTest {
             mappedReference.acc = new UniProtKBAccessionBuilder(reference.accession).build();
             mappedReference.cats = reference.categories;
             mappedReference.pubmed = reference.pubMedId;
-            HashSet<MappedSource> sources = new HashSet<>();
-            sources.add(
-                    new MappedSourceBuilder()
-                            .source(reference.source)
-                            .sourceIdsAdd(reference.sourceId)
-                            .build());
-            mappedReference.sources = sources;
+            mappedReference.source =
+                    new MappedSourceBuilder().name(reference.source).id(reference.sourceId).build();
             return mappedReference;
         }
     }
@@ -90,7 +80,7 @@ class AbstractMappedReferenceConverterTest {
     private static class FakeMappedReference implements MappedReference {
         Set<String> cats;
         UniProtKBAccession acc;
-        Set<MappedSource> sources;
+        MappedSource source;
         String pubmed;
 
         @Override
@@ -99,8 +89,8 @@ class AbstractMappedReferenceConverterTest {
         }
 
         @Override
-        public Set<MappedSource> getSources() {
-            return sources;
+        public MappedSource getSource() {
+            return source;
         }
 
         @Override
