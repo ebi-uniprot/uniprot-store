@@ -1,25 +1,114 @@
 package org.uniprot.store.indexer.uniprotkb.converter;
 
+import static org.uniprot.core.publication.MappedReferenceType.UNIPROTKB_REVIEWED;
+import static org.uniprot.core.publication.MappedReferenceType.UNIPROTKB_UNREVIEWED;
+
+import java.nio.ByteBuffer;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 
 import lombok.extern.slf4j.Slf4j;
 
+import org.uniprot.core.CrossReference;
 import org.uniprot.core.citation.Citation;
 import org.uniprot.core.citation.CitationDatabase;
 import org.uniprot.core.citation.JournalArticle;
+import org.uniprot.core.json.parser.publication.UniProtKBMappedReferenceJsonConfig;
+import org.uniprot.core.publication.MappedReferenceType;
+import org.uniprot.core.publication.UniProtKBMappedReference;
+import org.uniprot.core.publication.impl.MappedSourceBuilder;
+import org.uniprot.core.publication.impl.UniProtKBMappedReferenceBuilder;
 import org.uniprot.core.uniprotkb.ReferenceComment;
+import org.uniprot.core.uniprotkb.UniProtKBEntry;
+import org.uniprot.core.uniprotkb.UniProtKBEntryType;
 import org.uniprot.core.uniprotkb.UniProtKBReference;
 import org.uniprot.core.util.PublicationDateFormatter;
+import org.uniprot.store.search.document.publication.PublicationDocument;
 import org.uniprot.store.search.document.uniprot.UniProtDocument;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
  * @author lgonzales
  * @since 2019-09-04
  */
 @Slf4j
-class UniProtEntryReferencesConverter {
+public class UniProtEntryReferencesConverter {
 
-    UniProtEntryReferencesConverter() {}
+    public UniProtEntryReferencesConverter() {}
+
+    public List<PublicationDocument> convertToPublicationDocuments(UniProtKBEntry uniProtKBEntry) {
+        String accession = uniProtKBEntry.getPrimaryAccession().getValue();
+        List<UniProtKBReference> references = uniProtKBEntry.getReferences();
+        List<PublicationDocument> pubDocs = new ArrayList<>();
+        for (UniProtKBReference reference : references) {
+            Citation citation = reference.getCitation();
+            Optional<CrossReference<CitationDatabase>> optPubMed =
+                    citation.getCitationCrossReferenceByType(CitationDatabase.PUBMED);
+            if (optPubMed.isPresent() && isEntryTypeSupported(uniProtKBEntry)) {
+                PublicationDocument.PublicationDocumentBuilder builder =
+                        PublicationDocument.builder();
+                String pubmedId = optPubMed.get().getId();
+                MappedReferenceType type =
+                        uniProtKBEntry.getEntryType() == UniProtKBEntryType.SWISSPROT
+                                ? UNIPROTKB_REVIEWED
+                                : UNIPROTKB_UNREVIEWED;
+                String id = computeDocumentId(accession, pubmedId, type);
+                UniProtKBMappedReference mappedReference =
+                        createUniProtKBMappedReference(uniProtKBEntry, reference, pubmedId);
+                byte[] mappedReferenceByte = getUniProtKBMappedReferenceBinary(mappedReference);
+                builder.id(id);
+                builder.accession(accession);
+                builder.type(type.getIntValue());
+                builder.pubMedId(pubmedId);
+                builder.publicationMappedReference(ByteBuffer.wrap(mappedReferenceByte));
+                pubDocs.add(builder.build());
+            }
+        }
+        return pubDocs;
+    }
+
+    private boolean isEntryTypeSupported(UniProtKBEntry uniProtKBEntry) {
+        return uniProtKBEntry.getEntryType() == UniProtKBEntryType.SWISSPROT
+                || uniProtKBEntry.getEntryType() == UniProtKBEntryType.TREMBL;
+    }
+    // FIXME  use common code
+    private String computeDocumentId(String accession, String pubmedId, MappedReferenceType type) {
+        return new StringBuilder(accession)
+                .append("-")
+                .append(pubmedId)
+                .append("-")
+                .append(type)
+                .toString();
+    }
+
+    private byte[] getUniProtKBMappedReferenceBinary(UniProtKBMappedReference mappedReference) {
+        ObjectMapper objectMapper =
+                UniProtKBMappedReferenceJsonConfig.getInstance().getFullObjectMapper();
+        try {
+            return objectMapper.writeValueAsBytes(mappedReference);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(
+                    "Unable to parse UniProtKBMappedReference to binary json: ", e);
+        }
+    }
+
+    private UniProtKBMappedReference createUniProtKBMappedReference(
+            UniProtKBEntry uniProtKBEntry, UniProtKBReference reference, String pubMedId) {
+        String source = uniProtKBEntry.getEntryType().getDisplayName();
+        UniProtKBMappedReferenceBuilder builder = new UniProtKBMappedReferenceBuilder();
+        builder.uniProtKBAccession(uniProtKBEntry.getPrimaryAccession());
+        builder.source(new MappedSourceBuilder().name(source).build());
+        builder.pubMedId(pubMedId);
+        builder.referenceCommentsSet(reference.getReferenceComments());
+        builder.referencePositionsSet(reference.getReferencePositions());
+        builder.sourceCategoriesSet(getCategoriesFromUniprotReference(reference));
+        return builder.build();
+    }
 
     void convertReferences(List<UniProtKBReference> references, UniProtDocument document) {
         for (UniProtKBReference reference : references) {
@@ -116,5 +205,21 @@ class UniProtEntryReferencesConverter {
             List<String> positions = uniProtkbReference.getReferencePositions();
             document.scopes.addAll(positions);
         }
+    }
+
+    private Set<String> getCategoriesFromUniprotReference(UniProtKBReference uniProtkbReference) {
+        Set<String> result = new HashSet<>();
+        if (uniProtkbReference.hasReferencePositions()) {
+            for (String position : uniProtkbReference.getReferencePositions()) {
+                for (PublicationCategory category : PublicationCategory.values()) {
+                    for (String categoryText : category.getFunctionTexts()) {
+                        if (position.toUpperCase().contains(categoryText)) {
+                            result.add(category.getLabel());
+                        }
+                    }
+                }
+            }
+        }
+        return result;
     }
 }

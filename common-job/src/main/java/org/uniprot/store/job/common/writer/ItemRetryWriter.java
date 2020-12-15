@@ -19,7 +19,6 @@ import org.springframework.batch.core.annotation.BeforeStep;
 import org.springframework.batch.item.ExecutionContext;
 import org.springframework.batch.item.ItemWriter;
 import org.springframework.scheduling.annotation.Async;
-import org.uniprot.core.util.Utils;
 import org.uniprot.core.util.concurrency.OnZeroCountSleeper;
 import org.uniprot.store.job.common.store.Store;
 import org.uniprot.store.job.common.util.CommonConstants;
@@ -101,7 +100,7 @@ public abstract class ItemRetryWriter<E, S> implements ItemWriter<E> {
     }
 
     protected void recordItemsWereProcessed(int numberOfItemsProcessed) {
-        if (!Utils.notNull(sleeper)) {
+        if (Objects.isNull(sleeper) && Objects.nonNull(executionContext)) {
             this.sleeper =
                     (OnZeroCountSleeper)
                             executionContext.get(CommonConstants.ENTRIES_TO_WRITE_COUNTER);
@@ -128,7 +127,7 @@ public abstract class ItemRetryWriter<E, S> implements ItemWriter<E> {
     protected void writeEntriesToStore(List<? extends E> items) {
         List<S> convertedItems = items.stream().map(this::itemToEntry).collect(Collectors.toList());
         store.save(convertedItems);
-        writtenEntriesCount.addAndGet(convertedItems.size());
+        getWrittenEntriesCount().addAndGet(convertedItems.size());
         recordItemsWereProcessed(convertedItems.size());
     }
 
@@ -142,7 +141,7 @@ public abstract class ItemRetryWriter<E, S> implements ItemWriter<E> {
         }
         if (!Strings.isNullOrEmpty(getFooter())) STORE_FAILED_LOGGER.error(getFooter());
         log.error(ERROR_WRITING_ENTRIES_TO_STORE + accessions, throwable);
-        failedWritingEntriesCount.addAndGet(items.size());
+        getFailedWritingEntriesCount().addAndGet(items.size());
         recordItemsWereProcessed(items.size());
     }
 
