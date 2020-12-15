@@ -81,9 +81,7 @@ class CommunityPublicationJobIT {
         allCommunityPubs.set("rows", 50);
         assertThat(
                 solrClient.query(
-                        SolrCollection.publication,
-                        allCommunityPubs,
-                        PublicationDocument.class),
+                        SolrCollection.publication, allCommunityPubs, PublicationDocument.class),
                 hasSize(41));
 
         // ---------- check "id" field

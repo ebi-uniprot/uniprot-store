@@ -38,6 +38,7 @@ import org.uniprot.store.indexer.uniprotkb.step.UniProtKBStep;
 import org.uniprot.store.job.common.listener.ListenerConfig;
 import org.uniprot.store.job.common.util.CommonConstants;
 import org.uniprot.store.search.SolrCollection;
+import org.uniprot.store.search.document.publication.PublicationDocument;
 import org.uniprot.store.search.document.suggest.SuggestDocument;
 import org.uniprot.store.search.document.uniprot.UniProtDocument;
 
@@ -81,6 +82,18 @@ class UniProtKBJobIT {
 
         checkUniProtKBIndexingStep(jobExecution, stepExecutions);
         checkSuggestionIndexingStep(stepExecutions);
+        verifyPublicationDocumentsIndexed();
+    }
+
+    private void verifyPublicationDocumentsIndexed() {
+        solrClient.commit(SolrCollection.publication);
+        List<PublicationDocument> response =
+                solrClient.query(
+                        SolrCollection.publication,
+                        new SolrQuery("*:*"),
+                        PublicationDocument.class);
+        assertThat(response, is(notNullValue()));
+        assertThat(response.size(), is(5));
     }
 
     private void checkUniProtKBIndexingStep(

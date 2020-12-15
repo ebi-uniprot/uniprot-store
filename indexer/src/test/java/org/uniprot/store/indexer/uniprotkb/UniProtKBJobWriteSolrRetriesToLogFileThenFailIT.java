@@ -51,6 +51,7 @@ import org.uniprot.store.indexer.test.config.SolrTestConfig;
 import org.uniprot.store.indexer.uniprotkb.model.UniProtEntryDocumentPair;
 import org.uniprot.store.indexer.uniprotkb.step.SuggestionStep;
 import org.uniprot.store.indexer.uniprotkb.step.UniProtKBStep;
+import org.uniprot.store.indexer.uniprotkb.writer.PublicationDocumentWriter;
 import org.uniprot.store.indexer.uniprotkb.writer.UniProtEntryDocumentPairWriter;
 import org.uniprot.store.job.common.listener.ListenerConfig;
 import org.uniprot.store.job.common.util.CommonConstants;
@@ -174,10 +175,19 @@ class UniProtKBJobWriteSolrRetriesToLogFileThenFailIT {
                     .when(mockSolrTemplate)
                     .saveBeans(eq(SolrCollection.uniprot), any());
 
+            PublicationDocumentWriter publicationWriter =
+                    new PublicationDocumentWriter(
+                            mockSolrTemplate,
+                            SolrCollection.publication,
+                            new RetryPolicy<>()
+                                    .withMaxRetries(2)
+                                    .withBackoff(1, 2, ChronoUnit.SECONDS));
+
             return new UniProtEntryDocumentPairWriter(
                     mockSolrTemplate,
                     SolrCollection.uniprot,
-                    new RetryPolicy<>().withMaxRetries(2).withBackoff(1, 2, ChronoUnit.SECONDS));
+                    new RetryPolicy<>().withMaxRetries(2).withBackoff(1, 2, ChronoUnit.SECONDS),
+                    publicationWriter);
         }
     }
 }

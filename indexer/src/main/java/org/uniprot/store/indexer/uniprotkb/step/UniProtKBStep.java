@@ -42,6 +42,7 @@ import org.uniprot.store.indexer.uniprotkb.converter.UniProtEntryConverter;
 import org.uniprot.store.indexer.uniprotkb.model.UniProtEntryDocumentPair;
 import org.uniprot.store.indexer.uniprotkb.processor.UniProtEntryDocumentPairProcessor;
 import org.uniprot.store.indexer.uniprotkb.reader.UniProtEntryItemReader;
+import org.uniprot.store.indexer.uniprotkb.writer.PublicationDocumentWriter;
 import org.uniprot.store.indexer.uniprotkb.writer.UniProtEntryDocumentPairWriter;
 import org.uniprot.store.job.common.listener.LogRateListener;
 import org.uniprot.store.job.common.listener.WriteRetrierLogStepListener;
@@ -138,11 +139,18 @@ public class UniProtKBStep {
     }
 
     // ---------------------- Writers ----------------------
+
     @Bean
     public ItemWriter<UniProtEntryDocumentPair> uniProtDocumentItemWriter(
             RetryPolicy<Object> writeRetryPolicy) {
+        PublicationDocumentWriter publicationWriter =
+                new PublicationDocumentWriter(
+                        this.uniProtSolrClient, SolrCollection.publication, writeRetryPolicy);
         return new UniProtEntryDocumentPairWriter(
-                this.uniProtSolrClient, SolrCollection.uniprot, writeRetryPolicy);
+                this.uniProtSolrClient,
+                SolrCollection.uniprot,
+                writeRetryPolicy,
+                publicationWriter);
     }
 
     @Bean("uniprotkbAsyncWriter")
@@ -150,7 +158,6 @@ public class UniProtKBStep {
             ItemWriter<UniProtEntryDocumentPair> uniProtDocumentItemWriter) {
         AsyncItemWriter<UniProtEntryDocumentPair> asyncItemWriter = new AsyncItemWriter<>();
         asyncItemWriter.setDelegate(uniProtDocumentItemWriter);
-
         return asyncItemWriter;
     }
 
