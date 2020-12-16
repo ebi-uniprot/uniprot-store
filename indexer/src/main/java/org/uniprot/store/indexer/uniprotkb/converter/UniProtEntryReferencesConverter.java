@@ -26,7 +26,7 @@ import org.uniprot.core.uniprotkb.UniProtKBEntry;
 import org.uniprot.core.uniprotkb.UniProtKBEntryType;
 import org.uniprot.core.uniprotkb.UniProtKBReference;
 import org.uniprot.core.util.PublicationDateFormatter;
-import org.uniprot.store.indexer.publication.community.PublicationUtils;
+import org.uniprot.store.indexer.publication.common.PublicationUtils;
 import org.uniprot.store.search.document.publication.PublicationDocument;
 import org.uniprot.store.search.document.uniprot.UniProtDocument;
 

@@ -1,7 +1,7 @@
 package org.uniprot.store.indexer.publication.community;
 
 import static org.uniprot.core.publication.MappedReferenceType.COMMUNITY;
-import static org.uniprot.store.indexer.publication.community.PublicationUtils.computeDocumentId;
+import static org.uniprot.store.indexer.publication.common.PublicationUtils.computeDocumentId;
 
 import org.springframework.batch.item.ItemProcessor;
 import org.uniprot.core.json.parser.publication.CommunityMappedReferenceJsonConfig;

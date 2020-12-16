@@ -1,7 +1,5 @@
 package org.uniprot.store.indexer.uniprotkb.writer;
 
-import java.util.List;
-
 import lombok.extern.slf4j.Slf4j;
 import net.jodah.failsafe.RetryPolicy;
 
@@ -20,25 +18,11 @@ import org.uniprot.store.search.document.uniprot.UniProtDocument;
 @Slf4j
 public class UniProtEntryDocumentPairWriter
         extends ItemRetryWriter<UniProtEntryDocumentPair, UniProtDocument> {
-    private PublicationDocumentWriter publicationWriter;
-
     public UniProtEntryDocumentPairWriter(
             UniProtSolrClient solrOperations,
             SolrCollection collection,
-            RetryPolicy<Object> retryPolicy,
-            PublicationDocumentWriter publicationWriter) {
+            RetryPolicy<Object> retryPolicy) {
         super(items -> solrOperations.saveBeans(collection, items), retryPolicy);
-        this.publicationWriter = publicationWriter;
-    }
-
-    @Override
-    public void write(List<? extends UniProtEntryDocumentPair> items) {
-        super.write(items);
-        try { // other writer
-            this.publicationWriter.write(items);
-        } catch (Exception e) {
-            log.error("Error while writing publication document {}", e.getMessage());
-        }
     }
 
     @Override
