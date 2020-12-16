@@ -2,8 +2,6 @@ package org.uniprot.store.indexer.publication.community;
 
 import static org.uniprot.core.publication.MappedReferenceType.COMMUNITY;
 
-import java.nio.ByteBuffer;
-
 import org.springframework.batch.item.ItemProcessor;
 import org.uniprot.core.json.parser.publication.CommunityMappedReferenceJsonConfig;
 import org.uniprot.core.publication.CommunityMappedReference;
@@ -29,7 +27,7 @@ public class CommunityPublicationProcessor
                 .accession(reference.getUniProtKBAccession().getValue())
                 .id(computeId(reference))
                 .type(COMMUNITY.getIntValue())
-                .publicationMappedReference(ByteBuffer.wrap(getObjectBinary(reference)));
+                .publicationMappedReference(getObjectBinary(reference));
 
         return builder.build();
     }

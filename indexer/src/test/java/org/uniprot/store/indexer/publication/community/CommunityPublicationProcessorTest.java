@@ -63,8 +63,7 @@ class CommunityPublicationProcessorTest {
                 CommunityMappedReferenceJsonConfig.getInstance().getFullObjectMapper();
         CommunityMappedReference reference =
                 mapper.readValue(
-                        document.getPublicationMappedReference().array(),
-                        CommunityMappedReference.class);
+                        document.getPublicationMappedReference(), CommunityMappedReference.class);
 
         assertThat(reference.getUniProtKBAccession().getValue(), is(ACCESSION));
         assertThat(reference.getPubMedId(), is(PUBMED_ID));

@@ -113,6 +113,6 @@ class CommunityPublicationJobIT {
     private CommunityMappedReference extractObject(PublicationDocument document)
             throws IOException {
         return objectMapper.readValue(
-                document.getPublicationMappedReference().array(), CommunityMappedReference.class);
+                document.getPublicationMappedReference(), CommunityMappedReference.class);
     }
 }

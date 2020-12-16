@@ -3,7 +3,7 @@ package org.uniprot.store.indexer.uniprotkb.converter;
 import static org.uniprot.core.publication.MappedReferenceType.UNIPROTKB_REVIEWED;
 import static org.uniprot.core.publication.MappedReferenceType.UNIPROTKB_UNREVIEWED;
 
-import java.nio.ByteBuffer;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -37,7 +37,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  * @since 2019-09-04
  */
 @Slf4j
-public class UniProtEntryReferencesConverter {
+public class UniProtEntryReferencesConverter implements Serializable {
+
+    private static final long serialVersionUID = -6569918266610976310L;
 
     public UniProtEntryReferencesConverter() {}
 
@@ -65,7 +67,7 @@ public class UniProtEntryReferencesConverter {
                 builder.accession(accession);
                 builder.type(type.getIntValue());
                 builder.pubMedId(pubmedId);
-                builder.publicationMappedReference(ByteBuffer.wrap(mappedReferenceByte));
+                builder.publicationMappedReference(mappedReferenceByte);
                 pubDocs.add(builder.build());
             }
         }
