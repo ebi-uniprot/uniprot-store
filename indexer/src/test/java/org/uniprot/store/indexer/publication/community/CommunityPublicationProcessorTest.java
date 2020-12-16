@@ -14,6 +14,7 @@ import org.uniprot.core.publication.CommunityMappedReference;
 import org.uniprot.core.publication.impl.CommunityAnnotationBuilder;
 import org.uniprot.core.publication.impl.CommunityMappedReferenceBuilder;
 import org.uniprot.core.publication.impl.MappedSourceBuilder;
+import org.uniprot.store.indexer.publication.common.PublicationUtils;
 import org.uniprot.store.search.document.publication.PublicationDocument;
 
 import com.fasterxml.jackson.databind.ObjectMapper;

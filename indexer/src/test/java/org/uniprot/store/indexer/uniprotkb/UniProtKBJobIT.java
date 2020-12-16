@@ -5,7 +5,9 @@ import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
-import static org.uniprot.store.indexer.common.utils.Constants.*;
+import static org.uniprot.store.indexer.common.utils.Constants.SUGGESTIONS_INDEX_STEP;
+import static org.uniprot.store.indexer.common.utils.Constants.UNIPROTKB_INDEX_JOB;
+import static org.uniprot.store.indexer.common.utils.Constants.UNIPROTKB_INDEX_STEP;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -38,7 +40,6 @@ import org.uniprot.store.indexer.uniprotkb.step.UniProtKBStep;
 import org.uniprot.store.job.common.listener.ListenerConfig;
 import org.uniprot.store.job.common.util.CommonConstants;
 import org.uniprot.store.search.SolrCollection;
-import org.uniprot.store.search.document.publication.PublicationDocument;
 import org.uniprot.store.search.document.suggest.SuggestDocument;
 import org.uniprot.store.search.document.uniprot.UniProtDocument;
 
@@ -82,18 +83,6 @@ class UniProtKBJobIT {
 
         checkUniProtKBIndexingStep(jobExecution, stepExecutions);
         checkSuggestionIndexingStep(stepExecutions);
-        verifyPublicationDocumentsIndexed();
-    }
-
-    private void verifyPublicationDocumentsIndexed() {
-        solrClient.commit(SolrCollection.publication);
-        List<PublicationDocument> response =
-                solrClient.query(
-                        SolrCollection.publication,
-                        new SolrQuery("*:*"),
-                        PublicationDocument.class);
-        assertThat(response, is(notNullValue()));
-        assertThat(response.size(), is(5));
     }
 
     private void checkUniProtKBIndexingStep(

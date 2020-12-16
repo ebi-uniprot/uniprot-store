@@ -45,6 +45,10 @@ public class Constants {
     public static final String COMMUNITY_PUBLICATION_INDEX_STEP =
             "COMMUNITY_PUBLICATION_INDEX_STEP";
 
+    public static final String UNIPROTKB_PUBLICATION_JOB_NAME = "UNIPROTKB_PUBLICATION_JOB_NAME";
+    public static final String UNIPROTKB_PUBLICATION_INDEX_STEP =
+            "UNIPROTKB_PUBLICATION_INDEX_STEP";
+
     public static final String COMPUTATIONAL_PUBLICATION_JOB_NAME =
             "COMPUTATIONAL_PUBLICATION_JOB_NAME";
     public static final String COMPUTATIONAL_PUBLICATION_INDEX_STEP =

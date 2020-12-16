@@ -1,4 +1,4 @@
-package org.uniprot.store.indexer.publication.community;
+package org.uniprot.store.indexer.publication.common;
 
 import java.util.Objects;
 
