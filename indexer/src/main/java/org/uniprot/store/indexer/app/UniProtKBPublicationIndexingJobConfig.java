@@ -1,0 +1,11 @@
+package org.uniprot.store.indexer.app;
+
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+
+/** @author sahmad */
+@ConditionalOnProperty(prefix = "uniprot.job", name = "name", havingValue = "uniprotkbpublication")
+@ComponentScan(basePackages = {"org.uniprot.store.indexer.publication.uniprotkb"})
+@Configuration
+public class UniProtKBPublicationIndexingJobConfig {}
