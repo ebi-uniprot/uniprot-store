@@ -4,7 +4,6 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.nullValue;
 import static org.hamcrest.collection.IsIterableContainingInOrder.contains;
 import static org.hamcrest.core.Is.is;
-import static org.uniprot.store.indexer.publication.community.CommunityPublicationProcessor.ID_COMPONENT_SEPARATOR;
 
 import java.io.IOException;
 
@@ -20,6 +19,7 @@ import org.uniprot.store.search.document.publication.PublicationDocument;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 class CommunityPublicationProcessorTest {
+    private static final String ID_COMPONENT_SEPARATOR = "__";
     private static final String FUNCTION = "f";
     private static final String DISEASE = "d";
     private static final CommunityAnnotation ANNOTATION =
@@ -41,7 +41,7 @@ class CommunityPublicationProcessorTest {
     void validateCorrectId() {
         CommunityPublicationProcessor processor = new CommunityPublicationProcessor();
 
-        String id = processor.computeId(REFERENCE);
+        String id = PublicationUtils.computeDocumentId(REFERENCE);
 
         assertThat(
                 id,

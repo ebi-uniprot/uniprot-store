@@ -1,6 +1,7 @@
 package org.uniprot.store.indexer.publication.community;
 
 import static org.uniprot.core.publication.MappedReferenceType.COMMUNITY;
+import static org.uniprot.store.indexer.publication.community.PublicationUtils.computeDocumentId;
 
 import org.springframework.batch.item.ItemProcessor;
 import org.uniprot.core.json.parser.publication.CommunityMappedReferenceJsonConfig;
@@ -12,7 +13,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class CommunityPublicationProcessor
         implements ItemProcessor<CommunityMappedReference, PublicationDocument> {
-    static final String ID_COMPONENT_SEPARATOR = "__";
     private final ObjectMapper objectMapper;
 
     public CommunityPublicationProcessor() {
@@ -25,19 +25,11 @@ public class CommunityPublicationProcessor
 
         builder.pubMedId(reference.getPubMedId())
                 .accession(reference.getUniProtKBAccession().getValue())
-                .id(computeId(reference))
+                .id(computeDocumentId(reference))
                 .type(COMMUNITY.getIntValue())
                 .publicationMappedReference(getObjectBinary(reference));
 
         return builder.build();
-    }
-
-    String computeId(CommunityMappedReference reference) {
-        return reference.getUniProtKBAccession().getValue()
-                + ID_COMPONENT_SEPARATOR
-                + reference.getPubMedId()
-                + ID_COMPONENT_SEPARATOR
-                + reference.getSource().getId();
     }
 
     private byte[] getObjectBinary(CommunityMappedReference reference) {

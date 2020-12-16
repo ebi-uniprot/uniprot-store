@@ -26,6 +26,7 @@ import org.uniprot.core.uniprotkb.UniProtKBEntry;
 import org.uniprot.core.uniprotkb.UniProtKBEntryType;
 import org.uniprot.core.uniprotkb.UniProtKBReference;
 import org.uniprot.core.util.PublicationDateFormatter;
+import org.uniprot.store.indexer.publication.community.PublicationUtils;
 import org.uniprot.store.search.document.publication.PublicationDocument;
 import org.uniprot.store.search.document.uniprot.UniProtDocument;
 
@@ -59,9 +60,10 @@ public class UniProtEntryReferencesConverter implements Serializable {
                         uniProtKBEntry.getEntryType() == UniProtKBEntryType.SWISSPROT
                                 ? UNIPROTKB_REVIEWED
                                 : UNIPROTKB_UNREVIEWED;
-                String id = computeDocumentId(accession, pubmedId, type);
                 UniProtKBMappedReference mappedReference =
                         createUniProtKBMappedReference(uniProtKBEntry, reference, pubmedId);
+                String id = PublicationUtils.computeDocumentId(mappedReference);
+
                 byte[] mappedReferenceByte = getUniProtKBMappedReferenceBinary(mappedReference);
                 builder.id(id);
                 builder.accession(accession);
@@ -77,15 +79,6 @@ public class UniProtEntryReferencesConverter implements Serializable {
     private boolean isEntryTypeSupported(UniProtKBEntry uniProtKBEntry) {
         return uniProtKBEntry.getEntryType() == UniProtKBEntryType.SWISSPROT
                 || uniProtKBEntry.getEntryType() == UniProtKBEntryType.TREMBL;
-    }
-    // FIXME  use common code
-    private String computeDocumentId(String accession, String pubmedId, MappedReferenceType type) {
-        return new StringBuilder(accession)
-                .append("-")
-                .append(pubmedId)
-                .append("-")
-                .append(type)
-                .toString();
     }
 
     private byte[] getUniProtKBMappedReferenceBinary(UniProtKBMappedReference mappedReference) {
