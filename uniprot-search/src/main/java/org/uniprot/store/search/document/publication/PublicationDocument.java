@@ -1,6 +1,5 @@
 package org.uniprot.store.search.document.publication;
 
-import java.nio.ByteBuffer;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -35,7 +34,7 @@ public class PublicationDocument implements Document {
 
     // to be MappedReference
     @Field("publication_obj")
-    private ByteBuffer publicationMappedReference;
+    private byte[] publicationMappedReference;
 
     @Override
     public String getDocumentId() {
