@@ -1,6 +1,4 @@
-package org.uniprot.store.indexer.publication.community;
-
-import java.io.IOException;
+package org.uniprot.store.indexer.publication.computational;
 
 import org.springframework.batch.core.ChunkListener;
 import org.springframework.batch.core.Step;
@@ -14,44 +12,46 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.uniprot.core.publication.CommunityMappedReference;
+import org.uniprot.core.publication.ComputationallyMappedReference;
 import org.uniprot.store.indexer.common.config.UniProtSolrClient;
 import org.uniprot.store.indexer.common.utils.Constants;
 import org.uniprot.store.indexer.common.writer.SolrDocumentWriter;
 import org.uniprot.store.search.SolrCollection;
 import org.uniprot.store.search.document.publication.PublicationDocument;
 
+import java.io.IOException;
+
 @Configuration
-public class CommunityPublicationStep {
+public class ComputationalPublicationStep {
     private final StepBuilderFactory steps;
     private final UniProtSolrClient uniProtSolrClient;
 
     @Value(("${ds.import.chunk.size}"))
     private Integer chunkSize;
 
-    @Value(("${indexer.community.publication.file.path}"))
+    @Value(("${indexer.computational.publication.file.path}"))
     private String filePath;
 
     @Autowired
-    public CommunityPublicationStep(StepBuilderFactory steps, UniProtSolrClient uniProtSolrClient) {
+    public ComputationalPublicationStep(StepBuilderFactory steps, UniProtSolrClient uniProtSolrClient) {
         this.steps = steps;
         this.uniProtSolrClient = uniProtSolrClient;
     }
 
-    @Bean(name = "IndexCommunityPublicationStep")
-    public Step indexCommunityPublicationStep(
+    @Bean(name = "IndexComputationalPublicationStep")
+    public Step indexComputationalPublicationStep(
             StepExecutionListener stepListener,
             ChunkListener chunkListener,
-            @Qualifier("communityMappedReferenceReader")
-                    ItemReader<CommunityMappedReference> mappedReferenceReader,
-            @Qualifier("communityMappedReferenceProcessor")
-                    ItemProcessor<CommunityMappedReference, PublicationDocument>
+            @Qualifier("computationallyMappedReferenceReader")
+                    ItemReader<ComputationallyMappedReference> mappedReferenceReader,
+            @Qualifier("computationallyMappedReferenceProcessor")
+                    ItemProcessor<ComputationallyMappedReference, PublicationDocument>
                             mappedReferenceProcessor,
-            @Qualifier("communityMappedReferenceWriter")
+            @Qualifier("computationallyMappedReferenceWriter")
                     ItemWriter<PublicationDocument> mappedReferenceWriter) {
         return this.steps
-                .get(Constants.COMMUNITY_PUBLICATION_INDEX_STEP)
-                .<CommunityMappedReference, PublicationDocument>chunk(this.chunkSize)
+                .get(Constants.COMPUTATIONAL_PUBLICATION_INDEX_STEP)
+                .<ComputationallyMappedReference, PublicationDocument>chunk(this.chunkSize)
                 .reader(mappedReferenceReader)
                 .processor(mappedReferenceProcessor)
                 .writer(mappedReferenceWriter)
@@ -60,17 +60,17 @@ public class CommunityPublicationStep {
                 .build();
     }
 
-    @Bean(name = "communityMappedReferenceReader")
-    public ItemReader<CommunityMappedReference> xrefReader() throws IOException {
-        return new CommunityPublicationItemReader(this.filePath);
+    @Bean(name = "computationallyMappedReferenceReader")
+    public ItemReader<ComputationallyMappedReference> xrefReader() throws IOException {
+        return new ComputationalPublicationItemReader(this.filePath);
     }
 
-    @Bean(name = "communityMappedReferenceProcessor")
-    public ItemProcessor<CommunityMappedReference, PublicationDocument> xrefProcessor() {
-        return new CommunityPublicationProcessor();
+    @Bean(name = "computationallyMappedReferenceProcessor")
+    public ItemProcessor<ComputationallyMappedReference, PublicationDocument> xrefProcessor() {
+        return new ComputationalPublicationProcessor();
     }
 
-    @Bean(name = "communityMappedReferenceWriter")
+    @Bean(name = "computationallyMappedReferenceWriter")
     public ItemWriter<PublicationDocument> xrefWriter() {
         return new SolrDocumentWriter<>(this.uniProtSolrClient, SolrCollection.publication);
     }
