@@ -30,10 +30,12 @@ public class UniProtPublicationWriter implements ItemWriter<List<PublicationDocu
     @Override
     public void write(List<? extends List<PublicationDocument>> items) throws Exception {
         try {
-            this.uniProtSolrClient.saveBeans(
-                    collection,
-                    items.stream().flatMap(Collection::stream).collect(Collectors.toList()));
-            this.uniProtSolrClient.softCommit(collection);
+            List<PublicationDocument> flattenItems =
+                    items.stream().flatMap(Collection::stream).collect(Collectors.toList());
+            if (!flattenItems.isEmpty()) {
+                this.uniProtSolrClient.saveBeans(collection, flattenItems);
+                this.uniProtSolrClient.softCommit(collection);
+            }
         } catch (Exception error) {
             log.error("Error writing to solr: ", error);
             String ids =
