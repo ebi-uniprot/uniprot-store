@@ -62,7 +62,7 @@ public class UniProtEntryReferencesConverter implements Serializable {
                                 : UNIPROTKB_UNREVIEWED;
                 UniProtKBMappedReference mappedReference =
                         createUniProtKBMappedReference(uniProtKBEntry, reference, pubmedId);
-                String id = PublicationUtils.computeDocumentId(mappedReference);
+                String id = PublicationUtils.computeDocumentId(mappedReference, type);
 
                 byte[] mappedReferenceByte = getUniProtKBMappedReferenceBinary(mappedReference);
                 builder.id(id);
