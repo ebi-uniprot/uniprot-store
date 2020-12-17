@@ -4,13 +4,9 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.batch.item.ItemProcessor;
 import org.uniprot.core.json.parser.publication.CommunityMappedReferenceJsonConfig;
-import org.uniprot.core.publication.CommunityMappedReference;
 import org.uniprot.core.publication.ComputationallyMappedReference;
 import org.uniprot.store.search.document.publication.PublicationDocument;
 
-import java.nio.ByteBuffer;
-
-import static org.uniprot.core.publication.MappedReferenceType.COMMUNITY;
 import static org.uniprot.core.publication.MappedReferenceType.COMPUTATIONAL;
 
 public class ComputationalPublicationProcessor
@@ -30,7 +26,7 @@ public class ComputationalPublicationProcessor
                 .accession(reference.getUniProtKBAccession().getValue())
                 .id(computeId(reference))
                 .type(COMPUTATIONAL.getIntValue())
-                .publicationMappedReference(ByteBuffer.wrap(getObjectBinary(reference)));
+                .publicationMappedReference(getObjectBinary(reference));
 
         return builder.build();
     }

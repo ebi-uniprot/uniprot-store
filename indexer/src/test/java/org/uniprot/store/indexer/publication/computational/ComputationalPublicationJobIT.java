@@ -109,7 +109,7 @@ class ComputationalPublicationJobIT {
     private ComputationallyMappedReference extractObject(PublicationDocument document)
             throws IOException {
         return objectMapper.readValue(
-                document.getPublicationMappedReference().array(),
+                document.getPublicationMappedReference(),
                 ComputationallyMappedReference.class);
     }
 }
