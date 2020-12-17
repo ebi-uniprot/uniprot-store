@@ -1,6 +1,7 @@
 package org.uniprot.store.indexer.publication.uniprotkb;
 
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.arrayWithSize;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
@@ -50,6 +51,7 @@ class UniProtKBPublicationJobIT {
     @Autowired private JobLauncherTestUtils jobLauncher;
 
     @Autowired private UniProtSolrClient solrClient;
+    private static final String ID_COMPONENT_SEPARATOR = "__";
 
     private final ObjectMapper objectMapper =
             UniProtKBMappedReferenceJsonConfig.getInstance().getFullObjectMapper();
@@ -85,6 +87,11 @@ class UniProtKBPublicationJobIT {
                         SolrCollection.publication, allUniProtPubs, PublicationDocument.class);
         assertThat(docs, hasSize(5));
         for (PublicationDocument doc : docs) {
+            String id = doc.getId();
+            String[] idParts = id.split(ID_COMPONENT_SEPARATOR);
+            assertThat(idParts, arrayWithSize(3));
+            assertThat(idParts[0], is(doc.getAccession()));
+            assertThat(idParts[2], is(String.valueOf(doc.getType())));
             UniProtKBMappedReference mappedRef = extractObject(doc);
             assertThat(mappedRef, is(notNullValue()));
             assertThat(mappedRef.getUniProtKBAccession(), is(notNullValue()));
@@ -96,6 +103,7 @@ class UniProtKBPublicationJobIT {
             assertThat(mappedRef.getSourceCategories(), hasSize(1));
             assertThat(mappedRef.getReferenceComments(), hasSize(1));
             assertThat(mappedRef.getReferencePositions(), hasSize(1));
+            assertThat(idParts[1], is(mappedRef.getPubMedId()));
         }
     }
 

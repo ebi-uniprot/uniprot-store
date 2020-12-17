@@ -3,6 +3,8 @@ package org.uniprot.store.indexer.publication.common;
 import java.util.Objects;
 
 import org.uniprot.core.publication.MappedReference;
+import org.uniprot.core.publication.MappedReferenceType;
+import org.uniprot.core.publication.UniProtKBMappedReference;
 
 /**
  * @author sahmad
@@ -19,5 +21,10 @@ public class PublicationUtils {
             builder.append(ID_COMPONENT_SEPARATOR).append(sourceId);
         }
         return builder.toString();
+    }
+
+    public static String computeDocumentId(
+            UniProtKBMappedReference reference, MappedReferenceType type) {
+        return computeDocumentId(reference) + ID_COMPONENT_SEPARATOR + type.getIntValue();
     }
 }
