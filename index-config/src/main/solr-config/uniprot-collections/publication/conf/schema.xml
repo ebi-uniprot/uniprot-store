@@ -17,6 +17,8 @@
 		stored="true" required="true" />
 	<field name="type" type="int" indexed="true" stored="false"
 		required="false" multiValued="false" />
+	<field name="protein_count_by_type" type="plong" indexed="false"
+		stored="true" />
 	<!-- =============================== field types =============================== -->
 	<fieldType name="plong" class="solr.LongPointField"
 		docValues="true" />

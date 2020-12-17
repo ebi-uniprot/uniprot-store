@@ -31,6 +31,9 @@ public class PublicationDocument implements Document {
     @Field("type")
     private int type;
 
+    @Field("protein_count_by_type")
+    private Long proteinCountByType;
+
     // to be MappedReference
     @Field("publication_obj")
     private byte[] publicationMappedReference;
