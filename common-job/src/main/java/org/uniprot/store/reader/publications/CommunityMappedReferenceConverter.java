@@ -1,14 +1,15 @@
 package org.uniprot.store.reader.publications;
 
-import java.util.function.BiConsumer;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import org.uniprot.core.publication.CommunityAnnotation;
 import org.uniprot.core.publication.CommunityMappedReference;
 import org.uniprot.core.publication.impl.CommunityAnnotationBuilder;
 import org.uniprot.core.publication.impl.CommunityMappedReferenceBuilder;
 import org.uniprot.core.publication.impl.MappedSourceBuilder;
+import org.uniprot.core.util.Utils;
+
+import java.util.function.BiConsumer;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Created 02/12/2020
@@ -79,7 +80,9 @@ public class CommunityMappedReferenceConverter
             String value) {
         if (commentType != null) {
             String trimmed = value.trim();
-            if (trimmed.indexOf(' ') == -1 && trimmed.charAt(trimmed.length() - 1) == '.') {
+            if (Utils.notNullNotEmpty(trimmed)
+                    && trimmed.indexOf(' ') == -1
+                    && trimmed.charAt(trimmed.length() - 1) == '.') {
                 trimmed = trimmed.substring(0, trimmed.length() - 1);
             }
 
