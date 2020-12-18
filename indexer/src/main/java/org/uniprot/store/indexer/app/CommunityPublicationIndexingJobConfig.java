@@ -9,7 +9,10 @@ import org.springframework.context.annotation.Configuration;
  *
  * @author Edd
  */
-@ConditionalOnProperty(prefix = "uniprot.job", name = "name", havingValue = "community-publications")
+@ConditionalOnProperty(
+        prefix = "uniprot.job",
+        name = "name",
+        havingValue = "community-publications")
 @ComponentScan(basePackages = {"org.uniprot.store.indexer.publication.community"})
 @Configuration
 public class CommunityPublicationIndexingJobConfig {}

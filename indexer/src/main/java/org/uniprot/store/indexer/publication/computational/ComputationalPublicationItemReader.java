@@ -1,13 +1,13 @@
 package org.uniprot.store.indexer.publication.computational;
 
-import org.springframework.batch.item.ItemReader;
-import org.uniprot.core.publication.ComputationallyMappedReference;
-import org.uniprot.store.reader.publications.ComputationallyMappedReferenceConverter;
-
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Iterator;
+
+import org.springframework.batch.item.ItemReader;
+import org.uniprot.core.publication.ComputationallyMappedReference;
+import org.uniprot.store.reader.publications.ComputationallyMappedReferenceConverter;
 
 public class ComputationalPublicationItemReader
         implements ItemReader<ComputationallyMappedReference> {

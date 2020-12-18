@@ -1,13 +1,16 @@
 package org.uniprot.store.indexer.publication.computational;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import static org.uniprot.core.publication.MappedReferenceType.COMPUTATIONAL;
+
+import java.util.Collections;
+
 import org.springframework.batch.item.ItemProcessor;
 import org.uniprot.core.json.parser.publication.CommunityMappedReferenceJsonConfig;
 import org.uniprot.core.publication.ComputationallyMappedReference;
 import org.uniprot.store.search.document.publication.PublicationDocument;
 
-import static org.uniprot.core.publication.MappedReferenceType.COMPUTATIONAL;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class ComputationalPublicationProcessor
         implements ItemProcessor<ComputationallyMappedReference, PublicationDocument> {
@@ -25,8 +28,8 @@ public class ComputationalPublicationProcessor
         builder.pubMedId(reference.getPubMedId())
                 .accession(reference.getUniProtKBAccession().getValue())
                 .id(computeId(reference))
-                .type(COMPUTATIONAL.getIntValue())
-                .publicationMappedReference(getObjectBinary(reference));
+                .types(Collections.singleton(COMPUTATIONAL.getIntValue()))
+                .publicationMappedReferences(getObjectBinary(reference));
 
         return builder.build();
     }

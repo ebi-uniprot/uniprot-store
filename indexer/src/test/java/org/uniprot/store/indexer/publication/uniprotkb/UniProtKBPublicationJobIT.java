@@ -89,10 +89,8 @@ class UniProtKBPublicationJobIT {
         for (PublicationDocument doc : docs) {
             String id = doc.getId();
             String[] idParts = id.split(ID_COMPONENT_SEPARATOR);
-            assertThat(doc.getProteinCountByType(), is(nullValue()));
-            assertThat(idParts, arrayWithSize(3));
+            assertThat(idParts, arrayWithSize(2));
             assertThat(idParts[0], is(doc.getAccession()));
-            assertThat(idParts[2], is(String.valueOf(doc.getType())));
             UniProtKBMappedReference mappedRef = extractObject(doc);
             assertThat(mappedRef, is(notNullValue()));
             assertThat(mappedRef.getUniProtKBAccession(), is(notNullValue()));
@@ -111,6 +109,6 @@ class UniProtKBPublicationJobIT {
     private UniProtKBMappedReference extractObject(PublicationDocument document)
             throws IOException {
         return objectMapper.readValue(
-                document.getPublicationMappedReference(), UniProtKBMappedReference.class);
+                document.getPublicationMappedReferences(), UniProtKBMappedReference.class);
     }
 }

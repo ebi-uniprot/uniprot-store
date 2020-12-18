@@ -1,5 +1,7 @@
 package org.uniprot.store.search.document.publication;
 
+import java.util.Set;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -20,7 +22,7 @@ public class PublicationDocument implements Document {
 
     // note: thinking to keep flat so that easier to have different release cycles in future
     @Field("id")
-    private String id; // unique id composed of accession and pmid & orchid (if present)
+    private String id; // unique id composed of accession and pmid
 
     @Field("accession")
     private String accession;
@@ -28,15 +30,30 @@ public class PublicationDocument implements Document {
     @Field("pubmed_id")
     private String pubMedId;
 
-    @Field("type")
-    private int type;
+    @Field("computational_mapped_protein_count")
+    private Long computationalMappedProteinCount;
 
-    @Field("protein_count_by_type")
-    private Long proteinCountByType;
+    @Field("community_mapped_protein_count")
+    private Long communityMappedProteinCount;
 
-    // to be MappedReference
+    @Field("unreviewed_mapped_protein_count")
+    private Long unreviewedMappedProteinCount;
+
+    @Field("reviewed_mapped_protein_count")
+    private Long reviewedMappedProteinCount;
+
+    @Field("is_large_scale")
+    private boolean isLargeScale;
+
+    @Field private Set<String> categories;
+
+    @Field("types")
+    private Set<Integer> types;
+
+    // to be list of MappedReferences of different types viz. uniprot(reviewed/unreviewed),
+    // community and computational
     @Field("publication_obj")
-    private byte[] publicationMappedReference;
+    private byte[] publicationMappedReferences;
 
     @Override
     public String getDocumentId() {
