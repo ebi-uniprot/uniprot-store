@@ -1,6 +1,14 @@
 package org.uniprot.store.indexer.publication.computational;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.*;
+import static org.uniprot.core.publication.MappedReferenceType.COMPUTATIONAL;
+
+import java.io.IOException;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
 import org.apache.solr.client.solrj.SolrQuery;
 import org.hamcrest.CoreMatchers;
 import org.junit.jupiter.api.Test;
@@ -15,7 +23,6 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.uniprot.core.json.parser.publication.ComputationallyMappedReferenceJsonConfig;
 import org.uniprot.core.publication.ComputationallyMappedReference;
-import org.uniprot.core.publication.MappedReferenceType;
 import org.uniprot.store.indexer.common.config.UniProtSolrClient;
 import org.uniprot.store.indexer.common.utils.Constants;
 import org.uniprot.store.indexer.test.config.FakeIndexerSpringBootApplication;
@@ -24,14 +31,7 @@ import org.uniprot.store.job.common.listener.ListenerConfig;
 import org.uniprot.store.search.SolrCollection;
 import org.uniprot.store.search.document.publication.PublicationDocument;
 
-import java.io.IOException;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
-
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
-import static org.uniprot.core.publication.MappedReferenceType.COMPUTATIONAL;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 @ActiveProfiles(profiles = {"job", "offline"})
 @ExtendWith(SpringExtension.class)
@@ -76,8 +76,7 @@ class ComputationalPublicationJobIT {
         assertThat(step.getWriteCount(), is(45));
 
         // ---------- check "type" field
-        SolrQuery allCommunityPubs =
-                new SolrQuery("type:" + COMPUTATIONAL.getIntValue());
+        SolrQuery allCommunityPubs = new SolrQuery("type:" + COMPUTATIONAL.getIntValue());
         allCommunityPubs.set("rows", 50);
         assertThat(
                 solrClient.query(
@@ -88,7 +87,7 @@ class ComputationalPublicationJobIT {
         List<PublicationDocument> documents =
                 solrClient.query(
                         SolrCollection.publication,
-                        new SolrQuery("id:Q7Z583__26551672__"+COMPUTATIONAL.getIntValue()),
+                        new SolrQuery("id:Q7Z583__26551672__" + COMPUTATIONAL.getIntValue()),
                         PublicationDocument.class);
 
         assertThat(documents, hasSize(1));
@@ -102,14 +101,18 @@ class ComputationalPublicationJobIT {
         assertThat(reference.getUniProtKBAccession().getValue(), is("Q7Z583"));
         assertThat(reference.getSource().getName(), is("GeneRif"));
         assertThat(reference.getSource().getId(), is("4544"));
-        assertThat(reference.getAnnotation(), is("Increases in islet MTNR1B expression is associated with type 2 diabetes susceptibility."));
-        assertThat(reference.getSourceCategories(), containsInAnyOrder("Sequences", "Pathology & Biotech"));
+        assertThat(
+                reference.getAnnotation(),
+                is(
+                        "Increases in islet MTNR1B expression is associated with type 2 diabetes susceptibility."));
+        assertThat(
+                reference.getSourceCategories(),
+                containsInAnyOrder("Sequences", "Pathology & Biotech"));
     }
 
     private ComputationallyMappedReference extractObject(PublicationDocument document)
             throws IOException {
         return objectMapper.readValue(
-                document.getPublicationMappedReference(),
-                ComputationallyMappedReference.class);
+                document.getPublicationMappedReferences(), ComputationallyMappedReference.class);
     }
 }

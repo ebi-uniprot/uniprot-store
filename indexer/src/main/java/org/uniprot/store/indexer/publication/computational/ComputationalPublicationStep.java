@@ -1,5 +1,7 @@
 package org.uniprot.store.indexer.publication.computational;
 
+import java.io.IOException;
+
 import org.springframework.batch.core.ChunkListener;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.StepExecutionListener;
@@ -19,8 +21,6 @@ import org.uniprot.store.indexer.common.writer.SolrDocumentWriter;
 import org.uniprot.store.search.SolrCollection;
 import org.uniprot.store.search.document.publication.PublicationDocument;
 
-import java.io.IOException;
-
 @Configuration
 public class ComputationalPublicationStep {
     private final StepBuilderFactory steps;
@@ -33,7 +33,8 @@ public class ComputationalPublicationStep {
     private String filePath;
 
     @Autowired
-    public ComputationalPublicationStep(StepBuilderFactory steps, UniProtSolrClient uniProtSolrClient) {
+    public ComputationalPublicationStep(
+            StepBuilderFactory steps, UniProtSolrClient uniProtSolrClient) {
         this.steps = steps;
         this.uniProtSolrClient = uniProtSolrClient;
     }

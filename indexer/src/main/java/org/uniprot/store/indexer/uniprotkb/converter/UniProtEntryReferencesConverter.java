@@ -5,6 +5,7 @@ import static org.uniprot.core.publication.MappedReferenceType.UNIPROTKB_UNREVIE
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
@@ -67,9 +68,9 @@ public class UniProtEntryReferencesConverter implements Serializable {
                 byte[] mappedReferenceByte = getUniProtKBMappedReferenceBinary(mappedReference);
                 builder.id(id);
                 builder.accession(accession);
-                builder.type(type.getIntValue());
+                builder.types(Collections.singleton(type.getIntValue()));
                 builder.pubMedId(pubmedId);
-                builder.publicationMappedReference(mappedReferenceByte);
+                builder.publicationMappedReferences(mappedReferenceByte);
                 pubDocs.add(builder.build());
             }
         }

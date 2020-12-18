@@ -3,6 +3,8 @@ package org.uniprot.store.indexer.publication.community;
 import static org.uniprot.core.publication.MappedReferenceType.COMMUNITY;
 import static org.uniprot.store.indexer.publication.common.PublicationUtils.computeDocumentId;
 
+import java.util.Collections;
+
 import org.springframework.batch.item.ItemProcessor;
 import org.uniprot.core.json.parser.publication.CommunityMappedReferenceJsonConfig;
 import org.uniprot.core.publication.CommunityMappedReference;
@@ -26,8 +28,8 @@ public class CommunityPublicationProcessor
         builder.pubMedId(reference.getPubMedId())
                 .accession(reference.getUniProtKBAccession().getValue())
                 .id(computeDocumentId(reference))
-                .type(COMMUNITY.getIntValue())
-                .publicationMappedReference(getObjectBinary(reference));
+                .types(Collections.singleton(COMMUNITY.getIntValue()))
+                .publicationMappedReferences(getObjectBinary(reference));
 
         return builder.build();
     }
