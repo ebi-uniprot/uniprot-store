@@ -1,5 +1,7 @@
 package org.uniprot.store.search.document.publication;
 
+import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import lombok.AllArgsConstructor;
@@ -19,7 +21,7 @@ import org.uniprot.store.search.document.Document;
 @NoArgsConstructor
 @AllArgsConstructor
 public class PublicationDocument implements Document {
-
+    private static final long serialVersionUID = 1401052603497411363L;
     // note: thinking to keep flat so that easier to have different release cycles in future
     @Field("id")
     private String id; // unique id composed of accession and pmid
@@ -45,10 +47,9 @@ public class PublicationDocument implements Document {
     @Field("is_large_scale")
     private boolean isLargeScale;
 
-    @Field private Set<String> categories;
+    private Set<String> categories = new HashSet<>();
 
-    @Field("types")
-    private Set<Integer> types;
+    private Set<Integer> types = new HashSet<>();
 
     // to be list of MappedReferences of different types viz. uniprot(reviewed/unreviewed),
     // community and computational
@@ -58,5 +59,15 @@ public class PublicationDocument implements Document {
     @Override
     public String getDocumentId() {
         return id;
+    }
+
+    @Field("categories")
+    public void setCategories(List<String> categories) {
+        this.categories = new HashSet<>(categories);
+    }
+
+    @Field("types")
+    public void setTypes(List<Integer> types) {
+        this.types = new HashSet<>(types);
     }
 }

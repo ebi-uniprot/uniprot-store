@@ -4,6 +4,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.nullValue;
 import static org.hamcrest.collection.IsIterableContainingInOrder.contains;
 import static org.hamcrest.core.Is.is;
+import static org.mockito.Mockito.mock;
 
 import java.io.IOException;
 
@@ -14,6 +15,7 @@ import org.uniprot.core.publication.CommunityMappedReference;
 import org.uniprot.core.publication.impl.CommunityAnnotationBuilder;
 import org.uniprot.core.publication.impl.CommunityMappedReferenceBuilder;
 import org.uniprot.core.publication.impl.MappedSourceBuilder;
+import org.uniprot.store.indexer.common.config.UniProtSolrClient;
 import org.uniprot.store.indexer.publication.common.PublicationUtils;
 import org.uniprot.store.search.document.publication.PublicationDocument;
 
@@ -37,11 +39,10 @@ class CommunityPublicationProcessorTest {
                     .sourceCategoriesAdd(SOURCE_CATEGORY)
                     .communityAnnotation(ANNOTATION)
                     .build();
+    private static final UniProtSolrClient SOLR_CLIENT = mock(UniProtSolrClient.class);
 
     @Test
     void validateCorrectId() {
-        CommunityPublicationProcessor processor = new CommunityPublicationProcessor();
-
         String id = PublicationUtils.computeDocumentId(REFERENCE);
 
         assertThat(
@@ -56,7 +57,7 @@ class CommunityPublicationProcessorTest {
 
     @Test
     void validateSerialisedObject() throws IOException {
-        CommunityPublicationProcessor processor = new CommunityPublicationProcessor();
+        CommunityPublicationProcessor processor = new CommunityPublicationProcessor(SOLR_CLIENT);
 
         PublicationDocument document = processor.process(REFERENCE);
 
