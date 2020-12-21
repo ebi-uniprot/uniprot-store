@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Singular;
 
 import org.apache.solr.client.solrj.beans.Field;
 import org.uniprot.store.search.document.Document;
@@ -21,6 +22,7 @@ import org.uniprot.store.search.document.Document;
 @NoArgsConstructor
 @AllArgsConstructor
 public class PublicationDocument implements Document {
+
     private static final long serialVersionUID = 1401052603497411363L;
     // note: thinking to keep flat so that easier to have different release cycles in future
     @Field("id")
@@ -31,6 +33,10 @@ public class PublicationDocument implements Document {
 
     @Field("pubmed_id")
     private String pubMedId;
+
+    private Set<String> categories = new HashSet<>();
+
+    @Singular private Set<Integer> types = new HashSet<>();
 
     @Field("computational_mapped_protein_count")
     private Long computationalMappedProteinCount;
@@ -46,10 +52,6 @@ public class PublicationDocument implements Document {
 
     @Field("is_large_scale")
     private boolean isLargeScale;
-
-    private Set<String> categories = new HashSet<>();
-
-    private Set<Integer> types = new HashSet<>();
 
     // to be list of MappedReferences of different types viz. uniprot(reviewed/unreviewed),
     // community and computational
