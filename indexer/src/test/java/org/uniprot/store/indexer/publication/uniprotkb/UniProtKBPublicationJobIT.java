@@ -2,6 +2,7 @@ package org.uniprot.store.indexer.publication.uniprotkb;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.arrayWithSize;
+import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
@@ -24,7 +25,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.uniprot.core.json.parser.publication.UniProtKBMappedReferenceJsonConfig;
+import org.uniprot.core.json.parser.publication.MappedPublicationsJsonConfig;
+import org.uniprot.core.publication.MappedPublications;
 import org.uniprot.core.publication.MappedReferenceType;
 import org.uniprot.core.publication.UniProtKBMappedReference;
 import org.uniprot.store.indexer.common.config.UniProtSolrClient;
@@ -54,10 +56,10 @@ class UniProtKBPublicationJobIT {
     private static final String ID_COMPONENT_SEPARATOR = "__";
 
     private final ObjectMapper objectMapper =
-            UniProtKBMappedReferenceJsonConfig.getInstance().getFullObjectMapper();
+            MappedPublicationsJsonConfig.getInstance().getFullObjectMapper();
 
     @Test
-    void testCommunityPublicationIndexingJob() throws Exception {
+    void testUniProtKBPublicationIndexingJob() throws Exception {
         JobExecution jobExecution = jobLauncher.launchJob();
         assertThat(
                 jobExecution.getJobInstance().getJobName(),
@@ -81,7 +83,7 @@ class UniProtKBPublicationJobIT {
         assertThat(step.getWriteCount(), is(5));
         // ---------- check "type" field
         SolrQuery allUniProtPubs =
-                new SolrQuery("type:" + MappedReferenceType.UNIPROTKB_UNREVIEWED.getIntValue());
+                new SolrQuery("types:" + MappedReferenceType.UNIPROTKB_UNREVIEWED.getIntValue());
         List<PublicationDocument> docs =
                 solrClient.query(
                         SolrCollection.publication, allUniProtPubs, PublicationDocument.class);
@@ -89,9 +91,14 @@ class UniProtKBPublicationJobIT {
         for (PublicationDocument doc : docs) {
             String id = doc.getId();
             String[] idParts = id.split(ID_COMPONENT_SEPARATOR);
-            assertThat(idParts, arrayWithSize(2));
+            assertThat(idParts, arrayWithSize(4));
             assertThat(idParts[0], is(doc.getAccession()));
-            UniProtKBMappedReference mappedRef = extractObject(doc);
+            MappedPublications mappedPubs = extractObject(doc);
+            assertThat(mappedPubs, is(notNullValue()));
+            assertThat(mappedPubs.getReviewedMappedReference(), is(nullValue()));
+            assertThat(mappedPubs.getComputationalMappedReferences(), is(empty()));
+            assertThat(mappedPubs.getCommunityMappedReferences(), is(empty()));
+            UniProtKBMappedReference mappedRef = mappedPubs.getUnreviewedMappedReference();
             assertThat(mappedRef, is(notNullValue()));
             assertThat(mappedRef.getUniProtKBAccession(), is(notNullValue()));
             assertThat(mappedRef.getUniProtKBAccession().getValue(), is(notNullValue()));
@@ -106,9 +113,8 @@ class UniProtKBPublicationJobIT {
         }
     }
 
-    private UniProtKBMappedReference extractObject(PublicationDocument document)
-            throws IOException {
+    private MappedPublications extractObject(PublicationDocument document) throws IOException {
         return objectMapper.readValue(
-                document.getPublicationMappedReferences(), UniProtKBMappedReference.class);
+                document.getPublicationMappedReferences(), MappedPublications.class);
     }
 }

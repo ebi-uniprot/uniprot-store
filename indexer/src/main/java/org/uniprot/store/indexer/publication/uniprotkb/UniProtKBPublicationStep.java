@@ -70,7 +70,7 @@ public class UniProtKBPublicationStep {
     @Bean
     public ItemProcessor<UniProtEntryDocumentPair, List<PublicationDocument>>
             uniProtPublicationProcessor() {
-        return new UniProtPublicationProcessor();
+        return new UniProtPublicationProcessor(this.uniProtSolrClient, SolrCollection.publication);
     }
 
     @Bean
