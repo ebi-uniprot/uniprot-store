@@ -1,7 +1,5 @@
 package org.uniprot.store.indexer.publication.computational;
 
-import java.io.IOException;
-
 import org.springframework.batch.core.ChunkListener;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.StepExecutionListener;
@@ -17,9 +15,10 @@ import org.springframework.context.annotation.Configuration;
 import org.uniprot.core.publication.ComputationallyMappedReference;
 import org.uniprot.store.indexer.common.config.UniProtSolrClient;
 import org.uniprot.store.indexer.common.utils.Constants;
-import org.uniprot.store.indexer.common.writer.SolrDocumentWriter;
-import org.uniprot.store.search.SolrCollection;
+import org.uniprot.store.indexer.publication.common.PublicationWriter;
 import org.uniprot.store.search.document.publication.PublicationDocument;
+
+import java.io.IOException;
 
 @Configuration
 public class ComputationalPublicationStep {
@@ -68,11 +67,11 @@ public class ComputationalPublicationStep {
 
     @Bean(name = "computationallyMappedReferenceProcessor")
     public ItemProcessor<ComputationallyMappedReference, PublicationDocument> xrefProcessor() {
-        return new ComputationalPublicationProcessor();
+        return new ComputationalPublicationProcessor(this.uniProtSolrClient);
     }
 
     @Bean(name = "computationallyMappedReferenceWriter")
     public ItemWriter<PublicationDocument> xrefWriter() {
-        return new SolrDocumentWriter<>(this.uniProtSolrClient, SolrCollection.publication);
+        return new PublicationWriter(this.uniProtSolrClient);
     }
 }
