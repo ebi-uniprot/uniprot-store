@@ -17,8 +17,6 @@ import org.springframework.context.annotation.Configuration;
 import org.uniprot.core.publication.CommunityMappedReference;
 import org.uniprot.store.indexer.common.config.UniProtSolrClient;
 import org.uniprot.store.indexer.common.utils.Constants;
-import org.uniprot.store.indexer.common.writer.SolrDocumentWriter;
-import org.uniprot.store.search.SolrCollection;
 import org.uniprot.store.search.document.publication.PublicationDocument;
 
 @Configuration
@@ -67,11 +65,11 @@ public class CommunityPublicationStep {
 
     @Bean(name = "communityMappedReferenceProcessor")
     public ItemProcessor<CommunityMappedReference, PublicationDocument> xrefProcessor() {
-        return new CommunityPublicationProcessor();
+        return new CommunityPublicationProcessor(uniProtSolrClient);
     }
 
     @Bean(name = "communityMappedReferenceWriter")
     public ItemWriter<PublicationDocument> xrefWriter() {
-        return new SolrDocumentWriter<>(this.uniProtSolrClient, SolrCollection.publication);
+        return new PublicationWriter(this.uniProtSolrClient);
     }
 }

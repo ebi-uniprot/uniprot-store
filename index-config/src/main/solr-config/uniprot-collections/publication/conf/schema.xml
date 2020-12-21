@@ -24,7 +24,7 @@
 	<field name="is_large_scale" type="boolean" indexed="true"
 		stored="false" docValues="true" />
 	<field name="categories" type="string" indexed="true"
-		stored="true" required="true" multiValued="true" docValues="true" />
+		stored="true" required="false" multiValued="true" docValues="true" />
 	<field name="types" type="int" indexed="true" stored="false"
 		required="false" multiValued="true" />
 	<field name="publication_obj" type="binary" indexed="false"

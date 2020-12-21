@@ -20,8 +20,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.uniprot.core.json.parser.publication.CommunityMappedReferenceJsonConfig;
+import org.uniprot.core.json.parser.publication.MappedPublicationsJsonConfig;
 import org.uniprot.core.publication.CommunityMappedReference;
+import org.uniprot.core.publication.MappedPublications;
 import org.uniprot.core.publication.MappedReferenceType;
 import org.uniprot.store.indexer.common.config.UniProtSolrClient;
 import org.uniprot.store.indexer.common.utils.Constants;
@@ -49,7 +50,7 @@ class CommunityPublicationJobIT {
     @Autowired private UniProtSolrClient solrClient;
 
     private final ObjectMapper objectMapper =
-            CommunityMappedReferenceJsonConfig.getInstance().getFullObjectMapper();
+            MappedPublicationsJsonConfig.getInstance().getFullObjectMapper();
 
     @Test
     void testCommunityPublicationIndexingJob() throws Exception {
@@ -77,7 +78,7 @@ class CommunityPublicationJobIT {
 
         // ---------- check "type" field
         SolrQuery allCommunityPubs =
-                new SolrQuery("type:" + MappedReferenceType.COMMUNITY.getIntValue());
+                new SolrQuery("types:" + MappedReferenceType.COMMUNITY.getIntValue());
         allCommunityPubs.set("rows", 50);
         assertThat(
                 solrClient.query(
@@ -95,7 +96,11 @@ class CommunityPublicationJobIT {
 
         PublicationDocument document = documents.get(0);
 
-        CommunityMappedReference reference = extractObject(document);
+        MappedPublications publications = extractObject(document);
+        List<CommunityMappedReference> references = publications.getCommunityMappedReferences();
+        assertThat(references, hasSize(1));
+
+        CommunityMappedReference reference = references.get(0);
 
         // ----------- check contents of stored object
         assertThat(reference.getPubMedId(), is("27190215"));
@@ -110,9 +115,8 @@ class CommunityPublicationJobIT {
         assertThat(reference.getSourceCategories(), contains("Function"));
     }
 
-    private CommunityMappedReference extractObject(PublicationDocument document)
-            throws IOException {
+    private MappedPublications extractObject(PublicationDocument document) throws IOException {
         return objectMapper.readValue(
-                document.getPublicationMappedReferences(), CommunityMappedReference.class);
+                document.getPublicationMappedReferences(), MappedPublications.class);
     }
 }
