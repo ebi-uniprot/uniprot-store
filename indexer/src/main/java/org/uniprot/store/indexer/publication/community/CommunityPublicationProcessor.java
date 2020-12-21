@@ -1,6 +1,5 @@
 package org.uniprot.store.indexer.publication.community;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.solr.client.solrj.SolrQuery;
 import org.springframework.batch.item.ItemProcessor;
@@ -14,12 +13,11 @@ import org.uniprot.store.search.document.publication.PublicationDocument;
 
 import java.io.IOException;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 import static org.uniprot.core.publication.MappedReferenceType.COMMUNITY;
-import static org.uniprot.store.indexer.publication.common.PublicationUtils.computeDocumentId;
+import static org.uniprot.store.indexer.publication.common.PublicationUtils.*;
 
 public class CommunityPublicationProcessor
         implements ItemProcessor<CommunityMappedReference, PublicationDocument> {
@@ -67,28 +65,6 @@ public class CommunityPublicationProcessor
         return builder.build();
     }
 
-    private String docsToUpdateQuery(CommunityMappedReference reference) {
-        return "accession:"
-                + reference.getUniProtKBAccession().getValue()
-                + " AND "
-                + "pubmed_id:"
-                + reference.getPubMedId();
-    }
-
-    private Set<String> getMergedCategories(
-            CommunityMappedReference reference, PublicationDocument doc) {
-        Set<String> categories = new HashSet<>();
-        categories.addAll(doc.getCategories());
-        categories.addAll(reference.getSourceCategories());
-        return categories;
-    }
-
-    private Set<Integer> getMergedTypes(PublicationDocument doc) {
-        Set<Integer> categories = new HashSet<>(doc.getTypes());
-        categories.add(COMMUNITY.getIntValue());
-        return categories;
-    }
-
     private MappedPublications createMappedPublications(CommunityMappedReference reference) {
         return new MappedPublicationsBuilder().communityMappedReferencesAdd(reference).build();
     }
@@ -103,14 +79,6 @@ public class CommunityPublicationProcessor
                     .communityMappedReferencesAdd(reference)
                     .build();
         } catch (IOException e) {
-            throw new RuntimeException("Unable to parse MappedPublications to binary json: ", e);
-        }
-    }
-
-    private byte[] asBinary(MappedPublications reference) {
-        try {
-            return this.objectMapper.writeValueAsBytes(reference);
-        } catch (JsonProcessingException e) {
             throw new RuntimeException("Unable to parse MappedPublications to binary json: ", e);
         }
     }

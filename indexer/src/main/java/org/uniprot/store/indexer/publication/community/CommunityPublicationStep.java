@@ -17,6 +17,7 @@ import org.springframework.context.annotation.Configuration;
 import org.uniprot.core.publication.CommunityMappedReference;
 import org.uniprot.store.indexer.common.config.UniProtSolrClient;
 import org.uniprot.store.indexer.common.utils.Constants;
+import org.uniprot.store.indexer.publication.common.PublicationWriter;
 import org.uniprot.store.search.document.publication.PublicationDocument;
 
 @Configuration

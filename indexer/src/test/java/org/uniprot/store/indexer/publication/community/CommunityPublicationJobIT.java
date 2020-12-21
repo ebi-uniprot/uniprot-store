@@ -44,12 +44,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
             CommunityPublicationJob.class,
             CommunityPublicationStep.class
         })
-class CommunityPublicationJobIT {
+public class CommunityPublicationJobIT {
     @Autowired private JobLauncherTestUtils jobLauncher;
 
     @Autowired private UniProtSolrClient solrClient;
 
-    private final ObjectMapper objectMapper =
+    private static final ObjectMapper OBJECT_MAPPER =
             MappedPublicationsJsonConfig.getInstance().getFullObjectMapper();
 
     @Test
@@ -115,8 +115,8 @@ class CommunityPublicationJobIT {
         assertThat(reference.getSourceCategories(), contains("Function"));
     }
 
-    private MappedPublications extractObject(PublicationDocument document) throws IOException {
-        return objectMapper.readValue(
+    public static MappedPublications extractObject(PublicationDocument document) throws IOException {
+        return OBJECT_MAPPER.readValue(
                 document.getPublicationMappedReferences(), MappedPublications.class);
     }
 }
