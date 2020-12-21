@@ -1,17 +1,11 @@
 package org.uniprot.store.indexer.publication.community;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.nullValue;
-import static org.hamcrest.collection.IsIterableContainingInOrder.contains;
-import static org.hamcrest.core.Is.is;
-import static org.mockito.Mockito.mock;
-
-import java.io.IOException;
-
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
-import org.uniprot.core.json.parser.publication.CommunityMappedReferenceJsonConfig;
+import org.uniprot.core.json.parser.publication.MappedPublicationsJsonConfig;
 import org.uniprot.core.publication.CommunityAnnotation;
 import org.uniprot.core.publication.CommunityMappedReference;
+import org.uniprot.core.publication.MappedPublications;
 import org.uniprot.core.publication.impl.CommunityAnnotationBuilder;
 import org.uniprot.core.publication.impl.CommunityMappedReferenceBuilder;
 import org.uniprot.core.publication.impl.MappedSourceBuilder;
@@ -19,7 +13,15 @@ import org.uniprot.store.indexer.common.config.UniProtSolrClient;
 import org.uniprot.store.indexer.publication.common.PublicationUtils;
 import org.uniprot.store.search.document.publication.PublicationDocument;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import java.io.IOException;
+import java.util.List;
+
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.nullValue;
+import static org.hamcrest.collection.IsIterableContainingInOrder.contains;
+import static org.hamcrest.core.Is.is;
+import static org.mockito.Mockito.mock;
 
 class CommunityPublicationProcessorTest {
     private static final String ID_COMPONENT_SEPARATOR = "__";
@@ -61,11 +63,16 @@ class CommunityPublicationProcessorTest {
 
         PublicationDocument document = processor.process(REFERENCE);
 
-        ObjectMapper mapper =
-                CommunityMappedReferenceJsonConfig.getInstance().getFullObjectMapper();
-        CommunityMappedReference reference =
+        ObjectMapper mapper = MappedPublicationsJsonConfig.getInstance().getFullObjectMapper();
+        MappedPublications mappedPublications =
                 mapper.readValue(
-                        document.getPublicationMappedReferences(), CommunityMappedReference.class);
+                        document.getPublicationMappedReferences(), MappedPublications.class);
+
+        List<CommunityMappedReference> references =
+                mappedPublications.getCommunityMappedReferences();
+        assertThat(references, hasSize(1));
+
+        CommunityMappedReference reference = references.get(0);
 
         assertThat(reference.getUniProtKBAccession().getValue(), is(ACCESSION));
         assertThat(reference.getPubMedId(), is(PUBMED_ID));
