@@ -20,8 +20,7 @@ import org.uniprot.store.search.document.publication.PublicationDocument;
 public class UniProtPublicationWriter implements ItemWriter<List<PublicationDocument>> {
     private UniProtSolrClient uniProtSolrClient;
 
-    public UniProtPublicationWriter(
-            UniProtSolrClient uniProtSolrClient) {
+    public UniProtPublicationWriter(UniProtSolrClient uniProtSolrClient) {
         this.uniProtSolrClient = uniProtSolrClient;
     }
 

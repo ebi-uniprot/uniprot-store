@@ -12,7 +12,6 @@ import java.util.Set;
 
 import org.apache.solr.client.solrj.SolrQuery;
 import org.springframework.batch.item.ItemProcessor;
-import org.uniprot.core.json.parser.publication.CommunityMappedReferenceJsonConfig;
 import org.uniprot.core.json.parser.publication.MappedPublicationsJsonConfig;
 import org.uniprot.core.publication.ComputationallyMappedReference;
 import org.uniprot.core.publication.MappedPublications;

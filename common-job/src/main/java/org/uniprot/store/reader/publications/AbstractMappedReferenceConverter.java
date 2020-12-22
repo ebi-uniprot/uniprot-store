@@ -27,7 +27,7 @@ abstract class AbstractMappedReferenceConverter<T extends MappedReference>
             if (lineFields.length >= 5) {
                 // first, contiguous [asdf][asdf][asdf] => categories
                 if (Utils.notNullNotEmpty(lineFields[4])) {
-                    int annotationStartPos = injectCategories(lineFields[4] ,categories);
+                    int annotationStartPos = injectCategories(lineFields[4], categories);
                     rawAnnotation = lineFields[4].substring(annotationStartPos);
                 }
             }

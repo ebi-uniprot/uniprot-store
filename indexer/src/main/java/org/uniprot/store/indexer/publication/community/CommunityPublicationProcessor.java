@@ -1,6 +1,14 @@
 package org.uniprot.store.indexer.publication.community;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import static org.uniprot.core.publication.MappedReferenceType.COMMUNITY;
+import static org.uniprot.store.indexer.publication.common.PublicationUtils.*;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Set;
+
 import org.apache.solr.client.solrj.SolrQuery;
 import org.springframework.batch.item.ItemProcessor;
 import org.uniprot.core.json.parser.publication.MappedPublicationsJsonConfig;
@@ -11,14 +19,7 @@ import org.uniprot.store.indexer.common.config.UniProtSolrClient;
 import org.uniprot.store.search.SolrCollection;
 import org.uniprot.store.search.document.publication.PublicationDocument;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Set;
-
-import static org.uniprot.core.publication.MappedReferenceType.COMMUNITY;
-import static org.uniprot.store.indexer.publication.common.PublicationUtils.*;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class CommunityPublicationProcessor
         implements ItemProcessor<CommunityMappedReference, List<PublicationDocument>> {
