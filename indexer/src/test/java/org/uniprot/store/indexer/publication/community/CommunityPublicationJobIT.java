@@ -115,7 +115,8 @@ public class CommunityPublicationJobIT {
         assertThat(reference.getSourceCategories(), contains("Function"));
     }
 
-    public static MappedPublications extractObject(PublicationDocument document) throws IOException {
+    public static MappedPublications extractObject(PublicationDocument document)
+            throws IOException {
         return OBJECT_MAPPER.readValue(
                 document.getPublicationMappedReferences(), MappedPublications.class);
     }

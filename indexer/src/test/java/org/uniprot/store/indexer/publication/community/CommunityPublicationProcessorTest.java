@@ -1,6 +1,15 @@
 package org.uniprot.store.indexer.publication.community;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.nullValue;
+import static org.hamcrest.collection.IsIterableContainingInOrder.contains;
+import static org.hamcrest.core.Is.is;
+import static org.mockito.Mockito.mock;
+
+import java.io.IOException;
+import java.util.List;
+
 import org.junit.jupiter.api.Test;
 import org.uniprot.core.json.parser.publication.MappedPublicationsJsonConfig;
 import org.uniprot.core.publication.CommunityAnnotation;
@@ -13,15 +22,7 @@ import org.uniprot.store.indexer.common.config.UniProtSolrClient;
 import org.uniprot.store.indexer.publication.common.PublicationUtils;
 import org.uniprot.store.search.document.publication.PublicationDocument;
 
-import java.io.IOException;
-import java.util.List;
-
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.hasSize;
-import static org.hamcrest.Matchers.nullValue;
-import static org.hamcrest.collection.IsIterableContainingInOrder.contains;
-import static org.hamcrest.core.Is.is;
-import static org.mockito.Mockito.mock;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 class CommunityPublicationProcessorTest {
     private static final String ID_COMPONENT_SEPARATOR = "__";

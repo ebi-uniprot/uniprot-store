@@ -91,7 +91,7 @@ public class UniProtPublicationProcessor
         MappedPublications mergedMappedPubs = mergeMappedPublications(existingDoc, currentDoc);
 
         PublicationDocument.PublicationDocumentBuilder builder = PublicationDocument.builder();
-        builder.id(existingDoc.getId()).pubMedId(existingDoc.getPubMedId());
+        builder.id(existingDoc.getId()).pubMedId(currentDoc.getPubMedId());
         Set<String> cats = existingDoc.getCategories();
         cats.addAll(currentDoc.getCategories());
         builder.categories(cats);
