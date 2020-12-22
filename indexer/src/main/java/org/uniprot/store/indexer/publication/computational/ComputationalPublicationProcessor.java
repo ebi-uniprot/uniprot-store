@@ -13,6 +13,7 @@ import java.util.Set;
 import org.apache.solr.client.solrj.SolrQuery;
 import org.springframework.batch.item.ItemProcessor;
 import org.uniprot.core.json.parser.publication.CommunityMappedReferenceJsonConfig;
+import org.uniprot.core.json.parser.publication.MappedPublicationsJsonConfig;
 import org.uniprot.core.publication.ComputationallyMappedReference;
 import org.uniprot.core.publication.MappedPublications;
 import org.uniprot.core.publication.impl.MappedPublicationsBuilder;
@@ -24,13 +25,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class ComputationalPublicationProcessor
         implements ItemProcessor<ComputationallyMappedReference, List<PublicationDocument>> {
-    static final String ID_COMPONENT_SEPARATOR = "__";
     private final ObjectMapper objectMapper;
     private final UniProtSolrClient uniProtSolrClient;
 
     public ComputationalPublicationProcessor(UniProtSolrClient uniProtSolrClient) {
         this.uniProtSolrClient = uniProtSolrClient;
-        this.objectMapper = CommunityMappedReferenceJsonConfig.getInstance().getFullObjectMapper();
+        this.objectMapper = MappedPublicationsJsonConfig.getInstance().getFullObjectMapper();
     }
 
     @Override
