@@ -15,7 +15,7 @@ import org.uniprot.core.util.Utils;
  */
 abstract class AbstractMappedReferenceConverter<T extends MappedReference>
         implements MappedReferenceConverter<T> {
-    private static final Pattern CATEGORY_PATTERN = Pattern.compile("^(\\[.*])(.*)");
+    private static final Pattern CATEGORY_PATTERN = Pattern.compile("\\[(.*?)]");
 
     @Override
     public T convert(String line) {
@@ -25,13 +25,10 @@ abstract class AbstractMappedReferenceConverter<T extends MappedReference>
             Set<String> categories = new HashSet<>();
             String rawAnnotation = "";
             if (lineFields.length >= 5) {
-                Matcher matcher = CATEGORY_PATTERN.matcher(lineFields[4]);
-                if (matcher.matches()) { // split categories from the rest of the text...
-                    String matchedCategories = matcher.group(1);
-                    categories.addAll(getCategories(matchedCategories));
-                    rawAnnotation = lineFields[4].substring(matchedCategories.length());
-                } else {
-                    rawAnnotation = lineFields[4];
+                // first, contiguous [asdf][asdf][asdf] => categories
+                if (Utils.notNullNotEmpty(lineFields[4])) {
+                    int annotationStartPos = injectCategories(lineFields[4] ,categories);
+                    rawAnnotation = lineFields[4].substring(annotationStartPos);
                 }
             }
 
@@ -54,6 +51,17 @@ abstract class AbstractMappedReferenceConverter<T extends MappedReference>
             throw new RawMappedReferenceException(
                     "Could not parse mapped references file: " + line);
         }
+    }
+
+    static int injectCategories(String linePart, Set<String> categories) {
+        Matcher matcher = CATEGORY_PATTERN.matcher(linePart);
+        int prevCatEnd = 0;
+        while (matcher.find() && prevCatEnd == matcher.start()) {
+            categories.add(matcher.group(1));
+            prevCatEnd = matcher.end();
+        }
+
+        return prevCatEnd;
     }
 
     abstract T convertRawMappedReference(RawMappedReference reference);
