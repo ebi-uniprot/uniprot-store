@@ -1,6 +1,14 @@
 package org.uniprot.store.indexer.publication.computational;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.*;
+import static org.uniprot.core.publication.MappedReferenceType.COMPUTATIONAL;
+import static org.uniprot.store.indexer.publication.community.CommunityPublicationJobIT.extractObject;
+
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
 import org.apache.solr.client.solrj.SolrQuery;
 import org.hamcrest.CoreMatchers;
 import org.junit.jupiter.api.Test;
@@ -24,14 +32,7 @@ import org.uniprot.store.job.common.listener.ListenerConfig;
 import org.uniprot.store.search.SolrCollection;
 import org.uniprot.store.search.document.publication.PublicationDocument;
 
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
-
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
-import static org.uniprot.core.publication.MappedReferenceType.COMPUTATIONAL;
-import static org.uniprot.store.indexer.publication.community.CommunityPublicationJobIT.extractObject;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 @ActiveProfiles(profiles = {"job", "offline"})
 @ExtendWith(SpringExtension.class)
