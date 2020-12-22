@@ -61,7 +61,11 @@ class CommunityPublicationProcessorTest {
     void validateSerialisedObject() throws IOException {
         CommunityPublicationProcessor processor = new CommunityPublicationProcessor(SOLR_CLIENT);
 
-        PublicationDocument document = processor.process(REFERENCE);
+        List<PublicationDocument> documents = processor.process(REFERENCE);
+
+        assertThat(documents, hasSize(1));
+
+        PublicationDocument document = documents.get(0);
 
         ObjectMapper mapper = MappedPublicationsJsonConfig.getInstance().getFullObjectMapper();
         MappedPublications mappedPublications =

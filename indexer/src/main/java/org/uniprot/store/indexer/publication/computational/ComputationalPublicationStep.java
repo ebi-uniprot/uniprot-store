@@ -15,10 +15,11 @@ import org.springframework.context.annotation.Configuration;
 import org.uniprot.core.publication.ComputationallyMappedReference;
 import org.uniprot.store.indexer.common.config.UniProtSolrClient;
 import org.uniprot.store.indexer.common.utils.Constants;
-import org.uniprot.store.indexer.publication.common.PublicationWriter;
+import org.uniprot.store.indexer.publication.common.UniProtPublicationWriter;
 import org.uniprot.store.search.document.publication.PublicationDocument;
 
 import java.io.IOException;
+import java.util.List;
 
 @Configuration
 public class ComputationalPublicationStep {
@@ -45,13 +46,13 @@ public class ComputationalPublicationStep {
             @Qualifier("computationallyMappedReferenceReader")
                     ItemReader<ComputationallyMappedReference> mappedReferenceReader,
             @Qualifier("computationallyMappedReferenceProcessor")
-                    ItemProcessor<ComputationallyMappedReference, PublicationDocument>
+                    ItemProcessor<ComputationallyMappedReference, List<PublicationDocument>>
                             mappedReferenceProcessor,
             @Qualifier("computationallyMappedReferenceWriter")
-                    ItemWriter<PublicationDocument> mappedReferenceWriter) {
+                    ItemWriter<List<PublicationDocument>> mappedReferenceWriter) {
         return this.steps
                 .get(Constants.COMPUTATIONAL_PUBLICATION_INDEX_STEP)
-                .<ComputationallyMappedReference, PublicationDocument>chunk(this.chunkSize)
+                .<ComputationallyMappedReference, List<PublicationDocument>>chunk(this.chunkSize)
                 .reader(mappedReferenceReader)
                 .processor(mappedReferenceProcessor)
                 .writer(mappedReferenceWriter)
@@ -66,12 +67,13 @@ public class ComputationalPublicationStep {
     }
 
     @Bean(name = "computationallyMappedReferenceProcessor")
-    public ItemProcessor<ComputationallyMappedReference, PublicationDocument> xrefProcessor() {
+    public ItemProcessor<ComputationallyMappedReference, List<PublicationDocument>>
+            xrefProcessor() {
         return new ComputationalPublicationProcessor(this.uniProtSolrClient);
     }
 
     @Bean(name = "computationallyMappedReferenceWriter")
-    public ItemWriter<PublicationDocument> xrefWriter() {
-        return new PublicationWriter(this.uniProtSolrClient);
+    public ItemWriter<List<PublicationDocument>> xrefWriter() {
+        return new UniProtPublicationWriter(this.uniProtSolrClient);
     }
 }
