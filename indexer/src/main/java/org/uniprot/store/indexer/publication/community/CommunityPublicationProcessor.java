@@ -12,6 +12,7 @@ import org.uniprot.store.search.SolrCollection;
 import org.uniprot.store.search.document.publication.PublicationDocument;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
@@ -20,7 +21,7 @@ import static org.uniprot.core.publication.MappedReferenceType.COMMUNITY;
 import static org.uniprot.store.indexer.publication.common.PublicationUtils.*;
 
 public class CommunityPublicationProcessor
-        implements ItemProcessor<CommunityMappedReference, PublicationDocument> {
+        implements ItemProcessor<CommunityMappedReference, List<PublicationDocument>> {
     private final ObjectMapper objectMapper;
     private final UniProtSolrClient uniProtSolrClient;
 
@@ -30,10 +31,9 @@ public class CommunityPublicationProcessor
     }
 
     @Override
-    public PublicationDocument process(CommunityMappedReference reference) {
+    public List<PublicationDocument> process(CommunityMappedReference reference) {
+        List<PublicationDocument> toReturn = new ArrayList<>();
         PublicationDocument.PublicationDocumentBuilder builder = PublicationDocument.builder();
-
-        String docId = computeDocumentId(reference);
 
         List<PublicationDocument> documents =
                 uniProtSolrClient.query(
@@ -41,28 +41,32 @@ public class CommunityPublicationProcessor
                         new SolrQuery(docsToUpdateQuery(reference)),
                         PublicationDocument.class);
         if (documents.isEmpty()) {
-            return builder.pubMedId(reference.getPubMedId())
-                    .accession(reference.getUniProtKBAccession().getValue())
-                    .id(docId)
-                    .categories(reference.getSourceCategories())
-                    .types(Collections.singleton(COMMUNITY.getIntValue()))
-                    .publicationMappedReferences(asBinary(createMappedPublications(reference)))
-                    .build();
-        } else if (documents.size() == 1) {
-            PublicationDocument doc = documents.get(0);
-            doc.getCategories().addAll(reference.getSourceCategories());
-            Set<String> categories = getMergedCategories(reference, doc);
-            Set<Integer> types = getMergedTypes(doc);
-            builder.pubMedId(doc.getPubMedId())
-                    .accession(doc.getAccession())
-                    .id(docId)
-                    .categories(categories)
-                    .types(types)
-                    .publicationMappedReferences(
-                            asBinary(addReferenceToMappedPublications(doc, reference)));
+            toReturn.add(
+                    builder.pubMedId(reference.getPubMedId())
+                            .accession(reference.getUniProtKBAccession().getValue())
+                            .id(computeDocumentId(reference))
+                            .categories(reference.getSourceCategories())
+                            .types(Collections.singleton(COMMUNITY.getIntValue()))
+                            .publicationMappedReferences(
+                                    asBinary(createMappedPublications(reference)))
+                            .build());
+        } else {
+            for (PublicationDocument doc : documents) {
+                Set<String> categories = getMergedCategories(reference, doc);
+                Set<Integer> types = getMergedTypes(doc);
+                toReturn.add(
+                        builder.pubMedId(reference.getPubMedId())
+                                .accession(reference.getUniProtKBAccession().getValue())
+                                .id(doc.getId())
+                                .categories(categories)
+                                .types(types)
+                                .publicationMappedReferences(
+                                        asBinary(addReferenceToMappedPublications(doc, reference)))
+                                .build());
+            }
         }
 
-        return builder.build();
+        return toReturn;
     }
 
     private MappedPublications createMappedPublications(CommunityMappedReference reference) {

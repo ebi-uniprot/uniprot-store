@@ -1,4 +1,4 @@
-package org.uniprot.store.indexer.publication.uniprotkb;
+package org.uniprot.store.indexer.publication.common;
 
 import java.util.Collection;
 import java.util.List;
@@ -19,12 +19,10 @@ import org.uniprot.store.search.document.publication.PublicationDocument;
 @Slf4j
 public class UniProtPublicationWriter implements ItemWriter<List<PublicationDocument>> {
     private UniProtSolrClient uniProtSolrClient;
-    private SolrCollection collection;
 
     public UniProtPublicationWriter(
-            UniProtSolrClient uniProtSolrClient, SolrCollection collection) {
+            UniProtSolrClient uniProtSolrClient) {
         this.uniProtSolrClient = uniProtSolrClient;
-        this.collection = collection;
     }
 
     @Override
@@ -33,8 +31,8 @@ public class UniProtPublicationWriter implements ItemWriter<List<PublicationDocu
             List<PublicationDocument> flattenItems =
                     items.stream().flatMap(Collection::stream).collect(Collectors.toList());
             if (!flattenItems.isEmpty()) {
-                this.uniProtSolrClient.saveBeans(collection, flattenItems);
-                this.uniProtSolrClient.softCommit(collection);
+                this.uniProtSolrClient.saveBeans(SolrCollection.publication, flattenItems);
+                this.uniProtSolrClient.softCommit(SolrCollection.publication);
             }
         } catch (Exception error) {
             log.error("Error writing to solr: ", error);

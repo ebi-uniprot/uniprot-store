@@ -16,6 +16,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.uniprot.store.indexer.common.config.UniProtSolrClient;
 import org.uniprot.store.indexer.common.utils.Constants;
+import org.uniprot.store.indexer.publication.common.UniProtPublicationWriter;
 import org.uniprot.store.indexer.uniprotkb.config.UniProtKBConfig;
 import org.uniprot.store.indexer.uniprotkb.config.UniProtKBIndexingProperties;
 import org.uniprot.store.indexer.uniprotkb.model.UniProtEntryDocumentPair;
@@ -75,6 +76,6 @@ public class UniProtKBPublicationStep {
 
     @Bean
     public ItemWriter<List<PublicationDocument>> uniProtPublicationWriter() {
-        return new UniProtPublicationWriter(this.uniProtSolrClient, SolrCollection.publication);
+        return new UniProtPublicationWriter(this.uniProtSolrClient);
     }
 }

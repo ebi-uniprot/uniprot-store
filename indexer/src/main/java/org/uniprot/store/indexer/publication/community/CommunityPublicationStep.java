@@ -1,7 +1,5 @@
 package org.uniprot.store.indexer.publication.community;
 
-import java.io.IOException;
-
 import org.springframework.batch.core.ChunkListener;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.StepExecutionListener;
@@ -17,8 +15,11 @@ import org.springframework.context.annotation.Configuration;
 import org.uniprot.core.publication.CommunityMappedReference;
 import org.uniprot.store.indexer.common.config.UniProtSolrClient;
 import org.uniprot.store.indexer.common.utils.Constants;
-import org.uniprot.store.indexer.publication.common.PublicationWriter;
+import org.uniprot.store.indexer.publication.common.UniProtPublicationWriter;
 import org.uniprot.store.search.document.publication.PublicationDocument;
+
+import java.io.IOException;
+import java.util.List;
 
 @Configuration
 public class CommunityPublicationStep {
@@ -44,13 +45,13 @@ public class CommunityPublicationStep {
             @Qualifier("communityMappedReferenceReader")
                     ItemReader<CommunityMappedReference> mappedReferenceReader,
             @Qualifier("communityMappedReferenceProcessor")
-                    ItemProcessor<CommunityMappedReference, PublicationDocument>
+                    ItemProcessor<CommunityMappedReference, List<PublicationDocument>>
                             mappedReferenceProcessor,
             @Qualifier("communityMappedReferenceWriter")
-                    ItemWriter<PublicationDocument> mappedReferenceWriter) {
+                    ItemWriter<List<PublicationDocument>> mappedReferenceWriter) {
         return this.steps
                 .get(Constants.COMMUNITY_PUBLICATION_INDEX_STEP)
-                .<CommunityMappedReference, PublicationDocument>chunk(this.chunkSize)
+                .<CommunityMappedReference, List<PublicationDocument>>chunk(this.chunkSize)
                 .reader(mappedReferenceReader)
                 .processor(mappedReferenceProcessor)
                 .writer(mappedReferenceWriter)
@@ -65,12 +66,12 @@ public class CommunityPublicationStep {
     }
 
     @Bean(name = "communityMappedReferenceProcessor")
-    public ItemProcessor<CommunityMappedReference, PublicationDocument> xrefProcessor() {
+    public ItemProcessor<CommunityMappedReference, List<PublicationDocument>> xrefProcessor() {
         return new CommunityPublicationProcessor(uniProtSolrClient);
     }
 
     @Bean(name = "communityMappedReferenceWriter")
-    public ItemWriter<PublicationDocument> xrefWriter() {
-        return new PublicationWriter(this.uniProtSolrClient);
+    public ItemWriter<List<PublicationDocument>> xrefWriter() {
+        return new UniProtPublicationWriter(uniProtSolrClient);
     }
 }
