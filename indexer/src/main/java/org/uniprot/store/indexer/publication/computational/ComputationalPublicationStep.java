@@ -1,5 +1,8 @@
 package org.uniprot.store.indexer.publication.computational;
 
+import java.io.IOException;
+import java.util.List;
+
 import org.springframework.batch.core.ChunkListener;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.StepExecutionListener;
@@ -17,9 +20,6 @@ import org.uniprot.store.indexer.common.config.UniProtSolrClient;
 import org.uniprot.store.indexer.common.utils.Constants;
 import org.uniprot.store.indexer.publication.common.UniProtPublicationWriter;
 import org.uniprot.store.search.document.publication.PublicationDocument;
-
-import java.io.IOException;
-import java.util.List;
 
 @Configuration
 public class ComputationalPublicationStep {
