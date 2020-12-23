@@ -37,7 +37,7 @@ public class UniProtSolrClient {
     private final ThreadLocal<SolrClient> threadLocalSolrClients;
     private final RepositoryConfigProperties config;
 
-    UniProtSolrClient(RepositoryConfigProperties config) {
+    public UniProtSolrClient(RepositoryConfigProperties config) {
         this.config = config;
         this.threadLocalSolrClients = ThreadLocal.withInitial(this::uniProtSolrClient);
     }
@@ -53,6 +53,16 @@ public class UniProtSolrClient {
         try {
             QueryResponse response = threadLocalSolrClients.get().query(collectionString, query);
             return response.getBeans(documentClass);
+        } catch (SolrServerException | IOException e) {
+            throw new SolrQueryRetrievalException(
+                    "Could not query from Solr collection [" + collectionString + "]", e);
+        }
+    }
+
+    public QueryResponse query(SolrCollection collection, SolrQuery query) {
+        String collectionString = collection.name();
+        try {
+            return threadLocalSolrClients.get().query(collectionString, query);
         } catch (SolrServerException | IOException e) {
             throw new SolrQueryRetrievalException(
                     "Could not query from Solr collection [" + collectionString + "]", e);
