@@ -28,6 +28,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Profile;
+import org.uniprot.store.indexer.common.config.RepositoryConfigProperties;
 import org.uniprot.store.indexer.common.config.UniProtSolrClient;
 
 @TestConfiguration
@@ -66,11 +67,11 @@ public class SolrTestConfig implements DisposableBean {
     @Bean(destroyMethod = "cleanUp")
     @Profile("offline")
     public UniProtSolrClient solrClient(SolrClient apacheSolrClient) {
-        //        RepositoryConfigProperties config = new RepositoryConfigProperties();
-        //        config.setUsername("solr_admin");
-        //        config.setPassword("nimda");
-        //        config.setZkHost("wp-np2-b9:4191,ves-hx-ee:4191,ves-hx-c9:4191");
-        //        return new UniProtSolrClient(config);
+//                RepositoryConfigProperties config = new RepositoryConfigProperties();
+//                config.setUsername("solr_admin");
+//                config.setPassword("nimda");
+//                config.setZkHost("wp-np2-b9:4191,ves-hx-ee:4191,ves-hx-c9:4191");
+//                return new UniProtSolrClient(config);
         return new UniProtSolrClient(apacheSolrClient);
     }
 

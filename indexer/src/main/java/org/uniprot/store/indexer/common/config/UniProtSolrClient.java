@@ -37,7 +37,7 @@ public class UniProtSolrClient {
     private final ThreadLocal<SolrClient> threadLocalSolrClients;
     private final RepositoryConfigProperties config;
 
-    public UniProtSolrClient(RepositoryConfigProperties config) {
+    UniProtSolrClient(RepositoryConfigProperties config) {
         this.config = config;
         this.threadLocalSolrClients = ThreadLocal.withInitial(this::uniProtSolrClient);
     }
