@@ -11,5 +11,4 @@ import org.springframework.context.annotation.Configuration;
 @ConditionalOnProperty(prefix = "uniprot.job", name = "name", havingValue = "publications-count")
 @ComponentScan(basePackages = {"org.uniprot.store.indexer.publication.count"})
 @Configuration
-public class PublicationProteinCountIndexJobConfig {
-}
+public class PublicationProteinCountIndexJobConfig {}
