@@ -66,6 +66,11 @@ public class SolrTestConfig implements DisposableBean {
     @Bean(destroyMethod = "cleanUp")
     @Profile("offline")
     public UniProtSolrClient solrClient(SolrClient apacheSolrClient) {
+        //        RepositoryConfigProperties config = new RepositoryConfigProperties();
+        //        config.setUsername("solr_admin");
+        //        config.setPassword("nimda");
+        //        config.setZkHost("wp-np2-b9:4191,ves-hx-ee:4191,ves-hx-c9:4191");
+        //        return new UniProtSolrClient(config);
         return new UniProtSolrClient(apacheSolrClient);
     }
 
