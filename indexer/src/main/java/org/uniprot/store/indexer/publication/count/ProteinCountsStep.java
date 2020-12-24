@@ -48,7 +48,7 @@ public class ProteinCountsStep {
             ItemProcessor<LiteratureDocument, List<PublicationDocument>> compositeItemProcessor,
             ItemWriter<List<PublicationDocument>> publicationWriter) {
         return this.steps
-                .get(Constants.UNIPROTKB_PUBLICATION_INDEX_STEP)
+                .get(Constants.PUBLICATIONS_STATS_INDEX_STEP)
                 .<LiteratureDocument, List<PublicationDocument>>chunk(this.chunkSize)
                 .reader(literatureReader)
                 .processor(compositeItemProcessor)
