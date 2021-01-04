@@ -58,8 +58,8 @@ public class UniProtEntryReferencesConverter implements Serializable {
             Citation citation = reference.getCitation();
             Optional<CrossReference<CitationDatabase>> optPubMed =
                     citation.getCitationCrossReferenceByType(CitationDatabase.PUBMED);
-            if (optPubMed.isPresent() && isEntryTypeSupported(uniProtKBEntry)) {
-                String pubmedId = optPubMed.get().getId();
+            if (isEntryTypeSupported(uniProtKBEntry)) {
+                String pubmedId = optPubMed.isPresent() ? optPubMed.get().getId() : null;
                 MappedReferenceType type =
                         uniProtKBEntry.getEntryType() == UniProtKBEntryType.SWISSPROT
                                 ? UNIPROTKB_REVIEWED
@@ -73,7 +73,7 @@ public class UniProtEntryReferencesConverter implements Serializable {
                                 uniProtKBEntry, reference, pubmedId, referenceNumber);
                 MappedPublications mappedPubs = createMappedPublications(mappedReference, type);
 
-                String id = PublicationUtils.computeDocumentId(mappedReference, type);
+                String id = PublicationUtils.getDocumentId();
                 byte[] mappedReferenceByte = getMappedPublicationsBinary(mappedPubs);
                 PublicationDocument.PublicationDocumentBuilder builder =
                         PublicationDocument.builder();
