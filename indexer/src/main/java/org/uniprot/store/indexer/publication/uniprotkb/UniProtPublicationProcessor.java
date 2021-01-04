@@ -92,6 +92,7 @@ public class UniProtPublicationProcessor
 
         PublicationDocument.PublicationDocumentBuilder builder = PublicationDocument.builder();
         builder.id(existingDoc.getId()).pubMedId(currentDoc.getPubMedId());
+        builder.accession(existingDoc.getAccession());
         Set<String> cats = existingDoc.getCategories();
         cats.addAll(currentDoc.getCategories());
         builder.categories(cats);

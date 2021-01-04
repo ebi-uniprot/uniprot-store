@@ -46,7 +46,7 @@ public class ComputationalPublicationProcessor
             toReturn.add(
                     builder.pubMedId(reference.getPubMedId())
                             .accession(reference.getUniProtKBAccession().getValue())
-                            .id(computeDocumentId(reference))
+                            .id(getDocumentId())
                             .categories(reference.getSourceCategories())
                             .types(Collections.singleton(COMPUTATIONAL.getIntValue()))
                             .publicationMappedReferences(

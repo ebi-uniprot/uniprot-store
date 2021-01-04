@@ -45,7 +45,7 @@ public class CommunityPublicationProcessor
             toReturn.add(
                     builder.pubMedId(reference.getPubMedId())
                             .accession(reference.getUniProtKBAccession().getValue())
-                            .id(computeDocumentId(reference))
+                            .id(getDocumentId())
                             .categories(reference.getSourceCategories())
                             .types(Collections.singleton(COMMUNITY.getIntValue()))
                             .publicationMappedReferences(

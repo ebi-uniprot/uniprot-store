@@ -2,6 +2,7 @@ package org.uniprot.store.indexer.publication.community;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.Matchers.nullValue;
 import static org.hamcrest.collection.IsIterableContainingInOrder.contains;
 import static org.hamcrest.core.Is.is;
@@ -46,16 +47,9 @@ class CommunityPublicationProcessorTest {
 
     @Test
     void validateCorrectId() {
-        String id = PublicationUtils.computeDocumentId(REFERENCE);
+        String id = PublicationUtils.getDocumentId();
 
-        assertThat(
-                id,
-                is(
-                        ACCESSION
-                                + ID_COMPONENT_SEPARATOR
-                                + PUBMED_ID
-                                + ID_COMPONENT_SEPARATOR
-                                + SOURCE_ID));
+        assertThat(id, is(notNullValue()));
     }
 
     @Test
