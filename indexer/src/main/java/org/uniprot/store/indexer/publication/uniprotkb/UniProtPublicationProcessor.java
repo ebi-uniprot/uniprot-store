@@ -99,6 +99,23 @@ public class UniProtPublicationProcessor
         Set<Integer> types = existingDoc.getTypes();
         types.addAll(currentDoc.getTypes());
         builder.types(types);
+        System.out.println("-------------");
+        System.out.println(
+                "Solr ref number for "
+                        + currentDoc.getPubMedId()
+                        + " and "
+                        + existingDoc.getAccession()
+                        + " : "
+                        + existingDoc.getRefNumber());
+        System.out.println(
+                "Input file record ref number for "
+                        + currentDoc.getPubMedId()
+                        + " and "
+                        + currentDoc.getAccession()
+                        + " : "
+                        + currentDoc.getRefNumber());
+        System.out.println("-------------");
+        builder.refNumber(currentDoc.getRefNumber());
         builder.computationalMappedProteinCount(existingDoc.getComputationalMappedProteinCount());
         builder.communityMappedProteinCount(existingDoc.getCommunityMappedProteinCount());
         builder.unreviewedMappedProteinCount(existingDoc.getUnreviewedMappedProteinCount());
@@ -122,7 +139,7 @@ public class UniProtPublicationProcessor
         if (MappedReferenceType.UNIPROTKB_REVIEWED.getIntValue() == type) {
             builder.reviewedMappedReference(currentMappedPubs.getReviewedMappedReference());
         } else {
-            builder.reviewedMappedReference(currentMappedPubs.getUnreviewedMappedReference());
+            builder.unreviewedMappedReference(currentMappedPubs.getUnreviewedMappedReference());
         }
         return builder.build();
     }

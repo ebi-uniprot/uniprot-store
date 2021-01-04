@@ -78,6 +78,7 @@ public class UniProtEntryReferencesConverter implements Serializable {
                 PublicationDocument.PublicationDocumentBuilder builder =
                         PublicationDocument.builder();
                 builder.id(id);
+                builder.refNumber(referenceNumber);
                 builder.accession(accession);
                 builder.type(type.getIntValue());
                 builder.pubMedId(pubmedId);
