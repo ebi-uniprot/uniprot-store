@@ -26,7 +26,7 @@ public class PublicationDocument implements Document {
     private static final long serialVersionUID = 1401052603497411363L;
     // note: thinking to keep flat so that easier to have different release cycles in future
     @Field("id")
-    private String id; // unique id composed of accession and pmid
+    private String id; // guid
 
     @Field("accession")
     private String accession;
@@ -57,6 +57,9 @@ public class PublicationDocument implements Document {
     // community and computational
     @Field("publication_obj")
     private byte[] publicationMappedReferences;
+
+    @Field("reference_number")
+    private Integer refNumber;
 
     @Override
     public String getDocumentId() {
