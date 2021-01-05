@@ -45,6 +45,8 @@ public class DocumentsStatsProcessor
             builder.pubMedId(modelDocWithStats.getPubMedId());
             builder.categories(document.getCategories());
             builder.types(document.getTypes());
+            builder.mainType(document.getMainType());
+            builder.refNumber(document.getRefNumber());
             builder.reviewedMappedProteinCount(modelDocWithStats.getReviewedMappedProteinCount());
             builder.unreviewedMappedProteinCount(
                     modelDocWithStats.getUnreviewedMappedProteinCount());
@@ -61,7 +63,7 @@ public class DocumentsStatsProcessor
     private SolrQuery getAllQuery(PublicationDocument docWithStats) {
         SolrQuery query =
                 new SolrQuery(PUBMED_ID_SOLR_FIELD + COLON_STR + docWithStats.getPubMedId());
-        query.setRows(50000);
+        query.setRows(50000); // TODO what if more than 50k
         return query;
     }
 }

@@ -89,6 +89,9 @@ class UniProtKBPublicationJobIT {
         assertThat(docs, hasSize(5));
         for (PublicationDocument doc : docs) {
             assertThat(doc.getId(), is(notNullValue()));
+            assertThat(
+                    doc.getMainType(), is(MappedReferenceType.UNIPROTKB_UNREVIEWED.getIntValue()));
+            assertThat(doc.getRefNumber(), is(notNullValue()));
             MappedPublications mappedPubs = extractObject(doc);
             assertThat(mappedPubs, is(notNullValue()));
             assertThat(mappedPubs.getReviewedMappedReference(), is(nullValue()));

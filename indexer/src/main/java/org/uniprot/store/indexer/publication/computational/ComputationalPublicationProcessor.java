@@ -49,6 +49,7 @@ public class ComputationalPublicationProcessor
                             .id(getDocumentId())
                             .categories(reference.getSourceCategories())
                             .types(Collections.singleton(COMPUTATIONAL.getIntValue()))
+                            .mainType(COMPUTATIONAL.getIntValue())
                             .publicationMappedReferences(
                                     asBinary(createMappedPublications(reference)))
                             .build());
@@ -56,13 +57,14 @@ public class ComputationalPublicationProcessor
             PublicationDocument doc = documents.get(0);
             doc.getCategories().addAll(reference.getSourceCategories());
             Set<String> categories = getMergedCategories(reference, doc);
-            Set<Integer> types = getMergedTypes(doc);
+            Set<Integer> types = getMergedTypes(doc, COMPUTATIONAL);
             toReturn.add(
                     builder.pubMedId(reference.getPubMedId())
                             .accession(reference.getUniProtKBAccession().getValue())
                             .id(doc.getId())
                             .categories(categories)
                             .types(types)
+                            .mainType(COMPUTATIONAL.getIntValue())
                             .publicationMappedReferences(
                                     asBinary(addReferenceToMappedPublications(doc, reference)))
                             .build());

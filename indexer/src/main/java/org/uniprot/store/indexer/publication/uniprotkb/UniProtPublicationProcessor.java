@@ -99,6 +99,7 @@ public class UniProtPublicationProcessor
         Set<Integer> types = existingDoc.getTypes();
         types.addAll(currentDoc.getTypes());
         builder.types(types);
+        builder.mainType(currentDoc.getMainType());
         System.out.println("-------------");
         System.out.println(
                 "Solr ref number for "

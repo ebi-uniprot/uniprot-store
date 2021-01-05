@@ -47,6 +47,7 @@ public class CommunityPublicationProcessor
                             .accession(reference.getUniProtKBAccession().getValue())
                             .id(getDocumentId())
                             .categories(reference.getSourceCategories())
+                            .mainType(COMMUNITY.getIntValue())
                             .types(Collections.singleton(COMMUNITY.getIntValue()))
                             .publicationMappedReferences(
                                     asBinary(createMappedPublications(reference)))
@@ -54,13 +55,14 @@ public class CommunityPublicationProcessor
         } else {
             for (PublicationDocument doc : documents) {
                 Set<String> categories = getMergedCategories(reference, doc);
-                Set<Integer> types = getMergedTypes(doc);
+                Set<Integer> types = getMergedTypes(doc, COMMUNITY);
                 toReturn.add(
                         builder.pubMedId(reference.getPubMedId())
                                 .accession(reference.getUniProtKBAccession().getValue())
                                 .id(doc.getId())
                                 .categories(categories)
                                 .types(types)
+                                .mainType(COMMUNITY.getIntValue())
                                 .publicationMappedReferences(
                                         asBinary(addReferenceToMappedPublications(doc, reference)))
                                 .build());
