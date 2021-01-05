@@ -69,7 +69,7 @@ public class ComputationalPublicationStep {
     @Bean(name = "computationallyMappedReferenceProcessor")
     public ItemProcessor<ComputationallyMappedReference, List<PublicationDocument>>
             xrefProcessor() {
-        return new ComputationalPublicationProcessor(this.uniProtSolrClient);
+        return new ComputationalPublicationProcessor();
     }
 
     @Bean(name = "computationallyMappedReferenceWriter")
