@@ -1,7 +1,5 @@
 package org.uniprot.store.indexer.publication.common;
 
-import static org.uniprot.core.publication.MappedReferenceType.COMMUNITY;
-
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
@@ -9,6 +7,7 @@ import java.util.UUID;
 import org.uniprot.core.json.parser.publication.MappedPublicationsJsonConfig;
 import org.uniprot.core.publication.MappedPublications;
 import org.uniprot.core.publication.MappedReference;
+import org.uniprot.core.publication.MappedReferenceType;
 import org.uniprot.store.search.document.publication.PublicationDocument;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -42,9 +41,9 @@ public class PublicationUtils {
         return categories;
     }
 
-    public static Set<Integer> getMergedTypes(PublicationDocument doc) {
+    public static Set<Integer> getMergedTypes(PublicationDocument doc, MappedReferenceType type) {
         Set<Integer> categories = new HashSet<>(doc.getTypes());
-        categories.add(COMMUNITY.getIntValue());
+        categories.add(type.getIntValue());
         return categories;
     }
 

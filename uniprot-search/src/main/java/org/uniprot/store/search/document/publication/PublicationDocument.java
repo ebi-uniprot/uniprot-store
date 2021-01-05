@@ -61,6 +61,9 @@ public class PublicationDocument implements Document {
     @Field("reference_number")
     private Integer refNumber;
 
+    @Field("main_type")
+    private Integer mainType;
+
     @Override
     public String getDocumentId() {
         return id;
