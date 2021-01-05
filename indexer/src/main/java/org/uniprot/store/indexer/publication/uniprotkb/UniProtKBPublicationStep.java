@@ -21,7 +21,6 @@ import org.uniprot.store.indexer.uniprotkb.config.UniProtKBConfig;
 import org.uniprot.store.indexer.uniprotkb.config.UniProtKBIndexingProperties;
 import org.uniprot.store.indexer.uniprotkb.model.UniProtEntryDocumentPair;
 import org.uniprot.store.indexer.uniprotkb.reader.UniProtEntryItemReader;
-import org.uniprot.store.search.SolrCollection;
 import org.uniprot.store.search.document.publication.PublicationDocument;
 
 @Configuration
@@ -71,7 +70,7 @@ public class UniProtKBPublicationStep {
     @Bean
     public ItemProcessor<UniProtEntryDocumentPair, List<PublicationDocument>>
             uniProtPublicationProcessor() {
-        return new UniProtPublicationProcessor(this.uniProtSolrClient, SolrCollection.publication);
+        return new UniProtPublicationProcessor();
     }
 
     @Bean

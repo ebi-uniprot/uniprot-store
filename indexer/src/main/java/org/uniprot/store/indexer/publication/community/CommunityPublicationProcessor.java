@@ -8,6 +8,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
+
+import lombok.extern.slf4j.Slf4j;
 
 import org.apache.solr.client.solrj.SolrQuery;
 import org.springframework.batch.item.ItemProcessor;
@@ -21,6 +24,7 @@ import org.uniprot.store.search.document.publication.PublicationDocument;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+@Slf4j
 public class CommunityPublicationProcessor
         implements ItemProcessor<CommunityMappedReference, List<PublicationDocument>> {
     private final ObjectMapper objectMapper;
@@ -53,6 +57,17 @@ public class CommunityPublicationProcessor
                                     asBinary(createMappedPublications(reference)))
                             .build());
         } else {
+            if (documents.size() > 1) {
+                log.warn(
+                        "More than one publications for accession {} and pubmed id {}",
+                        reference.getUniProtKBAccession().getValue(),
+                        reference.getPubMedId());
+                log.warn(
+                        "ids are {}",
+                        documents.stream()
+                                .map(PublicationDocument::getId)
+                                .collect(Collectors.joining(",")));
+            }
             for (PublicationDocument doc : documents) {
                 Set<String> categories = getMergedCategories(reference, doc);
                 Set<Integer> types = getMergedTypes(doc, COMMUNITY);
@@ -62,7 +77,7 @@ public class CommunityPublicationProcessor
                                 .id(doc.getId())
                                 .categories(categories)
                                 .types(types)
-                                .mainType(COMMUNITY.getIntValue())
+                                .mainType(doc.getMainType())
                                 .publicationMappedReferences(
                                         asBinary(addReferenceToMappedPublications(doc, reference)))
                                 .build());
