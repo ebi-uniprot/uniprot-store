@@ -1,9 +1,9 @@
 package org.uniprot.store.reader.publications;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 
 import org.uniprot.core.publication.MappedReference;
 import org.uniprot.core.util.Utils;
@@ -16,6 +16,35 @@ import org.uniprot.core.util.Utils;
 abstract class AbstractMappedReferenceConverter<T extends MappedReference>
         implements MappedReferenceConverter<T> {
     private static final Pattern CATEGORY_PATTERN = Pattern.compile("\\[(.*?)]");
+    private static final Set<String> CATEGORIES = new HashSet<>();
+
+    static {
+        CATEGORIES.add("Expression");
+        CATEGORIES.add("Family & Domains");
+        CATEGORIES.add("Function");
+        CATEGORIES.add("Interaction");
+        CATEGORIES.add("Names");
+        CATEGORIES.add("Pathology & Biotech");
+        CATEGORIES.add("PTM / Processing");
+        CATEGORIES.add("Sequences");
+        CATEGORIES.add("Subcellular Location");
+        CATEGORIES.add("Structure");
+    }
+
+    static int injectCategories(String linePart, Set<String> categories) {
+        Matcher matcher = CATEGORY_PATTERN.matcher(linePart);
+        int prevCatEnd = 0;
+        while (matcher.find() && prevCatEnd == matcher.start()) {
+            String category = matcher.group(1);
+            if (isValidateCategory(category)) {
+                categories.add(category);
+            }
+
+            prevCatEnd = matcher.end();
+        }
+
+        return prevCatEnd;
+    }
 
     @Override
     public T convert(String line) {
@@ -28,7 +57,10 @@ abstract class AbstractMappedReferenceConverter<T extends MappedReference>
                 // first, contiguous [asdf][asdf][asdf] => categories
                 if (Utils.notNullNotEmpty(lineFields[4])) {
                     int annotationStartPos = injectCategories(lineFields[4], categories);
-                    rawAnnotation = lineFields[4].substring(annotationStartPos);
+                    rawAnnotation = lineFields[4].substring(annotationStartPos).trim();
+                    if (rawAnnotation.equals(".")) {
+                        rawAnnotation = null;
+                    }
                 }
             }
 
@@ -53,23 +85,9 @@ abstract class AbstractMappedReferenceConverter<T extends MappedReference>
         }
     }
 
-    static int injectCategories(String linePart, Set<String> categories) {
-        Matcher matcher = CATEGORY_PATTERN.matcher(linePart);
-        int prevCatEnd = 0;
-        while (matcher.find() && prevCatEnd == matcher.start()) {
-            categories.add(matcher.group(1));
-            prevCatEnd = matcher.end();
-        }
-
-        return prevCatEnd;
-    }
-
     abstract T convertRawMappedReference(RawMappedReference reference);
 
-    private List<String> getCategories(String matchedCategories) {
-        String[] categoriesArray = matchedCategories.split("]");
-        return Arrays.stream(categoriesArray)
-                .map(category -> category.substring(1))
-                .collect(Collectors.toList());
+    private static boolean isValidateCategory(String category) {
+        return CATEGORIES.contains(category);
     }
 }
