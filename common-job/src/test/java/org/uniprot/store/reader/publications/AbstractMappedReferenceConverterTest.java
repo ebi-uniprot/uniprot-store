@@ -4,8 +4,9 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import java.util.HashSet;
 import java.util.Set;
+
+import lombok.Getter;
 
 import org.junit.jupiter.api.Test;
 import org.uniprot.core.publication.MappedReference;
@@ -20,18 +21,26 @@ import org.uniprot.core.uniprotkb.impl.UniProtKBAccessionBuilder;
  * @author Edd
  */
 class AbstractMappedReferenceConverterTest {
+    private static final String ACC_PUBMED_ORCHID_LINE_PREFIX =
+            "Q1MDE9\tORCID\t19597156\t0000-0002-4251-0362";
+
     @Test
     void convertsCorrectly() {
         FakeMappedReferenceConverter mapper = new FakeMappedReferenceConverter();
         FakeMappedReference mappedReference =
                 mapper.convert(
-                        "Q1MDE9\tORCID\t19597156\t0000-0002-4251-0362\t[Function][Pathology & Biotech]Protein/gene_name: BraC3; RL3540. Function: BraC3 is an alternative substrate binding component of the ABC transporter braDEFGC. BraC3 supports the transport of leucine, isoleucine, valine, or alanine, but not glutamate or aspartate. Comments: Transport of branched amino acids by either BraC3 (with BraDEFG) or AapJQMP is required for symbiosis with peas.");
-        assertThat(mappedReference.acc.getValue(), is("Q1MDE9"));
-        assertThat(mappedReference.pubmed, is("19597156"));
+                        ACC_PUBMED_ORCHID_LINE_PREFIX
+                                + "\t[Function][Pathology & Biotech]Protein/gene_name: BraC3; RL3540. Function: BraC3 is an alternative substrate binding component of the ABC transporter braDEFGC. BraC3 supports the transport of leucine, isoleucine, valine, or alanine, but not glutamate or aspartate. Comments: Transport of branched amino acids by either BraC3 (with BraDEFG) or AapJQMP is required for symbiosis with peas.");
+        validateAccessionPubmedOrchidInfo(mappedReference);
+        assertThat(mappedReference.sourceCategories, hasItems("Function", "Pathology & Biotech"));
+    }
+
+    private void validateAccessionPubmedOrchidInfo(FakeMappedReference mappedReference) {
+        assertThat(mappedReference.uniProtKBAccession.getValue(), is("Q1MDE9"));
+        assertThat(mappedReference.pubMedId, is("19597156"));
         assertThat(
                 mappedReference.getSource(),
                 is(new MappedSourceBuilder().name("ORCID").id("0000-0002-4251-0362").build()));
-        assertThat(mappedReference.cats, hasItems("Function", "Pathology & Biotech"));
     }
 
     @Test
@@ -66,99 +75,154 @@ class AbstractMappedReferenceConverterTest {
 
     @Test
     void noCategoryDefinedResultsInNoCategoriesInjected() {
-        String linePart =
+        // given
+        FakeMappedReferenceConverter converter = new FakeMappedReferenceConverter();
+        String annotationPart =
                 "Protein/gene_name: BraC3; RL3540. Function: BraC3 is an alternative substrate binding component of the ABC transporter braDEFGC. BraC3 supports the transport of leucine, isoleucine, valine, or alanine, but not glutamate or aspartate. Comments: Transport of branched amino acids by either BraC3 (with BraDEFG) or AapJQMP is required for symbiosis with peas.";
-        Set<String> categories = new HashSet<>();
-        int annotationStartPos =
-                AbstractMappedReferenceConverter.injectCategories(linePart, categories);
-        assertThat(categories, is(empty()));
-        assertThat(annotationStartPos, is(0));
+        String line = ACC_PUBMED_ORCHID_LINE_PREFIX + "\t" + annotationPart;
+
+        // when
+        FakeMappedReference mappedReference = converter.convert(line);
+
+        // then
+        validateAccessionPubmedOrchidInfo(mappedReference);
+        assertThat(mappedReference.getSourceCategories(), is(empty()));
+        assertThat(mappedReference.getAnnotation(), is(annotationPart));
     }
 
     @Test
     void noCategoryDefinedButBracketsInAnnotationResultsInNoCategoriesInjected() {
-        String linePart =
+        // given
+        FakeMappedReferenceConverter converter = new FakeMappedReferenceConverter();
+        String annotationPart =
                 "Protein/gene_name: BraC3; RL3540. Function: BraC3 is an alternative substrate binding component of the ABC transporter braDEFGC. [This is some text] BraC3 supports the transport of leucine, isoleucine, valine, or alanine, but not glutamate or aspartate. Comments: Transport of branched amino acids by either BraC3 (with BraDEFG) or AapJQMP is required for symbiosis with peas.";
-        Set<String> categories = new HashSet<>();
-        int annotationStartPos =
-                AbstractMappedReferenceConverter.injectCategories(linePart, categories);
-        assertThat(categories, is(empty()));
-        assertThat(annotationStartPos, is(0));
+        String line = ACC_PUBMED_ORCHID_LINE_PREFIX + "\t" + annotationPart;
+
+        // when
+        FakeMappedReference mappedReference = converter.convert(line);
+
+        // then
+        validateAccessionPubmedOrchidInfo(mappedReference);
+        assertThat(mappedReference.getSourceCategories(), is(empty()));
+        assertThat(mappedReference.getAnnotation(), is(annotationPart));
     }
 
     @Test
     void canInjectSingleCategory() {
-        String linePart =
-                "[Function]Protein/gene_name: BraC3; RL3540. Function: BraC3 is an alternative substrate binding component of the ABC transporter braDEFGC. BraC3 supports the transport of leucine, isoleucine, valine, or alanine, but not glutamate or aspartate. Comments: Transport of branched amino acids by either BraC3 (with BraDEFG) or AapJQMP is required for symbiosis with peas.";
-        Set<String> categories = new HashSet<>();
-        int annotationStartPos =
-                AbstractMappedReferenceConverter.injectCategories(linePart, categories);
-        assertThat(categories, contains("Function"));
-        assertThat(annotationStartPos, is(10));
+        // given
+        FakeMappedReferenceConverter converter = new FakeMappedReferenceConverter();
+        String annotationPart =
+                "Protein/gene_name: BraC3; RL3540. Function: BraC3 is an alternative substrate binding component of the ABC transporter braDEFGC. BraC3 supports the transport of leucine, isoleucine, valine, or alanine, but not glutamate or aspartate. Comments: Transport of branched amino acids by either BraC3 (with BraDEFG) or AapJQMP is required for symbiosis with peas.";
+        String line = ACC_PUBMED_ORCHID_LINE_PREFIX + "\t[Function]" + annotationPart;
+
+        // when
+        FakeMappedReference mappedReference = converter.convert(line);
+
+        // then
+        validateAccessionPubmedOrchidInfo(mappedReference);
+        assertThat(mappedReference.getSourceCategories(), contains("Function"));
+        assertThat(mappedReference.getAnnotation(), is(annotationPart));
+    }
+
+    @Test
+    void noCategoryUponStrangeInputFromPIROrSIB() {
+        // given
+        FakeMappedReferenceConverter converter = new FakeMappedReferenceConverter();
+        String annotationPart =
+                "The impact of SorLA on the cellular processing of amyloid precursor protein (APP) is an important component in Alzheimer's disease.";
+        String line = ACC_PUBMED_ORCHID_LINE_PREFIX + "\t[rerview] " + annotationPart;
+
+        // when
+        FakeMappedReference mappedReference = converter.convert(line);
+
+        // then
+        validateAccessionPubmedOrchidInfo(mappedReference);
+        assertThat(mappedReference.getSourceCategories(), is(empty()));
+        assertThat(mappedReference.getAnnotation(), is(annotationPart));
+    }
+
+    @Test
+    void noCategoryNoAnnotationUponReallyStrangeInputFromPIROrSIB() {
+        // given
+        FakeMappedReferenceConverter converter = new FakeMappedReferenceConverter();
+        String line =
+                ACC_PUBMED_ORCHID_LINE_PREFIX
+                        + "\t[Pulsed electric fields inhibit tumor growth but induce myocardial injury of melanoma-bearing mice].";
+
+        // when
+        FakeMappedReference mappedReference = converter.convert(line);
+
+        // then
+        validateAccessionPubmedOrchidInfo(mappedReference);
+        assertThat(mappedReference.getSourceCategories(), is(empty()));
+        assertThat(mappedReference.getAnnotation(), is(nullValue()));
     }
 
     @Test
     void canInjectMultipleCategories() {
-        String linePart =
-                "[Function][Pathology & Biotech][Something else]Protein/gene_name: BraC3; RL3540. Function: BraC3 is an alternative substrate binding component of the ABC transporter braDEFGC. BraC3 supports the transport of leucine, isoleucine, valine, or alanine, but not glutamate or aspartate. Comments: Transport of branched amino acids by either BraC3 (with BraDEFG) or AapJQMP is required for symbiosis with peas.";
-        Set<String> categories = new HashSet<>();
-        int annotationStartPos =
-                AbstractMappedReferenceConverter.injectCategories(linePart, categories);
+        // given
+        FakeMappedReferenceConverter converter = new FakeMappedReferenceConverter();
+        String annotationPart =
+                "Protein/gene_name: BraC3; RL3540. Function: BraC3 is an alternative substrate binding component of the ABC transporter braDEFGC. BraC3 supports the transport of leucine, isoleucine, valine, or alanine, but not glutamate or aspartate. Comments: Transport of branched amino acids by either BraC3 (with BraDEFG) or AapJQMP is required for symbiosis with peas.";
+        String line =
+                ACC_PUBMED_ORCHID_LINE_PREFIX
+                        + "\t[Function][Pathology & Biotech][Something else][Names]"
+                        + annotationPart;
+
+        // when
+        FakeMappedReference mappedReference = converter.convert(line);
+
+        // then
+        validateAccessionPubmedOrchidInfo(mappedReference);
         assertThat(
-                categories,
-                containsInAnyOrder("Function", "Pathology & Biotech", "Something else"));
-        assertThat(annotationStartPos, is(47));
+                mappedReference.getSourceCategories(),
+                containsInAnyOrder("Function", "Pathology & Biotech", "Names"));
+        assertThat(mappedReference.getAnnotation(), is(annotationPart));
     }
 
     @Test
     void canInjectCategoriesWhenAnnotationIncludesBrackets() {
-        String linePart =
-                "[Interaction][Structure][Something else again]Protein/gene_name: FwdA. Function: Subunit of the Tungsten-containing formylmethanofuran dehydrogenase, which catalyzes the reversible oxidation of CO2 and methanofuran to N-formylmethanofuran. FwdA is one of the catalytic subunits. FwdA contains zinc ligands, N6-carboxylysine, and a catalytically crucial aspartate. Comment: Component of the tungsten-containing active formylmethanofuran dehydrogenase, found as a dimer or tetramer of the FwdABCDFG heterohexamer. The complex contains iron sulfur clusters [4Fe-4S] and binds tungsten.";
-        Set<String> categories = new HashSet<>();
-        int annotationStartPos =
-                AbstractMappedReferenceConverter.injectCategories(linePart, categories);
+        // given
+        FakeMappedReferenceConverter converter = new FakeMappedReferenceConverter();
+        String annotationPart =
+                "Protein/gene_name: FwdA. Function: Subunit of the Tungsten-containing formylmethanofuran dehydrogenase, which catalyzes the reversible oxidation of CO2 and methanofuran to N-formylmethanofuran. FwdA is one of the catalytic subunits. FwdA contains zinc ligands, N6-carboxylysine, and a catalytically crucial aspartate. Comment: Component of the tungsten-containing active formylmethanofuran dehydrogenase, found as a dimer or tetramer of the FwdABCDFG heterohexamer. The complex contains iron sulfur clusters [4Fe-4S] and binds tungsten.";
+        String line =
+                ACC_PUBMED_ORCHID_LINE_PREFIX
+                        + "\t[Interaction][Structure][Something else again]"
+                        + annotationPart;
+
+        // when
+        FakeMappedReference mappedReference = converter.convert(line);
+
+        // then
+        validateAccessionPubmedOrchidInfo(mappedReference);
         assertThat(
-                categories, containsInAnyOrder("Interaction", "Structure", "Something else again"));
-        assertThat(annotationStartPos, is(46));
+                mappedReference.getSourceCategories(),
+                containsInAnyOrder("Interaction", "Structure"));
+        assertThat(mappedReference.getAnnotation(), is(annotationPart));
     }
 
     private static class FakeMappedReferenceConverter
             extends AbstractMappedReferenceConverter<FakeMappedReference> {
         FakeMappedReference convertRawMappedReference(RawMappedReference reference) {
             FakeMappedReference mappedReference = new FakeMappedReference();
-            mappedReference.acc = new UniProtKBAccessionBuilder(reference.accession).build();
-            mappedReference.cats = reference.categories;
-            mappedReference.pubmed = reference.pubMedId;
+            mappedReference.uniProtKBAccession =
+                    new UniProtKBAccessionBuilder(reference.accession).build();
+            mappedReference.sourceCategories = reference.categories;
+            mappedReference.pubMedId = reference.pubMedId;
             mappedReference.source =
                     new MappedSourceBuilder().name(reference.source).id(reference.sourceId).build();
+            mappedReference.annotation = reference.annotation;
             return mappedReference;
         }
     }
 
+    @Getter
     private static class FakeMappedReference implements MappedReference {
-        Set<String> cats;
-        UniProtKBAccession acc;
+        String annotation;
+        Set<String> sourceCategories;
+        UniProtKBAccession uniProtKBAccession;
         MappedSource source;
-        String pubmed;
-
-        @Override
-        public UniProtKBAccession getUniProtKBAccession() {
-            return acc;
-        }
-
-        @Override
-        public MappedSource getSource() {
-            return source;
-        }
-
-        @Override
-        public String getPubMedId() {
-            return pubmed;
-        }
-
-        @Override
-        public Set<String> getSourceCategories() {
-            return cats;
-        }
+        String pubMedId;
     }
 }
