@@ -6,8 +6,8 @@ import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.Matchers.nullValue;
+import static org.uniprot.store.indexer.publication.community.CommunityPublicationJobIT.extractObject;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -24,7 +24,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.uniprot.core.json.parser.publication.MappedPublicationsJsonConfig;
 import org.uniprot.core.publication.MappedPublications;
 import org.uniprot.core.publication.MappedReferenceType;
 import org.uniprot.core.publication.UniProtKBMappedReference;
@@ -35,8 +34,6 @@ import org.uniprot.store.indexer.test.config.SolrTestConfig;
 import org.uniprot.store.job.common.listener.ListenerConfig;
 import org.uniprot.store.search.SolrCollection;
 import org.uniprot.store.search.document.publication.PublicationDocument;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 @ActiveProfiles(profiles = {"job", "offline"})
 @ExtendWith(SpringExtension.class)
@@ -52,10 +49,6 @@ class UniProtKBPublicationJobIT {
     @Autowired private JobLauncherTestUtils jobLauncher;
 
     @Autowired private UniProtSolrClient solrClient;
-    private static final String ID_COMPONENT_SEPARATOR = "__";
-
-    private final ObjectMapper objectMapper =
-            MappedPublicationsJsonConfig.getInstance().getFullObjectMapper();
 
     @Test
     void testUniProtKBPublicationIndexingJob() throws Exception {
@@ -111,8 +104,9 @@ class UniProtKBPublicationJobIT {
         }
     }
 
-    private MappedPublications extractObject(PublicationDocument document) throws IOException {
-        return objectMapper.readValue(
-                document.getPublicationMappedReferences(), MappedPublications.class);
-    }
+    //    private MappedPublications extractObject(PublicationDocument document) throws IOException
+    // {
+    //        return objectMapper.readValue(
+    //                document.getPublicationMappedReferences(), MappedPublications.class);
+    //    }
 }

@@ -4,6 +4,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -20,6 +21,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.uniprot.core.json.parser.publication.MappedPublicationsJsonConfig;
+import org.uniprot.core.publication.CommunityMappedReference;
 import org.uniprot.core.publication.MappedPublications;
 import org.uniprot.core.publication.MappedReferenceType;
 import org.uniprot.store.indexer.common.config.UniProtSolrClient;
@@ -82,6 +84,34 @@ public class CommunityPublicationJobIT {
                 solrClient.query(
                         SolrCollection.publication, allCommunityPubs, PublicationDocument.class),
                 hasSize(41));
+
+        List<PublicationDocument> documents =
+                solrClient.query(
+                        SolrCollection.publication,
+                        new SolrQuery("pubmed_id:27190215 AND accession:D4GVJ3"),
+                        PublicationDocument.class);
+
+        assertThat(documents, hasSize(1));
+
+        PublicationDocument document = documents.get(0);
+
+        MappedPublications publications = extractObject(document);
+        List<CommunityMappedReference> references = publications.getCommunityMappedReferences();
+        assertThat(references, hasSize(1));
+
+        CommunityMappedReference reference = references.get(0);
+
+        // ----------- check contents of stored object
+        assertThat(reference.getPubMedId(), is("27190215"));
+        assertThat(reference.getUniProtKBAccession().getValue(), is("D4GVJ3"));
+        assertThat(reference.getSource().getName(), is("ORCID"));
+        assertThat(reference.getSource().getId(), is("0000-0001-6105-0923"));
+        assertThat(reference.getCommunityAnnotation().getProteinOrGene(), is("HvJAMM2"));
+        assertThat(
+                reference.getCommunityAnnotation().getFunction(),
+                is(
+                        "Required for TATA-binding protein 2 (TBP2) turnover by ubiquitin-like proteasome system."));
+        assertThat(reference.getSourceCategories(), contains("Function"));
     }
 
     public static MappedPublications extractObject(PublicationDocument document)
