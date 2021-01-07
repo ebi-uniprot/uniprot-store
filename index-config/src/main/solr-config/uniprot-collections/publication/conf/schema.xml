@@ -31,8 +31,7 @@
 		stored="true" required="true" />
 	<field name="reference_number" type="int" indexed="true"
 		stored="true" /><!-- TODO make stored=false after testing -->
-	<field name="main_type" type="int" indexed="true" stored="true" /><!-- 
-		TODO make stored=false after testing -->
+	<field name="main_type" type="int" indexed="true" stored="true" />
 	<!-- =============================== field types =============================== -->
 	<fieldType name="plong" class="solr.LongPointField"
 		docValues="true" />
