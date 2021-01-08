@@ -42,5 +42,12 @@
     "fieldType": "GENERAL",
     "dataType": "STRING",
     "description": "Search by categories"
+  },
+  {
+    "id": "reference_number",
+    "fieldName": "reference_number",
+    "fieldType": "GENERAL",
+    "dataType": "INTEGER",
+    "description": "Search by reference_number"
   }
 ]
