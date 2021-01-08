@@ -7,6 +7,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 
@@ -70,7 +71,7 @@ public class UniProtEntryReferencesConverter implements Serializable {
                 // create MappedPublications to store binary
                 UniProtKBMappedReference mappedReference =
                         createUniProtKBMappedReference(
-                                uniProtKBEntry, reference, pubmedId, referenceNumber);
+                                uniProtKBEntry, reference, pubmedId, referenceNumber, citation);
                 MappedPublications mappedPubs = createMappedPublications(mappedReference, type);
 
                 String id = PublicationUtils.getDocumentId();
@@ -108,7 +109,8 @@ public class UniProtEntryReferencesConverter implements Serializable {
             UniProtKBEntry uniProtKBEntry,
             UniProtKBReference reference,
             String pubMedId,
-            int referenceNumber) {
+            int referenceNumber,
+            Citation citation) {
         String source = uniProtKBEntry.getEntryType().getDisplayName();
         UniProtKBMappedReferenceBuilder builder = new UniProtKBMappedReferenceBuilder();
         builder.uniProtKBAccession(uniProtKBEntry.getPrimaryAccession());
@@ -118,6 +120,11 @@ public class UniProtEntryReferencesConverter implements Serializable {
         builder.referenceCommentsSet(reference.getReferenceComments());
         builder.referencePositionsSet(reference.getReferencePositions());
         builder.sourceCategoriesSet(getCategoriesFromUniprotReference(reference));
+
+        if(Objects.isNull(pubMedId)){ // set the manual citation if pubmed id is missing
+            builder.citation(citation);
+        }
+
         return builder.build();
     }
 

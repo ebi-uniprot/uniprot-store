@@ -10,6 +10,7 @@ import static org.uniprot.store.indexer.publication.community.CommunityPublicati
 
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 import org.apache.solr.client.solrj.SolrQuery;
@@ -79,7 +80,7 @@ class UniProtKBPublicationJobIT {
         List<PublicationDocument> docs =
                 solrClient.query(
                         SolrCollection.publication, allUniProtPubs, PublicationDocument.class);
-        assertThat(docs, hasSize(5));
+        assertThat(docs, hasSize(6));
         for (PublicationDocument doc : docs) {
             assertThat(doc.getId(), is(notNullValue()));
             assertThat(
@@ -94,7 +95,11 @@ class UniProtKBPublicationJobIT {
             assertThat(mappedRef, is(notNullValue()));
             assertThat(mappedRef.getUniProtKBAccession(), is(notNullValue()));
             assertThat(mappedRef.getUniProtKBAccession().getValue(), is(notNullValue()));
-            assertThat(mappedRef.getPubMedId(), is(notNullValue()));
+            if(Objects.isNull(mappedRef.getPubMedId())){
+                assertThat(mappedRef.getCitation(), is(notNullValue()));
+            } else {
+                assertThat(mappedRef.getCitation(), is(nullValue()));
+            }
             assertThat(mappedRef.getSource(), is(notNullValue()));
             assertThat(mappedRef.getSource().getName(), is(notNullValue()));
             assertThat(mappedRef.getSource().getId(), is(nullValue()));
@@ -102,11 +107,20 @@ class UniProtKBPublicationJobIT {
             assertThat(mappedRef.getReferenceComments(), hasSize(1));
             assertThat(mappedRef.getReferencePositions(), hasSize(1));
         }
-    }
 
-    //    private MappedPublications extractObject(PublicationDocument document) throws IOException
-    // {
-    //        return objectMapper.readValue(
-    //                document.getPublicationMappedReferences(), MappedPublications.class);
-    //    }
+        // get accession with one publication without pubmed id
+        SolrQuery accessionQuery =
+                new SolrQuery("accession:A0A2Z5SLI5");
+        List<PublicationDocument> accDocs =
+                solrClient.query(
+                        SolrCollection.publication, accessionQuery, PublicationDocument.class);
+        assertThat(accDocs, hasSize(2));
+        assertThat(accDocs.get(0).getPubMedId(), is(notNullValue()));
+        MappedPublications mappedPubs = extractObject(accDocs.get(0));
+        assertThat(mappedPubs.getUnreviewedMappedReference().getCitation(), is(nullValue()));
+        // without pubmedid
+        assertThat(accDocs.get(1).getPubMedId(), is(nullValue()));
+        mappedPubs = extractObject(accDocs.get(1));
+        assertThat(mappedPubs.getUnreviewedMappedReference().getCitation(), is(notNullValue()));
+    }
 }
