@@ -1,12 +1,5 @@
 package org.uniprot.store.indexer.literature.reader;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-import java.util.stream.Collectors;
-
 import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.batch.item.file.mapping.DefaultLineMapper;
@@ -16,47 +9,27 @@ import org.uniprot.core.citation.Literature;
 import org.uniprot.core.citation.impl.LiteratureBuilder;
 import org.uniprot.core.impl.CrossReferenceBuilder;
 import org.uniprot.core.literature.LiteratureEntry;
-import org.uniprot.core.literature.LiteratureMappedReference;
-import org.uniprot.core.literature.LiteratureStoreEntry;
+import org.uniprot.core.literature.LiteratureStatistics;
 import org.uniprot.core.literature.impl.LiteratureEntryBuilder;
-import org.uniprot.core.literature.impl.LiteratureMappedReferenceBuilder;
-import org.uniprot.core.literature.impl.LiteratureStoreEntryBuilder;
+import org.uniprot.core.literature.impl.LiteratureStatisticsBuilder;
 
 /** @author lgonzales */
 @Slf4j
-public class LiteratureMappingLineMapper extends DefaultLineMapper<LiteratureStoreEntry> {
+public class LiteratureMappingLineMapper extends DefaultLineMapper<LiteratureEntry> {
 
-    private Pattern p = Pattern.compile("^(\\[.*\\])(.*)");
-
-    public LiteratureStoreEntry mapLine(String entryString, int lineNumber) throws Exception {
+    public LiteratureEntry mapLine(String entryString, int lineNumber) throws Exception {
         String[] lineFields = entryString.split("\t");
         if (lineFields.length == 4 || lineFields.length == 5) {
-            List<String> categories = new ArrayList<>();
-            String annnotation = "";
-            if (lineFields.length == 5) {
-                Matcher matcher = p.matcher(lineFields[4]);
-                if (matcher.matches()) { // split categories from the rest of the text...
-                    String matchedCategories = matcher.group(1);
-                    String[] categoriesArray = matchedCategories.split("]");
-                    categories.addAll(
-                            Arrays.stream(categoriesArray)
-                                    .map(category -> category.substring(1))
-                                    .collect(Collectors.toList()));
-
-                    annnotation = lineFields[4].substring(matchedCategories.length());
-                } else {
-                    annnotation = lineFields[4];
-                }
+            LiteratureStatistics statistics;
+            if (isCommunityEntry(entryString)) {
+                statistics =
+                        new LiteratureStatisticsBuilder().communityMappedProteinCount(1).build();
+            } else {
+                statistics =
+                        new LiteratureStatisticsBuilder()
+                                .computationallyMappedProteinCount(1)
+                                .build();
             }
-
-            LiteratureMappedReference mappedReference =
-                    new LiteratureMappedReferenceBuilder()
-                            .uniprotAccession(lineFields[0])
-                            .source(lineFields[1])
-                            .sourceId(lineFields[3])
-                            .annotation(annnotation)
-                            .sourceCategoriesSet(categories)
-                            .build();
 
             CrossReference<CitationDatabase> xref =
                     new CrossReferenceBuilder<CitationDatabase>()
@@ -67,12 +40,13 @@ public class LiteratureMappingLineMapper extends DefaultLineMapper<LiteratureSto
             Literature literature =
                     new LiteratureBuilder().citationCrossReferencesAdd(xref).build();
 
-            LiteratureEntry entry = new LiteratureEntryBuilder().citation(literature).build();
+            LiteratureEntry entry =
+                    new LiteratureEntryBuilder()
+                            .citation(literature)
+                            .statistics(statistics)
+                            .build();
 
-            return new LiteratureStoreEntryBuilder()
-                    .literatureMappedReferencesAdd(mappedReference)
-                    .literatureEntry(entry)
-                    .build();
+            return entry;
         } else {
             log.warn(
                     "Unable to parse correctly line number ["
@@ -81,5 +55,9 @@ public class LiteratureMappingLineMapper extends DefaultLineMapper<LiteratureSto
                             + entryString);
             return null;
         }
+    }
+
+    private boolean isCommunityEntry(String line) {
+        return line.contains("ORCID");
     }
 }

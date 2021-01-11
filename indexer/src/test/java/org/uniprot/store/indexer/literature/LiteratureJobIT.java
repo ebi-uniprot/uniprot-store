@@ -25,8 +25,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.uniprot.core.citation.Literature;
 import org.uniprot.core.json.parser.literature.LiteratureJsonConfig;
 import org.uniprot.core.literature.LiteratureEntry;
-import org.uniprot.core.literature.LiteratureStoreEntry;
-import org.uniprot.core.literature.impl.LiteratureStoreEntryImpl;
+import org.uniprot.core.literature.impl.LiteratureEntryImpl;
 import org.uniprot.store.indexer.common.config.UniProtSolrClient;
 import org.uniprot.store.indexer.common.utils.Constants;
 import org.uniprot.store.indexer.literature.steps.LiteratureLoadStep;
@@ -94,7 +93,7 @@ class LiteratureJobIT {
         assertThat(response.size(), is(18));
 
         // Validating if solr document was written correctly
-        solrQuery = new SolrQuery("author:Hendrickson W.A.");
+        solrQuery = new SolrQuery("author:\"Hendrickson W.A.\"");
         solrQuery.addSort(SolrQuery.SortClause.asc("id"));
         response = solrClient.query(SolrCollection.literature, solrQuery, LiteratureDocument.class);
         assertThat(response, is(notNullValue()));
@@ -103,14 +102,8 @@ class LiteratureJobIT {
         // Validating if solr document was written correctly
         solrQuery =
                 new SolrQuery(
-                        "title:Glutamine synthetase in newborn mice homozygous for lethal albino alleles");
+                        "title:\"Glutamine synthetase in newborn mice homozygous for lethal albino alleles\"");
         solrQuery.addSort(SolrQuery.SortClause.asc("id"));
-        response = solrClient.query(SolrCollection.literature, solrQuery, LiteratureDocument.class);
-        assertThat(response, is(notNullValue()));
-        assertThat(response.size(), is(1));
-
-        // Validating if solr document was written correctly
-        solrQuery = new SolrQuery("mapped_protein:Q15423");
         response = solrClient.query(SolrCollection.literature, solrQuery, LiteratureDocument.class);
         assertThat(response, is(notNullValue()));
         assertThat(response.size(), is(1));
@@ -126,10 +119,10 @@ class LiteratureJobIT {
 
         ByteBuffer byteBuffer = literatureDocument.getLiteratureObj();
         ObjectMapper jsonMapper = LiteratureJsonConfig.getInstance().getFullObjectMapper();
-        LiteratureStoreEntry storeEntry =
-                jsonMapper.readValue(byteBuffer.array(), LiteratureStoreEntryImpl.class);
-        assertThat(storeEntry.hasLiteratureEntry(), is(true));
-        validateLiteratureEntry(storeEntry.getLiteratureEntry());
+        LiteratureEntry storeEntry =
+                jsonMapper.readValue(byteBuffer.array(), LiteratureEntryImpl.class);
+        assertThat(storeEntry, is(notNullValue()));
+        validateLiteratureEntry(storeEntry);
     }
 
     private void validateLiteratureEntry(LiteratureEntry entry) {
@@ -174,7 +167,8 @@ class LiteratureJobIT {
         assertThat(literature.getVolume(), is("229"));
 
         assertThat(entry.hasStatistics(), is(true));
-        assertThat(entry.getStatistics().getMappedProteinCount(), is(19L));
+        assertThat(entry.getStatistics().getComputationallyMappedProteinCount(), is(19L));
+        assertThat(entry.getStatistics().getCommunityMappedProteinCount(), is(0L));
         assertThat(entry.getStatistics().getReviewedProteinCount(), is(1L));
         assertThat(entry.getStatistics().getUnreviewedProteinCount(), is(1L));
     }
@@ -185,7 +179,8 @@ class LiteratureJobIT {
         assertThat(literatureDocument.getId(), is("11203701"));
         assertThat(literatureDocument.getDoi(), is("10.1006/dbio.2000.9955"));
         // assertThat(literatureDocument.isCitedin(), is(true)); COVID-19 CHANGE DO NOT MERGE
-        assertThat(literatureDocument.isMappedin(), is(true));
+        assertThat(literatureDocument.isComputationalMapped(), is(true));
+        assertThat(literatureDocument.isCommunityMapped(), is(false));
         assertThat(literatureDocument.getLiteratureObj(), is(notNullValue()));
     }
 }

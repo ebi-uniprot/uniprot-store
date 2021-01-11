@@ -1,22 +1,28 @@
 package org.uniprot.store.indexer.literature.reader;
 
-import org.springframework.batch.item.*;
+import org.springframework.batch.item.ExecutionContext;
+import org.springframework.batch.item.ItemReader;
+import org.springframework.batch.item.ItemStream;
+import org.springframework.batch.item.ItemStreamException;
+import org.springframework.batch.item.ParseException;
+import org.springframework.batch.item.UnexpectedInputException;
 import org.springframework.batch.item.file.FlatFileItemReader;
 import org.uniprot.core.CrossReference;
 import org.uniprot.core.citation.CitationDatabase;
-import org.uniprot.core.literature.LiteratureStoreEntry;
-import org.uniprot.core.literature.impl.LiteratureStoreEntryBuilder;
+import org.uniprot.core.literature.LiteratureEntry;
+import org.uniprot.core.literature.impl.LiteratureEntryBuilder;
+import org.uniprot.core.literature.impl.LiteratureStatisticsBuilder;
 
 /** @author lgonzales */
-public class LiteratureMappingItemReader implements ItemReader<LiteratureStoreEntry>, ItemStream {
+public class LiteratureMappingItemReader implements ItemReader<LiteratureEntry>, ItemStream {
 
-    private FlatFileItemReader<LiteratureStoreEntry> delegate;
+    private FlatFileItemReader<LiteratureEntry> delegate;
 
-    private LiteratureStoreEntry nextEntry;
+    private LiteratureEntry nextEntry;
 
     @Override
-    public LiteratureStoreEntry read() throws Exception, UnexpectedInputException, ParseException {
-        LiteratureStoreEntry entry;
+    public LiteratureEntry read() throws Exception, UnexpectedInputException, ParseException {
+        LiteratureEntry entry;
         if (nextEntry != null) {
             entry = nextEntry;
         } else {
@@ -24,33 +30,42 @@ public class LiteratureMappingItemReader implements ItemReader<LiteratureStoreEn
         }
         if (entry != null) {
             String entryPubmedId =
-                    entry.getLiteratureEntry()
-                            .getCitation()
+                    entry.getCitation()
                             .getCitationCrossReferenceByType(CitationDatabase.PUBMED)
                             .map(CrossReference::getId)
                             .orElse("");
-            LiteratureStoreEntryBuilder itemBuilder = LiteratureStoreEntryBuilder.from(entry);
             while ((nextEntry = this.delegate.read()) != null) {
                 String nextPubmedId =
                         nextEntry
-                                .getLiteratureEntry()
                                 .getCitation()
                                 .getCitationCrossReferenceByType(CitationDatabase.PUBMED)
                                 .map(CrossReference::getId)
                                 .orElse("");
-                if (entryPubmedId.equals(nextPubmedId)) {
-                    itemBuilder.literatureMappedReferencesAdd(
-                            nextEntry.getLiteratureMappedReferences().get(0));
+                if (entryPubmedId.equals(
+                        nextPubmedId)) { // update computational and/or community mappedProteinCount
+                    LiteratureStatisticsBuilder statisticsBuilder =
+                            LiteratureStatisticsBuilder.from(entry.getStatistics());
+                    statisticsBuilder.computationallyMappedProteinCount(
+                            entry.getStatistics().getComputationallyMappedProteinCount()
+                                    + nextEntry
+                                            .getStatistics()
+                                            .getComputationallyMappedProteinCount());
+                    statisticsBuilder.communityMappedProteinCount(
+                            entry.getStatistics().getCommunityMappedProteinCount()
+                                    + nextEntry.getStatistics().getCommunityMappedProteinCount());
+                    LiteratureEntryBuilder entryBuilder = LiteratureEntryBuilder.from(entry);
+                    entryBuilder.statistics(statisticsBuilder.build());
+                    entry = entryBuilder.build();
                 } else {
-                    return itemBuilder.build();
+                    return entry;
                 }
             }
-            return itemBuilder.build();
+            return entry;
         }
         return null;
     }
 
-    public void setDelegate(FlatFileItemReader<LiteratureStoreEntry> delegate) {
+    public void setDelegate(FlatFileItemReader<LiteratureEntry> delegate) {
         this.delegate = delegate;
     }
 

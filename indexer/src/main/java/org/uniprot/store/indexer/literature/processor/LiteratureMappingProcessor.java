@@ -9,11 +9,10 @@ import org.apache.solr.client.solrj.SolrQuery;
 import org.springframework.batch.item.ItemProcessor;
 import org.uniprot.core.citation.Literature;
 import org.uniprot.core.json.parser.literature.LiteratureJsonConfig;
-import org.uniprot.core.literature.LiteratureStoreEntry;
+import org.uniprot.core.literature.LiteratureEntry;
 import org.uniprot.core.literature.impl.LiteratureEntryBuilder;
+import org.uniprot.core.literature.impl.LiteratureEntryImpl;
 import org.uniprot.core.literature.impl.LiteratureStatisticsBuilder;
-import org.uniprot.core.literature.impl.LiteratureStoreEntryBuilder;
-import org.uniprot.core.literature.impl.LiteratureStoreEntryImpl;
 import org.uniprot.store.indexer.common.config.UniProtSolrClient;
 import org.uniprot.store.search.SolrCollection;
 import org.uniprot.store.search.document.literature.LiteratureDocument;
@@ -24,7 +23,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 /** @author lgonzales */
 @Slf4j
 public class LiteratureMappingProcessor
-        implements ItemProcessor<LiteratureStoreEntry, LiteratureDocument> {
+        implements ItemProcessor<LiteratureEntry, LiteratureDocument> {
 
     private final UniProtSolrClient uniProtSolrClient;
     private final ObjectMapper literatureObjectMapper;
@@ -35,8 +34,8 @@ public class LiteratureMappingProcessor
     }
 
     @Override
-    public LiteratureDocument process(LiteratureStoreEntry mappedEntry) throws Exception {
-        Literature literature = (Literature) mappedEntry.getLiteratureEntry().getCitation();
+    public LiteratureDocument process(LiteratureEntry mappedEntry) throws Exception {
+        Literature literature = (Literature) mappedEntry.getCitation();
         SolrQuery query = new SolrQuery("id:" + literature.getPubmedId());
         Optional<LiteratureDocument> optionalDocument =
                 uniProtSolrClient.queryForObject(
@@ -47,29 +46,29 @@ public class LiteratureMappingProcessor
 
             // Get statistics from previous step and copy it to builder
             byte[] literatureObj = document.getLiteratureObj().array();
-            LiteratureStoreEntry statisticsEntry =
-                    literatureObjectMapper.readValue(literatureObj, LiteratureStoreEntryImpl.class);
-            statisticsBuilder =
-                    LiteratureStatisticsBuilder.from(
-                            statisticsEntry.getLiteratureEntry().getStatistics());
+            LiteratureEntry statisticsEntry =
+                    literatureObjectMapper.readValue(literatureObj, LiteratureEntryImpl.class);
+            statisticsBuilder = LiteratureStatisticsBuilder.from(statisticsEntry.getStatistics());
         }
-        // update mappedProteinCount in the statistic builder
-        statisticsBuilder.mappedProteinCount(mappedEntry.getLiteratureMappedReferences().size());
+
+        // update computational mappedProteinCount in the statistic builder
+        statisticsBuilder.computationallyMappedProteinCount(
+                mappedEntry.getStatistics().getComputationallyMappedProteinCount());
+
+        // update community mappedProteinCount in the statistic builder
+        statisticsBuilder.communityMappedProteinCount(
+                mappedEntry.getStatistics().getCommunityMappedProteinCount());
 
         // Set updated statistics to the mappedEntry
-        LiteratureStoreEntryBuilder mappedEntryStoreBuilder =
-                LiteratureStoreEntryBuilder.from(mappedEntry);
-        LiteratureEntryBuilder entryBuilder =
-                LiteratureEntryBuilder.from(mappedEntry.getLiteratureEntry());
-        entryBuilder.statistics(statisticsBuilder.build());
-        mappedEntryStoreBuilder.literatureEntry(entryBuilder.build());
-        mappedEntry = mappedEntryStoreBuilder.build();
+        LiteratureEntryBuilder mappedEntryBuilder = LiteratureEntryBuilder.from(mappedEntry);
+        mappedEntryBuilder.statistics(statisticsBuilder.build());
+        mappedEntry = mappedEntryBuilder.build();
 
         return createLiteratureDocument(mappedEntry, literature.getPubmedId());
     }
 
     private LiteratureDocument createLiteratureDocument(
-            LiteratureStoreEntry mappedEntry, Long pubmedId) {
+            LiteratureEntry mappedEntry, Long pubmedId) {
         LiteratureDocument.LiteratureDocumentBuilder builder = LiteratureDocument.builder();
         byte[] literatureByte = getLiteratureObjectBinary(mappedEntry);
         builder.literatureObj(ByteBuffer.wrap(literatureByte));
@@ -79,7 +78,7 @@ public class LiteratureMappingProcessor
         return builder.build();
     }
 
-    private byte[] getLiteratureObjectBinary(LiteratureStoreEntry literature) {
+    private byte[] getLiteratureObjectBinary(LiteratureEntry literature) {
         try {
             return this.literatureObjectMapper.writeValueAsBytes(literature);
         } catch (JsonProcessingException e) {

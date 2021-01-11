@@ -16,7 +16,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.Resource;
-import org.uniprot.core.literature.LiteratureStoreEntry;
+import org.uniprot.core.literature.LiteratureEntry;
 import org.uniprot.store.indexer.common.config.UniProtSolrClient;
 import org.uniprot.store.indexer.common.listener.SolrCommitStepListener;
 import org.uniprot.store.indexer.common.utils.Constants;
@@ -53,16 +53,15 @@ public class LiteratureMappingStep {
             StepExecutionListener stepListener,
             ChunkListener chunkListener,
             @Qualifier("LiteratureMappingReader")
-                    ItemReader<LiteratureStoreEntry> literatureMappingReader,
+                    ItemReader<LiteratureEntry> literatureMappingReader,
             @Qualifier("LiteratureMappingProcessor")
-                    ItemProcessor<LiteratureStoreEntry, LiteratureDocument>
-                            literatureMappingProcessor,
+                    ItemProcessor<LiteratureEntry, LiteratureDocument> literatureMappingProcessor,
             @Qualifier("LiteratureMappingWriter")
                     ItemWriter<LiteratureDocument> literatureMappingWriter,
             UniProtSolrClient solrOperations) {
         return this.steps
                 .get(Constants.LITERATURE_MAPPING_INDEX_STEP)
-                .<LiteratureStoreEntry, LiteratureDocument>chunk(chunkSize)
+                .<LiteratureEntry, LiteratureDocument>chunk(chunkSize)
                 .reader(literatureMappingReader)
                 .processor(literatureMappingProcessor)
                 .writer(literatureMappingWriter)
@@ -73,8 +72,8 @@ public class LiteratureMappingStep {
     }
 
     @Bean(name = "LiteratureMappingReader")
-    public ItemReader<LiteratureStoreEntry> literatureMappingReader() throws IOException {
-        FlatFileItemReader<LiteratureStoreEntry> flatFileItemReader = new FlatFileItemReader<>();
+    public ItemReader<LiteratureEntry> literatureMappingReader() throws IOException {
+        FlatFileItemReader<LiteratureEntry> flatFileItemReader = new FlatFileItemReader<>();
         flatFileItemReader.setResource(literatureMappingFile);
         flatFileItemReader.setLineMapper(new LiteratureMappingLineMapper());
 
@@ -89,7 +88,7 @@ public class LiteratureMappingStep {
     }
 
     @Bean(name = "LiteratureMappingProcessor")
-    public ItemProcessor<LiteratureStoreEntry, LiteratureDocument> literatureMappingProcessor() {
+    public ItemProcessor<LiteratureEntry, LiteratureDocument> literatureMappingProcessor() {
         return new LiteratureMappingProcessor(this.uniProtSolrClient);
     }
 }

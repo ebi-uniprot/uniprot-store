@@ -30,14 +30,14 @@ public class LiteratureDocument implements Document {
 
     @Field private String published;
 
-    @Field private boolean citedin;
+    @Field("is_uniprotkb_mapped")
+    private boolean isUniprotkbMapped;
 
-    @Field private boolean mappedin;
+    @Field("is_computational_mapped")
+    private boolean isComputationalMapped;
 
-    @Field private Set<String> content;
-
-    @Field("mapped_protein")
-    private Set<String> mappedProteins;
+    @Field("is_community_mapped")
+    private boolean isCommunityMapped;
 
     @Field("literature_obj")
     private ByteBuffer literatureObj;

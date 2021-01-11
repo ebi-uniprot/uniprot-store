@@ -95,7 +95,7 @@ class UniProtKBPublicationJobIT {
             assertThat(mappedRef, is(notNullValue()));
             assertThat(mappedRef.getUniProtKBAccession(), is(notNullValue()));
             assertThat(mappedRef.getUniProtKBAccession().getValue(), is(notNullValue()));
-            if(Objects.isNull(mappedRef.getPubMedId())){
+            if (Objects.isNull(mappedRef.getPubMedId())) {
                 assertThat(mappedRef.getCitation(), is(notNullValue()));
             } else {
                 assertThat(mappedRef.getCitation(), is(nullValue()));
@@ -109,8 +109,7 @@ class UniProtKBPublicationJobIT {
         }
 
         // get accession with one publication without pubmed id
-        SolrQuery accessionQuery =
-                new SolrQuery("accession:A0A2Z5SLI5");
+        SolrQuery accessionQuery = new SolrQuery("accession:A0A2Z5SLI5");
         List<PublicationDocument> accDocs =
                 solrClient.query(
                         SolrCollection.publication, accessionQuery, PublicationDocument.class);
