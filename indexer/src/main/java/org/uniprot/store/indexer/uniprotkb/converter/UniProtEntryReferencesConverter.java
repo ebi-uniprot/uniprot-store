@@ -121,7 +121,7 @@ public class UniProtEntryReferencesConverter implements Serializable {
         builder.referencePositionsSet(reference.getReferencePositions());
         builder.sourceCategoriesSet(getCategoriesFromUniprotReference(reference));
 
-        if(Objects.isNull(pubMedId)){ // set the manual citation if pubmed id is missing
+        if (Objects.isNull(pubMedId)) { // set the manual citation if pubmed id is missing
             builder.citation(citation);
         }
 

@@ -31,16 +31,13 @@
 		stored="false" />
 	<field name="published" type="full_ci" indexed="true"
 		stored="false" />
-	<field name="mapped_protein" type="basic_ci" indexed="true"
-		stored="false" multiValued="true" />
 	<!-- Facet fields -->
-	<field name="citedin" type="boolean" indexed="true"
+	<field name="is_uniprotkb_mapped" type="boolean" indexed="true"
 		stored="false" docValues="true" />
-	<field name="mappedin" type="boolean" indexed="true"
+	<field name="is_computational_mapped" type="boolean"
+		indexed="true" stored="false" docValues="true" />
+	<field name="is_community_mapped" type="boolean" indexed="true"
 		stored="false" docValues="true" />
-	<!-- For search on any field -->
-	<field name="content" type="full_ci" indexed="true"
-		stored="false" multiValued="true" />
 	<!-- the whole literature object as binary -->
 	<field name="literature_obj" type="binary" indexed="false"
 		stored="true" required="true" />

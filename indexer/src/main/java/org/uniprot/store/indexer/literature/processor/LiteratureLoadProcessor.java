@@ -1,7 +1,6 @@
 package org.uniprot.store.indexer.literature.processor;
 
 import java.nio.ByteBuffer;
-import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -14,13 +13,9 @@ import org.uniprot.core.citation.Author;
 import org.uniprot.core.citation.Literature;
 import org.uniprot.core.json.parser.literature.LiteratureJsonConfig;
 import org.uniprot.core.literature.LiteratureEntry;
-import org.uniprot.core.literature.LiteratureMappedReference;
 import org.uniprot.core.literature.LiteratureStatistics;
-import org.uniprot.core.literature.LiteratureStoreEntry;
 import org.uniprot.core.literature.impl.LiteratureEntryBuilder;
-import org.uniprot.core.literature.impl.LiteratureStoreEntryBuilder;
-import org.uniprot.core.literature.impl.LiteratureStoreEntryImpl;
-import org.uniprot.core.uniprotkb.UniProtKBAccession;
+import org.uniprot.core.literature.impl.LiteratureEntryImpl;
 import org.uniprot.store.indexer.common.config.UniProtSolrClient;
 import org.uniprot.store.search.SolrCollection;
 import org.uniprot.store.search.document.literature.LiteratureDocument;
@@ -42,7 +37,6 @@ public class LiteratureLoadProcessor implements ItemProcessor<LiteratureEntry, L
 
     @Override
     public LiteratureDocument process(LiteratureEntry entry) throws Exception {
-        LiteratureStoreEntryBuilder entryStoreBuilder = new LiteratureStoreEntryBuilder();
         LiteratureEntryBuilder entryBuilder = LiteratureEntryBuilder.from(entry);
         Literature literature = (Literature) entry.getCitation();
         SolrQuery query = new SolrQuery("id:" + literature.getPubmedId());
@@ -54,29 +48,21 @@ public class LiteratureLoadProcessor implements ItemProcessor<LiteratureEntry, L
 
             // Get statistics and mapped references from previous steps and copy it to entry builder
             byte[] literatureObj = document.getLiteratureObj().array();
-            LiteratureStoreEntry statisticsEntry =
-                    literatureObjectMapper.readValue(literatureObj, LiteratureStoreEntryImpl.class);
-            entryBuilder.statistics(statisticsEntry.getLiteratureEntry().getStatistics());
-            entryStoreBuilder.literatureMappedReferencesSet(
-                    statisticsEntry.getLiteratureMappedReferences());
+            LiteratureEntry existingEntry =
+                    literatureObjectMapper.readValue(literatureObj, LiteratureEntryImpl.class);
+            entryBuilder.statistics(existingEntry.getStatistics());
         }
-        entryStoreBuilder.literatureEntry(entryBuilder.build());
-        return createLiteratureDocument(entryStoreBuilder.build());
+        return createLiteratureDocument(entryBuilder.build());
     }
 
-    private LiteratureDocument createLiteratureDocument(LiteratureStoreEntry entryStore) {
-        LiteratureEntry entry = entryStore.getLiteratureEntry();
+    private LiteratureDocument createLiteratureDocument(LiteratureEntry entry) {
         Literature literature = (Literature) entry.getCitation();
         LiteratureDocument.LiteratureDocumentBuilder builder = LiteratureDocument.builder();
-        Set<String> content = new HashSet<>();
         builder.id(String.valueOf(literature.getPubmedId()));
-        content.add(String.valueOf(literature.getPubmedId()));
 
         builder.doi(literature.getDoiId());
-        content.add(literature.getDoiId());
 
         builder.title(literature.getTitle());
-        content.add(literature.getTitle());
 
         if (literature.hasAuthors()) {
             Set<String> authors =
@@ -84,48 +70,30 @@ public class LiteratureLoadProcessor implements ItemProcessor<LiteratureEntry, L
                             .map(Author::getValue)
                             .collect(Collectors.toSet());
             builder.author(authors);
-            content.addAll(authors);
         }
         if (literature.hasJournal()) {
             builder.journal(literature.getJournal().getName());
-            content.add(literature.getJournal().getName());
         }
         if (literature.hasPublicationDate()) {
             builder.published(literature.getPublicationDate().getValue());
         }
+
         if (entry.hasStatistics()) {
             LiteratureStatistics statistics = entry.getStatistics();
-            builder.mappedin(statistics.hasMappedProteinCount());
-            builder.citedin(
+            builder.isComputationalMapped(statistics.hasComputationallyMappedProteinCount());
+            builder.isCommunityMapped(statistics.hasCommunityMappedProteinCount());
+            builder.isUniprotkbMapped(
                     statistics.hasReviewedProteinCount() || statistics.hasUnreviewedProteinCount());
         }
 
-        if (literature.hasLiteratureAbstract()) {
-            content.add(literature.getLiteratureAbstract());
-        }
-        if (literature.hasAuthoringGroup()) {
-            content.addAll(literature.getAuthoringGroups());
-        }
-        builder.content(content);
-
-        if (entryStore.hasLiteratureMappedReferences()) {
-            Set<String> uniprotAccessions =
-                    entryStore.getLiteratureMappedReferences().stream()
-                            .filter(LiteratureMappedReference::hasUniprotAccession)
-                            .map(LiteratureMappedReference::getUniprotAccession)
-                            .map(UniProtKBAccession::getValue)
-                            .collect(Collectors.toSet());
-            builder.mappedProteins(uniprotAccessions);
-        }
-
-        byte[] literatureByte = getLiteratureObjectBinary(entryStore);
+        byte[] literatureByte = getLiteratureObjectBinary(entry);
         builder.literatureObj(ByteBuffer.wrap(literatureByte));
 
         log.debug("LiteratureLoadProcessor entry: " + entry);
         return builder.build();
     }
 
-    private byte[] getLiteratureObjectBinary(LiteratureStoreEntry literature) {
+    private byte[] getLiteratureObjectBinary(LiteratureEntry literature) {
         try {
             return this.literatureObjectMapper.writeValueAsBytes(literature);
         } catch (JsonProcessingException e) {

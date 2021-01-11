@@ -1,6 +1,9 @@
 package org.uniprot.store.indexer.uniprot.mockers;
 
-import org.uniprot.core.citation.impl.SubmissionBuilder;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.concurrent.ThreadLocalRandom;
+
 import org.uniprot.core.publication.*;
 import org.uniprot.core.publication.impl.*;
 import org.uniprot.core.uniprotkb.ReferenceCommentType;

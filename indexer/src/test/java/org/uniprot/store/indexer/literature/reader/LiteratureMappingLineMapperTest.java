@@ -1,13 +1,13 @@
 package org.uniprot.store.indexer.literature.reader;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import org.hamcrest.MatcherAssert;
-import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
 import org.uniprot.core.citation.Literature;
-import org.uniprot.core.literature.LiteratureMappedReference;
-import org.uniprot.core.literature.LiteratureStoreEntry;
+import org.uniprot.core.literature.LiteratureEntry;
+import org.uniprot.core.literature.LiteratureStatistics;
 
 /** @author lgonzales */
 class LiteratureMappingLineMapperTest {
@@ -17,34 +17,16 @@ class LiteratureMappingLineMapperTest {
         String entryText =
                 "X5FSX0\tGAD\t1358782\t126289\t[Pathology & Biotech]Not Associated with PSYCH: schizophrenia.";
         LiteratureMappingLineMapper mapper = new LiteratureMappingLineMapper();
-        LiteratureStoreEntry entry = mapper.mapLine(entryText, 1);
-        assertTrue(entry.hasLiteratureEntry());
+        LiteratureEntry entry = mapper.mapLine(entryText, 1);
+        assertNotNull(entry);
 
-        assertTrue(entry.getLiteratureEntry().hasCitation());
-        Literature literature = (Literature) entry.getLiteratureEntry().getCitation();
+        assertTrue(entry.hasCitation());
+        Literature literature = (Literature) entry.getCitation();
         assertTrue(literature.hasPubmedId());
         assertEquals(literature.getPubmedId(), 1358782L);
-
-        assertTrue(entry.hasLiteratureMappedReferences());
-        assertEquals(entry.getLiteratureMappedReferences().size(), 1);
-        LiteratureMappedReference reference = entry.getLiteratureMappedReferences().get(0);
-
-        assertTrue(reference.hasUniprotAccession());
-        assertEquals(reference.getUniprotAccession().getValue(), "X5FSX0");
-
-        assertTrue(reference.hasSource());
-        assertEquals(reference.getSource(), "GAD");
-
-        assertTrue(reference.hasSourceId());
-        assertEquals(reference.getSourceId(), "126289");
-
-        assertTrue(reference.hasAnnotation());
-        assertEquals(reference.getAnnotation(), "Not Associated with PSYCH: schizophrenia.");
-
-        assertTrue(reference.hasSourceCategory());
-        assertEquals(reference.getSourceCategories().size(), 1);
-        MatcherAssert.assertThat(
-                reference.getSourceCategories(), Matchers.contains("Pathology & Biotech"));
+        LiteratureStatistics stats = entry.getStatistics();
+        assertNotNull(stats);
+        assertEquals(1L, stats.getComputationallyMappedProteinCount());
     }
 
     @Test
@@ -52,63 +34,42 @@ class LiteratureMappingLineMapperTest {
         String entryText =
                 "X5FSX0\tGAD\t1358782\t126289\tNot Associated with PSYCH: schizophrenia.";
         LiteratureMappingLineMapper mapper = new LiteratureMappingLineMapper();
-        LiteratureStoreEntry entry = mapper.mapLine(entryText, 1);
-        assertTrue(entry.hasLiteratureEntry());
+        LiteratureEntry entry = mapper.mapLine(entryText, 1);
+        assertNotNull(entry);
 
-        assertTrue(entry.getLiteratureEntry().hasCitation());
-        Literature literature = (Literature) entry.getLiteratureEntry().getCitation();
+        assertTrue(entry.hasCitation());
+        Literature literature = (Literature) entry.getCitation();
         assertTrue(literature.hasPubmedId());
         assertEquals(literature.getPubmedId(), 1358782L);
-
-        assertTrue(entry.hasLiteratureMappedReferences());
-        assertEquals(entry.getLiteratureMappedReferences().size(), 1);
-        LiteratureMappedReference reference = entry.getLiteratureMappedReferences().get(0);
-
-        assertTrue(reference.hasUniprotAccession());
-        assertEquals(reference.getUniprotAccession().getValue(), "X5FSX0");
-
-        assertTrue(reference.hasSource());
-        assertEquals(reference.getSource(), "GAD");
-
-        assertTrue(reference.hasSourceId());
-        assertEquals(reference.getSourceId(), "126289");
-
-        assertTrue(reference.hasAnnotation());
-        assertEquals(reference.getAnnotation(), "Not Associated with PSYCH: schizophrenia.");
-
-        assertFalse(reference.hasSourceCategory());
     }
 
     @Test
     void mapLineWithCategoryOnly() throws Exception {
         String entryText = "X5FSX0\tGAD\t1358782\t126289\t[Expression][Sequences]";
         LiteratureMappingLineMapper mapper = new LiteratureMappingLineMapper();
-        LiteratureStoreEntry entry = mapper.mapLine(entryText, 1);
-        assertTrue(entry.hasLiteratureEntry());
+        LiteratureEntry entry = mapper.mapLine(entryText, 1);
+        assertNotNull(entry);
 
-        assertTrue(entry.getLiteratureEntry().hasCitation());
-        Literature literature = (Literature) entry.getLiteratureEntry().getCitation();
+        assertTrue(entry.hasCitation());
+        Literature literature = (Literature) entry.getCitation();
         assertTrue(literature.hasPubmedId());
         assertEquals(literature.getPubmedId(), 1358782L);
+    }
 
-        assertTrue(entry.hasLiteratureMappedReferences());
-        assertEquals(entry.getLiteratureMappedReferences().size(), 1);
-        LiteratureMappedReference reference = entry.getLiteratureMappedReferences().get(0);
+    @Test
+    void mapLineWithOrcid() throws Exception {
+        String entryText =
+                "P51674\tORCID\t27793698\t0000-0003-2163-948X\t[Function][Subcellular location][Pathology & Biotech][Interaction][Sequence]";
+        LiteratureMappingLineMapper mapper = new LiteratureMappingLineMapper();
+        LiteratureEntry entry = mapper.mapLine(entryText, 1);
+        assertNotNull(entry);
 
-        assertTrue(reference.hasUniprotAccession());
-        assertEquals(reference.getUniprotAccession().getValue(), "X5FSX0");
-
-        assertTrue(reference.hasSource());
-        assertEquals(reference.getSource(), "GAD");
-
-        assertTrue(reference.hasSourceId());
-        assertEquals(reference.getSourceId(), "126289");
-
-        assertFalse(reference.hasAnnotation());
-
-        assertTrue(reference.hasSourceCategory());
-        assertEquals(reference.getSourceCategories().size(), 2);
-        MatcherAssert.assertThat(
-                reference.getSourceCategories(), Matchers.contains("Expression", "Sequences"));
+        assertTrue(entry.hasCitation());
+        Literature literature = (Literature) entry.getCitation();
+        assertTrue(literature.hasPubmedId());
+        assertEquals(literature.getPubmedId(), 27793698L);
+        LiteratureStatistics stats = entry.getStatistics();
+        assertNotNull(stats);
+        assertEquals(1L, stats.getCommunityMappedProteinCount());
     }
 }

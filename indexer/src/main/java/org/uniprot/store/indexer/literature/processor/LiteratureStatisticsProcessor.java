@@ -13,10 +13,8 @@ import org.uniprot.core.impl.CrossReferenceBuilder;
 import org.uniprot.core.json.parser.literature.LiteratureJsonConfig;
 import org.uniprot.core.literature.LiteratureEntry;
 import org.uniprot.core.literature.LiteratureStatistics;
-import org.uniprot.core.literature.LiteratureStoreEntry;
 import org.uniprot.core.literature.impl.LiteratureEntryBuilder;
 import org.uniprot.core.literature.impl.LiteratureStatisticsBuilder;
-import org.uniprot.core.literature.impl.LiteratureStoreEntryBuilder;
 import org.uniprot.store.indexer.literature.reader.LiteratureStatisticsReader;
 import org.uniprot.store.search.document.literature.LiteratureDocument;
 
@@ -55,16 +53,14 @@ public class LiteratureStatisticsProcessor
         LiteratureDocument.LiteratureDocumentBuilder builder = LiteratureDocument.builder();
         builder.id(String.valueOf(literatureCount.getPubmedId()));
 
-        LiteratureStoreEntry storeEntry =
-                new LiteratureStoreEntryBuilder().literatureEntry(literatureEntry).build();
-        byte[] literatureByte = getLiteratureObjectBinary(storeEntry);
+        byte[] literatureByte = getLiteratureObjectBinary(literatureEntry);
         builder.literatureObj(ByteBuffer.wrap(literatureByte));
 
         log.debug("LiteratureStatisticsProcessor entry: " + literatureCount.getPubmedId());
         return builder.build();
     }
 
-    private byte[] getLiteratureObjectBinary(LiteratureStoreEntry literature) {
+    private byte[] getLiteratureObjectBinary(LiteratureEntry literature) {
         try {
             return this.literatureObjectMapper.writeValueAsBytes(literature);
         } catch (JsonProcessingException e) {

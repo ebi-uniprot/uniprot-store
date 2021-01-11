@@ -30,7 +30,7 @@
 	<field name="publication_obj" type="binary" indexed="false"
 		stored="true" required="true" />
 	<field name="reference_number" type="int" indexed="true"
-		stored="true" /><!-- TODO make stored=false after testing -->
+		stored="true" />
 	<field name="main_type" type="int" indexed="true" stored="true" />
 	<!-- =============================== field types =============================== -->
 	<fieldType name="plong" class="solr.LongPointField"
