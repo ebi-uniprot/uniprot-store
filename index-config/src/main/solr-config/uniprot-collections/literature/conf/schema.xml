@@ -31,6 +31,10 @@
 		stored="false" />
 	<field name="published" type="full_ci" indexed="true"
 		stored="false" />
+	<field name="lit_abstract" type="full_ci" indexed="true"
+		stored="false" />
+	<field name="author_group" type="full_ci" indexed="true"
+		stored="false" multiValued="true" />
 	<!-- Facet fields -->
 	<field name="is_uniprotkb_mapped" type="boolean" indexed="true"
 		stored="false" docValues="true" />
