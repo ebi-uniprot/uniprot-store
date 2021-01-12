@@ -508,3 +508,25 @@ VeriStrat. SAA levels measured by ELISA in 97 NSCLC patients treated with
 gefitinib correlated with the clinical outcome of the patients. This
 article is part of a Special Issue entitled: Integrated omics.
 //
+RX   PubMed=28751710; DOI=10.1038/s41467-017-00209-z;
+RA   Shrestha R.L., Conti D., Tamura N., Braun D., Ramalingam R.A., Cieslinski K.,
+RA   Ries J., Draviam V.M.;
+RT   "Aurora-B kinase pathway controls the lateral to end-on conversion
+RT   of kinetochore-microtubule attachments in human cells.";
+RL   J Proteomics 76 Spec No.:91-101(2012).
+
+Human chromosomes are captured along microtubule walls (lateral attachment) and then tethered
+to microtubule-ends (end-on attachment) through a multi-step end-on conversion process. Upstream
+regulators that orchestrate this remarkable change in the plane of kinetochore-microtubule attachment
+in human cells are not known. By tracking kinetochore movements and using kinetochore markers specific
+to attachment status, we reveal a spatially defined role for Aurora-B kinase in retarding the end-on
+conversion process. To understand how Aurora-B activity is counteracted, we compare the roles of two
+outer-kinetochore bound phosphatases and find that BubR1-associated PP2A, unlike KNL1-associated PP1,
+plays a significant role in end-on conversion. Finally, we uncover a novel role for Aurora-B regulated
+Astrin-SKAP complex in ensuring the correct plane of kinetochore-microtubule attachment. Thus, we identify
+Aurora-B as a key upstream regulator of end-on conversion in human cells and establish a late role for
+Astrin-SKAP complex in the end-on conversion process.Human chromosomes are captured along microtubule
+walls and then tethered to microtubule-ends through a multi-step end-on conversion process. Here the authors
+show that Aurora-B regulates end-on conversion in human cells and establish a late role for Astrin-SKAP complex
+in the end-on conversion process.
+//

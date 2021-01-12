@@ -5,6 +5,7 @@ import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.util.List;
 import java.util.Map;
@@ -81,8 +82,8 @@ class LiteratureJobIT {
         assertThat(stepMap, is(notNullValue()));
         assertThat(stepMap.containsKey(Constants.LITERATURE_INDEX_STEP), is(true));
         StepExecution step = stepMap.get(Constants.LITERATURE_INDEX_STEP);
-        assertThat(step.getReadCount(), is(18));
-        assertThat(step.getWriteCount(), is(18));
+        assertThat(step.getReadCount(), is(19));
+        assertThat(step.getWriteCount(), is(19));
 
         // Validating if solr document was written correctly
         SolrQuery solrQuery = new SolrQuery("*:*").setRows(20);
@@ -90,7 +91,7 @@ class LiteratureJobIT {
         List<LiteratureDocument> response =
                 solrClient.query(SolrCollection.literature, solrQuery, LiteratureDocument.class);
         assertThat(response, is(notNullValue()));
-        assertThat(response.size(), is(18));
+        assertThat(response.size(), is(19));
 
         // Validating if solr document was written correctly
         solrQuery = new SolrQuery("author:\"Hendrickson W.A.\"");
@@ -123,6 +124,7 @@ class LiteratureJobIT {
                 jsonMapper.readValue(byteBuffer.array(), LiteratureEntryImpl.class);
         assertThat(storeEntry, is(notNullValue()));
         validateLiteratureEntry(storeEntry);
+        validateWithCommunityReference();
     }
 
     private void validateLiteratureEntry(LiteratureEntry entry) {
@@ -182,5 +184,29 @@ class LiteratureJobIT {
         assertThat(literatureDocument.isComputationalMapped(), is(true));
         assertThat(literatureDocument.isCommunityMapped(), is(false));
         assertThat(literatureDocument.getLiteratureObj(), is(notNullValue()));
+    }
+
+    private void validateWithCommunityReference() throws IOException {
+        SolrQuery solrQuery = new SolrQuery("id:28751710");
+        List<LiteratureDocument> response = solrClient.query(SolrCollection.literature, solrQuery, LiteratureDocument.class);
+        assertThat(response, is(notNullValue()));
+        assertThat(response.size(), is(1));
+        LiteratureDocument literatureDocument = response.get(0);
+        assertThat(literatureDocument.isComputationalMapped(), is(true));
+        assertThat(literatureDocument.isCommunityMapped(), is(true));
+        assertThat(literatureDocument.isUniprotkbMapped(), is(false));
+        ByteBuffer byteBuffer = literatureDocument.getLiteratureObj();
+        ObjectMapper jsonMapper = LiteratureJsonConfig.getInstance().getFullObjectMapper();
+        LiteratureEntry storeEntry =
+                jsonMapper.readValue(byteBuffer.array(), LiteratureEntryImpl.class);
+        assertThat(storeEntry, is(notNullValue()));
+        Literature literature = (Literature) storeEntry.getCitation();
+        assertThat(literature.getPubmedId(), is(28751710L));
+        assertThat(storeEntry.hasStatistics(), is(true));
+        assertThat(storeEntry.getStatistics().getComputationallyMappedProteinCount(), is(9L));
+        assertThat(storeEntry.getStatistics().getCommunityMappedProteinCount(), is(2L));
+        assertThat(storeEntry.getStatistics().getReviewedProteinCount(), is(0L));
+        assertThat(storeEntry.getStatistics().getUnreviewedProteinCount(), is(0L));
+
     }
 }
