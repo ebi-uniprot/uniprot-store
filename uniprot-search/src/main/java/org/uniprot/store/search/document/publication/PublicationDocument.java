@@ -51,12 +51,9 @@ public class PublicationDocument implements Document {
     @Field("reviewed_mapped_protein_count")
     private Long reviewedMappedProteinCount;
 
-    // TODO: 06/01/2021 needed for facets
     @Field("is_large_scale")
     private boolean isLargeScale;
 
-    // to be list of MappedReferences of different types viz. uniprot(reviewed/unreviewed),
-    // community and computational
     @Field("publication_obj")
     private byte[] publicationMappedReferences;
 
