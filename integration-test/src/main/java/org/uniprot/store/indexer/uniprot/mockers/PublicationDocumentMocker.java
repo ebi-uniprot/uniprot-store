@@ -1,13 +1,17 @@
 package org.uniprot.store.indexer.uniprot.mockers;
 
+import org.uniprot.core.citation.impl.SubmissionBuilder;
 import org.uniprot.core.publication.*;
 import org.uniprot.core.publication.impl.*;
-import org.uniprot.store.indexer.publication.common.PublicationUtils;
+import org.uniprot.core.uniprotkb.ReferenceCommentType;
+import org.uniprot.core.uniprotkb.impl.ReferenceCommentBuilder;
 import org.uniprot.store.search.document.publication.PublicationDocument;
 
 import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.ThreadLocalRandom;
+
+import static org.uniprot.store.indexer.publication.common.PublicationUtils.asBinary;
 
 /**
  * Created 08/01/2021
@@ -30,6 +34,75 @@ public class PublicationDocumentMocker {
         CATEGORIES.add("Structure");
     }
 
+    public static PublicationDocument createWithoutPubmed(int accessionNumber) {
+        UniProtKBMappedReference kbRef =
+                new UniProtKBMappedReferenceBuilder()
+                        .source(new MappedSourceBuilder().name("source 3").id("id 3").build())
+                        .citation(new SubmissionBuilder().title("Submission").build())
+                        .uniProtKBAccession(generateAccession(accessionNumber))
+                        .sourceCategoriesAdd(
+                                CATEGORIES.stream()
+                                        .findAny()
+                                        .orElseThrow(IllegalStateException::new))
+                        .referencePositionsAdd("Reference position 1")
+                        .referenceCommentsAdd(
+                                new ReferenceCommentBuilder()
+                                        .type(ReferenceCommentType.PLASMID)
+                                        .build())
+                        .build();
+
+        MappedPublications publications =
+                new MappedPublicationsBuilder().reviewedMappedReference(kbRef).build();
+
+        return populateDocumentWithoutPubmedOrMappedProteins(accessionNumber)
+                .pubMedId(null)
+                .publicationMappedReferences(asBinary(publications))
+                .build();
+    }
+
+    private static PublicationDocument.PublicationDocumentBuilder
+            populateDocumentWithoutPubmedOrMappedProteins(int accessionNumber) {
+        int randomCategoriesSize = ThreadLocalRandom.current().nextInt(0, CATEGORIES.size() + 1);
+        Set<String> randomCategories = new HashSet<>();
+        int count = 0;
+        for (String category : CATEGORIES) {
+            randomCategories.add(category);
+            if (++count >= randomCategoriesSize) {
+                break;
+            }
+        }
+
+        long communityMappedProteinCount = ThreadLocalRandom.current().nextLong(0, 11);
+        long computationalMappedProteinCount = ThreadLocalRandom.current().nextLong(0, 21);
+        long reviewedMappedProteinCount = ThreadLocalRandom.current().nextLong(0, 31);
+        long unreviewedMappedProteinCount = ThreadLocalRandom.current().nextLong(0, 11);
+        String accession = generateAccession(accessionNumber);
+        return PublicationDocument.builder()
+                .accession(accession)
+                .categories(randomCategories)
+                .mainType(
+                        MappedReferenceType.getType(
+                                        ThreadLocalRandom.current()
+                                                .nextInt(0, MappedReferenceType.values().length))
+                                .getIntValue())
+                .communityMappedProteinCount(communityMappedProteinCount)
+                .computationalMappedProteinCount(computationalMappedProteinCount)
+                .reviewedMappedProteinCount(reviewedMappedProteinCount)
+                .unreviewedMappedProteinCount(unreviewedMappedProteinCount)
+                .isLargeScale(
+                        (communityMappedProteinCount
+                                        + computationalMappedProteinCount
+                                        + unreviewedMappedProteinCount
+                                        + reviewedMappedProteinCount)
+                                > 50)
+                .refNumber(0)
+                .type(MappedReferenceType.COMPUTATIONAL.getIntValue());
+    }
+
+    private static String generateAccession(int accessionNumber) {
+        return String.format("P%05d", accessionNumber);
+    }
+
     public static PublicationDocument create(int accessionNumber, int pubmedNumber) {
         int randomCategoriesSize = ThreadLocalRandom.current().nextInt(0, CATEGORIES.size() + 1);
         Set<String> randomCategories = new HashSet<>();
@@ -45,8 +118,8 @@ public class PublicationDocumentMocker {
         long computationalMappedProteinCount = ThreadLocalRandom.current().nextLong(0, 21);
         long reviewedMappedProteinCount = ThreadLocalRandom.current().nextLong(0, 31);
         long unreviewedMappedProteinCount = ThreadLocalRandom.current().nextLong(0, 11);
-        String accession = String.format("P%05d", accessionNumber);
-        String pubMedId = String.format("%010d", pubmedNumber);
+        String accession = generateAccession(accessionNumber);
+        String pubMedId = generatePubMedId(pubmedNumber);
         return PublicationDocument.builder()
                 .accession(accession)
                 .pubMedId(pubMedId)
@@ -70,6 +143,10 @@ public class PublicationDocumentMocker {
                 .type(MappedReferenceType.COMPUTATIONAL.getIntValue())
                 .publicationMappedReferences(getMappedPublications(accession, pubMedId))
                 .build();
+    }
+
+    private static String generatePubMedId(int pubmedNumber) {
+        return String.format("%010d", pubmedNumber);
     }
 
     private static byte[] getMappedPublications(String accession, String pubMedId) {
@@ -100,7 +177,7 @@ public class PublicationDocumentMocker {
 
         UniProtKBMappedReference kbRef =
                 new UniProtKBMappedReferenceBuilder()
-                        .source(new MappedSourceBuilder().name("source 2").id("id 2").build())
+                        .source(new MappedSourceBuilder().name("source 3").id("id 3").build())
                         .pubMedId(pubMedId)
                         .uniProtKBAccession(accession)
                         .sourceCategoriesAdd(
@@ -108,6 +185,10 @@ public class PublicationDocumentMocker {
                                         .findAny()
                                         .orElseThrow(IllegalStateException::new))
                         .referencePositionsAdd("Reference position 1")
+                        .referenceCommentsAdd(
+                                new ReferenceCommentBuilder()
+                                        .type(ReferenceCommentType.PLASMID)
+                                        .build())
                         .build();
 
         MappedPublications mappedPublications =
@@ -117,6 +198,6 @@ public class PublicationDocumentMocker {
                         .reviewedMappedReference(kbRef)
                         .build();
 
-        return PublicationUtils.asBinary(mappedPublications);
+        return asBinary(mappedPublications);
     }
 }
