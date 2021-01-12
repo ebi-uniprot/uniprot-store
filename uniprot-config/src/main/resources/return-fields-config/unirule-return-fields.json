@@ -1,0 +1,74 @@
+[
+  {
+    "seqNumber": 0,
+    "itemType": "GROUP",
+    "groupName": "UniRule",
+    "isDatabaseGroup": false,
+    "id": "unirule"
+  },
+  {
+    "parentId": "unirule",
+    "childNumber": 0,
+    "itemType": "SINGLE",
+    "includeInSwagger": true,
+    "isRequiredForJson": true,
+    "isDefaultForTsv": true,
+    "defaultForTsvOrder" : 0,
+    "label": "UniRule ID",
+    "name": "uniRuleId",
+    "paths" : ["uniRuleId"],
+    "id": "unirule_id",
+    "sortField": "unirule_id"
+  },
+  {
+    "parentId": "unirule",
+    "childNumber": 1,
+    "itemType": "SINGLE",
+    "name": "template_entries",
+    "label": "Template Entries",
+    "id": "template_entries",
+    "isDefaultForTsv": true,
+    "defaultForTsvOrder" : 1,
+    "paths": [
+      "information.uniProtAccessions[*]"
+    ]
+  },
+  {
+    "parentId": "unirule",
+    "childNumber": 2,
+    "itemType": "SINGLE",
+    "name": "proteins_annotated",
+    "label": "Proteins annotated",
+    "id": "proteins_annotated",
+    "paths": [
+      "proteinsAnnotatedCount"
+    ]
+  },
+  {
+    "parentId": "unirule",
+    "childNumber": 3,
+    "itemType": "SINGLE",
+    "name": "taxonomic_scope",
+    "label": "Taxonomic scope",
+    "id": "taxonomic_scope",
+    "paths":["mainRule.conditionSets[*].conditions[*]"]
+  },
+  {
+    "parentId": "unirule",
+    "childNumber": 4,
+    "itemType": "SINGLE",
+    "name": "annotation_covered",
+    "label": "Annotation covered",
+    "id": "annotation_covered",
+    "paths":["mainRule.annotations[*]"]
+  },
+  {
+    "parentId": "unirule",
+    "childNumber": 5,
+    "itemType": "SINGLE",
+    "name": "predicted_protein_name",
+    "label": "Predicted protein name",
+    "id": "predicted_protein_name",
+    "paths": ["mainRule.annotations[*]", "otherRules[*].annotations[*]"]
+  }
+]

@@ -6,6 +6,8 @@ import org.apache.spark.api.java.function.Function;
 import org.apache.spark.sql.Row;
 import org.uniprot.core.proteome.ProteomeEntry;
 import org.uniprot.core.proteome.impl.ProteomeEntryBuilder;
+import org.uniprot.core.uniprotkb.taxonomy.Taxonomy;
+import org.uniprot.core.uniprotkb.taxonomy.impl.TaxonomyBuilder;
 
 /**
  * Converts XML {@link Row} instances to {@link ProteomeEntry} instances.
@@ -20,9 +22,11 @@ public class DatasetProteomeEntryConverter implements Function<Row, ProteomeEntr
     @Override
     public ProteomeEntry call(Row row) throws Exception {
         ProteomeEntryBuilder builder = new ProteomeEntryBuilder();
-        builder.proteomeId(row.getString(row.fieldIndex("_upid")));
-        // put name from xml in description field just for setting it in SuggestDocument
-        builder.description(row.getString(row.fieldIndex("name")));
+        builder.proteomeId(row.getString(row.fieldIndex("upid")));
+        // put upid and taxonomy from xml just to set it in SuggestDocument
+        Taxonomy taxonomy =
+                new TaxonomyBuilder().taxonId(row.getInt(row.fieldIndex("taxonomy"))).build();
+        builder.taxonomy(taxonomy);
         return builder.build();
     }
 }

@@ -4,9 +4,11 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import org.junit.jupiter.api.Test;
-import org.uniprot.core.proteome.ProteomeEntry;
-import org.uniprot.core.proteome.impl.ProteomeEntryBuilder;
+import org.uniprot.core.taxonomy.TaxonomyEntry;
+import org.uniprot.core.taxonomy.impl.TaxonomyEntryBuilder;
 import org.uniprot.store.search.document.suggest.SuggestDocument;
+
+import scala.Tuple2;
 
 /**
  * @author sahmad
@@ -17,11 +19,12 @@ class ProteomeToSuggestDocumentTest {
     void testCreateDocument() throws Exception {
         String pId = "UP000008595";
         String pName = "Uukuniemi virus (strain S23) (Uuk)";
-        ProteomeEntryBuilder builder = new ProteomeEntryBuilder();
-        builder.proteomeId(pId).description(pName);
-        ProteomeEntry entry = builder.build();
+        TaxonomyEntryBuilder builder = new TaxonomyEntryBuilder();
+        builder.taxonId(11111).scientificName(pName);
+        TaxonomyEntry entry = builder.build();
+        Tuple2<String, TaxonomyEntry> tuple = new Tuple2<>(pId, entry);
         ProteomeToSuggestDocument documentConverter = new ProteomeToSuggestDocument();
-        SuggestDocument document = documentConverter.call(entry);
+        SuggestDocument document = documentConverter.call(tuple);
         assertNotNull(document);
         assertEquals(pId, document.id);
         assertEquals(pName, document.value);

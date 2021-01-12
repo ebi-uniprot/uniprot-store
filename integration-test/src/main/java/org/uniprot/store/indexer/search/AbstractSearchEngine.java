@@ -63,6 +63,10 @@ public abstract class AbstractSearchEngine<E> implements BeforeAllCallback, Afte
 
         Document document = documentConverter.convert(entry);
 
+        saveDocument(document);
+    }
+
+    protected void saveDocument(Document document) {
         try {
             server.addBean(document);
             server.commit();
@@ -79,12 +83,7 @@ public abstract class AbstractSearchEngine<E> implements BeforeAllCallback, Afte
         Document document = documentConverter.convert(entry);
         docTransformer.accept(document);
 
-        try {
-            server.addBean(document);
-            server.commit();
-        } catch (SolrServerException | IOException e) {
-            throw new IllegalStateException("Problem indexing document.", e);
-        }
+        saveDocument(document);
     }
 
     public void removeEntry(String entryId) {

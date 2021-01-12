@@ -1,0 +1,100 @@
+[
+  {
+    "id": "id",
+    "fieldName": "unirule_id",
+    "sortFieldId": "id_sort",
+    "fieldType": "GENERAL",
+    "dataType": "STRING",
+    "validRegex": "^UR[0-9]{9}$",
+    "description": "Search by UniRule identifier",
+    "example": "UR000100241"
+  },
+  {
+    "id": "id_sort",
+    "fieldName": "unirule_id",
+    "fieldType": "SORT",
+    "dataType": "STRING",
+    "description": "Sort by UniRule id",
+    "example": "unirule_id asc"
+  },
+  {
+    "id": "protein_name_field",
+    "label": "Protein Name [DE]",
+    "fieldName": "protein_name",
+    "fieldType": "GENERAL",
+    "itemType": "SINGLE",
+    "dataType": "STRING",
+    "description": "Search by UniProtKB Protein name",
+    "example": "mas5"
+  },
+  {
+    "id": "gene_name_field",
+    "label": "Gene Name [GN]",
+    "fieldName": "gene",
+    "fieldType": "GENERAL",
+    "dataType": "STRING",
+    "itemType": "SINGLE",
+    "description": "Search by UniProtKB gene name",
+    "example": "ydj1"
+  },
+  {
+    "id": "organism_field",
+    "label": "Organism [OS]",
+    "dataType": "STRING",
+    "fieldName": "organism",
+    "fieldType": "GENERAL",
+    "itemType": "SINGLE",
+    "description": "Search by Organism name",
+    "example": "saccharomyces"
+  },
+  {
+    "id": "taxonomy_field",
+    "label": "Taxonomy [OC]",
+    "dataType": "STRING",
+    "fieldName": "taxonomy",
+    "fieldType": "GENERAL",
+    "itemType": "SINGLE",
+    "description": "Search by NCBI taxonomy",
+    "example": "human"
+  },
+  {
+    "id": "keyword_field",
+    "label": "Keyword [KW]",
+    "fieldName": "keyword",
+    "fieldType": "GENERAL",
+    "dataType": "STRING",
+    "itemType": "SINGLE",
+    "description": "Search by keyword",
+    "example": "chromosomal"
+  },
+  {
+    "id": "go_field",
+    "label": "Gene Ontology [GO]",
+    "itemType": "SINGLE",
+    "fieldName": "go",
+    "fieldType": "GENERAL",
+    "dataType": "STRING",
+    "description": "Search by GO term",
+    "example": "0009986"
+  },
+  {
+    "id": "feature_type_field",
+    "label": "Feature Type",
+    "fieldName": "feature_type",
+    "itemType": "SINGLE",
+    "fieldType": "GENERAL",
+    "dataType": "STRING",
+    "description": "Search by feature type",
+    "example": "transmembrane"
+  },
+  {
+    "id": "condition_value_field",
+    "label": "Condition Value",
+    "fieldName": "condition_value",
+    "itemType": "SINGLE",
+    "fieldType": "GENERAL",
+    "dataType": "STRING",
+    "description": "Search by condition value",
+    "example": "sample condition value"
+  }
+]

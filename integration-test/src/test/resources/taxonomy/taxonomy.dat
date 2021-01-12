@@ -1,5 +1,14 @@
 1	\N	1	0	no rank	1	0	root	\N	root	\N	\N	9ZZZZ	1	2506016
 2	1	0	0	superkingdom	11	0	Bacteria	eubacteria	Bacteria	\N	\N	9BACT	17987	771760
+2157	131567	0	0	superkingdom	11	0	Archaea	\N	Archaea	\N	\N	9ARCH	1482387	1509548
+2759	131567	0	0	superkingdom	1	1	Eukaryota	eucaryotes	Eukaryota	\N	\N	9EUKA	1509549	4547344
+10239	1	0	0	superkingdom	1	0	Viruses	\N	Viruses	\N	\N	9VIRU	2	421295
+289376	2	1	0	no rank	11	0	Thermodesulfovibrio yellowstonii DSM 11347	\N	Thermodesulfovibrio yellowstonii (strain ATCC 51303 / DSM 11347 / YP87)	\N	\N	THEYD	906512	906513
+12185	10239	1	0	no rank	1	0	Potato virus X (strain X3)	\N	Potato virus X (strain X3)	PVX	\N	PVXX3	298447	298448
+11049	10239	1	0	no rank	1	0	Lelystad virus	\N	Porcine reproductive and respiratory syndrome virus (strain Lelystad)	PRRSV	\N	PRRSL	307795	307798
+60714	10239	1	0	species	1	0	Galinsoga mosaic virus	\N	Galinsoga mosaic virus	GaMV	\N	GAMV	303401	303402
+1076255	10239	1	0	species	1	0	Yokapox virus	\N	Yokapox virus	\N	\N	\N	418965	418966
+1559365	10239	1	1	no rank	1	0	Turnip curly top virus isolate Turnip/South Africa/B11/2006	\N	Turnip curly top virus (isolate Turnip/South Africa/B11/2006)	TCTV	\N	TCTVB	415263	415264
 6	335928	0	0	genus	11	0	Azorhizobium	\N	Azorhizobium	\N	\N	\N	532256	532439
 7	6	1	0	species	11	0	Azorhizobium caulinodans	\N	Azorhizobium caulinodans	\N	\N	AZOCA	532287	532290
 9	32199	1	0	species	11	0	Buchnera aphidicola	\N	Buchnera aphidicola	\N	\N	\N	749867	750404
