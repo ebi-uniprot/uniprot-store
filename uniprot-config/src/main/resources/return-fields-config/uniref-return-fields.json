@@ -98,7 +98,7 @@
     "sortField": "length",
     "name": "length",
     "label": "Length",
-    "paths": ["representativeMember.sequence.length","sequenceLength"],
+    "paths": ["representativeMember.sequence.length"],
     "id": "miscellaneous/length",
     "includeInSwagger": true
   },
@@ -108,7 +108,7 @@
     "itemType": "SINGLE",
     "name": "sequence",
     "label": "Reference sequence",
-    "paths": ["representativeMember.sequence.value","sequence"],
+    "paths": ["representativeMember.sequence.value"],
     "id": "miscellaneous/sequence",
     "includeInSwagger": true
   },
