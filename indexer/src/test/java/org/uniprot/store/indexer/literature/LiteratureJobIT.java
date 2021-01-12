@@ -125,6 +125,8 @@ class LiteratureJobIT {
         assertThat(storeEntry, is(notNullValue()));
         validateLiteratureEntry(storeEntry);
         validateWithCommunityReference();
+        verifySearchInAbstract();
+        verifySearchInAuthoringGroup();
     }
 
     private void validateLiteratureEntry(LiteratureEntry entry) {
@@ -188,7 +190,8 @@ class LiteratureJobIT {
 
     private void validateWithCommunityReference() throws IOException {
         SolrQuery solrQuery = new SolrQuery("id:28751710");
-        List<LiteratureDocument> response = solrClient.query(SolrCollection.literature, solrQuery, LiteratureDocument.class);
+        List<LiteratureDocument> response =
+                solrClient.query(SolrCollection.literature, solrQuery, LiteratureDocument.class);
         assertThat(response, is(notNullValue()));
         assertThat(response.size(), is(1));
         LiteratureDocument literatureDocument = response.get(0);
@@ -207,6 +210,25 @@ class LiteratureJobIT {
         assertThat(storeEntry.getStatistics().getCommunityMappedProteinCount(), is(2L));
         assertThat(storeEntry.getStatistics().getReviewedProteinCount(), is(0L));
         assertThat(storeEntry.getStatistics().getUnreviewedProteinCount(), is(0L));
+    }
 
+    private void verifySearchInAbstract(){
+        SolrQuery solrQuery = new SolrQuery("lit_abstract:carboxylate");
+        List<LiteratureDocument> response =
+                solrClient.query(SolrCollection.literature, solrQuery, LiteratureDocument.class);
+        assertThat(response, is(notNullValue()));
+        assertThat(response.size(), is(1));
+        LiteratureDocument literatureDocument = response.get(0);
+        assertThat(literatureDocument.getId(), is("44"));
+    }
+
+    private void verifySearchInAuthoringGroup(){
+        SolrQuery solrQuery = new SolrQuery("author_group:\"United Kingdom\"");
+        List<LiteratureDocument> response =
+                solrClient.query(SolrCollection.literature, solrQuery, LiteratureDocument.class);
+        assertThat(response, is(notNullValue()));
+        assertThat(response.size(), is(1));
+        LiteratureDocument literatureDocument = response.get(0);
+        assertThat(literatureDocument.getId(), is("16325696"));
     }
 }

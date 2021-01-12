@@ -73,8 +73,8 @@
     "includeInSwagger": true
   },
   {
-    "id": "citedin",
-    "fieldName": "citedin",
+    "id": "is_uniprotkb_mapped",
+    "fieldName": "is_uniprotkb_mapped",
     "fieldType": "GENERAL",
     "dataType": "BOOLEAN",
     "validRegex": "^true|false$",
@@ -82,8 +82,8 @@
     "example": "false"
   },
   {
-    "id": "mappedin",
-    "fieldName": "mappedin",
+    "id": "is_computational_mapped",
+    "fieldName": "is_computational_mapped",
     "fieldType": "GENERAL",
     "dataType": "BOOLEAN",
     "validRegex": "^true|false$",
@@ -91,11 +91,28 @@
     "example": "true"
   },
   {
-    "id": "content",
-    "fieldName": "content",
+    "id": "is_community_mapped",
+    "fieldName": "is_community_mapped",
+    "fieldType": "GENERAL",
+    "dataType": "BOOLEAN",
+    "validRegex": "^true|false$",
+    "description": "Search if mapped in",
+    "example": "true"
+  },
+  {
+    "id": "author_group",
+    "fieldName": "author_group",
     "fieldType": "GENERAL",
     "dataType": "STRING",
-    "description": "Search by any content",
-    "example": "sample"
+    "description": "Search by author group",
+    "example": "sample author group"
+  },
+  {
+    "id": "lit_abstract",
+    "fieldName": "lit_abstract",
+    "fieldType": "GENERAL",
+    "dataType": "STRING",
+    "description": "Search in abstract",
+    "example": "sample word from abstract"
   }
 ]

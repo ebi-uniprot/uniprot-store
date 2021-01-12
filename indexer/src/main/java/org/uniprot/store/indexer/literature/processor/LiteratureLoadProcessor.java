@@ -1,6 +1,7 @@
 package org.uniprot.store.indexer.literature.processor;
 
 import java.nio.ByteBuffer;
+import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -84,6 +85,14 @@ public class LiteratureLoadProcessor implements ItemProcessor<LiteratureEntry, L
             builder.isCommunityMapped(statistics.hasCommunityMappedProteinCount());
             builder.isUniprotkbMapped(
                     statistics.hasReviewedProteinCount() || statistics.hasUnreviewedProteinCount());
+        }
+
+        if (literature.hasLiteratureAbstract()) {
+            builder.litAbstract(literature.getLiteratureAbstract());
+        }
+
+        if (literature.hasAuthoringGroup()) {
+            builder.authorGroups(new HashSet<>(literature.getAuthoringGroups()));
         }
 
         byte[] literatureByte = getLiteratureObjectBinary(entry);

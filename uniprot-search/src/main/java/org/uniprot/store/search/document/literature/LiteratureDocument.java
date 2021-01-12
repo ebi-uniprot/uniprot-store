@@ -30,6 +30,12 @@ public class LiteratureDocument implements Document {
 
     @Field private String published;
 
+    @Field("lit_abstract")
+    private String litAbstract;
+
+    @Field("author_group")
+    private Set<String> authorGroups;
+
     @Field("is_uniprotkb_mapped")
     private boolean isUniprotkbMapped;
 
