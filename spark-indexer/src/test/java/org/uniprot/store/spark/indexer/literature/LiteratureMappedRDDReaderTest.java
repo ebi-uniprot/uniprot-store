@@ -49,7 +49,7 @@ class LiteratureMappedRDDReaderTest {
             List<LiteratureMappedReference> mappedReferences = new ArrayList<>();
             tuple._2.forEach(mappedReferences::add);
 
-            assertEquals(9, mappedReferences.size());
+            assertEquals(11, mappedReferences.size());
             LiteratureMappedReference first = mappedReferences.get(0);
             assertEquals("B5U9V4", first.getUniprotAccession().getValue());
         }
@@ -67,12 +67,12 @@ class LiteratureMappedRDDReaderTest {
                             .build();
 
             LiteratureMappedRDDReader reader = new LiteratureMappedRDDReader(parameter);
-            JavaPairRDD<String, Iterable<String>> mappedReferenceRdd =
+            JavaPairRDD<String, Iterable<Tuple2<String, String>>> mappedReferenceRdd =
                     reader.loadAccessionPubMedRDD();
             assertNotNull(mappedReferenceRdd);
             long count = mappedReferenceRdd.count();
             assertEquals(43L, count);
-            Tuple2<String, Iterable<String>> tuple =
+            Tuple2<String, Iterable<Tuple2<String, String>>> tuple =
                     mappedReferenceRdd.filter(tuple2 -> tuple2._1.equals("P38145")).first();
 
             assertNotNull(tuple);
@@ -81,8 +81,11 @@ class LiteratureMappedRDDReaderTest {
 
             assertNotNull(tuple._2);
             List<String> mappedReferences = new ArrayList<>();
-            tuple._2.forEach(mappedReferences::add);
-
+            for (Tuple2<String, String> srcPubMedId : tuple._2) {
+                if (!"ORCID".equalsIgnoreCase(srcPubMedId._1)) {
+                    mappedReferences.add(srcPubMedId._2);
+                }
+            }
             assertEquals(1, mappedReferences.size());
             assertEquals("5312045", mappedReferences.get(0));
         }

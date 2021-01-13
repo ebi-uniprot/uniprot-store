@@ -11,7 +11,8 @@ import scala.Tuple2;
  * @author lgonzales
  * @since 2019-12-21
  */
-public class LiteraturePubmedFileMapper implements PairFunction<String, String, String> {
+public class LiteraturePubmedFileMapper
+        implements PairFunction<String, String, Tuple2<String, String>> {
     private static final long serialVersionUID = -8880755540151733726L;
 
     /**
@@ -19,10 +20,12 @@ public class LiteraturePubmedFileMapper implements PairFunction<String, String, 
      * @return JavaPairRDD{key=Uniprot accession, value=PubmedId}
      */
     @Override
-    public Tuple2<String, String> call(String entryString) throws Exception {
+    public Tuple2<String, Tuple2<String, String>> call(String entryString) throws Exception {
         String[] lineFields = entryString.split("\t");
         String accession = lineFields[0];
+        String sourceType = lineFields[1];
         String pubmedId = lineFields[2];
-        return new Tuple2<>(accession, pubmedId);
+        Tuple2<String, String> sourceTypePubMedId = new Tuple2<>(sourceType, pubmedId);
+        return new Tuple2<>(accession, sourceTypePubMedId);
     }
 }

@@ -13,11 +13,6 @@ import org.uniprot.core.uniprotkb.ReferenceCommentType;
 import org.uniprot.core.uniprotkb.impl.ReferenceCommentBuilder;
 import org.uniprot.store.search.document.publication.PublicationDocument;
 
-import java.util.*;
-import java.util.concurrent.ThreadLocalRandom;
-
-import static org.uniprot.store.indexer.publication.common.PublicationUtils.asBinary;
-
 /**
  * Created 08/01/2021
  *

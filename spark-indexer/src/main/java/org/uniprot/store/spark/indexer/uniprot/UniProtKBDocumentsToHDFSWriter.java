@@ -38,6 +38,8 @@ import org.uniprot.store.spark.indexer.uniprot.mapper.UniRefMappedToUniprotDocum
 import org.uniprot.store.spark.indexer.uniprot.mapper.model.MappedUniRef;
 import org.uniprot.store.spark.indexer.uniref.UniRefRDDTupleReader;
 
+import scala.Tuple2;
+
 /**
  * This class is responsible to load all the data for UniProtDocument and save it into HDFS
  *
@@ -242,13 +244,13 @@ public class UniProtKBDocumentsToHDFSWriter implements DocumentsToHDFSWriter {
 
     /**
      * @param uniProtDocumentRDD current JavaPairRDD<accesion, UniProtDocument>
-     * @return JavaPairRDD<accesion, UniProtDocument> with mapped PIR Computationally mapped pubmed
-     *     ids
+     * @return JavaPairRDD<accesion, UniProtDocument> with mapped PIR Computationally and community
+     *     mapped pubmed ids
      */
     JavaPairRDD<String, UniProtDocument> joinLiteratureMapped(
             JavaPairRDD<String, UniProtDocument> uniProtDocumentRDD) {
         LiteratureMappedRDDReader literatureReader = new LiteratureMappedRDDReader(parameter);
-        JavaPairRDD<String, Iterable<String>> literatureMappedRDD =
+        JavaPairRDD<String, Iterable<Tuple2<String, String>>> literatureMappedRDD =
                 literatureReader.loadAccessionPubMedRDD();
         return uniProtDocumentRDD
                 .leftOuterJoin(literatureMappedRDD)
