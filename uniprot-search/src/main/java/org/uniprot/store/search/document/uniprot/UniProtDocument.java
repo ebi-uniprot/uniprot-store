@@ -339,8 +339,11 @@ public class UniProtDocument implements Document {
     @Field("uniref_cluster_100")
     public String unirefCluster100;
 
-    @Field("mapped_citation")
-    public List<String> mappedCitation = new ArrayList<>();
+    @Field("computational_pubmed_id")
+    public List<String> computationalPubmedIds = new ArrayList<>();
+
+    @Field("community_pubmed_id")
+    public List<String> communityPubmedIds = new ArrayList<>();
 
     @Field("uniparc")
     public String uniparc;
@@ -464,7 +467,8 @@ public class UniProtDocument implements Document {
                 && Objects.equals(unirefCluster50, that.unirefCluster50)
                 && Objects.equals(unirefCluster90, that.unirefCluster90)
                 && Objects.equals(unirefCluster100, that.unirefCluster100)
-                && Objects.equals(mappedCitation, that.mappedCitation)
+                && Objects.equals(computationalPubmedIds, that.computationalPubmedIds)
+                && Objects.equals(communityPubmedIds, that.communityPubmedIds)
                 && Objects.equals(uniparc, that.uniparc);
     }
 
@@ -580,7 +584,8 @@ public class UniProtDocument implements Document {
                 unirefCluster50,
                 unirefCluster90,
                 unirefCluster100,
-                mappedCitation,
+                computationalPubmedIds,
+                communityPubmedIds,
                 uniparc);
     }
 
@@ -819,8 +824,11 @@ public class UniProtDocument implements Document {
                 + ", unirefCluster100='"
                 + unirefCluster100
                 + '\''
-                + ", mappedCitation="
-                + mappedCitation
+                + ", computationalPubmedIds="
+                + computationalPubmedIds
+                + '\''
+                + ", communityPubmedIds="
+                + communityPubmedIds
                 + ", uniparc='"
                 + uniparc
                 + '\''

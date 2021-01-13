@@ -177,7 +177,9 @@
 		stored="false" required="false" multiValued="true" />
 	<field name="lit_journal" type="basic_ci" indexed="true"
 		stored="false" required="false" multiValued="true" />
-	<field name="mapped_citation" type="string" indexed="true"
+	<field name="computational_pubmed_id" type="string"
+		indexed="true" stored="false" required="false" multiValued="true" />
+	<field name="community_pubmed_id" type="string" indexed="true"
 		stored="false" required="false" multiValued="true" />
 
 	<field name="tissue" type="basic_ci" indexed="true"

@@ -11,6 +11,8 @@ import org.uniprot.core.literature.LiteratureMappedReference;
 import org.uniprot.store.spark.indexer.common.JobParameter;
 import org.uniprot.store.spark.indexer.common.reader.PairRDDReader;
 
+import scala.Tuple2;
+
 /**
  * Class responsible to load JavaPairRDD from PIR mapped files.
  *
@@ -49,9 +51,9 @@ public class LiteratureMappedRDDReader
     /**
      * load PubmedIds to a JavaPairRDD
      *
-     * @return JavaPairRDD{key=Uniprot accession, value=Iterable of PubmedId}
+     * @return JavaPairRDD{key=Uniprot accession, value=Iterable of [sourceType, PubmedId]}
      */
-    public JavaPairRDD<String, Iterable<String>> loadAccessionPubMedRDD() {
+    public JavaPairRDD<String, Iterable<Tuple2<String, String>>> loadAccessionPubMedRDD() {
         ResourceBundle config = jobParameter.getApplicationConfig();
         JavaSparkContext jsc = jobParameter.getSparkContext();
 

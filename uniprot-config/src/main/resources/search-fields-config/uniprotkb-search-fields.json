@@ -4274,5 +4274,21 @@
     "id": "cross_references",
     "itemType": "SINGLE",
     "seqNumber": 17
+  },
+  {
+    "id": "computational_pubmed_id",
+    "fieldName": "computational_pubmed_id",
+    "fieldType": "GENERAL",
+    "dataType": "STRING",
+    "description": "Search by PubMed ID",
+    "example": "15165820"
+  },
+  {
+    "id": "community_pubmed_id",
+    "fieldName": "community_pubmed_id",
+    "fieldType": "GENERAL",
+    "dataType": "STRING",
+    "description": "Search by PubMed ID",
+    "example": "15165820"
   }
 ]

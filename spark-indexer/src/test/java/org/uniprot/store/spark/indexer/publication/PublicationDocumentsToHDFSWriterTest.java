@@ -36,7 +36,7 @@ public class PublicationDocumentsToHDFSWriterTest {
             writer.writeIndexDocumentsToHDFS();
             List<PublicationDocument> savedDocuments = writer.getSavedDocuments();
             assertNotNull(savedDocuments);
-            assertEquals(5, savedDocuments.size());
+            assertEquals(7, savedDocuments.size());
         }
     }
 

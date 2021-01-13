@@ -171,13 +171,20 @@ class UniProtKBDocumentsToHDFSWriterTest {
         assertNotNull(result);
         assertEquals(2, result.size());
 
-        assertEquals(1, result.get(0).mappedCitation.size());
-        assertEquals("1358782", result.get(0).mappedCitation.get(0));
+        assertEquals(1, result.get(0).computationalPubmedIds.size());
+        assertEquals("1358782", result.get(0).computationalPubmedIds.get(0));
 
-        assertEquals(3, result.get(1).mappedCitation.size());
-        assertEquals("11203701", result.get(1).mappedCitation.get(0));
-        assertEquals("1358782", result.get(1).mappedCitation.get(1));
-        assertEquals("5312045", result.get(1).mappedCitation.get(2));
+        assertEquals(2, result.get(0).communityPubmedIds.size());
+        assertEquals("1358782", result.get(0).communityPubmedIds.get(0));
+        assertEquals("5312045", result.get(0).communityPubmedIds.get(1));
+
+        assertEquals(3, result.get(1).computationalPubmedIds.size());
+        assertEquals("11203701", result.get(1).computationalPubmedIds.get(0));
+        assertEquals("1358782", result.get(1).computationalPubmedIds.get(1));
+        assertEquals("5312045", result.get(1).computationalPubmedIds.get(2));
+
+        assertEquals(1, result.get(1).communityPubmedIds.size());
+        assertEquals("1358782", result.get(0).communityPubmedIds.get(0));
     }
 
     private UniProtDocument createUniProtDoc(String accession) {

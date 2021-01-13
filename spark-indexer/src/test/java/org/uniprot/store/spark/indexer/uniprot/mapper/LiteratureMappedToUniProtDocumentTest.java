@@ -22,31 +22,37 @@ class LiteratureMappedToUniProtDocumentTest {
         LiteratureMappedToUniProtDocument mapper = new LiteratureMappedToUniProtDocument();
         UniProtDocument doc = new UniProtDocument();
 
-        Tuple2<UniProtDocument, Optional<Iterable<String>>> tuple =
+        Tuple2<UniProtDocument, Optional<Iterable<Tuple2<String, String>>>> tuple =
                 new Tuple2<>(doc, Optional.empty());
         UniProtDocument result = mapper.call(tuple);
 
         assertNotNull(result);
-        assertNotNull(result.mappedCitation);
-        assertEquals(0, result.mappedCitation.size());
+        assertNotNull(result.computationalPubmedIds);
+        assertEquals(0, result.computationalPubmedIds.size());
     }
 
     @Test
     void testEntryWithCitations() throws Exception {
         LiteratureMappedToUniProtDocument mapper = new LiteratureMappedToUniProtDocument();
         UniProtDocument doc = new UniProtDocument();
-        List<String> citations = new ArrayList<>();
-        citations.add("123");
-        citations.add("456");
+        List<Tuple2<String, String>> citations = new ArrayList<>();
+        citations.add(new Tuple2<>("type1", "123"));
+        citations.add(new Tuple2<>("ORCID", "678"));
+        citations.add(new Tuple2<>("type2", "456"));
+        citations.add(new Tuple2<>("ORCID", "123"));
 
-        Tuple2<UniProtDocument, Optional<Iterable<String>>> tuple =
+        Tuple2<UniProtDocument, Optional<Iterable<Tuple2<String, String>>>> tuple =
                 new Tuple2<>(doc, Optional.of(citations));
         UniProtDocument result = mapper.call(tuple);
 
         assertNotNull(result);
-        assertNotNull(result.mappedCitation);
-        assertEquals(2, result.mappedCitation.size());
-        assertEquals("123", result.mappedCitation.get(0));
-        assertEquals("456", result.mappedCitation.get(1));
+        assertNotNull(result.computationalPubmedIds);
+        assertEquals(2, result.computationalPubmedIds.size());
+        assertEquals("123", result.computationalPubmedIds.get(0));
+        assertEquals("456", result.computationalPubmedIds.get(1));
+        assertNotNull(result.communityPubmedIds);
+        assertEquals(2, result.communityPubmedIds.size());
+        assertEquals("678", result.communityPubmedIds.get(0));
+        assertEquals("123", result.communityPubmedIds.get(1));
     }
 }
