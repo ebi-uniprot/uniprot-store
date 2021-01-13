@@ -57,14 +57,13 @@ public class PublicationDocumentMocker {
         MappedPublications publications =
                 new MappedPublicationsBuilder().reviewedMappedReference(kbRef).build();
 
-        return populateDocumentWithoutPubmedOrMappedProteins(accessionNumber)
-                .pubMedId(null)
+        return populateDocumentWithoutPubmedOrMappedPublications(accessionNumber)
                 .publicationMappedReferences(asBinary(publications))
                 .build();
     }
 
     private static PublicationDocument.PublicationDocumentBuilder
-            populateDocumentWithoutPubmedOrMappedProteins(int accessionNumber) {
+            populateDocumentWithoutPubmedOrMappedPublications(int accessionNumber) {
         int randomCategoriesSize = ThreadLocalRandom.current().nextInt(0, CATEGORIES.size() + 1);
         Set<String> randomCategories = new HashSet<>();
         int count = 0;
@@ -77,6 +76,7 @@ public class PublicationDocumentMocker {
         boolean isLargeScale = ThreadLocalRandom.current().nextBoolean();
         String accession = generateAccession(accessionNumber);
         return PublicationDocument.builder()
+                .id("" + ThreadLocalRandom.current().nextInt())
                 .accession(accession)
                 .categories(randomCategories)
                 .mainType(
@@ -94,32 +94,56 @@ public class PublicationDocumentMocker {
     }
 
     public static PublicationDocument create(int accessionNumber, int pubmedNumber) {
-        int randomCategoriesSize = ThreadLocalRandom.current().nextInt(0, CATEGORIES.size() + 1);
-        Set<String> randomCategories = new HashSet<>();
-        int count = 0;
-        for (String category : CATEGORIES) {
-            randomCategories.add(category);
-            if (++count >= randomCategoriesSize) {
-                break;
-            }
-        }
+        //
+        //        int randomCategoriesSize = ThreadLocalRandom.current().nextInt(0,
+        // CATEGORIES.size() + 1);
+        //        Set<String> randomCategories = new HashSet<>();
+        //        int count = 0;
+        //        for (String category : CATEGORIES) {
+        //            randomCategories.add(category);
+        //            if (++count >= randomCategoriesSize) {
+        //                break;
+        //            }
+        //        }
+        //
+        //        long communityMappedProteinCount = ThreadLocalRandom.current().nextLong(0, 11);
+        //        long computationalMappedProteinCount = ThreadLocalRandom.current().nextLong(0,
+        // 21);
+        //        long reviewedMappedProteinCount = ThreadLocalRandom.current().nextLong(0, 31);
+        //        long unreviewedMappedProteinCount = ThreadLocalRandom.current().nextLong(0, 11);
+        //        String accession = generateAccession(accessionNumber);
+        //        String pubMedId = generatePubMedId(pubmedNumber);
+        //        return PublicationDocument.builder()
+        //                .accession(accession)
+        //                .pubMedId(pubMedId)
+        //                .categories(randomCategories)
+        //                .mainType(
+        //                        MappedReferenceType.getType(
+        //                                        ThreadLocalRandom.current()
+        //                                                .nextInt(0,
+        // MappedReferenceType.values().length))
+        //                                .getIntValue())
+        //                .communityMappedProteinCount(communityMappedProteinCount)
+        //                .computationalMappedProteinCount(computationalMappedProteinCount)
+        //                .reviewedMappedProteinCount(reviewedMappedProteinCount)
+        //                .unreviewedMappedProteinCount(unreviewedMappedProteinCount)
+        //                .isLargeScale(
+        //                        (communityMappedProteinCount
+        //                                        + computationalMappedProteinCount
+        //                                        + unreviewedMappedProteinCount
+        //                                        + reviewedMappedProteinCount)
+        //                                > 50)
+        //                .refNumber(0)
+        //                .type(MappedReferenceType.COMPUTATIONAL.getIntValue())
+        //                .publicationMappedReferences(getMappedPublications(accession, pubMedId))
+        //                .build();
 
-        boolean isLargeScale = ThreadLocalRandom.current().nextBoolean();
-        String accession = generateAccession(accessionNumber);
-        String pubMedId = generatePubMedId(pubmedNumber);
-        return PublicationDocument.builder()
-                .accession(accession)
-                .pubMedId(pubMedId)
-                .categories(randomCategories)
-                .mainType(
-                        MappedReferenceType.getType(
-                                        ThreadLocalRandom.current()
-                                                .nextInt(0, MappedReferenceType.values().length))
-                                .getIntValue())
-                .isLargeScale(isLargeScale)
-                .refNumber(0)
+        return populateDocumentWithoutPubmedOrMappedPublications(accessionNumber)
+                .pubMedId(generatePubMedId(pubmedNumber))
                 .type(MappedReferenceType.COMPUTATIONAL.getIntValue())
-                .publicationMappedReferences(getMappedPublications(accession, pubMedId))
+                .publicationMappedReferences(
+                        getMappedPublications(
+                                generateAccession(accessionNumber), generatePubMedId(pubmedNumber)))
                 .build();
     }
 
