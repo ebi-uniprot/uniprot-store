@@ -2,6 +2,7 @@ package org.uniprot.store.indexer.uniprot.mockers;
 
 import static org.uniprot.store.indexer.publication.common.PublicationUtils.asBinary;
 
+import java.util.*;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.ThreadLocalRandom;
@@ -13,8 +14,6 @@ import org.uniprot.core.uniprotkb.ReferenceCommentType;
 import org.uniprot.core.uniprotkb.impl.ReferenceCommentBuilder;
 import org.uniprot.store.search.document.publication.PublicationDocument;
 
-import java.util.*;
-
 /**
  * Created 08/01/2021
  *
@@ -23,8 +22,7 @@ import java.util.*;
 public class PublicationDocumentMocker {
     private static final List<String> CATEGORIES = new ArrayList<>();
 
-    private PublicationDocumentMocker(){
-    }
+    private PublicationDocumentMocker() {}
 
     static {
         CATEGORIES.add("Expression");

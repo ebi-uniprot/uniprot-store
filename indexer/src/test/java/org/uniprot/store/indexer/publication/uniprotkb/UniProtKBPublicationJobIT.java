@@ -57,7 +57,7 @@ class UniProtKBPublicationJobIT {
     @Autowired private UniProtSolrClient solrClient;
 
     @BeforeEach
-    void setupSolr() throws Exception{
+    void setupSolr() throws Exception {
         LiteratureDocument litDoc = createLargeScaleLiterature(29748402);
         solrClient.saveBeans(SolrCollection.literature, Collections.singleton(litDoc));
         solrClient.commit(SolrCollection.literature);

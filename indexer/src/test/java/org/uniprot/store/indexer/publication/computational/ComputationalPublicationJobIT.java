@@ -27,7 +27,6 @@ import org.uniprot.core.publication.ComputationallyMappedReference;
 import org.uniprot.core.publication.MappedPublications;
 import org.uniprot.store.indexer.common.config.UniProtSolrClient;
 import org.uniprot.store.indexer.common.utils.Constants;
-import org.uniprot.store.indexer.publication.PublicationITUtil;
 import org.uniprot.store.indexer.publication.common.LargeScaleStep;
 import org.uniprot.store.indexer.test.config.FakeIndexerSpringBootApplication;
 import org.uniprot.store.indexer.test.config.SolrTestConfig;
@@ -53,7 +52,7 @@ class ComputationalPublicationJobIT {
     @Autowired private UniProtSolrClient solrClient;
 
     @BeforeEach
-    void setupSolr() throws Exception{
+    void setupSolr() throws Exception {
         LiteratureDocument litDoc = createLargeScaleLiterature(26551672);
         solrClient.saveBeans(SolrCollection.literature, Collections.singleton(litDoc));
         solrClient.commit(SolrCollection.literature);

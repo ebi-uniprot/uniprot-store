@@ -4,8 +4,6 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 import static org.uniprot.store.indexer.publication.PublicationITUtil.*;
 
-import java.io.IOException;
-import java.nio.ByteBuffer;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -13,7 +11,6 @@ import java.util.stream.Collectors;
 
 import org.apache.solr.client.solrj.SolrQuery;
 import org.hamcrest.CoreMatchers;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -25,18 +22,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.uniprot.core.json.parser.literature.LiteratureJsonConfig;
-import org.uniprot.core.json.parser.publication.MappedPublicationsJsonConfig;
-import org.uniprot.core.literature.LiteratureEntry;
-import org.uniprot.core.literature.LiteratureStatistics;
-import org.uniprot.core.literature.impl.LiteratureEntryBuilder;
-import org.uniprot.core.literature.impl.LiteratureStatisticsBuilder;
 import org.uniprot.core.publication.CommunityMappedReference;
 import org.uniprot.core.publication.MappedPublications;
 import org.uniprot.core.publication.MappedReferenceType;
 import org.uniprot.store.indexer.common.config.UniProtSolrClient;
 import org.uniprot.store.indexer.common.utils.Constants;
-import org.uniprot.store.indexer.publication.PublicationITUtil;
 import org.uniprot.store.indexer.publication.common.LargeScaleStep;
 import org.uniprot.store.indexer.test.config.FakeIndexerSpringBootApplication;
 import org.uniprot.store.indexer.test.config.SolrTestConfig;
@@ -44,8 +34,6 @@ import org.uniprot.store.job.common.listener.ListenerConfig;
 import org.uniprot.store.search.SolrCollection;
 import org.uniprot.store.search.document.literature.LiteratureDocument;
 import org.uniprot.store.search.document.publication.PublicationDocument;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 @ActiveProfiles(profiles = {"job", "offline"})
 @ExtendWith(SpringExtension.class)
@@ -64,7 +52,7 @@ class CommunityPublicationJobIT {
     @Autowired private UniProtSolrClient solrClient;
 
     @BeforeEach
-    void setupSolr() throws Exception{
+    void setupSolr() throws Exception {
         LiteratureDocument litDoc = createLargeScaleLiterature(27190215);
         solrClient.saveBeans(SolrCollection.literature, Collections.singleton(litDoc));
         solrClient.commit(SolrCollection.literature);

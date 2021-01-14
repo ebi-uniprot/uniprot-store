@@ -1,6 +1,8 @@
 package org.uniprot.store.indexer.publication;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import java.io.IOException;
+import java.nio.ByteBuffer;
+
 import org.uniprot.core.CrossReference;
 import org.uniprot.core.citation.Citation;
 import org.uniprot.core.citation.CitationDatabase;
@@ -16,8 +18,7 @@ import org.uniprot.core.publication.MappedPublications;
 import org.uniprot.store.search.document.literature.LiteratureDocument;
 import org.uniprot.store.search.document.publication.PublicationDocument;
 
-import java.io.IOException;
-import java.nio.ByteBuffer;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
  * @author lgonzales
@@ -34,31 +35,30 @@ public class PublicationITUtil {
                 document.getPublicationMappedReferences(), MappedPublications.class);
     }
 
-    public static LiteratureDocument createLargeScaleLiterature(int pubmedId) throws Exception{
+    public static LiteratureDocument createLargeScaleLiterature(int pubmedId) throws Exception {
 
+        CrossReference<CitationDatabase> xref =
+                new CrossReferenceBuilder<CitationDatabase>()
+                        .database(CitationDatabase.PUBMED)
+                        .id(String.valueOf(pubmedId))
+                        .build();
+        Citation citation = new JournalArticleBuilder().citationCrossReferencesAdd(xref).build();
 
-        CrossReference<CitationDatabase> xref = new CrossReferenceBuilder<CitationDatabase>()
-                .database(CitationDatabase.PUBMED)
-                .id(String.valueOf(pubmedId))
-                .build();
-        Citation citation = new JournalArticleBuilder()
-                .citationCrossReferencesAdd(xref)
-                .build();
+        LiteratureStatistics statistics =
+                new LiteratureStatisticsBuilder()
+                        .communityMappedProteinCount(10)
+                        .computationallyMappedProteinCount(20)
+                        .reviewedProteinCount(30)
+                        .unreviewedProteinCount(40)
+                        .build();
+        LiteratureEntry entry =
+                new LiteratureEntryBuilder().citation(citation).statistics(statistics).build();
 
-        LiteratureStatistics statistics = new LiteratureStatisticsBuilder()
-                .communityMappedProteinCount(10)
-                .computationallyMappedProteinCount(20)
-                .reviewedProteinCount(30)
-                .unreviewedProteinCount(40)
-                .build();
-        LiteratureEntry entry = new LiteratureEntryBuilder()
-                .citation(citation)
-                .statistics(statistics)
-                .build();
-
-        byte[] litBytes = LiteratureJsonConfig.getInstance()
-                .getFullObjectMapper().writer()
-                .writeValueAsBytes(entry);
+        byte[] litBytes =
+                LiteratureJsonConfig.getInstance()
+                        .getFullObjectMapper()
+                        .writer()
+                        .writeValueAsBytes(entry);
 
         return LiteratureDocument.builder()
                 .id(String.valueOf(pubmedId))
