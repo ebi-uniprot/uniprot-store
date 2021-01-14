@@ -50,8 +50,7 @@ public class Constants {
     public static final String UNIPROTKB_PUBLICATION_INDEX_STEP =
             "UNIPROTKB_PUBLICATION_INDEX_STEP";
 
-    public static final String PUBLICATION_LARGE_SCALE_STEP =
-            "PUBLICATION_LARGE_SCALE_STEP";
+    public static final String PUBLICATION_LARGE_SCALE_STEP = "PUBLICATION_LARGE_SCALE_STEP";
     public static final String COMPUTATIONAL_PUBLICATION_JOB_NAME =
             "COMPUTATIONAL_PUBLICATION_JOB_NAME";
     public static final String COMPUTATIONAL_PUBLICATION_INDEX_STEP =

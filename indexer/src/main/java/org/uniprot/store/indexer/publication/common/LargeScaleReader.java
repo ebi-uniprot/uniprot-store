@@ -5,6 +5,7 @@ import java.util.Optional;
 import java.util.Set;
 
 import lombok.extern.slf4j.Slf4j;
+
 import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.common.params.CursorMarkParams;
@@ -68,7 +69,7 @@ public class LargeScaleReader implements ItemReader<Set<String>> {
             }
             cursorMark = nextCursorMark;
         }
-        if(result.isEmpty()){
+        if (result.isEmpty()) {
             result = null;
         } else {
             hasFinished = true;

@@ -107,7 +107,8 @@ public class CommunityPublicationProcessor
                     .communityMappedReferencesAdd(reference)
                     .build();
         } catch (IOException e) {
-            throw new DocumentConversionException("Unable to parse MappedPublications to binary json: ", e);
+            throw new DocumentConversionException(
+                    "Unable to parse MappedPublications to binary json: ", e);
         }
     }
 
@@ -115,12 +116,11 @@ public class CommunityPublicationProcessor
     public void getStepExecution(final StepExecution stepExecution) {
         JobExecution jobExecution = stepExecution.getJobExecution();
         ExecutionContext context = jobExecution.getExecutionContext();
-        if(context.containsKey(Constants.PUBLICATION_LARGE_SCALE_KEY)) {
-            List<HashSet<String>> pubmedIds = (List<HashSet<String>>) context.get(Constants.PUBLICATION_LARGE_SCALE_KEY);
-            if(pubmedIds != null) {
-                pubmedIds.stream()
-                        .flatMap(Collection::stream)
-                        .forEach(largeScalePubmedIds::add);
+        if (context.containsKey(Constants.PUBLICATION_LARGE_SCALE_KEY)) {
+            List<HashSet<String>> pubmedIds =
+                    (List<HashSet<String>>) context.get(Constants.PUBLICATION_LARGE_SCALE_KEY);
+            if (pubmedIds != null) {
+                pubmedIds.stream().flatMap(Collection::stream).forEach(largeScalePubmedIds::add);
             }
         }
     }
