@@ -13,6 +13,10 @@ import org.springframework.context.annotation.Configuration;
         prefix = "uniprot.job",
         name = "name",
         havingValue = "computational-publications")
-@ComponentScan(basePackages = {"org.uniprot.store.indexer.publication.computational"})
+@ComponentScan(
+        basePackages = {
+            "org.uniprot.store.indexer.publication.computational",
+            "org.uniprot.store.indexer.publication.common"
+        })
 @Configuration
 public class ComputationalPublicationIndexingJobConfig {}

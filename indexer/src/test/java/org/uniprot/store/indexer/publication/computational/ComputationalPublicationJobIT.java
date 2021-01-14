@@ -3,14 +3,16 @@ package org.uniprot.store.indexer.publication.computational;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 import static org.uniprot.core.publication.MappedReferenceType.COMPUTATIONAL;
-import static org.uniprot.store.indexer.publication.community.CommunityPublicationJobIT.extractObject;
+import static org.uniprot.store.indexer.publication.PublicationITUtil.*;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.apache.solr.client.solrj.SolrQuery;
 import org.hamcrest.CoreMatchers;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.batch.core.BatchStatus;
@@ -25,10 +27,13 @@ import org.uniprot.core.publication.ComputationallyMappedReference;
 import org.uniprot.core.publication.MappedPublications;
 import org.uniprot.store.indexer.common.config.UniProtSolrClient;
 import org.uniprot.store.indexer.common.utils.Constants;
+import org.uniprot.store.indexer.publication.PublicationITUtil;
+import org.uniprot.store.indexer.publication.common.LargeScaleStep;
 import org.uniprot.store.indexer.test.config.FakeIndexerSpringBootApplication;
 import org.uniprot.store.indexer.test.config.SolrTestConfig;
 import org.uniprot.store.job.common.listener.ListenerConfig;
 import org.uniprot.store.search.SolrCollection;
+import org.uniprot.store.search.document.literature.LiteratureDocument;
 import org.uniprot.store.search.document.publication.PublicationDocument;
 
 @ActiveProfiles(profiles = {"job", "offline"})
@@ -39,12 +44,20 @@ import org.uniprot.store.search.document.publication.PublicationDocument;
             SolrTestConfig.class,
             ListenerConfig.class,
             ComputationalPublicationJob.class,
-            ComputationalPublicationStep.class
+            ComputationalPublicationStep.class,
+            LargeScaleStep.class
         })
 class ComputationalPublicationJobIT {
     @Autowired private JobLauncherTestUtils jobLauncher;
 
     @Autowired private UniProtSolrClient solrClient;
+
+    @BeforeEach
+    void setupSolr() throws Exception{
+        LiteratureDocument litDoc = createLargeScaleLiterature(26551672);
+        solrClient.saveBeans(SolrCollection.literature, Collections.singleton(litDoc));
+        solrClient.commit(SolrCollection.literature);
+    }
 
     @Test
     void testComputationalPublicationIndexingJob() throws Exception {
@@ -87,6 +100,7 @@ class ComputationalPublicationJobIT {
         assertThat(documents, hasSize(1));
 
         PublicationDocument document = documents.get(0);
+        assertThat(document.isLargeScale(), is(true));
 
         MappedPublications publications = extractObject(document);
         List<ComputationallyMappedReference> references =

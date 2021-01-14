@@ -11,6 +11,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.uniprot.store.indexer.common.config.SolrRepositoryConfig;
 import org.uniprot.store.indexer.common.utils.Constants;
+import org.uniprot.store.indexer.publication.common.LargeScaleSolrFieldName;
 
 /**
  * @author sahmad
@@ -28,12 +29,19 @@ public class UniProtKBPublicationJob {
 
     @Bean("indexUniProtKBPublicationJob")
     public Job indexUniProtKBPublicationData(
+            @Qualifier("cacheLargeScaleStep") Step cacheLargeScaleStep,
             @Qualifier("indexUniProtKBPublicationStep") Step indexUniProtKBPublicationStep,
             JobExecutionListener jobListener) {
         return this.jobBuilderFactory
                 .get(Constants.UNIPROTKB_PUBLICATION_JOB_NAME)
-                .start(indexUniProtKBPublicationStep)
+                .start(cacheLargeScaleStep)
+                .next(indexUniProtKBPublicationStep)
                 .listener(jobListener)
                 .build();
+    }
+
+    @Bean("largeScaleSolrFieldName")
+    public LargeScaleSolrFieldName largeScaleSolrFieldName() {
+        return LargeScaleSolrFieldName.UNIPROT_KB;
     }
 }

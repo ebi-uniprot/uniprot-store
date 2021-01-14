@@ -6,8 +6,9 @@ import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.Matchers.nullValue;
-import static org.uniprot.store.indexer.publication.community.CommunityPublicationJobIT.extractObject;
+import static org.uniprot.store.indexer.publication.PublicationITUtil.*;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -15,6 +16,7 @@ import java.util.stream.Collectors;
 
 import org.apache.solr.client.solrj.SolrQuery;
 import org.hamcrest.CoreMatchers;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.batch.core.BatchStatus;
@@ -30,10 +32,12 @@ import org.uniprot.core.publication.MappedReferenceType;
 import org.uniprot.core.publication.UniProtKBMappedReference;
 import org.uniprot.store.indexer.common.config.UniProtSolrClient;
 import org.uniprot.store.indexer.common.utils.Constants;
+import org.uniprot.store.indexer.publication.common.LargeScaleStep;
 import org.uniprot.store.indexer.test.config.FakeIndexerSpringBootApplication;
 import org.uniprot.store.indexer.test.config.SolrTestConfig;
 import org.uniprot.store.job.common.listener.ListenerConfig;
 import org.uniprot.store.search.SolrCollection;
+import org.uniprot.store.search.document.literature.LiteratureDocument;
 import org.uniprot.store.search.document.publication.PublicationDocument;
 
 @ActiveProfiles(profiles = {"job", "offline"})
@@ -44,12 +48,20 @@ import org.uniprot.store.search.document.publication.PublicationDocument;
             SolrTestConfig.class,
             ListenerConfig.class,
             UniProtKBPublicationJob.class,
-            UniProtKBPublicationStep.class
+            UniProtKBPublicationStep.class,
+            LargeScaleStep.class
         })
 class UniProtKBPublicationJobIT {
     @Autowired private JobLauncherTestUtils jobLauncher;
 
     @Autowired private UniProtSolrClient solrClient;
+
+    @BeforeEach
+    void setupSolr() throws Exception{
+        LiteratureDocument litDoc = createLargeScaleLiterature(29748402);
+        solrClient.saveBeans(SolrCollection.literature, Collections.singleton(litDoc));
+        solrClient.commit(SolrCollection.literature);
+    }
 
     @Test
     void testUniProtKBPublicationIndexingJob() throws Exception {
@@ -115,10 +127,14 @@ class UniProtKBPublicationJobIT {
                         SolrCollection.publication, accessionQuery, PublicationDocument.class);
         assertThat(accDocs, hasSize(2));
         assertThat(accDocs.get(0).getPubMedId(), is(notNullValue()));
-        MappedPublications mappedPubs = extractObject(accDocs.get(0));
+        PublicationDocument accDoc = accDocs.get(0);
+        assertThat(accDoc.getPubMedId(), is("29748402"));
+        assertThat(accDoc.isLargeScale(), is(true));
+        MappedPublications mappedPubs = extractObject(accDoc);
         assertThat(mappedPubs.getUnreviewedMappedReference().getCitation(), is(nullValue()));
         // without pubmedid
-        assertThat(accDocs.get(1).getPubMedId(), is(nullValue()));
+        accDoc = accDocs.get(1);
+        assertThat(accDoc.getPubMedId(), is(nullValue()));
         mappedPubs = extractObject(accDocs.get(1));
         assertThat(mappedPubs.getUnreviewedMappedReference().getCitation(), is(notNullValue()));
     }
