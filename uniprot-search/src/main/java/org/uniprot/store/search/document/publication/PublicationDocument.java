@@ -38,19 +38,6 @@ public class PublicationDocument implements Document {
 
     @Singular private Set<Integer> types = new HashSet<>();
 
-    // TODO: 06/01/2021 maybe remove all counts from this doc, and put inside literature document (so that counts are associated with the publication)
-    @Field("computational_mapped_protein_count")
-    private Long computationalMappedProteinCount;
-
-    @Field("community_mapped_protein_count")
-    private Long communityMappedProteinCount;
-
-    @Field("unreviewed_mapped_protein_count")
-    private Long unreviewedMappedProteinCount;
-
-    @Field("reviewed_mapped_protein_count")
-    private Long reviewedMappedProteinCount;
-
     @Field("is_large_scale")
     private boolean isLargeScale;
 

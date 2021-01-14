@@ -212,7 +212,7 @@ class LiteratureJobIT {
         assertThat(storeEntry.getStatistics().getUnreviewedProteinCount(), is(0L));
     }
 
-    private void verifySearchInAbstract(){
+    private void verifySearchInAbstract() {
         SolrQuery solrQuery = new SolrQuery("lit_abstract:carboxylate");
         List<LiteratureDocument> response =
                 solrClient.query(SolrCollection.literature, solrQuery, LiteratureDocument.class);
@@ -222,7 +222,7 @@ class LiteratureJobIT {
         assertThat(literatureDocument.getId(), is("44"));
     }
 
-    private void verifySearchInAuthoringGroup(){
+    private void verifySearchInAuthoringGroup() {
         SolrQuery solrQuery = new SolrQuery("author_group:\"United Kingdom\"");
         List<LiteratureDocument> response =
                 solrClient.query(SolrCollection.literature, solrQuery, LiteratureDocument.class);

@@ -41,6 +41,7 @@ public class Constants {
     public static final String LITERATURE_MAPPING_INDEX_STEP = "LITERATURE_MAPPING_INDEX_STEP";
     public static final String LITERATURE_LOAD_STATISTICS_STEP_NAME = "LITERATURE_LOAD_STATISTICS";
 
+    public static final String PUBLICATION_LARGE_SCALE_KEY = "largeScalePubmedIds";
     public static final String COMMUNITY_PUBLICATION_JOB_NAME = "COMMUNITY_PUBLICATION_JOB_NAME";
     public static final String COMMUNITY_PUBLICATION_INDEX_STEP =
             "COMMUNITY_PUBLICATION_INDEX_STEP";
@@ -49,6 +50,8 @@ public class Constants {
     public static final String UNIPROTKB_PUBLICATION_INDEX_STEP =
             "UNIPROTKB_PUBLICATION_INDEX_STEP";
 
+    public static final String PUBLICATION_LARGE_SCALE_STEP =
+            "PUBLICATION_LARGE_SCALE_STEP";
     public static final String COMPUTATIONAL_PUBLICATION_JOB_NAME =
             "COMPUTATIONAL_PUBLICATION_JOB_NAME";
     public static final String COMPUTATIONAL_PUBLICATION_INDEX_STEP =

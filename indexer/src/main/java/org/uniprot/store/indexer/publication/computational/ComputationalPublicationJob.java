@@ -18,6 +18,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.uniprot.store.indexer.common.config.SolrRepositoryConfig;
 import org.uniprot.store.indexer.common.utils.Constants;
+import org.uniprot.store.indexer.publication.common.LargeScaleSolrFieldName;
 
 @Configuration
 @Import({SolrRepositoryConfig.class})
@@ -31,12 +32,19 @@ public class ComputationalPublicationJob {
 
     @Bean("indexComputationalPublicationJob")
     public Job indexSupportingData(
+            @Qualifier("cacheLargeScaleStep") Step cacheLargeScaleStep,
             @Qualifier("IndexComputationalPublicationStep") Step indexComputationalPublicationStep,
             JobExecutionListener jobListener) {
         return this.jobBuilderFactory
                 .get(Constants.COMPUTATIONAL_PUBLICATION_JOB_NAME)
-                .start(indexComputationalPublicationStep)
+                .start(cacheLargeScaleStep)
+                .next(indexComputationalPublicationStep)
                 .listener(jobListener)
                 .build();
+    }
+
+    @Bean("largeScaleSolrFieldName")
+    public LargeScaleSolrFieldName largeScaleSolrFieldName() {
+        return LargeScaleSolrFieldName.COMMUNITY;
     }
 }

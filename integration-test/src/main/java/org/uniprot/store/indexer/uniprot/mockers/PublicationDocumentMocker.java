@@ -1,20 +1,17 @@
 package org.uniprot.store.indexer.uniprot.mockers;
 
+import static org.uniprot.store.indexer.publication.common.PublicationUtils.asBinary;
+
 import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.ThreadLocalRandom;
 
+import org.uniprot.core.citation.impl.SubmissionBuilder;
 import org.uniprot.core.publication.*;
 import org.uniprot.core.publication.impl.*;
 import org.uniprot.core.uniprotkb.ReferenceCommentType;
 import org.uniprot.core.uniprotkb.impl.ReferenceCommentBuilder;
 import org.uniprot.store.search.document.publication.PublicationDocument;
-
-import java.util.HashSet;
-import java.util.Set;
-import java.util.concurrent.ThreadLocalRandom;
-
-import static org.uniprot.store.indexer.publication.common.PublicationUtils.asBinary;
 
 /**
  * Created 08/01/2021
@@ -23,6 +20,9 @@ import static org.uniprot.store.indexer.publication.common.PublicationUtils.asBi
  */
 public class PublicationDocumentMocker {
     private static final Set<String> CATEGORIES = new HashSet<>();
+
+    private PublicationDocumentMocker(){
+    }
 
     static {
         CATEGORIES.add("Expression");
@@ -74,11 +74,7 @@ public class PublicationDocumentMocker {
                 break;
             }
         }
-
-        long communityMappedProteinCount = ThreadLocalRandom.current().nextLong(0, 11);
-        long computationalMappedProteinCount = ThreadLocalRandom.current().nextLong(0, 21);
-        long reviewedMappedProteinCount = ThreadLocalRandom.current().nextLong(0, 31);
-        long unreviewedMappedProteinCount = ThreadLocalRandom.current().nextLong(0, 11);
+        boolean isLargeScale = ThreadLocalRandom.current().nextBoolean();
         String accession = generateAccession(accessionNumber);
         return PublicationDocument.builder()
                 .accession(accession)
@@ -88,16 +84,7 @@ public class PublicationDocumentMocker {
                                         ThreadLocalRandom.current()
                                                 .nextInt(0, MappedReferenceType.values().length))
                                 .getIntValue())
-                .communityMappedProteinCount(communityMappedProteinCount)
-                .computationalMappedProteinCount(computationalMappedProteinCount)
-                .reviewedMappedProteinCount(reviewedMappedProteinCount)
-                .unreviewedMappedProteinCount(unreviewedMappedProteinCount)
-                .isLargeScale(
-                        (communityMappedProteinCount
-                                        + computationalMappedProteinCount
-                                        + unreviewedMappedProteinCount
-                                        + reviewedMappedProteinCount)
-                                > 50)
+                .isLargeScale(isLargeScale)
                 .refNumber(0)
                 .type(MappedReferenceType.COMPUTATIONAL.getIntValue());
     }
@@ -117,10 +104,7 @@ public class PublicationDocumentMocker {
             }
         }
 
-        long communityMappedProteinCount = ThreadLocalRandom.current().nextLong(0, 11);
-        long computationalMappedProteinCount = ThreadLocalRandom.current().nextLong(0, 21);
-        long reviewedMappedProteinCount = ThreadLocalRandom.current().nextLong(0, 31);
-        long unreviewedMappedProteinCount = ThreadLocalRandom.current().nextLong(0, 11);
+        boolean isLargeScale = ThreadLocalRandom.current().nextBoolean();
         String accession = generateAccession(accessionNumber);
         String pubMedId = generatePubMedId(pubmedNumber);
         return PublicationDocument.builder()
@@ -132,16 +116,7 @@ public class PublicationDocumentMocker {
                                         ThreadLocalRandom.current()
                                                 .nextInt(0, MappedReferenceType.values().length))
                                 .getIntValue())
-                .communityMappedProteinCount(communityMappedProteinCount)
-                .computationalMappedProteinCount(computationalMappedProteinCount)
-                .reviewedMappedProteinCount(reviewedMappedProteinCount)
-                .unreviewedMappedProteinCount(unreviewedMappedProteinCount)
-                .isLargeScale(
-                        (communityMappedProteinCount
-                                        + computationalMappedProteinCount
-                                        + unreviewedMappedProteinCount
-                                        + reviewedMappedProteinCount)
-                                > 50)
+                .isLargeScale(isLargeScale)
                 .refNumber(0)
                 .type(MappedReferenceType.COMPUTATIONAL.getIntValue())
                 .publicationMappedReferences(getMappedPublications(accession, pubMedId))

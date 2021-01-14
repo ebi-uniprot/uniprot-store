@@ -2,14 +2,19 @@ package org.uniprot.store.indexer.publication.community;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
+import static org.uniprot.store.indexer.publication.PublicationITUtil.*;
 
 import java.io.IOException;
+import java.nio.ByteBuffer;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.apache.solr.client.solrj.SolrQuery;
 import org.hamcrest.CoreMatchers;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.batch.core.BatchStatus;
@@ -20,16 +25,24 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.uniprot.core.json.parser.literature.LiteratureJsonConfig;
 import org.uniprot.core.json.parser.publication.MappedPublicationsJsonConfig;
+import org.uniprot.core.literature.LiteratureEntry;
+import org.uniprot.core.literature.LiteratureStatistics;
+import org.uniprot.core.literature.impl.LiteratureEntryBuilder;
+import org.uniprot.core.literature.impl.LiteratureStatisticsBuilder;
 import org.uniprot.core.publication.CommunityMappedReference;
 import org.uniprot.core.publication.MappedPublications;
 import org.uniprot.core.publication.MappedReferenceType;
 import org.uniprot.store.indexer.common.config.UniProtSolrClient;
 import org.uniprot.store.indexer.common.utils.Constants;
+import org.uniprot.store.indexer.publication.PublicationITUtil;
+import org.uniprot.store.indexer.publication.common.LargeScaleStep;
 import org.uniprot.store.indexer.test.config.FakeIndexerSpringBootApplication;
 import org.uniprot.store.indexer.test.config.SolrTestConfig;
 import org.uniprot.store.job.common.listener.ListenerConfig;
 import org.uniprot.store.search.SolrCollection;
+import org.uniprot.store.search.document.literature.LiteratureDocument;
 import org.uniprot.store.search.document.publication.PublicationDocument;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -42,15 +55,20 @@ import com.fasterxml.jackson.databind.ObjectMapper;
             SolrTestConfig.class,
             ListenerConfig.class,
             CommunityPublicationJob.class,
-            CommunityPublicationStep.class
+            CommunityPublicationStep.class,
+            LargeScaleStep.class
         })
-public class CommunityPublicationJobIT {
+class CommunityPublicationJobIT {
     @Autowired private JobLauncherTestUtils jobLauncher;
 
     @Autowired private UniProtSolrClient solrClient;
 
-    private static final ObjectMapper OBJECT_MAPPER =
-            MappedPublicationsJsonConfig.getInstance().getFullObjectMapper();
+    @BeforeEach
+    void setupSolr() throws Exception{
+        LiteratureDocument litDoc = createLargeScaleLiterature(27190215);
+        solrClient.saveBeans(SolrCollection.literature, Collections.singleton(litDoc));
+        solrClient.commit(SolrCollection.literature);
+    }
 
     @Test
     void testCommunityPublicationIndexingJob() throws Exception {
@@ -94,6 +112,7 @@ public class CommunityPublicationJobIT {
         assertThat(documents, hasSize(1));
 
         PublicationDocument document = documents.get(0);
+        assertThat(document.isLargeScale(), is(true));
 
         MappedPublications publications = extractObject(document);
         List<CommunityMappedReference> references = publications.getCommunityMappedReferences();
@@ -112,11 +131,5 @@ public class CommunityPublicationJobIT {
                 is(
                         "Required for TATA-binding protein 2 (TBP2) turnover by ubiquitin-like proteasome system."));
         assertThat(reference.getSourceCategories(), contains("Function"));
-    }
-
-    public static MappedPublications extractObject(PublicationDocument document)
-            throws IOException {
-        return OBJECT_MAPPER.readValue(
-                document.getPublicationMappedReferences(), MappedPublications.class);
     }
 }
