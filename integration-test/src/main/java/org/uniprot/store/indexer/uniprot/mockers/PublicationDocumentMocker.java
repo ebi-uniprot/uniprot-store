@@ -13,6 +13,8 @@ import org.uniprot.core.uniprotkb.ReferenceCommentType;
 import org.uniprot.core.uniprotkb.impl.ReferenceCommentBuilder;
 import org.uniprot.store.search.document.publication.PublicationDocument;
 
+import java.util.*;
+
 /**
  * Created 08/01/2021
  *
