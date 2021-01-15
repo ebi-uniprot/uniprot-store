@@ -33,6 +33,7 @@ import org.uniprot.core.publication.UniProtKBMappedReference;
 import org.uniprot.store.indexer.common.config.UniProtSolrClient;
 import org.uniprot.store.indexer.common.utils.Constants;
 import org.uniprot.store.indexer.publication.common.LargeScaleStep;
+import org.uniprot.store.indexer.publication.common.PublicationJobExecutionListener;
 import org.uniprot.store.indexer.test.config.FakeIndexerSpringBootApplication;
 import org.uniprot.store.indexer.test.config.SolrTestConfig;
 import org.uniprot.store.job.common.listener.ListenerConfig;
@@ -49,7 +50,8 @@ import org.uniprot.store.search.document.publication.PublicationDocument;
             ListenerConfig.class,
             UniProtKBPublicationJob.class,
             UniProtKBPublicationStep.class,
-            LargeScaleStep.class
+            LargeScaleStep.class,
+            PublicationJobExecutionListener.class
         })
 class UniProtKBPublicationJobIT {
     @Autowired private JobLauncherTestUtils jobLauncher;

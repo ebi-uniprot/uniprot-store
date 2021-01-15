@@ -31,7 +31,6 @@ public class UniProtPublicationWriter implements ItemWriter<List<PublicationDocu
                     items.stream().flatMap(Collection::stream).collect(Collectors.toList());
             if (!flattenItems.isEmpty()) {
                 this.uniProtSolrClient.saveBeans(SolrCollection.publication, flattenItems);
-                this.uniProtSolrClient.softCommit(SolrCollection.publication);
             }
         } catch (Exception error) {
             log.error("Error writing to solr: ", error);
