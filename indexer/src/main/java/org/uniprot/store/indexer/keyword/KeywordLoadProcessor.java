@@ -2,7 +2,6 @@ package org.uniprot.store.indexer.keyword;
 
 import java.nio.ByteBuffer;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -54,21 +53,14 @@ public class KeywordLoadProcessor implements ItemProcessor<KeywordEntry, Keyword
     }
 
     private KeywordDocument createKeywordDocument(KeywordEntry keywordEntry) {
-        // content is keyword id + keyword name + definition + synonyms
-        List<String> content = new ArrayList<>();
-        content.add(keywordEntry.getKeyword().getName());
-        content.add(keywordEntry.getKeyword().getId());
-        content.add(keywordEntry.getDefinition());
-        if (Utils.notNullNotEmpty(keywordEntry.getSynonyms())) {
-            content.addAll(keywordEntry.getSynonyms());
-        }
-
         // create Keyword document
         KeywordDocument.KeywordDocumentBuilder builder = KeywordDocument.builder();
         builder.id(keywordEntry.getKeyword().getId());
         builder.name(keywordEntry.getKeyword().getName());
-        builder.content(content);
-
+        builder.definition(keywordEntry.getDefinition());
+        if (Utils.notNullNotEmpty(keywordEntry.getSynonyms())) {
+            builder.synonyms(keywordEntry.getSynonyms());
+        }
         if (!keywordEntry.getParents().isEmpty()) {
             List<String> parents =
                     keywordEntry.getParents().stream()

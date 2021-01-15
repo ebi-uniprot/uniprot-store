@@ -27,15 +27,6 @@
 		stored="true" multiValued="true" />
 	<field name="dict" type="string" indexed="true" stored="false"
 		required="true" multiValued="false" />
-	<field name="basic_content" type="basic_ci" indexed="true"
-		stored="false" multiValued="true" />
-	<field name="content" type="suggester_ci" indexed="true"
-		stored="false" multiValued="true" />
-
-	<copyField source="id" dest="content" />
-	<copyField source="value" dest="content" />
-	<copyField source="altValue" dest="content" />
-
 	<fieldType name="pint" class="solr.IntPointField"
 		docValues="true" />
 	<fieldType name="importanceLevel" class="solr.EnumField"

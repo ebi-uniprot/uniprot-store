@@ -25,9 +25,12 @@
 
 	<field name="category" type="full_ci" indexed="true"
 		stored="false" />
-	<!-- For search on any field -->
-	<field name="content" type="full_ci" indexed="true"
+
+	<field name="definition" type="full_ci" indexed="true"
+		stored="false" />
+	<field name="synonym" type="full_ci" indexed="true"
 		stored="false" multiValued="true" />
+
 	<!-- the whole subcellularlocation object as binary -->
 	<field name="subcellularlocation_obj" type="binary"
 		indexed="false" stored="true" required="true" />

@@ -46,11 +46,19 @@
     "example": "id asc"
   },
   {
-    "id": "content",
-    "fieldName": "content",
+    "id": "synonym",
+    "fieldName": "synonym",
     "fieldType": "GENERAL",
     "dataType": "STRING",
-    "description": "Search by any content",
+    "description": "Search by synonym",
     "example": "cell"
+  },
+  {
+    "id": "definition",
+    "fieldName": "definition",
+    "fieldType": "GENERAL",
+    "dataType": "STRING",
+    "description": "Search by text in definition",
+    "example": "any"
   }
 ]

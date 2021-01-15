@@ -26,13 +26,5 @@
     "description": "Search by disease name",
     "example": "alzheimer disease",
     "includeInSwagger": true
-  },
-  {
-    "id": "content",
-    "fieldName": "content",
-    "fieldType": "GENERAL",
-    "dataType": "STRING",
-    "description": "Search by any content",
-    "example": "cancer"
   }
 ]

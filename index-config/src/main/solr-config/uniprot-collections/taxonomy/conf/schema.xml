@@ -50,9 +50,6 @@
 		docValues="true" />
 	<field name="annotated" type="boolean" indexed="true"
 		docValues="true" />
-
-	<field name="content" type="full_ci" indexed="true"
-		stored="false" multiValued="true" />
 	<!-- the whole taxonomy object as binary -->
 	<field name="taxonomy_obj" type="binary" indexed="false"
 		stored="true" required="true" multiValued="false" />
@@ -61,13 +58,6 @@
 		tables. <field name="replaces"/> -->
 
 	<copyField source="scientific" dest="name_sort" />
-	<copyField source="tax_id" dest="content" />
-	<copyField source="scientific" dest="content" />
-	<copyField source="common" dest="content" />
-	<copyField source="mnemonic" dest="content" />
-	<copyField source="strain" dest="content" />
-
-
 	<!-- =============================== field types =============================== -->
 	<fieldType name="plong" class="solr.LongPointField"
 		docValues="true" />

@@ -28,10 +28,13 @@ public class SubcellularLocationDocument implements Document {
 
     @Field private String category;
 
-    @Field private List<String> content;
-
     @Field("subcellularlocation_obj")
     private ByteBuffer subcellularlocationObj;
+
+    @Field private String definition;
+
+    @Field("synonym")
+    private List<String> synonyms;
 
     @Override
     public String getDocumentId() {

@@ -19,9 +19,7 @@
 	<field name="id" type="string" indexed="true" stored="true"
 		required="true" multiValued="false" docValues="true" /> <!-- AC -->
 	<field name="name" type="full_ci" indexed="true" stored="false"
-		multiValued="true" /> <!-- search field -->
-	<field name="content" type="full_ci" indexed="true"
-		stored="false" multiValued="true" /> <!-- search field -->
+		multiValued="true" />
 	<!-- the whole disease object as binary -->
 	<field name="disease_obj" type="binary" indexed="false"
 		stored="true" required="true" multiValued="false" />
