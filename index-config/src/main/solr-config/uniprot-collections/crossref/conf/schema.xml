@@ -39,8 +39,6 @@
 		stored="true" multiValued="false" />
 	<field name="category_facet" type="string" indexed="true"
 		stored="true" multiValued="false" docValues="true" />
-	<field name="content" type="full_ci" indexed="true"
-		stored="false" multiValued="true" />
 	<field name="reviewed_protein_count" type="plong" indexed="false"
 		stored="true" />
 	<field name="unreviewed_protein_count" type="plong"
@@ -51,12 +49,6 @@
 	<!-- name = name_only + abbrev -->
 	<copyField source="abbrev" dest="name" />
 	<copyField source="name_only" dest="name" />
-	<!-- content = id + abbrev + name_only + category_str -->
-	<copyField source="id" dest="content" />
-	<copyField source="abbrev" dest="content" />
-	<copyField source="name_only" dest="content" />
-	<copyField source="category_str" dest="content" />
-
 
 	<!-- =============================== field types =============================== -->
 	<fieldType name="plong" class="solr.LongPointField"

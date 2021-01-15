@@ -92,8 +92,14 @@ class KeywordJobIT {
         assertThat(response, is(notNullValue()));
         assertThat(response.size(), is(1));
 
-        // validating if can search one single entry
-        solrQuery = new SolrQuery("content:2Fe-2S");
+        // validating if can search by definition
+        solrQuery = new SolrQuery("definition:cysteines");
+        response = solrClient.query(SolrCollection.keyword, solrQuery, KeywordDocument.class);
+        assertThat(response, is(notNullValue()));
+        assertThat(response.size(), is(8));
+
+        // validating if can search by synonym
+        solrQuery = new SolrQuery("definition:ABA");
         response = solrClient.query(SolrCollection.keyword, solrQuery, KeywordDocument.class);
         assertThat(response, is(notNullValue()));
         assertThat(response.size(), is(2));

@@ -1,8 +1,6 @@
 package org.uniprot.store.indexer.subcell;
 
 import java.nio.ByteBuffer;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 import lombok.extern.slf4j.Slf4j;
@@ -64,21 +62,10 @@ public class SubcellularLocationLoadProcessor
                 .id(entry.getId())
                 .name(entry.getName())
                 .category(entry.getCategory().getName())
-                .content(getContent(entry))
+                .definition(entry.getDefinition())
+                .synonyms(entry.getSynonyms())
                 .subcellularlocationObj(ByteBuffer.wrap(subcellularLocationByte))
                 .build();
-    }
-
-    private List<String> getContent(SubcellularLocationEntry entry) {
-        List<String> content = new ArrayList<>();
-        content.add(entry.getId());
-        content.add(entry.getName());
-        content.add(entry.getDefinition());
-        content.add(entry.getCategory().getDisplayName());
-        if (entry.getSynonyms() != null) {
-            content.addAll(entry.getSynonyms());
-        }
-        return content;
     }
 
     private byte[] getSubcellularLocationObjectBinary(

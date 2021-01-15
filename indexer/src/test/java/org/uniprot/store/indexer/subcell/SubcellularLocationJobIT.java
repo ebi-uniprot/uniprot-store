@@ -94,6 +94,26 @@ class SubcellularLocationJobIT {
         assertThat(response, is(notNullValue()));
         assertThat(response.size(), is(520));
 
+        // search by definition
+        solrQuery = new SolrQuery("definition:alternating");
+        response =
+                solrClient.query(
+                        SolrCollection.subcellularlocation,
+                        solrQuery,
+                        SubcellularLocationDocument.class);
+        assertThat(response, is(notNullValue()));
+        assertThat(response.size(), is(2));
+
+        // search by synonym
+        solrQuery = new SolrQuery("synonym:Flagellar");
+        response =
+                solrClient.query(
+                        SolrCollection.subcellularlocation,
+                        solrQuery,
+                        SubcellularLocationDocument.class);
+        assertThat(response, is(notNullValue()));
+        assertThat(response.size(), is(8));
+
         // validating if can search one single entry with mapped and cited items
         solrQuery = new SolrQuery("id:SL-0188");
         response =

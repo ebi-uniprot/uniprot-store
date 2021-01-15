@@ -123,7 +123,7 @@ class TaxonomyJobIT {
         assertThat(response, is(notNullValue()));
         assertThat(response.size(), is(2));
 
-        solrQuery = new SolrQuery("content:Sptr_Scientific_5");
+        solrQuery = new SolrQuery("scientific:Sptr_Scientific_5");
         response = solrClient.query(SolrCollection.taxonomy, solrQuery, TaxonomyDocument.class);
         assertThat(response, is(notNullValue()));
         assertThat(response.size(), is(1));

@@ -26,7 +26,10 @@ public class KeywordDocument implements Document {
 
     @Field private List<String> ancestor;
 
-    @Field private List<String> content;
+    @Field("synonym")
+    private List<String> synonyms;
+
+    @Field private String definition;
 
     @Field("keyword_obj")
     private ByteBuffer keywordObj;

@@ -18,7 +18,7 @@ class SolrUtilsTest {
 
         SolrInputDocument solrInput = SolrUtils.convertToSolrInputDocument(doc);
         assertNotNull(solrInput);
-        assertEquals(6, solrInput.values().size());
+        assertEquals(7, solrInput.values().size());
         assertNotNull(solrInput.getFieldValue("id"));
         assertEquals("KW-12345", solrInput.getFieldValue("id"));
     }
