@@ -2,11 +2,14 @@ package org.uniprot.store.indexer.publication.community;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
+import static org.uniprot.core.publication.MappedReferenceType.COMPUTATIONAL;
 import static org.uniprot.store.indexer.publication.PublicationITUtil.*;
+import static org.uniprot.store.indexer.publication.common.PublicationUtils.asBinary;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import org.apache.solr.client.solrj.SolrQuery;
@@ -22,9 +25,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.uniprot.core.publication.CommunityMappedReference;
-import org.uniprot.core.publication.MappedPublications;
-import org.uniprot.core.publication.MappedReferenceType;
+import org.uniprot.core.publication.*;
+import org.uniprot.core.publication.impl.ComputationallyMappedReferenceBuilder;
+import org.uniprot.core.publication.impl.MappedPublicationsBuilder;
+import org.uniprot.core.publication.impl.MappedSourceBuilder;
 import org.uniprot.store.indexer.common.config.UniProtSolrClient;
 import org.uniprot.store.indexer.common.utils.Constants;
 import org.uniprot.store.indexer.publication.common.LargeScaleStep;
@@ -53,6 +57,20 @@ class CommunityPublicationJobIT {
 
     @BeforeEach
     void setupSolr() throws Exception {
+        PublicationDocument pubDoc =
+                PublicationDocument.builder()
+                        .pubMedId("27190215")
+                        .accession("D4GVJ3")
+                        .id(UUID.randomUUID().toString())
+                        .isLargeScale(true)
+                        .categories(Collections.singleton("Function"))
+                        .types(Collections.singleton(COMPUTATIONAL.getIntValue()))
+                        .mainType(COMPUTATIONAL.getIntValue())
+                        .publicationMappedReferences(asBinary(createMappedPublications()))
+                        .build();
+        solrClient.saveBeans(SolrCollection.publication, Collections.singleton(pubDoc));
+        solrClient.commit(SolrCollection.publication);
+
         LiteratureDocument litDoc = createLargeScaleLiterature(27190215);
         solrClient.saveBeans(SolrCollection.literature, Collections.singleton(litDoc));
         solrClient.commit(SolrCollection.literature);
@@ -79,8 +97,8 @@ class CommunityPublicationJobIT {
         assertThat(stepMap, is(notNullValue()));
         assertThat(stepMap.containsKey(Constants.COMMUNITY_PUBLICATION_INDEX_STEP), is(true));
         StepExecution step = stepMap.get(Constants.COMMUNITY_PUBLICATION_INDEX_STEP);
-        assertThat(step.getReadCount(), is(41));
-        assertThat(step.getWriteCount(), is(41));
+        assertThat(step.getReadCount(), is(42));
+        assertThat(step.getWriteCount(), is(42));
 
         // ---------- check "type" field
         SolrQuery allCommunityPubs =
@@ -89,15 +107,15 @@ class CommunityPublicationJobIT {
         assertThat(
                 solrClient.query(
                         SolrCollection.publication, allCommunityPubs, PublicationDocument.class),
-                hasSize(41));
+                hasSize(42));
 
         List<PublicationDocument> documents =
                 solrClient.query(
                         SolrCollection.publication,
-                        new SolrQuery("pubmed_id:27190215 AND accession:D4GVJ3"),
+                        new SolrQuery("accession:D4GVJ3"),
                         PublicationDocument.class);
 
-        assertThat(documents, hasSize(1));
+        assertThat(documents, hasSize(2));
 
         PublicationDocument document = documents.get(0);
         assertThat(document.isLargeScale(), is(true));
@@ -108,7 +126,7 @@ class CommunityPublicationJobIT {
 
         CommunityMappedReference reference = references.get(0);
 
-        // ----------- check contents of stored object
+        // ----------- check contents of stored CommunityMapped
         assertThat(reference.getPubMedId(), is("27190215"));
         assertThat(reference.getUniProtKBAccession().getValue(), is("D4GVJ3"));
         assertThat(reference.getSource().getName(), is("ORCID"));
@@ -119,5 +137,39 @@ class CommunityPublicationJobIT {
                 is(
                         "Required for TATA-binding protein 2 (TBP2) turnover by ubiquitin-like proteasome system."));
         assertThat(reference.getSourceCategories(), contains("Function"));
+
+        List<ComputationallyMappedReference> compReference =
+                publications.getComputationalMappedReferences();
+        assertThat(compReference, hasSize(1));
+
+        ComputationallyMappedReference comp = compReference.get(0);
+
+        // ----------- check contents of stored ComputationallyMapped
+        assertThat(comp.getPubMedId(), is("27190215"));
+        assertThat(comp.getUniProtKBAccession().getValue(), is("D4GVJ3"));
+        assertThat(comp.getSource().getName(), is("name"));
+        assertThat(comp.getSource().getId(), is("123"));
+        assertThat(comp.getAnnotation(), is("Annotation value"));
+        assertThat(comp.getSourceCategories(), containsInAnyOrder("Sequence"));
+
+        // ----------- Test second community ---------------------
+        document = documents.get(1);
+        assertThat(document.isLargeScale(), is(false));
+        publications = extractObject(document);
+        references = publications.getCommunityMappedReferences();
+        assertThat(references, hasSize(1));
+        assertThat(publications.getComputationalMappedReferences(), is(emptyIterable()));
+    }
+
+    private MappedPublications createMappedPublications() {
+        ComputationallyMappedReference compMap =
+                new ComputationallyMappedReferenceBuilder()
+                        .pubMedId("27190215")
+                        .uniProtKBAccession("D4GVJ3")
+                        .source(new MappedSourceBuilder().id("123").name("name").build())
+                        .sourceCategoriesAdd("Sequence")
+                        .annotation("Annotation value")
+                        .build();
+        return new MappedPublicationsBuilder().computationalMappedReferencesAdd(compMap).build();
     }
 }
