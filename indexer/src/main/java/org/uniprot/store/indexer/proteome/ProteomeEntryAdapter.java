@@ -110,6 +110,8 @@ public class ProteomeEntryAdapter {
         List<TaxonomyLineage> lineage =
                 nodes.stream()
                         .skip(1)
+                        // remove root and cellular organisms
+                        .filter(node -> node.id() != 1 && node.id() != 131567)
                         .map(
                                 node ->
                                         new TaxonomyLineageBuilder()

@@ -66,9 +66,9 @@ class ProteomeEntryAdapterTest {
 
         assertNotNull(entry.getTaxonLineages());
         List<TaxonomyLineage> lineages = entry.getTaxonLineages();
-        assertEquals(3, lineages.size());
+        assertEquals(1, lineages.size());
 
-        TaxonomyLineage lineage = lineages.get(2);
+        TaxonomyLineage lineage = lineages.get(0);
         assertEquals(2, lineage.getTaxonId());
         assertEquals("Bacteria", lineage.getScientificName());
     }
