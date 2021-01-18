@@ -5,6 +5,7 @@ import static org.hamcrest.Matchers.*;
 import static org.uniprot.core.publication.MappedReferenceType.COMPUTATIONAL;
 import static org.uniprot.store.indexer.publication.PublicationITUtil.*;
 
+import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -122,5 +123,28 @@ class ComputationalPublicationJobIT {
         assertThat(
                 reference.getSourceCategories(),
                 containsInAnyOrder("Sequences", "Pathology & Biotech"));
+
+        verifyDuplicateAccessionAndPubMedId();
+    }
+
+    private void verifyDuplicateAccessionAndPubMedId() throws IOException {
+        List<PublicationDocument> documents =
+                solrClient.query(
+                        SolrCollection.publication,
+                        new SolrQuery("accession:Q8BGZ9 AND pubmed_id:11203701"),
+                        PublicationDocument.class);
+        assertThat(documents, hasSize(1));
+
+        PublicationDocument document = documents.get(0);
+        assertThat(document.isLargeScale(), is(false));
+        assertThat(document.getCategories(), hasSize(3));
+        assertThat(
+                document.getCategories(),
+                containsInAnyOrder("Sequences", "Pathology & Biotech", "Expression"));
+
+        MappedPublications publications = extractObject(document);
+        List<ComputationallyMappedReference> references =
+                publications.getComputationalMappedReferences();
+        assertThat(references, hasSize(3));
     }
 }

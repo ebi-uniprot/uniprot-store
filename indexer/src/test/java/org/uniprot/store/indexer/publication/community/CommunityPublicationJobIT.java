@@ -6,6 +6,7 @@ import static org.uniprot.core.publication.MappedReferenceType.COMPUTATIONAL;
 import static org.uniprot.store.indexer.publication.PublicationITUtil.*;
 import static org.uniprot.store.indexer.publication.common.PublicationUtils.asBinary;
 
+import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -118,8 +119,8 @@ class CommunityPublicationJobIT {
                         PublicationDocument.class);
 
         assertThat(documents, hasSize(2));
-
-        PublicationDocument document = documents.get(0);
+        // check second item
+        PublicationDocument document = documents.get(1);
         assertThat(document.isLargeScale(), is(true));
 
         MappedPublications publications = extractObject(document);
@@ -154,13 +155,40 @@ class CommunityPublicationJobIT {
         assertThat(comp.getAnnotation(), is("Annotation value"));
         assertThat(comp.getSourceCategories(), containsInAnyOrder("Sequence"));
 
-        // ----------- Test second community ---------------------
-        document = documents.get(1);
+        // ----------- Test first community ---------------------
+        document = documents.get(0);
         assertThat(document.isLargeScale(), is(false));
         publications = extractObject(document);
         references = publications.getCommunityMappedReferences();
         assertThat(references, hasSize(1));
         assertThat(publications.getComputationalMappedReferences(), is(emptyIterable()));
+
+        verifyDuplicateAccessionAndPubMedId();
+    }
+
+    private void verifyDuplicateAccessionAndPubMedId() throws IOException {
+        List<PublicationDocument> documents =
+                solrClient.query(
+                        SolrCollection.publication,
+                        new SolrQuery("accession:Q8GUJ2 AND pubmed_id:31953391"),
+                        PublicationDocument.class);
+        assertThat(documents, hasSize(1));
+
+        PublicationDocument document = documents.get(0);
+        assertThat(document.isLargeScale(), is(false));
+        assertThat(document.getCategories(), hasSize(5));
+        assertThat(
+                document.getCategories(),
+                containsInAnyOrder(
+                        "Sequences",
+                        "Function",
+                        "Subcellular Location",
+                        "PTM / Processing",
+                        "Expression"));
+
+        MappedPublications publications = extractObject(document);
+        List<CommunityMappedReference> references = publications.getCommunityMappedReferences();
+        assertThat(references, hasSize(2));
     }
 
     private MappedPublications createMappedPublications() {

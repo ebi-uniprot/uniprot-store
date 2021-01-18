@@ -1,10 +1,31 @@
 A0A0U5J8Q0	MGI	11203701	1195272	[Expression][Sequences]
+B5U9V4	GAD	1358782	126289	[Pathology & Biotech]Not Associated with PSYCH: schizophrenia.
+D3DQX7	GeneRif	22771314	6288	SAA levels measured by ELISA in 97 NSCLC patients treated with gefitinib correlated with the clinical outcome of the patients
 D3Z654	MGI	11203701	96770	[Expression][Sequences]
+F1DBF3	GAD	1358782	126289	[Pathology & Biotech]Not Associated with PSYCH: schizophrenia.
 G3DRA8	MGI	11203701	97169	[Expression][Sequences]
+G3UYH0	MGI	26551672	1347476	[Sequences]
+G5E8P5	MGI	26551672	1347476	[Sequences]
 O54693	MGI	11203701	1195272	[Sequences]
+P08397	GAD	1358782	126289	[Pathology & Biotech]Not Associated with PSYCH: schizophrenia.
+P0DJI8	GeneRif	22771314	6288	SAA levels measured by ELISA in 97 NSCLC patients treated with gefitinib correlated with the clinical outcome of the patients
 P21274	MGI	11203701	88177	[Expression][Sequences]
+P21802	GAD	1358782	126289	[Pathology & Biotech]Not Associated with PSYCH: schizophrenia.
+P21802	MGI	11203701	96770	[Expression][Sequences]
+P21802	SGD	5312045	S000002895	[Function]S000002895
 P27782	MGI	11203701	96770	[Expression][Function]
+P35582	MGI	26551672	1347472	[Sequences]
+P35583	MGI	26551672	1347476	[Sequences]
+P38066	SGD	5312045	S000000129	[Function]S000000129
+P38145	SGD	5312045	S000000460	[Function]S000000460
+P49286	GeneRif	26551672	4544	[Sequences]Increases in islet MTNR1B expression is associated with type 2 diabetes susceptibility.
+P50861	SGD	5312045	S000005503	[Function]S000005503
 Q03358	MGI	11203701	97169	[Expression][Sequences]
+Q0G847	GAD	1358782	126289	[Pathology & Biotech]Not Associated with PSYCH: schizophrenia.
+Q12362	SGD	5312045	S000005427	[Function]S000005427
+Q15423	GeneRif	22771314	6288	SAA levels measured by ELISA in 97 NSCLC patients treated with gefitinib correlated with the clinical outcome of the patients
+Q16782	GeneRif	22771314	6288	SAA levels measured by ELISA in 97 NSCLC patients treated with gefitinib correlated with the clinical outcome of the patients
+Q16812	GAD	1358782	126289	[Pathology & Biotech]Not Associated with PSYCH: schizophrenia.
 Q1L2D6	MGI	11203701	1195272	[Expression][Sequences]
 Q1L2D8	MGI	11203701	1195272	[Expression][Sequences]
 Q1L2D9	MGI	11203701	1195272	[Expression][Sequences]
@@ -14,32 +35,13 @@ Q3TYB0	MGI	11203701	96770	[Expression][Sequences]
 Q3UV69	MGI	11203701	1195272	[Expression][Sequences]
 Q3UZH5	MGI	11203701	97169	[Expression][Sequences]
 Q3V1I4	MGI	11203701	88177	[Expression][Sequences]
-Q6NV51	MGI	11203701	1343498	[Expression][Sequences]
-Q8BGZ9	MGI	11203701	96770	[Expression][Sequences]
-P21802	MGI	11203701	96770	[Expression][Sequences]
-B5U9V4	GAD	1358782	126289	[Pathology & Biotech]Not Associated with PSYCH: schizophrenia.
-F1DBF3	GAD	1358782	126289	[Pathology & Biotech]Not Associated with PSYCH: schizophrenia.
-P08397	GAD	1358782	126289	[Pathology & Biotech]Not Associated with PSYCH: schizophrenia.
-Q0G847	GAD	1358782	126289	[Pathology & Biotech]Not Associated with PSYCH: schizophrenia.
-Q16812	GAD	1358782	126289	[Pathology & Biotech]Not Associated with PSYCH: schizophrenia.
+Q61583	MGI	26551672	1347472	[Sequences]
 Q68Y91	GAD	1358782	126289	[Pathology & Biotech]Not Associated with PSYCH: schizophrenia.
 Q6LER4	GAD	1358782	126289	[Pathology & Biotech]Not Associated with PSYCH: schizophrenia.
-V9GZN3	GAD	1358782	126289	[Pathology & Biotech]Not Associated with PSYCH: schizophrenia.
-P21802	GAD	1358782	126289	[Pathology & Biotech]Not Associated with PSYCH: schizophrenia.
-D3DQX7	GeneRif	22771314	6288	SAA levels measured by ELISA in 97 NSCLC patients treated with gefitinib correlated with the clinical outcome of the patients
-P0DJI8	GeneRif	22771314	6288	SAA levels measured by ELISA in 97 NSCLC patients treated with gefitinib correlated with the clinical outcome of the patients
-Q15423	GeneRif	22771314	6288	SAA levels measured by ELISA in 97 NSCLC patients treated with gefitinib correlated with the clinical outcome of the patients
-Q16782	GeneRif	22771314	6288	SAA levels measured by ELISA in 97 NSCLC patients treated with gefitinib correlated with the clinical outcome of the patients
-G3UYH0	MGI	26551672	1347476	[Sequences]
-G5E8P5	MGI	26551672	1347476	[Sequences]
-P35582	MGI	26551672	1347472	[Sequences]
-P35583	MGI	26551672	1347476	[Sequences]
-P49286	GeneRif	26551672	4544	[Sequences]Increases in islet MTNR1B expression is associated with type 2 diabetes susceptibility.
-Q61583	MGI	26551672	1347472	[Sequences]
+Q6NV51	MGI	11203701	1343498	[Expression][Sequences]
 Q7Z583	GeneRif	26551672	4544	[Sequences][Pathology & Biotech]Increases in islet MTNR1B expression is associated with type 2 diabetes susceptibility.
+Q8BGZ9	MGI	11203701	96770	[Expression][Sequences]
+Q8BGZ9	MGI	11203701	96770	[Expression][Sequences]
+Q8BGZ9	MGI	11203701	96770	[Expression][Sequences][Pathology & Biotech]
 Q8TEV7	GeneRif	26551672	4544	[Sequences]Increases in islet MTNR1B expression is associated with type 2 diabetes susceptibility.
-P38066	SGD	5312045	S000000129	[Function]S000000129
-P38145	SGD	5312045	S000000460	[Function]S000000460
-P50861	SGD	5312045	S000005503	[Function]S000005503
-Q12362	SGD	5312045	S000005427	[Function]S000005427
-P21802	SGD	5312045	S000002895	[Function]S000002895
+V9GZN3	GAD	1358782	126289	[Pathology & Biotech]Not Associated with PSYCH: schizophrenia.
