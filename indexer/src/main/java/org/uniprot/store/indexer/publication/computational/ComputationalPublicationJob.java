@@ -27,7 +27,8 @@ public class ComputationalPublicationJob {
     private final JobBuilderFactory jobBuilderFactory;
 
     @Autowired
-    public ComputationalPublicationJob(JobBuilderFactory jobBuilderFactory, UniProtSolrClient uniProtSolrClient) {
+    public ComputationalPublicationJob(
+            JobBuilderFactory jobBuilderFactory, UniProtSolrClient uniProtSolrClient) {
         this.jobBuilderFactory = jobBuilderFactory;
     }
 

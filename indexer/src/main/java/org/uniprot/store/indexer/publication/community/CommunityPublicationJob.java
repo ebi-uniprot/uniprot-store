@@ -27,7 +27,8 @@ public class CommunityPublicationJob {
     private final JobBuilderFactory jobBuilderFactory;
 
     @Autowired
-    public CommunityPublicationJob(JobBuilderFactory jobBuilderFactory, UniProtSolrClient uniProtSolrClient) {
+    public CommunityPublicationJob(
+            JobBuilderFactory jobBuilderFactory, UniProtSolrClient uniProtSolrClient) {
         this.jobBuilderFactory = jobBuilderFactory;
     }
 

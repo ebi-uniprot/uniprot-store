@@ -1,5 +1,7 @@
 package org.uniprot.store.reader.publications;
 
+import java.io.IOException;
+
 import org.uniprot.core.publication.ComputationallyMappedReference;
 import org.uniprot.core.publication.impl.ComputationallyMappedReferenceBuilder;
 import org.uniprot.core.publication.impl.MappedSourceBuilder;
@@ -11,6 +13,11 @@ import org.uniprot.core.publication.impl.MappedSourceBuilder;
  */
 public class ComputationallyMappedReferenceConverter
         extends AbstractMappedReferenceConverter<ComputationallyMappedReference> {
+
+    public ComputationallyMappedReferenceConverter(String filePath) throws IOException {
+        super(filePath);
+    }
+
     @Override
     ComputationallyMappedReference convertRawMappedReference(RawMappedReference reference) {
         return new ComputationallyMappedReferenceBuilder()

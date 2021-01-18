@@ -9,6 +9,7 @@ import static org.hamcrest.core.Is.is;
 import static org.mockito.Mockito.mock;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
@@ -56,7 +57,7 @@ class CommunityPublicationProcessorTest {
     void validateSerialisedObject() throws IOException {
         CommunityPublicationProcessor processor = new CommunityPublicationProcessor(SOLR_CLIENT);
 
-        List<PublicationDocument> documents = processor.process(REFERENCE);
+        List<PublicationDocument> documents = processor.process(Arrays.asList(REFERENCE));
 
         assertThat(documents, hasSize(1));
 

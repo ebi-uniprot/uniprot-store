@@ -1,29 +1,22 @@
 package org.uniprot.store.indexer.publication.computational;
 
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.Iterator;
+import java.util.List;
 
 import org.springframework.batch.item.ItemReader;
 import org.uniprot.core.publication.ComputationallyMappedReference;
 import org.uniprot.store.reader.publications.ComputationallyMappedReferenceConverter;
 
 public class ComputationalPublicationItemReader
-        implements ItemReader<ComputationallyMappedReference> {
-    private final Iterator<String> lines;
+        implements ItemReader<List<ComputationallyMappedReference>> {
     private final ComputationallyMappedReferenceConverter converter;
 
     public ComputationalPublicationItemReader(String filePath) throws IOException {
-        lines = Files.lines(Paths.get(filePath)).iterator();
-        converter = new ComputationallyMappedReferenceConverter();
+        converter = new ComputationallyMappedReferenceConverter(filePath);
     }
 
     @Override
-    public ComputationallyMappedReference read() {
-        if (lines.hasNext()) {
-            return converter.convert(this.lines.next());
-        }
-        return null;
+    public List<ComputationallyMappedReference> read() {
+        return converter.getNext();
     }
 }
