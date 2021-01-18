@@ -44,15 +44,16 @@ public class ComputationalPublicationStep {
             StepExecutionListener stepListener,
             ChunkListener chunkListener,
             @Qualifier("computationallyMappedReferenceReader")
-                    ItemReader<ComputationallyMappedReference> mappedReferenceReader,
+                    ItemReader<List<ComputationallyMappedReference>> mappedReferenceReader,
             @Qualifier("computationallyMappedReferenceProcessor")
-                    ItemProcessor<ComputationallyMappedReference, List<PublicationDocument>>
+                    ItemProcessor<List<ComputationallyMappedReference>, List<PublicationDocument>>
                             mappedReferenceProcessor,
             @Qualifier("computationallyMappedReferenceWriter")
                     ItemWriter<List<PublicationDocument>> mappedReferenceWriter) {
         return this.steps
                 .get(Constants.COMPUTATIONAL_PUBLICATION_INDEX_STEP)
-                .<ComputationallyMappedReference, List<PublicationDocument>>chunk(this.chunkSize)
+                .<List<ComputationallyMappedReference>, List<PublicationDocument>>chunk(
+                        this.chunkSize)
                 .reader(mappedReferenceReader)
                 .processor(mappedReferenceProcessor)
                 .writer(mappedReferenceWriter)
@@ -62,12 +63,12 @@ public class ComputationalPublicationStep {
     }
 
     @Bean(name = "computationallyMappedReferenceReader")
-    public ItemReader<ComputationallyMappedReference> xrefReader() throws IOException {
+    public ItemReader<List<ComputationallyMappedReference>> xrefReader() throws IOException {
         return new ComputationalPublicationItemReader(this.filePath);
     }
 
     @Bean(name = "computationallyMappedReferenceProcessor")
-    public ItemProcessor<ComputationallyMappedReference, List<PublicationDocument>>
+    public ItemProcessor<List<ComputationallyMappedReference>, List<PublicationDocument>>
             xrefProcessor() {
         return new ComputationalPublicationProcessor();
     }

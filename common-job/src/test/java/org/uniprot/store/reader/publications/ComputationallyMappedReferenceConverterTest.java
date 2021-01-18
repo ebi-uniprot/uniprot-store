@@ -3,6 +3,9 @@ package org.uniprot.store.reader.publications;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.core.Is.is;
+import static org.uniprot.store.reader.publications.AbstractMappedReferenceConverterTest.FILE_PATH;
+
+import java.io.IOException;
 
 import org.junit.jupiter.api.Test;
 import org.uniprot.core.publication.ComputationallyMappedReference;
@@ -15,9 +18,9 @@ import org.uniprot.core.publication.impl.MappedSourceBuilder;
  */
 class ComputationallyMappedReferenceConverterTest {
     @Test
-    void convertsCorrectly() {
+    void convertsCorrectly() throws IOException {
         ComputationallyMappedReferenceConverter mapper =
-                new ComputationallyMappedReferenceConverter();
+                new ComputationallyMappedReferenceConverter(FILE_PATH);
         ComputationallyMappedReference reference =
                 mapper.convert(
                         "Q1MDE9\tORCID\t19597156\t0000-0002-4251-0362\t[Function][Pathology & Biotech]Protein/gene_name: BraC3; RL3540. Function: BraC3 is an alternative substrate binding component of the ABC transporter braDEFGC. BraC3 supports the transport of leucine, isoleucine, valine, or alanine, but not glutamate or aspartate. Comments: Transport of branched amino acids by either BraC3 (with BraDEFG) or AapJQMP is required for symbiosis with peas.");

@@ -1,5 +1,6 @@
 package org.uniprot.store.reader.publications;
 
+import java.io.IOException;
 import java.util.function.BiConsumer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -33,6 +34,10 @@ public class CommunityMappedReferenceConverter
                             + ")|("
                             + COMMENT_DELIMITER
                             + "))");
+
+    public CommunityMappedReferenceConverter(String filePath) throws IOException {
+        super(filePath);
+    }
 
     @Override
     CommunityMappedReference convertRawMappedReference(RawMappedReference reference) {

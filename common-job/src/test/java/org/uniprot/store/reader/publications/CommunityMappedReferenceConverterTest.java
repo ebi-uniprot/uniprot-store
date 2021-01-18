@@ -3,6 +3,9 @@ package org.uniprot.store.reader.publications;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.core.Is.is;
+import static org.uniprot.store.reader.publications.AbstractMappedReferenceConverterTest.FILE_PATH;
+
+import java.io.IOException;
 
 import org.junit.jupiter.api.Test;
 import org.uniprot.core.publication.CommunityAnnotation;
@@ -16,8 +19,8 @@ import org.uniprot.core.publication.impl.MappedSourceBuilder;
  */
 class CommunityMappedReferenceConverterTest {
     @Test
-    void convertsCorrectly() {
-        CommunityMappedReferenceConverter mapper = new CommunityMappedReferenceConverter();
+    void convertsCorrectly() throws IOException {
+        CommunityMappedReferenceConverter mapper = new CommunityMappedReferenceConverter(FILE_PATH);
         CommunityMappedReference reference =
                 mapper.convert(
                         "Q1MDE9\tORCID\t19597156\t0000-0002-4251-0362\t[Function][Pathology & Biotech]Protein/gene_name: BraC3; RL3540. Function: BraC3 is an alternative substrate binding component of the ABC transporter braDEFGC. BraC3 supports the transport of leucine, isoleucine, valine, or alanine, but not glutamate or aspartate. Disease: This is a disease. Comments: Transport of branched amino acids by either BraC3 (with BraDEFG) or AapJQMP is required for symbiosis with peas.");
@@ -43,8 +46,8 @@ class CommunityMappedReferenceConverterTest {
     }
 
     @Test
-    void convertingSingleWordHasNoFullStop() {
-        CommunityMappedReferenceConverter mapper = new CommunityMappedReferenceConverter();
+    void convertingSingleWordHasNoFullStop() throws IOException {
+        CommunityMappedReferenceConverter mapper = new CommunityMappedReferenceConverter(FILE_PATH);
         CommunityMappedReference reference =
                 mapper.convert(
                         "Q1MDE9\tORCID\t19597156\t0000-0002-4251-0362\t[Function][Pathology & Biotech]Protein/gene_name: RL3540. Function: BraC3. Comments: Peas Disease: This is a disease.");

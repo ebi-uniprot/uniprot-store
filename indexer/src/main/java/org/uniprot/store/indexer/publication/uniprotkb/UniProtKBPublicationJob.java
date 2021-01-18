@@ -24,7 +24,8 @@ public class UniProtKBPublicationJob {
     private final JobBuilderFactory jobBuilderFactory;
 
     @Autowired
-    public UniProtKBPublicationJob(JobBuilderFactory jobBuilderFactory, UniProtSolrClient uniProtSolrClient) {
+    public UniProtKBPublicationJob(
+            JobBuilderFactory jobBuilderFactory, UniProtSolrClient uniProtSolrClient) {
         this.jobBuilderFactory = jobBuilderFactory;
     }
 

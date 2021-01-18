@@ -1,6 +1,13 @@
 package org.uniprot.store.reader.publications;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -46,6 +53,39 @@ abstract class AbstractMappedReferenceConverter<T extends MappedReference>
         return prevCatEnd;
     }
 
+    private final Iterator<String> lines;
+    private T nextMappedRef;
+
+    public AbstractMappedReferenceConverter(String filePath) throws IOException {
+        lines = Files.lines(Paths.get(filePath)).iterator();
+    }
+
+    public List<T> getNext() {
+        List<T> mappedReferences = null;
+        T currentMappedRef = null;
+        if (Objects.nonNull(this.nextMappedRef)) {
+            currentMappedRef = this.nextMappedRef;
+            mappedReferences = new ArrayList<>();
+            mappedReferences.add(currentMappedRef);
+            this.nextMappedRef = null;
+        } else if (this.lines.hasNext()) {
+            currentMappedRef = convert(this.lines.next());
+            mappedReferences = new ArrayList<>();
+            mappedReferences.add(currentMappedRef);
+        }
+
+        while (this.lines.hasNext()) {
+            this.nextMappedRef = convert(this.lines.next());
+            if (isAccessionPubMedIdPairEqual(currentMappedRef, this.nextMappedRef)) {
+                currentMappedRef = this.nextMappedRef;
+                mappedReferences.add(currentMappedRef);
+            } else {
+                break;
+            }
+        }
+        return mappedReferences;
+    }
+
     @Override
     public T convert(String line) {
         String[] lineFields = line.split("\t");
@@ -89,5 +129,13 @@ abstract class AbstractMappedReferenceConverter<T extends MappedReference>
 
     private static boolean isValidateCategory(String category) {
         return CATEGORIES.contains(category);
+    }
+
+    private boolean isAccessionPubMedIdPairEqual(T currentMappedRef, T nextMappedRef) {
+        return currentMappedRef
+                        .getUniProtKBAccession()
+                        .getValue()
+                        .equals(nextMappedRef.getUniProtKBAccession().getValue())
+                && currentMappedRef.getPubMedId().equals(nextMappedRef.getPubMedId());
     }
 }

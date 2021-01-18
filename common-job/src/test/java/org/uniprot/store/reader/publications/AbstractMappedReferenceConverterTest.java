@@ -4,6 +4,8 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import java.io.IOException;
+import java.util.List;
 import java.util.Set;
 
 import lombok.Getter;
@@ -24,8 +26,10 @@ class AbstractMappedReferenceConverterTest {
     private static final String ACC_PUBMED_ORCHID_LINE_PREFIX =
             "Q1MDE9\tORCID\t19597156\t0000-0002-4251-0362";
 
+    public static final String FILE_PATH = "src/test/resources/computational_pir_map.txt";
+
     @Test
-    void convertsCorrectly() {
+    void convertsCorrectly() throws IOException {
         FakeMappedReferenceConverter mapper = new FakeMappedReferenceConverter();
         FakeMappedReference mappedReference =
                 mapper.convert(
@@ -44,7 +48,7 @@ class AbstractMappedReferenceConverterTest {
     }
 
     @Test
-    void invalidLineFormatCausesException() {
+    void invalidLineFormatCausesException() throws IOException {
         FakeMappedReferenceConverter mapper = new FakeMappedReferenceConverter();
         assertThrows(
                 RawMappedReferenceException.class,
@@ -54,7 +58,7 @@ class AbstractMappedReferenceConverterTest {
     }
 
     @Test
-    void emptyUniProtAccessionCausesException() {
+    void emptyUniProtAccessionCausesException() throws IOException {
         FakeMappedReferenceConverter mapper = new FakeMappedReferenceConverter();
         assertThrows(
                 RawMappedReferenceException.class,
@@ -64,7 +68,7 @@ class AbstractMappedReferenceConverterTest {
     }
 
     @Test
-    void emptyReferenceCausesException() {
+    void emptyReferenceCausesException() throws IOException {
         FakeMappedReferenceConverter mapper = new FakeMappedReferenceConverter();
         assertThrows(
                 RawMappedReferenceException.class,
@@ -74,7 +78,7 @@ class AbstractMappedReferenceConverterTest {
     }
 
     @Test
-    void noCategoryDefinedResultsInNoCategoriesInjected() {
+    void noCategoryDefinedResultsInNoCategoriesInjected() throws IOException {
         // given
         FakeMappedReferenceConverter converter = new FakeMappedReferenceConverter();
         String annotationPart =
@@ -91,7 +95,8 @@ class AbstractMappedReferenceConverterTest {
     }
 
     @Test
-    void noCategoryDefinedButBracketsInAnnotationResultsInNoCategoriesInjected() {
+    void noCategoryDefinedButBracketsInAnnotationResultsInNoCategoriesInjected()
+            throws IOException {
         // given
         FakeMappedReferenceConverter converter = new FakeMappedReferenceConverter();
         String annotationPart =
@@ -108,7 +113,7 @@ class AbstractMappedReferenceConverterTest {
     }
 
     @Test
-    void canInjectSingleCategory() {
+    void canInjectSingleCategory() throws IOException {
         // given
         FakeMappedReferenceConverter converter = new FakeMappedReferenceConverter();
         String annotationPart =
@@ -125,7 +130,7 @@ class AbstractMappedReferenceConverterTest {
     }
 
     @Test
-    void noCategoryUponStrangeInputFromPIROrSIB() {
+    void noCategoryUponStrangeInputFromPIROrSIB() throws IOException {
         // given
         FakeMappedReferenceConverter converter = new FakeMappedReferenceConverter();
         String annotationPart =
@@ -142,7 +147,7 @@ class AbstractMappedReferenceConverterTest {
     }
 
     @Test
-    void noCategoryNoAnnotationUponReallyStrangeInputFromPIROrSIB() {
+    void noCategoryNoAnnotationUponReallyStrangeInputFromPIROrSIB() throws IOException {
         // given
         FakeMappedReferenceConverter converter = new FakeMappedReferenceConverter();
         String line =
@@ -159,7 +164,7 @@ class AbstractMappedReferenceConverterTest {
     }
 
     @Test
-    void canInjectMultipleCategories() {
+    void canInjectMultipleCategories() throws IOException {
         // given
         FakeMappedReferenceConverter converter = new FakeMappedReferenceConverter();
         String annotationPart =
@@ -181,7 +186,7 @@ class AbstractMappedReferenceConverterTest {
     }
 
     @Test
-    void canInjectCategoriesWhenAnnotationIncludesBrackets() {
+    void canInjectCategoriesWhenAnnotationIncludesBrackets() throws IOException {
         // given
         FakeMappedReferenceConverter converter = new FakeMappedReferenceConverter();
         String annotationPart =
@@ -202,8 +207,33 @@ class AbstractMappedReferenceConverterTest {
         assertThat(mappedReference.getAnnotation(), is(annotationPart));
     }
 
+    @Test
+    void testGetNext() throws IOException {
+        FakeMappedReferenceConverter converter = new FakeMappedReferenceConverter(FILE_PATH);
+        List<FakeMappedReference> refs;
+        while ((refs = converter.getNext()) != null) {
+            if (refs.size() > 1) {
+                assertThat(refs.size(), is(2));
+                assertThat(refs.get(0).getPubMedId(), is("11203701"));
+                assertThat(refs.get(1).getPubMedId(), is("11203701"));
+                assertThat(refs.get(0).getUniProtKBAccession().getValue(), is("P21802"));
+                assertThat(refs.get(1).getUniProtKBAccession().getValue(), is("P21802"));
+            } else {
+                assertThat(refs.size(), is(1));
+            }
+        }
+    }
+
     private static class FakeMappedReferenceConverter
             extends AbstractMappedReferenceConverter<FakeMappedReference> {
+        public FakeMappedReferenceConverter() throws IOException {
+            this(FILE_PATH);
+        }
+
+        public FakeMappedReferenceConverter(String filePath) throws IOException {
+            super(filePath);
+        }
+
         FakeMappedReference convertRawMappedReference(RawMappedReference reference) {
             FakeMappedReference mappedReference = new FakeMappedReference();
             mappedReference.uniProtKBAccession =

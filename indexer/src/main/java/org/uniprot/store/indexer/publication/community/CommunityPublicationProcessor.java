@@ -1,11 +1,17 @@
 package org.uniprot.store.indexer.publication.community;
 
 import static org.uniprot.core.publication.MappedReferenceType.COMMUNITY;
-import static org.uniprot.store.indexer.publication.common.PublicationUtils.*;
+import static org.uniprot.store.indexer.publication.common.PublicationUtils.asBinary;
+import static org.uniprot.store.indexer.publication.common.PublicationUtils.docsToUpdateQuery;
+import static org.uniprot.store.indexer.publication.common.PublicationUtils.getDocumentId;
 
 import java.io.IOException;
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -29,7 +35,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Slf4j
 public class CommunityPublicationProcessor
-        implements ItemProcessor<CommunityMappedReference, List<PublicationDocument>> {
+        implements ItemProcessor<List<CommunityMappedReference>, List<PublicationDocument>> {
     private final ObjectMapper objectMapper;
     private final UniProtSolrClient uniProtSolrClient;
     private Set<String> largeScalePubmedIds = new HashSet<>();
@@ -40,9 +46,16 @@ public class CommunityPublicationProcessor
     }
 
     @Override
-    public List<PublicationDocument> process(CommunityMappedReference reference) {
-        List<PublicationDocument> toReturn = new ArrayList<>();
-        PublicationDocument.Builder builder = PublicationDocument.builder();
+    public List<PublicationDocument> process(List<CommunityMappedReference> references) {
+        // get the unique categories
+        Set<String> categories = new HashSet<>();
+        for (CommunityMappedReference reference : references) {
+            categories.addAll(reference.getSourceCategories());
+        }
+
+        CommunityMappedReference reference = references.get(0);
+        PublicationDocument toReturn;
+        PublicationDocument.PublicationDocumentBuilder builder = PublicationDocument.builder();
 
         List<PublicationDocument> documents =
                 uniProtSolrClient.query(
@@ -50,61 +63,62 @@ public class CommunityPublicationProcessor
                         new SolrQuery(docsToUpdateQuery(reference)),
                         PublicationDocument.class);
         if (documents.isEmpty()) {
-            toReturn.add(
+            toReturn =
                     builder.pubMedId(reference.getPubMedId())
                             .accession(reference.getUniProtKBAccession().getValue())
                             .id(getDocumentId())
                             .isLargeScale(largeScalePubmedIds.contains(reference.getPubMedId()))
-                            .categories(reference.getSourceCategories())
+                            .categories(categories)
                             .mainType(COMMUNITY.getIntValue())
                             .types(Collections.singleton(COMMUNITY.getIntValue()))
                             .publicationMappedReferences(
-                                    asBinary(createMappedPublications(reference)))
-                            .build());
+                                    asBinary(createMappedPublications(references)))
+                            .build();
         } else {
             if (documents.size() > 1) {
-                log.warn(
-                        "More than one publications for accession {} and pubmed id {}",
-                        reference.getUniProtKBAccession().getValue(),
-                        reference.getPubMedId());
-                log.warn(
-                        "ids are {}",
-                        documents.stream()
-                                .map(PublicationDocument::getId)
-                                .collect(Collectors.joining(",")));
+                String message =
+                        "More than one publications for accession "
+                                + reference.getUniProtKBAccession().getValue()
+                                + "and pubmed id "
+                                + reference.getPubMedId();
+                throw new RuntimeException(message);
             }
-            for (PublicationDocument doc : documents) {
-                Set<String> categories = getMergedCategories(reference, doc);
-                Set<Integer> types = getMergedTypes(doc, COMMUNITY);
-                toReturn.add(
-                        builder.pubMedId(reference.getPubMedId())
-                                .accession(reference.getUniProtKBAccession().getValue())
-                                .id(doc.getId())
-                                .isLargeScale(largeScalePubmedIds.contains(reference.getPubMedId()))
-                                .categories(categories)
-                                .types(types)
-                                .mainType(doc.getMainType())
-                                .publicationMappedReferences(
-                                        asBinary(addReferenceToMappedPublications(doc, reference)))
-                                .build());
-            }
+            // merge categories and types
+            PublicationDocument existingDocument = documents.get(0);
+            categories.addAll(existingDocument.getCategories());
+            Set<Integer> types = existingDocument.getTypes();
+            types.add(COMMUNITY.getIntValue());
+
+            toReturn =
+                    builder.pubMedId(reference.getPubMedId())
+                            .accession(reference.getUniProtKBAccession().getValue())
+                            .id(existingDocument.getId())
+                            .isLargeScale(largeScalePubmedIds.contains(reference.getPubMedId()))
+                            .categories(categories)
+                            .types(types)
+                            .mainType(existingDocument.getMainType())
+                            .publicationMappedReferences(
+                                    asBinary(
+                                            addReferencesToMappedPublications(
+                                                    existingDocument, references)))
+                            .build();
         }
 
-        return toReturn;
+        return Arrays.asList(toReturn);
     }
 
-    private MappedPublications createMappedPublications(CommunityMappedReference reference) {
-        return new MappedPublicationsBuilder().communityMappedReferencesAdd(reference).build();
+    private MappedPublications createMappedPublications(List<CommunityMappedReference> references) {
+        return new MappedPublicationsBuilder().communityMappedReferencesSet(references).build();
     }
 
-    private MappedPublications addReferenceToMappedPublications(
-            PublicationDocument document, CommunityMappedReference reference) {
+    private MappedPublications addReferencesToMappedPublications(
+            PublicationDocument document, List<CommunityMappedReference> references) {
         try {
             MappedPublications mappedPublications =
                     this.objectMapper.readValue(
                             document.getPublicationMappedReferences(), MappedPublications.class);
             return MappedPublicationsBuilder.from(mappedPublications)
-                    .communityMappedReferencesAdd(reference)
+                    .communityMappedReferencesSet(references)
                     .build();
         } catch (IOException e) {
             throw new DocumentConversionException(

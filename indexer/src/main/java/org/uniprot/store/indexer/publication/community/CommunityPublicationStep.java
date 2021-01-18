@@ -43,15 +43,15 @@ public class CommunityPublicationStep {
             StepExecutionListener stepListener,
             ChunkListener chunkListener,
             @Qualifier("communityMappedReferenceReader")
-                    ItemReader<CommunityMappedReference> mappedReferenceReader,
+                    ItemReader<List<CommunityMappedReference>> mappedReferenceReader,
             @Qualifier("communityMappedReferenceProcessor")
-                    ItemProcessor<CommunityMappedReference, List<PublicationDocument>>
+                    ItemProcessor<List<CommunityMappedReference>, List<PublicationDocument>>
                             mappedReferenceProcessor,
             @Qualifier("communityMappedReferenceWriter")
                     ItemWriter<List<PublicationDocument>> mappedReferenceWriter) {
         return this.steps
                 .get(Constants.COMMUNITY_PUBLICATION_INDEX_STEP)
-                .<CommunityMappedReference, List<PublicationDocument>>chunk(this.chunkSize)
+                .<List<CommunityMappedReference>, List<PublicationDocument>>chunk(this.chunkSize)
                 .reader(mappedReferenceReader)
                 .processor(mappedReferenceProcessor)
                 .writer(mappedReferenceWriter)
@@ -61,12 +61,13 @@ public class CommunityPublicationStep {
     }
 
     @Bean(name = "communityMappedReferenceReader")
-    public ItemReader<CommunityMappedReference> xrefReader() throws IOException {
+    public ItemReader<List<CommunityMappedReference>> xrefReader() throws IOException {
         return new CommunityPublicationItemReader(this.filePath);
     }
 
     @Bean(name = "communityMappedReferenceProcessor")
-    public ItemProcessor<CommunityMappedReference, List<PublicationDocument>> xrefProcessor() {
+    public ItemProcessor<List<CommunityMappedReference>, List<PublicationDocument>>
+            xrefProcessor() {
         return new CommunityPublicationProcessor(uniProtSolrClient);
     }
 

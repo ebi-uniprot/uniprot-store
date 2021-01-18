@@ -1,14 +1,10 @@
 package org.uniprot.store.indexer.publication.common;
 
-import java.util.HashSet;
-import java.util.Set;
 import java.util.UUID;
 
 import org.uniprot.core.json.parser.publication.MappedPublicationsJsonConfig;
 import org.uniprot.core.publication.MappedPublications;
 import org.uniprot.core.publication.MappedReference;
-import org.uniprot.core.publication.MappedReferenceType;
-import org.uniprot.store.search.document.publication.PublicationDocument;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -31,20 +27,6 @@ public class PublicationUtils {
                 + " AND "
                 + "pubmed_id:"
                 + reference.getPubMedId();
-    }
-
-    public static Set<String> getMergedCategories(
-            MappedReference reference, PublicationDocument doc) {
-        Set<String> categories = new HashSet<>();
-        categories.addAll(doc.getCategories());
-        categories.addAll(reference.getSourceCategories());
-        return categories;
-    }
-
-    public static Set<Integer> getMergedTypes(PublicationDocument doc, MappedReferenceType type) {
-        Set<Integer> categories = new HashSet<>(doc.getTypes());
-        categories.add(type.getIntValue());
-        return categories;
     }
 
     public static byte[] asBinary(MappedPublications reference) {
