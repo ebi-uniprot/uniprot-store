@@ -79,8 +79,7 @@ class LargeScaleReaderTest {
 
         LargeScaleSolrFieldName fieldName = getFieldName(type);
 
-        LargeScaleReader reader =
-                new LargeScaleReader(solrClient, fieldName);
+        LargeScaleReader reader = new LargeScaleReader(solrClient, fieldName);
         Set<String> result = reader.read();
         assertNotNull(result);
         assertEquals(1, result.size());
@@ -111,9 +110,9 @@ class LargeScaleReaderTest {
 
     private LargeScaleSolrFieldName getFieldName(MappedReferenceType type) {
         LargeScaleSolrFieldName fieldName;
-        if(type == MappedReferenceType.COMMUNITY){
+        if (type == MappedReferenceType.COMMUNITY) {
             fieldName = LargeScaleSolrFieldName.COMMUNITY;
-        } else if(type == MappedReferenceType.COMPUTATIONAL){
+        } else if (type == MappedReferenceType.COMPUTATIONAL) {
             fieldName = LargeScaleSolrFieldName.COMPUTATIONAL;
         } else {
             fieldName = LargeScaleSolrFieldName.UNIPROT_KB;

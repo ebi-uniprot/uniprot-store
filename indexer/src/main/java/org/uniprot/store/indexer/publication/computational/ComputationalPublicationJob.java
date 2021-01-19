@@ -47,6 +47,6 @@ public class ComputationalPublicationJob {
 
     @Bean("largeScaleSolrFieldName")
     public LargeScaleSolrFieldName largeScaleSolrFieldName() {
-        return LargeScaleSolrFieldName.COMMUNITY;
+        return LargeScaleSolrFieldName.COMPUTATIONAL;
     }
 }
