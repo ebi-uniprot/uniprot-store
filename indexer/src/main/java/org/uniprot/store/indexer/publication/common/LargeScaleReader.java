@@ -79,7 +79,7 @@ public class LargeScaleReader implements ItemReader<Set<String>> {
     }
 
     private boolean isLargeScale(LiteratureStatistics statistics) {
-        return (statistics.getCommunityMappedProteinCount()
+        return (statistics.getComputationallyMappedProteinCount()
                         + statistics.getCommunityMappedProteinCount()
                         + statistics.getReviewedProteinCount()
                         + statistics.getUnreviewedProteinCount())
