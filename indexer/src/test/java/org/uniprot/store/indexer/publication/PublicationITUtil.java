@@ -15,6 +15,7 @@ import org.uniprot.core.literature.LiteratureStatistics;
 import org.uniprot.core.literature.impl.LiteratureEntryBuilder;
 import org.uniprot.core.literature.impl.LiteratureStatisticsBuilder;
 import org.uniprot.core.publication.MappedPublications;
+import org.uniprot.core.publication.MappedReferenceType;
 import org.uniprot.store.search.document.literature.LiteratureDocument;
 import org.uniprot.store.search.document.publication.PublicationDocument;
 
@@ -51,6 +52,50 @@ public class PublicationITUtil {
                         .reviewedProteinCount(30)
                         .unreviewedProteinCount(40)
                         .build();
+        LiteratureEntry entry =
+                new LiteratureEntryBuilder().citation(citation).statistics(statistics).build();
+
+        byte[] litBytes =
+                LiteratureJsonConfig.getInstance()
+                        .getFullObjectMapper()
+                        .writer()
+                        .writeValueAsBytes(entry);
+
+        return LiteratureDocument.builder()
+                .id(String.valueOf(pubmedId))
+                .isCommunityMapped(true)
+                .isComputationalMapped(true)
+                .isUniprotkbMapped(true)
+                .literatureObj(ByteBuffer.wrap(litBytes))
+                .build();
+    }
+
+    public static LiteratureDocument createLargeScaleLiteratureWithOneCount(
+            int pubmedId, MappedReferenceType type) throws Exception {
+
+        CrossReference<CitationDatabase> xref =
+                new CrossReferenceBuilder<CitationDatabase>()
+                        .database(CitationDatabase.PUBMED)
+                        .id(String.valueOf(pubmedId))
+                        .build();
+        Citation citation = new JournalArticleBuilder().citationCrossReferencesAdd(xref).build();
+
+        LiteratureStatisticsBuilder statisticsBuilder = new LiteratureStatisticsBuilder();
+        switch (type) {
+            case COMMUNITY:
+                statisticsBuilder.communityMappedProteinCount(60);
+                break;
+            case COMPUTATIONAL:
+                statisticsBuilder.computationallyMappedProteinCount(70);
+                break;
+            case UNIPROTKB_REVIEWED:
+                statisticsBuilder.reviewedProteinCount(80);
+                break;
+            case UNIPROTKB_UNREVIEWED:
+                statisticsBuilder.unreviewedProteinCount(90);
+                break;
+        }
+        LiteratureStatistics statistics = statisticsBuilder.build();
         LiteratureEntry entry =
                 new LiteratureEntryBuilder().citation(citation).statistics(statistics).build();
 

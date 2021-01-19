@@ -1,17 +1,23 @@
 package org.uniprot.store.indexer.publication.common;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Collections;
 import java.util.Set;
+import java.util.concurrent.ThreadLocalRandom;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.EnumSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.uniprot.core.publication.MappedReferenceType;
 import org.uniprot.store.indexer.common.config.UniProtSolrClient;
 import org.uniprot.store.indexer.publication.PublicationITUtil;
 import org.uniprot.store.indexer.test.config.FakeIndexerSpringBootApplication;
@@ -62,6 +68,27 @@ class LargeScaleReaderTest {
         Assertions.assertNull(reader.read());
     }
 
+    @ParameterizedTest
+    @EnumSource(MappedReferenceType.class)
+    void testLargeScaleWithComputationalCountOnly(MappedReferenceType type) throws Exception {
+        int pubmedId = ThreadLocalRandom.current().nextInt();
+        LiteratureDocument litDoc =
+                PublicationITUtil.createLargeScaleLiteratureWithOneCount(pubmedId, type);
+        solrClient.saveBeans(SolrCollection.literature, Collections.singleton(litDoc));
+        solrClient.commit(SolrCollection.literature);
+
+        LargeScaleSolrFieldName fieldName = getFieldName(type);
+
+        LargeScaleReader reader =
+                new LargeScaleReader(solrClient, fieldName);
+        Set<String> result = reader.read();
+        assertNotNull(result);
+        assertEquals(1, result.size());
+        assertTrue(result.contains(String.valueOf(pubmedId)));
+        // bring everything in one read
+        Assertions.assertNull(reader.read());
+    }
+
     @Test
     void canReadSuccessTwoSolrPages() throws Exception {
         for (int pubmedId = 1; pubmedId <= 250; pubmedId++) {
@@ -80,5 +107,17 @@ class LargeScaleReaderTest {
 
         // bring everything in one read
         Assertions.assertNull(reader.read());
+    }
+
+    private LargeScaleSolrFieldName getFieldName(MappedReferenceType type) {
+        LargeScaleSolrFieldName fieldName;
+        if(type == MappedReferenceType.COMMUNITY){
+            fieldName = LargeScaleSolrFieldName.COMMUNITY;
+        } else if(type == MappedReferenceType.COMPUTATIONAL){
+            fieldName = LargeScaleSolrFieldName.COMPUTATIONAL;
+        } else {
+            fieldName = LargeScaleSolrFieldName.UNIPROT_KB;
+        }
+        return fieldName;
     }
 }
