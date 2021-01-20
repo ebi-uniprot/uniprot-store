@@ -4,6 +4,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
+import org.apache.spark.api.java.function.Function;
+import org.apache.spark.sql.SparkSession;
 import org.uniprot.core.publication.MappedReference;
 import org.uniprot.store.indexer.publication.common.PublicationUtils;
 import org.uniprot.store.reader.publications.CommunityMappedReferenceConverter;
@@ -15,6 +17,8 @@ import org.uniprot.store.spark.indexer.common.JobParameter;
 import org.uniprot.store.spark.indexer.common.util.SolrUtils;
 import org.uniprot.store.spark.indexer.common.writer.DocumentsToHDFSWriter;
 import org.uniprot.store.spark.indexer.publication.mapper.MappedReferencesToPublicationDocumentConverter;
+import org.uniprot.store.spark.indexer.publication.mapper.SparkCommunityMappedReferenceConverter;
+import org.uniprot.store.spark.indexer.publication.mapper.SparkComputationallyMappedReferenceConverter;
 import org.uniprot.store.spark.indexer.publication.mapper.UniProtKBPublicationToMappedReference;
 import org.uniprot.store.spark.indexer.uniprot.UniProtKBRDDTupleReader;
 import scala.Tuple2;
@@ -55,6 +59,10 @@ public class PublicationDocumentsToHDFSWriter implements DocumentsToHDFSWriter {
 
         // load community docs
         JavaPairRDD<String, MappedReference> communityMappedRefsRDD = loadCommunityDocs();
+
+        // <pubmed, accession>
+        // groupbyKey => <pubmed, {acc1, acc2}>
+        // map something => <pubmed, count>
 
         // at this stage there will be duplicated keys
         JavaPairRDD<String, MappedReference> allMappedRefs =
@@ -100,24 +108,28 @@ public class PublicationDocumentsToHDFSWriter implements DocumentsToHDFSWriter {
 
     private JavaPairRDD<String, MappedReference> loadComputationalDocs() {
         return loadMappedReferenceRDD(
-                "computational.mapped.references.file",
-                new ComputationallyMappedReferenceConverter());
+                "computational.mapped.references.file.path",
+                new SparkComputationallyMappedReferenceConverter());
     }
 
     private JavaPairRDD<String, MappedReference> loadCommunityDocs() {
         return loadMappedReferenceRDD(
-                "community.mapped.references.file", new CommunityMappedReferenceConverter());
+                "community.mapped.references.file.path", new SparkCommunityMappedReferenceConverter());
     }
 
     private JavaPairRDD<String, MappedReference> loadMappedReferenceRDD(
-            String srcFilePathProperty, MappedReferenceConverter<?> converter) {
-        JavaSparkContext jsc = this.parameter.getSparkContext();
+            String srcFilePathProperty, Function<String, MappedReference> converter) {
         String releaseInputDir = getInputReleaseDirPath(config, this.parameter.getReleaseName());
         String filePath = releaseInputDir + config.getString(srcFilePathProperty);
-        JavaRDD<String> rawMappedRefStrRdd = jsc.textFile(filePath);
+
+        JavaSparkContext jsc = this.parameter.getSparkContext();
+        SparkSession spark = SparkSession.builder().config(jsc.getConf()).getOrCreate();
+        JavaRDD<String> rawMappedRefStrRdd = spark.read()
+                .textFile(filePath)
+                .toJavaRDD();
 
         return rawMappedRefStrRdd
-                .map(converter::convert)
+                .map(converter)
                 .mapToPair(
                         ref ->
                                 new Tuple2<>(
