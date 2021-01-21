@@ -49,7 +49,7 @@ RN   [5]
 RP   FUNCTION, INTERACTION WITH CABP1 AND KPNA1, MYRISTOYLATION AT GLY-2,
 RP   SUBCELLULAR LOCATION, MUTAGENESIS OF GLY-2; PHE-241; 247-ARG--ARG-252
 RP   AND 260-ILE-GLN-261, AND TISSUE SPECIFICITY.
-RX   PubMed=18303947; DOI=10.1371/journal.pbio.0060034;
+RX   PubMed=55555555; DOI=10.1371/journal.pbio.0060034;
 RA   Dieterich D.C., Karpova A., Mikhaylova M., Zdobnova I., Konig I.,
 RA   Landwehr M., Kreutz M., Smalla K.H., Richter K., Landgraf P.,
 RA   Reissner C., Boeckers T.M., Zuschratter W., Spilker C.,
