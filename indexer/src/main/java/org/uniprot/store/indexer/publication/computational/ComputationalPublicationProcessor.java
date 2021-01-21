@@ -25,7 +25,7 @@ public class ComputationalPublicationProcessor
     @Override
     public List<PublicationDocument> process(ComputationallyMappedReference reference) {
         List<PublicationDocument> toReturn = new ArrayList<>();
-        PublicationDocument.PublicationDocumentBuilder builder = PublicationDocument.builder();
+        PublicationDocument.Builder builder = PublicationDocument.builder();
         toReturn.add(
                 builder.pubMedId(reference.getPubMedId())
                         .accession(reference.getUniProtKBAccession().getValue())

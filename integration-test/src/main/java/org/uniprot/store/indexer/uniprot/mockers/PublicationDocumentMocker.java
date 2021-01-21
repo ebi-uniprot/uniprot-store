@@ -1,18 +1,16 @@
 package org.uniprot.store.indexer.uniprot.mockers;
 
-import static org.uniprot.store.indexer.publication.common.PublicationUtils.asBinary;
-
-import java.util.*;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.concurrent.ThreadLocalRandom;
-
 import org.uniprot.core.citation.impl.SubmissionBuilder;
 import org.uniprot.core.publication.*;
 import org.uniprot.core.publication.impl.*;
 import org.uniprot.core.uniprotkb.ReferenceCommentType;
 import org.uniprot.core.uniprotkb.impl.ReferenceCommentBuilder;
 import org.uniprot.store.search.document.publication.PublicationDocument;
+
+import java.util.*;
+import java.util.concurrent.ThreadLocalRandom;
+
+import static org.uniprot.store.indexer.publication.common.PublicationUtils.asBinary;
 
 /**
  * Created 08/01/2021
@@ -39,7 +37,7 @@ public class PublicationDocumentMocker {
 
     public static PublicationDocument createWithoutPubmed(int accessionNumber) {
         String id = generateId();
-        PublicationDocument.PublicationDocumentBuilder builder =
+        PublicationDocument.Builder builder =
                 populateDocumentWithoutPubmedOrMappedPublications(
                         id, generateAccession(accessionNumber));
 
@@ -64,8 +62,8 @@ public class PublicationDocumentMocker {
 
     private static final Map<String, Set<String>> DOC_CATEGORIES = new HashMap<>();
 
-    private static PublicationDocument.PublicationDocumentBuilder
-            populateDocumentWithoutPubmedOrMappedPublications(String id, String accession) {
+    private static PublicationDocument.Builder populateDocumentWithoutPubmedOrMappedPublications(
+            String id, String accession) {
         int randomCategoriesSize = ThreadLocalRandom.current().nextInt(0, CATEGORIES.size() + 1);
         Set<String> randomCategories = new HashSet<>();
         randomCategories.add("Interaction");

@@ -1,5 +1,6 @@
 package org.uniprot.store.search.document.publication;
 
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -17,7 +18,7 @@ import org.uniprot.store.search.document.Document;
  * @author sahmad
  * @created 04/12/2020
  */
-@Builder(toBuilder = true)
+@Builder(toBuilder = true, builderClassName = "Builder")
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
@@ -77,5 +78,9 @@ public class PublicationDocument implements Document {
     @Field("types")
     public void setTypes(List<Integer> types) {
         this.types = new HashSet<>(types);
+    }
+
+    public static class Builder implements Serializable {
+        private static final long serialVersionUID = -3388130915867747464L;
     }
 }

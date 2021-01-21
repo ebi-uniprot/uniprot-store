@@ -42,7 +42,7 @@ public class CommunityPublicationProcessor
     @Override
     public List<PublicationDocument> process(CommunityMappedReference reference) {
         List<PublicationDocument> toReturn = new ArrayList<>();
-        PublicationDocument.PublicationDocumentBuilder builder = PublicationDocument.builder();
+        PublicationDocument.Builder builder = PublicationDocument.builder();
 
         List<PublicationDocument> documents =
                 uniProtSolrClient.query(
