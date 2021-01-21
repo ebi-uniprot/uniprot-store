@@ -6,16 +6,18 @@ import java.util.List;
 import org.springframework.batch.item.ItemReader;
 import org.uniprot.core.publication.CommunityMappedReference;
 import org.uniprot.store.reader.publications.CommunityMappedReferenceConverter;
+import org.uniprot.store.reader.publications.MappedReferenceReader;
 
 public class CommunityPublicationItemReader implements ItemReader<List<CommunityMappedReference>> {
-    private final CommunityMappedReferenceConverter converter;
+    private final MappedReferenceReader<CommunityMappedReference> referenceReader;
 
     public CommunityPublicationItemReader(String filePath) throws IOException {
-        converter = new CommunityMappedReferenceConverter(filePath);
+        this.referenceReader =
+                new MappedReferenceReader(new CommunityMappedReferenceConverter(), filePath);
     }
 
     @Override
     public List<CommunityMappedReference> read() {
-        return converter.getNext();
+        return referenceReader.readNext();
     }
 }
