@@ -1,32 +1,28 @@
 package org.uniprot.store.spark.indexer.publication.mapper;
 
-import org.apache.spark.api.java.function.Function;
+import org.apache.spark.api.java.function.PairFunction;
 import org.uniprot.core.publication.*;
 import org.uniprot.core.publication.impl.MappedPublicationsBuilder;
 import org.uniprot.store.indexer.publication.common.PublicationUtils;
 import org.uniprot.store.search.document.publication.PublicationDocument;
 import scala.Tuple2;
 
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 import static org.uniprot.store.spark.indexer.publication.PublicationDocumentsToHDFSWriter.separateJoinKey;
 
 /**
- * Merges an {@link Iterable} of {@link MappedReference} instances to create an instance of {@link
- * PublicationDocument}.
- *
- * <p>Created 19/01/2021
+ * Created 21/01/2021
  *
  * @author Edd
  */
-public class MappedReferencesToPublicationDocumentConverter
-        implements Function<Tuple2<String, Iterable<MappedReference>>, PublicationDocument> {
+public class MappedReferencesToPublicationDocumentBuilderConverter
+        implements PairFunction<
+                Tuple2<String, Iterable<MappedReference>>, Integer, PublicationDocument.Builder> {
     @Override
-    public PublicationDocument call(Tuple2<String, Iterable<MappedReference>> tuple)
-            throws Exception {
+    public Tuple2<Integer, PublicationDocument.Builder> call(
+            Tuple2<String, Iterable<MappedReference>> tuple) throws Exception {
+
         String[] separatedJoinKey = separateJoinKey(tuple._1);
         String accession = separatedJoinKey[0];
         String pubMed =
@@ -45,7 +41,7 @@ public class MappedReferencesToPublicationDocumentConverter
             categories.addAll(mappedReference.getSourceCategories());
         }
 
-        return docBuilder
+        docBuilder
                 .id(PublicationUtils.getDocumentId())
                 .accession(accession)
                 .pubMedId(pubMed)
@@ -53,14 +49,27 @@ public class MappedReferencesToPublicationDocumentConverter
                 .mainType(Collections.max(types))
                 .types(types)
                 .publicationMappedReferences(
-                        PublicationUtils.asBinary(mappedPublicationsBuilder.build()))
-                .build();
+                        PublicationUtils.asBinary(mappedPublicationsBuilder.build()));
+        return new Tuple2<>(getPubMedIdRealOrFake(pubMed), docBuilder);
+    }
+
+    private int getPubMedIdRealOrFake(String pubMed) {
+        if (pubMed == null) {
+            int fakePubMed = new Random().nextInt();
+            if (fakePubMed > 0) {
+                fakePubMed = fakePubMed * -1;
+            }
+            return fakePubMed;
+        } else {
+            return Integer.parseInt(pubMed);
+        }
     }
 
     private Optional<Integer> injectMappedReferenceInfo(
             MappedReference ref,
             PublicationDocument.Builder docBuilder,
             MappedPublicationsBuilder mappedPublicationsBuilder) {
+
         if (ref instanceof UniProtKBMappedReference) {
             docBuilder.refNumber(((UniProtKBMappedReference) ref).getReferenceNumber());
             mappedPublicationsBuilder.reviewedMappedReference((UniProtKBMappedReference) ref);

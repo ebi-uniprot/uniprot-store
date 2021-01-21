@@ -8,18 +8,12 @@ import org.apache.spark.api.java.function.Function;
 import org.apache.spark.sql.SparkSession;
 import org.uniprot.core.publication.MappedReference;
 import org.uniprot.store.indexer.publication.common.PublicationUtils;
-import org.uniprot.store.reader.publications.CommunityMappedReferenceConverter;
-import org.uniprot.store.reader.publications.ComputationallyMappedReferenceConverter;
-import org.uniprot.store.reader.publications.MappedReferenceConverter;
 import org.uniprot.store.search.SolrCollection;
 import org.uniprot.store.search.document.publication.PublicationDocument;
 import org.uniprot.store.spark.indexer.common.JobParameter;
 import org.uniprot.store.spark.indexer.common.util.SolrUtils;
 import org.uniprot.store.spark.indexer.common.writer.DocumentsToHDFSWriter;
-import org.uniprot.store.spark.indexer.publication.mapper.MappedReferencesToPublicationDocumentConverter;
-import org.uniprot.store.spark.indexer.publication.mapper.SparkCommunityMappedReferenceConverter;
-import org.uniprot.store.spark.indexer.publication.mapper.SparkComputationallyMappedReferenceConverter;
-import org.uniprot.store.spark.indexer.publication.mapper.UniProtKBPublicationToMappedReference;
+import org.uniprot.store.spark.indexer.publication.mapper.*;
 import org.uniprot.store.spark.indexer.uniprot.UniProtKBRDDTupleReader;
 import scala.Tuple2;
 
@@ -39,6 +33,7 @@ import static org.uniprot.store.spark.indexer.common.util.SparkUtils.getInputRel
  */
 @Slf4j
 public class PublicationDocumentsToHDFSWriter implements DocumentsToHDFSWriter {
+    private static final String NO_PUBMED_PREFIX = "NO-PUBMED-";
     private final JobParameter parameter;
     private final ResourceBundle config;
     private final String releaseName;
@@ -60,22 +55,24 @@ public class PublicationDocumentsToHDFSWriter implements DocumentsToHDFSWriter {
         // load community docs
         JavaPairRDD<String, MappedReference> communityMappedRefsRDD = loadCommunityDocs();
 
-        // <pubmed, accession>
-        // groupbyKey => <pubmed, {acc1, acc2}>
-        // map something => <pubmed, count>
-
         // at this stage there will be duplicated keys
         JavaPairRDD<String, MappedReference> allMappedRefs =
                 kbMappedRefsRDD.union(computationalMappedRefsRDD).union(communityMappedRefsRDD);
 
-        // group records with identical keys, so that the record value is an iterable
-        // of MappedReferences. Then convert this iterable into a PublicationDocument.
-        JavaRDD<PublicationDocument> pubDocRDD =
+        // create a document for each pubmed/submission
+        JavaPairRDD<Integer, PublicationDocument.Builder> pubDocRDD =
                 allMappedRefs
                         .groupByKey()
-                        .map(new MappedReferencesToPublicationDocumentConverter());
+                        .mapToPair(new MappedReferencesToPublicationDocumentBuilderConverter());
 
-        saveToHDFS(pubDocRDD);
+        // creates
+        JavaRDD<PublicationDocument> allDocs =
+                pubDocRDD
+                        .groupByKey()
+                        .flatMap(new IsLargeScalePublicationDocumentFlatMapper())
+                        .map(PublicationDocument.Builder::build);
+
+        saveToHDFS(allDocs);
 
         log.info("Completed writing UniProtKB publication documents to HDFS");
     }
@@ -83,7 +80,7 @@ public class PublicationDocumentsToHDFSWriter implements DocumentsToHDFSWriter {
     public static String getJoinKey(String accession, String pubMed) {
         String refIdentifier = pubMed;
         if (refIdentifier == null) {
-            refIdentifier = "NO-PUBMED" + PublicationUtils.getDocumentId();
+            refIdentifier = NO_PUBMED_PREFIX + PublicationUtils.getDocumentId();
         }
 
         return accession + "_" + refIdentifier;
@@ -91,7 +88,7 @@ public class PublicationDocumentsToHDFSWriter implements DocumentsToHDFSWriter {
 
     public static String[] separateJoinKey(String joinKey) {
         String[] parts = joinKey.split("_");
-        if (parts[1].startsWith("NO-PUBMED")) {
+        if (parts[1].startsWith(NO_PUBMED_PREFIX)) {
             parts[1] = null;
         }
         return parts;
@@ -102,8 +99,7 @@ public class PublicationDocumentsToHDFSWriter implements DocumentsToHDFSWriter {
                 new UniProtKBRDDTupleReader(this.parameter, false);
         JavaRDD<String> uniProtKBEntryStringsRDD = uniProtKBReader.loadFlatFileToRDD();
 
-        return uniProtKBEntryStringsRDD.flatMapToPair(
-                new UniProtKBPublicationToMappedReference());
+        return uniProtKBEntryStringsRDD.flatMapToPair(new UniProtKBPublicationToMappedReference());
     }
 
     private JavaPairRDD<String, MappedReference> loadComputationalDocs() {
@@ -114,7 +110,8 @@ public class PublicationDocumentsToHDFSWriter implements DocumentsToHDFSWriter {
 
     private JavaPairRDD<String, MappedReference> loadCommunityDocs() {
         return loadMappedReferenceRDD(
-                "community.mapped.references.file.path", new SparkCommunityMappedReferenceConverter());
+                "community.mapped.references.file.path",
+                new SparkCommunityMappedReferenceConverter());
     }
 
     private JavaPairRDD<String, MappedReference> loadMappedReferenceRDD(
@@ -124,9 +121,7 @@ public class PublicationDocumentsToHDFSWriter implements DocumentsToHDFSWriter {
 
         JavaSparkContext jsc = this.parameter.getSparkContext();
         SparkSession spark = SparkSession.builder().config(jsc.getConf()).getOrCreate();
-        JavaRDD<String> rawMappedRefStrRdd = spark.read()
-                .textFile(filePath)
-                .toJavaRDD();
+        JavaRDD<String> rawMappedRefStrRdd = spark.read().textFile(filePath).toJavaRDD();
 
         return rawMappedRefStrRdd
                 .map(converter)

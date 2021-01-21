@@ -180,7 +180,7 @@ public class UniProtKBPublicationToMappedReference
         return mappedReferenceInfo;
     }
 
-    PublicationDocument.PublicationDocumentBuilder referenceToPubDocBuilder(
+    PublicationDocument.Builder referenceToPubDocBuilder(
             String accession,
             UniProtKBEntryType entryType,
             UniProtKBReference reference,

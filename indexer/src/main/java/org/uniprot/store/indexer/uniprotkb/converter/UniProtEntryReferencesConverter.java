@@ -49,7 +49,7 @@ public class UniProtEntryReferencesConverter implements Serializable {
         List<PublicationDocument> pubDocs = new ArrayList<>();
         for (int i = 0; i < references.size(); i++) {
             UniProtKBReference reference = references.get(i);
-            PublicationDocument.PublicationDocumentBuilder builder =
+            PublicationDocument.Builder builder =
                     referenceToPublicationDocumentBuilder(
                             accession, uniProtKBEntry.getEntryType(), reference, i);
             pubDocs.add(builder.build());
@@ -57,7 +57,7 @@ public class UniProtEntryReferencesConverter implements Serializable {
         return pubDocs;
     }
 
-    public PublicationDocument.PublicationDocumentBuilder referenceToPublicationDocumentBuilder(
+    public PublicationDocument.Builder referenceToPublicationDocumentBuilder(
             String accession, UniProtKBEntryType entryType, UniProtKBReference reference, int i) {
         Citation citation = reference.getCitation();
         if (isEntryTypeSupported(entryType)) {
@@ -77,7 +77,7 @@ public class UniProtEntryReferencesConverter implements Serializable {
 
             String id = PublicationUtils.getDocumentId();
             byte[] mappedReferenceByte = getMappedPublicationsBinary(mappedPubs);
-            PublicationDocument.PublicationDocumentBuilder builder = PublicationDocument.builder();
+            PublicationDocument.Builder builder = PublicationDocument.builder();
             builder.id(id);
             builder.refNumber(referenceNumber);
             builder.accession(accession);
