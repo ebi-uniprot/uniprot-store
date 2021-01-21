@@ -16,10 +16,7 @@ import org.uniprot.store.spark.indexer.common.JobParameter;
 import org.uniprot.store.spark.indexer.common.util.SparkUtils;
 
 import java.io.IOException;
-import java.util.Collection;
-import java.util.List;
-import java.util.Objects;
-import java.util.ResourceBundle;
+import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -34,6 +31,8 @@ import static org.uniprot.core.publication.MappedReferenceType.*;
  * @author Edd
  */
 class PublicationDocumentsToHDFSWriterTest {
+    private static final String LARGE_SCALE_STUDY_PUBMED_ID = "55555555";
+
     @Test
     void writeIndexDocumentsToHDFS() throws IOException {
         // given
@@ -61,7 +60,47 @@ class PublicationDocumentsToHDFSWriterTest {
             checkCommunityDocuments(savedDocuments);
             checkUniProtKBDocuments(savedDocuments);
             checkDocumentMerging(savedDocuments);
+            checkLargeScaleStudySetCorrectly(savedDocuments);
         }
+    }
+
+    private void checkLargeScaleStudySetCorrectly(List<PublicationDocument> savedDocuments) {
+        // check all small scale study docs
+        List<PublicationDocument> smallScaleStudyDocs =
+                savedDocuments.stream()
+                        .filter(doc -> !doc.isLargeScale())
+                        .collect(Collectors.toList());
+        assertThat(
+                smallScaleStudyDocs.stream()
+                        .map(PublicationDocument::getAccession)
+                        .collect(Collectors.toSet()),
+                containsInAnyOrder(
+                        "Q9EPI6", "COMM00", "COMM01", "COMM02", "COMM03", "COMM04", "COMM05", "COMM06",
+                        "COMP00", "COMP01", "COMP02", "COMP03"));
+        smallScaleStudyDocs.forEach(doc -> assertThat(doc.isLargeScale(), is(false)));
+
+        // check all large scale study docs
+        List<PublicationDocument> largeScaleStudyDocs =
+                savedDocuments.stream()
+                        .filter(PublicationDocument::isLargeScale)
+                        .collect(Collectors.toList());
+
+        // 30 computational, 20 community, 1 uniprotkb reviewed
+        assertThat(largeScaleStudyDocs, hasSize(51));
+        largeScaleStudyDocs.forEach(
+                doc -> {
+                    assertThat(doc.isLargeScale(), is(true));
+                    assertThat(doc.getPubMedId(), is(LARGE_SCALE_STUDY_PUBMED_ID));
+                });
+
+        Map<MappedReferenceType, Long> referenceTypeCountMap =
+                largeScaleStudyDocs.stream()
+                        .collect(
+                                Collectors.groupingBy(
+                                        doc -> getType(doc.getMainType()), Collectors.counting()));
+        assertThat(referenceTypeCountMap, hasEntry(UNIPROTKB_REVIEWED, 1L));
+        assertThat(referenceTypeCountMap, hasEntry(COMPUTATIONAL, 30L));
+        assertThat(referenceTypeCountMap, hasEntry(COMMUNITY, 20L));
     }
 
     private void checkDocumentMerging(List<PublicationDocument> savedDocuments) throws IOException {
@@ -139,10 +178,7 @@ class PublicationDocumentsToHDFSWriterTest {
             throws IOException {
         List<PublicationDocument> kbDocs =
                 savedDocuments.stream()
-                        .filter(
-                                doc ->
-                                        !doc.getAccession().startsWith("COMM")
-                                                && !doc.getAccession().startsWith("COMP"))
+                        .filter(doc -> doc.getAccession().equals("Q9EPI6"))
                         .collect(Collectors.toList());
 
         assertThat(kbDocs, hasSize(7));
@@ -158,7 +194,12 @@ class PublicationDocumentsToHDFSWriterTest {
                         .map(PublicationDocument::getPubMedId)
                         .filter(Objects::nonNull)
                         .collect(Collectors.toList()),
-                containsInAnyOrder("15489334", "15018815", "18303947", "19608740", "21364755"));
+                containsInAnyOrder(
+                        "15489334",
+                        "15018815",
+                        LARGE_SCALE_STUDY_PUBMED_ID,
+                        "19608740",
+                        "21364755"));
 
         // check RN 1, and that it is a submission
         PublicationDocument kbRN1Doc = extractValue(kbDocs, PublicationDocument::getRefNumber, 0);
@@ -220,7 +261,9 @@ class PublicationDocumentsToHDFSWriterTest {
 
         UniProtKBMappedReference kbRN4Ref = mappedPubsForKbRN3.getReviewedMappedReference();
 
-        assertThat(kbRN4Ref.getReferencePositions(), contains("NUCLEOTIDE SEQUENCE [LARGE SCALE MRNA] (ISOFORM 1)"));
+        assertThat(
+                kbRN4Ref.getReferencePositions(),
+                contains("NUCLEOTIDE SEQUENCE [LARGE SCALE MRNA] (ISOFORM 1)"));
         assertThat(
                 kbRN4Ref.getReferenceComments().stream()
                         .map(Value::getValue)

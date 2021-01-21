@@ -6,3 +6,33 @@ COMP00	GAD	10000000	100001	[Interaction]An interaction.
 COMP00	GAD	10000000	100002	[Sequences]
 Q9EPI6	GAD	15018815	100002	[Interaction]An interaction again.
 Q9EPI6	GAD	15018815	100003	[Interaction]An interaction again 2.
+LARGE-SCALE-STUDY-ACC-1	GAD	55555555	100004	[Interaction]Large scale study protein info 1.
+LARGE-SCALE-STUDY-ACC-2	GAD	55555555	100004	[Interaction]Large scale study protein info 2.
+LARGE-SCALE-STUDY-ACC-3	GAD	55555555	100004	[Interaction]Large scale study protein info 3.
+LARGE-SCALE-STUDY-ACC-4	GAD	55555555	100004	[Interaction]Large scale study protein info 4.
+LARGE-SCALE-STUDY-ACC-5	GAD	55555555	100004	[Interaction]Large scale study protein info 5.
+LARGE-SCALE-STUDY-ACC-6	GAD	55555555	100004	[Interaction]Large scale study protein info 6.
+LARGE-SCALE-STUDY-ACC-7	GAD	55555555	100004	[Interaction]Large scale study protein info 7.
+LARGE-SCALE-STUDY-ACC-8	GAD	55555555	100004	[Interaction]Large scale study protein info 8.
+LARGE-SCALE-STUDY-ACC-9	GAD	55555555	100004	[Interaction]Large scale study protein info 9.
+LARGE-SCALE-STUDY-ACC-10	GAD	55555555	100004	[Interaction]Large scale study protein info 10.
+LARGE-SCALE-STUDY-ACC-11	GAD	55555555	100004	[Interaction]Large scale study protein info 11.
+LARGE-SCALE-STUDY-ACC-12	GAD	55555555	100004	[Interaction]Large scale study protein info 12.
+LARGE-SCALE-STUDY-ACC-13	GAD	55555555	100004	[Interaction]Large scale study protein info 13.
+LARGE-SCALE-STUDY-ACC-14	GAD	55555555	100004	[Interaction]Large scale study protein info 14.
+LARGE-SCALE-STUDY-ACC-15	GAD	55555555	100004	[Interaction]Large scale study protein info 15.
+LARGE-SCALE-STUDY-ACC-16	GAD	55555555	100004	[Interaction]Large scale study protein info 16.
+LARGE-SCALE-STUDY-ACC-17	GAD	55555555	100004	[Interaction]Large scale study protein info 17.
+LARGE-SCALE-STUDY-ACC-18	GAD	55555555	100004	[Interaction]Large scale study protein info 18.
+LARGE-SCALE-STUDY-ACC-19	GAD	55555555	100004	[Interaction]Large scale study protein info 19.
+LARGE-SCALE-STUDY-ACC-20	GAD	55555555	100004	[Interaction]Large scale study protein info 20.
+LARGE-SCALE-STUDY-ACC-21	GAD	55555555	100004	[Interaction]Large scale study protein info 21.
+LARGE-SCALE-STUDY-ACC-22	GAD	55555555	100004	[Interaction]Large scale study protein info 22.
+LARGE-SCALE-STUDY-ACC-23	GAD	55555555	100004	[Interaction]Large scale study protein info 23.
+LARGE-SCALE-STUDY-ACC-24	GAD	55555555	100004	[Interaction]Large scale study protein info 24.
+LARGE-SCALE-STUDY-ACC-25	GAD	55555555	100004	[Interaction]Large scale study protein info 25.
+LARGE-SCALE-STUDY-ACC-26	GAD	55555555	100004	[Interaction]Large scale study protein info 26.
+LARGE-SCALE-STUDY-ACC-27	GAD	55555555	100004	[Interaction]Large scale study protein info 27.
+LARGE-SCALE-STUDY-ACC-28	GAD	55555555	100004	[Interaction]Large scale study protein info 28.
+LARGE-SCALE-STUDY-ACC-29	GAD	55555555	100004	[Interaction]Large scale study protein info 29.
+LARGE-SCALE-STUDY-ACC-30	GAD	55555555	100004	[Interaction]Large scale study protein info 30.
