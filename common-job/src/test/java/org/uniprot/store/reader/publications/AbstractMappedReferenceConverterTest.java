@@ -5,7 +5,6 @@ import static org.hamcrest.Matchers.*;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.io.IOException;
-import java.util.List;
 import java.util.Set;
 
 import lombok.Getter;
@@ -25,8 +24,6 @@ import org.uniprot.core.uniprotkb.impl.UniProtKBAccessionBuilder;
 class AbstractMappedReferenceConverterTest {
     private static final String ACC_PUBMED_ORCHID_LINE_PREFIX =
             "Q1MDE9\tORCID\t19597156\t0000-0002-4251-0362";
-
-    public static final String FILE_PATH = "src/test/resources/computational_pir_map.txt";
 
     @Test
     void convertsCorrectly() throws IOException {
@@ -207,32 +204,9 @@ class AbstractMappedReferenceConverterTest {
         assertThat(mappedReference.getAnnotation(), is(annotationPart));
     }
 
-    @Test
-    void testGetNext() throws IOException {
-        FakeMappedReferenceConverter converter = new FakeMappedReferenceConverter(FILE_PATH);
-        List<FakeMappedReference> refs;
-        while ((refs = converter.getNext()) != null) {
-            if (refs.size() > 1) {
-                assertThat(refs.size(), is(2));
-                assertThat(refs.get(0).getPubMedId(), is("11203701"));
-                assertThat(refs.get(1).getPubMedId(), is("11203701"));
-                assertThat(refs.get(0).getUniProtKBAccession().getValue(), is("P21802"));
-                assertThat(refs.get(1).getUniProtKBAccession().getValue(), is("P21802"));
-            } else {
-                assertThat(refs.size(), is(1));
-            }
-        }
-    }
-
     private static class FakeMappedReferenceConverter
             extends AbstractMappedReferenceConverter<FakeMappedReference> {
-        public FakeMappedReferenceConverter() throws IOException {
-            this(FILE_PATH);
-        }
-
-        public FakeMappedReferenceConverter(String filePath) throws IOException {
-            super(filePath);
-        }
+        public FakeMappedReferenceConverter() throws IOException {}
 
         FakeMappedReference convertRawMappedReference(RawMappedReference reference) {
             FakeMappedReference mappedReference = new FakeMappedReference();
