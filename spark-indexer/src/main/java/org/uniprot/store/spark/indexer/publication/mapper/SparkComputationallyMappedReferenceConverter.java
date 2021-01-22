@@ -9,10 +9,12 @@ import org.uniprot.store.reader.publications.ComputationallyMappedReferenceConve
  *
  * @author Edd
  */
-public class SparkComputationallyMappedReferenceConverter implements Function<String, MappedReference> {
+public class SparkComputationallyMappedReferenceConverter
+        implements Function<String, MappedReference> {
     @Override
     public MappedReference call(String rawReference) throws Exception {
-        ComputationallyMappedReferenceConverter converter = new ComputationallyMappedReferenceConverter();
+        ComputationallyMappedReferenceConverter converter =
+                new ComputationallyMappedReferenceConverter();
         return converter.convert(rawReference);
     }
 }

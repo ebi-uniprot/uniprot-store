@@ -1,16 +1,16 @@
 package org.uniprot.store.indexer.uniprot.mockers;
 
+import static org.uniprot.store.indexer.publication.common.PublicationUtils.asBinary;
+
+import java.util.*;
+import java.util.concurrent.ThreadLocalRandom;
+
 import org.uniprot.core.citation.impl.SubmissionBuilder;
 import org.uniprot.core.publication.*;
 import org.uniprot.core.publication.impl.*;
 import org.uniprot.core.uniprotkb.ReferenceCommentType;
 import org.uniprot.core.uniprotkb.impl.ReferenceCommentBuilder;
 import org.uniprot.store.search.document.publication.PublicationDocument;
-
-import java.util.*;
-import java.util.concurrent.ThreadLocalRandom;
-
-import static org.uniprot.store.indexer.publication.common.PublicationUtils.asBinary;
 
 /**
  * Created 08/01/2021

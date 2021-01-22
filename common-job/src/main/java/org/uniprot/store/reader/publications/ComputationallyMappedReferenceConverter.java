@@ -1,6 +1,5 @@
 package org.uniprot.store.reader.publications;
 
-
 import org.uniprot.core.publication.ComputationallyMappedReference;
 import org.uniprot.core.publication.impl.ComputationallyMappedReferenceBuilder;
 import org.uniprot.core.publication.impl.MappedSourceBuilder;

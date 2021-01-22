@@ -1,15 +1,16 @@
 package org.uniprot.store.spark.indexer.publication.mapper;
 
+import static org.uniprot.store.spark.indexer.publication.PublicationDocumentsToHDFSWriter.separateJoinKey;
+
+import java.util.*;
+
 import org.apache.spark.api.java.function.PairFunction;
 import org.uniprot.core.publication.*;
 import org.uniprot.core.publication.impl.MappedPublicationsBuilder;
 import org.uniprot.store.indexer.publication.common.PublicationUtils;
 import org.uniprot.store.search.document.publication.PublicationDocument;
+
 import scala.Tuple2;
-
-import java.util.*;
-
-import static org.uniprot.store.spark.indexer.publication.PublicationDocumentsToHDFSWriter.separateJoinKey;
 
 /**
  * Created 21/01/2021

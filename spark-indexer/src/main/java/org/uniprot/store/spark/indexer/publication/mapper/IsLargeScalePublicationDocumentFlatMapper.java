@@ -1,11 +1,12 @@
 package org.uniprot.store.spark.indexer.publication.mapper;
 
-import org.apache.spark.api.java.function.FlatMapFunction;
-import org.uniprot.store.search.document.publication.PublicationDocument;
-import scala.Tuple2;
-
 import java.util.Iterator;
 import java.util.stream.StreamSupport;
+
+import org.apache.spark.api.java.function.FlatMapFunction;
+import org.uniprot.store.search.document.publication.PublicationDocument;
+
+import scala.Tuple2;
 
 /**
  * Created 21/01/2021
@@ -14,7 +15,8 @@ import java.util.stream.StreamSupport;
  */
 public class IsLargeScalePublicationDocumentFlatMapper
         implements FlatMapFunction<
-                Tuple2<Integer, Iterable<PublicationDocument.Builder>>, PublicationDocument.Builder> {
+                Tuple2<Integer, Iterable<PublicationDocument.Builder>>,
+                PublicationDocument.Builder> {
     @Override
     public Iterator<PublicationDocument.Builder> call(
             Tuple2<Integer, Iterable<PublicationDocument.Builder>> tuple) throws Exception {
