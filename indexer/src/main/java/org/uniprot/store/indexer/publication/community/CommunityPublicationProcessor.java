@@ -55,7 +55,7 @@ public class CommunityPublicationProcessor
 
         CommunityMappedReference reference = references.get(0);
         PublicationDocument toReturn;
-        PublicationDocument.PublicationDocumentBuilder builder = PublicationDocument.builder();
+        PublicationDocument.Builder builder = PublicationDocument.builder();
 
         List<PublicationDocument> documents =
                 uniProtSolrClient.query(
