@@ -1,16 +1,20 @@
 package org.uniprot.store.spark.indexer.uniparc;
 
-import java.util.Iterator;
 import java.util.ResourceBundle;
 
 import lombok.extern.slf4j.Slf4j;
 
+import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
-import org.apache.spark.api.java.function.VoidFunction;
+import org.uniprot.core.taxonomy.TaxonomyEntry;
 import org.uniprot.core.uniparc.UniParcEntry;
 import org.uniprot.store.spark.indexer.common.JobParameter;
 import org.uniprot.store.spark.indexer.common.store.DataStoreIndexer;
 import org.uniprot.store.spark.indexer.common.store.DataStoreParameter;
+import org.uniprot.store.spark.indexer.taxonomy.TaxonomyRDDReader;
+import org.uniprot.store.spark.indexer.uniparc.mapper.UniParcEntryKeyMapper;
+import org.uniprot.store.spark.indexer.uniparc.mapper.UniParcEntryTaxonomyJoin;
+import org.uniprot.store.spark.indexer.uniparc.mapper.UniParcTaxonomyMapper;
 
 /**
  * @author lgonzales
@@ -27,18 +31,45 @@ public class UniParcDataStoreIndexer implements DataStoreIndexer {
 
     @Override
     public void indexInDataStore() {
-        ResourceBundle config = parameter.getApplicationConfig();
         UniParcRDDTupleReader reader = new UniParcRDDTupleReader(parameter, false);
         JavaRDD<UniParcEntry> uniparcRDD = reader.load();
 
-        DataStoreParameter dataStoreParameter = getDataStoreParameter(config);
+        // JavaPairRDD<taxId,uniparcId>
+        JavaPairRDD<String, String> taxonomyJoin =
+                uniparcRDD.flatMapToPair(new UniParcTaxonomyMapper());
 
-        uniparcRDD.foreachPartition(getWriter(dataStoreParameter));
+        // JavaPairRDD<taxId,TaxonomyEntry>
+        JavaPairRDD<String, TaxonomyEntry> taxonomyEntryJavaPairRDD =
+                loadTaxonomyEntryJavaPairRDD();
+
+        // JavaPairRDD<uniparcId,Iterable<Taxonomy with lineage>>
+        JavaPairRDD<String, Iterable<TaxonomyEntry>> uniparcJoin =
+                taxonomyJoin
+                        .join(taxonomyEntryJavaPairRDD)
+                        // After Join RDD: JavaPairRDD<taxId,Tuple2<uniparcId,TaxonomyEntry>>
+                        .mapToPair(tuple -> tuple._2)
+                        .groupByKey();
+
+        JavaRDD<UniParcEntry> uniparcJoinedRDD =
+                uniparcRDD
+                        .mapToPair(new UniParcEntryKeyMapper())
+                        .leftOuterJoin(uniparcJoin)
+                        .map(new UniParcEntryTaxonomyJoin());
+
+        saveInDataStore(uniparcJoinedRDD);
+
         log.info("Completed UniParc Data Store index");
     }
 
-    VoidFunction<Iterator<UniParcEntry>> getWriter(DataStoreParameter parameter) {
-        return new UniParcDataStoreWriter(parameter);
+    void saveInDataStore(JavaRDD<UniParcEntry> uniparcJoinedRDD) {
+        DataStoreParameter dataStoreParameter =
+                getDataStoreParameter(parameter.getApplicationConfig());
+        uniparcJoinedRDD.foreachPartition(new UniParcDataStoreWriter(dataStoreParameter));
+    }
+
+    JavaPairRDD<String, TaxonomyEntry> loadTaxonomyEntryJavaPairRDD() {
+        TaxonomyRDDReader taxReader = new TaxonomyRDDReader(parameter, false);
+        return taxReader.load();
     }
 
     private DataStoreParameter getDataStoreParameter(ResourceBundle config) {

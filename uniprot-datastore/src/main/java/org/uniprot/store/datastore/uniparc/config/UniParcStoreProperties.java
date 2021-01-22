@@ -18,5 +18,6 @@ public class UniParcStoreProperties {
     private int writeRetryBackOffToMillis = 3000;
     private int logRateInterval = 10000;
     private String xmlFilePath;
+    private String taxonomyFilePath;
     private TaskExecutorProperties itemWriterTaskExecutor = new TaskExecutorProperties();
 }

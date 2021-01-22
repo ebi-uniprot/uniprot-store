@@ -2,16 +2,22 @@ package org.uniprot.store.spark.indexer.uniparc;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import java.util.Iterator;
-import java.util.ResourceBundle;
+import java.util.*;
 
+import org.apache.spark.api.java.JavaPairRDD;
+import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
-import org.apache.spark.api.java.function.VoidFunction;
 import org.junit.jupiter.api.Test;
+import org.uniprot.core.taxonomy.TaxonomyEntry;
+import org.uniprot.core.taxonomy.TaxonomyLineage;
+import org.uniprot.core.taxonomy.impl.TaxonomyEntryBuilder;
+import org.uniprot.core.taxonomy.impl.TaxonomyLineageBuilder;
+import org.uniprot.core.uniparc.UniParcCrossReference;
 import org.uniprot.core.uniparc.UniParcEntry;
 import org.uniprot.store.spark.indexer.common.JobParameter;
-import org.uniprot.store.spark.indexer.common.store.DataStoreParameter;
 import org.uniprot.store.spark.indexer.common.util.SparkUtils;
+
+import scala.Tuple2;
 
 /**
  * @author lgonzales
@@ -36,34 +42,51 @@ class UniParcDataStoreIndexerTest {
         }
     }
 
-    @Test
-    void canGetWriter() {
-        DataStoreParameter parameter =
-                DataStoreParameter.builder()
-                        .maxRetry(1)
-                        .delay(1)
-                        .connectionURL("tcp://localhost")
-                        .numberOfConnections(5)
-                        .storeName("uniparc")
-                        .build();
-        UniParcDataStoreIndexer indexer = new UniParcDataStoreIndexer(null);
-        VoidFunction<Iterator<UniParcEntry>> result = indexer.getWriter(parameter);
-        assertNotNull(result);
-    }
-
     private static class FakeUniParcDataStoreIndexer extends UniParcDataStoreIndexer {
+
+        private final JobParameter jobParameter;
 
         public FakeUniParcDataStoreIndexer(JobParameter jobParameter) {
             super(jobParameter);
+            this.jobParameter = jobParameter;
         }
 
         @Override
-        VoidFunction<Iterator<UniParcEntry>> getWriter(DataStoreParameter parameter) {
-            assertNotNull(parameter);
-            return entryIterator -> {
-                assertNotNull(entryIterator);
-                assertTrue(entryIterator.hasNext());
-            };
+        void saveInDataStore(JavaRDD<UniParcEntry> uniparcJoinedRDD) {
+            List<UniParcEntry> result = uniparcJoinedRDD.collect();
+            assertNotNull(result);
+            assertEquals(1, result.size());
+            UniParcEntry entry = result.get(0);
+            assertEquals("UPI00000E8551", entry.getUniParcId().getValue());
+            entry.getUniParcCrossReferences().stream()
+                    .map(UniParcCrossReference::getTaxonomy)
+                    .filter(Objects::nonNull)
+                    .forEach(
+                            organism -> {
+                                // testing join with taxonomy...
+                                assertTrue(organism.getTaxonId() > 0);
+                                assertFalse(organism.getScientificName().isEmpty());
+                            });
+        }
+
+        @Override
+        JavaPairRDD<String, TaxonomyEntry> loadTaxonomyEntryJavaPairRDD() {
+            List<Tuple2<String, TaxonomyEntry>> tuple2List = new ArrayList<>();
+            TaxonomyEntry tax =
+                    new TaxonomyEntryBuilder().taxonId(337687).scientificName("sn337687").build();
+            tuple2List.add(new Tuple2<>("337687", tax));
+
+            TaxonomyLineage lineage =
+                    new TaxonomyLineageBuilder().taxonId(100).scientificName("lineageSC").build();
+            tax =
+                    new TaxonomyEntryBuilder()
+                            .taxonId(10116)
+                            .scientificName("sn10116")
+                            .lineagesAdd(lineage)
+                            .build();
+            tuple2List.add(new Tuple2<>("10116", tax));
+
+            return jobParameter.getSparkContext().parallelizePairs(tuple2List);
         }
     }
 }

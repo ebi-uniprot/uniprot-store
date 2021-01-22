@@ -18,7 +18,7 @@ import scala.Tuple2;
  * @author lgonzales
  * @since 2020-02-20
  */
-class UniParcTaxonomyJoinTest {
+class UniParcDocTaxonomyJoinTest {
 
     @Test
     void testJoinTaxonomiesComplete() throws Exception {
@@ -60,7 +60,7 @@ class UniParcTaxonomyJoinTest {
         Tuple2<UniParcDocument, Optional<Iterable<TaxonomyEntry>>> tuple =
                 new Tuple2<>(doc, Optional.of(taxonomyEntries));
 
-        UniParcTaxonomyJoin mapper = new UniParcTaxonomyJoin();
+        UniParcDocTaxonomyJoin mapper = new UniParcDocTaxonomyJoin();
         UniParcDocument result = mapper.call(tuple);
         assertNotNull(result);
         assertNotNull(result.getOrganismTaxons());
@@ -88,7 +88,7 @@ class UniParcTaxonomyJoinTest {
         Tuple2<UniParcDocument, Optional<Iterable<TaxonomyEntry>>> tuple =
                 new Tuple2<>(doc, Optional.of(taxonomyEntries));
 
-        UniParcTaxonomyJoin mapper = new UniParcTaxonomyJoin();
+        UniParcDocTaxonomyJoin mapper = new UniParcDocTaxonomyJoin();
         UniParcDocument result = mapper.call(tuple);
         assertNotNull(result);
         assertNotNull(result.getOrganismTaxons());
@@ -101,7 +101,7 @@ class UniParcTaxonomyJoinTest {
         Tuple2<UniParcDocument, Optional<Iterable<TaxonomyEntry>>> tuple =
                 new Tuple2<>(doc, Optional.empty());
 
-        UniParcTaxonomyJoin mapper = new UniParcTaxonomyJoin();
+        UniParcDocTaxonomyJoin mapper = new UniParcDocTaxonomyJoin();
         UniParcDocument result = mapper.call(tuple);
         assertNotNull(result);
         assertTrue(result.getOrganismTaxons().isEmpty());

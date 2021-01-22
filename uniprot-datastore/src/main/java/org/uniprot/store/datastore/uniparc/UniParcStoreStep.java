@@ -2,6 +2,8 @@ package org.uniprot.store.datastore.uniparc;
 
 import static org.uniprot.store.datastore.utils.Constants.UNIPARC_STORE_STEP;
 
+import java.io.File;
+
 import net.jodah.failsafe.RetryPolicy;
 
 import org.springframework.aop.framework.Advised;
@@ -19,6 +21,9 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.uniprot.core.uniparc.UniParcEntry;
 import org.uniprot.core.xml.jaxb.uniparc.Entry;
+import org.uniprot.cv.taxonomy.FileNodeIterable;
+import org.uniprot.cv.taxonomy.TaxonomyRepo;
+import org.uniprot.cv.taxonomy.impl.TaxonomyMapRepo;
 import org.uniprot.store.datastore.UniProtStoreClient;
 import org.uniprot.store.datastore.uniparc.config.UniParcAsnycConfig;
 import org.uniprot.store.datastore.uniparc.config.UniParcConfig;
@@ -78,7 +83,7 @@ public class UniParcStoreStep {
     // ---------------------- Processors ----------------------
     @Bean
     public ItemProcessor<Entry, UniParcEntry> uniParcEntryProcessor() {
-        return new UniParcEntryProcessor();
+        return new UniParcEntryProcessor(createTaxonomyRepo());
     }
 
     // ---------------------- Writers ----------------------
@@ -94,6 +99,11 @@ public class UniParcStoreStep {
     @Bean(name = "uniParcLogRateListener")
     public LogRateListener<UniParcEntry> uniParcLogRateListener() {
         return new LogRateListener<>(uniParcStoreProperties.getLogRateInterval());
+    }
+
+    private TaxonomyRepo createTaxonomyRepo() {
+        return new TaxonomyMapRepo(
+                new FileNodeIterable(new File(uniParcStoreProperties.getTaxonomyFilePath())));
     }
 
     private Object unwrapProxy(Object bean) throws Exception {

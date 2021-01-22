@@ -1,6 +1,7 @@
 package org.uniprot.store.spark.indexer.uniparc.converter;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.uniprot.store.spark.indexer.uniparc.converter.DatasetUniParcEntryConverter.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,7 +10,6 @@ import org.apache.spark.sql.Row;
 import org.apache.spark.sql.catalyst.expressions.GenericRowWithSchema;
 import org.junit.jupiter.api.Test;
 import org.uniprot.core.Location;
-import org.uniprot.core.Property;
 import org.uniprot.core.uniparc.*;
 import org.uniprot.store.spark.indexer.common.util.RowUtils;
 
@@ -24,7 +24,7 @@ class DatasetUniParcEntryConverterTest {
 
     @Test
     void testCompleteUniparcEntry() throws Exception {
-        Row completeUniparcRow = getFullUniParcRow();
+        Row completeUniparcRow = getFullUniParcRow(true);
         DatasetUniParcEntryConverter converter = new DatasetUniParcEntryConverter();
         UniParcEntry entry = converter.call(completeUniparcRow);
         assertNotNull(entry);
@@ -58,8 +58,7 @@ class DatasetUniParcEntryConverterTest {
         entryValues.add(null); // signatureSequenceMatch
 
         Row incompleteUniparcRow =
-                new GenericRowWithSchema(
-                        entryValues.toArray(), DatasetUniParcEntryConverter.getUniParcXMLSchema());
+                new GenericRowWithSchema(entryValues.toArray(), getUniParcXMLSchema());
         DatasetUniParcEntryConverter converter = new DatasetUniParcEntryConverter();
         UniParcEntry entry = converter.call(incompleteUniparcRow);
         assertNotNull(entry);
@@ -76,6 +75,13 @@ class DatasetUniParcEntryConverterTest {
 
         assertNotNull(entry.getSequenceFeatures());
         assertTrue(entry.getSequenceFeatures().isEmpty());
+    }
+
+    @Test
+    void testWithInvalidProperties() throws Exception {
+        Row invalidProps = getFullUniParcRow(false);
+        DatasetUniParcEntryConverter converter = new DatasetUniParcEntryConverter();
+        assertThrows(IllegalArgumentException.class, () -> converter.call(invalidProps));
     }
 
     private void validateSequenceFeature(SequenceFeature sequenceFeature) {
@@ -108,27 +114,32 @@ class DatasetUniParcEntryConverterTest {
         assertEquals("2020-02-16", dbReference.getLastUpdated().toString());
 
         assertNotNull(dbReference.getProperties());
-        assertEquals(8, dbReference.getProperties().size());
+        assertEquals(0, dbReference.getProperties().size());
 
-        Property property = dbReference.getProperties().get(0);
-        assertEquals(UniParcCrossReference.PROPERTY_UNIPROT_KB_ACCESSION, property.getKey());
-        assertEquals("accessionIdValue", property.getValue());
+        assertNotNull(dbReference.getTaxonomy());
+        assertEquals(100L, dbReference.getTaxonomy().getTaxonId());
+
+        assertEquals("geneNameValue", dbReference.getGeneName());
+        assertEquals("proteinNameValue", dbReference.getProteinName());
+        assertEquals("chainValue", dbReference.getChain());
+        assertEquals("ncbiGiValue", dbReference.getNcbiGi());
+        assertEquals("proteomeIdValue", dbReference.getProteomeId());
+        assertEquals("componentValue", dbReference.getComponent());
     }
 
-    private Row getFullUniParcRow() {
+    private Row getFullUniParcRow(boolean validProps) {
         List<Object> entryValues = new ArrayList<>();
         entryValues.add("datasetValue"); // _dataset
         entryValues.add("UniProtKBExclusionValue"); // _UniProtKB_exclusion
         entryValues.add("accessionValue"); // accession
-        entryValues.add(getDbReferenceSeq()); // dbReferences
+        entryValues.add(getDbReferenceSeq(validProps)); // dbReferences
         entryValues.add(getSequenceRow()); // sequence
         entryValues.add(getSignatureSequenceMatchSeq()); // signatureSequenceMatch
 
-        return new GenericRowWithSchema(
-                entryValues.toArray(), DatasetUniParcEntryConverter.getUniParcXMLSchema());
+        return new GenericRowWithSchema(entryValues.toArray(), getUniParcXMLSchema());
     }
 
-    private Seq getDbReferenceSeq() {
+    private Seq getDbReferenceSeq(boolean validProps) {
         List<Object> dbReferences = new ArrayList<>();
         dbReferences.add("idValue"); // _id
         dbReferences.add(UniParcDatabase.REFSEQ.getDisplayName()); // _type
@@ -137,12 +148,14 @@ class DatasetUniParcEntryConverterTest {
         dbReferences.add(11L); // _version
         dbReferences.add("2001-06-18"); // _created
         dbReferences.add("2020-02-16"); // _last
-        dbReferences.add(getPropertiesSeq()); // property
+        if (validProps) {
+            dbReferences.add(getPropertiesSeq()); // property
+        } else {
+            dbReferences.add(getInvalidPropertiesSeq()); // property
+        }
 
         Row dbReferenceRow =
-                new GenericRowWithSchema(
-                        dbReferences.toArray(),
-                        DatasetUniParcEntryConverter.getDbReferenceSchema());
+                new GenericRowWithSchema(dbReferences.toArray(), getDbReferenceSchema());
         List<Object> dbReferenceSeq = new ArrayList<>();
         dbReferenceSeq.add(dbReferenceRow);
 
@@ -160,18 +173,23 @@ class DatasetUniParcEntryConverterTest {
 
     private Seq getPropertiesSeq() {
         List<Object> properties = new ArrayList<>();
-        properties.add(
-                getPropertyRow(
-                        UniParcCrossReference.PROPERTY_UNIPROT_KB_ACCESSION, "accessionIdValue"));
-        properties.add(getPropertyRow(UniParcCrossReference.PROPERTY_NCBI_TAXONOMY_ID, "100"));
-        properties.add(getPropertyRow(UniParcCrossReference.PROPERTY_GENE_NAME, "geneNameValue"));
-        properties.add(
-                getPropertyRow(UniParcCrossReference.PROPERTY_PROTEIN_NAME, "proteinNameValue"));
-        properties.add(
-                getPropertyRow(UniParcCrossReference.PROPERTY_PROTEOME_ID, "proteomeIdValue"));
-        properties.add(getPropertyRow(UniParcCrossReference.PROPERTY_COMPONENT, "componentValue"));
-        properties.add(getPropertyRow(UniParcCrossReference.PROPERTY_CHAIN, "chainValue"));
-        properties.add(getPropertyRow(UniParcCrossReference.PROPERTY_NCBI_GI, "ncbiGiValue"));
+        properties.add(getPropertyRow(PROPERTY_NCBI_TAXONOMY_ID, "100"));
+        properties.add(getPropertyRow(PROPERTY_GENE_NAME, "geneNameValue"));
+        properties.add(getPropertyRow(PROPERTY_PROTEIN_NAME, "proteinNameValue"));
+        properties.add(getPropertyRow(PROPERTY_PROTEOME_ID, "proteomeIdValue"));
+        properties.add(getPropertyRow(PROPERTY_COMPONENT, "componentValue"));
+        properties.add(getPropertyRow(PROPERTY_CHAIN, "chainValue"));
+        properties.add(getPropertyRow(PROPERTY_NCBI_GI, "ncbiGiValue"));
+        return (Seq)
+                JavaConverters.asScalaIteratorConverter(properties.iterator()).asScala().toSeq();
+    }
+
+    private Seq getInvalidPropertiesSeq() {
+        List<Object> properties = new ArrayList<>();
+        properties.add(getPropertyRow(PROPERTY_NCBI_TAXONOMY_ID, "100"));
+        properties.add(getPropertyRow(PROPERTY_GENE_NAME, "geneNameValue"));
+        properties.add(getPropertyRow(PROPERTY_PROTEIN_NAME, "proteinNameValue"));
+        properties.add(getPropertyRow("INVALID", "INVALID"));
         return (Seq)
                 JavaConverters.asScalaIteratorConverter(properties.iterator()).asScala().toSeq();
     }
@@ -200,9 +218,7 @@ class DatasetUniParcEntryConverterTest {
         signatureSequences.add(getLocationSeq()); // lcn
 
         Row signatureSequenceRow =
-                new GenericRowWithSchema(
-                        signatureSequences.toArray(),
-                        DatasetUniParcEntryConverter.getSignatureSchema());
+                new GenericRowWithSchema(signatureSequences.toArray(), getSignatureSchema());
 
         List<Object> signatureSequenceSeq = new ArrayList<>();
         signatureSequenceSeq.add(signatureSequenceRow);
@@ -217,8 +233,7 @@ class DatasetUniParcEntryConverterTest {
         List<Object> featureGroup = new ArrayList<>();
         featureGroup.add("idValue"); // _id
         featureGroup.add("nameValue"); // _name
-        return new GenericRowWithSchema(
-                featureGroup.toArray(), DatasetUniParcEntryConverter.getSeqFeatureGroupSchema());
+        return new GenericRowWithSchema(featureGroup.toArray(), getSeqFeatureGroupSchema());
     }
 
     private Seq getLocationSeq() {
@@ -226,9 +241,7 @@ class DatasetUniParcEntryConverterTest {
         location.add(10L); // _start
         location.add(20L); // _end
 
-        Row locationRow =
-                new GenericRowWithSchema(
-                        location.toArray(), DatasetUniParcEntryConverter.getLocationSchema());
+        Row locationRow = new GenericRowWithSchema(location.toArray(), getLocationSchema());
 
         List<Object> locationRowSeq = new ArrayList<>();
         locationRowSeq.add(locationRow);
