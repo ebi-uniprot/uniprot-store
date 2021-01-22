@@ -180,15 +180,6 @@ public class UniProtKBPublicationToMappedReference
         return mappedReferenceInfo;
     }
 
-    PublicationDocument.Builder referenceToPubDocBuilder(
-            String accession,
-            UniProtKBEntryType entryType,
-            UniProtKBReference reference,
-            int referenceNumber) {
-        return referencesConverter.referenceToPublicationDocumentBuilder(
-                accession, entryType, reference, referenceNumber);
-    }
-
     UniProtKBReference createReference(List<LineTypeSection> sections) {
         final UniprotKBLineParser<RaLineObject> raLineParser =
                 new DefaultUniprotKBLineParserFactory().createRaLineParser();
