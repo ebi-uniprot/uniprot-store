@@ -38,7 +38,7 @@ public class ComputationalPublicationProcessor
 
         // get first element from the list to populate common values
         ComputationallyMappedReference reference = references.get(0);
-        PublicationDocument.PublicationDocumentBuilder builder = PublicationDocument.builder();
+        PublicationDocument.Builder builder = PublicationDocument.builder();
         toReturn.add(
                 builder.pubMedId(reference.getPubMedId())
                         .accession(reference.getUniProtKBAccession().getValue())
