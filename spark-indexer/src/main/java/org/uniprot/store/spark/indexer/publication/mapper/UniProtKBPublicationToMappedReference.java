@@ -1,5 +1,14 @@
 package org.uniprot.store.spark.indexer.publication.mapper;
 
+import static org.uniprot.store.spark.indexer.publication.PublicationDocumentsToHDFSWriter.getJoinKey;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
+
 import org.apache.spark.api.java.function.PairFlatMapFunction;
 import org.uniprot.core.flatfile.parser.UniprotKBLineParser;
 import org.uniprot.core.flatfile.parser.impl.DefaultUniprotKBLineParserFactory;
@@ -19,17 +28,8 @@ import org.uniprot.core.publication.MappedReference;
 import org.uniprot.core.uniprotkb.UniProtKBEntryType;
 import org.uniprot.core.uniprotkb.UniProtKBReference;
 import org.uniprot.store.indexer.uniprotkb.converter.UniProtEntryReferencesConverter;
-import org.uniprot.store.search.document.publication.PublicationDocument;
+
 import scala.Tuple2;
-
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.concurrent.atomic.AtomicInteger;
-import java.util.regex.Pattern;
-import java.util.stream.Collectors;
-
-import static org.uniprot.store.spark.indexer.publication.PublicationDocumentsToHDFSWriter.getJoinKey;
 
 /**
  * Maps an entry string to an iterator of tuples with values <accession, MappedReference>.

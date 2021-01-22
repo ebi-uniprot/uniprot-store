@@ -1,6 +1,15 @@
 package org.uniprot.store.spark.indexer.publication;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.*;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.uniprot.core.publication.MappedReferenceType.*;
+
+import java.io.IOException;
+import java.util.*;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
 import org.junit.jupiter.api.Test;
@@ -15,15 +24,7 @@ import org.uniprot.store.search.document.publication.PublicationDocument;
 import org.uniprot.store.spark.indexer.common.JobParameter;
 import org.uniprot.store.spark.indexer.common.util.SparkUtils;
 
-import java.io.IOException;
-import java.util.*;
-import java.util.function.Function;
-import java.util.stream.Collectors;
-
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.uniprot.core.publication.MappedReferenceType.*;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
  * Created 19/01/2021
@@ -75,8 +76,8 @@ class PublicationDocumentsToHDFSWriterTest {
                         .map(PublicationDocument::getAccession)
                         .collect(Collectors.toSet()),
                 containsInAnyOrder(
-                        "Q9EPI6", "COMM00", "COMM01", "COMM02", "COMM03", "COMM04", "COMM05", "COMM06",
-                        "COMP00", "COMP01", "COMP02", "COMP03"));
+                        "Q9EPI6", "COMM00", "COMM01", "COMM02", "COMM03", "COMM04", "COMM05",
+                        "COMM06", "COMP00", "COMP01", "COMP02", "COMP03"));
         smallScaleStudyDocs.forEach(doc -> assertThat(doc.isLargeScale(), is(false)));
 
         // check all large scale study docs

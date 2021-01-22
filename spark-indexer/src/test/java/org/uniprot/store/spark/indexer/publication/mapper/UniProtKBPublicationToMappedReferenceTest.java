@@ -1,20 +1,21 @@
 package org.uniprot.store.spark.indexer.publication.mapper;
 
-import org.junit.jupiter.api.Test;
-import org.uniprot.core.publication.MappedReference;
-import scala.Tuple2;
-
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.Iterator;
-import java.util.List;
-
 import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.uniprot.store.spark.indexer.publication.PublicationDocumentsToHDFSWriter.getJoinKey;
 import static org.uniprot.store.spark.indexer.publication.PublicationDocumentsToHDFSWriter.separateJoinKey;
+
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.Iterator;
+import java.util.List;
+
+import org.junit.jupiter.api.Test;
+import org.uniprot.core.publication.MappedReference;
+
+import scala.Tuple2;
 
 class UniProtKBPublicationToMappedReferenceTest {
     @Test

@@ -1,6 +1,12 @@
 package org.uniprot.store.spark.indexer.publication;
 
+import static org.uniprot.store.spark.indexer.common.util.SparkUtils.getCollectionOutputReleaseDirPath;
+import static org.uniprot.store.spark.indexer.common.util.SparkUtils.getInputReleaseDirPath;
+
+import java.util.ResourceBundle;
+
 import lombok.extern.slf4j.Slf4j;
+
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
@@ -15,12 +21,8 @@ import org.uniprot.store.spark.indexer.common.util.SolrUtils;
 import org.uniprot.store.spark.indexer.common.writer.DocumentsToHDFSWriter;
 import org.uniprot.store.spark.indexer.publication.mapper.*;
 import org.uniprot.store.spark.indexer.uniprot.UniProtKBRDDTupleReader;
+
 import scala.Tuple2;
-
-import java.util.ResourceBundle;
-
-import static org.uniprot.store.spark.indexer.common.util.SparkUtils.getCollectionOutputReleaseDirPath;
-import static org.uniprot.store.spark.indexer.common.util.SparkUtils.getInputReleaseDirPath;
 
 /**
  * The purpose of this class is to load all publication sources (UniProtKB references, PIR

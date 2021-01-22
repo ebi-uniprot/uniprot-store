@@ -1,16 +1,5 @@
 package org.uniprot.store.config.returnfield.config.impl;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
-import java.util.Collections;
-import java.util.Map;
-import java.util.Objects;
-import java.util.stream.Stream;
-
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -19,13 +8,7 @@ import org.uniprot.core.parser.tsv.unirule.UniRuleEntryValueMapper;
 import org.uniprot.core.unirule.ConditionSet;
 import org.uniprot.core.unirule.Rule;
 import org.uniprot.core.unirule.UniRuleEntry;
-import org.uniprot.core.unirule.impl.AnnotationBuilderTest;
-import org.uniprot.core.unirule.impl.ConditionBuilder;
-import org.uniprot.core.unirule.impl.ConditionSetBuilder;
-import org.uniprot.core.unirule.impl.ConditionValueBuilder;
-import org.uniprot.core.unirule.impl.RuleBuilder;
-import org.uniprot.core.unirule.impl.UniRuleEntryBuilder;
-import org.uniprot.core.unirule.impl.UniRuleEntryBuilderTest;
+import org.uniprot.core.unirule.impl.*;
 import org.uniprot.core.util.Utils;
 import org.uniprot.store.config.UniProtDataType;
 import org.uniprot.store.config.returnfield.config.ReturnFieldConfig;
@@ -34,6 +17,15 @@ import org.uniprot.store.config.returnfield.model.ReturnField;
 import org.uniprot.store.config.searchfield.common.SearchFieldConfig;
 import org.uniprot.store.config.searchfield.factory.SearchFieldConfigFactory;
 import org.uniprot.store.config.searchfield.model.SearchFieldItem;
+
+import java.util.Collections;
+import java.util.Map;
+import java.util.Objects;
+import java.util.stream.Stream;
+
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Created 30/11/20

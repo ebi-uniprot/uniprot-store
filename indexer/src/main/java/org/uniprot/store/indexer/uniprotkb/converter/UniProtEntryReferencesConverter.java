@@ -1,8 +1,13 @@
 package org.uniprot.store.indexer.uniprotkb.converter;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import static org.uniprot.core.publication.MappedReferenceType.UNIPROTKB_REVIEWED;
+import static org.uniprot.core.publication.MappedReferenceType.UNIPROTKB_UNREVIEWED;
+
+import java.io.Serializable;
+import java.util.*;
+
 import lombok.extern.slf4j.Slf4j;
+
 import org.uniprot.core.CrossReference;
 import org.uniprot.core.citation.Citation;
 import org.uniprot.core.citation.CitationDatabase;
@@ -23,11 +28,8 @@ import org.uniprot.store.indexer.publication.common.PublicationUtils;
 import org.uniprot.store.search.document.publication.PublicationDocument;
 import org.uniprot.store.search.document.uniprot.UniProtDocument;
 
-import java.io.Serializable;
-import java.util.*;
-
-import static org.uniprot.core.publication.MappedReferenceType.UNIPROTKB_REVIEWED;
-import static org.uniprot.core.publication.MappedReferenceType.UNIPROTKB_UNREVIEWED;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
  * @author lgonzales
