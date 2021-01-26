@@ -112,19 +112,17 @@ public class DatasetUniRefEntryLightConverter
     private void addMemberInfo(UniRefEntryLightBuilder builder, UniRefMember member) {
         // organism name and id
         if (member.getOrganismTaxId() > 0) {
-            OrganismBuilder organismBuilder = new OrganismBuilder();
-            organismBuilder.taxonId(member.getOrganismTaxId());
-            if (Utils.notNullNotEmpty(member.getOrganismName())) {
-                String organismName = member.getOrganismName();
-
-                String scientificName = getOrganismScientificName(organismName);
-                organismBuilder.scientificName(scientificName);
-                String commonName = getOrganismCommonName(organismName);
-                organismBuilder.commonName(commonName);
-            }
-            builder.organismsAdd(organismBuilder.build());
+            addMemberOrganism(builder, member);
         }
 
+        addMemberIdAndType(builder, member);
+
+        if (Utils.notNull(member.isSeed()) && member.isSeed()) {
+            builder.seedId(getSeedIdFromMember(member));
+        }
+    }
+
+    private void addMemberIdAndType(UniRefEntryLightBuilder builder, UniRefMember member) {
         // uniparc id presence
         if (member.getMemberIdType() == UniRefMemberIdType.UNIPARC) {
             String uniparcId = member.getMemberId();
@@ -135,18 +133,29 @@ public class DatasetUniRefEntryLightConverter
             // member accessions
             // We save members as "Accession,UniRefMemberIdType", this way,
             // we can apply facet filter at UniRefEntryFacetConfig.java
-            Optional<String> accession =
-                    member.getUniProtAccessions().stream().map(Value::getValue).findFirst();
-            if (accession.isPresent()) {
-                String acc = accession.get();
-                UniRefMemberIdType type = getUniProtKBIdType(member.getMemberId(), acc);
-                builder.membersAdd(acc + "," + type.getMemberIdTypeId());
-                builder.memberIdTypesAdd(type);
-            }
+            member.getUniProtAccessions().stream()
+                    .map(Value::getValue)
+                    .findFirst()
+                    .ifPresent(acc -> {
+                        UniRefMemberIdType type = getUniProtKBIdType(member.getMemberId(), acc);
+                        builder.membersAdd(acc + "," + type.getMemberIdTypeId());
+                        builder.memberIdTypesAdd(type);
+                    });
         }
-        if (Utils.notNull(member.isSeed()) && member.isSeed()) {
-            builder.seedId(getSeedIdFromMember(member));
+    }
+
+    private void addMemberOrganism(UniRefEntryLightBuilder builder, UniRefMember member) {
+        OrganismBuilder organismBuilder = new OrganismBuilder();
+        organismBuilder.taxonId(member.getOrganismTaxId());
+        if (Utils.notNullNotEmpty(member.getOrganismName())) {
+            String organismName = member.getOrganismName();
+
+            String scientificName = getOrganismScientificName(organismName);
+            organismBuilder.scientificName(scientificName);
+            String commonName = getOrganismCommonName(organismName);
+            organismBuilder.commonName(commonName);
         }
+        builder.organismsAdd(organismBuilder.build());
     }
 
     private UniRefMember convertMember(Row member) {
