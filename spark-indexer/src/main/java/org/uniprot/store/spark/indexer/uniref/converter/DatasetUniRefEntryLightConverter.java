@@ -136,11 +136,13 @@ public class DatasetUniRefEntryLightConverter
             member.getUniProtAccessions().stream()
                     .map(Value::getValue)
                     .findFirst()
-                    .ifPresent(acc -> {
-                        UniRefMemberIdType type = getUniProtKBIdType(member.getMemberId(), acc);
-                        builder.membersAdd(acc + "," + type.getMemberIdTypeId());
-                        builder.memberIdTypesAdd(type);
-                    });
+                    .ifPresent(
+                            acc -> {
+                                UniRefMemberIdType type =
+                                        getUniProtKBIdType(member.getMemberId(), acc);
+                                builder.membersAdd(acc + "," + type.getMemberIdTypeId());
+                                builder.memberIdTypesAdd(type);
+                            });
         }
     }
 
