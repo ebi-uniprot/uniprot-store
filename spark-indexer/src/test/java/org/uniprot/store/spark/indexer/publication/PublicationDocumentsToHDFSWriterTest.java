@@ -203,7 +203,7 @@ class PublicationDocumentsToHDFSWriterTest {
                         "21364755"));
 
         // check RN 1, and that it is a submission
-        PublicationDocument kbRN1Doc = extractValue(kbDocs, PublicationDocument::getRefNumber, 0);
+        PublicationDocument kbRN1Doc = extractValue(kbDocs, PublicationDocument::getRefNumber, 1);
 
         assertThat(kbRN1Doc.getPubMedId(), is(nullValue()));
         assertThat(kbRN1Doc.getCategories(), contains("Sequence"));
@@ -247,7 +247,7 @@ class PublicationDocumentsToHDFSWriterTest {
                 contains("Hoffmann B.", "Seidenbecher C.I.", "Kreutz M.R."));
 
         // check RN 3
-        PublicationDocument kbRN3Doc = extractValue(kbDocs, PublicationDocument::getRefNumber, 2);
+        PublicationDocument kbRN3Doc = extractValue(kbDocs, PublicationDocument::getRefNumber, 3);
 
         assertThat(kbRN3Doc.getPubMedId(), is("15489334"));
         assertThat(kbRN3Doc.getMainType(), is(UNIPROTKB_REVIEWED.getIntValue()));
