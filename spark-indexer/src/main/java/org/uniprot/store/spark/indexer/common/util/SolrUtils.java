@@ -11,6 +11,7 @@ import org.apache.solr.client.solrj.impl.CloudSolrClient;
 import org.apache.solr.common.SolrInputDocument;
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
+import org.apache.spark.rdd.RDD;
 import org.uniprot.store.search.document.Document;
 
 /**
@@ -29,7 +30,10 @@ public class SolrUtils {
 
     public static void saveSolrInputDocumentRDD(
             JavaRDD<? extends Document> docRDD, String savePath) {
-        docRDD.map(SolrUtils::convertToSolrInputDocument).rdd().saveAsObjectFile(savePath);
+        RDD<SolrInputDocument> solrInputDocumentRDD =
+                docRDD.map(SolrUtils::convertToSolrInputDocument).rdd();
+        log.info("Document count to save on HDFS: {}", solrInputDocumentRDD.count());
+        solrInputDocumentRDD.saveAsObjectFile(savePath);
     }
 
     public static SolrInputDocument convertToSolrInputDocument(Document doc) {
