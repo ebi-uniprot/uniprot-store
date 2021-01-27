@@ -72,7 +72,7 @@ public class MappedReferencesToPublicationDocumentBuilderConverter
             MappedPublicationsBuilder mappedPublicationsBuilder) {
 
         if (ref instanceof UniProtKBMappedReference) {
-            docBuilder.refNumber(((UniProtKBMappedReference) ref).getReferenceNumber());
+            docBuilder.refNumber(((UniProtKBMappedReference) ref).getReferenceNumber() + 1);
             mappedPublicationsBuilder.reviewedMappedReference((UniProtKBMappedReference) ref);
             return Optional.of(MappedReferenceType.UNIPROTKB_REVIEWED.getIntValue());
         } else if (ref instanceof ComputationallyMappedReference) {
