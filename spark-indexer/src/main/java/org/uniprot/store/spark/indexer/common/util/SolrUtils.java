@@ -35,33 +35,8 @@ public class SolrUtils {
 
     public static void saveSolrInputDocumentRDD(
             JavaRDD<? extends Document> docRDD, String savePath) {
-        RDD<SolrInputDocument> solrInputDocumentRDD =
-                docRDD.map(SolrUtils::convertToSolrInputDocument).rdd();
-        log.info("Document count to save on HDFS: {}", solrInputDocumentRDD.count());
-        long idCount =
-                solrInputDocumentRDD
-                        .toJavaRDD()
-                        .mapToPair(x -> new Tuple2<>(x.getField("id"), x))
-                        .groupByKey()
-                        .count();
-        log.info("Document ID count to save on HDFS: {}", idCount);
-        solrInputDocumentRDD
-                .toJavaRDD()
-                .mapToPair(x -> new Tuple2<>(x.getField("accession").getFirstValue(), x))
-                .groupByKey()
-                .mapValues(f -> StreamSupport.stream(f.spliterator(), false).count())
-                .filter(x -> x._2 > 1000)
-                .take(200)
-                .forEach(x -> log.info("accession:{}, count:{}", x._1, x._2));
-
-        //        solrInputDocumentRDD.saveAsObjectFile(savePath);
+        docRDD.map(SolrUtils::convertToSolrInputDocument).rdd().saveAsObjectFile(savePath);
     }
-
-//    public static void main(String[] args) {
-//        List<Integer> thing = asList(1, 2, 3);
-//
-//        System.out.println(StreamSupport.stream(thing.spliterator(), false).count());
-//    }
 
     public static SolrInputDocument convertToSolrInputDocument(Document doc) {
         DocumentObjectBinder binder = new DocumentObjectBinder();

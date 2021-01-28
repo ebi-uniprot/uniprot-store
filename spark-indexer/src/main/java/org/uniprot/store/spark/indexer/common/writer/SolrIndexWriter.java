@@ -50,11 +50,16 @@ public class SolrIndexWriter implements VoidFunction<Iterator<SolrInputDocument>
                                         SolrServerException.class,
                                         SolrException.class))
                         .withDelay(Duration.ofMillis(parameter.getDelay()))
-                        .onFailedAttempt(e -> log.warn("solr save attempt failed"))
+                        .onFailedAttempt(
+                                e -> log.warn("Solr save attempt failed", e.getLastFailure()))
                         .withMaxRetries(parameter.getMaxRetry());
 
         try (SolrClient client = getSolrClient()) {
-            Failsafe.with(retryPolicy).run(() -> client.add(parameter.getCollectionName(), docs));
+            Failsafe.with(retryPolicy)
+                    .onFailure(
+                            throwable ->
+                                    log.error("Failed to write to Solr", throwable.getFailure()))
+                    .run(() -> client.add(parameter.getCollectionName(), docs));
         } catch (Exception e) {
             String errorMessage =
                     "Exception indexing data to solr, for collection "
