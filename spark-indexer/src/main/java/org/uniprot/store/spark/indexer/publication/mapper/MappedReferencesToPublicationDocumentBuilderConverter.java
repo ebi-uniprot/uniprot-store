@@ -5,10 +5,12 @@ import static org.uniprot.store.spark.indexer.publication.PublicationDocumentsTo
 import java.util.*;
 
 import org.apache.spark.api.java.function.PairFunction;
+import org.apache.spark.sql.Column;
 import org.uniprot.core.publication.*;
 import org.uniprot.core.publication.impl.MappedPublicationsBuilder;
 import org.uniprot.store.indexer.publication.common.PublicationUtils;
 import org.uniprot.store.search.document.publication.PublicationDocument;
+import static org.apache.spark.sql.functions.*;
 
 import scala.Tuple2;
 
@@ -43,7 +45,7 @@ public class MappedReferencesToPublicationDocumentBuilderConverter
         }
 
         docBuilder
-                .id(PublicationUtils.getDocumentId())
+                .id(getUniqueId())
                 .accession(accession)
                 .pubMedId(pubMed)
                 .categories(categories)
@@ -54,7 +56,12 @@ public class MappedReferencesToPublicationDocumentBuilderConverter
         return new Tuple2<>(getPubMedIdRealOrFake(pubMed), docBuilder);
     }
 
+    private String getUniqueId() {
+        return UUID.nameUUIDFromBytes(rand().expr().toString().getBytes()).toString();
+    }
+
     private int getPubMedIdRealOrFake(String pubMed) {
+
         if (pubMed == null) {
             int fakePubMed = new Random().nextInt();
             if (fakePubMed > 0) {
