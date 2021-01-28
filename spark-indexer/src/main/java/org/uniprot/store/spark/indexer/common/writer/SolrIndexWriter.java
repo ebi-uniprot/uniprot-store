@@ -28,16 +28,9 @@ public class SolrIndexWriter implements VoidFunction<Iterator<SolrInputDocument>
 
     private static final long serialVersionUID = 1997175675889081522L;
     protected final SolrIndexParameter parameter;
-    //    protected final RetryPolicy<Object> retryPolicy;
 
     public SolrIndexWriter(SolrIndexParameter parameter) {
         this.parameter = parameter;
-        //        this.retryPolicy =
-        //                new RetryPolicy<>()
-        //                        .handle(SolrServerException.class)
-        //                        .withDelay(Duration.ofMillis(parameter.getDelay()))
-        //                        .onFailedAttempt(e -> log.warn("solr save attempt failed"))
-        //                        .withMaxRetries(parameter.getMaxRetry());
     }
 
     @Override
@@ -55,14 +48,18 @@ public class SolrIndexWriter implements VoidFunction<Iterator<SolrInputDocument>
                         .withMaxRetries(parameter.getMaxRetry());
 
         try (SolrClient client = getSolrClient()) {
-            Failsafe.with(retryPolicy)
-                    .onFailure(
-                            throwable ->
-                                    log.error("Failed to write to Solr", throwable.getFailure()))
-                    .run(() -> client.add(parameter.getCollectionName(), docs));
+            while (docs.hasNext()) {
+                SolrInputDocument doc = docs.next();
+                Failsafe.with(retryPolicy)
+                        .onFailure(
+                                throwable ->
+                                        log.error(
+                                                "Failed to write to Solr", throwable.getFailure()))
+                        .run(() -> client.add(parameter.getCollectionName(), doc));
+            }
         } catch (Exception e) {
             String errorMessage =
-                    "Exception indexing data to solr, for collection "
+                    "Exception indexing data to Solr, for collection "
                             + parameter.getCollectionName();
             throw new SolrIndexException(errorMessage, e);
         }
