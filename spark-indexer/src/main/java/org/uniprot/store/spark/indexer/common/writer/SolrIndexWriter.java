@@ -14,7 +14,10 @@ import org.uniprot.store.spark.indexer.common.exception.SolrIndexException;
 
 import java.time.Duration;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 import static java.util.Arrays.asList;
 import static java.util.Collections.singletonList;
@@ -48,15 +51,15 @@ public class SolrIndexWriter implements VoidFunction<Iterator<SolrInputDocument>
                         .withMaxRetries(parameter.getMaxRetry());
 
         try (SolrClient client = getSolrClient()) {
-            while (docs.hasNext()) {
-                SolrInputDocument doc = docs.next();
-                Failsafe.with(retryPolicy)
-                        .onFailure(
-                                throwable ->
-                                        log.error(
-                                                "Failed to write to Solr", throwable.getFailure()))
-                        .run(() -> client.add(parameter.getCollectionName(), doc));
-            }
+            Iterable<SolrInputDocument> docsIterable = () -> docs;
+            List<SolrInputDocument> docList =
+                    StreamSupport.stream(docsIterable.spliterator(), false)
+                            .collect(Collectors.toList());
+            Failsafe.with(retryPolicy)
+                    .onFailure(
+                            throwable ->
+                                    log.error("Failed to write to Solr", throwable.getFailure()))
+                    .run(() -> client.add(parameter.getCollectionName(), docList));
         } catch (Exception e) {
             String errorMessage =
                     "Exception indexing data to Solr, for collection "
