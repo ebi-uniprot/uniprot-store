@@ -55,7 +55,7 @@ public class PublicationDocumentMocker {
                         .build();
 
         MappedPublications publications =
-                new MappedPublicationsBuilder().reviewedMappedReference(kbRef).build();
+                new MappedPublicationsBuilder().uniProtKBMappedReference(kbRef).build();
 
         return builder.publicationMappedReferences(asBinary(publications)).build();
     }
@@ -197,7 +197,7 @@ public class PublicationDocumentMocker {
                 new MappedPublicationsBuilder()
                         .communityMappedReferencesAdd(communityRef)
                         .computationalMappedReferencesAdd(computationalRef)
-                        .reviewedMappedReference(kbRef)
+                        .uniProtKBMappedReference(kbRef)
                         .build();
 
         return asBinary(mappedPublications);

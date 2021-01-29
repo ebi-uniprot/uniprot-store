@@ -86,7 +86,7 @@ public class MappedReferencesToPublicationDocumentBuilderConverter
         if (ref instanceof UniProtKBMappedReference) {
             UniProtKBMappedReference kbRef = (UniProtKBMappedReference) ref;
             docBuilder.refNumber(kbRef.getReferenceNumber() + 1);
-            mappedPublicationsBuilder.reviewedMappedReference(kbRef);
+            mappedPublicationsBuilder.uniProtKBMappedReference(kbRef);
 
             boolean isSwissProt =
                     kbRef.getSource().getName().equals(UniProtKBEntryType.SWISSPROT.getName());

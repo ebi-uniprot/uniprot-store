@@ -1,13 +1,8 @@
 package org.uniprot.store.indexer.uniprotkb.converter;
 
-import static org.uniprot.core.publication.MappedReferenceType.UNIPROTKB_REVIEWED;
-import static org.uniprot.core.publication.MappedReferenceType.UNIPROTKB_UNREVIEWED;
-
-import java.io.Serializable;
-import java.util.*;
-
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
-
 import org.uniprot.core.CrossReference;
 import org.uniprot.core.citation.Citation;
 import org.uniprot.core.citation.CitationDatabase;
@@ -28,8 +23,11 @@ import org.uniprot.store.indexer.publication.common.PublicationUtils;
 import org.uniprot.store.search.document.publication.PublicationDocument;
 import org.uniprot.store.search.document.uniprot.UniProtDocument;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import java.io.Serializable;
+import java.util.*;
+
+import static org.uniprot.core.publication.MappedReferenceType.UNIPROTKB_REVIEWED;
+import static org.uniprot.core.publication.MappedReferenceType.UNIPROTKB_UNREVIEWED;
 
 /**
  * @author lgonzales
@@ -75,7 +73,7 @@ public class UniProtEntryReferencesConverter implements Serializable {
             UniProtKBMappedReference mappedReference =
                     createUniProtKBMappedReference(
                             accession, entryType, reference, pubmedId, referenceNumber);
-            MappedPublications mappedPubs = createMappedPublications(mappedReference, type);
+            MappedPublications mappedPubs = createMappedPublications(mappedReference);
 
             String id = PublicationUtils.getDocumentId();
             byte[] mappedReferenceByte = getMappedPublicationsBinary(mappedPubs);
@@ -249,13 +247,9 @@ public class UniProtEntryReferencesConverter implements Serializable {
     }
 
     private MappedPublications createMappedPublications(
-            UniProtKBMappedReference mappedReference, MappedReferenceType type) {
+            UniProtKBMappedReference mappedReference) {
         MappedPublicationsBuilder mappedPubsBuilder = new MappedPublicationsBuilder();
-        if (type == UNIPROTKB_UNREVIEWED) {
-            mappedPubsBuilder.unreviewedMappedReference(mappedReference);
-        } else {
-            mappedPubsBuilder.reviewedMappedReference(mappedReference);
-        }
+        mappedPubsBuilder.uniProtKBMappedReference(mappedReference);
         return mappedPubsBuilder.build();
     }
 }

@@ -1,19 +1,5 @@
 package org.uniprot.store.indexer.publication.uniprotkb;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.empty;
-import static org.hamcrest.Matchers.hasSize;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.notNullValue;
-import static org.hamcrest.Matchers.nullValue;
-import static org.uniprot.store.indexer.publication.PublicationITUtil.*;
-
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.stream.Collectors;
-
 import org.apache.solr.client.solrj.SolrQuery;
 import org.hamcrest.CoreMatchers;
 import org.junit.jupiter.api.BeforeEach;
@@ -40,6 +26,17 @@ import org.uniprot.store.job.common.listener.ListenerConfig;
 import org.uniprot.store.search.SolrCollection;
 import org.uniprot.store.search.document.literature.LiteratureDocument;
 import org.uniprot.store.search.document.publication.PublicationDocument;
+
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.stream.Collectors;
+
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.*;
+import static org.uniprot.store.indexer.publication.PublicationITUtil.createLargeScaleLiterature;
+import static org.uniprot.store.indexer.publication.PublicationITUtil.extractObject;
 
 @ActiveProfiles(profiles = {"job", "offline"})
 @ExtendWith(SpringExtension.class)
@@ -102,10 +99,10 @@ class UniProtKBPublicationJobIT {
             assertThat(doc.getRefNumber(), is(notNullValue()));
             MappedPublications mappedPubs = extractObject(doc);
             assertThat(mappedPubs, is(notNullValue()));
-            assertThat(mappedPubs.getReviewedMappedReference(), is(nullValue()));
+            assertThat(mappedPubs.getUniProtKBMappedReference(), is(nullValue()));
             assertThat(mappedPubs.getComputationalMappedReferences(), is(empty()));
             assertThat(mappedPubs.getCommunityMappedReferences(), is(empty()));
-            UniProtKBMappedReference mappedRef = mappedPubs.getUnreviewedMappedReference();
+            UniProtKBMappedReference mappedRef = mappedPubs.getUniProtKBMappedReference();
             assertThat(mappedRef, is(notNullValue()));
             assertThat(mappedRef.getUniProtKBAccession(), is(notNullValue()));
             assertThat(mappedRef.getUniProtKBAccession().getValue(), is(notNullValue()));
@@ -133,11 +130,11 @@ class UniProtKBPublicationJobIT {
         assertThat(accDoc.getPubMedId(), is("29748402"));
         assertThat(accDoc.isLargeScale(), is(true));
         MappedPublications mappedPubs = extractObject(accDoc);
-        assertThat(mappedPubs.getUnreviewedMappedReference().getCitation(), is(nullValue()));
+        assertThat(mappedPubs.getUniProtKBMappedReference().getCitation(), is(nullValue()));
         // without pubmedid
         accDoc = accDocs.get(1);
         assertThat(accDoc.getPubMedId(), is(nullValue()));
         mappedPubs = extractObject(accDocs.get(1));
-        assertThat(mappedPubs.getUnreviewedMappedReference().getCitation(), is(notNullValue()));
+        assertThat(mappedPubs.getUniProtKBMappedReference().getCitation(), is(notNullValue()));
     }
 }

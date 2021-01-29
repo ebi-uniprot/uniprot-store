@@ -134,11 +134,10 @@ class PublicationDocumentsToHDFSWriterTest {
 
         assertThat(mappedPubsForKbRN4.getCommunityMappedReferences(), hasSize(1));
         assertThat(mappedPubsForKbRN4.getComputationalMappedReferences(), hasSize(2));
-        assertThat(mappedPubsForKbRN4.getReviewedMappedReference(), is(notNullValue()));
-        assertThat(mappedPubsForKbRN4.getUnreviewedMappedReference(), is(nullValue()));
+        assertThat(mappedPubsForKbRN4.getUniProtKBMappedReference(), is(notNullValue()));
 
         // check uniprotkb ref within mapped reference
-        UniProtKBMappedReference kbRN4Ref = mappedPubsForKbRN4.getReviewedMappedReference();
+        UniProtKBMappedReference kbRN4Ref = mappedPubsForKbRN4.getUniProtKBMappedReference();
 
         assertThat(kbRN4Ref.getReferencePositions(), contains("TISSUE SPECIFICITY"));
         assertThat(kbRN4Ref.getReferenceComments(), is(empty()));
@@ -211,10 +210,9 @@ class PublicationDocumentsToHDFSWriterTest {
         MappedPublications mappedPubsForKbRN1 = extractObject(kbRN1Doc);
         assertThat(mappedPubsForKbRN1.getCommunityMappedReferences(), hasSize(0));
         assertThat(mappedPubsForKbRN1.getComputationalMappedReferences(), hasSize(0));
-        assertThat(mappedPubsForKbRN1.getReviewedMappedReference(), is(notNullValue()));
-        assertThat(mappedPubsForKbRN1.getUnreviewedMappedReference(), is(nullValue()));
+        assertThat(mappedPubsForKbRN1.getUniProtKBMappedReference(), is(notNullValue()));
 
-        UniProtKBMappedReference kbRN1Ref = mappedPubsForKbRN1.getReviewedMappedReference();
+        UniProtKBMappedReference kbRN1Ref = mappedPubsForKbRN1.getUniProtKBMappedReference();
 
         assertThat(
                 kbRN1Ref.getReferencePositions(),
@@ -257,10 +255,9 @@ class PublicationDocumentsToHDFSWriterTest {
         MappedPublications mappedPubsForKbRN3 = extractObject(kbRN3Doc);
         assertThat(mappedPubsForKbRN3.getCommunityMappedReferences(), hasSize(0));
         assertThat(mappedPubsForKbRN3.getComputationalMappedReferences(), hasSize(0));
-        assertThat(mappedPubsForKbRN3.getReviewedMappedReference(), is(notNullValue()));
-        assertThat(mappedPubsForKbRN3.getUnreviewedMappedReference(), is(nullValue()));
+        assertThat(mappedPubsForKbRN3.getUniProtKBMappedReference(), is(notNullValue()));
 
-        UniProtKBMappedReference kbRN4Ref = mappedPubsForKbRN3.getReviewedMappedReference();
+        UniProtKBMappedReference kbRN4Ref = mappedPubsForKbRN3.getUniProtKBMappedReference();
 
         assertThat(
                 kbRN4Ref.getReferencePositions(),
@@ -322,8 +319,7 @@ class PublicationDocumentsToHDFSWriterTest {
         MappedPublications mappedPubsForComm00Doc = extractObject(comm00Doc);
         assertThat(mappedPubsForComm00Doc.getCommunityMappedReferences(), hasSize(2));
         assertThat(mappedPubsForComm00Doc.getComputationalMappedReferences(), hasSize(0));
-        assertThat(mappedPubsForComm00Doc.getReviewedMappedReference(), is(nullValue()));
-        assertThat(mappedPubsForComm00Doc.getUnreviewedMappedReference(), is(nullValue()));
+        assertThat(mappedPubsForComm00Doc.getUniProtKBMappedReference(), is(nullValue()));
 
         CommunityMappedReference ref0 =
                 extractValue(
@@ -387,8 +383,7 @@ class PublicationDocumentsToHDFSWriterTest {
         MappedPublications mappedPubsForComp00Doc = extractObject(comp00Doc);
         assertThat(mappedPubsForComp00Doc.getCommunityMappedReferences(), hasSize(0));
         assertThat(mappedPubsForComp00Doc.getComputationalMappedReferences(), hasSize(3));
-        assertThat(mappedPubsForComp00Doc.getReviewedMappedReference(), is(nullValue()));
-        assertThat(mappedPubsForComp00Doc.getUnreviewedMappedReference(), is(nullValue()));
+        assertThat(mappedPubsForComp00Doc.getUniProtKBMappedReference(), is(nullValue()));
 
         ComputationallyMappedReference ref0 =
                 extractValue(
