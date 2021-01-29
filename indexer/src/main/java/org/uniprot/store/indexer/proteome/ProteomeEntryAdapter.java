@@ -117,6 +117,7 @@ public class ProteomeEntryAdapter {
                                         new TaxonomyLineageBuilder()
                                                 .taxonId(node.id())
                                                 .scientificName(node.scientificName())
+                                                .hidden(node.hidden())
                                                 .build())
                         .collect(Collectors.toList());
         return Lists.reverse(lineage);

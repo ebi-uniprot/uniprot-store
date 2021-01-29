@@ -71,6 +71,7 @@ class ProteomeEntryAdapterTest {
         TaxonomyLineage lineage = lineages.get(0);
         assertEquals(2, lineage.getTaxonId());
         assertEquals("Bacteria", lineage.getScientificName());
+        assertFalse(lineage.isHidden());
     }
 
     @Test

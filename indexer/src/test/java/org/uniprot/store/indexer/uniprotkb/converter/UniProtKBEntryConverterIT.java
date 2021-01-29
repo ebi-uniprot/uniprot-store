@@ -712,6 +712,11 @@ class UniProtKBEntryConverterIT {
                     }
 
                     @Override
+                    public boolean hidden() {
+                        return false;
+                    }
+
+                    @Override
                     public TaxonomicNode parent() {
                         return null;
                     }
