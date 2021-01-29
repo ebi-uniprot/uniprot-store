@@ -1,15 +1,25 @@
 package org.uniprot.store.spark.indexer.publication.mapper;
 
+import org.apache.spark.api.java.function.FlatMapFunction;
+import org.uniprot.store.search.document.publication.PublicationDocument;
+import scala.Tuple2;
+
 import java.util.Iterator;
 import java.util.stream.StreamSupport;
 
-import org.apache.spark.api.java.function.FlatMapFunction;
-import org.uniprot.store.search.document.publication.PublicationDocument;
-
-import scala.Tuple2;
-
 /**
- * Created 21/01/2021
+ * Converts a {@link Tuple2} of <count, Iterable<PublicationDocument.Builder> into an iterator of
+ * {@link PublicationDocument.Builder}.
+ *
+ * <p>Tuple2._1 => the publication ID. If < 0, this implies the publication has no pubmed ID. If
+ * Tuple2._1 > 0, it represents the pubmed ID. We only set {@link
+ * PublicationDocument#isLargeScale()} for publications with a pubmed ID.
+ *
+ * <p>Tuple2._2 => all publications with the same pubmed ID. Therefore, to compute {@link
+ * PublicationDocument#isLargeScale()}, we check the size of Tuple2._2. If it is greater than 50,
+ * then it is classed as large scale.
+ *
+ * <p>Created 21/01/2021
  *
  * @author Edd
  */

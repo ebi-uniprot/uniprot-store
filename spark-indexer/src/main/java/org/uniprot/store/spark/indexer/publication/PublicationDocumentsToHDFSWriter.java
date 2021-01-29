@@ -107,13 +107,13 @@ public class PublicationDocumentsToHDFSWriter implements DocumentsToHDFSWriter {
     private JavaPairRDD<String, MappedReference> loadComputationalDocs() {
         return loadMappedReferenceRDD(
                 "computational.mapped.references.file.path",
-                new SparkComputationallyMappedReferenceConverter());
+                new ComputationallyMappedReferenceMapper());
     }
 
     private JavaPairRDD<String, MappedReference> loadCommunityDocs() {
         return loadMappedReferenceRDD(
                 "community.mapped.references.file.path",
-                new SparkCommunityMappedReferenceConverter());
+                new CommunityMappedReferenceMapper());
     }
 
     private JavaPairRDD<String, MappedReference> loadMappedReferenceRDD(
