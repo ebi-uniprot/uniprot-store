@@ -89,6 +89,30 @@
     "fieldType": "GENERAL"
   },
   {
+    "id":"uniref_cluster_50",
+    "fieldName": "uniref_cluster_50",
+    "dataType": "STRING",
+    "fieldType": "GENERAL"
+  },
+  {
+    "id":"uniref_cluster_90",
+    "fieldName": "uniref_cluster_90",
+    "dataType": "STRING",
+    "fieldType": "GENERAL"
+  },
+  {
+    "id":"uniref_cluster_100",
+    "fieldName": "uniref_cluster_100",
+    "dataType": "STRING",
+    "fieldType": "GENERAL"
+  },
+  {
+    "id":"uniparc",
+    "fieldName": "uniparc",
+    "dataType": "STRING",
+    "fieldType": "GENERAL"
+  },
+  {
     "id":"ec_exact",
     "fieldName": "ec_exact",
     "dataType": "STRING",
