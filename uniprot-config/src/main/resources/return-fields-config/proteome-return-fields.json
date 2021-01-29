@@ -102,12 +102,21 @@
     "itemType": "SINGLE",
     "label": "Genome assembly ID",
     "name": "genome_assembly",
-    "paths" : ["genomeAssembly"],
+    "paths" : ["genomeAssembly.assemblyId"],
     "id": "miscellaneous/genome_assembly"
   },
   {
     "parentId": "miscellaneous",
     "childNumber": 3,
+    "itemType": "SINGLE",
+    "label": "Genome representation (RefSeq)",
+    "name": "genome_representation",
+    "paths" : ["genomeAssembly.level"],
+    "id": "miscellaneous/genome_representation"
+  },
+  {
+    "parentId": "miscellaneous",
+    "childNumber": 4,
     "itemType": "SINGLE",
     "sortField" : "protein_count",
     "isDefaultForTsv": true,
