@@ -1,21 +1,27 @@
 package org.uniprot.store.spark.indexer.publication.mapper;
 
-import static org.uniprot.store.spark.indexer.publication.PublicationDocumentsToHDFSWriter.separateJoinKey;
+import org.apache.spark.api.java.function.PairFunction;
+import org.uniprot.core.publication.*;
+import org.uniprot.core.publication.impl.MappedPublicationsBuilder;
+import org.uniprot.core.uniprotkb.UniProtKBEntryType;
+import org.uniprot.store.indexer.publication.common.PublicationUtils;
+import org.uniprot.store.search.document.publication.PublicationDocument;
+import scala.Tuple2;
 
 import java.util.*;
 
-import org.apache.spark.api.java.function.PairFunction;
-import org.apache.spark.sql.Column;
-import org.uniprot.core.publication.*;
-import org.uniprot.core.publication.impl.MappedPublicationsBuilder;
-import org.uniprot.store.indexer.publication.common.PublicationUtils;
-import org.uniprot.store.search.document.publication.PublicationDocument;
-import static org.apache.spark.sql.functions.*;
-
-import scala.Tuple2;
+import static org.apache.spark.sql.functions.rand;
+import static org.uniprot.store.spark.indexer.publication.PublicationDocumentsToHDFSWriter.separateJoinKey;
 
 /**
- * Created 21/01/2021
+ * Given a Tuple2 of <accession, Iterable<MappedReference>>, representing all {@link
+ * MappedReference}s for the same accession, this class creates a Tuple2 of <publication id,
+ * PublicationDocument.Builder>.
+ *
+ * <p>If the {@link MappedReference} has a pubmed ID, this is used as the publication ID. Otherwise,
+ * a random negative number is used.
+ *
+ * <p>Created 21/01/2021
  *
  * @author Edd
  */
@@ -61,7 +67,6 @@ public class MappedReferencesToPublicationDocumentBuilderConverter
     }
 
     private int getPubMedIdRealOrFake(String pubMed) {
-
         if (pubMed == null) {
             int fakePubMed = new Random().nextInt();
             if (fakePubMed > 0) {
@@ -79,9 +84,17 @@ public class MappedReferencesToPublicationDocumentBuilderConverter
             MappedPublicationsBuilder mappedPublicationsBuilder) {
 
         if (ref instanceof UniProtKBMappedReference) {
-            docBuilder.refNumber(((UniProtKBMappedReference) ref).getReferenceNumber() + 1);
-            mappedPublicationsBuilder.reviewedMappedReference((UniProtKBMappedReference) ref);
-            return Optional.of(MappedReferenceType.UNIPROTKB_REVIEWED.getIntValue());
+            UniProtKBMappedReference kbRef = (UniProtKBMappedReference) ref;
+            docBuilder.refNumber(kbRef.getReferenceNumber() + 1);
+            mappedPublicationsBuilder.reviewedMappedReference(kbRef);
+
+            boolean isSwissProt =
+                    kbRef.getSource().getName().equals(UniProtKBEntryType.SWISSPROT.getName());
+            MappedReferenceType type =
+                    isSwissProt
+                            ? MappedReferenceType.UNIPROTKB_REVIEWED
+                            : MappedReferenceType.UNIPROTKB_UNREVIEWED;
+            return Optional.of(type.getIntValue());
         } else if (ref instanceof ComputationallyMappedReference) {
             mappedPublicationsBuilder.computationalMappedReferencesAdd(
                     (ComputationallyMappedReference) ref);

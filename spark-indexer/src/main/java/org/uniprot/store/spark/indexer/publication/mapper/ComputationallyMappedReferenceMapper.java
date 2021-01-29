@@ -5,12 +5,13 @@ import org.uniprot.core.publication.MappedReference;
 import org.uniprot.store.reader.publications.ComputationallyMappedReferenceConverter;
 
 /**
- * Created 19/01/2021
+ * Converts a String to a {@link ComputationallyMappedReferenceConverter}.
+ *
+ * <p>Created 19/01/2021
  *
  * @author Edd
  */
-public class SparkComputationallyMappedReferenceConverter
-        implements Function<String, MappedReference> {
+public class ComputationallyMappedReferenceMapper implements Function<String, MappedReference> {
     @Override
     public MappedReference call(String rawReference) throws Exception {
         ComputationallyMappedReferenceConverter converter =
