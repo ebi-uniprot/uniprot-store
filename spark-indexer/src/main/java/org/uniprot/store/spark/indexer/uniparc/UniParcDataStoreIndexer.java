@@ -29,6 +29,29 @@ public class UniParcDataStoreIndexer implements DataStoreIndexer {
         this.parameter = parameter;
     }
 
+    /**
+     * We load UniParc Data from XML, join it with Taxonomy data to aggregate
+     * Scientific Name and Lineage, and save it to DataStore.
+     *
+     * To join Taxonomy we are creating an RDD of JavaPairRDD<taxId,uniParcId>
+     * extracted from UniParc RDD. One UniParc Entry usually has many taxIds.
+     * For Example: Tuple2<9606,UP00000001> ad Tuple2<1106,UP00000001>
+     *
+     * <p>The Second step we load all taxonomy data to an RDD, JavaPairRDD<taxId,TaxonomyEntry>,
+     * this RDD will be used to join.
+     *
+     * <p>The Third step is a join between JavaPairRDD<taxId,uniParcId> and
+     * JavaPairRDD<taxId,TaxonomyEntry> we group by uniParcId, so
+     * the result RDD would be a (JavaPairRDD<uniParcId, Iterable<TaxonomyEntry>>). For example, the
+     * UniParc UP00000001 would have one tuple in the RDD:
+     * Tuple2<UP00000001, Iterable<TaxonomyEntry(9606),TaxonomyEntry(1106)>>
+     *
+     * <p>The Fourth step is to join JavaPairRDD<uniParcId, Iterable<TaxonomyEntry>> with
+     * JavaPairRDD<uniParcId, UniParcEntry> and at this point we can map TaxonomyEntry
+     * information into UniParcEntry.
+     *
+     * <p>The Fifth and last step is to save our UniParcEntry into our DataStore.
+     */
     @Override
     public void indexInDataStore() {
         UniParcRDDTupleReader reader = new UniParcRDDTupleReader(parameter, false);
