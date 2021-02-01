@@ -4,8 +4,10 @@ import java.util.Iterator;
 import java.util.stream.Collectors;
 
 import org.apache.spark.api.java.function.PairFlatMapFunction;
+import org.uniprot.core.uniparc.UniParcCrossReference;
 import org.uniprot.core.uniparc.UniParcEntry;
-import org.uniprot.core.uniprotkb.taxonomy.Taxonomy;
+import org.uniprot.core.uniprotkb.taxonomy.Organism;
+import org.uniprot.core.util.Utils;
 
 import scala.Tuple2;
 
@@ -22,8 +24,10 @@ public class UniParcTaxonomyMapper implements PairFlatMapFunction<UniParcEntry, 
 
     @Override
     public Iterator<Tuple2<String, String>> call(UniParcEntry uniParcEntry) throws Exception {
-        return uniParcEntry.getTaxonomies().stream()
-                .map(Taxonomy::getTaxonId)
+        return uniParcEntry.getUniParcCrossReferences().stream()
+                .filter(xref -> Utils.notNull(xref.getTaxonomy()))
+                .map(UniParcCrossReference::getTaxonomy)
+                .map(Organism::getTaxonId)
                 .map(String::valueOf)
                 .map(taxId -> new Tuple2<>(taxId, uniParcEntry.getUniParcId().getValue()))
                 .collect(Collectors.toList())

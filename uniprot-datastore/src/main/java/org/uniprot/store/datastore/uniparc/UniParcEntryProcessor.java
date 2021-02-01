@@ -4,6 +4,7 @@ import org.springframework.batch.item.ItemProcessor;
 import org.uniprot.core.uniparc.UniParcEntry;
 import org.uniprot.core.xml.jaxb.uniparc.Entry;
 import org.uniprot.core.xml.uniparc.UniParcEntryConverter;
+import org.uniprot.cv.taxonomy.TaxonomyRepo;
 
 /**
  * @author lgonzales
@@ -13,8 +14,8 @@ public class UniParcEntryProcessor implements ItemProcessor<Entry, UniParcEntry>
 
     private UniParcEntryConverter converter;
 
-    public UniParcEntryProcessor() {
-        converter = new UniParcEntryConverter();
+    public UniParcEntryProcessor(TaxonomyRepo taxonomyRepo) {
+        converter = new UniParcEntryConverter(taxonomyRepo);
     }
 
     @Override

@@ -24,7 +24,10 @@ import org.uniprot.core.cv.subcell.SubcellularLocationEntry;
 import org.uniprot.core.proteome.ProteomeEntry;
 import org.uniprot.core.taxonomy.TaxonomyEntry;
 import org.uniprot.core.taxonomy.TaxonomyLineage;
+import org.uniprot.core.uniparc.UniParcCrossReference;
 import org.uniprot.core.uniparc.UniParcEntry;
+import org.uniprot.core.uniprotkb.taxonomy.Organism;
+import org.uniprot.core.util.Utils;
 import org.uniprot.store.indexer.uniprotkb.config.SuggestionConfig;
 import org.uniprot.store.search.SolrCollection;
 import org.uniprot.store.search.document.suggest.SuggestDictionary;
@@ -299,12 +302,15 @@ public class SuggestDocumentsToHDFSWriter implements DocumentsToHDFSWriter {
         // JavaPairRDD<taxId, taxId> get taxonomies from uniparcRDDs, flat it, get unique only
         JavaPairRDD<String, String> taxonIdTaxonIdPair =
                 uniParcRDD
-                        .flatMap(entry -> entry.getTaxonomies().iterator())
-                        .mapToPair(
-                                taxonomy ->
-                                        new Tuple2<>(
-                                                String.valueOf(taxonomy.getTaxonId()),
-                                                String.valueOf(taxonomy.getTaxonId())))
+                        .flatMap(
+                                entry ->
+                                        entry.getUniParcCrossReferences().stream()
+                                                .filter(xref -> Utils.notNull(xref.getTaxonomy()))
+                                                .map(UniParcCrossReference::getTaxonomy)
+                                                .map(Organism::getTaxonId)
+                                                .map(String::valueOf)
+                                                .iterator())
+                        .mapToPair(taxonId -> new Tuple2<>(taxonId, taxonId))
                         .reduceByKey((taxId1, taxId2) -> taxId1);
 
         // TAXONOMY is the node along with its ancestors
@@ -325,17 +331,16 @@ public class SuggestDocumentsToHDFSWriter implements DocumentsToHDFSWriter {
      */
     JavaPairRDD<String, SuggestDocument> getDefaultHighImportantTaxon(
             SuggestDictionary dictionary) {
-        SuggestionConfig suggestionConfig = new SuggestionConfig();
         List<SuggestDocument> suggestList = new ArrayList<>();
         if (dictionary.equals(UNIPARC_TAXONOMY)
                 || dictionary.equals(TAXONOMY)
                 || dictionary.equals(ORGANISM)) {
             suggestList.addAll(
-                    suggestionConfig.loadDefaultTaxonSynonymSuggestions(
+                    SuggestionConfig.loadDefaultTaxonSynonymSuggestions(
                             dictionary, SuggestionConfig.DEFAULT_TAXON_SYNONYMS_FILE));
         } else if (dictionary.equals(HOST)) {
             suggestList.addAll(
-                    suggestionConfig.loadDefaultTaxonSynonymSuggestions(
+                    SuggestionConfig.loadDefaultTaxonSynonymSuggestions(
                             dictionary, SuggestionConfig.DEFAULT_HOST_SYNONYMS_FILE));
         }
         List<Tuple2<String, SuggestDocument>> tupleList =

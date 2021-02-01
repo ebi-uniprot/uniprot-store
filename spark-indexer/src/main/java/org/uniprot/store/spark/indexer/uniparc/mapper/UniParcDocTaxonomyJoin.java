@@ -17,7 +17,7 @@ import scala.Tuple2;
  * @author lgonzales
  * @since 2020-02-20
  */
-public class UniParcTaxonomyJoin
+public class UniParcDocTaxonomyJoin
         implements Serializable,
                 Function<
                         Tuple2<UniParcDocument, Optional<Iterable<TaxonomyEntry>>>,
