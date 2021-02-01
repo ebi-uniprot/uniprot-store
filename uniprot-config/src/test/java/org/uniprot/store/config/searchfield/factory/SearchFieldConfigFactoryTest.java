@@ -12,7 +12,7 @@ import org.uniprot.store.config.UniProtDataType;
 import org.uniprot.store.config.searchfield.common.SearchFieldConfig;
 import org.uniprot.store.config.searchfield.impl.SearchFieldConfigImpl;
 
-public class SearchFieldConfigFactoryTest {
+class SearchFieldConfigFactoryTest {
 
     @ParameterizedTest(name = "[{index}] ItemCount({0}) == {1} ?")
     @MethodSource("provideTypeAndItemCount")
@@ -36,15 +36,16 @@ public class SearchFieldConfigFactoryTest {
         return Stream.of(
                 Arguments.of(UniProtDataType.CROSSREF, 7),
                 Arguments.of(UniProtDataType.DISEASE, 4),
-                Arguments.of(UniProtDataType.GENECENTRIC, 8),
+                Arguments.of(UniProtDataType.GENECENTRIC, 7),
                 Arguments.of(UniProtDataType.KEYWORD, 7),
                 Arguments.of(UniProtDataType.LITERATURE, 11),
-                Arguments.of(UniProtDataType.PROTEOME, 18),
+                Arguments.of(UniProtDataType.PROTEOME, 21),
                 Arguments.of(UniProtDataType.SUBCELLLOCATION, 6),
                 Arguments.of(UniProtDataType.SUGGEST, 3),
                 Arguments.of(UniProtDataType.TAXONOMY, 16),
-                Arguments.of(UniProtDataType.UNIPARC, 17),
-                Arguments.of(UniProtDataType.UNIPROTKB, 432 + uniProtKBDBTypesCount),
-                Arguments.of(UniProtDataType.UNIREF, 17));
+                Arguments.of(UniProtDataType.UNIPARC, 16),
+                Arguments.of(UniProtDataType.UNIPROTKB, 436 + uniProtKBDBTypesCount),
+                Arguments.of(UniProtDataType.UNIREF, 17),
+                Arguments.of(UniProtDataType.UNIRULE, 10));
     }
 }

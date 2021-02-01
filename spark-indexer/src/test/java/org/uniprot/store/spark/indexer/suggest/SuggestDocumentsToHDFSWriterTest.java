@@ -6,6 +6,11 @@ import static org.hamcrest.Matchers.hasSize;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.uniprot.store.search.document.suggest.SuggestDictionary.*;
 
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
@@ -21,6 +26,7 @@ import org.junit.jupiter.api.TestInstance;
 import org.uniprot.store.search.document.suggest.SuggestDocument;
 import org.uniprot.store.spark.indexer.common.JobParameter;
 import org.uniprot.store.spark.indexer.common.util.SparkUtils;
+import org.uniprot.store.spark.indexer.taxonomy.TaxonomyH2Utils;
 import org.uniprot.store.spark.indexer.uniprot.UniProtKBRDDTupleReader;
 
 /**
@@ -32,9 +38,10 @@ class SuggestDocumentsToHDFSWriterTest {
 
     private JobParameter parameter;
     private JavaRDD<String> flatFileRDD;
+    private Connection dbConnection;
 
     @BeforeAll
-    void setUpWriter() {
+    void setUpWriter() throws SQLException, IOException {
         ResourceBundle application = SparkUtils.loadApplicationProperty();
         JavaSparkContext sparkContext = SparkUtils.loadSparkContext(application);
         parameter =
@@ -45,11 +52,24 @@ class SuggestDocumentsToHDFSWriterTest {
                         .build();
         UniProtKBRDDTupleReader reader = new UniProtKBRDDTupleReader(parameter, false);
         flatFileRDD = reader.loadFlatFileToRDD();
+
+        // Taxonomy H2 database create/load database data
+        String url = application.getString("database.url");
+        String user = application.getString("database.user.name");
+        String password = application.getString("database.password");
+        dbConnection = DriverManager.getConnection(url, user, password);
+        Statement statement = this.dbConnection.createStatement();
+        TaxonomyH2Utils.createTables(statement);
+        TaxonomyH2Utils.insertData(statement);
     }
 
     @AfterAll
-    void closeWriter() {
+    void closeWriter() throws SQLException, IOException {
         parameter.getSparkContext().close();
+        // Taxonomy H2 database clean
+        Statement statement = this.dbConnection.createStatement();
+        TaxonomyH2Utils.dropTables(statement);
+        dbConnection.close();
     }
 
     @Test
@@ -154,19 +174,21 @@ class SuggestDocumentsToHDFSWriterTest {
         JavaRDD<SuggestDocument> suggestRdd = writer.getProteome();
         assertNotNull(suggestRdd);
         int count = (int) suggestRdd.count();
-        assertEquals(6, count);
+        assertEquals(5, count);
 
         Map<String, List<SuggestDocument>> resultMap =
                 getResultMap(suggestRdd.take(count), doc -> doc.id);
 
-        assertThat(resultMap.containsKey("UP000008687"), is(true));
-        assertThat(resultMap.get("UP000008687").size(), is(1));
-        assertNotNull(resultMap.get("UP000008687").get(0));
-        assertEquals(PROTEOME_UPID.name(), resultMap.get("UP000008687").get(0).dictionary);
-        assertEquals("UP000008687", resultMap.get("UP000008687").get(0).id);
-        assertEquals("Potato virus X (strain X3) (PVX)", resultMap.get("UP000008687").get(0).value);
-        assertEquals(1, resultMap.get("UP000008687").get(0).altValues.size());
-        assertEquals("UP000008687", resultMap.get("UP000008687").get(0).altValues.get(0));
+        assertTrue(resultMap.containsKey("UP000006687"));
+        assertEquals(1, resultMap.get("UP000006687").size());
+        assertNotNull(resultMap.get("UP000006687").get(0));
+        assertEquals(PROTEOME_UPID.name(), resultMap.get("UP000006687").get(0).dictionary);
+        assertEquals("UP000006687", resultMap.get("UP000006687").get(0).id);
+        assertEquals(
+                "Porcine reproductive and respiratory syndrome virus",
+                resultMap.get("UP000006687").get(0).value);
+        assertEquals(1, resultMap.get("UP000006687").get(0).altValues.size());
+        assertEquals("UP000006687", resultMap.get("UP000006687").get(0).altValues.get(0));
     }
 
     private <T> Map<String, List<T>> getResultMap(

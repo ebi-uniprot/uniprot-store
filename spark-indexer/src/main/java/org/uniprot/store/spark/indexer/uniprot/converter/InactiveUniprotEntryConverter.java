@@ -4,7 +4,7 @@ import org.uniprot.core.uniprotkb.EntryInactiveReason;
 import org.uniprot.core.uniprotkb.InactiveReasonType;
 import org.uniprot.core.uniprotkb.UniProtKBEntry;
 import org.uniprot.core.util.Utils;
-import org.uniprot.store.job.common.converter.DocumentConverter;
+import org.uniprot.store.search.document.DocumentConverter;
 import org.uniprot.store.search.document.uniprot.UniProtDocument;
 
 /**

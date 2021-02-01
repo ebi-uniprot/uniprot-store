@@ -26,7 +26,7 @@
     "itemType": "SINGLE",
     "label": "Gene names",
     "name": "gene",
-    "paths": ["uniParcCrossReferences[*].properties[?(@.key=='gene_name')]"],
+    "paths": ["uniParcCrossReferences[*].geneName"],
     "id": "names_&_taxonomy/gene",
     "includeInSwagger": true
   },
@@ -36,7 +36,7 @@
     "itemType": "SINGLE",
     "label": "Organism ID",
     "name": "organism_id",
-    "paths": ["taxonomies[*].taxonId"],
+    "paths": ["uniParcCrossReferences[*].taxonomy.taxonId"],
     "id": "names_&_taxonomy/organism_id",
     "includeInSwagger": true
   },
@@ -48,7 +48,7 @@
     "defaultForTsvOrder" : 1,
     "label": "Organisms",
     "name": "organism",
-    "paths": ["taxonomies"],
+    "paths": ["uniParcCrossReferences[*].taxonomy"],
     "id": "names_&_taxonomy/organism",
     "includeInSwagger": true
   },
@@ -58,7 +58,7 @@
     "itemType": "SINGLE",
     "label": "Protein names",
     "name": "protein",
-    "paths": ["uniParcCrossReferences[*].properties[?(@.key=='protein_name')]"],
+    "paths": ["uniParcCrossReferences[*].proteinName"],
     "id": "names_&_taxonomy/protein",
     "includeInSwagger": true
   },
@@ -68,7 +68,7 @@
     "itemType": "SINGLE",
     "label": "Proteomes",
     "name": "proteome",
-    "paths": ["uniParcCrossReferences[*].properties[?(@.key=='proteome_id')]"],
+    "paths": ["uniParcCrossReferences[*].proteomeId"],
     "id": "names_&_taxonomy/proteome",
     "includeInSwagger": true
   },
@@ -124,21 +124,11 @@
     "parentId": "miscellaneous",
     "childNumber": 0,
     "itemType": "SINGLE",
-    "label": "Matched text",
-    "name": "matched",
-    "paths": ["uniParcId"],
-    "id": "miscellaneous/matched",
-    "includeInSwagger": true
-  },
-  {
-    "parentId": "miscellaneous",
-    "childNumber": 1,
-    "itemType": "SINGLE",
     "isDefaultForTsv": true,
     "defaultForTsvOrder" : 2,
     "label": "UniProtKB",
     "name": "accession",
-    "paths": ["uniParcCrossReferences[*].properties[?(@.key=='UniProtKB_accession')]"],
+    "paths": ["uniParcCrossReferences[?(@.database =~ /^UniProtKB.*/)]"],
     "id": "miscellaneous/accession",
     "includeInSwagger": true
   },

@@ -15,6 +15,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.uniprot.core.cv.go.GeneOntologyEntry;
 import org.uniprot.core.cv.go.GoAspect;
+import org.uniprot.core.uniprotkb.taxonomy.Organism;
 import org.uniprot.core.uniref.UniRefEntryLight;
 import org.uniprot.core.uniref.UniRefMemberIdType;
 import org.uniprot.core.uniref.UniRefType;
@@ -52,10 +53,10 @@ class DatasetUniRefEntryLightConverterTest {
         assertEquals("2019-10-01", entry.getUpdated().toString());
 
         // properties
-        assertEquals("common taxon Value", entry.getCommonTaxon());
-        assertEquals(9606, entry.getCommonTaxonId());
+        assertEquals("common taxon Value", entry.getCommonTaxon().getScientificName());
+        assertEquals(9606, entry.getCommonTaxon().getTaxonId());
         assertEquals(10, entry.getMemberCount());
-        assertEquals("FGFR2_HUMAN", entry.getSeedId());
+        assertEquals("FGFR2_HUMAN,P12345", entry.getSeedId());
 
         assertEquals(3, entry.getGoTerms().size());
         GeneOntologyEntry goTerm = entry.getGoTerms().get(0);
@@ -66,14 +67,16 @@ class DatasetUniRefEntryLightConverterTest {
         assertThat(entry.getMembers(), contains("R12345,0", "P12345,0", "UPI0003447082,3"));
 
         // representative
-        assertThat(entry.getRepresentativeId(), is("FGFR2_HUMAN"));
-        assertThat(entry.getName(), is("Cluster: Fibroblast growth factor receptor 2"));
-        assertThat(entry.getRepresentativeProteinName(), is("Fibroblast growth factor receptor 2"));
-        assertThat(entry.getSequence(), is("MVSWGRFICLVVVTMATLSLAR"));
+        assertNotNull(entry.getRepresentativeMember());
 
         // organism info
-        assertThat(entry.getOrganismIds(), contains(9606L));
-        assertThat(entry.getOrganisms(), contains("Homo sapiens (Human)"));
+        assertNotNull(entry.getOrganisms());
+        assertThat(entry.getOrganisms().size(), is(1));
+        Organism result =
+                entry.getOrganisms().stream().findFirst().orElseThrow(AssertionError::new);
+        assertThat(result.getTaxonId(), is(9606L));
+        assertThat(result.getScientificName(), is("Homo sapiens"));
+        assertThat(result.getCommonName(), is("Human"));
 
         // uniparc presence
         assertThat(

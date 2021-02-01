@@ -50,20 +50,20 @@ class UniprotKBEntryProteinDescriptionConverterTest {
                         "rec full Name",
                         "recommended short name",
                         "sub full Name",
-                        "short alt name1",
                         "a full alt Name",
+                        "short alt name1",
                         "containsrec full Name",
                         "containsrecommended short name",
-                        "containsshort alt name1",
                         "containsa full alt Name",
+                        "containsshort alt name1",
                         "contains cd antigen",
                         "contains allergen",
                         "contains inn antigen",
                         "contains biotech",
                         "includesrec full Name",
                         "includesrecommended short name",
-                        "includesshort alt name1",
                         "includesa full alt Name",
+                        "includesshort alt name1",
                         "includes cd antigen",
                         "includes allergen",
                         "includes inn antigen",
@@ -75,10 +75,6 @@ class UniprotKBEntryProteinDescriptionConverterTest {
 
         assertEquals(25, document.proteinNames.size());
         assertEquals(indexedNames, document.proteinNames);
-
-        // Should we add ECEntry numbers to the content field?
-        assertEquals(25, document.content.size());
-        assertEquals(new HashSet<>(indexedNames), document.content);
 
         assertEquals(30, document.proteinsNamesSort.length());
         assertEquals("rec full Name recommended shor", document.proteinsNamesSort);
@@ -99,11 +95,11 @@ class UniprotKBEntryProteinDescriptionConverterTest {
         assertTrue(suggestions.containsKey("EC:1.2.3.5"));
 
         SuggestDocument suggestionDocument = suggestions.get("EC:1.2.3.3");
-        assertEquals(suggestionDocument.id, "1.2.3.3");
-        assertEquals(suggestionDocument.value, "Label 3");
+        assertEquals("1.2.3.3", suggestionDocument.id);
+        assertEquals("Label 3", suggestionDocument.value);
         assertTrue(suggestionDocument.altValues.isEmpty());
-        assertEquals(suggestionDocument.dictionary, "EC");
-        assertEquals(suggestionDocument.importance, "medium");
+        assertEquals("EC", suggestionDocument.dictionary);
+        assertEquals("medium", suggestionDocument.importance);
     }
 
     @Test
@@ -175,8 +171,8 @@ class UniprotKBEntryProteinDescriptionConverterTest {
                         .cdAntigenNamesAdd(createName("contains cd antigen", "PRU10025"))
                         .build();
 
-        ProteinRecName recommendedName = getRecommendedName("");
-        List<ProteinAltName> proteinAltNames = createAltName("");
+        ProteinName recommendedName = getRecommendedName("");
+        List<ProteinName> proteinAltNames = createAltName("");
         List<ProteinSubName> subNames = getSubmissionName();
 
         return new ProteinDescriptionBuilder()
@@ -193,12 +189,12 @@ class UniprotKBEntryProteinDescriptionConverterTest {
                 .build();
     }
 
-    private static ProteinRecName getRecommendedName(String from) {
+    private static ProteinName getRecommendedName(String from) {
         Name fullName = createName(from + "rec full Name", "PRU10026");
         List<Name> shortNames = createNameList(from + "recommended short name", "PRU10020");
         List<EC> ecNumbers = createECNumbers("1.2.3.4", 10);
 
-        return new ProteinRecNameBuilder()
+        return new ProteinNameBuilder()
                 .fullName(fullName)
                 .shortNamesSet(shortNames)
                 .ecNumbersSet(ecNumbers)
@@ -214,13 +210,13 @@ class UniprotKBEntryProteinDescriptionConverterTest {
         return Collections.singletonList(subName);
     }
 
-    private static List<ProteinAltName> createAltName(String from) {
+    private static List<ProteinName> createAltName(String from) {
         Name fullName = createName(from + "a full alt Name", "PRU10022");
         List<Name> shortNames = createNameList(from + "short alt name1", "PRU10028");
         List<EC> ecNumbers = createECNumbers("1.2.3.3", 9);
 
-        ProteinAltName alternativeName =
-                new ProteinAltNameBuilder()
+        ProteinName alternativeName =
+                new ProteinNameBuilder()
                         .fullName(fullName)
                         .shortNamesSet(shortNames)
                         .ecNumbersSet(ecNumbers)

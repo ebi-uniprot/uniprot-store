@@ -16,8 +16,8 @@ import org.uniprot.store.spark.indexer.common.JobParameter;
 import org.uniprot.store.spark.indexer.common.util.SolrUtils;
 import org.uniprot.store.spark.indexer.common.writer.DocumentsToHDFSWriter;
 import org.uniprot.store.spark.indexer.taxonomy.TaxonomyRDDReader;
+import org.uniprot.store.spark.indexer.uniparc.mapper.UniParcDocTaxonomyJoin;
 import org.uniprot.store.spark.indexer.uniparc.mapper.UniParcEntryToDocument;
-import org.uniprot.store.spark.indexer.uniparc.mapper.UniParcTaxonomyJoin;
 import org.uniprot.store.spark.indexer.uniparc.mapper.UniParcTaxonomyMapper;
 
 /**
@@ -70,7 +70,7 @@ public class UniParcDocumentsToHDFSWriter implements DocumentsToHDFSWriter {
                         .leftOuterJoin(uniparcJoin)
                         // After Join RDD:
                         // JavaPairRDD<uniparcId,Tuple2<UniParcDocument,Iterable<TaxonomyEntry>>>
-                        .mapValues(new UniParcTaxonomyJoin())
+                        .mapValues(new UniParcDocTaxonomyJoin())
                         .values();
 
         saveToHDFS(uniParcDocumentRDD);

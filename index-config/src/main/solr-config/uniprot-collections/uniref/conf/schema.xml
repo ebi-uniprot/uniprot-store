@@ -6,14 +6,15 @@
 
 	<field name="_version_" type="plong" indexed="true" stored="true" />
 
-
 	<!-- =============================== uniref fields =============================== -->
 	<field name="id" type="string" indexed="true" stored="true"
 		required="true" multiValued="false" docValues="true" />
-	<field name="name" type="full_ci" indexed="true" stored="true"
+	<field name="name" type="full_ci" indexed="true" stored="false"
 		required="false" multiValued="false" />
 	<field name="identity" type="basic_ci" indexed="true"
 		stored="false" required="false" multiValued="false" />
+	<field name="cluster" type="basic_ci" indexed="true"
+		stored="false" required="false" multiValued="true" />
 	<field name="count" type="int" indexed="true" stored="false"
 		required="false" multiValued="false" />
 	<field name="length" type="int" indexed="true" stored="false"
@@ -21,8 +22,8 @@
 	<field name="created" type="date" indexed="true" stored="false"
 		required="false" docValues="true" />
 	<field name="uniprot_id" type="basic_ci" indexed="true"
-		stored="true" required="false" multiValued="true" />
-	<field name="upi" type="basic_ci" indexed="true" stored="true"
+		stored="false" required="false" multiValued="true" />
+	<field name="upi" type="basic_ci" indexed="true" stored="false"
 		required="false" multiValued="true" />
 	<field name="taxonomy_name" type="full_ci" indexed="true"
 		stored="false" required="false" multiValued="true" />
@@ -30,19 +31,6 @@
 		stored="false" required="false" multiValued="true" />
 	<field name="organism_sort" type="string" indexed="true"
 		stored="false" required="false" multiValued="false" docValues="true" />
-
-
-	<field name="content" type="full_ci" indexed="true"
-		stored="false" multiValued="true" />
-	<copyField source="id" dest="content" />
-	<copyField source="name" dest="content" />
-	<copyField source="identity" dest="content" />
-	<copyField source="uniprot_id" dest="content" />
-	<copyField source="upi" dest="content" />
-	<copyField source="taxonomy_name" dest="content" />
-	<copyField source="taxonomy_id" dest="content" />
-
-
 
 	<!-- =============================== field types =============================== -->
 	<fieldType name="plong" class="solr.LongPointField"
@@ -71,25 +59,31 @@
 	<fieldType name="full_ci" class="solr.TextField"
 		sortMissingLast="true" omitNorms="true" positionIncrementGap="100">
 		<analyzer type="index">
-			<tokenizer class="solr.WhitespaceTokenizerFactory" />
+			<tokenizer class="solr.SimplePatternSplitTokenizerFactory"
+				pattern="[- /()]+" />
+			<filter class="solr.StopFilterFactory" words="stopwords.txt"
+				ignoreCase="true" />
 			<filter class="solr.ASCIIFoldingFilterFactory"
 				preserveOriginal="false" />
 			<filter class="solr.WordDelimiterGraphFilterFactory"
-				generateWordParts="1" generateNumberParts="1" catenateWords="1"
-				catenateNumbers="1" catenateAll="1" splitOnCaseChange="1"
-				preserveOriginal="1" splitOnNumerics="1" stemEnglishPossessive="1" />
+				generateNumberParts="1" splitOnCaseChange="0" preserveOriginal="0"
+				splitOnNumerics="0" stemEnglishPossessive="1" generateWordParts="1"
+				catenateNumbers="0" catenateWords="1" catenateAll="1" />
 			<filter class="solr.FlattenGraphFilterFactory" />
 			<filter class="solr.LowerCaseFilterFactory" />
 		</analyzer>
 		<analyzer type="query">
-			<tokenizer class="solr.WhitespaceTokenizerFactory" />
+			<tokenizer class="solr.SimplePatternSplitTokenizerFactory"
+				pattern="[- /()]+" />
+			<filter class="solr.StopFilterFactory" words="stopwords.txt"
+				ignoreCase="true" />
 			<filter class="solr.ASCIIFoldingFilterFactory"
 				preserveOriginal="false" />
-			<filter class="solr.WordDelimiterGraphFilterFactory"
-				generateWordParts="1" generateNumberParts="1" catenateWords="1"
-				catenateNumbers="1" catenateAll="1" splitOnCaseChange="1"
-				preserveOriginal="1" splitOnNumerics="1" stemEnglishPossessive="1" />
 			<filter class="solr.LowerCaseFilterFactory" />
+			<filter class="solr.WordDelimiterGraphFilterFactory"
+				generateNumberParts="1" splitOnCaseChange="0" preserveOriginal="0"
+				splitOnNumerics="0" stemEnglishPossessive="1" generateWordParts="1"
+				catenateNumbers="0" catenateWords="0" catenateAll="0" />
 		</analyzer>
 	</fieldType>
 </schema>

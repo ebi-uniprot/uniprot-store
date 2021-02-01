@@ -25,9 +25,9 @@ import org.junit.jupiter.api.extension.ExtensionContext;
 import org.slf4j.Logger;
 import org.springframework.util.FileSystemUtils;
 import org.uniprot.store.datastore.UniProtStoreClient;
-import org.uniprot.store.job.common.converter.DocumentConverter;
 import org.uniprot.store.search.SolrCollection;
 import org.uniprot.store.search.document.Document;
+import org.uniprot.store.search.document.DocumentConverter;
 
 /**
  * Created 19/09/18
@@ -50,7 +50,8 @@ public class DataStoreManager implements AfterAllCallback, BeforeAllCallback {
         KEYWORD,
         LITERATURE,
         SUBCELLULAR_LOCATION,
-        SUGGEST
+        SUGGEST,
+        UNIRULE
     }
 
     private static final String SOLR_SYSTEM_PROPERTIES = "solr-system.properties";

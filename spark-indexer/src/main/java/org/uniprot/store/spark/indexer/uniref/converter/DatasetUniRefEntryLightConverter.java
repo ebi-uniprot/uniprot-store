@@ -1,24 +1,23 @@
 package org.uniprot.store.spark.indexer.uniref.converter;
 
+import static org.uniprot.core.uniref.UniRefUtils.*;
 import static org.uniprot.core.uniref.UniRefUtils.getUniProtKBIdType;
 import static org.uniprot.store.spark.indexer.common.util.RowUtils.hasFieldName;
 import static org.uniprot.store.spark.indexer.uniref.UniRefXmlUtils.*;
+import static org.uniprot.store.spark.indexer.uniref.converter.DatasetUniRefConverterUtil.*;
 
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 import org.apache.spark.api.java.function.Function;
 import org.apache.spark.sql.Row;
 import org.uniprot.core.Value;
 import org.uniprot.core.uniprotkb.impl.UniProtKBAccessionBuilder;
+import org.uniprot.core.uniprotkb.taxonomy.impl.OrganismBuilder;
 import org.uniprot.core.uniref.*;
-import org.uniprot.core.uniref.impl.RepresentativeMemberBuilder;
 import org.uniprot.core.uniref.impl.UniRefEntryLightBuilder;
 import org.uniprot.core.uniref.impl.UniRefMemberBuilder;
 import org.uniprot.core.util.Utils;
@@ -71,9 +70,7 @@ public class DatasetUniRefEntryLightConverter
             RepresentativeMember representativeMember =
                     convertRepresentativeMember(representativeMemberRow);
             // member accessions
-            builder.sequence(representativeMember.getSequence().getValue());
-
-            builder.representativeId(representativeMember.getMemberId());
+            builder.representativeMember(representativeMember);
 
             addMemberInfo(builder, representativeMember);
         }
@@ -99,49 +96,68 @@ public class DatasetUniRefEntryLightConverter
             builder.memberCount(Integer.parseInt(memberCount));
         }
         if (propertyMap.containsKey(PROPERTY_COMMON_TAXON_ID)) {
+            OrganismBuilder organismBuilder = new OrganismBuilder();
             String commonTaxonId = propertyMap.get(PROPERTY_COMMON_TAXON_ID).get(0);
-            builder.commonTaxonId(Integer.parseInt(commonTaxonId));
-        }
-        if (propertyMap.containsKey(PROPERTY_COMMON_TAXON)) {
-            String commonTaxon = propertyMap.get(PROPERTY_COMMON_TAXON).get(0);
-            builder.commonTaxon(commonTaxon);
+            organismBuilder.taxonId(Long.parseLong(commonTaxonId));
+            if (propertyMap.containsKey(PROPERTY_COMMON_TAXON)) {
+                String commonTaxon = propertyMap.get(PROPERTY_COMMON_TAXON).get(0);
+                organismBuilder.scientificName(getOrganismScientificName(commonTaxon));
+                organismBuilder.commonName(getOrganismCommonName(commonTaxon));
+            }
+            builder.commonTaxon(organismBuilder.build());
         }
         builder.goTermsSet(convertUniRefGoTermsProperties(propertyMap));
     }
 
     private void addMemberInfo(UniRefEntryLightBuilder builder, UniRefMember member) {
-        // member accessions
-        int memberType = member.getMemberIdType().getMemberIdTypeId();
-        member.getUniProtAccessions().stream()
-                .map(Value::getValue)
-                .findFirst()
-                .map(id -> id + "," + memberType) // We save members as
-                // "DatabaseId,UniRefMemberIdType", this way,
-                // we can apply facet filter at
-                // UniRefEntryFacetConfig.java
-                .ifPresent(builder::membersAdd);
-
         // organism name and id
         if (member.getOrganismTaxId() > 0) {
-            builder.organismIdsAdd(member.getOrganismTaxId());
-        }
-        if (Utils.notNullNotEmpty(member.getOrganismName())) {
-            builder.organismsAdd(member.getOrganismName());
+            addMemberOrganism(builder, member);
         }
 
-        // uniparc id presence
-        String uniparcId = member.getUniParcId() == null ? null : member.getUniParcId().getValue();
-        if (member.getMemberIdType() == UniRefMemberIdType.UNIPARC) {
-            uniparcId = member.getMemberId();
-        }
-        if (Utils.notNullNotEmpty(uniparcId)) {
-            builder.membersAdd(uniparcId + "," + memberType);
-        }
+        addMemberIdAndType(builder, member);
+
         if (Utils.notNull(member.isSeed()) && member.isSeed()) {
-            builder.seedId(member.getMemberId());
+            builder.seedId(getSeedIdFromMember(member));
         }
+    }
 
-        builder.memberIdTypesAdd(member.getMemberIdType());
+    private void addMemberIdAndType(UniRefEntryLightBuilder builder, UniRefMember member) {
+        // uniparc id presence
+        if (member.getMemberIdType() == UniRefMemberIdType.UNIPARC) {
+            String uniparcId = member.getMemberId();
+            int memberType = member.getMemberIdType().getMemberIdTypeId();
+            builder.membersAdd(uniparcId + "," + memberType);
+            builder.memberIdTypesAdd(member.getMemberIdType());
+        } else {
+            // member accessions
+            // We save members as "Accession,UniRefMemberIdType", this way,
+            // we can apply facet filter at UniRefEntryFacetConfig.java
+            member.getUniProtAccessions().stream()
+                    .map(Value::getValue)
+                    .findFirst()
+                    .ifPresent(
+                            acc -> {
+                                UniRefMemberIdType type =
+                                        getUniProtKBIdType(member.getMemberId(), acc);
+                                builder.membersAdd(acc + "," + type.getMemberIdTypeId());
+                                builder.memberIdTypesAdd(type);
+                            });
+        }
+    }
+
+    private void addMemberOrganism(UniRefEntryLightBuilder builder, UniRefMember member) {
+        OrganismBuilder organismBuilder = new OrganismBuilder();
+        organismBuilder.taxonId(member.getOrganismTaxId());
+        if (Utils.notNullNotEmpty(member.getOrganismName())) {
+            String organismName = member.getOrganismName();
+
+            String scientificName = getOrganismScientificName(organismName);
+            organismBuilder.scientificName(scientificName);
+            String commonName = getOrganismCommonName(organismName);
+            organismBuilder.commonName(commonName);
+        }
+        builder.organismsAdd(organismBuilder.build());
     }
 
     private UniRefMember convertMember(Row member) {
@@ -159,17 +175,6 @@ public class DatasetUniRefEntryLightConverter
             if (hasFieldName(PROPERTY, dbReference)) {
                 convertMemberProperties(builder, dbReference, memberId);
             }
-        }
-        return builder.build();
-    }
-
-    private RepresentativeMember convertRepresentativeMember(Row representativeMemberRow) {
-        UniRefMember member = convertMember(representativeMemberRow);
-        RepresentativeMemberBuilder builder = RepresentativeMemberBuilder.from(member);
-        if (hasFieldName(SEQUENCE, representativeMemberRow)) {
-            Row sequence =
-                    (Row) representativeMemberRow.get(representativeMemberRow.fieldIndex(SEQUENCE));
-            builder.sequence(RowUtils.convertSequence(sequence));
         }
         return builder.build();
     }
@@ -201,5 +206,14 @@ public class DatasetUniRefEntryLightConverter
         if (propertyMap.containsKey(PROPERTY_IS_SEED)) {
             builder.isSeed(Boolean.parseBoolean(propertyMap.get(PROPERTY_IS_SEED).get(0)));
         }
+    }
+
+    private String getSeedIdFromMember(UniRefMember member) {
+        String seedId = member.getMemberId();
+        if (Utils.notNullNotEmpty(member.getUniProtAccessions())) {
+            String accession = member.getUniProtAccessions().get(0).getValue();
+            seedId += "," + accession;
+        }
+        return seedId;
     }
 }

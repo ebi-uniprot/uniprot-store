@@ -21,12 +21,12 @@ import org.uniprot.core.uniprotkb.evidence.EvidenceDatabaseCategory;
 import org.uniprot.core.util.Utils;
 import org.uniprot.cv.chebi.ChebiRepo;
 import org.uniprot.cv.ec.ECRepo;
+import org.uniprot.cv.go.GORepo;
 import org.uniprot.cv.taxonomy.TaxonomyRepo;
-import org.uniprot.store.indexer.uniprot.go.GoRelationRepo;
 import org.uniprot.store.indexer.uniprot.pathway.PathwayRepo;
 import org.uniprot.store.indexer.util.DateUtils;
-import org.uniprot.store.job.common.DocumentConversionException;
-import org.uniprot.store.job.common.converter.DocumentConverter;
+import org.uniprot.store.search.document.DocumentConversionException;
+import org.uniprot.store.search.document.DocumentConverter;
 import org.uniprot.store.search.document.suggest.SuggestDictionary;
 import org.uniprot.store.search.document.suggest.SuggestDocument;
 import org.uniprot.store.search.document.uniprot.UniProtDocument;
@@ -60,14 +60,14 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtKBEntry, 
 
     public UniProtEntryConverter(
             TaxonomyRepo taxonomyRepo,
-            GoRelationRepo goRelationRepo,
+            GORepo goRepo,
             PathwayRepo pathwayRepo,
             ChebiRepo chebiRepo,
             ECRepo ecRepo,
             Map<String, SuggestDocument> suggestDocuments) {
         this.taxonomyConverter = new UniProtEntryTaxonomyConverter(taxonomyRepo, suggestDocuments);
         this.crossReferenceConverter =
-                new UniProtEntryCrossReferenceConverter(goRelationRepo, suggestDocuments);
+                new UniProtEntryCrossReferenceConverter(goRepo, suggestDocuments);
         this.commentsConverter =
                 new UniProtEntryCommentsConverter(chebiRepo, pathwayRepo, suggestDocuments);
         this.featureConverter = new UniProtEntryFeatureConverter();
@@ -102,8 +102,6 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtKBEntry, 
             }
             document.reviewed = (source.getEntryType() == UniProtKBEntryType.SWISSPROT);
             addValueListToStringList(document.secacc, source.getSecondaryAccessions());
-            document.content.add(document.accession);
-            document.content.addAll(document.secacc);
 
             proteinDescriptionConverter.convertProteinDescription(
                     source.getProteinDescription(), document);
@@ -170,7 +168,6 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtKBEntry, 
 
     private void convertUniprotId(UniProtKBId uniProtkbId, UniProtDocument document) {
         document.id = uniProtkbId.getValue();
-        document.content.add(document.id);
         String[] idParts = document.id.split("_");
         if (idParts.length == 2) {
             if (document.reviewed) {
@@ -206,7 +203,6 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtKBEntry, 
     private void convertKeywords(List<Keyword> keywords, UniProtDocument document) {
         if (Utils.notNullNotEmpty(keywords)) {
             keywords.forEach(keyword -> updateKeyword(keyword, document));
-            document.content.addAll(document.keywords);
         }
     }
 
@@ -245,7 +241,6 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtKBEntry, 
                 addValueListToStringList(document.geneNamesExact, gene.getOrfNames());
             }
             document.geneNames.addAll(document.geneNamesExact);
-            document.content.addAll(document.geneNamesExact);
             document.geneNamesSort = truncatedSortValue(String.join(" ", document.geneNames));
         }
     }
@@ -260,7 +255,6 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtKBEntry, 
                 }
                 document.organelles.add(geneEncodingType.getName().toLowerCase());
             }
-            document.content.addAll(document.organelles);
         }
     }
 

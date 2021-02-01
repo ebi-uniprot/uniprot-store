@@ -1,8 +1,5 @@
 package org.uniprot.store.indexer.literature.steps;
 
-import java.io.IOException;
-import java.sql.SQLException;
-
 import org.springframework.batch.core.ChunkListener;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.StepExecutionListener;
@@ -18,13 +15,13 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.Resource;
 import org.uniprot.core.literature.LiteratureEntry;
+import org.uniprot.store.indexer.common.config.FlatFileRecordSeparatorPolicy;
 import org.uniprot.store.indexer.common.config.UniProtSolrClient;
 import org.uniprot.store.indexer.common.listener.SolrCommitStepListener;
 import org.uniprot.store.indexer.common.utils.Constants;
 import org.uniprot.store.indexer.common.writer.SolrDocumentWriter;
 import org.uniprot.store.indexer.literature.processor.LiteratureLoadProcessor;
 import org.uniprot.store.indexer.literature.reader.LiteratureLineMapper;
-import org.uniprot.store.indexer.literature.reader.LiteratureRecordSeparatorPolicy;
 import org.uniprot.store.search.SolrCollection;
 import org.uniprot.store.search.document.literature.LiteratureDocument;
 
@@ -64,7 +61,7 @@ public class LiteratureLoadStep {
     }
 
     @Bean(name = "LiteratureReader")
-    public FlatFileItemReader<LiteratureEntry> literatureReader() throws IOException {
+    public FlatFileItemReader<LiteratureEntry> literatureReader() {
         FlatFileItemReader<LiteratureEntry> reader = new FlatFileItemReader<>();
         reader.setResource(literatureFile);
         reader.setLinesToSkip(1);
@@ -80,13 +77,12 @@ public class LiteratureLoadStep {
     }
 
     @Bean(name = "LiteratureProcessor")
-    public ItemProcessor<LiteratureEntry, LiteratureDocument> literatureProcessor()
-            throws SQLException {
+    public ItemProcessor<LiteratureEntry, LiteratureDocument> literatureProcessor() {
         return new LiteratureLoadProcessor(uniProtSolrClient);
     }
 
-    private LiteratureRecordSeparatorPolicy getLiteratureRecordSeparatorPolice() {
-        LiteratureRecordSeparatorPolicy policy = new LiteratureRecordSeparatorPolicy();
+    private FlatFileRecordSeparatorPolicy getLiteratureRecordSeparatorPolice() {
+        FlatFileRecordSeparatorPolicy policy = new FlatFileRecordSeparatorPolicy();
         policy.setSuffix("\n//");
         policy.setIgnoreWhitespace(true);
         return policy;

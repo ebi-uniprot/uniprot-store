@@ -80,7 +80,10 @@
     "dataType": "STRING",
     "description": "Search by taxonomy name",
     "example": "sample name",
-    "includeInSwagger": true
+    "includeInSwagger": true,
+    "autoComplete": "/uniprot/api/suggester?dict=uniparc_taxonomy&query=?",
+    "autoCompleteQueryField": "taxonomy_id",
+    "autoCompleteQueryFieldValidRegex": "^[0-9]+$"
   },
   {
     "seqNumber": 5,
@@ -159,7 +162,7 @@
     "seqNumber": 11,
     "id": "dbid",
     "fieldName": "dbid",
-    "label": "Database Id",
+    "label": "Database ID",
     "itemType": "SINGLE",
     "fieldType": "GENERAL",
     "dataType": "STRING",
@@ -171,7 +174,7 @@
     "seqNumber": 12,
     "id": "feature_id",
     "fieldName": "feature_id",
-    "label": "feature Id",
+    "label": "Feature ID",
     "itemType": "SINGLE",
     "fieldType": "GENERAL",
     "dataType": "STRING",
@@ -186,14 +189,5 @@
     "dataType": "INTEGER",
     "description": "Sort by length",
     "example": "length asc"
-  },
-  {
-    "id": "content",
-    "fieldName": "content",
-    "fieldType": "GENERAL",
-    "dataType": "STRING",
-    "description": "Search by any content",
-    "example": "sample content",
-    "includeInSwagger": true
   }
 ]

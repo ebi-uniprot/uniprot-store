@@ -12,7 +12,7 @@ import org.uniprot.store.spark.indexer.common.exception.SolrIndexException;
 class IndexHDFSDocumentsInSolrMainTest {
 
     @Test
-    void testIIndexHDFSDocumentsInSolrMainInvalidArgumentIndex() {
+    void testIndexHDFSDocumentsInSolrMainInvalidArgumentIndex() {
         assertThrows(
                 IllegalArgumentException.class,
                 () -> IndexHDFSDocumentsInSolrMain.main(new String[0]));
@@ -21,6 +21,13 @@ class IndexHDFSDocumentsInSolrMainTest {
     @Test
     void testIndexHDFSDocumentsInSolrMainInvalidCollection() {
         String[] args = {"invalid", "invalid"};
+        assertThrows(SolrIndexException.class, () -> IndexHDFSDocumentsInSolrMain.main(args));
+    }
+
+    @Test
+    void testIndexHDFSDocumentsInSolrMainThrowExceptions() {
+        // valid arguments, but it will fail because we do not have the serialized document files.
+        String[] args = {"2020_04", "uniparc"};
         assertThrows(SolrIndexException.class, () -> IndexHDFSDocumentsInSolrMain.main(args));
     }
 }

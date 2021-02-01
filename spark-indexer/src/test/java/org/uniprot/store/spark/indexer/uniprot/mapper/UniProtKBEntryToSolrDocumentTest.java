@@ -16,7 +16,7 @@ import org.uniprot.core.flatfile.parser.impl.entry.EntryObjectConverter;
 import org.uniprot.core.uniprotkb.UniProtKBEntry;
 import org.uniprot.core.uniprotkb.UniProtKBEntryType;
 import org.uniprot.core.uniprotkb.impl.UniProtKBEntryBuilder;
-import org.uniprot.store.job.common.DocumentConversionException;
+import org.uniprot.store.search.document.DocumentConversionException;
 import org.uniprot.store.search.document.uniprot.UniProtDocument;
 import org.uniprot.store.spark.indexer.uniprot.converter.SupportingDataMapHDSFImpl;
 
@@ -54,14 +54,12 @@ class UniProtKBEntryToSolrDocumentTest {
     @Test
     void testInvalidUniprotEntry() throws Exception {
         UniProtEntryToSolrDocument mapper = new UniProtEntryToSolrDocument(new HashMap<>());
+        UniProtKBEntry entry =
+                new UniProtKBEntryBuilder("P12345", "ID_P12345", UniProtKBEntryType.SWISSPROT)
+                        .build();
         assertThrows(
                 DocumentConversionException.class,
-                () -> {
-                    mapper.call(
-                            new UniProtKBEntryBuilder(
-                                            "P12345", "ID_P12345", UniProtKBEntryType.SWISSPROT)
-                                    .build());
-                },
+                () -> mapper.call(entry),
                 "Error converting UniProt entry");
     }
 }

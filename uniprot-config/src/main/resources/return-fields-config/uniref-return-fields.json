@@ -50,7 +50,7 @@
     "itemType": "SINGLE",
     "name": "common_taxonid",
     "label": "Common taxon ID",
-    "paths": ["commonTaxonId"],
+    "paths": ["commonTaxonId", "commonTaxon.taxonId"],
     "id": "names_&_taxonomy/common_taxonid",
     "includeInSwagger": true
   },
@@ -60,7 +60,7 @@
     "itemType": "SINGLE",
     "name": "organism_id",
     "label": "Organism IDs",
-    "paths": ["representativeMember.organismTaxId","members[*].organismTaxId","organismIds"],
+    "paths": ["representativeMember.organismTaxId","members[*].organismTaxId","organisms[*].taxonId"],
     "id": "names_&_taxonomy/organism_id",
     "includeInSwagger": true
   },
@@ -98,7 +98,7 @@
     "sortField": "length",
     "name": "length",
     "label": "Length",
-    "paths": ["representativeMember.sequence.length","sequenceLength"],
+    "paths": ["representativeMember.sequence.length"],
     "id": "miscellaneous/length",
     "includeInSwagger": true
   },
@@ -108,7 +108,7 @@
     "itemType": "SINGLE",
     "name": "sequence",
     "label": "Reference sequence",
-    "paths": ["representativeMember.sequence.value","sequence"],
+    "paths": ["representativeMember.sequence.value"],
     "id": "miscellaneous/sequence",
     "includeInSwagger": true
   },

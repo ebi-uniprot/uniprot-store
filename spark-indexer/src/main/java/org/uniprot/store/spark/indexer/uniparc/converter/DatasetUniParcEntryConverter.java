@@ -14,13 +14,13 @@ import org.apache.spark.sql.types.ArrayType;
 import org.apache.spark.sql.types.DataTypes;
 import org.apache.spark.sql.types.StructType;
 import org.uniprot.core.Location;
-import org.uniprot.core.Property;
 import org.uniprot.core.uniparc.*;
 import org.uniprot.core.uniparc.impl.InterProGroupBuilder;
 import org.uniprot.core.uniparc.impl.SequenceFeatureBuilder;
 import org.uniprot.core.uniparc.impl.UniParcCrossReferenceBuilder;
 import org.uniprot.core.uniparc.impl.UniParcEntryBuilder;
-import org.uniprot.core.uniprotkb.taxonomy.impl.TaxonomyBuilder;
+import org.uniprot.core.uniprotkb.taxonomy.Organism;
+import org.uniprot.core.uniprotkb.taxonomy.impl.OrganismBuilder;
 import org.uniprot.store.spark.indexer.common.util.RowUtils;
 
 /**
@@ -52,6 +52,13 @@ public class DatasetUniParcEntryConverter implements MapFunction<Row, UniParcEnt
     private static final String CREATED = "_created";
     private static final String LAST = "_last";
     private static final String PROPERTY = "property";
+    static final String PROPERTY_GENE_NAME = "gene_name";
+    static final String PROPERTY_PROTEIN_NAME = "protein_name";
+    static final String PROPERTY_CHAIN = "chain";
+    static final String PROPERTY_NCBI_GI = "NCBI_GI";
+    static final String PROPERTY_PROTEOME_ID = "proteome_id";
+    static final String PROPERTY_COMPONENT = "component";
+    static final String PROPERTY_NCBI_TAXONOMY_ID = "NCBI_taxonomy_id";
 
     @Override
     public UniParcEntry call(Row rowValue) throws Exception {
@@ -65,19 +72,10 @@ public class DatasetUniParcEntryConverter implements MapFunction<Row, UniParcEnt
         }
         if (hasFieldName(DB_REFERENCE, rowValue)) {
             List<Row> dbReferences = rowValue.getList(rowValue.fieldIndex(DB_REFERENCE));
-            Set<Long> taxIds = new HashSet<>();
             for (Row dbReference : dbReferences) {
                 UniParcCrossReference xref = convertDbReference(dbReference);
                 builder.uniParcCrossReferencesAdd(xref);
-                xref.getProperties().stream()
-                        .filter(property -> isTaxonomyProperty(property.getKey()))
-                        .map(Property::getValue)
-                        .map(Long::parseLong)
-                        .forEach(taxIds::add);
             }
-            taxIds.stream()
-                    .map(taxId -> new TaxonomyBuilder().taxonId(taxId).build())
-                    .forEach(builder::taxonomiesAdd);
         }
         if (hasFieldName(SIGNATURE_SEQUENCE_MATCH, rowValue)) {
             List<Row> sequenceFeatures =
@@ -91,10 +89,6 @@ public class DatasetUniParcEntryConverter implements MapFunction<Row, UniParcEnt
             builder.sequence(RowUtils.convertSequence(sequence));
         }
         return builder.build();
-    }
-
-    private boolean isTaxonomyProperty(String key) {
-        return key.equalsIgnoreCase(UniParcCrossReference.PROPERTY_NCBI_TAXONOMY_ID);
     }
 
     public static StructType getUniParcXMLSchema() {
@@ -188,14 +182,57 @@ public class DatasetUniParcEntryConverter implements MapFunction<Row, UniParcEnt
             builder.lastUpdated(LocalDate.parse(last, formatter));
         }
         if (hasFieldName(PROPERTY, rowValue)) {
-            RowUtils.convertProperties(rowValue)
-                    .forEach(
-                            (key, value) ->
-                                    value.forEach(
-                                            valueItem -> builder.propertiesAdd(key, valueItem)));
+            convertProperties(rowValue, builder);
         }
 
         return builder.build();
+    }
+
+    private void convertProperties(Row rowValue, UniParcCrossReferenceBuilder builder) {
+        Map<String, List<String>> propertyMap = RowUtils.convertProperties(rowValue);
+        if (propertyMap.containsKey(PROPERTY_GENE_NAME)) {
+            String geneName = propertyMap.get(PROPERTY_GENE_NAME).get(0);
+            builder.geneName(geneName);
+            propertyMap.remove(PROPERTY_GENE_NAME);
+        }
+        if (propertyMap.containsKey(PROPERTY_PROTEIN_NAME)) {
+            String proteinName = propertyMap.get(PROPERTY_PROTEIN_NAME).get(0);
+            builder.proteinName(proteinName);
+            propertyMap.remove(PROPERTY_PROTEIN_NAME);
+        }
+        if (propertyMap.containsKey(PROPERTY_CHAIN)) {
+            String chain = propertyMap.get(PROPERTY_CHAIN).get(0);
+            builder.chain(chain);
+            propertyMap.remove(PROPERTY_CHAIN);
+        }
+        if (propertyMap.containsKey(PROPERTY_NCBI_GI)) {
+            String ncbiGi = propertyMap.get(PROPERTY_NCBI_GI).get(0);
+            builder.ncbiGi(ncbiGi);
+            propertyMap.remove(PROPERTY_NCBI_GI);
+        }
+        if (propertyMap.containsKey(PROPERTY_PROTEOME_ID)) {
+            String proteomeId = propertyMap.get(PROPERTY_PROTEOME_ID).get(0);
+            builder.proteomeId(proteomeId);
+            propertyMap.remove(PROPERTY_PROTEOME_ID);
+        }
+        if (propertyMap.containsKey(PROPERTY_COMPONENT)) {
+            String component = propertyMap.get(PROPERTY_COMPONENT).get(0);
+            builder.component(component);
+            propertyMap.remove(PROPERTY_COMPONENT);
+        }
+        if (propertyMap.containsKey(PROPERTY_NCBI_TAXONOMY_ID)) {
+            String taxonId = propertyMap.get(PROPERTY_NCBI_TAXONOMY_ID).get(0);
+            Organism taxonomy = new OrganismBuilder().taxonId(Long.parseLong(taxonId)).build();
+            builder.taxonomy(taxonomy);
+            propertyMap.remove(PROPERTY_NCBI_TAXONOMY_ID);
+        }
+        if (!propertyMap.isEmpty()) {
+            StringBuilder message = new StringBuilder();
+            message.append("Unable to parse UniParc property:");
+            propertyMap.forEach(
+                    (key, value) -> message.append(key).append(":").append(value.get(0)));
+            throw new IllegalArgumentException(message.toString());
+        }
     }
 
     static StructType getSignatureSchema() {

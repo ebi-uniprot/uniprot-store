@@ -150,9 +150,6 @@ public class TaxonomyEntryToUniProtDocument
         if (organism.hasSynonyms()) {
             organismNames.addAll(organism.getSynonyms());
         }
-        if (organism.hasMnemonic()) {
-            organismNames.add(organism.getMnemonic());
-        }
         return organismNames;
     }
 }

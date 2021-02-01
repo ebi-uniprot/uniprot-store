@@ -12,6 +12,7 @@ import org.uniprot.core.uniref.RepresentativeMember;
 import org.uniprot.core.uniref.UniRefEntryLight;
 import org.uniprot.store.spark.indexer.common.JobParameter;
 import org.uniprot.store.spark.indexer.common.exception.IndexDataStoreException;
+import org.uniprot.store.spark.indexer.common.store.DataStoreParameter;
 import org.uniprot.store.spark.indexer.common.util.SparkUtils;
 
 /**
@@ -46,9 +47,16 @@ class UniRefMemberDataStoreIndexerTest {
 
     @Test
     void canGetWriter() {
+        DataStoreParameter parameter =
+                DataStoreParameter.builder()
+                        .maxRetry(1)
+                        .delay(1)
+                        .connectionURL("tcp://localhost")
+                        .numberOfConnections(5)
+                        .storeName("uniref-member")
+                        .build();
         UniRefLightDataStoreIndexer indexer = new UniRefLightDataStoreIndexer(null);
-        VoidFunction<Iterator<UniRefEntryLight>> result =
-                indexer.getWriter("5", "uniref-member", "tcp://localhost");
+        VoidFunction<Iterator<UniRefEntryLight>> result = indexer.getWriter(parameter);
         assertNotNull(result);
     }
 
@@ -59,8 +67,7 @@ class UniRefMemberDataStoreIndexerTest {
         }
 
         @Override
-        VoidFunction<Iterator<RepresentativeMember>> getWriter(
-                String numberOfConnections, String storeName, String connectionURL) {
+        VoidFunction<Iterator<RepresentativeMember>> getWriter(DataStoreParameter parameter) {
             return entryIterator -> {
                 assertNotNull(entryIterator);
                 assertTrue(entryIterator.hasNext());

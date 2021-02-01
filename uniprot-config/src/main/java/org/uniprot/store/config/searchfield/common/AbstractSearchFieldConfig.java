@@ -51,7 +51,7 @@ public abstract class AbstractSearchFieldConfig implements SearchFieldConfig {
 
     public SearchFieldItem getSearchFieldItemByName(String fieldName) {
         return this.getSearchFieldItems().stream()
-                .filter(fi -> fieldName.equals(fi.getFieldName()))
+                .filter(fi -> fieldName.equalsIgnoreCase(fi.getFieldName()))
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("Unknown field: " + fieldName));
     }

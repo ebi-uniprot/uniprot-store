@@ -22,14 +22,14 @@ import org.uniprot.store.search.document.suggest.SuggestDictionary;
  */
 public class UniProtEntryConverterUtil {
 
+    private UniProtEntryConverterUtil() {}
+
     private static final int SORT_FIELD_MAX_LENGTH = 30;
 
     static Set<String> extractEvidence(List<Evidence> evidences) {
-        Set<String> extractedEvidence =
-                evidences.stream()
-                        .flatMap(UniProtEntryConverterUtil::addExtractedEvidenceItem)
-                        .collect(Collectors.toSet());
-        return extractedEvidence;
+        return evidences.stream()
+                .flatMap(UniProtEntryConverterUtil::addExtractedEvidenceItem)
+                .collect(Collectors.toSet());
     }
 
     private static Stream<String> addExtractedEvidenceItem(Evidence evidence) {
@@ -106,7 +106,7 @@ public class UniProtEntryConverterUtil {
     public static List<String> extractProteinDescriptionValues(ProteinDescription description) {
         List<String> values = new ArrayList<>();
         if (description.hasRecommendedName()) {
-            values.addAll(getProteinRecNameNames(description.getRecommendedName()));
+            values.addAll(getProteinNameNames(description.getRecommendedName()));
         }
         if (description.hasSubmissionNames()) {
             description.getSubmissionNames().stream()
@@ -115,7 +115,7 @@ public class UniProtEntryConverterUtil {
         }
         if (description.hasAlternativeNames()) {
             description.getAlternativeNames().stream()
-                    .map(UniProtEntryConverterUtil::getProteinAltNameNames)
+                    .map(UniProtEntryConverterUtil::getProteinNameNames)
                     .forEach(values::addAll);
         }
         if (description.hasContains()) {
@@ -146,11 +146,11 @@ public class UniProtEntryConverterUtil {
     private static List<String> getProteinSectionValues(ProteinSection proteinSection) {
         List<String> names = new ArrayList<>();
         if (proteinSection.hasRecommendedName()) {
-            names.addAll(getProteinRecNameNames(proteinSection.getRecommendedName()));
+            names.addAll(getProteinNameNames(proteinSection.getRecommendedName()));
         }
         if (proteinSection.hasAlternativeNames()) {
             proteinSection.getAlternativeNames().stream()
-                    .map(UniProtEntryConverterUtil::getProteinAltNameNames)
+                    .map(UniProtEntryConverterUtil::getProteinNameNames)
                     .forEach(names::addAll);
         }
         if (proteinSection.hasCdAntigenNames()) {
@@ -168,24 +168,13 @@ public class UniProtEntryConverterUtil {
         return names;
     }
 
-    private static List<String> getProteinRecNameNames(ProteinRecName proteinRecName) {
+    private static List<String> getProteinNameNames(ProteinName proteinName) {
         List<String> names = new ArrayList<>();
-        if (proteinRecName.hasFullName()) {
-            names.add(proteinRecName.getFullName().getValue());
+        if (proteinName.hasFullName()) {
+            names.add(proteinName.getFullName().getValue());
         }
-        if (proteinRecName.hasShortNames()) {
-            proteinRecName.getShortNames().stream().map(Name::getValue).forEach(names::add);
-        }
-        return names;
-    }
-
-    private static List<String> getProteinAltNameNames(ProteinAltName proteinAltName) {
-        List<String> names = new ArrayList<>();
-        if (proteinAltName.hasShortNames()) {
-            proteinAltName.getShortNames().stream().map(Name::getValue).forEach(names::add);
-        }
-        if (proteinAltName.hasFullName()) {
-            names.add(proteinAltName.getFullName().getValue());
+        if (proteinName.hasShortNames()) {
+            proteinName.getShortNames().stream().map(Name::getValue).forEach(names::add);
         }
         return names;
     }

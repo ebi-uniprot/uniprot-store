@@ -5,8 +5,7 @@ import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.fail;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.uniprot.store.indexer.common.utils.Constants.PROTEOME_INDEX_JOB;
 import static org.uniprot.store.indexer.common.utils.Constants.SUGGESTIONS_INDEX_STEP;
 
@@ -33,8 +32,8 @@ import org.uniprot.store.indexer.test.config.FakeIndexerSpringBootApplication;
 import org.uniprot.store.indexer.test.config.SolrTestConfig;
 import org.uniprot.store.job.common.listener.ListenerConfig;
 import org.uniprot.store.search.SolrCollection;
-import org.uniprot.store.search.document.proteome.GeneCentricDocument;
 import org.uniprot.store.search.document.proteome.ProteomeDocument;
+import org.uniprot.store.search.document.suggest.SuggestDictionary;
 import org.uniprot.store.search.document.suggest.SuggestDocument;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -72,17 +71,9 @@ class ProteomeIndexIT {
                 solrOperations.query(
                         SolrCollection.proteome, new SolrQuery("*:*"), ProteomeDocument.class);
         assertThat(response, is(notNullValue()));
-        assertThat(response.size(), is(6));
+        assertThat(response.size(), is(5));
 
-        response.forEach(val -> verifyProteome(val));
-
-        List<GeneCentricDocument> response2 =
-                solrOperations.query(
-                        SolrCollection.genecentric,
-                        new SolrQuery("*:*").setRows(2500),
-                        GeneCentricDocument.class);
-        assertThat(response2, is(notNullValue()));
-        assertThat(response2.size(), is(2192));
+        response.forEach(this::verifyProteome);
 
         checkSuggestionIndexingStep(jobExecution.getStepExecutions());
     }
@@ -116,9 +107,25 @@ class ProteomeIndexIT {
         List<SuggestDocument> response =
                 solrClient.query(
                         SolrCollection.suggest,
-                        new SolrQuery("*:*").setRows(300),
+                        new SolrQuery("dict:" + SuggestDictionary.PROTEOME_UPID),
                         SuggestDocument.class);
+        assertThat(response.size(), CoreMatchers.is(5));
         assertThat(response, CoreMatchers.is(CoreMatchers.notNullValue()));
         assertThat(response.size(), CoreMatchers.is(reportedWriteCount));
+
+        response.forEach(this::verifySuggest);
+    }
+
+    private void verifySuggest(SuggestDocument suggestDocument) {
+        assertNotNull(suggestDocument);
+
+        assertNotNull(suggestDocument.id);
+        assertTrue(suggestDocument.id.startsWith("UP"));
+
+        assertNotNull(suggestDocument.value);
+        assertFalse(suggestDocument.value.isEmpty());
+
+        assertNotNull(suggestDocument.altValues);
+        assertFalse(suggestDocument.altValues.isEmpty());
     }
 }

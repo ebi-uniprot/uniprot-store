@@ -15,8 +15,8 @@ import org.uniprot.core.uniparc.impl.InterProGroupBuilder;
 import org.uniprot.core.uniparc.impl.SequenceFeatureBuilder;
 import org.uniprot.core.uniparc.impl.UniParcCrossReferenceBuilder;
 import org.uniprot.core.uniparc.impl.UniParcEntryBuilder;
-import org.uniprot.core.uniprotkb.taxonomy.Taxonomy;
-import org.uniprot.core.uniprotkb.taxonomy.impl.TaxonomyBuilder;
+import org.uniprot.core.uniprotkb.taxonomy.Organism;
+import org.uniprot.core.uniprotkb.taxonomy.impl.OrganismBuilder;
 import org.uniprot.store.search.document.uniparc.UniParcDocument;
 
 /**
@@ -127,8 +127,6 @@ class UniParcDocumentConverterTest {
         assertTrue(result.getFeatureIds().contains("interProDbId"));
 
         assertEquals(22, result.getSeqLength());
-
-        assertTrue(result.getContent().isEmpty());
     }
 
     private UniParcEntry getUniParcEntry(UniParcDatabase type) {
@@ -139,7 +137,6 @@ class UniParcDocumentConverterTest {
                 .uniParcCrossReferencesAdd(getDatabaseCrossReferences(type, false))
                 .uniParcCrossReferencesAdd(getInactiveDatabaseCrossReferences())
                 .sequence(getSequence())
-                .taxonomiesAdd(getTaxonomy())
                 .sequenceFeaturesAdd(getSequenceFeatures())
                 .build();
     }
@@ -159,9 +156,13 @@ class UniParcDocumentConverterTest {
         return new UniParcCrossReferenceBuilder()
                 .id(type.getName() + "IdValue-" + active)
                 .database(type)
-                .propertiesAdd(UniParcCrossReference.PROPERTY_GENE_NAME, "geneNameValue")
-                .propertiesAdd(UniParcCrossReference.PROPERTY_PROTEIN_NAME, "proteinNameValue")
-                .propertiesAdd(UniParcCrossReference.PROPERTY_PROTEOME_ID, "proteomeIdValue")
+                .taxonomy(getTaxonomy())
+                .geneName("geneNameValue")
+                .proteinName("proteinNameValue")
+                .proteomeId("proteomeIdValue")
+                .component("componentValue")
+                .chain("chainValue")
+                .ncbiGi("ncbiGiValue")
                 .active(active)
                 .build();
     }
@@ -176,8 +177,8 @@ class UniParcDocumentConverterTest {
                 .build();
     }
 
-    private Taxonomy getTaxonomy() {
-        return new TaxonomyBuilder()
+    private Organism getTaxonomy() {
+        return new OrganismBuilder()
                 .taxonId(10L)
                 .commonName("commonNameValue")
                 .scientificName("scientificNameValue")

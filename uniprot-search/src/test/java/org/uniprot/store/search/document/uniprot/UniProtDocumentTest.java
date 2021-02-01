@@ -14,10 +14,12 @@ class UniProtDocumentTest {
 
     @Test
     void testEquals() {
-        UniProtDocument doc = getCompleteDocument(new Date());
-        UniProtDocument doc2 = getCompleteDocument(new Date());
+        Date date = new Date();
+        UniProtDocument doc = getCompleteDocument(date);
+        UniProtDocument doc2 = getCompleteDocument(date);
         assertEquals(doc, doc2);
         assertEquals(doc.hashCode(), doc2.hashCode());
+        assertTrue(doc.active);
     }
 
     @Test
@@ -56,9 +58,6 @@ class UniProtDocumentTest {
         doc.seqLength = 1;
         doc.seqAA = "1";
         doc.score = 1;
-        doc.avroBinary = "1".getBytes();
-        doc.avroBin = "1";
-        doc.avroJson = "1";
         doc.inactiveReason = "1";
         doc.isIsoform = false;
         doc.unirefCluster50 = "1";

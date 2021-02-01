@@ -14,10 +14,10 @@ import org.hamcrest.Matchers;
 import org.hamcrest.collection.IsIterableContainingInOrder;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.uniprot.store.job.common.DocumentConversionException;
-import org.uniprot.store.job.common.converter.DocumentConverter;
 import org.uniprot.store.job.common.model.AbstractEntryDocumentPair;
 import org.uniprot.store.search.document.Document;
+import org.uniprot.store.search.document.DocumentConversionException;
+import org.uniprot.store.search.document.DocumentConverter;
 
 /**
  * Created 22/08/19

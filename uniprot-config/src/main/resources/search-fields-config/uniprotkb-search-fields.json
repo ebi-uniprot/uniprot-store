@@ -89,6 +89,30 @@
     "fieldType": "GENERAL"
   },
   {
+    "id":"uniref_cluster_50",
+    "fieldName": "uniref_cluster_50",
+    "dataType": "STRING",
+    "fieldType": "GENERAL"
+  },
+  {
+    "id":"uniref_cluster_90",
+    "fieldName": "uniref_cluster_90",
+    "dataType": "STRING",
+    "fieldType": "GENERAL"
+  },
+  {
+    "id":"uniref_cluster_100",
+    "fieldName": "uniref_cluster_100",
+    "dataType": "STRING",
+    "fieldType": "GENERAL"
+  },
+  {
+    "id":"uniparc",
+    "fieldName": "uniparc",
+    "dataType": "STRING",
+    "fieldType": "GENERAL"
+  },
+  {
     "id":"ec_exact",
     "fieldName": "ec_exact",
     "dataType": "STRING",
@@ -2414,7 +2438,7 @@
     "itemType": "SINGLE",
     "fieldName": "fragment",
     "fieldType": "GENERAL",
-    "dataType": "ENUM",
+    "dataType": "BOOLEAN",
     "values": [
       {
         "name": "Yes",
@@ -2488,7 +2512,7 @@
     "itemType": "SINGLE",
     "fieldName": "precursor",
     "fieldType": "GENERAL",
-    "dataType": "ENUM",
+    "dataType": "BOOLEAN",
     "values": [
       {
         "name": "Yes",
@@ -4248,8 +4272,7 @@
   {
     "label": "Cross-references",
     "id": "cross_references",
-    "dataType": "STRING",
-    "itemType": "GROUP",
+    "itemType": "SINGLE",
     "seqNumber": 17
   }
 ]

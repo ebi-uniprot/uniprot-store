@@ -3,13 +3,18 @@ package org.uniprot.store.spark.indexer.uniprot;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.Iterator;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import org.apache.spark.api.java.JavaSparkContext;
 import org.apache.spark.api.java.function.VoidFunction;
 import org.junit.jupiter.api.Test;
 import org.uniprot.core.uniprotkb.UniProtKBEntry;
+import org.uniprot.core.uniprotkb.impl.UniProtKBEntryBuilder;
+import org.uniprot.core.uniprotkb.xdb.UniProtKBCrossReference;
+import org.uniprot.store.datastore.voldemort.uniprot.VoldemortInMemoryUniprotEntryStore;
 import org.uniprot.store.spark.indexer.common.JobParameter;
+import org.uniprot.store.spark.indexer.common.store.DataStoreParameter;
 import org.uniprot.store.spark.indexer.common.util.SparkUtils;
 
 /**
@@ -32,14 +37,57 @@ class UniProtKBDataStoreIndexerTest {
                     new UniProtKBDataStoreIndexerTest.FakeUniProtKBDataStoreIndexer(parameter);
             assertNotNull(indexer);
             indexer.indexInDataStore();
+            VoldemortInMemoryUniprotEntryStore client =
+                    VoldemortInMemoryUniprotEntryStore.getInstance("uniprotkb");
+            assertNotNull(client);
+            UniProtKBEntry entry = client.getEntry("Q9EPI6").orElseThrow(AssertionError::new);
+            assertNotNull(entry);
+
+            // Join UniParc correctly
+            assertNotNull(entry.getExtraAttributes());
+            assertEquals(3, entry.getExtraAttributes().size());
+            assertEquals(
+                    "UPI00000E8551",
+                    entry.getExtraAttributes().get(UniProtKBEntryBuilder.UNIPARC_ID_ATTRIB));
+
+            // Join go Evidences correctly
+            assertNotNull(entry.getUniProtCrossReferencesByType("GO"));
+
+            List<UniProtKBCrossReference> goEvidences = entry.getUniProtCrossReferencesByType("GO");
+            assertNotNull(goEvidences);
+
+            UniProtKBCrossReference go5635 =
+                    goEvidences.stream()
+                            .filter(crossRef -> crossRef.getId().equals("GO:0005635"))
+                            .findFirst()
+                            .orElseThrow(AssertionError::new);
+
+            assertTrue(go5635.hasEvidences());
+            assertEquals(1, go5635.getEvidences().size());
+
+            UniProtKBCrossReference go5634 =
+                    goEvidences.stream()
+                            .filter(crossRef -> crossRef.getId().equals("GO:0005634"))
+                            .findFirst()
+                            .orElseThrow(AssertionError::new);
+
+            assertTrue(go5634.hasEvidences());
+            assertEquals(3, go5634.getEvidences().size());
         }
     }
 
     @Test
     void canGetWriter() {
+        DataStoreParameter parameter =
+                DataStoreParameter.builder()
+                        .maxRetry(1)
+                        .delay(1)
+                        .connectionURL("tcp://localhost")
+                        .numberOfConnections(5)
+                        .storeName("uniprot")
+                        .build();
         UniProtKBDataStoreIndexer indexer = new UniProtKBDataStoreIndexer(null);
-        VoidFunction<Iterator<UniProtKBEntry>> result =
-                indexer.getWriter("5", "uniprot", "tcp://localhost");
+        VoidFunction<Iterator<UniProtKBEntry>> result = indexer.getWriter(parameter);
         assertNotNull(result);
     }
 
@@ -50,11 +98,13 @@ class UniProtKBDataStoreIndexerTest {
         }
 
         @Override
-        VoidFunction<Iterator<UniProtKBEntry>> getWriter(
-                String numberOfConnections, String storeName, String connectionURL) {
+        VoidFunction<Iterator<UniProtKBEntry>> getWriter(DataStoreParameter parameter) {
             return entryIterator -> {
                 assertNotNull(entryIterator);
-                assertTrue(entryIterator.hasNext());
+                while (entryIterator.hasNext()) {
+                    VoldemortInMemoryUniprotEntryStore.getInstance("uniprotkb")
+                            .saveEntry(entryIterator.next());
+                }
             };
         }
     }

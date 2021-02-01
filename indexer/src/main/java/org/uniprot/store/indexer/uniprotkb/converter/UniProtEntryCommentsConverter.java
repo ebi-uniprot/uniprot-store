@@ -56,6 +56,7 @@ class UniProtEntryCommentsConverter {
             Collection<String> value =
                     document.commentMap.computeIfAbsent(field, k -> new ArrayList<>());
 
+            // add comments without evidence to content
             String commentVal = fbuilder.buildString(comment);
             value.add(commentVal);
             document.content.add(commentVal);

@@ -31,7 +31,7 @@ class SearchFieldConfigImplTest {
     void testSize() {
         List<SearchFieldItem> items = searchFieldConfig.getSearchFieldItems();
         Assertions.assertNotNull(items);
-        assertEquals(498, items.size());
+        assertEquals(506, items.size());
     }
 
     @Test
@@ -46,7 +46,7 @@ class SearchFieldConfigImplTest {
                                         StringUtils.isNotEmpty(i.getFieldName())
                                                 && i.getFieldName().startsWith("xref_count_"))
                         .count();
-        Assertions.assertEquals(182, xrefCountFieldsCount);
+        Assertions.assertEquals(186, xrefCountFieldsCount);
     }
 
     @Test
@@ -61,7 +61,7 @@ class SearchFieldConfigImplTest {
                                         StringUtils.isNotEmpty(i.getFieldName())
                                                 && !(i.getFieldName().startsWith("xref_count_")))
                         .count();
-        Assertions.assertEquals((492 - 176), xrefCountFieldsCount);
+        Assertions.assertEquals((496 - 176), xrefCountFieldsCount);
     }
 
     @Test
@@ -144,6 +144,6 @@ class SearchFieldConfigImplTest {
                         .filter(val -> "Cross-references".equals(val.getLabel()))
                         .findFirst();
         assertTrue(item.isPresent());
-        assertEquals(SearchFieldItemType.GROUP, item.orElse(new SearchFieldItem()).getItemType());
+        assertEquals(SearchFieldItemType.SINGLE, item.orElse(new SearchFieldItem()).getItemType());
     }
 }

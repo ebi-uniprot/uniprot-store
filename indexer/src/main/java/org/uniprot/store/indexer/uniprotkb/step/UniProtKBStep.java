@@ -27,13 +27,12 @@ import org.springframework.context.annotation.Import;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.uniprot.cv.chebi.ChebiRepoFactory;
 import org.uniprot.cv.ec.ECRepoFactory;
+import org.uniprot.cv.go.GORepo;
+import org.uniprot.cv.go.GORepoFactory;
 import org.uniprot.cv.taxonomy.FileNodeIterable;
 import org.uniprot.cv.taxonomy.TaxonomyRepo;
 import org.uniprot.cv.taxonomy.impl.TaxonomyMapRepo;
 import org.uniprot.store.indexer.common.config.UniProtSolrClient;
-import org.uniprot.store.indexer.uniprot.go.GoRelationFileReader;
-import org.uniprot.store.indexer.uniprot.go.GoRelationFileRepo;
-import org.uniprot.store.indexer.uniprot.go.GoTermFileReader;
 import org.uniprot.store.indexer.uniprot.pathway.PathwayFileRepo;
 import org.uniprot.store.indexer.uniprot.pathway.PathwayRepo;
 import org.uniprot.store.indexer.uniprotkb.config.AsyncConfig;
@@ -114,11 +113,11 @@ public class UniProtKBStep {
     // ---------------------- Processors ----------------------
     @Bean
     public UniProtEntryDocumentPairProcessor uniProtDocumentItemProcessor(
-            Map<String, SuggestDocument> suggestDocuments, GoRelationFileRepo goRelationFileRepo) {
+            Map<String, SuggestDocument> suggestDocuments, GORepo goRepo) {
         return new UniProtEntryDocumentPairProcessor(
                 new UniProtEntryConverter(
                         createTaxonomyRepo(),
-                        goRelationFileRepo,
+                        goRepo,
                         createPathwayRepo(),
                         ChebiRepoFactory.get(uniProtKBIndexingProperties.getChebiFile()),
                         ECRepoFactory.get(uniProtKBIndexingProperties.getEcDir()),
@@ -169,10 +168,8 @@ public class UniProtKBStep {
      * @return the GoRelationFileRepo
      */
     @Bean
-    public GoRelationFileRepo goRelationFileRepo() {
-        return new GoRelationFileRepo(
-                new GoRelationFileReader(uniProtKBIndexingProperties.getGoDir()),
-                new GoTermFileReader(uniProtKBIndexingProperties.getGoDir()));
+    public GORepo goRelationFileRepo() {
+        return GORepoFactory.createRepo(uniProtKBIndexingProperties.getGoDir());
     }
 
     @Bean

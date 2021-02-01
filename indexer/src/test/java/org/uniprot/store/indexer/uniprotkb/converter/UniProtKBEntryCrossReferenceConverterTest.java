@@ -5,8 +5,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
-import static org.uniprot.store.indexer.uniprot.go.GoRelationFileRepo.Relationship.IS_A;
-import static org.uniprot.store.indexer.uniprot.go.GoRelationFileRepo.Relationship.PART_OF;
+import static org.uniprot.cv.go.RelationshipType.IS_A;
+import static org.uniprot.cv.go.RelationshipType.PART_OF;
 
 import java.util.*;
 
@@ -19,8 +19,8 @@ import org.uniprot.core.uniprotkb.evidence.impl.EvidenceBuilder;
 import org.uniprot.core.uniprotkb.xdb.UniProtKBCrossReference;
 import org.uniprot.core.uniprotkb.xdb.UniProtKBDatabase;
 import org.uniprot.core.uniprotkb.xdb.impl.UniProtCrossReferenceBuilder;
+import org.uniprot.cv.go.GORepo;
 import org.uniprot.cv.xdb.UniProtKBDatabaseImpl;
-import org.uniprot.store.indexer.uniprot.go.GoRelationRepo;
 import org.uniprot.store.search.document.suggest.SuggestDocument;
 import org.uniprot.store.search.document.uniprot.UniProtDocument;
 
@@ -32,7 +32,7 @@ class UniProtKBEntryCrossReferenceConverterTest {
 
     @Test
     void convertProteomeCrossReferences() {
-        GoRelationRepo goRelationRepo = mock(GoRelationRepo.class);
+        GORepo goRelationRepo = mock(GORepo.class);
         Map<String, SuggestDocument> suggestDocuments = new HashMap<>();
 
         UniProtDocument document = new UniProtDocument();
@@ -49,13 +49,6 @@ class UniProtKBEntryCrossReferenceConverterTest {
 
         converter.convertCrossReferences(references, document);
 
-        // Proteomes and proteomes components are not being saved in the content (default field),
-        // should it be?
-        assertEquals(3, document.content.size());
-        assertEquals(
-                new HashSet<>(Arrays.asList("proteomes-id value", "proteomes", "id value")),
-                document.content);
-
         assertEquals(
                 new HashSet<>(Arrays.asList("proteomes-id value", "id value")), document.crossRefs);
 
@@ -70,7 +63,7 @@ class UniProtKBEntryCrossReferenceConverterTest {
 
     @Test
     void convertGoCrossReferences() {
-        GoRelationRepo goRelationRepo = mock(GoRelationRepo.class);
+        GORepo goRelationRepo = mock(GORepo.class);
         when(goRelationRepo.getAncestors("GO:12345", asList(IS_A, PART_OF)))
                 .thenReturn(
                         Collections.singleton(
@@ -96,11 +89,7 @@ class UniProtKBEntryCrossReferenceConverterTest {
 
         converter.convertCrossReferences(references, document);
 
-        assertEquals(5, document.content.size());
-        assertEquals(
-                new HashSet<>(
-                        Arrays.asList("go-GO:12345", "GO:12345", "go", "12345", "apical dendrite")),
-                document.content);
+        assertEquals(new HashSet<>(Collections.singletonList("apical dendrite")), document.content);
 
         assertEquals(new HashSet<>(Arrays.asList("go-GO:12345", "GO:12345")), document.crossRefs);
 
@@ -122,7 +111,7 @@ class UniProtKBEntryCrossReferenceConverterTest {
 
     @Test
     void convertPDBCrossReferences() {
-        GoRelationRepo goRelationRepo = mock(GoRelationRepo.class);
+        GORepo goRelationRepo = mock(GORepo.class);
         Map<String, SuggestDocument> suggestDocuments = new HashMap<>();
 
         UniProtDocument document = new UniProtDocument();
@@ -139,10 +128,6 @@ class UniProtKBEntryCrossReferenceConverterTest {
 
         converter.convertCrossReferences(references, document);
 
-        assertEquals(3, document.content.size());
-        assertEquals(
-                new HashSet<>(Arrays.asList("pdb-id value", "pdb", "id value")), document.content);
-
         assertEquals(new HashSet<>(Arrays.asList("pdb-id value", "id value")), document.crossRefs);
 
         assertEquals(Collections.singleton("pdb"), document.databases);
@@ -155,7 +140,7 @@ class UniProtKBEntryCrossReferenceConverterTest {
 
     @Test
     void convertEmblCrossReferences() {
-        GoRelationRepo goRelationRepo = mock(GoRelationRepo.class);
+        GORepo goRelationRepo = mock(GORepo.class);
         Map<String, SuggestDocument> suggestDocuments = new HashMap<>();
 
         UniProtDocument document = new UniProtDocument();
@@ -173,17 +158,6 @@ class UniProtKBEntryCrossReferenceConverterTest {
 
         converter.convertCrossReferences(references, document);
 
-        assertEquals(5, document.content.size());
-        assertEquals(
-                new HashSet<>(
-                        Arrays.asList(
-                                "embl-id value",
-                                "embl",
-                                "embl-EMBL12345",
-                                "EMBL12345",
-                                "id value")),
-                document.content);
-
         assertEquals(
                 new HashSet<>(
                         Arrays.asList("embl-id value", "embl-EMBL12345", "EMBL12345", "id value")),
@@ -197,7 +171,7 @@ class UniProtKBEntryCrossReferenceConverterTest {
 
     @Test
     void convertCrossReferencesWithProperty() {
-        GoRelationRepo goRelationRepo = mock(GoRelationRepo.class);
+        GORepo goRelationRepo = mock(GORepo.class);
         Map<String, SuggestDocument> suggestDocuments = new HashMap<>();
 
         UniProtDocument document = new UniProtDocument();
@@ -213,17 +187,6 @@ class UniProtKBEntryCrossReferenceConverterTest {
         List<UniProtKBCrossReference> references = Collections.singletonList(xref);
 
         converter.convertCrossReferences(references, document);
-
-        assertEquals(5, document.content.size());
-        assertEquals(
-                new HashSet<>(
-                        Arrays.asList(
-                                "ensembl-id value",
-                                "ensembl",
-                                "ensembl-E12345",
-                                "E12345",
-                                "id value")),
-                document.content);
 
         assertEquals(
                 new HashSet<>(

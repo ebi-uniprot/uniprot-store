@@ -2,9 +2,7 @@ package org.uniprot.store.search.document.proteome;
 
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import org.apache.solr.client.solrj.beans.Field;
 import org.uniprot.store.search.document.Document;
@@ -37,6 +35,9 @@ public class ProteomeDocument implements Document {
     @Field("redundant")
     public boolean isRedundant;
 
+    @Field("excluded")
+    public boolean isExcluded;
+
     @Field("superkingdom")
     public String superkingdom;
 
@@ -46,10 +47,6 @@ public class ProteomeDocument implements Document {
     @Field("genome_assembly")
     public List<String> genomeAssembly = new ArrayList<>();
 
-    // DEFAULT SEARCH FIELD
-    @Field("content")
-    public Set<String> content = new HashSet<>();
-
     @Field("proteome_stored")
     public ByteBuffer proteomeStored;
 
@@ -57,7 +54,16 @@ public class ProteomeDocument implements Document {
     public int score = 0;
 
     @Field("proteome_type")
-    public int proteomeType; // reference=1, representative =2, complete=3, redundant=4
+    public int proteomeType; // reference=1, complete=2, redundant=3,  excluded=4
+
+    @Field("busco")
+    public Float busco;
+
+    @Field("cpd")
+    public int cpd;
+
+    @Field("protein_count")
+    public int proteinCount;
 
     @Override
     public String getDocumentId() {

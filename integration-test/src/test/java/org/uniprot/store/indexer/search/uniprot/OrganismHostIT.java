@@ -27,7 +27,6 @@ class OrganismHostIT {
     private static final String SCIENTIFIC_NAME1 = "Cercopithecus hamlyni";
     private static final String COMMON_NAME1 = "Owl-faced monkey";
     private static final String SYNONYM1 = "Hamlyn's monkey";
-    private static final String MNEMONIC1 = "CERHA";
     private static final int TAX_ID1 = 9536;
 
     private static final String ACCESSION2 = "Q197F5";
@@ -38,18 +37,15 @@ class OrganismHostIT {
     private static final String SCIENTIFIC_NAME3 = "Lagothrix lagotricha";
     private static final String COMMON_NAME3 = "Brown woolly monkey";
     private static final String SYNONYM3 = "Humboldt's woolly monkey";
-    private static final String MNEMONIC3 = "LAGLA";
     private static final int TAX_ID3 = 9519;
 
     private static final String ACCESSION4 = "Q197F7";
     private static final String SCIENTIFIC_NAME4_1 = "Canis lupus familiaris";
     private static final String COMMON_NAME4_1 = "Dog";
     private static final String SYNONYM4_1 = "Canis familiaris";
-    private static final String MNEMONIC4_1 = "CANLF";
     private static final int TAX_ID4_1 = 9615;
     private static final String SCIENTIFIC_NAME4_2 = "Homo sapiens";
     private static final String COMMON_NAME4_2 = "Human";
-    private static final String MNEMONIC4_2 = "HUMAN";
     private static final int TAX_ID4_2 = 9606;
     @RegisterExtension static UniProtSearchEngine searchEngine = new UniProtSearchEngine();
 
@@ -122,7 +118,6 @@ class OrganismHostIT {
         String query = organismHostName(SCIENTIFIC_NAME1);
         query = QueryBuilder.and(query, organismHostName(COMMON_NAME1));
         query = QueryBuilder.and(query, organismHostName(SYNONYM1));
-        query = QueryBuilder.and(query, organismHostName(MNEMONIC1));
 
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -145,7 +140,6 @@ class OrganismHostIT {
         String query = organismHostName(SCIENTIFIC_NAME3);
         query = QueryBuilder.and(query, organismHostName(COMMON_NAME3));
         query = QueryBuilder.and(query, organismHostName(SYNONYM3));
-        query = QueryBuilder.and(query, organismHostName(MNEMONIC3));
 
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -158,10 +152,8 @@ class OrganismHostIT {
         String query = organismHostName(SCIENTIFIC_NAME4_1);
         query = QueryBuilder.and(query, organismHostName(COMMON_NAME4_1));
         query = QueryBuilder.and(query, organismHostName(SYNONYM4_1));
-        query = QueryBuilder.and(query, organismHostName(MNEMONIC4_1));
         query = QueryBuilder.and(query, organismHostName(SCIENTIFIC_NAME4_2));
         query = QueryBuilder.and(query, organismHostName(COMMON_NAME4_2));
-        query = QueryBuilder.and(query, organismHostName(MNEMONIC4_2));
 
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -182,16 +174,6 @@ class OrganismHostIT {
     @Test
     void partialOrganismHostNameMatchesEntry3() {
         String query = organismHostName("lagotricha");
-
-        QueryResponse response = searchEngine.getQueryResponse(query);
-
-        List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
-        assertThat(retrievedAccessions, contains(ACCESSION3));
-    }
-
-    @Test
-    void organismHostMnemonicFromEntry3MatchesEntry3() {
-        String query = organismHostName(MNEMONIC3);
 
         QueryResponse response = searchEngine.getQueryResponse(query);
 

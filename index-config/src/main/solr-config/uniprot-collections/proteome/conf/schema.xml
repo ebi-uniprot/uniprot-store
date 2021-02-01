@@ -9,8 +9,6 @@
 	<!-- =============================== proteome configurations =============================== -->
 	<field name="upid" type="string" indexed="true" stored="true"
 		required="true" multiValued="false" />
-	<field name="organism_sort" type="string" indexed="true"
-		stored="false" required="false" multiValued="false" docValues="true" />
 	<field name="organism_name" type="full_ci" indexed="true"
 		stored="false" required="false" multiValued="true" />
 	<field name="organism_id" type="int" indexed="true"
@@ -25,21 +23,30 @@
 		stored="false" required="true" multiValued="false" />
 	<field name="redundant" type="boolean" indexed="true"
 		stored="false" required="true" multiValued="false" />
+	<field name="excluded" type="boolean" indexed="true"
+		stored="false" required="true" multiValued="false" />
 	<field name="genome_accession" type="basic_ci" indexed="true"
 		stored="false" required="false" multiValued="true" />
 	<field name="genome_assembly" type="basic_ci" indexed="true"
 		stored="false" required="false" multiValued="true" />
-	<field name="proteome_stored" type="binary" indexed="false"
-		stored="true" required="true" multiValued="false" />
-	<!-- Default field -->
-	<field name="content" type="full_ci" indexed="true"
-		stored="false" required="false" multiValued="true" />
-
-	<field name="annotation_score" type="int" indexed="true"
-		stored="true" required="false" multiValued="false" docValues="true" />
 	<field name="proteome_type" type="int" indexed="true"
 		stored="true" required="false" multiValued="false" docValues="true" />
+	<field name="annotation_score" type="int" indexed="true"
+		stored="true" required="false" multiValued="false" docValues="true" />
 
+	<!-- Sort Fields -->
+	<field name="organism_sort" type="string" indexed="true"
+		stored="false" required="false" multiValued="false" docValues="true" />
+	<field name="busco" type="float" indexed="true" stored="true"
+		required="false" multiValued="false" docValues="true" />
+	<field name="cpd" type="int" indexed="true" stored="true"
+		required="false" multiValued="false" docValues="true" />
+	<field name="protein_count" type="int" indexed="true"
+		stored="true" required="false" multiValued="false" docValues="true" />
+
+	<!-- Stored Field -->
+	<field name="proteome_stored" type="binary" indexed="false"
+		stored="true" required="true" multiValued="false" />
 
 	<!-- =============================== field types =============================== -->
 	<fieldType name="plong" class="solr.LongPointField"
@@ -50,8 +57,11 @@
 		sortMissingLast="true" />
 	<fieldType name="int" class="solr.IntPointField"
 		docValues="true" />
+	<fieldType name="float" class="solr.FloatPointField"
+		docValues="true" />
 	<fieldType name="binary" class="solr.BinaryField" />
 
+	<!-- basic analysis for fields that require no splitting -->
 	<fieldType name="basic_ci" class="solr.TextField"
 		sortMissingLast="true" omitNorms="true" positionIncrementGap="100">
 		<analyzer type="index">
@@ -67,25 +77,28 @@
 	<fieldType name="full_ci" class="solr.TextField"
 		sortMissingLast="true" omitNorms="true" positionIncrementGap="100">
 		<analyzer type="index">
-			<tokenizer class="solr.WhitespaceTokenizerFactory" />
+			<tokenizer class="solr.SimplePatternSplitTokenizerFactory"
+				pattern="[- /()]+" />
 			<filter class="solr.ASCIIFoldingFilterFactory"
 				preserveOriginal="false" />
-			<filter class="solr.WordDelimiterGraphFilterFactory"
-				generateWordParts="1" generateNumberParts="1" catenateWords="1"
-				catenateNumbers="1" catenateAll="1" splitOnCaseChange="1"
-				preserveOriginal="1" splitOnNumerics="1" stemEnglishPossessive="1" />
-			<filter class="solr.FlattenGraphFilterFactory" />
 			<filter class="solr.LowerCaseFilterFactory" />
+			<filter class="solr.WordDelimiterGraphFilterFactory"
+				generateNumberParts="1" splitOnCaseChange="0" preserveOriginal="0"
+				splitOnNumerics="0" stemEnglishPossessive="1" generateWordParts="1"
+				catenateNumbers="0" catenateWords="1" catenateAll="1" />
+			<filter class="solr.FlattenGraphFilterFactory" />
 		</analyzer>
 		<analyzer type="query">
-			<tokenizer class="solr.WhitespaceTokenizerFactory" />
+			<tokenizer class="solr.SimplePatternSplitTokenizerFactory"
+				pattern="[- /()]+" />
 			<filter class="solr.ASCIIFoldingFilterFactory"
 				preserveOriginal="false" />
-			<filter class="solr.WordDelimiterGraphFilterFactory"
-				generateWordParts="1" generateNumberParts="1" catenateWords="1"
-				catenateNumbers="1" catenateAll="1" splitOnCaseChange="1"
-				preserveOriginal="1" splitOnNumerics="1" stemEnglishPossessive="1" />
 			<filter class="solr.LowerCaseFilterFactory" />
+			<filter class="solr.WordDelimiterGraphFilterFactory"
+				generateNumberParts="1" splitOnCaseChange="0" preserveOriginal="0"
+				splitOnNumerics="0" stemEnglishPossessive="1" generateWordParts="1"
+				catenateNumbers="0" catenateWords="0" catenateAll="0" />
+
 		</analyzer>
 	</fieldType>
 </schema>

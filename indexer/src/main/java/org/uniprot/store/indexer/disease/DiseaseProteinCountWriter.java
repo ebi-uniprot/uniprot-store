@@ -2,6 +2,7 @@ package org.uniprot.store.indexer.disease;
 
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import org.springframework.batch.core.JobExecution;
@@ -35,8 +36,9 @@ public class DiseaseProteinCountWriter
                         disProtCountList.stream()
                                 .collect(
                                         Collectors.toMap(
-                                                disProtCount -> disProtCount.getDiseaseId(),
-                                                disProtCount -> disProtCount));
+                                                DiseaseProteinCountReader.DiseaseProteinCount
+                                                        ::getDiseaseId,
+                                                Function.identity()));
 
             } else { // update the existing map
 

@@ -23,7 +23,6 @@ public class UniProtEntryProteinDescriptionConverter {
             List<String> names = extractProteinDescriptionValues(proteinDescription);
             document.proteinNames.addAll(names);
             document.proteinsNamesSort = truncatedSortValue(String.join(" ", names));
-            document.content.addAll(document.proteinNames);
 
             convertECNumbers(proteinDescription, document);
             convertFragmentNPrecursor(proteinDescription, document);
@@ -67,7 +66,7 @@ public class UniProtEntryProteinDescriptionConverter {
     private List<String> extractProteinDescriptionValues(ProteinDescription description) {
         List<String> values = new ArrayList<>();
         if (description.hasRecommendedName()) {
-            values.addAll(getProteinRecNameNames(description.getRecommendedName()));
+            values.addAll(getProteinNameNames(description.getRecommendedName()));
         }
         if (description.hasSubmissionNames()) {
             description.getSubmissionNames().stream()
@@ -76,7 +75,7 @@ public class UniProtEntryProteinDescriptionConverter {
         }
         if (description.hasAlternativeNames()) {
             description.getAlternativeNames().stream()
-                    .map(this::getProteinAltNameNames)
+                    .map(this::getProteinNameNames)
                     .forEach(values::addAll);
         }
         if (description.hasContains()) {
@@ -107,11 +106,11 @@ public class UniProtEntryProteinDescriptionConverter {
     private List<String> getProteinSectionValues(ProteinSection proteinSection) {
         List<String> names = new ArrayList<>();
         if (proteinSection.hasRecommendedName()) {
-            names.addAll(getProteinRecNameNames(proteinSection.getRecommendedName()));
+            names.addAll(getProteinNameNames(proteinSection.getRecommendedName()));
         }
         if (proteinSection.hasAlternativeNames()) {
             proteinSection.getAlternativeNames().stream()
-                    .map(this::getProteinAltNameNames)
+                    .map(this::getProteinNameNames)
                     .forEach(names::addAll);
         }
         if (proteinSection.hasCdAntigenNames()) {
@@ -129,24 +128,13 @@ public class UniProtEntryProteinDescriptionConverter {
         return names;
     }
 
-    private List<String> getProteinRecNameNames(ProteinRecName proteinRecName) {
+    private List<String> getProteinNameNames(ProteinName proteinRecName) {
         List<String> names = new ArrayList<>();
         if (proteinRecName.hasFullName()) {
             names.add(proteinRecName.getFullName().getValue());
         }
         if (proteinRecName.hasShortNames()) {
             proteinRecName.getShortNames().stream().map(Name::getValue).forEach(names::add);
-        }
-        return names;
-    }
-
-    private List<String> getProteinAltNameNames(ProteinAltName proteinAltName) {
-        List<String> names = new ArrayList<>();
-        if (proteinAltName.hasShortNames()) {
-            proteinAltName.getShortNames().stream().map(Name::getValue).forEach(names::add);
-        }
-        if (proteinAltName.hasFullName()) {
-            names.add(proteinAltName.getFullName().getValue());
         }
         return names;
     }
@@ -173,7 +161,7 @@ public class UniProtEntryProteinDescriptionConverter {
         }
         if (proteinDescription.hasAlternativeNames()) {
             proteinDescription.getAlternativeNames().stream()
-                    .filter(ProteinAltName::hasEcNumbers)
+                    .filter(ProteinName::hasEcNumbers)
                     .flatMap(proteinAltName -> getEcs(proteinAltName.getEcNumbers()).stream())
                     .forEach(ecs::add);
         }
@@ -198,7 +186,7 @@ public class UniProtEntryProteinDescriptionConverter {
         }
         if (proteinSection.hasAlternativeNames()) {
             proteinSection.getAlternativeNames().stream()
-                    .filter(ProteinAltName::hasEcNumbers)
+                    .filter(ProteinName::hasEcNumbers)
                     .flatMap(proteinAltName -> getEcs(proteinAltName.getEcNumbers()).stream())
                     .forEach(ecs::add);
         }

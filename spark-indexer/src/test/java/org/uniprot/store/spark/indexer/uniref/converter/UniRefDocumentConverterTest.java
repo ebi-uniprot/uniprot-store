@@ -72,10 +72,10 @@ class UniRefDocumentConverterTest {
         assertTrue(result.getUniprotIds().contains("memberAccession1"));
         assertTrue(result.getUniprotIds().contains("memberAccession2"));
 
-        assertTrue(result.getUpis().contains("representativeMemberId"));
-        assertTrue(result.getUpis().contains("representativeMemberUniparcId"));
-        assertTrue(result.getUpis().contains("memberId"));
-        assertTrue(result.getUpis().contains("memberUniparcId"));
+        assertTrue(result.getUpids().contains("representativeMemberId"));
+        assertTrue(result.getUpids().contains("representativeMemberUniparcId"));
+        assertTrue(result.getUpids().contains("memberId"));
+        assertTrue(result.getUpids().contains("memberUniparcId"));
 
         validateCommonDocumentFields(result);
     }
@@ -94,9 +94,15 @@ class UniRefDocumentConverterTest {
         assertTrue(result.getUniprotIds().contains("memberAccession2"));
         assertTrue(result.getUniprotIds().contains("memberId"));
 
-        assertTrue(result.getUpis().contains("representativeMemberUniparcId"));
-        assertTrue(result.getUpis().contains("memberUniparcId"));
+        assertTrue(result.getUpids().contains("representativeMemberUniparcId"));
+        assertTrue(result.getUpids().contains("memberUniparcId"));
 
+        assertTrue(result.getClusters().contains("representativeMemberUniref50Id"));
+        assertTrue(result.getClusters().contains("representativeMemberUniref90Id"));
+        assertTrue(result.getClusters().contains("representativeMemberUniref100Id"));
+        assertTrue(result.getClusters().contains("memberUniref50Id"));
+        assertTrue(result.getClusters().contains("memberUniref90Id"));
+        assertTrue(result.getClusters().contains("memberUniref100Id"));
         validateCommonDocumentFields(result);
     }
 

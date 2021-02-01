@@ -4,7 +4,7 @@ import org.uniprot.store.config.UniProtDataType;
 import org.uniprot.store.config.searchfield.common.SearchFieldConfig;
 import org.uniprot.store.config.searchfield.factory.SearchFieldConfigFactory;
 import org.uniprot.store.indexer.search.AbstractSearchEngine;
-import org.uniprot.store.search.document.proteome.GeneCentricDocument;
+import org.uniprot.store.search.document.genecentric.GeneCentricDocument;
 
 class GeneCentricSearchEngine extends AbstractSearchEngine<GeneCentricDocument> {
     private static final String SEARCH_ENGINE_NAME = "genecentric";

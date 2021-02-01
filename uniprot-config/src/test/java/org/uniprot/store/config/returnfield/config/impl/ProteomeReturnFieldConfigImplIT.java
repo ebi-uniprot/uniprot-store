@@ -10,7 +10,6 @@ import java.util.Objects;
 import java.util.stream.Stream;
 
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -49,8 +48,6 @@ class ProteomeReturnFieldConfigImplIT {
         assertThat(searchFieldConfig.correspondingSortFieldExists(returnFieldsSortField), is(true));
     }
 
-    @Disabled // TODO: open a Jira ticket for it... (remove sorts from solr and search?? currently
-    // Uniprot website do not have it..)
     @ParameterizedTest(name = "Sort field [{0}] configured in search exists in return fields?")
     @MethodSource("provideSearchSortFields")
     void validSearchFieldSortFieldDefined(String searchFieldsSortField) {

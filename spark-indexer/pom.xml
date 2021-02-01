@@ -13,7 +13,7 @@
 
 	<properties>
 		<ojdbc.version>11.2.0.4</ojdbc.version>
-		<spark.version>2.4.4</spark.version>
+		<spark.version>3.0.0</spark.version>
 	</properties>
 
 	<dependencies>
@@ -24,7 +24,7 @@
 		<dependency>
 			<groupId>org.scala-lang</groupId>
 			<artifactId>scala-library</artifactId>
-			<version>2.12.8</version>
+			<version>2.12.10</version>
 		</dependency>
 		<dependency>
 			<groupId>org.codehaus.janino</groupId>
@@ -39,7 +39,7 @@
 		<dependency>
 			<groupId>com.databricks</groupId>
 			<artifactId>spark-xml_2.12</artifactId>
-			<version>0.6.0</version>
+			<version>0.10.0</version>
 		</dependency>
 
 		<dependency>
@@ -80,6 +80,11 @@
 		</dependency>
 		<dependency>
 			<groupId>org.uniprot</groupId>
+			<artifactId>core-parser</artifactId>
+			<version>${uniprot-core.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.uniprot</groupId>
 			<artifactId>uniprot-search</artifactId>
 			<version>${project.parent.version}</version>
 		</dependency>
@@ -92,16 +97,6 @@
 			<groupId>org.uniprot</groupId>
 			<artifactId>uniprot-datastore</artifactId>
 			<version>${project.parent.version}</version>
-		</dependency>
-		<!-- <dependency> -->
-		<!-- <groupId>com.google.guava</groupId> -->
-		<!-- <artifactId>guava</artifactId> -->
-		<!-- <version>15.0</version> -->
-		<!-- </dependency> -->
-		<dependency>
-			<groupId>com.lucidworks.spark</groupId>
-			<artifactId>spark-solr</artifactId>
-			<version>3.6.6</version>
 		</dependency>
 		<dependency>
 			<groupId>org.projectlombok</groupId>
