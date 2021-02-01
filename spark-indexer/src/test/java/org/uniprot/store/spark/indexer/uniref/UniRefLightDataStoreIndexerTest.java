@@ -1,5 +1,10 @@
 package org.uniprot.store.spark.indexer.uniref;
 
+import static org.junit.jupiter.api.Assertions.*;
+
+import java.util.Iterator;
+import java.util.ResourceBundle;
+
 import org.apache.spark.api.java.JavaSparkContext;
 import org.apache.spark.api.java.function.VoidFunction;
 import org.junit.jupiter.api.Test;
@@ -7,11 +12,6 @@ import org.uniprot.core.uniref.UniRefEntryLight;
 import org.uniprot.store.spark.indexer.common.JobParameter;
 import org.uniprot.store.spark.indexer.common.exception.IndexDataStoreException;
 import org.uniprot.store.spark.indexer.common.util.SparkUtils;
-
-import java.util.Iterator;
-import java.util.ResourceBundle;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * @author lgonzales
@@ -29,7 +29,8 @@ class UniRefLightDataStoreIndexerTest {
                             .releaseName("2020_02")
                             .sparkContext(sparkContext)
                             .build();
-            UniRefLightDataStoreIndexerTest.FakeUniRefLightDataStoreIndexer indexer = new UniRefLightDataStoreIndexerTest.FakeUniRefLightDataStoreIndexer(parameter);
+            UniRefLightDataStoreIndexerTest.FakeUniRefLightDataStoreIndexer indexer =
+                    new UniRefLightDataStoreIndexerTest.FakeUniRefLightDataStoreIndexer(parameter);
             assertNotNull(indexer);
             indexer.indexInDataStore();
         }
@@ -44,7 +45,8 @@ class UniRefLightDataStoreIndexerTest {
     @Test
     void canGetWriter() {
         UniRefLightDataStoreIndexer indexer = new UniRefLightDataStoreIndexer(null);
-        VoidFunction<Iterator<UniRefEntryLight>> result = indexer.getWriter("5", "uniref-light", "tcp://localhost");
+        VoidFunction<Iterator<UniRefEntryLight>> result =
+                indexer.getWriter("5", "uniref-light", "tcp://localhost");
         assertNotNull(result);
     }
 
@@ -55,12 +57,12 @@ class UniRefLightDataStoreIndexerTest {
         }
 
         @Override
-        VoidFunction<Iterator<UniRefEntryLight>> getWriter(String numberOfConnections, String storeName, String connectionURL) {
+        VoidFunction<Iterator<UniRefEntryLight>> getWriter(
+                String numberOfConnections, String storeName, String connectionURL) {
             return entryIterator -> {
                 assertNotNull(entryIterator);
                 assertTrue(entryIterator.hasNext());
             };
         }
-
     }
 }

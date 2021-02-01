@@ -908,7 +908,7 @@ DR   KEGG; hsa:675; -.
 DR   UCSC; uc001uub.2; human.
 DR   CTD; 675; -.
 DR   DisGeNET; 675; -.
-DR   EuPathDB; HostDB:ENSG00000139618.14; -.
+DR   VEuPathDB; HostDB:ENSG00000139618.14; -.
 DR   GeneCards; BRCA2; -.
 DR   GeneReviews; BRCA2; -.
 DR   HGNC; HGNC:1101; BRCA2.
