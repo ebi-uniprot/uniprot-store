@@ -73,18 +73,19 @@ public class UniParcDocumentConverter implements DocumentConverter<Entry, UniPar
             builder.active(dbTypeData.getValue());
         }
         builder.database(dbTypeData.getValue());
+
+        if (xref.isActive() && type == UniParcDatabase.SWISSPROT_VARSPLIC) {
+            builder.uniprotIsoform(xref.getId());
+        }
+
         if (xref.isActive()
                 && (type == UniParcDatabase.SWISSPROT || type == UniParcDatabase.TREMBL)) {
             builder.uniprotAccession(xref.getId());
             builder.uniprotIsoform(xref.getId());
         }
 
-        if (xref.isActive() && type == UniParcDatabase.SWISSPROT_VARSPLIC) {
-            builder.uniprotIsoform(xref.getId());
-        }
-
-        if (Utils.notNullNotEmpty(xref.getProteomeId())) {
-            builder.upid(xref.getProteomeId());
+        if (Utils.notNull(xref.getTaxonomy())) {
+            processTaxonomy(xref.getTaxonomy(), builder);
         }
 
         if (Utils.notNullNotEmpty(xref.getProteinName())) {
@@ -95,8 +96,8 @@ public class UniParcDocumentConverter implements DocumentConverter<Entry, UniPar
             builder.geneName(xref.getGeneName());
         }
 
-        if (Utils.notNull(xref.getTaxonomy())) {
-            processTaxonomy(xref.getTaxonomy(), builder);
+        if (Utils.notNullNotEmpty(xref.getProteomeId())) {
+            builder.upid(xref.getProteomeId());
         }
     }
 
