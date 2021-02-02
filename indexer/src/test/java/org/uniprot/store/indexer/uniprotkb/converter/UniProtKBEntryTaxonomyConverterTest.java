@@ -274,6 +274,11 @@ class UniProtKBEntryTaxonomyConverterTest {
             }
 
             @Override
+            public String rank() {
+                return null;
+            }
+
+            @Override
             public TaxonomicNode parent() {
                 return parent;
             }
