@@ -1,9 +1,12 @@
 package org.uniprot.store.spark.indexer.common.writer;
 
+import static org.hamcrest.Matchers.any;
+import static org.hamcrest.Matchers.anything;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.Collections;
 import java.util.Iterator;
+import java.util.List;
 
 import org.apache.solr.client.solrj.SolrClient;
 import org.apache.solr.client.solrj.SolrServerException;
@@ -35,7 +38,7 @@ class SolrIndexWriterTest {
     }
 
     @Test
-    void callWriterFail() {
+    void callWriterFail() throws Exception {
         SolrIndexParameter parameter =
                 SolrIndexParameter.builder()
                         .zkHost("zkHost")
@@ -47,14 +50,14 @@ class SolrIndexWriterTest {
         SolrIndexException response =
                 assertThrows(SolrIndexException.class, () -> writer.call(iterator));
         assertEquals(
-                "Exception indexing data to solr, for collection collectionName",
+                "Exception indexing data to Solr, for collection collectionName",
                 response.getMessage());
     }
 
     private static class FakeSolrIndexWriter extends SolrIndexWriter {
-
         private static final long serialVersionUID = 7351466400932705045L;
         private final boolean throwException;
+        private final List<SolrInputDocument> docs = Collections.emptyList();
 
         public FakeSolrIndexWriter(SolrIndexParameter parameter, boolean throwException) {
             super(parameter);
@@ -66,10 +69,10 @@ class SolrIndexWriterTest {
             SolrClient solrClient = Mockito.mock(SolrClient.class);
             try {
                 if (throwException) {
-                    Mockito.when(solrClient.add(Mockito.anyString(), Mockito.eq(iterator)))
+                    Mockito.when(solrClient.add(Mockito.anyString(), Mockito.eq(docs)))
                             .thenThrow(new SolrServerException("ErrorMessage"));
                 } else {
-                    Mockito.when(solrClient.add(Mockito.anyString(), Mockito.eq(iterator)))
+                    Mockito.when(solrClient.add(Mockito.anyString(), Mockito.eq(docs)))
                             .thenReturn(null);
                 }
             } catch (Exception e) {
