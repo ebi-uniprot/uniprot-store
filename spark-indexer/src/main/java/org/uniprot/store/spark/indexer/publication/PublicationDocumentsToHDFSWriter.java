@@ -112,8 +112,7 @@ public class PublicationDocumentsToHDFSWriter implements DocumentsToHDFSWriter {
 
     private JavaPairRDD<String, MappedReference> loadCommunityDocs() {
         return loadMappedReferenceRDD(
-                "community.mapped.references.file.path",
-                new CommunityMappedReferenceMapper());
+                "community.mapped.references.file.path", new CommunityMappedReferenceMapper());
     }
 
     private JavaPairRDD<String, MappedReference> loadMappedReferenceRDD(

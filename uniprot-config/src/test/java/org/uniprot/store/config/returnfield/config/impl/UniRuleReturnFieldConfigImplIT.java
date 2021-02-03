@@ -1,5 +1,14 @@
 package org.uniprot.store.config.returnfield.config.impl;
 
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.jupiter.api.Assertions.*;
+
+import java.util.Collections;
+import java.util.Map;
+import java.util.Objects;
+import java.util.stream.Stream;
+
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -17,15 +26,6 @@ import org.uniprot.store.config.returnfield.model.ReturnField;
 import org.uniprot.store.config.searchfield.common.SearchFieldConfig;
 import org.uniprot.store.config.searchfield.factory.SearchFieldConfigFactory;
 import org.uniprot.store.config.searchfield.model.SearchFieldItem;
-
-import java.util.Collections;
-import java.util.Map;
-import java.util.Objects;
-import java.util.stream.Stream;
-
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Created 30/11/20

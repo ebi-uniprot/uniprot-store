@@ -1,11 +1,12 @@
 package org.uniprot.store.spark.indexer.publication.mapper;
 
-import org.apache.spark.api.java.function.FlatMapFunction;
-import org.uniprot.store.search.document.publication.PublicationDocument;
-import scala.Tuple2;
-
 import java.util.Iterator;
 import java.util.stream.StreamSupport;
+
+import org.apache.spark.api.java.function.FlatMapFunction;
+import org.uniprot.store.search.document.publication.PublicationDocument;
+
+import scala.Tuple2;
 
 /**
  * Converts a {@link Tuple2} of <count, Iterable<PublicationDocument.Builder> into an iterator of

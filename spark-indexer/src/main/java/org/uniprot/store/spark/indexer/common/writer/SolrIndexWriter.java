@@ -1,16 +1,7 @@
 package org.uniprot.store.spark.indexer.common.writer;
 
-import lombok.extern.slf4j.Slf4j;
-import net.jodah.failsafe.Failsafe;
-import net.jodah.failsafe.RetryPolicy;
-import org.apache.solr.client.solrj.SolrClient;
-import org.apache.solr.client.solrj.SolrServerException;
-import org.apache.solr.client.solrj.impl.CloudSolrClient;
-import org.apache.solr.client.solrj.impl.HttpSolrClient;
-import org.apache.solr.common.SolrException;
-import org.apache.solr.common.SolrInputDocument;
-import org.apache.spark.api.java.function.VoidFunction;
-import org.uniprot.store.spark.indexer.common.exception.SolrIndexException;
+import static java.util.Arrays.asList;
+import static java.util.Collections.singletonList;
 
 import java.time.Duration;
 import java.util.Iterator;
@@ -19,8 +10,18 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
-import static java.util.Arrays.asList;
-import static java.util.Collections.singletonList;
+import lombok.extern.slf4j.Slf4j;
+import net.jodah.failsafe.Failsafe;
+import net.jodah.failsafe.RetryPolicy;
+
+import org.apache.solr.client.solrj.SolrClient;
+import org.apache.solr.client.solrj.SolrServerException;
+import org.apache.solr.client.solrj.impl.CloudSolrClient;
+import org.apache.solr.client.solrj.impl.HttpSolrClient;
+import org.apache.solr.common.SolrException;
+import org.apache.solr.common.SolrInputDocument;
+import org.apache.spark.api.java.function.VoidFunction;
+import org.uniprot.store.spark.indexer.common.exception.SolrIndexException;
 
 /**
  * @author lgonzales

@@ -1,5 +1,16 @@
 package org.uniprot.store.indexer.publication.uniprotkb;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.*;
+import static org.uniprot.store.indexer.publication.PublicationITUtil.createLargeScaleLiterature;
+import static org.uniprot.store.indexer.publication.PublicationITUtil.extractObject;
+
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.stream.Collectors;
+
 import org.apache.solr.client.solrj.SolrQuery;
 import org.hamcrest.CoreMatchers;
 import org.junit.jupiter.api.BeforeEach;
@@ -26,17 +37,6 @@ import org.uniprot.store.job.common.listener.ListenerConfig;
 import org.uniprot.store.search.SolrCollection;
 import org.uniprot.store.search.document.literature.LiteratureDocument;
 import org.uniprot.store.search.document.publication.PublicationDocument;
-
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.stream.Collectors;
-
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
-import static org.uniprot.store.indexer.publication.PublicationITUtil.createLargeScaleLiterature;
-import static org.uniprot.store.indexer.publication.PublicationITUtil.extractObject;
 
 @ActiveProfiles(profiles = {"job", "offline"})
 @ExtendWith(SpringExtension.class)
@@ -99,7 +99,7 @@ class UniProtKBPublicationJobIT {
             assertThat(doc.getRefNumber(), is(notNullValue()));
             MappedPublications mappedPubs = extractObject(doc);
             assertThat(mappedPubs, is(notNullValue()));
-            assertThat(mappedPubs.getUniProtKBMappedReference(), is(nullValue()));
+            assertThat(mappedPubs.getUniProtKBMappedReference(), is(notNullValue()));
             assertThat(mappedPubs.getComputationalMappedReferences(), is(empty()));
             assertThat(mappedPubs.getCommunityMappedReferences(), is(empty()));
             UniProtKBMappedReference mappedRef = mappedPubs.getUniProtKBMappedReference();

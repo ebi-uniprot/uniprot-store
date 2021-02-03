@@ -1,7 +1,5 @@
 package org.uniprot.store.spark.indexer.common.writer;
 
-import static org.hamcrest.Matchers.any;
-import static org.hamcrest.Matchers.anything;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.Collections;
