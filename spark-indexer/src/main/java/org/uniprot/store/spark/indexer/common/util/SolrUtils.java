@@ -1,23 +1,17 @@
 package org.uniprot.store.spark.indexer.common.util;
 
+import static java.util.Collections.singletonList;
+
+import java.util.Optional;
+
 import lombok.extern.slf4j.Slf4j;
+
 import org.apache.solr.client.solrj.beans.DocumentObjectBinder;
 import org.apache.solr.client.solrj.impl.CloudSolrClient;
 import org.apache.solr.common.SolrInputDocument;
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
-import org.apache.spark.rdd.RDD;
 import org.uniprot.store.search.document.Document;
-import scala.Tuple2;
-
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.StreamSupport;
-
-import static java.util.Arrays.asList;
-import static java.util.Collections.singletonList;
 
 /**
  * @author lgonzales
