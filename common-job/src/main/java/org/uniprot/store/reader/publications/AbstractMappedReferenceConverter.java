@@ -36,7 +36,7 @@ abstract class AbstractMappedReferenceConverter<T extends MappedReference>
         int prevCatEnd = 0;
         while (matcher.find() && prevCatEnd == matcher.start()) {
             String category = matcher.group(1);
-            if (isValidateCategory(category)) {
+            if (isValidCategory(category)) {
                 categories.add(category);
             }
 
@@ -87,7 +87,7 @@ abstract class AbstractMappedReferenceConverter<T extends MappedReference>
 
     abstract T convertRawMappedReference(RawMappedReference reference);
 
-    private static boolean isValidateCategory(String category) {
+    private static boolean isValidCategory(String category) {
         return CATEGORIES.contains(category);
     }
 }
