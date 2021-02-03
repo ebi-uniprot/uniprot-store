@@ -217,6 +217,7 @@ class TaxonomyJobIT {
         TaxonomyLineage lineage = entry.getLineages().get(0);
         assertThat(lineage.getTaxonId(), is(4L));
         assertThat(lineage.getScientificName(), is("name4"));
+        assertThat(lineage.getCommonName(), is("common4"));
         assertThat(lineage.getRank(), is(TaxonomyRank.KINGDOM));
         assertThat(lineage.isHidden(), is(true));
 
@@ -259,6 +260,7 @@ class TaxonomyJobIT {
         protected String getTaxonomyLineageSQL() {
             return "SELECT '|5|4|1' as lineage_id,"
                     + "      '|name5|name4|name1' AS lineage_name,"
+                    + "      '|common5|common4|common1' AS lineage_common,"
                     + "      '|rank5|KINGDOM|rank1' AS lineage_rank,"
                     + "      '|0|1|0' AS lineage_hidden"
                     + " FROM taxonomy.V_PUBLIC_NODE"

@@ -2,6 +2,9 @@ package org.uniprot.store.indexer.taxonomy;
 
 public class TaxonomySQLConstants {
 
+    private TaxonomySQLConstants(){
+    }
+
     public static final String SELECT_TAXONOMY_NODE_SQL =
             "SELECT tax_id,parent_id,hidden,internal,rank,gc_id,mgc_id,"
                     + "ncbi_scientific,ncbi_common,sptr_scientific,sptr_common,sptr_synonym,sptr_code,tax_code,sptr_ff,superregnum"
@@ -21,6 +24,7 @@ public class TaxonomySQLConstants {
             "SELECT"
                     + "   SYS_CONNECT_BY_PATH(TAX_ID, '|') AS lineage_id,"
                     + "   SYS_CONNECT_BY_PATH(SPTR_SCIENTIFIC, '|') AS lineage_name,"
+                    + "   SYS_CONNECT_BY_PATH(COALESCE(SPTR_COMMON, NCBI_COMMON, ' '), '|') AS lineage_common,"
                     + "   SYS_CONNECT_BY_PATH(RANK, '|') AS lineage_rank,"
                     + "   SYS_CONNECT_BY_PATH(HIDDEN, '|') AS lineage_hidden"
                     + " FROM taxonomy.V_PUBLIC_NODE"
