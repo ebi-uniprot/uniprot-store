@@ -1,5 +1,7 @@
 package org.uniprot.store.reader.publications;
 
+import org.uniprot.core.publication.MappedReference;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -8,18 +10,16 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
 
-import org.uniprot.core.publication.MappedReference;
-
 /**
+ * This class is responsible for reading a list of entries with same accession and pubmed id.
+ *
  * @author sahmad
- * @created 21/01/2021
- *     <p>This class is responsible for reading a list of entries with same accession and puibmed
- *     id.
+ * @since 21/01/2021
  */
 public class MappedReferenceReader<T extends MappedReference> {
     private final Iterator<String> lines;
     private T nextMappedRef;
-    private MappedReferenceConverter<T> mappedReferenceConverter;
+    private final MappedReferenceConverter<T> mappedReferenceConverter;
 
     public MappedReferenceReader(
             MappedReferenceConverter<T> mappedReferenceConverter, String filePath)
