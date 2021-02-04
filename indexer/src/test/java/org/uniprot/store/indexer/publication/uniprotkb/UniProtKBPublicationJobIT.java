@@ -100,7 +100,7 @@ class UniProtKBPublicationJobIT {
             MappedPublications mappedPubs = extractObject(doc);
             assertThat(mappedPubs, is(notNullValue()));
             assertThat(mappedPubs.getUniProtKBMappedReference(), is(notNullValue()));
-            assertThat(mappedPubs.getComputationalMappedReferences(), is(empty()));
+            assertThat(mappedPubs.getComputationallyMappedReferences(), is(empty()));
             assertThat(mappedPubs.getCommunityMappedReferences(), is(empty()));
             UniProtKBMappedReference mappedRef = mappedPubs.getUniProtKBMappedReference();
             assertThat(mappedRef, is(notNullValue()));
