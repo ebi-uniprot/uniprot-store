@@ -109,7 +109,7 @@
     "parentId": "miscellaneous",
     "childNumber": 3,
     "itemType": "SINGLE",
-    "label": "Genome representation (RefSeq)",
+    "label": "Genome representation",
     "name": "genome_representation",
     "paths" : ["genomeAssembly.level"],
     "id": "miscellaneous/genome_representation"
