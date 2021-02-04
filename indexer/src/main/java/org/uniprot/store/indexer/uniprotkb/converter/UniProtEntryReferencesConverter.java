@@ -90,7 +90,7 @@ public class UniProtEntryReferencesConverter implements Serializable {
             builder.publicationMappedReferences(mappedReferenceByte);
             return builder;
         } else {
-            throw new IllegalStateException();
+            throw new IllegalStateException("Unsupported entry type " + entryType);
         }
     }
 

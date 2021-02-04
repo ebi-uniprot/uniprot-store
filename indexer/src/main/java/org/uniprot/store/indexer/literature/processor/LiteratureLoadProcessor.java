@@ -81,7 +81,7 @@ public class LiteratureLoadProcessor implements ItemProcessor<LiteratureEntry, L
 
         if (entry.hasStatistics()) {
             LiteratureStatistics statistics = entry.getStatistics();
-            builder.isComputationalMapped(statistics.hasComputationallyMappedProteinCount());
+            builder.isComputationallyMapped(statistics.hasComputationallyMappedProteinCount());
             builder.isCommunityMapped(statistics.hasCommunityMappedProteinCount());
             builder.isUniprotkbMapped(
                     statistics.hasReviewedProteinCount() || statistics.hasUnreviewedProteinCount());

@@ -39,8 +39,8 @@ public class LiteratureDocument implements Document {
     @Field("is_uniprotkb_mapped")
     private boolean isUniprotkbMapped;
 
-    @Field("is_computational_mapped")
-    private boolean isComputationalMapped;
+    @Field("is_computationally_mapped")
+    private boolean isComputationallyMapped;
 
     @Field("is_community_mapped")
     private boolean isCommunityMapped;

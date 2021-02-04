@@ -14,7 +14,6 @@ import org.uniprot.core.CrossReference;
 import org.uniprot.core.citation.CitationDatabase;
 import org.uniprot.core.json.parser.literature.LiteratureJsonConfig;
 import org.uniprot.core.literature.LiteratureEntry;
-import org.uniprot.core.literature.LiteratureStatistics;
 import org.uniprot.store.indexer.common.config.UniProtSolrClient;
 import org.uniprot.store.search.SolrCollection;
 import org.uniprot.store.search.document.DocumentConversionException;
@@ -29,7 +28,7 @@ public class LargeScaleReader implements ItemReader<Set<String>> {
 
     private final UniProtSolrClient uniProtSolrClient;
     private final LargeScaleSolrFieldName queryField;
-    private boolean hasFinished = false;
+    private boolean hasFinishedRead = false;
 
     public LargeScaleReader(
             UniProtSolrClient uniProtSolrClient, LargeScaleSolrFieldName queryField) {
@@ -44,8 +43,8 @@ public class LargeScaleReader implements ItemReader<Set<String>> {
         solrQuery.setRows(200);
         solrQuery.setSort("id", SolrQuery.ORDER.desc);
         String cursorMark = CursorMarkParams.CURSOR_MARK_START;
-        boolean done = false;
-        while (!done && !hasFinished) {
+        boolean hasMoreSolrData = true;
+        while (hasMoreSolrData && !hasFinishedRead) {
             solrQuery.set(CursorMarkParams.CURSOR_MARK_PARAM, cursorMark);
             QueryResponse response = uniProtSolrClient.query(SolrCollection.literature, solrQuery);
             String nextCursorMark = response.getNextCursorMark();
@@ -53,7 +52,7 @@ public class LargeScaleReader implements ItemReader<Set<String>> {
             response.getBeans(LiteratureDocument.class).stream()
                     .map(this::getLiteratureBinary)
                     .filter(LiteratureEntry::hasStatistics)
-                    .filter(entry -> isLargeScale(entry.getStatistics()))
+                    .filter(entry -> entry.getStatistics().isLargeScale())
                     .map(LiteratureEntry::getCitation)
                     .map(
                             citation ->
@@ -65,25 +64,17 @@ public class LargeScaleReader implements ItemReader<Set<String>> {
                     .forEach(result::add);
 
             if (cursorMark.equals(nextCursorMark)) {
-                done = true;
+                hasMoreSolrData = false;
             }
             cursorMark = nextCursorMark;
         }
         if (result.isEmpty()) {
             result = null;
         } else {
-            hasFinished = true;
+            hasFinishedRead = true;
             log.info("Large scale pubmedIds count: " + result.size());
         }
         return result;
-    }
-
-    private boolean isLargeScale(LiteratureStatistics statistics) {
-        return (statistics.getComputationallyMappedProteinCount()
-                        + statistics.getCommunityMappedProteinCount()
-                        + statistics.getReviewedProteinCount()
-                        + statistics.getUnreviewedProteinCount())
-                > 50;
     }
 
     public LiteratureEntry getLiteratureBinary(LiteratureDocument literatureDocument) {

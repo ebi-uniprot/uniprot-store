@@ -48,32 +48,19 @@ public class CommunityPublicationProcessor
     @Override
     public List<PublicationDocument> process(List<CommunityMappedReference> references) {
         // get the unique categories
-        Set<String> categories = new HashSet<>();
-        for (CommunityMappedReference reference : references) {
-            categories.addAll(reference.getSourceCategories());
-        }
-
+        Set<String> categories = extractCategories(references);
         CommunityMappedReference reference = references.get(0);
-        PublicationDocument toReturn;
-        PublicationDocument.Builder builder = PublicationDocument.builder();
 
         List<PublicationDocument> documents =
                 uniProtSolrClient.query(
                         SolrCollection.publication,
                         new SolrQuery(docsToUpdateQuery(reference)),
                         PublicationDocument.class);
+
+        PublicationDocument toReturn;
+
         if (documents.isEmpty()) {
-            toReturn =
-                    builder.pubMedId(reference.getPubMedId())
-                            .accession(reference.getUniProtKBAccession().getValue())
-                            .id(getDocumentId())
-                            .isLargeScale(largeScalePubmedIds.contains(reference.getPubMedId()))
-                            .categories(categories)
-                            .mainType(COMMUNITY.getIntValue())
-                            .types(Collections.singleton(COMMUNITY.getIntValue()))
-                            .publicationMappedReferences(
-                                    asBinary(createMappedPublications(references)))
-                            .build();
+            toReturn = createPublicationDocument(references, categories);
         } else {
             if (documents.size() > 1) {
                 String message =
@@ -83,6 +70,7 @@ public class CommunityPublicationProcessor
                                 + reference.getPubMedId();
                 throw new RuntimeException(message);
             }
+            PublicationDocument.Builder builder = PublicationDocument.builder();
             // merge categories and types
             PublicationDocument existingDocument = documents.get(0);
             categories.addAll(existingDocument.getCategories());
@@ -137,5 +125,28 @@ public class CommunityPublicationProcessor
                 pubmedIds.stream().flatMap(Collection::stream).forEach(largeScalePubmedIds::add);
             }
         }
+    }
+
+    private Set<String> extractCategories(List<CommunityMappedReference> references) {
+        Set<String> categories = new HashSet<>();
+        for (CommunityMappedReference reference : references) {
+            categories.addAll(reference.getSourceCategories());
+        }
+        return categories;
+    }
+
+    private PublicationDocument createPublicationDocument(
+            List<CommunityMappedReference> references, Set<String> categories) {
+        CommunityMappedReference reference = references.get(0);
+        PublicationDocument.Builder builder = PublicationDocument.builder();
+        return builder.pubMedId(reference.getPubMedId())
+                .accession(reference.getUniProtKBAccession().getValue())
+                .id(getDocumentId())
+                .isLargeScale(largeScalePubmedIds.contains(reference.getPubMedId()))
+                .categories(categories)
+                .mainType(COMMUNITY.getIntValue())
+                .types(Collections.singleton(COMMUNITY.getIntValue()))
+                .publicationMappedReferences(asBinary(createMappedPublications(references)))
+                .build();
     }
 }

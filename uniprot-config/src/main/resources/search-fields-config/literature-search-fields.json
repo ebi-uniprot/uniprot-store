@@ -82,8 +82,8 @@
     "example": "false"
   },
   {
-    "id": "is_computational_mapped",
-    "fieldName": "is_computational_mapped",
+    "id": "is_computationally_mapped",
+    "fieldName": "is_computationally_mapped",
     "fieldType": "GENERAL",
     "dataType": "BOOLEAN",
     "validRegex": "^true|false$",
