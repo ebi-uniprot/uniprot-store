@@ -51,6 +51,7 @@ public class DataStoreManager implements AfterAllCallback, BeforeAllCallback {
         LITERATURE,
         SUBCELLULAR_LOCATION,
         SUGGEST,
+        PUBLICATION,
         UNIRULE
     }
 

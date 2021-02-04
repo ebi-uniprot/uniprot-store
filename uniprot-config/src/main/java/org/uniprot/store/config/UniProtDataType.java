@@ -7,6 +7,7 @@ public enum UniProtDataType {
     KEYWORD,
     LITERATURE,
     PROTEOME,
+    PUBLICATION,
     SUBCELLLOCATION,
     SUGGEST,
     TAXONOMY,
