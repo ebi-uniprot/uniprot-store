@@ -74,12 +74,7 @@ public class PublicationDocumentMocker {
                 break;
             }
         }
-
-        long communityMappedProteinCount = ThreadLocalRandom.current().nextLong(0, 11);
-        long computationalMappedProteinCount = ThreadLocalRandom.current().nextLong(0, 21);
-        long reviewedMappedProteinCount = ThreadLocalRandom.current().nextLong(0, 31);
-        long unreviewedMappedProteinCount = ThreadLocalRandom.current().nextLong(0, 11);
-
+        boolean isLargeScale = ThreadLocalRandom.current().nextBoolean();
         DOC_CATEGORIES.put(id, randomCategories);
 
         return PublicationDocument.builder()
@@ -87,16 +82,7 @@ public class PublicationDocumentMocker {
                 .accession(accession)
                 .categories(randomCategories)
                 .mainType(MappedReferenceType.UNIPROTKB_REVIEWED.getIntValue())
-                .communityMappedProteinCount(communityMappedProteinCount)
-                .computationalMappedProteinCount(computationalMappedProteinCount)
-                .reviewedMappedProteinCount(reviewedMappedProteinCount)
-                .unreviewedMappedProteinCount(unreviewedMappedProteinCount)
-                .isLargeScale(
-                        (communityMappedProteinCount
-                                        + computationalMappedProteinCount
-                                        + unreviewedMappedProteinCount
-                                        + reviewedMappedProteinCount)
-                                > 50)
+                .isLargeScale(isLargeScale)
                 .refNumber(10000)
                 .type(MappedReferenceType.COMPUTATIONAL.getIntValue());
     }

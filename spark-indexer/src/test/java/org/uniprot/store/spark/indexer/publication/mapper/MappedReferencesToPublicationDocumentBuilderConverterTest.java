@@ -1,5 +1,10 @@
 package org.uniprot.store.spark.indexer.publication.mapper;
 
+import static org.junit.jupiter.api.Assertions.*;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.jupiter.api.Test;
 import org.uniprot.core.publication.MappedReference;
 import org.uniprot.core.publication.impl.*;
@@ -7,12 +12,8 @@ import org.uniprot.core.uniprotkb.ReferenceCommentType;
 import org.uniprot.core.uniprotkb.UniProtKBEntryType;
 import org.uniprot.core.uniprotkb.impl.ReferenceCommentBuilder;
 import org.uniprot.store.search.document.publication.PublicationDocument;
+
 import scala.Tuple2;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * @author lgonzales
@@ -22,18 +23,19 @@ class MappedReferencesToPublicationDocumentBuilderConverterTest {
 
     @Test
     void mapCommunityMappedReference() throws Exception {
-        MappedReferencesToPublicationDocumentBuilderConverter mapper = new MappedReferencesToPublicationDocumentBuilderConverter();
+        MappedReferencesToPublicationDocumentBuilderConverter mapper =
+                new MappedReferencesToPublicationDocumentBuilderConverter();
         String accPub = "P21802_100";
         List<MappedReference> mappedReferences = new ArrayList<>();
-        mappedReferences.add(new CommunityMappedReferenceBuilder()
-                .pubMedId("100")
-                .uniProtKBAccession("P21802")
-                .source(new MappedSourceBuilder().id("CMNT_ID").name("CMNT_NAME").build())
-                .sourceCategoriesAdd("Interaction")
-                .communityAnnotation(new CommunityAnnotationBuilder()
-                        .comment("cmValue")
-                        .build())
-                .build());
+        mappedReferences.add(
+                new CommunityMappedReferenceBuilder()
+                        .pubMedId("100")
+                        .uniProtKBAccession("P21802")
+                        .source(new MappedSourceBuilder().id("CMNT_ID").name("CMNT_NAME").build())
+                        .sourceCategoriesAdd("Interaction")
+                        .communityAnnotation(
+                                new CommunityAnnotationBuilder().comment("cmValue").build())
+                        .build());
 
         Tuple2<String, Iterable<MappedReference>> tuple = new Tuple2<>(accPub, mappedReferences);
         Tuple2<Integer, PublicationDocument.Builder> result = mapper.call(tuple);
@@ -52,16 +54,18 @@ class MappedReferencesToPublicationDocumentBuilderConverterTest {
 
     @Test
     void mapComputationallyMappedReference() throws Exception {
-        MappedReferencesToPublicationDocumentBuilderConverter mapper = new MappedReferencesToPublicationDocumentBuilderConverter();
+        MappedReferencesToPublicationDocumentBuilderConverter mapper =
+                new MappedReferencesToPublicationDocumentBuilderConverter();
         String accPub = "P21802_100";
         List<MappedReference> mappedReferences = new ArrayList<>();
-        mappedReferences.add(new ComputationallyMappedReferenceBuilder()
-                .pubMedId("100")
-                .uniProtKBAccession("P21802")
-                .source(new MappedSourceBuilder().id("CMNT_ID").name("CMNT_NAME").build())
-                .sourceCategoriesAdd("Interaction")
-                .annotation("AnnotationValue")
-                .build());
+        mappedReferences.add(
+                new ComputationallyMappedReferenceBuilder()
+                        .pubMedId("100")
+                        .uniProtKBAccession("P21802")
+                        .source(new MappedSourceBuilder().id("CMNT_ID").name("CMNT_NAME").build())
+                        .sourceCategoriesAdd("Interaction")
+                        .annotation("AnnotationValue")
+                        .build());
 
         Tuple2<String, Iterable<MappedReference>> tuple = new Tuple2<>(accPub, mappedReferences);
         Tuple2<Integer, PublicationDocument.Builder> result = mapper.call(tuple);
@@ -80,18 +84,28 @@ class MappedReferencesToPublicationDocumentBuilderConverterTest {
 
     @Test
     void mapUniProtKBTremblMappedReference() throws Exception {
-        MappedReferencesToPublicationDocumentBuilderConverter mapper = new MappedReferencesToPublicationDocumentBuilderConverter();
+        MappedReferencesToPublicationDocumentBuilderConverter mapper =
+                new MappedReferencesToPublicationDocumentBuilderConverter();
         String accPub = "P21802_NO-PUBMED-123";
         List<MappedReference> mappedReferences = new ArrayList<>();
-        mappedReferences.add(new UniProtKBMappedReferenceBuilder()
-                .uniProtKBAccession("P21802")
-                .source(new MappedSourceBuilder().id("CMNT_ID").name(UniProtKBEntryType.TREMBL.getName()).build())
-                .sourceCategoriesAdd("Interaction")
-                .sourceCategoriesAdd("Function")
-                .referencePositionsAdd("rpValue")
-                .referenceCommentsAdd(new ReferenceCommentBuilder().type(ReferenceCommentType.PLASMID).value("Rcvalue").build())
-                .referenceNumber(10)
-                .build());
+        mappedReferences.add(
+                new UniProtKBMappedReferenceBuilder()
+                        .uniProtKBAccession("P21802")
+                        .source(
+                                new MappedSourceBuilder()
+                                        .id("CMNT_ID")
+                                        .name(UniProtKBEntryType.TREMBL.getName())
+                                        .build())
+                        .sourceCategoriesAdd("Interaction")
+                        .sourceCategoriesAdd("Function")
+                        .referencePositionsAdd("rpValue")
+                        .referenceCommentsAdd(
+                                new ReferenceCommentBuilder()
+                                        .type(ReferenceCommentType.PLASMID)
+                                        .value("Rcvalue")
+                                        .build())
+                        .referenceNumber(10)
+                        .build());
 
         Tuple2<String, Iterable<MappedReference>> tuple = new Tuple2<>(accPub, mappedReferences);
         Tuple2<Integer, PublicationDocument.Builder> result = mapper.call(tuple);
@@ -111,18 +125,28 @@ class MappedReferencesToPublicationDocumentBuilderConverterTest {
 
     @Test
     void mapUniProtKBSwissProtMappedReference() throws Exception {
-        MappedReferencesToPublicationDocumentBuilderConverter mapper = new MappedReferencesToPublicationDocumentBuilderConverter();
+        MappedReferencesToPublicationDocumentBuilderConverter mapper =
+                new MappedReferencesToPublicationDocumentBuilderConverter();
         String accPub = "P21802_NO-PUBMED-1234";
         List<MappedReference> mappedReferences = new ArrayList<>();
-        mappedReferences.add(new UniProtKBMappedReferenceBuilder()
-                .uniProtKBAccession("P21802")
-                .source(new MappedSourceBuilder().id("CMNT_ID").name(UniProtKBEntryType.SWISSPROT.getName()).build())
-                .sourceCategoriesAdd("Interaction")
-                .sourceCategoriesAdd("Function")
-                .referencePositionsAdd("rpValue")
-                .referenceCommentsAdd(new ReferenceCommentBuilder().type(ReferenceCommentType.TISSUE).value("Rcvalue").build())
-                .referenceNumber(10)
-                .build());
+        mappedReferences.add(
+                new UniProtKBMappedReferenceBuilder()
+                        .uniProtKBAccession("P21802")
+                        .source(
+                                new MappedSourceBuilder()
+                                        .id("CMNT_ID")
+                                        .name(UniProtKBEntryType.SWISSPROT.getName())
+                                        .build())
+                        .sourceCategoriesAdd("Interaction")
+                        .sourceCategoriesAdd("Function")
+                        .referencePositionsAdd("rpValue")
+                        .referenceCommentsAdd(
+                                new ReferenceCommentBuilder()
+                                        .type(ReferenceCommentType.TISSUE)
+                                        .value("Rcvalue")
+                                        .build())
+                        .referenceNumber(10)
+                        .build());
 
         Tuple2<String, Iterable<MappedReference>> tuple = new Tuple2<>(accPub, mappedReferences);
         Tuple2<Integer, PublicationDocument.Builder> result = mapper.call(tuple);
