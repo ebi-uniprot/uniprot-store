@@ -55,11 +55,19 @@
     "includeInSwagger": true
   },
   {
-    "id": "content",
-    "fieldName": "content",
+    "id": "synonym",
+    "fieldName": "synonym",
     "fieldType": "GENERAL",
     "dataType": "STRING",
-    "description": "Search by any content",
-    "example": "Fe2S2"
+    "description": "Search by synonym id",
+    "example": "any"
+  },
+  {
+    "id": "definition",
+    "fieldName": "definition",
+    "fieldType": "GENERAL",
+    "dataType": "STRING",
+    "description": "Search by text in definition",
+    "example": "something"
   }
 ]

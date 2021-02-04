@@ -36,7 +36,6 @@ public class TaxonomyDocument implements Document {
     @Field private boolean reference;
     @Field private boolean reviewed;
     @Field private boolean annotated;
-    @Field private List<String> content;
     @Field private List<String> strain;
     @Field private List<Long> host;
     @Field private List<Long> lineage;

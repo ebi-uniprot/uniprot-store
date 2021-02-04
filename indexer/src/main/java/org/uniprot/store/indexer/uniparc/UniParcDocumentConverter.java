@@ -6,12 +6,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import org.uniprot.core.Property;
 import org.uniprot.core.uniparc.SequenceFeature;
 import org.uniprot.core.uniparc.UniParcCrossReference;
 import org.uniprot.core.uniparc.UniParcDatabase;
 import org.uniprot.core.uniparc.UniParcEntry;
-import org.uniprot.core.uniprotkb.taxonomy.Taxonomy;
+import org.uniprot.core.uniprotkb.taxonomy.Organism;
 import org.uniprot.core.util.Utils;
 import org.uniprot.core.xml.jaxb.uniparc.Entry;
 import org.uniprot.core.xml.uniparc.UniParcEntryConverter;
@@ -51,12 +50,11 @@ public class UniParcDocumentConverter implements DocumentConverter<Entry, UniPar
                 .sequenceChecksum(item.getSequence().getChecksum())
                 .sequenceMd5(uniparcEntry.getSequence().getMd5());
         uniparcEntry.getUniParcCrossReferences().forEach(val -> processDbReference(val, builder));
-        uniparcEntry.getTaxonomies().forEach(taxon -> processTaxonomy(taxon, builder));
         uniparcEntry
                 .getSequenceFeatures()
                 .forEach(sequenceFeature -> processSequenceFeature(sequenceFeature, builder));
 
-        populateSuggestions(uniparcEntry.getTaxonomies());
+        populateSuggestions(uniparcEntry);
 
         return builder.build();
     }
@@ -75,29 +73,32 @@ public class UniParcDocumentConverter implements DocumentConverter<Entry, UniPar
             builder.active(dbTypeData.getValue());
         }
         builder.database(dbTypeData.getValue());
+
+        if (xref.isActive() && type == UniParcDatabase.SWISSPROT_VARSPLIC) {
+            builder.uniprotIsoform(xref.getId());
+        }
+
         if (xref.isActive()
                 && (type == UniParcDatabase.SWISSPROT || type == UniParcDatabase.TREMBL)) {
             builder.uniprotAccession(xref.getId());
             builder.uniprotIsoform(xref.getId());
         }
 
-        if (xref.isActive() && type == UniParcDatabase.SWISSPROT_VARSPLIC) {
-            builder.uniprotIsoform(xref.getId());
+        if (Utils.notNull(xref.getTaxonomy())) {
+            processTaxonomy(xref.getTaxonomy(), builder);
         }
-        xref.getProperties().stream()
-                .filter(val -> val.getKey().equals(UniParcCrossReference.PROPERTY_PROTEOME_ID))
-                .map(Property::getValue)
-                .forEach(builder::upid);
 
-        xref.getProperties().stream()
-                .filter(val -> val.getKey().equals(UniParcCrossReference.PROPERTY_PROTEIN_NAME))
-                .map(Property::getValue)
-                .forEach(builder::proteinName);
+        if (Utils.notNullNotEmpty(xref.getProteinName())) {
+            builder.proteinName(xref.getProteinName());
+        }
 
-        xref.getProperties().stream()
-                .filter(val -> val.getKey().equals(UniParcCrossReference.PROPERTY_GENE_NAME))
-                .map(Property::getValue)
-                .forEach(builder::geneName);
+        if (Utils.notNullNotEmpty(xref.getGeneName())) {
+            builder.geneName(xref.getGeneName());
+        }
+
+        if (Utils.notNullNotEmpty(xref.getProteomeId())) {
+            builder.upid(xref.getProteomeId());
+        }
     }
 
     private void processSequenceFeature(
@@ -110,7 +111,7 @@ public class UniParcDocumentConverter implements DocumentConverter<Entry, UniPar
         }
     }
 
-    private void processTaxonomy(Taxonomy taxon, UniParcDocumentBuilder builder) {
+    private void processTaxonomy(Organism taxon, UniParcDocumentBuilder builder) {
 
         builder.taxLineageId((int) taxon.getTaxonId());
         builder.organismTaxon(taxon.getScientificName());
@@ -125,8 +126,10 @@ public class UniParcDocumentConverter implements DocumentConverter<Entry, UniPar
                 });
     }
 
-    private void populateSuggestions(List<Taxonomy> taxonomies) {
-        taxonomies.stream()
+    private void populateSuggestions(UniParcEntry uniparcEntry) {
+        uniparcEntry.getUniParcCrossReferences().stream()
+                .filter(xref -> Utils.notNull(xref.getTaxonomy()))
+                .map(UniParcCrossReference::getTaxonomy)
                 .flatMap(
                         taxon -> {
                             List<TaxonomicNode> nodes =

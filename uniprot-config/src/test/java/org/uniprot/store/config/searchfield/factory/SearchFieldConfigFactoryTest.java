@@ -34,17 +34,17 @@ class SearchFieldConfigFactoryTest {
     private static Stream<Arguments> provideTypeAndItemCount() {
         int uniProtKBDBTypesCount = UniProtDatabaseTypes.INSTANCE.getAllDbTypes().size();
         return Stream.of(
-                Arguments.of(UniProtDataType.CROSSREF, 7),
-                Arguments.of(UniProtDataType.DISEASE, 4),
+                Arguments.of(UniProtDataType.CROSSREF, 6),
+                Arguments.of(UniProtDataType.DISEASE, 3),
                 Arguments.of(UniProtDataType.GENECENTRIC, 7),
-                Arguments.of(UniProtDataType.KEYWORD, 7),
+                Arguments.of(UniProtDataType.KEYWORD, 8),
                 Arguments.of(UniProtDataType.LITERATURE, 11),
                 Arguments.of(UniProtDataType.PROTEOME, 21),
-                Arguments.of(UniProtDataType.SUBCELLLOCATION, 6),
+                Arguments.of(UniProtDataType.SUBCELLLOCATION, 7),
                 Arguments.of(UniProtDataType.SUGGEST, 3),
-                Arguments.of(UniProtDataType.TAXONOMY, 16),
+                Arguments.of(UniProtDataType.TAXONOMY, 15),
                 Arguments.of(UniProtDataType.UNIPARC, 16),
-                Arguments.of(UniProtDataType.UNIPROTKB, 432 + uniProtKBDBTypesCount),
+                Arguments.of(UniProtDataType.UNIPROTKB, 436 + uniProtKBDBTypesCount),
                 Arguments.of(UniProtDataType.UNIREF, 17),
                 Arguments.of(UniProtDataType.UNIRULE, 10));
     }
