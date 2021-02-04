@@ -77,15 +77,12 @@ public class CommunityMappedReferenceConverter
     private void updateCommunityAnnotationBuilder(
             CommunityAnnotationCommentType commentType,
             CommunityAnnotationBuilder builder,
-            String value) {
-        if (commentType != null) {
-            String trimmed = value.trim();
-            if (Utils.notNullNotEmpty(trimmed)
-                    && trimmed.indexOf(' ') == -1
-                    && trimmed.charAt(trimmed.length() - 1) == '.') {
+            String commentValue) {
+        if (Utils.notNull(commentType) && Utils.notNull(commentValue)) {
+            String trimmed = commentValue.trim();
+            if (trimmed.indexOf(' ') == -1 && trimmed.endsWith(".")) {
                 trimmed = trimmed.substring(0, trimmed.length() - 1);
             }
-
             commentType.updateCommunityAnnotationBuilder(builder, trimmed);
         }
     }

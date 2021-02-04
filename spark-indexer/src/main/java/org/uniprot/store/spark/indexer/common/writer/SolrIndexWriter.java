@@ -30,7 +30,7 @@ import org.uniprot.store.spark.indexer.common.exception.SolrIndexException;
 @Slf4j
 public class SolrIndexWriter implements VoidFunction<Iterator<SolrInputDocument>> {
 
-    private static final long serialVersionUID = 1997175675889081522L;
+    private static final long serialVersionUID = -4229642171927549015L;
     protected final SolrIndexParameter parameter;
 
     public SolrIndexWriter(SolrIndexParameter parameter) {

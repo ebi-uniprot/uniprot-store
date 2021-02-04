@@ -183,7 +183,7 @@ class LiteratureJobIT {
         assertThat(literatureDocument.getId(), is("11203701"));
         assertThat(literatureDocument.getDoi(), is("10.1006/dbio.2000.9955"));
         // assertThat(literatureDocument.isCitedin(), is(true)); COVID-19 CHANGE DO NOT MERGE
-        assertThat(literatureDocument.isComputationalMapped(), is(true));
+        assertThat(literatureDocument.isComputationallyMapped(), is(true));
         assertThat(literatureDocument.isCommunityMapped(), is(false));
         assertThat(literatureDocument.getLiteratureObj(), is(notNullValue()));
     }
@@ -195,7 +195,7 @@ class LiteratureJobIT {
         assertThat(response, is(notNullValue()));
         assertThat(response.size(), is(1));
         LiteratureDocument literatureDocument = response.get(0);
-        assertThat(literatureDocument.isComputationalMapped(), is(true));
+        assertThat(literatureDocument.isComputationallyMapped(), is(true));
         assertThat(literatureDocument.isCommunityMapped(), is(true));
         assertThat(literatureDocument.isUniprotkbMapped(), is(false));
         ByteBuffer byteBuffer = literatureDocument.getLiteratureObj();

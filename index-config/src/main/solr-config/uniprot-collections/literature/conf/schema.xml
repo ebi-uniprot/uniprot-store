@@ -38,7 +38,7 @@
 	<!-- Facet fields -->
 	<field name="is_uniprotkb_mapped" type="boolean" indexed="true"
 		stored="false" docValues="true" />
-	<field name="is_computational_mapped" type="boolean"
+	<field name="is_computationally_mapped" type="boolean"
 		indexed="true" stored="false" docValues="true" />
 	<field name="is_community_mapped" type="boolean" indexed="true"
 		stored="false" docValues="true" />

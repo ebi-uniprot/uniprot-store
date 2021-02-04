@@ -64,10 +64,10 @@ abstract class AbstractMappedReferenceConverter<T extends MappedReference>
                 }
             }
 
-            if (!Utils.notNullNotEmpty(lineFields[0])) {
+            if (Utils.nullOrEmpty(lineFields[0])) {
                 throw new RawMappedReferenceException("Missing accession");
             }
-            if (!Utils.notNullNotEmpty(lineFields[2])) {
+            if (Utils.nullOrEmpty(lineFields[2])) {
                 throw new RawMappedReferenceException("Missing reference ID");
             }
 

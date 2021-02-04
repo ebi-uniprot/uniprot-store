@@ -64,7 +64,7 @@ public class PublicationITUtil {
         return LiteratureDocument.builder()
                 .id(String.valueOf(pubmedId))
                 .isCommunityMapped(true)
-                .isComputationalMapped(true)
+                .isComputationallyMapped(true)
                 .isUniprotkbMapped(true)
                 .literatureObj(ByteBuffer.wrap(litBytes))
                 .build();
@@ -108,7 +108,7 @@ public class PublicationITUtil {
         return LiteratureDocument.builder()
                 .id(String.valueOf(pubmedId))
                 .isCommunityMapped(true)
-                .isComputationalMapped(true)
+                .isComputationallyMapped(true)
                 .isUniprotkbMapped(true)
                 .literatureObj(ByteBuffer.wrap(litBytes))
                 .build();
