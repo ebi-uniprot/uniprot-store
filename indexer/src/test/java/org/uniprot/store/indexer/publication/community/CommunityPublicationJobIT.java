@@ -142,7 +142,7 @@ class CommunityPublicationJobIT {
         assertThat(reference.getSourceCategories(), contains("Function"));
 
         List<ComputationallyMappedReference> compReference =
-                publications.getComputationalMappedReferences();
+                publications.getComputationallyMappedReferences();
         assertThat(compReference, hasSize(1));
 
         ComputationallyMappedReference comp = compReference.get(0);
@@ -161,7 +161,7 @@ class CommunityPublicationJobIT {
         publications = extractObject(document);
         references = publications.getCommunityMappedReferences();
         assertThat(references, hasSize(1));
-        assertThat(publications.getComputationalMappedReferences(), is(emptyIterable()));
+        assertThat(publications.getComputationallyMappedReferences(), is(emptyIterable()));
 
         verifyDuplicateAccessionAndPubMedId();
     }

@@ -106,7 +106,7 @@ class ComputationalPublicationJobIT {
 
         MappedPublications publications = extractObject(document);
         List<ComputationallyMappedReference> references =
-                publications.getComputationalMappedReferences();
+                publications.getComputationallyMappedReferences();
         assertThat(references, hasSize(1));
 
         ComputationallyMappedReference reference = references.get(0);
@@ -144,7 +144,7 @@ class ComputationalPublicationJobIT {
 
         MappedPublications publications = extractObject(document);
         List<ComputationallyMappedReference> references =
-                publications.getComputationalMappedReferences();
+                publications.getComputationallyMappedReferences();
         assertThat(references, hasSize(3));
     }
 }

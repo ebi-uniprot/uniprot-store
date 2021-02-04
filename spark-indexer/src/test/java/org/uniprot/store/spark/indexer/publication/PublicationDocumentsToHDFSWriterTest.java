@@ -133,7 +133,7 @@ class PublicationDocumentsToHDFSWriterTest {
         MappedPublications mappedPubsForKbRN4 = extractObject(kbRN4Doc);
 
         assertThat(mappedPubsForKbRN4.getCommunityMappedReferences(), hasSize(1));
-        assertThat(mappedPubsForKbRN4.getComputationalMappedReferences(), hasSize(2));
+        assertThat(mappedPubsForKbRN4.getComputationallyMappedReferences(), hasSize(2));
         assertThat(mappedPubsForKbRN4.getUniProtKBMappedReference(), is(notNullValue()));
 
         // check uniprotkb ref within mapped reference
@@ -157,18 +157,18 @@ class PublicationDocumentsToHDFSWriterTest {
 
         // check computational refs within mapped reference
         assertThat(
-                mappedPubsForKbRN4.getComputationalMappedReferences().stream()
+                mappedPubsForKbRN4.getComputationallyMappedReferences().stream()
                         .map(ref -> ref.getSource().getId())
                         .collect(Collectors.toList()),
                 contains("100002", "100003"));
         assertThat(
-                mappedPubsForKbRN4.getComputationalMappedReferences().stream()
+                mappedPubsForKbRN4.getComputationallyMappedReferences().stream()
                         .map(MappedReference::getSourceCategories)
                         .flatMap(Collection::stream)
                         .collect(Collectors.toSet()),
                 contains("Interaction"));
         assertThat(
-                mappedPubsForKbRN4.getComputationalMappedReferences().stream()
+                mappedPubsForKbRN4.getComputationallyMappedReferences().stream()
                         .map(ComputationallyMappedReference::getAnnotation)
                         .collect(Collectors.toList()),
                 contains("An interaction again.", "An interaction again 2."));
@@ -209,7 +209,7 @@ class PublicationDocumentsToHDFSWriterTest {
 
         MappedPublications mappedPubsForKbRN1 = extractObject(kbRN1Doc);
         assertThat(mappedPubsForKbRN1.getCommunityMappedReferences(), hasSize(0));
-        assertThat(mappedPubsForKbRN1.getComputationalMappedReferences(), hasSize(0));
+        assertThat(mappedPubsForKbRN1.getComputationallyMappedReferences(), hasSize(0));
         assertThat(mappedPubsForKbRN1.getUniProtKBMappedReference(), is(notNullValue()));
 
         UniProtKBMappedReference kbRN1Ref = mappedPubsForKbRN1.getUniProtKBMappedReference();
@@ -254,7 +254,7 @@ class PublicationDocumentsToHDFSWriterTest {
 
         MappedPublications mappedPubsForKbRN3 = extractObject(kbRN3Doc);
         assertThat(mappedPubsForKbRN3.getCommunityMappedReferences(), hasSize(0));
-        assertThat(mappedPubsForKbRN3.getComputationalMappedReferences(), hasSize(0));
+        assertThat(mappedPubsForKbRN3.getComputationallyMappedReferences(), hasSize(0));
         assertThat(mappedPubsForKbRN3.getUniProtKBMappedReference(), is(notNullValue()));
 
         UniProtKBMappedReference kbRN4Ref = mappedPubsForKbRN3.getUniProtKBMappedReference();
@@ -318,7 +318,7 @@ class PublicationDocumentsToHDFSWriterTest {
 
         MappedPublications mappedPubsForComm00Doc = extractObject(comm00Doc);
         assertThat(mappedPubsForComm00Doc.getCommunityMappedReferences(), hasSize(2));
-        assertThat(mappedPubsForComm00Doc.getComputationalMappedReferences(), hasSize(0));
+        assertThat(mappedPubsForComm00Doc.getComputationallyMappedReferences(), hasSize(0));
         assertThat(mappedPubsForComm00Doc.getUniProtKBMappedReference(), is(nullValue()));
 
         CommunityMappedReference ref0 =
@@ -382,12 +382,12 @@ class PublicationDocumentsToHDFSWriterTest {
 
         MappedPublications mappedPubsForComp00Doc = extractObject(comp00Doc);
         assertThat(mappedPubsForComp00Doc.getCommunityMappedReferences(), hasSize(0));
-        assertThat(mappedPubsForComp00Doc.getComputationalMappedReferences(), hasSize(3));
+        assertThat(mappedPubsForComp00Doc.getComputationallyMappedReferences(), hasSize(3));
         assertThat(mappedPubsForComp00Doc.getUniProtKBMappedReference(), is(nullValue()));
 
         ComputationallyMappedReference ref0 =
                 extractValue(
-                        mappedPubsForComp00Doc.getComputationalMappedReferences(),
+                        mappedPubsForComp00Doc.getComputationallyMappedReferences(),
                         ComputationallyMappedReference::getAnnotation,
                         "A pathology & biotech.");
         assertThat(ref0.getSourceCategories(), containsInAnyOrder("Pathology & Biotech"));
@@ -396,7 +396,7 @@ class PublicationDocumentsToHDFSWriterTest {
 
         ComputationallyMappedReference ref1 =
                 extractValue(
-                        mappedPubsForComp00Doc.getComputationalMappedReferences(),
+                        mappedPubsForComp00Doc.getComputationallyMappedReferences(),
                         ComputationallyMappedReference::getAnnotation,
                         "An interaction.");
         assertThat(ref1.getSourceCategories(), containsInAnyOrder("Interaction"));
@@ -405,7 +405,7 @@ class PublicationDocumentsToHDFSWriterTest {
 
         ComputationallyMappedReference ref2 =
                 extractValue(
-                        mappedPubsForComp00Doc.getComputationalMappedReferences(),
+                        mappedPubsForComp00Doc.getComputationallyMappedReferences(),
                         ComputationallyMappedReference::getAnnotation,
                         null);
         assertThat(ref2.getSourceCategories(), containsInAnyOrder("Sequences"));
