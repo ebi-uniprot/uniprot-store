@@ -13,6 +13,8 @@ import org.uniprot.store.reader.publications.CommunityMappedReferenceConverter;
  * @author Edd
  */
 public class CommunityMappedReferenceMapper implements Function<String, MappedReference> {
+    private static final long serialVersionUID = 951542848775174716L;
+
     @Override
     public MappedReference call(String rawReference) throws Exception {
         CommunityMappedReferenceConverter converter = new CommunityMappedReferenceConverter();

@@ -43,6 +43,7 @@ public class UniProtKBPublicationToMappedReference
 
     private static final Pattern REVIEWED_REGEX = Pattern.compile("^ID .*Reviewed.*");
     private static final Pattern REFERENCE_REGEX = Pattern.compile("^(RN|RA|RC|RG|RL|RP|RT|RX) .*");
+    private static final long serialVersionUID = -755120294877372128L;
     private final UniProtEntryReferencesConverter referencesConverter =
             new UniProtEntryReferencesConverter();
 

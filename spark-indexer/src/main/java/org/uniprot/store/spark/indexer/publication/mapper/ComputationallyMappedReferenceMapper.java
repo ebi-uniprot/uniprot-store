@@ -12,6 +12,8 @@ import org.uniprot.store.reader.publications.ComputationallyMappedReferenceConve
  * @author Edd
  */
 public class ComputationallyMappedReferenceMapper implements Function<String, MappedReference> {
+    private static final long serialVersionUID = -6077802133508264113L;
+
     @Override
     public MappedReference call(String rawReference) throws Exception {
         ComputationallyMappedReferenceConverter converter =
