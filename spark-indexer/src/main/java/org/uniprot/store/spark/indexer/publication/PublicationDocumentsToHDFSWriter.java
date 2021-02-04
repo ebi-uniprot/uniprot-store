@@ -48,13 +48,13 @@ public class PublicationDocumentsToHDFSWriter implements DocumentsToHDFSWriter {
 
     @Override
     public void writeIndexDocumentsToHDFS() {
-        // load UniProtKB mapped references
+        // load UniProtKB JavaPairRDD<accession_pubMedId, MappedReference>
         JavaPairRDD<String, MappedReference> kbMappedRefsRDD = loadUniProtKBMappedRefs();
 
-        // load computational docs
+        // load computational JavaPairRDD<accession_pubMedId, MappedReference>
         JavaPairRDD<String, MappedReference> computationalMappedRefsRDD = loadComputationalDocs();
 
-        // load community docs
+        // load community JavaPairRDD<accession_pubMedId, MappedReference>
         JavaPairRDD<String, MappedReference> communityMappedRefsRDD = loadCommunityDocs();
 
         // at this stage there will be duplicated keys
@@ -62,6 +62,7 @@ public class PublicationDocumentsToHDFSWriter implements DocumentsToHDFSWriter {
                 kbMappedRefsRDD.union(computationalMappedRefsRDD).union(communityMappedRefsRDD);
 
         // create a document for each pubmed/submission
+        // JavaPairRDD<pubMedId, PublicationDocument.Builder>
         JavaPairRDD<Integer, PublicationDocument.Builder> pubDocRDD =
                 allMappedRefs
                         .groupByKey()

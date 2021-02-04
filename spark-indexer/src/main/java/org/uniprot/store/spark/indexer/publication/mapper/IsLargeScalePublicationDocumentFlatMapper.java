@@ -28,6 +28,8 @@ public class IsLargeScalePublicationDocumentFlatMapper
         implements FlatMapFunction<
                 Tuple2<Integer, Iterable<PublicationDocument.Builder>>,
                 PublicationDocument.Builder> {
+    private static final long serialVersionUID = 8799695653013196890L;
+
     @Override
     public Iterator<PublicationDocument.Builder> call(
             Tuple2<Integer, Iterable<PublicationDocument.Builder>> tuple) throws Exception {

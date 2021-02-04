@@ -29,6 +29,8 @@ import scala.Tuple2;
 public class MappedReferencesToPublicationDocumentBuilderConverter
         implements PairFunction<
                 Tuple2<String, Iterable<MappedReference>>, Integer, PublicationDocument.Builder> {
+    private static final long serialVersionUID = -5482428304872200536L;
+
     @Override
     public Tuple2<Integer, PublicationDocument.Builder> call(
             Tuple2<String, Iterable<MappedReference>> tuple) throws Exception {
