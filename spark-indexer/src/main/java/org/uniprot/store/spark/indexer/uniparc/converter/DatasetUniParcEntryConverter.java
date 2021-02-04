@@ -223,7 +223,7 @@ public class DatasetUniParcEntryConverter implements MapFunction<Row, UniParcEnt
         if (propertyMap.containsKey(PROPERTY_NCBI_TAXONOMY_ID)) {
             String taxonId = propertyMap.get(PROPERTY_NCBI_TAXONOMY_ID).get(0);
             Organism taxonomy = new OrganismBuilder().taxonId(Long.parseLong(taxonId)).build();
-            builder.taxonomy(taxonomy);
+            builder.organism(taxonomy);
             propertyMap.remove(PROPERTY_NCBI_TAXONOMY_ID);
         }
         if (!propertyMap.isEmpty()) {

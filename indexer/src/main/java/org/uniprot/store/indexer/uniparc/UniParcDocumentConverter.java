@@ -84,8 +84,8 @@ public class UniParcDocumentConverter implements DocumentConverter<Entry, UniPar
             builder.uniprotIsoform(xref.getId());
         }
 
-        if (Utils.notNull(xref.getTaxonomy())) {
-            processTaxonomy(xref.getTaxonomy(), builder);
+        if (Utils.notNull(xref.getOrganism())) {
+            processTaxonomy(xref.getOrganism(), builder);
         }
 
         if (Utils.notNullNotEmpty(xref.getProteinName())) {
@@ -128,8 +128,8 @@ public class UniParcDocumentConverter implements DocumentConverter<Entry, UniPar
 
     private void populateSuggestions(UniParcEntry uniparcEntry) {
         uniparcEntry.getUniParcCrossReferences().stream()
-                .filter(xref -> Utils.notNull(xref.getTaxonomy()))
-                .map(UniParcCrossReference::getTaxonomy)
+                .filter(xref -> Utils.notNull(xref.getOrganism()))
+                .map(UniParcCrossReference::getOrganism)
                 .flatMap(
                         taxon -> {
                             List<TaxonomicNode> nodes =

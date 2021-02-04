@@ -116,8 +116,8 @@ class DatasetUniParcEntryConverterTest {
         assertNotNull(dbReference.getProperties());
         assertEquals(0, dbReference.getProperties().size());
 
-        assertNotNull(dbReference.getTaxonomy());
-        assertEquals(100L, dbReference.getTaxonomy().getTaxonId());
+        assertNotNull(dbReference.getOrganism());
+        assertEquals(100L, dbReference.getOrganism().getTaxonId());
 
         assertEquals("geneNameValue", dbReference.getGeneName());
         assertEquals("proteinNameValue", dbReference.getProteinName());
