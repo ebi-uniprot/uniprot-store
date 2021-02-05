@@ -59,7 +59,7 @@ class UniParcDataStoreIndexerTest {
             UniParcEntry entry = result.get(0);
             assertEquals("UPI00000E8551", entry.getUniParcId().getValue());
             entry.getUniParcCrossReferences().stream()
-                    .map(UniParcCrossReference::getTaxonomy)
+                    .map(UniParcCrossReference::getOrganism)
                     .filter(Objects::nonNull)
                     .forEach(
                             organism -> {

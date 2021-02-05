@@ -156,7 +156,7 @@ class UniParcDocumentConverterTest {
         return new UniParcCrossReferenceBuilder()
                 .id(type.getName() + "IdValue-" + active)
                 .database(type)
-                .taxonomy(getTaxonomy())
+                .organism(getOrganism())
                 .geneName("geneNameValue")
                 .proteinName("proteinNameValue")
                 .proteomeId("proteomeIdValue")
@@ -177,7 +177,7 @@ class UniParcDocumentConverterTest {
                 .build();
     }
 
-    private Organism getTaxonomy() {
+    private Organism getOrganism() {
         return new OrganismBuilder()
                 .taxonId(10L)
                 .commonName("commonNameValue")

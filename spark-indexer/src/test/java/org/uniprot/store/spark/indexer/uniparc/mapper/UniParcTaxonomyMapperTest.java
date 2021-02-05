@@ -44,7 +44,7 @@ class UniParcTaxonomyMapperTest {
 
     private UniParcCrossReference getniParcCrossReference(long taxonId) {
         Organism taxonomy = new OrganismBuilder().taxonId(taxonId).build();
-        return new UniParcCrossReferenceBuilder().taxonomy(taxonomy).build();
+        return new UniParcCrossReferenceBuilder().organism(taxonomy).build();
     }
 
     @Test

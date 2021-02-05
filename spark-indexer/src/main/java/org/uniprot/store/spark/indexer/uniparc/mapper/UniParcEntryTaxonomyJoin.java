@@ -59,8 +59,8 @@ public class UniParcEntryTaxonomyJoin
 
     private UniParcCrossReference mapTaxonomy(
             UniParcCrossReference xref, Map<Long, TaxonomyEntry> taxonMap) {
-        if (Utils.notNull(xref.getTaxonomy())) {
-            TaxonomyEntry taxonomyEntry = taxonMap.get(xref.getTaxonomy().getTaxonId());
+        if (Utils.notNull(xref.getOrganism())) {
+            TaxonomyEntry taxonomyEntry = taxonMap.get(xref.getOrganism().getTaxonId());
             if (taxonomyEntry != null) {
                 UniParcCrossReferenceBuilder builder = UniParcCrossReferenceBuilder.from(xref);
                 Organism taxonomy =
@@ -69,11 +69,11 @@ public class UniParcEntryTaxonomyJoin
                                 .scientificName(taxonomyEntry.getScientificName())
                                 .commonName(taxonomyEntry.getCommonName())
                                 .build();
-                builder.taxonomy(taxonomy);
+                builder.organism(taxonomy);
                 xref = builder.build();
             } else {
                 throw new IndexDataStoreException(
-                        "Unable to get mapped taxon:" + xref.getTaxonomy().getTaxonId());
+                        "Unable to get mapped taxon:" + xref.getOrganism().getTaxonId());
             }
         }
         return xref;

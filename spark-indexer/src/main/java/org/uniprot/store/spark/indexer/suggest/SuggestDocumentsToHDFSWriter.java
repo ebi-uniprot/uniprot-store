@@ -305,8 +305,8 @@ public class SuggestDocumentsToHDFSWriter implements DocumentsToHDFSWriter {
                         .flatMap(
                                 entry ->
                                         entry.getUniParcCrossReferences().stream()
-                                                .filter(xref -> Utils.notNull(xref.getTaxonomy()))
-                                                .map(UniParcCrossReference::getTaxonomy)
+                                                .filter(xref -> Utils.notNull(xref.getOrganism()))
+                                                .map(UniParcCrossReference::getOrganism)
                                                 .map(Organism::getTaxonId)
                                                 .map(String::valueOf)
                                                 .iterator())
