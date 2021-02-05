@@ -2,12 +2,26 @@ package org.uniprot.store.indexer.uniprot.mockers;
 
 import static org.uniprot.store.indexer.publication.common.PublicationUtils.asBinary;
 
-import java.util.*;
-import java.util.concurrent.ThreadLocalRandom;
+import java.security.SecureRandom;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import org.uniprot.core.citation.impl.SubmissionBuilder;
-import org.uniprot.core.publication.*;
-import org.uniprot.core.publication.impl.*;
+import org.uniprot.core.publication.CommunityMappedReference;
+import org.uniprot.core.publication.ComputationallyMappedReference;
+import org.uniprot.core.publication.MappedPublications;
+import org.uniprot.core.publication.MappedReferenceType;
+import org.uniprot.core.publication.UniProtKBMappedReference;
+import org.uniprot.core.publication.impl.CommunityAnnotationBuilder;
+import org.uniprot.core.publication.impl.CommunityMappedReferenceBuilder;
+import org.uniprot.core.publication.impl.ComputationallyMappedReferenceBuilder;
+import org.uniprot.core.publication.impl.MappedPublicationsBuilder;
+import org.uniprot.core.publication.impl.MappedSourceBuilder;
+import org.uniprot.core.publication.impl.UniProtKBMappedReferenceBuilder;
 import org.uniprot.core.uniprotkb.ReferenceCommentType;
 import org.uniprot.core.uniprotkb.impl.ReferenceCommentBuilder;
 import org.uniprot.store.search.document.publication.PublicationDocument;
@@ -64,7 +78,9 @@ public class PublicationDocumentMocker {
 
     private static PublicationDocument.Builder populateDocumentWithoutPubmedOrMappedPublications(
             String id, String accession) {
-        int randomCategoriesSize = ThreadLocalRandom.current().nextInt(0, CATEGORIES.size() + 1);
+
+        int randomCategoriesSize = getRandomGenerator().nextInt(CATEGORIES.size() + 1);
+
         Set<String> randomCategories = new HashSet<>();
         randomCategories.add("Interaction");
         int count = 0;
@@ -74,7 +90,7 @@ public class PublicationDocumentMocker {
                 break;
             }
         }
-        boolean isLargeScale = ThreadLocalRandom.current().nextBoolean();
+        boolean isLargeScale = getRandomGenerator().nextBoolean();
         DOC_CATEGORIES.put(id, randomCategories);
 
         return PublicationDocument.builder()
@@ -88,7 +104,7 @@ public class PublicationDocumentMocker {
     }
 
     private static String generateId() {
-        return "" + ThreadLocalRandom.current().nextInt();
+        return "" + getRandomGenerator().nextInt();
     }
 
     private static String generateAccession(int accessionNumber) {
@@ -187,5 +203,12 @@ public class PublicationDocumentMocker {
                         .build();
 
         return asBinary(mappedPublications);
+    }
+
+    private static SecureRandom getRandomGenerator() {
+        SecureRandom random = new SecureRandom();
+        byte[] bytes = new byte[20];
+        random.nextBytes(bytes);
+        return random;
     }
 }

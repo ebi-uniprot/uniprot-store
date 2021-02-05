@@ -3,10 +3,19 @@ package org.uniprot.store.spark.indexer.publication.mapper;
 import static org.apache.spark.sql.functions.rand;
 import static org.uniprot.store.spark.indexer.publication.PublicationDocumentsToHDFSWriter.separateJoinKey;
 
-import java.util.*;
+import java.security.SecureRandom;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Optional;
+import java.util.Set;
+import java.util.UUID;
 
 import org.apache.spark.api.java.function.PairFunction;
-import org.uniprot.core.publication.*;
+import org.uniprot.core.publication.CommunityMappedReference;
+import org.uniprot.core.publication.ComputationallyMappedReference;
+import org.uniprot.core.publication.MappedReference;
+import org.uniprot.core.publication.MappedReferenceType;
+import org.uniprot.core.publication.UniProtKBMappedReference;
 import org.uniprot.core.publication.impl.MappedPublicationsBuilder;
 import org.uniprot.core.uniprotkb.UniProtKBEntryType;
 import org.uniprot.store.indexer.publication.common.PublicationUtils;
@@ -71,7 +80,7 @@ public class MappedReferencesToPublicationDocumentBuilderConverter
 
     private int getPubMedIdRealOrFake(String pubMed) {
         if (pubMed == null) {
-            int fakePubMed = new Random().nextInt();
+            int fakePubMed = getRandomGenerator().nextInt();
             if (fakePubMed > 0) {
                 fakePubMed = fakePubMed * -1;
             }
@@ -107,5 +116,12 @@ public class MappedReferencesToPublicationDocumentBuilderConverter
             return Optional.of(MappedReferenceType.COMMUNITY.getIntValue());
         }
         return Optional.empty();
+    }
+
+    private static SecureRandom getRandomGenerator() {
+        SecureRandom random = new SecureRandom();
+        byte[] bytes = new byte[20];
+        random.nextBytes(bytes);
+        return random;
     }
 }
