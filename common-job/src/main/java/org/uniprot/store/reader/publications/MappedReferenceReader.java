@@ -1,5 +1,7 @@
 package org.uniprot.store.reader.publications;
 
+import org.uniprot.core.publication.MappedReference;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -7,8 +9,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
-
-import org.uniprot.core.publication.MappedReference;
+import java.util.stream.Stream;
 
 /**
  * This class is responsible for reading a list of entries with same accession and pubmed id.
@@ -24,8 +25,10 @@ public class MappedReferenceReader<T extends MappedReference> {
     public MappedReferenceReader(
             MappedReferenceConverter<T> mappedReferenceConverter, String filePath)
             throws IOException {
-        this.lines = Files.lines(Paths.get(filePath)).iterator();
         this.mappedReferenceConverter = mappedReferenceConverter;
+        try (Stream<String> lineStream = Files.lines(Paths.get(filePath))) {
+            this.lines = lineStream.iterator();
+        }
     }
 
     public List<T> readNext() {
@@ -56,7 +59,7 @@ public class MappedReferenceReader<T extends MappedReference> {
     }
 
     private boolean isAccessionPubMedIdPairEqual(T currentMappedRef, T nextMappedRef) {
-        return currentMappedRef
+        return currentMappedRef != null && currentMappedRef
                         .getUniProtKBAccession()
                         .getValue()
                         .equals(nextMappedRef.getUniProtKBAccession().getValue())
