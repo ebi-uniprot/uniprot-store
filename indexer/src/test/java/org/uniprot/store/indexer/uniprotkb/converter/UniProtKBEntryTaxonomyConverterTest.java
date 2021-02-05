@@ -82,7 +82,7 @@ class UniProtKBEntryTaxonomyConverterTest {
         assertTrue(suggestions.containsKey("ORGANISM:9606"));
 
         SuggestDocument suggestionDocument = suggestions.get("ORGANISM:9606");
-        assertEquals( "9606", suggestionDocument.id);
+        assertEquals("9606", suggestionDocument.id);
         assertEquals("Homo sapiens", suggestionDocument.value);
         assertEquals(asList("Human", "Homo sapian", "HUMAN"), suggestionDocument.altValues);
         assertEquals("ORGANISM", suggestionDocument.dictionary);
@@ -177,7 +177,7 @@ class UniProtKBEntryTaxonomyConverterTest {
         assertTrue(suggestions.containsKey("HOST:9606"));
 
         SuggestDocument suggestionDocument = suggestions.get("HOST:9606");
-        assertEquals("9606", suggestionDocument.id );
+        assertEquals("9606", suggestionDocument.id);
         assertEquals("Homo sapiens", suggestionDocument.value);
         assertEquals(asList("Human", "Homo sapian", "HUMAN"), suggestionDocument.altValues);
         assertEquals("HOST", suggestionDocument.dictionary);

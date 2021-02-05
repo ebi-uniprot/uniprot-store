@@ -2,8 +2,7 @@ package org.uniprot.store.indexer.taxonomy;
 
 public class TaxonomySQLConstants {
 
-    private TaxonomySQLConstants(){
-    }
+    private TaxonomySQLConstants() {}
 
     public static final String SELECT_TAXONOMY_NODE_SQL =
             "SELECT tax_id,parent_id,hidden,internal,rank,gc_id,mgc_id,"

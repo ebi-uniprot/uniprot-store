@@ -72,7 +72,7 @@ class ProteomeEntryAdapterTest {
         TaxonomyLineage lineage = lineages.get(0);
         assertEquals(2, lineage.getTaxonId());
         assertEquals("Bacteria", lineage.getScientificName());
-        assertEquals("Bacteria", lineage.getCommonName());
+        assertEquals("eubacteria", lineage.getCommonName());
         assertEquals(TaxonomyRank.SUPERKINGDOM, lineage.getRank());
         assertFalse(lineage.isHidden());
     }

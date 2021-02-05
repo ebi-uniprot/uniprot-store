@@ -95,7 +95,8 @@ class UniProtKBEntryConverterIT {
     @Test
     void testConvertFullA0PHU1Entry() throws Exception {
         when(repoMock.retrieveNodeUsingTaxID(anyInt()))
-                .thenReturn(getTaxonomyNode(172543, "Cichlasoma festae", null, null, null, "SPECIES"));
+                .thenReturn(
+                        getTaxonomyNode(172543, "Cichlasoma festae", null, null, null, "SPECIES"));
         Set<GeneOntologyEntry> ancestors = new HashSet<>();
         ancestors.addAll(getMockParentGoTerm());
         ancestors.addAll(getMockPartOfGoTerm());
@@ -232,7 +233,8 @@ class UniProtKBEntryConverterIT {
     @Test
     void testConvertFullQ9EPI6Entry() throws Exception {
         when(repoMock.retrieveNodeUsingTaxID(anyInt()))
-                .thenReturn(getTaxonomyNode(10116, "Rattus norvegicus", "Rat", null, null, "SPECIES"));
+                .thenReturn(
+                        getTaxonomyNode(10116, "Rattus norvegicus", "Rat", null, null, "SPECIES"));
         ChebiEntry chebiId1 =
                 new ChebiEntryBuilder()
                         .id("15379")
@@ -448,7 +450,8 @@ class UniProtKBEntryConverterIT {
     @Test
     void testConvertIsoformEntry() throws Exception {
         when(repoMock.retrieveNodeUsingTaxID(anyInt()))
-                .thenReturn(getTaxonomyNode(10116, "Rattus norvegicus", "Rat", null, null, "SPECIES"));
+                .thenReturn(
+                        getTaxonomyNode(10116, "Rattus norvegicus", "Rat", null, null, "SPECIES"));
 
         String file = "Q9EPI6-2.sp";
         UniProtKBEntry entry = parse(file);
@@ -683,7 +686,12 @@ class UniProtKBEntryConverterIT {
     }
 
     private Optional<TaxonomicNode> getTaxonomyNode(
-            int id, String scientificName, String commonName, String synonym, String mnemonic, String rank) {
+            int id,
+            String scientificName,
+            String commonName,
+            String synonym,
+            String mnemonic,
+            String rank) {
         return Optional.of(
                 new TaxonomicNode() {
                     @Override
