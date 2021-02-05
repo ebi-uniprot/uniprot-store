@@ -15,6 +15,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.uniprot.core.proteome.ProteomeEntry;
 import org.uniprot.core.proteome.Superkingdom;
 import org.uniprot.core.taxonomy.TaxonomyLineage;
+import org.uniprot.core.taxonomy.TaxonomyRank;
 import org.uniprot.core.uniprotkb.taxonomy.Taxonomy;
 import org.uniprot.core.xml.jaxb.proteome.ObjectFactory;
 import org.uniprot.core.xml.jaxb.proteome.Proteome;
@@ -71,6 +72,9 @@ class ProteomeEntryAdapterTest {
         TaxonomyLineage lineage = lineages.get(0);
         assertEquals(2, lineage.getTaxonId());
         assertEquals("Bacteria", lineage.getScientificName());
+        assertEquals("Bacteria", lineage.getCommonName());
+        assertEquals(TaxonomyRank.SUPERKINGDOM, lineage.getRank());
+        assertFalse(lineage.isHidden());
     }
 
     @Test

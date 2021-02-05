@@ -82,11 +82,11 @@ class UniProtKBEntryTaxonomyConverterTest {
         assertTrue(suggestions.containsKey("ORGANISM:9606"));
 
         SuggestDocument suggestionDocument = suggestions.get("ORGANISM:9606");
-        assertEquals(suggestionDocument.id, "9606");
-        assertEquals(suggestionDocument.value, "Homo sapiens");
-        assertEquals(suggestionDocument.altValues, asList("Human", "Homo sapian", "HUMAN"));
-        assertEquals(suggestionDocument.dictionary, "ORGANISM");
-        assertEquals(suggestionDocument.importance, "medium");
+        assertEquals( "9606", suggestionDocument.id);
+        assertEquals("Homo sapiens", suggestionDocument.value);
+        assertEquals(asList("Human", "Homo sapian", "HUMAN"), suggestionDocument.altValues);
+        assertEquals("ORGANISM", suggestionDocument.dictionary);
+        assertEquals("medium", suggestionDocument.importance);
 
         assertTrue(suggestions.containsKey("TAXONOMY:9606"));
         assertTrue(suggestions.containsKey("TAXONOMY:9605"));
@@ -129,7 +129,7 @@ class UniProtKBEntryTaxonomyConverterTest {
         assertNull(uniProtDocument.modelOrganism);
 
         // lineage fields
-        assertEquals(asList(9000), uniProtDocument.taxLineageIds);
+        assertEquals(singletonList(9000), uniProtDocument.taxLineageIds);
         assertEquals(asList("other scientific", "other synonym"), uniProtDocument.organismTaxon);
 
         // suggestion documents for organism and taxonomy lineage...
@@ -137,11 +137,11 @@ class UniProtKBEntryTaxonomyConverterTest {
         assertTrue(suggestions.containsKey("ORGANISM:9000"));
 
         SuggestDocument suggestionDocument = suggestions.get("ORGANISM:9000");
-        assertEquals(suggestionDocument.id, "9000");
-        assertEquals(suggestionDocument.value, "other scientific");
-        assertEquals(suggestionDocument.altValues, asList("other synonym"));
-        assertEquals(suggestionDocument.dictionary, "ORGANISM");
-        assertEquals(suggestionDocument.importance, "medium");
+        assertEquals("9000", suggestionDocument.id);
+        assertEquals("other scientific", suggestionDocument.value);
+        assertEquals(singletonList("other synonym"), suggestionDocument.altValues);
+        assertEquals("ORGANISM", suggestionDocument.dictionary);
+        assertEquals("medium", suggestionDocument.importance);
 
         assertTrue(suggestions.containsKey("TAXONOMY:9000"));
     }
@@ -177,11 +177,11 @@ class UniProtKBEntryTaxonomyConverterTest {
         assertTrue(suggestions.containsKey("HOST:9606"));
 
         SuggestDocument suggestionDocument = suggestions.get("HOST:9606");
-        assertEquals(suggestionDocument.id, "9606");
-        assertEquals(suggestionDocument.value, "Homo sapiens");
-        assertEquals(suggestionDocument.altValues, asList("Human", "Homo sapian", "HUMAN"));
-        assertEquals(suggestionDocument.dictionary, "HOST");
-        assertEquals(suggestionDocument.importance, "medium");
+        assertEquals("9606", suggestionDocument.id );
+        assertEquals("Homo sapiens", suggestionDocument.value);
+        assertEquals(asList("Human", "Homo sapian", "HUMAN"), suggestionDocument.altValues);
+        assertEquals("HOST", suggestionDocument.dictionary);
+        assertEquals("medium", suggestionDocument.importance);
     }
 
     @Test
@@ -228,11 +228,11 @@ class UniProtKBEntryTaxonomyConverterTest {
         assertTrue(suggestions.containsKey("HOST:9000"));
 
         SuggestDocument suggestionDocument = suggestions.get("HOST:9606");
-        assertEquals(suggestionDocument.id, "9606");
-        assertEquals(suggestionDocument.value, "Homo sapiens");
-        assertEquals(suggestionDocument.altValues, asList("Human", "Homo sapian", "HUMAN"));
-        assertEquals(suggestionDocument.dictionary, "HOST");
-        assertEquals(suggestionDocument.importance, "medium");
+        assertEquals("9606", suggestionDocument.id);
+        assertEquals("Homo sapiens", suggestionDocument.value);
+        assertEquals(asList("Human", "Homo sapian", "HUMAN"), suggestionDocument.altValues);
+        assertEquals("HOST", suggestionDocument.dictionary);
+        assertEquals("medium", suggestionDocument.importance);
     }
 
     private TaxonomicNode getTaxonomyNode(
@@ -266,6 +266,16 @@ class UniProtKBEntryTaxonomyConverterTest {
             @Override
             public String mnemonic() {
                 return mnemonic;
+            }
+
+            @Override
+            public boolean hidden() {
+                return false;
+            }
+
+            @Override
+            public String rank() {
+                return null;
             }
 
             @Override
