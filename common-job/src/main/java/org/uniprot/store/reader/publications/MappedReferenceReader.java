@@ -21,6 +21,7 @@ public class MappedReferenceReader<T extends MappedReference> {
     private T nextMappedRef;
     private final MappedReferenceConverter<T> mappedReferenceConverter;
 
+    @SuppressWarnings("squid:S2095")
     public MappedReferenceReader(
             MappedReferenceConverter<T> mappedReferenceConverter, String filePath)
             throws IOException {
@@ -45,7 +46,7 @@ public class MappedReferenceReader<T extends MappedReference> {
         while (this.lines.hasNext()) {
             this.nextMappedRef = this.mappedReferenceConverter.convert(this.lines.next());
             // keep adding to the list as long as accession-pubmed pair is same
-            if (isAccessionPubMedIdPairEqual(currentMappedRef, this.nextMappedRef)) {
+            if (Objects.nonNull(currentMappedRef) && isAccessionPubMedIdPairEqual(currentMappedRef, this.nextMappedRef)) {
                 currentMappedRef = this.nextMappedRef;
                 mappedReferences.add(currentMappedRef);
             } else {
