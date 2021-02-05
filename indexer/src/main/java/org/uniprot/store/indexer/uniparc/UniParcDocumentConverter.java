@@ -85,7 +85,7 @@ public class UniParcDocumentConverter implements DocumentConverter<Entry, UniPar
         }
 
         if (Utils.notNull(xref.getOrganism())) {
-            processTaxonomy(xref.getOrganism(), builder);
+            processOrganism(xref.getOrganism(), builder);
         }
 
         if (Utils.notNullNotEmpty(xref.getProteinName())) {
@@ -111,7 +111,7 @@ public class UniParcDocumentConverter implements DocumentConverter<Entry, UniPar
         }
     }
 
-    private void processTaxonomy(Organism taxon, UniParcDocumentBuilder builder) {
+    private void processOrganism(Organism taxon, UniParcDocumentBuilder builder) {
 
         builder.taxLineageId((int) taxon.getTaxonId());
         builder.organismTaxon(taxon.getScientificName());
