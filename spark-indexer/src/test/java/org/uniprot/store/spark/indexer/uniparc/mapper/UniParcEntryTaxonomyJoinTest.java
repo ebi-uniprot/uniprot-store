@@ -87,7 +87,7 @@ class UniParcEntryTaxonomyJoinTest {
     }
 
     @Test
-    void invalidJoin() throws Exception {
+    void notFoundTaxonomyReturnEntryWithoutAnyChange() throws Exception {
         List<TaxonomyEntry> taxonomyEntries = new ArrayList<>();
 
         UniParcEntry entry =
@@ -105,6 +105,7 @@ class UniParcEntryTaxonomyJoinTest {
         UniParcEntryTaxonomyJoin mapper = new UniParcEntryTaxonomyJoin();
         Tuple2<String, Tuple2<UniParcEntry, Optional<Iterable<TaxonomyEntry>>>> tuple =
                 new Tuple2<>("UP000000001", innerTuple);
-        assertThrows(IndexDataStoreException.class, () -> mapper.call(tuple));
+        UniParcEntry result = mapper.call(tuple);
+        assertEquals(entry, result);
     }
 }

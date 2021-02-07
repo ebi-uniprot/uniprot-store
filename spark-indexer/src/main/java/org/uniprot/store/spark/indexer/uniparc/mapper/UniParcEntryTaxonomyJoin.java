@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
+import lombok.extern.slf4j.Slf4j;
 import org.apache.spark.api.java.Optional;
 import org.apache.spark.api.java.function.Function;
 import org.uniprot.core.taxonomy.TaxonomyEntry;
@@ -16,7 +17,6 @@ import org.uniprot.core.uniprotkb.taxonomy.Organism;
 import org.uniprot.core.uniprotkb.taxonomy.Taxonomy;
 import org.uniprot.core.uniprotkb.taxonomy.impl.OrganismBuilder;
 import org.uniprot.core.util.Utils;
-import org.uniprot.store.spark.indexer.common.exception.IndexDataStoreException;
 
 import scala.Tuple2;
 
@@ -24,6 +24,7 @@ import scala.Tuple2;
  * @author lgonzales
  * @since 21/01/2021
  */
+@Slf4j
 public class UniParcEntryTaxonomyJoin
         implements Function<
                 Tuple2<String, Tuple2<UniParcEntry, Optional<Iterable<TaxonomyEntry>>>>,
@@ -72,8 +73,7 @@ public class UniParcEntryTaxonomyJoin
                 builder.organism(taxonomy);
                 xref = builder.build();
             } else {
-                throw new IndexDataStoreException(
-                        "Unable to get mapped taxon:" + xref.getOrganism().getTaxonId());
+                log.warn("Unable to get mapped taxon:" + xref.getOrganism().getTaxonId());
             }
         }
         return xref;
