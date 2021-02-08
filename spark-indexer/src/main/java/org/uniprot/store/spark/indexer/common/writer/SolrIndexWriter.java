@@ -47,11 +47,12 @@ public class SolrIndexWriter implements VoidFunction<Iterator<SolrInputDocument>
             List<SolrInputDocument> docList =
                     StreamSupport.stream(docsIterable.spliterator(), false)
                             .collect(Collectors.toList());
-            if(Utils.notNullNotEmpty(docList)) {
+            if (Utils.notNullNotEmpty(docList)) {
                 Failsafe.with(retryPolicy)
                         .onFailure(
                                 throwable ->
-                                        log.error("Failed to write to Solr", throwable.getFailure()))
+                                        log.error(
+                                                "Failed to write to Solr", throwable.getFailure()))
                         .run(() -> client.add(parameter.getCollectionName(), docList));
             }
         } catch (Exception e) {
@@ -75,8 +76,7 @@ public class SolrIndexWriter implements VoidFunction<Iterator<SolrInputDocument>
                                 SolrServerException.class,
                                 SolrException.class))
                 .withDelay(Duration.ofMillis(parameter.getDelay()))
-                .onFailedAttempt(
-                        e -> log.warn("Solr save attempt failed", e.getLastFailure()))
+                .onFailedAttempt(e -> log.warn("Solr save attempt failed", e.getLastFailure()))
                 .withMaxRetries(parameter.getMaxRetry());
     }
 }

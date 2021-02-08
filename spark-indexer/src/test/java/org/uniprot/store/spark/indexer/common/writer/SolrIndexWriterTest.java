@@ -3,7 +3,6 @@ package org.uniprot.store.spark.indexer.common.writer;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
@@ -63,7 +62,10 @@ class SolrIndexWriterTest {
         private final boolean throwException;
         private final List<SolrInputDocument> docs;
 
-        public FakeSolrIndexWriter(SolrIndexParameter parameter, List<SolrInputDocument> docs, boolean throwException) {
+        public FakeSolrIndexWriter(
+                SolrIndexParameter parameter,
+                List<SolrInputDocument> docs,
+                boolean throwException) {
             super(parameter);
             this.docs = docs;
             this.throwException = throwException;
