@@ -22,23 +22,17 @@ import voldemort.VoldemortException;
 @Slf4j
 public abstract class AbstractDataStoreWriter<T> implements VoidFunction<Iterator<T>> {
 
-    private static final long serialVersionUID = -6006659302869170050L;
+    private static final long serialVersionUID = -7494935529238007874L;
     protected final DataStoreParameter parameter;
-    private final RetryPolicy<Object> retryPolicy;
 
     public AbstractDataStoreWriter(DataStoreParameter parameter) {
         this.parameter = parameter;
-        this.retryPolicy =
-                new RetryPolicy<>()
-                        .handle(VoldemortException.class)
-                        .withDelay(Duration.ofMillis(parameter.getDelay()))
-                        .onFailedAttempt(e -> log.warn("voldemort save attempt failed"))
-                        .withMaxRetries(parameter.getMaxRetry());
     }
 
     @Override
     public void call(Iterator<T> entryIterator) throws Exception {
         VoldemortClient<T> client = getDataStoreClient();
+        RetryPolicy<Object> retryPolicy = getVoldemortRetryPolicy();
         while (entryIterator.hasNext()) {
             final T entry = entryIterator.next();
             Failsafe.with(retryPolicy).run(() -> client.saveEntry(entry));
@@ -46,4 +40,12 @@ public abstract class AbstractDataStoreWriter<T> implements VoidFunction<Iterato
     }
 
     protected abstract VoldemortClient<T> getDataStoreClient();
+
+    private RetryPolicy<Object> getVoldemortRetryPolicy() {
+        return new RetryPolicy<>()
+                .handle(VoldemortException.class)
+                .withDelay(Duration.ofMillis(parameter.getDelay()))
+                .onFailedAttempt(e -> log.warn("Voldemort save attempt failed"))
+                .withMaxRetries(parameter.getMaxRetry());
+    }
 }

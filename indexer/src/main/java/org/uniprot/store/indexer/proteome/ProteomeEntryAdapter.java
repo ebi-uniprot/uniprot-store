@@ -16,6 +16,7 @@ import org.uniprot.core.proteome.ProteomeEntry;
 import org.uniprot.core.proteome.Superkingdom;
 import org.uniprot.core.proteome.impl.ProteomeEntryBuilder;
 import org.uniprot.core.taxonomy.TaxonomyLineage;
+import org.uniprot.core.taxonomy.TaxonomyRank;
 import org.uniprot.core.taxonomy.impl.TaxonomyLineageBuilder;
 import org.uniprot.core.uniprotkb.taxonomy.Taxonomy;
 import org.uniprot.core.uniprotkb.taxonomy.impl.TaxonomyBuilder;
@@ -117,6 +118,9 @@ public class ProteomeEntryAdapter {
                                         new TaxonomyLineageBuilder()
                                                 .taxonId(node.id())
                                                 .scientificName(node.scientificName())
+                                                .commonName(node.commonName())
+                                                .hidden(node.hidden())
+                                                .rank(TaxonomyRank.typeOf(node.rank()))
                                                 .build())
                         .collect(Collectors.toList());
         return Lists.reverse(lineage);

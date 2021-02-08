@@ -21,6 +21,7 @@ import org.apache.solr.client.solrj.impl.HttpSolrClient;
 import org.apache.solr.common.SolrException;
 import org.apache.solr.common.SolrInputDocument;
 import org.apache.spark.api.java.function.VoidFunction;
+import org.uniprot.core.util.Utils;
 import org.uniprot.store.spark.indexer.common.exception.SolrIndexException;
 
 /**
@@ -39,28 +40,20 @@ public class SolrIndexWriter implements VoidFunction<Iterator<SolrInputDocument>
 
     @Override
     public void call(Iterator<SolrInputDocument> docs) throws Exception {
-        RetryPolicy<Object> retryPolicy =
-                new RetryPolicy<>()
-                        .handle(
-                                asList(
-                                        HttpSolrClient.RemoteSolrException.class,
-                                        SolrServerException.class,
-                                        SolrException.class))
-                        .withDelay(Duration.ofMillis(parameter.getDelay()))
-                        .onFailedAttempt(
-                                e -> log.warn("Solr save attempt failed", e.getLastFailure()))
-                        .withMaxRetries(parameter.getMaxRetry());
+        RetryPolicy<Object> retryPolicy = getSolrRetryPolicy();
 
         try (SolrClient client = getSolrClient()) {
             Iterable<SolrInputDocument> docsIterable = () -> docs;
             List<SolrInputDocument> docList =
                     StreamSupport.stream(docsIterable.spliterator(), false)
                             .collect(Collectors.toList());
-            Failsafe.with(retryPolicy)
-                    .onFailure(
-                            throwable ->
-                                    log.error("Failed to write to Solr", throwable.getFailure()))
-                    .run(() -> client.add(parameter.getCollectionName(), docList));
+            if(Utils.notNullNotEmpty(docList)) {
+                Failsafe.with(retryPolicy)
+                        .onFailure(
+                                throwable ->
+                                        log.error("Failed to write to Solr", throwable.getFailure()))
+                        .run(() -> client.add(parameter.getCollectionName(), docList));
+            }
         } catch (Exception e) {
             String errorMessage =
                     "Exception indexing data to Solr, for collection "
@@ -72,5 +65,18 @@ public class SolrIndexWriter implements VoidFunction<Iterator<SolrInputDocument>
     protected SolrClient getSolrClient() {
         return new CloudSolrClient.Builder(singletonList(parameter.getZkHost()), Optional.empty())
                 .build();
+    }
+
+    private RetryPolicy<Object> getSolrRetryPolicy() {
+        return new RetryPolicy<>()
+                .handle(
+                        asList(
+                                HttpSolrClient.RemoteSolrException.class,
+                                SolrServerException.class,
+                                SolrException.class))
+                .withDelay(Duration.ofMillis(parameter.getDelay()))
+                .onFailedAttempt(
+                        e -> log.warn("Solr save attempt failed", e.getLastFailure()))
+                .withMaxRetries(parameter.getMaxRetry());
     }
 }

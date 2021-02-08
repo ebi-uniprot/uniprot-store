@@ -10,6 +10,7 @@ import org.apache.spark.sql.Row;
 import org.apache.spark.sql.catalyst.expressions.GenericRowWithSchema;
 import org.junit.jupiter.api.Test;
 import org.uniprot.core.Location;
+import org.uniprot.core.Property;
 import org.uniprot.core.uniparc.*;
 import org.uniprot.store.spark.indexer.common.util.RowUtils;
 
@@ -114,10 +115,13 @@ class DatasetUniParcEntryConverterTest {
         assertEquals("2020-02-16", dbReference.getLastUpdated().toString());
 
         assertNotNull(dbReference.getProperties());
-        assertEquals(0, dbReference.getProperties().size());
+        assertEquals(1, dbReference.getProperties().size());
+        Property property = dbReference.getProperties().get(0);
+        assertEquals(PROPERTY_UNIPROTKB_ACCESSION, property.getKey());
+        assertEquals("P12345", property.getValue());
 
-        assertNotNull(dbReference.getTaxonomy());
-        assertEquals(100L, dbReference.getTaxonomy().getTaxonId());
+        assertNotNull(dbReference.getOrganism());
+        assertEquals(100L, dbReference.getOrganism().getTaxonId());
 
         assertEquals("geneNameValue", dbReference.getGeneName());
         assertEquals("proteinNameValue", dbReference.getProteinName());
@@ -180,6 +184,7 @@ class DatasetUniParcEntryConverterTest {
         properties.add(getPropertyRow(PROPERTY_COMPONENT, "componentValue"));
         properties.add(getPropertyRow(PROPERTY_CHAIN, "chainValue"));
         properties.add(getPropertyRow(PROPERTY_NCBI_GI, "ncbiGiValue"));
+        properties.add(getPropertyRow(PROPERTY_UNIPROTKB_ACCESSION, "P12345"));
         return (Seq)
                 JavaConverters.asScalaIteratorConverter(properties.iterator()).asScala().toSeq();
     }

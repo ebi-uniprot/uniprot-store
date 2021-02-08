@@ -25,8 +25,8 @@ public class UniParcTaxonomyMapper implements PairFlatMapFunction<UniParcEntry, 
     @Override
     public Iterator<Tuple2<String, String>> call(UniParcEntry uniParcEntry) throws Exception {
         return uniParcEntry.getUniParcCrossReferences().stream()
-                .filter(xref -> Utils.notNull(xref.getTaxonomy()))
-                .map(UniParcCrossReference::getTaxonomy)
+                .filter(xref -> Utils.notNull(xref.getOrganism()))
+                .map(UniParcCrossReference::getOrganism)
                 .map(Organism::getTaxonId)
                 .map(String::valueOf)
                 .map(taxId -> new Tuple2<>(taxId, uniParcEntry.getUniParcId().getValue()))

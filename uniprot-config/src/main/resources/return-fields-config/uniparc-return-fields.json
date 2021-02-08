@@ -36,7 +36,7 @@
     "itemType": "SINGLE",
     "label": "Organism ID",
     "name": "organism_id",
-    "paths": ["uniParcCrossReferences[*].taxonomy.taxonId"],
+    "paths": ["uniParcCrossReferences[*].organism.taxonId"],
     "id": "names_&_taxonomy/organism_id",
     "includeInSwagger": true
   },
@@ -48,7 +48,7 @@
     "defaultForTsvOrder" : 1,
     "label": "Organisms",
     "name": "organism",
-    "paths": ["uniParcCrossReferences[*].taxonomy"],
+    "paths": ["uniParcCrossReferences[*].organism"],
     "id": "names_&_taxonomy/organism",
     "includeInSwagger": true
   },

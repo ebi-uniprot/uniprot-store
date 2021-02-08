@@ -50,12 +50,12 @@ class UniParcEntryTaxonomyJoinTest {
                         .uniParcCrossReferencesAdd(
                                 new UniParcCrossReferenceBuilder()
                                         .id("1")
-                                        .taxonomy(new OrganismBuilder().taxonId(10).build())
+                                        .organism(new OrganismBuilder().taxonId(10).build())
                                         .build())
                         .uniParcCrossReferencesAdd(
                                 new UniParcCrossReferenceBuilder()
                                         .id("2")
-                                        .taxonomy(new OrganismBuilder().taxonId(11).build())
+                                        .organism(new OrganismBuilder().taxonId(11).build())
                                         .build())
                         .uniParcCrossReferencesAdd(
                                 new UniParcCrossReferenceBuilder().id("3").build())
@@ -71,23 +71,23 @@ class UniParcEntryTaxonomyJoinTest {
         assertEquals(3, xrefs.size());
 
         UniParcCrossReference xref = xrefs.get(0);
-        assertNotNull(xref.getTaxonomy());
-        assertEquals(10L, xref.getTaxonomy().getTaxonId());
-        assertEquals("scientificName10", xref.getTaxonomy().getScientificName());
-        assertEquals("commonName10", xref.getTaxonomy().getCommonName());
+        assertNotNull(xref.getOrganism());
+        assertEquals(10L, xref.getOrganism().getTaxonId());
+        assertEquals("scientificName10", xref.getOrganism().getScientificName());
+        assertEquals("commonName10", xref.getOrganism().getCommonName());
 
         xref = xrefs.get(1);
-        assertNotNull(xref.getTaxonomy());
-        assertEquals(11L, xref.getTaxonomy().getTaxonId());
-        assertEquals("scientificName11", xref.getTaxonomy().getScientificName());
-        assertEquals("commonName11", xref.getTaxonomy().getCommonName());
+        assertNotNull(xref.getOrganism());
+        assertEquals(11L, xref.getOrganism().getTaxonId());
+        assertEquals("scientificName11", xref.getOrganism().getScientificName());
+        assertEquals("commonName11", xref.getOrganism().getCommonName());
 
         xref = xrefs.get(2);
-        assertNull(xref.getTaxonomy());
+        assertNull(xref.getOrganism());
     }
 
     @Test
-    void invalidJoin() throws Exception {
+    void notFoundTaxonomyReturnEntryWithoutAnyChange() throws Exception {
         List<TaxonomyEntry> taxonomyEntries = new ArrayList<>();
 
         UniParcEntry entry =
@@ -96,7 +96,7 @@ class UniParcEntryTaxonomyJoinTest {
                         .uniParcCrossReferencesAdd(
                                 new UniParcCrossReferenceBuilder()
                                         .id("1")
-                                        .taxonomy(new OrganismBuilder().taxonId(10).build())
+                                        .organism(new OrganismBuilder().taxonId(10).build())
                                         .build())
                         .build();
         Tuple2<UniParcEntry, Optional<Iterable<TaxonomyEntry>>> innerTuple =
@@ -105,6 +105,7 @@ class UniParcEntryTaxonomyJoinTest {
         UniParcEntryTaxonomyJoin mapper = new UniParcEntryTaxonomyJoin();
         Tuple2<String, Tuple2<UniParcEntry, Optional<Iterable<TaxonomyEntry>>>> tuple =
                 new Tuple2<>("UP000000001", innerTuple);
-        assertThrows(IndexDataStoreException.class, () -> mapper.call(tuple));
+        UniParcEntry result = mapper.call(tuple);
+        assertEquals(entry, result);
     }
 }

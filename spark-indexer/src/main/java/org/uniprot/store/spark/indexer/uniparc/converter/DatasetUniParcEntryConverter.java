@@ -59,6 +59,7 @@ public class DatasetUniParcEntryConverter implements MapFunction<Row, UniParcEnt
     static final String PROPERTY_PROTEOME_ID = "proteome_id";
     static final String PROPERTY_COMPONENT = "component";
     static final String PROPERTY_NCBI_TAXONOMY_ID = "NCBI_taxonomy_id";
+    static final String PROPERTY_UNIPROTKB_ACCESSION = "UniProtKB_accession";
 
     @Override
     public UniParcEntry call(Row rowValue) throws Exception {
@@ -222,10 +223,17 @@ public class DatasetUniParcEntryConverter implements MapFunction<Row, UniParcEnt
         }
         if (propertyMap.containsKey(PROPERTY_NCBI_TAXONOMY_ID)) {
             String taxonId = propertyMap.get(PROPERTY_NCBI_TAXONOMY_ID).get(0);
-            Organism taxonomy = new OrganismBuilder().taxonId(Long.parseLong(taxonId)).build();
-            builder.taxonomy(taxonomy);
+            Organism organism = new OrganismBuilder().taxonId(Long.parseLong(taxonId)).build();
+            builder.organism(organism);
             propertyMap.remove(PROPERTY_NCBI_TAXONOMY_ID);
         }
+        if (propertyMap.containsKey(PROPERTY_UNIPROTKB_ACCESSION)) {
+            //Check with Jie use case: https://www.uniprot.org/uniparc/UPI000018F298.xml
+            String accession = propertyMap.get(PROPERTY_UNIPROTKB_ACCESSION).get(0);
+            builder.propertiesAdd(PROPERTY_UNIPROTKB_ACCESSION, accession);
+            propertyMap.remove(PROPERTY_UNIPROTKB_ACCESSION);
+        }
+
         if (!propertyMap.isEmpty()) {
             StringBuilder message = new StringBuilder();
             message.append("Unable to parse UniParc property:");

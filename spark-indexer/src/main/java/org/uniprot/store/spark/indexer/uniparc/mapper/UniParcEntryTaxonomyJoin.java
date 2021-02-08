@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
+import lombok.extern.slf4j.Slf4j;
 import org.apache.spark.api.java.Optional;
 import org.apache.spark.api.java.function.Function;
 import org.uniprot.core.taxonomy.TaxonomyEntry;
@@ -16,7 +17,6 @@ import org.uniprot.core.uniprotkb.taxonomy.Organism;
 import org.uniprot.core.uniprotkb.taxonomy.Taxonomy;
 import org.uniprot.core.uniprotkb.taxonomy.impl.OrganismBuilder;
 import org.uniprot.core.util.Utils;
-import org.uniprot.store.spark.indexer.common.exception.IndexDataStoreException;
 
 import scala.Tuple2;
 
@@ -24,6 +24,7 @@ import scala.Tuple2;
  * @author lgonzales
  * @since 21/01/2021
  */
+@Slf4j
 public class UniParcEntryTaxonomyJoin
         implements Function<
                 Tuple2<String, Tuple2<UniParcEntry, Optional<Iterable<TaxonomyEntry>>>>,
@@ -59,8 +60,8 @@ public class UniParcEntryTaxonomyJoin
 
     private UniParcCrossReference mapTaxonomy(
             UniParcCrossReference xref, Map<Long, TaxonomyEntry> taxonMap) {
-        if (Utils.notNull(xref.getTaxonomy())) {
-            TaxonomyEntry taxonomyEntry = taxonMap.get(xref.getTaxonomy().getTaxonId());
+        if (Utils.notNull(xref.getOrganism())) {
+            TaxonomyEntry taxonomyEntry = taxonMap.get(xref.getOrganism().getTaxonId());
             if (taxonomyEntry != null) {
                 UniParcCrossReferenceBuilder builder = UniParcCrossReferenceBuilder.from(xref);
                 Organism taxonomy =
@@ -69,11 +70,10 @@ public class UniParcEntryTaxonomyJoin
                                 .scientificName(taxonomyEntry.getScientificName())
                                 .commonName(taxonomyEntry.getCommonName())
                                 .build();
-                builder.taxonomy(taxonomy);
+                builder.organism(taxonomy);
                 xref = builder.build();
             } else {
-                throw new IndexDataStoreException(
-                        "Unable to get mapped taxon:" + xref.getTaxonomy().getTaxonId());
+                log.warn("Unable to get mapped taxon:" + xref.getOrganism().getTaxonId());
             }
         }
         return xref;
