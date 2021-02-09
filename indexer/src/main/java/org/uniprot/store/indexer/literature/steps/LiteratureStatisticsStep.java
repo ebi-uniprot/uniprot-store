@@ -50,7 +50,7 @@ public class LiteratureStatisticsStep {
                 .writer(itemLiteratureStatisticsWriter)
                 .listener(stepListener)
                 .listener(chunkListener)
-                .listener(new SolrCommitStepListener(solrOperations))
+                .listener(new SolrCommitStepListener(solrOperations, SolrCollection.literature))
                 .build();
     }
 
