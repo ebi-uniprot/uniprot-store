@@ -52,7 +52,7 @@ public class KeywordStatisticsStep {
                 .writer(itemKeywordStatisticsWriter)
                 .listener(stepListener)
                 .listener(chunkListener)
-                .listener(new SolrCommitStepListener(solrOperations))
+                .listener(new SolrCommitStepListener(solrOperations, SolrCollection.keyword))
                 .build();
     }
 

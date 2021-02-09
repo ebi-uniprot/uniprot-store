@@ -16,9 +16,12 @@ import org.uniprot.store.search.SolrCollection;
 public class SolrCommitStepListener implements StepExecutionListener {
 
     private UniProtSolrClient uniProtSolrClient;
+    private SolrCollection solrCollection;
 
-    public SolrCommitStepListener(UniProtSolrClient uniProtSolrClient) {
+    public SolrCommitStepListener(
+            UniProtSolrClient uniProtSolrClient, SolrCollection solrCollection) {
         this.uniProtSolrClient = uniProtSolrClient;
+        this.solrCollection = solrCollection;
     }
 
     @Override
@@ -27,7 +30,7 @@ public class SolrCommitStepListener implements StepExecutionListener {
     @Override
     public ExitStatus afterStep(StepExecution stepExecution) {
         log.info("I am about to commit in Solr");
-        uniProtSolrClient.commit(SolrCollection.literature);
+        uniProtSolrClient.commit(solrCollection);
         log.info("Just committed in Solr");
         return stepExecution.getExitStatus();
     }
