@@ -50,13 +50,11 @@ public class UniParcRDDTupleReader implements RDDReader<UniParcEntry> {
                         .getOrCreate();
         String releaseInputDir = getInputReleaseDirPath(config, jobParameter.getReleaseName());
         String xmlFilePath = releaseInputDir + config.getString("uniparc.xml.file");
-        Dataset<Row> data =
-                spark.read()
-                        .format("com.databricks.spark.xml")
-                        .option("rowTag", "entry")
-                        .schema(DatasetUniParcEntryConverter.getUniParcXMLSchema())
-                        .load(xmlFilePath);
-        data.printSchema();
-        return data;
+        return spark.read()
+                .format("com.databricks.spark.xml")
+                .option("rowTag", "entry")
+                .schema(DatasetUniParcEntryConverter.getUniParcXMLSchema())
+                .load(xmlFilePath);
+        // data.printSchema();
     }
 }

@@ -9,6 +9,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 
+import lombok.extern.slf4j.Slf4j;
+
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -18,6 +20,7 @@ import org.uniprot.core.uniprotkb.comment.CommentType;
 import org.uniprot.store.search.field.QueryBuilder;
 
 /** Tests showing the behaviour of searching CC fields */
+@Slf4j
 class CCSearchIT {
     private static final String Q6GZX4 = "Q6GZX4";
     private static final String Q6GZX3 = "Q6GZX3";
@@ -491,7 +494,7 @@ class CCSearchIT {
                         "enzyme");
         QueryResponse response = searchEngine.getQueryResponse(query);
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
-        System.out.println(retrievedAccessions);
+        log.debug(retrievedAccessions.toString());
         assertThat(retrievedAccessions, hasItem(Q6V4H0));
         assertThat(retrievedAccessions, not(hasItem(Q12345)));
     }

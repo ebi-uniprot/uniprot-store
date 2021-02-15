@@ -13,6 +13,8 @@ import static org.uniprot.store.search.field.SuggestField.Importance.medium;
 import java.util.Collection;
 import java.util.List;
 
+import lombok.extern.slf4j.Slf4j;
+
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.common.SolrDocument;
 import org.apache.solr.common.SolrDocumentList;
@@ -23,6 +25,7 @@ import org.uniprot.store.search.document.suggest.SuggestDocument;
 import org.uniprot.store.search.field.QueryBuilder;
 import org.uniprot.store.search.field.SuggestField;
 
+@Slf4j
 class SuggestSearchIT {
     @RegisterExtension static SuggestSearchEngine searchEngine = new SuggestSearchEngine();
     private static final String REQUEST_HANDLER = "/search";
@@ -438,7 +441,7 @@ class SuggestSearchIT {
                                         .getSearchFieldItemByName("dict")
                                         .getFieldName(),
                                 dict);
-        System.out.println(query);
+        log.debug(query);
         return query;
     }
 }

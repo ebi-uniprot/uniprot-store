@@ -6,6 +6,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.List;
 
+import lombok.extern.slf4j.Slf4j;
+
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -14,6 +16,7 @@ import org.uniprot.core.uniparc.UniParcDatabase;
 import org.uniprot.core.xml.jaxb.uniparc.Entry;
 import org.uniprot.store.search.field.QueryBuilder;
 
+@Slf4j
 class DatabaseSearchIT {
     @RegisterExtension static UniParcSearchEngine searchEngine = new UniParcSearchEngine();
 
@@ -103,7 +106,7 @@ class DatabaseSearchIT {
 
         QueryResponse queryResponse = searchEngine.getQueryResponse(query);
         List<String> retrievedAccessions = searchEngine.getIdentifiers(queryResponse);
-        System.out.println(retrievedAccessions);
+        log.debug(retrievedAccessions.toString());
         assertEquals(1, retrievedAccessions.size());
         assertThat(retrievedAccessions, containsInAnyOrder(ID_1));
     }

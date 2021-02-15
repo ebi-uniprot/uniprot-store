@@ -12,6 +12,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 
+import lombok.extern.slf4j.Slf4j;
+
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -21,6 +23,7 @@ import org.uniprot.core.uniprotkb.ProteinExistence;
 import org.uniprot.store.search.field.QueryBuilder;
 
 /** Tests if the protein existence search is working correctly */
+@Slf4j
 class ProteinExistenceSearchIT {
     private static final String UNIPROT_FLAT_FILE_ENTRY_PATH = "/it/uniprot/P0A377.43.dat";
     private static final String Q6GZX1 = "Q6GZX1";
@@ -69,7 +72,7 @@ class ProteinExistenceSearchIT {
     void peLevelProtein() {
         String query = proteinExistence(ProteinExistence.PROTEIN_LEVEL);
         QueryResponse response = searchEngine.getQueryResponse(query);
-        System.out.println(query);
+        log.debug(query);
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
         assertThat(retrievedAccessions, contains(Q6GZX1));
     }
@@ -95,7 +98,7 @@ class ProteinExistenceSearchIT {
     @Test
     void peLevelPredicted() {
         String query = proteinExistence(ProteinExistence.PREDICTED);
-        System.out.println(query);
+        log.debug(query);
         QueryResponse response = searchEngine.getQueryResponse(query);
 
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);

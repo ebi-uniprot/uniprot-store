@@ -11,6 +11,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 
+import lombok.extern.slf4j.Slf4j;
+
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Disabled;
@@ -20,6 +22,7 @@ import org.uniprot.core.flatfile.writer.LineType;
 import org.uniprot.store.search.field.QueryBuilder;
 
 /** Tests showing the behaviour of searching DR fields */
+@Slf4j
 class DRSearchIT {
     private static final String GO_1 = "T1TTT2";
     private static final String GO_2 = "T1TTT3";
@@ -368,7 +371,7 @@ class DRSearchIT {
         QueryResponse response = searchEngine.getQueryResponse(query);
 
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
-        System.out.println(retrievedAccessions);
+        log.debug(retrievedAccessions.toString());
         assertThat(retrievedAccessions, containsInAnyOrder(EMBL_1, EMBL_2, EMBL_3));
     }
 
@@ -378,7 +381,7 @@ class DRSearchIT {
         QueryResponse response = searchEngine.getQueryResponse(query);
 
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
-        System.out.println(retrievedAccessions);
+        log.debug(retrievedAccessions.toString());
         assertThat(retrievedAccessions, containsInAnyOrder(EMBL_2, EMBL_3));
     }
 
@@ -388,7 +391,7 @@ class DRSearchIT {
         QueryResponse response = searchEngine.getQueryResponse(query);
 
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
-        System.out.println(retrievedAccessions);
+        log.debug(retrievedAccessions.toString());
         assertThat(retrievedAccessions, contains(EMBL_1));
     }
 
@@ -409,7 +412,7 @@ class DRSearchIT {
         QueryResponse response = searchEngine.getQueryResponse(query);
 
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
-        System.out.println(retrievedAccessions);
+        log.debug(retrievedAccessions.toString());
         assertThat(retrievedAccessions, hasItems(EMBL_1, EMBL_2));
     }
 
@@ -420,7 +423,7 @@ class DRSearchIT {
         QueryResponse response = searchEngine.getQueryResponse(query);
 
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
-        System.out.println(retrievedAccessions);
+        log.debug(retrievedAccessions.toString());
         assertThat(retrievedAccessions, contains(EMBL_1));
     }
 

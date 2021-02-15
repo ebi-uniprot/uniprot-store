@@ -33,6 +33,7 @@
 		<hamcrest-core.version>2.2</hamcrest-core.version>
 		<jackson.version>2.11.0</jackson.version>
 		<solr.version>8.5.2</solr.version>
+		<lombok.version>1.18.18</lombok.version>
 		<http-uniprot-private-url>http://wwwdev.ebi.ac.uk/uniprot/artifactory</http-uniprot-private-url>
 		<jacoco.version>0.8.5</jacoco.version>
 		<jacoco.outputDir>${project.basedir}/../target</jacoco.outputDir>
@@ -51,6 +52,12 @@
 	</properties>
 
 	<dependencies>
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<version>${lombok.version}</version>
+			<scope>provided</scope>
+		</dependency>
 		<!-- Tests -->
 		<dependency>
 			<groupId>org.mockito</groupId>
@@ -178,6 +185,7 @@
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-surefire-plugin</artifactId>
 						<configuration>
+							<argLine>-Dlogback.configurationFile=${project.basedir}/../logback-test.xml</argLine>
 							<systemProperties>
 								<property>
 									<name>cv.dr.ord.location</name>
@@ -268,6 +276,7 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
 				<configuration>
+					<argLine>-Dlogback.configurationFile=${project.basedir}/../logback-test.xml</argLine>
 					<reuseForks>false</reuseForks>
 					<includes>
 						<include>*</include>

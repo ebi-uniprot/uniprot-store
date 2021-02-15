@@ -9,6 +9,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 
+import lombok.extern.slf4j.Slf4j;
+
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -17,6 +19,7 @@ import org.uniprot.core.flatfile.writer.LineType;
 import org.uniprot.core.uniprotkb.feature.UniprotKBFeatureType;
 import org.uniprot.store.search.field.QueryBuilder;
 
+@Slf4j
 class FTFunctionSearchIT {
     private static final String Q6GZX4 = "Q6GZX4";
     private static final String Q197B1 = "Q197B1";
@@ -89,7 +92,7 @@ class FTFunctionSearchIT {
         QueryResponse response = searchEngine.getQueryResponse(query);
 
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
-        System.out.println(retrievedAccessions);
+        log.debug(retrievedAccessions.toString());
         assertThat(retrievedAccessions, hasItems(Q12345, Q6GZX4));
     }
 
@@ -112,7 +115,7 @@ class FTFunctionSearchIT {
         QueryResponse response = searchEngine.getQueryResponse(query);
 
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
-        System.out.println(retrievedAccessions);
+        log.debug(retrievedAccessions.toString());
         assertThat(retrievedAccessions, hasItems(Q12345, Q6GZX4));
     }
 
@@ -145,7 +148,7 @@ class FTFunctionSearchIT {
         QueryResponse response = searchEngine.getQueryResponse(query);
 
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
-        System.out.println(retrievedAccessions);
+        log.debug(retrievedAccessions.toString());
         assertThat(retrievedAccessions, hasItems(Q6GZX4));
         assertThat(retrievedAccessions, not(hasItem(Q12345)));
     }

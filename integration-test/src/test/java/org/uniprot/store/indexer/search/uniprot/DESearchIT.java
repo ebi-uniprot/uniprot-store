@@ -13,6 +13,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 
+import lombok.extern.slf4j.Slf4j;
+
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -20,6 +22,7 @@ import org.junit.jupiter.api.extension.RegisterExtension;
 import org.uniprot.core.flatfile.writer.LineType;
 
 /** Tests if the protein names of an entry are indexed correctly */
+@Slf4j
 class DESearchIT {
     private static final String UNIPROT_FLAT_FILE_ENTRY_PATH = "/it/uniprot/P0A377.43.dat";
 
@@ -381,7 +384,7 @@ class DESearchIT {
     @Test
     void noMatchForHyphenatedAndNumberedNameUsingPartialNameAndNonMatchingNumber() {
         String query = proteinName("14 1");
-        System.out.println(query);
+        log.debug(query);
         QueryResponse response = searchEngine.getQueryResponse(query);
 
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);

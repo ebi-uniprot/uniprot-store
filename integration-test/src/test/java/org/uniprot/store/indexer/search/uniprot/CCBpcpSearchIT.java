@@ -9,6 +9,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 
+import lombok.extern.slf4j.Slf4j;
+
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -17,6 +19,7 @@ import org.uniprot.core.flatfile.writer.LineType;
 import org.uniprot.store.config.searchfield.model.SearchFieldItem;
 import org.uniprot.store.search.field.QueryBuilder;
 
+@Slf4j
 class CCBpcpSearchIT {
     private static final String Q6GZX4 = "Q6GZX4";
     private static final String Q6GZX3 = "Q6GZX3";
@@ -142,7 +145,7 @@ class CCBpcpSearchIT {
                                         .getSearchFieldConfig()
                                         .getSearchFieldItemByName("ccev_bpcp"),
                                 evidence));
-        System.out.println(query);
+        log.debug(query);
         QueryResponse response = searchEngine.getQueryResponse(query);
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
         assertThat(retrievedAccessions, hasItems(Q6GZX4));
@@ -156,10 +159,10 @@ class CCBpcpSearchIT {
                 query(
                         searchEngine.getSearchFieldConfig().getSearchFieldItemByName("ccev_bpcp"),
                         evidence);
-        System.out.println(query);
+        log.debug(query);
         QueryResponse response = searchEngine.getQueryResponse(query);
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
-        System.out.println(retrievedAccessions);
+        log.debug(retrievedAccessions.toString());
         assertThat(retrievedAccessions, hasItems(Q6GZX4, Q6GZY3, Q197B6, Q12345));
         assertThat(retrievedAccessions, not(hasItem(Q6GZX3)));
     }

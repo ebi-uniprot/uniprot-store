@@ -14,6 +14,8 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import lombok.extern.slf4j.Slf4j;
+
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
@@ -23,6 +25,7 @@ import org.junit.jupiter.api.extension.RegisterExtension;
 import org.uniprot.core.flatfile.writer.LineType;
 
 /** Tests if the Genes section has been indexed properly */
+@Slf4j
 class GeneSearchIT {
     @RegisterExtension static UniProtSearchEngine searchEngine = new UniProtSearchEngine();
 
@@ -379,7 +382,7 @@ class GeneSearchIT {
         for (String toEscape : valuesThatRequireEscaping) {
             String accession = newAccession();
             String geneName = "hello" + toEscape + "world";
-            System.out.println(geneName);
+            log.debug(geneName);
             String query = geneQuery(geneName);
 
             index(accession, new GeneBuilder().setName(geneName).buildGNLine());

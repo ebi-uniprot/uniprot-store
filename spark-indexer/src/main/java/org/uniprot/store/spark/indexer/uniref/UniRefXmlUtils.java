@@ -64,14 +64,12 @@ public class UniRefXmlUtils {
         String xmlFilePath = releaseInputDir + config.getString(propertyPrefix + ".xml.file");
 
         SparkSession spark = SparkSession.builder().config(jsc.getConf()).getOrCreate();
-        Dataset<Row> data =
-                spark.read()
-                        .format("com.databricks.spark.xml")
-                        .option("rowTag", "entry")
-                        .schema(getUniRefXMLSchema())
-                        .load(xmlFilePath);
-        data.printSchema();
-        return data;
+        return spark.read()
+                .format("com.databricks.spark.xml")
+                .option("rowTag", "entry")
+                .schema(getUniRefXMLSchema())
+                .load(xmlFilePath);
+        // data.printSchema();
     }
 
     public static StructType getUniRefXMLSchema() {

@@ -17,6 +17,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.function.Function;
 
+import lombok.extern.slf4j.Slf4j;
+
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
@@ -39,6 +41,7 @@ import org.uniprot.store.search.field.QueryBuilder;
  *
  * @author Edd
  */
+@Slf4j
 class BasicCIAnalysisSearchIT {
     @RegisterExtension static final UniProtSearchEngine searchEngine = new UniProtSearchEngine();
     private static final String RESOURCE_ENTRY_PATH = "/it/uniprot";
@@ -168,7 +171,7 @@ class BasicCIAnalysisSearchIT {
             String accession = newAccession();
             String fieldValue = "hello" + toEscape + "world";
             String query = fieldQuery(field.name(), fieldValue);
-            System.out.println(query);
+            log.debug(query);
             new EntryCheck()
                     .withAccession(accession)
                     .withFieldValue(fieldValue)

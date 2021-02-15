@@ -14,6 +14,8 @@ import java.util.*;
 import java.util.function.BinaryOperator;
 import java.util.stream.Collectors;
 
+import lombok.extern.slf4j.Slf4j;
+
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -24,6 +26,7 @@ import org.uniprot.core.flatfile.writer.LineType;
 import org.uniprot.store.search.field.QueryBuilder;
 
 /** Tests if the protein existence search is working correctly */
+@Slf4j
 class ReferenceSearchIT {
     private static final String UNIPROT_FLAT_FILE_ENTRY_PATH = "/it/uniprot/P0A377.43.dat";
     private static final String Q6GZX1 = "Q6GZX1";
@@ -341,7 +344,7 @@ class ReferenceSearchIT {
                 query(
                         searchEngine.getSearchFieldConfig().getSearchFieldItemByName("strain"),
                         "LL171");
-        System.out.println(query.toString());
+        log.debug(query.toString());
         QueryResponse response = searchEngine.getQueryResponse(query);
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
         assertThat(retrievedAccessions, hasItem(Q6GZX2));
@@ -354,7 +357,7 @@ class ReferenceSearchIT {
                 query(
                         searchEngine.getSearchFieldConfig().getSearchFieldItemByName("tissue"),
                         "Fruit");
-        System.out.println(query.toString());
+        log.debug(query.toString());
         QueryResponse response = searchEngine.getQueryResponse(query);
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
         assertThat(retrievedAccessions, hasItem(Q6GZX1));
@@ -393,7 +396,7 @@ class ReferenceSearchIT {
                         "GLYCOSYLATION");
         QueryResponse response = searchEngine.getQueryResponse(query);
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
-        System.out.println(retrievedAccessions);
+        log.debug(retrievedAccessions.toString());
         assertThat(retrievedAccessions, hasItem(Q6GZX1));
         assertThat(retrievedAccessions, not(hasItem(Q6GZX2)));
     }
@@ -406,7 +409,7 @@ class ReferenceSearchIT {
                         "SUBCELLULAR");
         QueryResponse response = searchEngine.getQueryResponse(query);
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
-        System.out.println(retrievedAccessions);
+        log.debug(retrievedAccessions.toString());
         assertThat(retrievedAccessions, hasItems(Q6GZX2, Q6GZX3, Q6GZX4));
         assertThat(retrievedAccessions, not(hasItem(Q6GZX1)));
     }

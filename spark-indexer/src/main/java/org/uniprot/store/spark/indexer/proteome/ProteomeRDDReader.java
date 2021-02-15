@@ -54,14 +54,12 @@ public class ProteomeRDDReader implements PairRDDReader<String, ProteomeEntry> {
                         .getOrCreate();
         String releaseInputDir = getInputReleaseDirPath(config, jobParameter.getReleaseName());
         String xmlFilePath = releaseInputDir + config.getString("proteome.xml.file");
-        Dataset<Row> data =
-                spark.read()
-                        .format("com.databricks.spark.xml")
-                        .option("rowTag", "proteome")
-                        .schema(geProteomeXMLSchema())
-                        .load(xmlFilePath);
-        data.printSchema();
-        return data;
+        return spark.read()
+                .format("com.databricks.spark.xml")
+                .option("rowTag", "proteome")
+                .schema(geProteomeXMLSchema())
+                .load(xmlFilePath);
+        // data.printSchema();
     }
 
     private StructType geProteomeXMLSchema() {

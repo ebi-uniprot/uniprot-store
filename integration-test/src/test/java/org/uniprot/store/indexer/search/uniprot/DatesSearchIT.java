@@ -16,6 +16,8 @@ import java.io.InputStream;
 import java.time.LocalDate;
 import java.util.List;
 
+import lombok.extern.slf4j.Slf4j;
+
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Disabled;
@@ -24,6 +26,7 @@ import org.junit.jupiter.api.extension.RegisterExtension;
 import org.uniprot.core.flatfile.writer.LineType;
 
 /** Verifies if the creation and modification dates within the UniProt entry are indexed properly */
+@Slf4j
 class DatesSearchIT {
     private static final String UNIPROT_FLAT_FILE_ENTRY_PATH = "/it/uniprot/P0A377.43.dat";
     private static final String DT_LINE =
@@ -248,7 +251,7 @@ class DatesSearchIT {
         QueryResponse response = searchEngine.getQueryResponse(query);
 
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
-        System.out.println(retrievedAccessions);
+        log.debug(retrievedAccessions.toString());
         assertThat(
                 retrievedAccessions,
                 containsInAnyOrder(
@@ -295,7 +298,7 @@ class DatesSearchIT {
         QueryResponse response = searchEngine.getQueryResponse(query);
 
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
-        System.out.println(retrievedAccessions);
+        log.debug(retrievedAccessions.toString());
         assertThat(
                 retrievedAccessions,
                 containsInAnyOrder(ACCESSION_BST, ACCESSION_BST_DUBIOUS, ACCESSION_GMT));
@@ -596,7 +599,7 @@ class DatesSearchIT {
         QueryResponse response = searchEngine.getQueryResponse(query);
 
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
-        System.out.println(retrievedAccessions);
+        log.debug(retrievedAccessions.toString());
         assertThat(retrievedAccessions, contains(ACCESSION_BST));
     }
 

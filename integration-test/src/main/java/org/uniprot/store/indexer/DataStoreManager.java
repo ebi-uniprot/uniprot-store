@@ -1,7 +1,6 @@
 package org.uniprot.store.indexer;
 
 import static java.util.Arrays.asList;
-import static org.slf4j.LoggerFactory.getLogger;
 
 import java.io.File;
 import java.io.IOException;
@@ -14,6 +13,8 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.stream.Collectors;
 
+import lombok.extern.slf4j.Slf4j;
+
 import org.apache.solr.client.solrj.SolrClient;
 import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.SolrServerException;
@@ -22,7 +23,6 @@ import org.apache.solr.core.CoreContainer;
 import org.junit.jupiter.api.extension.AfterAllCallback;
 import org.junit.jupiter.api.extension.BeforeAllCallback;
 import org.junit.jupiter.api.extension.ExtensionContext;
-import org.slf4j.Logger;
 import org.springframework.util.FileSystemUtils;
 import org.uniprot.store.datastore.UniProtStoreClient;
 import org.uniprot.store.search.SolrCollection;
@@ -34,6 +34,7 @@ import org.uniprot.store.search.document.DocumentConverter;
  *
  * @author Edd
  */
+@Slf4j
 public class DataStoreManager implements AfterAllCallback, BeforeAllCallback {
 
     public enum StoreType {
@@ -56,7 +57,6 @@ public class DataStoreManager implements AfterAllCallback, BeforeAllCallback {
     }
 
     private static final String SOLR_SYSTEM_PROPERTIES = "solr-system.properties";
-    private static final Logger LOGGER = getLogger(DataStoreManager.class);
     private final Map<StoreType, ClosableEmbeddedSolrClient> solrClientMap = new HashMap<>();
     private final Map<StoreType, UniProtStoreClient> storeMap = new HashMap<>();
     private final Map<StoreType, DocumentConverter> docConverterMap = new HashMap<>();
@@ -88,7 +88,7 @@ public class DataStoreManager implements AfterAllCallback, BeforeAllCallback {
         properties.load(propertiesStream);
 
         for (String property : properties.stringPropertyNames()) {
-            System.out.println(property + "\t" + properties.getProperty(property));
+            log.debug(property + "\t" + properties.getProperty(property));
             System.setProperty(property, properties.getProperty(property));
         }
     }
@@ -139,13 +139,13 @@ public class DataStoreManager implements AfterAllCallback, BeforeAllCallback {
                 storeClient.saveEntry(o);
                 count++;
             } catch (Exception e) {
-                LOGGER.debug(
+                log.debug(
                         "Trying to add entry {} to data store again but a problem was encountered -- skipping",
                         o);
             }
         }
 
-        LOGGER.debug("Added {} entries to data store", count);
+        log.debug("Added {} entries to data store", count);
     }
 
     public <T> void saveToStore(StoreType storeType, T... entries) {
@@ -171,7 +171,7 @@ public class DataStoreManager implements AfterAllCallback, BeforeAllCallback {
         } catch (SolrServerException | IOException e) {
             throw new IllegalStateException(e);
         }
-        LOGGER.debug("Added {} beans to Solr", docs.size());
+        log.debug("Added {} beans to Solr", docs.size());
     }
 
     public <T> void saveDocs(StoreType storeType, T... docs) {
@@ -214,7 +214,7 @@ public class DataStoreManager implements AfterAllCallback, BeforeAllCallback {
             solrClient.deleteByQuery("*:*");
             solrClient.commit();
         } catch (Exception e) {
-            LOGGER.warn("Unable to clean solr data for " + storeType.name(), e);
+            log.warn("Unable to clean solr data for " + storeType.name(), e);
         }
     }
 
