@@ -128,7 +128,7 @@
     "defaultForTsvOrder" : 2,
     "label": "UniProtKB",
     "name": "accession",
-    "paths": ["uniParcCrossReferences[?(@.database =~ /^UniProtKB.*/)]"],
+    "paths": ["uniParcCrossReferences[*].id", "uniParcCrossReferences[*].database"],
     "id": "miscellaneous/accession",
     "includeInSwagger": true
   },
