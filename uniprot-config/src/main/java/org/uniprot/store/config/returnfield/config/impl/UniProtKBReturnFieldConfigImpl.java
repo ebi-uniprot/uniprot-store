@@ -26,6 +26,8 @@ import org.uniprot.store.config.returnfield.model.ReturnFieldItemType;
  * @author Edd
  */
 public class UniProtKBReturnFieldConfigImpl extends AbstractReturnFieldConfig {
+
+    private static final long serialVersionUID = 1163013837966442698L;
     private UniProtDatabaseTypes databaseTypes;
     private Map<String, UniProtDatabaseCategory> databaseCategoryMap;
 
