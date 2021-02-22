@@ -54,7 +54,7 @@ public class KeywordLoadStep {
                 .writer(keywordWriter)
                 .listener(stepListener)
                 .listener(chunkListener)
-                .listener(new SolrCommitStepListener(solrOperations))
+                .listener(new SolrCommitStepListener(solrOperations, SolrCollection.keyword))
                 .build();
     }
 

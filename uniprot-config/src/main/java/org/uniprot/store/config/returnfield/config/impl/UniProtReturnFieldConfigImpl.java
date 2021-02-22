@@ -16,6 +16,9 @@ import org.uniprot.store.config.returnfield.model.ReturnField;
  * @author Edd
  */
 public class UniProtReturnFieldConfigImpl extends AbstractReturnFieldConfig {
+
+    private static final long serialVersionUID = 2724872394755111932L;
+
     public UniProtReturnFieldConfigImpl(String configFile) {
         super(configFile);
     }

@@ -2,7 +2,7 @@ package org.uniprot.store.spark.indexer.common.writer;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -20,10 +20,11 @@ import org.uniprot.store.spark.indexer.common.exception.SolrIndexException;
  */
 class SolrIndexWriterTest {
 
-    private static final Iterator<SolrInputDocument> iterator = Collections.emptyIterator();
-
     @Test
     void canCallWriter() {
+        List<SolrInputDocument> docs = new ArrayList<>();
+        docs.add(new SolrInputDocument());
+        Iterator<SolrInputDocument> iterator = docs.iterator();
         SolrIndexParameter parameter =
                 SolrIndexParameter.builder()
                         .zkHost("zkHost")
@@ -31,12 +32,16 @@ class SolrIndexWriterTest {
                         .delay(1L)
                         .maxRetry(1)
                         .build();
-        SolrIndexWriter writer = new FakeSolrIndexWriter(parameter, false);
+        SolrIndexWriter writer = new FakeSolrIndexWriter(parameter, docs, false);
         assertDoesNotThrow(() -> writer.call(iterator));
     }
 
     @Test
     void callWriterFail() throws Exception {
+        List<SolrInputDocument> docs = new ArrayList<>();
+        docs.add(new SolrInputDocument());
+        Iterator<SolrInputDocument> iterator = docs.iterator();
+
         SolrIndexParameter parameter =
                 SolrIndexParameter.builder()
                         .zkHost("zkHost")
@@ -44,7 +49,7 @@ class SolrIndexWriterTest {
                         .delay(1L)
                         .maxRetry(1)
                         .build();
-        SolrIndexWriter writer = new FakeSolrIndexWriter(parameter, true);
+        SolrIndexWriter writer = new FakeSolrIndexWriter(parameter, docs, true);
         SolrIndexException response =
                 assertThrows(SolrIndexException.class, () -> writer.call(iterator));
         assertEquals(
@@ -55,10 +60,14 @@ class SolrIndexWriterTest {
     private static class FakeSolrIndexWriter extends SolrIndexWriter {
         private static final long serialVersionUID = 7351466400932705045L;
         private final boolean throwException;
-        private final List<SolrInputDocument> docs = Collections.emptyList();
+        private final List<SolrInputDocument> docs;
 
-        public FakeSolrIndexWriter(SolrIndexParameter parameter, boolean throwException) {
+        public FakeSolrIndexWriter(
+                SolrIndexParameter parameter,
+                List<SolrInputDocument> docs,
+                boolean throwException) {
             super(parameter);
+            this.docs = docs;
             this.throwException = throwException;
         }
 
