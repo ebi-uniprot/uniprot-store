@@ -5,6 +5,7 @@ public enum UniProtDataType {
     DISEASE,
     GENECENTRIC,
     KEYWORD,
+    PIR_ID_MAPPING,
     LITERATURE,
     PROTEOME,
     PUBLICATION,
@@ -14,5 +15,5 @@ public enum UniProtDataType {
     UNIPARC,
     UNIPROTKB,
     UNIREF,
-    UNIRULE
+    UNIRULE;
 }

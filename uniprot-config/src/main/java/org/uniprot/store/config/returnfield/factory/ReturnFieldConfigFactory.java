@@ -23,6 +23,8 @@ public class ReturnFieldConfigFactory {
             "return-fields-config/disease-return-fields.json";
     public static final String KEYWORD_CONFIG_FILE =
             "return-fields-config/keyword-return-fields.json";
+    public static final String PIR_ID_MAPPING_CONFIG_FILE =
+            "return-fields-config/pir-id-mapping-return-fields.json";
     public static final String PROTEOME_CONFIG_FILE =
             "return-fields-config/proteome-return-fields.json";
     public static final String SUBCELL_CONFIG_FILE =
@@ -50,6 +52,7 @@ public class ReturnFieldConfigFactory {
         typeConfigMap.put(UniProtDataType.SUGGEST, SUGGEST_CONFIG_FILE);
         typeConfigMap.put(UniProtDataType.DISEASE, DISEASE_CONFIG_FILE);
         typeConfigMap.put(UniProtDataType.KEYWORD, KEYWORD_CONFIG_FILE);
+        typeConfigMap.put(UniProtDataType.PIR_ID_MAPPING, PIR_ID_MAPPING_CONFIG_FILE);
         typeConfigMap.put(UniProtDataType.PROTEOME, PROTEOME_CONFIG_FILE);
         typeConfigMap.put(UniProtDataType.SUBCELLLOCATION, SUBCELL_CONFIG_FILE);
         typeConfigMap.put(UniProtDataType.TAXONOMY, TAXONOMY_CONFIG_FILE);
