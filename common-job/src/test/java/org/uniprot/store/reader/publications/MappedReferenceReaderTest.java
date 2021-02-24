@@ -13,7 +13,7 @@ import org.uniprot.core.publication.ComputationallyMappedReference;
  * @author sahmad
  * @created 21/01/2021
  */
-public class MappedReferenceReaderTest {
+class MappedReferenceReaderTest {
     public static final String FILE_PATH = "src/test/resources/computational_pir_map.txt";
 
     @Test
@@ -21,7 +21,7 @@ public class MappedReferenceReaderTest {
         ComputationallyMappedReferenceConverter converter =
                 new ComputationallyMappedReferenceConverter();
         MappedReferenceReader<ComputationallyMappedReference> reader =
-                new MappedReferenceReader(converter, FILE_PATH);
+                new MappedReferenceReader<>(converter, FILE_PATH);
         List<ComputationallyMappedReference> refs;
         while ((refs = reader.readNext()) != null) {
             if (refs.size() > 1) {
