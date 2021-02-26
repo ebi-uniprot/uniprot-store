@@ -14,12 +14,14 @@ import org.uniprot.cv.xdb.UniProtDatabaseTypes;
  */
 public class IdMappingFieldConfig {
     private static final UniProtDatabaseTypes ALL_DB_TYPES = UniProtDatabaseTypes.INSTANCE;
+    private static final String UNIPROTKB = "UniProtKB";
+    private static final String CRC64 = "CRC64";
 
     public static List<UniProtDatabaseDetail> getAllIdMappingTypes() {
         // get all the fields which has idmappingname set
         List<UniProtDatabaseDetail> idMappingTypes =
                 ALL_DB_TYPES.getAllDbTypes().stream()
-                        .filter(IdMappingFieldConfig::test)
+                        .filter(IdMappingFieldConfig::hasIdMappingName)
                         .collect(Collectors.toList());
         // add db names for UniProt category
         idMappingTypes.addAll(createUniProtCategoryIdMappingTypes());
@@ -33,10 +35,10 @@ public class IdMappingFieldConfig {
         UniProtDatabaseCategory category = UniProtDatabaseCategory.UNKNOWN;
         UniProtDatabaseDetail uniProtKBAcc =
                 new UniProtDatabaseDetail(
-                        "UniProtKB", "UniProtKB", category, null, null, false, null, "ACC");
+                        UNIPROTKB, UNIPROTKB, category, null, null, false, null, "ACC");
         UniProtDatabaseDetail uniProtKBId =
                 new UniProtDatabaseDetail(
-                        "UniProtKB", "UniProtKB", category, null, null, false, null, "ID");
+                        UNIPROTKB, UNIPROTKB, category, null, null, false, null, "ID");
         UniProtDatabaseDetail uniParc =
                 new UniProtDatabaseDetail(
                         "UniParc", "UniParc", category, null, null, false, null, "UPARC");
@@ -54,7 +56,7 @@ public class IdMappingFieldConfig {
                         "Gene Name", "Gene Name", category, null, null, false, null, "GENENAME");
         UniProtDatabaseDetail crc64 =
                 new UniProtDatabaseDetail(
-                        "CRC64", "CRC64", category, null, null, false, null, "CRC64");
+                        CRC64, CRC64, category, null, null, false, null, CRC64);
         return List.of(
                 uniProtKBAcc, uniProtKBId, uniParc, uniRef50, uniRef90, uniRef100, geneName, crc64);
     }
@@ -158,7 +160,7 @@ public class IdMappingFieldConfig {
                 wormBaseTranscript);
     }
 
-    private static boolean test(UniProtDatabaseDetail type) {
+    private static boolean hasIdMappingName(UniProtDatabaseDetail type) {
         return Utils.notNullNotEmpty(type.getIdMappingName());
     }
 
