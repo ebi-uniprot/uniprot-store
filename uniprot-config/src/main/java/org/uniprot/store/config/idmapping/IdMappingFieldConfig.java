@@ -1,12 +1,12 @@
 package org.uniprot.store.config.idmapping;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.uniprot.core.cv.xdb.UniProtDatabaseCategory;
 import org.uniprot.core.cv.xdb.UniProtDatabaseDetail;
 import org.uniprot.core.util.Utils;
 import org.uniprot.cv.xdb.UniProtDatabaseTypes;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * @author sahmad
@@ -42,7 +42,14 @@ public class IdMappingFieldConfig {
         UniProtDatabaseCategory category = UniProtDatabaseCategory.UNKNOWN;
         UniProtDatabaseDetail uniProtKBAcc =
                 new UniProtDatabaseDetail(
-                        "UniProtKB Accession", "UniProtKB Accession", category, null, null, false, null, ACC_STR);
+                        "UniProtKB Accession",
+                        "UniProtKB Accession",
+                        category,
+                        null,
+                        null,
+                        false,
+                        null,
+                        ACC_STR);
         UniProtDatabaseDetail uniProtKBAccId =
                 new UniProtDatabaseDetail(
                         "UniProtKB AC/ID",

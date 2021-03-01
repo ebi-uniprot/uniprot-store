@@ -19,9 +19,7 @@ import org.uniprot.core.uniref.impl.*;
  */
 public class UniRefEntryMocker {
 
-    private UniRefEntryMocker(){
-
-    }
+    private UniRefEntryMocker() {}
 
     public static final String ID_PREF_50 = "UniRef50_P039";
     public static final String ID_PREF_90 = "UniRef90_P039";
@@ -44,8 +42,7 @@ public class UniRefEntryMocker {
         List<RepresentativeMember> members = new ArrayList<>();
         members.add(entry.getRepresentativeMember());
         entry.getMembers()
-                .forEach(
-                        member -> members.add(RepresentativeMemberBuilder.from(member).build()));
+                .forEach(member -> members.add(RepresentativeMemberBuilder.from(member).build()));
         return members;
     }
 
