@@ -17,7 +17,7 @@ class IdMappingFieldConfigTest {
     void testGetAllIdMappingFields() {
         List<UniProtDatabaseDetail> idMappingFields = IdMappingFieldConfig.getAllIdMappingTypes();
         Assertions.assertNotNull(idMappingFields);
-        Assertions.assertEquals(98, idMappingFields.size());
+        Assertions.assertEquals(95, idMappingFields.size());
         idMappingFields.stream()
                 .forEach(field -> Assertions.assertNotNull(field.getIdMappingName()));
         // verify few mapped fields
