@@ -1,12 +1,12 @@
 package org.uniprot.store.config.idmapping;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 import org.uniprot.core.cv.xdb.UniProtDatabaseCategory;
 import org.uniprot.core.cv.xdb.UniProtDatabaseDetail;
 import org.uniprot.core.util.Utils;
 import org.uniprot.cv.xdb.UniProtDatabaseTypes;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author sahmad
@@ -14,7 +14,6 @@ import org.uniprot.cv.xdb.UniProtDatabaseTypes;
  */
 public class IdMappingFieldConfig {
     private static final UniProtDatabaseTypes ALL_DB_TYPES = UniProtDatabaseTypes.INSTANCE;
-    private static final String UNIPROTKB = "UniProtKB";
     private static final String CRC64 = "CRC64";
 
     public static List<UniProtDatabaseDetail> getAllIdMappingTypes() {
@@ -33,12 +32,19 @@ public class IdMappingFieldConfig {
 
     private static List<UniProtDatabaseDetail> createUniProtCategoryIdMappingTypes() {
         UniProtDatabaseCategory category = UniProtDatabaseCategory.UNKNOWN;
-        UniProtDatabaseDetail uniProtKBAcc =
+
+        UniProtDatabaseDetail uniProtKBAccOrId =
                 new UniProtDatabaseDetail(
-                        UNIPROTKB, UNIPROTKB, category, null, null, false, null, "ACC");
+                        "UniProt ACC/ID", "UniProt ACC/ID", category, null, null, false, null, "ACC,ID");
         UniProtDatabaseDetail uniProtKBId =
                 new UniProtDatabaseDetail(
-                        UNIPROTKB, UNIPROTKB, category, null, null, false, null, "ID");
+                        "UniProt ID", "UniProt ID", category, null, null, false, null, "ID");
+        UniProtDatabaseDetail uniProtKBAcc =
+                new UniProtDatabaseDetail(
+                        "UniProtKB Accession", "UniProtKB Accession", category, null, null, false, null, "ACC");
+        UniProtDatabaseDetail uniProtKBSwissProt =
+                new UniProtDatabaseDetail(
+                        "UniProtKB/SwissProt ACC", "UniProtKB/SwissProt ACC", category, null, null, false, null, "SWISSPROT");
         UniProtDatabaseDetail uniParc =
                 new UniProtDatabaseDetail(
                         "UniParc", "UniParc", category, null, null, false, null, "UPARC");
@@ -58,7 +64,7 @@ public class IdMappingFieldConfig {
                 new UniProtDatabaseDetail(
                         CRC64, CRC64, category, null, null, false, null, CRC64);
         return List.of(
-                uniProtKBAcc, uniProtKBId, uniParc, uniRef50, uniRef90, uniRef100, geneName, crc64);
+                uniProtKBAccOrId, uniProtKBAcc, uniProtKBId, uniProtKBSwissProt, uniParc, uniRef50, uniRef90, uniRef100, geneName, crc64);
     }
 
     private static List<UniProtDatabaseDetail> createMissingIdMappingTypes() {
