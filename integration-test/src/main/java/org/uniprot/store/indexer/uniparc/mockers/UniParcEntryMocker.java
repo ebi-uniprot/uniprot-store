@@ -22,9 +22,7 @@ public class UniParcEntryMocker {
 
     public static final String PROTEIN_NAME = "proteinName";
 
-    private UniParcEntryMocker(){
-
-    }
+    private UniParcEntryMocker() {}
 
     public static UniParcEntry createEntry(int i, String upiRef) {
         StringBuilder seq = new StringBuilder("MLMPKRTKYR");
@@ -34,8 +32,7 @@ public class UniParcEntryMocker {
 
         List<SequenceFeature> seqFeatures = new ArrayList<>();
         Arrays.stream(SignatureDbType.values())
-                .forEach(
-                        signatureType -> seqFeatures.add(getSeqFeature(i, signatureType)));
+                .forEach(signatureType -> seqFeatures.add(getSeqFeature(i, signatureType)));
         return new UniParcEntryBuilder()
                 .uniParcId(new UniParcIdBuilder(getName(upiRef, i)).build())
                 .uniParcCrossReferencesSet(xrefs)
