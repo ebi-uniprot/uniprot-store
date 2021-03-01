@@ -1,12 +1,12 @@
 package org.uniprot.store.config.idmapping;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 import org.uniprot.core.cv.xdb.UniProtDatabaseCategory;
 import org.uniprot.core.cv.xdb.UniProtDatabaseDetail;
 import org.uniprot.core.util.Utils;
 import org.uniprot.cv.xdb.UniProtDatabaseTypes;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author sahmad
@@ -14,7 +14,6 @@ import org.uniprot.cv.xdb.UniProtDatabaseTypes;
  */
 public class IdMappingFieldConfig {
     private static final UniProtDatabaseTypes ALL_DB_TYPES = UniProtDatabaseTypes.INSTANCE;
-    private static final String UNIPROTKB = "UniProtKB";
     private static final String CRC64 = "CRC64";
     public static final String ACC_STR = "ACC";
     public static final String ACC_ID_STR = "ACC,ID";
@@ -43,7 +42,7 @@ public class IdMappingFieldConfig {
         UniProtDatabaseCategory category = UniProtDatabaseCategory.UNKNOWN;
         UniProtDatabaseDetail uniProtKBAcc =
                 new UniProtDatabaseDetail(
-                        UNIPROTKB, UNIPROTKB, category, null, null, false, null, ACC_STR);
+                        "UniProtKB Accession", "UniProtKB Accession", category, null, null, false, null, ACC_STR);
         UniProtDatabaseDetail uniProtKBAccId =
                 new UniProtDatabaseDetail(
                         "UniProtKB AC/ID",
@@ -54,10 +53,11 @@ public class IdMappingFieldConfig {
                         false,
                         null,
                         ACC_ID_STR);
+
         UniProtDatabaseDetail uniProtSwissProtKBId =
                 new UniProtDatabaseDetail(
-                        "UniProtKB/Swiss-Prot",
-                        "UniProtKB/Swiss-Prot",
+                        "UniProtKB/SwissProt ACC",
+                        "UniProtKB/SwissProt ACC",
                         category,
                         null,
                         null,
