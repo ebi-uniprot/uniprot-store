@@ -32,15 +32,15 @@
     "example": "1",
     "values": [
       {
-        "name": "Reference proteome",
+        "name": "Reference",
         "value": "1"
       },
       {
-        "name": "Complete proteome",
+        "name": "Other",
         "value": "2"
       },
       {
-        "name": "Redundant proteome",
+        "name": "Redundant",
         "value": "3"
       },
       {
