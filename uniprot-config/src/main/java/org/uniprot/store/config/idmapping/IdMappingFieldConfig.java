@@ -1,12 +1,15 @@
 package org.uniprot.store.config.idmapping;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 import org.uniprot.core.cv.xdb.UniProtDatabaseCategory;
 import org.uniprot.core.cv.xdb.UniProtDatabaseDetail;
 import org.uniprot.core.util.Utils;
 import org.uniprot.cv.xdb.UniProtDatabaseTypes;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * @author sahmad
@@ -23,19 +26,36 @@ public class IdMappingFieldConfig {
     public static final String UNIREF90_STR = "NF90";
     public static final String UNIREF100_STR = "NF100";
     public static final String GENENAME_STR = "GENENAME";
+    private static List<UniProtDatabaseDetail> idMappingTypes = new ArrayList<>();
+    private static Map<String, String> uniProtToPIRDbNameMap = new HashMap<>();
 
     public static List<UniProtDatabaseDetail> getAllIdMappingTypes() {
-        // get all the fields which has idmappingname set
-        List<UniProtDatabaseDetail> idMappingTypes =
-                ALL_DB_TYPES.getAllDbTypes().stream()
-                        .filter(IdMappingFieldConfig::hasIdMappingName)
-                        .collect(Collectors.toList());
-        // add db names for UniProt category
-        idMappingTypes.addAll(createUniProtCategoryIdMappingTypes());
-        // add other missing types
-        idMappingTypes.addAll(createMissingIdMappingTypes());
+        if (Utils.nullOrEmpty(idMappingTypes)) {
+            // get all the fields which has idmappingname set
+            idMappingTypes =
+                    ALL_DB_TYPES.getAllDbTypes().stream()
+                            .filter(IdMappingFieldConfig::hasIdMappingName)
+                            .collect(Collectors.toList());
+            // add db names for UniProt category
+            idMappingTypes.addAll(createUniProtCategoryIdMappingTypes());
+            // add other missing types
+            idMappingTypes.addAll(createMissingIdMappingTypes());
+        }
 
         return idMappingTypes;
+    }
+
+    public static String convertDbNameToPIRDbName(String database) {
+        if (Utils.nullOrEmpty(uniProtToPIRDbNameMap)) {
+            uniProtToPIRDbNameMap =
+                    getAllIdMappingTypes().stream()
+                            .collect(
+                                    Collectors.toMap(
+                                            UniProtDatabaseDetail::getName,
+                                            UniProtDatabaseDetail::getIdMappingName));
+        }
+
+        return uniProtToPIRDbNameMap.get(database);
     }
 
     private static List<UniProtDatabaseDetail> createUniProtCategoryIdMappingTypes() {
