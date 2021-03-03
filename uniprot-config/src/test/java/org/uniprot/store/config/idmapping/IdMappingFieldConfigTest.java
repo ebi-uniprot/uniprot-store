@@ -39,19 +39,26 @@ class IdMappingFieldConfigTest {
     @Test
     void canMapDbNameToPIRDbName() {
         MatcherAssert.assertThat(
-                IdMappingFieldConfig.convertDbNameToPIRDbName("UniProtKB Accession"),
-                CoreMatchers.is(ACC_STR));
+                IdMappingFieldConfig.convertDbNameToPIRDbName("UniProtKB"),
+                CoreMatchers.is("ACC"));
 
         MatcherAssert.assertThat(
-                IdMappingFieldConfig.convertDbNameToPIRDbName("UniProtKB AC/ID"),
-                CoreMatchers.is(ACC_ID_STR));
+                IdMappingFieldConfig.convertDbNameToPIRDbName("UniProtKB_AC-ID"),
+                CoreMatchers.is("ACC,ID"));
 
         MatcherAssert.assertThat(
-                IdMappingFieldConfig.convertDbNameToPIRDbName("Gene Name"),
-                CoreMatchers.is(GENENAME_STR));
+                IdMappingFieldConfig.convertDbNameToPIRDbName("Gene_Name"),
+                CoreMatchers.is("GENENAME"));
 
         MatcherAssert.assertThat(
                 IdMappingFieldConfig.convertDbNameToPIRDbName("GenBank"),
                 CoreMatchers.is("EMBL_ID"));
+    }
+
+    @Test
+    void convertsDisplayNameCorrectly() {
+        MatcherAssert.assertThat(
+                IdMappingFieldConfig.convertDisplayNameToName("More complex (db1/db2)"),
+                CoreMatchers.is("More_complex_-db1-db2-"));
     }
 }
