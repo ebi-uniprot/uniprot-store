@@ -86,6 +86,10 @@ public class IdMappingFieldConfig {
         return uniProtToPIRDbNameMap.get(database);
     }
 
+    public static boolean isValidDbName(String database) {
+        return Utils.notNull(convertDbNameToPIRDbName(database));
+    }
+
     public static String convertDisplayNameToName(String value) {
         value = value.replaceAll("[/,()]", "-");
         value = value.replace(" ", "_");
