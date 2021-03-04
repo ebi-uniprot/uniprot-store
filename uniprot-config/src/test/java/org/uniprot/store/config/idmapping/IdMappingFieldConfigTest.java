@@ -10,8 +10,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import static org.uniprot.store.config.idmapping.IdMappingFieldConfig.*;
-
 /**
  * Created 26/02/2021
  *
@@ -24,7 +22,7 @@ class IdMappingFieldConfigTest {
         Assertions.assertNotNull(idMappingFields);
         // TODO: 02/03/2021 i'm not sure if we should test exact size... because
         // drlineconfiguration.json is subject to change
-        Assertions.assertEquals(98, idMappingFields.size());
+        Assertions.assertEquals(95, idMappingFields.size());
         idMappingFields.forEach(field -> Assertions.assertNotNull(field.getIdMappingName()));
         // verify few mapped fields
         Set<String> names =
@@ -39,8 +37,7 @@ class IdMappingFieldConfigTest {
     @Test
     void canMapDbNameToPIRDbName() {
         MatcherAssert.assertThat(
-                IdMappingFieldConfig.convertDbNameToPIRDbName("UniProtKB"),
-                CoreMatchers.is("ACC"));
+                IdMappingFieldConfig.convertDbNameToPIRDbName("UniProtKB"), CoreMatchers.is("ACC"));
 
         MatcherAssert.assertThat(
                 IdMappingFieldConfig.convertDbNameToPIRDbName("UniProtKB_AC-ID"),
@@ -51,7 +48,7 @@ class IdMappingFieldConfigTest {
                 CoreMatchers.is("GENENAME"));
 
         MatcherAssert.assertThat(
-                IdMappingFieldConfig.convertDbNameToPIRDbName("GenBank"),
+                IdMappingFieldConfig.convertDbNameToPIRDbName("EMBL-GenBank-DDBJ"),
                 CoreMatchers.is("EMBL_ID"));
     }
 
