@@ -1,29 +1,37 @@
 package org.uniprot.store.config.idmapping;
 
-import org.uniprot.core.cv.xdb.UniProtDatabaseCategory;
-import org.uniprot.core.cv.xdb.UniProtDatabaseDetail;
-import org.uniprot.core.util.Utils;
-import org.uniprot.cv.xdb.UniProtDatabaseTypes;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import org.uniprot.core.cv.xdb.UniProtDatabaseCategory;
+import org.uniprot.core.cv.xdb.UniProtDatabaseDetail;
+import org.uniprot.core.util.Utils;
+import org.uniprot.cv.xdb.UniProtDatabaseTypes;
+
 /**
  * @author sahmad
  * @created 26/02/2021
  */
 public class IdMappingFieldConfig {
-    public static final String ACC_STR = convertDisplayNameToName("UniProtKB");
-    public static final String ACC_ID_STR = convertDisplayNameToName("UniProtKB AC/ID");
-    public static final String SWISSPROT_STR = convertDisplayNameToName("UniProtKB/Swiss-Prot");
-    public static final String UPARC_STR = convertDisplayNameToName("UniParc");
-    public static final String UNIREF50_STR = convertDisplayNameToName("UniRef50");
-    public static final String UNIREF90_STR = convertDisplayNameToName("UniRef90");
-    public static final String UNIREF100_STR = convertDisplayNameToName("UniRef100");
-    public static final String GENENAME_STR = convertDisplayNameToName("Gene Name");
+    private static final String UNIPROTKB_STR = "UniProtKB";
+    private static final String UNIPROTKB_AC_ID_STR = "UniProtKB AC/ID";
+    private static final String UNIPROTKB_SWISS_STR = "UniProtKB/Swiss-Prot";
+    private static final String UNIPARC_STR = "UniParc";
+    private static final String UNIREF_50_STR = "UniRef50";
+    private static final String UNIREF_90_STR = "UniRef90";
+    private static final String UNIREF_100_STR = "UniRef100";
+    private static final String GENE_NAME_STR = "Gene Name";
+    public static final String ACC_STR = convertDisplayNameToName(UNIPROTKB_STR);
+    public static final String ACC_ID_STR = convertDisplayNameToName(UNIPROTKB_AC_ID_STR);
+    public static final String SWISSPROT_STR = convertDisplayNameToName(UNIPROTKB_SWISS_STR);
+    public static final String UPARC_STR = convertDisplayNameToName(UNIPARC_STR);
+    public static final String UNIREF50_STR = convertDisplayNameToName(UNIREF_50_STR);
+    public static final String UNIREF90_STR = convertDisplayNameToName(UNIREF_90_STR);
+    public static final String UNIREF100_STR = convertDisplayNameToName(UNIREF_100_STR);
+    public static final String GENENAME_STR = convertDisplayNameToName(GENE_NAME_STR);
 
     private static final String PIR_CRC64 = "CRC64";
     public static final String PIR_ACC_STR = "ACC";
@@ -100,11 +108,11 @@ public class IdMappingFieldConfig {
         UniProtDatabaseCategory category = UniProtDatabaseCategory.UNKNOWN;
         UniProtDatabaseDetail uniProtKBAcc =
                 new UniProtDatabaseDetail(
-                        "UniProtKB", "UniProtKB", category, null, null, false, null, PIR_ACC_STR);
+                        UNIPROTKB_STR, UNIPROTKB_STR, category, null, null, false, null, PIR_ACC_STR);
         UniProtDatabaseDetail uniProtKBAccId =
                 new UniProtDatabaseDetail(
-                        "UniProtKB AC/ID",
-                        "UniProtKB AC/ID",
+                        UNIPROTKB_AC_ID_STR,
+                        UNIPROTKB_AC_ID_STR,
                         category,
                         null,
                         null,
@@ -114,8 +122,8 @@ public class IdMappingFieldConfig {
 
         UniProtDatabaseDetail uniProtSwissProtKBId =
                 new UniProtDatabaseDetail(
-                        "UniProtKB/Swiss-Prot",
-                        "UniProtKB/Swiss-Prot",
+                        UNIPROTKB_SWISS_STR,
+                        UNIPROTKB_SWISS_STR,
                         category,
                         null,
                         null,
@@ -125,21 +133,50 @@ public class IdMappingFieldConfig {
 
         UniProtDatabaseDetail uniParc =
                 new UniProtDatabaseDetail(
-                        "UniParc", "UniParc", category, null, null, false, null, PIR_UPARC_STR);
+                        UNIPARC_STR, UNIPARC_STR, category, null, null, false, null, PIR_UPARC_STR);
         UniProtDatabaseDetail uniRef50 =
                 new UniProtDatabaseDetail(
-                        "UniRef50", "UniRef50", category, null, null, false, null, PIR_UNIREF50_STR);
+                        UNIREF_50_STR,
+                        UNIREF_50_STR,
+                        category,
+                        null,
+                        null,
+                        false,
+                        null,
+                        PIR_UNIREF50_STR);
         UniProtDatabaseDetail uniRef90 =
                 new UniProtDatabaseDetail(
-                        "UniRef90", "UniRef90", category, null, null, false, null, PIR_UNIREF90_STR);
+                        UNIREF_90_STR,
+                        UNIREF_90_STR,
+                        category,
+                        null,
+                        null,
+                        false,
+                        null,
+                        PIR_UNIREF90_STR);
         UniProtDatabaseDetail uniRef100 =
                 new UniProtDatabaseDetail(
-                        "UniRef100", "UniRef100", category, null, null, false, null, PIR_UNIREF100_STR);
+                        UNIREF_100_STR,
+                        UNIREF_100_STR,
+                        category,
+                        null,
+                        null,
+                        false,
+                        null,
+                        PIR_UNIREF100_STR);
         UniProtDatabaseDetail geneName =
                 new UniProtDatabaseDetail(
-                        "Gene Name", "Gene Name", category, null, null, false, null, PIR_GENENAME_STR);
+                        GENE_NAME_STR,
+                        GENE_NAME_STR,
+                        category,
+                        null,
+                        null,
+                        false,
+                        null,
+                        PIR_GENENAME_STR);
         UniProtDatabaseDetail crc64 =
-                new UniProtDatabaseDetail(CRC64, CRC64, category, null, null, false, null, PIR_CRC64);
+                new UniProtDatabaseDetail(
+                        CRC64, CRC64, category, null, null, false, null, PIR_CRC64);
         return List.of(
                 uniProtKBAcc,
                 uniProtKBAccId,
@@ -265,4 +302,6 @@ public class IdMappingFieldConfig {
     private static boolean hasIdMappingName(UniProtDatabaseDetail type) {
         return Utils.notNullNotEmpty(type.getIdMappingName());
     }
+
+    private IdMappingFieldConfig(){}
 }
