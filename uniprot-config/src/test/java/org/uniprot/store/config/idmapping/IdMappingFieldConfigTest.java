@@ -1,14 +1,14 @@
 package org.uniprot.store.config.idmapping;
 
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
+
 import org.hamcrest.CoreMatchers;
 import org.hamcrest.MatcherAssert;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.uniprot.core.cv.xdb.UniProtDatabaseDetail;
-
-import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 /**
  * Created 26/02/2021
