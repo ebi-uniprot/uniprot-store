@@ -108,7 +108,14 @@ public class IdMappingFieldConfig {
         UniProtDatabaseCategory category = UniProtDatabaseCategory.UNKNOWN;
         UniProtDatabaseDetail uniProtKBAcc =
                 new UniProtDatabaseDetail(
-                        UNIPROTKB_STR, UNIPROTKB_STR, category, null, null, false, null, PIR_ACC_STR);
+                        UNIPROTKB_STR,
+                        UNIPROTKB_STR,
+                        category,
+                        null,
+                        null,
+                        false,
+                        null,
+                        PIR_ACC_STR);
         UniProtDatabaseDetail uniProtKBAccId =
                 new UniProtDatabaseDetail(
                         UNIPROTKB_AC_ID_STR,
@@ -303,5 +310,5 @@ public class IdMappingFieldConfig {
         return Utils.notNullNotEmpty(type.getIdMappingName());
     }
 
-    private IdMappingFieldConfig(){}
+    private IdMappingFieldConfig() {}
 }
