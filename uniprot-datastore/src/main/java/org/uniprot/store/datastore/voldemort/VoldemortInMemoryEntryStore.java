@@ -35,12 +35,7 @@ public abstract class VoldemortInMemoryEntryStore<T> implements VoldemortClient<
 
     @Override
     public void saveEntry(T entry) {
-        String id = getStoreId(entry);
-        logger.debug("Saving entry: {}", id);
-
-        Store<String, T, String> store = this.getStore();
-        Versioned<T> versionedEntry = new Versioned<>(entry);
-        store.put(id, versionedEntry, this.storeName);
+        saveOrUpdateEntry(entry);
     }
 
     @Override
@@ -55,7 +50,9 @@ public abstract class VoldemortInMemoryEntryStore<T> implements VoldemortClient<
             store.delete(id, currentEntry.getVersion());
             store.put(id, currentEntry, this.storeName);
         } else {
-            saveEntry(entry);
+            logger.debug("Saving entry: {}", id);
+            Versioned<T> versionedEntry = new Versioned<>(entry);
+            store.put(id, versionedEntry, this.storeName);
         }
     }
 
