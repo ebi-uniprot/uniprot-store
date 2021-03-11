@@ -61,8 +61,8 @@
     "childNumber": 4,
     "itemType": "SINGLE",
     "includeInSwagger": true,
-    "label": "Synonym",
-    "name": "synonym",
+    "label": "Synonyms",
+    "name": "synonyms",
     "paths" : ["synonyms"],
     "id": "taxonomy/synonym"
   },
@@ -119,8 +119,8 @@
     "childNumber": 9,
     "itemType": "SINGLE",
     "includeInSwagger": true,
-    "label": "Strain",
-    "name": "strain",
+    "label": "Strains",
+    "name": "strains",
     "paths" : ["strains"],
     "id": "taxonomy/strain"
   },
@@ -144,7 +144,7 @@
     "isDefaultForTsv": true,
     "defaultForTsvOrder" : 9,
     "label": "Virus hosts",
-    "name": "host",
+    "name": "hosts",
     "paths" : ["hosts"],
     "id": "taxonomy/host"
   },
