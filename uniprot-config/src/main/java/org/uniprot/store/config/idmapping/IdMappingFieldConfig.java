@@ -14,6 +14,14 @@ import org.uniprot.cv.xdb.UniProtDatabaseTypes;
 /**
  * @author sahmad
  * @created 26/02/2021
+ * This class contains all the possible fields of "from" and "to" in id-mapping service.
+ * from-to fields = drlineconfiguration.json where "idMappingName" is set + objects of type UniProtDatabaseDetail created in this class
+ * Each from-to field has 3 names - displayName, restAPIName, PIRName.
+ * displayName - User readable name
+ * restAPIName - A mame user will pass during REST Call
+ * PIR Name - Name passed to PIR service during internal call(Refer https://idmapping.uniprot.org/cgi-bin/idmapping_http_client for all supported names)
+ * e.g. (displayName, restAPIName, PIRName) = ("UniProtKB AC/ID", "UniProtKB_AC-ID", "ACC,ID")
+ * restAPIName is basically derived from display name by replacing space with underscore(_) and, forward slash and bracket with dash(-)
  */
 public class IdMappingFieldConfig {
     private static final String UNIPROTKB_STR = "UniProtKB";
