@@ -27,43 +27,21 @@
     "includeInSwagger": true
   },
   {
-    "id": "proteome",
-    "fieldName": "proteome",
+    "id": "taxonomies_with",
+    "fieldName": "taxonomies_with",
     "fieldType": "GENERAL",
-    "dataType": "BOOLEAN",
-    "validRegex": "^true|false$",
-    "description": "Search if taxonomy is proteome",
-    "example": "false",
+    "dataType": "STRING",
+    "description": "Search taxonomies with",
+    "example": "uniprotkb",
     "includeInSwagger": true
   },
   {
-    "id": "reference",
-    "fieldName": "reference",
+    "id": "superkingdom",
+    "fieldName": "superkingdom",
     "fieldType": "GENERAL",
-    "dataType": "BOOLEAN",
-    "validRegex": "^true|false$",
-    "description": "Search if taxonomy is referenced",
-    "example": "false",
-    "includeInSwagger": true
-  },
-  {
-    "id": "reviewed",
-    "fieldName": "reviewed",
-    "fieldType": "GENERAL",
-    "dataType": "BOOLEAN",
-    "validRegex": "^true|false$",
-    "description": "Search if taxonomy is reviewed",
-    "example": "false",
-    "includeInSwagger": true
-  },
-  {
-    "id": "annotated",
-    "fieldName": "annotated",
-    "fieldType": "GENERAL",
-    "dataType": "BOOLEAN",
-    "validRegex": "^true|false$",
-    "description": "Search if taxonomy is annotated",
-    "example": "false",
+    "dataType": "STRING",
+    "description": "Search by taxonomy Superkingdom",
+    "example": "Bacteria",
     "includeInSwagger": true
   },
   {

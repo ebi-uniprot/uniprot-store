@@ -71,7 +71,7 @@
     "itemType": "SINGLE",
     "includeInSwagger": true,
     "label": "Synonyms",
-    "name": "synonym",
+    "name": "synonyms",
     "paths" : ["synonyms"],
     "id": "keyword/synonym"
   },
@@ -80,8 +80,8 @@
     "childNumber": 6,
     "itemType": "SINGLE",
     "includeInSwagger": true,
-    "label": "Gene Ontology",
-    "name": "gene_ontology",
+    "label": "Gene Ontologies",
+    "name": "gene_ontologies",
     "paths" : ["geneOntologies"],
     "id": "keyword/gene_ontology"
   },
@@ -111,7 +111,7 @@
     "itemType": "SINGLE",
     "includeInSwagger": true,
     "label": "Parents",
-    "name": "parent",
+    "name": "parents",
     "paths" : ["parents"],
     "id": "keyword/parent"
   },

@@ -14,10 +14,7 @@ import org.apache.solr.client.solrj.SolrQuery;
 import org.springframework.batch.item.ItemProcessor;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.uniprot.core.json.parser.taxonomy.TaxonomyJsonConfig;
-import org.uniprot.core.taxonomy.TaxonomyEntry;
-import org.uniprot.core.taxonomy.TaxonomyLineage;
-import org.uniprot.core.taxonomy.TaxonomyStatistics;
-import org.uniprot.core.taxonomy.TaxonomyStrain;
+import org.uniprot.core.taxonomy.*;
 import org.uniprot.core.taxonomy.impl.TaxonomyEntryBuilder;
 import org.uniprot.core.taxonomy.impl.TaxonomyEntryImpl;
 import org.uniprot.core.taxonomy.impl.TaxonomyStrainBuilder;
@@ -26,6 +23,7 @@ import org.uniprot.core.util.Utils;
 import org.uniprot.store.indexer.common.config.UniProtSolrClient;
 import org.uniprot.store.indexer.taxonomy.readers.*;
 import org.uniprot.store.search.SolrCollection;
+import org.uniprot.store.search.document.DocumentConversionException;
 import org.uniprot.store.search.document.taxonomy.TaxonomyDocument;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -86,23 +84,35 @@ public class TaxonomyProcessor implements ItemProcessor<TaxonomyEntry, TaxonomyD
 
         documentBuilder.active(entry.isActive());
         documentBuilder.hidden(entry.isHidden());
-        documentBuilder.linked(entry.getLinks().size() > 0);
+        documentBuilder.linked(!entry.getLinks().isEmpty());
 
         if (entry.hasStatistics()) {
+            List<String> taxonomiesWith = new ArrayList<>();
             TaxonomyStatistics statistics = entry.getStatistics();
             if (statistics.hasReviewedProteinCount()) {
-                documentBuilder.reviewed(true);
+                taxonomiesWith.add("uniprotkb");
+                taxonomiesWith.add("reviewed");
             }
             if (statistics.hasUnreviewedProteinCount()) {
-                documentBuilder.annotated(true);
+                taxonomiesWith.add("uniprotkb");
+                taxonomiesWith.add("annotated");
             }
             if (statistics.hasReferenceProteomeCount()) {
-                documentBuilder.reference(true);
+                taxonomiesWith.add("reference");
             }
             if (statistics.hasProteomeCount()) {
-                documentBuilder.proteome(true);
+                taxonomiesWith.add("proteome");
             }
+            documentBuilder.taxonomiesWith(taxonomiesWith);
         }
+
+        String superKingdom =
+                entry.getLineages().stream()
+                        .filter(lineage -> TaxonomyRank.SUPERKINGDOM == lineage.getRank())
+                        .map(TaxonomyLineage::getScientificName)
+                        .findFirst()
+                        .orElse("");
+        documentBuilder.superkingdom(superKingdom);
 
         documentBuilder.host(
                 entry.getHosts().stream().map(Taxonomy::getTaxonId).collect(Collectors.toList()));

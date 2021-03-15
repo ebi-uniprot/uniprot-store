@@ -113,7 +113,7 @@ class TaxonomyJobIT {
         TaxonomyEntry entry = jsonMapper.readValue(byteBuffer.array(), TaxonomyEntryImpl.class);
         validateTaxonomyEntry(entry);
 
-        solrQuery = new SolrQuery("reviewed:true");
+        solrQuery = new SolrQuery("taxonomies_with:uniprotkb");
         response = solrClient.query(SolrCollection.taxonomy, solrQuery, TaxonomyDocument.class);
         assertThat(response, is(notNullValue()));
         assertThat(response.size(), is(2));
@@ -178,10 +178,6 @@ class TaxonomyJobIT {
         assertThat(taxonomyDocument.isLinked(), is(true));
         assertThat(taxonomyDocument.getLineage(), contains(4L));
         assertThat(taxonomyDocument.isHidden(), is(true));
-        assertThat(taxonomyDocument.isReviewed(), is(true));
-        assertThat(taxonomyDocument.isAnnotated(), is(true));
-        assertThat(taxonomyDocument.isReference(), is(true));
-        assertThat(taxonomyDocument.isProteome(), is(true));
     }
 
     private void validateTaxonomyEntry(TaxonomyEntry entry) {
@@ -261,7 +257,7 @@ class TaxonomyJobIT {
             return "SELECT '|5|4|1' as lineage_id,"
                     + "      '|name5|name4|name1' AS lineage_name,"
                     + "      '|common5|common4|common1' AS lineage_common,"
-                    + "      '|rank5|KINGDOM|rank1' AS lineage_rank,"
+                    + "      '|rank5|KINGDOM|SUPERKINGDOM' AS lineage_rank,"
                     + "      '|0|1|0' AS lineage_hidden"
                     + " FROM taxonomy.V_PUBLIC_NODE"
                     + " WHERE TAX_ID = ?";

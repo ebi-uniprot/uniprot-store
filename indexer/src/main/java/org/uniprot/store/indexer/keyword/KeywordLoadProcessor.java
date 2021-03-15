@@ -1,7 +1,6 @@
 package org.uniprot.store.indexer.keyword;
 
 import java.nio.ByteBuffer;
-import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -16,6 +15,7 @@ import org.uniprot.core.json.parser.keyword.KeywordJsonConfig;
 import org.uniprot.core.util.Utils;
 import org.uniprot.store.indexer.common.config.UniProtSolrClient;
 import org.uniprot.store.search.SolrCollection;
+import org.uniprot.store.search.document.DocumentConversionException;
 import org.uniprot.store.search.document.keyword.KeywordDocument;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -27,7 +27,7 @@ public class KeywordLoadProcessor implements ItemProcessor<KeywordEntry, Keyword
     private final ObjectMapper keywordObjectMapper;
     private final UniProtSolrClient uniProtSolrClient;
 
-    public KeywordLoadProcessor(UniProtSolrClient uniProtSolrClient) throws SQLException {
+    public KeywordLoadProcessor(UniProtSolrClient uniProtSolrClient) {
         this.uniProtSolrClient = uniProtSolrClient;
         this.keywordObjectMapper = KeywordJsonConfig.getInstance().getFullObjectMapper();
     }
@@ -74,7 +74,10 @@ public class KeywordLoadProcessor implements ItemProcessor<KeywordEntry, Keyword
                             .collect(Collectors.toList());
             builder.ancestor(ancestors); // recursively navigate over parents...
         }
-
+        if (Utils.notNull(keywordEntry.getCategory())) {
+            String category = keywordEntry.getCategory().name().toLowerCase();
+            builder.category(category);
+        }
         byte[] keywordByte = getKeywordObjectBinary(keywordEntry);
         builder.keywordObj(ByteBuffer.wrap(keywordByte));
 
@@ -96,7 +99,7 @@ public class KeywordLoadProcessor implements ItemProcessor<KeywordEntry, Keyword
         try {
             return this.keywordObjectMapper.writeValueAsBytes(keyword);
         } catch (JsonProcessingException e) {
-            throw new RuntimeException("Unable to parse Keyword to binary json: ", e);
+            throw new DocumentConversionException("Unable to parse Keyword to binary json: ", e);
         }
     }
 }
