@@ -13,25 +13,25 @@ import org.uniprot.cv.xdb.UniProtDatabaseTypes;
 
 /**
  * @author sahmad
- * @created 26/02/2021
- * This class contains all the possible fields of "from" and "to" in id-mapping service.
- * from-to fields = drlineconfiguration.json where "idMappingName" is set + objects of type UniProtDatabaseDetail created in this class
- * Each from-to field has 3 names - displayName, restAPIName, PIRName.
- * displayName - User readable name
- * restAPIName - A mame user will pass during REST Call
- * PIR Name - Name passed to PIR service during internal call(Refer https://idmapping.uniprot.org/cgi-bin/idmapping_http_client for all supported names)
- * e.g. (displayName, restAPIName, PIRName) = ("UniProtKB AC/ID", "UniProtKB_AC-ID", "ACC,ID")
- * restAPIName is basically derived from display name by replacing space with underscore(_) and, forward slash and bracket with dash(-)
+ * @created 26/02/2021 This class contains all the possible fields of "from" and "to" in id-mapping
+ *     service. from-to fields = drlineconfiguration.json where "idMappingName" is set + objects of
+ *     type UniProtDatabaseDetail created in this class Each from-to field has 3 names -
+ *     displayName, restAPIName, PIRName. displayName - User readable name restAPIName - A mame user
+ *     will pass during REST Call PIR Name - Name passed to PIR service during internal call(Refer
+ *     https://idmapping.uniprot.org/cgi-bin/idmapping_http_client for all supported names) e.g.
+ *     (displayName, restAPIName, PIRName) = ("UniProtKB AC/ID", "UniProtKB_AC-ID", "ACC,ID")
+ *     restAPIName is basically derived from display name by replacing space with underscore(_) and,
+ *     forward slash and bracket with dash(-)
  */
 public class IdMappingFieldConfig {
-    private static final String UNIPROTKB_STR = "UniProtKB";
-    private static final String UNIPROTKB_AC_ID_STR = "UniProtKB AC/ID";
-    private static final String UNIPROTKB_SWISS_STR = "UniProtKB/Swiss-Prot";
-    private static final String UNIPARC_STR = "UniParc";
-    private static final String UNIREF_50_STR = "UniRef50";
-    private static final String UNIREF_90_STR = "UniRef90";
-    private static final String UNIREF_100_STR = "UniRef100";
-    private static final String GENE_NAME_STR = "Gene Name";
+    public static final String UNIPROTKB_STR = "UniProtKB";
+    public static final String UNIPROTKB_AC_ID_STR = "UniProtKB AC/ID";
+    public static final String UNIPROTKB_SWISS_STR = "UniProtKB/Swiss-Prot";
+    public static final String UNIPARC_STR = "UniParc";
+    public static final String UNIREF_50_STR = "UniRef50";
+    public static final String UNIREF_90_STR = "UniRef90";
+    public static final String UNIREF_100_STR = "UniRef100";
+    public static final String GENE_NAME_STR = "Gene Name";
     public static final String ACC_STR = convertDisplayNameToName(UNIPROTKB_STR);
     public static final String ACC_ID_STR = convertDisplayNameToName(UNIPROTKB_AC_ID_STR);
     public static final String SWISSPROT_STR = convertDisplayNameToName(UNIPROTKB_SWISS_STR);
@@ -41,7 +41,7 @@ public class IdMappingFieldConfig {
     public static final String UNIREF100_STR = convertDisplayNameToName(UNIREF_100_STR);
     public static final String GENENAME_STR = convertDisplayNameToName(GENE_NAME_STR);
 
-    private static final String PIR_CRC64 = "CRC64";
+    public static final String PIR_CRC64 = "CRC64";
     public static final String PIR_ACC_STR = "ACC";
     public static final String PIR_ACC_ID_STR = "ACC,ID";
     public static final String PIR_SWISSPROT_STR = "SWISSPROT";
