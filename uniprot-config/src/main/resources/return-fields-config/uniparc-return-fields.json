@@ -68,7 +68,7 @@
     "itemType": "SINGLE",
     "label": "Proteomes",
     "name": "proteome",
-    "paths": ["uniParcCrossReferences[*].proteomeId"],
+    "paths": ["uniParcCrossReferences[*].proteomeId","uniParcCrossReferences[*].component"],
     "id": "names_&_taxonomy/proteome",
     "includeInSwagger": true
   },
@@ -128,7 +128,10 @@
     "defaultForTsvOrder" : 2,
     "label": "UniProtKB",
     "name": "accession",
-    "paths": ["uniParcCrossReferences[*].id", "uniParcCrossReferences[*].database"],
+    "paths": ["uniParcCrossReferences[*].id",
+      "uniParcCrossReferences[*].database",
+      "uniParcCrossReferences[*].active",
+      "uniParcCrossReferences[*].version"],
     "id": "miscellaneous/accession",
     "includeInSwagger": true
   },
