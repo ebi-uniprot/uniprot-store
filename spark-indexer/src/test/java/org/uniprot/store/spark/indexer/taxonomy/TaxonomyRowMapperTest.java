@@ -86,7 +86,8 @@ class TaxonomyRowMapperTest {
         assertEquals("SPTR_SCIENTIFIC value", mappedEntry.getScientificName());
         assertEquals("SPTR_COMMON value", mappedEntry.getCommonName());
         assertEquals("TAX_CODE value", mappedEntry.getMnemonic());
-        assertEquals(1001L, mappedEntry.getParent());
+        assertNotNull(mappedEntry.getParent());
+        assertEquals(1001L, mappedEntry.getParent().getTaxonId());
         assertEquals(TaxonomyRank.FAMILY, mappedEntry.getRank());
         assertTrue(mappedEntry.getSynonyms().contains("SPTR_SYNONYM value"));
         assertTrue(mappedEntry.isHidden());
@@ -121,7 +122,8 @@ class TaxonomyRowMapperTest {
         assertEquals("NCBI_SCIENTIFIC value", mappedEntry.getScientificName());
         assertEquals("NCBI_COMMON value", mappedEntry.getCommonName());
         assertEquals("TAX_CODE value", mappedEntry.getMnemonic());
-        assertEquals(1001L, mappedEntry.getParent());
+        assertNotNull(mappedEntry.getParent());
+        assertEquals(1001L, mappedEntry.getParent().getTaxonId());
         assertEquals(TaxonomyRank.FAMILY, mappedEntry.getRank());
         assertTrue(mappedEntry.getSynonyms().contains("SPTR_SYNONYM value"));
         assertTrue(mappedEntry.isHidden());
