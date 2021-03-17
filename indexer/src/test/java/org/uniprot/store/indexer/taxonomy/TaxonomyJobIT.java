@@ -185,7 +185,10 @@ class TaxonomyJobIT {
 
         assertThat(entry.getTaxonId(), is(5L));
         assertThat(entry.isActive(), is(true));
-        assertThat(entry.getParentId(), is(4L));
+        assertThat(entry.getParent(), notNullValue());
+        assertThat(entry.getParent().getTaxonId(), is(4L));
+        assertThat(entry.getParent().getScientificName(), is("name4"));
+        assertThat(entry.getParent().getCommonName(), is("common4"));
         assertThat(entry.getScientificName(), is("Sptr_Scientific_5"));
         assertThat(entry.getCommonName(), is("Sptr_Common_5"));
         assertThat(entry.getSynonyms(), contains("sptr_synonym_5"));

@@ -19,6 +19,7 @@ import org.uniprot.core.taxonomy.impl.TaxonomyEntryBuilder;
 import org.uniprot.core.taxonomy.impl.TaxonomyEntryImpl;
 import org.uniprot.core.taxonomy.impl.TaxonomyStrainBuilder;
 import org.uniprot.core.uniprotkb.taxonomy.Taxonomy;
+import org.uniprot.core.uniprotkb.taxonomy.impl.TaxonomyBuilder;
 import org.uniprot.core.util.Utils;
 import org.uniprot.store.indexer.common.config.UniProtSolrClient;
 import org.uniprot.store.indexer.taxonomy.readers.*;
@@ -59,10 +60,18 @@ public class TaxonomyProcessor implements ItemProcessor<TaxonomyEntry, TaxonomyD
         }
         entryBuilder.hostsSet(loadVirusHosts(taxonId));
         entryBuilder.otherNamesSet(loadOtherNames(taxonId));
-        entryBuilder.lineagesSet(loadLineage(taxonId));
+        List<TaxonomyLineage> lineage = loadLineage(taxonId);
+        entryBuilder.lineagesSet(lineage);
         entryBuilder.strainsSet(loadStrains(taxonId));
         entryBuilder.linksSet(loadLinks(taxonId));
 
+        if (entry.hasParent() && lineage != null) {
+            lineage.stream()
+                    .filter(ln -> ln.getTaxonId() == entry.getParent().getTaxonId())
+                    .findFirst()
+                    .map(this::getParentFromLineage)
+                    .ifPresent(entryBuilder::parent);
+        }
         return buildTaxonomyDocument(entryBuilder.build());
     }
 
@@ -74,7 +83,7 @@ public class TaxonomyProcessor implements ItemProcessor<TaxonomyEntry, TaxonomyD
         TaxonomyDocument.TaxonomyDocumentBuilder documentBuilder = TaxonomyDocument.builder();
         documentBuilder.id(String.valueOf(entry.getTaxonId()));
         documentBuilder.taxId(entry.getTaxonId());
-        documentBuilder.ancestor(entry.getParentId());
+        documentBuilder.ancestor(entry.getParent().getTaxonId());
 
         documentBuilder.scientific(entry.getScientificName());
         documentBuilder.common(entry.getCommonName());
@@ -137,11 +146,21 @@ public class TaxonomyProcessor implements ItemProcessor<TaxonomyEntry, TaxonomyD
                 .collect(Collectors.toList());
     }
 
+    private Taxonomy getParentFromLineage(TaxonomyLineage parentLineage) {
+        return new TaxonomyBuilder()
+                .taxonId(parentLineage.getTaxonId())
+                .scientificName(parentLineage.getScientificName())
+                .commonName(parentLineage.getCommonName())
+                .synonymsSet(parentLineage.getSynonyms())
+                .build();
+    }
+
     private ByteBuffer getTaxonomyBinary(TaxonomyEntry entry) {
         try {
             return ByteBuffer.wrap(jsonMapper.writeValueAsBytes(entry));
         } catch (JsonProcessingException e) {
-            throw new RuntimeException("Unable to parse TaxonomyEntry to binary json: ", e);
+            throw new DocumentConversionException(
+                    "Unable to parse TaxonomyEntry to binary json: ", e);
         }
     }
 
@@ -178,7 +197,7 @@ public class TaxonomyProcessor implements ItemProcessor<TaxonomyEntry, TaxonomyD
                 .collect(Collectors.groupingBy(TaxonomyStrainReader.Strain::getId))
                 .values()
                 .forEach(
-                        (strainList) -> {
+                        strainList -> {
                             TaxonomyStrainBuilder builder = new TaxonomyStrainBuilder();
                             for (TaxonomyStrainReader.Strain strain : strainList) {
                                 if (strain.getNameClass()

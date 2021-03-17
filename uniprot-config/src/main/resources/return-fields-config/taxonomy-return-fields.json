@@ -133,7 +133,7 @@
     "defaultForTsvOrder" : 8,
     "label": "Parent",
     "name": "parent",
-    "paths" : ["parentId"],
+    "paths" : ["parent"],
     "id": "taxonomy/parent"
   },
   {

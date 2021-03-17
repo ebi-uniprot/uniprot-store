@@ -18,6 +18,7 @@ import org.springframework.batch.core.annotation.BeforeStep;
 import org.springframework.batch.item.ItemReader;
 import org.uniprot.core.cv.xdb.CrossRefEntry;
 import org.uniprot.core.cv.xdb.impl.CrossRefEntryBuilder;
+import org.uniprot.core.impl.StatisticsBuilder;
 import org.uniprot.store.indexer.common.utils.Constants;
 
 @Slf4j
@@ -182,8 +183,10 @@ public class CrossRefReader implements ItemReader<CrossRefEntry> {
                 this.crossRefProteinCountMap.get(abbr);
 
         if (crossRefProteinCount != null) {
-            builder.reviewedProteinCount(crossRefProteinCount.getReviewedProteinCount());
-            builder.unreviewedProteinCount(crossRefProteinCount.getUnreviewedProteinCount());
+            StatisticsBuilder statBuilder = new StatisticsBuilder();
+            statBuilder.reviewedProteinCount(crossRefProteinCount.getReviewedProteinCount());
+            statBuilder.unreviewedProteinCount(crossRefProteinCount.getUnreviewedProteinCount());
+            builder.statistics(statBuilder.build());
         } else {
             log.warn("Cross ref with abbreviation {} not in the uniprot db", abbr);
         }
