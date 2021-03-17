@@ -53,7 +53,7 @@ public class TaxonomyMergedStep {
                 .writer(itemTaxonomyMergedWriter)
                 .listener(stepListener)
                 .listener(chunkListener)
-                .listener(new SolrCommitStepListener(solrOperations))
+                .listener(new SolrCommitStepListener(solrOperations, SolrCollection.taxonomy))
                 .build();
     }
 

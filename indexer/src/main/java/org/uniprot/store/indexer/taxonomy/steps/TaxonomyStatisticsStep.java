@@ -51,7 +51,7 @@ public class TaxonomyStatisticsStep {
                 .writer(itemTaxonomyStatisticsWriter)
                 .listener(stepListener)
                 .listener(chunkListener)
-                .listener(new SolrCommitStepListener(solrOperations))
+                .listener(new SolrCommitStepListener(solrOperations, SolrCollection.taxonomy))
                 .build();
     }
 

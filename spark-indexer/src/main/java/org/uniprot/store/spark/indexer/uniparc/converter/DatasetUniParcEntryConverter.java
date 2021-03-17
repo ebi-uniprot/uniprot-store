@@ -228,7 +228,7 @@ public class DatasetUniParcEntryConverter implements MapFunction<Row, UniParcEnt
             propertyMap.remove(PROPERTY_NCBI_TAXONOMY_ID);
         }
         if (propertyMap.containsKey(PROPERTY_UNIPROTKB_ACCESSION)) {
-            //Check with Jie use case: https://www.uniprot.org/uniparc/UPI000018F298.xml
+            // Check with Jie use case: https://www.uniprot.org/uniparc/UPI000018F298.xml
             String accession = propertyMap.get(PROPERTY_UNIPROTKB_ACCESSION).get(0);
             builder.propertiesAdd(PROPERTY_UNIPROTKB_ACCESSION, accession);
             propertyMap.remove(PROPERTY_UNIPROTKB_ACCESSION);

@@ -53,7 +53,7 @@ public class TaxonomyDeletedStep {
                 .writer(itemTaxonomyDeletedWriter)
                 .listener(stepListener)
                 .listener(chunkListener)
-                .listener(new SolrCommitStepListener(solrOperations))
+                .listener(new SolrCommitStepListener(solrOperations, SolrCollection.taxonomy))
                 .build();
     }
 

@@ -65,7 +65,7 @@ store:test:
 
 store:sonar:
   stage: quality
-  script: mvn $MAVEN_CLI_OPTS -s ${MAVEN_SETTINGS} -Dsonar.coverage.jacoco.xmlReportPaths=$(pwd)/jacoco-report/jacoco.xml sonar:sonar ${SONAR_PROPS} -Dsonar.projectKey=uniprot-store
+  script: mvn $MAVEN_CLI_OPTS -s ${MAVEN_SETTINGS} -Dsonar.coverage.jacoco.xmlReportPaths=$(pwd)/jacoco-report/jacoco.xml sonar:sonar ${SONAR_PROPS} -Dsonar.projectKey=uniprot-store -Dsonar.exclusions=**/UniRefEntryMocker.java,**/UniParcEntryMocker.java
   dependencies:
     - store:test
     - store:compile

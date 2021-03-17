@@ -1,0 +1,33 @@
+[
+  {
+    "seqNumber": 0,
+    "itemType": "GROUP",
+    "groupName": "PIR id mapping",
+    "isDatabaseGroup": false,
+    "id": "pir-id-mapping"
+  },
+  {
+    "parentId": "pir-id-mapping",
+    "childNumber": 0,
+    "itemType": "SINGLE",
+    "includeInSwagger": true,
+    "isRequiredForJson": true,
+    "isDefaultForTsv": true,
+    "defaultForTsvOrder": 0,
+    "label": "From",
+    "name": "from",
+    "id": "pir-id-mapping/from"
+  },
+  {
+    "parentId": "pir-id-mapping",
+    "childNumber": 1,
+    "itemType": "SINGLE",
+    "includeInSwagger": true,
+    "isRequiredForJson": true,
+    "isDefaultForTsv": true,
+    "defaultForTsvOrder": 1,
+    "label": "To",
+    "name": "to",
+    "id": "pir-id-mapping/to"
+  }
+]
