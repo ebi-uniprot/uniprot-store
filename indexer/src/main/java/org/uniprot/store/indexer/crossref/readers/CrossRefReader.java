@@ -48,6 +48,7 @@ public class CrossRefReader implements ItemReader<CrossRefEntry> {
     private static final String FTP_PREFIX = "ftp://";
     private static final String REF_TYPE_DOI = "DOI";
     private static final String REF_TYPE_PUBMED = "PubMed";
+    private static final String IMPLICIT = "Implicit";
 
     private Scanner reader;
     private boolean dataRegionStarted;
@@ -159,6 +160,9 @@ public class CrossRefReader implements ItemReader<CrossRefEntry> {
                     break;
                 case LINK_TP_STR:
                     lType = keyVal[1].trim();
+                    if(lType.startsWith(IMPLICIT)){
+                        lType = IMPLICIT;
+                    }
                     break;
                 case SERVER_STR:
                     server = keyVal[1].trim();

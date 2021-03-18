@@ -90,10 +90,10 @@
     "childNumber": 7,
     "itemType": "SINGLE",
     "includeInSwagger": true,
-    "label": "Sites",
-    "name": "sites",
-    "paths" : ["sites"],
-    "id": "keyword/sites"
+    "label": "Links",
+    "name": "links",
+    "paths" : ["links"],
+    "id": "keyword/links"
   },
   {
     "parentId": "keyword",
