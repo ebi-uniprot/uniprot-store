@@ -160,7 +160,7 @@ public class CrossRefReader implements ItemReader<CrossRefEntry> {
                     break;
                 case LINK_TP_STR:
                     lType = keyVal[1].trim();
-                    if(lType.startsWith(IMPLICIT)){
+                    if (lType.startsWith(IMPLICIT)) {
                         lType = IMPLICIT;
                     }
                     break;
