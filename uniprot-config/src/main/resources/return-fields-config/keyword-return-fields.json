@@ -48,10 +48,10 @@
     "includeInSwagger": true,
     "isDefaultForTsv": true,
     "defaultForTsvOrder" : 2,
-    "label": "Description",
-    "name": "description",
+    "label": "Definition",
+    "name": "definition",
     "paths" : ["definition"],
-    "id": "keyword/description"
+    "id": "keyword/definition"
   },
   {
     "parentId": "keyword",
