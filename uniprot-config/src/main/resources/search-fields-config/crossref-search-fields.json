@@ -1,16 +1,5 @@
 [
   {
-    "id": "id",
-    "fieldName": "id",
-    "validRegex": "^DB-[0-9]{4}$",
-    "fieldType": "GENERAL",
-    "dataType": "STRING",
-    "sortFieldId": "id_sort",
-    "description": "Search by crossref id which is accession",
-    "example": "DB-0236",
-    "includeInSwagger": true
-  },
-  {
     "id": "id_sort",
     "fieldName": "id",
     "fieldType": "SORT",
@@ -37,20 +26,37 @@
     "example": "category_str desc"
   },
   {
-    "id": "name",
-    "fieldName": "name",
-    "fieldType": "GENERAL",
-    "dataType": "STRING",
-    "description": "Search by crossref name",
-    "example": "Arabidopsis Information Portal",
-    "includeInSwagger": true
-  },
-  {
     "id": "category_facet",
     "fieldName": "category_facet",
     "fieldType": "GENERAL",
     "dataType": "STRING",
     "description": "Search crossref by category facet",
     "example": "PTM databases"
+  },
+  {
+    "seqNumber": 0,
+    "label": "Name",
+    "id": "name",
+    "fieldName": "name",
+    "fieldType": "GENERAL",
+    "dataType": "STRING",
+    "itemType": "SINGLE",
+    "description": "Search by crossref name",
+    "example": "Arabidopsis Information Portal",
+    "includeInSwagger": true
+  },
+  {
+    "seqNumber": 1,
+    "label": "Database [AC]",
+    "id": "id",
+    "fieldName": "id",
+    "validRegex": "^DB-[0-9]{4}$",
+    "fieldType": "GENERAL",
+    "dataType": "STRING",
+    "itemType": "SINGLE",
+    "sortFieldId": "id_sort",
+    "description": "Search by crossref id which is accession",
+    "example": "DB-0236",
+    "includeInSwagger": true
   }
 ]
