@@ -102,14 +102,14 @@ public class TaxonomyProcessor implements ItemProcessor<TaxonomyEntry, TaxonomyD
                 taxonomiesWith.add("uniprotkb");
                 taxonomiesWith.add("reviewed");
             }
-            if (statistics.hasUnreviewedProteinCount()) {
+            if (statistics.hasUnreviewedProteinCount() && !statistics.hasReviewedProteinCount()) {
                 taxonomiesWith.add("uniprotkb");
-                taxonomiesWith.add("annotated");
             }
             if (statistics.hasReferenceProteomeCount()) {
                 taxonomiesWith.add("reference");
+                taxonomiesWith.add("proteome");
             }
-            if (statistics.hasProteomeCount()) {
+            if (statistics.hasProteomeCount() && !statistics.hasReferenceProteomeCount()) {
                 taxonomiesWith.add("proteome");
             }
             documentBuilder.taxonomiesWith(taxonomiesWith);
