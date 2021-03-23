@@ -1,18 +1,19 @@
 package org.uniprot.store.spark.indexer.main.verifiers;
 
+import java.util.Map;
+import java.util.ResourceBundle;
+
 import lombok.extern.slf4j.Slf4j;
+
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
+import org.uniprot.core.citation.Citation;
 import org.uniprot.core.citation.CitationDatabase;
 import org.uniprot.core.uniprotkb.UniProtKBReference;
 import org.uniprot.store.spark.indexer.common.JobParameter;
 import org.uniprot.store.spark.indexer.common.util.SparkUtils;
 import org.uniprot.store.spark.indexer.main.verifiers.mapper.UniProtKBPublicationMapper;
 import org.uniprot.store.spark.indexer.uniprot.UniProtKBRDDTupleReader;
-import scala.Tuple2;
-
-import java.util.Map;
-import java.util.ResourceBundle;
 
 /**
  * @author lgonzales
@@ -33,45 +34,51 @@ public class VerifyCitationData {
                         .build();
 
         JavaRDD<String> solrInputDocumentRDD =
-                new UniProtKBRDDTupleReader(jobParameter,false).loadFlatFileToRDD();
-/*
+                new UniProtKBRDDTupleReader(jobParameter, false).loadFlatFileToRDD();
+        /*
 
-        long withDoi = solrInputDocumentRDD
-                .flatMap(new UniProtKBPublicationMapper())
-                .filter(VerifyCitationData::hasDoi)
-                .count();
-        log.info("withDoi: {} ", withDoi);
+                long withDoi = solrInputDocumentRDD
+                        .flatMap(new UniProtKBPublicationMapper())
+                        .filter(VerifyCitationData::hasDoi)
+                        .count();
+                log.info("withDoi: {} ", withDoi);
 
-        long withAgricola = solrInputDocumentRDD
-                .flatMap(new UniProtKBPublicationMapper())
-                .filter(VerifyCitationData::hasAgricola)
-                .count();
+                long withAgricola = solrInputDocumentRDD
+                        .flatMap(new UniProtKBPublicationMapper())
+                        .filter(VerifyCitationData::hasAgricola)
+                        .count();
 
-        log.info("withAgricola: {} ", withAgricola);
-*/
+                log.info("withAgricola: {} ", withAgricola);
+        */
 
         log.info("------------------------------------------------------------------------------");
-        Map<String, Long> noIdsTypeCount = solrInputDocumentRDD
-                .flatMap(new UniProtKBPublicationMapper())
-                .filter(VerifyCitationData::noIds)
-                .map(VerifyCitationData::mapByType)
-                .countByValue();
-        noIdsTypeCount.forEach((key, value) -> log.info("noIdsTypeCount: Type: {} , count: {} ", key, value));
-
+        long hashIds =
+                solrInputDocumentRDD
+                        .flatMap(new UniProtKBPublicationMapper())
+                        .filter(VerifyCitationData::noIds)
+                        .map(UniProtKBReference::getCitation)
+                        .map(Citation::getId)
+                        .distinct()
+                        .count();
+        log.info("distinct hashIds: {}", hashIds);
+/*
         log.info("-------------------------------------------------------------------------------");
-        Map<String, Long> idsTypeCount = solrInputDocumentRDD
-                .flatMap(new UniProtKBPublicationMapper())
-                .filter(VerifyCitationData::hasId)
-                .map(VerifyCitationData::mapByType)
-                .countByValue();
-        idsTypeCount.forEach((key, value) -> log.info("idsTypeCount: Type: {} , count: {} ", key, value));
-        log.info("--------------------------------------------------------------------------------");
+        Map<String, Long> idsTypeCount =
+                solrInputDocumentRDD
+                        .flatMap(new UniProtKBPublicationMapper())
+                        .filter(VerifyCitationData::hasId)
+                        .map(VerifyCitationData::mapByType)
+                        .countByValue();
+        idsTypeCount.forEach(
+                (key, value) -> log.info("idsTypeCount: Type: {} , count: {} ", key, value));
+        log.info(
+                "--------------------------------------------------------------------------------");*/
         sparkContext.close();
     }
 
     private static boolean hasId(UniProtKBReference reference) {
         boolean result = false;
-        if(reference.hasCitation() && reference.getCitation().hasCitationCrossReferences()) {
+        if (reference.hasCitation() && reference.getCitation().hasCitationCrossReferences()) {
             result = true;
         }
         return result;
@@ -79,7 +86,7 @@ public class VerifyCitationData {
 
     private static String mapByType(UniProtKBReference reference) {
         String result = "NO-CITATION";
-        if(reference.hasCitation()){
+        if (reference.hasCitation()) {
             result = reference.getCitation().getCitationType().name();
         }
         return result;
@@ -87,40 +94,37 @@ public class VerifyCitationData {
 
     private static boolean hasPubmedId(UniProtKBReference reference) {
         boolean result = false;
-        if(reference.hasCitation() && reference.getCitation().hasCitationCrossReferences()) {
-            result = reference
-                    .getCitation()
-                    .getCitationCrossReferences().stream()
-                    .anyMatch(xref -> xref.getDatabase() == CitationDatabase.PUBMED);
+        if (reference.hasCitation() && reference.getCitation().hasCitationCrossReferences()) {
+            result =
+                    reference.getCitation().getCitationCrossReferences().stream()
+                            .anyMatch(xref -> xref.getDatabase() == CitationDatabase.PUBMED);
         }
         return result;
     }
 
     private static boolean hasDoi(UniProtKBReference reference) {
         boolean result = false;
-        if(reference.hasCitation() && reference.getCitation().hasCitationCrossReferences()) {
-            result = reference
-                    .getCitation()
-                    .getCitationCrossReferences().stream()
-                    .anyMatch(xref -> xref.getDatabase() == CitationDatabase.DOI);
+        if (reference.hasCitation() && reference.getCitation().hasCitationCrossReferences()) {
+            result =
+                    reference.getCitation().getCitationCrossReferences().stream()
+                            .anyMatch(xref -> xref.getDatabase() == CitationDatabase.DOI);
         }
         return result;
     }
 
     private static boolean hasAgricola(UniProtKBReference reference) {
         boolean result = false;
-        if(reference.hasCitation() && reference.getCitation().hasCitationCrossReferences()) {
-            result = reference
-                    .getCitation()
-                    .getCitationCrossReferences().stream()
-                    .anyMatch(xref -> xref.getDatabase() == CitationDatabase.AGRICOLA);
+        if (reference.hasCitation() && reference.getCitation().hasCitationCrossReferences()) {
+            result =
+                    reference.getCitation().getCitationCrossReferences().stream()
+                            .anyMatch(xref -> xref.getDatabase() == CitationDatabase.AGRICOLA);
         }
         return result;
     }
 
     private static boolean noIds(UniProtKBReference reference) {
         boolean result = true;
-        if(reference.hasCitation() && reference.getCitation().hasCitationCrossReferences()) {
+        if (reference.hasCitation() && reference.getCitation().hasCitationCrossReferences()) {
             result = false;
         }
         return result;
