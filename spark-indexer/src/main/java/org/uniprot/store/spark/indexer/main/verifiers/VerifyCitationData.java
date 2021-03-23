@@ -9,7 +9,9 @@ import org.uniprot.store.spark.indexer.common.JobParameter;
 import org.uniprot.store.spark.indexer.common.util.SparkUtils;
 import org.uniprot.store.spark.indexer.main.verifiers.mapper.UniProtKBPublicationMapper;
 import org.uniprot.store.spark.indexer.uniprot.UniProtKBRDDTupleReader;
+import scala.Tuple2;
 
+import java.util.Map;
 import java.util.ResourceBundle;
 
 /**
@@ -48,14 +50,39 @@ public class VerifyCitationData {
         log.info("withAgricola: {} ", withAgricola);
 */
 
-
-        long noIds = solrInputDocumentRDD
+        log.info("------------------------------------------------------------------------------");
+        Map<String, Long> noIdsTypeCount = solrInputDocumentRDD
                 .flatMap(new UniProtKBPublicationMapper())
                 .filter(VerifyCitationData::noIds)
-                .count();
-        log.info("noIds: {} ", noIds);
-        System.out.println("noIds --> "+noIds);
+                .map(VerifyCitationData::mapByType)
+                .countByValue();
+        noIdsTypeCount.forEach((key, value) -> log.info("noIdsTypeCount: Type: {} , count: {} ", key, value));
+
+        log.info("-------------------------------------------------------------------------------");
+        Map<String, Long> idsTypeCount = solrInputDocumentRDD
+                .flatMap(new UniProtKBPublicationMapper())
+                .filter(VerifyCitationData::hasId)
+                .map(VerifyCitationData::mapByType)
+                .countByValue();
+        idsTypeCount.forEach((key, value) -> log.info("idsTypeCount: Type: {} , count: {} ", key, value));
+        log.info("--------------------------------------------------------------------------------");
         sparkContext.close();
+    }
+
+    private static boolean hasId(UniProtKBReference reference) {
+        boolean result = false;
+        if(reference.hasCitation() && reference.getCitation().hasCitationCrossReferences()) {
+            result = true;
+        }
+        return result;
+    }
+
+    private static String mapByType(UniProtKBReference reference) {
+        String result = "NO-CITATION";
+        if(reference.hasCitation()){
+            result = reference.getCitation().getCitationType().name();
+        }
+        return result;
     }
 
     private static boolean hasPubmedId(UniProtKBReference reference) {
