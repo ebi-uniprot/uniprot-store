@@ -32,6 +32,7 @@ public class VerifyCitationData {
 
         JavaRDD<String> solrInputDocumentRDD =
                 new UniProtKBRDDTupleReader(jobParameter,false).loadFlatFileToRDD();
+/*
 
         long withDoi = solrInputDocumentRDD
                 .flatMap(new UniProtKBPublicationMapper())
@@ -45,17 +46,15 @@ public class VerifyCitationData {
                 .count();
 
         log.info("withAgricola: {} ", withAgricola);
+*/
 
 
-        long doiOnly = solrInputDocumentRDD
+        long noIds = solrInputDocumentRDD
                 .flatMap(new UniProtKBPublicationMapper())
-                .filter(VerifyCitationData::hasDoi)
-                .filter(reference -> !hasPubmedId(reference))
+                .filter(VerifyCitationData::noIds)
                 .count();
-        log.info("withDoi: {} ", withDoi);
-        log.info("withAgricola: {} ", withAgricola);
-        log.info("doiOnly: {} ", doiOnly);
-        System.out.println("withDoi --> "+withDoi + " doiOnly --> "+doiOnly+ " withAgricola --> "+withAgricola);
+        log.info("noIds: {} ", noIds);
+        System.out.println("noIds --> "+noIds);
         sparkContext.close();
     }
 
@@ -88,6 +87,14 @@ public class VerifyCitationData {
                     .getCitation()
                     .getCitationCrossReferences().stream()
                     .anyMatch(xref -> xref.getDatabase() == CitationDatabase.AGRICOLA);
+        }
+        return result;
+    }
+
+    private static boolean noIds(UniProtKBReference reference) {
+        boolean result = true;
+        if(reference.hasCitation() && reference.getCitation().hasCitationCrossReferences()) {
+            result = false;
         }
         return result;
     }
