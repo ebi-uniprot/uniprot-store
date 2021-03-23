@@ -36,13 +36,15 @@ public class VerifyCitationData {
                 .flatMap(new UniProtKBPublicationMapper())
                 .filter(VerifyCitationData::hasPubmedId)
                 .count();
-        log.debug("WithPubmed: {} ", withPubMed);
+        log.info("WithPubmed: {} ", withPubMed);
 
         long withoutPubMed = solrInputDocumentRDD
                 .flatMap(new UniProtKBPublicationMapper())
                 .filter(reference -> !hasPubmedId(reference))
                 .count();
-        log.debug("WithoutPubMed: {} ", withoutPubMed);
+        log.info("WithPubmed: {} ", withPubMed);
+        log.info("WithoutPubMed: {} ", withoutPubMed);
+        System.out.println("WithPubmed --> "+withPubMed + " WithoutPubMed --> "+withoutPubMed);
         sparkContext.close();
     }
 
