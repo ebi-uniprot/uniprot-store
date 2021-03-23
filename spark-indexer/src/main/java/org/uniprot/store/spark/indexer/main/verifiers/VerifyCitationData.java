@@ -33,19 +33,29 @@ public class VerifyCitationData {
         JavaRDD<String> solrInputDocumentRDD =
                 new UniProtKBRDDTupleReader(jobParameter,false).loadFlatFileToRDD();
 
-        long withPubMed = solrInputDocumentRDD
+        long withDoi = solrInputDocumentRDD
                 .flatMap(new UniProtKBPublicationMapper())
-                .filter(VerifyCitationData::hasPubmedId)
+                .filter(VerifyCitationData::hasDoi)
                 .count();
-        log.info("WithPubmed: {} ", withPubMed);
+        log.info("withDoi: {} ", withDoi);
 
-        long withoutPubMed = solrInputDocumentRDD
+        long withAgricola = solrInputDocumentRDD
                 .flatMap(new UniProtKBPublicationMapper())
+                .filter(VerifyCitationData::hasAgricola)
+                .count();
+
+        log.info("withAgricola: {} ", withAgricola);
+
+
+        long doiOnly = solrInputDocumentRDD
+                .flatMap(new UniProtKBPublicationMapper())
+                .filter(VerifyCitationData::hasDoi)
                 .filter(reference -> !hasPubmedId(reference))
                 .count();
-        log.info("WithPubmed: {} ", withPubMed);
-        log.info("WithoutPubMed: {} ", withoutPubMed);
-        System.out.println("WithPubmed --> "+withPubMed + " WithoutPubMed --> "+withoutPubMed);
+        log.info("withDoi: {} ", withDoi);
+        log.info("withAgricola: {} ", withAgricola);
+        log.info("doiOnly: {} ", doiOnly);
+        System.out.println("withDoi --> "+withDoi + " doiOnly --> "+doiOnly+ " withAgricola --> "+withAgricola);
         sparkContext.close();
     }
 
@@ -56,6 +66,28 @@ public class VerifyCitationData {
                     .getCitation()
                     .getCitationCrossReferences().stream()
                     .anyMatch(xref -> xref.getDatabase() == CitationDatabase.PUBMED);
+        }
+        return result;
+    }
+
+    private static boolean hasDoi(UniProtKBReference reference) {
+        boolean result = false;
+        if(reference.hasCitation() && reference.getCitation().hasCitationCrossReferences()) {
+            result = reference
+                    .getCitation()
+                    .getCitationCrossReferences().stream()
+                    .anyMatch(xref -> xref.getDatabase() == CitationDatabase.DOI);
+        }
+        return result;
+    }
+
+    private static boolean hasAgricola(UniProtKBReference reference) {
+        boolean result = false;
+        if(reference.hasCitation() && reference.getCitation().hasCitationCrossReferences()) {
+            result = reference
+                    .getCitation()
+                    .getCitationCrossReferences().stream()
+                    .anyMatch(xref -> xref.getDatabase() == CitationDatabase.AGRICOLA);
         }
         return result;
     }
