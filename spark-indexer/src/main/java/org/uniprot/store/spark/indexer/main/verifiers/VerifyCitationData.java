@@ -3,6 +3,7 @@ package org.uniprot.store.spark.indexer.main.verifiers;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
+import org.uniprot.core.citation.CitationDatabase;
 import org.uniprot.core.uniprotkb.UniProtKBReference;
 import org.uniprot.store.spark.indexer.common.JobParameter;
 import org.uniprot.store.spark.indexer.common.util.SparkUtils;
@@ -49,6 +50,13 @@ public class VerifyCitationData {
     }
 
     private static boolean hasPubmedId(UniProtKBReference reference) {
-        return false;
+        boolean result = false;
+        if(reference.hasCitation() && reference.getCitation().hasCitationCrossReferences()) {
+            result = reference
+                    .getCitation()
+                    .getCitationCrossReferences().stream()
+                    .anyMatch(xref -> xref.getDatabase() == CitationDatabase.PUBMED);
+        }
+        return result;
     }
 }
