@@ -10,6 +10,8 @@ import org.apache.spark.api.java.function.Function;
 import org.uniprot.core.citation.Citation;
 import org.uniprot.core.citation.CitationDatabase;
 import org.uniprot.core.uniprotkb.UniProtKBReference;
+import org.uniprot.core.util.Pair;
+import org.uniprot.core.util.PairImpl;
 import org.uniprot.store.spark.indexer.common.JobParameter;
 import org.uniprot.store.spark.indexer.common.util.SparkUtils;
 import org.uniprot.store.spark.indexer.literature.mapper.LiteratureUniProtKBReferencesMapper;
@@ -36,7 +38,6 @@ public class VerifyCitationData {
         JavaRDD<String> solrInputDocumentRDD =
                 new UniProtKBRDDTupleReader(jobParameter, false).loadFlatFileToRDD();
 
-        long problematicOnes =
                 solrInputDocumentRDD
                         .flatMapToPair(new LiteratureUniProtKBReferencesMapper())
                         .mapValues(ref -> ref.getCitation())
@@ -44,10 +45,10 @@ public class VerifyCitationData {
                         .groupByKey()
                         .repartition(30000)
                         .mapValues(new AreEquals())
-                        .filter(tuple2 -> !tuple2._2)
-                        .count();
+                        .filter(tuple2 -> tuple2._2 != null &&tuple2._2.getValue() != null)
+                        .foreach(pair -> log.info("key: {}, value: {}", pair._2.getKey(), pair._2.getValue()));
 
-        log.info("problematicOnes: {}", problematicOnes);
+        log.info("The End");
 
         /*                long withDoi = solrInputDocumentRDD
                         .flatMap(new UniProtKBPublicationMapper())
@@ -87,23 +88,23 @@ public class VerifyCitationData {
         sparkContext.close();
     }
 
-    private static class AreEquals implements Function<Iterable<Citation>, Boolean> {
+    private static class AreEquals implements Function<Iterable<Citation>, Pair<Citation, Citation>> {
 
         private static final long serialVersionUID = 4600560402871146686L;
 
         @Override
-        public Boolean call(Iterable<Citation> entries) throws Exception {
-            boolean result = true;
+        public Pair<Citation, Citation> call(Iterable<Citation> entries) throws Exception {
             Citation first = null;
+            Citation notEquals = null;
             for (Citation entry : entries) {
                 if (first == null) {
                     first = entry;
                 } else if (!first.equals(entry)) {
-                    result = false;
+                    notEquals = entry;
                     break;
                 }
             }
-            return result;
+            return new PairImpl<>(first, notEquals);
         }
     }
 
