@@ -4,8 +4,6 @@ import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.uniprot.store.spark.indexer.publication.PublicationDocumentsToHDFSWriter.getJoinKey;
-import static org.uniprot.store.spark.indexer.publication.PublicationDocumentsToHDFSWriter.separateJoinKey;
 
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -54,16 +52,14 @@ class UniProtKBPublicationToMappedReferenceTest {
         assertThat(counter, is(84));
         // RN 1
         assertThat(firstTuple, is(notNullValue()));
-        assertThat(firstTuple._1, is(getJoinKey("O60260", "9560156")));
+        assertThat(firstTuple._1, is("O60260_9560156"));
 
         // RN 4
         assertThat(fourthTuple, is(notNullValue()));
-        String[] fourthTupleKeyParts = separateJoinKey(fourthTuple._1);
-        assertThat(fourthTupleKeyParts[0], is("O60260"));
-        assertThat(fourthTupleKeyParts[1], is(nullValue()));
+        assertThat(fourthTuple._1, is("O60260_CI-BVIU4B8BBHOP1"));
 
         // RN 84
         assertThat(lastTuple, is(notNullValue()));
-        assertThat(lastTuple._1, is(getJoinKey("O60260", "29311685")));
+        assertThat(lastTuple._1, is("O60260_29311685"));
     }
 }

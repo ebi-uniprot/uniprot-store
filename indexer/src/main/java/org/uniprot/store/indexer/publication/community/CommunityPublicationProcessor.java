@@ -67,7 +67,7 @@ public class CommunityPublicationProcessor
                         "More than one publications for accession "
                                 + reference.getUniProtKBAccession().getValue()
                                 + "and pubmed id "
-                                + reference.getPubMedId();
+                                + reference.getCitationId();
                 throw new RuntimeException(message);
             }
             PublicationDocument.Builder builder = PublicationDocument.builder();
@@ -78,10 +78,10 @@ public class CommunityPublicationProcessor
             types.add(COMMUNITY.getIntValue());
 
             toReturn =
-                    builder.pubMedId(reference.getPubMedId())
+                    builder.citationId(reference.getCitationId())
                             .accession(reference.getUniProtKBAccession().getValue())
                             .id(existingDocument.getId())
-                            .isLargeScale(largeScalePubmedIds.contains(reference.getPubMedId()))
+                            .isLargeScale(largeScalePubmedIds.contains(reference.getCitationId()))
                             .categories(categories)
                             .types(types)
                             .mainType(existingDocument.getMainType())
@@ -139,10 +139,10 @@ public class CommunityPublicationProcessor
             List<CommunityMappedReference> references, Set<String> categories) {
         CommunityMappedReference reference = references.get(0);
         PublicationDocument.Builder builder = PublicationDocument.builder();
-        return builder.pubMedId(reference.getPubMedId())
+        return builder.citationId(reference.getCitationId())
                 .accession(reference.getUniProtKBAccession().getValue())
                 .id(getDocumentId())
-                .isLargeScale(largeScalePubmedIds.contains(reference.getPubMedId()))
+                .isLargeScale(largeScalePubmedIds.contains(reference.getCitationId()))
                 .categories(categories)
                 .mainType(COMMUNITY.getIntValue())
                 .types(Collections.singleton(COMMUNITY.getIntValue()))

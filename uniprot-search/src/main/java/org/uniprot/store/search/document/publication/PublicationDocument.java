@@ -32,8 +32,8 @@ public class PublicationDocument implements Document {
     @Field("accession")
     private String accession;
 
-    @Field("pubmed_id")
-    private String pubMedId;
+    @Field("citation_id")
+    private String citationId;
 
     private Set<String> categories = new HashSet<>();
 

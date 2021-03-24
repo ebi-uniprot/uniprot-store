@@ -8,7 +8,6 @@ import static org.uniprot.store.indexer.publication.PublicationITUtil.extractObj
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 import org.apache.solr.client.solrj.SolrQuery;
@@ -106,11 +105,6 @@ class UniProtKBPublicationJobIT {
             assertThat(mappedRef, is(notNullValue()));
             assertThat(mappedRef.getUniProtKBAccession(), is(notNullValue()));
             assertThat(mappedRef.getUniProtKBAccession().getValue(), is(notNullValue()));
-            if (Objects.isNull(mappedRef.getPubMedId())) {
-                assertThat(mappedRef.getCitation(), is(notNullValue()));
-            } else {
-                assertThat(mappedRef.getCitation(), is(nullValue()));
-            }
             assertThat(mappedRef.getSource(), is(notNullValue()));
             assertThat(mappedRef.getSource().getName(), is(notNullValue()));
             assertThat(mappedRef.getSource().getId(), is(nullValue()));
@@ -125,16 +119,17 @@ class UniProtKBPublicationJobIT {
                 solrClient.query(
                         SolrCollection.publication, accessionQuery, PublicationDocument.class);
         assertThat(accDocs, hasSize(2));
-        assertThat(accDocs.get(0).getPubMedId(), is(notNullValue()));
+        assertThat(accDocs.get(0).getCitationId(), is(notNullValue()));
         PublicationDocument accDoc = accDocs.get(0);
-        assertThat(accDoc.getPubMedId(), is("29748402"));
+        assertThat(accDoc.getCitationId(), is("29748402"));
         assertThat(accDoc.isLargeScale(), is(true));
         MappedPublications mappedPubs = extractObject(accDoc);
-        assertThat(mappedPubs.getUniProtKBMappedReference().getCitation(), is(nullValue()));
+        // TODO: add validation to mappedPubs
         // without pubmedid
         accDoc = accDocs.get(1);
-        assertThat(accDoc.getPubMedId(), is(nullValue()));
+        assertThat(accDoc.getCitationId(), is("TODO"));
+        assertThat(accDoc.isLargeScale(), is(true));
         mappedPubs = extractObject(accDocs.get(1));
-        assertThat(mappedPubs.getUniProtKBMappedReference().getCitation(), is(notNullValue()));
+        // TODO: add validation to mappedPubs
     }
 }

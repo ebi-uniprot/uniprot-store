@@ -14,6 +14,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  * @created 16/12/2020
  */
 public class PublicationUtils {
+
+    private PublicationUtils(){
+
+    }
+
     private static final ObjectMapper MAPPED_PUBLICATIONS_OBJECT_MAPPER =
             MappedPublicationsJsonConfig.getInstance().getFullObjectMapper();
 
@@ -26,7 +31,7 @@ public class PublicationUtils {
                 + reference.getUniProtKBAccession().getValue()
                 + " AND "
                 + "pubmed_id:"
-                + reference.getPubMedId();
+                + reference.getCitationId();
     }
 
     public static byte[] asBinary(MappedPublications reference) {

@@ -1,18 +1,18 @@
 package org.uniprot.store.spark.indexer.main.verifiers;
 
-import java.util.Map;
 import java.util.ResourceBundle;
 
 import lombok.extern.slf4j.Slf4j;
 
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
+import org.apache.spark.api.java.function.Function;
 import org.uniprot.core.citation.Citation;
 import org.uniprot.core.citation.CitationDatabase;
 import org.uniprot.core.uniprotkb.UniProtKBReference;
 import org.uniprot.store.spark.indexer.common.JobParameter;
 import org.uniprot.store.spark.indexer.common.util.SparkUtils;
-import org.uniprot.store.spark.indexer.main.verifiers.mapper.UniProtKBPublicationMapper;
+import org.uniprot.store.spark.indexer.literature.mapper.LiteratureUniProtKBReferencesMapper;
 import org.uniprot.store.spark.indexer.uniprot.UniProtKBRDDTupleReader;
 
 /**
@@ -35,9 +35,18 @@ public class VerifyCitationData {
 
         JavaRDD<String> solrInputDocumentRDD =
                 new UniProtKBRDDTupleReader(jobParameter, false).loadFlatFileToRDD();
-        /*
 
-                long withDoi = solrInputDocumentRDD
+        long problematicOnes =
+                solrInputDocumentRDD
+                        .flatMapToPair(new LiteratureUniProtKBReferencesMapper())
+                        .groupByKey()
+                        .mapValues(new AreEquals())
+                        .filter(tuple2 -> !tuple2._2)
+                        .count();
+
+        log.info("problematicOnes: {}", problematicOnes);
+
+        /*                long withDoi = solrInputDocumentRDD
                         .flatMap(new UniProtKBPublicationMapper())
                         .filter(VerifyCitationData::hasDoi)
                         .count();
@@ -49,7 +58,6 @@ public class VerifyCitationData {
                         .count();
 
                 log.info("withAgricola: {} ", withAgricola);
-        */
 
         log.info("------------------------------------------------------------------------------");
         long hashIds =
@@ -61,7 +69,7 @@ public class VerifyCitationData {
                         .distinct()
                         .count();
         log.info("distinct hashIds: {}", hashIds);
-/*
+
         log.info("-------------------------------------------------------------------------------");
         Map<String, Long> idsTypeCount =
                 solrInputDocumentRDD
@@ -74,6 +82,26 @@ public class VerifyCitationData {
         log.info(
                 "--------------------------------------------------------------------------------");*/
         sparkContext.close();
+    }
+
+    private static class AreEquals implements Function<Iterable<UniProtKBReference>, Boolean> {
+
+        private static final long serialVersionUID = 4600560402871146686L;
+
+        @Override
+        public Boolean call(Iterable<UniProtKBReference> entries) throws Exception {
+            boolean result = true;
+            Citation first = null;
+            for (UniProtKBReference entry : entries) {
+                if (first == null) {
+                    first = entry.getCitation();
+                } else if (!first.equals(entry.getCitation())) {
+                    result = false;
+                    break;
+                }
+            }
+            return result;
+        }
     }
 
     private static boolean hasId(UniProtKBReference reference) {

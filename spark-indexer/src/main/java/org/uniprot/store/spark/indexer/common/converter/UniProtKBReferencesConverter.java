@@ -1,12 +1,10 @@
-package org.uniprot.store.spark.indexer.main.verifiers.mapper;
+package org.uniprot.store.spark.indexer.common.converter;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-import org.apache.spark.api.java.function.FlatMapFunction;
 import org.uniprot.core.flatfile.parser.UniprotKBLineParser;
 import org.uniprot.core.flatfile.parser.impl.DefaultUniprotKBLineParserFactory;
 import org.uniprot.core.flatfile.parser.impl.entry.EntryObject;
@@ -23,20 +21,14 @@ import org.uniprot.core.flatfile.writer.LineType;
 import org.uniprot.core.uniprotkb.UniProtKBReference;
 
 /**
- * Maps an entry string to an iterator of tuples with values <accession, MappedReference>.
- *
- * <p>Created 18/01/2021
- *
- * @author Edd
+ * @author lgonzales
+ * @since 24/03/2021
  */
-public class UniProtKBPublicationMapper implements FlatMapFunction<String, UniProtKBReference> {
+public class UniProtKBReferencesConverter {
 
     private static final Pattern REFERENCE_REGEX = Pattern.compile("^(RN|RA|RC|RG|RL|RP|RT|RX) .*");
-    private static final long serialVersionUID = -755120294877372128L;
 
-    @Override
-    public Iterator<UniProtKBReference> call(String entryStr) throws Exception {
-        String[] lines = entryStr.split("\n");
+    public List<UniProtKBReference> convert(String[] lines) {
         // for each reference in the entry, create a list of lines related to it
         List<List<String>> rawRefs = new ArrayList<>();
         List<String> rawRef = new ArrayList<>();
@@ -58,11 +50,10 @@ public class UniProtKBPublicationMapper implements FlatMapFunction<String, UniPr
         return rawRefs.stream()
                 .map(this::getSections)
                 .map(this::createReference)
-                .collect(Collectors.toList())
-                .iterator();
+                .collect(Collectors.toList());
     }
 
-    List<LineTypeSection> getSections(List<String> lines) {
+    private List<LineTypeSection> getSections(List<String> lines) {
         List<LineTypeSection> lineTypeSections = new ArrayList<>();
 
         boolean isNotLastSection = true;
@@ -77,7 +68,7 @@ public class UniProtKBPublicationMapper implements FlatMapFunction<String, UniPr
         return lineTypeSections;
     }
 
-    LineTypeSection getSectionWithSameLineType(List<String> lines, int offset) {
+    private LineTypeSection getSectionWithSameLineType(List<String> lines, int offset) {
         LineTypeSection lineTypeSection = new LineTypeSection();
 
         LineType lineType = null;

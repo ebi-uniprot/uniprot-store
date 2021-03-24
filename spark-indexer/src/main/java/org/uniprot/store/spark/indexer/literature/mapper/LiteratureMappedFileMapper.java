@@ -1,4 +1,4 @@
-package org.uniprot.store.spark.indexer.literature;
+package org.uniprot.store.spark.indexer.literature.mapper;
 
 import java.util.ArrayList;
 import java.util.Arrays;

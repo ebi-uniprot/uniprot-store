@@ -62,7 +62,7 @@ class CommunityPublicationJobIT {
     void setupSolr() throws Exception {
         PublicationDocument pubDoc =
                 PublicationDocument.builder()
-                        .pubMedId("27190215")
+                        .citationId("27190215")
                         .accession("D4GVJ3")
                         .id(UUID.randomUUID().toString())
                         .isLargeScale(true)
@@ -130,7 +130,7 @@ class CommunityPublicationJobIT {
         CommunityMappedReference reference = references.get(0);
 
         // ----------- check contents of stored CommunityMapped
-        assertThat(reference.getPubMedId(), is("27190215"));
+        assertThat(reference.getCitationId(), is("27190215"));
         assertThat(reference.getUniProtKBAccession().getValue(), is("D4GVJ3"));
         assertThat(reference.getSource().getName(), is("ORCID"));
         assertThat(reference.getSource().getId(), is("0000-0001-6105-0923"));
@@ -148,7 +148,7 @@ class CommunityPublicationJobIT {
         ComputationallyMappedReference comp = compReference.get(0);
 
         // ----------- check contents of stored ComputationallyMapped
-        assertThat(comp.getPubMedId(), is("27190215"));
+        assertThat(comp.getCitationId(), is("27190215"));
         assertThat(comp.getUniProtKBAccession().getValue(), is("D4GVJ3"));
         assertThat(comp.getSource().getName(), is("name"));
         assertThat(comp.getSource().getId(), is("123"));
@@ -194,7 +194,7 @@ class CommunityPublicationJobIT {
     private MappedPublications createMappedPublications() {
         ComputationallyMappedReference compMap =
                 new ComputationallyMappedReferenceBuilder()
-                        .pubMedId("27190215")
+                        .citationId("27190215")
                         .uniProtKBAccession("D4GVJ3")
                         .source(new MappedSourceBuilder().id("123").name("name").build())
                         .sourceCategoriesAdd("Sequence")

@@ -1,4 +1,4 @@
-package org.uniprot.store.spark.indexer.literature;
+package org.uniprot.store.spark.indexer.literature.mapper;
 
 import org.apache.spark.api.java.function.PairFunction;
 

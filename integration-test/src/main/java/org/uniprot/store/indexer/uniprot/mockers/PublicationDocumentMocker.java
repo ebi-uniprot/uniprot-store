@@ -10,7 +10,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.uniprot.core.citation.impl.SubmissionBuilder;
 import org.uniprot.core.publication.CommunityMappedReference;
 import org.uniprot.core.publication.ComputationallyMappedReference;
 import org.uniprot.core.publication.MappedPublications;
@@ -58,7 +57,7 @@ public class PublicationDocumentMocker {
         UniProtKBMappedReference kbRef =
                 new UniProtKBMappedReferenceBuilder()
                         .source(new MappedSourceBuilder().name("source 3").id("id 3").build())
-                        .citation(new SubmissionBuilder().title("Submission").build())
+                        .citationId("SU-123456789012")
                         .uniProtKBAccession(generateAccession(accessionNumber))
                         .sourceCategoriesSet(DOC_CATEGORIES.get(id))
                         .referencePositionsAdd("Reference position 1")
@@ -115,7 +114,7 @@ public class PublicationDocumentMocker {
         String id = generateId();
         String accession = generateAccession(accessionNumber);
         return populateDocumentWithoutPubmedOrMappedPublications(id, accession)
-                .pubMedId(generatePubMedId(pubmedNumber))
+                .citationId(generatePubMedId(pubmedNumber))
                 .type(MappedReferenceType.COMPUTATIONAL.getIntValue())
                 .publicationMappedReferences(
                         getMappedPublications(id, accession, generatePubMedId(pubmedNumber)))
@@ -125,7 +124,7 @@ public class PublicationDocumentMocker {
     public static PublicationDocument create(String accession, int pubmedNumber) {
         String id = generateId();
         return populateDocumentWithoutPubmedOrMappedPublications(id, accession)
-                .pubMedId(generatePubMedId(pubmedNumber))
+                .citationId(generatePubMedId(pubmedNumber))
                 .type(MappedReferenceType.COMPUTATIONAL.getIntValue())
                 .publicationMappedReferences(
                         getMappedPublications(id, accession, generatePubMedId(pubmedNumber)))
@@ -137,7 +136,7 @@ public class PublicationDocumentMocker {
         String id = generateId();
         String pubMedId = String.valueOf(pubmedNumber);
         return populateDocumentWithoutPubmedOrMappedPublications(id, accession)
-                .pubMedId(pubMedId)
+                .citationId(pubMedId)
                 .type(MappedReferenceType.COMPUTATIONAL.getIntValue())
                 .publicationMappedReferences(getMappedPublications(id, accession, pubMedId))
                 .refNumber(refNumber)
@@ -156,7 +155,7 @@ public class PublicationDocumentMocker {
                                         .name("source " + accession)
                                         .id("id " + accession)
                                         .build())
-                        .pubMedId(pubMedId)
+                        .citationId(pubMedId)
                         .uniProtKBAccession(accession)
                         .sourceCategoriesAdd("Interaction")
                         .communityAnnotation(
@@ -172,7 +171,7 @@ public class PublicationDocumentMocker {
                                         .name("source " + accession)
                                         .id("id " + accession)
                                         .build())
-                        .pubMedId(pubMedId)
+                        .citationId(pubMedId)
                         .uniProtKBAccession(accession)
                         .sourceCategoriesAdd(CATEGORIES.get(1))
                         .annotation("computational " + accession)
@@ -185,7 +184,7 @@ public class PublicationDocumentMocker {
                                         .name("source " + accession)
                                         .id("id " + accession)
                                         .build())
-                        .pubMedId(pubMedId)
+                        .citationId(pubMedId)
                         .uniProtKBAccession(accession)
                         .sourceCategoriesSet(DOC_CATEGORIES.get(id))
                         .referencePositionsAdd("Reference position " + accession)

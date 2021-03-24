@@ -29,7 +29,7 @@ class MappedReferencesToPublicationDocumentBuilderConverterTest {
         List<MappedReference> mappedReferences = new ArrayList<>();
         mappedReferences.add(
                 new CommunityMappedReferenceBuilder()
-                        .pubMedId("100")
+                        .citationId("100")
                         .uniProtKBAccession("P21802")
                         .source(new MappedSourceBuilder().id("CMNT_ID").name("CMNT_NAME").build())
                         .sourceCategoriesAdd("Interaction")
@@ -44,7 +44,7 @@ class MappedReferencesToPublicationDocumentBuilderConverterTest {
         assertNotNull(result._2);
         PublicationDocument doc = result._2.build();
         assertEquals("P21802", doc.getAccession());
-        assertEquals("100", doc.getPubMedId());
+        assertEquals("100", doc.getCitationId());
         assertEquals("P21802", doc.getAccession());
         assertTrue(doc.getCategories().contains("Interaction"));
         assertTrue(doc.getTypes().contains(0));
@@ -60,7 +60,7 @@ class MappedReferencesToPublicationDocumentBuilderConverterTest {
         List<MappedReference> mappedReferences = new ArrayList<>();
         mappedReferences.add(
                 new ComputationallyMappedReferenceBuilder()
-                        .pubMedId("100")
+                        .citationId("100")
                         .uniProtKBAccession("P21802")
                         .source(new MappedSourceBuilder().id("CMNT_ID").name("CMNT_NAME").build())
                         .sourceCategoriesAdd("Interaction")
@@ -74,7 +74,7 @@ class MappedReferencesToPublicationDocumentBuilderConverterTest {
         assertNotNull(result._2);
         PublicationDocument doc = result._2.build();
         assertEquals("P21802", doc.getAccession());
-        assertEquals("100", doc.getPubMedId());
+        assertEquals("100", doc.getCitationId());
         assertEquals("P21802", doc.getAccession());
         assertTrue(doc.getCategories().contains("Interaction"));
         assertTrue(doc.getTypes().contains(1));
@@ -114,7 +114,7 @@ class MappedReferencesToPublicationDocumentBuilderConverterTest {
         assertNotNull(result._2);
         PublicationDocument doc = result._2.build();
         assertEquals("P21802", doc.getAccession());
-        assertNull(doc.getPubMedId());
+        assertNull(doc.getCitationId());
         assertEquals("P21802", doc.getAccession());
         assertTrue(doc.getCategories().contains("Interaction"));
         assertTrue(doc.getTypes().contains(3));
@@ -155,7 +155,7 @@ class MappedReferencesToPublicationDocumentBuilderConverterTest {
         assertNotNull(result._2);
         PublicationDocument doc = result._2.build();
         assertEquals("P21802", doc.getAccession());
-        assertNull(doc.getPubMedId());
+        assertNull(doc.getCitationId());
         assertEquals("P21802", doc.getAccession());
         assertTrue(doc.getCategories().contains("Interaction"));
         assertTrue(doc.getTypes().contains(2));

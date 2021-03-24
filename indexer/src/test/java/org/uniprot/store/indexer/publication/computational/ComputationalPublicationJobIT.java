@@ -112,7 +112,7 @@ class ComputationalPublicationJobIT {
         ComputationallyMappedReference reference = references.get(0);
 
         // ----------- check contents of stored object
-        assertThat(reference.getPubMedId(), is("26551672"));
+        assertThat(reference.getCitationId(), is("26551672"));
         assertThat(reference.getUniProtKBAccession().getValue(), is("Q7Z583"));
         assertThat(reference.getSource().getName(), is("GeneRif"));
         assertThat(reference.getSource().getId(), is("4544"));

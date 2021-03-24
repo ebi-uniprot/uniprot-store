@@ -14,10 +14,6 @@ import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
 import org.junit.jupiter.api.Test;
 import org.uniprot.core.Value;
-import org.uniprot.core.citation.Author;
-import org.uniprot.core.citation.Citation;
-import org.uniprot.core.citation.CitationType;
-import org.uniprot.core.citation.Submission;
 import org.uniprot.core.json.parser.publication.MappedPublicationsJsonConfig;
 import org.uniprot.core.publication.*;
 import org.uniprot.store.search.document.publication.PublicationDocument;
@@ -91,7 +87,7 @@ class PublicationDocumentsToHDFSWriterTest {
         largeScaleStudyDocs.forEach(
                 doc -> {
                     assertThat(doc.isLargeScale(), is(true));
-                    assertThat(doc.getPubMedId(), is(LARGE_SCALE_STUDY_PUBMED_ID));
+                    assertThat(doc.getCitationId(), is(LARGE_SCALE_STUDY_PUBMED_ID));
                 });
 
         Map<MappedReferenceType, Long> referenceTypeCountMap =
@@ -110,15 +106,15 @@ class PublicationDocumentsToHDFSWriterTest {
                         .filter(
                                 doc ->
                                         doc.getAccession().equals("Q9EPI6")
-                                                && doc.getPubMedId() != null
-                                                && doc.getPubMedId().equals("15018815"))
+                                                && doc.getCitationId() != null
+                                                && doc.getCitationId().equals("15018815"))
                         .collect(Collectors.toList());
 
         assertThat(kbDocs, hasSize(1));
 
         PublicationDocument kbRN4Doc = kbDocs.get(0);
 
-        assertThat(kbRN4Doc.getPubMedId(), is("15018815"));
+        assertThat(kbRN4Doc.getCitationId(), is("15018815"));
         assertThat(kbRN4Doc.getMainType(), is(UNIPROTKB_REVIEWED.getIntValue()));
         assertThat(
                 kbRN4Doc.getTypes(),
@@ -143,9 +139,9 @@ class PublicationDocumentsToHDFSWriterTest {
         assertThat(kbRN4Ref.getReferenceComments(), is(empty()));
         assertThat(kbRN4Ref.getSource().getName(), is("UniProtKB reviewed (Swiss-Prot)"));
         assertThat(kbRN4Ref.getSource().getId(), is(nullValue()));
-        assertThat(kbRN4Ref.getPubMedId(), is("15018815"));
+        assertThat(kbRN4Ref.getCitationId(), is("15018815"));
         assertThat(kbRN4Ref.getSourceCategories(), contains("Expression"));
-        assertThat(kbRN4Ref.getCitation(), is(nullValue()));
+        assertThat(kbRN4Ref.getCitationId(), is("TODO"));
 
         // check community ref within mapped reference
         assertThat(
@@ -191,7 +187,7 @@ class PublicationDocumentsToHDFSWriterTest {
         // all pubmed ids in file were used
         assertThat(
                 kbDocs.stream()
-                        .map(PublicationDocument::getPubMedId)
+                        .map(PublicationDocument::getCitationId)
                         .filter(Objects::nonNull)
                         .collect(Collectors.toList()),
                 containsInAnyOrder(
@@ -204,7 +200,7 @@ class PublicationDocumentsToHDFSWriterTest {
         // check RN 1, and that it is a submission
         PublicationDocument kbRN1Doc = extractValue(kbDocs, PublicationDocument::getRefNumber, 1);
 
-        assertThat(kbRN1Doc.getPubMedId(), is(nullValue()));
+        assertThat(kbRN1Doc.getCitationId(), is("TODO"));
         assertThat(kbRN1Doc.getCategories(), contains("Sequence"));
 
         MappedPublications mappedPubsForKbRN1 = extractObject(kbRN1Doc);
@@ -224,30 +220,13 @@ class PublicationDocumentsToHDFSWriterTest {
                 contains("Sprague-Dawley", "Brain"));
         assertThat(kbRN1Ref.getSource().getName(), is("UniProtKB reviewed (Swiss-Prot)"));
         assertThat(kbRN1Ref.getSource().getId(), is(nullValue()));
-        assertThat(kbRN1Ref.getPubMedId(), is(nullValue()));
+        assertThat(kbRN1Ref.getCitationId(), is("TODO"));
         assertThat(kbRN1Ref.getSourceCategories(), contains("Sequence"));
-
-        Citation ref0Citation = kbRN1Ref.getCitation();
-        assertThat(ref0Citation, is(notNullValue()));
-        assertThat(
-                ref0Citation.getTitle(),
-                is("Characterization of the novel brain-specific protein Jacob."));
-        assertThat(ref0Citation.getCitationType(), is(CitationType.SUBMISSION));
-        assertThat(ref0Citation.hasCitationCrossReferences(), is(false));
-        assertThat(ref0Citation.getAuthoringGroups(), is(empty()));
-        assertThat(
-                ((Submission) ref0Citation).getSubmissionDatabase().getName(),
-                is("EMBL/GenBank/DDBJ databases"));
-        assertThat(
-                ref0Citation.getAuthors().stream()
-                        .map(Author::getValue)
-                        .collect(Collectors.toList()),
-                contains("Hoffmann B.", "Seidenbecher C.I.", "Kreutz M.R."));
 
         // check RN 3
         PublicationDocument kbRN3Doc = extractValue(kbDocs, PublicationDocument::getRefNumber, 3);
 
-        assertThat(kbRN3Doc.getPubMedId(), is("15489334"));
+        assertThat(kbRN3Doc.getCitationId(), is("15489334"));
         assertThat(kbRN3Doc.getMainType(), is(UNIPROTKB_REVIEWED.getIntValue()));
         assertThat(kbRN3Doc.getTypes(), contains(UNIPROTKB_REVIEWED.getIntValue()));
         assertThat(kbRN3Doc.getCategories(), containsInAnyOrder("Sequence"));
@@ -269,9 +248,8 @@ class PublicationDocumentsToHDFSWriterTest {
                 contains("Brain"));
         assertThat(kbRN4Ref.getSource().getName(), is("UniProtKB reviewed (Swiss-Prot)"));
         assertThat(kbRN4Ref.getSource().getId(), is(nullValue()));
-        assertThat(kbRN4Ref.getPubMedId(), is("15489334"));
+        assertThat(kbRN4Ref.getCitationId(), is("15489334"));
         assertThat(kbRN4Ref.getSourceCategories(), contains("Sequence"));
-        assertThat(kbRN4Ref.getCitation(), is(nullValue()));
     }
 
     private void checkCommunityDocuments(List<PublicationDocument> savedDocuments)
@@ -294,7 +272,7 @@ class PublicationDocumentsToHDFSWriterTest {
         // all pubmed ids in file were used
         assertThat(
                 communityDocs.stream()
-                        .map(PublicationDocument::getPubMedId)
+                        .map(PublicationDocument::getCitationId)
                         .collect(Collectors.toList()),
                 containsInAnyOrder(
                         "00000001",
@@ -309,7 +287,7 @@ class PublicationDocumentsToHDFSWriterTest {
         PublicationDocument comm00Doc =
                 extractValue(communityDocs, PublicationDocument::getAccession, "COMM00");
 
-        assertThat(comm00Doc.getPubMedId(), is("00000000"));
+        assertThat(comm00Doc.getCitationId(), is("00000000"));
         assertThat(
                 comm00Doc.getCategories(),
                 containsInAnyOrder("Expression", "Function", "Sequences"));
@@ -365,7 +343,7 @@ class PublicationDocumentsToHDFSWriterTest {
         // all pubmed ids in file were used
         assertThat(
                 compDocs.stream()
-                        .map(PublicationDocument::getPubMedId)
+                        .map(PublicationDocument::getCitationId)
                         .collect(Collectors.toList()),
                 containsInAnyOrder("10000001", "10000002", "10000003", "10000000"));
 
@@ -373,7 +351,7 @@ class PublicationDocumentsToHDFSWriterTest {
         PublicationDocument comp00Doc =
                 extractValue(compDocs, PublicationDocument::getAccession, "COMP00");
 
-        assertThat(comp00Doc.getPubMedId(), is("10000000"));
+        assertThat(comp00Doc.getCitationId(), is("10000000"));
         assertThat(
                 comp00Doc.getCategories(),
                 containsInAnyOrder("Pathology & Biotech", "Sequences", "Interaction"));

@@ -2,6 +2,7 @@ package org.uniprot.store.spark.indexer.publication;
 
 import static org.uniprot.store.spark.indexer.common.util.SparkUtils.getCollectionOutputReleaseDirPath;
 import static org.uniprot.store.spark.indexer.common.util.SparkUtils.getInputReleaseDirPath;
+import static org.uniprot.store.spark.indexer.publication.mapper.UniProtKBPublicationToMappedReference.*;
 
 import java.util.ResourceBundle;
 
@@ -13,7 +14,6 @@ import org.apache.spark.api.java.JavaSparkContext;
 import org.apache.spark.api.java.function.Function;
 import org.apache.spark.sql.SparkSession;
 import org.uniprot.core.publication.MappedReference;
-import org.uniprot.store.indexer.publication.common.PublicationUtils;
 import org.uniprot.store.search.SolrCollection;
 import org.uniprot.store.search.document.publication.PublicationDocument;
 import org.uniprot.store.spark.indexer.common.JobParameter;
@@ -80,15 +80,6 @@ public class PublicationDocumentsToHDFSWriter implements DocumentsToHDFSWriter {
         log.info("Completed writing UniProtKB publication documents to HDFS");
     }
 
-    public static String getJoinKey(String accession, String pubMed) {
-        String refIdentifier = pubMed;
-        if (refIdentifier == null) {
-            refIdentifier = NO_PUBMED_PREFIX + PublicationUtils.getDocumentId();
-        }
-
-        return accession + "_" + refIdentifier;
-    }
-
     public static String[] separateJoinKey(String joinKey) {
         String[] parts = joinKey.split("_");
         if (parts[1].startsWith(NO_PUBMED_PREFIX)) {
@@ -130,9 +121,9 @@ public class PublicationDocumentsToHDFSWriter implements DocumentsToHDFSWriter {
                 .mapToPair(
                         ref ->
                                 new Tuple2<>(
-                                        getJoinKey(
-                                                ref.getUniProtKBAccession().getValue(),
-                                                ref.getPubMedId()),
+                                        ref.getUniProtKBAccession().getValue()
+                                                + "_"
+                                                + ref.getCitationId(),
                                         ref));
     }
 

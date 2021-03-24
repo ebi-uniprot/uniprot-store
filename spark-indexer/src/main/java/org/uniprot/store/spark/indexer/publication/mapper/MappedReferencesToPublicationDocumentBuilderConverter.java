@@ -65,7 +65,7 @@ public class MappedReferencesToPublicationDocumentBuilderConverter
         docBuilder
                 .id(getUniqueId())
                 .accession(accession)
-                .pubMedId(pubMed)
+                .citationId(pubMed)
                 .categories(categories)
                 .mainType(Collections.max(types))
                 .types(types)
