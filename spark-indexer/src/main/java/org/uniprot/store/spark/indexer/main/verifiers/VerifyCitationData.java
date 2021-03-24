@@ -40,9 +40,9 @@ public class VerifyCitationData {
                 solrInputDocumentRDD
                         .flatMapToPair(new LiteratureUniProtKBReferencesMapper())
                         .mapValues(ref -> ref.getCitation())
-                        .repartition(20000)
+                        .repartition(30000)
                         .groupByKey()
-                        .repartition(20000)
+                        .repartition(30000)
                         .mapValues(new AreEquals())
                         .filter(tuple2 -> !tuple2._2)
                         .count();
