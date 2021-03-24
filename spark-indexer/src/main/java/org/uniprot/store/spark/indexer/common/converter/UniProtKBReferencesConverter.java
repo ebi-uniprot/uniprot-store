@@ -1,5 +1,6 @@
 package org.uniprot.store.spark.indexer.common.converter;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
@@ -24,9 +25,10 @@ import org.uniprot.core.uniprotkb.UniProtKBReference;
  * @author lgonzales
  * @since 24/03/2021
  */
-public class UniProtKBReferencesConverter {
+public class UniProtKBReferencesConverter implements Serializable {
 
     private static final Pattern REFERENCE_REGEX = Pattern.compile("^(RN|RA|RC|RG|RL|RP|RT|RX) .*");
+    private static final long serialVersionUID = -7056643354553873214L;
 
     public List<UniProtKBReference> convert(String[] lines) {
         // for each reference in the entry, create a list of lines related to it
