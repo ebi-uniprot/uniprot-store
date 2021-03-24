@@ -15,5 +15,6 @@ public enum UniProtDataType {
     UNIPARC,
     UNIPROTKB,
     UNIREF,
-    UNIRULE;
+    UNIRULE,
+    UNIPARC_CROSSREF
 }
