@@ -1,5 +1,6 @@
 package org.uniprot.store.spark.indexer.main.verifiers;
 
+import java.util.List;
 import java.util.ResourceBundle;
 
 import lombok.extern.slf4j.Slf4j;
@@ -38,16 +39,22 @@ public class VerifyCitationData {
         JavaRDD<String> solrInputDocumentRDD =
                 new UniProtKBRDDTupleReader(jobParameter, false).loadFlatFileToRDD();
 
-                solrInputDocumentRDD
-                        .flatMapToPair(new LiteratureUniProtKBReferencesMapper())
-                        .mapValues(ref -> ref.getCitation())
-                        .repartition(30000)
-                        .groupByKey()
-                        .repartition(30000)
-                        .mapValues(new AreEquals())
-                        .filter(tuple2 -> tuple2._2 != null &&tuple2._2.getValue() != null)
-                        .foreach(pair -> log.info("key: {}, value: {}", pair._2.getKey(), pair._2.getValue()));
+        List<Pair<Citation, Citation>> result = solrInputDocumentRDD
+                .flatMapToPair(new LiteratureUniProtKBReferencesMapper())
+                .mapValues(ref -> ref.getCitation())
+                .repartition(30000)
+                .groupByKey()
+                .repartition(30000)
+                .mapValues(new AreEquals())
+                .filter(tuple2 -> tuple2._2 != null && tuple2._2.getValue() != null)
+                .values()
+                .collect();
 
+        result.forEach(pair -> {
+            log.info("----------------------");
+            log.info("key: {}", pair.getKey());
+            log.info("val: {}", pair.getValue());
+        });
         log.info("The End");
 
         /*                long withDoi = solrInputDocumentRDD
