@@ -39,7 +39,10 @@ public class VerifyCitationData {
         long problematicOnes =
                 solrInputDocumentRDD
                         .flatMapToPair(new LiteratureUniProtKBReferencesMapper())
+                        .mapValues(ref -> ref.getCitation())
+                        .repartition(20000)
                         .groupByKey()
+                        .repartition(20000)
                         .mapValues(new AreEquals())
                         .filter(tuple2 -> !tuple2._2)
                         .count();
@@ -84,18 +87,18 @@ public class VerifyCitationData {
         sparkContext.close();
     }
 
-    private static class AreEquals implements Function<Iterable<UniProtKBReference>, Boolean> {
+    private static class AreEquals implements Function<Iterable<Citation>, Boolean> {
 
         private static final long serialVersionUID = 4600560402871146686L;
 
         @Override
-        public Boolean call(Iterable<UniProtKBReference> entries) throws Exception {
+        public Boolean call(Iterable<Citation> entries) throws Exception {
             boolean result = true;
             Citation first = null;
-            for (UniProtKBReference entry : entries) {
+            for (Citation entry : entries) {
                 if (first == null) {
-                    first = entry.getCitation();
-                } else if (!first.equals(entry.getCitation())) {
+                    first = entry;
+                } else if (!first.equals(entry)) {
                     result = false;
                     break;
                 }
