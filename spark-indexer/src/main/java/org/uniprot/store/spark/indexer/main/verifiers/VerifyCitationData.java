@@ -40,7 +40,7 @@ public class VerifyCitationData {
 
         long result = solrInputDocumentRDD
                 .flatMapToPair(new LiteratureUniProtKBReferencesMapper())
-                .repartition(30000)
+                .repartition(40000)
                 .groupByKey()
                 .count();
         log.info("Total Ids: {}", result);
