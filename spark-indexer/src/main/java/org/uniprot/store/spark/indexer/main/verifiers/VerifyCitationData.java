@@ -14,7 +14,8 @@ import org.uniprot.core.util.Pair;
 import org.uniprot.core.util.PairImpl;
 import org.uniprot.store.spark.indexer.common.JobParameter;
 import org.uniprot.store.spark.indexer.common.util.SparkUtils;
-import org.uniprot.store.spark.indexer.literature.mapper.LiteratureUniProtKBReferencesMapper;
+import org.uniprot.store.spark.indexer.literature.mapper.LiteratureEntryAggregationMapper;
+import org.uniprot.store.spark.indexer.literature.mapper.LiteratureEntryUniProtKBMapper;
 import org.uniprot.store.spark.indexer.uniprot.UniProtKBRDDTupleReader;
 
 /**
@@ -39,9 +40,8 @@ public class VerifyCitationData {
                 new UniProtKBRDDTupleReader(jobParameter, false).loadFlatFileToRDD();
 
         long result = solrInputDocumentRDD
-                .flatMapToPair(new LiteratureUniProtKBReferencesMapper())
-                .repartition(40000)
-                .groupByKey()
+                .flatMapToPair(new LiteratureEntryUniProtKBMapper())
+                .aggregateByKey(null, new LiteratureEntryAggregationMapper(), new LiteratureEntryAggregationMapper())
                 .count();
         log.info("Total Ids: {}", result);
 

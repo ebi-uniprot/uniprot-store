@@ -8,7 +8,7 @@ import org.apache.spark.api.java.JavaRDD;
 import org.uniprot.core.uniprotkb.UniProtKBReference;
 import org.uniprot.store.spark.indexer.common.JobParameter;
 import org.uniprot.store.spark.indexer.common.writer.DocumentsToHDFSWriter;
-import org.uniprot.store.spark.indexer.literature.mapper.LiteratureUniProtKBReferencesMapper;
+import org.uniprot.store.spark.indexer.literature.mapper.LiteratureEntryUniProtKBMapper;
 import org.uniprot.store.spark.indexer.uniprot.UniProtKBRDDTupleReader;
 
 /**
@@ -39,7 +39,7 @@ public class LiteratureDocumentsToHDFSWriter implements DocumentsToHDFSWriter {
                 new UniProtKBRDDTupleReader(this.parameter, false);
         JavaRDD<String> uniProtKBEntryStringsRDD = uniProtKBReader.loadFlatFileToRDD();
 
-        return uniProtKBEntryStringsRDD.flatMapToPair(new LiteratureUniProtKBReferencesMapper());
+        return uniProtKBEntryStringsRDD.flatMapToPair(new LiteratureEntryUniProtKBMapper());
     }
 
     public static void main(String[] args) {
