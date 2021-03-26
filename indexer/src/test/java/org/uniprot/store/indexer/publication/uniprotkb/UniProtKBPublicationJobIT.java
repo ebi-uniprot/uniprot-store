@@ -124,12 +124,35 @@ class UniProtKBPublicationJobIT {
         assertThat(accDoc.getCitationId(), is("29748402"));
         assertThat(accDoc.isLargeScale(), is(true));
         MappedPublications mappedPubs = extractObject(accDoc);
-        // TODO: add validation to mappedPubs
+        assertThat(mappedPubs.getCommunityMappedReferences(), is(emptyIterable()));
+        assertThat(mappedPubs.getComputationallyMappedReferences(), is(emptyIterable()));
+        assertThat(mappedPubs.getUniProtKBMappedReference(), is(notNullValue()));
+        UniProtKBMappedReference reference = mappedPubs.getUniProtKBMappedReference();
+        assertThat(reference.getCitationId(), is("29748402"));
+        assertThat(reference.getUniProtKBAccession(), is(notNullValue()));
+        assertThat(reference.getUniProtKBAccession().getValue(), is("A0A2Z5SLI5"));
+        assertThat(reference.getReferenceComments(), is(not(emptyIterable())));
+        assertThat(reference.getReferenceComments().get(0).getValue(), is("YM18"));
+        assertThat(reference.getReferencePositions(), is(not(emptyIterable())));
+        assertThat(
+                reference.getReferencePositions().get(0),
+                is("NUCLEOTIDE SEQUENCE [LARGE SCALE GENOMIC DNA]"));
+
         // without pubmedid
         accDoc = accDocs.get(1);
-        assertThat(accDoc.getCitationId(), is("TODO"));
-        assertThat(accDoc.isLargeScale(), is(true));
+        assertThat(accDoc.getCitationId(), is("CI-52DGOONA53OCB"));
+        assertThat(accDoc.isLargeScale(), is(false));
         mappedPubs = extractObject(accDocs.get(1));
-        // TODO: add validation to mappedPubs
+        assertThat(mappedPubs.getCommunityMappedReferences(), is(emptyIterable()));
+        assertThat(mappedPubs.getComputationallyMappedReferences(), is(emptyIterable()));
+        assertThat(mappedPubs.getUniProtKBMappedReference(), is(notNullValue()));
+        reference = mappedPubs.getUniProtKBMappedReference();
+        assertThat(reference.getCitationId(), is("CI-52DGOONA53OCB"));
+        assertThat(reference.getUniProtKBAccession(), is(notNullValue()));
+        assertThat(reference.getUniProtKBAccession().getValue(), is("A0A2Z5SLI5"));
+        assertThat(reference.getReferenceComments(), is(not(emptyIterable())));
+        assertThat(reference.getReferenceComments().get(0).getValue(), is("Cervix carcinoma"));
+        assertThat(reference.getReferencePositions(), is(not(emptyIterable())));
+        assertThat(reference.getReferencePositions().get(0), is("NUCLEOTIDE SEQUENCE [MRNA]"));
     }
 }

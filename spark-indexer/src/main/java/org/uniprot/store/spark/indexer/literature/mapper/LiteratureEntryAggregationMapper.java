@@ -10,7 +10,8 @@ import org.uniprot.core.literature.impl.LiteratureStatisticsBuilder;
  * @author lgonzales
  * @since 25/03/2021
  */
-public class LiteratureEntryAggregationMapper implements Function2<LiteratureEntry, LiteratureEntry, LiteratureEntry> {
+public class LiteratureEntryAggregationMapper
+        implements Function2<LiteratureEntry, LiteratureEntry, LiteratureEntry> {
     private static final long serialVersionUID = -3841499052452967811L;
 
     @Override
@@ -21,9 +22,7 @@ public class LiteratureEntryAggregationMapper implements Function2<LiteratureEnt
         } else {
             LiteratureStatistics mergedStats = mergeStatistics(entry1, entry2);
 
-            mergedEntry = LiteratureEntryBuilder.from(entry1)
-                    .statistics(mergedStats)
-                    .build();
+            mergedEntry = LiteratureEntryBuilder.from(entry1).statistics(mergedStats).build();
         }
         return mergedEntry;
     }
@@ -41,11 +40,13 @@ public class LiteratureEntryAggregationMapper implements Function2<LiteratureEnt
     }
 
     private LiteratureStatistics mergeStatistics(LiteratureEntry entry1, LiteratureEntry entry2) {
-        long reviewed = entry1.getStatistics().getReviewedProteinCount() +
-                entry2.getStatistics().getReviewedProteinCount();
+        long reviewed =
+                entry1.getStatistics().getReviewedProteinCount()
+                        + entry2.getStatistics().getReviewedProteinCount();
 
-        long unreviewed = entry1.getStatistics().getUnreviewedProteinCount() +
-                entry2.getStatistics().getUnreviewedProteinCount();
+        long unreviewed =
+                entry1.getStatistics().getUnreviewedProteinCount()
+                        + entry2.getStatistics().getUnreviewedProteinCount();
 
         return new LiteratureStatisticsBuilder()
                 .reviewedProteinCount(reviewed)

@@ -170,7 +170,7 @@ class CommunityPublicationJobIT {
         List<PublicationDocument> documents =
                 solrClient.query(
                         SolrCollection.publication,
-                        new SolrQuery("accession:Q8GUJ2 AND pubmed_id:31953391"),
+                        new SolrQuery("accession:Q8GUJ2 AND citation_id:31953391"),
                         PublicationDocument.class);
         assertThat(documents, hasSize(1));
 

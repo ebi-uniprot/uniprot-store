@@ -39,11 +39,15 @@ public class VerifyCitationData {
         JavaRDD<String> solrInputDocumentRDD =
                 new UniProtKBRDDTupleReader(jobParameter, false).loadFlatFileToRDD();
 
-        long result = solrInputDocumentRDD
-                .flatMapToPair(new LiteratureEntryUniProtKBMapper())
-                .aggregateByKey(null, new LiteratureEntryAggregationMapper(), new LiteratureEntryAggregationMapper())
-                .count();
-        log.info("Total Ids: {}", result);
+        long result =
+                solrInputDocumentRDD
+                        .flatMapToPair(new LiteratureEntryUniProtKBMapper())
+                        .aggregateByKey(
+                                null,
+                                new LiteratureEntryAggregationMapper(),
+                                new LiteratureEntryAggregationMapper())
+                        .count();
+        log.info("Total Ids: {}", result); // Total Ids: 828.638
 
         log.info("The End");
 
@@ -85,7 +89,8 @@ public class VerifyCitationData {
         sparkContext.close();
     }
 
-    private static class AreEquals implements Function<Iterable<Citation>, Pair<Citation, Citation>> {
+    private static class AreEquals
+            implements Function<Iterable<Citation>, Pair<Citation, Citation>> {
 
         private static final long serialVersionUID = 4600560402871146686L;
 

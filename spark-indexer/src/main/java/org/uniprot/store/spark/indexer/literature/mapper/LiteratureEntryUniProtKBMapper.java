@@ -42,10 +42,7 @@ public class LiteratureEntryUniProtKBMapper
     }
 
     private LiteratureEntry buildEntry(Citation citation, LiteratureStatistics statistics) {
-        return new LiteratureEntryBuilder()
-                .citation(citation)
-                .statistics(statistics)
-                .build();
+        return new LiteratureEntryBuilder().citation(citation).statistics(statistics).build();
     }
 
     private LiteratureStatistics getLiteratureStatistics(String[] lines) {
