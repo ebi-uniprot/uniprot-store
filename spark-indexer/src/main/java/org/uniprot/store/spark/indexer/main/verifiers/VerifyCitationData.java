@@ -1,22 +1,29 @@
 package org.uniprot.store.spark.indexer.main.verifiers;
 
+import java.util.List;
 import java.util.ResourceBundle;
 
 import lombok.extern.slf4j.Slf4j;
 
+import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
 import org.apache.spark.api.java.function.Function;
 import org.uniprot.core.citation.Citation;
 import org.uniprot.core.citation.CitationDatabase;
+import org.uniprot.core.citation.Literature;
+import org.uniprot.core.publication.MappedReference;
 import org.uniprot.core.uniprotkb.UniProtKBReference;
 import org.uniprot.core.util.Pair;
 import org.uniprot.core.util.PairImpl;
 import org.uniprot.store.spark.indexer.common.JobParameter;
 import org.uniprot.store.spark.indexer.common.util.SparkUtils;
+import org.uniprot.store.spark.indexer.literature.LiteratureRDDTupleReader;
 import org.uniprot.store.spark.indexer.literature.mapper.LiteratureEntryAggregationMapper;
 import org.uniprot.store.spark.indexer.literature.mapper.LiteratureEntryUniProtKBMapper;
+import org.uniprot.store.spark.indexer.publication.MappedReferenceRDDReader;
 import org.uniprot.store.spark.indexer.uniprot.UniProtKBRDDTupleReader;
+import scala.Tuple2;
 
 /**
  * @author lgonzales
@@ -36,7 +43,26 @@ public class VerifyCitationData {
                         .sparkContext(sparkContext)
                         .build();
 
-        JavaRDD<String> solrInputDocumentRDD =
+        LiteratureRDDTupleReader literatureReader = new LiteratureRDDTupleReader(jobParameter);
+        List<Tuple2<String, Literature>> literature = literatureReader.load().take(10);
+        literature.forEach(lit ->  {
+            log.info("Key : {}",lit._1);
+            log.info("Value : {}",lit._2.getId());
+        });
+        log.info("-------------------------------------");
+
+        MappedReferenceRDDReader mappedRefReader =
+                new MappedReferenceRDDReader(jobParameter, MappedReferenceRDDReader.KeyType.CITATION_ID);
+        // load computational Stats JavaPairRDD<citationId, count>
+        List<Tuple2<String, MappedReference>> computationalStatsRDD = mappedRefReader
+                .loadComputationalMappedReference().take(10);
+
+
+        computationalStatsRDD.forEach(lit ->  {
+            log.info("Key : {}",lit._1);
+            log.info("Value : {}",lit._2.getUniProtKBAccession());
+        });
+/*        JavaRDD<String> solrInputDocumentRDD =
                 new UniProtKBRDDTupleReader(jobParameter, false).loadFlatFileToRDD();
 
         long result =
@@ -51,7 +77,7 @@ public class VerifyCitationData {
 
         log.info("The End");
 
-        /*                long withDoi = solrInputDocumentRDD
+                long withDoi = solrInputDocumentRDD
                         .flatMap(new UniProtKBPublicationMapper())
                         .filter(VerifyCitationData::hasDoi)
                         .count();
