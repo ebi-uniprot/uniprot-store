@@ -32,8 +32,10 @@ public class LiteratureEntryStatisticsJoin
         LiteratureEntry result = tuple._1;
         if (tuple._2.isPresent()) {
             LiteratureEntryBuilder builder = LiteratureEntryBuilder.from(result);
-            LiteratureStatisticsBuilder statsBuilder =
-                    LiteratureStatisticsBuilder.from(result.getStatistics());
+            LiteratureStatisticsBuilder statsBuilder = new LiteratureStatisticsBuilder();
+            if (result.hasStatistics()) {
+                statsBuilder = LiteratureStatisticsBuilder.from(result.getStatistics());
+            }
             if (statisticsType == StatisticsType.COMMUNITY) {
                 statsBuilder.communityMappedProteinCount(tuple._2.get());
             } else {

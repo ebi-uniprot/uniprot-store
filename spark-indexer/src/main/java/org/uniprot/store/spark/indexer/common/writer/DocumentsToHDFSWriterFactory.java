@@ -3,6 +3,7 @@ package org.uniprot.store.spark.indexer.common.writer;
 import org.uniprot.store.search.SolrCollection;
 import org.uniprot.store.spark.indexer.common.JobParameter;
 import org.uniprot.store.spark.indexer.genecentric.GeneCentricDocumentsToHDFSWriter;
+import org.uniprot.store.spark.indexer.literature.LiteratureDocumentsToHDFSWriter;
 import org.uniprot.store.spark.indexer.publication.PublicationDocumentsToHDFSWriter;
 import org.uniprot.store.spark.indexer.suggest.SuggestDocumentsToHDFSWriter;
 import org.uniprot.store.spark.indexer.uniparc.UniParcDocumentsToHDFSWriter;
@@ -36,6 +37,9 @@ public class DocumentsToHDFSWriterFactory {
                 break;
             case publication:
                 writer = new PublicationDocumentsToHDFSWriter(jobParameter);
+                break;
+            case literature:
+                writer = new LiteratureDocumentsToHDFSWriter(jobParameter);
                 break;
             default:
                 throw new UnsupportedOperationException(
