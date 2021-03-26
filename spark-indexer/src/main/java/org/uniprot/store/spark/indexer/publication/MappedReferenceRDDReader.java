@@ -13,8 +13,7 @@ import org.uniprot.core.publication.MappedReference;
 import org.uniprot.store.spark.indexer.common.JobParameter;
 import org.uniprot.store.spark.indexer.publication.mapper.CommunityMappedReferenceMapper;
 import org.uniprot.store.spark.indexer.publication.mapper.ComputationallyMappedReferenceMapper;
-
-import scala.Tuple2;
+import org.uniprot.store.spark.indexer.publication.mapper.MappedReferencePairMapper;
 
 /**
  * @author lgonzales
@@ -56,16 +55,6 @@ public class MappedReferenceRDDReader {
         SparkSession spark = SparkSession.builder().config(jsc.getConf()).getOrCreate();
         JavaRDD<String> rawMappedRefStrRdd = spark.read().textFile(filePath).toJavaRDD();
 
-        return rawMappedRefStrRdd
-                .map(converter)
-                .mapToPair(ref -> new Tuple2<>(getTupleKey(ref), ref));
-    }
-
-    private String getTupleKey(MappedReference ref) {
-        if (keyType == KeyType.ACCESSION_AND_CITATION_ID) {
-            return ref.getUniProtKBAccession().getValue() + "_" + ref.getCitationId();
-        } else {
-            return ref.getCitationId();
-        }
+        return rawMappedRefStrRdd.map(converter).mapToPair(new MappedReferencePairMapper(keyType));
     }
 }
