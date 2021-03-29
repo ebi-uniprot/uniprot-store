@@ -35,7 +35,7 @@ import static org.uniprot.store.spark.indexer.common.util.SparkUtils.getInputRel
 @Slf4j
 public class VerifyCitationData {
 
-    private static final String SPLITTER = "//\n";
+    private static final String SPLITTER = "//";
 
     public static void main(String[] args) {
         ResourceBundle config = SparkUtils.loadApplicationProperty();
@@ -52,7 +52,7 @@ public class VerifyCitationData {
             log.info("---------------- Literature File Name: {} ---------------------", file);
             String releaseInputDir = getInputReleaseDirPath(config, jobParameter.getReleaseName());
             String literaturePath = releaseInputDir + "literature/"+file;
-            //sparkContext.hadoopConfiguration().set("textinputformat.record.delimiter", SPLITTER);
+            sparkContext.hadoopConfiguration().set("textinputformat.record.delimiter", SPLITTER);
             long count = sparkContext.textFile(literaturePath, 1000)
                     //.mapToPair(new LiteratureFileMapper())
                     .count();
@@ -66,19 +66,6 @@ public class VerifyCitationData {
             });
             log.info("---------------- THE END FILE ------------------");*/
         }
-
-
-        MappedReferenceRDDReader mappedRefReader =
-                new MappedReferenceRDDReader(jobParameter, MappedReferenceRDDReader.KeyType.CITATION_ID);
-        // load computational Stats JavaPairRDD<citationId, count>
-        List<Tuple2<String, MappedReference>> computationalStatsRDD = mappedRefReader
-                .loadComputationalMappedReference().take(10);
-
-
-        computationalStatsRDD.forEach(lit ->  {
-            log.info("Key : {}",lit._1);
-            log.info("Value : {}",lit._2.getUniProtKBAccession());
-        });
 
 /*        JavaRDD<String> solrInputDocumentRDD =
                 new UniProtKBRDDTupleReader(jobParameter, false).loadFlatFileToRDD();
