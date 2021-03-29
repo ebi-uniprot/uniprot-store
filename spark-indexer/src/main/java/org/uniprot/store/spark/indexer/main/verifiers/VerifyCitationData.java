@@ -54,7 +54,7 @@ public class VerifyCitationData {
             String literaturePath = releaseInputDir + "literature/"+file;
             sparkContext.hadoopConfiguration().set("textinputformat.record.delimiter", SPLITTER);
             long count = sparkContext.textFile(literaturePath, 1000)
-                    //.mapToPair(new LiteratureFileMapper())
+                    .mapToPair(new LiteratureFileMapper())
                     .count();
             log.info("Number of entries: {}",count);
 /*            List<Tuple2<String, Literature>> literature = sparkContext.textFile(literaturePath, 1000)
