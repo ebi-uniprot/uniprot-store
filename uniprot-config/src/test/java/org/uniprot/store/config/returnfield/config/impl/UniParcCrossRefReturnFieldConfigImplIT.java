@@ -5,6 +5,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.uniprot.core.json.parser.uniparc.UniParcEntryTest;
+import org.uniprot.core.parser.tsv.uniparc.UniParcEntryCrossRefValueMapper;
 import org.uniprot.core.parser.tsv.uniparc.UniParcEntryValueMapper;
 import org.uniprot.core.uniparc.UniParcEntry;
 import org.uniprot.store.config.UniProtDataType;
@@ -37,9 +38,9 @@ public class UniParcCrossRefReturnFieldConfigImplIT {
     @ParameterizedTest(name = "Return TSV column [{0}] for return field exists?")
     @MethodSource("provideReturnFieldNames")
     void validReturnFieldWithMappedEntryDefined(String returnFieldName) {
-        UniParcEntryValueMapper entityValueMapper = new UniParcEntryValueMapper();
+        UniParcEntryCrossRefValueMapper entityValueMapper = new UniParcEntryCrossRefValueMapper();
         Map<String, String> mappedField =
-                entityValueMapper.mapEntity(entry, Collections.singletonList(returnFieldName));
+                entityValueMapper.mapEntity(entry.getUniParcCrossReferences().get(0), Collections.singletonList(returnFieldName));
         System.out.println(returnFieldName + " : " + mappedField.get(returnFieldName));
         assertNotNull(mappedField.get(returnFieldName));
         assertFalse(mappedField.get(returnFieldName).isEmpty());
