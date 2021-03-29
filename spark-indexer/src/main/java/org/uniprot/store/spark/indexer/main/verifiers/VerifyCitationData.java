@@ -52,7 +52,7 @@ public class VerifyCitationData {
             log.info("---------------- Literature File Name: {} ---------------------", file);
             String releaseInputDir = getInputReleaseDirPath(config, jobParameter.getReleaseName());
             String literaturePath = releaseInputDir + "literature/"+file;
-            sparkContext.hadoopConfiguration().set("textinputformat.record.delimiter", SPLITTER);
+            //sparkContext.hadoopConfiguration().set("textinputformat.record.delimiter", SPLITTER);
             long count = sparkContext.textFile(literaturePath, 1000)
                     //.mapToPair(new LiteratureFileMapper())
                     .count();
