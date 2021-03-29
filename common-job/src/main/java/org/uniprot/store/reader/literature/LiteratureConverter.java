@@ -87,8 +87,7 @@ public class LiteratureConverter {
             builder = builder.literatureAbstract(String.join(" ", fileEntry.abstractLines));
             return builder.build();
         }catch (Exception e){
-            log.warn("Error Converter LiteratureFileEntry:\n {}",fileEntry.toString());
-            throw e;
+            throw new RuntimeException("Error Converter LiteratureFileEntry:"+ fileEntry.toString());
         }
     }
 
