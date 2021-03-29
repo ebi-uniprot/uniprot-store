@@ -17,7 +17,7 @@ import org.uniprot.store.spark.indexer.literature.mapper.LiteratureFileMapper;
  */
 public class LiteratureRDDTupleReader implements PairRDDReader<String, Literature> {
 
-    private static final String SPLITTER = "\n//\n";
+    private static final String SPLITTER = "\n//";
 
     private final JobParameter jobParameter;
 
