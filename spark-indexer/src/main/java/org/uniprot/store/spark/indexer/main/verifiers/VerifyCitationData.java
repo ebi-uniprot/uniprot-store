@@ -35,7 +35,7 @@ import static org.uniprot.store.spark.indexer.common.util.SparkUtils.getInputRel
 @Slf4j
 public class VerifyCitationData {
 
-    private static final String SPLITTER = "//";
+    private static final String SPLITTER = "\n//";
 
     public static void main(String[] args) {
         ResourceBundle config = SparkUtils.loadApplicationProperty();
