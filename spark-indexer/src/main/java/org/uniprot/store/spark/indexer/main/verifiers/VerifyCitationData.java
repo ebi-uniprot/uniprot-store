@@ -53,14 +53,18 @@ public class VerifyCitationData {
             String releaseInputDir = getInputReleaseDirPath(config, jobParameter.getReleaseName());
             String literaturePath = releaseInputDir + "literature/"+file;
             sparkContext.hadoopConfiguration().set("textinputformat.record.delimiter", SPLITTER);
-            List<Tuple2<String, Literature>> literature = sparkContext.textFile(literaturePath, 1000)
+            long count = sparkContext.textFile(literaturePath, 1000)
+                    //.mapToPair(new LiteratureFileMapper())
+                    .count();
+            log.info("Number of entries: {}",count);
+/*            List<Tuple2<String, Literature>> literature = sparkContext.textFile(literaturePath, 1000)
                     .mapToPair(new LiteratureFileMapper())
                     .take(10);
             literature.forEach(lit ->  {
                 log.info("Key : {}",lit._1);
                 log.info("Value : {}",lit._2.getId());
             });
-            log.info("---------------- THE END FILE ------------------");
+            log.info("---------------- THE END FILE ------------------");*/
         }
 
 
