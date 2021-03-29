@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import lombok.extern.slf4j.Slf4j;
 import org.uniprot.core.CrossReference;
 import org.uniprot.core.citation.Author;
 import org.uniprot.core.citation.CitationDatabase;
@@ -19,6 +20,7 @@ import org.uniprot.core.util.Utils;
  * @author lgonzales
  * @since 24/03/2021
  */
+@Slf4j
 public class LiteratureConverter {
     private static final String RX_LINE = "RX";
     private static final String RA_LINE = "RA";
@@ -74,15 +76,20 @@ public class LiteratureConverter {
     }
 
     private Literature buildLiteratureEntry(LiteratureFileEntry fileEntry) {
-        LiteratureBuilder builder = new LiteratureBuilder();
-        builder = parseRXLine(builder, fileEntry.rxLines);
-        builder = parseRALine(builder, fileEntry.raLines);
-        builder = parseRTLine(builder, fileEntry.rtLines);
-        builder = parseRGLine(builder, fileEntry.rgLines);
-        builder = parseRLLine(builder, fileEntry.rlLines);
-        builder = builder.completeAuthorList(fileEntry.completeAuthorList);
-        builder = builder.literatureAbstract(String.join(" ", fileEntry.abstractLines));
-        return builder.build();
+        try {
+            LiteratureBuilder builder = new LiteratureBuilder();
+            builder = parseRXLine(builder, fileEntry.rxLines);
+            builder = parseRALine(builder, fileEntry.raLines);
+            builder = parseRTLine(builder, fileEntry.rtLines);
+            builder = parseRGLine(builder, fileEntry.rgLines);
+            builder = parseRLLine(builder, fileEntry.rlLines);
+            builder = builder.completeAuthorList(fileEntry.completeAuthorList);
+            builder = builder.literatureAbstract(String.join(" ", fileEntry.abstractLines));
+            return builder.build();
+        }catch (Exception e){
+            log.warn("Error Converter LiteratureFileEntry:\n {}",fileEntry.toString());
+            throw e;
+        }
     }
 
     private LiteratureBuilder parseRXLine(LiteratureBuilder builder, List<String> rxLines) {
@@ -195,6 +202,16 @@ public class LiteratureConverter {
             rtLines = new ArrayList<>();
             abstractLines = new ArrayList<>();
             completeAuthorList = true;
+        }
+
+        @Override
+        public String toString() {
+            return "rxLines="+String.join(" ", rxLines)+
+                    "\n raLines="+String.join(" ", raLines)+
+                    "\n rlLines="+String.join(" ", rlLines)+
+                    "\n rgLines="+String.join(" ", rgLines)+
+                    "\n rtLines="+String.join(" ", rtLines)+
+                    "\n abstractLines="+String.join(" ", abstractLines);
         }
     }
 }
