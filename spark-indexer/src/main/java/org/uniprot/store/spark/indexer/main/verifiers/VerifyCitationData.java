@@ -21,9 +21,12 @@ import org.uniprot.store.spark.indexer.common.util.SparkUtils;
 import org.uniprot.store.spark.indexer.literature.LiteratureRDDTupleReader;
 import org.uniprot.store.spark.indexer.literature.mapper.LiteratureEntryAggregationMapper;
 import org.uniprot.store.spark.indexer.literature.mapper.LiteratureEntryUniProtKBMapper;
+import org.uniprot.store.spark.indexer.literature.mapper.LiteratureFileMapper;
 import org.uniprot.store.spark.indexer.publication.MappedReferenceRDDReader;
 import org.uniprot.store.spark.indexer.uniprot.UniProtKBRDDTupleReader;
 import scala.Tuple2;
+
+import static org.uniprot.store.spark.indexer.common.util.SparkUtils.getInputReleaseDirPath;
 
 /**
  * @author lgonzales
@@ -32,24 +35,34 @@ import scala.Tuple2;
 @Slf4j
 public class VerifyCitationData {
 
+    private static final String SPLITTER = "\n//\n";
+
     public static void main(String[] args) {
-        ResourceBundle applicationConfig = SparkUtils.loadApplicationProperty();
-        JavaSparkContext sparkContext = SparkUtils.loadSparkContext(applicationConfig);
+        ResourceBundle config = SparkUtils.loadApplicationProperty();
+        JavaSparkContext sparkContext = SparkUtils.loadSparkContext(config);
 
         JobParameter jobParameter =
                 JobParameter.builder()
-                        .applicationConfig(applicationConfig)
-                        .releaseName(args[0])
+                        .applicationConfig(config)
+                        .releaseName("2021_01")
                         .sparkContext(sparkContext)
                         .build();
 
-        LiteratureRDDTupleReader literatureReader = new LiteratureRDDTupleReader(jobParameter);
-        List<Tuple2<String, Literature>> literature = literatureReader.load().take(10);
-        literature.forEach(lit ->  {
-            log.info("Key : {}",lit._1);
-            log.info("Value : {}",lit._2.getId());
-        });
-        log.info("-------------------------------------");
+        for (String file: args) {
+            log.info("---------------- Literature File Name: {} ---------------------", file);
+            String releaseInputDir = getInputReleaseDirPath(config, jobParameter.getReleaseName());
+            String literaturePath = releaseInputDir + "literature/"+file;
+            sparkContext.hadoopConfiguration().set("textinputformat.record.delimiter", SPLITTER);
+            List<Tuple2<String, Literature>> literature = sparkContext.textFile(literaturePath)
+                    .mapToPair(new LiteratureFileMapper())
+                    .take(10);
+            literature.forEach(lit ->  {
+                log.info("Key : {}",lit._1);
+                log.info("Value : {}",lit._2.getId());
+            });
+            log.info("---------------- THE END FILE ------------------");
+        }
+
 
         MappedReferenceRDDReader mappedRefReader =
                 new MappedReferenceRDDReader(jobParameter, MappedReferenceRDDReader.KeyType.CITATION_ID);
@@ -62,6 +75,7 @@ public class VerifyCitationData {
             log.info("Key : {}",lit._1);
             log.info("Value : {}",lit._2.getUniProtKBAccession());
         });
+
 /*        JavaRDD<String> solrInputDocumentRDD =
                 new UniProtKBRDDTupleReader(jobParameter, false).loadFlatFileToRDD();
 
