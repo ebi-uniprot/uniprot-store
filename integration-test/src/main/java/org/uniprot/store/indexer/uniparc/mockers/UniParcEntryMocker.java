@@ -21,6 +21,7 @@ import org.uniprot.core.uniprotkb.taxonomy.impl.OrganismBuilder;
 public class UniParcEntryMocker {
 
     public static final String PROTEIN_NAME = "proteinName";
+    public static final String NCBI_GI = "ncbiGi";
 
     private UniParcEntryMocker() {}
 
@@ -78,6 +79,7 @@ public class UniParcEntryMocker {
                         .id(getName("P100", i))
                         .version(7)
                         .active(true)
+                        .ncbiGi(NCBI_GI + i)
                         .created(LocalDate.of(2017, 5, 17))
                         .lastUpdated(LocalDate.of(2017, 2, 27))
                         .proteinName(getName(PROTEIN_NAME, i))
@@ -149,6 +151,7 @@ public class UniParcEntryMocker {
                         .id("embl" + i)
                         .version(7)
                         .active(true)
+                        .ncbiGi(NCBI_GI + i)
                         .created(LocalDate.of(2017, 2, 12))
                         .lastUpdated(LocalDate.of(2017, 4, 23))
                         .proteinName(PROTEIN_NAME + i)
@@ -160,6 +163,7 @@ public class UniParcEntryMocker {
                         .database(UniParcDatabase.UNIMES)
                         .id("unimes" + i)
                         .version(7)
+                        .ncbiGi(NCBI_GI + i)
                         .active(false)
                         .created(LocalDate.of(2017, 2, 12))
                         .lastUpdated(LocalDate.of(2017, 4, 23))
