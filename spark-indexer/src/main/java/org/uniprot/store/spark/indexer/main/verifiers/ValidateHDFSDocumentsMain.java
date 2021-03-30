@@ -29,9 +29,11 @@ public class ValidateHDFSDocumentsMain {
 
         SolrCollection collection = getSolrCollection(args[1]).get(0);
         String hdfsFilePath = getCollectionOutputReleaseDirPath(applicationConfig, args[0], collection);
+        log.info("Output Documents Path: {}", hdfsFilePath);
         JavaRDD<SolrInputDocument> solrInputDocumentRDD =
                 sparkContext.objectFile(hdfsFilePath).map(obj -> (SolrInputDocument) obj);
 
+        log.info("Documents Count: {}", solrInputDocumentRDD.count());
         solrInputDocumentRDD
                 .take(200)
                 .forEach(
