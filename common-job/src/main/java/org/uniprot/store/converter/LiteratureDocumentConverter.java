@@ -7,8 +7,8 @@ import java.util.stream.Collectors;
 
 import lombok.extern.slf4j.Slf4j;
 
-import org.uniprot.core.citation.Author;
-import org.uniprot.core.citation.Literature;
+import org.uniprot.core.CrossReference;
+import org.uniprot.core.citation.*;
 import org.uniprot.core.json.parser.literature.LiteratureJsonConfig;
 import org.uniprot.core.literature.LiteratureEntry;
 import org.uniprot.core.literature.LiteratureStatistics;
@@ -29,11 +29,13 @@ public class LiteratureDocumentConverter
 
     @Override
     public LiteratureDocument convert(LiteratureEntry entry) {
-        Literature literature = (Literature) entry.getCitation();
+        Citation literature = entry.getCitation();
         LiteratureDocument.LiteratureDocumentBuilder builder = LiteratureDocument.builder();
-        builder.id(String.valueOf(literature.getPubmedId()));
+        builder.id(String.valueOf(literature.getId()));
 
-        builder.doi(literature.getDoiId());
+        literature.getCitationCrossReferenceByType(CitationDatabase.DOI)
+                .map(CrossReference::getId)
+                .ifPresent(builder::doi);
 
         builder.title(literature.getTitle());
 
@@ -44,9 +46,7 @@ public class LiteratureDocumentConverter
                             .collect(Collectors.toSet());
             builder.author(authors);
         }
-        if (literature.hasJournal()) {
-            builder.journal(literature.getJournal().getName());
-        }
+
         if (literature.hasPublicationDate()) {
             builder.published(literature.getPublicationDate().getValue());
         }
@@ -59,12 +59,16 @@ public class LiteratureDocumentConverter
                     statistics.hasReviewedProteinCount() || statistics.hasUnreviewedProteinCount());
         }
 
-        if (literature.hasLiteratureAbstract()) {
-            builder.litAbstract(literature.getLiteratureAbstract());
-        }
-
         if (literature.hasAuthoringGroup()) {
             builder.authorGroups(new HashSet<>(literature.getAuthoringGroups()));
+        }
+
+        if(literature instanceof JournalArticle && (((JournalArticle)literature).hasJournal())) {
+            builder.journal(((JournalArticle)literature).getJournal().getName());
+        }
+
+        if(literature instanceof Literature && (((Literature)literature).hasLiteratureAbstract())) {
+            builder.litAbstract(((Literature)literature).getLiteratureAbstract());
         }
 
         byte[] literatureByte = getLiteratureObjectBinary(entry);
