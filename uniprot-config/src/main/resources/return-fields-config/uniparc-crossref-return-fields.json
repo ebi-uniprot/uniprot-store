@@ -15,7 +15,7 @@
     "defaultForTsvOrder" : 0,
     "label": "Database",
     "name": "database",
-    "paths": ["uniParcCrossReferences[*].database"],
+    "paths": ["database"],
     "id": "names_&_taxonomy/database",
     "includeInSwagger": true
   },
@@ -28,7 +28,7 @@
     "defaultForTsvOrder" : 1,
     "label": "Identifier",
     "name": "accession",
-    "paths": ["uniParcCrossReferences[*].id"],
+    "paths": ["id"],
     "id": "names_&_taxonomy/accession",
     "includeInSwagger": true
   },
@@ -38,7 +38,7 @@
     "itemType": "SINGLE",
     "label": "Gene name",
     "name": "gene",
-    "paths": ["uniParcCrossReferences[*].geneName"],
+    "paths": ["geneName"],
     "id": "names_&_taxonomy/gene",
     "includeInSwagger": true
   },
@@ -48,7 +48,7 @@
     "itemType": "SINGLE",
     "label": "NCBI GI",
     "name": "ncbiGi",
-    "paths": ["uniParcCrossReferences[*].ncbiGi"],
+    "paths": ["ncbiGi"],
     "id": "names_&_taxonomy/ncbiGi",
     "includeInSwagger": true
   },
@@ -60,7 +60,7 @@
     "defaultForTsvOrder" : 3,
     "label": "Organism",
     "name": "organism",
-    "paths": ["uniParcCrossReferences[*].organism.scientificName"],
+    "paths": ["organism.scientificName"],
     "id": "names_&_taxonomy/organism",
     "includeInSwagger": true
   },
@@ -70,7 +70,7 @@
     "itemType": "SINGLE",
     "label": "Organism ID",
     "name": "organism_id",
-    "paths": ["uniParcCrossReferences[*].organism.taxonId"],
+    "paths": ["organism.taxonId"],
     "id": "names_&_taxonomy/organism_id",
     "includeInSwagger": true
   },
@@ -80,7 +80,7 @@
     "itemType": "SINGLE",
     "label": "Protein name",
     "name": "protein",
-    "paths": ["uniParcCrossReferences[*].proteinName"],
+    "paths": ["proteinName"],
     "id": "names_&_taxonomy/protein",
     "includeInSwagger": true
   },
@@ -90,7 +90,7 @@
     "itemType": "SINGLE",
     "label": "Proteome",
     "name": "proteome",
-    "paths": ["uniParcCrossReferences[*].proteomeId", "uniParcCrossReferences[*].component"],
+    "paths": ["proteomeId", "component"],
     "id": "names_&_taxonomy/proteome",
     "includeInSwagger": true
   },
@@ -109,7 +109,7 @@
     "defaultForTsvOrder" : 6,
     "label": "Active",
     "name": "active",
-    "paths": ["uniParcCrossReferences[*].active"],
+    "paths": ["active"],
     "id": "miscellaneous/active",
     "includeInSwagger": true
   },
@@ -128,7 +128,7 @@
     "defaultForTsvOrder" : 4,
     "label": "First seen",
     "name": "first_seen",
-    "paths": ["uniParcCrossReferences[*].created"],
+    "paths": ["created"],
     "id": "date_of/first_seen",
     "includeInSwagger": true
   },
@@ -140,7 +140,7 @@
     "defaultForTsvOrder" : 5,
     "label": "Last seen",
     "name": "last_seen",
-    "paths": ["uniParcCrossReferences[*].lastUpdated"],
+    "paths": ["lastUpdated"],
     "id": "date_of/last_seen",
     "includeInSwagger": true
   },
@@ -150,7 +150,7 @@
     "itemType": "SINGLE",
     "label": "Timeline",
     "name": "timeline",
-    "paths": ["uniParcCrossReferences[*].created","uniParcCrossReferences[*].lastUpdated"],
+    "paths": ["created","lastUpdated"],
     "id": "date_of/timeline",
     "includeInSwagger": true
   },
@@ -162,7 +162,7 @@
     "defaultForTsvOrder" : 2,
     "label": "Version",
     "name": "version",
-    "paths": ["uniParcCrossReferences[*].version"],
+    "paths": ["version"],
     "id": "date_of/version",
     "includeInSwagger": true
   },
@@ -172,7 +172,7 @@
     "itemType": "SINGLE",
     "label": "Version (UniParc)",
     "name": "version_uniparc",
-    "paths": ["uniParcCrossReferences[*].versionI"],
+    "paths": ["versionI"],
     "id": "date_of/version_uniparc",
     "includeInSwagger": true
   }
