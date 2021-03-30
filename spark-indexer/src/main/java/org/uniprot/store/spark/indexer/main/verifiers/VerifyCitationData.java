@@ -33,7 +33,7 @@ public class VerifyCitationData {
         JobParameter jobParameter =
                 JobParameter.builder()
                         .applicationConfig(config)
-                        .releaseName("2021_01")
+                        .releaseName("2021_02")
                         .sparkContext(sparkContext)
                         .build();
 
