@@ -24,7 +24,7 @@ import org.uniprot.store.spark.indexer.literature.mapper.LiteratureFileMapper;
 @Slf4j
 public class VerifyCitationData {
 
-    private static final String SPLITTER = "\n//";
+    private static final String SPLITTER = "\n//\n";
 
     public static void main(String[] args) {
         ResourceBundle config = SparkUtils.loadApplicationProperty();
