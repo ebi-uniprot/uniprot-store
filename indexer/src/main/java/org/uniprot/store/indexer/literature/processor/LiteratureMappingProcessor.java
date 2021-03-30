@@ -1,6 +1,5 @@
 package org.uniprot.store.indexer.literature.processor;
 
-import java.nio.ByteBuffer;
 import java.util.Optional;
 
 import lombok.extern.slf4j.Slf4j;
@@ -15,6 +14,7 @@ import org.uniprot.core.literature.impl.LiteratureEntryImpl;
 import org.uniprot.core.literature.impl.LiteratureStatisticsBuilder;
 import org.uniprot.store.indexer.common.config.UniProtSolrClient;
 import org.uniprot.store.search.SolrCollection;
+import org.uniprot.store.search.document.DocumentConversionException;
 import org.uniprot.store.search.document.literature.LiteratureDocument;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -45,7 +45,7 @@ public class LiteratureMappingProcessor
             LiteratureDocument document = optionalDocument.get();
 
             // Get statistics from previous step and copy it to builder
-            byte[] literatureObj = document.getLiteratureObj().array();
+            byte[] literatureObj = document.getLiteratureObj();
             LiteratureEntry statisticsEntry =
                     literatureObjectMapper.readValue(literatureObj, LiteratureEntryImpl.class);
             statisticsBuilder = LiteratureStatisticsBuilder.from(statisticsEntry.getStatistics());
@@ -71,7 +71,7 @@ public class LiteratureMappingProcessor
             LiteratureEntry mappedEntry, Long pubmedId) {
         LiteratureDocument.LiteratureDocumentBuilder builder = LiteratureDocument.builder();
         byte[] literatureByte = getLiteratureObjectBinary(mappedEntry);
-        builder.literatureObj(ByteBuffer.wrap(literatureByte));
+        builder.literatureObj(literatureByte);
         builder.id(String.valueOf(pubmedId));
 
         log.debug("LiteratureStatisticsProcessor entry: " + mappedEntry);
@@ -82,7 +82,7 @@ public class LiteratureMappingProcessor
         try {
             return this.literatureObjectMapper.writeValueAsBytes(literature);
         } catch (JsonProcessingException e) {
-            throw new RuntimeException("Unable to parse Literature to binary json: ", e);
+            throw new DocumentConversionException("Unable to parse Literature to binary json: ", e);
         }
     }
 }

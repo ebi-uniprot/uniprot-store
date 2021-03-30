@@ -1,7 +1,6 @@
 package org.uniprot.store.indexer.publication;
 
 import java.io.IOException;
-import java.nio.ByteBuffer;
 
 import org.uniprot.core.CrossReference;
 import org.uniprot.core.citation.Citation;
@@ -66,7 +65,7 @@ public class PublicationITUtil {
                 .isCommunityMapped(true)
                 .isComputationallyMapped(true)
                 .isUniprotkbMapped(true)
-                .literatureObj(ByteBuffer.wrap(litBytes))
+                .literatureObj(litBytes)
                 .build();
     }
 
@@ -110,7 +109,7 @@ public class PublicationITUtil {
                 .isCommunityMapped(true)
                 .isComputationallyMapped(true)
                 .isUniprotkbMapped(true)
-                .literatureObj(ByteBuffer.wrap(litBytes))
+                .literatureObj(litBytes)
                 .build();
     }
 }

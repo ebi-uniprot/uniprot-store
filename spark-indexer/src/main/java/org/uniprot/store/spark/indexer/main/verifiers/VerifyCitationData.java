@@ -1,32 +1,21 @@
 package org.uniprot.store.spark.indexer.main.verifiers;
 
-import java.util.List;
+import static org.uniprot.store.spark.indexer.common.util.SparkUtils.getInputReleaseDirPath;
+
 import java.util.ResourceBundle;
 
 import lombok.extern.slf4j.Slf4j;
 
-import org.apache.spark.api.java.JavaPairRDD;
-import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
 import org.apache.spark.api.java.function.Function;
 import org.uniprot.core.citation.Citation;
 import org.uniprot.core.citation.CitationDatabase;
-import org.uniprot.core.citation.Literature;
-import org.uniprot.core.publication.MappedReference;
 import org.uniprot.core.uniprotkb.UniProtKBReference;
 import org.uniprot.core.util.Pair;
 import org.uniprot.core.util.PairImpl;
 import org.uniprot.store.spark.indexer.common.JobParameter;
 import org.uniprot.store.spark.indexer.common.util.SparkUtils;
-import org.uniprot.store.spark.indexer.literature.LiteratureRDDTupleReader;
-import org.uniprot.store.spark.indexer.literature.mapper.LiteratureEntryAggregationMapper;
-import org.uniprot.store.spark.indexer.literature.mapper.LiteratureEntryUniProtKBMapper;
 import org.uniprot.store.spark.indexer.literature.mapper.LiteratureFileMapper;
-import org.uniprot.store.spark.indexer.publication.MappedReferenceRDDReader;
-import org.uniprot.store.spark.indexer.uniprot.UniProtKBRDDTupleReader;
-import scala.Tuple2;
-
-import static org.uniprot.store.spark.indexer.common.util.SparkUtils.getInputReleaseDirPath;
 
 /**
  * @author lgonzales
@@ -48,16 +37,18 @@ public class VerifyCitationData {
                         .sparkContext(sparkContext)
                         .build();
 
-        for (String file: args) {
+        for (String file : args) {
             log.info("---------------- Literature File Name: {} ---------------------", file);
             String releaseInputDir = getInputReleaseDirPath(config, jobParameter.getReleaseName());
-            String literaturePath = releaseInputDir + "literature/"+file;
+            String literaturePath = releaseInputDir + "literature/" + file;
             sparkContext.hadoopConfiguration().set("textinputformat.record.delimiter", SPLITTER);
-            long count = sparkContext.textFile(literaturePath, 1000)
-                    .mapToPair(new LiteratureFileMapper())
-                    .count();
-            log.info("Number of entries: {}",count);
-/*            List<Tuple2<String, Literature>> literature = sparkContext.textFile(literaturePath, 1000)
+            long count =
+                    sparkContext
+                            .textFile(literaturePath, 1000)
+                            .mapToPair(new LiteratureFileMapper())
+                            .count();
+            log.info("Number of entries: {}", count);
+            /*            List<Tuple2<String, Literature>> literature = sparkContext.textFile(literaturePath, 1000)
                     .mapToPair(new LiteratureFileMapper())
                     .take(10);
             literature.forEach(lit ->  {
@@ -67,7 +58,7 @@ public class VerifyCitationData {
             log.info("---------------- THE END FILE ------------------");*/
         }
 
-/*        JavaRDD<String> solrInputDocumentRDD =
+        /*        JavaRDD<String> solrInputDocumentRDD =
                 new UniProtKBRDDTupleReader(jobParameter, false).loadFlatFileToRDD();
 
         long result =

@@ -84,8 +84,7 @@ public class LargeScaleReader implements ItemReader<Set<String>> {
                     LiteratureJsonConfig.getInstance()
                             .getFullObjectMapper()
                             .readValue(
-                                    literatureDocument.getLiteratureObj().array(),
-                                    LiteratureEntry.class);
+                                    literatureDocument.getLiteratureObj(), LiteratureEntry.class);
         } catch (Exception e) {
             throw new DocumentConversionException(
                     "Unable to parse LiteratureEntry to binary json: ", e);

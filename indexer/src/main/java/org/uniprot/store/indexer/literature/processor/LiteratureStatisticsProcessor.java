@@ -1,6 +1,5 @@
 package org.uniprot.store.indexer.literature.processor;
 
-import java.nio.ByteBuffer;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -16,6 +15,7 @@ import org.uniprot.core.literature.LiteratureStatistics;
 import org.uniprot.core.literature.impl.LiteratureEntryBuilder;
 import org.uniprot.core.literature.impl.LiteratureStatisticsBuilder;
 import org.uniprot.store.indexer.literature.reader.LiteratureStatisticsReader;
+import org.uniprot.store.search.document.DocumentConversionException;
 import org.uniprot.store.search.document.literature.LiteratureDocument;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -54,7 +54,7 @@ public class LiteratureStatisticsProcessor
         builder.id(String.valueOf(literatureCount.getPubmedId()));
 
         byte[] literatureByte = getLiteratureObjectBinary(literatureEntry);
-        builder.literatureObj(ByteBuffer.wrap(literatureByte));
+        builder.literatureObj(literatureByte);
 
         log.debug("LiteratureStatisticsProcessor entry: " + literatureCount.getPubmedId());
         return builder.build();
@@ -64,7 +64,7 @@ public class LiteratureStatisticsProcessor
         try {
             return this.literatureObjectMapper.writeValueAsBytes(literature);
         } catch (JsonProcessingException e) {
-            throw new RuntimeException("Unable to parse Literature to binary json: ", e);
+            throw new DocumentConversionException("Unable to parse Literature to binary json: ", e);
         }
     }
 }

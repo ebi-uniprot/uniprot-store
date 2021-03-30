@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import lombok.extern.slf4j.Slf4j;
+
 import org.uniprot.core.CrossReference;
 import org.uniprot.core.citation.Author;
 import org.uniprot.core.citation.CitationDatabase;
@@ -15,6 +16,7 @@ import org.uniprot.core.citation.impl.LiteratureBuilder;
 import org.uniprot.core.citation.impl.PublicationDateBuilder;
 import org.uniprot.core.impl.CrossReferenceBuilder;
 import org.uniprot.core.util.Utils;
+import org.uniprot.cv.FileParseException;
 
 /**
  * @author lgonzales
@@ -86,8 +88,9 @@ public class LiteratureConverter {
             builder = builder.completeAuthorList(fileEntry.completeAuthorList);
             builder = builder.literatureAbstract(String.join(" ", fileEntry.abstractLines));
             return builder.build();
-        }catch (Exception e){
-            throw new RuntimeException("Error Converter LiteratureFileEntry:"+ fileEntry.toString());
+        } catch (Exception e) {
+            throw new FileParseException(
+                    "Error Converter LiteratureFileEntry:" + fileEntry.toString());
         }
     }
 
@@ -205,12 +208,18 @@ public class LiteratureConverter {
 
         @Override
         public String toString() {
-            return "rxLines="+String.join(" ", rxLines)+
-                    "\n raLines="+String.join(" ", raLines)+
-                    "\n rlLines="+String.join(" ", rlLines)+
-                    "\n rgLines="+String.join(" ", rgLines)+
-                    "\n rtLines="+String.join(" ", rtLines)+
-                    "\n abstractLines="+String.join(" ", abstractLines);
+            return "rxLines="
+                    + String.join(" ", rxLines)
+                    + "\n raLines="
+                    + String.join(" ", raLines)
+                    + "\n rlLines="
+                    + String.join(" ", rlLines)
+                    + "\n rgLines="
+                    + String.join(" ", rgLines)
+                    + "\n rtLines="
+                    + String.join(" ", rtLines)
+                    + "\n abstractLines="
+                    + String.join(" ", abstractLines);
         }
     }
 }

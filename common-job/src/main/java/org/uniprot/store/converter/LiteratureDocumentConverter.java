@@ -1,6 +1,5 @@
 package org.uniprot.store.converter;
 
-import java.nio.ByteBuffer;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -33,7 +32,8 @@ public class LiteratureDocumentConverter
         LiteratureDocument.LiteratureDocumentBuilder builder = LiteratureDocument.builder();
         builder.id(String.valueOf(literature.getId()));
 
-        literature.getCitationCrossReferenceByType(CitationDatabase.DOI)
+        literature
+                .getCitationCrossReferenceByType(CitationDatabase.DOI)
                 .map(CrossReference::getId)
                 .ifPresent(builder::doi);
 
@@ -63,16 +63,17 @@ public class LiteratureDocumentConverter
             builder.authorGroups(new HashSet<>(literature.getAuthoringGroups()));
         }
 
-        if(literature instanceof JournalArticle && (((JournalArticle)literature).hasJournal())) {
-            builder.journal(((JournalArticle)literature).getJournal().getName());
+        if (literature instanceof JournalArticle && (((JournalArticle) literature).hasJournal())) {
+            builder.journal(((JournalArticle) literature).getJournal().getName());
         }
 
-        if(literature instanceof Literature && (((Literature)literature).hasLiteratureAbstract())) {
-            builder.litAbstract(((Literature)literature).getLiteratureAbstract());
+        if (literature instanceof Literature
+                && (((Literature) literature).hasLiteratureAbstract())) {
+            builder.litAbstract(((Literature) literature).getLiteratureAbstract());
         }
 
         byte[] literatureByte = getLiteratureObjectBinary(entry);
-        builder.literatureObj(ByteBuffer.wrap(literatureByte));
+        builder.literatureObj(literatureByte);
 
         log.debug("LiteratureLoadProcessor entry: " + entry);
         return builder.build();

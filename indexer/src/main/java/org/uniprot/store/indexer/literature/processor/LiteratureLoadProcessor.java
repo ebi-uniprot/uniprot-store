@@ -44,7 +44,7 @@ public class LiteratureLoadProcessor implements ItemProcessor<LiteratureEntry, L
             LiteratureDocument document = optionalDocument.get();
 
             // Get statistics and mapped references from previous steps and copy it to entry builder
-            byte[] literatureObj = document.getLiteratureObj().array();
+            byte[] literatureObj = document.getLiteratureObj();
             LiteratureEntry existingEntry =
                     literatureObjectMapper.readValue(literatureObj, LiteratureEntryImpl.class);
             entryBuilder.statistics(existingEntry.getStatistics());

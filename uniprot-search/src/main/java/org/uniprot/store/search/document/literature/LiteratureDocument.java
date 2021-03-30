@@ -1,6 +1,5 @@
 package org.uniprot.store.search.document.literature;
 
-import java.nio.ByteBuffer;
 import java.util.Set;
 
 import lombok.AllArgsConstructor;
@@ -46,7 +45,7 @@ public class LiteratureDocument implements Document {
     private boolean isCommunityMapped;
 
     @Field("literature_obj")
-    private ByteBuffer literatureObj;
+    private byte[] literatureObj;
 
     @Override
     public String getDocumentId() {
