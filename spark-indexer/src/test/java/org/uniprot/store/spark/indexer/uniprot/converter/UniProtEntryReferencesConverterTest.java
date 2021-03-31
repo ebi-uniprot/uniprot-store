@@ -27,7 +27,7 @@ import org.uniprot.store.search.document.uniprot.UniProtDocument;
  * @author lgonzales
  * @since 2019-09-09
  */
-class UniProtKBEntryReferencesConverterTest {
+class UniProtEntryReferencesConverterTest {
 
     @Test
     void convertCompleteReference() {

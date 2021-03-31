@@ -24,7 +24,7 @@ import org.uniprot.store.spark.indexer.literature.mapper.LiteratureFileMapper;
 @Slf4j
 public class VerifyCitationData {
 
-    private static final String SPLITTER = "\n//\n";
+    private static final String SPLITTER = "\n//";
 
     public static void main(String[] args) {
         ResourceBundle config = SparkUtils.loadApplicationProperty();
@@ -36,7 +36,7 @@ public class VerifyCitationData {
                         .releaseName("2021_02")
                         .sparkContext(sparkContext)
                         .build();
-
+        // cat medaaa | grep '^//\w' to find --> problem in the file  //MuRF2
         for (String file : args) {
             log.info("---------------- Literature File Name: {} ---------------------", file);
             String releaseInputDir = getInputReleaseDirPath(config, jobParameter.getReleaseName());
