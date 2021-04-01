@@ -36,12 +36,9 @@
 	<field name="author_group" type="full_ci" indexed="true"
 		stored="false" multiValued="true" />
 	<!-- Facet fields -->
-	<field name="is_uniprotkb_mapped" type="boolean" indexed="true"
-		stored="false" docValues="true" />
-	<field name="is_computationally_mapped" type="boolean"
-		indexed="true" stored="false" docValues="true" />
-	<field name="is_community_mapped" type="boolean" indexed="true"
-		stored="false" docValues="true" />
+	<field name="citations_with" type="string" indexed="true"
+		stored="false" docValues="true" multiValued="true" />
+
 	<!-- the whole literature object as binary -->
 	<field name="literature_obj" type="binary" indexed="false"
 		stored="true" required="true" />

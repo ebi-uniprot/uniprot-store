@@ -1,13 +1,14 @@
 package org.uniprot.store.spark.indexer.literature.mapper;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
 import org.uniprot.core.citation.Literature;
 import org.uniprot.core.citation.impl.AuthorBuilder;
-import scala.Tuple2;
 
-import static org.junit.jupiter.api.Assertions.*;
+import scala.Tuple2;
 
 /**
  * @author lgonzales
@@ -61,7 +62,7 @@ class LiteratureFileMapperTest {
                         "DIAbetes Genetics Replication And Meta-analysis (DIAGRAM) Consortium"));
 
         assertTrue(literature.hasJournal());
-        assertEquals("Biochem Med", literature.getJournal().getName() );
+        assertEquals("Biochem Med", literature.getJournal().getName());
 
         assertTrue(literature.hasFirstPage());
         assertEquals("117", literature.getFirstPage());

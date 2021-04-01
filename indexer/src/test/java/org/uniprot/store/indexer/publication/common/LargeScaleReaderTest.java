@@ -44,7 +44,7 @@ class LargeScaleReaderTest {
     @Test
     void canReadEmptyLiteratureReturnNull() {
         LargeScaleReader reader =
-                new LargeScaleReader(solrClient, LargeScaleSolrFieldName.COMMUNITY);
+                new LargeScaleReader(solrClient, LargeScaleSolrFieldQuery.COMMUNITY);
         Assertions.assertNull(reader.read());
     }
 
@@ -57,7 +57,7 @@ class LargeScaleReaderTest {
         solrClient.commit(SolrCollection.literature);
 
         LargeScaleReader reader =
-                new LargeScaleReader(solrClient, LargeScaleSolrFieldName.COMMUNITY);
+                new LargeScaleReader(solrClient, LargeScaleSolrFieldQuery.COMMUNITY);
         Set<String> result = reader.read();
         assertNotNull(result);
         assertEquals(10, result.size());
@@ -77,7 +77,7 @@ class LargeScaleReaderTest {
         solrClient.saveBeans(SolrCollection.literature, Collections.singleton(litDoc));
         solrClient.commit(SolrCollection.literature);
 
-        LargeScaleSolrFieldName fieldName = getFieldName(type);
+        LargeScaleSolrFieldQuery fieldName = getFieldName(type);
 
         LargeScaleReader reader = new LargeScaleReader(solrClient, fieldName);
         Set<String> result = reader.read();
@@ -97,7 +97,7 @@ class LargeScaleReaderTest {
         solrClient.commit(SolrCollection.literature);
 
         LargeScaleReader reader =
-                new LargeScaleReader(solrClient, LargeScaleSolrFieldName.COMMUNITY);
+                new LargeScaleReader(solrClient, LargeScaleSolrFieldQuery.COMMUNITY);
         Set<String> result = reader.read();
         assertNotNull(result);
         assertEquals(250, result.size());
@@ -108,14 +108,14 @@ class LargeScaleReaderTest {
         Assertions.assertNull(reader.read());
     }
 
-    private LargeScaleSolrFieldName getFieldName(MappedReferenceType type) {
-        LargeScaleSolrFieldName fieldName;
+    private LargeScaleSolrFieldQuery getFieldName(MappedReferenceType type) {
+        LargeScaleSolrFieldQuery fieldName;
         if (type == MappedReferenceType.COMMUNITY) {
-            fieldName = LargeScaleSolrFieldName.COMMUNITY;
+            fieldName = LargeScaleSolrFieldQuery.COMMUNITY;
         } else if (type == MappedReferenceType.COMPUTATIONAL) {
-            fieldName = LargeScaleSolrFieldName.COMPUTATIONAL;
+            fieldName = LargeScaleSolrFieldQuery.COMPUTATIONAL;
         } else {
-            fieldName = LargeScaleSolrFieldName.UNIPROT_KB;
+            fieldName = LargeScaleSolrFieldQuery.UNIPROT_KB;
         }
         return fieldName;
     }

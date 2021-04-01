@@ -18,18 +18,22 @@ class LiteratureEntryAggregationMapperTest {
     void mapperCanMergeStatistics() throws Exception {
         LiteratureEntryAggregationMapper mapper = new LiteratureEntryAggregationMapper();
 
-        LiteratureEntry entry1 = new LiteratureEntryBuilder()
-                .statistics(new LiteratureStatisticsBuilder()
-                        .unreviewedProteinCount(10)
-                        .reviewedProteinCount(10)
-                        .build())
-                .build();
-        LiteratureEntry entry2 = new LiteratureEntryBuilder()
-                .statistics(new LiteratureStatisticsBuilder()
-                        .unreviewedProteinCount(10)
-                        .reviewedProteinCount(10)
-                        .build())
-                .build();
+        LiteratureEntry entry1 =
+                new LiteratureEntryBuilder()
+                        .statistics(
+                                new LiteratureStatisticsBuilder()
+                                        .unreviewedProteinCount(10)
+                                        .reviewedProteinCount(10)
+                                        .build())
+                        .build();
+        LiteratureEntry entry2 =
+                new LiteratureEntryBuilder()
+                        .statistics(
+                                new LiteratureStatisticsBuilder()
+                                        .unreviewedProteinCount(10)
+                                        .reviewedProteinCount(10)
+                                        .build())
+                        .build();
 
         LiteratureEntry result = mapper.call(entry1, entry2);
 
@@ -44,12 +48,14 @@ class LiteratureEntryAggregationMapperTest {
     void mapperEntry2Null() throws Exception {
         LiteratureEntryAggregationMapper mapper = new LiteratureEntryAggregationMapper();
 
-        LiteratureEntry entry1 = new LiteratureEntryBuilder()
-                .statistics(new LiteratureStatisticsBuilder()
-                        .unreviewedProteinCount(10)
-                        .reviewedProteinCount(10)
-                        .build())
-                .build();
+        LiteratureEntry entry1 =
+                new LiteratureEntryBuilder()
+                        .statistics(
+                                new LiteratureStatisticsBuilder()
+                                        .unreviewedProteinCount(10)
+                                        .reviewedProteinCount(10)
+                                        .build())
+                        .build();
 
         LiteratureEntry result = mapper.call(entry1, null);
 
@@ -61,17 +67,18 @@ class LiteratureEntryAggregationMapperTest {
     void mapperEntry1Null() throws Exception {
         LiteratureEntryAggregationMapper mapper = new LiteratureEntryAggregationMapper();
 
-        LiteratureEntry entry2 = new LiteratureEntryBuilder()
-                .statistics(new LiteratureStatisticsBuilder()
-                        .unreviewedProteinCount(10)
-                        .reviewedProteinCount(10)
-                        .build())
-                .build();
+        LiteratureEntry entry2 =
+                new LiteratureEntryBuilder()
+                        .statistics(
+                                new LiteratureStatisticsBuilder()
+                                        .unreviewedProteinCount(10)
+                                        .reviewedProteinCount(10)
+                                        .build())
+                        .build();
 
         LiteratureEntry result = mapper.call(null, entry2);
 
         assertNotNull(result);
         assertEquals(entry2, result);
     }
-
 }

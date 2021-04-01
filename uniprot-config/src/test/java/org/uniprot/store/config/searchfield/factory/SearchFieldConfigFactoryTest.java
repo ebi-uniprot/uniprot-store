@@ -38,7 +38,7 @@ class SearchFieldConfigFactoryTest {
                 Arguments.of(UniProtDataType.DISEASE, 3),
                 Arguments.of(UniProtDataType.GENECENTRIC, 7),
                 Arguments.of(UniProtDataType.KEYWORD, 8),
-                Arguments.of(UniProtDataType.LITERATURE, 13),
+                Arguments.of(UniProtDataType.LITERATURE, 11),
                 Arguments.of(UniProtDataType.PROTEOME, 21),
                 Arguments.of(UniProtDataType.PUBLICATION, 7),
                 Arguments.of(UniProtDataType.SUBCELLLOCATION, 7),

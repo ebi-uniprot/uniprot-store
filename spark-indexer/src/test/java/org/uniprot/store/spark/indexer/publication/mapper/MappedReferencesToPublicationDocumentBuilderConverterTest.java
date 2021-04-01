@@ -38,7 +38,7 @@ class MappedReferencesToPublicationDocumentBuilderConverterTest {
                         .build());
 
         Tuple2<String, Iterable<MappedReference>> tuple = new Tuple2<>(accPub, mappedReferences);
-        Tuple2<Integer, PublicationDocument.Builder> result = mapper.call(tuple);
+        Tuple2<String, PublicationDocument.Builder> result = mapper.call(tuple);
         assertNotNull(result);
         assertNotNull(result._1);
         assertNotNull(result._2);
@@ -68,7 +68,7 @@ class MappedReferencesToPublicationDocumentBuilderConverterTest {
                         .build());
 
         Tuple2<String, Iterable<MappedReference>> tuple = new Tuple2<>(accPub, mappedReferences);
-        Tuple2<Integer, PublicationDocument.Builder> result = mapper.call(tuple);
+        Tuple2<String, PublicationDocument.Builder> result = mapper.call(tuple);
         assertNotNull(result);
         assertNotNull(result._1);
         assertNotNull(result._2);
@@ -86,7 +86,7 @@ class MappedReferencesToPublicationDocumentBuilderConverterTest {
     void mapUniProtKBTremblMappedReference() throws Exception {
         MappedReferencesToPublicationDocumentBuilderConverter mapper =
                 new MappedReferencesToPublicationDocumentBuilderConverter();
-        String accPub = "P21802_NO-PUBMED-123";
+        String accPub = "P21802_CI-ASDKJIU12";
         List<MappedReference> mappedReferences = new ArrayList<>();
         mappedReferences.add(
                 new UniProtKBMappedReferenceBuilder()
@@ -96,6 +96,7 @@ class MappedReferencesToPublicationDocumentBuilderConverterTest {
                                         .id("CMNT_ID")
                                         .name(UniProtKBEntryType.TREMBL.getName())
                                         .build())
+                        .citationId("CI-ASDKJIU12")
                         .sourceCategoriesAdd("Interaction")
                         .sourceCategoriesAdd("Function")
                         .referencePositionsAdd("rpValue")
@@ -108,13 +109,13 @@ class MappedReferencesToPublicationDocumentBuilderConverterTest {
                         .build());
 
         Tuple2<String, Iterable<MappedReference>> tuple = new Tuple2<>(accPub, mappedReferences);
-        Tuple2<Integer, PublicationDocument.Builder> result = mapper.call(tuple);
+        Tuple2<String, PublicationDocument.Builder> result = mapper.call(tuple);
         assertNotNull(result);
         assertNotNull(result._1);
         assertNotNull(result._2);
         PublicationDocument doc = result._2.build();
         assertEquals("P21802", doc.getAccession());
-        assertNull(doc.getCitationId());
+        assertEquals("CI-ASDKJIU12", doc.getCitationId());
         assertEquals("P21802", doc.getAccession());
         assertTrue(doc.getCategories().contains("Interaction"));
         assertTrue(doc.getTypes().contains(3));
@@ -127,11 +128,12 @@ class MappedReferencesToPublicationDocumentBuilderConverterTest {
     void mapUniProtKBSwissProtMappedReference() throws Exception {
         MappedReferencesToPublicationDocumentBuilderConverter mapper =
                 new MappedReferencesToPublicationDocumentBuilderConverter();
-        String accPub = "P21802_NO-PUBMED-1234";
+        String accPub = "P21802_CI-ASDKJIU12";
         List<MappedReference> mappedReferences = new ArrayList<>();
         mappedReferences.add(
                 new UniProtKBMappedReferenceBuilder()
                         .uniProtKBAccession("P21802")
+                        .citationId("CI-ASDKJIU12")
                         .source(
                                 new MappedSourceBuilder()
                                         .id("CMNT_ID")
@@ -149,13 +151,13 @@ class MappedReferencesToPublicationDocumentBuilderConverterTest {
                         .build());
 
         Tuple2<String, Iterable<MappedReference>> tuple = new Tuple2<>(accPub, mappedReferences);
-        Tuple2<Integer, PublicationDocument.Builder> result = mapper.call(tuple);
+        Tuple2<String, PublicationDocument.Builder> result = mapper.call(tuple);
         assertNotNull(result);
         assertNotNull(result._1);
         assertNotNull(result._2);
         PublicationDocument doc = result._2.build();
         assertEquals("P21802", doc.getAccession());
-        assertNull(doc.getCitationId());
+        assertEquals("CI-ASDKJIU12", doc.getCitationId());
         assertEquals("P21802", doc.getAccession());
         assertTrue(doc.getCategories().contains("Interaction"));
         assertTrue(doc.getTypes().contains(2));

@@ -1,19 +1,17 @@
 package org.uniprot.store.spark.indexer.literature;
 
+import static org.junit.jupiter.api.Assertions.*;
+
+import java.util.ResourceBundle;
+
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaSparkContext;
 import org.junit.jupiter.api.Test;
 import org.uniprot.core.citation.Literature;
-import org.uniprot.core.literature.LiteratureMappedReference;
 import org.uniprot.store.spark.indexer.common.JobParameter;
 import org.uniprot.store.spark.indexer.common.util.SparkUtils;
+
 import scala.Tuple2;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.ResourceBundle;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * @author lgonzales
@@ -37,17 +35,18 @@ class LiteratureRDDTupleReaderTest {
             assertNotNull(result);
             long count = result.count();
             assertEquals(10L, count);
-            Tuple2<String, Literature> tuple = result.filter(tuple2 -> tuple2._1.equals("357")).first();
+            Tuple2<String, Literature> tuple =
+                    result.filter(tuple2 -> tuple2._1.equals("357")).first();
 
             assertNotNull(tuple);
             assertNotNull(tuple._1);
             assertEquals("357", tuple._1);
 
             assertNotNull(tuple._2);
-            Literature entry =  tuple._2;
+            Literature entry = tuple._2;
             assertEquals("357", entry.getId());
-            assertEquals("Novel type of murein transglycosylase in Escherichia coli.", entry.getTitle());
+            assertEquals(
+                    "Novel type of murein transglycosylase in Escherichia coli.", entry.getTitle());
         }
     }
-
 }

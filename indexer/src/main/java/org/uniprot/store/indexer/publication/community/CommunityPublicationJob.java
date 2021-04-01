@@ -18,7 +18,7 @@ import org.springframework.context.annotation.Import;
 import org.uniprot.store.indexer.common.config.SolrRepositoryConfig;
 import org.uniprot.store.indexer.common.config.UniProtSolrClient;
 import org.uniprot.store.indexer.common.utils.Constants;
-import org.uniprot.store.indexer.publication.common.LargeScaleSolrFieldName;
+import org.uniprot.store.indexer.publication.common.LargeScaleSolrFieldQuery;
 import org.uniprot.store.indexer.publication.common.PublicationJobExecutionListener;
 
 @Configuration
@@ -46,7 +46,7 @@ public class CommunityPublicationJob {
     }
 
     @Bean("largeScaleSolrFieldName")
-    public LargeScaleSolrFieldName largeScaleSolrFieldName() {
-        return LargeScaleSolrFieldName.COMMUNITY;
+    public LargeScaleSolrFieldQuery largeScaleSolrFieldName() {
+        return LargeScaleSolrFieldQuery.COMMUNITY;
     }
 }

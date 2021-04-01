@@ -56,7 +56,7 @@ class UniProtKBPublicationToMappedReferenceTest {
 
         // RN 4
         assertThat(fourthTuple, is(notNullValue()));
-        assertThat(fourthTuple._1, is("O60260_CI-BVIU4B8BBHOP1"));
+        assertThat(fourthTuple._1, is("O60260_CI-JS3VO0TP5OU7"));
 
         // RN 84
         assertThat(lastTuple, is(notNullValue()));

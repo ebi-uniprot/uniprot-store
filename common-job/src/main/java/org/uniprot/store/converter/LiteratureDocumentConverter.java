@@ -1,6 +1,8 @@
 package org.uniprot.store.converter;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -52,11 +54,7 @@ public class LiteratureDocumentConverter
         }
 
         if (entry.hasStatistics()) {
-            LiteratureStatistics statistics = entry.getStatistics();
-            builder.isComputationallyMapped(statistics.hasComputationallyMappedProteinCount());
-            builder.isCommunityMapped(statistics.hasCommunityMappedProteinCount());
-            builder.isUniprotkbMapped(
-                    statistics.hasReviewedProteinCount() || statistics.hasUnreviewedProteinCount());
+            builder.citationsWith(getCitationsWith(entry.getStatistics()));
         }
 
         if (literature.hasAuthoringGroup()) {
@@ -77,6 +75,25 @@ public class LiteratureDocumentConverter
 
         log.debug("LiteratureLoadProcessor entry: " + entry);
         return builder.build();
+    }
+
+    private List<String> getCitationsWith(LiteratureStatistics statistics) {
+        List<String> citationsWith = new ArrayList<>();
+        if (statistics.hasReviewedProteinCount()) {
+            citationsWith.add("1_uniprotkb"); // UniProtKB entries
+            citationsWith.add("2_reviewed"); // UniProtKB reviewed entries
+        }
+        if (statistics.hasUnreviewedProteinCount()) {
+            citationsWith.add("1_uniprotkb"); // UniProtKB entries
+            citationsWith.add("3_unreviewed"); // UniProtKB unreviewed entries
+        }
+        if (statistics.hasComputationallyMappedProteinCount()) {
+            citationsWith.add("4_computationally"); // Computationally mapped entries
+        }
+        if (statistics.hasCommunityMappedProteinCount()) {
+            citationsWith.add("5_community"); // Community mapped entries
+        }
+        return citationsWith;
     }
 
     private byte[] getLiteratureObjectBinary(LiteratureEntry literature) {

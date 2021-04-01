@@ -1,5 +1,8 @@
 package org.uniprot.store.spark.indexer.main.verifiers;
 
+import static org.uniprot.store.spark.indexer.common.util.SparkUtils.getCollectionOutputReleaseDirPath;
+import static org.uniprot.store.spark.indexer.common.util.SparkUtils.getSolrCollection;
+
 import java.util.ResourceBundle;
 
 import lombok.extern.slf4j.Slf4j;
@@ -9,9 +12,6 @@ import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
 import org.uniprot.store.search.SolrCollection;
 import org.uniprot.store.spark.indexer.common.util.SparkUtils;
-
-import static org.uniprot.store.spark.indexer.common.util.SparkUtils.getCollectionOutputReleaseDirPath;
-import static org.uniprot.store.spark.indexer.common.util.SparkUtils.getSolrCollection;
 
 /**
  * This class is used to print first 200 solr document saved in HDFS. it is helpful during the
@@ -28,7 +28,8 @@ public class ValidateHDFSDocumentsMain {
         JavaSparkContext sparkContext = SparkUtils.loadSparkContext(applicationConfig);
 
         SolrCollection collection = getSolrCollection(args[1]).get(0);
-        String hdfsFilePath = getCollectionOutputReleaseDirPath(applicationConfig, args[0], collection);
+        String hdfsFilePath =
+                getCollectionOutputReleaseDirPath(applicationConfig, args[0], collection);
         log.info("Output Documents Path: {}", hdfsFilePath);
         JavaRDD<SolrInputDocument> solrInputDocumentRDD =
                 sparkContext.objectFile(hdfsFilePath).map(obj -> (SolrInputDocument) obj);

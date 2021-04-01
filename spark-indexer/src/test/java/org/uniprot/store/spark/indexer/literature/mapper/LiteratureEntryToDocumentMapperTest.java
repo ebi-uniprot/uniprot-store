@@ -1,5 +1,7 @@
 package org.uniprot.store.spark.indexer.literature.mapper;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 import org.junit.jupiter.api.Test;
 import org.uniprot.core.CrossReference;
 import org.uniprot.core.citation.Citation;
@@ -12,8 +14,6 @@ import org.uniprot.core.literature.impl.LiteratureEntryBuilder;
 import org.uniprot.core.literature.impl.LiteratureStatisticsBuilder;
 import org.uniprot.store.search.document.literature.LiteratureDocument;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 /**
  * @author lgonzales
  * @since 30/03/2021
@@ -24,30 +24,32 @@ class LiteratureEntryToDocumentMapperTest {
     void canMapLiteratureEntryToDocument() throws Exception {
         LiteratureEntryToDocumentMapper mapper = new LiteratureEntryToDocumentMapper();
 
-        CrossReference<CitationDatabase> doiXref = new CrossReferenceBuilder<CitationDatabase>()
-                .database(CitationDatabase.DOI)
-                .id("doiIdValue")
-                .build();
-        Citation citation = new LiteratureBuilder()
-                .completeAuthorList(true)
-                .literatureAbstract("abstractValue")
-                .authoringGroupsAdd("authoringGroupValue")
-                .authorsAdd("authorValue")
-                .title("titleValue")
-                .citationCrossReferencesAdd(doiXref)
-                .journalName("journalNameValue")
-                .publicationDate("2021")
-                .build();
+        CrossReference<CitationDatabase> doiXref =
+                new CrossReferenceBuilder<CitationDatabase>()
+                        .database(CitationDatabase.DOI)
+                        .id("doiIdValue")
+                        .build();
+        Citation citation =
+                new LiteratureBuilder()
+                        .completeAuthorList(true)
+                        .literatureAbstract("abstractValue")
+                        .authoringGroupsAdd("authoringGroupValue")
+                        .authorsAdd("authorValue")
+                        .title("titleValue")
+                        .citationCrossReferencesAdd(doiXref)
+                        .journalName("journalNameValue")
+                        .publicationDate("2021")
+                        .build();
 
-        LiteratureStatistics statistics = new LiteratureStatisticsBuilder()
-                .reviewedProteinCount(10)
-                .communityMappedProteinCount(10)
-                .computationallyMappedProteinCount(10)
-                .build();
-        LiteratureEntry entry = new LiteratureEntryBuilder()
-                .citation(citation)
-                .statistics(statistics)
-                .build();
+        LiteratureStatistics statistics =
+                new LiteratureStatisticsBuilder()
+                        .reviewedProteinCount(10)
+                        .unreviewedProteinCount(10)
+                        .communityMappedProteinCount(10)
+                        .computationallyMappedProteinCount(10)
+                        .build();
+        LiteratureEntry entry =
+                new LiteratureEntryBuilder().citation(citation).statistics(statistics).build();
         LiteratureDocument result = mapper.call(entry);
         assertNotNull(result);
 
@@ -61,9 +63,10 @@ class LiteratureEntryToDocumentMapperTest {
         assertEquals("2021", result.getPublished());
         assertEquals("abstractValue", result.getLitAbstract());
         assertTrue(result.getAuthorGroups().contains("authoringGroupValue"));
-        assertTrue(result.isCommunityMapped());
-        assertTrue(result.isComputationallyMapped());
-        assertTrue(result.isUniprotkbMapped());
+        assertTrue(result.getCitationsWith().contains("1_uniprotkb"));
+        assertTrue(result.getCitationsWith().contains("2_reviewed"));
+        assertTrue(result.getCitationsWith().contains("3_unreviewed"));
+        assertTrue(result.getCitationsWith().contains("4_computationally"));
+        assertTrue(result.getCitationsWith().contains("5_community"));
     }
-
 }

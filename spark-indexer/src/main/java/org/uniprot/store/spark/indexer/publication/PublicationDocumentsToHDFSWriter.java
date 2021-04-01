@@ -61,7 +61,7 @@ public class PublicationDocumentsToHDFSWriter implements DocumentsToHDFSWriter {
 
         // create a document for each pubmed/submission
         // JavaPairRDD<pubMedId, PublicationDocument.Builder>
-        JavaPairRDD<Integer, PublicationDocument.Builder> pubDocRDD =
+        JavaPairRDD<String, PublicationDocument.Builder> pubDocRDD =
                 allMappedRefs
                         .groupByKey()
                         .mapToPair(new MappedReferencesToPublicationDocumentBuilderConverter());

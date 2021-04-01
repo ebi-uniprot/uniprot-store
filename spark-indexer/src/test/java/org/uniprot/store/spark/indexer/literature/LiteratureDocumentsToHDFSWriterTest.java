@@ -1,5 +1,11 @@
 package org.uniprot.store.spark.indexer.literature;
 
+import static org.junit.jupiter.api.Assertions.*;
+
+import java.io.IOException;
+import java.util.List;
+import java.util.ResourceBundle;
+
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
 import org.junit.jupiter.api.Test;
@@ -11,12 +17,6 @@ import org.uniprot.store.search.document.DocumentConversionException;
 import org.uniprot.store.search.document.literature.LiteratureDocument;
 import org.uniprot.store.spark.indexer.common.JobParameter;
 import org.uniprot.store.spark.indexer.common.util.SparkUtils;
-
-import java.io.IOException;
-import java.util.List;
-import java.util.ResourceBundle;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * @author lgonzales
@@ -36,36 +36,37 @@ class LiteratureDocumentsToHDFSWriterTest {
                             .build();
 
             LiteratureDocumentsToHDFSWriterTest.LiteratureDocumentsToHDFSWriterFake writer =
-                    new LiteratureDocumentsToHDFSWriterTest.LiteratureDocumentsToHDFSWriterFake(parameter);
+                    new LiteratureDocumentsToHDFSWriterTest.LiteratureDocumentsToHDFSWriterFake(
+                            parameter);
             writer.writeIndexDocumentsToHDFS();
             List<LiteratureDocument> savedDocuments = writer.getSavedDocuments();
             assertNotNull(savedDocuments);
             assertEquals(15, savedDocuments.size());
 
-            //test entries with only literature
-            LiteratureDocument onlyLiteratureDoc = savedDocuments
-                    .stream()
-                    .filter(doc -> doc.getDocumentId().equals("60"))
-                    .findFirst()
-                    .orElseThrow(AssertionError::new);
+            // test entries with only literature
+            LiteratureDocument onlyLiteratureDoc =
+                    savedDocuments.stream()
+                            .filter(doc -> doc.getDocumentId().equals("60"))
+                            .findFirst()
+                            .orElseThrow(AssertionError::new);
             assertNotNull(onlyLiteratureDoc);
             validateOnlyLiteratureDocument(onlyLiteratureDoc);
 
-            //test entries found in entry and literature file
-            LiteratureDocument uniprotkbAndLiteratureDoc = savedDocuments
-                    .stream()
-                    .filter(doc -> doc.getDocumentId().equals("21364755"))
-                    .findFirst()
-                    .orElseThrow(AssertionError::new);
+            // test entries found in entry and literature file
+            LiteratureDocument uniprotkbAndLiteratureDoc =
+                    savedDocuments.stream()
+                            .filter(doc -> doc.getDocumentId().equals("21364755"))
+                            .findFirst()
+                            .orElseThrow(AssertionError::new);
             assertNotNull(uniprotkbAndLiteratureDoc);
             validateUniprotkbAndLiteratureDocument(uniprotkbAndLiteratureDoc);
 
-            //test entries with computational and community statistics
-            LiteratureDocument commCompAndUniprotKbDoc = savedDocuments
-                    .stream()
-                    .filter(doc -> doc.getDocumentId().equals("55555555"))
-                    .findFirst()
-                    .orElseThrow(AssertionError::new);
+            // test entries with computational and community statistics
+            LiteratureDocument commCompAndUniprotKbDoc =
+                    savedDocuments.stream()
+                            .filter(doc -> doc.getDocumentId().equals("55555555"))
+                            .findFirst()
+                            .orElseThrow(AssertionError::new);
             assertNotNull(commCompAndUniprotKbDoc);
             validateCommuCompAndUniProtKbDocument(commCompAndUniprotKbDoc);
         }
@@ -118,13 +119,16 @@ class LiteratureDocumentsToHDFSWriterTest {
         assertNull(entry.getStatistics());
     }
 
-
     private LiteratureEntry convertDocument(LiteratureDocument literatureDocument) {
         try {
-            return LiteratureJsonConfig.getInstance().getFullObjectMapper().readValue(
-                    literatureDocument.getLiteratureObj(), LiteratureEntry.class);
+            return LiteratureJsonConfig.getInstance()
+                    .getFullObjectMapper()
+                    .readValue(literatureDocument.getLiteratureObj(), LiteratureEntry.class);
         } catch (IOException e) {
-            throw  new DocumentConversionException("Unable to convert literature entry for documentId: "+ literatureDocument.getId(), e);
+            throw new DocumentConversionException(
+                    "Unable to convert literature entry for documentId: "
+                            + literatureDocument.getId(),
+                    e);
         }
     }
 

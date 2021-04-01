@@ -1,5 +1,6 @@
 package org.uniprot.store.search.document.literature;
 
+import java.util.List;
 import java.util.Set;
 
 import lombok.AllArgsConstructor;
@@ -35,14 +36,8 @@ public class LiteratureDocument implements Document {
     @Field("author_group")
     private Set<String> authorGroups;
 
-    @Field("is_uniprotkb_mapped")
-    private boolean isUniprotkbMapped;
-
-    @Field("is_computationally_mapped")
-    private boolean isComputationallyMapped;
-
-    @Field("is_community_mapped")
-    private boolean isCommunityMapped;
+    @Field("citations_with")
+    private List<String> citationsWith;
 
     @Field("literature_obj")
     private byte[] literatureObj;

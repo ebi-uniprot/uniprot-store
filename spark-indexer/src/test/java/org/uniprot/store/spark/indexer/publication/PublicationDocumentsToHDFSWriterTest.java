@@ -141,7 +141,6 @@ class PublicationDocumentsToHDFSWriterTest {
         assertThat(kbRN4Ref.getSource().getId(), is(nullValue()));
         assertThat(kbRN4Ref.getCitationId(), is("15018815"));
         assertThat(kbRN4Ref.getSourceCategories(), contains("Expression"));
-        assertThat(kbRN4Ref.getCitationId(), is("TODO"));
 
         // check community ref within mapped reference
         assertThat(
@@ -191,6 +190,8 @@ class PublicationDocumentsToHDFSWriterTest {
                         .filter(Objects::nonNull)
                         .collect(Collectors.toList()),
                 containsInAnyOrder(
+                        "CI-A0GQN29STRAFN",
+                        "CI-L4RDPFJS30T",
                         "15489334",
                         "15018815",
                         LARGE_SCALE_STUDY_PUBMED_ID,
@@ -200,7 +201,7 @@ class PublicationDocumentsToHDFSWriterTest {
         // check RN 1, and that it is a submission
         PublicationDocument kbRN1Doc = extractValue(kbDocs, PublicationDocument::getRefNumber, 1);
 
-        assertThat(kbRN1Doc.getCitationId(), is("TODO"));
+        assertThat(kbRN1Doc.getCitationId(), is("CI-L4RDPFJS30T"));
         assertThat(kbRN1Doc.getCategories(), contains("Sequence"));
 
         MappedPublications mappedPubsForKbRN1 = extractObject(kbRN1Doc);
@@ -220,7 +221,7 @@ class PublicationDocumentsToHDFSWriterTest {
                 contains("Sprague-Dawley", "Brain"));
         assertThat(kbRN1Ref.getSource().getName(), is("UniProtKB reviewed (Swiss-Prot)"));
         assertThat(kbRN1Ref.getSource().getId(), is(nullValue()));
-        assertThat(kbRN1Ref.getCitationId(), is("TODO"));
+        assertThat(kbRN1Ref.getCitationId(), is("CI-L4RDPFJS30T"));
         assertThat(kbRN1Ref.getSourceCategories(), contains("Sequence"));
 
         // check RN 3

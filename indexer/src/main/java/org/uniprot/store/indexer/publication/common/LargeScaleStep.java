@@ -29,13 +29,13 @@ public class LargeScaleStep {
     @Value(("${ds.import.chunk.size}"))
     private Integer chunkSize;
 
-    private LargeScaleSolrFieldName solrFieldName;
+    private LargeScaleSolrFieldQuery solrFieldName;
 
     @Autowired
     public LargeScaleStep(
             StepBuilderFactory steps,
             UniProtSolrClient uniProtSolrClient,
-            LargeScaleSolrFieldName solrFieldName) {
+            LargeScaleSolrFieldQuery solrFieldName) {
         this.steps = steps;
         this.uniProtSolrClient = uniProtSolrClient;
         this.solrFieldName = solrFieldName;
