@@ -18,7 +18,7 @@
 	<!-- =============================== Literature fields =============================== -->
 	<field name="id" type="string" indexed="true" stored="true"
 		required="true" docValues="true" />
-	<field name="id_sort" type="plong" indexed="true" stored="false"
+	<field name="id_sort" type="string" indexed="true" stored="false"
 		required="true" docValues="true" />
 	<field name="doi" type="string" indexed="true" stored="false"
 		docValues="true" />

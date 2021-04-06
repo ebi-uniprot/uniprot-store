@@ -48,31 +48,6 @@ public class PublicationDocumentMocker {
         CATEGORIES.add("Structure");
     }
 
-    public static PublicationDocument createWithoutPubmed(int accessionNumber) {
-        String id = generateId();
-        PublicationDocument.Builder builder =
-                populateDocumentWithoutPubmedOrMappedPublications(
-                        id, generateAccession(accessionNumber));
-
-        UniProtKBMappedReference kbRef =
-                new UniProtKBMappedReferenceBuilder()
-                        .source(new MappedSourceBuilder().name("source 3").id("id 3").build())
-                        .citationId("SU-123456789012")
-                        .uniProtKBAccession(generateAccession(accessionNumber))
-                        .sourceCategoriesSet(DOC_CATEGORIES.get(id))
-                        .referencePositionsAdd("Reference position 1")
-                        .referenceCommentsAdd(
-                                new ReferenceCommentBuilder()
-                                        .type(ReferenceCommentType.PLASMID)
-                                        .build())
-                        .build();
-
-        MappedPublications publications =
-                new MappedPublicationsBuilder().uniProtKBMappedReference(kbRef).build();
-
-        return builder.publicationMappedReferences(asBinary(publications)).build();
-    }
-
     private static final Map<String, Set<String>> DOC_CATEGORIES = new HashMap<>();
 
     private static PublicationDocument.Builder populateDocumentWithoutPubmedOrMappedPublications(
@@ -110,24 +85,22 @@ public class PublicationDocumentMocker {
         return String.format("P%05d", accessionNumber);
     }
 
-    public static PublicationDocument create(int accessionNumber, int pubmedNumber) {
+    public static PublicationDocument create(int accessionNumber, String citationId) {
         String id = generateId();
         String accession = generateAccession(accessionNumber);
         return populateDocumentWithoutPubmedOrMappedPublications(id, accession)
-                .citationId(generatePubMedId(pubmedNumber))
+                .citationId(citationId)
                 .type(MappedReferenceType.COMPUTATIONAL.getIntValue())
-                .publicationMappedReferences(
-                        getMappedPublications(id, accession, generatePubMedId(pubmedNumber)))
+                .publicationMappedReferences(getMappedPublications(id, accession, citationId))
                 .build();
     }
 
-    public static PublicationDocument create(String accession, int pubmedNumber) {
+    public static PublicationDocument create(String accession, String citationId) {
         String id = generateId();
         return populateDocumentWithoutPubmedOrMappedPublications(id, accession)
-                .citationId(generatePubMedId(pubmedNumber))
+                .citationId(citationId)
                 .type(MappedReferenceType.COMPUTATIONAL.getIntValue())
-                .publicationMappedReferences(
-                        getMappedPublications(id, accession, generatePubMedId(pubmedNumber)))
+                .publicationMappedReferences(getMappedPublications(id, accession, citationId))
                 .build();
     }
 
@@ -143,11 +116,7 @@ public class PublicationDocumentMocker {
                 .build();
     }
 
-    private static String generatePubMedId(int pubmedNumber) {
-        return String.format("%010d", pubmedNumber);
-    }
-
-    private static byte[] getMappedPublications(String id, String accession, String pubMedId) {
+    private static byte[] getMappedPublications(String id, String accession, String citationId) {
         CommunityMappedReference communityRef =
                 new CommunityMappedReferenceBuilder()
                         .source(
@@ -155,7 +124,7 @@ public class PublicationDocumentMocker {
                                         .name("source " + accession)
                                         .id("id " + accession)
                                         .build())
-                        .citationId(pubMedId)
+                        .citationId(citationId)
                         .uniProtKBAccession(accession)
                         .sourceCategoriesAdd("Interaction")
                         .communityAnnotation(
@@ -171,7 +140,7 @@ public class PublicationDocumentMocker {
                                         .name("source " + accession)
                                         .id("id " + accession)
                                         .build())
-                        .citationId(pubMedId)
+                        .citationId(citationId)
                         .uniProtKBAccession(accession)
                         .sourceCategoriesAdd(CATEGORIES.get(1))
                         .annotation("computational " + accession)
@@ -184,7 +153,7 @@ public class PublicationDocumentMocker {
                                         .name("source " + accession)
                                         .id("id " + accession)
                                         .build())
-                        .citationId(pubMedId)
+                        .citationId(citationId)
                         .uniProtKBAccession(accession)
                         .sourceCategoriesSet(DOC_CATEGORIES.get(id))
                         .referencePositionsAdd("Reference position " + accession)

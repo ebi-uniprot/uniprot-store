@@ -6,7 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import org.apache.solr.client.solrj.SolrQuery;
 import org.springframework.batch.item.ItemProcessor;
-import org.uniprot.core.citation.Literature;
+import org.uniprot.core.citation.Citation;
 import org.uniprot.core.json.parser.literature.LiteratureJsonConfig;
 import org.uniprot.core.literature.LiteratureEntry;
 import org.uniprot.core.literature.impl.LiteratureEntryBuilder;
@@ -35,8 +35,8 @@ public class LiteratureMappingProcessor
 
     @Override
     public LiteratureDocument process(LiteratureEntry mappedEntry) throws Exception {
-        Literature literature = (Literature) mappedEntry.getCitation();
-        SolrQuery query = new SolrQuery("id:" + literature.getPubmedId());
+        Citation literature = mappedEntry.getCitation();
+        SolrQuery query = new SolrQuery("id:" + literature.getId());
         Optional<LiteratureDocument> optionalDocument =
                 uniProtSolrClient.queryForObject(
                         SolrCollection.literature, query, LiteratureDocument.class);
@@ -64,15 +64,15 @@ public class LiteratureMappingProcessor
         mappedEntryBuilder.statistics(statisticsBuilder.build());
         mappedEntry = mappedEntryBuilder.build();
 
-        return createLiteratureDocument(mappedEntry, literature.getPubmedId());
+        return createLiteratureDocument(mappedEntry, literature.getId());
     }
 
     private LiteratureDocument createLiteratureDocument(
-            LiteratureEntry mappedEntry, Long pubmedId) {
+            LiteratureEntry mappedEntry, String citationId) {
         LiteratureDocument.LiteratureDocumentBuilder builder = LiteratureDocument.builder();
         byte[] literatureByte = getLiteratureObjectBinary(mappedEntry);
         builder.literatureObj(literatureByte);
-        builder.id(String.valueOf(pubmedId));
+        builder.id(citationId);
 
         log.debug("LiteratureStatisticsProcessor entry: " + mappedEntry);
         return builder.build();

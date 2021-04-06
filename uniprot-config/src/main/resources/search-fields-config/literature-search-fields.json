@@ -4,7 +4,7 @@
     "fieldName": "id",
     "fieldType": "GENERAL",
     "dataType": "STRING",
-    "validRegex": "^[0-9]+$",
+    "validRegex": "^[0-9]+$|CI-\\w{13}$|IND[0-9]+$",
     "sortFieldId": "id_sort_id",
     "description": "Search by literature identifier",
     "example": "12345",

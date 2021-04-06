@@ -15,9 +15,9 @@
     "isDefaultForTsv": true,
     "defaultForTsvOrder" : 0,
     "sortField" : "id",
-    "label": "PubMed ID",
+    "label": "Citation Id",
     "name": "id",
-    "paths" : ["citation.citationCrossReferences[?(@.database=='PubMed')]"],
+    "paths" : ["citation.id"],
     "id": "literature/id"
   },
   {

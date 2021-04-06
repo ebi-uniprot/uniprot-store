@@ -6,7 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import org.apache.solr.client.solrj.SolrQuery;
 import org.springframework.batch.item.ItemProcessor;
-import org.uniprot.core.citation.Literature;
+import org.uniprot.core.citation.Citation;
 import org.uniprot.core.json.parser.literature.LiteratureJsonConfig;
 import org.uniprot.core.literature.LiteratureEntry;
 import org.uniprot.core.literature.impl.LiteratureEntryBuilder;
@@ -35,8 +35,8 @@ public class LiteratureLoadProcessor implements ItemProcessor<LiteratureEntry, L
     @Override
     public LiteratureDocument process(LiteratureEntry entry) throws Exception {
         LiteratureEntryBuilder entryBuilder = LiteratureEntryBuilder.from(entry);
-        Literature literature = (Literature) entry.getCitation();
-        SolrQuery query = new SolrQuery("id:" + literature.getPubmedId());
+        Citation literature = entry.getCitation();
+        SolrQuery query = new SolrQuery("id:" + literature.getId());
         Optional<LiteratureDocument> optionalDocument =
                 uniProtSolrClient.queryForObject(
                         SolrCollection.literature, query, LiteratureDocument.class);

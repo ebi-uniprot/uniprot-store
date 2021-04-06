@@ -32,7 +32,7 @@ public class LiteratureDocumentConverter
     public LiteratureDocument convert(LiteratureEntry entry) {
         Citation literature = entry.getCitation();
         LiteratureDocument.LiteratureDocumentBuilder builder = LiteratureDocument.builder();
-        builder.id(String.valueOf(literature.getId()));
+        builder.id(literature.getId());
 
         literature
                 .getCitationCrossReferenceByType(CitationDatabase.DOI)
