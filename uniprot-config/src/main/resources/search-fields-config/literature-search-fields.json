@@ -12,7 +12,7 @@
   },
   {
     "id": "id_sort_id",
-    "fieldName": "id_sort",
+    "fieldName": "id",
     "fieldType": "SORT",
     "dataType": "STRING",
     "description": "Sort by literature accession",
