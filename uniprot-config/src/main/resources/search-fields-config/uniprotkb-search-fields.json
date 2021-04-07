@@ -83,6 +83,12 @@
     "fieldType": "GENERAL"
   },
   {
+    "id": "lit_citation_id",
+    "fieldName": "lit_citation_id",
+    "dataType": "STRING",
+    "fieldType": "GENERAL"
+  },
+  {
     "id":"content",
     "fieldName": "content",
     "dataType": "STRING",

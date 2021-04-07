@@ -102,6 +102,9 @@ class UniProtKBEntryConverterIT {
         assertEquals(1, doc.referencePubmeds.size());
         assertTrue(doc.referencePubmeds.contains("17045493"));
 
+        assertEquals(2, doc.referenceCitationIds.size());
+        assertTrue(doc.referenceCitationIds.contains("17045493"));
+
         assertEquals(2, doc.referenceDates.size());
         assertEquals("01-DEC-2004", dateFormat.format(doc.referenceDates.get(0)).toUpperCase());
 
@@ -237,6 +240,10 @@ class UniProtKBEntryConverterIT {
         assertEquals(55, doc.referenceAuthors.size());
         assertTrue(doc.referenceAuthors.contains("Kramer P.R."));
         assertTrue(doc.referenceAuthors.contains("Wray S."));
+
+        assertEquals(7, doc.referenceCitationIds.size());
+        assertTrue(doc.referenceCitationIds.contains("CI-L4RDPFJS30T"));
+        assertTrue(doc.referenceCitationIds.contains("15489334"));
 
         assertEquals(5, doc.referencePubmeds.size());
         assertTrue(doc.referencePubmeds.contains("15489334"));
@@ -410,6 +417,10 @@ class UniProtKBEntryConverterIT {
         assertEquals(62, doc.referenceAuthors.size());
         assertTrue(doc.referenceAuthors.contains("Kramer P.R."));
         assertTrue(doc.referenceAuthors.contains("Wray S."));
+
+        assertEquals(8, doc.referenceCitationIds.size());
+        assertTrue(doc.referenceCitationIds.contains("CI-A0GQN29STRAFN"));
+        assertTrue(doc.referenceCitationIds.contains("15489334"));
 
         assertEquals(6, doc.referencePubmeds.size());
         assertTrue(doc.referencePubmeds.contains("15489334"));

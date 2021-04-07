@@ -129,6 +129,7 @@ public class UniProtEntryReferencesConverter implements Serializable {
     void convertReferences(List<UniProtKBReference> references, UniProtDocument document) {
         for (UniProtKBReference reference : references) {
             Citation citation = reference.getCitation();
+            document.referenceCitationIds.add(citation.getId());
             if (reference.hasReferenceComments()) {
                 convertReferenceComments(reference.getReferenceComments(), document);
             }
