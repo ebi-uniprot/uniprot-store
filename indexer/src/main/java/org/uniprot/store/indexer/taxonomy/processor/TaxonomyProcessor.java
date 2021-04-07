@@ -120,7 +120,7 @@ public class TaxonomyProcessor implements ItemProcessor<TaxonomyEntry, TaxonomyD
                         .filter(lineage -> TaxonomyRank.SUPERKINGDOM == lineage.getRank())
                         .map(TaxonomyLineage::getScientificName)
                         .findFirst()
-                        .orElse("");
+                        .orElse(null);
         documentBuilder.superkingdom(superKingdom);
 
         documentBuilder.host(

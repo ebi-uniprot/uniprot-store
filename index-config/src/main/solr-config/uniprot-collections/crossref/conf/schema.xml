@@ -37,15 +37,14 @@
 		multiValued="false" />
 	<field name="category_str" type="full_ci" indexed="true"
 		stored="true" multiValued="false" />
-	<field name="category_facet" type="string" indexed="true"
+	<field name="category_exact" type="string" indexed="true"
 		stored="true" multiValued="false" docValues="true" />
 	<field name="reviewed_protein_count" type="plong" indexed="false"
 		stored="true" />
 	<field name="unreviewed_protein_count" type="plong"
 		indexed="false" stored="true" />
 
-	<!-- <copyField source="category_str" dest="category_facet" /> -->
-	<copyField source="category_facet" dest="category_str" />
+	<copyField source="category_exact" dest="category_str" />
 	<!-- name = name_only + abbrev -->
 	<copyField source="abbrev" dest="name" />
 	<copyField source="name_only" dest="name" />

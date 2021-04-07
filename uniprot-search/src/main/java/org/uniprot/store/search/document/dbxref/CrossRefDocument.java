@@ -37,7 +37,7 @@ public class CrossRefDocument implements Document {
     @Field("category_str")
     private String categoryStr;
 
-    @Field("category_facet")
+    @Field("category_exact")
     private String category;
 
     @Field("reviewed_protein_count")
