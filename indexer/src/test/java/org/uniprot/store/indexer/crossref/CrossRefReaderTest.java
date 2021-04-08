@@ -34,12 +34,13 @@ class CrossRefReaderTest {
         CrossRefEntry dbxRef = reader.read();
         assertNotNull(dbxRef, "Unable to read the dbxref file");
         verifyDBXRef(dbxRef);
+        assertEquals("Implicit", dbxRef.getLinkType());
         int count = 1;
         while (reader.read() != null) {
             count++;
         }
 
-        assertEquals(count, 6);
+        assertEquals(7, count);
     }
 
     private void verifyDBXRef(CrossRefEntry dbxRef) {

@@ -7,6 +7,8 @@ import org.apache.spark.api.java.function.Function;
 import org.uniprot.core.taxonomy.TaxonomyEntry;
 import org.uniprot.core.taxonomy.TaxonomyLineage;
 import org.uniprot.core.taxonomy.impl.TaxonomyEntryBuilder;
+import org.uniprot.core.uniprotkb.taxonomy.Taxonomy;
+import org.uniprot.core.uniprotkb.taxonomy.impl.TaxonomyBuilder;
 
 import scala.Tuple2;
 
@@ -34,6 +36,21 @@ class TaxonomyJoinMapper
         TaxonomyEntryBuilder builder = TaxonomyEntryBuilder.from(entry);
         builder.lineagesSet(lineage);
 
+        lineage.stream()
+                .filter(ln -> ln.getTaxonId() == entry.getParent().getTaxonId())
+                .findFirst()
+                .map(this::getParentFromLineage)
+                .ifPresent(builder::parent);
+
         return builder.build();
+    }
+
+    private Taxonomy getParentFromLineage(TaxonomyLineage parentLineage) {
+        return new TaxonomyBuilder()
+                .taxonId(parentLineage.getTaxonId())
+                .scientificName(parentLineage.getScientificName())
+                .commonName(parentLineage.getCommonName())
+                .synonymsSet(parentLineage.getSynonyms())
+                .build();
     }
 }

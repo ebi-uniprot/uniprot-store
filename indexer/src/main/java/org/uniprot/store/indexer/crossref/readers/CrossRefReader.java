@@ -18,6 +18,7 @@ import org.springframework.batch.core.annotation.BeforeStep;
 import org.springframework.batch.item.ItemReader;
 import org.uniprot.core.cv.xdb.CrossRefEntry;
 import org.uniprot.core.cv.xdb.impl.CrossRefEntryBuilder;
+import org.uniprot.core.impl.StatisticsBuilder;
 import org.uniprot.store.indexer.common.utils.Constants;
 
 @Slf4j
@@ -47,6 +48,7 @@ public class CrossRefReader implements ItemReader<CrossRefEntry> {
     private static final String FTP_PREFIX = "ftp://";
     private static final String REF_TYPE_DOI = "DOI";
     private static final String REF_TYPE_PUBMED = "PubMed";
+    private static final String IMPLICIT = "Implicit";
 
     private Scanner reader;
     private boolean dataRegionStarted;
@@ -158,6 +160,9 @@ public class CrossRefReader implements ItemReader<CrossRefEntry> {
                     break;
                 case LINK_TP_STR:
                     lType = keyVal[1].trim();
+                    if (lType.startsWith(IMPLICIT)) {
+                        lType = IMPLICIT;
+                    }
                     break;
                 case SERVER_STR:
                     server = keyVal[1].trim();
@@ -182,8 +187,10 @@ public class CrossRefReader implements ItemReader<CrossRefEntry> {
                 this.crossRefProteinCountMap.get(abbr);
 
         if (crossRefProteinCount != null) {
-            builder.reviewedProteinCount(crossRefProteinCount.getReviewedProteinCount());
-            builder.unreviewedProteinCount(crossRefProteinCount.getUnreviewedProteinCount());
+            StatisticsBuilder statBuilder = new StatisticsBuilder();
+            statBuilder.reviewedProteinCount(crossRefProteinCount.getReviewedProteinCount());
+            statBuilder.unreviewedProteinCount(crossRefProteinCount.getUnreviewedProteinCount());
+            builder.statistics(statBuilder.build());
         } else {
             log.warn("Cross ref with abbreviation {} not in the uniprot db", abbr);
         }

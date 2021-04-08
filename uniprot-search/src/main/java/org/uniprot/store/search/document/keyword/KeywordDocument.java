@@ -31,6 +31,8 @@ public class KeywordDocument implements Document {
 
     @Field private String definition;
 
+    @Field private String category;
+
     @Field("keyword_obj")
     private ByteBuffer keywordObj;
 

@@ -49,7 +49,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
         })
 class DiseaseLoadJobIT {
 
-    private ObjectMapper diseaseObjectMapper =
+    private final ObjectMapper diseaseObjectMapper =
             DiseaseJsonConfig.getInstance().getFullObjectMapper();
 
     @Autowired private JobLauncherTestUtils jobLauncher;
@@ -94,8 +94,9 @@ class DiseaseLoadJobIT {
         assertThat(disease.getName(), is("Rheumatoid arthritis"));
         assertThat(disease.getId(), is("DI-02692"));
         assertThat(disease.getAcronym(), is("RA"));
-        assertThat(disease.getReviewedProteinCount(), is(8L));
-        assertThat(disease.getUnreviewedProteinCount(), is(nullValue()));
+        assertThat(disease.getStatistics(), notNullValue());
+        assertThat(disease.getStatistics().getReviewedProteinCount(), is(8L));
+        assertThat(disease.getStatistics().getUnreviewedProteinCount(), is(0L));
         assertThat(disease.getCrossReferences().size(), is(3));
         assertThat(disease.getAlternativeNames().size(), is(2));
         assertThat(disease.getKeywords().size(), is(1));
@@ -103,8 +104,8 @@ class DiseaseLoadJobIT {
                 disease.getDefinition()
                         .contains(
                                 "An inflammatory disease with autoimmune features and a complex genetic"));
-        disease.getCrossReferences().forEach(ref -> verifyCrossRef(ref));
-        disease.getKeywords().forEach(kw -> verifyKeyword(kw));
+        disease.getCrossReferences().forEach(this::verifyCrossRef);
+        disease.getKeywords().forEach(this::verifyKeyword);
         disease.getAlternativeNames().forEach(nm -> assertThat(nm, notNullValue()));
         // clean up
         solrClient.delete(SolrCollection.disease, "*:*");

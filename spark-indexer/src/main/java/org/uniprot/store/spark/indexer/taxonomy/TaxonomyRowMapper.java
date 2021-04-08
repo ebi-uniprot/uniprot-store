@@ -10,6 +10,7 @@ import org.apache.spark.sql.Row;
 import org.uniprot.core.taxonomy.TaxonomyEntry;
 import org.uniprot.core.taxonomy.TaxonomyRank;
 import org.uniprot.core.taxonomy.impl.TaxonomyEntryBuilder;
+import org.uniprot.core.uniprotkb.taxonomy.impl.TaxonomyBuilder;
 
 import scala.Tuple2;
 
@@ -50,7 +51,8 @@ class TaxonomyRowMapper implements PairFunction<Row, String, TaxonomyEntry>, Ser
         }
 
         if (hasFieldName("PARENT_ID", rowValue)) {
-            builder.parentId(rowValue.getDecimal(rowValue.fieldIndex("PARENT_ID")).longValue());
+            BigDecimal parentId = rowValue.getDecimal(rowValue.fieldIndex("PARENT_ID"));
+            builder.parent(new TaxonomyBuilder().taxonId(parentId.longValue()).build());
         }
 
         if (hasFieldName("RANK", rowValue)) {
