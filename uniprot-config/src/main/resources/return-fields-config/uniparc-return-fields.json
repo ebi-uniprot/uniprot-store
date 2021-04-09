@@ -292,5 +292,41 @@
     "paths": ["sequenceFeatures[?(@.database=='TIGRFAMs')]"],
     "id": "family_&_domains/TIGRFAMs",
     "includeInSwagger": true
+  },
+  {
+    "itemType": "SINGLE",
+    "name": "database",
+    "paths": ["uniParcCrossReferences[*].database"],
+    "id": "database"
+  },
+  {
+    "itemType": "SINGLE",
+    "name": "ncbiGi",
+    "paths": ["uniParcCrossReferences[*].ncbiGi"],
+    "id": "ncbiGi"
+  },
+  {
+    "itemType": "SINGLE",
+    "name": "active",
+    "paths": ["uniParcCrossReferences[*].active"],
+    "id": "active"
+  },
+  {
+    "itemType": "SINGLE",
+    "name": "timeline",
+    "paths": ["uniParcCrossReferences[*].created","uniParcCrossReferences[*].lastUpdated"],
+    "id": "timeline"
+  },
+  {
+    "itemType": "SINGLE",
+    "name": "version",
+    "paths": ["uniParcCrossReferences[*].version"],
+    "id": "version"
+  },
+  {
+    "itemType": "SINGLE",
+    "name": "version_uniparc",
+    "paths": ["uniParcCrossReferences[*].versionI"],
+    "id": "version_uniparc"
   }
 ]

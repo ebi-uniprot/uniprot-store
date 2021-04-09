@@ -7,6 +7,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.uniprot.core.taxonomy.TaxonomyEntry;
 import org.uniprot.core.taxonomy.TaxonomyRank;
 import org.uniprot.core.taxonomy.impl.TaxonomyEntryBuilder;
+import org.uniprot.core.uniprotkb.taxonomy.impl.TaxonomyBuilder;
 import org.uniprot.core.util.Utils;
 import org.uniprot.store.indexer.taxonomy.steps.TaxonomyNodeStep;
 import org.uniprot.store.search.document.taxonomy.TaxonomyDocument;
@@ -35,7 +36,7 @@ public class TaxonomyNodeReader implements RowMapper<TaxonomyEntry> {
         builder.scientificName(scientificName);
 
         builder.mnemonic(resultSet.getString("TAX_CODE"));
-        builder.parentId(resultSet.getLong("PARENT_ID"));
+        builder.parent(new TaxonomyBuilder().taxonId(resultSet.getLong("PARENT_ID")).build());
         String rank = resultSet.getString("RANK");
         if (Utils.notNullNotEmpty(rank)) {
             try {

@@ -30,6 +30,9 @@
 		stored="false" multiValued="true" />
 	<field name="definition" type="full_ci" indexed="true"
 		stored="false" />
+	<!-- facet field -->
+	<field name="category" type="string" indexed="true"
+		stored="false" multiValued="false" docValues="true" />
 	<!-- the whole keyword object as binary -->
 	<field name="keyword_obj" type="binary" indexed="false"
 		stored="true" required="true" />

@@ -14,18 +14,17 @@ import org.apache.solr.client.solrj.SolrQuery;
 import org.springframework.batch.item.ItemProcessor;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.uniprot.core.json.parser.taxonomy.TaxonomyJsonConfig;
-import org.uniprot.core.taxonomy.TaxonomyEntry;
-import org.uniprot.core.taxonomy.TaxonomyLineage;
-import org.uniprot.core.taxonomy.TaxonomyStatistics;
-import org.uniprot.core.taxonomy.TaxonomyStrain;
+import org.uniprot.core.taxonomy.*;
 import org.uniprot.core.taxonomy.impl.TaxonomyEntryBuilder;
 import org.uniprot.core.taxonomy.impl.TaxonomyEntryImpl;
 import org.uniprot.core.taxonomy.impl.TaxonomyStrainBuilder;
 import org.uniprot.core.uniprotkb.taxonomy.Taxonomy;
+import org.uniprot.core.uniprotkb.taxonomy.impl.TaxonomyBuilder;
 import org.uniprot.core.util.Utils;
 import org.uniprot.store.indexer.common.config.UniProtSolrClient;
 import org.uniprot.store.indexer.taxonomy.readers.*;
 import org.uniprot.store.search.SolrCollection;
+import org.uniprot.store.search.document.DocumentConversionException;
 import org.uniprot.store.search.document.taxonomy.TaxonomyDocument;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -61,10 +60,18 @@ public class TaxonomyProcessor implements ItemProcessor<TaxonomyEntry, TaxonomyD
         }
         entryBuilder.hostsSet(loadVirusHosts(taxonId));
         entryBuilder.otherNamesSet(loadOtherNames(taxonId));
-        entryBuilder.lineagesSet(loadLineage(taxonId));
+        List<TaxonomyLineage> lineage = loadLineage(taxonId);
+        entryBuilder.lineagesSet(lineage);
         entryBuilder.strainsSet(loadStrains(taxonId));
         entryBuilder.linksSet(loadLinks(taxonId));
 
+        if (entry.hasParent() && lineage != null) {
+            lineage.stream()
+                    .filter(ln -> ln.getTaxonId() == entry.getParent().getTaxonId())
+                    .findFirst()
+                    .map(this::getParentFromLineage)
+                    .ifPresent(entryBuilder::parent);
+        }
         return buildTaxonomyDocument(entryBuilder.build());
     }
 
@@ -76,7 +83,7 @@ public class TaxonomyProcessor implements ItemProcessor<TaxonomyEntry, TaxonomyD
         TaxonomyDocument.TaxonomyDocumentBuilder documentBuilder = TaxonomyDocument.builder();
         documentBuilder.id(String.valueOf(entry.getTaxonId()));
         documentBuilder.taxId(entry.getTaxonId());
-        documentBuilder.ancestor(entry.getParentId());
+        documentBuilder.ancestor(entry.getParent().getTaxonId());
 
         documentBuilder.scientific(entry.getScientificName());
         documentBuilder.common(entry.getCommonName());
@@ -86,23 +93,35 @@ public class TaxonomyProcessor implements ItemProcessor<TaxonomyEntry, TaxonomyD
 
         documentBuilder.active(entry.isActive());
         documentBuilder.hidden(entry.isHidden());
-        documentBuilder.linked(entry.getLinks().size() > 0);
+        documentBuilder.linked(!entry.getLinks().isEmpty());
 
         if (entry.hasStatistics()) {
+            List<String> taxonomiesWith = new ArrayList<>();
             TaxonomyStatistics statistics = entry.getStatistics();
             if (statistics.hasReviewedProteinCount()) {
-                documentBuilder.reviewed(true);
+                taxonomiesWith.add("uniprotkb");
+                taxonomiesWith.add("reviewed");
             }
-            if (statistics.hasUnreviewedProteinCount()) {
-                documentBuilder.annotated(true);
+            if (statistics.hasUnreviewedProteinCount() && !statistics.hasReviewedProteinCount()) {
+                taxonomiesWith.add("uniprotkb");
             }
             if (statistics.hasReferenceProteomeCount()) {
-                documentBuilder.reference(true);
+                taxonomiesWith.add("reference");
+                taxonomiesWith.add("proteome");
             }
-            if (statistics.hasProteomeCount()) {
-                documentBuilder.proteome(true);
+            if (statistics.hasProteomeCount() && !statistics.hasReferenceProteomeCount()) {
+                taxonomiesWith.add("proteome");
             }
+            documentBuilder.taxonomiesWith(taxonomiesWith);
         }
+
+        String superKingdom =
+                entry.getLineages().stream()
+                        .filter(lineage -> TaxonomyRank.SUPERKINGDOM == lineage.getRank())
+                        .map(TaxonomyLineage::getScientificName)
+                        .findFirst()
+                        .orElse(null);
+        documentBuilder.superkingdom(superKingdom);
 
         documentBuilder.host(
                 entry.getHosts().stream().map(Taxonomy::getTaxonId).collect(Collectors.toList()));
@@ -127,11 +146,21 @@ public class TaxonomyProcessor implements ItemProcessor<TaxonomyEntry, TaxonomyD
                 .collect(Collectors.toList());
     }
 
+    private Taxonomy getParentFromLineage(TaxonomyLineage parentLineage) {
+        return new TaxonomyBuilder()
+                .taxonId(parentLineage.getTaxonId())
+                .scientificName(parentLineage.getScientificName())
+                .commonName(parentLineage.getCommonName())
+                .synonymsSet(parentLineage.getSynonyms())
+                .build();
+    }
+
     private ByteBuffer getTaxonomyBinary(TaxonomyEntry entry) {
         try {
             return ByteBuffer.wrap(jsonMapper.writeValueAsBytes(entry));
         } catch (JsonProcessingException e) {
-            throw new RuntimeException("Unable to parse TaxonomyEntry to binary json: ", e);
+            throw new DocumentConversionException(
+                    "Unable to parse TaxonomyEntry to binary json: ", e);
         }
     }
 
@@ -168,7 +197,7 @@ public class TaxonomyProcessor implements ItemProcessor<TaxonomyEntry, TaxonomyD
                 .collect(Collectors.groupingBy(TaxonomyStrainReader.Strain::getId))
                 .values()
                 .forEach(
-                        (strainList) -> {
+                        strainList -> {
                             TaxonomyStrainBuilder builder = new TaxonomyStrainBuilder();
                             for (TaxonomyStrainReader.Strain strain : strainList) {
                                 if (strain.getNameClass()

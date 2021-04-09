@@ -39,6 +39,8 @@ public class ReturnFieldConfigFactory {
             "return-fields-config/uniparc-return-fields.json";
     public static final String UNIRULE_CONFIG_FILE =
             "return-fields-config/unirule-return-fields.json";
+    public static final String UNIPARC_CROSSREF_CONFIG_FILE =
+            "return-fields-config/uniparc-crossref-return-fields.json";
 
     private static final Map<UniProtDataType, ReturnFieldConfig> TYPE_FIELD_CONFIG_MAP =
             new EnumMap<>(UniProtDataType.class);
@@ -60,6 +62,7 @@ public class ReturnFieldConfigFactory {
         typeConfigMap.put(UniProtDataType.UNIREF, UNIREF_CONFIG_FILE);
         typeConfigMap.put(UniProtDataType.UNIPARC, UNIPARC_CONFIG_FILE);
         typeConfigMap.put(UniProtDataType.UNIRULE, UNIRULE_CONFIG_FILE);
+        typeConfigMap.put(UniProtDataType.UNIPARC_CROSSREF, UNIPARC_CROSSREF_CONFIG_FILE);
         TYPE_CONFIG_FILE_MAP = Collections.unmodifiableMap(typeConfigMap);
     }
 

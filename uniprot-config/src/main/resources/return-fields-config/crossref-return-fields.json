@@ -106,7 +106,7 @@
     "includeInSwagger": true,
     "label": "UniProtKB reviewed (Swiss-Prot) protein count",
     "name": "reviewed_protein_count",
-    "paths" : ["reviewedProteinCount"],
+    "paths" : ["statistics.reviewedProteinCount"],
     "id": "cross_reference/reviewed_protein_count"
   },
   {
@@ -116,7 +116,7 @@
     "includeInSwagger": true,
     "label": "UniProtKB unreviewed (TrEMBL) protein count",
     "name": "unreviewed_protein_count",
-    "paths" : ["unreviewedProteinCount"],
+    "paths" : ["statistics.unreviewedProteinCount"],
     "id": "cross_reference/unreviewed_protein_count"
   }
 ]
