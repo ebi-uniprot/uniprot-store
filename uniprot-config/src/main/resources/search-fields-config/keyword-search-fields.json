@@ -1,13 +1,12 @@
 [
   {
-    "id": "name",
-    "fieldName": "name",
-    "dataType": "STRING",
+    "id": "id",
+    "fieldName": "id",
+    "validRegex": "^KW-[0-9]{4}$",
     "fieldType": "GENERAL",
-    "sortFieldId": "name_sort_id",
-    "description": "Search by name",
-    "example": "2Fe-2S",
-    "includeInSwagger": true
+    "dataType": "STRING",
+    "description": "Search by keyword id",
+    "example": "KW-0001"
   },
   {
     "id": "name_sort_id",
@@ -18,23 +17,84 @@
     "example": "name desc"
   },
   {
-    "id": "id",
-    "fieldName": "id",
-    "validRegex": "^KW-[0-9]{4}$",
-    "fieldType": "GENERAL",
+    "seqNumber": 0,
+    "label": "Name",
+    "id": "name",
+    "fieldName": "name",
     "dataType": "STRING",
-    "description": "Search by keyword id",
-    "example": "KW-0001"
+    "itemType": "SINGLE",
+    "fieldType": "GENERAL",
+    "sortFieldId": "name_sort_id",
+    "description": "Search by name",
+    "example": "2Fe-2S",
+    "includeInSwagger": true
   },
   {
+    "seqNumber": 1,
+    "label": "Keyword [AC]",
     "id": "keyword_id",
     "fieldName": "keyword_id",
     "validRegex": "^KW-[0-9]{4}$",
     "fieldType": "GENERAL",
+    "itemType": "SINGLE",
     "dataType": "STRING",
     "description": "Search by keyword id",
     "example": "KW-0001",
     "includeInSwagger": true
+  },
+  {
+    "seqNumber": 2,
+    "label": "Category",
+    "id": "category",
+    "fieldName": "category",
+    "fieldType": "GENERAL",
+    "itemType": "SINGLE",
+    "dataType": "STRING",
+    "description": "Search by category",
+    "example": "Domain",
+    "includeInSwagger": true,
+    "values": [
+      {
+        "name": "Technical term [KW-9990]",
+        "value": "technical_term"
+      },
+      {
+        "name": "PTM [KW-9991]",
+        "value": "ptm"
+      },
+      {
+        "name": "Molecular function [KW-9992]",
+        "value": "molecular_function"
+      },
+      {
+        "name": "Ligand [KW-9993]",
+        "value": "ligand"
+      },
+      {
+        "name": "Domain [KW-9994]",
+        "value": "domain"
+      },
+      {
+        "name": "Disease [KW-9995]",
+        "value": "disease"
+      },
+      {
+        "name": "Developmental stage [KW-9996]",
+        "value": "developmental_stage"
+      },
+      {
+        "name": "Coding sequence diversity [KW-9997]",
+        "value": "coding_sequence_diversity"
+      },
+      {
+        "name": "Cellular component [KW-9998]",
+        "value": "cellular_component"
+      },
+      {
+        "name": "Biological process [KW-9999]",
+        "value": "biological_process"
+      }
+    ]
   },
   {
     "id": "ancestor",

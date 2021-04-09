@@ -20,9 +20,7 @@ class IdMappingFieldConfigTest {
     void testGetAllIdMappingFields() {
         List<UniProtDatabaseDetail> idMappingFields = IdMappingFieldConfig.getAllIdMappingTypes();
         Assertions.assertNotNull(idMappingFields);
-        // TODO: 02/03/2021 i'm not sure if we should test exact size... because
-        // drlineconfiguration.json is subject to change
-        Assertions.assertEquals(95, idMappingFields.size());
+        Assertions.assertEquals(97, idMappingFields.size());
         idMappingFields.forEach(field -> Assertions.assertNotNull(field.getIdMappingName()));
         // verify few mapped fields
         Set<String> names =

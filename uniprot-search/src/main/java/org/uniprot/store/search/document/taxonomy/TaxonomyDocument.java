@@ -29,13 +29,14 @@ public class TaxonomyDocument implements Document {
     @Field private String common;
     @Field private String synonym;
     @Field private String mnemonic;
+    @Field private String superkingdom;
     @Field private boolean hidden;
     @Field private boolean active;
     @Field private boolean linked;
-    @Field private boolean proteome;
-    @Field private boolean reference;
-    @Field private boolean reviewed;
-    @Field private boolean annotated;
+
+    @Field("taxonomies_with")
+    private List<String> taxonomiesWith;
+
     @Field private List<String> strain;
     @Field private List<Long> host;
     @Field private List<Long> lineage;

@@ -9,17 +9,21 @@ import java.util.stream.Collectors;
 import org.springframework.batch.core.StepExecution;
 import org.springframework.batch.core.annotation.BeforeStep;
 import org.springframework.batch.item.ItemProcessor;
+import org.uniprot.core.Statistics;
 import org.uniprot.core.cv.disease.DiseaseEntry;
 import org.uniprot.core.cv.disease.impl.DiseaseEntryBuilder;
+import org.uniprot.core.cv.keyword.KeywordId;
+import org.uniprot.core.impl.StatisticsBuilder;
 import org.uniprot.core.json.parser.disease.DiseaseJsonConfig;
 import org.uniprot.store.indexer.common.utils.Constants;
+import org.uniprot.store.search.document.DocumentConversionException;
 import org.uniprot.store.search.document.disease.DiseaseDocument;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class DiseaseProcessor implements ItemProcessor<DiseaseEntry, DiseaseDocument> {
-    private ObjectMapper diseaseObjectMapper;
+    private final ObjectMapper diseaseObjectMapper;
     // cache from DiseaseProteinCountWriter Step
     private Map<String, DiseaseProteinCountReader.DiseaseProteinCount> diseaseIdProteinCountMap;
 
@@ -33,7 +37,7 @@ public class DiseaseProcessor implements ItemProcessor<DiseaseEntry, DiseaseDocu
         if (disease.getKeywords() != null) {
             kwIds =
                     disease.getKeywords().stream()
-                            .map(kw -> kw.getName())
+                            .map(KeywordId::getName)
                             .collect(Collectors.toList());
         }
         // name is a combination of id, acronym, definition, synonyms, keywords
@@ -63,13 +67,17 @@ public class DiseaseProcessor implements ItemProcessor<DiseaseEntry, DiseaseDocu
                     this.diseaseIdProteinCountMap.get(disease.getName());
 
             if (diseaseProteinCount != null) {
-                diseaseBuilder.reviewedProteinCount(diseaseProteinCount.getReviewedProteinCount());
+                Statistics statistics =
+                        new StatisticsBuilder()
+                                .reviewedProteinCount(diseaseProteinCount.getReviewedProteinCount())
+                                .build();
+                diseaseBuilder.statistics(statistics);
             }
 
             return this.diseaseObjectMapper.writeValueAsBytes(diseaseBuilder.build());
 
         } catch (JsonProcessingException e) {
-            throw new RuntimeException("Unable to parse disease to binary json: ", e);
+            throw new DocumentConversionException("Unable to parse disease to binary json: ", e);
         }
     }
 

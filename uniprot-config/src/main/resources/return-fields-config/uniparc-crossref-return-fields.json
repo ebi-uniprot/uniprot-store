@@ -1,0 +1,179 @@
+[
+  {
+    "seqNumber": 0,
+    "itemType": "GROUP",
+    "groupName": "Names & Taxonomy",
+    "isDatabaseGroup": false,
+    "id": "names_&_taxonomy"
+  },
+  {
+    "parentId": "names_&_taxonomy",
+    "childNumber": 0,
+    "itemType": "SINGLE",
+    "isRequiredForJson": true,
+    "isDefaultForTsv": true,
+    "defaultForTsvOrder" : 0,
+    "label": "Database",
+    "name": "database",
+    "paths": ["database"],
+    "id": "names_&_taxonomy/database",
+    "includeInSwagger": true
+  },
+  {
+    "parentId": "names_&_taxonomy",
+    "childNumber": 1,
+    "itemType": "SINGLE",
+    "isRequiredForJson": true,
+    "isDefaultForTsv": true,
+    "defaultForTsvOrder" : 1,
+    "label": "Identifier",
+    "name": "accession",
+    "paths": ["id"],
+    "id": "names_&_taxonomy/accession",
+    "includeInSwagger": true
+  },
+  {
+    "parentId": "names_&_taxonomy",
+    "childNumber": 2,
+    "itemType": "SINGLE",
+    "label": "Gene name",
+    "name": "gene",
+    "paths": ["geneName"],
+    "id": "names_&_taxonomy/gene",
+    "includeInSwagger": true
+  },
+  {
+    "parentId": "names_&_taxonomy",
+    "childNumber": 3,
+    "itemType": "SINGLE",
+    "label": "NCBI GI",
+    "name": "ncbiGi",
+    "paths": ["ncbiGi"],
+    "id": "names_&_taxonomy/ncbiGi",
+    "includeInSwagger": true
+  },
+  {
+    "parentId": "names_&_taxonomy",
+    "childNumber": 4,
+    "itemType": "SINGLE",
+    "isDefaultForTsv": true,
+    "defaultForTsvOrder" : 3,
+    "label": "Organism",
+    "name": "organism",
+    "paths": ["organism.scientificName"],
+    "id": "names_&_taxonomy/organism",
+    "includeInSwagger": true
+  },
+  {
+    "parentId": "names_&_taxonomy",
+    "childNumber": 5,
+    "itemType": "SINGLE",
+    "label": "Organism ID",
+    "name": "organism_id",
+    "paths": ["organism.taxonId"],
+    "id": "names_&_taxonomy/organism_id",
+    "includeInSwagger": true
+  },
+  {
+    "parentId": "names_&_taxonomy",
+    "childNumber": 6,
+    "itemType": "SINGLE",
+    "label": "Protein name",
+    "name": "protein",
+    "paths": ["proteinName"],
+    "id": "names_&_taxonomy/protein",
+    "includeInSwagger": true
+  },
+  {
+    "parentId": "names_&_taxonomy",
+    "childNumber": 7,
+    "itemType": "SINGLE",
+    "label": "Proteome",
+    "name": "proteome",
+    "paths": ["proteomeId", "component"],
+    "id": "names_&_taxonomy/proteome",
+    "includeInSwagger": true
+  },
+  {
+    "seqNumber": 1,
+    "itemType": "GROUP",
+    "groupName": "Miscellaneous",
+    "isDatabaseGroup": false,
+    "id": "miscellaneous"
+  },
+  {
+    "parentId": "miscellaneous",
+    "childNumber": 0,
+    "itemType": "SINGLE",
+    "isDefaultForTsv": true,
+    "defaultForTsvOrder" : 6,
+    "label": "Active",
+    "name": "active",
+    "paths": ["active"],
+    "id": "miscellaneous/active",
+    "includeInSwagger": true
+  },
+  {
+    "seqNumber": 2,
+    "itemType": "GROUP",
+    "groupName": "Date of",
+    "isDatabaseGroup": false,
+    "id": "date_of"
+  },
+  {
+    "parentId": "date_of",
+    "childNumber": 0,
+    "itemType": "SINGLE",
+    "isDefaultForTsv": true,
+    "defaultForTsvOrder" : 4,
+    "label": "First seen",
+    "name": "first_seen",
+    "paths": ["created"],
+    "id": "date_of/first_seen",
+    "includeInSwagger": true
+  },
+  {
+    "parentId": "date_of",
+    "childNumber": 1,
+    "itemType": "SINGLE",
+    "isDefaultForTsv": true,
+    "defaultForTsvOrder" : 5,
+    "label": "Last seen",
+    "name": "last_seen",
+    "paths": ["lastUpdated"],
+    "id": "date_of/last_seen",
+    "includeInSwagger": true
+  },
+  {
+    "parentId": "date_of",
+    "childNumber": 2,
+    "itemType": "SINGLE",
+    "label": "Timeline",
+    "name": "timeline",
+    "paths": ["created","lastUpdated"],
+    "id": "date_of/timeline",
+    "includeInSwagger": true
+  },
+  {
+    "parentId": "date_of",
+    "childNumber": 3,
+    "itemType": "SINGLE",
+    "isDefaultForTsv": true,
+    "defaultForTsvOrder" : 2,
+    "label": "Version",
+    "name": "version",
+    "paths": ["version"],
+    "id": "date_of/version",
+    "includeInSwagger": true
+  },
+  {
+    "parentId": "date_of",
+    "childNumber": 4,
+    "itemType": "SINGLE",
+    "label": "Version (UniParc)",
+    "name": "version_uniparc",
+    "paths": ["versionI"],
+    "id": "date_of/version_uniparc",
+    "includeInSwagger": true
+  }
+]

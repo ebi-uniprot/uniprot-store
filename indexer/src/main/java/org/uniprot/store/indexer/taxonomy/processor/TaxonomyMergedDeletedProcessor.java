@@ -5,6 +5,7 @@ import java.nio.ByteBuffer;
 import org.springframework.batch.item.ItemProcessor;
 import org.uniprot.core.json.parser.taxonomy.TaxonomyJsonConfig;
 import org.uniprot.core.taxonomy.TaxonomyEntry;
+import org.uniprot.store.search.document.DocumentConversionException;
 import org.uniprot.store.search.document.taxonomy.TaxonomyDocument;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -35,7 +36,8 @@ public class TaxonomyMergedDeletedProcessor
         try {
             return ByteBuffer.wrap(jsonMapper.writeValueAsBytes(entry));
         } catch (JsonProcessingException e) {
-            throw new RuntimeException("Unable to parse TaxonomyEntry to binary json: ", e);
+            throw new DocumentConversionException(
+                    "Unable to parse TaxonomyEntry to binary json: ", e);
         }
     }
 }

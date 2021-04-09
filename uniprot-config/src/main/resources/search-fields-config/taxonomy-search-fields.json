@@ -1,23 +1,5 @@
 [
   {
-    "id": "scientific",
-    "fieldName": "scientific",
-    "fieldType": "GENERAL",
-    "dataType": "STRING",
-    "sortFieldId": "name_sort_id",
-    "description": "Search by scientific name",
-    "example": "16SrII",
-    "includeInSwagger": true
-  },
-  {
-    "id": "name_sort_id",
-    "fieldName": "name_sort",
-    "fieldType": "SORT",
-    "dataType": "STRING",
-    "description": "Sort by scientific name",
-    "example": "scientific asc"
-  },
-  {
     "id": "id",
     "fieldName": "id",
     "fieldType": "GENERAL",
@@ -27,70 +9,12 @@
     "example": "85621"
   },
   {
-    "id": "tax_id",
-    "fieldName": "tax_id",
-    "fieldType": "GENERAL",
-    "dataType": "INTEGER",
-    "validRegex": "^[0-9]+$",
-    "description": "Search by taxon identifier",
-    "example": "85621",
-    "includeInSwagger": true
-  },
-  {
-    "id": "common",
-    "fieldName": "common",
-    "fieldType": "GENERAL",
+    "id": "name_sort_id",
+    "fieldName": "name_sort",
+    "fieldType": "SORT",
     "dataType": "STRING",
-    "description": "Search by common name",
-    "example": "sample name",
-    "includeInSwagger": true
-  },
-  {
-    "id": "mnemonic",
-    "fieldName": "mnemonic",
-    "fieldType": "GENERAL",
-    "dataType": "STRING",
-    "description": "Search by mnemonic name",
-    "example": "sample mnemonic",
-    "includeInSwagger": true
-  },
-  {
-    "id": "rank",
-    "fieldName": "rank",
-    "fieldType": "GENERAL",
-    "dataType": "STRING",
-    "description": "Search by rank name",
-    "example": "SPECIES_GROUP",
-    "includeInSwagger": true
-  },
-  {
-    "id": "strain",
-    "fieldName": "strain",
-    "fieldType": "GENERAL",
-    "dataType": "STRING",
-    "description": "Search by rank name",
-    "example": "SPECIES_GROUP",
-    "includeInSwagger": true
-  },
-  {
-    "id": "host",
-    "fieldName": "host",
-    "fieldType": "GENERAL",
-    "dataType": "INTEGER",
-    "validRegex": "^[0-9]+$",
-    "description": "Search by host identifier",
-    "example": "85621",
-    "includeInSwagger": true
-  },
-  {
-    "id": "linked",
-    "fieldName": "linked",
-    "fieldType": "GENERAL",
-    "dataType": "BOOLEAN",
-    "validRegex": "^true|false$",
-    "description": "Search if taxonomy is linked",
-    "example": "true",
-    "includeInSwagger": true
+    "description": "Sort by scientific name",
+    "example": "scientific asc"
   },
   {
     "id": "active",
@@ -103,43 +27,257 @@
     "includeInSwagger": true
   },
   {
-    "id": "proteome",
-    "fieldName": "proteome",
+    "id": "taxonomies_with",
+    "fieldName": "taxonomies_with",
     "fieldType": "GENERAL",
-    "dataType": "BOOLEAN",
-    "validRegex": "^true|false$",
-    "description": "Search if taxonomy is proteome",
-    "example": "false",
+    "dataType": "STRING",
+    "description": "Search taxonomies with",
+    "example": "uniprotkb",
     "includeInSwagger": true
   },
   {
-    "id": "reference",
-    "fieldName": "reference",
+    "id": "superkingdom",
+    "fieldName": "superkingdom",
     "fieldType": "GENERAL",
-    "dataType": "BOOLEAN",
-    "validRegex": "^true|false$",
-    "description": "Search if taxonomy is referenced",
-    "example": "false",
+    "dataType": "STRING",
+    "description": "Search by taxonomy Superkingdom",
+    "example": "Bacteria",
     "includeInSwagger": true
   },
   {
-    "id": "reviewed",
-    "fieldName": "reviewed",
+    "seqNumber": 0,
+    "label": "Taxon ID",
+    "id": "tax_id",
+    "fieldName": "tax_id",
     "fieldType": "GENERAL",
-    "dataType": "BOOLEAN",
-    "validRegex": "^true|false$",
-    "description": "Search if taxonomy is reviewed",
-    "example": "false",
+    "itemType": "SINGLE",
+    "dataType": "INTEGER",
+    "validRegex": "^[0-9]+$",
+    "description": "Search by taxon identifier",
+    "example": "85621",
     "includeInSwagger": true
   },
   {
-    "id": "annotated",
-    "fieldName": "annotated",
+    "seqNumber": 1,
+    "label": "Scientific name",
+    "id": "scientific",
+    "fieldName": "scientific",
     "fieldType": "GENERAL",
+    "itemType": "SINGLE",
+    "dataType": "STRING",
+    "sortFieldId": "name_sort_id",
+    "description": "Search by scientific name",
+    "example": "16SrII",
+    "includeInSwagger": true
+  },
+  {
+    "seqNumber": 2,
+    "label": "Common name",
+    "id": "common",
+    "fieldName": "common",
+    "fieldType": "GENERAL",
+    "itemType": "SINGLE",
+    "dataType": "STRING",
+    "description": "Search by common name",
+    "example": "sample name",
+    "includeInSwagger": true
+  },
+  {
+    "seqNumber": 3,
+    "label": "Mnemonic",
+    "id": "mnemonic",
+    "fieldName": "mnemonic",
+    "fieldType": "GENERAL",
+    "itemType": "SINGLE",
+    "dataType": "STRING",
+    "description": "Search by mnemonic name",
+    "example": "sample mnemonic",
+    "includeInSwagger": true
+  },
+  {
+    "seqNumber": 4,
+    "label": "Rank",
+    "id": "rank",
+    "fieldName": "rank",
+    "fieldType": "GENERAL",
+    "itemType": "SINGLE",
+    "dataType": "ENUM",
+    "description": "Search by rank name",
+    "example": "SPECIES_GROUP",
+    "includeInSwagger": true,
+    "values": [
+      {
+        "name": "Superkingdom",
+        "value": "SUPERKINGDOM"
+      },
+      {
+        "name": "Kingdom",
+        "value": "KINGDOM"
+      },
+      {
+        "name": "Subkingdom",
+        "value": "SUBKINGDOM"
+      },
+      {
+        "name": "Superphylum",
+        "value": "SUPERPHYLUM"
+      },
+      {
+        "name": "Phylum",
+        "value": "PHYLUM"
+      },
+      {
+        "name": "Subphylum",
+        "value": "SUBPHYLUM"
+      },
+      {
+        "name": "Superclass",
+        "value": "SUPERCLASS"
+      },
+      {
+        "name": "Class",
+        "value": "CLASS"
+      },
+      {
+        "name": "Subclass",
+        "value": "SUBCLASS"
+      },
+      {
+        "name": "Infraclass",
+        "value": "INFRACLASS"
+      },
+      {
+        "name": "Cohort",
+        "value": "COHORT"
+      },
+      {
+        "name": "Subcohort",
+        "value": "SUBCOHORT"
+      },
+      {
+        "name": "Superorder",
+        "value": "SUPERORDER"
+      },
+      {
+        "name": "Order",
+        "value": "ORDER"
+      },
+      {
+        "name": "Suborder",
+        "value": "SUBORDER"
+      },
+      {
+        "name": "Infraorder",
+        "value": "INFRAORDER"
+      },
+      {
+        "name": "Parvorder",
+        "value": "PARVORDER"
+      },
+      {
+        "name": "Superfamily",
+        "value": "SUPERFAMILY"
+      },
+      {
+        "name": "Family",
+        "value": "FAMILY"
+      },
+      {
+        "name": "Subfamily",
+        "value": "SUBFAMILY"
+      },
+      {
+        "name": "Tribe",
+        "value": "TRIBE"
+      },
+      {
+        "name": "Subtribe",
+        "value": "SUBTRIBE"
+      },
+      {
+        "name": "Genus",
+        "value": "GENUS"
+      },
+      {
+        "name": "Subgenus",
+        "value": "SUBGENUS"
+      },
+      {
+        "name": "Species group",
+        "value": "SPECIES_GROUP"
+      },
+      {
+        "name": "Species subgroup",
+        "value": "SPECIES_SUBGROUP"
+      },
+      {
+        "name": "Species",
+        "value": "SPECIES"
+      },
+      {
+        "name": "Subspecies",
+        "value": "SUBSPECIES"
+      },
+      {
+        "name": "Varietas",
+        "value": "VARIETAS"
+      },
+      {
+        "name": "Forma",
+        "value": "FORMA"
+      },
+      {
+        "name": "No rank",
+        "value": "NO_RANK"
+      }
+    ]
+  },
+  {
+    "seqNumber": 5,
+    "label": "Strain",
+    "id": "strain",
+    "fieldName": "strain",
+    "fieldType": "GENERAL",
+    "itemType": "SINGLE",
+    "dataType": "STRING",
+    "description": "Search by rank name",
+    "example": "SPECIES_GROUP",
+    "includeInSwagger": true
+  },
+  {
+    "seqNumber": 6,
+    "label": "Virus host",
+    "id": "host",
+    "fieldName": "host",
+    "fieldType": "GENERAL",
+    "itemType": "SINGLE",
+    "dataType": "INTEGER",
+    "validRegex": "^[0-9]+$",
+    "description": "Search by host identifier",
+    "example": "85621",
+    "includeInSwagger": true
+  },
+  {
+    "seqNumber": 7,
+    "label": "With external info",
+    "id": "linked",
+    "fieldName": "linked",
+    "fieldType": "GENERAL",
+    "itemType": "SINGLE",
     "dataType": "BOOLEAN",
     "validRegex": "^true|false$",
-    "description": "Search if taxonomy is annotated",
-    "example": "false",
-    "includeInSwagger": true
+    "description": "Search if taxonomy is linked",
+    "example": "true",
+    "includeInSwagger": true,
+    "values": [
+      {
+        "name": "Yes",
+        "value": "true"
+      },
+      {
+        "name": "No",
+        "value": "false"
+      }
+    ]
   }
 ]

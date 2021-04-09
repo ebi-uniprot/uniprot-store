@@ -39,6 +39,7 @@ class ReturnFieldSchemaValidatorIT {
                 Arguments.of(ReturnFieldConfigFactory.TAXONOMY_CONFIG_FILE, schemaFile),
                 Arguments.of(ReturnFieldConfigFactory.UNIPARC_CONFIG_FILE, schemaFile),
                 Arguments.of(ReturnFieldConfigFactory.UNIPROTKB_CONFIG_FILE, schemaFile),
-                Arguments.of(ReturnFieldConfigFactory.UNIREF_CONFIG_FILE, schemaFile));
+                Arguments.of(ReturnFieldConfigFactory.UNIREF_CONFIG_FILE, schemaFile),
+                Arguments.of(ReturnFieldConfigFactory.UNIPARC_CROSSREF_CONFIG_FILE, schemaFile));
     }
 }

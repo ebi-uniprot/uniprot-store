@@ -34,6 +34,15 @@ SWISS-PROT: connecting biological knowledge via a protein database.
 Curr. Issues Mol. Biol. 3:47-55(2001)
 
 ___________________________________________________________________________
+AC    : DB-0014
+Abbrev: DDBJ
+Name  : DNA Data Bank of Japan; a nucleotide sequence database
+Ref   : PubMed=17108353; DOI=10.1093/nar/gkl908;
+LinkTp: Implicit; All UniProtKB entries with >=1 EMBL Xref
+Server: https://www.ddbj.nig.ac.jp/index-e.html
+Db_URL: http://getentry.ddbj.nig.ac.jp/search/get_entry?accnumber=%s
+Cat   : Sequence databases
+
 AC    : DB-0160
 Abbrev: Allergome
 Name  : Allergome; a platform for allergen knowledge
