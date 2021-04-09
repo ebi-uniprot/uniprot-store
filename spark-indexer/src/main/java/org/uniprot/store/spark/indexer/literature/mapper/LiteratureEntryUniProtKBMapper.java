@@ -24,7 +24,7 @@ import scala.Tuple2;
 public class LiteratureEntryUniProtKBMapper
         implements PairFlatMapFunction<String, String, LiteratureEntry> {
 
-    private static final Pattern REVIEWED_REGEX = Pattern.compile("^ID.+Reviewed.+$");
+    private static final Pattern REVIEWED_REGEX = Pattern.compile("^ID.{1,50}Reviewed.{1,50}$");
     private static final long serialVersionUID = -3292552212361568704L;
     private final UniProtKBReferencesConverter uniProtKBReferencesConverter =
             new UniProtKBReferencesConverter();
