@@ -18,8 +18,6 @@
 	<!-- =============================== Literature fields =============================== -->
 	<field name="id" type="string" indexed="true" stored="true"
 		required="true" docValues="true" />
-	<field name="id_sort" type="plong" indexed="true" stored="false"
-		required="true" docValues="true" />
 	<field name="doi" type="string" indexed="true" stored="false"
 		docValues="true" />
 	<field name="title" type="full_ci" indexed="true" stored="false" />
@@ -36,17 +34,13 @@
 	<field name="author_group" type="full_ci" indexed="true"
 		stored="false" multiValued="true" />
 	<!-- Facet fields -->
-	<field name="is_uniprotkb_mapped" type="boolean" indexed="true"
-		stored="false" docValues="true" />
-	<field name="is_computationally_mapped" type="boolean"
-		indexed="true" stored="false" docValues="true" />
-	<field name="is_community_mapped" type="boolean" indexed="true"
-		stored="false" docValues="true" />
+	<field name="citations_with" type="string" indexed="true"
+		stored="false" docValues="true" multiValued="true" />
+
 	<!-- the whole literature object as binary -->
 	<field name="literature_obj" type="binary" indexed="false"
 		stored="true" required="true" />
 
-	<copyField source="id" dest="id_sort" />
 	<copyField source="title" dest="title_sort" />
 
 

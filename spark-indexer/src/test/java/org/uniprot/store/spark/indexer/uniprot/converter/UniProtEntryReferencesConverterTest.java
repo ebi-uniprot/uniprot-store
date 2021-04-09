@@ -27,7 +27,7 @@ import org.uniprot.store.search.document.uniprot.UniProtDocument;
  * @author lgonzales
  * @since 2019-09-09
  */
-class UniProtKBEntryReferencesConverterTest {
+class UniProtEntryReferencesConverterTest {
 
     @Test
     void convertCompleteReference() {
@@ -48,6 +48,7 @@ class UniProtKBEntryReferencesConverterTest {
         assertEquals(
                 Arrays.asList("one auth group", "two auth group"), document.referenceOrganizations);
         assertEquals(Arrays.asList("oneid", "twoid"), document.referencePubmeds);
+        assertEquals(Arrays.asList("oneid", "twoid"), document.referenceCitationIds);
         assertEquals(
                 new HashSet<>(Arrays.asList("one reference comment", "two reference comment")),
                 document.rcPlasmid);

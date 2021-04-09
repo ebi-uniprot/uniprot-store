@@ -106,6 +106,9 @@ public class UniProtDocument implements Document {
     @Field("lit_pubmed")
     public List<String> referencePubmeds = new ArrayList<>();
 
+    @Field("lit_citation_id")
+    public List<String> referenceCitationIds = new ArrayList<>();
+
     @Field("lit_organisation")
     public List<String> referenceOrganizations = new ArrayList<>();
 
@@ -397,6 +400,7 @@ public class UniProtDocument implements Document {
                 && Objects.equals(referenceTitles, that.referenceTitles)
                 && Objects.equals(referenceAuthors, that.referenceAuthors)
                 && Objects.equals(referencePubmeds, that.referencePubmeds)
+                && Objects.equals(referenceCitationIds, that.referenceCitationIds)
                 && Objects.equals(referenceOrganizations, that.referenceOrganizations)
                 && Objects.equals(referenceDates, that.referenceDates)
                 && Objects.equals(referenceJournals, that.referenceJournals)
@@ -506,6 +510,7 @@ public class UniProtDocument implements Document {
                 databases,
                 referenceTitles,
                 referenceAuthors,
+                referenceCitationIds,
                 referencePubmeds,
                 referenceOrganizations,
                 referenceDates,
@@ -662,6 +667,8 @@ public class UniProtDocument implements Document {
                 + referenceTitles
                 + ", referenceAuthors="
                 + referenceAuthors
+                + ", referenceCitationIds="
+                + referenceCitationIds
                 + ", referencePubmeds="
                 + referencePubmeds
                 + ", referenceOrganizations="

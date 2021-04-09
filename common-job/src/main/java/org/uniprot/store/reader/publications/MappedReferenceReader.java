@@ -63,6 +63,6 @@ public class MappedReferenceReader<T extends MappedReference> {
                         .getUniProtKBAccession()
                         .getValue()
                         .equals(nextMappedRef.getUniProtKBAccession().getValue())
-                && currentMappedRef.getPubMedId().equals(nextMappedRef.getPubMedId());
+                && currentMappedRef.getCitationId().equals(nextMappedRef.getCitationId());
     }
 }

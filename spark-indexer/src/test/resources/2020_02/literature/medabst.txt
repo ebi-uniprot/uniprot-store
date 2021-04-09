@@ -1,0 +1,225 @@
+MEDLINE ABSTRACTS FILE
+RX   PubMed=1; DOI=10.1016/0006-2944(75)90147-7;
+RA   Makar A.B., McMartin K.E., Palese M., Tephly T.R.;
+RT   "Formate assay in body fluids: application in methanol poisoning.";
+RL   Biochem Med 13:117-126(1975).
+
+IP   2
+
+NO ABSTRACT AVAILABLE
+//
+RX   PubMed=44; DOI=10.1021/bi00695a003;
+RA   McPhie P.;
+RT   "The origin of the alkaline inactivation of pepsinogen.";
+RL   Biochemistry 14:5253-5256(1975).
+
+IP   24
+
+Above pH 8.5, pepsinogen is converted into a form which cannot be activated to
+pepsin on exposure to low pH. Intermediate exposure to neutral pH, however,
+returns the protein to a form which can be activated. Evidence is presented for
+a reversible, small conformational change in the molecule, distinct from the
+unfolding of the protein. At the same time, the molecule is converted to a form
+of limited solubility, which is precipitated at low pH, where activation is
+normally seen. The results are interpreted in terms of the peculiar structure of
+the pepsinogen molecule. Titration of the basic NH2-terminal region produced an
+open form, which can return to the native form at neutral pH, but which is
+maintained at low pH by neutralization of carboxylate groups in the pepsin
+portion.
+//
+RX   PubMed=46; DOI=10.1021/bi00695a006;
+RA   Baccanari D., Phillips A., Smith S., Sinski D., Burchall J.;
+RT   "Purification and properties of Escherichia coli dihydrofolate reductase.";
+RL   Biochemistry 14:5267-5273(1975).
+
+IP   24
+
+Dihydrofolate reductase has been purified 40-fold to apparent homogeneity from a
+trimethoprim-resistant strain of Escherichia coli (RT 500) using a procedure
+that includes methotrexate affinity column chromatography. Determinations of the
+molecular weight of the enzyme based on its amino acid composition,
+sedimentation velocity, and sodium dodecyl sulfate gel electrophoresis gave
+values of 17680, 17470 and 18300, respectively. An aggregated form of the enzyme
+with a low specific activity can be separated from the monomer by gel
+filtration; treatment of the aggregate with mercaptoethanol or dithiothreitol
+results in an increase in enzymic activity and a regeneration of the monomer.
+Also, multiple molecular forms of the monomer have been detected by
+polyacrylamide gel electrophoresis. The unresolved enzyme exhibits two pH optima
+(pH 4.5 and pH 7.0) with dihydrofolate as a substrate. Highest activities are
+observed in buffers containing large organic cations. In 100 mM imidazolium
+chloride (pH 7), the specific activity is 47 mumol of dihydrofolate reduced per
+min per mg at 30 degrees. Folic acid also serves as a substrate with a single pH
+optimum of pH 4.5. At this pH the Km for folate is 16 muM, and the Vmax is
+1/1000 of the rate observed with dihydrofolate as the substrate. Monovalent
+cations (Na+, K+, Rb+, and Cs+) inhibit dihydrofolate reductase; at a given
+ionic strength the degree of inhibition is a function of the ionic radius of the
+cation. Divalent cations are more potent inhibitors; the I50 of BaCl2 is 250
+muM, as compared to 125 mM for KCl. Anions neither inhibit nor activate the
+enzyme.
+//
+RX   PubMed=60; DOI=10.1016/0005-2728(75)90124-3;
+RA   Butler J., Jayson G.G., Swallow A.J.;
+RT   "The reaction between the superoxide anion radical and cytochrome c.";
+RL   Biochim Biophys Acta 408:215-222(1975).
+
+IP   3
+
+1. The superoxide anion radical (O2-) reacts with ferricytochrome c to form
+ferrocytochrome c. No intermediate complexes are observable. No reaction could
+be detected between O2-
+and ferrocytochrome c. 2. At 20 degrees C the rate constant for the reaction at
+pH 4.7 to 6.7 is 1.4-10(6) M-1. S -1 and as the pH increases above 6.7 the rate
+constant steadily decreases. The dependence on pH is the same for tuna heart and
+horse heart cytochrome c. No reaction could be demonstrated between O2-
+and the form of cytochrome c which exists above pH approximately 9.2. The
+dependence of the rate constant on pH can be explained if cytochrome c has pKs
+of 7.45 and 9.2, and O2-
+reacts with the form present below pH 7.45 with k = 1.4-10(6) M-1 -
+S-1, the form above pH 7.45 with k = 3.0- 10(5) M-1 -
+S-1, and the form present above pH 9.2 with k = 0. 3. The reaction has an
+activation energy of 20 kJ mol-1 and an enthalpy of activation at 25 degrees C
+of 18 kJ mol-1 both above and below pH 7.45. It is suggested that O2-
+may reduce cytochrome c through a track composed of aromatic amino acids, and
+that little protein rearrangement is required for the formation of the activated
+complex. 4. No reduction of ferricytochrome c by HO2 radicals could be
+demonstrated at pH 1.2-6.2 but at pH 5.3, HO2 radicals oxidize ferrocytochrome c
+with a rate constant of about 5-10(5)-5-10(6) M-1 - S-1.
+//
+RX   PubMed=74; DOI=10.1016/0005-2744(75)90204-1;
+RA   Moroff G., Brandt K.G.;
+RT   "Yeast glutathione reductase. Studies of the kinetics and stability of the
+RT   enzyme as a function of pH and salt concentration.";
+RL   Biochim Biophys Acta 410:21-31(1975).
+
+IP   1
+
+1. The pH dependencies of the apparent Michaelis constant for oxidized
+glutathione and the apparent turnover number of yeast glutathione reductase (EC
+1.6.4.2) have been determined at a fixed concentration of 0.1 mM NADPH in the
+range pH 4.5--8.0. Between pH 5.5 and 7.6, both of these parameters are
+relatively constant. The principal effect of low pH on the kinetics of the
+enzyme-catalyzed reaction is the observation of a pH-dependent substrate
+inhibition by oxidized glutathione at pH less than or equal 7, which is shown to
+correlate with the binding of oxidized glutathione to the oxidized form of the
+enzyme. 2. The catalytic activity of yeast glutathione reductase at pH 5.5 is
+affected by the sodium acetate buffer concentration. The stability of the
+oxidized and reduced forms of the enzyme at pH 5.5 and 25 degrees C in the
+absence of bovine serum albumin was studied as a function of sodium acetate
+concentration. The results show that activation of the catalytic activity of the
+enzyme at low sodium acetate concentration correlates with an effect of sodium
+acetate on a reduced form of the enzyme. In contrast, inhibition of the
+catalytic activity of the enzyme at high sodium acetate concentration correlates
+with an effect of sodium acetate on the oxidized form of the enzyme.
+//
+RX   PubMed=100;
+RA   Jolly R.D., Thompson K.G., Winchester B.G.;
+RT   "Bovine mannosidosis--a model lysosomal storage disease.";
+RL   Birth Defects Orig Artic Ser 11:273-278(1975).
+
+IP   6
+
+NO ABSTRACT AVAILABLE
+//
+RX   PubMed=269; DOI=10.1016/0012-1606(75)90075-5;
+RA   Gluecksohn-Waelsch S., Schiffman M.B.;
+RT   "Glutamine synthetase in newborn mice homozygous for lethal albino
+RT   alleles.";
+RL   Dev Biol 45:369-371(1975).
+
+IP   2
+
+NO ABSTRACT AVAILABLE
+//
+RX   PubMed=357; DOI=10.1128/jb.124.3.1067-1076.1975;
+RA   Holtje J.V., Mirelman D., Sharon N., Schwarz U.;
+RT   "Novel type of murein transglycosylase in Escherichia coli.";
+RL   J Bacteriol 124:1067-1076(1975).
+
+IP   3
+
+The purification and properties of a novel type of murein transglycosylase from
+Escherichia coli are described. The purified enzyme appears as a single band on
+sodium dodecyl sulfate-polyacrylamide gels and has an apparent molecular weight
+of approximately 65,000 as estimated by gel filtration and gel electrophoresis.
+It degrades pure murein sacculi from E. coli almost completely into low-
+molecular-weight products. The two prominent muropeptide fragments in the digest
+are the disaccharide-tripeptide N-acetylglucosamine-N-acetylmuramic acid-L-
+alanine-D-iso-glutamic acid-meso-diaminopimelic acid and the corresponding
+disaccharide-tetrapeptide N-acetylglucosamine-N-acetylmuramic acid-L-alanine-D-
+iso-glutamic acid-meso-diaminopimelic acid-D-alanine. The unique feature of
+these compounds is that the disaccharide has no reducing end group and that the
+muramic acid residue possesses an internal 1 leads to 6 anhydro linkage. The new
+lytic enzyme is designated as a murein: murein transglycosylase. Its possible
+role in the rearrangement of murein during cell growth and division is
+discussed.
+//
+RX   PubMed=19608740; DOI=10.1074/jbc.m109.022137;
+RA   Kindler S., Dieterich D.C., Schutt J., Sahin J., Karpova A., Mikhaylova M.,
+RA   Schob C., Gundelfinger E.D., Kreienkamp H.J., Kreutz M.R.;
+RT   "Dendritic mRNA targeting of Jacob and N-methyl-d-aspartate-induced nuclear
+RT   translocation after calpain-mediated proteolysis.";
+RL   J. Biol. Chem. 284:25431-25440(2009).
+
+IP   37
+
+Jacob is a recently identified plasticity-related protein that couples N-methyl-
+d-aspartate receptor activity to nuclear gene expression. An expression analysis
+by Northern blot and in situ hybridization shows that Jacob is almost
+exclusively present in brain, in particular in the cortex and the limbic system.
+Alternative splicing gives rise to multiple mRNA variants, all of which exhibit
+a prominent dendritic localization in the hippocampus. Functional analysis in
+primary hippocampal neurons revealed that a predominant cis-acting dendritic
+targeting element in the 3'-untranslated region of Jacob mRNAs is responsible
+for dendritic mRNA localization. In the mouse brain, Jacob transcripts are
+associated with both the fragile X mental retardation protein, a well described
+trans-acting factor regulating dendritic mRNA targeting and translation, and the
+kinesin family member 5C motor complex, which is known to mediate dendritic mRNA
+transport. Jacob is susceptible to rapid protein degradation in a Ca(2+)-
+and Calpain-dependent manner, and Calpain-mediated clipping of the myristoylated
+N terminus of Jacob is required for its nuclear translocation after N-methyl-d-
+aspartate receptor activation. Our data suggest that local synthesis in
+dendrites may be necessary to replenish dendritic Jacob pools after truncation
+of the N-terminal membrane anchor and concomitant translocation of Jacob to the
+nucleus.
+//
+RX   PubMed=21364755; DOI=10.1371/journal.pone.0017276;
+RA   Behnisch T., Yuanxiang P., Bethge P., Parvez S., Chen Y., Yu J.,
+RA   Karpova A., Frey J.U., Mikhaylova M., Kreutz M.R.;
+RT   "Nuclear translocation of jacob in hippocampal neurons after stimuli
+RT   inducing long-term potentiation but not long-term depression.";
+RL   PLoS ONE 6:E17276-E17276(2011).
+
+EM   behnish@fudan.edu.cn
+IP   2
+
+<h4>Background</h4>In recent years a number of potential synapto-nuclear protein
+messengers have been characterized that are thought to be involved in
+plasticity-related gene expression, and that have the capacity of importin-
+mediated and activity-dependent nuclear import. However, there is a surprising
+paucity of data showing the nuclear import of such proteins in cellular models
+of learning and memory. Only recently it was found that the transcription factor
+cyclic AMP response element binding protein 2 (CREB2) transits to the nucleus
+during long-term depression (LTD), but not during long-term potentiation (LTP)
+of synaptic transmission in hippocampal primary neurons. Jacob is another
+messenger that couples NMDA-receptor-activity to nuclear gene expression. We
+therefore aimed to study whether Jacob accumulates in the nucleus in
+physiological relevant models of activity-dependent synaptic
+plasticity.<h4>Methodology/principal findings</h4>We have analyzed the dynamics
+of Jacob's nuclear import following induction of NMDA-receptor dependent LTP or
+LTD at Schaffer collateral-CA1 synapses in rat hippocampal slices. Using time-
+lapse imaging of neurons expressing a Jacob-Green-Fluorescent-Protein we found
+that Jacob rapidly translocates from dendrites to the nucleus already during the
+tetanization period of LTP, but not after induction of LTD. Immunocytochemical
+stainings confirmed the nuclear accumulation of endogenous Jacob in comparison
+to apical dendrites after induction of LTP but not LTD. Complementary findings
+were obtained after induction of NMDA-receptor dependent chemical LTP and LTD in
+hippocampal primary neurons. However, in accordance with previous studies, high
+concentrations of NMDA and glycine as well as specific activation of
+extrasynaptic NMDA-receptors resembling pathological conditions induce an even
+more profound increase of nuclear Jacob
+levels.<h4>Conclusions/significance</h4>Taken together, these findings suggest
+that the two major forms of NMDA-receptor dependent synaptic plasticity, LTP and
+LTD, elicit the transition of different synapto-nuclear messengers albeit in
+both cases importin-mediated retrograde transport and NMDA-receptor activation
+is required.
+//

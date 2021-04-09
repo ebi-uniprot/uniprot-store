@@ -8,7 +8,6 @@ import java.util.*;
 
 import lombok.extern.slf4j.Slf4j;
 
-import org.uniprot.core.CrossReference;
 import org.uniprot.core.citation.Citation;
 import org.uniprot.core.citation.CitationDatabase;
 import org.uniprot.core.citation.JournalArticle;
@@ -25,6 +24,7 @@ import org.uniprot.core.uniprotkb.UniProtKBEntryType;
 import org.uniprot.core.uniprotkb.UniProtKBReference;
 import org.uniprot.core.util.PublicationDateFormatter;
 import org.uniprot.store.indexer.publication.common.PublicationUtils;
+import org.uniprot.store.search.document.DocumentConversionException;
 import org.uniprot.store.search.document.publication.PublicationDocument;
 import org.uniprot.store.search.document.uniprot.UniProtDocument;
 
@@ -63,7 +63,7 @@ public class UniProtEntryReferencesConverter implements Serializable {
             String accession, UniProtKBEntryType entryType, UniProtKBReference reference, int i) {
         Citation citation = reference.getCitation();
         if (isEntryTypeSupported(entryType)) {
-            String pubmedId = extractPubMed(citation);
+            String citationId = citation.getId();
             MappedReferenceType type =
                     entryType == UniProtKBEntryType.SWISSPROT
                             ? UNIPROTKB_REVIEWED
@@ -74,7 +74,7 @@ public class UniProtEntryReferencesConverter implements Serializable {
             // create MappedPublications to store binary
             UniProtKBMappedReference mappedReference =
                     createUniProtKBMappedReference(
-                            accession, entryType, reference, pubmedId, referenceNumber);
+                            accession, entryType, reference, citationId, referenceNumber);
             MappedPublications mappedPubs = createMappedPublications(mappedReference);
 
             String id = PublicationUtils.getDocumentId();
@@ -85,7 +85,7 @@ public class UniProtEntryReferencesConverter implements Serializable {
             builder.accession(accession);
             builder.type(type.getIntValue());
             builder.mainType(type.getIntValue());
-            builder.pubMedId(pubmedId);
+            builder.citationId(citationId);
             builder.categories(mappedReference.getSourceCategories());
             builder.publicationMappedReferences(mappedReferenceByte);
             return builder;
@@ -94,17 +94,12 @@ public class UniProtEntryReferencesConverter implements Serializable {
         }
     }
 
-    public String extractPubMed(Citation citation) {
-        return citation.getCitationCrossReferenceByType(CitationDatabase.PUBMED)
-                .map(CrossReference::getId)
-                .orElse(null);
-    }
-
     public byte[] getMappedPublicationsBinary(MappedPublications mappedPublications) {
         try {
             return objectMapper.writeValueAsBytes(mappedPublications);
         } catch (JsonProcessingException e) {
-            throw new RuntimeException("Unable to parse MappedPublications to binary json: ", e);
+            throw new DocumentConversionException(
+                    "Unable to parse MappedPublications to binary json: ", e);
         }
     }
 
@@ -116,21 +111,17 @@ public class UniProtEntryReferencesConverter implements Serializable {
             String accession,
             UniProtKBEntryType entryType,
             UniProtKBReference reference,
-            String pubMedId,
+            String citationId,
             int referenceNumber) {
         String source = entryType.getDisplayName();
         UniProtKBMappedReferenceBuilder builder = new UniProtKBMappedReferenceBuilder();
         builder.uniProtKBAccession(accession);
         builder.source(new MappedSourceBuilder().name(source).build());
-        builder.pubMedId(pubMedId);
+        builder.citationId(citationId);
         builder.referenceNumber(referenceNumber);
         builder.referenceCommentsSet(reference.getReferenceComments());
         builder.referencePositionsSet(reference.getReferencePositions());
         builder.sourceCategoriesSet(getCategoriesFromUniprotReference(reference));
-
-        if (Objects.isNull(pubMedId)) { // set the manual citation if pubmed id is missing
-            builder.citation(reference.getCitation());
-        }
 
         return builder.build();
     }
@@ -138,6 +129,7 @@ public class UniProtEntryReferencesConverter implements Serializable {
     void convertReferences(List<UniProtKBReference> references, UniProtDocument document) {
         for (UniProtKBReference reference : references) {
             Citation citation = reference.getCitation();
+            document.referenceCitationIds.add(citation.getId());
             if (reference.hasReferenceComments()) {
                 convertReferenceComments(reference.getReferenceComments(), document);
             }
@@ -155,11 +147,7 @@ public class UniProtEntryReferencesConverter implements Serializable {
                                 });
             }
             if (citation.hasAuthoringGroup()) {
-                citation.getAuthoringGroups()
-                        .forEach(
-                                authGroup -> {
-                                    document.referenceOrganizations.add(authGroup);
-                                });
+                document.referenceOrganizations.addAll(citation.getAuthoringGroups());
             }
             if (citation.hasPublicationDate()) {
                 convertPublicationDate(citation.getPublicationDate().getValue(), document);

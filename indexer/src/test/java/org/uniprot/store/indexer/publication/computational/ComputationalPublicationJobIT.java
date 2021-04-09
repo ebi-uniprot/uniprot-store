@@ -96,7 +96,7 @@ class ComputationalPublicationJobIT {
         List<PublicationDocument> documents =
                 solrClient.query(
                         SolrCollection.publication,
-                        new SolrQuery("pubmed_id:26551672 AND accession:Q7Z583"),
+                        new SolrQuery("citation_id:26551672 AND accession:Q7Z583"),
                         PublicationDocument.class);
 
         assertThat(documents, hasSize(1));
@@ -112,7 +112,7 @@ class ComputationalPublicationJobIT {
         ComputationallyMappedReference reference = references.get(0);
 
         // ----------- check contents of stored object
-        assertThat(reference.getPubMedId(), is("26551672"));
+        assertThat(reference.getCitationId(), is("26551672"));
         assertThat(reference.getUniProtKBAccession().getValue(), is("Q7Z583"));
         assertThat(reference.getSource().getName(), is("GeneRif"));
         assertThat(reference.getSource().getId(), is("4544"));
@@ -124,14 +124,14 @@ class ComputationalPublicationJobIT {
                 reference.getSourceCategories(),
                 containsInAnyOrder("Sequences", "Pathology & Biotech"));
 
-        verifyDuplicateAccessionAndPubMedId();
+        verifyDuplicateAccessionAndCitationId();
     }
 
-    private void verifyDuplicateAccessionAndPubMedId() throws IOException {
+    private void verifyDuplicateAccessionAndCitationId() throws IOException {
         List<PublicationDocument> documents =
                 solrClient.query(
                         SolrCollection.publication,
-                        new SolrQuery("accession:Q8BGZ9 AND pubmed_id:11203701"),
+                        new SolrQuery("accession:Q8BGZ9 AND citation_id:11203701"),
                         PublicationDocument.class);
         assertThat(documents, hasSize(1));
 

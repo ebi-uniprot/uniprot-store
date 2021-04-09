@@ -4,7 +4,7 @@
     "fieldName": "id",
     "fieldType": "GENERAL",
     "dataType": "STRING",
-    "validRegex": "^[0-9]+$",
+    "validRegex": "^[0-9]+$|CI-\\w{13}$|IND[0-9]+$",
     "sortFieldId": "id_sort_id",
     "description": "Search by literature identifier",
     "example": "12345",
@@ -12,7 +12,7 @@
   },
   {
     "id": "id_sort_id",
-    "fieldName": "id_sort",
+    "fieldName": "id",
     "fieldType": "SORT",
     "dataType": "STRING",
     "description": "Sort by literature accession",
@@ -73,31 +73,12 @@
     "includeInSwagger": true
   },
   {
-    "id": "is_uniprotkb_mapped",
-    "fieldName": "is_uniprotkb_mapped",
+    "id": "citations_with",
+    "fieldName": "citations_with",
     "fieldType": "GENERAL",
-    "dataType": "BOOLEAN",
-    "validRegex": "^true|false$",
-    "description": "Search if mapped in",
-    "example": "false"
-  },
-  {
-    "id": "is_computationally_mapped",
-    "fieldName": "is_computationally_mapped",
-    "fieldType": "GENERAL",
-    "dataType": "BOOLEAN",
-    "validRegex": "^true|false$",
-    "description": "Search if mapped in",
-    "example": "true"
-  },
-  {
-    "id": "is_community_mapped",
-    "fieldName": "is_community_mapped",
-    "fieldType": "GENERAL",
-    "dataType": "BOOLEAN",
-    "validRegex": "^true|false$",
-    "description": "Search if mapped in",
-    "example": "true"
+    "dataType": "STRING",
+    "description": "Search citations with",
+    "example": "1_uniprotkb"
   },
   {
     "id": "author_group",

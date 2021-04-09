@@ -6,7 +6,6 @@ import static org.hamcrest.Matchers.notNullValue;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.IOException;
-import java.nio.ByteBuffer;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -118,10 +117,9 @@ class LiteratureJobIT {
         LiteratureDocument literatureDocument = response.get(0);
         validateLiteratureDocument(literatureDocument);
 
-        ByteBuffer byteBuffer = literatureDocument.getLiteratureObj();
+        byte[] literatureObj = literatureDocument.getLiteratureObj();
         ObjectMapper jsonMapper = LiteratureJsonConfig.getInstance().getFullObjectMapper();
-        LiteratureEntry storeEntry =
-                jsonMapper.readValue(byteBuffer.array(), LiteratureEntryImpl.class);
+        LiteratureEntry storeEntry = jsonMapper.readValue(literatureObj, LiteratureEntryImpl.class);
         assertThat(storeEntry, is(notNullValue()));
         validateLiteratureEntry(storeEntry);
         validateWithCommunityReference();
@@ -182,9 +180,6 @@ class LiteratureJobIT {
         assertThat(literatureDocument.getId(), is(notNullValue()));
         assertThat(literatureDocument.getId(), is("11203701"));
         assertThat(literatureDocument.getDoi(), is("10.1006/dbio.2000.9955"));
-        // assertThat(literatureDocument.isCitedin(), is(true)); COVID-19 CHANGE DO NOT MERGE
-        assertThat(literatureDocument.isComputationallyMapped(), is(true));
-        assertThat(literatureDocument.isCommunityMapped(), is(false));
         assertThat(literatureDocument.getLiteratureObj(), is(notNullValue()));
     }
 
@@ -195,13 +190,9 @@ class LiteratureJobIT {
         assertThat(response, is(notNullValue()));
         assertThat(response.size(), is(1));
         LiteratureDocument literatureDocument = response.get(0);
-        assertThat(literatureDocument.isComputationallyMapped(), is(true));
-        assertThat(literatureDocument.isCommunityMapped(), is(true));
-        assertThat(literatureDocument.isUniprotkbMapped(), is(false));
-        ByteBuffer byteBuffer = literatureDocument.getLiteratureObj();
+        byte[] literatureObj = literatureDocument.getLiteratureObj();
         ObjectMapper jsonMapper = LiteratureJsonConfig.getInstance().getFullObjectMapper();
-        LiteratureEntry storeEntry =
-                jsonMapper.readValue(byteBuffer.array(), LiteratureEntryImpl.class);
+        LiteratureEntry storeEntry = jsonMapper.readValue(literatureObj, LiteratureEntryImpl.class);
         assertThat(storeEntry, is(notNullValue()));
         Literature literature = (Literature) storeEntry.getCitation();
         assertThat(literature.getPubmedId(), is(28751710L));

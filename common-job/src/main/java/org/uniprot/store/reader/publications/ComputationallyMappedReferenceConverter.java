@@ -21,7 +21,7 @@ public class ComputationallyMappedReferenceConverter
                                 .name(reference.source)
                                 .id(reference.sourceId)
                                 .build())
-                .pubMedId(reference.pubMedId)
+                .citationId(reference.pubMedId)
                 .sourceCategoriesSet(reference.categories)
                 .annotation(reference.annotation)
                 .build();

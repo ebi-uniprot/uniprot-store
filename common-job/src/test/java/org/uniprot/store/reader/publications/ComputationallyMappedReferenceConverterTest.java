@@ -28,7 +28,7 @@ class ComputationallyMappedReferenceConverterTest {
         assertThat(
                 reference.getSource(),
                 is(new MappedSourceBuilder().name("ORCID").id("0000-0002-4251-0362").build()));
-        assertThat(reference.getPubMedId(), is("19597156"));
+        assertThat(reference.getCitationId(), is("19597156"));
         assertThat(reference.getSourceCategories(), contains("Function", "Pathology & Biotech"));
         assertThat(
                 reference.getAnnotation(),

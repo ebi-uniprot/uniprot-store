@@ -39,7 +39,7 @@ public class UniProtPublicationProcessor
 
     private PublicationDocument setLargeScale(PublicationDocument publicationDocument) {
         PublicationDocument.Builder builder = publicationDocument.toBuilder();
-        builder.isLargeScale(largeScalePubmedIds.contains(publicationDocument.getPubMedId()));
+        builder.isLargeScale(largeScalePubmedIds.contains(publicationDocument.getCitationId()));
         return builder.build();
     }
 

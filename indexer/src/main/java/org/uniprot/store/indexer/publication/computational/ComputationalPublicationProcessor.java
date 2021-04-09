@@ -40,10 +40,10 @@ public class ComputationalPublicationProcessor
         ComputationallyMappedReference reference = references.get(0);
         PublicationDocument.Builder builder = PublicationDocument.builder();
         toReturn.add(
-                builder.pubMedId(reference.getPubMedId())
+                builder.citationId(reference.getCitationId())
                         .accession(reference.getUniProtKBAccession().getValue())
                         .id(getDocumentId())
-                        .isLargeScale(largeScalePubmedIds.contains(reference.getPubMedId()))
+                        .isLargeScale(largeScalePubmedIds.contains(reference.getCitationId()))
                         .categories(categories)
                         .types(Collections.singleton(COMPUTATIONAL.getIntValue()))
                         .mainType(COMPUTATIONAL.getIntValue())
