@@ -7,6 +7,7 @@ import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
 import org.uniprot.core.citation.Literature;
 import org.uniprot.core.citation.impl.AuthorBuilder;
+import org.uniprot.cv.FileParseException;
 
 /**
  * @author lgonzales
@@ -129,6 +130,68 @@ class LiteratureConverterTest {
         assertFalse(literature.hasDoiId());
         assertFalse(literature.hasAuthoringGroup());
         assertFalse(literature.hasLiteratureAbstract());
+        assertTrue(literature.isCompleteAuthorList());
+    }
+
+    @Test
+    void mapLineInvalidAttributes() {
+        String entryText = "RX   PubMed=1;";
+
+        LiteratureConverter mapper = new LiteratureConverter();
+        assertThrows(FileParseException.class, () -> mapper.convert(entryText));
+    }
+
+    @Test
+    void mapLineWithDotVolumeSplitterAttributes() {
+        String entryText =
+                "RX   PubMed=1;\n"
+                        + "RX   DOI=10.1016/0006-2944(75)90147-7;\n"
+                        + "RA   Makar A.B., McMartin K.E.;\n"
+                        + "RT   \"Formate assay in body fluids: application in methanol poisoning.\";\n"
+                        + "RL   Biochem Med. 13:117-126(1975).";
+
+        LiteratureConverter mapper = new LiteratureConverter();
+        Literature literature = mapper.convert(entryText);
+        assertNotNull(literature);
+
+        assertTrue(literature.hasPubmedId());
+        assertEquals(1L, literature.getPubmedId());
+        assertEquals("1", literature.getId());
+
+        assertTrue(literature.hasDoiId());
+        assertEquals("10.1016/0006-2944(75)90147-7", literature.getDoiId());
+
+        assertFalse(literature.hasAuthoringGroup());
+
+        assertTrue(literature.hasAuthors());
+        MatcherAssert.assertThat(
+                literature.getAuthors(),
+                Matchers.contains(
+                        new AuthorBuilder("Makar A.B.").build(),
+                        new AuthorBuilder("McMartin K.E.").build()));
+
+        assertTrue(literature.hasFirstPage());
+        assertEquals("117", literature.getFirstPage());
+
+        assertTrue(literature.hasJournal());
+        assertEquals("Biochem Med.", literature.getJournal().getName());
+
+        assertTrue(literature.hasLastPage());
+        assertEquals("126", literature.getLastPage());
+
+        assertFalse(literature.hasLiteratureAbstract());
+
+        assertTrue(literature.hasPublicationDate());
+        assertEquals("1975", literature.getPublicationDate().getValue());
+
+        assertTrue(literature.hasTitle());
+        assertEquals(
+                "Formate assay in body fluids: application in methanol poisoning.",
+                literature.getTitle());
+
+        assertTrue(literature.hasVolume());
+        assertEquals("13", literature.getVolume());
+
         assertTrue(literature.isCompleteAuthorList());
     }
 }

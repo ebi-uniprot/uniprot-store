@@ -73,7 +73,7 @@ public class UniProtKBReferencesConverter implements Serializable {
     private LineTypeSection getSectionWithSameLineType(List<String> lines, int offset) {
         LineTypeSection lineTypeSection = new LineTypeSection();
 
-        LineType lineType = null;
+        LineType lineType;
         StringBuilder sb = new StringBuilder();
         int i = offset;
         for (; i < lines.size(); i++) {

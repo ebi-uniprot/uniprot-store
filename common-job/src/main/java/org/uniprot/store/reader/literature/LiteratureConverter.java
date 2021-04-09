@@ -80,13 +80,13 @@ public class LiteratureConverter {
     private Literature buildLiteratureEntry(LiteratureFileEntry fileEntry) {
         try {
             LiteratureBuilder builder = new LiteratureBuilder();
-            builder = parseRXLine(builder, fileEntry.rxLines);
-            builder = parseRALine(builder, fileEntry.raLines);
-            builder = parseRTLine(builder, fileEntry.rtLines);
-            builder = parseRGLine(builder, fileEntry.rgLines);
-            builder = parseRLLine(builder, fileEntry.rlLines);
-            builder = builder.completeAuthorList(fileEntry.completeAuthorList);
-            builder = builder.literatureAbstract(String.join(" ", fileEntry.abstractLines));
+            parseRXLine(builder, fileEntry.rxLines);
+            parseRALine(builder, fileEntry.raLines);
+            parseRTLine(builder, fileEntry.rtLines);
+            parseRGLine(builder, fileEntry.rgLines);
+            parseRLLine(builder, fileEntry.rlLines);
+            builder.completeAuthorList(fileEntry.completeAuthorList);
+            builder.literatureAbstract(String.join(" ", fileEntry.abstractLines));
             return builder.build();
         } catch (Exception e) {
             throw new FileParseException(
@@ -94,7 +94,7 @@ public class LiteratureConverter {
         }
     }
 
-    private LiteratureBuilder parseRXLine(LiteratureBuilder builder, List<String> rxLines) {
+    private void parseRXLine(LiteratureBuilder builder, List<String> rxLines) {
         String rxLine = String.join("", rxLines);
         String[] rxLineArray = rxLine.split(ID_SEPARATOR);
         String pubmedId = rxLineArray[0].substring(rxLineArray[0].indexOf('=') + 1);
@@ -103,7 +103,7 @@ public class LiteratureConverter {
                         .database(CitationDatabase.PUBMED)
                         .id(pubmedId)
                         .build();
-        builder = builder.citationCrossReferencesAdd(pubmedXref);
+        builder.citationCrossReferencesAdd(pubmedXref);
         if (rxLineArray.length > 1) {
             String doiId = rxLineArray[1].substring(rxLineArray[1].indexOf('=') + 1);
             CrossReference<CitationDatabase> doiXref =
@@ -111,12 +111,11 @@ public class LiteratureConverter {
                             .database(CitationDatabase.DOI)
                             .id(doiId)
                             .build();
-            builder = builder.citationCrossReferencesAdd(doiXref);
+            builder.citationCrossReferencesAdd(doiXref);
         }
-        return builder;
     }
 
-    private LiteratureBuilder parseRALine(LiteratureBuilder builder, List<String> raLines) {
+    private void parseRALine(LiteratureBuilder builder, List<String> raLines) {
         if (Utils.notNullNotEmpty(raLines)) {
             String raLine = String.join("", raLines);
             raLine = raLine.substring(0, raLine.length() - 1);
@@ -126,65 +125,61 @@ public class LiteratureConverter {
                             .map(String::trim)
                             .map(aut -> new AuthorBuilder(aut).build())
                             .collect(Collectors.toList());
-            builder = builder.authorsSet(authors);
+            builder.authorsSet(authors);
         }
-        return builder;
     }
 
-    private LiteratureBuilder parseRTLine(LiteratureBuilder builder, List<String> rtLines) {
+    private void parseRTLine(LiteratureBuilder builder, List<String> rtLines) {
         if (Utils.notNullNotEmpty(rtLines)) {
             String rtLine = String.join(" ", rtLines);
-            builder = builder.title(rtLine.substring(1, rtLine.length() - 2));
+            builder.title(rtLine.substring(1, rtLine.length() - 2));
         }
-        return builder;
     }
 
-    private LiteratureBuilder parseRGLine(LiteratureBuilder builder, List<String> rgLines) {
+    private void parseRGLine(LiteratureBuilder builder, List<String> rgLines) {
         List<String> authoringGroup =
                 rgLines.stream()
                         .map(ag -> ag.substring(0, ag.length() - 1))
                         .collect(Collectors.toList());
-        builder = builder.authoringGroupsSet(authoringGroup);
-        return builder;
+        builder.authoringGroupsSet(authoringGroup);
     }
 
     //// RL   Journal_abbrev Volume:First_page-Last_page(YYYY).
-    private LiteratureBuilder parseRLLine(LiteratureBuilder builder, List<String> rlLines) {
+    private void parseRLLine(LiteratureBuilder builder, List<String> rlLines) {
         String rlLine = String.join(" ", rlLines);
         String rlLineJournalAndVolume = rlLine.substring(0, rlLine.indexOf(':'));
 
         if (rlLineJournalAndVolume.lastIndexOf('.') > 0
                 && rlLineJournalAndVolume.lastIndexOf('.') < rlLineJournalAndVolume.length()) {
             String journal = rlLine.substring(0, rlLineJournalAndVolume.lastIndexOf('.') + 1);
-            builder = builder.journalName(journal.trim());
+            builder.journalName(journal.trim());
 
             String volume =
                     rlLineJournalAndVolume.substring(rlLineJournalAndVolume.lastIndexOf('.') + 1);
-            builder = builder.volume(volume.trim());
+            builder.volume(volume.trim());
         } else {
             String journal = rlLine.substring(0, rlLineJournalAndVolume.lastIndexOf(' '));
-            builder = builder.journalName(journal);
+            builder.journalName(journal);
 
             String volume =
                     rlLineJournalAndVolume.substring(rlLineJournalAndVolume.lastIndexOf(' ') + 1);
-            builder = builder.volume(volume);
+            builder.volume(volume);
         }
 
         String rlLinePagesAndYear = rlLine.substring(rlLine.indexOf(':') + 1);
         String[] pages =
                 rlLinePagesAndYear.substring(0, rlLinePagesAndYear.indexOf('(')).split("-");
-        builder = builder.firstPage(pages[0]);
+        builder.firstPage(pages[0]);
         if (pages.length > 1) {
-            builder = builder.lastPage(pages[1]);
+            builder.lastPage(pages[1]);
         } else {
-            builder = builder.lastPage(pages[0]);
+            builder.lastPage(pages[0]);
         }
 
         String publicationYear =
                 rlLinePagesAndYear.substring(
                         rlLinePagesAndYear.indexOf('(') + 1, rlLinePagesAndYear.indexOf(')'));
-        builder = builder.publicationDate(new PublicationDateBuilder(publicationYear).build());
-        return builder;
+        builder.publicationDate(new PublicationDateBuilder(publicationYear).build());
     }
 
     private static class LiteratureFileEntry {

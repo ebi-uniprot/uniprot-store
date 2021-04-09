@@ -37,7 +37,7 @@ public class LiteratureDocumentsToHDFSWriter implements DocumentsToHDFSWriter {
         LiteratureRDDTupleReader literatureReader = new LiteratureRDDTupleReader(parameter);
 
         // load literature with abstract JavaPairRDD<citationId, Literature>
-        JavaPairRDD<String, Literature> literature = literatureReader.load();
+        JavaPairRDD<String, Literature> literatureRDD = literatureReader.load();
 
         MappedReferenceRDDReader mappedRefReader =
                 new MappedReferenceRDDReader(parameter, KeyType.CITATION_ID);
@@ -57,7 +57,7 @@ public class LiteratureDocumentsToHDFSWriter implements DocumentsToHDFSWriter {
 
         JavaRDD<LiteratureDocument> literatureDocsRDD =
                 loadUniProtKBLiteratureEntryRDD()
-                        .fullOuterJoin(literature)
+                        .fullOuterJoin(literatureRDD)
                         .mapValues(new LiteratureUniProtKBJoin())
                         .leftOuterJoin(communityStatsRDD)
                         .mapValues(new LiteratureEntryStatisticsJoin(StatisticsType.COMMUNITY))
