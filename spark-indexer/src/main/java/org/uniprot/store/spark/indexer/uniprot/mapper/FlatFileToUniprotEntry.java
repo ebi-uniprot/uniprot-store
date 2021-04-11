@@ -46,7 +46,7 @@ public class FlatFileToUniprotEntry
             EntryObject parsed = entryParser.parse(entryString);
             UniProtKBEntry uniProtkbEntry = entryObjectConverter.convert(parsed);
             return new Tuple2<>(uniProtkbEntry.getPrimaryAccession().getValue(), uniProtkbEntry);
-        } catch (Exception e){
+        } catch (Throwable e){
             throw new FileParseException("Unable to parse entry: \n"+entryString, e);
         }
     }
