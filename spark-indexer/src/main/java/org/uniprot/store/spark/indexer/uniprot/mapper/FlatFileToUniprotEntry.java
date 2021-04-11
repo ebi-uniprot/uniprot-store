@@ -10,6 +10,7 @@ import org.uniprot.core.flatfile.parser.impl.entry.EntryObject;
 import org.uniprot.core.flatfile.parser.impl.entry.EntryObjectConverter;
 import org.uniprot.core.uniprotkb.UniProtKBEntry;
 
+import org.uniprot.cv.FileParseException;
 import scala.Serializable;
 import scala.Tuple2;
 
@@ -37,13 +38,16 @@ public class FlatFileToUniprotEntry
      */
     @Override
     public Tuple2<String, UniProtKBEntry> call(String entryString) throws Exception {
-        UniprotKBLineParser<EntryObject> entryParser =
-                new DefaultUniprotKBLineParserFactory().createEntryParser();
-        EntryObjectConverter entryObjectConverter =
-                new EntryObjectConverter(supportingDataMap, false);
-
-        EntryObject parsed = entryParser.parse(entryString);
-        UniProtKBEntry uniProtkbEntry = entryObjectConverter.convert(parsed);
-        return new Tuple2<>(uniProtkbEntry.getPrimaryAccession().getValue(), uniProtkbEntry);
+        try {
+            UniprotKBLineParser<EntryObject> entryParser =
+                    new DefaultUniprotKBLineParserFactory().createEntryParser();
+            EntryObjectConverter entryObjectConverter =
+                    new EntryObjectConverter(supportingDataMap, false);
+            EntryObject parsed = entryParser.parse(entryString);
+            UniProtKBEntry uniProtkbEntry = entryObjectConverter.convert(parsed);
+            return new Tuple2<>(uniProtkbEntry.getPrimaryAccession().getValue(), uniProtkbEntry);
+        } catch (Exception e){
+            throw new FileParseException("Unable to parse entry: \n"+entryString, e);
+        }
     }
 }
