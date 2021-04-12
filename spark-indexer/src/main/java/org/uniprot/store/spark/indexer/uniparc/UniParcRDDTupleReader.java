@@ -35,12 +35,12 @@ public class UniParcRDDTupleReader implements RDDReader<UniParcEntry> {
         Dataset<Row> uniParcEntryDataset = loadRawXml();
         if (shouldRepartition && repartition > 0) {
             log.info("Adding repartition: {}", repartition);
-            uniParcEntryDataset = uniParcEntryDataset.repartition(repartition);
         }
         log.info("We are about to start loading UniParc Data");
         Encoder<UniParcEntry> entryEncoder =
                 (Encoder<UniParcEntry>) Encoders.kryo(UniParcEntry.class);
         return uniParcEntryDataset
+                .repartition(repartition)
                 .map(new DatasetUniParcEntryConverter(), entryEncoder)
                 .toJavaRDD();
     }
