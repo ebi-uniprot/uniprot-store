@@ -40,7 +40,6 @@ public class UniParcRDDTupleReader implements RDDReader<UniParcEntry> {
         Encoder<UniParcEntry> entryEncoder =
                 (Encoder<UniParcEntry>) Encoders.kryo(UniParcEntry.class);
         return uniParcEntryDataset
-                .repartition(repartition)
                 .map(new DatasetUniParcEntryConverter(), entryEncoder)
                 .toJavaRDD();
     }
