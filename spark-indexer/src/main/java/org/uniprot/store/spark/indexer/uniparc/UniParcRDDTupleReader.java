@@ -4,6 +4,7 @@ import static org.uniprot.store.spark.indexer.common.util.SparkUtils.getInputRel
 
 import java.util.ResourceBundle;
 
+import lombok.extern.slf4j.Slf4j;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.sql.*;
 import org.uniprot.core.uniparc.UniParcEntry;
@@ -17,6 +18,7 @@ import org.uniprot.store.spark.indexer.uniparc.converter.DatasetUniParcEntryConv
  * @author lgonzales
  * @since 2020-02-13
  */
+@Slf4j
 public class UniParcRDDTupleReader implements RDDReader<UniParcEntry> {
 
     private final JobParameter jobParameter;
@@ -32,9 +34,10 @@ public class UniParcRDDTupleReader implements RDDReader<UniParcEntry> {
         int repartition = Integer.parseInt(config.getString("uniparc.repartition"));
         Dataset<Row> uniParcEntryDataset = loadRawXml();
         if (shouldRepartition && repartition > 0) {
+            log.info("Adding repartition: {}", repartition);
             uniParcEntryDataset = uniParcEntryDataset.repartition(repartition);
         }
-
+        log.info("We are about to start loading UniParc Data");
         Encoder<UniParcEntry> entryEncoder =
                 (Encoder<UniParcEntry>) Encoders.kryo(UniParcEntry.class);
         return uniParcEntryDataset
