@@ -1,13 +1,16 @@
 [
   {
+    "seqNumber": 4,
     "id": "id",
+    "label": "Citation Id",
     "fieldName": "id",
     "fieldType": "GENERAL",
     "dataType": "STRING",
+    "itemType": "SINGLE",
     "validRegex": "^[0-9]+$|CI-\\w{13}$|IND[0-9]+$",
     "sortFieldId": "id_sort_id",
     "description": "Search by literature identifier",
-    "example": "12345",
+    "example": "15772651",
     "includeInSwagger": true
   },
   {
@@ -19,10 +22,13 @@
     "example": "id desc"
   },
   {
+    "seqNumber": 0,
     "id": "title",
+    "label": "Title",
     "fieldName": "title",
     "fieldType": "GENERAL",
     "dataType": "STRING",
+    "itemType": "SINGLE",
     "sortFieldId": "title_sort_id",
     "description": "Search by title",
     "example": "sample title",
@@ -37,37 +43,49 @@
     "example": "title asc"
   },
   {
+    "seqNumber": 5,
     "id": "doi",
+    "label": "DOI",
     "fieldName": "doi",
     "fieldType": "GENERAL",
     "dataType": "STRING",
+    "itemType": "SINGLE",
     "description": "Search by data object identifier",
     "example": "10.1007/s11882-009-0055-9",
     "includeInSwagger": true
   },
   {
+    "seqNumber": 1,
     "id": "author",
+    "label": "Author",
     "fieldName": "author",
     "fieldType": "GENERAL",
     "dataType": "STRING",
+    "itemType": "SINGLE",
     "description": "Search by author name",
     "example": "sample author name",
     "includeInSwagger": true
   },
   {
+    "seqNumber": 2,
     "id": "journal",
+    "label": "Journal",
     "fieldName": "journal",
     "fieldType": "GENERAL",
     "dataType": "STRING",
+    "itemType": "SINGLE",
     "description": "Search by journal",
     "example": "sample journal",
     "includeInSwagger": true
   },
   {
+    "seqNumber": 3,
     "id": "published",
+    "label": "Year published",
     "fieldName": "published",
     "fieldType": "GENERAL",
     "dataType": "STRING",
+    "itemType": "SINGLE",
     "description": "Search by published",
     "example": "sample",
     "includeInSwagger": true

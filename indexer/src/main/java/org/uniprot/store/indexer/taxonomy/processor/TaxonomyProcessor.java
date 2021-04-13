@@ -99,18 +99,19 @@ public class TaxonomyProcessor implements ItemProcessor<TaxonomyEntry, TaxonomyD
             List<String> taxonomiesWith = new ArrayList<>();
             TaxonomyStatistics statistics = entry.getStatistics();
             if (statistics.hasReviewedProteinCount()) {
-                taxonomiesWith.add("uniprotkb");
-                taxonomiesWith.add("reviewed");
+                taxonomiesWith.add("1_uniprotkb");
+                taxonomiesWith.add("2_reviewed");
             }
             if (statistics.hasUnreviewedProteinCount() && !statistics.hasReviewedProteinCount()) {
-                taxonomiesWith.add("uniprotkb");
+                taxonomiesWith.add("1_uniprotkb");
+                taxonomiesWith.add("3_unreviewed");
             }
             if (statistics.hasReferenceProteomeCount()) {
-                taxonomiesWith.add("reference");
-                taxonomiesWith.add("proteome");
+                taxonomiesWith.add("4_proteome");
+                taxonomiesWith.add("5_reference");
             }
             if (statistics.hasProteomeCount() && !statistics.hasReferenceProteomeCount()) {
-                taxonomiesWith.add("proteome");
+                taxonomiesWith.add("4_proteome");
             }
             documentBuilder.taxonomiesWith(taxonomiesWith);
         }
