@@ -95,17 +95,11 @@ public class LiteratureConverter {
     }
 
     private String parseAbstractLines(LiteratureFileEntry fileEntry) {
-        return String.join(" ", fileEntry.abstractLines)
-                .replace("\r", "")
-                .replace("\n", "")
-                .trim();
+        return String.join(" ", fileEntry.abstractLines).replace("\r", "").replace("\n", "").trim();
     }
 
     private void parseRXLine(LiteratureBuilder builder, List<String> rxLines) {
-        String rxLine = String.join("", rxLines)
-                .replace("\r", "")
-                .replace("\n", "")
-                .trim();
+        String rxLine = String.join("", rxLines).replace("\r", "").replace("\n", "").trim();
         String[] rxLineArray = rxLine.split(ID_SEPARATOR);
         String pubmedId = rxLineArray[0].substring(rxLineArray[0].indexOf('=') + 1);
         CrossReference<CitationDatabase> pubmedXref =
@@ -142,10 +136,7 @@ public class LiteratureConverter {
 
     private void parseRTLine(LiteratureBuilder builder, List<String> rtLines) {
         if (Utils.notNullNotEmpty(rtLines)) {
-            String rtLine = String.join(" ", rtLines)
-                    .replace("\r", "")
-                    .replace("\n", "")
-                    .trim();
+            String rtLine = String.join(" ", rtLines).replace("\r", "").replace("\n", "").trim();
             builder.title(rtLine.substring(1, rtLine.length() - 2));
         }
     }
@@ -154,6 +145,8 @@ public class LiteratureConverter {
         List<String> authoringGroup =
                 rgLines.stream()
                         .map(ag -> ag.substring(0, ag.length() - 1))
+                        .map(String::trim)
+                        .map(authGroup -> authGroup.replace(";", ""))
                         .collect(Collectors.toList());
         builder.authoringGroupsSet(authoringGroup);
     }
