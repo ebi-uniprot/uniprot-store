@@ -86,12 +86,19 @@ public class LiteratureConverter {
             parseRGLine(builder, fileEntry.rgLines);
             parseRLLine(builder, fileEntry.rlLines);
             builder.completeAuthorList(fileEntry.completeAuthorList);
-            builder.literatureAbstract(String.join(" ", fileEntry.abstractLines));
+            builder.literatureAbstract(parseAbstractLines(fileEntry));
             return builder.build();
         } catch (Exception e) {
             throw new FileParseException(
                     "Error Converter LiteratureFileEntry:" + fileEntry.toString());
         }
+    }
+
+    private String parseAbstractLines(LiteratureFileEntry fileEntry) {
+        return String.join(" ", fileEntry.abstractLines)
+                .replace("\r", "")
+                .replace("\n", "")
+                .trim();
     }
 
     private void parseRXLine(LiteratureBuilder builder, List<String> rxLines) {
@@ -123,6 +130,7 @@ public class LiteratureConverter {
                     Arrays.stream(raLine.split(LINE_ITEM_SEPARATOR))
                             .filter(author -> !author.isEmpty())
                             .map(String::trim)
+                            .map(auth -> auth.replace(";", ""))
                             .map(aut -> new AuthorBuilder(aut).build())
                             .collect(Collectors.toList());
             builder.authorsSet(authors);
@@ -131,7 +139,10 @@ public class LiteratureConverter {
 
     private void parseRTLine(LiteratureBuilder builder, List<String> rtLines) {
         if (Utils.notNullNotEmpty(rtLines)) {
-            String rtLine = String.join(" ", rtLines);
+            String rtLine = String.join(" ", rtLines)
+                    .replace("\r", "")
+                    .replace("\n", "")
+                    .trim();
             builder.title(rtLine.substring(1, rtLine.length() - 2));
         }
     }
