@@ -102,7 +102,10 @@ public class LiteratureConverter {
     }
 
     private void parseRXLine(LiteratureBuilder builder, List<String> rxLines) {
-        String rxLine = String.join("", rxLines);
+        String rxLine = String.join("", rxLines)
+                .replace("\r", "")
+                .replace("\n", "")
+                .trim();
         String[] rxLineArray = rxLine.split(ID_SEPARATOR);
         String pubmedId = rxLineArray[0].substring(rxLineArray[0].indexOf('=') + 1);
         CrossReference<CitationDatabase> pubmedXref =
