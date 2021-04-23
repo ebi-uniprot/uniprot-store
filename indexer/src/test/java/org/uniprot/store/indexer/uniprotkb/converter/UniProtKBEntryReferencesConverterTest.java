@@ -48,6 +48,7 @@ class UniProtKBEntryReferencesConverterTest {
         assertEquals(
                 Arrays.asList("one auth group", "two auth group"), document.referenceOrganizations);
         assertEquals(Arrays.asList("oneid", "twoid"), document.referencePubmeds);
+        assertEquals(Arrays.asList("oneid", "twoid"), document.referenceCitationIds);
         assertEquals(
                 new HashSet<>(Arrays.asList("one reference comment", "two reference comment")),
                 document.rcPlasmid);

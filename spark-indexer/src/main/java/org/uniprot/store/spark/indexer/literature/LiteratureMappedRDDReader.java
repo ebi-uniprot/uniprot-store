@@ -10,6 +10,8 @@ import org.apache.spark.sql.SparkSession;
 import org.uniprot.core.literature.LiteratureMappedReference;
 import org.uniprot.store.spark.indexer.common.JobParameter;
 import org.uniprot.store.spark.indexer.common.reader.PairRDDReader;
+import org.uniprot.store.spark.indexer.literature.mapper.LiteratureMappedFileMapper;
+import org.uniprot.store.spark.indexer.literature.mapper.LiteraturePubmedFileMapper;
 
 import scala.Tuple2;
 

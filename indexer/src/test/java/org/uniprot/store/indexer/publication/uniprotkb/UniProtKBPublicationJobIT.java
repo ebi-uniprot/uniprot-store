@@ -8,7 +8,6 @@ import static org.uniprot.store.indexer.publication.PublicationITUtil.extractObj
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 import org.apache.solr.client.solrj.SolrQuery;
@@ -106,11 +105,6 @@ class UniProtKBPublicationJobIT {
             assertThat(mappedRef, is(notNullValue()));
             assertThat(mappedRef.getUniProtKBAccession(), is(notNullValue()));
             assertThat(mappedRef.getUniProtKBAccession().getValue(), is(notNullValue()));
-            if (Objects.isNull(mappedRef.getPubMedId())) {
-                assertThat(mappedRef.getCitation(), is(notNullValue()));
-            } else {
-                assertThat(mappedRef.getCitation(), is(nullValue()));
-            }
             assertThat(mappedRef.getSource(), is(notNullValue()));
             assertThat(mappedRef.getSource().getName(), is(notNullValue()));
             assertThat(mappedRef.getSource().getId(), is(nullValue()));
@@ -125,16 +119,40 @@ class UniProtKBPublicationJobIT {
                 solrClient.query(
                         SolrCollection.publication, accessionQuery, PublicationDocument.class);
         assertThat(accDocs, hasSize(2));
-        assertThat(accDocs.get(0).getPubMedId(), is(notNullValue()));
+        assertThat(accDocs.get(0).getCitationId(), is(notNullValue()));
         PublicationDocument accDoc = accDocs.get(0);
-        assertThat(accDoc.getPubMedId(), is("29748402"));
+        assertThat(accDoc.getCitationId(), is("29748402"));
         assertThat(accDoc.isLargeScale(), is(true));
         MappedPublications mappedPubs = extractObject(accDoc);
-        assertThat(mappedPubs.getUniProtKBMappedReference().getCitation(), is(nullValue()));
+        assertThat(mappedPubs.getCommunityMappedReferences(), is(emptyIterable()));
+        assertThat(mappedPubs.getComputationallyMappedReferences(), is(emptyIterable()));
+        assertThat(mappedPubs.getUniProtKBMappedReference(), is(notNullValue()));
+        UniProtKBMappedReference reference = mappedPubs.getUniProtKBMappedReference();
+        assertThat(reference.getCitationId(), is("29748402"));
+        assertThat(reference.getUniProtKBAccession(), is(notNullValue()));
+        assertThat(reference.getUniProtKBAccession().getValue(), is("A0A2Z5SLI5"));
+        assertThat(reference.getReferenceComments(), is(not(emptyIterable())));
+        assertThat(reference.getReferenceComments().get(0).getValue(), is("YM18"));
+        assertThat(reference.getReferencePositions(), is(not(emptyIterable())));
+        assertThat(
+                reference.getReferencePositions().get(0),
+                is("NUCLEOTIDE SEQUENCE [LARGE SCALE GENOMIC DNA]"));
+
         // without pubmedid
         accDoc = accDocs.get(1);
-        assertThat(accDoc.getPubMedId(), is(nullValue()));
+        assertThat(accDoc.getCitationId(), is("CI-1B6S67MVMT3EM"));
+        assertThat(accDoc.isLargeScale(), is(false));
         mappedPubs = extractObject(accDocs.get(1));
-        assertThat(mappedPubs.getUniProtKBMappedReference().getCitation(), is(notNullValue()));
+        assertThat(mappedPubs.getCommunityMappedReferences(), is(emptyIterable()));
+        assertThat(mappedPubs.getComputationallyMappedReferences(), is(emptyIterable()));
+        assertThat(mappedPubs.getUniProtKBMappedReference(), is(notNullValue()));
+        reference = mappedPubs.getUniProtKBMappedReference();
+        assertThat(reference.getCitationId(), is("CI-1B6S67MVMT3EM"));
+        assertThat(reference.getUniProtKBAccession(), is(notNullValue()));
+        assertThat(reference.getUniProtKBAccession().getValue(), is("A0A2Z5SLI5"));
+        assertThat(reference.getReferenceComments(), is(not(emptyIterable())));
+        assertThat(reference.getReferenceComments().get(0).getValue(), is("Cervix carcinoma"));
+        assertThat(reference.getReferencePositions(), is(not(emptyIterable())));
+        assertThat(reference.getReferencePositions().get(0), is("NUCLEOTIDE SEQUENCE [MRNA]"));
     }
 }

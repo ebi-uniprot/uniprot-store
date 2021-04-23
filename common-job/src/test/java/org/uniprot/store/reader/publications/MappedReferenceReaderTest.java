@@ -26,8 +26,8 @@ class MappedReferenceReaderTest {
         while ((refs = reader.readNext()) != null) {
             if (refs.size() > 1) {
                 assertThat(refs.size(), is(2));
-                assertThat(refs.get(0).getPubMedId(), is("11203701"));
-                assertThat(refs.get(1).getPubMedId(), is("11203701"));
+                assertThat(refs.get(0).getCitationId(), is("11203701"));
+                assertThat(refs.get(1).getCitationId(), is("11203701"));
                 assertThat(refs.get(0).getUniProtKBAccession().getValue(), is("P21802"));
                 assertThat(refs.get(1).getUniProtKBAccession().getValue(), is("P21802"));
             } else {

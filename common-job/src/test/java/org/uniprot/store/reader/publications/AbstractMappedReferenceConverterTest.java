@@ -38,7 +38,7 @@ class AbstractMappedReferenceConverterTest {
 
     private void validateAccessionPubmedOrchidInfo(FakeMappedReference mappedReference) {
         assertThat(mappedReference.uniProtKBAccession.getValue(), is("Q1MDE9"));
-        assertThat(mappedReference.pubMedId, is("19597156"));
+        assertThat(mappedReference.citationId, is("19597156"));
         assertThat(
                 mappedReference.getSource(),
                 is(new MappedSourceBuilder().name("ORCID").id("0000-0002-4251-0362").build()));
@@ -213,7 +213,7 @@ class AbstractMappedReferenceConverterTest {
             mappedReference.uniProtKBAccession =
                     new UniProtKBAccessionBuilder(reference.accession).build();
             mappedReference.sourceCategories = reference.categories;
-            mappedReference.pubMedId = reference.pubMedId;
+            mappedReference.citationId = reference.pubMedId;
             mappedReference.source =
                     new MappedSourceBuilder().name(reference.source).id(reference.sourceId).build();
             mappedReference.annotation = reference.annotation;
@@ -227,6 +227,6 @@ class AbstractMappedReferenceConverterTest {
         Set<String> sourceCategories;
         UniProtKBAccession uniProtKBAccession;
         MappedSource source;
-        String pubMedId;
+        String citationId;
     }
 }

@@ -113,7 +113,7 @@ class TaxonomyJobIT {
         TaxonomyEntry entry = jsonMapper.readValue(byteBuffer.array(), TaxonomyEntryImpl.class);
         validateTaxonomyEntry(entry);
 
-        solrQuery = new SolrQuery("taxonomies_with:uniprotkb");
+        solrQuery = new SolrQuery("taxonomies_with:1_uniprotkb");
         response = solrClient.query(SolrCollection.taxonomy, solrQuery, TaxonomyDocument.class);
         assertThat(response, is(notNullValue()));
         assertThat(response.size(), is(2));

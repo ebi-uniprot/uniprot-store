@@ -39,7 +39,7 @@ class CommunityPublicationProcessorTest {
     private static final CommunityMappedReference REFERENCE =
             new CommunityMappedReferenceBuilder()
                     .uniProtKBAccession(ACCESSION)
-                    .pubMedId(PUBMED_ID)
+                    .citationId(PUBMED_ID)
                     .source(new MappedSourceBuilder().id(SOURCE_ID).name("sourceName").build())
                     .sourceCategoriesAdd(SOURCE_CATEGORY)
                     .communityAnnotation(ANNOTATION)
@@ -75,7 +75,7 @@ class CommunityPublicationProcessorTest {
         CommunityMappedReference reference = references.get(0);
 
         assertThat(reference.getUniProtKBAccession().getValue(), is(ACCESSION));
-        assertThat(reference.getPubMedId(), is(PUBMED_ID));
+        assertThat(reference.getCitationId(), is(PUBMED_ID));
         assertThat(reference.getSourceCategories(), contains(SOURCE_CATEGORY));
         assertThat(reference.getCommunityAnnotation().getFunction(), is(FUNCTION));
         assertThat(reference.getCommunityAnnotation().getDisease(), is(DISEASE));

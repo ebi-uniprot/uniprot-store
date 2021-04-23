@@ -1,7 +1,7 @@
 package org.uniprot.store.indexer.publication;
 
 import java.io.IOException;
-import java.nio.ByteBuffer;
+import java.util.List;
 
 import org.uniprot.core.CrossReference;
 import org.uniprot.core.citation.Citation;
@@ -61,12 +61,13 @@ public class PublicationITUtil {
                         .writer()
                         .writeValueAsBytes(entry);
 
+        List<String> citationsWith =
+                List.of("1_uniprotkb", "2_reviewed", "4_computationally", "5_community");
+
         return LiteratureDocument.builder()
                 .id(String.valueOf(pubmedId))
-                .isCommunityMapped(true)
-                .isComputationallyMapped(true)
-                .isUniprotkbMapped(true)
-                .literatureObj(ByteBuffer.wrap(litBytes))
+                .citationsWith(citationsWith)
+                .literatureObj(litBytes)
                 .build();
     }
 
@@ -105,12 +106,13 @@ public class PublicationITUtil {
                         .writer()
                         .writeValueAsBytes(entry);
 
+        List<String> citationsWith =
+                List.of("1_uniprotkb", "3_unreviewed", "4_computationally", "5_community");
+
         return LiteratureDocument.builder()
                 .id(String.valueOf(pubmedId))
-                .isCommunityMapped(true)
-                .isComputationallyMapped(true)
-                .isUniprotkbMapped(true)
-                .literatureObj(ByteBuffer.wrap(litBytes))
+                .citationsWith(citationsWith)
+                .literatureObj(litBytes)
                 .build();
     }
 }

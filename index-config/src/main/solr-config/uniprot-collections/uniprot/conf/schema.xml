@@ -173,6 +173,8 @@
 	<field name="lit_pubdate" type="rdates" indexed="true"
 		stored="false" required="false" multiValued="true" />
 
+	<field name="lit_citation_id" type="string" indexed="true"
+		stored="false" required="false" multiValued="true" />
 	<field name="lit_pubmed" type="string" indexed="true"
 		stored="false" required="false" multiValued="true" />
 	<field name="lit_journal" type="basic_ci" indexed="true"

@@ -11,7 +11,7 @@
 		required="true" multiValued="false" docValues="true" />
 	<field name="accession" type="string" indexed="true"
 		stored="true" required="true" multiValued="false" docValues="true" />
-	<field name="pubmed_id" type="string" indexed="true"
+	<field name="citation_id" type="string" indexed="true"
 		stored="true" required="false" multiValued="false" />
 	<field name="computational_mapped_protein_count" type="plong"
 		indexed="false" stored="true" />

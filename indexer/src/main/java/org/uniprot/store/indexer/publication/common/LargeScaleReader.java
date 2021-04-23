@@ -27,11 +27,11 @@ import org.uniprot.store.search.document.literature.LiteratureDocument;
 public class LargeScaleReader implements ItemReader<Set<String>> {
 
     private final UniProtSolrClient uniProtSolrClient;
-    private final LargeScaleSolrFieldName queryField;
+    private final LargeScaleSolrFieldQuery queryField;
     private boolean hasFinishedRead = false;
 
     public LargeScaleReader(
-            UniProtSolrClient uniProtSolrClient, LargeScaleSolrFieldName queryField) {
+            UniProtSolrClient uniProtSolrClient, LargeScaleSolrFieldQuery queryField) {
         this.uniProtSolrClient = uniProtSolrClient;
         this.queryField = queryField;
     }
@@ -39,7 +39,7 @@ public class LargeScaleReader implements ItemReader<Set<String>> {
     @Override
     public Set<String> read() {
         Set<String> result = new HashSet<>();
-        SolrQuery solrQuery = new SolrQuery(queryField.getSolrFieldName() + ":true");
+        SolrQuery solrQuery = new SolrQuery(queryField.getSolrFieldNameQuery());
         solrQuery.setRows(200);
         solrQuery.setSort("id", SolrQuery.ORDER.desc);
         String cursorMark = CursorMarkParams.CURSOR_MARK_START;
@@ -84,8 +84,7 @@ public class LargeScaleReader implements ItemReader<Set<String>> {
                     LiteratureJsonConfig.getInstance()
                             .getFullObjectMapper()
                             .readValue(
-                                    literatureDocument.getLiteratureObj().array(),
-                                    LiteratureEntry.class);
+                                    literatureDocument.getLiteratureObj(), LiteratureEntry.class);
         } catch (Exception e) {
             throw new DocumentConversionException(
                     "Unable to parse LiteratureEntry to binary json: ", e);

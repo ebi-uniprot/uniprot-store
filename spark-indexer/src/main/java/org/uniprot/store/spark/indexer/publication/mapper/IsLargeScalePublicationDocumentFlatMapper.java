@@ -26,17 +26,15 @@ import scala.Tuple2;
  */
 public class IsLargeScalePublicationDocumentFlatMapper
         implements FlatMapFunction<
-                Tuple2<Integer, Iterable<PublicationDocument.Builder>>,
+                Tuple2<String, Iterable<PublicationDocument.Builder>>,
                 PublicationDocument.Builder> {
     private static final long serialVersionUID = 8799695653013196890L;
 
     @Override
     public Iterator<PublicationDocument.Builder> call(
-            Tuple2<Integer, Iterable<PublicationDocument.Builder>> tuple) throws Exception {
-        if (tuple._1 >= 0) {
-            boolean isLargeScale = isLargeScale(tuple._2);
-            tuple._2.forEach(builder -> builder.isLargeScale(isLargeScale));
-        }
+            Tuple2<String, Iterable<PublicationDocument.Builder>> tuple) throws Exception {
+        boolean isLargeScale = isLargeScale(tuple._2);
+        tuple._2.forEach(builder -> builder.isLargeScale(isLargeScale));
 
         return tuple._2.iterator();
     }

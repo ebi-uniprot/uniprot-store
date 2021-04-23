@@ -43,7 +43,7 @@ public class CommunityMappedReferenceConverter
                                 .name(reference.source)
                                 .id(reference.sourceId)
                                 .build())
-                .pubMedId(reference.pubMedId)
+                .citationId(reference.pubMedId)
                 .sourceCategoriesSet(reference.categories)
                 .communityAnnotation(convertAnnotation(reference.annotation))
                 .build();

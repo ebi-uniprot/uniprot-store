@@ -15,9 +15,9 @@
     "isDefaultForTsv": true,
     "defaultForTsvOrder" : 0,
     "sortField" : "id",
-    "label": "PubMed ID",
+    "label": "Citation Id",
     "name": "id",
-    "paths" : ["citation.citationCrossReferences[?(@.database=='PubMed')]"],
+    "paths" : ["citation.id"],
     "id": "literature/id"
   },
   {
@@ -48,6 +48,16 @@
     "childNumber": 3,
     "itemType": "SINGLE",
     "includeInSwagger": true,
+    "label": "Authors",
+    "name": "authors",
+    "paths" : ["citation.authors"],
+    "id": "literature/authors"
+  },
+  {
+    "parentId": "literature",
+    "childNumber": 4,
+    "itemType": "SINGLE",
+    "includeInSwagger": true,
     "label": "Authoring Group",
     "name": "authoring_group",
     "paths" : ["citation.authoringGroup"],
@@ -55,7 +65,7 @@
   },
   {
     "parentId": "literature",
-    "childNumber": 4,
+    "childNumber": 5,
     "itemType": "SINGLE",
     "includeInSwagger": true,
     "label": "Journal",
@@ -65,17 +75,17 @@
   },
   {
     "parentId": "literature",
-    "childNumber": 5,
+    "childNumber": 6,
     "itemType": "SINGLE",
     "includeInSwagger": true,
     "label": "Publication date",
-    "name": "publication",
+    "name": "publication_date",
     "paths" : ["citation.publicationDate"],
     "id": "literature/publication"
   },
   {
     "parentId": "literature",
-    "childNumber": 6,
+    "childNumber": 7,
     "itemType": "SINGLE",
     "includeInSwagger": true,
     "label": "First page",
@@ -85,7 +95,7 @@
   },
   {
     "parentId": "literature",
-    "childNumber": 7,
+    "childNumber": 8,
     "itemType": "SINGLE",
     "includeInSwagger": true,
     "label": "Last page",
@@ -95,7 +105,7 @@
   },
   {
     "parentId": "literature",
-    "childNumber": 8,
+    "childNumber": 9,
     "itemType": "SINGLE",
     "includeInSwagger": true,
     "label": "Volume",
@@ -105,7 +115,7 @@
   },
   {
     "parentId": "literature",
-    "childNumber": 9,
+    "childNumber": 10,
     "itemType": "SINGLE",
     "includeInSwagger": true,
     "isDefaultForTsv": true,
@@ -117,7 +127,7 @@
   },
   {
     "parentId": "literature",
-    "childNumber": 10,
+    "childNumber": 11,
     "itemType": "SINGLE",
     "includeInSwagger": true,
     "isDefaultForTsv": true,
@@ -129,7 +139,7 @@
   },
   {
     "parentId": "literature",
-    "childNumber": 11,
+    "childNumber": 12,
     "itemType": "SINGLE",
     "includeInSwagger": true,
     "label": "Statistics",
