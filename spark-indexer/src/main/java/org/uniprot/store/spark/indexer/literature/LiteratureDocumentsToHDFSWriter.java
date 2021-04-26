@@ -40,12 +40,14 @@ public class LiteratureDocumentsToHDFSWriter implements DocumentsToHDFSWriter {
         JavaPairRDD<String, Literature> literatureRDD = literatureReader.load();
 
         MappedReferenceRDDReader mappedRefReader =
-                new MappedReferenceRDDReader(parameter, KeyType.CITATION_ID);
+                new MappedReferenceRDDReader(parameter, KeyType.ACCESSION_AND_CITATION_ID);
         // load computational Stats JavaPairRDD<citationId, count>
         JavaPairRDD<String, Long> computationalStatsRDD =
                 mappedRefReader
                         .loadComputationalMappedReference()
                         .mapValues(ref -> 1L)
+                        .reduceByKey((value1, value2) -> value1) // remove duplicated keys
+                        .mapToPair(new LiteratureMappedRefStatsMapper())
                         .reduceByKey(Long::sum);
 
         // load community  Stats JavaPairRDD<citationId, count>
@@ -53,6 +55,8 @@ public class LiteratureDocumentsToHDFSWriter implements DocumentsToHDFSWriter {
                 mappedRefReader
                         .loadCommunityMappedReference()
                         .mapValues(ref -> 1L)
+                        .reduceByKey((value1, value2) -> value1) // remove duplicated keys
+                        .mapToPair(new LiteratureMappedRefStatsMapper())
                         .reduceByKey(Long::sum);
 
         JavaRDD<LiteratureDocument> literatureDocsRDD =
