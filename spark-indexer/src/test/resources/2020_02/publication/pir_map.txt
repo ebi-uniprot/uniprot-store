@@ -36,3 +36,4 @@ LARGE-SCALE-STUDY-ACC-27	GAD	55555555	100004	[Interaction]Large scale study prot
 LARGE-SCALE-STUDY-ACC-28	GAD	55555555	100004	[Interaction]Large scale study protein info 28.
 LARGE-SCALE-STUDY-ACC-29	GAD	55555555	100004	[Interaction]Large scale study protein info 29.
 LARGE-SCALE-STUDY-ACC-30	GAD	55555555	100004	[Interaction]Large scale study protein info 30.
+LARGE-SCALE-STUDY-ACC-30	GAD1	55555555	100004	[Interaction]Large scale study protein info 30.
