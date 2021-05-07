@@ -31,7 +31,7 @@
 		<uniprot-core.version>${project.version}</uniprot-core.version>
 		<junit-jupiter.version>5.6.2</junit-jupiter.version>
 		<hamcrest-core.version>2.2</hamcrest-core.version>
-		<jackson.version>2.11.0</jackson.version>
+		<jackson.version>2.11.4</jackson.version>
 		<solr.version>8.5.2</solr.version>
 		<http-uniprot-private-url>http://wwwdev.ebi.ac.uk/uniprot/artifactory</http-uniprot-private-url>
 		<jacoco.version>0.8.5</jacoco.version>
