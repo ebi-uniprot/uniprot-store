@@ -144,6 +144,6 @@ class SearchFieldConfigImplTest {
                         .filter(val -> "Cross-references".equals(val.getLabel()))
                         .findFirst();
         assertTrue(item.isPresent());
-        assertEquals(SearchFieldItemType.SINGLE, item.orElse(new SearchFieldItem()).getItemType());
+        assertEquals(SearchFieldItemType.GROUP, item.orElse(new SearchFieldItem()).getItemType());
     }
 }
