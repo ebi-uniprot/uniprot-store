@@ -83,12 +83,6 @@
     "fieldType": "GENERAL"
   },
   {
-    "id": "lit_citation_id",
-    "fieldName": "lit_citation_id",
-    "dataType": "STRING",
-    "fieldType": "GENERAL"
-  },
-  {
     "id":"content",
     "fieldName": "content",
     "dataType": "STRING",
@@ -164,15 +158,6 @@
     "fieldType": "GENERAL",
     "example":  "DDBJ",
     "description" : "Search by cross ref",
-    "includeInSwagger": true
-  },
-  {
-    "id":"database",
-    "fieldName": "database",
-    "dataType": "STRING",
-    "fieldType": "GENERAL",
-    "example":  "Bgee",
-    "description" : "Search by database aka cross reference",
     "includeInSwagger": true
   },
   {
@@ -799,6 +784,45 @@
     "dataType": "STRING",
     "description": "Search by title",
     "example": "protein",
+    "includeInSwagger": true
+  },
+  {
+    "parentId": "literature_citation",
+    "id": "lit_citation_id",
+    "childNumber": 5,
+    "itemType": "SINGLE",
+    "label": "Citation ID",
+    "fieldName": "lit_citation_id",
+    "dataType": "STRING",
+    "fieldType": "GENERAL",
+    "description": "Search by citation id",
+    "example": "CI-6EPRJ6MFFS5LC",
+    "includeInSwagger": true
+  },
+  {
+    "parentId": "literature_citation",
+    "id": "computational_pubmed_id",
+    "childNumber": 6,
+    "itemType": "SINGLE",
+    "label": "Computational PubMed ID",
+    "fieldName": "computational_pubmed_id",
+    "fieldType": "GENERAL",
+    "dataType": "STRING",
+    "description": "Search by PubMed ID",
+    "example": "15165820",
+    "includeInSwagger": true
+  },
+  {
+    "parentId": "literature_citation",
+    "id": "community_pubmed_id",
+    "childNumber": 7,
+    "itemType": "SINGLE",
+    "label": "Community PubMed ID",
+    "fieldName": "community_pubmed_id",
+    "fieldType": "GENERAL",
+    "dataType": "STRING",
+    "description": "Search by PubMed ID",
+    "example": "15165820",
     "includeInSwagger": true
   },
   {
@@ -4278,25 +4302,19 @@
   {
     "label": "Cross-references",
     "id": "cross_references",
-    "itemType": "SINGLE",
+    "itemType": "GROUP",
     "seqNumber": 17
   },
   {
-    "id": "computational_pubmed_id",
-    "fieldName": "computational_pubmed_id",
+    "parentId" : "cross_references",
+    "childNumber": 0,
+    "id": "database",
+    "itemType": "SINGLE",
+    "fieldName": "database",
     "fieldType": "GENERAL",
     "dataType": "STRING",
-    "description": "Search by PubMed ID",
-    "example": "15165820",
-    "includeInSwagger": true
-  },
-  {
-    "id": "community_pubmed_id",
-    "fieldName": "community_pubmed_id",
-    "fieldType": "GENERAL",
-    "dataType": "STRING",
-    "description": "Search by PubMed ID",
-    "example": "15165820",
+    "example":  "Bgee",
+    "description" : "Search by database aka cross reference",
     "includeInSwagger": true
   }
 ]
