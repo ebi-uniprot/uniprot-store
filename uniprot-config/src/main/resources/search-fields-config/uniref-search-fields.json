@@ -22,14 +22,6 @@
     "example": "id asc"
   },
   {
-    "id": "cluster",
-    "fieldName": "cluster",
-    "fieldType": "GENERAL",
-    "dataType": "STRING",
-    "description": "Search by related clusters",
-    "example": "UniRef100_A0A001"
-  },
-  {
     "id": "organism_sort",
     "fieldName": "organism_sort",
     "sortFieldId": "organism_sort_id",
@@ -196,5 +188,17 @@
     "autoComplete": "/uniprot/api/suggester?dict=taxonomy&query=?",
     "autoCompleteQueryField": "taxonomy_id",
     "autoCompleteQueryFieldValidRegex": "^[0-9]+$"
+  },
+  {
+    "seqNumber": 9,
+    "id": "cluster",
+    "fieldName": "cluster",
+    "label": "Related clusters",
+    "itemType": "SINGLE",
+    "fieldType": "GENERAL",
+    "dataType": "STRING",
+    "description": "Search by related clusters",
+    "example": "UniRef100_A0A001",
+    "includeInSwagger": true
   }
 ]
