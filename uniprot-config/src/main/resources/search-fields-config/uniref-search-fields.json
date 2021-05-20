@@ -185,7 +185,7 @@
     "description": "Search by taxonomy name",
     "example": "sample name",
     "includeInSwagger": true,
-    "autoComplete": "/uniprot/api/suggester?dict=taxonomy&query=?",
+    "autoComplete": "{CONTEXT_PATH}/suggester?dict=taxonomy&query=?",
     "autoCompleteQueryField": "taxonomy_id",
     "autoCompleteQueryFieldValidRegex": "^[0-9]+$"
   },
