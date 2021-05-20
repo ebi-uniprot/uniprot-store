@@ -86,7 +86,7 @@ class SearchFieldConfigImplTest {
         assertEquals(SearchFieldDataType.STRING, item.orElse(new SearchFieldItem()).getDataType());
         assertNotNull(item.orElse(new SearchFieldItem()).getAutoComplete());
         assertEquals(
-                "/uniprot/api/suggester?dict=organism&query=?",
+                "/suggester?dict=organism&query=?",
                 item.orElse(new SearchFieldItem()).getAutoComplete());
     }
 
