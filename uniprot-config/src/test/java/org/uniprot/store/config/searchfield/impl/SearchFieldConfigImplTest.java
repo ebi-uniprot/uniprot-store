@@ -18,7 +18,7 @@ import org.uniprot.store.config.searchfield.model.SearchFieldItem;
 import org.uniprot.store.config.searchfield.model.SearchFieldItemType;
 
 class SearchFieldConfigImplTest {
-    private final static String CONTEXT_PATH ="/uniprot/api";
+    private static final String CONTEXT_PATH = "/uniprot/api";
     private static SearchFieldConfig searchFieldConfig;
 
     @BeforeAll
