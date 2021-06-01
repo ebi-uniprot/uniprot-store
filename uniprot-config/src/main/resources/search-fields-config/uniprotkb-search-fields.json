@@ -696,7 +696,7 @@
     "id": "go_evidence",
     "parentId": "gene_ontology",
     "itemType": "SINGLE",
-    "fieldName": "go_manual",
+    "fieldName": "go",
     "fieldType": "EVIDENCE",
     "dataType": "STRING",
     "description": "Search GO term with evidence type. If evidence is not provided, the term is 'go'. Otherwise, for an evidence source such as IEA, the term is 'go_iea'",
