@@ -18,6 +18,7 @@ import org.uniprot.store.config.searchfield.model.SearchFieldItem;
 import org.uniprot.store.config.searchfield.model.SearchFieldItemType;
 
 class SearchFieldConfigImplTest {
+    private static final String CONTEXT_PATH = "/uniprot/api";
     private static SearchFieldConfig searchFieldConfig;
 
     @BeforeAll
@@ -86,8 +87,8 @@ class SearchFieldConfigImplTest {
         assertEquals(SearchFieldDataType.STRING, item.orElse(new SearchFieldItem()).getDataType());
         assertNotNull(item.orElse(new SearchFieldItem()).getAutoComplete());
         assertEquals(
-                "/uniprot/api/suggester?dict=organism&query=?",
-                item.orElse(new SearchFieldItem()).getAutoComplete());
+                CONTEXT_PATH + "/suggester?dict=organism&query=?",
+                item.orElse(new SearchFieldItem()).getAutoComplete(CONTEXT_PATH));
     }
 
     @Test
