@@ -286,7 +286,7 @@ class OrganismIT {
                         searchEngine
                                 .getSearchFieldConfig()
                                 .getSearchFieldItemByName("model_organism"),
-                        "Human");
+                        String.valueOf(TAX_ID6));
         QueryResponse response = searchEngine.getQueryResponse(query);
 
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
@@ -300,7 +300,7 @@ class OrganismIT {
                         searchEngine
                                 .getSearchFieldConfig()
                                 .getSearchFieldItemByName("model_organism"),
-                        "Mouse");
+                        "10090");
         QueryResponse response = searchEngine.getQueryResponse(query);
 
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
@@ -314,7 +314,7 @@ class OrganismIT {
                         searchEngine
                                 .getSearchFieldConfig()
                                 .getSearchFieldItemByName("model_organism"),
-                        "SOLME");
+                        String.valueOf(TAX_ID2));
         QueryResponse response = searchEngine.getQueryResponse(query);
 
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);

@@ -14,6 +14,7 @@ import org.uniprot.core.uniprotkb.xdb.UniProtKBCrossReference;
 import org.uniprot.cv.go.GORepo;
 import org.uniprot.store.search.document.suggest.SuggestDictionary;
 import org.uniprot.store.search.document.suggest.SuggestDocument;
+import org.uniprot.store.search.document.uniprot.ProteinsWith;
 import org.uniprot.store.search.document.uniprot.UniProtDocument;
 
 /**
@@ -66,9 +67,7 @@ class UniProtEntryCrossReferenceConverter {
                                         .map(Property::getValue)
                                         .findFirst();
                         proteinId.ifPresent(
-                                s -> {
-                                    convertXRefId(document, dbname, s);
-                                });
+                                s -> convertXRefId(document, dbname, s));
                     }
                     break;
                 case "refseq":
@@ -84,9 +83,7 @@ class UniProtEntryCrossReferenceConverter {
                                         .map(Property::getValue)
                                         .collect(Collectors.toList());
                         properties.forEach(
-                                s -> {
-                                    convertXRefId(document, dbname, s);
-                                });
+                                s -> convertXRefId(document, dbname, s));
                     }
                     break;
                 case "proteomes":
@@ -105,8 +102,8 @@ class UniProtEntryCrossReferenceConverter {
             }
         }
         document.d3structure = d3structure;
-        if (d3structure && !document.proteinsWith.contains("3dstructure")) {
-            document.proteinsWith.add("3dstructure");
+        if (d3structure && !document.proteinsWith.contains(ProteinsWith.D3_STRUCTURE.getValue())) {
+            document.proteinsWith.add(ProteinsWith.D3_STRUCTURE.getValue());
         }
     }
 

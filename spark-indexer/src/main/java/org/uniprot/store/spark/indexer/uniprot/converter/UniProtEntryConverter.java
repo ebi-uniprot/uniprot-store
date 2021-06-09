@@ -225,7 +225,7 @@ public class UniProtEntryConverter
     private void convertProteinExistence(
             ProteinExistence proteinExistence, UniProtDocument document) {
         if (Utils.notNull(proteinExistence)) {
-            document.proteinExistence = proteinExistence.name();
+            document.proteinExistence = proteinExistence.getId();
         }
     }
 }

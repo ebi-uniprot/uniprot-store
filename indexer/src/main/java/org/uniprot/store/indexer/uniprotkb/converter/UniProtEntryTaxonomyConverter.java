@@ -74,7 +74,7 @@ class UniProtEntryTaxonomyConverter {
 
                                 String modelOrgamism = MODEL_ORGANISMS_TAX_NAME.get(taxonomyId);
                                 if (modelOrgamism != null) {
-                                    document.modelOrganism = modelOrgamism;
+                                    document.modelOrganism = taxonomyId;
                                 } else {
                                     document.otherOrganism = node.scientificName();
                                 }

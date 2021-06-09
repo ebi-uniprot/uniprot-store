@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
 
 import org.uniprot.core.Property;
 import org.uniprot.core.uniprotkb.xdb.UniProtKBCrossReference;
+import org.uniprot.store.search.document.uniprot.ProteinsWith;
 import org.uniprot.store.search.document.uniprot.UniProtDocument;
 
 /**
@@ -86,8 +87,8 @@ class UniProtEntryCrossReferenceConverter {
             }
         }
         document.d3structure = d3structure;
-        if (d3structure && !document.proteinsWith.contains("3dstructure")) {
-            document.proteinsWith.add("3dstructure");
+        if (d3structure && !document.proteinsWith.contains(ProteinsWith.D3_STRUCTURE.getValue())) {
+            document.proteinsWith.add(ProteinsWith.D3_STRUCTURE.getValue());
         }
     }
 

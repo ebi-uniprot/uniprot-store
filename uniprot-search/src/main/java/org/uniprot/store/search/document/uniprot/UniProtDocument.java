@@ -68,7 +68,7 @@ public class UniProtDocument implements Document {
     public int organismTaxId;
 
     @Field("model_organism")
-    public String modelOrganism;
+    public Integer modelOrganism;
 
     @Field("other_organism")
     public String otherOrganism;
@@ -138,7 +138,7 @@ public class UniProtDocument implements Document {
     public Map<String, Collection<Integer>> featureLengthMap = new HashMap<>();
 
     @Field("existence")
-    public String proteinExistence;
+    public int proteinExistence;
 
     @Field("fragment")
     public boolean fragment;
@@ -153,7 +153,7 @@ public class UniProtDocument implements Document {
     public boolean d3structure = false;
 
     @Field("proteins_with")
-    public List<String> proteinsWith = new ArrayList<>();
+    public List<Integer> proteinsWith = new ArrayList<>();
 
     @Field("cc_scl_term")
     public Set<String> subcellLocationTerm = new HashSet<>();
@@ -388,7 +388,6 @@ public class UniProtDocument implements Document {
                 && Objects.equals(organismName, that.organismName)
                 && Objects.equals(organismSort, that.organismSort)
                 && Objects.equals(modelOrganism, that.modelOrganism)
-                && Objects.equals(otherOrganism, that.otherOrganism)
                 && Objects.equals(organismTaxon, that.organismTaxon)
                 && Objects.equals(taxLineageIds, that.taxLineageIds)
                 && Objects.equals(organelles, that.organelles)
@@ -499,7 +498,6 @@ public class UniProtDocument implements Document {
                 organismSort,
                 organismTaxId,
                 modelOrganism,
-                otherOrganism,
                 organismTaxon,
                 taxLineageIds,
                 organelles,
@@ -644,9 +642,6 @@ public class UniProtDocument implements Document {
                 + ", modelOrganism='"
                 + modelOrganism
                 + '\''
-                + ", otherOrganism='"
-                + otherOrganism
-                + '\''
                 + ", organismTaxon="
                 + organismTaxon
                 + ", taxLineageIds="
@@ -689,9 +684,8 @@ public class UniProtDocument implements Document {
                 + featureEvidenceMap
                 + ", featureLengthMap="
                 + featureLengthMap
-                + ", proteinExistence='"
+                + ", proteinExistence="
                 + proteinExistence
-                + '\''
                 + ", fragment="
                 + fragment
                 + ", precursor="

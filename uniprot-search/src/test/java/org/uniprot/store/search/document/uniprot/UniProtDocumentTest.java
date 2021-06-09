@@ -47,9 +47,9 @@ class UniProtDocumentTest {
         doc.geneNamesSort = "1";
         doc.organismSort = "1";
         doc.organismTaxId = 1;
-        doc.modelOrganism = "1";
+        doc.modelOrganism = 9606;
         doc.otherOrganism = "1";
-        doc.proteinExistence = "1";
+        doc.proteinExistence = 1;
         doc.fragment = true;
         doc.precursor = true;
         doc.active = true;

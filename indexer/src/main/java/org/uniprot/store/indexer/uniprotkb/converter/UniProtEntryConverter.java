@@ -261,7 +261,7 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtKBEntry, 
     private void convertProteinExistence(
             ProteinExistence proteinExistence, UniProtDocument document) {
         if (proteinExistence != null) {
-            document.proteinExistence = proteinExistence.name();
+            document.proteinExistence = proteinExistence.getId();
         }
     }
 

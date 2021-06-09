@@ -14,6 +14,7 @@ import org.uniprot.core.uniprotkb.comment.*;
 import org.uniprot.core.uniprotkb.evidence.Evidence;
 import org.uniprot.core.uniprotkb.evidence.EvidencedValue;
 import org.uniprot.core.util.Utils;
+import org.uniprot.store.search.document.uniprot.ProteinsWith;
 import org.uniprot.store.search.document.uniprot.UniProtDocument;
 
 /**
@@ -51,9 +52,13 @@ class UniProtEntryCommentsConverter implements Serializable {
             Set<String> evidences = fetchEvidences(comment);
             evValue.addAll(evidences);
 
-            if (!document.proteinsWith.contains(comment.getCommentType().name().toLowerCase())) {
-                document.proteinsWith.add(comment.getCommentType().name().toLowerCase());
-            }
+            ProteinsWith.from(comment.getCommentType())
+                    .map(ProteinsWith::getValue)
+                    .filter(
+                            commentTypeValue ->
+                                    !document.proteinsWith.contains(
+                                            commentTypeValue)) // avoid duplicated
+                    .ifPresent(commentTypeValue -> document.proteinsWith.add(commentTypeValue));
 
             switch (comment.getCommentType()) {
                 case CATALYTIC_ACTIVITY:
@@ -90,7 +95,6 @@ class UniProtEntryCommentsConverter implements Serializable {
                     break;
             }
         }
-        document.proteinsWith.removeIf(this::filterUnnecessaryProteinsWithCommentTypes);
     }
 
     private String getCommentField(Comment c) {
@@ -498,14 +502,5 @@ class UniProtEntryCommentsConverter implements Serializable {
         comment.getTexts().stream()
                 .map(Value::getValue)
                 .forEach(val -> updateFamily(val, document));
-    }
-
-    private boolean filterUnnecessaryProteinsWithCommentTypes(String commentType) {
-        return commentType.equalsIgnoreCase(CommentType.MISCELLANEOUS.toString())
-                || commentType.equalsIgnoreCase(CommentType.SIMILARITY.toString())
-                || commentType.equalsIgnoreCase(CommentType.CAUTION.toString())
-                || commentType.equalsIgnoreCase(CommentType.SEQUENCE_CAUTION.toString())
-                || commentType.equalsIgnoreCase(CommentType.WEBRESOURCE.toString())
-                || commentType.equalsIgnoreCase(CommentType.UNKNOWN.toString());
     }
 }
