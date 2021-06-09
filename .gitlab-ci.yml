@@ -80,12 +80,12 @@ store:deploy:
   only:
     - master
 
-after_script:
-  - 'pwd'
-  - 'ls -al'
-  - 'ls -al */'
-  - 'ls -al */*/'
-  - 'ls -al */*/*/'
+#after_script:
+#  - 'pwd'
+#  - 'ls -al'
+#  - 'ls -al */'
+#  - 'ls -al */*/'
+#  - 'ls -al */*/*/'
 
 rest-api:downstream:
   stage: bridge
