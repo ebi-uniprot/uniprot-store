@@ -240,15 +240,7 @@
 		</dependency>
 
 	</dependencies>
-
-	<repositories>
-		<repository>
-			<id>local-third-party-repository</id>
-			<name>Third Party Local Repository</name>
-			<url>file://${basedir}/lib</url>
-		</repository>
-	</repositories>
-
+	
 	<build>
 		<plugins>
 			<plugin>
