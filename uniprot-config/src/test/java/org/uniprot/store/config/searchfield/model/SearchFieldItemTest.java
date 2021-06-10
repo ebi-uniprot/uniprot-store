@@ -10,6 +10,7 @@ import static org.uniprot.store.config.searchfield.model.SearchFieldItem.CONTEXT
  * @created 10/06/2021
  */
 class SearchFieldItemTest {
+
     @Test
     void testGetAutoCompleteWithNullValue(){
         SearchFieldItem item = new SearchFieldItem();
