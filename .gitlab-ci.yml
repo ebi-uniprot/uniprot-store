@@ -64,13 +64,13 @@ store:test:
       junit:
         - ./*/target/surefire-reports/TEST-*.xml
 
-store:sonar:
-  stage: quality
-  script: mvn $MAVEN_CLI_OPTS -s ${MAVEN_SETTINGS} -Dsonar.coverage.jacoco.xmlReportPaths=$(pwd)/jacoco-report/jacoco.xml sonar:sonar ${SONAR_PROPS} -Dsonar.projectKey=uniprot-store -Dsonar.exclusions=**/UniRefEntryMocker.java,**/UniParcEntryMocker.java
-  dependencies:
-    - store:test
-#    - store:compile
-    - store:settings
+#store:sonar:
+#  stage: quality
+#  script: mvn $MAVEN_CLI_OPTS -s ${MAVEN_SETTINGS} -Dsonar.coverage.jacoco.xmlReportPaths=$(pwd)/jacoco-report/jacoco.xml sonar:sonar ${SONAR_PROPS} -Dsonar.projectKey=uniprot-store -Dsonar.exclusions=**/UniRefEntryMocker.java,**/UniParcEntryMocker.java
+#  dependencies:
+#    - store:test
+##    - store:compile
+#    - store:settings
 
 store:deploy:
   stage: deploy
