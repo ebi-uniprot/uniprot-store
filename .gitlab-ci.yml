@@ -21,7 +21,7 @@ stages:
   - setup
 #  - build
   - test
-  - quality
+#  - quality
   - deploy
   - bridge
 
@@ -51,7 +51,7 @@ store:settings:
 store:test:
   stage: test
   script:
-    - 'mvn $MAVEN_CLI_OPTS $UNIPROT_RESOURCES install -s ${MAVEN_SETTINGS}'
+    - 'mvn $MAVEN_CLI_OPTS $UNIPROT_RESOURCES -DskipTests install -s ${MAVEN_SETTINGS}'
     - 'mkdir -p ./jacoco-report'
     - 'cp $JACOCO_AGGREGATE_REPORT ./jacoco-report/'
   artifacts:
@@ -74,7 +74,7 @@ store:sonar:
 
 store:deploy:
   stage: deploy
-  script: mvn $MAVEN_CLI_OPTS -Dmaven.test.skip=true deploy -s ${MAVEN_SETTINGS}
+  script: mvn $MAVEN_CLI_OPTS -DskipTests deploy -s ${MAVEN_SETTINGS}
   dependencies:
     - store:settings
 #    - store:compile
