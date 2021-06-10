@@ -15,7 +15,7 @@ import org.uniprot.store.config.model.Field;
 @Data
 public class SearchFieldItem implements Field, Serializable {
     private static final long serialVersionUID = -1835246966684124878L;
-    private static final String CONTEXT_PATH_TOKEN = "{CONTEXT_PATH}";
+    static final String CONTEXT_PATH_TOKEN = "{CONTEXT_PATH}";
     @NotNull private String id;
     private String parentId;
     @PositiveOrZero private Integer childNumber;
