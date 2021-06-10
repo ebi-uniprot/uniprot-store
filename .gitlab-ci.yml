@@ -51,7 +51,7 @@ store:settings:
 store:test:
   stage: test
   script:
-    - 'mvn $MAVEN_CLI_OPTS $UNIPROT_RESOURCES -Dmaven.test.skip=true install -s ${MAVEN_SETTINGS}'
+    - 'mvn $MAVEN_CLI_OPTS $UNIPROT_RESOURCES -DskipTests=true install -s ${MAVEN_SETTINGS}'
     - 'mkdir -p ./jacoco-report'
     - 'cp $JACOCO_AGGREGATE_REPORT ./jacoco-report/'
   artifacts:
