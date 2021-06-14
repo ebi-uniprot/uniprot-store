@@ -328,5 +328,19 @@
     "name": "version_uniparc",
     "paths": ["uniParcCrossReferences[*].versionI"],
     "id": "version_uniparc"
+  },
+  {
+    "itemType": "SINGLE",
+    "isRequiredForJson": true,
+    "name": "oldestCrossRefCreated",
+    "paths": ["oldestCrossRefCreated"],
+    "id": "oldestCrossRefCreated"
+  },
+  {
+    "itemType": "SINGLE",
+    "isRequiredForJson": true,
+    "name": "mostRecentCrossRefUpdated",
+    "paths": ["mostRecentCrossRefUpdated"],
+    "id": "mostRecentCrossRefUpdated"
   }
 ]
