@@ -1,9 +1,9 @@
 package org.uniprot.store.config.searchfield.model;
 
+import static org.uniprot.store.config.searchfield.model.SearchFieldItem.CONTEXT_PATH_TOKEN;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-
-import static org.uniprot.store.config.searchfield.model.SearchFieldItem.CONTEXT_PATH_TOKEN;
 
 /**
  * @author sahmad
@@ -12,13 +12,13 @@ import static org.uniprot.store.config.searchfield.model.SearchFieldItem.CONTEXT
 class SearchFieldItemTest {
 
     @Test
-    void testGetAutoCompleteWithNullValue(){
+    void testGetAutoCompleteWithNullValue() {
         SearchFieldItem item = new SearchFieldItem();
         Assertions.assertNull(item.getAutoComplete());
     }
 
     @Test
-    void testGetAutoComplete(){
+    void testGetAutoComplete() {
         SearchFieldItem item = new SearchFieldItem();
         String sampleAutoComplete = "sample/url";
         item.setAutoComplete(sampleAutoComplete);
@@ -26,7 +26,7 @@ class SearchFieldItemTest {
     }
 
     @Test
-    void testGetAutoCompleteWithContext(){
+    void testGetAutoCompleteWithContext() {
         SearchFieldItem item = new SearchFieldItem();
         String sampleAutoComplete = CONTEXT_PATH_TOKEN + "/sample/url";
         item.setAutoComplete(sampleAutoComplete);
