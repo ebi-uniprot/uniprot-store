@@ -1,5 +1,7 @@
 package org.uniprot.store.search.document.uniparc;
 
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -28,6 +30,10 @@ public class UniParcDocument implements Document {
 
     @Field("length")
     private int seqLength;
+
+    @Singular
+    @Field("database_facet")
+    private List<Integer> databasesFacets;
 
     @Field("database")
     @Singular
@@ -86,5 +92,21 @@ public class UniParcDocument implements Document {
     @Field("organism_name")
     public void setOrganismNames(List<String> organismNames) {
         this.organismNames = new HashSet<>(organismNames);
+    }
+
+    public static class UniParcDocumentBuilder implements Serializable {
+        private static final long serialVersionUID = 8664627033779718863L;
+
+        public UniParcDocumentBuilder() {
+            super();
+            databasesFacets = new ArrayList<>();
+        }
+
+        public UniParcDocumentBuilder notDuplicatedDatabasesFacet(Integer facetValue) {
+            if (!databasesFacets.contains(facetValue)) {
+                databasesFacets.add(facetValue);
+            }
+            return this;
+        }
     }
 }

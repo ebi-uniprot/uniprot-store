@@ -15,6 +15,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.uniprot.core.uniparc.UniParcDatabase;
 import org.uniprot.core.xml.jaxb.uniparc.Entry;
 import org.uniprot.cv.taxonomy.TaxonomyRepo;
 import org.uniprot.store.search.document.uniparc.UniParcDocument;
@@ -79,6 +80,32 @@ class UniParcDocumentConverterTest {
         assertTrue(uniParcDocument.getDatabases().contains("EnsemblBacteria"));
         assertTrue(uniParcDocument.getDatabases().contains("SEED"));
         assertTrue(uniParcDocument.getDatabases().contains("PATRIC"));
+
+        assertEquals(9, uniParcDocument.getDatabasesFacets().size());
+        assertTrue(
+                uniParcDocument
+                        .getDatabasesFacets()
+                        .contains(UniParcDatabase.SWISSPROT_VARSPLIC.getIndex()));
+        assertTrue(
+                uniParcDocument
+                        .getDatabasesFacets()
+                        .contains(UniParcDatabase.ENSEMBL_VERTEBRATE.getIndex()));
+        assertTrue(uniParcDocument.getDatabasesFacets().contains(UniParcDatabase.EMBL.getIndex()));
+        assertTrue(
+                uniParcDocument
+                        .getDatabasesFacets()
+                        .contains(UniParcDatabase.SWISSPROT.getIndex()));
+        assertTrue(
+                uniParcDocument.getDatabasesFacets().contains(UniParcDatabase.EMBLWGS.getIndex()));
+        assertTrue(
+                uniParcDocument.getDatabasesFacets().contains(UniParcDatabase.REFSEQ.getIndex()));
+        assertTrue(
+                uniParcDocument
+                        .getDatabasesFacets()
+                        .contains(UniParcDatabase.EG_BACTERIA.getIndex()));
+        assertTrue(uniParcDocument.getDatabasesFacets().contains(UniParcDatabase.SEED.getIndex()));
+        assertTrue(
+                uniParcDocument.getDatabasesFacets().contains(UniParcDatabase.PATRIC.getIndex()));
 
         assertEquals(8, uniParcDocument.getActives().size());
         assertTrue(uniParcDocument.getActives().contains("isoforms"));

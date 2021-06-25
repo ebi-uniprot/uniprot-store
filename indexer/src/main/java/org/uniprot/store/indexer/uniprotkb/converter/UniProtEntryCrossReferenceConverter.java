@@ -96,17 +96,13 @@ class UniProtEntryCrossReferenceConverter {
         }
     }
 
-    private void convertEmbl(UniProtDocument document, UniProtKBCrossReference xref, String dbname) {
+    private void convertEmbl(
+            UniProtDocument document, UniProtKBCrossReference xref, String dbname) {
         if (xref.hasProperties()) {
             Optional<String> proteinId =
                     xref.getProperties().stream()
-                            .filter(
-                                    property ->
-                                            property.getKey()
-                                                    .equalsIgnoreCase("ProteinId"))
-                            .filter(
-                                    property ->
-                                            !property.getValue().equalsIgnoreCase("-"))
+                            .filter(property -> property.getKey().equalsIgnoreCase("ProteinId"))
+                            .filter(property -> !property.getValue().equalsIgnoreCase("-"))
                             .map(Property::getValue)
                             .findFirst();
             proteinId.ifPresent(s -> convertXRefId(document, dbname, s));
