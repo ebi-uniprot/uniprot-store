@@ -16,6 +16,9 @@ public class UniProtDocument implements Document {
     @Field("sec_acc")
     public List<String> secacc = new ArrayList<>();
 
+    @Field("canonical_acc")
+    public String canonicalAccession;
+
     @Field("id")
     public String id;
 

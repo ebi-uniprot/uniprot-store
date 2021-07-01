@@ -80,7 +80,7 @@ public class UniProtEntryConverter
                 // find it.
                 String canonicalAccession =
                         document.accession.substring(0, document.accession.indexOf(DASH));
-                document.secacc.add(canonicalAccession);
+                document.canonicalAccession = canonicalAccession;
             } else {
                 document.isIsoform = false;
             }
