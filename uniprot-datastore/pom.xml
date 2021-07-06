@@ -7,7 +7,7 @@
 	<parent>
 		<groupId>org.uniprot</groupId>
 		<artifactId>uniprot-store-parent</artifactId>
-		<version>1.0.5-SNAPSHOT</version>
+		<version>1.0.6-SNAPSHOT</version>
 		<relativePath>../</relativePath>
 	</parent>
 	<artifactId>uniprot-datastore</artifactId>
@@ -240,14 +240,6 @@
 		</dependency>
 
 	</dependencies>
-
-	<repositories>
-		<repository>
-			<id>local-third-party-repository</id>
-			<name>Third Party Local Repository</name>
-			<url>file://${basedir}/lib</url>
-		</repository>
-	</repositories>
 
 	<build>
 		<plugins>
