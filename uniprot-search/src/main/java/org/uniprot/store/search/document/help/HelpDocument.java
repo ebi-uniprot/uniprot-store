@@ -4,6 +4,7 @@ import org.apache.solr.client.solrj.beans.Field;
 import org.uniprot.store.search.document.Document;
 
 import java.nio.ByteBuffer;
+import java.util.List;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -26,17 +27,15 @@ public class HelpDocument implements Document {
     @Field
     private String title;
     @Field
-    private String summary;
-    @Field
-    private String description;
-    @Field
-    private String category;
-    @Field
-    private String section;
-
-
-    @Field("help_obj")
-    private ByteBuffer helpPageObj;
+    private String description;// content without meta
+    @Field("category")
+    private List<String> categories;
+    @Field("section")
+    private List<String> sections;
+    @Field("keyword")
+    private List<String> keywords;
+    @Field("file_content")
+    private String fileContent; // full content with meta
 
 
     @Override

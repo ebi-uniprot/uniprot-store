@@ -9,19 +9,19 @@
 	License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS 
 	OF ANY KIND, either express or implied. See the License for the specific 
 	language governing permissions and limitations under the License. -->
-<schema name="keyword" version="1.6">
+<schema name="help" version="1.6">
 	<uniqueKey>id</uniqueKey>
 	<field name="_version_" type="plong" indexed="true" stored="true" />
 	<!-- =============================== help fields =============================== -->
 	<field name="id" type="string" indexed="true" stored="true" required="true" docValues="true" />
 	<field name="title" type="full_ci" indexed="true" stored="false" required="true" />
-	<field name="summary" type="full_ci" indexed="true" stored="false" required="true"/>
     <field name="description" type="full_ci" indexed="true" stored="false" required="true"/>
 	<!-- facet field -->
-	<field name="category" type="string" indexed="true" stored="false" multiValued="false" docValues="true" />
-    <field name="section" type="string" indexed="true" stored="false" multiValued="false" docValues="true" />
-    <!-- the whole help page object as binary -->
-    <field name="help_obj" type="binary" indexed="false" stored="true" required="true" multiValued="false" />
+	<field name="category" type="string" indexed="true" stored="false" multiValued="true" docValues="true" />
+    <field name="section" type="string" indexed="true" stored="false" multiValued="true" docValues="true" />
+    <field name="keyword" type="string" indexed="true" stored="false" multiValued="true" docValues="true" />
+    <!-- the whole help page content -->
+    <field name="file_content" type="binary" indexed="false" stored="true" required="true" multiValued="false" />
 
     <!-- =============================== field types =============================== -->
 	<fieldType name="plong" class="solr.LongPointField"
