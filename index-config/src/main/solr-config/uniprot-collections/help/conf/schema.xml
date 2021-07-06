@@ -13,17 +13,24 @@
 	<uniqueKey>id</uniqueKey>
 	<field name="_version_" type="plong" indexed="true" stored="true" />
 	<!-- =============================== help fields =============================== -->
-	<field name="id" type="string" indexed="true" stored="true" required="true" docValues="true" />
-	<field name="title" type="full_ci" indexed="true" stored="false" required="true" />
-    <field name="description" type="full_ci" indexed="true" stored="false" required="true"/>
+	<field name="id" type="string" indexed="true" stored="true"
+		required="true" docValues="true" />
+	<field name="title" type="full_ci" indexed="true" stored="false"
+		required="true" />
+	<field name="description" type="full_ci" indexed="true"
+		stored="false" required="true" />
 	<!-- facet field -->
-	<field name="category" type="string" indexed="true" stored="false" multiValued="true" docValues="true" />
-    <field name="section" type="string" indexed="true" stored="false" multiValued="true" docValues="true" />
-    <field name="keyword" type="string" indexed="true" stored="false" multiValued="true" docValues="true" />
-    <!-- the whole help page content -->
-    <field name="file_content" type="binary" indexed="false" stored="true" required="true" multiValued="false" />
+	<field name="category" type="string" indexed="true"
+		stored="false" multiValued="true" docValues="true" />
+	<field name="section" type="string" indexed="true" stored="false"
+		multiValued="true" docValues="true" />
+	<field name="keyword" type="string" indexed="true" stored="false"
+		multiValued="true" docValues="true" />
+	<!-- the whole help page content -->
+	<field name="file_content" type="binary" indexed="false"
+		stored="true" required="true" multiValued="false" />
 
-    <!-- =============================== field types =============================== -->
+	<!-- =============================== field types =============================== -->
 	<fieldType name="plong" class="solr.LongPointField"
 		docValues="true" />
 	<fieldType name="string" class="solr.StrField"

@@ -11,5 +11,4 @@ import org.springframework.context.annotation.Configuration;
 @ConditionalOnProperty(prefix = "uniprot.job", name = "name", havingValue = "help-pages")
 @ComponentScan(basePackages = {"org.uniprot.store.indexer.help"})
 @Configuration
-public class HelpIndexingJobConfig {
-}
+public class HelpIndexingJobConfig {}

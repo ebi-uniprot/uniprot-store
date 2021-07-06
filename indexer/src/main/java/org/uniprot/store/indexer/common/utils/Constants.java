@@ -56,9 +56,6 @@ public class Constants {
     public static final String COMPUTATIONAL_PUBLICATION_INDEX_STEP =
             "COMPUTATIONAL_PUBLICATION_INDEX_STEP";
 
-    public static final String PUBLICATIONS_STATS_JOB_NAME = "PUBLICATIONS_STATS_JOB_NAME";
-    public static final String PUBLICATIONS_STATS_INDEX_STEP = "PUBLICATIONS_STATS_INDEX_STEP";
-
     public static final String SUBCELLULAR_LOCATION_LOAD_JOB_NAME =
             "SUBCELLULAR_LOCATION_LOAD_JOB_NAME";
     public static final String SUBCELLULAR_LOCATION_INDEX_STEP = "SUBCELLULAR_LOCATION_INDEX_STEP";
@@ -77,4 +74,7 @@ public class Constants {
     public static final String UNIRULE_INDEX_STEP = "UniRule Indexing Step";
     public static final String UNIRULE_PROTEIN_COUNT_STEP = "UniRule protein count step";
     public static final String UNIRULE_PROTEIN_COUNT_CACHE_KEY = "UniRule Protein Count Cache Key";
+
+    public static final String HELP_PAGE_INDEX_JOB_NAME = "Help page index job";
+    public static final String HELP_PAGE_INDEX_STEP = "Help page index step";
 }
