@@ -621,23 +621,23 @@
     "values": [
       {
         "name": "Evidence at protein level",
-        "value": "protein_level"
+        "value": "1"
       },
       {
         "name": "Evidence at transcript level",
-        "value": "transcript_level"
+        "value": "2"
       },
       {
         "name": "Inferred from homology",
-        "value": "homology"
+        "value": "3"
       },
       {
         "name": "Predicted",
-        "value": "predicted"
+        "value": "4"
       },
       {
         "name": "Uncertain",
-        "value": "uncertain"
+        "value": "5"
       }
     ],
     "example": "1",

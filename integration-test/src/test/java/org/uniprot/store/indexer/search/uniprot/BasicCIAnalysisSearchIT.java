@@ -6,8 +6,7 @@ import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.core.IsNot.not;
 import static org.uniprot.store.indexer.search.DocFieldTransformer.fieldTransformer;
-import static org.uniprot.store.indexer.search.uniprot.BasicCIAnalysisSearchIT.FieldType.TypeFunctions.STRING_FUNCTION;
-import static org.uniprot.store.indexer.search.uniprot.BasicCIAnalysisSearchIT.FieldType.TypeFunctions.STRING_LIST_FUNCTION;
+import static org.uniprot.store.indexer.search.uniprot.BasicCIAnalysisSearchIT.FieldType.TypeFunctions.*;
 import static org.uniprot.store.indexer.search.uniprot.TestUtils.convertToUniProtEntry;
 
 import java.io.IOException;
@@ -223,7 +222,6 @@ class BasicCIAnalysisSearchIT {
     enum FieldType {
         accession_id(STRING_FUNCTION),
         gene_exact(STRING_LIST_FUNCTION),
-        existence(STRING_FUNCTION),
         id(STRING_FUNCTION),
         sec_acc(STRING_LIST_FUNCTION);
 

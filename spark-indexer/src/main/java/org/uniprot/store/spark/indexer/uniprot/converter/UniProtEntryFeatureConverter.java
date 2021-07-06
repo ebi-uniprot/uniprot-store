@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.uniprot.core.uniprotkb.feature.UniProtKBFeature;
-import org.uniprot.core.uniprotkb.feature.UniprotKBFeatureType;
+import org.uniprot.store.search.document.uniprot.ProteinsWith;
 import org.uniprot.store.search.document.uniprot.UniProtDocument;
 
 /**
@@ -39,9 +39,10 @@ class UniProtEntryFeatureConverter {
                 document.content.add(feature.getDescription().getValue());
             }
 
-            if (!document.proteinsWith.contains(feature.getType().name().toLowerCase())) {
-                document.proteinsWith.add(feature.getType().name().toLowerCase());
-            }
+            ProteinsWith.from(feature.getType())
+                    .map(ProteinsWith::getValue)
+                    .filter(value -> !document.proteinsWith.contains(value)) // avoid duplicated
+                    .ifPresent(value -> document.proteinsWith.add(value));
 
             if (feature.hasFeatureCrossReference()) {
                 String xrefId = feature.getFeatureCrossReference().getId();
@@ -65,19 +66,10 @@ class UniProtEntryFeatureConverter {
                     document.featureEvidenceMap.computeIfAbsent(evField, k -> new HashSet<>());
             evidenceList.addAll(evidences);
         }
-        document.proteinsWith.removeIf(this::filterUnnecessaryProteinsWithFeatureTypes);
     }
 
     private String getFeatureField(UniProtKBFeature feature, String type) {
         String field = type + feature.getType().name().toLowerCase();
         return field.replace(' ', '_');
-    }
-
-    private boolean filterUnnecessaryProteinsWithFeatureTypes(String featureType) {
-        return featureType.equalsIgnoreCase(UniprotKBFeatureType.SITE.toString())
-                || featureType.equalsIgnoreCase(UniprotKBFeatureType.NON_CONS.toString())
-                || featureType.equalsIgnoreCase(UniprotKBFeatureType.CONFLICT.toString())
-                || featureType.equalsIgnoreCase(UniprotKBFeatureType.UNSURE.toString())
-                || featureType.equalsIgnoreCase(UniprotKBFeatureType.NON_TER.toString());
     }
 }

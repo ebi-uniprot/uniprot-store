@@ -62,7 +62,7 @@ class UniProtKBEntryTaxonomyConverterTest {
         assertEquals("Homo sapiens Human Homo sapian", uniProtDocument.organismSort);
 
         // organism facet fields
-        assertEquals("Human", uniProtDocument.modelOrganism);
+        assertEquals(9606, uniProtDocument.modelOrganism);
         assertNull(uniProtDocument.otherOrganism);
 
         // lineage fields

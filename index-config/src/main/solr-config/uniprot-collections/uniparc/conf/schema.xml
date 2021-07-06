@@ -16,6 +16,8 @@
 		stored="false" required="false" multiValued="true" docValues="true" />
 	<field name="taxonomy_id" type="int" indexed="true"
 		stored="false" required="false" multiValued="true" />
+	<field name="database_facet" type="int" indexed="true"
+		stored="false" required="false" multiValued="true" docValues="true" />
 	<field name="database" type="basic_ci" indexed="true"
 		stored="false" required="false" multiValued="true" />
 	<field name="dbid" type="basic_ci" indexed="true" stored="false"

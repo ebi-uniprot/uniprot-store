@@ -21,6 +21,7 @@ import org.uniprot.core.uniprotkb.feature.UniprotKBFeatureDatabase;
 import org.uniprot.core.uniprotkb.feature.UniprotKBFeatureType;
 import org.uniprot.core.uniprotkb.feature.impl.AlternativeSequenceBuilder;
 import org.uniprot.core.uniprotkb.feature.impl.UniProtKBFeatureBuilder;
+import org.uniprot.store.search.document.uniprot.ProteinsWith;
 import org.uniprot.store.search.document.uniprot.UniProtDocument;
 
 /**
@@ -87,7 +88,8 @@ class UniProtKBEntryFeatureConverterTest {
                                 "DBSNP-12345")),
                 document.content);
 
-        assertEquals(Collections.singletonList("chain"), document.proteinsWith);
+        assertEquals(
+                Collections.singletonList(ProteinsWith.CHAIN.getValue()), document.proteinsWith);
     }
 
     private static UniProtKBFeature getFeature() {

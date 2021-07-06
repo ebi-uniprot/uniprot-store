@@ -14,6 +14,7 @@ import org.uniprot.core.uniprotkb.xdb.UniProtKBCrossReference;
 import org.uniprot.cv.go.GORepo;
 import org.uniprot.store.search.document.suggest.SuggestDictionary;
 import org.uniprot.store.search.document.suggest.SuggestDocument;
+import org.uniprot.store.search.document.uniprot.ProteinsWith;
 import org.uniprot.store.search.document.uniprot.UniProtDocument;
 
 /**
@@ -53,23 +54,7 @@ class UniProtEntryCrossReferenceConverter {
             }
             switch (dbname.toLowerCase()) {
                 case "embl":
-                    if (xref.hasProperties()) {
-                        Optional<String> proteinId =
-                                xref.getProperties().stream()
-                                        .filter(
-                                                property ->
-                                                        property.getKey()
-                                                                .equalsIgnoreCase("ProteinId"))
-                                        .filter(
-                                                property ->
-                                                        !property.getValue().equalsIgnoreCase("-"))
-                                        .map(Property::getValue)
-                                        .findFirst();
-                        proteinId.ifPresent(
-                                s -> {
-                                    convertXRefId(document, dbname, s);
-                                });
-                    }
+                    convertEmbl(document, xref, dbname);
                     break;
                 case "refseq":
                 case "pir":
@@ -83,20 +68,11 @@ class UniProtEntryCrossReferenceConverter {
                                                         !property.getValue().equalsIgnoreCase("-"))
                                         .map(Property::getValue)
                                         .collect(Collectors.toList());
-                        properties.forEach(
-                                s -> {
-                                    convertXRefId(document, dbname, s);
-                                });
+                        properties.forEach(s -> convertXRefId(document, dbname, s));
                     }
                     break;
                 case "proteomes":
-                    document.proteomes.add(xref.getId());
-                    if (xref.hasProperties()) {
-                        document.proteomeComponents.addAll(
-                                xref.getProperties().stream()
-                                        .map(Property::getValue)
-                                        .collect(Collectors.toSet()));
-                    }
+                    convertProteomes(document, xref);
                     break;
                 case "go":
                     convertGoTerm(xref, document);
@@ -105,8 +81,31 @@ class UniProtEntryCrossReferenceConverter {
             }
         }
         document.d3structure = d3structure;
-        if (d3structure && !document.proteinsWith.contains("3dstructure")) {
-            document.proteinsWith.add("3dstructure");
+        if (d3structure && !document.proteinsWith.contains(ProteinsWith.D3_STRUCTURE.getValue())) {
+            document.proteinsWith.add(ProteinsWith.D3_STRUCTURE.getValue());
+        }
+    }
+
+    private void convertProteomes(UniProtDocument document, UniProtKBCrossReference xref) {
+        document.proteomes.add(xref.getId());
+        if (xref.hasProperties()) {
+            document.proteomeComponents.addAll(
+                    xref.getProperties().stream()
+                            .map(Property::getValue)
+                            .collect(Collectors.toSet()));
+        }
+    }
+
+    private void convertEmbl(
+            UniProtDocument document, UniProtKBCrossReference xref, String dbname) {
+        if (xref.hasProperties()) {
+            Optional<String> proteinId =
+                    xref.getProperties().stream()
+                            .filter(property -> property.getKey().equalsIgnoreCase("ProteinId"))
+                            .filter(property -> !property.getValue().equalsIgnoreCase("-"))
+                            .map(Property::getValue)
+                            .findFirst();
+            proteinId.ifPresent(s -> convertXRefId(document, dbname, s));
         }
     }
 

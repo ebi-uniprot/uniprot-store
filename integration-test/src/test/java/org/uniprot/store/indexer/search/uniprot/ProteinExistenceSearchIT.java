@@ -140,6 +140,6 @@ class ProteinExistenceSearchIT {
     String proteinExistence(ProteinExistence proteinExistence) {
         return query(
                 searchEngine.getSearchFieldConfig().getSearchFieldItemByName("existence"),
-                proteinExistence.name());
+                String.valueOf(proteinExistence.getId()));
     }
 }

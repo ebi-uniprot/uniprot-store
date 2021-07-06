@@ -266,7 +266,7 @@ class UniProtKBEntryConverterTest {
 
         // then
         assertEquals("P12345", document.accession);
-        assertEquals("PROTEIN_LEVEL", document.proteinExistence);
+        assertEquals(1, document.proteinExistence);
         // @lgonzales: protein existence information is not in the content (default) field, should
         // it be?
     }

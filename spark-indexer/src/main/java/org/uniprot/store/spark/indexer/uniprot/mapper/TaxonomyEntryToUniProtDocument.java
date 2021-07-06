@@ -135,7 +135,7 @@ public class TaxonomyEntryToUniProtDocument
 
         String modelOrgamism = MODEL_ORGANIMS_TAX_NAME.get(organism.getTaxonId());
         if (Utils.notNull(modelOrgamism)) {
-            doc.modelOrganism = modelOrgamism;
+            doc.modelOrganism = (int) organism.getTaxonId();
         } else {
             doc.otherOrganism = organism.getScientificName();
         }

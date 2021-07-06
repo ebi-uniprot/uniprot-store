@@ -73,7 +73,7 @@ public class UniParcDocumentConverter implements DocumentConverter<Entry, UniPar
             builder.active(dbTypeData.getValue());
         }
         builder.database(dbTypeData.getValue());
-
+        builder.notDuplicatedDatabasesFacet(type.getIndex());
         if (xref.isActive() && type == UniParcDatabase.SWISSPROT_VARSPLIC) {
             builder.uniprotIsoform(xref.getId());
         }
