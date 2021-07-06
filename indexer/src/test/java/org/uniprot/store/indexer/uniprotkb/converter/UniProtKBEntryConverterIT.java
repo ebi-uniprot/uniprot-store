@@ -466,8 +466,7 @@ class UniProtKBEntryConverterIT {
         assertNotNull(doc);
 
         assertEquals("Q9EPI6-2", doc.accession);
-        assertEquals(1, doc.secacc.size());
-        assertEquals("Q9EPI6", doc.secacc.get(0));
+        assertEquals("Q9EPI6", doc.canonicalAccession);
         assertEquals("NSMF-2_RAT", doc.id);
         assertTrue(doc.isIsoform);
         assertTrue(doc.reviewed);
@@ -623,6 +622,7 @@ class UniProtKBEntryConverterIT {
         assertNotNull(doc);
 
         assertEquals("Q9EPI6-1", doc.accession);
+        assertNull(doc.canonicalAccession);
         assertNull(doc.isIsoform);
         assertNull(doc.reviewed);
     }

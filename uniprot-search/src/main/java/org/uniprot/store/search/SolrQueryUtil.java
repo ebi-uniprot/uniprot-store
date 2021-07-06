@@ -105,6 +105,33 @@ public class SolrQueryUtil {
         return isValid;
     }
 
+    public static boolean hasNegativeTerm(String inputQuery) {
+        boolean hasNegativeTerm = false;
+        try {
+            QueryParser qp = new QueryParser("", new StandardAnalyzer());
+            qp.setAllowLeadingWildcard(true);
+            Query query = qp.parse(inputQuery);
+            hasNegativeTerm = hasNegativeTerm(query);
+        } catch (Exception e) {
+            // Syntax error is validated by ValidSolrQuerySyntax
+        }
+        return hasNegativeTerm;
+    }
+
+    public static boolean hasNegativeTerm(Query inputQuery) {
+        boolean hasNegativeTerm = false;
+        if (inputQuery instanceof BooleanQuery) {
+            BooleanQuery booleanQuery = (BooleanQuery) inputQuery;
+            for (BooleanClause clause : booleanQuery.clauses()) {
+                if (BooleanClause.Occur.MUST_NOT.equals(clause.getOccur())) {
+                    hasNegativeTerm = true;
+                    break;
+                }
+            }
+        }
+        return hasNegativeTerm;
+    }
+
     public static boolean hasFieldTerms(Query inputQuery, String... terms) {
         boolean hasTerm = false;
         List<String> termList = Arrays.asList(terms);

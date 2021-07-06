@@ -16,17 +16,22 @@ public class InactiveUniprotEntryConverter
 
     @Override
     public UniProtDocument convert(UniProtKBEntry source) {
+        EntryInactiveReason inactiveReason = source.getInactiveReason();
+        InactiveReasonType type = inactiveReason.getInactiveReasonType();
         UniProtDocument document = new UniProtDocument();
 
         document.accession = source.getPrimaryAccession().getValue();
         if (Utils.notNull(source.getUniProtkbId())) {
             document.id = source.getUniProtkbId().getValue();
+            if (!type.equals(InactiveReasonType.DEMERGED)) {
+                document.idDefault = source.getUniProtkbId().getValue();
+            }
         }
-        EntryInactiveReason inactiveReason = source.getInactiveReason();
-        if (inactiveReason.getInactiveReasonType().equals(InactiveReasonType.DELETED)) {
+
+        if (type.equals(InactiveReasonType.DELETED)) {
             document.content.add(source.getPrimaryAccession().getValue());
         }
-        document.inactiveReason = inactiveReason.getInactiveReasonType().getDisplayName();
+        document.inactiveReason = type.getDisplayName();
         if (Utils.notNullNotEmpty(inactiveReason.getMergeDemergeTos())) {
             document.inactiveReason += ":" + String.join(",", inactiveReason.getMergeDemergeTos());
         }

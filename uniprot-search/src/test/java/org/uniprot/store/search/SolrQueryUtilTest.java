@@ -112,4 +112,39 @@ class SolrQueryUtilTest {
         assertNotNull(value);
         assertEquals("[1 TO 10]", value);
     }
+
+    @Test
+    void hasNegativeTermSuccess() {
+        String inputQuery = "NOT (organism:Human)";
+        boolean result = SolrQueryUtil.hasNegativeTerm(inputQuery);
+        assertTrue(result);
+    }
+
+    @Test
+    void hasNegativeTermWithoutBracketsSuccess() {
+        String inputQuery = "NOT organism:Human";
+        boolean result = SolrQueryUtil.hasNegativeTerm(inputQuery);
+        assertTrue(result);
+    }
+
+    @Test
+    void hasNegativeTermComplexQuerySuccess() {
+        String inputQuery = "NOT (organism:Human) OR accession:P21802";
+        boolean result = SolrQueryUtil.hasNegativeTerm(inputQuery);
+        assertTrue(result);
+    }
+
+    @Test
+    void hasNegativeTermReturnsFalse() {
+        String inputQuery = "organism:Human";
+        boolean result = SolrQueryUtil.hasNegativeTerm(inputQuery);
+        assertFalse(result);
+    }
+
+    @Test
+    void hasNegativeTermComplexQueryReturnsFalse() {
+        String inputQuery = "organism:Human OR accession:P21802";
+        boolean result = SolrQueryUtil.hasNegativeTerm(inputQuery);
+        assertFalse(result);
+    }
 }

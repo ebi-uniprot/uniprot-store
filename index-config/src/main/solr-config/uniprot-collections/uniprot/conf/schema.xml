@@ -75,10 +75,14 @@
 	<field name="sec_acc" type="basic_ci" indexed="true"
 		stored="false" required="false" multiValued="true" />
 
+	<!-- Used in isoform entries -->
+	<field name="canonical_acc" type="basic_ci" indexed="true"
+		stored="false" required="false" multiValued="false" />
+
 	<field name="accession" type="basic_ci" indexed="true"
 		stored="false" required="true" multiValued="true" />
-	<copyField source="sec_acc" dest="accession" />
 	<copyField source="accession_id" dest="accession" />
+	<copyField source="canonical_acc" dest="accession" />
 
 	<!-- go used the advanced with everything -->
 	<field name="go" type="full_ci" indexed="true" stored="false"
