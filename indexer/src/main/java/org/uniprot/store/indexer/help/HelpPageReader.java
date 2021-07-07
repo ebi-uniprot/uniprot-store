@@ -29,7 +29,7 @@ public class HelpPageReader {
         try (Scanner scanner = new Scanner(new File(fileName), StandardCharsets.UTF_8)) {
             boolean startMetaRegion = false;
             boolean endMetaRegion = false;
-            StringBuilder descBuilder = new StringBuilder();
+            StringBuilder contentBuilder = new StringBuilder();
             while (scanner.hasNext()) {
                 String lines = scanner.nextLine();
                 if (!endMetaRegion && META_REGION_SEP.equals(lines)) {
@@ -39,14 +39,14 @@ public class HelpPageReader {
                         endMetaRegion = true;
                     }
                 } else if (endMetaRegion) { // content
-                    descBuilder.append(lines);
-                    descBuilder.append("\n");
+                    contentBuilder.append(lines);
+                    contentBuilder.append("\n");
                 } else if (startMetaRegion) { // in meta block i.e. between --- and ---
                     populateMeta(builder, lines);
                 }
             }
-            descBuilder.deleteCharAt(descBuilder.lastIndexOf("\n"));
-            builder.description(descBuilder.toString());
+            contentBuilder.deleteCharAt(contentBuilder.lastIndexOf("\n"));
+            builder.content(contentBuilder.toString());
         }
         return builder.build();
     }
