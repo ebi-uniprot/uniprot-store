@@ -68,17 +68,21 @@
 		stored="false" required="false" multiValued="false" />
 	<field name="structure_3d" type="boolean" indexed="true"
 		stored="false" required="false" multiValued="false" />
-	<field name="proteins_with" type="string" indexed="true"
+	<field name="proteins_with" type="int" indexed="true"
 		stored="false" required="false" multiValued="true" docValues="true" />
 
 	<!-- Uniprot Entry Fields optional -->
 	<field name="sec_acc" type="basic_ci" indexed="true"
 		stored="false" required="false" multiValued="true" />
 
+	<!-- Used in isoform entries -->
+	<field name="canonical_acc" type="basic_ci" indexed="true"
+		stored="false" required="false" multiValued="false" />
+
 	<field name="accession" type="basic_ci" indexed="true"
 		stored="false" required="true" multiValued="true" />
-	<copyField source="sec_acc" dest="accession" />
 	<copyField source="accession_id" dest="accession" />
+	<copyField source="canonical_acc" dest="accession" />
 
 	<!-- go used the advanced with everything -->
 	<field name="go" type="full_ci" indexed="true" stored="false"
@@ -138,7 +142,7 @@
 		stored="false" required="false" multiValued="true" />
 	<field name="virus_host_id" type="int" indexed="true"
 		stored="false" required="false" multiValued="true" />
-	<field name="model_organism" type="string" indexed="true"
+	<field name="model_organism" type="int" indexed="true"
 		stored="false" required="false" multiValued="false" docValues="true" />
 	<field name="other_organism" type="string" indexed="true"
 		stored="false" required="false" multiValued="false" docValues="true" />
@@ -315,8 +319,8 @@
 	<copyField source="go_iea" dest="go_automatic" />
 
 	<!-- Protein Existence -->
-	<field name="existence" type="string" indexed="true"
-		stored="false" required="false" multiValued="false" docValues="true" />
+	<field name="existence" type="int" indexed="true" stored="false"
+		required="false" multiValued="false" docValues="true" />
 
 	<!-- Sequence -->
 	<field name="mass" type="int" indexed="true" stored="false"

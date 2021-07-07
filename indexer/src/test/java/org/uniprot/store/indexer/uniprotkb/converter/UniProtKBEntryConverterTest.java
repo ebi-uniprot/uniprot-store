@@ -84,7 +84,7 @@ class UniProtKBEntryConverterTest {
         assertEquals("P12345-5", document.accession);
         assertTrue(document.isIsoform);
         assertTrue(document.active);
-        assertEquals(Collections.singletonList("P12345"), document.secacc);
+        assertEquals("P12345", document.canonicalAccession);
         assertEquals("UNIPROT_ENTRYID", document.id);
     }
 
@@ -291,7 +291,7 @@ class UniProtKBEntryConverterTest {
 
         // then
         assertEquals("P12345", document.accession);
-        assertEquals("PROTEIN_LEVEL", document.proteinExistence);
+        assertEquals(1, document.proteinExistence);
         // @lgonzales: protein existence information is not in the content (default) field, should
         // it be?
     }

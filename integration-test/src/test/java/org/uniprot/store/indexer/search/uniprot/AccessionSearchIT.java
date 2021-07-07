@@ -1,8 +1,7 @@
 package org.uniprot.store.indexer.search.uniprot;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.contains;
-import static org.hamcrest.Matchers.containsInAnyOrder;
+import static org.hamcrest.Matchers.*;
 import static org.hamcrest.collection.IsEmptyCollection.empty;
 import static org.hamcrest.core.Is.is;
 import static org.uniprot.store.indexer.search.uniprot.TestUtils.convertToUniProtEntry;
@@ -109,6 +108,7 @@ class AccessionSearchIT {
 
         try {
             QueryResponse response = searchEngine.getQueryResponse(query.toString());
+            assertThat(response, is(notNullValue()));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -116,7 +116,7 @@ class AccessionSearchIT {
 
     @Test
     void secondaryAccessionFromEntry1MatchesEntry1() {
-        String query = "accession:" + SECONDARY_ACCESSION1_1;
+        String query = "sec_acc:" + SECONDARY_ACCESSION1_1;
         QueryResponse response = searchEngine.getQueryResponse(query);
 
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
@@ -126,7 +126,7 @@ class AccessionSearchIT {
     @Test
     void searchingAccessionsFromEntry1And2MatchesEntry1And2() {
         String query =
-                "accession:" + SECONDARY_ACCESSION1_1 + " OR " + "accession:" + PRIMARY_ACCESSION2;
+                "sec_acc:" + SECONDARY_ACCESSION1_1 + " OR " + "accession:" + PRIMARY_ACCESSION2;
         QueryResponse response = searchEngine.getQueryResponse(query);
 
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);

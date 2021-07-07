@@ -22,6 +22,7 @@ import org.uniprot.core.uniprotkb.impl.UniProtKBEntryBuilder;
 import org.uniprot.cv.chebi.ChebiRepo;
 import org.uniprot.store.indexer.uniprot.pathway.PathwayRepo;
 import org.uniprot.store.search.document.suggest.SuggestDocument;
+import org.uniprot.store.search.document.uniprot.ProteinsWith;
 import org.uniprot.store.search.document.uniprot.UniProtDocument;
 
 /**
@@ -103,7 +104,7 @@ class UniProtKBEntryCommentsConverterTest {
         assertTrue(document.commentEvMap.get(CCEV_CATALYTIC_ACTIVITY).contains("manual"));
 
         assertEquals(1, document.proteinsWith.size());
-        assertTrue(document.proteinsWith.contains("catalytic_activity"));
+        assertTrue(document.proteinsWith.contains(ProteinsWith.CATALYTIC_ACTIVITY.getValue()));
 
         // check suggestions
         // lgonzales: should we add ECEntry to catalytic activity suggestions?
@@ -147,7 +148,7 @@ class UniProtKBEntryCommentsConverterTest {
         assertEquals(Arrays.asList("PW-1233", "PW-1234"), document.pathway);
 
         assertEquals(1, document.proteinsWith.size());
-        assertTrue(document.proteinsWith.contains("pathway"));
+        assertTrue(document.proteinsWith.contains(ProteinsWith.PATHWAY.getValue()));
 
         assertTrue(document.commentMap.containsKey("cc_pathway"));
         assertEquals(3, document.commentMap.get("cc_pathway").size());
@@ -216,7 +217,7 @@ class UniProtKBEntryCommentsConverterTest {
         assertTrue(document.interactors.contains("EBI-81711"));
 
         assertEquals(1, document.proteinsWith.size());
-        assertTrue(document.proteinsWith.contains("interaction"));
+        assertTrue(document.proteinsWith.contains(ProteinsWith.BINARY_INTERACTION.getValue()));
 
         assertTrue(document.commentMap.containsKey("cc_interaction"));
         assertEquals(1, document.commentMap.get("cc_interaction").size());
@@ -314,7 +315,7 @@ class UniProtKBEntryCommentsConverterTest {
         assertNotNull(document);
 
         assertEquals(1, document.proteinsWith.size());
-        assertTrue(document.proteinsWith.contains("alternative_products"));
+        assertTrue(document.proteinsWith.contains(ProteinsWith.ALTERNATIVE_PRODUCTS.getValue()));
 
         assertTrue(document.commentMap.containsKey(CC_ALTERNATIVE_PRODUCTS_FIELD));
         assertTrue(
@@ -377,7 +378,7 @@ class UniProtKBEntryCommentsConverterTest {
         assertNotNull(document);
 
         assertEquals(1, document.proteinsWith.size());
-        assertTrue(document.proteinsWith.contains("alternative_products"));
+        assertTrue(document.proteinsWith.contains(ProteinsWith.ALTERNATIVE_PRODUCTS.getValue()));
 
         assertTrue(document.commentMap.containsKey(CC_ALTERNATIVE_PRODUCTS_FIELD));
         assertTrue(
@@ -438,7 +439,7 @@ class UniProtKBEntryCommentsConverterTest {
         assertNotNull(document);
 
         assertEquals(1, document.proteinsWith.size());
-        assertTrue(document.proteinsWith.contains("cofactor"));
+        assertTrue(document.proteinsWith.contains(ProteinsWith.COFACTORS.getValue()));
 
         assertEquals(1, document.commentMap.keySet().size());
 
@@ -532,7 +533,9 @@ class UniProtKBEntryCommentsConverterTest {
         assertEquals(3, document.commentMap.get(CC_BIOPHYSICOCHEMICAL_PROPERTIES_FIELD).size());
 
         assertEquals(1, document.proteinsWith.size());
-        assertTrue(document.proteinsWith.contains("biophysicochemical_properties"));
+        assertTrue(
+                document.proteinsWith.contains(
+                        ProteinsWith.BIOPHYSICOCHEMICAL_PROPERTIES.getValue()));
 
         assertTrue(document.commentMap.containsKey(CC_BIOPHYSICOCHEMICAL_PROPERTIES_FIELD));
         assertTrue(
@@ -697,7 +700,7 @@ class UniProtKBEntryCommentsConverterTest {
         assertEquals(3, document.commentMap.get(CC_SUBCELLULAR_LOCATION_FIELD).size());
 
         assertEquals(1, document.proteinsWith.size());
-        assertTrue(document.proteinsWith.contains("subcellular_location"));
+        assertTrue(document.proteinsWith.contains(ProteinsWith.SUBCELLULAR_LOCATION.getValue()));
 
         assertTrue(document.commentMap.containsKey(CC_SUBCELLULAR_LOCATION_FIELD));
         assertTrue(
@@ -770,7 +773,7 @@ class UniProtKBEntryCommentsConverterTest {
         assertNotNull(document);
 
         assertEquals(1, document.proteinsWith.size());
-        assertTrue(document.proteinsWith.contains("disease"));
+        assertTrue(document.proteinsWith.contains(ProteinsWith.DISEASE.getValue()));
 
         assertTrue(document.commentMap.containsKey("cc_disease"));
         assertEquals(2, document.commentMap.get("cc_disease").size());
@@ -818,7 +821,7 @@ class UniProtKBEntryCommentsConverterTest {
         assertNotNull(document);
 
         assertEquals(1, document.proteinsWith.size());
-        assertTrue(document.proteinsWith.contains("rna_editing"));
+        assertTrue(document.proteinsWith.contains(ProteinsWith.RNA_EDITING.getValue()));
 
         assertTrue(document.commentMap.containsKey("cc_rna_editing"));
         assertEquals(1, document.commentMap.get("cc_rna_editing").size());
@@ -858,7 +861,7 @@ class UniProtKBEntryCommentsConverterTest {
         assertNotNull(document);
 
         assertEquals(1, document.proteinsWith.size());
-        assertTrue(document.proteinsWith.contains("mass_spectrometry"));
+        assertTrue(document.proteinsWith.contains(ProteinsWith.MASS_SPECTROMETRY.getValue()));
 
         assertTrue(document.commentMap.containsKey("cc_mass_spectrometry"));
         assertEquals(1, document.commentMap.get("cc_mass_spectrometry").size());

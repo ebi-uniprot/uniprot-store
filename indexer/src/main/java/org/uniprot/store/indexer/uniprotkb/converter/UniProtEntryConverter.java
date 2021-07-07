@@ -96,7 +96,7 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtKBEntry, 
                 // find it.
                 String canonicalAccession =
                         document.accession.substring(0, document.accession.indexOf(DASH));
-                document.secacc.add(canonicalAccession);
+                document.canonicalAccession = canonicalAccession;
             } else {
                 document.isIsoform = false;
             }
@@ -261,7 +261,7 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtKBEntry, 
     private void convertProteinExistence(
             ProteinExistence proteinExistence, UniProtDocument document) {
         if (proteinExistence != null) {
-            document.proteinExistence = proteinExistence.name();
+            document.proteinExistence = proteinExistence.getId();
         }
     }
 

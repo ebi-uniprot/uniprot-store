@@ -189,5 +189,15 @@
     "dataType": "INTEGER",
     "description": "Sort by length",
     "example": "length asc"
+  },
+  {
+    "id": "database_facet",
+    "fieldName": "database_facet",
+    "label": "Database facet",
+    "fieldType": "GENERAL",
+    "dataType": "INTEGER",
+    "description": "Search by database index",
+    "example": "1",
+    "includeInSwagger": true
   }
 ]

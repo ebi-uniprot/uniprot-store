@@ -70,7 +70,7 @@ class TaxonomyEntryToUniProtDocumentTest {
         assertTrue(result.organismName.contains("organism synonym"));
 
         assertEquals("organism scientific name organ", result.organismSort);
-        assertEquals("Human", result.modelOrganism);
+        assertEquals(9606, result.modelOrganism);
         assertNull(result.otherOrganism);
 
         assertEquals(7, result.organismTaxon.size());

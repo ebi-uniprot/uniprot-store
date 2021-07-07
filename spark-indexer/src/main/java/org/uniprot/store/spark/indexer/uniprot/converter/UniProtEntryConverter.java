@@ -80,7 +80,7 @@ public class UniProtEntryConverter
                 // find it.
                 String canonicalAccession =
                         document.accession.substring(0, document.accession.indexOf(DASH));
-                document.secacc.add(canonicalAccession);
+                document.canonicalAccession = canonicalAccession;
             } else {
                 document.isIsoform = false;
             }
@@ -225,7 +225,7 @@ public class UniProtEntryConverter
     private void convertProteinExistence(
             ProteinExistence proteinExistence, UniProtDocument document) {
         if (Utils.notNull(proteinExistence)) {
-            document.proteinExistence = proteinExistence.name();
+            document.proteinExistence = proteinExistence.getId();
         }
     }
 }

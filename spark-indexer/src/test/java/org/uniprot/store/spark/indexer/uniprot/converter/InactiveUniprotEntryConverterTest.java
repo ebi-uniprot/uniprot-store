@@ -27,6 +27,24 @@ class InactiveUniprotEntryConverterTest {
 
         assertEquals("P12345", result.accession);
         assertNull(result.id);
+        assertNull(result.idDefault);
+        assertEquals("DELETED", result.inactiveReason);
+        assertFalse(result.active);
+        assertTrue(result.content.contains("P12345"));
+    }
+
+    @Test
+    void convertDeletedWithId() {
+        InactiveUniprotEntryConverter converter = new InactiveUniprotEntryConverter();
+        EntryInactiveReason inactiveReason =
+                new EntryInactiveReasonBuilder().type(InactiveReasonType.DELETED).build();
+        UniProtKBEntry entry = new UniProtKBEntryBuilder("P12345", "ID", inactiveReason).build();
+        UniProtDocument result = converter.convert(entry);
+        assertNotNull(result);
+
+        assertEquals("P12345", result.accession);
+        assertEquals("ID", result.id);
+        assertEquals("ID", result.idDefault);
         assertEquals("DELETED", result.inactiveReason);
         assertFalse(result.active);
         assertTrue(result.content.contains("P12345"));
@@ -46,6 +64,7 @@ class InactiveUniprotEntryConverterTest {
 
         assertEquals("P12345", result.accession);
         assertEquals("ID1", result.id);
+        assertEquals("ID1", result.idDefault);
         assertEquals("MERGED:P11111", result.inactiveReason);
         assertFalse(result.active);
         assertTrue(result.content.isEmpty());
@@ -66,6 +85,7 @@ class InactiveUniprotEntryConverterTest {
 
         assertEquals("P12345", result.accession);
         assertEquals("ID1", result.id);
+        assertNull(result.idDefault);
         assertEquals("DEMERGED:P11111,P22222", result.inactiveReason);
         assertFalse(result.active);
         assertTrue(result.content.isEmpty());

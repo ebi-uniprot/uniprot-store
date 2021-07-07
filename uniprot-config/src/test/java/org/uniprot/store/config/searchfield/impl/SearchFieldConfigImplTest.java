@@ -108,7 +108,7 @@ class SearchFieldConfigImplTest {
                         .filter(val -> val.getName().equals("Inferred from homology"))
                         .findFirst();
         assertTrue(tuple.isPresent());
-        assertEquals("homology", tuple.orElse(new SearchFieldItem.Value()).getValue());
+        assertEquals("3", tuple.orElse(new SearchFieldItem.Value()).getValue());
     }
 
     @Test

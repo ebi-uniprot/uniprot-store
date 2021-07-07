@@ -107,11 +107,11 @@ public class TaxonomyProcessor implements ItemProcessor<TaxonomyEntry, TaxonomyD
                 taxonomiesWith.add("3_unreviewed");
             }
             if (statistics.hasReferenceProteomeCount()) {
-                taxonomiesWith.add("4_proteome");
-                taxonomiesWith.add("5_reference");
+                taxonomiesWith.add("4_reference");
+                taxonomiesWith.add("5_proteome");
             }
             if (statistics.hasProteomeCount() && !statistics.hasReferenceProteomeCount()) {
-                taxonomiesWith.add("4_proteome");
+                taxonomiesWith.add("5_proteome");
             }
             documentBuilder.taxonomiesWith(taxonomiesWith);
         }

@@ -20,6 +20,7 @@ import org.junit.jupiter.api.Test;
 import org.uniprot.core.flatfile.parser.SupportingDataMap;
 import org.uniprot.core.flatfile.parser.impl.DefaultUniProtParser;
 import org.uniprot.core.uniprotkb.UniProtKBEntry;
+import org.uniprot.store.search.document.uniprot.ProteinsWith;
 import org.uniprot.store.search.document.uniprot.UniProtDocument;
 
 /**
@@ -123,7 +124,7 @@ class UniProtKBEntryConverterIT {
         assertTrue(doc.commentEvMap.get(CCEV_SIMILARITY_FIELD).contains("ECO_0000256"));
         assertTrue(doc.commentEvMap.get(CCEV_SIMILARITY_FIELD).contains("automatic"));
 
-        assertEquals("HOMOLOGY", doc.proteinExistence);
+        assertEquals(3, doc.proteinExistence);
         assertFalse(doc.fragment);
         assertFalse(doc.precursor);
         assertTrue(doc.active);
@@ -179,6 +180,7 @@ class UniProtKBEntryConverterIT {
         assertEquals("Q9EPI6", doc.accession);
         assertEquals(5, doc.secacc.size());
         assertEquals("Q7TSC6", doc.secacc.get(1));
+        assertNull(doc.canonicalAccession);
         assertEquals("NSMF_RAT", doc.id);
         assertTrue(doc.reviewed);
 
@@ -258,9 +260,7 @@ class UniProtKBEntryConverterIT {
         assertTrue(doc.referenceJournals.contains("Genome Res."));
 
         assertEquals(16, doc.proteinsWith.size());
-        assertTrue(doc.proteinsWith.contains("chain"));
-        assertFalse(doc.proteinsWith.contains("similarity")); // filtered out
-        assertFalse(doc.proteinsWith.contains("conflict")); // filtered out
+        assertTrue(doc.proteinsWith.contains(ProteinsWith.CHAIN.getValue()));
 
         assertEquals(10, doc.commentMap.keySet().size());
         assertTrue(doc.commentMap.containsKey(CC_SIMILARITY_FIELD));
@@ -293,7 +293,7 @@ class UniProtKBEntryConverterIT {
         assertTrue(doc.featureLengthMap.containsKey(FTLEN_CHAIN_FIELD));
         assertTrue(doc.featureLengthMap.get(FTLEN_CHAIN_FIELD).contains(531));
 
-        assertEquals("PROTEIN_LEVEL", doc.proteinExistence);
+        assertEquals(1, doc.proteinExistence);
         assertFalse(doc.fragment);
         assertFalse(doc.precursor);
         assertTrue(doc.active);
@@ -358,8 +358,7 @@ class UniProtKBEntryConverterIT {
         assertNotNull(doc);
 
         assertEquals("Q9EPI6-2", doc.accession);
-        assertEquals(1, doc.secacc.size());
-        assertEquals("Q9EPI6", doc.secacc.get(0));
+        assertEquals("Q9EPI6", doc.canonicalAccession);
         assertEquals("NSMF-2_RAT", doc.id);
         assertTrue(doc.isIsoform);
         assertTrue(doc.reviewed);
@@ -435,7 +434,7 @@ class UniProtKBEntryConverterIT {
         assertTrue(doc.referenceJournals.contains("Genome Res."));
 
         assertEquals(1, doc.proteinsWith.size());
-        assertTrue(doc.proteinsWith.contains("alternative_products"));
+        assertTrue(doc.proteinsWith.contains(ProteinsWith.ALTERNATIVE_PRODUCTS.getValue()));
 
         assertEquals(1, doc.commentMap.keySet().size());
         assertEquals(1, doc.commentMap.size());
@@ -448,7 +447,7 @@ class UniProtKBEntryConverterIT {
         assertEquals(0, doc.featureEvidenceMap.size());
         assertEquals(0, doc.featureLengthMap.size());
 
-        assertEquals("PROTEIN_LEVEL", doc.proteinExistence);
+        assertEquals(1, doc.proteinExistence);
         assertFalse(doc.fragment);
         assertFalse(doc.precursor);
         assertTrue(doc.active);
@@ -502,6 +501,7 @@ class UniProtKBEntryConverterIT {
         assertNotNull(doc);
 
         assertEquals("Q9EPI6-1", doc.accession);
+        assertNull(doc.canonicalAccession);
         assertNull(doc.isIsoform);
         assertNull(doc.reviewed);
     }
