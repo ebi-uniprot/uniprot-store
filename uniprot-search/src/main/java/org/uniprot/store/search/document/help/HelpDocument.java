@@ -28,15 +28,6 @@ public class HelpDocument implements Document {
     @Field("category")
     private List<String> categories;
 
-    @Field("section")
-    private List<String> sections;
-
-    @Field("keyword")
-    private List<String> keywords;
-
-    @Field("file_content")
-    private String fileContent; // full content with meta
-
     @Override
     public String getDocumentId() {
         return id;
