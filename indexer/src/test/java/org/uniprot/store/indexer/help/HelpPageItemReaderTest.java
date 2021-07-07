@@ -26,7 +26,7 @@ public class HelpPageItemReaderTest {
         Assertions.assertNotNull(helpDoc.getId());
         Assertions.assertNotNull(helpDoc.getDocumentId());
         Assertions.assertNotNull(helpDoc.getTitle());
-        Assertions.assertNotNull(helpDoc.getDescription());
+        Assertions.assertNotNull(helpDoc.getContent());
         Assertions.assertNotNull(helpDoc.getCategories());
         Assertions.assertFalse(helpDoc.getCategories().isEmpty());
         if("3d-structure_annotation_in_swiss-prot".equals(helpDoc.getId())){
@@ -41,7 +41,7 @@ public class HelpPageItemReaderTest {
         Assertions.assertEquals("3D-structure annotation in UniProtKB/Swiss-Prot", helpDoc.getTitle());
         Assertions.assertEquals(4, helpDoc.getCategories().size());
         Assertions.assertEquals(List.of("3D structure", "Biocuration","Cross-references","help"), helpDoc.getCategories());
-        Assertions.assertEquals(THREE_D_CONTENT, helpDoc.getDescription());
+        Assertions.assertEquals(THREE_D_CONTENT, helpDoc.getContent());
     }
 
     private void verifyAbout(HelpDocument helpDoc) {
@@ -49,7 +49,7 @@ public class HelpPageItemReaderTest {
         Assertions.assertEquals("About UniProt", helpDoc.getTitle());
         Assertions.assertEquals(6, helpDoc.getCategories().size());
         Assertions.assertEquals(List.of("About UniProt","Staff","UniProtKB","UniRef","UniParc","help"), helpDoc.getCategories());
-        Assertions.assertEquals(ABOUT_CONTENT, helpDoc.getDescription());
+        Assertions.assertEquals(ABOUT_CONTENT, helpDoc.getContent());
     }
 
 

@@ -23,7 +23,7 @@ public class HelpDocument implements Document {
     private static final long serialVersionUID = 2979685307668121593L;
     @Field private String id;
     @Field private String title;
-    @Field private String description; // content without meta
+    @Field private String content; // content without meta
 
     @Field("category")
     private List<String> categories;
