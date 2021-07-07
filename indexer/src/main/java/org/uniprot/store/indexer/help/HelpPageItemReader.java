@@ -19,7 +19,8 @@ public class HelpPageItemReader implements ItemReader<HelpDocument> {
     private final HelpPageReader reader;
 
     public HelpPageItemReader(String directoryPath) throws IOException {
-        DirectoryStream.Filter<Path> filter = path -> path.toFile().isFile() && path.toString().endsWith(".md");
+        DirectoryStream.Filter<Path> filter = path -> path.toFile().isFile() && path.toString().endsWith(".md")
+                && !path.toString().endsWith("Home.md");
         this.fileIterator = Files.newDirectoryStream(Paths.get(directoryPath), filter).iterator();
         this.reader = new HelpPageReader();
     }
@@ -29,7 +30,6 @@ public class HelpPageItemReader implements ItemReader<HelpDocument> {
         while(this.fileIterator.hasNext()){
             String absPath = this.fileIterator.next().toAbsolutePath().normalize().toString();
             HelpDocument helpDocument = this.reader.read(absPath);
-            System.out.println(helpDocument.getDescription());
             return helpDocument;
         }
         return null;
