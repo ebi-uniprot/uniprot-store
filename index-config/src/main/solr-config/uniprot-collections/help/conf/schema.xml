@@ -17,11 +17,11 @@
 		required="true" docValues="true" />
 	<field name="title" type="full_ci" indexed="true" stored="true"
 		required="true" />
-	<field name="content" type="full_ci" indexed="true"
-		stored="true" required="true" />
+	<field name="content" type="full_ci" indexed="true" stored="true"
+		required="true" />
 	<!-- facet field -->
-	<field name="category" type="string" indexed="true"
-		stored="true" multiValued="true" docValues="true" />
+	<field name="category" type="string" indexed="true" stored="true"
+		multiValued="true" docValues="true" />
 	<!-- =============================== field types =============================== -->
 	<fieldType name="plong" class="solr.LongPointField"
 		docValues="true" />

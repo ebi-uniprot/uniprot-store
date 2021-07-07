@@ -1,7 +1,5 @@
 package org.uniprot.store.indexer.help;
 
-import org.uniprot.store.search.document.help.HelpDocument;
-
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -11,6 +9,8 @@ import java.util.Scanner;
 import java.util.stream.Collectors;
 
 import lombok.extern.slf4j.Slf4j;
+
+import org.uniprot.store.search.document.help.HelpDocument;
 
 /**
  * @author sahmad
@@ -53,14 +53,16 @@ public class HelpPageReader {
 
     private String extractId(String filePath) {
         String fileName = filePath.substring(filePath.lastIndexOf("/") + 1);
-        return fileName.split(".md")[0];// get first part from the fileName.md
+        return fileName.split(".md")[0]; // get first part from the fileName.md
     }
 
     private void populateMeta(HelpDocument.HelpDocumentBuilder builder, String line) {
         if (line.startsWith(CATEGORIES_COLON)) {
-            List<String> metaValues = Arrays.stream(line.split(CATEGORIES_COLON)[1].split(","))
-                    .map(String::strip).map(cat -> cat.replace("_", " "))
-                    .collect(Collectors.toList());
+            List<String> metaValues =
+                    Arrays.stream(line.split(CATEGORIES_COLON)[1].split(","))
+                            .map(String::strip)
+                            .map(cat -> cat.replace("_", " "))
+                            .collect(Collectors.toList());
             builder.categories(metaValues);
         }
 
