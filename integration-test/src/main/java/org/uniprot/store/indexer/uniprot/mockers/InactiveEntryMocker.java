@@ -32,13 +32,16 @@ public class InactiveEntryMocker {
         entryMap.put(InactiveType.DELETED, deletedEntries);
 
         List<InactiveUniProtEntry> mergedEntries = new ArrayList<>();
-        mergedEntries.add(InactiveUniProtEntry.from("Q14301", "Q14301_FGFR2", MERGED, ACTIVE_ACESSION));
-        mergedEntries.add(InactiveUniProtEntry.from("B4DFC2", "B4DFC2_FGFR2", MERGED, ACTIVE_ACESSION));
+        mergedEntries.add(
+                InactiveUniProtEntry.from("Q14301", "Q14301_FGFR2", MERGED, ACTIVE_ACESSION));
+        mergedEntries.add(
+                InactiveUniProtEntry.from("B4DFC2", "B4DFC2_FGFR2", MERGED, ACTIVE_ACESSION));
         mergedEntries.add(InactiveUniProtEntry.from("F8VPU5", "F8VPU5_BRCA2", MERGED, "P97929"));
         entryMap.put(InactiveType.MERGED, mergedEntries);
 
         List<InactiveUniProtEntry> demergedEntries = new ArrayList<>();
-        demergedEntries.add(InactiveUniProtEntry.from("Q00007", "FGFR2_HUMAN", MERGED, ACTIVE_ACESSION));
+        demergedEntries.add(
+                InactiveUniProtEntry.from("Q00007", "FGFR2_HUMAN", MERGED, ACTIVE_ACESSION));
         demergedEntries.add(InactiveUniProtEntry.from("Q00007", "FGFR2_HUMAN", MERGED, "P63151"));
         entryMap.put(
                 InactiveType.DEMERGED,

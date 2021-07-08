@@ -4,6 +4,7 @@ public enum UniProtDataType {
     CROSSREF,
     DISEASE,
     GENECENTRIC,
+    HELP,
     KEYWORD,
     PIR_ID_MAPPING,
     LITERATURE,
