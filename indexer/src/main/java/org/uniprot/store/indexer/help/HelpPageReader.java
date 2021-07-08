@@ -52,7 +52,8 @@ public class HelpPageReader {
     }
 
     private String extractId(String filePath) {
-        // TODO: 07/07/2021 this should probably include the path as well, because different dirs could have the same file name, but this would then lead to id clashes in our docs
+        // TODO: 07/07/2021 this should probably include the path as well, because different dirs
+        // could have the same file name, but this would then lead to id clashes in our docs
         String fileName = filePath.substring(filePath.lastIndexOf("/") + 1);
         return fileName.split(".md")[0]; // get first part from the fileName.md
     }

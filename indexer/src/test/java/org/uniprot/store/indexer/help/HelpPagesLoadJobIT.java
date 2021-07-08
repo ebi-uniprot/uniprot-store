@@ -71,14 +71,18 @@ class HelpPagesLoadJobIT {
         HelpDocument doc3D = response.get(0);
         assertThat(doc3D.getId(), is("3d-structure_annotation_in_swiss-prot"));
         assertThat(doc3D.getTitle(), is("3D-structure annotation in UniProtKB/Swiss-Prot"));
-        assertThat(doc3D.getCategories(), containsInAnyOrder("3D structure", "Biocuration", "Cross-references", "help"));
+        assertThat(
+                doc3D.getCategories(),
+                containsInAnyOrder("3D structure", "Biocuration", "Cross-references", "help"));
         assertThat(doc3D.getContent(), is(THREE_D_CONTENT));
         HelpDocument about = response.get(1);
         assertThat(about.getId(), is("about"));
         assertThat(about.getTitle(), is("About UniProt"));
-        assertThat(about.getCategories(), containsInAnyOrder("About UniProt", "Staff", "UniProtKB", "UniRef", "UniParc", "help"));
+        assertThat(
+                about.getCategories(),
+                containsInAnyOrder(
+                        "About UniProt", "Staff", "UniProtKB", "UniRef", "UniParc", "help"));
         assertThat(about.getContent(), is(ABOUT_CONTENT));
-
 
         // clean up
         solrClient.delete(SolrCollection.help, "*:*");
