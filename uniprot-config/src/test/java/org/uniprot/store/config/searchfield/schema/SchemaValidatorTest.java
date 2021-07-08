@@ -38,6 +38,8 @@ public class SchemaValidatorTest {
                 Arguments.of(SearchFieldConfigFactory.UNIPARC_CONFIG_FILE, schemaFile),
                 Arguments.of(SearchFieldConfigFactory.UNIPROTKB_CONFIG_FILE, schemaFile),
                 Arguments.of(SearchFieldConfigFactory.UNIREF_CONFIG_FILE, schemaFile),
+                Arguments.of(SearchFieldConfigFactory.UNIRULE_CONFIG_FILE, schemaFile),
+                Arguments.of(SearchFieldConfigFactory.HELP_CONFIG_FILE, schemaFile),
                 Arguments.of(
                         TestSearchFieldConfig.TEST_SEARCH_FIELDS_CONFIG,
                         TestSearchFieldConfig.TEST_SCHEMA_CONFIG));
