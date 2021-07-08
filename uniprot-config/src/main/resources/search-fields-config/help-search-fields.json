@@ -1,0 +1,34 @@
+[
+  {
+    "id": "id",
+    "fieldName": "id",
+    "fieldType": "GENERAL",
+    "dataType": "STRING",
+    "description": "Search by help page id",
+    "example": "about"
+  },
+  {
+    "id": "title",
+    "fieldName": "title",
+    "fieldType": "GENERAL",
+    "dataType": "STRING",
+    "description": "Search by help page title",
+    "example": "About UniProt"
+  },
+  {
+    "id": "content",
+    "fieldName": "content",
+    "fieldType": "GENERAL",
+    "dataType": "STRING",
+    "description": "Search by help page content",
+    "example": "Biocuration"
+  },
+  {
+    "id": "category",
+    "fieldName": "category",
+    "fieldType": "GENERAL",
+    "dataType": "STRING",
+    "description": "Search by category",
+    "example": "Biocuration"
+  }
+]

@@ -1,0 +1,20 @@
+[
+  {
+    "itemType": "SINGLE",
+    "name": "id",
+    "id": "id",
+    "isRequiredForJson": true
+  },
+  {
+    "itemType": "SINGLE",
+    "name": "title",
+    "id": "title",
+    "isRequiredForJson": true
+  },
+  {
+    "itemType": "SINGLE",
+    "name": "matched",
+    "id": "content",
+    "isRequiredForJson": true
+  }
+]

@@ -39,6 +39,8 @@ public class SearchFieldConfigFactory {
             "search-fields-config/publication-search-fields.json";
     public static final String UNIRULE_CONFIG_FILE =
             "search-fields-config/unirule-search-fields.json";
+    public static final String HELP_CONFIG_FILE =
+            "search-fields-config/help-search-fields.json";
 
     private static final Map<UniProtDataType, SearchFieldConfig> TYPE_SEARCHFIELDCONFIG_MAP =
             new EnumMap<>(UniProtDataType.class);
@@ -60,6 +62,7 @@ public class SearchFieldConfigFactory {
         typeConfigMap.put(UniProtDataType.UNIREF, UNIREF_CONFIG_FILE);
         typeConfigMap.put(UniProtDataType.PUBLICATION, PUBLICATION_CONFIG_FILE);
         typeConfigMap.put(UniProtDataType.UNIRULE, UNIRULE_CONFIG_FILE);
+        typeConfigMap.put(UniProtDataType.HELP, HELP_CONFIG_FILE);
         TYPE_CONFIGFILE_MAP = Collections.unmodifiableMap(typeConfigMap);
     }
 
