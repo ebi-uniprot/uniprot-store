@@ -1,20 +1,55 @@
 [
   {
+    "seqNumber": 0,
+    "itemType": "GROUP",
+    "groupName": "Help Centre",
+    "isDatabaseGroup": false,
+    "id": "helpCentre"
+  },
+  {
+    "parentId": "helpCentre",
+    "childNumber": 0,
     "itemType": "SINGLE",
+    "label": "Id",
     "name": "id",
     "id": "id",
+    "paths" : ["id"],
     "isRequiredForJson": true
   },
   {
+    "parentId": "helpCentre",
+    "childNumber": 1,
     "itemType": "SINGLE",
+    "label": "Title",
     "name": "title",
     "id": "title",
-    "isRequiredForJson": true
+    "paths" : ["title"]
   },
   {
+    "parentId": "helpCentre",
+    "childNumber": 2,
     "itemType": "SINGLE",
-    "name": "matched",
+    "label": "Content",
+    "name": "content",
     "id": "content",
-    "isRequiredForJson": true
+    "paths" : ["content"]
+  },
+  {
+    "parentId": "helpCentre",
+    "childNumber": 3,
+    "itemType": "SINGLE",
+    "label": "Categories",
+    "name": "categories",
+    "id": "categories",
+    "paths" : ["categories"]
+  },
+  {
+    "parentId": "helpCentre",
+    "childNumber": 4,
+    "itemType": "SINGLE",
+    "label": "Matched Results",
+    "name": "matched",
+    "id": "matched",
+    "paths" : ["matched"]
   }
 ]

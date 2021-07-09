@@ -17,6 +17,9 @@
 		required="true" docValues="true" />
 	<field name="title" type="full_ci" indexed="true" stored="true"
 		required="true" />
+	<field name="title_sort" type="string" indexed="false"
+		stored="false" required="true" docValues="true" />
+	<copyField source="title" dest="title_sort" />
 	<field name="content" type="full_ci" indexed="true" stored="true"
 		required="true" />
 	<!-- facet field -->

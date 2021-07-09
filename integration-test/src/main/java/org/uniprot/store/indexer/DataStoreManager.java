@@ -52,7 +52,8 @@ public class DataStoreManager implements AfterAllCallback, BeforeAllCallback {
         SUBCELLULAR_LOCATION,
         SUGGEST,
         PUBLICATION,
-        UNIRULE
+        UNIRULE,
+        HELP
     }
 
     private static final String SOLR_SYSTEM_PROPERTIES = "solr-system.properties";

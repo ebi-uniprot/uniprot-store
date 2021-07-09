@@ -41,8 +41,7 @@ public class ReturnFieldConfigFactory {
             "return-fields-config/unirule-return-fields.json";
     public static final String UNIPARC_CROSSREF_CONFIG_FILE =
             "return-fields-config/uniparc-crossref-return-fields.json";
-    public static final String HELP_CONFIG_FILE =
-            "return-fields-config/help-return-fields.json";
+    public static final String HELP_CONFIG_FILE = "return-fields-config/help-return-fields.json";
 
     private static final Map<UniProtDataType, ReturnFieldConfig> TYPE_FIELD_CONFIG_MAP =
             new EnumMap<>(UniProtDataType.class);
