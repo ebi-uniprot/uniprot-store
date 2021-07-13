@@ -1,6 +1,7 @@
 package org.uniprot.store.search.document.help;
 
 import java.util.List;
+import java.util.Map;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -27,6 +28,8 @@ public class HelpDocument implements Document {
 
     @Field("category")
     private List<String> categories;
+
+    private Map<String, List<String>> matches;
 
     @Override
     public String getDocumentId() {

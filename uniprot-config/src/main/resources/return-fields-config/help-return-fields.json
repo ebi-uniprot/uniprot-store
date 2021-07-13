@@ -48,8 +48,8 @@
     "childNumber": 4,
     "itemType": "SINGLE",
     "label": "Matched Results",
-    "name": "matched",
-    "id": "matched",
-    "paths" : ["matched"]
+    "name": "matches",
+    "id": "matches",
+    "paths" : ["matches"]
   }
 ]
