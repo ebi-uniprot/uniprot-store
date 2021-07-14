@@ -18,6 +18,7 @@ public class HelpPageItemReader implements ItemReader<HelpDocument> {
     private final Iterator<Path> fileIterator;
     private final HelpPageReader reader;
 
+    @SuppressWarnings("squid:S2095")
     public HelpPageItemReader(String directoryPath) throws IOException {
         DirectoryStream.Filter<Path> filter =
                 path ->
@@ -32,8 +33,7 @@ public class HelpPageItemReader implements ItemReader<HelpDocument> {
     public HelpDocument read() throws Exception {
         while (this.fileIterator.hasNext()) {
             String absPath = this.fileIterator.next().toAbsolutePath().normalize().toString();
-            HelpDocument helpDocument = this.reader.read(absPath);
-            return helpDocument;
+            return this.reader.read(absPath);
         }
         return null;
     }
