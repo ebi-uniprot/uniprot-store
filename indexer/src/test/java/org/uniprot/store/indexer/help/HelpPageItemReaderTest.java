@@ -1,8 +1,9 @@
 package org.uniprot.store.indexer.help;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 import java.util.List;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.uniprot.store.search.document.help.HelpDocument;
 
@@ -22,13 +23,13 @@ public class HelpPageItemReaderTest {
     }
 
     private void verifyHelpDocument(HelpDocument helpDoc) {
-        Assertions.assertNotNull(helpDoc);
-        Assertions.assertNotNull(helpDoc.getId());
-        Assertions.assertNotNull(helpDoc.getDocumentId());
-        Assertions.assertNotNull(helpDoc.getTitle());
-        Assertions.assertNotNull(helpDoc.getContent());
-        Assertions.assertNotNull(helpDoc.getCategories());
-        Assertions.assertFalse(helpDoc.getCategories().isEmpty());
+        assertNotNull(helpDoc);
+        assertNotNull(helpDoc.getId());
+        assertNotNull(helpDoc.getDocumentId());
+        assertNotNull(helpDoc.getTitle());
+        assertNotNull(helpDoc.getContent());
+        assertNotNull(helpDoc.getCategories());
+        assertFalse(helpDoc.getCategories().isEmpty());
         if ("3d-structure_annotation_in_swiss-prot".equals(helpDoc.getId())) {
             verify3DAnnotation(helpDoc);
         } else if ("about".equals(helpDoc.getId())) {
@@ -37,24 +38,31 @@ public class HelpPageItemReaderTest {
     }
 
     private void verify3DAnnotation(HelpDocument helpDoc) {
-        Assertions.assertEquals("3d-structure_annotation_in_swiss-prot", helpDoc.getDocumentId());
-        Assertions.assertEquals(
-                "3D-structure annotation in UniProtKB/Swiss-Prot", helpDoc.getTitle());
-        Assertions.assertEquals(4, helpDoc.getCategories().size());
-        Assertions.assertEquals(
+        assertEquals("3d-structure_annotation_in_swiss-prot", helpDoc.getDocumentId());
+        assertEquals("3D-structure annotation in UniProtKB/Swiss-Prot", helpDoc.getTitle());
+        assertEquals(4, helpDoc.getCategories().size());
+        assertEquals(
                 List.of("3D structure", "Biocuration", "Cross-references", "help"),
                 helpDoc.getCategories());
-        Assertions.assertEquals(THREE_D_CONTENT, helpDoc.getContent());
+        assertEquals(THREE_D_CONTENT, helpDoc.getContentOriginal());
+        assertTrue(
+                helpDoc.getContent()
+                        .contains("Related keywords: 3D-structure 3D-structure databases"));
     }
 
     private void verifyAbout(HelpDocument helpDoc) {
-        Assertions.assertEquals("about", helpDoc.getDocumentId());
-        Assertions.assertEquals("About UniProt", helpDoc.getTitle());
-        Assertions.assertEquals(6, helpDoc.getCategories().size());
-        Assertions.assertEquals(
+        assertEquals("about", helpDoc.getDocumentId());
+        assertEquals("About UniProt", helpDoc.getTitle());
+        assertEquals(6, helpDoc.getCategories().size());
+        assertEquals(
                 List.of("About UniProt", "Staff", "UniProtKB", "UniRef", "UniParc", "help"),
                 helpDoc.getCategories());
-        Assertions.assertEquals(ABOUT_CONTENT, helpDoc.getContent());
+        assertEquals(ABOUT_CONTENT, helpDoc.getContentOriginal());
+
+        assertTrue(
+                helpDoc.getContent()
+                        .contains(
+                                "Further information The Universal Protein Resource Printable reference card"));
     }
 
     static final String THREE_D_CONTENT =

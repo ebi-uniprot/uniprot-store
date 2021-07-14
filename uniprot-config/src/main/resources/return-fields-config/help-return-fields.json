@@ -51,5 +51,14 @@
     "name": "matches",
     "id": "matches",
     "paths" : ["matches"]
+  },
+  {
+    "parentId": "helpCentre",
+    "childNumber": 5,
+    "itemType": "SINGLE",
+    "label": "Last Modified",
+    "name": "lastModified",
+    "id": "lastModified",
+    "paths" : ["lastModified"]
   }
 ]

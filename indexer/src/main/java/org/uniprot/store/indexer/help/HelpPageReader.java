@@ -4,12 +4,17 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
 import java.util.stream.Collectors;
 
 import lombok.extern.slf4j.Slf4j;
 
+import org.commonmark.node.Node;
+import org.commonmark.parser.Parser;
+import org.commonmark.renderer.html.HtmlRenderer;
+import org.jsoup.Jsoup;
 import org.uniprot.store.search.document.help.HelpDocument;
 
 /**
@@ -24,9 +29,11 @@ public class HelpPageReader {
 
     public HelpDocument read(String fileName) throws IOException {
         log.info("Reading file {}", fileName);
+        File helpFile = new File(fileName);
         HelpDocument.HelpDocumentBuilder builder = HelpDocument.builder();
         builder.id(extractId(fileName));
-        try (Scanner scanner = new Scanner(new File(fileName), StandardCharsets.UTF_8)) {
+        builder.lastModified(new Date(helpFile.lastModified()));
+        try (Scanner scanner = new Scanner(helpFile, StandardCharsets.UTF_8)) {
             boolean startMetaRegion = false;
             boolean endMetaRegion = false;
             StringBuilder contentBuilder = new StringBuilder();
@@ -46,14 +53,14 @@ public class HelpPageReader {
                 }
             }
             contentBuilder.deleteCharAt(contentBuilder.lastIndexOf("\n"));
-            builder.content(contentBuilder.toString());
+            String content = contentBuilder.toString();
+            builder.contentOriginal(content);
+            builder.content(getCleanContent(content));
         }
         return builder.build();
     }
 
     private String extractId(String filePath) {
-        // TODO: 07/07/2021 this should probably include the path as well, because different dirs
-        // could have the same file name, but this would then lead to id clashes in our docs
         String fileName = filePath.substring(filePath.lastIndexOf("/") + 1);
         return fileName.split(".md")[0]; // get first part from the fileName.md
     }
@@ -71,5 +78,14 @@ public class HelpPageReader {
         if (line.startsWith(TITLE_COLON)) {
             builder.title(line.split(TITLE_COLON)[1].strip());
         }
+    }
+
+    private String getCleanContent(String content) {
+        Parser parser = Parser.builder().build();
+        Node document = parser.parse(content);
+        HtmlRenderer renderer = HtmlRenderer.builder().build();
+        String htmlContent = renderer.render(document);
+
+        return Jsoup.parse(htmlContent).text();
     }
 }
