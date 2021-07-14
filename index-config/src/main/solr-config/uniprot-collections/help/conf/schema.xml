@@ -20,8 +20,12 @@
 	<field name="title_sort" type="string" indexed="false"
 		stored="false" required="true" docValues="true" />
 	<copyField source="title" dest="title_sort" />
+	<field name="date_modified" type="pdate" indexed="false"
+		stored="true" required="false" />
 	<field name="content" type="full_ci" indexed="true" stored="true"
 		required="true" />
+	<field name="content_original" type="string" indexed="false"
+		stored="true" required="true" />
 	<!-- facet field -->
 	<field name="category" type="string" indexed="true" stored="true"
 		multiValued="true" docValues="true" />
@@ -30,7 +34,9 @@
 		docValues="true" />
 	<fieldType name="string" class="solr.StrField"
 		sortMissingLast="true" />
-	<fieldType name="binary" class="solr.BinaryField" />
+
+	<fieldType name="pdate" class="solr.DatePointField"
+		docValues="true" />
 
 	<fieldType name="full_ci" class="solr.TextField"
 		sortMissingLast="true" omitNorms="true" positionIncrementGap="100">

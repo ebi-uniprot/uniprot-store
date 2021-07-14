@@ -1,5 +1,6 @@
 package org.uniprot.store.search.document.help;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -24,7 +25,13 @@ public class HelpDocument implements Document {
     private static final long serialVersionUID = 2979685307668121593L;
     @Field private String id;
     @Field private String title;
-    @Field private String content; // content without meta
+    @Field private String content;
+
+    @Field("date_modified")
+    private Date lastModified;
+
+    @Field("content_original")
+    private String contentOriginal;
 
     @Field("category")
     private List<String> categories;
