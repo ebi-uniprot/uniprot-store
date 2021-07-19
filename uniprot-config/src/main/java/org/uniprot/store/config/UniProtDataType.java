@@ -1,6 +1,7 @@
 package org.uniprot.store.config;
 
 public enum UniProtDataType {
+    ARBA,
     CROSSREF,
     DISEASE,
     GENECENTRIC,

@@ -16,8 +16,8 @@
 	<field name="_version_" type="plong" indexed="true" stored="true" />
 
 	<!-- =============================== UniRule fields =============================== -->
-	<field name="rule_id" type="string" indexed="true"
-		stored="true" required="true" docValues="true" />
+	<field name="rule_id" type="string" indexed="true" stored="true"
+		required="true" docValues="true" />
 	<field name="condition_value" type="full_ci" indexed="true"
 		stored="false" required="true" multiValued="true" />
 	<field name="keyword" type="full_ci" indexed="true"

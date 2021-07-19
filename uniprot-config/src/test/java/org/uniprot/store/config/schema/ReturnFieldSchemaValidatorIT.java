@@ -41,6 +41,7 @@ class ReturnFieldSchemaValidatorIT {
                 Arguments.of(ReturnFieldConfigFactory.UNIPROTKB_CONFIG_FILE, schemaFile),
                 Arguments.of(ReturnFieldConfigFactory.UNIREF_CONFIG_FILE, schemaFile),
                 Arguments.of(ReturnFieldConfigFactory.UNIPARC_CROSSREF_CONFIG_FILE, schemaFile),
-                Arguments.of(ReturnFieldConfigFactory.HELP_CONFIG_FILE, schemaFile));
+                Arguments.of(ReturnFieldConfigFactory.HELP_CONFIG_FILE, schemaFile),
+                Arguments.of(ReturnFieldConfigFactory.ARBA_CONFIG_FILE, schemaFile));
     }
 }
