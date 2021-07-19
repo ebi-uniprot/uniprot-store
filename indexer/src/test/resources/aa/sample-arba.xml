@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<unirules xmlns="http://uniprot.org/unirule-1.2" xmlns:uniprot="http://uniprot.org/uniprot">
+    <unirule status="APPLY" id="ARBA00000001" creator="ARBA" created="2020-05-12+01:00" modifiedBy="ARBA" modified="2021-01-04Z">
+        <information>
+            <version>0</version>
+        </information>
+        <main>
+            <conditionSets>
+                <conditionSet>
+                    <condition type="InterPro id">
+                        <value>IPR040234</value>
+                    </condition>
+                    <condition type="taxon">
+                        <value cvId="33208">Metazoa</value>
+                    </condition>
+                </conditionSet>
+            </conditionSets>
+            <annotations>
+                <annotation>
+                    <comment type="catalytic activity">
+                        <uniprot:reaction>
+                            <uniprot:text>N-terminal L-glutaminyl-[peptide] = N-terminal 5-oxo-L-prolyl-[peptide] + NH4(+)</uniprot:text>
+                            <uniprot:dbReference type="Rhea" id="RHEA:23652"/>
+                            <uniprot:dbReference type="Rhea" id="RHEA-COMP:11736"/>
+                            <uniprot:dbReference type="Rhea" id="RHEA-COMP:11846"/>
+                            <uniprot:dbReference type="ChEBI" id="CHEBI:28938"/>
+                            <uniprot:dbReference type="ChEBI" id="CHEBI:64722"/>
+                            <uniprot:dbReference type="ChEBI" id="CHEBI:87215"/>
+                            <uniprot:dbReference type="EC" id="2.3.2.5"/>
+                        </uniprot:reaction>
+                    </comment>
+                </annotation>
+            </annotations>
+        </main>
+    </unirule>
+    <unirule status="APPLY" id="ARBA00023492" creator="ARBA" created="2020-08-25+01:00" modifiedBy="ARBA" modified="2020-08-25+01:00">
+        <information>
+            <version>0</version>
+        </information>
+        <main>
+            <conditionSets>
+                <conditionSet>
+                    <condition type="InterPro id">
+                        <value>IPR001279</value>
+                    </condition>
+                    <condition type="InterPro id">
+                        <value>IPR024884</value>
+                    </condition>
+                    <condition type="taxon">
+                        <value cvId="33208">Metazoa</value>
+                    </condition>
+                </conditionSet>
+            </conditionSets>
+            <annotations>
+                <annotation>
+                    <comment type="catalytic activity">
+                        <uniprot:reaction>
+                            <uniprot:text>H2O + N,1-dihexadecanoyl-sn-glycero-3-phosphoethanolamine = 1-hexadecanoyl-sn-glycero-3-phosphate + H(+) + N-hexadecanoylethanolamine</uniprot:text>
+                            <uniprot:dbReference type="Rhea" id="RHEA:45592"/>
+                            <uniprot:dbReference type="ChEBI" id="CHEBI:15377"/>
+                            <uniprot:dbReference type="ChEBI" id="CHEBI:15378"/>
+                            <uniprot:dbReference type="ChEBI" id="CHEBI:57518"/>
+                            <uniprot:dbReference type="ChEBI" id="CHEBI:71464"/>
+                            <uniprot:dbReference type="ChEBI" id="CHEBI:85335"/>
+                        </uniprot:reaction>
+                        <uniprot:physiologicalReaction direction="left-to-right">
+                            <uniprot:dbReference type="Rhea" id="RHEA:45593"/>
+                        </uniprot:physiologicalReaction>
+                    </comment>
+                </annotation>
+            </annotations>
+        </main>
+    </unirule>
+    <unirule status="APPLY" id="ARBA00023910" creator="ARBA" created="2021-01-04Z" modifiedBy="ARBA" modified="2021-01-04Z">
+        <information>
+            <version>0</version>
+        </information>
+        <main>
+            <conditionSets>
+                <conditionSet>
+                    <condition type="InterPro id">
+                        <value>IPR000719</value>
+                    </condition>
+                    <condition type="InterPro id">
+                        <value>IPR032270</value>
+                    </condition>
+                    <condition type="taxon">
+                        <value cvId="7711">Chordata</value>
+                    </condition>
+                </conditionSet>
+            </conditionSets>
+            <annotations>
+                <annotation>
+                    <comment type="catalytic activity">
+                        <uniprot:reaction>
+                            <uniprot:text>ATP + L-seryl-[acetyl-CoA carboxylase] = ADP + H(+) + O-phospho-L-seryl-[acetyl-CoA carboxylase]</uniprot:text>
+                            <uniprot:dbReference type="Rhea" id="RHEA:20333"/>
+                            <uniprot:dbReference type="Rhea" id="RHEA-COMP:13722"/>
+                            <uniprot:dbReference type="Rhea" id="RHEA-COMP:13723"/>
+                            <uniprot:dbReference type="ChEBI" id="CHEBI:15378"/>
+                            <uniprot:dbReference type="ChEBI" id="CHEBI:29999"/>
+                            <uniprot:dbReference type="ChEBI" id="CHEBI:30616"/>
+                            <uniprot:dbReference type="ChEBI" id="CHEBI:83421"/>
+                            <uniprot:dbReference type="ChEBI" id="CHEBI:456216"/>
+                            <uniprot:dbReference type="EC" id="2.7.11.27"/>
+                        </uniprot:reaction>
+                    </comment>
+                </annotation>
+            </annotations>
+        </main>
+    </unirule>
+    <unirule status="APPLY" id="ARBA00000002" creator="ARBA" created="2020-05-12+01:00" modifiedBy="ARBA" modified="2020-05-12+01:00">
+        <information>
+            <version>0</version>
+        </information>
+        <main>
+            <conditionSets>
+                <conditionSet>
+                    <condition type="InterPro id">
+                        <value>IPR001788</value>
+                    </condition>
+                    <condition type="InterPro id">
+                        <value>IPR007094</value>
+                    </condition>
+                    <condition type="taxon">
+                        <value cvId="11018">Togaviridae</value>
+                    </condition>
+                </conditionSet>
+            </conditionSets>
+            <annotations>
+                <annotation>
+                    <comment type="catalytic activity">
+                        <uniprot:reaction>
+                            <uniprot:text>4-O-(ADP-D-ribosyl)-L-aspartyl-[protein] + H2O = ADP-D-ribose + H(+) + L-aspartyl-[protein]</uniprot:text>
+                            <uniprot:dbReference type="Rhea" id="RHEA:54428"/>
+                            <uniprot:dbReference type="Rhea" id="RHEA-COMP:9867"/>
+                            <uniprot:dbReference type="Rhea" id="RHEA-COMP:13832"/>
+                            <uniprot:dbReference type="ChEBI" id="CHEBI:15377"/>
+                            <uniprot:dbReference type="ChEBI" id="CHEBI:15378"/>
+                            <uniprot:dbReference type="ChEBI" id="CHEBI:29961"/>
+                            <uniprot:dbReference type="ChEBI" id="CHEBI:57967"/>
+                            <uniprot:dbReference type="ChEBI" id="CHEBI:138102"/>
+                        </uniprot:reaction>
+                        <uniprot:physiologicalReaction direction="left-to-right">
+                            <uniprot:dbReference type="Rhea" id="RHEA:54429"/>
+                        </uniprot:physiologicalReaction>
+                    </comment>
+                </annotation>
+            </annotations>
+        </main>
+    </unirule>
+    <unirule status="APPLY" id="ARBA00000003" creator="ARBA" created="2020-05-12+01:00" modifiedBy="ARBA" modified="2020-10-22+01:00">
+        <information>
+            <version>0</version>
+        </information>
+        <main>
+            <conditionSets>
+                <conditionSet>
+                    <condition type="InterPro id">
+                        <value>IPR001926</value>
+                    </condition>
+                    <condition type="InterPro id">
+                        <value>IPR006653</value>
+                    </condition>
+                    <condition type="InterPro id">
+                        <value>IPR023026</value>
+                    </condition>
+                </conditionSet>
+                <conditionSet>
+                    <condition type="InterPro id">
+                        <value>IPR002028</value>
+                    </condition>
+                    <condition type="InterPro id">
+                        <value>IPR011060</value>
+                    </condition>
+                    <condition type="InterPro id">
+                        <value>IPR013785</value>
+                    </condition>
+                </conditionSet>
+            </conditionSets>
+            <annotations>
+                <annotation>
+                    <comment type="catalytic activity">
+                        <uniprot:reaction>
+                            <uniprot:text>(1S,2R)-1-C-(indol-3-yl)glycerol 3-phosphate + L-serine = D-glyceraldehyde 3-phosphate + H2O + L-tryptophan</uniprot:text>
+                            <uniprot:dbReference type="Rhea" id="RHEA:10532"/>
+                            <uniprot:dbReference type="ChEBI" id="CHEBI:15377"/>
+                            <uniprot:dbReference type="ChEBI" id="CHEBI:33384"/>
+                            <uniprot:dbReference type="ChEBI" id="CHEBI:57912"/>
+                            <uniprot:dbReference type="ChEBI" id="CHEBI:58866"/>
+                            <uniprot:dbReference type="ChEBI" id="CHEBI:59776"/>
+                            <uniprot:dbReference type="EC" id="4.2.1.20"/>
+                        </uniprot:reaction>
+                    </comment>
+                </annotation>
+            </annotations>
+        </main>
+    </unirule>
+</unirules>
