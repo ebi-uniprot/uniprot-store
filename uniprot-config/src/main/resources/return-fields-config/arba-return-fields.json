@@ -1,0 +1,52 @@
+[
+  {
+    "seqNumber": 0,
+    "itemType": "GROUP",
+    "groupName": "ARBA",
+    "isDatabaseGroup": false,
+    "id": "arba"
+  },
+  {
+    "parentId": "arba",
+    "childNumber": 0,
+    "itemType": "SINGLE",
+    "includeInSwagger": true,
+    "isRequiredForJson": true,
+    "isDefaultForTsv": true,
+    "defaultForTsvOrder" : 0,
+    "label": "ARBA ID",
+    "name": "arbaId",
+    "paths" : ["uniRuleId"],
+    "id": "rule_id",
+    "sortField": "rule_id"
+  },
+  {
+    "parentId": "arba",
+    "childNumber": 1,
+    "itemType": "SINGLE",
+    "name": "proteins_annotated",
+    "label": "Proteins annotated",
+    "id": "proteins_annotated",
+    "paths": [
+      "proteinsAnnotatedCount"
+    ]
+  },
+  {
+    "parentId": "arba",
+    "childNumber": 2,
+    "itemType": "SINGLE",
+    "name": "taxonomic_scope",
+    "label": "Taxonomic scope",
+    "id": "taxonomic_scope",
+    "paths":["mainRule.conditionSets[*].conditions[*]"]
+  },
+  {
+    "parentId": "arba",
+    "childNumber": 3,
+    "itemType": "SINGLE",
+    "name": "annotation_covered",
+    "label": "Annotation covered",
+    "id": "annotation_covered",
+    "paths":["mainRule.annotations[*]"]
+  }
+]
