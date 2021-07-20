@@ -12,7 +12,6 @@ import org.uniprot.core.json.parser.unirule.UniRuleJsonConfig;
 import org.uniprot.core.uniprotkb.Keyword;
 import org.uniprot.core.unirule.*;
 import org.uniprot.core.unirule.impl.UniRuleEntryBuilder;
-import org.uniprot.core.util.EnumDisplay;
 import org.uniprot.core.util.Utils;
 import org.uniprot.core.xml.jaxb.unirule.UniRuleType;
 import org.uniprot.core.xml.unirule.UniRuleEntryConverter;
@@ -62,9 +61,14 @@ public class ArbaDocumentConverter implements DocumentConverter<UniRuleType, Arb
 
     public ArbaDocument convertToDocument(UniRuleEntry uniObj) {
         // extract values from uniObj to create solr document
+        if (Utils.notNullNotEmpty(uniObj.getSamFeatureSets())
+                || Utils.notNullNotEmpty(uniObj.getPositionFeatureSets())) {
+            throw new IllegalArgumentException(
+                    "samFeatureSets and positionFeature are not supported!");
+        }
+
         String arbaId = uniObj.getUniRuleId().getValue();
         Set<String> conditionValues = getConditionValues(uniObj);
-        Set<String> featureTypes = getFeatureTypes(uniObj);
         Set<String> keywords = getKeywords(uniObj);
         Set<String> geneNames = getGeneNames(uniObj);
         Set<String> goTerms = getGoTerms(uniObj);
@@ -77,7 +81,7 @@ public class ArbaDocumentConverter implements DocumentConverter<UniRuleType, Arb
 
         // build the solr document
         ArbaDocument.ArbaDocumentBuilder builder = ArbaDocument.builder();
-        builder.ruleId(arbaId).featureTypes(featureTypes);
+        builder.ruleId(arbaId);
         builder.conditionValues(conditionValues);
         builder.keywords(keywords).geneNames(geneNames);
         builder.goTerms(goTerms).proteinNames(proteinNames);
@@ -95,33 +99,6 @@ public class ArbaDocumentConverter implements DocumentConverter<UniRuleType, Arb
                 .flatMap(Collection::stream)
                 .map(Value::getValue)
                 .collect(Collectors.toSet());
-    }
-
-    private Set<String> getFeatureTypes(UniRuleEntry uniObj) {
-        Set<String> featureTypes = new HashSet<>();
-
-        if (Utils.notNullNotEmpty(uniObj.getSamFeatureSets())) {
-            featureTypes =
-                    uniObj.getSamFeatureSets().stream()
-                            .map(SamFeatureSet::getSamTrigger)
-                            .map(SamTrigger::getSamTriggerType)
-                            .filter(Objects::nonNull)
-                            .map(EnumDisplay::getDisplayName)
-                            .collect(Collectors.toSet());
-        }
-
-        if (Utils.notNullNotEmpty(uniObj.getPositionFeatureSets())) {
-            Set<String> positionalFeatureTypes =
-                    uniObj.getPositionFeatureSets().stream()
-                            .map(PositionFeatureSet::getPositionalFeatures)
-                            .flatMap(Collection::stream)
-                            .map(PositionalFeature::getType)
-                            .collect(Collectors.toSet());
-
-            featureTypes.addAll(positionalFeatureTypes);
-        }
-
-        return featureTypes;
     }
 
     private Set<String> getKeywords(UniRuleEntry uniObj) {

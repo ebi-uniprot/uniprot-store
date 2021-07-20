@@ -32,8 +32,6 @@
 		stored="false" required="false" multiValued="true" />
 	<field name="taxonomy" type="full_ci" indexed="true"
 		stored="false" required="false" multiValued="true" />
-	<field name="feature_type" type="full_ci" indexed="true"
-		stored="false" required="false" multiValued="true" />
 	<dynamicField name="cc_*" type="full_ci" indexed="true"
 		required="false" stored="false" multiValued="true" />
 	<field name="rule_obj" type="binary" indexed="false"

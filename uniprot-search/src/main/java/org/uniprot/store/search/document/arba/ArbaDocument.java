@@ -30,9 +30,6 @@ public class ArbaDocument implements Document {
     @Field("condition_value")
     private Set<String> conditionValues = new HashSet<>();
 
-    @Field("feature_type")
-    private Set<String> featureTypes = new HashSet<>();
-
     @Field("keyword")
     private Set<String> keywords = new HashSet<>();
 
