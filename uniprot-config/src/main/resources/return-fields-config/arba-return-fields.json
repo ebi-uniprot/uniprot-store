@@ -15,7 +15,7 @@
     "isDefaultForTsv": true,
     "defaultForTsvOrder" : 0,
     "label": "ARBA ID",
-    "name": "arbaId",
+    "name": "rule_id",
     "paths" : ["uniRuleId"],
     "id": "rule_id",
     "sortField": "rule_id"

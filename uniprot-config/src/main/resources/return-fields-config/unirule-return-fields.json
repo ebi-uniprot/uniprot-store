@@ -15,7 +15,7 @@
     "isDefaultForTsv": true,
     "defaultForTsvOrder" : 0,
     "label": "UniRule ID",
-    "name": "uniRuleId",
+    "name": "rule_id",
     "paths" : ["uniRuleId"],
     "id": "unirule_id",
     "sortField": "unirule_id"
