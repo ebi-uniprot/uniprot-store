@@ -1,0 +1,80 @@
+[
+  {
+    "id": "id",
+    "fieldName": "rule_id",
+    "sortFieldId": "id_sort",
+    "fieldType": "GENERAL",
+    "dataType": "STRING",
+    "validRegex": "^ARBA[0-9]{8}$",
+    "description": "Search by ARBA identifier",
+    "example": "ARBA00000002"
+  },
+  {
+    "id": "id_sort",
+    "fieldName": "rule_id",
+    "fieldType": "SORT",
+    "dataType": "STRING",
+    "description": "Sort by ARBA id",
+    "example": "rule_id asc"
+  },
+  {
+    "id": "protein_name_field",
+    "label": "Protein Name [DE]",
+    "fieldName": "protein_name",
+    "fieldType": "GENERAL",
+    "itemType": "SINGLE",
+    "dataType": "STRING",
+    "description": "Search by UniProtKB Protein name",
+    "example": "mas5"
+  },
+  {
+    "id": "organism_field",
+    "label": "Organism [OS]",
+    "dataType": "STRING",
+    "fieldName": "organism",
+    "fieldType": "GENERAL",
+    "itemType": "SINGLE",
+    "description": "Search by Organism name",
+    "example": "saccharomyces"
+  },
+  {
+    "id": "taxonomy_field",
+    "label": "Taxonomy [OC]",
+    "dataType": "STRING",
+    "fieldName": "taxonomy",
+    "fieldType": "GENERAL",
+    "itemType": "SINGLE",
+    "description": "Search by NCBI taxonomy",
+    "example": "human"
+  },
+  {
+    "id": "keyword_field",
+    "label": "Keyword [KW]",
+    "fieldName": "keyword",
+    "fieldType": "GENERAL",
+    "dataType": "STRING",
+    "itemType": "SINGLE",
+    "description": "Search by keyword",
+    "example": "chromosomal"
+  },
+  {
+    "id": "feature_type_field",
+    "label": "Feature Type",
+    "fieldName": "feature_type",
+    "itemType": "SINGLE",
+    "fieldType": "GENERAL",
+    "dataType": "STRING",
+    "description": "Search by feature type",
+    "example": "transmembrane"
+  },
+  {
+    "id": "condition_value_field",
+    "label": "Condition Value",
+    "fieldName": "condition_value",
+    "itemType": "SINGLE",
+    "fieldType": "GENERAL",
+    "dataType": "STRING",
+    "description": "Search by condition value",
+    "example": "sample condition value"
+  }
+]

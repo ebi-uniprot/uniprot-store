@@ -56,4 +56,13 @@ class ReturnFieldConfigFactoryTest {
         assertThat(config.getAllFields(), hasSize(7));
         assertThat(config.getReturnFields(), hasSize(6));
     }
+
+    @Test
+    void canCreateArbaReturnFieldConfig() {
+        ReturnFieldConfig config =
+                ReturnFieldConfigFactory.getReturnFieldConfig(UniProtDataType.ARBA);
+        assertThat(config, is(notNullValue()));
+        assertThat(config.getAllFields(), hasSize(5));
+        assertThat(config.getReturnFields(), hasSize(4));
+    }
 }
