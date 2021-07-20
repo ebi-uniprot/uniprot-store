@@ -47,8 +47,8 @@ public class ArbaProcessor implements ItemProcessor<UniRuleType, ArbaDocument> {
 
     private long computeProteinsAnnotatedCount(UniRuleType arbaType) {
         long totalProteinCount = 0L;
-        if (Objects.nonNull(arbaType.getInformation()) &&
-           Objects.nonNull(arbaType.getInformation().getOldRuleNum())) {
+        if (Objects.nonNull(arbaType.getInformation())
+                && Objects.nonNull(arbaType.getInformation().getOldRuleNum())) {
             String oldRuleId = arbaType.getInformation().getOldRuleNum();
             ArbaProteinCountReader.ArbaProteinCount ruleProteinCount =
                     this.arbaProteinCountMap.get(oldRuleId);
