@@ -1,17 +1,18 @@
 package org.uniprot.store.search.document.arba;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import org.apache.solr.client.solrj.beans.Field;
-import org.uniprot.store.search.document.Document;
-
 import java.nio.ByteBuffer;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
+import org.apache.solr.client.solrj.beans.Field;
+import org.uniprot.store.search.document.Document;
 
 /**
  * @author lgonzales
@@ -60,5 +61,4 @@ public class ArbaDocument implements Document {
     public String getDocumentId() {
         return ruleId;
     }
-
 }

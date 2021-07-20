@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<unirules xmlns="http://uniprot.org/unirule" xmlns:uniprot="http://uniprot.org/uniprot">
+<unirules xmlns="http://uniprot.org/unirule-1.2" xmlns:uniprot="http://uniprot.org/uniprot">
     <unirule status="APPLY" id="UR001229753" creator="wangq" created="2019-07-19+01:00" modifiedBy="arighi"
              modified="2019-07-29+01:00">
         <information>
