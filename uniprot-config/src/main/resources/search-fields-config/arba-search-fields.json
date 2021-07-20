@@ -58,16 +58,6 @@
     "example": "chromosomal"
   },
   {
-    "id": "feature_type_field",
-    "label": "Feature Type",
-    "fieldName": "feature_type",
-    "itemType": "SINGLE",
-    "fieldType": "GENERAL",
-    "dataType": "STRING",
-    "description": "Search by feature type",
-    "example": "transmembrane"
-  },
-  {
     "id": "condition_value_field",
     "label": "Condition Value",
     "fieldName": "condition_value",

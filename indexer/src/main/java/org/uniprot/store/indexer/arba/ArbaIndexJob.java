@@ -39,7 +39,7 @@ public class ArbaIndexJob {
             WriteRetrierLogJobListener writeRetrierLogJobListener) {
         return this.jobBuilderFactory
                 .get(Constants.ARBA_INDEX_JOB)
-                //.start(arbaProteinCountSQLStep) // load protein count from DB
+                // .start(arbaProteinCountSQLStep) // load protein count from DB
                 .start(indexUniRuleStep) // index arba entry
                 .listener(writeRetrierLogJobListener)
                 .listener(
