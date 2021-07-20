@@ -75,6 +75,11 @@ public class Constants {
     public static final String UNIRULE_PROTEIN_COUNT_STEP = "UniRule protein count step";
     public static final String UNIRULE_PROTEIN_COUNT_CACHE_KEY = "UniRule Protein Count Cache Key";
 
+    public static final String ARBA_INDEX_JOB = "ARBA Indexing Job";
+    public static final String ARBA_INDEX_STEP = "ARBA Indexing Step";
+    public static final String ARBA_PROTEIN_COUNT_STEP = "ARBA protein count step";
+    public static final String ARBA_PROTEIN_COUNT_CACHE_KEY = "ARBA Protein Count Cache Key";
+
     public static final String HELP_PAGE_INDEX_JOB_NAME = "Help page index job";
     public static final String HELP_PAGE_INDEX_STEP = "Help page index step";
 }
