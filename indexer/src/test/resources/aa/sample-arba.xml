@@ -13,9 +13,30 @@
                     <condition type="taxon">
                         <value cvId="33208">Metazoa</value>
                     </condition>
+                    <condition type="scientific organism">
+                        <value cvId="9606">organismName</value>
+                    </condition>
                 </conditionSet>
             </conditionSets>
             <annotations>
+                <annotation>
+                    <gene>
+                        <uniprot:name type="primary">gName</uniprot:name>
+                    </gene>
+                </annotation>
+                <annotation>
+                    <keyword id="KW-0001">kName</keyword>
+                </annotation>
+                <annotation>
+                    <protein>
+                        <recommendedName>
+                            <fullName>recName</fullName>
+                        </recommendedName>
+                    </protein>
+                </annotation>
+                <annotation>
+                    <dbReference type="GO" id="GO:0000001"/>
+                </annotation>
                 <annotation>
                     <comment type="catalytic activity">
                         <uniprot:reaction>

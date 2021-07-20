@@ -14,7 +14,7 @@ import org.uniprot.store.search.document.unirule.UniRuleDocument;
 
 public class UniRuleDocumentConverterTest {
     private static UniRuleDocumentConverter docConverter;
-    private static final String filePath = "src/test/resources/unirule/sample-unirule.xml";
+    private static final String filePath = "src/test/resources/aa/sample-unirule.xml";
     private static UniRuleXmlEntryReader reader;
 
     @BeforeAll
