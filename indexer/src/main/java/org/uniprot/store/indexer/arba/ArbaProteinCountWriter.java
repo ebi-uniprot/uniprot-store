@@ -34,7 +34,7 @@ public class ArbaProteinCountWriter implements ItemWriter<ArbaProteinCountReader
 
             Map<String, ArbaProteinCountReader.ArbaProteinCount> arbaProteinCountMap =
                     (Map<String, ArbaProteinCountReader.ArbaProteinCount>)
-                            executionContext.get(Constants.UNIRULE_PROTEIN_COUNT_CACHE_KEY);
+                            executionContext.get(Constants.ARBA_PROTEIN_COUNT_CACHE_KEY);
 
             if (arbaProteinCountMap == null) {
                 arbaProteinCountMap = new HashMap<>();
@@ -44,12 +44,12 @@ public class ArbaProteinCountWriter implements ItemWriter<ArbaProteinCountReader
                     items.stream()
                             .collect(
                                     Collectors.toMap(
-                                            ArbaProteinCountReader.ArbaProteinCount::getOldRuleId,
+                                            ArbaProteinCountReader.ArbaProteinCount::getRuleId,
                                             Function.identity())));
 
-            executionContext.put(Constants.UNIRULE_PROTEIN_COUNT_CACHE_KEY, arbaProteinCountMap);
+            executionContext.put(Constants.ARBA_PROTEIN_COUNT_CACHE_KEY, arbaProteinCountMap);
         } else {
-            log.warn("Unable to put UniRule Protein Count Map in the cache.");
+            log.warn("Unable to put ARBA Protein Count Map in the cache.");
         }
     }
 

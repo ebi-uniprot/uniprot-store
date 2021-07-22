@@ -28,7 +28,7 @@ public class ArbaProcessor implements ItemProcessor<UniRuleType, ArbaDocument> {
 
     @Override
     public ArbaDocument process(UniRuleType arbaType) {
-        long proteinsAnnotatedCount = computeProteinsAnnotatedCount(arbaType);
+        long proteinsAnnotatedCount = getProteinsAnnotatedCount(arbaType);
         this.documentConverter.setProteinsAnnotatedCount(proteinsAnnotatedCount);
         return this.documentConverter.convert(arbaType);
     }
@@ -42,28 +42,18 @@ public class ArbaProcessor implements ItemProcessor<UniRuleType, ArbaDocument> {
                         stepExecution
                                 .getJobExecution()
                                 .getExecutionContext()
-                                .get(Constants.UNIRULE_PROTEIN_COUNT_CACHE_KEY);
+                                .get(Constants.ARBA_PROTEIN_COUNT_CACHE_KEY);
     }
 
-    private long computeProteinsAnnotatedCount(UniRuleType arbaType) {
+    private long getProteinsAnnotatedCount(UniRuleType arbaType) {
         long totalProteinCount = 0L;
-        if (Objects.nonNull(arbaType.getInformation())
-                && Objects.nonNull(arbaType.getInformation().getOldRuleNum())) {
-            String oldRuleId = arbaType.getInformation().getOldRuleNum();
-            ArbaProteinCountReader.ArbaProteinCount ruleProteinCount =
-                    this.arbaProteinCountMap.get(oldRuleId);
-            if (ruleProteinCount != null) {
-                totalProteinCount =
-                        ruleProteinCount.getReviewedProteinCount()
-                                + ruleProteinCount.getUnreviewedProteinCount();
-            } else {
-                log.warn("No protein count found for old rule id {}", oldRuleId);
-            }
-
+        ArbaProteinCountReader.ArbaProteinCount ruleProteinCount =
+                this.arbaProteinCountMap.get(arbaType.getId());
+        if (Objects.nonNull(ruleProteinCount)) {
+            totalProteinCount = ruleProteinCount.getProteinCount();
         } else {
-            log.warn("No old rule id found for Arba Id {}", arbaType.getId());
+            log.warn("No protein count found for ARBA rule id {}", arbaType.getId());
         }
-
         return totalProteinCount;
     }
 }

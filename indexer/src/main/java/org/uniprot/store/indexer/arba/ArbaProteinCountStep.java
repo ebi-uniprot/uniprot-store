@@ -64,6 +64,6 @@ public class ArbaProteinCountStep {
     }
 
     protected String getStatisticsSQL() {
-        return ArbaProteinCountReader.UNIRULE_PROTEIN_COUNT_QUERY;
+        return ArbaProteinCountReader.ARBA_PROTEIN_COUNT_QUERY;
     }
 }
