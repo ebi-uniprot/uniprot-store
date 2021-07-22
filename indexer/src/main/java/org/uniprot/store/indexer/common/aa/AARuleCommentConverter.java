@@ -1,7 +1,10 @@
-package org.uniprot.store.indexer.arba;
+package org.uniprot.store.indexer.common.aa;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -16,16 +19,35 @@ import org.uniprot.core.uniprotkb.comment.Reaction;
 import org.uniprot.core.uniprotkb.comment.SubcellularLocation;
 import org.uniprot.core.uniprotkb.comment.SubcellularLocationComment;
 import org.uniprot.core.uniprotkb.evidence.EvidencedValue;
+import org.uniprot.core.unirule.Annotation;
+import org.uniprot.core.unirule.UniRuleEntry;
+import org.uniprot.core.util.Utils;
 
 /**
- * @author lgonzales
- * @since 16/07/2021
+ * @author sahmad
+ * @date: 14 May 2020 Converts the {@link Comment} to intermediate form of {@link
+ *     AARuleDocumentComment} before being set to {@link
+ *     org.uniprot.store.search.document.unirule.UniRuleDocument}'s commentTypeValues
  */
-public class ArbaCommentConverter {
-    private ArbaCommentConverter() {}
+public class AARuleCommentConverter {
+    private AARuleCommentConverter() {}
 
-    public static ArbaDocumentComment convertToDocumentComment(Comment comment) {
-        ArbaDocumentComment docComment;
+    public static List<AARuleDocumentComment> convertToAARuleDocumentComments(UniRuleEntry uniObj) {
+        List<AARuleDocumentComment> docComments = new ArrayList<>();
+        List<Annotation> annotations = uniObj.getMainRule().getAnnotations();
+        if (Utils.notNullNotEmpty(annotations)) {
+            docComments =
+                    annotations.stream()
+                            .map(Annotation::getComment)
+                            .filter(Objects::nonNull)
+                            .map(AARuleCommentConverter::convertToDocumentComment)
+                            .collect(Collectors.toList());
+        }
+        return docComments;
+    }
+
+    public static AARuleDocumentComment convertToDocumentComment(Comment comment) {
+        AARuleDocumentComment docComment;
 
         switch (comment.getCommentType()) {
             case ACTIVITY_REGULATION:
@@ -56,13 +78,14 @@ public class ArbaCommentConverter {
         return docComment;
     }
 
-    private static ArbaDocumentComment convertFreeTextComment(FreeTextComment comment) {
+    private static AARuleDocumentComment convertFreeTextComment(FreeTextComment comment) {
         Set<String> values =
                 comment.getTexts().stream().map(Value::getValue).collect(Collectors.toSet());
         return createDocumentComment(comment, values);
     }
 
-    private static ArbaDocumentComment convertCatalyticActivity(CatalyticActivityComment comment) {
+    private static AARuleDocumentComment convertCatalyticActivity(
+            CatalyticActivityComment comment) {
         Reaction reaction = comment.getReaction();
         Set<String> values = new HashSet<>();
         if (reaction.hasReactionCrossReferences()) {
@@ -79,13 +102,13 @@ public class ArbaCommentConverter {
         return createDocumentComment(comment, values);
     }
 
-    private static ArbaDocumentComment convertCofactor(CofactorComment comment) {
+    private static AARuleDocumentComment convertCofactor(CofactorComment comment) {
         Set<String> values = new HashSet<>();
 
         if (comment.hasCofactors()) {
             values =
                     comment.getCofactors().stream()
-                            .map(ArbaCommentConverter::extractCofactorValues)
+                            .map(AARuleCommentConverter::extractCofactorValues)
                             .flatMap(Collection::stream)
                             .collect(Collectors.toSet());
         }
@@ -112,12 +135,13 @@ public class ArbaCommentConverter {
         return nameRefs;
     }
 
-    private static ArbaDocumentComment convertSubcellLocation(SubcellularLocationComment comment) {
-        ArbaDocumentComment docComment = null;
+    private static AARuleDocumentComment convertSubcellLocation(
+            SubcellularLocationComment comment) {
+        AARuleDocumentComment docComment = null;
         if (comment.hasSubcellularLocations()) {
             Set<String> values =
                     comment.getSubcellularLocations().stream()
-                            .map(ArbaCommentConverter::extractSubcellLocationValues)
+                            .map(AARuleCommentConverter::extractSubcellLocationValues)
                             .flatMap(Collection::stream)
                             .collect(Collectors.toSet());
             docComment = createDocumentComment(comment, values);
@@ -139,9 +163,11 @@ public class ArbaCommentConverter {
         return values;
     }
 
-    private static ArbaDocumentComment createDocumentComment(Comment comment, Set<String> values) {
+    private static AARuleDocumentComment createDocumentComment(
+            Comment comment, Set<String> values) {
         String name = comment.getCommentType().toXmlDisplayName();
-        ArbaDocumentComment.ArbaDocumentCommentBuilder builder = ArbaDocumentComment.builder();
+        AARuleDocumentComment.AARuleDocumentCommentBuilder builder =
+                AARuleDocumentComment.builder();
         builder.name(name);
         builder.values(values);
         return builder.build();

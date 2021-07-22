@@ -91,8 +91,14 @@ class ArbaIndexJobIT {
                 solrClient.query(SolrCollection.arba, new SolrQuery("*:*"), ArbaDocument.class);
         assertThat(response, is(notNullValue()));
         assertThat(response.size(), is(5));
-        assertThat(response.stream().map(ArbaDocument::getRuleId).collect(Collectors.toList()),
-                contains("ARBA00000001", "ARBA00023492", "ARBA00023910", "ARBA00000002", "ARBA00000003"));
+        assertThat(
+                response.stream().map(ArbaDocument::getRuleId).collect(Collectors.toList()),
+                contains(
+                        "ARBA00000001",
+                        "ARBA00023492",
+                        "ARBA00023910",
+                        "ARBA00000002",
+                        "ARBA00000003"));
         // verify the rule ids from the serialised object
         response.forEach(this::verifyRule);
     }
