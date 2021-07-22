@@ -17,23 +17,21 @@ import org.springframework.jdbc.core.RowMapper;
 @Slf4j
 public class ArbaProteinCountReader implements RowMapper<ArbaProteinCountReader.ArbaProteinCount> {
 
-    public static final String UNIRULE_PROTEIN_COUNT_QUERY =
-            "SELECT ID AS oldRuleId, REVIEWED_PROTEIN_COUNT AS reviewedProteinCount, "
-                    + "UNREVIEWED_PROTEIN_COUNT AS unreviewedProteinCount FROM SPTR.MV_DATA_SOURCE_STATS  WHERE  DATA_TYPE = 'UniRule'";
+    public static final String ARBA_PROTEIN_COUNT_QUERY =
+            "SELECT ID AS ruleId, UNREVIEWED_PROTEIN_COUNT AS proteinCount "
+                    + " FROM SPTR.MV_DATA_SOURCE_STATS WHERE DATA_TYPE = 'ARBA'";
 
     @Override
     public ArbaProteinCount mapRow(ResultSet resultSet, int rowIndex) throws SQLException {
-        String oldRuleId = resultSet.getString("oldRuleId");
-        long reviewedProteinCount = resultSet.getLong("reviewedProteinCount");
-        long unreviewedProteinCount = resultSet.getLong("unreviewedProteinCount");
-        return new ArbaProteinCount(oldRuleId, reviewedProteinCount, unreviewedProteinCount);
+        String ruleId = resultSet.getString("ruleId");
+        long proteinCount = resultSet.getLong("proteinCount");
+        return new ArbaProteinCount(ruleId, proteinCount);
     }
 
     @Getter
     @AllArgsConstructor
     public static class ArbaProteinCount implements Serializable {
-        private final String oldRuleId;
-        private final long reviewedProteinCount;
-        private final long unreviewedProteinCount;
+        private final String ruleId;
+        private final long proteinCount;
     }
 }

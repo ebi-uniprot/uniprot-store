@@ -32,15 +32,15 @@ public class ArbaIndexJob {
         this.uniProtSolrClient = uniProtSolrClient;
     }
 
-    @Bean
-    public Job indexJob(
+    @Bean("arbaLoadJob")
+    public Job arbaLoadJob(
             Step arbaProteinCountSQLStep,
-            Step indexUniRuleStep,
+            Step indexArbaStep,
             WriteRetrierLogJobListener writeRetrierLogJobListener) {
         return this.jobBuilderFactory
                 .get(Constants.ARBA_INDEX_JOB)
-                // .start(arbaProteinCountSQLStep) // load protein count from DB
-                .start(indexUniRuleStep) // index arba entry
+                .start(arbaProteinCountSQLStep) // load arba's rule protein count from DB
+                .next(indexArbaStep) // index arba entry
                 .listener(writeRetrierLogJobListener)
                 .listener(
                         new JobExecutionListener() {

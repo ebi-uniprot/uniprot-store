@@ -7,7 +7,14 @@ import java.util.stream.Collectors;
 
 import org.uniprot.core.CrossReference;
 import org.uniprot.core.Value;
-import org.uniprot.core.uniprotkb.comment.*;
+import org.uniprot.core.uniprotkb.comment.CatalyticActivityComment;
+import org.uniprot.core.uniprotkb.comment.Cofactor;
+import org.uniprot.core.uniprotkb.comment.CofactorComment;
+import org.uniprot.core.uniprotkb.comment.Comment;
+import org.uniprot.core.uniprotkb.comment.FreeTextComment;
+import org.uniprot.core.uniprotkb.comment.Reaction;
+import org.uniprot.core.uniprotkb.comment.SubcellularLocation;
+import org.uniprot.core.uniprotkb.comment.SubcellularLocationComment;
 import org.uniprot.core.uniprotkb.evidence.EvidencedValue;
 
 /**

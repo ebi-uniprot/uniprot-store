@@ -1,4 +1,4 @@
-package org.uniprot.store.indexer.unirule;
+package org.uniprot.store.indexer.arba;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -6,12 +6,12 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import org.junit.jupiter.api.Test;
 import org.uniprot.core.xml.jaxb.unirule.UniRuleType;
 
-public class UniRuleXmlEntryReaderTest {
+public class ArbaXmlEntryReaderTest {
 
     @Test
     void testReadXmlFile() throws Exception {
-        String filePath = "src/test/resources/aa/sample-unirule.xml";
-        UniRuleXmlEntryReader reader = new UniRuleXmlEntryReader(filePath);
+        String filePath = "src/test/resources/aa/sample-arba.xml";
+        ArbaXmlEntryReader reader = new ArbaXmlEntryReader(filePath);
         assertNotNull(reader);
         int count = 0;
         UniRuleType uniRuleType;
@@ -20,7 +20,7 @@ public class UniRuleXmlEntryReaderTest {
             verifyUniRuleEntry(uniRuleType);
         }
 
-        assertEquals(2, count);
+        assertEquals(5, count);
     }
 
     private void verifyUniRuleEntry(UniRuleType uniRuleType) {

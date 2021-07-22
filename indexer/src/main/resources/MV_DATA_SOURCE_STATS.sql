@@ -359,5 +359,92 @@ FROM (
       AND db.merge_status <> 'R'
       AND cet."TYPE" = 'C_HAMAP-Rule'
     GROUP BY eadb."ATTRIBUTE") reviewed ON
-    reviewed.id = unreviewed.id;
+    reviewed.id = unreviewed.id
 -- UniRule Ends
+
+UNION ALL
+
+-- ARBA Begins
+SELECT 'ARBA'                               AS data_type,
+        id                      			AS id,
+        NULL                                AS reviewed_protein_count,
+        count(DISTINCT accession)         	AS unreviewed_protein_count,
+        NULL                                AS referenced_proteome_count,
+        NULL                                AS proteome_count
+FROM
+    (
+        SELECT
+            e2g."ATTRIBUTE" AS id,
+            db.accession AS accession
+        FROM
+            dbentry db
+                JOIN gene g ON
+                    db.dbentry_id = g.dbentry_id
+                JOIN gene_name gn ON
+                    g.gene_id = gn.gene_id
+                JOIN evid_2_gene e2g ON
+                    gn.GENE_NAME_ID = e2g.GENE_NAME_ID
+                JOIN CV_EVIDENCE_TYPE cet ON
+                    cet.EVIDENCE_TYPE_ID = e2g.EVIDENCE_TYPE_ID
+        WHERE
+                db.entry_type = 1
+          AND db.merge_status <> 'R'
+          AND db.deleted = 'N'
+          AND cet."TYPE" = 'ARBA'
+        UNION ALL
+        -- keyword then
+        SELECT
+            e2k."ATTRIBUTE" AS id,
+            db.accession AS accession
+        FROM
+            dbentry db
+                JOIN dbentry_2_keyword d2k ON
+                    db.dbentry_id = d2k.dbentry_id
+                JOIN evid_2_keyword e2k ON
+                    d2k.dbentry_2_keyword_id = e2k.dbentry_2_keyword_id
+                JOIN CV_EVIDENCE_TYPE cet ON
+                    cet.EVIDENCE_TYPE_ID = e2k.EVIDENCE_TYPE_ID
+        WHERE
+                db.entry_type = 1
+          AND db.merge_status <> 'R'
+          AND db.deleted = 'N'
+          AND cet."TYPE" = 'ARBA'
+        UNION ALL
+        -- protein name then
+        SELECT
+            e2d."ATTRIBUTE" AS id,
+            db.accession AS accession
+        FROM
+            dbentry db
+                JOIN dbentry_2_desc d2d ON
+                    db.dbentry_id = d2d.dbentry_id
+                JOIN evid_2_desc e2d ON
+                    d2d.dbentry_2_desc_id = e2d.dbentry_2_desc_id
+                JOIN CV_EVIDENCE_TYPE cet ON
+                    cet.EVIDENCE_TYPE_ID = e2d.EVIDENCE_TYPE_ID
+        WHERE
+                db.entry_type = 1
+          AND db.merge_status <> 'R'
+          AND db.deleted = 'N'
+          AND cet."TYPE" = 'ARBA'
+        UNION ALL
+        -- comment and function type of then
+        SELECT
+            e2cb."ATTRIBUTE" AS id,
+            db.accession AS accession
+        FROM
+            dbentry db
+                JOIN comment_block cb ON
+                    db.dbentry_id = cb.dbentry_id
+                JOIN evid_2_comm_block e2cb ON
+                    cb.comment_block_id = e2cb.comment_block_id
+                JOIN CV_EVIDENCE_TYPE cet ON
+                    cet.EVIDENCE_TYPE_ID = e2cb.EVIDENCE_TYPE_ID
+        WHERE
+                db.entry_type = 1
+          AND db.merge_status <> 'R'
+          AND db.deleted = 'N'
+          AND cet."TYPE" = 'ARBA') arba_accession
+GROUP BY id;
+-- ARBA Ends
+

@@ -1,6 +1,7 @@
 package org.uniprot.store.indexer.arba;
 
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.junit.jupiter.api.Assertions.*;
@@ -9,6 +10,7 @@ import static org.uniprot.store.indexer.common.utils.Constants.*;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.apache.solr.client.solrj.SolrQuery;
 import org.hamcrest.CoreMatchers;
@@ -48,9 +50,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
             FakeIndexerSpringBootApplication.class,
             FakeReadDatabaseConfig.class,
             SolrTestConfig.class,
-            ArbaIndexJob.class,
             ArbaProteinCountStep.class,
             ArbaIndexStep.class,
+            ArbaIndexJob.class,
             ListenerConfig.class
         })
 class ArbaIndexJobIT {
@@ -88,10 +90,10 @@ class ArbaIndexJobIT {
         List<ArbaDocument> response =
                 solrClient.query(SolrCollection.arba, new SolrQuery("*:*"), ArbaDocument.class);
         assertThat(response, is(notNullValue()));
-        assertThat(response.size(), is(2));
-        assertThat(response.get(0).getRuleId(), is("UR001229753"));
-        assertThat(response.get(1).getRuleId(), is("UR001330252"));
-        //         verify the rule ids from the serialised object
+        assertThat(response.size(), is(5));
+        assertThat(response.stream().map(ArbaDocument::getRuleId).collect(Collectors.toList()),
+                contains("ARBA00000001", "ARBA00023492", "ARBA00023910", "ARBA00000002", "ARBA00000003"));
+        // verify the rule ids from the serialised object
         response.forEach(this::verifyRule);
     }
 
@@ -108,11 +110,11 @@ class ArbaIndexJobIT {
     }
 
     private void verifyRule(ArbaDocument uniRuleDocument) {
-        String uniRuleId = uniRuleDocument.getRuleId();
+        String ruleId = uniRuleDocument.getRuleId();
         byte[] obj = uniRuleDocument.getRuleObj().array();
         try {
             UniRuleEntry uniRuleEntry = objectMapper.readValue(obj, UniRuleEntry.class);
-            assertEquals(uniRuleId, uniRuleEntry.getUniRuleId().getValue());
+            assertEquals(ruleId, uniRuleEntry.getUniRuleId().getValue());
             assertTrue(uniRuleEntry.getProteinsAnnotatedCount() > 0);
         } catch (Exception e) {
             fail(e.getMessage());

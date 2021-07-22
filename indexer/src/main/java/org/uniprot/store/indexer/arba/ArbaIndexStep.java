@@ -40,7 +40,7 @@ public class ArbaIndexStep {
     }
 
     @Bean
-    public Step indexUniRuleStep(
+    public Step indexArbaStep(
             StepExecutionListener stepListener,
             ChunkListener chunkListener,
             ItemReader<UniRuleType> arbaReader,
