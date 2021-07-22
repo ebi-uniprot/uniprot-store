@@ -1,4 +1,4 @@
-package org.uniprot.store.indexer.unirule;
+package org.uniprot.store.indexer.common.aa;
 
 import java.util.Set;
 
@@ -12,7 +12,7 @@ import lombok.Data;
  */
 @Builder
 @Data
-public class UniRuleDocumentComment {
+public class AARuleDocumentComment {
     private String name; // comment display name
     private Set<String> values;
 }
