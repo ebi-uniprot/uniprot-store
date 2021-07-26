@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<configuration>
+    <logger name="org.apache.spark" level="WARN"/>
+    <logger name="org.sparkproject" level="WARN"/>
+    <logger name="org.apache.solr" level="WARN" />
+    <appender name="SystemErr"
+              class="ch.qos.logback.core.ConsoleAppender" target="System.err">
+        <target>System.err</target>
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+            <level>ERROR</level>
+        </filter>
+
+    </appender>
+
+    <appender name="SystemOut"
+              class="ch.qos.logback.core.ConsoleAppender">
+        <target>System.out</target>
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+            <level>INFO</level>
+        </filter>
+    </appender>
+
+
+    <appender name="DOC-CONVERSION-FAILED-ENTRIES-FILE"
+              class="ch.qos.logback.core.FileAppender">
+        <file>indexing-doc-conversion-failed-entries.error</file>
+        <!-- overwrite previous log -->
+        <append>false</append>
+        <encoder>
+            <pattern>%msg%n</pattern>
+        </encoder>
+    </appender>
+    <!-- additivity=false ensures doc conversion data only goes to the doc conversion
+        log -->
+    <logger name="indexing-doc-conversion-failed-entries"
+            level="DEBUG" additivity="false">
+        <appender-ref ref="DOC-CONVERSION-FAILED-ENTRIES-FILE" />
+    </logger>
+    <appender name="STORE-WRITE-FAILED-ENTRIES-FILE"
+              class="ch.qos.logback.core.FileAppender">
+        <file>store-write-failed-entries.error</file>
+        <!-- overwrite previous log -->
+        <append>false</append>
+        <encoder>
+            <pattern>%msg%n</pattern>
+        </encoder>
+    </appender>
+    <!-- additivity=false ensures doc write data only goes to the doc write
+        log -->
+    <logger name="store-write-failed-entries" level="DEBUG"
+            additivity="false">
+        <appender-ref ref="STORE-WRITE-FAILED-ENTRIES-FILE" />
+    </logger>
+
+    <root level="INFO">
+        <appender-ref ref="SystemErr" />
+        <appender-ref ref="SystemOut" />
+    </root>
+</configuration>

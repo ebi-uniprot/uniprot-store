@@ -190,7 +190,8 @@
 								<exclude>**/*IT.java</exclude>
 								<exclude>**/IT*.java</exclude>
 							</excludes>
-							<argLine>${jacoco.agent.ut.arg}</argLine>
+							<argLine>-Dlogback.configurationFile=${project.basedir}/../logback-test.xml
+								${jacoco.agent.ut.arg}</argLine>
 						</configuration>
 					</plugin>
 
