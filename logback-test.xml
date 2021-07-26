@@ -4,6 +4,8 @@
     <logger name="org.apache.spark" level="WARN"/>
     <logger name="org.sparkproject" level="WARN"/>
     <logger name="org.apache.solr" level="WARN" />
+    <logger name="ch.qos.logback" level="WARN" />
+
     <appender name="SystemErr"
               class="ch.qos.logback.core.ConsoleAppender" target="System.err">
         <target>System.err</target>

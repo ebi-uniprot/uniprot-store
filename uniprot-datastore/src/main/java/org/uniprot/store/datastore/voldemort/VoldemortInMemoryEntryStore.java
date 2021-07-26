@@ -44,7 +44,7 @@ public abstract class VoldemortInMemoryEntryStore<T> implements VoldemortClient<
         Store<String, T, String> store = this.getStore();
         List<Versioned<T>> listVersionedEntry = store.get(id, this.storeName);
         if (listVersionedEntry != null && !listVersionedEntry.isEmpty()) {
-            logger.info("Updating entry: {}", id);
+            logger.debug("Updating entry: {}", id);
             Versioned<T> currentEntry = listVersionedEntry.get(0);
             currentEntry.setObject(entry);
             store.delete(id, currentEntry.getVersion());
@@ -57,7 +57,7 @@ public abstract class VoldemortInMemoryEntryStore<T> implements VoldemortClient<
     }
 
     public void truncate() {
-        logger.info("Truncating entries ");
+        logger.debug("Truncating entries ");
         storageEngine.truncate();
     }
 
@@ -74,7 +74,7 @@ public abstract class VoldemortInMemoryEntryStore<T> implements VoldemortClient<
     }
 
     public List<T> getEntries(Iterable<String> acc) {
-        logger.info("Getting entry list : {}", acc);
+        logger.debug("Getting entry list : {}", acc);
         List<T> result = new ArrayList<>();
         acc.forEach(
                 accession -> {
