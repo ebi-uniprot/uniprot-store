@@ -79,10 +79,15 @@
             <str name="q.op">AND</str>
             <str name="echoParams">explicit</str>
             <int name="rows">10</int>
+            <str name="spellcheck.dictionary">default</str>
+            <str name="spellcheck.count">5</str>
+            <str name="spellcheck.collate">true</str>
+            <str name="spellcheck.collateExtendedResults">true</str>
+            <str name="spellcheck.extendedResults">true</str>
         </lst>
-		<arr name="last-components">
-			<str>spellcheck</str>
-		</arr>
+        <arr name="last-components">
+            <str>spellcheck</str>
+        </arr>
     </requestHandler>
     <requestHandler name="/query" class="solr.SearchHandler">
         <lst name="defaults">
@@ -111,14 +116,14 @@
         spelling suggestions. http://wiki.apache.org/solr/SpellCheckComponent -->
     <searchComponent name="spellcheck"
                      class="solr.SpellCheckComponent">
-        <str name="queryAnalyzerFieldType">text_spellcheck</str>
+        <str name="queryAnalyzerFieldType">textSpell</str>
 
         <!-- Multiple "Spell Checkers" can be declared and used by this component -->
 
         <!-- a spellchecker built from a field of the main index -->
         <lst name="spellchecker">
             <str name="name">default</str>
-            <str name="field">text</str>
+            <str name="field">text_spellcheck</str>
             <str name="classname">solr.DirectSolrSpellChecker</str>
             <!-- the spellcheck distance measure used, the default is the internal
                 levenshtein -->
