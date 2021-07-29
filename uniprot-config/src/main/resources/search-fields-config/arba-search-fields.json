@@ -18,6 +18,7 @@
     "example": "rule_id asc"
   },
   {
+    "seqNumber": 0,
     "id": "protein_name_field",
     "label": "Protein Name [DE]",
     "fieldName": "protein_name",
@@ -28,6 +29,7 @@
     "example": "mas5"
   },
   {
+    "seqNumber": 1,
     "id": "organism_field",
     "label": "Organism [OS]",
     "dataType": "STRING",
@@ -38,6 +40,7 @@
     "example": "saccharomyces"
   },
   {
+    "seqNumber": 2,
     "id": "taxonomy_field",
     "label": "Taxonomy [OC]",
     "dataType": "STRING",
@@ -48,6 +51,7 @@
     "example": "human"
   },
   {
+    "seqNumber": 3,
     "id": "keyword_field",
     "label": "Keyword [KW]",
     "fieldName": "keyword",
