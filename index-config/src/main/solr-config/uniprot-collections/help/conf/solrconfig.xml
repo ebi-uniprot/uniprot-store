@@ -79,11 +79,10 @@
             <str name="q.op">AND</str>
             <str name="echoParams">explicit</str>
             <int name="rows">10</int>
-            <str name="spellcheck.dictionary">default</str>
+            <str name="spellcheck.dictionary">direct</str>
             <str name="spellcheck.count">5</str>
-            <str name="spellcheck.collate">true</str>
-            <str name="spellcheck.collateExtendedResults">true</str>
             <str name="spellcheck.extendedResults">true</str>
+            <str name="spellcheck.maxResultsForSuggest">0</str>
         </lst>
         <arr name="last-components">
             <str>spellcheck</str>
@@ -122,7 +121,7 @@
 
         <!-- a spellchecker built from a field of the main index -->
         <lst name="spellchecker">
-            <str name="name">default</str>
+            <str name="name">direct</str>
             <str name="field">text_spellcheck</str>
             <str name="classname">solr.DirectSolrSpellChecker</str>
             <!-- the spellcheck distance measure used, the default is the internal
