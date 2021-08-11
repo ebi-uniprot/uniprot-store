@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<unirules xmlns="http://uniprot.org/unirule-1.2" xmlns:uniprot="http://uniprot.org/uniprot">
+    <unirule status="APPLY" id="UR001185755" creator="amcdouga" created="2019-06-19+01:00" modifiedBy="esperett" modified="2021-03-02Z">
+        <information>
+            <version>0</version>
+            <oldRuleNum>RU366062</oldRuleNum>
+            <uniprotId>
+                <value>FRD_SDH</value>
+            </uniprotId>
+            <dataClass>Protein</dataClass>
+        </information>
+        <main>
+            <conditionSets>
+                <conditionSet>
+                    <condition type="sequence length">
+                        <range start="1" end="1000"/>
+                    </condition>
+                    <condition type="taxon">
+                        <value cvId="2">Bacteria</value>
+                    </condition>
+                    <condition type="TIGRFAM id">
+                        <value>TIGR01813</value>
+                    </condition>
+                </conditionSet>
+                <conditionSet>
+                    <condition type="sequence length">
+                        <range start="1" end="580"/>
+                    </condition>
+                    <condition type="taxon">
+                        <value cvId="4751">Fungi</value>
+                    </condition>
+                    <condition type="TIGRFAM id">
+                        <value>TIGR01813</value>
+                    </condition>
+                </conditionSet>
+            </conditionSets>
+            <annotations>
+                <annotation>
+                    <comment type="similarity">
+                        <uniprot:text>Belongs to the FAD-dependent oxidoreductase 2 family. FRD/SDH subfamily.</uniprot:text>
+                    </comment>
+                </annotation>
+                <annotation>
+                    <keyword id="KW-0274">FAD</keyword>
+                </annotation>
+                <annotation>
+                    <keyword id="KW-0285">Flavoprotein</keyword>
+                </annotation>
+                <annotation>
+                    <keyword id="KW-0560">Oxidoreductase</keyword>
+                </annotation>
+                <annotation>
+                    <comment type="cofactor">
+                        <uniprot:cofactor>
+                            <uniprot:name>Mg(2+)</uniprot:name>
+                            <uniprot:dbReference type="ChEBI" id="CHEBI:18420"/>
+                        </uniprot:cofactor>
+                        <uniprot:cofactor>
+                            <uniprot:name>Ca(2+)</uniprot:name>
+                            <uniprot:dbReference type="ChEBI" id="CHEBI:29108"/>
+                        </uniprot:cofactor>
+                        <uniprot:cofactor>
+                            <uniprot:name>Mn(2+)</uniprot:name>
+                            <uniprot:dbReference type="ChEBI" id="CHEBI:29035"/>
+                        </uniprot:cofactor>
+                        <uniprot:cofactor>
+                            <uniprot:name>Co(2+)</uniprot:name>
+                            <uniprot:dbReference type="ChEBI" id="CHEBI:48828"/>
+                        </uniprot:cofactor>
+                        <uniprot:text>Binds 1 Mg(2+) ion per subunit. Can also utilize other divalent metal cations, such as Ca(2+), Mn(2+) and Co(2+).</uniprot:text>
+                    </comment>
+                </annotation>
+            </annotations>
+        </main>
+        <cases>
+            <case overallStatsExempted="false">
+                <conditionSets>
+                    <conditionSet>
+                        <condition type="Pfam id">
+                            <value>PF04205</value>
+                        </condition>
+                        <condition type="taxon">
+                            <value cvId="2">Bacteria</value>
+                        </condition>
+                        <condition type="taxon" negative="true">
+                            <value cvId="91347">Enterobacterales</value>
+                        </condition>
+                    </conditionSet>
+                </conditionSets>
+                <annotations>
+                    <annotation>
+                        <protein>
+                            <recommendedName>
+                                <fullName>Urocanate reductase</fullName>
+                                <ecNumber>1.3.99.33</ecNumber>
+                            </recommendedName>
+                        </protein>
+                    </annotation>
+                    <annotation>
+                        <comment type="catalytic activity">
+                            <uniprot:reaction>
+                                <uniprot:text>A + dihydrourocanate = AH2 + urocanate</uniprot:text>
+                                <uniprot:dbReference type="Rhea" id="RHEA:36059"/>
+                                <uniprot:dbReference type="ChEBI" id="CHEBI:13193"/>
+                                <uniprot:dbReference type="ChEBI" id="CHEBI:17499"/>
+                                <uniprot:dbReference type="ChEBI" id="CHEBI:27247"/>
+                                <uniprot:dbReference type="ChEBI" id="CHEBI:72991"/>
+                                <uniprot:dbReference type="EC" id="1.3.99.33"/>
+                            </uniprot:reaction>
+                        </comment>
+                    </annotation>
+                    <annotation>
+                        <comment type="cofactor">
+                            <uniprot:cofactor>
+                                <uniprot:name>FAD</uniprot:name>
+                                <uniprot:dbReference type="ChEBI" id="CHEBI:57692"/>
+                            </uniprot:cofactor>
+                            <uniprot:text>Binds 1 FAD per subunit.</uniprot:text>
+                        </comment>
+                    </annotation>
+                    <annotation>
+                        <comment type="cofactor">
+                            <uniprot:cofactor>
+                                <uniprot:name>FMN</uniprot:name>
+                                <uniprot:dbReference type="ChEBI" id="CHEBI:58210"/>
+                            </uniprot:cofactor>
+                            <uniprot:text>Binds 1 FMN covalently per subunit.</uniprot:text>
+                        </comment>
+                    </annotation>
+                </annotations>
+            </case>
+            <case overallStatsExempted="false">
+                <conditionSets>
+                    <conditionSet>
+                        <condition type="Pfam id">
+                            <value>PF00890</value>
+                        </condition>
+                        <condition type="taxon">
+                            <value cvId="4751">Fungi</value>
+                        </condition>
+                    </conditionSet>
+                </conditionSets>
+                <annotations>
+                    <annotation>
+                        <protein>
+                            <recommendedName>
+                                <fullName>Fumarate reductase</fullName>
+                                <ecNumber>1.3.1.6</ecNumber>
+                            </recommendedName>
+                        </protein>
+                    </annotation>
+                    <annotation>
+                        <comment type="catalytic activity">
+                            <uniprot:reaction>
+                                <uniprot:text>NAD(+) + succinate = fumarate + H(+) + NADH</uniprot:text>
+                                <uniprot:dbReference type="Rhea" id="RHEA:18281"/>
+                                <uniprot:dbReference type="ChEBI" id="CHEBI:15378"/>
+                                <uniprot:dbReference type="ChEBI" id="CHEBI:29806"/>
+                                <uniprot:dbReference type="ChEBI" id="CHEBI:30031"/>
+                                <uniprot:dbReference type="ChEBI" id="CHEBI:57540"/>
+                                <uniprot:dbReference type="ChEBI" id="CHEBI:57945"/>
+                                <uniprot:dbReference type="EC" id="1.3.1.6"/>
+                            </uniprot:reaction>
+                        </comment>
+                    </annotation>
+                    <annotation>
+                        <comment type="cofactor">
+                            <uniprot:cofactor>
+                                <uniprot:name>FAD</uniprot:name>
+                                <uniprot:dbReference type="ChEBI" id="CHEBI:57692"/>
+                            </uniprot:cofactor>
+                            <uniprot:text>Binds 1 FAD per monomer.</uniprot:text>
+                        </comment>
+                    </annotation>
+                    <annotation>
+                        <comment type="function">
+                            <uniprot:text>Irreversibly catalyzes the reduction of fumarate to succinate.</uniprot:text>
+                        </comment>
+                    </annotation>
+                </annotations>
+            </case>
+            <case overallStatsExempted="false">
+                <conditionSets>
+                    <conditionSet>
+                        <condition type="Pfam id">
+                            <value>PF14537</value>
+                        </condition>
+                        <condition type="taxon">
+                            <value cvId="2">Bacteria</value>
+                        </condition>
+                    </conditionSet>
+                </conditionSets>
+                <annotations>
+                    <annotation>
+                        <protein>
+                            <recommendedName>
+                                <fullName>Fumarate reductase flavoprotein subunit</fullName>
+                                <ecNumber>1.3.5.4</ecNumber>
+                            </recommendedName>
+                        </protein>
+                    </annotation>
+                    <annotation>
+                        <comment type="catalytic activity">
+                            <uniprot:reaction>
+                                <uniprot:text>a quinone + succinate = a quinol + fumarate</uniprot:text>
+                                <uniprot:dbReference type="Rhea" id="RHEA:40523"/>
+                                <uniprot:dbReference type="ChEBI" id="CHEBI:24646"/>
+                                <uniprot:dbReference type="ChEBI" id="CHEBI:29806"/>
+                                <uniprot:dbReference type="ChEBI" id="CHEBI:30031"/>
+                                <uniprot:dbReference type="ChEBI" id="CHEBI:132124"/>
+                                <uniprot:dbReference type="EC" id="1.3.5.4"/>
+                            </uniprot:reaction>
+                        </comment>
+                    </annotation>
+                    <annotation>
+                        <comment type="cofactor">
+                            <uniprot:cofactor>
+                                <uniprot:name>FAD</uniprot:name>
+                                <uniprot:dbReference type="ChEBI" id="CHEBI:57692"/>
+                            </uniprot:cofactor>
+                            <uniprot:text>Binds 1 FAD per subunit.</uniprot:text>
+                        </comment>
+                    </annotation>
+                </annotations>
+            </case>
+        </cases>
+        <samFeatureSet>
+            <samTrigger>
+                <signal>
+                    <expectedHits start="1" end="1"/>
+                </signal>
+            </samTrigger>
+        </samFeatureSet>
+    </unirule>
+</unirules>

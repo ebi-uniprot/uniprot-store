@@ -79,11 +79,14 @@ class ArbaDocumentConverterTest {
         assertEquals("[organismName]", solrDoc.getOrganismNames().toString());
         assertEquals(1, solrDoc.getTaxonomyNames().size());
         assertEquals("[Metazoa]", solrDoc.getTaxonomyNames().toString());
-        assertEquals(1, solrDoc.getCommentTypeValues().size());
+        assertEquals(2, solrDoc.getCommentTypeValues().size());
         assertEquals(
                 "[RHEA-COMP:11736, RHEA-COMP:11846, CHEBI:87215, CHEBI:64722, RHEA:23652, CHEBI:28938, N-terminal L-glutaminyl-[peptide] = N-terminal 5-oxo-L-prolyl-[peptide] + NH4(+)]",
                 solrDoc.getCommentTypeValues().get("cc_catalytic_activity").toString());
-
+        assertEquals(1, solrDoc.getEcNumbers().size());
+        assertEquals("[2.3.2.5]", solrDoc.getEcNumbers().toString());
+        assertEquals(1, solrDoc.getFamilies().size());
+        assertEquals("[nonaspanin (TM9SF) (TC 9.A.2) family]", solrDoc.getFamilies().toString());
         verifyUniRuleObject(solrDoc.getRuleObj(), proteinCount);
     }
 

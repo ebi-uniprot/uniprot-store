@@ -1,9 +1,11 @@
 package org.uniprot.store.indexer.arba;
 
 import static org.uniprot.store.indexer.common.aa.AARuleCommentConverter.convertToAARuleDocumentComments;
+import static org.uniprot.store.indexer.common.aa.AARuleDocumentConverterUtils.extractEcs;
 import static org.uniprot.store.indexer.common.aa.AARuleDocumentConverterUtils.getAARuleObj;
 import static org.uniprot.store.indexer.common.aa.AARuleDocumentConverterUtils.getComments;
 import static org.uniprot.store.indexer.common.aa.AARuleDocumentConverterUtils.getConditionValues;
+import static org.uniprot.store.indexer.common.aa.AARuleDocumentConverterUtils.getFamilies;
 import static org.uniprot.store.indexer.common.aa.AARuleDocumentConverterUtils.getGeneNames;
 import static org.uniprot.store.indexer.common.aa.AARuleDocumentConverterUtils.getGoTerms;
 import static org.uniprot.store.indexer.common.aa.AARuleDocumentConverterUtils.getKeywords;
@@ -78,6 +80,7 @@ public class ArbaDocumentConverter implements DocumentConverter<UniRuleType, Arb
         List<AARuleDocumentComment> arbaDocComments = convertToAARuleDocumentComments(uniObj);
         Map<String, Set<String>> commentTypeValues = getComments(arbaDocComments);
         ByteBuffer arbaObj = ByteBuffer.wrap(getAARuleObj(uniObj, this.objectMapper));
+        Set<String> ecNumbers = extractEcs(uniObj);
 
         // build the solr document
         ArbaDocument.ArbaDocumentBuilder builder = ArbaDocument.builder();
@@ -88,6 +91,8 @@ public class ArbaDocumentConverter implements DocumentConverter<UniRuleType, Arb
         builder.organismNames(organismNames).taxonomyNames(taxonomyNames);
         builder.commentTypeValues(commentTypeValues);
         builder.ruleObj(arbaObj);
+        builder.ecNumbers(ecNumbers);
+        builder.families(getFamilies(arbaDocComments));
         return builder.build();
     }
 }

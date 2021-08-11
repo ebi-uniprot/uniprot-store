@@ -2,10 +2,9 @@ package org.uniprot.store.indexer.uniprotkb.converter;
 
 import static org.uniprot.core.util.Utils.notNull;
 import static org.uniprot.core.util.Utils.nullOrEmpty;
+import static org.uniprot.store.indexer.common.utils.UniProtAARuleUtils.extractFamily;
 
 import java.util.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import org.uniprot.core.CrossReference;
@@ -36,9 +35,6 @@ class UniProtEntryCommentsConverter {
     private final Map<String, SuggestDocument> suggestions;
     private static final String COMMENT = "cc_";
     private static final String CC_EV = "ccev_";
-    private static final Pattern PATTERN_FAMILY =
-            Pattern.compile(
-                    "(?:In the .+? section; )?[Bb]elongs to the (.+?family)\\.(?: (.+?family)\\.)?(?: (.+?family)\\.)?(?: Highly divergent\\.)?");
 
     UniProtEntryCommentsConverter(
             ChebiRepo chebiRepo,
@@ -405,16 +401,9 @@ class UniProtEntryCommentsConverter {
     }
 
     private void updateFamily(String val, UniProtDocument document) {
-        if (!val.endsWith(".")) {
-            val += ".";
-        }
-        Matcher m = PATTERN_FAMILY.matcher(val);
-        if (m.matches()) {
-            StringBuilder line = new StringBuilder();
-            line.append(m.group(1));
-            if (m.group(2) != null) line.append(", ").append(m.group(2));
-            if (m.group(3) != null) line.append(", ").append(m.group(3));
-            document.familyInfo.add(line.toString());
+        String family = extractFamily(val);
+        if (Utils.notNullNotEmpty(family)) {
+            document.familyInfo.add(family);
         }
     }
 

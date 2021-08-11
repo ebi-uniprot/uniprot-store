@@ -15,4 +15,6 @@ import lombok.Data;
 public class AARuleDocumentComment {
     private String name; // comment display name
     private Set<String> values;
+    private Set<String> notes; // special case for cofactor/subcellular_location with notes
+    private Set<String> families; // special case for type SIMILARITY
 }

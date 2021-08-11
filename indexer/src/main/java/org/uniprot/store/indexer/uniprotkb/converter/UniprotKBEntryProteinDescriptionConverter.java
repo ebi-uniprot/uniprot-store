@@ -1,11 +1,10 @@
 package org.uniprot.store.indexer.uniprotkb.converter;
 
+import static org.uniprot.store.indexer.common.utils.UniProtAARuleUtils.extractProteinDescriptionEcs;
 import static org.uniprot.store.indexer.uniprotkb.converter.UniProtEntryConverterUtil.*;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import org.uniprot.core.uniprotkb.description.*;
 import org.uniprot.cv.ec.ECRepo;
@@ -82,55 +81,5 @@ class UniprotKBEntryProteinDescriptionConverter {
         }
         document.fragment = isFragment;
         document.precursor = isPrecursor;
-    }
-
-    private List<String> getEcs(List<EC> ecs) {
-        return ecs.stream().map(EC::getValue).collect(Collectors.toList());
-    }
-
-    private List<String> extractProteinDescriptionEcs(ProteinDescription proteinDescription) {
-        List<String> ecs = new ArrayList<>();
-        if (proteinDescription.hasRecommendedName()
-                && proteinDescription.getRecommendedName().hasEcNumbers()) {
-            ecs.addAll(getEcs(proteinDescription.getRecommendedName().getEcNumbers()));
-        }
-        if (proteinDescription.hasSubmissionNames()) {
-            proteinDescription.getSubmissionNames().stream()
-                    .filter(ProteinSubName::hasEcNumbers)
-                    .flatMap(proteinSubName -> getEcs(proteinSubName.getEcNumbers()).stream())
-                    .forEach(ecs::add);
-        }
-        if (proteinDescription.hasAlternativeNames()) {
-            proteinDescription.getAlternativeNames().stream()
-                    .filter(ProteinName::hasEcNumbers)
-                    .flatMap(proteinAltName -> getEcs(proteinAltName.getEcNumbers()).stream())
-                    .forEach(ecs::add);
-        }
-        if (proteinDescription.hasContains()) {
-            proteinDescription.getContains().stream()
-                    .flatMap(proteinSection -> getProteinSectionEcs(proteinSection).stream())
-                    .forEach(ecs::add);
-        }
-        if (proteinDescription.hasIncludes()) {
-            proteinDescription.getIncludes().stream()
-                    .flatMap(proteinSection -> getProteinSectionEcs(proteinSection).stream())
-                    .forEach(ecs::add);
-        }
-        return ecs;
-    }
-
-    private List<String> getProteinSectionEcs(ProteinSection proteinSection) {
-        List<String> ecs = new ArrayList<>();
-        if (proteinSection.hasRecommendedName()
-                && proteinSection.getRecommendedName().hasEcNumbers()) {
-            ecs.addAll(getEcs(proteinSection.getRecommendedName().getEcNumbers()));
-        }
-        if (proteinSection.hasAlternativeNames()) {
-            proteinSection.getAlternativeNames().stream()
-                    .filter(ProteinName::hasEcNumbers)
-                    .flatMap(proteinAltName -> getEcs(proteinAltName.getEcNumbers()).stream())
-                    .forEach(ecs::add);
-        }
-        return ecs;
     }
 }

@@ -36,6 +36,10 @@
 		required="false" stored="false" multiValued="true" />
 	<field name="rule_obj" type="binary" indexed="false"
 		stored="true" required="true" />
+	<field name="ec" type="ec" indexed="true" stored="false"
+		required="false" multiValued="true" />
+	<field name="family" type="full_ci" indexed="true" stored="false"
+		required="false" multiValued="true" />
 
 	<!-- =============================== field types =============================== -->
 	<fieldType name="plong" class="solr.LongPointField"
@@ -79,6 +83,28 @@
 				catenateNumbers="1" catenateAll="1" splitOnCaseChange="1"
 				preserveOriginal="1" splitOnNumerics="0" stemEnglishPossessive="1" />
 			<filter class="solr.LowerCaseFilterFactory" />
+		</analyzer>
+	</fieldType>
+	<!-- EC fields have special handling, e.g., this field allows search "1.1" 
+		to match "1.1*" without explicit need for wildcard. -->
+	<fieldType name="ec" class="solr.TextField"
+		sortMissingLast="true" omitNorms="true">
+		<analyzer type="index">
+			<charFilter class="solr.PatternReplaceCharFilterFactory"
+				pattern="-" replacement="" />
+			<charFilter class="solr.PatternReplaceCharFilterFactory"
+				pattern="((\.)(?!([0-9]|n)+))+" replacement="" />
+			<tokenizer class="solr.PathHierarchyTokenizerFactory"
+				delimiter="." />
+			<!--<filter class="solr.PatternReplaceFilterFactory" pattern="((\.)(?!([0-9]|n)+))+"/> -->
+		</analyzer>
+		<analyzer type="query">
+			<charFilter class="solr.PatternReplaceCharFilterFactory"
+				pattern="-" replacement="" />
+			<charFilter class="solr.PatternReplaceCharFilterFactory"
+				pattern="((\.)(?!([0-9]|n)+))+" replacement="" />
+			<tokenizer class="solr.KeywordTokenizerFactory" />
+			<!--<filter class="solr.PatternReplaceFilterFactory" pattern="((\.)(?!([0-9]|n)+))+"/> -->
 		</analyzer>
 	</fieldType>
 </schema>

@@ -51,6 +51,12 @@ public class ArbaDocument implements Document {
     @Field("cc_*")
     private Map<String, Set<String>> commentTypeValues = new HashMap<>();
 
+    @Field("ec")
+    private Set<String> ecNumbers = new HashSet<>();
+
+    @Field("family")
+    private Set<String> families = new HashSet<>();
+
     @Field("rule_obj")
     private ByteBuffer ruleObj;
 
