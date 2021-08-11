@@ -1,5 +1,7 @@
 package org.uniprot.store.indexer.common.aa;
 
+import static org.uniprot.core.uniprotkb.comment.CommentType.CATALYTIC_ACTIVITY;
+
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
@@ -9,15 +11,20 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.uniprot.core.CrossReference;
+import org.uniprot.core.ECNumber;
 import org.uniprot.core.Value;
 import org.uniprot.core.cv.keyword.KeywordCategory;
 import org.uniprot.core.gene.Gene;
 import org.uniprot.core.uniprotkb.Keyword;
+import org.uniprot.core.uniprotkb.comment.CatalyticActivityComment;
+import org.uniprot.core.uniprotkb.comment.Reaction;
 import org.uniprot.core.unirule.Annotation;
 import org.uniprot.core.unirule.Condition;
 import org.uniprot.core.unirule.ConditionSet;
+import org.uniprot.core.unirule.Rule;
 import org.uniprot.core.unirule.UniRuleEntry;
 import org.uniprot.core.util.Utils;
+import org.uniprot.store.indexer.common.utils.UniProtAARuleUtils;
 import org.uniprot.store.indexer.uniprotkb.converter.UniProtEntryConverterUtil;
 import org.uniprot.store.search.document.DocumentConversionException;
 
@@ -37,6 +44,20 @@ public class AARuleDocumentConverterUtils {
 
     private AARuleDocumentConverterUtils() {}
 
+    public static Set<String> extractEcs(UniRuleEntry uniRuleEntry) {
+        // ecs from main rule
+        Set<String> ecs = extractEcsFromRule(uniRuleEntry.getMainRule());
+        // ecs from other rules
+        Set<String> otherRulesEcs =
+                uniRuleEntry.getOtherRules().stream()
+                        .map(AARuleDocumentConverterUtils::extractEcsFromRule)
+                        .flatMap(Collection::stream)
+                        .collect(Collectors.toSet());
+        // add them together
+        ecs.addAll(otherRulesEcs);
+        return ecs;
+    }
+
     public static byte[] getAARuleObj(UniRuleEntry uniRuleEntry, ObjectMapper objectMapper) {
         try {
             return objectMapper.writeValueAsBytes(uniRuleEntry);
@@ -47,17 +68,36 @@ public class AARuleDocumentConverterUtils {
     }
 
     public static Map<String, Set<String>> getComments(List<AARuleDocumentComment> docComments) {
-        return docComments.stream()
-                .collect(
-                        Collectors.toMap(
-                                docComment ->
-                                        convertCommentDisplayNameToSolrField(
-                                                docComment.getName()), // cc_xyz format
-                                AARuleDocumentComment::getValues,
-                                (list1, list2) -> {
-                                    list1.addAll(list2);
-                                    return list1;
-                                }));
+        Map<String, Set<String>> commentTypeValues =
+                docComments.stream()
+                        .collect(
+                                Collectors.toMap(
+                                        docComment ->
+                                                convertCommentDisplayNameToSolrField(
+                                                        docComment.getName()), // cc_xyz format
+                                        AARuleDocumentComment::getValues,
+                                        (list1, list2) -> {
+                                            list1.addAll(list2);
+                                            return list1;
+                                        }));
+        // extract notes in a map
+        Map<String, Set<String>> notesValues =
+                docComments.stream()
+                        .filter(docComment -> Utils.notNullNotEmpty(docComment.getNotes()))
+                        .collect(
+                                Collectors.toMap(
+                                        docComment ->
+                                                convertCommentDisplayNameToSolrField(
+                                                        docComment.getName()
+                                                                + "_note"), // cc_xyz_note format
+                                        AARuleDocumentComment::getNotes,
+                                        (set1, set2) -> {
+                                            set1.addAll(set2);
+                                            return set1;
+                                        }));
+
+        commentTypeValues.putAll(notesValues);
+        return commentTypeValues;
     }
 
     public static Set<String> getConditionValues(UniRuleEntry uniObj) {
@@ -153,6 +193,14 @@ public class AARuleDocumentConverterUtils {
         return keywords;
     }
 
+    public static Set<String> getFamilies(List<AARuleDocumentComment> aaRuleDocumentComments) {
+        return aaRuleDocumentComments.stream()
+                .map(AARuleDocumentComment::getFamilies)
+                .filter(Utils::notNullNotEmpty)
+                .flatMap(Collection::stream)
+                .collect(Collectors.toSet());
+    }
+
     private static Set<String> extractGeneNames(Gene gene) {
         Set<String> geneNames = new HashSet<>();
 
@@ -198,5 +246,38 @@ public class AARuleDocumentConverterUtils {
         StringBuilder builder = new StringBuilder(CC_UNDERSCORE);
         builder.append(displayName);
         return builder.toString().replace(SINGLE_SPACE, UNDERSCORE);
+    }
+
+    private static Set<String> extractEcsFromRule(Rule rule) {
+        // ec can be found in protein description and comment of type catalytic activity
+        Set<String> proteinDescEcs =
+                rule.getAnnotations().stream()
+                        .map(Annotation::getProteinDescription)
+                        .filter(Objects::nonNull)
+                        .map(UniProtAARuleUtils::extractProteinDescriptionEcs)
+                        .flatMap(Collection::stream)
+                        .collect(Collectors.toSet());
+        Set<String> commentEcs = extractEcsFromRuleComment(rule);
+        proteinDescEcs.addAll(commentEcs);
+        return proteinDescEcs;
+    }
+
+    private static Set<String> extractEcsFromRuleComment(Rule rule) {
+        List<Annotation> annotations = rule.getAnnotations();
+        Set<String> ecs = new HashSet<>();
+        if (Utils.notNullNotEmpty(annotations)) {
+            ecs =
+                    annotations.stream()
+                            .map(Annotation::getComment)
+                            .filter(Objects::nonNull)
+                            .filter(comment -> comment.getCommentType() == CATALYTIC_ACTIVITY)
+                            .map(CatalyticActivityComment.class::cast)
+                            .map(CatalyticActivityComment::getReaction)
+                            .filter(Reaction::hasEcNumber)
+                            .map(Reaction::getEcNumber)
+                            .map(ECNumber::getValue)
+                            .collect(Collectors.toSet());
+        }
+        return ecs;
     }
 }

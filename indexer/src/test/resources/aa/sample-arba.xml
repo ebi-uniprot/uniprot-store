@@ -51,6 +51,11 @@
                         </uniprot:reaction>
                     </comment>
                 </annotation>
+                <annotation>
+                    <comment type="similarity">
+                        <uniprot:text>Belongs to the nonaspanin (TM9SF) (TC 9.A.2) family.</uniprot:text>
+                    </comment>
+                </annotation>
             </annotations>
         </main>
     </unirule>

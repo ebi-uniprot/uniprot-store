@@ -22,6 +22,7 @@ import org.uniprot.core.uniprotkb.evidence.EvidencedValue;
 import org.uniprot.core.unirule.Annotation;
 import org.uniprot.core.unirule.UniRuleEntry;
 import org.uniprot.core.util.Utils;
+import org.uniprot.store.indexer.common.utils.UniProtAARuleUtils;
 
 /**
  * @author sahmad
@@ -58,9 +59,11 @@ public class AARuleCommentConverter {
             case MISCELLANEOUS:
             case PATHWAY:
             case PTM:
-            case SIMILARITY:
             case SUBUNIT:
                 docComment = convertFreeTextComment((FreeTextComment) comment);
+                break;
+            case SIMILARITY:
+                docComment = convertCommentFamily((FreeTextComment) comment);
                 break;
             case CATALYTIC_ACTIVITY:
                 docComment = convertCatalyticActivity((CatalyticActivityComment) comment);
@@ -82,6 +85,19 @@ public class AARuleCommentConverter {
         Set<String> values =
                 comment.getTexts().stream().map(Value::getValue).collect(Collectors.toSet());
         return createDocumentComment(comment, values);
+    }
+
+    private static AARuleDocumentComment convertCommentFamily(FreeTextComment comment) {
+        Set<String> values =
+                comment.getTexts().stream().map(Value::getValue).collect(Collectors.toSet());
+        Set<String> families =
+                values.stream()
+                        .map(UniProtAARuleUtils::extractFamily)
+                        .filter(Utils::notNullNotEmpty)
+                        .collect(Collectors.toSet());
+        AARuleDocumentComment doc = createDocumentComment(comment, values);
+        doc.setFamilies(families);
+        return doc;
     }
 
     private static AARuleDocumentComment convertCatalyticActivity(
@@ -112,15 +128,14 @@ public class AARuleCommentConverter {
                             .flatMap(Collection::stream)
                             .collect(Collectors.toSet());
         }
-
+        Set<String> notes = new HashSet<>();
         if ((comment.hasNote()) && (comment.getNote().hasTexts())) {
-            Set<String> notes =
+            notes =
                     comment.getNote().getTexts().stream()
                             .map(EvidencedValue::getValue)
                             .collect(Collectors.toSet());
-            values.addAll(notes);
         }
-        return createDocumentComment(comment, values);
+        return createDocumentComment(comment, values, notes);
     }
 
     private static Set<String> extractCofactorValues(Cofactor cofactor) {
@@ -138,14 +153,22 @@ public class AARuleCommentConverter {
     private static AARuleDocumentComment convertSubcellLocation(
             SubcellularLocationComment comment) {
         AARuleDocumentComment docComment = null;
+        Set<String> values = new HashSet<>();
         if (comment.hasSubcellularLocations()) {
-            Set<String> values =
+            values =
                     comment.getSubcellularLocations().stream()
                             .map(AARuleCommentConverter::extractSubcellLocationValues)
                             .flatMap(Collection::stream)
                             .collect(Collectors.toSet());
-            docComment = createDocumentComment(comment, values);
         }
+        Set<String> notes = new HashSet<>();
+        if ((comment.hasNote()) && (comment.getNote().hasTexts())) {
+            notes =
+                    comment.getNote().getTexts().stream()
+                            .map(EvidencedValue::getValue)
+                            .collect(Collectors.toSet());
+        }
+        docComment = createDocumentComment(comment, values, notes);
         return docComment;
     }
 
@@ -165,11 +188,17 @@ public class AARuleCommentConverter {
 
     private static AARuleDocumentComment createDocumentComment(
             Comment comment, Set<String> values) {
+        return createDocumentComment(comment, values, null);
+    }
+
+    private static AARuleDocumentComment createDocumentComment(
+            Comment comment, Set<String> values, Set<String> notes) {
         String name = comment.getCommentType().toXmlDisplayName();
         AARuleDocumentComment.AARuleDocumentCommentBuilder builder =
                 AARuleDocumentComment.builder();
         builder.name(name);
         builder.values(values);
+        builder.notes(notes);
         return builder.build();
     }
 }

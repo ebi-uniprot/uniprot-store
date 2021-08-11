@@ -1,9 +1,11 @@
 package org.uniprot.store.indexer.unirule;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
+import java.util.Set;
 import java.util.concurrent.ThreadLocalRandom;
 
 import org.junit.jupiter.api.BeforeAll;
@@ -15,21 +17,49 @@ import org.uniprot.store.search.document.unirule.UniRuleDocument;
 public class UniRuleDocumentConverterTest {
     private static UniRuleDocumentConverter docConverter;
     private static final String filePath = "src/test/resources/aa/sample-unirule.xml";
+    private static final String filePathWithEC = "src/test/resources/aa/sample-unirule-ec.xml";
     private static UniRuleXmlEntryReader reader;
 
     @BeforeAll
     static void setUp() {
         docConverter = new UniRuleDocumentConverter();
-        reader = new UniRuleXmlEntryReader(filePath);
     }
 
     @Test
     void testConvert() throws Exception {
+        reader = new UniRuleXmlEntryReader(filePath);
         UniRuleType xmlObj = reader.read();
         long proteinCount = ThreadLocalRandom.current().nextLong();
         docConverter.setProteinsAnnotatedCount(proteinCount);
         UniRuleDocument solrDoc = docConverter.convert(xmlObj);
         verifySolrDoc(solrDoc, proteinCount);
+    }
+
+    @Test
+    void testConvertWithMoreThanOneECFamilyAndNote() throws Exception {
+        reader = new UniRuleXmlEntryReader(filePathWithEC);
+        UniRuleType xmlObj = reader.read();
+        long proteinCount = ThreadLocalRandom.current().nextLong();
+        docConverter.setProteinsAnnotatedCount(proteinCount);
+        UniRuleDocument solrDoc = docConverter.convert(xmlObj);
+        // verify ec
+        Set<String> ecs = solrDoc.getEcNumbers();
+        assertNotNull(ecs);
+        assertEquals(3, ecs.size());
+        assertEquals("[1.3.1.6, 1.3.5.4, 1.3.99.33]", ecs.toString());
+        // verify note
+        Set<String> notes = solrDoc.getCommentTypeValues().get("cc_cofactor_note");
+        assertNotNull(notes);
+        assertEquals(1, notes.size());
+        assertEquals(
+                "[Binds 1 Mg(2+) ion per subunit. Can also utilize other divalent metal cations, such as Ca(2+), Mn(2+) and Co(2+)]",
+                notes.toString());
+        // verify family
+        Set<String> families = solrDoc.getFamilies();
+        assertNotNull(families);
+        assertEquals(1, families.size());
+        assertEquals(
+                "[FAD-dependent oxidoreductase 2 family, FRD/SDH subfamily]", families.toString());
     }
 
     private void verifySolrDoc(UniRuleDocument solrDoc, long proteinCount) throws IOException {
@@ -60,7 +90,7 @@ public class UniRuleDocumentConverterTest {
                 "[Human adenovirus, Human mastadenovirus]", solrDoc.getOrganismNames().toString());
         assertEquals(2, solrDoc.getTaxonomyNames().size());
         assertEquals("[Archaea, Bacteria]", solrDoc.getTaxonomyNames().toString());
-        assertEquals(6, solrDoc.getCommentTypeValues().size());
+        assertEquals(7, solrDoc.getCommentTypeValues().size());
         assertEquals(
                 "[Golgi apparatus membrane, Cytoplasmic side, Cytoplasmic vesicle, COPI-coated vesicle membrane, Peripheral membrane protein, Cytoplasm]",
                 solrDoc.getCommentTypeValues().get("cc_subcellular_location").toString());
@@ -73,8 +103,11 @@ public class UniRuleDocumentConverterTest {
                         + "                        ]",
                 solrDoc.getCommentTypeValues().get("cc_subunit").toString());
         assertEquals(
-                "[Mg(2+), Binds 1 Mg(2+) ion per subunit. Can also utilize other divalent metal cations, such as Ca(2+), Mn(2+) and Co(2+), CHEBI:29108, CHEBI:29035, CHEBI:18420, Co(2+), Ca(2+), CHEBI:48828, Mn(2+)]",
+                "[Mg(2+), CHEBI:29108, CHEBI:29035, CHEBI:18420, Co(2+), Ca(2+), CHEBI:48828, Mn(2+)]",
                 solrDoc.getCommentTypeValues().get("cc_cofactor").toString());
+        assertEquals(
+                "[Binds 1 Mg(2+) ion per subunit. Can also utilize other divalent metal cations, such as Ca(2+), Mn(2+) and Co(2+)]",
+                solrDoc.getCommentTypeValues().get("cc_cofactor_note").toString());
         assertEquals(
                 "[Belongs to the Dps family]",
                 solrDoc.getCommentTypeValues().get("cc_similarity").toString());
@@ -84,6 +117,10 @@ public class UniRuleDocumentConverterTest {
                         + "                            ions, which prevents hydroxyl radical production by the Fenton reaction.\n"
                         + "                        ]",
                 solrDoc.getCommentTypeValues().get("cc_function").toString());
+        assertEquals(1, solrDoc.getEcNumbers().size());
+        assertEquals("[2.9.1.2]", solrDoc.getEcNumbers().toString());
+        assertEquals(1, solrDoc.getFamilies().size());
+        assertEquals("[Dps family]", solrDoc.getFamilies().toString());
 
         verifyUniRuleObject(solrDoc.getUniRuleObj(), proteinCount);
     }
