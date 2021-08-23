@@ -51,7 +51,177 @@
     "example": "human"
   },
   {
-    "seqNumber": 3,
+    "label": "Function",
+    "itemType": "GROUP",
+    "id": "function",
+    "seqNumber": 3
+  },
+  {
+    "parentId": "function",
+    "childNumber": 0,
+    "label": "Enzyme classification [EC]",
+    "id": "ec",
+    "fieldName": "ec",
+    "itemType": "SINGLE",
+    "fieldType": "GENERAL",
+    "dataType": "STRING",
+    "description": "Search by Enzyme EC number",
+    "autoComplete": "{CONTEXT_PATH}/suggester?dict=ec&query=?",
+    "autoCompleteQueryField": "ec",
+    "example": "1.1.2.3",
+    "includeInSwagger": true
+  },
+  {
+    "parentId": "function",
+    "childNumber": 1,
+    "label": "Cofactors",
+    "itemType": "GROUP",
+    "id": "cofactors"
+  },
+  {
+    "parentId": "cofactors",
+    "childNumber": 0,
+    "id": "cc_cofactor_chebi",
+    "fieldName": "cc_cofactor_chebi",
+    "itemType": "SINGLE",
+    "fieldType": "GENERAL",
+    "dataType": "STRING",
+    "description": "Search by cofactor chebi ",
+    "autoComplete": "{CONTEXT_PATH}/suggester?dict=chebi&query=?",
+    "autoCompleteQueryField": "cc_cofactor_chebi",
+    "example": "29105"
+  },
+  {
+    "parentId": "cofactors",
+    "childNumber": 1,
+    "id": "cc_cofactor_note",
+    "fieldName": "cc_cofactor_note",
+    "itemType": "SINGLE",
+    "fieldType": "GENERAL",
+    "dataType": "STRING",
+    "description": "Search by cofactor note",
+    "example": "subunit"
+  },
+  {
+    "parentId": "function",
+    "childNumber": 2,
+    "id": "cc_catalytic_activity_field",
+    "itemType": "SINGLE",
+    "fieldName": "cc_catalytic_activity",
+    "fieldType": "GENERAL",
+    "dataType": "STRING",
+    "autoComplete": "{CONTEXT_PATH}/suggester?dict=catalytic_activity&query=?",
+    "autoCompleteQueryField": "cc_catalytic_activity",
+    "description": "Search by comment catalytic activity",
+    "example": "tyrosine",
+    "includeInSwagger": true
+  },
+  {
+    "parentId": "function",
+    "childNumber": 3,
+    "id": "cc_activity_regulation",
+    "itemType": "SINGLE",
+    "fieldName": "cc_activity_regulation",
+    "fieldType": "GENERAL",
+    "dataType": "STRING",
+    "description": "Search by comment activity regulation",
+    "example": "inhibited",
+    "includeInSwagger": true
+  },
+  {
+    "parentId": "function",
+    "childNumber": 4,
+    "id": "cc_pathway",
+    "itemType": "SINGLE",
+    "fieldName": "cc_pathway",
+    "fieldType": "GENERAL",
+    "dataType": "STRING",
+    "description": "Search by comment pathway",
+    "example": "metabolism",
+    "includeInSwagger": true
+  },
+  {
+    "label": "Subcellular location",
+    "itemType": "GROUP",
+    "id": "subcellular",
+    "seqNumber": 4
+  },
+  {
+    "parentId": "subcellular",
+    "childNumber": 0,
+    "id": "cc_subcellular",
+    "label": "Subcellular location [CC]",
+    "itemType": "GROUP"
+  },
+  {
+    "parentId": "cc_subcellular",
+    "childNumber": 0,
+    "id": "cc_scl_term_field",
+    "itemType": "SINGLE",
+    "fieldName": "cc_subcellular_location",
+    "fieldType": "GENERAL",
+    "dataType": "STRING",
+    "autoComplete": "{CONTEXT_PATH}/suggester?dict=subcell&query=?",
+    "autoCompleteQueryField": "cc_scl_term",
+    "description": "Search by comment subcellular location term",
+    "example": "membrane"
+  },
+  {
+    "parentId": "cc_subcellular",
+    "childNumber": 1,
+    "id": "cc_scl_note",
+    "itemType": "SINGLE",
+    "fieldName": "cc_subcellular_location_note",
+    "fieldType": "GENERAL",
+    "dataType": "STRING",
+    "description": "Search by comment subcellular location note",
+    "example": "membrane"
+  },
+  {
+    "label": "Family and Domains",
+    "itemType": "GROUP",
+    "id": "family_domains",
+    "seqNumber": 5
+  },
+  {
+    "parentId": "family_domains",
+    "childNumber": 0,
+    "id": "cc_domain",
+    "itemType": "SINGLE",
+    "fieldName": "cc_domain",
+    "fieldType": "GENERAL",
+    "dataType": "STRING",
+    "description": "Search by comment domain",
+    "example": "conformation",
+    "includeInSwagger": true
+  },
+  {
+    "parentId": "family_domains",
+    "childNumber": 1,
+    "label": "Protein family",
+    "id": "family",
+    "itemType": "SINGLE",
+    "fieldName": "family",
+    "fieldType": "GENERAL",
+    "dataType": "STRING",
+    "description": "Search by protein belongs to a family",
+    "example": "pa28",
+    "includeInSwagger": true
+  },
+  {
+    "parentId": "family_domains",
+    "childNumber": 2,
+    "id": "cc_similarity",
+    "itemType": "SINGLE",
+    "fieldName": "cc_similarity",
+    "fieldType": "GENERAL",
+    "dataType": "STRING",
+    "description": "Search by comment similarity",
+    "example": "phosphatase",
+    "includeInSwagger": true
+  },
+  {
+    "seqNumber": 6,
     "id": "keyword_field",
     "label": "Keyword [KW]",
     "fieldName": "keyword",
