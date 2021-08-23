@@ -92,17 +92,6 @@
     "example": "29105"
   },
   {
-    "parentId": "cofactors",
-    "childNumber": 1,
-    "id": "cc_cofactor_note",
-    "fieldName": "cc_cofactor_note",
-    "itemType": "SINGLE",
-    "fieldType": "GENERAL",
-    "dataType": "STRING",
-    "description": "Search by cofactor note",
-    "example": "subunit"
-  },
-  {
     "parentId": "function",
     "childNumber": 2,
     "id": "cc_catalytic_activity_field",
