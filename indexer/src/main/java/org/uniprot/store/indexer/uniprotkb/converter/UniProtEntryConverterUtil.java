@@ -168,7 +168,7 @@ public class UniProtEntryConverterUtil {
         return names;
     }
 
-    private static List<String> getProteinNameNames(ProteinName proteinName) {
+    public static List<String> getProteinNameNames(ProteinName proteinName) {
         List<String> names = new ArrayList<>();
         if (proteinName.hasFullName()) {
             names.add(proteinName.getFullName().getValue());
