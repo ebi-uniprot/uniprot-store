@@ -18,6 +18,7 @@
     "example": "unirule_id asc"
   },
   {
+    "seqNumber": 0,
     "id": "protein_name_field",
     "label": "Protein Name [DE]",
     "fieldName": "protein_name",
@@ -28,6 +29,7 @@
     "example": "mas5"
   },
   {
+    "seqNumber": 1,
     "id": "gene_name_field",
     "label": "Gene Name [GN]",
     "fieldName": "gene",
@@ -38,6 +40,7 @@
     "example": "ydj1"
   },
   {
+    "seqNumber": 2,
     "id": "organism_field",
     "label": "Organism [OS]",
     "dataType": "STRING",
@@ -48,6 +51,7 @@
     "example": "saccharomyces"
   },
   {
+    "seqNumber": 3,
     "id": "taxonomy_field",
     "label": "Taxonomy [OC]",
     "dataType": "STRING",
@@ -58,6 +62,7 @@
     "example": "human"
   },
   {
+    "seqNumber": 4,
     "id": "keyword_field",
     "label": "Keyword [KW]",
     "fieldName": "keyword",
@@ -68,6 +73,7 @@
     "example": "chromosomal"
   },
   {
+    "seqNumber": 5,
     "id": "go_field",
     "label": "Gene Ontology [GO]",
     "itemType": "SINGLE",
