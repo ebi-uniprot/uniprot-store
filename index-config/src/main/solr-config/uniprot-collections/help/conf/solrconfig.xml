@@ -79,7 +79,14 @@
 			<str name="q.op">AND</str>
 			<str name="echoParams">explicit</str>
 			<int name="rows">10</int>
+			<str name="spellcheck.dictionary">direct</str>
+			<str name="spellcheck.count">5</str>
+			<str name="spellcheck.extendedResults">true</str>
+			<str name="spellcheck.maxResultsForSuggest">0</str>
 		</lst>
+		<arr name="last-components">
+			<str>spellcheck</str>
+		</arr>
 	</requestHandler>
 	<requestHandler name="/query" class="solr.SearchHandler">
 		<lst name="defaults">
@@ -104,6 +111,41 @@
 	<searchComponent name="terms"
 		class="solr.TermsComponent" />
 
+	<!-- Spell Check The spell check component can return a list of alternative 
+		spelling suggestions. http://wiki.apache.org/solr/SpellCheckComponent -->
+	<searchComponent name="spellcheck"
+		class="solr.SpellCheckComponent">
+		<str name="queryAnalyzerFieldType">textSpell</str>
+
+		<!-- Multiple "Spell Checkers" can be declared and used by this component -->
+
+		<!-- a spellchecker built from a field of the main index -->
+		<lst name="spellchecker">
+			<str name="name">direct</str>
+			<str name="field">text_spellcheck</str>
+			<str name="classname">solr.DirectSolrSpellChecker</str>
+			<!-- the spellcheck distance measure used, the default is the internal 
+				levenshtein -->
+			<str name="distanceMeasure">internal</str>
+			<!-- minimum accuracy needed to be considered a valid spellcheck suggestion -->
+			<float name="accuracy">0.5</float>
+			<!-- the maximum #edits we consider when enumerating terms: can be 1 or 
+				2 -->
+			<int name="maxEdits">1</int>
+			<!-- the minimum shared prefix when enumerating terms -->
+			<int name="minPrefix">1</int>
+			<!-- maximum number of inspections per result. -->
+			<int name="maxInspections">5</int>
+			<!-- minimum length of a query term to be considered for correction -->
+			<int name="minQueryLength">4</int>
+			<!-- maximum threshold of documents a query term can appear to be considered 
+				for correction -->
+			<float name="maxQueryFrequency">0.01</float>
+			<!-- uncomment this to require suggestions to occur in 1% of the documents 
+				<float name="thresholdTokenFrequency">.01</float> -->
+		</lst>
+	</searchComponent>
+
 	<requestHandler name="/terms" class="solr.SearchHandler"
 		startup="lazy">
 		<lst name="defaults">
@@ -121,7 +163,7 @@
 	</queryResponseWriter>
 
 	<!-- ====================================================================================== -->
-	<!-- =============================== Keyword configurations =============================== -->
+	<!-- =============================== Help configurations =============================== -->
 	<!-- ====================================================================================== -->
 	<slowQueryThresholdMillis>${slow.query.time.millis:15000}</slowQueryThresholdMillis>
 </config>
