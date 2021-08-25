@@ -17,6 +17,7 @@ import org.uniprot.core.uniprotkb.description.ProteinSubName;
  * @created 09/08/2021
  */
 public class UniProtAARuleUtils {
+    @SuppressWarnings("squid:S5852")
     private static final Pattern PATTERN_FAMILY =
             Pattern.compile(
                     "(?:In the .+? section; )?[Bb]elongs to the (.+?family)\\.(?: (.+?family)\\.)?(?: (.+?family)\\.)?(?: Highly divergent\\.)?");
