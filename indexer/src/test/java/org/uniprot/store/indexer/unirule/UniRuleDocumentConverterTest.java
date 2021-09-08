@@ -14,7 +14,7 @@ import org.uniprot.core.unirule.UniRuleEntry;
 import org.uniprot.core.xml.jaxb.unirule.UniRuleType;
 import org.uniprot.store.search.document.unirule.UniRuleDocument;
 
-public class UniRuleDocumentConverterTest {
+class UniRuleDocumentConverterTest {
     private static UniRuleDocumentConverter docConverter;
     private static final String filePath = "src/test/resources/aa/sample-unirule.xml";
     private static final String filePathWithEC = "src/test/resources/aa/sample-unirule-ec.xml";
@@ -29,18 +29,22 @@ public class UniRuleDocumentConverterTest {
     void testConvert() throws Exception {
         reader = new UniRuleXmlEntryReader(filePath);
         UniRuleType xmlObj = reader.read();
-        long proteinCount = ThreadLocalRandom.current().nextLong();
-        docConverter.setProteinsAnnotatedCount(proteinCount);
+        long reviewedProteinCount = ThreadLocalRandom.current().nextLong();
+        long unreviewedProteinCount = ThreadLocalRandom.current().nextLong();
+        docConverter.setReviewedProteinCount(reviewedProteinCount);
+        docConverter.setUnreviewedProteinCount(unreviewedProteinCount);
         UniRuleDocument solrDoc = docConverter.convert(xmlObj);
-        verifySolrDoc(solrDoc, proteinCount);
+        verifySolrDoc(solrDoc, reviewedProteinCount, unreviewedProteinCount);
     }
 
     @Test
     void testConvertWithMoreThanOneECFamilyAndNote() throws Exception {
         reader = new UniRuleXmlEntryReader(filePathWithEC);
         UniRuleType xmlObj = reader.read();
-        long proteinCount = ThreadLocalRandom.current().nextLong();
-        docConverter.setProteinsAnnotatedCount(proteinCount);
+        long reviewedProteinCount = ThreadLocalRandom.current().nextLong();
+        long unreviewedProteinCount = ThreadLocalRandom.current().nextLong();
+        docConverter.setReviewedProteinCount(reviewedProteinCount);
+        docConverter.setUnreviewedProteinCount(unreviewedProteinCount);
         UniRuleDocument solrDoc = docConverter.convert(xmlObj);
         // verify ec
         Set<String> ecs = solrDoc.getEcNumbers();
@@ -62,7 +66,9 @@ public class UniRuleDocumentConverterTest {
                 "[FAD-dependent oxidoreductase 2 family, FRD/SDH subfamily]", families.toString());
     }
 
-    private void verifySolrDoc(UniRuleDocument solrDoc, long proteinCount) throws IOException {
+    private void verifySolrDoc(
+            UniRuleDocument solrDoc, long reviewedProteinCount, long unreviewedProteinCount)
+            throws IOException {
         assertNotNull(solrDoc);
         assertEquals("UR001229753", solrDoc.getUniRuleId());
         assertEquals(5, solrDoc.getConditionValues().size());
@@ -122,14 +128,19 @@ public class UniRuleDocumentConverterTest {
         assertEquals(1, solrDoc.getFamilies().size());
         assertEquals("[Dps family]", solrDoc.getFamilies().toString());
 
-        verifyUniRuleObject(solrDoc.getUniRuleObj(), proteinCount);
+        verifyUniRuleObject(solrDoc.getUniRuleObj(), reviewedProteinCount, unreviewedProteinCount);
     }
 
-    private void verifyUniRuleObject(ByteBuffer byteBuffer, long proteinCount) throws IOException {
+    private void verifyUniRuleObject(
+            ByteBuffer byteBuffer, long reviewedProteinCount, long unreviewedProteinCount)
+            throws IOException {
         UniRuleEntry uniRuleObj =
                 docConverter.getObjectMapper().readValue(byteBuffer.array(), UniRuleEntry.class);
         assertNotNull(uniRuleObj);
         assertEquals("UR001229753", uniRuleObj.getUniRuleId().getValue());
-        assertEquals(proteinCount, uniRuleObj.getProteinsAnnotatedCount());
+        assertNotNull(uniRuleObj.getStatistics());
+        assertEquals(reviewedProteinCount, uniRuleObj.getStatistics().getReviewedProteinCount());
+        assertEquals(
+                unreviewedProteinCount, uniRuleObj.getStatistics().getUnreviewedProteinCount());
     }
 }
