@@ -18,8 +18,8 @@
 		required="true" docValues="true" />
 
 	<!-- title -->
-	<field name="title" type="suggester_ci" indexed="true" stored="true"
-		required="true" />
+	<field name="title" type="suggester_ci" indexed="true"
+		stored="true" required="true" />
 	<field name="title_sort" type="string" indexed="false"
 		stored="false" required="true" docValues="true" />
 	<copyField source="title" dest="title_sort" />
@@ -29,8 +29,8 @@
 		stored="true" required="false" />
 
 	<!-- content -->
-	<field name="content" type="suggester_ci" indexed="true" stored="true"
-		required="true" />
+	<field name="content" type="suggester_ci" indexed="true"
+		stored="true" required="true" />
 	<field name="content_original" type="string" indexed="false"
 		stored="true" required="true" />
 
@@ -39,8 +39,8 @@
 		multiValued="true" docValues="true" />
 
 	<!-- spellchecking -->
-	<field name="text_spellcheck" type="textSpell" indexed="true" stored="true"
-		   multiValued="true" docValues="false" />
+	<field name="text_spellcheck" type="textSpell" indexed="true"
+		stored="true" multiValued="true" docValues="false" />
 	<copyField source="title" dest="text_spellcheck" />
 	<copyField source="content" dest="text_spellcheck" />
 
@@ -54,30 +54,30 @@
 		docValues="true" />
 
 	<fieldType name="suggester_ci" class="solr.TextField"
-			   sortMissingLast="true" omitNorms="false" omitPositions="false"
-			   positionIncrementGap="100">
+		sortMissingLast="true" omitNorms="false" omitPositions="false"
+		positionIncrementGap="100">
 		<analyzer type="index">
 			<charFilter class="solr.PatternReplaceCharFilterFactory"
-						pattern="^0+" replacement="" />
+				pattern="^0+" replacement="" />
 			<charFilter class="solr.PatternReplaceCharFilterFactory"
-						pattern="(/|-|:)" replacement=" " />
+				pattern="(/|-|:)" replacement=" " />
 			<charFilter class="solr.PatternReplaceCharFilterFactory"
-						pattern="(')" replacement="" />
+				pattern="(')" replacement="" />
 			<charFilter class="solr.PatternReplaceCharFilterFactory"
-						pattern="^([A-Za-z0-9_]+)\.([0-9]+)$" replacement="$1.$2 $1" />
+				pattern="^([A-Za-z0-9_]+)\.([0-9]+)$" replacement="$1.$2 $1" />
 			<tokenizer class="solr.WhitespaceTokenizerFactory" />
 			<filter class="solr.LowerCaseFilterFactory" />
 			<filter class="solr.PorterStemFilterFactory" />
 			<filter class="solr.RemoveDuplicatesTokenFilterFactory" />
 			<filter class="solr.EdgeNGramFilterFactory" minGramSize="3"
-					maxGramSize="10" />
+				maxGramSize="10" />
 			<filter class="solr.FlattenGraphFilterFactory" />
 		</analyzer>
 		<analyzer type="query">
 			<charFilter class="solr.PatternReplaceCharFilterFactory"
-						pattern="(/|-|:)" replacement=" " />
+				pattern="(/|-|:)" replacement=" " />
 			<charFilter class="solr.PatternReplaceCharFilterFactory"
-						pattern="(')" replacement="" />
+				pattern="(')" replacement="" />
 			<tokenizer class="solr.WhitespaceTokenizerFactory" />
 			<filter class="solr.LowerCaseFilterFactory" />
 			<filter class="solr.PorterStemFilterFactory" />
@@ -85,19 +85,23 @@
 		</analyzer>
 	</fieldType>
 
-	<fieldType name="textSpell" class="solr.TextField" positionIncrementGap="100" omitNorms="true">
+	<fieldType name="textSpell" class="solr.TextField"
+		positionIncrementGap="100" omitNorms="true">
 		<analyzer type="index">
-			<tokenizer class="solr.ClassicTokenizerFactory"/>
-			<filter class="solr.StopFilterFactory" ignoreCase="true" words="stopwords.txt"/>
-			<filter class="solr.LowerCaseFilterFactory"/>
-			<filter class="solr.ClassicFilterFactory"/>
+			<tokenizer class="solr.ClassicTokenizerFactory" />
+			<filter class="solr.StopFilterFactory" ignoreCase="true"
+				words="stopwords.txt" />
+			<filter class="solr.LowerCaseFilterFactory" />
+			<filter class="solr.ClassicFilterFactory" />
 		</analyzer>
 		<analyzer type="query">
-			<tokenizer class="solr.ClassicTokenizerFactory"/>
-			<filter class="solr.SynonymFilterFactory" synonyms="synonyms.txt" ignoreCase="true" expand="true"/>
-			<filter class="solr.StopFilterFactory" ignoreCase="true" words="stopwords.txt"/>
-			<filter class="solr.LowerCaseFilterFactory"/>
-			<filter class="solr.ClassicFilterFactory"/>
+			<tokenizer class="solr.ClassicTokenizerFactory" />
+			<filter class="solr.SynonymFilterFactory"
+				synonyms="synonyms.txt" ignoreCase="true" expand="true" />
+			<filter class="solr.StopFilterFactory" ignoreCase="true"
+				words="stopwords.txt" />
+			<filter class="solr.LowerCaseFilterFactory" />
+			<filter class="solr.ClassicFilterFactory" />
 		</analyzer>
 	</fieldType>
 </schema>

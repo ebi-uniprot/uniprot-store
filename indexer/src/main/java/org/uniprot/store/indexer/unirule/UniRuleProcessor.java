@@ -5,6 +5,7 @@ import java.util.Objects;
 
 import lombok.extern.slf4j.Slf4j;
 
+import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.batch.core.StepExecution;
 import org.springframework.batch.core.annotation.BeforeStep;
 import org.springframework.batch.item.ItemProcessor;
@@ -28,8 +29,9 @@ public class UniRuleProcessor implements ItemProcessor<UniRuleType, UniRuleDocum
 
     @Override
     public UniRuleDocument process(UniRuleType uniRuleType) {
-        long proteinsAnnotatedCount = computeProteinsAnnotatedCount(uniRuleType);
-        this.documentConverter.setProteinsAnnotatedCount(proteinsAnnotatedCount);
+        Pair<Long, Long> reviewedUnreviewedPair = computeProteinsAnnotatedCount(uniRuleType);
+        this.documentConverter.setReviewedProteinCount(reviewedUnreviewedPair.getLeft());
+        this.documentConverter.setUnreviewedProteinCount(reviewedUnreviewedPair.getRight());
         return this.documentConverter.convert(uniRuleType);
     }
 
@@ -45,16 +47,17 @@ public class UniRuleProcessor implements ItemProcessor<UniRuleType, UniRuleDocum
                                 .get(Constants.UNIRULE_PROTEIN_COUNT_CACHE_KEY);
     }
 
-    private long computeProteinsAnnotatedCount(UniRuleType uniRuleType) {
-        long totalProteinCount = 0L;
+    private Pair<Long, Long> computeProteinsAnnotatedCount(UniRuleType uniRuleType) {
+        Pair<Long, Long> reviewedUnreviewedPair = Pair.of(0L, 0L);
         String oldRuleId = uniRuleType.getInformation().getOldRuleNum();
         if (Objects.nonNull(oldRuleId)) {
             UniRuleProteinCountReader.UniRuleProteinCount ruleProteinCount =
                     this.uniRuleProteinCountMap.get(oldRuleId);
-            if (ruleProteinCount != null) {
-                totalProteinCount =
-                        ruleProteinCount.getReviewedProteinCount()
-                                + ruleProteinCount.getUnreviewedProteinCount();
+            if (Objects.nonNull(ruleProteinCount)) {
+                reviewedUnreviewedPair =
+                        Pair.of(
+                                ruleProteinCount.getReviewedProteinCount(),
+                                ruleProteinCount.getUnreviewedProteinCount());
             } else {
                 log.warn("No protein count found for old rule id {}", oldRuleId);
             }
@@ -63,6 +66,6 @@ public class UniRuleProcessor implements ItemProcessor<UniRuleType, UniRuleDocum
             log.warn("No old rule id found for UniRule Id {}", uniRuleType.getId());
         }
 
-        return totalProteinCount;
+        return reviewedUnreviewedPair;
     }
 }

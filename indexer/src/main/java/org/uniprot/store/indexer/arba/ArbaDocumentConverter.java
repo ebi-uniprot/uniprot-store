@@ -18,6 +18,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.uniprot.core.Statistics;
+import org.uniprot.core.impl.StatisticsBuilder;
 import org.uniprot.core.json.parser.unirule.UniRuleJsonConfig;
 import org.uniprot.core.unirule.UniRuleEntry;
 import org.uniprot.core.unirule.impl.UniRuleEntryBuilder;
@@ -56,8 +58,9 @@ public class ArbaDocumentConverter implements DocumentConverter<UniRuleType, Arb
     @Override
     public ArbaDocument convert(UniRuleType xmlObj) {
         UniRuleEntryBuilder arbaBuilder = UniRuleEntryBuilder.from(this.converter.fromXml(xmlObj));
-        UniRuleEntry uniObj =
-                arbaBuilder.proteinsAnnotatedCount(this.proteinsAnnotatedCount).build();
+        Statistics statistics =
+                new StatisticsBuilder().unreviewedProteinCount(this.proteinsAnnotatedCount).build();
+        UniRuleEntry uniObj = arbaBuilder.statistics(statistics).build();
         return convertToDocument(uniObj);
     }
 

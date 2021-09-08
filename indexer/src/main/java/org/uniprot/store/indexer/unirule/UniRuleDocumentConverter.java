@@ -22,6 +22,8 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import org.uniprot.core.Statistics;
+import org.uniprot.core.impl.StatisticsBuilder;
 import org.uniprot.core.json.parser.unirule.UniRuleJsonConfig;
 import org.uniprot.core.unirule.PositionFeatureSet;
 import org.uniprot.core.unirule.PositionalFeature;
@@ -45,7 +47,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  */
 public class UniRuleDocumentConverter implements DocumentConverter<UniRuleType, UniRuleDocument> {
     private final UniRuleEntryConverter converter;
-    private Long proteinsAnnotatedCount;
+    private Long reviewedProteinCount;
+    private Long unreviewedProteinCount;
     private final ObjectMapper objectMapper;
 
     public UniRuleDocumentConverter() {
@@ -54,8 +57,12 @@ public class UniRuleDocumentConverter implements DocumentConverter<UniRuleType, 
     }
 
     // inject the protein count before calling convert
-    public void setProteinsAnnotatedCount(Long proteinsAnnotatedCount) {
-        this.proteinsAnnotatedCount = proteinsAnnotatedCount;
+    public void setReviewedProteinCount(Long reviewedProteinCount) {
+        this.reviewedProteinCount = reviewedProteinCount;
+    }
+
+    public void setUnreviewedProteinCount(Long unreviewedProteinCount) {
+        this.unreviewedProteinCount = unreviewedProteinCount;
     }
 
     public ObjectMapper getObjectMapper() {
@@ -66,8 +73,12 @@ public class UniRuleDocumentConverter implements DocumentConverter<UniRuleType, 
     public UniRuleDocument convert(UniRuleType xmlObj) {
         UniRuleEntryBuilder uniRuleBuilder =
                 UniRuleEntryBuilder.from(this.converter.fromXml(xmlObj));
-        UniRuleEntry uniObj =
-                uniRuleBuilder.proteinsAnnotatedCount(this.proteinsAnnotatedCount).build();
+        Statistics statistics =
+                new StatisticsBuilder()
+                        .unreviewedProteinCount(this.unreviewedProteinCount)
+                        .reviewedProteinCount(this.reviewedProteinCount)
+                        .build();
+        UniRuleEntry uniObj = uniRuleBuilder.statistics(statistics).build();
         return convertToDocument(uniObj);
     }
 

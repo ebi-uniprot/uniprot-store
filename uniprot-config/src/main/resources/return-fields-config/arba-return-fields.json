@@ -24,16 +24,24 @@
     "parentId": "arba",
     "childNumber": 1,
     "itemType": "SINGLE",
-    "name": "proteins_annotated",
-    "label": "Proteins annotated",
-    "id": "proteins_annotated",
-    "paths": [
-      "proteinsAnnotatedCount"
-    ]
+    "label": "UniProtKB reviewed (Swiss-Prot) protein count",
+    "name": "reviewed_protein_count",
+    "paths" : ["statistics.reviewedProteinCount"],
+    "id": "reviewed_protein_count"
   },
   {
     "parentId": "arba",
     "childNumber": 2,
+    "itemType": "SINGLE",
+    "includeInSwagger": true,
+    "label": "UniProtKB unreviewed (TrEMBL) protein count",
+    "name": "unreviewed_protein_count",
+    "paths" : ["statistics.unreviewedProteinCount"],
+    "id": "unreviewed_protein_count"
+  },
+  {
+    "parentId": "arba",
+    "childNumber": 3,
     "itemType": "SINGLE",
     "name": "taxonomic_scope",
     "label": "Taxonomic scope",
@@ -42,7 +50,7 @@
   },
   {
     "parentId": "arba",
-    "childNumber": 3,
+    "childNumber": 4,
     "itemType": "SINGLE",
     "name": "annotation_covered",
     "label": "Annotation covered",

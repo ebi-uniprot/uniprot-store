@@ -95,7 +95,8 @@ class ArbaDocumentConverterTest {
                 docConverter.getObjectMapper().readValue(byteBuffer.array(), UniRuleEntry.class);
         assertNotNull(uniRuleObj);
         assertEquals("ARBA00000001", uniRuleObj.getUniRuleId().getValue());
-        assertEquals(proteinCount, uniRuleObj.getProteinsAnnotatedCount());
+        assertNotNull(uniRuleObj.getStatistics());
+        assertEquals(proteinCount, uniRuleObj.getStatistics().getUnreviewedProteinCount());
     }
 
     private UniRuleEntryBuilder getBasicUniRuleBuilder() {

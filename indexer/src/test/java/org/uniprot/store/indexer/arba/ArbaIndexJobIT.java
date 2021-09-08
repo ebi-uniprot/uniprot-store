@@ -121,7 +121,9 @@ class ArbaIndexJobIT {
         try {
             UniRuleEntry uniRuleEntry = objectMapper.readValue(obj, UniRuleEntry.class);
             assertEquals(ruleId, uniRuleEntry.getUniRuleId().getValue());
-            assertTrue(uniRuleEntry.getProteinsAnnotatedCount() > 0);
+            assertNotNull(uniRuleEntry.getStatistics());
+            assertEquals(0L, uniRuleEntry.getStatistics().getReviewedProteinCount());
+            assertTrue(uniRuleEntry.getStatistics().getUnreviewedProteinCount() > 0);
         } catch (Exception e) {
             fail(e.getMessage());
         }
