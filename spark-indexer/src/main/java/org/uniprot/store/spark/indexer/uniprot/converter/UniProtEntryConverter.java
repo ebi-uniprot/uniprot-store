@@ -3,11 +3,9 @@ package org.uniprot.store.spark.indexer.uniprot.converter;
 import static org.uniprot.store.spark.indexer.uniprot.converter.UniProtEntryConverterUtil.*;
 
 import java.io.Serializable;
-import java.util.EnumSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -18,6 +16,7 @@ import org.uniprot.core.gene.Gene;
 import org.uniprot.core.scorer.uniprotkb.UniProtEntryScored;
 import org.uniprot.core.uniprotkb.*;
 import org.uniprot.core.uniprotkb.evidence.Evidence;
+import org.uniprot.core.uniprotkb.evidence.EvidenceDatabase;
 import org.uniprot.core.uniprotkb.evidence.EvidenceDatabaseCategory;
 import org.uniprot.core.util.Utils;
 import org.uniprot.store.indexer.util.DateUtils;
@@ -134,20 +133,29 @@ public class UniProtEntryConverter
                 evidences.stream()
                         .map(Evidence::getEvidenceCrossReference)
                         .filter(Objects::nonNull)
-                        .map(CrossReference::getDatabase)
                         .filter(
-                                val ->
-                                        (Utils.notNull(val))
-                                                && val.getEvidenceDatabaseDetail().getCategory()
+                                xref ->
+                                        xref.hasDatabase()
+                                                && xref.getDatabase()
+                                                                .getEvidenceDatabaseDetail()
+                                                                .getCategory()
                                                         == EvidenceDatabaseCategory.A)
-                        .map(
-                                val -> {
-                                    String data = val.getName();
-                                    if (data.equalsIgnoreCase("HAMAP-rule")) data = "HAMAP";
-                                    return data;
-                                })
+                        .flatMap(this::getSourceValues)
                         .map(String::toLowerCase)
                         .collect(Collectors.toList());
+    }
+
+    private Stream<String> getSourceValues(CrossReference<EvidenceDatabase> xref) {
+        List<String> sources = new ArrayList<>();
+        String dbName = xref.getDatabase().getName();
+        if (dbName.equalsIgnoreCase("HAMAP-rule")) {
+            dbName = "HAMAP";
+        }
+        sources.add(dbName);
+        if (xref.hasId()) {
+            sources.add(xref.getId());
+        }
+        return sources.stream();
     }
 
     private void convertUniprotId(UniProtKBId uniProtkbId, UniProtDocument document) {
