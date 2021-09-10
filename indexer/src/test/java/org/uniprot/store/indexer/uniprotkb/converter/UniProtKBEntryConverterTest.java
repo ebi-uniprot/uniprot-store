@@ -354,7 +354,8 @@ class UniProtKBEntryConverterTest {
 
         // then
         assertEquals("P12345", document.accession);
-        assertEquals(Collections.singletonList("hamap"), document.sources);
+        assertTrue(document.sources.contains("hamap"));
+        assertTrue(document.sources.contains("hamapid"));
     }
 
     private UniProtKBEntryBuilder getBasicEntryBuilder() {

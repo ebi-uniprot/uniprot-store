@@ -29,6 +29,9 @@ public class ProteomeDocument implements Document {
     @Field("taxonomy_id")
     public List<Integer> taxLineageIds = new ArrayList<>();
 
+    @Field("strain")
+    public String strain;
+
     @Field("reference")
     public boolean isReferenceProteome;
 

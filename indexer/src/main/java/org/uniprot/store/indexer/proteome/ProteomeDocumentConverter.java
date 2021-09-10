@@ -45,6 +45,7 @@ public class ProteomeDocumentConverter implements DocumentConverter<Proteome, Pr
         document.upid = source.getUpid();
         setOrganism(source, document);
         setLineageTaxon(source.getTaxonomy(), document);
+        document.strain = source.getStrain();
         updateProteome(document, source);
         document.genomeAccession = fetchGenomeAccessions(source);
         document.genomeAssembly = fetchGenomeAssemblyId(source);

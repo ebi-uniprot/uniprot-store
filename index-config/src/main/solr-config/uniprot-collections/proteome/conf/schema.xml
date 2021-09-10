@@ -17,6 +17,8 @@
 		stored="false" required="false" multiValued="true" />
 	<field name="taxonomy_id" type="int" indexed="true"
 		stored="false" required="false" multiValued="true" />
+	<field name="strain" type="full_ci" indexed="true" stored="false"
+		required="false" multiValued="false" />
 	<field name="superkingdom" type="string" indexed="true"
 		stored="false" required="false" multiValued="false" docValues="true" />
 	<field name="reference" type="boolean" indexed="true"

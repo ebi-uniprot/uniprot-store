@@ -158,6 +158,7 @@ class ProteomeDocumentConverterTest {
         Proteome proteome = xmlFactory.createProteome();
         proteome.setUpid("UP123456");
         proteome.setDescription("Proteome Description");
+        proteome.setStrain("Strain value");
         proteome.setTaxonomy(289376L);
 
         GenomeAnnotationType genomeAnnotation = xmlFactory.createGenomeAnnotationType();
@@ -233,6 +234,8 @@ class ProteomeDocumentConverterTest {
         assertEquals(1, result.cpd);
         assertEquals(75.0f, result.busco);
         assertEquals(10, result.proteinCount);
+
+        assertEquals("Strain value", result.strain);
     }
 
     private ScoreType getCPDScore() {
