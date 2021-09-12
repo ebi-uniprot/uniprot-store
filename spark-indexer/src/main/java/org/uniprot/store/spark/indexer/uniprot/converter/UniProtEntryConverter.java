@@ -97,15 +97,13 @@ public class UniProtEntryConverter
             featureConverter.convertFeature(source.getFeatures(), document);
             convertUniprotId(source.getUniProtkbId(), document);
             convertEntryAudit(source.getEntryAudit(), document);
-            convertEntryScore(source, document);
             convertGeneNames(source.getGenes(), document);
             convertKeywords(source.getKeywords(), document);
-            convertEvidenceSources(source, document);
             convertOrganelle(source.getGeneLocations(), document);
             convertProteinExistence(source.getProteinExistence(), document);
             convertSequence(source.getSequence(), document);
-
-
+            convertEntryScore(source, document);
+            convertEvidenceSources(source, document);
 
             return document;
         } catch (Exception e) {
@@ -120,12 +118,12 @@ public class UniProtEntryConverter
 
     private void convertEntryAudit(EntryAudit entryAudit, UniProtDocument document) {
         if (Utils.notNull(entryAudit)) {
-            document.sequenceUpdated =
-                    DateUtils.convertLocalDateToDate(entryAudit.getLastSequenceUpdateDate());
             document.firstCreated =
                     DateUtils.convertLocalDateToDate(entryAudit.getFirstPublicDate());
             document.lastModified =
                     DateUtils.convertLocalDateToDate(entryAudit.getLastAnnotationUpdateDate());
+            document.sequenceUpdated =
+                    DateUtils.convertLocalDateToDate(entryAudit.getLastSequenceUpdateDate());
         }
     }
 
@@ -160,13 +158,6 @@ public class UniProtEntryConverter
         return sources.stream();
     }
 
-    private void convertEntryScore(UniProtKBEntry source, UniProtDocument document) {
-        UniProtEntryScored entryScored = new UniProtEntryScored(source);
-        double score = entryScored.score();
-        int q = (int) (score / 20d);
-        document.score = q > 4 ? 5 : q + 1;
-    }
-
     private void convertUniprotId(UniProtKBId uniProtkbId, UniProtDocument document) {
         document.id = uniProtkbId.getValue();
         String[] idParts = document.id.split("_");
@@ -185,10 +176,11 @@ public class UniProtEntryConverter
         }
     }
 
-    private void convertKeywords(List<Keyword> keywords, UniProtDocument document) {
-        if (Utils.notNullNotEmpty(keywords)) {
-            keywords.forEach(keyword -> updateKeyword(keyword, document));
-        }
+    private void convertEntryScore(UniProtKBEntry source, UniProtDocument document) {
+        UniProtEntryScored entryScored = new UniProtEntryScored(source);
+        double score = entryScored.score();
+        int q = (int) (score / 20d);
+        document.score = q > 4 ? 5 : q + 1;
     }
 
     private void convertSequence(Sequence seq, UniProtDocument document) {
@@ -196,7 +188,11 @@ public class UniProtEntryConverter
         document.seqMass = seq.getMolWeight();
     }
 
-
+    private void convertKeywords(List<Keyword> keywords, UniProtDocument document) {
+        if (Utils.notNullNotEmpty(keywords)) {
+            keywords.forEach(keyword -> updateKeyword(keyword, document));
+        }
+    }
 
     private void updateKeyword(Keyword keyword, UniProtDocument document) {
         document.keywords.add(keyword.getId());
@@ -213,18 +209,11 @@ public class UniProtEntryConverter
             for (Gene gene : genes) {
                 addValueToStringList(document.geneNamesExact, gene.getGeneName());
                 addValueListToStringList(document.geneNamesExact, gene.getSynonyms());
-                addValueListToStringList(document.geneNamesExact, gene.getOrfNames());
                 addValueListToStringList(document.geneNamesExact, gene.getOrderedLocusNames());
+                addValueListToStringList(document.geneNamesExact, gene.getOrfNames());
             }
             document.geneNames.addAll(document.geneNamesExact);
             document.geneNamesSort = truncatedSortValue(String.join(" ", document.geneNames));
-        }
-    }
-
-    private void convertProteinExistence(
-            ProteinExistence proteinExistence, UniProtDocument document) {
-        if (Utils.notNull(proteinExistence)) {
-            document.proteinExistence = proteinExistence.getId();
         }
     }
 
@@ -241,5 +230,10 @@ public class UniProtEntryConverter
         }
     }
 
-
+    private void convertProteinExistence(
+            ProteinExistence proteinExistence, UniProtDocument document) {
+        if (Utils.notNull(proteinExistence)) {
+            document.proteinExistence = proteinExistence.getId();
+        }
+    }
 }
