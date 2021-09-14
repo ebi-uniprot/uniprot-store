@@ -10,8 +10,12 @@ import org.uniprot.core.flatfile.parser.impl.entry.EntryObject;
 import org.uniprot.core.flatfile.parser.impl.entry.EntryObjectConverter;
 import org.uniprot.core.uniprotkb.UniProtKBEntry;
 
+import org.uniprot.store.spark.indexer.common.exception.SparkIndexException;
 import scala.Serializable;
 import scala.Tuple2;
+
+import java.util.Arrays;
+import java.util.stream.Collectors;
 
 /**
  * This mapper convert flat file entry in String format to a tuple of Tuple2{key=accession,
@@ -37,13 +41,18 @@ public class FlatFileToUniprotEntry
      */
     @Override
     public Tuple2<String, UniProtKBEntry> call(String entryString) throws Exception {
-        UniprotKBLineParser<EntryObject> entryParser =
-                new DefaultUniprotKBLineParserFactory().createEntryParser();
-        EntryObjectConverter entryObjectConverter =
-                new EntryObjectConverter(supportingDataMap, false);
+        try{
+            UniprotKBLineParser<EntryObject> entryParser =
+                    new DefaultUniprotKBLineParserFactory().createEntryParser();
+            EntryObjectConverter entryObjectConverter =
+                    new EntryObjectConverter(supportingDataMap, false);
 
-        EntryObject parsed = entryParser.parse(entryString);
-        UniProtKBEntry uniProtkbEntry = entryObjectConverter.convert(parsed);
-        return new Tuple2<>(uniProtkbEntry.getPrimaryAccession().getValue(), uniProtkbEntry);
+            EntryObject parsed = entryParser.parse(entryString);
+            UniProtKBEntry uniProtkbEntry = entryObjectConverter.convert(parsed);
+            return new Tuple2<>(uniProtkbEntry.getPrimaryAccession().getValue(), uniProtkbEntry);
+        }catch (Exception e){
+            String entryAccession = Arrays.stream(entryString.split("\n", 2)).collect(Collectors.joining(" "));
+            throw new SparkIndexException("failed for entry:  "+entryAccession, e);
+        }
     }
 }
