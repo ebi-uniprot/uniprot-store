@@ -3,6 +3,7 @@ package org.uniprot.store.indexer.uniprotkb;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
 import static org.uniprot.store.indexer.common.utils.Constants.SUGGESTIONS_INDEX_STEP;
@@ -109,6 +110,8 @@ class UniProtKBJobIT {
         assertThat(response, is(notNullValue()));
         assertThat(response.size(), is(5));
 
+        assertThat(response.get(4).accession, is("A0A2Z5SLI5"));
+        assertThat(response.get(4).rheaIds, containsInAnyOrder("RHEA:21824", "RHEA:65560"));
         assertThat(
                 response.stream().map(doc -> doc.accession).collect(Collectors.toSet()),
                 is(sourceAccessions));

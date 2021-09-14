@@ -495,6 +495,17 @@ class UniProtEntryCommentsConverter implements Serializable {
                                 doc.commentMap.computeIfAbsent(field, k -> new ArrayList<>());
                         value.add(val.getId());
                     });
+
+            // add rhea ids
+            List<String> rheaIds =
+                    reactionReferences.stream()
+                            .filter(rr -> ReactionDatabase.RHEA.equals(rr.getDatabase()))
+                            .map(CrossReference::getId)
+                            .collect(Collectors.toList());
+
+            if (Utils.notNullNotEmpty(rheaIds)) {
+                doc.rheaIds.addAll(rheaIds);
+            }
         }
     }
 
