@@ -333,6 +333,9 @@ public class UniProtDocument implements Document {
     @Field("xref_count_*")
     public Map<String, Long> xrefCountMap = new HashMap<>();
 
+    @Field("rhea_id")
+    public List<String> rheaIds = new ArrayList<>();
+
     @Field("source")
     public List<String> sources = new ArrayList<>();
 
@@ -475,7 +478,8 @@ public class UniProtDocument implements Document {
                 && Objects.equals(unirefCluster100, that.unirefCluster100)
                 && Objects.equals(computationalPubmedIds, that.computationalPubmedIds)
                 && Objects.equals(communityPubmedIds, that.communityPubmedIds)
-                && Objects.equals(uniparc, that.uniparc);
+                && Objects.equals(uniparc, that.uniparc)
+                && Objects.equals(rheaIds, that.rheaIds);
     }
 
     @Override
@@ -592,7 +596,8 @@ public class UniProtDocument implements Document {
                 unirefCluster100,
                 computationalPubmedIds,
                 communityPubmedIds,
-                uniparc);
+                uniparc,
+                rheaIds);
     }
 
     @Override
@@ -835,6 +840,9 @@ public class UniProtDocument implements Document {
                 + communityPubmedIds
                 + ", uniparc='"
                 + uniparc
+                + '\''
+                + ", rheaIds='"
+                + rheaIds
                 + '\''
                 + '}';
     }

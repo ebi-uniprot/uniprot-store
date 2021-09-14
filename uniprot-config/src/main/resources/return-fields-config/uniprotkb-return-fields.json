@@ -610,6 +610,17 @@
     "parentId": "function",
     "childNumber": 16,
     "itemType": "SINGLE",
+    "name": "rhea_id",
+    "label": "Rhea ID",
+    "id": "function/rhea_id",
+    "paths": [
+      "comments[?(@.commentType=='CATALYTIC ACTIVITY')]"
+    ]
+  },
+  {
+    "parentId": "function",
+    "childNumber": 17,
+    "itemType": "SINGLE",
     "includeInSwagger": true,
     "name": "ft_site",
     "label": "Site",
@@ -620,7 +631,7 @@
   },
   {
     "parentId": "function",
-    "childNumber": 17,
+    "childNumber": 18,
     "itemType": "SINGLE",
     "name": "temp_dependence",
     "label": "Temperature dependence",

@@ -4,7 +4,12 @@ import static org.uniprot.core.util.Utils.notNull;
 import static org.uniprot.core.util.Utils.nullOrEmpty;
 import static org.uniprot.store.indexer.common.utils.UniProtAARuleUtils.extractFamily;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.uniprot.core.CrossReference;
@@ -13,7 +18,30 @@ import org.uniprot.core.cv.chebi.ChebiEntry;
 import org.uniprot.core.cv.pathway.UniPathway;
 import org.uniprot.core.flatfile.parser.impl.cc.CCLineBuilderFactory;
 import org.uniprot.core.flatfile.writer.FFLineBuilder;
-import org.uniprot.core.uniprotkb.comment.*;
+import org.uniprot.core.uniprotkb.comment.APEventType;
+import org.uniprot.core.uniprotkb.comment.APIsoform;
+import org.uniprot.core.uniprotkb.comment.Absorption;
+import org.uniprot.core.uniprotkb.comment.AlternativeProductsComment;
+import org.uniprot.core.uniprotkb.comment.BPCPComment;
+import org.uniprot.core.uniprotkb.comment.CatalyticActivityComment;
+import org.uniprot.core.uniprotkb.comment.CofactorComment;
+import org.uniprot.core.uniprotkb.comment.CofactorDatabase;
+import org.uniprot.core.uniprotkb.comment.Comment;
+import org.uniprot.core.uniprotkb.comment.CommentType;
+import org.uniprot.core.uniprotkb.comment.DiseaseComment;
+import org.uniprot.core.uniprotkb.comment.FreeTextComment;
+import org.uniprot.core.uniprotkb.comment.InteractionComment;
+import org.uniprot.core.uniprotkb.comment.KineticParameters;
+import org.uniprot.core.uniprotkb.comment.MassSpectrometryComment;
+import org.uniprot.core.uniprotkb.comment.MaximumVelocity;
+import org.uniprot.core.uniprotkb.comment.MichaelisConstant;
+import org.uniprot.core.uniprotkb.comment.Note;
+import org.uniprot.core.uniprotkb.comment.Reaction;
+import org.uniprot.core.uniprotkb.comment.ReactionDatabase;
+import org.uniprot.core.uniprotkb.comment.RnaEditingComment;
+import org.uniprot.core.uniprotkb.comment.SequenceCautionComment;
+import org.uniprot.core.uniprotkb.comment.SubcellularLocationComment;
+import org.uniprot.core.uniprotkb.comment.SubcellularLocationValue;
 import org.uniprot.core.uniprotkb.evidence.Evidence;
 import org.uniprot.core.uniprotkb.evidence.EvidencedValue;
 import org.uniprot.core.util.Utils;
@@ -517,6 +545,15 @@ class UniProtEntryCommentsConverter {
                                                 field, k -> new ArrayList<>());
                                 value.add(val.getId());
                             });
+            // add rhea ids
+            List<String> rheaIds =
+                    reactionReferences.stream()
+                            .filter(rr -> ReactionDatabase.RHEA.equals(rr.getDatabase()))
+                            .map(CrossReference::getId)
+                            .collect(Collectors.toList());
+            if (Utils.notNullNotEmpty(rheaIds)) {
+                doc.rheaIds.addAll(rheaIds);
+            }
         }
     }
 
