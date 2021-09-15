@@ -161,17 +161,15 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtKBEntry, 
                         .collect(Collectors.toList());
     }
 
-    private Stream<String> getSourceValues(CrossReference<EvidenceDatabase> xref) {
-        List<String> sources = new ArrayList<>();
-        if (xref.hasId()) {
-            sources.add(xref.getId());
+    private void convertEntryScore(UniProtKBEntry source, UniProtDocument document) {
+        UniProtEntryScored entryScored = new UniProtEntryScored(source);
+        double score = entryScored.score();
+        int q = (int) (score / 20d);
+        if (!source.hasAnnotationScore()) {
+            document.score = q > 4 ? 5 : q + 1;
+        } else {
+            document.score = (int) source.getAnnotationScore();
         }
-        String databaseName = xref.getDatabase().getName();
-        if (databaseName.equalsIgnoreCase("HAMAP-rule")) {
-            databaseName = "HAMAP";
-        }
-        sources.add(databaseName);
-        return sources.stream();
     }
 
     private void convertUniprotId(UniProtKBId uniProtkbId, UniProtDocument document) {
@@ -192,15 +190,17 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtKBEntry, 
         }
     }
 
-    private void convertEntryScore(UniProtKBEntry source, UniProtDocument document) {
-        UniProtEntryScored entryScored = new UniProtEntryScored(source);
-        double score = entryScored.score();
-        int q = (int) (score / 20d);
-        if (!source.hasAnnotationScore()) {
-            document.score = q > 4 ? 5 : q + 1;
-        } else {
-            document.score = (int) source.getAnnotationScore();
+    private Stream<String> getSourceValues(CrossReference<EvidenceDatabase> xref) {
+        List<String> sources = new ArrayList<>();
+        if (xref.hasId()) {
+            sources.add(xref.getId());
         }
+        String databaseName = xref.getDatabase().getName();
+        if (databaseName.equalsIgnoreCase("HAMAP-rule")) {
+            databaseName = "HAMAP";
+        }
+        sources.add(databaseName);
+        return sources.stream();
     }
 
     private void convertSequence(Sequence seq, UniProtDocument document) {
