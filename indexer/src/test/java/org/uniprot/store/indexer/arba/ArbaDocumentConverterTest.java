@@ -101,8 +101,6 @@ class ArbaDocumentConverterTest {
 
     private UniRuleEntryBuilder getBasicUniRuleBuilder() {
         UniRuleId ruleId = new UniRuleIdBuilder("ARBA_ID").build();
-        RuleStatus status = RuleStatus.DISUSED;
-
         Information information = new InformationBuilder("10").build();
         Condition taxonCondition = new ConditionBuilder("taxon").build();
 
@@ -110,6 +108,6 @@ class ArbaDocumentConverterTest {
                 new RuleBuilder(new ConditionSetBuilder(taxonCondition).build())
                         .annotationsAdd(new AnnotationBuilder().build())
                         .build();
-        return new UniRuleEntryBuilder(ruleId, status, information, rule);
+        return new UniRuleEntryBuilder(ruleId, information, rule);
     }
 }
