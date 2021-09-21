@@ -1488,7 +1488,7 @@
   {
     "seqNumber": 20,
     "itemType": "GROUP",
-    "groupName": "Polymorphism and mutation",
+    "groupName": "Genetic variation",
     "isDatabaseGroup": true,
     "id": "polymorphism_and_mutation"
   },
@@ -1544,7 +1544,7 @@
   {
     "seqNumber": 28,
     "itemType": "GROUP",
-    "groupName": "Other",
+    "groupName": "Miscellaneous",
     "isDatabaseGroup": true,
     "id": "other"
   },
