@@ -665,17 +665,6 @@
     "parentId": "miscellaneous",
     "childNumber": 2,
     "itemType": "SINGLE",
-    "name": "feature",
-    "label": "Features",
-    "id": "miscellaneous/features",
-    "paths": [
-      "features"
-    ]
-  },
-  {
-    "parentId": "miscellaneous",
-    "childNumber": 3,
-    "itemType": "SINGLE",
     "includeInSwagger": true,
     "name": "keyword",
     "label": "Keywords",
@@ -686,7 +675,7 @@
   },
   {
     "parentId": "miscellaneous",
-    "childNumber": 4,
+    "childNumber": 3,
     "itemType": "SINGLE",
     "name": "keywordid",
     "label": "Keyword ID",
@@ -697,7 +686,7 @@
   },
   {
     "parentId": "miscellaneous",
-    "childNumber": 5,
+    "childNumber": 4,
     "itemType": "SINGLE",
     "includeInSwagger": true,
     "name": "cc_miscellaneous",
@@ -709,7 +698,7 @@
   },
   {
     "parentId": "miscellaneous",
-    "childNumber": 6,
+    "childNumber": 5,
     "itemType": "SINGLE",
     "includeInSwagger": true,
     "name": "protein_existence",
@@ -721,7 +710,7 @@
   },
   {
     "parentId": "miscellaneous",
-    "childNumber": 7,
+    "childNumber": 6,
     "itemType": "SINGLE",
     "includeInSwagger": true,
     "isDefaultForTsv": true,
@@ -735,7 +724,7 @@
   },
   {
     "parentId": "miscellaneous",
-    "childNumber": 8,
+    "childNumber": 7,
     "itemType": "SINGLE",
     "name": "tools",
     "label": "Tools",
@@ -746,7 +735,7 @@
   },
   {
     "parentId": "miscellaneous",
-    "childNumber": 9,
+    "childNumber": 8,
     "itemType": "SINGLE",
     "name": "uniparc_id",
     "label": "UniParc",
@@ -757,7 +746,7 @@
   },
   {
     "parentId": "miscellaneous",
-    "childNumber": 10,
+    "childNumber": 9,
     "itemType": "SINGLE",
     "includeInSwagger": true,
     "name": "comment_count",
@@ -769,7 +758,7 @@
   },
   {
     "parentId": "miscellaneous",
-    "childNumber": 11,
+    "childNumber": 10,
     "itemType": "SINGLE",
     "includeInSwagger": true,
     "name": "feature_count",
