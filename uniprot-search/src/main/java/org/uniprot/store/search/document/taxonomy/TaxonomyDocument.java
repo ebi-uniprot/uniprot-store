@@ -23,7 +23,7 @@ public class TaxonomyDocument implements Document {
     @Field("tax_id")
     private Long taxId;
 
-    @Field private Long ancestor;
+    @Field private Long parent;
     @Field private String rank;
     @Field private String scientific;
     @Field private String common;
@@ -39,7 +39,7 @@ public class TaxonomyDocument implements Document {
 
     @Field private List<String> strain;
     @Field private List<Long> host;
-    @Field private List<Long> lineage;
+    @Field private List<Long> ancestor;
 
     @Field("taxonomy_obj")
     private ByteBuffer taxonomyObj;

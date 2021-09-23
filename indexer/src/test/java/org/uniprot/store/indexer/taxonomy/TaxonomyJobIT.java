@@ -88,7 +88,7 @@ class TaxonomyJobIT {
         assertThat(stepMap.containsKey(Constants.TAXONOMY_LOAD_NODE_STEP_NAME), is(true));
         StepExecution step = stepMap.get(Constants.TAXONOMY_LOAD_NODE_STEP_NAME);
         assertThat(step.getReadCount(), is(5));
-        assertThat(step.getWriteCount(), is(5));
+        assertThat(step.getWriteCount(), is(4)); // root must not be indexed.
 
         assertThat(stepMap.containsKey(Constants.TAXONOMY_LOAD_STATISTICS_STEP_NAME), is(true));
         step = stepMap.get(Constants.TAXONOMY_LOAD_STATISTICS_STEP_NAME);
@@ -101,9 +101,13 @@ class TaxonomyJobIT {
         List<TaxonomyDocument> response =
                 solrClient.query(SolrCollection.taxonomy, solrQuery, TaxonomyDocument.class);
         assertThat(response, is(notNullValue()));
-        assertThat(response.size(), is(9));
+        assertThat(response.size(), is(8));
 
-        TaxonomyDocument taxonomyDocument = response.get(6);
+        TaxonomyDocument topDocument = response.get(0);
+        assertThat(topDocument.getTaxId(), is(2L));
+        assertThat(topDocument.getParent(), nullValue());
+
+        TaxonomyDocument taxonomyDocument = response.get(5);
         validateTaxonomyDocument(taxonomyDocument);
 
         assertThat(taxonomyDocument.getTaxonomyObj(), is(notNullValue()));
@@ -162,7 +166,7 @@ class TaxonomyJobIT {
         assertThat(taxonomyDocument.getId(), is("5"));
         assertThat(taxonomyDocument.getTaxId(), is(5L));
         assertThat(taxonomyDocument.isActive(), is(true));
-        assertThat(taxonomyDocument.getAncestor(), is(4L));
+        assertThat(taxonomyDocument.getAncestor(), contains(4L));
         assertThat(taxonomyDocument.getScientific(), is("Sptr_Scientific_5"));
         assertThat(taxonomyDocument.getCommon(), is("Sptr_Common_5"));
         assertThat(taxonomyDocument.getSynonym(), is("sptr_synonym_5"));
@@ -176,7 +180,7 @@ class TaxonomyJobIT {
                         "strain 1 ; strain 1,syn 1  , strain 1,syn 2",
                         "strain 2 ; strain 2 syn 1"));
         assertThat(taxonomyDocument.isLinked(), is(true));
-        assertThat(taxonomyDocument.getLineage(), contains(4L));
+        assertThat(taxonomyDocument.getParent(), is(4L));
         assertThat(taxonomyDocument.isHidden(), is(true));
     }
 

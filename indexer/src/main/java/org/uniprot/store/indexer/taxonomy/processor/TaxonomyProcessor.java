@@ -80,10 +80,15 @@ public class TaxonomyProcessor implements ItemProcessor<TaxonomyEntry, TaxonomyD
     }
 
     private TaxonomyDocument buildTaxonomyDocument(TaxonomyEntry entry) {
+        if (entry.getTaxonId() == 1L) {
+            return null;
+        }
         TaxonomyDocument.TaxonomyDocumentBuilder documentBuilder = TaxonomyDocument.builder();
         documentBuilder.id(String.valueOf(entry.getTaxonId()));
         documentBuilder.taxId(entry.getTaxonId());
-        documentBuilder.ancestor(entry.getParent().getTaxonId());
+        if (entry.getParent().getTaxonId() != 1L) {
+            documentBuilder.parent(entry.getParent().getTaxonId());
+        }
 
         documentBuilder.scientific(entry.getScientificName());
         documentBuilder.common(entry.getCommonName());
@@ -126,7 +131,7 @@ public class TaxonomyProcessor implements ItemProcessor<TaxonomyEntry, TaxonomyD
 
         documentBuilder.host(
                 entry.getHosts().stream().map(Taxonomy::getTaxonId).collect(Collectors.toList()));
-        documentBuilder.lineage(
+        documentBuilder.ancestor(
                 entry.getLineages().stream()
                         .map(TaxonomyLineage::getTaxonId)
                         .collect(Collectors.toList()));
