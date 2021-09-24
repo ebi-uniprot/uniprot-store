@@ -165,7 +165,7 @@
 		stored="false" required="false" multiValued="true" />
 	<dynamicField name="xref_count_*" type="int"
 		indexed="true" required="false" stored="false" multiValued="false" />
-	<field name="rhea_id" type="string" indexed="false" stored="true"
+	<field name="rhea_id" type="string" indexed="true" stored="false"
 		required="false" multiValued="true" />
 
 	<!-- Citations -->
