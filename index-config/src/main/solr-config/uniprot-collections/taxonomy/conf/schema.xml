@@ -20,7 +20,7 @@
 		required="true" multiValued="false" docValues="true" />
 	<field name="tax_id" type="plong" indexed="true" stored="true"
 		required="true" multiValued="false" docValues="true" />
-	<field name="ancestor" type="plong" indexed="true" stored="true"
+	<field name="parent" type="plong" indexed="true" stored="true"
 		required="false" multiValued="false" docValues="true" />
 	<field name="name_sort" type="string" indexed="true"
 		docValues="true" />
@@ -33,7 +33,7 @@
 	<field name="strain" type="full_ci" indexed="true"
 		multiValued="true" />
 	<field name="host" type="plong" indexed="true" multiValued="true" />
-	<field name="lineage" type="plong" indexed="true"
+	<field name="ancestor" type="plong" indexed="true"
 		multiValued="true" />
 
 	<field name="hidden" type="boolean" indexed="true"
