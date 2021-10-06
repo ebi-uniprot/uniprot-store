@@ -14,8 +14,6 @@ public class TaxonomyStrainReader implements RowMapper<TaxonomyStrainReader.Stra
 
     @Override
     public Strain mapRow(ResultSet resultSet, int rowIndex) throws SQLException {
-        TaxonomyStrainBuilder builder = new TaxonomyStrainBuilder();
-
         long id = resultSet.getLong("strain_id");
         String name = resultSet.getString("name");
         StrainNameClass nameClass = StrainNameClass.fromQuery(resultSet.getString("name_class"));

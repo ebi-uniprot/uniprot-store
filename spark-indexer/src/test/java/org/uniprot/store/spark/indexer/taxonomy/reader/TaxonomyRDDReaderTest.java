@@ -1,4 +1,4 @@
-package org.uniprot.store.spark.indexer.taxonomy;
+package org.uniprot.store.spark.indexer.taxonomy.reader;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -7,7 +7,6 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -15,8 +14,6 @@ import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaSparkContext;
 import org.junit.jupiter.api.*;
 import org.uniprot.core.taxonomy.TaxonomyEntry;
-import org.uniprot.core.taxonomy.TaxonomyLineage;
-import org.uniprot.core.taxonomy.impl.TaxonomyLineageBuilder;
 import org.uniprot.store.spark.indexer.common.JobParameter;
 import org.uniprot.store.spark.indexer.common.util.SparkUtils;
 
@@ -117,31 +114,5 @@ class TaxonomyRDDReaderTest {
         Statement statement = this.dbConnection.createStatement();
         TaxonomyH2Utils.createTables(statement);
         TaxonomyH2Utils.insertData(statement);
-    }
-
-    private static class TaxonomyRDDReaderFake extends TaxonomyRDDReader {
-
-        private final JobParameter jobParameter;
-
-        public TaxonomyRDDReaderFake(JobParameter jobParameter, boolean withLineage) {
-            super(jobParameter, withLineage);
-            this.jobParameter = jobParameter;
-        }
-
-        @Override
-        protected JavaPairRDD<String, List<TaxonomyLineage>> loadTaxonomyLineage() {
-            List<Tuple2<String, List<TaxonomyLineage>>> lineage = new ArrayList<>();
-            List<TaxonomyLineage> lineages = new ArrayList<>();
-            lineages.add(new TaxonomyLineageBuilder().taxonId(100).build());
-            lineages.add(new TaxonomyLineageBuilder().taxonId(200).build());
-            lineage.add(new Tuple2<>("337687", lineages));
-
-            lineages = new ArrayList<>();
-            lineages.add(new TaxonomyLineageBuilder().taxonId(300).build());
-            lineages.add(new TaxonomyLineageBuilder().taxonId(400).build());
-            lineage.add(new Tuple2<>("39107", lineages));
-
-            return jobParameter.getSparkContext().parallelizePairs(lineage);
-        }
     }
 }

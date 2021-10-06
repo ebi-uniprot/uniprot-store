@@ -1,6 +1,5 @@
 package org.uniprot.store.search.document.taxonomy;
 
-import java.nio.ByteBuffer;
 import java.util.List;
 
 import lombok.AllArgsConstructor;
@@ -42,7 +41,7 @@ public class TaxonomyDocument implements Document {
     @Field private List<Long> ancestor;
 
     @Field("taxonomy_obj")
-    private ByteBuffer taxonomyObj;
+    private byte[] taxonomyObj;
 
     @Override
     public String getDocumentId() {

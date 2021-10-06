@@ -1,8 +1,9 @@
-package org.uniprot.store.spark.indexer.taxonomy;
+package org.uniprot.store.spark.indexer.taxonomy.mapper;
 
 import java.io.Serializable;
 import java.util.List;
 
+import org.apache.spark.api.java.Optional;
 import org.apache.spark.api.java.function.Function;
 import org.uniprot.core.taxonomy.TaxonomyEntry;
 import org.uniprot.core.taxonomy.TaxonomyLineage;
@@ -18,8 +19,8 @@ import scala.Tuple2;
  * @author lgonzales
  * @since 2019-11-14
  */
-class TaxonomyJoinMapper
-        implements Function<Tuple2<TaxonomyEntry, List<TaxonomyLineage>>, TaxonomyEntry>,
+public class TaxonomyJoinMapper
+        implements Function<Tuple2<TaxonomyEntry, Optional<List<TaxonomyLineage>>>, TaxonomyEntry>,
                 Serializable {
 
     private static final long serialVersionUID = 7479649182382873120L;
@@ -29,20 +30,23 @@ class TaxonomyJoinMapper
      * @return TaxonomyEntry with all TaxonomyLineages.
      */
     @Override
-    public TaxonomyEntry call(Tuple2<TaxonomyEntry, List<TaxonomyLineage>> tuple) throws Exception {
+    public TaxonomyEntry call(Tuple2<TaxonomyEntry, Optional<List<TaxonomyLineage>>> tuple) throws Exception {
         TaxonomyEntry entry = tuple._1;
-        List<TaxonomyLineage> lineage = tuple._2;
+        if(tuple._2.isPresent()) {
+            List<TaxonomyLineage> lineage = tuple._2.get();
 
-        TaxonomyEntryBuilder builder = TaxonomyEntryBuilder.from(entry);
-        builder.lineagesSet(lineage);
+            TaxonomyEntryBuilder builder = TaxonomyEntryBuilder.from(entry);
+            builder.lineagesSet(lineage);
+            long parentId = entry.getParent().getTaxonId();
+            lineage.stream()
+                    .filter(ln -> ln.getTaxonId() == parentId)
+                    .findFirst()
+                    .map(this::getParentFromLineage)
+                    .ifPresent(builder::parent);
 
-        lineage.stream()
-                .filter(ln -> ln.getTaxonId() == entry.getParent().getTaxonId())
-                .findFirst()
-                .map(this::getParentFromLineage)
-                .ifPresent(builder::parent);
-
-        return builder.build();
+            entry = builder.build();
+        }
+        return entry;
     }
 
     private Taxonomy getParentFromLineage(TaxonomyLineage parentLineage) {

@@ -80,6 +80,10 @@ public class SparkUtils {
     }
 
     public static ResourceBundle loadApplicationProperty() {
+        return loadApplicationProperty("application");
+    }
+
+    public static ResourceBundle loadApplicationProperty(String baseName) {
         URL resourceURL =
                 WriteIndexDocumentsToHDFSMain.class
                         .getProtectionDomain()
@@ -87,10 +91,10 @@ public class SparkUtils {
                         .getLocation();
         try (URLClassLoader urlLoader = new URLClassLoader(new java.net.URL[] {resourceURL})) {
             // try to load from the directory that the application is being executed
-            return ResourceBundle.getBundle("application", Locale.getDefault(), urlLoader);
+            return ResourceBundle.getBundle(baseName, Locale.getDefault(), urlLoader);
         } catch (MissingResourceException | IOException e) {
             // load from the classpath
-            return ResourceBundle.getBundle("application");
+            return ResourceBundle.getBundle(baseName);
         }
     }
 
@@ -158,5 +162,17 @@ public class SparkUtils {
             result.add(storeItem);
         }
         return result;
+    }
+
+    public static <T> T getNotNullEntry(T entry1, T entry2) {
+        T result = entry1;
+        if (result == null) {
+            result = entry2;
+        }
+        return result;
+    }
+
+    public static <T> boolean isThereAnyNullEntry(T entry1, T entry2) {
+        return entry1 == null || entry2 == null;
     }
 }

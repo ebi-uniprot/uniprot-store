@@ -20,3 +20,41 @@ CREATE TABLE TAXONOMY.V_PUBLIC_NODE
      TREE_LEFT DECIMAL(8,0),
      TREE_RIGHT DECIMAL(8,0)
 );
+
+create table taxonomy.V_PUBLIC_STRAIN
+(
+    TAX_ID     DECIMAL(8,0),
+    STRAIN_ID  DECIMAL(8,0),
+    NAME       VARCHAR(64),
+    NAME_CLASS VARCHAR(64)
+);
+
+create table taxonomy.V_PUBLIC_HOST
+(
+    TAX_ID      DECIMAL(8,0),
+    HOST_ID     DECIMAL(8,0)
+);
+
+create table TAXONOMY.V_PUBLIC_URI
+(
+    TAX_ID  DECIMAL(8,0),
+    URI     VARCHAR(64)
+);
+
+create table TAXONOMY.V_PUBLIC_NAME
+(
+    TAX_ID     DECIMAL(8,0),
+    PRIORITY   DECIMAL(2,0),
+    NAME       VARCHAR(64)
+);
+
+create table TAXONOMY.V_PUBLIC_MERGED
+(
+    OLD_TAX_ID    DECIMAL(8,0),
+    NEW_TAX_ID    DECIMAL(8,0)
+);
+
+create table TAXONOMY.V_PUBLIC_DELETED
+(
+    TAX_ID      DECIMAL(8,0)
+);

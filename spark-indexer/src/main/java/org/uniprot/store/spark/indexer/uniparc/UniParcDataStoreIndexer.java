@@ -11,7 +11,7 @@ import org.uniprot.core.uniparc.UniParcEntry;
 import org.uniprot.store.spark.indexer.common.JobParameter;
 import org.uniprot.store.spark.indexer.common.store.DataStoreIndexer;
 import org.uniprot.store.spark.indexer.common.store.DataStoreParameter;
-import org.uniprot.store.spark.indexer.taxonomy.TaxonomyRDDReader;
+import org.uniprot.store.spark.indexer.taxonomy.reader.TaxonomyRDDReader;
 import org.uniprot.store.spark.indexer.uniparc.mapper.UniParcEntryKeyMapper;
 import org.uniprot.store.spark.indexer.uniparc.mapper.UniParcEntryTaxonomyJoin;
 import org.uniprot.store.spark.indexer.uniparc.mapper.UniParcTaxonomyMapper;

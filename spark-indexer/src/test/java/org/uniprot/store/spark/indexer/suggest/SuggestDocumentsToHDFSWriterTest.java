@@ -26,7 +26,7 @@ import org.junit.jupiter.api.TestInstance;
 import org.uniprot.store.search.document.suggest.SuggestDocument;
 import org.uniprot.store.spark.indexer.common.JobParameter;
 import org.uniprot.store.spark.indexer.common.util.SparkUtils;
-import org.uniprot.store.spark.indexer.taxonomy.TaxonomyH2Utils;
+import org.uniprot.store.spark.indexer.taxonomy.reader.TaxonomyH2Utils;
 import org.uniprot.store.spark.indexer.uniprot.UniProtKBRDDTupleReader;
 
 /**

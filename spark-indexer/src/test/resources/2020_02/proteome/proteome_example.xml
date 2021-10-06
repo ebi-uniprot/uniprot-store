@@ -266,4 +266,490 @@
         <property name="stdCdss" value="1.8"/>
     </scores>
 </proteome>
+    <proteome>
+        <upid>UP000002494</upid>
+        <description>Rattus norvegicus (also called the brown rat, Hanover rat, Norwegian rat, Brown Norway rat) is a common rodent closely related to mouse. The species originated in Asia, not Norway as the name suggests, and has spread throughout the world. The rat is a major pest and a reservoir of pathogens, being involved in the transmission of infectious diseases such as cholera, bubonic plague and typhus. On the other hand, Rattus norvegicus was the first mammalian species to be domesticated for scientific research. The rat is an indispensable model organism in biomedical research, especially in cardiovascular and psychological research, and in therapeutic efficacy and toxicity studies. It is the third mammalian species to have its genome sequenced. The reference proteome of Rattus norvegicus is derived from the genome sequence of strain Brown Norway (BN) that was published in 2004. The sequence data were mostly from two inbred female animals of strain BN/SsNHsd/Mcwi. The assembled genome size is 2.75 Gb.</description>
+        <taxonomy>10116</taxonomy>
+        <modified>2021-03-04</modified>
+        <isReferenceProteome>true</isReferenceProteome>
+        <isRepresentativeProteome>true</isRepresentativeProteome>
+        <strain>Brown Norway</strain>
+        <genomeAssembly>
+            <genomeAssemblySource>Ensembl</genomeAssemblySource>
+            <genomeAssembly>GCA_000001895.4</genomeAssembly>
+            <genomeAssemblyUrl>https://www.ensembl.org/Rattus_norvegicus/Info/Annotation</genomeAssemblyUrl>
+            <genomeRepresentation>full</genomeRepresentation>
+        </genomeAssembly>
+        <genomeAnnotation>
+            <genomeAnnotationSource>Ensembl</genomeAnnotationSource>
+            <genomeAnnotationUrl>https://www.ensembl.org/Rattus_norvegicus/Info/Annotation</genomeAnnotationUrl>
+        </genomeAnnotation>
+        <component name="Unplaced">
+            <description>RAT_unplaced</description>
+            <biosampleId>SAMN03000701</biosampleId>
+            <genomeAnnotation>
+                <genomeAnnotationSource>Ensembl</genomeAnnotationSource>
+            </genomeAnnotation>
+        </component>
+        <component name="Mitochondrion">
+            <description>Rattus norvegicus strain BN/SsNHsdMCW mitochondrion</description>
+            <biosampleId>SAMN03000701</biosampleId>
+            <genomeAccession>AY172581</genomeAccession>
+            <genomeAnnotation>
+                <genomeAnnotationSource>ENA/EMBL</genomeAnnotationSource>
+            </genomeAnnotation>
+        </component>
+        <component name="Chromosome 1">
+            <description>Chromosome 1</description>
+            <biosampleId>SAMN02808228</biosampleId>
+            <genomeAccession>CM000072</genomeAccession>
+            <genomeAnnotation>
+                <genomeAnnotationSource>Ensembl</genomeAnnotationSource>
+            </genomeAnnotation>
+        </component>
+        <component name="Chromosome 2">
+            <description>Chromosome 2</description>
+            <biosampleId>SAMN02808228</biosampleId>
+            <genomeAccession>CM000073</genomeAccession>
+            <genomeAnnotation>
+                <genomeAnnotationSource>Ensembl</genomeAnnotationSource>
+            </genomeAnnotation>
+        </component>
+        <component name="Chromosome 3">
+            <description>Chromosome 3</description>
+            <biosampleId>SAMN02808228</biosampleId>
+            <genomeAccession>CM000074</genomeAccession>
+            <genomeAnnotation>
+                <genomeAnnotationSource>Ensembl</genomeAnnotationSource>
+            </genomeAnnotation>
+        </component>
+        <component name="Chromosome 4">
+            <description>Chromosome 4</description>
+            <biosampleId>SAMN02808228</biosampleId>
+            <genomeAccession>CM000075</genomeAccession>
+            <genomeAnnotation>
+                <genomeAnnotationSource>Ensembl</genomeAnnotationSource>
+            </genomeAnnotation>
+        </component>
+        <component name="Chromosome 5">
+            <description>Chromosome 5</description>
+            <biosampleId>SAMN02808228</biosampleId>
+            <genomeAccession>CM000076</genomeAccession>
+            <genomeAnnotation>
+                <genomeAnnotationSource>Ensembl</genomeAnnotationSource>
+            </genomeAnnotation>
+        </component>
+        <component name="Chromosome 6">
+            <description>Chromosome 6</description>
+            <biosampleId>SAMN02808228</biosampleId>
+            <genomeAccession>CM000077</genomeAccession>
+            <genomeAnnotation>
+                <genomeAnnotationSource>Ensembl</genomeAnnotationSource>
+            </genomeAnnotation>
+        </component>
+        <component name="Chromosome 7">
+            <description>Chromosome 7</description>
+            <biosampleId>SAMN02808228</biosampleId>
+            <genomeAccession>CM000078</genomeAccession>
+            <genomeAnnotation>
+                <genomeAnnotationSource>Ensembl</genomeAnnotationSource>
+            </genomeAnnotation>
+        </component>
+        <component name="Chromosome 8">
+            <description>Chromosome 8</description>
+            <biosampleId>SAMN02808228</biosampleId>
+            <genomeAccession>CM000079</genomeAccession>
+            <genomeAnnotation>
+                <genomeAnnotationSource>Ensembl</genomeAnnotationSource>
+            </genomeAnnotation>
+        </component>
+        <component name="Chromosome 9">
+            <description>Chromosome 9</description>
+            <biosampleId>SAMN02808228</biosampleId>
+            <genomeAccession>CM000080</genomeAccession>
+            <genomeAnnotation>
+                <genomeAnnotationSource>Ensembl</genomeAnnotationSource>
+            </genomeAnnotation>
+        </component>
+        <component name="Chromosome 10">
+            <description>Chromosome 10</description>
+            <biosampleId>SAMN02808228</biosampleId>
+            <genomeAccession>CM000081</genomeAccession>
+            <genomeAnnotation>
+                <genomeAnnotationSource>Ensembl</genomeAnnotationSource>
+            </genomeAnnotation>
+        </component>
+        <component name="Chromosome 11">
+            <description>Chromosome 11</description>
+            <biosampleId>SAMN02808228</biosampleId>
+            <genomeAccession>CM000082</genomeAccession>
+            <genomeAnnotation>
+                <genomeAnnotationSource>Ensembl</genomeAnnotationSource>
+            </genomeAnnotation>
+        </component>
+        <component name="Chromosome 12">
+            <description>Chromosome 12</description>
+            <biosampleId>SAMN02808228</biosampleId>
+            <genomeAccession>CM000083</genomeAccession>
+            <genomeAnnotation>
+                <genomeAnnotationSource>Ensembl</genomeAnnotationSource>
+            </genomeAnnotation>
+        </component>
+        <component name="Chromosome 13">
+            <description>Chromosome 13</description>
+            <biosampleId>SAMN02808228</biosampleId>
+            <genomeAccession>CM000084</genomeAccession>
+            <genomeAnnotation>
+                <genomeAnnotationSource>Ensembl</genomeAnnotationSource>
+            </genomeAnnotation>
+        </component>
+        <component name="Chromosome 14">
+            <description>Chromosome 14</description>
+            <biosampleId>SAMN02808228</biosampleId>
+            <genomeAccession>CM000085</genomeAccession>
+            <genomeAnnotation>
+                <genomeAnnotationSource>Ensembl</genomeAnnotationSource>
+            </genomeAnnotation>
+        </component>
+        <component name="Chromosome 15">
+            <description>Chromosome 15</description>
+            <biosampleId>SAMN02808228</biosampleId>
+            <genomeAccession>CM000086</genomeAccession>
+            <genomeAnnotation>
+                <genomeAnnotationSource>Ensembl</genomeAnnotationSource>
+            </genomeAnnotation>
+        </component>
+        <component name="Chromosome 16">
+            <description>Chromosome 16</description>
+            <biosampleId>SAMN02808228</biosampleId>
+            <genomeAccession>CM000087</genomeAccession>
+            <genomeAnnotation>
+                <genomeAnnotationSource>Ensembl</genomeAnnotationSource>
+            </genomeAnnotation>
+        </component>
+        <component name="Chromosome 17">
+            <description>Chromosome 17</description>
+            <biosampleId>SAMN02808228</biosampleId>
+            <genomeAccession>CM000088</genomeAccession>
+            <genomeAnnotation>
+                <genomeAnnotationSource>Ensembl</genomeAnnotationSource>
+            </genomeAnnotation>
+        </component>
+        <component name="Chromosome 18">
+            <description>Chromosome 18</description>
+            <biosampleId>SAMN02808228</biosampleId>
+            <genomeAccession>CM000089</genomeAccession>
+            <genomeAnnotation>
+                <genomeAnnotationSource>Ensembl</genomeAnnotationSource>
+            </genomeAnnotation>
+        </component>
+        <component name="Chromosome 19">
+            <description>Chromosome 19</description>
+            <biosampleId>SAMN02808228</biosampleId>
+            <genomeAccession>CM000090</genomeAccession>
+            <genomeAnnotation>
+                <genomeAnnotationSource>Ensembl</genomeAnnotationSource>
+            </genomeAnnotation>
+        </component>
+        <component name="Chromosome 20">
+            <description>Chromosome 20</description>
+            <biosampleId>SAMN02808228</biosampleId>
+            <genomeAccession>CM000091</genomeAccession>
+            <genomeAnnotation>
+                <genomeAnnotationSource>Ensembl</genomeAnnotationSource>
+            </genomeAnnotation>
+        </component>
+        <component name="Chromosome X">
+            <description>Chromosome X</description>
+            <biosampleId>SAMN02808228</biosampleId>
+            <genomeAccession>CM000092</genomeAccession>
+            <genomeAnnotation>
+                <genomeAnnotationSource>Ensembl</genomeAnnotationSource>
+            </genomeAnnotation>
+        </component>
+        <component name="Chromosome Y">
+            <description>Chromosome Y</description>
+            <biosampleId>SAMN02808228</biosampleId>
+            <genomeAccession>CM002824</genomeAccession>
+            <genomeAnnotation>
+                <genomeAnnotationSource>Ensembl</genomeAnnotationSource>
+            </genomeAnnotation>
+        </component>
+        <reference>
+            <citation type="journal article" date="2004" name="Nature" volume="428" first="493" last="521">
+                <title>Genome sequence of the Brown Norway rat yields insights into mammalian evolution.</title>
+                <authorList>
+                    <person name="Mockrin S."/>
+                    <person name="Collins F.S."/>
+                </authorList>
+                <dbReference type="PubMed" id="15057822"/>
+                <dbReference type="DOI" id="10.1038/nature02426"/>
+            </citation>
+        </reference>
+        <reference>
+            <citation type="submission" date="2002-12" db="EMBL/GenBank/DDBJ databases">
+                <title>The Mitochondrial Genome of Rattus Norvegicus strain Brown Norway.</title>
+                <authorList>
+                    <person name="McLeod M.P."/>
+                    <person name="Weinstock G."/>
+                    <person name="Gibbs R.A."/>
+                </authorList>
+            </citation>
+        </reference>
+        <reference>
+            <citation type="submission" date="2002-11" db="EMBL/GenBank/DDBJ databases">
+                <authorList>
+                    <consortium name="Rat Genome Sequencing Consortium"/>
+                </authorList>
+            </citation>
+        </reference>
+        <scores name="busco">
+            <property name="fragmented" value="131"/>
+            <property name="lineage" value="glires_odb10"/>
+            <property name="missing" value="301"/>
+            <property name="completedSingle" value="10256"/>
+            <property name="completed" value="13366"/>
+            <property name="total" value="13798"/>
+            <property name="completedDuplicated" value="3110"/>
+            <property name="score" value="97"/>
+        </scores>
+        <scores name="cpd">
+            <property name="averageCds" value="0"/>
+            <property name="status" value="Standard"/>
+            <property name="proteomeCount" value="51"/>
+        </scores>
+    </proteome>
+    <proteome>
+        <upid>UP000234681</upid>
+        <taxonomy>10116</taxonomy>
+        <modified>2021-03-07</modified>
+        <isReferenceProteome>false</isReferenceProteome>
+        <isRepresentativeProteome>false</isRepresentativeProteome>
+        <strain>BN; Sprague-Dawley</strain>
+        <genomeAssembly>
+            <genomeAssemblySource>ENA/EMBL</genomeAssemblySource>
+            <genomeAssembly>GCA_000002265.1</genomeAssembly>
+            <genomeAssemblyUrl>https://www.ebi.ac.uk/ena/browser/view/GCA_000002265.1</genomeAssemblyUrl>
+            <genomeRepresentation>full</genomeRepresentation>
+        </genomeAssembly>
+        <genomeAnnotation>
+            <genomeAnnotationSource>ENA/EMBL</genomeAnnotationSource>
+            <genomeAnnotationUrl>https://www.ebi.ac.uk/ena/browser/view/GCA_000002265.1</genomeAnnotationUrl>
+        </genomeAnnotation>
+        <component name="Chromosome 4">
+            <description>Rattus norvegicus chromosome 4, whole genome shotgun sequence.</description>
+            <biosampleId>SAMN03000701</biosampleId>
+            <genomeAccession>CM000234</genomeAccession>
+            <genomeAnnotation>
+                <genomeAnnotationSource>ENA/EMBL</genomeAnnotationSource>
+            </genomeAnnotation>
+        </component>
+        <component name="Chromosome 17">
+            <description>Rattus norvegicus chromosome 17, whole genome shotgun sequence.</description>
+            <biosampleId>SAMN03000701</biosampleId>
+            <genomeAccession>CM000247</genomeAccession>
+            <genomeAnnotation>
+                <genomeAnnotationSource>ENA/EMBL</genomeAnnotationSource>
+            </genomeAnnotation>
+        </component>
+        <component name="Chromosome 15">
+            <description>Rattus norvegicus chromosome 15, whole genome shotgun sequence.</description>
+            <biosampleId>SAMN03000701</biosampleId>
+            <genomeAccession>CM000245</genomeAccession>
+            <genomeAnnotation>
+                <genomeAnnotationSource>ENA/EMBL</genomeAnnotationSource>
+            </genomeAnnotation>
+        </component>
+        <component name="Chromosome 9">
+            <description>Rattus norvegicus chromosome 9, whole genome shotgun sequence.</description>
+            <biosampleId>SAMN03000701</biosampleId>
+            <genomeAccession>CM000239</genomeAccession>
+            <genomeAnnotation>
+                <genomeAnnotationSource>ENA/EMBL</genomeAnnotationSource>
+            </genomeAnnotation>
+        </component>
+        <component name="Chromosome 10">
+            <description>Rattus norvegicus chromosome 10, whole genome shotgun sequence.</description>
+            <biosampleId>SAMN03000701</biosampleId>
+            <genomeAccession>CM000240</genomeAccession>
+            <genomeAnnotation>
+                <genomeAnnotationSource>ENA/EMBL</genomeAnnotationSource>
+            </genomeAnnotation>
+        </component>
+        <component name="Chromosome 20">
+            <description>Rattus norvegicus chromosome 20, whole genome shotgun sequence.</description>
+            <biosampleId>SAMN03000701</biosampleId>
+            <genomeAccession>CM000250</genomeAccession>
+            <genomeAnnotation>
+                <genomeAnnotationSource>ENA/EMBL</genomeAnnotationSource>
+            </genomeAnnotation>
+        </component>
+        <component name="Chromosome 18">
+            <description>Rattus norvegicus chromosome 18, whole genome shotgun sequence.</description>
+            <biosampleId>SAMN03000701</biosampleId>
+            <genomeAccession>CM000248</genomeAccession>
+            <genomeAnnotation>
+                <genomeAnnotationSource>ENA/EMBL</genomeAnnotationSource>
+            </genomeAnnotation>
+        </component>
+        <component name="Chromosome 7">
+            <description>Rattus norvegicus chromosome 7, whole genome shotgun sequence.</description>
+            <biosampleId>SAMN03000701</biosampleId>
+            <genomeAccession>CM000237</genomeAccession>
+            <genomeAnnotation>
+                <genomeAnnotationSource>ENA/EMBL</genomeAnnotationSource>
+            </genomeAnnotation>
+        </component>
+        <component name="Chromosome 19">
+            <description>Rattus norvegicus chromosome 19, whole genome shotgun sequence.</description>
+            <biosampleId>SAMN03000701</biosampleId>
+            <genomeAccession>CM000249</genomeAccession>
+            <genomeAnnotation>
+                <genomeAnnotationSource>ENA/EMBL</genomeAnnotationSource>
+            </genomeAnnotation>
+        </component>
+        <component name="Chromosome 14">
+            <description>Rattus norvegicus chromosome 14, whole genome shotgun sequence.</description>
+            <biosampleId>SAMN03000701</biosampleId>
+            <genomeAccession>CM000244</genomeAccession>
+            <genomeAnnotation>
+                <genomeAnnotationSource>ENA/EMBL</genomeAnnotationSource>
+            </genomeAnnotation>
+        </component>
+        <component name="Chromosome 13">
+            <description>Rattus norvegicus chromosome 13, whole genome shotgun sequence.</description>
+            <biosampleId>SAMN03000701</biosampleId>
+            <genomeAccession>CM000243</genomeAccession>
+            <genomeAnnotation>
+                <genomeAnnotationSource>ENA/EMBL</genomeAnnotationSource>
+            </genomeAnnotation>
+        </component>
+        <component name="Chromosome 6">
+            <description>Rattus norvegicus chromosome 6, whole genome shotgun sequence.</description>
+            <biosampleId>SAMN03000701</biosampleId>
+            <genomeAccession>CM000236</genomeAccession>
+            <genomeAnnotation>
+                <genomeAnnotationSource>ENA/EMBL</genomeAnnotationSource>
+            </genomeAnnotation>
+        </component>
+        <component name="Chromosome x">
+            <description>Rattus norvegicus chromosome X, whole genome shotgun sequence.</description>
+            <biosampleId>SAMN03000701</biosampleId>
+            <genomeAccession>CM000251</genomeAccession>
+            <genomeAnnotation>
+                <genomeAnnotationSource>ENA/EMBL</genomeAnnotationSource>
+            </genomeAnnotation>
+        </component>
+        <component name="Chromosome 5">
+            <description>Rattus norvegicus chromosome 5, whole genome shotgun sequence.</description>
+            <biosampleId>SAMN03000701</biosampleId>
+            <genomeAccession>CM000235</genomeAccession>
+            <genomeAnnotation>
+                <genomeAnnotationSource>ENA/EMBL</genomeAnnotationSource>
+            </genomeAnnotation>
+        </component>
+        <component name="Chromosome 11">
+            <description>Rattus norvegicus chromosome 11, whole genome shotgun sequence.</description>
+            <biosampleId>SAMN03000701</biosampleId>
+            <genomeAccession>CM000241</genomeAccession>
+            <genomeAnnotation>
+                <genomeAnnotationSource>ENA/EMBL</genomeAnnotationSource>
+            </genomeAnnotation>
+        </component>
+        <component name="Chromosome 12">
+            <description>Rattus norvegicus chromosome 12, whole genome shotgun sequence.</description>
+            <biosampleId>SAMN03000701</biosampleId>
+            <genomeAccession>CM000242</genomeAccession>
+            <genomeAnnotation>
+                <genomeAnnotationSource>ENA/EMBL</genomeAnnotationSource>
+            </genomeAnnotation>
+        </component>
+        <component name="Chromosome 1">
+            <description>Rattus norvegicus chromosome 1, whole genome shotgun sequence.</description>
+            <biosampleId>SAMN03000701</biosampleId>
+            <genomeAccession>CM000231</genomeAccession>
+            <genomeAnnotation>
+                <genomeAnnotationSource>ENA/EMBL</genomeAnnotationSource>
+            </genomeAnnotation>
+        </component>
+        <component name="Chromosome 16">
+            <description>Rattus norvegicus chromosome 16, whole genome shotgun sequence.</description>
+            <biosampleId>SAMN03000701</biosampleId>
+            <genomeAccession>CM000246</genomeAccession>
+            <genomeAnnotation>
+                <genomeAnnotationSource>ENA/EMBL</genomeAnnotationSource>
+            </genomeAnnotation>
+        </component>
+        <component name="Chromosome 2">
+            <description>Rattus norvegicus chromosome 2, whole genome shotgun sequence.</description>
+            <biosampleId>SAMN03000701</biosampleId>
+            <genomeAccession>CM000232</genomeAccession>
+            <genomeAnnotation>
+                <genomeAnnotationSource>ENA/EMBL</genomeAnnotationSource>
+            </genomeAnnotation>
+        </component>
+        <component name="Chromosome 8">
+            <description>Rattus norvegicus chromosome 8, whole genome shotgun sequence.</description>
+            <biosampleId>SAMN03000701</biosampleId>
+            <genomeAccession>CM000238</genomeAccession>
+            <genomeAnnotation>
+                <genomeAnnotationSource>ENA/EMBL</genomeAnnotationSource>
+            </genomeAnnotation>
+        </component>
+        <component name="Chromosome 3">
+            <description>Rattus norvegicus chromosome 3, whole genome shotgun sequence.</description>
+            <biosampleId>SAMN03000701</biosampleId>
+            <genomeAccession>CM000233</genomeAccession>
+            <genomeAnnotation>
+                <genomeAnnotationSource>ENA/EMBL</genomeAnnotationSource>
+            </genomeAnnotation>
+        </component>
+        <component name="Unassembled WGS sequence">
+            <description>Rattus norvegicus</description>
+            <biosampleId>SAMN03000701</biosampleId>
+            <genomeAccession>AAHX01000000</genomeAccession>
+            <genomeAnnotation>
+                <genomeAnnotationSource>ENA/EMBL</genomeAnnotationSource>
+            </genomeAnnotation>
+        </component>
+        <reference>
+            <citation type="submission" date="2005-07" db="EMBL/GenBank/DDBJ databases">
+                <authorList>
+                    <person name="Mural R.J."/>
+                    <person name="Li P.W."/>
+                </authorList>
+            </citation>
+        </reference>
+        <reference>
+            <citation type="submission" date="2005-06" db="EMBL/GenBank/DDBJ databases">
+                <authorList>
+                    <person name="Mural R.J."/>
+                    <person name="Li P.W."/>
+                </authorList>
+            </citation>
+        </reference>
+        <reference>
+            <citation type="submission" date="2005-09" db="EMBL/GenBank/DDBJ databases">
+                <authorList>
+                    <person name="Mural R.J."/>
+                    <person name="Li P.W."/>
+                </authorList>
+            </citation>
+        </reference>
+        <scores name="busco">
+            <property name="fragmented" value="941"/>
+            <property name="lineage" value="glires_odb10"/>
+            <property name="missing" value="1590"/>
+            <property name="completedSingle" value="8181"/>
+            <property name="completed" value="11267"/>
+            <property name="total" value="13798"/>
+            <property name="completedDuplicated" value="3086"/>
+            <property name="score" value="88"/>
+        </scores>
+        <scores name="cpd">
+            <property name="averageCds" value="0"/>
+            <property name="status" value="Standard"/>
+            <property name="proteomeCount" value="51"/>
+        </scores>
+    </proteome>
 </proteomes>

@@ -57,8 +57,8 @@ import org.uniprot.store.spark.indexer.suggest.mapper.flatfile.FlatFileToCofacto
 import org.uniprot.store.spark.indexer.suggest.mapper.flatfile.FlatFileToEC;
 import org.uniprot.store.spark.indexer.suggest.mapper.flatfile.FlatFileToOrganism;
 import org.uniprot.store.spark.indexer.suggest.mapper.flatfile.FlatFileToOrganismHost;
-import org.uniprot.store.spark.indexer.taxonomy.TaxonomyLineageReader;
-import org.uniprot.store.spark.indexer.taxonomy.TaxonomyRDDReader;
+import org.uniprot.store.spark.indexer.taxonomy.reader.TaxonomyLineageReader;
+import org.uniprot.store.spark.indexer.taxonomy.reader.TaxonomyRDDReader;
 import org.uniprot.store.spark.indexer.uniparc.UniParcRDDTupleReader;
 import org.uniprot.store.spark.indexer.uniprot.UniProtKBRDDTupleReader;
 import org.uniprot.store.spark.indexer.uniprot.mapper.GoRelationsJoinMapper;

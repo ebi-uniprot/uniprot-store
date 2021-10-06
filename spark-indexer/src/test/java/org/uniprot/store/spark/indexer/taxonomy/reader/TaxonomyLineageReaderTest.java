@@ -1,8 +1,9 @@
-package org.uniprot.store.spark.indexer.taxonomy;
+package org.uniprot.store.spark.indexer.taxonomy.reader;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
+import org.uniprot.store.spark.indexer.taxonomy.reader.TaxonomyLineageReader;
 
 /**
  * @author lgonzales

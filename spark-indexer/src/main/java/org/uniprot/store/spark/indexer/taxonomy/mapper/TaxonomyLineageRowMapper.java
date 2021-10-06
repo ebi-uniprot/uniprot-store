@@ -1,4 +1,4 @@
-package org.uniprot.store.spark.indexer.taxonomy;
+package org.uniprot.store.spark.indexer.taxonomy.mapper;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -20,13 +20,13 @@ import scala.Tuple2;
  * @author lgonzales
  * @since 2019-11-14
  */
-class TaxonomyLineageRowMapper
+public class TaxonomyLineageRowMapper
         implements PairFunction<Row, String, List<TaxonomyLineage>>, Serializable {
 
     private static final long serialVersionUID = -7723532417214033169L;
     private final boolean includeOrganism;
 
-    TaxonomyLineageRowMapper(boolean includeOrganism) {
+    public TaxonomyLineageRowMapper(boolean includeOrganism) {
         this.includeOrganism = includeOrganism;
     }
 

@@ -1,4 +1,4 @@
-package org.uniprot.store.spark.indexer.taxonomy;
+package org.uniprot.store.spark.indexer.taxonomy.mapper;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.apache.spark.api.java.Optional;
 import org.junit.jupiter.api.Test;
 import org.uniprot.core.taxonomy.TaxonomyEntry;
 import org.uniprot.core.taxonomy.TaxonomyLineage;
@@ -41,7 +42,7 @@ class TaxonomyJoinMapperTest {
                         .commonName("common2")
                         .scientificName("name2")
                         .build());
-        Tuple2<TaxonomyEntry, List<TaxonomyLineage>> tuple = new Tuple2<>(entry, lineage);
+        Tuple2<TaxonomyEntry, Optional<List<TaxonomyLineage>>> tuple = new Tuple2<>(entry, Optional.of(lineage));
 
         TaxonomyJoinMapper mapper = new TaxonomyJoinMapper();
         TaxonomyEntry result = mapper.call(tuple);
@@ -59,8 +60,22 @@ class TaxonomyJoinMapperTest {
     @Test
     void testMapTaxonomyEmptyLineage() throws Exception {
         TaxonomyEntry entry = new TaxonomyEntryBuilder().taxonId(9606L).build();
-        Tuple2<TaxonomyEntry, List<TaxonomyLineage>> tuple =
-                new Tuple2<>(entry, Collections.emptyList());
+        Tuple2<TaxonomyEntry, Optional<List<TaxonomyLineage>>> tuple =
+                new Tuple2<>(entry, Optional.of(Collections.emptyList()));
+
+        TaxonomyJoinMapper mapper = new TaxonomyJoinMapper();
+        TaxonomyEntry result = mapper.call(tuple);
+
+        assertNotNull(result);
+        assertNotNull(result.getLineages());
+        assertFalse(result.hasLineage());
+    }
+
+    @Test
+    void testMapTaxonomyOptionalEmptyLineage() throws Exception {
+        TaxonomyEntry entry = new TaxonomyEntryBuilder().taxonId(9606L).build();
+        Tuple2<TaxonomyEntry, Optional<List<TaxonomyLineage>>> tuple =
+                new Tuple2<>(entry, Optional.empty());
 
         TaxonomyJoinMapper mapper = new TaxonomyJoinMapper();
         TaxonomyEntry result = mapper.call(tuple);

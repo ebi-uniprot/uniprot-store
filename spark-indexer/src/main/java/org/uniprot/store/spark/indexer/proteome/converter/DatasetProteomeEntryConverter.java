@@ -5,9 +5,13 @@ import java.io.Serializable;
 import org.apache.spark.api.java.function.Function;
 import org.apache.spark.sql.Row;
 import org.uniprot.core.proteome.ProteomeEntry;
+import org.uniprot.core.proteome.ProteomeType;
 import org.uniprot.core.proteome.impl.ProteomeEntryBuilder;
 import org.uniprot.core.uniprotkb.taxonomy.Taxonomy;
 import org.uniprot.core.uniprotkb.taxonomy.impl.TaxonomyBuilder;
+import org.uniprot.store.spark.indexer.common.util.RowUtils;
+
+import static org.uniprot.store.spark.indexer.common.util.RowUtils.*;
 
 /**
  * Converts XML {@link Row} instances to {@link ProteomeEntry} instances.
@@ -23,10 +27,19 @@ public class DatasetProteomeEntryConverter implements Function<Row, ProteomeEntr
     public ProteomeEntry call(Row row) throws Exception {
         ProteomeEntryBuilder builder = new ProteomeEntryBuilder();
         builder.proteomeId(row.getString(row.fieldIndex("upid")));
-        // put upid and taxonomy from xml just to set it in SuggestDocument
+        // put upid and taxonomy from xml
         Taxonomy taxonomy =
                 new TaxonomyBuilder().taxonId(row.getInt(row.fieldIndex("taxonomy"))).build();
         builder.taxonomy(taxonomy);
+        // add if is a reference proteome
+        ProteomeType type = ProteomeType.NORMAL;
+        if(hasFieldName("isReferenceProteome", row)) {
+            boolean isReference = row.getBoolean(row.fieldIndex("isReferenceProteome"));
+            if(isReference) {
+                type = ProteomeType.REFERENCE;
+            }
+        }
+        builder.proteomeType(type);
         return builder.build();
     }
 }

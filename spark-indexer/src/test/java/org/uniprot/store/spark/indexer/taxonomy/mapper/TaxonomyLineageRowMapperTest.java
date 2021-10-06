@@ -1,4 +1,4 @@
-package org.uniprot.store.spark.indexer.taxonomy;
+package org.uniprot.store.spark.indexer.taxonomy.mapper;
 
 import static org.junit.jupiter.api.Assertions.*;
 

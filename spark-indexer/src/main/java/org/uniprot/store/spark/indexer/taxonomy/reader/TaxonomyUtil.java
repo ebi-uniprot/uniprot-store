@@ -1,4 +1,4 @@
-package org.uniprot.store.spark.indexer.taxonomy;
+package org.uniprot.store.spark.indexer.taxonomy.reader;
 
 import java.util.ResourceBundle;
 
