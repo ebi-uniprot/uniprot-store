@@ -1,13 +1,14 @@
 package org.uniprot.store.spark.indexer.taxonomy.mapper;
 
+import java.io.Serializable;
+import java.math.BigDecimal;
+
 import org.apache.spark.api.java.function.PairFunction;
 import org.apache.spark.sql.Row;
 import org.uniprot.store.spark.indexer.taxonomy.mapper.model.Strain;
 import org.uniprot.store.spark.indexer.taxonomy.mapper.model.Strain.StrainNameClass;
-import scala.Tuple2;
 
-import java.io.Serializable;
-import java.math.BigDecimal;
+import scala.Tuple2;
 
 public class TaxonomyStrainsRowMapper implements PairFunction<Row, String, Strain>, Serializable {
 
@@ -24,5 +25,4 @@ public class TaxonomyStrainsRowMapper implements PairFunction<Row, String, Strai
         Strain strain = new Strain(strainId.longValue(), strainClass, strainName);
         return new Tuple2<>(String.valueOf(taxId.longValue()), strain);
     }
-
 }

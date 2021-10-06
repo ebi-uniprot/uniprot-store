@@ -4,20 +4,24 @@ import org.apache.spark.api.java.Optional;
 import org.apache.spark.api.java.function.Function;
 import org.uniprot.core.taxonomy.TaxonomyEntry;
 import org.uniprot.core.taxonomy.impl.TaxonomyEntryBuilder;
+
 import scala.Tuple2;
 
-public class TaxonomyOtherNamesJoinMapper implements Function<Tuple2<TaxonomyEntry, Optional<Iterable<TaxonomyEntry>>>, TaxonomyEntry> {
+public class TaxonomyOtherNamesJoinMapper
+        implements Function<
+                Tuple2<TaxonomyEntry, Optional<Iterable<TaxonomyEntry>>>, TaxonomyEntry> {
 
     private static final long serialVersionUID = 510880357682827997L;
 
     @Override
-    public TaxonomyEntry call(Tuple2<TaxonomyEntry, Optional<Iterable<TaxonomyEntry>>> tuple) throws Exception {
+    public TaxonomyEntry call(Tuple2<TaxonomyEntry, Optional<Iterable<TaxonomyEntry>>> tuple)
+            throws Exception {
         TaxonomyEntry result = tuple._1;
-        if(tuple._2.isPresent()){
+        if (tuple._2.isPresent()) {
             TaxonomyEntryBuilder builder = TaxonomyEntryBuilder.from(result);
-            for(TaxonomyEntry otherNamesEntry : tuple._2.get()){
+            for (TaxonomyEntry otherNamesEntry : tuple._2.get()) {
                 String otherName = otherNamesEntry.getOtherNames().get(0);
-                if(isOtherName(otherName, result)) {
+                if (isOtherName(otherName, result)) {
                     builder.otherNamesAdd(otherName);
                 }
             }
@@ -27,10 +31,10 @@ public class TaxonomyOtherNamesJoinMapper implements Function<Tuple2<TaxonomyEnt
     }
 
     private boolean isOtherName(String otherName, TaxonomyEntry entry) {
-        return !otherName.isEmpty() &&
-                !otherName.equals(entry.getScientificName()) &&
-                !otherName.equals(entry.getCommonName()) &&
-                !otherName.equals(entry.getMnemonic()) &&
-                !entry.getSynonyms().contains(otherName);
+        return !otherName.isEmpty()
+                && !otherName.equals(entry.getScientificName())
+                && !otherName.equals(entry.getCommonName())
+                && !otherName.equals(entry.getMnemonic())
+                && !entry.getSynonyms().contains(otherName);
     }
 }

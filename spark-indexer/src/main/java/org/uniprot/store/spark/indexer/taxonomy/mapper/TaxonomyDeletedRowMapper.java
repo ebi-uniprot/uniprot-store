@@ -1,7 +1,8 @@
 package org.uniprot.store.spark.indexer.taxonomy.mapper;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import java.io.Serializable;
+import java.math.BigDecimal;
+
 import org.apache.spark.api.java.function.Function;
 import org.apache.spark.sql.Row;
 import org.uniprot.core.json.parser.taxonomy.TaxonomyJsonConfig;
@@ -10,13 +11,10 @@ import org.uniprot.core.taxonomy.TaxonomyInactiveReason;
 import org.uniprot.core.taxonomy.TaxonomyInactiveReasonType;
 import org.uniprot.core.taxonomy.impl.TaxonomyEntryBuilder;
 import org.uniprot.core.taxonomy.impl.TaxonomyInactiveReasonBuilder;
-import org.uniprot.store.search.document.DocumentConversionException;
 import org.uniprot.store.search.document.taxonomy.TaxonomyDocument;
 import org.uniprot.store.search.document.taxonomy.TaxonomyInactiveDocumentConverter;
-import scala.Tuple2;
 
-import java.io.Serializable;
-import java.math.BigDecimal;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class TaxonomyDeletedRowMapper implements Function<Row, TaxonomyDocument>, Serializable {
 
@@ -30,7 +28,8 @@ public class TaxonomyDeletedRowMapper implements Function<Row, TaxonomyDocument>
 
     @Override
     public TaxonomyDocument call(Row row) throws Exception {
-        TaxonomyInactiveDocumentConverter converter = new TaxonomyInactiveDocumentConverter(objectMapper);
+        TaxonomyInactiveDocumentConverter converter =
+                new TaxonomyInactiveDocumentConverter(objectMapper);
         BigDecimal taxId = row.getDecimal(row.fieldIndex("TAX_ID"));
 
         TaxonomyInactiveReason inactiveReason =
@@ -46,5 +45,4 @@ public class TaxonomyDeletedRowMapper implements Function<Row, TaxonomyDocument>
 
         return converter.convert(deletedEntry);
     }
-
 }

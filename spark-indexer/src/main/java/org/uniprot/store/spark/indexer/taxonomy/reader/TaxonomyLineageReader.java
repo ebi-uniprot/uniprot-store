@@ -13,7 +13,6 @@ import org.apache.spark.sql.SparkSession;
 import org.uniprot.core.taxonomy.TaxonomyLineage;
 import org.uniprot.store.spark.indexer.common.JobParameter;
 import org.uniprot.store.spark.indexer.common.reader.PairRDDReader;
-import org.uniprot.store.spark.indexer.taxonomy.reader.TaxonomyUtil;
 import org.uniprot.store.spark.indexer.taxonomy.mapper.TaxonomyLineageRowMapper;
 
 /**

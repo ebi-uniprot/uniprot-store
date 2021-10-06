@@ -14,7 +14,6 @@ import java.util.ResourceBundle;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
 import org.junit.jupiter.api.AfterAll;
@@ -33,6 +32,8 @@ import org.uniprot.store.spark.indexer.common.util.SparkUtils;
 import org.uniprot.store.spark.indexer.taxonomy.reader.TaxonomyH2Utils;
 import org.uniprot.store.spark.indexer.taxonomy.reader.TaxonomyRDDReader;
 import org.uniprot.store.spark.indexer.taxonomy.reader.TaxonomyRDDReaderFake;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class TaxonomyDocumentsToHDFSWriterTest {
@@ -71,11 +72,12 @@ class TaxonomyDocumentsToHDFSWriterTest {
     }
 
     @Test
-    void writeIndexDocumentsToHDFS() throws Exception{
+    void writeIndexDocumentsToHDFS() throws Exception {
         TaxonomyDocumentsToHDFSWriterFake writer = new TaxonomyDocumentsToHDFSWriterFake(parameter);
         writer.writeIndexDocumentsToHDFS();
-        Map<String, TaxonomyDocument> documents = writer.getSavedDocuments().stream()
-                .collect(Collectors.toMap(TaxonomyDocument::getId, Function.identity()));
+        Map<String, TaxonomyDocument> documents =
+                writer.getSavedDocuments().stream()
+                        .collect(Collectors.toMap(TaxonomyDocument::getId, Function.identity()));
         assertNotNull(documents);
 
         validateDeleted(documents.get("500"));
@@ -132,7 +134,7 @@ class TaxonomyDocumentsToHDFSWriterTest {
         assertEquals(0L, reason.getMergedTo());
     }
 
-    private TaxonomyEntry getEntry(byte[] bytes){
+    private TaxonomyEntry getEntry(byte[] bytes) {
         try {
             ObjectMapper objectMapper = TaxonomyJsonConfig.getInstance().getFullObjectMapper();
             return objectMapper.readValue(bytes, TaxonomyEntry.class);

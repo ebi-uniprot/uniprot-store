@@ -1,5 +1,7 @@
 package org.uniprot.store.spark.indexer.proteome.converter;
 
+import static org.uniprot.store.spark.indexer.common.util.RowUtils.*;
+
 import java.io.Serializable;
 
 import org.apache.spark.api.java.function.Function;
@@ -9,9 +11,6 @@ import org.uniprot.core.proteome.ProteomeType;
 import org.uniprot.core.proteome.impl.ProteomeEntryBuilder;
 import org.uniprot.core.uniprotkb.taxonomy.Taxonomy;
 import org.uniprot.core.uniprotkb.taxonomy.impl.TaxonomyBuilder;
-import org.uniprot.store.spark.indexer.common.util.RowUtils;
-
-import static org.uniprot.store.spark.indexer.common.util.RowUtils.*;
 
 /**
  * Converts XML {@link Row} instances to {@link ProteomeEntry} instances.
@@ -33,9 +32,9 @@ public class DatasetProteomeEntryConverter implements Function<Row, ProteomeEntr
         builder.taxonomy(taxonomy);
         // add if is a reference proteome
         ProteomeType type = ProteomeType.NORMAL;
-        if(hasFieldName("isReferenceProteome", row)) {
+        if (hasFieldName("isReferenceProteome", row)) {
             boolean isReference = row.getBoolean(row.fieldIndex("isReferenceProteome"));
-            if(isReference) {
+            if (isReference) {
                 type = ProteomeType.REFERENCE;
             }
         }

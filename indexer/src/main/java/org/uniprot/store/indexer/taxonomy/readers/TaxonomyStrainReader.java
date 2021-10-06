@@ -6,7 +6,6 @@ import java.sql.SQLException;
 import lombok.Getter;
 
 import org.springframework.jdbc.core.RowMapper;
-import org.uniprot.core.taxonomy.impl.TaxonomyStrainBuilder;
 import org.uniprot.core.util.Utils;
 
 /** @author lgonzales */

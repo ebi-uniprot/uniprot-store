@@ -1,9 +1,10 @@
 package org.uniprot.store.spark.indexer.taxonomy.mapper.model;
 
-import lombok.Getter;
-import org.uniprot.core.util.Utils;
-
 import java.io.Serializable;
+
+import lombok.Getter;
+
+import org.uniprot.core.util.Utils;
 
 @Getter
 public class Strain implements Serializable {
@@ -18,7 +19,6 @@ public class Strain implements Serializable {
         this.nameClass = nameClass;
         this.name = name;
     }
-
 
     public enum StrainNameClass {
         scientific_name,

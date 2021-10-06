@@ -1,5 +1,7 @@
 package org.uniprot.store.spark.indexer.taxonomy.reader;
 
+import java.util.ResourceBundle;
+
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
 import org.apache.spark.sql.Dataset;
@@ -9,8 +11,6 @@ import org.uniprot.store.search.document.taxonomy.TaxonomyDocument;
 import org.uniprot.store.spark.indexer.common.JobParameter;
 import org.uniprot.store.spark.indexer.common.reader.RDDReader;
 import org.uniprot.store.spark.indexer.taxonomy.mapper.TaxonomyMergedRowMapper;
-
-import java.util.ResourceBundle;
 
 public class TaxonomyMergedRDDReader implements RDDReader<TaxonomyDocument> {
 

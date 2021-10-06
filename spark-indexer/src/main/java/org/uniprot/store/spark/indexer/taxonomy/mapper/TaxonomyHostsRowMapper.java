@@ -1,12 +1,12 @@
 package org.uniprot.store.spark.indexer.taxonomy.mapper;
 
-import org.apache.spark.api.java.function.PairFunction;
-import org.apache.spark.sql.Row;
-import org.uniprot.core.taxonomy.TaxonomyEntry;
-import scala.Tuple2;
-
 import java.io.Serializable;
 import java.math.BigDecimal;
+
+import org.apache.spark.api.java.function.PairFunction;
+import org.apache.spark.sql.Row;
+
+import scala.Tuple2;
 
 public class TaxonomyHostsRowMapper implements PairFunction<Row, String, String>, Serializable {
 
@@ -18,5 +18,4 @@ public class TaxonomyHostsRowMapper implements PairFunction<Row, String, String>
         BigDecimal hostId = row.getDecimal(row.fieldIndex("HOST_ID"));
         return new Tuple2<>(String.valueOf(hostId), String.valueOf(taxId));
     }
-
 }

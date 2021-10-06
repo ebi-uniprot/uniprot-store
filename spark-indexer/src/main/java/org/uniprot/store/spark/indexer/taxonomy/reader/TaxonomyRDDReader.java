@@ -12,10 +12,8 @@ import org.uniprot.core.taxonomy.TaxonomyEntry;
 import org.uniprot.core.taxonomy.TaxonomyLineage;
 import org.uniprot.store.spark.indexer.common.JobParameter;
 import org.uniprot.store.spark.indexer.common.reader.PairRDDReader;
-import org.uniprot.store.spark.indexer.taxonomy.reader.TaxonomyUtil;
 import org.uniprot.store.spark.indexer.taxonomy.mapper.TaxonomyJoinMapper;
 import org.uniprot.store.spark.indexer.taxonomy.mapper.TaxonomyRowMapper;
-import org.uniprot.store.spark.indexer.taxonomy.reader.TaxonomyLineageReader;
 
 /**
  * This class is Responsible to load JavaPairRDD{key=taxId, value=TaxonomyEntry}
@@ -41,7 +39,7 @@ public class TaxonomyRDDReader implements PairRDDReader<String, TaxonomyEntry> {
                 loadTaxonomyNodeRow().toJavaRDD().mapToPair(new TaxonomyRowMapper());
         if (withLineage) {
             JavaPairRDD<String, List<TaxonomyLineage>> taxonomyLineage = loadTaxonomyLineage();
-            return taxonomy.leftOuterJoin(taxonomyLineage).mapValues(new TaxonomyJoinMapper());
+            return taxonomy.join(taxonomyLineage).mapValues(new TaxonomyJoinMapper());
         } else {
             return taxonomy;
         }

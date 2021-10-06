@@ -15,7 +15,11 @@ import scala.Tuple2;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class TaxonomyEntryToDocumentMapper
-        implements Function<Tuple2<Tuple2<TaxonomyEntry, Optional<TaxonomyStatistics>>,Optional<TaxonomyStatistics>>, TaxonomyDocument> {
+        implements Function<
+                Tuple2<
+                        Tuple2<TaxonomyEntry, Optional<TaxonomyStatistics>>,
+                        Optional<TaxonomyStatistics>>,
+                TaxonomyDocument> {
     private static final long serialVersionUID = 1698828648779824974L;
     private final ObjectMapper objectMapper;
 
@@ -24,7 +28,11 @@ public class TaxonomyEntryToDocumentMapper
     }
 
     @Override
-    public TaxonomyDocument call(Tuple2<Tuple2<TaxonomyEntry, Optional<TaxonomyStatistics>>,Optional<TaxonomyStatistics>> tuple)
+    public TaxonomyDocument call(
+            Tuple2<
+                            Tuple2<TaxonomyEntry, Optional<TaxonomyStatistics>>,
+                            Optional<TaxonomyStatistics>>
+                    tuple)
             throws Exception {
         TaxonomyDocumentConverter converter = new TaxonomyDocumentConverter(objectMapper);
         TaxonomyEntryBuilder entryBuilder = TaxonomyEntryBuilder.from(tuple._1._1);
