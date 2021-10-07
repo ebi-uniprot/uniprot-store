@@ -132,12 +132,20 @@ public class TaxonomyDocumentsToHDFSWriter implements DocumentsToHDFSWriter {
                         .aggregateByKey(
                                 null, statisticsAggregationMapper, statisticsAggregationMapper);
 
-        long humanCount = uniProtKBReader
+        long reviewedCount = uniProtKBReader
                 .loadFlatFileToRDD()
                 .mapToPair(new OrganismJoinMapper())
-                .filter(tuple -> tuple._1.equals("9606"))
+                .filter(tuple -> tuple._2.hasReviewedProteinCount())
                 .count();
-        log.info("HUMAN COUNT: "+humanCount);
+        log.info("REVIEWED COUNT: "+reviewedCount);
+
+        long unreviewedCount = uniProtKBReader
+                .loadFlatFileToRDD()
+                .mapToPair(new OrganismJoinMapper())
+                .filter(tuple -> tuple._2.hasUnreviewedProteinCount())
+                .count();
+        log.info("UNREVIEWED COUNT: "+unreviewedCount);
+
         return organismStatisticsRDD;
 
 /*        JavaPairRDD<String, TaxonomyStatistics> taxonomyStatisticsRDD =
