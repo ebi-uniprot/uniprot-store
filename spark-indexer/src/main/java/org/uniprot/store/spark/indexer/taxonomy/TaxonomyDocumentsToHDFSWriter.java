@@ -45,7 +45,7 @@ public class TaxonomyDocumentsToHDFSWriter implements DocumentsToHDFSWriter {
         JavaPairRDD<String, TaxonomyEntry> taxonomyRDD =
                 taxonomyRDDReader.load().persist(StorageLevel.DISK_ONLY());
 
-        TaxonomyLinksRDDReader linksRddReader = new TaxonomyLinksRDDReader(parameter);
+/*        TaxonomyLinksRDDReader linksRddReader = new TaxonomyLinksRDDReader(parameter);
         JavaPairRDD<String, Iterable<TaxonomyEntry>> linksRDD = linksRddReader.load().groupByKey();
 
         TaxonomyOtherNamesRDDReader otherNamesRddReader =
@@ -55,17 +55,7 @@ public class TaxonomyDocumentsToHDFSWriter implements DocumentsToHDFSWriter {
 
         TaxonomyStrainsRDDReader strainsRddReader = new TaxonomyStrainsRDDReader(parameter);
         JavaPairRDD<String, Iterable<Strain>> strainsRDD = strainsRddReader.load().groupByKey();
-
-        taxonomyRDD =
-                taxonomyRDD
-                        .leftOuterJoin(linksRDD)
-                        .mapValues(new TaxonomyLinksJoinMapper())
-                        .leftOuterJoin(otherNamesRDD)
-                        .mapValues(new TaxonomyOtherNamesJoinMapper())
-                        .leftOuterJoin(strainsRDD)
-                        .mapValues(new TaxonomyStrainsJoinMapper())
-                        .leftOuterJoin(getTaxonomyHosts(taxonomyRDD))
-                        .mapValues(new TaxonomyHostsJoinMapper());
+*/
 
         JavaPairRDD<String, TaxonomyStatistics> proteinStatisticsRDD =
                 getTaxonomyProteinStatisticsRDD(taxonomyRDD);
@@ -76,7 +66,19 @@ public class TaxonomyDocumentsToHDFSWriter implements DocumentsToHDFSWriter {
         JavaRDD<TaxonomyDocument> taxonomyDocumentRDD =
                 taxonomyRDD
                         .leftOuterJoin(proteinStatisticsRDD)
+                        .mapValues(new TaxonomyProteinStatisticsJoinMapper())
                         .leftOuterJoin(proteomeStatisticsRDD)
+                        .mapValues(new TaxonomyProteomeStatisticsJoinMapper())
+ /*
+                        .leftOuterJoin(linksRDD)
+                        .mapValues(new TaxonomyLinksJoinMapper())
+                        .leftOuterJoin(otherNamesRDD)
+                        .mapValues(new TaxonomyOtherNamesJoinMapper())
+                        .leftOuterJoin(strainsRDD)
+                        .mapValues(new TaxonomyStrainsJoinMapper())
+                        .leftOuterJoin(getTaxonomyHosts(taxonomyRDD))
+                        .mapValues(new TaxonomyHostsJoinMapper())
+  */
                         .values()
                         .map(new TaxonomyEntryToDocumentMapper())
                         .union(getInactiveDocumentsRDD())

@@ -30,7 +30,6 @@ public class OrganismJoinMapper implements PairFunction<String, String, Taxonomy
                         .findFirst()
                         .orElseThrow(() -> exception);
         int organismId = oxParser.parse(oxLine + "\n").taxonomy_id;
-        // TODO: Proteome counts
         TaxonomyStatisticsBuilder statisticsBuilder = new TaxonomyStatisticsBuilder();
         if (lines[0].contains("Reviewed;")) {
             statisticsBuilder.reviewedProteinCount(1L);
