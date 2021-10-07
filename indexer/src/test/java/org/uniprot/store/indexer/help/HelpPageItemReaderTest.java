@@ -1,11 +1,19 @@
 package org.uniprot.store.indexer.help;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-import java.util.List;
-
+import org.hamcrest.CoreMatchers;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.uniprot.store.search.document.help.HelpDocument;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.uniprot.store.indexer.help.HelpPageReader.CATEGORIES_COLON;
+import static org.uniprot.store.indexer.help.HelpPageReader.TITLE_COLON;
 
 /**
  * @author sahmad
@@ -20,6 +28,56 @@ public class HelpPageItemReaderTest {
         while ((helpDoc = reader.read()) != null) {
             verifyHelpDocument(helpDoc);
         }
+    }
+
+    @ParameterizedTest
+    @ValueSource(
+            strings = {
+                "my-category|my-category",
+                " my-category|my-category",
+                " my-category |my-category",
+                "my-category |my-category",
+                " category1,category2|category1,category2",
+                " category1, category2|category1,category2",
+                "my-category,|my-category",
+                "my-category,,|my-category",
+                "|"
+            })
+    void checkCategories(String testInput) {
+        HelpPageReader reader = new HelpPageReader();
+        HelpDocument.HelpDocumentBuilder builder = HelpDocument.builder().id("/my/documment");
+
+        String[] testInputArr = testInput.split("\\|");
+        String categoryLineValue = "";
+        List<String> requiredCategories = null;
+        if (testInputArr.length > 0) {
+            categoryLineValue = testInputArr[0];
+            requiredCategories =
+                    Arrays.stream(testInputArr[1].split(",")).collect(Collectors.toList());
+        }
+
+        reader.populateMeta(builder, CATEGORIES_COLON + categoryLineValue);
+
+        assertThat(builder.build().getCategories(), CoreMatchers.is(requiredCategories));
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {"title|title", " title|title", " title |title", "title |title", "|"})
+    void checkTitles(String testInput) {
+        HelpPageReader reader = new HelpPageReader();
+        HelpDocument.HelpDocumentBuilder builder = HelpDocument.builder().id("/my/documment");
+
+        String[] testInputArr = testInput.split("\\|");
+        String titleLineValue = "";
+        String requiredTitle = null;
+        if (testInputArr.length > 0) {
+            titleLineValue = testInputArr[0];
+            requiredTitle = testInputArr[1];
+        }
+
+        reader.populateMeta(builder, TITLE_COLON + titleLineValue);
+
+        assertThat(builder.build().getTitle(), CoreMatchers.is(requiredTitle));
     }
 
     private void verifyHelpDocument(HelpDocument helpDoc) {

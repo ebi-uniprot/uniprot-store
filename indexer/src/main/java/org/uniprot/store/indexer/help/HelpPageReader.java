@@ -1,5 +1,12 @@
 package org.uniprot.store.indexer.help;
 
+import lombok.extern.slf4j.Slf4j;
+import org.commonmark.node.Node;
+import org.commonmark.parser.Parser;
+import org.commonmark.renderer.html.HtmlRenderer;
+import org.jsoup.Jsoup;
+import org.uniprot.store.search.document.help.HelpDocument;
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -9,23 +16,15 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.stream.Collectors;
 
-import lombok.extern.slf4j.Slf4j;
-
-import org.commonmark.node.Node;
-import org.commonmark.parser.Parser;
-import org.commonmark.renderer.html.HtmlRenderer;
-import org.jsoup.Jsoup;
-import org.uniprot.store.search.document.help.HelpDocument;
-
 /**
  * @author sahmad
  * @created 06/07/2021
  */
 @Slf4j
 public class HelpPageReader {
+    protected static final String CATEGORIES_COLON = "categories:";
+    protected static final String TITLE_COLON = "title:";
     private static final String META_REGION_SEP = "---";
-    private static final String CATEGORIES_COLON = "categories:";
-    private static final String TITLE_COLON = "title:";
 
     public HelpDocument read(String fileName) throws IOException {
         log.info("Reading file {}", fileName);
@@ -60,24 +59,28 @@ public class HelpPageReader {
         return builder.build();
     }
 
-    private String extractId(String filePath) {
-        String fileName = filePath.substring(filePath.lastIndexOf("/") + 1);
-        return fileName.split(".md")[0]; // get first part from the fileName.md
-    }
-
-    private void populateMeta(HelpDocument.HelpDocumentBuilder builder, String line) {
-        if (line.startsWith(CATEGORIES_COLON)) {
+    protected void populateMeta(HelpDocument.HelpDocumentBuilder builder, String line) {
+        if (line.matches(CATEGORIES_COLON + "\\s*\\w+.*")) {
             List<String> metaValues =
                     Arrays.stream(line.split(CATEGORIES_COLON)[1].split(","))
                             .map(String::strip)
                             .map(cat -> cat.replace("_", " "))
                             .collect(Collectors.toList());
             builder.categories(metaValues);
+        } else {
+            log.warn("No categories set for Help document ID: " + builder);
         }
 
-        if (line.startsWith(TITLE_COLON)) {
+        if (line.matches(TITLE_COLON + "\\s*\\w+.*")) {
             builder.title(line.split(TITLE_COLON)[1].strip());
+        } else {
+            log.warn("No title set for Help document ID: " + builder);
         }
+    }
+
+    private String extractId(String filePath) {
+        String fileName = filePath.substring(filePath.lastIndexOf("/") + 1);
+        return fileName.split(".md")[0]; // get first part from the fileName.md
     }
 
     private String getCleanContent(String content) {
