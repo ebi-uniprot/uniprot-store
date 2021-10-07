@@ -6,7 +6,6 @@ import org.uniprot.core.taxonomy.TaxonomyEntry;
 import org.uniprot.store.search.document.taxonomy.TaxonomyDocument;
 import org.uniprot.store.search.document.taxonomy.TaxonomyDocumentConverter;
 
-
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class TaxonomyEntryToDocumentMapper implements Function<TaxonomyEntry, TaxonomyDocument> {

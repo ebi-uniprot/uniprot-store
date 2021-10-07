@@ -21,7 +21,6 @@ import org.uniprot.store.spark.indexer.common.writer.DocumentsToHDFSWriter;
 import org.uniprot.store.spark.indexer.proteome.ProteomeRDDReader;
 import org.uniprot.store.spark.indexer.proteome.mapper.ProteomeTaxonomyStatisticsMapper;
 import org.uniprot.store.spark.indexer.taxonomy.mapper.*;
-import org.uniprot.store.spark.indexer.taxonomy.mapper.model.Strain;
 import org.uniprot.store.spark.indexer.taxonomy.reader.*;
 import org.uniprot.store.spark.indexer.uniprot.UniProtKBRDDTupleReader;
 import org.uniprot.store.spark.indexer.uniprot.mapper.OrganismJoinMapper;
@@ -45,17 +44,17 @@ public class TaxonomyDocumentsToHDFSWriter implements DocumentsToHDFSWriter {
         JavaPairRDD<String, TaxonomyEntry> taxonomyRDD =
                 taxonomyRDDReader.load().persist(StorageLevel.DISK_ONLY());
 
-/*        TaxonomyLinksRDDReader linksRddReader = new TaxonomyLinksRDDReader(parameter);
-        JavaPairRDD<String, Iterable<TaxonomyEntry>> linksRDD = linksRddReader.load().groupByKey();
+        /*        TaxonomyLinksRDDReader linksRddReader = new TaxonomyLinksRDDReader(parameter);
+                JavaPairRDD<String, Iterable<TaxonomyEntry>> linksRDD = linksRddReader.load().groupByKey();
 
-        TaxonomyOtherNamesRDDReader otherNamesRddReader =
-                new TaxonomyOtherNamesRDDReader(parameter);
-        JavaPairRDD<String, Iterable<TaxonomyEntry>> otherNamesRDD =
-                otherNamesRddReader.load().groupByKey();
+                TaxonomyOtherNamesRDDReader otherNamesRddReader =
+                        new TaxonomyOtherNamesRDDReader(parameter);
+                JavaPairRDD<String, Iterable<TaxonomyEntry>> otherNamesRDD =
+                        otherNamesRddReader.load().groupByKey();
 
-        TaxonomyStrainsRDDReader strainsRddReader = new TaxonomyStrainsRDDReader(parameter);
-        JavaPairRDD<String, Iterable<Strain>> strainsRDD = strainsRddReader.load().groupByKey();
-*/
+                TaxonomyStrainsRDDReader strainsRddReader = new TaxonomyStrainsRDDReader(parameter);
+                JavaPairRDD<String, Iterable<Strain>> strainsRDD = strainsRddReader.load().groupByKey();
+        */
 
         JavaPairRDD<String, TaxonomyStatistics> proteinStatisticsRDD =
                 getTaxonomyProteinStatisticsRDD(taxonomyRDD);
@@ -69,16 +68,16 @@ public class TaxonomyDocumentsToHDFSWriter implements DocumentsToHDFSWriter {
                         .mapValues(new TaxonomyProteinStatisticsJoinMapper())
                         .leftOuterJoin(proteomeStatisticsRDD)
                         .mapValues(new TaxonomyProteomeStatisticsJoinMapper())
- /*
-                        .leftOuterJoin(linksRDD)
-                        .mapValues(new TaxonomyLinksJoinMapper())
-                        .leftOuterJoin(otherNamesRDD)
-                        .mapValues(new TaxonomyOtherNamesJoinMapper())
-                        .leftOuterJoin(strainsRDD)
-                        .mapValues(new TaxonomyStrainsJoinMapper())
-                        .leftOuterJoin(getTaxonomyHosts(taxonomyRDD))
-                        .mapValues(new TaxonomyHostsJoinMapper())
-  */
+                        /*
+                                              .leftOuterJoin(linksRDD)
+                                              .mapValues(new TaxonomyLinksJoinMapper())
+                                              .leftOuterJoin(otherNamesRDD)
+                                              .mapValues(new TaxonomyOtherNamesJoinMapper())
+                                              .leftOuterJoin(strainsRDD)
+                                              .mapValues(new TaxonomyStrainsJoinMapper())
+                                              .leftOuterJoin(getTaxonomyHosts(taxonomyRDD))
+                                              .mapValues(new TaxonomyHostsJoinMapper())
+                        */
                         .values()
                         .map(new TaxonomyEntryToDocumentMapper())
                         .union(getInactiveDocumentsRDD())
@@ -133,6 +132,8 @@ public class TaxonomyDocumentsToHDFSWriter implements DocumentsToHDFSWriter {
                         .aggregateByKey(
                                 null, statisticsAggregationMapper, statisticsAggregationMapper);
 
+        return organismStatisticsRDD;
+        /*
         JavaPairRDD<String, TaxonomyStatistics> taxonomyStatisticsRDD =
                 taxonomyRDD
                         .leftOuterJoin(organismStatisticsRDD)
@@ -142,6 +143,7 @@ public class TaxonomyDocumentsToHDFSWriter implements DocumentsToHDFSWriter {
                                 null, statisticsAggregationMapper, statisticsAggregationMapper);
 
         return taxonomyStatisticsRDD;
+        */
     }
 
     private JavaPairRDD<String, TaxonomyStatistics> getTaxonomyProteomeStatisticsRDD(
