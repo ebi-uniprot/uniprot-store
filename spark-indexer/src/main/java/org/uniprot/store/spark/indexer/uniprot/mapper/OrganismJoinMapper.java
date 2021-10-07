@@ -31,10 +31,10 @@ public class OrganismJoinMapper implements PairFunction<String, String, Taxonomy
                         .orElseThrow(() -> exception);
         int organismId = oxParser.parse(oxLine + "\n").taxonomy_id;
         TaxonomyStatisticsBuilder statisticsBuilder = new TaxonomyStatisticsBuilder();
-        if (lines[0].contains("Reviewed;")) {
-            statisticsBuilder.reviewedProteinCount(1L);
-        } else {
+        if (lines[0].contains("Unreviewed;")) {
             statisticsBuilder.unreviewedProteinCount(1L);
+        } else {
+            statisticsBuilder.reviewedProteinCount(1L);
         }
         return new Tuple2<>(String.valueOf(organismId), statisticsBuilder.build());
     }
