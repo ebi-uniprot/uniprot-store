@@ -112,8 +112,10 @@ class TaxonomyDocumentsToHDFSWriterTest {
         assertTrue(entry.getOtherNames().contains("first name"));
         assertTrue(entry.getOtherNames().contains("second name"));
 
-        Map<Long, TaxonomyLineage> lineageMap = entry.getLineages().stream()
-                .collect(Collectors.toMap(TaxonomyLineage::getTaxonId, Function.identity()));
+        Map<Long, TaxonomyLineage> lineageMap =
+                entry.getLineages().stream()
+                        .collect(
+                                Collectors.toMap(TaxonomyLineage::getTaxonId, Function.identity()));
         assertEquals(3, lineageMap.size());
         assertTrue(lineageMap.containsKey(10114L));
         assertEquals("scientificName for 10114", lineageMap.get(10114L).getScientificName());

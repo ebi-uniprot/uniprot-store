@@ -1,11 +1,12 @@
 package org.uniprot.store.spark.indexer.taxonomy.mapper;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import java.io.IOException;
+
 import org.uniprot.core.json.parser.taxonomy.TaxonomyJsonConfig;
 import org.uniprot.core.taxonomy.TaxonomyEntry;
 import org.uniprot.store.spark.indexer.common.exception.IndexDataStoreException;
 
-import java.io.IOException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class TaxonomyUtils {
 
@@ -17,5 +18,4 @@ public class TaxonomyUtils {
             throw new IndexDataStoreException("Unable to parse taxonomy", e);
         }
     }
-
 }

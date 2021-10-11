@@ -1,5 +1,11 @@
 package org.uniprot.store.spark.indexer.taxonomy.mapper;
 
+import static org.junit.jupiter.api.Assertions.*;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
 import org.apache.spark.api.java.Optional;
 import org.junit.jupiter.api.Test;
 import org.uniprot.core.taxonomy.TaxonomyEntry;
@@ -8,32 +14,29 @@ import org.uniprot.core.taxonomy.TaxonomyStatistics;
 import org.uniprot.core.taxonomy.impl.TaxonomyEntryBuilder;
 import org.uniprot.core.taxonomy.impl.TaxonomyLineageBuilder;
 import org.uniprot.core.taxonomy.impl.TaxonomyStatisticsBuilder;
+
 import scala.Tuple2;
-
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class LineageStatisticsMapperTest {
 
     @Test
     void mapWithStatistics() throws Exception {
         LineageStatisticsMapper mapper = new LineageStatisticsMapper();
-        List<TaxonomyLineage> lineage = List.of(new TaxonomyLineageBuilder().taxonId(100L).build(),
-                new TaxonomyLineageBuilder().taxonId(200L).build());
-        TaxonomyEntry entry = new TaxonomyEntryBuilder()
-                .taxonId(9606L)
-                .lineagesSet(lineage)
-                .build();
-        TaxonomyStatistics stat = new TaxonomyStatisticsBuilder()
-                .reviewedProteinCount(1L)
-                .unreviewedProteinCount(2L)
-                .proteomeCount(3L)
-                .referenceProteomeCount(4L)
-                .build();
-        Tuple2<TaxonomyEntry, Optional<TaxonomyStatistics>> tuple = new Tuple2<>(entry, Optional.of(stat));
+        List<TaxonomyLineage> lineage =
+                List.of(
+                        new TaxonomyLineageBuilder().taxonId(100L).build(),
+                        new TaxonomyLineageBuilder().taxonId(200L).build());
+        TaxonomyEntry entry =
+                new TaxonomyEntryBuilder().taxonId(9606L).lineagesSet(lineage).build();
+        TaxonomyStatistics stat =
+                new TaxonomyStatisticsBuilder()
+                        .reviewedProteinCount(1L)
+                        .unreviewedProteinCount(2L)
+                        .proteomeCount(3L)
+                        .referenceProteomeCount(4L)
+                        .build();
+        Tuple2<TaxonomyEntry, Optional<TaxonomyStatistics>> tuple =
+                new Tuple2<>(entry, Optional.of(stat));
 
         Iterator<Tuple2<String, TaxonomyStatistics>> result = mapper.call(tuple);
         assertNotNull(result);
@@ -54,12 +57,11 @@ class LineageStatisticsMapperTest {
     void mapWithEmptyStat() throws Exception {
         LineageStatisticsMapper mapper = new LineageStatisticsMapper();
         List<TaxonomyLineage> lineage = List.of(new TaxonomyLineageBuilder().taxonId(100L).build());
-        TaxonomyEntry entry = new TaxonomyEntryBuilder()
-                .taxonId(9606L)
-                .lineagesSet(lineage)
-                .build();
+        TaxonomyEntry entry =
+                new TaxonomyEntryBuilder().taxonId(9606L).lineagesSet(lineage).build();
 
-        Tuple2<TaxonomyEntry, Optional<TaxonomyStatistics>> tuple = new Tuple2<>(entry, Optional.empty());
+        Tuple2<TaxonomyEntry, Optional<TaxonomyStatistics>> tuple =
+                new Tuple2<>(entry, Optional.empty());
 
         Iterator<Tuple2<String, TaxonomyStatistics>> result = mapper.call(tuple);
         assertNotNull(result);
@@ -74,5 +76,4 @@ class LineageStatisticsMapperTest {
         assertEquals("100", resultList.get(1)._1);
         assertEquals(emptyStat, resultList.get(1)._2);
     }
-
 }

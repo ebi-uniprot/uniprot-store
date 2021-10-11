@@ -1,19 +1,19 @@
 package org.uniprot.store.spark.indexer.taxonomy.mapper;
 
-import org.apache.spark.sql.Row;
-import org.apache.spark.sql.catalyst.expressions.GenericRowWithSchema;
-import org.apache.spark.sql.types.DataTypes;
-import org.apache.spark.sql.types.StructType;
-import org.junit.jupiter.api.Test;
-import org.uniprot.core.taxonomy.TaxonomyEntry;
-import org.uniprot.store.spark.indexer.taxonomy.mapper.model.Strain;
-import scala.Tuple2;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import org.apache.spark.sql.Row;
+import org.apache.spark.sql.catalyst.expressions.GenericRowWithSchema;
+import org.apache.spark.sql.types.DataTypes;
+import org.apache.spark.sql.types.StructType;
+import org.junit.jupiter.api.Test;
+import org.uniprot.store.spark.indexer.taxonomy.mapper.model.Strain;
+
+import scala.Tuple2;
 
 class TaxonomyStrainsRowMapperTest {
 
@@ -33,7 +33,7 @@ class TaxonomyStrainsRowMapperTest {
         assertNotNull(result._2);
         assertEquals(1, result._2.getId());
         assertEquals("nameValue", result._2.getName());
-        assertEquals(Strain.StrainNameClass.scientific_name,result._2.getNameClass());
+        assertEquals(Strain.StrainNameClass.scientific_name, result._2.getNameClass());
     }
 
     @Test
@@ -52,7 +52,7 @@ class TaxonomyStrainsRowMapperTest {
         assertNotNull(result._2);
         assertEquals(1, result._2.getId());
         assertEquals("synonymValue", result._2.getName());
-        assertEquals(Strain.StrainNameClass.synonym,result._2.getNameClass());
+        assertEquals(Strain.StrainNameClass.synonym, result._2.getNameClass());
     }
 
     private StructType getTaxonomyStrainSchema() {

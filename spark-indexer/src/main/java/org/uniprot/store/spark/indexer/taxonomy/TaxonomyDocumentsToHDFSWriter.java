@@ -69,7 +69,7 @@ public class TaxonomyDocumentsToHDFSWriter implements DocumentsToHDFSWriter {
                 getTaxonomyProteomeStatisticsRDD(taxonomyRDD);
 
         JavaRDD<TaxonomyDocument> taxonomyDocumentRDD =
-                taxonomyRDD //<taxId, TaxonomyEntry>
+                taxonomyRDD // <taxId, TaxonomyEntry>
                         .leftOuterJoin(proteinStatisticsRDD)
                         .mapValues(new TaxonomyProteinStatisticsJoinMapper())
                         .leftOuterJoin(proteomeStatisticsRDD)
@@ -108,7 +108,7 @@ public class TaxonomyDocumentsToHDFSWriter implements DocumentsToHDFSWriter {
         return hostsRDDReader
                 .load() // <hostId,TaxId>
                 .groupByKey() // <hostId, List<taxId>>
-                .leftOuterJoin(taxonomyRDD) //<hostId, List<taxId>, Optional<TaxonomyHostEntry>>
+                .leftOuterJoin(taxonomyRDD) // <hostId, List<taxId>, Optional<TaxonomyHostEntry>>
                 .flatMapToPair(
                         new TaxonomyHostsAndEntryJoinMapper()) // <taxId, List<TaxonomyHosts>>
                 .groupByKey();
@@ -122,7 +122,9 @@ public class TaxonomyDocumentsToHDFSWriter implements DocumentsToHDFSWriter {
     }
 
     /**
-     * This method load TaxonomyStatistics with protein statistics. The statistics value must consider lineage as well
+     * This method load TaxonomyStatistics with protein statistics. The statistics value must
+     * consider lineage as well
+     *
      * @param taxonomyRDD taxonomy entries
      * @return JavaPairRDD<taxId, TaxonomyStatistics>
      */
@@ -137,19 +139,20 @@ public class TaxonomyDocumentsToHDFSWriter implements DocumentsToHDFSWriter {
         JavaPairRDD<String, TaxonomyStatistics> organismStatisticsRDD =
                 uniProtKBReader
                         .loadFlatFileToRDD()
-                        .mapToPair(new OrganismJoinMapper()) //<taxId, TaxonomyStatistics>
+                        .mapToPair(new OrganismJoinMapper()) // <taxId, TaxonomyStatistics>
                         .aggregateByKey(
                                 null, statisticsAggregationMapper, statisticsAggregationMapper);
 
-        return taxonomyRDD //<taxId, TaxonomyEntry>
+        return taxonomyRDD // <taxId, TaxonomyEntry>
                 .leftOuterJoin(organismStatisticsRDD)
                 .values()
-                .flatMapToPair(new LineageStatisticsMapper())//<taxId, TaxonomyStatistics>
+                .flatMapToPair(new LineageStatisticsMapper()) // <taxId, TaxonomyStatistics>
                 .aggregateByKey(null, statisticsAggregationMapper, statisticsAggregationMapper);
     }
 
     /**
      * This method load TaxonomyStatistics with proteome statistics.
+     *
      * @param taxonomyRDD taxonomy entries
      * @return JavaPairRDD<taxId, TaxonomyStatistics>
      */
@@ -161,8 +164,8 @@ public class TaxonomyDocumentsToHDFSWriter implements DocumentsToHDFSWriter {
 
         return proteomeRDDReader
                 .load()
-                .values() //ProteomeEntry
-                .mapToPair(new ProteomeTaxonomyStatisticsMapper()) //<taxId, TaxonomyStatistics>
+                .values() // ProteomeEntry
+                .mapToPair(new ProteomeTaxonomyStatisticsMapper()) // <taxId, TaxonomyStatistics>
                 .aggregateByKey(null, statisticsAggregationMapper, statisticsAggregationMapper);
     }
 }

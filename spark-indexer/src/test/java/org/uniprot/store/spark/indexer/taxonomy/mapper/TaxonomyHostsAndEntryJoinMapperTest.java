@@ -1,18 +1,18 @@
 package org.uniprot.store.spark.indexer.taxonomy.mapper;
 
-import org.apache.spark.api.java.Optional;
-import org.junit.jupiter.api.Test;
-import org.uniprot.core.taxonomy.TaxonomyEntry;
-import org.uniprot.core.taxonomy.TaxonomyStatistics;
-import org.uniprot.core.taxonomy.impl.TaxonomyEntryBuilder;
-import org.uniprot.core.uniprotkb.taxonomy.Taxonomy;
-import scala.Tuple2;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import org.apache.spark.api.java.Optional;
+import org.junit.jupiter.api.Test;
+import org.uniprot.core.taxonomy.TaxonomyEntry;
+import org.uniprot.core.taxonomy.impl.TaxonomyEntryBuilder;
+import org.uniprot.core.uniprotkb.taxonomy.Taxonomy;
+
+import scala.Tuple2;
 
 class TaxonomyHostsAndEntryJoinMapperTest {
 
@@ -22,8 +22,10 @@ class TaxonomyHostsAndEntryJoinMapperTest {
         String taxId = "9606";
         Iterable<String> hostIds = List.of("1000", "2000");
         TaxonomyEntry entry = new TaxonomyEntryBuilder().taxonId(9606L).build();
-        Tuple2<Iterable<String>, Optional<TaxonomyEntry>> hostTuple = new Tuple2<>(hostIds, Optional.of(entry));
-        Tuple2<String, Tuple2<Iterable<String>, Optional<TaxonomyEntry>>> tuple = new Tuple2<>(taxId, hostTuple);
+        Tuple2<Iterable<String>, Optional<TaxonomyEntry>> hostTuple =
+                new Tuple2<>(hostIds, Optional.of(entry));
+        Tuple2<String, Tuple2<Iterable<String>, Optional<TaxonomyEntry>>> tuple =
+                new Tuple2<>(taxId, hostTuple);
 
         Iterator<Tuple2<String, Taxonomy>> result = mapper.call(tuple);
         assertNotNull(result);
@@ -46,8 +48,10 @@ class TaxonomyHostsAndEntryJoinMapperTest {
         String taxId = "9606";
         Iterable<String> hostIds = List.of("1000", "2000");
         TaxonomyEntry entry = new TaxonomyEntryBuilder().taxonId(9606L).build();
-        Tuple2<Iterable<String>, Optional<TaxonomyEntry>> hostTuple = new Tuple2<>(hostIds, Optional.empty());
-        Tuple2<String, Tuple2<Iterable<String>, Optional<TaxonomyEntry>>> tuple = new Tuple2<>(taxId, hostTuple);
+        Tuple2<Iterable<String>, Optional<TaxonomyEntry>> hostTuple =
+                new Tuple2<>(hostIds, Optional.empty());
+        Tuple2<String, Tuple2<Iterable<String>, Optional<TaxonomyEntry>>> tuple =
+                new Tuple2<>(taxId, hostTuple);
 
         Iterator<Tuple2<String, Taxonomy>> result = mapper.call(tuple);
         assertNotNull(result);
@@ -57,5 +61,4 @@ class TaxonomyHostsAndEntryJoinMapperTest {
         assertNotNull(resultList);
         assertEquals(0, resultList.size());
     }
-
 }

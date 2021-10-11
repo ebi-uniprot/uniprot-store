@@ -1,17 +1,18 @@
 package org.uniprot.store.spark.indexer.taxonomy.mapper;
 
-import org.apache.spark.sql.Row;
-import org.apache.spark.sql.catalyst.expressions.GenericRowWithSchema;
-import org.apache.spark.sql.types.DataTypes;
-import org.apache.spark.sql.types.StructType;
-import org.junit.jupiter.api.Test;
-import scala.Tuple2;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import org.apache.spark.sql.Row;
+import org.apache.spark.sql.catalyst.expressions.GenericRowWithSchema;
+import org.apache.spark.sql.types.DataTypes;
+import org.apache.spark.sql.types.StructType;
+import org.junit.jupiter.api.Test;
+
+import scala.Tuple2;
 
 class TaxonomyHostsRowMapperTest {
 
@@ -35,5 +36,4 @@ class TaxonomyHostsRowMapperTest {
         structType = structType.add("HOST_ID", DataTypes.LongType, true);
         return structType;
     }
-
 }

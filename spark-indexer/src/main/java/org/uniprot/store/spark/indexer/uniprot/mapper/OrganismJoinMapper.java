@@ -43,7 +43,7 @@ public class OrganismJoinMapper implements PairFunction<String, String, Taxonomy
                         .collect(Collectors.joining("\n"));
         int organismId = oxParser.parse(oxLine + "\n").taxonomy_id;
         TaxonomyStatisticsBuilder statisticsBuilder = new TaxonomyStatisticsBuilder();
-        if(isNotIsoform(accession)) {
+        if (isNotIsoform(accession)) {
             if (lines[0].contains("Unreviewed;")) {
                 statisticsBuilder.unreviewedProteinCount(1L);
             } else {

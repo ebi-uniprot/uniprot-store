@@ -1,17 +1,18 @@
 package org.uniprot.store.spark.indexer.taxonomy.mapper;
 
+import static org.junit.jupiter.api.Assertions.*;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.spark.api.java.Optional;
 import org.junit.jupiter.api.Test;
 import org.uniprot.core.taxonomy.TaxonomyEntry;
 import org.uniprot.core.taxonomy.TaxonomyStrain;
 import org.uniprot.core.taxonomy.impl.TaxonomyEntryBuilder;
 import org.uniprot.store.spark.indexer.taxonomy.mapper.model.Strain;
+
 import scala.Tuple2;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class TaxonomyStrainsJoinMapperTest {
 
@@ -22,7 +23,8 @@ class TaxonomyStrainsJoinMapperTest {
         List<Strain> strains = new ArrayList<>();
         strains.add(new Strain(1L, Strain.StrainNameClass.scientific_name, "name1"));
         strains.add(new Strain(2L, Strain.StrainNameClass.scientific_name, "name2"));
-        Tuple2<TaxonomyEntry, Optional<Iterable<Strain>>> tuple = new Tuple2<>(entry, Optional.of(strains));
+        Tuple2<TaxonomyEntry, Optional<Iterable<Strain>>> tuple =
+                new Tuple2<>(entry, Optional.of(strains));
         TaxonomyEntry result = mapper.call(tuple);
         assertNotNull(result);
         assertNotNull(result.getStrains());
@@ -46,7 +48,8 @@ class TaxonomyStrainsJoinMapperTest {
         strains.add(new Strain(2L, Strain.StrainNameClass.synonym, "synonym2"));
         strains.add(new Strain(1L, Strain.StrainNameClass.synonym, "synonym1"));
         strains.add(new Strain(2L, Strain.StrainNameClass.synonym, "synonym22"));
-        Tuple2<TaxonomyEntry, Optional<Iterable<Strain>>> tuple = new Tuple2<>(entry, Optional.of(strains));
+        Tuple2<TaxonomyEntry, Optional<Iterable<Strain>>> tuple =
+                new Tuple2<>(entry, Optional.of(strains));
         TaxonomyEntry result = mapper.call(tuple);
         assertNotNull(result);
         assertNotNull(result.getStrains());
@@ -67,7 +70,8 @@ class TaxonomyStrainsJoinMapperTest {
     void mapStrainEmpty() throws Exception {
         TaxonomyStrainsJoinMapper mapper = new TaxonomyStrainsJoinMapper();
         TaxonomyEntry entry = new TaxonomyEntryBuilder().build();
-        Tuple2<TaxonomyEntry, Optional<Iterable<Strain>>> tuple = new Tuple2<>(entry, Optional.empty());
+        Tuple2<TaxonomyEntry, Optional<Iterable<Strain>>> tuple =
+                new Tuple2<>(entry, Optional.empty());
         TaxonomyEntry result = mapper.call(tuple);
         assertNotNull(result);
         assertEquals(entry, result);
