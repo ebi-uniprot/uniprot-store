@@ -60,9 +60,10 @@ public class HelpPageReader {
     }
 
     protected void populateMeta(HelpDocument.HelpDocumentBuilder builder, String line) {
-        if (line.matches(CATEGORIES_COLON + "\\s*\\w+.*")) {
+        String[] splitCategories = line.split(CATEGORIES_COLON);
+        if (splitCategories.length == 2) {
             List<String> metaValues =
-                    Arrays.stream(line.split(CATEGORIES_COLON)[1].split(","))
+                    Arrays.stream(splitCategories[1].split(","))
                             .map(String::strip)
                             .map(cat -> cat.replace("_", " "))
                             .collect(Collectors.toList());
@@ -71,8 +72,9 @@ public class HelpPageReader {
             log.warn("No categories set for Help document ID: " + builder);
         }
 
-        if (line.matches(TITLE_COLON + "\\s*\\w+.*")) {
-            builder.title(line.split(TITLE_COLON)[1].strip());
+        String[] splitTitle = line.split(TITLE_COLON);
+        if (splitTitle.length == 2) {
+            builder.title(splitTitle[1].strip());
         } else {
             log.warn("No title set for Help document ID: " + builder);
         }
