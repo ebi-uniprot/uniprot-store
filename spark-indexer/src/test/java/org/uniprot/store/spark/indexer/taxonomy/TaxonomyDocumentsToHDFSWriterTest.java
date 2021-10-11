@@ -21,10 +21,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.uniprot.core.json.parser.taxonomy.TaxonomyJsonConfig;
-import org.uniprot.core.taxonomy.TaxonomyEntry;
-import org.uniprot.core.taxonomy.TaxonomyInactiveReason;
-import org.uniprot.core.taxonomy.TaxonomyInactiveReasonType;
-import org.uniprot.core.taxonomy.TaxonomyRank;
+import org.uniprot.core.taxonomy.*;
 import org.uniprot.store.search.document.taxonomy.TaxonomyDocument;
 import org.uniprot.store.spark.indexer.common.JobParameter;
 import org.uniprot.store.spark.indexer.common.exception.IndexDataStoreException;
@@ -100,6 +97,10 @@ class TaxonomyDocumentsToHDFSWriterTest {
         assertNotNull(entry);
 
         assertEquals(10116L, entry.getTaxonId());
+        assertEquals("RAT", entry.getMnemonic());
+        assertEquals("Rattus norvegicus", entry.getScientificName());
+        assertEquals("Rat", entry.getCommonName());
+
         assertNotNull(entry.getParent());
         assertEquals(10114L, entry.getParent().getTaxonId());
         assertEquals("scientificName for 10114", entry.getParent().getScientificName());
@@ -107,6 +108,45 @@ class TaxonomyDocumentsToHDFSWriterTest {
 
         assertEquals(TaxonomyRank.SPECIES, entry.getRank());
         assertTrue(entry.isActive());
+        assertTrue(entry.isHidden());
+        assertTrue(entry.getOtherNames().contains("first name"));
+        assertTrue(entry.getOtherNames().contains("second name"));
+
+        Map<Long, TaxonomyLineage> lineageMap = entry.getLineages().stream()
+                .collect(Collectors.toMap(TaxonomyLineage::getTaxonId, Function.identity()));
+        assertEquals(3, lineageMap.size());
+        assertTrue(lineageMap.containsKey(10114L));
+        assertEquals("scientificName for 10114", lineageMap.get(10114L).getScientificName());
+        assertTrue(lineageMap.containsKey(39107L));
+        assertEquals("scientificName for 39107", lineageMap.get(39107L).getScientificName());
+        assertTrue(lineageMap.containsKey(10066L));
+        assertEquals("scientificName for 10066", lineageMap.get(10066L).getScientificName());
+
+        assertNotNull(entry.getStrains());
+        assertEquals(2, entry.getStrains().size());
+
+        assertEquals("strain 1", entry.getStrains().get(0).getName());
+        assertTrue(entry.getStrains().get(0).hasSynonyms());
+        assertEquals("strain 2", entry.getStrains().get(1).getName());
+        assertTrue(entry.getStrains().get(1).hasSynonyms());
+
+        assertNotNull(entry.getHosts());
+        assertEquals(2, entry.getHosts().size());
+        assertEquals(337687L, entry.getHosts().get(0).getTaxonId());
+        assertEquals(289376L, entry.getHosts().get(1).getTaxonId());
+
+        assertNotNull(entry.getLinks());
+        assertEquals(2, entry.getLinks().size());
+        assertTrue(entry.getLinks().contains("uri 3"));
+        assertTrue(entry.getLinks().contains("uri 4"));
+
+        assertNotNull(entry.getStatistics());
+        TaxonomyStatistics stat = entry.getStatistics();
+        assertEquals(2, stat.getReviewedProteinCount());
+        assertEquals(2, stat.getUnreviewedProteinCount());
+        assertEquals(2, stat.getProteomeCount());
+        assertEquals(1, stat.getReferenceProteomeCount());
+
         assertNull(entry.getInactiveReason());
     }
 

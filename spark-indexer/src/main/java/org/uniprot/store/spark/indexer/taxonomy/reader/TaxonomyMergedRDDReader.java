@@ -20,7 +20,7 @@ public class TaxonomyMergedRDDReader implements RDDReader<TaxonomyDocument> {
         this.jobParameter = jobParameter;
     }
 
-    /** @return return a JavaPairRDD{key=taxId, value=TaxonomyEntry} */
+    /** @return return a JavaRDD{TaxonomyDocument} */
     public JavaRDD<TaxonomyDocument> load() {
         return loadNodeRow().toJavaRDD().map(new TaxonomyMergedRowMapper());
     }
