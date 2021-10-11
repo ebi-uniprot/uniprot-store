@@ -174,7 +174,7 @@ class SuggestDocumentsToHDFSWriterTest {
         JavaRDD<SuggestDocument> suggestRdd = writer.getProteome();
         assertNotNull(suggestRdd);
         int count = (int) suggestRdd.count();
-        assertEquals(5, count);
+        assertEquals(7, count);
 
         Map<String, List<SuggestDocument>> resultMap =
                 getResultMap(suggestRdd.take(count), doc -> doc.id);

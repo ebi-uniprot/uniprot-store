@@ -80,21 +80,23 @@ class TaxonomyRDDReaderTest {
             JavaPairRDD<String, TaxonomyEntry> taxonomyRDD = reader.load();
             assertNotNull(taxonomyRDD);
             long count = taxonomyRDD.count();
-            assertEquals(2, count);
+            assertEquals(6, count);
 
-            List<Tuple2<String, TaxonomyEntry>> tuples = taxonomyRDD.take(2);
+            List<Tuple2<String, TaxonomyEntry>> tuples = taxonomyRDD.take(6);
             TaxonomyEntry taxWithLineage =
                     tuples.stream()
                             .map(Tuple2::_2)
-                            .filter(entry -> entry.getTaxonId() == 337687L)
+                            .filter(entry -> entry.getTaxonId() == 10116L)
                             .findFirst()
                             .orElseThrow(AssertionError::new);
 
             assertNotNull(taxWithLineage);
-            assertEquals(337687L, taxWithLineage.getTaxonId());
+            assertEquals(10116L, taxWithLineage.getTaxonId());
             assertNotNull(taxWithLineage.getLineages());
-            assertEquals(2, taxWithLineage.getLineages().size());
-            assertEquals(100L, taxWithLineage.getLineages().get(0).getTaxonId());
+            assertEquals(3, taxWithLineage.getLineages().size());
+            assertEquals(10114L, taxWithLineage.getLineages().get(0).getTaxonId());
+            assertEquals(39107L, taxWithLineage.getLineages().get(1).getTaxonId());
+            assertEquals(10066L, taxWithLineage.getLineages().get(2).getTaxonId());
         }
     }
 
