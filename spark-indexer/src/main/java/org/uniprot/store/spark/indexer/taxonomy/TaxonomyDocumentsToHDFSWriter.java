@@ -145,7 +145,7 @@ public class TaxonomyDocumentsToHDFSWriter implements DocumentsToHDFSWriter {
 
         return taxonomyRDD // <taxId, TaxonomyEntry>
                 .leftOuterJoin(organismStatisticsRDD)
-                .values()
+                .values() // <TaxonomyEntry, Optional<TaxonomyStatistics>>
                 .flatMapToPair(new LineageStatisticsMapper()) // <taxId, TaxonomyStatistics>
                 .aggregateByKey(null, statisticsAggregationMapper, statisticsAggregationMapper);
     }
