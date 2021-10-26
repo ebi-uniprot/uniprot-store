@@ -86,8 +86,18 @@ CC       {ECO:0000269|PubMed:18303947}.
 CC   -!- CATALYTIC ACTIVITY:
 CC       Reaction=ATP + firefly D-luciferin + O2 = AMP + CO2 + diphosphate
 CC         + firefly oxyluciferin + hnu; Xref=Rhea:RHEA:10732,
-CC         ChEBI:CHEBI:15379, ChEBI:CHEBI:16526; EC=1.13.12.7;
+CC         ChEBI:CHEBI:23367, ChEBI:CHEBI:24867; EC=1.13.12.7;
 CC         Evidence={ECO:0000269|PubMed:2801227};
+CC   -!- COFACTOR:
+CC       Name=Ca(2+); Xref=ChEBI:CHEBI:1300;
+CC         Evidence={ECO:0000250|UniProtKB:O15162};
+CC   -!- COFACTOR:
+CC       Name=Mg(2+); Xref=ChEBI:CHEBI:2300;
+CC         Evidence={ECO:0000250|UniProtKB:O15162};
+CC       Name=Zn(2+); Xref=ChEBI:CHEBI:24431;
+CC         Evidence={ECO:0000250|UniProtKB:O15162};
+CC       Note=Magnesium. Can also use zinc with lower efficiency.
+CC       {ECO:0000250|UniProtKB:O15162};
 CC   -!- SUBUNIT: Interacts with KPNA1; the interaction occurs in a
 CC       calcium-independent manner after synaptic NMDA receptor
 CC       stimulation and is required for nuclear import of NSMF but is

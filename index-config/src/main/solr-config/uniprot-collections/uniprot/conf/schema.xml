@@ -165,8 +165,12 @@
 		stored="false" required="false" multiValued="true" />
 	<dynamicField name="xref_count_*" type="int"
 		indexed="true" required="false" stored="false" multiValued="false" />
-	<field name="rhea_id" type="string" indexed="true" stored="false"
+	<field name="rhea" type="full_ci" indexed="true" stored="false"
 		required="false" multiValued="true" />
+	<field name="chebi" type="full_ci" indexed="true" stored="false"
+		required="false" multiValued="true" />
+	<field name="inchikey" type="full_ci" indexed="true"
+		stored="false" required="false" multiValued="true" />
 
 	<!-- Citations -->
 	<field name="lit_author" type="full_ci" indexed="true"

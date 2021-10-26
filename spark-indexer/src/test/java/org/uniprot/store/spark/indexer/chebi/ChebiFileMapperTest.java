@@ -25,9 +25,9 @@ class ChebiFileMapperTest {
                         + "is_a: CHEBI:36342";
 
         ChebiFileMapper mapper = new ChebiFileMapper();
-        Tuple2<String, ChebiEntry> result = mapper.call(input);
+        Tuple2<Object, ChebiEntry> result = mapper.call(input);
         assertNotNull(result);
-        assertEquals("36347", result._1);
+        assertEquals(36347L, result._1);
         ChebiEntry chebi = result._2;
 
         assertEquals("36347", chebi.getId());
@@ -58,9 +58,9 @@ class ChebiFileMapperTest {
                         + "is_a: CHEBI:33627";
 
         ChebiFileMapper mapper = new ChebiFileMapper();
-        Tuple2<String, ChebiEntry> result = mapper.call(input);
+        Tuple2<Object, ChebiEntry> result = mapper.call(input);
         assertNotNull(result);
-        assertEquals("30151", result._1);
+        assertEquals(30151L, result._1);
         ChebiEntry chebi = result._2;
 
         assertEquals("30151", chebi.getId());

@@ -137,7 +137,7 @@ class UniProtKBEntryConverterIT {
                         .get(CC_SIMILARITY_FIELD)
                         .contains("SIMILARITY: Belongs to the cytochrome b family."));
 
-        assertEquals(3, doc.cofactorChebi.size());
+        assertEquals(2, doc.cofactorChebi.size());
         assertTrue(doc.cofactorChebi.contains("heme"));
 
         assertEquals(1, doc.cofactorNote.size());
@@ -259,10 +259,10 @@ class UniProtKBEntryConverterIT {
         assertEquals(5, doc.referenceJournals.size());
         assertTrue(doc.referenceJournals.contains("Genome Res."));
 
-        assertEquals(16, doc.proteinsWith.size());
+        assertEquals(17, doc.proteinsWith.size());
         assertTrue(doc.proteinsWith.contains(ProteinsWith.CHAIN.getValue()));
 
-        assertEquals(10, doc.commentMap.keySet().size());
+        assertEquals(11, doc.commentMap.keySet().size());
         assertTrue(doc.commentMap.containsKey(CC_SIMILARITY_FIELD));
         assertTrue(
                 doc.commentMap
@@ -275,7 +275,7 @@ class UniProtKBEntryConverterIT {
                         .get(CC_SIMILARITY_FIELD)
                         .contains("SIMILARITY: Belongs to the NSMF family."));
 
-        assertEquals(10, doc.commentEvMap.size());
+        assertEquals(11, doc.commentEvMap.size());
         assertTrue(doc.commentEvMap.containsKey(CCEV_SIMILARITY_FIELD));
         assertTrue(doc.commentEvMap.get(CCEV_SIMILARITY_FIELD).contains("ECO_0000305"));
         assertTrue(doc.commentEvMap.get(CCEV_SIMILARITY_FIELD).contains("manual"));
@@ -300,7 +300,7 @@ class UniProtKBEntryConverterIT {
         assertFalse(doc.d3structure);
 
         assertTrue(doc.commentMap.containsKey(CC_CATALYTIC_ACTIVITY));
-        assertTrue(doc.commentMap.get(CC_CATALYTIC_ACTIVITY).contains("CHEBI:16526"));
+        assertTrue(doc.commentMap.get(CC_CATALYTIC_ACTIVITY).contains("CHEBI:23367"));
         assertTrue(doc.commentMap.get(CC_CATALYTIC_ACTIVITY).contains("RHEA:10732"));
 
         assertEquals(26, doc.subcellLocationTerm.size());

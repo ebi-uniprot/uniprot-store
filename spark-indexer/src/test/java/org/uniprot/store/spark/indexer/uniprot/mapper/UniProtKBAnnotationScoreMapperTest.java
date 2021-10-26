@@ -41,7 +41,7 @@ class UniProtKBAnnotationScoreMapperTest {
 
         UniProtKBAnnotationScoreMapper mapper = new UniProtKBAnnotationScoreMapper();
         entry = mapper.call(entry);
-        assertEquals(262.0d, entry.getAnnotationScore());
+        assertEquals(265.0d, entry.getAnnotationScore());
     }
 
     private UniProtKBEntry getEntryFromFile() throws Exception {

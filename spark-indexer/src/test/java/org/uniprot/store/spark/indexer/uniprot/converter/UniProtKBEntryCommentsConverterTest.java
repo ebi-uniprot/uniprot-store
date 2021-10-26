@@ -385,7 +385,7 @@ class UniProtKBEntryCommentsConverterTest {
         assertTrue(document.commentEvMap.containsKey(CCEV_COFACTOR_FIELD));
         assertEquals(0, document.commentEvMap.get(CCEV_COFACTOR_FIELD).size());
 
-        assertEquals(3, document.cofactorChebi.size());
+        assertEquals(2, document.cofactorChebi.size());
         assertTrue(document.cofactorChebi.contains("Mg(2+)"));
         assertEquals(2, document.cofactorChebiEv.size());
         assertTrue(document.cofactorChebiEv.contains("manual"));
