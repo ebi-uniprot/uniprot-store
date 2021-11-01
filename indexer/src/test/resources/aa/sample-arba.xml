@@ -11,7 +11,9 @@
                         <value>IPR040234</value>
                     </condition>
                     <condition type="taxon">
-                        <value cvId="33208">Metazoa</value>
+                        <value cvId="2157">Archaea</value>
+                        <value cvId="2759">Eukaryota</value>
+                        <value cvId="2">Bacteria</value>
                     </condition>
                     <condition type="scientific organism">
                         <value cvId="9606">organismName</value>
@@ -111,7 +113,7 @@
                         <value>IPR032270</value>
                     </condition>
                     <condition type="taxon">
-                        <value cvId="7711">Chordata</value>
+                        <value cvId="10239">Viruses</value>
                     </condition>
                 </conditionSet>
             </conditionSets>

@@ -2,16 +2,24 @@ package org.uniprot.store.indexer.arba;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.util.concurrent.ThreadLocalRandom;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.test.context.TestPropertySource;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.uniprot.core.Range;
 import org.uniprot.core.unirule.*;
 import org.uniprot.core.unirule.impl.*;
 import org.uniprot.core.xml.jaxb.unirule.UniRuleType;
+import org.uniprot.cv.taxonomy.FileNodeIterable;
+import org.uniprot.cv.taxonomy.impl.TaxonomyMapRepo;
 import org.uniprot.store.indexer.unirule.UniRuleXmlEntryReader;
 import org.uniprot.store.search.document.arba.ArbaDocument;
 
@@ -19,14 +27,23 @@ import org.uniprot.store.search.document.arba.ArbaDocument;
  * @author lgonzales
  * @since 20/07/2021
  */
+@ExtendWith(SpringExtension.class)
+@TestPropertySource(locations = "classpath:application.properties")
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class ArbaDocumentConverterTest {
     private static ArbaDocumentConverter docConverter;
     private static final String filePath = "src/test/resources/aa/sample-arba.xml";
     private static UniRuleXmlEntryReader reader;
 
+    @Value(("${uniprotkb.indexing.taxonomyFile}"))
+    private String taxonomyFile;
+
+    private TaxonomyMapRepo taxonomyRepo;
+
     @BeforeAll
-    static void setUp() {
-        docConverter = new ArbaDocumentConverter();
+    void setUp() {
+        taxonomyRepo = new TaxonomyMapRepo(new FileNodeIterable(new File(taxonomyFile)));
+        docConverter = new ArbaDocumentConverter(taxonomyRepo);
         reader = new UniRuleXmlEntryReader(filePath);
     }
 
@@ -65,8 +82,10 @@ class ArbaDocumentConverterTest {
     private void verifySolrDoc(ArbaDocument solrDoc, long proteinCount) throws IOException {
         assertNotNull(solrDoc);
         assertEquals("ARBA00000001", solrDoc.getRuleId());
-        assertEquals(3, solrDoc.getConditionValues().size());
-        assertEquals("[organismName, IPR040234, Metazoa]", solrDoc.getConditionValues().toString());
+        assertEquals(5, solrDoc.getConditionValues().size());
+        assertEquals(
+                "[Eukaryota, Archaea, organismName, Bacteria, IPR040234]",
+                solrDoc.getConditionValues().toString());
         assertEquals(4, solrDoc.getKeywords().size());
         assertEquals("[Unknown, KW-0000, KW-0001, kName]", solrDoc.getKeywords().toString());
         assertEquals(1, solrDoc.getGeneNames().size());
@@ -77,8 +96,8 @@ class ArbaDocumentConverterTest {
         assertEquals("[recName]", solrDoc.getProteinNames().toString());
         assertEquals(1, solrDoc.getOrganismNames().size());
         assertEquals("[organismName]", solrDoc.getOrganismNames().toString());
-        assertEquals(1, solrDoc.getTaxonomyNames().size());
-        assertEquals("[Metazoa]", solrDoc.getTaxonomyNames().toString());
+        assertEquals(3, solrDoc.getTaxonomyNames().size());
+        assertEquals("[Eukaryota, Archaea, Bacteria]", solrDoc.getTaxonomyNames().toString());
         assertEquals(2, solrDoc.getCommentTypeValues().size());
         assertEquals(
                 "[RHEA-COMP:11736, RHEA-COMP:11846, CHEBI:87215, CHEBI:64722, RHEA:23652, CHEBI:28938, N-terminal L-glutaminyl-[peptide] = N-terminal 5-oxo-L-prolyl-[peptide] + NH4(+)]",
@@ -87,6 +106,7 @@ class ArbaDocumentConverterTest {
         assertEquals("[2.3.2.5]", solrDoc.getEcNumbers().toString());
         assertEquals(1, solrDoc.getFamilies().size());
         assertEquals("[nonaspanin (TM9SF) (TC 9.A.2) family]", solrDoc.getFamilies().toString());
+        assertEquals("[Eukaryota, Archaea, Bacteria]", solrDoc.getSuperKingdoms().toString());
         verifyUniRuleObject(solrDoc.getRuleObj(), proteinCount);
     }
 

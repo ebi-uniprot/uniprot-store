@@ -155,7 +155,10 @@ class HelpPagesLoadJobIT {
         assertThat(indexingStep.getWriteCount(), is(2));
 
         List<HelpDocument> response =
-                solrClient.query(SolrCollection.help, new SolrQuery("*:*").addSort(SolrQuery.SortClause.asc("id")), HelpDocument.class);
+                solrClient.query(
+                        SolrCollection.help,
+                        new SolrQuery("*:*").addSort(SolrQuery.SortClause.asc("id")),
+                        HelpDocument.class);
         assertThat(response, is(notNullValue()));
         assertThat(response.size(), is(2));
         HelpDocument doc3D = response.get(0);

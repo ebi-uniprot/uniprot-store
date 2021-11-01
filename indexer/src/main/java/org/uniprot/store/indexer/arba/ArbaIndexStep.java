@@ -2,6 +2,8 @@ package org.uniprot.store.indexer.arba;
 
 import static org.uniprot.store.indexer.common.utils.Constants.ARBA_INDEX_STEP;
 
+import java.io.File;
+
 import org.springframework.batch.core.ChunkListener;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.StepExecutionListener;
@@ -14,6 +16,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.uniprot.core.xml.jaxb.unirule.UniRuleType;
+import org.uniprot.cv.taxonomy.FileNodeIterable;
+import org.uniprot.cv.taxonomy.TaxonomyRepo;
+import org.uniprot.cv.taxonomy.impl.TaxonomyMapRepo;
 import org.uniprot.store.indexer.common.config.UniProtSolrClient;
 import org.uniprot.store.indexer.common.writer.SolrDocumentWriter;
 import org.uniprot.store.job.common.listener.LogRateListener;
@@ -31,6 +36,9 @@ public class ArbaIndexStep {
 
     @Value(("${arba.indexing.xml.file}"))
     private String filePath;
+
+    @Value(("${uniprotkb.indexing.taxonomyFile}"))
+    private String taxonomyFile;
 
     private final StepBuilderFactory stepBuilderFactory;
 
@@ -65,11 +73,15 @@ public class ArbaIndexStep {
 
     @Bean
     public ItemProcessor<UniRuleType, ArbaDocument> arbaProcessor() {
-        return new ArbaProcessor();
+        return new ArbaProcessor(createTaxonomyRepo());
     }
 
     @Bean
     public ItemWriter<ArbaDocument> arbaWriter(UniProtSolrClient solrOperations) {
         return new SolrDocumentWriter<>(solrOperations, SolrCollection.arba);
+    }
+
+    private TaxonomyRepo createTaxonomyRepo() {
+        return new TaxonomyMapRepo(new FileNodeIterable(new File(taxonomyFile)));
     }
 }

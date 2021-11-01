@@ -10,6 +10,7 @@ import org.springframework.batch.core.StepExecution;
 import org.springframework.batch.core.annotation.BeforeStep;
 import org.springframework.batch.item.ItemProcessor;
 import org.uniprot.core.xml.jaxb.unirule.UniRuleType;
+import org.uniprot.cv.taxonomy.TaxonomyRepo;
 import org.uniprot.store.indexer.common.utils.Constants;
 import org.uniprot.store.search.document.unirule.UniRuleDocument;
 
@@ -23,8 +24,8 @@ public class UniRuleProcessor implements ItemProcessor<UniRuleType, UniRuleDocum
     // cache from UniRuleProteinCountWriter Step
     private Map<String, UniRuleProteinCountReader.UniRuleProteinCount> uniRuleProteinCountMap;
 
-    public UniRuleProcessor() {
-        this.documentConverter = new UniRuleDocumentConverter();
+    public UniRuleProcessor(TaxonomyRepo taxonomyRepo) {
+        this.documentConverter = new UniRuleDocumentConverter(taxonomyRepo);
     }
 
     @Override

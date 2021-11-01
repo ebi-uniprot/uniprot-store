@@ -11,6 +11,7 @@ import static org.uniprot.store.indexer.common.aa.AARuleDocumentConverterUtils.g
 import static org.uniprot.store.indexer.common.aa.AARuleDocumentConverterUtils.getKeywords;
 import static org.uniprot.store.indexer.common.aa.AARuleDocumentConverterUtils.getOrganismNames;
 import static org.uniprot.store.indexer.common.aa.AARuleDocumentConverterUtils.getProteinNames;
+import static org.uniprot.store.indexer.common.aa.AARuleDocumentConverterUtils.getSuperKingdoms;
 import static org.uniprot.store.indexer.common.aa.AARuleDocumentConverterUtils.getTaxonomyNames;
 
 import java.nio.ByteBuffer;
@@ -26,6 +27,7 @@ import org.uniprot.core.unirule.impl.UniRuleEntryBuilder;
 import org.uniprot.core.util.Utils;
 import org.uniprot.core.xml.jaxb.unirule.UniRuleType;
 import org.uniprot.core.xml.unirule.UniRuleEntryConverter;
+import org.uniprot.cv.taxonomy.TaxonomyRepo;
 import org.uniprot.store.indexer.common.aa.AARuleDocumentComment;
 import org.uniprot.store.search.document.DocumentConverter;
 import org.uniprot.store.search.document.arba.ArbaDocument;
@@ -40,8 +42,10 @@ public class ArbaDocumentConverter implements DocumentConverter<UniRuleType, Arb
     private final UniRuleEntryConverter converter;
     private Long proteinsAnnotatedCount;
     private final ObjectMapper objectMapper;
+    private final TaxonomyRepo taxonomyRepo;
 
-    public ArbaDocumentConverter() {
+    public ArbaDocumentConverter(TaxonomyRepo taxonomyRepo) {
+        this.taxonomyRepo = taxonomyRepo;
         this.converter = new UniRuleEntryConverter();
         objectMapper = UniRuleJsonConfig.getInstance().getFullObjectMapper();
     }
@@ -80,6 +84,7 @@ public class ArbaDocumentConverter implements DocumentConverter<UniRuleType, Arb
         Set<String> proteinNames = getProteinNames(uniObj);
         Set<String> organismNames = getOrganismNames(uniObj);
         Set<String> taxonomyNames = getTaxonomyNames(uniObj);
+        Set<String> superKingdoms = getSuperKingdoms(uniObj, taxonomyRepo);
         List<AARuleDocumentComment> arbaDocComments = convertToAARuleDocumentComments(uniObj);
         Map<String, Set<String>> commentTypeValues = getComments(arbaDocComments);
         ByteBuffer arbaObj = ByteBuffer.wrap(getAARuleObj(uniObj, this.objectMapper));
@@ -92,6 +97,7 @@ public class ArbaDocumentConverter implements DocumentConverter<UniRuleType, Arb
         builder.keywords(keywords).geneNames(geneNames);
         builder.goTerms(goTerms).proteinNames(proteinNames);
         builder.organismNames(organismNames).taxonomyNames(taxonomyNames);
+        builder.superKingdoms(superKingdoms);
         builder.commentTypeValues(commentTypeValues);
         builder.ruleObj(arbaObj);
         builder.ecNumbers(ecNumbers);

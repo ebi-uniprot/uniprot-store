@@ -47,6 +47,9 @@ public class UniRuleDocument implements Document {
     @Field("taxonomy")
     private Set<String> taxonomyNames = new HashSet<>();
 
+    @Field("superkingdom")
+    public Set<String> superKingdoms = new HashSet<>();
+
     @Field("cc_*")
     private Map<String, Set<String>> commentTypeValues = new HashMap<>();
 

@@ -15,17 +15,22 @@ import org.uniprot.core.ECNumber;
 import org.uniprot.core.Value;
 import org.uniprot.core.cv.keyword.KeywordCategory;
 import org.uniprot.core.gene.Gene;
+import org.uniprot.core.proteome.Superkingdom;
 import org.uniprot.core.uniprotkb.Keyword;
 import org.uniprot.core.uniprotkb.comment.CatalyticActivityComment;
 import org.uniprot.core.uniprotkb.comment.Reaction;
 import org.uniprot.core.unirule.Annotation;
 import org.uniprot.core.unirule.Condition;
 import org.uniprot.core.unirule.ConditionSet;
+import org.uniprot.core.unirule.ConditionValue;
 import org.uniprot.core.unirule.Rule;
 import org.uniprot.core.unirule.UniRuleEntry;
 import org.uniprot.core.util.Utils;
+import org.uniprot.cv.taxonomy.TaxonomicNode;
+import org.uniprot.cv.taxonomy.TaxonomyRepo;
 import org.uniprot.store.indexer.common.utils.UniProtAARuleUtils;
 import org.uniprot.store.indexer.uniprotkb.converter.UniProtEntryConverterUtil;
+import org.uniprot.store.indexer.util.TaxonomyRepoUtil;
 import org.uniprot.store.search.document.DocumentConversionException;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -181,6 +186,45 @@ public class AARuleDocumentConverterUtils {
                 CONDITION_TYPE_TAXON, uniObj.getMainRule().getConditionSets());
     }
 
+    public static Set<String> getFamilies(List<AARuleDocumentComment> aaRuleDocumentComments) {
+        return aaRuleDocumentComments.stream()
+                .map(AARuleDocumentComment::getFamilies)
+                .filter(Utils::notNullNotEmpty)
+                .flatMap(Collection::stream)
+                .collect(Collectors.toSet());
+    }
+
+    public static Set<String> getSuperKingdoms(UniRuleEntry uniObj, TaxonomyRepo taxonomyRepo) {
+        Set<Integer> taxonIds =
+                uniObj.getMainRule().getConditionSets().stream()
+                        .map(ConditionSet::getConditions)
+                        .flatMap(Collection::stream)
+                        .filter(
+                                condition ->
+                                        CONDITION_TYPE_TAXON.equals(condition.getType())
+                                                && Utils.notNullNotEmpty(
+                                                        condition.getConditionValues()))
+                        .map(condition -> extractValueCvId(condition.getConditionValues()))
+                        .flatMap(Collection::stream)
+                        .collect(Collectors.toSet());
+        return getSuperKingdoms(taxonIds, taxonomyRepo);
+    }
+
+    private static Set<String> getSuperKingdoms(Set<Integer> taxonIds, TaxonomyRepo taxonomyRepo) {
+        Set<String> superKingdoms = new HashSet<>();
+        for (Integer id : taxonIds) {
+            List<TaxonomicNode> nodes = TaxonomyRepoUtil.getTaxonomyLineage(taxonomyRepo, id);
+            for (TaxonomicNode node : nodes) {
+                List<String> taxons = TaxonomyRepoUtil.extractTaxonFromNode(node);
+                taxons.stream()
+                        .filter(Superkingdom::isSuperkingdom)
+                        .findFirst()
+                        .ifPresent(sk -> superKingdoms.add(sk));
+            }
+        }
+        return superKingdoms;
+    }
+
     private static Set<String> extractKeywords(Keyword keyword) {
         Set<String> keywords = new HashSet<>();
         keywords.add(keyword.getId());
@@ -191,14 +235,6 @@ public class AARuleDocumentConverterUtils {
             keywords.add(kc.getName());
         }
         return keywords;
-    }
-
-    public static Set<String> getFamilies(List<AARuleDocumentComment> aaRuleDocumentComments) {
-        return aaRuleDocumentComments.stream()
-                .map(AARuleDocumentComment::getFamilies)
-                .filter(Utils::notNullNotEmpty)
-                .flatMap(Collection::stream)
-                .collect(Collectors.toSet());
     }
 
     private static Set<String> extractGeneNames(Gene gene) {
@@ -226,6 +262,20 @@ public class AARuleDocumentConverterUtils {
                             .collect(Collectors.toSet()));
         }
         return names;
+    }
+
+    private static <T extends ConditionValue> Set<Integer> extractValueCvId(List<T> values) {
+        Set<Integer> cvIds = new HashSet<>();
+
+        if (Utils.notNullNotEmpty(values)) {
+            cvIds.addAll(
+                    values.stream()
+                            .map(ConditionValue::getCvId)
+                            .filter(Objects::nonNull)
+                            .map(Integer::parseInt)
+                            .collect(Collectors.toSet()));
+        }
+        return cvIds;
     }
 
     private static Set<String> extractConditionValues(
