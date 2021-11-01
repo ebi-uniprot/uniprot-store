@@ -3,6 +3,7 @@ package org.uniprot.store.indexer.unirule;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.util.Set;
@@ -10,19 +11,35 @@ import java.util.concurrent.ThreadLocalRandom;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.test.context.TestPropertySource;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.uniprot.core.unirule.UniRuleEntry;
 import org.uniprot.core.xml.jaxb.unirule.UniRuleType;
+import org.uniprot.cv.taxonomy.FileNodeIterable;
+import org.uniprot.cv.taxonomy.impl.TaxonomyMapRepo;
 import org.uniprot.store.search.document.unirule.UniRuleDocument;
 
+@ExtendWith(SpringExtension.class)
+@TestPropertySource(locations = "classpath:application.properties")
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class UniRuleDocumentConverterTest {
     private static UniRuleDocumentConverter docConverter;
     private static final String filePath = "src/test/resources/aa/sample-unirule.xml";
     private static final String filePathWithEC = "src/test/resources/aa/sample-unirule-ec.xml";
     private static UniRuleXmlEntryReader reader;
 
+    @Value(("${uniprotkb.indexing.taxonomyFile}"))
+    private String taxonomyFile;
+
+    private TaxonomyMapRepo taxonomyRepo;
+
     @BeforeAll
-    static void setUp() {
-        docConverter = new UniRuleDocumentConverter();
+    void setUp() {
+        taxonomyRepo = new TaxonomyMapRepo(new FileNodeIterable(new File(taxonomyFile)));
+        docConverter = new UniRuleDocumentConverter(taxonomyRepo);
     }
 
     @Test
@@ -127,6 +144,7 @@ class UniRuleDocumentConverterTest {
         assertEquals("[2.9.1.2]", solrDoc.getEcNumbers().toString());
         assertEquals(1, solrDoc.getFamilies().size());
         assertEquals("[Dps family]", solrDoc.getFamilies().toString());
+        assertEquals("[Archaea, Bacteria]", solrDoc.getSuperKingdoms().toString());
 
         verifyUniRuleObject(solrDoc.getUniRuleObj(), reviewedProteinCount, unreviewedProteinCount);
     }

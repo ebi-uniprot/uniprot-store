@@ -9,6 +9,7 @@ import org.springframework.batch.core.StepExecution;
 import org.springframework.batch.core.annotation.BeforeStep;
 import org.springframework.batch.item.ItemProcessor;
 import org.uniprot.core.xml.jaxb.unirule.UniRuleType;
+import org.uniprot.cv.taxonomy.TaxonomyRepo;
 import org.uniprot.store.indexer.common.utils.Constants;
 import org.uniprot.store.search.document.arba.ArbaDocument;
 
@@ -22,8 +23,8 @@ public class ArbaProcessor implements ItemProcessor<UniRuleType, ArbaDocument> {
     // cache from ArbaProteinCountWriter Step
     private Map<String, ArbaProteinCountReader.ArbaProteinCount> arbaProteinCountMap;
 
-    public ArbaProcessor() {
-        this.documentConverter = new ArbaDocumentConverter();
+    public ArbaProcessor(TaxonomyRepo taxonomyRepo) {
+        this.documentConverter = new ArbaDocumentConverter(taxonomyRepo);
     }
 
     @Override

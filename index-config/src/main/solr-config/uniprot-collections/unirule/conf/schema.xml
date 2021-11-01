@@ -32,6 +32,8 @@
 		stored="false" required="false" multiValued="true" />
 	<field name="taxonomy" type="full_ci" indexed="true"
 		stored="false" required="false" multiValued="true" />
+	<field name="superkingdom" type="string" indexed="true"
+		stored="false" required="false" multiValued="true" />
 	<field name="feature_type" type="full_ci" indexed="true"
 		stored="false" required="false" multiValued="true" />
 	<dynamicField name="cc_*" type="full_ci" indexed="true"
