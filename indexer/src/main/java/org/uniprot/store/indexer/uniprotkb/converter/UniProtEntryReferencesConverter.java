@@ -159,7 +159,11 @@ public class UniProtEntryReferencesConverter implements Serializable {
                             });
             if (citation instanceof JournalArticle) {
                 JournalArticle ja = (JournalArticle) citation;
-                document.referenceJournals.add(ja.getJournal().getName());
+                String journalName = ja.getJournal().getName();
+                if (journalName != null && journalName.endsWith(".")) {
+                    journalName = journalName.substring(0, journalName.length() - 1);
+                }
+                document.referenceJournals.add(journalName);
             }
         }
     }

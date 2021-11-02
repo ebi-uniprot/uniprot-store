@@ -118,7 +118,7 @@ class UniProtEntryReferencesConverterTest {
 
         Citation citation =
                 new JournalArticleBuilder()
-                        .journalName(prefix + " journal name")
+                        .journalName(prefix + " journal name.")
                         .firstPage("1")
                         .lastPage("10")
                         .volume("volume value")
