@@ -110,7 +110,7 @@ class UniProtKBEntryConverterIT {
         assertEquals("01-DEC-2004", dateFormat.format(doc.referenceDates.get(0)).toUpperCase());
 
         assertEquals(1, doc.referenceJournals.size());
-        assertTrue(doc.referenceJournals.contains("Mol. Phylogenet. Evol"));
+        assertTrue(doc.referenceJournals.contains("Mol. Phylogenet. Evol."));
 
         assertEquals(3, doc.commentMap.keySet().size());
         assertTrue(doc.commentMap.containsKey(CC_SIMILARITY_FIELD));
@@ -257,7 +257,7 @@ class UniProtKBEntryConverterIT {
         assertTrue(doc.referenceDates.contains(d1Aug2000));
 
         assertEquals(5, doc.referenceJournals.size());
-        assertTrue(doc.referenceJournals.contains("Genome Res"));
+        assertTrue(doc.referenceJournals.contains("Genome Res."));
 
         assertEquals(16, doc.proteinsWith.size());
         assertTrue(doc.proteinsWith.contains(ProteinsWith.CHAIN.getValue()));
@@ -431,7 +431,7 @@ class UniProtKBEntryConverterIT {
         assertTrue(doc.referenceDates.contains(d1Aug2000));
 
         assertEquals(6, doc.referenceJournals.size());
-        assertTrue(doc.referenceJournals.contains("Genome Res"));
+        assertTrue(doc.referenceJournals.contains("Genome Res."));
 
         assertEquals(1, doc.proteinsWith.size());
         assertTrue(doc.proteinsWith.contains(ProteinsWith.ALTERNATIVE_PRODUCTS.getValue()));

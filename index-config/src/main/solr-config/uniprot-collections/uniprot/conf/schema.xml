@@ -183,7 +183,7 @@
 		stored="false" required="false" multiValued="true" />
 	<field name="lit_pubmed" type="string" indexed="true"
 		stored="false" required="false" multiValued="true" />
-	<field name="lit_journal" type="basic_ci" indexed="true"
+	<field name="lit_journal" type="full_ci" indexed="true"
 		stored="false" required="false" multiValued="true" />
 	<field name="computational_pubmed_id" type="string"
 		indexed="true" stored="false" required="false" multiValued="true" />
