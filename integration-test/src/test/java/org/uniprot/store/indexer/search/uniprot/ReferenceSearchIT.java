@@ -318,6 +318,24 @@ class ReferenceSearchIT {
     }
 
     @Test
+    void refJournalFull() {
+        String query = journal("Nat. Chem. Biol.");
+        QueryResponse response = searchEngine.getQueryResponse(query);
+
+        List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
+        assertThat(retrievedAccessions, containsInAnyOrder(Q6GZX2, Q6GZX3, Q6GZX4));
+    }
+
+    @Test
+    void refJournalPartial() {
+        String query = journal("Nat. Chem. Biol");
+        QueryResponse response = searchEngine.getQueryResponse(query);
+
+        List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
+        assertThat(retrievedAccessions, containsInAnyOrder(Q6GZX2, Q6GZX3, Q6GZX4));
+    }
+
+    @Test
     void refPubMedTwoEntries() {
         String query = pubmed("15165820");
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -544,6 +562,11 @@ class ReferenceSearchIT {
         return query(
                 searchEngine.getSearchFieldConfig().getSearchFieldItemByName("lit_organisation"),
                 value);
+    }
+
+    private String journal(String value) {
+        return query(
+                searchEngine.getSearchFieldConfig().getSearchFieldItemByName("lit_journal"), value);
     }
 
     BinaryOperator<String> andQuery = (q1, q2) -> QueryBuilder.and(q1, q2);
