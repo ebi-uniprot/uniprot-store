@@ -82,9 +82,9 @@ class ArbaDocumentConverterTest {
     private void verifySolrDoc(ArbaDocument solrDoc, long proteinCount) throws IOException {
         assertNotNull(solrDoc);
         assertEquals("ARBA00000001", solrDoc.getRuleId());
-        assertEquals(5, solrDoc.getConditionValues().size());
+        assertEquals(6, solrDoc.getConditionValues().size());
         assertEquals(
-                "[Eukaryota, Archaea, organismName, Bacteria, IPR040234]",
+                "[Eukaryota, Chordata, Archaea, organismName, Bacteria, IPR040234]",
                 solrDoc.getConditionValues().toString());
         assertEquals(4, solrDoc.getKeywords().size());
         assertEquals("[Unknown, KW-0000, KW-0001, kName]", solrDoc.getKeywords().toString());
@@ -96,8 +96,9 @@ class ArbaDocumentConverterTest {
         assertEquals("[recName]", solrDoc.getProteinNames().toString());
         assertEquals(1, solrDoc.getOrganismNames().size());
         assertEquals("[organismName]", solrDoc.getOrganismNames().toString());
-        assertEquals(3, solrDoc.getTaxonomyNames().size());
-        assertEquals("[Eukaryota, Archaea, Bacteria]", solrDoc.getTaxonomyNames().toString());
+        assertEquals(4, solrDoc.getTaxonomyNames().size());
+        assertEquals(
+                "[Eukaryota, Chordata, Archaea, Bacteria]", solrDoc.getTaxonomyNames().toString());
         assertEquals(2, solrDoc.getCommentTypeValues().size());
         assertEquals(
                 "[RHEA-COMP:11736, RHEA-COMP:11846, CHEBI:87215, CHEBI:64722, RHEA:23652, CHEBI:28938, N-terminal L-glutaminyl-[peptide] = N-terminal 5-oxo-L-prolyl-[peptide] + NH4(+)]",
