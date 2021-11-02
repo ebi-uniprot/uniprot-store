@@ -37,6 +37,7 @@
                     <condition type="taxon">
                         <value cvId="2157">Archaea</value>
                         <value cvId="2">Bacteria</value>
+                        <value cvId="11049">Porcine reproductive and respiratory syndrome virus (strain Lelystad)</value>
                     </condition>
                 </conditionSet>
             </conditionSets>

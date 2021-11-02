@@ -88,9 +88,9 @@ class UniRuleDocumentConverterTest {
             throws IOException {
         assertNotNull(solrDoc);
         assertEquals("UR001229753", solrDoc.getUniRuleId());
-        assertEquals(5, solrDoc.getConditionValues().size());
+        assertEquals(6, solrDoc.getConditionValues().size());
         assertEquals(
-                "[Archaea, Human adenovirus, Bacteria, Human mastadenovirus, PIRSF018063]",
+                "[Porcine reproductive and respiratory syndrome virus (strain Lelystad), Archaea, Human adenovirus, Bacteria, Human mastadenovirus, PIRSF018063]",
                 solrDoc.getConditionValues().toString());
         assertEquals(3, solrDoc.getFeatureTypes().size());
         assertEquals("[site, transmembrane, signal]", solrDoc.getFeatureTypes().toString());
@@ -111,8 +111,10 @@ class UniRuleDocumentConverterTest {
         assertEquals(2, solrDoc.getOrganismNames().size());
         assertEquals(
                 "[Human adenovirus, Human mastadenovirus]", solrDoc.getOrganismNames().toString());
-        assertEquals(2, solrDoc.getTaxonomyNames().size());
-        assertEquals("[Archaea, Bacteria]", solrDoc.getTaxonomyNames().toString());
+        assertEquals(3, solrDoc.getTaxonomyNames().size());
+        assertEquals(
+                "[Porcine reproductive and respiratory syndrome virus (strain Lelystad), Archaea, Bacteria]",
+                solrDoc.getTaxonomyNames().toString());
         assertEquals(7, solrDoc.getCommentTypeValues().size());
         assertEquals(
                 "[Golgi apparatus membrane, Cytoplasmic side, Cytoplasmic vesicle, COPI-coated vesicle membrane, Peripheral membrane protein, Cytoplasm]",
@@ -144,7 +146,7 @@ class UniRuleDocumentConverterTest {
         assertEquals("[2.9.1.2]", solrDoc.getEcNumbers().toString());
         assertEquals(1, solrDoc.getFamilies().size());
         assertEquals("[Dps family]", solrDoc.getFamilies().toString());
-        assertEquals("[Archaea, Bacteria]", solrDoc.getSuperKingdoms().toString());
+        assertEquals("[Archaea, Bacteria, Viruses]", solrDoc.getSuperKingdoms().toString());
 
         verifyUniRuleObject(solrDoc.getUniRuleObj(), reviewedProteinCount, unreviewedProteinCount);
     }

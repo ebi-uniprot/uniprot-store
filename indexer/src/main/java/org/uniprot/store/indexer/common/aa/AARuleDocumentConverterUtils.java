@@ -219,7 +219,7 @@ public class AARuleDocumentConverterUtils {
                 taxons.stream()
                         .filter(Superkingdom::isSuperkingdom)
                         .findFirst()
-                        .ifPresent(sk -> superKingdoms.add(sk));
+                        .ifPresent(superKingdoms::add);
             }
         }
         return superKingdoms;
