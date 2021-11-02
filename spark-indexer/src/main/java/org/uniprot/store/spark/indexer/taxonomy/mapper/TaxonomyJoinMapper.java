@@ -1,4 +1,4 @@
-package org.uniprot.store.spark.indexer.taxonomy;
+package org.uniprot.store.spark.indexer.taxonomy.mapper;
 
 import java.io.Serializable;
 import java.util.List;
@@ -18,7 +18,7 @@ import scala.Tuple2;
  * @author lgonzales
  * @since 2019-11-14
  */
-class TaxonomyJoinMapper
+public class TaxonomyJoinMapper
         implements Function<Tuple2<TaxonomyEntry, List<TaxonomyLineage>>, TaxonomyEntry>,
                 Serializable {
 

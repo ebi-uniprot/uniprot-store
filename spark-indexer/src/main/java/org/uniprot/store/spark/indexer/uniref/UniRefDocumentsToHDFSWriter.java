@@ -13,7 +13,7 @@ import org.uniprot.store.search.document.uniref.UniRefDocument;
 import org.uniprot.store.spark.indexer.common.JobParameter;
 import org.uniprot.store.spark.indexer.common.util.SolrUtils;
 import org.uniprot.store.spark.indexer.common.writer.DocumentsToHDFSWriter;
-import org.uniprot.store.spark.indexer.taxonomy.TaxonomyRDDReader;
+import org.uniprot.store.spark.indexer.taxonomy.reader.TaxonomyRDDReader;
 import org.uniprot.store.spark.indexer.uniref.mapper.UniRefTaxonomyJoin;
 import org.uniprot.store.spark.indexer.uniref.mapper.UniRefToDocument;
 

@@ -1,7 +1,5 @@
 package org.uniprot.store.indexer.taxonomy.processor;
 
-import java.nio.ByteBuffer;
-
 import org.springframework.batch.item.ItemProcessor;
 import org.uniprot.core.json.parser.taxonomy.TaxonomyJsonConfig;
 import org.uniprot.core.taxonomy.TaxonomyEntry;
@@ -47,9 +45,9 @@ public class TaxonomyStatisticsProcessor
                 .build();
     }
 
-    private ByteBuffer getTaxonomyBinary(TaxonomyEntry entry) {
+    private byte[] getTaxonomyBinary(TaxonomyEntry entry) {
         try {
-            return ByteBuffer.wrap(jsonMapper.writeValueAsBytes(entry));
+            return jsonMapper.writeValueAsBytes(entry);
         } catch (JsonProcessingException e) {
             throw new RuntimeException("Unable to parse TaxonomyEntry to binary json: ", e);
         }

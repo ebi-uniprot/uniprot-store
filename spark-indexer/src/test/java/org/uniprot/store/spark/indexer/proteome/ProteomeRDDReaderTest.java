@@ -33,7 +33,7 @@ class ProteomeRDDReaderTest {
             JavaPairRDD<String, ProteomeEntry> javaPairRDD = reader.load();
             assertNotNull(javaPairRDD);
             long count = javaPairRDD.count();
-            assertEquals(5L, count);
+            assertEquals(7L, count);
             Tuple2<String, ProteomeEntry> firstTuple = javaPairRDD.first();
             assertNotNull(firstTuple);
             assertEquals("UP000000718", firstTuple._1);
@@ -57,7 +57,7 @@ class ProteomeRDDReaderTest {
             JavaPairRDD<String, ProteomeEntry> javaPairRDD = reader.load();
             assertNotNull(javaPairRDD);
             long count = javaPairRDD.count();
-            assertEquals(5L, count);
+            assertEquals(7L, count);
             Tuple2<String, ProteomeEntry> firstTuple = javaPairRDD.first();
             assertNotNull(firstTuple);
             assertEquals("UP000000718", firstTuple._1);

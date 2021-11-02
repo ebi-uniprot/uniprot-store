@@ -3,7 +3,6 @@ package org.uniprot.store.indexer.taxonomy;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 
-import java.nio.ByteBuffer;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -111,10 +110,10 @@ class TaxonomyJobIT {
         validateTaxonomyDocument(taxonomyDocument);
 
         assertThat(taxonomyDocument.getTaxonomyObj(), is(notNullValue()));
-        ByteBuffer byteBuffer = taxonomyDocument.getTaxonomyObj();
+        byte[] byteBuffer = taxonomyDocument.getTaxonomyObj();
 
         ObjectMapper jsonMapper = TaxonomyJsonConfig.getInstance().getFullObjectMapper();
-        TaxonomyEntry entry = jsonMapper.readValue(byteBuffer.array(), TaxonomyEntryImpl.class);
+        TaxonomyEntry entry = jsonMapper.readValue(byteBuffer, TaxonomyEntryImpl.class);
         validateTaxonomyEntry(entry);
 
         solrQuery = new SolrQuery("taxonomies_with:1_uniprotkb");
@@ -140,7 +139,7 @@ class TaxonomyJobIT {
         // verify deleted
         taxonomyDocument = response.get(0);
         byteBuffer = taxonomyDocument.getTaxonomyObj();
-        entry = jsonMapper.readValue(byteBuffer.array(), TaxonomyEntryImpl.class);
+        entry = jsonMapper.readValue(byteBuffer, TaxonomyEntryImpl.class);
         assertThat(entry.hasInactiveReason(), is(true));
         assertThat(entry.getInactiveReason().hasInactiveReasonType(), is(true));
         assertThat(
@@ -151,7 +150,7 @@ class TaxonomyJobIT {
         // verify merged
         taxonomyDocument = response.get(2);
         byteBuffer = taxonomyDocument.getTaxonomyObj();
-        entry = jsonMapper.readValue(byteBuffer.array(), TaxonomyEntryImpl.class);
+        entry = jsonMapper.readValue(byteBuffer, TaxonomyEntryImpl.class);
         assertThat(entry.hasInactiveReason(), is(true));
         assertThat(entry.getInactiveReason().hasInactiveReasonType(), is(true));
         assertThat(

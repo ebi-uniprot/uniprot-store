@@ -1,4 +1,4 @@
-package org.uniprot.store.spark.indexer.taxonomy;
+package org.uniprot.store.spark.indexer.taxonomy.reader;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -7,7 +7,6 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -15,8 +14,6 @@ import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaSparkContext;
 import org.junit.jupiter.api.*;
 import org.uniprot.core.taxonomy.TaxonomyEntry;
-import org.uniprot.core.taxonomy.TaxonomyLineage;
-import org.uniprot.core.taxonomy.impl.TaxonomyLineageBuilder;
 import org.uniprot.store.spark.indexer.common.JobParameter;
 import org.uniprot.store.spark.indexer.common.util.SparkUtils;
 
@@ -83,21 +80,23 @@ class TaxonomyRDDReaderTest {
             JavaPairRDD<String, TaxonomyEntry> taxonomyRDD = reader.load();
             assertNotNull(taxonomyRDD);
             long count = taxonomyRDD.count();
-            assertEquals(2, count);
+            assertEquals(6, count);
 
-            List<Tuple2<String, TaxonomyEntry>> tuples = taxonomyRDD.take(2);
+            List<Tuple2<String, TaxonomyEntry>> tuples = taxonomyRDD.take(6);
             TaxonomyEntry taxWithLineage =
                     tuples.stream()
                             .map(Tuple2::_2)
-                            .filter(entry -> entry.getTaxonId() == 337687L)
+                            .filter(entry -> entry.getTaxonId() == 10116L)
                             .findFirst()
                             .orElseThrow(AssertionError::new);
 
             assertNotNull(taxWithLineage);
-            assertEquals(337687L, taxWithLineage.getTaxonId());
+            assertEquals(10116L, taxWithLineage.getTaxonId());
             assertNotNull(taxWithLineage.getLineages());
-            assertEquals(2, taxWithLineage.getLineages().size());
-            assertEquals(100L, taxWithLineage.getLineages().get(0).getTaxonId());
+            assertEquals(3, taxWithLineage.getLineages().size());
+            assertEquals(10114L, taxWithLineage.getLineages().get(0).getTaxonId());
+            assertEquals(39107L, taxWithLineage.getLineages().get(1).getTaxonId());
+            assertEquals(10066L, taxWithLineage.getLineages().get(2).getTaxonId());
         }
     }
 
@@ -117,31 +116,5 @@ class TaxonomyRDDReaderTest {
         Statement statement = this.dbConnection.createStatement();
         TaxonomyH2Utils.createTables(statement);
         TaxonomyH2Utils.insertData(statement);
-    }
-
-    private static class TaxonomyRDDReaderFake extends TaxonomyRDDReader {
-
-        private final JobParameter jobParameter;
-
-        public TaxonomyRDDReaderFake(JobParameter jobParameter, boolean withLineage) {
-            super(jobParameter, withLineage);
-            this.jobParameter = jobParameter;
-        }
-
-        @Override
-        protected JavaPairRDD<String, List<TaxonomyLineage>> loadTaxonomyLineage() {
-            List<Tuple2<String, List<TaxonomyLineage>>> lineage = new ArrayList<>();
-            List<TaxonomyLineage> lineages = new ArrayList<>();
-            lineages.add(new TaxonomyLineageBuilder().taxonId(100).build());
-            lineages.add(new TaxonomyLineageBuilder().taxonId(200).build());
-            lineage.add(new Tuple2<>("337687", lineages));
-
-            lineages = new ArrayList<>();
-            lineages.add(new TaxonomyLineageBuilder().taxonId(300).build());
-            lineages.add(new TaxonomyLineageBuilder().taxonId(400).build());
-            lineage.add(new Tuple2<>("39107", lineages));
-
-            return jobParameter.getSparkContext().parallelizePairs(lineage);
-        }
     }
 }

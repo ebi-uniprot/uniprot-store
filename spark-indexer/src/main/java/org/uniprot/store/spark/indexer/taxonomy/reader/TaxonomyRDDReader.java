@@ -1,4 +1,4 @@
-package org.uniprot.store.spark.indexer.taxonomy;
+package org.uniprot.store.spark.indexer.taxonomy.reader;
 
 import java.util.List;
 import java.util.ResourceBundle;
@@ -12,6 +12,8 @@ import org.uniprot.core.taxonomy.TaxonomyEntry;
 import org.uniprot.core.taxonomy.TaxonomyLineage;
 import org.uniprot.store.spark.indexer.common.JobParameter;
 import org.uniprot.store.spark.indexer.common.reader.PairRDDReader;
+import org.uniprot.store.spark.indexer.taxonomy.mapper.TaxonomyJoinMapper;
+import org.uniprot.store.spark.indexer.taxonomy.mapper.TaxonomyRowMapper;
 
 /**
  * This class is Responsible to load JavaPairRDD{key=taxId, value=TaxonomyEntry}

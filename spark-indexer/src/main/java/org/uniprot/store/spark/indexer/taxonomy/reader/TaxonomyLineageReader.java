@@ -1,4 +1,4 @@
-package org.uniprot.store.spark.indexer.taxonomy;
+package org.uniprot.store.spark.indexer.taxonomy.reader;
 
 import java.util.List;
 import java.util.ResourceBundle;
@@ -13,6 +13,7 @@ import org.apache.spark.sql.SparkSession;
 import org.uniprot.core.taxonomy.TaxonomyLineage;
 import org.uniprot.store.spark.indexer.common.JobParameter;
 import org.uniprot.store.spark.indexer.common.reader.PairRDDReader;
+import org.uniprot.store.spark.indexer.taxonomy.mapper.TaxonomyLineageRowMapper;
 
 /**
  * This class is responsible to read values from Lineage into an a JavaPairRDD{key=taxId, value=List

@@ -1,0 +1,52 @@
+ID   NSMF_RAT                Reviewed;         532 AA.
+AC   O60260;
+OX   NCBI_TaxID=10116;
+//
+ID   NSMF_RAT                Reviewed;         532 AA.
+AC   O60260-2;
+OX   NCBI_TaxID=10116;
+//
+ID   NSMF_RAT                Unreviewed;         532 AA.
+AC   O60261;
+OX   NCBI_TaxID=10116;
+//
+ID   NSMF_RAT                Unreviewed;         532 AA.
+AC   O60261-2;
+OX   NCBI_TaxID=10116;
+//
+ID   NSMF_RAT                Unreviewed;         532 AA.
+AC   O60262;
+OX   NCBI_TaxID=10116;
+//
+ID   NSMF_RAT                Reviewed;         532 AA.
+AC   O60263;
+OX   NCBI_TaxID=10116;
+//
+ID   NSMF_RAT                Unreviewed;         532 AA.
+AC   O60264;
+OX   NCBI_TaxID=39107;
+//
+ID   NSMF_RAT                Reviewed;         532 AA.
+AC   O60265;
+OX   NCBI_TaxID=39107;
+//
+ID   NSMF_RAT                Reviewed;         532 AA.
+AC   O60266;
+OX   NCBI_TaxID=39107;
+//
+ID   NSMF_RAT                Unreviewed;         532 AA.
+AC   O60267;
+OX   NCBI_TaxID=39107;
+//
+ID   NSMF_RAT                Unreviewed;         532 AA.
+AC   O60268;
+OX   NCBI_TaxID=39107;
+//
+ID   NSMF_RAT                Reviewed;         532 AA.
+AC   O60269;
+OX   NCBI_TaxID=10066;
+//
+ID   NSMF_RAT                Reviewed;         532 AA.
+AC   O60270;
+OX   NCBI_TaxID=10066;
+//

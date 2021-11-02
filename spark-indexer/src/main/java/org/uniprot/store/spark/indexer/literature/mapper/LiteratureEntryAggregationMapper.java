@@ -5,6 +5,7 @@ import org.uniprot.core.literature.LiteratureEntry;
 import org.uniprot.core.literature.LiteratureStatistics;
 import org.uniprot.core.literature.impl.LiteratureEntryBuilder;
 import org.uniprot.core.literature.impl.LiteratureStatisticsBuilder;
+import org.uniprot.store.spark.indexer.common.util.SparkUtils;
 
 /**
  * @author lgonzales
@@ -17,26 +18,14 @@ public class LiteratureEntryAggregationMapper
     @Override
     public LiteratureEntry call(LiteratureEntry entry1, LiteratureEntry entry2) throws Exception {
         LiteratureEntry mergedEntry = null;
-        if (isThereAnyNullEntry(entry1, entry2)) {
-            mergedEntry = getNotNullEntry(entry1, entry2);
+        if (SparkUtils.isThereAnyNullEntry(entry1, entry2)) {
+            mergedEntry = SparkUtils.getNotNullEntry(entry1, entry2);
         } else {
             LiteratureStatistics mergedStats = mergeStatistics(entry1, entry2);
 
             mergedEntry = LiteratureEntryBuilder.from(entry1).statistics(mergedStats).build();
         }
         return mergedEntry;
-    }
-
-    private LiteratureEntry getNotNullEntry(LiteratureEntry entry1, LiteratureEntry entry2) {
-        LiteratureEntry result = entry1;
-        if (result == null) {
-            result = entry2;
-        }
-        return result;
-    }
-
-    private boolean isThereAnyNullEntry(LiteratureEntry entry1, LiteratureEntry entry2) {
-        return entry1 == null || entry2 == null;
     }
 
     private LiteratureStatistics mergeStatistics(LiteratureEntry entry1, LiteratureEntry entry2) {

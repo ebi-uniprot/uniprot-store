@@ -1,4 +1,4 @@
-package org.uniprot.store.spark.indexer.taxonomy;
+package org.uniprot.store.spark.indexer.taxonomy.mapper;
 
 import static org.uniprot.store.spark.indexer.common.util.RowUtils.hasFieldName;
 
@@ -20,7 +20,7 @@ import scala.Tuple2;
  * @author lgonzales
  * @since 2019-11-14
  */
-class TaxonomyRowMapper implements PairFunction<Row, String, TaxonomyEntry>, Serializable {
+public class TaxonomyRowMapper implements PairFunction<Row, String, TaxonomyEntry>, Serializable {
 
     private static final long serialVersionUID = -7723532417214033169L;
 

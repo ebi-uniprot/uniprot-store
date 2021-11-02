@@ -15,7 +15,7 @@ import org.uniprot.core.proteome.ProteomeEntry;
 import org.uniprot.store.spark.indexer.common.JobParameter;
 import org.uniprot.store.spark.indexer.common.reader.PairRDDReader;
 import org.uniprot.store.spark.indexer.proteome.converter.DatasetProteomeEntryConverter;
-import org.uniprot.store.spark.indexer.proteome.converter.ProteomEntryToPair;
+import org.uniprot.store.spark.indexer.proteome.mapper.ProteomEntryToPair;
 
 /**
  * @author sahmad
@@ -68,6 +68,7 @@ public class ProteomeRDDReader implements PairRDDReader<String, ProteomeEntry> {
         StructType structType = new StructType();
         structType = structType.add("upid", DataTypes.StringType, true);
         structType = structType.add("taxonomy", DataTypes.IntegerType, true);
+        structType = structType.add("isReferenceProteome", DataTypes.BooleanType, true);
         return structType;
     }
 }

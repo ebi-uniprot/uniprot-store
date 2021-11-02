@@ -31,7 +31,7 @@ import org.uniprot.store.spark.indexer.go.evidence.GOEvidenceMapper;
 import org.uniprot.store.spark.indexer.go.evidence.GOEvidencesRDDReader;
 import org.uniprot.store.spark.indexer.go.relations.GORelationRDDReader;
 import org.uniprot.store.spark.indexer.literature.LiteratureMappedRDDReader;
-import org.uniprot.store.spark.indexer.taxonomy.TaxonomyRDDReader;
+import org.uniprot.store.spark.indexer.taxonomy.reader.TaxonomyRDDReader;
 import org.uniprot.store.spark.indexer.uniprot.mapper.*;
 import org.uniprot.store.spark.indexer.uniprot.mapper.UniRefJoinMapper;
 import org.uniprot.store.spark.indexer.uniprot.mapper.UniRefMappedToUniprotDocument;
