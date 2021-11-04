@@ -333,8 +333,14 @@ public class UniProtDocument implements Document {
     @Field("xref_count_*")
     public Map<String, Long> xrefCountMap = new HashMap<>();
 
-    @Field("rhea_id")
+    @Field("rhea")
     public List<String> rheaIds = new ArrayList<>();
+
+    @Field("chebi")
+    public Set<String> chebi = new HashSet<>();
+
+    @Field("inchikey")
+    public Set<String> inchikey = new HashSet<>();
 
     @Field("source")
     public List<String> sources = new ArrayList<>();

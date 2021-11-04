@@ -55,7 +55,7 @@ name: monoatomic ion
 subset: 3_STAR
 synonym: "monoatomic ions" RELATED [ChEBI]
 is_a: CHEBI:24870
-is_a: CHEBI:33238
+is_a: CHEBI:1000
 
 [Term]
 id: CHEBI:16526
@@ -129,7 +129,6 @@ xref: MolBase:752
 xref: PDBeChem:CO2
 xref: CAS:124-38-9 "KEGG COMPOUND"
 xref: KEGG:C00011
-is_a: CHEBI:64708
 relationship: has_role CHEBI:46787
 relationship: has_role CHEBI:35620
 relationship: has_role CHEBI:38867
@@ -143,7 +142,6 @@ relationship: has_role CHEBI:75772
 relationship: has_role CHEBI:76971
 relationship: has_role CHEBI:75771
 is_a: CHEBI:138675
-is_a: CHEBI:23014
 
 [Term]
 id: CHEBI:15379
@@ -194,7 +192,6 @@ xref: CAS:7782-44-7 "ChemIDplus"
 xref: KEGG:C00007
 xref: CAS:7782-44-7 "KEGG COMPOUND"
 xref: PDBeChem:OXY
-is_a: CHEBI:33263
 relationship: is_conjugate_base_of CHEBI:29793
 relationship: has_role CHEBI:35472
 relationship: has_role CHEBI:33893
@@ -205,7 +202,76 @@ relationship: has_role CHEBI:77746
 relationship: has_role CHEBI:77974
 relationship: has_role CHEBI:75772
 is_a: CHEBI:138675
-is_a: CHEBI:25362
+
+[Term]
+id: CHEBI:138675
+name: gas molecular entity
+subset: 3_STAR
+def: "Any main group molecular entity that is gaseous at standard temperature and pressure (STP; 0degreeC and 100 kPa)." []
+synonym: "gaseous molecular entity" RELATED [ChEBI]
+synonym: "gaseous molecular entities" RELATED [ChEBI]
+synonym: "gas molecular entities" RELATED [ChEBI]
+xref: Wikipedia:https://en.wikipedia.org/wiki/Gas
+is_a: CHEBI:1000
+is_a: CHEBI:2200
+
+[Term]
+id: CHEBI:1000
+name: 3-chloroethyl methanesulfonate
+subset: 1_STAR
+is_a: CHEBI:1100
+
+[Term]
+id: CHEBI:1100
+name: 2-fluoroethyl methanesulfonate
+subset: 1_STAR
+is_a: CHEBI:1200
+
+[Term]
+id: CHEBI:1200
+name: 3-chloroethyl methanesulfonate
+subset: 1_STAR
+is_a: CHEBI:1300
+
+[Term]
+id: CHEBI:1300
+name: 2-fluoroethyl methanesulfonate
+subset: 1_STAR
+is_a: CHEBI:1400
+
+[Term]
+id: CHEBI:1400
+name: 3-chloroethyl methanesulfonate
+subset: 1_STAR
+is_a: CHEBI:1500
+
+[Term]
+id: CHEBI:1500
+name: 2-fluoroethyl methanesulfonate
+subset: 1_STAR
+
+[Term]
+id: CHEBI:2200
+name: 2200-chloroethyl methanesulfonate
+subset: 1_STAR
+is_a: CHEBI:2300
+
+[Term]
+id: CHEBI:2300
+name: 2300-fluoroethyl methanesulfonate
+subset: 1_STAR
+is_a: CHEBI:2400
+
+[Term]
+id: CHEBI:2400
+name: 2400-chloroethyl methanesulfonate
+subset: 1_STAR
+is_a: CHEBI:2500
+
+[Term]
+id: CHEBI:2500
+name: 2500-fluoroethyl methanesulfonate
+subset: 1_STAR
 
 [Typedef]
 id: has_part

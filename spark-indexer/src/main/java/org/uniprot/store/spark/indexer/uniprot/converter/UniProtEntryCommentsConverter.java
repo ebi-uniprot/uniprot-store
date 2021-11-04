@@ -166,12 +166,8 @@ class UniProtEntryCommentsConverter implements Serializable {
                                 document.cofactorChebi.add(val.getName());
                                 if (val.getCofactorCrossReference().getDatabase()
                                         == CofactorDatabase.CHEBI) {
-                                    String referenceId = val.getCofactorCrossReference().getId();
-                                    String id = referenceId;
-                                    if (id.startsWith("CHEBI:"))
-                                        id = id.substring("CHEBI:".length());
-                                    document.cofactorChebi.add(id);
-                                    document.cofactorChebi.add(referenceId);
+                                    String chebiId = val.getCofactorCrossReference().getId();
+                                    document.cofactorChebi.add(chebiId);
                                 }
                                 document.cofactorChebiEv.addAll(
                                         UniProtEntryConverterUtil.extractEvidence(

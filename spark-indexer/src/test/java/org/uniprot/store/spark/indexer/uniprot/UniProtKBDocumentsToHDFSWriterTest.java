@@ -4,10 +4,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasSize;
 import static org.junit.jupiter.api.Assertions.*;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.ResourceBundle;
+import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -22,6 +19,7 @@ import org.uniprot.core.uniprotkb.xdb.UniProtKBCrossReference;
 import org.uniprot.store.search.document.uniprot.UniProtDocument;
 import org.uniprot.store.spark.indexer.common.JobParameter;
 import org.uniprot.store.spark.indexer.common.util.SparkUtils;
+import org.uniprot.store.spark.indexer.uniprot.mapper.UniProtEntryToSolrDocument;
 
 import scala.Tuple2;
 
@@ -154,6 +152,22 @@ class UniProtKBDocumentsToHDFSWriterTest {
 
         assertEquals(0, result.get(1).goIds.size());
         assertEquals(0, result.get(1).goes.size());
+    }
+
+    @Test
+    void canJoinChebiRelations() {
+        UniProtKBDocumentsToHDFSWriter writer = new UniProtKBDocumentsToHDFSWriter(parameter);
+
+        UniProtKBRDDTupleReader reader = new UniProtKBRDDTupleReader(parameter, false);
+        JavaPairRDD<String, UniProtDocument> uniprotDocRDD =
+                reader.load().mapValues(new UniProtEntryToSolrDocument(new HashMap<>()));
+
+        uniprotDocRDD = writer.joinChebiRelations(uniprotDocRDD);
+
+        List<UniProtDocument> result = uniprotDocRDD.values().take(10);
+        assertNotNull(result);
+        assertEquals(1, result.size());
+        // TODO: Add validation
     }
 
     @Test

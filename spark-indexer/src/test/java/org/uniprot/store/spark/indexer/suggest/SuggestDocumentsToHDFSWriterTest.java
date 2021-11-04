@@ -108,13 +108,13 @@ class SuggestDocumentsToHDFSWriterTest {
         JavaRDD<SuggestDocument> suggestRdd = writer.getChebi(flatFileRDD);
         assertNotNull(suggestRdd);
         long count = suggestRdd.count();
-        assertEquals(2L, count);
+        assertEquals(5L, count);
         SuggestDocument document = suggestRdd.first();
 
         assertNotNull(document);
         assertEquals(CATALYTIC_ACTIVITY.name(), document.dictionary);
-        assertEquals("CHEBI:16526", document.id);
-        assertEquals("carbon dioxide", document.value);
+        assertEquals("CHEBI:23367", document.id);
+        assertEquals("molecular entity", document.value);
     }
 
     @Test

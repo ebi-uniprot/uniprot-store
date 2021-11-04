@@ -13,6 +13,7 @@ import org.apache.hadoop.conf.Configuration;
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
+import org.uniprot.core.cv.chebi.ChebiEntry;
 import org.uniprot.core.cv.go.GeneOntologyEntry;
 import org.uniprot.core.cv.pathway.UniPathway;
 import org.uniprot.core.taxonomy.TaxonomyEntry;
@@ -22,6 +23,7 @@ import org.uniprot.core.uniref.UniRefType;
 import org.uniprot.cv.pathway.UniPathwayFileReader;
 import org.uniprot.store.search.SolrCollection;
 import org.uniprot.store.search.document.uniprot.UniProtDocument;
+import org.uniprot.store.spark.indexer.chebi.ChebiRDDReader;
 import org.uniprot.store.spark.indexer.common.JobParameter;
 import org.uniprot.store.spark.indexer.common.util.SolrUtils;
 import org.uniprot.store.spark.indexer.common.util.SparkUtils;
@@ -73,6 +75,8 @@ public class UniProtKBDocumentsToHDFSWriter implements DocumentsToHDFSWriter {
                 convertToUniProtDocument(uniProtEntryRDD);
 
         uniProtDocumentRDD = joinGoRelations(uniProtDocumentRDD);
+
+        uniProtDocumentRDD = joinChebiRelations(uniProtDocumentRDD);
 
         uniProtDocumentRDD = joinTaxonomy(uniProtDocumentRDD);
 
@@ -189,6 +193,39 @@ public class UniProtKBDocumentsToHDFSWriter implements DocumentsToHDFSWriter {
         return uniProtDocumentRDD
                 .leftOuterJoin(joinedRDD)
                 .mapValues(new GoRelationsToUniProtDocument());
+    }
+
+    /**
+     * --- PLEASE NOTE --- To join ChebiId Related Ids we are creating an RDD of
+     * JavaPairRDD<chebiId,accession> extracted from FlatFile CC Cofactor and CC Catalytics lines.
+     * It means that one protein may have many ChebiId
+     *
+     * <p>The Second step is a join between JavaPairRDD<ChebiId,accession> and
+     * JavaPairRDD<ChebiId,ChebiEntry> received as method parameter and we group by accession, so
+     * the result RDD would be a (JavaPairRDD<accession, Iterable<ChebiEntry>>).
+     *
+     * <p>The Third and last step is to join JavaPairRDD<accession, Iterable<ChebiEntry>> with
+     * JavaPairRDD<accession, UniProtDocument> and at this point we can map ChebiEntry RelatedIds
+     * information into UniProtDocument. and Also Chebi InchKey
+     *
+     * @param uniProtDocumentRDD JavaPairRDD<accession, UniProtDocument>
+     * @return JavaPairRDD<accession, UniProtDocument> with added Chebi Related and Inchkeys
+     */
+    JavaPairRDD<String, UniProtDocument> joinChebiRelations(
+            JavaPairRDD<String, UniProtDocument> uniProtDocumentRDD) {
+        ChebiRDDReader chebiRDDReader = new ChebiRDDReader(parameter);
+        // JavaPairRDD<chebiId, ChebiEntry>
+        JavaPairRDD<String, ChebiEntry> chebiRDD = chebiRDDReader.load();
+
+        // JavaPairRDD<chebiId,accession> --> extracted from flat file
+        JavaPairRDD<String, String> chebiMapRDD =
+                reader.loadFlatFileToRDD().flatMapToPair(new ChebiJoinMapper());
+
+        // JavaPairRDD<accession, Iterable<ChebiEntry>> joinRDD
+        JavaPairRDD<String, Iterable<ChebiEntry>> joinedRDD =
+                JavaPairRDD.fromJavaRDD(chebiMapRDD.join(chebiRDD).values()).groupByKey();
+
+        return uniProtDocumentRDD.leftOuterJoin(joinedRDD).mapValues(new ChebiToUniProtDocument());
     }
 
     /**

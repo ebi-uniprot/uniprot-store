@@ -152,6 +152,24 @@
     "fieldType": "GENERAL"
   },
   {
+    "id":"rhea",
+    "fieldName": "rhea",
+    "dataType": "STRING",
+    "fieldType": "GENERAL"
+  },
+  {
+    "id":"chebi",
+    "fieldName": "chebi",
+    "dataType": "STRING",
+    "fieldType": "GENERAL"
+  },
+  {
+    "id":"inchikey",
+    "fieldName": "inchikey",
+    "dataType": "STRING",
+    "fieldType": "GENERAL"
+  },
+  {
     "id":"xref",
     "fieldName": "xref",
     "dataType": "STRING",

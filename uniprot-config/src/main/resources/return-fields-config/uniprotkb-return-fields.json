@@ -610,9 +610,9 @@
     "parentId": "function",
     "childNumber": 16,
     "itemType": "SINGLE",
-    "name": "rhea_id",
+    "name": "rhea",
     "label": "Rhea ID",
-    "id": "function/rhea_id",
+    "id": "function/rhea",
     "paths": [
       "comments[?(@.commentType=='CATALYTIC ACTIVITY')]"
     ]
