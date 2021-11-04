@@ -44,7 +44,8 @@ class UniProtEntryReferencesConverterTest {
         assertEquals(Arrays.asList("one  tittle", "two  tittle"), document.referenceTitles);
         assertEquals(Arrays.asList(get1Jan2029(), get1Jan2029()), document.referenceDates);
         assertEquals(
-                Arrays.asList("one journal name.", "two journal name."), document.referenceJournals);
+                Arrays.asList("one journal name.", "two journal name."),
+                document.referenceJournals);
         assertEquals(
                 Arrays.asList("one auth group", "two auth group"), document.referenceOrganizations);
         assertEquals(Arrays.asList("oneid", "twoid"), document.referencePubmeds);

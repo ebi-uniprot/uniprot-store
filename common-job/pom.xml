@@ -12,7 +12,7 @@
 	<artifactId>common-job</artifactId>
 
 	<properties>
-		<ojdbc.version>11.2.0.4</ojdbc.version>
+		<ojdbc.version>19.3.0.0</ojdbc.version>
 		<failsafe.version>2.0.1</failsafe.version>
 	</properties>
 

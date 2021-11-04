@@ -12,7 +12,7 @@
 	<artifactId>uniprot-indexer</artifactId>
 
 	<properties>
-		<ojdbc.version>11.2.0.4</ojdbc.version>
+		<ojdbc.version>19.3.0.0</ojdbc.version>
 		<failsafe.version>2.0.1</failsafe.version>
 		<chronicle-map.version>3.17.2</chronicle-map.version>
 		<ehcache.version>3.6.2</ehcache.version>
@@ -194,8 +194,8 @@
 			<optional>true</optional>
 		</dependency>
 		<dependency>
-			<groupId>com.oracle</groupId>
-			<artifactId>ojdbc6</artifactId>
+			<groupId>com.oracle.database.jdbc</groupId>
+			<artifactId>ojdbc8</artifactId>
 			<version>${ojdbc.version}</version>
 		</dependency>
 
