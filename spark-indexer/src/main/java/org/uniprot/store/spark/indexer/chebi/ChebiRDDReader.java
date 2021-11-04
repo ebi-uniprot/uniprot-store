@@ -19,6 +19,8 @@ import scala.Tuple2;
 import scala.reflect.ClassTag;
 
 /**
+ * https://spark.apache.org/docs/latest/graphx-programming-guide.html#pregel-api
+ *
  * @author lgonzales
  * @since 2020-01-17
  */
@@ -111,8 +113,8 @@ public class ChebiRDDReader implements PairRDDReader<String, ChebiEntry> {
                         MAX_PREGEL_CYCLE,
                         EdgeDirection.Out(),
                         new GraphVerticesProgramMapper(),
-                        new GraphSendVerticesMessageMapper(),
-                        new GraphMergeVerticeMapper(),
+                        new GraphSendVertexMessageMapper(),
+                        new GraphMergeVertexMapper(),
                         chebiTag)
                 .vertices()
                 .toJavaRDD();

@@ -13,7 +13,7 @@ import scala.Tuple2;
 import scala.collection.Iterator;
 import scala.collection.JavaConverters;
 
-class GraphSendVerticesMessageMapper
+class GraphSendVertexMessageMapper
         implements Function1<EdgeTriplet<ChebiEntry, String>, Iterator<Tuple2<Object, ChebiEntry>>>,
                 Serializable {
 

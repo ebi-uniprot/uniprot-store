@@ -16,11 +16,11 @@ import scala.Tuple2;
 import scala.collection.Iterator;
 import scala.collection.JavaConversions;
 
-class GraphSendVerticesMessageMapperTest {
+class GraphSendVertexMessageMapperTest {
 
     @Test
     void canSendVerticesMessage() {
-        GraphSendVerticesMessageMapper mapper = new GraphSendVerticesMessageMapper();
+        GraphSendVertexMessageMapper mapper = new GraphSendVertexMessageMapper();
 
         ChebiEntry srcChebi =
                 new ChebiEntryBuilder()

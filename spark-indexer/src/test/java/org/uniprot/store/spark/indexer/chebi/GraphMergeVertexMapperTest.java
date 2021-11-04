@@ -9,11 +9,11 @@ import org.junit.jupiter.api.Test;
 import org.uniprot.core.cv.chebi.ChebiEntry;
 import org.uniprot.core.cv.chebi.impl.ChebiEntryBuilder;
 
-class GraphMergeVerticeMapperTest {
+class GraphMergeVertexMapperTest {
 
     @Test
     void canMerge() {
-        GraphMergeVerticeMapper mapper = new GraphMergeVerticeMapper();
+        GraphMergeVertexMapper mapper = new GraphMergeVertexMapper();
         ChebiEntry entry1 =
                 new ChebiEntryBuilder()
                         .id("1")

@@ -13,7 +13,7 @@ import org.uniprot.core.util.Utils;
 
 import scala.Function2;
 
-class GraphMergeVerticeMapper
+class GraphMergeVertexMapper
         implements Function2<ChebiEntry, ChebiEntry, ChebiEntry>, Serializable {
     private static final long serialVersionUID = -8568735208735890731L;
 
