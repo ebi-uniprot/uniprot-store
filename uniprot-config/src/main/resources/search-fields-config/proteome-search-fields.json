@@ -196,16 +196,24 @@
         "value": "1"
       },
       {
-        "name": "Close to Standard",
+        "name": "Close to standard (high value)",
         "value": "2"
       },
       {
-        "name": "Outlier",
+        "name": "Close to standard (low value)",
         "value": "3"
       },
       {
-        "name": "Unknown",
+        "name": "Outlier (high value)",
         "value": "4"
+      },
+      {
+        "name": "Outlier (low value)",
+        "value": "5"
+      },
+      {
+        "name": "Unknown",
+        "value": "6"
       }
     ]
   },

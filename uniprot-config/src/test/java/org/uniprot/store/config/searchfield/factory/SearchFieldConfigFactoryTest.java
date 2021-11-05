@@ -11,6 +11,7 @@ import org.uniprot.cv.xdb.UniProtDatabaseTypes;
 import org.uniprot.store.config.UniProtDataType;
 import org.uniprot.store.config.searchfield.common.SearchFieldConfig;
 import org.uniprot.store.config.searchfield.impl.SearchFieldConfigImpl;
+import org.uniprot.store.config.searchfield.model.SearchFieldItem;
 
 class SearchFieldConfigFactoryTest {
 
@@ -29,6 +30,18 @@ class SearchFieldConfigFactoryTest {
         Assertions.assertThrows(
                 NullPointerException.class,
                 () -> SearchFieldConfigFactory.getSearchFieldConfig(null));
+    }
+
+    @ParameterizedTest(name = "[{0}] ValuesCount({1}) == {2} ?")
+    @MethodSource("provideValuesFieldAndCount")
+    void testValuesForField(UniProtDataType dataType, String fieldName, Integer valuesCount) {
+        SearchFieldConfig searchFieldConfig =
+                SearchFieldConfigFactory.getSearchFieldConfig(dataType);
+        Assertions.assertEquals(SearchFieldConfigImpl.class, searchFieldConfig.getClass());
+        Assertions.assertNotNull(searchFieldConfig.getAllFieldItems());
+        SearchFieldItem fieldItem = searchFieldConfig.getSearchFieldItemByName(fieldName);
+        Assertions.assertNotNull(fieldItem.getValues());
+        Assertions.assertEquals(valuesCount, fieldItem.getValues().size());
     }
 
     private static Stream<Arguments> provideTypeAndItemCount() {
@@ -50,5 +63,11 @@ class SearchFieldConfigFactoryTest {
                 Arguments.of(UniProtDataType.UNIRULE, 28),
                 Arguments.of(UniProtDataType.HELP, 5),
                 Arguments.of(UniProtDataType.ARBA, 22));
+    }
+
+    private static Stream<Arguments> provideValuesFieldAndCount() {
+        return Stream.of(
+                Arguments.of(UniProtDataType.PROTEOME, "cpd", 6),
+                Arguments.of(UniProtDataType.PROTEOME, "proteome_type", 4));
     }
 }
