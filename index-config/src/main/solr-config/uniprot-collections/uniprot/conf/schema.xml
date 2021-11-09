@@ -389,7 +389,7 @@
 			<filter class="solr.LowerCaseFilterFactory" />
 			<filter class="solr.WordDelimiterGraphFilterFactory"
 				generateNumberParts="1" splitOnCaseChange="0" preserveOriginal="0"
-				splitOnNumerics="0" stemEnglishPossessive="1" generateWordParts="1"
+				splitOnNumerics="1" stemEnglishPossessive="1" generateWordParts="1"
 				catenateNumbers="0" catenateWords="1" catenateAll="1" />
 			<filter class="solr.FlattenGraphFilterFactory" />
 		</analyzer>
@@ -401,7 +401,7 @@
 			<filter class="solr.LowerCaseFilterFactory" />
 			<filter class="solr.WordDelimiterGraphFilterFactory"
 				generateNumberParts="1" splitOnCaseChange="0" preserveOriginal="0"
-				splitOnNumerics="0" stemEnglishPossessive="1" generateWordParts="1"
+				splitOnNumerics="1" stemEnglishPossessive="1" generateWordParts="1"
 				catenateNumbers="0" catenateWords="0" catenateAll="0" />
 
 		</analyzer>

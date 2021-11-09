@@ -676,6 +676,22 @@ class FullCIAnalysisSearchIT {
                 .canBeFound(field);
     }
 
+    @ParameterizedTest
+    @EnumSource(FieldType.class)
+    void canFindWhenLetterNumberBoundariesExist(FieldType field) {
+        String accession = newAccession();
+
+        String indexFieldValue = "SAUSAGE1-A complex subunit BRCC36";
+        String queryFieldValue = "sausage";
+        String query = fieldQuery(field.getQueryField(), queryFieldValue);
+
+        new EntryCheck()
+                .withAccession(accession)
+                .withFieldValue(indexFieldValue)
+                .usingQuery(query)
+                .canBeFound(field);
+    }
+
     private static void ensureInitialEntriesWereSaved() {
         String query = QueryBuilder.query("accession_id", "*");
 
