@@ -6,6 +6,10 @@ import org.uniprot.core.cv.chebi.ChebiEntry;
 
 import scala.Function3;
 
+/**
+ * GraphVerticesProgramMapper is a mapper that receive a parent and a child graph node
+ * and return a single node as a result. In our use case we always try to return the child node.
+ */
 class GraphVerticesProgramMapper
         implements Function3<Object, ChebiEntry, ChebiEntry, ChebiEntry>, Serializable {
     private static final long serialVersionUID = 129225055353000743L;
