@@ -34,8 +34,8 @@
 		required="false" multiValued="false" />
 	<field name="id_sort" type="string" indexed="true" stored="false"
 		required="false" multiValued="false" docValues="true" />
-	<field name="id_default" type="full_ci" indexed="true"
-		stored="false" required="false" multiValued="false" />
+	<field name="id_default" type="full_ci_split_numeric"
+		indexed="true" stored="false" required="false" multiValued="false" />
 	<copyField source="id" dest="id_sort" />
 
 	<field name="active" type="boolean" indexed="true" stored="true"
@@ -57,8 +57,8 @@
 
 	<!-- Protein name section -->
 	<!-- access protein name via protgene_default for default search -->
-	<field name="protein_name" type="full_ci" indexed="true"
-		stored="false" required="false" multiValued="true" />
+	<field name="protein_name" type="full_ci_split_numeric"
+		indexed="true" stored="false" required="false" multiValued="true" />
 	<field name="protein_name_sort" type="string" indexed="true"
 		stored="false" required="false" multiValued="false" docValues="true" />
 
@@ -109,8 +109,8 @@
 
 	<!-- Gene -->
 	<!-- access gene name via protgene_default for default search -->
-	<field name="gene" type="full_ci" indexed="true" stored="false"
-		required="false" multiValued="true" />
+	<field name="gene" type="full_ci_split_numeric" indexed="true"
+		stored="false" required="false" multiValued="true" />
 	<field name="gene_exact" type="basic_ci" indexed="true"
 		stored="false" required="false" multiValued="true" />
 	<field name="gene_sort" type="string" indexed="true"
@@ -122,8 +122,8 @@
 		stored="false" required="false" multiValued="true" omitNorms="false" />
 
 	<!-- Field to aid default search -->
-	<field name="protgene_default" type="full_ci" indexed="true"
-		stored="false" required="false" multiValued="true" />
+	<field name="protgene_default" type="full_ci_split_numeric"
+		indexed="true" stored="false" required="false" multiValued="true" />
 	<copyField source="gene" dest="protgene_default" />
 	<copyField source="protein_name" dest="protgene_default" />
 
@@ -381,6 +381,36 @@
 		of deprecated filters. -->
 	<fieldType name="full_ci" class="solr.TextField"
 		sortMissingLast="true" omitNorms="true" positionIncrementGap="100">
+		<analyzer type="index">
+			<tokenizer class="solr.SimplePatternSplitTokenizerFactory"
+				pattern="[- /()]+" />
+			<filter class="solr.ASCIIFoldingFilterFactory"
+				preserveOriginal="false" />
+			<filter class="solr.LowerCaseFilterFactory" />
+			<filter class="solr.WordDelimiterGraphFilterFactory"
+				generateNumberParts="1" splitOnCaseChange="0" preserveOriginal="0"
+				splitOnNumerics="0" stemEnglishPossessive="1" generateWordParts="1"
+				catenateNumbers="0" catenateWords="1" catenateAll="1" />
+			<filter class="solr.FlattenGraphFilterFactory" />
+		</analyzer>
+		<analyzer type="query">
+			<tokenizer class="solr.SimplePatternSplitTokenizerFactory"
+				pattern="[- /()]+" />
+			<filter class="solr.ASCIIFoldingFilterFactory"
+				preserveOriginal="false" />
+			<filter class="solr.LowerCaseFilterFactory" />
+			<filter class="solr.WordDelimiterGraphFilterFactory"
+				generateNumberParts="1" splitOnCaseChange="0" preserveOriginal="0"
+				splitOnNumerics="0" stemEnglishPossessive="1" generateWordParts="1"
+				catenateNumbers="0" catenateWords="0" catenateAll="0" />
+
+		</analyzer>
+	</fieldType>
+
+	<!-- The only difference in this new field is in solr.WordDelimiterGraphFilterFactory.splitOnNumerics=1. -->
+	<fieldType name="full_ci_split_numeric"
+		class="solr.TextField" sortMissingLast="true" omitNorms="true"
+		positionIncrementGap="100">
 		<analyzer type="index">
 			<tokenizer class="solr.SimplePatternSplitTokenizerFactory"
 				pattern="[- /()]+" />
