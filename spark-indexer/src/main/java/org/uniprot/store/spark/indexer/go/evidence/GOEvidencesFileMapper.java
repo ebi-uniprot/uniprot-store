@@ -30,7 +30,7 @@ public class GOEvidencesFileMapper implements PairFunction<String, String, GOEvi
         if (splitedLine.length >= 7) {
             String accession = splitedLine[0];
             String goId = splitedLine[1];
-            String evidenceValue = splitedLine[6].replace("PMID", "ECO:0000269|PubMed");
+            String evidenceValue = splitedLine[6].replace("PMID", splitedLine[4] + "|PubMed");
             Evidence evidence = EvidenceHelper.parseEvidenceLine(evidenceValue);
             return new Tuple2<>(accession, new GOEvidence(goId, evidence));
         } else {
