@@ -61,13 +61,7 @@ class UniProtEntryCrossReferenceConverter {
                 case "unipathway":
                 case "ensembl":
                     if (xref.hasProperties()) {
-                        List<String> properties =
-                                xref.getProperties().stream()
-                                        .filter(
-                                                property ->
-                                                        !property.getValue().equalsIgnoreCase("-"))
-                                        .map(Property::getValue)
-                                        .collect(Collectors.toList());
+                        List<String> properties = getCrossRefPropertiesValues(xref);
                         properties.forEach(s -> convertXRefId(document, dbname, s));
                     }
                     break;
@@ -83,6 +77,12 @@ class UniProtEntryCrossReferenceConverter {
                 case "go":
                     convertGoTerm(xref, document);
                     break;
+                case "tcdb":
+                    if (xref.hasProperties()){
+                        List<String> properties = getCrossRefPropertiesValues(xref);
+                        document.content.addAll(properties);
+                    }
+                    break;
                 default:
             }
         }
@@ -90,6 +90,15 @@ class UniProtEntryCrossReferenceConverter {
         if (d3structure && !document.proteinsWith.contains(ProteinsWith.D3_STRUCTURE.getValue())) {
             document.proteinsWith.add(ProteinsWith.D3_STRUCTURE.getValue());
         }
+    }
+
+    private List<String> getCrossRefPropertiesValues(UniProtKBCrossReference xref) {
+        return xref.getProperties().stream()
+                .filter(
+                        property ->
+                                !property.getValue().equalsIgnoreCase("-"))
+                .map(Property::getValue)
+                .collect(Collectors.toList());
     }
 
     private void convertXRefId(UniProtDocument document, String dbname, String s) {

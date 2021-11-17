@@ -199,6 +199,36 @@ class UniProtKBEntryCrossReferenceConverterTest {
         assertEquals(1L, document.xrefCountMap.get("xref_count_ensembl"));
     }
 
+    @Test
+    void convertTCDBCrossReferencesWithProperty() {
+        GORepo goRelationRepo = mock(GORepo.class);
+        Map<String, SuggestDocument> suggestDocuments = new HashMap<>();
+        UniProtDocument document = new UniProtDocument();
+
+        UniProtEntryCrossReferenceConverter converter = new UniProtEntryCrossReferenceConverter(goRelationRepo, suggestDocuments);
+
+        UniProtKBCrossReference xref =
+                getUniProtDBCrossReference(
+                        new UniProtKBDatabaseImpl("TCDB"),
+                        "8.A.94.1.2",
+                        new Property("FamilyName", "the adiponectin (adiponectin) family"));
+        List<UniProtKBCrossReference> references = Collections.singletonList(xref);
+
+        converter.convertCrossReferences(references, document);
+
+        assertEquals(
+                new HashSet<>(
+                        Arrays.asList("tcdb-8.A.94.1.2", "8", "8.A.94.1.2", "tcdb-8")),
+                document.crossRefs);
+
+        assertEquals(Collections.singleton("tcdb"), document.databases);
+
+        assertTrue(document.xrefCountMap.containsKey("xref_count_tcdb"));
+        assertEquals(1L, document.xrefCountMap.get("xref_count_tcdb"));
+        assertEquals(1, document.content.size());
+        assertEquals("[the adiponectin (adiponectin) family]", document.content.toString());
+    }
+
     private static UniProtKBCrossReference getUniProtDBCrossReference(
             UniProtKBDatabase dbType, String id, Property... property) {
         return new UniProtCrossReferenceBuilder()
