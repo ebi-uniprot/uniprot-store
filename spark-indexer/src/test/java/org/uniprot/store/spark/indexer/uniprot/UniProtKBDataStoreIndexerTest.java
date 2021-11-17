@@ -10,6 +10,7 @@ import org.apache.spark.api.java.JavaSparkContext;
 import org.apache.spark.api.java.function.VoidFunction;
 import org.junit.jupiter.api.Test;
 import org.uniprot.core.uniprotkb.UniProtKBEntry;
+import org.uniprot.core.uniprotkb.evidence.Evidence;
 import org.uniprot.core.uniprotkb.impl.UniProtKBEntryBuilder;
 import org.uniprot.core.uniprotkb.xdb.UniProtKBCrossReference;
 import org.uniprot.store.datastore.voldemort.uniprot.VoldemortInMemoryUniprotEntryStore;
@@ -64,13 +65,13 @@ class UniProtKBDataStoreIndexerTest {
 
             assertTrue(go5635.hasEvidences());
             assertEquals(1, go5635.getEvidences().size());
-            assertEquals("ECO:0000314", go5635.getEvidences().get(0).getEvidenceCode().getCode());
+            Evidence evidence = go5635.getEvidences().get(0);
+            assertEquals("ECO:0000314", evidence.getEvidenceCode().getCode());
             assertEquals(
-                    "18303947", go5635.getEvidences().get(0).getEvidenceCrossReference().getId());
+                    "18303947", evidence.getEvidenceCrossReference().getId());
             assertEquals(
                     "PubMed",
-                    go5635.getEvidences()
-                            .get(0)
+                    evidence
                             .getEvidenceCrossReference()
                             .getDatabase()
                             .getName());
