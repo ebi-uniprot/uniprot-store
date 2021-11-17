@@ -380,7 +380,7 @@
 		filter factories. Therefore, we now have removed synonyms handling, and use 
 		of deprecated filters. -->
 	<fieldType name="full_ci" class="solr.TextField"
-		sortMissingLast="true" omitNorms="true" positionIncrementGap="100">
+		sortMissingLast="true" omitNorms="false" positionIncrementGap="100">
 		<analyzer type="index">
 			<tokenizer class="solr.SimplePatternSplitTokenizerFactory"
 				pattern="[- /()]+" />
@@ -409,7 +409,7 @@
 
 	<!-- The only difference in this new field is in solr.WordDelimiterGraphFilterFactory.splitOnNumerics=1. -->
 	<fieldType name="full_ci_split_numeric"
-		class="solr.TextField" sortMissingLast="true" omitNorms="true"
+		class="solr.TextField" sortMissingLast="true" omitNorms="false"
 		positionIncrementGap="100">
 		<analyzer type="index">
 			<tokenizer class="solr.SimplePatternSplitTokenizerFactory"
