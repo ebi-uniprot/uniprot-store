@@ -61,13 +61,7 @@ class UniProtEntryCrossReferenceConverter {
                 case "unipathway":
                 case "ensembl":
                     if (xref.hasProperties()) {
-                        List<String> properties =
-                                xref.getProperties().stream()
-                                        .filter(
-                                                property ->
-                                                        !property.getValue().equalsIgnoreCase("-"))
-                                        .map(Property::getValue)
-                                        .collect(Collectors.toList());
+                        List<String> properties = getCrossRefPropertiesValues(xref);
                         properties.forEach(s -> convertXRefId(document, dbname, s));
                     }
                     break;
@@ -76,6 +70,12 @@ class UniProtEntryCrossReferenceConverter {
                     break;
                 case "go":
                     convertGoTerm(xref, document);
+                    break;
+                case "tcdb":
+                    if (xref.hasProperties()){
+                        List<String> properties = getCrossRefPropertiesValues(xref);
+                        document.content.addAll(properties);
+                    }
                     break;
                 default:
             }
@@ -170,5 +170,14 @@ class UniProtEntryCrossReferenceConverter {
                         .value(term)
                         .dictionary(SuggestDictionary.GO.name())
                         .build());
+    }
+
+    private List<String> getCrossRefPropertiesValues(UniProtKBCrossReference xref){
+        return xref.getProperties().stream()
+                .filter(
+                        property ->
+                                !property.getValue().equalsIgnoreCase("-"))
+                .map(Property::getValue)
+                .collect(Collectors.toList());
     }
 }
