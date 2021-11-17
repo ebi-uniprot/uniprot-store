@@ -20,7 +20,7 @@ class IdMappingFieldConfigTest {
     void testGetAllIdMappingFields() {
         List<UniProtDatabaseDetail> idMappingFields = IdMappingFieldConfig.getAllIdMappingTypes();
         Assertions.assertNotNull(idMappingFields);
-        Assertions.assertEquals(97, idMappingFields.size());
+        Assertions.assertEquals(98, idMappingFields.size());
         idMappingFields.forEach(field -> Assertions.assertNotNull(field.getIdMappingName()));
         // verify few mapped fields
         Set<String> names =
@@ -48,6 +48,14 @@ class IdMappingFieldConfigTest {
         MatcherAssert.assertThat(
                 IdMappingFieldConfig.convertDbNameToPIRDbName("EMBL-GenBank-DDBJ"),
                 CoreMatchers.is("EMBL_ID"));
+
+        MatcherAssert.assertThat(
+                IdMappingFieldConfig.convertDbNameToPIRDbName("RefSeq_Protein"),
+                CoreMatchers.is("P_REFSEQ_AC"));
+
+        MatcherAssert.assertThat(
+                IdMappingFieldConfig.convertDbNameToPIRDbName("RefSeq_Nucleotide"),
+                CoreMatchers.is("REFSEQ_NT_ID"));
     }
 
     @Test
