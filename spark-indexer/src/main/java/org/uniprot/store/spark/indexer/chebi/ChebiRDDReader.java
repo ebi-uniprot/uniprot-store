@@ -19,10 +19,10 @@ import scala.Tuple2;
 import scala.reflect.ClassTag;
 
 /**
- * ChebiRDDReader loads CHEBI data and also its related ids "is_a".
- * This is a graph structure, and we use Apache Spark GraphX library to load it.
+ * ChebiRDDReader loads CHEBI data and also its related ids "is_a". This is a graph structure, and
+ * we use Apache Spark GraphX library to load it.
  *
- * Bellow is the link that explain how Apache Spark GraphX works, and also gives more detail
+ * <p>Bellow is the link that explain how Apache Spark GraphX works, and also gives more detail
  * about the pregel algorithm, that we use build the complete graph with all related ids.
  * https://spark.apache.org/docs/latest/graphx-programming-guide.html#pregel-api
  *
@@ -69,9 +69,8 @@ public class ChebiRDDReader implements PairRDDReader<String, ChebiEntry> {
     }
 
     /**
-     * This method load Chebi Graph.
-     * Important that we have a maxCycle break to avoid infinite loop (graph cycle).
-     * We also have a MIN_GRAPH_CYCLE, it means that we only check Graph load
+     * This method load Chebi Graph. Important that we have a maxCycle break to avoid infinite loop
+     * (graph cycle). We also have a MIN_GRAPH_CYCLE, it means that we only check Graph load
      * completion after this MIN_GRAPH_CYCLE was loaded (to optimise load).
      *
      * @param vertices loaded graph vertices
@@ -108,13 +107,14 @@ public class ChebiRDDReader implements PairRDDReader<String, ChebiEntry> {
     }
 
     /**
-     * This method execute the Spark GraphX pregel method, that is an algorithm to navigate through a distributed graph
+     * This method execute the Spark GraphX pregel method, that is an algorithm to navigate through
+     * a distributed graph
      *
-     * graph.ops().pregel: takes two argument lists (i.e., graph.pregel(list1)(list2)).
-     * The first argument list contains configuration parameters including the initial message,
-     * the maximum number of iterations, and the edge direction in which to send messages (by default along out edges).
-     * The second argument list contains the user defined functions for receiving messages (the vertex program vprog),
-     * computing messages (sendMsg), and combining messages mergeMsg.
+     * <p>graph.ops().pregel: takes two argument lists (i.e., graph.pregel(list1)(list2)). The first
+     * argument list contains configuration parameters including the initial message, the maximum
+     * number of iterations, and the edge direction in which to send messages (by default along out
+     * edges). The second argument list contains the user defined functions for receiving messages
+     * (the vertex program vprog), computing messages (sendMsg), and combining messages mergeMsg.
      *
      * @param vertices
      * @param relationships
