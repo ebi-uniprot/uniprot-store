@@ -7,6 +7,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.junit.jupiter.api.Test;
 import org.uniprot.core.Property;
@@ -50,6 +51,7 @@ class UniProtKBEntryCrossReferenceConverterTest {
 
         assertEquals(Collections.singleton("id value"), document.proteomes);
         assertEquals(Collections.singleton("PC12345"), document.proteomeComponents);
+        assertEquals(Collections.singleton("PC12345"), document.content);
     }
 
     @Test
@@ -68,7 +70,7 @@ class UniProtKBEntryCrossReferenceConverterTest {
 
         converter.convertCrossReferences(references, document);
 
-        assertEquals(new HashSet<>(Collections.singletonList("apical dendrite")), document.content);
+        assertEquals(Set.of("UniProtKB", "apical dendrite"), document.content);
 
         assertEquals(new HashSet<>(Arrays.asList("go-GO:12345", "GO:12345")), document.crossRefs);
 
@@ -84,6 +86,7 @@ class UniProtKBEntryCrossReferenceConverterTest {
         assertEquals(
                 new HashSet<>(Arrays.asList("12345", "apical dendrite")),
                 document.goWithEvidenceMaps.get("go_ida"));
+        assertEquals(Set.of("UniProtKB", "apical dendrite"), document.content);
     }
 
     @Test
@@ -109,6 +112,7 @@ class UniProtKBEntryCrossReferenceConverterTest {
         assertEquals(1L, document.xrefCountMap.get("xref_count_pdb"));
 
         assertTrue(document.d3structure);
+        assertEquals(Set.of("PDB12345"), document.content);
     }
 
     @Test
@@ -136,6 +140,7 @@ class UniProtKBEntryCrossReferenceConverterTest {
 
         assertTrue(document.xrefCountMap.containsKey("xref_count_embl"));
         assertEquals(1L, document.xrefCountMap.get("xref_count_embl"));
+        assertEquals(Set.of("notIndexed", "EMBL12345"), document.content);
     }
 
     @Test
@@ -162,6 +167,7 @@ class UniProtKBEntryCrossReferenceConverterTest {
 
         assertTrue(document.xrefCountMap.containsKey("xref_count_ensembl"));
         assertEquals(1L, document.xrefCountMap.get("xref_count_ensembl"));
+        assertEquals(Set.of("E12345"), document.content);
     }
 
     @Test

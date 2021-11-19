@@ -39,6 +39,12 @@ class UniProtEntryCrossReferenceConverter {
             if (!dbname.equalsIgnoreCase("PIR")) {
                 convertXRefId(document, dbname, id);
             }
+
+            if (!"go".equalsIgnoreCase(dbname) && xref.hasProperties()){
+                List<String> properties = getCrossRefPropertiesValues(xref);
+                document.content.addAll(properties);
+            }
+
             switch (dbname.toLowerCase()) {
                 case "embl":
                     if (xref.hasProperties()) {
@@ -76,12 +82,6 @@ class UniProtEntryCrossReferenceConverter {
                     break;
                 case "go":
                     convertGoTerm(xref, document);
-                    break;
-                case "tcdb":
-                    if (xref.hasProperties()){
-                        List<String> properties = getCrossRefPropertiesValues(xref);
-                        document.content.addAll(properties);
-                    }
                     break;
                 default:
             }
@@ -125,10 +125,16 @@ class UniProtEntryCrossReferenceConverter {
                         .filter(property -> property.getKey().equalsIgnoreCase("GoEvidenceType"))
                         .map(property -> property.getValue().split(":")[0].toLowerCase())
                         .collect(Collectors.joining());
+        List<String> evNames =
+                go.getProperties().stream()
+                        .filter(property -> property.getKey().equalsIgnoreCase("GoEvidenceType"))
+                        .map(property -> property.getValue().split(":")[1])
+                        .collect(Collectors.toList());
 
         // For default searches, GO ID is covered by document.xrefs. But we still need to add go
         // term to content for default searches.
         document.content.add(goTerm);
+        document.content.addAll(evNames);// add evidence description
 
         // add go id and term to specific doc fields for advanced search
         addGoterm(evType, go.getId(), goTerm, document);
