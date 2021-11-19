@@ -93,6 +93,10 @@ class TaxonomyDocumentsToHDFSWriterTest {
         assertEquals("Rat", document.getCommon());
         assertEquals("RAT", document.getMnemonic());
 
+        assertNotNull(document.getOtherNames());
+        assertTrue(document.getOtherNames().contains("first name"));
+        assertTrue(document.getOtherNames().contains("second name"));
+
         TaxonomyEntry entry = getEntry(document.getTaxonomyObj());
         assertNotNull(entry);
 
