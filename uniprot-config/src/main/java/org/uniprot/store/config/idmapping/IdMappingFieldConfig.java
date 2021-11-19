@@ -227,6 +227,27 @@ public class IdMappingFieldConfig {
                         false,
                         null,
                         "EMBL");
+        UniProtDatabaseDetail refSeqNucleotide =
+                new UniProtDatabaseDetail(
+                        "RefSeq Nucleotide",
+                        "RefSeq Nucleotide",
+                        sequence,
+                        null,
+                        null,
+                        false,
+                        null,
+                        "REFSEQ_NT_ID");
+
+        UniProtDatabaseDetail refSeqProtein =
+                new UniProtDatabaseDetail(
+                        "RefSeq Protein",
+                        "RefSeq Protein",
+                        sequence,
+                        null,
+                        null,
+                        false,
+                        null,
+                        "P_REFSEQ_AC");
 
         UniProtDatabaseCategory gma = UniProtDatabaseCategory.GENOME_ANNOTATION_DATABASES;
 
@@ -305,6 +326,8 @@ public class IdMappingFieldConfig {
         return List.of(
                 embl,
                 emblCds,
+                refSeqNucleotide,
+                refSeqProtein,
                 ensemblProtein,
                 ensemblTrans,
                 ensemblGenome,
