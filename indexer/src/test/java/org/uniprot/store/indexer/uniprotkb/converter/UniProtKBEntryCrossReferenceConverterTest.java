@@ -59,6 +59,7 @@ class UniProtKBEntryCrossReferenceConverterTest {
 
         assertEquals(Collections.singleton("id value"), document.proteomes);
         assertEquals(Collections.singleton("PC12345"), document.proteomeComponents);
+        assertEquals(Collections.singleton("PC12345"), document.content);
     }
 
     @Test
@@ -89,7 +90,7 @@ class UniProtKBEntryCrossReferenceConverterTest {
 
         converter.convertCrossReferences(references, document);
 
-        assertEquals(new HashSet<>(Collections.singletonList("apical dendrite")), document.content);
+        assertEquals(Set.of("UniProtKB", "apical dendrite"), document.content);
 
         assertEquals(new HashSet<>(Arrays.asList("go-GO:12345", "GO:12345")), document.crossRefs);
 
@@ -134,6 +135,7 @@ class UniProtKBEntryCrossReferenceConverterTest {
 
         assertTrue(document.xrefCountMap.containsKey("xref_count_pdb"));
         assertEquals(1L, document.xrefCountMap.get("xref_count_pdb"));
+        assertEquals(Set.of("PDB12345"), document.content);
 
         assertTrue(document.d3structure);
     }
@@ -167,6 +169,7 @@ class UniProtKBEntryCrossReferenceConverterTest {
 
         assertTrue(document.xrefCountMap.containsKey("xref_count_embl"));
         assertEquals(1L, document.xrefCountMap.get("xref_count_embl"));
+        assertEquals(Set.of("notIndexed", "EMBL12345"), document.content);
     }
 
     @Test
@@ -197,6 +200,7 @@ class UniProtKBEntryCrossReferenceConverterTest {
 
         assertTrue(document.xrefCountMap.containsKey("xref_count_ensembl"));
         assertEquals(1L, document.xrefCountMap.get("xref_count_ensembl"));
+        assertEquals(Set.of("E12345"), document.content);
     }
 
     @Test
