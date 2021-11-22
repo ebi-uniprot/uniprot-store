@@ -20,7 +20,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.Month;
-import java.time.ZoneId;
+import java.time.ZoneOffset;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -62,10 +62,7 @@ class UniProtKBEntryConverterIT {
     private static final String FTEV_CONFLICT_FIELD = "ftev_conflict";
     private static final String FTLEN_CHAIN_FIELD = "ftlen_chain";
     private static final Date d1Aug2000 =
-            Date.from(
-                    LocalDate.of(2000, Month.AUGUST, 1)
-                            .atStartOfDay(ZoneId.systemDefault())
-                            .toInstant());
+            Date.from(LocalDate.of(2000, Month.AUGUST, 1).atStartOfDay(ZoneOffset.UTC).toInstant());
     private DateFormat dateFormat;
     private UniProtEntryConverter converter;
 

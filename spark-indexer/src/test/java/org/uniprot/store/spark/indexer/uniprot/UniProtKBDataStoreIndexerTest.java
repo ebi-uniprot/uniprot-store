@@ -67,14 +67,8 @@ class UniProtKBDataStoreIndexerTest {
             assertEquals(1, go5635.getEvidences().size());
             Evidence evidence = go5635.getEvidences().get(0);
             assertEquals("ECO:0000314", evidence.getEvidenceCode().getCode());
-            assertEquals(
-                    "18303947", evidence.getEvidenceCrossReference().getId());
-            assertEquals(
-                    "PubMed",
-                    evidence
-                            .getEvidenceCrossReference()
-                            .getDatabase()
-                            .getName());
+            assertEquals("18303947", evidence.getEvidenceCrossReference().getId());
+            assertEquals("PubMed", evidence.getEvidenceCrossReference().getDatabase().getName());
 
             UniProtKBCrossReference go5634 =
                     goEvidences.stream()

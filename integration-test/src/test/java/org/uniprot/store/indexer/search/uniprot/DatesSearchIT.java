@@ -18,7 +18,6 @@ import java.util.List;
 
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;
 import org.uniprot.core.flatfile.writer.LineType;
@@ -214,10 +213,9 @@ class DatesSearchIT {
         assertThat(retrievedAccessions, containsInAnyOrder(ACCESSION1, ACCESSION3));
     }
 
-    @Disabled
     @Test
     void searchForCreatedAfter31MAR2014Returns1Document() {
-        LocalDate creationDate = LocalDate.of(2014, 3, 30);
+        LocalDate creationDate = LocalDate.of(2014, 3, 31);
 
         String query =
                 after(
@@ -578,7 +576,6 @@ class DatesSearchIT {
         assertThat(retrievedAccessions, containsInAnyOrder(ACCESSION_BST, ACCESSION_BST_DUBIOUS));
     }
 
-    @Disabled
     @Test
     void searchExplicitBSTEntryTestExactDay() {
         LocalDate startDate = LocalDate.of(2014, 3, 31);
@@ -620,7 +617,6 @@ class DatesSearchIT {
         assertThat(retrievedAccessions, containsInAnyOrder(ACCESSION_BST, ACCESSION_BST_DUBIOUS));
     }
 
-    @Disabled
     @Test
     void searchExplicitBSTEntryTestLowerBound() {
         LocalDate startDate = LocalDate.of(2014, 3, 31);

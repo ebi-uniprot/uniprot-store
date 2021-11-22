@@ -4,7 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.time.LocalDate;
 import java.time.Month;
-import java.time.ZoneId;
+import java.time.ZoneOffset;
 import java.util.Date;
 
 import org.junit.jupiter.api.Test;
@@ -27,7 +27,7 @@ class UniRefDocumentConverterTest {
     private static final Date d22Feb2020 =
             Date.from(
                     LocalDate.of(2020, Month.FEBRUARY, 22)
-                            .atStartOfDay(ZoneId.systemDefault())
+                            .atStartOfDay(ZoneOffset.UTC)
                             .toInstant());
 
     @Test
