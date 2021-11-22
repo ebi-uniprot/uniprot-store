@@ -135,11 +135,11 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtKBEntry, 
     private void convertEntryAudit(EntryAudit entryAudit, UniProtDocument document) {
         if (entryAudit != null) {
             document.firstCreated =
-                    DateUtils.convertLocalDateToDate(entryAudit.getFirstPublicDate());
+                    DateUtils.convertLocalDateToUTCDate(entryAudit.getFirstPublicDate());
             document.lastModified =
-                    DateUtils.convertLocalDateToDate(entryAudit.getLastAnnotationUpdateDate());
+                    DateUtils.convertLocalDateToUTCDate(entryAudit.getLastAnnotationUpdateDate());
             document.sequenceUpdated =
-                    DateUtils.convertLocalDateToDate(entryAudit.getLastSequenceUpdateDate());
+                    DateUtils.convertLocalDateToUTCDate(entryAudit.getLastSequenceUpdateDate());
         }
     }
 

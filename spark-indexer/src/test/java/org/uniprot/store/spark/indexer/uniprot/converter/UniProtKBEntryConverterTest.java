@@ -2,10 +2,7 @@ package org.uniprot.store.spark.indexer.uniprot.converter;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import java.time.Instant;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
+import java.time.*;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
@@ -340,7 +337,7 @@ class UniProtKBEntryConverterTest {
 
     private LocalDate getLocalDateFromDate(Date date) {
         Instant instant = Instant.ofEpochMilli(date.getTime());
-        LocalDateTime localDateTime = LocalDateTime.ofInstant(instant, ZoneId.systemDefault());
+        LocalDateTime localDateTime = LocalDateTime.ofInstant(instant, ZoneOffset.UTC);
         return localDateTime.toLocalDate();
     }
 

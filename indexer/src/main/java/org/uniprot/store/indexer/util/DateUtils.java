@@ -1,9 +1,6 @@
 package org.uniprot.store.indexer.util;
 
-import java.time.Instant;
-import java.time.LocalDate;
-import java.time.ZoneId;
-import java.time.ZoneOffset;
+import java.time.*;
 import java.util.Date;
 
 /** Contains several utility methods that help with date manipulation */
@@ -29,6 +26,16 @@ public final class DateUtils {
      */
     public static Date convertLocalDateToDate(LocalDate localDate) {
         return convertLocalDateToDate(localDate, ZoneId.systemDefault());
+    }
+
+    /**
+     * Converts a LocalDate into the old Date format, using the UTC timezone
+     *
+     * @param localDate the local date to convert
+     * @return the converted date
+     */
+    public static Date convertLocalDateToUTCDate(LocalDate localDate) {
+        return convertLocalDateToDate(localDate, ZoneOffset.UTC);
     }
 
     /**
