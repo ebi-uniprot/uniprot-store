@@ -18,6 +18,14 @@
     "example": "unirule_id asc"
   },
   {
+    "id":"superkingdom",
+    "fieldName": "superkingdom",
+    "fieldType": "GENERAL",
+    "dataType": "STRING",
+    "example":  "Bacteria",
+    "description" : "Search by superkingdom"
+  },
+  {
     "seqNumber": 0,
     "id": "protein_name_field",
     "label": "Protein Name [DE]",

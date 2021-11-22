@@ -14,8 +14,8 @@ import scala.collection.Iterator;
 import scala.collection.JavaConverters;
 
 /**
- * GraphSendVertexMessageMapper is a flat map that expand the graph to the next
- * Chebi relatedIds (graph leafs)
+ * GraphSendVertexMessageMapper is a flat map that expand the graph to the next Chebi relatedIds
+ * (graph leafs)
  */
 class GraphSendVertexMessageMapper
         implements Function1<EdgeTriplet<ChebiEntry, String>, Iterator<Tuple2<Object, ChebiEntry>>>,

@@ -6,7 +6,7 @@
 	<parent>
 		<artifactId>uniprot-store-parent</artifactId>
 		<groupId>org.uniprot</groupId>
-		<version>1.0.8</version>
+		<version>1.0.8.hotfix</version>
 		<relativePath>../</relativePath>
 	</parent>
 	<artifactId>common-job</artifactId>
