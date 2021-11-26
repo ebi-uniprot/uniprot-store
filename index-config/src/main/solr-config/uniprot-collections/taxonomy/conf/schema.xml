@@ -32,6 +32,8 @@
 	<field name="mnemonic" type="basic_ci" indexed="true" />
 	<field name="strain" type="full_ci" indexed="true"
 		multiValued="true" />
+	<field name="other_name" type="full_ci" indexed="true"
+		multiValued="true" />
 	<field name="host" type="plong" indexed="true" multiValued="true" />
 	<field name="ancestor" type="plong" indexed="true"
 		multiValued="true" />

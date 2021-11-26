@@ -53,6 +53,14 @@
     "includeInSwagger": true
   },
   {
+    "id": "other_name",
+    "fieldName": "other_name",
+    "fieldType": "GENERAL",
+    "dataType": "STRING",
+    "description": "Search by other name",
+    "example": "Homo sapeins"
+  },
+  {
     "seqNumber": 0,
     "label": "Taxon ID",
     "id": "tax_id",

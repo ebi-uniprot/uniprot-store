@@ -82,20 +82,24 @@ public class TaxonomyDocumentConverter
                         .map(TaxonomyLineage::getTaxonId)
                         .collect(Collectors.toList()));
         documentBuilder.strain(buildStrainList(entry.getStrains()));
+        if (entry.hasOtherNames()) {
+            documentBuilder.otherNames(entry.getOtherNames());
+        }
         documentBuilder.taxonomyObj(getTaxonomyBinary(entry));
 
         return documentBuilder.build();
     }
 
     private List<String> buildStrainList(List<TaxonomyStrain> strainList) {
-        return strainList.stream()
-                .map(
-                        strain -> {
-                            return strain.getName()
-                                    + " ; "
-                                    + String.join(" , ", strain.getSynonyms());
-                        })
-                .collect(Collectors.toList());
+        return strainList.stream().map(this::mapStrain).collect(Collectors.toList());
+    }
+
+    private String mapStrain(TaxonomyStrain strain) {
+        String result = strain.getName();
+        if (strain.hasSynonyms()) {
+            result += " ; " + String.join(" , ", strain.getSynonyms());
+        }
+        return result;
     }
 
     private byte[] getTaxonomyBinary(TaxonomyEntry entry) {
