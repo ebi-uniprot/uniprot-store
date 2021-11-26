@@ -49,46 +49,46 @@ class TaxonomyDocumentConverterTest {
     void convertFullEntry() throws IOException {
         TaxonomyEntry entry = getEntry();
         TaxonomyDocumentConverter converter = new TaxonomyDocumentConverter(mapper);
-        TaxonomyDocument result = converter.convert(entry);
-        assertNotNull(result);
-        assertEquals("9606", result.getId());
-        assertEquals(9606L, result.getTaxId());
-        assertEquals(9605L, result.getParent());
+        TaxonomyDocument document = converter.convert(entry);
+        assertNotNull(document);
+        assertEquals("9606", document.getId());
+        assertEquals(9606L, document.getTaxId());
+        assertEquals(9605L, document.getParent());
 
-        assertEquals("kingdom", result.getRank());
-        assertEquals("scientificName", result.getScientific());
-        assertEquals("commonName", result.getCommon());
-        assertEquals("synonym", result.getSynonym());
-        assertEquals("mnemonic", result.getMnemonic());
-        assertEquals("Lineage Scientific Name", result.getSuperkingdom());
+        assertEquals("kingdom", document.getRank());
+        assertEquals("scientificName", document.getScientific());
+        assertEquals("commonName", document.getCommon());
+        assertEquals("synonym", document.getSynonym());
+        assertEquals("mnemonic", document.getMnemonic());
+        assertEquals("Lineage Scientific Name", document.getSuperkingdom());
 
-        assertTrue(result.isHidden());
-        assertTrue(result.isActive());
-        assertTrue(result.isLinked());
+        assertTrue(document.isHidden());
+        assertTrue(document.isActive());
+        assertTrue(document.isLinked());
 
-        assertNotNull(result.getTaxonomiesWith());
-        assertTrue(result.getTaxonomiesWith().contains("1_uniprotkb"));
-        assertTrue(result.getTaxonomiesWith().contains("2_reviewed"));
-        assertTrue(result.getTaxonomiesWith().contains("4_reference"));
-        assertTrue(result.getTaxonomiesWith().contains("5_proteome"));
+        assertNotNull(document.getTaxonomiesWith());
+        assertTrue(document.getTaxonomiesWith().contains("1_uniprotkb"));
+        assertTrue(document.getTaxonomiesWith().contains("2_reviewed"));
+        assertTrue(document.getTaxonomiesWith().contains("4_reference"));
+        assertTrue(document.getTaxonomiesWith().contains("5_proteome"));
 
-        assertNotNull(result.getStrain());
-        assertTrue(result.getStrain().contains("strain1 ; strain2"));
-        assertTrue(result.getStrain().contains("strain3"));
+        assertNotNull(document.getStrain());
+        assertTrue(document.getStrain().contains("strain1 ; strain2"));
+        assertTrue(document.getStrain().contains("strain3"));
 
-        assertNotNull(result.getHost());
-        assertTrue(result.getHost().contains(9600L));
-        assertTrue(result.getHost().contains(9601L));
+        assertNotNull(document.getHost());
+        assertTrue(document.getHost().contains(9600L));
+        assertTrue(document.getHost().contains(9601L));
 
-        assertNotNull(result.getAncestor());
-        assertTrue(result.getAncestor().contains(9603L));
+        assertNotNull(document.getAncestor());
+        assertTrue(document.getAncestor().contains(9603L));
 
-        assertNotNull(result.getOtherNames());
-        assertTrue(result.getOtherNames().contains("otherName"));
-        assertTrue(result.getOtherNames().contains("otherName2"));
+        assertNotNull(document.getOtherNames());
+        assertTrue(document.getOtherNames().contains("otherName"));
+        assertTrue(document.getOtherNames().contains("otherName2"));
 
         TaxonomyEntry documentEntry =
-                mapper.readValue(result.getTaxonomyObj(), TaxonomyEntry.class);
+                mapper.readValue(document.getTaxonomyObj(), TaxonomyEntry.class);
         assertEquals(entry, documentEntry);
     }
 
