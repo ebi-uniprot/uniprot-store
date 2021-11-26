@@ -1,6 +1,7 @@
 package org.uniprot.store.spark.indexer.uniprot.converter;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Arrays;
@@ -70,7 +71,7 @@ class UniProtKBEntryCrossReferenceConverterTest {
 
         converter.convertCrossReferences(references, document);
 
-        assertEquals(Set.of("UniProtKB", "apical dendrite"), document.content);
+        assertEquals(Set.of("apical dendrite"), document.content);
 
         assertEquals(new HashSet<>(Arrays.asList("go-GO:12345", "GO:12345")), document.crossRefs);
 
@@ -86,7 +87,7 @@ class UniProtKBEntryCrossReferenceConverterTest {
         assertEquals(
                 new HashSet<>(Arrays.asList("12345", "apical dendrite")),
                 document.goWithEvidenceMaps.get("go_ida"));
-        assertEquals(Set.of("UniProtKB", "apical dendrite"), document.content);
+        assertEquals(Set.of("apical dendrite"), document.content);
     }
 
     @Test
@@ -140,7 +141,7 @@ class UniProtKBEntryCrossReferenceConverterTest {
 
         assertTrue(document.xrefCountMap.containsKey("xref_count_embl"));
         assertEquals(1L, document.xrefCountMap.get("xref_count_embl"));
-        assertEquals(Set.of("notIndexed", "EMBL12345"), document.content);
+        assertEquals(Set.of("notIndexed"), document.content);
     }
 
     @Test
@@ -167,7 +168,7 @@ class UniProtKBEntryCrossReferenceConverterTest {
 
         assertTrue(document.xrefCountMap.containsKey("xref_count_ensembl"));
         assertEquals(1L, document.xrefCountMap.get("xref_count_ensembl"));
-        assertEquals(Set.of("E12345"), document.content);
+        assertFalse(document.content.contains("E12345"));
     }
 
     @Test
@@ -186,8 +187,7 @@ class UniProtKBEntryCrossReferenceConverterTest {
         converter.convertCrossReferences(references, document);
 
         assertEquals(
-                new HashSet<>(
-                        Arrays.asList("tcdb-8.A.94.1.2", "8", "8.A.94.1.2", "tcdb-8")),
+                new HashSet<>(Arrays.asList("tcdb-8.A.94.1.2", "8", "8.A.94.1.2", "tcdb-8")),
                 document.crossRefs);
 
         assertEquals(Collections.singleton("tcdb"), document.databases);
@@ -197,7 +197,6 @@ class UniProtKBEntryCrossReferenceConverterTest {
         assertEquals(1, document.content.size());
         assertEquals("[the adiponectin (adiponectin) family]", document.content.toString());
     }
-
 
     private static UniProtKBCrossReference getUniProtDBCrossReference(
             UniProtKBDatabase dbType, String id, Property... property) {

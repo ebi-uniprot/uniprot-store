@@ -3,18 +3,26 @@ package org.uniprot.store.indexer.uniprotkb.converter;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import org.uniprot.core.Property;
 import org.uniprot.core.Value;
 import org.uniprot.core.uniprotkb.UniProtKBEntry;
 import org.uniprot.core.uniprotkb.comment.AlternativeProductsComment;
 import org.uniprot.core.uniprotkb.comment.CommentType;
 import org.uniprot.core.uniprotkb.comment.IsoformSequenceStatus;
-import org.uniprot.core.uniprotkb.description.*;
+import org.uniprot.core.uniprotkb.description.Name;
+import org.uniprot.core.uniprotkb.description.ProteinDescription;
+import org.uniprot.core.uniprotkb.description.ProteinName;
+import org.uniprot.core.uniprotkb.description.ProteinSection;
+import org.uniprot.core.uniprotkb.description.ProteinSubName;
 import org.uniprot.core.uniprotkb.evidence.Evidence;
+import org.uniprot.core.uniprotkb.xdb.UniProtKBCrossReference;
 import org.uniprot.store.search.document.suggest.SuggestDictionary;
+import org.uniprot.store.search.document.uniprot.UniProtDocument;
 
 /**
  * @author lgonzales
@@ -185,5 +193,51 @@ public class UniProtEntryConverterUtil {
             names.add(proteinAltName.getFullName().getValue());
         }
         return names;
+    }
+
+    public static void addEmblXrefToDocument(
+            UniProtDocument document, UniProtKBCrossReference xref, String dbname) {
+        if (xref.hasProperties()) {
+            Optional<String> proteinId =
+                    xref.getProperties().stream()
+                            .filter(property -> property.getKey().equalsIgnoreCase("ProteinId"))
+                            .filter(property -> !property.getValue().equalsIgnoreCase("-"))
+                            .map(Property::getValue)
+                            .findFirst();
+            proteinId.ifPresent(s -> convertXRefId(document, dbname, s));
+            // add other property values to content
+            Set<String> propValues =
+                    xref.getProperties().stream()
+                            .filter(prop -> !"ProteinId".equalsIgnoreCase(prop.getKey()))
+                            .filter(property -> !property.getValue().equalsIgnoreCase("-"))
+                            .map(Property::getValue)
+                            .collect(Collectors.toSet());
+            document.content.addAll(propValues);
+        }
+    }
+
+    public static void convertXRefId(UniProtDocument document, String dbname, String s) {
+        List<String> xrefIds = UniProtEntryConverterUtil.getXrefId(s, dbname);
+        document.crossRefs.addAll(xrefIds);
+    }
+
+    public static void addProteomesXrefToDocument(
+            UniProtDocument document, UniProtKBCrossReference xref) {
+        document.proteomes.add(xref.getId());
+        if (xref.hasProperties()) {
+            document.proteomeComponents.addAll(
+                    xref.getProperties().stream()
+                            .map(Property::getValue)
+                            .collect(Collectors.toSet()));
+
+            document.content.addAll(getCrossRefPropertiesValues(xref));
+        }
+    }
+
+    public static Set<String> getCrossRefPropertiesValues(UniProtKBCrossReference xref) {
+        return xref.getProperties().stream()
+                .filter(property -> !property.getValue().equalsIgnoreCase("-"))
+                .map(Property::getValue)
+                .collect(Collectors.toSet());
     }
 }
