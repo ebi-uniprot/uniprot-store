@@ -9,8 +9,10 @@ import org.uniprot.core.cv.chebi.ChebiEntry;
 import org.uniprot.store.spark.indexer.common.exception.SparkIndexException;
 
 import scala.Tuple2;
+
 /**
- * GraphExtractEdgesFromVerticesMapper is a Flat Map class that create all Edges among a Chebi entry and all its related Ids.
+ * GraphExtractEdgesFromVerticesMapper is a Flat Map class that create all Edges among a Chebi entry
+ * and all its related Ids.
  */
 class GraphExtractEdgesFromVerticesMapper
         implements FlatMapFunction<Tuple2<Object, ChebiEntry>, Edge<String>> {

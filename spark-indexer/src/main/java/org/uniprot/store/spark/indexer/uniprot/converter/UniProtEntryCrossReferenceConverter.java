@@ -1,13 +1,17 @@
 package org.uniprot.store.spark.indexer.uniprot.converter;
 
+import static org.uniprot.store.indexer.uniprotkb.converter.UniProtEntryConverterUtil.addEmblXrefToDocument;
+import static org.uniprot.store.indexer.uniprotkb.converter.UniProtEntryConverterUtil.addProteomesXrefToDocument;
+import static org.uniprot.store.indexer.uniprotkb.converter.UniProtEntryConverterUtil.convertXRefId;
+import static org.uniprot.store.indexer.uniprotkb.converter.UniProtEntryConverterUtil.getCrossRefPropertiesValues;
+
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Optional;
+import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import org.uniprot.core.Property;
 import org.uniprot.core.uniprotkb.xdb.UniProtKBCrossReference;
 import org.uniprot.store.search.document.uniprot.ProteinsWith;
 import org.uniprot.store.search.document.uniprot.UniProtDocument;
@@ -39,21 +43,11 @@ class UniProtEntryCrossReferenceConverter {
             if (!dbname.equalsIgnoreCase("PIR")) {
                 convertXRefId(document, dbname, id);
             }
+
             switch (dbname.toLowerCase()) {
                 case "embl":
                     if (xref.hasProperties()) {
-                        Optional<String> proteinId =
-                                xref.getProperties().stream()
-                                        .filter(
-                                                property ->
-                                                        property.getKey()
-                                                                .equalsIgnoreCase("ProteinId"))
-                                        .filter(
-                                                property ->
-                                                        !property.getValue().equalsIgnoreCase("-"))
-                                        .map(Property::getValue)
-                                        .findFirst();
-                        proteinId.ifPresent(s -> convertXRefId(document, dbname, s));
+                        addEmblXrefToDocument(document, xref, dbname);
                     }
                     break;
                 case "refseq":
@@ -61,40 +55,28 @@ class UniProtEntryCrossReferenceConverter {
                 case "unipathway":
                 case "ensembl":
                     if (xref.hasProperties()) {
-                        List<String> properties =
-                                xref.getProperties().stream()
-                                        .filter(
-                                                property ->
-                                                        !property.getValue().equalsIgnoreCase("-"))
-                                        .map(Property::getValue)
-                                        .collect(Collectors.toList());
+                        Set<String> properties = getCrossRefPropertiesValues(xref);
                         properties.forEach(s -> convertXRefId(document, dbname, s));
                     }
                     break;
                 case "proteomes":
-                    document.proteomes.add(xref.getId());
-                    if (xref.hasProperties()) {
-                        document.proteomeComponents.addAll(
-                                xref.getProperties().stream()
-                                        .map(Property::getValue)
-                                        .collect(Collectors.toSet()));
-                    }
+                    addProteomesXrefToDocument(document, xref);
                     break;
                 case "go":
                     convertGoTerm(xref, document);
                     break;
                 default:
+                    if (xref.hasProperties()) {
+                        Set<String> properties = getCrossRefPropertiesValues(xref);
+                        document.content.addAll(properties);
+                    }
+                    break;
             }
         }
         document.d3structure = d3structure;
         if (d3structure && !document.proteinsWith.contains(ProteinsWith.D3_STRUCTURE.getValue())) {
             document.proteinsWith.add(ProteinsWith.D3_STRUCTURE.getValue());
         }
-    }
-
-    private void convertXRefId(UniProtDocument document, String dbname, String s) {
-        List<String> xrefIds = UniProtEntryConverterUtil.getXrefId(s, dbname);
-        document.crossRefs.addAll(xrefIds);
     }
 
     private void convertXrefCount(
@@ -116,7 +98,6 @@ class UniProtEntryCrossReferenceConverter {
                         .filter(property -> property.getKey().equalsIgnoreCase("GoEvidenceType"))
                         .map(property -> property.getValue().split(":")[0].toLowerCase())
                         .collect(Collectors.joining());
-
         // For default searches, GO ID is covered by document.xrefs. But we still need to add go
         // term to content for default searches.
         document.content.add(goTerm);

@@ -13,9 +13,7 @@ import org.uniprot.core.util.Utils;
 
 import scala.Function2;
 
-/**
- * This GraphMergeVertexMapper class is responsible to merge two Chebi Entries into one.
- */
+/** This GraphMergeVertexMapper class is responsible to merge two Chebi Entries into one. */
 class GraphMergeVertexMapper
         implements Function2<ChebiEntry, ChebiEntry, ChebiEntry>, Serializable {
     private static final long serialVersionUID = -8568735208735890731L;

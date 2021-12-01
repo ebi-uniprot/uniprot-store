@@ -37,7 +37,7 @@ class GOEvidencesFileMapperTest {
 
         Evidence evidence = goEvidence.getEvidence();
         assertNotNull(evidence);
-        assertEquals(EvidenceCode.ECO_0000269, evidence.getEvidenceCode());
+        assertEquals(EvidenceCode.ECO_0000315, evidence.getEvidenceCode());
 
         assertEquals("PubMed", evidence.getEvidenceCrossReference().getDatabase().getName());
         assertEquals("12573216", evidence.getEvidenceCrossReference().getId());
@@ -52,5 +52,23 @@ class GOEvidencesFileMapperTest {
                     mapper.call("INVALID DATA");
                 },
                 "unable to parse line: 'INVALID DATA' in go evidence file");
+    }
+
+    @Test
+    void testGoLineWithMissingEcoId() throws Exception {
+        String goLine = "B0V2N1\tGO:0050804\tP\tmodulation of chemical synaptic transmission\tECO:0001225\tIMP\tPMID:22519304\tSynGO\tinvolved_in";
+        GOEvidencesFileMapper mapper = new GOEvidencesFileMapper();
+        // when
+        Tuple2<String, GOEvidence> tuple = mapper.call(goLine);
+        // then
+        assertNotNull(tuple);
+
+        String accession = tuple._1;
+        assertNotNull(accession);
+        assertEquals("B0V2N1", accession);
+
+        Evidence evidence = tuple._2.getEvidence();
+        assertNotNull(evidence);
+        assertEquals(EvidenceCode.ECO_0000269, evidence.getEvidenceCode());
     }
 }

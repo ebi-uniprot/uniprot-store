@@ -40,6 +40,9 @@ public class TaxonomyDocument implements Document {
     @Field private List<Long> host;
     @Field private List<Long> ancestor;
 
+    @Field("other_name")
+    private List<String> otherNames;
+
     @Field("taxonomy_obj")
     private byte[] taxonomyObj;
 
