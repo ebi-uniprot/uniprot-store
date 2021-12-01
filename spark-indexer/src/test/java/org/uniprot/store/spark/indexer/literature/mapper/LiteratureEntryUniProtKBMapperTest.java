@@ -20,6 +20,7 @@ class LiteratureEntryUniProtKBMapperTest {
     void mapEntryJournalArticleCitation() throws Exception {
         String input =
                 "ID   PRKN_HUMAN              Reviewed;         465 AA.\n"
+                        + "AC   O60260; A3FG77; A8K975; D3JZW7;\n"
                         + "RN   [1]\n"
                         + "RP   NUCLEOTIDE SEQUENCE [MRNA] (ISOFORMS 1 AND 2), AND INVOLVEMENT IN\n"
                         + "RP   PARK2.\n"
@@ -66,6 +67,7 @@ class LiteratureEntryUniProtKBMapperTest {
     void mapEntrySubmissionCitation() throws Exception {
         String input =
                 "ID   PRKN_HUMAN              Unreviewed;         465 AA.\n"
+                        + "AC   O60260; A3FG77; A8K975; D3JZW7;\n"
                         + "RN   [3]\n"
                         + "RP   NUCLEOTIDE SEQUENCE [MRNA] (ISOFORMS 3 AND 4).\n"
                         + "RA   D'Agata V., Scapagnini G., Cavallaro S.;\n"
@@ -95,6 +97,43 @@ class LiteratureEntryUniProtKBMapperTest {
 
         assertNotNull(entry.getStatistics());
         assertEquals(1L, entry.getStatistics().getUnreviewedProteinCount());
+        assertFalse(result.hasNext());
+    }
+
+    @Test
+    void mapEntrySubmissionCitationForIsoformDoesNotCountStatistics() throws Exception {
+        String input =
+                "ID   PRKN_HUMAN              Unreviewed;         465 AA.\n"
+                        + "AC   O60260-2;\n"
+                        + "RN   [3]\n"
+                        + "RP   NUCLEOTIDE SEQUENCE [MRNA] (ISOFORMS 3 AND 4).\n"
+                        + "RA   D'Agata V., Scapagnini G., Cavallaro S.;\n"
+                        + "RT   \"Functional and molecular diversity of parkin.\";\n"
+                        + "RL   Submitted (MAY-2001) to the EMBL/GenBank/DDBJ databases.";
+
+        LiteratureEntryUniProtKBMapper mapper = new LiteratureEntryUniProtKBMapper();
+        Iterator<Tuple2<String, LiteratureEntry>> result = mapper.call(input);
+        assertNotNull(result);
+
+        assertTrue(result.hasNext());
+        Tuple2<String, LiteratureEntry> tuple = result.next();
+        assertNotNull(tuple._1);
+        assertEquals("CI-1NC25OS575QBF", tuple._1);
+
+        assertNotNull(tuple._2);
+        LiteratureEntry entry = tuple._2;
+        assertNotNull(entry.getCitation());
+        assertEquals(CitationType.SUBMISSION, entry.getCitation().getCitationType());
+        Submission submission = (Submission) entry.getCitation();
+        assertEquals("CI-1NC25OS575QBF", submission.getId());
+        assertEquals(SubmissionDatabase.EMBL_GENBANK_DDBJ, submission.getSubmissionDatabase());
+        assertEquals("Functional and molecular diversity of parkin.", submission.getTitle());
+        assertTrue(submission.getCitationCrossReferences().isEmpty());
+        assertNotNull(submission.getAuthors());
+        assertEquals(3, submission.getAuthors().size());
+
+        assertNotNull(entry.getStatistics());
+        assertEquals(0L, entry.getStatistics().getUnreviewedProteinCount());
         assertFalse(result.hasNext());
     }
 }

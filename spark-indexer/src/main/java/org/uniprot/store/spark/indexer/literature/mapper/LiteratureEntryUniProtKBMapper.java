@@ -45,13 +45,19 @@ public class LiteratureEntryUniProtKBMapper
         return new LiteratureEntryBuilder().citation(citation).statistics(statistics).build();
     }
 
-    private LiteratureStatistics getLiteratureStatistics(String[] lines) {
+    private LiteratureStatistics getLiteratureStatistics(String[] entryLines) {
         LiteratureStatisticsBuilder statsBuilder = new LiteratureStatisticsBuilder();
-        if (REVIEWED_REGEX.matcher(lines[0]).matches()) {
-            statsBuilder = statsBuilder.reviewedProteinCount(1L);
-        } else {
-            statsBuilder = statsBuilder.unreviewedProteinCount(1L);
+        if (!isIsoformEntry(entryLines[1])) {
+            if (REVIEWED_REGEX.matcher(entryLines[0]).matches()) {
+                statsBuilder = statsBuilder.reviewedProteinCount(1L);
+            } else {
+                statsBuilder = statsBuilder.unreviewedProteinCount(1L);
+            }
         }
         return statsBuilder.build();
+    }
+
+    private boolean isIsoformEntry(String accessionLine) {
+        return accessionLine.contains("-");
     }
 }
