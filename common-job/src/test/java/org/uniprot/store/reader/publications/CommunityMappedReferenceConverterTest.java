@@ -64,4 +64,21 @@ class CommunityMappedReferenceConverterTest {
         assertThat(communityAnnotation.getComment(), is("Peas"));
         assertThat(communityAnnotation.getDisease(), is("This is a disease."));
     }
+
+    @Test
+    void convertsCorrectlyMultipleAnnotationsAndMultipleCategories() throws IOException {
+        CommunityMappedReferenceConverter mapper = new CommunityMappedReferenceConverter();
+        CommunityMappedReference reference =
+                mapper.convert(
+                        "COMM03\tORCID\t00000003\t0000-0002-7460-6676\t[Function][Subcellular location]Protein/gene_name: EnvP(b). Function: Fusogenic properties.\n");
+
+        assertThat(reference.getUniProtKBAccession().getValue(), is("COMM03"));
+        assertThat(
+                reference.getSource(),
+                is(new MappedSourceBuilder().name("ORCID").id("0000-0002-7460-6676").build()));
+        assertThat(reference.getCitationId(), is("00000003"));
+        assertThat(reference.getSourceCategories(), contains("Function", "Subcellular Location"));
+        assertThat(reference.getCommunityAnnotation().getProteinOrGene(), is("EnvP(b)"));
+        assertThat(reference.getCommunityAnnotation().getFunction(), is("Fusogenic properties."));
+    }
 }

@@ -202,7 +202,7 @@ class PublicationDocumentsToHDFSWriterTest {
         PublicationDocument kbRN1Doc = extractValue(kbDocs, PublicationDocument::getRefNumber, 1);
 
         assertThat(kbRN1Doc.getCitationId(), is("CI-73HJSSOHL8LGA"));
-        assertThat(kbRN1Doc.getCategories(), contains("Sequence"));
+        assertThat(kbRN1Doc.getCategories(), contains("Sequences"));
 
         MappedPublications mappedPubsForKbRN1 = extractObject(kbRN1Doc);
         assertThat(mappedPubsForKbRN1.getCommunityMappedReferences(), hasSize(0));
@@ -222,7 +222,7 @@ class PublicationDocumentsToHDFSWriterTest {
         assertThat(kbRN1Ref.getSource().getName(), is("UniProtKB reviewed (Swiss-Prot)"));
         assertThat(kbRN1Ref.getSource().getId(), is(nullValue()));
         assertThat(kbRN1Ref.getCitationId(), is("CI-73HJSSOHL8LGA"));
-        assertThat(kbRN1Ref.getSourceCategories(), contains("Sequence"));
+        assertThat(kbRN1Ref.getSourceCategories(), contains("Sequences"));
 
         // check RN 3
         PublicationDocument kbRN3Doc = extractValue(kbDocs, PublicationDocument::getRefNumber, 3);
@@ -230,7 +230,7 @@ class PublicationDocumentsToHDFSWriterTest {
         assertThat(kbRN3Doc.getCitationId(), is("15489334"));
         assertThat(kbRN3Doc.getMainType(), is(UNIPROTKB_REVIEWED.getIntValue()));
         assertThat(kbRN3Doc.getTypes(), contains(UNIPROTKB_REVIEWED.getIntValue()));
-        assertThat(kbRN3Doc.getCategories(), containsInAnyOrder("Sequence"));
+        assertThat(kbRN3Doc.getCategories(), containsInAnyOrder("Sequences"));
 
         MappedPublications mappedPubsForKbRN3 = extractObject(kbRN3Doc);
         assertThat(mappedPubsForKbRN3.getCommunityMappedReferences(), hasSize(0));
@@ -250,7 +250,7 @@ class PublicationDocumentsToHDFSWriterTest {
         assertThat(kbRN4Ref.getSource().getName(), is("UniProtKB reviewed (Swiss-Prot)"));
         assertThat(kbRN4Ref.getSource().getId(), is(nullValue()));
         assertThat(kbRN4Ref.getCitationId(), is("15489334"));
-        assertThat(kbRN4Ref.getSourceCategories(), contains("Sequence"));
+        assertThat(kbRN4Ref.getSourceCategories(), contains("Sequences"));
     }
 
     private void checkCommunityDocuments(List<PublicationDocument> savedDocuments)
