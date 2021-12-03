@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 import org.uniprot.core.taxonomy.TaxonomyStatistics;
 import org.uniprot.core.taxonomy.impl.TaxonomyStatisticsBuilder;
+import org.uniprot.store.spark.indexer.taxonomy.mapper.model.TaxonomyStatisticsWrapper;
 
 class TaxonomyStatisticsAggregationMapperTest {
 
@@ -18,9 +19,17 @@ class TaxonomyStatisticsAggregationMapperTest {
                         .reviewedProteinCount(3)
                         .unreviewedProteinCount(4)
                         .build();
-        TaxonomyStatistics result = mapper.call(stat1, null);
+
+        TaxonomyStatisticsWrapper wrapper1 =
+                TaxonomyStatisticsWrapper.builder()
+                        .statistics(stat1)
+                        .organismUnreviewedProtein(true)
+                        .organismReviewedProtein(false)
+                        .build();
+
+        TaxonomyStatisticsWrapper result = mapper.call(wrapper1, null);
         assertNotNull(result);
-        assertEquals(stat1, result);
+        assertEquals(wrapper1, result);
     }
 
     @Test
@@ -33,9 +42,17 @@ class TaxonomyStatisticsAggregationMapperTest {
                         .reviewedProteinCount(3)
                         .unreviewedProteinCount(4)
                         .build();
-        TaxonomyStatistics result = mapper.call(null, stat2);
+
+        TaxonomyStatisticsWrapper wrapper2 =
+                TaxonomyStatisticsWrapper.builder()
+                        .statistics(stat2)
+                        .organismUnreviewedProtein(false)
+                        .organismReviewedProtein(true)
+                        .build();
+
+        TaxonomyStatisticsWrapper result = mapper.call(null, wrapper2);
         assertNotNull(result);
-        assertEquals(stat2, result);
+        assertEquals(wrapper2, result);
     }
 
     @Test
@@ -44,22 +61,42 @@ class TaxonomyStatisticsAggregationMapperTest {
         TaxonomyStatistics stat1 =
                 new TaxonomyStatisticsBuilder()
                         .referenceProteomeCount(1)
-                        .proteomeCount(1)
-                        .reviewedProteinCount(1)
-                        .unreviewedProteinCount(1)
+                        .proteomeCount(2)
+                        .reviewedProteinCount(3)
+                        .unreviewedProteinCount(4)
                         .build();
+        TaxonomyStatisticsWrapper wrapper1 =
+                TaxonomyStatisticsWrapper.builder()
+                        .statistics(stat1)
+                        .organismUnreviewedProtein(false)
+                        .organismReviewedProtein(true)
+                        .build();
+
         TaxonomyStatistics stat2 =
                 new TaxonomyStatisticsBuilder()
-                        .referenceProteomeCount(2)
-                        .proteomeCount(2)
-                        .reviewedProteinCount(2)
-                        .unreviewedProteinCount(2)
+                        .referenceProteomeCount(5)
+                        .proteomeCount(6)
+                        .reviewedProteinCount(7)
+                        .unreviewedProteinCount(8)
                         .build();
-        TaxonomyStatistics result = mapper.call(stat1, stat2);
+
+        TaxonomyStatisticsWrapper wrapper2 =
+                TaxonomyStatisticsWrapper.builder()
+                        .statistics(stat2)
+                        .organismUnreviewedProtein(true)
+                        .organismReviewedProtein(false)
+                        .build();
+
+        TaxonomyStatisticsWrapper result = mapper.call(wrapper1, wrapper2);
         assertNotNull(result);
-        assertEquals(3L, result.getUnreviewedProteinCount());
-        assertEquals(3L, result.getReviewedProteinCount());
-        assertEquals(3L, result.getReferenceProteomeCount());
-        assertEquals(3L, result.getProteomeCount());
+        assertTrue(result.isOrganismUnreviewedProtein());
+        assertTrue(result.isOrganismReviewedProtein());
+
+        TaxonomyStatistics resultStat = result.getStatistics();
+        assertNotNull(resultStat);
+        assertEquals(12L, resultStat.getUnreviewedProteinCount());
+        assertEquals(10L, resultStat.getReviewedProteinCount());
+        assertEquals(8L, resultStat.getProteomeCount());
+        assertEquals(6L, resultStat.getReferenceProteomeCount());
     }
 }

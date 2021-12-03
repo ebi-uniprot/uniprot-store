@@ -20,7 +20,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 class TaxonomyDocumentConverterTest {
 
-    private static ObjectMapper mapper = TaxonomyJsonConfig.getInstance().getFullObjectMapper();
+    private static final ObjectMapper mapper =
+            TaxonomyJsonConfig.getInstance().getFullObjectMapper();
 
     @Test
     void convertMinimal() throws IOException {
@@ -31,7 +32,7 @@ class TaxonomyDocumentConverterTest {
                         .rank(TaxonomyRank.NO_RANK)
                         .build();
         TaxonomyDocumentConverter converter = new TaxonomyDocumentConverter(mapper);
-        TaxonomyDocument result = converter.convert(entry);
+        TaxonomyDocument result = converter.convert(entry).build();
         assertNotNull(result);
         assertEquals(10L, result.getTaxId());
         assertEquals(TaxonomyRank.NO_RANK.getName(), result.getRank());
@@ -49,7 +50,7 @@ class TaxonomyDocumentConverterTest {
     void convertFullEntry() throws IOException {
         TaxonomyEntry entry = getEntry();
         TaxonomyDocumentConverter converter = new TaxonomyDocumentConverter(mapper);
-        TaxonomyDocument document = converter.convert(entry);
+        TaxonomyDocument document = converter.convert(entry).build();
         assertNotNull(document);
         assertEquals("9606", document.getId());
         assertEquals(9606L, document.getTaxId());
@@ -65,12 +66,6 @@ class TaxonomyDocumentConverterTest {
         assertTrue(document.isHidden());
         assertTrue(document.isActive());
         assertTrue(document.isLinked());
-
-        assertNotNull(document.getTaxonomiesWith());
-        assertTrue(document.getTaxonomiesWith().contains("1_uniprotkb"));
-        assertTrue(document.getTaxonomiesWith().contains("2_reviewed"));
-        assertTrue(document.getTaxonomiesWith().contains("4_reference"));
-        assertTrue(document.getTaxonomiesWith().contains("5_proteome"));
 
         assertNotNull(document.getStrain());
         assertTrue(document.getStrain().contains("strain1 ; strain2"));

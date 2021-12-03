@@ -14,6 +14,7 @@ import org.uniprot.core.taxonomy.TaxonomyStatistics;
 import org.uniprot.core.taxonomy.impl.TaxonomyEntryBuilder;
 import org.uniprot.core.taxonomy.impl.TaxonomyLineageBuilder;
 import org.uniprot.core.taxonomy.impl.TaxonomyStatisticsBuilder;
+import org.uniprot.store.spark.indexer.taxonomy.mapper.model.TaxonomyStatisticsWrapper;
 
 import scala.Tuple2;
 
@@ -35,22 +36,37 @@ class LineageStatisticsMapperTest {
                         .proteomeCount(3L)
                         .referenceProteomeCount(4L)
                         .build();
-        Tuple2<TaxonomyEntry, Optional<TaxonomyStatistics>> tuple =
-                new Tuple2<>(entry, Optional.of(stat));
 
-        Iterator<Tuple2<String, TaxonomyStatistics>> result = mapper.call(tuple);
+        TaxonomyStatisticsWrapper wrapper =
+                TaxonomyStatisticsWrapper.builder()
+                        .statistics(stat)
+                        .organismReviewedProtein(true)
+                        .organismUnreviewedProtein(true)
+                        .build();
+        Tuple2<TaxonomyEntry, Optional<TaxonomyStatisticsWrapper>> tuple =
+                new Tuple2<>(entry, Optional.of(wrapper));
+
+        Iterator<Tuple2<String, TaxonomyStatisticsWrapper>> result = mapper.call(tuple);
         assertNotNull(result);
-        List<Tuple2<String, TaxonomyStatistics>> resultList = new ArrayList<>();
+        List<Tuple2<String, TaxonomyStatisticsWrapper>> resultList = new ArrayList<>();
         result.forEachRemaining(resultList::add);
         assertNotNull(resultList);
         assertEquals(3, resultList.size());
 
         assertEquals("9606", resultList.get(0)._1);
-        assertEquals(stat, resultList.get(0)._2);
+        assertEquals(wrapper, resultList.get(0)._2);
+
         assertEquals("100", resultList.get(1)._1);
-        assertEquals(stat, resultList.get(1)._2);
+        TaxonomyStatisticsWrapper lineageWrapper = resultList.get(1)._2;
+        assertEquals(stat, lineageWrapper.getStatistics());
+        assertFalse(lineageWrapper.isOrganismReviewedProtein());
+        assertFalse(lineageWrapper.isOrganismUnreviewedProtein());
+
         assertEquals("200", resultList.get(2)._1);
-        assertEquals(stat, resultList.get(2)._2);
+        lineageWrapper = resultList.get(2)._2;
+        assertEquals(stat, lineageWrapper.getStatistics());
+        assertFalse(lineageWrapper.isOrganismReviewedProtein());
+        assertFalse(lineageWrapper.isOrganismUnreviewedProtein());
     }
 
     @Test
@@ -60,20 +76,23 @@ class LineageStatisticsMapperTest {
         TaxonomyEntry entry =
                 new TaxonomyEntryBuilder().taxonId(9606L).lineagesSet(lineage).build();
 
-        Tuple2<TaxonomyEntry, Optional<TaxonomyStatistics>> tuple =
+        Tuple2<TaxonomyEntry, Optional<TaxonomyStatisticsWrapper>> tuple =
                 new Tuple2<>(entry, Optional.empty());
 
-        Iterator<Tuple2<String, TaxonomyStatistics>> result = mapper.call(tuple);
+        Iterator<Tuple2<String, TaxonomyStatisticsWrapper>> result = mapper.call(tuple);
         assertNotNull(result);
-        List<Tuple2<String, TaxonomyStatistics>> resultList = new ArrayList<>();
+        List<Tuple2<String, TaxonomyStatisticsWrapper>> resultList = new ArrayList<>();
         result.forEachRemaining(resultList::add);
         assertNotNull(resultList);
         assertEquals(2, resultList.size());
 
-        TaxonomyStatistics emptyStat = new TaxonomyStatisticsBuilder().build();
+        TaxonomyStatisticsWrapper emptyWrapper =
+                TaxonomyStatisticsWrapper.builder()
+                        .statistics(new TaxonomyStatisticsBuilder().build())
+                        .build();
         assertEquals("9606", resultList.get(0)._1);
-        assertEquals(emptyStat, resultList.get(0)._2);
+        assertEquals(emptyWrapper, resultList.get(0)._2);
         assertEquals("100", resultList.get(1)._1);
-        assertEquals(emptyStat, resultList.get(1)._2);
+        assertEquals(emptyWrapper, resultList.get(1)._2);
     }
 }
