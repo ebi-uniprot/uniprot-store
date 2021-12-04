@@ -56,6 +56,9 @@ public class MappedReferencesToPublicationDocumentBuilderConverter
             type.ifPresent(types::add);
             categories.addAll(mappedReference.getSourceCategories());
         }
+        if(categories.isEmpty()){
+            categories.add("Unclassified");
+        }
 
         docBuilder
                 .id(getUniqueId())
