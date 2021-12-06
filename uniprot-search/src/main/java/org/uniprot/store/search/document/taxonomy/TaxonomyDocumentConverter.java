@@ -1,6 +1,5 @@
 package org.uniprot.store.search.document.taxonomy;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -8,13 +7,11 @@ import org.uniprot.core.taxonomy.*;
 import org.uniprot.core.taxonomy.impl.TaxonomyEntryBuilder;
 import org.uniprot.core.uniprotkb.taxonomy.Taxonomy;
 import org.uniprot.store.search.document.DocumentConversionException;
-import org.uniprot.store.search.document.DocumentConverter;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-public class TaxonomyDocumentConverter
-        implements DocumentConverter<TaxonomyEntry, TaxonomyDocument> {
+public class TaxonomyDocumentConverter {
 
     private final ObjectMapper jsonMapper;
 
@@ -22,8 +19,7 @@ public class TaxonomyDocumentConverter
         jsonMapper = objectMapper;
     }
 
-    @Override
-    public TaxonomyDocument convert(TaxonomyEntry entry) {
+    public TaxonomyDocument.TaxonomyDocumentBuilder convert(TaxonomyEntry entry) {
         if (entry.getTaxonId() == 1L) {
             return null;
         }
@@ -46,27 +42,6 @@ public class TaxonomyDocumentConverter
         documentBuilder.hidden(entry.isHidden());
         documentBuilder.linked(!entry.getLinks().isEmpty());
 
-        if (entry.hasStatistics()) {
-            List<String> taxonomiesWith = new ArrayList<>();
-            TaxonomyStatistics statistics = entry.getStatistics();
-            if (statistics.hasReviewedProteinCount()) {
-                taxonomiesWith.add("1_uniprotkb");
-                taxonomiesWith.add("2_reviewed");
-            }
-            if (statistics.hasUnreviewedProteinCount() && !statistics.hasReviewedProteinCount()) {
-                taxonomiesWith.add("1_uniprotkb");
-                taxonomiesWith.add("3_unreviewed");
-            }
-            if (statistics.hasReferenceProteomeCount()) {
-                taxonomiesWith.add("4_reference");
-                taxonomiesWith.add("5_proteome");
-            }
-            if (statistics.hasProteomeCount() && !statistics.hasReferenceProteomeCount()) {
-                taxonomiesWith.add("5_proteome");
-            }
-            documentBuilder.taxonomiesWith(taxonomiesWith);
-        }
-
         String superKingdom =
                 entry.getLineages().stream()
                         .filter(lineage -> TaxonomyRank.SUPERKINGDOM == lineage.getRank())
@@ -87,7 +62,7 @@ public class TaxonomyDocumentConverter
         }
         documentBuilder.taxonomyObj(getTaxonomyBinary(entry));
 
-        return documentBuilder.build();
+        return documentBuilder;
     }
 
     private List<String> buildStrainList(List<TaxonomyStrain> strainList) {

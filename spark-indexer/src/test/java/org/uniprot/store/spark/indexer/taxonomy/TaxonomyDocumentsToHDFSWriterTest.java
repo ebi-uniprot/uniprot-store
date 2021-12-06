@@ -80,6 +80,24 @@ class TaxonomyDocumentsToHDFSWriterTest {
         validateDeleted(documents.get("500"));
         validateMerged(documents.get("50"));
         validateActive(documents.get("10116"));
+        validateLineageTaxonomyWithoutProtein(documents.get("10114"));
+    }
+
+    private void validateLineageTaxonomyWithoutProtein(TaxonomyDocument document) {
+        assertNotNull(document);
+
+        assertNotNull(document.getTaxonomiesWith());
+        assertTrue(document.getTaxonomiesWith().isEmpty());
+
+        assertNotNull(document.getTaxonomyObj());
+        TaxonomyEntry entry = getEntry(document.getTaxonomyObj());
+        assertNotNull(entry);
+        assertNotNull(entry.getStatistics());
+        TaxonomyStatistics stat = entry.getStatistics();
+        assertEquals(2, stat.getReviewedProteinCount());
+        assertEquals(2, stat.getUnreviewedProteinCount());
+        assertEquals(0, stat.getProteomeCount());
+        assertEquals(0, stat.getReferenceProteomeCount());
     }
 
     private void validateActive(TaxonomyDocument document) {
@@ -96,6 +114,12 @@ class TaxonomyDocumentsToHDFSWriterTest {
         assertNotNull(document.getOtherNames());
         assertTrue(document.getOtherNames().contains("first name"));
         assertTrue(document.getOtherNames().contains("second name"));
+
+        assertNotNull(document.getTaxonomiesWith());
+        assertTrue(document.getTaxonomiesWith().contains("1_uniprotkb"));
+        assertTrue(document.getTaxonomiesWith().contains("2_reviewed"));
+        assertTrue(document.getTaxonomiesWith().contains("4_reference"));
+        assertTrue(document.getTaxonomiesWith().contains("5_proteome"));
 
         TaxonomyEntry entry = getEntry(document.getTaxonomyObj());
         assertNotNull(entry);

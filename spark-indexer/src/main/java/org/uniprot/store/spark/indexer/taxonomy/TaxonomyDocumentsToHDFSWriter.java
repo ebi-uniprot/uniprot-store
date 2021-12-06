@@ -11,7 +11,6 @@ import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.storage.StorageLevel;
 import org.uniprot.core.taxonomy.TaxonomyEntry;
-import org.uniprot.core.taxonomy.TaxonomyStatistics;
 import org.uniprot.core.uniprotkb.taxonomy.Taxonomy;
 import org.uniprot.store.search.SolrCollection;
 import org.uniprot.store.search.document.taxonomy.TaxonomyDocument;
@@ -22,6 +21,7 @@ import org.uniprot.store.spark.indexer.proteome.ProteomeRDDReader;
 import org.uniprot.store.spark.indexer.proteome.mapper.ProteomeTaxonomyStatisticsMapper;
 import org.uniprot.store.spark.indexer.taxonomy.mapper.*;
 import org.uniprot.store.spark.indexer.taxonomy.mapper.model.Strain;
+import org.uniprot.store.spark.indexer.taxonomy.mapper.model.TaxonomyStatisticsWrapper;
 import org.uniprot.store.spark.indexer.taxonomy.reader.*;
 import org.uniprot.store.spark.indexer.uniprot.UniProtKBRDDTupleReader;
 import org.uniprot.store.spark.indexer.uniprot.mapper.OrganismJoinMapper;
@@ -62,18 +62,19 @@ public class TaxonomyDocumentsToHDFSWriter implements DocumentsToHDFSWriter {
         TaxonomyStrainsRDDReader strainsRddReader = new TaxonomyStrainsRDDReader(parameter);
         JavaPairRDD<String, Iterable<Strain>> strainsRDD = strainsRddReader.load().groupByKey();
 
-        JavaPairRDD<String, TaxonomyStatistics> proteinStatisticsRDD =
+        JavaPairRDD<String, TaxonomyStatisticsWrapper> proteinStatisticsRDD =
                 getTaxonomyProteinStatisticsRDD(taxonomyRDD);
 
-        JavaPairRDD<String, TaxonomyStatistics> proteomeStatisticsRDD =
+        JavaPairRDD<String, TaxonomyStatisticsWrapper> proteomeStatisticsRDD =
                 getTaxonomyProteomeStatisticsRDD(taxonomyRDD);
+
+        JavaPairRDD<String, TaxonomyStatisticsWrapper> statisticsWrapperRDD =
+                proteinStatisticsRDD
+                        .fullOuterJoin(proteomeStatisticsRDD)
+                        .mapValues(new TaxonomyStatisticsWrapperJoinMapper());
 
         JavaRDD<TaxonomyDocument> taxonomyDocumentRDD =
                 taxonomyRDD // <taxId, TaxonomyEntry>
-                        .leftOuterJoin(proteinStatisticsRDD)
-                        .mapValues(new TaxonomyProteinStatisticsJoinMapper())
-                        .leftOuterJoin(proteomeStatisticsRDD)
-                        .mapValues(new TaxonomyProteomeStatisticsJoinMapper())
                         .leftOuterJoin(linksRDD)
                         .mapValues(new TaxonomyLinksJoinMapper())
                         .leftOuterJoin(otherNamesRDD)
@@ -82,8 +83,9 @@ public class TaxonomyDocumentsToHDFSWriter implements DocumentsToHDFSWriter {
                         .mapValues(new TaxonomyStrainsJoinMapper())
                         .leftOuterJoin(getTaxonomyHosts(taxonomyRDD))
                         .mapValues(new TaxonomyHostsJoinMapper())
+                        .leftOuterJoin(statisticsWrapperRDD)
+                        .mapValues(new TaxonomyEntryToDocumentMapper())
                         .values()
-                        .map(new TaxonomyEntryToDocumentMapper())
                         .union(getInactiveDocumentsRDD())
                         .filter(Objects::nonNull);
 
@@ -128,7 +130,7 @@ public class TaxonomyDocumentsToHDFSWriter implements DocumentsToHDFSWriter {
      * @param taxonomyRDD taxonomy entries
      * @return JavaPairRDD<taxId, TaxonomyStatistics>
      */
-    private JavaPairRDD<String, TaxonomyStatistics> getTaxonomyProteinStatisticsRDD(
+    private JavaPairRDD<String, TaxonomyStatisticsWrapper> getTaxonomyProteinStatisticsRDD(
             JavaPairRDD<String, TaxonomyEntry> taxonomyRDD) {
         TaxonomyStatisticsAggregationMapper statisticsAggregationMapper =
                 new TaxonomyStatisticsAggregationMapper();
@@ -136,7 +138,7 @@ public class TaxonomyDocumentsToHDFSWriter implements DocumentsToHDFSWriter {
         UniProtKBRDDTupleReader uniProtKBReader =
                 new UniProtKBRDDTupleReader(this.parameter, false);
 
-        JavaPairRDD<String, TaxonomyStatistics> organismStatisticsRDD =
+        JavaPairRDD<String, TaxonomyStatisticsWrapper> organismStatisticsRDD =
                 uniProtKBReader
                         .loadFlatFileToRDD()
                         .mapToPair(new OrganismJoinMapper()) // <taxId, TaxonomyStatistics>
@@ -156,7 +158,7 @@ public class TaxonomyDocumentsToHDFSWriter implements DocumentsToHDFSWriter {
      * @param taxonomyRDD taxonomy entries
      * @return JavaPairRDD<taxId, TaxonomyStatistics>
      */
-    private JavaPairRDD<String, TaxonomyStatistics> getTaxonomyProteomeStatisticsRDD(
+    private JavaPairRDD<String, TaxonomyStatisticsWrapper> getTaxonomyProteomeStatisticsRDD(
             JavaPairRDD<String, TaxonomyEntry> taxonomyRDD) {
         TaxonomyStatisticsAggregationMapper statisticsAggregationMapper =
                 new TaxonomyStatisticsAggregationMapper();
