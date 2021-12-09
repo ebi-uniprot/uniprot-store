@@ -36,7 +36,12 @@ public class GOEvidencesFileMapper implements PairFunction<String, String, GOEvi
             String goId = splitedLine[1];
             String uniProtECOId = getUniProtECOId(splitedLine[4], splitedLine[5]);
             String evidenceValue = splitedLine[6].replace("PMID", uniProtECOId + "|PubMed");
-            Evidence evidence = EvidenceHelper.parseEvidenceLine(evidenceValue);
+            Evidence evidence;
+            try {
+                evidence = EvidenceHelper.parseEvidenceLine(evidenceValue);
+            } catch(IllegalArgumentException ile){
+                throw new IllegalArgumentException("Failed parsing line " + line, ile);
+            }
             return new Tuple2<>(accession, new GOEvidence(goId, evidence));
         } else {
             throw new IllegalArgumentException(
