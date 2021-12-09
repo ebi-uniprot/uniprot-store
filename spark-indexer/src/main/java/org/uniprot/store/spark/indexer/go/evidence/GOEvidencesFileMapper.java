@@ -22,7 +22,12 @@ import scala.Tuple2;
 @Slf4j
 public class GOEvidencesFileMapper implements PairFunction<String, String, GOEvidence> {
 
-    private static final long serialVersionUID = 7265825845507683822L;
+    private static final long serialVersionUID = -1281122340563894280L;
+    private final GOEvidences evidenceInstance;
+
+    public GOEvidencesFileMapper(){
+        this.evidenceInstance = GOEvidences.INSTANCE;
+    }
 
     /**
      * @param line Go Evidences string line
@@ -40,7 +45,7 @@ public class GOEvidencesFileMapper implements PairFunction<String, String, GOEvi
             try {
                 evidence = EvidenceHelper.parseEvidenceLine(evidenceValue);
             } catch(IllegalArgumentException ile){
-                throw new IllegalArgumentException("Failed parsing line " + line, ile);
+                throw new IllegalArgumentException("Failed parsing line " + line + " with uniProtEcoId is " + uniProtECOId, ile);
             }
             return new Tuple2<>(accession, new GOEvidence(goId, evidence));
         } else {
@@ -54,9 +59,7 @@ public class GOEvidencesFileMapper implements PairFunction<String, String, GOEvi
                 .filter(evCode -> ecoId.equalsIgnoreCase(evCode.getCode()))
                 .findFirst()
                 .map(EvidenceCode::getCode)
-                .orElse(
-                        GOEvidences.INSTANCE
-                                .convertGAFToECO(ecoCode)
+                .orElse(this.evidenceInstance.convertGAFToECO(ecoCode)
                                 .orElse("")); // get by ECO code like IMP
     }
 }

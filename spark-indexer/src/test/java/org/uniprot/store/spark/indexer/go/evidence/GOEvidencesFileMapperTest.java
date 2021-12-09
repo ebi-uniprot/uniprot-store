@@ -81,4 +81,12 @@ class GOEvidencesFileMapperTest {
 
         assertThrows(IllegalArgumentException.class, () -> mapper.call(goLine));
     }
+
+    @Test
+    void testEXPGoLine() throws Exception {
+        String goLine =
+                "A0A3G5IPC5\tGO:0044164\tC\thost cell cytosol\tECO:0005804\tEXP\tPMID:8112310\tCACAO\t\tpart_of";
+        GOEvidencesFileMapper mapper = new GOEvidencesFileMapper();
+        assertDoesNotThrow(() -> mapper.call(goLine));
+    }
 }
