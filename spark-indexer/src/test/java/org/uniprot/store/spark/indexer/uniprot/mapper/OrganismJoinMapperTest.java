@@ -1,21 +1,22 @@
 package org.uniprot.store.spark.indexer.uniprot.mapper;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 import org.junit.jupiter.api.Test;
-import org.uniprot.core.Statistics;
 import org.uniprot.core.taxonomy.TaxonomyStatistics;
 import org.uniprot.store.spark.indexer.taxonomy.mapper.model.TaxonomyStatisticsWrapper;
-import scala.Tuple2;
 
-import static org.junit.jupiter.api.Assertions.*;
+import scala.Tuple2;
 
 class OrganismJoinMapperTest {
 
     @Test
     void mapTremblCountUnreviewed() throws Exception {
         OrganismJoinMapper mapper = new OrganismJoinMapper();
-        String entryStr = "ID   PRKN_HUMAN              Unreviewed;         465 AA.\n"
-                +"AC   Q8YW84;\n"
-                +"OX   NCBI_TaxID=10090;\n";
+        String entryStr =
+                "ID   PRKN_HUMAN              Unreviewed;         465 AA.\n"
+                        + "AC   Q8YW84;\n"
+                        + "OX   NCBI_TaxID=10090;\n";
         Tuple2<String, TaxonomyStatisticsWrapper> result = mapper.call(entryStr);
         assertNotNull(result);
         assertEquals("10090", result._1);
@@ -34,9 +35,10 @@ class OrganismJoinMapperTest {
     @Test
     void mapSwissProtCountReviewed() throws Exception {
         OrganismJoinMapper mapper = new OrganismJoinMapper();
-        String entryStr = "ID   PRKN_HUMAN              Reviewed;         465 AA.\n"
-                +"AC   Q8YW84;\n"
-                +"OX   NCBI_TaxID=10090;\n";
+        String entryStr =
+                "ID   PRKN_HUMAN              Reviewed;         465 AA.\n"
+                        + "AC   Q8YW84;\n"
+                        + "OX   NCBI_TaxID=10090;\n";
         Tuple2<String, TaxonomyStatisticsWrapper> result = mapper.call(entryStr);
         assertNotNull(result);
         assertEquals("10090", result._1);
@@ -55,9 +57,10 @@ class OrganismJoinMapperTest {
     @Test
     void mapIsoformDoNotCountStatistics() throws Exception {
         OrganismJoinMapper mapper = new OrganismJoinMapper();
-        String entryStr = "ID   PRKN_HUMAN              Reviewed;         465 AA.\n"
-                +"AC   Q8YW84-2;\n"
-                +"OX   NCBI_TaxID=10090;\n";
+        String entryStr =
+                "ID   PRKN_HUMAN              Reviewed;         465 AA.\n"
+                        + "AC   Q8YW84-2;\n"
+                        + "OX   NCBI_TaxID=10090;\n";
         Tuple2<String, TaxonomyStatisticsWrapper> result = mapper.call(entryStr);
         assertNotNull(result);
         assertEquals("10090", result._1);
