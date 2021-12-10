@@ -60,6 +60,6 @@ public class GOEvidencesFileMapper implements PairFunction<String, String, GOEvi
                 .findFirst()
                 .map(EvidenceCode::getCode)
                 .orElse(this.evidenceInstance.convertGAFToECO(ecoCode)
-                                .orElse("ECO:0000269")); // get by ECO code like IMP
+                                .orElse("")); // get by ECO code like IMP
     }
 }
