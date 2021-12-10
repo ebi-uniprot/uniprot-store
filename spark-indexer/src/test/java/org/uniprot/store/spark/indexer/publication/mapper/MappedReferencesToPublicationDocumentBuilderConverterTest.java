@@ -165,4 +165,45 @@ class MappedReferencesToPublicationDocumentBuilderConverterTest {
         assertEquals(2, doc.getMainType());
         assertEquals(11, doc.getRefNumber());
     }
+
+    @Test
+    void mapMultipleMappedReferenceWithoutCategory() throws Exception {
+        MappedReferencesToPublicationDocumentBuilderConverter mapper =
+                new MappedReferencesToPublicationDocumentBuilderConverter();
+        String accPub = "P21802_100";
+        List<MappedReference> mappedReferences = new ArrayList<>();
+        mappedReferences.add(
+                new ComputationallyMappedReferenceBuilder()
+                        .citationId("100")
+                        .uniProtKBAccession("P21802")
+                        .source(new MappedSourceBuilder().id("COMP_ID").name("COMP_NAME").build())
+                        .annotation("AnnotationValue")
+                        .build());
+
+        mappedReferences.add(
+                new CommunityMappedReferenceBuilder()
+                        .citationId("100")
+                        .uniProtKBAccession("P21802")
+                        .source(new MappedSourceBuilder().id("CMNT_ID").name("CMNT_NAME").build())
+                        .communityAnnotation(
+                                new CommunityAnnotationBuilder().comment("cmValue").build())
+                        .build());
+
+
+        Tuple2<String, Iterable<MappedReference>> tuple = new Tuple2<>(accPub, mappedReferences);
+        Tuple2<String, PublicationDocument.Builder> result = mapper.call(tuple);
+        assertNotNull(result);
+        assertNotNull(result._1);
+        assertNotNull(result._2);
+        PublicationDocument doc = result._2.build();
+        assertEquals("P21802", doc.getAccession());
+        assertEquals("100", doc.getCitationId());
+        assertEquals("P21802", doc.getAccession());
+        assertTrue(doc.getCategories().contains("Unclassified"));
+        assertTrue(doc.getTypes().contains(0));
+        assertTrue(doc.getTypes().contains(1));
+        assertNotNull(doc.getPublicationMappedReferences());
+        assertEquals(1, doc.getMainType());
+    }
+
 }
