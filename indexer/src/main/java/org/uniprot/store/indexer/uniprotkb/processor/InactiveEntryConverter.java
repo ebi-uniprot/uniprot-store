@@ -20,12 +20,14 @@ public class InactiveEntryConverter
         if (Utils.notNull(source.getId())) {
             document.id = source.getId();
             if (!source.getReason().equalsIgnoreCase("demerged")) {
-                document.idDefault = source.getId();
+                document.idInactive = source.getId();
             }
         }
-        if (source.getReason().equalsIgnoreCase("deleted")) {
-            document.content.add(source.getAccession());
-        }
+        // TODO: 17/12/2021 no need to add accession to content when already added to accession
+        // field in document.
+        //        if (source.getReason().equalsIgnoreCase("deleted")) {
+        //            document.content.add(source.getAccession());
+        //        }
         document.inactiveReason = source.getInactiveReason();
         document.active = false;
 

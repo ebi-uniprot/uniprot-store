@@ -24,14 +24,20 @@ public class InactiveUniprotEntryConverter
         if (Utils.notNull(source.getUniProtkbId())) {
             document.id = source.getUniProtkbId().getValue();
             if (!type.equals(InactiveReasonType.DEMERGED)) {
-                document.idDefault = source.getUniProtkbId().getValue();
+                document.idInactive = source.getUniProtkbId().getValue();
             }
         }
 
-        if (type.equals(InactiveReasonType.DELETED)) {
-            document.content.add(source.getPrimaryAccession().getValue());
-        }
-        document.inactiveReason = type.getDisplayName();
+//        if (type.equals(InactiveReasonType.DELETED)) {
+//            // todo why adding to content? i think it'd be better to add to accession
+//            // content is a field added to default fields (qf), and should only be used for
+//            // dynamic fields (because we can't add all dynamic fields to qf (too many).
+//            document.content.add(source.getPrimaryAccession().getValue());
+//
+//            // TODO: 17/12/2021 Question: what does adding it to content do that is different from adding
+//            // it to document.accession (line 23)?
+//        }
+       document.inactiveReason = type.getDisplayName();
         if (Utils.notNullNotEmpty(inactiveReason.getMergeDemergeTos())) {
             document.inactiveReason += ":" + String.join(",", inactiveReason.getMergeDemergeTos());
         }

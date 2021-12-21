@@ -36,6 +36,8 @@
 		required="false" multiValued="false" docValues="true" />
 	<field name="id_default" type="full_ci_split_numeric"
 		indexed="true" stored="false" required="false" multiValued="false" />
+	<field name="id_inactive" type="basic_ci" indexed="true"
+		   stored="false" required="false" multiValued="true" omitNorms="false" />
 	<copyField source="id" dest="id_sort" />
 
 	<field name="active" type="boolean" indexed="true" stored="true"
@@ -116,8 +118,7 @@
 	<field name="gene_sort" type="string" indexed="true"
 		stored="false" required="false" multiValued="false" docValues="true" />
 
-	<!-- Default field -->
-	<!-- content will contain only dynamic fields, comments + features -->
+	<!-- content contains dynamic fields, comments, features -->
 	<field name="content" type="full_ci" indexed="true"
 		stored="false" required="false" multiValued="true" omitNorms="false" />
 
