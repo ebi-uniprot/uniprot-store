@@ -52,11 +52,11 @@ public class StressTestVoldemort {
                             .sparkContext(sparkContext)
                             .build();
             JavaFutureAction<Void> uniProt = loadUniProt(jobParameter);
-            JavaFutureAction<Void> uniParc = loadUniParc(jobParameter);
-            JavaFutureAction<Void> uniRef = loadUniRef(jobParameter);
+            //JavaFutureAction<Void> uniParc = loadUniParc(jobParameter);
+            //JavaFutureAction<Void> uniRef = loadUniRef(jobParameter);
             uniProt.get();
-            uniParc.get();
-            uniRef.get();
+            //uniParc.get();
+            //uniRef.get();
         } catch (Exception e) {
             throw new IndexDataStoreException("Unexpected error during DataStore index", e);
         } finally {
