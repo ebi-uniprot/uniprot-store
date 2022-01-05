@@ -3,11 +3,16 @@ package org.uniprot.store.spark.indexer.main.verifiers;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.spark.api.java.JavaFutureAction;
 import org.apache.spark.api.java.JavaSparkContext;
+import org.apache.spark.api.java.function.Function;
 import org.apache.spark.api.java.function.VoidFunction;
+import org.uniprot.core.flatfile.parser.UniprotKBLineParser;
+import org.uniprot.core.flatfile.parser.impl.DefaultUniprotKBLineParserFactory;
+import org.uniprot.core.flatfile.parser.impl.ac.AcLineObject;
 import org.uniprot.core.uniparc.UniParcEntry;
 import org.uniprot.core.uniparc.UniParcId;
 import org.uniprot.core.uniprotkb.UniProtKBAccession;
 import org.uniprot.core.uniprotkb.UniProtKBEntry;
+import org.uniprot.core.uniprotkb.impl.UniProtKBAccessionBuilder;
 import org.uniprot.core.uniref.UniRefEntryId;
 import org.uniprot.core.uniref.UniRefEntryLight;
 import org.uniprot.core.uniref.UniRefType;
@@ -23,9 +28,11 @@ import org.uniprot.store.spark.indexer.uniparc.UniParcRDDTupleReader;
 import org.uniprot.store.spark.indexer.uniprot.UniProtKBRDDTupleReader;
 import org.uniprot.store.spark.indexer.uniref.UniRefLightRDDTupleReader;
 
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 
 @Slf4j
 public class StressTestVoldemort {
@@ -82,9 +89,8 @@ public class StressTestVoldemort {
         DataStoreParameter parameter = getDataStoreParameter(config, "uniprot");
 
         UniProtKBRDDTupleReader reader = new UniProtKBRDDTupleReader(jobParameter, false);
-        return reader.load()
-                .values()
-                .map(UniProtKBEntry::getPrimaryAccession)
+        return reader.loadFlatFileToRDD()
+                .map(new FlatFileToPrimaryAccession())
                 .foreachPartitionAsync(new IterateUniProt(parameter));
     }
 
@@ -103,7 +109,7 @@ public class StressTestVoldemort {
 
     private static class IterateUniRef implements VoidFunction<Iterator<UniRefEntryId>> {
 
-        private DataStoreParameter parameter;
+        private final DataStoreParameter parameter;
 
         public IterateUniRef(DataStoreParameter parameter){
             this.parameter = parameter;
@@ -129,7 +135,7 @@ public class StressTestVoldemort {
 
     private static class IterateUniProt implements VoidFunction<Iterator<UniProtKBAccession>> {
 
-        private DataStoreParameter parameter;
+        private final DataStoreParameter parameter;
 
         public IterateUniProt(DataStoreParameter parameter){
             this.parameter = parameter;
@@ -154,7 +160,7 @@ public class StressTestVoldemort {
 
     private static class IterateUniParc implements VoidFunction<Iterator<UniParcId>> {
 
-        private DataStoreParameter parameter;
+        private final DataStoreParameter parameter;
 
         public IterateUniParc(DataStoreParameter parameter){
             this.parameter = parameter;
@@ -178,4 +184,23 @@ public class StressTestVoldemort {
 
     }
 
+
+    private static class FlatFileToPrimaryAccession implements Function<String, UniProtKBAccession> {
+
+        private static final long serialVersionUID = -4374937704856351325L;
+
+        @Override
+        public UniProtKBAccession call(String entryStr) throws Exception {
+            final UniprotKBLineParser<AcLineObject> acParser =
+                    new DefaultUniprotKBLineParserFactory().createAcLineParser();
+            String[] lines = entryStr.split("\n");
+
+            String acLine =
+                    Arrays.stream(lines)
+                            .filter(line -> line.startsWith("AC  "))
+                            .collect(Collectors.joining("\n"));
+            String accession = acParser.parse(acLine + "\n").primaryAcc;
+            return new UniProtKBAccessionBuilder(accession).build();
+        }
+    }
 }
