@@ -8,6 +8,7 @@ import org.uniprot.core.uniprotkb.InactiveReasonType;
 import org.uniprot.core.uniprotkb.UniProtKBEntry;
 import org.uniprot.core.uniprotkb.impl.EntryInactiveReasonBuilder;
 import org.uniprot.core.uniprotkb.impl.UniProtKBEntryBuilder;
+import org.uniprot.core.util.Utils;
 import org.uniprot.store.search.document.uniprot.UniProtDocument;
 
 /**
@@ -27,10 +28,10 @@ class InactiveUniprotEntryConverterTest {
 
         assertEquals("P12345", result.accession);
         assertNull(result.id);
-        assertNull(result.idDefault);
+        assertTrue(Utils.nullOrEmpty(result.idDefault));
+        assertNull(result.idInactive);
         assertEquals("DELETED", result.inactiveReason);
         assertFalse(result.active);
-        assertTrue(result.content.contains("P12345"));
     }
 
     @Test
@@ -44,10 +45,10 @@ class InactiveUniprotEntryConverterTest {
 
         assertEquals("P12345", result.accession);
         assertEquals("ID", result.id);
-        assertEquals("ID", result.idDefault);
+        assertTrue(Utils.nullOrEmpty(result.idDefault));
+        assertEquals("ID", result.idInactive);
         assertEquals("DELETED", result.inactiveReason);
         assertFalse(result.active);
-        assertTrue(result.content.contains("P12345"));
     }
 
     @Test
@@ -64,10 +65,10 @@ class InactiveUniprotEntryConverterTest {
 
         assertEquals("P12345", result.accession);
         assertEquals("ID1", result.id);
-        assertEquals("ID1", result.idDefault);
+        assertTrue(Utils.nullOrEmpty(result.idDefault));
+        assertEquals("ID1", result.idInactive);
         assertEquals("MERGED:P11111", result.inactiveReason);
         assertFalse(result.active);
-        assertTrue(result.content.isEmpty());
     }
 
     @Test

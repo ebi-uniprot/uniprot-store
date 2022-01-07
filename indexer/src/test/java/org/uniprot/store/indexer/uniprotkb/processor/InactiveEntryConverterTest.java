@@ -1,13 +1,14 @@
 package org.uniprot.store.indexer.uniprotkb.processor;
 
-import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.Test;
+import org.uniprot.core.util.Utils;
+import org.uniprot.store.indexer.uniprot.inactiveentry.InactiveUniProtEntry;
+import org.uniprot.store.search.document.uniprot.UniProtDocument;
 
 import java.util.Collections;
 import java.util.List;
 
-import org.junit.jupiter.api.Test;
-import org.uniprot.store.indexer.uniprot.inactiveentry.InactiveUniProtEntry;
-import org.uniprot.store.search.document.uniprot.UniProtDocument;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * @author lgonzales
@@ -25,10 +26,10 @@ class InactiveEntryConverterTest {
 
         assertEquals("P12345", result.accession);
         assertNull(result.id);
-        assertNull(result.idDefault);
+        assertTrue(Utils.nullOrEmpty(result.idDefault));
+        assertNull(result.idInactive);
         assertEquals("DELETED", result.inactiveReason);
         assertFalse(result.active);
-        assertTrue(result.content.contains("P12345"));
     }
 
     @Test
@@ -41,10 +42,10 @@ class InactiveEntryConverterTest {
 
         assertEquals("P12345", result.accession);
         assertEquals("ID", result.id);
-        assertEquals("ID", result.idDefault);
+        assertTrue(Utils.nullOrEmpty(result.idDefault));
+        assertEquals("ID", result.idInactive);
         assertEquals("DELETED", result.inactiveReason);
         assertFalse(result.active);
-        assertTrue(result.content.contains("P12345"));
     }
 
     @Test
@@ -57,10 +58,10 @@ class InactiveEntryConverterTest {
 
         assertEquals("P12345", result.accession);
         assertEquals("ID1", result.id);
-        assertEquals("ID1", result.idDefault);
+        assertTrue(Utils.nullOrEmpty(result.idDefault));
+        assertEquals("ID1", result.idInactive);
         assertEquals("MERGED:P11111", result.inactiveReason);
         assertFalse(result.active);
-        assertTrue(result.content.isEmpty());
     }
 
     @Test
