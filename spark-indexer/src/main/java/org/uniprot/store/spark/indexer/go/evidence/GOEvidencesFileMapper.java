@@ -1,10 +1,14 @@
 package org.uniprot.store.spark.indexer.go.evidence;
 
+import java.util.Arrays;
+
 import lombok.extern.slf4j.Slf4j;
 
 import org.apache.spark.api.java.function.PairFunction;
 import org.uniprot.core.uniprotkb.evidence.Evidence;
+import org.uniprot.core.uniprotkb.evidence.EvidenceCode;
 import org.uniprot.cv.evidence.EvidenceHelper;
+import org.uniprot.cv.evidence.GOEvidences;
 
 import scala.Tuple2;
 
@@ -18,7 +22,12 @@ import scala.Tuple2;
 @Slf4j
 public class GOEvidencesFileMapper implements PairFunction<String, String, GOEvidence> {
 
-    private static final long serialVersionUID = 7265825845507683822L;
+    private static final long serialVersionUID = -1281122340563894280L;
+    private final GOEvidences evidenceInstance;
+
+    public GOEvidencesFileMapper(){
+        this.evidenceInstance = GOEvidences.INSTANCE;
+    }
 
     /**
      * @param line Go Evidences string line
@@ -30,12 +39,27 @@ public class GOEvidencesFileMapper implements PairFunction<String, String, GOEvi
         if (splitedLine.length >= 7) {
             String accession = splitedLine[0];
             String goId = splitedLine[1];
-            String evidenceValue = splitedLine[6].replace("PMID", splitedLine[4] + "|PubMed");
-            Evidence evidence = EvidenceHelper.parseEvidenceLine(evidenceValue);
+            String uniProtECOId = getUniProtECOId(splitedLine[4], splitedLine[5]);
+            String evidenceValue = splitedLine[6].replace("PMID", uniProtECOId + "|PubMed");
+            Evidence evidence;
+            try {
+                evidence = EvidenceHelper.parseEvidenceLine(evidenceValue);
+            } catch(IllegalArgumentException ile){
+                throw new IllegalArgumentException("Failed parsing line " + line + " with uniProtEcoId is " + uniProtECOId, ile);
+            }
             return new Tuple2<>(accession, new GOEvidence(goId, evidence));
         } else {
             throw new IllegalArgumentException(
                     "unable to parse line: '" + line + "' in go evidence file");
         }
+    }
+
+    private String getUniProtECOId(String ecoId, String ecoCode) {
+        return Arrays.stream(EvidenceCode.values())
+                .filter(evCode -> ecoId.equalsIgnoreCase(evCode.getCode()))
+                .findFirst()
+                .map(EvidenceCode::getCode)
+                .orElse(this.evidenceInstance.convertGAFToECO(ecoCode)
+                                .orElse("")); // get by ECO code like IMP
     }
 }

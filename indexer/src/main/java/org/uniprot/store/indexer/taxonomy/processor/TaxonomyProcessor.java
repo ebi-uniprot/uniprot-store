@@ -65,14 +65,41 @@ public class TaxonomyProcessor implements ItemProcessor<TaxonomyEntry, TaxonomyD
         entryBuilder.strainsSet(loadStrains(taxonId));
         entryBuilder.linksSet(loadLinks(taxonId));
 
+        long parentTaxId = entry.getParent().getTaxonId();
         if (entry.hasParent() && lineage != null) {
             lineage.stream()
-                    .filter(ln -> ln.getTaxonId() == entry.getParent().getTaxonId())
+                    .filter(ln -> ln.getTaxonId() == parentTaxId)
                     .findFirst()
                     .map(this::getParentFromLineage)
                     .ifPresent(entryBuilder::parent);
         }
-        return documentConverter.convert(entryBuilder.build());
+        entry = entryBuilder.build();
+        TaxonomyDocument.TaxonomyDocumentBuilder docBuilder = documentConverter.convert(entry);
+        if (entry.hasStatistics()) {
+            List<String> taxonomiesWith = new ArrayList<>();
+            TaxonomyStatistics statistics = entry.getStatistics();
+            if (statistics.hasReviewedProteinCount()) {
+                taxonomiesWith.add("1_uniprotkb");
+                taxonomiesWith.add("2_reviewed");
+            }
+            if (statistics.hasUnreviewedProteinCount() && !statistics.hasReviewedProteinCount()) {
+                taxonomiesWith.add("1_uniprotkb");
+                taxonomiesWith.add("3_unreviewed");
+            }
+            if (statistics.hasReferenceProteomeCount()) {
+                taxonomiesWith.add("4_reference");
+                taxonomiesWith.add("5_proteome");
+            }
+            if (statistics.hasProteomeCount() && !statistics.hasReferenceProteomeCount()) {
+                taxonomiesWith.add("5_proteome");
+            }
+            docBuilder.taxonomiesWith(taxonomiesWith);
+        }
+        TaxonomyDocument result = null;
+        if (docBuilder != null) {
+            result = docBuilder.build();
+        }
+        return result;
     }
 
     protected String getTaxonomyLineageSQL() {

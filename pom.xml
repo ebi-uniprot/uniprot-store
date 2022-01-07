@@ -29,7 +29,7 @@
 
 	<properties>
 		<uniprot-core.version>${project.version}</uniprot-core.version>
-		<junit-jupiter.version>5.6.2</junit-jupiter.version>
+		<junit-jupiter.version>5.8.2</junit-jupiter.version>
 		<hamcrest-core.version>2.2</hamcrest-core.version>
 		<jackson.version>2.11.4</jackson.version>
 		<solr.version>8.5.2</solr.version>
@@ -49,6 +49,19 @@
 		<!-- Auto-formatting -->
 		<spotless.version>1.24.1</spotless.version>
 	</properties>
+
+	<dependencyManagement>
+		<!-- force all dependencies to log4j, including transitive ones, to use 
+			this version after vulnerability found: https://access.redhat.com/security/cve/cve-2021-44228 -->
+		<dependencies>
+			<dependency>
+				<groupId>org.apache.logging.log4j</groupId>
+				<artifactId>log4j-core</artifactId>
+				<version>2.16.0</version>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+
 
 	<dependencies>
 		<!-- Tests -->
@@ -120,6 +133,11 @@
 			</snapshots>
 			<url>${http-uniprot-private-url}/private-thirdparty</url>
 		</repository>
+        <repository>
+            <id>maven-restlet</id>
+            <name>Public online Restlet repository</name>
+            <url>https://maven.restlet.talend.com</url>
+        </repository>
 	</repositories>
 	<distributionManagement>
 		<repository>
@@ -181,7 +199,9 @@
 							<systemProperties>
 								<property>
 									<name>cv.dr.ord.location</name>
-									<value>${project.build.directory}/../../uniprot-config/src/test/resources/uniprotkb/xdb/dr_ord</value>
+									<value>
+										${project.build.directory}/../../uniprot-config/src/test/resources/uniprotkb/xdb/dr_ord
+									</value>
 								</property>
 							</systemProperties>
 							<!-- Exclude integration tests from unit test run -->
@@ -191,7 +211,8 @@
 								<exclude>**/IT*.java</exclude>
 							</excludes>
 							<argLine>-Dlogback.configurationFile=${project.basedir}/../logback-test.xml
-								${jacoco.agent.ut.arg}</argLine>
+								${jacoco.agent.ut.arg}
+							</argLine>
 						</configuration>
 					</plugin>
 
@@ -202,7 +223,9 @@
 							<systemProperties>
 								<property>
 									<name>cv.dr.ord.location</name>
-									<value>${project.build.directory}/../../uniprot-config/src/test/resources/uniprotkb/xdb/dr_ord</value>
+									<value>
+										${project.build.directory}/../../uniprot-config/src/test/resources/uniprotkb/xdb/dr_ord
+									</value>
 								</property>
 							</systemProperties>
 							<forkCount>1</forkCount>

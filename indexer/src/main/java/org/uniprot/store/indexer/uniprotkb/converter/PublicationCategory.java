@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
  */
 public enum PublicationCategory {
     sequence(
-            "Sequence",
+            "Sequences",
             "NUCLEOTIDE SEQUENCE",
             "PROTEIN SEQUENCE",
             "GENOME REANNOTATION",
@@ -91,7 +91,7 @@ public enum PublicationCategory {
             "HEPARIN-BINDING"),
 
     subcell(
-            "Subcell",
+            "Subcellular Location",
             "SUBCELLULAR LOCATION",
             "TOPOLOGY",
             "MEMBRANE TOPOLOGY",
@@ -115,7 +115,7 @@ public enum PublicationCategory {
             "HETERODIMER"),
 
     ptm(
-            "PTM",
+            "PTM / Processing",
             "PHOSPHORYLATION",
             "ACETYLATION",
             "GLYCOSYLATION",
@@ -195,7 +195,7 @@ public enum PublicationCategory {
             "MODELING"),
 
     pathol(
-            "Pathol",
+            "Pathology & Biotech",
             "MUTAGENESIS",
             "DISRUPTION PHENOTYPE",
             "INVOLVEMENT",
@@ -213,7 +213,7 @@ public enum PublicationCategory {
     names("Names", "GENE FAMILY", "NOMENCLATURE", "GENE NAME", "GENE FAMILY AND NOMENCLATURE"),
 
     family(
-            "Family",
+            "Family & Domains",
             "DOMAIN",
             "GENE FAMILY ORGANIZATION",
             "SIMILARITY",

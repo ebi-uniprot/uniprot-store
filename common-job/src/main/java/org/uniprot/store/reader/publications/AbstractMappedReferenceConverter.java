@@ -1,6 +1,7 @@
 package org.uniprot.store.reader.publications;
 
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -36,10 +37,7 @@ abstract class AbstractMappedReferenceConverter<T extends MappedReference>
         int prevCatEnd = 0;
         while (matcher.find() && prevCatEnd == matcher.start()) {
             String category = matcher.group(1);
-            if (isValidCategory(category)) {
-                categories.add(category);
-            }
-
+            getValidCategory(category).ifPresent(categories::add);
             prevCatEnd = matcher.end();
         }
 
@@ -87,7 +85,7 @@ abstract class AbstractMappedReferenceConverter<T extends MappedReference>
 
     abstract T convertRawMappedReference(RawMappedReference reference);
 
-    private static boolean isValidCategory(String category) {
-        return CATEGORIES.contains(category);
+    private static Optional<String> getValidCategory(String category) {
+        return CATEGORIES.stream().filter(cat -> cat.equalsIgnoreCase(category)).findFirst();
     }
 }

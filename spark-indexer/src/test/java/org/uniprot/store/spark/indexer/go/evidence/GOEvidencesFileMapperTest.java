@@ -56,7 +56,8 @@ class GOEvidencesFileMapperTest {
 
     @Test
     void testGoLineWithMissingEcoId() throws Exception {
-        String goLine = "B0V2N1\tGO:0050804\tP\tmodulation of chemical synaptic transmission\tECO:0001225\tIMP\tPMID:22519304\tSynGO\tinvolved_in";
+        String goLine =
+                "B0V2N1\tGO:0050804\tP\tmodulation of chemical synaptic transmission\tECO:0001225\tIMP\tPMID:22519304\tSynGO\tinvolved_in";
         GOEvidencesFileMapper mapper = new GOEvidencesFileMapper();
         // when
         Tuple2<String, GOEvidence> tuple = mapper.call(goLine);
@@ -69,6 +70,23 @@ class GOEvidencesFileMapperTest {
 
         Evidence evidence = tuple._2.getEvidence();
         assertNotNull(evidence);
-        assertEquals(EvidenceCode.ECO_0000269, evidence.getEvidenceCode());
+        assertEquals(EvidenceCode.ECO_0000315, evidence.getEvidenceCode());
+    }
+
+    @Test
+    void testGoLineWithMissingGAFCodeInUniProt() throws Exception {
+        String goLine =
+                "B0V2N1\tGO:0050804\tP\tmodulation of chemical synaptic transmission\tECO:0001225\tBBC\tPMID:22519304\tSynGO\tinvolved_in";
+        GOEvidencesFileMapper mapper = new GOEvidencesFileMapper();
+
+        assertThrows(IllegalArgumentException.class, () -> mapper.call(goLine));
+    }
+
+    @Test
+    void testEXPGoLine() throws Exception {
+        String goLine =
+                "A0A3G5IPC5\tGO:0044164\tC\thost cell cytosol\tECO:0005804\tEXP\tPMID:8112310\tCACAO\t\tpart_of";
+        GOEvidencesFileMapper mapper = new GOEvidencesFileMapper();
+        assertDoesNotThrow(() -> mapper.call(goLine));
     }
 }

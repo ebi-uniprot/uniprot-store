@@ -1,14 +1,25 @@
 package org.uniprot.store.spark.indexer.taxonomy;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.spark.api.java.Optional;
 import org.apache.spark.api.java.function.Function;
 import org.uniprot.core.json.parser.taxonomy.TaxonomyJsonConfig;
 import org.uniprot.core.taxonomy.TaxonomyEntry;
+import org.uniprot.core.taxonomy.TaxonomyStatistics;
+import org.uniprot.core.taxonomy.impl.TaxonomyEntryBuilder;
 import org.uniprot.store.search.document.taxonomy.TaxonomyDocument;
 import org.uniprot.store.search.document.taxonomy.TaxonomyDocumentConverter;
+import org.uniprot.store.spark.indexer.taxonomy.mapper.model.TaxonomyStatisticsWrapper;
+
+import scala.Tuple2;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-public class TaxonomyEntryToDocumentMapper implements Function<TaxonomyEntry, TaxonomyDocument> {
+public class TaxonomyEntryToDocumentMapper
+        implements Function<
+                Tuple2<TaxonomyEntry, Optional<TaxonomyStatisticsWrapper>>, TaxonomyDocument> {
     private static final long serialVersionUID = 1698828648779824974L;
     private final ObjectMapper objectMapper;
 
@@ -17,8 +28,40 @@ public class TaxonomyEntryToDocumentMapper implements Function<TaxonomyEntry, Ta
     }
 
     @Override
-    public TaxonomyDocument call(TaxonomyEntry entry) throws Exception {
+    public TaxonomyDocument call(Tuple2<TaxonomyEntry, Optional<TaxonomyStatisticsWrapper>> tuple2)
+            throws Exception {
+        TaxonomyEntry entry = tuple2._1;
+        List<String> taxonomiesWith = new ArrayList<>();
+        if (tuple2._2.isPresent()) {
+            TaxonomyStatisticsWrapper statisticsWrapper = tuple2._2.get();
+
+            TaxonomyStatistics statistics = statisticsWrapper.getStatistics();
+            if (statisticsWrapper.isOrganismReviewedProtein()) {
+                taxonomiesWith.add("1_uniprotkb");
+                taxonomiesWith.add("2_reviewed");
+            }
+            if (statisticsWrapper.isOrganismUnreviewedProtein()
+                    && !statisticsWrapper.isOrganismUnreviewedProtein()) {
+                taxonomiesWith.add("1_uniprotkb");
+                taxonomiesWith.add("3_unreviewed");
+            }
+            if (statistics.hasReferenceProteomeCount()) {
+                taxonomiesWith.add("4_reference");
+                taxonomiesWith.add("5_proteome");
+            }
+            if (statistics.hasProteomeCount() && !statistics.hasReferenceProteomeCount()) {
+                taxonomiesWith.add("5_proteome");
+            }
+
+            TaxonomyEntryBuilder entryBuilder = TaxonomyEntryBuilder.from(entry);
+            entryBuilder.statistics(statistics);
+            entry = entryBuilder.build();
+        }
+
         TaxonomyDocumentConverter converter = new TaxonomyDocumentConverter(objectMapper);
-        return converter.convert(entry);
+        TaxonomyDocument.TaxonomyDocumentBuilder docBuilder = converter.convert(entry);
+        docBuilder.taxonomiesWith(taxonomiesWith);
+
+        return docBuilder.build();
     }
 }
