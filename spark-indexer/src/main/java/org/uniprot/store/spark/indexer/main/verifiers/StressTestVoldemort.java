@@ -22,25 +22,25 @@ import org.uniprot.store.datastore.voldemort.uniparc.VoldemortRemoteUniParcEntry
 import org.uniprot.store.datastore.voldemort.uniprot.VoldemortRemoteUniProtKBEntryStore;
 import org.uniprot.store.spark.indexer.common.JobParameter;
 import org.uniprot.store.spark.indexer.common.exception.IndexDataStoreException;
+import org.uniprot.store.spark.indexer.common.store.DataStore;
 import org.uniprot.store.spark.indexer.common.store.DataStoreParameter;
 import org.uniprot.store.spark.indexer.common.util.SparkUtils;
 import org.uniprot.store.spark.indexer.uniparc.UniParcRDDTupleReader;
 import org.uniprot.store.spark.indexer.uniprot.UniProtKBRDDTupleReader;
 import org.uniprot.store.spark.indexer.uniref.UniRefLightRDDTupleReader;
 
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.Optional;
-import java.util.ResourceBundle;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Slf4j
 public class StressTestVoldemort {
 
     public static void main(String[] args) {
-        if (args == null || args.length != 1) {
+        if (args == null || args.length != 2) {
             throw new IllegalArgumentException(
-                    "Invalid arguments. Expected args[0]= release name");
+                    "Invalid arguments. Expected "
+                            + "args[0]= release name"
+                            + "args[1]= collection names (for example: uniprot,uniparc,uniref)");
         }
 
         ResourceBundle applicationConfig = SparkUtils.loadApplicationProperty();
@@ -51,12 +51,28 @@ public class StressTestVoldemort {
                             .releaseName(args[0])
                             .sparkContext(sparkContext)
                             .build();
-            JavaFutureAction<Void> uniProt = loadUniProt(jobParameter);
-            //JavaFutureAction<Void> uniParc = loadUniParc(jobParameter);
-            //JavaFutureAction<Void> uniRef = loadUniRef(jobParameter);
-            uniProt.get();
-            //uniParc.get();
-            //uniRef.get();
+            List<DataStore> dataStores = SparkUtils.getDataStores(args[1]);
+            JavaFutureAction<Void> uniProt = null;
+            if(dataStores.contains(DataStore.UNIPROT)) {
+                uniProt = loadUniProt(jobParameter);
+            }
+            JavaFutureAction<Void> uniParc = null;
+            if(dataStores.contains(DataStore.UNIPARC)) {
+                uniParc = loadUniParc(jobParameter);
+            }
+            JavaFutureAction<Void> uniRef = null;
+            if(dataStores.contains(DataStore.UNIREF_LIGHT)) {
+                uniRef = loadUniRef(jobParameter);
+            }
+            if(uniProt != null) {
+                uniProt.get();
+            }
+            if(uniParc != null) {
+                uniParc.get();
+            }
+            if(uniRef != null) {
+                uniRef.get();
+            }
         } catch (Exception e) {
             throw new IndexDataStoreException("Unexpected error during DataStore index", e);
         } finally {
